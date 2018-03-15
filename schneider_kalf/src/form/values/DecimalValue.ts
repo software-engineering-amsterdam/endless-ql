@@ -50,4 +50,8 @@ export class DecimalValue extends AbstractNumberValue implements NumberValue {
   largerThan(other: NumberValue): boolean {
     return this.getValue().greaterThan(other.getValue());
   }
+
+  toString(): string {
+    return this.getValue().toString();
+  }
 }

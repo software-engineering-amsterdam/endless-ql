@@ -139,7 +139,6 @@ export default class EvaluationVisitor implements ExpressionVisitor {
     return NumericOperation.make(left, right).subtract();
   }
 
-
   /**
    * Evaluate a Equals node by comparing the values behind the left and the right side.
    * @param {Equals} equals

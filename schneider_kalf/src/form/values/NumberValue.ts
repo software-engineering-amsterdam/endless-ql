@@ -26,4 +26,6 @@ export default interface NumberValue {
   hasHigherPriorityThan(other: NumberValue);
 
   isSameTypeAs(other: NumberValue): boolean;
+
+  toString(): string;
 }

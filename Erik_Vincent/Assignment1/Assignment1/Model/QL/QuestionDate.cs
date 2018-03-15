@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1.Model
+namespace Assignment1.Model.QL
 {
-    public class QuestionMoney : Question
+    public class QuestionDate : Question
     {
-        public QuestionMoney(string id, string label) : base(id, label)
+        public QuestionDate(string id, string label) : base(id, label)
         {
-            Value = new Decimal(0);
+            Value = DateTime.Today;
         }
 
         public override void Accept(IQuestionVisitor visitor)

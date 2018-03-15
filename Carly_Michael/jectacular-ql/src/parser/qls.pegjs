@@ -37,10 +37,10 @@ section         = whitespace comment* whitespace "section" whitespace "\"" name:
                   }
 
 question        = whitespace comment* whitespace "question" whitespace name:identifier whitespace type:defaultWidget {
-                    return new astQls.Question(name, type, location());
+                    return new astQls.QlsQuestion(name, type, location());
                   } /
                   whitespace comment* whitespace "question" whitespace name:identifier {
-                    return new astQls.Question(name, new astQls.Widget(astQls.WidgetType.NONE, []), location());
+                    return new astQls.QlsQuestion(name, new astQls.Widget(astQls.WidgetType.NONE, []), location());
                   }
 
 default         = whitespace comment* whitespace "default" whitespace type:type whitespace "{" whitespace

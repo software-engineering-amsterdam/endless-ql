@@ -1,14 +1,14 @@
-import {Question} from './question';
+import {QlsQuestion} from './qls-question';
 import {Default} from './default';
 import {Location} from '../location';
-import {Node, QuestionWithAppliedStyles} from './node';
+import {QlsNode, QuestionWithAppliedStyles} from './qls-node';
 import {Style} from './style';
 import {WidgetType} from './widget-type';
 import {Widget} from './widget';
 import {QlQuestion as QlQuestion} from '../ql/ql-question';
 
-export class Section extends Node {
-  constructor(public name: string, public subSections: Section[], public questions: Question[],
+export class Section extends QlsNode {
+  constructor(public name: string, public subSections: Section[], public questions: QlsQuestion[],
               public location: Location, public defaultSettings?: Default) {
     super();
   }

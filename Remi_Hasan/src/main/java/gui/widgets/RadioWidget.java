@@ -5,11 +5,11 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import ql.model.expression.Expression;
 
-public class RadioWidget extends HBox implements WidgetInterface{
+public class RadioWidget extends HBox implements WidgetInterface {
 
     private final String name;
 
-    public RadioWidget(String name){
+    public RadioWidget(String name) {
         this.name = name;
         this.managedProperty().bind(this.visibleProperty());
 
@@ -26,12 +26,12 @@ public class RadioWidget extends HBox implements WidgetInterface{
     }
 
     @Override
-    public void setExpression(String value) {
-
+    public Expression getExpression() {
+        return null;
     }
 
     @Override
-    public Expression getExpression() {
-        return null;
+    public void setExpression(String value) {
+
     }
 }

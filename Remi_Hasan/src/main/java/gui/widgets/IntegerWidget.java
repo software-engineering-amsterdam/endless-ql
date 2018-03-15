@@ -2,8 +2,9 @@ package gui.widgets;
 
 import javafx.scene.control.TextField;
 import ql.model.expression.Expression;
+import ql.model.expression.variable.ExpressionVariableInteger;
 
-public class IntegerWidget extends TextField implements WidgetInterface{
+public class IntegerWidget extends TextField implements WidgetInterface {
 
     private final String name;
 
@@ -14,12 +15,12 @@ public class IntegerWidget extends TextField implements WidgetInterface{
     }
 
     @Override
-    public void setExpression(String value) {
-
+    public Expression getExpression() {
+        return new ExpressionVariableInteger(null, Integer.parseInt(getText()));
     }
 
     @Override
-    public Expression getExpression() {
-        return null;
+    public void setExpression(String value) {
+        this.setText(value);
     }
 }

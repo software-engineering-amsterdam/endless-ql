@@ -97,10 +97,9 @@ class MoneyWidget(ValidatingEntry):
         if new_value == "":
             return True
         try:
-            print(new_value)
-            new_value_as_decimal = Decimal(new_value)
-            decimal_places = new_value_as_decimal.as_tuple().exponent
-            if new_value_as_decimal == new_value_as_decimal and decimal_places >= -2:
+            is_decimal = Decimal(new_value) == Decimal(new_value)
+            exponent = Decimal(new_value).as_tuple().exponent
+            if is_decimal and exponent >= -2:
                 return True
         except (ValueError, InvalidOperation):
             return False

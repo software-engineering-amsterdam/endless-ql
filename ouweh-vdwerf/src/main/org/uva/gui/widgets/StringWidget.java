@@ -11,15 +11,18 @@ public class StringWidget extends QuestionWidget {
 
     private JTextField textField = new JTextField();
 
-    public StringWidget(Question question, Value value, boolean readOnly, QuestionChangeListener questionChangeListener) {
+    public StringWidget(Question question, Value value, boolean readOnly) {
         super(question);
 
         textField.setText(value.getValue().toString());
         textField.setHorizontalAlignment(JTextField.CENTER);
         textField.setEnabled(readOnly);
 
-        textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question.getName(), new StringValue(textField.getText())));
-
         this.add(textField, 1);
+    }
+
+    @Override
+    public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
+        textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question.getName(), new StringValue(textField.getText())));
     }
 }

@@ -8,6 +8,12 @@ class Section:
         self.sections = []
         self.varDict = None
 
+    def getDefaults(self, defaultDict):
+        for question in self.questions:
+            question.getDefaults(defaultDict)
+        for default in self.defaults:
+            default.getDefaults(defaultDict)
+
     def checkTypes(self):
         for question in self.questions:
             question.checkTypes()

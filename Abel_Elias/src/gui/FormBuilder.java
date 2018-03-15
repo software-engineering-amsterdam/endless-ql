@@ -114,11 +114,9 @@ public class FormBuilder {
 
 
     private class QuestionPanel extends JPanel {
-        private String key;
         private Question question;
 
         private QuestionPanel(Question question) {
-            this.key = key;
             this.question = question;
             this.add(new JLabel(question.getText()));
             this.setBorder(new MatteBorder(1, 1, 1, 1, Color.GRAY));
@@ -140,7 +138,7 @@ public class FormBuilder {
 
         private void createBoolControl() {
             JCheckBox checkBox = new JCheckBox();
-            checkBox.addActionListener(new BoolActionListener(key, checkBox));
+            checkBox.addActionListener(new BoolActionListener(question.getIdentifier(), checkBox));
             this.add(checkBox);
         }
 

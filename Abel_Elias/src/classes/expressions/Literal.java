@@ -10,6 +10,7 @@ public abstract class Literal extends Expression {
         super(code);
     }
 
+    @Override
     public abstract <T> T accept(ExpressionVisitor<T> visitor);
 
 }

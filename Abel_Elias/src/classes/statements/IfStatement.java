@@ -30,7 +30,7 @@ public class IfStatement extends Statement {
 
     @Override
     public void accept(StatementVisitor visitor) {
-        visitor.visitIfStatement(this);
+        visitor.visitIfStatementWithExpr(this, expression);
     }
 
     @Override

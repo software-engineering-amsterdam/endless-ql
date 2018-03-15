@@ -4,6 +4,8 @@ import classes.Block;
 import classes.CodeBlock;
 import classes.Configuration;
 import classes.TreeNode;
+import classes.expressions.BooleanExpression;
+import classes.expressions.BooleanLiteral;
 import classes.expressions.Expression;
 import classes.form.Form;
 import classes.statements.IfStatement;
@@ -24,7 +26,6 @@ public class AST_Visitor extends QLBaseVisitor<Object> {
     Configuration config = new Configuration();
     private Map<String, Question> memory = new HashMap<String, Question>();
     private Map<String, Object> valueMap = new HashMap<String, Object>();
-    private List<Statement> questionList = new ArrayList<>();
 
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
@@ -36,11 +37,18 @@ public class AST_Visitor extends QLBaseVisitor<Object> {
     @Override
     public Object visitBlock(QLParser.BlockContext ctx) {
         CodeBlock code = CodeBlock.getCodeBlock(ctx);
-        List<Statement> statements = new ArrayList();
+        List<Statement> statements = new ArrayList<Statement>();
         Block block = new Block(code, statements,true);
-        for (QLParser.QuestionContext statementContext: ctx.question()) {
-            block.getStatements().add((Statement) statementContext.accept(this));
+        List<QLParser.IfStatementContext> ifStatementContextList = ctx.ifStatement();
+        List<QLParser.QuestionContext> questionContextList = ctx.question();
+
+        for(QLParser.IfStatementContext ifStatementContext : ifStatementContextList) {
+            block.getStatements().add((Statement) ifStatementContext.accept(this));
         }
+        for(QLParser.QuestionContext questionContext : questionContextList) {
+            block.getStatements().add((Statement) questionContext.accept(this));
+        }
+
         return block;
     }
 
@@ -56,16 +64,20 @@ public class AST_Visitor extends QLBaseVisitor<Object> {
 
     @Override
     public Object visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) {
-        String id = ctx.getText();
-        Question question = getQuestion(id);
-        return castToType(question.getType(), Boolean.class);
+//        String id = ctx.getText();
+//        Question question = getQuestion(id);
+//        return castToType(question.getType(), Boolean.class);
+        CodeBlock code = CodeBlock.getCodeBlock(ctx);
+        BooleanExpression expression = new BooleanExpression(code);
+        return expression;
+
     }
 
 
     @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
         CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
-        Expression expression = (Expression) ctx.booleanExpression().accept(this);
+        BooleanExpression expression = (BooleanExpression) ctx.booleanExpression().accept(this);
         Block block = (Block) ctx.block(0).accept(this);
         return new IfStatement(expression, codeBlock, block);
     }

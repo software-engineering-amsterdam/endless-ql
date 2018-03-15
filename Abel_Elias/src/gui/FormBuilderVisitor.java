@@ -42,11 +42,6 @@ public class FormBuilderVisitor implements FormVisitor, StatementVisitor {
     }
 
     @Override
-    public void visitIfStatement(IfStatement ifStatement) {
-
-    }
-
-    @Override
     public void visitQuestionWithExpr(Question question, Expression expression) {
         if(expression != null) {
             statementConditionsMap.put(question, expression);

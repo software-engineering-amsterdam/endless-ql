@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Widget extends StyleSpecification {
 
-    private WidgetType widgetType;
-    private List<Parameter> parameters;
+    private final WidgetType widgetType;
+    private final List<Parameter> parameters;
 
     public Widget(Token token, String widgetType, List<Parameter> parameters) {
         super(token);
@@ -20,11 +20,11 @@ public class Widget extends StyleSpecification {
     }
 
     public WidgetType getWidgetType() {
-        return widgetType;
+        return this.widgetType;
     }
 
-    public List<Parameter> getParameters() {
-        return parameters;
+    public Iterable<Parameter> getParameters() {
+        return this.parameters;
     }
 
     @Override

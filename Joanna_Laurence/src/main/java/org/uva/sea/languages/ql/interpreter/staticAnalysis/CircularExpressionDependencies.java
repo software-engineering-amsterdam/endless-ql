@@ -11,11 +11,11 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 public class CircularExpressionDependencies extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
 
-    private Messages messages = new Messages();
+    private final Messages messages = new Messages();
 
-    private Relation<String> relations = new Relation<>();
+    private final Relation<String> relations = new Relation<>();
 
-    private String question = null;
+    private String question;
 
     @Override
     public Messages doCheck(Form node) {
@@ -37,9 +37,9 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
 
     public Void visit(Question node) {
 
-        this.setRelationQuestion(node.getVariable().getVariableName());
-        linkRelationQuestionToQuestionExpression(node);
-        this.setRelationQuestion(null);
+        this.question = node.getVariable().getVariableName();
+        this.linkRelationQuestionToQuestionExpression(node);
+        this.question = null;
 
         return null;
     }

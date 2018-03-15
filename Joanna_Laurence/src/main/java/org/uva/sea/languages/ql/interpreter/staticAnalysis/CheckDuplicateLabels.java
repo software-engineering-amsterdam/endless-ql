@@ -7,16 +7,17 @@ import org.uva.sea.languages.ql.parser.elements.Question;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
 
-    private Messages messages = new Messages();
+    private final Messages messages = new Messages();
 
     /**
      * Labels that are associated with variables
      */
-    private HashMap<String, String> labels = new HashMap<>();
+    private final Map<String, String> labels = new HashMap<>();
 
     /**
      * Hide constructor
@@ -55,14 +56,14 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLSta
         super.visit(node);
 
         String labelLink = this.labels.get(node.getLabel());
-        boolean labelLinkedToOtherVariable = labelLink != null && !labelLink.equals(node.getVariable().getVariableName());
+        boolean labelLinkedToOtherVariable = (labelLink != null) && !labelLink.equals(node.getVariable().getVariableName());
 
         if (labelLinkedToOtherVariable) {
             this.error(node);
             return null;
         }
 
-        linkQuestionVariableToLabel(node);
+        this.linkQuestionVariableToLabel(node);
         return null;
     }
 

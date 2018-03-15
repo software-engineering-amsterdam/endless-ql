@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ParameterMapping extends ContextCollector implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
+public class ParameterMapping implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
 
     private Map<String, List<Parameter>> parameterMapping;
 
@@ -27,11 +27,6 @@ public class ParameterMapping extends ContextCollector implements StatementVisit
         return parameterMapping;
     }
 
-    public List<TreeNode> Compose() {
-        //TODO
-        return new ArrayList<>();
-    }
-
     @Override
     public Void visit(Parameter parameter, String context) {
         if (parameterMapping.containsKey(context)) {
@@ -39,7 +34,6 @@ public class ParameterMapping extends ContextCollector implements StatementVisit
         } else {
             assert context != null;
         }
-
         return null;
     }
 

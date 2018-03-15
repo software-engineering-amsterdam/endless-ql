@@ -47,7 +47,7 @@ public class TypeCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        SymbolTable symbolTable = new SymbolTable(new QuestionContext(form).getQuestions());
+        SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new IntegerType());
 
 
@@ -70,7 +70,7 @@ public class TypeCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        SymbolTable symbolTable = new SymbolTable(new QuestionContext(form).getQuestions());
+        SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new BooleanType());
 
 

@@ -12,12 +12,12 @@ public enum NodeType {
     DECIMAL;
 
     public boolean isBasicNumber() {
-        return this == INTEGER || this == DECIMAL;
+        return (this == INTEGER) || (this == DECIMAL);
     }
 
     public boolean isTypeCompatible(NodeType type) {
-        boolean exactlyTheSame = this.equals(type);
-        boolean compatibleTypes = this == DECIMAL && type.isBasicNumber();
+        boolean exactlyTheSame = this == type;
+        boolean compatibleTypes = (this == DECIMAL) && type.isBasicNumber();
         return (exactlyTheSame || compatibleTypes);
     }
 }

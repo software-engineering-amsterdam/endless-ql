@@ -5,7 +5,7 @@ import org.uva.sea.languages.qls.parser.visitor.IStyleASTVisitor;
 
 public class Width extends StyleSpecification {
 
-    private int width;
+    private final int width;
 
     public Width(Token token, String width) {
         super(token);
@@ -13,7 +13,7 @@ public class Width extends StyleSpecification {
     }
 
     public int getWidth() {
-        return width;
+        return this.width;
     }
 
     @Override

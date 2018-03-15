@@ -1,5 +1,6 @@
 package org.uva.ql.validation.collector;
 
+import org.uva.ql.ast.Form;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.Type;
 
@@ -10,9 +11,10 @@ public class SymbolTable {
 
     private final HashMap<String, Type> table;
 
-    public SymbolTable(List<Question> questions) {
-        this.table = new HashMap<>();
+    public SymbolTable(Form form) {
+        List<Question> questions = new QuestionContext(form).getQuestions();
 
+        this.table = new HashMap<>();
         for (Question question : questions) {
             this.add(question.getName(), question.getType());
         }

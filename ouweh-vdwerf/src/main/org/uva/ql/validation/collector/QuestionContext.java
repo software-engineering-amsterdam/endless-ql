@@ -6,7 +6,7 @@ import org.uva.ql.visitor.StatementVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionContext extends ContextCollector implements StatementVisitor<Void, String> {
+public class QuestionContext implements StatementVisitor<Void, String> {
 
     private List<Question> questions = new ArrayList<>();
 

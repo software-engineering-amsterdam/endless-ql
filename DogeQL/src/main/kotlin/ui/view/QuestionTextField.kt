@@ -10,28 +10,28 @@ class QuestionTextField(question: QuestionModel) : TextField() {
     init {
         when (question.item.value.type) {
             SymbolType.INTEGER -> {
-                bind(question.integerValue)
                 stripNonInteger()
+                bind(question.integerValue)
             }
             SymbolType.DECIMAL -> {
-                bind(question.decimalValue)
                 stripNonNumeric()
                 BigDecimalStringConverter()
+                bind(question.decimalValue)
             }
             SymbolType.MONEY -> {
-                bind(question.moneyValue)
                 stripNonNumeric()
                 BigDecimalStringConverter()
+                bind(question.moneyValue)
             }
             SymbolType.STRING -> {
-                bind(question.stringValue)
                 stripWhitespace()
+                bind(question.stringValue)
             }
             else -> throw IllegalArgumentException("unsupported type")
         }
 
-        validator {
-            question.validate()
-        }
+        textProperty().addListener({ _, _, _ ->
+            question.update()
+        })
     }
 }

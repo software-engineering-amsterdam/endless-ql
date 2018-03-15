@@ -2,25 +2,24 @@ package org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
 
 public class Messages {
 
-    private List<Map.Entry<MessageTypes, String>> messages = new ArrayList<>();
+    private final Collection<Entry<MessageTypes, String>> messages = new ArrayList<>();
 
     public void addMessageList(Messages messages) {
         this.messages.addAll(messages.getMessages());
     }
 
     public void addMessage(String message, MessageTypes messageType) {
-        this.messages.add(new AbstractMap.SimpleEntry<>(messageType, message));
+        this.messages.add(new SimpleEntry<>(messageType, message));
     }
 
     public boolean hasMessagePresent(MessageTypes messageTypes) {
-        for (Map.Entry<MessageTypes, String> entry : this.messages) {
+        for (Entry<MessageTypes, String> entry : this.messages) {
             if (entry.getKey() == messageTypes)
                 return true;
         }
@@ -28,18 +27,18 @@ public class Messages {
         return false;
     }
 
-    public List<Map.Entry<MessageTypes, String>> getMessages() {
-        return messages;
+    public Collection<Entry<MessageTypes, String>> getMessages() {
+        return this.messages;
     }
 
     @Override
     public String toString() {
-        return messages.toString();
+        return this.messages.toString();
     }
 
-    public List<String> getMessage(MessageTypes messageTypes) {
-        List<String> messages = new ArrayList<>();
-        for (Map.Entry<MessageTypes, String> entry : this.messages) {
+    public Iterable<String> getMessage(MessageTypes messageTypes) {
+        Collection<String> messages = new ArrayList<>();
+        for (Entry<MessageTypes, String> entry : this.messages) {
             if (entry.getKey() == messageTypes)
                 messages.add(entry.getValue());
         }

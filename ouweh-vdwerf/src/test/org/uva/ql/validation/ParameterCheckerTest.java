@@ -48,7 +48,7 @@ public class ParameterCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(new QuestionContext(form).getQuestions()), new ParameterMapping(form).getParameterMapping());
+        ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(form), new ParameterMapping(form).getParameterMapping());
         parameterChecker.runCheck();
 
         assertTrue(this.logHandler.hasWarnings());
@@ -67,7 +67,7 @@ public class ParameterCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        SymbolTable symbolTable = new SymbolTable(new QuestionContext(form).getQuestions());
+        SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new BooleanType());
         ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterMapping(form).getParameterMapping());
         parameterChecker.runCheck();

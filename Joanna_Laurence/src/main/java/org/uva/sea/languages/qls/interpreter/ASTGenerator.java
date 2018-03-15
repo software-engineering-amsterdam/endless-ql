@@ -8,6 +8,7 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.antlr.ErrorHandler;
 import org.uva.sea.languages.qls.parser.antlr.QLSLexer;
 import org.uva.sea.languages.qls.parser.antlr.QLSParser;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.StylesheetContext;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
 public class ASTGenerator {
@@ -22,7 +23,7 @@ public class ASTGenerator {
         ErrorHandler parseErrorListener = new ErrorHandler();
         parser.addErrorListener(parseErrorListener);
 
-        QLSParser.StylesheetContext styleSheet = parser.stylesheet();
+        StylesheetContext styleSheet = parser.stylesheet();
 
         Messages parseMessages = parseErrorListener.getMessages();
         if (parseMessages.hasMessagePresent(MessageTypes.ERROR))

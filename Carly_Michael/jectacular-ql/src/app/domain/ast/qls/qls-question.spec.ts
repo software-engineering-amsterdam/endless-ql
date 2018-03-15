@@ -5,7 +5,7 @@ import {WidgetType} from './widget-type';
 import {emptyLoc} from '../location';
 import {Style} from './style';
 import {NumberValue} from './style-value';
-import {Default} from './default';
+import {DefaultStyling} from './default-styling';
 import {BooleanQuestionType, IntQuestionType} from '../question-type';
 
 describe('QLS QlQuestion', () => {
@@ -27,7 +27,7 @@ describe('QLS QlQuestion', () => {
 
   it('QlQuestion with default should return self with proper style', () => {
     const question = new QlsQuestion('name', new Widget(WidgetType.NONE, []), emptyLoc,
-      new Default(new IntQuestionType(), new Widget(WidgetType.TEXT, []),
+      new DefaultStyling(new IntQuestionType(), new Widget(WidgetType.TEXT, []),
         [new Style('name', new NumberValue(1), emptyLoc)], emptyLoc));
 
     let questionsWithStyles = question.getQuestions([], Widget.Empty);
@@ -62,7 +62,7 @@ describe('QLS QlQuestion', () => {
     const qlIntQuestion = new QlQuestion('name', 'label', new IntQuestionType(), emptyLoc);
     const qlBoolQuestion = new QlQuestion('name', 'label', new BooleanQuestionType(), emptyLoc);
     for (let i = 0; i < qlsQuestions.length; i++) {
-      if (qlsQuestions[i].type.type === WidgetType.SPINBOX || qlsQuestions[i].type.type === WidgetType.TEXT) {
+      if (qlsQuestions[i].widget.type === WidgetType.SPINBOX || qlsQuestions[i].widget.type === WidgetType.TEXT) {
         expect(() => qlsQuestions[i].checkStylesheet([], [qlIntQuestion])).not.toThrow();
       } else {
         expect(() => qlsQuestions[i].checkStylesheet([], [qlIntQuestion])).toThrow();
@@ -70,8 +70,8 @@ describe('QLS QlQuestion', () => {
     }
 
     for (let i = 0; i < qlsQuestions.length; i++) {
-      if (qlsQuestions[i].type.type === WidgetType.CHECKBOX || qlsQuestions[i].type.type === WidgetType.RADIO ||
-        qlsQuestions[i].type.type === WidgetType.DROPDOWN) {
+      if (qlsQuestions[i].widget.type === WidgetType.CHECKBOX || qlsQuestions[i].widget.type === WidgetType.RADIO ||
+        qlsQuestions[i].widget.type === WidgetType.DROPDOWN) {
         expect(() => qlsQuestions[i].checkStylesheet([], [qlBoolQuestion])).not.toThrow();
       } else {
         expect(() => qlsQuestions[i].checkStylesheet([], [qlBoolQuestion])).toThrow();

@@ -1,5 +1,5 @@
 import {Section} from './section';
-import {Default} from './default';
+import {DefaultStyling} from './default-styling';
 import {Location} from '../location';
 import {QlsNode, QuestionWithAppliedStyles} from './qls-node';
 import {Style} from './style';
@@ -7,7 +7,7 @@ import {QlQuestion} from '../ql/ql-question';
 import {Widget} from './widget';
 
 export class Page extends QlsNode {
-  constructor(public name: string, public sections: Section[], public location: Location, public defaultSettings?: Default) {
+  constructor(readonly name: string, readonly sections: Section[], readonly location: Location, readonly defaultSettings?: DefaultStyling) {
     super();
   }
 
@@ -27,7 +27,7 @@ export class Page extends QlsNode {
     return questions;
   }
 
-  checkStylesheet(parentDefaults: ReadonlyArray<Default>, allQuestions: QlQuestion[]): void {
+  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: QlQuestion[]): void {
     const defaults = this.defaultSettings ?  parentDefaults.concat(this.defaultSettings) : parentDefaults;
     for (const section of this.sections) {
       section.checkStylesheet(defaults, allQuestions);

@@ -2,14 +2,14 @@ import {QlsQuestion} from './qls-question';
 import {QlQuestion} from '../ql';
 import {Style} from './style';
 import {Widget} from './widget';
-import {Default} from './default';
+import {DefaultStyling} from './default-styling';
 
 export abstract class QlsNode {
   getQuestions(parentStyles: ReadonlyArray<Style>, widget: Widget): ReadonlyArray<QuestionWithAppliedStyles> {
     return [];
   }
 
-  abstract checkStylesheet(parentDefaults: ReadonlyArray<Default>, allQuestions: QlQuestion[]);
+  abstract checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: QlQuestion[]);
 }
 
 export class QuestionWithAppliedStyles {

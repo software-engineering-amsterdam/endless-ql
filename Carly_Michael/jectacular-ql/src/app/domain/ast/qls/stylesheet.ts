@@ -2,7 +2,7 @@ import {Page} from './page';
 import {Location} from '../location';
 import {QlsNode, QuestionWithAppliedStyles} from './qls-node';
 import {Style} from './style';
-import {Default} from './default';
+import {DefaultStyling} from './default-styling';
 import {QlQuestion as QlQuestion} from '../ql';
 import * as _ from 'lodash';
 import {MissingIdentifierError} from '../../errors';
@@ -22,7 +22,7 @@ export class Stylesheet extends QlsNode {
     return questions;
   }
 
-  checkStylesheet(parentDefaults: ReadonlyArray<Default>, allQuestions: QlQuestion[]): void {
+  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: QlQuestion[]): void {
     for (const page of this.pages) {
       page.checkStylesheet(parentDefaults, allQuestions);
     }

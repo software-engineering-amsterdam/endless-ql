@@ -48,9 +48,9 @@ default         = whitespace comment* whitespace "default" whitespace type:type 
                   widget: defaultWidget
                   whitespace comment* whitespace
                   "}" {
-                    return new astQls.Default(type, widget, styles, location());
+                    return new astQls.DefaultStyling(type, widget, styles, location());
                   } / whitespace comment* whitespace "default" whitespace type:type whitespace widget:defaultWidget {
-                    return new astQls.Default(type, widget, [], location());
+                    return new astQls.DefaultStyling(type, widget, [], location());
                   }
 
 defaultWidget   = whitespace comment* whitespace "widget" whitespace type:widget {

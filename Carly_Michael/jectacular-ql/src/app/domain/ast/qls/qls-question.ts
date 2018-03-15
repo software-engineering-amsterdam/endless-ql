@@ -1,4 +1,4 @@
-import {Default} from './default';
+import {DefaultStyling} from './default-styling';
 import {Location} from '../location';
 import {Widget} from './widget';
 import {QlsNode, QuestionWithAppliedStyles} from './qls-node';
@@ -10,7 +10,7 @@ import {QlQuestion as QlQuestion} from '../ql/ql-question';
 import * as _ from 'lodash';
 
 export class QlsQuestion extends QlsNode {
-  constructor(public name: string, public type: Widget, public location: Location, public defaultSettings?: Default) {
+  constructor(readonly name: string, public widget: Widget, readonly location: Location, readonly defaultSettings?: DefaultStyling) {
     super();
   }
 
@@ -18,20 +18,20 @@ export class QlsQuestion extends QlsNode {
     const updatedParentStyles: ReadonlyArray<Style> = this.defaultSettings && this.defaultSettings.styles.length > 0 ?
       parentStyles.concat(this.defaultSettings.styles) : parentStyles;
 
-    const widget = this.type.type !== WidgetType.NONE ? this.type : widgetParent;
+    const widget = this.widget.type !== WidgetType.NONE ? this.widget : widgetParent;
 
     return [new QuestionWithAppliedStyles(this, updatedParentStyles, widget)];
   }
 
-  checkStylesheet(parentDefaults: ReadonlyArray<Default>, allQuestions: QlQuestion[]): void {
+  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: QlQuestion[]): void {
     const qlQuestion: QlQuestion = _.find(allQuestions, {name: this.name});
 
     if (!qlQuestion) {
       throw new MissingIdentifierError(`Question with name ${this.name} not found`);
     }
 
-    if (this.type.type !== WidgetType.NONE) {
-      this.throwIfQlsTypeDoesNotMatchQlType(qlQuestion.type, this.type.type);
+    if (this.widget.type !== WidgetType.NONE) {
+      this.throwIfQlsTypeDoesNotMatchQlType(qlQuestion.type, this.widget.type);
       return;
     }
 

@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {Default, QlsQuestion, Section, Style, Stylesheet, Widget} from '../../domain/ast/qls';
+import {DefaultStyling, QlsQuestion, Section, Style, Stylesheet, Widget} from '../../domain/ast/qls';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 
@@ -33,7 +33,7 @@ export class StyledFormContentComponent implements OnInit, OnChanges {
   }
 
   // This function is necessary to circumvent angular locking up the GUI
-  getSectionQuestions(section: Section, parentSettings: Default): ReadonlyArray<QuestionBase<any>> {
+  getSectionQuestions(section: Section, parentSettings: DefaultStyling): ReadonlyArray<QuestionBase<any>> {
     const parentWidget = parentSettings ? parentSettings.widget : Widget.Empty;
     return section.getQuestions([], parentWidget).map(q => {
       return this.getQuestionBaseByName(q.question.name);

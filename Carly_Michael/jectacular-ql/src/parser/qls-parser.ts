@@ -180,10 +180,10 @@ function peg$parse(input, options) {
   const peg$c22 = "default";
   const peg$c23 = peg$literalExpectation("default", false);
   const peg$c24 = function(type, styles, widget) {
-                      return new astQls.Default(type, widget, styles, location());
+                      return new astQls.DefaultStyling(type, widget, styles, location());
                     };
   const peg$c25 = function(type, widget) {
-                      return new astQls.Default(type, widget, [], location());
+                      return new astQls.DefaultStyling(type, widget, [], location());
                     };
   const peg$c26 = "widget";
   const peg$c27 = peg$literalExpectation("widget", false);

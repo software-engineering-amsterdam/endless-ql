@@ -1,4 +1,4 @@
-export * from './default';
+export * from './default-styling';
 export * from './page';
 export * from './qls-question';
 export * from './section';

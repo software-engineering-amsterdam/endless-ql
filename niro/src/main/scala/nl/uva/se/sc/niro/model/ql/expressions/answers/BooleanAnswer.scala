@@ -34,5 +34,5 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
 
 object BooleanAnswer {
   def apply() = new BooleanAnswer(None)
-  def apply(value: Boolean) = new BooleanAnswer(Some(value))
+  def apply(value: Boolean) = new BooleanAnswer(Option(value))
 }

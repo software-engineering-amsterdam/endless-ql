@@ -45,24 +45,20 @@ abstract class Component[T](id: String, label: Label, control: QLWidget[_]) exte
 
 case class StringComponent(id: String, label: Label, control: QLWidget[String])
     extends Component[String](id, label, control) {
-  override def getValue: StringAnswer = toAnswer(control.getValue)
+  override def getValue: StringAnswer = StringAnswer(control.getValue)
   override def setValue(value: Option[String]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(if (dictionary.isDefinedAt(id)) dictionary(id).possibleValue.map(_.toString) else None)
   private def fromOption(value: Option[String]): String = value.orNull
-  private def toAnswer(value: String): StringAnswer =
-    if (value == null || value.isEmpty) StringAnswer() else StringAnswer(value)
 }
 
 case class BooleanComponent(id: String, label: Label, control: QLWidget[Boolean])
     extends Component[Boolean](id, label, control) {
-  override def getValue: BooleanAnswer = toAnswer(control.getValue)
+  override def getValue: BooleanAnswer = BooleanAnswer(control.getValue)
   override def setValue(value: Option[Boolean]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(if (dictionary.isDefinedAt(id)) dictionary(id).possibleValue.asInstanceOf[Option[Boolean]] else None)
   private def fromOption(value: Option[Boolean]): Boolean = value.getOrElse(false)
-  private def toAnswer(value: java.lang.Boolean): BooleanAnswer =
-    if (value == null) BooleanAnswer() else BooleanAnswer(value)
 }
 
 case class DateComponent(id: String, label: Label, control: QLWidget[LocalDate])
@@ -76,38 +72,32 @@ case class DateComponent(id: String, label: Label, control: QLWidget[LocalDate])
 
 case class IntegerComponent(id: String, label: Label, control: QLWidget[Integer])
     extends Component[Int](id, label, control) {
-  override def getValue: IntegerAnswer = toAnswer(control.getValue)
+  override def getValue: IntegerAnswer = IntegerAnswer(control.getValue)
   override def setValue(value: Option[Int]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(if (dictionary.isDefinedAt(id)) dictionary(id).possibleValue.asInstanceOf[Option[Int]] else None)
   private def fromOption(value: Option[Int]): java.lang.Integer =
     if (value.isDefined) value.get else null
-  private def toAnswer(value: java.lang.Integer): IntegerAnswer =
-    if (value == null) IntegerAnswer() else IntegerAnswer(control.getValue)
 }
 
 case class DecimalComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
     extends Component[BigDecimal](id, label, control) {
-  override def getValue: DecimalAnswer = toAnswer(control.getValue)
+  override def getValue: DecimalAnswer = DecimalAnswer(control.getValue)
   override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(if (dictionary.isDefinedAt(id)) dictionary(id).possibleValue.asInstanceOf[Option[BigDecimal]] else None)
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
     if (value.isDefined) value.get.bigDecimal else null
-  private def toAnswer(value: java.math.BigDecimal): DecimalAnswer =
-    if (value == null) DecimalAnswer() else DecimalAnswer(value)
 }
 
 case class MoneyComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
     extends Component[BigDecimal](id, label, control) {
-  override def getValue: MoneyAnswer = toAnswer(control.getValue)
+  override def getValue: MoneyAnswer = MoneyAnswer(control.getValue)
   override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(if (dictionary.isDefinedAt(id)) dictionary(id).possibleValue.asInstanceOf[Option[BigDecimal]] else None)
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal =
     if (value.isDefined) value.get.bigDecimal else null
-  private def toAnswer(value: java.math.BigDecimal): MoneyAnswer =
-    if (value == null) MoneyAnswer() else MoneyAnswer(value)
 }
 
 object ComponentFactory {

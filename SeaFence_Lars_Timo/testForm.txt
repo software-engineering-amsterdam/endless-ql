@@ -25,7 +25,7 @@ form taxOfficeExample
 			elseV: int
 	}
 
-  	if (hasMaintLoan)
+  	if (ifV4 > 3)
   	{
     		"if2"
       			ifV2: int

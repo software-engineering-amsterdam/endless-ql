@@ -32,6 +32,10 @@ object QLFormService {
   def saveMemoryTableToCSV(memoryTable: Map[String, Answer], file: File): Unit = {
     val table: Seq[List[String]] = memoryTable.mapValues(answerToString).map(tuple2ToList).toList
 
+    implicit object QuotesCSVFormat extends DefaultCSVFormat {
+      override val quoteChar: Char = '"'
+    }
+
     val writer = CSVWriter.open(file)
     writer.writeAll(table)
     writer.close()

@@ -18,11 +18,11 @@ public class Section extends Segment {
     }
 
     @Override
-    public List<Question> getQuestions() {
-        List<Question> questions = new ArrayList<>();
+    public List<QuestionReference> getQuestions() {
+        List<QuestionReference> questionReferences = new ArrayList<>();
         for (Segment segment : segments) {
-            questions.addAll(segment.getQuestions());
+            questionReferences.addAll(segment.getQuestions());
         }
-        return questions;
+        return questionReferences;
     }
 }

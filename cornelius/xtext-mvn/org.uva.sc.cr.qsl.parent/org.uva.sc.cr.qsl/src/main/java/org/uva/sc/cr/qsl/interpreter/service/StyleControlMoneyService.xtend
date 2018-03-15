@@ -17,6 +17,13 @@ import org.uva.sc.cr.qsl.qSL.WidgetSpinbox
 @Singleton
 class StyleControlMoneyService extends StyleControlService {
 
+	private static val SPINNER_MIN_VALUE = Double.MIN_VALUE
+	private static val SPINNER_MAX_VALUE = Double.MAX_VALUE
+	private static val SPINNER_INITIAL_VALUE = 0
+	private static val SPINNER_STEP_VALUE = 0.01
+
+	private static val SLIDER_MAX_VALUE = 1000
+
 	def dispatch styleMoney(ControlWrapperMoney controlWrapperMoney, Widget widgetSpinbox,
 		DefaultStyle defaultStyleToApply) {
 		return styleDefaultControl(controlWrapperMoney, defaultStyleToApply)
@@ -26,7 +33,8 @@ class StyleControlMoneyService extends StyleControlService {
 		DefaultStyle defaultStyleToApply) {
 
 		val spinner = new Spinner()
-		spinner.valueFactory = new DoubleSpinnerValueFactory(Double.MIN_VALUE, Double.MAX_VALUE, 0, 0.01)
+		spinner.valueFactory = new DoubleSpinnerValueFactory(SPINNER_MIN_VALUE, SPINNER_MAX_VALUE,
+			SPINNER_INITIAL_VALUE, SPINNER_STEP_VALUE)
 		spinner.editor.textFormatter = new TextFormatter(new DoubleStringConverter)
 		spinner.editable = true
 
@@ -41,9 +49,10 @@ class StyleControlMoneyService extends StyleControlService {
 		DefaultStyle defaultStyleToApply) {
 
 		val slider = new Slider()
+		slider.max = SLIDER_MAX_VALUE
 
 		val textField = controlWrapperMoney.textField
-		Bindings.bindBidirectional(textField.textProperty, slider.valueProperty, NumberFormat.getNumberInstance())
+		Bindings.bindBidirectional(textField.textProperty, slider.valueProperty, NumberFormat.numberInstance)
 		copyControlConfiguration(textField, slider)
 
 		return buildHBoxAndApplyDefaultStyle(defaultStyleToApply, controlWrapperMoney.label, slider)

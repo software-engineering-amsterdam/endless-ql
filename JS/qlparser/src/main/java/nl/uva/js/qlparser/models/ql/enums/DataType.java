@@ -5,8 +5,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
 import nl.uva.js.qlparser.ui.components.form.ComponentBuilder;
-import nl.uva.js.qlparser.wrappers.arithmetic.DoubleWrapper;
-import nl.uva.js.qlparser.wrappers.arithmetic.IntegerWrapper;
+import nl.uva.js.qlparser.wrappers.arithmetic.CalculatableDouble;
+import nl.uva.js.qlparser.wrappers.arithmetic.CalculatableInteger;
+import nl.uva.js.qlparser.wrappers.arithmetic.CalculatableMoney;
 
 import javax.swing.*;
 import java.time.LocalDate;
@@ -14,13 +15,13 @@ import java.util.function.Function;
 
 @RequiredArgsConstructor
 public enum DataType {
-    DATE(LocalDate::parse, ComponentBuilder::buildTextField),
+    DATE(LocalDate::parse, ComponentBuilder::buildDateField),
 //    To be improved at a later stage, but needed for type checking
-    MONEY(value -> new DoubleWrapper(value.replace(',', '.')), ComponentBuilder::buildTextField),
+    MONEY(CalculatableMoney::new, ComponentBuilder::buildMoneyField),
     STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), ComponentBuilder::buildTextField),
-    DECIMAL(DoubleWrapper::new, ComponentBuilder::buildTextField),
+    DECIMAL(CalculatableDouble::new, ComponentBuilder::buildTextField),
     BOOLEAN(Boolean::parseBoolean, ComponentBuilder::buildCheckBox),
-    INTEGER(IntegerWrapper::new, ComponentBuilder::buildTextField);
+    INTEGER(CalculatableInteger::new, ComponentBuilder::buildTextField);
 
     @NonNull @Getter private Function<String, ?> valueOf;
     @NonNull @Getter private Function<Variable, ? extends JComponent> component;

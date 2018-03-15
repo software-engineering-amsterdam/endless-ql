@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import nl.uva.js.qlparser.helpers.ArithHelpers;
-import nl.uva.js.qlparser.wrappers.arithmetic.NumberWrapper;
+import nl.uva.js.qlparser.wrappers.arithmetic.Calculatable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +17,7 @@ public enum ArithOp implements Operator {
     MULT(ArithHelpers::mult),
     DIV(ArithHelpers::div);
 
-    @NonNull @Getter public BiFunction<? extends NumberWrapper, ? extends NumberWrapper, ? extends NumberWrapper> apply;
+    @NonNull @Getter public BiFunction<? extends Calculatable, ? extends Calculatable, ? extends Calculatable> apply;
     public List<DataType> requiredType() {
         return Arrays.asList(DataType.INTEGER, DataType.DECIMAL, DataType.MONEY);
     }

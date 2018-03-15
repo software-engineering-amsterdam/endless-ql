@@ -4,11 +4,9 @@ import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
 @RunWith(Suite)
-@Suite.SuiteClasses(
-	QSLParsingTest,
+@Suite.SuiteClasses(QSLParsingTest,
 	QSLValidationTest,
-	QSLWidgetValidationTest
-)
+	QSLWidgetValidationTest,
+	QSLStyleAttributeValidationTest)
 class QLSSuite {
-	
 }

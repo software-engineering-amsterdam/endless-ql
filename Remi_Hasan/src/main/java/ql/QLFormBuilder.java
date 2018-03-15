@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import ql.parser.QLLexer;
 import ql.parser.QLParser;
+import ql.parser.ParseErrorListener;
 import ql.visitor.VisitorForm;
 
 import java.io.IOException;
@@ -24,16 +25,22 @@ public class QLFormBuilder {
 
     public Form buildForm(InputStream stream) throws IllegalArgumentException, UnsupportedOperationException, IOException {
         QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(ParseErrorListener.INSTANCE);
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);
+
         QLParser parser = new QLParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(ParseErrorListener.INSTANCE);
 
         // Visit parse tree and build form model
         VisitorForm visitor = new VisitorForm();
         Form form = visitor.visit(parser.root());
 
         this.symbolTable.buildTable(form);
-        this.performAnalysis(form, this.symbolTable);
+
+        this.performAnalysis(form, symbolTable);
 
         return form;
     }

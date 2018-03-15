@@ -1,10 +1,8 @@
 package ql.model;
 
-import ql.analysis.SymbolTable;
-import ql.evaluation.ExpressionEvaluator;
+import org.antlr.v4.runtime.Token;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
-import org.antlr.v4.runtime.Token;
 
 public class Question extends Node {
 
@@ -33,11 +31,6 @@ public class Question extends Node {
         this.computedAnswer = defaultAnswer;
         this.isComputed = true;
         this.condition = condition;
-    }
-
-    public boolean isVisible(SymbolTable symbolTable) {
-        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
-        return interpreterVisitor.visit(this.condition).getBooleanValue();
     }
 
     public boolean isComputed() {

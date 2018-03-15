@@ -1,6 +1,6 @@
 package expression
 
-import data.question.QuestionType
+import data.question.SymbolType
 import data.value.DecimalValue
 import data.value.IntegerValue
 import org.amshove.kluent.`should be`
@@ -14,7 +14,7 @@ class GenericCastTests {
         val right = DecimalValue(2)
         val result = left + right
 
-        result.type `should be` QuestionType.DECIMAL
+        result.type `should be` SymbolType.DECIMAL
     }
 
     @Test
@@ -23,6 +23,6 @@ class GenericCastTests {
         val right = IntegerValue(2)
         val result = left + right
 
-        result.type `should be` QuestionType.DECIMAL
+        result.type `should be` SymbolType.DECIMAL
     }
 }

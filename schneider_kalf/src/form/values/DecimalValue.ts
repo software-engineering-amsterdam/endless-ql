@@ -4,7 +4,7 @@ import Decimal from "decimal.js/decimal";
 import AbstractNumberValue from "./AbstractNumberValue";
 
 export class DecimalValue extends AbstractNumberValue implements NumberValue {
-  private value: Decimal;
+  protected value: Decimal;
 
   constructor(value: number | Decimal) {
     super();

@@ -15,12 +15,12 @@ public class DecimalWidget extends TextField implements WidgetInterface {
     }
 
     @Override
-    public void setExpression(String value) {
-        this.setText(value);
+    public Expression getExpression() {
+        return new ExpressionVariableDecimal(null, Double.parseDouble(getText()));
     }
 
     @Override
-    public Expression getExpression() {
-        return new ExpressionVariableDecimal(null, Double.parseDouble(getText()));
+    public void setExpression(String value) {
+        this.setText(value);
     }
 }

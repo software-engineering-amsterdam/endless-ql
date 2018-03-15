@@ -14,12 +14,12 @@ public class StringWidget extends TextField implements WidgetInterface {
     }
 
     @Override
-    public void setExpression(String value) {
-        this.setText(value);
+    public Expression getExpression() {
+        return new ExpressionVariableString(null, getText());
     }
 
     @Override
-    public Expression getExpression() {
-        return new ExpressionVariableString(null, getText());
+    public void setExpression(String value) {
+        this.setText(value);
     }
 }

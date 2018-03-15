@@ -14,12 +14,12 @@ public class CheckboxWidget extends CheckBox implements WidgetInterface {
     }
 
     @Override
-    public void setExpression(String value) {
-        this.setSelected(Boolean.valueOf(value));
+    public Expression getExpression() {
+        return new ExpressionVariableBoolean(null, this.isSelected());
     }
 
     @Override
-    public Expression getExpression() {
-        return new ExpressionVariableBoolean(null, this.isSelected());
+    public void setExpression(String value) {
+        this.setSelected(Boolean.valueOf(value));
     }
 }

@@ -15,12 +15,12 @@ public class MoneyWidget extends TextField implements WidgetInterface {
     }
 
     @Override
-    public void setExpression(String value) {
-        this.setText(value);
+    public Expression getExpression() {
+        return new ExpressionVariableMoney(null, getText());
     }
 
     @Override
-    public Expression getExpression() {
-        return new ExpressionVariableMoney(null, getText());
+    public void setExpression(String value) {
+        this.setText(value);
     }
 }

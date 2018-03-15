@@ -60,7 +60,6 @@ def main(argv):
     # QL
     if len(argv)>1:
         input_file = argv[1]
-        print(input_file)
     else:
         input_file = 'test_ql'
     input = FileStream(input_file)
@@ -81,11 +80,8 @@ def main(argv):
     ast.linkVars()
     ast.checkTypes()
 
-    # start up Gui
-    Gui(ast, False)
-
     # QLS
-    """
+    
     if len(argv)>2:
         input_file = argv[2]
     else:
@@ -100,8 +96,11 @@ def main(argv):
     # pass tree to visitor
     qlsVisitor = QLSVisitor()
     qlsVisitor.visit(qlsTree)
-    print(qlsVisitor.stylesheet)
-    """
+
+    qlsAST = qlsVisitor.stylesheet
+    qlsAST.addVarDict(ast.getVarDict())
+    qlsAST.checkTypes()
+    
     # print(qlsTree.toStringTree())
 
 

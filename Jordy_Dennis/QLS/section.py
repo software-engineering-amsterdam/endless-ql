@@ -6,6 +6,20 @@ class Section:
         self.defaults = []
         self.questions = []
         self.sections = []
+        self.varDict = None
+
+    def checkTypes(self):
+        for question in self.questions:
+            question.checkTypes()
+        for default in self.defaults:
+            default.checkTypes()
+
+    def addVarDict(self, varDict):
+        self.varDict = varDict
+        for question in self.questions:
+            question.addVarDict(varDict)
+        for default in self.defaults:
+            default.addVarDict(varDict)
 
     def addSection(self, section):
         self.sections.append(section)

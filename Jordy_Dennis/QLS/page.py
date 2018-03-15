@@ -1,16 +1,32 @@
 
 class Page:
-    def __init__(self, name, id, default=None):
+    def __init__(self, name, defaults=None):
         self.name = name
-        self.id = id
         self.sections = []
-        self.default = []
+        self.defaults = []
+        self.varDict = None
+
+    def checkTypes(self):
+        for section in self.sections:
+            section.checkTypes()
+        for default in self.defaults:
+            default.checkTypes()
 
     def addSection(self, section):
         self.sections.append(section)
 
     def addDefault(self, default):
-        self.default.append(default)
+        self.defaults.append(default)
+
+    def addVarDict(self, varDict):
+        self.varDict = varDict
+        for section in self.sections:
+            section.addVarDict(varDict)
+        for default in self.defaults:
+            default.addVarDict(varDict)
+
+    def getName(self):
+        return self.name
 
     def __repr__(self):
-        return "Page {}-{}: sections: {} default: {}".format(self.name, self.id, self.sections, self.default)
+        return "Page {}: sections: {} defaults: {}".format(self.name, self.sections, self.defaults)

@@ -15,9 +15,6 @@ class Question_Generator:
         self.questions = collections.OrderedDict()
         self.form = form
 
-    def getVarDict(self):
-        return self.varDict
-
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
     def updateQuestions(self, initial=False):
         self.questions = collections.OrderedDict()
@@ -88,6 +85,9 @@ class Question_Generator:
                 elseBlock = statement.getElse()
                 if (elseBlock and not visited):
                     self.get_questions(elseBlock)
+
+    def getVarDict(self):
+        return self.varDict
 
 
 def printDict(dic):

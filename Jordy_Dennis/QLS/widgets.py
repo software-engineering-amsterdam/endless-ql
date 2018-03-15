@@ -1,6 +1,16 @@
-class WidgetWidth:
+"""
+    These are style settings that can be applied to the text label of a question. 
+"""
+class WidgetDefault:
+    
+    def checkTypes(self):
+        return self.type
+
+
+class StyleWidth(WidgetDefault):
     def __init__(self, width=200):
         self.width = width
+        self.type = ['width']
 
     def getWidth(self):
         return self.width
@@ -9,9 +19,10 @@ class WidgetWidth:
         return "WidgetWidth: {}".format(self.width)
 
 
-class WidgetFont:
+class StyleFont(WidgetDefault):
     def __init__(self, font=15):
         self.font = font
+        self.type = ['font']
 
     def getFont(self):
         return self.font
@@ -19,9 +30,10 @@ class WidgetFont:
     def __repr__(self):
         return "WidgetFont: {}".format(self.font)
 
-class WidgetFontSize:
+class StyleFontSize(WidgetDefault):
     def __init__(self, fontSize=15):
         self.fontSize = fontSize
+        self.type = ['fontSize']
 
     def getFontSize(self):
         return self.fontSize
@@ -30,9 +42,10 @@ class WidgetFontSize:
         return "WidgetFontSize: {}".format(self.fontSize)
 
 
-class ColorWidget:
+class StyleColor(WidgetDefault):
     def __init__(self, color='aaaaaa'):
         self.color = color
+        self.type = ['color']
 
     def getColor(self):
         return self.color
@@ -40,26 +53,67 @@ class ColorWidget:
     def __repr__(self):
         return "WidgetColor: {}".format(self.color)
 
+"""
+    These are classes that contain the needed variables for the actual widgets in the GUI.
+    The types are the values supported by the widgets itself and are used for the typecheck
 
-class RadioWidget:
-    def __init__(self, options):
-        self.options = options
+    Boolean Widgets
+"""
+
+
+class RadioWidget(WidgetDefault):
+    def __init__(self, trueVal, falseVal):
+        self.trueVal = trueVal
+        self.falseVal = falseVal
+        self.type = [bool]
 
     def getOptions(self):
         return self.options
 
     def __repr__(self):
-        return "RadioWidget: {}".format(self.options)
+        return "RadioWidget: T:{} F:{}".format(self.trueVal, self.falseVal)
 
-class CheckBoxWidget:
+class CheckBoxWidget(WidgetDefault):
+    def __init__(self):
+        self.type = [bool]
+
     def __repr__(self):
         return "CheckBoxWidget"
 
+class DropdownWidget(WidgetDefault):
+    def __init__(self):
+        self.type = [bool]
 
-class SpinBoxWidget:
+    def __repr__(self):
+        return "DropdownWidget"
+
+
+"""
+    Integer and Text Widgets
+"""
+class SpinboxWidget(WidgetDefault):
     def __init__(self, min, max):
         self.min = min
         self.max = max
+        self.type = [int, float]
 
     def __repr__(self):
         return "SpinBoxWidget: {},{}".format(self.min, self.max)
+
+class TextWidget(WidgetDefault):
+    def __init__(self):
+        self.type = [int, str, float]
+
+    def __repr__(self):
+        return "TextWidget"
+
+class SliderWidget(WidgetDefault):
+    def __init__(self, min, max):
+        self.min = min
+        self.max = max
+        self.type = [int, float]
+
+    def __repr__(self):
+        return "SpinBoxWidget: {},{}".format(self.min, self.max)
+
+

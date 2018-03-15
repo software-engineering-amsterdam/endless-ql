@@ -4,13 +4,17 @@ stylesheet: STYLESHEET ID (BRACKETL page* BRACKETR | page) EOF;
 page: PAGE ID (BRACKETL (section|default_style)* BRACKETR | (section|default_style));
 section: SECTION STRING (BRACKETL (section|question|default_style)* BRACKETR | (section|question|default_style));
 question: QUESTION (ID | ID widget);
+
 widget: WIDGET CHECKBOX|
+		WIDGET TEXT |
+		WIDGET SLIDER |
+		WIDGET DROPDOWN |
         WIDGET RADIO PARL STRING COMMA STRING PARR |
         WIDGET SPINBOX |
-          FONT COLOM STRING |
-        WIDTH COLOM INT |
-        FONTSIZE COLOM INT |
-        COLOR COLOM HEXCOLOR
+          FONT COLON STRING |
+        WIDTH COLON INT |
+        FONTSIZE COLON INT |
+        COLOR COLON HEXCOLOR
         ;
 default_style: DEFAULT types (BRACKETL widget* BRACKETR | widget);
 
@@ -28,6 +32,10 @@ DEFAULT:    'default';
 CHECKBOX:   'checkbox';
 SPINBOX:    'spinbox';
 RADIO:      'radio';
+DROPDOWN:	'dropdown';
+SLIDER:		'slider';
+TEXT:		'text';
+
 
 
 types: 'integer' | 'int' | 'boolean' | 'bool' | 'string' | 'str' | 'money' | 'float';
@@ -43,7 +51,7 @@ BRACKETR: '}';
 PARL: '(';
 PARR: ')';
 COMMA: ',';
-COLOM: ':';
+COLON: ':';
 HASH: '#';
 
 NEWLINE:'\r'? '\n' -> skip;     // return newlines to parser (is end-statement signal)

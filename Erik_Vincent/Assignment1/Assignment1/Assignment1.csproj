@@ -87,6 +87,7 @@
     <Compile Include="Parser\AntlrGenerated\QLSListener.cs" />
     <Compile Include="Parser\QLErrorListener.cs" />
     <Compile Include="Parser\QLParseErrorHandler.cs" />
+    <Compile Include="Parser\QLSListener.cs" />
     <Compile Include="QLListener.cs" />
     <Compile Include="Model\Question.cs" />
     <Compile Include="Model\QuestionForm.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Parser\QLParseException.cs" />
     <Compile Include="Rendering\QuestionFormRenderer.cs" />
     <Compile Include="Rendering\IQuestionFormRenderer.cs" />
+    <Compile Include="TypeChecking\QLSTypeChecker.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

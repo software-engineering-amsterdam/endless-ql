@@ -8,6 +8,7 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.qls.interpreter.evaluate.ApplyQLSStyle;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckAllQuestionsInQLQLS;
+import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckNoDuplicateQuestions;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.IQLSStaticAnalysis;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
@@ -24,7 +25,8 @@ public class Evaluator {
     private ApplyQLSStyle.Linker qlQlsLinker = new ApplyQLSStyle.Linker();
 
     private List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new IQLSStaticAnalysis[]{
-        new CheckAllQuestionsInQLQLS.Checker()
+            new CheckAllQuestionsInQLQLS.Checker(),
+            new CheckNoDuplicateQuestions.Checker()
     });
 
     /**

@@ -8,10 +8,16 @@ import nl.uva.se.sc.niro.parser.QLFormParser
 import nl.uva.se.sc.niro.typechecking.TypeChecker
 import org.antlr.v4.runtime.CharStreams
 
+import scala.io.Source
+
 object QLFormService {
 
   def importQLSpecification(file: File): Either[Seq[Error], QLForm] = {
-    val qlFormAst: QLForm = QLFormParser.parse(CharStreams.fromFileName(file.getAbsolutePath))
+    importQLSpecification(Source.fromFile(file).mkString)
+  }
+
+  def importQLSpecification(newQLInput: String): Either[Seq[Error], QLForm] = {
+    val qlFormAst: QLForm = QLFormParser.parse(CharStreams.fromString(newQLInput))
     val parseErrors: Seq[Error] = QLFormParser.getParseErrors.toList
 
     if (parseErrors.isEmpty) {

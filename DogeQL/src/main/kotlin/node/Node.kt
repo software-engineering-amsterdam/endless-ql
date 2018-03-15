@@ -4,6 +4,7 @@ import data.question.Question
 import data.symbol.SymbolTable
 import typechecker.pass.DuplicatePass
 import typechecker.pass.ScopePass
+import typechecker.pass.TypePass
 
 abstract class Node(internal var symbolTable: SymbolTable) {
     internal val children = ArrayList<Node>()
@@ -22,5 +23,7 @@ abstract class Node(internal var symbolTable: SymbolTable) {
     abstract fun accept(pass: ScopePass)
 
     abstract fun accept(pass: DuplicatePass)
+
+    abstract fun accept(pass: TypePass)
 
 }

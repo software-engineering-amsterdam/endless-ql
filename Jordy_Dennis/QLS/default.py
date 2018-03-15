@@ -8,6 +8,9 @@ class DefaultStyle:
         self.varDict = None
         self.type = defaultType
 
+    def getDefaults(defaultDict):
+        pass
+
     """
         Check if the attribute types only occur once. 
         We check the styling attributes by adding them to a list and see if they occur only once.
@@ -17,6 +20,7 @@ class DefaultStyle:
     def checkTypes(self):
         styleTypes = []
         hasWidget = False
+        widgetType = None
         allStyleTypes = ["font", "fontSize", "width", "color"]
         for attribute in self.attributes:
             attType = attribute.getAttributeType()
@@ -29,6 +33,7 @@ class DefaultStyle:
             elif(attType == 'widget'):
                 if hasWidget == False:
                     hasWidget = True
+                    widgetType = attribute.getWidget()
                     if self.type not in attribute.checkTypes():
                         errorstring = "Incompatible types of widget in default near line " + str(self.line) + \
                         "\nType " + str(self.type) + " not supported by this widget"
@@ -40,6 +45,10 @@ class DefaultStyle:
             else:
                 throwError("Internal error, unknown attribute in default")
 
+        if hasWidget == False:
+            errorstring = "Missing declaration of widget in default near line " + str(self.line)
+            throwError(errorstring)
+
         # Lastly check if styles are not double declarated
         styleSet = list(set(styleTypes))
         leftover = listDif(styleSet, styleTypes)
@@ -48,7 +57,7 @@ class DefaultStyle:
             + " in default near line: " + str(self.line)
             throwError(errorstring)
 
-        return self.type
+        return self.type, widgetType
 
 
     """

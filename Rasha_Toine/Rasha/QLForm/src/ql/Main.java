@@ -30,17 +30,7 @@ public class Main {
 	    try {
 	    	// 1- Generate ast tree
 	    	Form form = Form.parseFileToForm(qlFile);
-	    	Identifier id = form.getId();
-	    	form.getBlock().getStatements().forEach(it -> {
-				System.out.println("statementlocation = " + it.getLocation().getStartLine() + ", class = " + it.getClass());
-				/*if (it.getClass() == ast.statement.IfThenElseStatement.class)
-					System.out.println("Count ifBody statements = " + ((IfThenElseStatement) it).getIfBody().getStatements().size());
-					System.out.println("Count elseBody statements = " + ((IfThenElseStatement) it).getElseBody().getStatements().size());*/
-	    	});
-	
-	    	System.out.println("Count statements = " + form.getBlock().getStatements().size());
-	    	System.out.println(id.toString());
-
+	   
 	    	// 2- Run type checker on generated ql form 
 	        TypeChecker checker = new TypeChecker();
 	        if (checker.runChecker(form)) { // only if checker didn't detect issues, render

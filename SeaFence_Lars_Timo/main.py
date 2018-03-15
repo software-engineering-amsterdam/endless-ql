@@ -36,7 +36,7 @@ def main(argv):
         qls_visitor = QLSVisitorHelper()
         qls_ast = qls_visitor.visit(qls_tree)
 
-        qls_checker = QLSTypeChecker(qls_ast)
+        qls_checker = QLSTypeChecker(ql_ast, qls_ast)
 
     # print ast
 

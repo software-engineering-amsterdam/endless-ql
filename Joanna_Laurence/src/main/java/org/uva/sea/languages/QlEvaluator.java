@@ -29,7 +29,6 @@ public class QlEvaluator {
     /**
      * Generate EvaluationResult
      * @return EvaluationResult
-     * @throws StaticAnalysisError
      * @throws InterruptedException
      */
     public EvaluationResult getQuestions() throws IOException, InterruptedException {

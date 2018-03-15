@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class ASTGeneratorTest extends TestCase {
+public class QLParserTest extends TestCase {
 
     private static TestFileHelper testFileHelper = new TestFileHelper();
     private String testFile;
     private Boolean shouldCompile;
 
 
-    public ASTGeneratorTest(String testFile, Boolean shouldCompile) {
+    public QLParserTest(String testFile, Boolean shouldCompile) {
         this.testFile = testFile;
         this.shouldCompile = shouldCompile;
     }

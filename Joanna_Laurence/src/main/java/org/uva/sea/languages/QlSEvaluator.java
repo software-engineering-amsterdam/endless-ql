@@ -9,7 +9,7 @@ import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
 import java.io.IOException;
 
-public class QlsEvaluator extends QlEvaluator {
+public class QlSEvaluator extends QlEvaluator {
 
     private Evaluator evaluator = new Evaluator();
 
@@ -22,7 +22,7 @@ public class QlsEvaluator extends QlEvaluator {
      * @param qlFileLocation
      * @param qlsFileLocation
      */
-    public QlsEvaluator(String qlFileLocation, String qlsFileLocation) {
+    public QlSEvaluator(String qlFileLocation, String qlsFileLocation) {
         super(qlFileLocation);
         this.qlsFileLocation = qlsFileLocation;
     }

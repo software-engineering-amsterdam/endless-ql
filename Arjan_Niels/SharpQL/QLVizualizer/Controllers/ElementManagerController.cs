@@ -73,7 +73,6 @@ namespace QLVisualizer.Controllers
             return Form.ToXML();
         }
 
-        // TODO: check if class is status -sensitive
         public virtual void Reset()
         {
             Form = null;

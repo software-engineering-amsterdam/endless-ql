@@ -13,7 +13,7 @@ namespace QLVisualizer.Expression.Types
         {
         }
 
-        //public ExpressionBool(BoolQuestionManager boolQuestionManager) : base(new Type[] { typeof(bool) }, ExpressionOperators.Logical, boolQuestionManager) { }
+        public ExpressionBool(LazyElementExpressionLink<bool> lazyElementExpressionLink) : base(new Type[] { typeof(bool) }, ExpressionOperators.Logical, lazyElementExpressionLink) { }
 
         /// <summary>
         /// Combines with expressionValue

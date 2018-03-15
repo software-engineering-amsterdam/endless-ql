@@ -68,20 +68,6 @@ namespace QLVisualizer.Controllers.Display
         }
 
         /// <summary>
-        /// Set default style for all widgets
-        /// </summary>
-        private void UpdateDefaultStyle()
-        {
-            // TODO: ASSIGN STYLE
-            /*if (ElementStyleIndex == null)      // Case no styles set
-                ElementStyleIndex = _form.Keys.ToDictionary(o => o, o => DefaultStyle);
-            else                                // Case styles already set
-                foreach (string s in _form.Keys)
-                    if (!ElementStyleIndex.ContainsKey(s))
-                        ElementStyleIndex.Add(s, DefaultStyle);*/
-        }
-
-        /// <summary>
         /// Shows form to user
         /// </summary>
         /// <param name="title">Tile of form</param>

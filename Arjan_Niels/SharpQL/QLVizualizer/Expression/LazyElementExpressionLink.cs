@@ -7,14 +7,14 @@ namespace QLVisualizer.Expression
     {
         private QuestionElementManager<T> _questionElementManager;
         private ElementManagerController _elementManagerController;
-        private string _questionElementManagerID;
+        public string QuestionElementManagerID { get; private set; }
 
         public T ElementValue
         {
             get
             {
                 if (_questionElementManager == null)
-                    _questionElementManager = _elementManagerController.Form.FindLeafsByID(_questionElementManagerID)[_questionElementManagerID] as QuestionElementManager<T>;
+                    _questionElementManager = _elementManagerController.Form.FindLeafsByID(QuestionElementManagerID)[QuestionElementManagerID] as QuestionElementManager<T>;
                 return _questionElementManager.Answer.Value;
             }
         }
@@ -22,7 +22,7 @@ namespace QLVisualizer.Expression
         public LazyElementExpressionLink(ElementManagerController elementManagerController, string questionElementManagerID)
         {
             _elementManagerController = elementManagerController;
-            _questionElementManagerID = questionElementManagerID;
+            QuestionElementManagerID = questionElementManagerID;
         }
     }
 }

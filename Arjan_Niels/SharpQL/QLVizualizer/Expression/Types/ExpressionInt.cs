@@ -9,7 +9,7 @@ namespace QLVisualizer.Expression.Types
         {
         }
 
-        //public ExpressionInt(IntQuestionManager intQuestionManager) : base(new Type[] { typeof(double), typeof(int) }, ExpressionOperators.Numeric, intQuestionManager) { }
+        public ExpressionInt(LazyElementExpressionLink<int> lazyElementExpressionLink) : base(new Type[] { typeof(double), typeof(int) }, ExpressionOperators.Numeric, lazyElementExpressionLink) { }
 
         #region Combine
         /// <summary>

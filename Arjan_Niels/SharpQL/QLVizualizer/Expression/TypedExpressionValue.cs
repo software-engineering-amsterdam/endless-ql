@@ -8,16 +8,7 @@ namespace QLVisualizer.Expression.Types
 {
     public abstract class TypedExpressionValue<T> : ExpressionValue
     {
-        private ElementManagerController _elementManagerController;
-        private string _elementManagerID;
-        private QuestionElementManager<T> _elementManager;
-
-        private QuestionElementManager<T> GetElementManager()
-        {
-            if (_elementManager == null)
-                _elementManager = _elementManagerController.Form.FindLeafsByID(_elementManagerID)[_elementManagerID] as QuestionElementManager<T>;
-            return _elementManager;
-        }
+        protected LazyElementExpressionLink<T> _elementExpressionLink { get; private set; }
 
         /// <summary>
         /// Contains all expresssions to be run
@@ -46,11 +37,10 @@ namespace QLVisualizer.Expression.Types
             _operatorChain = new List<ExpressionOperator>();
         }
 
-        public TypedExpressionValue(Type[] compatibleTypes, ExpressionOperator[] compatibleOperators, string id, ElementManagerController elementManagerController) : base(compatibleTypes, compatibleOperators, typeof(T), new string[] { id })
+        public TypedExpressionValue(Type[] compatibleTypes, ExpressionOperator[] compatibleOperators, LazyElementExpressionLink<T> lazyElementExpressionLink) : base(compatibleTypes, compatibleOperators, typeof(T), new string[] { lazyElementExpressionLink.QuestionElementManagerID })
         {
-            _elementManagerID = id;
-            _elementManagerController = elementManagerController;
-            _expressionChain = new List<Func<T>>() { () => GetElementManager().Answer.Value };
+            _elementExpressionLink = lazyElementExpressionLink;
+            _expressionChain = new List<Func<T>>() { () => _elementExpressionLink.ElementValue };
             _operatorChain = new List<ExpressionOperator>();
         }
 

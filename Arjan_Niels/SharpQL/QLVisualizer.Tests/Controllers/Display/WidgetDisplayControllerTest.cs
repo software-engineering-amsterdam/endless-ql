@@ -21,26 +21,6 @@ namespace QLVisualizer.Tests.Controllers.Display
         protected Y _widgetStyle;
 
         [TestMethod]
-        public void ShowTest()
-        {
-            // when int widget is added, the element must be there
-            // TODO: re implement this test
-            /*_widgetDisplayController.ShowWidget(_intWidget, _widgetStyle);
-            Assert.IsTrue(_widgetDisplayController.ElementsIndex.ContainsKey(_intWidget.Identifier));
-
-            // when string widget is added, the element must be there
-            _widgetDisplayController.ShowWidget(_stringWidget, _widgetStyle);
-            Assert.IsTrue(_widgetDisplayController.ElementsIndex.ContainsKey(_stringWidget.Identifier));
-
-            // when bool widget is added, the element must be there
-            _widgetDisplayController.ShowWidget(_boolWidget, _widgetStyle);
-            Assert.IsTrue(_widgetDisplayController.ElementsIndex.ContainsKey(_boolWidget.Identifier));
-
-            // there must now be a total of three elements
-            Assert.AreEqual(3, _widgetDisplayController.ElementsIndex.Count);*/
-        }
-
-        [TestMethod]
         public abstract void UpdateIntElementTest();
 
         [TestMethod]

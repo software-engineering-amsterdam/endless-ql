@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1.Model
+namespace Assignment1.Model.QL
 {
-    public class QuestionString : Question
+    public class QuestionMoney : Question
     {
-        public QuestionString(string id, string label) : base(id, label)
+        public QuestionMoney(string id, string label) : base(id, label)
         {
-            Value = "";
+            Value = new Decimal(0);
         }
 
         public override void Accept(IQuestionVisitor visitor)

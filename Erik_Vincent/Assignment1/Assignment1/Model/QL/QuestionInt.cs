@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1.Model
+namespace Assignment1.Model.QL
 {
-    public class QuestionMoney : Question
+    public class QuestionInt : Question
     {
-        public QuestionMoney(string id, string label) : base(id, label)
+        public QuestionInt(string id, string label) : base(id, label)
         {
             Value = 0;
         }

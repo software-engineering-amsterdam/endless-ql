@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1.Model
+namespace Assignment1.Model.QL
 {
-    public class QuestionBool : Question
+    public class QuestionDate : Question
     {
-        public QuestionBool(string id, string label) : base(id, label)
+        public QuestionDate(string id, string label) : base(id, label)
         {
-            Value = false;
+            Value = DateTime.Today;
         }
 
         public override void Accept(IQuestionVisitor visitor)

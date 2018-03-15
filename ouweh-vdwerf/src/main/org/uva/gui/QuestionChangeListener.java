@@ -1,4 +1,4 @@
-package org.uva.ql.gui;
+package org.uva.gui;
 
 import org.uva.ql.evaluator.value.Value;
 

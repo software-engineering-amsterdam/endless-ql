@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1.Model
+namespace Assignment1.Model.QL
 {
     public interface IQuestionVisitor
     {

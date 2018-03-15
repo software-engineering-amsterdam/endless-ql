@@ -1,16 +1,16 @@
-package org.uva.ql.gui;
+package org.uva.gui;
 
 import org.uva.ql.ast.Question;
 import org.uva.ql.evaluator.ExpressionEvaluator;
 import org.uva.ql.evaluator.FormEvaluator;
 import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
-import org.uva.ql.gui.widgets.QuestionWidget;
+import org.uva.gui.widgets.QuestionWidget;
 import org.uva.app.LogHandler;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -76,7 +76,7 @@ public class GUIHandler {
         Logger logger = Logger.getGlobal();
         logger.info("Hallo");
         LogHandler handler = (LogHandler) logger.getHandlers()[0];
-        ArrayList<LogRecord> logs = handler.getLogs(Level.WARNING);
+        List<LogRecord> logs = handler.getLogs(Level.WARNING);
         if (logs.size() > 0) {
             for (LogRecord logRecord : logs) {
                 JOptionPane.showMessageDialog(frame, logRecord.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

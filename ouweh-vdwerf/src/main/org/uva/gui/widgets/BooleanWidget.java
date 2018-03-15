@@ -1,9 +1,9 @@
-package org.uva.ql.gui.widgets;
+package org.uva.gui.widgets;
 
 import org.uva.ql.ast.Question;
 import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
-import org.uva.ql.gui.QuestionChangeListener;
+import org.uva.gui.QuestionChangeListener;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;

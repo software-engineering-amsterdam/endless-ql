@@ -44,15 +44,16 @@ namespace QuestionnaireUI.Models
             return (TValue)propertyInfo.GetValue(Model);
         }
 
-        protected void RegisterCollection(
-            ObservableCollection<QuestionWrapper> questions,
-            IList<QuestionModel> modelQuestions)
+        protected void RegisterCollection<TWrapper, TModel>(
+            ObservableCollection<TWrapper> questions,
+            IList<TModel> modelQuestions) 
+            where TWrapper : ModelWrapperBase<TModel>
         {
             questions.CollectionChanged += (s, e) =>
             {
                 if (e.OldItems != null)
                 {
-                    foreach (var item in e.OldItems.Cast<QuestionWrapper>())
+                    foreach (var item in e.OldItems.Cast<TWrapper>())
                     {
                         modelQuestions.Remove(item.Model);
                     }
@@ -60,7 +61,7 @@ namespace QuestionnaireUI.Models
 
                 if (e.NewItems != null)
                 {
-                    foreach (var item in e.NewItems.Cast<QuestionWrapper>())
+                    foreach (var item in e.NewItems.Cast<TWrapper>())
                     {
                         modelQuestions.Add(item.Model);
                     }

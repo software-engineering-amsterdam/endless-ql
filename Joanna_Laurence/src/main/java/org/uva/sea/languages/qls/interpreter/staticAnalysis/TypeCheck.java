@@ -40,6 +40,7 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
 
     /**
      * Display errorNotCompatible message
+     *
      * @param node
      * @param widgetType
      * @param nodeType
@@ -54,7 +55,6 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
 
 
     /**
-     *
      * @param form
      * @param stylesheet
      * @return
@@ -104,12 +104,12 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
     @Override
     public Void visit(Question node) {
         WidgetType widgetType;
-        if(node.getWidget() == null)
+        if (node.getWidget() == null)
             return null;
 
         widgetType = node.getWidget().getWidgetType();
         NodeType questionNodeType = this.qlQuestionNodeTypes.get(node.getName());
-        if(questionNodeType == null) {
+        if (questionNodeType == null) {
             error(node, node.getName() + " has no type");
             return null;
         }

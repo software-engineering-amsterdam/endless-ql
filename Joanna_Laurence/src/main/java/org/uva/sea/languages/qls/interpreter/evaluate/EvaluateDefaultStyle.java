@@ -1,6 +1,5 @@
 package org.uva.sea.languages.qls.interpreter.evaluate;
 
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.parser.NodeType;
@@ -45,7 +44,7 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(DefaultStyle node)  {
+    public Void visit(DefaultStyle node) {
 
         NodeType styleType = NodeType.valueOf(node.getTypeName().toUpperCase());
         if (styleType != this.nodeTypeToFind)

@@ -1,7 +1,6 @@
 package org.uva.sea.languages.qls.interpreter.evaluate;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
@@ -86,7 +85,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         QuestionData questionData = this.getOriginalQuestionData(node.getName());
 
         if (questionData != null) {
-            if(node.getWidget() != null) {
+            if (node.getWidget() != null) {
                 questionData.setWidgetType(node.getWidget().getWidgetType());
             }
 
@@ -100,7 +99,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     /**
      * Get default style for a question
      *
-     * @param question   Question node
+     * @param question Question node
      * @return Style for the widget
      * @throws InterruptedException
      */
@@ -128,6 +127,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
             sections.add(section.getName());
         return sections;
     }
+
     /**
      * Hide the visitor, make only doCheck visible
      */

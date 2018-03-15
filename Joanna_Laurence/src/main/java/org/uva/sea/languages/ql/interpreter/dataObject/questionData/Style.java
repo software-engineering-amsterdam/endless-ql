@@ -1,7 +1,6 @@
 package org.uva.sea.languages.ql.interpreter.dataObject.questionData;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
-import org.uva.sea.languages.qls.parser.elements.style.Widget;
 
 import java.util.ArrayList;
 import java.util.List;

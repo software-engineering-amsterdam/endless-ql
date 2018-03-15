@@ -1,10 +1,8 @@
 package org.uva.sea.languages.qls.interpreter.staticAnalysis;
 
-import org.antlr.tool.Message;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
-import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 import org.uva.sea.languages.qls.parser.elements.specification.Question;
 import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
@@ -36,6 +34,7 @@ public class CheckNoDuplicateQuestions extends BaseStyleASTVisitor<Void> impleme
 
     /**
      * Get all QLS question names
+     *
      * @param stylesheet AST node
      * @return The names
      */
@@ -53,16 +52,15 @@ public class CheckNoDuplicateQuestions extends BaseStyleASTVisitor<Void> impleme
 
     /**
      * Checks if there are duplicate questions and returns are Message
+     *
      * @param listToCheck Question list
      * @return Messages
      */
-    public Messages checkForDuplicateQuestions(List<String> listToCheck)
-    {
+    public Messages checkForDuplicateQuestions(List<String> listToCheck) {
         Messages messages = new Messages();
         Set<String> validationSet = new HashSet();
 
-        for (String name : listToCheck)
-        {
+        for (String name : listToCheck) {
             if (!validationSet.add(name))
                 messages.addMessage("duplicate question: " + name, MessageTypes.ERROR);
         }

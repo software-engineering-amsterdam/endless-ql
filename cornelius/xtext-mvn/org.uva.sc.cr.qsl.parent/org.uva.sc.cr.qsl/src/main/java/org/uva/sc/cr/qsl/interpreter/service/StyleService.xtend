@@ -38,8 +38,10 @@ class StyleService {
 		val wizardPane = new WizardPane
 		wizardPane.stylesheets.remove(0)
 		val vbox = new VBox(10)
-		val builtSections = page.sections.map[buildSection(it, page.defaultStyles)]
-		vbox.children.addAll(builtSections)
+		page.sections.forEach[
+			val section = buildSection(it, page.defaultStyles)
+			vbox.children.add(section)
+		]
 		wizardPane.content = vbox
 		return wizardPane
 	}
@@ -64,7 +66,7 @@ class StyleService {
 	}
 
 	def private Node buildStyledControl(List<DefaultStyle> defaultStyles, QuestionReference questionReference) {
-		val controlWrapper = controlService.getControlByName(questionReference.questionReference.name)
+		val controlWrapper = controlService.getControlByName(questionReference.question.name)
 		val defaultStyleToApply = getDefaultStyleForQuestionReference(defaultStyles, questionReference)
 		var widget = questionReference.widget
 		
@@ -81,7 +83,7 @@ class StyleService {
 	
 	def DefaultStyle getDefaultStyleForQuestionReference(List<DefaultStyle> defaultStyles, QuestionReference questionReference){
 		for(defaultStyle: defaultStyles){
-			if(defaultStyle.questionType == questionReference.questionReference.type){
+			if(defaultStyle.questionType == questionReference.question.type){
 				return defaultStyle
 			}
 		}

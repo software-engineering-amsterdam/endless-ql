@@ -4,11 +4,11 @@ grammar QL;
 /** Parser rules */
 form : FORM IDENTIFIER block EOF; // form
 
-block : CURLY_BRACE_L NEWLINE* ((ifStatement | question | statement) NEWLINE*)* CURLY_BRACE_R NEWLINE*; // content
+block : CURLY_BRACE_L NEWLINE* ((ifStatement | question ) NEWLINE*)* CURLY_BRACE_R NEWLINE*; // content
 
-question : IDENTIFIER COLON STR type;
-
-statement : IDENTIFIER COLON STR type expression;
+question : IDENTIFIER COLON STR type #normalQuestion
+    | IDENTIFIER COLON STR type expression #fixedQuestion
+;
 
 expression: IDENTIFIER #identifier
     | booleanExpression #boolExpression

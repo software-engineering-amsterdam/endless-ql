@@ -1,5 +1,5 @@
 // Generated from C:/dev/uva/endless-ql/Abel_Elias/src/parsing\QL.g4 by ANTLR 4.7
-package parsing.gen;
+package parsing;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -23,17 +23,25 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlock(QLParser.BlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#question}.
+	 * Visit a parse tree produced by {@link QLParser#lineInBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestion(QLParser.QuestionContext ctx);
+	T visitLineInBlock(QLParser.LineInBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#statement}.
+	 * Visit a parse tree produced by the {@code normalQuestion}
+	 * labeled alternative in {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStatement(QLParser.StatementContext ctx);
+	T visitNormalQuestion(QLParser.NormalQuestionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code fixedQuestion}
+	 * labeled alternative in {@link QLParser#question}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFixedQuestion(QLParser.FixedQuestionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code identifier}
 	 * labeled alternative in {@link QLParser#expression}.

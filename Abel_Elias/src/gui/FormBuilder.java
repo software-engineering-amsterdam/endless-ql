@@ -1,6 +1,6 @@
 package gui;
 
-import classes.statements.Question;
+import classes.Question;
 import gui.questions.QuestionPanel;
 
 import javax.swing.*;

@@ -1,13 +1,14 @@
-package classes.statements;
+package classes;
 
 import classes.CodeBlock;
 
-public class Question<T> extends Statement {
+public class Question<T> {
     private String questionText;
     private T type;
+    private boolean fixed;
 
-    public Question(CodeBlock code, String questionText, T type){
-        super(code);
+    public Question(CodeBlock code, String questionText, T type, boolean fixed){
+        this.fixed = fixed;
         this.questionText = questionText;
         this.type = type;
     }

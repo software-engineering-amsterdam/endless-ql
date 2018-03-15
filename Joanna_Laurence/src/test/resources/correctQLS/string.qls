@@ -11,13 +11,6 @@ stylesheet taxOfficeExample
             widget textfield
 
         question item2
-            widget string
-
-        question item3
-            widget integer
-
-        question item4
-            widget decimal
       }
     }
   }

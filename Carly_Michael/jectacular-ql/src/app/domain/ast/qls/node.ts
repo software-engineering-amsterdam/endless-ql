@@ -1,5 +1,5 @@
 import {Question} from './question';
-import {Question as QlQuestion} from '../ql/question';
+import {QlQuestion as QlQuestion} from '../ql';
 import {Style} from './style';
 import {Widget} from './widget';
 import {Default} from './default';

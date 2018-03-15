@@ -1,7 +1,7 @@
 import {Statement} from './statement';
 import {QuestionBase} from '../../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
-import {Question} from './question';
+import {QlQuestion} from './ql-question';
 import * as _ from 'lodash';
 import {ImpossibleIfConditionError, TypeError} from '../../errors';
 import {Location} from '../location';
@@ -29,7 +29,7 @@ export class If extends Statement {
     return allVariables;
   }
 
-  checkType(allQuestions: Question[]): void {
+  checkType(allQuestions: QlQuestion[]): void {
     const expressionType = this.condition.checkType(allQuestions);
 
     // throw errors if it is not available or if the type is wrong
@@ -52,7 +52,7 @@ export class If extends Statement {
     }
   }
 
-  getQuestions(): Question[] {
+  getQuestions(): QlQuestion[] {
     const subQuestions = [];
 
     // get questions of statements in body of the if

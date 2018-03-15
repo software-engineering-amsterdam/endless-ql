@@ -1,7 +1,7 @@
 import {ExpressionType} from './expression-type';
 import {Expression, LiteralType} from './expression';
 import {Location} from '../../location';
-import {Question} from '../question';
+import {QlQuestion} from '../ql-question';
 import {FormGroup} from '@angular/forms';
 import {BinaryExpression} from './binary-expression';
 
@@ -10,7 +10,7 @@ export abstract class LogicalExpression extends BinaryExpression {
     super(left, right, location);
   }
 
-  checkType(allQuestions: Question[]): ExpressionType {
+  checkType(allQuestions: QlQuestion[]): ExpressionType {
     if (this.left.checkType(allQuestions) === ExpressionType.BOOLEAN &&
       this.right.checkType(allQuestions) === ExpressionType.BOOLEAN) {
       return ExpressionType.BOOLEAN;

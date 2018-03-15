@@ -98,10 +98,10 @@ word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 ascii           = [a-zA-Z]+ {return new astQls.StringValue(text());}
 
 //types
-booleanType     = "boolean" { return astQl.QuestionType.BOOLEAN; }
-stringType      = "string" { return astQl.QuestionType.STRING; }
-integerType     = "integer" { return astQl.QuestionType.INT; }
-dateType        = "date" { return astQl.QuestionType.DATE; }
+booleanType     = "boolean" { return new BooleanQuestionType(); }
+stringType      = "string" { return new StringQuestionType(); }
+integerType     = "integer" { return new IntQuestionType(); }
+dateType        = "date" { return new DateQuestionType(); }
 
 //widgets
 radioWidget     = "radio" whitespace "(\"" yesValue:identifier "\"," whitespace "\"" noValue:identifier "\")" {

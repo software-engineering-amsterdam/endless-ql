@@ -1,9 +1,8 @@
-package org.uva.ql.validation;
+package org.uva.ql.validation.checker;
 
 import org.uva.ql.ast.*;
-import org.uva.ql.visitor.StatementVisitor;
+import org.uva.ql.validation.checker.Checker;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +12,7 @@ public class QuestionChecker extends Checker {
 
     private List<Question> questions;
 
-    QuestionChecker(List<Question> questions) {
+    public QuestionChecker(List<Question> questions) {
         this.questions = questions;
     }
 

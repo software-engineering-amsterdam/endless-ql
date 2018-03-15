@@ -3,7 +3,7 @@ import {Default} from './default';
 import {Location} from '../location';
 import {Node, QuestionWithAppliedStyles} from './node';
 import {Style} from './style';
-import {Question as QlQuestion} from '../ql/question';
+import {QlQuestion as QlQuestion} from '../ql/ql-question';
 import {Widget} from './widget';
 
 export class Page extends Node {
@@ -29,7 +29,6 @@ export class Page extends Node {
 
   checkStylesheet(parentDefaults: ReadonlyArray<Default>, allQuestions: QlQuestion[]): void {
     const defaults = this.defaultSettings ?  parentDefaults.concat(this.defaultSettings) : parentDefaults;
-
     for (const section of this.sections) {
       section.checkStylesheet(defaults, allQuestions);
     }

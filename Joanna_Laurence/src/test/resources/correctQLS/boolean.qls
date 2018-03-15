@@ -16,8 +16,6 @@ stylesheet taxOfficeExample
         question item3
             widget radio
 
-        question item4
-            widget boolean
       }
     }
   }

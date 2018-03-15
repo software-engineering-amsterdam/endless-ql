@@ -6,7 +6,7 @@ import java.util.Map
 import javax.inject.Singleton
 import org.joda.money.CurrencyUnit
 import org.joda.money.Money
-import org.uva.sc.cr.ql.qL.ExpressionMulOrDiv
+import org.uva.sc.cr.ql.qL.ExpressionMultiplicationOrDivision
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
 import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
 import org.uva.sc.cr.ql.util.Operation
@@ -27,7 +27,7 @@ class ExpressionEvaluatorMoney {
 		}
 	}
 
-	dispatch def Money evaluateExpression(ExpressionMulOrDiv expression, Map<String, Object> arguments) {
+	dispatch def Money evaluateExpression(ExpressionMultiplicationOrDivision expression, Map<String, Object> arguments) {
 		var leftMoney = evaluateExpression(expression.left, arguments)
 		var rightMoney = evaluateExpression(expression.right, arguments)
 		if (expression.op == Operation.MULTIPLICATION.literal)

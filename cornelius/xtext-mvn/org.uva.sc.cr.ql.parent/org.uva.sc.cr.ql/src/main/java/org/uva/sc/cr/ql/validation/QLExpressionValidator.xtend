@@ -9,7 +9,7 @@ import org.uva.sc.cr.ql.qL.ExpressionEquality
 import org.uva.sc.cr.ql.qL.ExpressionLiteralBoolean
 import org.uva.sc.cr.ql.qL.ExpressionLiteralInteger
 import org.uva.sc.cr.ql.qL.ExpressionLiteralString
-import org.uva.sc.cr.ql.qL.ExpressionMulOrDiv
+import org.uva.sc.cr.ql.qL.ExpressionMultiplicationOrDivision
 import org.uva.sc.cr.ql.qL.ExpressionNot
 import org.uva.sc.cr.ql.qL.ExpressionOr
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
@@ -48,7 +48,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 			ExpressionPlusOrMinus: {
 				computeType(exp.left)
 			}
-			ExpressionMulOrDiv: {
+			ExpressionMultiplicationOrDivision: {
 				computeType(exp.left)
 			}
 			ExpressionNot:
@@ -157,20 +157,20 @@ class QLExpressionValidator extends AbstractQLValidator {
 	}
 
 	@Check
-	def checkExpressionMulOrDiv(ExpressionMulOrDiv exp) {
+	def checkExpressionMulOrDiv(ExpressionMultiplicationOrDivision exp) {
 
 		var leftType = computeType(exp.left)
 		var rightType = computeType(exp.right)
 
 		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
 		if (!allowedTypes.contains(leftType))
-			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_MUL_OR_DIV__LEFT, TYPE_NOT_ALLOWED)
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_MULTIPLICATION_OR_DIVISION__LEFT, TYPE_NOT_ALLOWED)
 
 		if (!allowedTypes.contains(rightType))
-			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_MUL_OR_DIV__RIGHT, TYPE_NOT_ALLOWED)
+			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_MULTIPLICATION_OR_DIVISION__RIGHT, TYPE_NOT_ALLOWED)
 
 		if (leftType != rightType)
-			error(TYPE_NOT_SAME_MESSAGE, QLPackage.Literals.EXPRESSION_MUL_OR_DIV__RIGHT, TYPE_NOT_SAME)
+			error(TYPE_NOT_SAME_MESSAGE, QLPackage.Literals.EXPRESSION_MULTIPLICATION_OR_DIVISION__RIGHT, TYPE_NOT_SAME)
 
 	}
 

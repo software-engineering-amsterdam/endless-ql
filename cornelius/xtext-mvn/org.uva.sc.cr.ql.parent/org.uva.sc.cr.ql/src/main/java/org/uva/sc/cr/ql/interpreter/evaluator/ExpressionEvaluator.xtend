@@ -11,7 +11,7 @@ import org.uva.sc.cr.ql.qL.ExpressionEquality
 import org.uva.sc.cr.ql.qL.ExpressionLiteralBoolean
 import org.uva.sc.cr.ql.qL.ExpressionLiteralInteger
 import org.uva.sc.cr.ql.qL.ExpressionLiteralString
-import org.uva.sc.cr.ql.qL.ExpressionMulOrDiv
+import org.uva.sc.cr.ql.qL.ExpressionMultiplicationOrDivision
 import org.uva.sc.cr.ql.qL.ExpressionNot
 import org.uva.sc.cr.ql.qL.ExpressionOr
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
@@ -36,7 +36,7 @@ class ExpressionEvaluator {
 			ExpressionEquality: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
 			ExpressionComparison: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
 			ExpressionPlusOrMinus: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionMulOrDiv: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionMultiplicationOrDivision: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
 			ExpressionNot:
 				Operation.NOT.literal + buildExpression(expression.expression)
 			ExpressionLiteralString:

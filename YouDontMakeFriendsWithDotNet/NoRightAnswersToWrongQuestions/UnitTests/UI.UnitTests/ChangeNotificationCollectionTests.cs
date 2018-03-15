@@ -42,13 +42,33 @@ namespace UnitTests.UI.UnitTests
         {
             var wrapper = new QuestionnaireWrapper(m_questionnaire);
             Assert.NotNull(wrapper.Questions);
+            CheckModelQuestionsCollectionIsInSync(wrapper);
+        }
+
+        [Test]
+        public void WhenAddedQuestion_ShouldBeInSync()
+        {
+            m_questionnaire.Questions.Remove(m_inputQuestion2);
+            var wrapper = new QuestionnaireWrapper(m_questionnaire);
+            wrapper.Questions.Add(new QuestionWrapper(m_inputQuestion2));
+            CheckModelQuestionsCollectionIsInSync(wrapper);
+        }
+        
+        [Test]
+        public void WhenRemovedQuestion_ShouldBeInSync()
+        {
+            var wrapper = new QuestionnaireWrapper(m_questionnaire);
+            var questionToRemove = wrapper.Questions.Single(q => q.Model == m_inputQuestion2);
+            wrapper.Questions.Remove(questionToRemove);
+            CheckModelQuestionsCollectionIsInSync(wrapper);
+        }
+        private void CheckModelQuestionsCollectionIsInSync(QuestionnaireWrapper wrapper)
+        {
             Assert.AreEqual(
                 expected: m_questionnaire.Questions.Count,
                 actual: wrapper.Questions.Count);
             Assert.IsTrue(m_questionnaire.Questions.All(
                 q => wrapper.Questions.Any(wq => wq.Model == q)));
         }
-
-
     }
 }

@@ -26,6 +26,9 @@ namespace QuestionnaireUI.Models
 
             Questions = new ObservableCollection<QuestionWrapper>(
                 model.Questions.Select(q => new QuestionWrapper(q)));
+
+            RegisterCollection(Questions, model.Questions);
         }
+
     }
 }

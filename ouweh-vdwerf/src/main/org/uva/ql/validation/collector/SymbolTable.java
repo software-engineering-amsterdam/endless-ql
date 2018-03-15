@@ -1,16 +1,21 @@
-package org.uva.ql.validation;
+package org.uva.ql.validation.collector;
 
+import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.Type;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class SymbolTable {
 
     private final HashMap<String, Type> table;
 
-    SymbolTable() {
-
+    public SymbolTable(List<Question> questions) {
         this.table = new HashMap<>();
+
+        for (Question question : questions) {
+            this.add(question.getName(), question.getType());
+        }
     }
 
     public int size() {

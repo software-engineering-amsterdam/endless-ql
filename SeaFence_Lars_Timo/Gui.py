@@ -10,44 +10,44 @@ class Gui():
         # self.window.maxsize(self.window.winfo_screenwidth()/3, self.window.winfo_screenheight())
    
         self.frame = None
-        self.setCurrentStatementFrame
+        self.setcurrentstatementframe
         self.frames = {}
         self.values = {}
 
     #add slider with given min and max values
-    def addSlider(self, name, minVal, maxVal, orientation):
+    def addslider(self, name, minVal, maxVal, orientation):
         slider = tk.Scale(self.window, from_=minVal, to=maxVal, orient=orientation)
         self.sliders[name] = slider
         slider.pack()
 
-    def removeSlider(self, name):
+    def removeslider(self, name):
         if name in self.sliders:
             self.sliders[name].destroy()
             del self.sliders[name]
 
-    def addSpinBox(self, name, minVal, maxVal):
-        spinBox = tk.Spinbox(self.window, from_=minVal, to=maxVal)
+    def addspinbox(self, name, minVal, maxVal):
+        spinbox = tk.Spinbox(self.window, from_=minVal, to=maxVal)
         self.spinBoxes[name] = spinBox
-        spinBox.pack()
+        spinbox.pack()
 
-    def removeSpinBox(self, name):
-        if name in self.spinBoxes:
+    def removespinbox(self, name):
+        if name in self.spinboxes:
             self.spinBoxes[name].destroy()
             del self.spinBoxes[name]
 
-    def addDropDown(self, name, items):
+    def adddropdown(self, name, items):
         var = tk.StringVar(self.window)
         var.set(items[0])
-        dropDown = apply(tk.OptionMenu, (self.window, var) + tuple(items))
-        self.dropDowns[name] = dropDown
+        dropdown = apply(tk.OptionMenu, (self.window, var) + tuple(items))
+        self.dropdowns[name] = dropDown
         dropDown.pack()
 
-    def removeDropDown(self, name):
+    def removedropdown(self, name):
         if name in self.dropDowns:
-            self.dropDowns[name].destroy()
-            del self.dropDowns[name]
+            self.dropdowns[name].destroy()
+            del self.dropdowns[name]
 
-    def addBooleanQuestion(self, name, question, text1, text2, updateFunction, var=None):
+    def addbooleanquestion(self, name, question, text1, text2, updateFunction, var=None):
         if not var:
             var = tk.IntVar()
             var.trace("w", updateFunction)
@@ -68,10 +68,10 @@ class Gui():
 
         return frame
 
-    def addIntQuestion(self, name, question, updateFunction, var=None):
+    def addintquestion(self, name, question, update_function, var=None):
         if not var:
             var = tk.StringVar()
-            var.trace('w', lambda nm, idx, mode, var=var: self.validateForm(updateFunction))
+            var.trace('w', lambda nm, idx, mode, var=var: self.validateForm(update_function))
         
         frame = tk.Frame(self.window, height=2)
         frame.pack(expand=False, fill='both')
@@ -79,7 +79,7 @@ class Gui():
         label = tk.Label(frame, text=question, height=2)
         label.pack(side=LEFT)
 
-        entry = tk.Entry(frame, textvariable=var,validatecommand=self.validateForm)
+        entry = tk.Entry(frame, textvariable=var,validatecommand=self.validateform)
         entry.pack(side=LEFT)
 
         self.values[name] = var
@@ -87,7 +87,7 @@ class Gui():
 
         return frame
 
-    def removeQuestion(self, name):
+    def removequestion(self, name):
         if name in self.frames:
             self.frames[name].destroy()
             del self.frames[name]
@@ -95,28 +95,15 @@ class Gui():
         if name in self.questions:
             del self.questions[name]
 
-    def setCurrentStatementFrame(self):
+    def setcurrentstatementframe(self):
         frame = tk.Frame(self.window)
         frame.pack(expand=False, fill='both')
         self.frame = frame
         return frame
 
-    def addFormButton(self, parseFunction, ast):
-        button = tk.Button(self.window, text="Submit")
-        button.config(command= lambda: parseFunction(ast, button))
-        button.pack()
-
-        return
-
-    def newFrame(self):
-        if self.frame:
-            return tk.Frame(self.frame)
-        else:
-            return tk.Frame(self.window)
-
-    def addAssignment(self, varName, name, result):
+    def addassignment(self, var_name, name, result):
         var = tk.StringVar()
-        self.values[varName] = var
+        self.values[var_name] = var
         var.set(str(result))
         
         frame = tk.Frame(self.window, height=2)
@@ -130,19 +117,19 @@ class Gui():
         
         return frame
 
-    def getValue(self, varName, type):
+    def getvalue(self, var_name, type):
         if type == "int":
-            value = self.values[varName].get()
+            value = self.values[var_name].get()
             if value == '':
                 return 0
             else:
                 return int(value) 
         else:
-            return self.values[varName].get()
+            return self.values[var_name].get()
 
-    def updateText(self, varName, text):
-        if varName in self.values:
-            self.values[varName].set(text)
+    def updatetext(self, var_name, text):
+        if var_name in self.values:
+            self.values[var_name].set(text)
 
-    def validateForm(self, function):
+    def validateform(self, function):
         function()

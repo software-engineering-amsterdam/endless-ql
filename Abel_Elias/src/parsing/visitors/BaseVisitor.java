@@ -34,9 +34,6 @@ public class BaseVisitor extends QLBaseVisitor {
     // Node visitor
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
-        new VariableChecker(questionMap, ctx.block());
-        new TypeChecker(questionMap, ctx.block());
-
         visitChildren(ctx);
         return questionMap;
     }

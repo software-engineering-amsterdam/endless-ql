@@ -1,7 +1,7 @@
 ﻿using System;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
-namespace QuestionaireOrchestration.API
+namespace QuestionaireOrchestration.Models
 {
     public class ModelReference<T> where T : IOutputItem
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 
@@ -41,7 +42,7 @@ namespace QuestionnaireDomain.Entities.Domain
         public void Add<T>(Guid variableRef, T value)
         {
             ValidateType(typeof(T));
-            if (!m_symbols.ContainsKey(variableRef))
+            if (m_symbols.ContainsKey(variableRef))
             {
                 return;
             }
@@ -63,7 +64,12 @@ namespace QuestionnaireDomain.Entities.Domain
             ValidateType(typeof(T));
             if (m_symbols.ContainsKey(variableRef))
             {
-                m_symbols[variableRef].Value = value;
+                var newDataType = typeof(T);
+                var originalDataType = m_symbols[variableRef].Type;
+                m_symbols[variableRef].Value = TypeConvert(
+                    newDataType, 
+                    originalDataType, 
+                    value);
             }
             else
             {
@@ -71,6 +77,42 @@ namespace QuestionnaireDomain.Entities.Domain
             }
         }
 
+        private object TypeConvert<T>(Type newDataType, Type originalDataType, T value)
+        {
+            if (newDataType == originalDataType)
+            {
+                return value;
+            }
+
+            if (newDataType.IsSubclassOf(originalDataType))
+            {
+                return value;
+            }
+
+            if (newDataType == typeof(string))
+            {
+                if (originalDataType == typeof(int))
+                {
+                    return int.Parse(value as string);
+                }
+
+                if (originalDataType == typeof(DateTime))
+                {
+                    return DateTime.Parse(value as string, CultureInfo.InvariantCulture);
+                }
+                
+                if (originalDataType == typeof(decimal))
+                {
+                    return decimal.Parse(value as string);
+                }
+            }
+
+            throw new ArgumentException(
+                $@"tried to put a type of '{newDataType}' with a value '{value}' into a variable of type {
+                        originalDataType
+                    }");
+        }
+        
         public bool Exists<T>(Guid variableRef)
         {
             var type = typeof(T);
@@ -95,7 +137,13 @@ namespace QuestionnaireDomain.Entities.Domain
                 .Value
                 ?.Value;
 
-            return (T) (value ?? default(T));
+            if (value == null)
+            {
+                Add(variableRef, default(T));
+                value = default(T);
+            }
+
+            return (T) value;
         }
     }
 }

@@ -3,7 +3,7 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
-    public interface IQuestionnaireModelCreator
+    public interface IQuestionnaireOutputCreator
     {
         bool Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode);
         void Create(Reference<IQuestionnaireRootNode> questionnaireRootNode);

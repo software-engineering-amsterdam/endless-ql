@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Prism.Events;
-using QuestionaireOrchestration.API;
+using QuestionaireOrchestration.Commands;
+using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireInfrastructure.API;
 
 namespace QuestionnaireWPFApp.ViewModels
@@ -16,8 +17,12 @@ namespace QuestionnaireWPFApp.ViewModels
         private readonly IQuestionnaireQueryService m_questionnaireQueryService;
         private readonly ICommandBus m_commandBus;
 
-        public ObservableCollection<NavigationItemViewModel> NavigationItems { get; set;  } 
-            = new ObservableCollection<NavigationItemViewModel>();
+        public ObservableCollection<ResponseNavigationItemViewModel> ResponseNavigationItems { get; set;  } 
+            = new ObservableCollection<ResponseNavigationItemViewModel>();
+
+        public ObservableCollection<DefinitionItemViewModel> DefinitionNavigationItems { get; set; } = 
+            new ObservableCollection<DefinitionItemViewModel>();
+
 
         public NavigationViewModel(
             IEventAggregator eventAggregator,
@@ -31,17 +36,23 @@ namespace QuestionnaireWPFApp.ViewModels
 
         public void Load()
         {
-            NavigationItems.Clear();
+            DefinitionNavigationItems.Clear();
+            ResponseNavigationItems.Clear();
+
             var command = new LoadQuestionnaireDefinitionsCommand();
             m_commandBus.Send(command);
             foreach (var questionnaire in m_questionnaireQueryService.GetAll())
             {
-                NavigationItems.Add(
-                    new NavigationItemViewModel(
+                ResponseNavigationItems.Add(
+                    new ResponseNavigationItemViewModel(
                         questionnaire.Id,
                         questionnaire.DisplayValue,
                         m_eventAggregator));
             }
         }
+    }
+
+    public class DefinitionItemViewModel
+    {
     }
 }

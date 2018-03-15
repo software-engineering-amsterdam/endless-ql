@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using QuestionaireOrchestration.Models;
+using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -7,25 +9,25 @@ using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireInfrastructure.API;
 
-namespace QuestionaireOrchestration.API
+namespace QuestionaireOrchestration.QueryServices
 {
     internal class QuestionnaireQueryService : IQuestionnaireQueryService
     {
         private readonly IQuestionnaireDefinitionLoader m_definitionLoader;
         private readonly IQuestionnaireAstCreator m_astCreator;
         private readonly IDomainItemLocator m_domainItemLocator;
-        private readonly IQuestionnaireModelCreator m_modelCreator;
+        private readonly IQuestionnaireOutputCreator m_outputCreator;
 
-        public QuestionnaireQueryService(
+        internal QuestionnaireQueryService(
             IQuestionnaireDefinitionLoader definitionLoader,
             IQuestionnaireAstCreator astCreator,
             IDomainItemLocator domainItemLocator,
-            IQuestionnaireModelCreator modelCreator)
+            IQuestionnaireOutputCreator outputCreator)
         {
             m_definitionLoader = definitionLoader;
             m_astCreator = astCreator;
             m_domainItemLocator = domainItemLocator;
-            m_modelCreator = modelCreator;
+            m_outputCreator = outputCreator;
         }
 
         public IEnumerable<ModelReference<IQuestionnaireOutputItem>> GetAll()
@@ -35,20 +37,22 @@ namespace QuestionaireOrchestration.API
 
             if (!existingQuestionnaires.Any())
             {
-                var examples = m_definitionLoader.Load();
-                foreach (var example in examples)
-                {
-                    m_astCreator.Create(example);
-                }
+                //var examples = m_definitionLoader.Load();
+                //foreach (var example in examples)
+                //{
+                //    m_astCreator.Create(example);
+                //}
+                const string example = @"form PaulTest { q1: ""hello Q"" integer }";
+                m_astCreator.Create(example);
 
                 var questionnaireRefs = m_domainItemLocator
                     .GetAllRefs<IQuestionnaireRootNode>();
 
                 foreach (var questionnaireRootNode in questionnaireRefs)
                 {
-                    if (m_modelCreator.Validate(questionnaireRootNode))
+                    if (m_outputCreator.Validate(questionnaireRootNode))
                     {
-                        m_modelCreator.Create(questionnaireRootNode);
+                        m_outputCreator.Create(questionnaireRootNode);
                     }
                 }
 

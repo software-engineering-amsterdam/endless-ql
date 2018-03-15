@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Windows.Input;
 using Prism.Events;
 using QuestionnaireWPFApp.Commands;
@@ -6,7 +7,7 @@ using QuestionnaireWPFApp.Events;
 
 namespace QuestionnaireWPFApp.ViewModels
 {
-    public class NavigationItemViewModel
+    public class DefinitionNavigationItemViewModel
     {
         private readonly IEventAggregator m_eventAggregator;
         private string m_displayValue;
@@ -14,9 +15,9 @@ namespace QuestionnaireWPFApp.ViewModels
         public Guid QuestionnaireId { get; }
         public string DisplayValue { get; }
 
-        public NavigationItemViewModel(
-            Guid questionnaireId, 
-            string questionnaireDisplayValue, 
+        public DefinitionNavigationItemViewModel(
+            Guid questionnaireId,
+            string questionnaireDisplayValue,
             IEventAggregator eventAggregator)
         {
             QuestionnaireId = questionnaireId;

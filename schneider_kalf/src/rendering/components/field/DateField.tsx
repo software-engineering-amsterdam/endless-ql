@@ -21,8 +21,11 @@ export const DateField: React.SFC<MoneyFieldProps> = (props) => {
       <FormGroup>
         <Label for={props.field.identifier}>{props.field.label}</Label>
         <DatePicker
+            className="form-control"
             selected={(props.value) ? moment(props.value) : null}
             onChange={onChange}
+            locale="en-gb"
+            dateFormat="DD.MM.YYYY"
         />
       </FormGroup>
   );

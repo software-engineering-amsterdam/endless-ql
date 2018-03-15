@@ -1,6 +1,6 @@
 package org.uva.ql.validation.checker;
 
-import org.uva.ql.ast.expression.unary.*;
+import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.HashMap;

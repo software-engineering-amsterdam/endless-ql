@@ -1,7 +1,7 @@
 package org.uva.ql.validation;
 
 import org.uva.app.LogHandler;
-import org.uva.ql.ast.*;
+import org.uva.ql.ast.Form;
 import org.uva.ql.validation.checker.*;
 import org.uva.ql.validation.collector.ParameterMapping;
 import org.uva.ql.validation.collector.QuestionContext;
@@ -26,7 +26,7 @@ public class QLValidator {
 
         QuestionChecker questionChecker = new QuestionChecker(new QuestionContext(form).getQuestions());
         checkers.add(questionChecker);
-        
+
         ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(new QuestionContext(form).getQuestions()), new ParameterMapping(form).getParameterMapping());
         checkers.add(parameterChecker);
 

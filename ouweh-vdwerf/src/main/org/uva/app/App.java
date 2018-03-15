@@ -8,6 +8,7 @@ import org.uva.ql.evaluator.data.ValueTable;
 import org.uva.gui.GUIHandler;
 import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.QLValidator;
+import org.uva.ql.validation.collector.QuestionContext;
 import org.uva.qls.QLSBuilder;
 import org.uva.qls.ast.Stylesheet;
 import org.uva.qls.evaluator.StyleEvaluator;
@@ -37,7 +38,7 @@ public class App {
         QLValidator validator = new QLValidator(form);
         validator.run();
 
-        QLSValidator qlsValidator = new QLSValidator(validator.getQuestions(), stylesheet);
+        QLSValidator qlsValidator = new QLSValidator(new QuestionContext(form).getQuestions(), stylesheet);
 //        qlsValidator.run();
 
         FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);

@@ -7,7 +7,7 @@ using System;
 
 namespace QLVisualizer.Controllers
 {
-    public class ParseController
+    public class QLParseController
     {
         
         public Tuple<string[], FormManager> ParseQL(string rawQL, ElementManagerController elementManagerController)

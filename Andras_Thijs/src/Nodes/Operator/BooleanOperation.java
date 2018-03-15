@@ -1,22 +1,28 @@
 package Nodes.Operator;
 
 import Nodes.Term.Boolean;
+import QLExceptions.SyntaxException;
 
 public class BooleanOperation extends Operator {
-
 
     public BooleanOperation(String value){
         super(value);
     }
 
-    // TODO Use Term instead of Boolean
-    public Boolean calculate (Boolean left, Boolean right) {
+    // TODO Maybe use Term instead of Boolean and do typechecking inside the operator if it doesn't work this way.
+    /**
+     * Implements a Boolean operator (&& and ||)
+     * @param left left hand side of the operator
+     * @param right right hand side of the operator
+     * @return A new intermediary Boolean term with the result of the calculation
+     * @throws SyntaxException when the value of this Operator is not && or ||
+     */
+    public Boolean calculate(Boolean left, Boolean right) throws SyntaxException {
         if(this.getValue().equals("&&"))
             return new Boolean(left.getBoolean() && right.getBoolean());
         if(this.getValue().equals("||"))
             return new Boolean(left.getBoolean() && right.getBoolean());
 
-        // TODO throw exception if codes get here
-        return new Boolean(false);
+        throw new SyntaxException("Invalid boolean operator", this);
     }
 }

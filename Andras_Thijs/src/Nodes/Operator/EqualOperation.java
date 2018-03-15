@@ -2,6 +2,7 @@ package Nodes.Operator;
 
 import Nodes.Term.Boolean;
 import Nodes.Term.Term;
+import QLExceptions.*;
 
 public class EqualOperation extends  Operator{
 
@@ -9,15 +10,15 @@ public class EqualOperation extends  Operator{
         super(value);
     }
 
-    public Boolean calculate(Term left, Term right) {
-
+    public Boolean calculate(Term left, Term right) throws SyntaxException, TypeException {
         if(this.getValue().equals("=="))
             return new Boolean(left.getValue() == right.getValue());
 
         if(this.getValue().equals("!="))
             return new Boolean(left.getValue() != right.getValue());
 
-        // TODO throw error if code gets here
-        return new Boolean(left.getTerm() == right.getTerm());
+        //TODO: Typechecking!
+
+        throw new SyntaxException();
     }
 }

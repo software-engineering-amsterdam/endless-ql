@@ -94,7 +94,7 @@ public class FormTemplate {
 
         List<Question> questions;
 
-        if(condition.getExpression().getBoolean() || allQuestions){
+        if(condition.getResult().getBoolean() || allQuestions){
             questions = condition.getQuestions();
             List<Condition> conditions = condition.getConditions();
             Iterator<Condition> conditionIterator = conditions.iterator();

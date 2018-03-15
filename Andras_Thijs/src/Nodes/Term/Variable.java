@@ -3,6 +3,7 @@ package Nodes.Term;
 import Nodes.ASTNode;
 import Nodes.QLForm;
 import Nodes.Question;
+import QLExceptions.*;
 
 public class Variable extends Term {
     private String name;
@@ -21,12 +22,12 @@ public class Variable extends Term {
 
     /**
      * This function tries to find the value of the referenced Question.
-     * If that Question isn't answered yet, it throws an error to be caught by the calling Expression.
      * @return the value of the referenced Question.
-     * @throws ... if the Question isn't answered yet (caught by the Expression)
-     * @throws ... if the Question doesn't exist.
+     * @throws OtherException if the Question isn't answered yet (caught by the Question or Condition)
+     * @throws SyntaxException if the Variable references a Question that doesn't exist.
      */
-    public Term getTerm() {
+    @Override
+    public Term getTerm() throws OtherException, SyntaxException {
         // Get the QLForm node.
         ASTNode node = this.getParent();
         while(!(node instanceof QLForm))
@@ -38,7 +39,7 @@ public class Variable extends Term {
                 // return the result (Term) of the referenced Question.
                 Term result = q.getResult();
                 if(result == null) {
-                    throw new UnsupportedOperationException(); // TODO: Change this to a specific error
+                    throw new OtherException("Variable isn't set yet");
                 } else {
                     return result;
                 }
@@ -46,7 +47,7 @@ public class Variable extends Term {
         }
 
         // Throw exception if no variable is found.
-        throw new UnsupportedOperationException(); // TODO: Change this to a hard failure
+        throw new SyntaxException("A Variable was referenced that doesn't exist", this);
     }
 
     public float getValue() {

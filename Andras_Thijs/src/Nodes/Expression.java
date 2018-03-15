@@ -2,8 +2,8 @@ package Nodes;
 
 import Nodes.Operator.Operator;
 import Nodes.Operator.Not;
-import Nodes.Term.Boolean;
 import Nodes.Term.Term;
+import QLExceptions.*;
 
 /**
  * Contains a parsed, evaluable expression
@@ -12,12 +12,11 @@ public class Expression extends ASTNode {
     private Expression left;
     private Expression right;
     private Operator op;
-    private Term term;
 
     /**
      * Creates an empty expression
+     * This default is needed for the Term class
      */
-    // Default needed for Term class
     public Expression(){}
 
     // TODO make NOT operator obsolete
@@ -44,6 +43,10 @@ public class Expression extends ASTNode {
         this.op = op;
     }
 
+    /**
+     * This sets the parent of this Condition and it's children's parents
+     * @param parent this ASTNode's parent
+     */
     public void setParents(ASTNode parent) {
         setParent(parent);
         op.setParent(this);
@@ -55,17 +58,15 @@ public class Expression extends ASTNode {
     /**
      * Returns the calculated value of the expression
      * @return The calculated value of the expression
+     * @throws SyntaxException when an Operator is not a valid Operator
+     * @throws TypeException when Types don't match
+     * @throws OtherException when a Variable isn't set yet.
      */
-    public Term getTerm() {
+    public Term getTerm() throws SyntaxException, TypeException, OtherException {
         if (op instanceof Not) {
             return op.calculate(null, right.getTerm());
         } else {
             return op.calculate(left.getTerm(), right.getTerm());
         }
-    }
-
-    public boolean getBoolean() {
-        Boolean term = (Boolean) this.getTerm();
-        return term.getBoolean();
     }
 }

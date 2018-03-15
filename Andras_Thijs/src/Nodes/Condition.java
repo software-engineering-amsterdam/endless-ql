@@ -1,5 +1,9 @@
 package Nodes;
 
+import Nodes.Term.Term;
+import Nodes.Term.Boolean;
+import QLExceptions.*;
+
 import java.util.List;
 
 /**
@@ -9,6 +13,8 @@ public class Condition extends ASTNode {
     private Expression expression;
     private List<Question> questions;
     private List<Condition> conditions;
+
+    private Boolean result;
 
     /**
      * Creates an empty condition with just an expression
@@ -22,9 +28,9 @@ public class Condition extends ASTNode {
      * Creates a condition with an expression and a list of questions or conditions
      * @param expression contains an Expression
      * @param nodes contains either a list of Questions, or a list of Conditions
-     * @throws UnsupportedOperationException when the type is not Question or Condition
+     * @throws SyntaxException when the type is not Question or Condition
      */
-    public Condition(Expression expression, List<? extends ASTNode> nodes){
+    public Condition(Expression expression, List<? extends ASTNode> nodes) throws SyntaxException {
         this.expression = expression;
         ASTNode first = nodes.get(0);
         if(first instanceof Question) {
@@ -32,7 +38,7 @@ public class Condition extends ASTNode {
         } else if(first instanceof Condition) {
             this.conditions = (List<Condition>) nodes;
         } else {
-            throw new UnsupportedOperationException(); //TODO: Maybe change this?
+            throw new SyntaxException();
         }
     }
 
@@ -48,9 +54,21 @@ public class Condition extends ASTNode {
         this.conditions = conditions;
     }
 
-    public void setParents(QLForm parent) {
+    /**
+     * This sets the parent of this Condition and it's children's parents
+     * @param parent this ASTNode's parent
+     */
+    public void setParents(ASTNode parent) {
         setParent(parent);
         expression.setParents(this);
+
+        if(questions != null)
+            for(Question q : questions)
+                q.setParents(this);
+
+        if(conditions != null)
+            for(Condition c : conditions)
+                c.setParents(this);
     }
 
     /**
@@ -75,5 +93,26 @@ public class Condition extends ASTNode {
      */
     public List<Question> getQuestions() {
         return questions;
+    }
+
+    public Boolean getResult() { return result; }
+
+    /**
+     * Evaluates the expression of the question
+     * @throws TypeException when the resulting Term is not Boolean.
+     */
+    // This function evaluates the expression (which also does typechecking) and stores the resulting value
+    public void getExpressionValue() throws TypeException {
+        try {
+            Term result = expression.getTerm();
+            if (result.toString().equals("boolean")) {
+                this.result = (Boolean) result;
+            } else {
+                throw new TypeException(Type.BOOL, Type.getByCode(result.toString()));
+            }
+        } catch(OtherException e) {
+            // This is thrown when a Variable isn't set yet.
+            result = null;
+        }
     }
 }

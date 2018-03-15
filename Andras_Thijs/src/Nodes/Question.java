@@ -1,8 +1,7 @@
 package Nodes;
 
 import Nodes.Term.Term;
-
-import java.util.Date;
+import QLExceptions.*;
 
 /**
  * Contains a parsed question with name, label, type, and an expression if applicable
@@ -43,7 +42,11 @@ public class Question extends ASTNode {
         this.expression = expression;
     }
 
-    public void setParents(QLForm parent) {
+    /**
+     * This sets the parent of this Condition and it's children's parents
+     * @param parent this ASTNode's parent
+     */
+    public void setParents(ASTNode parent) {
         setParent(parent);
         if(expression != null)
             expression.setParents(this);
@@ -81,15 +84,20 @@ public class Question extends ASTNode {
 
     /**
      * Evaluates the expression of the question
-     * @throws UnsupportedOperationException when the Types don't match
+     * @throws TypeException when the Types don't match
      */
     // This function evaluates the expression (which also does typechecking) and stores the resulting value
-    public void getExpressionValue() throws UnsupportedOperationException {
-        Term result = expression.getTerm();
-        if(type.toString().equals(result.toString()) || ((type.toString().equals("money") || type.toString().equals("integer")) && result.toString().equals("float"))) {
-            this.result = result;
-        } else {
-            throw new UnsupportedOperationException(); // TODO: Change to some type error
+    public void getExpressionValue() throws TypeException {
+        try {
+            Term result = expression.getTerm();
+            if (type.toString().equals(result.toString()) || ((type.toString().equals("money") || type.toString().equals("integer")) && result.toString().equals("float"))) {
+                this.result = result;
+            } else {
+                throw new TypeException(type, Type.getByCode(result.toString()));
+            }
+        } catch(OtherException e) {
+            // This Exception is thrown when a Variable isn't set yet.
+            result = null;
         }
     }
 

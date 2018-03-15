@@ -2,6 +2,7 @@ package Nodes;
 
 import java.util.Iterator;
 import java.util.List;
+import QLExceptions.SyntaxException;
 
 /**
  * Contains a parsed QL form with the appropriate questions and conditions
@@ -25,7 +26,7 @@ public class QLForm extends ASTNode {
      * @param nodes contains either a list of Questions or a list of Conditions
      * @throws UnsupportedOperationException when the type is not Questions or Conditions
      */
-    public QLForm(String name, List<? extends ASTNode> nodes) {
+    public QLForm(String name, List<? extends ASTNode> nodes) throws SyntaxException {
         this.name = name;
         ASTNode first = nodes.get(0);
         if (first instanceof Question) {
@@ -33,7 +34,7 @@ public class QLForm extends ASTNode {
         } else if (first instanceof Condition) {
             this.conditions = (List<Condition>) nodes;
         } else {
-            throw new UnsupportedOperationException();
+            throw new SyntaxException("Received a List that doesn't contain Questions or Conditions", this);
         }
     }
 
@@ -53,12 +54,13 @@ public class QLForm extends ASTNode {
      * Initiates the parent variable for every child ASTNode.
      */
     public void setParents() {
-        for(Question q : questions) {
-            q.setParents(this);
-        }
-        for(Condition c : conditions) {
-            c.setParents(this);
-        }
+        if(questions != null)
+            for(Question q : questions)
+                q.setParents(this);
+
+        if(conditions != null)
+            for(Condition c : conditions)
+                c.setParents(this);
     }
 
     /**

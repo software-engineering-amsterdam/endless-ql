@@ -2,6 +2,7 @@ package Nodes.Term;
 
 import Nodes.ASTNode;
 import Nodes.Expression;
+import QLExceptions.*;
 
 public abstract class Term extends Expression {
     /**
@@ -16,7 +17,9 @@ public abstract class Term extends Expression {
      * Return itself when Expression.getTerm() is called with a Term on one side.
      */
     @Override
-    public Term getTerm() { return this; }
+    public Term getTerm() throws SyntaxException, OtherException {
+        return this;
+    }
 
     @Override
     public String toString() {

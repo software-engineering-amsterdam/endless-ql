@@ -1,5 +1,7 @@
 import AST.FormReader;
 import Nodes.QLForm;
+import QLExceptions.*;
+
 import java.io.IOException;
 
 public class Main {
@@ -13,6 +15,12 @@ public class Main {
             //formGUI.initGUI();
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SyntaxException e) {
+            // There's a syntax error!
+            e.printStackTrace();
+        } catch (TypeException e) {
+            // There's a Type error!
             e.printStackTrace();
         }
     }

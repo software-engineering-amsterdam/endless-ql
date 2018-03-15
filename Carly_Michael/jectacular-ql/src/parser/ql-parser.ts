@@ -166,7 +166,7 @@ function peg$parse(input, options) {
   const peg$c19 = "\"";
   const peg$c20 = peg$literalExpectation("\"", false);
   const peg$c21 = function(name, label, type) {
-                      return new ast.Question(name, label, type, location());
+                      return new ast.QlQuestion(name, label, type, location());
                     };
   const peg$c22 = "=";
   const peg$c23 = peg$literalExpectation("=", false);
@@ -285,16 +285,16 @@ function peg$parse(input, options) {
   const peg$c100 = peg$literalExpectation("\u2029", false);
   const peg$c101 = "boolean";
   const peg$c102 = peg$literalExpectation("boolean", false);
-  const peg$c103 = function() { return ast.QuestionType.BOOLEAN; };
+  const peg$c103 = function() { return new ast.BooleanQuestionType(); };
   const peg$c104 = "string";
   const peg$c105 = peg$literalExpectation("string", false);
-  const peg$c106 = function() { return ast.QuestionType.STRING; };
+  const peg$c106 = function() { return new ast.StringQuestionType(); };
   const peg$c107 = "integer";
   const peg$c108 = peg$literalExpectation("integer", false);
-  const peg$c109 = function() { return ast.QuestionType.INT; };
+  const peg$c109 = function() { return new ast.IntQuestionType(); };
   const peg$c110 = "date";
   const peg$c111 = peg$literalExpectation("date", false);
-  const peg$c112 = function() { return ast.QuestionType.DATE; };
+  const peg$c112 = function() { return new ast.DateQuestionType(); };
 
   let peg$currPos = 0;
   let peg$savedPos = 0;

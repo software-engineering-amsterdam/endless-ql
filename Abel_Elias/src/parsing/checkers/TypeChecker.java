@@ -1,7 +1,7 @@
 package parsing.checkers;
 
 import classes.Question;
-import parsing.errors.TypeError;
+import parsing.checkers.errors.TypeError;
 import parsing.gen.QLParser;
 import parsing.visitors.BaseVisitor;
 
@@ -19,7 +19,7 @@ public class TypeChecker extends BaseVisitor {
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
 
-        if(!haveSameType(visit(ctx.expression()).getClass(), (Class) visit(ctx.type()))){
+        if(!haveSameType(visit(ctx.expression()).getClass(), visit(ctx.type()).getClass())){
             throw new TypeError(id, ctx.type().getText());
         }
 
@@ -38,7 +38,7 @@ public class TypeChecker extends BaseVisitor {
     }
 
     @Override
-    public Object visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+    public Number visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
         String id = ctx.getText();
 
         if(!haveSameType(Number.class, getQuestion(id).getType())){

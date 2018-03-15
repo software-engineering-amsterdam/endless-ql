@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Assignment1.Model;
-using Microsoft.CSharp.RuntimeBinder;
+﻿using System.Collections.Generic;
+using Assignment1.Model.QL;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Assignment1Tests

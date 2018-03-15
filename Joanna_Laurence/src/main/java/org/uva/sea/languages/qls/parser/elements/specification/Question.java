@@ -24,7 +24,7 @@ public class Question extends Specification {
     }
 
     @Override
-    public <T> T accept(IStyleASTVisitor<T> visitor) throws InterruptedException {
+    public <T> T accept(IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

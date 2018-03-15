@@ -1,17 +1,8 @@
-import {parse, SyntaxError} from './ql-parser';
-import {Form, If, Question, QuestionType, Statement, Variable} from '../app/domain/ast/ql/index';
+import {parse} from './ql-parser';
+import {Form, If, QlQuestion, Statement, Variable} from '../app/domain/ast/ql/index';
 import {gen, check, property, sample, sampleOne} from 'testcheck';
 import * as mockInput from '../app/ql-mock-input';
-
-function questionTypeToString(type: QuestionType): string {
-  switch (type) {
-    case QuestionType.BOOLEAN: return 'boolean';
-    case QuestionType.DATE: return 'date';
-    case QuestionType.STRING: return 'string';
-    case QuestionType.INT: return 'integer';
-    default: console.log(`Unknown type ${type}`);
-  }
-}
+import {BooleanQuestionType, DateQuestionType, IntQuestionType, StringQuestionType} from '../app/domain/ast/question-type';
 
 function isValidAsciiString(str: string): boolean {
   return /^[\x00-\x7F]*$/.test(str);
@@ -33,10 +24,10 @@ describe('Test functions tests', () => {
   it('Should correctly calculate max depth', () => {
     expect(countMaxDepth([])).toBe(1);
 
-    const question: Question = new Question('name', 'label', QuestionType.BOOLEAN, null);
+    const question: QlQuestion = new QlQuestion('name', 'label', new BooleanQuestionType(), null);
     expect(countMaxDepth([question])).toBe(1);
 
-    const questionArray: Question[] = [];
+    const questionArray: QlQuestion[] = [];
     for (let i = 0; i < 256; i++) {
       questionArray.push(question);
     }
@@ -82,11 +73,12 @@ describe('Generated forms', () => {
     check(property(gen.intWithin(0, 50), x => {
       const formName = sampleOne(gen.alphaNumString.notEmpty());
       const questions = sample(gen.alphaNumString.notEmpty(), x * 2);
-      const types = sample(gen.intWithin(QuestionType.INT, QuestionType.DATE), x);
+      const typeGenerators = [gen.return('string'), gen.return('integer'), gen.return('date'), gen.return('boolean')];
+      const types = sample(gen.oneOf(typeGenerators), x);
       let form = `form ${formName} { \r\n`;
 
       for (let i = 0, n = 0; i < questions.length; i += 2, n++) {
-        form += `${questions[i]}: "${questions[i + 1]}" ${questionTypeToString(types[n])}\r\n`;
+        form += `${questions[i]}: "${questions[i + 1]}" ${types[n]}\r\n`;
       }
 
       form += ' }';
@@ -126,7 +118,8 @@ describe('Generated forms', () => {
       const formName = sampleOne(gen.string);
       const questions = sample(gen.string, x * 2);
       let validForm = true;
-      const types = sample(gen.intWithin(QuestionType.INT, QuestionType.DATE), x);
+      const typeGenerators = [gen.return('string'), gen.return('integer'), gen.return('date'), gen.return('boolean')];
+      const types = sample(gen.oneOf(typeGenerators), x);
 
       if (!isValidAsciiString(formName)) {
         validForm = false;
@@ -141,7 +134,7 @@ describe('Generated forms', () => {
       let form = `form ${formName} { \r\n`;
 
       for (let i = 0, n = 0; i < questions.length; i += 2, n++) {
-        form += `${questions[i]}: "${questions[i + 1]}" ${questionTypeToString(types[n])}\r\n`;
+        form += `${questions[i]}: "${questions[i + 1]}" ${types[n]}\r\n`;
       }
 
       form += ' }';
@@ -166,7 +159,7 @@ describe('The parser', () => {
     expect(output.statements.length).toBe(1);
     expect(output.statements[0].name).toBe('question');
     expect(output.statements[0].label).toBe('Question?');
-    expect(output.statements[0].type).toBe(QuestionType.BOOLEAN);
+    expect(output.statements[0].type).toEqual(new BooleanQuestionType());
   });
 
   it('Should parse form only with certain characters', () => {
@@ -180,14 +173,14 @@ describe('The parser', () => {
     expect(output.name).toBe('form');
     expect(output.statements.length).toBe(3);
     expect(output.statements[0].name).toBe('questionOne');
-    expect(output.statements[0].type).toBe(QuestionType.BOOLEAN);
+    expect(output.statements[0].type).toEqual(new BooleanQuestionType());
     expect(output.statements[0].label).toBe('Question1?');
     expect(output.statements[1].name).toBe('questionTwo');
     expect(output.statements[1].label).toBe('Question2?');
-    expect(output.statements[1].type).toBe(QuestionType.STRING);
+    expect(output.statements[1].type).toEqual(new StringQuestionType());
     expect(output.statements[2].name).toBe('questionThree');
     expect(output.statements[2].label).toBe('Question3?');
-    expect(output.statements[2].type).toBe(QuestionType.DATE);
+    expect(output.statements[2].type).toEqual(new DateQuestionType());
   });
 
   it('should parse a form with an if statement', () => {
@@ -197,14 +190,14 @@ describe('The parser', () => {
     expect(output.statements.length).toBe(2);
     expect(output.statements[0].name).toBe('question');
     expect(output.statements[0].label).toBe('Question?');
-    expect(output.statements[0].type).toBe(QuestionType.BOOLEAN);
+    expect(output.statements[0].type).toEqual(new BooleanQuestionType());
 
     const ifStatement = output.statements[1];
     expect(ifStatement.condition).toEqual(jasmine.any(Variable));
     expect(ifStatement.statements.length).toBe(1);
     expect(ifStatement.statements[0].name).toBe('questionIf');
     expect(ifStatement.statements[0].label).toBe('QuestionIf?');
-    expect(ifStatement.statements[0].type).toBe(QuestionType.INT);
+    expect(ifStatement.statements[0].type).toEqual(new IntQuestionType());
   });
 
   it('Should parse expression questions', () =>  {
@@ -214,10 +207,10 @@ describe('The parser', () => {
     expect(output.statements.length).toBe(2);
     expect(output.statements[0].name).toBe('question');
     expect(output.statements[0].label).toBe('Question?');
-    expect(output.statements[0].type).toBe(QuestionType.INT);
+    expect(output.statements[0].type).toEqual(new IntQuestionType());
     expect(output.statements[1].name).toBe('exprQuestion');
     expect(output.statements[1].label).toBe('Expression?');
-    expect(output.statements[1].type).toBe(QuestionType.INT);
+    expect(output.statements[1].type).toEqual(new IntQuestionType());
   });
 
   it('Should parse after incorrect input', () =>  {
@@ -228,10 +221,10 @@ describe('The parser', () => {
     expect(output.statements.length).toBe(2);
     expect(output.statements[0].name).toBe('question');
     expect(output.statements[0].label).toBe('Question?');
-    expect(output.statements[0].type).toBe(QuestionType.INT);
+    expect(output.statements[0].type).toEqual(new IntQuestionType());
     expect(output.statements[1].name).toBe('exprQuestion');
     expect(output.statements[1].label).toBe('Expression?');
-    expect(output.statements[1].type).toBe(QuestionType.INT);
+    expect(output.statements[1].type).toEqual(new IntQuestionType());
   });
 
   it('should parse an expression with a variable', () => {

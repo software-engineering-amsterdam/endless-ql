@@ -48,16 +48,15 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#question.
     def enterQuestion(self, ctx:QLParser.QuestionContext):
-        # print(ctx.getText())
-
-        completequestion = ctx.getText()
-        splitquestion = completequestion.split('"')  # Filters the actual question from the input string
-        question = splitquestion[1]
-        datatype = splitquestion[2].split(":")[1]  # Filters datatype from the question string
+        children = ctx.getChildren()
+        question = children.__next__().getText()
+        questionID = children.__next__().getText()
+        children.__next__()
+        datatype= children.__next__().getText()
 
         choices = ['Yes', 'No']  # Default choices; todo: move to appropriate location.
 
-        self.outputWindow.outputlayout.addWidget(QtWidgets.QLabel(question))
+        self.outputWindow.outputlayout.addWidget(QtWidgets.QLabel(question))  # todo: reduce interactions with outputwindow
         self.outputWindow.questions.append(question)
         self.outputWindow.answers.append('undefined')  # Default answer
 
@@ -83,7 +82,6 @@ class QLListener(ParseTreeListener):
             self.outputWindow.outputlayout.addWidget(textbox, self.outputWindow.row, 1)
 
         self.outputWindow.row += 1
-
         # print(ctx.getText())
         # self.outputWindow.add_question(ctx.getText())
 

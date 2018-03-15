@@ -40,6 +40,15 @@ export class AppComponent {
       this.qlsStylesheet = parseResult.styles;
       // make form
       this.questions = this.qlForm.toFormQuestion();
+      // loop over questions, update widget types
+
+      if (this.qlsStylesheet) {
+        for (const qlsQuestion of this.qlsStylesheet.getQuestions([])) {
+          const qlQuestion = this.questions.find(q => q.key === qlsQuestion.question.name);
+          qlQuestion.widget.type = qlsQuestion.widget.type;
+        }
+      }
+
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.errorMessage = undefined;
     } catch (e) {

@@ -28,7 +28,7 @@ ifElseStatement = whitespace comment* whitespace "if" whitespace "(" whitespace 
 question   = whitespace comment* whitespace name:identifier ":" whitespace "\"" whitespace
                   label:text "\"" whitespace
                   type: type whitespace {
-                    return new ast.Question(name, label, type, location());
+                    return new ast.QlQuestion(name, label, type, location());
                   }
 
 expressionQuestion    = whitespace comment* whitespace name:identifier ":" whitespace "\"" whitespace
@@ -166,7 +166,7 @@ comment         = "//" (!lineTerminator .)*
 lineTerminator  = "\n" / "\r\n" / "\r" / "\u2028" / "\u2029"
 
 //types
-booleanType     = "boolean" { return ast.QuestionType.BOOLEAN; }
-stringType      = "string" { return ast.QuestionType.STRING; }
-integerType     = "integer" { return ast.QuestionType.INT; }
-dateType        = "date" { return ast.QuestionType.DATE; }
+booleanType     = "boolean" { return new ast.BooleanQuestionType(); }
+stringType      = "string" { return new ast.StringQuestionType(); }
+integerType     = "integer" { return new ast.IntQuestionType(); }
+dateType        = "date" { return new ast.DateQuestionType(); }

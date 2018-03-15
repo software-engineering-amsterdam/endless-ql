@@ -1,6 +1,6 @@
 package org.uva.qls.validation;
 
-import org.uva.ql.validation.Checker;
+import org.uva.ql.validation.checker.Checker;
 import java.util.Collections;
 
 import java.util.List;

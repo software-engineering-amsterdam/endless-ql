@@ -1,9 +1,9 @@
 package gui.widgets;
 
 import javafx.scene.control.TextField;
-import ql.model.expression.variable.ExpressionVariableMoney;
+import ql.model.expression.Expression;
 
-public class MoneyWidget extends TextField implements WidgetInterface<ExpressionVariableMoney> {
+public class MoneyWidget extends TextField implements WidgetInterface{
 
     private final String name;
 
@@ -14,12 +14,12 @@ public class MoneyWidget extends TextField implements WidgetInterface<Expression
     }
 
     @Override
-    public void setExpression(ExpressionVariableMoney expression) {
+    public void setExpression(String value) {
 
     }
 
     @Override
-    public ExpressionVariableMoney getExpression() {
+    public Expression getExpression() {
         return null;
     }
 }

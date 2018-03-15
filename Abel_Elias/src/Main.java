@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import parsing.visitors.BaseVisitor;
 import parsing.gen.QLLexer;
 import parsing.gen.QLParser;
+import parsing.visitors.InitVisitor;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,7 +30,7 @@ public class Main {
             QLParser.FormContext tree = parser.form();
 
             //Call the visitor and build the tree
-            BaseVisitor builder = new BaseVisitor(tree);
+            InitVisitor builder = new InitVisitor(tree);
             HashMap<String, Question> memory = builder.getQuestions();
 
 //          Test output

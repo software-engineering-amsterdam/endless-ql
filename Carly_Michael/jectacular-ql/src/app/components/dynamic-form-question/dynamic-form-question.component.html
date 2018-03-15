@@ -5,7 +5,7 @@
 
     <div *ngIf="question.hiddenCondition(form)">
       <input *ngSwitchCase="'textbox'" [formControl]="control"
-             [id]="question.key" [type]="question.type" [ngStyle]="question.style" >
+             [id]="question.key" [type]="question.type" (change)="onTextboxChange(question, $event)" [ngStyle]="question.style" >
     </div>
 
     <div *ngIf="question.hiddenCondition(form)">

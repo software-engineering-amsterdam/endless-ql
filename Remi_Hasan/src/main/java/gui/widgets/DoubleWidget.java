@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 
 public class DoubleWidget extends Widget<TextField> {
 
-    public DoubleWidget(String name) {
+    public DoubleWidget(ChangeListener listener, String name) {
         super(name);
 
         TextField textField = new TextField();
@@ -17,6 +17,7 @@ public class DoubleWidget extends Widget<TextField> {
         textField.setTextFormatter(formatter);
 
         this.control = textField;
+        this.control.textProperty().addListener(listener);
     }
 
     @Override

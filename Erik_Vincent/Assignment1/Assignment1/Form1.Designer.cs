@@ -31,7 +31,10 @@
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
             this.openFileButton = new System.Windows.Forms.ToolStripButton();
             this._mainPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this._messagePanel = new System.Windows.Forms.FlowLayoutPanel();
+            this._questionFormPanel = new System.Windows.Forms.Panel();
             this.mainToolStrip.SuspendLayout();
+            this._mainPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainToolStrip
@@ -56,6 +59,8 @@
             // 
             this._mainPanel.AutoScroll = true;
             this._mainPanel.BackColor = System.Drawing.SystemColors.Control;
+            this._mainPanel.Controls.Add(this._messagePanel);
+            this._mainPanel.Controls.Add(this._questionFormPanel);
             this._mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._mainPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this._mainPanel.Location = new System.Drawing.Point(0, 25);
@@ -63,6 +68,25 @@
             this._mainPanel.Size = new System.Drawing.Size(784, 536);
             this._mainPanel.TabIndex = 0;
             this._mainPanel.WrapContents = false;
+            // 
+            // _messagePanel
+            // 
+            this._messagePanel.AutoSize = true;
+            this._messagePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._messagePanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this._messagePanel.Location = new System.Drawing.Point(3, 3);
+            this._messagePanel.Name = "_messagePanel";
+            this._messagePanel.Size = new System.Drawing.Size(0, 0);
+            this._messagePanel.TabIndex = 0;
+            // 
+            // _questionFormPanel
+            // 
+            this._questionFormPanel.AutoSize = true;
+            this._questionFormPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._questionFormPanel.Location = new System.Drawing.Point(3, 9);
+            this._questionFormPanel.Name = "_questionFormPanel";
+            this._questionFormPanel.Size = new System.Drawing.Size(0, 0);
+            this._questionFormPanel.TabIndex = 1;
             // 
             // Form1
             // 
@@ -73,10 +97,13 @@
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this._mainPanel);
             this.Controls.Add(this.mainToolStrip);
+            this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "Form1";
             this.Text = "Form1";
             this.mainToolStrip.ResumeLayout(false);
             this.mainToolStrip.PerformLayout();
+            this._mainPanel.ResumeLayout(false);
+            this._mainPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -86,6 +113,8 @@
         private System.Windows.Forms.ToolStrip mainToolStrip;
         private System.Windows.Forms.ToolStripButton openFileButton;
         private System.Windows.Forms.FlowLayoutPanel _mainPanel;
+        private System.Windows.Forms.FlowLayoutPanel _messagePanel;
+        private System.Windows.Forms.Panel _questionFormPanel;
     }
 }
 

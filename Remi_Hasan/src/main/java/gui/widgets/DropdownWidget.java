@@ -1,9 +1,12 @@
 package gui.widgets;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import qls.model.StyleSheet;
 
 import java.util.List;
 
@@ -11,8 +14,8 @@ public class DropdownWidget extends Widget {
 
     private final List<String> options;
 
-    public DropdownWidget(String name, List<String> options){
-        super(name);
+    public DropdownWidget(StyleSheet styleSheet, String name, ChangeListener<? super String> listener, List<String> options){
+        super(name, listener);
         this.options = options;
     }
 
@@ -29,6 +32,8 @@ public class DropdownWidget extends Widget {
 
         pane.getChildren().add(new Label(name));
         pane.getChildren().add(comboBox);
+
+        comboBox.valueProperty().addListener(listener);
 
         return pane;
     }

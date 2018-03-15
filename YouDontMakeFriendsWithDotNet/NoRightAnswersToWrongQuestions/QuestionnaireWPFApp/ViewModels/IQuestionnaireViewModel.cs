@@ -1,5 +1,6 @@
 ﻿using System;
 using QuestionnaireUI;
+using QuestionnaireUI.Models;
 
 namespace QuestionnaireWPFApp.ViewModels
 {

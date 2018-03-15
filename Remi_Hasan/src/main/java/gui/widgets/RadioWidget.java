@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -12,8 +13,8 @@ public class RadioWidget extends Widget {
 
     private final List<String> options;
 
-    public RadioWidget(String name, List<String> options){
-        super(name);
+    public RadioWidget(String name, ChangeListener<? super String> listener, List<String> options){
+        super(name, listener);
         this.options = options;
     }
 

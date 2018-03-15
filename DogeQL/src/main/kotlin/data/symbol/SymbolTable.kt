@@ -12,6 +12,14 @@ class SymbolTable {
     private val internalNamePrefix = "@__VAR__"
     private var internalNameIndex = 0
 
+    fun evaluateTable(){
+        symbols.forEach{_, symbol ->
+            if (symbol.expression != null){
+                symbol.evaluate(this)
+            }
+        }
+    }
+
     fun registerSymbol(type: SymbolType, value: Expression? = null): SymbolRegistrationResult {
         val name = nextFreeInternalName()
         return registerSymbol(name, type, value)

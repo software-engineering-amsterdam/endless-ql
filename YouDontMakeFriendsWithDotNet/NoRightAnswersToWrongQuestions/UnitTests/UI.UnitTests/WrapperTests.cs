@@ -8,27 +8,41 @@ namespace UnitTests.UI.UnitTests
     public class WrapperTests
     {
         private QuestionnaireModel m_questionnaire;
+        private QuestionModel m_inputQuestion1;
+        private QuestionModel m_inputQuestion2;
 
         [SetUp]
         public void Init()
         {
-            m_questionnaire = new QuestionnaireModel
-            {
-                QuestionnaireDisplayName = "TestQuestionaire",
-                QuestionnaireId = new Guid("E746E1F1-0A3A-400E-9824-C28427D51CD6")
-            };
+            m_questionnaire = new QuestionnaireModel(
+                new Guid("E746E1F1-0A3A-400E-9824-C28427D51CD6"),
+                "TestQuestionaire");
+
+            m_inputQuestion1 = new QuestionModel(
+                new Guid("40E98F85-949C-48F0-8194-CECEEBD0177F"),
+                "int input question",
+                true,
+                false,
+                typeof(int));
+
+            m_inputQuestion2 = new QuestionModel(
+                new Guid("9568D4CB-7287-4431-9810-E95A83D050EB"),
+                "string input question",
+                true,
+                false,
+                typeof(string));
         }
 
 
         [Test]
-        public void WhenGivenModel_ShouldbeContainedInModelProperty()
+        public void WhenQuestionnaireWrapperGivenModel_ShouldbeContainedInModelProperty()
         {
             var wrapper = new QuestionnaireWrapper(m_questionnaire);
             Assert.AreEqual(expected: m_questionnaire, actual: wrapper.Model);
         }
-
+        
         [Test]
-        public void WhenGivenNullModel_ShouldThrowArgumentNullException()
+        public void WhenQuestionnaireWrapperGivenNullModel_ShouldThrowArgumentNullException()
         {
             var constraint = Is.TypeOf<ArgumentNullException>()
                 .And
@@ -38,64 +52,71 @@ namespace UnitTests.UI.UnitTests
             Assert.Throws(constraint, () => new QuestionnaireWrapper(null));
         }
 
-        //[Test]
-        //public void WhenQuestionnaireNameIsNull_ShouldThrowArgumentNullException()
-        //{
-        //    var constraint = Is.TypeOf<ArgumentException>()
-        //        .And
-        //        .Message
-        //        .EqualTo("questionnaire name cannot be null");
+        [Test]
+        public void WhenQuestionnaireWrapperHasModel_ShouldGetUnderlyingModelValues()
+        {
+            m_questionnaire.Questions.Add(m_inputQuestion1);
+            var wrapper = new QuestionnaireWrapper(m_questionnaire);
+            Assert.AreEqual(
+                expected: m_questionnaire.QuestionnaireId,
+                actual: wrapper.QuestionnaireId);
+            Assert.AreEqual(
+                expected: m_questionnaire.QuestionnaireDisplayName,
+                actual: wrapper.QuestionnaireDisplayName);
 
-        //    m_questionnaire.Name = null;
-        //    Assert.Throws(constraint, () => new QuestionnaireWrapper(m_questionnaire));
-        //}
+            Assert.AreEqual(
+                expected: m_questionnaire.Questions.Count,
+                actual: wrapper.Questions.Count);
+        }
 
+        [Test]
+        public void WhenQuestionWrapperGivenModel_ShouldbeContainedInModelProperty()
+        {
+            var wrapper = new QuestionWrapper(m_inputQuestion1);
+            Assert.AreEqual(expected: m_inputQuestion1, actual: wrapper.Model);
+        }
 
-        //[Test]
-        //public void WhenCalculatedQuestionTextIsNull_ShouldThrowArgumentNullException()
-        //{
-        //    var constraint = Is.TypeOf<ArgumentNullException>()
-        //        .And
-        //        .Property(nameof(ArgumentNullException.ParamName))
-        //        .EqualTo("Text");
+        [Test]
+        public void WhenQuestionWrapperGivenNullModel_ShouldThrowArgumentNullException()
+        {
+            var constraint = Is.TypeOf<ArgumentNullException>()
+                .And
+                .Property(nameof(ArgumentNullException.ParamName))
+                .EqualTo("model");
 
-        //    m_calculatedQuestion.Text = null;
-        //    Assert.Throws(constraint, () => new CalculatedQuestionWrapper(m_calculatedQuestion));
-        //}
+            Assert.Throws(constraint, () => new QuestionWrapper(null));
+        }
 
-        //[Test]
-        //public void WhenCalculatedQuestionValueIsNull_ShouldThrowArgumentNullException()
-        //{
-        //    var constraint = Is.TypeOf<ArgumentNullException>()
-        //        .And
-        //        .Property(nameof(ArgumentNullException.ParamName))
-        //        .EqualTo("Value");
-
-        //    m_calculatedQuestion.Value = null;
-        //    Assert.Throws(constraint, () => new CalculatedQuestionWrapper(m_calculatedQuestion));
-        //}
-
-
-        //[Test]
-        //public void WhenAskingForUnderlyinModelsName_ShouldReturnCorrectValue()
-        //{
-        //    var questionaireName = "Fred";
-        //    m_questionnaire.Name = questionaireName;
-        //    var wrapper = new QuestionnaireWrapper(m_questionnaire);
-        //    Assert.AreEqual(
-        //        expected: questionaireName,
-        //        actual: wrapper.Name);
-        //}
-
-        //[Test]
-        //public void WhenAskingForUnderlyinModelsCalculatedValue_ShouldReturnCorrectValue()
-        //{
-        //    var calculatedValue = "987";
-        //    m_calculatedQuestion.Value = calculatedValue;
-        //    var wrapper = new CalculatedQuestionWrapper(m_calculatedQuestion);
-        //    Assert.AreEqual(
-        //        expected: calculatedValue,
-        //        actual: wrapper.Value);
-        //}
+        [Test]
+        public void WhenQuestionWrapperHasModel_ShouldGetUnderlyingModelValues()
+        {
+            var wrapper = new QuestionWrapper(m_inputQuestion1);
+            Assert.AreEqual(
+                expected: m_inputQuestion1.QuestionId,
+                actual: wrapper.QuestionId);
+            Assert.AreEqual(
+                expected: m_inputQuestion1.QuestionText,
+                actual: wrapper.QuestionText);
+            Assert.AreEqual(
+                expected: m_inputQuestion1.QuestionType,
+                actual: wrapper.QuestionType);
+            Assert.AreEqual(
+                expected: m_inputQuestion1.ReadOnly,
+                actual: wrapper.ReadOnly);
+            Assert.AreEqual(
+                expected: m_inputQuestion1.Visible,
+                actual: wrapper.Visible);
+            m_inputQuestion1.Value = "10";
+            Assert.AreEqual(
+                expected: m_inputQuestion1.Value,
+                actual: wrapper.Value);
+        }
+        
+        [Test]
+        public void WhenUpdatingQuestionWrapper_ShouldSetUnderlyingModelValues()
+        {
+            var wrapper = new QuestionWrapper(m_inputQuestion1) {Value = "100"};
+            Assert.AreEqual(expected: "100", actual:m_inputQuestion1.Value);
+        }
     }
 }

@@ -4,7 +4,6 @@ import QuestionareLanguageParser
 import QuestionareLanguageParserBaseListener
 import data.question.Question
 import data.question.SymbolType
-import data.symbol.SymbolRegistrationResult
 import data.symbol.SymbolTable
 import data.value.*
 import expression.BinaryExpression
@@ -19,7 +18,7 @@ import java.math.BigDecimal
 class DogeListener : QuestionareLanguageParserBaseListener() {
 
     private val expressionBuilder = ExpressionBuilder()
-    private val symbolTable = SymbolTable()
+    val symbolTable = SymbolTable()
     private val formTreeBuilder = FormTreeBuilder(symbolTable)
 
     private var ifStatementDepth = 0
@@ -191,7 +190,7 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
     private fun pushReferenceExpression(name: String) {
         expressionBuilder.push(
-                ReferenceExpression(name, SymbolType.Undecided)
+                ReferenceExpression(name, SymbolType.UNDEFINED)
         )
     }
 

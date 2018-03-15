@@ -1,10 +1,9 @@
 import gui.FormBuilder;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import parsing.AST_Visitor;
+import parsing.visitors.BaseVisitor;
 import parsing.gen.QLLexer;
 import parsing.gen.QLParser;
-import typechecking.TypeChecker;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +12,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 public class Main {
-
     /**
      * parse and build the form file
      * @param inputStream - input stream of the given form file
@@ -29,17 +27,17 @@ public class Main {
             QLParser.FormContext tree = parser.form();
 
             //Call the visitor and build the tree
-            AST_Visitor builder = new AST_Visitor();
-            HashMap memory = (HashMap) builder.visit(tree);
+            BaseVisitor builder = new BaseVisitor(tree);
+            HashMap questionHashMap = builder.getQuestions();
 
-            //Test output
-            //Iterator it = memory.entrySet().iterator();
-            //while (it.hasNext()) {
-            //      Map.Entry pair = (Map.Entry)it.next();
-            //      System.out.println(pair.getKey() + " = " + pair.getValue());
-            //      it.remove();
-            //}
-            System.out.println("done");
+//          Test output
+//            Iterator it = memory.entrySet().iterator();
+//            while (it.hasNext()) {
+//                  Map.Entry pair = (Map.Entry)it.next();
+//                  System.out.println(pair.getKey() + " = " + pair.getValue());
+//                  it.remove();
+//            }
+            //System.out.println("done");
 
             //Construct the form
             //ParseTree parseTree = parser.form();
@@ -49,12 +47,12 @@ public class Main {
             //Trees.inspect(tree, parser);
 
             //Do typechecking
-            TypeChecker typeChecker = new TypeChecker();
+            //TypeChecker typeChecker = new TypeChecker();
             //typeChecker.initTypeChecking(form);
 
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder(builder);
-            formBuilder.initComponents(memory);
+            FormBuilder formBuilder = new FormBuilder(builder, questionHashMap);
+            formBuilder.initComponents();
 
         } catch (IOException e) {
             e.printStackTrace();

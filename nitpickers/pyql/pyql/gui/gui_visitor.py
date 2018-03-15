@@ -10,7 +10,7 @@ from pyql.ast.form.ql_statements import IfElse
 from pyql.ast.ast import ASTNode
 from pyql.ast.expression.expressions import Identifier
 from pyql.util.types import Type
-from pyql.static_analysis.expression_visitor import ExpressionVisitor
+from pyql.static_analysis.expression_evaluator import ExpressionEvaluator
 from pyql.gui.window import Window
 
 from pyql.gui.widgets.widget_factory import WidgetFactory
@@ -18,7 +18,7 @@ from pyql.gui.widgets.widget_factory import WidgetFactory
 
 class GUIVisitor:
     def __init__(self, ast, symbol_table):
-        self._expression_visitor = ExpressionVisitor(symbol_table)
+        self._expression_visitor = ExpressionEvaluator(symbol_table)
         self._ast = ast
 
         root = tkinter.Tk()

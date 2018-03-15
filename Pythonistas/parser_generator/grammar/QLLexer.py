@@ -97,8 +97,8 @@ class QLLexer(Lexer):
     decisionsToDFA = [ DFA(ds, i) for i, ds in enumerate(atn.decisionToState) ]
 
     FORM = 1
-    IF_TOKEN = 2
-    ELSE_TOKEN = 3
+    IF_ = 2
+    ELSE_ = 3
     BOOLEAN = 4
     MONEY = 5
     BOOL = 6
@@ -140,15 +140,15 @@ class QLLexer(Lexer):
             "'+'", "'-'", "'>'", "'<'", "'<='", "'>='", "'=='", "'!='" ]
 
     symbolicNames = [ "<INVALID>",
-            "FORM", "IF_TOKEN", "ELSE_TOKEN", "BOOLEAN", "MONEY", "BOOL", 
-            "INT", "ID", "STRING", "COL", "BRACKETL", "BRACKETR", "PARL", 
-            "PARR", "EQUAL", "NOT", "AND", "OR", "ARITHMETIC_OP", "MUL", 
-            "DIV", "ADD", "SUB", "BOOLEAN_OP", "GT", "LT", "LTE", "GTE", 
-            "EQ", "NEQ", "SPACE", "NEWLINE", "OTHER" ]
+            "FORM", "IF_", "ELSE_", "BOOLEAN", "MONEY", "BOOL", "INT", "ID", 
+            "STRING", "COL", "BRACKETL", "BRACKETR", "PARL", "PARR", "EQUAL", 
+            "NOT", "AND", "OR", "ARITHMETIC_OP", "MUL", "DIV", "ADD", "SUB", 
+            "BOOLEAN_OP", "GT", "LT", "LTE", "GTE", "EQ", "NEQ", "SPACE", 
+            "NEWLINE", "OTHER" ]
 
-    ruleNames = [ "FORM", "IF_TOKEN", "ELSE_TOKEN", "BOOLEAN", "MONEY", 
-                  "BOOL", "INT", "ID", "STRING", "COL", "BRACKETL", "BRACKETR", 
-                  "PARL", "PARR", "EQUAL", "NOT", "AND", "OR", "ARITHMETIC_OP", 
+    ruleNames = [ "FORM", "IF_", "ELSE_", "BOOLEAN", "MONEY", "BOOL", "INT", 
+                  "ID", "STRING", "COL", "BRACKETL", "BRACKETR", "PARL", 
+                  "PARR", "EQUAL", "NOT", "AND", "OR", "ARITHMETIC_OP", 
                   "MUL", "DIV", "ADD", "SUB", "BOOLEAN_OP", "GT", "LT", 
                   "LTE", "GTE", "EQ", "NEQ", "SPACE", "NEWLINE", "OTHER" ]
 

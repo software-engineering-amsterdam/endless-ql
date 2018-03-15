@@ -1,26 +1,27 @@
 package gui.widgets;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-public class StringWidget extends Widget {
+public class StringWidget extends Widget<TextField> {
 
-    public StringWidget(String name) {
+    public StringWidget(ChangeListener listener, String name) {
         super(name);
+
+        this.control = new TextField();
+        this.control.textProperty().addListener(listener);
     }
 
     @Override
-    public Pane getUI() {
-        HBox pane = new HBox();
-        pane.setSpacing(20);
+    public void setValue(String value) {
+        this.control.setText(value);
+    }
 
-        TextField textField = new TextField();
-        pane.getChildren().add(new Label(name));
-        pane.getChildren().add(textField);
-
-        return pane;
+    @Override
+    public String getValue() {
+        return this.control.getText();
     }
 }

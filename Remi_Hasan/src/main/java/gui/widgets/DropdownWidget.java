@@ -1,35 +1,34 @@
 package gui.widgets;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 
 import java.util.List;
 
-public class DropdownWidget extends Widget {
+public class DropdownWidget extends Widget<ComboBox<String>> {
 
     private final List<String> options;
 
-    public DropdownWidget(String name, List<String> options){
+    public DropdownWidget(ChangeListener listener, String name, List<String> options) {
         super(name);
         this.options = options;
-    }
-
-
-    @Override
-    public Pane getUI() {
-        HBox pane = new HBox();
-        pane.setSpacing(20);
 
         ComboBox<String> comboBox = new ComboBox<>();
-        for(String option : options){
+        for (String option : options) {
             comboBox.getItems().add(option);
         }
 
-        pane.getChildren().add(new Label(name));
-        pane.getChildren().add(comboBox);
+        this.control = comboBox;
+        this.control.valueProperty().addListener(listener);
+    }
 
-        return pane;
+    @Override
+    public void setValue(String value) {
+        this.control.setValue(value);
+    }
+
+    @Override
+    public String getValue() {
+        return this.control.getValue();
     }
 }

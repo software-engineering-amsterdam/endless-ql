@@ -3,6 +3,7 @@ package expression
 import data.value.BaseSymbolValue
 import expression.operation.UnaryOperation
 import expression.visitor.evaluation.EvaluationVisitor
+import expression.visitor.reference.ReferenceCollector
 import expression.visitor.reference.ReferenceVisitor
 
 class UnaryExpression(val next: Expression, val operation: UnaryOperation) : Expression {
@@ -12,6 +13,10 @@ class UnaryExpression(val next: Expression, val operation: UnaryOperation) : Exp
     }
 
     override fun accept(visitor: ReferenceVisitor): Boolean {
+        return visitor.visit(this)
+    }
+
+    override fun accept(visitor: ReferenceCollector) {
         return visitor.visit(this)
     }
 

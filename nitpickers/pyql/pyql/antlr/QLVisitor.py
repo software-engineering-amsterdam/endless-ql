@@ -1,4 +1,4 @@
-# Generated from QL.g4 by ANTLR 4.7
+# Generated from QL.g4 by ANTLR 4.5.3
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .QLParser import QLParser
@@ -34,8 +34,13 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#question.
-    def visitQuestion(self, ctx:QLParser.QuestionContext):
+    # Visit a parse tree produced by QLParser#basicQuestion.
+    def visitBasicQuestion(self, ctx:QLParser.BasicQuestionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#computedQuestion.
+    def visitComputedQuestion(self, ctx:QLParser.ComputedQuestionContext):
         return self.visitChildren(ctx)
 
 
@@ -64,13 +69,8 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#basicMoneyType.
-    def visitBasicMoneyType(self, ctx:QLParser.BasicMoneyTypeContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLParser#computedMoneyType.
-    def visitComputedMoneyType(self, ctx:QLParser.ComputedMoneyTypeContext):
+    # Visit a parse tree produced by QLParser#moneyType.
+    def visitMoneyType(self, ctx:QLParser.MoneyTypeContext):
         return self.visitChildren(ctx)
 
 

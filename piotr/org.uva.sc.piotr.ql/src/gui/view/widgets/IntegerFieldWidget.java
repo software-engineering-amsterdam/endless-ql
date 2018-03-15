@@ -1,6 +1,6 @@
 package gui.view.widgets;
 
-import gui.model.FormQuestion;
+import gui.model.QuestionModel;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -13,9 +13,9 @@ public class IntegerFieldWidget extends Widget {
 
     private final JFormattedTextField field;
 
-    public IntegerFieldWidget(FormQuestion formQuestion) {
+    public IntegerFieldWidget(QuestionModel questionModel) {
 
-        super(formQuestion);
+        super(questionModel);
 
         NumberFormat format = NumberFormat.getIntegerInstance();
         format.setGroupingUsed(false);
@@ -26,7 +26,7 @@ public class IntegerFieldWidget extends Widget {
 
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
-        if (formQuestion.getAssignedExpression() != null) {
+        if (questionModel.getAssignedExpression() != null) {
             textField.setEditable(false);
         }
 
@@ -48,7 +48,7 @@ public class IntegerFieldWidget extends Widget {
             private void warn() {
                 String clearText = textField.getText().replaceAll("[^0-9]", "");
                 String safeText = clearText.equals("") ? "0" : clearText;
-                formQuestion.changeValue(Integer.parseInt(safeText));
+                questionModel.changeValue(Integer.parseInt(safeText));
             }
         });
 
@@ -62,6 +62,6 @@ public class IntegerFieldWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.field.setValue(this.getFormQuestion().getValue().getIntegerValue());
+        this.field.setValue(this.getQuestionModel().getValue().getIntegerValue());
     }
 }

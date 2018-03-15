@@ -12,17 +12,17 @@ import ast.model.expressions.unary.logical.Negation;
 import ast.model.expressions.values.Literal;
 import ast.model.expressions.values.VariableReference;
 import ast.visitors.AbstractASTTraverse;
-import gui.model.FormQuestion;
+import gui.model.QuestionModel;
 import logic.type.MixedValue;
 
 import java.util.List;
 
 public class ExpressionEvaluator extends AbstractASTTraverse<MixedValue> {
 
-    private final List<FormQuestion> formQuestions;
+    private final List<QuestionModel> questionModels;
 
-    public ExpressionEvaluator(List<FormQuestion> formQuestions) {
-        this.formQuestions = formQuestions;
+    public ExpressionEvaluator(List<QuestionModel> questionModels) {
+        this.questionModels = questionModels;
     }
 
     @Override
@@ -123,9 +123,9 @@ public class ExpressionEvaluator extends AbstractASTTraverse<MixedValue> {
 
     @Override
     public MixedValue visit(VariableReference variableReference) {
-        for(FormQuestion formQuestion: this.formQuestions) {
-            if (formQuestion.getVariableName().equals(variableReference.getName())) {
-                return formQuestion.getValue();
+        for(QuestionModel questionModel : this.questionModels) {
+            if (questionModel.getVariableName().equals(variableReference.getName())) {
+                return questionModel.getValue();
             }
         }
         return null;

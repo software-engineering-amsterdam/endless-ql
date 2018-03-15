@@ -12,4 +12,8 @@ abstract public class Expression extends ASTNode {
     protected Expression(MetaInformation metaInformation) {
         super(metaInformation);
     }
+
+    protected Expression() {
+        super();
+    }
 }

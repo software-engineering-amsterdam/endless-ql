@@ -5,13 +5,13 @@ public abstract class ExpressionNode extends Node{ }
 
 abstract class InfixExpressionNode extends ExpressionNode
 {
-    private Node Left;
+    private Node left;
     private Node Right;
 
-    public void setLeft (ExpressionNode left)   { this.Left = left; }
+    public void setLeft (ExpressionNode left)   { this.left = left; }
     public void setRight (ExpressionNode right) { this.Right = right; }
 
-    public Node getLeft ()    {  return this.Left;  }
+    public Node getLeft ()    {  return this.left;  }
     public Node getRight ()   {  return this.Right; }
 }
 

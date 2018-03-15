@@ -8,6 +8,10 @@ public class TypeDeclarationMoney extends TypeDeclaration {
         super(identifier, metaInformation);
     }
 
+    public TypeDeclarationMoney(String identifier) {
+        super(identifier);
+    }
+
     @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);

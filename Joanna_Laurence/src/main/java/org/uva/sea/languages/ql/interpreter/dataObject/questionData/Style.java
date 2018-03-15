@@ -41,7 +41,7 @@ public class Style {
             this.section = new ArrayList<>(style.section);
 
         if (this.widget.getWidgetType() == WidgetType.DEFAULT)
-            this.widget = new QLWidget(style.widget.widgetType, style.widget.getParameters());
+            this.widget = new QLWidget(style.widget.getWidgetType(), style.widget.getParameters());
     }
 
 

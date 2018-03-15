@@ -30,7 +30,7 @@ public class QLSEvaluateTest extends TestCase {
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
 
-        Collection<Object[]> testFiles = new ArrayList<Object[]>();
+        Collection<Object[]> testFiles = new ArrayList<>();
         testFiles.addAll(getTestFiles("src/test/resources/correctQLS/", true));
         testFiles.addAll(getTestFiles("src/test/resources/incorrectQLS/", false));
 
@@ -43,7 +43,7 @@ public class QLSEvaluateTest extends TestCase {
      * @return Map of test files and if they should be interpretable
      */
     private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
-        Collection<Object[]> testFiles = new ArrayList<Object[]>();
+        Collection<Object[]> testFiles = new ArrayList<>();
 
         Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
         for (String location : locations) {

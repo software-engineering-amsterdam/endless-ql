@@ -10,7 +10,7 @@ public class SpinnerWidget implements Widget {
     @Override
     public Control draw(BaseQuestionModel questionModel, FormController controller) {
         //TODO: get properties from Widget
-        Spinner<Integer> spinner = new Spinner<Integer>();
+        Spinner<Integer> spinner = new Spinner<>();
 
         final int initialValue = 3;
 

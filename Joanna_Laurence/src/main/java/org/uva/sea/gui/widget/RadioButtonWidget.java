@@ -15,12 +15,9 @@ public class RadioButtonWidget implements Widget {
         //TODO: check implementation
         RadioButton radioButton = new RadioButton();
 
-        radioButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newValue));
-            }
-        });
+        radioButton.selectedProperty().addListener(
+                (observable, oldValue, newValue) -> controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newValue))
+        );
 
         return radioButton;
 

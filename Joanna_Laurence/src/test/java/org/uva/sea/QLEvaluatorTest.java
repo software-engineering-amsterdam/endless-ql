@@ -15,10 +15,7 @@ import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -55,7 +52,7 @@ public class QLEvaluatorTest extends TestCase {
      */
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
-        Collection<Object[]> testFiles = new ArrayList<Object[]>();
+        Collection<Object[]> testFiles = new ArrayList<>();
         testFiles.addAll(getTestFiles("src/test/resources/calculateQL/", false, false));
         testFiles.addAll(getTestFiles("src/test/resources/runtimeErrorsQl/", true, false));
         testFiles.addAll(getTestFiles("src/test/resources/runtimeWarningsQl/", false, true));
@@ -69,7 +66,7 @@ public class QLEvaluatorTest extends TestCase {
      * @return Map of test files and if they should be interpretable
      */
     private static Collection<Object[]> getTestFiles(String folderLocation, boolean hasRuntimeError, boolean hasWarnings) {
-        Collection<Object[]> testFiles = new ArrayList<Object[]>();
+        Collection<Object[]> testFiles = new ArrayList<>();
 
         Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
         for (String location : locations) {
@@ -97,7 +94,7 @@ public class QLEvaluatorTest extends TestCase {
                 return Integer.parseInt(match);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            return 0;
         }
 
         return 0;

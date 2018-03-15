@@ -20,12 +20,9 @@ public class ChoiceBoxWidget implements Widget {
 
         choiceBox.setItems(booleanList);
 
-        choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                BooleanValue newBooleanValue = new BooleanValue(choiceBox.getItems().get((Integer) newValue));
-                controller.updateGuiModel(questionModel.getVariableName(), newBooleanValue);
-            }
+        choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            BooleanValue newBooleanValue = new BooleanValue(choiceBox.getItems().get((Integer) newValue));
+            controller.updateGuiModel(questionModel.getVariableName(), newBooleanValue);
         });
 
         return choiceBox;

@@ -131,6 +131,7 @@ class GuiBuilder():
             else:
                 left = self.parseBinOpAssignment(expression.left)
                 right = self.parseBinOpAssignment(expression.right)
+                print left, right
                 result = self.getOperator(expression.op)(left, right)
 
         if type(expression) is UnOpNode:

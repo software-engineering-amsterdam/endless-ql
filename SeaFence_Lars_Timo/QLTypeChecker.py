@@ -95,12 +95,20 @@ class QLTypeChecker(object):
             self.checkUndefinedVariables(statement.left)
             left_type = self.getVariableTypes(statement.left)
 
+        elif type(statement.left) is LiteralNode:
+            if statement.left.literal.isdigit():
+                left_type = INTEGER_UNICODE
+
         if type(statement.right) is BinOpNode:
             right_type = self.checkInvalidOperations(statement.right)
 
         elif type(statement.right) is UnOpNode:
             self.checkUndefinedVariables(statement.right)
             right_type = self.getVariableTypes(statement.right)
+
+        elif type(statement.right) is LiteralNode:
+            if statement.right.literal.isdigit():
+                right_type = INTEGER_UNICODE
 
         self.checkNegation(statement.left, left_type)
         self.checkNegation(statement.right, right_type)

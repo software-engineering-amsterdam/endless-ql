@@ -26,7 +26,7 @@ namespace QuestionnaireUI.Models
             set
             {
                 Model.Value = value;
-                RaisePropertyChanged(nameof(Value));
+                RaisePropertyChanged();
             }
         }
     }

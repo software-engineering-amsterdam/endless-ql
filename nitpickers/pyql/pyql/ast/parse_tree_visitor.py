@@ -8,16 +8,14 @@ from pyql.ast.expression.expressions import *
 from pyql.ast.expression.literals import *
 from pyql.util.types import *
 
+
 # TODO check if can get rid of 'if getChildCount() > 1'
 
 
 class ParseTreeVisitor(QLVisitor):
 
     def visitForm(self, ctx: QLParser.FormContext):
-        identifier = ctx.identifier().accept(self)
-        location = self.location(ctx)
-        block = ctx.block().accept(self)
-        return Form(identifier, location, block)
+        return Form(self.location(ctx), ctx.identifier().accept(self), ctx.block().accept(self))
 
     def visitIfStatement(self, ctx: QLParser.IfStatementContext):
         return If(self.location(ctx), ctx.expression().accept(self), ctx.block().accept(self))
@@ -32,11 +30,14 @@ class ParseTreeVisitor(QLVisitor):
     def visitStatement(self, ctx: QLParser.StatementContext):
         return self.visitChildren(ctx)
 
-    def visitQuestion(self, ctx: QLParser.QuestionContext):
-        questionType = ctx.questionType().accept(self)
-        if isinstance(questionType, Money) and questionType.expression is not None:
-            return ComputedQuestion(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(), Money(), questionType.expression)
-        return Question(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(), questionType)
+    def visitBasicQuestion(self, ctx: QLParser.BasicQuestionContext):
+        return Question(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(),
+                        ctx.questionType().accept(self))
+
+    def visitComputedQuestion(self, ctx: QLParser.ComputedQuestionContext):
+        return ComputedQuestion(self.location(ctx), ctx.identifier().accept(self), ctx.STRING(),
+                                ctx.questionType().accept(self),
+                                ctx.expression().accept(self))
 
     def visitBooleanType(self, ctx: QLParser.BooleanTypeContext):
         return Boolean()
@@ -53,43 +54,33 @@ class ParseTreeVisitor(QLVisitor):
     def visitDecimalType(self, ctx: QLParser.DecimalTypeContext):
         return Decimal()
 
-    def visitBasicMoneyType(self, ctx: QLParser.BasicMoneyTypeContext):
+    def visitMoneyType(self, ctx: QLParser.MoneyTypeContext):
         return Money()
-
-    def visitComputedMoneyType(self, ctx: QLParser.ComputedMoneyTypeContext):
-        return Money(ctx.addExpression().accept(self))
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):
         return self.visitChildren(ctx)
 
     def visitOrExpression(self, ctx: QLParser.OrExpressionContext):
         if ctx.getChildCount() > 1:
-            left = ctx.andExpression(0).accept(self)
-            right = ctx.andExpression(1).accept(self)
-            return Or(self.location(ctx), left, right)
+            return Or(self.location(ctx), ctx.andExpression(0).accept(self), ctx.andExpression(1).accept(self))
         return self.visitChildren(ctx)
 
     def visitAndExpression(self, ctx: QLParser.AndExpressionContext):
         if ctx.getChildCount() > 1:
-            left = ctx.relExpression(0).accept(self)
-            right = ctx.relExpression(1).accept(self)
-            return And(self.location(ctx), left, right)
+            return And(self.location(ctx), ctx.relExpression(0).accept(self), ctx.relExpression(1).accept(self))
         return self.visitChildren(ctx)
 
     def visitRelExpression(self, ctx: QLParser.RelExpressionContext):
         if ctx.getChildCount() > 1:
-            left = ctx.addExpression(0).accept(self)
-            right = ctx.addExpression(1).accept(self)
-            location = self.location(ctx)
-            return self.binaryExpressionFactory(location, left, right, self.binaryOperator(ctx))
+            return self.binaryExpressionFactory(self.location(ctx), ctx.addExpression(0).accept(self),
+                                                ctx.addExpression(1).accept(self), self.binaryOperator(ctx))
         return self.visitChildren(ctx)
 
     def visitAddExpression(self, ctx: QLParser.AddExpressionContext):
         if ctx.getChildCount() > 1:
             mulExpressions = [m.accept(self) for m in ctx.mulExpression()]
             operators = [o.accept(self) for o in ctx.addOperator()]
-            location = self.location(ctx)
-            return self.buildMultiaryExpression(location, mulExpressions, operators)
+            return self.buildMultiaryExpression(self.location(ctx), mulExpressions, operators)
         return self.visitChildren(ctx)
 
     def visitAddOperator(self, ctx: QLParser.AddOperatorContext):
@@ -99,25 +90,24 @@ class ParseTreeVisitor(QLVisitor):
         if ctx.getChildCount() > 1:
             unExpressions = [m.accept(self) for m in ctx.unExpression()]
             operators = [o.accept(self) for o in ctx.mulOperator()]
-            location = self.location(ctx)
-            return self.buildMultiaryExpression(location, unExpressions, operators)
+            return self.buildMultiaryExpression(self.location(ctx), unExpressions, operators)
         return self.visitChildren(ctx)
 
     def visitMulOperator(self, ctx: QLParser.MulOperatorContext):
         return ctx.getText()
 
-    def visitNegNotUnExpression(self, ctx:QLParser.NegNotUnExpressionContext):
+    def visitNegNotUnExpression(self, ctx: QLParser.NegNotUnExpressionContext):
         operator = ctx.getChild(0)
-        location = self.location(ctx)
         expression = ctx.unExpression().accept(self)
+        location = self.location(ctx)
         if str(operator) == '!':
             return Not(location, expression)
         return Multiplication(location, IntegerLiteral(location, -1), expression)
 
-    def visitPrimaryUnExpression(self, ctx:QLParser.PrimaryUnExpressionContext):
+    def visitPrimaryUnExpression(self, ctx: QLParser.PrimaryUnExpressionContext):
         return self.visitChildren(ctx)
 
-    def visitPrimary(self, ctx:QLParser.PrimaryContext):
+    def visitPrimary(self, ctx: QLParser.PrimaryContext):
         expression = ctx.expression()
         if expression:
             return expression.accept(self)

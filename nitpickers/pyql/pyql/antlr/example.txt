@@ -11,6 +11,6 @@ form Box1HouseOwning {
       }
       valueResidue: "Value residue:" money(sellingPrice - privateDebt)
    } else {
-      valueResidue: "Value residue:" money(age - privateDebt)
+      valueResidue: "Value residue:" integer(age - privateDebt)
    }
 }

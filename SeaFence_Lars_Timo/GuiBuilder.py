@@ -105,6 +105,9 @@ class GuiBuilder():
         if type(statement) is UnOpNode:
             return self.gui.getValue(statement.var, "int")
 
+        if type(statement) is LiteralNode:
+            return int(statement.literal)
+
     # Remove a frame and its content
     def removeFrame(self, var_frame):
         if var_frame in self.frames:
@@ -131,8 +134,9 @@ class GuiBuilder():
             else:
                 left = self.parseBinOpAssignment(expression.left)
                 right = self.parseBinOpAssignment(expression.right)
-                print left, right
                 result = self.getOperator(expression.op)(left, right)
+                return result
+
 
         if type(expression) is UnOpNode:
             if not expression.negate and self.gui.values[expression.var].get() == 1:

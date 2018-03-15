@@ -7,12 +7,18 @@ import parsing.gen.QLParser;
 
 public class InitVisitor extends BaseVisitor {
     // Reads out the initial AST and returns the questions that were found
+    public InitVisitor(QLParser.FormContext ctx){
+        super(ctx);
+        visitForm(ctx);
+    }
+
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
-        new VariableChecker(questionMap, ctx.block());
+        //new VariableChecker(questionMap, ctx.block());
         new TypeChecker(questionMap, ctx.block());
+        visit(ctx.block());
 
-        return visitChildren(ctx);
+        return questionMap;
     }
 
     @Override
@@ -53,30 +59,10 @@ public class InitVisitor extends BaseVisitor {
     }
 
     @Override
-    public Boolean visitCompOperation(QLParser.CompOperationContext ctx) {
-        Double left = (Double) visit(ctx.left);
-        String operator = ctx.comparisonOperator().getText();
-        Double right = (Double) visit(ctx.right);
-
-        switch (operator) {
-            case "<":
-                return left < right;
-            case ">":
-                return left > right;
-            case "!=":
-                return left != right;
-            case "==":
-                return left == right;
-        }
-
-        return null;
-    }
-
-    @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
-        Boolean input = (Boolean) visit(ctx.booleanExpression());
+        Boolean condition = (Boolean) visit(ctx.booleanExpression());
 
-        if(input){
+        if(condition){
             visit(ctx.block());
         }
 

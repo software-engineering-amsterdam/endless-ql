@@ -1,38 +1,24 @@
 import { FormGroup } from '@angular/forms';
-import {LiteralType} from '../ast';
+import {LiteralType} from '../ast/ql/index';
+import {Widget, WidgetType} from '../ast/qls';
 
 export class QuestionBase<T> {
-  value: T;
-  key: string;
-  label: string;
-  required: boolean;
-  order: number;
-  controlType: string;
+  order = 1;
+  readonly = false;
   style: {[key: string]: string};
-  hiddenCondition: (form: FormGroup) => LiteralType;
-  calculateValue: (form: FormGroup) => T;
-  readonly: boolean;
+  hiddenCondition: (form: FormGroup) => boolean;
+  calculateValue: (form: FormGroup) => T = (() => this.value);
+  widget: Widget;
 
-  constructor(options: {
-    value?: T,
-    key?: string,
-    label?: string,
-    required?: boolean,
-    order?: number,
-    controlType?: string,
-    hiddenCondition?: (form: FormGroup) => LiteralType,
-    calculateValue?: (form: FormGroup) => T
-    readonly?: boolean
-  } = {}) {
-    this.value = options.value;
-    this.key = options.key || '';
-    this.label = options.label || '';
-    this.required = !!options.required;
-    this.order = options.order === undefined ? 1 : options.order;
-    this.controlType = options.controlType || '';
-    this.hiddenCondition = options.hiddenCondition || (() => true);
-    this.calculateValue = (() => this.value);
-    this.readonly = false;
+  constructor(readonly key: string,
+              readonly label: string,
+              public value: T,
+              readonly type: string,
+              readonly controlType: string,
+              widget: Widget,
+              hiddenCondition: (form: FormGroup) => boolean) {
+    this.hiddenCondition = hiddenCondition || (() => true);
+    this.widget = widget || new Widget(WidgetType.TEXT, []);
   }
 
   toCalculatedQuestion(calculateFunction: (form: FormGroup) => T) {

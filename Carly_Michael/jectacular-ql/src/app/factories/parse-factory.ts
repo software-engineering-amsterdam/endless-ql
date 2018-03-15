@@ -1,4 +1,4 @@
-import {Form} from '../domain/ast';
+import {Form} from '../domain/ast/ql/index';
 import {Stylesheet} from '../domain/ast/qls';
 import {parse} from '../../parser/ql-parser';
 import {parse as parseQls} from '../../parser/qls-parser';
@@ -15,8 +15,10 @@ export class ParseFactory {
     // check form
     astQl.checkForm();
 
-    if (qlsInput.trim().length > 0 ) {
+    if (qlsInput && qlsInput.trim().length > 0 ) {
       astQls = parseQls(qlsInput, {});
+      console.log(astQls);
+      astQls.checkStylesheet([], astQl.getAllQuestions());
     }
     return new ParseResult(astQl.name, astQl, astQls);
   }

@@ -1,5 +1,5 @@
 import {parse, SyntaxError} from './ql-parser';
-import {Form, If, Question, QuestionType, Statement, Variable} from '../app/domain/ast';
+import {Form, If, Question, QuestionType, Statement, Variable} from '../app/domain/ast/ql/index';
 import {gen, check, property, sample, sampleOne} from 'testcheck';
 import * as mockInput from '../app/ql-mock-input';
 
@@ -7,7 +7,6 @@ function questionTypeToString(type: QuestionType): string {
   switch (type) {
     case QuestionType.BOOLEAN: return 'boolean';
     case QuestionType.DATE: return 'date';
-    case QuestionType.DECIMAL: return 'decimal';
     case QuestionType.STRING: return 'string';
     case QuestionType.INT: return 'integer';
     default: console.log(`Unknown type ${type}`);

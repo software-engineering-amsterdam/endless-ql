@@ -2,7 +2,7 @@ package org.uva.sea.gui.render;
 
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.model.QuestionModelFactoryImpl;
-import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 
 import java.util.ArrayList;
 import java.util.List;

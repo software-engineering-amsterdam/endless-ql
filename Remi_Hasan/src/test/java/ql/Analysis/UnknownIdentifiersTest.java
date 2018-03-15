@@ -11,7 +11,7 @@ public class UnknownIdentifiersTest {
     public ExpectedException expectedEx = ExpectedException.none();
 
     @Test
-    public void testUnknownAssignment() throws Exception {
+    public void unknownAssignment() throws Exception {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Unknown reference(s) to identifiers: [unknownString]");
 
@@ -20,7 +20,7 @@ public class UnknownIdentifiersTest {
     }
 
     @Test
-    public void testUnknownCondition() throws Exception {
+    public void unknownCondition() throws Exception {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Unknown reference(s) to identifiers: [unknownBoolean]");
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
@@ -28,7 +28,7 @@ public class UnknownIdentifiersTest {
     }
 
     @Test
-    public void testUnknownExpressionAssignment() throws Exception {
+    public void unknownExpressionAssignment() throws Exception {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Unknown reference(s) to identifiers: [unknownInteger]");
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
@@ -36,7 +36,7 @@ public class UnknownIdentifiersTest {
     }
 
     @Test
-    public void testUnknownExpressionCondition() throws Exception {
+    public void unknownExpressionCondition() throws Exception {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Unknown reference(s) to identifiers: [unknownDecimal]");
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class

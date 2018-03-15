@@ -1,30 +1,24 @@
 package org.uva.sea.gui.model;
 
-import org.uva.sea.ql.interpreter.Interpreter;
-import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
-import org.uva.sea.ql.interpreter.evaluate.SymbolTable;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
+import org.uva.sea.languages.QlSEvaluator;
+import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.io.IOException;
 
 public class GuiModel {
 
-    private final Interpreter formGenerator;
-    private SymbolTable symbolTable;
-    private String qlFileName;
+    private final QlSEvaluator formGenerator;
 
-    public GuiModel(String qlFileName) {
-        this.formGenerator = new Interpreter();
-        this.qlFileName = qlFileName;
-        this.symbolTable = new SymbolTable();
+    public GuiModel(String qlFileName, String qlsFileName) {
+        this.formGenerator = new QlSEvaluator(qlFileName, qlsFileName);
     }
 
-    public InterpreterResult getInterpreterResult() throws IOException, StaticAnalysisError {
-        return formGenerator.generate(this.qlFileName, symbolTable);
+    public EvaluationResult getInterpreterResult() throws IOException, InterruptedException {
+        return formGenerator.getQuestions();
     }
 
     public void updateQuestion(String questionName, Value value) {
-        symbolTable.addOrUpdateValue(questionName, value);
+        formGenerator.setVariable(questionName, value);
     }
 }

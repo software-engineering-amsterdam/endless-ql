@@ -1,6 +1,6 @@
 package gui.model;
 
-import javafx.scene.control.Control;
+import gui.widgets.Widget;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.model.expression.Expression;
@@ -21,5 +21,5 @@ public abstract class BaseQuestion {
         return interpreterVisitor.visit(this.condition).getBooleanValue();
     }
 
-    public abstract Control render();
+    public abstract Widget getWidget();
 }

@@ -6,7 +6,7 @@ import org.uva.ql.evaluator.FormEvaluator;
 import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.ql.gui.widgets.QuestionWidget;
-import org.uva.ql.validation.LogHandler;
+import org.uva.app.LogHandler;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
@@ -78,7 +78,9 @@ public class GUIHandler {
         LogHandler handler = (LogHandler) logger.getHandlers()[0];
         ArrayList<LogRecord> logs = handler.getLogs(Level.WARNING);
         if (logs.size() > 0) {
-            JOptionPane.showMessageDialog(frame, logs.get(0).getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            for (LogRecord logRecord : logs) {
+                JOptionPane.showMessageDialog(frame, logRecord.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             this.frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
     }

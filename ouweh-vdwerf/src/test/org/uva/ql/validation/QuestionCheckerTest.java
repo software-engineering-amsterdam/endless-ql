@@ -2,19 +2,16 @@ package org.uva.ql.validation;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.ql.app.InputHandler;
-import org.uva.ql.ast.Form;
+import org.uva.app.LogHandler;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.ast.type.StringType;
-import org.uva.ql.parsing.ASTBuilder;
 
+import java.util.ArrayList;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
-import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

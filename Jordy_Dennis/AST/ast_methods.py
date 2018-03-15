@@ -1,3 +1,7 @@
+"""
+	Usefull methods and imports here
+"""
+
 import pprint
 import collections
 

@@ -10,3 +10,6 @@ class Stylesheet:
 
     def getNumberOfPages(self):
         return len(self.pages)
+
+    def __repr__(self):
+        return "Stylesheet {}: pages:{}".format(self.name, self.pages)

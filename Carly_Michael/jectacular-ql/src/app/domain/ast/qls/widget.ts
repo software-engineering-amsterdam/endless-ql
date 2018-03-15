@@ -1,5 +1,6 @@
 import {WidgetType} from './widget-type';
 
 export class Widget {
-  constructor(public type: WidgetType, public labels: string[]) { }
+  static Empty = new Widget(WidgetType.NONE);
+  constructor(public type: WidgetType, public labels: string[] = []) { }
 }

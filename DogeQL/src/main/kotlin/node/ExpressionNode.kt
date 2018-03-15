@@ -1,32 +1,23 @@
 package node
 
+import common.Name
 import data.question.Question
-import data.value.BooleanValue
-import expression.Expression
-import expression.visitor.evaluation.EvaluationVisitor
+import data.symbol.SymbolTable
 
-data class ExpressionNode(val expression: Expression) : Node() {
+class ExpressionNode(symbolTable: SymbolTable, val reference: Name) : Node(symbolTable) {
+    override fun getEnabledQuestions(): List<Question> {
 
-    private val visitor = EvaluationVisitor()
+        val symbol = symbolTable.findSymbol(reference)
 
-    override fun getEnabledQuestions(): ArrayList<Question> {
-
-        val expressionResult = expression.accept(visitor) is BooleanValue
-
-        if (expressionResult) {
-            val allChildren = children.flatMap { child ->
-                child.getEnabledQuestions()
-            }
-
-            return ArrayList(allChildren)
+        if (symbol == null){
+            throw IllegalStateException("TODO")
         }
 
-        return ArrayList()
-    }
-
-    override fun validate(): Boolean {
-        return children.all { child ->
-            child.validate()
-        }//TODO add expression validator
+        if (symbol.value.booleanValue.value){
+            return children.flatMap {child ->
+                child.getEnabledQuestions()
+            }
+        }
+        return listOf()
     }
 }

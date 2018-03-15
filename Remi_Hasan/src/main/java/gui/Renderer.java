@@ -1,7 +1,6 @@
 package gui;
 
-import gui.model.BaseQuestion;
-import gui.model.StringQuestion;
+import gui.model.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,7 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javassist.compiler.ast.Symbol;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 import ql.QLFormBuilder;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
@@ -22,7 +21,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Renderer extends Application {
     @Override
@@ -47,6 +48,9 @@ public class Renderer extends Application {
         } catch (IOException e) {
             showErrorAlert(e, "IO exception while lexing form file");
             return;
+        } catch (ParseCancellationException e) {
+            showErrorAlert(e, "Error while parsing form file");
+            return;
         }
 
         buildQuestions(qlForm, primaryStage);
@@ -56,15 +60,40 @@ public class Renderer extends Application {
 
     private void buildQuestions(Form qlForm, Stage stage) {
         List<BaseQuestion> formQuestions = new ArrayList<>();
-        for(Question q : qlForm.questions) {
-            formQuestions.add(new StringQuestion(q.text, q.condition, !q.isComputed()));
+        for (Question question : qlForm.questions) {
+            BaseQuestion baseQuestion;
+
+            // TODO: factory
+            switch(question.type) {
+                case STRING:
+                    baseQuestion = new StringQuestion(question.text, question.computedAnswer, question.isComputed());
+                    break;
+                case INTEGER:
+                    baseQuestion = new IntegerQuestion(question.text, question.computedAnswer, question.isComputed());
+                    break;
+                case DECIMAL:
+                    baseQuestion = new DecimalQuestion(question.text, question.computedAnswer, question.isComputed());
+                    break;
+                case MONEY:
+                    baseQuestion = new MoneyQuestion(question.text, question.computedAnswer, question.isComputed());
+                    break;
+                case DATE:
+                    baseQuestion = new DateQuestion(question.text, question.computedAnswer, question.isComputed());
+                    break;
+                case BOOLEAN:
+                    baseQuestion = new BooleanQuestion(question.text, question.computedAnswer, question.isComputed());
+                    break;
+                default:
+                    return;
+            }
+            formQuestions.add(baseQuestion);
         }
 
         // Show all fields
-        VBox vBox = new VBox(35);
+        VBox vBox = new VBox(20);
         vBox.setAlignment(Pos.CENTER);
-        for(BaseQuestion formQuestion : formQuestions) {
-            vBox.getChildren().add(formQuestion.render());
+        for (BaseQuestion formQuestion : formQuestions) {
+            vBox.getChildren().add(formQuestion.getWidget().getUI());
         }
 
         Scene scene = new Scene(vBox);

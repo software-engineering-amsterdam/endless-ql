@@ -1,7 +1,6 @@
 package org.uva.qls.ast;
 
-import org.uva.qls.ast.Segment.Question;
-import org.uva.qls.ast.Segment.Segment;
+import org.uva.qls.ast.Segment.QuestionReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +15,11 @@ public class Stylesheet extends TreeNode{
         this.pages = pages;
     }
 
-    public List<Question> getQuestions() {
-        List<Question> questions = new ArrayList<>();
+    public List<QuestionReference> getQuestions() {
+        List<QuestionReference> questionReferences = new ArrayList<>();
         for (Page page : pages) {
-            questions.addAll(page.getQuestions());
+            questionReferences.addAll(page.getQuestions());
         }
-        return questions;
+        return questionReferences;
     }
 }

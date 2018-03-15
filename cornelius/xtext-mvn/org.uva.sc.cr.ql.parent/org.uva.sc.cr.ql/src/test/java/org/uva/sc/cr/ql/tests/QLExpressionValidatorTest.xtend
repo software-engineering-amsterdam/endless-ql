@@ -105,7 +105,6 @@ class QLExpressionValidatorTest {
 						}
 		''')
 		Assert.assertNotNull(result)
-		val errors = result.eResource.errors
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
 		switch operation {
@@ -131,7 +130,7 @@ class QLExpressionValidatorTest {
 					QLExpressionValidator.TYPE_NOT_ALLOWED)
 			case MULTIPLICATION,
 			case DIVISION:
-				validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionMulOrDiv,
+				validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionMultiplicationOrDivision,
 					QLExpressionValidator.TYPE_NOT_ALLOWED)
 			case NOT:
 				validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionNot,

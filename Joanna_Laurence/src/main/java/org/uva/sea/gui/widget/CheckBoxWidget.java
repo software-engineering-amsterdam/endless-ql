@@ -36,7 +36,7 @@ public class CheckBoxWidget implements Widget {
                 checkBox.setFont(new Font(style.getFont(), style.getFontSize()));
             }
             if (style.getWidth() != null) {
-                checkBox.setPrefWidth(style.getWidth());
+                checkBox.setMinWidth(style.getWidth());
             }
         } else {
             System.out.println("Style is null");

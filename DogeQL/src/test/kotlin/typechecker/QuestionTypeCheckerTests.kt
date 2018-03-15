@@ -4,10 +4,11 @@ import data.question.Question
 import data.value.BooleanValue
 import org.amshove.kluent.shouldEqual
 import org.junit.Test
+import typechecker.pass.DuplicatePass
 
 class  QuestionTypeCheckerTests {
 
-    private val typeChecker = QuestionTypeChecker()
+    private val typeChecker = DuplicatePass()
 
     @Test
     fun `duplicate labels should be marked as duplicate`() {

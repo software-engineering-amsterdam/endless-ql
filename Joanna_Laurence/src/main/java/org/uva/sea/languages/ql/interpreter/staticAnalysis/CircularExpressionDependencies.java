@@ -8,7 +8,7 @@ import org.uva.sea.languages.ql.parser.elements.Question;
 import org.uva.sea.languages.ql.parser.elements.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
-public class CircularExpressionDependencies extends BaseASTVisitor<Void> implements IStaticAnalysis<Form> {
+public class CircularExpressionDependencies extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
 
     private Messages messages = new Messages();
@@ -62,10 +62,10 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis<Form> {
+    public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis<Form> checker = new CircularExpressionDependencies();
+            IQLStaticAnalysis checker = new CircularExpressionDependencies();
             return checker.doCheck(node);
         }
     }

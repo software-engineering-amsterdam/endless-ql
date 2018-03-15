@@ -5,7 +5,7 @@ import org.uva.ql.evaluator.FormEvaluator;
 import org.uva.ql.evaluator.data.ExpressionTable;
 import org.uva.ql.evaluator.data.StatementTable;
 import org.uva.ql.evaluator.data.ValueTable;
-import org.uva.ql.gui.GUIHandler;
+import org.uva.gui.GUIHandler;
 import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.QLValidator;
 import org.uva.qls.QLSBuilder;

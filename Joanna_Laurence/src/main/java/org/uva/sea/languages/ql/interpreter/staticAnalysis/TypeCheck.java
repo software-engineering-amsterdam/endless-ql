@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 ;
 
-public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalysis<Form> {
+public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnalysis {
 
     private Messages errors = new Messages();
 
@@ -231,10 +231,10 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis<Form> {
+    public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis<Form> checker = new TypeCheck();
+            IQLStaticAnalysis checker = new TypeCheck();
             return checker.doCheck(node);
         }
     }

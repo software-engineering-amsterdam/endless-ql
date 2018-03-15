@@ -25,7 +25,7 @@ public class Stylesheet extends QLSNode {
     }
 
     @Override
-    public <T> T accept(IStyleASTVisitor<T> visitor) throws InterruptedException {
+    public <T> T accept(IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

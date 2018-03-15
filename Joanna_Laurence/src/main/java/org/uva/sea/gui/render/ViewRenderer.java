@@ -78,13 +78,13 @@ public class ViewRenderer {
             case CHOICEBOX:
                 widget = new ChoiceBoxWidget();
                 break;
-            case RADIOBUTTON:
+            case RADIO:
                 widget = new RadioButtonWidget();
                 break;
             case SLIDER:
                 widget = new SliderWidget();
                 break;
-            case SPINNER:
+            case SPINBOX:
                 widget = new SpinnerWidget();
                 break;
             default:

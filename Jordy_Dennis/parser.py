@@ -81,11 +81,9 @@ def main(argv):
     ast.linkVars()
     ast.checkTypes()
 
-    # start up Gui
-    Gui(ast, False)
+
 
     # QLS
-    """
     if len(argv)>2:
         input_file = argv[2]
     else:
@@ -100,9 +98,10 @@ def main(argv):
     # pass tree to visitor
     qlsVisitor = QLSVisitor()
     qlsVisitor.visit(qlsTree)
-    print(qlsVisitor.stylesheet)
-    """
-    # print(qlsTree.toStringTree())
+
+
+    # start up Gui
+    Gui(ast, qlsVisitor.stylesheet)
 
 
 if __name__ == '__main__':

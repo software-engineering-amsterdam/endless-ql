@@ -10,10 +10,11 @@ import java.time.LocalDate;
 
 public class DateWidget extends Widget<DatePicker> {
 
-    public DateWidget(String name) {
+    public DateWidget(ChangeListener listener, String name) {
         super(name);
 
         this.control = new DatePicker();
+        this.control.valueProperty().addListener(listener);
     }
 
     @Override

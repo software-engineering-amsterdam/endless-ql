@@ -15,7 +15,7 @@ import org.uva.sc.cr.ql.qL.ExpressionMultiplicationOrDivision
 import org.uva.sc.cr.ql.qL.ExpressionNot
 import org.uva.sc.cr.ql.qL.ExpressionOr
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
-import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
+import org.uva.sc.cr.ql.qL.ExpressionQuestionReference
 import org.uva.sc.cr.ql.util.MissingCaseException
 import org.uva.sc.cr.ql.util.Operation
 
@@ -45,7 +45,7 @@ class ExpressionEvaluator {
 				" " + expression.expression + " "
 			ExpressionLiteralBoolean:
 				" " + expression.expression + " "
-			ExpressionQuestionRef:
+			ExpressionQuestionReference:
 				expression.question.name
 			default: {
 				throw new MissingCaseException

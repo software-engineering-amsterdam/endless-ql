@@ -41,12 +41,12 @@ ExpressionMultiplicationOrDivision returns Expression:
 	ExpressionAtomic (({ExpressionMultiplicationOrDivision.left=current} op=('*' | '/')) right=ExpressionAtomic)*;
 
 ExpressionAtomic returns Expression:
-	'(' Expression ')' |
+	{ExpressionParanthesis} '(' expression=Expression ')' |
 	{ExpressionNot} "!" expression=ExpressionAtomic |
 	{ExpressionLiteralString} expression=STRING |
 	{ExpressionLiteralInteger} expression=INT |
 	{ExpressionLiteralBoolean} expression=('true' | 'false') |
-	{ExpressionQuestionRef} question=[Question];
+	{ExpressionQuestionReference} question=[Question];
 
 enum QuestionType:
 	TypeBoolean='boolean' | TypeString='string' | TypeInteger='integer' | TypeDecimal='decimal' | TypeDate='date' |

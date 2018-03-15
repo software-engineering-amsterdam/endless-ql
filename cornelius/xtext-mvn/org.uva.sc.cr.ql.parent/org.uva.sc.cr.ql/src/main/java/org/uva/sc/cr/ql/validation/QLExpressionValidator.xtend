@@ -13,7 +13,7 @@ import org.uva.sc.cr.ql.qL.ExpressionMultiplicationOrDivision
 import org.uva.sc.cr.ql.qL.ExpressionNot
 import org.uva.sc.cr.ql.qL.ExpressionOr
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
-import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
+import org.uva.sc.cr.ql.qL.ExpressionQuestionReference
 import org.uva.sc.cr.ql.qL.QLPackage
 import org.uva.sc.cr.ql.qL.Question
 import org.uva.sc.cr.ql.qL.QuestionType
@@ -59,7 +59,7 @@ class QLExpressionValidator extends AbstractQLValidator {
 				QuestionType.TYPE_INTEGER
 			ExpressionLiteralBoolean:
 				QuestionType.TYPE_BOOLEAN
-			ExpressionQuestionRef:
+			ExpressionQuestionReference:
 				exp.question.type
 			default:
 				throw new MissingCaseException

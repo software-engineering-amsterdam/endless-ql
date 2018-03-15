@@ -8,7 +8,7 @@ import org.joda.money.CurrencyUnit
 import org.joda.money.Money
 import org.uva.sc.cr.ql.qL.ExpressionMultiplicationOrDivision
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
-import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
+import org.uva.sc.cr.ql.qL.ExpressionQuestionReference
 import org.uva.sc.cr.ql.util.Operation
 
 @Singleton
@@ -36,7 +36,7 @@ class ExpressionEvaluatorMoney {
 			leftMoney.dividedBy(rightMoney.amount, ROUNDING_MODE)
 	}
 
-	dispatch def Money evaluateExpression(ExpressionQuestionRef expression, Map<String, Object> arguments) {
+	dispatch def Money evaluateExpression(ExpressionQuestionReference expression, Map<String, Object> arguments) {
 		val value = arguments.get(expression.question.name)
 		var BigDecimal bigDecimalValue;
 		try {

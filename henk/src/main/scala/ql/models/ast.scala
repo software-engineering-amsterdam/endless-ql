@@ -63,12 +63,12 @@ case class ASTLogicalDis() extends ASTLogicalOp
 case class ASTUnaryNot() extends ASTNode
 case class ASTUnaryMin() extends ASTNode
 
-case class ASTRelationalLT() extends ASTNode
-case class ASTRelationalLTE() extends ASTNode
-case class ASTRelationalGT() extends ASTNode
-case class ASTRelationalGTE() extends ASTNode
-case class ASTRelationalNE() extends ASTNode
-case class ASTRelationalEQ() extends ASTNode
+case class ASTRelationalLT() extends ASTRelationalOp
+case class ASTRelationalLTE() extends ASTRelationalOp
+case class ASTRelationalGT() extends ASTRelationalOp
+case class ASTRelationalGTE() extends ASTRelationalOp
+case class ASTRelationalNE() extends ASTRelationalOp
+case class ASTRelationalEQ() extends ASTRelationalOp
 
 case class ASTAdd() extends ASTNode
 case class ASTMin() extends ASTNode

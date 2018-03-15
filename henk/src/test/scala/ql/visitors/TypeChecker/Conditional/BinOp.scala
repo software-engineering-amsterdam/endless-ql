@@ -67,6 +67,23 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       }
     }
 
+    describe("containing a not unary on the right side") {
+      val filename = s"${resourceDir}/left_not_binop.ql"
+      val form = FormHelper.getForm(getClass.getResource(filename))
+      val typechecker = new TypeChecker(form)
+
+      it("check method should return true") {
+        assert(typechecker.check())
+      }
+
+      it("validate method should not return a Failure") {
+        ConditionalValidator.validate(form) match {
+          case Failure(e) => fail("ConditionalValidator should not have thrown an error")
+          case Success(_) => succeed
+        }
+      }
+
+    }
     describe("containing two invalid binops on both sides") {
       val filename = s"${resourceDir}/nested/both_invalid_nested.ql"
       val form = FormHelper.getForm(getClass.getResource(filename))
@@ -116,6 +133,59 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
         ConditionalValidator.validate(form) match {
           case Success(_) => fail("ConditionalValidator should not have thrown an error")
           case Failure(_) => succeed
+        }
+      }
+    }
+  }
+
+  describe("less than") {
+    describe("containing two money types") {
+      val filename = s"${resourceDir}/lt/simple.ql"
+      val form = FormHelper.getForm(getClass.getResource(filename))
+      val typechecker = new TypeChecker(form)
+
+      it("check method should return true") {
+        assert(typechecker.check())
+      }
+
+      it("validate method should not throw an exception") {
+        ConditionalValidator.validate(form) match {
+          case Failure(e) => fail("ConditionalValidator should not have thrown an error")
+          case Success(_) => succeed
+        }
+      }
+    }
+
+    describe("containing two boolean types") {
+      val filename = s"${resourceDir}/lt/boolean_lt_boolean.ql"
+      val form = FormHelper.getForm(getClass.getResource(filename))
+      val typechecker = new TypeChecker(form)
+
+      it("check method should return true") {
+        assert(!typechecker.check())
+      }
+
+      it("validate method should not throw an exception") {
+        ConditionalValidator.validate(form) match {
+          case Success(_) => fail("ConditionalValidator should not have thrown an error")
+          case Failure(_) => succeed
+        }
+      }
+    }
+
+    describe("containing a negate") {
+      val filename = s"${resourceDir}/lt/simple_not.ql"
+      val form = FormHelper.getForm(getClass.getResource(filename))
+      val typechecker = new TypeChecker(form)
+
+      it("check method should return true") {
+        assert(typechecker.check())
+      }
+
+      it("validate method should not throw an exception") {
+        ConditionalValidator.validate(form) match {
+          case Failure(e) => fail("ConditionalValidator should not have thrown an error")
+          case Success(_) => succeed
         }
       }
     }

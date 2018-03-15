@@ -34,15 +34,19 @@ public class FormController implements Initializable {
 
     private String lastFocusedQuestion = "";
 
+    private String qlFile;
+    private String qlsFile;
+
     @FXML
     private VBox questionBox;
-
     @FXML
     private VBox messageBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        guiModel = new GuiModel(getClass().getResource(defaultQlLocation).getFile(), getClass().getResource(defaultQlsLocation).getFile());
+        qlFile = getClass().getResource(defaultQlLocation).getFile();
+        qlsFile = getClass().getResource(defaultQlsLocation).getFile();
+        guiModel = new GuiModel(qlFile, qlsFile);
         ViewRenderer renderer = new ViewRenderer(questionBox, messageBox, this);
         questionRenderer = new QuestionRenderer(renderer);
         warningRenderer = new WarningRenderer(renderer);
@@ -79,6 +83,20 @@ public class FormController implements Initializable {
         }
 
         guiModel = new GuiModel(qlFile.getAbsolutePath(), null);
+        drawGui();
+    }
+
+    @FXML
+    public void loadQLSFile(ActionEvent actionEvent) {
+        FileSelector fileSelector = new FileSelector("Load QLS file", "QLS", "*.qls");
+        File qlsFile = fileSelector.getFile();
+
+        if (qlsFile == null) {
+            errorRenderer.render("File not found");
+            return;
+        }
+
+        guiModel = new GuiModel(new File(qlFile).getAbsolutePath(), qlsFile.getAbsolutePath());
         drawGui();
     }
 

@@ -101,7 +101,7 @@ def main(argv):
 
 
     # start up Gui
-    Gui(ast, qlsVisitor.stylesheet)
+    Gui(ast)
 
 
 if __name__ == '__main__':

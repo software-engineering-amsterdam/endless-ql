@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.uva.app.LogHandler;
 import org.uva.ql.ast.expression.unary.Parameter;
+import org.uva.ql.validation.checker.DependencyChecker;
 
 import java.util.*;
 import java.util.logging.LogManager;

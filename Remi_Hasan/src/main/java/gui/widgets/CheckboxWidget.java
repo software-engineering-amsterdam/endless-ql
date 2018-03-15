@@ -1,9 +1,10 @@
 package gui.widgets;
 
 import javafx.scene.control.CheckBox;
+import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableBoolean;
 
-public class CheckboxWidget extends CheckBox implements WidgetInterface<ExpressionVariableBoolean>{
+public class CheckboxWidget extends CheckBox implements WidgetInterface {
 
     private final String name;
 
@@ -13,12 +14,12 @@ public class CheckboxWidget extends CheckBox implements WidgetInterface<Expressi
     }
 
     @Override
-    public void setExpression(ExpressionVariableBoolean expression) {
-        this.setSelected(expression.value);
+    public void setExpression(String value) {
+        this.setSelected(Boolean.valueOf(value));
     }
 
     @Override
-    public ExpressionVariableBoolean getExpression() {
+    public Expression getExpression() {
         return new ExpressionVariableBoolean(null, this.isSelected());
     }
 }

@@ -104,8 +104,8 @@ def main(argv):
     # print(qlsTree.toStringTree())
 
     # start up Gui
-    # Gui(ast, qlsVisitor.stylesheet)
 
+    Gui(ast, qlsVisitor.stylesheet)
 
 if __name__ == '__main__':
     main(sys.argv)

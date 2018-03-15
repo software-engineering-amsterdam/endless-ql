@@ -17,11 +17,11 @@ describe('The QLS parser', () => {
 
     expect(questions.length).toBe(6);
 
-    expect(questions[0].type).toEqual(new Widget(WidgetType.RADIO, ['Yes', 'No']));
-    expect(questions[1].type).toEqual(new Widget(WidgetType.TEXT, []));
-    expect(questions[2].type).toEqual(new Widget(WidgetType.CHECKBOX, []));
-    expect(questions[3].type).toEqual(new Widget(WidgetType.SPINBOX, []));
-    expect(questions[4].type).toEqual(new Widget(WidgetType.DROPDOWN, ['Yes', 'No']));
-    expect(questions[5].type).toEqual(new Widget(WidgetType.SLIDER, []));
+    expect(questions[0].widget).toEqual(new Widget(WidgetType.RADIO, ['Yes', 'No']));
+    expect(questions[1].widget).toEqual(new Widget(WidgetType.TEXT, []));
+    expect(questions[2].widget).toEqual(new Widget(WidgetType.CHECKBOX, []));
+    expect(questions[3].widget).toEqual(new Widget(WidgetType.SPINBOX, []));
+    expect(questions[4].widget).toEqual(new Widget(WidgetType.DROPDOWN, ['Yes', 'No']));
+    expect(questions[5].widget).toEqual(new Widget(WidgetType.SLIDER, []));
   });
 });

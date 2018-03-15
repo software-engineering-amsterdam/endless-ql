@@ -10,6 +10,7 @@ import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.QLValidator;
 import org.uva.qls.QLSBuilder;
 import org.uva.qls.ast.Stylesheet;
+import org.uva.qls.evaluator.StyleEvaluator;
 import org.uva.qls.validation.QLSValidator;
 
 import java.util.logging.LogManager;
@@ -23,7 +24,7 @@ public class App {
         LogManager.getLogManager().reset();
         logger.addHandler(new LogHandler());
 
-        String input = new InputHandler().readFile("input/default.ql");
+        String input = new InputHandler().readFile("input/test/circularDependency.ql");
 //        String input = new InputHandler().getUserInput("ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
@@ -37,11 +38,12 @@ public class App {
         validator.run();
 
         QLSValidator qlsValidator = new QLSValidator(validator.getQuestions(), stylesheet);
-        qlsValidator.run();
+//        qlsValidator.run();
 
         FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
+        StyleEvaluator styleEvaluator = new StyleEvaluator();
 
-        GUIHandler guiHandler = new GUIHandler(formEvaluator);
+        GUIHandler guiHandler = new GUIHandler(formEvaluator, styleEvaluator);
     }
 
     public static void main(String[] args) {

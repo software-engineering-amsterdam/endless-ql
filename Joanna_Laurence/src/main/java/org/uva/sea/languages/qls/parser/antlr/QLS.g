@@ -20,9 +20,8 @@ grammar QLS;
     import org.uva.sea.languages.qls.parser.elements.specification.Section;
    	import org.uva.sea.languages.qls.parser.elements.specification.Specification;
 
-    String removeQuotes(String string){
-        return string.substring(1, string.length()-1);
-    }
+   	import org.uva.sea.languages.qls.parser.antlr.ParserHelper;
+
 }
 
 @lexer::header
@@ -67,13 +66,13 @@ specification returns [Specification result]
 
 section returns [Section result]
     :   s='section' STR '{' specifications '}' {
-            $result = new Section($s, removeQuotes($STR.text), $specifications.result);
+            $result = new Section($s, ParserHelper.removeQuotes($STR.text), $specifications.result);
         }
     |
         s='section' STR specification {
             List<Specification> specifications = new ArrayList<>();
             specifications.add($specification.result);
-            $result = new Section($s, removeQuotes($STR.text), specifications);
+            $result = new Section($s, ParserHelper.removeQuotes($STR.text), specifications);
         }
     ;
 
@@ -89,7 +88,7 @@ question returns [Question result]
     ;
 
 widget returns [Widget result]
-    :   w='widget' name=IDENT ('(' parameters ')')? {
+    :   w='widget' name=('checkbox' | 'choicebox' | 'radio' | 'slider' | 'spinbox' | 'textfield') ('(' parameters ')')? {
         $result = new Widget($w, $name.text, $parameters.text != null ? $parameters.result : new ArrayList<>());
     };
 
@@ -127,7 +126,7 @@ styleSpecifications returns [List<StyleSpecification> result]
 
 styleSpecification returns [StyleSpecification result]
     :  s='width' ':' NUM { $result = new Width($s, $NUM.text); }
-     | s='font' ':' STR { $result = new Font($s, removeQuotes($STR.text)); }
+     | s='font' ':' STR { $result = new Font($s, ParserHelper.removeQuotes($STR.text)); }
      | s='fontsize' ':' NUM { $result = new FontSize($s, $NUM.text); }
      | s='color' ':' COLOR_CODE { $result = new Color($s, $COLOR_CODE.text); }
      | widget { $result = $widget.result; }
@@ -138,6 +137,7 @@ styleSpecification returns [StyleSpecification result]
 IDENT:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 NUM: ('0'..'9')+;
+
 
 COLOR_CODE: '#'('a'..'f'|'A'..'F'|'0'..'9')+;
 

@@ -13,7 +13,6 @@ public class BaseVisitor extends QLBaseVisitor {
     HashMap<String, Question> questionMap;
 
     public BaseVisitor(){
-        super();
         this.questionMap = new HashMap<>();
     }
 
@@ -43,7 +42,7 @@ public class BaseVisitor extends QLBaseVisitor {
         String questionString = ctx.STR().getText();
         Object initialValue = visit(ctx.type());
 
-        Question question = new Question(codeBlock, questionString, initialValue, false);
+        Question question = new Question(codeBlock, questionString, (Class) visit(ctx.type()), null, false, true);
         questionMap.put(id, question);
 
         return questionMap;
@@ -54,7 +53,7 @@ public class BaseVisitor extends QLBaseVisitor {
         String id = ctx.IDENTIFIER().getText();
         CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
         String questionString = ctx.STR().getText();
-        Question question = new Question(codeBlock, questionString, visit(ctx.expression()), true);
+        Question question = new Question(codeBlock, questionString, (Class) visit(ctx.type()), visit(ctx.expression()), true, true);
         questionMap.put(id, question);
 
         return questionMap;
@@ -64,6 +63,26 @@ public class BaseVisitor extends QLBaseVisitor {
     @Override
     public Boolean visitBooltype(QLParser.BooltypeContext ctx) {
         return false;
+    }
+
+    @Override
+    public Boolean visitCompOperation(QLParser.CompOperationContext ctx) {
+        Double left = (Double) visit(ctx.left);
+        String operator = ctx.comparisonOperator().getText();
+        Double right = (Double) visit(ctx.right);
+
+        switch (operator) {
+            case "<":
+                return left < right;
+            case ">":
+                return left > right;
+            case "!=":
+                return left != right;
+            case "==":
+                return left == right;
+        }
+
+        return null;
     }
 
     @Override
@@ -219,12 +238,12 @@ public class BaseVisitor extends QLBaseVisitor {
         return questionMap.containsKey(id);
     }
 
-    public void addQuestions(HashMap<String, Question> questionMap){
-        this.questionMap.putAll(questionMap);
+    public void initQuestionMap(){
+        this.questionMap = new HashMap<>();
     }
 
-    public void update(String key, Object value) {
-
+    public void addQuestions(HashMap<String, Question> questionMap){
+        this.questionMap.putAll(questionMap);
     }
 
     public Boolean validateExpression(Question question) {

@@ -1,4 +1,4 @@
-// Generated from src/main/java/org/uva/sea/qls/parser/antlr/QLS.g by ANTLR 4.7.1
+// Generated from src/main/java/org/uva/sea/languages/qls/parser/antlr/QLS.g by ANTLR 4.7.1
 
 package org.uva.sea.languages.qls.parser.antlr;
 
@@ -244,24 +244,6 @@ public class QLSBaseListener implements QLSListener {
      */
     @Override
     public void exitStyleSpecification(QLSParser.StyleSpecificationContext ctx) {
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override
-    public void enterString(QLSParser.StringContext ctx) {
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override
-    public void exitString(QLSParser.StringContext ctx) {
     }
 
     /**

@@ -40,7 +40,7 @@ def test_all_ql_fail_forms():
             assert True
 
 
-def test_all_qls__pass_forms():
+def test_all_qls_pass_forms():
     """ Iterates through all the passing ql+qls forms directory and finds grammar errors"""
     path = 'tests/forms/ql/pass/'
 

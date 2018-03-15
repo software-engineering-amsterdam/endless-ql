@@ -3,9 +3,9 @@ from ql.ast.expressions.literals.decimal_node import DecimalNode
 from gui.model.widgets import DoubleSpinBox
 
 
-class TypeDecimal(Type):
+class QLDecimal(Type):
     def __init__(self, value):
-        super(TypeDecimal, self).__init__()
+        super(QLDecimal, self).__init__()
         self.__value = value
 
     def __repr__(self):
@@ -20,7 +20,7 @@ class TypeDecimal(Type):
 
     @staticmethod
     def get_literal_node(value):
-        return DecimalNode(None, TypeDecimal, value)
+        return DecimalNode(None, QLDecimal, value)
 
     @staticmethod
     def pyqt5_default_widget():

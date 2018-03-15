@@ -3,9 +3,9 @@ from ql.ast.expressions.literals.undefined_node import UndefinedNode
 from gui.model.widgets import Label
 
 
-class TypeUndefined(Type):
+class QLUndefined(Type):
     def __init__(self):
-        super(TypeUndefined, self).__init__()
+        super(QLUndefined, self).__init__()
         self.__value = None
 
     def __repr__(self):
@@ -20,7 +20,7 @@ class TypeUndefined(Type):
 
     @staticmethod
     def get_literal_node():
-        return UndefinedNode(None, TypeUndefined, None)
+        return UndefinedNode(None, QLUndefined, None)
 
     @staticmethod
     def pyqt5_default_widget():

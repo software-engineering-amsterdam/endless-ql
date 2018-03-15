@@ -88,7 +88,7 @@
     <Compile Include="Parser\QLErrorListener.cs" />
     <Compile Include="Parser\QLParseErrorHandler.cs" />
     <Compile Include="Parser\QLSListener.cs" />
-    <Compile Include="QLListener.cs" />
+    <Compile Include="TypeChecking\QLTypeChecker.cs" />
     <Compile Include="Model\Question.cs" />
     <Compile Include="Model\QuestionForm.cs" />
     <Compile Include="Program.cs" />

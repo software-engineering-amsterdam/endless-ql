@@ -10,7 +10,7 @@ namespace Assignment1.Model
     {
         public QuestionMoney(string id, string label) : base(id, label)
         {
-            Value = 0;
+            Value = new Decimal(0);
         }
 
         public override void Accept(IQuestionVisitor visitor)

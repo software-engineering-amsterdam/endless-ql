@@ -3,9 +3,9 @@ from ql.ast.expressions.literals.string_node import StringNode
 from gui.model.widgets import LineEdit
 
 
-class TypeString(Type):
+class QLString(Type):
     def __init__(self, value):
-        super(TypeString, self).__init__()
+        super(QLString, self).__init__()
         self.__value = value
 
     def __repr__(self):
@@ -20,7 +20,7 @@ class TypeString(Type):
 
     @staticmethod
     def get_literal_node(value):
-        return StringNode(None, TypeString, value)
+        return StringNode(None, QLString, value)
 
     @staticmethod
     def pyqt5_default_widget():

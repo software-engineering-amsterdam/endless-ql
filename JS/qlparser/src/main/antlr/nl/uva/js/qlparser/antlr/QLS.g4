@@ -12,7 +12,7 @@ STYLESHEET: 'stylesheet';
 // Keywords
 PAGE:     'page';
 SECTION:  'section';
-QUESTION: 'questions';
+QUESTION: 'question';
 WIDGET:   'widget';
 DEFAULT:  'default';
 STYLE:    'style';

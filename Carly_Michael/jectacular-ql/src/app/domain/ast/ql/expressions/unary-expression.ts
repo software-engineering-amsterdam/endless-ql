@@ -1,7 +1,7 @@
 import {ExpressionType} from './expression-type';
 import {Expression, LiteralType} from './expression';
 import {Location} from '../../location';
-import {Question} from '../question';
+import {QlQuestion} from '../ql-question';
 import {FormGroup} from '@angular/forms';
 import {Variable} from './variable';
 
@@ -14,7 +14,7 @@ export abstract class UnaryExpression extends Expression {
     return this.right.getVariables();
   }
 
-  abstract checkType(allQuestions: Question[]): ExpressionType;
+  abstract checkType(allQuestions: QlQuestion[]): ExpressionType;
 
   abstract evaluate(form: FormGroup): LiteralType;
 }
@@ -24,7 +24,7 @@ export class NegativeExpression extends UnaryExpression {
     super(right, location);
   }
 
-  checkType(allQuestions: Question[]): ExpressionType {
+  checkType(allQuestions: QlQuestion[]): ExpressionType {
     if (this.right.checkType(allQuestions) === ExpressionType.NUMBER) {
       return ExpressionType.NUMBER;
     }
@@ -45,7 +45,7 @@ export class NegateExpression extends UnaryExpression {
     super(right, location);
   }
 
-  checkType(allQuestions: Question[]): ExpressionType {
+  checkType(allQuestions: QlQuestion[]): ExpressionType {
     if (this.right.checkType(allQuestions) === ExpressionType.BOOLEAN) {
       return ExpressionType.BOOLEAN;
     }

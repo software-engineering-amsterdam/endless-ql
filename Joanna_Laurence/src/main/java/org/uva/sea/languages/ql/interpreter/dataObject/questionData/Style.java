@@ -1,5 +1,7 @@
 package org.uva.sea.languages.ql.interpreter.dataObject.questionData;
 
+import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class Style {
     private String page = null;
     private List<String> section = null;
 
-    private WidgetParameters widget = null;
+    private QLWidget widget = new QLWidget(WidgetType.DEFAULT, new ArrayList<>());
 
     public Style() {
 
@@ -38,8 +40,8 @@ public class Style {
         if (this.section == null && style.section != null)
             this.section = new ArrayList<>(style.section);
 
-        if (this.widget == null && style.widget != null)
-            this.widget = new WidgetParameters(style.widget.getParameters());
+        if (this.widget.getWidgetType() == WidgetType.DEFAULT)
+            this.widget = new QLWidget(style.widget.widgetType, style.widget.getParameters());
     }
 
 
@@ -75,11 +77,11 @@ public class Style {
         this.width = width;
     }
 
-    public WidgetParameters getWidget() {
+    public QLWidget getWidget() {
         return widget;
     }
 
-    public void setWidget(WidgetParameters widget) {
+    public void setWidget(QLWidget widget) {
         this.widget = widget;
     }
 
@@ -110,5 +112,9 @@ public class Style {
                 ", section=" + section +
                 ", widget=" + widget +
                 '}';
+    }
+
+    public void setWidgetType(WidgetType widgetType) {
+        this.widget = new QLWidget(widgetType, new ArrayList<>());
     }
 }

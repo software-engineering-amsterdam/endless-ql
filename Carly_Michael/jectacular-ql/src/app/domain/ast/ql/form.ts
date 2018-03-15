@@ -2,7 +2,7 @@ import {QuestionBase} from '../../angular-questions/question-base';
 import {Statement} from './statement';
 import * as _ from 'lodash';
 import {DuplicateIdentifierError, UnknownQuestionError} from '../../errors';
-import {Question} from './question';
+import {QlQuestion} from './ql-question';
 import {Location} from '../location';
 
 export class Form {
@@ -37,7 +37,7 @@ export class Form {
     }
   }
 
-  getAllQuestions(): Question[] {
+  getAllQuestions(): QlQuestion[] {
     const allQuestions = [];
     for (const statement of this.statements) {
       const questions = statement.getQuestions();
@@ -49,7 +49,7 @@ export class Form {
     return _.flatten(allQuestions);
   }
 
-  getQlQuestionByName(name: string): Question {
+  getQlQuestionByName(name: string): QlQuestion {
     for (const q of this.getAllQuestions()) {
       if (q.name === name) {
         return q;
@@ -60,11 +60,11 @@ export class Form {
     throw new UnknownQuestionError(`question by name ${name} not found`);
   }
 
-  private checkDuplicateIdentifiers(allQuestions: Question[]): void {
+  private checkDuplicateIdentifiers(allQuestions: QlQuestion[]): void {
     if (_.uniqBy(allQuestions, 'name').length < allQuestions.length) {
       const groupedQuestions = _.groupBy(allQuestions, 'name');
 
-      _.forEach(groupedQuestions, (value: Question[], key: string) => {
+      _.forEach(groupedQuestions, (value: QlQuestion[], key: string) => {
         if (value.length > 1) {
           throw new DuplicateIdentifierError(`Duplicate question with identifier ${key}`);
         }
@@ -72,7 +72,7 @@ export class Form {
     }
   }
 
-  private setVariableReferences(allQuestions: Question[]): void {
+  private setVariableReferences(allQuestions: QlQuestion[]): void {
     let allVariables = [];
     for (const statement of this.statements) {
       allVariables.push(statement.getVariables());

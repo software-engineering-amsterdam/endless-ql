@@ -1,12 +1,12 @@
 import {Expression, LiteralType} from './expression';
-import {Question} from '../question';
+import {QlQuestion} from '../ql-question';
 import {ExpressionType} from './expression-type';
 import {Location} from '../../location';
 import {FormGroup} from '@angular/forms';
 import {UnknownQuestionError} from '../../../errors';
 
 export class Variable extends Expression {
-  public referencedQuestion: Question;
+  public referencedQuestion: QlQuestion;
 
   constructor(public identifier: string, location: Location) {
     super(location);
@@ -16,8 +16,8 @@ export class Variable extends Expression {
     return [this];
   }
 
-  checkType(allQuestions: Question[]): ExpressionType {
-    return this.toExpressionType(this.referencedQuestion.type);
+  checkType(allQuestions: QlQuestion[]): ExpressionType {
+    return this.referencedQuestion.getExpressionType();
   }
 
   evaluate(form: FormGroup): LiteralType {

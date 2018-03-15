@@ -24,6 +24,8 @@ namespace Assignment1
 
         public void SetErrors(List<string> errors)
         {
+            if (errors == null || errors.Count == 0)
+                return;
             var header = new Label
             {
                 Text = "Provided form is invalid!",
@@ -49,6 +51,8 @@ namespace Assignment1
         // TODO: similar to SetErrors, extract
         public void SetWarnings(List<string> warnings)
         {
+            if (warnings == null || warnings.Count == 0)
+                return;
             var header = new Label
             {
                 Text = "Warning:",

@@ -7,6 +7,7 @@ $ python run_app.py
 """
 import argparse
 import os
+import sys
 
 from grammar.run_antlr import run_antlr_parse_gen
 from commons.config import config
@@ -25,9 +26,9 @@ def main():
     parser.add_argument('-t', '--test', action='store_true',
                         help="Runs the testsuite.")
     parser.add_argument('-g', '--grammar', action='store_true',
-                        help="Debug grammar.")
-    parser.add_argument('-p', '--parser', action='store_true',
-                        help="Generate parser.")
+                        help='Debug grammar.')
+    parser.add_argument('-p', '--parser', action='store', type=str, choices=['ql', 'QL', 'qls', 'QLS'],
+                        help='Generate parser.')
 
     args = parser.parse_args()
 
@@ -44,13 +45,13 @@ def main():
     # Debug grammar
     if args.grammar:
         # todo: make it so that you give path in CLI call + cleanup GrammerDebugger
-        g_debug = GrammarDebugger("tests/forms/ql/fail/arithmetic.ql")
+        g_debug = GrammarDebugger("tests/forms/ql/pass/arithmetic.ql")
         report, errors = g_debug.debug_grammar()
         sys.exit(0)
 
     # Generate antlr parser
     if args.parser:
-        run_antlr_parse_gen()
+        run_antlr_parse_gen(args.parser)
         sys.exit(0)
 
     # GUI

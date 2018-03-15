@@ -9,9 +9,12 @@ import org.uva.ql.ast.Statement;
 import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.validation.checker.ParameterChecker;
+import org.uva.ql.validation.composer.ExpressionList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -32,7 +35,7 @@ public class ParameterCheckerTest {
 
     @Test
     public void runCheckEmptySymbolTable() {
-        ArrayList<Statement> statements;
+        List<Statement> statements;
         statements = new ArrayList<>(Arrays.asList(
                 new CalculatedQuestion(
                         "name",
@@ -43,7 +46,7 @@ public class ParameterCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        ParameterChecker parameterChecker = new ParameterChecker(form, new SymbolTable());
+        ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(), new ExpressionList(form).getExpressions());
         parameterChecker.runCheck();
 
         assertTrue(this.logHandler.hasWarnings());
@@ -51,7 +54,7 @@ public class ParameterCheckerTest {
 
     @Test
     public void runCheckInSymbolTable() {
-        ArrayList<Statement> statements;
+        List<Statement> statements;
         statements = new ArrayList<>(Arrays.asList(
                 new CalculatedQuestion(
                         "name",
@@ -64,7 +67,7 @@ public class ParameterCheckerTest {
 
         SymbolTable symbolTable = new SymbolTable();
         symbolTable.add("parameter", new BooleanType());
-        ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ExpressionList(form).getExpressions());
         parameterChecker.runCheck();
 
         assertFalse(this.logHandler.hasWarnings());

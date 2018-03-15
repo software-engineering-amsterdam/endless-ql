@@ -23,12 +23,12 @@ export class MissingIdentifierError implements Error {
   constructor(public message: string) {}
 }
 
-export class UnknownOperatorError implements Error {
-  name = 'UnknownOperator';
+export class CircularDependencyError implements Error {
+  name = 'CircularDependency';
   constructor(public message: string) {}
 }
 
-export class CircularDependencyError implements Error {
-  name = 'CircularDependency';
+export class ImpossibleIfConditionError implements Error {
+  name = 'ImpossibleIfCondition';
   constructor(public message: string) {}
 }

@@ -1,6 +1,6 @@
 package org.uva.qls.validation;
 
-import org.uva.ql.validation.Checker;
+import org.uva.ql.validation.checker.Checker;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.Type;
 import org.uva.qls.ast.Segment.QuestionReference;

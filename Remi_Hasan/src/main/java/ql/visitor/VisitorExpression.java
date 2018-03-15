@@ -12,6 +12,8 @@ import ql.model.expression.variable.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class VisitorExpression extends QLBaseVisitor<Expression> {
@@ -123,14 +125,8 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitDateConstant(QLParser.DateConstantContext ctx) {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-
-        Date date;
-        try {
-            date = dateFormatter.parse(ctx.getText());
-        } catch (ParseException e) {
-            throw new IllegalArgumentException("Invalid date passed");
-        }
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date = LocalDate.parse(ctx.getText(), dateFormatter);
 
         return new ExpressionVariableDate(ctx.getStart(), date);
     }

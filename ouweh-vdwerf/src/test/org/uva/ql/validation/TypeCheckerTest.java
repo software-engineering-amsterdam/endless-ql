@@ -9,9 +9,11 @@ import org.uva.ql.ast.Statement;
 import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.validation.checker.TypeChecker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -32,7 +34,7 @@ public class TypeCheckerTest {
 
     @Test
     public void correctTypesRunCheck() {
-        ArrayList<Statement> statements;
+        List<Statement> statements;
         statements = new ArrayList<>(Arrays.asList(
                 new CalculatedQuestion(
                         "name",
@@ -55,7 +57,7 @@ public class TypeCheckerTest {
 
     @Test
     public void incorrectTypesRunCheck() {
-        ArrayList<Statement> statements;
+        List<Statement> statements;
         statements = new ArrayList<>(Arrays.asList(
                 new CalculatedQuestion(
                         "name",

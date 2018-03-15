@@ -29,7 +29,7 @@ public class QLFrame extends JFrame {
             if (key != null && key.toString().toLowerCase().contains("font")) {
                 Font font = UIManager.getDefaults().getFont(key);
                 if (font != null) {
-                    font = font.deriveFont((float)size);
+                    font = font.deriveFont((float) size);
                     UIManager.put(key, font);
                 }
             }

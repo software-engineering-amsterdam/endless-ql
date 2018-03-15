@@ -4,9 +4,9 @@ import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
 import {Stylesheet} from './domain/ast/qls';
 import {Form} from './domain/ast/ql/index';
-import {ParseFactory} from './factories/parse-factory';
 import * as qlsMock from './qls-mock-input';
 import * as qlMock from './ql-mock-input';
+import {ParseService} from './services/parse.service';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +24,7 @@ export class AppComponent {
   qlForm: Form;
   qlsStylesheet: Stylesheet;
 
-  constructor(private questionControlService: QuestionControlService) { }
+  constructor(private questionControlService: QuestionControlService, private parseService: ParseService) { }
 
   prefillForm() {
     this.inputQls = qlsMock.validQLS;
@@ -34,12 +34,21 @@ export class AppComponent {
 
   parseInput() {
     try {
-      const parseResult = ParseFactory.parse(this.inputQl, this.inputQls);
+      const parseResult = this.parseService.parse(this.inputQl, this.inputQls);
       this.formName = parseResult.formName;
       this.qlForm = parseResult.form;
       this.qlsStylesheet = parseResult.styles;
       // make form
       this.questions = this.qlForm.toFormQuestion();
+      // loop over questions, update widget types
+
+      if (this.qlsStylesheet) {
+        for (const qlsQuestion of this.qlsStylesheet.getQuestions([])) {
+          const qlQuestion = this.questions.find(q => q.key === qlsQuestion.question.name);
+          qlQuestion.widget.type = qlsQuestion.widget.type;
+        }
+      }
+
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.errorMessage = undefined;
     } catch (e) {

@@ -15,7 +15,6 @@ class GrammarDebugger:
         self.file_path = file_path
         self.error = None
 
-
     def debug_grammar(self):
         file = open_file(self.file_path)
         ql_input = antlr4.InputStream(file)

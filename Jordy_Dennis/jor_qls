@@ -1,0 +1,23 @@
+stylesheet taxOfficeExample
+{
+  page Page1
+  {
+    section "Section 1"
+    {
+      question a
+        widget spinbox
+    }
+    section "Section 2"
+    {
+      question b
+      default int
+        {
+          width: 400
+          font: "Arial"
+          fontsize: 14
+          color: #999999
+          widget spinbox
+        }
+    }
+  }
+}

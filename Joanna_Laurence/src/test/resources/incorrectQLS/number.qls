@@ -1,0 +1,24 @@
+stylesheet taxOfficeExample
+{
+
+  page Selling
+  {
+    section "Selling"
+    {
+      section "You sold a house"
+      {
+        question item1
+            widget checkbox
+
+        question item2
+            widget spinbox
+
+        question item3
+            widget integer
+
+        question item4
+            widget decimal
+      }
+    }
+  }
+}

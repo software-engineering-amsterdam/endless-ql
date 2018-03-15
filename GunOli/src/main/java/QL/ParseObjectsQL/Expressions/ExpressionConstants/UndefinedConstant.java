@@ -18,4 +18,9 @@ public class UndefinedConstant extends Constant<Object> {
     public EvaluationType returnType() { return type; }
 
     public void setType(EvaluationType type) { this.type = type; }
+
+    @Override
+    public String toString(){
+        return "Undefined";
+    }
 }

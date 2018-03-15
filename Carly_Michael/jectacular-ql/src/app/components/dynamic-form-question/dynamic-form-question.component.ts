@@ -19,6 +19,12 @@ export class DynamicFormQuestionComponent implements OnInit {
     this.form.controls[this.question.key].setValue(event.target.checked);
   }
 
+  onTextboxChange(question: QuestionBase<any>, event) {
+    if (question.type === 'number') {
+      this.form.controls[this.question.key].setValue(parseInt(event.target.value, 10));
+    }
+  }
+
   ngOnInit(): void {
     this.control = this.form.controls[this.question.key];
     this.form.valueChanges.subscribe(() => {

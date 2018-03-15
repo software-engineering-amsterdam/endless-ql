@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Domain
@@ -47,6 +48,13 @@ namespace QuestionnaireDomain.Entities.Domain
             {
                 return false;
             }
+        }
+
+        public Reference<IQuestionnaireRootNode> GetRoot(Reference<IQuestionNode> node)
+        {
+            //Hack for now - assuming just one questionnaire, however will have to put parent into astnodes
+            // to do this properly
+            return GetAllRefs<IQuestionnaireRootNode>().FirstOrDefault();
         }
     }
 }

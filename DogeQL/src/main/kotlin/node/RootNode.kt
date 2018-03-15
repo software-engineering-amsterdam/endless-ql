@@ -1,8 +1,27 @@
 package node
 
-class RootNode : Node() {
+import data.question.Question
+import data.symbol.SymbolTable
+import typechecker.pass.DuplicatePass
+import typechecker.pass.ScopePass
+import typechecker.pass.TypePass
 
-    override fun validate(): Boolean = children.all {
-        validate()
+class RootNode(symbolTable: SymbolTable) : Node(symbolTable) {
+
+    override fun getEnabledQuestions(): List<Question> = children.flatMap { child ->
+        child.getEnabledQuestions()
     }
+
+    override fun accept(pass: ScopePass) {
+        pass.visit(this)
+    }
+
+    override fun accept(pass: DuplicatePass) {
+        pass.visit(this)
+    }
+
+    override fun accept(pass: TypePass) {
+        pass.visit(this)
+    }
+
 }

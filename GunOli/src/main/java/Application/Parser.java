@@ -30,6 +30,7 @@ public class Parser {
             QLParser parser = new QLParser(tokens);
 
             //Trees.inspect(parser.head(), parser); //Debug parse tree, change for later viewing
+            //parser.reset();
 
             ExpressionTable expressionTable = new ExpressionTable();
             FormVisitor visitor = new FormVisitor(expressionTable);
@@ -61,13 +62,15 @@ public class Parser {
 
     //debugging prints, remove after completion
 
-    public void printQLForm(Form form, QuestionMap qm){
+    public void printQLForm(Form form){
         for(Question question : form.getBlock().getQuestions()){
             String questionName = question.getIdentifier();
-            System.out.println( qm.getQuestion(questionName).getIdentifier() + " : " +
-                                qm.getQuestion(questionName).getText()+" : "+
-                                qm.getQuestion(questionName).getType()+" : "+
-                                qm.getQuestion(questionName).getAnswer().evaluate().getValue());
+            ExpressionTable expressionTable = form.getExpressionTable();
+            System.out.println( question.getIdentifier() + " : " +
+                                question.getText()+" : "+
+                                question.getType()+" : "+
+                                //question.isEnabled()+" : "+
+                                expressionTable.getExpression(questionName).evaluate().getValue());
         }
     }
 

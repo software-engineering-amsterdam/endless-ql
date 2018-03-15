@@ -9,8 +9,12 @@ import java.util.List;
 public class AstBuilder extends QLBaseVisitor<List<Stmt>> {
 	private final StmtVisitor stmtVisitor;
 
-	public AstBuilder() {
-		stmtVisitor = new StmtVisitor();
+	public AstBuilder(boolean printErros) {
+		stmtVisitor = new StmtVisitor(printErros);
+	}
+
+	public int getNumberOfErros() {
+		return stmtVisitor.getNumberOfErrors();
 	}
 
 	@Override public List<Stmt> visitParse(QLParser.ParseContext ctx) {

@@ -1,31 +1,18 @@
 package org.uva.forcepushql.ast;
 
-abstract class ASTVisitor<T>{
+public interface ASTVisitor{
 
-    public T Visit(ExpressionNode node)
-    {
-        if(node instanceof AdditionNode)
-        {
-            return Visit((AdditionNode)node);
-        }
-        else if(node instanceof SubtractionNode)
-        {
-            return Visit((SubtractionNode) node);
-        }
-        else if(node instanceof DivisionNode)
-        {
-            return Visit((DivisionNode) node);
-        }
-        else if(node instanceof MultiplicationNode)
-        {
-            return Visit((MultiplicationNode) node);
-        }
-        else if(node instanceof NumberNode)
-        {
-            return Visit((NumberNode) node);
-        }
-        else{
-            return null; //REPLACE WITH ERROR!
-        }
-    }
+    String visit(Node node);
+    String visit(FormNode node);
+    double visit(ExpressionNode node);
+    double visit(AdditionNode node);
+    double visit(NumberNode node);
+    double visit(MultiplicationNode node);
+    double visit(DivisionNode node);
+    double visit(NegateNode node);
+    String visit(QuestionNode node);
+    String visit(LabelNode node);
+    String visit(NameNode node);
+    String visit(TypeNode node);
+
 }

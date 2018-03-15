@@ -26,6 +26,7 @@ public class ComputedQuestionElement extends QuestionElement implements SymbolTa
 	public Panel build() {
 		Panel panel = super.build();
 		this.inputField.setEnabled(false);
+		this.computeAnswer();
 		return panel;
 	}
 
@@ -34,18 +35,20 @@ public class ComputedQuestionElement extends QuestionElement implements SymbolTa
 		// Check if an identifier where the expression depends on is updated.
 		List<String> internalIdentifiers = new IdentifierFinder().find(this.expression);
 		if(internalIdentifiers.contains(key)) {
-			
-			GenericValue genericValue = new ExpressionEvaluator().execute(this.expression);
-			if(genericValue instanceof EmptyValue) {
-				return;
-			}
-
-			// Store computed variable as result of the question
-			SymbolTable.getInstance().put(this.identifier, value);
-
-			this.inputField.setValue(genericValue);
+			this.computeAnswer();			
 		}
-		
+	}
+	
+	private void computeAnswer() {
+		GenericValue genericValue = new ExpressionEvaluator().execute(this.expression);
+		if(genericValue instanceof EmptyValue) {
+			return;
+		}
+
+		// Store computed variable as result of the question
+		SymbolTable.getInstance().put(this.identifier, genericValue);
+
+		this.inputField.setValue(genericValue);
 	}
 
 }

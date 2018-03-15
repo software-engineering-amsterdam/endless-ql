@@ -1,8 +1,8 @@
 package org.uva.sea.gui.model;
 
 import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
-import org.uva.sea.ql.interpreter.dataObject.QuestionData;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.IntValue;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
 
 public class IntQuestionModel extends BaseQuestionModel {
 
@@ -20,6 +20,6 @@ public class IntQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        return value != null ? String.valueOf(value.getIntValue()) : "No value";
+        return (this.value != null) ? String.valueOf(this.value.getIntValue()) : "No value";
     }
 }

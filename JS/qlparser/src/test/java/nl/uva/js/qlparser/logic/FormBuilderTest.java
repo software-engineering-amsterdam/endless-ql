@@ -1,15 +1,15 @@
 package nl.uva.js.qlparser.logic;
 
-import nl.uva.js.qlparser.models.expressions.Form;
-import nl.uva.js.qlparser.models.expressions.data.Combinator;
-import nl.uva.js.qlparser.models.expressions.data.Value;
-import nl.uva.js.qlparser.models.expressions.data.Variable;
-import nl.uva.js.qlparser.models.enums.ArithOp;
-import nl.uva.js.qlparser.models.enums.CompOp;
-import nl.uva.js.qlparser.models.enums.DataType;
-import nl.uva.js.qlparser.models.expressions.form.FormExpression;
-import nl.uva.js.qlparser.models.expressions.form.IfBlock;
-import nl.uva.js.qlparser.models.expressions.form.Question;
+import nl.uva.js.qlparser.models.ql.expressions.Form;
+import nl.uva.js.qlparser.models.ql.expressions.data.Combinator;
+import nl.uva.js.qlparser.models.ql.expressions.data.Value;
+import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
+import nl.uva.js.qlparser.models.ql.enums.ArithOp;
+import nl.uva.js.qlparser.models.ql.enums.CompOp;
+import nl.uva.js.qlparser.models.ql.enums.DataType;
+import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
+import nl.uva.js.qlparser.models.ql.expressions.form.IfBlock;
+import nl.uva.js.qlparser.models.ql.expressions.form.Question;
 import org.junit.Test;
 
 import java.io.IOException;

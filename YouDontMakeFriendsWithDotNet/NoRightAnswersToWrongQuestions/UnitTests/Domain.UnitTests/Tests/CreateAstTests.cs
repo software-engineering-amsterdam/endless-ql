@@ -183,7 +183,7 @@ namespace UnitTests.Domain.UnitTests.Tests
 
             Assert.AreEqual(
                 expected: expectedId, 
-                actual: question.QuestionId,
+                actual: question.QuestionName,
                 message: "The question name did not match");
 
             Assert.AreEqual(

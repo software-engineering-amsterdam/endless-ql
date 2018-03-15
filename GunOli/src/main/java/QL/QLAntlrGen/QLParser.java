@@ -17,9 +17,9 @@ public class QLParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, PLUS=7, MINUS=8, MUL=9, 
 		DIV=10, GT=11, GE=12, LT=13, LE=14, EQ=15, NE=16, AND=17, OR=18, NOT=19, 
 		FORM=20, IF=21, BOOLEANTYPE=22, STRINGTYPE=23, MONEYTYPE=24, INTEGERTYPE=25, 
-		DATETYPE=26, DECIMALTYPE=27, INTEGER=28, DECIMAL=29, MONEY=30, DATE=31, 
-		DAY=32, MONTH=33, YEAR=34, STRING=35, IDENTIFIER=36, WHITESPCAE=37, MULTI_COMMENT=38, 
-		SINGLE_COMMENT=39;
+		DATETYPE=26, DECIMALTYPE=27, BOOLEAN=28, INTEGER=29, DECIMAL=30, MONEY=31, 
+		DATE=32, DAY=33, MONTH=34, YEAR=35, STRING=36, IDENTIFIER=37, WHITESPCAE=38, 
+		MULTI_COMMENT=39, SINGLE_COMMENT=40;
 	public static final int
 		RULE_head = 0, RULE_block = 1, RULE_statement = 2, RULE_condition = 3, 
 		RULE_question = 4, RULE_questionType = 5, RULE_expression = 6, RULE_operator = 7, 
@@ -38,8 +38,8 @@ public class QLParser extends Parser {
 		null, null, null, null, null, null, null, "PLUS", "MINUS", "MUL", "DIV", 
 		"GT", "GE", "LT", "LE", "EQ", "NE", "AND", "OR", "NOT", "FORM", "IF", 
 		"BOOLEANTYPE", "STRINGTYPE", "MONEYTYPE", "INTEGERTYPE", "DATETYPE", "DECIMALTYPE", 
-		"INTEGER", "DECIMAL", "MONEY", "DATE", "DAY", "MONTH", "YEAR", "STRING", 
-		"IDENTIFIER", "WHITESPCAE", "MULTI_COMMENT", "SINGLE_COMMENT"
+		"BOOLEAN", "INTEGER", "DECIMAL", "MONEY", "DATE", "DAY", "MONTH", "YEAR", 
+		"STRING", "IDENTIFIER", "WHITESPCAE", "MULTI_COMMENT", "SINGLE_COMMENT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -595,6 +595,7 @@ public class QLParser extends Parser {
 				expression(3);
 				}
 				break;
+			case BOOLEAN:
 			case INTEGER:
 			case DECIMAL:
 			case MONEY:
@@ -938,12 +939,29 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class BooleanConstantContext extends ConstantContext {
+		public TerminalNode BOOLEAN() { return getToken(QLParser.BOOLEAN, 0); }
+		public BooleanConstantContext(ConstantContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterBooleanConstant(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitBooleanConstant(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitBooleanConstant(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final ConstantContext constant() throws RecognitionException {
 		ConstantContext _localctx = new ConstantContext(_ctx, getState());
 		enterRule(_localctx, 20, RULE_constant);
 		try {
-			setState(93);
+			setState(94);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case INTEGER:
@@ -954,43 +972,51 @@ public class QLParser extends Parser {
 				match(INTEGER);
 				}
 				break;
-			case DECIMAL:
-				_localctx = new DecimalConstantContext(_localctx);
+			case BOOLEAN:
+				_localctx = new BooleanConstantContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(88);
+				match(BOOLEAN);
+				}
+				break;
+			case DECIMAL:
+				_localctx = new DecimalConstantContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(89);
 				match(DECIMAL);
 				}
 				break;
 			case STRING:
 				_localctx = new StringConstantContext(_localctx);
-				enterOuterAlt(_localctx, 3);
+				enterOuterAlt(_localctx, 4);
 				{
-				setState(89);
+				setState(90);
 				match(STRING);
 				}
 				break;
 			case IDENTIFIER:
 				_localctx = new IdentifierConstantContext(_localctx);
-				enterOuterAlt(_localctx, 4);
+				enterOuterAlt(_localctx, 5);
 				{
-				setState(90);
+				setState(91);
 				match(IDENTIFIER);
 				}
 				break;
 			case MONEY:
 				_localctx = new MoneyConstantContext(_localctx);
-				enterOuterAlt(_localctx, 5);
+				enterOuterAlt(_localctx, 6);
 				{
-				setState(91);
+				setState(92);
 				match(MONEY);
 				}
 				break;
 			case DATE:
 				_localctx = new DateConstantContext(_localctx);
-				enterOuterAlt(_localctx, 6);
+				enterOuterAlt(_localctx, 7);
 				{
-				setState(92);
+				setState(93);
 				match(DATE);
 				}
 				break;
@@ -1042,7 +1068,7 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(95);
+			setState(96);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOLEANTYPE) | (1L << STRINGTYPE) | (1L << MONEYTYPE) | (1L << INTEGERTYPE) | (1L << DATETYPE) | (1L << DECIMALTYPE))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1081,30 +1107,30 @@ public class QLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3)d\4\2\t\2\4\3\t\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3*e\4\2\t\2\4\3\t\3"+
 		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f"+
 		"\t\f\4\r\t\r\3\2\3\2\3\2\3\2\3\2\3\3\3\3\6\3\"\n\3\r\3\16\3#\3\3\3\3\3"+
 		"\4\3\4\5\4*\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3"+
 		"\7\3\7\3\7\5\7<\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\bG\n\b\3\b\3"+
 		"\b\3\b\3\b\7\bM\n\b\f\b\16\bP\13\b\3\t\3\t\5\tT\n\t\3\n\3\n\3\13\3\13"+
-		"\3\f\3\f\3\f\3\f\3\f\3\f\5\f`\n\f\3\r\3\r\3\r\2\3\16\16\2\4\6\b\n\f\16"+
-		"\20\22\24\26\30\2\5\4\2\n\n\25\25\3\2\t\24\3\2\30\35\2c\2\32\3\2\2\2\4"+
-		"\37\3\2\2\2\6)\3\2\2\2\b+\3\2\2\2\n\61\3\2\2\2\f;\3\2\2\2\16F\3\2\2\2"+
-		"\20S\3\2\2\2\22U\3\2\2\2\24W\3\2\2\2\26_\3\2\2\2\30a\3\2\2\2\32\33\7\26"+
-		"\2\2\33\34\7&\2\2\34\35\5\4\3\2\35\36\7\2\2\3\36\3\3\2\2\2\37!\7\3\2\2"+
-		" \"\5\6\4\2! \3\2\2\2\"#\3\2\2\2#!\3\2\2\2#$\3\2\2\2$%\3\2\2\2%&\7\4\2"+
-		"\2&\5\3\2\2\2\'*\5\b\5\2(*\5\n\6\2)\'\3\2\2\2)(\3\2\2\2*\7\3\2\2\2+,\7"+
-		"\27\2\2,-\7\5\2\2-.\5\16\b\2./\7\6\2\2/\60\5\4\3\2\60\t\3\2\2\2\61\62"+
-		"\7&\2\2\62\63\7\7\2\2\63\64\7%\2\2\64\65\5\f\7\2\65\13\3\2\2\2\66<\5\30"+
-		"\r\2\678\5\30\r\289\7\b\2\29:\5\16\b\2:<\3\2\2\2;\66\3\2\2\2;\67\3\2\2"+
-		"\2<\r\3\2\2\2=>\b\b\1\2>?\7\5\2\2?@\5\16\b\2@A\7\6\2\2AG\3\2\2\2BC\5\20"+
-		"\t\2CD\5\16\b\5DG\3\2\2\2EG\5\26\f\2F=\3\2\2\2FB\3\2\2\2FE\3\2\2\2GN\3"+
-		"\2\2\2HI\f\4\2\2IJ\5\20\t\2JK\5\16\b\5KM\3\2\2\2LH\3\2\2\2MP\3\2\2\2N"+
-		"L\3\2\2\2NO\3\2\2\2O\17\3\2\2\2PN\3\2\2\2QT\5\22\n\2RT\5\24\13\2SQ\3\2"+
-		"\2\2SR\3\2\2\2T\21\3\2\2\2UV\t\2\2\2V\23\3\2\2\2WX\t\3\2\2X\25\3\2\2\2"+
-		"Y`\7\36\2\2Z`\7\37\2\2[`\7%\2\2\\`\7&\2\2]`\7 \2\2^`\7!\2\2_Y\3\2\2\2"+
-		"_Z\3\2\2\2_[\3\2\2\2_\\\3\2\2\2_]\3\2\2\2_^\3\2\2\2`\27\3\2\2\2ab\t\4"+
-		"\2\2b\31\3\2\2\2\t#);FNS_";
+		"\3\f\3\f\3\f\3\f\3\f\3\f\3\f\5\fa\n\f\3\r\3\r\3\r\2\3\16\16\2\4\6\b\n"+
+		"\f\16\20\22\24\26\30\2\5\4\2\n\n\25\25\3\2\t\24\3\2\30\35\2e\2\32\3\2"+
+		"\2\2\4\37\3\2\2\2\6)\3\2\2\2\b+\3\2\2\2\n\61\3\2\2\2\f;\3\2\2\2\16F\3"+
+		"\2\2\2\20S\3\2\2\2\22U\3\2\2\2\24W\3\2\2\2\26`\3\2\2\2\30b\3\2\2\2\32"+
+		"\33\7\26\2\2\33\34\7\'\2\2\34\35\5\4\3\2\35\36\7\2\2\3\36\3\3\2\2\2\37"+
+		"!\7\3\2\2 \"\5\6\4\2! \3\2\2\2\"#\3\2\2\2#!\3\2\2\2#$\3\2\2\2$%\3\2\2"+
+		"\2%&\7\4\2\2&\5\3\2\2\2\'*\5\b\5\2(*\5\n\6\2)\'\3\2\2\2)(\3\2\2\2*\7\3"+
+		"\2\2\2+,\7\27\2\2,-\7\5\2\2-.\5\16\b\2./\7\6\2\2/\60\5\4\3\2\60\t\3\2"+
+		"\2\2\61\62\7\'\2\2\62\63\7\7\2\2\63\64\7&\2\2\64\65\5\f\7\2\65\13\3\2"+
+		"\2\2\66<\5\30\r\2\678\5\30\r\289\7\b\2\29:\5\16\b\2:<\3\2\2\2;\66\3\2"+
+		"\2\2;\67\3\2\2\2<\r\3\2\2\2=>\b\b\1\2>?\7\5\2\2?@\5\16\b\2@A\7\6\2\2A"+
+		"G\3\2\2\2BC\5\20\t\2CD\5\16\b\5DG\3\2\2\2EG\5\26\f\2F=\3\2\2\2FB\3\2\2"+
+		"\2FE\3\2\2\2GN\3\2\2\2HI\f\4\2\2IJ\5\20\t\2JK\5\16\b\5KM\3\2\2\2LH\3\2"+
+		"\2\2MP\3\2\2\2NL\3\2\2\2NO\3\2\2\2O\17\3\2\2\2PN\3\2\2\2QT\5\22\n\2RT"+
+		"\5\24\13\2SQ\3\2\2\2SR\3\2\2\2T\21\3\2\2\2UV\t\2\2\2V\23\3\2\2\2WX\t\3"+
+		"\2\2X\25\3\2\2\2Ya\7\37\2\2Za\7\36\2\2[a\7 \2\2\\a\7&\2\2]a\7\'\2\2^a"+
+		"\7!\2\2_a\7\"\2\2`Y\3\2\2\2`Z\3\2\2\2`[\3\2\2\2`\\\3\2\2\2`]\3\2\2\2`"+
+		"^\3\2\2\2`_\3\2\2\2a\27\3\2\2\2bc\t\4\2\2c\31\3\2\2\2\t#);FNS`";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

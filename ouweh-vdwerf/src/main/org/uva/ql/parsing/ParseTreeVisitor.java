@@ -4,7 +4,6 @@ import antlr.generated.QLBaseVisitor;
 import antlr.generated.QLParser;
 import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.BooleanLiteral;
 import org.uva.ql.ast.expression.unary.IntegerLiteral;
@@ -170,6 +169,6 @@ public class ParseTreeVisitor extends QLBaseVisitor {
 
     @Override
     public TreeNode visitParameterGroup(QLParser.ParameterGroupContext ctx) {
-        return new ParameterGroup((Expression) visit(ctx.expression()));
+        return (Expression) visit(ctx.expression());
     }
 }

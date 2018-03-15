@@ -1,19 +1,29 @@
 package domain.model.variable;
 
-import domain.model.visitor.Visitor;
+import domain.model.value.*;
+import domain.visitor.Visitor;
 import javafx.scene.Node;
 
+
 public abstract class Variable {
-    private final String name;
+    private final String identifier;
 
-    public Variable(String name) {
-        this.name = name;
+    public Variable(String identifier) {
+        this.identifier = identifier;
     }
 
-    public String getName() {
-        return name;
+    public String getIdentifier() {
+        return identifier;
     }
+    public abstract Value getValue();
 
-    public abstract Node getRelatedGUIElement(Visitor v);
+    public void setValue(StringValue value){};
+    public void setValue(BooleanValue value){};
+    public void setValue(ArithmeticExpressionValue value){};
+    public void setValue(BooleanExpressionValue value){};
+    public void setValue(MoneyValue value){};
+
+    public abstract Node getRelatedUIElement(Visitor v);
+
 
 }

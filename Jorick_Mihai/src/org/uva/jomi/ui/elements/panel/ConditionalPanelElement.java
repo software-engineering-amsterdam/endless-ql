@@ -1,9 +1,5 @@
 package org.uva.jomi.ui.elements.panel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import org.uva.jomi.ql.ast.expressions.Expr;
@@ -48,12 +44,12 @@ public class ConditionalPanelElement implements BaseElement, SymbolTableListener
 			this.elsePanel.setVisible(false);
 			panel.add(this.elsePanel);
 		}
-		
+
 		this.update();
 
 		return panel;
 	}
-	
+
 	public void update() {
 		ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
@@ -63,12 +59,12 @@ public class ConditionalPanelElement implements BaseElement, SymbolTableListener
 		}
 		BooleanValue booleanValue = (BooleanValue) genericValue;
 		this.ifPanel.setVisible(booleanValue.getValue());
-		
+
 		if(this.elseElement != null) {
-			this.elsePanel.setVisible(!booleanValue.getValue());	
+			this.elsePanel.setVisible(!booleanValue.getValue());
 		}
 	}
-	
+
 	@Override
 	public void update(String key, GenericValue value) {
 		this.update();

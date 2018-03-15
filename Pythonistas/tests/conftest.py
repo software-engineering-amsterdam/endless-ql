@@ -2,11 +2,9 @@ import shutil
 import pytest
 
 
-
 @pytest.yield_fixture(autouse=True, scope='session')
 def test_suite_cleanup():
     # setup
-
 
     # run tests
     yield

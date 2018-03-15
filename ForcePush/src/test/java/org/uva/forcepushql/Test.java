@@ -6,6 +6,7 @@ import org.uva.forcepushql.antlr.GrammarParser;
 import org.uva.forcepushql.ast.BuildASTVisitor;
 import org.uva.forcepushql.ast.EvaluateExpressionVisitor;
 import org.uva.forcepushql.ast.ExpressionNode;
+import org.uva.forcepushql.ast.Node;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,8 +27,12 @@ public class Test
         // create a parser that feeds off the tokens buffer
         GrammarParser parser = new GrammarParser(tokens);
         // begin parsing at rule x
-        ExpressionNode expression = new BuildASTVisitor().visitMathUnit(parser.mathUnit());
-        double value = new EvaluateExpressionVisitor().Visit(expression);
+        //Node expression = new BuildASTVisitor().visitMathUnit(parser.mathUnit());
+        //String value = new EvaluateExpressionVisitor().visit(expression);
+        //Node question = new BuildASTVisitor().visitQuestionFormat(parser.questionFormat());
+        //String value = new EvaluateExpressionVisitor().visit(question);
+        Node form = new BuildASTVisitor().visitFormStructure(parser.formStructure());
+        String value = new EvaluateExpressionVisitor().visit(form);
         System.out.println("Final result is: " + value);
 
     }

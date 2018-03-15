@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.TextToValueVisitor;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 public class TextFieldWidget implements Widget {
 

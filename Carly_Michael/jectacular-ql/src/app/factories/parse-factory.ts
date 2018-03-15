@@ -1,4 +1,4 @@
-import {Form} from '../domain/ast';
+import {Form} from '../domain/ast/ql/index';
 import {Stylesheet} from '../domain/ast/qls';
 import {parse} from '../../parser/ql-parser';
 import {parse as parseQls} from '../../parser/qls-parser';

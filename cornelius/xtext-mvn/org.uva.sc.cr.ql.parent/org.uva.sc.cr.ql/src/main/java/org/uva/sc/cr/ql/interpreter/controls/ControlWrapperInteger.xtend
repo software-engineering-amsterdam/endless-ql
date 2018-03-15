@@ -5,29 +5,35 @@ import javafx.scene.control.TextField
 import javafx.scene.control.TextFormatter
 import javafx.util.converter.IntegerStringConverter
 import org.uva.sc.cr.ql.qL.Question
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class ControlWrapperInteger extends ControlWrapper {
 
-	private var TextField control
+	private static val DEFAULT_VALUE = 0
+
+	@Accessors(PUBLIC_GETTER)
+	private var TextField textField
 
 	new(Question question, StringBinding binding) {
 		super(question, binding)
 		if (question.expression !== null) {
-			control.textProperty.bind(binding)
+			textField.textProperty.bind(binding)
+		} else {
+			textField.text = "" + DEFAULT_VALUE
 		}
 	}
 
 	override getValue() {
-		return control.text
+		return textField.text
 	}
 
 	override getControl() {
-		return control
+		return textField
 	}
 
 	override protected buildControl() {
-		control = new TextField
-		control.textFormatter = new TextFormatter(new IntegerStringConverter)
+		textField = new TextField
+		textField.textFormatter = new TextFormatter(new IntegerStringConverter)
 	}
 
 }

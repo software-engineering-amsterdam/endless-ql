@@ -2,7 +2,7 @@ package org.uva.qls.validation;
 
 import org.uva.ql.ast.Question;
 import org.uva.ql.validation.Checker;
-import org.uva.ql.validation.LogHandler;
+import org.uva.app.LogHandler;
 import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.ast.Stylesheet;
 
@@ -29,10 +29,12 @@ public class QLSValidator {
     }
 
     private void initializeCheckers() {
+        List<QuestionReference> qlsQuestions = stylesheet.getQuestions();
         List<String> qlQuestionIds = qlQuestions.stream().map(Question::getName).collect(Collectors.toList());
-        List<String> qlsQuestionIds = stylesheet.getQuestions().stream().map(QuestionReference::getId).collect(Collectors.toList());
+        List<String> qlsQuestionIds = qlsQuestions.stream().map(QuestionReference::getId).collect(Collectors.toList());
 
         checkers.add(new ReferenceChecker(qlQuestionIds, qlsQuestionIds));
+        checkers.add(new CompatibilityChecker(qlQuestions, qlsQuestions));
     }
 
     public void run() {

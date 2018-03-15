@@ -1,29 +1,25 @@
 ﻿using System;
+using System.CodeDom;
+using System.Runtime.CompilerServices;
 
 namespace QuestionnaireUI.Models
 {
-    public class QuestionWrapper
+    public class QuestionWrapper : ModelWrapperBase<QuestionModel>
     {
-        public QuestionWrapper(QuestionModel model)
-        {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
+        public Guid QuestionId => GetValue<Guid>();
+        public string QuestionText => GetValue<string>();
+        public Type QuestionType => GetValue<Type>();
+        public bool ReadOnly => GetValue<bool>();
+        public bool Visible => GetValue<bool>();
 
-            Model = model;
-        }
-
-        public QuestionModel Model { get;  }
-        public Guid QuestionId => Model.QuestionId;
-        public string QuestionText => Model.QuestionText;
-        public Type QuestionType => Model.QuestionType;
-        public bool ReadOnly => Model.ReadOnly;
-        public bool Visible => Model.Visible;
         public string Value
         {
-            get { return Model.Value; }
-            set { Model.Value = value; }
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public QuestionWrapper(QuestionModel model) : base(model)
+        {
         }
     }
 }

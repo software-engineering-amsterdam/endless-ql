@@ -4,7 +4,6 @@ import QuestionareLanguageParser
 import QuestionareLanguageParserBaseListener
 import data.question.Question
 import data.question.SymbolType
-import data.symbol.SymbolRegistrationResult
 import data.symbol.SymbolTable
 import data.value.*
 import expression.BinaryExpression
@@ -191,7 +190,7 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
     private fun pushReferenceExpression(name: String) {
         expressionBuilder.push(
-                ReferenceExpression(name, SymbolType.Undecided)
+                ReferenceExpression(name, SymbolType.UNDEFINED)
         )
     }
 

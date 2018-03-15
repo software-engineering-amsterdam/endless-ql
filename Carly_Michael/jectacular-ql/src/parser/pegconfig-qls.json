@@ -2,6 +2,6 @@
   "tspegjs": {
     "noTslint": false,
     "tslintIgnores": "quotemark",
-    "customHeader": "/* tslint:disable */ \r\n import * as astQls from '../app/domain/ast/qls';\r\n import * as astQl from '../app/domain/ast';"
+    "customHeader": "/* tslint:disable */ \r\n import * as astQls from '../app/domain/ast/qls';\r\n import * as astQl from '../app/domain/ast/qls';"
   }
 }

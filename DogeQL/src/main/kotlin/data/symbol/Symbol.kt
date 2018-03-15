@@ -10,19 +10,17 @@ class Symbol(type: SymbolType, val expression: Expression?) {
 
     var value: BaseSymbolValue = when (type) {
         SymbolType.Boolean -> BooleanValue(false)
-        SymbolType.Integer -> IntegerValue(0)
-        SymbolType.Decimal -> DecimalValue(0)
-        SymbolType.String -> StringValue("")
-        SymbolType.Money -> MoneyValue(0)
-        SymbolType.Color -> ColorValue(Color(0, 0, 0, 0))
+        SymbolType.INTEGER -> IntegerValue(0)
+        SymbolType.DECIMAL -> DecimalValue(0)
+        SymbolType.STRING -> StringValue("")
+        SymbolType.MONEY -> MoneyValue(0)
+        SymbolType.COLOR -> ColorValue(Color(0, 0, 0, 0))
         SymbolType.Undecided -> throw IllegalStateException("Unable to create symbol of undecided type")
     }
 
     fun evaluate(symbolTable: SymbolTable) {
         expression?.let {
             value = expression.evaluate(symbolTable)
-        } ?: run {
-            throw OperationNotSupportedException("Unable to evaluate variable")
         }
     }
 

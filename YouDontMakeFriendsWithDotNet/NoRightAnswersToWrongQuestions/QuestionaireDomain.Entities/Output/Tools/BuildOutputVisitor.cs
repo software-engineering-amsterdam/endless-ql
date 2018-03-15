@@ -14,7 +14,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     internal class BuildOutputVisitor : 
         IBuildOutputVisitor
     {
-        private bool m_questionsCurrentlyVisible = true;
+        private Stack<bool> m_questionsCurrentlyVisible = new Stack<bool>() ;
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IOutputItemFactory m_outputItemFactory;
         private readonly ISymbolTable m_lookup;
@@ -33,6 +33,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             m_outputItemFactory = outputItemFactory;
             m_lookup = lookup;
             m_booleanEvaluator = booleanEvaluator;
+            m_questionsCurrentlyVisible.Push(true);
         }
 
         public Reference<IQuestionnaireOutputItem> Build(
@@ -49,9 +50,8 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         {
             var node = questionnaireNode
                 .ToDomainItem(m_domainItemLocator);
-
-            var statements = node.Statements;
-            HandleStatements(statements);
+            
+            HandleStatements(node.Statements);
             
             m_outputItemFactory.CreateQuestionnaireOutputItem(
                 node.QuestionnaireName,
@@ -76,22 +76,27 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         private void Visit(Reference<IQuestionNode> questionNode)
         {
             var node = questionNode.ToDomainItem(m_domainItemLocator);
-
-            m_outputItemFactory.CreateQuestionOutputItem(
+            var temp = GetValue(node);
+            var question = m_outputItemFactory.CreateQuestionOutputItem(
                 node.QuestionText,
-                GetValue(node.Id),
+                GetValue(node),
                 node.QuestionType,
-                m_questionsCurrentlyVisible,
+                m_questionsCurrentlyVisible.Peek(),
                 false);
+
+            m_questions.Add(question);
         }
 
         private void Visit(Reference<IConditionalStatementNode> ifElseNode)
         {
             var node = ifElseNode.ToDomainItem(m_domainItemLocator);
-            m_questionsCurrentlyVisible = Evaluate(node.Predicate);
+            var predicateResult = Evaluate(node.Predicate);
+            m_questionsCurrentlyVisible.Push(predicateResult);
             HandleStatements(node.Consequent);
-            m_questionsCurrentlyVisible = !m_questionsCurrentlyVisible;
+            m_questionsCurrentlyVisible.Pop();
+            m_questionsCurrentlyVisible.Push(!predicateResult);
             HandleStatements(node.Alternative);
+            m_questionsCurrentlyVisible.Pop();
         }
 
         private bool Evaluate(Reference<IBooleanLogicNode> predicate)
@@ -99,32 +104,32 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             return m_booleanEvaluator.Evaluate(predicate);
         }
         
-        private string GetValue(Guid questionId)
+        private string GetValue(IQuestionNode question)
         {
-            var type = GetQuestionType(questionId);
+            var type = GetQuestionType(question.Id);
             if (type == typeof(bool))
             {
-                return m_lookup.Lookup<bool>(questionId).ToString();
+                return m_lookup.Lookup<bool>(question.Id).ToString();
             }
 
             if (type == typeof(string))
             {
-                return m_lookup.Lookup<string>(questionId) ?? "";
+                return m_lookup.Lookup<string>(question.Id) ?? "";
             }
 
             if (type == typeof(decimal))
             {
-                return m_lookup.Lookup<decimal>(questionId).ToString(CultureInfo.InvariantCulture);
+                return m_lookup.Lookup<decimal>(question.Id).ToString(CultureInfo.InvariantCulture);
             }
 
             if (type == typeof(int))
             {
-                return m_lookup.Lookup<int>(questionId).ToString(CultureInfo.InvariantCulture);
+                return m_lookup.Lookup<int>(question.Id).ToString(CultureInfo.InvariantCulture);
             }
 
             if (type == typeof(DateTime))
             {
-                return m_lookup.Lookup<DateTime>(questionId).ToString(CultureInfo.InvariantCulture);
+                return m_lookup.Lookup<DateTime>(question.Id).ToString(CultureInfo.InvariantCulture);
             }
 
             throw new ArgumentException($@"value lookup for type '{type}' not implemented");
@@ -138,15 +143,15 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 ?.QuestionType;
         }
 
-        public Reference<IQuestionOutputItem> Visit(Reference<IUserInputQuestionNode> node)
-        {
-            var domainItem = node.ToDomainItem(m_domainItemLocator);
-            return m_outputItemFactory.CreateQuestionOutputItem(
-                domainItem.QuestionText,
-                GetValue(node.Id),
-                GetQuestionType(node.Id),
-                m_questionsCurrentlyVisible,
-                false);
-        }
+        //public Reference<IQuestionOutputItem> Visit(Reference<IUserInputQuestionNode> node)
+        //{
+        //    var domainItem = node.ToDomainItem(m_domainItemLocator);
+        //    return m_outputItemFactory.CreateQuestionOutputItem(
+        //        domainItem.QuestionText,
+        //        GetValue(node.Id),
+        //        GetQuestionType(node.Id),
+        //        m_questionsCurrentlyVisible,
+        //        false);
+        //}
     }
 }

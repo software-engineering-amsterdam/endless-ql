@@ -13,13 +13,13 @@ import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.node.type.StringTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.symboltable.SymbolTableEntry;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TypeCheckVisitor extends NodeVisitor {
 
     private List<TypeCheckError> errors = new ArrayList<>();
     private SymbolTable symbolTable;
+    private Map<String, Question> questions = new HashMap<>();
 
     public TypeCheckVisitor(SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
@@ -144,7 +144,10 @@ public class TypeCheckVisitor extends NodeVisitor {
                 constBinOpExpression.getOperator())) {
             addError(constBinOpExpression, "Incompatible operands and operator");
         } else {
-            constBinOpExpression.setExpressionType(constBinOpExpression.getExpression().getExpressionType());
+            constBinOpExpression.setExpressionType(
+                    getBinOpExpressionType(constBinOpExpression.getExpression().getExpressionType(),
+                            constBinOpExpression.getOperator()
+                    ));
         }
     }
 
@@ -175,7 +178,9 @@ public class TypeCheckVisitor extends NodeVisitor {
                 labelBinOpExpression.getOperator())) {
             addError(labelBinOpExpression, "Incompatible operands and operator");
         } else {
-            labelBinOpExpression.setExpressionType(labelBinOpExpression.getExpression().getExpressionType());
+            labelBinOpExpression.setExpressionType(
+                    getBinOpExpressionType(labelBinOpExpression.getExpression().getExpressionType(),
+                    labelBinOpExpression.getOperator()));
         }
     }
 
@@ -196,7 +201,11 @@ public class TypeCheckVisitor extends NodeVisitor {
 
     @Override
     public void visitQuestion(Question question) {
-
+        if (questions.get(question.getQuestion()) == null) {
+            questions.put(question.getQuestion(), question);
+        } else {
+            addWarning(question, "Duplicate question");
+        }
     }
 
     @Override
@@ -235,7 +244,7 @@ public class TypeCheckVisitor extends NodeVisitor {
     public void visitUnOpExpression(UnOpExpression unOpExpression) {
 
         if (!checkOperatorType(unOpExpression.getExpression().getExpressionType(),
-                               unOpExpression.getOperator())) {
+                unOpExpression.getOperator())) {
 
             addError(unOpExpression, "Expression and operator type mismatch");
 
@@ -246,6 +255,30 @@ public class TypeCheckVisitor extends NodeVisitor {
 
     private void addError(AstNode node, String message) {
         errors.add(new TypeCheckError(message, node.getLineNumber(), node.getColumnNumber()));
+    }
+
+    private void addWarning(AstNode node, String message) {
+        errors.add(new TypeCheckError(message, node.getLineNumber(), node.getColumnNumber(),
+                TypeCheckError.Level.WARN));
+    }
+
+    /**
+     * Returns the ExpressionType of a binary expression based on the operator and the
+     * ExpressionType of one of the sides of the binary expression. Assumes that compatibility of
+     * operator and operands is already checked.
+     *
+     * @param operandExpressionType
+     * @param operator
+     * @return
+     */
+    private ExpressionType getBinOpExpressionType(ExpressionType operandExpressionType,
+                                                  Operator operator) {
+
+        if (operator instanceof BooleanResultOperator) {
+            return ExpressionType.BOOLEAN;
+        }
+
+        return operandExpressionType;
     }
 
     private boolean checkOperatorType(ExpressionType type, Operator operator) {

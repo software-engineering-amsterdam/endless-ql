@@ -7,7 +7,6 @@ import org.uva.sea.languages.ql.parser.elements.Statements;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

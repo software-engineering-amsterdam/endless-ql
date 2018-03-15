@@ -36,7 +36,7 @@ public class Evaluator {
      * @param qlEvaluationResult The current state of the program
      * @return List of questions that should be displayed
      */
-    public EvaluationResult evaluate(String qlsFile, EvaluationResult qlEvaluationResult) throws IOException, InterruptedException {
+    public EvaluationResult evaluate(String qlsFile, EvaluationResult qlEvaluationResult) throws IOException {
         Messages evaluationMessages = new Messages();
 
         ParseResult<Stylesheet> parseResult = this.parse(qlsFile);

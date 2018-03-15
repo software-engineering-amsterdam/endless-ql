@@ -18,14 +18,14 @@ import java.util.Stack;
 
 public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
-    private EvaluationResult qlInputResult;
+    private EvaluationResult qlInputResult = null;
 
-    private EvaluationResult outputResult;
+    private EvaluationResult outputResult  = null;
 
     private final Fetcher defaultStyleEvaluator = new Fetcher();
 
     //Current state for visitor Visitor
-    private Page currentPage;
+    private Page currentPage = null;
 
     private final Stack<Section> currentSections = new Stack<>();
 

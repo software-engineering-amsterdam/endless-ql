@@ -9,7 +9,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 public class ExpressionEvaluator extends BaseASTVisitor<Value> {
 
-    private SymbolTable symbolTable;
+    private SymbolTable symbolTable = new SymbolTable();
 
     /**
      * Evaluate the AST and get all questions

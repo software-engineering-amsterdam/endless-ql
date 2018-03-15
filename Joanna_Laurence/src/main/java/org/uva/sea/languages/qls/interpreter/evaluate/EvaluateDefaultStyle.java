@@ -17,7 +17,7 @@ import java.util.ListIterator;
 
 public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 
-    private NodeType nodeTypeToFind;
+    private NodeType nodeTypeToFind = null;
 
     private Style foundStyle = new Style();
 

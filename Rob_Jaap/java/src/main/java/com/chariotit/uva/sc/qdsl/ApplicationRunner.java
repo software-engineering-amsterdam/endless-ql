@@ -1,8 +1,8 @@
 package com.chariotit.uva.sc.qdsl;
 
-import com.chariotit.uva.sc.qdsl.ql.ast.TypeChecker;
-import com.chariotit.uva.sc.qdsl.ql.ast.node.AstRoot;
-import com.chariotit.uva.sc.qdsl.ql.ast.visitor.TypeCheckError;
+import com.chariotit.uva.sc.qdsl.ast.ql.TypeChecker;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.AstRoot;
+import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
 import com.chariotit.uva.sc.qdsl.QLFrame;
 import org.springframework.boot.CommandLineRunner;
@@ -54,7 +54,7 @@ public class ApplicationRunner implements CommandLineRunner {
 //        builder.showForm();
 
         // AST is initialised here.
-        AstRoot astRoot = (AstRoot)visitor.visit(tree);
+        AstRoot astRoot = (AstRoot) visitor.visit(tree);
 
         // Run Typechecker
         TypeChecker typeChecker = new TypeChecker();

@@ -1,8 +1,8 @@
 package parsing.checkers;
 
 import classes.Question;
-import parsing.errors.DupVarError;
-import parsing.errors.UndeclaredError;
+import parsing.checkers.errors.DupVarError;
+import parsing.checkers.errors.UndeclaredError;
 import parsing.gen.QLParser;
 import parsing.visitors.BaseVisitor;
 
@@ -43,8 +43,9 @@ public class VariableChecker extends BaseVisitor {
     }
 
     @Override
-    public Object visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
-        return checkVariableExistence(ctx.getText());
+    public Number visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+        checkVariableExistence(ctx.getText());
+        return 0.0;
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.sea.languages.ql.antlr.QLLexer;
 import org.uva.sea.languages.ql.antlr.QLParser;
+import org.uva.sea.languages.ql.antlr.QLParser.FormContext;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
@@ -26,7 +27,7 @@ public class ASTGenerator {
         ErrorHandler parseErrorListener = new ErrorHandler();
         parser.addErrorListener(parseErrorListener);
 
-        QLParser.FormContext form = parser.form();
+        FormContext form = parser.form();
 
         Messages parseMessages = parseErrorListener.getMessages();
         if (parseMessages.hasMessagePresent(MessageTypes.ERROR))

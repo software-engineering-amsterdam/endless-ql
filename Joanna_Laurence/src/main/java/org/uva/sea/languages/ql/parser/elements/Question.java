@@ -8,10 +8,10 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Question extends ASTNode {
 
-    private String label;
-    private Variable variable;
-    private Type nodeType;
-    private ASTNode value;
+    private final String label;
+    private final Variable variable;
+    private final Type nodeType;
+    private final ASTNode value;
 
     public Question(Token token, String label, Variable variable, Type nodeType, ASTNode value) {
         super(token);
@@ -22,15 +22,15 @@ public class Question extends ASTNode {
     }
 
     public String getLabel() {
-        return label;
+        return this.label;
     }
 
     public Variable getVariable() {
-        return variable;
+        return this.variable;
     }
 
     public Type getNodeType() {
-        return nodeType;
+        return this.nodeType;
     }
 
     /**
@@ -43,7 +43,7 @@ public class Question extends ASTNode {
     }
 
     public Type getType() {
-        return nodeType;
+        return this.nodeType;
     }
 
     @Override

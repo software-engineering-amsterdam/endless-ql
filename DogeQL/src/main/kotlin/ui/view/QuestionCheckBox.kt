@@ -5,12 +5,13 @@ import tornadofx.bind
 import tornadofx.validator
 import ui.model.QuestionModel
 
-class QuestionCheckBox(question : QuestionModel) : CheckBox(){
+class QuestionCheckBox(question: QuestionModel) : CheckBox() {
 
     init {
         bind(question.booleanValue)
-        validator {
-            _: Boolean? -> question.validate()
-        }
+
+        selectedProperty().addListener({ _, _, _ ->
+            question.update()
+        })
     }
 }

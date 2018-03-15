@@ -5,8 +5,7 @@ import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
 import org.uva.ql.ast.type.*;
-import org.uva.ql.validation.SymbolTable;
-import org.uva.ql.validation.checker.Checker;
+import org.uva.ql.validation.collector.SymbolTable;
 import org.uva.ql.visitor.ExpressionVisitor;
 import org.uva.ql.visitor.StatementVisitor;
 import org.uva.ql.visitor.TypeVisitor;
@@ -162,7 +161,7 @@ public class TypeChecker extends Checker
         Type type = negation.getExpression().accept(this, null);
 
         if (!new BooleanType().isCompatible(type)) {
-            System.out.println(ERROR_MESSAGE + negation);
+            logger.severe(ERROR_MESSAGE + negation);
         }
 
         return type;

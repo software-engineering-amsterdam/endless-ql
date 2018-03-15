@@ -20,6 +20,6 @@ public class MoneyQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        return value != null ? String.valueOf(value.getAmount() + " " + value.getCurrency()) : "No value";
+        return (this.value != null) ? (this.value.getAmount() + " " + this.value.getCurrency()) : "No value";
     }
 }

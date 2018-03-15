@@ -59,8 +59,6 @@ public interface IASTVisitor<T> {
 
     T visit(Question node);
 
-    T visit(Statement node);
-
     T visit(Statements node);
 
     T visit(BinaryOperator node);

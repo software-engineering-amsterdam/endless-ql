@@ -14,36 +14,36 @@ public enum WidgetType {
     TEXTFIELD;
 
     public boolean isBooleanCompatible(NodeType nodeType) {
-        return (this == CHECKBOX ||
-                this == CHOICEBOX ||
-                this == RADIO) &&
-                nodeType == NodeType.BOOLEAN;
+        return ((this == CHECKBOX) ||
+                (this == CHOICEBOX) ||
+                (this == RADIO)) &&
+                (nodeType == NodeType.BOOLEAN);
     }
 
     public boolean isNumberCompatible(NodeType nodeType) {
-        return (this == SLIDER ||
-                this == SPINBOX) && (
-                nodeType == NodeType.INTEGER ||
-                        nodeType == NodeType.DECIMAL
+        return ((this == SLIDER) ||
+                (this == SPINBOX)) && (
+                (nodeType == NodeType.INTEGER) ||
+                        (nodeType == NodeType.DECIMAL)
         );
     }
 
     public boolean isStringCompatible(NodeType nodeType) {
-        return this == TEXTFIELD && (
-                nodeType == NodeType.STRING ||
-                        nodeType == NodeType.INTEGER ||
-                        nodeType == NodeType.DECIMAL
+        return (this == TEXTFIELD) && (
+                (nodeType == NodeType.STRING) ||
+                        (nodeType == NodeType.INTEGER) ||
+                        (nodeType == NodeType.DECIMAL)
         );
     }
 
     private boolean isNotUnknown() {
-        return this != UNKNOWN;
+        return this != WidgetType.UNKNOWN;
     }
 
     public boolean isCompatible(NodeType nodeType) {
-        return isNotUnknown() ||
-                isBooleanCompatible(nodeType) ||
-                isNumberCompatible(nodeType) ||
-                isStringCompatible(nodeType);
+        return this.isNotUnknown() ||
+                this.isBooleanCompatible(nodeType) ||
+                this.isNumberCompatible(nodeType) ||
+                this.isStringCompatible(nodeType);
     }
 }

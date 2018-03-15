@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuestionnaireUI.Models
+namespace QuestionaireOrchestration.Models
 {
     public class QuestionModel
     {

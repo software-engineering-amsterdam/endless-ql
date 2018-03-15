@@ -7,19 +7,15 @@ import java.util.List;
 
 public class Style {
 
-    private String color = null;
-    private String font = null;
-    private Integer fontSize = null;
-    private Integer width = null;
+    private String color;
+    private String font;
+    private Integer fontSize;
+    private Integer width;
 
-    private String page = null;
-    private List<String> section = null;
+    private String page;
+    private List<String> section;
 
     private QLWidget widget = new QLWidget(WidgetType.DEFAULT, new ArrayList<>());
-
-    public Style() {
-
-    }
 
     public void fillNullFields(Style style) {
         if (this.color == null)
@@ -37,16 +33,16 @@ public class Style {
         if (this.page == null)
             this.page = style.page;
 
-        if (this.section == null && style.section != null)
+        if ((this.section == null) && (style.section != null))
             this.section = new ArrayList<>(style.section);
 
         if (this.widget.getWidgetType() == WidgetType.DEFAULT)
-            this.widget = new QLWidget(style.widget.widgetType, style.widget.getParameters());
+            this.widget = new QLWidget(style.widget.getWidgetType(), style.widget.getParameters());
     }
 
 
     public String getColor() {
-        return color;
+        return this.color;
     }
 
     public void setColor(String color) {
@@ -54,7 +50,7 @@ public class Style {
     }
 
     public String getFont() {
-        return font;
+        return this.font;
     }
 
     public void setFont(String font) {
@@ -62,7 +58,7 @@ public class Style {
     }
 
     public Integer getFontSize() {
-        return fontSize;
+        return this.fontSize;
     }
 
     public void setFontSize(Integer fontSize) {
@@ -70,7 +66,7 @@ public class Style {
     }
 
     public Integer getWidth() {
-        return width;
+        return this.width;
     }
 
     public void setWidth(Integer width) {
@@ -78,7 +74,7 @@ public class Style {
     }
 
     public QLWidget getWidget() {
-        return widget;
+        return this.widget;
     }
 
     public void setWidget(QLWidget widget) {
@@ -86,7 +82,7 @@ public class Style {
     }
 
     public String getPage() {
-        return page;
+        return this.page;
     }
 
     public void setPage(String page) {
@@ -104,13 +100,13 @@ public class Style {
     @Override
     public String toString() {
         return "Style{" +
-                "color='" + color + '\'' +
-                ", font='" + font + '\'' +
-                ", fontSize=" + fontSize +
-                ", width=" + width +
-                ", page='" + page + '\'' +
-                ", section=" + section +
-                ", widget=" + widget +
+                "color='" + this.color + '\'' +
+                ", font='" + this.font + '\'' +
+                ", fontSize=" + this.fontSize +
+                ", width=" + this.width +
+                ", page='" + this.page + '\'' +
+                ", section=" + this.section +
+                ", widget=" + this.widget +
                 '}';
     }
 

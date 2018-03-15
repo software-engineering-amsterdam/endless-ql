@@ -5,18 +5,18 @@ import org.uva.sea.languages.qls.parser.visitor.IStyleASTVisitor;
 
 public abstract class QLSNode {
 
-    private Token token;
+    private final Token token;
 
     public QLSNode(Token token) {
         this.token = token;
     }
 
     public int getLine() {
-        return token.getLine();
+        return this.token.getLine();
     }
 
     public int getColumn() {
-        return token.getCharPositionInLine();
+        return this.token.getCharPositionInLine();
     }
 
     public abstract <T> T accept(IStyleASTVisitor<T> visitor);

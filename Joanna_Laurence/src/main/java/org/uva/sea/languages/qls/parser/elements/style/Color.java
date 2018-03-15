@@ -5,7 +5,7 @@ import org.uva.sea.languages.qls.parser.visitor.IStyleASTVisitor;
 
 public class Color extends StyleSpecification {
 
-    private String colorCode;
+    private final String colorCode;
 
     public Color(Token token, String colorCode) {
         super(token);
@@ -13,7 +13,7 @@ public class Color extends StyleSpecification {
     }
 
     public String getColorCode() {
-        return colorCode;
+        return this.colorCode;
     }
 
     @Override

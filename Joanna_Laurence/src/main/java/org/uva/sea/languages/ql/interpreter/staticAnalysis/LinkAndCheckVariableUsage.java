@@ -6,10 +6,7 @@ import org.uva.sea.languages.ql.parser.elements.*;
 import org.uva.sea.languages.ql.parser.elements.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Iterates over the AST and add links between variables and questions
@@ -27,12 +24,12 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
      * Contains variables that are used in the program. They are linked to questions
      * at the send of the evaluation
      */
-    private List<Variable> usedVariables = new ArrayList<>();
+    private final Collection<Variable> usedVariables = new ArrayList<>();
 
     /**
      *
      */
-    private Messages messages = new Messages();
+    private final Messages messages = new Messages();
 
     /**
      * Hide constructor
@@ -57,7 +54,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
     public Messages doCheck(Form node) {
         node.accept(this);
 
-        linkVariableInformation();
+        this.linkVariableInformation();
 
         return this.messages;
     }
@@ -69,12 +66,12 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
     private void linkVariableInformation() {
         for (Variable variable : this.usedVariables) {
             String variableName = variable.getVariableName();
-            if (!variableMap.containsKey(variableName)) {
+            if (!this.variableMap.containsKey(variableName)) {
                 this.error("Variable is not defined", variable);
                 return;
             }
 
-            variable.setLinkedQuestion(variableMap.get(variableName));
+            variable.setLinkedQuestion(this.variableMap.get(variableName));
         }
     }
 
@@ -98,13 +95,13 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
     @Override
     public Void visit(Question node) {
         String variableName = node.getVariable().getVariableName();
-        if (variableMap.containsKey(variableName)) {
+        if (this.variableMap.containsKey(variableName)) {
             this.error("Question already exists", node);
             return null;
         }
 
         //Add new questionData to the lookup
-        variableMap.put(variableName, node);
+        this.variableMap.put(variableName, node);
 
         //Visit all siblings
         super.visit(node);
@@ -119,8 +116,8 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         HashMap<String, Question> baseMap = new HashMap<>(this.variableMap);
 
         //It is allowed to have duplicate elements in the then and else. So run both with the base map
-        HashMap<String, Question> thenMap = visitStatementsWithVariableMap(baseMap, node.getThen());
-        HashMap<String, Question> elseMap = visitStatementsWithVariableMap(baseMap, node.getOtherwise());
+        HashMap<String, Question> thenMap = this.visitStatementsWithVariableMap(baseMap, node.getThen());
+        HashMap<String, Question> elseMap = this.visitStatementsWithVariableMap(baseMap, node.getOtherwise());
 
         this.variableMap = this.combineVariableMap(baseMap, thenMap, elseMap);
 

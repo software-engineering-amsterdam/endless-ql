@@ -13,7 +13,7 @@ import java.util.BitSet;
 
 public class ErrorHandler implements ANTLRErrorListener {
 
-    private Messages messages = new Messages();
+    private final Messages messages = new Messages();
 
     public void syntaxError(Recognizer<?, ?> recognizer, Object o, int i, int i1, String s, RecognitionException e) {
         this.messages.addMessage(s, MessageTypes.ERROR);
@@ -32,6 +32,6 @@ public class ErrorHandler implements ANTLRErrorListener {
     }
 
     public Messages getMessages() {
-        return messages;
+        return this.messages;
     }
 }

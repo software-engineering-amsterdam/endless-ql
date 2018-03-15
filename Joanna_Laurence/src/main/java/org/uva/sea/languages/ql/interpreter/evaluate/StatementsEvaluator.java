@@ -15,12 +15,12 @@ public class StatementsEvaluator extends BaseASTVisitor<List<Question>> {
     /**
      *
      */
-    private SymbolTable symbolTable;
+    private final SymbolTable symbolTable;
 
     /**
      *
      */
-    private IfStatementEvaluator ifStatementEvaluator = new IfStatementEvaluator();
+    private final IfStatementEvaluator ifStatementEvaluator = new IfStatementEvaluator();
 
     /**
      * @param symbolTable

@@ -1,4 +1,4 @@
-package org.uva.ql.validation.composer;
+package org.uva.ql.validation.collector;
 
 import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.binary.*;
@@ -11,42 +11,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ExpressionList extends ListComposer implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
+public class ParameterMapping implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
 
-    private Map<String, List<Parameter>> expressions;
+    private Map<String, List<Parameter>> parameterMapping;
 
-    public ExpressionList(Form form) {
-        this.expressions = new HashMap<>();
+    public ParameterMapping(Form form) {
+        this.parameterMapping = new HashMap<>();
 
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
         }
     }
 
-    public Map<String, List<Parameter>> getExpressions() {
-        return expressions;
-    }
-
-    public List<TreeNode> Compose() {
-        //TODO
-        return new ArrayList<>();
+    public Map<String, List<Parameter>> getParameterMapping() {
+        return parameterMapping;
     }
 
     @Override
     public Void visit(Parameter parameter, String context) {
-        if (expressions.containsKey(context)) {
-            expressions.get(context).add(parameter);
+        if (parameterMapping.containsKey(context)) {
+            parameterMapping.get(context).add(parameter);
         } else {
             assert context != null;
         }
-
         return null;
     }
 
     @Override
     public Void visit(CalculatedQuestion calculatedQuestion, String context) {
-        if (!expressions.containsKey(calculatedQuestion.getName())) {
-            expressions.put(calculatedQuestion.getName(), new ArrayList<>());
+        if (!parameterMapping.containsKey(calculatedQuestion.getName())) {
+            parameterMapping.put(calculatedQuestion.getName(), new ArrayList<>());
         }
 
         calculatedQuestion.getExpression().accept(this, calculatedQuestion.getName());

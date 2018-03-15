@@ -2,6 +2,7 @@ package org.uva.ql.validation;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.uva.app.LogHandler;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;

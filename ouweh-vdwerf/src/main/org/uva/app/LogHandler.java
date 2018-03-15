@@ -1,4 +1,4 @@
-package org.uva.ql.validation;
+package org.uva.app;
 
 import java.util.ArrayList;
 import java.util.logging.Handler;

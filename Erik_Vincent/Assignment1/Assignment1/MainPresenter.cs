@@ -40,7 +40,7 @@ namespace Assignment1
                 var form = QLTypeChecker.ParseString(File.ReadAllText(inputFile));
                 IQuestionFormRenderer renderer = new QuestionFormRenderer(form);
                 _view.SetFormControl(renderer.Render());
-                _view.SetWarnings(form.Warnings.Values.ToList());
+                _view.SetWarnings(form.Warnings);
             }
             catch (QLParseException exception)
             {

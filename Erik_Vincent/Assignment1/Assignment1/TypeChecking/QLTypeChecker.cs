@@ -12,24 +12,31 @@ namespace Assignment1.TypeChecking
     {
         private QuestionForm _form;
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
-        private readonly Dictionary<string,string> _warnings = new Dictionary<string, string>(); // TODO: move to errorhandler
+        private readonly List<string> _warnings = new List<string>();
         private QLParseErrorHandler _errorHandler = new QLParseErrorHandler();
         private int currentLineNumber = 0;
 
         #region Type checking functions
         
-        public void TypeCheckQuestionId(string questionId)
+        private void TypeCheckQuestionId(string questionId)
         {
             if (QuestionIdExists(questionId))
             {
                 _errorHandler.AddError(currentLineNumber, "The question id '" + questionId + "' already exists in the current context.");
-            }
+            } 
+        }
+
+        private void TypeCheckQuestionLabel(string questionLabel)
+        {
+            if (QuestionLabelExists(questionLabel))
+                _warnings.Add("Line " + currentLineNumber + ": The question label '" + questionLabel + "' has already been used.");
         }
 
         private void TypeCheckQuestionBool(QuestionBool question)
         {
             string questionId = question.Id;
             TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
             if (question.Computed)
             {
                 if (!(question.Computation.Evaluate() is bool))
@@ -45,6 +52,7 @@ namespace Assignment1.TypeChecking
         {
             string questionId = question.Id;
             TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
             if (question.Computed)
             {
                 if (!(question.Computation.Evaluate() is int))
@@ -61,6 +69,7 @@ namespace Assignment1.TypeChecking
         {
             string questionId = question.Id;
             TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
             if (question.Computed)
             {
                 if (!(question.Computation.Evaluate() is decimal))
@@ -77,6 +86,7 @@ namespace Assignment1.TypeChecking
         {
             string questionId = question.Id;
             TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
             if (question.Computed)
             {
                 if (!(question.Computation.Evaluate() is decimal))
@@ -93,6 +103,7 @@ namespace Assignment1.TypeChecking
         {
             string questionId = question.Id;
             TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
             if (question.Computed)
             {
                 if (!(question.Computation.Evaluate() is string))
@@ -109,6 +120,7 @@ namespace Assignment1.TypeChecking
         {
             string questionId = question.Id;
             TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
             if (question.Computed)
             {
                 if (!(question.Computation.Evaluate() is DateTime))
@@ -134,36 +146,18 @@ namespace Assignment1.TypeChecking
             return false;
         }
 
-        private void AddWarning(ParserRuleContext context, string questionId, string message)
-        {
-            _warnings.Add(questionId, "Line " + context.Start.Line + ": " + message);
-        }
-
         #endregion
 
         #region Listener implementation
 
         public override void ExitForm(QL.FormContext context)
         {
-            foreach (string warning in _warnings.Values)
+            foreach (string warning in _warnings)
             {
                 Console.WriteLine(warning);
             }
             _form = context.result;
             _form.Warnings = _warnings;
-        }
-
-        /* Check for each question if the label is already used and add a warning if this is the case.
-         */
-        public override void EnterQuestion(QL.QuestionContext context)
-        {
-            string questionLabel = context.result.Label;
-            string questionId = context.result.Id;
-
-            if (QuestionLabelExists(questionLabel))
-            {
-                AddWarning(context, questionId, "The question label '" + questionLabel + "' has already been used.");
-            }
         }
 
         /* Check for each question if the id already exists and add an error if this is the case.

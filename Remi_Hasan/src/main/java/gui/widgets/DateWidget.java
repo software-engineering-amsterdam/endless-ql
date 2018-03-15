@@ -3,7 +3,7 @@ package gui.widgets;
 import javafx.scene.control.DatePicker;
 import ql.model.expression.Expression;
 
-public class DateWidget extends DatePicker implements WidgetInterface{
+public class DateWidget extends DatePicker implements WidgetInterface {
 
     private final String name;
 

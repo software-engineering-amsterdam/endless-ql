@@ -4,7 +4,7 @@ import javafx.scene.control.CheckBox;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableBoolean;
 
-public class CheckboxWidget extends CheckBox implements WidgetInterface{
+public class CheckboxWidget extends CheckBox implements WidgetInterface {
 
     private final String name;
 

@@ -7,11 +7,10 @@ import java.awt.*;
 
 public class StringWidget extends TextField {
 
+    private final ExpressionVariableString expression;
     private SymbolTable symbolTable = null;
 
-    private final ExpressionVariableString expression;
-
-    StringWidget(ExpressionVariableString expression){
+    StringWidget(ExpressionVariableString expression) {
         this.expression = expression;
     }
 

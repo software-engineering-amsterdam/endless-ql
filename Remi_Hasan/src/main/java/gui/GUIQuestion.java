@@ -1,6 +1,7 @@
 package gui;
 
 import gui.widgets.*;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
@@ -10,106 +11,127 @@ import ql.model.Question;
 
 public class GUIQuestion extends VBox {
 
-    GUIQuestion(SymbolTable symbolTable, Question question){
+    GUIQuestion(SymbolTable symbolTable, Question question) {
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
 
-        this.getChildren().add(new Label(question.text));
-        switch(question.type){
+        Node widget;
+        switch (question.type) {
             case INTEGER:
                 IntegerWidget integerWidget = new IntegerWidget(question.name);
-                if(question.isComputed()){
-                    symbolTable.addListener(question.name, e -> {
+                if (question.isComputed()) {
+                    symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
-                        System.out.println("set int expr to value: " + value.getIntValue().toString());
                         integerWidget.setExpression(value.getIntValue().toString());
                     });
                 } else {
-                    integerWidget.textProperty().addListener((ob, oldValue, newValue) -> {
+                    integerWidget.textProperty().addListener(e -> {
                         symbolTable.setExpression(question.name, integerWidget.getExpression());
                     });
                 }
 
-                this.getChildren().add(integerWidget);
+                widget = integerWidget;
                 break;
             case STRING:
                 StringWidget stringWidget = new StringWidget(question.name);
-                if(question.isComputed()) {
-                    symbolTable.addListener(question.name, e -> {
+                if (question.isComputed()) {
+                    symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
                         stringWidget.setExpression(value.getStringValue());
                     });
                 } else {
-                    stringWidget.textProperty().addListener((ob, oldValue, newValue) -> {
+                    stringWidget.textProperty().addListener(e -> {
                         symbolTable.setExpression(question.name, stringWidget.getExpression());
                     });
                 }
 
-                this.getChildren().add(stringWidget);
+                widget = stringWidget;
                 break;
             case DATE:
                 DateWidget dateWidget = new DateWidget(question.name);
-                if(question.isComputed()) {
-                    symbolTable.addListener(question.name, e -> {
+                if (question.isComputed()) {
+                    symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
                         dateWidget.setExpression(value.getDateValue().toString());
+
+                        dateWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
                     });
                 } else {
-                    dateWidget.valueProperty().addListener((ob, oldValue, newValue) -> {
+                    dateWidget.valueProperty().addListener(e -> {
                         symbolTable.setExpression(question.name, dateWidget.getExpression());
                     });
                 }
 
-                this.getChildren().add(dateWidget);
+                widget = dateWidget;
                 break;
             case DECIMAL:
                 DecimalWidget decimalWidget = new DecimalWidget(question.name);
 
-                if(question.isComputed()) {
-                    symbolTable.addListener(question.name, e -> {
+                if (question.isComputed()) {
+                    symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
                         decimalWidget.setExpression(value.getDecimalValue().toString());
+
+                        decimalWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
                     });
                 } else {
-                    decimalWidget.textProperty().addListener((ob, oldValue, newValue) -> {
+                    decimalWidget.textProperty().addListener(e -> {
                         symbolTable.setExpression(question.name, decimalWidget.getExpression());
+
+                        decimalWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
                     });
                 }
 
-                this.getChildren().add(decimalWidget);
+                decimalWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
+
+                widget = decimalWidget;
                 break;
             case MONEY:
                 MoneyWidget moneyWidget = new MoneyWidget(question.name);
-                if(question.isComputed()) {
-                    symbolTable.addListener(question.name, e -> {
+                if (question.isComputed()) {
+                    symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
                         moneyWidget.setExpression(value.getMoneyValue().toString());
+
+                        moneyWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
                     });
                 } else {
-                    moneyWidget.textProperty().addListener((ob, oldValue, newValue) -> {
+                    moneyWidget.textProperty().addListener(e -> {
                         symbolTable.setExpression(question.name, moneyWidget.getExpression());
                     });
                 }
 
-                this.getChildren().add(moneyWidget);
+                widget = moneyWidget;
                 break;
             case BOOLEAN:
                 CheckboxWidget checkboxWidget = new CheckboxWidget(question.name);
-                if(question.isComputed()) {
-                    symbolTable.addListener(question.name, e -> {
+                if (question.isComputed()) {
+                    symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
                         checkboxWidget.setExpression(value.getBooleanValue().toString());
+
+                        checkboxWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
                     });
                 } else {
-                    checkboxWidget.selectedProperty().addListener((ob, oldValue, newValue) -> {
+                    checkboxWidget.selectedProperty().addListener(e -> {
                         symbolTable.setExpression(question.name, checkboxWidget.getExpression());
                     });
                 }
 
-                this.getChildren().add(checkboxWidget);
+                widget = checkboxWidget;
                 break;
             default:
-                break;
+                return;
         }
+        symbolTable.addListener(e -> {
+            widget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
+        });
+
+
+        Label label = new Label(question.text);
+        label.managedProperty().bind(widget.managedProperty());
+        label.visibleProperty().bind(widget.visibleProperty());
+        this.getChildren().add(label);
+        this.getChildren().add(widget);
     }
 
 }

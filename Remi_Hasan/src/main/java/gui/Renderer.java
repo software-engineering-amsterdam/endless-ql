@@ -26,7 +26,7 @@ public class Renderer extends Application {
     public void start(Stage primaryStage) {
         File qlFile = new File(getClass().getResource("../java/example.ql").getFile());
         File qlsFile = new File(getClass().getResource("../java/example.qls").getFile());
-        
+
         try {
             QLFormBuilder qlFormBuilder = new QLFormBuilder();
             this.qlForm = qlFormBuilder.buildForm(new FileInputStream(qlFile));

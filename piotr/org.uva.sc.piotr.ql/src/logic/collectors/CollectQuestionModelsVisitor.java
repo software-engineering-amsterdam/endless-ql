@@ -1,6 +1,5 @@
 package logic.collectors;
 
-import ast.model.ASTNode;
 import ast.model.Form;
 import ast.model.expressions.Expression;
 import ast.model.expressions.binary.logical.LogicalAnd;
@@ -9,7 +8,7 @@ import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
 import ast.visitors.AbstractASTTraverse;
-import gui.model.FormQuestion;
+import gui.model.QuestionModel;
 import logic.type.MixedValue;
 
 import java.util.ArrayList;
@@ -17,13 +16,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
-public class CollectFormQuestionsVisitor extends AbstractASTTraverse {
+public class CollectQuestionModelsVisitor extends AbstractASTTraverse {
 
-    private final List<FormQuestion> formQuestions = new ArrayList<>();
+    private final List<QuestionModel> questionModels = new ArrayList<>();
     private final Stack<Expression> conditionsStack = new Stack<>();
 
-    public List<FormQuestion> getFormQuestions() {
-        return formQuestions;
+    public List<QuestionModel> getQuestionModels() {
+        return questionModels;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class CollectFormQuestionsVisitor extends AbstractASTTraverse {
         Expression aggregatedVisibilityCondition = this.aggregateConditionsStack();
 
         // strips question and flattens visibility condition (for gui rendering ease)
-        FormQuestion formQuestion = new FormQuestion(
+        QuestionModel questionModel = new QuestionModel(
                 question.getLabel(),
                 question.getVariableName(),
                 question.getVariableType(),
@@ -48,7 +47,7 @@ public class CollectFormQuestionsVisitor extends AbstractASTTraverse {
                 question.getAssignedExpression()
         );
 
-        this.formQuestions.add(formQuestion);
+        this.questionModels.add(questionModel);
 
         question.getVariableType().accept(this);
         if (question.getAssignedExpression() != null) {
@@ -69,8 +68,8 @@ public class CollectFormQuestionsVisitor extends AbstractASTTraverse {
             statement.accept(this);
         }
 
-        // flip the condition on the stack to negation @TODO: prettify meta-information, Expression is not necessary an AST node - can be, but doesn't have to... think about it.
-        this.conditionsStack.push(new Negation(this.conditionsStack.pop(), new ASTNode.MetaInformation(0, 0, "!(" + ifStatement.getCondition().getMetaInformation().getText() + ")")));
+        // flip the condition on the stack to negation
+        this.conditionsStack.push(new Negation(this.conditionsStack.pop()));
 
         for (Statement statement : ifStatement.getElseStatementList()) {
             statement.accept(this);
@@ -89,12 +88,7 @@ public class CollectFormQuestionsVisitor extends AbstractASTTraverse {
             if (finalExpression == null) {
                 finalExpression = expression;
             } else {
-                // @TODO: prettify meta-information
-                finalExpression = new LogicalAnd(finalExpression, expression, new ASTNode.MetaInformation(
-                        0,
-                        0,
-                        "(" + finalExpression.getMetaInformation().getText() + ") && (" + expression.getMetaInformation().getText() + ")"
-                ));
+                finalExpression = new LogicalAnd(finalExpression, expression);
             }
         }
 
@@ -104,8 +98,8 @@ public class CollectFormQuestionsVisitor extends AbstractASTTraverse {
     public HashMap<String, MixedValue> getVariablesValues() {
 
         HashMap<String, MixedValue> variablesValues = new HashMap<>();
-        for (FormQuestion formQuestion : this.formQuestions) {
-            variablesValues.put(formQuestion.getVariableName(), formQuestion.getValue());
+        for (QuestionModel questionModel : this.questionModels) {
+            variablesValues.put(questionModel.getVariableName(), questionModel.getValue());
         }
         return variablesValues;
     }

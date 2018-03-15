@@ -9,6 +9,10 @@ public class GreaterThan extends BinaryExpression {
         super(leftSide, rightSide, metaInformation);
     }
 
+    public GreaterThan(Expression leftSide, Expression rightSide) {
+        super(leftSide, rightSide);
+    }
+
     @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);

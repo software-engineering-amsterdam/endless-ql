@@ -3,12 +3,12 @@ package gui.model;
 import ast.model.declarations.TypeDeclaration;
 import ast.model.expressions.Expression;
 import gui.controller.FormController;
-import gui.view.FormQuestionPanel;
+import gui.view.QuestionPanel;
 import logic.type.MixedValue;
 
 import java.math.BigDecimal;
 
-public class FormQuestion {
+public class QuestionModel {
 
     private final String label;
     private final String variableName;
@@ -21,9 +21,9 @@ public class FormQuestion {
     private MixedValue value;
 
     private FormController formController;
-    private FormQuestionPanel panel;
+    private QuestionPanel panel;
 
-    public FormQuestion(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
+    public QuestionModel(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
 
         this.label = label;
         this.variableName = variableName;
@@ -68,33 +68,48 @@ public class FormQuestion {
         return value;
     }
 
+    public Object getJavaTypedValue() {
+        switch (this.value.getType()) {
+            case INTEGER:
+                return this.value.getIntegerValue();
+            case DECIMAL:
+                return this.value.getDecimalValue();
+            case BOOLEAN:
+                return this.value.getBooleanValue();
+            case STRING:
+                return this.value.getStringValue();
+            default:
+                return null;
+        }
+    }
+
     public void setValue(MixedValue value) {
         this.value = value;
     }
 
     public void changeValue(Boolean value) {
         this.value.setBooleanValue(value);
-        this.formController.processFormQuestionChange(this);
+        this.formController.processQuestionModelChange(this);
     }
 
     public void changeValue(BigDecimal value) {
         this.value.setDecimalValue(value);
-        this.formController.processFormQuestionChange(this);
+        this.formController.processQuestionModelChange(this);
     }
 
     public void changeValue(Integer value) {
         this.value.setIntegerValue(value);
-        this.formController.processFormQuestionChange(this);
+        this.formController.processQuestionModelChange(this);
     }
 
     public void changeValue(String value) {
         this.value.setStringValue(value);
-        this.formController.processFormQuestionChange(this);
+        this.formController.processQuestionModelChange(this);
     }
 
     @Override
     public String toString() {
-        return "FormQuestion{" +
+        return "QuestionModel{" +
                 "label='" + label + '\'' +
                 ", variableName='" + variableName + '\'' +
                 ", originalDataTypeDeclaration=" + originalDataTypeDeclaration +
@@ -113,11 +128,11 @@ public class FormQuestion {
         }
     }
 
-    public void setPanel(FormQuestionPanel panel) {
+    public void setPanel(QuestionPanel panel) {
         this.panel = panel;
     }
 
-    public FormQuestionPanel getPanel() {
+    public QuestionPanel getPanel() {
         return panel;
     }
 }

@@ -11,6 +11,11 @@ abstract public class UnaryExpression extends Expression {
         this.expression = expression;
     }
 
+    protected UnaryExpression(Expression expression) {
+        super();
+        this.expression = expression;
+    }
+
     public Expression getExpression() {
         return expression;
     }

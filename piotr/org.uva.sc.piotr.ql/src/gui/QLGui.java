@@ -1,10 +1,25 @@
 package gui;
 
+import ast.ASTBuilder;
+import ast.model.Form;
+import ast.model.expressions.values.VariableReference;
+import ast.model.statements.Question;
 import com.google.gson.Gson;
+import grammar.QLLexer;
+import grammar.QLParser;
 import gui.controller.FormController;
-import gui.model.FormQuestion;
-import gui.view.FormQuestionPanel;
+import gui.model.QuestionModel;
+import gui.view.QuestionPanel;
+import logic.collectors.CollectQuestionModelsVisitor;
+import logic.collectors.CollectQuestionsVisitor;
+import logic.collectors.CollectReferencesVisitor;
 import logic.evaluators.ExpressionEvaluator;
+import logic.validators.QuestionsDependencyValidator;
+import logic.validators.QuestionsValidator;
+import logic.validators.VariablesReferencesValidator;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -13,63 +28,159 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public class QLGui {
-    public QLGui(String title, List<FormQuestion> formQuestions, ExpressionEvaluator evaluator) throws Exception {
+    public QLGui() throws Exception {
 
         JFrame frame = new JFrame("QL Form GUI");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JPanel panel = new JPanel(new GridBagLayout());
 
-        TitledBorder titled = new TitledBorder(title);
-        panel.setBorder(titled);
+        JButton openingButton = new JButton("Open file...");
+        JPanel openingPanel = new JPanel();
+        openingPanel.setPreferredSize(new Dimension(200, 200));
 
-        JScrollPane scrollFrame = new JScrollPane(panel);
-        panel.setAutoscrolls(true);
-        scrollFrame.setPreferredSize(new Dimension(600, 800));
+        openingPanel.add(openingButton);
+        frame.getContentPane().add(openingPanel, BorderLayout.CENTER);
 
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.anchor = GridBagConstraints.WEST;
-
-        // form controller setup
-        FormController formController = new FormController(formQuestions, evaluator);
-
-        // render form questions panels
-        int i = 0;
-        for (FormQuestion formQuestion : formQuestions) {
-            gridBagConstraints.gridy = i;
-            panel.add(new FormQuestionPanel(formQuestion), gridBagConstraints);
-            i++;
-        }
-
-        JButton submit = new JButton("Submit form");
-        submit.addActionListener(e -> {
-            Gson gson = new Gson();
-            String jsonResults = gson.toJson(formController.prepareResults());
-            System.out.println(jsonResults);
-
-            final JFileChooser fileChooser = new JFileChooser();
-            int returnVal = fileChooser.showSaveDialog(null);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                try {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                    writer.write(jsonResults);
-                    writer.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-
-        });
-
-        gridBagConstraints.gridy = i;
-        panel.add(submit, gridBagConstraints);
-        frame.getContentPane().add(scrollFrame);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setResizable(false);
+
+        openingButton.addActionListener(openEvent -> {
+
+            JFileChooser fileChooser = new JFileChooser();
+
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+            int result = fileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+
+                File selectedFile = fileChooser.getSelectedFile();
+                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+
+                frame.setVisible(false);
+
+                CharStream charStream = null;
+                try {
+                    charStream = CharStreams.fromFileName(selectedFile.getAbsolutePath());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                QLLexer qlLexer = new QLLexer(charStream);
+                CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
+                QLParser qlParser = new QLParser(commonTokenStream);
+
+                QLParser.FormContext formContext = qlParser.form();
+
+                ASTBuilder astBuilder = new ASTBuilder();
+                Form form = astBuilder.visitForm(formContext);
+
+                // Collect all references from all expressions in the form (both: assignments and conditions)
+                CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
+                List<VariableReference> references = collectReferencesVisitor.getVariableReferences(form);
+
+                // Collect all questions
+                CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
+                form.accept(collectQuestionsVisitor);
+                List<Question> questions = collectQuestionsVisitor.getQuestions();
+
+                // Validate questions against cyclic dependency @TODO: finish
+                HashMap<Question, List<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap();
+                QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(questionsMap);
+
+                // Validate undeclared variables usage in questions and conditions
+                VariablesReferencesValidator.validateVariablesUsage(questions, references);
+
+                // Validate duplicate question declarations with different types
+                QuestionsValidator.validateDuplicates(questions);
+
+                // Validate duplicate labels (warning)
+                try {
+                    QuestionsValidator.validateLabels(questions);
+                } catch (Exception e) {
+                    System.out.println("Warning: " + e.getMessage());
+                }
+
+                // TODO: validate conditions that are not of the type boolean
+
+                // TODO: operands of invalid type to operators
+
+                CollectQuestionModelsVisitor collectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
+                form.accept(collectQuestionModelsVisitor);
+
+                // start: ONE LIST TO RULE THEM ALL
+                List<QuestionModel> questionModels = collectQuestionModelsVisitor.getQuestionModels();
+                // end: ONE LIST TO RULE THEM ALL
+
+                ExpressionEvaluator evaluator = new ExpressionEvaluator(questionModels);
+
+                // GUI
+
+                JPanel panel = new JPanel(new GridBagLayout());
+
+                TitledBorder titled = new TitledBorder(form.getName());
+                panel.setBorder(titled);
+
+                JScrollPane scrollFrame = new JScrollPane(panel);
+                panel.setAutoscrolls(true);
+                scrollFrame.setPreferredSize(new Dimension(600, 800));
+
+                GridBagConstraints gridBagConstraints = new GridBagConstraints();
+                gridBagConstraints.anchor = GridBagConstraints.WEST;
+
+                // form controller setup
+                FormController formController = null;
+                try {
+                    formController = new FormController(questionModels, evaluator);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+
+                // render form questions panels
+                int i = 0;
+                for (QuestionModel questionModel : questionModels) {
+                    gridBagConstraints.gridy = i;
+                    panel.add(new QuestionPanel(questionModel), gridBagConstraints);
+                    i++;
+                }
+
+                JButton submit = new JButton("Submit form");
+                FormController finalFormController = formController;
+                submit.addActionListener(submitEvent -> {
+                    Gson gson = new Gson();
+                    String jsonResults = gson.toJson(finalFormController.prepareResults());
+                    System.out.println(jsonResults);
+
+                    fileChooser.setSelectedFile(new File(form.getName() + "-result.json"));
+                    int returnVal = fileChooser.showSaveDialog(null);
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        File file = fileChooser.getSelectedFile();
+                        try {
+                            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                            writer.write(jsonResults);
+                            writer.close();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+
+                });
+
+                gridBagConstraints.gridy = i;
+                panel.add(submit, gridBagConstraints);
+                frame.getContentPane().removeAll();
+                frame.getContentPane().add(scrollFrame);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                frame.setResizable(false);
+            }
+
+        });
+
+
     }
+
 }

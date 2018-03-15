@@ -163,6 +163,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppTests\SimpleWPFAppUnitTests\MainViewModelTests.cs" />
     <Compile Include="Domain.UnitTests\Utilities\BooleanOperatorCount.cs" />
     <Compile Include="Domain.UnitTests\Tests\CreateModelTests.cs" />
     <Compile Include="Domain.UnitTests\Tests\CreateAstTests.cs" />
@@ -201,6 +202,10 @@
     <ProjectReference Include="..\QuestionnaireUI\QuestionnaireUI.csproj">
       <Project>{AAB9C576-34E5-4CBA-88D1-4E8674E3C117}</Project>
       <Name>QuestionnaireUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWPFApp\SimpleWPFApp.csproj">
+      <Project>{56694C1E-34A8-4D83-A1FD-F07EE38B35BA}</Project>
+      <Name>SimpleWPFApp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

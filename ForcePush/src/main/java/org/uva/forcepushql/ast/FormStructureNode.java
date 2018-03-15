@@ -1,22 +1,37 @@
 package org.uva.forcepushql.ast;
 
-import java.util.List;
+import java.util.LinkedList;
+
 
 public abstract class FormStructureNode extends Node{ }
 
 class FormNode extends FormStructureNode{
-    private List<QuestionNode> questions;
+    private LinkedList<Node> questions;
+    private String name;
 
-    public List<QuestionNode> getQuestions() {
+    public FormNode(){
+        questions = new LinkedList<Node>();
+    }
+
+    public LinkedList<Node> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<QuestionNode> questions) {
+    public void setQuestions(LinkedList<Node> questions) {
         this.questions = questions;
     }
 
-    public void setOneQuestion(QuestionNode question){
-        questions.add(question);
+    public void setOneQuestion(Node question){
+        if (question != null)
+            questions.add(question);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
 

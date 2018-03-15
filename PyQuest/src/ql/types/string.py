@@ -1,22 +1,41 @@
-from ql.types.type import Type
+from ql.types.type import QLType
+from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.string_node import StringNode
 from gui.model.widgets import LineEdit
 
 
-class QLString(Type):
-    def __init__(self, value):
+class QLString(QLType):
+    def __init__(self, value=''):
         super(QLString, self).__init__()
-        self.__value = value
+        self.__value = str(value)
 
     def __repr__(self):
-        return self.__value
+        return self.value
 
     def __eq__(self, other):
-        return type(self) == type(other)
+        return QLBoolean(self.value == other.value)
 
-    @staticmethod
-    def cast(value):
-        return str(value)
+    def __ne__(self, other):
+        return QLBoolean(self.value != other.value)
+
+    def __lt__(self, other):
+        return QLBoolean(len(self.value) < len(other.value))
+
+    def __gt__(self, other):
+        return QLBoolean(len(self.value) > len(other.value))
+
+    def __le__(self, other):
+        return QLBoolean(len(self.value) <= len(other.value))
+
+    def __ge__(self, other):
+        return QLBoolean(len(self.value) >= len(other.value))
+
+    def __add__(self, other):
+        return QLString(self.value + other.value)
+
+    @property
+    def value(self):
+        return self.__value
 
     @staticmethod
     def get_literal_node(value):

@@ -3,12 +3,11 @@ package parsing.checkers;
 import classes.Question;
 import parsing.errors.TypeError;
 import parsing.gen.QLParser;
-import parsing.visitors.baseVisitor;
+import parsing.visitors.BaseVisitor;
 
-import java.util.Date;
 import java.util.HashMap;
 
-public class TypeChecker extends baseVisitor {
+public class TypeChecker extends BaseVisitor {
     // Typechecker checks if there are any inconsistensies in the types that were given in the syntax of the code
     public TypeChecker(HashMap<String, Question> questionMap, QLParser.BlockContext ctx){
         super();

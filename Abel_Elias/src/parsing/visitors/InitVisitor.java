@@ -1,16 +1,11 @@
 package parsing.visitors;
 
-import classes.CodeBlock;
 import classes.Question;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import parsing.checkers.TypeChecker;
 import parsing.checkers.VariableChecker;
-import parsing.gen.QLBaseVisitor;
 import parsing.gen.QLParser;
 
-import java.util.HashMap;
-
-public class InitVisitor extends baseVisitor {
+public class InitVisitor extends BaseVisitor {
     public InitVisitor(QLParser.FormContext ctx){
         super();
         visitBlock(ctx.block());

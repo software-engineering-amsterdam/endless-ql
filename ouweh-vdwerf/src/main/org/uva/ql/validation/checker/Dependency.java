@@ -37,11 +37,11 @@ class Dependency {
         return this.from.equals(dependency.getFrom()) && this.to.equals(dependency.getTo());
     }
 
-    public String getTo() {
+    String getTo() {
         return to;
     }
 
-    public String getFrom() {
+    String getFrom() {
         return from;
     }
 }

@@ -10,7 +10,7 @@
         <ItemsControl ItemsSource="{Binding Questionnaire.Questions}" Foreground="White">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding QuestionId}" />
+                    <local:Question />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

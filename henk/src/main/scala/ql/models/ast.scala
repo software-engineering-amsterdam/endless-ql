@@ -54,7 +54,11 @@ case class ASTIfStatement(expression: ASTNode, statements: List[ASTNode])
 
 case class ASTBoolean() extends ASTNode
 case class ASTMoney() extends ASTNode
-case class ASTNumber() extends ASTNode
+case class ASTInteger() extends ASTNode
+case class ASTString() extends ASTNode
+
+case class ASTIntegerValue(value: Int) extends ASTNode
+
 case class ASTIdentifier(id: String) extends ASTNode
 
 case class ASTLogicalCon() extends ASTLogicalOp

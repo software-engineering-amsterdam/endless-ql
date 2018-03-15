@@ -2,8 +2,10 @@ lexer grammar QlLexer;
 
 WS: [ \t\n]+ -> skip ;
 
-BOOL: 'boolean';
-MONEY: 'money';
+BOOL_T: 'boolean';
+MONEY_T: 'money';
+INTEGER_T: 'integer';
+STRING_T: 'string';
 
 FORM: 'form';
 
@@ -35,8 +37,11 @@ NOT: '!';
 
 IF: 'if';
 
+fragment DIGIT: '0'..'9';
+INTEGER: DIGIT+;
+/* NUMBER: ('0'..'9')+; */
 
-NUMBER: ('0' .. '9') + ('.' ('0' .. '9') +)?;
+FLOAT: ('0' .. '9') + ('.' ('0' .. '9') +)?;
 IDENTIFIER: [A-Za-z_][A-Za-z_0-9]*;
 
 /* Escape double quoted in string in visitor */

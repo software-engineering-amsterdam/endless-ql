@@ -18,10 +18,6 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
     ASTFormHeader(visit(ctx.identifier))
   }
 
-  override def visitIdentifier(
-      ctx: QlParser.IdentifierContext): ASTIdentifier = {
-    ASTIdentifier(ctx.getText)
-  }
 
   override def visitFormBody(ctx: QlParser.FormBodyContext): ASTFormBody = {
     val statements = ctx.stmt.map(visit).toList
@@ -48,6 +44,8 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
     ctx.getText match {
       case "boolean" => ASTBoolean()
       case "money"   => ASTMoney()
+      case "integer" => ASTInteger()
+      case "string"  => ASTString()
     }
 
   override def visitConditional(ctx: QlParser.ConditionalContext): ASTNode = {
@@ -86,6 +84,21 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
       case "!" => ASTUnaryNot()
     }
 
+  override def visitIntegerExpression(
+      ctx: QlParser.IntegerExpressionContext): ASTNode = {
+    visit(ctx.integer)
+  }
+
+  override def visitInteger(
+      ctx: QlParser.IntegerContext): ASTNode = {
+    ASTIntegerValue(Integer.parseInt(ctx.getText))
+  }
+
+  override def visitIdentifier(
+      ctx: QlParser.IdentifierContext): ASTIdentifier = {
+    ASTIdentifier(ctx.getText)
+  }
+
   override def visitIdentifierExpression(
       ctx: QlParser.IdentifierExpressionContext): ASTNode = {
     visit(ctx.identifier)
@@ -105,4 +118,5 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
       ctx: QlParser.BracketExpressionContext): ASTNode = {
     visit(ctx.expr)
   }
+
 }

@@ -24,12 +24,12 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
      * Contains variables that are used in the program. They are linked to questions
      * at the send of the evaluation
      */
-    private Collection<Variable> usedVariables = new ArrayList<>();
+    private final Collection<Variable> usedVariables = new ArrayList<>();
 
     /**
      *
      */
-    private Messages messages = new Messages();
+    private final Messages messages = new Messages();
 
     /**
      * Hide constructor

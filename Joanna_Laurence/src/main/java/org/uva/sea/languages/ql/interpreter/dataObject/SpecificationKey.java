@@ -3,9 +3,9 @@ package org.uva.sea.languages.ql.interpreter.dataObject;
 import org.uva.sea.languages.ql.parser.NodeType;
 
 public class SpecificationKey {
-    private Class operator;
-    private NodeType leftType;
-    private NodeType rightType;
+    private final Class operator;
+    private final NodeType leftType;
+    private final NodeType rightType;
 
     public SpecificationKey(Class operator, NodeType leftType, NodeType rightType) {
         this.operator = operator;

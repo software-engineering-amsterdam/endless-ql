@@ -22,11 +22,11 @@ import java.util.List;
 
 public class Evaluator {
 
-    private ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
+    private final ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
-    private ASTGenerator astGenerator = new ASTGenerator();
+    private final ASTGenerator astGenerator = new ASTGenerator();
 
-    private List<IQLStaticAnalysis> staticAnalyses = Arrays.asList(new IQLStaticAnalysis[]{
+    private final List<IQLStaticAnalysis> staticAnalyses = Arrays.asList(new IQLStaticAnalysis[]{
             new LinkAndCheckVariableUsage.Checker(),
             new TypeCheck.Checker(),
             new CheckDuplicateLabels.Checker(),

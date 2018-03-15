@@ -9,8 +9,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.math.BigDecimal;
 
 public class Money extends ASTNode {
-    private String currency;
-    private BigDecimal amount;
+    private final String currency;
+    private final BigDecimal amount;
 
     public Money(Token token, String currency, String amount) {
         super(token);

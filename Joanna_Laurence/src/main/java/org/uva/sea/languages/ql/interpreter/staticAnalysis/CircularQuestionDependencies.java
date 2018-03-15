@@ -15,7 +15,7 @@ import java.util.List;
 
 public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
-    private Relation<String> dependencies = new Relation<>();
+    private final Relation<String> dependencies = new Relation<>();
 
     /**
      * Hide constructor

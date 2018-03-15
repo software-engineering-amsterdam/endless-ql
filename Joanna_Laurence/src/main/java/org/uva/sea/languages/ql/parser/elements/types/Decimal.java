@@ -6,7 +6,7 @@ import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Decimal extends ASTNode {
-    private double value;
+    private final double value;
 
     public Decimal(Token token, String value) {
         super(token);

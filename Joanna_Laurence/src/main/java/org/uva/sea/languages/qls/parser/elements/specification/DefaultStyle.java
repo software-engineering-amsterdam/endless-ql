@@ -8,8 +8,8 @@ import java.util.List;
 
 public class DefaultStyle extends Specification {
 
-    private String typeName;
-    private List<StyleSpecification> styleSpecificationList;
+    private final String typeName;
+    private final List<StyleSpecification> styleSpecificationList;
 
     public DefaultStyle(Token token, String typeName, List<StyleSpecification> styleSpecificationList) {
         super(token);

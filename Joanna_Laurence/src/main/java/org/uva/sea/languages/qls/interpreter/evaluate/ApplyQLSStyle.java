@@ -21,12 +21,12 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
     private EvaluationResult outputResult;
 
-    private EvaluateDefaultStyle.Fetcher defaultStyleEvaluator = new EvaluateDefaultStyle.Fetcher();
+    private final EvaluateDefaultStyle.Fetcher defaultStyleEvaluator = new EvaluateDefaultStyle.Fetcher();
 
     //Current state for visitor Visitor
     private Page currentPage = null;
 
-    private Stack<Section> currentSections = new Stack<>();
+    private final Stack<Section> currentSections = new Stack<>();
 
 
     /**

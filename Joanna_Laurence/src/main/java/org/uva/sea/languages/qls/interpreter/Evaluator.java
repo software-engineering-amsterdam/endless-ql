@@ -21,11 +21,11 @@ import java.util.List;
 
 public class Evaluator {
 
-    private ASTGenerator astGenerator = new ASTGenerator();
+    private final ASTGenerator astGenerator = new ASTGenerator();
 
-    private ApplyQLSStyle.Linker qlQlsLinker = new ApplyQLSStyle.Linker();
+    private final ApplyQLSStyle.Linker qlQlsLinker = new ApplyQLSStyle.Linker();
 
-    private List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new IQLSStaticAnalysis[]{
+    private final List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new IQLSStaticAnalysis[]{
             new CheckAllQuestionsInQLQLS.Checker(),
             new CheckNoDuplicateQuestions.Checker(),
             new TypeCheck.Checker()

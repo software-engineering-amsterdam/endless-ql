@@ -32,13 +32,13 @@ public class ViewRenderer {
         this.modelRenderer = new ModelRenderer(this);
     }
 
-    public void displayQuestionRow(BaseQuestionModel questionModel) {
-        questionBox.getChildren().add(createQuestionRow(questionModel));
+    public void displayQuestionRow(final BaseQuestionModel questionModel) {
+        this.questionBox.getChildren().add(this.createQuestionRow(questionModel));
     }
 
-    public void displayQuestions(Iterable<BaseQuestionModel> questionGUIs) {
-        questionBox.getChildren().removeAll(questionBox.getChildren());
-        for (BaseQuestionModel questionRow : questionGUIs) {
+    public void displayQuestions(final Iterable<BaseQuestionModel> questionGUIs) {
+        this.questionBox.getChildren().removeAll(this.questionBox.getChildren());
+        for (final BaseQuestionModel questionRow : questionGUIs) {
             questionRow.accept(this.modelRenderer);
         }
     }

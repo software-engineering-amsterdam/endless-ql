@@ -5,7 +5,7 @@ import org.uva.sea.languages.qls.parser.visitor.IStyleASTVisitor;
 
 public abstract class QLSNode {
 
-    private Token token;
+    private final Token token;
 
     public QLSNode(Token token) {
         this.token = token;

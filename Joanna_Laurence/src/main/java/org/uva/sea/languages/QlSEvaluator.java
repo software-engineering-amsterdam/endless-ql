@@ -7,10 +7,10 @@ import java.io.IOException;
 
 public class QlSEvaluator extends QlEvaluator {
 
-    private Evaluator evaluator = new Evaluator();
+    private final Evaluator evaluator = new Evaluator();
 
 
-    private String qlsFileLocation;
+    private final String qlsFileLocation;
 
     /**
      * Constructor

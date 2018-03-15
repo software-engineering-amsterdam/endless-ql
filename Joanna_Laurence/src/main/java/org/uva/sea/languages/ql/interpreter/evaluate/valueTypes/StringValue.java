@@ -6,7 +6,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 public class StringValue extends Value {
 
-    private String stringValue;
+    private final String stringValue;
 
     public StringValue(String stringValue) {
         this.stringValue = stringValue;

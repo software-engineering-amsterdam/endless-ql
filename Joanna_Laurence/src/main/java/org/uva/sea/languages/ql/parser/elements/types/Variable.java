@@ -7,7 +7,7 @@ import org.uva.sea.languages.ql.parser.elements.Question;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Variable extends ASTNode {
-    private String variableName;
+    private final String variableName;
 
     private Question linkedQuestion = null;
 

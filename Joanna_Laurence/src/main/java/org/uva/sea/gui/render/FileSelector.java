@@ -6,9 +6,9 @@ import java.io.File;
 
 public class FileSelector {
 
-    private String title;
-    private String fileType;
-    private String fileExtension;
+    private final String title;
+    private final String fileType;
+    private final String fileExtension;
 
     public FileSelector(String title, String fileType, String fileExtension) {
         this.title = title;

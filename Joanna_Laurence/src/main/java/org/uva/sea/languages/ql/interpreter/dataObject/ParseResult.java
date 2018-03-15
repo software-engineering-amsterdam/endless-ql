@@ -4,8 +4,8 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
 public class ParseResult<T> {
 
-    private Messages warnings;
-    private T AST;
+    private final Messages warnings;
+    private final T AST;
 
     public ParseResult(T AST, Messages warnings) {
         this.warnings = warnings;

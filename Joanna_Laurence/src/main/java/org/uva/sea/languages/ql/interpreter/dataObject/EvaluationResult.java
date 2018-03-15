@@ -8,11 +8,11 @@ import java.util.List;
 
 public class EvaluationResult {
 
-    private Form ast;
+    private final Form ast;
 
-    private Messages messages;
+    private final Messages messages;
 
-    private List<QuestionData> questions;
+    private final List<QuestionData> questions;
 
     public EvaluationResult(List<QuestionData> questions, Messages warnings, Form ast) {
         this.messages = warnings;

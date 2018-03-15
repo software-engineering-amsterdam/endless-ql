@@ -5,7 +5,7 @@ import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public abstract class SingleNode extends ASTNode {
-    private ASTNode value;
+    private final ASTNode value;
 
     public SingleNode(Token token, ASTNode value) {
         super(token);

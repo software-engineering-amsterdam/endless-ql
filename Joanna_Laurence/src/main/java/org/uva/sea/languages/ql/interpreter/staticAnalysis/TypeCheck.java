@@ -18,9 +18,9 @@ import java.util.Map;
 
 public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnalysis {
 
-    private Messages errors = new Messages();
+    private final Messages errors = new Messages();
 
-    private Map<SpecificationKey, NodeType> typeCheckSpecification;
+    private final Map<SpecificationKey, NodeType> typeCheckSpecification;
 
     /**
      * Hide constructor

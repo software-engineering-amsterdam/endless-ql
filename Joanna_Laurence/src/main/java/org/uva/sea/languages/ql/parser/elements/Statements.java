@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Statements extends ASTNode {
 
-    private List<ASTNode> statementList;
+    private final List<ASTNode> statementList;
 
     public Statements() {
         statementList = new ArrayList<>();

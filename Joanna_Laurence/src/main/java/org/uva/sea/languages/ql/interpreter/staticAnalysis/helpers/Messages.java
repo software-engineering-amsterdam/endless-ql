@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Messages {
 
-    private List<Map.Entry<MessageTypes, String>> messages = new ArrayList<>();
+    private final List<Map.Entry<MessageTypes, String>> messages = new ArrayList<>();
 
     public void addMessageList(Messages messages) {
         this.messages.addAll(messages.getMessages());

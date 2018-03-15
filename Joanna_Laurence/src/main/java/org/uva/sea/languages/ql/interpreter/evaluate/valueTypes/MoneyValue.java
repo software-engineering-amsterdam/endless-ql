@@ -11,8 +11,8 @@ import java.security.InvalidParameterException;
 
 public class MoneyValue extends Value {
 
-    private String currency;
-    private BigDecimal amount;
+    private final String currency;
+    private final BigDecimal amount;
 
     public MoneyValue(String value) throws InvalidParameterException {
         String[] split = value.split(" ", 2);

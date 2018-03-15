@@ -10,7 +10,7 @@ import java.util.List;
 
 public class QuestionRenderer implements Renderable<List<QuestionData>> {
 
-    private ViewRenderer renderer;
+    private final ViewRenderer renderer;
 
     public QuestionRenderer(ViewRenderer renderer) {
         this.renderer = renderer;

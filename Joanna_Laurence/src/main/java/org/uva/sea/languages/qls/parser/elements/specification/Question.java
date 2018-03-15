@@ -6,8 +6,8 @@ import org.uva.sea.languages.qls.parser.visitor.IStyleASTVisitor;
 
 public class Question extends Specification {
 
-    private String name;
-    private Widget widget;
+    private final String name;
+    private final Widget widget;
 
     public Question(Token token, String name, Widget widget) {
         super(token);

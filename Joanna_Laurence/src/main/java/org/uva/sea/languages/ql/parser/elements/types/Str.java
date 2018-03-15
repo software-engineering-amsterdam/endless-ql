@@ -6,7 +6,7 @@ import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Str extends ASTNode {
-    private String value;
+    private final String value;
 
     public Str(Token token, String value) {
         super(token);

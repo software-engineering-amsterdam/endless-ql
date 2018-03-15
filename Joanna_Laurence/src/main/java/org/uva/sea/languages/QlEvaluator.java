@@ -12,11 +12,11 @@ import java.io.IOException;
  */
 public class QlEvaluator {
 
-    private Evaluator evaluator = new Evaluator();
+    private final Evaluator evaluator = new Evaluator();
 
-    private SymbolTable symbolTable = new SymbolTable();
+    private final SymbolTable symbolTable = new SymbolTable();
 
-    private String qlFileLocation;
+    private final String qlFileLocation;
 
     /**
      * Constructor

@@ -7,7 +7,7 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Bool extends ASTNode {
 
-    private boolean value;
+    private final boolean value;
 
     public Bool(Token token, boolean value) {
         super(token);

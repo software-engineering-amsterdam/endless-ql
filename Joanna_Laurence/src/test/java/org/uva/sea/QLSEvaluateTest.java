@@ -18,9 +18,9 @@ import java.util.Collection;
 @RunWith(Parameterized.class)
 public class QLSEvaluateTest extends TestCase {
 
-    private static TestFileHelper testFileHelper = new TestFileHelper();
-    private String testFile;
-    private Boolean shouldCompile;
+    private static final TestFileHelper testFileHelper = new TestFileHelper();
+    private final String testFile;
+    private final Boolean shouldCompile;
 
     public QLSEvaluateTest(String testFile, Boolean shouldCompile) {
         this.testFile = testFile;

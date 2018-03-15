@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Page extends QLSNode {
 
-    private String name;
-    private List<Specification> specificationList;
+    private final String name;
+    private final List<Specification> specificationList;
 
     public Page(Token token, String name, List<Specification> specificationList) {
         super(token);

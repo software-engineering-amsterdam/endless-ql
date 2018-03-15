@@ -13,12 +13,12 @@ import java.util.Map;
 public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
 
-    private Messages errors = new Messages();
+    private final Messages errors = new Messages();
 
     /**
      * Labels that are associated with variables
      */
-    private Map<String, NodeType> variables = new HashMap<>();
+    private final Map<String, NodeType> variables = new HashMap<>();
 
     /**
      * Hide constructor

@@ -4,9 +4,9 @@ import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 public class ErrorValue extends Value {
-    private String error;
-    private int line;
-    private int colomn;
+    private final String error;
+    private final int line;
+    private final int colomn;
 
     public ErrorValue(String error, int line, int colomn) {
         this.error = error;

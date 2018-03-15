@@ -5,7 +5,7 @@ import org.uva.sea.languages.qls.parser.visitor.IStyleASTVisitor;
 
 public class Parameter extends QLSNode {
 
-    private String parameter;
+    private final String parameter;
 
     public Parameter(Token token, String parameter) {
         super(token);

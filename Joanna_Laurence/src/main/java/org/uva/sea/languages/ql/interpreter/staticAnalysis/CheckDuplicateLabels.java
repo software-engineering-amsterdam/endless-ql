@@ -12,12 +12,12 @@ import java.util.Map;
 public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
 
-    private Messages messages = new Messages();
+    private final Messages messages = new Messages();
 
     /**
      * Labels that are associated with variables
      */
-    private Map<String, String> labels = new HashMap<>();
+    private final Map<String, String> labels = new HashMap<>();
 
     /**
      * Hide constructor

@@ -8,7 +8,7 @@ import java.util.Map;
 public class SymbolTable {
 
     //string - name of the variable
-    private Map<String, Value> symbolTable = new HashMap<>();
+    private final Map<String, Value> symbolTable = new HashMap<>();
 
     /**
      * Add or update symbol table

@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Stylesheet extends QLSNode {
 
-    private List<Page> pages;
-    private String name;
+    private final List<Page> pages;
+    private final String name;
 
     public Stylesheet(Token token, String name, List<Page> pages) {
         super(token);

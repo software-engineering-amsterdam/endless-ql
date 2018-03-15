@@ -8,7 +8,7 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 import java.util.Calendar;
 
 public class DateExpr extends ASTNode {
-    private Calendar date = Calendar.getInstance();
+    private final Calendar date = Calendar.getInstance();
 
     public DateExpr(Token token, String day, String month, String year) {
         super(token);

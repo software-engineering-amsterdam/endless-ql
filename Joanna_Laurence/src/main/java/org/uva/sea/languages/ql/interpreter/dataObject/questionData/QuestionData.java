@@ -7,11 +7,11 @@ import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.Question;
 
 public class QuestionData {
-    private String label;
-    private Value value;
-    private boolean isComputed;
-    private NodeType nodeType;
-    private String questionName;
+    private final String label;
+    private final Value value;
+    private final boolean isComputed;
+    private final NodeType nodeType;
+    private final String questionName;
 
     private Style style = new Style();
     private WidgetType widgetType;

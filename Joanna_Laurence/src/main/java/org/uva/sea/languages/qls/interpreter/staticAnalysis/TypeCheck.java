@@ -19,14 +19,14 @@ import java.util.Stack;
 
 public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAnalysis {
 
-    private Messages message = new Messages();
+    private final Messages message = new Messages();
 
-    private EvaluateDefaultStyle.Fetcher defaultStyleEvaluator = new EvaluateDefaultStyle.Fetcher();
+    private final EvaluateDefaultStyle.Fetcher defaultStyleEvaluator = new EvaluateDefaultStyle.Fetcher();
 
     //Current state for visitor Visitor
     private Page currentPage = null;
 
-    private Stack<Section> currentSections = new Stack<>();
+    private final Stack<Section> currentSections = new Stack<>();
 
     private Map<String, NodeType> qlQuestionNodeTypes;
 

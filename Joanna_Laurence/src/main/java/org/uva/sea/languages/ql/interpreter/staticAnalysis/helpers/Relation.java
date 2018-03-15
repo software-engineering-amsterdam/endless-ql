@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Relation<T> {
 
-    private Set<RelationEntity<T>> relations = new HashSet<>();
+    private final Set<RelationEntity<T>> relations = new HashSet<>();
 
     public Set<RelationEntity<T>> getRelations() {
         return relations;

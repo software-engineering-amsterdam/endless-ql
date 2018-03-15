@@ -25,12 +25,12 @@ import java.util.regex.Pattern;
 @RunWith(Parameterized.class)
 public class QLEvaluatorTest extends TestCase {
 
-    private static TestFileHelper testFileHelper = new TestFileHelper();
+    private static final TestFileHelper testFileHelper = new TestFileHelper();
     //Parameters for every test
-    private String testFile;
-    private int correctQuestions;
-    private boolean hasRuntimeError;
-    private boolean hasWarnings;
+    private final String testFile;
+    private final int correctQuestions;
+    private final boolean hasRuntimeError;
+    private final boolean hasWarnings;
 
     /**
      * Constructor for every test
@@ -164,11 +164,11 @@ public class QLEvaluatorTest extends TestCase {
                 continue;
 
             Boolean error = question.getValue().accept(new BaseValueVisitor<Boolean>() {
-                public Boolean visit(ErrorValue node) {
+                public Boolean visit(final ErrorValue node) {
                     return true;
                 }
             });
-            if (error != null && error)
+            if ((error != null) && error)
                 return true;
         }
         return false;
@@ -182,10 +182,10 @@ public class QLEvaluatorTest extends TestCase {
             EvaluationResult interpreterResult = this.getDisplayedQuestions(this.testFile);
 
             Assert.assertEquals(this.correctQuestions, interpreterResult.getQuestions().size());
-            Assert.assertEquals(this.hasRuntimeError, false);
+            Assert.assertFalse(this.hasRuntimeError);
             Assert.assertEquals(this.hasWarnings, interpreterResult.getMessages().hasMessagePresent(MessageTypes.WARNING));
-        } catch (EvaluationException e) {
-            Assert.assertEquals(this.hasRuntimeError, true);
+        } catch (EvaluationException ignored) {
+            Assert.assertTrue(this.hasRuntimeError);
         }
     }
 }

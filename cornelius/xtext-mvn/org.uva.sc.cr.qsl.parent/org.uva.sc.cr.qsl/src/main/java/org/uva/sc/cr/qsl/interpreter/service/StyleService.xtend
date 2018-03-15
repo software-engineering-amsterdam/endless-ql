@@ -64,7 +64,7 @@ class StyleService {
 	}
 
 	def private Node buildStyledControl(List<DefaultStyle> defaultStyles, QuestionReference questionReference) {
-		val controlWrapper = controlService.getControlByName(questionReference.questionReference.name)
+		val controlWrapper = controlService.getControlByName(questionReference.question.name)
 		val defaultStyleToApply = getDefaultStyleForQuestionReference(defaultStyles, questionReference)
 		var widget = questionReference.widget
 		
@@ -81,7 +81,7 @@ class StyleService {
 	
 	def DefaultStyle getDefaultStyleForQuestionReference(List<DefaultStyle> defaultStyles, QuestionReference questionReference){
 		for(defaultStyle: defaultStyles){
-			if(defaultStyle.questionType == questionReference.questionReference.type){
+			if(defaultStyle.questionType == questionReference.question.type){
 				return defaultStyle
 			}
 		}

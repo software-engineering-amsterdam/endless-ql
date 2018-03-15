@@ -42,8 +42,10 @@ class Page():
         Remove a question if it exists in our questions
     """
     def removeQuestion(self, varName):
+        print("REMOVE QUESTION")
         for question in self.questions:
-            if question.getVarName == varName:
+            if question.getVarName() == varName:
+                print("HIER")
                 self.questions.remove(question)
                 question.emptyFrame()
 

@@ -19,7 +19,7 @@ class Question_Generator:
         return self.varDict
 
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
-    def updateQuestions(self, initial = False):
+    def updateQuestions(self, initial=False):
         self.questions = collections.OrderedDict()
         self.get_questions(self.ast.form.block)
         # deep cody dict. This is used to insert if-questions in the GUI
@@ -32,46 +32,36 @@ class Question_Generator:
                 var_type = self.varDict[varName]['node'].checkTypes()
                 value = self.varDict[varName]['node'].evaluate()
                 # check if assignment node, only show evaluated value
-                if(type(self.questions[varName]) == AssignmentNode):
-                    if(self.getFormQuestion(varName)):
+                if (type(self.questions[varName]) == AssignmentNode):
+                    if (self.getFormQuestion(varName)):
                         self.getFormQuestion(varName).set_value(value)
 
                 # if the question is not yet in the GUI
-                if(not self.isQuestionInForm(varName)):
+                if (not self.form.isQuestionOnPage(varName)):
 
                     # it is not the initial setup process
                     if not initial:
                         # delete every question that is under the to be inserted if-question
                         for varNameToBeDeleted in toBeDeleteQuestions:
-                            self.deleteQuestionInForm(varNameToBeDeleted)
+                            self.form.removeQuestionFromPage(varNameToBeDeleted)
 
-                    #insert new question into the GUI
+                    # insert new question into the GUI
                     self.form.addQuestionToPage(varName, label, var_type, value)
                 # delete question from the to be deleted list
                 del toBeDeleteQuestions[varName]
 
                 # remove if question if no longer valid
-                self.deleteInvalidQuestions()
+                self.form.deleteInvalidQuestions(self.questions)
 
         return self.questions
 
-    # This function is use to delete question under an if statement, in order to insert an if en re-redener the
-    # questions below the if
-    def deleteQuestionInForm(self, varName):
-        self.form.removeQuestionFromPage(formQuestion)
+
 
     # this function is used to delete question that are no longer valid, i.e. the questions in an if or elif or else block
     def deleteInvalidQuestions(self):
         for question in self.form.questions:
             if (question.varName not in self.questions):
-                question.frame.destroy()
-                self.form.questions.remove(question)
-
-    def isQuestionInForm(self, varName):
-        for formQuestion in self.form.questions:
-            if formQuestion.varName == varName:
-                return True
-        return False
+                self.form.removeQuestionFromPage(question.varName)
 
     def getFormQuestion(self, varName):
         for formQuestion in self.form.questions:

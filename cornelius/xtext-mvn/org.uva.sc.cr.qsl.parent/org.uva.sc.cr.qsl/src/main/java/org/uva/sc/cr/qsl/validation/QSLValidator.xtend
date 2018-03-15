@@ -29,7 +29,7 @@ class QSLValidator extends AbstractQSLValidator {
 
 		val questionIsPlaced = stylesheet.eAllContents.filter[it instanceof QuestionReference].exists [
 			val questionReference = it as QuestionReference
-			questionReference.questionReference == question
+			questionReference.question == question
 		]
 		if (!questionIsPlaced) {
 			error(STYLESHEET_MISSING_QUESTION_MESSAGE, QLPackage.Literals.QUESTION__NAME, STYLESHEET_MISSING_QUESTION)
@@ -45,11 +45,11 @@ class QSLValidator extends AbstractQSLValidator {
 		val otherReferences = stylesheet.eAllContents.
 			filter[it instanceof QuestionReference && it != questionReference].filter [
 				val otherQuestionReference = it as QuestionReference
-				questionReference.questionReference == otherQuestionReference.questionReference
+				questionReference.question == otherQuestionReference.question
 			]
 		if (!otherReferences.empty) {
 			error(STYLESHEET_QUESTION_MULTIPLE_REFERENCES_MESSAGE,
-				QSLPackage.Literals.QUESTION_REFERENCE__QUESTION_REFERENCE, STYLESHEET_QUESTION_MULTIPLE_REFERENCES)
+				QSLPackage.Literals.QUESTION_REFERENCE__QUESTION, STYLESHEET_QUESTION_MULTIPLE_REFERENCES)
 		}
 
 	}

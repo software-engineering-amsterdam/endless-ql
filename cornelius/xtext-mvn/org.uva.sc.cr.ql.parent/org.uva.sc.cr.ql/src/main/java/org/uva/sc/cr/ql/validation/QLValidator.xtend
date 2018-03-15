@@ -4,7 +4,7 @@ import java.util.ArrayList
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
 import org.uva.sc.cr.ql.qL.BlockBody
-import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
+import org.uva.sc.cr.ql.qL.ExpressionQuestionReference
 import org.uva.sc.cr.ql.qL.Form
 import org.uva.sc.cr.ql.qL.QLPackage
 import org.uva.sc.cr.ql.qL.Question
@@ -36,8 +36,8 @@ class QLValidator extends AbstractQLValidator {
 	def checkQuestionSelfReference(Question question) {
 
 		if (question.expression !== null) {
-			question.expression.eContents.filter[it instanceof ExpressionQuestionRef].forEach [
-				val questionRef = it as ExpressionQuestionRef
+			question.expression.eContents.filter[it instanceof ExpressionQuestionReference].forEach [
+				val questionRef = it as ExpressionQuestionReference
 				if (questionRef.question.name == question.name)
 					error(SELF_REFERNCE_MESSAGE, QLPackage.Literals.QUESTION__EXPRESSION, SELF_REFERNCE)
 			]
@@ -46,7 +46,7 @@ class QLValidator extends AbstractQLValidator {
 	}
 
 	@Check
-	def checkForForwardReferences(ExpressionQuestionRef questionRef) {
+	def checkForForwardReferences(ExpressionQuestionReference questionRef) {
 		val form = getForm(questionRef)
 
 		val elementsInTreeBefore = new ArrayList<EObject>
@@ -68,7 +68,7 @@ class QLValidator extends AbstractQLValidator {
 			question.name == questionRef.question.name
 		]
 		if (!questionExists) {
-			error(FORWARD_REFERNCE_MESSAGE, QLPackage.Literals.EXPRESSION_QUESTION_REF__QUESTION, FORWARD_REFERNCE)
+			error(FORWARD_REFERNCE_MESSAGE, QLPackage.Literals.EXPRESSION_QUESTION_REFERENCE__QUESTION, FORWARD_REFERNCE)
 		}
 
 	}

@@ -11,13 +11,14 @@ import org.uva.sc.cr.ql.qL.ExpressionEquality
 import org.uva.sc.cr.ql.qL.ExpressionLiteralBoolean
 import org.uva.sc.cr.ql.qL.ExpressionLiteralInteger
 import org.uva.sc.cr.ql.qL.ExpressionLiteralString
-import org.uva.sc.cr.ql.qL.ExpressionMulOrDiv
+import org.uva.sc.cr.ql.qL.ExpressionMultiplicationOrDivision
 import org.uva.sc.cr.ql.qL.ExpressionNot
 import org.uva.sc.cr.ql.qL.ExpressionOr
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
-import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
+import org.uva.sc.cr.ql.qL.ExpressionQuestionReference
 import org.uva.sc.cr.ql.util.MissingCaseException
 import org.uva.sc.cr.ql.util.Operation
+import org.uva.sc.cr.ql.qL.ExpressionParanthesis
 
 @Singleton
 class ExpressionEvaluator {
@@ -36,7 +37,8 @@ class ExpressionEvaluator {
 			ExpressionEquality: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
 			ExpressionComparison: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
 			ExpressionPlusOrMinus: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionMulOrDiv: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionMultiplicationOrDivision: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionParanthesis: ''' ( «buildExpression(expression.expression)» ) '''
 			ExpressionNot:
 				Operation.NOT.literal + buildExpression(expression.expression)
 			ExpressionLiteralString:
@@ -45,7 +47,7 @@ class ExpressionEvaluator {
 				" " + expression.expression + " "
 			ExpressionLiteralBoolean:
 				" " + expression.expression + " "
-			ExpressionQuestionRef:
+			ExpressionQuestionReference:
 				expression.question.name
 			default: {
 				throw new MissingCaseException

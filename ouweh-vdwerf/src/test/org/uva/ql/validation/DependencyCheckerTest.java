@@ -8,7 +8,8 @@ import java.util.*;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DependencyCheckerTest {
 

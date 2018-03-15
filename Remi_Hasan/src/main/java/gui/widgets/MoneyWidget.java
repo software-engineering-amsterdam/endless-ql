@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -8,8 +9,8 @@ import javafx.scene.layout.Pane;
 
 public class MoneyWidget extends Widget {
 
-    public MoneyWidget(String name) {
-        super(name);
+    public MoneyWidget(String name, ChangeListener<? super String> listener) {
+        super(name, listener);
     }
 
     @Override

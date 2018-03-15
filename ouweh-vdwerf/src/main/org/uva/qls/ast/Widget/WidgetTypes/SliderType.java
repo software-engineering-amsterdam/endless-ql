@@ -1,6 +1,9 @@
 package org.uva.qls.ast.Widget.WidgetTypes;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 public class SliderType extends WidgetType {
 
     private String start;
@@ -11,6 +14,11 @@ public class SliderType extends WidgetType {
         this.start = start;
         this.end = end;
         this.step = step;
+    }
+
+    @Override
+    public List<String> getCompatibleTypes() {
+        return Arrays.asList("IntegerType");
     }
 
 }

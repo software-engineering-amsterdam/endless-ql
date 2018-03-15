@@ -15,5 +15,7 @@ form Box1HouseOwning {
 	}
 	if (result == "Cornelius Ries"){
 		"Cornelius Ries, when did you sell the house?" sellDate: date
+	} else {
+		"Who sold the house?" fullName: string = (firstName + " " + lastName)
 	}
 }

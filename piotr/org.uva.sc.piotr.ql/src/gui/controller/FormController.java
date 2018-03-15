@@ -43,9 +43,9 @@ public class FormController {
 
         for (FormQuestion formQuestion1 : this.formQuestions) {
             if (formQuestion1.getAssignedExpression() != null) {
-                this.collectReferencesVisitor.reset();
-                formQuestion1.getAssignedExpression().accept(this.collectReferencesVisitor);
-                List<VariableReference> variableReferences = this.collectReferencesVisitor.getVariableReferences();
+
+                List<VariableReference> variableReferences = this.collectReferencesVisitor.getVariableReferences(formQuestion1.getAssignedExpression());
+
                 for (VariableReference variableReference : variableReferences) {
                     if (variableReference.getName().equals(formQuestion.getVariableName())) {
                         result.add(formQuestion1);
@@ -63,9 +63,7 @@ public class FormController {
 
         for (FormQuestion formQuestion1 : this.formQuestions) {
             if (formQuestion1.getVisibilityCondition() != null) {
-                this.collectReferencesVisitor.reset();
-                formQuestion1.getVisibilityCondition().accept(this.collectReferencesVisitor);
-                List<VariableReference> variableReferences = this.collectReferencesVisitor.getVariableReferences();
+                List<VariableReference> variableReferences = this.collectReferencesVisitor.getVariableReferences(formQuestion1.getVisibilityCondition());
                 for (VariableReference variableReference : variableReferences) {
                     if (variableReference.getName().equals(formQuestion.getVariableName())) {
                         result.add(formQuestion1);

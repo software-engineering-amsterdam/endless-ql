@@ -25,11 +25,11 @@ public class CollectQuestionsVisitor extends AbstractASTTraverse<Void> {
     public Void visit(Question question) {
 
         CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
-        if (question.getAssignedExpression() != null) {
-            question.getAssignedExpression().accept(collectReferencesVisitor);
-        }
+        List<VariableReference> references = new ArrayList<>();
 
-        List<VariableReference> references = collectReferencesVisitor.getVariableReferences();
+        if (question.getAssignedExpression() != null) {
+            references = collectReferencesVisitor.getVariableReferences(question.getAssignedExpression());
+        }
 
         if (question.getAssignedExpression() != null) {
             question.getAssignedExpression().accept(this);

@@ -37,8 +37,7 @@ public class Main {
 
         // Collect all references from all expressions in the form (both: assignments and conditions)
         CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
-        form.accept(collectReferencesVisitor);
-        List<VariableReference> references = collectReferencesVisitor.getVariableReferences();
+        List<VariableReference> references = collectReferencesVisitor.getVariableReferences(form);
 
         // Collect all questions
         CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();

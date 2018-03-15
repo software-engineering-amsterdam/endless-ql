@@ -11,7 +11,6 @@ import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.ModelRenderer;
 import org.uva.sea.gui.widget.*;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 
 import java.util.List;
 
@@ -72,7 +71,6 @@ public class ViewRenderer {
 
     private Control createWidget(BaseQuestionModel questionModel) {
         Widget widget;
-        Style style = questionModel.getStyleQLS();
         switch (questionModel.getWidgetType()) {
             case BOOLEAN:
             case CHECKBOX:
@@ -82,16 +80,14 @@ public class ViewRenderer {
                 widget = new ChoiceBoxWidget();
                 break;
             case RADIO:
-            case RADIOBUTTON:
                 widget = new RadioButtonWidget();
                 break;
             case SLIDER:
                 widget = new SliderWidget();
                 break;
-            case SPINNER:
+            case SPINBOX:
                 widget = new SpinnerWidget();
                 break;
-            case SPINBOX:
             case MONEY_EURO:
             case MONEY_DOLLAR:
             case DATE:

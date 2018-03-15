@@ -24,6 +24,7 @@ class MainWindow(QtWidgets.QWidget):
         self.setWindowTitle('QL parser')
         self.setGeometry(600, 600, 1100, 600)
         self.tree = None
+        self.parser = None
 
         self.inputFrame = InputFrame()
         self.outputFrame = OutputFrame()
@@ -48,7 +49,7 @@ class MainWindow(QtWidgets.QWidget):
     def parse(self,qlText,qlsText):
 
         if qlText:
-            self.tree = run_antlr(qlText)
+            self.tree, self.parser = run_antlr(qlText)
             listen(self.tree, self.outputFrame)
             self.outputFrame.add_submit_button()
             # if self.tree:

@@ -114,7 +114,7 @@ class ParseTreeVisitor(QLVisitor):
         return self.visitChildren(ctx)
 
     def visitMoneyLiteral(self, ctx: QLParser.MoneyLiteralContext):
-        return MoneyLiteral(self.location(ctx), ctx.getText())
+        return MoneyLiteral(self.location(ctx), ctx.getText()[1:])
 
     def visitDecimalLiteral(self, ctx: QLParser.DecimalLiteralContext):
         return DecimalLiteral(self.location(ctx), ctx.getText())

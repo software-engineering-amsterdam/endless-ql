@@ -2,7 +2,7 @@ package org.uva.qls.validation;
 
 import org.uva.ql.ast.Question;
 import org.uva.ql.validation.Checker;
-import org.uva.ql.validation.LogHandler;
+import org.uva.app.LogHandler;
 import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.ast.Stylesheet;
 

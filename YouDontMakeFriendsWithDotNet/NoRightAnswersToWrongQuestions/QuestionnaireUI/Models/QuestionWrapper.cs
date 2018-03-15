@@ -2,7 +2,7 @@
 
 namespace QuestionnaireUI.Models
 {
-    public class QuestionWrapper
+    public class QuestionWrapper : Observable
     {
         public QuestionWrapper(QuestionModel model)
         {
@@ -22,8 +22,15 @@ namespace QuestionnaireUI.Models
         public bool Visible => Model.Visible;
         public string Value
         {
+            set
+            {
+                if (value != Model.Value)
+                {
+                    Model.Value = value;
+                    RaisePropertyChanged();
+                }
+            }
             get { return Model.Value; }
-            set { Model.Value = value; }
         }
     }
 }

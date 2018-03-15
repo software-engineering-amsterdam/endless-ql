@@ -8,12 +8,14 @@ public class Question {
     private String text;
     private EvaluationType type;
     private Expression answer;
+    private Expression condition;
 
-    public Question(String id, String text, EvaluationType type, Expression answer){
+    public Question(String id, String text, EvaluationType type, Expression answer, Expression condition){
         setIdentifier(id);
         setText(text);
         setType(type);
         setAnswer(answer);
+        setCondition(condition);
     }
 
     public String getIdentifier() {
@@ -46,5 +48,13 @@ public class Question {
 
     public void setAnswer(Expression answer) {
         this.answer = answer;
+    }
+
+    public Expression getCondition(){ return condition;}
+
+    public void setCondition(Expression condition){ this.condition = condition;}
+
+    public Boolean isEnabled(){
+        return condition.evaluate().getValue().equals(true);
     }
 }

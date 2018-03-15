@@ -8,6 +8,18 @@ export default abstract class AbstractStyleNode implements StyleTreeNode {
     return this.parent;
   }
 
+  getParents(): StyleTreeNode[] {
+    const parents: StyleTreeNode[] = [];
+    let parent: StyleTreeNode | null = this.parent;
+
+    while (parent !== null) {
+      parents.push(parent);
+      parent = parent.getParent();
+    }
+
+    return parents;
+  }
+
   setParent(parent: StyleTreeNode): void {
     this.parent = parent;
   }

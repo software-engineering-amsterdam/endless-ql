@@ -8,7 +8,12 @@ import org.uva.sea.gui.model.BaseQuestionModel;
 public class SliderWidget implements Widget {
     @Override
     public Control draw(BaseQuestionModel questionModel, FormController controller) {
-        //TODO: implement Slider
-        return new Slider();
+        //TODO: add event handler to Slider, get properties from Widget
+
+        Slider slider = new Slider();
+        slider.setMin(0);
+        slider.setMax(10);
+
+        return slider;
     }
 }

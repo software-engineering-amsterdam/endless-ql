@@ -220,13 +220,39 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitStyleProperty(QLSParser.StylePropertyContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#value}.
+	 * Enter a parse tree produced by the {@code stringValue}
+	 * labeled alternative in {@link QLSParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void enterValue(QLSParser.ValueContext ctx);
+	void enterStringValue(QLSParser.StringValueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#value}.
+	 * Exit a parse tree produced by the {@code stringValue}
+	 * labeled alternative in {@link QLSParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void exitValue(QLSParser.ValueContext ctx);
+	void exitStringValue(QLSParser.StringValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code numberValue}
+	 * labeled alternative in {@link QLSParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumberValue(QLSParser.NumberValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code numberValue}
+	 * labeled alternative in {@link QLSParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumberValue(QLSParser.NumberValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code colorValue}
+	 * labeled alternative in {@link QLSParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterColorValue(QLSParser.ColorValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code colorValue}
+	 * labeled alternative in {@link QLSParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitColorValue(QLSParser.ColorValueContext ctx);
 }

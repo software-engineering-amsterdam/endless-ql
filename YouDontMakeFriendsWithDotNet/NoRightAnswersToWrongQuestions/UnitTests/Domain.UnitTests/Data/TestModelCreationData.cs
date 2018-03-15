@@ -70,7 +70,7 @@ namespace UnitTests.Domain.UnitTests.Data
 
                 const string form2 = "form TestForm { if (true) { q1: \"i\"  boolean } else { q2: \"i\"  boolean } }";
                 yield return new TestCaseData(form2, 1, 1);
-                
+
                 yield return TrueResult(@"true");
                 yield return TrueResult(@"True");
                 yield return TrueResult(@"TRUE");
@@ -148,25 +148,23 @@ namespace UnitTests.Domain.UnitTests.Data
 
         public static TestCaseData FalseResult(string predicate)
         {
-            const string template1T2F = "form TestForm {{ if ({0}) {{ q1: \"i\"  boolean }} else {{ q2: \"i\"  boolean q3: \"i\"  boolean }} }}";
+            const string template1T2F =
+                "form TestForm {{ if ({0}) {{ q1: \"i\"  boolean }} else {{ q2: \"i\"  boolean q3: \"i\"  boolean }} }}";
             return new TestCaseData(string.Format(template1T2F, predicate), 2, 1);
         }
 
         public static TestCaseData TrueResult(string predicate)
         {
-            const string template1T2F = "form TestForm {{ if ({0}) {{ q1: \"i\"  boolean }} else {{ q2: \"i\"  boolean q3: \"i\"  boolean }} }}";
+            const string template1T2F =
+                "form TestForm {{ if ({0}) {{ q1: \"i\"  boolean }} else {{ q2: \"i\"  boolean q3: \"i\"  boolean }} }}";
             return new TestCaseData(string.Format(template1T2F, predicate), 1, 2);
         }
 
-        public static IEnumerable CalculationVariableValues
-        {
-            get
-            {
-                const string variableTemplate = @"
+        private const string VariableTemplate = @"
 form TestForm {{ 
-   intQ1: ""First int question"" integer
-   intQ2: ""2nd int question"" integer
-   if (intQ1 {0} intQ2) 
+   q1: ""First int question"" {1}
+   q2: ""2nd int question"" {1}
+   if (q1 {0} q2) 
    {{ 
       trueVisibleQuestion: ""trueviz""  integer 
    }} 
@@ -176,11 +174,111 @@ form TestForm {{
       falseVisibleQuestion2: ""falseViz2""  integer 
    }} 
 }}";
+
+        public static IEnumerable CalculationIntVariableTrueToFalseValues
+        {
+            get
+            {
+
                 yield return new TestCaseData(
-                    string.Format(variableTemplate,  @"=="),
-                    100, 
+                    string.Format(VariableTemplate, @"==", @"integer"),
+                    100,
                     200);
+
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @"<=", @"integer"),
+                    5,
+                    4);
+
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @">=", @"integer"),
+                    -5,
+                    -4);
+            }
+        }
+
+        public static IEnumerable CalculationIntVariableFalseToTrueValues
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @"!=", @"integer"),
+                    100,
+                    200);
+
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @"<", @"integer"),
+                    444,
+                    555);
+
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @">", @"integer"),
+                    123,
+                    -123);
+            }
+        }
+
+        public static IEnumerable CalculationDecimalVariableTrueToFalseValues
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @"==", @"decimal"),
+                    100m,
+                    200m);
+
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @"<=", @"decimal"),
+                    5m,
+                    4m);
+
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @">=", @"decimal"),
+                    -5m,
+                    -4m);
+            }
+        }
+
+        public static IEnumerable CalculationDecimalVariableFalseToTrueValues
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @"!=", @"decimal"),
+                    100m,
+                    200m);
+
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @"<", @"decimal"),
+                    444m,
+                    555m);
+
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @">", @"decimal"),
+                    123m,
+                    -123m);
+            }
+        }
+
+        public static IEnumerable CalculationDateVariableTrueToFalseValues
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @"==", @"date"),
+                    new DateTime(2012, 12, 31),
+                    new DateTime(2013, 1, 2));
+
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @">=", @"date"),
+                    new DateTime(1966, 7, 30),
+                    new DateTime(1974, 7, 7));
+
+                yield return new TestCaseData(
+                    string.Format(VariableTemplate, @"<=", @"date"),
+                    new DateTime(2044, 10, 10),
+                    new DateTime(2015, 3, 2));
             }
         }
     }
-}
+        }

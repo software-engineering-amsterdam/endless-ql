@@ -6,4 +6,8 @@ public enum ReturnType {
     public Boolean isNumber() {
         return this == NUMBER || this == INTEGER || this == DECIMAL || this == MONEY;
     }
+
+    public Boolean isCompatible(ReturnType returnType) {
+        return this == returnType || this.isNumber() && returnType.isNumber();
+    }
 }

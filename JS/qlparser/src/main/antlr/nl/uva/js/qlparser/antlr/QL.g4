@@ -18,15 +18,14 @@ BOOLEAN:    'boolean';
 INTEGER:    'integer';
 
 // Reserved boolean values
-TRUE:       'true';
-FALSE:      'false';
+BOOLVAL:    ('true' | 'false');
 
 // ISO8601 date notation
 DATVAL:     [0-9]+'-'[0-9]+'-'[0-9]+;
 
 INTVAL:     [0-9]+;
-DECVAL:     [0-9]+'.'[0-9]+;
-MONVAL:     [0-9]+','[0-9]+;
+DECVAL:     [0-9]+'.'[0-9]+[dD];
+MONVAL:     [A-Z]+[+-]?[0-9]*[.]?[0-9]*;
 STRVAL:     '"'~['\\\r\n]*?'"';
 
 IF:         'if';
@@ -72,9 +71,9 @@ dataType
 value
     : STRVAL
     | INTVAL
-    | DECVAL
     | MONVAL
-    | BOOLVAL=(TRUE | FALSE)
+    | DECVAL
+    | BOOLVAL
     ;
 
 // Higher level parsing

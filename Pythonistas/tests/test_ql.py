@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
 
-from grammar.run_antlr import run_antrl
+from grammar.run_antlr import run_antlr
 from commons.utility import open_file
 
 

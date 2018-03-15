@@ -1,6 +1,7 @@
 package GUI;
 
 import QL.ParseObjectsQL.Question;
+import QL.QLVisitor.ExpressionTable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import QL.ParseObjectsQL.Form;
@@ -17,14 +18,12 @@ import javafx.stage.Stage;
 
 public class FormBuilder {
     private Form form;
-    private QuestionMap questionMap;
     private Stage stage;
     private GridPane formGrid;
     private int fieldRow;
 
-    public FormBuilder(Form form, QuestionMap questionMap, Stage stage){
+    public FormBuilder(Form form, Stage stage){
         setForm(form);
-        setQuestionMap(questionMap);
         setStage(stage);
 
         formGrid = new GridPane();
@@ -34,10 +33,6 @@ public class FormBuilder {
 
     public void setForm(Form form){
         this.form = form;
-    }
-
-    public void setQuestionMap(QuestionMap questionMap){
-        this.questionMap = questionMap;
     }
 
     public void setStage(Stage stage){
@@ -72,8 +67,7 @@ public class FormBuilder {
     }
 
     private void renderFormQuestions(){
-        for(Question q : form.getBlock().getQuestions()){
-            Question question = questionMap.getQuestion(q.getIdentifier());
+        for(Question question : form.getBlock().getQuestions()){
             Label questionLabel = new Label(question.getText());
             Control questionField = createQuestionField(question);
             formGrid.add(questionLabel, 0, fieldRow);
@@ -109,7 +103,7 @@ public class FormBuilder {
             case Money:
                 return createMoneyField();
             case Boolean:
-                return createBoolField();
+                return createBoolField(question);
             case Date:
                 return createDateField();
             default:
@@ -134,8 +128,9 @@ public class FormBuilder {
         return new TextField();
     }
 
-    private Control createBoolField(){
+    private Control createBoolField(Question question){
         CheckBox checkBox = new CheckBox();
+        checkBox.setDisable(!question.isEnabled());
         return checkBox;
     }
 

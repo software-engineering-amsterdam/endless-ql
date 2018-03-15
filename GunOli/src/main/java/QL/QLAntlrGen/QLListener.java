@@ -158,6 +158,18 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitIntegerConstant(QLParser.IntegerConstantContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code booleanConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void enterBooleanConstant(QLParser.BooleanConstantContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code booleanConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 */
+	void exitBooleanConstant(QLParser.BooleanConstantContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code decimalConstant}
 	 * labeled alternative in {@link QLParser#constant}.
 	 * @param ctx the parse tree

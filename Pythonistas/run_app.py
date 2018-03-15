@@ -11,7 +11,7 @@ import sys
 
 from grammar.run_antlr import run_antlr_parse_gen
 from commons.config import config
-from tests.debug_grammar import debug_grammar
+from grammar.debug_grammar import GrammarDebugger
 from gui.gui import *
 
 
@@ -26,9 +26,9 @@ def main():
     parser.add_argument('-t', '--test', action='store_true',
                         help="Runs the testsuite.")
     parser.add_argument('-g', '--grammar', action='store_true',
-                        help="Debug grammar.")
-    parser.add_argument('-p', '--parser', action='store_true',
-                        help="Generate parser.")
+                        help='Debug grammar.')
+    parser.add_argument('-p', '--parser', action='store', type=str, choices=['ql', 'QL', 'qls', 'QLS'],
+                        help='Generate parser.')
 
     args = parser.parse_args()
 
@@ -44,19 +44,18 @@ def main():
 
     # Debug grammar
     if args.grammar:
-        # todo: make it so that you give path in CLI call
-        # debug_grammar('C:/Users/svdh/PycharmProjects/sql/endless-ql/Pythonistas/tests/forms/if.ql')
-        # debug_grammar("tests/forms/if.ql")
-        sys.stdout.write(debug_grammar("tests/forms/if.ql"))
+        # todo: make it so that you give path in CLI call + cleanup GrammerDebugger
+        g_debug = GrammarDebugger("tests/forms/ql/fail/arithmetic.ql")
+        report, errors = g_debug.debug_grammar()
         sys.exit(0)
 
     # Generate antlr parser
     if args.parser:
-        run_antlr_parse_gen()
+        run_antlr_parse_gen(args.parser)
         sys.exit(0)
 
     # GUI
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     screen = MainWindow()
     screen.show()
 

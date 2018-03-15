@@ -42,12 +42,13 @@ public class ParserTest {
         RepresentationOfAST test = new RepresentationOfAST();
         Assert.assertEquals(
                 "QuestionFormat" +
-                        "   T[\"Did you sell a house?\"]" +
-                        "   Variable" +
+                        "   variable" +
                         "       T[hasSoldHouse]" +
+                        "   T[\"Did you sell a house in 2010 ?\"]" +
                         "   T[:]" +
-                        "   Type" +
+                        "   type" +
                         "       T[boolean]", test.toParseTree(parseResource("question_assignment.txt")));
+
     }
 
 }

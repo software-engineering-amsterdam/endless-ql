@@ -7,41 +7,41 @@ describe('The question control service', () => {
   let service: QuestionControlService;
 
   const questions = [
-    new InputQuestion({
-      key: 'intQuestion',
-      label: 'intQuestion?',
-      type: 'number',
-      value: undefined,
-      order: 0
-    }),
-    new InputQuestion({
-      key: 'decimalQuestion',
-      label: 'decimalQuestion?',
-      type: 'number',
-      value: undefined,
-      order: 1
-    }),
-    new BooleanQuestion({
-      key: 'booleanQuestion',
-      label: 'booleanQuestion?',
-      type: 'boolean',
-      value: undefined,
-      order: 2
-    }),
-    new InputQuestion({
-      key: 'stringQuestion',
-      label: 'stringQuestion?',
-      type: 'text',
-      value: '',
-      order: 3
-    }),
-    new InputQuestion({
-      key: 'dateQuestion',
-      label: 'dateQuestion?',
-      type: 'date',
-      value: undefined,
-      order: 4
-    })
+    new InputQuestion(
+      'intQuestion',
+      'intQuestion?',
+      undefined,
+      'number',
+      undefined
+    ),
+    new InputQuestion(
+      'decimalQuestion',
+      'decimalQuestion?',
+      undefined,
+      'number',
+      undefined
+    ),
+    new BooleanQuestion(
+      'booleanQuestion',
+      'booleanQuestion?',
+      undefined,
+      'boolean',
+      undefined
+    ),
+    new InputQuestion(
+      'stringQuestion',
+      'stringQuestion?',
+      '',
+      'text',
+      undefined
+    ),
+    new InputQuestion(
+      'dateQuestion',
+      'dateQuestion?',
+      undefined,
+      'date',
+      undefined
+    )
   ];
 
   beforeEach(() => {

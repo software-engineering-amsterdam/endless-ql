@@ -1,5 +1,7 @@
 package org.uva.qls.ast.Widget.WidgetTypes;
 
+import java.util.List;
+import java.util.Arrays;
 
 public class CheckboxType extends WidgetType {
 
@@ -9,4 +11,8 @@ public class CheckboxType extends WidgetType {
         this.yes = yes;
     }
 
+    @Override
+    public List<String> getCompatibleTypes() {
+        return Arrays.asList("BooleanType");
+    }
 }

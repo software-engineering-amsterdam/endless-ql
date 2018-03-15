@@ -48,10 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculatedQuestionModel.cs" />
-    <Compile Include="CalculatedQuestionWrapper.cs" />
-    <Compile Include="QuestionnaireWrapper.cs" />
-    <Compile Include="QuestionnaireModel.cs" />
+    <Compile Include="Models\ModelWrapperBase.cs" />
+    <Compile Include="Models\Observable.cs" />
+    <Compile Include="Models\QuestionModel.cs" />
+    <Compile Include="Models\QuestionnaireWrapper.cs" />
+    <Compile Include="Models\QuestionnaireModel.cs" />
+    <Compile Include="Models\QuestionWrapper.cs" />
     <Compile Include="UiModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

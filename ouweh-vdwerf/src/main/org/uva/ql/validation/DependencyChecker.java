@@ -25,32 +25,27 @@ class DependencyChecker extends Checker {
     public void runCheck() {
         for (Dependency relation : transitiveClosure(dependencies)) {
             if (relation.isReflexive()) {
-                logger.severe("Circular dependency detected at: " + relation.getFrom());
+                logger.severe(String.format("Circular dependency detected at: %s", relation.getFrom()));
             }
         }
     }
 
     private Set<Dependency> transitiveClosure(Set<Dependency> dependencyGraph) {
         Set<Dependency> closure = new HashSet<>(dependencyGraph);
-        Set<Dependency> reach = initializeMatrix(closure);
+        Set<Dependency> newClosure = new HashSet<>(closure);
 
-        while (!reach.equals(closure)) {
-            reach.addAll(closure);
-            closure = reach;
-        }
-        return reach;
-    }
+        do {
+            closure.addAll(newClosure);
 
-    private Set<Dependency> initializeMatrix(Set<Dependency> dependencyGraph) {
-        Set<Dependency> matrix = new HashSet<>();
-
-        for (Dependency i : dependencyGraph) {
-            for (Dependency j : dependencyGraph) {
-                if (i.isTransitive(j)) {
-                    matrix.add(new Dependency(i.getFrom(), j.getTo()));
+            for (Dependency i : closure) {
+                for (Dependency j : closure) {
+                    if (i.getTo().equals(j.getFrom())) {
+                        newClosure.add(new Dependency(i.getFrom(), j.getTo()));
+                    }
                 }
             }
-        }
-        return matrix;
+        } while (!closure.containsAll(newClosure));
+
+        return closure;
     }
 }

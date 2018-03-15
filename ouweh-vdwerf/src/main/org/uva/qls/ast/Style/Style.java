@@ -15,4 +15,8 @@ public class Style extends TreeNode {
         this.styleProperties = styleProperties;
         this.widget = widget;
     }
+
+    public Widget getWidget() {
+        return widget;
+    }
 }

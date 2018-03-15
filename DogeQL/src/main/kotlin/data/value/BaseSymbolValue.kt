@@ -1,9 +1,9 @@
 package data.value
 
-import data.question.QuestionType
+import data.question.SymbolType
 import javax.naming.OperationNotSupportedException
 
-abstract class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolValue> {
+abstract class BaseSymbolValue(val type: SymbolType) : Comparable<BaseSymbolValue> {
 
     abstract fun valueString(): String
 
@@ -39,7 +39,7 @@ abstract class BaseSymbolValue(val type: QuestionType) : Comparable<BaseSymbolVa
         return attemptOperator(other, "compareTo", { left, right -> left.compareTo(right) })
     }
 
-    open fun castTo(that: QuestionType): BaseSymbolValue? = when (that) {
+    open fun castTo(that: SymbolType): BaseSymbolValue? = when (that) {
         type -> this
         else -> null
     }

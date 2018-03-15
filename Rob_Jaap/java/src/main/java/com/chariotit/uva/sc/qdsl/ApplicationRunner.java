@@ -1,8 +1,8 @@
 package com.chariotit.uva.sc.qdsl;
 
-import com.chariotit.uva.sc.qdsl.ast.TypeChecker;
-import com.chariotit.uva.sc.qdsl.ast.node.AstRoot;
-import com.chariotit.uva.sc.qdsl.ast.visitor.TypeCheckError;
+import com.chariotit.uva.sc.qdsl.ast.ql.TypeChecker;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.AstRoot;
+import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
 import com.chariotit.uva.sc.qdsl.QLFrame;
 import org.springframework.boot.CommandLineRunner;
@@ -54,22 +54,28 @@ public class ApplicationRunner implements CommandLineRunner {
 //        builder.showForm();
 
         // AST is initialised here.
-        AstRoot astRoot = (AstRoot)visitor.visit(tree);
+        AstRoot astRoot = (AstRoot) visitor.visit(tree);
 
         // Run Typechecker
         TypeChecker typeChecker = new TypeChecker();
         List<TypeCheckError> errors = typeChecker.typeCheckAst(astRoot);
+        Boolean abort = false;
 
-        if (errors.size() > 0) {
-            for (TypeCheckError error : errors) {
-                System.out.println(String.format(
-                        "TypeCheckError line %d, column %d: %s",
-                        error.getLineNumber(),
-                        error.getColumnNumber(),
-                        error.getMessage()
-                ));
+        for (TypeCheckError error : errors) {
+            System.out.println(String.format(
+                    "%4s line %d, column %d: %s",
+                    error.getLevel(),
+                    error.getLineNumber(),
+                    error.getColumnNumber(),
+                    error.getMessage()
+            ));
+
+            if (error.getLevel() == TypeCheckError.Level.ERROR) {
+                abort = true;
             }
+        }
 
+        if (abort) {
             System.exit(1);
         }
 

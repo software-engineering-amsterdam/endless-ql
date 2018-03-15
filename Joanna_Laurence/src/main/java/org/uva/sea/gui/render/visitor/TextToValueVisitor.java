@@ -1,7 +1,7 @@
 package org.uva.sea.gui.render.visitor;
 
 import org.uva.sea.gui.model.*;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.*;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
 
 public class TextToValueVisitor implements QuestionModelVisitor<Value> {
     private String stringValue;

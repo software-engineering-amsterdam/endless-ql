@@ -1,5 +1,7 @@
 package ui.view
 
+import javafx.scene.control.ScrollPane
+import javafx.scene.layout.FlowPane
 import tornadofx.*
 import ui.model.QuestionFormModel
 
@@ -9,9 +11,11 @@ class DogeMainView : View() {
     private val model: QuestionFormModel by inject()
 
 
-    override val root = vbox()
+    override val root = scrollpane()
 
     init {
+        root.minHeight = 400.0
+        root.minWidth = 400.0
         with(root) {
             form {
                 fieldset {
@@ -21,10 +25,9 @@ class DogeMainView : View() {
                         }
                     }
                 }
-            }
-
-            button("Save") {
-                setOnAction { save() }
+                button("Save") {
+                    setOnAction { save() }
+                }
             }
         }
         runAsync {
@@ -34,14 +37,11 @@ class DogeMainView : View() {
 
 
     fun save() {
-        model.questions.forEach { x ->
-            x.commit()
-            println("label: ${x.item.label}")
-            println("Integer Value: ${x.integerValue}")
-            println("String Value: ${x.stringValue}")
-            println("BigDeciamal Value: ${x.decimalValue}")
-            println("Money Value: ${x.moneyValue}")
-            println("Boolean Value: ${x.booleanValue}")
-        }
+        model.commit()
+//        model.questions.forEach { x ->
+//            x.commit()
+//        }
+        model.load()
+        print("sdfsdf")
     }
 }

@@ -27,7 +27,7 @@ public class TypeCheckerVisitor
 
 	public Type getType(String name) {
 		if (!mapNameType.containsKey(name)) {
-			return new UndefinedType();
+			return Type.UNDEFINED;
 		}
 		return mapNameType.get(name);
  	}
@@ -60,7 +60,7 @@ public class TypeCheckerVisitor
 
 	private void checkTypeMismatch(Expression expr, Type expectedType) {
 		Type currentType =  expr.accept(this, null);
-		//System.out.println("Check types" + currentType + "\t" + expectedType);
+		System.out.println("Check types" + currentType + "\t" + expectedType);
 		if (isUndefinedType(currentType)) {
 			return;
 		}
@@ -161,65 +161,70 @@ public class TypeCheckerVisitor
 	/* Mathematical operations */
 	@Override
 	public Type visit(Add node, Void ctx) {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
-		return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkOperandsInvalidTypes(node, exprType);
+		return exprType;
 	}
 	
 	@Override
 	public Type visit(Sub node, Void ctx) {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
-		return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkOperandsInvalidTypes(node, exprType);
+		return exprType;
 	}
-
 
 	@Override
 	public Type visit(Mul node, Void ctx)  {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
-		return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkOperandsInvalidTypes(node, exprType);
+		return exprType;
 	}
 	
 	@Override
 	public Type visit(Div node, Void ctx) {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
-		return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkOperandsInvalidTypes(node, exprType);
+		return exprType;
 	}
 
 	
 	@Override
 	public Type visit(Neg node, Void ctx) {
-	checkTypeMismatch(node, Type.INTEGER);
-	return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkTypeMismatch(node, exprType);
+		return exprType;
 	}
 
 	@Override
 	public Type visit(Pos node, Void ctx) {
-		checkTypeMismatch(node, Type.INTEGER);
-		return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkTypeMismatch(node, exprType);
+		return exprType;
 	}
 
 
 	/* Comparison operations */
 	@Override
 	public Type visit(GT node, Void ctx) {
-	   checkOperandsInvalidTypes(node, Type.INTEGER);
+	   checkOperandsInvalidTypes(node, node.accept(this, ctx));
 	   return Type.BOOLEAN;
 	}
 	
 	@Override
 	public Type visit(GEq node, Void ctx) {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
+		checkOperandsInvalidTypes(node, node.accept(this, ctx));
 		return Type.BOOLEAN;
 	}
 	
 	@Override
 	public Type visit(LT node, Void ctx) {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
+		checkOperandsInvalidTypes(node, node.accept(this, ctx));
 		return Type.BOOLEAN;
 	}
 
 	@Override
 	public Type visit(LEq node, Void ctx) {
-	   checkOperandsInvalidTypes(node, Type.INTEGER);
+	   checkOperandsInvalidTypes(node, node.accept(this, ctx));
 	   return Type.BOOLEAN;
 	}
 	

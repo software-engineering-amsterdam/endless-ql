@@ -15,16 +15,24 @@ class QuestionFormModel : ItemViewModel<QuestionModel>() {
 
     private val dogeController: DogeController by inject()
 
+
     fun load() {
         runAsync {
             dogeController.getQuestions().observable()
         } ui {
             convertToViewModel(it)
-            dataQuestions.addAll(it)
+            dataQuestions = it
         }
     }
 
     private fun convertToViewModel(it: ObservableList<Question>) {
+        questions.removeAll()
         questions.addAll(it.map(::QuestionModel))
+    }
+
+    override fun onCommit() {
+        questions.forEach { x ->
+            x.commit()
+        }
     }
 }

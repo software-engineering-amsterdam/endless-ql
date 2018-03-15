@@ -9,7 +9,6 @@ import {AbstractControl, FormGroup} from '@angular/forms';
   styleUrls: ['./widget.component.css']
 })
 export class WidgetComponent implements OnInit {
-  @Input() widget: Widget;
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
   control: AbstractControl;

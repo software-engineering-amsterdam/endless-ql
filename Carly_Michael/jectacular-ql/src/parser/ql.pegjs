@@ -135,7 +135,7 @@ negateExpression
       }
 
 primitive
-  = integer / boolean / date / string / variable / "(" expr:addExpression ")" { return expr; }
+  = date / integer / boolean / string / variable / "(" expr:addExpression ")" { return expr; }
 
 text            = (whitespace word whitespace)+ {return text();}
 
@@ -149,19 +149,23 @@ type            = booleanType /
 whitespace = [ \t\n\r]* { return; }
 identifier 		  = [a-zA-Z0-9]+ {return text();}
 expression 		  = [a-zA-Z0-9 +\-\/*><=]+ {return text();}
+
+//data
 integer         = whitespace [0-9]+ whitespace { return new ast.Literal(ast.ExpressionType.NUMBER, parseInt(text(), 10), location()); }
 boolean         = whitespace val:("true" / "false") whitespace { return new ast.Literal(ast.ExpressionType.BOOLEAN, val, location()); }
-date            = whitespace "d" day:([0-9][0-9]) "-" month:([0-9][0-9]) "-" year:([0-9][0-9][0-9][0-9]) {
+date            = whitespace day:([0-9][0-9]) "-" month:([0-9][0-9]) "-" year:([0-9][0-9][0-9][0-9]) {
   const javascriptMonth = parseInt(month[0] + month[1], 10)-1;
   return new ast.Literal(ast.ExpressionType.DATE, new Date(Date.UTC(year[0] + year[1] + year[2] + year[3],
     javascriptMonth, day[0] + day[1], 0, 0, 0, 0)), location());
 }
 string          = whitespace "\"" val:identifier "\"" whitespace { return new ast.Literal(ast.ExpressionType.STRING, val, location()); }
+
 variable        = whitespace val:identifier whitespace { return new ast.Variable(val, location()); }
 word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 comment         = "//" (!lineTerminator .)*
 lineTerminator  = "\n" / "\r\n" / "\r" / "\u2028" / "\u2029"
 
+//types
 booleanType     = "boolean" { return ast.QuestionType.BOOLEAN; }
 stringType      = "string" { return ast.QuestionType.STRING; }
 integerType     = "integer" { return ast.QuestionType.INT; }

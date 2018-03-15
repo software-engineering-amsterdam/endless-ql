@@ -9,9 +9,18 @@ import QL.QLAntlrGen.QLParser;
 
 public class QuestionVisitor extends QLBaseVisitor<Question>{
     private ExpressionTable expressionTable;
+    private Expression condition;
 
-    public QuestionVisitor(ExpressionTable exprTable){
-        super();
+    public QuestionVisitor(ExpressionTable exprTable, Expression condition){
+        setExpressionTable(exprTable);
+        setCondition(condition);
+    }
+
+    private void setCondition(Expression condition){
+        this.condition = condition;
+    }
+
+    private void setExpressionTable(ExpressionTable exprTable){
         this.expressionTable = exprTable;
     }
 
@@ -28,7 +37,7 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
 
         Expression initialAnswer = initializeAnswer(questionTypeCTX, typeValue);
         expressionTable.addExpression(name, initialAnswer);
-        return new Question(name, text, typeValue, initialAnswer);
+        return new Question(name, text, typeValue, initialAnswer, condition);
     }
 
     private Expression initializeAnswer(QLParser.QuestionTypeContext ctx, EvaluationType type){

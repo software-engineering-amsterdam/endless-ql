@@ -13,7 +13,7 @@ public class MoneyType extends Type {
     }
 
 	public MoneyType() {
-		
+        this.setVal(new BigDecimal(0.00));
 	}
 
 	public BigDecimal getVal() {

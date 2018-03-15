@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using QuestionnaireDomain.Entities;
 using QuestionaireOrchestration;
-using QuestionaireOrchestration.API;
+using QuestionaireOrchestration.Commands;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 using QuestionnaireUI;

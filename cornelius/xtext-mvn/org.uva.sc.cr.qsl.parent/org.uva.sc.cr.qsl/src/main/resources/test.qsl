@@ -1,3 +1,4 @@
+// Form
 form taxOfficeExample { 
   "Did you sell a house in 2010?" 
     hasSoldHouse: boolean
@@ -21,7 +22,7 @@ form taxOfficeExample {
   }
   
 }
-
+// Stylesheet
 stylesheet taxOfficeExample 
   page Housing {
     section "Buying"

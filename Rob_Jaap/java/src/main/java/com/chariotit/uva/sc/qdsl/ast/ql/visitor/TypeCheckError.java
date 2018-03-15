@@ -7,11 +7,6 @@ public class TypeCheckError {
     Integer columnNumber;
     Level level;
 
-    public enum Level {
-        ERROR,
-        WARN
-    }
-
     public TypeCheckError(String message, Integer lineNumber, Integer columnNumber) {
         this.message = message;
         this.lineNumber = lineNumber;
@@ -56,5 +51,10 @@ public class TypeCheckError {
 
     public void setLevel(Level level) {
         this.level = level;
+    }
+
+    public enum Level {
+        ERROR,
+        WARN
     }
 }

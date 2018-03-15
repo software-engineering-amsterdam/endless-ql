@@ -56,6 +56,17 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
     }
 
     @Override
+    public SectionElement visitSection_elem(QLSParser.Section_elemContext ctx) {
+        if (ctx.section() != null) {
+            return visitSection(ctx.section());
+        } else if (ctx.question() != null) {
+            return visitQuestion(ctx.question());
+        } else {
+            throw new UnknownOptionException();
+        }
+    }
+
+    @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
         List<SectionElement> sectionElements = new ArrayList<>();
         List<DefaultProperties> defaultProperties = new ArrayList<>();
@@ -72,6 +83,18 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
     }
 
     @Override
+    public Question visitQuestion(QLSParser.QuestionContext ctx) {
+        String label = ctx.identifier().getText();
+        Properties properties = new Properties(lineNumber(ctx), columnNumber(ctx));
+
+        if (ctx.widgetproperty() != null) {
+            properties.getProperties().add(visitWidgetproperty(ctx.widgetproperty()));
+        }
+
+        return new Question(label, properties, lineNumber(ctx), columnNumber(ctx));
+    }
+
+    @Override
     public DefaultProperties visitDefaultdef(QLSParser.DefaultdefContext ctx) {
         if (ctx.blockdefault() != null) {
             return visitBlockdefault(ctx.blockdefault());
@@ -83,26 +106,53 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
     }
 
     @Override
-    public SectionElement visitSection_elem(QLSParser.Section_elemContext ctx) {
-        if (ctx.section() != null) {
-            return visitSection(ctx.section());
-        } else if (ctx.question() != null) {
-            return visitQuestion(ctx.question());
+    public DefaultProperties visitBlockdefault(QLSParser.BlockdefaultContext ctx) {
+        List<Property> propertyList = new ArrayList<>();
+
+        for (QLSParser.PropertyContext c : ctx.property()) {
+            propertyList.add(visitProperty(c));
+        }
+
+        Properties properties = new Properties(propertyList, lineNumber(ctx), columnNumber(ctx));
+
+        return new DefaultProperties(getExpressionType(ctx.type()), properties, lineNumber(ctx),
+                columnNumber(ctx));
+    }
+
+    @Override
+    public DefaultProperties visitLinedefault(QLSParser.LinedefaultContext ctx) {
+        List<Property> propertyList = new ArrayList<>();
+        propertyList.add(visitProperty(ctx.property()));
+        Properties properties = new Properties(propertyList, lineNumber(ctx), columnNumber(ctx));
+
+        return new DefaultProperties(getExpressionType(ctx.type()), properties, lineNumber(ctx),
+                columnNumber(ctx));
+    }
+
+    @Override
+    public Property visitProperty(QLSParser.PropertyContext ctx) {
+        if (ctx.widgetproperty() != null) {
+            return visitWidthproperty(ctx.widthproperty());
+        } else if (ctx.widthproperty() != null) {
+            return visitWidthproperty(ctx.widthproperty());
+        } else if (ctx.fontproperty() != null) {
+            return visitFontproperty(ctx.fontproperty());
+        } else if (ctx.fontsizeproperty() != null) {
+            return visitFontsizeproperty(ctx.fontsizeproperty());
+        } else if (ctx.colorproperty() != null) {
+            return visitColorproperty(ctx.colorproperty());
         } else {
             throw new UnknownOptionException();
         }
     }
 
     @Override
-    public Question visitQuestion(QLSParser.QuestionContext ctx) {
-        String label = ctx.identifier().getText();
-        Properties properties = new Properties(lineNumber(ctx), columnNumber(ctx));
-
-        if (ctx.widgetproperty() != null) {
-            properties.getProperties().add(visitWidgetproperty(ctx.widgetproperty()));
-        }
-
-        return new Question(label, properties, lineNumber(ctx), columnNumber(ctx));
+    public WidgetProperty visitWidgetproperty(QLSParser.WidgetpropertyContext ctx) {
+        return new WidgetProperty(
+                visitWidget_type(ctx.widget_type()),
+                lineNumber(ctx),
+                columnNumber(ctx)
+        );
     }
 
     @Override
@@ -173,76 +223,6 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
     }
 
     @Override
-    public AstNode visitIdentifier(QLSParser.IdentifierContext ctx) {
-        return super.visitIdentifier(ctx);
-    }
-
-    @Override
-    public DefaultProperties visitBlockdefault(QLSParser.BlockdefaultContext ctx) {
-        List<Property> propertyList = new ArrayList<>();
-
-        for (QLSParser.PropertyContext c : ctx.property()) {
-            propertyList.add(visitProperty(c));
-        }
-
-        Properties properties = new Properties(propertyList, lineNumber(ctx), columnNumber(ctx));
-
-        return new DefaultProperties(getExpressionType(ctx.type()), properties, lineNumber(ctx),
-                columnNumber(ctx));
-    }
-
-    @Override
-    public DefaultProperties visitLinedefault(QLSParser.LinedefaultContext ctx) {
-        List<Property> propertyList = new ArrayList<>();
-        propertyList.add(visitProperty(ctx.property()));
-        Properties properties = new Properties(propertyList, lineNumber(ctx), columnNumber(ctx));
-
-        return new DefaultProperties(getExpressionType(ctx.type()), properties, lineNumber(ctx),
-                columnNumber(ctx));
-    }
-
-    private ExpressionType getExpressionType(QLSParser.TypeContext ctx) {
-        if (ctx.BOOLEAN_TYPE() != null) {
-            return ExpressionType.BOOLEAN;
-        } else if (ctx.INTEGER_TYPE() != null) {
-            return ExpressionType.INTEGER;
-        } else if (ctx.MONEY_TYPE() != null) {
-            return ExpressionType.MONEY;
-        } else if (ctx.STRING_TYPE() != null) {
-            return ExpressionType.STRING;
-        } else {
-            throw new UnknownOptionException();
-        }
-    }
-
-
-    @Override
-    public Property visitProperty(QLSParser.PropertyContext ctx) {
-        if (ctx.widgetproperty() != null) {
-            return visitWidthproperty(ctx.widthproperty());
-        } else if (ctx.widthproperty() != null) {
-            return visitWidthproperty(ctx.widthproperty());
-        } else if (ctx.fontproperty() != null) {
-            return visitFontproperty(ctx.fontproperty());
-        } else if (ctx.fontsizeproperty() != null) {
-            return visitFontsizeproperty(ctx.fontsizeproperty());
-        } else if (ctx.colorproperty() != null) {
-            return visitColorproperty(ctx.colorproperty());
-        } else {
-            throw new UnknownOptionException();
-        }
-    }
-
-    @Override
-    public WidgetProperty visitWidgetproperty(QLSParser.WidgetpropertyContext ctx) {
-        return new WidgetProperty(
-                visitWidget_type(ctx.widget_type()),
-                lineNumber(ctx),
-                columnNumber(ctx)
-        );
-    }
-
-    @Override
     public WidthProperty visitWidthproperty(QLSParser.WidthpropertyContext ctx) {
         return new WidthProperty(Integer.parseInt(ctx.NUMBER().getText()), lineNumber(ctx),
                 columnNumber(ctx));
@@ -262,5 +242,24 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
     @Override
     public ColorProperty visitColorproperty(QLSParser.ColorpropertyContext ctx) {
         return new ColorProperty(ctx.COLOR_CODE().getText(), lineNumber(ctx), columnNumber(ctx));
+    }
+
+    @Override
+    public AstNode visitIdentifier(QLSParser.IdentifierContext ctx) {
+        return super.visitIdentifier(ctx);
+    }
+
+    private ExpressionType getExpressionType(QLSParser.TypeContext ctx) {
+        if (ctx.BOOLEAN_TYPE() != null) {
+            return ExpressionType.BOOLEAN;
+        } else if (ctx.INTEGER_TYPE() != null) {
+            return ExpressionType.INTEGER;
+        } else if (ctx.MONEY_TYPE() != null) {
+            return ExpressionType.MONEY;
+        } else if (ctx.STRING_TYPE() != null) {
+            return ExpressionType.STRING;
+        } else {
+            throw new UnknownOptionException();
+        }
     }
 }

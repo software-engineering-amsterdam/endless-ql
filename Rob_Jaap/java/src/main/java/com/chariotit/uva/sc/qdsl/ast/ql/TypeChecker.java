@@ -10,10 +10,10 @@ import java.util.List;
 
 /**
  * Should check:
- *
+ * <p>
  * cyclic dependencies between questions -> Need Symboltable
  * duplicate labels (warning) -> Can do
- *
+ * <p>
  * Check cyclic dependencies
  */
 public class TypeChecker {

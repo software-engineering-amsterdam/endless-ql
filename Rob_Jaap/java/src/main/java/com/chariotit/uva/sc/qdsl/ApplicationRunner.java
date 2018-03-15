@@ -54,7 +54,7 @@ public class ApplicationRunner implements CommandLineRunner {
 //        builder.showForm();
 
         // AST is initialised here.
-        AstRoot astRoot = (AstRoot)visitor.visit(tree);
+        AstRoot astRoot = (AstRoot) visitor.visit(tree);
 
         // Run Typechecker
         TypeChecker typeChecker = new TypeChecker();

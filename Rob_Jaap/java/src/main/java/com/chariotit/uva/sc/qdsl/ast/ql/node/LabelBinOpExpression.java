@@ -11,7 +11,7 @@ public class LabelBinOpExpression extends Expression {
 
     public LabelBinOpExpression(LabelExpression labelExpression, Operator operator, Expression expression,
                                 Integer
-            lineNumber, Integer columnNumber) {
+                                        lineNumber, Integer columnNumber) {
         super(lineNumber, columnNumber);
         this.labelExpression = labelExpression;
         this.operator = operator;

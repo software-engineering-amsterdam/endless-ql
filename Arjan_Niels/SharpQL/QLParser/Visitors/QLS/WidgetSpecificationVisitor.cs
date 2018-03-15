@@ -18,6 +18,8 @@ namespace QLParser.Visitors.QLS
         private IList<string> VisitWidgetTypeArguments(WidgettypeargumentsContext context)
         {
             var arguments = new List<string>();
+            if (context.children == null)
+                return arguments;
 
             // This loop gets all the strings positioned at the odd indexes. The strings on the 
             // even positions are interpunction, therefore we want to skip them.

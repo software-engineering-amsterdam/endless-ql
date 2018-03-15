@@ -15,7 +15,7 @@ namespace QLParser.AST.QLS
 
         public QLSWidgetSpecification(WidgetType widgetType, IList<string> widgetTypeArguments)
         {
-            this.WidgetType = WidgetType;
+            this.WidgetType = widgetType;
             this.WidgetTypeArguments = widgetTypeArguments;
         }
 

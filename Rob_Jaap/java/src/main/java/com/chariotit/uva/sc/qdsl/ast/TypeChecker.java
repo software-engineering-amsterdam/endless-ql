@@ -14,7 +14,6 @@ import java.util.List;
  * cyclic dependencies between questions -> Need Symboltable
  * duplicate labels (warning) -> Can do
  *
- * Check BINOP booleans: >= etc
  * Check cyclic dependencies
  */
 public class TypeChecker {

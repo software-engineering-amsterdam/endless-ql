@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Windows.Input;
 using Prism.Events;
 using QuestionnaireWPFApp.Commands;
@@ -10,29 +9,29 @@ namespace QuestionnaireWPFApp.ViewModels
     public class DefinitionNavigationItemViewModel
     {
         private readonly IEventAggregator m_eventAggregator;
-        private string m_displayValue;
 
-        public Guid QuestionnaireId { get; }
-        public string DisplayValue { get; }
+        public Guid QuestionnaireDefinitionId { get; }
+        public string DisplayName { get; }
 
         public DefinitionNavigationItemViewModel(
-            Guid questionnaireId,
-            string questionnaireDisplayValue,
+            Guid questionnaireDefinitionId,
+            string questionnaireDisplayName,
             IEventAggregator eventAggregator)
         {
-            QuestionnaireId = questionnaireId;
-            DisplayValue = questionnaireDisplayValue;
+            QuestionnaireDefinitionId = questionnaireDefinitionId;
+            DisplayName = questionnaireDisplayName;
             m_eventAggregator = eventAggregator;
-            OpenQuestionnaireEditViewCommand = new DelegateCommand(OpenQuestionnaireEditViewExecute);
+            ChangeQuestionnaireDefinitionCommand = 
+                new DelegateCommand(ChangeQuestionnaireDefinitionExecute);
         }
 
-        public ICommand OpenQuestionnaireEditViewCommand { get; set; }
+        public ICommand ChangeQuestionnaireDefinitionCommand { get; }
 
-        private void OpenQuestionnaireEditViewExecute(object obj)
+        private void ChangeQuestionnaireDefinitionExecute(object obj)
         {
             m_eventAggregator
-                .GetEvent<OpenQuestionnaireEditViewEvent>()
-                .Publish(QuestionnaireId);
+                .GetEvent<ChangeQuestionnaireDefinitionEvent>()
+                .Publish(QuestionnaireDefinitionId);
         }
     }
 }

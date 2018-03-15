@@ -1,4 +1,4 @@
-package org.uva.ql.app;
+package org.uva.app;
 
 import java.io.IOException;
 import java.nio.file.Files;

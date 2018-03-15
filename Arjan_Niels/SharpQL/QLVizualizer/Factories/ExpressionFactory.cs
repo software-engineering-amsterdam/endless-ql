@@ -25,11 +25,14 @@ namespace QLVisualizer.Factories
         public ExpressionBool GetCondition(ConditionalNode conditionalNode)
         {
             ExpressionValue expression = ParseExpressionNode(conditionalNode.Expression);
-            if (expression.Type != typeof(bool))
-                throw new InvalidOperationException(string.Format("Cannot use expression with type of {0} as a condition.", expression.Type));
-            return expression as ExpressionBool;
+            switch (expression.Type)
+            {
+                case ExpressionType.Bool:
+                    return expression as ExpressionBool;
+                default:
+                    throw new InvalidOperationException(string.Format("Cannot use expression with type of {0} as a condition.", expression.Type));
+            }
         }
-
 
         public ExpressionValue ParseExpressionNode(IExpressionNode node)
         {

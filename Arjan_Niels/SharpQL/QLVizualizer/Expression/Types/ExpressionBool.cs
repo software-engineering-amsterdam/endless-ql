@@ -6,36 +6,41 @@ namespace QLVisualizer.Expression.Types
     public class ExpressionBool : TypedExpressionValue<bool>
     {
         // Define boolean in expression
-        public ExpressionBool(string[] usedWidgetIDs, Func<bool> value) : base(new Type[] { typeof(bool) },
+        public ExpressionBool(string[] usedWidgetIDs, Func<bool> value) : base(ExpressionTypes.Logical,
                                                                             ExpressionOperators.Logical,
+                                                                            ExpressionType.Bool,
                                                                             usedWidgetIDs,
                                                                             value)
         {
         }
 
-        public ExpressionBool(LazyElementExpressionLink<bool> lazyElementExpressionLink) : base(new Type[] { typeof(bool) }, ExpressionOperators.Logical, lazyElementExpressionLink) { }
+        public ExpressionBool(LazyElementExpressionLink<bool> lazyElementExpressionLink) : base(ExpressionTypes.Logical, ExpressionOperators.Logical, ExpressionType.Bool, lazyElementExpressionLink) { }
 
         /// <summary>
         /// Combines with expressionValue
         /// </summary>
-        /// <param name="item">Right hand side</param>
+        /// <param name="expressionValue">Right hand side</param>
         /// <param name="op">Operator</param>
         /// <returns>Resulting expression</returns>
-        public override ExpressionValue Combine(ExpressionValue item, ExpressionOperator op)
+        public override ExpressionValue Combine(ExpressionValue expressionValue, ExpressionOperator op)
         {
-            if (ValidCombine(item, op))
+            if (ValidCombine(expressionValue, op))
             {
-                ExpressionBool expression = null;
-                if (item.Type == typeof(bool))
-                    expression = item as ExpressionBool;
-                else
-                    throw new NotImplementedException();
+                ExpressionBool expression;
+                switch (expressionValue.Type)
+                {
+                    case ExpressionType.Bool:
+                        expression = expressionValue as ExpressionBool;
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
 
                 AddToChain(expression.GetExpression(), op);
-                UsedIdentifiers = CombineWidgets(item);
+                UsedIdentifiers = CombineWidgets(expressionValue);
                 return this;
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, item.Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, expressionValue.Type, op));
         }
 
         /// <summary>
@@ -48,12 +53,20 @@ namespace QLVisualizer.Expression.Types
         {
             if (ValidCompare(expressionValue, op))
             {
-                if (expressionValue.Type == typeof(bool))
+                ExpressionBool expression;
+                switch(expressionValue.Type)
                 {
-                    AddToChain((expressionValue as ExpressionBool).GetExpression(), op);
+                    case ExpressionType.Bool:
+                        expression = expressionValue as ExpressionBool;
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                    AddToChain(expression.GetExpression(), op);
                     UsedIdentifiers = CombineWidgets(expressionValue);
                     return this;
-                }
+                
             }
             throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, expressionValue.Type, op));
         }

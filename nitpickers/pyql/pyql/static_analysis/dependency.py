@@ -16,7 +16,8 @@ class VariableDependenciesChecker:
         self._expressions_checker = ExpressionDependenciesChecker(self._symbol_table)
 
     def check(self):
-        return self._tree.accept(self)
+        self._tree.accept(self)
+        return self._messages
 
     @property
     def messages(self):
@@ -28,26 +29,23 @@ class VariableDependenciesChecker:
 
     @multimethod(Form)
     def visit(self, form):
-        return form.block.accept(self)
+        form.block.accept(self)
 
     @multimethod(Block)
     def visit(self, block):
         statements = block.statements
-        res = []
         for q in statements:
-            res += q.accept(self)
+            self._messages.extend(q.accept(self))
         for q in statements:
             if hasattr(q, "identifier"):
                 try:
                     self._symbol_table.remove(q.identifier.identifier)
                 except KeyError:
                     print(q.identifier.identifier, "already removed")
-        return res
 
     @multimethod(ComputedQuestion)
     def visit(self, question):
-        # print("check computed question")
-        # print("{0} against {1}".format(question.expression, self._symbol_table))
+        self._symbol_table.create(question.identifier.identifier, question)
         return self._expressions_checker.check(question.expression)
 
     @multimethod(Question)
@@ -57,8 +55,6 @@ class VariableDependenciesChecker:
 
     @multimethod(IfElse)
     def visit(self, if_else_statement):
-        # print("check if else")
-        # print("{0} against {1}".format(if_else_statement.expression, self._symbol_table))
         messages = self._expressions_checker.check(if_else_statement.expression)
         if_else_statement.if_block.accept(self)
         if_else_statement.else_block.accept(self)
@@ -66,8 +62,6 @@ class VariableDependenciesChecker:
 
     @multimethod(If)
     def visit(self, if_statement):
-        # print("check if")
-        # print("{0} against {1}".format(if_statement.expression, self._symbol_table))
         messages = self._expressions_checker.check(if_statement.expression)
         if_statement.block.accept(self)
         return messages
@@ -87,7 +81,6 @@ class VariableDependenciesChecker:
 class ExpressionDependenciesChecker:
 
     def __init__(self, symbol_table=None):
-        self._messages = []
         self._symbol_table = symbol_table
 
     def check(self, expression):
@@ -110,5 +103,5 @@ class ExpressionDependenciesChecker:
         return unary_expression.expression.accept(self)
 
     @multimethod(Expression)
-    def visit(self, expression):
+    def visit(self, _):
         return []

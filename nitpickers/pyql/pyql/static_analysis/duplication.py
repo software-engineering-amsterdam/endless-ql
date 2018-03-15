@@ -51,8 +51,6 @@ class CheckDuplicatedQuestions:
 
     @multimethod(If)
     def visit(self, if_statement):
-        print("Evaluating {0}".format(if_statement.expression))
-        print(self._symbol_table)
         if_statement.block.accept(self)
 
     @multimethod(ASTNode)

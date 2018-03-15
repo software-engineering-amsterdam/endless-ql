@@ -3,11 +3,11 @@ package com.chariotit.uva.sc.qdsl.parser;
 import com.chariotit.uva.sc.qdsl.grammar.QLSBaseVisitor;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.exception.UnknownOptionException;
-import com.chariotit.uva.sc.qdsl.ql.ast.ExpressionType;
-import com.chariotit.uva.sc.qdsl.qls.ast.node.Properties;
-import com.chariotit.uva.sc.qdsl.qls.ast.node.*;
-import com.chariotit.uva.sc.qdsl.qls.ast.node.property.*;
-import com.chariotit.uva.sc.qdsl.qls.ast.node.widget.*;
+import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.Properties;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.*;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.property.*;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.widget.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;

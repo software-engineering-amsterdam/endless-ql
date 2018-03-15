@@ -70,18 +70,6 @@ class FormGui:
         self.pages[header] = new_page
         return new_page
 
-    # Needs removal --------------------------------------------------------------------
-    def add_question(self, varName, question_text="Hi mom", question_type=bool, value=False):
-        q = Question(self.contents, self.questionGenerator, varName, question_text, question_type, value)
-        self.questions.append(q)
-
-    def remove_question(self, varName):
-        for question in self.questions:
-            if question.getVarName == varName:
-                question.empty_frame()
-
-    # --------------------------------------------------------------------
-
     """
         Add questions to a given page, if no page is given (QL), the default page will be used
     """
@@ -132,7 +120,6 @@ class FormGui:
         answers = {}
         varDict = self.questionGenerator.getVarDict()
         for varName in varDict:
-            assignNode = varDict[varName]['assign']
             answers[varName] = varDict[varName]['node'].evaluate()
         return answers
 

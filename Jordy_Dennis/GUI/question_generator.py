@@ -17,9 +17,6 @@ class Question_Generator:
         self.questions = collections.OrderedDict()
         self.form = form
 
-    def getVarDict(self):
-        return self.varDict
-
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
     def updateQuestions(self, initial=False):
         if(self.astQLS):
@@ -135,6 +132,8 @@ class Question_Generator:
             # add child sections
             self.addSection(pageName, section.getSections(), prev)
 
+    def getVarDict(self):
+        return self.varDict
 
 def printDict(dic):
     pp = pprint.PrettyPrinter(indent=4)

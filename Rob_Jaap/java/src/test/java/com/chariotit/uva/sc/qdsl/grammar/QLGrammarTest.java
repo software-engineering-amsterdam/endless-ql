@@ -1,14 +1,14 @@
 package com.chariotit.uva.sc.qdsl.grammar;
 
-import com.chariotit.uva.sc.qdsl.ql.ast.node.*;
-import com.chariotit.uva.sc.qdsl.ql.ast.node.constant.BooleanConstant;
-import com.chariotit.uva.sc.qdsl.ql.ast.node.constant.IntegerConstant;
-import com.chariotit.uva.sc.qdsl.ql.ast.node.constant.MoneyConstant;
-import com.chariotit.uva.sc.qdsl.ql.ast.node.constant.StringConstant;
-import com.chariotit.uva.sc.qdsl.ql.ast.node.operator.*;
-import com.chariotit.uva.sc.qdsl.ql.ast.node.type.*;
-import com.chariotit.uva.sc.qdsl.ql.ast.node.type.IntegerTypeNode;
-import com.chariotit.uva.sc.qdsl.ql.ast.node.type.MoneyTypeNode;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.BooleanConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.IntegerConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.MoneyConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.StringConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.*;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.type.*;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.type.IntegerTypeNode;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.type.MoneyTypeNode;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;

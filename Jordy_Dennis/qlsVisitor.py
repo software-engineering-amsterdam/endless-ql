@@ -1,5 +1,6 @@
 from LexParser.QLSGrammarParser import QLSGrammarParser
 from LexParser.QLSGrammarVisitor import QLSGrammarVisitor
+from qlVisitor import mapStringToType, getLiteralValue
 from AST import *
 from QLS import *
 import logging
@@ -30,7 +31,7 @@ class QLSVisitor(QLSGrammarVisitor):
         self.logger.debug("PAGE")
 
         pageName = ctx.ID().getText()
-        page = Page(pageName, self.stylesheet.getNumberOfPages() + 1)
+        page = Page(pageName)
 
         # defaults
         for default in ctx.default_style():
@@ -77,43 +78,62 @@ class QLSVisitor(QLSGrammarVisitor):
             widget = self.visit(ctx.widget())
         else:
             widget = None
-        question = Question(questionName, widget)
+        question = Question(questionName, widget, ctx.start.line)
         return question
 
     # Visit a parse tree produced by QLSGrammarParser#widget.
     def visitWidget(self, ctx: QLSGrammarParser.WidgetContext):
+<<<<<<< HEAD
+        # Actual widget types: BOOL
+=======
 
+>>>>>>> f72660c77cd153702e369fb13784099e68383615
         if(ctx.CHECKBOX()):
             return CheckBoxWidget()
         elif ctx.RADIO():
-            return RadioWidget([ctx.STRING()[0].getText(), ctx.STRING()[1].getText()])
+            return RadioWidget(ctx.STRING()[0].getText(), ctx.STRING()[1].getText())
+        elif ctx.DROPDOWN():
+            return DropdownWidget()
+
+        # Actual widget types: TEXT/INT
+        elif ctx.TEXT():
+            return TextWidget()
+        elif ctx.SLIDER():
+            return SliderWidget(0, 10)
         elif ctx.SPINBOX():
-            return SpinBoxWidget(0, 100000)
+            return SpinboxWidget(0, 10)
+        
+        # Styling classes
         elif ctx.WIDTH():
-            return WidgetWidth(ctx.INT().getText())
+            return StyleWidth(ctx.INT().getText())
         elif ctx.FONTSIZE():
-            return WidgetFontSize(ctx.INT().getText())
+            return StyleFontSize(ctx.INT().getText())
         elif ctx.FONT():
+<<<<<<< HEAD
+            return StyleFont(ctx.STRING()[0].getText())
+        elif ctx.COLOR():
+            return StyleColor(ctx.HEXCOLOR().getText())
+=======
             return WidgetFont(ctx.STRING()[0].getText())
+>>>>>>> f72660c77cd153702e369fb13784099e68383615
 
 
 
     # Visit a parse tree produced by QLSGrammarParser#default_style.
     def visitDefault_style(self, ctx: QLSGrammarParser.Default_styleContext):
         self.logger.debug("DEFAULT_STYLE")
-
-        default = DefaultStyle()
-
+        defaultType = self.visit(ctx.types())
+        default = DefaultStyle(defaultType, ctx.start.line)
         for widget in ctx.widget():
             widgetObject = self.visit(widget)
-            default.addWidget(widgetObject)
+            default.addAttribute(widgetObject)
 
         return default
 
     # Visit a parse tree produced by QLSGrammarParser#types.
     def visitTypes(self, ctx: QLSGrammarParser.TypesContext):
         self.logger.debug("TYPES")
-        return ctx.type().getText()
+        return mapStringToType(ctx.getText())
 
 
 del QLSGrammarParser

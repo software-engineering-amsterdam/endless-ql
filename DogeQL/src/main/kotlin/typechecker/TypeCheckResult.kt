@@ -4,6 +4,8 @@ import common.Name
 
 class TypeCheckResult {
 
-    val undefinedReferences = ArrayList<Name>()
+    val undefinedReferences = mutableListOf<Name>()
+    val duplicateLabels = mutableListOf<Name>()
+    val duplicateNames = mutableListOf<Name>()
 
 }

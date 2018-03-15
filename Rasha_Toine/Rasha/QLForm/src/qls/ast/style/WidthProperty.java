@@ -1,7 +1,6 @@
 package qls.ast.style;
 
 import ql.ast.literal.IntegerLiteral;
-import qls.ast.StyleProperty;
 import qls.visiting.StyleVisitor;
 
 public class WidthProperty extends StyleProperty {

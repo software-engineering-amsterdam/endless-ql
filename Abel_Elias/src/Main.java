@@ -1,4 +1,5 @@
 import classes.Question;
+import gui.FormBuilder;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parsing.visitors.BaseVisitor;
@@ -54,8 +55,8 @@ public class Main {
             //typeChecker.initTypeChecking(form);
 
             //Pass the relevant questions to the UI builder
-            //FormBuilder formBuilder = new FormBuilder();
-            //formBuilder.initComponents(memory);
+            FormBuilder formBuilder = new FormBuilder(builder, memory);
+            formBuilder.initComponents();
 
         } catch (IOException e) {
             e.printStackTrace();

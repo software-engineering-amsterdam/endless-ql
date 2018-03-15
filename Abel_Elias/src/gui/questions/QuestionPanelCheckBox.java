@@ -1,9 +1,11 @@
 package gui.questions;
 
 import classes.Question;
+import gui.FormBuilder;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 public class QuestionPanelCheckBox extends QuestionPanel {
 
@@ -23,5 +25,11 @@ public class QuestionPanelCheckBox extends QuestionPanel {
     @Override
     public JComponent getComponent() {
         return this.checkBox;
+    }
+
+    @Override
+    public void setListener(EventListener listener) {
+        FormBuilder.BoolActionListener boolActionListener = (FormBuilder.BoolActionListener) listener;
+        checkBox.addActionListener(boolActionListener);
     }
 }

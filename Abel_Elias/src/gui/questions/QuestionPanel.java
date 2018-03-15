@@ -5,6 +5,8 @@ import classes.Question;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 public abstract class QuestionPanel extends JPanel {
     private String key;
@@ -29,9 +31,13 @@ public abstract class QuestionPanel extends JPanel {
         return isActive;
     }
 
+    public Question getQuestion() {
+        return question;
+    }
+
     public abstract JComponent getComponent();
 
-
+    public abstract void setListener(EventListener listener);
 
 //
 

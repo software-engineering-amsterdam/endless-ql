@@ -3,8 +3,11 @@ package gui.questions;
 import classes.Question;
 
 import javax.swing.*;
+import javax.swing.event.DocumentListener;
+import java.awt.event.ActionListener;
+import java.util.EventListener;
 
-public class QuestionPanelText extends QuestionPanel{
+public abstract class QuestionPanelText extends QuestionPanel{
 
     private JTextField textField;
 
@@ -23,4 +26,6 @@ public class QuestionPanelText extends QuestionPanel{
     public JComponent getComponent() {
         return this.textField;
     }
+    @Override
+    public abstract void setListener(EventListener listener);
 }

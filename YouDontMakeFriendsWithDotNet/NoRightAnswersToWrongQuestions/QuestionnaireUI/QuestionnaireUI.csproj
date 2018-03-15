@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ModelWrapperBase.cs" />
     <Compile Include="Models\Observable.cs" />
     <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\QuestionnaireWrapper.cs" />

@@ -2,26 +2,15 @@
 
 namespace QuestionnaireUI.Models
 {
-    public class QuestionWrapper : Observable
+    public class QuestionWrapper : ModelWrapperBase<QuestionModel>
     {
-        public QuestionWrapper(QuestionModel model)
-        {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
-
-            Model = model;
-        }
-
-        public QuestionModel Model { get;  }
         public Guid QuestionId => Model.QuestionId;
         public string QuestionText => Model.QuestionText;
         public Type QuestionType => Model.QuestionType;
-        public bool ReadOnly => Model.ReadOnly;
-        public bool Visible => Model.Visible;
+
         public string Value
         {
+            get { return Model.Value; }
             set
             {
                 if (value != Model.Value)
@@ -30,7 +19,14 @@ namespace QuestionnaireUI.Models
                     RaisePropertyChanged();
                 }
             }
-            get { return Model.Value; }
+        }
+
+        public bool ReadOnly => Model.ReadOnly;
+
+        public bool Visible => Model.Visible;
+
+        public QuestionWrapper(QuestionModel model) : base(model)
+        {
         }
     }
 }

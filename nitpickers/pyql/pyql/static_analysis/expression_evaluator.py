@@ -1,65 +1,84 @@
-from pyql.ast import expression_visitor
-from pyql.static_analysis import symbol_table
-from pyql.ast.expression import literals
+from multimethods import multimethod
+from pyql.ast.expression.expressions import *
+from pyql.ast.expression.literals import *
 from pyql.util import types
 
 
-class ExpressionEvaluator(expression_visitor.ExpressionVisitor):
+class ExpressionEvaluator:
 
-    def visit_expression(self, expression):
-        print("Visiting expression")
+    def __init__(self, symbol_table):
+        self.symbol_table = symbol_table
 
-    def visit_identifier(self, identifier):
-        print("Visiting identifier")
-        print(symbol_table.get(identifier))
+    @multimethod(Identifier)
+    def visit(self, identifier):
+        return self.symbol_table.get(identifier.identifier)
 
-    def visit_unary_expression(self, unary_expression):
-        print("Visiting unary_expression")
+    @multimethod(MoneyLiteral)
+    def visit(self, money_literal):
+        return money_literal
 
-    def visit_binary_expression(self, binary_expression):
-        print("Visiting binary_expression")
+    @multimethod(DecimalLiteral)
+    def visit(self, decimal_literal):
+        return decimal_literal
 
-    def visit_multiplication(self, multiplication):
-        return self.visit_arithmetic_binary_expression(multiplication, "*")
+    @multimethod(IntegerLiteral)
+    def visit(self, integer_literal):
+        return integer_literal
 
-    def visit_division(self, division):
-        print("Visiting division")
-        return self.visit_arithmetic_binary_expression(division, "/")
+    @multimethod(BooleanLiteral)
+    def visit(self, boolean_literal):
+        return boolean_literal
 
-    def visit_addition(self, addition):
-        print("Visiting addition")
-        return self.visit_arithmetic_binary_expression(addition, "+")
+    @multimethod(StringLiteral)
+    def visit(self, string_literal):
+        return string_literal
 
-    def visit_subtraction(self, subtraction):
-        print("Visiting subtraction")
-        return self.visit_arithmetic_binary_expression(subtraction, "-")
+    @multimethod(Literal)
+    def visit(self, literal):
+        pass
 
-    def visit_greater_than(self, greater_than):
-        print("Visiting greater_than")
-        return self.visit_conditional_binary_expression(greater_than, ">")
+    @multimethod(Multiplication)
+    def visit(self, multiplication):
+        return self.evaluate_binary_expression(multiplication, "*")
 
-    def visit_less_than(self, less_than):
-        print("Visiting less_than")
-        return self.visit_conditional_binary_expression(less_than, "<")
+    @multimethod(Division)
+    def visit(self, division):
+        return self.evaluate_binary_expression(division, "/")
 
-    def visit_greater_than_or_equal(self, greater_than_or_equal):
-        print("Visiting greater_than_or_equal")
-        return self.visit_conditional_binary_expression(greater_than_or_equal, ">=")
+    @multimethod(Addition)
+    def visit(self, addition):
+        return self.evaluate_binary_expression(addition, "+")
 
-    def visit_less_than_or_equal(self, less_than_or_equal):
-        print("Visiting less_than_or_equal")
-        return self.visit_conditional_binary_expression(less_than_or_equal, "<=")
+    @multimethod(Subtraction)
+    def visit(self, subtraction):
+        return self.evaluate_binary_expression(subtraction, "-")
 
-    def visit_equals(self, equals):
-        print("Visiting equals")
-        return self.visit_conditional_binary_expression(equals, "==")
+    @multimethod(GreaterThan)
+    def visit(self, greater_than):
+        return self.evaluate_binary_expression(greater_than, ">")
 
-    def visit_not_equals(self, not_equals):
-        print("Visiting not_equals")
-        return self.visit_conditional_binary_expression(not_equals, "!=")
+    @multimethod(LessThan)
+    def visit(self, less_than):
+        return self.evaluate_binary_expression(less_than, "<")
 
-    def visit_and(self, and_expression):
-        print("Visiting and_expression")
+    @multimethod(GreaterThanOrEqual)
+    def visit(self, greater_than_or_equal):
+        return self.evaluate_binary_expression(greater_than_or_equal, ">=")
+
+    @multimethod(LessThanOrEqual)
+    def visit(self, less_than_or_equal):
+        return self.evaluate_binary_expression(less_than_or_equal, "<=")
+
+    @multimethod(Equals)
+    def visit(self, equals):
+        return self.evaluate_binary_expression(equals, "==")
+
+    @multimethod(NotEquals)
+    def visit(self, not_equals):
+        return self.evaluate_binary_expression(not_equals, "!=")
+
+    @multimethod(And)
+    def visit(self, and_expression):
         left = and_expression.left.accept(self)
         right = and_expression.right.accept(self)
 
@@ -68,8 +87,8 @@ class ExpressionEvaluator(expression_visitor.ExpressionVisitor):
 
         return left and right
 
-    def visit_or(self, or_expression):
-        print("Visiting or_expression")
+    @multimethod(Or)
+    def visit(self, or_expression):
         left = or_expression.left.accept(self)
         right = or_expression.right.accept(self)
 
@@ -78,7 +97,8 @@ class ExpressionEvaluator(expression_visitor.ExpressionVisitor):
 
         return left or right
 
-    def visit_not(self, not_unary_expression):
+    @multimethod(Not)
+    def visit(self, not_unary_expression):
         expression = not_unary_expression.expression.accept(self)
         print("Visiting not_unary_expression of ", expression)
 
@@ -87,64 +107,44 @@ class ExpressionEvaluator(expression_visitor.ExpressionVisitor):
 
         return not expression
 
-    def visit_literal(self, literal):
-        print("Visiting literal")
+    @multimethod(UnaryExpression)
+    def visit(self, unary_expression):
+        pass
 
-    def visit_string_literal(self, string_literal):
-        print("Visiting string_literal")
-        return string_literal
+    @multimethod(BinaryExpression)
+    def visit(self, binary_expression):
+        pass
 
-    def visit_integer_literal(self, integer_literal):
-        print("Visiting integer_literal")
-        return integer_literal
+    @multimethod(Expression)
+    def visit(self, expression):
+        pass
 
-    def visit_decimal_literal(self, decimal_literal):
-        print("Visiting decimal_literal")
-        return decimal_literal
-
-    def visit_boolean_literal(self, boolean_literal):
-        print("Visiting boolean_literal")
-        return boolean_literal
-
-    def visit_money_literal(self, money_literal):
-        print("Visiting money_literal")
-        return money_literal
-
-    def visit_arithmetic_binary_expression(self, expression, operator):
+    def evaluate_binary_expression(self, expression, operator):
         left = expression.left.accept(self)
         right = expression.right.accept(self)
-        print("Visiting arithmetic binary expression of ", left, operator, right)
 
         self.assert_valid_operand_types(operator, left.type, right.type)
-        literal_class = self.determine_arithmetic_result_type(left.type, right.type)
+
+        if operator in ["*", "/", "+", "-"]:
+            literal_class = self.determine_arithmetic_result_type(left.type, right.type)
+        else:
+            literal_class = BooleanLiteral
 
         switcher = {
-            "*": left.value * right.value,
-            "/": left.value / right.value,
-            "+": left.value + right.value,
-            "-": left.value - right.value,
+            "*": lambda: left.value * right.value,
+            "/": lambda: left.value / right.value,
+            "+": lambda: left.value + right.value,
+            "-": lambda: left.value - right.value,
+            "<": lambda: left.value < right.value,
+            ">": lambda: left.value > right.value,
+            "<=": lambda: left.value <= right.value,
+            ">=": lambda: left.value >= right.value,
+            "==": lambda: left.value == right.value,
+            "!=": lambda: left.value != right.value,
         }
-        literal_value = switcher.get(operator)
+        literal_value = switcher.get(operator)()
 
         return literal_class(expression.location, literal_value)
-
-    def visit_conditional_binary_expression(self, expression, operator):
-        left = expression.left.accept(self)
-        right = expression.right.accept(self)
-        print("Visiting conditional binary expression of ", left, operator, right)
-
-        self.assert_valid_operand_types(operator, left.type, right.type)
-
-        switcher = {
-            "<": left.value < right.value,
-            ">": left.value > right.value,
-            "<=": left.value <= right.value,
-            ">=": left.value >= right.value,
-            "==": left.value == right.value,
-            "!=": left.value != right.value,
-        }
-
-        return literals.BooleanLiteral(expression.location, switcher.get(operator))
 
     @staticmethod
     def assert_valid_operand_types(operator, left_type, right_type):
@@ -183,19 +183,19 @@ class ExpressionEvaluator(expression_visitor.ExpressionVisitor):
         money = types.Money
 
         switcher = {
-            (string, string): literals.StringLiteral,
+            (string, string): StringLiteral,
 
-            (integer, integer): literals.IntegerLiteral,
-            (integer, decimal): literals.DecimalLiteral,
-            (integer, money): literals.MoneyLiteral,
+            (integer, integer): IntegerLiteral,
+            (integer, decimal): DecimalLiteral,
+            (integer, money): MoneyLiteral,
 
-            (decimal, integer): literals.DecimalLiteral,
-            (decimal, decimal): literals.DecimalLiteral,
-            (decimal, money): literals.MoneyLiteral,
+            (decimal, integer): DecimalLiteral,
+            (decimal, decimal): DecimalLiteral,
+            (decimal, money): MoneyLiteral,
 
-            (money, integer): literals.MoneyLiteral,
-            (money, decimal): literals.MoneyLiteral,
-            (money, money): literals.MoneyLiteral,
+            (money, integer): MoneyLiteral,
+            (money, decimal): MoneyLiteral,
+            (money, money): MoneyLiteral,
         }
         return_literal = switcher.get((left_type, right_type), False)
         if not return_literal:

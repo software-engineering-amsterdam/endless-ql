@@ -1,0 +1,25 @@
+import {Form} from '../domain/ast/ql/index';
+import {Stylesheet} from '../domain/ast/qls';
+import {parse} from '../../parser/ql-parser';
+import {parse as parseQls} from '../../parser/qls-parser';
+
+export class ParseResult {
+  constructor(readonly formName: string, readonly form: Form, readonly styles: Stylesheet) { }
+}
+
+export class ParseFactory {
+  static parse(qlInput: string, qlsInput: string): ParseResult {
+    let astQls: Stylesheet;
+
+    const astQl: Form = parse(qlInput, {});
+    // check form
+    astQl.checkForm();
+
+    if (qlsInput && qlsInput.trim().length > 0 ) {
+      astQls = parseQls(qlsInput, {});
+      console.log(astQls);
+      astQls.checkStylesheet([], astQl.getAllQuestions());
+    }
+    return new ParseResult(astQl.name, astQl, astQls);
+  }
+}

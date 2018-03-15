@@ -2,63 +2,60 @@ grammar QL;
 
 // Parser
 form: FORM ID block EOF;
-block: BRACKETL NEWLINE* (statement NEWLINE*)* BRACKETR;
-statement: (question | assignment | conditional);
+block: BRACKETL NEWLINE* (stmt NEWLINE*)* BRACKETR;
+stmt: (question | if_);
 
-question: ID COL STRING typeDeclaration;
-assignment: STRING ID COL typeDeclaration ASSIGN PARL expression PARR;
 
-expression: BOOLEAN | INT | ID | PARL expression PARR | NOT expression
-            | expression BOOL_OPERATOR expression
-            | expression MATH_OPERATOR expression
-            | expression AND expression
-            | expression OR expression
-            | OTHER {print("unknown char: " + $OTHER.text)}
-            ;
+question: STRING ID COL type declaration*;
+declaration: EQUAL PARL value PARR;
 
-conditional: if_conditional | (if_conditional else_conditional);
-if_conditional: IF_TOKEN PARL expression PARR block;
-else_conditional: ELSE_TOKEN block;
+expression: ID | PARL expression PARR | boolean_;
 
-typeDeclaration: BOOLEAN | MONEY;
+if_: IF_ PARL expression PARR block;
+type: (BOOLEAN | MONEY | ID); // | OTHER {System.out.println("first token "+$start.getText());}
+value: (INT | BOOL| compute);
+
+compute: arithmetic_ | boolean_;
+arithmetic_: INT ARITHMETIC_OP INT | PARL arithmetic_ PARR;
+boolean_: INT BOOLEAN_OP INT | PARL boolean_ PARR;
 
 // Lexer
-FORM:   'form';
-IF_TOKEN: 'if';
-ELSE_TOKEN: 'else';
+FORM       : 'form';
+IF_        : 'if';
+ELSE_      : 'else';
+BOOLEAN    : 'boolean';
+MONEY      : 'money';
 
-INT :   [0-9]+;
-ID  :   [A-Za-z][A-Za-z0-9_]*;
+BOOL   : ('true'|'false');
+INT    : [0-9]+;
+ID     : [A-Za-z][A-Za-z0-9_]*;
 STRING : '"' (~('"' | '\\' | '\r' | '\n'))* '"';
 
-BOOLEAN: 'boolean';
-MONEY: 'money';
+COL      : ':';
+BRACKETL : '{';
+BRACKETR : '}';
+PARL     : '(';
+PARR     : ')';
+EQUAL    : '=';
+NOT      : '!';
+AND      : '&&';
+OR       : '||';
 
-COL: ':';
-BRACKETL: '{';
-BRACKETR: '}';
-PARL: '(';
-PARR: ')';
-ASSIGN: '=';
-NOT: '!';
-AND: '&&';
-OR: '||';
+ARITHMETIC_OP: MUL | DIV | ADD | SUB;
+MUL : '*';
+DIV : '/';
+ADD : '+';
+SUB : '-';
 
-MATH_OPERATOR: MUL | DIV | ADD | SUB;
-MUL: '*';
-DIV: '/';
-ADD: '+';
-SUB: '-';
+BOOLEAN_OP: GT | LT | LTE | GTE | EQ | NEQ;
+GT  : '>';
+LT  : '<';
+LTE : '<=';
+GTE : '>=';
+EQ  : '==';
+NEQ : '!=';
 
-BOOL_OPERATOR: GT | LT | LTE | GTE | EQ | NEQ;
-GT: '>';
-LT: '<';
-LTE: '<=';
-GTE: '>=';
-EQ: '==';
-NEQ: '!=';
-
-SPACE: [ \t\r\n]+ -> skip;
+SPACE: [ \t]+ -> skip;
 NEWLINE: '\r'? '\n' -> skip;
 
 

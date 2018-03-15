@@ -1,4 +1,9 @@
+"""
+	Usefull methods and imports here
+"""
+
 import pprint
+import collections
 
 
 import sys

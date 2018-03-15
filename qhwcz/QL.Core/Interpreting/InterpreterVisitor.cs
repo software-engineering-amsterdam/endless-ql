@@ -1,9 +1,8 @@
 ﻿using Antlr4.Runtime;
-using QL.Core.Ast;
-using QL.Core.Operators;
-using QL.Core.Symbols;
-using QL.Core.Types;
-using System.Collections.Generic;
+using QL.Api.Ast;
+using QL.Api.Entities;
+using QL.Api.Factories;
+using QL.Api.Operators;
 using System.Linq;
 
 namespace QL.Core.Interpreting
@@ -12,12 +11,12 @@ namespace QL.Core.Interpreting
     {
         private SymbolTable _symbols;
         private MemorySystem _memory;
-        private Dictionary<string, IUnaryOperator> _unaryOperators = new Dictionary<string, IUnaryOperator>
-        { { "!", new BooleanNegationOperator() },
-          { "-", new NegationOperator()} };
+        private readonly IValueFactory _valueFactory;
 
-        private Dictionary<string, IBinaryOperator> _binaryOperators = new Dictionary<string, IBinaryOperator>
-        { {"+", new AdditionOperator() } };        
+        internal InterpreterVisitor(IValueFactory valueFactory)
+        {
+            _valueFactory = valueFactory;
+        }
 
         internal Node EvaluateAst(Node ast, MemorySystem memory, SymbolTable symbols)
         {
@@ -52,16 +51,16 @@ namespace QL.Core.Interpreting
             foreach (var expression in question.ChildNodes)
             {
                 var evaluatedNode = expression.Accept(this) as LiteralNode;
-                _memory.AssignValue(question.Label, new Value(evaluatedNode.Value, question.Type));
+                _memory.AssignValue(question.Label, _valueFactory.CreateValueFromString(evaluatedNode.Value, question.Type));
                 questionNode.AddChild(evaluatedNode);
             }
 
             if (!questionNode.ChildNodes.Any())
             {
-                Value memoryValue;
+                IValue memoryValue;
                 if (!_memory.TryRetrieveValue(question.Label, out memoryValue))
                 {
-                    memoryValue = new Value(question.Type);
+                    memoryValue = _valueFactory.CreateDefaultValue(question.Type);
                 }
 
                 questionNode.ChildNodes.Add(new LiteralNode(question.Token, memoryValue.ToString(), question.Type));
@@ -73,8 +72,8 @@ namespace QL.Core.Interpreting
         public override Node Visit(ConditionalNode conditional)
         {
             Node expressionNode = conditional.ChildNodes[0];
-            var evaluatedNodeValue = new Value((expressionNode.Accept(this) as LiteralNode).Value, QLType.Boolean);
-            if (evaluatedNodeValue.ToBool())
+            var evaluatedNodeValue = _valueFactory.CreateValueFromString((expressionNode.Accept(this) as LiteralNode).Value, QLType.Boolean);
+            if (evaluatedNodeValue.ToBoolean())
             {
                 var ifNode = conditional.ChildNodes[1];
                 return ifNode.Accept(this);
@@ -109,64 +108,30 @@ namespace QL.Core.Interpreting
 
         public override Node Visit(VariableNode variable)
         {
-            // TODO: The interpreter currently can only correctly resolve variables which have already been defined
-            // If the variable has not vet been evaluated then it will be initialized with a default value
-            // This can lead to the final computation being incorrect.
-            Value memoryValue;
+            IValue memoryValue;
             if (!_memory.TryRetrieveValue(variable.Label, out memoryValue))
             {
-                memoryValue = new Value(_symbols[variable.Label].Type);
+                memoryValue = _valueFactory.CreateDefaultValue(_symbols[variable.Label].Type);
             }
-            return new LiteralNode(variable.Token, memoryValue.ToString(), memoryValue.Type);
+            return new LiteralNode(variable.Token, memoryValue.ToString(), memoryValue.GetType());
         }
 
-        private Node EvaluateBinaryExpression(Node leftOperandNode, Node rightOperandNode, string @operator, IToken token)
+        private Node EvaluateBinaryExpression(Node leftOperandNode, Node rightOperandNode, IOperator @operator, IToken token)
         {
             var leftOperandLiteral = leftOperandNode.Accept(this) as LiteralNode;
             var rightOperandLiteral = rightOperandNode.Accept(this) as LiteralNode;
-            var leftValue = new Value(leftOperandLiteral.Value, leftOperandLiteral.Type);
-            var rightValue = new Value(rightOperandLiteral.Value, rightOperandLiteral.Type);
+            var leftValue = _valueFactory.CreateValueFromString(leftOperandLiteral.Value, leftOperandLiteral.Type);
+            var rightValue = _valueFactory.CreateValueFromString(rightOperandLiteral.Value, rightOperandLiteral.Type);
 
-            // TODO: the switch will need to be replaced with a different way of dispatching the correct logic            
-            switch (@operator)
-            {
-                case "-":
-                    return new LiteralNode(token, (leftValue.ToInt() - rightValue.ToInt()).ToString(), QLType.Undefined);
-                case "+":
-                    Value returnValue = _binaryOperators[@operator].Evaluate(leftValue, rightValue);
-                    return new LiteralNode(token, returnValue.ToString(), returnValue.Type);
-                case "*":
-                    return new LiteralNode(token, (leftValue.ToInt() * rightValue.ToInt()).ToString(), QLType.Undefined);
-                case "/":
-                    return new LiteralNode(token, (leftValue.ToInt() / rightValue.ToInt()).ToString(), QLType.Undefined);
-                case "||":
-                    return new LiteralNode(token, (leftValue.ToBool() || rightValue.ToBool()).ToString(), QLType.Boolean);
-                case "&&":
-                    return new LiteralNode(token, (leftValue.ToBool() && rightValue.ToBool()).ToString(), QLType.Boolean);
-                case ">":
-                    return new LiteralNode(token, (leftValue.ToInt() > rightValue.ToInt()).ToString(), QLType.Boolean);
-                case "<":
-                    return new LiteralNode(token, (leftValue.ToInt() < rightValue.ToInt()).ToString(), QLType.Boolean);
-                case ">=":
-                    return new LiteralNode(token, (leftValue.ToInt() >= rightValue.ToInt()).ToString(), QLType.Boolean);
-                case "<=":
-                    return new LiteralNode(token, (leftValue.ToInt() <= rightValue.ToInt()).ToString(), QLType.Boolean);
-                case "!=":
-                    return new LiteralNode(token, leftValue.ToString().Equals(rightValue.ToString()).ToString(), QLType.Boolean);
-                case "==":
-                    return new LiteralNode(token, leftValue.ToString().Equals(rightValue.ToString()).ToString(), QLType.Boolean);
-            }
-
-            return null;
+            return new LiteralNode(token, @operator.Evaluate(leftValue, rightValue).ToString(), QLType.Undefined); 
         }
 
-        private Node EvaluateUnaryExpression(Node node, string @operator, IToken token)
+        private Node EvaluateUnaryExpression(Node node, IOperator @operator, IToken token)
         {
             var operand = node.Accept(this) as LiteralNode;
-            var nodeValue = new Value(operand.Value, operand.Type);
+            var nodeValue = _valueFactory.CreateValueFromString(operand.Value, operand.Type);
 
-            var returnValue = _unaryOperators[@operator].Evaluate(nodeValue);
-            return new LiteralNode(token, returnValue.ToString(), returnValue.Type);
+            return new LiteralNode(token, @operator.Evaluate(nodeValue).ToString(), QLType.Undefined);
         }
     }
 }

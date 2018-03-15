@@ -1,26 +1,31 @@
 package main;
 
-import ast.model.expressions.unary.values.VariableReference;
-import ast.model.statements.Question;
-import ast.visitors.filters.QuestionsFilter;
-import ast.visitors.filters.ReferencesFilter;
 import ast.ASTBuilder;
+import ast.model.Form;
+import ast.model.expressions.values.VariableReference;
+import ast.model.statements.Question;
 import grammar.QLLexer;
 import grammar.QLParser;
-import ast.model.Form;
+import gui.QLGui;
+import gui.model.FormQuestionHolder;
+import logic.collectors.CollectFormQuestionHoldersVisitor;
+import logic.collectors.CollectQuestionsVisitor;
+import logic.collectors.CollectReferencesVisitor;
+import logic.evaluators.ExpressionEvaluator;
+import logic.validators.QuestionsDependencyValidator;
+import logic.validators.QuestionsValidator;
+import logic.validators.VariablesReferencesValidator;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import validators.QuestionsValidator;
-import validators.VariablesReferencesValidator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form2.qlform");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form0.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);
@@ -30,38 +35,46 @@ public class Main {
         ASTBuilder astBuilder = new ASTBuilder();
         Form form = astBuilder.visitForm(formContext);
 
-        // questions graph for type validator
-        QuestionsFilter questionsFilter = new QuestionsFilter();
-        form.accept(questionsFilter);
+        // Collect all references from all expressions in the form (both: assignments and conditions)
+        CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
+        form.accept(collectReferencesVisitor);
+        List<VariableReference> references = collectReferencesVisitor.getVariableReferences();
 
-        // list of references (?)
-        ReferencesFilter referencesFilter = new ReferencesFilter();
-        form.accept(referencesFilter);
+        // Collect all questions
+        CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
+        form.accept(collectQuestionsVisitor);
+        List<Question> questions = collectQuestionsVisitor.getQuestions();
 
-        // Type checking
-        HashMap<Question, ArrayList<VariableReference>> map = questionsFilter.getQuestionsMap();
+        // Validate questions against cyclic dependency @TODO: finish
+        HashMap<Question, List<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap();
+        QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(questionsMap);
 
-        // undeclared variables usage
-        VariablesReferencesValidator.validateVariablesUsage(
-                questionsFilter.getQuestions(),
-                referencesFilter.getVariableReferences()
-        );
+        // Validate undeclared variables usage in questions and conditions
+        VariablesReferencesValidator.validateVariablesUsage(questions, references);
 
-        // duplicate question declarations with different types
-        QuestionsValidator.validateDuplicates(questionsFilter.getQuestions());
+        // Validate duplicate question declarations with different types
+        QuestionsValidator.validateDuplicates(questions);
 
-        // duplicate labels (warning)
+        // Validate duplicate labels (warning)
         try {
-            QuestionsValidator.validateLabels(questionsFilter.getQuestions());
+            QuestionsValidator.validateLabels(questions);
         } catch (Exception e) {
             System.out.println("Warning: " + e.getMessage());
         }
 
+        // TODO: validate conditions that are not of the type boolean
+
+        // TODO: operands of invalid type to operators
+
+        CollectFormQuestionHoldersVisitor collectFormQuestionHoldersVisitor = new CollectFormQuestionHoldersVisitor();
+        form.accept(collectFormQuestionHoldersVisitor);
+
+        List<FormQuestionHolder> formQuestionHolders = collectFormQuestionHoldersVisitor.getFormQuestionHolders();
+        ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormQuestionHoldersVisitor.getVariablesValues());
+
+        new QLGui(form.getName(), formQuestionHolders, evaluator);
+
         System.out.println("Main finish.");
-
-        /* Show the GUI */
-       // new QLGui();
-
 
     }
 }

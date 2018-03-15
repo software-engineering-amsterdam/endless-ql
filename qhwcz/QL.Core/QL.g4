@@ -29,32 +29,38 @@ type: TYPEBOOLEAN
 	| TYPEINTEGER
 	| TYPEDECIMAL
 	| TYPESTRING
-	| TYPEDATE 
-	| TYPEMONEY;
+	| TYPEDATE;
 
 literal: BOOLEAN 
 		| INTEGER 
 		| DECIMAL 
-		| STRING 
-		| MONEY 
+		| STRING
 		| DATE;
 
-binaryOperator: GREATERTHAN 
-				| SMALLERTHAN 
-				| GREATEREQUAL 
-				| SMALLEREQUAL 
-				| NOTEQUAL 
-				| AND 
-				| OR 
-				| EQUAL 
-				| PLUS 
-				| MINUS 
-				| DIVIDE	
-				| MULTIPLY;
+unaryOperator: MINUS #unaryArithmetic
+				| NOT #unaryLogical;
 
-unaryOperator: MINUS 
-				| PLUS 
-				| NOT;
+binaryOperator: absoluteComparison
+				| relativeComparison
+				| arithmetic
+				| logical;
+
+absoluteComparison: NOTEQUAL
+					| EQUAL;
+
+relativeComparison: GREATERTHAN
+					| SMALLERTHAN
+					| GREATEREQUAL
+					| SMALLEREQUAL;
+
+arithmetic: PLUS 
+			| MINUS 
+			| DIVIDE	
+			| MULTIPLY;
+
+logical: AND 
+		| OR;
+
 
 /* 
 *  Lexer Rules
@@ -90,7 +96,6 @@ TYPEINTEGER:    'integer';
 TYPEDECIMAL:    'decimal';
 TYPESTRING:		'string';
 TYPEDATE:		'date';
-TYPEMONEY:		'money';
 
 LEFTCURLY:		'{';
 RIGHTCURLY:		'}';
@@ -107,10 +112,9 @@ fragment NUMBER:	('0'..'9');
 // Literals
 BOOLEAN:	('true'|'false'); 
 INTEGER:	NUMBER+;
-DECIMAL:	INTEGER '.' (NUMBER (NUMBER)?)?;
+DECIMAL:	INTEGER '.' INTEGER;
 STRING:		'"' .*? '"';
 DATE:		INTEGER '-' INTEGER '-' INTEGER;
-MONEY:		INTEGER '.' NUMBER NUMBER;
 
 // Labels (Placed last, because it will match with other keywords)
 LABEL:	(LOWERCASE|UPPERCASE)(LOWERCASE|UPPERCASE|NUMBER|'_')*;

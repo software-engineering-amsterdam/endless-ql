@@ -3,8 +3,8 @@ grammar QL;
 
 // Lexical parts
 // Grammar is whitespace insensative
-WS: [ \n\t\r]+      -> channel(HIDDEN);
-LC: '//'~[\r\n]+    -> channel(HIDDEN);
+WS: [ \n\t\r]+      -> skip;
+LC: '//'~[\r\n]+    -> skip;
 
 // Top level element indicator
 FORM:       'form';
@@ -18,21 +18,20 @@ BOOLEAN:    'boolean';
 INTEGER:    'integer';
 
 // Reserved boolean values
-TRUE:       'true';
-FALSE:      'false';
+BOOLVAL:    ('true' | 'false');
 
 // ISO8601 date notation
 DATVAL:     [0-9]+'-'[0-9]+'-'[0-9]+;
 
 INTVAL:     [0-9]+;
-DECVAL:     [0-9]+'.'[0-9]+;
-MONVAL:     [0-9]+','[0-9]+;
-STRVAL:     '"'~['\\\r\n]+?'"';
+DECVAL:     [0-9]+'.'[0-9]+[dD];
+MONVAL:     [A-Z]+[+-]?[0-9]*[.]?[0-9]*;
+STRVAL:     '"'~['\\\r\n]*?'"';
 
 IF:         'if';
 
 // Variable names, also form name
-NAME:       [a-zA-Z][a-zA-Z0-9]+;
+NAME:       [a-zA-Z][a-zA-Z0-9]*;
 
 COLON:      ':';
 ASSIGN:     '=';
@@ -60,7 +59,7 @@ MULT:       '*';
 DIV:        '/';
 
 // Token groupings
-datatype
+dataType
     : DATE
     | MONEY
     | STRING
@@ -69,44 +68,12 @@ datatype
     | INTEGER
     ;
 
-boolval
-    : TRUE
-    | FALSE
-    ;
-
 value
     : STRVAL
     | INTVAL
-    | DECVAL
     | MONVAL
-    | boolval
-    ;
-
-boolOp
-    : OR
-    | AND
-    ;
-
-compOp
-    : LT
-    | LTE
-    | GT
-    | GTE
-    | EQ
-    | NEQ
-    ;
-
-arithOp
-    : MIN
-    | PLUS
-    | DIV
-    | MULT
-    ;
-
-op
-    : boolOp
-    | compOp
-    | arithOp
+    | DECVAL
+    | BOOLVAL
     ;
 
 // Higher level parsing
@@ -121,17 +88,26 @@ formBlock
 
 formExpression
     : question
-    | IF LP expression RP formBlock
+    | ifBlock
     ;
 
 expression
-    : NAME
-    | value
-    | LP expression RP
-    | NOT expression
-    | expression op expression
+    : NAME                                              # variable
+    | value                                             # rawValue
+    | LP expression RP                                  # parentheses
+    | NOT expression                                    # negation
+    | expression op=(DIV | MULT) expression             # arithExpression
+    | expression op=(MIN | PLUS) expression             # arithExpression
+    | expression op=(LT | LTE | GT | GTE) expression    # compExpression
+    | expression op=(EQ | NEQ) expression               # compExpression
+    | expression op=AND expression                      # boolExpression
+    | expression op=OR expression                       # boolExpression
     ;
 
 question
-    : STRVAL NAME COLON datatype (ASSIGN expression)?
+    : STRVAL NAME COLON dataType (ASSIGN expression)?
+    ;
+
+ifBlock
+    : IF LP expression RP formBlock
     ;

@@ -1,100 +1,121 @@
 // pegjs parser definition
-stylesheet      = ws comment* ws "stylesheet" ws "\"" name:text "\"" ws "{" ws
+stylesheet      = whitespace comment* whitespace "stylesheet" whitespace "\"" name:text "\"" whitespace "{" whitespace
                   pages: page*
-                  ws comment* ws
-                  "}" ws {
-                    return new Stylesheet(name, pages, location());
+                  whitespace comment* whitespace
+                  "}" whitespace {
+                    return new astQls.Stylesheet(name, pages, location());
                   }
 
-page            = ws comment* ws "page" ws "\"" name:text "\"" ws "{" ws
+page            = whitespace comment* whitespace "page" whitespace "\"" name:text "\"" whitespace "{" whitespace
                   sections: section*
                   d: default
-                  ws comment* ws
-                  "}" ws {
-                    return new Page(name, sections, location(), d);
-                  } / ws comment* ws "page" ws "\"" name:identifier "\"" ws "{" ws
+                  whitespace comment* whitespace
+                  "}" whitespace {
+                    return new astQls.Page(name, sections, location(), d);
+                  } / whitespace comment* whitespace "page" whitespace "\"" name:identifier "\"" whitespace "{" whitespace
                   sections: section*
-                  ws comment* ws
-                  "}" ws {
-                    return new Page(name, sections, location());
+                  whitespace comment* whitespace
+                  "}" whitespace {
+                    return new astQls.Page(name, sections, location());
                   }
 
-section         = ws comment* ws "section" ws "\"" name:text "\"" ws "{" ws
+section         = whitespace comment* whitespace "section" whitespace "\"" name:text "\"" whitespace "{" whitespace
                   questions: question*
                   sections: section*
                   d: default
-                  ws comment* ws
-                  "}" ws {
-                    return new Section(name, sections, questions, location(), d);
-                  } / ws comment* ws "section" ws "\"" name:text "\"" ws "{" ws
+                  whitespace comment* whitespace
+                  "}" whitespace {
+                    return new astQls.Section(name, sections, questions, location(), d);
+                  } / whitespace comment* whitespace "section" whitespace "\"" name:text "\"" whitespace "{" whitespace
                   questions: question*
                   sections: section*
-                  ws comment* ws
-                  "}" ws {
-                    return new Section(name, sections, questions, location());
-                  } / ws comment* ws "section" ws "\"" name:identifier "\"" ws questions:question {
-                    return new Section(name, [], questions, location());
+                  whitespace comment* whitespace
+                  "}" whitespace {
+                    return new astQls.Section(name, sections, questions, location());
+                  } / whitespace comment* whitespace "section" whitespace "\"" name:identifier "\"" whitespace question:question {
+                    return new astQls.Section(name, [], [question], location());
                   }
 
-question        = ws comment* ws "question" ws name:identifier ws type:defaultWidget {
-                    return new Question(name, type, location());
+question        = whitespace comment* whitespace "question" whitespace name:identifier whitespace type:defaultWidget {
+                    return new astQls.Question(name, type, location());
                   } /
-                  ws comment* ws "question" ws name:identifier {
-                    return new Question(name, new Widget(WidgetType.NONE, []), location());
+                  whitespace comment* whitespace "question" whitespace name:identifier {
+                    return new astQls.Question(name, new astQls.Widget(astQls.WidgetType.NONE, []), location());
                   }
 
-default         = ws comment* ws "default" ws type:type ws "{" ws
+default         = whitespace comment* whitespace "default" whitespace type:type whitespace "{" whitespace
                   styles:style*
                   widget: defaultWidget
-                  ws comment* ws
+                  whitespace comment* whitespace
                   "}" {
-                    return new Default(type, widget, styles, location());
-                  } / ws comment* ws "default" ws type:type ws widget:defaultWidget {
-                    return new Default(type, widget, [], location());
+                    return new astQls.Default(type, widget, styles, location());
+                  } / whitespace comment* whitespace "default" whitespace type:type whitespace widget:defaultWidget {
+                    return new astQls.Default(type, widget, [], location());
                   }
 
-defaultWidget   = ws comment* ws "widget" ws type:widget {
+defaultWidget   = whitespace comment* whitespace "widget" whitespace type:widget {
                     return type;
                   }
 
-style           = ws comment* ws name:identifier ":" ws value:number {
-                    return new Style(name, value, location());
-                  } / ws comment* ws name:identifier ":" ws value:hex {
-                    return new Style(name, value, location());
-                  } / ws comment* ws name:identifier ":" ws "\"" value:ascii "\"" {
-                    return new Style(name, value, location());
+style           = whitespace comment* whitespace name:identifier ":" whitespace value:number {
+                    return new astQls.Style(name, value, location());
+                  } / whitespace comment* whitespace name:identifier ":" whitespace value:hex {
+                    return new astQls.Style(name, value, location());
+                  } / whitespace comment* whitespace name:identifier ":" whitespace "\"" value:ascii "\"" {
+                    return new astQls.Style(name, value, location());
                   }
 
-text            = (ws word ws)+ {return text();}
+text            = (whitespace word whitespace)+ {return text();}
 
 type            = booleanType /
                   stringType /
                   integerType /
-                  dateType /
-                  decimalType
+                  dateType
 
-widget          = radioWidgetType /
-                  checkboxWidgetType /
-                  spinboxWidgetType
+widget          = radioWidget /
+                  textWidget /
+                  checkboxWidget /
+                  spinboxWidget /
+                  dropdownWidget /
+                  sliderWidget
 
 // low-level
 
-ws "whitespace" = [ \t\n\r]* { return; }
-identifier 		  = [a-zA-Z0-9]+ {return text();}
-number          = [0-9]+
-hex             = "#" r:([0-9][0-9]) g:([0-9][0-9]) b:([0-9][0-9]) {return "#" + r + g + b;}
+whitespace = [ \t\n\r]* {return;}
+identifier 		  = [a-zA-Z0-9\-]+ {return text();}
 expression 		  = [a-zA-Z0-9 +\-\/*><=]+ {return text();}
-word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
-ascii           = [a-zA-Z]+ {return text();}
 comment         = "//" (!lineTerminator .)*
 lineTerminator  = "\n" / "\r\n" / "\r" / "\u2028" / "\u2029"
 
-booleanType     = "boolean" { return QuestionType.BOOLEAN; }
-stringType      = "string" { return QuestionType.STRING; }
-integerType     = "integer" { return QuestionType.INT; }
-dateType        = "date" { return QuestionType.DATE; }
-decimalType     = "decimal" { return QuestionType.DECIMAL; }
+number          = val:([0-9]+) {return new astQls.NumberValue(parseInt(text(), 10));}
+hex             = "#" r:([0-9][0-9]) g:([0-9][0-9]) b:([0-9][0-9]) {
+                    const parsedRed = parseInt(r[0] + r[1], 10);
+                    const parsedGreen = parseInt(g[0] + g[1], 10);
+                    const parsedBlue = parseInt(b[0] + b[1], 10);
+                    return new astQls.RgbValue(parsedRed, parsedGreen, parsedBlue);
+                  }
+word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
+ascii           = [a-zA-Z]+ {return new astQls.StringValue(text());}
 
-radioWidgetType     = "radio" ws "(\"" yesValue:identifier "\"," ws "\"" noValue:identifier "\")" { return new Widget(WidgetType.RADIO, [yesValue, noValue]); }
-checkboxWidgetType  = "checkbox" { return new Widget(WidgetType.RADIO, []); }
-spinboxWidgetType   = "spinbox" { return new Widget(WidgetType.RADIO, []); }
+//types
+booleanType     = "boolean" { return astQl.QuestionType.BOOLEAN; }
+stringType      = "string" { return astQl.QuestionType.STRING; }
+integerType     = "integer" { return astQl.QuestionType.INT; }
+dateType        = "date" { return astQl.QuestionType.DATE; }
+
+//widgets
+radioWidget     = "radio" whitespace "(\"" yesValue:identifier "\"," whitespace "\"" noValue:identifier "\")" {
+  return new astQls.Widget(astQls.WidgetType.RADIO, [yesValue, noValue]);
+}
+textWidget      = "text" { return new astQls.Widget(astQls.WidgetType.TEXT); }
+checkboxWidget  = "checkbox" { return new astQls.Widget(astQls.WidgetType.CHECKBOX); }
+spinboxWidget   = "spinbox" { return new astQls.Widget(astQls.WidgetType.SPINBOX); }
+dropdownWidget  = "dropdown" whitespace "(\"" yesValue:identifier "\"," whitespace "\"" noValue:identifier "\")" {
+  return new astQls.Widget(astQls.WidgetType.DROPDOWN, [yesValue, noValue]);
+}
+sliderWidget    = "slider" { return new astQls.Widget(astQls.WidgetType.SLIDER); }
+
+
+
+
+

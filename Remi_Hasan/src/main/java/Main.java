@@ -1,5 +1,4 @@
-import analysis.SymbolTable;
-import analysis.TypeChecker;
+import gui.FormRenderer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,8 +8,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Form;
-import model.stylesheet.StyleSheet;
+import ql.QLFormBuilder;
+import ql.analysis.SymbolTable;
+import ql.model.Form;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,23 +61,16 @@ public class Main extends Application {
 
     private void loadForm(Stage stage, File file) {
         try {
-            Form form = FormParser.parseForm(new FileInputStream(file));
+            QLFormBuilder qlFormBuilder = new QLFormBuilder();
+            Form form = qlFormBuilder.buildForm(new FileInputStream(file));
+            SymbolTable symbolTable = qlFormBuilder.getSymbolTable();
 
-            SymbolTable symbolTable = new SymbolTable(form);
-
-            TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-            typeChecker.typeCheck();
-
-            File styleSheetFile = new File(file.getParentFile().getAbsolutePath() + "/example.qls");
-            StyleSheet styleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(styleSheetFile));
-
-            Renderer renderer = new Renderer(form, symbolTable, styleSheet);
-            renderer.renderForm(stage);
+            FormRenderer formRenderer = new FormRenderer(form, symbolTable);
+            formRenderer.renderForm(stage);
         } catch (FileNotFoundException e) {
-            showErrorAlert(e, "Form file not found");
+            showErrorAlert(e, "FormBuilder file not found");
         } catch (UnsupportedOperationException | IllegalArgumentException e) {
-            // TODO Explain why form is invalid
-            showErrorAlert(e, "Form invalid");
+            showErrorAlert(e, "FormBuilder invalid");
         } catch (IOException e) {
             showErrorAlert(e, "IO exception while lexing form file");
         }
@@ -86,7 +79,7 @@ public class Main extends Application {
     private void showErrorAlert(Exception e, String message) {
         e.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
-        alert.setContentText(e.toString());
+        alert.setContentText(e.getMessage());
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }

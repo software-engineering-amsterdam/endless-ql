@@ -323,4 +323,4 @@ ASALocalRun/
 *.binlog
 
 # Generated parser
-Assignment1/Assignment1/Parser/
+Assignment1/Assignment1/Parser/AntlrGenerated/

@@ -16,7 +16,7 @@ export class TypeCheckError extends FormError {
 
   static make(expectedType: string, receivedType: string, message?: string) {
     if (typeof message === 'undefined') {
-      message = `Type check failed. Expected "${expectedType}" but received "${receivedType}.`;
+      message = `Type check failed. Expected "${expectedType}" but received "${receivedType}".`;
     }
 
     const error = new TypeCheckError(message);
@@ -208,6 +208,21 @@ export class CannotFindCommonFieldTypeError extends FormError {
     error.left = left;
     error.right = right;
     Object.setPrototypeOf(error, CannotFindCommonFieldTypeError.prototype);
+    return error;
+  }
+}
+
+export class ValueIsInvalidDateError extends FormError {
+  value: string;
+
+  static make(value: string, message?: string) {
+    if (typeof message === 'undefined') {
+      message = `Cannot parse date since it is invalid ${value}.`;
+    }
+
+    const error = new ValueIsInvalidDateError(message);
+    error.value = value;
+    Object.setPrototypeOf(error, ValueIsInvalidDateError.prototype);
     return error;
   }
 }

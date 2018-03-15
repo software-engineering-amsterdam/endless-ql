@@ -1,17 +1,17 @@
 import Addition from "../nodes/expressions/arithmetic/Addition";
-import NumberLiteral from "../nodes/expressions/literals/NumberLiteral";
+import NumberLiteral from "../nodes/literals/NumberLiteral";
 import Multiplication from "../nodes/expressions/arithmetic/Multiplication";
 import ExpressionVisitor from "../nodes/visitors/ExpressionVisitor";
 import Negation from "../nodes/expressions/boolean_expressions/Negation";
 import And from "../nodes/expressions/boolean_expressions/And";
 import Or from "../nodes/expressions/boolean_expressions/Or";
 import {
-  assertBoolean, assertComparable, assertNumeric, assertSameType, assertString,
+  assertBoolean, assertComparable, assertDecimal, assertSameType, assertString,
   assertValidDivision
 } from "../type_checking/type_assertions";
 import Variable from "../nodes/expressions/VariableIdentifier";
 import { UnkownVariableIdentifierError } from "../form_errors";
-import BooleanLiteral from "../nodes/expressions/literals/BooleanLiteral";
+import BooleanLiteral from "../nodes/literals/BooleanLiteral";
 import Division from "../nodes/expressions/arithmetic/Division";
 import Subtraction from "../nodes/expressions/arithmetic/Subtraction";
 import Equals from "../nodes/expressions/comparisons/Equals";
@@ -21,8 +21,10 @@ import LargerThan from "../nodes/expressions/comparisons/LargerThan";
 import LargerThanOrEqual from "../nodes/expressions/comparisons/LargerThanOrEqual";
 import SmallerThan from "../nodes/expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../nodes/expressions/comparisons/SmallerThanOrEqual";
-import StringLiteral from "../nodes/expressions/literals/StringLiteral";
+import StringLiteral from "../nodes/literals/StringLiteral";
+import DateLiteral from "../nodes/literals/DateLiteral";
 import FormState from "../state/FormState";
+import Decimal from "decimal.js/decimal";
 
 /**
  * The evaluation visitor travels through an expression and calculates
@@ -77,11 +79,12 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @returns {any}
    */
   visitDivision(division: Division): any {
-    const dividendValue: any = division.dividend.accept(this);
-    const divisorValue: any = division.divisor.accept(this);
+    const dividendValue: Decimal = assertDecimal(division.dividend.accept(this));
+    const divisorValue: Decimal = assertDecimal(division.divisor.accept(this));
+
     assertValidDivision(dividendValue, divisorValue);
 
-    return dividendValue / divisorValue;
+    return dividendValue.div(divisorValue);
   }
 
   /**
@@ -108,7 +111,10 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @returns {any}
    */
   visitMultiplication(multiplication: Multiplication): any {
-    return assertNumeric(multiplication.left.accept(this)) * assertNumeric(multiplication.right.accept(this));
+    const left: Decimal = assertDecimal(multiplication.left.accept(this));
+    const right: Decimal = assertDecimal(multiplication.right.accept(this));
+
+    return left.mul(right);
   }
 
   /**
@@ -117,11 +123,17 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @returns {any}
    */
   visitAddition(addition: Addition): any {
-    return assertNumeric(addition.left.accept(this)) + assertNumeric(addition.right.accept(this));
+    const left: Decimal = assertDecimal(addition.left.accept(this));
+    const right: Decimal = assertDecimal(addition.left.accept(this));
+
+    return left.add(right);
   }
 
   visitSubtraction(subtraction: Subtraction): any {
-    return assertNumeric(subtraction.left.accept(this)) - assertNumeric(subtraction.right.accept(this));
+    const left: Decimal = assertDecimal(subtraction.left.accept(this));
+    const right: Decimal = assertDecimal(subtraction.right.accept(this));
+
+    return left.minus(right);
   }
 
   visitLargerThan(largerThan: LargerThan): any {
@@ -165,7 +177,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @returns {any}
    */
   visitNumberLiteral(literal: NumberLiteral): any {
-    return assertNumeric(literal.getValue());
+    return assertDecimal(literal.getValue());
   }
 
   /**
@@ -174,6 +186,15 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @returns {any}
    */
   visitStringLiteral(literal: StringLiteral): any {
+    return assertString(literal.getValue());
+  }
+
+  /**
+   * Ends a .accept chain by returning a the string value of a string literal.
+   * @param {DateLiteral} literal
+   * @returns {any}
+   */
+  visitDateLiteral(literal: DateLiteral): any {
     return assertString(literal.getValue());
   }
 

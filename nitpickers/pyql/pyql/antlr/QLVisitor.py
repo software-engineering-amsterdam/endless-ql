@@ -64,8 +64,13 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#moneyType.
-    def visitMoneyType(self, ctx:QLParser.MoneyTypeContext):
+    # Visit a parse tree produced by QLParser#basicMoneyType.
+    def visitBasicMoneyType(self, ctx:QLParser.BasicMoneyTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#computedMoneyType.
+    def visitComputedMoneyType(self, ctx:QLParser.ComputedMoneyTypeContext):
         return self.visitChildren(ctx)
 
 
@@ -109,8 +114,18 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#unExpression.
-    def visitUnExpression(self, ctx:QLParser.UnExpressionContext):
+    # Visit a parse tree produced by QLParser#negNotUnExpression.
+    def visitNegNotUnExpression(self, ctx:QLParser.NegNotUnExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#primaryUnExpression.
+    def visitPrimaryUnExpression(self, ctx:QLParser.PrimaryUnExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#primary.
+    def visitPrimary(self, ctx:QLParser.PrimaryContext):
         return self.visitChildren(ctx)
 
 
@@ -141,11 +156,6 @@ class QLVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by QLParser#identifier.
     def visitIdentifier(self, ctx:QLParser.IdentifierContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLParser#money.
-    def visitMoney(self, ctx:QLParser.MoneyContext):
         return self.visitChildren(ctx)
 
 

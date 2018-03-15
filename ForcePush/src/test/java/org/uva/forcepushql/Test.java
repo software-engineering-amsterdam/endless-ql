@@ -3,6 +3,9 @@ package org.uva.forcepushql;
 import org.antlr.v4.runtime.*;
 import org.uva.forcepushql.antlr.GrammarLexer;
 import org.uva.forcepushql.antlr.GrammarParser;
+import org.uva.forcepushql.ast.BuildASTVisitor;
+import org.uva.forcepushql.ast.EvaluateExpressionVisitor;
+import org.uva.forcepushql.ast.ExpressionNode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +15,7 @@ public class Test
 {
     public static void main(String[] args) throws Exception
     {
-        File testFile = new File("C:\\Users\\georg\\Documents\\GitHub\\endless-ql\\ForcePush\\src\\main\\resources\\antlr\\TestInput.txt");
+        File testFile = new File("src/main/resources/antlr/TestInput.txt");
         InputStream stream = new FileInputStream(testFile);
         // create a CharStream that reads from standard input
         ANTLRInputStream input = new ANTLRInputStream(stream);
@@ -23,6 +26,9 @@ public class Test
         // create a parser that feeds off the tokens buffer
         GrammarParser parser = new GrammarParser(tokens);
         // begin parsing at rule x
-        parser.formStructure();
+        ExpressionNode expression = new BuildASTVisitor().visitMathUnit(parser.mathUnit());
+        double value = new EvaluateExpressionVisitor().visit(expression);
+        System.out.println("Final result is: " + value);
+
     }
 }

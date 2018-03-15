@@ -1,3 +1,4 @@
+// Form
 form taxOfficeExample { 
   "Did you sell a house in 2010?" 
     hasSoldHouse: boolean
@@ -5,8 +6,11 @@ form taxOfficeExample {
     hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: boolean
-  "What is your name?" name: string
-    
+  
+  if (hasBoughtHouse) {
+    "What was the buying price?"
+  	  buyingPrice: integer
+  }  
   if (hasSoldHouse) {
     "What was the selling price?"
       sellingPrice: money
@@ -18,14 +22,23 @@ form taxOfficeExample {
   }
   
 }
-
+// Stylesheet
 stylesheet taxOfficeExample 
   page Housing {
     section "Buying"
       question hasBoughtHouse  
-        widget checkbox 
-    section "Loaning"  
+        widget dropdown ("YES", "NO")
+      question buyingPrice
+    section "Loaning"  {
       question hasMaintLoan
+      default boolean {
+    	width: 400
+        font: "SansSerif" 
+        fontsize: 25
+        color: #999999
+    	widget checkbox
+      }
+    }
   }
 
   page Selling { 
@@ -34,15 +47,15 @@ stylesheet taxOfficeExample
         widget radio("Yes", "No") 
       section "You sold a house" {
         question sellingPrice
-          widget spinbox
+          widget slider
         question privateDebt
           widget spinbox 
         question valueResidue
         default money {
           width: 400
-          font: "Arial" 
+          font: "SansSerif" 
           fontsize: 14
-          color: #A9f9992
+          color: #A9f999
           widget spinbox
         }        
       }

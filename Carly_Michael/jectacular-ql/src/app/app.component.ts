@@ -1,14 +1,12 @@
-import { Component} from '@angular/core';
-import {parse} from '../parser/ql-parser';
-import {parse as parseQls} from '../parser/qls-parser';
+import {Component, isDevMode} from '@angular/core';
 import {QuestionBase} from './domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
-import {Page, Question as QlsQuestion, Section, Stylesheet, Widget, WidgetType} from './domain/ast/qls';
-import {emptyLoc, Form, QuestionType, Question as QlQuestion} from './domain/ast';
-import {ParseQlWithQlsFactoryService} from './services/parse-ql-with-qls-factory.service';
-import {ParseFactoryInterface} from './services/parse-factory-interface';
-import {ParseQlWithDefaultStylingFactoryService} from './services/parse-ql-with-default-styling-factory.service';
+import {Stylesheet} from './domain/ast/qls';
+import {Form} from './domain/ast/ql/index';
+import {ParseFactory} from './factories/parse-factory';
+import * as qlsMock from './qls-mock-input';
+import * as qlMock from './ql-mock-input';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +14,7 @@ import {ParseQlWithDefaultStylingFactoryService} from './services/parse-ql-with-
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  input: string;
+  inputQl: string;
   inputQls: string;
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
@@ -26,63 +24,41 @@ export class AppComponent {
   qlForm: Form;
   qlsStylesheet: Stylesheet;
 
-  constructor (private questionControlService: QuestionControlService) {
+  constructor(private questionControlService: QuestionControlService) { }
 
-  }
+  prefillForm() {
+    this.inputQls = qlsMock.validQLS;
 
-  getQuestionBaseByName(name: string): QuestionBase<any> {
-    for (const question of this.questions) {
-      if (question.key === name) {
-        return question;
-      }
-    }
-
-    throw new Error(`Couldn't get question '${name}'`);
-  }
-
-  getQlQuestionsForSection(section: Section): QuestionBase<any>[] {
-    const qlsQuestions = section.getQuestions();
-    const questions: QuestionBase<any>[] = [];
-
-    for (const qlsQuestion of qlsQuestions) {
-      questions.push(this.getQuestionBaseByName(qlsQuestion.name));
-    }
-
-    return questions;
+    this.inputQl = qlMock.validQl;
   }
 
   parseInput() {
     try {
-      let factory: ParseFactoryInterface;
-      if (this.inputQls && this.inputQls !== '') {
-        factory = new ParseQlWithQlsFactoryService(this.input, this.inputQls);
-      } else {
-        factory = new ParseQlWithDefaultStylingFactoryService(this.input);
-      }
-
-      const parseResult = factory.parse();
+      const parseResult = ParseFactory.parse(this.inputQl, this.inputQls);
       this.formName = parseResult.formName;
-      this.qlForm = parseResult.qlForm;
-      this.qlsStylesheet = parseResult.qlsStylesheet;
-
-      console.log(this.qlsStylesheet);
-
+      this.qlForm = parseResult.form;
+      this.qlsStylesheet = parseResult.styles;
       // make form
       this.questions = this.qlForm.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);
-      this.formName = this.qlForm.name;
       this.errorMessage = undefined;
     } catch (e) {
       this.form = undefined;
       this.formName = undefined;
       this.questions = undefined;
+      this.qlsStylesheet = undefined;
+      this.qlForm = undefined;
       this.errorMessage = e.message;
+
+      if (isDevMode()) {
+        console.log(e);
+      }
     }
     this.payload = undefined;
   }
 
   onSubmit() {
-    this.payload = JSON.stringify(this.form.getRawValue());
-    console.log(JSON.stringify(this.form.getRawValue()));
+    this.payload = this.form.getRawValue();
+    console.log(this.form.getRawValue());
   }
 }

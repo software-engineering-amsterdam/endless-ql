@@ -1,8 +1,10 @@
-form taxOfficeExample { 
+
+/*
+form taxOfficeExample {
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"
-    hasBoughtHouse: multipleAnswer(a,b)
+    hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: string
 // this is a comment
@@ -12,8 +14,9 @@ form taxOfficeExample {
     "Private debts for the sold house:"
       privateDebt: money
     "Value residue:"
-      valueResidue: money = 
+      valueResidue: money =
         (sellingPrice - privateDebt)
   }
-  
+
 }
+*/

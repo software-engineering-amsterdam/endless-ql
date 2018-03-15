@@ -1,27 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 using Assignment1.Model;
+using Assignment1.Parser;
 
 namespace Assignment1
 {
     internal class QLListener : QLBaseListener
     {
-        public QuestionForm Form { get; private set; }
+        private QuestionForm _form;
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
-        public List<string> Errors = new List<string>();
-        public List<string> Warnings = new List<string>();
-        public bool FormHasErrors
-        {
-            get
-            {
-                return Errors.Count > 0;
-            }
-        }
+        private readonly Dictionary<string,string> _warnings = new Dictionary<string, string>(); // TODO: move to errorhandler
+        private QLParseErrorHandler _errorHandler = new QLParseErrorHandler();
 
         private bool QuestionIdExists(string questionId)
         {
@@ -39,40 +32,45 @@ namespace Assignment1
             return false;
         }
 
-        private void AddError(ParserRuleContext context, string message)
+        private void AddWarning(ParserRuleContext context, string questionId, string message)
         {
-            Errors.Add("Line " + context.Start.Line + ": " + message);
+            _warnings.Add(questionId, "Line " + context.Start.Line + ": " + message);
         }
 
         public override void ExitForm(QL.FormContext context)
         {
-            Console.WriteLine(Errors.Count + " error(s) found.");
-            foreach (string error in Errors)
+            foreach (string warning in _warnings.Values)
             {
-                Console.WriteLine(error);
+                Console.WriteLine(warning);
             }
-            Form = context.result;
+            _form = context.result;
+            _form.Warnings = _warnings;
         }
 
+        /* Check for each question if the label is already used and add a warning if this is the case.
+         */
         public override void EnterQuestion(QL.QuestionContext context)
         {
             string questionLabel = context.result.Label;
+            string questionId = context.result.Id;
 
-            // Should be warnings, move to separate list
             if (QuestionLabelExists(questionLabel))
             {
-                //AddError(context, "The question label '" + questionLabel + "' has already been used.");
+                AddWarning(context, questionId, "The question label '" + questionLabel + "' has already been used.");
             }
         }
 
+        /* Check for each question if the id already exists and add an error if this is the case.
+         */
         public override void ExitQuestion(QL.QuestionContext context)
         {
             string questionId = context.result.Id;
-            
+
             if (QuestionIdExists(questionId))
             {
-                AddError(context, "The question id '" + questionId + "' already exists in the current context.");
-            } else
+                _errorHandler.AddError(context.Start.Line, "The question id '" + questionId + "' already exists in the current context.");
+            }
+            else
             {
                 _questions.Add(context.result.Id, context.result);
             }
@@ -82,10 +80,10 @@ namespace Assignment1
          */
         public override void ExitIfstatement(QL.IfstatementContext context)
         {
-            object conditionType = context.result.Expression.Evaluate();
+            object conditionType = context._expression.result.Evaluate();
             if (!(conditionType is bool))
             {
-                AddError(context, "The expression '" + context._expression.GetText() + "' is not of type boolean.");
+                _errorHandler.AddError(context.Start.Line, "The expression '" + context._expression.GetText() + "' is not of type boolean.");
             }
         }
 
@@ -98,9 +96,10 @@ namespace Assignment1
             try
             {
                 var expressionType = expression.Evaluate();
-            } catch (Exception exception)
+            }
+            catch (Exception exception)
             {
-                AddError(context, exception.Message);
+                _errorHandler.AddError(context.Start.Line, exception.Message);
             }
         }
 
@@ -113,11 +112,38 @@ namespace Assignment1
             {
                 context.result.Question = _questions[context.result.Id];
             }
-            catch (KeyNotFoundException e)
+            catch (KeyNotFoundException)
             {
-                AddError(context, "The question id '" + context.result.Id + "' does not exist in the current context.");
-                //throw;
+                _errorHandler.AddError(context.Start.Line, "The question id '" + context.result.Id + "' does not exist in the current context.");
             }
+        }
+
+        public override void VisitErrorNode(IErrorNode node)
+        {
+            Console.WriteLine("Error node: " + node.GetText());
+        }
+
+        internal static QuestionForm ParseString(string input)
+        {
+            QLListener listener = new QLListener();
+            QLErrorListener errorListener = new QLErrorListener(listener._errorHandler);
+
+            ICharStream stream = CharStreams.fromstring(input);
+            ITokenSource lexer = new QLLexer(stream);
+            ((QLLexer)lexer).RemoveErrorListeners();
+            ((QLLexer)lexer).AddErrorListener(errorListener);
+            ITokenStream tokens = new CommonTokenStream(lexer);
+            QL parser = new QL(tokens);
+            parser.RemoveErrorListeners();
+            parser.AddErrorListener(errorListener);
+            QL.FormContext context = parser.form();
+            
+            ParseTreeWalker walker = new ParseTreeWalker();
+            walker.Walk(listener, context);
+
+            if (listener._errorHandler.FormHasErrors)
+                listener._errorHandler.ThrowQLParseException();
+            return listener._form;
         }
     }
 }

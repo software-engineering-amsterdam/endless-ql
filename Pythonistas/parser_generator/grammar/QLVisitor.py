@@ -19,8 +19,8 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#statement.
-    def visitStatement(self, ctx:QLParser.StatementContext):
+    # Visit a parse tree produced by QLParser#stmt.
+    def visitStmt(self, ctx:QLParser.StmtContext):
         return self.visitChildren(ctx)
 
 
@@ -29,8 +29,8 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#assignment.
-    def visitAssignment(self, ctx:QLParser.AssignmentContext):
+    # Visit a parse tree produced by QLParser#declaration.
+    def visitDeclaration(self, ctx:QLParser.DeclarationContext):
         return self.visitChildren(ctx)
 
 
@@ -39,23 +39,33 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#conditional.
-    def visitConditional(self, ctx:QLParser.ConditionalContext):
+    # Visit a parse tree produced by QLParser#if_.
+    def visitIf_(self, ctx:QLParser.If_Context):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#if_conditional.
-    def visitIf_conditional(self, ctx:QLParser.If_conditionalContext):
+    # Visit a parse tree produced by QLParser#type.
+    def visitType(self, ctx:QLParser.TypeContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#else_conditional.
-    def visitElse_conditional(self, ctx:QLParser.Else_conditionalContext):
+    # Visit a parse tree produced by QLParser#value.
+    def visitValue(self, ctx:QLParser.ValueContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#typeDeclaration.
-    def visitTypeDeclaration(self, ctx:QLParser.TypeDeclarationContext):
+    # Visit a parse tree produced by QLParser#compute.
+    def visitCompute(self, ctx:QLParser.ComputeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#arithmetic_.
+    def visitArithmetic_(self, ctx:QLParser.Arithmetic_Context):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#boolean_.
+    def visitBoolean_(self, ctx:QLParser.Boolean_Context):
         return self.visitChildren(ctx)
 
 

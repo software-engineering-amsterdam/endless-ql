@@ -1,4 +1,4 @@
-// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -7,6 +7,26 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  * {@link GrammarParser}.
  */
 public interface GrammarParserListener extends ParseTreeListener {
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#compileUnit}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompileUnit(GrammarParser.CompileUnitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#compileUnit}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompileUnit(GrammarParser.CompileUnitContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#mathUnit}.
+	 * @param ctx the parse tree
+	 */
+	void enterMathUnit(GrammarParser.MathUnitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#mathUnit}.
+	 * @param ctx the parse tree
+	 */
+	void exitMathUnit(GrammarParser.MathUnitContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#variable}.
 	 * @param ctx the parse tree
@@ -18,26 +38,6 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 */
 	void exitVariable(GrammarParser.VariableContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GrammarParser#logical}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogical(GrammarParser.LogicalContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GrammarParser#logical}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogical(GrammarParser.LogicalContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link GrammarParser#arithmetic}.
-	 * @param ctx the parse tree
-	 */
-	void enterArithmetic(GrammarParser.ArithmeticContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GrammarParser#arithmetic}.
-	 * @param ctx the parse tree
-	 */
-	void exitArithmetic(GrammarParser.ArithmeticContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link GrammarParser#type}.
 	 * @param ctx the parse tree
 	 */
@@ -47,16 +47,6 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitType(GrammarParser.TypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link GrammarParser#comparison}.
-	 * @param ctx the parse tree
-	 */
-	void enterComparison(GrammarParser.ComparisonContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GrammarParser#comparison}.
-	 * @param ctx the parse tree
-	 */
-	void exitComparison(GrammarParser.ComparisonContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#questionTypes}.
 	 * @param ctx the parse tree
@@ -68,41 +58,77 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 */
 	void exitQuestionTypes(GrammarParser.QuestionTypesContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code binaryExpression}
+	 * Enter a parse tree produced by the {@code infixExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterBinaryExpression(GrammarParser.BinaryExpressionContext ctx);
+	void enterInfixExpression(GrammarParser.InfixExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code binaryExpression}
+	 * Exit a parse tree produced by the {@code infixExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitBinaryExpression(GrammarParser.BinaryExpressionContext ctx);
+	void exitInfixExpression(GrammarParser.InfixExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code valueExpression}
+	 * Enter a parse tree produced by the {@code numberExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterValueExpression(GrammarParser.ValueExpressionContext ctx);
+	void enterNumberExpression(GrammarParser.NumberExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code valueExpression}
+	 * Exit a parse tree produced by the {@code numberExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitValueExpression(GrammarParser.ValueExpressionContext ctx);
+	void exitNumberExpression(GrammarParser.NumberExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code parensExpression}
+	 * Enter a parse tree produced by the {@code parenthesisExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterParensExpression(GrammarParser.ParensExpressionContext ctx);
+	void enterParenthesisExpression(GrammarParser.ParenthesisExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code parensExpression}
+	 * Exit a parse tree produced by the {@code parenthesisExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitParensExpression(GrammarParser.ParensExpressionContext ctx);
+	void exitParenthesisExpression(GrammarParser.ParenthesisExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code comparisonExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterComparisonExpression(GrammarParser.ComparisonExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code comparisonExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitComparisonExpression(GrammarParser.ComparisonExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code unaryExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnaryExpression(GrammarParser.UnaryExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code unaryExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnaryExpression(GrammarParser.UnaryExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logicalExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalExpression(GrammarParser.LogicalExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicalExpression}
+	 * labeled alternative in {@link GrammarParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalExpression(GrammarParser.LogicalExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#questionFormat}.
 	 * @param ctx the parse tree
@@ -153,16 +179,6 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitConditionalElse(GrammarParser.ConditionalElseContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link GrammarParser#questionMultiAns}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuestionMultiAns(GrammarParser.QuestionMultiAnsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GrammarParser#questionMultiAns}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuestionMultiAns(GrammarParser.QuestionMultiAnsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GrammarParser#formStructure}.
 	 * @param ctx the parse tree

@@ -1,30 +1,44 @@
 package ast.model;
 
-import com.sun.istack.internal.NotNull;
-
 abstract public class ASTNode implements VisitableASTNode {
 
-    private Integer startLine;
-    private Integer endLine;
+    public static class MetaInformation {
 
-    public ASTNode(Integer startLine, Integer endLine) {
-        this.startLine = startLine;
-        this.endLine = endLine;
+        private final Integer startLine;
+        private final Integer endLine;
+        private final String text;        //TODO: YAGNI?
+
+        public MetaInformation(Integer startLine, Integer endLine, String text) {
+            this.startLine = startLine;
+            this.endLine = endLine;
+            this.text = text;
+        }
+
+        public Integer getStartLine() {
+            return startLine;
+        }
+
+        public Integer getEndLine() {
+            return endLine;
+        }
+
+        public String getText() {
+            return text;
+        }
+
     }
 
-    public Integer getStartLine() {
-        return startLine;
+    private MetaInformation metaInformation;
+
+    protected ASTNode(MetaInformation metaInformation) {
+        this.metaInformation = metaInformation;
     }
 
-    public void setStartLine(Integer startLine) {
-        this.startLine = startLine;
+    public MetaInformation getMetaInformation() {
+        return metaInformation;
     }
 
-    public Integer getEndLine() {
-        return endLine;
-    }
-
-    public void setEndLine(Integer endLine) {
-        this.endLine = endLine;
+    public void setMetaInformation(MetaInformation metaInformation) {
+        this.metaInformation = metaInformation;
     }
 }

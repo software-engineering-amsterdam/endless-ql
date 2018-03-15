@@ -1,12 +1,12 @@
 import Addition from "../nodes/expressions/arithmetic/Addition";
-import NumberLiteral from "../nodes/expressions/literals/NumberLiteral";
+import NumberLiteral from "../nodes/literals/NumberLiteral";
 import Multiplication from "../nodes/expressions/arithmetic/Multiplication";
 import Or from "../nodes/expressions/boolean_expressions/Or";
 import And from "../nodes/expressions/boolean_expressions/And";
 import Negation from "../nodes/expressions/boolean_expressions/Negation";
 import VariableIdentifier from "../nodes/expressions/VariableIdentifier";
 import Division from "../nodes/expressions/arithmetic/Division";
-import BooleanLiteral from "../nodes/expressions/literals/BooleanLiteral";
+import BooleanLiteral from "../nodes/literals/BooleanLiteral";
 import Subtraction from "../nodes/expressions/arithmetic/Subtraction";
 import Equals from "../nodes/expressions/comparisons/Equals";
 import NotEqual from "../nodes/expressions/comparisons/NotEqual";
@@ -14,7 +14,7 @@ import LargerThan from "../nodes/expressions/comparisons/LargerThan";
 import LargerThanOrEqual from "../nodes/expressions/comparisons/LargerThanOrEqual";
 import SmallerThan from "../nodes/expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../nodes/expressions/comparisons/SmallerThanOrEqual";
-import StringLiteral from "../nodes/expressions/literals/StringLiteral";
+import StringLiteral from "../nodes/literals/StringLiteral";
 import { VariablesInformation, VariableInformation } from "../VariableIntformation";
 import { UnkownFieldError, TypesNotComparableError } from "../form_errors";
 import { FieldType, fieldTypesSortable, getCommonNumericFieldType, isNumericFieldType } from "../FieldType";
@@ -25,6 +25,7 @@ import FormNode from "../nodes/FormNode";
 import IfCondition from "../nodes/conditions/IfCondition";
 import ComputedField from "../nodes/fields/ComputedField";
 import Question from "../nodes/fields/Question";
+import DateLiteral from "../nodes/literals/DateLiteral";
 
 export class TypeCheckVisitor implements NodeVisitor {
   private _variables: VariablesInformation;
@@ -60,13 +61,7 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitNumberLiteral(literal: NumberLiteral): any {
-    // TODO: Replace this simple integer check with solution in parser, differentiate between 10 and 10.0
-    // TODO: Allow money and date literal
-    if (Math.round(literal.getValue()) === literal.getValue()) {
-      return FieldType.Integer;
-    }
-
-    return FieldType.Float;
+    return literal.getType();
   }
 
   visitMultiplication(multiplication: Multiplication): any {
@@ -96,7 +91,14 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitDivision(division: Division): any {
-    return this.visitNumericOperator(division);
+    const leftType = assertNumericFieldType(division.left.accept(this));
+    const rightType = assertNumericFieldType(division.right.accept(this));
+
+    if (leftType === FieldType.Money && rightType === FieldType.Money) {
+      return FieldType.Float;
+    }
+
+    return getCommonNumericFieldType(leftType, rightType);
   }
 
   visitBooleanLiteral(literal: BooleanLiteral): any {
@@ -133,6 +135,10 @@ export class TypeCheckVisitor implements NodeVisitor {
 
   visitStringLiteral(stringLiteral: StringLiteral): any {
     return FieldType.Text;
+  }
+
+  visitDateLiteral(dateLiteral: DateLiteral): any {
+    return FieldType.Date;
   }
 
   private visitBooleanOperator(operator: BinaryOperator): FieldType {

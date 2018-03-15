@@ -17,8 +17,8 @@ public class MainGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/gui/form.fxml"));
-            Scene scene = new Scene(root, 800, 500);
+            Parent window = FXMLLoader.load(getClass().getResource("/gui/form.fxml"));
+            Scene scene = new Scene(window, 800, 500);
             primaryStage.setTitle("Form");
             primaryStage.setScene(scene);
             primaryStage.show();

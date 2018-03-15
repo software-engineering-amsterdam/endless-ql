@@ -23,9 +23,6 @@ class Question(statement.Statement):
     def question_type(self):
         return self._question_type
 
-    def accept(self, visitor):
-        return visitor.visit_question(self)
-
     def __repr__(self):
         output = {
             "identifier": str(self.identifier),
@@ -35,7 +32,6 @@ class Question(statement.Statement):
         return str({"AST QuestionStatement " + str(self.location): str(output)})
 
 
-# money(sellingPrice - privateDebt)
 class ComputedQuestion(Question):
 
     def __init__(self, location, identifier, text, question_type, expression):
@@ -45,9 +41,6 @@ class ComputedQuestion(Question):
     @property
     def expression(self):
         return self._expression
-
-    def accept(self, visitor):
-        return visitor.visit_computed_question(self)
 
     def __repr__(self):
         return "AST ComputedQuestion Statement at: " + str(self.location)
@@ -68,9 +61,6 @@ class If(statement.Statement):
     def block(self):
         return self._block
 
-    def accept(self, visitor):
-        return visitor.visit_if(self)
-
     def __repr__(self):
         return "AST If Statement at: " + str(self.location)
 
@@ -88,9 +78,6 @@ class IfElse(If):
     @property
     def else_block(self):
         return self._else_block
-
-    def accept(self, visitor):
-        return visitor.visit_if_else(self)
 
     def __repr__(self):
         return "AST IfElse Statement at: " + str(self.location)

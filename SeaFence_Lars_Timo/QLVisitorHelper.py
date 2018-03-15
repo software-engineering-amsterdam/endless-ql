@@ -1,4 +1,4 @@
-from antlr_files_2.QLVisitor import QLVisitor
+from QL.QLVisitor import QLVisitor
 from antlr4 import *
 from QLast import *
 

@@ -4,8 +4,10 @@ import { AppComponent } from './app.component';
 import {QuestionControlService} from './services/question-control.service';
 import {DynamicFormQuestionComponent} from './components/dynamic-form-question/dynamic-form-question.component';
 import {BrowserModule} from '@angular/platform-browser';
-import * as mockData from './mock-input';
-import {MatListModule, MatTabsModule} from '@angular/material';
+import * as mockData from './ql-mock-input';
+import {MaterialModule} from './material.module';
+import {StyledFormContentComponent} from './components/styled-form-content/styled-form-content.component';
+import {WidgetComponent} from './components/widget/widget.component';
 
 describe('AppComponent', () => {
   let app: AppComponent;
@@ -14,14 +16,15 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        DynamicFormQuestionComponent
+        DynamicFormQuestionComponent,
+        StyledFormContentComponent,
+        WidgetComponent
       ],
       imports: [
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
-        MatTabsModule,
-        MatListModule
+        MaterialModule
       ],
       providers: [QuestionControlService]
     }).compileComponents();
@@ -33,23 +36,32 @@ describe('AppComponent', () => {
   });
 
   it('should parse input', () => {
-    app.input = mockData.validFormWithIf;
+    app.inputQl = mockData.validFormWithIf;
+    app.inputQls = '';
     app.parseInput();
     expect(app.formName).toBe('form');
-    expect(app.questions.length).toBe(6);
+    expect(app.questions.length).toBe(5);
     expect(app.form).toBeDefined();
     expect(app.errorMessage).toBeUndefined();
   });
 
+  it('should prefill example input and parse that', () => {
+    app.prefillForm();
+    app.parseInput();
+    expect(app.formName).toBe('form');
+    expect(app.qlForm).toBeDefined();
+    expect(app.qlsStylesheet).toBeDefined();
+  });
+
   it('should deal with a parser error', () => {
-    app.input = mockData.formWrongQuestionName;
+    app.inputQl = mockData.formWrongQuestionName;
     app.parseInput();
     expect(app.formName).toBeUndefined();
     expect(app.errorMessage).toBeDefined();
   });
 
   it('should deal with a duplicate identifier error', () => {
-    app.input = mockData.duplicateIdentifierForm;
+    app.inputQl = mockData.duplicateIdentifierForm;
     app.parseInput();
     expect(app.formName).toBeUndefined();
     expect(app.errorMessage).toBeDefined();

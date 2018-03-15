@@ -1,9 +1,17 @@
 package expression
 
-import data.BaseSymbolValue
+import data.value.BaseSymbolValue
+import expression.visitor.evaluation.EvaluationVisitor
+import expression.visitor.reference.ReferenceVisitor
 
-class LiteralExpression(val value: BaseSymbolValue): Expression {
+class LiteralExpression(val value: BaseSymbolValue) : Expression {
 
-    override fun accept(visitor: ExpressionVisitor) {}
+    override fun accept(visitor: EvaluationVisitor): BaseSymbolValue {
+        return visitor.visit(this)
+    }
+
+    override fun accept(visitor: ReferenceVisitor): Boolean {
+        return visitor.visit(this)
+    }
 
 }

@@ -1,9 +1,8 @@
 package ast;
 
+import ast.model.ASTNode;
 import ast.model.Form;
-import grammar.QLBaseVisitor;
-import grammar.QLParser;
-import ast.model.datatypes.*;
+import ast.model.declarations.*;
 import ast.model.expressions.Expression;
 import ast.model.expressions.binary.arithmetics.Addition;
 import ast.model.expressions.binary.arithmetics.Division;
@@ -14,19 +13,24 @@ import ast.model.expressions.binary.logical.LogicalAnd;
 import ast.model.expressions.binary.logical.LogicalOr;
 import ast.model.expressions.unary.arithmetics.Minus;
 import ast.model.expressions.unary.logical.Negation;
-import ast.model.expressions.unary.values.Literal;
-import ast.model.expressions.unary.values.VariableReference;
+import ast.model.expressions.values.Literal;
+import ast.model.expressions.values.VariableReference;
 import ast.model.statements.IfStatement;
 import ast.model.statements.Question;
 import ast.model.statements.Statement;
+import grammar.QLBaseVisitor;
+import grammar.QLParser;
+import org.antlr.v4.runtime.ParserRuleContext;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class ASTBuilder extends QLBaseVisitor {
+public class ASTBuilder extends QLBaseVisitor<ASTNode> {
 
     @Override
     public Form visitForm(QLParser.FormContext ctx) {
 
-        Form form = new Form(ctx.id.getText(), ctx.getStart().getLine(), ctx.getStop().getLine());
+        Form form = new Form(ctx.id.getText(), this.ExtractMetaInformationFromContext(ctx));
 
         for (QLParser.StatementContext StatementContext : ctx.statement()) {
             Statement statement = visitStatement(StatementContext);
@@ -43,8 +47,6 @@ public class ASTBuilder extends QLBaseVisitor {
             return visitIfStatement(ctx.ifStatement());
         } else if (ctx.question() != null) {
             return visitQuestion(ctx.question());
-        } else if (ctx.question() != null) {
-            return visitQuestion(ctx.question());
         }
 
         return null;
@@ -55,46 +57,47 @@ public class ASTBuilder extends QLBaseVisitor {
 
         Expression ifConditionExpression = (Expression) visit(ctx.condition);
 
-        IfStatement ifStatement = new IfStatement(
-                ifConditionExpression,
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
-        );
+        List<Statement> ifStatementList = new ArrayList<>();
 
         for (QLParser.StatementContext StatementContext : ctx.statement()) {
             Statement statement = visitStatement(StatementContext);
-            ifStatement.addStatement(statement);
+            ifStatementList.add(statement);
         }
+
+        List<Statement> elseStatementList = new ArrayList<>();
 
         if (ctx.elseStatement() != null) {
 
             for (QLParser.StatementContext StatementContext : ctx.elseStatement().statement()) {
                 Statement statement = visitStatement(StatementContext);
-                ifStatement.addElseStatement(statement);
+                elseStatementList.add(statement);
             }
 
         }
 
-        return ifStatement;
+        return new IfStatement(
+                ifConditionExpression,
+                ifStatementList,
+                elseStatementList,
+                this.ExtractMetaInformationFromContext(ctx)
+        );
     }
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
 
         Question question = new Question(
-                ctx.label.getText(),
+                ctx.label.getText().substring(1, ctx.label.getText().length() - 1),
                 ctx.variableName.getText(),
                 (TypeDeclaration) visit(ctx.dataType()),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
 
-        if (ctx.expression() != null) {
-            question.setAssignedExpression((Expression) visit(ctx.expression()));
+        if (ctx.assignment != null) {
+            question.setAssignedExpression((Expression) visit(ctx.assignment));
         }
 
-        question.setStartLine(ctx.getStart().getLine());
-        question.setEndLine(ctx.getStop().getLine());
+        question.setMetaInformation(this.ExtractMetaInformationFromContext(ctx));
 
         return question;
     }
@@ -105,8 +108,7 @@ public class ASTBuilder extends QLBaseVisitor {
     public TypeDeclarationBoolean visitTypeDeclarationBoolean(QLParser.TypeDeclarationBooleanContext ctx) {
         return new TypeDeclarationBoolean(
                 ctx.getText(),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -114,8 +116,15 @@ public class ASTBuilder extends QLBaseVisitor {
     public TypeDeclarationDecimal visitTypeDeclarationDecimal(QLParser.TypeDeclarationDecimalContext ctx) {
         return new TypeDeclarationDecimal(
                 ctx.getText(),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
+        );
+    }
+
+    @Override
+    public ASTNode visitTypeDeclarationMoney(QLParser.TypeDeclarationMoneyContext ctx) {
+        return new TypeDeclarationMoney(
+                ctx.getText(),
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -123,8 +132,7 @@ public class ASTBuilder extends QLBaseVisitor {
     public TypeDeclarationInteger visitTypeDeclarationInteger(QLParser.TypeDeclarationIntegerContext ctx) {
         return new TypeDeclarationInteger(
                 ctx.getText(),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -132,16 +140,8 @@ public class ASTBuilder extends QLBaseVisitor {
     public TypeDeclarationString visitTypeDeclarationString(QLParser.TypeDeclarationStringContext ctx) {
         return new TypeDeclarationString(
                 ctx.getText(),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
-    }
-
-    // Parenthesis
-
-    @Override
-    public Expression visitExpressionParenthesises(QLParser.ExpressionParenthesisesContext ctx) {
-        return (Expression) this.visit(ctx.expression());
     }
 
     // Values
@@ -149,53 +149,56 @@ public class ASTBuilder extends QLBaseVisitor {
     @Override
     public Literal visitExpressionSingleValue(QLParser.ExpressionSingleValueContext ctx) {
 
-        Literal.Type type = Literal.Type.STRING;
+        Expression.DataType type = Expression.DataType.STRING;
+        String text = ctx.value.getText();
 
-        if (ctx.BOOL_FALSE() != null || ctx.BOOL_TRUE() != null)
-            type = Literal.Type.BOOLEAN;
-
-        if (ctx.DECIMAL() != null)
-            type = Literal.Type.DECIMAL;
-
-        if (ctx.INTEGER() != null)
-            type = Literal.Type.INTEGER;
+        if (ctx.BOOL_FALSE() != null || ctx.BOOL_TRUE() != null) {
+            type = Expression.DataType.BOOLEAN;
+        } else if (ctx.DECIMAL() != null) {
+            type = Expression.DataType.DECIMAL;
+        } else if (ctx.INTEGER() != null) {
+            type = Expression.DataType.INTEGER;
+        } else if (ctx.STRING() != null) {
+            text = ctx.value.getText().substring(1, ctx.value.getText().length() - 1);
+        }
 
         return new Literal(
-                ctx.value.getText(),
+                text,
                 type,
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
     // References
 
     @Override
+    public ASTNode visitExpressionParenthesises(QLParser.ExpressionParenthesisesContext ctx) {
+        return visit(ctx.subExpression);
+    }
+
+    @Override
     public VariableReference visitExpressionVariableReference(QLParser.ExpressionVariableReferenceContext ctx) {
         return new VariableReference(
                 ctx.variableReference.getText(),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
     @Override
     public Negation visitExpressionNegation(QLParser.ExpressionNegationContext ctx) {
         return new Negation(
-                (Expression) visit(ctx.expression()),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                (Expression) visit(ctx.subExpression),
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
     // Arithmetic expressions
 
     @Override
-    public Object visitExpressionArithmeticMinus(QLParser.ExpressionArithmeticMinusContext ctx) {
+    public Minus visitExpressionArithmeticMinus(QLParser.ExpressionArithmeticMinusContext ctx) {
         return new Minus(
-                (Expression) visit(ctx.expression()),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                (Expression) visit(ctx.subExpression),
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -204,8 +207,7 @@ public class ASTBuilder extends QLBaseVisitor {
         return new Multiplication(
                 (Expression) visit(ctx.lhs),
                 (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -214,8 +216,7 @@ public class ASTBuilder extends QLBaseVisitor {
         return new Division(
                 (Expression) visit(ctx.lhs),
                 (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -224,8 +225,7 @@ public class ASTBuilder extends QLBaseVisitor {
         return new Addition(
                 (Expression) visit(ctx.lhs),
                 (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -234,8 +234,7 @@ public class ASTBuilder extends QLBaseVisitor {
         return new Subtraction(
                 (Expression) visit(ctx.lhs),
                 (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -246,8 +245,7 @@ public class ASTBuilder extends QLBaseVisitor {
         return new GreaterThan(
                 (Expression) visit(ctx.lhs),
                 (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -256,8 +254,7 @@ public class ASTBuilder extends QLBaseVisitor {
         return new GreaterEqual(
                 (Expression) visit(ctx.lhs),
                 (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -265,8 +262,7 @@ public class ASTBuilder extends QLBaseVisitor {
     public LessThan visitExpressionComparisionLessThan(QLParser.ExpressionComparisionLessThanContext ctx) {
         return new LessThan(
                 (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -274,8 +270,7 @@ public class ASTBuilder extends QLBaseVisitor {
     public LessEqual visitExpressionComparisionLessEqual(QLParser.ExpressionComparisionLessEqualContext ctx) {
         return new LessEqual(
                 (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -283,8 +278,7 @@ public class ASTBuilder extends QLBaseVisitor {
     public Equal visitExpressionComparisionEqual(QLParser.ExpressionComparisionEqualContext ctx) {
         return new Equal(
                 (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -292,8 +286,7 @@ public class ASTBuilder extends QLBaseVisitor {
     public NotEqual visitExpressionComparisionNotEqual(QLParser.ExpressionComparisionNotEqualContext ctx) {
         return new NotEqual(
                 (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -303,8 +296,7 @@ public class ASTBuilder extends QLBaseVisitor {
     public LogicalAnd visitExpressionLogicalAnd(QLParser.ExpressionLogicalAndContext ctx) {
         return new LogicalAnd(
                 (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
         );
     }
 
@@ -312,8 +304,15 @@ public class ASTBuilder extends QLBaseVisitor {
     public LogicalOr visitExpressionLogicalOr(QLParser.ExpressionLogicalOrContext ctx) {
         return new LogicalOr(
                 (Expression) visit(ctx.lhs), (Expression) visit(ctx.rhs),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                this.ExtractMetaInformationFromContext(ctx)
+        );
+    }
+
+    private ASTNode.MetaInformation ExtractMetaInformationFromContext(ParserRuleContext ctx) {
+        return new ASTNode.MetaInformation(
+                ctx.start.getLine(),
+                ctx.stop.getLine(),
+                ctx.getText()
         );
     }
 }

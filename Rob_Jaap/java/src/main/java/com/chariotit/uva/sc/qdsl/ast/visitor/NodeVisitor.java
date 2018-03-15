@@ -6,10 +6,9 @@ import com.chariotit.uva.sc.qdsl.ast.node.constant.IntegerConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.MoneyConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.constant.StringConstant;
 import com.chariotit.uva.sc.qdsl.ast.node.operator.*;
-import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.MoneyType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.StringType;
+import com.chariotit.uva.sc.qdsl.ast.node.type.*;
+import com.chariotit.uva.sc.qdsl.ast.node.type.MoneyTypeNode;
+import com.chariotit.uva.sc.qdsl.ast.node.type.StringTypeNode;
 
 public abstract class NodeVisitor {
 
@@ -30,10 +29,10 @@ public abstract class NodeVisitor {
     public abstract void visitNotOp(NotOp notOp);
     public abstract void visitPlusOp(PlusOp plusOp);
 
-    public abstract void visitBooleanType(BooleanType booleanType);
-    public abstract void visitIntegerType(IntegerType integerType);
-    public abstract void visitMoneyType(MoneyType moneyType);
-    public abstract void visitStringType(StringType stringType);
+    public abstract void visitBooleanType(BooleanTypeNode booleanType);
+    public abstract void visitIntegerType(IntegerTypeNode integerType);
+    public abstract void visitMoneyType(MoneyTypeNode moneyType);
+    public abstract void visitStringType(StringTypeNode stringType);
 
     public abstract void visitAstRoot(AstRoot astRoot);
     public abstract void visitForm(Form form);

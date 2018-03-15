@@ -27,7 +27,7 @@ public class TypeCheckerVisitor
 
 	public Type getType(String name) {
 		if (!mapNameType.containsKey(name)) {
-			return new UndefinedType();
+			return Type.UNDEFINED;
 		}
 		return mapNameType.get(name);
  	}
@@ -38,13 +38,13 @@ public class TypeCheckerVisitor
 		form.getBlock().accept(new MainVisitor<Void, Void>() {
 						 @Override
 						 public Void visit(ComputedQuestion question, Void ctx) {
-							 insertToMap(question.getIdentifier().getIdentifier(), question.getType());
+							 insertToMap(question.getIdentifier().toString(), question.getType());
 						   return null;
 						 };
 	
 						 @Override
 						 public Void visit(NormalQuestion question, Void ctx) {
-							 insertToMap(question.getIdentifier().getIdentifier(), question.getType());
+							 insertToMap(question.getIdentifier().toString(), question.getType());
 						   return null;
 						 }
 					 	},
@@ -60,16 +60,17 @@ public class TypeCheckerVisitor
 
 	private void checkTypeMismatch(Expression expr, Type expectedType) {
 		Type currentType =  expr.accept(this, null);
+		System.out.println("Check types" + currentType + "\t" + expectedType);
 		if (isUndefinedType(currentType)) {
 			return;
 		}
-		if (!currentType.equals(expectedType)) {
+		if (currentType.getTypeString() != expectedType.getTypeString()) {
 			  System.out.println("Error: Type mismatch in " + expr + "between: " + currentType + "and, " + expectedType);
 		}
 	}
 	
 	private boolean isUndefinedType(Type type) {
-		return type.equals(new UndefinedType());
+		return type.getTypeString() == (new UndefinedType()).getTypeString();
 	}
 
 	/* Block */
@@ -82,14 +83,14 @@ public class TypeCheckerVisitor
 	/* Statements and master-expressions */
 	@Override
 	public Void visit(IfThenStatement node, Void ctx) {
-		checkTypeMismatch(node.getExpression(), Type.BOOLEAN);
+		checkTypeMismatch(node.getCondition(), Type.BOOLEAN);
 		node.getIfBody().accept(TypeCheckerVisitor.this, ctx);
 		return null;
 	}
 	
 	@Override
 	public Void visit(IfThenElseStatement node, Void ctx) {
-		checkTypeMismatch(node.getExpression(), Type.BOOLEAN);
+		checkTypeMismatch(node.getCondition(), Type.BOOLEAN);
 		node.getIfBody().accept(TypeCheckerVisitor.this, ctx);
 		node.getElseBody().accept(TypeCheckerVisitor.this, ctx);
 		return null;
@@ -97,7 +98,7 @@ public class TypeCheckerVisitor
 	
 	@Override
 	public Void visit(ComputedQuestion node, Void ctx) {
-	   Type type =  getType(node.getIdentifier().getIdentifier());
+	   Type type =  getType(node.getIdentifier().toString());
 	   checkTypeMismatch(node.getExpression(), type);
 	   return null;
 	}
@@ -160,65 +161,70 @@ public class TypeCheckerVisitor
 	/* Mathematical operations */
 	@Override
 	public Type visit(Add node, Void ctx) {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
-		return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkOperandsInvalidTypes(node, exprType);
+		return exprType;
 	}
 	
 	@Override
 	public Type visit(Sub node, Void ctx) {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
-		return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkOperandsInvalidTypes(node, exprType);
+		return exprType;
 	}
-
 
 	@Override
 	public Type visit(Mul node, Void ctx)  {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
-		return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkOperandsInvalidTypes(node, exprType);
+		return exprType;
 	}
 	
 	@Override
 	public Type visit(Div node, Void ctx) {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
-		return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkOperandsInvalidTypes(node, exprType);
+		return exprType;
 	}
 
 	
 	@Override
 	public Type visit(Neg node, Void ctx) {
-	checkTypeMismatch(node, Type.INTEGER);
-	return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkTypeMismatch(node, exprType);
+		return exprType;
 	}
 
 	@Override
 	public Type visit(Pos node, Void ctx) {
-		checkTypeMismatch(node, Type.INTEGER);
-		return Type.INTEGER;
+		Type exprType = node.accept(this, ctx);
+		checkTypeMismatch(node, exprType);
+		return exprType;
 	}
 
 
 	/* Comparison operations */
 	@Override
 	public Type visit(GT node, Void ctx) {
-	   checkOperandsInvalidTypes(node, Type.INTEGER);
+	   checkOperandsInvalidTypes(node, node.accept(this, ctx));
 	   return Type.BOOLEAN;
 	}
 	
 	@Override
 	public Type visit(GEq node, Void ctx) {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
+		checkOperandsInvalidTypes(node, node.accept(this, ctx));
 		return Type.BOOLEAN;
 	}
 	
 	@Override
 	public Type visit(LT node, Void ctx) {
-		checkOperandsInvalidTypes(node, Type.INTEGER);
+		checkOperandsInvalidTypes(node, node.accept(this, ctx));
 		return Type.BOOLEAN;
 	}
 
 	@Override
 	public Type visit(LEq node, Void ctx) {
-	   checkOperandsInvalidTypes(node, Type.INTEGER);
+	   checkOperandsInvalidTypes(node, node.accept(this, ctx));
 	   return Type.BOOLEAN;
 	}
 	
@@ -227,7 +233,7 @@ public class TypeCheckerVisitor
 		Type leftType = node.getLeft().accept(this, ctx);
 		Type rightType = node.getRight().accept(this, ctx);
 		if (!isUndefinedType(leftType) && !isUndefinedType(rightType)) {
-		  if (!leftType.equals(rightType)) {
+		  if (leftType.getTypeString() != rightType.getTypeString()) {
 			  System.out.println("Error: Invalid operand for Eq: " + leftType + ", " + rightType);
 		  }
 		}
@@ -239,7 +245,7 @@ public class TypeCheckerVisitor
 		Type leftType = node.getLeft().accept(this, ctx);
 		Type rightType = node.getRight().accept(this, ctx);
 		if (!isUndefinedType(leftType) && !isUndefinedType(rightType)) {
-		  if (!leftType.equals(rightType)) {
+		  if (leftType.getTypeString() != rightType.getTypeString()) {
 			  System.out.println("Error: Invalid operand for NEq: " + leftType + ", " + rightType);
 		  }
 		}

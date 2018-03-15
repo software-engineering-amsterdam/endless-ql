@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using QuestionaireOrchestration.API;
 using QuestionaireOrchestration.CommandHandlers;
+using QuestionaireOrchestration.Commands;
+using QuestionaireOrchestration.Models;
 using QuestionaireOrchestration.QueryServices;
-using QuestionaireOrchestration.Visitors;
+using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireInfrastructure.API;
 
 namespace QuestionaireOrchestration
@@ -11,11 +12,25 @@ namespace QuestionaireOrchestration
     {
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
-            appRegistration.AddTransient(typeof(ICommandHandler<CreateQuestionnaireCommandMessage>), typeof(ParseTextCommandHandler));
-            appRegistration.AddTransient(typeof(ICommandQueryService), typeof(CommandQueryService));
-            appRegistration.AddTransient(typeof(ICommandObjectRegistry), typeof(CommandObjectRegistry));
-            appRegistration.AddTransient(typeof(IQuestionnairePrinter), typeof(QuestionnairePrinter));
-            appRegistration.AddTransient(typeof(IBooleanLogicPrinter), typeof(BooleanLogicPrinter));
+            appRegistration.AddTransient(
+                typeof(ICommandHandler<CreateQuestionnaireCommandMessage>), 
+                typeof(ParseTextCommandHandler));
+
+            appRegistration.AddTransient(
+                typeof(ICommandHandler<LoadDefinitionsFromFileCommand>),
+                typeof(LoadDefinitionsFromFileCommandHandler));
+
+            appRegistration.AddTransient(
+                typeof(ICommandHandler<CreateDefinitionFromTextCommand>),
+                typeof(CreateDefinitionFromTextCommandHandler));
+
+            appRegistration.AddTransient(
+                typeof(ICommandHandler<CreateQuestionnaireCommandMessage>), 
+                typeof(ParseTextCommandHandler));
+
+            appRegistration.AddTransient(
+                typeof(IModelQueryService<QuestionnaireDefinitionModel>),
+                typeof(QuestionnaireDefintionQueryService));
         }
     }
-}
+}   

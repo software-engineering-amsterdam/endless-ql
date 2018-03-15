@@ -1,75 +1,100 @@
 package org.uva.sea.gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import org.uva.sea.ql.interpreter.dataObject.QuestionData;
-import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.model.QuestionModel;
-import org.uva.sea.gui.model.QuestionModelFactoryImpl;
-import org.uva.sea.gui.model.ValueChangeListener;
-import org.uva.sea.gui.renderer.JavafxRendererVisitor;
+import org.uva.sea.gui.model.GuiModel;
+import org.uva.sea.gui.render.*;
+import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
+import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
 public class FormController implements Initializable {
 
-    private static final String FILE_NAME = "/example.ql";
-    private List<BaseQuestionModel> questionGUIs;
-    private QuestionModel questionModels;
+    private String defaultQlLocation = "/example.ql";
+
+    private GuiModel guiModel;
+
+    private QuestionRenderer questionRenderer;
+
+    private WarningRenderer warningRenderer;
+
+    private ErrorRenderer errorRenderer;
+
+    private String lastFocusedQuestion = "";
 
     @FXML
-    private VBox vBox;
+    private VBox questionBox;
+
+    @FXML
+    private VBox messageBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        questionModels = new QuestionModel(FILE_NAME);
-        questionModels.attachListener(new QuestionObserver());
-        updateQuestions();
+        guiModel = new GuiModel(getClass().getResource(defaultQlLocation).getFile(), null);
+        ViewRenderer renderer = new ViewRenderer(questionBox, messageBox, this);
+        questionRenderer = new QuestionRenderer(renderer);
+        warningRenderer = new WarningRenderer(renderer);
+        errorRenderer = new ErrorRenderer(renderer);
+        drawGui();
     }
 
-    private void updateQuestions() {
-        updateQuestionGUIs(questionModels.getQuestions());
-        logQuestions(questionGUIs);
-        printQuestions();
-    }
-
-    private void updateQuestionGUIs(List<QuestionData> data) {
-        QuestionModelFactoryImpl factory = new QuestionModelFactoryImpl();
-        this.questionGUIs = new ArrayList<>();
-        for (QuestionData question : data) {
-            BaseQuestionModel questionRow = factory.create(question);
-            questionGUIs.add(questionRow);
+    private void drawGui() {
+        try {
+            updateGui();
+        } catch (InterruptedException | IOException e) {
+            errorRenderer.render(e.getMessage());
         }
     }
 
-    private void printQuestions() {
-        JavafxRendererVisitor renderer = new JavafxRendererVisitor(vBox, questionModels);
-        vBox.getChildren().removeAll(vBox.getChildren());
-        for (BaseQuestionModel questionRow : questionGUIs) {
-            renderer.render(questionRow);
-        }
+    private void updateGui() throws IOException, InterruptedException {
+        EvaluationResult interpreterResult = guiModel.getInterpreterResult();
+        questionRenderer.render(interpreterResult.getQuestions());
+
+        Messages warnings = interpreterResult.getMessages();
+        for (String warning : warnings.getMessage(MessageTypes.WARNING))
+            warningRenderer.render(warning);
     }
 
-    private void logQuestions(List<BaseQuestionModel> questions) {
-        for (BaseQuestionModel question : questions) {
-            System.out.println(question.getLabel() +
-                    " " + question.getVariableName() +
-                    " " + question.displayValue() +
-                    " isComputed: " + question.isComputed());
+
+    @FXML
+    public void loadQLFile(ActionEvent actionEvent) {
+        FileSelector fileSelector = new FileSelector("Load QL file", "QL", "*.ql");
+        File qlFile = fileSelector.getFile();
+
+        if (qlFile == null) {
+            errorRenderer.render("File not found");
+            return;
         }
-        System.out.println("\n");
+
+        guiModel = new GuiModel(qlFile.getAbsolutePath(), null);
+        drawGui();
     }
 
-    private class QuestionObserver implements ValueChangeListener {
-        @Override
-        public void onChange() {
-            updateQuestions();
-            System.out.println("Listener on change");
-        }
+    @FXML
+    public void export(ActionEvent actionEvent) {
+        //TODO: Implement Export function
+        System.out.println("Export");
+    }
+
+    public void updateGuiModel(String questionName, Value value) {
+        guiModel.updateQuestion(questionName, value);
+        drawGui();
+    }
+
+    public void setLastFocused(String variableName) {
+        this.lastFocusedQuestion = variableName;
+    }
+
+    public String getLastFocusedQuestion() {
+        return lastFocusedQuestion;
     }
 }

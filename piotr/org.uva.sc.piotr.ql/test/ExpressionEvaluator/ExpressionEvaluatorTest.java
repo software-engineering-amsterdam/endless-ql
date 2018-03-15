@@ -38,7 +38,7 @@ public class ExpressionEvaluatorTest {
         this.astForm.accept(collectFormQuestionsVisitor);
 
         this.formQuestions = collectFormQuestionsVisitor.getFormQuestions();
-        this.evaluator = new ExpressionEvaluator(collectFormQuestionsVisitor.getVariablesValues());
+        this.evaluator = new ExpressionEvaluator(this.formQuestions);
 
     }
 

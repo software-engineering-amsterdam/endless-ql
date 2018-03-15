@@ -25,7 +25,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CharStream charStream = CharStreams.fromFileName("./example-ql/form5.qlform");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form6.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);
@@ -73,7 +73,7 @@ public class Main {
         List<FormQuestion> formQuestions = collectFormQuestionsVisitor.getFormQuestions();
         // end: ONE LIST TO RULE THEM ALL
 
-        ExpressionEvaluator evaluator = new ExpressionEvaluator(collectFormQuestionsVisitor.getVariablesValues());
+        ExpressionEvaluator evaluator = new ExpressionEvaluator(formQuestions);
 
         new QLGui(form.getName(), formQuestions, evaluator);
 

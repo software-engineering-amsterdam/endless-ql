@@ -1,6 +1,6 @@
 package gui.view;
 
-import ast.model.expressions.Expression;
+import ast.model.declarations.TypeDeclaration;
 import gui.model.FormQuestion;
 import gui.view.widgets.*;
 
@@ -54,12 +54,12 @@ public class FormQuestionPanel extends JPanel {
 
     private static Widget createDefaultWidget(FormQuestion formQuestion) {
 
-        Expression.DataType questionDataType = formQuestion.getOriginalDataTypeDeclaration().toDataType();
+        TypeDeclaration originalDataTypeDeclaration = formQuestion.getOriginalDataTypeDeclaration();
 
-        switch (questionDataType) {
+        switch (originalDataTypeDeclaration.toDataType()) {
             case DECIMAL:
                 // if decimal is originally declared as "money", then use a widget with currency sign
-                if (formQuestion.getOriginalDataTypeDeclaration().getIdentifier().equals("money")) {
+                if (originalDataTypeDeclaration.getIdentifier().equals("money")) {
                     return new MoneyFieldWidget(formQuestion);
                 }
                 return new DecimalFieldWidget(formQuestion);

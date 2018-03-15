@@ -1,23 +1,21 @@
 package gui.controller;
 
-import ast.model.expressions.Expression;
 import ast.model.expressions.values.VariableReference;
 import gui.model.FormQuestion;
-import logic.type.MixedValue;
 import logic.collectors.CollectReferencesVisitor;
 import logic.evaluators.ExpressionEvaluator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class FormController {
 
     private final List<FormQuestion> formQuestions;
-    private final HashMap<String, List<FormQuestion>> dependentFormQuestionsForVisibility = new HashMap<>();
-    private final HashMap<String, List<FormQuestion>> dependentFormQuestionsForValue = new HashMap<>();
     private final ExpressionEvaluator evaluator;
+    private CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
 
     public FormController(List<FormQuestion> formQuestions, ExpressionEvaluator evaluator) throws Exception {
-
         this.evaluator = evaluator;
 
         // initial evaluation
@@ -37,86 +35,67 @@ public class FormController {
         for (FormQuestion formQuestion : formQuestions) {
             formQuestion.registerController(this);
         }
-
-        CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
-
-        for (FormQuestion formQuestion : formQuestions) {
-
-            // extract dependentFormQuestionsForVisibility
-            if (formQuestion.getVisibilityCondition() != null) {
-
-                collectReferencesVisitor.reset();
-                formQuestion.getVisibilityCondition().accept(collectReferencesVisitor);
-
-                List<VariableReference> variableReferences = collectReferencesVisitor.getVariableReferences();
-
-                for (VariableReference variableReference : variableReferences) {
-                    FormQuestion foundQuestion
-                            = this.findFormQuestionByVariableReference(variableReference);
-                    if (foundQuestion != null) {
-                        List<FormQuestion> dependentQuestions = this.dependentFormQuestionsForVisibility.get(foundQuestion.getVariableName());
-                        if (dependentQuestions != null && !dependentQuestions.contains(formQuestion)) {
-                            dependentQuestions.add(formQuestion);
-                        } else {
-                            FormQuestion[] array = new FormQuestion[]{formQuestion};
-                            this.dependentFormQuestionsForVisibility.put(foundQuestion.getVariableName(), new ArrayList<>(Arrays.asList(array)));
-                        }
-                    }
-                }
-
-            }
-
-            // TODO: refactor
-            // extract dependentFormQuestionsForValue
-            if (formQuestion.getAssignedExpression() != null) {
-
-                collectReferencesVisitor.reset();
-                formQuestion.getAssignedExpression().accept(collectReferencesVisitor);
-
-                List<VariableReference> variableReferences = collectReferencesVisitor.getVariableReferences();
-
-                for (VariableReference variableReference : variableReferences) {
-                    FormQuestion foundQuestion
-                            = this.findFormQuestionByVariableReference(variableReference);
-                    if (foundQuestion != null) {
-                        List<FormQuestion> dependentQuestions = this.dependentFormQuestionsForValue.get(foundQuestion.getVariableName());
-                        if (dependentQuestions != null && !dependentQuestions.contains(formQuestion)) {
-                            dependentQuestions.add(formQuestion);
-                        } else {
-                            FormQuestion[] array = new FormQuestion[]{formQuestion};
-                            this.dependentFormQuestionsForValue.put(foundQuestion.getVariableName(), new ArrayList<>(Arrays.asList(array)));
-                        }
-                    }
-                }
-            }
-        }
     }
 
-    private FormQuestion findFormQuestionByVariableReference(VariableReference variableReference) {
+    private List<FormQuestion> extractFormQuestionsWithAssignedExpressionDirectlyReferencingTo(FormQuestion formQuestion) {
 
-        for (FormQuestion formQuestion : this.formQuestions) {
-            if (formQuestion.getVariableName().equals(variableReference.getName())) {
-                return formQuestion;
+        List<FormQuestion> result = new ArrayList<>();
+
+        for (FormQuestion formQuestion1 : this.formQuestions) {
+            if (formQuestion1.getAssignedExpression() != null) {
+                this.collectReferencesVisitor.reset();
+                formQuestion1.getAssignedExpression().accept(this.collectReferencesVisitor);
+                List<VariableReference> variableReferences = this.collectReferencesVisitor.getVariableReferences();
+                for (VariableReference variableReference : variableReferences) {
+                    if (variableReference.getName().equals(formQuestion.getVariableName())) {
+                        result.add(formQuestion1);
+                    }
+                }
             }
         }
-        return null;
+
+        return result;
+    }
+
+    private List<FormQuestion> extractFormQuestionsWithVisibilityDirectlyReferencingTo(FormQuestion formQuestion) {
+
+        List<FormQuestion> result = new ArrayList<>();
+
+        for (FormQuestion formQuestion1 : this.formQuestions) {
+            if (formQuestion1.getVisibilityCondition() != null) {
+                this.collectReferencesVisitor.reset();
+                formQuestion1.getVisibilityCondition().accept(this.collectReferencesVisitor);
+                List<VariableReference> variableReferences = this.collectReferencesVisitor.getVariableReferences();
+                for (VariableReference variableReference : variableReferences) {
+                    if (variableReference.getName().equals(formQuestion.getVariableName())) {
+                        result.add(formQuestion1);
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
     public void processFormQuestionChange(FormQuestion formQuestion) {
 
-        List<FormQuestion> formQuestionsVisibility = dependentFormQuestionsForVisibility.get(formQuestion.getVariableName());
-        if (formQuestionsVisibility != null) {
-            for (FormQuestion formQuestion1 : formQuestionsVisibility) {
-                formQuestion1.setVisibility(formQuestion1.getVisibilityCondition().accept(evaluator).getBooleanValue());
-                formQuestion1.getPanel().refreshVisibility();
+        List<FormQuestion> formQuestionsToUpdateValue = this.extractFormQuestionsWithAssignedExpressionDirectlyReferencingTo(formQuestion);
+        if (!formQuestionsToUpdateValue.isEmpty()) {
+            for (FormQuestion formQuestion1 : formQuestionsToUpdateValue) {
+                // they must (per definition) have assigned expression
+                formQuestion1.setValue(formQuestion1.getAssignedExpression().accept(evaluator));
+                formQuestion1.getPanel().refreshValue();
+                this.processFormQuestionChange(formQuestion1);
             }
         }
 
-        List<FormQuestion> formQuestionsValue = dependentFormQuestionsForValue.get(formQuestion.getVariableName());
-        if (formQuestionsValue != null) {
-            for (FormQuestion formQuestion1 : formQuestionsValue) {
-                formQuestion1.setValue(formQuestion1.getAssignedExpression().accept(evaluator));
-                formQuestion1.getPanel().refreshValue();
+        List<FormQuestion> formQuestionsToUpdateVisibility = this.extractFormQuestionsWithVisibilityDirectlyReferencingTo(formQuestion);
+        if (!formQuestionsToUpdateVisibility.isEmpty()) {
+            for (FormQuestion formQuestion1 : formQuestionsToUpdateVisibility) {
+                // they must (per definition) have visibility conditions
+                formQuestion1.setVisibility(formQuestion1.getVisibilityCondition().accept(evaluator).getBooleanValue());
+                formQuestion1.getPanel().refreshVisibility();
+                this.processFormQuestionChange(formQuestion1);
             }
         }
     }

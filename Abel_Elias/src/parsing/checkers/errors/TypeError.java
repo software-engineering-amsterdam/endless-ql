@@ -1,4 +1,4 @@
-package parsing.errors;
+package parsing.checkers.errors;
 
 public class TypeError extends Error {
     public TypeError(String variableID, String type){

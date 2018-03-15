@@ -11,7 +11,7 @@ public class Stylesheet extends AstNode {
 
     public Stylesheet(List<Page> pages, String label, Integer
             lineNumber, Integer
-            columnNumber) {
+                              columnNumber) {
         super(lineNumber, columnNumber);
         this.pages = pages;
         this.label = label;

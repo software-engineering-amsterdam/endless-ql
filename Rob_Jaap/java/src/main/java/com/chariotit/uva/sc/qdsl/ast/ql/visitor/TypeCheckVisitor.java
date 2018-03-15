@@ -180,7 +180,7 @@ public class TypeCheckVisitor extends NodeVisitor {
         } else {
             labelBinOpExpression.setExpressionType(
                     getBinOpExpressionType(labelBinOpExpression.getExpression().getExpressionType(),
-                    labelBinOpExpression.getOperator()));
+                            labelBinOpExpression.getOperator()));
         }
     }
 

@@ -3,9 +3,9 @@ from ql.ast.expressions.literals.boolean_node import BooleanNode
 from gui.model.widgets import CheckBox
 
 
-class TypeBoolean(Type):
+class QLBoolean(Type):
     def __init__(self, value):
-        super(TypeBoolean, self).__init__()
+        super(QLBoolean, self).__init__()
         self.__value = value
 
     def __repr__(self):
@@ -20,7 +20,7 @@ class TypeBoolean(Type):
 
     @staticmethod
     def get_literal_node(value):
-        return BooleanNode(None, TypeBoolean, value)
+        return BooleanNode(None, QLBoolean, value)
 
     @staticmethod
     def pyqt5_default_widget():

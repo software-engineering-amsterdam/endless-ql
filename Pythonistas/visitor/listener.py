@@ -48,6 +48,7 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#question.
     def enterQuestion(self, ctx:QLParser.QuestionContext):
+        # print(ctx.getText())
 
         completequestion = ctx.getText()
         splitquestion = completequestion.split('"')  # Filters the actual question from the input string

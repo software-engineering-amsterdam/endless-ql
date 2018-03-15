@@ -3,9 +3,9 @@ from ql.ast.expressions.literals.integer_node import IntegerNode
 from gui.model.widgets import SpinBox
 
 
-class TypeInteger(Type):
+class QLInteger(Type):
     def __init__(self, value):
-        super(TypeInteger, self).__init__()
+        super(QLInteger, self).__init__()
         self.__value = value
 
     def __repr__(self):
@@ -20,7 +20,7 @@ class TypeInteger(Type):
 
     @staticmethod
     def get_literal_node(value):
-        return IntegerNode(None, TypeInteger, value)
+        return IntegerNode(None, QLInteger, value)
 
     @staticmethod
     def pyqt5_default_widget():

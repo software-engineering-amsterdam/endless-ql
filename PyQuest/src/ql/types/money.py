@@ -3,9 +3,9 @@ from ql.ast.expressions.literals.money_node import MoneyNode
 from gui.model.widgets import DoubleSpinBox
 
 
-class TypeMoney(Type):
+class QLMoney(Type):
     def __init__(self, value, currency=''):
-        super(TypeMoney, self).__init__()
+        super(QLMoney, self).__init__()
         self.__value = value
         self.__currency = currency
 
@@ -21,7 +21,7 @@ class TypeMoney(Type):
 
     @staticmethod
     def get_literal_node(value):
-        return MoneyNode(None, TypeMoney, value)
+        return MoneyNode(None, QLMoney, value)
 
     @staticmethod
     def pyqt5_default_widget():

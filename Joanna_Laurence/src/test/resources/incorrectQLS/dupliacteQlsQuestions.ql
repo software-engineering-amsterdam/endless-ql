@@ -4,5 +4,5 @@ form taxOfficeExample {
     freeBag2: boolean
 
   "Number of free giftbags: "
-    nbfreeBags: money_euro
+    nbfreeBags: integer
 }

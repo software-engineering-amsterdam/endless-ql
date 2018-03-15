@@ -2,6 +2,7 @@ package org.uva.sea.languages.qls.interpreter.evaluate;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.parser.NodeType;
@@ -13,7 +14,6 @@ import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Stack;
 
 public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
@@ -110,31 +110,12 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         style.setSection(getCurrentSection());
 
         if (question.getWidget() != null)
-            style.setWidget(question.getWidget().getWidgetParameters());
+            style.setWidget(new QLWidget(widgetType, question.getWidget().getStringParameters()));
 
-        style.fillNullFields(getParentStyles(widgetType));
+        style.fillNullFields(this.defaultStyleEvaluator.getCascadingStyle(widgetType, this.currentSections, this.currentPage));
         return style;
     }
 
-    /**
-     * Lookup style in parent sections and pages
-     *
-     * @param widgetType For what widget type the style has to be fetched
-     * @return Cascading style
-     * @throws InterruptedException
-     */
-    private Style getParentStyles(WidgetType widgetType) {
-        Style style = new Style();
-
-        ListIterator<Section> li = this.currentSections.listIterator(this.currentSections.size());
-        while (li.hasPrevious()) {
-            Style defaultStyle = this.defaultStyleEvaluator.findStyle(li.previous(), widgetType);
-            style.fillNullFields(defaultStyle);
-        }
-        Style pageStyle = this.defaultStyleEvaluator.findStyle(this.currentPage, widgetType);
-        style.fillNullFields(pageStyle);
-        return style;
-    }
 
     /**
      * Get list of the current point of sections

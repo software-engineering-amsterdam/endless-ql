@@ -1,6 +1,7 @@
 package org.uva.sea.languages.qls.interpreter.evaluate;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.qls.parser.elements.Page;
 import org.uva.sea.languages.qls.parser.elements.QLSNode;
@@ -12,6 +13,8 @@ import org.uva.sea.languages.qls.parser.elements.style.*;
 import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Stack;
 
 public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 
@@ -70,7 +73,7 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 
             @Override
             public Void visit(Widget node) {
-                defaultStyle.setWidget(node.getWidgetParameters());
+                defaultStyle.setWidget(new QLWidget(node.getWidgetType(), node.getStringParameters()));
                 return null;
             }
 
@@ -98,15 +101,36 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
         return null;
     }
 
+
     /**
      * Hide the visitor, make only doCheck visible
      */
     public static class Fetcher {
-        public Style findStyle(Section node, WidgetType widgetTypeToFind) {
+
+        /**
+         * Lookup style in parent sections and pages
+         *
+         * @param widgetType For what widget type the style has to be fetched
+         * @return Cascading style
+         */
+        public Style getCascadingStyle(WidgetType widgetType, Stack<Section> inSection, Page inPage) {
+            Style style = new Style();
+
+            ListIterator<Section> li = inSection.listIterator(inSection.size());
+            while (li.hasPrevious()) {
+                Style defaultStyle = this.findStyle(li.previous(), widgetType);
+                style.fillNullFields(defaultStyle);
+            }
+            Style pageStyle = this.findStyle(inPage, widgetType);
+            style.fillNullFields(pageStyle);
+            return style;
+        }
+
+        private Style findStyle(Section node, WidgetType widgetTypeToFind) {
             return getStyle(widgetTypeToFind, node.getSpecifications());
         }
 
-        public Style findStyle(Page node, WidgetType widgetTypeToFind) {
+        private Style findStyle(Page node, WidgetType widgetTypeToFind) {
             return getStyle(widgetTypeToFind, node.getSpecificationList());
         }
 

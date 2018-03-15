@@ -13,7 +13,7 @@ public class Style {
     private String page = null;
     private List<String> section = null;
 
-    private WidgetParameters widget = null;
+    private QLWidget widget = null;
 
     public Style() {
 
@@ -39,7 +39,7 @@ public class Style {
             this.section = new ArrayList<>(style.section);
 
         if (this.widget == null && style.widget != null)
-            this.widget = new WidgetParameters(style.widget.getParameters());
+            this.widget = new QLWidget(style.widget.widgetType, style.widget.getParameters());
     }
 
 
@@ -75,11 +75,11 @@ public class Style {
         this.width = width;
     }
 
-    public WidgetParameters getWidget() {
+    public QLWidget getWidget() {
         return widget;
     }
 
-    public void setWidget(WidgetParameters widget) {
+    public void setWidget(QLWidget widget) {
         this.widget = widget;
     }
 

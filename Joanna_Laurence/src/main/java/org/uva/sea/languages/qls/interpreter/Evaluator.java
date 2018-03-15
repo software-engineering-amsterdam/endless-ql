@@ -10,6 +10,7 @@ import org.uva.sea.languages.qls.interpreter.evaluate.ApplyQLSStyle;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckAllQuestionsInQLQLS;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckNoDuplicateQuestions;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.IQLSStaticAnalysis;
+import org.uva.sea.languages.qls.interpreter.staticAnalysis.TypeCheck;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
 import java.io.FileInputStream;
@@ -26,7 +27,8 @@ public class Evaluator {
 
     private List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new IQLSStaticAnalysis[]{
             new CheckAllQuestionsInQLQLS.Checker(),
-            new CheckNoDuplicateQuestions.Checker()
+            new CheckNoDuplicateQuestions.Checker(),
+            new TypeCheck.Checker()
     });
 
     /**

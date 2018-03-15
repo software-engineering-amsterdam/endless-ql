@@ -38,8 +38,10 @@ class StyleService {
 		val wizardPane = new WizardPane
 		wizardPane.stylesheets.remove(0)
 		val vbox = new VBox(10)
-		val builtSections = page.sections.map[buildSection(it, page.defaultStyles)]
-		vbox.children.addAll(builtSections)
+		page.sections.forEach[
+			val section = buildSection(it, page.defaultStyles)
+			vbox.children.add(section)
+		]
 		wizardPane.content = vbox
 		return wizardPane
 	}

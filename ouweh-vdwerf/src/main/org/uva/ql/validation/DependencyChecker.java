@@ -32,25 +32,20 @@ class DependencyChecker extends Checker {
 
     private Set<Dependency> transitiveClosure(Set<Dependency> dependencyGraph) {
         Set<Dependency> closure = new HashSet<>(dependencyGraph);
-        Set<Dependency> newRelations;
+        Set<Dependency> newClosure = new HashSet<>(closure);
 
         do {
-            newRelations = new HashSet<>();
+            closure.addAll(newClosure);
+
             for (Dependency i : closure) {
                 for (Dependency j : closure) {
                     if (i.getTo().equals(j.getFrom())) {
-
-                        Dependency relation = new Dependency(i.getFrom(), j.getTo());
-
-                        if (!closure.contains(relation) && !newRelations.contains(relation)) {
-                            newRelations.add(relation);
-                        }
+                        newClosure.add(new Dependency(i.getFrom(), j.getTo()));
                     }
                 }
             }
-            closure.addAll(newRelations);
-        } while (newRelations.size() > 0);
+        } while (!closure.containsAll(newClosure));
 
-        return closure;
+        return newClosure;
     }
 }

@@ -4,12 +4,25 @@ namespace QuestionnaireUI.Models
 {
     public class QuestionModel
     {
-        public Guid QuestionId { get; set; }
-        public string DisplayName { get; set; }
-        public string QuestionText { get; set; }
-        public bool Visible { get; set; }
-        public bool ReadOnly { get; set; }
+        public QuestionModel(
+            Guid questionId, 
+            string questionText, 
+            bool visible, 
+            bool readOnly, 
+            Type questionType)
+        {
+            QuestionId = questionId;
+            QuestionText = questionText;
+            Visible = visible;
+            ReadOnly = readOnly;
+            QuestionType = questionType;
+        }
+
+        public Guid QuestionId { get; }
+        public string QuestionText { get; }
+        public bool Visible { get; }
+        public bool ReadOnly { get; }
         public string Value { get; set; }
-        public Type QuestionType { get; set; }
+        public Type QuestionType { get; }
     }
 }

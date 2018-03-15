@@ -18,8 +18,8 @@ namespace Assignment1
 
         public void SetFormControl(Control control)
         {
-            _mainPanel.Controls.Clear();
-            _mainPanel.Controls.Add(control);
+            _questionFormPanel.Controls.Clear();
+            _questionFormPanel.Controls.Add(control);
         }
 
         public void SetErrors(List<string> errors)
@@ -32,7 +32,7 @@ namespace Assignment1
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Arial", 12, FontStyle.Bold)
             };
-            _mainPanel.Controls.Add(header);
+            _messagePanel.Controls.Add(header);
             foreach (string error in errors)
             {
                 var label = new Label
@@ -42,7 +42,7 @@ namespace Assignment1
                     Font = new Font("Arial", 10),
                     ForeColor = Color.Red
                 };
-                _mainPanel.Controls.Add(label);
+                _messagePanel.Controls.Add(label);
             }
         }
 
@@ -52,20 +52,20 @@ namespace Assignment1
             var header = new Label
             {
                 Text = "Warning:",
-                Width = 1000,
+                AutoSize = true,
                 Font = new Font("Arial", 9, FontStyle.Bold)
             };
-            _mainPanel.Controls.Add(header);
+            _messagePanel.Controls.Add(header);
             foreach (var warning in warnings)
             {
                 var label = new Label
                 {
                     Text = warning,
-                    Width = 1000,
+                    AutoSize = true,
                     Font = new Font("Arial", 8),
                     ForeColor = Color.DarkOrange
                 };
-                _mainPanel.Controls.Add(label);
+                _messagePanel.Controls.Add(label);
             }
         }
     }

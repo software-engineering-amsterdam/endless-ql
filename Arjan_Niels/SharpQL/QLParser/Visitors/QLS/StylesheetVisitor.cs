@@ -21,7 +21,8 @@ namespace QLParser.Visitors.QLS
         public override QLSNode VisitPage([NotNull] PageContext context)
         {
             string id = Util.RemoveQuotes(context.TEXT().GetText());
-            var qlsNode = new QLSNode(QLSNodeType.Page, id);
+            var style = VisitDefaults(context.defaults());
+            var qlsNode = new QLSNode(QLSNodeType.Page, id, style);
 
             foreach (SectionContext sectionContext in context.section())
                 qlsNode.AddNode(VisitSection(sectionContext));
@@ -60,6 +61,15 @@ namespace QLParser.Visitors.QLS
                 var qlsNode = new QLSNode(QLSNodeType.Question, id);
                 return qlsNode;
             }
+        }
+
+        private new QLSStyle VisitDefaults(DefaultsContext context)
+        {
+            if (context == null)
+                return new QLSStyle();
+
+            var visitor = new DefaultsVisitor();
+            return visitor.VisitDefaults(context);
         }
     }
 }

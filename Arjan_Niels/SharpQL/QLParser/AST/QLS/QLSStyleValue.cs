@@ -12,5 +12,10 @@ namespace QLParser.AST.QLS
             this.Value = value;
             this.QValueType = qValueType;
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} - {1}", Value, QValueType);
+        }
     }
 }

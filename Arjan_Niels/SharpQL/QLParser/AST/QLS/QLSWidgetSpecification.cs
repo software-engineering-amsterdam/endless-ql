@@ -13,6 +13,11 @@ namespace QLParser.AST.QLS
         private const string SPNNER = "spinner";
         private const string CHECKBOX = "checkbox";
 
+        public QLSWidgetSpecification()
+        {
+            this.WidgetTypeArguments = new List<string>();
+        }
+
         public QLSWidgetSpecification(WidgetType widgetType, IList<string> widgetTypeArguments)
         {
             this.WidgetType = widgetType;

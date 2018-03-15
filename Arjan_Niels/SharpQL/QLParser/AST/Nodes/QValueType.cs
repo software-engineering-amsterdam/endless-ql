@@ -7,6 +7,7 @@
         MONEY,
         TEXT,
         INTEGER,
-        DOUBLE
+        DOUBLE,
+        HEX
     }
 }

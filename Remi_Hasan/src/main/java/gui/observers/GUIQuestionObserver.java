@@ -1,16 +1,17 @@
 package gui.observers;
 
 import gui.model.GUIQuestion;
+import ql.analysis.SymbolTable;
 
-public class GUIQuestionObserver {
-    private GUIQuestion guiQuestion;
+public abstract class GUIQuestionObserver<T extends GUIQuestion> {
+    T guiQuestion;
+    SymbolTable symbolTable;
 
-    public GUIQuestionObserver(GUIQuestion guiQuestion) {
+    public GUIQuestionObserver(SymbolTable symbolTable, T guiQuestion) {
+        this.symbolTable = symbolTable;
         this.guiQuestion = guiQuestion;
         this.guiQuestion.attach(this);
     }
 
-    public void update() {
-        System.out.println(this.guiQuestion.name + " updated to: " + this.guiQuestion.value);
-    }
+    public abstract void update();
 }

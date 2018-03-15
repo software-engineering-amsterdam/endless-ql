@@ -1,7 +1,7 @@
 package gui;
 
 import gui.model.*;
-import gui.observers.GUIQuestionObserver;
+import gui.observers.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -65,30 +65,37 @@ public class Renderer extends Application {
 
         for (Question question : form.questions) {
             GUIQuestion guiQuestion;
+            GUIQuestionObserver guiQuestionObserver;
             switch (question.type) {
                 case INTEGER:
                     guiQuestion = new GUIIntegerQuestion(question.name, question.text, question.condition, question.isComputed());
+                    guiQuestionObserver = new GUIIntegerQuestionObserver(symbolTable, (GUIIntegerQuestion) guiQuestion);
                     break;
                 case DECIMAL:
                     guiQuestion = new GUIDecimalQuestion(question.name, question.text, question.condition, question.isComputed());
+                    guiQuestionObserver = new GUIDecimalQuestionObserver(symbolTable, (GUIDecimalQuestion) guiQuestion);
                     break;
                 case MONEY:
                     guiQuestion = new GUIMoneyQuestion(question.name, question.text, question.condition, question.isComputed());
+                    guiQuestionObserver = new GUIMoneyQuestionObserver(symbolTable, (GUIMoneyQuestion) guiQuestion);
                     break;
                 case STRING:
                     guiQuestion = new GUIStringQuestion(question.name, question.text, question.condition, question.isComputed());
+                    guiQuestionObserver = new GUIStringQuestionObserver(symbolTable, (GUIStringQuestion) guiQuestion);
                     break;
                 case DATE:
                     guiQuestion = new GUIDateQuestion(question.name, question.text, question.condition, question.isComputed());
+                    guiQuestionObserver = new GUIDateQuestionObserver(symbolTable, (GUIDateQuestion) guiQuestion);
                     break;
                 case BOOLEAN:
                     guiQuestion = new GUIBooleanQuestion(question.name, question.text, question.condition, question.isComputed());
+                    guiQuestionObserver = new GUIBooleanQuestionObserver(symbolTable, (GUIBooleanQuestion) guiQuestion);
                     break;
                 default:
                     throw new UnsupportedOperationException("Data type " + question.type + " not implemented into GUI renderer");
             }
 
-            observers.add(new GUIQuestionObserver(guiQuestion));
+            observers.add(guiQuestionObserver);
             guiQuestions.add(guiQuestion);
         }
 

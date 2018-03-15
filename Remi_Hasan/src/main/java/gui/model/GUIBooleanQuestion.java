@@ -12,9 +12,7 @@ public class GUIBooleanQuestion extends GUIQuestion<Boolean> {
 
         CheckboxWidget widget = new CheckboxWidget(label);
 
-        widget.setListener((observable, oldValue, newValue) -> {
-            this.setValue(newValue);
-        });
+        widget.setListener((observable, oldValue, newValue) -> this.setValue(newValue));
 
         this.widget = widget;
     }

@@ -2,7 +2,7 @@
 
 namespace QuestionnaireUI.Models
 {
-    public class QuestionWrapper
+    public class QuestionWrapper : Observable
     {
         public QuestionWrapper(QuestionModel model)
         {
@@ -23,7 +23,11 @@ namespace QuestionnaireUI.Models
         public string Value
         {
             get { return Model.Value; }
-            set { Model.Value = value; }
+            set
+            {
+                Model.Value = value;
+                RaisePropertyChanged(nameof(Value));
+            }
         }
     }
 }

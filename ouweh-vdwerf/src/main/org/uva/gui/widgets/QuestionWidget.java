@@ -13,7 +13,6 @@ public abstract class QuestionWidget extends JPanel {
         this.id = question.getName();
 
         this.setLayout(new GridLayout(1, 2));
-
         JLabel questionLabel = new JLabel(question.getContent());
         questionLabel.setVisible(true);
         this.add(questionLabel, 0);

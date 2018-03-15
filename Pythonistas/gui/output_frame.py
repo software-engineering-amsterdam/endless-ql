@@ -8,9 +8,9 @@ class OutputFrame(QtWidgets.QFrame):
         self.setLayout(self.outputlayout)
         self.row = 0
         self.btn_grp = []
-        self.questionDict = {}
-        # self.questions = []  # Ordered list of questions
-        # self.answers = []  # Ordered list of corresponding answers
+        # self.questionDict = {}
+        self.questions = []  # Ordered list of questions
+        self.answers = []  # Ordered list of corresponding answers
 
     # def add_question(self, completequestion):  # todo: split question and its datatype in ast rather than here
     #     # Adds questions and answer option

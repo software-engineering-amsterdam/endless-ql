@@ -57,6 +57,10 @@ class QLDateField() extends DatePicker with QLWidget[LocalDate] {
 }
 
 class QLTextField() extends AbstractQLTextField[String] {
+  textProperty().addListener(new ChangeListener[String] {
+    override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
+      valueChanged
+  })
   override def setValue(value: String): Unit = setText(value)
   override def getValue: String = getText
 }

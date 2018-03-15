@@ -102,7 +102,7 @@ public class Condition extends ASTNode {
      * @throws TypeException when the resulting Term is not Boolean.
      */
     // This function evaluates the expression (which also does typechecking) and stores the resulting value
-    public void getExpressionValue() throws TypeException {
+    public void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();
             if (result.toString().equals("boolean")) {
@@ -113,6 +113,8 @@ public class Condition extends ASTNode {
         } catch(OtherException e) {
             // This is thrown when a Variable isn't set yet.
             result = null;
+        } catch (SyntaxException e) {
+            throw e; //TODO remove later
         }
     }
 }

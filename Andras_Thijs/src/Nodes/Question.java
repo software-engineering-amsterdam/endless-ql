@@ -87,7 +87,7 @@ public class Question extends ASTNode {
      * @throws TypeException when the Types don't match
      */
     // This function evaluates the expression (which also does typechecking) and stores the resulting value
-    public void getExpressionValue() throws TypeException {
+    public void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();
             if (type.toString().equals(result.toString()) || ((type.toString().equals("money") || type.toString().equals("integer")) && result.toString().equals("float"))) {
@@ -98,6 +98,8 @@ public class Question extends ASTNode {
         } catch(OtherException e) {
             // This Exception is thrown when a Variable isn't set yet.
             result = null;
+        } catch (SyntaxException e) {
+            throw e;
         }
     }
 

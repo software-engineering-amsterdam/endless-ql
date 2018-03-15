@@ -4,7 +4,6 @@ import org.uva.sea.languages.QlsEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
 
 import java.io.IOException;
 
@@ -16,7 +15,7 @@ public class GuiModel {
         this.formGenerator = new QlsEvaluator(qlFileName, qlsFileName);
     }
 
-    public EvaluationResult getInterpreterResult() throws IOException, StaticAnalysisError, InterruptedException {
+    public EvaluationResult getInterpreterResult() throws IOException, InterruptedException {
         return formGenerator.getQuestions();
     }
 

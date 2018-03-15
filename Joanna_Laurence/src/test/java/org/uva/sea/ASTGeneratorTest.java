@@ -11,7 +11,6 @@ import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.ql.interpreter.ASTGenerator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
-import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
 import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
 
 import java.io.FileInputStream;
@@ -69,7 +68,7 @@ public class ASTGeneratorTest extends TestCase {
             QlEvaluator qlEvaluator = new QlEvaluator(fileName);
             EvaluationResult evaluationResult = qlEvaluator.getQuestions();
             return !evaluationResult.getMessages().hasMessagePresent(MessageTypes.ERROR);
-        } catch (InterruptedException | IOException | StaticAnalysisError e) {
+        } catch (InterruptedException | IOException e) {
             return false;
         }
     }

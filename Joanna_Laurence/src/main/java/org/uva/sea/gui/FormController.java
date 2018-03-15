@@ -9,7 +9,6 @@ import org.uva.sea.gui.render.*;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.io.File;
@@ -51,12 +50,12 @@ public class FormController implements Initializable {
     private void drawGui() {
         try {
             updateGui();
-        } catch (InterruptedException | IOException | StaticAnalysisError e) {
+        } catch (InterruptedException | IOException e) {
             errorRenderer.render(e.getMessage());
         }
     }
 
-    private void updateGui() throws IOException, StaticAnalysisError, InterruptedException {
+    private void updateGui() throws IOException, InterruptedException {
         EvaluationResult interpreterResult = guiModel.getInterpreterResult();
         questionRenderer.render(interpreterResult.getQuestions());
 

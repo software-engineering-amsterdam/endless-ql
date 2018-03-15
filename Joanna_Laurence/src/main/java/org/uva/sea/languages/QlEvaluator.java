@@ -4,7 +4,6 @@ import org.uva.sea.languages.ql.interpreter.Evaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
 
 import java.io.IOException;
 
@@ -33,7 +32,7 @@ public class QlEvaluator {
      * @throws StaticAnalysisError
      * @throws InterruptedException
      */
-    public EvaluationResult getQuestions() throws StaticAnalysisError, IOException, InterruptedException {
+    public EvaluationResult getQuestions() throws IOException, InterruptedException {
         return evaluator.evaluate(this.qlFileLocation, this.symbolTable);
     }
 

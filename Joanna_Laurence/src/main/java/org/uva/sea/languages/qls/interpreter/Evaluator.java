@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
-import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.IStaticAnalysis;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
@@ -36,7 +35,7 @@ public class Evaluator {
      * @param qlEvaluationResult      The current state of the program
      * @return List of questions that should be displayed
      */
-    public EvaluationResult evaluate(String qlsFile, EvaluationResult qlEvaluationResult) throws IOException, StaticAnalysisError, InterruptedException {
+    public EvaluationResult evaluate(String qlsFile, EvaluationResult qlEvaluationResult) throws IOException, InterruptedException {
         Messages evaluationMessages = new Messages();
 
         ParseResult<Stylesheet> parseResult = this.parse(qlsFile);

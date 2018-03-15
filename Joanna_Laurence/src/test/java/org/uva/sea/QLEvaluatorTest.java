@@ -12,7 +12,6 @@ import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.ErrorValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
-import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
 import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
@@ -143,7 +142,7 @@ public class QLEvaluatorTest extends TestCase {
      * @param fileName The location of the ql file
      * @return If the script is interpretable
      */
-    private EvaluationResult getDisplayedQuestions(String fileName) throws IOException, EvaluationException, StaticAnalysisError, ReflectiveOperationException {
+    private EvaluationResult getDisplayedQuestions(String fileName) throws IOException, EvaluationException, ReflectiveOperationException {
 
         SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
         Evaluator qlSpecificationEvaluator = new Evaluator();
@@ -180,7 +179,7 @@ public class QLEvaluatorTest extends TestCase {
 
 
     @Test
-    public void testFile() throws IOException, ReflectiveOperationException, StaticAnalysisError {
+    public void testFile() throws IOException, ReflectiveOperationException {
         try {
             System.out.println("Testing: " + this.testFile);
             EvaluationResult interpreterResult = this.getDisplayedQuestions(this.testFile);

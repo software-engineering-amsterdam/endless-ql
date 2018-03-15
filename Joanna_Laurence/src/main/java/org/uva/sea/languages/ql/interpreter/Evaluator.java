@@ -9,7 +9,6 @@ import org.uva.sea.languages.ql.interpreter.evaluate.ExpressionEvaluator;
 import org.uva.sea.languages.ql.interpreter.evaluate.FormEvaluator;
 import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.*;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
@@ -44,7 +43,7 @@ public class Evaluator {
      * @param symbolTable      The current state of the program
      * @return List of questions that should be displayed
      */
-    public EvaluationResult evaluate(String qlFile, SymbolTable symbolTable) throws IOException, StaticAnalysisError {
+    public EvaluationResult evaluate(String qlFile, SymbolTable symbolTable) throws IOException {
 
         Messages evaluationMessages = new Messages();
 

@@ -1,134 +1,110 @@
 package gui.controller;
 
-import ast.model.expressions.Expression;
 import ast.model.expressions.values.VariableReference;
-import gui.model.FormQuestionHolder;
-import gui.model.MixedValueHolder;
+import gui.model.FormQuestion;
 import logic.collectors.CollectReferencesVisitor;
 import logic.evaluators.ExpressionEvaluator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class FormController {
 
-    private final List<FormQuestionHolder> formQuestionHolders;
-    private final HashMap<String, List<FormQuestionHolder>> dependentFormQuestionsForVisibility = new HashMap<>();
-    private final HashMap<String, List<FormQuestionHolder>> dependentFormQuestionsForValue = new HashMap<>();
+    private final List<FormQuestion> formQuestions;
     private final ExpressionEvaluator evaluator;
+    private CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
 
-    public FormController(List<FormQuestionHolder> formQuestionHolders, ExpressionEvaluator evaluator) throws Exception {
-
+    public FormController(List<FormQuestion> formQuestions, ExpressionEvaluator evaluator) throws Exception {
         this.evaluator = evaluator;
 
         // initial evaluation
-        for (FormQuestionHolder formQuestionHolder : formQuestionHolders) {
-            if (formQuestionHolder.getAssignedExpression() != null) {
-                formQuestionHolder.setValueHolder(formQuestionHolder.getAssignedExpression().accept(evaluator));
+        for (FormQuestion formQuestion : formQuestions) {
+            if (formQuestion.getAssignedExpression() != null) {
+                formQuestion.setValue(formQuestion.getAssignedExpression().accept(evaluator));
             }
-            if (formQuestionHolder.getVisibilityCondition() != null) {
-                formQuestionHolder.setVisibilityHolder(formQuestionHolder.getVisibilityCondition().accept(evaluator));
+            if (formQuestion.getVisibilityCondition() != null) {
+                formQuestion.setVisibility(formQuestion.getVisibilityCondition().accept(evaluator).getBooleanValue());
             } else {
-                formQuestionHolder.setVisibilityHolder(new MixedValueHolder(Expression.DataType.BOOLEAN, true));
+                formQuestion.setVisibility(true);
             }
         }
 
-        this.formQuestionHolders = formQuestionHolders;
+        this.formQuestions = formQuestions;
 
-        for (FormQuestionHolder formQuestionHolder : formQuestionHolders) {
-            formQuestionHolder.registerController(this);
+        for (FormQuestion formQuestion : formQuestions) {
+            formQuestion.registerController(this);
         }
+    }
 
-        CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
+    private List<FormQuestion> extractFormQuestionsWithAssignedExpressionDirectlyReferencingTo(FormQuestion formQuestion) {
 
-        for (FormQuestionHolder formQuestionHolder : formQuestionHolders) {
+        List<FormQuestion> result = new ArrayList<>();
 
-            // extract dependentFormQuestionsForVisibility
-            if (formQuestionHolder.getVisibilityCondition() != null) {
-
-                collectReferencesVisitor.reset();
-                formQuestionHolder.getVisibilityCondition().accept(collectReferencesVisitor);
-
-                List<VariableReference> variableReferences = collectReferencesVisitor.getVariableReferences();
-
+        for (FormQuestion formQuestion1 : this.formQuestions) {
+            if (formQuestion1.getAssignedExpression() != null) {
+                this.collectReferencesVisitor.reset();
+                formQuestion1.getAssignedExpression().accept(this.collectReferencesVisitor);
+                List<VariableReference> variableReferences = this.collectReferencesVisitor.getVariableReferences();
                 for (VariableReference variableReference : variableReferences) {
-                    FormQuestionHolder foundQuestionHolder
-                            = this.findFormQuestionHolderByVariableReference(variableReference);
-                    if (foundQuestionHolder != null) {
-                        List<FormQuestionHolder> dependentQuestionHolders = this.dependentFormQuestionsForVisibility.get(foundQuestionHolder.getVariableName());
-                        if (dependentQuestionHolders != null && !dependentQuestionHolders.contains(formQuestionHolder)) {
-                            dependentQuestionHolders.add(formQuestionHolder);
-                        } else {
-                            FormQuestionHolder[] array = new FormQuestionHolder[]{formQuestionHolder};
-                            this.dependentFormQuestionsForVisibility.put(foundQuestionHolder.getVariableName(), new ArrayList<>(Arrays.asList(array)));
-                        }
-                    }
-                }
-
-            }
-
-            // TODO: refactor
-            // extract dependentFormQuestionsForValue
-            if (formQuestionHolder.getAssignedExpression() != null) {
-
-                collectReferencesVisitor.reset();
-                formQuestionHolder.getAssignedExpression().accept(collectReferencesVisitor);
-
-                List<VariableReference> variableReferences = collectReferencesVisitor.getVariableReferences();
-
-                for (VariableReference variableReference : variableReferences) {
-                    FormQuestionHolder foundQuestionHolder
-                            = this.findFormQuestionHolderByVariableReference(variableReference);
-                    if (foundQuestionHolder != null) {
-                        List<FormQuestionHolder> dependentQuestionHolders = this.dependentFormQuestionsForValue.get(foundQuestionHolder.getVariableName());
-                        if (dependentQuestionHolders != null && !dependentQuestionHolders.contains(formQuestionHolder)) {
-                            dependentQuestionHolders.add(formQuestionHolder);
-                        } else {
-                            FormQuestionHolder[] array = new FormQuestionHolder[]{formQuestionHolder};
-                            this.dependentFormQuestionsForValue.put(foundQuestionHolder.getVariableName(), new ArrayList<>(Arrays.asList(array)));
-                        }
+                    if (variableReference.getName().equals(formQuestion.getVariableName())) {
+                        result.add(formQuestion1);
                     }
                 }
             }
         }
+
+        return result;
     }
 
-    private FormQuestionHolder findFormQuestionHolderByVariableReference(VariableReference variableReference) {
+    private List<FormQuestion> extractFormQuestionsWithVisibilityDirectlyReferencingTo(FormQuestion formQuestion) {
 
-        for (FormQuestionHolder formQuestionHolder : this.formQuestionHolders) {
-            if (formQuestionHolder.getVariableName().equals(variableReference.getName())) {
-                return formQuestionHolder;
-            }
-        }
-        return null;
-    }
+        List<FormQuestion> result = new ArrayList<>();
 
-    public void processFormQuestionHolderChange(FormQuestionHolder formQuestionHolder) {
-
-        List<FormQuestionHolder> formQuestionHoldersVisibility = dependentFormQuestionsForVisibility.get(formQuestionHolder.getVariableName());
-
-        if (formQuestionHoldersVisibility != null) {
-            for (FormQuestionHolder fqh : formQuestionHoldersVisibility) {
-                // TODO: check setValueHolder vs changing the value only
-                fqh.setVisibilityHolder(fqh.getVisibilityCondition().accept(evaluator));
-                fqh.getPanel().refreshVisibility();
+        for (FormQuestion formQuestion1 : this.formQuestions) {
+            if (formQuestion1.getVisibilityCondition() != null) {
+                this.collectReferencesVisitor.reset();
+                formQuestion1.getVisibilityCondition().accept(this.collectReferencesVisitor);
+                List<VariableReference> variableReferences = this.collectReferencesVisitor.getVariableReferences();
+                for (VariableReference variableReference : variableReferences) {
+                    if (variableReference.getName().equals(formQuestion.getVariableName())) {
+                        result.add(formQuestion1);
+                    }
+                }
             }
         }
 
-        List<FormQuestionHolder> formQuestionHoldersValue = dependentFormQuestionsForValue.get(formQuestionHolder.getVariableName());
-        if (formQuestionHoldersValue != null) {
-            for (FormQuestionHolder fqh : formQuestionHoldersValue) {
-                // TODO: check setValueHolder vs changing the value only
-                fqh.setValueHolder(fqh.getAssignedExpression().accept(evaluator));
-                fqh.getPanel().refreshValue();
+        return result;
+    }
+
+    public void processFormQuestionChange(FormQuestion formQuestion) {
+
+        List<FormQuestion> formQuestionsToUpdateValue = this.extractFormQuestionsWithAssignedExpressionDirectlyReferencingTo(formQuestion);
+        if (!formQuestionsToUpdateValue.isEmpty()) {
+            for (FormQuestion formQuestion1 : formQuestionsToUpdateValue) {
+                // they must (per definition) have assigned expression
+                formQuestion1.setValue(formQuestion1.getAssignedExpression().accept(evaluator));
+                formQuestion1.getPanel().refreshValue();
+                this.processFormQuestionChange(formQuestion1);
+            }
+        }
+
+        List<FormQuestion> formQuestionsToUpdateVisibility = this.extractFormQuestionsWithVisibilityDirectlyReferencingTo(formQuestion);
+        if (!formQuestionsToUpdateVisibility.isEmpty()) {
+            for (FormQuestion formQuestion1 : formQuestionsToUpdateVisibility) {
+                // they must (per definition) have visibility conditions
+                formQuestion1.setVisibility(formQuestion1.getVisibilityCondition().accept(evaluator).getBooleanValue());
+                formQuestion1.getPanel().refreshVisibility();
+                this.processFormQuestionChange(formQuestion1);
             }
         }
     }
 
     public LinkedHashMap<String, String> prepareResults() {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
-        for (FormQuestionHolder formQuestionHolder : this.formQuestionHolders) {
-            if (formQuestionHolder.getVisibilityHolder().getBooleanValue()) {
-                result.put(formQuestionHolder.getVariableName(), formQuestionHolder.getValueHolder().toString());
+        for (FormQuestion formQuestion : this.formQuestions) {
+            if (formQuestion.getVisibility()) {
+                result.put(formQuestion.getVariableName(), formQuestion.getValue().toString());
             }
         }
         return result;

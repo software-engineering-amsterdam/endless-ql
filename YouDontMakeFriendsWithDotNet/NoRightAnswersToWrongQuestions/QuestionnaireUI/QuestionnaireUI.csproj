@@ -50,14 +50,16 @@
   <ItemGroup>
     <Compile Include="Models\ModelWrapperBase.cs" />
     <Compile Include="Models\Observable.cs" />
-    <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\QuestionnaireWrapper.cs" />
-    <Compile Include="Models\QuestionnaireModel.cs" />
     <Compile Include="Models\QuestionWrapper.cs" />
     <Compile Include="UiModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QuestionaireOrchestration\QuestionaireOrchestration.csproj">
+      <Project>{93708D27-D769-4064-8A54-6BFEF8B09F29}</Project>
+      <Name>QuestionaireOrchestration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
       <Name>QuestionnaireInfrastructure</Name>

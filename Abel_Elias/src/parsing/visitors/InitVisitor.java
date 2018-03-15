@@ -14,8 +14,8 @@ public class InitVisitor extends BaseVisitor {
 
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
-        //new VariableChecker(questionMap, ctx.block());
-        new TypeChecker(questionMap, ctx.block());
+        new VariableChecker(ctx);
+        new TypeChecker(ctx);
         visit(ctx.block());
 
         return questionMap;

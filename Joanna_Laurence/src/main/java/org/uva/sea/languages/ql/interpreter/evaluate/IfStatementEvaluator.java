@@ -15,7 +15,7 @@ public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
     /**
      * Expression evaluator
      */
-    private ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
+    private final ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
     /**
      * Evaluates the condition, when true the statements are returned

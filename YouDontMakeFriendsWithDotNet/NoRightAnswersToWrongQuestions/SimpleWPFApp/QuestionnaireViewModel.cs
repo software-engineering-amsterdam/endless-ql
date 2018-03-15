@@ -1,45 +1,20 @@
-﻿using System.ComponentModel;
-using System.Linq;
-using QuestionaireOrchestration.Commands;
-using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices.Interfaces;
-using QuestionnaireInfrastructure.API;
-using SimpleWPFApp.Properties;
+﻿using QuestionnaireUI.Models;
 
 namespace SimpleWPFApp
 {
-    internal class QuestionnaireViewModel : IQuestionnaireViewModel
+    public interface IQuestionnaireViewModel
     {
-        private readonly ICommandBus m_commandBus;
-        private readonly IModelQueryService<QuestionnaireDefinitionModel> m_queryService;
+        void Load();
+    }
 
-        public QuestionnaireViewModel(
-            ICommandBus commandBus,
-            IModelQueryService<QuestionnaireDefinitionModel> queryService)
+    public class QuestionnaireViewModel : Observable
+    {
+        public QuestionnaireViewModel()
         {
-            m_commandBus = commandBus;
-            m_queryService = queryService;
         }
 
         public void Load()
         {
-            var command = new CreateDefinitionFromTextCommand
-            {
-                DefinitionText = Resources.ExampleForm
-            };
-
-            var questionnaireDefinitionModel = m_queryService.GetAll().FirstOrDefault();
-            m_commandBus.Send(command);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged(
-            string propertyName = null)
-        {
-            PropertyChanged?.Invoke(
-                this,
-                new PropertyChangedEventArgs(propertyName));
         }
     }
 }

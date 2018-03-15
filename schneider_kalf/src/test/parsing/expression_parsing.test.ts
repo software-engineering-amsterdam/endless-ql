@@ -81,7 +81,7 @@ it("can parse variables that start with reserved keyword", () => {
 it("can parse floating numbers", () => {
   const input = `form taxOfficeExample {
                     "Did you sell a house in 2010?"
-                      hasSoldHouse: float = (2.5)
+                      hasSoldHouse: decimal = (2.5)
                  }`;
 
   let computedField: any = null;
@@ -100,7 +100,7 @@ it("can parse floating numbers", () => {
 it("does not allow malformed floating numbers", () => {
   const input = `form taxOfficeExample {
                     "Test float"
-                      testFloatOne: float = (2.5.5)
+                      testFloatOne: decimal = (2.5.5)
                  }`;
 
   let computedField: any = null;

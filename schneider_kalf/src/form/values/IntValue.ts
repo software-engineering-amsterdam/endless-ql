@@ -6,7 +6,7 @@ export default class IntValue extends AbstractNumberValue implements NumberValue
 
   constructor(value: number) {
     super();
-    this.value = value;
+    this.value = Math.round(value);
   }
 
   add(other: IntValue): NumberValue {
@@ -47,5 +47,9 @@ export default class IntValue extends AbstractNumberValue implements NumberValue
 
   largerThan(other: IntValue): boolean {
     return this.getValue() > other.getValue();
+  }
+
+  toString(): string {
+    return this.getValue().toString();
   }
 }

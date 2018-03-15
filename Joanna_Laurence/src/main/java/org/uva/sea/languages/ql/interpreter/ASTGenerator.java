@@ -2,12 +2,12 @@ package org.uva.sea.languages.ql.interpreter;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.uva.sea.languages.ql.antlr.QLLexer;
-import org.uva.sea.languages.ql.antlr.QLParser;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.antlr.ErrorHandler;
+import org.uva.sea.languages.ql.parser.antlr.QLLexer;
+import org.uva.sea.languages.ql.parser.antlr.QLParser;
 import org.uva.sea.languages.ql.parser.elements.Form;
 
 public class ASTGenerator {

@@ -14,11 +14,10 @@ import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Stack;
 
 public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 
-    private NodeType nodeTypeToFind;
+    private NodeType nodeTypeToFind = null;
 
     private Style foundStyle = new Style();
 
@@ -44,14 +43,14 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(DefaultStyle node) {
+    public Void visit(DefaultStyle style) {
 
-        NodeType styleType = NodeType.valueOf(node.getTypeName().toUpperCase());
+        NodeType styleType = NodeType.valueOf(style.getTypeName().toUpperCase());
         if (styleType != this.nodeTypeToFind)
             return null;
 
         Style defaultStyle = new Style();
-        node.accept(new BaseStyleASTVisitor<Void>() {
+        style.accept(new BaseStyleASTVisitor<Void>() {
             @Override
             public Void visit(Color node) {
                 defaultStyle.setColor(node.getColorCode());
@@ -112,7 +111,7 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
          * @param nodeType For what widget type the style has to be fetched
          * @return Cascading style
          */
-        public Style getCascadingStyle(NodeType nodeType, Stack<Section> inSection, Page inPage) {
+        public Style getCascadingStyle(NodeType nodeType, List<Section> inSection, Page inPage) {
             Style style = new Style();
 
             ListIterator<Section> li = inSection.listIterator(inSection.size());
@@ -126,14 +125,14 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
         }
 
         private Style findStyle(Section node, NodeType nodeTypeToFind) {
-            return getStyle(nodeTypeToFind, node.getSpecifications());
+            return this.getStyle(nodeTypeToFind, node.getSpecifications());
         }
 
         private Style findStyle(Page node, NodeType nodeTypeToFind) {
-            return getStyle(nodeTypeToFind, node.getSpecificationList());
+            return this.getStyle(nodeTypeToFind, node.getSpecificationList());
         }
 
-        private Style getStyle(NodeType nodeTypeToFind, List<Specification> specifications) {
+        private Style getStyle(NodeType nodeTypeToFind, Iterable<Specification> specifications) {
             Style returnStyle = new Style();
             EvaluateDefaultStyle fetcher = new EvaluateDefaultStyle();
             for (Specification specification : specifications) {

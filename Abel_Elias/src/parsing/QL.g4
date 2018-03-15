@@ -103,10 +103,10 @@ NOT : '!';
 fragment DIGIT : ('0'..'9');
 fragment LETTER : ('a'..'z'|'A'..'Z');
 
+BOOL : ('true' | 'false');
 IDENTIFIER: LETTER (LETTER | DIGIT | '_')*;
 STR : '"' .*? '"';
 INT : ('-')? DIGIT+;
-BOOL : ('true' | 'false');
 MON : DIGIT+ '.' DIGIT DIGIT;
 DEC : ('-')? DIGIT+  '.'  DIGIT+;
 NEWLINE : '\r'? '\n';

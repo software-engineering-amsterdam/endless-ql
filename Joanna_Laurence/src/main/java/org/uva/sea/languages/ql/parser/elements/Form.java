@@ -7,8 +7,8 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Form extends ASTNode {
 
-    private String name;
-    private Statements statements;
+    private final String name;
+    private final Statements statements;
 
     public Form(Token token, String name, Statements statements) {
         super(token);
@@ -17,11 +17,11 @@ public class Form extends ASTNode {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Statements getStatements() {
-        return statements;
+        return this.statements;
     }
 
     public Type getType() {

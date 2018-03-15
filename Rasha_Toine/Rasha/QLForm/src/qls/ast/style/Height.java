@@ -3,16 +3,16 @@ package qls.ast.style;
 import ql.ast.literal.IntegerLiteral;
 import qls.visiting.StyleVisitor;
 
-public class HeightProperty extends StyleProperty {
-	private IntegerLiteral height;
+public class Height extends StyleProperty {
+	private IntegerLiteral heightVal;
 
 	//constructor
-	public HeightProperty(IntegerLiteral height) {
-		this.height = height;
+	public Height(IntegerLiteral heightVal) {
+		this.heightVal = heightVal;
 	}
 
-	public int getHeight() {
-		return height.getValue().getValue();
+	public int getHeightVal() {
+		return heightVal.getValue().getValue();
 	}
 
 	@Override

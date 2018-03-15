@@ -5,9 +5,9 @@ namespace QuestionnaireUI.Models
 {
     public class QuestionnaireWrapper : ModelWrapperBase<QuestionnaireModel>
     {
-        public Guid QuestionnaireId => Model.QuestionnaireId;
-        public string QuestionnaireDisplayName => Model.QuestionnaireDisplayName;
-        public IList<QuestionModel> Questions => Model.Questions;
+        public Guid QuestionnaireId => GetValue<Guid>();
+        public string QuestionnaireDisplayName => GetValue<string>();
+        public IList<QuestionModel> Questions => GetValue<IList<QuestionModel>>();
 
         public QuestionnaireWrapper(QuestionnaireModel model) : base(model)
         {

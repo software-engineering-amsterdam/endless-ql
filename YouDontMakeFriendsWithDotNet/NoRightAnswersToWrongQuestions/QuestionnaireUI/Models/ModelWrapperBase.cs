@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Xml.Serialization;
 
 namespace QuestionnaireUI.Models
 {
@@ -30,6 +32,13 @@ namespace QuestionnaireUI.Models
                 propertyInfo.SetValue(Model, value);
                 RaisePropertyChanged(propertyName);
             }
+        }
+
+        protected TValue GetValue<TValue>(
+            [CallerMemberName] string propertyName = null)
+        {
+            var propertyInfo = Model.GetType().GetProperty(propertyName);
+            return (TValue)propertyInfo.GetValue(Model);
         }
 
     }

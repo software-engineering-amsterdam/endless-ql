@@ -1,9 +1,6 @@
 package org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Relation<T> {
 
@@ -29,7 +26,7 @@ public class Relation<T> {
      *
      * @return List of relations that are circular
      */
-    public List<T> getCircularRelations() {
+    public Iterable<T> getCircularRelations() {
         Relation<T> transitiveClosure = this.getTransitiveClosure();
         List<T> circular = new ArrayList<>();
         for (RelationEntity<T> entry : transitiveClosure.getRelations()) {
@@ -54,7 +51,7 @@ public class Relation<T> {
         do {
             newElementsAdded = false;
 
-            Set<RelationEntity<T>> relations = new HashSet<>(transitiveClosure.getRelations());
+            Iterable<RelationEntity<T>> relations = new HashSet<>(transitiveClosure.getRelations());
             for (RelationEntity<T> entry : relations) {
                 T source = entry.getKey();
                 T target = entry.getValue();
@@ -75,7 +72,7 @@ public class Relation<T> {
      *
      * @param relations
      */
-    private void addAll(Set<RelationEntity<T>> relations) {
+    private void addAll(Collection<RelationEntity<T>> relations) {
         this.relations.addAll(relations);
     }
 

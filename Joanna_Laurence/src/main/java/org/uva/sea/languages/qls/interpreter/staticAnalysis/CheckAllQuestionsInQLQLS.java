@@ -9,6 +9,7 @@ import org.uva.sea.languages.qls.parser.elements.specification.Question;
 import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implements IQLSStaticAnalysis {
@@ -43,10 +44,10 @@ public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implemen
      * @param errorMessage
      * @return
      */
-    private Messages checkListsEqual(List<String> firstList, List<String> secondList, String errorMessage) {
+    private Messages checkListsEqual(List<String> firstList, Collection<String> secondList, String errorMessage) {
         Messages messages = new Messages();
 
-        List<String> difference = new ArrayList<>(firstList);
+        Collection<String> difference = new ArrayList<>(firstList);
         difference.removeAll(secondList);
         for (String question : difference) {
             messages.addMessage(errorMessage + question, MessageTypes.ERROR);

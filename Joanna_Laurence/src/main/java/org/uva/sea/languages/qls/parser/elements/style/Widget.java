@@ -23,7 +23,7 @@ public class Widget extends StyleSpecification {
         return widgetType;
     }
 
-    public List<Parameter> getParameters() {
+    public Iterable<Parameter> getParameters() {
         return parameters;
     }
 

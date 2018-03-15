@@ -7,7 +7,7 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.StringValue;
 public class StringQuestionModel extends BaseQuestionModel {
 
     private final StringValue value;
-
+//TODO: REMOVE CAST
     public StringQuestionModel(QuestionData data) {
         super(data);
         this.value = (StringValue) data.getValue();

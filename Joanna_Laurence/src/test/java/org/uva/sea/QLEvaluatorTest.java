@@ -161,7 +161,7 @@ public class QLEvaluatorTest extends TestCase {
      * @param questions All the questions
      * @return
      */
-    private boolean checkForRuntimeErrors(List<QuestionData> questions) {
+    private boolean checkForRuntimeErrors(Iterable<QuestionData> questions) {
         for (QuestionData question : questions) {
             if (question.getValue() == null)
                 continue;

@@ -82,7 +82,7 @@ public class TypeCheckSpecification {
      * @param right         Right side type
      * @param returns       Returns new type
      */
-    private void add(List<Class<?>> operatorTypes, NodeType left, NodeType right, NodeType returns) {
+    private void add(Iterable<Class<?>> operatorTypes, NodeType left, NodeType right, NodeType returns) {
         for (Class operatorType : operatorTypes)
             specification.put(new SpecificationKey(operatorType, left, right), returns);
     }

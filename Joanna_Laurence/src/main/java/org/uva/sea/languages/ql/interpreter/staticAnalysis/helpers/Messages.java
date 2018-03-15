@@ -2,10 +2,7 @@ package org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Messages {
 
@@ -28,7 +25,7 @@ public class Messages {
         return false;
     }
 
-    public List<Map.Entry<MessageTypes, String>> getMessages() {
+    public Collection<Map.Entry<MessageTypes, String>> getMessages() {
         return messages;
     }
 
@@ -37,7 +34,7 @@ public class Messages {
         return messages.toString();
     }
 
-    public List<String> getMessage(MessageTypes messageTypes) {
+    public Iterable<String> getMessage(MessageTypes messageTypes) {
         List<String> messages = new ArrayList<>();
         for (Map.Entry<MessageTypes, String> entry : this.messages) {
             if (entry.getKey() == messageTypes)

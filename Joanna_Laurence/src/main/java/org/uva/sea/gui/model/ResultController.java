@@ -6,11 +6,11 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.io.IOException;
 
-public class GuiModel {
+public class ResultController {
 
     private final QlSEvaluator formGenerator;
 
-    public GuiModel(String qlFileName, String qlsFileName) {
+    public ResultController(String qlFileName, String qlsFileName) {
         this.formGenerator = new QlSEvaluator(qlFileName, qlsFileName);
     }
 

@@ -13,14 +13,14 @@ import org.uva.sea.languages.ql.parser.elements.types.*;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
+import java.util.Map;
 
-;
 
 public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnalysis {
 
     private Messages errors = new Messages();
 
-    private HashMap<SpecificationKey, NodeType> typeCheckSpecification;
+    private Map<SpecificationKey, NodeType> typeCheckSpecification;
 
     /**
      * Hide constructor

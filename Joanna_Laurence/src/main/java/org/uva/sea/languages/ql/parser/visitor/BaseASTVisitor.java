@@ -112,7 +112,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
         return node.getStatements().accept(this);
     }
 
-    public T visit(Question node) {
+    public T visit(final Question node) {
         if (node.getValue() != null)
             node.getValue().accept(this);
 

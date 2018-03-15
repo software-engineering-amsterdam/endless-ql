@@ -5,10 +5,13 @@ import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
+import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
 import org.uva.sea.gui.render.visitor.TextToValueVisitor;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 public class TextFieldWidget implements Widget {
+
+    public static final double TEXT_WIDTH = 100.0;
 
     @Override
     public Control draw(BaseQuestionModel questionModel, FormController controller) {
@@ -17,7 +20,7 @@ public class TextFieldWidget implements Widget {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             controller.setLastFocused(questionModel.getVariableName());
             System.out.println("TextField Text Changed (newValue: " + newValue + ")");
-            TextToValueVisitor textToValueVisitor = new TextToValueVisitor(newValue);
+            QuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(newValue);
             Value value = questionModel.accept(textToValueVisitor);
             controller.updateGuiModel(questionModel.getVariableName(), value);
         });
@@ -31,7 +34,7 @@ public class TextFieldWidget implements Widget {
             textField.setText(question.displayValue());
         }
         textField.setEditable(true);
-        textField.setMinWidth(100.0);
+        textField.setMinWidth(TEXT_WIDTH);
 
         if (question.isComputed()) {
             textField.setEditable(false);

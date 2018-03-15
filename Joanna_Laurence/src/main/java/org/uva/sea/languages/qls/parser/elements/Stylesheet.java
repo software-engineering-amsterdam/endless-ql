@@ -16,7 +16,7 @@ public class Stylesheet extends QLSNode {
         this.name = name;
     }
 
-    public List<Page> getPages() {
+    public Iterable<Page> getPages() {
         return pages;
     }
 

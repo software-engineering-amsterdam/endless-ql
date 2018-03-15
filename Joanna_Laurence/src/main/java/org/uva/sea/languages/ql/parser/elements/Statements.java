@@ -15,7 +15,7 @@ public class Statements extends ASTNode {
         statementList = new ArrayList<>();
     }
 
-    public List<ASTNode> getStatementList() {
+    public Iterable<ASTNode> getStatementList() {
         return statementList;
     }
 

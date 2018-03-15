@@ -6,10 +6,7 @@ import org.uva.sea.languages.ql.parser.elements.*;
 import org.uva.sea.languages.ql.parser.elements.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Iterates over the AST and add links between variables and questions
@@ -27,7 +24,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
      * Contains variables that are used in the program. They are linked to questions
      * at the send of the evaluation
      */
-    private List<Variable> usedVariables = new ArrayList<>();
+    private Collection<Variable> usedVariables = new ArrayList<>();
 
     /**
      *

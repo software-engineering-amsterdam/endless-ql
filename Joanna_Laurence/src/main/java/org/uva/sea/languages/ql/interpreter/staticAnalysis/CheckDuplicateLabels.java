@@ -7,6 +7,7 @@ import org.uva.sea.languages.ql.parser.elements.Question;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
@@ -16,7 +17,7 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLSta
     /**
      * Labels that are associated with variables
      */
-    private HashMap<String, String> labels = new HashMap<>();
+    private Map<String, String> labels = new HashMap<>();
 
     /**
      * Hide constructor

@@ -10,6 +10,9 @@ import java.io.IOException;
 
 public class MainGUI extends Application {
 
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 500;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -18,7 +21,7 @@ public class MainGUI extends Application {
     public void start(Stage primaryStage) {
         try {
             Parent window = FXMLLoader.load(getClass().getResource("/gui/form.fxml"));
-            Scene scene = new Scene(window, 800, 500);
+            Scene scene = new Scene(window, WIDTH, HEIGHT);
             primaryStage.setTitle("Form");
             primaryStage.setScene(scene);
             primaryStage.show();

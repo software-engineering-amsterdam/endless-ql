@@ -16,6 +16,10 @@ import java.util.List;
 
 public class ViewRenderer {
 
+    public static final int COLUMN = 350;
+    public static final int ROW = 40;
+    public static final int MESSAGE_ROW = 600;
+    public static final int MESSAGE_COLMN = 40;
     private final VBox questionBox;
     private final VBox messageBox;
     private final FormController controller;
@@ -32,7 +36,7 @@ public class ViewRenderer {
         questionBox.getChildren().add(createQuestionRow(questionModel));
     }
 
-    public void displayQuestions(List<BaseQuestionModel> questionGUIs) {
+    public void displayQuestions(Iterable<BaseQuestionModel> questionGUIs) {
         questionBox.getChildren().removeAll(questionBox.getChildren());
         for (BaseQuestionModel questionRow : questionGUIs) {
             questionRow.accept(this.modelRenderer);
@@ -54,8 +58,8 @@ public class ViewRenderer {
     private Node createQuestionRow(BaseQuestionModel questionModel) {
         GridPane wrapper = new GridPane();
 
-        wrapper.getColumnConstraints().add(new ColumnConstraints(350));
-        wrapper.getRowConstraints().add(new RowConstraints(40));
+        wrapper.getColumnConstraints().add(new ColumnConstraints(COLUMN));
+        wrapper.getRowConstraints().add(new RowConstraints(ROW));
 
         wrapper.add(createQuestionLabel(questionModel.getLabel()), 0, 0);
         Control widget = createWidget(questionModel);
@@ -104,8 +108,8 @@ public class ViewRenderer {
     private Node createMessageRow(String message) {
         GridPane wrapper = new GridPane();
 
-        wrapper.getColumnConstraints().add(new ColumnConstraints(600));
-        wrapper.getRowConstraints().add(new RowConstraints(40));
+        wrapper.getColumnConstraints().add(new ColumnConstraints(MESSAGE_ROW));
+        wrapper.getRowConstraints().add(new RowConstraints(MESSAGE_COLMN));
 
         Label label = new Label(message);
         label.setWrapText(true);

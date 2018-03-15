@@ -3,11 +3,12 @@ package org.uva.sea.languages.ql.interpreter.evaluate;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class SymbolTable {
 
     //string - name of the variable
-    private HashMap<String, Value> symbolTable = new HashMap<>();
+    private Map<String, Value> symbolTable = new HashMap<>();
 
     /**
      * Add or update symbol table

@@ -112,7 +112,7 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
          * @param nodeType For what widget type the style has to be fetched
          * @return Cascading style
          */
-        public Style getCascadingStyle(NodeType nodeType, Stack<Section> inSection, Page inPage) {
+        public Style getCascadingStyle(NodeType nodeType, List<Section> inSection, Page inPage) {
             Style style = new Style();
 
             ListIterator<Section> li = inSection.listIterator(inSection.size());
@@ -133,7 +133,7 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
             return getStyle(nodeTypeToFind, node.getSpecificationList());
         }
 
-        private Style getStyle(NodeType nodeTypeToFind, List<Specification> specifications) {
+        private Style getStyle(NodeType nodeTypeToFind, Iterable<Specification> specifications) {
             Style returnStyle = new Style();
             EvaluateDefaultStyle fetcher = new EvaluateDefaultStyle();
             for (Specification specification : specifications) {

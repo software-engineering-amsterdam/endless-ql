@@ -96,7 +96,7 @@ public class Evaluator {
      * @param questions   questions that are converted
      * @return Interpreted questions
      */
-    private List<QuestionData> evaluateQuestionValues(List<Question> questions, SymbolTable symbolTable) {
+    private List<QuestionData> evaluateQuestionValues(Iterable<Question> questions, SymbolTable symbolTable) {
         List<QuestionData> questionDataList = new ArrayList<>();
         for (Question question : questions) {
             Value value = getQuestionValue(question, symbolTable);

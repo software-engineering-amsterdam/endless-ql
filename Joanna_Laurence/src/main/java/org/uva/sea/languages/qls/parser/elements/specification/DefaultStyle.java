@@ -17,7 +17,7 @@ public class DefaultStyle extends Specification {
         this.typeName = typeName;
     }
 
-    public List<StyleSpecification> getStyleSpecificationList() {
+    public Iterable<StyleSpecification> getStyleSpecificationList() {
         return styleSpecificationList;
     }
 

@@ -75,7 +75,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
      * @param dependsOn
      * @param relation
      */
-    private void addRelations(List<String> questions, List<String> dependsOn, Relation<String> relation) {
+    private void addRelations(Iterable<String> questions, Iterable<String> dependsOn, Relation<String> relation) {
         for (String question : questions) {
             for (String dependOn : dependsOn) {
                 relation.addRelation(question, dependOn);

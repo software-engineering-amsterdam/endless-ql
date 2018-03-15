@@ -8,6 +8,10 @@ public class TypeDeclarationInteger extends TypeDeclaration {
         super(identifier, metaInformation);
     }
 
+    public TypeDeclarationInteger(String identifier) {
+        super(identifier);
+    }
+
     @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);

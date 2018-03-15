@@ -11,9 +11,9 @@ import {Variable} from './expressions/variable';
 
 export class If extends Statement {
   constructor(
-    public condition: Expression,
-    public statements: Statement[],
-    public elseStatements: Statement[],
+    readonly condition: Expression,
+    readonly statements: Statement[],
+    readonly elseStatements: Statement[],
     location: Location) {
     super(location);
   }

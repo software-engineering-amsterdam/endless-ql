@@ -16,7 +16,7 @@ public class SpinnerWidget implements Widget {
         //TODO: set generic
         Spinner<Integer> spinner = new Spinner<>();
 
-        spinner = setStyle(spinner, questionModel.getStyleQLS());
+        spinner = this.setStyle(spinner, questionModel.getStyleQLS());
 
         final int initialValue = 3;
 

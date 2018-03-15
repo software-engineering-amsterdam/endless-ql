@@ -63,10 +63,10 @@ public class ViewRenderer {
 
         wrapper.add(this.createQuestionLabel(questionModel.getLabel()), 0, 0);
 
-        AbstractWidgetFactory factory = new DefaultWidgetFactory(controller);
+        AbstractWidgetFactory factory = new DefaultWidgetFactory(this.controller);
 
         if (questionModel.getWidgetType() == WidgetType.DEFAULT) {
-            factory = new DefaultWidgetFactory(controller);
+            factory = new DefaultWidgetFactory(this.controller);
         }
         //TODO: add QlsWidgetFactory
         Control widget = factory.createWidget(questionModel);

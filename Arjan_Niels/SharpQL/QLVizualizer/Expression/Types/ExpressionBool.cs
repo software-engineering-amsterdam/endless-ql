@@ -1,4 +1,4 @@
-﻿using QLVisualizer.Elements.Managers.LeafTypes;
+﻿using QLVisualizer.Expression.Enums;
 using System;
 
 namespace QLVisualizer.Expression.Types

@@ -1,5 +1,6 @@
 package Nodes;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -90,5 +91,32 @@ public class QLForm extends ASTNode {
      */
     public void addQuestion(Question question){
         this.questions.add(question);
+    }
+
+
+    public List<Question> getAllQuestions(){
+        List<Question> allQuestions = questions;
+        if(conditions != null){
+            Iterator<Condition> conditionIterator = conditions.iterator();
+            while (conditionIterator.hasNext()) {
+                List<Question> subQuestions = visitCondition(conditionIterator.next());
+                if (subQuestions != null)
+                    allQuestions.addAll(subQuestions);
+            }
+        }
+        return allQuestions;
+    }
+
+    private List<Question> visitCondition(Condition condition){
+
+        List<Question> questions = condition.getQuestions();
+        List<Condition> conditions = condition.getConditions();
+        Iterator<Condition> conditionIterator = conditions.iterator();
+        while (conditionIterator.hasNext()) {
+            List<Question> subQuestions = visitCondition(conditionIterator.next());
+            if (subQuestions != null)
+                questions.addAll(subQuestions);
+        }
+        return questions;
     }
 }

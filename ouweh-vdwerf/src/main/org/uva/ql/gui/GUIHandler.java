@@ -6,7 +6,7 @@ import org.uva.ql.evaluator.FormEvaluator;
 import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.ql.gui.widgets.QuestionWidget;
-import org.uva.ql.validation.LogHandler;
+import org.uva.app.LogHandler;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;

@@ -1,11 +1,12 @@
 package data.question
 
 enum class SymbolType {
-    Undecided,
+    UNDEFINED,
     Boolean,
     INTEGER,
     DECIMAL,
     STRING,
     MONEY,
-    COLOR
+    COLOR,
+    DATE
 }

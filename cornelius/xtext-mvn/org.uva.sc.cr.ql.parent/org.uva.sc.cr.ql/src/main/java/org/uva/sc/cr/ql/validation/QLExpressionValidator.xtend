@@ -35,8 +35,8 @@ class QLExpressionValidator extends AbstractQLValidator {
 	public static val TYPE_NOT_EXPECTED = 'typeNotExpected'
 	public static val TYPE_NOT_EXPECTED_MESSAGE = "The resulting type does not match the expected type"
 
-	def QuestionType computeType(Expression exp) {
-		switch exp {
+	def QuestionType computeType(Expression expression) {
+		switch expression {
 			ExpressionOr:
 				QuestionType.TYPE_BOOLEAN
 			ExpressionAnd:
@@ -46,10 +46,10 @@ class QLExpressionValidator extends AbstractQLValidator {
 			ExpressionComparison:
 				QuestionType.TYPE_BOOLEAN
 			ExpressionPlusOrMinus: {
-				computeType(exp.left)
+				computeType(expression.left)
 			}
 			ExpressionMultiplicationOrDivision: {
-				computeType(exp.left)
+				computeType(expression.left)
 			}
 			ExpressionNot:
 				QuestionType.TYPE_BOOLEAN
@@ -60,19 +60,19 @@ class QLExpressionValidator extends AbstractQLValidator {
 			ExpressionLiteralBoolean:
 				QuestionType.TYPE_BOOLEAN
 			ExpressionQuestionReference:
-				exp.question.type
+				expression.question.type
 			default:
 				throw new MissingCaseException
 		}
 	}
 
 	@Check
-	def checkExpressionOr(ExpressionOr exp) {
+	def checkExpressionOr(ExpressionOr expressionOr) {
 
-		var leftType = computeType(exp.left)
-		var rightType = computeType(exp.right)
+		var leftType = computeType(expressionOr.left)
+		var rightType = computeType(expressionOr.right)
 
-		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(expressionOr.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_OR__LEFT, TYPE_NOT_ALLOWED)
 
@@ -85,12 +85,12 @@ class QLExpressionValidator extends AbstractQLValidator {
 	}
 
 	@Check
-	def checkExpressionAnd(ExpressionAnd exp) {
+	def checkExpressionAnd(ExpressionAnd expressionAnd) {
 
-		var leftType = computeType(exp.left)
-		var rightType = computeType(exp.right)
+		var leftType = computeType(expressionAnd.left)
+		var rightType = computeType(expressionAnd.right)
 
-		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(expressionAnd.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_AND__LEFT, TYPE_NOT_ALLOWED)
 
@@ -103,12 +103,12 @@ class QLExpressionValidator extends AbstractQLValidator {
 	}
 
 	@Check
-	def checkExpressionEquality(ExpressionEquality exp) {
+	def checkExpressionEquality(ExpressionEquality expressionEquality) {
 
-		var leftType = computeType(exp.left)
-		var rightType = computeType(exp.right)
+		var leftType = computeType(expressionEquality.left)
+		var rightType = computeType(expressionEquality.right)
 
-		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(expressionEquality.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_EQUALITY__LEFT, TYPE_NOT_ALLOWED)
 
@@ -121,12 +121,12 @@ class QLExpressionValidator extends AbstractQLValidator {
 	}
 
 	@Check
-	def checkExpressionComparison(ExpressionComparison exp) {
+	def checkExpressionComparison(ExpressionComparison expressionComparison) {
 
-		var leftType = computeType(exp.left)
-		var rightType = computeType(exp.right)
+		var leftType = computeType(expressionComparison.left)
+		var rightType = computeType(expressionComparison.right)
 
-		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(expressionComparison.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_COMPARISON__LEFT, TYPE_NOT_ALLOWED)
 
@@ -139,12 +139,12 @@ class QLExpressionValidator extends AbstractQLValidator {
 	}
 
 	@Check
-	def checkExpressionPlusOrMinus(ExpressionPlusOrMinus exp) {
+	def checkExpressionPlusOrMinus(ExpressionPlusOrMinus expressionPlusOrMinus) {
 
-		var leftType = computeType(exp.left)
-		var rightType = computeType(exp.right)
+		var leftType = computeType(expressionPlusOrMinus.left)
+		var rightType = computeType(expressionPlusOrMinus.right)
 
-		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(expressionPlusOrMinus.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_PLUS_OR_MINUS__LEFT, TYPE_NOT_ALLOWED)
 
@@ -157,12 +157,12 @@ class QLExpressionValidator extends AbstractQLValidator {
 	}
 
 	@Check
-	def checkExpressionMulOrDiv(ExpressionMultiplicationOrDivision exp) {
+	def checkExpressionMulOrDiv(ExpressionMultiplicationOrDivision expressionMultiplicationOrDivision) {
 
-		var leftType = computeType(exp.left)
-		var rightType = computeType(exp.right)
+		var leftType = computeType(expressionMultiplicationOrDivision.left)
+		var rightType = computeType(expressionMultiplicationOrDivision.right)
 
-		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(exp.op)
+		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(expressionMultiplicationOrDivision.op)
 		if (!allowedTypes.contains(leftType))
 			error(TYPE_NOT_ALLOWED_MESSAGE, QLPackage.Literals.EXPRESSION_MULTIPLICATION_OR_DIVISION__LEFT, TYPE_NOT_ALLOWED)
 
@@ -175,9 +175,9 @@ class QLExpressionValidator extends AbstractQLValidator {
 	}
 
 	@Check
-	def checkExpressionNot(ExpressionNot exp) {
+	def checkExpressionNot(ExpressionNot expressionNot) {
 
-		var type = computeType(exp.expression)
+		var type = computeType(expressionNot.expression)
 
 		var allowedTypes = OperationQuestionTypeMapping.getAllowedTypesForOperation(Operation.NOT.literal)
 		if (!allowedTypes.contains(type))

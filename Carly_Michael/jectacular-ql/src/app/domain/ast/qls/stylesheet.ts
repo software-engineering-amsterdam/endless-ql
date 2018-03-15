@@ -3,7 +3,7 @@ import {Location} from '../location';
 import {Node, QuestionWithAppliedStyles} from './node';
 import {Style} from './style';
 import {Default} from './default';
-import {Question as QlQuestion} from '../question';
+import {Question as QlQuestion} from '../ql/question';
 import * as _ from 'lodash';
 import {MissingIdentifierError} from '../../errors';
 

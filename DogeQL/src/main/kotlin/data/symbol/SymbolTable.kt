@@ -9,7 +9,10 @@ class SymbolTable {
 
     private var symbols = HashMap<Name, Symbol>()
 
-    private val internalNamePrefix = "@__VAR__"
+    companion object {
+        private const val internalNamePrefix = "@__VAR__"
+    }
+
     private var internalNameIndex = 0
 
     fun evaluateTable(){

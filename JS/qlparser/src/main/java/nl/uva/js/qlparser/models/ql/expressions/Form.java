@@ -20,7 +20,7 @@ public class Form implements Expression, Expression.TypeCheckable, Expression.Vi
     private LinkedList<FormExpression> formExpressions;
 
     @Override
-    public List<Component> getComponents() {
+    public LinkedList<Component> getComponents() {
         LinkedList<Component> components = new LinkedList<>();
 
         formExpressions.stream()

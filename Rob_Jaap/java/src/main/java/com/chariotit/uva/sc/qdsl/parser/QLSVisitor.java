@@ -14,41 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * pages
- * - contain sections
- * - (opt) default
- *
- * section
- * - has title
- * - contains questions, sections
- * - (opt) default
- *
- * question
- * - label
- * - (opt) styling attrs
- *
- * stylint attrs
- * - width
- * - font
- * - fontsize
- * - color
- * - widget (without : )
- *
- * default
- * - { styling attrs }
- * or
- * - default type widget widgettype
- *
- * radio("yes", "no")
- * checkbox
- * spinbox
- *
- *
- * check widget type with field types
- *
- * @param <T>
- */
 public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
 
     private Integer lineNumber(ParserRuleContext ctx) {

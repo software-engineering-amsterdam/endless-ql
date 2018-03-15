@@ -1,4 +1,17 @@
 // mock input for form
+
+export const validQl =
+  `form form {
+    question1: "IntegerQuestion?"  integer
+    question2: "IntegerQuestion?"  integer
+    question3: "BooleanQuestion?"  boolean
+    question4: "StringQuestion?"  string
+    question5: "DateQuestion?"  date
+    if (question3) {
+      question6: "ifQuestion" integer
+    }
+  }`;
+
 export const validFormWithIf =
   `
       form form {

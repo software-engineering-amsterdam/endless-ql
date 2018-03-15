@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
+import ql.model.Form;
 import ql.model.expression.Expression;
 import ql.parser.QLLexer;
 import ql.parser.QLParser;
@@ -14,9 +15,9 @@ import java.io.InputStream;
 
 public class QLTestUtilities {
 
-    public static void buildForm(InputStream stream) throws Exception {
+    public static Form buildForm(InputStream stream) throws Exception {
         QLFormBuilder qlFormBuilder = new QLFormBuilder();
-        qlFormBuilder.buildForm(stream);
+        return qlFormBuilder.buildForm(stream);
     }
 
     public static Expression expressionFromString(String input) {

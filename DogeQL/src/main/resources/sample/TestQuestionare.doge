@@ -1,10 +1,10 @@
 form taxOfficeExample {
-    "Is BTC gonna crash?" crash: int
+    "Is BTC gonna crash?" crash: int = 5
 
     if(true && true) {
-        "Send help?" sendHelp: boolean
+        "Send help?" sendHelp: boolean = false
 
-        if(false) {
+        if(sendHelp) {
             "Q3" q3: string
         }
 

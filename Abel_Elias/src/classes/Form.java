@@ -1,11 +1,10 @@
 package classes;
 
-public class Form extends TreeNode {
+public class Form{
     private String id;
     private Block block;
 
-    public Form(String id, Block block, CodeBlock code) {
-        super(code);
+    public Form(String id, Block block) {
         this.id = id;
         this.block = block;
     }

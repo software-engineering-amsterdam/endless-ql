@@ -1,6 +1,7 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 public abstract class Value<T> {
@@ -20,7 +21,7 @@ public abstract class Value<T> {
 
     public abstract String getStringValue();
 
-    public abstract Date getDateValue();
+    public abstract LocalDate getDateValue();
 
     public abstract Value divide(Value right);
 

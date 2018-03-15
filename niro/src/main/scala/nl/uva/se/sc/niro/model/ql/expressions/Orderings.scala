@@ -54,6 +54,16 @@ object Orderings {
     def equ(x: DateAnswer, y: DateAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_.isEqual(_)))
   }
   implicit object DateAnswerCanDoOrderings extends DateAnswerCanDoOrderings
+
+  trait MoneyAnswerCanDoOrderings extends Orderings[MoneyAnswer] {
+    def lt(x: MoneyAnswer, y: MoneyAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ < _))
+    def lte(x: MoneyAnswer, y: MoneyAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ <= _))
+    def gte(x: MoneyAnswer, y: MoneyAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ >= _))
+    def gt(x: MoneyAnswer, y: MoneyAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ > _))
+    def neq(x: MoneyAnswer, y: MoneyAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ != _))
+    def equ(x: MoneyAnswer, y: MoneyAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ == _))
+  }
+  implicit object MoneyAnswerCanDoOrderings extends MoneyAnswerCanDoOrderings
 }
 
 trait Orderings[SubType <: Answer] {

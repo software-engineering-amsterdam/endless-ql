@@ -1,11 +1,14 @@
-# Jordy Bottelier & Dennis Kruidenberg
+"""
+    A scrollframe is basically a modifyable frame with a scrollbar
+
+    Each scrollFrame contains a scrollbar, a canvas, and a contentsFrame.
+    The contentsFrame can contain widgets. 
+    The canvas is only used to attach the scrollbar to the contents frame
+"""
+
 
 from .gui_imports import *
 
-
-# Each scrollFrame contains a scrollbar, a canvas, and a contentsFrame.
-# The contentsFrame can contain widgets. 
-# The canvas is only used to attach the scrollbar to the contents frame
 class ScrollFrameGui:
 
     def __init__(self, parent):
@@ -21,7 +24,9 @@ class ScrollFrameGui:
         self.contentsFrame.bind("<Configure>", self.onConfigureContentFrame)
         self.canvas.bind("<Configure>", self.onConfigureCanvas)
 
-    # create the canvas, together with the frame that will contain the contents
+    """
+        Create the canvas, together with the frame that will contain the contents
+    """
     def createScrollCanvas(self, parent):
         canvas = Canvas(parent, background="pink")
         contentsFrame = create_frame(canvas, "blue")
@@ -31,16 +36,22 @@ class ScrollFrameGui:
         canvas.configure(yscrollcommand=scrollbar.set)
         return canvas, contentsFrame
 
-    # used to set the window of the canvas to the total width of the canvas
+    """
+        used to set the window of the canvas to the total width of the canvas
+    """
     def onConfigureCanvas(self, event):
         canvas_width = event.width
         self.canvas.itemconfig(self.window, width=canvas_width)
 
-    # Making sure the scroller stays on the canvas and doesnt allow to scroll to infinity
+    """
+        Making sure the scroller stays on the canvas and doesnt allow to scroll to infinity
+    """
     def onConfigureContentFrame(self, event):
         self.canvas.configure(scrollregion=self.canvas.bbox('all'))
 
-    # Return contents so widgets can be added
+    """
+        Return contents so widgets can be added
+    """
     def get_contents(self):
         return self.contentsFrame
 

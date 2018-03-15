@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Domain.Interfaces
 {
@@ -10,5 +11,6 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
         IEnumerable<T> GetAll<T>() where T : IDomainItem;
         //ToDo: clean the registry better - probably to do with scope!
         void Nuke();
+        void Delete<T>(Reference<T> outputItem) where T : IDomainItem;
     }
 }

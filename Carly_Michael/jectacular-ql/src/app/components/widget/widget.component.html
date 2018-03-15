@@ -1,9 +1,10 @@
-<form [formGroup]="form" *ngIf="question.hiddenCondition(form)" ngSwitch="widget.type">
+<form [formGroup]="form" *ngIf="question.hiddenCondition(form)">
+
   <label [for]="question.key">{{question.label}}</label>
 
-  <div *ngIf="question.hiddenCondition(form)">
+  <div [ngSwitch]="question.widget.type">
     <mat-form-field *ngSwitchCase="3">
-      <input [id]="question.key" matInput [formControl]="control" [type]="question.type">
+      <input [id]="question.key" matInput [formControl]="control" [type]="question.type" >
     </mat-form-field>
 
     <mat-checkbox *ngSwitchCase="4" [formControl]="control"></mat-checkbox>
@@ -18,6 +19,10 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-slider *ngSwitchCase="5" [formControl]="control" [value]="question.value"></mat-slider>
+    <mat-form-field *ngSwitchCase="5">
+      <input [id]="question.key" matInput [formControl]="control" type="number" (change)="onNumberChange(question, $event)">
+    </mat-form-field>
+
+    <mat-slider *ngSwitchCase="7" [formControl]="control" type="range" [value]="question.value" (change)="onNumberChange(question, $event)"></mat-slider>
   </div>
 </form>

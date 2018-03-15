@@ -8,79 +8,79 @@ import static org.junit.Assert.assertEquals;
 
 public class ExpressionPrecedenceTest {
     @Test
-    public void PlusMultiplyTest() {
+    public void plusMultiplyPrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("5 + 6 * 3");
         assertEquals(evaluatedExpression.getIntValue(), Integer.valueOf(23));
     }
 
     @Test
-    public void MultiplyPlusTest() {
+    public void multiplyPlusPrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("6 * 3 + 5");
         assertEquals(evaluatedExpression.getIntValue(), Integer.valueOf(23));
     }
 
     @Test
-    public void MultiplyPlusDivideTest() {
+    public void multiplyPlusDividePrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("6 * 3 + 40 / 4");
         assertEquals(evaluatedExpression.getIntValue(), Integer.valueOf(28));
     }
 
     @Test
-    public void MinusDivideTest() {
+    public void minusDividePrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("11 - 30 / 3");
         assertEquals(evaluatedExpression.getIntValue(), Integer.valueOf(1));
     }
 
     @Test
-    public void DivideMinusTest() {
+    public void divideMinusPrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("30 / 3 - 11");
         assertEquals(evaluatedExpression.getIntValue(), Integer.valueOf(-1));
     }
 
     @Test
-    public void ParenthesesTest() {
+    public void parenthesesPrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("(5 + 6) * 3");
         assertEquals(evaluatedExpression.getIntValue(), Integer.valueOf(33));
     }
 
     @Test
-    public void ExpressionComparisonTest() {
+    public void expressionComparisonPrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("3 * 4 > 3 * 4 - 1");
         assertEquals(evaluatedExpression.getBooleanValue(), true);
     }
 
     @Test
-    public void ExpressionEqualsTest() {
+    public void expressionEqualsPrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("3 * 4 == 3 * 4 - 1 + 1");
         assertEquals(evaluatedExpression.getBooleanValue(), true);
     }
 
     @Test
-    public void AndTest() {
+    public void andPrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("4 > 3 && 8 == 8");
         assertEquals(evaluatedExpression.getBooleanValue(), true);
     }
 
     @Test
-    public void OrAndTrueTest() {
+    public void orAndTruePrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("3 > 4 && 8 == 8 || 4 > 3");
         assertEquals(evaluatedExpression.getBooleanValue(), true);
     }
 
     @Test
-    public void AndOrTrueTest() {
+    public void andOrTruePrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("4 > 3 || 8 == 8 && 3 > 4");
         assertEquals(evaluatedExpression.getBooleanValue(), true);
     }
 
     @Test
-    public void OrAndFalseTest() {
+    public void orAndFalsePrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("3 > 4 && 8 == 8 || 3 > 4");
         assertEquals(evaluatedExpression.getBooleanValue(), false);
     }
 
     @Test
-    public void AndOrFalseTest() {
+    public void andOrFalsePrecedence() {
         Value evaluatedExpression = QLTestUtilities.evaluateExpression("3 > 4 || 8 == 8 && 3 > 4");
         assertEquals(evaluatedExpression.getBooleanValue(), false);
     }

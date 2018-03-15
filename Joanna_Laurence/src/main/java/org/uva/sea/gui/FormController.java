@@ -6,10 +6,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.model.GuiModel;
 import org.uva.sea.gui.render.*;
-import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
+import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
+import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class FormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        guiModel = new GuiModel(getClass().getResource(defaultQlLocation).getFile());
+        guiModel = new GuiModel(getClass().getResource(defaultQlLocation).getFile(), null);
         ViewRenderer renderer = new ViewRenderer(questionBox, messageBox, this);
         questionRenderer = new QuestionRenderer(renderer);
         warningRenderer = new WarningRenderer(renderer);
@@ -50,17 +50,17 @@ public class FormController implements Initializable {
     private void drawGui() {
         try {
             updateGui();
-        } catch (IOException | StaticAnalysisError e) {
+        } catch (InterruptedException | IOException e) {
             errorRenderer.render(e.getMessage());
         }
     }
 
-    private void updateGui() throws IOException, StaticAnalysisError {
-        InterpreterResult interpreterResult = guiModel.getInterpreterResult();
+    private void updateGui() throws IOException, InterruptedException {
+        EvaluationResult interpreterResult = guiModel.getInterpreterResult();
         questionRenderer.render(interpreterResult.getQuestions());
 
-        Messages warnings = interpreterResult.getWarnings();
-        for (String warning : warnings.getMessages())
+        Messages warnings = interpreterResult.getMessages();
+        for (String warning : warnings.getMessage(MessageTypes.WARNING))
             warningRenderer.render(warning);
     }
 
@@ -75,7 +75,7 @@ public class FormController implements Initializable {
             return;
         }
 
-        guiModel = new GuiModel(qlFile.getAbsolutePath());
+        guiModel = new GuiModel(qlFile.getAbsolutePath(), null);
         drawGui();
     }
 

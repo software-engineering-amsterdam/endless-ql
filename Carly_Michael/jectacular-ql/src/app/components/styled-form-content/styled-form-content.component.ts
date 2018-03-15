@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {Question as QlsQuestion, Section, Style, Stylesheet} from '../../domain/ast/qls';
+import {Default, Question as QlsQuestion, Section, Style, Stylesheet, Widget} from '../../domain/ast/qls';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 
@@ -13,7 +13,7 @@ export class StyledFormContentComponent implements OnInit, OnChanges {
   @Input() questions: QuestionBase<any>[];
   @Input() form: FormGroup;
   qlsToQlQuestionDictionary: Map<string, QuestionBase<any>> = new Map<string, QuestionBase<any>>();
-
+  initialized = false;
   constructor() { }
 
   ngOnInit() {
@@ -28,12 +28,14 @@ export class StyledFormContentComponent implements OnInit, OnChanges {
     if (this.styles && this.questions) {
       this.createQuestionMappingCache();
       this.assignStyleToQuestions();
+      this.initialized = true;
     }
   }
 
   // This function is necessary to circumvent angular locking up the GUI
-  getSectionQuestions(section: Section): ReadonlyArray<QuestionBase<any>> {
-    return section.getQuestions([]).map(q => {
+  getSectionQuestions(section: Section, parentSettings: Default): ReadonlyArray<QuestionBase<any>> {
+    const parentWidget = parentSettings ? parentSettings.widget : Widget.Empty;
+    return section.getQuestions([], parentWidget).map(q => {
       return this.getQuestionBaseByName(q.question.name);
     });
   }
@@ -88,5 +90,4 @@ export class StyledFormContentComponent implements OnInit, OnChanges {
       }
     }
   }
-
 }

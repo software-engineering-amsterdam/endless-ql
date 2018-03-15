@@ -1,6 +1,5 @@
 package org.uva.jomi.ui.elements.fields;
 
-import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
@@ -15,19 +14,19 @@ public class IntegerField extends InputField implements PropertyChangeListener  
 
 	private JFormattedTextField textfield;
 	private NumberFormat numberFormat;
-	
+
 	public IntegerField() {
 		NumberFormat numberFormat = NumberFormat.getNumberInstance();
 		this.textfield = new JFormattedTextField(numberFormat);
 		this.textfield.addPropertyChangeListener("value", this);
 	}
-	
+
 	@Override
 	public Panel build() {
 		Panel panel = new Panel();
-		
+
 		panel.add(this.textfield);
-		
+
 		return panel;
 	}
 
@@ -38,14 +37,14 @@ public class IntegerField extends InputField implements PropertyChangeListener  
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(this.listener != null && this.getValue() != null) {
-			this.listener.valueDidChange(this);	
+			this.listener.valueDidChange(this);
 		}
 	}
-	
+
 	@Override
 	public void setValue(GenericValue value) {
 		IntegerValue integerValue = (IntegerValue) value;
@@ -56,5 +55,5 @@ public class IntegerField extends InputField implements PropertyChangeListener  
 	public void setEnabled(boolean enabled) {
 		this.textfield.setEnabled(enabled);
 	}
-	
+
 }

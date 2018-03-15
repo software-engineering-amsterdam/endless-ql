@@ -1,15 +1,18 @@
-import gui.FormBuilder;
+import classes.Question;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parsing.visitors.BaseVisitor;
 import parsing.gen.QLLexer;
 import parsing.gen.QLParser;
+import parsing.visitors.InitVisitor;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Main {
     /**
@@ -27,16 +30,16 @@ public class Main {
             QLParser.FormContext tree = parser.form();
 
             //Call the visitor and build the tree
-            BaseVisitor builder = new BaseVisitor(tree);
-            HashMap questionHashMap = builder.getQuestions();
+            InitVisitor builder = new InitVisitor(tree);
+            HashMap<String, Question> memory = builder.getQuestions();
 
 //          Test output
-//            Iterator it = memory.entrySet().iterator();
-//            while (it.hasNext()) {
-//                  Map.Entry pair = (Map.Entry)it.next();
-//                  System.out.println(pair.getKey() + " = " + pair.getValue());
-//                  it.remove();
-//            }
+            Iterator it = memory.entrySet().iterator();
+            while (it.hasNext()) {
+                  Map.Entry pair = (Map.Entry)it.next();
+                  System.out.println(pair.getKey() + " : " + pair.getValue() + " = " + ((Question) pair.getValue()).getValue());
+                  it.remove();
+            }
             //System.out.println("done");
 
             //Construct the form
@@ -51,8 +54,8 @@ public class Main {
             //typeChecker.initTypeChecking(form);
 
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder(builder, questionHashMap);
-            formBuilder.initComponents();
+            //FormBuilder formBuilder = new FormBuilder();
+            //formBuilder.initComponents(memory);
 
         } catch (IOException e) {
             e.printStackTrace();

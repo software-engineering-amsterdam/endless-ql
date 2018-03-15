@@ -10,7 +10,7 @@ stylesheet taxOfficeExample
 
         question freeBag2
 
-        default spinbox
+        default boolean
         {
           width: 400
           font: "Arial"

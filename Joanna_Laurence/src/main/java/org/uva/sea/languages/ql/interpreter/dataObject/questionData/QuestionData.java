@@ -69,6 +69,6 @@ public class QuestionData {
     }
 
     public void setWidgetType(WidgetType widgetType) {
-        this.widgetType = widgetType;
+        this.style.setWidgetType(widgetType);
     }
 }

@@ -4,7 +4,7 @@
 
   <div [ngSwitch]="question.widget.type">
     <mat-form-field *ngSwitchCase="3">
-      <input [id]="question.key" matInput [formControl]="control" [type]="question.type">
+      <input [id]="question.key" matInput [formControl]="control" [type]="question.type" >
     </mat-form-field>
 
     <mat-checkbox *ngSwitchCase="4" [formControl]="control"></mat-checkbox>
@@ -20,9 +20,9 @@
     </mat-form-field>
 
     <mat-form-field *ngSwitchCase="5">
-      <input [id]="question.key" matInput [formControl]="control" [type]="number">
+      <input [id]="question.key" matInput [formControl]="control" type="number" (change)="onNumberChange(question, $event)">
     </mat-form-field>
 
-    <mat-slider *ngSwitchCase="7" [formControl]="control" [value]="question.value"></mat-slider>
+    <mat-slider *ngSwitchCase="7" [formControl]="control" type="range" [value]="question.value" (change)="onNumberChange(question, $event)"></mat-slider>
   </div>
 </form>

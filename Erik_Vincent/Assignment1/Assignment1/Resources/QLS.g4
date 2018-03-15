@@ -15,11 +15,17 @@ options { tokenVocab=QLSLexer; }
 // Add instructions to generate appropriate classes
 
 stylesheet returns [Stylesheet result]
+	@init {
+	$result = new Stylesheet();
+	}
 	: STYLESHEET ID OPEN_CB (page
 		{$result.Pages.Add($page.result);}
 		)+ CLOSE_CB
 	;
 page returns [Page result]
+	@init {
+	$result = new Page();
+	}
 	: PAGE ID OPEN_CB (section
 			{$result.Sections.Add($section.result);})*
 		(default_style
@@ -27,6 +33,9 @@ page returns [Page result]
 		CLOSE_CB
 	;
 section returns [Section result]
+	@init {
+	$result = new Section();
+	}
 	: SECTION string questionStyle	//TODO: Check if this case is mandatory
 		{$result.Contents.Add($questionStyle.result);}
 	| SECTION string OPEN_CB (content
@@ -37,7 +46,7 @@ section returns [Section result]
 	;
 content returns [IContent result]
 	: section
-		{$result = new Section();}
+		{$result = $section.result;}
 	| questionStyle
 		{$result = $questionStyle.result;}
 	;

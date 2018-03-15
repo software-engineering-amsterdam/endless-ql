@@ -3,7 +3,7 @@ import {QuestionBase} from '../../angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 import {Question} from './question';
 import * as _ from 'lodash';
-import {TypeError} from '../../errors';
+import {ImpossibleIfConditionError, TypeError} from '../../errors';
 import {Location} from '../location';
 import {Expression, LiteralType} from './expressions/expression';
 import {ExpressionType, ExpressionTypeUtil} from './expressions/expression-type';
@@ -32,6 +32,18 @@ export class If extends Statement {
     if (expressionType !== ExpressionType.BOOLEAN) {
       throw new TypeError(`Expected type boolean for ${ExpressionTypeUtil.toString(expressionType)} for usage in if statement `
         + this.getLocationErrorMessage());
+    }
+
+    // check if any of the referenced question(s) in the condition point to questions in the body
+    const variables = this.condition.getVariables();
+    const questions = this.getQuestions();
+
+    for (const variable of variables) {
+      const question = questions.find(q => q.name === variable.identifier);
+
+      if (question) {
+        throw new ImpossibleIfConditionError(`if statement ${this.getLocationErrorMessage()} has question '${question.name}' both in condition and in body`);
+      }
     }
   }
 

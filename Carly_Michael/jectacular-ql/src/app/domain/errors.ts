@@ -32,3 +32,8 @@ export class CircularDependencyError implements Error {
   name = 'CircularDependency';
   constructor(public message: string) {}
 }
+
+export class ImpossibleIfConditionError implements Error {
+  name = 'ImpossibleIfCondition';
+  constructor(public message: string) {}
+}

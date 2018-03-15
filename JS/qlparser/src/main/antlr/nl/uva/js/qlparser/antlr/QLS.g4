@@ -99,10 +99,10 @@ stylesheet
     ;
 
 styleBlock
-    : LB styleExpression* RB
+    : LB expression* RB
     ;
 
-styleExpression
+expression
     : defaultStyle
     | page
     ;

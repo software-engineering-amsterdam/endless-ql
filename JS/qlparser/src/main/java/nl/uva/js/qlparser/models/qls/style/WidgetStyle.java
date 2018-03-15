@@ -1,4 +1,4 @@
-package nl.uva.js.qlparser.models.qls.enums;
+package nl.uva.js.qlparser.models.qls.style;
 
 import lombok.Builder;
 import lombok.Data;

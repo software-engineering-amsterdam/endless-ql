@@ -3,9 +3,9 @@ from ql.ast.expressions.literals.date_node import DateNode
 from gui.model.widgets import CalendarWidget
 
 
-class TypeDate(Type):
+class QLDate(Type):
     def __init__(self, day, month, year):
-        super(TypeDate, self).__init__()
+        super(QLDate, self).__init__()
         self.__day = day
         self.__month = month
         self.__year = year
@@ -22,7 +22,7 @@ class TypeDate(Type):
 
     @staticmethod
     def get_literal_node(value):
-        return DateNode(None, TypeDate, value)
+        return DateNode(None, QLDate, value)
 
     @staticmethod
     def pyqt5_default_widget():

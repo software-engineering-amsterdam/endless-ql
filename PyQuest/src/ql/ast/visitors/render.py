@@ -2,7 +2,7 @@ from ql.ast.statements.form_node import FormNode
 from ql.ast.statements.if_node import IfNode
 from ql.ast.statements.question_node import QuestionNode
 from ql.ast.expressions.binary_operators.and_node import AndOperatorNode
-from ql.types.type_boolean import TypeBoolean
+from ql.types.boolean import QLBoolean
 from ql.ast.visitors.visitor_helper import when, on
 from gui.model.form import Form
 
@@ -10,7 +10,7 @@ from gui.model.form import Form
 class Render:
     def __init__(self):
         self.form = None
-        self.condition = TypeBoolean.get_literal_node(True)
+        self.condition = QLBoolean.get_literal_node(True)
 
     @on('node')
     def visit(self, node):
@@ -26,7 +26,7 @@ class Render:
     @when(IfNode)
     def visit(self, node):
         previous_condition = self.condition
-        self.condition = AndOperatorNode(None, TypeBoolean, self.condition, node.condition, None)
+        self.condition = AndOperatorNode(None, QLBoolean, self.condition, node.condition, None)
 
         for child in node.block:
             child.accept(self)

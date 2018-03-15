@@ -24,11 +24,11 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
     private final Fetcher defaultStyleEvaluator = new Fetcher();
 
     //Current state for visitor Visitor
-    private Page currentPage;
+    private Page currentPage = null;
 
     private final Stack<Section> currentSections = new Stack<>();
 
-    private Map<String, NodeType> qlQuestionNodeTypes;
+    private Map<String, NodeType> qlQuestionNodeTypes = new HashMap<>();
 
 
     /**

@@ -133,6 +133,12 @@
     {
         shouldBeHappy: "Are you Sure you're unhappy?" boolean
     }
+    
+    
+    if (false)
+    {
+        shouldBeInvisible: "This Should be invisible?" boolean
+    }
 }</value>
   </data>
 </root>

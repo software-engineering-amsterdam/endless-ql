@@ -15,7 +15,7 @@ class QLSVisitorHelper(QLSVisitor):
             page_node = self.visit(page)
             stylesheet.pages.append(page_node)
 
-        print stylesheet
+        # print stylesheet
         return stylesheet
 
 

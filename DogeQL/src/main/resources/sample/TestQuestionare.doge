@@ -8,7 +8,7 @@ form taxOfficeExample {
             "Q3" q3: string
         }
 
-        "Q4" q4: boolean
+        "Q4" q4: money
     }
 
     "Q5" q5: boolean

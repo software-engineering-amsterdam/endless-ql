@@ -1,7 +1,6 @@
 package gui.questions;
 
 import classes.Question;
-import gui.FormBuilder;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;

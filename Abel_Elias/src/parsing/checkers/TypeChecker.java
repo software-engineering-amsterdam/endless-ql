@@ -9,17 +9,19 @@ import java.util.HashMap;
 
 public class TypeChecker extends BaseVisitor {
     // Typechecker checks if there are any inconsistensies in the types that were given in the syntax of the code
-    public TypeChecker(HashMap<String, Question> questionMap, QLParser.BlockContext ctx){
-        super();
-        addQuestions(questionMap);
-        visitBlock(ctx);
+    public TypeChecker(QLParser.FormContext ctx){
+        initQuestionMap();
+        visitBlock(ctx.block());
     }
 
     @Override
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
+        Class expectedType = visit(ctx.type()).getClass();
+        Class valueType = visit(ctx.expression()).getClass();
 
-        if(!haveSameType(visit(ctx.expression()).getClass(), visit(ctx.type()).getClass())){
+
+        if(!haveSameType(valueType, expectedType)){
             throw new TypeError(id, ctx.type().getText());
         }
 

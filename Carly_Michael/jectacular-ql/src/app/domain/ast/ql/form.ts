@@ -6,7 +6,7 @@ import {QlQuestion} from './ql-question';
 import {Location} from '../location';
 
 export class Form {
-  constructor(public name: string, public statements: Statement[], public location: Location) {
+  constructor(readonly name: string, readonly statements: Statement[], readonly location: Location) {
   }
 
   toFormQuestion(): QuestionBase<any>[] {

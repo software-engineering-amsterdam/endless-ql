@@ -1,18 +1,18 @@
 package gui.view;
 
-import gui.model.FormQuestionHolder;
+import gui.model.QuestionModel;
 
 import javax.swing.*;
 
 public abstract class Widget extends JComponent {
-    private final FormQuestionHolder formQuestionHolder;
+    private final QuestionModel questionModel;
 
-    protected Widget(FormQuestionHolder formQuestionHolder) {
-        this.formQuestionHolder = formQuestionHolder;
+    protected Widget(QuestionModel questionModel) {
+        this.questionModel = questionModel;
     }
 
-    public FormQuestionHolder getFormQuestionHolder() {
-        return formQuestionHolder;
+    public QuestionModel getQuestionModel() {
+        return questionModel;
     }
 
     public abstract JComponent getComponent();

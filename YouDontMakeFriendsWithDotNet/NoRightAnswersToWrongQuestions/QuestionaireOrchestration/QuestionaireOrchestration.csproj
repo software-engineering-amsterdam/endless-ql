@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="CommandHandlers\CreateDefinitionFromTextCommandHandler.cs" />
     <Compile Include="Commands\CreateDefinitionFromTextCommand.cs" />
+    <Compile Include="Commands\UpdateValuesCommand.cs" />
     <Compile Include="Models\DomainItemModel.cs" />
     <Compile Include="Commands\LoadDefinitionsFromFileCommand.cs" />
     <Compile Include="Models\QuestionModel.cs" />

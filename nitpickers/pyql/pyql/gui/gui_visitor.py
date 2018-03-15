@@ -17,19 +17,27 @@ from pyql.gui.widgets.widget_factory import WidgetFactory
 
 
 class GUIVisitor:
-    def __init__(self, ast, symbol_table):
+    def __init__(self, ast, symbol_table, messages):
         self._expression_visitor = ExpressionEvaluator(symbol_table)
         self._ast = ast
         self._symbol_table = symbol_table
 
         root = tkinter.Tk()
         self._window = Window(root, self, self._symbol_table)
-        self.build()
+
+        print(messages, not messages)
+        if not messages:
+            self.build()
+        else:
+            self.build_messages(messages)
         root.mainloop()
 
     def build(self):
         self._window.clear()
         self._ast.accept(self)
+
+    def build_messages(self, messages):
+        self._window.show_messages(messages)
 
     @multimethod(Identifier)
     def visit(self, identifier):

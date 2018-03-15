@@ -3,11 +3,12 @@ package gui.model;
 import ast.model.declarations.TypeDeclaration;
 import ast.model.expressions.Expression;
 import gui.controller.FormController;
-import gui.view.FormQuestionPanel;
+import gui.view.QuestionPanel;
+import logic.type.MixedValue;
 
 import java.math.BigDecimal;
 
-public class FormQuestionHolder {
+public class QuestionModel {
 
     private final String label;
     private final String variableName;
@@ -16,20 +17,23 @@ public class FormQuestionHolder {
     private final Expression visibilityCondition;
     private final Expression assignedExpression;
 
-    private MixedValueHolder visibilityHolder;
-    private MixedValueHolder valueHolder;
+    private Boolean visibility;
+    private MixedValue value;
 
     private FormController formController;
-    private FormQuestionPanel panel;
+    private QuestionPanel panel;
 
-    public FormQuestionHolder(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
+    public QuestionModel(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
+
         this.label = label;
         this.variableName = variableName;
         this.originalDataTypeDeclaration = originalDataTypeDeclaration;
+
         this.visibilityCondition = visibilityCondition;
+        this.visibility = true;
+
         this.assignedExpression = assignedExpression;
-        // default value
-        this.valueHolder = MixedValueHolder.createValueHolder(this.originalDataTypeDeclaration.toDataType(), "");
+        this.value = MixedValue.createValue(this.originalDataTypeDeclaration.toDataType(), "");
     }
 
     public String getLabel() {
@@ -52,52 +56,67 @@ public class FormQuestionHolder {
         return assignedExpression;
     }
 
-    public MixedValueHolder getVisibilityHolder() {
-        return visibilityHolder;
+    public Boolean getVisibility() {
+        return visibility;
     }
 
-    public void setVisibilityHolder(MixedValueHolder visibilityHolder) {
-        this.visibilityHolder = visibilityHolder;
+    public void setVisibility(Boolean visibility) {
+        this.visibility = visibility;
     }
 
-    public MixedValueHolder getValueHolder() {
-        return valueHolder;
+    public MixedValue getValue() {
+        return value;
     }
 
-    public void setValueHolder(MixedValueHolder valueHolder) {
-        this.valueHolder = valueHolder;
+    public Object getJavaTypedValue() {
+        switch (this.value.getType()) {
+            case INTEGER:
+                return this.value.getIntegerValue();
+            case DECIMAL:
+                return this.value.getDecimalValue();
+            case BOOLEAN:
+                return this.value.getBooleanValue();
+            case STRING:
+                return this.value.getStringValue();
+            default:
+                return null;
+        }
+    }
+
+    public void setValue(MixedValue value) {
+        this.value = value;
     }
 
     public void changeValue(Boolean value) {
-        this.valueHolder.setBooleanValue(value);
-        this.formController.processFormQuestionHolderChange(this);
+        this.value.setBooleanValue(value);
+        this.formController.processQuestionModelChange(this);
     }
 
     public void changeValue(BigDecimal value) {
-        this.valueHolder.setDecimalValue(value);
-        this.formController.processFormQuestionHolderChange(this);
+        this.value.setDecimalValue(value);
+        this.formController.processQuestionModelChange(this);
     }
 
     public void changeValue(Integer value) {
-        this.valueHolder.setIntegerValue(value);
-        this.formController.processFormQuestionHolderChange(this);
+        this.value.setIntegerValue(value);
+        this.formController.processQuestionModelChange(this);
     }
 
     public void changeValue(String value) {
-        this.valueHolder.setStringValue(value);
-        this.formController.processFormQuestionHolderChange(this);
+        this.value.setStringValue(value);
+        this.formController.processQuestionModelChange(this);
     }
 
     @Override
     public String toString() {
-        return "FormQuestionHolder{" +
+        return "QuestionModel{" +
                 "label='" + label + '\'' +
                 ", variableName='" + variableName + '\'' +
                 ", originalDataTypeDeclaration=" + originalDataTypeDeclaration +
                 ", visibilityCondition=" + visibilityCondition +
                 ", assignedExpression=" + assignedExpression +
-                ", visibility=" + visibilityHolder +
-                ", value=" + valueHolder +
+                ", visibility=" + visibility +
+                ", value=" + value +
                 '}';
     }
 
@@ -109,11 +128,11 @@ public class FormQuestionHolder {
         }
     }
 
-    public void setPanel(FormQuestionPanel panel) {
+    public void setPanel(QuestionPanel panel) {
         this.panel = panel;
     }
 
-    public FormQuestionPanel getPanel() {
+    public QuestionPanel getPanel() {
         return panel;
     }
 }

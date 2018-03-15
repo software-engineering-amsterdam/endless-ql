@@ -14,6 +14,12 @@ public class Literal extends Expression {
         this.type = type;
     }
 
+    public Literal(String value, Expression.DataType type) {
+        super();
+        this.value = value;
+        this.type = type;
+    }
+
     public String getValue() {
         return value;
     }

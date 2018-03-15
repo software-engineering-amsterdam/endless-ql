@@ -23,3 +23,6 @@ QL - QLS in one tree? Or in renderer?
 TExt field for each type. DIsallow incorrect input.
 
 base type for renderer
+
+refactor style object
+refactor widgetType and NodeType to remove repetitions

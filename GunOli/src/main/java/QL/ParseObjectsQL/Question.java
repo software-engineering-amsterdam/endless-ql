@@ -9,13 +9,15 @@ public class Question {
     private EvaluationType type;
     private Expression answer;
     private Expression condition;
+    private Boolean predefined;
 
-    public Question(String id, String text, EvaluationType type, Expression answer, Expression condition){
+    public Question(String id, String text, EvaluationType type, Expression answer, Expression condition, Boolean predefined){
         setIdentifier(id);
         setText(text);
         setType(type);
         setAnswer(answer);
         setCondition(condition);
+        setPredefined(predefined);
     }
 
     public String getIdentifier() {
@@ -53,6 +55,12 @@ public class Question {
     public Expression getCondition(){ return condition;}
 
     public void setCondition(Expression condition){ this.condition = condition;}
+
+    private void setPredefined(Boolean predefined){
+        this.predefined = predefined;
+    }
+
+    public Boolean isPredefined(){ return predefined;}
 
     public Boolean isEnabled(){
         return condition.evaluate().getValue().equals(true);

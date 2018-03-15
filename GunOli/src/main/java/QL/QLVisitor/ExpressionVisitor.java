@@ -9,6 +9,9 @@ import QL.ParseObjectsQL.Expressions.UnaryExpressions.NotExpression;
 import QL.QLAntlrGen.QLBaseVisitor;
 import QL.QLAntlrGen.QLParser;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class ExpressionVisitor extends QLBaseVisitor<Expression> {
     private ExpressionTable expressionTable;
 
@@ -96,7 +99,10 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitDateConstant(QLParser.DateConstantContext ctx) {
-        return new DateConstant(ctx.getText());
+        String dateString = ctx.getText();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate localDate = LocalDate.parse(ctx.getText(), formatter);
+        return new DateConstant(localDate);
     }
 
     @Override

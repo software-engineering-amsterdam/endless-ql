@@ -21,4 +21,6 @@ public abstract class Constant<T> extends Expression<T> {
     public Constant<T> evaluate() {
         return this;
     }
+
+    public abstract String toString();
 }

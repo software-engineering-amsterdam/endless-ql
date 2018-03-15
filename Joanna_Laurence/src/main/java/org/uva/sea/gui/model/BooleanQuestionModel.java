@@ -14,7 +14,7 @@ public class BooleanQuestionModel extends BaseQuestionModel {
     }
 
     public boolean getBasicValue() {
-        return value != null && value.getBooleanValue();
+        return (this.value != null) && this.value.getBooleanValue();
     }
 
     @Override
@@ -24,6 +24,6 @@ public class BooleanQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        return value != null ? String.valueOf(value.getBooleanValue()) : "No value";
+        return (this.value != null) ? String.valueOf(this.value.getBooleanValue()) : "No value";
     }
 }

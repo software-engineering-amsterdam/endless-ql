@@ -5,7 +5,7 @@ import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 public class BooleanValue extends Value {
-    boolean booleanValue;
+    private final boolean booleanValue;
 
     public BooleanValue(String value) {
         this.booleanValue = value.equals("true") || value.equals("TRUE");
@@ -16,7 +16,7 @@ public class BooleanValue extends Value {
     }
 
     public boolean getBooleanValue() {
-        return booleanValue;
+        return this.booleanValue;
     }
 
     @Override

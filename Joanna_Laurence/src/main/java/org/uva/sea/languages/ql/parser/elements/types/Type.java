@@ -6,7 +6,7 @@ import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Type extends ASTNode {
-    private NodeType nodeType;
+    private final NodeType nodeType;
 
     public Type(Token token, String type) {
         super(token);
@@ -18,7 +18,7 @@ public class Type extends ASTNode {
     }
 
     public NodeType getNodeType() {
-        return nodeType;
+        return this.nodeType;
     }
 
     public Type getType() {
@@ -28,16 +28,16 @@ public class Type extends ASTNode {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if ((o == null) || (this.getClass() != o.getClass())) return false;
 
         Type type = (Type) o;
 
-        return nodeType != null ? nodeType.equals(type.nodeType) : type.nodeType == null;
+        return (this.nodeType != null) ? (this.nodeType == type.nodeType) : (type.nodeType == null);
     }
 
     @Override
     public int hashCode() {
-        return nodeType != null ? nodeType.hashCode() : 0;
+        return (this.nodeType != null) ? this.nodeType.hashCode() : 0;
     }
 
     @Override

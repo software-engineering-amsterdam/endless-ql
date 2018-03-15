@@ -2,7 +2,7 @@ package org.uva.sea.gui.render;
 
 public class ErrorRenderer implements Renderable<String> {
 
-    private ViewRenderer render;
+    private final ViewRenderer render;
 
     public ErrorRenderer(ViewRenderer javafxRendererVisitor) {
         this.render = javafxRendererVisitor;
@@ -10,6 +10,6 @@ public class ErrorRenderer implements Renderable<String> {
 
     @Override
     public void render(String error) {
-        render.displayError(error);
+        this.render.displayError(error);
     }
 }

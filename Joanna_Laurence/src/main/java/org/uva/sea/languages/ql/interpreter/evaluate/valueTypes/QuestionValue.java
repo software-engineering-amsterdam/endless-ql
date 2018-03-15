@@ -6,7 +6,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 public class QuestionValue extends Value {
 
-    private Question question;
+    private final Question question;
 
     public QuestionValue(Question question) {
         this.question = question;

@@ -174,8 +174,8 @@ function peg$parse(input, options) {
   const peg$c32 = peg$literalExpectation("date", false);
   const peg$c33 = "integer";
   const peg$c34 = peg$literalExpectation("integer", false);
-  const peg$c35 = "float";
-  const peg$c36 = peg$literalExpectation("float", false);
+  const peg$c35 = "decimal";
+  const peg$c36 = peg$literalExpectation("decimal", false);
   const peg$c37 = "text";
   const peg$c38 = peg$literalExpectation("text", false);
   const peg$c39 = function(literalType) {
@@ -697,9 +697,9 @@ function peg$parse(input, options) {
             if (peg$silentFails === 0) { peg$fail(peg$c34); }
           }
           if (s0 === peg$FAILED) {
-            if (input.substr(peg$currPos, 5) === peg$c35) {
+            if (input.substr(peg$currPos, 7) === peg$c35) {
               s0 = peg$c35;
-              peg$currPos += 5;
+              peg$currPos += 7;
             } else {
               s0 = peg$FAILED;
               if (peg$silentFails === 0) { peg$fail(peg$c36); }
@@ -2464,13 +2464,13 @@ function peg$parse(input, options) {
                 "/"  : Nodes.Division
               }
 
-      // Dictionary of types to their tsc definition
-      let types = {
+    // Dictionary of types to their tsc definition
+    let types = {
                     "boolean" : FieldType.Boolean,
                     "date" : FieldType.Date,
                     "money" : FieldType.Money,
                     "integer" : FieldType.Integer,
-                    "float" : FieldType.Decimal,
+                    "decimal" : FieldType.Decimal,
                     "text" : FieldType.Text,
                   }
 

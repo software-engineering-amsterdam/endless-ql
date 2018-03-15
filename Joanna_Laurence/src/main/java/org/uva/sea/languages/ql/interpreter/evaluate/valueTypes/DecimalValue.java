@@ -7,7 +7,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 public class DecimalValue extends Value {
 
-    private double decimalValue;
+    private final double decimalValue;
 
     public DecimalValue(String value) {
         this.decimalValue = Double.parseDouble(value);
@@ -19,7 +19,7 @@ public class DecimalValue extends Value {
     }
 
     public double getDecimalValue() {
-        return decimalValue;
+        return this.decimalValue;
     }
 
     @Override

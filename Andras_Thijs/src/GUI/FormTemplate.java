@@ -1,13 +1,11 @@
 package GUI;
 
-import AST.gen.QLParser;
 import Nodes.Condition;
 import Nodes.QLForm;
 import Nodes.Question;
 import Nodes.Type;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
-import javafx.util.Builder;
 
 import javax.swing.*;
 import javax.swing.text.DateFormatter;
@@ -21,21 +19,41 @@ import java.util.List;
 
 public class FormTemplate {
 
+    private QLForm form;
+
+    public FormTemplate(QLForm form){
+        this.form = form;
+    }
+
+    public void renderForm(){
+
+        JFrame frame = new JFrame(form.getName());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel panel = new JPanel(new FlowLayout());
+
+        List<Question> questions = form.getAllQuestions();
+        Iterator<Question> questionIterator = questions.iterator();
+        while (questionIterator.hasNext())
+            panel.add(new QuestionPanel(questionIterator.next()));
+
+        frame.pack();
+
+        frame.setVisible(true);
+
+
+    }
+
+    /*
     private FormLayout layout;
     private JFrame frame;
     private JPanel mainPanel;
     private QLForm body;
     private JButton submit;
-    private List<Component> components;
-    private DefaultFormBuilder builder;
     private Map<Question, JPanel> questionDictionary;
-
-    public FormTemplate(){
-        body  = new QLForm("Undefined");
-    }
 
     public FormTemplate(QLForm form){
         body = form;
+        questionDictionary = new HashMap<>();
     }
 
     public final void initGUI(){
@@ -45,13 +63,14 @@ public class FormTemplate {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         layout = new FormLayout(
-                "left:default, 3dlu default"); // 5 columns; add rows later
+                "left:default, 3dlu default");
 
-        builder = new DefaultFormBuilder(layout);
 
         updatePanel();
 
-        //refreshPanel(builder.getPanel());
+
+
+
     }
 
     private void updatePanel(){
@@ -63,22 +82,24 @@ public class FormTemplate {
         List<Condition> conditions = body.getConditions();
         Iterator<Condition> conditionIterator = conditions.iterator();
         while (conditionIterator.hasNext())
-            iterateQuestions(visitCondition(conditionIterator.next()));
+            iterateQuestions(visitCondition(conditionIterator.next(), true));
 
         //builder.append(submit = new JButton("submit"));
 
     }
 
-    private List<Question> visitCondition(Condition condition){
+    //TODO MOVE TO QLForm
+    // Return the list of all available questions if valid elements is set to false, or all questions if it's set to true
+    private List<Question> visitCondition(Condition condition, boolean allQuestions){
 
         List<Question> questions;
 
-        if(condition.getExpression().getBoolean()){
+        if(condition.getExpression().getBoolean() || allQuestions){
             questions = condition.getQuestions();
             List<Condition> conditions = condition.getConditions();
             Iterator<Condition> conditionIterator = conditions.iterator();
             while (conditionIterator.hasNext()) {
-                List<Question> subQuestions = visitCondition(conditionIterator.next());
+                List<Question> subQuestions = visitCondition(conditionIterator.next(), allQuestions);
                 if (subQuestions != null)
                     questions.addAll(subQuestions);
             }
@@ -89,21 +110,34 @@ public class FormTemplate {
         return null;
     }
 
+    //TODO MOVE TO QLForm
     private void iterateQuestions (List<Question> questions){
         Iterator<Question> questionIterator = questions.iterator();
         while (questionIterator.hasNext()) {
-            System.out.println(questionIterator.next().getLabel());
+            addQuestion(questionIterator.next());
         }
     }
 
+
+    private JPanel createQuestion(Question question){
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+        builder.append(question.getLabel(), getComponent(question.getType()));
+        return builder.getPanel();
+    }
+
     private void addQuestion(Question question) {
-        if (!(questionDictionary.containsKey(question))){
-            DefaultFormBuilder panelBuilder = new DefaultFormBuilder(layout);
-            panelBuilder.append(question.getLabel(), getComponent(question.getType()));
-            questionDictionary.put(question, panelBuilder.getPanel());
+
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+
+        if(!question.isDisplayed()) {
+            if (!questionDictionary.containsKey(question)) {
+                builder.append(question.getLabel(), getComponent(question.getType()));
+                System.out.println(question.getLabel());
+                questionDictionary.put(question, builder.getPanel());
+            }
+            question.setDisplayed(true);
+            frame.add(questionDictionary.get(question));
         }
-        question.setDisplayed(true);
-        frame.add(questionDictionary.get(question));
     }
 
     private void removeQuestion(Question question){
@@ -114,77 +148,13 @@ public class FormTemplate {
 
     private void refreshPanel(JPanel newPanel){
 
-        mainPanel = newPanel;
-
-        frame.add(mainPanel);
+        frame.add(newPanel);
 
         frame.pack();
 
         frame.setVisible(true);
     }
 
-    private Component getComponent(Type type){
-        switch (type){
-            case BOOL: return new JCheckBox();
+    */
 
-            case STRING: return new JTextField();
-
-            case INT: return new JFormattedTextField(intField());
-
-            case DATE: return new JFormattedTextField(dateField());
-
-            case DECIMAL: return new JFormattedTextField(decimalField());
-
-            case MONEY: return new JFormattedTextField(moneyField());
-
-            default: return new JLabel(String.valueOf(type));
-        }
-    }
-
-
-    private NumberFormatter intField(){
-        NumberFormat format = NumberFormat.getInstance();
-        NumberFormatter formatter = new NumberFormatter(format);
-        formatter.setValueClass(Integer.class);
-        formatter.setMaximum(Integer.MAX_VALUE);
-        formatter.setAllowsInvalid(false);
-        return formatter;
-    }
-
-    private DateFormatter dateField(){
-        DateFormat format = new SimpleDateFormat("yyyy--MMMM--dd");
-        DateFormatter formatter = new DateFormatter(format);
-        formatter.setValueClass(Date.class);
-        formatter.setAllowsInvalid(false);
-        return formatter;
-    }
-
-
-    private NumberFormatter decimalField() {
-        NumberFormat format = NumberFormat.getInstance();
-        NumberFormatter formatter = new NumberFormatter(format);
-        formatter.setValueClass(Double.class);
-        formatter.setMaximum(Double.MAX_VALUE);
-        formatter.setAllowsInvalid(false);
-        return formatter;
-    }
-
-    // TODO define currency field
-    private NumberFormatter moneyField() {
-        return decimalField();
-    }
-
-//    public void setTitle(String title){
-//
-//        frame.setTitle(title);
-//    }
-//
-//    public void addQuestion(Nodes.Question question){
-//
-//        questionPanel.add(new JLabel(question.getType()));
-//
-//        mainPanel.add(questionPanel);
-//
-////        frame.revalidate();
-//    }
 }

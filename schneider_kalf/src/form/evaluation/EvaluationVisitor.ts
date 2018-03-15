@@ -27,6 +27,7 @@ import FormState from "../state/FormState";
 import Decimal from "decimal.js/decimal";
 import NumberValue from "../values/NumberValue";
 import NumericOperation from "../values/NumericOperation";
+import { isNumericValue } from "../values/values_helpers";
 
 /**
  * The evaluation visitor travels through an expression and calculates
@@ -138,30 +139,6 @@ export default class EvaluationVisitor implements ExpressionVisitor {
     return NumericOperation.make(left, right).subtract();
   }
 
-  visitLargerThan(largerThan: LargerThan): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(largerThan);
-    return leftValue > rightValue;
-  }
-
-  visitLargerThanOrEqual(largerThanOrEqual: LargerThanOrEqual): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(largerThanOrEqual);
-    return leftValue >= rightValue;
-  }
-
-  visitSmallerThan(smallerThan: SmallerThan): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThan);
-    return leftValue < rightValue;
-  }
-
-  visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThanOrEqual);
-    return leftValue <= rightValue;
-  }
-
-  visitNotEqual(notEquals: NotEquals): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(notEquals);
-    return leftValue !== rightValue;
-  }
 
   /**
    * Evaluate a Equals node by comparing the values behind the left and the right side.
@@ -170,7 +147,62 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    */
   visitEquals(equals: Equals) {
     const {leftValue, rightValue} = this.assertSidesAreComparable(equals);
+
+    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).equals();
+    }
+
     return leftValue === rightValue;
+  }
+
+  visitLargerThan(largerThan: LargerThan): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(largerThan);
+
+    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).largerThan();
+    }
+
+    return leftValue > rightValue;
+  }
+
+  visitLargerThanOrEqual(largerThanOrEqual: LargerThanOrEqual): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(largerThanOrEqual);
+
+    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).largerThanOrEqual();
+    }
+
+    return leftValue >= rightValue;
+  }
+
+  visitSmallerThan(smallerThan: SmallerThan): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThan);
+
+    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).smallerThan();
+    }
+
+    return leftValue < rightValue;
+  }
+
+  visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThanOrEqual);
+
+    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).smallerThanOrEqual();
+    }
+
+    return leftValue <= rightValue;
+  }
+
+  visitNotEqual(notEquals: NotEquals): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(notEquals);
+
+    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).notEqual();
+    }
+
+    return leftValue !== rightValue;
   }
 
   /**

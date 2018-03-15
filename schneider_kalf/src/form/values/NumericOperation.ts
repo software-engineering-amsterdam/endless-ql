@@ -38,14 +38,29 @@ export default class NumericOperation {
     return left.equals(right);
   }
 
+  public notEqual(): boolean {
+    const {left, right} = this.getOperands();
+    return left.equals(right) === false;
+  }
+
   public smallerThan(): boolean {
     const {left, right} = this.getOperands();
     return left.smallerThan(right);
   }
 
+  public smallerThanOrEqual(): boolean {
+    const {left, right} = this.getOperands();
+    return left.smallerThan(right) || left.equals(right);
+  }
+
   public largerThan(): boolean {
     const {left, right} = this.getOperands();
     return left.largerThan(right);
+  }
+
+  public largerThanOrEqual(): boolean {
+    const {left, right} = this.getOperands();
+    return left.largerThan(right) || left.equals(right);
   }
 
   public getOperands() {

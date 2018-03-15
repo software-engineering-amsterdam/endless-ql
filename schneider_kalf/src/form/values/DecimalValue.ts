@@ -39,15 +39,15 @@ export class DecimalValue extends AbstractNumberValue implements NumberValue {
     return new DecimalValue(value);
   }
 
-  equals(other: DecimalValue): boolean {
+  equals(other: NumberValue): boolean {
     return other.getValue().equals(this.getValue());
   }
 
-  smallerThan(other: DecimalValue): boolean {
+  smallerThan(other: NumberValue): boolean {
     return this.getValue().lessThan(other.getValue());
   }
 
-  largerThan(other: DecimalValue): boolean {
+  largerThan(other: NumberValue): boolean {
     return this.getValue().greaterThan(other.getValue());
   }
 }

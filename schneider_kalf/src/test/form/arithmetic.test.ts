@@ -57,9 +57,12 @@ it('holds that 7 * 6 === 42', () => {
   expect(evaluate(expression)).toEqual(new IntValue(42));
 });
 
-it('holds that 42 === 42', () => {
+it('holds that 42 === 42.0', () => {
   const expression = new Equals(new NumberLiteral(42), new NumberLiteral(42));
   expect(evaluate(expression)).toBe(true);
+
+  const expression2 = new Equals(new NumberLiteral(42, FieldType.Integer), new NumberLiteral(42, FieldType.Decimal));
+  expect(evaluate(expression2)).toBe(true);
 });
 
 it('holds that 41 !== 42', () => {

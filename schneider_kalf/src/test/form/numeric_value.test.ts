@@ -2,6 +2,7 @@ import IntValue from "../../form/values/IntValue";
 import { DecimalValue } from "../../form/values/DecimalValue";
 import NumericOperation from "../../form/values/NumericOperation";
 import NumberValue from "../../form/values/NumberValue";
+import { isNumericValue } from "../../form/values/values_helpers";
 
 it('can compare IntValues', () => {
   const expression = new IntValue(5);
@@ -52,4 +53,11 @@ it('divides Integers and Decimals with decimals', () => {
 
   expect(NumericOperation.make(left, right).divide()).toEqual(new DecimalValue(2.5));
   expect(NumericOperation.make(left, right).divide()).not.toEqual(new IntValue(2));
+});
+
+it("can detect numeric values", () => {
+  expect(isNumericValue(null)).not.toEqual(true);
+  expect(isNumericValue({})).not.toEqual(true);
+  expect(isNumericValue(new IntValue(0))).toEqual(true);
+  expect(isNumericValue(new DecimalValue(31))).toEqual(true);
 });

@@ -8,6 +8,7 @@ import NumberValue from "../values/NumberValue";
 import IntValue from "../values/IntValue";
 import { DecimalValue } from "../values/DecimalValue";
 import NumericOperation from "../values/NumericOperation";
+import { isNumericValue } from "../values/values_helpers";
 
 /**
  * Returns the type of a given value including the classname if it is
@@ -163,6 +164,11 @@ export const assertValidDivision = (dividend: NumberValue, divisor: NumberValue)
 
 export const assertSameType = (left: any, right: any) => {
   if (typeof left !== typeof right) {
+    throw ValuesNotComparableError.make(left, right);
+  }
+
+  if (isNumericValue(left) && !isNumericValue(right) ||
+      !isNumericValue(left) && isNumericValue(right)) {
     throw ValuesNotComparableError.make(left, right);
   }
 

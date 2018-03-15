@@ -1,6 +1,8 @@
 import NumberValue from "./NumberValue";
 
 export default abstract class AbstractNumberValue implements NumberValue {
+  public readonly type = "NumberValue";
+
   hasHigherPriorityThan(other: NumberValue) {
     return this.getPriority() > other.getPriority();
   }

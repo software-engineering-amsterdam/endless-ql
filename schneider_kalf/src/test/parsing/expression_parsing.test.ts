@@ -8,6 +8,8 @@ import Or from "../../form/nodes/expressions/boolean_expressions/Or";
 import IfCondition from "../../form/nodes/conditions/IfCondition";
 import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier";
 import { ValueIsNaNError } from "../../form/form_errors";
+import IntValue from "../../form/values/IntValue";
+import { DecimalValue } from "../../form/values/DecimalValue";
 
 it("can parse number literals", () => {
   const input = `form taxOfficeExample {
@@ -29,8 +31,8 @@ it("can parse number literals", () => {
   const right: NumberLiteral = field.formula.right;
   expect(left).toBeInstanceOf(NumberLiteral);
   expect(right).toBeInstanceOf(NumberLiteral);
-  expect(left.getValue()).toBe(51);
-  expect(right.getValue()).toBe(10);
+  expect(left.getValue()).toEqual(new IntValue(51));
+  expect(right.getValue()).toEqual(new IntValue(10));
 });
 
 it("can parse boolean literals", () => {
@@ -73,7 +75,7 @@ it("can parse variables that start with reserved keyword", () => {
 
   const booleanVariable: VariableIdentifier = ifCondition.predicate;
   expect(booleanVariable).toBeInstanceOf(VariableIdentifier);
-  expect(booleanVariable.identifier).toBe("trueVariable");
+  expect(booleanVariable.identifier).toEqual("trueVariable");
 });
 
 it("can parse floating numbers", () => {
@@ -92,7 +94,7 @@ it("can parse floating numbers", () => {
 
   const numberLiteral: NumberLiteral = computedField.formula;
   expect(numberLiteral).toBeInstanceOf(NumberLiteral);
-  expect(numberLiteral.getValue()).toBe(2.5);
+  expect(numberLiteral.getValue()).toEqual(new DecimalValue(2.5));
 });
 
 it("does not allow malformed floating numbers", () => {

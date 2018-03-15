@@ -5,8 +5,8 @@ import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public abstract class BinaryOperator extends ASTNode {
-    private ASTNode leftHandSide;
-    private ASTNode rightHandSide;
+    private final ASTNode leftHandSide;
+    private final ASTNode rightHandSide;
 
     public BinaryOperator(Token token, ASTNode leftHandSide, ASTNode rightHandSide) {
         super(token);
@@ -15,11 +15,11 @@ public abstract class BinaryOperator extends ASTNode {
     }
 
     public ASTNode getLeftHandSide() {
-        return leftHandSide;
+        return this.leftHandSide;
     }
 
     public ASTNode getRightHandSide() {
-        return rightHandSide;
+        return this.rightHandSide;
     }
 
     @Override

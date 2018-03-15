@@ -8,11 +8,11 @@ import java.util.List;
 
 public class EvaluationResult {
 
-    private Form ast;
+    private final Form ast;
 
-    private Messages messages;
+    private final Messages messages;
 
-    private List<QuestionData> questions;
+    private final List<QuestionData> questions;
 
     public EvaluationResult(List<QuestionData> questions, Messages warnings, Form ast) {
         this.messages = warnings;
@@ -21,18 +21,18 @@ public class EvaluationResult {
     }
 
     public Messages getMessages() {
-        return messages;
+        return this.messages;
     }
 
     public List<QuestionData> getQuestions() {
-        return questions;
+        return this.questions;
     }
 
     public void add(QuestionData questionRow) {
-        questions.add(questionRow);
+        this.questions.add(questionRow);
     }
 
     public Form getAst() {
-        return ast;
+        return this.ast;
     }
 }

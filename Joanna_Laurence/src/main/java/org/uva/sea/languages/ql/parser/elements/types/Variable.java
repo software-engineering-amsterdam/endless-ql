@@ -7,7 +7,7 @@ import org.uva.sea.languages.ql.parser.elements.Question;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Variable extends ASTNode {
-    private String variableName;
+    private final String variableName;
 
     private Question linkedQuestion = null;
 
@@ -17,11 +17,11 @@ public class Variable extends ASTNode {
     }
 
     public String getVariableName() {
-        return variableName;
+        return this.variableName;
     }
 
     public Question getLinkedQuestion() {
-        return linkedQuestion;
+        return this.linkedQuestion;
     }
 
     public void setLinkedQuestion(Question linkedQuestion) {

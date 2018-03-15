@@ -45,7 +45,7 @@ public class BaseVisitor extends QLBaseVisitor {
         String questionString = ctx.STR().getText();
         Object initialValue = visit(ctx.type());
 
-        Question question = new Question(codeBlock, questionString, initialValue, false);
+        Question question = new Question(codeBlock, questionString, (Class) visit(ctx.type()), null, false, true);
         questionMap.put(id, question);
 
         return questionMap;
@@ -56,7 +56,7 @@ public class BaseVisitor extends QLBaseVisitor {
         String id = ctx.IDENTIFIER().getText();
         CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
         String questionString = ctx.STR().getText();
-        Question question = new Question(codeBlock, questionString, visit(ctx.expression()), true);
+        Question question = new Question(codeBlock, questionString, (Class) visit(ctx.type()), visit(ctx.expression()), true, true);
         questionMap.put(id, question);
 
         return questionMap;

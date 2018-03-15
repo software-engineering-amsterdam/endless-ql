@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using QuestionaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
 namespace UnitTests.UI.UnitTests

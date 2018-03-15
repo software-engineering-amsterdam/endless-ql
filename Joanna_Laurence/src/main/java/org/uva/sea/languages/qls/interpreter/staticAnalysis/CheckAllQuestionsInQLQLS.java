@@ -9,6 +9,7 @@ import org.uva.sea.languages.qls.parser.elements.specification.Question;
 import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implements IQLSStaticAnalysis {
@@ -29,27 +30,26 @@ public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implemen
 
         Messages messages = new Messages();
 
-        List<String> qlQuestions = getQlQuestionNames(form);
-        List<String> qlsQuestions = getQlSQuestionNames(stylesheet);
-        messages.addMessageList(checkListsEqual(qlQuestions, qlsQuestions, "QLS misses question: "));
-        messages.addMessageList(checkListsEqual(qlsQuestions, qlQuestions, "QL misses question: "));
+        List<String> qlQuestions = this.getQlQuestionNames(form);
+        List<String> qlsQuestions = this.getQlSQuestionNames(stylesheet);
+        messages.addMessageList(this.checkListsEqual(qlQuestions, qlsQuestions, "QLS misses question: "));
+        messages.addMessageList(this.checkListsEqual(qlsQuestions, qlQuestions, "QL misses question: "));
 
         return messages;
     }
 
     /**
-     *
      * @param firstList
      * @param secondList
      * @param errorMessage
      * @return
      */
-    private Messages checkListsEqual(List<String> firstList, List<String> secondList, String errorMessage) {
+    private Messages checkListsEqual(List<String> firstList, Collection<String> secondList, String errorMessage) {
         Messages messages = new Messages();
 
-        List<String> difference = new ArrayList<>(firstList);
+        Collection<String> difference = new ArrayList<>(firstList);
         difference.removeAll(secondList);
-        for(String question : difference) {
+        for (String question : difference) {
             messages.addMessage(errorMessage + question, MessageTypes.ERROR);
         }
 
@@ -58,6 +58,7 @@ public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implemen
 
     /**
      * Get all QL question names
+     *
      * @param form AST node
      * @return The names
      */
@@ -75,6 +76,7 @@ public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implemen
 
     /**
      * Get all QLS question names
+     *
      * @param stylesheet AST node
      * @return The names
      */

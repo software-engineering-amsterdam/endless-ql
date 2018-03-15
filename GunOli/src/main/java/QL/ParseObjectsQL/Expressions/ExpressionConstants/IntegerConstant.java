@@ -16,4 +16,9 @@ public class IntegerConstant extends Constant<Integer> {
     public Boolean isArithmetic(){
         return true;
     }
+
+    @Override
+    public String toString(){
+        return Integer.toString(this.getValue());
+    }
 }

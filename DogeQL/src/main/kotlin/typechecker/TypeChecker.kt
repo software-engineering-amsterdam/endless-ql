@@ -4,14 +4,16 @@ import data.symbol.SymbolTable
 import node.Node
 import typechecker.pass.DuplicatePass
 import typechecker.pass.ScopePass
+import typechecker.pass.TypePass
 
 class TypeChecker(val symbolTable: SymbolTable) {
 
     fun check(tree: Node): TypeCheckResult {
         val result = TypeCheckResult()
 
-        ScopePass(result, symbolTable).visit(tree)
         DuplicatePass(result).visit(tree)
+        ScopePass(result, symbolTable).visit(tree)
+        TypePass(result, symbolTable).visit(tree)
 
         return result
     }

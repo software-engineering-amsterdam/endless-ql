@@ -76,7 +76,11 @@ namespace SimpleWPFApp.Properties {
         ///    {
         ///        shouldBeHappy: &quot;Are you Sure you&apos;re unhappy?&quot; boolean
         ///    }
-        ///}.
+        ///    
+        ///    
+        ///    if (false)
+        ///    {
+        ///        shou [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ExampleForm {
             get {

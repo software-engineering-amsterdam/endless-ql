@@ -1,7 +1,7 @@
 ﻿using QLParser;
 using QLParser.Analysis;
-using QLParser.AST;
 using QLParser.AST.Nodes;
+using QLParser.AST.QLS;
 using System;
 
 namespace QLParserTester

@@ -1,28 +1,27 @@
-﻿using System;
+﻿using QLParser.AST.QLS.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace QLParser.AST
+namespace QLParser.AST.QLS
 {
-    public enum QLSNodeType
-    {
-        Stylesheet,
-        Page,
-        Section,
-        Question
-    }
-
     public class QLSNode
     {
-        public string ID { get; set; }
-        public QLSNodeType NodeType { get; set; }
-        public IList<QLSNode> Children { get; set; }
+        public string ID { get; private set; }
+        public QLSNodeType NodeType { get; private set; }
+        public IList<QLSNode> Children { get; private set; }
+        public QLSStyle NodeStyle { get; private set; }
 
         public QLSNode(QLSNodeType type, string id)
         {
             this.NodeType = type;
             this.ID = id;
             this.Children = new List<QLSNode>();
+        }
+
+        public QLSNode(QLSNodeType type, string id, QLSStyle style) : this(type, id)
+        {
+            this.NodeStyle = style;
         }
 
         public void AddNode(QLSNode node)
@@ -40,7 +39,12 @@ namespace QLParser.AST
             foreach (QLSNode child in this.Children)
                 builder.Append(child.ToString());
 
-            return string.Format("{0} {1} {2}", this.NodeType, this.ID, builder.ToString());
+            if (this.NodeStyle != null)
+            {
+                builder.Append("\t").Append(this.NodeStyle);
+                builder.Append("\n");
+            }
+            return string.Format("{0} {1} {2}", this.NodeType, this.ID, builder);
         }
     }
 }

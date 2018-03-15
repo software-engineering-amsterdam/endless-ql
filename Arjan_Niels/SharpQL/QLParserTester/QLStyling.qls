@@ -3,16 +3,16 @@
 	}
 
 	page "Second page" {
-
 		section "The first section" {
 			section "The first subsection" {
 				question hasSeenHouseOfCards
 				section "The first subsubsection"{
-					question hasSoldAHouse
+					question hasSoldAHouse widget radio ("yes", "no", "maybe")
 				}
 			}
 		}
 	}
+
 	page "Third page" {
 	}
 }

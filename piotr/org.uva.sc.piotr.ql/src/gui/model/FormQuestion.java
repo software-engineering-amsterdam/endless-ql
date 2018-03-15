@@ -68,6 +68,21 @@ public class FormQuestion {
         return value;
     }
 
+    public Object getJavaTypedValue() {
+        switch (this.value.getType()) {
+            case INTEGER:
+                return this.value.getIntegerValue();
+            case DECIMAL:
+                return this.value.getDecimalValue();
+            case BOOLEAN:
+                return this.value.getBooleanValue();
+            case STRING:
+                return this.value.getStringValue();
+            default:
+                return null;
+        }
+    }
+
     public void setValue(MixedValue value) {
         this.value = value;
     }

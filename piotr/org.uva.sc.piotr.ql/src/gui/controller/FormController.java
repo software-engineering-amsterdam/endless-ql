@@ -102,23 +102,7 @@ public class FormController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         for (FormQuestion formQuestion : this.formQuestions) {
             if (formQuestion.getVisibility()) {
-                switch (formQuestion.getValue().getType()) {
-                    case INTEGER:
-                        result.put(formQuestion.getVariableName(), formQuestion.getValue().getIntegerValue());
-                        break;
-                    case DECIMAL:
-                        result.put(formQuestion.getVariableName(), formQuestion.getValue().getDecimalValue());
-                        break;
-                    case BOOLEAN:
-                        result.put(formQuestion.getVariableName(), formQuestion.getValue().getBooleanValue());
-                        break;
-                    case STRING:
-                        result.put(formQuestion.getVariableName(), formQuestion.getValue().getStringValue());
-                        break;
-                    default:
-                        result.put(formQuestion.getVariableName(), formQuestion.getValue().toString());
-                        break;
-                }
+                result.put(formQuestion.getVariableName(), formQuestion.getJavaTypedValue());
             }
         }
         return result;

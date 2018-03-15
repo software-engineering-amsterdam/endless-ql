@@ -38,6 +38,15 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     }
 
     @Override
+    public Node visitQuestionAssignValue(GrammarParser.QuestionAssignValueContext context) {
+        QuestionAssignValueNode node = new QuestionAssignValueNode();
+        node.setPrevious(visit(context.questionFormat()));
+        node.setExpression(visit(context.expression()));
+
+        return node;
+    }
+
+    @Override
     public Node visitMathUnit(GrammarParser.MathUnitContext context) {
         return visit(context.expression());
     }

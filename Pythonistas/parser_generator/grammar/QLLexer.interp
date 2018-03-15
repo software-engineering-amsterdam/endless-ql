@@ -37,8 +37,8 @@ null
 token symbolic names:
 null
 FORM
-IF_TOKEN
-ELSE_TOKEN
+IF_
+ELSE_
 BOOLEAN
 MONEY
 BOOL
@@ -72,8 +72,8 @@ OTHER
 
 rule names:
 FORM
-IF_TOKEN
-ELSE_TOKEN
+IF_
+ELSE_
 BOOLEAN
 MONEY
 BOOL

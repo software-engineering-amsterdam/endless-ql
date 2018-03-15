@@ -1,9 +1,9 @@
 package gui.widgets;
 
 import javafx.scene.control.TextField;
-import ql.model.expression.variable.ExpressionVariableString;
+import ql.model.expression.Expression;
 
-public class StringWidget extends TextField implements WidgetInterface<ExpressionVariableString> {
+public class StringWidget extends TextField implements WidgetInterface{
 
     private final String name;
 
@@ -13,12 +13,12 @@ public class StringWidget extends TextField implements WidgetInterface<Expressio
     }
 
     @Override
-    public void setExpression(ExpressionVariableString expression) {
+    public void setExpression(String value) {
 
     }
 
     @Override
-    public ExpressionVariableString getExpression() {
+    public Expression getExpression() {
         return null;
     }
 }

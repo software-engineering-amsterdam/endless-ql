@@ -3,9 +3,9 @@ package gui.widgets;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
-import ql.model.expression.variable.ExpressionVariableBoolean;
+import ql.model.expression.Expression;
 
-public class RadioWidget extends HBox implements WidgetInterface<ExpressionVariableBoolean> {
+public class RadioWidget extends HBox implements WidgetInterface{
 
     private final String name;
 
@@ -26,12 +26,12 @@ public class RadioWidget extends HBox implements WidgetInterface<ExpressionVaria
     }
 
     @Override
-    public void setExpression(ExpressionVariableBoolean expression) {
+    public void setExpression(String value) {
 
     }
 
     @Override
-    public ExpressionVariableBoolean getExpression() {
+    public Expression getExpression() {
         return null;
     }
 }

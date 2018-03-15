@@ -11,6 +11,10 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
             return String.valueOf(visit((ExpressionNode) node));
         }
 
+        else if(node instanceof FormNode){
+            return visit((FormNode)node);
+        }
+
         else if (node instanceof LabelNode){
             return visit((LabelNode)node);
         }
@@ -27,7 +31,17 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
             return visit((QuestionNode) node);
         }
 
+
         return "0.0";
+    }
+
+    @Override
+    public String visit(FormNode node) {
+        String result = "Name: " + node.getName();
+        for (Node n: node.getQuestions()) {
+            result += visit(n);
+        }
+        return result;
     }
 
     @Override
@@ -97,7 +111,7 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
 
     @Override
     public String visit(QuestionNode node) {
-        return visit(node.getLeft()) + visit(node.getCenter()) + visit(node.getRight());
+        return "--> " + visit(node.getLeft()) + visit(node.getCenter()) + visit(node.getRight());
 
     }
 

@@ -3,6 +3,7 @@ package org.uva.forcepushql.ast;
 public interface ASTVisitor{
 
     String visit(Node node);
+    String visit(FormNode node);
     double visit(ExpressionNode node);
     double visit(AdditionNode node);
     double visit(NumberNode node);

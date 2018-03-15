@@ -5,7 +5,6 @@ import org.uva.forcepushql.antlr.GrammarParser.QuestionFormatContext;
 import org.uva.forcepushql.antlr.GrammarParserBaseVisitor;
 import org.uva.forcepushql.antlr.GrammarParserVisitor;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements GrammarParserVisitor<Node>{
@@ -20,9 +19,10 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     public Node visitFormStructure(GrammarParser.FormStructureContext context) {
 
         FormNode node = new FormNode();
+        node.setName(context.variable().getText());
         List<GrammarParser.QuestionTypesContext> list = context.questionTypes();
         for (GrammarParser.QuestionTypesContext q: list) {
-            visit(q);
+            node.setOneQuestion(visit(q));
         }
 
         return node;

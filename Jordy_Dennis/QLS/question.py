@@ -14,5 +14,11 @@ class Question:
     def addVarDict(self, varDict):
     	self.varDict = varDict
 
+    def getVarName(self):
+        return self.varName
+
+    def getWidget(self):
+        return self.widget
+
     def __repr__(self):
         return "Question {}: widget: {}".format(self.varName, self.widget)

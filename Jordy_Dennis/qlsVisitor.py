@@ -83,7 +83,11 @@ class QLSVisitor(QLSGrammarVisitor):
 
     # Visit a parse tree produced by QLSGrammarParser#widget.
     def visitWidget(self, ctx: QLSGrammarParser.WidgetContext):
+<<<<<<< HEAD
         # Actual widget types: BOOL
+=======
+
+>>>>>>> f72660c77cd153702e369fb13784099e68383615
         if(ctx.CHECKBOX()):
             return CheckBoxWidget()
         elif ctx.RADIO():
@@ -105,9 +109,13 @@ class QLSVisitor(QLSGrammarVisitor):
         elif ctx.FONTSIZE():
             return StyleFontSize(ctx.INT().getText())
         elif ctx.FONT():
+<<<<<<< HEAD
             return StyleFont(ctx.STRING()[0].getText())
         elif ctx.COLOR():
             return StyleColor(ctx.HEXCOLOR().getText())
+=======
+            return WidgetFont(ctx.STRING()[0].getText())
+>>>>>>> f72660c77cd153702e369fb13784099e68383615
 
 
 

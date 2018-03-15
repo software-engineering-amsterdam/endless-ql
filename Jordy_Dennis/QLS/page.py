@@ -28,5 +28,11 @@ class Page:
     def getName(self):
         return self.name
 
+    def getSection(self):
+        return self.sections
+
+    def getName(self):
+        return self.name
+
     def __repr__(self):
         return "Page {}: sections: {} defaults: {}".format(self.name, self.sections, self.defaults)

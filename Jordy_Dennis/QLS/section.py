@@ -21,6 +21,7 @@ class Section:
         for default in self.defaults:
             default.addVarDict(varDict)
 
+
     def addSection(self, section):
         self.sections.append(section)
 
@@ -30,5 +31,15 @@ class Section:
     def addDefault(self, default):
         self.defaults.append(default)
 
+    def getName(self):
+        return self.name
+
+    def getQuestions(self):
+        return self.questions
+
+    def getSections(self):
+        return self.sections
+
+
     def __repr__(self):
-        return "Section {}: questions: {} sections: {} defaults: {}".format(self.name, self.questions, self.sections, self.defaults)
+        return "Section {}: questions: {} sections:{} defaults: {}".format(self.name, self.questions, self.sections, self.defaults)

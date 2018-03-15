@@ -34,6 +34,11 @@ stylesheet taxOfficeExample
           
         }
       }
+      section "TEST"
+      {
+        question sellingPrice2
+        widget spinbox
+      }
     }
     default boolean widget radio("Yes", "No")
   }

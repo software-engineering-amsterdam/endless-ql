@@ -19,7 +19,7 @@
     <span class="header">{{formName}}</span>
     <form id="form" (ngSubmit)="onSubmit()" [formGroup]="form">
 
-      <app-styled-form-content *ngIf="inputQls; else unstyledquestions"
+      <app-styled-form-content *ngIf="qlsStylesheet; else unstyledquestions"
                                [styles]="qlsStylesheet" [questions]="questions" [form]="form">
 
       </app-styled-form-content>

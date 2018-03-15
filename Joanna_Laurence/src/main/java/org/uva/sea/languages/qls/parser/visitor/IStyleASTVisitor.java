@@ -10,11 +10,11 @@ import org.uva.sea.languages.qls.parser.elements.style.*;
 
 public interface IStyleASTVisitor<T> {
 
-    T visit(Stylesheet node) throws InterruptedException;
+    T visit(Stylesheet node);
 
     T visit(Parameter node);
 
-    T visit(Page node) throws InterruptedException;
+    T visit(Page node);
 
     T visit(Color node);
 
@@ -26,10 +26,10 @@ public interface IStyleASTVisitor<T> {
 
     T visit(Width node);
 
-    T visit(DefaultStyle node) throws InterruptedException;
+    T visit(DefaultStyle node);
 
-    T visit(Question node) throws InterruptedException;
+    T visit(Question node);
 
-    T visit(Section node) throws InterruptedException;
+    T visit(Section node);
 
 }

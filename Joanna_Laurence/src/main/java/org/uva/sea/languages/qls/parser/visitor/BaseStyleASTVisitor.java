@@ -11,7 +11,7 @@ import org.uva.sea.languages.qls.parser.elements.style.*;
 
 public class BaseStyleASTVisitor<T> implements IStyleASTVisitor<T> {
 
-    public T visit(Stylesheet node) throws InterruptedException {
+    public T visit(Stylesheet node) {
         for (Page page : node.getPages()) {
             page.accept(this);
         }
@@ -22,7 +22,7 @@ public class BaseStyleASTVisitor<T> implements IStyleASTVisitor<T> {
         return null;
     }
 
-    public T visit(Page node) throws InterruptedException {
+    public T visit(Page node) {
         for (Specification element : node.getSpecificationList()) {
             element.accept(this);
         }
@@ -52,18 +52,21 @@ public class BaseStyleASTVisitor<T> implements IStyleASTVisitor<T> {
         return null;
     }
 
-    public T visit(DefaultStyle node) throws InterruptedException {
+    public T visit(DefaultStyle node) {
         for (StyleSpecification element : node.getStyleSpecificationList()) {
             element.accept(this);
         }
         return null;
     }
 
-    public T visit(Question node) throws InterruptedException {
-        return node.getWidget().accept(this);
+    public T visit(Question node) {
+        Widget widget = node.getWidget();
+        if(widget != null)
+            return widget.accept(this);
+        return null;
     }
 
-    public T visit(Section node) throws InterruptedException {
+    public T visit(Section node) {
         for (Specification element : node.getSpecifications()) {
             element.accept(this);
         }

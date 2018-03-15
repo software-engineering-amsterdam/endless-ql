@@ -63,7 +63,7 @@ class OutputFrame(QtWidgets.QFrame):
         self.outputlayout.addWidget(self.submit_button,self.row,1)
 
     def submit(self):
-        # Writes answers to txt
+        # Writes answers to txt file
         file = open('QL_output.txt', 'w')
 
         for i in range(len(self.questions)):

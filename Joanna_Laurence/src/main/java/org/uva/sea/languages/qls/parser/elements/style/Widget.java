@@ -2,7 +2,7 @@ package org.uva.sea.languages.qls.parser.elements.style;
 
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.WidgetParameters;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
 import org.uva.sea.languages.qls.parser.elements.Parameter;
 import org.uva.sea.languages.qls.parser.visitor.IStyleASTVisitor;
 
@@ -38,10 +38,10 @@ public class Widget extends StyleSpecification {
      *
      * @return List of parameters
      */
-    public WidgetParameters getWidgetParameters() {
+    public List<String>  getStringParameters() {
         List<String> parameters = new ArrayList<>();
         for (Parameter parameter : this.getParameters())
             parameters.add(parameter.getParameter());
-        return new WidgetParameters(parameters);
+        return parameters;
     }
 }

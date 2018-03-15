@@ -1,29 +1,24 @@
 package gui.widgets;
 
-import javafx.beans.value.ChangeListener;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import ql.model.expression.variable.ExpressionVariableDate;
 
-import java.time.LocalDate;
+public class DateWidget extends DatePicker implements WidgetInterface<ExpressionVariableDate>{
 
-public class DateWidget extends Widget<DatePicker> {
+    private final String name;
 
     public DateWidget(String name) {
-        super(name);
-
-        this.control = new DatePicker();
+        this.name = name;
+        this.managedProperty().bind(this.visibleProperty());
     }
 
     @Override
-    public void setValue(String value) {
-        this.control.setValue(LocalDate.parse(value));
+    public void setExpression(ExpressionVariableDate expression) {
+
     }
 
     @Override
-    public String getValue() {
-        // TODO: format
-        return this.control.getValue().toString();
+    public ExpressionVariableDate getExpression() {
+        return null;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Assignment1.Model;
+using Assignment1.Model.QL;
 using Assignment1.Model.QLS;
 
 namespace Assignment1.TypeChecking

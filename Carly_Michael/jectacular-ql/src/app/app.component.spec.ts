@@ -8,6 +8,7 @@ import * as mockData from './ql-mock-input';
 import {MaterialModule} from './material.module';
 import {StyledFormContentComponent} from './components/styled-form-content/styled-form-content.component';
 import {WidgetComponent} from './components/widget/widget.component';
+import {ParseService} from './services/parse.service';
 
 describe('AppComponent', () => {
   let app: AppComponent;
@@ -26,7 +27,7 @@ describe('AppComponent', () => {
         ReactiveFormsModule,
         MaterialModule
       ],
-      providers: [QuestionControlService]
+      providers: [QuestionControlService, ParseService]
     }).compileComponents();
   }));
 

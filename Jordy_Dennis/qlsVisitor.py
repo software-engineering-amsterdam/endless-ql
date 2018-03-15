@@ -1,5 +1,6 @@
 from LexParser.QLSGrammarParser import QLSGrammarParser
 from LexParser.QLSGrammarVisitor import QLSGrammarVisitor
+from qlVisitor import mapStringToType, getLiteralValue
 from AST import *
 from QLS import *
 import logging
@@ -77,12 +78,11 @@ class QLSVisitor(QLSGrammarVisitor):
             widget = self.visit(ctx.widget())
         else:
             widget = None
-        question = Question(questionName, widget)
+        question = Question(questionName, widget, ctx.start.line)
         return question
 
     # Visit a parse tree produced by QLSGrammarParser#widget.
     def visitWidget(self, ctx: QLSGrammarParser.WidgetContext):
-
         # Actual widget types: BOOL
         if(ctx.CHECKBOX()):
             return CheckBoxWidget()
@@ -114,19 +114,18 @@ class QLSVisitor(QLSGrammarVisitor):
     # Visit a parse tree produced by QLSGrammarParser#default_style.
     def visitDefault_style(self, ctx: QLSGrammarParser.Default_styleContext):
         self.logger.debug("DEFAULT_STYLE")
-
-        default = DefaultStyle()
-
+        defaultType = self.visit(ctx.types())
+        default = DefaultStyle(defaultType, ctx.start.line)
         for widget in ctx.widget():
             widgetObject = self.visit(widget)
-            default.addWidget(widgetObject)
+            default.addAttribute(widgetObject)
 
         return default
 
     # Visit a parse tree produced by QLSGrammarParser#types.
     def visitTypes(self, ctx: QLSGrammarParser.TypesContext):
         self.logger.debug("TYPES")
-        return ctx.type().getText()
+        return mapStringToType(ctx.getText())
 
 
 del QLSGrammarParser

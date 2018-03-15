@@ -1,16 +1,20 @@
 """
     These are style settings that can be applied to the text label of a question. 
 """
+class AttributeDefault:
+
+    def getAttributeType(self):
+        return self.attType
+
 class WidgetDefault:
-    
     def checkTypes(self):
         return self.type
 
 
-class StyleWidth(WidgetDefault):
+class StyleWidth(AttributeDefault):
     def __init__(self, width=200):
         self.width = width
-        self.type = ['width']
+        self.attType = 'width'
 
     def getWidth(self):
         return self.width
@@ -19,10 +23,10 @@ class StyleWidth(WidgetDefault):
         return "WidgetWidth: {}".format(self.width)
 
 
-class StyleFont(WidgetDefault):
+class StyleFont(AttributeDefault):
     def __init__(self, font=15):
         self.font = font
-        self.type = ['font']
+        self.attType = 'font'
 
     def getFont(self):
         return self.font
@@ -30,10 +34,10 @@ class StyleFont(WidgetDefault):
     def __repr__(self):
         return "WidgetFont: {}".format(self.font)
 
-class StyleFontSize(WidgetDefault):
+class StyleFontSize(AttributeDefault):
     def __init__(self, fontSize=15):
         self.fontSize = fontSize
-        self.type = ['fontSize']
+        self.attType = 'fontSize'
 
     def getFontSize(self):
         return self.fontSize
@@ -42,10 +46,10 @@ class StyleFontSize(WidgetDefault):
         return "WidgetFontSize: {}".format(self.fontSize)
 
 
-class StyleColor(WidgetDefault):
+class StyleColor(AttributeDefault):
     def __init__(self, color='aaaaaa'):
         self.color = color
-        self.type = ['color']
+        self.attType = 'color'
 
     def getColor(self):
         return self.color
@@ -60,12 +64,12 @@ class StyleColor(WidgetDefault):
     Boolean Widgets
 """
 
-
-class RadioWidget(WidgetDefault):
+class RadioWidget(AttributeDefault, WidgetDefault):
     def __init__(self, trueVal, falseVal):
         self.trueVal = trueVal
         self.falseVal = falseVal
         self.type = [bool]
+        self.attType = 'widget'
 
     def getOptions(self):
         return self.options
@@ -73,16 +77,18 @@ class RadioWidget(WidgetDefault):
     def __repr__(self):
         return "RadioWidget: T:{} F:{}".format(self.trueVal, self.falseVal)
 
-class CheckBoxWidget(WidgetDefault):
+class CheckBoxWidget(AttributeDefault, WidgetDefault):
     def __init__(self):
         self.type = [bool]
+        self.attType = 'widget'
 
     def __repr__(self):
         return "CheckBoxWidget"
 
-class DropdownWidget(WidgetDefault):
+class DropdownWidget(AttributeDefault, WidgetDefault):
     def __init__(self):
         self.type = [bool]
+        self.attType = 'widget'
 
     def __repr__(self):
         return "DropdownWidget"
@@ -91,27 +97,30 @@ class DropdownWidget(WidgetDefault):
 """
     Integer and Text Widgets
 """
-class SpinboxWidget(WidgetDefault):
+class SpinboxWidget(AttributeDefault, WidgetDefault):
     def __init__(self, min, max):
         self.min = min
         self.max = max
         self.type = [int, float]
+        self.attType = 'widget'
 
     def __repr__(self):
         return "SpinBoxWidget: {},{}".format(self.min, self.max)
 
-class TextWidget(WidgetDefault):
+class TextWidget(AttributeDefault, WidgetDefault):
     def __init__(self):
         self.type = [int, str, float]
+        self.attType = 'widget'
 
     def __repr__(self):
         return "TextWidget"
 
-class SliderWidget(WidgetDefault):
+class SliderWidget(AttributeDefault, WidgetDefault):
     def __init__(self, min, max):
         self.min = min
         self.max = max
         self.type = [int, float]
+        self.attType = 'widget'
 
     def __repr__(self):
         return "SpinBoxWidget: {},{}".format(self.min, self.max)

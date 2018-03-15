@@ -24,10 +24,12 @@ public class App {
         logger.addHandler(new LogHandler());
 
         String input = new InputHandler().readFile("input/default.ql");
+//        String input = new InputHandler().getUserInput("ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
         String qlsInput = new InputHandler().readFile("input/default.qls");
+//        String input = new InputHandler().getUserInput("qls");
         QLSBuilder QLSBuilder = new QLSBuilder();
         Stylesheet stylesheet = QLSBuilder.buildAST(qlsInput);
 

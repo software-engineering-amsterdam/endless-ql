@@ -48,11 +48,16 @@ namespace QLVisualizer.Controllers
         /// <param name="widgets">Widgets of form</param>
         public abstract void DisplayForm();
 
+        protected void HandleInput(string rawQL, string rawQLS)
+        {
+            HandleQL(rawQL);
+        }
+
         /// <summary>
         /// Handles QL-language input
         /// </summary>
         /// <param name="rawQL">Raw QL-language string</param>
-        public virtual void HandleQL(string rawQL)
+        private void HandleQL(string rawQL)
         {
             Tuple<string[], FormManager> parseResults = _parseController.ParseQL(rawQL, this);
             if (parseResults.Item1.Length > 0)

@@ -26,6 +26,11 @@ namespace QLVisualizer.Controllers.Display
         private TextBox _qlInput;
 
         /// <summary>
+        /// QLS input field
+        /// </summary>
+        private TextBox _qlsInput;
+
+        /// <summary>
         /// Parse button
         /// </summary>
         private Button _parseButton;
@@ -101,14 +106,16 @@ namespace QLVisualizer.Controllers.Display
 
             // Create form controls
             _widgetContainer = CreateWidgetPanel();
-            _qlInput = CreateQLInputPanel();
+            _qlInput = CreateInputTextBox();
+            _qlsInput = CreateInputTextBox();
             _parseButton = CreateParseButton();
 
             // Assign controls
             _mainForm.Controls.AddRange(new Control[]
             {
                 _widgetContainer,
-                _qlInput,
+                CreateInputTextBoxHolder(_qlInput, "QL:", true),
+                CreateInputTextBoxHolder(_qlsInput, "QLS:", false),
                 _parseButton,
             });
 
@@ -126,7 +133,7 @@ namespace QLVisualizer.Controllers.Display
             {
                 AutoScaleDimensions = new SizeF(6f, 13f),
                 AutoScaleMode = AutoScaleMode.Font,
-                ClientSize = new Size(738, 673),
+                ClientSize = new Size(738, 700),
                 Icon = (Icon)Resources.ResourceManager.GetObject("MainIcon"),
                 Name = "Visualizer",
                 Text = "Sharp QL"
@@ -143,7 +150,8 @@ namespace QLVisualizer.Controllers.Display
             {
                 Location = new Point(378, 32),
                 Name = "widgetDisplayPanel",
-                Size = new Size(348, 575)
+                Size = new Size(348, 605),
+                AutoScroll = true
             };
         }
 
@@ -151,32 +159,45 @@ namespace QLVisualizer.Controllers.Display
         /// Creates QL input textbox
         /// </summary>
         /// <returns>QL inputfield</returns>
-        private TextBox CreateQLInputPanel()
+        private TextBox CreateInputTextBox()
         {
             return new TextBox
             {
                 AcceptsReturn = true,
                 AcceptsTab = true,
-                Location = new Point(12, 9),
+                Location = new Point(12, 26),
                 Multiline = true,
                 Name = "qlInputField",
-                Size = new Size(350, 595)
+                Size = new Size(350, 285),
+                ScrollBars = ScrollBars.Both
             };
+        }
+
+        private Panel CreateInputTextBoxHolder(TextBox textbox, string title, bool isTop)
+        {
+            Panel holder = new Panel
+            {
+                Height = 311,
+                Width = 362,
+                Location = new Point(12, isTop ? 9 : 326)
+            };
+            holder.Controls.Add(new Label { Text = title, Location = new Point(12, 9), Height = 12 });
+            holder.Controls.Add(textbox);
+            return holder;
         }
 
         private Button CreateParseButton()
         {
             Button result = new Button
             {
-                Location = new Point(12, 613),
+                Location = new Point(23, 642),
                 Name = "parseButton",
-                Size = new Size(714, 48),
+                Size = new Size(698, 48),
                 Text = "Parse",
                 UseVisualStyleBackColor = true
             };
 
-            //result.Click += delegate (object sender, EventArgs eventArgs) { DummyQL(); };
-            result.Click += delegate (object sender, EventArgs eventArgs) { HandleQL(_qlInput.Text); };
+            result.Click += delegate (object sender, EventArgs eventArgs) { HandleInput(_qlInput.Text, _qlsInput.Text); };
             return result;
         }
         #endregion

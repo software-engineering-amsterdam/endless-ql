@@ -10,6 +10,6 @@ public class WarningRenderer implements Renderable<String> {
 
     @Override
     public void render(String warning) {
-        render.displayWarning(warning);
+        this.render.displayWarning(warning);
     }
 }

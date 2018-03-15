@@ -18,7 +18,7 @@ public class QuestionData {
 
     public QuestionData(Question question, Value value) {
         this.label = question.getLabel();
-        this.value = doesValueTypeMatch(question, value) ? value : new ErrorValue("Incorrect questionData type", question.getLine(), question.getColumn());
+        this.value = this.doesValueTypeMatch(question, value) ? value : new ErrorValue("Incorrect questionData type", question.getLine(), question.getColumn());
         this.isComputed = question.getValue() != null;
         this.nodeType = question.getNodeType().getNodeType();
         this.questionName = question.getVariable().getVariableName();
@@ -32,23 +32,23 @@ public class QuestionData {
     }
 
     public String getLabel() {
-        return label;
+        return this.label;
     }
 
     public Value getValue() {
-        return value;
+        return this.value;
     }
 
     public boolean isComputed() {
-        return isComputed;
+        return this.isComputed;
     }
 
     public NodeType getNodeType() {
-        return nodeType;
+        return this.nodeType;
     }
 
     public String getQuestionName() {
-        return questionName;
+        return this.questionName;
     }
 
     public void mergeStyle(Style style) {
@@ -57,7 +57,7 @@ public class QuestionData {
     }
 
     public Style getStyle() {
-        return style;
+        return this.style;
     }
 
     public void setStyle(Style style) {
@@ -65,7 +65,7 @@ public class QuestionData {
     }
 
     public WidgetType getWidgetType() {
-        return widgetType;
+        return this.widgetType;
     }
 
     public void setWidgetType(WidgetType widgetType) {

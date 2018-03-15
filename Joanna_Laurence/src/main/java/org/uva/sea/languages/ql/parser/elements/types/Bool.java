@@ -15,7 +15,7 @@ public class Bool extends ASTNode {
     }
 
     public boolean isTrue() {
-        return value;
+        return this.value;
     }
 
     public Type getType() {

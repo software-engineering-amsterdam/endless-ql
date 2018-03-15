@@ -17,11 +17,11 @@ public class Section extends Specification {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public List<Specification> getSpecifications() {
-        return specifications;
+        return this.specifications;
     }
 
     @Override

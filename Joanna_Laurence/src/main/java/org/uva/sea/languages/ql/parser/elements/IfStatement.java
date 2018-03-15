@@ -20,15 +20,15 @@ public class IfStatement extends ASTNode {
     }
 
     public ASTNode getExpression() {
-        return expression;
+        return this.expression;
     }
 
     public Statements getThen() {
-        return then;
+        return this.then;
     }
 
     public Statements getOtherwise() {
-        return otherwise;
+        return this.otherwise;
     }
 
     public Type getType() {

@@ -19,7 +19,7 @@ public class Int extends ASTNode {
     }
 
     public int getValue() {
-        return value;
+        return this.value;
     }
 
     @Override

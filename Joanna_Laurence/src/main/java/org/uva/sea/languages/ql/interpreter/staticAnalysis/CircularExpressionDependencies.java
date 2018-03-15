@@ -15,7 +15,7 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
 
     private final Relation<String> relations = new Relation<>();
 
-    private String question = null;
+    private String question;
 
     @Override
     public Messages doCheck(Form node) {
@@ -38,7 +38,7 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
     public Void visit(Question node) {
 
         this.setRelationQuestion(node.getVariable().getVariableName());
-        linkRelationQuestionToQuestionExpression(node);
+        this.linkRelationQuestionToQuestionExpression(node);
         this.setRelationQuestion(null);
 
         return null;

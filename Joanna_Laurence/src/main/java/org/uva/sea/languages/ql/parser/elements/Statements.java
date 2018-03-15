@@ -12,11 +12,11 @@ public class Statements extends ASTNode {
     private final List<ASTNode> statementList;
 
     public Statements() {
-        statementList = new ArrayList<>();
+        this.statementList = new ArrayList<>();
     }
 
     public Iterable<ASTNode> getStatementList() {
-        return statementList;
+        return this.statementList;
     }
 
     public void addStatement(ASTNode item) {

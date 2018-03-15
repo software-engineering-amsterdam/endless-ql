@@ -5,6 +5,7 @@ import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.parser.NodeType;
+import org.uva.sea.languages.qls.interpreter.evaluate.EvaluateDefaultStyle.Fetcher;
 import org.uva.sea.languages.qls.parser.elements.Page;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 import org.uva.sea.languages.qls.parser.elements.specification.Question;
@@ -21,10 +22,10 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
     private EvaluationResult outputResult;
 
-    private final EvaluateDefaultStyle.Fetcher defaultStyleEvaluator = new EvaluateDefaultStyle.Fetcher();
+    private final Fetcher defaultStyleEvaluator = new Fetcher();
 
     //Current state for visitor Visitor
-    private Page currentPage = null;
+    private Page currentPage;
 
     private final Stack<Section> currentSections = new Stack<>();
 
@@ -89,7 +90,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
                 questionData.setWidgetType(node.getWidget().getWidgetType());
             }
 
-            questionData.setStyle(getQuestionStyle(node, questionData.getNodeType()));
+            questionData.setStyle(this.getQuestionStyle(node, questionData.getNodeType()));
             this.outputResult.add(questionData);
         }
 
@@ -106,7 +107,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     private Style getQuestionStyle(Question question, NodeType nodeType) {
         Style style = new Style();
         style.setPage(this.currentPage.getName());
-        style.setSection(getCurrentSection());
+        style.setSection(this.getCurrentSection());
 
         if (question.getWidget() != null)
             style.setWidget(new QLWidget(question.getWidget().getWidgetType(), question.getWidget().getStringParameters()));

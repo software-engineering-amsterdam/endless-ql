@@ -10,6 +10,6 @@ public class ErrorRenderer implements Renderable<String> {
 
     @Override
     public void render(String error) {
-        render.displayError(error);
+        this.render.displayError(error);
     }
 }

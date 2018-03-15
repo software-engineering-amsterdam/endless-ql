@@ -3,6 +3,19 @@
 package org.uva.sea.languages.qls.parser.antlr;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.DefaultStyleContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.PageContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.PagesContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.ParameterContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.ParametersContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.QuestionContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.SectionContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.SpecificationContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.SpecificationsContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.StyleSpecificationContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.StyleSpecificationsContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.StylesheetContext;
+import org.uva.sea.languages.qls.parser.antlr.QLSParser.WidgetContext;
 
 /**
  * This interface defines a complete listener for a parse tree produced by
@@ -14,180 +27,180 @@ public interface QLSListener extends ParseTreeListener {
      *
      * @param ctx the parse tree
      */
-    void enterStylesheet(QLSParser.StylesheetContext ctx);
+    void enterStylesheet(StylesheetContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#stylesheet}.
      *
      * @param ctx the parse tree
      */
-    void exitStylesheet(QLSParser.StylesheetContext ctx);
+    void exitStylesheet(StylesheetContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#pages}.
      *
      * @param ctx the parse tree
      */
-    void enterPages(QLSParser.PagesContext ctx);
+    void enterPages(PagesContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#pages}.
      *
      * @param ctx the parse tree
      */
-    void exitPages(QLSParser.PagesContext ctx);
+    void exitPages(PagesContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#page}.
      *
      * @param ctx the parse tree
      */
-    void enterPage(QLSParser.PageContext ctx);
+    void enterPage(PageContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#page}.
      *
      * @param ctx the parse tree
      */
-    void exitPage(QLSParser.PageContext ctx);
+    void exitPage(PageContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#specifications}.
      *
      * @param ctx the parse tree
      */
-    void enterSpecifications(QLSParser.SpecificationsContext ctx);
+    void enterSpecifications(SpecificationsContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#specifications}.
      *
      * @param ctx the parse tree
      */
-    void exitSpecifications(QLSParser.SpecificationsContext ctx);
+    void exitSpecifications(SpecificationsContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#specification}.
      *
      * @param ctx the parse tree
      */
-    void enterSpecification(QLSParser.SpecificationContext ctx);
+    void enterSpecification(SpecificationContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#specification}.
      *
      * @param ctx the parse tree
      */
-    void exitSpecification(QLSParser.SpecificationContext ctx);
+    void exitSpecification(SpecificationContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#section}.
      *
      * @param ctx the parse tree
      */
-    void enterSection(QLSParser.SectionContext ctx);
+    void enterSection(SectionContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#section}.
      *
      * @param ctx the parse tree
      */
-    void exitSection(QLSParser.SectionContext ctx);
+    void exitSection(SectionContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#question}.
      *
      * @param ctx the parse tree
      */
-    void enterQuestion(QLSParser.QuestionContext ctx);
+    void enterQuestion(QuestionContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#question}.
      *
      * @param ctx the parse tree
      */
-    void exitQuestion(QLSParser.QuestionContext ctx);
+    void exitQuestion(QuestionContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#widget}.
      *
      * @param ctx the parse tree
      */
-    void enterWidget(QLSParser.WidgetContext ctx);
+    void enterWidget(WidgetContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#widget}.
      *
      * @param ctx the parse tree
      */
-    void exitWidget(QLSParser.WidgetContext ctx);
+    void exitWidget(WidgetContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#parameters}.
      *
      * @param ctx the parse tree
      */
-    void enterParameters(QLSParser.ParametersContext ctx);
+    void enterParameters(ParametersContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#parameters}.
      *
      * @param ctx the parse tree
      */
-    void exitParameters(QLSParser.ParametersContext ctx);
+    void exitParameters(ParametersContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#parameter}.
      *
      * @param ctx the parse tree
      */
-    void enterParameter(QLSParser.ParameterContext ctx);
+    void enterParameter(ParameterContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#parameter}.
      *
      * @param ctx the parse tree
      */
-    void exitParameter(QLSParser.ParameterContext ctx);
+    void exitParameter(ParameterContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#defaultStyle}.
      *
      * @param ctx the parse tree
      */
-    void enterDefaultStyle(QLSParser.DefaultStyleContext ctx);
+    void enterDefaultStyle(DefaultStyleContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#defaultStyle}.
      *
      * @param ctx the parse tree
      */
-    void exitDefaultStyle(QLSParser.DefaultStyleContext ctx);
+    void exitDefaultStyle(DefaultStyleContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#styleSpecifications}.
      *
      * @param ctx the parse tree
      */
-    void enterStyleSpecifications(QLSParser.StyleSpecificationsContext ctx);
+    void enterStyleSpecifications(StyleSpecificationsContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#styleSpecifications}.
      *
      * @param ctx the parse tree
      */
-    void exitStyleSpecifications(QLSParser.StyleSpecificationsContext ctx);
+    void exitStyleSpecifications(StyleSpecificationsContext ctx);
 
     /**
      * Enter a parse tree produced by {@link QLSParser#styleSpecification}.
      *
      * @param ctx the parse tree
      */
-    void enterStyleSpecification(QLSParser.StyleSpecificationContext ctx);
+    void enterStyleSpecification(StyleSpecificationContext ctx);
 
     /**
      * Exit a parse tree produced by {@link QLSParser#styleSpecification}.
      *
      * @param ctx the parse tree
      */
-    void exitStyleSpecification(QLSParser.StyleSpecificationContext ctx);
+    void exitStyleSpecification(StyleSpecificationContext ctx);
 }

@@ -18,11 +18,11 @@ public class DefaultStyle extends Specification {
     }
 
     public Iterable<StyleSpecification> getStyleSpecificationList() {
-        return styleSpecificationList;
+        return this.styleSpecificationList;
     }
 
     public String getTypeName() {
-        return typeName;
+        return this.typeName;
     }
 
     @Override

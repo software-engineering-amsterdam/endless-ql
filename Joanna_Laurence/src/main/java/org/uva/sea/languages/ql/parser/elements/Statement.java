@@ -9,11 +9,11 @@ public class Statement extends ASTNode {
     private IfStatement ifStatement;
 
     public Question getQuestion() {
-        return question;
+        return this.question;
     }
 
     public IfStatement getIfStatement() {
-        return ifStatement;
+        return this.ifStatement;
     }
 
     public Type getType() {

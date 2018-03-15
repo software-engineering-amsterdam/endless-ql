@@ -17,7 +17,7 @@ public class SymbolTable {
      * @param val  Value of the symbol
      */
     public void addOrUpdateValue(String name, Value val) {
-        symbolTable.put(name, val);
+        this.symbolTable.put(name, val);
     }
 
     /**
@@ -25,6 +25,6 @@ public class SymbolTable {
      * @return Value of the symbol or null on error
      */
     public Value getValue(String name) {
-        return symbolTable.get(name);
+        return this.symbolTable.get(name);
     }
 }

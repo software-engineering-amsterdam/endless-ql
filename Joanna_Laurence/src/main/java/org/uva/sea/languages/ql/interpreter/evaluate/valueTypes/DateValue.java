@@ -27,7 +27,7 @@ public class DateValue extends Value {
     }
 
     public Calendar getDateValue() {
-        return dateValue;
+        return this.dateValue;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class DateValue extends Value {
     @Override
     public Value isGreaterOrEqual(DateValue value) {
         int compare = this.dateValue.compareTo(value.getDateValue());
-        return new BooleanValue(compare == 0 || compare > 0);
+        return new BooleanValue((compare == 0) || (compare > 0));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class DateValue extends Value {
     @Override
     public Value isLessOrEqual(DateValue value) {
         int compare = this.dateValue.compareTo(value.getDateValue());
-        return new BooleanValue(compare == 0 || compare < 0);
+        return new BooleanValue((compare == 0) || (compare < 0));
     }
 
     @Override

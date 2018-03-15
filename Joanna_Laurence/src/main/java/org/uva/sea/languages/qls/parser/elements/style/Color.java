@@ -13,7 +13,7 @@ public class Color extends StyleSpecification {
     }
 
     public String getColorCode() {
-        return colorCode;
+        return this.colorCode;
     }
 
     @Override

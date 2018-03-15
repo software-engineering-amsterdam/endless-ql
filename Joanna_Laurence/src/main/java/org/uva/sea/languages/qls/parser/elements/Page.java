@@ -18,11 +18,11 @@ public class Page extends QLSNode {
     }
 
     public List<Specification> getSpecificationList() {
-        return specificationList;
+        return this.specificationList;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override

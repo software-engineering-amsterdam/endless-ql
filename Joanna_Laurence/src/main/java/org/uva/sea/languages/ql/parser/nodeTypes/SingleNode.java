@@ -13,7 +13,7 @@ public abstract class SingleNode extends ASTNode {
     }
 
     public ASTNode getValue() {
-        return value;
+        return this.value;
     }
 
     @Override

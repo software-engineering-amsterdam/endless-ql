@@ -7,7 +7,7 @@ public class Relation<T> {
     private final Set<RelationEntity<T>> relations = new HashSet<>();
 
     public Set<RelationEntity<T>> getRelations() {
-        return relations;
+        return this.relations;
     }
 
     /**
@@ -84,7 +84,7 @@ public class Relation<T> {
      * @return If it this relation
      */
     public boolean contains(T key, T value) {
-        return relations.contains(new RelationEntity<>(key, value));
+        return this.relations.contains(new RelationEntity<>(key, value));
     }
 
     /**

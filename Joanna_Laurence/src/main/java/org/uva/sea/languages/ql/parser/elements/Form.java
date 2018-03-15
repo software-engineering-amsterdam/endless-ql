@@ -17,11 +17,11 @@ public class Form extends ASTNode {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Statements getStatements() {
-        return statements;
+        return this.statements;
     }
 
     public Type getType() {

@@ -10,6 +10,7 @@ import org.uva.sea.languages.ql.interpreter.evaluate.FormEvaluator;
 import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.*;
+import org.uva.sea.languages.ql.interpreter.staticAnalysis.CircularExpressionDependencies.Checker;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.elements.Question;
@@ -32,7 +33,7 @@ public class Evaluator {
             new CheckDuplicateLabels.Checker(),
             new CheckIncorrectDuplicateQuestions.Checker(),
             new CircularQuestionDependencies.Checker(),
-            new CircularExpressionDependencies.Checker()
+            new Checker()
     });
 
     /**
@@ -52,12 +53,12 @@ public class Evaluator {
             return new EvaluationResult(new ArrayList<>(), parseResult.getMessages(), parseResult.getAST());
         }
 
-        evaluationMessages.addMessageList(performStaticAnalysis(parseResult));
+        evaluationMessages.addMessageList(this.performStaticAnalysis(parseResult));
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
             return new EvaluationResult(new ArrayList<>(), evaluationMessages, parseResult.getAST());
         }
 
-        return evaluateQuestions(parseResult, symbolTable, evaluationMessages);
+        return this.evaluateQuestions(parseResult, symbolTable, evaluationMessages);
     }
 
     /**
@@ -71,7 +72,7 @@ public class Evaluator {
     private EvaluationResult evaluateQuestions(ParseResult<Form> parseResult, SymbolTable symbolTable, Messages evaluationMessages) {
         FormEvaluator evaluator = new FormEvaluator();
         List<Question> questions = evaluator.evaluate(parseResult.getAST(), symbolTable);
-        List<QuestionData> questionData = evaluateQuestionValues(questions, symbolTable);
+        List<QuestionData> questionData = this.evaluateQuestionValues(questions, symbolTable);
         return new EvaluationResult(questionData, evaluationMessages, parseResult.getAST());
     }
 
@@ -99,7 +100,7 @@ public class Evaluator {
     private List<QuestionData> evaluateQuestionValues(Iterable<Question> questions, SymbolTable symbolTable) {
         List<QuestionData> questionDataList = new ArrayList<>();
         for (Question question : questions) {
-            Value value = getQuestionValue(question, symbolTable);
+            Value value = this.getQuestionValue(question, symbolTable);
             questionDataList.add(new QuestionData(question, value));
         }
         return questionDataList;
@@ -125,6 +126,6 @@ public class Evaluator {
      * @param guiSpecification Specification of the GUI
      */
     private ParseResult<Form> parse(String guiSpecification) throws IOException {
-        return astGenerator.createAST(CharStreams.fromStream(new FileInputStream(guiSpecification)));
+        return this.astGenerator.createAST(CharStreams.fromStream(new FileInputStream(guiSpecification)));
     }
 }

@@ -9,7 +9,7 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 public class Variable extends ASTNode {
     private final String variableName;
 
-    private Question linkedQuestion = null;
+    private Question linkedQuestion;
 
     public Variable(Token token, String variableName) {
         super(token);
@@ -17,11 +17,11 @@ public class Variable extends ASTNode {
     }
 
     public String getVariableName() {
-        return variableName;
+        return this.variableName;
     }
 
     public Question getLinkedQuestion() {
-        return linkedQuestion;
+        return this.linkedQuestion;
     }
 
     public void setLinkedQuestion(Question linkedQuestion) {

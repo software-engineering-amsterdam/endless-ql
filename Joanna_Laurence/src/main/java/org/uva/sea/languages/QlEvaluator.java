@@ -34,7 +34,7 @@ public class QlEvaluator {
      * @throws InterruptedException
      */
     public EvaluationResult getQuestions() throws IOException, InterruptedException {
-        return evaluator.evaluate(this.qlFileLocation, this.symbolTable);
+        return this.evaluator.evaluate(this.qlFileLocation, this.symbolTable);
     }
 
     /**

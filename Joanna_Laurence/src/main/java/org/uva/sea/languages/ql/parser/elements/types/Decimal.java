@@ -19,7 +19,7 @@ public class Decimal extends ASTNode {
     }
 
     public double getValue() {
-        return value;
+        return this.value;
     }
 
     public Type getType() {

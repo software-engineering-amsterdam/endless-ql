@@ -54,7 +54,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
     public Messages doCheck(Form node) {
         node.accept(this);
 
-        linkVariableInformation();
+        this.linkVariableInformation();
 
         return this.messages;
     }
@@ -66,12 +66,12 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
     private void linkVariableInformation() {
         for (Variable variable : this.usedVariables) {
             String variableName = variable.getVariableName();
-            if (!variableMap.containsKey(variableName)) {
+            if (!this.variableMap.containsKey(variableName)) {
                 this.error("Variable is not defined", variable);
                 return;
             }
 
-            variable.setLinkedQuestion(variableMap.get(variableName));
+            variable.setLinkedQuestion(this.variableMap.get(variableName));
         }
     }
 
@@ -95,13 +95,13 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
     @Override
     public Void visit(Question node) {
         String variableName = node.getVariable().getVariableName();
-        if (variableMap.containsKey(variableName)) {
+        if (this.variableMap.containsKey(variableName)) {
             this.error("Question already exists", node);
             return null;
         }
 
         //Add new questionData to the lookup
-        variableMap.put(variableName, node);
+        this.variableMap.put(variableName, node);
 
         //Visit all siblings
         super.visit(node);
@@ -116,8 +116,8 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         HashMap<String, Question> baseMap = new HashMap<>(this.variableMap);
 
         //It is allowed to have duplicate elements in the then and else. So run both with the base map
-        HashMap<String, Question> thenMap = visitStatementsWithVariableMap(baseMap, node.getThen());
-        HashMap<String, Question> elseMap = visitStatementsWithVariableMap(baseMap, node.getOtherwise());
+        HashMap<String, Question> thenMap = this.visitStatementsWithVariableMap(baseMap, node.getThen());
+        HashMap<String, Question> elseMap = this.visitStatementsWithVariableMap(baseMap, node.getOtherwise());
 
         this.variableMap = this.combineVariableMap(baseMap, thenMap, elseMap);
 

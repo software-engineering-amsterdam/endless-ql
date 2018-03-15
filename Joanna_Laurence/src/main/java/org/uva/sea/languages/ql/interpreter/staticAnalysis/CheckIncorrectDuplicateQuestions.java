@@ -57,14 +57,14 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
         super.visit(node);
 
         NodeType linkedNodeType = this.variables.get(node.getVariable().getVariableName());
-        boolean incorrectNodeTypeLinked = linkedNodeType != null && linkedNodeType != node.getNodeType().getNodeType();
+        boolean incorrectNodeTypeLinked = (linkedNodeType != null) && (linkedNodeType != node.getNodeType().getNodeType());
 
         if (incorrectNodeTypeLinked) {
             this.error(node);
             return null;
         }
 
-        linkNodeTypeToVariable(node);
+        this.linkNodeTypeToVariable(node);
         return null;
     }
 

@@ -25,8 +25,8 @@ public class CheckNoDuplicateQuestions extends BaseStyleASTVisitor<Void> impleme
      */
     public Messages doCheck(Form form, Stylesheet stylesheet) {
 
-        List<String> qlsQuestions = getQlSQuestionNames(stylesheet);
-        return checkForDuplicateQuestions(qlsQuestions);
+        List<String> qlsQuestions = this.getQlSQuestionNames(stylesheet);
+        return this.checkForDuplicateQuestions(qlsQuestions);
     }
 
     /**

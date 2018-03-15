@@ -22,15 +22,15 @@ public class Question extends ASTNode {
     }
 
     public String getLabel() {
-        return label;
+        return this.label;
     }
 
     public Variable getVariable() {
-        return variable;
+        return this.variable;
     }
 
     public Type getNodeType() {
-        return nodeType;
+        return this.nodeType;
     }
 
     /**
@@ -43,7 +43,7 @@ public class Question extends ASTNode {
     }
 
     public Type getType() {
-        return nodeType;
+        return this.nodeType;
     }
 
     @Override

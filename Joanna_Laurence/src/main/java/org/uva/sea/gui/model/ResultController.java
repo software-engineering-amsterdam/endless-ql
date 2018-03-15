@@ -15,10 +15,10 @@ public class ResultController {
     }
 
     public EvaluationResult getInterpreterResult() throws IOException, InterruptedException {
-        return formGenerator.getQuestions();
+        return this.formGenerator.getQuestions();
     }
 
     public void updateQuestion(String questionName, Value value) {
-        formGenerator.setVariable(questionName, value);
+        this.formGenerator.setVariable(questionName, value);
     }
 }

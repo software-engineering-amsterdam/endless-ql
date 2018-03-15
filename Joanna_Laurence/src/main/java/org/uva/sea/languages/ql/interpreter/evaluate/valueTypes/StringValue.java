@@ -13,7 +13,7 @@ public class StringValue extends Value {
     }
 
     public String getStringValue() {
-        return stringValue;
+        return this.stringValue;
     }
 
     @Override

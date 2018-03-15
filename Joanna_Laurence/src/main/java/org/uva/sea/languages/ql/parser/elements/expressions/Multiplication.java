@@ -12,7 +12,7 @@ public class Multiplication extends BinaryOperator {
     }
 
     public Type getType() {
-        return getLeftHandSide().getType();
+        return this.getLeftHandSide().getType();
     }
 
     @Override

@@ -17,8 +17,8 @@ public class QuestionRenderer implements Renderable<List<QuestionData>> {
     }
 
     public void render(List<QuestionData> questionData) {
-        List<BaseQuestionModel> questionGUIs = getBaseQuestionModels(questionData);
-        renderer.displayQuestions(questionGUIs);
+        List<BaseQuestionModel> questionGUIs = this.getBaseQuestionModels(questionData);
+        this.renderer.displayQuestions(questionGUIs);
     }
 
     private List<BaseQuestionModel> getBaseQuestionModels(Iterable<QuestionData> data) {

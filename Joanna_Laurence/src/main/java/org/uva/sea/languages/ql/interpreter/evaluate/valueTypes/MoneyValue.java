@@ -29,11 +29,11 @@ public class MoneyValue extends Value {
     }
 
     public String getCurrency() {
-        return currency;
+        return this.currency;
     }
 
     public BigDecimal getAmount() {
-        return amount;
+        return this.amount;
     }
 
     @Override

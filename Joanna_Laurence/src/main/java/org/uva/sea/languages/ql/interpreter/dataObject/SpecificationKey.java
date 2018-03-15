@@ -15,15 +15,15 @@ public class SpecificationKey {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj != null && obj instanceof SpecificationKey) {
+        if ((obj != null) && (obj instanceof SpecificationKey)) {
             SpecificationKey key = (SpecificationKey) obj;
-            return operator.equals(key.operator) && leftType.equals(key.leftType) && rightType.equals(key.rightType);
+            return this.operator.equals(key.operator) && this.leftType == key.leftType && this.rightType == key.rightType;
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return operator.hashCode() ^ leftType.hashCode() ^ rightType.hashCode();
+        return this.operator.hashCode() ^ this.leftType.hashCode() ^ this.rightType.hashCode();
     }
 }

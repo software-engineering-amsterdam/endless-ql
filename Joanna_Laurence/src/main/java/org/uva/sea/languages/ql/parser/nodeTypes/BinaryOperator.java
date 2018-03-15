@@ -15,11 +15,11 @@ public abstract class BinaryOperator extends ASTNode {
     }
 
     public ASTNode getLeftHandSide() {
-        return leftHandSide;
+        return this.leftHandSide;
     }
 
     public ASTNode getRightHandSide() {
-        return rightHandSide;
+        return this.rightHandSide;
     }
 
     @Override

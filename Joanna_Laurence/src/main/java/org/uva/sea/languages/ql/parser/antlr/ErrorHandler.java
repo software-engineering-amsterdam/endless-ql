@@ -32,6 +32,6 @@ public class ErrorHandler implements ANTLRErrorListener {
     }
 
     public Messages getMessages() {
-        return messages;
+        return this.messages;
     }
 }

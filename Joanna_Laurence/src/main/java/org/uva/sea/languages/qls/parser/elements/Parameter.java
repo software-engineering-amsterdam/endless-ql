@@ -13,7 +13,7 @@ public class Parameter extends QLSNode {
     }
 
     public String getParameter() {
-        return parameter;
+        return this.parameter;
     }
 
     @Override

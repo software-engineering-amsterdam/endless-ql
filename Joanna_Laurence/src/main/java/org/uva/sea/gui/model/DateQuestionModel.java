@@ -20,6 +20,6 @@ public class DateQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        return value != null ? value.getDateValue().toString() : "No value";
+        return (this.value != null) ? this.value.getDateValue().toString() : "No value";
     }
 }

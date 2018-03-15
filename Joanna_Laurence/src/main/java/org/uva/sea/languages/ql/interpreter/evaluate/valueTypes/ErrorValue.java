@@ -15,7 +15,7 @@ public class ErrorValue extends Value {
     }
 
     public String getError() {
-        return error;
+        return this.error;
     }
 
     @Override

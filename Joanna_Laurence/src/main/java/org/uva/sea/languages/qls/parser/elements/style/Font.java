@@ -13,7 +13,7 @@ public class Font extends StyleSpecification {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override

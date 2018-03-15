@@ -27,7 +27,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
     @Override
     public Messages doCheck(Form node) {
         node.accept(this);
-        return incorrectDependenciesToErrors(this.getIncorrectAsymmetricElements(this.dependencies));
+        return this.incorrectDependenciesToErrors(this.getIncorrectAsymmetricElements(this.dependencies));
     }
 
     /**
@@ -48,7 +48,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
         List<String> dependsOn = new ArrayList<>();
         node.getExpression().accept(new BaseASTVisitor<Void>() {
             public Void visit(Variable node) {
-                if (node.getLinkedQuestion() != null && node.getLinkedQuestion().getValue() == null)
+                if ((node.getLinkedQuestion() != null) && (node.getLinkedQuestion().getValue() == null))
                     dependsOn.add(node.getVariableName());
 
                 return super.visit(node);
@@ -64,7 +64,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
         });
 
 
-        addRelations(questions, dependsOn, this.dependencies);
+        this.addRelations(questions, dependsOn, this.dependencies);
 
         super.visit(node);
         return null;

@@ -13,10 +13,10 @@ public class ParseResult<T> {
     }
 
     public Messages getMessages() {
-        return warnings;
+        return this.warnings;
     }
 
     public T getAST() {
-        return AST;
+        return this.AST;
     }
 }

@@ -20,11 +20,11 @@ public class Widget extends StyleSpecification {
     }
 
     public WidgetType getWidgetType() {
-        return widgetType;
+        return this.widgetType;
     }
 
     public Iterable<Parameter> getParameters() {
-        return parameters;
+        return this.parameters;
     }
 
     @Override

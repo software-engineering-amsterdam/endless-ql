@@ -16,7 +16,7 @@ public class BooleanValue extends Value {
     }
 
     public boolean getBooleanValue() {
-        return booleanValue;
+        return this.booleanValue;
     }
 
     @Override

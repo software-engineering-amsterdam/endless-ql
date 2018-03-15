@@ -18,7 +18,7 @@ public class Type extends ASTNode {
     }
 
     public NodeType getNodeType() {
-        return nodeType;
+        return this.nodeType;
     }
 
     public Type getType() {
@@ -28,11 +28,11 @@ public class Type extends ASTNode {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if ((o == null) || (this.getClass() != o.getClass())) return false;
 
         Type type = (Type) o;
 
-        return (nodeType != null) ? (this.nodeType == type.nodeType) : (type.nodeType == null);
+        return (this.nodeType != null) ? (this.nodeType == type.nodeType) : (type.nodeType == null);
     }
 
     @Override

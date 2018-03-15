@@ -34,7 +34,7 @@ public class TextFieldWidget implements Widget {
             textField.setText(question.displayValue());
         }
         textField.setEditable(true);
-        textField.setMinWidth(TEXT_WIDTH);
+        textField.setMinWidth(TextFieldWidget.TEXT_WIDTH);
 
         if (question.isComputed()) {
             textField.setEditable(false);

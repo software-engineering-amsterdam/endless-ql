@@ -52,18 +52,18 @@ public class ViewRenderer {
     }
 
     private void displayMessage(String prependMessage, String warningMessage) {
-        messageBox.getChildren().add(createMessageRow(prependMessage + warningMessage));
+        this.messageBox.getChildren().add(this.createMessageRow(prependMessage + warningMessage));
     }
 
     private Node createQuestionRow(BaseQuestionModel questionModel) {
         GridPane wrapper = new GridPane();
 
-        wrapper.getColumnConstraints().add(new ColumnConstraints(COLUMN));
-        wrapper.getRowConstraints().add(new RowConstraints(ROW));
+        wrapper.getColumnConstraints().add(new ColumnConstraints(ViewRenderer.COLUMN));
+        wrapper.getRowConstraints().add(new RowConstraints(ViewRenderer.ROW));
 
-        wrapper.add(createQuestionLabel(questionModel.getLabel()), 0, 0);
-        Control widget = createWidget(questionModel);
-        if (controller.getLastFocusedQuestion().equals(questionModel.getVariableName())) {
+        wrapper.add(this.createQuestionLabel(questionModel.getLabel()), 0, 0);
+        Control widget = this.createWidget(questionModel);
+        if (this.controller.getLastFocusedQuestion().equals(questionModel.getVariableName())) {
             widget.setFocusTraversable(true);
         } else {
             widget.setFocusTraversable(false);
@@ -91,12 +91,12 @@ public class ViewRenderer {
             case SPINBOX:
                 widget = new SpinnerWidget();
                 break;
-            default:
             case TEXTFIELD:
+            default:
                 widget = new TextFieldWidget();
                 break;
         }
-        return widget.draw(questionModel, controller);
+        return widget.draw(questionModel, this.controller);
     }
 
     private Label createQuestionLabel(String string) {
@@ -108,8 +108,8 @@ public class ViewRenderer {
     private Node createMessageRow(String message) {
         GridPane wrapper = new GridPane();
 
-        wrapper.getColumnConstraints().add(new ColumnConstraints(MESSAGE_ROW));
-        wrapper.getRowConstraints().add(new RowConstraints(MESSAGE_COLMN));
+        wrapper.getColumnConstraints().add(new ColumnConstraints(ViewRenderer.MESSAGE_ROW));
+        wrapper.getRowConstraints().add(new RowConstraints(ViewRenderer.MESSAGE_COLMN));
 
         Label label = new Label(message);
         label.setWrapText(true);

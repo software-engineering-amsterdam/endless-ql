@@ -20,6 +20,6 @@ public class StringQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        return value != null ? value.getStringValue() : "No value";
+        return (this.value != null) ? this.value.getStringValue() : "No value";
     }
 }

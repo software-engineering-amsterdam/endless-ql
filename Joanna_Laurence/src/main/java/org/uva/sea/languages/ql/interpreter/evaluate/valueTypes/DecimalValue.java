@@ -19,7 +19,7 @@ public class DecimalValue extends Value {
     }
 
     public double getDecimalValue() {
-        return decimalValue;
+        return this.decimalValue;
     }
 
     @Override

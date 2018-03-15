@@ -16,11 +16,11 @@ public class Question extends Specification {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Widget getWidget() {
-        return widget;
+        return this.widget;
     }
 
     @Override

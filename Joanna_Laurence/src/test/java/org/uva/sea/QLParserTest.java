@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.ql.interpreter.ASTGenerator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
@@ -32,12 +33,12 @@ public class QLParserTest extends TestCase {
         this.shouldCompile = shouldCompile;
     }
 
-    @Parameterized.Parameters(name = "{index}: {0}")
+    @Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
 
         Collection<Object[]> testFiles = new ArrayList<>();
-        testFiles.addAll(getTestFiles("src/test/resources/correctQL/", true));
-        testFiles.addAll(getTestFiles("src/test/resources/incorrectQL/", false));
+        testFiles.addAll(QLParserTest.getTestFiles("src/test/resources/correctQL/", true));
+        testFiles.addAll(QLParserTest.getTestFiles("src/test/resources/incorrectQL/", false));
 
         return testFiles;
     }
@@ -50,7 +51,7 @@ public class QLParserTest extends TestCase {
     private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
         Collection<Object[]> testFiles = new ArrayList<>();
 
-        Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
+        Collection<String> locations = QLParserTest.testFileHelper.getTestFiles(folderLocation);
         for (String location : locations) {
             testFiles.add(new Object[]{location, shouldCompile});
         }

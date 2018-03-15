@@ -13,7 +13,7 @@ public class FontSize extends StyleSpecification {
     }
 
     public int getSize() {
-        return size;
+        return this.size;
     }
 
     @Override

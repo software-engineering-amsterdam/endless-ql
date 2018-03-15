@@ -30,10 +30,10 @@ public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implemen
 
         Messages messages = new Messages();
 
-        List<String> qlQuestions = getQlQuestionNames(form);
-        List<String> qlsQuestions = getQlSQuestionNames(stylesheet);
-        messages.addMessageList(checkListsEqual(qlQuestions, qlsQuestions, "QLS misses question: "));
-        messages.addMessageList(checkListsEqual(qlsQuestions, qlQuestions, "QL misses question: "));
+        List<String> qlQuestions = this.getQlQuestionNames(form);
+        List<String> qlsQuestions = this.getQlSQuestionNames(stylesheet);
+        messages.addMessageList(this.checkListsEqual(qlQuestions, qlsQuestions, "QLS misses question: "));
+        messages.addMessageList(this.checkListsEqual(qlsQuestions, qlQuestions, "QL misses question: "));
 
         return messages;
     }

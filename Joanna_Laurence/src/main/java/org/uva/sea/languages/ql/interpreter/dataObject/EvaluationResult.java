@@ -21,18 +21,18 @@ public class EvaluationResult {
     }
 
     public Messages getMessages() {
-        return messages;
+        return this.messages;
     }
 
     public List<QuestionData> getQuestions() {
-        return questions;
+        return this.questions;
     }
 
     public void add(QuestionData questionRow) {
-        questions.add(questionRow);
+        this.questions.add(questionRow);
     }
 
     public Form getAst() {
-        return ast;
+        return this.ast;
     }
 }

@@ -18,7 +18,7 @@ public class DateExpr extends ASTNode {
     }
 
     public Calendar getDate() {
-        return date;
+        return this.date;
     }
 
     public Type getType() {

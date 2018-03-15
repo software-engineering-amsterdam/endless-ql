@@ -126,11 +126,11 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
         }
 
         private Style findStyle(Section node, NodeType nodeTypeToFind) {
-            return getStyle(nodeTypeToFind, node.getSpecifications());
+            return this.getStyle(nodeTypeToFind, node.getSpecifications());
         }
 
         private Style findStyle(Page node, NodeType nodeTypeToFind) {
-            return getStyle(nodeTypeToFind, node.getSpecificationList());
+            return this.getStyle(nodeTypeToFind, node.getSpecificationList());
         }
 
         private Style getStyle(NodeType nodeTypeToFind, Iterable<Specification> specifications) {

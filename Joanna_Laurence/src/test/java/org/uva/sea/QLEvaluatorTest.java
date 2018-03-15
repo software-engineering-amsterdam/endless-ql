@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.uva.sea.languages.ql.interpreter.Evaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
@@ -50,12 +51,12 @@ public class QLEvaluatorTest extends TestCase {
      *
      * @return Test parameters
      */
-    @Parameterized.Parameters(name = "{index}: {0}")
+    @Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> testFiles = new ArrayList<>();
-        testFiles.addAll(getTestFiles("src/test/resources/calculateQL/", false, false));
-        testFiles.addAll(getTestFiles("src/test/resources/runtimeErrorsQl/", true, false));
-        testFiles.addAll(getTestFiles("src/test/resources/runtimeWarningsQl/", false, true));
+        testFiles.addAll(QLEvaluatorTest.getTestFiles("src/test/resources/calculateQL/", false, false));
+        testFiles.addAll(QLEvaluatorTest.getTestFiles("src/test/resources/runtimeErrorsQl/", true, false));
+        testFiles.addAll(QLEvaluatorTest.getTestFiles("src/test/resources/runtimeWarningsQl/", false, true));
 
         return testFiles;
 
@@ -68,9 +69,9 @@ public class QLEvaluatorTest extends TestCase {
     private static Collection<Object[]> getTestFiles(String folderLocation, boolean hasRuntimeError, boolean hasWarnings) {
         Collection<Object[]> testFiles = new ArrayList<>();
 
-        Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
+        Collection<String> locations = QLEvaluatorTest.testFileHelper.getTestFiles(folderLocation);
         for (String location : locations) {
-            testFiles.add(new Object[]{location, determineExpectedTests(location), hasRuntimeError, hasWarnings});
+            testFiles.add(new Object[]{location, QLEvaluatorTest.determineExpectedTests(location), hasRuntimeError, hasWarnings});
         }
 
         return testFiles;
@@ -145,7 +146,7 @@ public class QLEvaluatorTest extends TestCase {
         Evaluator qlSpecificationEvaluator = new Evaluator();
         EvaluationResult questions = qlSpecificationEvaluator.evaluate(fileName, symbolTable);
 
-        if (checkForRuntimeErrors(questions.getQuestions())) {
+        if (this.checkForRuntimeErrors(questions.getQuestions())) {
             throw new EvaluationException("Exception during evaluation");
         }
 

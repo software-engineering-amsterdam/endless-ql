@@ -17,11 +17,11 @@ public class Stylesheet extends QLSNode {
     }
 
     public Iterable<Page> getPages() {
-        return pages;
+        return this.pages;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override

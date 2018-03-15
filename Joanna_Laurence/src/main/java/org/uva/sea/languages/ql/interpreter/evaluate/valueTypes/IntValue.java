@@ -17,7 +17,7 @@ public class IntValue extends Value {
     }
 
     public int getIntValue() {
-        return intValue;
+        return this.intValue;
     }
 
     @Override

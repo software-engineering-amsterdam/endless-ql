@@ -13,7 +13,7 @@ public class Width extends StyleSpecification {
     }
 
     public int getWidth() {
-        return width;
+        return this.width;
     }
 
     @Override

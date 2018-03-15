@@ -1,7 +1,9 @@
 package expression.operation
 
+import data.question.SymbolType
 import data.value.BaseSymbolValue
 import data.value.BooleanValue
+import javax.naming.OperationNotSupportedException
 
 enum class BinaryOperation(private val operation: (left: BaseSymbolValue, right: BaseSymbolValue) -> BaseSymbolValue) {
 
@@ -74,6 +76,17 @@ enum class BinaryOperation(private val operation: (left: BaseSymbolValue, right:
             "*" -> Multiply
             "/" -> Divide
             else -> null
+        }
+    }
+
+    fun getResolvedType(leftType: SymbolType, rightType: SymbolType): SymbolType {
+        val leftDefaultValue = leftType.getDefaultInstance()
+        val rightDefaultValue = rightType.getDefaultInstance()
+
+        return try {
+            this(leftDefaultValue, rightDefaultValue).type
+        } catch (_: OperationNotSupportedException) {
+            SymbolType.UNDEFINED
         }
     }
 

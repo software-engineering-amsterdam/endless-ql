@@ -1,37 +1,37 @@
 package gui.widgets;
 
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import ql.model.expression.Expression;
 
-import java.util.List;
+public class RadioWidget extends HBox implements WidgetInterface {
 
-public class RadioWidget extends Widget {
+    private final String name;
 
-    private final List<String> options;
-
-    public RadioWidget(String name, List<String> options){
-        super(name);
-        this.options = options;
-    }
-
-
-    @Override
-    public Pane getUI() {
-        HBox pane = new HBox();
-        pane.setSpacing(20);
-
-        pane.getChildren().add(new Label(name));
+    public RadioWidget(String name) {
+        this.name = name;
+        this.managedProperty().bind(this.visibleProperty());
 
         ToggleGroup group = new ToggleGroup();
-        for(String option : options){
-            RadioButton optionButton = new RadioButton(option);
-            pane.getChildren().add(optionButton);
-            optionButton.setToggleGroup(group);
-        }
 
-        return pane;
+        RadioButton falseButton = new RadioButton("false");
+        RadioButton trueButton = new RadioButton("true");
+
+        trueButton.setToggleGroup(group);
+        falseButton.setToggleGroup(group);
+
+        this.getChildren().add(falseButton);
+        this.getChildren().add(trueButton);
+    }
+
+    @Override
+    public Expression getExpression() {
+        return null;
+    }
+
+    @Override
+    public void setExpression(String value) {
+
     }
 }

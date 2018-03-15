@@ -1,21 +1,21 @@
 package org.uva.sea.gui.model;
 
 import javafx.scene.control.Control;
-import org.uva.sea.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.ql.interpreter.dataObject.WidgetType;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.ql.parser.NodeType;
+import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.languages.ql.parser.NodeType;
 
 public abstract class BaseQuestionModel extends Control implements BaseQuestionGUI {
 
-    private String label;
-    private NodeType type;
-    private Value value;
-    private String variableName;
-    private boolean isComputed;
-    private WidgetType widgetType;
+    private final String label;
+    private final NodeType type;
+    private final Value value;
+    private final String variableName;
+    private final boolean isComputed;
+    private final WidgetType widgetType;
 
-    public BaseQuestionModel(QuestionData data) {
+    public BaseQuestionModel(final QuestionData data) {
         this.label = data.getLabel();
         this.type = data.getNodeType();
         this.value = data.getValue();
@@ -25,27 +25,27 @@ public abstract class BaseQuestionModel extends Control implements BaseQuestionG
     }
 
     public WidgetType getWidgetType() {
-        return widgetType;
+        return this.widgetType;
     }
 
     public String getVariableName() {
-        return variableName;
+        return this.variableName;
     }
 
     public String getLabel() {
-        return label;
+        return this.label;
     }
 
     public NodeType getType() {
-        return type;
+        return this.type;
     }
 
     public Value getValue() {
-        return value;
+        return this.value;
     }
 
     public boolean isComputed() {
-        return isComputed;
+        return this.isComputed;
     }
 
 }

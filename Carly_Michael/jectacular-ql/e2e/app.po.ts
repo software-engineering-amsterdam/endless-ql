@@ -15,6 +15,14 @@ export class AppPage {
     element(by.id('inputQl')).clear();
   }
 
+  prefill() {
+    element(by.id('prefill-button')).click();
+  }
+
+  parse() {
+    element(by.id('parse-button')).click();
+  }
+
   parseInput(input: string) {
     element(by.id('inputQl')).sendKeys(input);
     element(by.id('parse-button')).click();

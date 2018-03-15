@@ -4,12 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import org.uva.sea.gui.model.GuiModel;
+import org.uva.sea.gui.model.ResultController;
 import org.uva.sea.gui.render.*;
-import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
+import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
+import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,9 +19,9 @@ import java.util.ResourceBundle;
 
 public class FormController implements Initializable {
 
-    private String defaultQlLocation = "/example.ql";
+    private final String defaultQlLocation = "/example.ql";
 
-    private GuiModel guiModel;
+    private ResultController guiModel;
 
     private QuestionRenderer questionRenderer;
 
@@ -39,29 +39,29 @@ public class FormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        guiModel = new GuiModel(getClass().getResource(defaultQlLocation).getFile(), null);
-        ViewRenderer renderer = new ViewRenderer(questionBox, messageBox, this);
-        questionRenderer = new QuestionRenderer(renderer);
-        warningRenderer = new WarningRenderer(renderer);
-        errorRenderer = new ErrorRenderer(renderer);
-        drawGui();
+        this.guiModel = new ResultController(this.getClass().getResource(this.defaultQlLocation).getFile(), null);
+        ViewRenderer renderer = new ViewRenderer(this.questionBox, this.messageBox, this);
+        this.questionRenderer = new QuestionRenderer(renderer);
+        this.warningRenderer = new WarningRenderer(renderer);
+        this.errorRenderer = new ErrorRenderer(renderer);
+        this.drawGui();
     }
 
     private void drawGui() {
         try {
-            updateGui();
-        } catch (InterruptedException | IOException | StaticAnalysisError e) {
-            errorRenderer.render(e.getMessage());
+            this.updateGui();
+        } catch (InterruptedException | IOException e) {
+            this.errorRenderer.render(e.getMessage());
         }
     }
 
-    private void updateGui() throws IOException, StaticAnalysisError, InterruptedException {
-        InterpreterResult interpreterResult = guiModel.getInterpreterResult();
-        questionRenderer.render(interpreterResult.getQuestions());
+    private void updateGui() throws IOException, InterruptedException {
+        EvaluationResult interpreterResult = this.guiModel.getInterpreterResult();
+        this.questionRenderer.render(interpreterResult.getQuestions());
 
-        Messages warnings = interpreterResult.getWarnings();
-        for (String warning : warnings.getMessages())
-            warningRenderer.render(warning);
+        Messages warnings = interpreterResult.getMessages();
+        for (String warning : warnings.getMessage(MessageTypes.WARNING))
+            this.warningRenderer.render(warning);
     }
 
 
@@ -71,12 +71,12 @@ public class FormController implements Initializable {
         File qlFile = fileSelector.getFile();
 
         if (qlFile == null) {
-            errorRenderer.render("File not found");
+            this.errorRenderer.render("File not found");
             return;
         }
 
-        guiModel = new GuiModel(qlFile.getAbsolutePath(), null);
-        drawGui();
+        this.guiModel = new ResultController(qlFile.getAbsolutePath(), null);
+        this.drawGui();
     }
 
     @FXML
@@ -85,9 +85,9 @@ public class FormController implements Initializable {
         System.out.println("Export");
     }
 
-    public void updateGuiModel(String questionName, Value value) {
-        guiModel.updateQuestion(questionName, value);
-        drawGui();
+    public void updateGuiModel(final String questionName, final Value value) {
+        this.guiModel.updateQuestion(questionName, value);
+        this.drawGui();
     }
 
     public void setLastFocused(String variableName) {
@@ -95,6 +95,6 @@ public class FormController implements Initializable {
     }
 
     public String getLastFocusedQuestion() {
-        return lastFocusedQuestion;
+        return this.lastFocusedQuestion;
     }
 }

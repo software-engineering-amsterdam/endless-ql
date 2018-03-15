@@ -96,6 +96,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
 
         if(ctx.style() != null) {
             style = (Style) visit(ctx.style());
+            widget = style.getWidget();
         } else if (ctx.widget() != null) {
             widget = (Widget) visit(ctx.widget());
         }

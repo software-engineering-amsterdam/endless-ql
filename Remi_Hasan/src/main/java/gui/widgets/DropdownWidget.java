@@ -1,35 +1,28 @@
 package gui.widgets;
 
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import ql.model.expression.Expression;
 
 import java.util.List;
 
-public class DropdownWidget extends Widget {
+public class DropdownWidget extends ComboBox<String> implements WidgetInterface {
 
     private final List<String> options;
+    private final String name;
 
-    public DropdownWidget(String name, List<String> options){
-        super(name);
+    public DropdownWidget(String name, List<String> options) {
+        this.name = name;
+        this.managedProperty().bind(this.visibleProperty());
         this.options = options;
     }
 
+    @Override
+    public Expression getExpression() {
+        return null;
+    }
 
     @Override
-    public Pane getUI() {
-        HBox pane = new HBox();
-        pane.setSpacing(20);
+    public void setExpression(String value) {
 
-        ComboBox<String> comboBox = new ComboBox<>();
-        for(String option : options){
-            comboBox.getItems().add(option);
-        }
-
-        pane.getChildren().add(new Label(name));
-        pane.getChildren().add(comboBox);
-
-        return pane;
     }
 }

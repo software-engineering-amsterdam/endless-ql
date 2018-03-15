@@ -21,8 +21,8 @@ boolean_: INT BOOLEAN_OP INT | PARL boolean_ PARR;
 
 // Lexer
 FORM       : 'form';
-IF_   : 'if';
-ELSE_ : 'else';
+IF_        : 'if';
+ELSE_      : 'else';
 BOOLEAN    : 'boolean';
 MONEY      : 'money';
 

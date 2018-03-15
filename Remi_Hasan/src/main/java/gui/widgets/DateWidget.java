@@ -1,24 +1,24 @@
 package gui.widgets;
 
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import ql.model.expression.Expression;
 
-public class DateWidget extends Widget {
+public class DateWidget extends DatePicker implements WidgetInterface {
+
+    private final String name;
+
     public DateWidget(String name) {
-        super(name);
+        this.name = name;
+        this.managedProperty().bind(this.visibleProperty());
     }
 
     @Override
-    public Pane getUI() {
-        HBox pane = new HBox();
-        pane.setSpacing(20);
+    public Expression getExpression() {
+        return null;
+    }
 
-        DatePicker datePicker = new DatePicker();
-        pane.getChildren().add(new Label(name));
-        pane.getChildren().add(datePicker);
+    @Override
+    public void setExpression(String value) {
 
-        return pane;
     }
 }

@@ -13,6 +13,7 @@ from .gui_imports import *
 from .form_scroll_frame import ScrollFrameGui
 from .form_question import Question
 from .form_page import Page
+import copy
 
 class FormGui:
 
@@ -30,7 +31,7 @@ class FormGui:
 
         self.pages = {}
         self.buttonFrame = create_frame(self.frame, background='blue')
-        
+
         if qls:
             self.buttonFrame.pack(side="top", fill="x", expand=False)
 
@@ -43,6 +44,7 @@ class FormGui:
 
         if qls == False:
             self.addPage()
+            self.pages['default'].createSection()
 
     """
         Create the header with possible QLS formatting
@@ -70,32 +72,78 @@ class FormGui:
         self.pages[header] = new_page
         return new_page
 
-    # Needs removal --------------------------------------------------------------------
-    def add_question(self, varName, question_text="Hi mom", question_type=bool, value=False):
-        q = Question(self.contents, self.questionGenerator, varName, question_text, question_type, value)
-        self.questions.append(q)
+    def doesPageExist(self, pageName):
+        if pageName in self.pages:
+            return True
+        return False
 
-    def remove_question(self, varName):
-        for question in self.questions:
-            if question.getVarName == varName:
-                question.empty_frame()
+    def getPage(self, pageName):
+        return self.pages[pageName]
 
-    # --------------------------------------------------------------------
+    # """
+    #     Add questions to a given page, if no page is given (QL), the default page will be used
+    # """
+    # def addQuestionToPage(self, varName, questionText="Default Question", questionType=bool, value=False, pageName='default'):
+    #     page = self.pages[pageName]
+    #     page.addQuestion(varName, questionText, questionType, value)
+    #
+    # """
+    #     Remove questions from a given page, if no page is given (QL), the default page will be used
+    # """
+    # def removeQuestionFromPage(self, varName, pageName='default'):
+    #     page = self.pages[pageName]
+    #     page.removeQuestion(varName)
 
     """
-        Add questions to a given page, if no page is given (QL), the default page will be used
+        Checks if question is already on a page
     """
-    def addQuestionToPage(self, varName, questionText="Default Question", questionType=bool, value=False, pageName='default'):
+    def isQuestionOnPage(self, varName, sectionName='default', pageName='default'):
         page = self.pages[pageName]
-        page.addQuestion(varName, questionText, questionType, value)
+        for section in page.sections:
+            if section.getName() == sectionName:
+                for question in section.getQuestions():
+                    if question.varName == varName:
+                        return True
+        return False
 
     """
-        Remove questions from a given page, if no page is given (QL), the default page will be used
+        Returns a question object from a page
     """
-    def removeQuestionFromPage(self, varName, pageName='default'):
+    def getQuestionFromSection(self, varName, sectionName, pageName='default'):
         page = self.pages[pageName]
-        page.removeQuestion(varName)
+        for section in page.sections:
+            if section.getName() == sectionName:
+                for question in section.getQuestions():
+                    if question.getVarName() == varName:
+                        return question
+        return None
 
+    """
+        Deletes question that are no longer valid, i.e. questions in a if, elif or else
+    """
+    def deleteInvalidQuestions(self, questions, pageName='default', sectionName='default'):
+        page = self.pages[pageName]
+        for section in page.sections:
+            if section.getName() == sectionName:
+                for question in section.questions:
+                    if (question.varName not in questions):
+                        section.removeQuestion(question.varName)
+
+    def insertQuestion(self, insertAfterVarName, varName,sectionName='default', questionText="Default Question", questionType=bool, value=False, pageName='default'):
+        page = self.pages[pageName]
+        print(varName)
+        page.addQuestionToSection(sectionName, varName, questionText, questionType, value, insertAfterVarName)
+
+    def removeQuestionFromSection(self, pageName, sectionName, varName):
+        page = self.pages[pageName]
+        page.removeQuestionFromSection(sectionName, varName)
+
+    def doesSectionExists(self, sectionName, pageName='default'):
+        page = self.pages[pageName]
+        for section in page.sections:
+            if section.getName() == sectionName:
+                return True
+        return False
     """
         Get all of the answers (and assignments) from the varDict, and download them
     """
@@ -103,7 +151,6 @@ class FormGui:
         answers = {}
         varDict = self.questionGenerator.getVarDict()
         for varName in varDict:
-            assignNode = varDict[varName]['assign']
             answers[varName] = varDict[varName]['node'].evaluate()
         return answers
 

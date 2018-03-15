@@ -2,7 +2,7 @@
 
 <div class="page-container">
   <div class="input">
-    <button (click)="prefillForm()">Prefill</button>
+    <button (click)="prefillForm()" id="prefill-button">Prefill</button>
     <span class="header">Input QL</span>
 
     <span id="error-message" *ngIf="errorMessage" class="error"> {{errorMessage}}</span>
@@ -19,7 +19,7 @@
     <span class="header">{{formName}}</span>
     <form id="form" (ngSubmit)="onSubmit()" [formGroup]="form">
 
-      <app-styled-form-content *ngIf="inputQls; else unstyledquestions"
+      <app-styled-form-content *ngIf="qlsStylesheet; else unstyledquestions"
                                [styles]="qlsStylesheet" [questions]="questions" [form]="form">
 
       </app-styled-form-content>

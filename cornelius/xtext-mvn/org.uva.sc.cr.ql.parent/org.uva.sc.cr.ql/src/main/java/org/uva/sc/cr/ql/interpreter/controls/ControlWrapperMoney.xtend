@@ -9,6 +9,8 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class ControlWrapperMoney extends ControlWrapper {
 
+	private static val DEFAULT_VALUE = 0
+
 	@Accessors(PUBLIC_GETTER)
 	private var TextField textField
 
@@ -16,6 +18,8 @@ class ControlWrapperMoney extends ControlWrapper {
 		super(question, binding)
 		if (question.expression !== null) {
 			textField.textProperty.bind(binding)
+		} else {
+			textField.text = "" + DEFAULT_VALUE
 		}
 	}
 

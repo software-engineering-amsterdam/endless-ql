@@ -3,7 +3,7 @@ package data.value
 import data.question.SymbolType
 import java.math.BigDecimal
 
-class MoneyValue(var value: BigDecimal) : BaseSymbolValue(SymbolType.Money) {
+class MoneyValue(var value: BigDecimal) : BaseSymbolValue(SymbolType.MONEY) {
 
     constructor(value: String) : this(BigDecimal(value))
     constructor(value: Int) : this(BigDecimal(value))

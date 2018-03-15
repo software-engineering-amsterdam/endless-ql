@@ -101,7 +101,6 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
     logger.debug(s"Values before evaluation:\n${pprint.apply(dictionary)}")
     dictionary ++= Evaluator.evaluate(qlForm, dictionary.toMap)
     logger.debug(s"Values after evaluation:\n${pprint.apply(dictionary)}")
-    logger.debug(s"\n${pprint.apply(qlForm)}")
   }
 
   private def updateView(): Unit = {
@@ -127,8 +126,8 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
 
   private def updateOrder(): Unit = {
     stylesheet.map(_.collectQuestionsForPage(getActivePageName)) match {
-      case Some(questions) => reorderComponents(questions)
-      case _               => ()
+      case Some(questionToReorder) => reorderComponents(questionToReorder)
+      case _                       => ()
     }
   }
 

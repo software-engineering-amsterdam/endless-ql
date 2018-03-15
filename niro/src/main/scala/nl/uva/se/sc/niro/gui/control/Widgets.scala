@@ -1,6 +1,5 @@
 package nl.uva.se.sc.niro.gui.control
 
-import java.lang
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -27,21 +26,21 @@ trait QLWidget[T] extends Control {
 }
 
 abstract class AbstractQLTextField[T]() extends TextField with QLWidget[T] {
-  focusedProperty().addListener(new ChangeListener[lang.Boolean] {
+  focusedProperty().addListener(new ChangeListener[java.lang.Boolean] {
     override def changed(
-        observable: ObservableValue[_ <: lang.Boolean],
-        oldValue: lang.Boolean,
-        newValue: lang.Boolean): Unit =
+        observable: ObservableValue[_ <: java.lang.Boolean],
+        oldValue: java.lang.Boolean,
+        newValue: java.lang.Boolean): Unit =
       if (oldValue) valueChanged
   })
 }
 
 class QLBooleanField extends CheckBox with QLWidget[Boolean] {
-  selectedProperty().addListener(new ChangeListener[lang.Boolean] {
+  selectedProperty().addListener(new ChangeListener[java.lang.Boolean] {
     override def changed(
-        observable: ObservableValue[_ <: lang.Boolean],
-        oldValue: lang.Boolean,
-        newValue: lang.Boolean): Unit =
+        observable: ObservableValue[_ <: java.lang.Boolean],
+        oldValue: java.lang.Boolean,
+        newValue: java.lang.Boolean): Unit =
       valueChanged
   })
   override def setValue(value: Boolean): Unit = setSelected(value)

@@ -8,7 +8,7 @@ public class IntValue extends Value {
     private int intValue;
 
     public IntValue(String value) {
-        if(!value.equals(""))
+        if (!value.equals(""))
             this.intValue = Integer.parseInt(value);
     }
 

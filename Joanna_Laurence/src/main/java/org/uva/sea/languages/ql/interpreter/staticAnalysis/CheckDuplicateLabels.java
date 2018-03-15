@@ -1,9 +1,9 @@
 package org.uva.sea.languages.ql.interpreter.staticAnalysis;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
+import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.elements.Question;
-import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
@@ -23,17 +23,6 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
      */
     private CheckDuplicateLabels() {
 
-    }
-
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
-    public static class Checker implements IStaticAnalysis<Form> {
-        @Override
-        public Messages doCheck(Form node) {
-            IStaticAnalysis<Form> checker = new CheckDuplicateLabels();
-            return checker.doCheck(node);
-        }
     }
 
     /**
@@ -84,5 +73,16 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
      */
     private void linkQuestionVariableToLabel(Question node) {
         this.labels.put(node.getLabel(), node.getVariable().getVariableName());
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis<Form> {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis<Form> checker = new CheckDuplicateLabels();
+            return checker.doCheck(node);
+        }
     }
 }

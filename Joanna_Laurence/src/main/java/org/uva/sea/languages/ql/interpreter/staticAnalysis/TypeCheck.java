@@ -1,18 +1,20 @@
 package org.uva.sea.languages.ql.interpreter.staticAnalysis;
 
-import org.uva.sea.languages.ql.parser.elements.ASTNode;
-import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.SpecificationKey;
-import org.uva.sea.languages.ql.parser.NodeType;
-import org.uva.sea.languages.ql.parser.elements.Form;
-import org.uva.sea.languages.ql.parser.elements.Question;;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.TypeCheckSpecification;
+import org.uva.sea.languages.ql.parser.NodeType;
+import org.uva.sea.languages.ql.parser.elements.ASTNode;
+import org.uva.sea.languages.ql.parser.elements.Form;
+import org.uva.sea.languages.ql.parser.elements.Question;
+import org.uva.sea.languages.ql.parser.elements.expressions.*;
+import org.uva.sea.languages.ql.parser.elements.types.*;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
+
+;
 
 public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalysis<Form> {
 
@@ -26,17 +28,6 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
     private TypeCheck() {
         TypeCheckSpecification typeCheckSpecification = new TypeCheckSpecification();
         this.typeCheckSpecification = typeCheckSpecification.getSpecification();
-    }
-
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
-    public static class Checker implements IStaticAnalysis<Form> {
-        @Override
-        public Messages doCheck(Form node) {
-            IStaticAnalysis<Form> checker = new TypeCheck();
-            return checker.doCheck(node);
-        }
     }
 
     /**
@@ -62,8 +53,8 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
     /**
      * Determine new type, and return error when the operation cannot be done
      *
-     * @param node    The node that is checked
-     * @param leftHandSideType Left hand side type, or the first type
+     * @param node              The node that is checked
+     * @param leftHandSideType  Left hand side type, or the first type
      * @param rightHandSideType Right hand side type, or NodeType.UNKNOWN when only one type is needed
      * @return The new type
      */
@@ -166,7 +157,6 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
         return node.getNodeType();
     }
 
-
     @Override
     public NodeType visit(Or node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
@@ -236,5 +226,16 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
         }
 
         return questionType;
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis<Form> {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis<Form> checker = new TypeCheck();
+            return checker.doCheck(node);
+        }
     }
 }

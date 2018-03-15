@@ -14,7 +14,6 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.elements.Question;
 
-import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,8 +38,8 @@ public class Evaluator {
     /**
      * Generates questions with values
      *
-     * @param qlFile Specification of the GUI
-     * @param symbolTable      The current state of the program
+     * @param qlFile      Specification of the GUI
+     * @param symbolTable The current state of the program
      * @return List of questions that should be displayed
      */
     public EvaluationResult evaluate(String qlFile, SymbolTable symbolTable) throws IOException {
@@ -63,8 +62,9 @@ public class Evaluator {
 
     /**
      * Evaluate AST
-     * @param parseResult Parse result
-     * @param symbolTable Symbol table
+     *
+     * @param parseResult        Parse result
+     * @param symbolTable        Symbol table
      * @param evaluationMessages Message container
      * @return
      */
@@ -77,6 +77,7 @@ public class Evaluator {
 
     /**
      * Does the static analysis on the parse result
+     *
      * @param parseResult Parse result
      */
     private Messages performStaticAnalysis(ParseResult<Form> parseResult) {

@@ -10,7 +10,8 @@ import org.uva.sea.languages.ql.parser.elements.Question;
 import org.uva.sea.languages.ql.parser.elements.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IStaticAnalysis<Form> {
 
@@ -23,17 +24,6 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
 
     }
 
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
-    public static class Checker implements IStaticAnalysis<Form> {
-        @Override
-        public Messages doCheck(Form node) {
-            IStaticAnalysis<Form> checker = new CircularQuestionDependencies();
-            return checker.doCheck(node);
-        }
-    }
-
     @Override
     public Messages doCheck(Form node) {
         node.accept(this);
@@ -42,12 +32,13 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
 
     /**
      * Convert dependency errors to Messages
+     *
      * @param incorrectDependencies The dependency errors
      * @return The messages
      */
     private Messages incorrectDependenciesToErrors(Relation<String> incorrectDependencies) {
         Messages errors = new Messages();
-        for( RelationEntity<String> dependency : incorrectDependencies.getRelations())
+        for (RelationEntity<String> dependency : incorrectDependencies.getRelations())
             errors.addMessage(dependency.getKey() + " has a circular dependency with" + dependency.getValue(), MessageTypes.ERROR);
         return errors;
     }
@@ -57,7 +48,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
         List<String> dependsOn = new ArrayList<>();
         node.getExpression().accept(new BaseASTVisitor<Void>() {
             public Void visit(Variable node) {
-                if(node.getLinkedQuestion() != null && node.getLinkedQuestion().getValue() == null)
+                if (node.getLinkedQuestion() != null && node.getLinkedQuestion().getValue() == null)
                     dependsOn.add(node.getVariableName());
 
                 return super.visit(node);
@@ -80,35 +71,44 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
     }
 
     /**
-     *
      * @param questions
      * @param dependsOn
      * @param relation
      */
     private void addRelations(List<String> questions, List<String> dependsOn, Relation<String> relation) {
-        for(String question : questions) {
-            for(String dependOn : dependsOn) {
+        for (String question : questions) {
+            for (String dependOn : dependsOn) {
                 relation.addRelation(question, dependOn);
             }
         }
     }
 
-
     /**
      * for all a,b IN X (aRb -> NOT(bRa)).
      * Return all elements that make the map not asymmetric
+     *
      * @param relation The relations
      * @return Relations that make the map not asymmetric
      */
     private Relation<String> getIncorrectAsymmetricElements(Relation<String> relation) {
         Relation<String> incorrectElements = new Relation<>();
 
-        for (RelationEntity<String> entry : relation.getRelations())
-        {
-            if(relation.contains(entry.getValue(),entry.getKey()))
+        for (RelationEntity<String> entry : relation.getRelations()) {
+            if (relation.contains(entry.getValue(), entry.getKey()))
                 incorrectElements.addRelation(entry.getKey(), entry.getValue());
         }
 
         return incorrectElements;
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis<Form> {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis<Form> checker = new CircularQuestionDependencies();
+            return checker.doCheck(node);
+        }
     }
 }

@@ -2,8 +2,8 @@ package org.uva.sea.languages.ql.interpreter.evaluate;
 
 import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.elements.IfStatement;
-import org.uva.sea.languages.ql.parser.elements.Statements;
 import org.uva.sea.languages.ql.parser.elements.Question;
+import org.uva.sea.languages.ql.parser.elements.Statements;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.ArrayList;

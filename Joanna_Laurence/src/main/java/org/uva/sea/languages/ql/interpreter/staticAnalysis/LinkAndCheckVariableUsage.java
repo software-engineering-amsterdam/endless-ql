@@ -1,9 +1,9 @@
 package org.uva.sea.languages.ql.interpreter.staticAnalysis;
 
-import org.uva.sea.languages.ql.parser.elements.*;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
-import org.uva.sea.languages.ql.parser.elements.types.Variable;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
+import org.uva.sea.languages.ql.parser.elements.*;
+import org.uva.sea.languages.ql.parser.elements.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.ArrayList;
@@ -37,18 +37,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
     /**
      * Hide constructor
      */
-    private  LinkAndCheckVariableUsage() {
-    }
-
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
-    public static class Checker implements IStaticAnalysis<Form> {
-        @Override
-        public Messages doCheck(Form node) {
-            IStaticAnalysis checker = new LinkAndCheckVariableUsage();
-            return checker.doCheck(node);
-        }
+    private LinkAndCheckVariableUsage() {
     }
 
     /**
@@ -78,7 +67,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
      * Add error when it is not defined
      */
     private void linkVariableInformation() {
-        for(Variable variable : this.usedVariables) {
+        for (Variable variable : this.usedVariables) {
             String variableName = variable.getVariableName();
             if (!variableMap.containsKey(variableName)) {
                 this.error("Variable is not defined", variable);
@@ -109,7 +98,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
     @Override
     public Void visit(Question node) {
         String variableName = node.getVariable().getVariableName();
-        if(variableMap.containsKey(variableName)) {
+        if (variableMap.containsKey(variableName)) {
             this.error("Question already exists", node);
             return null;
         }
@@ -141,7 +130,8 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
 
     /**
      * Visits statements with a base map
-     * @param baseMap The base map
+     *
+     * @param baseMap           The base map
      * @param statementsToCheck Statements to check
      * @return A new HashSet that contains all the mappings from base and statements
      */
@@ -159,18 +149,30 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
 
     /**
      * Combines variable map
+     *
      * @param maps Variable maps
      * @return New map with all elements combined
      */
     private Map<String, Question> combineVariableMap(Map<String, Question>... maps) {
-        if(maps.length == 0)
+        if (maps.length == 0)
             return new HashMap<>();
 
         Map<String, Question> result = new HashMap<>();
-        for(Map<String, Question> map : maps) {
+        for (Map<String, Question> map : maps) {
             result.putAll(map);
         }
 
         return result;
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis<Form> {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis checker = new LinkAndCheckVariableUsage();
+            return checker.doCheck(node);
+        }
     }
 }

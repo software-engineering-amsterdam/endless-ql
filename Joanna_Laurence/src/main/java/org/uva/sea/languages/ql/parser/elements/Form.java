@@ -1,8 +1,8 @@
 package org.uva.sea.languages.ql.parser.elements;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.languages.ql.parser.elements.types.Type;
 import org.uva.sea.languages.ql.parser.NodeType;
+import org.uva.sea.languages.ql.parser.elements.types.Type;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Form extends ASTNode {

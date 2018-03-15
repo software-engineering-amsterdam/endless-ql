@@ -29,7 +29,7 @@ public class ASTGenerator {
         QLParser.FormContext form = parser.form();
 
         Messages parseMessages = parseErrorListener.getMessages();
-        if(parseMessages.hasMessagePresent(MessageTypes.ERROR))
+        if (parseMessages.hasMessagePresent(MessageTypes.ERROR))
             return new ParseResult<>(null, parseMessages);
 
         return new ParseResult<>(form.result, parseMessages);

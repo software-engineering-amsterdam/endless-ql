@@ -1,8 +1,8 @@
 package org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers;
 
-import org.uva.sea.languages.ql.parser.elements.expressions.*;
 import org.uva.sea.languages.ql.interpreter.dataObject.SpecificationKey;
 import org.uva.sea.languages.ql.parser.NodeType;
+import org.uva.sea.languages.ql.parser.elements.expressions.*;
 
 import java.util.Arrays;
 import java.util.HashMap;

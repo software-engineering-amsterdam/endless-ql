@@ -1,10 +1,10 @@
 package org.uva.sea.languages.ql.interpreter.staticAnalysis;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
+import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.elements.Question;
-import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
@@ -24,17 +24,6 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
      */
     private CheckIncorrectDuplicateQuestions() {
 
-    }
-
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
-    public static class Checker implements IStaticAnalysis<Form> {
-        @Override
-        public Messages doCheck(Form node) {
-            IStaticAnalysis<Form> checker = new CheckIncorrectDuplicateQuestions();
-            return checker.doCheck(node);
-        }
     }
 
     /**
@@ -85,5 +74,16 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
      */
     private void linkNodeTypeToVariable(Question node) {
         this.variables.put(node.getLabel(), node.getNodeType().getNodeType());
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis<Form> {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis<Form> checker = new CheckIncorrectDuplicateQuestions();
+            return checker.doCheck(node);
+        }
     }
 }

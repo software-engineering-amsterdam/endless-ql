@@ -38,7 +38,7 @@ public class Style {
         if (this.section == null && style.section != null)
             this.section = new ArrayList<>(style.section);
 
-        if(this.widget == null && style.widget != null)
+        if (this.widget == null && style.widget != null)
             this.widget = new WidgetParameters(style.widget.getParameters());
     }
 
@@ -91,12 +91,12 @@ public class Style {
         this.page = page;
     }
 
-    public void setSection(List<String> sections) {
-        this.section = new ArrayList<>(sections);
-    }
-
     public List<String> getSection() {
         return new ArrayList<>(this.section);
+    }
+
+    public void setSection(List<String> sections) {
+        this.section = new ArrayList<>(sections);
     }
 
     @Override

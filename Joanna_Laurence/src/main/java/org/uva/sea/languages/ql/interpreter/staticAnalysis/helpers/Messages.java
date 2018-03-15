@@ -20,8 +20,8 @@ public class Messages {
     }
 
     public boolean hasMessagePresent(MessageTypes messageTypes) {
-        for(Map.Entry<MessageTypes, String> entry : this.messages) {
-            if(entry.getKey() == messageTypes)
+        for (Map.Entry<MessageTypes, String> entry : this.messages) {
+            if (entry.getKey() == messageTypes)
                 return true;
         }
 
@@ -39,8 +39,8 @@ public class Messages {
 
     public List<String> getMessage(MessageTypes messageTypes) {
         List<String> messages = new ArrayList<>();
-        for(Map.Entry<MessageTypes, String> entry : this.messages) {
-            if(entry.getKey() == messageTypes)
+        for (Map.Entry<MessageTypes, String> entry : this.messages) {
+            if (entry.getKey() == messageTypes)
                 messages.add(entry.getValue());
         }
 

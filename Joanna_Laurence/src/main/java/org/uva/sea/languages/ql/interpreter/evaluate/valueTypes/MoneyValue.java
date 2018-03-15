@@ -2,7 +2,6 @@ package org.uva.sea.languages.ql.interpreter.evaluate.valueTypes;
 
 import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.languages.ql.parser.NodeType;
-import org.uva.sea.languages.ql.parser.elements.types.Type;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -268,9 +267,9 @@ public class MoneyValue extends Value {
 
     @Override
     public NodeType getType() {
-        if(this.currency.equals("€"))
+        if (this.currency.equals("€"))
             return NodeType.MONEY_EURO;
-        else if(this.currency.equals("$"))
+        else if (this.currency.equals("$"))
             return NodeType.MONEY_DOLLAR;
 
         throw new NotImplementedException();

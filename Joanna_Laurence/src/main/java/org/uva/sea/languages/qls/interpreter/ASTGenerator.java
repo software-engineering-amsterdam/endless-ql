@@ -25,7 +25,7 @@ public class ASTGenerator {
         QLSParser.StylesheetContext styleSheet = parser.stylesheet();
 
         Messages parseMessages = parseErrorListener.getMessages();
-        if(parseMessages.hasMessagePresent(MessageTypes.ERROR))
+        if (parseMessages.hasMessagePresent(MessageTypes.ERROR))
             return new ParseResult<>(null, parseMessages);
 
         return new ParseResult<>(styleSheet.result, parseMessages);

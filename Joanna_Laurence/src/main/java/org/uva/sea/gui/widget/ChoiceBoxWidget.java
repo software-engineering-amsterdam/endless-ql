@@ -10,8 +10,6 @@ import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
-import java.util.ArrayList;
-
 public class ChoiceBoxWidget implements Widget {
     @Override
     public Control draw(BaseQuestionModel questionModel, FormController controller) {

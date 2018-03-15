@@ -20,6 +20,7 @@ public class QlEvaluator {
 
     /**
      * Constructor
+     *
      * @param fileLocation Location of the QL file
      */
     public QlEvaluator(String fileLocation) {
@@ -28,6 +29,7 @@ public class QlEvaluator {
 
     /**
      * Generate EvaluationResult
+     *
      * @return EvaluationResult
      * @throws InterruptedException
      */
@@ -36,8 +38,7 @@ public class QlEvaluator {
     }
 
     /**
-     *
-     * @param name Name of the variable
+     * @param name  Name of the variable
      * @param value Value of the variable
      */
     public void setVariable(String name, Value value) {

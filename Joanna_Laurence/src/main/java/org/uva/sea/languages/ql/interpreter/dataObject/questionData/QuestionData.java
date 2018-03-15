@@ -5,10 +5,6 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.ErrorValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.Question;
-import org.uva.sea.languages.qls.parser.elements.style.StyleSpecification;
-import org.uva.sea.languages.qls.parser.elements.style.Widget;
-
-import java.util.List;
 
 public class QuestionData {
     private String label;
@@ -55,12 +51,8 @@ public class QuestionData {
         return questionName;
     }
 
-    public void setStyle(Style style) {
-        this.style = style;
-    }
-
     public void mergeStyle(Style style) {
-        if(style != null)
+        if (style != null)
             this.style.fillNullFields(style);
     }
 
@@ -68,11 +60,15 @@ public class QuestionData {
         return style;
     }
 
-    public void setWidgetType(WidgetType widgetType) {
-        this.widgetType = widgetType;
+    public void setStyle(Style style) {
+        this.style = style;
     }
 
     public WidgetType getWidgetType() {
         return widgetType;
+    }
+
+    public void setWidgetType(WidgetType widgetType) {
+        this.widgetType = widgetType;
     }
 }

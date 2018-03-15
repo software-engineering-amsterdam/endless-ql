@@ -1,8 +1,8 @@
 package org.uva.sea.languages.ql.parser.elements.types;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.NodeType;
+import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -27,9 +27,9 @@ public class Money extends ASTNode {
     }
 
     public Type getType() {
-        if(this.currency.equals("€"))
+        if (this.currency.equals("€"))
             return new Type(NodeType.MONEY_EURO);
-        else if(this.currency.equals("$"))
+        else if (this.currency.equals("$"))
             return new Type(NodeType.MONEY_DOLLAR);
 
         throw new NotImplementedException();

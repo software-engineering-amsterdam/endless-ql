@@ -1,10 +1,10 @@
 package org.uva.sea.languages.ql.interpreter.evaluate;
 
-import org.uva.sea.languages.ql.parser.elements.IfStatement;
-import org.uva.sea.languages.ql.parser.elements.Statements;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.interpreter.evaluate.visitor.LookupBooleanValue;
+import org.uva.sea.languages.ql.parser.elements.IfStatement;
 import org.uva.sea.languages.ql.parser.elements.Question;
+import org.uva.sea.languages.ql.parser.elements.Statements;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 import java.util.ArrayList;

@@ -15,31 +15,20 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
 
     private Relation<String> relations = new Relation<>();
 
-        private String question = null;
+    private String question = null;
 
-        @Override
-        public Messages doCheck(Form node) {
-            node.accept(this);
+    @Override
+    public Messages doCheck(Form node) {
+        node.accept(this);
 
-        for(String circularRelation : this.relations.getCircularRelations())
+        for (String circularRelation : this.relations.getCircularRelations())
             this.messages.addMessage("Circular dependency with " + circularRelation, MessageTypes.ERROR);
 
         return this.messages;
     }
 
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
-    public static class Checker implements IStaticAnalysis<Form> {
-        @Override
-        public Messages doCheck(Form node) {
-            IStaticAnalysis<Form> checker = new CircularExpressionDependencies();
-            return checker.doCheck(node);
-        }
-    }
-
     public Void visit(Variable node) {
-        if(this.question == null)
+        if (this.question == null)
             return null;
 
         this.relations.addRelation(this.question, node.getVariableName());
@@ -56,7 +45,6 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
     }
 
     /**
-     *
      * @param node
      */
     private void linkRelationQuestionToQuestionExpression(Question node) {
@@ -65,10 +53,20 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
     }
 
     /**
-     *
      * @param question Null for none.
      */
     private void setRelationQuestion(String question) {
         this.question = question;
+    }
+
+    /**
+     * Hide the visitor, make only doCheck visible
+     */
+    public static class Checker implements IStaticAnalysis<Form> {
+        @Override
+        public Messages doCheck(Form node) {
+            IStaticAnalysis<Form> checker = new CircularExpressionDependencies();
+            return checker.doCheck(node);
+        }
     }
 }

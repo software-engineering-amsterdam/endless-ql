@@ -6,7 +6,6 @@ import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.IStaticAnalysis;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
-import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.qls.interpreter.evaluate.ApplyQLSStyle;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
@@ -31,8 +30,8 @@ public class Evaluator {
     /**
      * Generates questions with values
      *
-     * @param qlsFile Specification of the GUI
-     * @param qlEvaluationResult      The current state of the program
+     * @param qlsFile            Specification of the GUI
+     * @param qlEvaluationResult The current state of the program
      * @return List of questions that should be displayed
      */
     public EvaluationResult evaluate(String qlsFile, EvaluationResult qlEvaluationResult) throws IOException, InterruptedException {
@@ -54,6 +53,7 @@ public class Evaluator {
 
     /**
      * Does the static analysis on the parse result
+     *
      * @param parseResult Parse result
      */
     private Messages performStaticAnalysis(ParseResult<Stylesheet> parseResult) {

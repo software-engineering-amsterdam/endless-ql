@@ -25,15 +25,18 @@ class MainWindow(QtWidgets.QWidget):
         self.setGeometry(600, 600, 1100, 600)
         self.tree = None
 
+        # Initiates frames for within the window, and adds them via a splitter widget.
         self.inputFrame = InputFrame()
         self.outputFrame = OutputFrame()
+
         self.splitter = QtWidgets.QSplitter(QtCore.Qt.Horizontal)
         self.splitter.addWidget(self.inputFrame)
         self.splitter.addWidget(self.outputFrame)
         self.layout.addWidget(self.splitter)
 
-        self.inputFrame.createOutputFrame.connect(self.initiate_outputFrame)
-        self.inputFrame.createOutputFrame.connect(self.parse)
+        # When the signal parseIsPressed is given by inputFrame, MainWindow takes necessary actions to parse
+        self.inputFrame.parseIsPressed.connect(self.initiate_outputFrame)
+        self.inputFrame.parseIsPressed.connect(self.parse)
 
     def initiate_outputFrame(self):
         # Removes the old outputFrame from the window

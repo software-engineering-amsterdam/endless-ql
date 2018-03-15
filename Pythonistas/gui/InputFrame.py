@@ -3,7 +3,7 @@ from PyQt5 import QtCore
 
 
 class InputFrame(QtWidgets.QFrame):
-    createOutputFrame = QtCore.pyqtSignal(str,str)
+    parseIsPressed = QtCore.pyqtSignal(str,str)
 
     def __init__(self):
         super(InputFrame, self).__init__()
@@ -34,7 +34,8 @@ class InputFrame(QtWidgets.QFrame):
         self.inputlayout.addWidget(self.quitbutton)
 
     def on_parse(self):
-        # Sends a signal to MainWindow, together with the text from the input windows
+        # Sends a signal to MainWindow, together with the text from the input windows.
+        # The signal triggers the parsing of the sent text.
         qlText = self.qlInput.toPlainText()
         qlsText = self.qlsInput.toPlainText()
-        self.createOutputFrame.emit(qlText,qlsText)
+        self.parseIsPressed.emit(qlText,qlsText)

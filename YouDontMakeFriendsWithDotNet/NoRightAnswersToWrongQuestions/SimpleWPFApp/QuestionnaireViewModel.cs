@@ -11,7 +11,7 @@ using SimpleWPFApp.Properties;
 
 namespace SimpleWPFApp
 {
-    internal class QuestionnaireViewModel : Observable, IQuestionnaireViewModel
+    public class QuestionnaireViewModel : Observable, IQuestionnaireViewModel
     {
         private readonly ICommandBus m_commandBus;
         private readonly IQuestionnaireOutputModelQueryService m_questionnaireQueryService;

@@ -163,6 +163,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppTests\SimpleWPFApp\MainViewModelTests.cs" />
     <Compile Include="Domain.UnitTests\Utilities\BooleanOperatorCount.cs" />
     <Compile Include="Domain.UnitTests\Tests\CreateModelTests.cs" />
     <Compile Include="Domain.UnitTests\Tests\CreateAstTests.cs" />

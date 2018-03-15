@@ -100,4 +100,9 @@ public class Question extends ASTNode {
     public boolean isDisplayed() {
         return isDisplayed;
     }
+
+    // TODO implement recursive function to check expressions up the hiearchy
+    public boolean isAvailable() {
+        return true;
+    }
 }

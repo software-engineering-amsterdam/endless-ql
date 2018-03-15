@@ -158,7 +158,6 @@ class QLExpressionEvaluatorTest {
 		arguments.put("q2", 9.8)
 		expressionResult = expressionEvaluator.evaluateExpression(expression, arguments, Double)
 		Assert.assertEquals(24.7666, expressionResult.doubleValue, 0.0001)
-		println(expressionResult)
 	}
 
 }

@@ -10,12 +10,17 @@ import org.uva.sc.cr.ql.qL.ExpressionMultiplicationOrDivision
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
 import org.uva.sc.cr.ql.qL.ExpressionQuestionReference
 import org.uva.sc.cr.ql.util.Operation
+import org.uva.sc.cr.ql.qL.ExpressionParanthesis
 
 @Singleton
 class ExpressionEvaluatorMoney {
 
 	private static val CURRENCY_UNIT = CurrencyUnit.EUR
 	private static val ROUNDING_MODE = RoundingMode.DOWN
+
+	dispatch def Money evaluateExpression(ExpressionParanthesis expression, Map<String, Object> arguments) {
+		return evaluateExpression(expression.expression, arguments)
+	}
 
 	dispatch def Money evaluateExpression(ExpressionPlusOrMinus expression, Map<String, Object> arguments) {
 		var leftMoney = evaluateExpression(expression.left, arguments)

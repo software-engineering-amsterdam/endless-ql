@@ -16,36 +16,36 @@ public class DefaultWidgetFromValueVisitor implements QuestionModelVisitor<Contr
 
     @Override
     public Control visit(BooleanQuestionModel question) {
-        return new CheckBoxWidget().draw(question, controller);
+        return new CheckBoxWidget().draw(question, this.controller);
     }
 
     @Override
     public Control visit(DateQuestionModel question) {
-        return new TextFieldWidget().draw(question, controller);
+        return new TextFieldWidget().draw(question, this.controller);
     }
 
     @Override
     public Control visit(DecimalQuestionModel question) {
-        return new TextFieldWidget().draw(question, controller);
+        return new TextFieldWidget().draw(question, this.controller);
     }
 
     @Override
     public Control visit(ErrorQuestionModel question) {
-        return new TextFieldWidget().draw(question, controller);
+        return new TextFieldWidget().draw(question, this.controller);
     }
 
     @Override
     public Control visit(IntQuestionModel question) {
-        return new TextFieldWidget().draw(question, controller);
+        return new TextFieldWidget().draw(question, this.controller);
     }
 
     @Override
     public Control visit(MoneyQuestionModel question) {
-        return new TextFieldWidget().draw(question, controller);
+        return new TextFieldWidget().draw(question, this.controller);
     }
 
     @Override
     public Control visit(StringQuestionModel question) {
-        return new TextFieldWidget().draw(question, controller);
+        return new TextFieldWidget().draw(question, this.controller);
     }
 }

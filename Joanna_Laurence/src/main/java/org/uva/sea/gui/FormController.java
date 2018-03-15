@@ -44,9 +44,9 @@ public class FormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        qlFile = getClass().getResource(defaultQlLocation).getFile();
-        qlsFile = getClass().getResource(defaultQlsLocation).getFile();
-        guiModel = new ResultController(qlFile, qlsFile);
+        this.qlFile = this.getClass().getResource(this.defaultQlLocation).getFile();
+        this.qlsFile = this.getClass().getResource(this.defaultQlsLocation).getFile();
+        this.guiModel = new ResultController(this.qlFile, this.qlsFile);
         ViewRenderer renderer = new ViewRenderer(this.questionBox, this.messageBox, this);
         this.questionRenderer = new QuestionRenderer(renderer);
         this.warningRenderer = new WarningRenderer(renderer);
@@ -96,7 +96,7 @@ public class FormController implements Initializable {
             return;
         }
 
-        this.guiModel = new ResultController(new File(qlFile).getAbsolutePath(), qlsFile.getAbsolutePath());
+        this.guiModel = new ResultController(new File(this.qlFile).getAbsolutePath(), qlsFile.getAbsolutePath());
         this.drawGui();
     }
 

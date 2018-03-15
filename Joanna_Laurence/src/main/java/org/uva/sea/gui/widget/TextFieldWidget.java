@@ -32,7 +32,7 @@ public class TextFieldWidget implements Widget {
     private TextField createTextField(BaseQuestionModel question) {
         TextField textField = new TextField();
 
-        textField = setStyle(textField, question.getStyleQLS());
+        textField = this.setStyle(textField, question.getStyleQLS());
 
         if (question.getValue() != null) {
             textField.setText(question.displayValue());
@@ -54,7 +54,7 @@ public class TextFieldWidget implements Widget {
             if (style.getWidth() != null) {
                 textField.setMinWidth(style.getWidth());
             }
-            if (style.getFont() != null && style.getFontSize() != null) {
+            if ((style.getFont() != null) && (style.getFontSize() != null)) {
                 textField.setFont(new Font(style.getFont(), style.getFontSize()));
             }
         } else {

@@ -15,6 +15,6 @@ public class DefaultWidgetFactory extends AbstractWidgetFactory {
 
     @Override
     public Control createWidget(BaseQuestionModel questionModel) {
-        return questionModel.accept(new DefaultWidgetFromValueVisitor(controller));
+        return questionModel.accept(new DefaultWidgetFromValueVisitor(this.controller));
     }
 }

@@ -13,7 +13,7 @@ public class CheckBoxWidget implements Widget {
     @Override
     public Control draw(BaseQuestionModel questionModel, FormController controller) {
         CheckBox checkBox = new CheckBox();
-        checkBox = createCheckBox(checkBox, questionModel.getStyleQLS());
+        checkBox = this.createCheckBox(checkBox, questionModel.getStyleQLS());
 
         if (questionModel.getValue() != null) {
             System.out.println("Computed boolean value " + questionModel.displayValue());
@@ -32,7 +32,7 @@ public class CheckBoxWidget implements Widget {
         //TODO: set color
         //TODO: consider what to do with pages and sections
         if (style != null) {
-            if (style.getFont() != null && style.getFontSize() != null) {
+            if ((style.getFont() != null) && (style.getFontSize() != null)) {
                 checkBox.setFont(new Font(style.getFont(), style.getFontSize()));
             }
             if (style.getWidth() != null) {

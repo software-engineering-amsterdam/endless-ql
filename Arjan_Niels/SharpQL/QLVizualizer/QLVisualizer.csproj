@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Display\ElementManagerDisplayContollerWindows.cs" />
     <Compile Include="Controllers\ElementManagerController.cs" />
-    <Compile Include="Controllers\ParseController.cs" />
+    <Compile Include="Controllers\QLParseController.cs" />
     <Compile Include="Elements\ElementUtils.cs" />
     <Compile Include="Elements\Managers\CollectionTypes\ElementManagerSubCollection.cs" />
     <Compile Include="Elements\Managers\CollectionTypes\FormManager.cs" />

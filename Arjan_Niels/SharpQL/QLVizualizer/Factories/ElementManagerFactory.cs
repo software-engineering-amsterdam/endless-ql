@@ -23,7 +23,6 @@ namespace QLVisualizer.Factories
             return form;
         }
 
-
         /// <summary>
         /// Parses (AST)Node recursively
         /// </summary>
@@ -103,5 +102,7 @@ namespace QLVisualizer.Factories
             }
             throw new NotImplementedException();
         }
+
+
     }
 }

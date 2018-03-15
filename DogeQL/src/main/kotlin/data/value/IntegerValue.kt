@@ -3,7 +3,7 @@ package data.value
 import data.question.SymbolType
 import java.math.BigDecimal
 
-class IntegerValue(var value: Int) : BaseSymbolValue(SymbolType.Integer) {
+class IntegerValue(var value: Int) : BaseSymbolValue(SymbolType.INTEGER) {
 
     constructor(value: String) : this(value.toInt())
 
@@ -38,7 +38,7 @@ class IntegerValue(var value: Int) : BaseSymbolValue(SymbolType.Integer) {
     }
 
     override fun castTo(that: SymbolType): BaseSymbolValue? = when (that) {
-        SymbolType.Decimal -> DecimalValue(BigDecimal(value))
+        SymbolType.DECIMAL -> DecimalValue(BigDecimal(value))
         SymbolType.Boolean -> BooleanValue(value != 0)
         else -> super.castTo(that)
     }

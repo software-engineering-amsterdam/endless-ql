@@ -1,13 +1,14 @@
 package gui.widgets;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 public class DateWidget extends Widget {
-    public DateWidget(String name) {
-        super(name);
+    public DateWidget(String name, ChangeListener<? super String> listener) {
+        super(name, listener);
     }
 
     @Override

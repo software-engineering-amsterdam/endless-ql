@@ -17,7 +17,7 @@ stylesheet "taxOfficeExample"
     section "Selling"
     {
       question question5
-        widget radio("Yes", "No")
+        widget text
       section "You sold a house"
       {
         question question1

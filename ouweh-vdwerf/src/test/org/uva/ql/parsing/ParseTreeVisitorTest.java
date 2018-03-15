@@ -9,7 +9,6 @@ import org.uva.ql.ast.Conditional;
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.And;
 import org.uva.ql.ast.expression.binary.Or;
 import org.uva.ql.ast.expression.unary.BooleanLiteral;
@@ -38,7 +37,7 @@ public class ParseTreeVisitorTest {
         Form form = builder.getForm(parser);
         Assert.assertEquals("Form: Questions\n" +
                 "\t\"Test?\"\ttest:StringType\n" +
-                "\tIf \"1\" == 1 \n" +
+                "\tIf (\"1\" == 1) \n" +
                 "\t\t\"Test1?\"\ttest:IntegerType\n", form.toString());
     }
 
@@ -70,7 +69,7 @@ public class ParseTreeVisitorTest {
         List<String> testCases = Arrays.asList(
                 "1 + 1",
                 "1 - 1",
-                "( ( 1 - 1 ) + 1 ) - 1"
+                "1 - 1 + 1 - 1"
         );
         for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
@@ -82,19 +81,19 @@ public class ParseTreeVisitorTest {
     @Test
     public void visitComparation() {
         List<String> testCases = Arrays.asList(
-                "1 > 1",
-                "( 1 > 1 ) > 1",
-                "1 < 1",
-                "( 1 < 1 ) < 1",
-                "1 >= 1",
-                "( 1 >= 1 ) >= 1",
-                "1 <= 1",
-                "( 1 <= 1 ) <= 1",
-                "1 != 1",
-                "( 1 != 1 ) != 1",
-                "1 == 1",
-                "( 1 == 1 ) == 1",
-                "( 1 < 1 ) >= ( ( ( 1 < 1 ) > ( 1 == 1 ) ) != 1 ) == 1"
+                "(1 > 1)",
+                "((1 > 1) > 1)",
+                "(1 < 1)",
+                "((1 < 1) < 1)",
+                "(1 >= 1)",
+                "((1 >= 1) >= 1)",
+                "(1 <= 1)",
+                "((1 <= 1) <= 1)",
+                "(1 != 1)",
+                "((1 != 1) != 1)",
+                "(1 == 1)",
+                "((1 == 1) == 1)",
+                "(((1 < 1) >= (((1 < 1) > (1 == 1)) != 1)) == 1)"
         );
         for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
@@ -212,14 +211,6 @@ public class ParseTreeVisitorTest {
         QLParser parser = builder.getQLParser("\"TestQuestion:\" testText: integer = 10");
         CalculatedQuestion calculatedQuestion = (CalculatedQuestion) builder.getStatement(parser);
         Assert.assertEquals("\"TestQuestion:\"\ttestText:IntegerType = 10", calculatedQuestion.toString());
-    }
-
-    @Test
-    public void visitParameterGroup() {
-        QLParser parser = builder.getQLParser("( 1 )");
-        ParameterGroup parameterGroup = (ParameterGroup) builder.getExpression(parser);
-        Assert.assertEquals("( 1 )", parameterGroup.toString());
-
     }
 
     @Test

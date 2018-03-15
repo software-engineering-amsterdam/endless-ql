@@ -1,14 +1,16 @@
 package nl.uva.js.qlparser.ui.components.gui;
 
 import nl.uva.js.qlparser.models.ql.expressions.Form;
+import nl.uva.js.qlparser.models.qls.Stylesheet;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
+import java.util.LinkedList;
 
 public class FormPanel extends JPanel {
 
     private final JPanel formContent;
+    private LinkedList<Component> components;
 
     public FormPanel(Form form, int viewHeight, int formWidth, int formHeight){
         formContent = new JPanel();
@@ -30,11 +32,22 @@ public class FormPanel extends JPanel {
         this.add(scrollPane);
     }
 
-    public void reload(Form form) {
+    public void apply(Form form) {
         formContent.removeAll();
+        components.clear();
 
-        List<Component> components = form.getComponents();
+        components = form.getComponents();
         components.forEach(formContent::add);
+
+        formContent.revalidate();
+        formContent.repaint();
+    }
+
+    public void apply(Stylesheet stylesheet) {
+//        formContent.removeAll();
+//
+//        LinkedList<Component> styledComponents = components.clone();
+//        components.forEach(formContent::add);
 
         formContent.revalidate();
         formContent.repaint();

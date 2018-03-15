@@ -9,7 +9,7 @@ page: 'page' page_id '{' section* default_style* '}';
 
 section: 'section' section_id ('{' (question | section | default_style)* '}' | (question | section | default_style)*);
 
-question: 'question' ('{' (var | var widget)* '}' | (var | var widget)*);
+question: 'question' (var | var widget);
 default_style: 'default' vartype ('{' default_options* widget '}' | widget);
 default_options: (width | font | fontsize | color);
 

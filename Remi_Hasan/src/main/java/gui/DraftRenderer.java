@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DraftRenderer extends Application {
 
@@ -54,13 +56,13 @@ public class DraftRenderer extends Application {
         selectQLFile.setOnAction((event) -> {
             File file = fileChooserQL.showOpenDialog(stage);
             if (file != null) {
-                loadForm(stage, file);
+                loadForm(file);
             }
         });
         selectQLSFile.setOnAction((event) -> {
             File file = fileChooserQLS.showOpenDialog(stage);
             if (file != null) {
-                loadStylesheet(stage, file);
+                loadStylesheet(file);
             }
         });
         openForm.setOnAction((event) -> {
@@ -68,7 +70,7 @@ public class DraftRenderer extends Application {
         });
     }
 
-    private void loadForm(Stage stage, File file) {
+    private void loadForm(File file) {
         try {
             QLFormBuilder qlFormBuilder = new QLFormBuilder();
             form = qlFormBuilder.buildForm(new FileInputStream(file));
@@ -82,7 +84,7 @@ public class DraftRenderer extends Application {
         }
     }
 
-    private void loadStylesheet(Stage stage, File file){
+    private void loadStylesheet(File file){
         // TODO
     }
 
@@ -96,32 +98,35 @@ public class DraftRenderer extends Application {
             System.out.println("Value changed to: " + newValue);
         };
 
+        Map<String, Widget> questionWidgets = new HashMap<>();
+
         for(Question question : form.questions){
             Widget widget;
             switch(question.type){
                 case BOOLEAN:
-                    widget = new CheckboxWidget(question.name, listener);
+                    widget = new CheckboxWidget(listener, question.name);
                     break;
                 case DATE:
-                    widget = new DateWidget(question.name, listener);
+                    widget = new DateWidget(listener, question.name);
                     break;
                 case MONEY:
-                    widget = new MoneyWidget(question.name, listener);
+                    widget = new MoneyWidget(listener, question.name);
                     break;
                 case DECIMAL:
-                    widget = new DoubleWidget(question.name, listener);
+                    widget = new DoubleWidget(listener, question.name);
                     break;
                 case INTEGER:
-                    widget = new IntegerWidget(question.name, listener);
+                    widget = new IntegerWidget(listener, question.name);
                     break;
                 case STRING:
-                    widget = new StringWidget(question.name, listener);
+                    widget = new StringWidget(listener, question.name);
                     break;
                 default:
                     showErrorAlert(new UnsupportedOperationException(""), "");
                     return;
             }
             widgetPane.getChildren().add(widget.getUI());
+            questionWidgets.put(question.name, widget);
         }
         stage.setScene(new Scene(widgetPane));
     }

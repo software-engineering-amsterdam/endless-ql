@@ -4,7 +4,9 @@ import {FormGroup} from '@angular/forms';
 import {QuestionControlService} from './services/question-control.service';
 import {Stylesheet} from './domain/ast/qls';
 import {Form} from './domain/ast/ql/index';
-import {ParseFactory} from './factories/parse-factory';
+import * as qlsMock from './qls-mock-input';
+import * as qlMock from './ql-mock-input';
+import {ParseService} from './services/parse.service';
 
 @Component({
   selector: 'app-root',
@@ -22,77 +24,30 @@ export class AppComponent {
   qlForm: Form;
   qlsStylesheet: Stylesheet;
 
-  constructor(private questionControlService: QuestionControlService) { }
+  constructor(private questionControlService: QuestionControlService, private parseService: ParseService) { }
 
   prefillForm() {
-    this.inputQls = 'stylesheet "taxOfficeExample"\n' +
-      '{\n' +
-      '  page "Housing"\n' +
-      '  {\n' +
-      '    section "Buying"\n' +
-      '    {\n' +
-      '      question question3\n' +
-      '        widget checkbox\n' +
-      '    }\n' +
-      '    section "Loaning"\n' +
-      '      question question4\n' +
-      '  }\n' +
-      '\n' +
-      '  page "Selling"\n' +
-      '  {\n' +
-      '    section "Selling"\n' +
-      '    {\n' +
-      '      question question5\n' +
-      '        widget text\n' +
-      '      section "You sold a house"\n' +
-      '      {\n' +
-      '        question question1\n' +
-      '          widget spinbox\n' +
-      '        question question2\n' +
-      '          widget spinbox\n' +
-      '        question question6\n' +
-      '        default integer\n' +
-      '        {\n' +
-      '          width: 400\n' +
-      '          font-family: "Arial"\n' +
-      '          font-size: 14\n' +
-      '          color: #999999\n' +
-      '          widget spinbox\n' +
-      '        }\n' +
-      '      }\n' +
-      '    }\n' +
-      '    default boolean widget radio("Yes", "No")\n' +
-      '  }\n' +
-      '}';
+    this.inputQls = qlsMock.validQLS;
 
-    this.inputQl = 'form form {\n' +
-      '  question1: "IntegerQuestion?"  integer\n' +
-      '  question2: "DecimalQuestion?"  integer\n' +
-      '  question3: "BooleanQuestion?"  boolean\n' +
-      '  question4: "StringQuestion?"  string\n' +
-      '  question5: "DateQuestion?"  date\n' +
-      '  if (question3) {\n' +
-      '    question6: "ifQuestion" integer\n' +
-      '  }\n' +
-      '}';
+    this.inputQl = qlMock.validQl;
   }
 
   parseInput() {
     try {
-      console.log('parsing', this.inputQls);
-      const parseResult = ParseFactory.parse(this.inputQl, this.inputQls);
+      const parseResult = this.parseService.parse(this.inputQl, this.inputQls);
       this.formName = parseResult.formName;
       this.qlForm = parseResult.form;
       this.qlsStylesheet = parseResult.styles;
       // make form
       this.questions = this.qlForm.toFormQuestion();
       this.form = this.questionControlService.toFormGroup(this.questions);
-      this.formName = this.qlForm.name;
       this.errorMessage = undefined;
     } catch (e) {
       this.form = undefined;
       this.formName = undefined;
       this.questions = undefined;
+      this.qlsStylesheet = undefined;
+      this.qlForm = undefined;
       this.errorMessage = e.message;
 
       if (isDevMode()) {
@@ -103,7 +58,7 @@ export class AppComponent {
   }
 
   onSubmit() {
-    this.payload = JSON.stringify(this.form.getRawValue());
-    console.log(JSON.stringify(this.form.getRawValue()));
+    this.payload = this.form.getRawValue();
+    console.log(this.form.getRawValue());
   }
 }

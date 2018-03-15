@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
+using SimpleWPFApp;
 
-namespace UnitTests.AppTests.SimpleWPFApp
+namespace UnitTests.AppTests.SimpleWPFAppUnitTests
 {
     [TestFixture]
     public class MainViewModelTests
@@ -8,7 +9,7 @@ namespace UnitTests.AppTests.SimpleWPFApp
         [Test]
         public void WhenProvidedData_ShouldLoadQuestionnaire()
         {
-            var viewModel = SimpleWPFApp.QuestionnaireViewModel
+           
         }
     }
 }

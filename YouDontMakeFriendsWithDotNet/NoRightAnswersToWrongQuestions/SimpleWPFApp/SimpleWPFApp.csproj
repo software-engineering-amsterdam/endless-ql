@@ -62,7 +62,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="IQuestionnaireViewModel.cs" />
     <Compile Include="Question.xaml.cs">
       <DependentUpon>Question.xaml</DependentUpon>
     </Compile>

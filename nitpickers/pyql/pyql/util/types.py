@@ -75,4 +75,3 @@ if __name__ == "__main__":
     print(m == s)
     print(n == m)
     print(p == s)
-

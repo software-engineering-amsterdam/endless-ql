@@ -3,7 +3,7 @@ from PyQt5 import QtCore
 
 
 class InputFrame(QtWidgets.QFrame):
-    createOutputFrame = QtCore.pyqtSignal(str)
+    createOutputFrame = QtCore.pyqtSignal(str,str)
 
     def __init__(self):
         super(InputFrame, self).__init__()

@@ -14,11 +14,11 @@ import java.util.*;
 public class QLSValidator {
 
     private Stylesheet stylesheet;
-    private ArrayList<Question> qlQuestions;
+    private List<Question> qlQuestions;
     private LogHandler logHandler;
     private List<Checker> checkers;
 
-    public QLSValidator(ArrayList<Question> qlQuestions, Stylesheet stylesheet){
+    public QLSValidator(List<Question> qlQuestions, Stylesheet stylesheet){
         this.qlQuestions = qlQuestions;
         this.stylesheet = stylesheet;
         this.checkers = new ArrayList<>();

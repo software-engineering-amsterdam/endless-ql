@@ -10,7 +10,7 @@ import org.uva.app.LogHandler;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -76,7 +76,7 @@ public class GUIHandler {
         Logger logger = Logger.getGlobal();
         logger.info("Hallo");
         LogHandler handler = (LogHandler) logger.getHandlers()[0];
-        ArrayList<LogRecord> logs = handler.getLogs(Level.WARNING);
+        List<LogRecord> logs = handler.getLogs(Level.WARNING);
         if (logs.size() > 0) {
             for (LogRecord logRecord : logs) {
                 JOptionPane.showMessageDialog(frame, logRecord.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

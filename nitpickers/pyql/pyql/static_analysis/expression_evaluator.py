@@ -4,7 +4,7 @@ from pyql.ast.expression.literals import *
 from pyql.util import types
 
 
-class ExpressionVisitor:
+class ExpressionEvaluator:
 
     def __init__(self, symbol_table):
         self.symbol_table = symbol_table

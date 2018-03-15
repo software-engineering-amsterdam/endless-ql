@@ -35,6 +35,7 @@ public class QLSValidator {
 
         checkers.add(new ReferenceChecker(qlQuestionIds, qlsQuestionIds));
         checkers.add(new CompatibilityChecker(qlQuestions, qlsQuestions));
+        // TODO Add default CompatibilityChecker
     }
 
     public void run() {

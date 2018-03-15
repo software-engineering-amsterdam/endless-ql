@@ -1,4 +1,4 @@
-package org.uva.ql.gui.widgets;
+package org.uva.gui.widgets;
 
 import org.uva.ql.ast.Question;
 

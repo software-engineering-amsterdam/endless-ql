@@ -1,11 +1,11 @@
-package org.uva.ql.gui;
+package org.uva.gui;
 
 import org.uva.ql.ast.Question;
 import org.uva.ql.evaluator.ExpressionEvaluator;
 import org.uva.ql.evaluator.FormEvaluator;
 import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
-import org.uva.ql.gui.widgets.QuestionWidget;
+import org.uva.gui.widgets.QuestionWidget;
 import org.uva.app.LogHandler;
 
 import javax.swing.*;

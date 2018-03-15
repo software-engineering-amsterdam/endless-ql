@@ -7,9 +7,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.ql.interpreter.ASTGenerator;
+import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
+import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
-import org.uva.sea.languages.ql.interpreter.dataObject.ASTResult;
+import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -63,11 +66,10 @@ public class ASTGeneratorTest extends TestCase {
      */
     private boolean doesInterpreter(String fileName) {
         try {
-            ASTGenerator ASTGenerator = new ASTGenerator();
-            CharStream steam = CharStreams.fromStream(new FileInputStream(fileName));
-            ASTResult result = ASTGenerator.interpreterScriptFile(steam);
-            return result.getAST() != null;
-        } catch (IOException | StaticAnalysisError e) {
+            QlEvaluator qlEvaluator = new QlEvaluator(fileName);
+            EvaluationResult evaluationResult = qlEvaluator.getQuestions();
+            return !evaluationResult.getMessages().hasMessagePresent(MessageTypes.ERROR);
+        } catch (InterruptedException | IOException | StaticAnalysisError e) {
             return false;
         }
     }

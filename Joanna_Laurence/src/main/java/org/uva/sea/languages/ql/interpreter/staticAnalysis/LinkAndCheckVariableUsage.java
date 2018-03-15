@@ -32,7 +32,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
     /**
      *
      */
-    private Messages messages = new Messages(MessageTypes.ERROR);
+    private Messages messages = new Messages();
 
     /**
      * Hide constructor
@@ -56,7 +56,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
      * @param node  The node that caused the error
      */
     private void error(String error, ASTNode node) {
-        this.messages.addMessage(error + " on line:  " + node.getLine() + " column: " + node.getColumn());
+        this.messages.addMessage(error + " on line:  " + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
     /**
@@ -66,8 +66,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
      * @return If an error occurred
      */
     public Messages doCheck(Form node) {
-        this.messages.clear();
-
         node.accept(this);
 
         linkVariableInformation();

@@ -1,6 +1,7 @@
 package org.uva.sea.languages;
 
-import org.uva.sea.languages.ql.interpreter.dataObject.InterpreterResult;
+import org.uva.sea.languages.ql.interpreter.Evaluator;
+import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
@@ -10,9 +11,9 @@ import java.io.IOException;
 /**
  * Converts QL file to a list of questions
  */
-public abstract class QlQuestionEvaluator {
+public class QlEvaluator {
 
-    private org.uva.sea.languages.ql.interpreter.Interpreter qlInterpreter = new org.uva.sea.languages.ql.interpreter.Interpreter();
+    private Evaluator evaluator = new Evaluator();
 
     private SymbolTable symbolTable = new SymbolTable();
 
@@ -20,20 +21,20 @@ public abstract class QlQuestionEvaluator {
 
     /**
      * Constructor
-     * @param fileLocation
+     * @param fileLocation Location of the QL file
      */
-    public QlQuestionEvaluator(String fileLocation) {
+    public QlEvaluator(String fileLocation) {
         this.qlFileLocation = fileLocation;
     }
 
     /**
-     * Generate InterpreterResult
-     * @return InterpreterResult
+     * Generate EvaluationResult
+     * @return EvaluationResult
      * @throws StaticAnalysisError
      * @throws InterruptedException
      */
-    public InterpreterResult getQuestions() throws StaticAnalysisError, IOException {
-        return qlInterpreter.generate(this.qlFileLocation, this.symbolTable);
+    public EvaluationResult getQuestions() throws StaticAnalysisError, IOException, InterruptedException {
+        return evaluator.evaluate(this.qlFileLocation, this.symbolTable);
     }
 
     /**

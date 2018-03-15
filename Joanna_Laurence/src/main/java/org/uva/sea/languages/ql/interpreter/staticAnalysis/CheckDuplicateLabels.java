@@ -8,10 +8,10 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 
-public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStaticAnalysis {
+public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStaticAnalysis<Form> {
 
 
-    private Messages warnings = new Messages(MessageTypes.WARNING);
+    private Messages warnings = new Messages();
 
     /**
      * Labels that are associated with variables
@@ -28,10 +28,10 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis {
+    public static class Checker implements IStaticAnalysis<Form> {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis checker = new CheckDuplicateLabels();
+            IStaticAnalysis<Form> checker = new CheckDuplicateLabels();
             return checker.doCheck(node);
         }
     }
@@ -42,7 +42,7 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
      * @param node The node that caused the warning
      */
     private void error(Question node) {
-        this.warnings.addMessage("Label:" + node.getLabel() + " is already linked to another variable on line: " + node.getLine() + " column: " + node.getColumn());
+        this.warnings.addMessage("Label:" + node.getLabel() + " is already linked to another variable on line: " + node.getLine() + " column: " + node.getColumn(), MessageTypes.WARNING);
     }
 
     /**

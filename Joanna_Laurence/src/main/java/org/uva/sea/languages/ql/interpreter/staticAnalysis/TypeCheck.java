@@ -14,9 +14,9 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 
-public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalysis {
+public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalysis<Form> {
 
-    private Messages errors = new Messages(MessageTypes.ERROR);
+    private Messages errors = new Messages();
 
     private HashMap<SpecificationKey, NodeType> typeCheckSpecification;
 
@@ -31,10 +31,10 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis {
+    public static class Checker implements IStaticAnalysis<Form> {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis checker = new TypeCheck();
+            IStaticAnalysis<Form> checker = new TypeCheck();
             return checker.doCheck(node);
         }
     }
@@ -45,7 +45,7 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
      * -
      */
     private void error(ASTNode node) {
-        this.errors.addMessage("Incorrect type on line:" + node.getLine() + " column: " + node.getColumn());
+        this.errors.addMessage("Incorrect type on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
     /**
@@ -55,7 +55,6 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IStaticAnalys
      * @param node Do the type check for the node
      */
     public Messages doCheck(Form node) {
-        this.errors.clear();
         node.accept(this);
         return this.errors;
     }

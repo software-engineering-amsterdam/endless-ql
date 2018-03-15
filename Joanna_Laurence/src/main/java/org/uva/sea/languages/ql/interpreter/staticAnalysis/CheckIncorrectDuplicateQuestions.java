@@ -9,10 +9,10 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 
-public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> implements IStaticAnalysis {
+public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> implements IStaticAnalysis<Form> {
 
 
-    private Messages errors = new Messages(MessageTypes.ERROR);
+    private Messages errors = new Messages();
 
     /**
      * Labels that are associated with variables
@@ -29,10 +29,10 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis {
+    public static class Checker implements IStaticAnalysis<Form> {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis checker = new CheckIncorrectDuplicateQuestions();
+            IStaticAnalysis<Form> checker = new CheckIncorrectDuplicateQuestions();
             return checker.doCheck(node);
         }
     }
@@ -43,7 +43,7 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
      * @param node The node that caused the warning
      */
     private void error(Question node) {
-        this.errors.addMessage(node.getVariable().getVariableName() + " is different defined on line: " + node.getLine() + " column: " + node.getColumn());
+        this.errors.addMessage(node.getVariable().getVariableName() + " is different defined on line: " + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
     /**

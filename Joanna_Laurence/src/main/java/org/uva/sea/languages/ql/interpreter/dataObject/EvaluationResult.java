@@ -5,19 +5,19 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.util.List;
 
-public class InterpreterResult {
+public class EvaluationResult {
 
-    private Messages warnings;
+    private Messages messages;
 
     private List<QuestionData> questions;
 
-    public InterpreterResult(List<QuestionData> questions, Messages warnings) {
-        this.warnings = warnings;
+    public EvaluationResult(List<QuestionData> questions, Messages warnings) {
+        this.messages = warnings;
         this.questions = questions;
     }
 
-    public Messages getWarnings() {
-        return warnings;
+    public Messages getMessages() {
+        return messages;
     }
 
     public List<QuestionData> getQuestions() {

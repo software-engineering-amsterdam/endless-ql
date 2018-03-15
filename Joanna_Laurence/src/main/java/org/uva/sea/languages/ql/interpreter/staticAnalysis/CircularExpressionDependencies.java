@@ -8,21 +8,21 @@ import org.uva.sea.languages.ql.parser.elements.Question;
 import org.uva.sea.languages.ql.parser.elements.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
-public class CircularExpressionDependencies extends BaseASTVisitor<Void> implements IStaticAnalysis {
+public class CircularExpressionDependencies extends BaseASTVisitor<Void> implements IStaticAnalysis<Form> {
 
 
-    private Messages messages = new Messages(MessageTypes.ERROR);
+    private Messages messages = new Messages();
 
     private Relation<String> relations = new Relation<>();
 
-    private String question = null;
+        private String question = null;
 
-    @Override
-    public Messages doCheck(Form node) {
-        node.accept(this);
+        @Override
+        public Messages doCheck(Form node) {
+            node.accept(this);
 
         for(String circularRelation : this.relations.getCircularRelations())
-            this.messages.addMessage("Circular dependency with " + circularRelation);
+            this.messages.addMessage("Circular dependency with " + circularRelation, MessageTypes.ERROR);
 
         return this.messages;
     }
@@ -30,10 +30,10 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis {
+    public static class Checker implements IStaticAnalysis<Form> {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis checker = new CircularExpressionDependencies();
+            IStaticAnalysis<Form> checker = new CircularExpressionDependencies();
             return checker.doCheck(node);
         }
     }

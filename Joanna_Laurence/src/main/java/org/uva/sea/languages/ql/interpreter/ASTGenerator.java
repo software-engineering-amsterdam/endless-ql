@@ -1,45 +1,23 @@
 package org.uva.sea.languages.ql.interpreter;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.uva.sea.languages.astGenerator.BaseASTGenerator;
-import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
-import org.uva.sea.languages.ql.interpreter.dataObject.ASTResult;
-import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
-import org.uva.sea.languages.ql.parser.antlr.ErrorHandler;
-import org.uva.sea.languages.ql.parser.elements.Form;
-import org.uva.sea.languages.ql.interpreter.staticAnalysis.*;
-import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
-
 import org.uva.sea.languages.ql.antlr.QLLexer;
 import org.uva.sea.languages.ql.antlr.QLParser;
+import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
+import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
+import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
+import org.uva.sea.languages.ql.parser.antlr.ErrorHandler;
+import org.uva.sea.languages.ql.parser.elements.Form;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.List;
-
-public class ASTGenerator extends BaseASTGenerator<Form> {
-
-    public ASTGenerator() {
-        super(Arrays.asList(new IStaticAnalysis[]{
-                new LinkAndCheckVariableUsage.Checker(),
-                new TypeCheck.Checker(),
-                new CheckDuplicateLabels.Checker(),
-                new CheckIncorrectDuplicateQuestions.Checker(),
-                new CircularQuestionDependencies.Checker(),
-                new CircularExpressionDependencies.Checker()
-        }));
-    }
-
+public class ASTGenerator {
     /**
      * Create AST for specification
      *
      * @param source
      * @return
      */
-    protected Form createAST(CharStream source) {
+    protected ParseResult<Form> createAST(CharStream source) {
         QLLexer lexer = new QLLexer(source);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
@@ -50,7 +28,11 @@ public class ASTGenerator extends BaseASTGenerator<Form> {
 
         QLParser.FormContext form = parser.form();
 
-        return parseErrorListener.isError() ? null : form.result;
+        Messages parseMessages = parseErrorListener.getMessages();
+        if(parseMessages.hasMessagePresent(MessageTypes.ERROR))
+            return new ParseResult<>(null, parseMessages);
+
+        return new ParseResult<>(form.result, parseMessages);
     }
 }
 

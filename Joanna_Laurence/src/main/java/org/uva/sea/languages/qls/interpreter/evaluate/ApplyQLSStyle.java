@@ -1,6 +1,6 @@
-package org.uva.sea.languages.qls.interpreter;
+package org.uva.sea.languages.qls.interpreter.evaluate;
 
-import org.uva.sea.languages.ql.interpreter.dataObject.InterpreterResult;
+import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
@@ -18,9 +18,9 @@ import java.util.Stack;
 
 public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
-    private InterpreterResult qlInputResult;
+    private EvaluationResult qlInputResult;
 
-    private InterpreterResult outputResult;
+    private EvaluationResult outputResult;
 
     private EvaluateDefaultStyle.Fetcher defaultStyleEvaluator = new EvaluateDefaultStyle.Fetcher();
 
@@ -38,15 +38,15 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     }
 
     /**
-     * Generate a new InterpreterResult with style
+     * Generate a new EvaluationResult with style
      *
      * @param interpreterResult QL interpreterResult
      * @param stylesheet        QLS AST
      * @throws InterruptedException
      */
-    public InterpreterResult applyStyle(InterpreterResult interpreterResult, Stylesheet stylesheet) throws InterruptedException {
+    public EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) throws InterruptedException {
         this.qlInputResult = interpreterResult;
-        this.outputResult = new InterpreterResult(new ArrayList<>(), interpreterResult.getWarnings());
+        this.outputResult = new EvaluationResult(new ArrayList<>(), interpreterResult.getMessages());
         //The visitor will fill the outputResult
         stylesheet.accept(this);
         return this.outputResult;
@@ -162,7 +162,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      * Hide the visitor, make only doCheck visible
      */
     public static class Linker {
-        public InterpreterResult apply(InterpreterResult interpreterResult, Stylesheet stylesheet) throws InterruptedException {
+        public EvaluationResult apply(EvaluationResult interpreterResult, Stylesheet stylesheet) throws InterruptedException {
             ApplyQLSStyle interpreter = new ApplyQLSStyle();
             return interpreter.applyStyle(interpreterResult, stylesheet);
         }

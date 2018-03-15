@@ -51,7 +51,7 @@ public class BooleanValue extends Value {
 
     @Override
     public Value or(Value value) throws EvaluationException {
-        return value.or(value);
+        return value.or(this);
     }
 
     @Override

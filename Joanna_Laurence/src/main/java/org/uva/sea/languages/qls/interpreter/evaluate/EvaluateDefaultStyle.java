@@ -1,4 +1,4 @@
-package org.uva.sea.languages.qls.interpreter;
+package org.uva.sea.languages.qls.interpreter.evaluate;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;

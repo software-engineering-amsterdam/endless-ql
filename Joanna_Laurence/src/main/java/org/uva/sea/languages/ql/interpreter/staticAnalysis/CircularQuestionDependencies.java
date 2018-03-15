@@ -12,7 +12,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.*;
 
-public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IStaticAnalysis {
+public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IStaticAnalysis<Form> {
 
     private Relation<String> dependencies = new Relation<>();
 
@@ -26,10 +26,10 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis {
+    public static class Checker implements IStaticAnalysis<Form> {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis checker = new CircularQuestionDependencies();
+            IStaticAnalysis<Form> checker = new CircularQuestionDependencies();
             return checker.doCheck(node);
         }
     }
@@ -46,9 +46,9 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
      * @return The messages
      */
     private Messages incorrectDependenciesToErrors(Relation<String> incorrectDependencies) {
-        Messages errors = new Messages(MessageTypes.ERROR);
+        Messages errors = new Messages();
         for( RelationEntity<String> dependency : incorrectDependencies.getRelations())
-            errors.addMessage(dependency.getKey() + " has a circular dependency with" + dependency.getValue());
+            errors.addMessage(dependency.getKey() + " has a circular dependency with" + dependency.getValue(), MessageTypes.ERROR);
         return errors;
     }
 

@@ -5,8 +5,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.uva.sea.languages.ql.interpreter.Interpreter;
-import org.uva.sea.languages.ql.interpreter.dataObject.InterpreterResult;
+import org.uva.sea.languages.ql.interpreter.Evaluator;
+import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
+import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.ErrorValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
@@ -125,7 +126,7 @@ public class QLEvaluatorTest extends TestCase {
                 String variableType = matcher.group(2);
                 String variableValue = matcher.group(3);
 
-                Class dynamicClass = Class.forName("org.uva.sea.languages.ql.getQuestions.evaluate.valueTypes." + variableType);
+                Class dynamicClass = Class.forName("org.uva.sea.languages.ql.interpreter.evaluate.valueTypes." + variableType);
                 Value value = (Value) dynamicClass.getDeclaredConstructor(String.class).newInstance(variableValue);
 
                 symbolTable.addOrUpdateValue(variableName, value);
@@ -142,11 +143,11 @@ public class QLEvaluatorTest extends TestCase {
      * @param fileName The location of the ql file
      * @return If the script is interpretable
      */
-    private InterpreterResult getDisplayedQuestions(String fileName) throws IOException, EvaluationException, StaticAnalysisError, ReflectiveOperationException {
+    private EvaluationResult getDisplayedQuestions(String fileName) throws IOException, EvaluationException, StaticAnalysisError, ReflectiveOperationException {
 
         SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
-        Interpreter qlSpecificationEvaluator = new Interpreter();
-        InterpreterResult questions = qlSpecificationEvaluator.generate(fileName, symbolTable);
+        Evaluator qlSpecificationEvaluator = new Evaluator();
+        EvaluationResult questions = qlSpecificationEvaluator.evaluate(fileName, symbolTable);
 
         if (checkForRuntimeErrors(questions.getQuestions())) {
             throw new EvaluationException("Exception during evaluation");
@@ -182,11 +183,11 @@ public class QLEvaluatorTest extends TestCase {
     public void testFile() throws IOException, ReflectiveOperationException, StaticAnalysisError {
         try {
             System.out.println("Testing: " + this.testFile);
-            InterpreterResult interpreterResult = this.getDisplayedQuestions(this.testFile);
+            EvaluationResult interpreterResult = this.getDisplayedQuestions(this.testFile);
 
             Assert.assertEquals(this.correctQuestions, interpreterResult.getQuestions().size());
             Assert.assertEquals(this.hasRuntimeError, false);
-            Assert.assertEquals(this.hasWarnings, interpreterResult.getWarnings().hasMessagePresent());
+            Assert.assertEquals(this.hasWarnings, interpreterResult.getMessages().hasMessagePresent(MessageTypes.WARNING));
         } catch (EvaluationException e) {
             Assert.assertEquals(this.hasRuntimeError, true);
         }

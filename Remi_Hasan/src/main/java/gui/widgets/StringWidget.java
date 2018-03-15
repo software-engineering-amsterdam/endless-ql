@@ -8,10 +8,11 @@ import javafx.scene.layout.Pane;
 
 public class StringWidget extends Widget<TextField> {
 
-    public StringWidget(String name) {
+    public StringWidget(ChangeListener listener, String name) {
         super(name);
 
         this.control = new TextField();
+        this.control.textProperty().addListener(listener);
     }
 
     @Override

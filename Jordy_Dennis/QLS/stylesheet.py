@@ -8,6 +8,9 @@ class Stylesheet:
     def addPage(self, page):
         self.pages.append(page)
 
+    def getPages(self):
+        return self.pages
+
     def getNumberOfPages(self):
         return len(self.pages)
 

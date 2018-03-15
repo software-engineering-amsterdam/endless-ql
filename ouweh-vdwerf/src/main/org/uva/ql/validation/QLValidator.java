@@ -5,6 +5,7 @@ import org.uva.ql.ast.*;
 import org.uva.ql.visitor.StatementVisitor;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class QLValidator implements StatementVisitor<Void, String> {
@@ -13,7 +14,7 @@ public class QLValidator implements StatementVisitor<Void, String> {
     private Form form;
 
 
-    private ArrayList<Question> questions = new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();
     private SymbolTable symbolTable = new SymbolTable();
 
     public QLValidator(Form form) {
@@ -29,8 +30,8 @@ public class QLValidator implements StatementVisitor<Void, String> {
         }
     }
 
-    private ArrayList<Checker> getCheckers() {
-        ArrayList<Checker> checkers = new ArrayList<>();
+    private List<Checker> getCheckers() {
+        List<Checker> checkers = new ArrayList<>();
 
         QuestionChecker questionChecker = new QuestionChecker(this.questions);
         checkers.add(questionChecker);
@@ -81,7 +82,7 @@ public class QLValidator implements StatementVisitor<Void, String> {
         return null;
     }
 
-    public ArrayList<Question> getQuestions () {
+    public List<Question> getQuestions () {
         return this.questions;
     }
 }

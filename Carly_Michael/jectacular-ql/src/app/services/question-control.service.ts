@@ -10,7 +10,7 @@ export class QuestionControlService {
     const group: any = {};
 
     questions.forEach(question => {
-      group[question.key] = new FormControl({value: question.value || '', disabled: question.readonly});
+      group[question.key] = new FormControl({value: question.value, disabled: question.readonly});
     });
     return new FormGroup(group);
   }

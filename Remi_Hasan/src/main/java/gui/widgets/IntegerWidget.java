@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 
 public class IntegerWidget extends Widget<TextField> {
 
-    public IntegerWidget(String name) {
+    public IntegerWidget(ChangeListener listener, String name) {
         super(name);
 
         TextField textField = new TextField();
@@ -17,6 +17,7 @@ public class IntegerWidget extends Widget<TextField> {
         textField.setTextFormatter(formatter);
 
         this.control = textField;
+        this.control.textProperty().addListener(listener);
     }
 
     @Override

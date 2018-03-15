@@ -5,10 +5,11 @@ import javafx.scene.control.CheckBox;
 
 public class CheckboxWidget extends Widget<CheckBox> {
 
-    public CheckboxWidget(String name) {
+    public CheckboxWidget(ChangeListener listener, String name) {
         super(name);
 
         this.control = new CheckBox();
+        this.control.selectedProperty().addListener(listener);
     }
 
     @Override

@@ -1,4 +1,4 @@
-# Generated from QL.g4 by ANTLR 4.7
+# Generated from QL.g4 by ANTLR 4.5.3
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .QLParser import QLParser
@@ -53,12 +53,21 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#question.
-    def enterQuestion(self, ctx:QLParser.QuestionContext):
+    # Enter a parse tree produced by QLParser#basicQuestion.
+    def enterBasicQuestion(self, ctx:QLParser.BasicQuestionContext):
         pass
 
-    # Exit a parse tree produced by QLParser#question.
-    def exitQuestion(self, ctx:QLParser.QuestionContext):
+    # Exit a parse tree produced by QLParser#basicQuestion.
+    def exitBasicQuestion(self, ctx:QLParser.BasicQuestionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#computedQuestion.
+    def enterComputedQuestion(self, ctx:QLParser.ComputedQuestionContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#computedQuestion.
+    def exitComputedQuestion(self, ctx:QLParser.ComputedQuestionContext):
         pass
 
 
@@ -107,21 +116,12 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#basicMoneyType.
-    def enterBasicMoneyType(self, ctx:QLParser.BasicMoneyTypeContext):
+    # Enter a parse tree produced by QLParser#moneyType.
+    def enterMoneyType(self, ctx:QLParser.MoneyTypeContext):
         pass
 
-    # Exit a parse tree produced by QLParser#basicMoneyType.
-    def exitBasicMoneyType(self, ctx:QLParser.BasicMoneyTypeContext):
-        pass
-
-
-    # Enter a parse tree produced by QLParser#computedMoneyType.
-    def enterComputedMoneyType(self, ctx:QLParser.ComputedMoneyTypeContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#computedMoneyType.
-    def exitComputedMoneyType(self, ctx:QLParser.ComputedMoneyTypeContext):
+    # Exit a parse tree produced by QLParser#moneyType.
+    def exitMoneyType(self, ctx:QLParser.MoneyTypeContext):
         pass
 
 

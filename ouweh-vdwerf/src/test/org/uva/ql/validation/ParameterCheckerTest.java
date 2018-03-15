@@ -12,6 +12,7 @@ import org.uva.ql.ast.type.IntegerType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -32,7 +33,7 @@ public class ParameterCheckerTest {
 
     @Test
     public void runCheckEmptySymbolTable() {
-        ArrayList<Statement> statements;
+        List<Statement> statements;
         statements = new ArrayList<>(Arrays.asList(
                 new CalculatedQuestion(
                         "name",
@@ -51,7 +52,7 @@ public class ParameterCheckerTest {
 
     @Test
     public void runCheckInSymbolTable() {
-        ArrayList<Statement> statements;
+        List<Statement> statements;
         statements = new ArrayList<>(Arrays.asList(
                 new CalculatedQuestion(
                         "name",

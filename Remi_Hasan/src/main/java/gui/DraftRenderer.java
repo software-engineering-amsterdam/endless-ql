@@ -104,22 +104,22 @@ public class DraftRenderer extends Application {
             Widget widget;
             switch(question.type){
                 case BOOLEAN:
-                    widget = new CheckboxWidget(question.name);
+                    widget = new CheckboxWidget(listener, question.name);
                     break;
                 case DATE:
-                    widget = new DateWidget(question.name);
+                    widget = new DateWidget(listener, question.name);
                     break;
                 case MONEY:
-                    widget = new MoneyWidget(question.name);
+                    widget = new MoneyWidget(listener, question.name);
                     break;
                 case DECIMAL:
-                    widget = new DoubleWidget(question.name);
+                    widget = new DoubleWidget(listener, question.name);
                     break;
                 case INTEGER:
-                    widget = new IntegerWidget(question.name);
+                    widget = new IntegerWidget(listener, question.name);
                     break;
                 case STRING:
-                    widget = new StringWidget(question.name);
+                    widget = new StringWidget(listener, question.name);
                     break;
                 default:
                     showErrorAlert(new UnsupportedOperationException(""), "");

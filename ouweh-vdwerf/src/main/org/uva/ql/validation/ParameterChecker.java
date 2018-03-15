@@ -1,7 +1,6 @@
 package org.uva.ql.validation;
 
 import org.uva.ql.ast.*;
-import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
 import org.uva.ql.visitor.ExpressionVisitor;
@@ -67,12 +66,6 @@ public class ParameterChecker extends Checker implements StatementVisitor<Void, 
         }
 
         calculatedQuestion.getExpression().accept(this, calculatedQuestion.getName());
-        return null;
-    }
-
-    @Override
-    public Void visit(ParameterGroup parameterGroup, String context) {
-        parameterGroup.getExpression().accept(this, context);
         return null;
     }
 
@@ -154,6 +147,7 @@ public class ParameterChecker extends Checker implements StatementVisitor<Void, 
 
     @Override
     public Void visit(Or or, String context) {
+        System.out.println(or);
         or.getLeft().accept(this, context);
         or.getRight().accept(this, context);
         return null;

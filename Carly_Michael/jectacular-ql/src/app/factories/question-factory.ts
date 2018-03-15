@@ -25,11 +25,21 @@ export class QuestionFactory {
     let formQuestionsToReturn: QuestionBase<any>;
 
     if (type === QuestionType.BOOLEAN) {
-      formQuestionsToReturn = new BooleanQuestion(name, label, undefined, QuestionFactory.toHtmlInputType(type), condition);
+      formQuestionsToReturn = new BooleanQuestion(name, label, false, QuestionFactory.toHtmlInputType(type), condition);
     } else {
-      formQuestionsToReturn = new InputQuestion(name, label, undefined, QuestionFactory.toHtmlInputType(type), condition);
+      formQuestionsToReturn = new InputQuestion(name, label, this.getDefaultValue(type), QuestionFactory.toHtmlInputType(type), condition);
     }
 
     return formQuestionsToReturn;
+  }
+
+  static getDefaultValue(type: QuestionType) {
+    switch (type) {
+      case QuestionType.INT : return 0;
+      case QuestionType.BOOLEAN: return false;
+      case QuestionType.STRING: return '';
+      case QuestionType.DATE: return '';
+      default: throw new UnsupportedTypeError('QuestionType is not supported');
+    }
   }
 }

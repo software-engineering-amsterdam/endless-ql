@@ -82,7 +82,6 @@ class QLSVisitor(QLSGrammarVisitor):
 
     # Visit a parse tree produced by QLSGrammarParser#widget.
     def visitWidget(self, ctx: QLSGrammarParser.WidgetContext):
-        print("WIDGET")
 
         if(ctx.CHECKBOX()):
             return CheckBoxWidget()
@@ -95,7 +94,6 @@ class QLSVisitor(QLSGrammarVisitor):
         elif ctx.FONTSIZE():
             return WidgetFontSize(ctx.INT().getText())
         elif ctx.FONT():
-            print(ctx.STRING()[0])
             return WidgetFont(ctx.STRING()[0].getText())
 
 

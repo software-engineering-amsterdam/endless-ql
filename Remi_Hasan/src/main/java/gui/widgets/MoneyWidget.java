@@ -9,12 +9,14 @@ import javafx.scene.layout.Pane;
 
 public class MoneyWidget extends Widget<TextField> {
 
-    public MoneyWidget(String name) {
+    public MoneyWidget(ChangeListener listener, String name) {
         super(name);
 
         TextField textField = new TextField();
         TextFormatter formatter = createTextFormatter("-?\\d*(\\.\\d{0,2})?");
         textField.setTextFormatter(formatter);
+
+        textField.textProperty().addListener(listener);
 
         this.control = textField;
     }

@@ -48,6 +48,7 @@ class Window(ttk.Frame):
 
     def btn_update(self):
         for identifier, w in self._widgets.items():
-            self._symbol_table.update_or_create(identifier, w.get())
-        print(self._symbol_table.dictionary)
+            widget_value = w.get()
+            if widget_value is not None:
+                self._symbol_table.update_or_create(identifier, widget_value)
         self._gui_visitor.build()

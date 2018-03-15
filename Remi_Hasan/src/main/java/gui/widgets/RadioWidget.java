@@ -13,7 +13,7 @@ public class RadioWidget extends Widget<HBox> {
 
     private final List<String> options;
 
-    public RadioWidget(String name, ChangeListener<? super String> listener, List<String> options){
+    public RadioWidget(ChangeListener listener, String name, List<String> options){
         super(name);
         this.options = options;
 
@@ -26,6 +26,7 @@ public class RadioWidget extends Widget<HBox> {
         }
 
         this.control = pane;
+        group.selectedToggleProperty().addListener(listener);
     }
 
     @Override

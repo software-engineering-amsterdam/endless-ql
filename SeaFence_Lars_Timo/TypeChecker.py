@@ -46,7 +46,7 @@ class TypeChecker(object):
                 
                 self.questions[statement.name] = [statement.var, statement.vartype, statement.expression]
         
-        print len(self.questions)
+        # print len(self.questions)
         return
 
 

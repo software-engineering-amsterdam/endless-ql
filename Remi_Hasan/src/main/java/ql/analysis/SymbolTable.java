@@ -1,22 +1,31 @@
 package ql.analysis;
 
+import javafx.util.Pair;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
+import ql.model.expression.ExpressionVariable;
 import ql.model.expression.ReturnType;
 import ql.model.Form;
 import ql.model.Question;
+import ql.model.expression.variable.ExpressionVariableInteger;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SymbolTable {
     private Map<String, Expression> table;
+    private List<ChangeListener> listeners;
 
     public SymbolTable() {
         this.table = new HashMap<>();
+        this.listeners = new ArrayList<>();
     }
 
     public void buildTable(Form form) {
@@ -65,11 +74,29 @@ public class SymbolTable {
         }
     }
 
+    public void addListener(String name, ChangeListener listener){
+        this.listeners.add(listener);
+    }
+
     public Map<String, Expression> getAllAnswers(){
         return table;
     }
 
     public void setExpression(String identifier, Expression value) {
         this.table.put(identifier, value);
+        if(value instanceof ExpressionVariable) System.out.println("trying to set " + identifier + " with " + ((ExpressionVariable)value).value);
+
+        // Notify listener
+        System.out.println("listeners: " + listeners.size());
+        System.out.println("listeners: " + listeners);
+        for(ChangeListener listener : listeners){
+//            listener.stateChanged(new ChangeEvent(null));
+            listener.stateChanged(new ChangeEvent(new Pair(identifier, value)));
+        }
+
+//        System.out.println();
+//        for(Map.Entry<String, Expression> entry : table.entrySet()){
+//            System.out.println(entry.getKey() + "," + entry.getValue());
+//        }
     }
 }

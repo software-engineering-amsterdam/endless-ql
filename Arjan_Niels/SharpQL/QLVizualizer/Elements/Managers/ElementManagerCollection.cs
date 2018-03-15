@@ -87,14 +87,16 @@ namespace QLVisualizer.Elements.Managers
                 {
                     case ElementManagerCollection childCollection:
                         Tuple<List<string>, Dictionary<string, ElementManagerLeaf>> recResult = childCollection.FindRecursiveLeafsById(targets);
-                        foreach (string identifier in recResult.Item1)
-                            targets.Remove(identifier);
+                        targets = recResult.Item1;
 
                         result.Concat(recResult.Item2);
                         break;
                     case ElementManagerLeaf childLeaf:
                         if (targets.Contains(childLeaf.Identifier))
+                        {
                             result.Add(childLeaf.Identifier, childLeaf);
+                            targets.Remove(childLeaf.Identifier);
+                        }
                         break;
                 }
 

@@ -52,12 +52,15 @@ public class GUIHandler {
     private void generateGUI() {
         frame.getContentPane().removeAll();
 
+        // TODO build pages and sections
+
         WidgetFactory widgetFactory = new WidgetFactory(this.questionChangeListener, this.styleEvaluator);
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
 
         for (Question question : formEvaluator.getQuestionsAsList()) {
             Value value = formEvaluator.getValueById(question.getName());
             QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
+            // TODO apply styling to widget
 
             if (formEvaluator.questionHasCondition(question)) {
                 BooleanValue expressionValue = (BooleanValue) this.expressionEvaluator.evaluateExpression(
@@ -67,6 +70,7 @@ public class GUIHandler {
                 );
                 widget.setVisible(expressionValue.getValue());
             }
+            //TODO add to correct section
             frame.add(widget);
         }
         frame.setVisible(true);

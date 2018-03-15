@@ -9,7 +9,7 @@ public class DropdownWidget extends Widget<ComboBox<String>> {
 
     private final List<String> options;
 
-    public DropdownWidget(String name, ChangeListener<? super String> listener, List<String> options) {
+    public DropdownWidget(ChangeListener listener, String name, List<String> options) {
         super(name);
         this.options = options;
 
@@ -19,6 +19,7 @@ public class DropdownWidget extends Widget<ComboBox<String>> {
         }
 
         this.control = comboBox;
+        this.control.valueProperty().addListener(listener);
     }
 
     @Override

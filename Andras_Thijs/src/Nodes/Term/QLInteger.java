@@ -1,9 +1,9 @@
 package Nodes.Term;
 
-public class Integer extends Term {
+public class QLInteger extends Term {
     private int value;
 
-    public Integer(int value) {
+    public QLInteger(int value) {
         this.value = value;
     }
 

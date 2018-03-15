@@ -1,9 +1,9 @@
 package Nodes.Term;
 
-public class Float extends Term {
+public class QLFloat extends Term {
     private float value;
 
-    public Float(float value) {
+    public QLFloat(float value) {
         this.value = value;
     }
 

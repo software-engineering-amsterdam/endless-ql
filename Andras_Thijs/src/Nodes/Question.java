@@ -11,7 +11,6 @@ public class Question extends ASTNode {
     private String label;
     private Type type;
     private Expression expression;
-    //TODO: private boolean condition;
 
     private boolean isDisplayed = false;
     private Term result;

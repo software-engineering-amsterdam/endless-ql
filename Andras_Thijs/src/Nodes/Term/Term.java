@@ -22,9 +22,7 @@ public abstract class Term extends Expression {
     }
 
     @Override
-    public String toString() {
-        return this.toString().toLowerCase();
-    }
+    public String toString() { return this.getClass().toString().toLowerCase(); }
 
     public float getValue(){
         return 0;

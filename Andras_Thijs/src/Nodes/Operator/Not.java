@@ -1,14 +1,14 @@
 package Nodes.Operator;
 
+import Nodes.Term.QLBoolean;
 import Nodes.Term.Term;
-import Nodes.Term.Boolean;
 
 public class Not extends Operator {
     public Not(String value) {
         super(value);
     }
 
-    public Boolean calculate(Term left, Boolean right) {
-        return new Boolean(!right.getBoolean());
+    public QLBoolean calculate(Term left, QLBoolean right) {
+        return new QLBoolean(!right.getBoolean());
     }
 }

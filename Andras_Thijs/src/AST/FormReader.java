@@ -3,12 +3,7 @@ package AST;
 import Nodes.*;
 import AST.gen.*;
 import Nodes.Operator.*;
-import Nodes.Term.Boolean;
-import Nodes.Term.Float;
-import Nodes.Term.Integer;
-import Nodes.Term.QLString;
-import Nodes.Term.Term;
-import Nodes.Term.Variable;
+import Nodes.Term.*;
 import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -201,7 +196,7 @@ public class FormReader {
 
 
             if(bool != null)
-                return new Boolean(java.lang.Boolean.parseBoolean(bool.toString()));
+                return new QLBoolean(Boolean.parseBoolean(bool.toString()));
 
             if(qlstring != null)
                 return new QLString((String) qlstring.toString());
@@ -210,10 +205,10 @@ public class FormReader {
                 return new Variable((String) variable.toString());
 
             if(integer != null)
-                return new Integer((java.lang.Integer.parseInt(integer.toString())));
+                return new QLInteger((Integer.parseInt(integer.toString())));
 
             if(decimal != null)
-                return new Float((java.lang.Float.parseFloat(decimal.toString())));
+                return new QLFloat((Float.parseFloat(decimal.toString())));
 
 
             // TODO throw error

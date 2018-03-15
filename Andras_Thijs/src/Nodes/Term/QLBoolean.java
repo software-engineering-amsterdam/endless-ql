@@ -1,9 +1,9 @@
 package Nodes.Term;
 
-public class Boolean extends Term {
+public class QLBoolean extends Term {
     private boolean value;
 
-    public Boolean(boolean value) {
+    public QLBoolean(boolean value) {
         this.value = value;
     }
 

@@ -1,7 +1,7 @@
 package Nodes;
 
+import Nodes.Term.QLBoolean;
 import Nodes.Term.Term;
-import Nodes.Term.Boolean;
 import QLExceptions.*;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class Condition extends ASTNode {
     private List<Question> questions;
     private List<Condition> conditions;
 
-    private Boolean result;
+    private QLBoolean result;
 
     /**
      * Creates an empty condition with just an expression
@@ -95,18 +95,18 @@ public class Condition extends ASTNode {
         return questions;
     }
 
-    public Boolean getResult() { return result; }
+    public QLBoolean getResult() { return result; }
 
     /**
      * Evaluates the expression of the question
-     * @throws TypeException when the resulting Term is not Boolean.
+     * @throws TypeException when the resulting Term is not QLBoolean.
      */
     // This function evaluates the expression (which also does typechecking) and stores the resulting value
     public void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();
-            if (result.toString().equals("boolean")) {
-                this.result = (Boolean) result;
+            if (result.toString().equals("qlboolean")) {
+                this.result = (QLBoolean) result;
             } else {
                 throw new TypeException(Type.BOOL, Type.getByCode(result.toString()));
             }

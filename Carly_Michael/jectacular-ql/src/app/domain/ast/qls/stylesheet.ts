@@ -3,12 +3,12 @@ import {Location} from '../location';
 import {Node, QuestionWithAppliedStyles} from './node';
 import {Style} from './style';
 import {Default} from './default';
-import {Question as QlQuestion} from '../ql/question';
+import {QlQuestion as QlQuestion} from '../ql';
 import * as _ from 'lodash';
 import {MissingIdentifierError} from '../../errors';
 
 export class Stylesheet extends Node {
-  constructor(public name: string, public pages: Page[], public location: Location) {
+  constructor(readonly name: string, readonly pages: Page[], readonly location: Location) {
     super();
   }
 

@@ -95,14 +95,15 @@ class Question_Generator:
         print("UPDATE")
         self.questions = collections.OrderedDict()
         self.get_questions(self.ast.form.block)
-        for page in self.astQLS.getPages():
-            pageName = page.getName()
+        pages = self.astQLS.getPages()
+        for page in pages:
+            pageName = pages[page].getName()
             print("PAGE: ", pageName)
             if not self.form.doesPageExist(pageName):
-                self.form.addPage(page.name)
+                self.form.addPage(pages[page].name)
 
             # add sections and questions
-            self.addSection(pageName, page.getSection())
+            self.addSection(pageName, pages[page].getSection())
 
     def addSection(self, pageName, sections, prev=""):
         for section in sections:

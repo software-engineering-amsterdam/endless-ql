@@ -10,10 +10,8 @@ import java.util.HashMap;
 
 public class VariableChecker extends BaseVisitor {
     // The variable checker checks if there are any duplicate variables, or references to variables that do not exist
-
     public VariableChecker(HashMap<String, Question> questionMap, QLParser.BlockContext ctx){
-        super();
-        addQuestions(questionMap);
+        this.setQuestionMap(questionMap);
         visitChildren(ctx);
     }
 

@@ -33,8 +33,8 @@ class Question_Generator:
                 value = self.varDict[varName]['node'].evaluate()
                 # check if assignment node, only show evaluated value
                 if (type(self.questions[varName]) == AssignmentNode):
-                    if (self.getFormQuestion(varName)):
-                        self.getFormQuestion(varName).set_value(value)
+                    if (self.form.getQuestionFromPage(varName)):
+                        self.form.getQuestionFromPage(varName).set_value(value)
 
                 # if the question is not yet in the GUI
                 if (not self.form.isQuestionOnPage(varName)):
@@ -54,20 +54,6 @@ class Question_Generator:
                 self.form.deleteInvalidQuestions(self.questions)
 
         return self.questions
-
-
-
-    # this function is used to delete question that are no longer valid, i.e. the questions in an if or elif or else block
-    def deleteInvalidQuestions(self):
-        for question in self.form.questions:
-            if (question.varName not in self.questions):
-                self.form.removeQuestionFromPage(question.varName)
-
-    def getFormQuestion(self, varName):
-        for formQuestion in self.form.questions:
-            if formQuestion.varName == varName:
-                return formQuestion
-        return None
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy
     def get_questions(self, block):

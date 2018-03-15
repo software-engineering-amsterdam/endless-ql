@@ -107,6 +107,16 @@ class FormGui:
         return False
 
     """
+        Returns a question object from a page
+    """
+    def getQuestionFromPage(self, varName, pageName='default'):
+        page = self.pages[pageName]
+        for question in page.questions:
+            if question.varName == varName:
+                return question
+        return None
+
+    """
         Deletes question that are no longer valid, i.e. questions in a if, elif or else
     """
     def deleteInvalidQuestions(self, questions, pageName='default'):

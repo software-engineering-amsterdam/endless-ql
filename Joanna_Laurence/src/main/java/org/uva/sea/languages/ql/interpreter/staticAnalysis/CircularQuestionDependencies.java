@@ -13,7 +13,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IStaticAnalysis<Form> {
+public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
     private Relation<String> dependencies = new Relation<>();
 
@@ -104,10 +104,10 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis<Form> {
+    public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis<Form> checker = new CircularQuestionDependencies();
+            IQLStaticAnalysis checker = new CircularQuestionDependencies();
             return checker.doCheck(node);
         }
     }

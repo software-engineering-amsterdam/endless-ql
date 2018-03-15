@@ -3,123 +3,134 @@ using System.Collections.Generic;
 using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
-using Assignment1.Model;
+using Assignment1.Model.QL;
 using Assignment1.Parser;
 
 namespace Assignment1.TypeChecking
 {
-    internal class QLTypeChecker : QLBaseListener
+    internal class QLTypeChecker : QLBaseListener, IQuestionVisitor
     {
         private QuestionForm _form;
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
-        private readonly Dictionary<string,string> _warnings = new Dictionary<string, string>(); // TODO: move to errorhandler
+        private readonly List<string> _warnings = new List<string>();
         private QLParseErrorHandler _errorHandler = new QLParseErrorHandler();
+        private int currentLineNumber = 0;
 
-        /// <summary>
-        /// Checks if the Id already exists and if value is assigned, check if the type is correct.
-        /// </summary>
-        /// <param name="question">The question to check.</param>
-        public List<string> TypeCheckQuestion(Question question)
+        #region Type checking functions
+        
+        private void TypeCheckQuestionId(string questionId)
         {
-            List<string> errors = new List<string>();
-            string questionId = question.Id;
-
             if (QuestionIdExists(questionId))
             {
-                errors.Add("The question id '" + questionId + "' already exists in the current context.");
-            }
+                _errorHandler.AddError(currentLineNumber, "The question id '" + questionId + "' already exists in the current context.");
+            } 
+        }
+
+        private void TypeCheckQuestionLabel(string questionLabel)
+        {
+            if (QuestionLabelExists(questionLabel))
+                _warnings.Add("Line " + currentLineNumber + ": The question label '" + questionLabel + "' has already been used.");
+        }
+
+        private void TypeCheckQuestionBool(QuestionBool question)
+        {
+            string questionId = question.Id;
+            TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
             if (question.Computed)
             {
-                Expression computation = question.Computation;
-                errors = TypeCheckExpressionToQuestion(question, computation, errors);
+                if (!(question.Computation.Evaluate() is bool))
+                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to bool.");
+            } else
+            {
+                if (!(question.Value is bool))
+                    _errorHandler.AddError(currentLineNumber, "The value is not of type bool.");
+            }
+        }
+
+        private void TypeCheckQuestionInt(QuestionInt question)
+        {
+            string questionId = question.Id;
+            TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
+            if (question.Computed)
+            {
+                if (!(question.Computation.Evaluate() is int))
+                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to int.");
             }
             else
             {
-                errors = TypeCheckValueToQuestion(question, errors);
+                if (!(question.Value is int))
+                    _errorHandler.AddError(currentLineNumber, "The value is not of type int.");
             }
-            return errors;
         }
 
-        // TODO: find cleaner way to do this
-        private List<string> TypeCheckValueToQuestion(Question question, List<string> currentErrors)
+        private void TypeCheckQuestionDecimal(QuestionDecimal question)
         {
-            if (question is QuestionBool)
+            string questionId = question.Id;
+            TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
+            if (question.Computed)
             {
-                if (!(question.Value is bool))
-                {
-                    currentErrors.Add("Value is not of type bool.");
-                }
+                if (!(question.Computation.Evaluate() is decimal))
+                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to decimal.");
             }
-            if (question is QuestionDecimal || question is QuestionMoney)
+            else
             {
                 if (!(question.Value is decimal))
-                {
-                    currentErrors.Add("Value is not of type decimal.");
-                }
+                    _errorHandler.AddError(currentLineNumber, "The value is not of type decimal.");
             }
-            if (question is QuestionInt)
-            {
-                if (!(question.Value is int))
-                {
-                    currentErrors.Add("Value is not of type int.");
-                }
-            }
-            if (question is QuestionString)
-            {
-                if (!(question.Value is string))
-                {
-                    currentErrors.Add("Value is not of type string.");
-                }
-            }
-            if (question is QuestionDate)
-            {
-                if (!(question.Value is DateTime))
-                {
-                    currentErrors.Add("Value is not of type date.");
-                }
-            }
-            return currentErrors;
         }
 
-        // TODO: find cleaner way to do this
-        private List<string> TypeCheckExpressionToQuestion(Question question, Expression computation, List<string> currentErrors)
+        private void TypeCheckQuestionDecimal(QuestionMoney question)
         {
-            if (question is QuestionBool)
+            string questionId = question.Id;
+            TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
+            if (question.Computed)
             {
-                if (!(computation.Evaluate() is bool))
-                {
-                    currentErrors.Add("Expression does not evaluate to bool.");
-                }
+                if (!(question.Computation.Evaluate() is decimal))
+                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to decimal.");
             }
-            if (question is QuestionDecimal || question is QuestionMoney)
+            else
             {
-                if (!(computation.Evaluate() is decimal))
-                {
-                    currentErrors.Add("Expression does not evaluate to decimal.");
-                }
+                if (!(question.Value is decimal))
+                    _errorHandler.AddError(currentLineNumber, "The value is not of type decimal.");
             }
-            if (question is QuestionInt)
+        }
+
+        private void TypeCheckQuestionString(QuestionString question)
+        {
+            string questionId = question.Id;
+            TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
+            if (question.Computed)
             {
-                if (!(computation.Evaluate() is int))
-                {
-                    currentErrors.Add("Expression does not evaluate to int.");
-                }
+                if (!(question.Computation.Evaluate() is string))
+                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to string.");
             }
-            if (question is QuestionString)
+            else
             {
-                if (!(computation.Evaluate() is string))
-                {
-                    currentErrors.Add("Expression does not evaluate to string.");
-                }
+                if (!(question.Value is string))
+                    _errorHandler.AddError(currentLineNumber, "The value is not of type string.");
             }
-            if (question is QuestionDate)
+        }
+
+        private void TypeCheckQuestionDate(QuestionDate question)
+        {
+            string questionId = question.Id;
+            TypeCheckQuestionId(questionId);
+            TypeCheckQuestionLabel(question.Label);
+            if (question.Computed)
             {
-                if (!(computation.Evaluate() is DateTime))
-                {
-                    currentErrors.Add("Expression does not evaluate to date.");
-                }
+                if (!(question.Computation.Evaluate() is DateTime))
+                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to date.");
             }
-            return currentErrors;
+            else
+            {
+                if (!(question.Value is DateTime))
+                    _errorHandler.AddError(currentLineNumber, "The value is not of type date.");
+            }
         }
 
         private bool QuestionIdExists(string questionId) => _questions.ContainsKey(questionId);
@@ -135,14 +146,13 @@ namespace Assignment1.TypeChecking
             return false;
         }
 
-        private void AddWarning(ParserRuleContext context, string questionId, string message)
-        {
-            _warnings.Add(questionId, "Line " + context.Start.Line + ": " + message);
-        }
+        #endregion
+
+        #region Listener implementation
 
         public override void ExitForm(QL.FormContext context)
         {
-            foreach (string warning in _warnings.Values)
+            foreach (string warning in _warnings)
             {
                 Console.WriteLine(warning);
             }
@@ -150,33 +160,14 @@ namespace Assignment1.TypeChecking
             _form.Warnings = _warnings;
         }
 
-        /* Check for each question if the label is already used and add a warning if this is the case.
-         */
-        public override void EnterQuestion(QL.QuestionContext context)
-        {
-            string questionLabel = context.result.Label;
-            string questionId = context.result.Id;
-
-            if (QuestionLabelExists(questionLabel))
-            {
-                AddWarning(context, questionId, "The question label '" + questionLabel + "' has already been used.");
-            }
-        }
-
         /* Check for each question if the id already exists and add an error if this is the case.
          */
         public override void ExitQuestion(QL.QuestionContext context)
         {
+            currentLineNumber = context.Start.Line;
             string questionId = context.result.Id;
 
-            List<string> errors = TypeCheckQuestion(context.result);
-            if (errors.Count > 0)
-            {
-                foreach (string error in errors)
-                {
-                    _errorHandler.AddError(context.Start.Line, error);
-                }
-            }
+            context.result.Accept(this);
             _questions.Add(questionId, context.result);
         }
 
@@ -187,7 +178,7 @@ namespace Assignment1.TypeChecking
             object conditionType = context._expression.result.Evaluate();
             if (!(conditionType is bool))
             {
-                _errorHandler.AddError(context.Start.Line, "The expression '" + context._expression.GetText() + "' is not of type boolean.");
+                _errorHandler.AddError(context.Start.Line, "The expression '" + context._expression.GetText() + "' in the if statement is not of type boolean.");
             }
         }
 
@@ -222,6 +213,42 @@ namespace Assignment1.TypeChecking
             }
         }
 
+        #endregion
+
+        #region Visitor implementation
+
+        public void Visit(QuestionBool question)
+        {
+            TypeCheckQuestionBool(question);
+        }
+
+        public void Visit(QuestionInt question)
+        {
+            TypeCheckQuestionInt(question);
+        }
+
+        public void Visit(QuestionDate question)
+        {
+            TypeCheckQuestionDate(question);
+        }
+
+        public void Visit(QuestionDecimal question)
+        {
+            TypeCheckQuestionDecimal(question);
+        }
+
+        public void Visit(QuestionMoney question)
+        {
+            TypeCheckQuestionDecimal(question);
+        }
+
+        public void Visit(QuestionString question)
+        {
+            TypeCheckQuestionString(question);
+        }
+
+        #endregion
+
         internal static QuestionForm ParseString(string input)
         {
             QLTypeChecker listener = new QLTypeChecker();
@@ -236,7 +263,7 @@ namespace Assignment1.TypeChecking
             parser.RemoveErrorListeners();
             parser.AddErrorListener(errorListener);
             QL.FormContext context = parser.form();
-            
+
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.Walk(listener, context);
 

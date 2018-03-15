@@ -22,10 +22,10 @@ from ql.types.undefined import QLUndefined
 from debug.debug import error
 
 
-class TypeChecker:
+class TypeVisitor:
 
-    def __init__(self, identifier_type_combinations):
-        self.__identifier_type_combinations = identifier_type_combinations
+    def __init__(self, symbol_table):
+        self.__symbol_table = symbol_table
 
     # Generic method that initializes the dynamic dispatcher
     @on('node')
@@ -51,7 +51,7 @@ class TypeChecker:
             result_type = node.answer.expression_type
 
             if node.answer_type != result_type:
-                error(node.answer.position.line, "Expression not of type {}".format(node.answer_type))
+                error([node.answer.position.line], "Expression not of type {}".format(node.answer_type))
 
     @when(AdditionOperatorNode)
     def visit(self, node):
@@ -61,7 +61,7 @@ class TypeChecker:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            error(node.position.line, "Invalid operand(s)")
+            error([node.position.line], "Invalid operand(s)")
 
         node.set_expression_type(result_type)
 
@@ -73,7 +73,7 @@ class TypeChecker:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            error(node.position.line, "Invalid operand(s)")
+            error([node.position.line], "Invalid operand(s)")
 
     @when(DivisionOperatorNode)
     def visit(self, node):
@@ -83,7 +83,7 @@ class TypeChecker:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            error(node.position.line, "Invalid operand(s)")
+            error([node.position.line], "Invalid operand(s)")
 
         node.set_expression_type(result_type)
 
@@ -120,7 +120,7 @@ class TypeChecker:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            error(node.position.line, "Invalid operand(s)")
+            error([node.position.line], "Invalid operand(s)")
 
         node.set_expression_type(result_type)
 
@@ -137,7 +137,7 @@ class TypeChecker:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            error(node.position.line, "Invalid operand(s)")
+            error([node.position.line], "Invalid operand(s)")
 
     @when(SubtractionOperatorNode)
     def visit(self, node):
@@ -147,7 +147,7 @@ class TypeChecker:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            error(node.position.line, "Invalid operand(s)")
+            error([node.position.line], "Invalid operand(s)")
 
         node.set_expression_type(result_type)
 
@@ -161,9 +161,9 @@ class TypeChecker:
 
     @when(VariableNode)
     def visit(self, node):
-        for combination in self.__identifier_type_combinations:
-            if combination["identifier"] == node.identifier:
-                node.set_expression_type(combination["answer_type"])
+        for row in self.__symbol_table:
+            if row["identifier"] == node.identifier:
+                node.set_expression_type(row["answer_type"])
 
     @when(UndefinedNode)
     def visit(self, node):

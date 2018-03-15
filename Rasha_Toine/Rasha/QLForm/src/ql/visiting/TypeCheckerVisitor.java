@@ -72,8 +72,8 @@ public class TypeCheckerVisitor
 		}
 		if (currentType.getTypeString() != expectedType.getTypeString()) {
 			events.insert(new EventMessage(
-							"Type mismatch in " + expr.getLocation().getContent() + " between: "+
-					  		currentType.getTypeString() + " and, " + expectedType.getTypeString(),
+							"Type mismatch in " + expr.getLocation().getContent() + " between "+
+					  		currentType.getTypeString() + ", and " + expectedType.getTypeString(),
 							MessageTypeEnum.error));
 		}
 	}
@@ -129,7 +129,7 @@ public class TypeCheckerVisitor
 	   type = getType(node.getName());
 	   if (isUndefinedType(type)) {
 			events.insert(new EventMessage(
-					"Undeclared variable: " + node.getName() +
+					"Undeclared variable " + node.getName() +
 					" at line:" + node.getLocation().getStartLine(),
 					MessageTypeEnum.error));
 		}

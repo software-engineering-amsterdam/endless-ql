@@ -154,7 +154,7 @@ public class TypeChecker {
 	    for (QuestionDependency dependency : dependencyTable.getDependencies()) {
 	    	for (DependencyPath circlePath : dependency.getCirclePaths()) {
 	    		events.insert(
-	    				new EventMessage("Cyclic dependency found " + dependency + "," + circlePath,
+	    				new EventMessage("Cyclic dependency found " + dependency + ", " + circlePath,
 	    									MessageTypeEnum.error));
 	    	}
 	    }
@@ -225,7 +225,7 @@ public class TypeChecker {
 				System.out.println("\tError: " + msg.getText());
 			}
 			if(countErrors!=0) {
-				System.out.println("\nPlease fix your QL code before you try again!");
+				System.out.println("\nPlease fix your QL code before you try again!\n");
 			}
 		}
 		

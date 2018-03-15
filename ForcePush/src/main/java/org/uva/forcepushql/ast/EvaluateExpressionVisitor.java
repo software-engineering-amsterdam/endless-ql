@@ -111,7 +111,7 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
 
     @Override
     public String visit(QuestionNode node) {
-        return "--> " + visit(node.getLeft()) + visit(node.getCenter()) + visit(node.getRight());
+        return "\n--> " + visit(node.getLeft()) + visit(node.getCenter()) + visit(node.getRight());
 
     }
 

@@ -297,7 +297,7 @@ class QLFormParserTest extends FunSuite {
     val actual: QLForm = generateQLForm("/positive/money.ql")
     pprint.pprintln(actual)
 
-    val expected: QLForm =  QLForm(
+    val expected: QLForm = QLForm(
       "Box1HouseOwning",
       List(
         Question("money1", "Money1:", MoneyType, MoneyAnswer(None)),

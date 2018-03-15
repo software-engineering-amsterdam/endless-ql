@@ -71,7 +71,7 @@ object QLFormParser extends Logging {
       (expression, answerType) match {
         case (IntegerAnswer(value), MoneyType) => MoneyAnswer(value.map(BigDecimal.apply))
         case (DecimalAnswer(value), MoneyType) => MoneyAnswer(value)
-        case _ => expression
+        case _                                 => expression
       }
     }
 

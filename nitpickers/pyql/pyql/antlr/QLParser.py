@@ -1,13 +1,11 @@
-# Generated from QL.g4 by ANTLR 4.7
+# Generated from QL.g4 by ANTLR 4.5.3
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
-from typing.io import TextIO
-import sys
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3&")
+        buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3&")
         buf.write("\u00aa\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
@@ -24,9 +22,9 @@ def serializedATN():
         buf.write("\22\3\22\3\22\3\22\3\22\5\22\u009f\n\22\3\23\3\23\3\23")
         buf.write("\3\23\3\23\5\23\u00a6\n\23\3\24\3\24\3\24\2\2\25\2\4\6")
         buf.write("\b\n\f\16\20\22\24\26\30\32\34\36 \"$&\2\6\3\2\23\30\3")
-        buf.write("\2\31\32\3\2\33\34\4\2\32\32\35\35\2\u00ab\2(\3\2\2\2")
-        buf.write("\4.\3\2\2\2\6\66\3\2\2\2\bC\3\2\2\2\nJ\3\2\2\2\fY\3\2")
-        buf.write("\2\2\16a\3\2\2\2\20c\3\2\2\2\22e\3\2\2\2\24m\3\2\2\2\26")
+        buf.write("\2\31\32\3\2\33\34\4\2\32\32\35\35\u00ab\2(\3\2\2\2\4")
+        buf.write(".\3\2\2\2\6\66\3\2\2\2\bC\3\2\2\2\nJ\3\2\2\2\fY\3\2\2")
+        buf.write("\2\16a\3\2\2\2\20c\3\2\2\2\22e\3\2\2\2\24m\3\2\2\2\26")
         buf.write("u\3\2\2\2\30}\3\2\2\2\32\u0086\3\2\2\2\34\u0088\3\2\2")
         buf.write("\2\36\u0091\3\2\2\2 \u0096\3\2\2\2\"\u009e\3\2\2\2$\u00a5")
         buf.write("\3\2\2\2&\u00a7\3\2\2\2()\7\3\2\2)*\5&\24\2*+\7\4\2\2")
@@ -161,9 +159,9 @@ class QLParser ( Parser ):
     BOOL=35
     IDENTIFIER=36
 
-    def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
-        super().__init__(input, output)
-        self.checkVersion("4.7")
+    def __init__(self, input:TokenStream):
+        super().__init__(input)
+        self.checkVersion("4.5.3")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
@@ -466,7 +464,7 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 8, self.RULE_statement)
         try:
             self.state = 72
-            self._errHandler.sync(self)
+            self._errHandler.sync(self);
             la_ = self._interp.adaptivePredict(self._input,1,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
@@ -581,7 +579,7 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 10, self.RULE_question)
         try:
             self.state = 87
-            self._errHandler.sync(self)
+            self._errHandler.sync(self);
             la_ = self._interp.adaptivePredict(self._input,2,self._ctx)
             if la_ == 1:
                 localctx = QLParser.BasicQuestionContext(self, localctx)
@@ -779,44 +777,43 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 12, self.RULE_questionType)
         try:
             self.state = 95
-            self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.T__8]:
                 localctx = QLParser.BooleanTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 89
                 self.match(QLParser.T__8)
-                pass
+
             elif token in [QLParser.T__9]:
                 localctx = QLParser.StringTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 90
                 self.match(QLParser.T__9)
-                pass
+
             elif token in [QLParser.T__10]:
                 localctx = QLParser.IntegerTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 91
                 self.match(QLParser.T__10)
-                pass
+
             elif token in [QLParser.T__11]:
                 localctx = QLParser.DateTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 92
                 self.match(QLParser.T__11)
-                pass
+
             elif token in [QLParser.T__12]:
                 localctx = QLParser.DecimalTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
                 self.state = 93
                 self.match(QLParser.T__12)
-                pass
+
             elif token in [QLParser.T__13]:
                 localctx = QLParser.MoneyTypeContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
                 self.state = 94
                 self.match(QLParser.T__13)
-                pass
+
             else:
                 raise NoViableAltException(self)
 
@@ -1049,7 +1046,6 @@ class QLParser ( Parser ):
                 if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLParser.T__16) | (1 << QLParser.T__17) | (1 << QLParser.T__18) | (1 << QLParser.T__19) | (1 << QLParser.T__20) | (1 << QLParser.T__21))) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
-                    self._errHandler.reportMatch(self)
                     self.consume()
                 self.state = 117
                 self.addExpression()
@@ -1173,7 +1169,6 @@ class QLParser ( Parser ):
             if not(_la==QLParser.T__22 or _la==QLParser.T__23):
                 self._errHandler.recoverInline(self)
             else:
-                self._errHandler.reportMatch(self)
                 self.consume()
         except RecognitionException as re:
             localctx.exception = re
@@ -1291,7 +1286,6 @@ class QLParser ( Parser ):
             if not(_la==QLParser.T__24 or _la==QLParser.T__25):
                 self._errHandler.recoverInline(self)
             else:
-                self._errHandler.reportMatch(self)
                 self.consume()
         except RecognitionException as re:
             localctx.exception = re
@@ -1375,7 +1369,6 @@ class QLParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.state = 148
-            self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.T__23, QLParser.T__26]:
                 localctx = QLParser.NegNotUnExpressionContext(self, localctx)
@@ -1385,17 +1378,16 @@ class QLParser ( Parser ):
                 if not(_la==QLParser.T__23 or _la==QLParser.T__26):
                     self._errHandler.recoverInline(self)
                 else:
-                    self._errHandler.reportMatch(self)
                     self.consume()
                 self.state = 146
                 self.unExpression()
-                pass
+
             elif token in [QLParser.T__4, QLParser.MONEY, QLParser.DECIMAL, QLParser.INT, QLParser.STRING, QLParser.BOOL, QLParser.IDENTIFIER]:
                 localctx = QLParser.PrimaryUnExpressionContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 147
                 self.primary()
-                pass
+
             else:
                 raise NoViableAltException(self)
 
@@ -1451,18 +1443,17 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 32, self.RULE_primary)
         try:
             self.state = 156
-            self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.MONEY, QLParser.DECIMAL, QLParser.INT, QLParser.STRING, QLParser.BOOL]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 150
                 self.literal()
-                pass
+
             elif token in [QLParser.IDENTIFIER]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 151
                 self.identifier()
-                pass
+
             elif token in [QLParser.T__4]:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 152
@@ -1471,7 +1462,7 @@ class QLParser ( Parser ):
                 self.expression()
                 self.state = 154
                 self.match(QLParser.T__5)
-                pass
+
             else:
                 raise NoViableAltException(self)
 
@@ -1626,38 +1617,37 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 34, self.RULE_literal)
         try:
             self.state = 163
-            self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.MONEY]:
                 localctx = QLParser.MoneyLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 158
                 self.match(QLParser.MONEY)
-                pass
+
             elif token in [QLParser.DECIMAL]:
                 localctx = QLParser.DecimalLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 159
                 self.match(QLParser.DECIMAL)
-                pass
+
             elif token in [QLParser.INT]:
                 localctx = QLParser.IntLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 160
                 self.match(QLParser.INT)
-                pass
+
             elif token in [QLParser.STRING]:
                 localctx = QLParser.StringLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 161
                 self.match(QLParser.STRING)
-                pass
+
             elif token in [QLParser.BOOL]:
                 localctx = QLParser.BoolLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
                 self.state = 162
                 self.match(QLParser.BOOL)
-                pass
+
             else:
                 raise NoViableAltException(self)
 

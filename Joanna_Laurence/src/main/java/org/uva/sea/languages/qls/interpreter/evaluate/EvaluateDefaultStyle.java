@@ -4,6 +4,7 @@ import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.qls.parser.elements.Page;
 import org.uva.sea.languages.qls.parser.elements.QLSNode;
+import org.uva.sea.languages.qls.parser.elements.specification.DefaultStyle;
 import org.uva.sea.languages.qls.parser.elements.specification.Question;
 import org.uva.sea.languages.qls.parser.elements.specification.Section;
 import org.uva.sea.languages.qls.parser.elements.specification.Specification;
@@ -34,14 +35,14 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
      * @return
      * @throws InterruptedException
      */
-    public Style findStyle(QLSNode node, WidgetType widgetTypeToFind) throws InterruptedException {
+    public Style findStyle(QLSNode node, WidgetType widgetTypeToFind) {
         this.widgetTypeToFind = widgetTypeToFind;
         node.accept(this);
         return this.foundStyle;
     }
 
     @Override
-    public Void visit(org.uva.sea.languages.qls.parser.elements.specification.DefaultStyle node) throws InterruptedException {
+    public Void visit(DefaultStyle node)  {
 
         WidgetType styleType = WidgetType.valueOf(node.getTypeName().toUpperCase());
         if (styleType != this.widgetTypeToFind)
@@ -101,15 +102,15 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
      * Hide the visitor, make only doCheck visible
      */
     public static class Fetcher {
-        public Style findStyle(Section node, WidgetType widgetTypeToFind) throws InterruptedException {
+        public Style findStyle(Section node, WidgetType widgetTypeToFind) {
             return getStyle(widgetTypeToFind, node.getSpecifications());
         }
 
-        public Style findStyle(Page node, WidgetType widgetTypeToFind) throws InterruptedException {
+        public Style findStyle(Page node, WidgetType widgetTypeToFind) {
             return getStyle(widgetTypeToFind, node.getSpecificationList());
         }
 
-        private Style getStyle(WidgetType widgetTypeToFind, List<Specification> specifications) throws InterruptedException {
+        private Style getStyle(WidgetType widgetTypeToFind, List<Specification> specifications) {
             Style returnStyle = new Style();
             EvaluateDefaultStyle fetcher = new EvaluateDefaultStyle();
             for (Specification specification : specifications) {

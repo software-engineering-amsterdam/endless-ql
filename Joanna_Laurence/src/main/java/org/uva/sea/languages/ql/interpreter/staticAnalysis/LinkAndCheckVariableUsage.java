@@ -16,7 +16,7 @@ import java.util.Map;
  * Checks if variables are not used before declared
  * Determine if variables are not double defined. Only in if and else can be the same questionData.
  */
-public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStaticAnalysis<Form> {
+public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStaticAnalysis {
 
     /**
      * Contain what questions is related to what variable
@@ -168,10 +168,10 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis<Form> {
+    public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis checker = new LinkAndCheckVariableUsage();
+            IQLStaticAnalysis checker = new LinkAndCheckVariableUsage();
             return checker.doCheck(node);
         }
     }

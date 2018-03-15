@@ -9,7 +9,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 
-public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> implements IStaticAnalysis<Form> {
+public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
 
     private Messages errors = new Messages();
@@ -79,10 +79,10 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis<Form> {
+    public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis<Form> checker = new CheckIncorrectDuplicateQuestions();
+            IQLStaticAnalysis checker = new CheckIncorrectDuplicateQuestions();
             return checker.doCheck(node);
         }
     }

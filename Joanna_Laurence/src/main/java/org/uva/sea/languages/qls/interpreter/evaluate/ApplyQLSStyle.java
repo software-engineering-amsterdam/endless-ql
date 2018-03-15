@@ -46,7 +46,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      */
     public EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) throws InterruptedException {
         this.qlInputResult = interpreterResult;
-        this.outputResult = new EvaluationResult(new ArrayList<>(), interpreterResult.getMessages());
+        this.outputResult = new EvaluationResult(new ArrayList<>(), interpreterResult.getMessages(), interpreterResult.getAst());
         //The visitor will fill the outputResult
         stylesheet.accept(this);
         return this.outputResult;
@@ -67,13 +67,13 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(Page node) throws InterruptedException {
+    public Void visit(Page node) {
         this.currentPage = node;
         return super.visit(node);
     }
 
     @Override
-    public Void visit(Section node) throws InterruptedException {
+    public Void visit(Section node) {
         this.currentSections.add(node);
         super.visit(node);
         this.currentSections.pop();
@@ -81,7 +81,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(Question node) throws InterruptedException {
+    public Void visit(Question node) {
 
         QuestionData questionData = this.getOriginalQuestionData(node.getName());
 
@@ -104,7 +104,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      * @return Style for the widget
      * @throws InterruptedException
      */
-    private Style getQuestionStyle(Question question, WidgetType widgetType) throws InterruptedException {
+    private Style getQuestionStyle(Question question, WidgetType widgetType) {
         Style style = new Style();
         style.setPage(this.currentPage.getName());
         style.setSection(getCurrentSection());
@@ -123,7 +123,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      * @return Cascading style
      * @throws InterruptedException
      */
-    private Style getParentStyles(WidgetType widgetType) throws InterruptedException {
+    private Style getParentStyles(WidgetType widgetType) {
         Style style = new Style();
 
         ListIterator<Section> li = this.currentSections.listIterator(this.currentSections.size());

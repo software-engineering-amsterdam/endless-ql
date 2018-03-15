@@ -4,9 +4,11 @@ import org.antlr.v4.runtime.CharStreams;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
-import org.uva.sea.languages.ql.interpreter.staticAnalysis.IStaticAnalysis;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
+import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.qls.interpreter.evaluate.ApplyQLSStyle;
+import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckAllQuestionsInQLQLS;
+import org.uva.sea.languages.qls.interpreter.staticAnalysis.IQLSStaticAnalysis;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
 import java.io.FileInputStream;
@@ -15,16 +17,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-;
-
 public class Evaluator {
 
     private ASTGenerator astGenerator = new ASTGenerator();
 
     private ApplyQLSStyle.Linker qlQlsLinker = new ApplyQLSStyle.Linker();
 
-    private List<IStaticAnalysis<Stylesheet>> staticAnalyses = Arrays.asList(new IStaticAnalysis[]{
-
+    private List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new IQLSStaticAnalysis[]{
+        new CheckAllQuestionsInQLQLS.Checker()
     });
 
     /**
@@ -40,12 +40,12 @@ public class Evaluator {
         ParseResult<Stylesheet> parseResult = this.parse(qlsFile);
         evaluationMessages.addMessageList(parseResult.getMessages());
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
-            return new EvaluationResult(new ArrayList<>(), parseResult.getMessages());
+            return new EvaluationResult(new ArrayList<>(), parseResult.getMessages(), qlEvaluationResult.getAst());
         }
 
-        evaluationMessages.addMessageList(performStaticAnalysis(parseResult));
+        evaluationMessages.addMessageList(performStaticAnalysis(qlEvaluationResult.getAst(), parseResult.getAST()));
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
-            return new EvaluationResult(new ArrayList<>(), parseResult.getMessages());
+            return new EvaluationResult(new ArrayList<>(), evaluationMessages, qlEvaluationResult.getAst());
         }
 
         return qlQlsLinker.apply(qlEvaluationResult, parseResult.getAST());
@@ -54,12 +54,11 @@ public class Evaluator {
     /**
      * Does the static analysis on the parse result
      *
-     * @param parseResult Parse result
      */
-    private Messages performStaticAnalysis(ParseResult<Stylesheet> parseResult) {
+    private Messages performStaticAnalysis(Form form, Stylesheet stylesheet) {
         Messages returnMessage = new Messages();
-        for (IStaticAnalysis<Stylesheet> staticAnalysis : this.staticAnalyses) {
-            Messages analysisMessages = staticAnalysis.doCheck(parseResult.getAST());
+        for (IQLSStaticAnalysis staticAnalysis : this.staticAnalyses) {
+            Messages analysisMessages = staticAnalysis.doCheck(form, stylesheet);
             returnMessage.addMessageList(analysisMessages);
         }
         return returnMessage;

@@ -19,7 +19,7 @@ public class TextFieldWidget implements Widget {
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             controller.setLastFocused(questionModel.getVariableName());
-            System.out.println("TextField Text Changed (newValue: " + newValue + ")");
+            System.out.println("TextField Text Changed (newValue: " + newValue + ')');
             QuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(newValue);
             Value value = questionModel.accept(textToValueVisitor);
             controller.updateGuiModel(questionModel.getVariableName(), value);

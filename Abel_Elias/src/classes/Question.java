@@ -1,5 +1,7 @@
 package classes;
 
+import classes.expressions.ExpressionType;
+
 public class Question<T> {
     private String questionText;
     private T value;
@@ -19,6 +21,12 @@ public class Question<T> {
 
     public T getValue(){
         return value;
+    }
+
+    public ExpressionType getTypeName() {
+        String typeText = type.getSimpleName();
+        typeText = typeText.substring(0,1).toUpperCase() + typeText.substring(1);
+        return ExpressionType.valueOf(typeText);
     }
 
     public Question setValue(Object value){

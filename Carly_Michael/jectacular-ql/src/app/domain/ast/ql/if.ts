@@ -10,7 +10,11 @@ import {ExpressionType, ExpressionTypeUtil} from './expressions/expression-type'
 import {Variable} from './expressions/variable';
 
 export class If extends Statement {
-  constructor(public condition: Expression, public statements: Statement[], public elseStatements: Statement[], location: Location) {
+  constructor(
+    public condition: Expression,
+    public statements: Statement[],
+    public elseStatements: Statement[],
+    location: Location) {
     super(location);
   }
 
@@ -42,7 +46,8 @@ export class If extends Statement {
       const question = questions.find(q => q.name === variable.identifier);
 
       if (question) {
-        throw new ImpossibleIfConditionError(`if statement ${this.getLocationErrorMessage()} has question '${question.name}' both in condition and in body`);
+        throw new ImpossibleIfConditionError(`if statement ${this.getLocationErrorMessage()}` +
+          `has question '${question.name}' both in condition and in body`);
       }
     }
   }

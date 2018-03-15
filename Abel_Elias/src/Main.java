@@ -1,6 +1,7 @@
+import gui.FormBuilder;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import parsing.visitors.baseVisitor;
+import parsing.visitors.BaseVisitor;
 import parsing.gen.QLLexer;
 import parsing.gen.QLParser;
 
@@ -9,8 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class Main {
     /**
@@ -28,16 +27,16 @@ public class Main {
             QLParser.FormContext tree = parser.form();
 
             //Call the visitor and build the tree
-            baseVisitor builder = new baseVisitor(tree);
-            HashMap memory = builder.getQuestions();
+            BaseVisitor builder = new BaseVisitor(tree);
+            HashMap questionHashMap = builder.getQuestions();
 
 //          Test output
-            Iterator it = memory.entrySet().iterator();
-            while (it.hasNext()) {
-                  Map.Entry pair = (Map.Entry)it.next();
-                  System.out.println(pair.getKey() + " = " + pair.getValue());
-                  it.remove();
-            }
+//            Iterator it = memory.entrySet().iterator();
+//            while (it.hasNext()) {
+//                  Map.Entry pair = (Map.Entry)it.next();
+//                  System.out.println(pair.getKey() + " = " + pair.getValue());
+//                  it.remove();
+//            }
             //System.out.println("done");
 
             //Construct the form
@@ -52,8 +51,8 @@ public class Main {
             //typeChecker.initTypeChecking(form);
 
             //Pass the relevant questions to the UI builder
-            //FormBuilder formBuilder = new FormBuilder();
-            //formBuilder.initComponents(memory);
+            FormBuilder formBuilder = new FormBuilder();
+            formBuilder.initComponents(questionHashMap);
 
         } catch (IOException e) {
             e.printStackTrace();

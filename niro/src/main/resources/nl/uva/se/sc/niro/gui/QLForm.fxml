@@ -33,9 +33,12 @@
       </HBox>
    </bottom>
    <center>
-      <VBox fx:id="questionArea" maxWidth="1.7976931348623157E308" minWidth="-Infinity">
-         <padding>
-            <Insets left="20.0" right="20.0" />
-         </padding></VBox>
+       <ScrollPane>
+          <VBox fx:id="questionArea" maxWidth="1.7976931348623157E308" minWidth="-Infinity">
+             <padding>
+                <Insets left="20.0" right="20.0" />
+             </padding>
+          </VBox>
+       </ScrollPane>
    </center>
 </BorderPane>

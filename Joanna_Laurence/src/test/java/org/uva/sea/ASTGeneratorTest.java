@@ -7,9 +7,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.uva.sea.ql.interpreter.ASTGenerator;
-import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.interpreter.dataObject.ASTResult;
+import org.uva.sea.languages.ql.interpreter.ASTGenerator;
+import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
+import org.uva.sea.languages.ql.interpreter.dataObject.ASTResult;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -8,7 +8,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.BooleanValue;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
 public class RadioButtonWidget implements Widget {
 

@@ -6,10 +6,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.model.GuiModel;
 import org.uva.sea.gui.render.*;
-import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
+import org.uva.sea.languages.ql.interpreter.dataObject.InterpreterResult;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.languages.ql.interpreter.exceptions.StaticAnalysisError;
+import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.io.File;
 import java.io.IOException;

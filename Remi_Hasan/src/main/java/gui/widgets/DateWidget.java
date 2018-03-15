@@ -6,20 +6,25 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-public class DateWidget extends Widget {
-    public DateWidget(String name, ChangeListener<? super String> listener) {
-        super(name, listener);
+import java.time.LocalDate;
+
+public class DateWidget extends Widget<DatePicker> {
+
+    public DateWidget(ChangeListener listener, String name) {
+        super(name);
+
+        this.control = new DatePicker();
+        this.control.valueProperty().addListener(listener);
     }
 
     @Override
-    public Pane getUI() {
-        HBox pane = new HBox();
-        pane.setSpacing(20);
+    public void setValue(String value) {
+        this.control.setValue(LocalDate.parse(value));
+    }
 
-        DatePicker datePicker = new DatePicker();
-        pane.getChildren().add(new Label(name));
-        pane.getChildren().add(datePicker);
-
-        return pane;
+    @Override
+    public String getValue() {
+        // TODO: format
+        return this.control.getValue().toString();
     }
 }

@@ -1,14 +1,15 @@
 package gui;
 
+import classes.Question;
 import classes.expressions.Expression;
-import classes.statements.Question;
-import parsing.AST_Visitor;
+import parsing.visitors.BaseVisitor;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,11 +17,10 @@ import java.util.Map;
 public class FormBuilder {
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which the widgets are located
-    private JPanel mainList;
-    private AST_Visitor astBuilder;
-
-    private HashMap<QuestionPanel, Expression> statementConditions;
-
+    private JPanel mainListPanel;
+    private HashMap<String, Question> questionHashMap = new HashMap<String, Question>();
+    private ArrayList<QuestionPanel> questionPanelList;
+    private BaseVisitor baseVisitor;
 
     private int FRAMEHEIGHT = 800; //The height of the GUI
     private int FRAMEWIDTH = 800; //The width of the GUI
@@ -28,27 +28,27 @@ public class FormBuilder {
     /**
      * constructor method
      * initializes the building process of the form
-     * @param astbuilder class
+     * @param baseVisitor
      */
-    public FormBuilder(AST_Visitor astBuilder) {
-        this.astBuilder = astBuilder;
-        this.statementConditions = new HashMap<QuestionPanel, Expression>();
+    public FormBuilder(BaseVisitor baseVisitor, HashMap questionHashMap) {
+        this.baseVisitor = baseVisitor;
+        this.questionHashMap = questionHashMap;
+        this.questionPanelList = new ArrayList<QuestionPanel>();
+
     }
 
     /**
      * initComponents() method
      * initializes the building process for all widgets
-     * @param memory
      */
-    public void initComponents(HashMap memory) {
+    public void initComponents() {
         //Build the frame and panel of the form
         buildFrame();
         buildPanel();
         buildList();
         //Add a scroll pane to the form
-        mainPanel.add(new JScrollPane(mainList));
-
-        initQuestionPanels(memory);
+        mainPanel.add(new JScrollPane(mainListPanel));
+        initQuestionPanels();
 
         mainFrame.add(mainPanel);
         mainFrame.setVisible(true);
@@ -60,10 +60,9 @@ public class FormBuilder {
     /**
      * Initialize the creation of the panels containing
      * the question it's controls through iteration
-     * @param memory
-     */
-    private void initQuestionPanels(HashMap memory) {
-        Iterator it = memory.entrySet().iterator();
+\     */
+    private void initQuestionPanels() {
+        Iterator it = questionHashMap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             buildQuestionPanel((String) pair.getKey(), (Question) pair.getValue());
@@ -83,7 +82,7 @@ public class FormBuilder {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainList.add(qPanel, gbc, 0);
+        addQuestionToPanel(qPanel, gbc);
     }
 
     /**
@@ -106,7 +105,7 @@ public class FormBuilder {
     }
 
     private void buildList() {
-        mainList = new JPanel(new GridBagLayout());
+        mainListPanel = new JPanel(new GridBagLayout());
     }
 
 
@@ -159,38 +158,50 @@ public class FormBuilder {
         public void actionPerformed(ActionEvent e) {
             if(checkBox.isSelected()) {
                 System.out.println("checkbox checked");
-                updateGUI(key, true);
+                updateQuestions(key, true);
             } else {
-                updateGUI(key, false);
+                updateQuestions(key, false);
 
             }
             checkBox.requestFocus();
         }
     }
 
-    private void updateGUI(String key, Object value) {
-        astBuilder.update(key, value);
-        for(QuestionPanel questionPanel : statementConditions.keySet()) {
-            Boolean ifExpressionSatisfied = astBuilder.validateExpression();
+    private void updateQuestions(String key, Boolean value) {
+        questionHashMap.get(key).setValue(value);
+        updateGUI();
+    }
+
+    private void updateGUI() {
+        questionHashMap = baseVisitor.updateQuestions(questionHashMap);
+        for(QuestionPanel questionPanel : questionPanelList) {
+            Boolean ifExpressionSatisfied = baseVisitor.validateExpression(questionPanel.question);
             if(ifExpressionSatisfied) {
                 addQuestionToPanel(questionPanel);
             } else {
                 removeQuestionFromPanel(questionPanel);
             }
         }
-
-        //Update and validate the components
-        mainList.revalidate();
-        mainList.repaint();
     }
+
+    private void addQuestionToPanel(QuestionPanel questionPanel, GridBagConstraints gbc) {
+        mainListPanel.add(questionPanel, gbc);
+        questionPanelList.add(questionPanel);
+    }
+
 
     private void addQuestionToPanel(QuestionPanel questionPanel) {
-        mainList.add(questionPanel);
+        mainListPanel.add(questionPanel);
+        questionPanelList.add(questionPanel);
+
     }
+
 
 
     private void removeQuestionFromPanel(QuestionPanel questionPanel) {
-        mainList.remove(questionPanel);
+        mainListPanel.remove(questionPanel);
+        questionPanelList.remove(questionPanel);
+
     }
 
 }

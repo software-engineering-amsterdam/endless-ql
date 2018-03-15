@@ -69,17 +69,6 @@ namespace UnitTests.UI.UnitTests
                 actual: wrapper.Questions.Count);
         }
 
-
-        [Test]
-        public void WhenUpdatingQuestionnaireWrapper_ShouldSetUnderlyingModelValues()
-        {
-            m_questionnaire.Questions.Add(m_inputQuestion1);
-            var wrapper = new QuestionnaireWrapper(m_questionnaire);
-            Assert.AreEqual(expected: 1, actual: wrapper.Questions.Count);
-            wrapper.Questions.Add(m_inputQuestion2);
-            Assert.AreEqual(expected: 2, actual: m_questionnaire.Questions.Count);
-        }
-
         [Test]
         public void WhenQuestionWrapperGivenModel_ShouldbeContainedInModelProperty()
         {

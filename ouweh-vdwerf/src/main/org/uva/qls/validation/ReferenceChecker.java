@@ -30,7 +30,7 @@ class ReferenceChecker extends Checker {
             logger.severe(String.format("Questions: %s are referenced multiple times by the QLS", duplicateIds.toString()));
         }
 
-        ArrayList qlsQuestionIdsCopy = new ArrayList(qlsQuestionIds);
+        List qlsQuestionIdsCopy = new ArrayList(qlsQuestionIds);
         qlsQuestionIdsCopy.removeAll(qlQuestionIds);
 
         if (qlsQuestionIdsCopy.size() > 0) {

@@ -7,25 +7,26 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-public class IntegerWidget extends Widget {
+public class IntegerWidget extends Widget<TextField> {
 
-    public IntegerWidget(String name, ChangeListener<? super String> listener) {
-        super(name, listener);
-    }
-
-    @Override
-    public Pane getUI() {
-        HBox pane = new HBox();
-        pane.setSpacing(20);
+    public IntegerWidget(ChangeListener listener, String name) {
+        super(name);
 
         TextField textField = new TextField();
         TextFormatter formatter = createTextFormatter("-?\\d*");
         textField.setTextFormatter(formatter);
-        pane.getChildren().add(new Label(name));
-        pane.getChildren().add(textField);
 
-        textField.textProperty().addListener(listener);
+        this.control = textField;
+        this.control.textProperty().addListener(listener);
+    }
 
-        return pane;
+    @Override
+    public void setValue(String value) {
+        this.control.setText(value);
+    }
+
+    @Override
+    public String getValue() {
+        return this.control.getText();
     }
 }

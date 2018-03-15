@@ -6,7 +6,7 @@ import {Style} from './style';
 import {QuestionType} from '../question-type';
 import {WidgetType} from './widget-type';
 import {MissingIdentifierError, UnsupportedTypeError} from '../../errors';
-import {Question as QlQuestion} from '../ql/question';
+import {QlQuestion as QlQuestion} from '../ql/ql-question';
 import * as _ from 'lodash';
 
 export class Question extends Node {
@@ -38,7 +38,7 @@ export class Question extends Node {
     if (this.defaultSettings && this.defaultSettings.type === qlQuestion.type) {
       this.throwIfQlsTypeDoesNotMatchQlType(qlQuestion.type, this.defaultSettings.widget.type);
     } else {
-      for (let i = parentDefaults.length - 1; i >= 0; i++) {
+      for (let i = parentDefaults.length - 1; i >= 0; i--) {
         if (parentDefaults[i].type === qlQuestion.type) {
           this.throwIfQlsTypeDoesNotMatchQlType(qlQuestion.type, parentDefaults[i].widget.type);
           break;
@@ -48,19 +48,18 @@ export class Question extends Node {
   }
 
   // throw an exception when an error is detected, otherwise do nothing
-  private throwIfQlsTypeDoesNotMatchQlType(qlType: QuestionType, qlsType: WidgetType): void {
-    if (qlsType === WidgetType.NONE) {
+  private throwIfQlsTypeDoesNotMatchQlType(qlType: QuestionType<any>, widgetType: WidgetType): void {
+    if (widgetType === WidgetType.NONE) {
       throw new UnsupportedTypeError(`Expected a type for question ${this.name}`);
     }
 
-    if (qlType === QuestionType.BOOLEAN && !(qlsType === WidgetType.CHECKBOX || qlsType === WidgetType.RADIO)) {
+    if (!qlType.isCompatibleWithWidget(widgetType)) {
       throw new TypeError(`Question ${this.name} has type boolean but QLS defines something else than checkbox or radio.`);
-    } else if (qlType === QuestionType.INT &&
-        !(qlsType === WidgetType.TEXT || qlsType === WidgetType.SLIDER || qlsType === WidgetType.SPINBOX)) {
+    } else if (!qlType.isCompatibleWithWidget(widgetType)) {
       throw new TypeError(`Question ${this.name} has type integer but QLS defines something else than text, slider or spinbox.`);
-    } else if (qlType === QuestionType.STRING && !(qlsType === WidgetType.TEXT)) {
+    } else if (!qlType.isCompatibleWithWidget(widgetType)) {
       throw new TypeError(`Question ${this.name} has type string but QLS defines something else than text.`);
-    } else if (qlType === QuestionType.DATE && !(qlsType === WidgetType.TEXT)) {
+    } else if (!qlType.isCompatibleWithWidget(widgetType)) {
       throw new TypeError(`Question ${this.name} has type date but QLS defines something else than text.`);
     }
   }

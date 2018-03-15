@@ -53,7 +53,7 @@ public class CheckNoDuplicateQuestions extends BaseStyleASTVisitor<Void> impleme
      * @param listToCheck Question list
      * @return Messages
      */
-    public Messages checkForDuplicateQuestions(Iterable<String> listToCheck) {
+    private Messages checkForDuplicateQuestions(Iterable<String> listToCheck) {
         Messages messages = new Messages();
         Collection<String> validationSet = new HashSet();
 

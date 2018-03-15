@@ -1,7 +1,5 @@
 package org.uva.sea.gui.widget;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Control;
 import javafx.scene.control.RadioButton;
 import org.uva.sea.gui.FormController;

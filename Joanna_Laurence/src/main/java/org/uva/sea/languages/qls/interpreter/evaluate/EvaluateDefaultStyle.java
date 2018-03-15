@@ -14,7 +14,6 @@ import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Stack;
 
 public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 

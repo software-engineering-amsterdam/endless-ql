@@ -11,7 +11,7 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 public class TextFieldWidget implements Widget {
 
-    public static final double TEXT_WIDTH = 100.0;
+    private static final double TEXT_WIDTH = 100.0;
 
     @Override
     public Control draw(BaseQuestionModel questionModel, FormController controller) {

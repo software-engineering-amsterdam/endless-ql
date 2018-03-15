@@ -1,21 +1,15 @@
 package org.uva.sea;
 
 import junit.framework.TestCase;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.uva.sea.languages.QlEvaluator;
-import org.uva.sea.languages.ql.interpreter.ASTGenerator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
-import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,7 +64,7 @@ public class QLParserTest extends TestCase {
             QlEvaluator qlEvaluator = new QlEvaluator(fileName);
             EvaluationResult evaluationResult = qlEvaluator.getQuestions();
             return !evaluationResult.getMessages().hasMessagePresent(MessageTypes.ERROR);
-        } catch (InterruptedException | IOException e) {
+        } catch (InterruptedException | IOException ignored) {
             return false;
         }
     }

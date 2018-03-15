@@ -6,12 +6,10 @@ import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
-import org.uva.sea.languages.qls.interpreter.evaluate.ApplyQLSStyle;
 import org.uva.sea.languages.qls.interpreter.evaluate.ApplyQLSStyle.Linker;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckAllQuestionsInQLQLS;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckNoDuplicateQuestions;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.IQLSStaticAnalysis;
-import org.uva.sea.languages.qls.interpreter.staticAnalysis.TypeCheck;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.TypeCheck.Checker;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 

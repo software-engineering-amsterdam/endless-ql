@@ -44,7 +44,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      * @param stylesheet        QLS AST
      * @throws InterruptedException
      */
-    public EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) throws InterruptedException {
+    public EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) {
         this.qlInputResult = interpreterResult;
         this.outputResult = new EvaluationResult(new ArrayList<>(), interpreterResult.getMessages(), interpreterResult.getAst());
         //The visitor will fill the outputResult

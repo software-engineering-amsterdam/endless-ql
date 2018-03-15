@@ -19,7 +19,6 @@ import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,7 +93,7 @@ public class QLEvaluatorTest extends TestCase {
                 String match = matcher.group(1);
                 return Integer.parseInt(match);
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
             return 0;
         }
 

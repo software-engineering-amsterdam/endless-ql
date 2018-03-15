@@ -12,14 +12,12 @@ import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.ModelRenderer;
 import org.uva.sea.gui.widget.*;
 
-import java.util.List;
-
 public class ViewRenderer {
 
-    public static final int COLUMN = 350;
-    public static final int ROW = 40;
-    public static final int MESSAGE_ROW = 600;
-    public static final int MESSAGE_COLMN = 40;
+    private static final int COLUMN = 350;
+    private static final int ROW = 40;
+    private static final int MESSAGE_ROW = 600;
+    private static final int MESSAGE_COLUMN = 40;
     private final VBox questionBox;
     private final VBox messageBox;
     private final FormController controller;
@@ -109,7 +107,7 @@ public class ViewRenderer {
         GridPane wrapper = new GridPane();
 
         wrapper.getColumnConstraints().add(new ColumnConstraints(ViewRenderer.MESSAGE_ROW));
-        wrapper.getRowConstraints().add(new RowConstraints(ViewRenderer.MESSAGE_COLMN));
+        wrapper.getRowConstraints().add(new RowConstraints(ViewRenderer.MESSAGE_COLUMN));
 
         Label label = new Label(message);
         label.setWrapText(true);

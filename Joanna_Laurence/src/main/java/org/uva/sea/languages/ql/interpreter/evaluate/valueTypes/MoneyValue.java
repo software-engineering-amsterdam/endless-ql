@@ -56,7 +56,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value add(DecimalValue value) {
-        return new MoneyValue(this.currency, this.amount.add(new BigDecimal(value.getDecimalValue())));
+        return new MoneyValue(this.currency, this.amount.add(BigDecimal.valueOf(value.getDecimalValue())));
     }
 
     @Override
@@ -88,7 +88,7 @@ public class MoneyValue extends Value {
         if (value.getDecimalValue() == 0)
             throw new EvaluationException("Divide by 0 error");
 
-        return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getDecimalValue()), RoundingMode.UNNECESSARY));
+        return new MoneyValue(this.currency, this.amount.divide(BigDecimal.valueOf(value.getDecimalValue()), RoundingMode.UNNECESSARY));
     }
 
     @Override
@@ -101,7 +101,7 @@ public class MoneyValue extends Value {
         if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
-        return new BooleanValue(this.amount.equals(value.getAmount()));
+        return new BooleanValue(this.amount.compareTo(value.getAmount()) == 0);
     }
 
     @Override
@@ -176,7 +176,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value multiply(DecimalValue value) {
-        return new MoneyValue(this.currency, this.amount.multiply(new BigDecimal(value.getDecimalValue())));
+        return new MoneyValue(this.currency, this.amount.multiply(BigDecimal.valueOf(value.getDecimalValue())));
     }
 
     @Override
@@ -189,7 +189,7 @@ public class MoneyValue extends Value {
         if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
-        return new BooleanValue(!this.amount.equals(value.getAmount()));
+        return new BooleanValue(!(this.amount.compareTo(value.getAmount()) == 0));
     }
 
     @Override
@@ -212,7 +212,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value subtract(DecimalValue value) {
-        return new MoneyValue(this.currency, this.amount.subtract(new BigDecimal(value.getDecimalValue())));
+        return new MoneyValue(this.currency, this.amount.subtract(BigDecimal.valueOf(value.getDecimalValue())));
     }
 
     @Override

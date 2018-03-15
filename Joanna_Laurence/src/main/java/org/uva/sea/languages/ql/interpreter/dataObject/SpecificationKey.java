@@ -17,7 +17,7 @@ public class SpecificationKey {
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof SpecificationKey)) {
             SpecificationKey key = (SpecificationKey) obj;
-            return this.operator.equals(key.operator) && this.leftType == key.leftType && this.rightType == key.rightType;
+            return this.operator.equals(key.operator) && (this.leftType == key.leftType) && (this.rightType == key.rightType);
         }
         return false;
     }

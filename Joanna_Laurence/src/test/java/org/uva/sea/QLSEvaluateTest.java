@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.QlSEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
@@ -69,7 +68,7 @@ public class QLSEvaluateTest extends TestCase {
             EvaluationResult evaluationResult = qlsEvaluator.getQuestions();
             Messages evaluationMessages = evaluationResult.getMessages();
             return !evaluationMessages.hasMessagePresent(MessageTypes.ERROR);
-        } catch (InterruptedException | IOException e) {
+        } catch (InterruptedException | IOException ignored) {
             return false;
         }
     }

@@ -17,6 +17,7 @@ public class DateValue extends Value {
         if (dateSplit.length != 3)
             throw new InvalidParameterException("Incorrect date: " + date);
 
+        this.dateValue = Calendar.getInstance();
         this.dateValue.set(Calendar.YEAR, Integer.parseInt(dateSplit[2]));
         this.dateValue.set(Calendar.MONTH, Integer.parseInt(dateSplit[1]));
         this.dateValue.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateSplit[0]));

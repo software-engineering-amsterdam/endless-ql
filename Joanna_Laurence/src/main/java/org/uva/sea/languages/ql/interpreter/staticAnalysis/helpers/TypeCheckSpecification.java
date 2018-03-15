@@ -36,7 +36,7 @@ public class TypeCheckSpecification {
      *
      * @return Lookup table
      */
-    public void fillSpecification() {
+    private void fillSpecification() {
 
         this.specification = new HashMap<>();
 

@@ -31,6 +31,8 @@ public class Test
         //String value = new EvaluateExpressionVisitor().visit(expression);
         //Node question = new BuildASTVisitor().visitQuestionFormat(parser.questionFormat());
         //String value = new EvaluateExpressionVisitor().visit(question);
+        //Node ifCondition = new BuildASTVisitor().visitConditionalIf(parser.conditionalIf());
+        //String value = new EvaluateExpressionVisitor().visit(ifCondition);
         Node form = new BuildASTVisitor().visitFormStructure(parser.formStructure());
         String value = new EvaluateExpressionVisitor().visit(form);
         System.out.println("Final result is: " + value);

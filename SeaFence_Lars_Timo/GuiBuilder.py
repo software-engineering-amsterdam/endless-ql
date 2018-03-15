@@ -26,7 +26,6 @@ class GuiBuilder():
     # Walk the AST and render gui items
     def parseStatements(self, form):  
         for statement in form.statements:
-            print statement
             if type(statement) is QuestionNode:
                 self.checkWidgetPosition(statement.var)
                 self.parseQuestion(statement)
@@ -53,7 +52,7 @@ class GuiBuilder():
                 self.parseStatements(statement)
 
     def checkWidgetPosition(self, var):
-        if len(self.frame_order) > 0  and self.frame_counter < len(self.frame_order) and self.frame_order[self.frame_counter][0] is not var:
+        if len(self.frame_order) > 0  and self.frame_counter < len(self.frame_order) and self.frame_order[self.frame_counter] is not var:
             self.removeFrames(self.frame_order[self.frame_counter:])
             self.frame_order = self.frame_order[:self.frame_counter]
 
@@ -67,7 +66,7 @@ class GuiBuilder():
                 else:
                     self.frames[statement.var] = self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes", self.updateForm, self.gui.values[statement.var])
 
-                self.frame_order.append((statement.var, []))
+                self.frame_order.append(statement.var)
 
             elif statement.vartype == "int":
                 if statement.var not in self.values:        
@@ -76,23 +75,25 @@ class GuiBuilder():
                 else:
                     self.frames[statement.var] = self.gui.addIntQuestion(statement.var, statement.question, self.updateForm, self.gui.values[statement.var])
                 
-                self.frame_order.append((statement.var, []))
+                self.frame_order.append(statement.var)
 
         self.frame_counter += 1
 
     # Parse an assignment and render it according to filled in values
     def parseAssignment(self, statement):
-        result = self.parseBinOpAssignment(statement)
-
-        if statement.var in self.values:
-            self.gui.updatetext(statement.var, result)
+        result = self.parseBinOpAssignment(statement.expression)
+        if statement.var not in self.frames:
+            if statement.var not in self.values:
+                self.values.append(statement.var)
+                self.frames[statement.var] = self.gui.addAssignment(statement.var, statement.name, result)
+            else:
+                self.frames[statement.var] = self.gui.addAssignment(statement.var, statement.name, result, self.gui.values[statement.var])
+            
+            self.frame_order.append(statement.var)
         else:
-            self.values.append(statement.var)
-            self.gui.addassignment(statement.var, statement.name, result)
+            self.gui.updateValue(statement.var, result)
 
-            self.frames[statement.var] = self.gui.setcurrentstatementframe()
-            self.frame_order.append((statement.var, []))
-            self.frame_counter += 1
+        self.frame_counter += 1
 
     # Parse an assignment and return its value
     def parseBinOpAssignment(self, statement):
@@ -102,22 +103,19 @@ class GuiBuilder():
             return self.getOperator(statement.op)(left, right)
 
         if type(statement) is UnOpNode:
-            return self.gui.getvalue(statement.var, "int")
+            return self.gui.getValue(statement.var, "int")
 
     # Remove a frame and its content
-    def removeFrame(self, expression, statements):
-        if expression in self.frames:
-            self.frames[expression].destroy()
-            del self.frames[expression]
-
-        for stmnt in statements:
-            if stmnt.var in self.values:
-                self.values.remove(stmnt.var)
+    def removeFrame(self, var_frame):
+        if var_frame in self.frames:
+            self.frames[var_frame].destroy()
+            del self.frames[var_frame]
 
     # Remove a list of frames
-    def removeFrames(self, frameList):
-        for frame in frameList:
-            self.removeFrame(frame[0], frame[1])
+    def removeFrames(self, frame_list):
+        print "Removing frames: ", frame_list
+        for var_frame in frame_list:
+            self.removeFrame(var_frame)
 
     # Function that checks if the expression variables match the needed values to show the block
     def checkExpressionvalues(self, expression):

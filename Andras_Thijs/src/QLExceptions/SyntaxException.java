@@ -15,4 +15,13 @@ public class SyntaxException extends Exception {
         this.message = message;
         this.node = node;
     }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    public ASTNode getNode() {
+        return node;
+    }
 }

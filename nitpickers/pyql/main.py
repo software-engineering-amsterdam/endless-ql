@@ -11,7 +11,7 @@ from pyql.gui.gui_visitor import GUIVisitor
 
 
 def main(argv):
-    input = FileStream(argv[1])
+    input = FileStream(argv[0])
     lexer = QLLexer(input)
     stream = CommonTokenStream(lexer)
     parser = QLParser(stream)
@@ -29,4 +29,11 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    filenames = [
+        "pyql/test/samples/example.ql",
+        "pyql/test/samples/form1.ql",
+        "pyql/test/samples/form2.ql",
+        "pyql/test/samples/form3.ql",
+        "pyql/test/samples/form4.ql"
+    ]
+    main(filenames)

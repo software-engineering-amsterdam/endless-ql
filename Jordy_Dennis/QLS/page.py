@@ -6,6 +6,12 @@ class Page:
         self.defaults = []
         self.varDict = None
 
+    def getDefaults(self, defaultDict):
+        for section in self.sections:
+            section.getDefaults(defaultDict)
+        for default in self.defaults:
+            default.getDefaults(defaultDict)
+
     def checkTypes(self):
         for section in self.sections:
             section.checkTypes()

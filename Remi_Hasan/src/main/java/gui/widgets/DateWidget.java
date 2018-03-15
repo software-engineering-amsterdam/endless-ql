@@ -3,7 +3,7 @@ package gui.widgets;
 import javafx.scene.control.DatePicker;
 import ql.model.expression.Expression;
 
-public class DateWidget extends DatePicker implements WidgetInterface{
+public class DateWidget extends DatePicker implements WidgetInterface {
 
     private final String name;
 
@@ -13,12 +13,12 @@ public class DateWidget extends DatePicker implements WidgetInterface{
     }
 
     @Override
-    public void setExpression(String value) {
-
+    public Expression getExpression() {
+        return null;
     }
 
     @Override
-    public Expression getExpression() {
-        return null;
+    public void setExpression(String value) {
+
     }
 }

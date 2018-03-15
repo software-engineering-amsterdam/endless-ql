@@ -12,4 +12,4 @@ class DependencyChecker:
                        if identifier in reference_children]
             for parent in parents:
                 if parent in identifier_children:
-                    error(0, "Cyclic dependency detected")
+                    error([0], "Cyclic dependency detected")

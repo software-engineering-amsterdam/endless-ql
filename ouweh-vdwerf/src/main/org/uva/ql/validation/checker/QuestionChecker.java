@@ -1,7 +1,6 @@
 package org.uva.ql.validation.checker;
 
-import org.uva.ql.ast.*;
-import org.uva.ql.validation.checker.Checker;
+import org.uva.ql.ast.Question;
 
 import java.util.HashSet;
 import java.util.List;

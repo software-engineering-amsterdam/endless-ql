@@ -32,5 +32,5 @@ class QuestionVisitor(object):
     def visit(self, node):
         self.__questions.append({"label": node.label,
                                  "identifier": node.identifier,
-                                 "answer_type": node.answer_type})
-
+                                 "answer_type": node.answer_type,
+                                 "position": node.position})

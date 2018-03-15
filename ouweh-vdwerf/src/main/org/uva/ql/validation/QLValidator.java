@@ -2,6 +2,7 @@ package org.uva.ql.validation;
 
 import org.uva.app.LogHandler;
 import org.uva.ql.ast.*;
+import org.uva.ql.validation.checker.*;
 import org.uva.ql.visitor.StatementVisitor;
 
 import java.util.ArrayList;

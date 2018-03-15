@@ -36,5 +36,23 @@ namespace UnitTests.UI.UnitTests
             wrapper.Value = "999";
             Assert.IsTrue(propertyEventWasRaised);
         }
+
+
+        [Test]
+        public void WhenPropertyUpdatedWithSameValue_ShouldNotRaisePropertyChangedEvent()
+        {
+            var propertyEventWasRaised = false;
+            var wrapper = new QuestionWrapper(m_inputQuestion1) {Value = "1024"};
+            wrapper.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "Value")
+                {
+                    propertyEventWasRaised = true;
+                }
+            };
+
+            wrapper.Value = "1024";
+            Assert.IsFalse(propertyEventWasRaised);
+        }
     }
 }

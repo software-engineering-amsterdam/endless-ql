@@ -22,12 +22,15 @@ namespace QuestionnaireUI.Models
         public bool Visible => Model.Visible;
         public string Value
         {
-            get { return Model.Value; }
             set
             {
-                Model.Value = value;
-                RaisePropertyChanged();
+                if (value != Model.Value)
+                {
+                    Model.Value = value;
+                    RaisePropertyChanged();
+                }
             }
+            get { return Model.Value; }
         }
     }
 }

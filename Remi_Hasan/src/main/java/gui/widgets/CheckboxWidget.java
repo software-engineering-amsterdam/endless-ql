@@ -1,25 +1,27 @@
 package gui.widgets;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.CheckBox;
-import ql.model.expression.Expression;
-import ql.model.expression.variable.ExpressionVariableBoolean;
 
-public class CheckboxWidget extends CheckBox implements WidgetInterface{
-
-    private final String name;
+public class CheckboxWidget extends Widget<CheckBox> {
 
     public CheckboxWidget(String name) {
-        this.name = name;
-        this.managedProperty().bind(this.visibleProperty());
+        super(name);
+
+        this.control = new CheckBox();
     }
 
     @Override
-    public void setExpression(String value) {
-        this.setSelected(Boolean.valueOf(value));
+    public void setValue(String value) {
+        this.control.setSelected(Boolean.valueOf(value));
     }
 
     @Override
-    public Expression getExpression() {
-        return new ExpressionVariableBoolean(null, this.isSelected());
+    public String getValue() {
+        return String.valueOf(this.control.isSelected());
+    }
+
+    public void setListener(ChangeListener<Boolean> changeListener) {
+        this.control.selectedProperty().addListener(changeListener);
     }
 }

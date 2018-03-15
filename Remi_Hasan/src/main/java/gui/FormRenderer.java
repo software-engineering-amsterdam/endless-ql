@@ -108,7 +108,7 @@ public class FormRenderer {
     private Control createDateField(HashMap<Question, Field> fieldMap, Question question) {
         DatePicker datePicker = new DatePicker();
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Expression expression = new ExpressionVariableDate(question.getToken(), Date.from(newValue.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            Expression expression = new ExpressionVariableDate(question.getToken(), newValue);
             symbolTable.setExpression(question.name, expression);
             updateFields(fieldMap, form.questions);
         });

@@ -9,7 +9,7 @@ public class GUIForm extends VBox {
 
     GUIForm(SymbolTable symbolTable, Form form){
         for(Question question : form.questions){
-            this.getChildren().add(new GUIQuestion(symbolTable, question));
+//            this.getChildren().add(new GUIQuestion(symbolTable, question));
         }
     }
 }

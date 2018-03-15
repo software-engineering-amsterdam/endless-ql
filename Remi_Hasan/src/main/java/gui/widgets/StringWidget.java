@@ -1,24 +1,27 @@
 package gui.widgets;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.TextField;
-import ql.model.expression.Expression;
 
-public class StringWidget extends TextField implements WidgetInterface{
-
-    private final String name;
+public class StringWidget extends Widget<TextField> {
 
     public StringWidget(String name) {
-        this.name = name;
-        this.managedProperty().bind(this.visibleProperty());
+        super(name);
+
+        this.control = new TextField();
     }
 
     @Override
-    public void setExpression(String value) {
-
+    public void setValue(String value) {
+        this.control.setText(value);
     }
 
     @Override
-    public Expression getExpression() {
-        return null;
+    public String getValue() {
+        return this.control.getText();
+    }
+
+    public void setListener(ChangeListener<String> changeListener) {
+        this.control.textProperty().addListener(changeListener);
     }
 }

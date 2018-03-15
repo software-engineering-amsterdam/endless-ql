@@ -2,7 +2,7 @@
 
 namespace QuestionaireOrchestration.Commands
 {
-    public class LoadQuestionnaireDefinitionsCommand : ICommandMessage
+    public class LoadDefinitionsFromFileCommand : ICommandMessage
     {
         public string Path { get; set; }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QuestionnaireUI.Models
+namespace QuestionaireOrchestration.Models
 {
     public class QuestionnaireModel
     {

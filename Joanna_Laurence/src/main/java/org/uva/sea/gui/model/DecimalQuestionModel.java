@@ -22,6 +22,6 @@ public class DecimalQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        return value != null ? String.valueOf(value.getDecimalValue()) : "No value";
+        return (this.value != null) ? String.valueOf(this.value.getDecimalValue()) : "No value";
     }
 }

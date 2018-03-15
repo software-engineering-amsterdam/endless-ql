@@ -224,7 +224,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         if (symbolValue != null)
             return symbolValue;
 
-        if (node.getLinkedQuestion() != null && node.getLinkedQuestion().getValue() != null) {
+        if ((node.getLinkedQuestion() != null) && (node.getLinkedQuestion().getValue() != null)) {
             return node.getLinkedQuestion().getValue().accept(this);
         }
 

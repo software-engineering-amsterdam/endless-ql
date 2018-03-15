@@ -6,11 +6,11 @@ import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
-import org.uva.sea.languages.qls.interpreter.evaluate.ApplyQLSStyle;
+import org.uva.sea.languages.qls.interpreter.evaluate.ApplyQLSStyle.Linker;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckAllQuestionsInQLQLS;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckNoDuplicateQuestions;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.IQLSStaticAnalysis;
-import org.uva.sea.languages.qls.interpreter.staticAnalysis.TypeCheck;
+import org.uva.sea.languages.qls.interpreter.staticAnalysis.TypeCheck.Checker;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
 import java.io.FileInputStream;
@@ -21,14 +21,14 @@ import java.util.List;
 
 public class Evaluator {
 
-    private ASTGenerator astGenerator = new ASTGenerator();
+    private final ASTGenerator astGenerator = new ASTGenerator();
 
-    private ApplyQLSStyle.Linker qlQlsLinker = new ApplyQLSStyle.Linker();
+    private final Linker qlQlsLinker = new Linker();
 
-    private List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new IQLSStaticAnalysis[]{
+    private final List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new IQLSStaticAnalysis[]{
             new CheckAllQuestionsInQLQLS.Checker(),
             new CheckNoDuplicateQuestions.Checker(),
-            new TypeCheck.Checker()
+            new Checker()
     });
 
     /**
@@ -47,12 +47,12 @@ public class Evaluator {
             return new EvaluationResult(new ArrayList<>(), parseResult.getMessages(), qlEvaluationResult.getAst());
         }
 
-        evaluationMessages.addMessageList(performStaticAnalysis(qlEvaluationResult.getAst(), parseResult.getAST()));
+        evaluationMessages.addMessageList(this.performStaticAnalysis(qlEvaluationResult.getAst(), parseResult.getAst()));
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
             return new EvaluationResult(new ArrayList<>(), evaluationMessages, qlEvaluationResult.getAst());
         }
 
-        return qlQlsLinker.apply(qlEvaluationResult, parseResult.getAST());
+        return this.qlQlsLinker.apply(qlEvaluationResult, parseResult.getAst());
     }
 
     /**
@@ -74,6 +74,6 @@ public class Evaluator {
      * @param guiSpecification Specification of the GUI
      */
     private ParseResult<Stylesheet> parse(String guiSpecification) throws IOException {
-        return astGenerator.createAST(CharStreams.fromStream(new FileInputStream(guiSpecification)));
+        return this.astGenerator.createAST(CharStreams.fromStream(new FileInputStream(guiSpecification)));
     }
 }

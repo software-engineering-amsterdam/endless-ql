@@ -21,9 +21,13 @@ namespace SimpleWPFApp
             var collection = ioc.Create();
 
             collection.AddModule(new InfrastructureModule());
+            collection.AddModule(new AntlrModule());
+            collection.AddModule(new EntitiesModule());
             collection.AddModule(new OrchestrationModule());
             collection.AddModule(new UiModule());
-            collection.AddTransient(typeof(IQuestionnaireViewModel), typeof(QuestionnaireViewModel));
+            collection.AddTransient(
+                typeof(IQuestionnaireViewModel),
+                typeof(QuestionnaireViewModel));
             return collection;
         }
     }

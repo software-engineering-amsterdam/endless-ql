@@ -5,7 +5,7 @@ import org.uva.sea.languages.qls.parser.visitor.IStyleASTVisitor;
 
 public class Font extends StyleSpecification {
 
-    private String name;
+    private final String name;
 
     public Font(Token token, String name) {
         super(token);
@@ -13,7 +13,7 @@ public class Font extends StyleSpecification {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override

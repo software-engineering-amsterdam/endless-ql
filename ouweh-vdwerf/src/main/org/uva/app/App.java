@@ -24,7 +24,7 @@ public class App {
         LogManager.getLogManager().reset();
         logger.addHandler(new LogHandler());
 
-        String input = new InputHandler().readFile("input/test/circularDependency.ql");
+        String input = new InputHandler().readFile("input/original.ql");
 //        String input = new InputHandler().getUserInput("ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
@@ -42,6 +42,7 @@ public class App {
 
         FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
         StyleEvaluator styleEvaluator = new StyleEvaluator();
+        styleEvaluator.setStylesheet(stylesheet);
 
         GUIHandler guiHandler = new GUIHandler(formEvaluator, styleEvaluator);
     }

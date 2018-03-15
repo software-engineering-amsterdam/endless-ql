@@ -1,32 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace QuestionaireOrchestration.QueryServices
 {
-    internal sealed class QuestionnaireDefintionQueryService : IModelQueryService<QuestionnaireDefinitionModel>
+    internal sealed class QuestionnaireDefintionQueryService : ModelQueryServiceBase<QuestionnaireDefinitionModel>
     {
-        private readonly IDomainItemLocator m_domainItemLocator;
-
-        public QuestionnaireDefintionQueryService(IDomainItemLocator domainItemLocator)
+        public QuestionnaireDefintionQueryService(
+            IDomainItemLocator domainItemLocator) 
+            : base(domainItemLocator)
         {
-            m_domainItemLocator = domainItemLocator;
-        }
-        public QuestionnaireDefinitionModel FindByName(string name)
-        {
-            return GetAll().FirstOrDefault(x => x.Name == name);
         }
 
-        public QuestionnaireDefinitionModel FindByReference(Guid reference)
-        {
-            return GetAll().FirstOrDefault(x => x.Id == reference);
-        }
-
-        public IEnumerable<QuestionnaireDefinitionModel> GetAll()
+        public override IEnumerable<QuestionnaireDefinitionModel> GetAll()
         {
             return m_domainItemLocator
                 .GetAll<IQuestionnaireRootNode>()
@@ -34,19 +22,3 @@ namespace QuestionaireOrchestration.QueryServices
         }
     }
 }
-
-
-//public IEnumerable<ExampleModel> GetAll()
-//=> m_models.GetAll();
-
-//public ExampleModel FindByReference(Reference<ExampleModel> reference)
-//{
-//return reference != null
-//? GetAll().FirstOrDefault(x => x.Id == reference.Id)
-//: null;
-//}
-
-//public ExampleModel FindByName(string name)
-//{
-//return GetAll().FirstOrDefault(x => x.Name == name);
-//}

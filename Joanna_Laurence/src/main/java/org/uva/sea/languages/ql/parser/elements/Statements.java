@@ -9,14 +9,14 @@ import java.util.List;
 
 public class Statements extends ASTNode {
 
-    private List<ASTNode> statementList;
+    private final List<ASTNode> statementList;
 
     public Statements() {
-        statementList = new ArrayList<>();
+        this.statementList = new ArrayList<>();
     }
 
-    public List<ASTNode> getStatementList() {
-        return statementList;
+    public Iterable<ASTNode> getStatementList() {
+        return this.statementList;
     }
 
     public void addStatement(ASTNode item) {

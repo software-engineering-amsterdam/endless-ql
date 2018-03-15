@@ -6,19 +6,19 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.io.IOException;
 
-public class GuiModel {
+public class ResultController {
 
     private final QlSEvaluator formGenerator;
 
-    public GuiModel(String qlFileName, String qlsFileName) {
+    public ResultController(String qlFileName, String qlsFileName) {
         this.formGenerator = new QlSEvaluator(qlFileName, qlsFileName);
     }
 
     public EvaluationResult getInterpreterResult() throws IOException, InterruptedException {
-        return formGenerator.getQuestions();
+        return this.formGenerator.getQuestions();
     }
 
     public void updateQuestion(String questionName, Value value) {
-        formGenerator.setVariable(questionName, value);
+        this.formGenerator.setVariable(questionName, value);
     }
 }

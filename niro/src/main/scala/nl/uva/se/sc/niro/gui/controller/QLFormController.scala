@@ -15,7 +15,7 @@ import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer, StringAnswer }
-import nl.uva.se.sc.niro.model.qls.QLStylesheet
+import nl.uva.se.sc.niro.model.qls.{ QLStylesheet, Question }
 import nl.uva.se.sc.niro.util.StringUtil
 
 import scala.collection.{ JavaConverters, mutable }
@@ -102,17 +102,39 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   private def updateView(): Unit = {
     updatePageTitle()
     updateValues()
+    updateOrder()
     updateVisibility()
   }
 
   private def updatePageTitle(): Unit = {
-    val activePageName = stylesheet.map(_.pages(page).name).getOrElse("")
+    val activePageName = getActivePageName
     pageName.setText(StringUtil.addSpaceOnCaseChange(activePageName))
     dictionary(PageVisibilityFactory.ACTIVE_PAGE_NAME) = StringAnswer(activePageName)
   }
 
+  private def getActivePageName: String = {
+    stylesheet.map(_.pages(page).name).getOrElse("")
+  }
+
   private def updateValues(): Unit = {
     questions.foreach(_.updateValue(dictionary))
+  }
+
+  private def updateOrder(): Unit = {
+    stylesheet.map(_.collectQuestionsForPage(getActivePageName)) match {
+      case Some(questions) => reorderComponents(questions)
+      case _               => ()
+    }
+  }
+
+  private def reorderComponents(orderedQuestions: Seq[Question]): Unit = {
+    orderedQuestions.reverse.foreach(orderedQuestion => {
+      val componentsToReOrder = questions.filter(_.getQuestionId == orderedQuestion.name).reverse
+      componentsToReOrder.foreach(component => {
+        questionArea.getChildren.remove(component)
+        questionArea.getChildren.add(0, component)
+      })
+    })
   }
 
   private def updateVisibility(): Unit = {

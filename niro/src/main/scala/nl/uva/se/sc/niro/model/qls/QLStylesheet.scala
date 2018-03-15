@@ -7,6 +7,9 @@ case class QLStylesheet(name: String, pages: Seq[Page]) {
 
   def collectAllQuestions(): Seq[Question] = pages.flatMap(_.sections.flatMap(_.questions))
 
+  def collectQuestionsForPage(pageName: String): Seq[Question] =
+    pages.filter(_.name == pageName).flatMap(_.sections.flatMap(_.questions))
+
   private def containsSectionWithQuestion(page: Page, questionId: String) = {
     page.sections.exists(containsQuestion(_, questionId))
   }

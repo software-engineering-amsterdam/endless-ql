@@ -7,24 +7,28 @@ stylesheet EditOrNotToEdit {
             question decimalVariable
             question moneyVariable
             question dateVariable
+            question booleanExpression
+            question integerExpression
+            question stringExpression
         }
     }
     page PageTwo {
         section "Variables" {
+            question stringVariable
+            question stringExpression
             question stringConstant
             question booleanConstant
             question integerConstant
-            question stringExpression
-            question booleanExpression
-            question integerExpression
         }
     }
     page PageThree {
         section "Variables" {
+            question stringVariable
             question decimalConstant
             question moneyConstant
             question dateConstant
             question decimalExpression
+            question stringExpression
             question moneyExpression
             question dateExpression
         }

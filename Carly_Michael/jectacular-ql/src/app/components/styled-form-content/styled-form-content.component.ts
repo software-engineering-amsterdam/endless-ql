@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {Default, Question as QlsQuestion, Section, Style, Stylesheet, Widget} from '../../domain/ast/qls';
+import {Default, QlsQuestion, Section, Style, Stylesheet, Widget} from '../../domain/ast/qls';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
 

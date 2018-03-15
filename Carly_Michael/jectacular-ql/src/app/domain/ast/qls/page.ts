@@ -1,12 +1,12 @@
 import {Section} from './section';
 import {Default} from './default';
 import {Location} from '../location';
-import {Node, QuestionWithAppliedStyles} from './node';
+import {QlsNode, QuestionWithAppliedStyles} from './qls-node';
 import {Style} from './style';
-import {QlQuestion as QlQuestion} from '../ql/ql-question';
+import {QlQuestion} from '../ql/ql-question';
 import {Widget} from './widget';
 
-export class Page extends Node {
+export class Page extends QlsNode {
   constructor(public name: string, public sections: Section[], public location: Location, public defaultSettings?: Default) {
     super();
   }

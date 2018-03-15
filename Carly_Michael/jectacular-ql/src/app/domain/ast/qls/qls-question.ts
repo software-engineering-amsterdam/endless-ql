@@ -1,7 +1,7 @@
 import {Default} from './default';
 import {Location} from '../location';
 import {Widget} from './widget';
-import {Node, QuestionWithAppliedStyles} from './node';
+import {QlsNode, QuestionWithAppliedStyles} from './qls-node';
 import {Style} from './style';
 import {QuestionType} from '../question-type';
 import {WidgetType} from './widget-type';
@@ -9,7 +9,7 @@ import {MissingIdentifierError, UnsupportedTypeError} from '../../errors';
 import {QlQuestion as QlQuestion} from '../ql/ql-question';
 import * as _ from 'lodash';
 
-export class Question extends Node {
+export class QlsQuestion extends QlsNode {
   constructor(public name: string, public type: Widget, public location: Location, public defaultSettings?: Default) {
     super();
   }

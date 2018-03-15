@@ -1,10 +1,10 @@
-import {Question} from './question';
-import {QlQuestion as QlQuestion} from '../ql';
+import {QlsQuestion} from './qls-question';
+import {QlQuestion} from '../ql';
 import {Style} from './style';
 import {Widget} from './widget';
 import {Default} from './default';
 
-export abstract class Node {
+export abstract class QlsNode {
   getQuestions(parentStyles: ReadonlyArray<Style>, widget: Widget): ReadonlyArray<QuestionWithAppliedStyles> {
     return [];
   }
@@ -13,5 +13,5 @@ export abstract class Node {
 }
 
 export class QuestionWithAppliedStyles {
-  constructor(readonly question: Question, readonly styles: ReadonlyArray<Style>, readonly widget: Widget) { }
+  constructor(readonly question: QlsQuestion, readonly styles: ReadonlyArray<Style>, readonly widget: Widget) { }
 }

@@ -1,4 +1,4 @@
-import {Question} from './question';
+import {QlsQuestion} from './qls-question';
 import {QlQuestion as QlQuestion} from '../ql/ql-question';
 import {Widget} from './widget';
 import {WidgetType} from './widget-type';
@@ -10,7 +10,7 @@ import {BooleanQuestionType, IntQuestionType} from '../question-type';
 
 describe('QLS QlQuestion', () => {
   it('QlQuestion without default should return self with proper style', () => {
-    const question = new Question('name', new Widget(WidgetType.NONE, []), emptyLoc, null);
+    const question = new QlsQuestion('name', new Widget(WidgetType.NONE, []), emptyLoc, null);
 
     let questionsWithStyles = question.getQuestions([], Widget.Empty);
     expect(questionsWithStyles.length).toBe(1);
@@ -26,7 +26,7 @@ describe('QLS QlQuestion', () => {
   });
 
   it('QlQuestion with default should return self with proper style', () => {
-    const question = new Question('name', new Widget(WidgetType.NONE, []), emptyLoc,
+    const question = new QlsQuestion('name', new Widget(WidgetType.NONE, []), emptyLoc,
       new Default(new IntQuestionType(), new Widget(WidgetType.TEXT, []),
         [new Style('name', new NumberValue(1), emptyLoc)], emptyLoc));
 
@@ -48,15 +48,15 @@ describe('QLS QlQuestion', () => {
   });
 
   it('Should throw if question is missing in input', () => {
-    const question = new Question('name', new Widget(WidgetType.NONE, []), emptyLoc, null);
+    const question = new QlsQuestion('name', new Widget(WidgetType.NONE, []), emptyLoc, null);
     expect(() => question.checkStylesheet([], [])).toThrow();
   });
 
   it('Should throw if question type is missing doesn\'t match ql question type', () => {
-    const qlsQuestions: Question[] = [];
+    const qlsQuestions: QlsQuestion[] = [];
 
     for (let i = WidgetType.RADIO; i < WidgetType.SLIDER; i++) {
-      qlsQuestions.push(new Question(`name`, new Widget(i, []), emptyLoc, null));
+      qlsQuestions.push(new QlsQuestion(`name`, new Widget(i, []), emptyLoc, null));
     }
 
     const qlIntQuestion = new QlQuestion('name', 'label', new IntQuestionType(), emptyLoc);

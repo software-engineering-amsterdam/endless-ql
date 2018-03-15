@@ -4,7 +4,8 @@ import java.io.IOException
 
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.{ Button, Label }
+import javafx.scene.control.Alert.AlertType
+import javafx.scene.control.{ Alert, Button, ButtonType, Label }
 import javafx.scene.layout.{ BorderPane, VBox }
 import javafx.stage.FileChooser
 import nl.uva.se.sc.niro.{ Evaluator, QLFormService }
@@ -59,7 +60,8 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
     val file = fileChooser.showSaveDialog(getActiveStage())
 
     QLFormService.saveMemoryTableToCSV(dictionary.toMap, file)
-    println("Data is saved....")
+    showSavedMessage
+    cancel(event)
   }
 
   @FXML
@@ -163,5 +165,11 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
 
   private def getVisibilitySetting(question: GUIQuestion) = {
     Evaluator.evaluateExpression(question.visibility, qlForm.symbolTable, dictionary.toMap)
+  }
+
+  private def showSavedMessage = {
+    val alert = new Alert(AlertType.INFORMATION, "The file has successfuly been saved.", ButtonType.OK)
+    alert.setTitle("Save results")
+    alert.showAndWait()
   }
 }

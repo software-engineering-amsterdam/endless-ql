@@ -105,34 +105,6 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
 
     @Override
     public Void visit(Question node) {
-
-        //The type of the node is leading
-        /*WidgetType widgetType = WidgetType.UNKNOWN;
-        if (node.getWidget() != null) {
-            widgetType = node.getWidget().getWidgetType();
-        }
-
-        //Otherwise use cascading
-        NodeType questionNodeType = this.qlQuestionNodeTypes.get(node.getName());
-        if (questionNodeType == null) {
-            this.message.addMessage("QLS: Cannot find QL question: " + node.getName(), MessageTypes.ERROR);
-            return null;
-        }
-
-        //Use cascading style
-        WidgetType baseType = WidgetType.valueOf(questionNodeType.toString());
-        if (widgetType == WidgetType.UNKNOWN) {
-            Style cascadingStyle = this.defaultStyleEvaluator.getCascadingStyle(baseType, this.currentSections, this.currentPage);
-            if(cascadingStyle.getWidget() != null)
-                widgetType = cascadingStyle.getWidget().getWidgetType();
-        }
-
-        //Base style as last resort
-        if (widgetType == WidgetType.UNKNOWN) {
-            widgetType = baseType;
-        }
-        */
-
         WidgetType widgetType;
         if(node.getWidget() == null)
             return null;

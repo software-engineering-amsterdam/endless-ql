@@ -17,12 +17,12 @@ public class DropdownWidget extends ComboBox<String> implements WidgetInterface 
     }
 
     @Override
-    public void setExpression(String value) {
-
+    public Expression getExpression() {
+        return null;
     }
 
     @Override
-    public Expression getExpression() {
-        return null;
+    public void setExpression(String value) {
+
     }
 }

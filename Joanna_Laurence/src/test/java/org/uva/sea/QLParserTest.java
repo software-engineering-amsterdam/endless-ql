@@ -12,6 +12,7 @@ import org.uva.sea.languages.ql.interpreter.ASTGenerator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
+import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 
 import java.io.FileInputStream;
 import java.io.IOException;

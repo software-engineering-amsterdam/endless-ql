@@ -15,7 +15,7 @@ stylesheet taxOfficeExample
         question nbfreeBags
             widget spinbox
 
-        default spinbox
+        default boolean
         {
           width: 400
           font: "Arial"

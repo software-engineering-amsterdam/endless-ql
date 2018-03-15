@@ -8,7 +8,7 @@ from PyQt5 import QtCore
 
 
 def listen(tree, outputWindow):
-    print(tree.toStringTree())
+    # print(tree.toStringTree())
     ql = QLListener(outputWindow)
     walker = ParseTreeWalker()
     walker.walk(ql, tree)
@@ -110,7 +110,17 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#if_.
     def enterIf_(self, ctx:QLParser.If_Context):
-        pass
+        print(ctx.getText())
+        children = ctx.getChildren()
+        for child in children:
+            print(child)
+            print(child.getText())
+            print()
+            # print(dir)
+            # for grandchild in child:
+            #     print(grandchild)
+        # question = children.__next__().getText()
+        # pass
 
     # Exit a parse tree produced by QLParser#if_.
     def exitIf_(self, ctx:QLParser.If_Context):

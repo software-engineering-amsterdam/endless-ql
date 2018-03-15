@@ -52,7 +52,7 @@ public class Renderer extends Application {
     }
 
     private void buildQuestions(Form form, Stage stage) {
-        GUIForm guiForm = new GUIForm(form);
+        GUIForm guiForm = new GUIForm(symbolTable, form);
 
         Scene scene = new Scene(guiForm);
         stage.setTitle(qlForm.identifier + " form");

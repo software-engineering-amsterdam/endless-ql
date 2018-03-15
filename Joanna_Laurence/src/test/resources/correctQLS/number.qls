@@ -13,11 +13,6 @@ stylesheet taxOfficeExample
         question item2
             widget spinbox
 
-        question item3
-            widget integer
-
-        question item4
-            widget decimal
       }
     }
   }

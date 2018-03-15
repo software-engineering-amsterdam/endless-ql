@@ -57,7 +57,6 @@ public class Evaluator {
 
     /**
      * Does the static analysis on the parse result
-     *
      */
     private Messages performStaticAnalysis(Form form, Stylesheet stylesheet) {
         Messages returnMessage = new Messages();

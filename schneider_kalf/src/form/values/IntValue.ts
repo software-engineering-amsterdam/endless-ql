@@ -1,41 +1,27 @@
 import NumberValue from "./NumberValue";
+import AbstractNumberValue from "./AbstractNumberValue";
 
-export default class IntValue implements NumberValue {
+export default class IntValue extends AbstractNumberValue implements NumberValue {
   private value: number;
 
   constructor(value: number) {
+    super();
     this.value = value;
   }
 
-  add(other: NumberValue): NumberValue {
-    if (other.getPriority() > this.getPriority()) {
-      return other.add(this);
-    }
-
-    return this.getValue() + other.getValue();
+  add(other: IntValue): NumberValue {
+    return new IntValue(this.getValue() + other.getValue());
   }
 
-  minus(other: NumberValue): NumberValue {
-    if (other.getPriority() > this.getPriority()) {
-      return other.make(this.getValue()).minus(other);
-    }
-
-    return new IntValue(Math.floor(this.getValue() - other.getValue()));
+  minus(other: IntValue): NumberValue {
+    return new IntValue(this.getValue() - other.getValue());
   }
 
-  multiply(other: NumberValue): NumberValue {
-    if (other.getPriority() > this.getPriority()) {
-      return other.multiply(this);
-    }
-
+  multiply(other: IntValue): NumberValue {
     return new IntValue(this.getValue() * other.getValue());
   }
 
-  divide(other: NumberValue): NumberValue {
-    if (other.getPriority() > this.getPriority()) {
-      return other.make(this.getValue()).divide(other);
-    }
-
+  divide(other: IntValue): NumberValue {
     return new IntValue(Math.floor(this.getValue() / other.getValue()));
   }
 
@@ -47,7 +33,19 @@ export default class IntValue implements NumberValue {
     return 1;
   }
 
-  make(value: number): NumberValue {
+  make(value: number): IntValue {
     return new IntValue(value);
+  }
+
+  equals(other: IntValue): boolean {
+    return other.getValue() === this.getValue();
+  }
+
+  smallerThan(other: IntValue): boolean {
+    return this.getValue() < other.getValue();
+  }
+
+  largerThan(other: IntValue): boolean {
+    return this.getValue() > other.getValue();
   }
 }

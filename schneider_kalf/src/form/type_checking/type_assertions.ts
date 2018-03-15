@@ -4,6 +4,10 @@ import {
 } from "../form_errors";
 import { FieldType, numericFieldTypes } from "../FieldType";
 import Decimal from "decimal.js/decimal";
+import NumberValue from "../values/NumberValue";
+import IntValue from "../values/IntValue";
+import { DecimalValue } from "../values/DecimalValue";
+import NumericOperation from "../values/NumericOperation";
 
 /**
  * Returns the type of a given value including the classname if it is
@@ -105,6 +109,20 @@ export const assertDecimal = (value: any): Decimal => {
   return assertType(value, "Decimal");
 };
 
+/**
+ * Assert that the types of the value is "Decimal" or fail otherwise.
+ *
+ * @param value
+ * @returns {any}
+ */
+export const assertNumberValue = (value: any): NumberValue => {
+  if (value instanceof IntValue === false && value instanceof DecimalValue === false) {
+    throw TypeCheckError.make("NumberValue", getTypeString(value));
+  }
+
+  return value;
+};
+
 export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
   return assertAnyFieldType(fieldType, numericFieldTypes);
 };
@@ -117,8 +135,8 @@ export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
  * @returns {any}
  */
 export const assertComparable = (value: any) => {
-  if (["string", "number", "boolean", "Decimal"].indexOf(typeof  value) === -1) {
-    throw TypeCheckError.make("compareable", getTypeString(value));
+  if (["string", "number", "boolean", "Decimal", "DecimalValue", "IntValue"].indexOf(getTypeString(value)) === -1) {
+    throw TypeCheckError.make("comparable", getTypeString(value));
   }
 
   return value;
@@ -130,13 +148,13 @@ export const assertComparable = (value: any) => {
  *
  * @param dividend
  * @param divisor
- * @returns {{dividend: Decimal; divisor: Decimal}}
+ * @returns {{dividend: NumberValue; divisor: NumberValue}}
  */
-export const assertValidDivision = (dividend: Decimal, divisor: Decimal) => {
-  dividend = assertNumeric(dividend);
-  divisor = assertNumeric(divisor);
+export const assertValidDivision = (dividend: NumberValue, divisor: NumberValue) => {
+  dividend = assertNumberValue(dividend);
+  divisor = assertNumberValue(divisor);
 
-  if (divisor.equals(0)) {
+  if (NumericOperation.make(divisor, new IntValue(0)).equals()) {
     throw DivisionByZeroError.make();
   }
 

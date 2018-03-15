@@ -5,13 +5,13 @@ export enum FieldType {
   Money = "money",
   Date = "date",
   Integer = "integer",
-  Float = "float",
+  Decimal = "decimal",
   Text = "text"
 }
 
-export const numericFieldTypes = [FieldType.Integer, FieldType.Float, FieldType.Money];
+export const numericFieldTypes = [FieldType.Integer, FieldType.Decimal, FieldType.Money];
 
-export const numericFieldTypeOrder = [FieldType.Integer, FieldType.Float, FieldType.Money];
+export const numericFieldTypeOrder = [FieldType.Integer, FieldType.Decimal, FieldType.Money];
 
 export const isNumericFieldType = (fieldType: FieldType) => {
   return numericFieldTypes.indexOf(fieldType) !== -1;

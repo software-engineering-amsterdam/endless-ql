@@ -63,7 +63,7 @@ it("uses the lowest possible numeric type", () => {
   );
 
   expect(typeCheck(integerDivision)).toBe(FieldType.Integer);
-  expect(typeCheck(floatAddition)).toBe(FieldType.Float);
+  expect(typeCheck(floatAddition)).toBe(FieldType.Decimal);
   expect(typeCheck(moneySubtraction, variablesToMap(moneyVariables))).toBe(FieldType.Money);
 });
 

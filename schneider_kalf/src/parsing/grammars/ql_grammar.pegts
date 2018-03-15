@@ -27,7 +27,7 @@
                   "date" : FieldType.Date,
                   "money" : FieldType.Money,
                   "integer" : FieldType.Integer,
-                  "float" : FieldType.Float,
+                  "decimal" : FieldType.Decimal,
                   "text" : FieldType.Text,
                 }
 
@@ -69,7 +69,7 @@ multOps = "*" / "/"
 aritmicOps = multOps / addOps
 
 // Literal types  supported
-literalTypes = "boolean" / "money" / "date" / "integer" / "float" / "text"
+literalTypes = "boolean" / "money" / "date" / "integer" / "decimal" / "text"
 
 // Returns the tsc object of the literal
 type

@@ -22,7 +22,7 @@ export const fieldComponentsMapping: { type: FieldType, component: any }[] = [
     component: NumberField
   },
   {
-    type: FieldType.Float,
+    type: FieldType.Decimal,
     component: NumberField
   },
   {

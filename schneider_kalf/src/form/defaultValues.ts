@@ -5,7 +5,7 @@ const defaultValues: [FieldType, any][] = [
   [FieldType.Money, null],
   [FieldType.Date, null],
   [FieldType.Integer, null],
-  [FieldType.Float, null],
+  [FieldType.Decimal, null],
   [FieldType.Text, ""]
 ];
 

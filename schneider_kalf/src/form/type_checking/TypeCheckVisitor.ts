@@ -95,7 +95,7 @@ export class TypeCheckVisitor implements NodeVisitor {
     const rightType = assertNumericFieldType(division.right.accept(this));
 
     if (leftType === FieldType.Money && rightType === FieldType.Money) {
-      return FieldType.Float;
+      return FieldType.Decimal;
     }
 
     return getCommonNumericFieldType(leftType, rightType);

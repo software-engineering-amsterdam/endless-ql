@@ -11,16 +11,23 @@ import LargerThanOrEqual from "../../form/nodes/expressions/comparisons/LargerTh
 import SmallerThanOrEqual from "../../form/nodes/expressions/comparisons/SmallerThanOrEqual";
 import { DivisionByZeroError } from "../../form/form_errors";
 import Subtraction from "../../form/nodes/expressions/arithmetic/Subtraction";
-import { toDecimal } from "../../form/evaluation/numeric_helpers";
+import IntValue from "../../form/values/IntValue";
+import { DecimalValue } from "../../form/values/DecimalValue";
+import NumericOperation from "../../form/values/NumericOperation";
+import { FieldType } from "../../form/FieldType";
 
 it('holds that 1 + 1 === 2', () => {
-  const expression = new Addition(new NumberLiteral(1), new NumberLiteral(1));
-  expect(evaluate(expression)).toEqual(toDecimal(2));
+  const expression = new Addition(NumberLiteral.fromString("1"), NumberLiteral.fromString("1"));
+  expect(evaluate(expression)).toEqual(new IntValue(2));
+
+  const expressionDecimal = new Addition(NumberLiteral.fromString("1.0"), NumberLiteral.fromString("1"));
+  expect(evaluate(expressionDecimal)).toEqual(new DecimalValue(2));
+  expect(evaluate(expressionDecimal)).not.toEqual(new IntValue(2));
 });
 
 it('can work with decimals', () => {
   const expression = new Subtraction(new NumberLiteral(0.3), new NumberLiteral(0.2));
-  expect(evaluate(expression)).toEqual(toDecimal(0.1));
+  expect(evaluate(expression)).toEqual(new DecimalValue(0.1));
 });
 
 it('is not possible to divide by zero', () => {
@@ -31,18 +38,23 @@ it('is not possible to divide by zero', () => {
 });
 
 it('holds that 1 - 5 === -4', () => {
-  const expression = new Addition(new NumberLiteral(1), new NumberLiteral(-5));
-  expect(evaluate(expression)).toBe(-4);
+  const expression = new Addition(NumberLiteral.fromString("1"), NumberLiteral.fromString("-5"));
+  expect(evaluate(expression)).toEqual(new IntValue(-4));
 });
 
-it('holds that 5 / 2 === 2.5', () => {
-  const expression = new Division(new NumberLiteral(5), new NumberLiteral(2));
-  expect(evaluate(expression)).toBe(2.5);
+it('holds that 5.0 / 2 === 2.5', () => {
+  const expression = new Division(NumberLiteral.fromString("5.0"), NumberLiteral.fromString("2"));
+  expect(evaluate(expression)).toEqual(new DecimalValue(2.5));
+
+  const expressionTwo = new Division(NumberLiteral.fromString("5"), NumberLiteral.fromString("2"));
+  expect(evaluate(expressionTwo)).toEqual(new IntValue(2));
 });
 
 it('holds that 7 * 6 === 42', () => {
-  const expression = new Multiplication(new NumberLiteral(7), new NumberLiteral(6));
-  expect(evaluate(expression)).toBe(42);
+  const left = new NumberLiteral(7, FieldType.Integer);
+  const right = new NumberLiteral(6, FieldType.Integer);
+  const expression = new Multiplication(left, right);
+  expect(evaluate(expression)).toEqual(new IntValue(42));
 });
 
 it('holds that 42 === 42', () => {

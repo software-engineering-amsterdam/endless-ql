@@ -4,8 +4,8 @@ import qls.ast.style.*;
 
 public interface StyleVisitor<T, U> {
 	
-	public T visit(HeightProperty property, U ctx);
-	public T visit(WidthProperty property, U ctx);
+	public T visit(Height property, U ctx);
+	public T visit(Width property, U ctx);
 	
 	public T visit(FontColor property, U ctx);
 	public T visit(FontSize property, U ctx);

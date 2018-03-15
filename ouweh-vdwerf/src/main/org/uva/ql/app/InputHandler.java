@@ -13,7 +13,7 @@ public class InputHandler {
             byte[] a = Files.readAllBytes(Paths.get(location));
             result = new String(a);
         } catch (IOException e) {
-            Logger.getGlobal().severe("There was an error reading the input file: " + e);
+            Logger.getGlobal().severe(String.format("There was an error reading the input file: %s", e));
             e.printStackTrace();
         }
         return result;

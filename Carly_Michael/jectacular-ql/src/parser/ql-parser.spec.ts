@@ -7,7 +7,6 @@ function questionTypeToString(type: QuestionType): string {
   switch (type) {
     case QuestionType.BOOLEAN: return 'boolean';
     case QuestionType.DATE: return 'date';
-    case QuestionType.DECIMAL: return 'decimal';
     case QuestionType.STRING: return 'string';
     case QuestionType.INT: return 'integer';
     default: console.log(`Unknown type ${type}`);

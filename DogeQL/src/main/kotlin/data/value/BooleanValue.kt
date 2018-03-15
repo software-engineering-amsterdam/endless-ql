@@ -1,9 +1,9 @@
 package data.value
 
-import data.question.QuestionType
+import data.question.SymbolType
 import java.math.BigDecimal
 
-class BooleanValue(var value: Boolean) : BaseSymbolValue(QuestionType.BOOLEAN) {
+class BooleanValue(var value: Boolean) : BaseSymbolValue(SymbolType.Boolean) {
 
     constructor(value: String) : this(value.toBoolean())
 
@@ -31,9 +31,9 @@ class BooleanValue(var value: Boolean) : BaseSymbolValue(QuestionType.BOOLEAN) {
         return BooleanValue(!value)
     }
 
-    override fun castTo(that: QuestionType): BaseSymbolValue? = when (that) {
-        QuestionType.INTEGER -> IntegerValue(if (value) 1 else 0)
-        QuestionType.DECIMAL -> DecimalValue(if (value) BigDecimal("1") else BigDecimal("0"))
+    override fun castTo(that: SymbolType): BaseSymbolValue? = when (that) {
+        SymbolType.INTEGER -> IntegerValue(if (value) 1 else 0)
+        SymbolType.DECIMAL -> DecimalValue(if (value) BigDecimal("1") else BigDecimal("0"))
         else -> super.castTo(that)
     }
 

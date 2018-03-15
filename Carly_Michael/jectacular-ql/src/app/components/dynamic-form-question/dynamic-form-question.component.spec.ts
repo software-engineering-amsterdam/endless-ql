@@ -7,14 +7,10 @@ describe('FormQuestionComponent', () => {
   let component: DynamicFormQuestionComponent;
   let fixture: ComponentFixture<DynamicFormQuestionComponent>;
 
-
-  const options = {
-    key: 'question',
-    label: 'textboxquestion',
-    type: 'text',
-    value: undefined
-  };
-  const question = new InputQuestion(options);
+  const question = new InputQuestion('question',
+    'textboxquestion',
+    undefined,
+    'text', undefined);
 
   const controls = {};
   controls['question'] = new FormControl({value: ''});
@@ -22,7 +18,7 @@ describe('FormQuestionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DynamicFormQuestionComponent ],
+      declarations: [DynamicFormQuestionComponent],
       imports: [
         ReactiveFormsModule
       ]

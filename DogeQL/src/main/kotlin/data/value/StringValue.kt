@@ -1,8 +1,8 @@
 package data.value
 
-import data.question.QuestionType
+import data.question.SymbolType
 
-class StringValue(var value: String): BaseSymbolValue(QuestionType.STRING) {
+class StringValue(var value: String) : BaseSymbolValue(SymbolType.STRING) {
 
     override fun plus(that: BaseSymbolValue): BaseSymbolValue = when (that) {
         is StringValue -> StringValue(value + that.value)

@@ -1,6 +1,6 @@
 package org.uva.sea.gui.model;
 
-import org.uva.sea.ql.interpreter.Interpreter;
+import org.uva.sea.QlsMainInterpreter;
 import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
 import org.uva.sea.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
@@ -10,18 +10,23 @@ import java.io.IOException;
 
 public class GuiModel {
 
-    private final Interpreter formGenerator;
+    private final QlsMainInterpreter formGenerator;
     private SymbolTable symbolTable;
     private String qlFileName;
+    private String qlsFileName;
 
-    public GuiModel(String qlFileName) {
-        this.formGenerator = new Interpreter();
+    public GuiModel(String qlFileName, String qlsFileName) {
+        this.formGenerator = new QlsMainInterpreter();
         this.qlFileName = qlFileName;
+        this.qlsFileName = qlsFileName;
         this.symbolTable = new SymbolTable();
     }
 
-    public InterpreterResult getInterpreterResult() throws IOException, StaticAnalysisError {
-        return formGenerator.generate(this.qlFileName, symbolTable);
+    public InterpreterResult getInterpreterResult() throws IOException, StaticAnalysisError, InterruptedException {
+        if(this.qlsFileName == null)
+            return formGenerator.interpreter(this.qlFileName, symbolTable);
+
+        return formGenerator.interpreter(this.qlFileName, this.qlsFileName, symbolTable);
     }
 
     public void updateQuestion(String questionName, Value value) {

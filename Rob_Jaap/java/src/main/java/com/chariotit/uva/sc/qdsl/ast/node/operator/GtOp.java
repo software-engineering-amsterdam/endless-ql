@@ -2,7 +2,8 @@ package com.chariotit.uva.sc.qdsl.ast.node.operator;
 
 import com.chariotit.uva.sc.qdsl.ast.visitor.NodeVisitor;
 
-public class GtOp extends Operator implements BinaryOperator, MoneyOperator, IntegerOperator {
+public class GtOp extends Operator implements BinaryOperator, MoneyOperator, IntegerOperator,
+        BooleanResultOperator {
 
     public GtOp(Integer lineNumber, Integer columnNumber) {
         super(lineNumber, columnNumber);

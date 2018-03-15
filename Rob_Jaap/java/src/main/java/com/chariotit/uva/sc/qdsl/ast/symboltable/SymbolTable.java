@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class SymbolTable {
 
-    HashMap<String, SymbolTableEntry> entries = new HashMap<>();
+    private HashMap<String, SymbolTableEntry> entries = new HashMap<>();
 
     public void addEntry(SymbolTableEntry entry) throws DuplicateSymbolMismatchException {
         if (entries.containsKey(entry.getLabel()) && entries.get(entry.getLabel())

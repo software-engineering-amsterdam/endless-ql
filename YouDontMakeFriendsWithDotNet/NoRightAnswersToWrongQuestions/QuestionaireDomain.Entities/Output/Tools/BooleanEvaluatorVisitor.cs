@@ -62,7 +62,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 .GetAll<IQuestionNode>()
                 .FirstOrDefault(x => x.QuestionName == variableNodeId.VariableName);
 
-            if (question == null || m_lookup.Exists(question.Id))
+            if (question == null || !m_lookup.Exists(question.Id))
             {
                 throw new ArgumentException($@"variable node '{variableNodeId.DisplayName}' variable not initialized");
             }
@@ -77,7 +77,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 .GetAll<IQuestionNode>()
                 .FirstOrDefault(x => x.QuestionName == node.VariableName);
 
-            if (question == null || m_lookup.Exists(question.Id))
+            if (question == null || !m_lookup.Exists(question.Id))
             {
                 throw new ArgumentException($@"untyped '{node.DisplayName}' variable not initialized");
             }

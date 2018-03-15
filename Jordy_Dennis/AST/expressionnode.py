@@ -1,5 +1,5 @@
 """
-An expression can be a single variable. Or a combination of a variable, an operator (negation) and multiple other expressions
+An expression can be a single variable, or a combination of a variables with an operator (negation) and multiple other expressions.
 
 All of the types are comparable with boolean operators:
 If the variable is 0 or unset, the variable will be converted to a boolean False, True otherwise (just like python does it)
@@ -14,8 +14,6 @@ An error will be thrown if the types are incomparible
 from .ast_methods import *
 
 """ Expressions with a left and right side, all of the operators that cause this node to exist are listed in the constructor """
-
-
 class BinaryNode:
     def __init__(self, left, right, op, line):
         self.left = left
@@ -27,7 +25,9 @@ class BinaryNode:
         self.allOps = ["!=", "=="]
         self.boolOps = ["and", "or"]
 
-    # check the actual expression type
+    """
+        Check the actual expression type
+    """
     def checkTypes(self):
         leftType = self.left.checkTypes()
         rightType = self.right.checkTypes()
@@ -42,7 +42,7 @@ class BinaryNode:
                     self.line)
                 throwError(errorstring)
 
-        # Check if both children are of a numerical type, and return the type
+        # Check if both children are of a numerical type, and return the type (compareOp)
         elif (self.op in self.arithmeticOps):
             goodType, expType = self.typeCompareNumOp(leftType, rightType)
             if (goodType):
@@ -66,12 +66,10 @@ class BinaryNode:
             errorstring = "Unknown operator at line " + str(self.line)
             throwError(errorstring)
 
-    # Return string representation of expression
-    def getName(self):
-        return str(self.left.getName()) + self.op + str(self.right.getName())
-
-    # check if both types are numerical (int or float), return true, and if they are not of the same type,
-    # return float (small conversion)
+    """
+        Check if both types are numerical (int or float), return true, and if they are not of the same type,
+        return float (a.k.a convert the int)
+    """
     def typeCompareNumOp(self, leftType, rightType):
         if (leftType == float and rightType == float):
             return True, float
@@ -84,8 +82,10 @@ class BinaryNode:
         else:
             return False, None
 
-    # Only return the the bool if they are not the same, otherwise throw an error, the only exception are numericals
-    # since we can compare an converted int to a float
+    """
+        Only return the the bool if they are not the same, otherwise throw an error, the only exception are numericals
+        since we can compare an converted int to a float
+    """
     def typeCompareAllOp(self, leftType, rightType):
         goodType, _ = self.typeCompareNumOp(leftType, rightType)
         if (goodType):
@@ -97,43 +97,60 @@ class BinaryNode:
                 self.line)
             throwError(errorstring)
 
-    # Call linkVars for children
+    """
+        Call linkVars for children
+    """
     def linkVars(self, varDict):
         self.left.linkVars(varDict)
         self.right.linkVars(varDict)
 
+    """
+        Evaluate expression
+    """
     def evaluate(self):
         left_exp = self.left.evaluate()
         right_exp = self.right.evaluate()
         return eval(str(left_exp) + " " +  self.op + " " + str(right_exp))
 
+    # Return string representation of expression for DEBUG
+    def getName(self):
+        return str(self.left.getName()) + self.op + str(self.right.getName())
+
     def __repr__(self):
         return "Binop: {} {} {}".format(self.left, self.op, self.right)
 
 
+
 """ Class for expressions with the unary operator ! """
-
-
 class UnaryNode:
     def __init__(self, left, op, line):
         self.left = left
         self.op = op
         self.line = line
 
-    # Negation of a variable is always a bool, a set variable will be True and an unset variable is false
+    """
+        Negation of a variable is always a bool, a set variable will be True and an unset variable is false
+    """
     def checkTypes(self):
         self.left.checkTypes()
         # If this is all correct, return a bool
         return bool
 
-    # Call linkVars for children
+    """
+        Call linkVars for children
+    """
     def linkVars(self, varDict):
         self.left.linkVars(varDict)
 
-    # Return string representation of expression
+    """
+        Return string representation of expression
+    """
     def getName(self):
         return self.op + str(self.left.getName())
 
+    """
+        Evaluate expression of children and negate the expression
+    """
     def evaluate(self):
         left_exp = self.left.evaluate()
         return eval("not " + str(left_exp))
@@ -142,24 +159,29 @@ class UnaryNode:
         return "Monop: {} {}".format(self.op, self.left)
 
 
+
 """ Class for a literal value like 4, or 'apples' """
-
-
 class LiteralNode:
     def __init__(self, value, _type, line):
         self.value = value
         self.line = line
         self.type = _type
 
-    # return the type for type checking the expression
+    """
+        return the type for type checking the expression
+    """
     def checkTypes(self):
         return self.type
 
-    # We do not have to modify the dict here, so we can pass this method
+    """
+        We do not have to modify the dict here, so we can pass this method
+    """
     def linkVars(self, varDict):
         pass
 
-    # Return string representation of expression
+    """
+        Return string representation of expression
+    """
     def getName(self):
         return str(self.value)
 
@@ -170,9 +192,8 @@ class LiteralNode:
         return "literal: {}({}) ".format(self.value, self.type)
 
 
+
 """ Class for a variable created during an assignment or question operation, all values have a default value """
-
-
 class VarNode:
     def __init__(self, varname, _type, line, assign=False):
         self.varname = varname
@@ -182,17 +203,9 @@ class VarNode:
         if assign:
             self.value = self.getDefaultValue()
 
-    # return the type for type checking the expression
-    def checkTypes(self):
-        return self.type
-
-    def getVarname(self):
-        return self.varname
-
-    def getLine(self):
-        return self.line
-
-    # Check if the variable actually exists, if so, set our own type, and now this node will be the node used in the dictionary
+    """
+        Check if the variable actually exists, if so, set our own type, and now this node will be the node used in the dictionary
+    """
     def linkVars(self, varDict):
         if (self.varname in varDict):
             self.type = varDict[self.varname]['type']
@@ -217,7 +230,25 @@ class VarNode:
             errorstring = "Invalid default type: " + str(self.type) + "; at line " + str(self.line)
             throwError(errorstring)
 
-    # Return string representation of expression
+    """
+        Return the type for type checking the expression
+    """
+    def checkTypes(self):
+        return self.type
+
+    def evaluate(self):
+        return self.value
+
+
+    """
+        Some useful getters and setters --------------
+    """
+    def getVarname(self):
+        return self.varname
+
+    def getLine(self):
+        return self.line
+
     def getName(self):
         return self.varname
 
@@ -229,9 +260,6 @@ class VarNode:
             self.value = float(var)
         else:
             throwError("Bad assignment of variable after expression")
-
-    def evaluate(self):
-        return self.value
 
     def __repr__(self):
         return "VarNode: {} {} {}".format(self.varname, self.type, self.value)

@@ -19,65 +19,40 @@ class Question_Generator:
         return self.varDict
 
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
-    def updateQuestions(self, initial = False):
+    def updateQuestions(self, initial=False):
         self.questions = collections.OrderedDict()
         self.get_questions(self.ast.form.block)
         # deep cody dict. This is used to insert if-questions in the GUI
         toBeDeleteQuestions = self.questions.copy()
         if self.form:
             # for every question that is evaluated
-            for varName in self.questions:
-                # get information of the question
-                label = self.questions[varName].getQuestion()
-                var_type = self.varDict[varName]['node'].checkTypes()
-                value = self.varDict[varName]['node'].evaluate()
-                # check if assignment node, only show evaluated value
-                if(type(self.questions[varName]) == AssignmentNode):
-                    if(self.getFormQuestion(varName)):
-                        self.getFormQuestion(varName).set_value(value)
+            for varName in list(self.questions.keys()):
+                if varName in self.questions.keys():
+                    # get information of the question
+                    label = self.questions[varName].getQuestion()
+                    var_type = self.varDict[varName]['node'].checkTypes()
+                    value = self.varDict[varName]['node'].evaluate()
+                    # check if assignment node, only show evaluated value
+                    if (type(self.questions[varName]) == AssignmentNode):
+                        if (self.form.getQuestionFromPage(varName)):
+                            self.form.getQuestionFromPage(varName).setValue(value)
 
-                # if the question is not yet in the GUI
-                if(not self.isQuestionInForm(varName)):
+                    # if the question is not yet in the GUI
+                    if (not self.form.isQuestionOnPage(varName)):
 
-                    # it is not the initial setup process
-                    if not initial:
-                        # delete every question that is under the to be inserted if-question
-                        for varNameToBeDeleted in toBeDeleteQuestions:
-                            self.deleteQuestionInForm(varNameToBeDeleted)
+                        # it is not the initial setup process
+                        if not initial:
+                            # delete every question that is under the to be inserted if-question
+                            for varNameToBeDeleted in toBeDeleteQuestions:
+                                self.form.removeQuestionFromPage(varNameToBeDeleted)
 
-                    #insert new question into the GUI
-                    self.form.add_question(varName, label, var_type, value)
-                # delete question from the to be deleted list
-                del toBeDeleteQuestions[varName]
+                        # insert new question into the GUI
+                        self.form.addQuestionToPage(varName, label, var_type, value)
+                    # delete question from the to be deleted list
+                    del toBeDeleteQuestions[varName]
 
-                # remove if question if no longer valid
-                self.deleteInvalidQuestions()
-
-        return self.questions
-
-    def deleteQuestionInForm(self, varName):
-        for formQuestion in self.form.questions:
-            if formQuestion.varName == varName:
-                formQuestion.frame.destroy()
-                self.form.questions.remove(formQuestion)
-
-    def deleteInvalidQuestions(self):
-        for question in self.form.questions:
-            if (question.varName not in self.questions):
-                question.frame.destroy()
-                self.form.questions.remove(question)
-
-    def isQuestionInForm(self, varName):
-        for formQuestion in self.form.questions:
-            if formQuestion.varName == varName:
-                return True
-        return False
-
-    def getFormQuestion(self, varName):
-        for formQuestion in self.form.questions:
-            if formQuestion.varName == varName:
-                return formQuestion
-        return None
+                    # remove if question if no longer valid
+                    self.form.deleteInvalidQuestions(self.questions)
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy
     def get_questions(self, block):

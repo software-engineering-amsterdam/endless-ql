@@ -22,20 +22,12 @@ export class QuestionFactory {
                         condition?: (form: FormGroup) => boolean
                         ): QuestionBase<any> {
 
-    const options = {
-      key: name,
-      label: label,
-      type: QuestionFactory.toHtmlInputType(type),
-      value: undefined,
-      hiddenCondition: condition
-    };
-
     let formQuestionsToReturn: QuestionBase<any>;
 
     if (type === QuestionType.BOOLEAN) {
-      formQuestionsToReturn = new BooleanQuestion(options);
+      formQuestionsToReturn = new BooleanQuestion(name, label, undefined, QuestionFactory.toHtmlInputType(type), condition);
     } else {
-      formQuestionsToReturn = new InputQuestion(options);
+      formQuestionsToReturn = new InputQuestion(name, label, undefined, QuestionFactory.toHtmlInputType(type), condition);
     }
 
     return formQuestionsToReturn;

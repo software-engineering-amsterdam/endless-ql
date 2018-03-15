@@ -1,5 +1,6 @@
 package org.uva.sea.ql.interpreter.dataObject;
 
+import org.uva.sea.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.util.List;

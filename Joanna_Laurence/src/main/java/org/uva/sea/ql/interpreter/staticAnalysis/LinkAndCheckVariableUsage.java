@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Iterates over the AST and add links between variables and questions
  * Checks if variables are not used before declared
- * Determine if variables are not double defined. Only in if and else can be the same question.
+ * Determine if variables are not double defined. Only in if and else can be the same questionData.
  */
 public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStaticAnalysis {
 
@@ -76,7 +76,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
     }
 
     /**
-     * Link all variables to the correct question
+     * Link all variables to the correct questionData
      * Add error when it is not defined
      */
     private void linkVariableInformation() {
@@ -104,9 +104,9 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
     }
 
     /**
-     * Questions should not be defined yet. Map the question by its name
+     * Questions should not be defined yet. Map the questionData by its name
      *
-     * @param node The question node in the AST that is traversed
+     * @param node The questionData node in the AST that is traversed
      */
     @Override
     public Void visit(Question node) {
@@ -116,7 +116,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IStatic
             return null;
         }
 
-        //Add new question to the lookup
+        //Add new questionData to the lookup
         variableMap.put(variableName, node);
 
         //Visit all siblings

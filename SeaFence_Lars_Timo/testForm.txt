@@ -6,9 +6,8 @@ form taxOfficeExample
     hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: boolean
-    
-  
-  if (hasSoldHouse)
+
+if (hasSoldHouse)
   {
     	"ifV"
       	ifV: int
@@ -36,7 +35,15 @@ else
 	"else2"
 	elseV2: int
 }
+
+"Did you enter a loan?"
+    hasMaint2Loan: boolean
+
 /*
+    "What was the selling price?" sellingPrice: int
+    "Private debts for the sold house:" privateDebt: int
+    "Value residue:" valueResidue: int = (privateIncome * sellingPrice - !privateDebt)
+
   elif (hasSoldHouse == hasBoughtHouse) {
     "Private debts for the sold house:" privateDebt: int
   }

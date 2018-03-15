@@ -1,7 +1,27 @@
-form taxOfficeExample2
+form taxOfficeExample
 {
-  "Wat is je naam"
-  naam : string
+  "Int a"
+    a: int
 
-  
+  "Int b"
+  	b : int = (a * a)
+
+  if (!a)
+  {
+    "Result 1"
+      idk: money
+  }
+  else{
+	  if (b > 3){
+	    	"Result 2"
+	      idk2: money
+
+	    }
+ 	  if (b > 5){
+	    	"Result 2"
+	      idk3: money
+
+	    }
+  }
+
 }

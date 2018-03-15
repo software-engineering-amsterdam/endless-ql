@@ -25,7 +25,7 @@ class DependencyChecker extends Checker {
     public void runCheck() {
         for (Dependency relation : transitiveClosure(dependencies)) {
             if (relation.isReflexive()) {
-                logger.severe("Circular dependency detected at: " + relation.getFrom());
+                logger.severe(String.format("Circular dependency detected at: %s", relation.getFrom()));
             }
         }
     }
@@ -49,7 +49,7 @@ class DependencyChecker extends Checker {
                 }
             }
             closure.addAll(newRelations);
-        } while (!(newRelations.size() == 0));
+        } while (newRelations.size() > 0);
 
         return closure;
     }

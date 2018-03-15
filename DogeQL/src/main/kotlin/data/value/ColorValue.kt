@@ -1,10 +1,10 @@
 package data.value
 
 import common.Color
-import data.question.QuestionType
+import data.question.SymbolType
 
 
-class ColorValue(var value: Color): BaseSymbolValue(QuestionType.COLOR)  {
+class ColorValue(var value: Color) : BaseSymbolValue(SymbolType.COLOR) {
 
     constructor(value: String) : this(Color(value))
 

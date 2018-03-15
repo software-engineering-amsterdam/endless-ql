@@ -207,22 +207,14 @@
 //}
 
 import classes.Question;
-import classes.expressions.Expression;
 import classes.expressions.ExpressionType;
-import classes.types.BooleanType;
-import classes.types.StringType;
-import classes.types.Type;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionPanelCheckBox;
 import gui.questions.QuestionPanelText;
 import parsing.visitors.BaseVisitor;
 
-import javax.lang.model.type.TypeVisitor;
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;

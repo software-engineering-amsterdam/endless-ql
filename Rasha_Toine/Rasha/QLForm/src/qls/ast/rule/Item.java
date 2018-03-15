@@ -1,0 +1,32 @@
+package qls.ast.rule;
+
+import java.util.Collections;
+import java.util.List;
+
+import ql.ast.AstNode;
+import qls.visiting.ItemVisitor;
+import qls.ast.style.StyleProperty;
+import qls.ast.widget.*;
+
+public abstract class Item extends AstNode {
+	
+	private QLSWidget widget;
+	private List<StyleProperty> properties;
+	
+	// constructor
+	public Item(QLSWidget widget, List<StyleProperty> properties) {
+		this.widget = widget;
+		this.properties = properties;
+	}
+
+	public List<StyleProperty> getProperties() {
+		return Collections.unmodifiableList(properties);
+	}
+	
+	public abstract <T, U> T accept(ItemVisitor<T, U> visitor, U ctx);
+
+	public QLSWidget getWidget() {
+		//TODO review this
+		return widget == null ? new TextField() : widget;
+	}
+}

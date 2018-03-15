@@ -9,7 +9,6 @@ import org.uva.ql.ast.Conditional;
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.And;
 import org.uva.ql.ast.expression.binary.Or;
 import org.uva.ql.ast.expression.unary.BooleanLiteral;
@@ -212,14 +211,6 @@ public class ParseTreeVisitorTest {
         QLParser parser = builder.getQLParser("\"TestQuestion:\" testText: integer = 10");
         CalculatedQuestion calculatedQuestion = (CalculatedQuestion) builder.getStatement(parser);
         Assert.assertEquals("\"TestQuestion:\"\ttestText:IntegerType = 10", calculatedQuestion.toString());
-    }
-
-    @Test
-    public void visitParameterGroup() {
-        QLParser parser = builder.getQLParser("( 1 )");
-        ParameterGroup parameterGroup = (ParameterGroup) builder.getExpression(parser);
-        Assert.assertEquals("( 1 )", parameterGroup.toString());
-
     }
 
     @Test

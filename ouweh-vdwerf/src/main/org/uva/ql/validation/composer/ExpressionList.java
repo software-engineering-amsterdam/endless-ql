@@ -1,4 +1,4 @@
-package org.uva.ql.validation;
+package org.uva.ql.validation.composer;
 
 import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.binary.*;
@@ -11,14 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ParameterChecker extends Checker implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
+public class ExpressionList extends ListComposer implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
 
-    private final String ERROR_MESSAGE = "Referenced parameter does not exist: ";
-    private SymbolTable symbolTable;
     private Map<String, List<Parameter>> expressions;
 
-    ParameterChecker(Form form, SymbolTable symbolTable) {
-        this.symbolTable = symbolTable;
+    public ExpressionList(Form form) {
         this.expressions = new HashMap<>();
 
         for (Statement statement : form.getStatements()) {
@@ -26,29 +23,17 @@ public class ParameterChecker extends Checker implements StatementVisitor<Void, 
         }
     }
 
-    @Override
-    public void runCheck() {
-        for (HashMap.Entry<String, List<Parameter>> entry : expressions.entrySet()) {
-            for (Parameter parameter : entry.getValue()) {
-                if (!symbolTable.contains(parameter.getID())) {
-                    logger.severe(ERROR_MESSAGE + parameter);
-                }
-            }
-        }
+    public Map<String, List<Parameter>> getExpressions() {
+        return expressions;
     }
 
-    public Map<String, List<Parameter>> getExpressions() {
-        return this.expressions;
+    public List<TreeNode> Compose() {
+        //TODO
+        return new ArrayList<>();
     }
 
     @Override
     public Void visit(Parameter parameter, String context) {
-        if (!symbolTable.contains(parameter.getID())) {
-            logger.severe(ERROR_MESSAGE + parameter);
-            return null;
-        }
-
-        //handle calculated questions
         if (expressions.containsKey(context)) {
             expressions.get(context).add(parameter);
         } else {
@@ -60,7 +45,6 @@ public class ParameterChecker extends Checker implements StatementVisitor<Void, 
 
     @Override
     public Void visit(CalculatedQuestion calculatedQuestion, String context) {
-
         if (!expressions.containsKey(calculatedQuestion.getName())) {
             expressions.put(calculatedQuestion.getName(), new ArrayList<>());
         }
@@ -68,6 +52,7 @@ public class ParameterChecker extends Checker implements StatementVisitor<Void, 
         calculatedQuestion.getExpression().accept(this, calculatedQuestion.getName());
         return null;
     }
+
 
     @Override
     public Void visit(Conditional conditional, String context) {
@@ -147,7 +132,6 @@ public class ParameterChecker extends Checker implements StatementVisitor<Void, 
 
     @Override
     public Void visit(Or or, String context) {
-        System.out.println(or);
         or.getLeft().accept(this, context);
         or.getRight().accept(this, context);
         return null;

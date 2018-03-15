@@ -3,17 +3,16 @@ package ql.analysis;
 import javafx.util.Pair;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
+import ql.model.Form;
+import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionVariable;
 import ql.model.expression.ReturnType;
-import ql.model.Form;
-import ql.model.Question;
-import ql.model.expression.variable.ExpressionVariableInteger;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +67,8 @@ public class SymbolTable {
             case BOOLEAN:
                 return evaluated.getBooleanValue().toString();
             case DATE:
-                return new SimpleDateFormat("dd-MM-yyy").format(evaluated.getDateValue());
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                return evaluated.getDateValue().format(dateFormatter);
             default:
                 return "";
         }

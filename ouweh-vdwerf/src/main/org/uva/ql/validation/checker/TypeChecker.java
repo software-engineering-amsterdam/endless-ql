@@ -1,10 +1,12 @@
-package org.uva.ql.validation;
+package org.uva.ql.validation.checker;
 
 import com.sun.istack.internal.NotNull;
 import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
 import org.uva.ql.ast.type.*;
+import org.uva.ql.validation.SymbolTable;
+import org.uva.ql.validation.checker.Checker;
 import org.uva.ql.visitor.ExpressionVisitor;
 import org.uva.ql.visitor.StatementVisitor;
 import org.uva.ql.visitor.TypeVisitor;
@@ -16,7 +18,7 @@ public class TypeChecker extends Checker
     private SymbolTable symbolTable;
     private Form form;
 
-    TypeChecker(Form form, SymbolTable symbolTable) {
+    public TypeChecker(Form form, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
         this.form = form;
     }

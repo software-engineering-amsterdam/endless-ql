@@ -9,14 +9,19 @@ import ql.ast.expression.*;
 import ql.ast.literal.*;
 import ql.ast.statement.*;
 import ql.ast.type.*;
+import ql.checking.eventHandling.CheckerMessages;
+import ql.checking.eventHandling.EventMessage;
+import ql.utils.MessageTypeEnum;
 
 	
 public class TypeCheckerVisitor 
     implements ExpressionVisitor<Type, Void>, StatementVisitor<Void, Void>, LiteralVisitor<Type, Void> {
 	
+	public CheckerMessages events = new CheckerMessages();
+	
 	// constructor
-	public TypeCheckerVisitor() {
-		   
+	public TypeCheckerVisitor(CheckerMessages events) {
+		this.events = events;
 	}
 	
 	private Map<String, Type> mapNameType = new HashMap<>();
@@ -60,12 +65,16 @@ public class TypeCheckerVisitor
 
 	private void checkTypeMismatch(Expression expr, Type expectedType) {
 		Type currentType =  expr.accept(this, null);
-		System.out.println("Check types" + currentType + "\t" + expectedType);
+		/*System.out.println("Check types: " +
+							currentType.getTypeString() + "\t" + expectedType.getTypeString());*/
 		if (isUndefinedType(currentType)) {
 			return;
 		}
 		if (currentType.getTypeString() != expectedType.getTypeString()) {
-			  System.out.println("Error: Type mismatch in " + expr + "between: " + currentType + "and, " + expectedType);
+			events.insert(new EventMessage(
+							"Type mismatch in " + expr.getLocation().getContent() + " between: "+
+					  		currentType.getTypeString() + " and, " + expectedType.getTypeString(),
+							MessageTypeEnum.error));
 		}
 	}
 	
@@ -119,7 +128,10 @@ public class TypeCheckerVisitor
 	   Type type;
 	   type = getType(node.getName());
 	   if (isUndefinedType(type)) {
-		   System.out.println("Error: Undeclared variable: " + node.getName());
+			events.insert(new EventMessage(
+					"Undeclared variable: " + node.getName() +
+					" at line:" + node.getLocation().getStartLine(),
+					MessageTypeEnum.error));
 		}
 	   return type;
 	}
@@ -183,6 +195,7 @@ public class TypeCheckerVisitor
 	@Override
 	public Type visit(Div node, Void ctx) {
 		Type exprType = node.accept(this, ctx);
+		System.out.println(exprType.getTypeString());
 		checkOperandsInvalidTypes(node, exprType);
 		return exprType;
 	}
@@ -234,7 +247,11 @@ public class TypeCheckerVisitor
 		Type rightType = node.getRight().accept(this, ctx);
 		if (!isUndefinedType(leftType) && !isUndefinedType(rightType)) {
 		  if (leftType.getTypeString() != rightType.getTypeString()) {
-			  System.out.println("Error: Invalid operand for Eq: " + leftType + ", " + rightType);
+			  events.insert(new EventMessage(
+								"Invalid operand for Eq: " + 
+					  			leftType.getTypeString() + ", " + rightType.getTypeString() +
+					  			" in:" + node.getLocation().getContent(),
+					  			MessageTypeEnum.error));
 		  }
 		}
 		return Type.BOOLEAN;
@@ -246,7 +263,11 @@ public class TypeCheckerVisitor
 		Type rightType = node.getRight().accept(this, ctx);
 		if (!isUndefinedType(leftType) && !isUndefinedType(rightType)) {
 		  if (leftType.getTypeString() != rightType.getTypeString()) {
-			  System.out.println("Error: Invalid operand for NEq: " + leftType + ", " + rightType);
+			  events.insert(new EventMessage(
+								"Invalid operand for NEq: " +
+					  			leftType.getTypeString() + ", " + rightType.getTypeString() +
+					  			" in:" + node.getLocation().getContent(),
+					  			MessageTypeEnum.error));
 		  }
 		}
 		return Type.BOOLEAN;

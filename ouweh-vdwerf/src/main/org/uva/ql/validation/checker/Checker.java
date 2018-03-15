@@ -1,4 +1,4 @@
-package org.uva.ql.validation;
+package org.uva.ql.validation.checker;
 
 
 import java.util.logging.Logger;
@@ -7,7 +7,7 @@ public abstract class Checker {
 
     public Logger logger;
 
-    public Checker() {
+    protected Checker() {
         this.logger = Logger.getGlobal();
     }
 

@@ -27,24 +27,8 @@ namespace QuestionnaireUI.Models
             Questions = new ObservableCollection<QuestionWrapper>(
                 model.Questions.Select(q => new QuestionWrapper(q)));
 
-            Questions.CollectionChanged += (s, e) =>
-            {
-                if (e.OldItems != null)
-                {
-                    foreach (var item in e.OldItems.Cast<QuestionWrapper>())
-                    {
-                        model.Questions.Remove(item.Model);
-                    }
-                }
-
-                if (e.NewItems != null)
-                {
-                    foreach (var item in e.NewItems.Cast<QuestionWrapper>())
-                    {
-                        model.Questions.Add(item.Model);
-                    }
-                }
-            };
+            RegisterCollection(Questions, model.Questions);
         }
+
     }
 }

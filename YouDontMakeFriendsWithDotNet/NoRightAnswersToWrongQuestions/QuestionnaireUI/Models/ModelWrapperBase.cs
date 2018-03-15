@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
@@ -39,6 +42,30 @@ namespace QuestionnaireUI.Models
         {
             var propertyInfo = Model.GetType().GetProperty(propertyName);
             return (TValue)propertyInfo.GetValue(Model);
+        }
+
+        protected void RegisterCollection(
+            ObservableCollection<QuestionWrapper> questions,
+            IList<QuestionModel> modelQuestions)
+        {
+            questions.CollectionChanged += (s, e) =>
+            {
+                if (e.OldItems != null)
+                {
+                    foreach (var item in e.OldItems.Cast<QuestionWrapper>())
+                    {
+                        modelQuestions.Remove(item.Model);
+                    }
+                }
+
+                if (e.NewItems != null)
+                {
+                    foreach (var item in e.NewItems.Cast<QuestionWrapper>())
+                    {
+                        modelQuestions.Add(item.Model);
+                    }
+                }
+            };
         }
 
     }

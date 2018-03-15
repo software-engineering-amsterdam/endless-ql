@@ -56,10 +56,10 @@ public class Expression extends ASTNode {
     }
 
     /**
-     * Returns the calculated value of the expression
-     * @return The calculated value of the expression
-     * @throws SyntaxException when an Operator is not a valid Operator
-     * @throws TypeException when Types don't match
+     * Evaluates the expression by getting passing the evaluated left and right side of this Expression to it's Operator.
+     * @return The calculated value of the expression.
+     * @throws SyntaxException when an Operator is not a valid Operator.
+     * @throws TypeException when Types don't match.
      * @throws OtherException when a Variable isn't set yet.
      */
     public Term getTerm() throws SyntaxException, TypeException, OtherException {

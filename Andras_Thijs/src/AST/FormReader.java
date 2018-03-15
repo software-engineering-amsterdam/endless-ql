@@ -176,7 +176,6 @@ public class FormReader {
             if(addsubContext != null)
                 return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitArithmetic(addsubContext));
 
-
             if(operatorContext != null)
                 return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), operatorVisitor.visitOperator(operatorContext));
 
@@ -184,7 +183,7 @@ public class FormReader {
         }
     }
 
-    private static class TermVisitor extends QLBaseVisitor<Term>{
+    private static class TermVisitor extends QLBaseVisitor<Term> {
 
         @Override
         public Term visitTerm(@NotNull QLParser.TermContext ctx) {
@@ -193,7 +192,6 @@ public class FormReader {
             TerminalNode variable = ctx.VARIABLE();
             TerminalNode integer = ctx.INTEGER();
             TerminalNode decimal = ctx.DECIMAL();
-
 
             if(bool != null)
                 return new QLBoolean(Boolean.parseBoolean(bool.toString()));
@@ -205,17 +203,15 @@ public class FormReader {
                 return new Variable((String) variable.toString());
 
             if(integer != null)
-                return new QLInteger((Integer.parseInt(integer.toString())));
+                return new QLFloat((Integer.parseInt(integer.toString())));
 
             if(decimal != null)
                 return new QLFloat((Float.parseFloat(decimal.toString())));
-
 
             // TODO throw error
 
             return null;
         }
-
     }
 
     private static class ArithmeticVisitor extends QLBaseVisitor<Operator>{

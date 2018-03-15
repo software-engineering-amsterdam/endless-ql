@@ -10,7 +10,7 @@ import java.util.List;
  * A parsed condition that can contain questions and other conditions
  */
 public class Condition extends ASTNode {
-    private Expression expression;
+    public Expression expression; //TODO: TESTING PURPOSES, THIS SHOULD BE PRIVATE!!!
     private List<Question> questions;
     private List<Condition> conditions;
 
@@ -105,7 +105,7 @@ public class Condition extends ASTNode {
     public void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();
-            if (result.toString().equals("qlboolean")) {
+            if(result.getType() == Type.BOOL) {
                 this.result = (QLBoolean) result;
             } else {
                 throw new TypeException(this, Type.BOOL, Type.getByCode(result.toString()));
@@ -113,9 +113,6 @@ public class Condition extends ASTNode {
         } catch(OtherException e) {
             // This is thrown when a Variable isn't set yet.
             result = null;
-        } catch (SyntaxException e) {
-            //TODO: Remove this catch once the method is called from Main
-            throw e;
         }
     }
 }

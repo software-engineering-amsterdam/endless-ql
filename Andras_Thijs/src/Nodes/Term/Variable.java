@@ -7,15 +7,9 @@ import QLExceptions.*;
 
 public class Variable extends Term {
     private String name;
-    private Term value;
 
     public Variable(String name) {
         this.name = name;
-    }
-
-    public Variable(String name, Term value) {
-        this.name = name;
-        this.value = value;
     }
 
     public String getName() { return name; }
@@ -34,6 +28,7 @@ public class Variable extends Term {
             node = node.getParent();
 
         // Find the referenced Question.
+        //TODO: Look for all VISIBLE questions.
         for(Question q : ((QLForm) node).getQuestions()) {
             if(q.getName().equals(this.name)) {
                 // return the result (Term) of the referenced Question.
@@ -48,9 +43,5 @@ public class Variable extends Term {
 
         // Throw exception if no variable is found.
         throw new SyntaxException("A Variable was referenced that doesn't exist", this);
-    }
-
-    public float getValue() {
-        return this.value.getValue();
     }
 }

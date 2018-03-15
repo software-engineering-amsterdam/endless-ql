@@ -13,7 +13,7 @@ namespace Assignment1
     {
         private QuestionForm _form;
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
-        private readonly Dictionary<string,string> _warnings = new Dictionary<string, string>();
+        private readonly Dictionary<string,string> _warnings = new Dictionary<string, string>(); // TODO: move to errorhandler
         private QLParseErrorHandler _errorHandler = new QLParseErrorHandler();
 
         private bool QuestionIdExists(string questionId)

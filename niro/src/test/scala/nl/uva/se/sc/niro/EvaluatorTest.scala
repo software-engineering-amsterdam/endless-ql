@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro
 
 import nl.uva.se.sc.niro.Evaluator.Dictionary
 import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DecimalAnswer, IntegerAnswer }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DateAnswer, DecimalAnswer, IntegerAnswer }
 import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference, UnaryOperation }
 import nl.uva.se.sc.niro.model.ql._
 import org.scalatest.WordSpec
@@ -111,6 +111,66 @@ class EvaluatorTest extends WordSpec {
           )
 
         assert(result == expected)
+      }
+
+      "re-evaluate expression" in {
+        val qlForm = QLForm(
+          "EditOrNotToEdit",
+          List(
+            Question("integerVariable", "Integer variable", IntegerType, IntegerAnswer(None)),
+            Question("dateVariable", "Date variable", DateType, DateAnswer(None)),
+            Question(
+              "integerConstant",
+              "Integer constant",
+              IntegerType,
+              BinaryOperation(Mul, IntegerAnswer(Some(21)), IntegerAnswer(Some(2)))
+            ),
+            Question("dateConstant", "Date constant", DateType, DateAnswer("1970-01-01")),
+            Question(
+              "integerExpression",
+              "Integer expression",
+              IntegerType,
+              BinaryOperation(
+                Add,
+                BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(Some(1))),
+                Reference("integerVariable")
+              )
+            ),
+            Question("dateExpression", "Date expression", DateType, Reference("dateVariable"))
+          ),
+          List()
+        )
+
+        val inputs: Dictionary = Map("dateConstant" -> DateAnswer("1970-01-01"),
+          "integerVariable" -> IntegerAnswer(Some(123)),
+          "integerConstant" -> IntegerAnswer(Some(42)))
+
+        val result = Evaluator.evaluate(qlForm, inputs)
+        val expected: Dictionary =
+          Map("dateConstant" -> DateAnswer("1970-01-01"),
+            "integerVariable" -> IntegerAnswer(Some(123)),
+            "integerConstant" -> IntegerAnswer(Some(42)),
+            "integerExpression" -> IntegerAnswer(Some(166))
+          )
+
+        assert(result == expected, "First pass")
+
+        val alteredInput: Dictionary =
+          Map("dateConstant" -> DateAnswer("1970-01-01"),
+            "integerVariable" -> IntegerAnswer(Some(456)),
+            "integerConstant" -> IntegerAnswer(Some(42)),
+            "integerExpression" -> IntegerAnswer(Some(166))
+          )
+
+        val alteredResult = Evaluator.evaluate(qlForm, alteredInput)
+        val alteredExpected: Dictionary =
+          Map("dateConstant" -> DateAnswer("1970-01-01"),
+            "integerConstant" -> IntegerAnswer(Some(42)),
+            "integerExpression" -> IntegerAnswer(Some(499)),
+            "integerVariable" -> IntegerAnswer(Some(456))
+        )
+
+        assert(alteredResult == alteredExpected, "Second pass")
       }
     }
   }

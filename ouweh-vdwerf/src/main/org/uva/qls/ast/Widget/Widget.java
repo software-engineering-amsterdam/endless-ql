@@ -11,6 +11,10 @@ public class Widget extends TreeNode {
         this.type = type;
     }
 
+    public WidgetType getType() {
+        return type;
+    }
+
     public boolean isCompatible(String questionType) {
         return this.type.getCompatibleTypes().contains(questionType);
     }

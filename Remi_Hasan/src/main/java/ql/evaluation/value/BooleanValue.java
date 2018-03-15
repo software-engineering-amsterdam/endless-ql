@@ -1,6 +1,7 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class BooleanValue extends Value<Boolean> {
@@ -34,7 +35,7 @@ public class BooleanValue extends Value<Boolean> {
     }
 
     @Override
-    public Date getDateValue() {
+    public LocalDate getDateValue() {
         throw new UnsupportedOperationException("Cannot cast boolean to date");
     }
 

@@ -61,8 +61,8 @@ class QLParser ( Parser ):
                      "'||'", "<INVALID>", "'*'", "'/'", "'+'", "'-'", "<INVALID>", 
                      "'>'", "'<'", "'<='", "'>='", "'=='", "'!='" ]
 
-    symbolicNames = [ "<INVALID>", "FORM", "IF_TOKEN", "ELSE_TOKEN", "BOOLEAN", 
-                      "MONEY", "BOOL", "INT", "ID", "STRING", "COL", "BRACKETL", 
+    symbolicNames = [ "<INVALID>", "FORM", "IF_", "ELSE_", "BOOLEAN", "MONEY", 
+                      "BOOL", "INT", "ID", "STRING", "COL", "BRACKETL", 
                       "BRACKETR", "PARL", "PARR", "EQUAL", "NOT", "AND", 
                       "OR", "ARITHMETIC_OP", "MUL", "DIV", "ADD", "SUB", 
                       "BOOLEAN_OP", "GT", "LT", "LTE", "GTE", "EQ", "NEQ", 
@@ -86,8 +86,8 @@ class QLParser ( Parser ):
 
     EOF = Token.EOF
     FORM=1
-    IF_TOKEN=2
-    ELSE_TOKEN=3
+    IF_=2
+    ELSE_=3
     BOOLEAN=4
     MONEY=5
     BOOL=6
@@ -255,7 +255,7 @@ class QLParser ( Parser ):
             self.state = 45
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==QLParser.IF_TOKEN or _la==QLParser.STRING:
+            while _la==QLParser.IF_ or _la==QLParser.STRING:
                 self.state = 36
                 self.stmt()
                 self.state = 40
@@ -329,7 +329,7 @@ class QLParser ( Parser ):
                 self.state = 50
                 self.question()
                 pass
-            elif token in [QLParser.IF_TOKEN]:
+            elif token in [QLParser.IF_]:
                 self.state = 51
                 self.if_()
                 pass
@@ -572,8 +572,8 @@ class QLParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def IF_TOKEN(self):
-            return self.getToken(QLParser.IF_TOKEN, 0)
+        def IF_(self):
+            return self.getToken(QLParser.IF_, 0)
 
         def PARL(self):
             return self.getToken(QLParser.PARL, 0)
@@ -616,7 +616,7 @@ class QLParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 77
-            self.match(QLParser.IF_TOKEN)
+            self.match(QLParser.IF_)
             self.state = 78
             self.match(QLParser.PARL)
             self.state = 79

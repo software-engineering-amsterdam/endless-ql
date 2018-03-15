@@ -1,6 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import {LiteralType} from '../ast/ql/index';
-import {Widget, WidgetType} from '../ast/qls';
+import {Widget, WidgetType} from '../ast/qls/index';
 
 export class QuestionBase<T> {
   order = 1;

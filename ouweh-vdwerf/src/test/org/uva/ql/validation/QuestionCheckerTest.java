@@ -7,8 +7,10 @@ import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.ast.type.StringType;
+import org.uva.ql.validation.checker.QuestionChecker;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -29,7 +31,7 @@ public class QuestionCheckerTest {
 
     @Test
     public void runCheck() {
-        ArrayList<Question> questions = new ArrayList<>();
+        List<Question> questions = new ArrayList<>();
         questions.add(new Question("Q1", "v1", new BooleanType()));
         questions.add(new Question("Q2", "v2", new IntegerType()));
         questions.add(new Question("Q3", "v3", new StringType()));
@@ -41,7 +43,7 @@ public class QuestionCheckerTest {
 
     @Test
     public void runCheckDuplicateName() {
-        ArrayList<Question> questions = new ArrayList<>();
+        List<Question> questions = new ArrayList<>();
         questions.add(new Question("Q1", "v1", new BooleanType()));
         questions.add(new Question("Q1", "v2", new IntegerType()));
         QuestionChecker questionChecker = new QuestionChecker(questions);
@@ -52,7 +54,7 @@ public class QuestionCheckerTest {
 
     @Test
     public void runCheckDuplicateContent() {
-        ArrayList<Question> questions = new ArrayList<>();
+        List<Question> questions = new ArrayList<>();
         questions.add(new Question("Q1", "v1", new BooleanType()));
         questions.add(new Question("Q2", "v1", new IntegerType()));
         QuestionChecker questionChecker = new QuestionChecker(questions);

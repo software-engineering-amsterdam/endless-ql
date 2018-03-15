@@ -85,13 +85,6 @@ property
     | FONTSTYLE
     ;
 
-value
-    : STRVAL
-    | INTVAL
-    | COLORVAL
-    ;
-
-
 // Higher level parsing
 // Entry point for QLS
 stylesheet
@@ -124,7 +117,7 @@ widgetStyle
     ;
 
 styleRule
-    : property COLON value
+    : property COLON STRVAL
     ;
 
 defaultStyle

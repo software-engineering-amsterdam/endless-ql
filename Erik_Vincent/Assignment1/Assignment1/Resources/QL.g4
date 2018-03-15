@@ -1,7 +1,7 @@
 parser grammar QL;
 
 @header {
-using Assignment1.Model;
+using Assignment1.Model.QL;
 }
 
 @parser::members

@@ -1,7 +1,6 @@
 package org.uva.ql.evaluator;
 
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
 import org.uva.ql.evaluator.data.ValueTable;
@@ -114,11 +113,6 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value, String> {
     @Override
     public Value visit(Parameter parameter, String context) {
         return this.valueTable.getValueByID(parameter.getID());
-    }
-
-    @Override
-    public Value visit(ParameterGroup parameterGroup, String context) {
-        return parameterGroup.getExpression().accept(this, context);
     }
 
     @Override

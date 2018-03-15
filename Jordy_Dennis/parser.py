@@ -98,12 +98,13 @@ def main(argv):
 
     qlsAST = qlsVisitor.stylesheet
     qlsAST.addVarDict(ast.getVarDict())
-    qlsAST.checkTypes()
+    qlsAST.getDefaults()
+    # qlsAST.checkTypes()
     
     # print(qlsTree.toStringTree())
 
     # start up Gui
-    Gui(ast, qlsVisitor.stylesheet)
+    # Gui(ast, qlsVisitor.stylesheet)
 
 
 if __name__ == '__main__':

@@ -2,7 +2,6 @@ package org.uva.sea.languages.qls.interpreter.staticAnalysis;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.Form;
@@ -12,7 +11,6 @@ import org.uva.sea.languages.qls.parser.elements.Page;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 import org.uva.sea.languages.qls.parser.elements.specification.Question;
 import org.uva.sea.languages.qls.parser.elements.specification.Section;
-import org.uva.sea.languages.qls.parser.elements.style.Widget;
 import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.HashMap;
@@ -41,16 +39,16 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
     }
 
     /**
-     * Display error message
+     * Display errorNotCompatible message
      * @param node
      * @param widgetType
      * @param baseType
      */
-    private void error(Question node, WidgetType widgetType, WidgetType baseType) {
+    private void errorNotCompatible(Question node, WidgetType widgetType, WidgetType baseType) {
         message.addMessage(widgetType + " is not compatible with " + baseType + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
-    private void error(String errorMessage, Question node) {
+    private void error(Question node, String errorMessage) {
         message.addMessage(errorMessage + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
@@ -112,13 +110,13 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
         widgetType = node.getWidget().getWidgetType();
         NodeType questionNodeType = this.qlQuestionNodeTypes.get(node.getName());
         if(questionNodeType == null) {
-            error(node.getName() + " has no type", node);
+            error(node, node.getName() + " has no type");
             return null;
         }
 
         WidgetType baseType = WidgetType.valueOf(questionNodeType.toString());
         if (!baseType.isCompatible(widgetType)) {
-            error(node, widgetType, baseType);
+            errorNotCompatible(node, widgetType, baseType);
             return null;
         }
 

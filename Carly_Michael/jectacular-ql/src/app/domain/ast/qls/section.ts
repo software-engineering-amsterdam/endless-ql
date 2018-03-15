@@ -5,7 +5,7 @@ import {Node, QuestionWithAppliedStyles} from './node';
 import {Style} from './style';
 import {WidgetType} from './widget-type';
 import {Widget} from './widget';
-import {Question as QlQuestion} from '../question';
+import {Question as QlQuestion} from '../ql/question';
 
 export class Section extends Node {
   constructor(public name: string, public subSections: Section[], public questions: Question[],

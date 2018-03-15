@@ -81,17 +81,20 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Events\ChangeQuestionnaireDefinitionEvent.cs" />
     <Compile Include="Events\OpenQuestionnaireEditViewEvent.cs" />
     <Compile Include="Services\MessageDialog.xaml.cs">
       <DependentUpon>MessageDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DefinitionNavigationItemViewModel.cs" />
     <Compile Include="ViewModels\IMainViewModel.cs" />
     <Compile Include="ViewModels\IMessageDialogService.cs" />
+    <Compile Include="ViewModels\INavigationViewModel.cs" />
     <Compile Include="ViewModels\IQuestionnaireViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MessageDialogResult.cs" />
     <Compile Include="ViewModels\MessageDialogService.cs" />
-    <Compile Include="ViewModels\NavigationItemViewModel.cs" />
+    <Compile Include="ViewModels\ResponseNavigationItemViewModel.cs" />
     <Compile Include="ViewModels\NavigationViewModel.cs" />
     <Compile Include="ViewModels\Observable.cs" />
     <Compile Include="ViewModels\QuestionnaireViewModel.cs" />

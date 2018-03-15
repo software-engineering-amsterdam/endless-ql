@@ -7,11 +7,10 @@ $ python run_app.py
 """
 import argparse
 import os
-import sys
 
 from grammar.run_antlr import run_antlr_parse_gen
 from commons.config import config
-from tests.debug_grammar import debug_grammar
+from grammar.debug_grammar import GrammarDebugger
 from gui.gui import *
 
 
@@ -44,8 +43,9 @@ def main():
 
     # Debug grammar
     if args.grammar:
-        # todo: make it so that you give path in CLI call
-        sys.stdout.write(debug_grammar("tests/forms/ql/fail/arithmetic.ql")[0])
+        # todo: make it so that you give path in CLI call + cleanup GrammerDebugger
+        g_debug = GrammarDebugger("tests/forms/ql/fail/arithmetic.ql")
+        report, errors = g_debug.debug_grammar()
         sys.exit(0)
 
     # Generate antlr parser
@@ -54,7 +54,7 @@ def main():
         sys.exit(0)
 
     # GUI
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     screen = MainWindow()
     screen.show()
 

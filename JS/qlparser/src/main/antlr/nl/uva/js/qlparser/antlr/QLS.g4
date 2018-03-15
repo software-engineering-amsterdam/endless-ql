@@ -9,20 +9,10 @@ LC: '//'~[\r\n]+ -> skip;
 // Top level element indicator
 STYLESHEET: 'stylesheet';
 
-// Question, page and widget names
-NAME: [a-zA-Z][a-zA-Z0-9]*;
-
-// String values for naming Pages and Sections
-STRVAL: '"'~['\\\r\n]*?'"';
-
-COLORVAL: '#'[a-zA-Z0-9]*;
-
-INTVAL:     [0-9]+;
-
 // Keywords
 PAGE:     'page';
 SECTION:  'section';
-QUESTION: 'question';
+QUESTION: 'questions';
 WIDGET:   'widget';
 DEFAULT:  'default';
 STYLE:    'style';
@@ -53,8 +43,19 @@ SPINBOX:  'spinbox';  // For numbers
 // Widget style properties
 WIDGETCOLOR: 'widgetcolor';
 FONTCOLOR:   'fontcolor';
-FONTNAME:    'fontname';
+FONTTYPE:    'fonttype';
 FONTSTYLE:   'fontstyle';
+
+
+// Question, page and widget names
+NAME: [a-zA-Z][a-zA-Z0-9]*;
+
+// String values for naming Pages and Sections
+STRVAL: '"'~['\\\r\n]*?'"';
+
+COLORVAL: '#'[a-zA-Z0-9]*;
+
+INTVAL:[0-9]+;
 
 
 // Token groupings
@@ -80,7 +81,7 @@ widgetType
 property
     : WIDGETCOLOR
     | FONTCOLOR
-    | FONTNAME
+    | FONTTYPE
     | FONTSTYLE
     ;
 
@@ -93,12 +94,17 @@ value
 
 // Higher level parsing
 // Entry point for QLS
-styleSheet
+stylesheet
     : STYLESHEET NAME styleBlock
     ;
 
 styleBlock
-    : LB defaultStyle* page* RB
+    : LB expression* RB
+    ;
+
+expression
+    : defaultStyle
+    | page
     ;
 
 page

@@ -18,8 +18,8 @@ import java.math.BigDecimal
 class DogeListener : QuestionareLanguageParserBaseListener() {
 
     private val expressionBuilder = ExpressionBuilder()
-    private val formTreeBuilder = FormTreeBuilder()
     private val symbolTable = SymbolTable()
+    private val formTreeBuilder = FormTreeBuilder(symbolTable)
 
     private var ifStatementDepth = 0
 
@@ -27,15 +27,23 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         val a = 1
     }
 
+    override fun enterBlock(ctx: QuestionareLanguageParser.BlockContext?) {
+        if (!expressionBuilder.isEmpty()){
+            --ifStatementDepth
+
+            val ifExpression = expressionBuilder.pop()
+            val result = symbolTable.registerSymbol(SymbolType.Boolean, ifExpression)
+
+            formTreeBuilder.pushExpression(result.name)
+        }
+    }
+
     override fun enterIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
         ++ifStatementDepth
     }
 
     override fun exitIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
-        --ifStatementDepth
-
-        val ifExpression = expressionBuilder.pop()
-        symbolTable.registerSymbol(SymbolType.Boolean, ifExpression)
+        formTreeBuilder.build()
     }
 
     override fun exitQuestionStatement(ctx: QuestionareLanguageParser.QuestionStatementContext?) {
@@ -182,7 +190,7 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
     private fun pushReferenceExpression(name: String) {
         expressionBuilder.push(
-                ReferenceExpression(name, SymbolType.Undecided)
+                ReferenceExpression(name, SymbolType.UNDEFINED)
         )
     }
 

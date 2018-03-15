@@ -1,18 +1,14 @@
 package gui.widgets;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-import java.awt.*;
-import java.util.List;
-
 public class CheckboxWidget extends Widget {
-    public CheckboxWidget(String name){
-        super(name);
+    public CheckboxWidget(String name, ChangeListener<? super String> listener){
+        super(name, listener);
     }
 
 

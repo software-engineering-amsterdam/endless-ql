@@ -6,7 +6,7 @@ import {Style} from './style';
 import {QuestionType} from '../question-type';
 import {WidgetType} from './widget-type';
 import {MissingIdentifierError, UnsupportedTypeError} from '../../errors';
-import {Question as QlQuestion} from '../question';
+import {Question as QlQuestion} from '../ql/question';
 import * as _ from 'lodash';
 
 export class Question extends Node {

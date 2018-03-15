@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using QuestionaireOrchestration.API;
 using QuestionaireOrchestration.CommandHandlers;
-using QuestionaireOrchestration.Visitors;
+using QuestionaireOrchestration.Commands;
+using QuestionaireOrchestration.Models;
+using QuestionaireOrchestration.QueryServices;
+using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireInfrastructure.API;
 
 namespace QuestionaireOrchestration
@@ -13,22 +15,22 @@ namespace QuestionaireOrchestration
             appRegistration.AddTransient(
                 typeof(ICommandHandler<CreateQuestionnaireCommandMessage>), 
                 typeof(ParseTextCommandHandler));
+
             appRegistration.AddTransient(
-                typeof(ICommandHandler<LoadQuestionnaireDefinitionsCommand>),
-                typeof(LoadQuestionnaireDefinitionsCommandHandler));
+                typeof(ICommandHandler<LoadDefinitionsFromFileCommand>),
+                typeof(LoadDefinitionsFromFileCommandHandler));
+
             appRegistration.AddTransient(
-                typeof(IQuestionnairePrinter), 
-                typeof(QuestionnairePrinter));
-            appRegistration.AddTransient(
-                typeof(IBooleanLogicPrinter), 
-                typeof(BooleanLogicPrinter));
+                typeof(ICommandHandler<CreateDefinitionFromTextCommand>),
+                typeof(CreateDefinitionFromTextCommandHandler));
+
             appRegistration.AddTransient(
                 typeof(ICommandHandler<CreateQuestionnaireCommandMessage>), 
                 typeof(ParseTextCommandHandler));
 
             appRegistration.AddTransient(
-                typeof(IQuestionnaireQueryService),
-                typeof(QuestionnaireQueryService));
+                typeof(IModelQueryService<QuestionnaireDefinitionModel>),
+                typeof(QuestionnaireDefintionQueryService));
         }
     }
 }   

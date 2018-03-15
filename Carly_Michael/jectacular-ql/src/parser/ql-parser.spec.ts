@@ -1,5 +1,5 @@
 import {parse, SyntaxError} from './ql-parser';
-import {Form, If, Question, QuestionType, Statement, Variable} from '../app/domain/ast';
+import {Form, If, Question, QuestionType, Statement, Variable} from '../app/domain/ast/ql/index';
 import {gen, check, property, sample, sampleOne} from 'testcheck';
 import * as mockInput from '../app/ql-mock-input';
 

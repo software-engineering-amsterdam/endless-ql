@@ -1,5 +1,6 @@
 package org.uva.ql.validation;
 
+import org.uva.app.LogHandler;
 import org.uva.ql.ast.*;
 import org.uva.ql.visitor.StatementVisitor;
 

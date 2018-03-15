@@ -1,19 +1,12 @@
 package node
 
 import data.question.Question
+import data.symbol.SymbolTable
 
-data class QuestionNode(val question: Question) : Node(){
-    override fun getEnabledQuestions(): ArrayList<Question> = arrayListOf(question)
+class QuestionNode(symbolTable: SymbolTable, val question: Question) : Node(symbolTable) {
+    override fun getEnabledQuestions(): List<Question> {
+        question.update(symbolTable)
 
-    override fun getQuestions() : ArrayList<Question> = arrayListOf(question)
-
-    override fun validate(): Boolean  = true
-
-    override fun updateQuestion(newQuestion: Question): Boolean {
-        if(this.question.name == newQuestion.name){
-            this.question.value = newQuestion.value
-        }
-
-        return false
+        return listOf(question)
     }
 }

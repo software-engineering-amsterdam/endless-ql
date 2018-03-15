@@ -21,6 +21,10 @@ public class QuestionReference extends Segment {
         return id;
     }
 
+    public Widget getWidget() {
+        return widget;
+    }
+
     @Override
     public List<QuestionReference> getQuestions() {
         return Arrays.asList(this);

@@ -1,8 +1,8 @@
 import {Variable} from './expressions/variable';
 import * as astMock from './ast-mock';
 import {ExpressionQuestion} from './expression-question';
-import {QuestionType} from './question-type';
-import {CircularDependencyError} from '../errors';
+import {QuestionType} from '../question-type';
+import {CircularDependencyError} from '../../errors';
 
 describe('Expression question', () => {
   const variable = new Variable('question', astMock.emptyLoc);

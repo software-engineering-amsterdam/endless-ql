@@ -7,7 +7,7 @@
 "use strict";
 
 /* tslint:disable */ 
- import * as ast from '../app/domain/ast';
+ import * as ast from '../app/domain/ast/ql';
 export class SyntaxError extends Error {
   public static buildMessage(expected: string, found: string) {
     const DESCRIBE_EXPECTATION_FNS = {

@@ -8,7 +8,7 @@
 
 /* tslint:disable */ 
  import * as astQls from '../app/domain/ast/qls';
- import * as astQl from '../app/domain/ast';
+ import * as astQl from '../app/domain/ast/qls';
 export class SyntaxError extends Error {
   public static buildMessage(expected: string, found: string) {
     const DESCRIBE_EXPECTATION_FNS = {

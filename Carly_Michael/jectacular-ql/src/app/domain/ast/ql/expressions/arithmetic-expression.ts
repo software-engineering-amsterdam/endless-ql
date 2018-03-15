@@ -1,22 +1,26 @@
-import {ExpressionType} from './expression-type';
+import {ExpressionType, ExpressionTypeUtil} from './expression-type';
 import {Expression, LiteralType} from './expression';
-import {Location} from '../location';
+import {Location} from '../../location';
 import {Question} from '../question';
 import {FormGroup} from '@angular/forms';
 import {BinaryExpression} from './binary-expression';
 
-export abstract class ComparisonExpression extends BinaryExpression {
+export abstract class ArithmeticExpression extends BinaryExpression {
   constructor(left: Expression, right: Expression, location: Location) {
     super(left, right, location);
   }
 
   checkType(allQuestions: Question[]): ExpressionType {
-    if (this.left.checkType(allQuestions) === this.right.checkType(allQuestions) &&
-      this.left.checkType(allQuestions) === ExpressionType.NUMBER) {
-      return ExpressionType.BOOLEAN;
+    const typeLeft = this.left.checkType(allQuestions);
+    const typeRight = this.right.checkType(allQuestions);
+
+    if (typeLeft === typeRight &&
+        typeLeft === ExpressionType.NUMBER) {
+      return typeLeft;
     } else {
       throw new TypeError(
-        `Type of expression left is different from type of expression right `
+        `Type of expression left(${ExpressionTypeUtil.toString(typeLeft)}) is` +
+        `different from type of expression right (${ExpressionTypeUtil.toString(typeRight)})`
         + this.getLocationErrorMessage()
       );
     }
@@ -25,44 +29,42 @@ export abstract class ComparisonExpression extends BinaryExpression {
   abstract evaluate(form: FormGroup): LiteralType;
 }
 
-export class GreaterThanExpression extends ComparisonExpression {
+export class MultiplyExpression extends ArithmeticExpression {
   constructor(left: Expression, right: Expression, location: Location) {
     super(left, right, location);
   }
 
   evaluate(form: FormGroup): LiteralType {
-    return this.left.evaluate(form) > this.right.evaluate(form);
+    return <number>this.left.evaluate(form) * <number>this.right.evaluate(form);
   }
 }
 
-export class GreaterThanEqualExpression extends ComparisonExpression {
+export class DivideExpression extends ArithmeticExpression {
   constructor(left: Expression, right: Expression, location: Location) {
     super(left, right, location);
   }
 
   evaluate(form: FormGroup): LiteralType {
-    return this.left.evaluate(form) >= this.right.evaluate(form);
+    return <number>this.left.evaluate(form) / <number>this.right.evaluate(form);
   }
 }
 
-export class LessThanExpression extends ComparisonExpression {
+export class AddExpression extends ArithmeticExpression {
   constructor(left: Expression, right: Expression, location: Location) {
     super(left, right, location);
   }
 
   evaluate(form: FormGroup): LiteralType {
-    return this.left.evaluate(form) < this.right.evaluate(form);
+    return <number>this.left.evaluate(form) + <number>this.right.evaluate(form);
   }
 }
 
-export class LessThanEqualExpression extends ComparisonExpression {
+export class SubtractExpression extends ArithmeticExpression {
   constructor(left: Expression, right: Expression, location: Location) {
     super(left, right, location);
   }
 
   evaluate(form: FormGroup): LiteralType {
-    return this.left.evaluate(form) <= this.right.evaluate(form);
+    return <number>this.left.evaluate(form) - <number>this.right.evaluate(form);
   }
 }
-
-

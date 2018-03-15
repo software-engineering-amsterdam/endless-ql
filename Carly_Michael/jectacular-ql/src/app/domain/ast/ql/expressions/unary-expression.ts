@@ -1,6 +1,6 @@
 import {ExpressionType} from './expression-type';
 import {Expression, LiteralType} from './expression';
-import {Location} from '../location';
+import {Location} from '../../location';
 import {Question} from '../question';
 import {FormGroup} from '@angular/forms';
 import {Variable} from './variable';

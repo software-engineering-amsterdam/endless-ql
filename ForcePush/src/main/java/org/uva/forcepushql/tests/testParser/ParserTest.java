@@ -20,7 +20,7 @@ public class ParserTest {
     }
 
     public GrammarLexer lexerForResource (String resourceName) throws IOException {
-        GrammarLexer gl = new GrammarLexer(new ANTLRInputStream(new FileInputStream("C:\\Users\\Joana Magalhães\\Documents\\GitHub\\endless-ql\\ForcePush\\src\\main\\java\\org\\uva\\forcepushql\\tests\\testParser\\" + resourceName)));
+        GrammarLexer gl = new GrammarLexer(new ANTLRInputStream(new FileInputStream("src\\main\\java\\org\\uva\\forcepushql\\tests\\testParser\\" + resourceName)));
         System.out.println(gl._input);
         return gl;
     }

@@ -1,7 +1,7 @@
 import {Variable} from './expressions/variable';
 import {emptyLoc} from '../location';
-import {Question} from './question';
-import {QuestionType} from '../question-type';
+import {QlQuestion} from './ql-question';
+import {IntQuestionType} from '../question-type';
 import {If} from './if';
 import {Literal} from './expressions/expression';
 import {ExpressionType} from './expressions/expression-type';
@@ -9,7 +9,7 @@ import {ExpressionType} from './expressions/expression-type';
 describe('if statement', () => {
   it('Should check for impossible if statements', () => {
     const expression = new Variable('questionInBody', emptyLoc);
-    const question = new Question('questionInBody', '', QuestionType.INT, emptyLoc);
+    const question = new QlQuestion('questionInBody', '', new IntQuestionType(), emptyLoc);
     const ifStatement = new If(expression, [question], [], emptyLoc);
 
     expect(() => ifStatement.checkType([question])).toThrow();
@@ -33,8 +33,8 @@ describe('if statement', () => {
   });
 
   it('Should return correct statements', () => {
-    const question = new Question('question', '', QuestionType.INT, emptyLoc);
-    const elseQuestion = new Question('elseQuestion', '', QuestionType.INT, emptyLoc);
+    const question = new QlQuestion('question', '', new IntQuestionType(), emptyLoc);
+    const elseQuestion = new QlQuestion('elseQuestion', '', new IntQuestionType(), emptyLoc);
     const ifStatement = new If(null, [question], [elseQuestion], emptyLoc);
 
     const statements = ifStatement.getQuestions();

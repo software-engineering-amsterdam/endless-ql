@@ -40,12 +40,13 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
 
     /**
      * Display errorNotCompatible message
+     *
      * @param node
      * @param widgetType
-     * @param baseType
+     * @param nodeType
      */
-    private void errorNotCompatible(Question node, WidgetType widgetType, WidgetType baseType) {
-        message.addMessage(widgetType + " is not compatible with " + baseType + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
+    private void errorNotCompatible(Question node, WidgetType widgetType, NodeType nodeType) {
+        message.addMessage(widgetType + " is not compatible with " + nodeType + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
     private void error(Question node, String errorMessage) {
@@ -54,7 +55,6 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
 
 
     /**
-     *
      * @param form
      * @param stylesheet
      * @return
@@ -104,19 +104,18 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
     @Override
     public Void visit(Question node) {
         WidgetType widgetType;
-        if(node.getWidget() == null)
+        if (node.getWidget() == null)
             return null;
 
         widgetType = node.getWidget().getWidgetType();
         NodeType questionNodeType = this.qlQuestionNodeTypes.get(node.getName());
-        if(questionNodeType == null) {
+        if (questionNodeType == null) {
             error(node, node.getName() + " has no type");
             return null;
         }
 
-        WidgetType baseType = WidgetType.valueOf(questionNodeType.toString());
-        if (!baseType.isCompatible(widgetType)) {
-            errorNotCompatible(node, widgetType, baseType);
+        if (!widgetType.isCompatible(questionNodeType)) {
+            errorNotCompatible(node, widgetType, questionNodeType);
             return null;
         }
 

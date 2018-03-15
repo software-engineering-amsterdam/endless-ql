@@ -38,7 +38,6 @@ public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implemen
     }
 
     /**
-     *
      * @param firstList
      * @param secondList
      * @param errorMessage
@@ -49,7 +48,7 @@ public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implemen
 
         List<String> difference = new ArrayList<>(firstList);
         difference.removeAll(secondList);
-        for(String question : difference) {
+        for (String question : difference) {
             messages.addMessage(errorMessage + question, MessageTypes.ERROR);
         }
 
@@ -58,6 +57,7 @@ public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implemen
 
     /**
      * Get all QL question names
+     *
      * @param form AST node
      * @return The names
      */
@@ -75,6 +75,7 @@ public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implemen
 
     /**
      * Get all QLS question names
+     *
      * @param stylesheet AST node
      * @return The names
      */

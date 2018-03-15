@@ -11,9 +11,8 @@ stylesheet taxOfficeExample
         question freeBag2
 
         question nbfreeBags
-            widget spinbox
 
-        default spinbox
+        default integer
         {
           width: 400
           font: "Arial"

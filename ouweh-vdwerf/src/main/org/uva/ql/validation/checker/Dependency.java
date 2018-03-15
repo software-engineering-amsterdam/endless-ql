@@ -1,4 +1,4 @@
-package org.uva.ql.validation;
+package org.uva.ql.validation.checker;
 
 class Dependency {
 

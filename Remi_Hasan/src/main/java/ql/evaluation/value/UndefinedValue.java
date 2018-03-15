@@ -1,6 +1,7 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class UndefinedValue extends Value<Boolean> {
@@ -40,8 +41,8 @@ public class UndefinedValue extends Value<Boolean> {
     }
 
     @Override
-    public Date getDateValue() {
-        return new Date();
+    public LocalDate getDateValue() {
+        return LocalDate.of(1970, 1, 1);
     }
 
     @Override

@@ -1,8 +1,9 @@
-package org.uva.ql.validation;
+package org.uva.ql.validation.checker;
 
 import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
+import org.uva.ql.validation.SymbolTable;
 import org.uva.ql.visitor.ExpressionVisitor;
 import org.uva.ql.visitor.StatementVisitor;
 
@@ -17,7 +18,7 @@ public class ParameterChecker extends Checker implements StatementVisitor<Void, 
     private SymbolTable symbolTable;
     private Map<String, List<Parameter>> expressions;
 
-    ParameterChecker(Form form, SymbolTable symbolTable) {
+    public ParameterChecker(Form form, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
         this.expressions = new HashMap<>();
 

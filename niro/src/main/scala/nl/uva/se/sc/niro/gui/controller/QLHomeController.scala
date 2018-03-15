@@ -13,13 +13,15 @@ import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
+import org.apache.logging.log4j.scala.Logging
 
-class QLHomeController extends QLBaseController {
+class QLHomeController extends QLBaseController with Logging {
   @FXML
   var errorMessages: TextArea = _
 
   @FXML
   def openForm(event: ActionEvent): Unit = {
+    errorMessages.setVisible(false)
     val stage = getActiveStage(event)
     val selectedFile: File = selectQLFile(stage)
     if (selectedFile != null) try {
@@ -36,7 +38,11 @@ class QLHomeController extends QLBaseController {
         case Left(errors) => handleErrors(errors)
       }
     } catch {
-      case e: IOException => e.printStackTrace()
+      case e: IOException => {
+        errorMessages.setText(s"Oops, please contact the developers:\n\n${e.getMessage}")
+        logger.error("Processing a QL/QLS file failed!", e)
+        errorMessages.setVisible(true)
+      }
     }
   }
 

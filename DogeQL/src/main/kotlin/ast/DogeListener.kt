@@ -23,16 +23,12 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
     private var ifStatementDepth = 0
 
-    override fun exitForm(ctx: QuestionareLanguageParser.FormContext?) {
-        val a = 1
-    }
-
     override fun enterBlock(ctx: QuestionareLanguageParser.BlockContext?) {
         if (!expressionBuilder.isEmpty()){
             --ifStatementDepth
 
             val ifExpression = expressionBuilder.pop()
-            val result = symbolTable.registerSymbol(SymbolType.Boolean, ifExpression)
+            val result = symbolTable.registerSymbol(SymbolType.BOOLEAN, ifExpression)
 
             formTreeBuilder.pushExpression(result.name)
         }

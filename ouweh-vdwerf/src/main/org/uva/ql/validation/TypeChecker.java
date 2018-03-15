@@ -2,7 +2,6 @@ package org.uva.ql.validation;
 
 import com.sun.istack.internal.NotNull;
 import org.uva.ql.ast.*;
-import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
 import org.uva.ql.ast.type.*;
@@ -154,11 +153,6 @@ public class TypeChecker extends Checker
     @Override
     public Type visit(And and, String context) {
         return validateBooleanExpression(and);
-    }
-
-    @Override
-    public Type visit(ParameterGroup parameterGroup, String context) {
-        return parameterGroup.getExpression().accept(this, null);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package org.uva.qls.validation;
 
 import org.uva.ql.ast.Question;
-import org.uva.ql.validation.Checker;
+import org.uva.ql.validation.checker.Checker;
 import org.uva.app.LogHandler;
 import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.ast.Stylesheet;
@@ -14,11 +14,11 @@ import java.util.*;
 public class QLSValidator {
 
     private Stylesheet stylesheet;
-    private ArrayList<Question> qlQuestions;
+    private List<Question> qlQuestions;
     private LogHandler logHandler;
     private List<Checker> checkers;
 
-    public QLSValidator(ArrayList<Question> qlQuestions, Stylesheet stylesheet){
+    public QLSValidator(List<Question> qlQuestions, Stylesheet stylesheet){
         this.qlQuestions = qlQuestions;
         this.stylesheet = stylesheet;
         this.checkers = new ArrayList<>();
@@ -35,6 +35,7 @@ public class QLSValidator {
 
         checkers.add(new ReferenceChecker(qlQuestionIds, qlsQuestionIds));
         checkers.add(new CompatibilityChecker(qlQuestions, qlsQuestions));
+        // TODO Add default CompatibilityChecker
     }
 
     public void run() {

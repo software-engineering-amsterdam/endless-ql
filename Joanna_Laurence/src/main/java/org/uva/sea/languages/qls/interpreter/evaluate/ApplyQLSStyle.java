@@ -1,7 +1,7 @@
 package org.uva.sea.languages.qls.interpreter.evaluate;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.parser.NodeType;
@@ -13,7 +13,6 @@ import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Stack;
 
 public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
@@ -46,7 +45,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      */
     public EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) throws InterruptedException {
         this.qlInputResult = interpreterResult;
-        this.outputResult = new EvaluationResult(new ArrayList<>(), interpreterResult.getMessages());
+        this.outputResult = new EvaluationResult(new ArrayList<>(), interpreterResult.getMessages(), interpreterResult.getAst());
         //The visitor will fill the outputResult
         stylesheet.accept(this);
         return this.outputResult;
@@ -67,13 +66,13 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(Page node) throws InterruptedException {
+    public Void visit(Page node) {
         this.currentPage = node;
         return super.visit(node);
     }
 
     @Override
-    public Void visit(Section node) throws InterruptedException {
+    public Void visit(Section node) {
         this.currentSections.add(node);
         super.visit(node);
         this.currentSections.pop();
@@ -81,15 +80,16 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(Question node) throws InterruptedException {
+    public Void visit(Question node) {
 
         QuestionData questionData = this.getOriginalQuestionData(node.getName());
 
         if (questionData != null) {
-            WidgetType widgetType = node.getWidget() != null ? node.getWidget().getWidgetType() : getDefaultWidgetType(questionData.getNodeType());
-            questionData.setWidgetType(widgetType);
+            if (node.getWidget() != null) {
+                questionData.setWidgetType(node.getWidget().getWidgetType());
+            }
 
-            questionData.setStyle(getQuestionStyle(node, widgetType));
+            questionData.setStyle(getQuestionStyle(node, questionData.getNodeType()));
             this.outputResult.add(questionData);
         }
 
@@ -99,42 +99,22 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     /**
      * Get default style for a question
      *
-     * @param question   Question node
-     * @param widgetType What type of question
+     * @param question Question node
      * @return Style for the widget
      * @throws InterruptedException
      */
-    private Style getQuestionStyle(Question question, WidgetType widgetType) throws InterruptedException {
+    private Style getQuestionStyle(Question question, NodeType nodeType) {
         Style style = new Style();
         style.setPage(this.currentPage.getName());
         style.setSection(getCurrentSection());
 
         if (question.getWidget() != null)
-            style.setWidget(question.getWidget().getWidgetParameters());
+            style.setWidget(new QLWidget(question.getWidget().getWidgetType(), question.getWidget().getStringParameters()));
 
-        style.fillNullFields(getParentStyles(widgetType));
+        style.fillNullFields(this.defaultStyleEvaluator.getCascadingStyle(nodeType, this.currentSections, this.currentPage));
         return style;
     }
 
-    /**
-     * Lookup style in parent sections and pages
-     *
-     * @param widgetType For what widget type the style has to be fetched
-     * @return Cascading style
-     * @throws InterruptedException
-     */
-    private Style getParentStyles(WidgetType widgetType) throws InterruptedException {
-        Style style = new Style();
-
-        ListIterator<Section> li = this.currentSections.listIterator(this.currentSections.size());
-        while (li.hasPrevious()) {
-            Style defaultStyle = this.defaultStyleEvaluator.findStyle(li.previous(), widgetType);
-            style.fillNullFields(defaultStyle);
-        }
-        Style pageStyle = this.defaultStyleEvaluator.findStyle(this.currentPage, widgetType);
-        style.fillNullFields(pageStyle);
-        return style;
-    }
 
     /**
      * Get list of the current point of sections
@@ -146,16 +126,6 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         for (Section section : this.currentSections)
             sections.add(section.getName());
         return sections;
-    }
-
-    /**
-     * Determine what NodeType type belongs to what WidgetType
-     *
-     * @param nodeType
-     * @return
-     */
-    private WidgetType getDefaultWidgetType(NodeType nodeType) {
-        return WidgetType.valueOf(nodeType.toString());
     }
 
     /**

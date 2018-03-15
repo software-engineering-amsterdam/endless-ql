@@ -1,31 +1,26 @@
 package gui.widgets;
 
-import javafx.beans.value.ChangeListener;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import ql.model.expression.Expression;
+import ql.model.expression.variable.ExpressionVariableMoney;
 
-public class MoneyWidget extends Widget<TextField> {
+public class MoneyWidget extends TextField implements WidgetInterface {
+
+    private final String name;
 
     public MoneyWidget(String name) {
-        super(name);
-
-        TextField textField = new TextField();
-        TextFormatter formatter = createTextFormatter("-?\\d*(\\.\\d{0,2})?");
-        textField.setTextFormatter(formatter);
-
-        this.control = textField;
+        this.name = name;
+        this.managedProperty().bind(this.visibleProperty());
+        this.setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*(\\.\\d{0,2})?"));
     }
 
     @Override
-    public void setValue(String value) {
-        this.control.setText(value);
+    public Expression getExpression() {
+        return new ExpressionVariableMoney(null, getText());
     }
 
     @Override
-    public String getValue() {
-        return this.control.getText();
+    public void setExpression(String value) {
+        this.setText(value);
     }
 }

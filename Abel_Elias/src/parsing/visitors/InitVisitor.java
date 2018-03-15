@@ -1,28 +1,24 @@
 package parsing.visitors;
 
-import classes.CodeBlock;
 import classes.Question;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import parsing.checkers.TypeChecker;
 import parsing.checkers.VariableChecker;
-import parsing.gen.QLBaseVisitor;
 import parsing.gen.QLParser;
 
-import java.util.HashMap;
-
-public class InitVisitor extends baseVisitor {
+public class InitVisitor extends BaseVisitor {
+    // Reads out the initial AST and returns the questions that were found
     public InitVisitor(QLParser.FormContext ctx){
-        super();
-        visitBlock(ctx.block());
+        super(ctx);
+        visitForm(ctx);
     }
 
-    // Node visitor
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
-        new VariableChecker(questionMap, ctx.block());
+        //new VariableChecker(questionMap, ctx.block());
         new TypeChecker(questionMap, ctx.block());
+        visit(ctx.block());
 
-        return visitChildren(ctx);
+        return questionMap;
     }
 
     @Override
@@ -63,30 +59,10 @@ public class InitVisitor extends baseVisitor {
     }
 
     @Override
-    public Boolean visitCompOperation(QLParser.CompOperationContext ctx) {
-        Double left = (Double) visit(ctx.left);
-        String operator = ctx.comparisonOperator().getText();
-        Double right = (Double) visit(ctx.right);
-
-        switch (operator) {
-            case "<":
-                return left < right;
-            case ">":
-                return left > right;
-            case "!=":
-                return left != right;
-            case "==":
-                return left == right;
-        }
-
-        return null;
-    }
-
-    @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
-        Boolean input = (Boolean) visit(ctx.booleanExpression());
+        Boolean condition = (Boolean) visit(ctx.booleanExpression());
 
-        if(input){
+        if(condition){
             visit(ctx.block());
         }
 

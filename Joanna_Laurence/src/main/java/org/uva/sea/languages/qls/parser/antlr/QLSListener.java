@@ -1,4 +1,4 @@
-// Generated from src/main/java/org/uva/sea/qls/parser/antlr/QLS.g by ANTLR 4.7.1
+// Generated from src/main/java/org/uva/sea/languages/qls/parser/antlr/QLS.g by ANTLR 4.7.1
 
 package org.uva.sea.languages.qls.parser.antlr;
 
@@ -190,18 +190,4 @@ public interface QLSListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     void exitStyleSpecification(QLSParser.StyleSpecificationContext ctx);
-
-    /**
-     * Enter a parse tree produced by {@link QLSParser#string}.
-     *
-     * @param ctx the parse tree
-     */
-    void enterString(QLSParser.StringContext ctx);
-
-    /**
-     * Exit a parse tree produced by {@link QLSParser#string}.
-     *
-     * @param ctx the parse tree
-     */
-    void exitString(QLSParser.StringContext ctx);
 }

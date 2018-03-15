@@ -2470,7 +2470,7 @@ function peg$parse(input, options) {
                     "date" : FieldType.Date,
                     "money" : FieldType.Money,
                     "integer" : FieldType.Integer,
-                    "float" : FieldType.Float,
+                    "float" : FieldType.Decimal,
                     "text" : FieldType.Text,
                   }
 

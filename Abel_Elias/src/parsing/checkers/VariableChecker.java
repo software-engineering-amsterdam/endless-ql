@@ -1,19 +1,17 @@
 package parsing.checkers;
 
 import classes.Question;
-import parsing.errors.DupVarError;
-import parsing.errors.UndeclaredError;
+import parsing.checkers.errors.DupVarError;
+import parsing.checkers.errors.UndeclaredError;
 import parsing.gen.QLParser;
-import parsing.visitors.baseVisitor;
+import parsing.visitors.BaseVisitor;
 
 import java.util.HashMap;
 
-public class VariableChecker extends baseVisitor {
+public class VariableChecker extends BaseVisitor {
     // The variable checker checks if there are any duplicate variables, or references to variables that do not exist
-
     public VariableChecker(HashMap<String, Question> questionMap, QLParser.BlockContext ctx){
-        super();
-        addQuestions(questionMap);
+        this.setQuestionMap(questionMap);
         visitChildren(ctx);
     }
 
@@ -43,8 +41,9 @@ public class VariableChecker extends baseVisitor {
     }
 
     @Override
-    public Object visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
-        return checkVariableExistence(ctx.getText());
+    public Number visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+        checkVariableExistence(ctx.getText());
+        return 0.0;
     }
 
     @Override

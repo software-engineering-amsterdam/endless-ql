@@ -26,7 +26,7 @@ public class Evaluator {
 
     private ASTGenerator astGenerator = new ASTGenerator();
 
-    private List<IStaticAnalysis<Form>> staticAnalyses = Arrays.asList(new IStaticAnalysis[]{
+    private List<IQLStaticAnalysis> staticAnalyses = Arrays.asList(new IQLStaticAnalysis[]{
             new LinkAndCheckVariableUsage.Checker(),
             new TypeCheck.Checker(),
             new CheckDuplicateLabels.Checker(),
@@ -49,12 +49,12 @@ public class Evaluator {
         ParseResult<Form> parseResult = this.parse(qlFile);
         evaluationMessages.addMessageList(parseResult.getMessages());
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
-            return new EvaluationResult(new ArrayList<>(), parseResult.getMessages());
+            return new EvaluationResult(new ArrayList<>(), parseResult.getMessages(), parseResult.getAST());
         }
 
         evaluationMessages.addMessageList(performStaticAnalysis(parseResult));
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
-            return new EvaluationResult(new ArrayList<>(), evaluationMessages);
+            return new EvaluationResult(new ArrayList<>(), evaluationMessages, parseResult.getAST());
         }
 
         return evaluateQuestions(parseResult, symbolTable, evaluationMessages);
@@ -72,7 +72,7 @@ public class Evaluator {
         FormEvaluator evaluator = new FormEvaluator();
         List<Question> questions = evaluator.evaluate(parseResult.getAST(), symbolTable);
         List<QuestionData> questionData = evaluateQuestionValues(questions, symbolTable);
-        return new EvaluationResult(questionData, evaluationMessages);
+        return new EvaluationResult(questionData, evaluationMessages, parseResult.getAST());
     }
 
     /**
@@ -82,7 +82,7 @@ public class Evaluator {
      */
     private Messages performStaticAnalysis(ParseResult<Form> parseResult) {
         Messages returnMessage = new Messages();
-        for (IStaticAnalysis<Form> staticAnalysis : this.staticAnalyses) {
+        for (IQLStaticAnalysis staticAnalysis : this.staticAnalyses) {
             Messages analysisMessages = staticAnalysis.doCheck(parseResult.getAST());
             returnMessage.addMessageList(analysisMessages);
         }

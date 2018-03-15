@@ -2,7 +2,6 @@ grammar QL;
 
 /*
  * Parser rules
- * TODO: () -> (3 + (2 - 2))
  */
 
 form              : 'form' identifier '{' block '}' ;
@@ -15,15 +14,16 @@ block             : statement+;
 
 statement         : question | ifStatement | ifElseStatement ;
 
-question          : identifier ':' STRING questionType ;
+question          : identifier ':' STRING questionType                    #basicQuestion
+                  | identifier ':' STRING questionType '(' expression ')' #computedQuestion
+                  ;
 
-questionType      : 'boolean'                  #booleanType
-                  | 'string'                   #stringType
-                  | 'integer'                  #integerType
-                  | 'date'                     #dateType
-                  | 'decimal'                  #decimalType
-                  | 'money'                    #basicMoneyType
-                  | 'money(' addExpression ')' #computedMoneyType
+questionType      : 'boolean' #booleanType
+                  | 'string'  #stringType
+                  | 'integer' #integerType
+                  | 'date'    #dateType
+                  | 'decimal' #decimalType
+                  | 'money'   #moneyType
                   ;
 
 expression        : orExpression ;
@@ -67,9 +67,9 @@ COMMENT      : '/*' .*? '*/' -> channel(HIDDEN);
 
 LINE_COMMENT : '//'.*? ~[\r\n]* -> channel(HIDDEN);
 
-MONEY        : [0-9] ([1-9] [0-9]*)? '.' [0-9] [0-9];
+MONEY        : '$' ([0]|INT) ('.' [0-9] [0-9]?)?;
 
-DECIMAL      : [0-9] ([1-9] [0-9]*)? '.' [0-9]+;
+DECIMAL      : ([0]|INT) '.' [0-9]+;
 
 INT          : [1-9]+[0-9]*;//rejects leading zeros
 

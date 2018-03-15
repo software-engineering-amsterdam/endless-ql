@@ -7,17 +7,17 @@
 
 }
 
-start = lb* stylesheet:stylesheet lb* { return stylesheet}
+start = lb* stylesheet:stylesheet lb* { return stylesheet }
 
 // Stylesheet
 stylesheet
- = _ "stylesheet" _ id:identifier lb* page:page*{
+ = _ "stylesheet" _ id:identifier lb* "{" lb* page:page* lb* "}" lb*{
     return new Nodes.Stylesheet( id, page);
 }
 
 // Page
 page
- = _ "page" _ id:identifier _ block:pageBlock lb*{
+ = _ "page" _ id:identifier lb* block:pageBlock lb* {
     return new Nodes.Page( id, block );
 }
 
@@ -59,7 +59,7 @@ question
 
 // Default
 default
- = _ "default" _ type:type _ args:styleBlock {
+ = _ "default" _ type:type lb* args:styleBlock {
     return new Nodes.DefaultStyle(type, args);
  }
 

@@ -1,18 +1,19 @@
 package gui.model;
 
-import gui.widgets.StringWidget;
+import gui.widgets.DoubleWidget;
+import gui.widgets.MoneyWidget;
 import gui.widgets.Widget;
 import ql.model.expression.Expression;
 
-public class StringQuestion extends BaseQuestion {
+public class MoneyQuestion extends BaseQuestion {
 
-    public StringQuestion(String label, Expression condition, boolean isComputed) {
+    public MoneyQuestion(String label, Expression condition, boolean isComputed) {
         super(label, condition, isComputed);
     }
 
     @Override
     public Widget getWidget() {
-        StringWidget widget = new StringWidget(this.label);
+        MoneyWidget widget = new MoneyWidget(this.label);
         widget.setDisable(this.isComputed);
         return widget;
     }

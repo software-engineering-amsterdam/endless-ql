@@ -8,6 +8,10 @@ import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.Question;
+import ql.model.expression.Expression;
+import ql.model.expression.ReturnType;
+import ql.model.expression.variable.ExpressionVariableUndefined;
+import qls.model.widgets.Widget;
 
 public class GUIQuestion extends VBox {
 
@@ -21,11 +25,12 @@ public class GUIQuestion extends VBox {
                 if (question.isComputed()) {
                     symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
-                        integerWidget.setExpression(value.getIntValue().toString());
+                        String text = value.isUndefined() ? "" : value.getIntValue().toString();
+                        integerWidget.setExpression(text);
                     });
                 } else {
                     integerWidget.textProperty().addListener(e -> {
-                        symbolTable.setExpression(question.name, integerWidget.getExpression());
+                        symbolTable.setExpression(question.name, getExpression(integerWidget, question.type));
                     });
                 }
 
@@ -36,11 +41,12 @@ public class GUIQuestion extends VBox {
                 if (question.isComputed()) {
                     symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
-                        stringWidget.setExpression(value.getStringValue());
+                        String text = value.isUndefined() ? "" : value.getStringValue().toString();
+                        stringWidget.setExpression(text);
                     });
                 } else {
                     stringWidget.textProperty().addListener(e -> {
-                        symbolTable.setExpression(question.name, stringWidget.getExpression());
+                        symbolTable.setExpression(question.name, getExpression(stringWidget, question.type));
                     });
                 }
 
@@ -51,13 +57,12 @@ public class GUIQuestion extends VBox {
                 if (question.isComputed()) {
                     symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
-                        dateWidget.setExpression(value.getDateValue().toString());
-
-                        dateWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
+                        String text = value.isUndefined() ? "" : value.getDateValue().toString();
+                        dateWidget.setExpression(text);
                     });
                 } else {
                     dateWidget.valueProperty().addListener(e -> {
-                        symbolTable.setExpression(question.name, dateWidget.getExpression());
+                        symbolTable.setExpression(question.name, getExpression(dateWidget, question.type));
                     });
                 }
 
@@ -69,15 +74,12 @@ public class GUIQuestion extends VBox {
                 if (question.isComputed()) {
                     symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
-                        decimalWidget.setExpression(value.getDecimalValue().toString());
-
-                        decimalWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
+                        String text = value.isUndefined() ? "" : value.getDecimalValue().toString();
+                        decimalWidget.setExpression(text);
                     });
                 } else {
                     decimalWidget.textProperty().addListener(e -> {
-                        symbolTable.setExpression(question.name, decimalWidget.getExpression());
-
-                        decimalWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
+                        symbolTable.setExpression(question.name, getExpression(decimalWidget, question.type));
                     });
                 }
 
@@ -90,13 +92,12 @@ public class GUIQuestion extends VBox {
                 if (question.isComputed()) {
                     symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
-                        moneyWidget.setExpression(value.getMoneyValue().toString());
-
-                        moneyWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
+                        String text = value.isUndefined() ? "" : value.getMoneyValue().toString();
+                        moneyWidget.setExpression(text);
                     });
                 } else {
                     moneyWidget.textProperty().addListener(e -> {
-                        symbolTable.setExpression(question.name, moneyWidget.getExpression());
+                        symbolTable.setExpression(question.name, getExpression(moneyWidget, question.type));
                     });
                 }
 
@@ -107,13 +108,12 @@ public class GUIQuestion extends VBox {
                 if (question.isComputed()) {
                     symbolTable.addListener(e -> {
                         Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
-                        checkboxWidget.setExpression(value.getBooleanValue().toString());
-
-                        checkboxWidget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
+                        String text = value.isUndefined() ? "" : value.getBooleanValue().toString();
+                        checkboxWidget.setExpression(text);
                     });
                 } else {
                     checkboxWidget.selectedProperty().addListener(e -> {
-                        symbolTable.setExpression(question.name, checkboxWidget.getExpression());
+                        symbolTable.setExpression(question.name, getExpression(checkboxWidget, question.type));
                     });
                 }
 
@@ -132,6 +132,14 @@ public class GUIQuestion extends VBox {
         label.visibleProperty().bind(widget.visibleProperty());
         this.getChildren().add(label);
         this.getChildren().add(widget);
+    }
+
+    private Expression getExpression(WidgetInterface widget, ReturnType returnType){
+        try{
+            return widget.getExpression();
+        } catch(Exception e){
+            return new ExpressionVariableUndefined(null, returnType);
+        }
     }
 
 }

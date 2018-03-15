@@ -10,7 +10,9 @@ import javafx.scene.layout.VBox;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.ModelRenderer;
-import org.uva.sea.gui.widget.*;
+import org.uva.sea.gui.widget.AbstractWidgetFactory;
+import org.uva.sea.gui.widget.DefaultWidgetFactory;
+import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 
 public class ViewRenderer {
 
@@ -60,7 +62,16 @@ public class ViewRenderer {
         wrapper.getRowConstraints().add(new RowConstraints(ViewRenderer.ROW));
 
         wrapper.add(this.createQuestionLabel(questionModel.getLabel()), 0, 0);
-        Control widget = this.createWidget(questionModel);
+
+        AbstractWidgetFactory factory = new DefaultWidgetFactory(controller);
+
+        if (questionModel.getWidgetType() == WidgetType.DEFAULT) {
+            factory = new DefaultWidgetFactory(controller);
+        }
+        //TODO: add QlsWidgetFactory
+        Control widget = factory.createWidget(questionModel);
+
+        //handle last focused widget
         if (this.controller.getLastFocusedQuestion().equals(questionModel.getVariableName())) {
             widget.setFocusTraversable(true);
         } else {
@@ -69,32 +80,6 @@ public class ViewRenderer {
         wrapper.add(widget, 1, 0);
 
         return wrapper;
-    }
-
-    private Control createWidget(BaseQuestionModel questionModel) {
-        Widget widget;
-        switch (questionModel.getWidgetType()) {
-            case CHECKBOX:
-                widget = new CheckBoxWidget();
-                break;
-            case CHOICEBOX:
-                widget = new ChoiceBoxWidget();
-                break;
-            case RADIO:
-                widget = new RadioButtonWidget();
-                break;
-            case SLIDER:
-                widget = new SliderWidget();
-                break;
-            case SPINBOX:
-                widget = new SpinnerWidget();
-                break;
-            case TEXTFIELD:
-            default:
-                widget = new TextFieldWidget();
-                break;
-        }
-        return widget.draw(questionModel, this.controller);
     }
 
     private Label createQuestionLabel(String string) {

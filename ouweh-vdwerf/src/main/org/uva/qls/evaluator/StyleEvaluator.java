@@ -44,6 +44,8 @@ public class StyleEvaluator {
             }
         }
 
+        //TODO select scope specific defaults
+
         return defaultTypes.get(question.getType().getClass().toString());
     }
 

@@ -30,17 +30,6 @@ object ConditionalValidator {
     ASTCollector.getTypeDecl(node, ast).exists { _ == ASTBoolean() }
   }
 
-  def areComparable(lhs: ASTIdentifier, rhs: ASTIdentifier, ast: ASTNode): Boolean = {
-    val lhsType = ASTCollector.getTypeDecl(lhs, ast)
-    val rhsType = ASTCollector.getTypeDecl(rhs, ast)
-
-    (lhsType, rhsType) match {
-      case (Some(ASTBoolean()), Some(ASTBoolean())) => false
-      case (Some(_lhs), Some(_rhs)) if _lhs == _rhs => true
-      case other => false
-    }
-  }
-
   def validateExpression(node: ASTNode, ast: ASTNode): Boolean = {
     node match {
       case binOp: ASTBinary  => validateBinOp(binOp, ast)
@@ -56,18 +45,12 @@ object ConditionalValidator {
 
   def validateRelational(node: ASTBinary, ast: ASTNode): Boolean = {
     node match {
-      case ASTBinary(lhs: ASTIdentifier, rhs: ASTIdentifier, _) => {
-        areComparable(lhs, rhs, ast)
-      }
-      case ASTBinary(lhs: ASTUnary, rhs: ASTIdentifier, op: ASTNode) => {
-        val validBinary = validateRelational(ASTBinary(lhs.expr, rhs, op), ast)
-        val validUnary = validateExpression(lhs, ast)
-        validBinary && validUnary
-      }
-      case ASTBinary(lhs: ASTIdentifier, rhs: ASTUnary, op: ASTNode) => {
-        val validBinary = validateRelational(ASTBinary(lhs, rhs.expr, op), ast)
-        val validUnary = validateExpression(rhs, ast)
-        validBinary && validUnary
+      case ab: ASTBinary => {
+        infereType(ab, ast) match {
+          case None => false
+          case Some(ASTBoolean()) => false
+          case other => true
+        }
       }
       case other => false
     }
@@ -83,8 +66,9 @@ object ConditionalValidator {
 
   def infereType(node: ASTNode, ast: ASTNode): Option[ASTNode] = {
     node match {
+      case bv: ASTIntegerValue => Some(ASTInteger())
       case bv: ASTIdentifier => ASTCollector.getTypeDecl(bv, ast)
-      case bv @ ASTBinary(_,_, op: ASTRelationalOp) => {
+      case bv @ ASTBinary(_,_,_) => {
         val typeRight = infereType(bv.rhs, ast)
         val typeLeft = infereType(bv.lhs, ast)
 

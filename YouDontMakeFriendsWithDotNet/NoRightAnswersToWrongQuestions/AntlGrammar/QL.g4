@@ -18,7 +18,7 @@ questionnaire:  ENTRYPOINT IDENTIFIER BEGINSCOPE content=statement* ENDSCOPE;
 statement : question calculatedValue    # calculatedQuestion
           | question                    # inputQuestion
           | conditionalStatement        # ifElseStatement
-          ;		
+          ;
 
 question: IDENTIFIER ':' TEXT questionType 
         | TEXT IDENTIFIER  ':' questionType 
@@ -39,55 +39,55 @@ questionType: chosenType=(BOOLTYPE
             | INTTYPE      
             | DATETYPE     
             | DECIMALTYPE)
-			;
+            ;
 
 expression : leftIdentifier=IDENTIFIER 
-				relationalOperator 
-		     rightIdentifier=IDENTIFIER                   #typeCheckExpression
+                relationalOperator 
+             rightIdentifier=IDENTIFIER                   #typeCheckExpression
            | booleanExpression                            #otherExpressions
-		   ;
+           ;
 
 booleanExpression : IDENTIFIER                             #booleanQuestionIdentifier
-	              | booleanValue                           #booleanLiteral
+                  | booleanValue                           #booleanLiteral
                   | BEGINGROUP booleanExpression ENDGROUP  #booleanExpressionGroup
-		          | NEGATE booleanExpression               #negationExpression
-				  | leftExpression=booleanExpression
-					   operator=booleanOperator
-				    rightExpression=booleanExpression      #andOrStatement
-				  | leftExpression=booleanExpression 
+                  | NEGATE booleanExpression               #negationExpression
+                  | leftExpression=booleanExpression
+                       operator=booleanOperator
+                    rightExpression=booleanExpression      #andOrStatement
+                  | leftExpression=booleanExpression 
                        operator=equalityOperator 
-      	            rightExpression=booleanExpression      #booleanComparison
-				  | relationalExpression                   #relativeExpression
+                      rightExpression=booleanExpression      #booleanComparison
+                  | relationalExpression                   #relativeExpression
                   ;
 
 relationalExpression: leftText=(TEXT | IDENTIFIER) 
-				         operator=equalityOperator 
-					  rightText=(TEXT | IDENTIFIER)             #textComparison
-		            | leftDate=(DATE | IDENTIFIER)
-				         operator=relationalOperator 
-					  rightDate=(DATE | IDENTIFIER)             #dateComparison 
-		            | leftExpression=mathExpression 
-				         operator=relationalOperator 
-					  rightExpression=mathExpression            #mathComparison
-		            ;
+                         operator=equalityOperator 
+                      rightText=(TEXT | IDENTIFIER)             #textComparison
+                    | leftDate=(DATE | IDENTIFIER)
+                         operator=relationalOperator 
+                      rightDate=(DATE | IDENTIFIER)             #dateComparison 
+                    | leftExpression=mathExpression 
+                         operator=relationalOperator 
+                      rightExpression=mathExpression            #mathComparison
+                    ;
 
 mathExpression : IDENTIFIER                              #numberVariableName
                | mathValue                               #numberLiteral
-			   | BEGINGROUP mathExpression ENDGROUP      #mathExpressionGroup
-		       | leftExpression=mathExpression 
-      	           operator=(MULTIPLY | DIVIDE) 
-      		     rightExpression=mathExpression          #multiplyDivideExpression
-      	       | leftExpression=mathExpression 
-      	           operator=(ADD | MINUS) 
-      		     rightExpression=mathExpression          #addSubtractExpression
-			   ;
+               | BEGINGROUP mathExpression ENDGROUP      #mathExpressionGroup
+               | leftExpression=mathExpression 
+                     operator=(MULTIPLY | DIVIDE) 
+                   rightExpression=mathExpression          #multiplyDivideExpression
+                 | leftExpression=mathExpression 
+                     operator=(ADD | MINUS) 
+                   rightExpression=mathExpression          #addSubtractExpression
+               ;
 
 relationalOperator: chosenOperator=(ISEQUAL 
                   | ISNOTEQUAL 
                   | ISGREATERTHAN 
                   | ISGREATERTHANOREQUAL 
-				  | ISLESSTHAN 
-				  | ISLESSTHANOREQUAL)
+                  | ISLESSTHAN 
+                  | ISLESSTHANOREQUAL)
                   ;
 
 equalityOperator: chosenOperator=(ISEQUAL | ISNOTEQUAL);
@@ -105,7 +105,7 @@ mathValue: INTEGER
 //ToDo: rename relational
 conditionValue: INTEGER 
               | DECIMAL 
-			  | DATE
+              | DATE
               ;
 
 ENTRYPOINT: 'form';

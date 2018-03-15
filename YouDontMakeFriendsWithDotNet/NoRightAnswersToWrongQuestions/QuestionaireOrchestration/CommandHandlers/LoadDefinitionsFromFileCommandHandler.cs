@@ -4,13 +4,13 @@ using QuestionnaireInfrastructure.API;
 
 namespace QuestionaireOrchestration.CommandHandlers
 {
-    public class LoadQuestionnaireDefinitionsCommandHandler : 
-        ICommandHandler<LoadQuestionnaireDefinitionsCommand>
+    internal class LoadDefinitionsFromFileCommandHandler : 
+        ICommandHandler<LoadDefinitionsFromFileCommand>
     {
         private readonly IQuestionnaireDefinitionLoader m_definitionLoader;
         private readonly IQuestionnaireAstCreator m_questionnaireAstCreator;
 
-        public LoadQuestionnaireDefinitionsCommandHandler(
+        public LoadDefinitionsFromFileCommandHandler(
             IQuestionnaireDefinitionLoader definitionLoader,
             IQuestionnaireAstCreator questionnaireAstCreator)
         {
@@ -18,9 +18,9 @@ namespace QuestionaireOrchestration.CommandHandlers
             m_questionnaireAstCreator = questionnaireAstCreator;
         }
 
-        public void Execute(LoadQuestionnaireDefinitionsCommand command)
+        public void Execute(LoadDefinitionsFromFileCommand fromFileCommand)
         {
-            var definitions = m_definitionLoader.Load(command.Path);
+            var definitions = m_definitionLoader.Load(fromFileCommand.Path);
             foreach (var definition in definitions)
             {
                 m_questionnaireAstCreator.Create(definition);

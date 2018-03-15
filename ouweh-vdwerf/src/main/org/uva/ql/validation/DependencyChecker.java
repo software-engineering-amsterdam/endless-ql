@@ -46,6 +46,6 @@ class DependencyChecker extends Checker {
             }
         } while (!closure.containsAll(newClosure));
 
-        return newClosure;
+        return closure;
     }
 }

@@ -3,7 +3,7 @@ import {Default} from './default';
 import {Location} from '../location';
 import {Node, QuestionWithAppliedStyles} from './node';
 import {Style} from './style';
-import {Question as QlQuestion} from '../question';
+import {Question as QlQuestion} from '../ql/question';
 import {Widget} from './widget';
 
 export class Page extends Node {

@@ -2,6 +2,7 @@ package org.uva.ql.validation;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.uva.app.LogHandler;
 import org.uva.ql.ast.expression.unary.Parameter;
 
 import java.util.*;

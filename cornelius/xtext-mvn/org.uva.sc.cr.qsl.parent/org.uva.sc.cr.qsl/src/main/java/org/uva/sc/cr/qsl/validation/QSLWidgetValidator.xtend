@@ -21,7 +21,7 @@ class QSLWidgetValidator extends AbstractQSLValidator {
 	def checkQuestionReferenceWidgetType(QuestionReference questionReference) {
 		val widget = questionReference.widget
 		if (widget !== null) {
-			val allowed = isWidgetAllowedForQuestionType(widget, questionReference.questionReference.type)
+			val allowed = isWidgetAllowedForQuestionType(widget, questionReference.question.type)
 			if (!allowed) {
 				error(WIDGET_NOT_ALLOWED_FOR_QUESTION_TYPE_MESSAGE, QSLPackage.Literals.QUESTION_REFERENCE__WIDGET,
 					WIDGET_NOT_ALLOWED_FOR_QUESTION_TYPE)

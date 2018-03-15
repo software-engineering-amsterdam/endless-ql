@@ -5,7 +5,7 @@ import {Widget} from './widget';
 import {WidgetType} from './widget-type';
 import {Section} from './section';
 import {Page} from './page';
-import {Question as QlQuestion} from '../question';
+import {Question as QlQuestion} from '../ql/question';
 import {QuestionType} from '../question-type';
 
 describe('QLS Stylesheet', () => {

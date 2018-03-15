@@ -9,9 +9,10 @@ from visitor.listener import listen
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from grammar.run_antlr import run_antlr
+from grammar.data_structure import ParserCarrier
 import sys
-from gui.InputFrame import InputFrame
-from gui.OutputFrame import OutputFrame
+from gui.input_frame import InputFrame
+from gui.output_frame import OutputFrame
 
 
 class MainWindow(QtWidgets.QWidget):
@@ -49,11 +50,13 @@ class MainWindow(QtWidgets.QWidget):
 
         self.splitter.addWidget(self.outputFrame)
 
-    def parse(self,qlText,qlsText):
-        if qlText:
-            self.tree = run_antlr(qlText)
+    def parse(self, ql_text, qls_text):
+        ql_data = ParserCarrier()
 
-            listen(self.tree, self.outputFrame)
+        if ql_text:
+            ql_data.set_ql_grammar_text(ql_text)
+            ql_data.run_antlr_ql()
+            listen(ql_data.ql_tree, self.outputFrame)
             self.outputFrame.add_submit_button()
             # if self.tree:
             #     self.build_gui(self.tree)
@@ -65,6 +68,15 @@ class MainWindow(QtWidgets.QWidget):
             # print((self.tree))
             # print(self.tree.depth())
             # elif self.tree.depth() > 1:
+        else:
+            self.outputFrame.no_tree_message()
+
+        if qls_text:
+            ql_data.set_qls_grammar_text(ql_text)
+            ql_data.run_antlr_qls()
+            # todo: create listener/visiter for QLS
+            # listen(ql_data.qls_tree, self.outputFrame)
+            # self.outputFrame.add_submit_button()
         else:
             self.outputFrame.no_tree_message()
 

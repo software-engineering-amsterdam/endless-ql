@@ -9,6 +9,7 @@ import org.uva.ql.ast.Statement;
 import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.validation.checker.TypeChecker;
 
 import java.util.ArrayList;
 import java.util.Arrays;

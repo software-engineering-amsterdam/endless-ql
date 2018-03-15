@@ -2,6 +2,8 @@ package org.uva.ql.validation;
 
 import org.uva.app.LogHandler;
 import org.uva.ql.ast.*;
+import org.uva.ql.validation.checker.*;
+import org.uva.ql.validation.composer.ExpressionList;
 import org.uva.ql.visitor.StatementVisitor;
 
 import java.util.ArrayList;
@@ -35,11 +37,11 @@ public class QLValidator implements StatementVisitor<Void, String> {
 
         QuestionChecker questionChecker = new QuestionChecker(this.questions);
         checkers.add(questionChecker);
-
-        ParameterChecker parameterChecker = new ParameterChecker(this.form, this.symbolTable);
+        
+        ParameterChecker parameterChecker = new ParameterChecker(this.form, this.symbolTable, new ExpressionList(form).getExpressions());
         checkers.add(parameterChecker);
 
-        DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());
+        DependencyChecker dependencyChecker = new DependencyChecker(new ExpressionList(form).getExpressions());
         checkers.add(dependencyChecker);
 
         TypeChecker typeChecker = new TypeChecker(this.form, this.symbolTable);

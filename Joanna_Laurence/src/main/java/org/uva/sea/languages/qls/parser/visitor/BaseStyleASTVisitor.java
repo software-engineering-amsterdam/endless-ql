@@ -61,7 +61,7 @@ public class BaseStyleASTVisitor<T> implements IStyleASTVisitor<T> {
 
     public T visit(Question node) {
         Widget widget = node.getWidget();
-        if(widget != null)
+        if (widget != null)
             return widget.accept(this);
         return null;
     }

@@ -17,9 +17,6 @@ class Question_Generator:
         self.questions = collections.OrderedDict()
         self.form = form
 
-    def getVarDict(self):
-        return self.varDict
-
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
     def updateQuestions(self, initial=False):
         if(self.astQLS):
@@ -98,14 +95,15 @@ class Question_Generator:
         print("UPDATE")
         self.questions = collections.OrderedDict()
         self.get_questions(self.ast.form.block)
-        for page in self.astQLS.getPages():
-            pageName = page.getName()
+        pages = self.astQLS.getPages()
+        for page in pages:
+            pageName = pages[page].getName()
             print("PAGE: ", pageName)
             if not self.form.doesPageExist(pageName):
-                self.form.addPage(page.name)
+                self.form.addPage(pages[page].name)
 
             # add sections and questions
-            self.addSection(pageName, page.getSection())
+            self.addSection(pageName, pages[page].getSection())
 
     def addSection(self, pageName, sections, prev=""):
         for section in sections:
@@ -135,6 +133,8 @@ class Question_Generator:
             # add child sections
             self.addSection(pageName, section.getSections(), prev)
 
+    def getVarDict(self):
+        return self.varDict
 
 def printDict(dic):
     pp = pprint.PrettyPrinter(indent=4)

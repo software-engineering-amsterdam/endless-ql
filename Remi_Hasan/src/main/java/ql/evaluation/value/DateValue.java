@@ -1,10 +1,11 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
-public class DateValue extends Value<Date> {
-    public DateValue(Date value) {
+public class DateValue extends Value<LocalDate> {
+    public DateValue(LocalDate value) {
         super(value);
     }
 
@@ -34,7 +35,7 @@ public class DateValue extends Value<Date> {
     }
 
     @Override
-    public Date getDateValue() {
+    public LocalDate getDateValue() {
         return this.value;
     }
 

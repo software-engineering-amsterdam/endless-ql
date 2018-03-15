@@ -7,6 +7,7 @@ import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.ast.type.StringType;
+import org.uva.ql.validation.checker.QuestionChecker;
 
 import java.util.ArrayList;
 import java.util.List;

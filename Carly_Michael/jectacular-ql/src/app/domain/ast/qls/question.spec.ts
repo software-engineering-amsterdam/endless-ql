@@ -1,15 +1,15 @@
 import {Question} from './question';
-import {Question as QlQuestion} from '../ql/question';
+import {QlQuestion as QlQuestion} from '../ql/ql-question';
 import {Widget} from './widget';
 import {WidgetType} from './widget-type';
 import {emptyLoc} from '../location';
 import {Style} from './style';
 import {NumberValue} from './style-value';
 import {Default} from './default';
-import {QuestionType} from '../question-type';
+import {BooleanQuestionType, IntQuestionType} from '../question-type';
 
-describe('QLS Question', () => {
-  it('Question without default should return self with proper style', () => {
+describe('QLS QlQuestion', () => {
+  it('QlQuestion without default should return self with proper style', () => {
     const question = new Question('name', new Widget(WidgetType.NONE, []), emptyLoc, null);
 
     let questionsWithStyles = question.getQuestions([], Widget.Empty);
@@ -25,9 +25,9 @@ describe('QLS Question', () => {
     expect(questionsWithStyles[0].styles[0].value.getValueAsString()).toBe('2px');
   });
 
-  it('Question with default should return self with proper style', () => {
+  it('QlQuestion with default should return self with proper style', () => {
     const question = new Question('name', new Widget(WidgetType.NONE, []), emptyLoc,
-      new Default(QuestionType.INT, new Widget(WidgetType.TEXT, []),
+      new Default(new IntQuestionType(), new Widget(WidgetType.TEXT, []),
         [new Style('name', new NumberValue(1), emptyLoc)], emptyLoc));
 
     let questionsWithStyles = question.getQuestions([], Widget.Empty);
@@ -59,8 +59,8 @@ describe('QLS Question', () => {
       qlsQuestions.push(new Question(`name`, new Widget(i, []), emptyLoc, null));
     }
 
-    const qlIntQuestion = new QlQuestion('name', 'label', QuestionType.INT, emptyLoc);
-    const qlBoolQuestion = new QlQuestion('name', 'label', QuestionType.BOOLEAN, emptyLoc);
+    const qlIntQuestion = new QlQuestion('name', 'label', new IntQuestionType(), emptyLoc);
+    const qlBoolQuestion = new QlQuestion('name', 'label', new BooleanQuestionType(), emptyLoc);
     for (let i = 0; i < qlsQuestions.length; i++) {
       if (qlsQuestions[i].type.type === WidgetType.SPINBOX || qlsQuestions[i].type.type === WidgetType.TEXT) {
         expect(() => qlsQuestions[i].checkStylesheet([], [qlIntQuestion])).not.toThrow();
@@ -70,7 +70,8 @@ describe('QLS Question', () => {
     }
 
     for (let i = 0; i < qlsQuestions.length; i++) {
-      if (qlsQuestions[i].type.type === WidgetType.CHECKBOX || qlsQuestions[i].type.type === WidgetType.RADIO) {
+      if (qlsQuestions[i].type.type === WidgetType.CHECKBOX || qlsQuestions[i].type.type === WidgetType.RADIO ||
+        qlsQuestions[i].type.type === WidgetType.DROPDOWN) {
         expect(() => qlsQuestions[i].checkStylesheet([], [qlBoolQuestion])).not.toThrow();
       } else {
         expect(() => qlsQuestions[i].checkStylesheet([], [qlBoolQuestion])).toThrow();

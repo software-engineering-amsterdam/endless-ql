@@ -1,9 +1,15 @@
-﻿namespace QuestionnaireUI.Models
+﻿using System;
+
+namespace QuestionnaireUI.Models
 {
     public class QuestionnaireWrapper
     {
         public QuestionnaireWrapper(QuestionnaireModel model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
             Model = model;
         }
 

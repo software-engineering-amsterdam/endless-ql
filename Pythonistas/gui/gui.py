@@ -10,8 +10,6 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from grammar.run_antlr import run_antlr
 import sys
-
-
 from gui.InputFrame import InputFrame
 from gui.OutputFrame import OutputFrame
 
@@ -38,7 +36,7 @@ class MainWindow(QtWidgets.QWidget):
         self.inputFrame.createOutputFrame.connect(self.parse)
 
     def initiate_outputFrame(self):
-        # Removes the old outputFrame from splitter, and resets related parameters
+        # Removes the old outputFrame from the window
         self.outputFrame.setParent(None)
         self.outputFrame.destroy()
 
@@ -48,10 +46,10 @@ class MainWindow(QtWidgets.QWidget):
         self.splitter.addWidget(self.outputFrame)
 
     def parse(self,qlText,qlsText):
+
         if qlText:
             self.tree = run_antlr(qlText)
             listen(self.tree, self.outputFrame)
-            # self.build_gui(self.tree)
             self.outputFrame.add_submit_button()
             # if self.tree:
             #     self.build_gui(self.tree)
@@ -65,9 +63,6 @@ class MainWindow(QtWidgets.QWidget):
             # elif self.tree.depth() > 1:
         else:
             self.no_tree_message()
-
-    # def build_gui(self, tree):
-    #     listen(tree, self.outputFrame)
 
 
 if __name__ == '__main__':

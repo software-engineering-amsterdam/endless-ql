@@ -1,19 +1,22 @@
 package classes;
-
-import classes.expressions.ExpressionType;
-import classes.types.Value;
+import classes.values.Value;
 
 public class Question<T>{
     private String questionText;
-    private T value;
-    private Value type;
-    private boolean isVisible;
+    private Value<T> value;
     private boolean fixed;
+    private boolean isVisible;
 
-    public Question(CodeBlock code, String questionText, Value type, T value, boolean fixed, boolean isVisible){
+    public Question(String questionText, Value<T> value, boolean fixed){
         this.fixed = fixed;
         this.value = value;
-        this.type = value.getClass();
+        this.questionText = questionText;
+        this.isVisible = isVisible;
+    }
+
+    public Question(String questionText, Value<T> value, boolean fixed, boolean isVisible){
+        this.fixed = fixed;
+        this.value = value;
         this.questionText = questionText;
         this.isVisible = isVisible;
     }
@@ -22,22 +25,12 @@ public class Question<T>{
         return questionText;
     }
 
-    public T getValue(){
+    public Value<T> getValue(){
         return value;
     }
 
-//    public ExpressionType getTypeName() {
-//        String typeText = type.getSimpleName();
-//        typeText = typeText.substring(0,1).toUpperCase() + typeText.substring(1);
-//        return ExpressionType.valueOf(typeText);
-//    }
-
-    public Value getType() {
-        return this.type;
-    }
-
-    public Question setValue(Object value){
-        this.value = (T) value;
+    public Question setValue(Value<T> value){
+        this.value = value;
         return this;
     }
 
@@ -48,10 +41,4 @@ public class Question<T>{
     public boolean isFixed(){
         return this.fixed;
     }
-
-    //public Class getType(){
-       // return this.type;
-    //}
-
-
 }

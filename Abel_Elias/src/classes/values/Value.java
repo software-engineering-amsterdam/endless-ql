@@ -1,4 +1,4 @@
-package classes.types;
+package classes.values;
 
 import classes.CodeBlock;
 

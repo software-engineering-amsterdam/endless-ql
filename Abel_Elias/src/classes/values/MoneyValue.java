@@ -1,8 +1,13 @@
-package classes.types;
+package classes.values;
 
 public class MoneyValue extends Value<Double> {
-    MoneyValue(Double value, String type) {
+    public MoneyValue(Double value) {
         super(value);
         setType(Value.MONEY);
     }
+
+    public MoneyValue() {
+        super(0.0);
+    }
+
 }

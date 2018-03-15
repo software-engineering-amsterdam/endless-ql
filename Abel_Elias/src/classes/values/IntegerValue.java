@@ -1,8 +1,12 @@
-package classes.types;
+package classes.values;
 
-public class IntegerValue extends Value<Boolean> {
-    IntegerValue(Boolean value, String type) {
+public class IntegerValue extends Value<Integer> {
+    public IntegerValue(Integer value) {
         super(value);
         setType(Value.INTEGER);
+    }
+
+    public IntegerValue(){
+        this(0);
     }
 }

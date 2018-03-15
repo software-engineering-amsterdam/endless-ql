@@ -1,10 +1,12 @@
-package classes.types;
-
-import classes.CodeBlock;
+package classes.values;
 
 public class BooleanValue extends Value<Boolean> {
-    BooleanValue(Boolean value, String type) {
+    public BooleanValue(Boolean value) {
         super(value);
         setType(Value.BOOLEAN);
+    }
+
+    public BooleanValue(){
+        this(false);
     }
 }

@@ -1,8 +1,12 @@
-package classes.types;
+package classes.values;
 
 public class DecimalValue extends Value<Double> {
-    DecimalValue(Double value, String type) {
+    public DecimalValue(Double value) {
         super(value);
         setType(Value.DECIMAL);
+    }
+
+    public DecimalValue(){
+        this(0.0);
     }
 }

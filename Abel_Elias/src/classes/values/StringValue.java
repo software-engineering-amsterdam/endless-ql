@@ -1,8 +1,12 @@
-package classes.types;
+package classes.values;
 
 public class StringValue extends Value<String> {
-    StringValue(String value, String type) {
+    public StringValue(String value) {
         super(value);
         setType(Value.STRING);
+    }
+
+    public StringValue() {
+        this("");
     }
 }

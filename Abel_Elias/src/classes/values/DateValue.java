@@ -1,10 +1,14 @@
-package classes.types;
+package classes.values;
 
 import java.util.Date;
 
 public class DateValue extends Value<Date> {
-    DateValue(Date value, String type) {
+    public DateValue(Date value) {
         super(value);
         setType(Value.DATE);
+    }
+
+    public DateValue(){
+        super(new Date());
     }
 }

@@ -17,10 +17,11 @@ import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer, StringAnswer }
 import nl.uva.se.sc.niro.model.qls.{ QLStylesheet, Question }
 import nl.uva.se.sc.niro.util.StringUtil
+import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.{ JavaConverters, mutable }
 
-class QLFormController extends QLBaseController with ComponentChangedListener {
+class QLFormController extends QLBaseController with ComponentChangedListener with Logging {
   private val dictionary = mutable.Map[String, Answer]()
   private var qlForm: QLForm = _
   private var guiForm: GUIForm = _
@@ -71,6 +72,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   }
 
   def componentChanged(component: Component[_]): Unit = {
+    logger.debug(s"Component [${component.getQuestionId}] changed its value to [${component.getValue}]")
     dictionary(component.getQuestionId) = component.getValue
     evaluateAnswers()
     updateView()
@@ -96,7 +98,10 @@ class QLFormController extends QLBaseController with ComponentChangedListener {
   }
 
   private def evaluateAnswers(): Unit = {
+    logger.debug(s"Values before evaluation:\n${pprint.apply(dictionary)}")
     dictionary ++= Evaluator.evaluate(qlForm, dictionary.toMap)
+    logger.debug(s"Values after evaluation:\n${pprint.apply(dictionary)}")
+    logger.debug(s"\n${pprint.apply(qlForm)}")
   }
 
   private def updateView(): Unit = {

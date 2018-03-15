@@ -11,8 +11,16 @@ export class AppPage {
   }
 
   clearInputs() {
-    element(by.id('inputQl')).clear();
     element(by.id('inputQls')).clear();
+    element(by.id('inputQl')).clear();
+  }
+
+  prefill() {
+    element(by.id('prefill-button')).click();
+  }
+
+  parse() {
+    element(by.id('parse-button')).click();
   }
 
   parseInput(input: string) {

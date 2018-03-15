@@ -26,12 +26,12 @@ it("does not allow numbers in if conditions", () => {
 
 it("allows integer comparisons", () => {
   const addition = new Addition(
-      new NumberLiteral(2),
-      new NumberLiteral(31)
+      NumberLiteral.fromString("2"),
+      NumberLiteral.fromString("31")
   );
 
   const expression = new Equals(
-      new NumberLiteral(32),
+      NumberLiteral.fromString("32.0"),
       addition
   );
 
@@ -41,13 +41,13 @@ it("allows integer comparisons", () => {
 
 it("uses the lowest possible numeric type", () => {
   const integerDivision = new Division(
-      new NumberLiteral(10),
-      new NumberLiteral(3)
+      new NumberLiteral(10, FieldType.Integer),
+      new NumberLiteral(3, FieldType.Integer)
   );
 
   const floatAddition = new Addition(
-      new NumberLiteral(2),
-      new NumberLiteral(2.1)
+      new NumberLiteral(2, FieldType.Integer),
+      new NumberLiteral(2.1, FieldType.Decimal)
   );
 
   const moneyVariables: VariableInformation[] = [
@@ -63,7 +63,7 @@ it("uses the lowest possible numeric type", () => {
   );
 
   expect(typeCheck(integerDivision)).toBe(FieldType.Integer);
-  expect(typeCheck(floatAddition)).toBe(FieldType.Float);
+  expect(typeCheck(floatAddition)).toBe(FieldType.Decimal);
   expect(typeCheck(moneySubtraction, variablesToMap(moneyVariables))).toBe(FieldType.Money);
 });
 

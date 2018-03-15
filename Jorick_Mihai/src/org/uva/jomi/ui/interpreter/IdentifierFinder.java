@@ -22,22 +22,13 @@ import org.uva.jomi.ql.ast.expressions.OrExpr;
 import org.uva.jomi.ql.ast.expressions.StringExpr;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
 import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
-import org.uva.jomi.ql.ast.statements.BlockStmt;
-import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.FormStmt;
-import org.uva.jomi.ql.ast.statements.IfElseStmt;
-import org.uva.jomi.ql.ast.statements.IfStmt;
-import org.uva.jomi.ql.ast.statements.QuestionStmt;
-import org.uva.jomi.ql.ast.statements.Stmt;
-import org.uva.jomi.ql.ast.statements.Stmt.Visitor;
-import org.uva.jomi.ui.interpreter.value.GenericValue;
 
 public class IdentifierFinder implements Expr.Visitor<List<String>> {
 
 	public List<String> find(Expr expr) {
 		return expr.accept(this);
 	}
-	
+
 	/*
 	@Override
 	public List<String> visit(FormStmt stmt) {
@@ -78,8 +69,8 @@ public class IdentifierFinder implements Expr.Visitor<List<String>> {
 		return this.combineIdentifiers(identifiers, stmt.getElseBlockStmt().accept(this));
 	}
 	*/
-	
-	
+
+
 	@Override
 	public List<String> visit(IdentifierExpr expr) {
 		List<String> identifiers =  new ArrayList<String>();
@@ -171,7 +162,7 @@ public class IdentifierFinder implements Expr.Visitor<List<String>> {
 	public List<String> visit(BooleanExpr expr) {
 		return new ArrayList<String>();
 	}
-	
+
 	private List<String> combineIdentifiers(List<String>firstList, List<String>secondList) {
 		for(String identifier : secondList) {
 			firstList.add(identifier);

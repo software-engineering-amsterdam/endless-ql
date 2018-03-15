@@ -1,33 +1,39 @@
 package ql.analysis;
 
+import javafx.util.Pair;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
-import ql.model.expression.Expression;
-import ql.model.expression.ReturnType;
 import ql.model.Form;
 import ql.model.Question;
+import ql.model.expression.Expression;
+import ql.model.expression.ReturnType;
+import ql.model.expression.variable.ExpressionVariableUndefined;
 
-import java.text.SimpleDateFormat;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SymbolTable {
     private Map<String, Expression> table;
+    private List<ChangeListener> listeners;
 
     public SymbolTable() {
         this.table = new HashMap<>();
+        this.listeners = new ArrayList<>();
     }
 
-    public SymbolTable(Form form) {
-        this.table = new HashMap<>();
-
+    public void buildTable(Form form) {
         for (Question question : form.questions) {
-            table.put(question.name, question.defaultAnswer);
+            if(question.isComputed()) {
+                table.put(question.name, question.computedAnswer);
+            } else {
+                table.put(question.name, new ExpressionVariableUndefined(question.getToken(), question.type));
+            }
         }
-    }
-
-    public boolean containsExpression(String identifier) {
-        return this.table.containsKey(identifier);
     }
 
     public Expression getExpression(String identifier) {
@@ -60,10 +66,15 @@ public class SymbolTable {
             case BOOLEAN:
                 return evaluated.getBooleanValue().toString();
             case DATE:
-                return new SimpleDateFormat("dd-MM-yyy").format(evaluated.getDateValue());
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                return evaluated.getDateValue().format(dateFormatter);
             default:
                 return "";
         }
+    }
+
+    public void addListener(ChangeListener listener){
+        this.listeners.add(listener);
     }
 
     public Map<String, Expression> getAllAnswers(){
@@ -72,5 +83,10 @@ public class SymbolTable {
 
     public void setExpression(String identifier, Expression value) {
         this.table.put(identifier, value);
+
+        // Notify listener
+        for(ChangeListener listener : listeners){
+            listener.stateChanged(new ChangeEvent(new Pair(identifier, value)));
+        }
     }
 }

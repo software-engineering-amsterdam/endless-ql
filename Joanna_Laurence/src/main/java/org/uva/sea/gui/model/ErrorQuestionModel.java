@@ -1,8 +1,8 @@
 package org.uva.sea.gui.model;
 
 import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
-import org.uva.sea.ql.interpreter.dataObject.QuestionData;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.ErrorValue;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.ErrorValue;
 
 public class ErrorQuestionModel extends BaseQuestionModel {
 
@@ -20,6 +20,6 @@ public class ErrorQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        return value != null ? value.getError() : "No value";
+        return (this.value != null) ? this.value.getError() : "No value";
     }
 }

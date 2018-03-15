@@ -1,62 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
-using Assignment1.Export;
-using Assignment1.Rendering;
 
 namespace Assignment1
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IMainView
     {
-        private FlowLayoutPanel _mainPanel;
-
         public Form1()
         {
             InitializeComponent();
-            _mainPanel = new FlowLayoutPanel
-            {
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                FlowDirection = FlowDirection.TopDown
-            };
-            Controls.Add(_mainPanel);
+            var presenter = new MainPresenter(this);
+            openFileButton.Click += SelectQLFile;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public event EventHandler SelectQLFile;
+
+        public void SetFormControl(Control control)
         {
-            ParseFile("test.txt");
+            _questionFormPanel.Controls.Clear();
+            _questionFormPanel.Controls.Add(control);
         }
 
-        private void ParseFile(string fileLocation)
+        public void SetErrors(List<string> errors)
         {
-            _mainPanel.Controls.Clear();
-            var listener = QLListener.ParseString(System.IO.File.ReadAllText(fileLocation));
-            if (listener.FormHasErrors)
-            {
-                ReportFormErrors(listener.Errors);
-            }
-            else
-            {
-                _mainPanel.Controls.Add(RenderFileSelector());
-                IQuestionFormRenderer renderer = new QuestionFormRenderer(listener.Form);
-                _mainPanel.Controls.Add(renderer.Render());
-                FormExporter exporter = new FormExporter(listener.Form);
-                _mainPanel.Controls.Add(exporter.Render());
-            }
-        }
-
-        private ToolStrip RenderFileSelector()
-        {
-            ToolStrip fileSelectorPanel = new ToolStrip();
-            ToolStripButton toolStripButton = new ToolStripButton("Open file", null, FileSelectorClicked);
-            fileSelectorPanel.Items.Add(toolStripButton);
-            return fileSelectorPanel;
-        }
-
-        private void ReportFormErrors(List<string> errors)
-        {
+            if (errors == null || errors.Count == 0)
+                return;
             var header = new Label
             {
                 Text = "Provided form is invalid!",
@@ -65,7 +34,7 @@ namespace Assignment1
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Arial", 12, FontStyle.Bold)
             };
-            Controls.Add(header);
+            _messagePanel.Controls.Add(header);
             foreach (string error in errors)
             {
                 var label = new Label
@@ -75,17 +44,32 @@ namespace Assignment1
                     Font = new Font("Arial", 10),
                     ForeColor = Color.Red
                 };
-                Controls.Add(label);
+                _messagePanel.Controls.Add(label);
             }
         }
 
-        private void FileSelectorClicked(object sender, EventArgs eventArgs)
+        // TODO: similar to SetErrors, extract
+        public void SetWarnings(List<string> warnings)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.InitialDirectory = Path.GetDirectoryName(Directory.GetCurrentDirectory());
-            if (fileDialog.ShowDialog() == DialogResult.OK)
+            if (warnings == null || warnings.Count == 0)
+                return;
+            var header = new Label
             {
-                ParseFile(fileDialog.FileName);
+                Text = "Warning:",
+                AutoSize = true,
+                Font = new Font("Arial", 9, FontStyle.Bold)
+            };
+            _messagePanel.Controls.Add(header);
+            foreach (var warning in warnings)
+            {
+                var label = new Label
+                {
+                    Text = warning,
+                    AutoSize = true,
+                    Font = new Font("Arial", 8),
+                    ForeColor = Color.DarkOrange
+                };
+                _messagePanel.Controls.Add(label);
             }
         }
     }

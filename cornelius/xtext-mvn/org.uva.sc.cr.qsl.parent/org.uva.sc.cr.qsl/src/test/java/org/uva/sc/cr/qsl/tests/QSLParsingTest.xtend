@@ -66,9 +66,9 @@ class QSLParsingTest {
 			        question valueResidue
 			        default money {
 			          width: 400
-			          font: "Arial" 
+			          font: "SansSerif" 
 			          fontsize: 14
-			          color: #A9f9992
+			          color: #A9f999
 			          widget spinbox
 			        }        
 			      }

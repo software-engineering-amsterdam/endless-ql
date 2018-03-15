@@ -1,5 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { WidgetComponent } from './widget.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {WidgetComponent} from './widget.component';
 import {MatCheckboxModule, MatFormFieldModule, MatInputModule, MatRadioModule, MatSelectModule, MatSliderModule} from '@angular/material';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Widget, WidgetType} from '../../domain/ast/qls';
@@ -11,14 +11,12 @@ describe('WidgetComponent', () => {
   let component: WidgetComponent;
   let fixture: ComponentFixture<WidgetComponent>;
 
-  const textWidget = new Widget(WidgetType.TEXT, []);
-  const options = {
-    key: 'question',
-    label: 'textboxquestion',
-    type: 'text',
-    value: undefined
-  };
-  const question = new InputQuestion(options);
+  const question = new InputQuestion(
+    'question',
+    'textboxQuestion',
+    undefined,
+    'text',
+    undefined);
 
   const controls = {};
   controls['question'] = new FormControl({value: ''});
@@ -26,14 +24,14 @@ describe('WidgetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WidgetComponent ],
+      declarations: [WidgetComponent],
       imports: [
         ReactiveFormsModule,
         BrowserAnimationsModule,
         MaterialModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -42,7 +40,6 @@ describe('WidgetComponent', () => {
   });
 
   it('should show a text input question', () => {
-    component.widget = textWidget;
     component.question = question;
     component.form = formGroup;
 

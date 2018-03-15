@@ -476,7 +476,9 @@ public class QLParser extends Parser {
 		}
 	}
 	public static class AndExprContext extends ExpressionContext {
+		public ExpressionContext left;
 		public Token operator;
+		public ExpressionContext right;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -509,7 +511,9 @@ public class QLParser extends Parser {
 		}
 	}
 	public static class EqualityExprContext extends ExpressionContext {
+		public ExpressionContext left;
 		public Token operator;
+		public ExpressionContext right;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -524,7 +528,9 @@ public class QLParser extends Parser {
 		}
 	}
 	public static class MultiplicationOrDivisionExprContext extends ExpressionContext {
+		public ExpressionContext left;
 		public Token operator;
+		public ExpressionContext right;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -539,7 +545,9 @@ public class QLParser extends Parser {
 		}
 	}
 	public static class ComparisonExprContext extends ExpressionContext {
+		public ExpressionContext left;
 		public Token operator;
+		public ExpressionContext right;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -574,7 +582,9 @@ public class QLParser extends Parser {
 		}
 	}
 	public static class AdditionOrSubtractionExprContext extends ExpressionContext {
+		public ExpressionContext left;
 		public Token operator;
+		public ExpressionContext right;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -610,7 +620,9 @@ public class QLParser extends Parser {
 		}
 	}
 	public static class OrExprContext extends ExpressionContext {
+		public ExpressionContext left;
 		public Token operator;
+		public ExpressionContext right;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -723,6 +735,7 @@ public class QLParser extends Parser {
 					case 1:
 						{
 						_localctx = new MultiplicationOrDivisionExprContext(new ExpressionContext(_parentctx, _parentState));
+						((MultiplicationOrDivisionExprContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(76);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
@@ -738,12 +751,13 @@ public class QLParser extends Parser {
 							consume();
 						}
 						setState(78);
-						expression(7);
+						((MultiplicationOrDivisionExprContext)_localctx).right = expression(7);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new AdditionOrSubtractionExprContext(new ExpressionContext(_parentctx, _parentState));
+						((AdditionOrSubtractionExprContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(79);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
@@ -759,12 +773,13 @@ public class QLParser extends Parser {
 							consume();
 						}
 						setState(81);
-						expression(6);
+						((AdditionOrSubtractionExprContext)_localctx).right = expression(6);
 						}
 						break;
 					case 3:
 						{
 						_localctx = new ComparisonExprContext(new ExpressionContext(_parentctx, _parentState));
+						((ComparisonExprContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(82);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
@@ -780,12 +795,13 @@ public class QLParser extends Parser {
 							consume();
 						}
 						setState(84);
-						expression(5);
+						((ComparisonExprContext)_localctx).right = expression(5);
 						}
 						break;
 					case 4:
 						{
 						_localctx = new EqualityExprContext(new ExpressionContext(_parentctx, _parentState));
+						((EqualityExprContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(85);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
@@ -801,31 +817,33 @@ public class QLParser extends Parser {
 							consume();
 						}
 						setState(87);
-						expression(4);
+						((EqualityExprContext)_localctx).right = expression(4);
 						}
 						break;
 					case 5:
 						{
 						_localctx = new AndExprContext(new ExpressionContext(_parentctx, _parentState));
+						((AndExprContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(88);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(89);
 						((AndExprContext)_localctx).operator = match(AND);
 						setState(90);
-						expression(3);
+						((AndExprContext)_localctx).right = expression(3);
 						}
 						break;
 					case 6:
 						{
 						_localctx = new OrExprContext(new ExpressionContext(_parentctx, _parentState));
+						((OrExprContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(91);
 						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
 						setState(92);
 						((OrExprContext)_localctx).operator = match(OR);
 						setState(93);
-						expression(2);
+						((OrExprContext)_localctx).right = expression(2);
 						}
 						break;
 					}

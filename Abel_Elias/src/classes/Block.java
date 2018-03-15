@@ -1,16 +1,13 @@
 package classes;
 
-import classes.statements.Statement;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class Block extends TreeNode {
+public class Block{
     boolean constraint;
-    List<Statement> statements;
+    List<Question> statements;
 
     public Block(CodeBlock code, boolean constraint) {
-        super(code);
-        List<Statement> statements = new ArrayList<>();
+        List<Question> statements = new ArrayList<>();
     }
 }

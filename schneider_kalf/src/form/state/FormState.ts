@@ -1,3 +1,5 @@
+import { getTypeString } from "../type_checking/type_assertions";
+
 export default class FormState {
   store: Map<string, any>;
 
@@ -28,7 +30,7 @@ export default class FormState {
     const lines: string[] = [];
 
     this.store.forEach((value: any, name: string) => {
-      lines.push(`${name}: ${value}`);
+      lines.push(`${name}: ${value} [${getTypeString(value)}]`);
     });
 
     return lines.join("\n");

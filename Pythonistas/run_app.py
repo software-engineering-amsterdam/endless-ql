@@ -45,7 +45,7 @@ def main():
     # Debug grammar
     if args.grammar:
         # todo: make it so that you give path in CLI call + cleanup GrammerDebugger
-        g_debug = GrammarDebugger("tests/forms/ql/fail/arithmetic.ql")
+        g_debug = GrammarDebugger("tests/forms/ql/pass/arithmetic.ql")
         report, errors = g_debug.debug_grammar()
         sys.exit(0)
 

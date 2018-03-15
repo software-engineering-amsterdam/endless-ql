@@ -36,8 +36,8 @@ stylesheet taxOfficeExample
             widget spinbox style {
                 fonttype: "monospaced"
                 fontstyle: "bold"
-                fontcolor: #999999
-                widgetcolor: #999999
+                fontcolor: "#999999"
+                widgetcolor: "#999999"
             }
         }
     }

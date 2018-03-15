@@ -12,15 +12,14 @@ import org.uva.sea.languages.ql.parser.elements.expressions.*;
 import org.uva.sea.languages.ql.parser.elements.types.*;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
-import java.util.HashMap;
+import java.util.Map;
 
-;
 
 public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnalysis {
 
-    private Messages errors = new Messages();
+    private final Messages errors = new Messages();
 
-    private HashMap<SpecificationKey, NodeType> typeCheckSpecification;
+    private final Map<SpecificationKey, NodeType> typeCheckSpecification;
 
     /**
      * Hide constructor
@@ -59,7 +58,7 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnal
      * @return The new type
      */
     private NodeType getNodeTypeAndReportErrors(ASTNode node, NodeType leftHandSideType, NodeType rightHandSideType) {
-        if (leftHandSideType == NodeType.INVALID || rightHandSideType == NodeType.INVALID)
+        if ((leftHandSideType == NodeType.INVALID) || (rightHandSideType == NodeType.INVALID))
             return NodeType.INVALID;
 
         NodeType returnType = this.typeCheckSpecification.get(new SpecificationKey(node.getClass(), leftHandSideType, rightHandSideType));
@@ -74,82 +73,82 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnal
     public NodeType visit(Addition node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(And node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(Division node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(Equal node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(GreaterOrEqual node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(GreaterThan node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(LessOrEqual node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(LessThan node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(Multiplication node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(Negative node) {
         NodeType type = node.getType().accept(this);
-        return getNodeTypeAndReportErrors(node, type, NodeType.UNKNOWN);
+        return this.getNodeTypeAndReportErrors(node, type, NodeType.UNKNOWN);
     }
 
     @Override
     public NodeType visit(NotEqual node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(Not node) {
         NodeType type = node.getType().accept(this);
-        return getNodeTypeAndReportErrors(node, type, NodeType.UNKNOWN);
+        return this.getNodeTypeAndReportErrors(node, type, NodeType.UNKNOWN);
     }
 
     @Override
@@ -161,20 +160,20 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnal
     public NodeType visit(Or node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
     public NodeType visit(Positive node) {
         NodeType type = node.getType().accept(this);
-        return getNodeTypeAndReportErrors(node, type, NodeType.UNKNOWN);
+        return this.getNodeTypeAndReportErrors(node, type, NodeType.UNKNOWN);
     }
 
     @Override
     public NodeType visit(Subtraction node) {
         NodeType leftHandSideType = node.getLeftHandSide().accept(this);
         NodeType rightHandSideType = node.getRightHandSide().accept(this);
-        return getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
+        return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
@@ -220,7 +219,7 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnal
         if (valueNode != null) {
             NodeType valueType = valueNode.accept(this);
             if (questionType != valueType) {
-                error(node);
+                this.error(node);
                 return NodeType.INVALID;
             }
         }

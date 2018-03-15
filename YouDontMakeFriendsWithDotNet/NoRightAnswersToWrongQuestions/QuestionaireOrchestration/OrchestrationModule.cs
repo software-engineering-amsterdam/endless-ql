@@ -31,6 +31,15 @@ namespace QuestionaireOrchestration
             appRegistration.AddTransient(
                 typeof(IModelQueryService<QuestionnaireDefinitionModel>),
                 typeof(QuestionnaireDefintionQueryService));
+
+            appRegistration.AddTransient(
+                typeof(IQuestionnaireOutputModelQueryService),
+                typeof(QuestionnaireOutputModelQueryService));
+
+            appRegistration.AddTransient(
+                typeof(IQuestionOutputModelQueryService),
+                typeof(QuestionOutputModelQueryService));
+
         }
     }
 }   

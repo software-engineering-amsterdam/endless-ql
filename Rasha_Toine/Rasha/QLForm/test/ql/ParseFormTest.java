@@ -1,4 +1,7 @@
 package test.ql;
+/**
+ * Test Parsing QL program and generating right ast
+ */
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +21,9 @@ public class ParseFormTest {
 		if (args.length != 0){
 			qlPath = args[0];  	
 		} else {
-			qlPath = "src/antlr/grammar/examples/questionnaire.ql";
+			qlPath = "resources/questionnaire.ql";
 		}
+		
 	    File qlFile = new File(qlPath);
 	    if (qlFile != null) {
 	    	 try {

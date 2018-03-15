@@ -11,11 +11,11 @@ import org.uva.sea.languages.ql.parser.elements.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
-    private Relation<String> dependencies = new Relation<>();
+    private final Relation<String> dependencies = new Relation<>();
 
     /**
      * Hide constructor
@@ -27,7 +27,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
     @Override
     public Messages doCheck(Form node) {
         node.accept(this);
-        return incorrectDependenciesToErrors(this.getIncorrectAsymmetricElements(this.dependencies));
+        return this.incorrectDependenciesToErrors(this.getIncorrectAsymmetricElements(this.dependencies));
     }
 
     /**
@@ -44,19 +44,19 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
     }
 
     @Override
-    public Void visit(IfStatement node) {
-        List<String> dependsOn = new ArrayList<>();
-        node.getExpression().accept(new BaseASTVisitor<Void>() {
+    public Void visit(IfStatement ifNode) {
+        Collection<String> dependsOn = new ArrayList<>();
+        ifNode.getExpression().accept(new BaseASTVisitor<Void>() {
             public Void visit(Variable node) {
-                if (node.getLinkedQuestion() != null && node.getLinkedQuestion().getValue() == null)
+                if ((node.getLinkedQuestion() != null) && (node.getLinkedQuestion().getValue() == null))
                     dependsOn.add(node.getVariableName());
 
                 return super.visit(node);
             }
         });
 
-        List<String> questions = new ArrayList<>();
-        node.getThen().accept(new BaseASTVisitor<Void>() {
+        Collection<String> questions = new ArrayList<>();
+        ifNode.getThen().accept(new BaseASTVisitor<Void>() {
             public Void visit(Question node) {
                 questions.add(node.getVariable().getVariableName());
                 return null;
@@ -64,9 +64,9 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
         });
 
 
-        addRelations(questions, dependsOn, this.dependencies);
+        this.addRelations(questions, dependsOn, this.dependencies);
 
-        super.visit(node);
+        super.visit(ifNode);
         return null;
     }
 
@@ -75,7 +75,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
      * @param dependsOn
      * @param relation
      */
-    private void addRelations(List<String> questions, List<String> dependsOn, Relation<String> relation) {
+    private void addRelations(Iterable<String> questions, Iterable<String> dependsOn, Relation<String> relation) {
         for (String question : questions) {
             for (String dependOn : dependsOn) {
                 relation.addRelation(question, dependOn);

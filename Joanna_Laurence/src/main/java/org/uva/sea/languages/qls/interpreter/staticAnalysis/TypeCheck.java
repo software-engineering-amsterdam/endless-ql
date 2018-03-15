@@ -6,7 +6,7 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
-import org.uva.sea.languages.qls.interpreter.evaluate.EvaluateDefaultStyle;
+import org.uva.sea.languages.qls.interpreter.evaluate.EvaluateDefaultStyle.Fetcher;
 import org.uva.sea.languages.qls.parser.elements.Page;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 import org.uva.sea.languages.qls.parser.elements.specification.Question;
@@ -19,16 +19,16 @@ import java.util.Stack;
 
 public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAnalysis {
 
-    private Messages message = new Messages();
+    private final Messages message = new Messages();
 
-    private EvaluateDefaultStyle.Fetcher defaultStyleEvaluator = new EvaluateDefaultStyle.Fetcher();
+    private final Fetcher defaultStyleEvaluator = new Fetcher();
 
     //Current state for visitor Visitor
     private Page currentPage = null;
 
-    private Stack<Section> currentSections = new Stack<>();
+    private final Stack<Section> currentSections = new Stack<>();
 
-    private Map<String, NodeType> qlQuestionNodeTypes;
+    private Map<String, NodeType> qlQuestionNodeTypes = new HashMap<>();
 
 
     /**
@@ -40,28 +40,28 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
 
     /**
      * Display errorNotCompatible message
+     *
      * @param node
      * @param widgetType
-     * @param baseType
+     * @param nodeType
      */
-    private void errorNotCompatible(Question node, WidgetType widgetType, WidgetType baseType) {
-        message.addMessage(widgetType + " is not compatible with " + baseType + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
+    private void errorNotCompatible(Question node, WidgetType widgetType, NodeType nodeType) {
+        this.message.addMessage(widgetType + " is not compatible with " + nodeType + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
     private void error(Question node, String errorMessage) {
-        message.addMessage(errorMessage + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
+        this.message.addMessage(errorMessage + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
 
     /**
-     *
      * @param form
      * @param stylesheet
      * @return
      */
     @Override
     public Messages doCheck(Form form, Stylesheet stylesheet) {
-        qlQuestionNodeTypes = getQLQuestionNodeTypes(form);
+        this.qlQuestionNodeTypes = this.getQLQuestionNodeTypes(form);
 
         //Will check QLS questions with the QL types
         stylesheet.accept(this);
@@ -104,19 +104,18 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
     @Override
     public Void visit(Question node) {
         WidgetType widgetType;
-        if(node.getWidget() == null)
+        if (node.getWidget() == null)
             return null;
 
         widgetType = node.getWidget().getWidgetType();
         NodeType questionNodeType = this.qlQuestionNodeTypes.get(node.getName());
-        if(questionNodeType == null) {
-            error(node, node.getName() + " has no type");
+        if (questionNodeType == null) {
+            this.error(node, node.getName() + " has no type");
             return null;
         }
 
-        WidgetType baseType = WidgetType.valueOf(questionNodeType.toString());
-        if (!baseType.isCompatible(widgetType)) {
-            errorNotCompatible(node, widgetType, baseType);
+        if (!widgetType.isCompatible(questionNodeType)) {
+            this.errorNotCompatible(node, widgetType, questionNodeType);
             return null;
         }
 

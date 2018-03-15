@@ -1,3 +1,3 @@
-class Type(object):
+class QLType:
     def __init__(self):
         pass

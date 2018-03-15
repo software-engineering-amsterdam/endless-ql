@@ -39,22 +39,6 @@ class IntegerWidget(ValidatingEntry):
         return "IntegerWidget"
 
 
-class StringWidget(ttk.Entry):
-
-    def __init__(self, parent, identifier, value=""):
-        super().__init__(parent, width=20, name=identifier)
-        super().insert(0, value)
-
-    def get(self):
-        try:
-            return StringLiteral("", super().get())
-        except ValueError:
-            return None
-
-    def __repr__(self):
-        return "StringWidget"
-
-
 class DecimalWidget(ValidatingEntry):
 
     def __init__(self, parent, identifier, value=""):
@@ -97,10 +81,9 @@ class MoneyWidget(ValidatingEntry):
         if new_value == "":
             return True
         try:
-            print(new_value)
-            new_value_as_decimal = Decimal(new_value)
-            decimal_places = new_value_as_decimal.as_tuple().exponent
-            if new_value_as_decimal == new_value_as_decimal and decimal_places >= -2:
+            is_decimal = Decimal(new_value) == Decimal(new_value)
+            exponent = Decimal(new_value).as_tuple().exponent
+            if is_decimal and exponent >= -2:
                 return True
         except (ValueError, InvalidOperation):
             return False
@@ -110,10 +93,26 @@ class MoneyWidget(ValidatingEntry):
         return "MoneyWidget"
 
 
+class StringWidget(ttk.Entry):
+
+    def __init__(self, parent, identifier, value=""):
+        super().__init__(parent, width=20, name=identifier)
+        super().insert(0, value)
+
+    def get(self):
+        try:
+            return StringLiteral("", super().get())
+        except ValueError:
+            return None
+
+    def __repr__(self):
+        return "StringWidget"
+
+
 class BooleanWidget(ttk.Checkbutton):
 
     def __init__(self, parent, identifier, value=False):
-        super().__init__(parent, width=20, name=identifier)
+        super().__init__(parent, width=20, name=identifier, command=(parent.register(self.onchange)))
         if value:
             super().state(['selected'])
 
@@ -122,6 +121,13 @@ class BooleanWidget(ttk.Checkbutton):
             return BooleanLiteral("", super().instate(['selected']))
         except ValueError:
             return None
+
+    def onchange(self):
+        selected = super().instate(['selected'])
+        if selected:
+            self.config(text="yes")
+        else:
+            self.config(text="no")
 
     def __repr__(self):
         return "BooleanWidget"

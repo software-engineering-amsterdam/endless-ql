@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.uva.sea.languages.QlEvaluator;
+import org.junit.runners.Parameterized.Parameters;
 import org.uva.sea.languages.QlSEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
@@ -18,21 +18,21 @@ import java.util.Collection;
 @RunWith(Parameterized.class)
 public class QLSEvaluateTest extends TestCase {
 
-    private static TestFileHelper testFileHelper = new TestFileHelper();
-    private String testFile;
-    private Boolean shouldCompile;
+    private static final TestFileHelper testFileHelper = new TestFileHelper();
+    private final String testFile;
+    private final Boolean shouldCompile;
 
     public QLSEvaluateTest(String testFile, Boolean shouldCompile) {
         this.testFile = testFile;
         this.shouldCompile = shouldCompile;
     }
 
-    @Parameterized.Parameters(name = "{index}: {0}")
+    @Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
 
-        Collection<Object[]> testFiles = new ArrayList<Object[]>();
-        testFiles.addAll(getTestFiles("src/test/resources/correctQLS/", true));
-        testFiles.addAll(getTestFiles("src/test/resources/incorrectQLS/", false));
+        Collection<Object[]> testFiles = new ArrayList<>();
+        testFiles.addAll(QLSEvaluateTest.getTestFiles("src/test/resources/correctQLS/", true));
+        testFiles.addAll(QLSEvaluateTest.getTestFiles("src/test/resources/incorrectQLS/", false));
 
         return testFiles;
     }
@@ -43,9 +43,9 @@ public class QLSEvaluateTest extends TestCase {
      * @return Map of test files and if they should be interpretable
      */
     private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
-        Collection<Object[]> testFiles = new ArrayList<Object[]>();
+        Collection<Object[]> testFiles = new ArrayList<>();
 
-        Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
+        Collection<String> locations = QLSEvaluateTest.testFileHelper.getTestFiles(folderLocation);
         for (String location : locations) {
             if(!location.endsWith(".qls"))
                 continue;
@@ -68,7 +68,7 @@ public class QLSEvaluateTest extends TestCase {
             EvaluationResult evaluationResult = qlsEvaluator.getQuestions();
             Messages evaluationMessages = evaluationResult.getMessages();
             return !evaluationMessages.hasMessagePresent(MessageTypes.ERROR);
-        } catch (InterruptedException | IOException e) {
+        } catch (InterruptedException | IOException ignored) {
             return false;
         }
     }

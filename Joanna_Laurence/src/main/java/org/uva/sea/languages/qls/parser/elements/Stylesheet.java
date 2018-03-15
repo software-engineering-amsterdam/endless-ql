@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Stylesheet extends QLSNode {
 
-    private List<Page> pages;
-    private String name;
+    private final List<Page> pages;
+    private final String name;
 
     public Stylesheet(Token token, String name, List<Page> pages) {
         super(token);
@@ -16,12 +16,12 @@ public class Stylesheet extends QLSNode {
         this.name = name;
     }
 
-    public List<Page> getPages() {
-        return pages;
+    public Iterable<Page> getPages() {
+        return this.pages;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override

@@ -10,6 +10,9 @@ import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.validation.checker.ParameterChecker;
+import org.uva.ql.validation.collector.ParameterMapping;
+import org.uva.ql.validation.collector.QuestionContext;
+import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +48,7 @@ public class ParameterCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        ParameterChecker parameterChecker = new ParameterChecker(form, new SymbolTable());
+        ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(form), new ParameterMapping(form).getParameterMapping());
         parameterChecker.runCheck();
 
         assertTrue(this.logHandler.hasWarnings());
@@ -64,9 +67,9 @@ public class ParameterCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        SymbolTable symbolTable = new SymbolTable();
+        SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new BooleanType());
-        ParameterChecker parameterChecker = new ParameterChecker(form, symbolTable);
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterMapping(form).getParameterMapping());
         parameterChecker.runCheck();
 
         assertFalse(this.logHandler.hasWarnings());

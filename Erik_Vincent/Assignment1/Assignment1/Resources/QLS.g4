@@ -31,6 +31,7 @@ page returns [Page result]
 		(default_style
 			{})*
 		CLOSE_CB
+		{$result.Id = $ID.text;}
 	;
 section returns [Section result]
 	@init {
@@ -43,6 +44,7 @@ section returns [Section result]
 		(default_style
 			{})*
 		CLOSE_CB
+		{$result.Label = $string.result;}
 	;
 content returns [IContent result]
 	: section

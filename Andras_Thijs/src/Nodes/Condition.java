@@ -114,7 +114,8 @@ public class Condition extends ASTNode {
             // This is thrown when a Variable isn't set yet.
             result = null;
         } catch (SyntaxException e) {
-            throw e; //TODO remove later
+            //TODO: Remove this catch once the method is called from Main
+            throw e;
         }
     }
 }

@@ -16,12 +16,14 @@ public class Main {
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (SyntaxException e) {
+        }
+        //TODO: Enable this again when we call getExpressionValue
+        /* catch (SyntaxException e) {
             // There's a syntax error!
             e.printStackTrace();
         } catch (TypeException e) {
             // There's a Type error!
             e.printStackTrace();
-        }
+        }*/
     }
 }

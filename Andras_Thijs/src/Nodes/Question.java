@@ -99,6 +99,7 @@ public class Question extends ASTNode {
             // This Exception is thrown when a Variable isn't set yet.
             result = null;
         } catch (SyntaxException e) {
+            //TODO: Remove this catch once the method is called from Main
             throw e;
         }
     }

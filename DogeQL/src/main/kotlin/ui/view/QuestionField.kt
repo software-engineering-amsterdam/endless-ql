@@ -12,7 +12,7 @@ class QuestionField(question: QuestionModel) : View(){
     init{
         with(root){
             when(question.item.value.type) {
-                SymbolType.Boolean-> add(QuestionCheckBox(question))
+                SymbolType.BOOLEAN -> add(QuestionCheckBox(question))
                 else -> add(QuestionTextField(question))
             }
         }

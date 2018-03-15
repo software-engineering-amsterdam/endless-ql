@@ -29,7 +29,6 @@ class DuplicatePass(result: TypeCheckResult) : NodePass<Unit>(result) {
             result.duplicateLabels.add(label)
         }
 
-
         if (!visitedNames.add(name)) {
             result.duplicateNames.add(name)
         }

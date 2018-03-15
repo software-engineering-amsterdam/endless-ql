@@ -46,6 +46,7 @@ namespace Assignment1
             }
         }
 
+        // TODO: similar to SetErrors, extract
         public void SetWarnings(List<string> warnings)
         {
             var header = new Label

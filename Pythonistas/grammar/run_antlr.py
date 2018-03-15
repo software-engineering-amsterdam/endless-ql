@@ -28,7 +28,7 @@ def run_antlr_parse_gen():
 
 
 # todo: delete processed/antlr after computation?
-def run_antrl(txt_input):
+def run_antlr(txt_input):
     ql_input = antlr4.InputStream(txt_input)
     lexer = QLLexer(ql_input)
     stream = antlr4.CommonTokenStream(lexer)

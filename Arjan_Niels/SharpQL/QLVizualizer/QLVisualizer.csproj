@@ -57,6 +57,8 @@
     <Compile Include="Elements\Managers\ElementManager.cs" />
     <Compile Include="Elements\ElementTypes.cs" />
     <Compile Include="Expression\ExpressionOperators.cs" />
+    <Compile Include="Expression\ExpressionType.cs" />
+    <Compile Include="Expression\ExpressionTypes.cs" />
     <Compile Include="Expression\LazyElementExpressionLink.cs" />
     <Compile Include="Expression\Types\ExpressionBool.cs" />
     <Compile Include="Expression\ExpressionOperator.cs" />

@@ -1,4 +1,5 @@
-﻿using QLVisualizer.Expression.Types;
+﻿using QLVisualizer.Expression;
+using QLVisualizer.Expression.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,12 @@ namespace QLVisualizer
     public static class UserMessages
     {
         #region Exceptions
-        public static string ExceptionNoCombination(Type type1, Type type2, ExpressionOperator expressionOperator)
+        public static string ExceptionNoCombination(ExpressionType type1, ExpressionType type2, ExpressionOperator expressionOperator)
         {
             return string.Format("Combination of {0} and {1} not implemented for operator {2}", type1, type2, expressionOperator);
         }
 
-        public static string ExceptionNoComparison(Type type1, Type type2, ExpressionOperator expressionOperator)
+        public static string ExceptionNoComparison(ExpressionType type1, ExpressionType type2, ExpressionOperator expressionOperator)
         {
             return string.Format("Comparison for {0} and {1} not implemented for operator {2}", type1, type2, expressionOperator);
         }

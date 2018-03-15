@@ -1,16 +1,15 @@
-﻿using QLVisualizer.Elements.Managers.LeafTypes;
-using System;
+﻿using System;
 
 
 namespace QLVisualizer.Expression.Types
 {
     public class ExpressionDouble : TypedExpressionValue<double>
     {
-        public ExpressionDouble(string[] usedWidgetIDs, Func<double> expression) : base(new Type[] { typeof(int), typeof(double) }, ExpressionOperators.Numeric, usedWidgetIDs, expression)
+        public ExpressionDouble(string[] usedWidgetIDs, Func<double> expression) : base(ExpressionTypes.Numeric, ExpressionOperators.Numeric, ExpressionType.Double, usedWidgetIDs, expression)
         {
         }
 
-        public ExpressionDouble(LazyElementExpressionLink<double> lazyElementExpressionLink) : base(new Type[] { typeof(int), typeof(double) }, ExpressionOperators.Numeric, lazyElementExpressionLink) { }
+        public ExpressionDouble(LazyElementExpressionLink<double> lazyElementExpressionLink) : base(ExpressionTypes.Numeric, ExpressionOperators.Numeric, ExpressionType.Double, lazyElementExpressionLink) { }
 
         #region Combine
         /// <summary>
@@ -23,14 +22,19 @@ namespace QLVisualizer.Expression.Types
         {
             if (ValidCombine(expressionValue, op))
             {
-                // Get correct expressionValue
-                ExpressionDouble expression = null;
-                if (expressionValue.Type == typeof(int))
-                    expression = expressionValue as ExpressionInt; // Uses implicit cast
-                else if (expressionValue.Type == typeof(double))
-                    expression = expressionValue as ExpressionDouble;
-                else
-                    throw new NotImplementedException();
+                ExpressionDouble expression;
+                switch (expressionValue.Type)
+                {
+                    case ExpressionType.Int:
+                        // Double has more precision, convert int to double (implicit)
+                        expression = expressionValue as ExpressionInt;
+                        break;
+                    case ExpressionType.Double:
+                        expression = expressionValue as ExpressionDouble;
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
 
                 AddToChain(expression.GetExpression(), op);
                 UsedIdentifiers = CombineWidgets(expressionValue);
@@ -51,11 +55,15 @@ namespace QLVisualizer.Expression.Types
         {
             if (ValidCompare(expressionValue, op))
             {
-                // Cast to correct type
-                if (expressionValue.Type == typeof(int))
-                    return CompareWith(expressionValue as ExpressionInt, op);   // Uses implicit casting to TypedExpressionValue<double>
-                else if (expressionValue.Type == typeof(double))
-                    return CompareWith(expressionValue as ExpressionDouble, op);
+                switch (expressionValue.Type)
+                {
+                    case ExpressionType.Int:
+                        return CompareWith(expressionValue as ExpressionInt, op);
+                    case ExpressionType.Double:
+                        return CompareWith(expressionValue as ExpressionDouble, op);
+                    default:
+                        throw new NotImplementedException();
+                }
             }
             throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, expressionValue.Type, op));
         }
@@ -66,7 +74,7 @@ namespace QLVisualizer.Expression.Types
         /// <param name="item">double expression</param>
         /// <param name="op">Compare operator</param>
         /// <returns>Boolean expression</returns>
-        private ExpressionBool CompareWith(TypedExpressionValue<double> item, ExpressionOperator op)
+        private ExpressionBool CompareWith(ExpressionDouble item, ExpressionOperator op)
         {
             switch (op)
             {
@@ -115,7 +123,12 @@ namespace QLVisualizer.Expression.Types
         /// <param name="expressionDouble">Double expression</param>
         public static implicit operator ExpressionInt(ExpressionDouble expressionDouble)
         {
-            return new ExpressionInt(expressionDouble.UsedIdentifiers, () => (int)expressionDouble.Result);
+            return expressionDouble.ToIntExpression();
+        }
+
+        private ExpressionInt ToIntExpression()
+        {
+            return new ExpressionInt(UsedIdentifiers, () => (int)Result);
         }
     }
 }

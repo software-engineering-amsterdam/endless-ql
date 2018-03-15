@@ -8,7 +8,7 @@ namespace QLVisualizer.Expression.Types
         /// <summary>
         /// Value types that this expression can be compared and combined with
         /// </summary>
-        protected Type[] CompatibleTypes { get; private set; }
+        protected ExpressionType[] CompatibleTypes { get; private set; }
 
         /// <summary>
         /// Operators that can be used on this expression
@@ -18,14 +18,14 @@ namespace QLVisualizer.Expression.Types
         /// <summary>
         /// Result-vale type
         /// </summary>
-        public Type Type { get; private set; }
+        public ExpressionType Type { get; private set; }
 
         /// <summary>
         /// Widgets this expression is dependend on
         /// </summary>
         public string[] UsedIdentifiers { get; protected set; }
 
-        public ExpressionValue(Type[] compatibleTypes, ExpressionOperator[] compatibleOperators, Type type, string[] usedWidgetIDs)
+        public ExpressionValue(ExpressionType[] compatibleTypes, ExpressionOperator[] compatibleOperators, ExpressionType type, string[] usedWidgetIDs)
         {
             CompatibleTypes = compatibleTypes;
             CompatibleOperators = compatibleOperators;

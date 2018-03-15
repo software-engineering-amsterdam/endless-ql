@@ -28,25 +28,39 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitBlock(QLParser.BlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#question}.
+	 * Enter a parse tree produced by {@link QLParser#lineInBlock}.
 	 * @param ctx the parse tree
 	 */
-	void enterQuestion(QLParser.QuestionContext ctx);
+	void enterLineInBlock(QLParser.LineInBlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#question}.
+	 * Exit a parse tree produced by {@link QLParser#lineInBlock}.
 	 * @param ctx the parse tree
 	 */
-	void exitQuestion(QLParser.QuestionContext ctx);
+	void exitLineInBlock(QLParser.LineInBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#statement}.
+	 * Enter a parse tree produced by the {@code normalQuestion}
+	 * labeled alternative in {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void enterStatement(QLParser.StatementContext ctx);
+	void enterNormalQuestion(QLParser.NormalQuestionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#statement}.
+	 * Exit a parse tree produced by the {@code normalQuestion}
+	 * labeled alternative in {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void exitStatement(QLParser.StatementContext ctx);
+	void exitNormalQuestion(QLParser.NormalQuestionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code fixedQuestion}
+	 * labeled alternative in {@link QLParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void enterFixedQuestion(QLParser.FixedQuestionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code fixedQuestion}
+	 * labeled alternative in {@link QLParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void exitFixedQuestion(QLParser.FixedQuestionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code identifier}
 	 * labeled alternative in {@link QLParser#expression}.

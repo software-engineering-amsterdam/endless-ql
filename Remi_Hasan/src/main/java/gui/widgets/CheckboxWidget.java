@@ -2,25 +2,22 @@ package gui.widgets;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 
-public class CheckboxWidget extends Widget {
-    public CheckboxWidget(String name, ChangeListener<? super String> listener){
-        super(name, listener);
+public class CheckboxWidget extends Widget<CheckBox> {
+
+    public CheckboxWidget(String name) {
+        super(name);
+
+        this.control = new CheckBox();
     }
 
+    @Override
+    public void setValue(String value) {
+        this.control.setSelected(Boolean.valueOf(value));
+    }
 
     @Override
-    public Pane getUI() {
-        HBox pane = new HBox();
-        pane.setSpacing(20);
-
-        pane.getChildren().add(new Label(name));
-        CheckBox checkBox = new CheckBox();
-        pane.getChildren().add(checkBox);
-
-        return pane;
+    public String getValue() {
+        return String.valueOf(this.control.isSelected());
     }
 }

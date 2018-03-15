@@ -1,17 +1,10 @@
 package node
 
 import data.question.Question
+import data.symbol.SymbolTable
 
-class RootNode : Node() {
-    override fun getEnabledQuestions(): ArrayList<Question> {
-        val questions = children.flatMap { child ->
-            child.getEnabledQuestions()
-        }
-
-        return ArrayList(questions)
-    }
-
-    override fun validate(): Boolean = children.all { child ->
-        child.validate()
+class RootNode(symbolTable: SymbolTable) : Node(symbolTable) {
+    override fun getEnabledQuestions(): List<Question> = children.flatMap { child ->
+        child.getEnabledQuestions()
     }
 }

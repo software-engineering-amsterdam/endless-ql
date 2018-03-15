@@ -123,7 +123,6 @@ class FormGui:
         page = self.pages[pageName]
         for questionOnPage in page.questions:
             if (questionOnPage.varName not in questions):
-                print(questionOnPage.varName)
                 self.removeQuestionFromPage(questionOnPage.varName)
 
     """

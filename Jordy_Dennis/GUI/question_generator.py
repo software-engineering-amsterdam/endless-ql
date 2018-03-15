@@ -34,7 +34,7 @@ class Question_Generator:
                 # check if assignment node, only show evaluated value
                 if (type(self.questions[varName]) == AssignmentNode):
                     if (self.form.getQuestionFromPage(varName)):
-                        self.form.getQuestionFromPage(varName).set_value(value)
+                        self.form.getQuestionFromPage(varName).setValue(value)
 
                 # if the question is not yet in the GUI
                 if (not self.form.isQuestionOnPage(varName)):

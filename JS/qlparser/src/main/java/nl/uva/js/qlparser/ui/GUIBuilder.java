@@ -20,15 +20,13 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 
 public class GUIBuilder {
-
-    public static final int FORM_VIEW_HEIGHT = 700;
-
     public static final int BUTTON_HEIGHT = 50;
 
-    public static final int LOG_HEIGHT    = 100;
-    public static final int FOOTER_HEIGHT = BUTTON_HEIGHT + LOG_HEIGHT;
+    private static final int FORM_VIEW_HEIGHT = 700;
+    private static final int LOG_HEIGHT    = 100;
+    private static final int FOOTER_HEIGHT = BUTTON_HEIGHT + LOG_HEIGHT;
 
-    public static final int FORM_HEIGHT = 3000; // TODO: Dynamic height
+    private static final int FORM_HEIGHT = 3000; // TODO: Dynamic height
     public static final int FORM_WIDTH  = 700;
     public static final int INPUT_WIDTH = 350;
 
@@ -52,8 +50,8 @@ public class GUIBuilder {
 
         formPanel = new FormPanel(form, FORM_VIEW_HEIGHT, FORM_WIDTH, FORM_HEIGHT);
 
+        topPanel = getTopPanel(null);
         bottomPanel = getBottomPanel();
-        topPanel = getTopButtons(null);
 
         mainFrame = getMainFrame();
         mainFrame.add(topPanel, BorderLayout.PAGE_START);
@@ -118,7 +116,7 @@ public class GUIBuilder {
         return bottomPanel;
     }
 
-    private static JPanel getTopButtons(LinkedList<Page> pages) {
+    private static JPanel getTopPanel(LinkedList<Page> pages) {
         ButtonBar buttonBar = new ButtonBar();
 
         // TODO

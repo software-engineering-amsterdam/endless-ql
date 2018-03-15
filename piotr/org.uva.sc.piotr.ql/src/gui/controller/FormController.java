@@ -13,7 +13,7 @@ public class FormController {
 
     private final List<FormQuestion> formQuestions;
     private final ExpressionEvaluator evaluator;
-    private CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
+    private final CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
 
     public FormController(List<FormQuestion> formQuestions, ExpressionEvaluator evaluator) throws Exception {
         this.evaluator = evaluator;
@@ -98,11 +98,27 @@ public class FormController {
         }
     }
 
-    public LinkedHashMap<String, String> prepareResults() {
-        LinkedHashMap<String, String> result = new LinkedHashMap<>();
+    public LinkedHashMap<String, Object> prepareResults() {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         for (FormQuestion formQuestion : this.formQuestions) {
             if (formQuestion.getVisibility()) {
-                result.put(formQuestion.getVariableName(), formQuestion.getValue().toString());
+                switch (formQuestion.getValue().getType()) {
+                    case INTEGER:
+                        result.put(formQuestion.getVariableName(), formQuestion.getValue().getIntegerValue());
+                        break;
+                    case DECIMAL:
+                        result.put(formQuestion.getVariableName(), formQuestion.getValue().getDecimalValue());
+                        break;
+                    case BOOLEAN:
+                        result.put(formQuestion.getVariableName(), formQuestion.getValue().getBooleanValue());
+                        break;
+                    case STRING:
+                        result.put(formQuestion.getVariableName(), formQuestion.getValue().getStringValue());
+                        break;
+                    default:
+                        result.put(formQuestion.getVariableName(), formQuestion.getValue().toString());
+                        break;
+                }
             }
         }
         return result;

@@ -6,7 +6,7 @@ import {LiteralType} from './expressions/expression';
 import {Variable} from './expressions/variable';
 
   export abstract class Statement {
-  constructor(public location: Location) {}
+  constructor(readonly location: Location) {}
 
   abstract toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
                           condition?: (form: FormGroup) => LiteralType): ReadonlyArray<QuestionBase<any>>;

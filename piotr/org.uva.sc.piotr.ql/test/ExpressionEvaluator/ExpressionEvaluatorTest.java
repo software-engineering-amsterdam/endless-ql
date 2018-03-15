@@ -2,11 +2,11 @@ package ExpressionEvaluator;
 
 import ast.ASTBuilder;
 import ast.model.Form;
-import logic.collectors.CollectFormQuestionsVisitor;
+import gui.model.QuestionModel;
+import logic.collectors.CollectQuestionModelsVisitor;
 import logic.evaluators.ExpressionEvaluator;
 import grammar.QLLexer;
 import grammar.QLParser;
-import gui.model.FormQuestion;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -20,7 +20,7 @@ public class ExpressionEvaluatorTest {
 
     private Form astForm;
     private ExpressionEvaluator evaluator;
-    private List<FormQuestion> formQuestions;
+    private List<QuestionModel> questionModels;
 
     @Before
     public void setUp() throws Exception {
@@ -34,11 +34,11 @@ public class ExpressionEvaluatorTest {
         ASTBuilder astBuilder = new ASTBuilder();
         this.astForm = astBuilder.visitForm(formContext);
 
-        CollectFormQuestionsVisitor collectFormQuestionsVisitor = new CollectFormQuestionsVisitor();
-        this.astForm.accept(collectFormQuestionsVisitor);
+        CollectQuestionModelsVisitor collectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
+        this.astForm.accept(collectQuestionModelsVisitor);
 
-        this.formQuestions = collectFormQuestionsVisitor.getFormQuestions();
-        this.evaluator = new ExpressionEvaluator(this.formQuestions);
+        this.questionModels = collectQuestionModelsVisitor.getQuestionModels();
+        this.evaluator = new ExpressionEvaluator(this.questionModels);
 
     }
 
@@ -50,7 +50,7 @@ public class ExpressionEvaluatorTest {
 //    @Test
 //    public void testIncompatibleTypesExceptionMessage() {
 //
-//        for (FormQuestion formQuestion : this.formQuestions) {
+//        for (QuestionModel formQuestion : this.questionModels) {
 //            if (formQuestion.getAssignedExpression() != null) {
 //                formQuestion.setValue(formQuestion.getAssignedExpression().accept(evaluator));
 //            }

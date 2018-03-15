@@ -7,8 +7,8 @@ import ast.model.statements.Question;
 import grammar.QLLexer;
 import grammar.QLParser;
 import gui.QLGui;
-import gui.model.FormQuestion;
-import logic.collectors.CollectFormQuestionsVisitor;
+import gui.model.QuestionModel;
+import logic.collectors.CollectQuestionModelsVisitor;
 import logic.collectors.CollectQuestionsVisitor;
 import logic.collectors.CollectReferencesVisitor;
 import logic.evaluators.ExpressionEvaluator;
@@ -65,16 +65,16 @@ public class Main {
 
         // TODO: operands of invalid type to operators
 
-        CollectFormQuestionsVisitor collectFormQuestionsVisitor = new CollectFormQuestionsVisitor();
-        form.accept(collectFormQuestionsVisitor);
+        CollectQuestionModelsVisitor collectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
+        form.accept(collectQuestionModelsVisitor);
 
         // start: ONE LIST TO RULE THEM ALL
-        List<FormQuestion> formQuestions = collectFormQuestionsVisitor.getFormQuestions();
+        List<QuestionModel> questionModels = collectQuestionModelsVisitor.getQuestionModels();
         // end: ONE LIST TO RULE THEM ALL
 
-        ExpressionEvaluator evaluator = new ExpressionEvaluator(formQuestions);
+        ExpressionEvaluator evaluator = new ExpressionEvaluator(questionModels);
 
-        new QLGui(form.getName(), formQuestions, evaluator);
+        new QLGui(form.getName(), questionModels, evaluator);
 
         System.out.println("Main finish.");
 

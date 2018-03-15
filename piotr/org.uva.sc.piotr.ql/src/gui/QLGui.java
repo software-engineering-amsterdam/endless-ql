@@ -2,8 +2,8 @@ package gui;
 
 import com.google.gson.Gson;
 import gui.controller.FormController;
-import gui.model.FormQuestion;
-import gui.view.FormQuestionPanel;
+import gui.model.QuestionModel;
+import gui.view.QuestionPanel;
 import logic.evaluators.ExpressionEvaluator;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class QLGui {
-    public QLGui(String title, List<FormQuestion> formQuestions, ExpressionEvaluator evaluator) throws Exception {
+    public QLGui(String title, List<QuestionModel> questionModels, ExpressionEvaluator evaluator) throws Exception {
 
         JFrame frame = new JFrame("QL Form GUI");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -33,13 +33,13 @@ public class QLGui {
         gridBagConstraints.anchor = GridBagConstraints.WEST;
 
         // form controller setup
-        FormController formController = new FormController(formQuestions, evaluator);
+        FormController formController = new FormController(questionModels, evaluator);
 
         // render form questions panels
         int i = 0;
-        for (FormQuestion formQuestion : formQuestions) {
+        for (QuestionModel questionModel : questionModels) {
             gridBagConstraints.gridy = i;
-            panel.add(new FormQuestionPanel(formQuestion), gridBagConstraints);
+            panel.add(new QuestionPanel(questionModel), gridBagConstraints);
             i++;
         }
 

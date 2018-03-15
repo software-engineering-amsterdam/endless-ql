@@ -1,6 +1,6 @@
 package gui.view.widgets;
 
-import gui.model.FormQuestion;
+import gui.model.QuestionModel;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -10,20 +10,20 @@ public class BooleanCheckboxWidget extends Widget {
 
     private final JCheckBox checkbox;
 
-    public BooleanCheckboxWidget(FormQuestion formQuestion) {
-        super(formQuestion);
+    public BooleanCheckboxWidget(QuestionModel questionModel) {
+        super(questionModel);
         JCheckBox checkbox = new JCheckBox();
 
-        if (formQuestion.getAssignedExpression() != null) {
+        if (questionModel.getAssignedExpression() != null) {
             checkbox.setEnabled(false);
         }
 
         checkbox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                formQuestion.changeValue(true);
+                questionModel.changeValue(true);
 
             } else {
-                formQuestion.changeValue(false);
+                questionModel.changeValue(false);
             }
         });
 
@@ -37,6 +37,6 @@ public class BooleanCheckboxWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.checkbox.setSelected(this.getFormQuestion().getValue().getBooleanValue());
+        this.checkbox.setSelected(this.getQuestionModel().getValue().getBooleanValue());
     }
 }

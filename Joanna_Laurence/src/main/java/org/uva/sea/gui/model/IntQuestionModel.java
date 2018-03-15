@@ -1,8 +1,8 @@
 package org.uva.sea.gui.model;
 
 import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
-import org.uva.sea.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.IntValue;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
 
 public class IntQuestionModel extends BaseQuestionModel {
 

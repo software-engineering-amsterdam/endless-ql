@@ -49,16 +49,14 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
   @FXML
   @throws[IOException]
   def cancel(event: ActionEvent): Unit =
-    QLForms.openHomeScreen(getActiveStage(event))
+    QLForms.openHomeScreen(getActiveStage())
 
   @FXML
   def saveData(event: ActionEvent): Unit = {
-    val stage = getActiveStage(event)
-
     val fileChooser = new FileChooser
     fileChooser.setTitle("Save file")
     fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("CSV", "*.csv"))
-    val file = fileChooser.showSaveDialog(stage)
+    val file = fileChooser.showSaveDialog(getActiveStage())
 
     QLFormService.saveMemoryTableToCSV(dictionary.toMap, file)
     println("Data is saved....")

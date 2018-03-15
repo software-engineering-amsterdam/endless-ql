@@ -6,11 +6,11 @@ import javafx.scene.control.Button
 import javafx.stage.Stage
 
 class QLBaseController {
-  @FXML
-  def quitApplication(event: ActionEvent): Unit = getActiveStage(event).close()
+  private var activeStage: Stage = _
 
-  protected def getActiveStage(event: ActionEvent): Stage = {
-    val closeButton = event.getSource.asInstanceOf[Button]
-    closeButton.getScene.getWindow.asInstanceOf[Stage]
-  }
+  @FXML
+  def quitApplication(event: ActionEvent): Unit = activeStage.close()
+
+  def setActiveStage(stage: Stage): Unit = activeStage = stage
+  def getActiveStage(): Stage = activeStage
 }

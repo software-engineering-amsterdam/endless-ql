@@ -6,13 +6,13 @@ import javafx.event.ActionEvent
 import javafx.fxml.{ FXML, FXMLLoader }
 import javafx.scene.Scene
 import javafx.scene.control.TextArea
-import javafx.scene.layout.BorderPane
+import javafx.scene.layout.Pane
 import javafx.stage.{ FileChooser, Stage }
-import nl.uva.se.sc.niro.{ QLFormService, QLStylesheetService }
 import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLForms
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
+import nl.uva.se.sc.niro.{ QLFormService, QLStylesheetService }
 import org.apache.logging.log4j.scala.Logging
 
 class QLHomeController extends QLBaseController with Logging {
@@ -22,8 +22,7 @@ class QLHomeController extends QLBaseController with Logging {
   @FXML
   def openForm(event: ActionEvent): Unit = {
     errorMessages.setVisible(false)
-    val stage = getActiveStage(event)
-    val selectedFile: File = selectQLFile(stage)
+    val selectedFile: File = selectQLFile(getActiveStage())
     if (selectedFile != null) try {
       val formOrErrors: Either[Seq[Errors.Error], QLForm] = QLFormService.importQLSpecification(selectedFile)
       formOrErrors match {
@@ -31,7 +30,7 @@ class QLHomeController extends QLBaseController with Logging {
           val stylesheetOrErrors: Either[Seq[Errors.Error], Option[QLStylesheet]] =
             QLStylesheetService.importQLStylesheetSpecification(form, new File(selectedFile.toString + "s"))
           stylesheetOrErrors match {
-            case Right(stylesheet) => handleSuccess(stage, form, stylesheet)
+            case Right(stylesheet) => handleSuccess(getActiveStage(), form, stylesheet)
             case Left(errors)      => handleErrors(errors)
           }
         }
@@ -66,7 +65,8 @@ class QLHomeController extends QLBaseController with Logging {
   @throws[IOException]
   private def createSceneForForm(form: QLForm, stylesheet: Option[QLStylesheet]) = {
     val loader = new FXMLLoader(getClass.getResource(QLForms.FORM_SCREEN))
-    val root: BorderPane = loader.load()
+    val root: Pane = loader.load()
+    loader.getController[QLFormController]().setActiveStage(getActiveStage())
     loader.getController[QLFormController]().initializeForm(form, stylesheet)
     new Scene(root)
   }

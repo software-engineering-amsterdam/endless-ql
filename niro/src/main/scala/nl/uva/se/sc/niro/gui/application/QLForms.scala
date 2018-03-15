@@ -4,8 +4,10 @@ import java.io.IOException
 
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
-import javafx.scene.{ Parent, Scene }
+import javafx.scene.Scene
+import javafx.scene.layout.Pane
 import javafx.stage.Stage
+import nl.uva.se.sc.niro.gui.controller.QLHomeController
 
 object QLForms {
   val HOME_SCREEN = "/nl/uva/se/sc/niro/gui/QLHome.fxml"
@@ -15,8 +17,10 @@ object QLForms {
 
   @throws[IOException]
   def openHomeScreen(stage: Stage): Unit = {
-    val root = FXMLLoader.load[Parent](classOf[QLForms].getResource(HOME_SCREEN))
+    val loader = new FXMLLoader(getClass.getResource(QLForms.HOME_SCREEN))
+    val root: Pane = loader.load()
     val scene = new Scene(root)
+    loader.getController[QLHomeController]().setActiveStage(stage)
     stage.setTitle("QL Forms")
     stage.setScene(scene)
     stage.show()

@@ -9,6 +9,9 @@ namespace QLParser.Visitors.QLS
     {
         public override QLSWidgetSpecification VisitWidgetspecification([NotNull] WidgetspecificationContext context)
         {
+            if (context == null)
+                return new QLSWidgetSpecification();
+
             var type = QLSWidgetSpecification.ParseWidgetType(context.WIDGETTYPE().GetText());
             var arguments = VisitWidgetTypeArguments(context.widgettypearguments());
 

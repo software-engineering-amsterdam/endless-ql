@@ -16,6 +16,12 @@ public class BaseVisitor extends QLBaseVisitor {
         this.questionMap = new HashMap<>();
     }
 
+    @Override
+    public Object visitIdentifier(QLParser.IdentifierContext ctx) {
+        String id = ctx.IDENTIFIER().getText();
+        return questionMap.get(id);
+    }
+
     public BaseVisitor(QLParser.FormContext tree){
         this();
         visit(tree);

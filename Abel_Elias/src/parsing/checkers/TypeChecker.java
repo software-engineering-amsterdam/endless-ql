@@ -18,8 +18,11 @@ public class TypeChecker extends BaseVisitor {
     @Override
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
+        Class expectedType = visit(ctx.type()).getClass();
+        Class valueType = visit(ctx.expression()).getClass();
 
-        if(!haveSameType(visit(ctx.expression()).getClass(), visit(ctx.type()).getClass())){
+
+        if(!haveSameType(valueType, expectedType)){
             throw new TypeError(id, ctx.type().getText());
         }
 

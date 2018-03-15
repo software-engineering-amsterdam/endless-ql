@@ -25,11 +25,9 @@ public class Evaluator {
 
     private final Linker qlQlsLinker = new Linker();
 
-    private final List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new IQLSStaticAnalysis[]{
-            new CheckAllQuestionsInQLQLS.Checker(),
+    private final List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new CheckAllQuestionsInQLQLS.Checker(),
             new CheckNoDuplicateQuestions.Checker(),
-            new Checker()
-    });
+            new Checker());
 
     /**
      * Generates questions with values
@@ -38,7 +36,7 @@ public class Evaluator {
      * @param qlEvaluationResult The current state of the program
      * @return List of questions that should be displayed
      */
-    public EvaluationResult evaluate(String qlsFile, EvaluationResult qlEvaluationResult) throws IOException, InterruptedException {
+    public EvaluationResult evaluate(String qlsFile, EvaluationResult qlEvaluationResult) throws IOException {
         Messages evaluationMessages = new Messages();
 
         ParseResult<Stylesheet> parseResult = this.parse(qlsFile);

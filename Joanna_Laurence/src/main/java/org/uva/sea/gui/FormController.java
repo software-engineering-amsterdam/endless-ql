@@ -20,6 +20,9 @@ import java.util.ResourceBundle;
 public class FormController implements Initializable {
 
     private final String defaultQlLocation = "/example.ql";
+//    private final String defaultQlLocation = "/basicQuestions.ql";
+    private final String defaultQlsLocation = "/basic.qls";
+//    private final String defaultQlsLocation = "/test.qls";
 
     private ResultController guiModel;
 
@@ -31,15 +34,19 @@ public class FormController implements Initializable {
 
     private String lastFocusedQuestion = "";
 
+    private String qlFile;
+    private String qlsFile;
+
     @FXML
     private VBox questionBox;
-
     @FXML
     private VBox messageBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.guiModel = new ResultController(this.getClass().getResource(this.defaultQlLocation).getFile(), null);
+        this.qlFile = this.getClass().getResource(this.defaultQlLocation).getFile();
+        this.qlsFile = this.getClass().getResource(this.defaultQlsLocation).getFile();
+        this.guiModel = new ResultController(this.qlFile, this.qlsFile);
         ViewRenderer renderer = new ViewRenderer(this.questionBox, this.messageBox, this);
         this.questionRenderer = new QuestionRenderer(renderer);
         this.warningRenderer = new WarningRenderer(renderer);
@@ -76,6 +83,20 @@ public class FormController implements Initializable {
         }
 
         this.guiModel = new ResultController(qlFile.getAbsolutePath(), null);
+        this.drawGui();
+    }
+
+    @FXML
+    public void loadQLSFile(ActionEvent actionEvent) {
+        FileSelector fileSelector = new FileSelector("Load QLS file", "QLS", "*.qls");
+        File qlsFile = fileSelector.getFile();
+
+        if (qlsFile == null) {
+            this.errorRenderer.render("File not found");
+            return;
+        }
+
+        this.guiModel = new ResultController(new File(this.qlFile).getAbsolutePath(), qlsFile.getAbsolutePath());
         this.drawGui();
     }
 

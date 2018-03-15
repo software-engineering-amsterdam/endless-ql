@@ -4,7 +4,7 @@ import sys
 BOOLEAN_UNICODE = u"boolean"
 INTEGER_UNICODE = u"int"
 
-class TypeChecker(object):    
+class QLTypeChecker(object):    
 
     def __init__(self, ast):
         self.ast = ast

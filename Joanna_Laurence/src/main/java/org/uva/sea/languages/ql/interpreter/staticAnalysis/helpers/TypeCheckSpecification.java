@@ -6,7 +6,6 @@ import org.uva.sea.languages.ql.parser.elements.expressions.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class TypeCheckSpecification {

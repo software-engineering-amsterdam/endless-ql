@@ -9,7 +9,8 @@ from QLS.QLSParser import QLSParser
 from QLS.QLSVisitor import QLSVisitor
 from QLSVisitorHelper import QLSVisitorHelper
 from GuiBuilder import GuiBuilder
-from TypeChecker import TypeChecker
+from QLTypeChecker import QLTypeChecker
+from QLSTypeChecker import QLSTypeChecker
 
 def main(argv):
     input = FileStream(argv[1])
@@ -22,6 +23,7 @@ def main(argv):
     ql_visitor = QLVisitorHelper()
     ql_ast = ql_visitor.visit(ql_tree)
 
+    ql_checker = QLTypeChecker(ql_ast)
 
     # input = FileStream(argv[2])
     # qls_lexer = QLSLexer(input)
@@ -32,10 +34,22 @@ def main(argv):
 
     # qls_visitor = QLSVisitorHelper()
     # qls_ast = qls_visitor.visit(qls_tree)
+    
+    # if len(argv) == 3:
+    #     input = FileStream(argv[2])
+    #     qls_lexer = QLSLexer(input)
+    #     qls_stream = CommonTokenStream(qls_lexer)
+    #     qls_parser = QLSParser(qls_stream)
+
+    #     qls_tree = qls_parser.stylesheet()
+
+    #     qls_visitor = QLSVisitorHelper()
+    #     qls_ast = qls_visitor.visit(qls_tree)
+
+    #     qls_checker = QLSTypeChecker(ql_ast, qls_ast)
 
     # print ast
 
-    # checker = TypeChecker(ql_ast)
 
     builder = GuiBuilder(ql_ast)
     # gui = Gui()

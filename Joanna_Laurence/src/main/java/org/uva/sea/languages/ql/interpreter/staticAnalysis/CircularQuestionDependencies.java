@@ -12,7 +12,6 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
@@ -45,9 +44,9 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
     }
 
     @Override
-    public Void visit(IfStatement node) {
+    public Void visit(IfStatement ifNode) {
         Collection<String> dependsOn = new ArrayList<>();
-        node.getExpression().accept(new BaseASTVisitor<Void>() {
+        ifNode.getExpression().accept(new BaseASTVisitor<Void>() {
             public Void visit(Variable node) {
                 if ((node.getLinkedQuestion() != null) && (node.getLinkedQuestion().getValue() == null))
                     dependsOn.add(node.getVariableName());
@@ -57,7 +56,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
         });
 
         Collection<String> questions = new ArrayList<>();
-        node.getThen().accept(new BaseASTVisitor<Void>() {
+        ifNode.getThen().accept(new BaseASTVisitor<Void>() {
             public Void visit(Question node) {
                 questions.add(node.getVariable().getVariableName());
                 return null;
@@ -67,7 +66,7 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
 
         this.addRelations(questions, dependsOn, this.dependencies);
 
-        super.visit(node);
+        super.visit(ifNode);
         return null;
     }
 

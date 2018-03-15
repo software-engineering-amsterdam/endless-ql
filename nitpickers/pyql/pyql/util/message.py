@@ -18,6 +18,9 @@ class Warning(Message):
     def __init__(self, text="Warning message"):
         super().__init__(text)
 
+    def __str__(self):
+        return "WARNING " + super().__repr__()
+
     def __repr__(self):
         return "WARNING " + super().__repr__()
 
@@ -26,6 +29,9 @@ class Error(Message):
 
     def __init__(self, text="Error message"):
         super().__init__(text)
+
+    def __str__(self):
+        return "ERROR " + super().__str__()
 
     def __repr__(self):
         return "ERROR " + super().__str__()

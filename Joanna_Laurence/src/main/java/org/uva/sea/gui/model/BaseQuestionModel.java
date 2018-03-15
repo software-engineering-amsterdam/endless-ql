@@ -3,6 +3,7 @@ package org.uva.sea.gui.model;
 import javafx.scene.control.Control;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.parser.NodeType;
 
@@ -14,6 +15,7 @@ public abstract class BaseQuestionModel extends Control implements BaseQuestionG
     private String variableName;
     private boolean isComputed;
     private WidgetType widgetType;
+    private Style styleQLS;
 
     public BaseQuestionModel(QuestionData data) {
         this.label = data.getLabel();
@@ -22,6 +24,11 @@ public abstract class BaseQuestionModel extends Control implements BaseQuestionG
         this.isComputed = data.isComputed();
         this.variableName = data.getQuestionName();
         this.widgetType = data.getWidgetType();
+        this.styleQLS = data.getStyle();
+    }
+
+    public Style getStyleQLS() {
+        return styleQLS;
     }
 
     public WidgetType getWidgetType() {

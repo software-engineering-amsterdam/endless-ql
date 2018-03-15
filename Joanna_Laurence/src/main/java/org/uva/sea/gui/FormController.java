@@ -20,6 +20,9 @@ import java.util.ResourceBundle;
 public class FormController implements Initializable {
 
     private String defaultQlLocation = "/example.ql";
+//    private String defaultQlLocation = "/basicQuestions.ql";
+    private String defaultQlsLocation = "/basic.qls";
+//    private String defaultQlsLocation = "/test.qls";
 
     private GuiModel guiModel;
 
@@ -39,7 +42,7 @@ public class FormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        guiModel = new GuiModel(getClass().getResource(defaultQlLocation).getFile(), null);
+        guiModel = new GuiModel(getClass().getResource(defaultQlLocation).getFile(), getClass().getResource(defaultQlsLocation).getFile());
         ViewRenderer renderer = new ViewRenderer(questionBox, messageBox, this);
         questionRenderer = new QuestionRenderer(renderer);
         warningRenderer = new WarningRenderer(renderer);

@@ -6,13 +6,13 @@ stylesheet taxOfficeExample
     {
         section "Buying"
         {
-            questions hasBoughtHouse
+            question hasBoughtHouse
             widget checkbox
         }
 
         section "Loaning"
         {
-            questions hasMaintLoan
+            question hasMaintLoan
         }
     }
 
@@ -20,19 +20,19 @@ stylesheet taxOfficeExample
     {
         section "Selling"
         {
-            questions hasSoldHouse
+            question hasSoldHouse
             widget dropdown
         }
 
         section "You sold a house"
         {
-            questions sellingPrice
+            question sellingPrice
             widget spinbox
 
-            questions privateDebt
+            question privateDebt
             widget spinbox
 
-            questions valueResidue
+            question valueResidue
             widget spinbox style {
                 fonttype: "monospaced"
                 fontstyle: "bold"

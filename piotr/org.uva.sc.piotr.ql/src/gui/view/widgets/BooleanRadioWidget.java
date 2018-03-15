@@ -6,7 +6,6 @@ import gui.view.Widget;
 import javax.swing.*;
 import java.awt.*;
 
-// TODO: change it into a real boolean radio widget
 public class BooleanRadioWidget extends Widget {
 
     private final JPanel radioPanel;

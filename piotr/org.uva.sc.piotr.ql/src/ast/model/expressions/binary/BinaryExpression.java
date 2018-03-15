@@ -13,6 +13,12 @@ public abstract class BinaryExpression extends Expression {
         this.rightSide = rightSide;
     }
 
+    protected BinaryExpression(Expression leftSide, Expression rightSide) {
+        super();
+        this.leftSide = leftSide;
+        this.rightSide = rightSide;
+    }
+
     public Expression getLeftSide() {
         return leftSide;
     }

@@ -16,6 +16,11 @@ public class Form extends ASTNode {
         this.name = name;
     }
 
+    public Form(String name) {
+        super();
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

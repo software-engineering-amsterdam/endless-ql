@@ -70,7 +70,7 @@ public class CollectFormQuestionsVisitor extends AbstractASTTraverse {
         }
 
         // flip the condition on the stack to negation @TODO: prettify meta-information, Expression is not necessary an AST node - can be, but doesn't have to... think about it.
-        this.conditionsStack.push(new Negation(this.conditionsStack.pop(), new ASTNode.MetaInformation(0, 0, "!(" + ifStatement.getCondition().getMetaInformation().getText() + ")")));
+        this.conditionsStack.push(new Negation(this.conditionsStack.pop()));
 
         for (Statement statement : ifStatement.getElseStatementList()) {
             statement.accept(this);
@@ -90,11 +90,7 @@ public class CollectFormQuestionsVisitor extends AbstractASTTraverse {
                 finalExpression = expression;
             } else {
                 // @TODO: prettify meta-information
-                finalExpression = new LogicalAnd(finalExpression, expression, new ASTNode.MetaInformation(
-                        0,
-                        0,
-                        "(" + finalExpression.getMetaInformation().getText() + ") && (" + expression.getMetaInformation().getText() + ")"
-                ));
+                finalExpression = new LogicalAnd(finalExpression, expression);
             }
         }
 

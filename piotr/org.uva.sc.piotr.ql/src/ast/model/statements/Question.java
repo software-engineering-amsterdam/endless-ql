@@ -18,6 +18,13 @@ public class Question extends Statement {
         this.variableType = variableType;
     }
 
+    public Question(String label, String variableName, TypeDeclaration variableType) {
+        super();
+        this.label = label;
+        this.variableName = variableName;
+        this.variableType = variableType;
+    }
+
     public String getLabel() {
         return label;
     }

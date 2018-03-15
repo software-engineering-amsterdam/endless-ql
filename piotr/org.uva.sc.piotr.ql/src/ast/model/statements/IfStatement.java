@@ -9,11 +9,18 @@ import java.util.List;
 public class IfStatement extends Statement {
 
     private final Expression condition;
-    private List<Statement> statementList = new ArrayList<>();
-    private List<Statement> elseStatementList = new ArrayList<>();
+    private List<Statement> statementList;
+    private List<Statement> elseStatementList;
 
     public IfStatement(Expression condition, List<Statement> statementList, List<Statement> elseStatementList, MetaInformation metaInformation) {
         super(metaInformation);
+        this.condition = condition;
+        this.statementList = statementList;
+        this.elseStatementList = elseStatementList;
+    }
+
+    public IfStatement(Expression condition, List<Statement> statementList, List<Statement> elseStatementList){
+        super();
         this.condition = condition;
         this.statementList = statementList;
         this.elseStatementList = elseStatementList;

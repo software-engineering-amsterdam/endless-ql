@@ -9,8 +9,10 @@ Form:
 
 Block:
 	'if' '(' expression=Expression ')' '{'
-	body=BlockBody
-	'}';
+	ifBody=BlockBody
+	'}' ('else' '{'
+	elseBody=BlockBody	
+	'}')?;
 
 BlockBody:
 	{BlockBody} questions+=Question*

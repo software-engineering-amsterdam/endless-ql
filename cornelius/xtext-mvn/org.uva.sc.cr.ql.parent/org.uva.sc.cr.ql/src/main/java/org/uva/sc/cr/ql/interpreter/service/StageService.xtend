@@ -6,6 +6,7 @@ import javax.inject.Singleton
 import org.uva.sc.cr.ql.qL.BlockBody
 import org.uva.sc.cr.ql.qL.Expression
 import org.uva.sc.cr.ql.qL.Form
+import org.uva.sc.cr.ql.util.ExpressionUtil
 
 @Singleton
 class StageService {
@@ -24,8 +25,13 @@ class StageService {
 			box.children.add(control)
 		]
 		body.blocks.forEach [
-			val blockChild = buildPanelForBlock(it.body, it.expression)
-			box.children.add(blockChild)
+			val ifBlockChild = buildPanelForBlock(it.ifBody, it.expression)
+			box.children.add(ifBlockChild)
+			if (it.elseBody !== null) {
+				val elseBlockExpression = ExpressionUtil.buildElseBlockExpression(it.expression)
+				val elseBlockChild = buildPanelForBlock(it.elseBody, elseBlockExpression)
+				box.children.add(elseBlockChild)
+			}
 		]
 		return box
 	}

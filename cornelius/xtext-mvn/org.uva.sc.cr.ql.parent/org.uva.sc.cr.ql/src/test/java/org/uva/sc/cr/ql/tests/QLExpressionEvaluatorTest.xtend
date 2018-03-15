@@ -11,6 +11,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.uva.sc.cr.ql.interpreter.evaluator.ExpressionEvaluator
 import org.uva.sc.cr.ql.qL.Form
+import org.uva.sc.cr.ql.util.ExpressionUtil
+import java.util.Random
 
 @RunWith(XtextRunner)
 @InjectWith(QLInjectorProvider)
@@ -158,6 +160,37 @@ class QLExpressionEvaluatorTest {
 		arguments.put("q2", 9.8)
 		expressionResult = expressionEvaluator.evaluateExpression(expression, arguments, Double)
 		Assert.assertEquals(24.7666, expressionResult.doubleValue, 0.0001)
+	}
+	
+	@Test
+	def void testIfAndElseBlockExpressionNegateEachOther() {
+		val result = parseHelper.parse('''
+			form TestForm{
+				"q?" q1: boolean
+				if(q1){
+					"q?" q2: integer
+				} else {
+					"q?" q3: integer
+				}
+			}
+		''')
+		Assert.assertNotNull(result)
+		Assert.assertTrue(result.eResource.errors.isEmpty)
+		validationTestHelper.assertNoErrors(result)
+
+		val block = result.body.blocks.head
+
+		val arguments = new HashMap<String, Object>
+		arguments.put("q1", Random.newInstance.nextBoolean)
+		
+		val expressionResultIf = expressionEvaluator.evaluateExpression(block.expression, arguments, Boolean)
+		val expressionElse = ExpressionUtil.buildElseBlockExpression(block.expression)
+		val expressionResultElse = expressionEvaluator.evaluateExpression(expressionElse, arguments, Boolean)
+		Assert.assertNotEquals(expressionResultIf, expressionResultElse)
+		
+		val expressionElseNegated = ExpressionUtil.buildElseBlockExpression(expressionElse)
+		val expressionResultElseNegated = expressionEvaluator.evaluateExpression(expressionElseNegated, arguments, Boolean)
+		Assert.assertEquals(expressionResultIf, expressionResultElseNegated)
 	}
 
 }

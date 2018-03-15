@@ -105,7 +105,6 @@ class QLExpressionValidatorTest {
 						}
 		''')
 		Assert.assertNotNull(result)
-		val errors = result.eResource.errors
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
 		switch operation {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLVisualizer.Expression.Enums;
+using System;
 
 namespace QLVisualizer.Expression.Types
 {
@@ -33,6 +34,8 @@ namespace QLVisualizer.Expression.Types
                     case ExpressionType.Double:
                         // Convert to double to continue combination
                         return ToDoubleExpression().Combine(expressionValue, op);
+                    default:
+                        throw new NotImplementedException();
                 }
 
             }

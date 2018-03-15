@@ -56,12 +56,12 @@
     <Compile Include="Elements\Managers\ElementManagerCollection.cs" />
     <Compile Include="Elements\Managers\ElementManager.cs" />
     <Compile Include="Elements\ElementTypes.cs" />
-    <Compile Include="Expression\ExpressionOperators.cs" />
-    <Compile Include="Expression\ExpressionType.cs" />
-    <Compile Include="Expression\ExpressionTypes.cs" />
+    <Compile Include="Expression\Enums\ExpressionOperators.cs" />
+    <Compile Include="Expression\Enums\ExpressionType.cs" />
+    <Compile Include="Expression\Enums\ExpressionTypes.cs" />
     <Compile Include="Expression\LazyElementExpressionLink.cs" />
     <Compile Include="Expression\Types\ExpressionBool.cs" />
-    <Compile Include="Expression\ExpressionOperator.cs" />
+    <Compile Include="Expression\Enums\ExpressionOperator.cs" />
     <Compile Include="Expression\ExpressionValue.cs" />
     <Compile Include="Expression\TypedExpressionValue.cs" />
     <Compile Include="Expression\Types\ExpressionDouble.cs" />

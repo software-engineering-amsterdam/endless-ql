@@ -6,6 +6,7 @@ using QLVisualizer.Elements.Managers.LeafTypes;
 using System;
 using System.Linq;
 using QLVisualizer.Elements.Managers.CollectionTypes;
+using QLVisualizer.Expression.Enums;
 
 namespace QLVisualizer.Factories
 {

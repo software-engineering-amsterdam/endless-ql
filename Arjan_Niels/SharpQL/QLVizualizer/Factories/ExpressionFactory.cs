@@ -5,6 +5,7 @@ using QLVisualizer.Expression;
 using QLVisualizer.Expression.Types;
 using System;
 using QLParser.AST.Nodes.ExpressionNodes.Enums;
+using QLVisualizer.Expression.Enums;
 
 namespace QLVisualizer.Factories
 {

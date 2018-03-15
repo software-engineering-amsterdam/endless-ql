@@ -1,4 +1,4 @@
-﻿using System;
+﻿using QLVisualizer.Expression.Enums;
 using System.Linq;
 
 namespace QLVisualizer.Expression.Types

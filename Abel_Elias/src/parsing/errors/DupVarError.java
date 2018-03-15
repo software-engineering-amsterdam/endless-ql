@@ -1,7 +1,7 @@
 package parsing.errors;
 
-public class TypeError extends Error {
-    public TypeError(String variableID, String type){
-        super("The variable " + variableID + "was not of type " + type);
+public class DupVarError extends Error {
+    public DupVarError(String variableID){
+        super("The variable " + variableID + "was declared more than once");
     }
 }

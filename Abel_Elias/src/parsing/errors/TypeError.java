@@ -1,7 +1,7 @@
 package parsing.errors;
 
-public class undeclaredVariableError extends Error {
-    public undeclaredVariableError(String variableID){
-        super("The variable " + variableID + " was not defined before being called.");
+public class TypeError extends Error {
+    public TypeError(String variableID, String type){
+        super("The variable " + variableID + " is not of type " + type);
     }
 }

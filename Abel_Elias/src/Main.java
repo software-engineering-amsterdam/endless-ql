@@ -1,6 +1,8 @@
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import parsing.AST_Visitor;
+import parsing.visitors.baseVisitor;
+import parsing.gen.QLLexer;
+import parsing.gen.QLParser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,7 +13,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Main {
-
     /**
      * parse and build the form file
      * @param inputStream - input stream of the given form file
@@ -27,10 +28,10 @@ public class Main {
             QLParser.FormContext tree = parser.form();
 
             //Call the visitor and build the tree
-            AST_Visitor builder = new AST_Visitor();
-            HashMap memory = (HashMap) builder.visit(tree);
+            baseVisitor builder = new baseVisitor(tree);
+            HashMap memory = builder.getQuestions();
 
-//            Test output
+//          Test output
             Iterator it = memory.entrySet().iterator();
             while (it.hasNext()) {
                   Map.Entry pair = (Map.Entry)it.next();

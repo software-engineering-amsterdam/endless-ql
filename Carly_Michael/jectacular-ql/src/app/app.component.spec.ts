@@ -45,6 +45,14 @@ describe('AppComponent', () => {
     expect(app.errorMessage).toBeUndefined();
   });
 
+  it('should prefill example input and parse that', () => {
+    app.prefillForm();
+    app.parseInput();
+    expect(app.formName).toBe('form');
+    expect(app.qlForm).toBeDefined();
+    expect(app.qlsStylesheet).toBeDefined();
+  });
+
   it('should deal with a parser error', () => {
     app.inputQl = mockData.formWrongQuestionName;
     app.parseInput();

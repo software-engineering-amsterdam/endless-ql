@@ -28,21 +28,26 @@ pageBlock
 
 // Section
 section
- = _ "section" _ name:stringLiteral lb* block:sectionBody{
+ = _ "section" _ name:stringLiteral lb* block:sectionBlock {
     return new Nodes.Section( name, block );
 }
 
-sectionBody
- = sectionBlockQuoted / sectionBlockUnquoted
+sectionBlock
+ = sectionBlockBrackets / sectionBlockNoBrackets
 
-sectionBlockQuoted
- = _ "{" lb* body:sectionBlockUnquoted+ lb* "}" lb* {
+sectionBlockBrackets
+ = _ "{" lb* body:sectionBlockNoBrackets "}" lb* {
     return body
 }
 
-sectionBlockUnquoted
- = _ body:(question / section / default) lb* {
-    return body
+sectionBlockNoBrackets
+ = _ block:sectionAttribute+ lb* {
+    return block
+}
+
+sectionAttribute
+ = _ attr:(question / section / default) lb* {
+   return attr
 }
 
 // Question

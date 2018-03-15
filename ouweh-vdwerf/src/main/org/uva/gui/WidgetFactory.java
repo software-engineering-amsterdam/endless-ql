@@ -21,7 +21,7 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
     }
 
     QuestionWidget makeWidget(Question question, Value value, Boolean readOnly) {
-        WidgetType widgetType = styleEvaluator.getWidgetType(question.getName());
+        WidgetType widgetType = styleEvaluator.getWidgetType(question);
         QuestionWidget widget = widgetType.accept(this, question, value, readOnly);
         widget.setQuestionChangeListener(questionChangeListener);
         return widget;

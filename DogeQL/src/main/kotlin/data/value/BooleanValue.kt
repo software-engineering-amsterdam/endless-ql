@@ -3,7 +3,7 @@ package data.value
 import data.question.SymbolType
 import java.math.BigDecimal
 
-class BooleanValue(var value: Boolean) : BaseSymbolValue(SymbolType.Boolean) {
+class BooleanValue(var value: Boolean) : BaseSymbolValue(SymbolType.BOOLEAN) {
 
     constructor(value: String) : this(value.toBoolean())
 

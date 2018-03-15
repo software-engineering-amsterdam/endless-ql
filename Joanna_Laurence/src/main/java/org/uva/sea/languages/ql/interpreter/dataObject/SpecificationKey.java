@@ -3,9 +3,9 @@ package org.uva.sea.languages.ql.interpreter.dataObject;
 import org.uva.sea.languages.ql.parser.NodeType;
 
 public class SpecificationKey {
-    private Class operator;
-    private NodeType leftType;
-    private NodeType rightType;
+    private final Class operator;
+    private final NodeType leftType;
+    private final NodeType rightType;
 
     public SpecificationKey(Class operator, NodeType leftType, NodeType rightType) {
         this.operator = operator;
@@ -15,15 +15,15 @@ public class SpecificationKey {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj != null && obj instanceof SpecificationKey) {
+        if ((obj != null) && (obj instanceof SpecificationKey)) {
             SpecificationKey key = (SpecificationKey) obj;
-            return operator.equals(key.operator) && leftType.equals(key.leftType) && rightType.equals(key.rightType);
+            return this.operator.equals(key.operator) && (this.leftType == key.leftType) && (this.rightType == key.rightType);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return operator.hashCode() ^ leftType.hashCode() ^ rightType.hashCode();
+        return this.operator.hashCode() ^ this.leftType.hashCode() ^ this.rightType.hashCode();
     }
 }

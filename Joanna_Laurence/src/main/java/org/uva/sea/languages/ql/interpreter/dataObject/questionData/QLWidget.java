@@ -6,26 +6,27 @@ import java.util.List;
 
 public class QLWidget {
 
-    WidgetType widgetType;
-    List<String> parameters;
+    private final WidgetType widgetType;
+    private final List<String> parameters;
 
-    public QLWidget(WidgetType widgetType, List<String> parameters) {
+    public QLWidget(final WidgetType widgetType, final List<String> parameters) {
         this.widgetType = widgetType;
         this.parameters = parameters;
     }
 
     public List<String> getParameters() {
-        return parameters;
+        return this.parameters;
     }
 
     public WidgetType getWidgetType() {
-        return widgetType;
+        return this.widgetType;
     }
 
     @Override
     public String toString() {
         return "QLWidget{" +
-                "parameters=" + parameters +
+                "widgetType=" + this.widgetType +
+                ", parameters=" + this.parameters +
                 '}';
     }
 }

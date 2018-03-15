@@ -7,11 +7,11 @@ from ql.ast.visitors.visitor_helper import on, when
 class IdentifierTypeVisitor(object):
 
     def __init__(self):
-        self.__identifier_type_combinations = []
+        self.__symbol_table = []
 
     @property
-    def label_type_combinations(self):
-        return self.__identifier_type_combinations
+    def symbol_table(self):
+        return self.__symbol_table
 
     # Generic method that initializes the dynamic dispatcher
     @on('node')
@@ -30,5 +30,5 @@ class IdentifierTypeVisitor(object):
 
     @when(QuestionNode)
     def visit(self, node):
-        self.__identifier_type_combinations.append({"identifier": node.identifier,
-                                                    "answer_type": node.answer_type})
+        self.__symbol_table.append({"identifier": node.identifier,
+                                    "answer_type": node.answer_type})

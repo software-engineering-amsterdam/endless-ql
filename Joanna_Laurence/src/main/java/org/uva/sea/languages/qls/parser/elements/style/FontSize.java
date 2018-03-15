@@ -5,7 +5,7 @@ import org.uva.sea.languages.qls.parser.visitor.IStyleASTVisitor;
 
 public class FontSize extends StyleSpecification {
 
-    private int size;
+    private final int size;
 
     public FontSize(Token token, String size) {
         super(token);
@@ -13,7 +13,7 @@ public class FontSize extends StyleSpecification {
     }
 
     public int getSize() {
-        return size;
+        return this.size;
     }
 
     @Override

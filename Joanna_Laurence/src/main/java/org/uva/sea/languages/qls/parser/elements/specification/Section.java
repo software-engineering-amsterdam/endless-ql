@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Section extends Specification {
 
-    private String name;
-    private List<Specification> specifications;
+    private final String name;
+    private final List<Specification> specifications;
 
     public Section(Token token, String name, List<Specification> specifications) {
         super(token);
@@ -17,11 +17,11 @@ public class Section extends Specification {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public List<Specification> getSpecifications() {
-        return specifications;
+    public Iterable<Specification> getSpecifications() {
+        return this.specifications;
     }
 
     @Override

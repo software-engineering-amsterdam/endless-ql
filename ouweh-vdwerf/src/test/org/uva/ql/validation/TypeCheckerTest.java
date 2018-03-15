@@ -10,6 +10,8 @@ import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.validation.checker.TypeChecker;
+import org.uva.ql.validation.collector.QuestionContext;
+import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +47,7 @@ public class TypeCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        SymbolTable symbolTable = new SymbolTable();
+        SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new IntegerType());
 
 
@@ -68,7 +70,7 @@ public class TypeCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        SymbolTable symbolTable = new SymbolTable();
+        SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new BooleanType());
 
 

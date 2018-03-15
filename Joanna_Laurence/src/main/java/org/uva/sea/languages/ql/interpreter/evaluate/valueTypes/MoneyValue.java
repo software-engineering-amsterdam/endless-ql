@@ -6,12 +6,13 @@ import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.InvalidParameterException;
 
 public class MoneyValue extends Value {
 
-    private String currency;
-    private BigDecimal amount;
+    private final String currency;
+    private final BigDecimal amount;
 
     public MoneyValue(String value) throws InvalidParameterException {
         String[] split = value.split(" ", 2);
@@ -28,11 +29,11 @@ public class MoneyValue extends Value {
     }
 
     public String getCurrency() {
-        return currency;
+        return this.currency;
     }
 
     public BigDecimal getAmount() {
-        return amount;
+        return this.amount;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value add(DecimalValue value) {
-        return new MoneyValue(this.currency, this.amount.add(new BigDecimal(value.getDecimalValue())));
+        return new MoneyValue(this.currency, this.amount.add(BigDecimal.valueOf(value.getDecimalValue())));
     }
 
     @Override
@@ -68,7 +69,7 @@ public class MoneyValue extends Value {
         if (value.getIntValue() == 0)
             throw new EvaluationException("Divide by 0 error");
 
-        return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getIntValue()), BigDecimal.ROUND_UNNECESSARY));
+        return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getIntValue()), RoundingMode.UNNECESSARY));
     }
 
     @Override
@@ -79,7 +80,7 @@ public class MoneyValue extends Value {
         if (value.getAmount().doubleValue() == 0.0)
             throw new EvaluationException("Divide by 0 error");
 
-        return new DecimalValue(this.amount.divide(value.getAmount(), BigDecimal.ROUND_UNNECESSARY).doubleValue());
+        return new DecimalValue(this.amount.divide(value.getAmount(), RoundingMode.UNNECESSARY).doubleValue());
     }
 
     @Override
@@ -87,7 +88,7 @@ public class MoneyValue extends Value {
         if (value.getDecimalValue() == 0)
             throw new EvaluationException("Divide by 0 error");
 
-        return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getDecimalValue()), BigDecimal.ROUND_UNNECESSARY));
+        return new MoneyValue(this.currency, this.amount.divide(BigDecimal.valueOf(value.getDecimalValue()), RoundingMode.UNNECESSARY));
     }
 
     @Override
@@ -100,7 +101,7 @@ public class MoneyValue extends Value {
         if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
-        return new BooleanValue(this.amount.equals(value.getAmount()));
+        return new BooleanValue(this.amount.compareTo(value.getAmount()) == 0);
     }
 
     @Override
@@ -175,7 +176,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value multiply(DecimalValue value) {
-        return new MoneyValue(this.currency, this.amount.multiply(new BigDecimal(value.getDecimalValue())));
+        return new MoneyValue(this.currency, this.amount.multiply(BigDecimal.valueOf(value.getDecimalValue())));
     }
 
     @Override
@@ -188,7 +189,7 @@ public class MoneyValue extends Value {
         if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
-        return new BooleanValue(!this.amount.equals(value.getAmount()));
+        return new BooleanValue(this.amount.compareTo(value.getAmount()) != 0);
     }
 
     @Override
@@ -211,7 +212,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value subtract(DecimalValue value) {
-        return new MoneyValue(this.currency, this.amount.subtract(new BigDecimal(value.getDecimalValue())));
+        return new MoneyValue(this.currency, this.amount.subtract(BigDecimal.valueOf(value.getDecimalValue())));
     }
 
     @Override

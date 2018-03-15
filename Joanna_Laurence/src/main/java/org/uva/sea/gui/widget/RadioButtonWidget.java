@@ -1,7 +1,5 @@
 package org.uva.sea.gui.widget;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Control;
 import javafx.scene.control.RadioButton;
 import org.uva.sea.gui.FormController;
@@ -15,12 +13,9 @@ public class RadioButtonWidget implements Widget {
         //TODO: check implementation
         RadioButton radioButton = new RadioButton();
 
-        radioButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newValue));
-            }
-        });
+        radioButton.selectedProperty().addListener(
+                (observable, oldValue, newValue) -> controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newValue))
+        );
 
         return radioButton;
 

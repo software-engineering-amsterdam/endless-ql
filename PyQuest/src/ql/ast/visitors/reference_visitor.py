@@ -27,7 +27,7 @@ class ReferenceVisitor(object):
         self.__scope_id = 0
 
     @property
-    def scope(self):
+    def identifier_scopes(self):
         return self.__current_scope
 
     # Generic method that initializes the dynamic dispatcher

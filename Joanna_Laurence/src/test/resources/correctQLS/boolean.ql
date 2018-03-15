@@ -9,6 +9,4 @@ form taxOfficeExample {
   "Number of free giftbags: "
     item3: boolean
 
-  "Number of free giftbags: "
-    item4: boolean
 }

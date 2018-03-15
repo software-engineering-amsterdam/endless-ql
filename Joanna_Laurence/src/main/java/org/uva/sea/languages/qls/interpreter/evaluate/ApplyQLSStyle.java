@@ -86,10 +86,11 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         QuestionData questionData = this.getOriginalQuestionData(node.getName());
 
         if (questionData != null) {
-            WidgetType widgetType = node.getWidget() != null ? node.getWidget().getWidgetType() : getDefaultWidgetType(questionData.getNodeType());
-            questionData.setWidgetType(widgetType);
+            if(node.getWidget() != null) {
+                questionData.setWidgetType(node.getWidget().getWidgetType());
+            }
 
-            questionData.setStyle(getQuestionStyle(node, widgetType));
+            questionData.setStyle(getQuestionStyle(node, questionData.getNodeType()));
             this.outputResult.add(questionData);
         }
 
@@ -100,19 +101,18 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      * Get default style for a question
      *
      * @param question   Question node
-     * @param widgetType What type of question
      * @return Style for the widget
      * @throws InterruptedException
      */
-    private Style getQuestionStyle(Question question, WidgetType widgetType) {
+    private Style getQuestionStyle(Question question, NodeType nodeType) {
         Style style = new Style();
         style.setPage(this.currentPage.getName());
         style.setSection(getCurrentSection());
 
         if (question.getWidget() != null)
-            style.setWidget(new QLWidget(widgetType, question.getWidget().getStringParameters()));
+            style.setWidget(new QLWidget(question.getWidget().getWidgetType(), question.getWidget().getStringParameters()));
 
-        style.fillNullFields(this.defaultStyleEvaluator.getCascadingStyle(widgetType, this.currentSections, this.currentPage));
+        style.fillNullFields(this.defaultStyleEvaluator.getCascadingStyle(nodeType, this.currentSections, this.currentPage));
         return style;
     }
 
@@ -128,17 +128,6 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
             sections.add(section.getName());
         return sections;
     }
-
-    /**
-     * Determine what NodeType type belongs to what WidgetType
-     *
-     * @param nodeType
-     * @return
-     */
-    private WidgetType getDefaultWidgetType(NodeType nodeType) {
-        return WidgetType.valueOf(nodeType.toString());
-    }
-
     /**
      * Hide the visitor, make only doCheck visible
      */

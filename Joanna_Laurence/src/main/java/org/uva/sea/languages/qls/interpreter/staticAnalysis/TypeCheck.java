@@ -42,10 +42,10 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
      * Display errorNotCompatible message
      * @param node
      * @param widgetType
-     * @param baseType
+     * @param nodeType
      */
-    private void errorNotCompatible(Question node, WidgetType widgetType, WidgetType baseType) {
-        message.addMessage(widgetType + " is not compatible with " + baseType + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
+    private void errorNotCompatible(Question node, WidgetType widgetType, NodeType nodeType) {
+        message.addMessage(widgetType + " is not compatible with " + nodeType + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
     private void error(Question node, String errorMessage) {
@@ -114,9 +114,8 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
             return null;
         }
 
-        WidgetType baseType = WidgetType.valueOf(questionNodeType.toString());
-        if (!baseType.isCompatible(widgetType)) {
-            errorNotCompatible(node, widgetType, baseType);
+        if (!widgetType.isCompatible(questionNodeType)) {
+            errorNotCompatible(node, widgetType, questionNodeType);
             return null;
         }
 

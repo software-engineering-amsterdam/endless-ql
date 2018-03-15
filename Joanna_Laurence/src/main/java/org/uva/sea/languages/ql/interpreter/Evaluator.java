@@ -50,12 +50,12 @@ public class Evaluator {
         ParseResult<Form> parseResult = this.parse(qlFile);
         evaluationMessages.addMessageList(parseResult.getMessages());
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
-            return new EvaluationResult(new ArrayList<>(), parseResult.getMessages(), parseResult.getAST());
+            return new EvaluationResult(new ArrayList<>(), parseResult.getMessages(), parseResult.getAst());
         }
 
         evaluationMessages.addMessageList(this.performStaticAnalysis(parseResult));
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
-            return new EvaluationResult(new ArrayList<>(), evaluationMessages, parseResult.getAST());
+            return new EvaluationResult(new ArrayList<>(), evaluationMessages, parseResult.getAst());
         }
 
         return this.evaluateQuestions(parseResult, symbolTable, evaluationMessages);
@@ -71,9 +71,9 @@ public class Evaluator {
      */
     private EvaluationResult evaluateQuestions(ParseResult<Form> parseResult, SymbolTable symbolTable, Messages evaluationMessages) {
         FormEvaluator evaluator = new FormEvaluator();
-        List<Question> questions = evaluator.evaluate(parseResult.getAST(), symbolTable);
+        List<Question> questions = evaluator.evaluate(parseResult.getAst(), symbolTable);
         List<QuestionData> questionData = this.evaluateQuestionValues(questions, symbolTable);
-        return new EvaluationResult(questionData, evaluationMessages, parseResult.getAST());
+        return new EvaluationResult(questionData, evaluationMessages, parseResult.getAst());
     }
 
     /**
@@ -84,7 +84,7 @@ public class Evaluator {
     private Messages performStaticAnalysis(ParseResult<Form> parseResult) {
         Messages returnMessage = new Messages();
         for (IQLStaticAnalysis staticAnalysis : this.staticAnalyses) {
-            Messages analysisMessages = staticAnalysis.doCheck(parseResult.getAST());
+            Messages analysisMessages = staticAnalysis.doCheck(parseResult.getAst());
             returnMessage.addMessageList(analysisMessages);
         }
         return returnMessage;

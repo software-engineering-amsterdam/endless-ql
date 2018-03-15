@@ -47,12 +47,12 @@ public class Evaluator {
             return new EvaluationResult(new ArrayList<>(), parseResult.getMessages(), qlEvaluationResult.getAst());
         }
 
-        evaluationMessages.addMessageList(this.performStaticAnalysis(qlEvaluationResult.getAst(), parseResult.getAST()));
+        evaluationMessages.addMessageList(this.performStaticAnalysis(qlEvaluationResult.getAst(), parseResult.getAst()));
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
             return new EvaluationResult(new ArrayList<>(), evaluationMessages, qlEvaluationResult.getAst());
         }
 
-        return this.qlQlsLinker.apply(qlEvaluationResult, parseResult.getAST());
+        return this.qlQlsLinker.apply(qlEvaluationResult, parseResult.getAst());
     }
 
     /**

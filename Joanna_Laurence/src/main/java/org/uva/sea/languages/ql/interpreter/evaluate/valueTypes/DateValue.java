@@ -10,7 +10,7 @@ import java.util.Calendar;
 
 public class DateValue extends Value {
 
-    private Calendar dateValue;
+    private final Calendar dateValue;
 
     public DateValue(String date) {
         String[] dateSplit = date.split(date, 3);

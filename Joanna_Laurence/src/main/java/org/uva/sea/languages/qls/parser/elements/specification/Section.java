@@ -20,7 +20,7 @@ public class Section extends Specification {
         return this.name;
     }
 
-    public List<Specification> getSpecifications() {
+    public Iterable<Specification> getSpecifications() {
         return this.specifications;
     }
 

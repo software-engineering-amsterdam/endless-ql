@@ -5,18 +5,18 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 public class ParseResult<T> {
 
     private final Messages warnings;
-    private final T AST;
+    private final T ast;
 
-    public ParseResult(T AST, Messages warnings) {
-        this.warnings = warnings;
-        this.AST = AST;
+    public ParseResult(T ast, Messages messages) {
+        this.warnings = messages;
+        this.ast = ast;
     }
 
     public Messages getMessages() {
         return this.warnings;
     }
 
-    public T getAST() {
-        return this.AST;
+    public T getAst() {
+        return this.ast;
     }
 }

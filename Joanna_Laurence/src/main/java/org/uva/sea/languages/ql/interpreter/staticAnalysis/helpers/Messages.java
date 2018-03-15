@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 public class Messages {
 
-    private final List<Entry<MessageTypes, String>> messages = new ArrayList<>();
+    private final Collection<Entry<MessageTypes, String>> messages = new ArrayList<>();
 
     public void addMessageList(Messages messages) {
         this.messages.addAll(messages.getMessages());
@@ -37,7 +37,7 @@ public class Messages {
     }
 
     public Iterable<String> getMessage(MessageTypes messageTypes) {
-        List<String> messages = new ArrayList<>();
+        Collection<String> messages = new ArrayList<>();
         for (Entry<MessageTypes, String> entry : this.messages) {
             if (entry.getKey() == messageTypes)
                 messages.add(entry.getValue());

@@ -6,7 +6,7 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public abstract class ASTNode {
 
-    private Token token;
+    private Token token = null;
 
     public ASTNode() {
     }

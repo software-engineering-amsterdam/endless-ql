@@ -189,7 +189,7 @@ public class MoneyValue extends Value {
         if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");
 
-        return new BooleanValue(!(this.amount.compareTo(value.getAmount()) == 0));
+        return new BooleanValue(this.amount.compareTo(value.getAmount()) != 0);
     }
 
     @Override

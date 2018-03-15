@@ -28,7 +28,7 @@ public class Relation<T> {
      */
     public Iterable<T> getCircularRelations() {
         Relation<T> transitiveClosure = this.getTransitiveClosure();
-        List<T> circular = new ArrayList<>();
+        Collection<T> circular = new ArrayList<>();
         for (RelationEntity<T> entry : transitiveClosure.getRelations()) {
             if (entry.getKey().equals(entry.getValue())) {
                 circular.add(entry.getKey());

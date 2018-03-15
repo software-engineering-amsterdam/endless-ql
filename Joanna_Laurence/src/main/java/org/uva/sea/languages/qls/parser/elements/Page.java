@@ -17,7 +17,7 @@ public class Page extends QLSNode {
         this.specificationList = specificationList;
     }
 
-    public List<Specification> getSpecificationList() {
+    public Iterable<Specification> getSpecificationList() {
         return this.specificationList;
     }
 

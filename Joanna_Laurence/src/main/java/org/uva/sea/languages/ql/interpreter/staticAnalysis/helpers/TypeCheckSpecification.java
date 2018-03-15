@@ -7,6 +7,7 @@ import org.uva.sea.languages.ql.parser.elements.expressions.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TypeCheckSpecification {
 
@@ -21,7 +22,7 @@ public class TypeCheckSpecification {
      *
      * @return
      */
-    public HashMap<SpecificationKey, NodeType> getSpecification() {
+    public Map<SpecificationKey, NodeType> getSpecification() {
         return this.specification;
     }
 
@@ -93,7 +94,7 @@ public class TypeCheckSpecification {
      * @param operatorTypes Operator args
      * @return The list of operators
      */
-    private List<Class<?>> operators(Class<?>... operatorTypes) {
+    private Iterable<Class<?>> operators(Class<?>... operatorTypes) {
         return Arrays.asList(operatorTypes);
     }
 }

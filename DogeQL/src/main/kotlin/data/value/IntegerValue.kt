@@ -39,7 +39,7 @@ class IntegerValue(var value: Int) : BaseSymbolValue(SymbolType.INTEGER) {
 
     override fun castTo(that: SymbolType): BaseSymbolValue? = when (that) {
         SymbolType.DECIMAL -> DecimalValue(BigDecimal(value))
-        SymbolType.Boolean -> BooleanValue(value != 0)
+        SymbolType.BOOLEAN -> BooleanValue(value != 0)
         else -> super.castTo(that)
     }
 

@@ -3,7 +3,7 @@ package nl.uva.js.qlparser.logic;
 import nl.uva.js.qlparser.antlr.QLSBaseVisitor;
 import nl.uva.js.qlparser.antlr.QLSParser;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
-import nl.uva.js.qlparser.models.qls.style.Property;
+import nl.uva.js.qlparser.models.qls.enums.Property;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.QuestionReference;
 import nl.uva.js.qlparser.models.qls.elements.Section;
@@ -13,6 +13,7 @@ import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 import nl.uva.js.qlparser.models.qls.elements.Page;
 import nl.uva.js.qlparser.models.qls.Expression;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.LinkedList;
 import java.util.stream.Collectors;
@@ -26,17 +27,12 @@ public class QLSVisitor extends QLSBaseVisitor{
 
     @Override
     public WidgetType visitWidgetType(QLSParser.WidgetTypeContext ctx) {
-        return WidgetType.builder().build();
+        return WidgetType.valueOf(ctx.getText().toUpperCase());
     }
 
     @Override
     public Property visitProperty(QLSParser.PropertyContext ctx) {
-        return Property.builder().build();
-    }
-
-    @Override
-    public Object visitValue(QLSParser.ValueContext ctx) {
-        return ctx.getText(); //TODO
+        return Property.valueOf(ctx.getText().toUpperCase());
     }
 
     @Override
@@ -89,25 +85,44 @@ public class QLSVisitor extends QLSBaseVisitor{
     @Override
     public QuestionReference visitQuestion(QLSParser.QuestionContext ctx) {
         return QuestionReference.builder()
-                .name(ctx.NAME().getText()) //TODO widgetstyle etc
+                .name(ctx.NAME().getText())
+                .widgetType((WidgetType) getOptional(ctx.widgetType()))
+                .widgetStyle((WidgetStyle) getOptional(ctx.widgetStyle()))
                 .build();
     }
 
     @Override
     public WidgetStyle visitWidgetStyle(QLSParser.WidgetStyleContext ctx) {
+        LinkedList<StyleRule> styleRules = ctx.styleRule()
+                .stream()
+                .map(this::visitStyleRule)
+                .collect(Collectors.toCollection(LinkedList::new));
+
         return WidgetStyle.builder()
+                .styleRules(styleRules)
                 .build();
     }
 
     @Override
     public StyleRule visitStyleRule(QLSParser.StyleRuleContext ctx) {
         return StyleRule.builder()
+                .property(ctx.property().<Property>accept(this))
+                .value((String) DataType.STRING.getValueOf().apply(ctx.STRVAL().getText()))
                 .build();
     }
 
     @Override
     public DefaultStyle visitDefaultStyle(QLSParser.DefaultStyleContext ctx) {
         return DefaultStyle.builder()
+                .dataType(ctx.dataType().<DataType>accept(this))
+                .widget(ctx.widgetType().getText())
+                .style((WidgetStyle) getOptional(ctx.widgetStyle()))
                 .build();
+    }
+
+    private Object getOptional(ParserRuleContext ctx) {
+        return (null != ctx)
+               ? ctx.accept(this)
+               : null;
     }
 }

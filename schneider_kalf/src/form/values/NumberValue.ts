@@ -1,4 +1,6 @@
 export default interface NumberValue {
+  type: "NumberValue";
+
   add(other: NumberValue): NumberValue;
 
   minus(other: NumberValue): NumberValue;
@@ -7,9 +9,21 @@ export default interface NumberValue {
 
   divide(other: NumberValue): NumberValue;
 
+  equals(other: NumberValue): boolean;
+
+  smallerThan(other: NumberValue): boolean;
+
+  largerThan(other: NumberValue): boolean;
+
   getValue(): any;
 
   getPriority(): number;
 
   make(value: number): NumberValue;
+
+  convert(other: NumberValue): NumberValue;
+
+  hasHigherPriorityThan(other: NumberValue);
+
+  isSameTypeAs(other: NumberValue): boolean;
 }

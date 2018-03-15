@@ -22,36 +22,38 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
 
     QuestionWidget makeWidget(Question question, Value value, Boolean readOnly) {
         WidgetType widgetType = styleEvaluator.getWidgetType(question.getName());
-        return widgetType.accept(this, question, value, readOnly);
+        QuestionWidget widget = widgetType.accept(this, question, value, readOnly);
+        widget.setQuestionChangeListener(questionChangeListener);
+        return widget;
     }
 
     @Override
     public QuestionWidget visit(CheckboxType checkboxType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly, questionChangeListener);
+        return new BooleanWidget(question, value, readOnly);
     }
 
     @Override
     public QuestionWidget visit(DropDownType dropDownType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly, questionChangeListener);
+        return new BooleanWidget(question, value, readOnly);
     }
 
     @Override
     public QuestionWidget visit(RadioType radioType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly, questionChangeListener);
+        return new BooleanWidget(question, value, readOnly);
     }
 
     @Override
     public QuestionWidget visit(SliderType sliderType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly, questionChangeListener);
+        return new IntegerWidget(question, value, readOnly);
     }
 
     @Override
     public QuestionWidget visit(SpinboxType spinboxType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly, questionChangeListener);
+        return new IntegerWidget(question, value, readOnly);
     }
 
     @Override
     public QuestionWidget visit(TextType textType, Question question, Value value, Boolean readOnly) {
-        return new StringWidget(question, value, readOnly, questionChangeListener);
+        return new StringWidget(question, value, readOnly);
     }
 }

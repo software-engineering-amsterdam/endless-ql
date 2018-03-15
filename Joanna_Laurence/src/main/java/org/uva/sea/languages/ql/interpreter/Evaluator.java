@@ -27,14 +27,13 @@ public class Evaluator {
 
     private final ASTGenerator astGenerator = new ASTGenerator();
 
-    private final List<IQLStaticAnalysis> staticAnalyses = Arrays.asList(new IQLStaticAnalysis[]{
+    private final List<IQLStaticAnalysis> staticAnalyses = Arrays.asList(
             new LinkAndCheckVariableUsage.Checker(),
             new TypeCheck.Checker(),
             new CheckDuplicateLabels.Checker(),
             new CheckIncorrectDuplicateQuestions.Checker(),
             new CircularQuestionDependencies.Checker(),
-            new Checker()
-    });
+            new Checker());
 
     /**
      * Generates questions with values

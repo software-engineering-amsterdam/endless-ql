@@ -43,14 +43,14 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(DefaultStyle node) {
+    public Void visit(DefaultStyle style) {
 
-        NodeType styleType = NodeType.valueOf(node.getTypeName().toUpperCase());
+        NodeType styleType = NodeType.valueOf(style.getTypeName().toUpperCase());
         if (styleType != this.nodeTypeToFind)
             return null;
 
         Style defaultStyle = new Style();
-        node.accept(new BaseStyleASTVisitor<Void>() {
+        style.accept(new BaseStyleASTVisitor<Void>() {
             @Override
             public Void visit(Color node) {
                 defaultStyle.setColor(node.getColorCode());

@@ -1,6 +1,6 @@
 // Generated from src/main/java/org/uva/sea/languages/ql/parser/antlr/QL.g by ANTLR 4.7.1
 
-    package org.uva.sea.languages.ql.antlr;
+package org.uva.sea.languages.ql.parser.antlr;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

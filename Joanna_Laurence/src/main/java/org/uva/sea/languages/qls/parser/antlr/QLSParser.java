@@ -18,13 +18,17 @@
     import org.uva.sea.languages.qls.parser.elements.specification.Section;
    	import org.uva.sea.languages.qls.parser.elements.specification.Specification;
 
+   	import org.uva.sea.languages.qls.parser.antlr.ParserHelper;
 
-	import org.antlr.v4.runtime.atn.*;
+
+import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-    import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.misc.*;
+import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-    import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLSParser extends Parser {

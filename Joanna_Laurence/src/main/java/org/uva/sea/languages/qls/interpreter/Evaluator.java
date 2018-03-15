@@ -25,11 +25,9 @@ public class Evaluator {
 
     private final Linker qlQlsLinker = new Linker();
 
-    private final List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new IQLSStaticAnalysis[]{
-            new CheckAllQuestionsInQLQLS.Checker(),
+    private final List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new CheckAllQuestionsInQLQLS.Checker(),
             new CheckNoDuplicateQuestions.Checker(),
-            new Checker()
-    });
+            new Checker());
 
     /**
      * Generates questions with values

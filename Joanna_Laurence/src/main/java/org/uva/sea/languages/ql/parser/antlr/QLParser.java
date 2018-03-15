@@ -1,12 +1,10 @@
 // Generated from src/main/java/org/uva/sea/languages/ql/parser/antlr/QL.g by ANTLR 4.7.1
 
-    package org.uva.sea.languages.ql.antlr;
-    import org.uva.sea.languages.ql.parser.elements.*;
-    import org.uva.sea.languages.ql.parser.elements.expressions.*;
-    import org.uva.sea.languages.ql.parser.elements.types.*;
+package org.uva.sea.languages.ql.parser.antlr;
 
-    import org.uva.sea.languages.ql.antlr.QLListener;
-    import org.uva.sea.languages.ql.antlr.QLParser;
+import org.uva.sea.languages.ql.parser.elements.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.*;
+import org.uva.sea.languages.ql.parser.elements.types.*;
 
 
 import org.antlr.v4.runtime.atn.*;

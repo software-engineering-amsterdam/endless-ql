@@ -2,6 +2,25 @@
 
     package org.uva.sea.languages.qls.parser.antlr;
 
+    import org.uva.sea.languages.qls.parser.elements.Page;
+    import org.uva.sea.languages.qls.parser.elements.Parameter;
+    import org.uva.sea.languages.qls.parser.elements.Stylesheet;
+
+    import org.uva.sea.languages.qls.parser.elements.style.Color;
+    import org.uva.sea.languages.qls.parser.elements.style.Font;
+    import org.uva.sea.languages.qls.parser.elements.style.FontSize;
+    import org.uva.sea.languages.qls.parser.elements.style.Widget;
+    import org.uva.sea.languages.qls.parser.elements.style.Width;
+   	import org.uva.sea.languages.qls.parser.elements.style.StyleSpecification;
+
+    import org.uva.sea.languages.qls.parser.elements.specification.DefaultStyle;
+    import org.uva.sea.languages.qls.parser.elements.specification.Question;
+    import org.uva.sea.languages.qls.parser.elements.specification.Section;
+   	import org.uva.sea.languages.qls.parser.elements.specification.Specification;
+
+   	import org.uva.sea.languages.qls.parser.antlr.ParserHelper;
+
+
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

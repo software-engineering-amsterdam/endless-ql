@@ -133,7 +133,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      * Hide the visitor, make only doCheck visible
      */
     public static class Linker {
-        public EvaluationResult apply(EvaluationResult interpreterResult, Stylesheet stylesheet) throws InterruptedException {
+        public EvaluationResult apply(EvaluationResult interpreterResult, Stylesheet stylesheet) {
             ApplyQLSStyle interpreter = new ApplyQLSStyle();
             return interpreter.applyStyle(interpreterResult, stylesheet);
         }

@@ -8,6 +8,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class StatementsEvaluator extends BaseASTVisitor<List<Question>> {
@@ -61,7 +62,7 @@ public class StatementsEvaluator extends BaseASTVisitor<List<Question>> {
      * @return The questions in a list
      */
     public List<Question> visit(Question question) {
-        return Arrays.asList(new Question[]{question});
+        return Collections.singletonList(question);
     }
 
     /**

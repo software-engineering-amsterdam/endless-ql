@@ -41,8 +41,9 @@ public class BaseVisitor extends QLBaseVisitor {
         String id = ctx.IDENTIFIER().getText();
         CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
         String questionString = ctx.STR().getText();
+        Object initialValue = visit(ctx.type());
 
-        Question question = new Question(codeBlock, questionString, (Class) visit(ctx.type()), null, false);
+        Question question = new Question(codeBlock, questionString, initialValue, false);
         questionMap.put(id, question);
 
         return questionMap;
@@ -53,41 +54,41 @@ public class BaseVisitor extends QLBaseVisitor {
         String id = ctx.IDENTIFIER().getText();
         CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
         String questionString = ctx.STR().getText();
-        Question question = new Question(codeBlock, questionString, (Class) visit(ctx.type()), visit(ctx.expression()), true);
+        Question question = new Question(codeBlock, questionString, visit(ctx.expression()), true);
         questionMap.put(id, question);
 
         return questionMap;
     }
 
     // visitor methods for types
-     @Override
-    public Class visitBooltype(QLParser.BooltypeContext ctx) {
-        return Boolean.class;
+    @Override
+    public Boolean visitBooltype(QLParser.BooltypeContext ctx) {
+        return false;
     }
 
     @Override
-    public Class visitStringtype(QLParser.StringtypeContext ctx) {
-        return String.class;
+    public String visitStringtype(QLParser.StringtypeContext ctx) {
+        return "";
     }
 
     @Override
-    public Class visitIntegertype(QLParser.IntegertypeContext ctx) {
-        return Integer.class;
+    public Integer visitIntegertype(QLParser.IntegertypeContext ctx) {
+        return 0;
     }
 
     @Override
-    public Class visitMoneytype(QLParser.MoneytypeContext ctx) {
-        return Double.class;
+    public Double visitMoneytype(QLParser.MoneytypeContext ctx) {
+        return 0.0;
     }
 
     @Override
-    public Class visitDatetype(QLParser.DatetypeContext ctx) {
-        return Date.class;
+    public Date visitDatetype(QLParser.DatetypeContext ctx) {
+        return new Date();
     }
 
     @Override
-    public Class visitDecimaltype(QLParser.DecimaltypeContext ctx) {
-        return Double.class;
+    public Double visitDecimaltype(QLParser.DecimaltypeContext ctx) {
+        return 0.0;
     }
 
     // visit boolean values
@@ -150,7 +151,37 @@ public class BaseVisitor extends QLBaseVisitor {
         return Double.parseDouble(ctx.getText());
     }
 
+    // Arithmetic functions
+    @Override
+    public Number visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+       Question q = questionMap.get(ctx.IDENTIFIER().getText());
+       return (Number) q.getValue();
+    }
 
+    @Override
+    public Object visitNumBraces(QLParser.NumBracesContext ctx) {
+        return visit(ctx.numberExpression());
+    }
+
+    @Override
+    public Number visitNumOperation(QLParser.NumOperationContext ctx) {
+        Double left = (Double) visit(ctx.left);
+        String operator = ctx.numberOperator().getText();
+        Double right = (Double) visit(ctx.right);
+
+        switch (operator) {
+            case "+":
+                return left + right;
+            case "-":
+                return left - right;
+            case "*":
+                return left * right;
+            case "/":
+                return left / right;
+        }
+
+        return null;
+    }
 
     // getters & setters
     public Question getQuestion(String id){

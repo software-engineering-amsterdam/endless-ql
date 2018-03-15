@@ -6,12 +6,7 @@ import parsing.checkers.VariableChecker;
 import parsing.gen.QLParser;
 
 public class InitVisitor extends BaseVisitor {
-    public InitVisitor(QLParser.FormContext ctx){
-        super();
-        visitBlock(ctx.block());
-    }
-
-    // Node visitor
+    // Reads out the initial AST and returns the questions that were found
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
         new VariableChecker(questionMap, ctx.block());

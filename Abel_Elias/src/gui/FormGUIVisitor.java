@@ -1,10 +1,11 @@
 package gui;
 
 import classes.Block;
+import classes.expressions.BooleanExpression;
 import classes.expressions.BooleanLiteral;
 import classes.expressions.Expression;
+import classes.expressions.ExpressionVisitor;
 import classes.form.Form;
-import classes.form.FormVisitor;
 import classes.statements.IfStatement;
 import classes.statements.Question;
 import classes.statements.Statement;
@@ -12,13 +13,16 @@ import classes.statements.StatementVisitor;
 
 import java.util.HashMap;
 
-public class FormBuilderVisitor implements FormVisitor, StatementVisitor {
+/**
+ * @author ajm
+ */
+public class FormGUIVisitor implements classes.form.FormVisitor, StatementVisitor, ExpressionVisitor<Boolean> {
 
-    private FormBuilder formBuilder;
-    private HashMap<Question, Expression> statementConditionsMap;
+    private FormGUIBuilder formBuilder;
+    private HashMap<Question, BooleanExpression> statementConditionsMap;
 
 
-    public FormBuilderVisitor(FormBuilder formBuilder) {
+    public FormGUIVisitor(FormGUIBuilder formBuilder) {
         this.formBuilder = formBuilder;
         this.statementConditionsMap = new HashMap<>();
     }
@@ -42,7 +46,7 @@ public class FormBuilderVisitor implements FormVisitor, StatementVisitor {
     }
 
     @Override
-    public void visitQuestionWithExpr(Question question, Expression expression) {
+    public void visitQuestionWithExpr(Question question, BooleanExpression expression) {
         if(expression != null) {
             statementConditionsMap.put(question, expression);
         } else {
@@ -51,14 +55,28 @@ public class FormBuilderVisitor implements FormVisitor, StatementVisitor {
     }
 
     @Override
-    public void visitIfStatementWithExpr(IfStatement ifStatement, Expression expression) {
+    public void visitIfStatementWithExpr(IfStatement ifStatement, BooleanExpression expression) {
         Block block = ifStatement.getBlock();
         for (Statement statement : block.getStatements()) {
-             statement.accept(this, ifStatement.getExpression());
+            if(expression != null) {
+                //TODO: add handling for another condition
+                statement.accept(this, ifStatement.getExpression());
+            } else {
+                statement.accept(this, ifStatement.getExpression());
+            }
         }
     }
 
-    public HashMap<Question, Expression> getStatementConditionsMap() {
+    public HashMap<Question, BooleanExpression> getStatementConditionsMap() {
         return statementConditionsMap;
+    }
+
+    public Boolean validateExpression(BooleanExpression expression) {
+        return expression.accept(this);
+    }
+
+    @Override
+    public Boolean visit(BooleanLiteral node) {
+        return null;
     }
 }

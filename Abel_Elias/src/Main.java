@@ -1,21 +1,15 @@
 import classes.form.Form;
-import gui.FormBuilder;
-import org.antlr.v4.gui.Trees;
+import gui.FormGUIBuilder;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import parsing.AST_Visitor;
 import parsing.gen.QLLexer;
 import parsing.gen.QLParser;
-import typechecking.TypeChecker;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class Main {
 
@@ -53,7 +47,7 @@ public class Main {
             //typeChecker.initTypeChecking(form);
 
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder(builder);
+            FormGUIBuilder formBuilder = new FormGUIBuilder(builder);
             formBuilder.initComponents(form);
 
         } catch (IOException e) {

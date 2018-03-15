@@ -2,24 +2,25 @@ package classes.statements;
 
 import classes.Block;
 import classes.CodeBlock;
+import classes.expressions.BooleanExpression;
 import classes.expressions.Expression;
 
 import javax.naming.ldap.ExtendedRequest;
 
 public class IfStatement extends Statement {
 
-    private Expression expression;
+    private BooleanExpression expression;
     private Block block;
     private CodeBlock code;
 
-    public IfStatement(Expression expression, CodeBlock code, Block block) {
+    public IfStatement(BooleanExpression expression, CodeBlock code, Block block) {
         super(code);
         this.expression = expression;
         this.code = code;
         this.block = block;
     }
 
-    public Expression getExpression() {
+    public BooleanExpression getExpression() {
         return expression;
     }
 
@@ -34,7 +35,7 @@ public class IfStatement extends Statement {
     }
 
     @Override
-    public void accept(StatementVisitor visitor, Expression expression) {
+    public void accept(StatementVisitor visitor, BooleanExpression expression) {
         visitor.visitIfStatementWithExpr(this, expression);
     }
 }

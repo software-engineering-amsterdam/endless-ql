@@ -42,6 +42,7 @@ public class AST_Visitor extends QLBaseVisitor<Object> {
         List<QLParser.IfStatementContext> ifStatementContextList = ctx.ifStatement();
         List<QLParser.QuestionContext> questionContextList = ctx.question();
 
+        //TODO: Make changes to grammar and parse so this can be generified to statementcontext
         for(QLParser.IfStatementContext ifStatementContext : ifStatementContextList) {
             block.getStatements().add((Statement) ifStatementContext.accept(this));
         }
@@ -188,9 +189,5 @@ public class AST_Visitor extends QLBaseVisitor<Object> {
 
     public Object checkExpression() {
         return new Object();
-    }
-
-    public Boolean validateExpression() {
-        return true;
     }
 }

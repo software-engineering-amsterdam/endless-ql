@@ -2,7 +2,7 @@ package classes.expressions;
 
 import classes.CodeBlock;
 
-public abstract class Literal extends Expression {
+public abstract class Literal extends BooleanExpression {
 
     protected final static int DUMMY_LINE = -1;
 

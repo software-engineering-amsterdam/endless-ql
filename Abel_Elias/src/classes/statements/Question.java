@@ -1,6 +1,7 @@
 package classes.statements;
 
 import classes.CodeBlock;
+import classes.expressions.BooleanExpression;
 import classes.expressions.Expression;
 import classes.types.ExpressionType;
 
@@ -45,7 +46,7 @@ public class Question<T> extends Statement {
     }
 
     @Override
-    public void accept(StatementVisitor visitor, Expression expression) {
+    public void accept(StatementVisitor visitor, BooleanExpression expression) {
         visitor.visitQuestionWithExpr(this, expression);
     }
 }

@@ -1,16 +1,16 @@
 package classes;
 
 import classes.expressions.ExpressionType;
-import classes.types.Type;
+import classes.types.Value;
 
 public class Question<T>{
     private String questionText;
     private T value;
-    private Type type;
+    private Value type;
     private boolean isVisible;
     private boolean fixed;
 
-    public Question(CodeBlock code, String questionText, Type type, T value, boolean fixed, boolean isVisible){
+    public Question(CodeBlock code, String questionText, Value type, T value, boolean fixed, boolean isVisible){
         this.fixed = fixed;
         this.value = value;
         this.type = value.getClass();
@@ -32,7 +32,7 @@ public class Question<T>{
 //        return ExpressionType.valueOf(typeText);
 //    }
 
-    public Type getType() {
+    public Value getType() {
         return this.type;
     }
 

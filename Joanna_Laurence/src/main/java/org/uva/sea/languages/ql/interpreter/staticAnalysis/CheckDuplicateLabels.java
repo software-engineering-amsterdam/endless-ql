@@ -8,10 +8,10 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
 
-public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStaticAnalysis<Form> {
+public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
 
-    private Messages warnings = new Messages();
+    private Messages messages = new Messages();
 
     /**
      * Labels that are associated with variables
@@ -31,7 +31,7 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
      * @param node The node that caused the warning
      */
     private void error(Question node) {
-        this.warnings.addMessage("Label:" + node.getLabel() + " is already linked to another variable on line: " + node.getLine() + " column: " + node.getColumn(), MessageTypes.WARNING);
+        this.messages.addMessage("Label:" + node.getLabel() + " is already linked to another variable on line: " + node.getLine() + " column: " + node.getColumn(), MessageTypes.WARNING);
     }
 
     /**
@@ -42,7 +42,7 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
      */
     public Messages doCheck(Form node) {
         node.accept(this);
-        return this.warnings;
+        return this.messages;
     }
 
     /**
@@ -78,10 +78,10 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IStati
     /**
      * Hide the visitor, make only doCheck visible
      */
-    public static class Checker implements IStaticAnalysis<Form> {
+    public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {
-            IStaticAnalysis<Form> checker = new CheckDuplicateLabels();
+            IQLStaticAnalysis checker = new CheckDuplicateLabels();
             return checker.doCheck(node);
         }
     }

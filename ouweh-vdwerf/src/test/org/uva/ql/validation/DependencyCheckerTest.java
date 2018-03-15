@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.uva.app.LogHandler;
 import org.uva.ql.ast.expression.unary.Parameter;
+import org.uva.ql.validation.checker.DependencyChecker;
 
 import java.util.*;
 import java.util.logging.LogManager;
@@ -27,7 +28,7 @@ public class DependencyCheckerTest {
     @Test
     public void runCheckSelfDependant() {
         Map<String, List<Parameter>> expressions = new HashMap<>();
-        ArrayList<Parameter> parameters;
+        List<Parameter> parameters;
 
         parameters = new ArrayList<>(Arrays.asList(new Parameter("Q1")));
         expressions.put("Q1", parameters);
@@ -41,7 +42,7 @@ public class DependencyCheckerTest {
     @Test
     public void runCheckLoopDependency() {
         Map<String, List<Parameter>> expressions = new HashMap<>();
-        ArrayList<Parameter> parameters;
+        List<Parameter> parameters;
 
         parameters = new ArrayList<>(Arrays.asList(new Parameter("Q2")));
         expressions.put("Q1", parameters);
@@ -58,7 +59,7 @@ public class DependencyCheckerTest {
     @Test
     public void runCheckMultiLayderDependency() {
         Map<String, List<Parameter>> expressions = new HashMap<>();
-        ArrayList<Parameter> parameters;
+        List<Parameter> parameters;
 
         parameters = new ArrayList<>(Arrays.asList(new Parameter("Q2")));
         expressions.put("Q1", parameters);
@@ -78,7 +79,7 @@ public class DependencyCheckerTest {
     @Test
     public void runCheckNonCircular() {
         Map<String, List<Parameter>> expressions = new HashMap<>();
-        ArrayList<Parameter> parameters;
+        List<Parameter> parameters;
 
         parameters = new ArrayList<>(Arrays.asList(new Parameter("Q3")));
         expressions.put("Q1", parameters);

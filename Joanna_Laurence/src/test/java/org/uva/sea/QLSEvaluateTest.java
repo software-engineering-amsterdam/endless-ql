@@ -9,6 +9,7 @@ import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.QlSEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
+import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,7 +66,8 @@ public class QLSEvaluateTest extends TestCase {
         try {
             QlSEvaluator qlsEvaluator = new QlSEvaluator(fileName.replace(".qls",".ql"), fileName);
             EvaluationResult evaluationResult = qlsEvaluator.getQuestions();
-            return !evaluationResult.getMessages().hasMessagePresent(MessageTypes.ERROR);
+            Messages evaluationMessages = evaluationResult.getMessages();
+            return !evaluationMessages.hasMessagePresent(MessageTypes.ERROR);
         } catch (InterruptedException | IOException e) {
             return false;
         }

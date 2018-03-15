@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Assignment1.Model;
 using Assignment1.Parser;
 using Assignment1.Rendering;
+using Assignment1.TypeChecking;
 
 namespace Assignment1
 {
@@ -36,10 +37,10 @@ namespace Assignment1
         {
             try
             {
-                var form = QLListener.ParseString(File.ReadAllText(inputFile));
+                var form = QLTypeChecker.ParseString(File.ReadAllText(inputFile));
                 IQuestionFormRenderer renderer = new QuestionFormRenderer(form);
                 _view.SetFormControl(renderer.Render());
-                _view.SetWarnings(form.Warnings.Values.ToList()); // TODO: find a way to show it above in form or somewhere else?
+                _view.SetWarnings(form.Warnings);
             }
             catch (QLParseException exception)
             {

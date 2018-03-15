@@ -1,31 +1,26 @@
 package gui.widgets;
 
-import javafx.beans.value.ChangeListener;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import ql.model.expression.Expression;
+import ql.model.expression.variable.ExpressionVariableInteger;
 
-public class IntegerWidget extends Widget<TextField> {
+public class IntegerWidget extends TextField implements WidgetInterface{
+
+    private final String name;
 
     public IntegerWidget(String name) {
-        super(name);
-
-        TextField textField = new TextField();
-        TextFormatter formatter = createTextFormatter("-?\\d*");
-        textField.setTextFormatter(formatter);
-
-        this.control = textField;
+        this.name = name;
+        this.managedProperty().bind(this.visibleProperty());
+        this.setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*"));
     }
 
     @Override
-    public void setValue(String value) {
-        this.control.setText(value);
+    public void setExpression(String value) {
+        this.setText(value);
     }
 
     @Override
-    public String getValue() {
-        return this.control.getText();
+    public Expression getExpression() {
+        return new ExpressionVariableInteger(null, Integer.parseInt(getText()));
     }
 }

@@ -87,24 +87,17 @@ class Gui():
 
         return frame
 
-    def removeQuestion(self, name):
-        if name in self.frames:
-            self.frames[name].destroy()
-            del self.frames[name]
-
-        if name in self.questions:
-            del self.questions[name]
-
     def setCurrentStatementFrame(self):
         frame = tk.Frame(self.window)
         frame.pack(expand=False, fill='both')
         self.frame = frame
         return frame
 
-    def addAssignment(self, var_name, name, result):
-        var = tk.StringVar()
-        self.values[var_name] = var
-        var.set(str(result))
+    def addAssignment(self, var_name, name, result, var=None):
+        if not var:
+            var = tk.StringVar()
+            self.values[var_name] = var
+            var.set(str(result))
         
         frame = tk.Frame(self.window, height=2)
         frame.pack(expand=False, fill='both')
@@ -127,7 +120,7 @@ class Gui():
         else:
             return self.values[var_name].get()
 
-    def updateText(self, var_name, text):
+    def updateValue(self, var_name, text):
         if var_name in self.values:
             self.values[var_name].set(text)
 

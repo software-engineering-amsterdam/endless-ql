@@ -1,4 +1,4 @@
-﻿using QLParser.AST;
+﻿using QLParser.AST.QLS;
 using System;
 
 namespace QLParserTester

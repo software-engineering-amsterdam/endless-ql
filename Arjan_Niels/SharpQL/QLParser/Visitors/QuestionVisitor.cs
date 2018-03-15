@@ -13,7 +13,7 @@ namespace QLParser.Visitors
         {
             var id = context.ID().GetText();
             var questionRaw = context.TEXT().GetText();
-            var question = questionRaw.Substring(1, questionRaw.Length - 2);
+            var question = Util.RemoveQuotes(questionRaw);
 
             var qtype = (QValueType)Enum.Parse(typeof(QValueType), context.QTYPE().GetText().ToUpper());
 

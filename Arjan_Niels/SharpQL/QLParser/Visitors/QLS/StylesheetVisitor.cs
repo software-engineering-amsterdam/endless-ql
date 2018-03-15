@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime.Misc;
-using QLParser.AST;
+using QLParser.AST.QLS;
+using QLParser.AST.QLS.Enums;
 using static QLSGrammar.QLSGrammarParser;
 
 namespace QLParser.Visitors.QLS
@@ -19,7 +20,7 @@ namespace QLParser.Visitors.QLS
 
         public override QLSNode VisitPage([NotNull] PageContext context)
         {
-            string id = context.TEXT().GetText();
+            string id = Util.RemoveQuotes(context.TEXT().GetText());
             var qlsNode = new QLSNode(QLSNodeType.Page, id);
 
             foreach (SectionContext sectionContext in context.section())
@@ -30,7 +31,7 @@ namespace QLParser.Visitors.QLS
 
         public override QLSNode VisitSection([NotNull] SectionContext context)
         {
-            string id = context.TEXT().GetText();
+            string id = Util.RemoveQuotes(context.TEXT().GetText());
             var qlsNode = new QLSNode(QLSNodeType.Section, id);
 
             foreach (SectionContext sectionContext in context.section())
@@ -45,8 +46,20 @@ namespace QLParser.Visitors.QLS
         public override QLSNode VisitQuestion([NotNull] QuestionContext context)
         {
             string id = context.ID().GetText();
-            var qlsNode = new QLSNode(QLSNodeType.Question, id);
-            return qlsNode;
+
+            if (context.widgetspecification() != null)
+            {
+                var widgetSpecificaitonVisitor = new WidgetSpecificationVisitor();
+                var specification = widgetSpecificaitonVisitor.VisitWidgetspecification(context.widgetspecification());
+
+                var qlsNode = new QLSNode(QLSNodeType.Question, id, new QLSStyle(specification));
+                return qlsNode;
+            }
+            else
+            {
+                var qlsNode = new QLSNode(QLSNodeType.Question, id);
+                return qlsNode;
+            }
         }
     }
 }

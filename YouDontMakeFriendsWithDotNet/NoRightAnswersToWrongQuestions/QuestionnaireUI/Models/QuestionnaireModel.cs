@@ -15,7 +15,7 @@ namespace QuestionnaireUI.Models
 
         public Guid QuestionnaireId { get; }
         public string QuestionnaireDisplayName { get; }
-        public IList<QuestionModel> Questions { get; set; }
+        public IList<QuestionModel> Questions { get; }
             = new List<QuestionModel>();
     }
 }

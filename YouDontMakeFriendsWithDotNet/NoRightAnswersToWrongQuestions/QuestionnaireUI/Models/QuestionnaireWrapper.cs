@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace QuestionnaireUI.Models
 {
@@ -13,6 +14,9 @@ namespace QuestionnaireUI.Models
             Model = model;
         }
 
-        public QuestionnaireModel Model { get; set; }
+        public QuestionnaireModel Model { get; }
+        public Guid QuestionnaireId => Model.QuestionnaireId;
+        public string QuestionnaireDisplayName => Model.QuestionnaireDisplayName;
+        public IList<QuestionModel> Questions => Model.Questions;
     }
 }

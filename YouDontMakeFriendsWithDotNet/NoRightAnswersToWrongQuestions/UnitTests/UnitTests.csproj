@@ -173,6 +173,7 @@
     <Compile Include="Domain.UnitTests\Data\TestModelCreationData.cs" />
     <Compile Include="Orchestration.UnitTests\CreateQuestionnaireCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI.UnitTests\ChangeNotificationTests.cs" />
     <Compile Include="UI.UnitTests\WrapperTests.cs" />
   </ItemGroup>
   <ItemGroup>

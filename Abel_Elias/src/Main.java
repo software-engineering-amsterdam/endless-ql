@@ -51,8 +51,8 @@ public class Main {
             //typeChecker.initTypeChecking(form);
 
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder();
-            formBuilder.initComponents(questionHashMap);
+            FormBuilder formBuilder = new FormBuilder(builder, questionHashMap);
+            formBuilder.initComponents();
 
         } catch (IOException e) {
             e.printStackTrace();

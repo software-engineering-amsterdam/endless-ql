@@ -191,4 +191,16 @@ public class BaseVisitor extends QLBaseVisitor {
     public void addQuestions(HashMap<String, Question> questionMap){
         this.questionMap.putAll(questionMap);
     }
+
+    public void update(String key, Object value) {
+
+    }
+
+    public Boolean validateExpression(Question question) {
+        return true;
+    }
+
+    public HashMap<String,Question> updateQuestions(HashMap<String, Question> questionHashMap) {
+        return new HashMap<String, Question>();
+    }
 }

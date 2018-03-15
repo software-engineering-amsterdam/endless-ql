@@ -50,9 +50,9 @@ class MainWindow(QtWidgets.QWidget):
         self.splitter.addWidget(self.outputFrame)
 
     def parse(self,qlText,qlsText):
-
         if qlText:
-            self.tree, self.parser = run_antlr(qlText)
+            self.tree = run_antlr(qlText)
+
             listen(self.tree, self.outputFrame)
             self.outputFrame.add_submit_button()
             # if self.tree:
@@ -66,7 +66,7 @@ class MainWindow(QtWidgets.QWidget):
             # print(self.tree.depth())
             # elif self.tree.depth() > 1:
         else:
-            self.no_tree_message()
+            self.outputFrame.no_tree_message()
 
 
 if __name__ == '__main__':

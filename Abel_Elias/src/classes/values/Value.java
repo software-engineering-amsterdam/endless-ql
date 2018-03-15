@@ -6,7 +6,7 @@ public abstract class Value <T extends Object>{
     public static final String BOOLEAN = "BOOLEAN",
             DECIMAL = "DECIMAL",
             INTEGER = "INTEGER",
-            DATE = "BOOLEAN",
+            DATE = "DATE",
             STRING = "STRING",
             MONEY = "MONEY";
 
@@ -17,15 +17,15 @@ public abstract class Value <T extends Object>{
         this.value = value;
     }
 
-    T getValue(){
+    public T getValue(){
         return value;
     }
 
-    void setType(String type){
+    public void setType(String type){
         this.type = type;
     }
 
-    String getType(){
+    public String getType(){
         return type;
     }
 }

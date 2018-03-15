@@ -3,7 +3,6 @@ package parsing.visitors;
 import classes.*;
 
 import classes.values.*;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import parsing.checkers.TypeChecker;
 import parsing.checkers.VariableChecker;
 import parsing.gen.*;

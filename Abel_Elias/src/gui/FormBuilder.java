@@ -2,9 +2,8 @@ package gui;
 
 import classes.Question;
 import classes.expressions.Expression;
-import classes.types.BooleanType;
-import classes.types.StringType;
-import classes.types.Type;
+import classes.values.BooleanValue;
+import classes.values.Value;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionPanelCheckBox;
 import gui.questions.QuestionPanelText;
@@ -33,10 +32,10 @@ public class FormBuilder {
      * initializes the building process of the form
      * @param baseVisitor
      */
-    public FormBuilder(BaseVisitor baseVisitor, HashMap questionHashMap) {
+    public FormBuilder(BaseVisitor baseVisitor, HashMap<String,Question> questionHashMap) {
         this.baseVisitor = baseVisitor;
         this.questionHashMap = questionHashMap;
-        this.questionPanelList = new ArrayList<QuestionPanel>();
+        this.questionPanelList = new ArrayList<>();
 
     }
 
@@ -69,7 +68,7 @@ public class FormBuilder {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             Question question = (Question) pair.getValue();
-            buildQuestionPanel((String) pair.getKey(), question, question.getType().getTypeName());
+            buildQuestionPanel((String) pair.getKey(), question, question.getValue());
             it.remove(); // avoid a ConcurrentModificationException
         }
     }
@@ -79,18 +78,29 @@ public class FormBuilder {
      * these to the main panel
      * @param key identifier
      * @param question question
-     * @param String stringType typename
      */
-    private void buildQuestionPanel(String key, Question question, String stringType) {
+    private void buildQuestionPanel(String key, Question question, Value value) {
 
         QuestionPanel qPanel;
 
-        switch (stringType) {
-            case "String":
+        switch (value.getType()) {
+            case Value.STRING:
                 qPanel = new QuestionPanelText(key, question);
                 break;
-            case "boolean":
+            case Value.BOOLEAN:
                 qPanel = new QuestionPanelCheckBox(key, question);
+                break;
+            case Value.DECIMAL:
+                qPanel = new QuestionPanelText(key, question);
+                break;
+            case Value.MONEY:
+                qPanel = new QuestionPanelText(key, question);
+                break;
+            case Value.DATE:
+                qPanel = new QuestionPanelText(key, question);
+                break;
+            case Value.INTEGER:
+                qPanel = new QuestionPanelText(key, question);
                 break;
             default:
                 qPanel = new QuestionPanelCheckBox(key, question);
@@ -132,7 +142,10 @@ public class FormBuilder {
 
 
     private void updateQuestions(String key, Boolean value) {
-        questionHashMap.get(key).setValue(value);
+        Question question = questionHashMap.get(key);
+        question.setValue(new BooleanValue(value));
+        questionHashMap.remove(key);
+        questionHashMap.put(key, question);
         updateGUI();
     }
 

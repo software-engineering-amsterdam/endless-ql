@@ -141,13 +141,15 @@ class EvaluatorTest extends WordSpec {
           List()
         )
 
-        val inputs: Dictionary = Map("dateConstant" -> DateAnswer("1970-01-01"),
+        val inputs: Dictionary = Map(
+          "dateConstant" -> DateAnswer("1970-01-01"),
           "integerVariable" -> IntegerAnswer(Some(123)),
           "integerConstant" -> IntegerAnswer(Some(42)))
 
         val result = Evaluator.evaluate(qlForm, inputs)
         val expected: Dictionary =
-          Map("dateConstant" -> DateAnswer("1970-01-01"),
+          Map(
+            "dateConstant" -> DateAnswer("1970-01-01"),
             "integerVariable" -> IntegerAnswer(Some(123)),
             "integerConstant" -> IntegerAnswer(Some(42)),
             "integerExpression" -> IntegerAnswer(Some(166))
@@ -156,7 +158,8 @@ class EvaluatorTest extends WordSpec {
         assert(result == expected, "First pass")
 
         val alteredInput: Dictionary =
-          Map("dateConstant" -> DateAnswer("1970-01-01"),
+          Map(
+            "dateConstant" -> DateAnswer("1970-01-01"),
             "integerVariable" -> IntegerAnswer(Some(456)),
             "integerConstant" -> IntegerAnswer(Some(42)),
             "integerExpression" -> IntegerAnswer(Some(166))
@@ -164,11 +167,12 @@ class EvaluatorTest extends WordSpec {
 
         val alteredResult = Evaluator.evaluate(qlForm, alteredInput)
         val alteredExpected: Dictionary =
-          Map("dateConstant" -> DateAnswer("1970-01-01"),
+          Map(
+            "dateConstant" -> DateAnswer("1970-01-01"),
             "integerConstant" -> IntegerAnswer(Some(42)),
             "integerExpression" -> IntegerAnswer(Some(499)),
             "integerVariable" -> IntegerAnswer(Some(456))
-        )
+          )
 
         assert(alteredResult == alteredExpected, "Second pass")
       }

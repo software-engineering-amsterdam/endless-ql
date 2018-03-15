@@ -37,7 +37,7 @@ public class ParseTreeVisitorTest {
         Form form = builder.getForm(parser);
         Assert.assertEquals("Form: Questions\n" +
                 "\t\"Test?\"\ttest:StringType\n" +
-                "\tIf \"1\" == 1 \n" +
+                "\tIf (\"1\" == 1) \n" +
                 "\t\t\"Test1?\"\ttest:IntegerType\n", form.toString());
     }
 
@@ -69,7 +69,7 @@ public class ParseTreeVisitorTest {
         List<String> testCases = Arrays.asList(
                 "1 + 1",
                 "1 - 1",
-                "( ( 1 - 1 ) + 1 ) - 1"
+                "1 - 1 + 1 - 1"
         );
         for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
@@ -81,19 +81,19 @@ public class ParseTreeVisitorTest {
     @Test
     public void visitComparation() {
         List<String> testCases = Arrays.asList(
-                "1 > 1",
-                "( 1 > 1 ) > 1",
-                "1 < 1",
-                "( 1 < 1 ) < 1",
-                "1 >= 1",
-                "( 1 >= 1 ) >= 1",
-                "1 <= 1",
-                "( 1 <= 1 ) <= 1",
-                "1 != 1",
-                "( 1 != 1 ) != 1",
-                "1 == 1",
-                "( 1 == 1 ) == 1",
-                "( 1 < 1 ) >= ( ( ( 1 < 1 ) > ( 1 == 1 ) ) != 1 ) == 1"
+                "(1 > 1)",
+                "((1 > 1) > 1)",
+                "(1 < 1)",
+                "((1 < 1) < 1)",
+                "(1 >= 1)",
+                "((1 >= 1) >= 1)",
+                "(1 <= 1)",
+                "((1 <= 1) <= 1)",
+                "(1 != 1)",
+                "((1 != 1) != 1)",
+                "(1 == 1)",
+                "((1 == 1) == 1)",
+                "(((1 < 1) >= (((1 < 1) > (1 == 1)) != 1)) == 1)"
         );
         for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);

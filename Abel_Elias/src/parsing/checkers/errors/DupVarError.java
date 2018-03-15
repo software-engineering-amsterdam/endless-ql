@@ -1,4 +1,4 @@
-package parsing.errors;
+package parsing.checkers.errors;
 
 public class DupVarError extends Error {
     public DupVarError(String variableID){

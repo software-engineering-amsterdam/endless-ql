@@ -1,14 +1,13 @@
 package parsing.checkers;
 
 import classes.Question;
-import parsing.errors.TypeError;
+import parsing.checkers.errors.TypeError;
 import parsing.gen.QLParser;
-import parsing.visitors.baseVisitor;
+import parsing.visitors.BaseVisitor;
 
-import java.util.Date;
 import java.util.HashMap;
 
-public class TypeChecker extends baseVisitor {
+public class TypeChecker extends BaseVisitor {
     // Typechecker checks if there are any inconsistensies in the types that were given in the syntax of the code
     public TypeChecker(HashMap<String, Question> questionMap, QLParser.BlockContext ctx){
         super();
@@ -20,7 +19,7 @@ public class TypeChecker extends baseVisitor {
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
 
-        if(!haveSameType(visit(ctx.expression()).getClass(), (Class) visit(ctx.type()))){
+        if(!haveSameType(visit(ctx.expression()).getClass(), visit(ctx.type()).getClass())){
             throw new TypeError(id, ctx.type().getText());
         }
 
@@ -39,7 +38,7 @@ public class TypeChecker extends baseVisitor {
     }
 
     @Override
-    public Object visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+    public Number visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
         String id = ctx.getText();
 
         if(!haveSameType(Number.class, getQuestion(id).getType())){

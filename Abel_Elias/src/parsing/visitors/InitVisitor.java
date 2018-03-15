@@ -1,22 +1,12 @@
 package parsing.visitors;
 
-import classes.CodeBlock;
 import classes.Question;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import parsing.checkers.TypeChecker;
 import parsing.checkers.VariableChecker;
-import parsing.gen.QLBaseVisitor;
 import parsing.gen.QLParser;
 
-import java.util.HashMap;
-
-public class InitVisitor extends baseVisitor {
-    public InitVisitor(QLParser.FormContext ctx){
-        super();
-        visitBlock(ctx.block());
-    }
-
-    // Node visitor
+public class InitVisitor extends BaseVisitor {
+    // Reads out the initial AST and returns the questions that were found
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
         new VariableChecker(questionMap, ctx.block());

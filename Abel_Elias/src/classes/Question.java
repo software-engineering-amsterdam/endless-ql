@@ -6,10 +6,11 @@ public class Question<T> {
     private Class type;
     private boolean fixed;
 
-    public Question(CodeBlock code, String questionText, Class type, T value, boolean fixed){
+    public Question(CodeBlock code, String questionText, T value, boolean fixed){
         this.fixed = fixed;
         this.value = value;
-        this.type = type;
+        System.out.println(value);
+        this.type = value.getClass();
         this.questionText = questionText;
     }
 
@@ -34,8 +35,5 @@ public class Question<T> {
         return this.type;
     }
 
-    @Override
-    public String toString() {
-        return value.getClass().getName() + ": " + questionText;
-    }
+
 }

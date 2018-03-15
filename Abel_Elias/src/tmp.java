@@ -5,6 +5,8 @@ public class tmp {
 
         Class a = Integer.class;
         Class b = Number.class;
+        Class c = Boolean.class;
+        Boolean y = null;
 
         System.out.println(haveSameType(b,a));
     }

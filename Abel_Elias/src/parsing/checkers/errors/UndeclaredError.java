@@ -1,4 +1,4 @@
-package parsing.errors;
+package parsing.checkers.errors;
 
 public class UndeclaredError extends Error {
     public UndeclaredError(String variableID){

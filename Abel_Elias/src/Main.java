@@ -1,6 +1,7 @@
+import classes.Question;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import parsing.visitors.baseVisitor;
+import parsing.visitors.BaseVisitor;
 import parsing.gen.QLLexer;
 import parsing.gen.QLParser;
 
@@ -28,14 +29,14 @@ public class Main {
             QLParser.FormContext tree = parser.form();
 
             //Call the visitor and build the tree
-            baseVisitor builder = new baseVisitor(tree);
-            HashMap memory = builder.getQuestions();
+            BaseVisitor builder = new BaseVisitor(tree);
+            HashMap<String, Question> memory = builder.getQuestions();
 
 //          Test output
             Iterator it = memory.entrySet().iterator();
             while (it.hasNext()) {
                   Map.Entry pair = (Map.Entry)it.next();
-                  System.out.println(pair.getKey() + " = " + pair.getValue());
+                  System.out.println(pair.getKey() + " : " + pair.getValue() + " = " + ((Question) pair.getValue()).getValue());
                   it.remove();
             }
             //System.out.println("done");

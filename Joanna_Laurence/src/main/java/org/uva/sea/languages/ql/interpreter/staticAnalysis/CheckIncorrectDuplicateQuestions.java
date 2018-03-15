@@ -8,16 +8,17 @@ import org.uva.sea.languages.ql.parser.elements.Question;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
 
-    private Messages errors = new Messages();
+    private final Messages errors = new Messages();
 
     /**
      * Labels that are associated with variables
      */
-    private HashMap<String, NodeType> variables = new HashMap<>();
+    private final Map<String, NodeType> variables = new HashMap<>();
 
     /**
      * Hide constructor
@@ -56,14 +57,14 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
         super.visit(node);
 
         NodeType linkedNodeType = this.variables.get(node.getVariable().getVariableName());
-        boolean incorrectNodeTypeLinked = linkedNodeType != null && linkedNodeType != node.getNodeType().getNodeType();
+        boolean incorrectNodeTypeLinked = (linkedNodeType != null) && (linkedNodeType != node.getNodeType().getNodeType());
 
         if (incorrectNodeTypeLinked) {
             this.error(node);
             return null;
         }
 
-        linkNodeTypeToVariable(node);
+        this.linkNodeTypeToVariable(node);
         return null;
     }
 

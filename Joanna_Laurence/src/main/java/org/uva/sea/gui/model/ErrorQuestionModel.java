@@ -20,6 +20,6 @@ public class ErrorQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        return value != null ? value.getError() : "No value";
+        return (this.value != null) ? this.value.getError() : "No value";
     }
 }

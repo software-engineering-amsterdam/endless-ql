@@ -136,7 +136,11 @@ export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
  * @returns {any}
  */
 export const assertComparable = (value: any) => {
-  if (["string", "number", "boolean", "Decimal", "DecimalValue", "IntValue"].indexOf(getTypeString(value)) === -1) {
+  if (isNumericValue(value)) {
+    return value;
+  }
+
+  if (["string", "number", "boolean"].indexOf(getTypeString(value)) === -1) {
     throw TypeCheckError.make("comparable", getTypeString(value));
   }
 

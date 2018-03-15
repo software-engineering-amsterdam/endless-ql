@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import org.uva.sea.gui.model.GuiModel;
+import org.uva.sea.gui.model.ResultController;
 import org.uva.sea.gui.render.*;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
@@ -19,12 +19,12 @@ import java.util.ResourceBundle;
 
 public class FormController implements Initializable {
 
-    private String defaultQlLocation = "/example.ql";
-//    private String defaultQlLocation = "/basicQuestions.ql";
-    private String defaultQlsLocation = "/basic.qls";
-//    private String defaultQlsLocation = "/test.qls";
+    private final String defaultQlLocation = "/example.ql";
+//    private final String defaultQlLocation = "/basicQuestions.ql";
+    private final String defaultQlsLocation = "/basic.qls";
+//    private final String defaultQlsLocation = "/test.qls";
 
-    private GuiModel guiModel;
+    private ResultController guiModel;
 
     private QuestionRenderer questionRenderer;
 
@@ -46,29 +46,29 @@ public class FormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         qlFile = getClass().getResource(defaultQlLocation).getFile();
         qlsFile = getClass().getResource(defaultQlsLocation).getFile();
-        guiModel = new GuiModel(qlFile, qlsFile);
-        ViewRenderer renderer = new ViewRenderer(questionBox, messageBox, this);
-        questionRenderer = new QuestionRenderer(renderer);
-        warningRenderer = new WarningRenderer(renderer);
-        errorRenderer = new ErrorRenderer(renderer);
-        drawGui();
+        guiModel = new ResultController(qlFile, qlsFile);
+        ViewRenderer renderer = new ViewRenderer(this.questionBox, this.messageBox, this);
+        this.questionRenderer = new QuestionRenderer(renderer);
+        this.warningRenderer = new WarningRenderer(renderer);
+        this.errorRenderer = new ErrorRenderer(renderer);
+        this.drawGui();
     }
 
     private void drawGui() {
         try {
-            updateGui();
+            this.updateGui();
         } catch (InterruptedException | IOException e) {
-            errorRenderer.render(e.getMessage());
+            this.errorRenderer.render(e.getMessage());
         }
     }
 
     private void updateGui() throws IOException, InterruptedException {
-        EvaluationResult interpreterResult = guiModel.getInterpreterResult();
-        questionRenderer.render(interpreterResult.getQuestions());
+        EvaluationResult interpreterResult = this.guiModel.getInterpreterResult();
+        this.questionRenderer.render(interpreterResult.getQuestions());
 
         Messages warnings = interpreterResult.getMessages();
         for (String warning : warnings.getMessage(MessageTypes.WARNING))
-            warningRenderer.render(warning);
+            this.warningRenderer.render(warning);
     }
 
 
@@ -78,12 +78,12 @@ public class FormController implements Initializable {
         File qlFile = fileSelector.getFile();
 
         if (qlFile == null) {
-            errorRenderer.render("File not found");
+            this.errorRenderer.render("File not found");
             return;
         }
 
-        guiModel = new GuiModel(qlFile.getAbsolutePath(), null);
-        drawGui();
+        this.guiModel = new ResultController(qlFile.getAbsolutePath(), null);
+        this.drawGui();
     }
 
     @FXML
@@ -92,12 +92,12 @@ public class FormController implements Initializable {
         File qlsFile = fileSelector.getFile();
 
         if (qlsFile == null) {
-            errorRenderer.render("File not found");
+            this.errorRenderer.render("File not found");
             return;
         }
 
-        guiModel = new GuiModel(new File(qlFile).getAbsolutePath(), qlsFile.getAbsolutePath());
-        drawGui();
+        this.guiModel = new ResultController(new File(qlFile).getAbsolutePath(), qlsFile.getAbsolutePath());
+        this.drawGui();
     }
 
     @FXML
@@ -106,9 +106,9 @@ public class FormController implements Initializable {
         System.out.println("Export");
     }
 
-    public void updateGuiModel(String questionName, Value value) {
-        guiModel.updateQuestion(questionName, value);
-        drawGui();
+    public void updateGuiModel(final String questionName, final Value value) {
+        this.guiModel.updateQuestion(questionName, value);
+        this.drawGui();
     }
 
     public void setLastFocused(String variableName) {
@@ -116,6 +116,6 @@ public class FormController implements Initializable {
     }
 
     public String getLastFocusedQuestion() {
-        return lastFocusedQuestion;
+        return this.lastFocusedQuestion;
     }
 }

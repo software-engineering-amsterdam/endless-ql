@@ -7,6 +7,7 @@ public class QuestionModelFactoryImpl implements QuestionModelFactory {
 
     @Override
     public BaseQuestionModel create(QuestionData data) {
+
         switch (data.getNodeType()) {
             case STRING:
                 return new StringQuestionModel(data);

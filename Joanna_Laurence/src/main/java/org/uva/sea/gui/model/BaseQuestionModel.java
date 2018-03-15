@@ -9,15 +9,15 @@ import org.uva.sea.languages.ql.parser.NodeType;
 
 public abstract class BaseQuestionModel extends Control implements BaseQuestionGUI {
 
-    private String label;
-    private NodeType type;
-    private Value value;
-    private String variableName;
-    private boolean isComputed;
-    private WidgetType widgetType;
-    private Style styleQLS;
+    private final String label;
+    private final NodeType type;
+    private final Value value;
+    private final String variableName;
+    private final boolean isComputed;
+    private final WidgetType widgetType;
+    private final Style styleQLS;
 
-    public BaseQuestionModel(QuestionData data) {
+    public BaseQuestionModel(final QuestionData data) {
         this.label = data.getLabel();
         this.type = data.getNodeType();
         this.value = data.getValue();
@@ -28,31 +28,31 @@ public abstract class BaseQuestionModel extends Control implements BaseQuestionG
     }
 
     public Style getStyleQLS() {
-        return styleQLS;
+        return this.styleQLS;
     }
 
     public WidgetType getWidgetType() {
-        return widgetType;
+        return this.widgetType;
     }
 
     public String getVariableName() {
-        return variableName;
+        return this.variableName;
     }
 
     public String getLabel() {
-        return label;
+        return this.label;
     }
 
     public NodeType getType() {
-        return type;
+        return this.type;
     }
 
     public Value getValue() {
-        return value;
+        return this.value;
     }
 
     public boolean isComputed() {
-        return isComputed;
+        return this.isComputed;
     }
 
 }

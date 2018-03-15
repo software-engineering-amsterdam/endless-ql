@@ -10,13 +10,14 @@ import java.util.Calendar;
 
 public class DateValue extends Value {
 
-    private Calendar dateValue;
+    private final Calendar dateValue;
 
     public DateValue(String date) {
         String[] dateSplit = date.split(date, 3);
         if (dateSplit.length != 3)
             throw new InvalidParameterException("Incorrect date: " + date);
 
+        this.dateValue = Calendar.getInstance();
         this.dateValue.set(Calendar.YEAR, Integer.parseInt(dateSplit[2]));
         this.dateValue.set(Calendar.MONTH, Integer.parseInt(dateSplit[1]));
         this.dateValue.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateSplit[0]));
@@ -27,7 +28,7 @@ public class DateValue extends Value {
     }
 
     public Calendar getDateValue() {
-        return dateValue;
+        return this.dateValue;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class DateValue extends Value {
     @Override
     public Value isGreaterOrEqual(DateValue value) {
         int compare = this.dateValue.compareTo(value.getDateValue());
-        return new BooleanValue(compare == 0 || compare > 0);
+        return new BooleanValue((compare == 0) || (compare > 0));
     }
 
     @Override
@@ -71,7 +72,7 @@ public class DateValue extends Value {
     @Override
     public Value isLessOrEqual(DateValue value) {
         int compare = this.dateValue.compareTo(value.getDateValue());
-        return new BooleanValue(compare == 0 || compare < 0);
+        return new BooleanValue((compare == 0) || (compare < 0));
     }
 
     @Override

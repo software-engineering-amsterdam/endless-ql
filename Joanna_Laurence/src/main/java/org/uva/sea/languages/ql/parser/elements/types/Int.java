@@ -6,7 +6,7 @@ import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Int extends ASTNode {
-    private int value;
+    private final int value;
 
     public Int(Token token, String value) {
         super(token);
@@ -19,7 +19,7 @@ public class Int extends ASTNode {
     }
 
     public int getValue() {
-        return value;
+        return this.value;
     }
 
     @Override

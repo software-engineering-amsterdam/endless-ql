@@ -55,6 +55,12 @@ namespace QLVisualizer.Controllers.Display
             Application.Run(_mainForm);
         }
 
+        protected override void UpdateBaseDisplay(Control newDisplay)
+        {
+            BaseDisplay.Controls.Clear();
+            BaseDisplay.Controls.Add(newDisplay);
+        }
+
         /*/// <summary>
         /// Temporary function to diplay dummy widgets
         /// </summary>

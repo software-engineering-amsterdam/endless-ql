@@ -25,7 +25,7 @@ namespace QLVisualizer.Elements.Managers
         /// <summary>
         /// Indication if the Element should be shown
         /// </summary>
-        public bool Active { get; protected set; }
+        public bool Active { get; private set; }
 
         /// <summary>
         /// Parent of this manager
@@ -76,6 +76,15 @@ namespace QLVisualizer.Elements.Managers
 
             if (oldActive != Active && OnActiveChange != null)
                 OnActiveChange.Invoke(Identifier, Active);
+        }
+
+        protected void SetActive(bool value)
+        {
+            if(Active != value)
+            {
+                Active = value;
+                OnActiveChange?.Invoke(Identifier, Active);
+            }
         }
 
         /// <summary>

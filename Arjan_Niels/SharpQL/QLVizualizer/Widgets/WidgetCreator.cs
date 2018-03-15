@@ -8,11 +8,6 @@ namespace QLVisualizer.Widgets
 {
     public abstract class WidgetCreator<T>
     {
-        /*public T CreateWidgets(FormManager formManager, T holder)
-        {
-            return CreateWidget(formManager, holder);
-        }*/
-
         public T CreateWidget(ElementManager elementManager, T holder)
         {
             switch (elementManager)

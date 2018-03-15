@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using QLVisualizer.Elements.Managers;
 using QLVisualizer.Elements.Managers.CollectionTypes;
@@ -9,6 +11,8 @@ namespace QLVisualizer.Widgets
 {
     public class WidgetCreatorWindows : WidgetCreator<Control>
     {
+        private List<Button> _pageButtonList;
+
         private Control CreateWidgetContainer(ElementManagerCollection elementManagerCollection, Control holder, string titleText)
         {
             // Set distance between objects
@@ -16,16 +20,19 @@ namespace QLVisualizer.Widgets
             int pos = 0 + margin;
 
             // Create title
-            Label title = new Label()
+            if (!string.IsNullOrEmpty(titleText))
             {
-                Text = titleText,
-                Location = new Point(0, pos),
-                Width = holder.Width
-            };
+                Label title = new Label()
+                {
+                    Text = titleText,
+                    Location = new Point(0, pos),
+                    Width = holder.Width
+                };
 
-            // Add title
-            holder.Controls.Add(title);
-            pos += title.Height + margin;
+                // Add title
+                holder.Controls.Add(title);
+                pos += title.Height + margin;
+            }
 
             // Itetate through children
             foreach (ElementManager child in elementManagerCollection.Children)
@@ -104,12 +111,53 @@ namespace QLVisualizer.Widgets
 
         protected override Control CreateWidget(FormManager form, Control holder)
         {
-            return CreateWidgetContainer(form, holder, string.Format("Form: {0}", form.Text));
+            _pageButtonList = new List<Button>();
+            int margin = 10;
+            int pos = margin;
+            Panel result = new Panel();
+            Control formBody = CreateWidgetContainer(form, new Panel { Size = holder.Size }, string.Empty);
+
+            Label formTitle = new Label() { Text = string.Format("Form: {0}", form.Text) };
+
+            FlowLayoutPanel pagePanel = new FlowLayoutPanel
+            {
+                Location = new Point(12, 9),
+                WrapContents = true,
+                FlowDirection = FlowDirection.LeftToRight
+            };
+
+            foreach (Button button in _pageButtonList)
+                pagePanel.Controls.Add(button);
+
+            formTitle.Location = new Point(10, pos);
+            result.Controls.Add(formTitle);
+            pos += formTitle.Height;
+
+            pagePanel.Location = new Point(10, pos);
+            result.Controls.Add(pagePanel);
+            pos += pagePanel.Height;
+
+            formBody.Height = holder.Height - pos;
+            formBody.Location = new Point(10, pos);
+            result.Controls.Add(formBody);
+            pos += formBody.Height;
+            result.Height = holder.Height;
+            return result;
+
+
         }
 
         protected override Control CreateWidget(PageManager page, Control holder)
         {
-            return CreateWidgetContainer(page, holder, string.Format("Page: {0}", page.Text));
+            Control result = CreateWidgetContainer(page, holder, string.Format("Page: {0}", page.Text));
+            Button toggleButton = new Button
+            {
+                Text = string.Format("Page: {0}", page.Text)
+            };
+
+            toggleButton.Click += delegate (object sender, EventArgs eventArgs) { page.ToggleActive(); };
+            _pageButtonList.Add(toggleButton);
+            return result;
         }
 
         protected override Control CreateWidget(SectionManager section, Control holder)

@@ -42,8 +42,11 @@ class Gui:
         and add a submit button which collects the answers
     """
     def createForm(self):
-        # self.questionsGenerator.updateQuestions(True)
-        self.questionsGenerator.qls()
+        if self.astQLS:
+            self.questionsGenerator.qls()
+        else:
+            self.questionsGenerator.updateQuestions(True)
+
         b = Button(self.mainframe, text="SUBMIT", command=self.collectAnswers)
         b.pack()
 

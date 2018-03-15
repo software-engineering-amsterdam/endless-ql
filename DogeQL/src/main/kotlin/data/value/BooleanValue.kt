@@ -32,8 +32,8 @@ class BooleanValue(var value: Boolean) : BaseSymbolValue(SymbolType.Boolean) {
     }
 
     override fun castTo(that: SymbolType): BaseSymbolValue? = when (that) {
-        SymbolType.Integer -> IntegerValue(if (value) 1 else 0)
-        SymbolType.Decimal -> DecimalValue(if (value) BigDecimal("1") else BigDecimal("0"))
+        SymbolType.INTEGER -> IntegerValue(if (value) 1 else 0)
+        SymbolType.DECIMAL -> DecimalValue(if (value) BigDecimal("1") else BigDecimal("0"))
         else -> super.castTo(that)
     }
 

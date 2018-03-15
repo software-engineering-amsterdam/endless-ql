@@ -38,7 +38,7 @@ class DogeMainView : View() {
 //        model.questions.forEach { x ->
 //            x.commit()
 //        }
-
+        model.load()
         print("sdfsdf")
     }
 }

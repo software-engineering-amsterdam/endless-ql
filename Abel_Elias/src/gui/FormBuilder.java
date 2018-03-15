@@ -1,8 +1,8 @@
 package gui;
 
+import classes.Question;
 import classes.expressions.Expression;
-import classes.statements.Question;
-import parsing.AST_Visitor;
+import parsing.visitors.BaseVisitor;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -17,10 +17,8 @@ public class FormBuilder {
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which the widgets are located
     private JPanel mainList;
-    private AST_Visitor astBuilder;
-
     private HashMap<QuestionPanel, Expression> statementConditions;
-
+    private BaseVisitor baseVisitor;
 
     private int FRAMEHEIGHT = 800; //The height of the GUI
     private int FRAMEWIDTH = 800; //The width of the GUI
@@ -28,27 +26,25 @@ public class FormBuilder {
     /**
      * constructor method
      * initializes the building process of the form
-     * @param astbuilder class
      */
-    public FormBuilder(AST_Visitor astBuilder) {
-        this.astBuilder = astBuilder;
+    public FormBuilder(BaseVisitor baseVisitor) {
         this.statementConditions = new HashMap<QuestionPanel, Expression>();
+        this.baseVisitor = baseVisitor;
     }
 
     /**
      * initComponents() method
      * initializes the building process for all widgets
-     * @param memory
+     * @param questions, hashmap with questions stated on the form, with their respective id's
      */
-    public void initComponents(HashMap memory) {
+    public void initComponents(HashMap questions) {
         //Build the frame and panel of the form
         buildFrame();
         buildPanel();
         buildList();
         //Add a scroll pane to the form
         mainPanel.add(new JScrollPane(mainList));
-
-        initQuestionPanels(memory);
+        initQuestionPanels(questions);
 
         mainFrame.add(mainPanel);
         mainFrame.setVisible(true);
@@ -60,10 +56,10 @@ public class FormBuilder {
     /**
      * Initialize the creation of the panels containing
      * the question it's controls through iteration
-     * @param memory
+     * @param questions
      */
-    private void initQuestionPanels(HashMap memory) {
-        Iterator it = memory.entrySet().iterator();
+    private void initQuestionPanels(HashMap questions) {
+        Iterator it = questions.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             buildQuestionPanel((String) pair.getKey(), (Question) pair.getValue());
@@ -169,19 +165,19 @@ public class FormBuilder {
     }
 
     private void updateGUI(String key, Object value) {
-        astBuilder.update(key, value);
-        for(QuestionPanel questionPanel : statementConditions.keySet()) {
-            Boolean ifExpressionSatisfied = astBuilder.validateExpression();
-            if(ifExpressionSatisfied) {
-                addQuestionToPanel(questionPanel);
-            } else {
-                removeQuestionFromPanel(questionPanel);
-            }
-        }
-
-        //Update and validate the components
-        mainList.revalidate();
-        mainList.repaint();
+//        astBuilder.update(key, value);
+//        for(QuestionPanel questionPanel : statementConditions.keySet()) {
+//            Boolean ifExpressionSatisfied = astBuilder.validateExpression();
+//            if(ifExpressionSatisfied) {
+//                addQuestionToPanel(questionPanel);
+//            } else {
+//                removeQuestionFromPanel(questionPanel);
+//            }
+//        }
+//
+//        //Update and validate the components
+//        mainList.revalidate();
+//        mainList.repaint();
     }
 
     private void addQuestionToPanel(QuestionPanel questionPanel) {

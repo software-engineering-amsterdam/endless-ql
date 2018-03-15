@@ -9,15 +9,15 @@ import parsing.gen.*;
 import java.util.Date;
 import java.util.HashMap;
 
-public class baseVisitor extends QLBaseVisitor {
+public class BaseVisitor extends QLBaseVisitor {
     HashMap<String, Question> questionMap;
 
-    public baseVisitor(){
+    public BaseVisitor(){
         super();
         this.questionMap = new HashMap<>();
     }
 
-    public baseVisitor(QLParser.FormContext tree){
+    public BaseVisitor(QLParser.FormContext tree){
         this();
         visit(tree);
     }

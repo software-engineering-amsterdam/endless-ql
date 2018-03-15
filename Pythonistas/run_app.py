@@ -54,7 +54,7 @@ def main():
         sys.exit(0)
 
     # GUI
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     screen = MainWindow()
     screen.show()
 

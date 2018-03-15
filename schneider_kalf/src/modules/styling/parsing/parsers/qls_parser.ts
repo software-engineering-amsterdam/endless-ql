@@ -172,7 +172,8 @@ function peg$parse(input, options) {
   const peg$c18 = "question";
   const peg$c19 = peg$literalExpectation("question", false);
   const peg$c20 = function(id, body) {
-      return new Nodes.QuestionStyle( id, body );
+      body = body ? body : [];
+      return new Nodes.QuestionStyle( id, body);
   };
   const peg$c21 = "default";
   const peg$c22 = peg$literalExpectation("default", false);

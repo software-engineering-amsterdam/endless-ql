@@ -53,7 +53,8 @@ sectionAttribute
 // Question
 question
  = _ "question" _ id:identifier lb* body:styleBlock? lb*{
-    return new Nodes.QuestionStyle( id, body );
+    body = body ? body : [];
+    return new Nodes.QuestionStyle( id, body);
 }
 
 // Default

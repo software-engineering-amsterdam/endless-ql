@@ -6,6 +6,7 @@ import node.Node
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTreeWalker
+import typechecker.TypeChecker
 
 class DogeParser {
 
@@ -21,7 +22,11 @@ class DogeParser {
 
         walker.walk(listener, parser.form())
 
-        return listener.getParsedDogeLanguage()
+        val tree = listener.getParsedDogeLanguage()
+
+        val result = TypeChecker(listener.symbolTable).check(tree)
+
+        return tree
     }
 
 }

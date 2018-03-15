@@ -5,9 +5,9 @@
 	page "Second page" {
 		section "The first section" {
 			section "The first subsection" {
-				question hasSeenHouseOfCards
+				question seenHouseOfCards
 				section "The first subsubsection"{
-					question hasSoldAHouse widget radio ("yes", "no", "maybe")
+					question soldHouseIn2010 widget radio ("yes", "no", "maybe")
 				}
 			}
 		}

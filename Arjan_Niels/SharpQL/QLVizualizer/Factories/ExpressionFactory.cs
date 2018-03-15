@@ -142,6 +142,7 @@ namespace QLVisualizer.Factories
                     return new ExpressionBool(new LazyElementExpressionLink<bool>(_elementManagerController, identifierNode.ID));
                 case QValueType.INTEGER:
                     return new ExpressionInt(new LazyElementExpressionLink<int>(_elementManagerController, identifierNode.ID));
+                case QValueType.DOUBLE:
                 case QValueType.MONEY:
                     return new ExpressionDouble(new LazyElementExpressionLink<double>(_elementManagerController, identifierNode.ID));
                 default:
@@ -158,6 +159,7 @@ namespace QLVisualizer.Factories
                     return new ExpressionBool(new string[0], () => { return bool.Parse(literalNode.Value); });
                 case QValueType.INTEGER:
                     return new ExpressionInt(new string[0], () => { return int.Parse(literalNode.Value); });
+                case QValueType.DOUBLE:
                 case QValueType.MONEY:
                     return new ExpressionDouble(new string[0], () => { return double.Parse(literalNode.Value); });
                 default:

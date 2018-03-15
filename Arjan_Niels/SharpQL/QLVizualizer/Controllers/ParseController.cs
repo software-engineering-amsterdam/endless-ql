@@ -21,10 +21,10 @@ namespace QLVisualizer.Controllers
             return new Tuple<string[], FormManager>(new string[0], formManager);
         }
 
-        public Tuple<string[], FormManager> ParseQLS(string rawQLS, FormManager form)
+        public Tuple<string[], FormManager> ParseQLS(string rawQLS, FormManager form, ElementManagerController elementManagerController)
         {
             QLSNode qlsNode = QLSParserHelper.Parse(rawQLS);
-            //
+            form = ElementManagerFactory.ApplyQLS(form, qlsNode, elementManagerController);
             return new Tuple<string[], FormManager>(new string[0], form);
         }
     }

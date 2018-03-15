@@ -7,6 +7,9 @@ using System;
 using System.Linq;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Expression.Enums;
+using QLParser.AST.QLS;
+using System.Collections.Generic;
+using QLParser.AST.QLS.Enums;
 
 namespace QLVisualizer.Factories
 {
@@ -99,10 +102,82 @@ namespace QLVisualizer.Factories
                     return new IntQuestionManager(node.ID, node.Text, parent, elementManagerController, condition, expression as ExpressionInt);
                 case QValueType.MONEY:
                     return new MoneyQuestionManager(node.ID, node.Text, parent, elementManagerController, condition, expression as ExpressionDouble);
+                case QValueType.DOUBLE:
+                    return new DoubleQuestionManager(node.ID, node.Text, parent, elementManagerController, condition, expression as ExpressionDouble);
             }
             throw new NotImplementedException();
         }
 
 
+        public static FormManager ApplyQLS(FormManager formManager, QLSNode qLSNode, ElementManagerController controller)
+        {
+            if (formManager.Identifier != qLSNode.ID)
+                throw new InvalidOperationException("Identifiers do not match!");
+            List<ElementManagerLeaf> children = formManager.Children.Select(o => (ElementManagerLeaf)o).ToList();
+            return ReconstructElementCollection(formManager, ref children, qLSNode.Children, controller) as FormManager;
+        }
+
+        private static ElementManagerCollection ReconstructElementCollection(ElementManagerCollection collection, ref List<ElementManagerLeaf> children, IList<QLSNode> qlsChildren, ElementManagerController controller)
+        {
+            collection.Children.Clear();
+
+            foreach(QLSNode node in qlsChildren)
+            {
+                switch(node.NodeType)
+                {
+                    case QLSNodeType.Page:
+                    case QLSNodeType.Section:
+                        ElementManagerCollection collectionChild = QLSToCollection(node, collection, controller);
+                        collectionChild = ReconstructElementCollection(collectionChild, ref children, node.Children, controller);
+                        collection.AddChild(collectionChild);
+                        break;
+                    case QLSNodeType.Question:
+                        ElementManagerLeaf child;
+                        try {
+                            child = children.Where(o => o.Identifier == node.ID).First() as ElementManagerLeaf;
+                        } catch
+                        {
+                            throw new InvalidOperationException(string.Format("Identifier: {0}, used in QLS, not found in QL!", node.ID));
+                        }
+                        children.Remove(child);
+                        collection.AddChild(QLSToLeaf(node, child));
+                        break;
+                        }
+            }
+            return collection;
+        }
+
+        private static ElementManagerLeaf QLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
+        {
+            return leaf;
+        }
+
+        private static ElementManagerCollection QLSToCollection(QLSNode qlsNode, ElementManager parent, ElementManagerController controller)
+        {
+            switch(qlsNode.NodeType)
+            {
+                case QLSNodeType.Page:
+                    return new PageManager(qlsNode.ID, qlsNode.ID, parent, controller);
+                case QLSNodeType.Section:
+                    return new SectionManager(qlsNode.ID, qlsNode.ID, parent, controller);
+               
+            }
+            throw new NotImplementedException();
+        }
+        /*
+        private static ElementManager ApplyQls(ElementManager elementManager, QLSNode qLSNode)
+        {
+            
+
+
+            switch (elementManager)
+            {
+                case ElementManagerCollection collection:
+
+                    break;
+                case ElementManagerLeaf leaf:
+                    break;
+            }
+        }*/
     }
 }

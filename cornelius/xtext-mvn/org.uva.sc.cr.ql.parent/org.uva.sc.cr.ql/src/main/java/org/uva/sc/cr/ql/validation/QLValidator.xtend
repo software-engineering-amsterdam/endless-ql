@@ -46,8 +46,8 @@ class QLValidator extends AbstractQLValidator {
 	}
 
 	@Check
-	def checkForForwardReferences(ExpressionQuestionReference questionRef) {
-		val form = getForm(questionRef)
+	def checkForForwardReferences(ExpressionQuestionReference expressionQuestionReference) {
+		val form = getForm(expressionQuestionReference)
 
 		val elementsInTreeBefore = new ArrayList<EObject>
 		var found = false
@@ -55,7 +55,7 @@ class QLValidator extends AbstractQLValidator {
 
 			if (!found) {
 				elementsInTreeBefore.add(elem)
-				if (elem == questionRef) {
+				if (elem == expressionQuestionReference) {
 					found = true
 				}
 			}
@@ -65,7 +65,7 @@ class QLValidator extends AbstractQLValidator {
 		val questionsInTreeBefore = elementsInTreeBefore.filter[it instanceof Question]
 		val questionExists = questionsInTreeBefore.exists [
 			val question = it as Question
-			question.name == questionRef.question.name
+			question.name == expressionQuestionReference.question.name
 		]
 		if (!questionExists) {
 			error(FORWARD_REFERNCE_MESSAGE, QLPackage.Literals.EXPRESSION_QUESTION_REFERENCE__QUESTION, FORWARD_REFERNCE)

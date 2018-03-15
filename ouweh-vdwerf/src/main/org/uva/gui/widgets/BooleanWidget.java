@@ -13,21 +13,26 @@ public class BooleanWidget extends QuestionWidget {
 
     private JCheckBox checkBox = new JCheckBox();
 
-    public BooleanWidget(Question question, Value value, boolean readOnly, QuestionChangeListener questionChangeListener) {
+    public BooleanWidget(Question question, Value value, boolean readOnly) {
         super(question);
 
         checkBox.setSelected(Boolean.valueOf(value.toString()));
         checkBox.setHorizontalAlignment(JCheckBox.CENTER);
         checkBox.setEnabled(readOnly);
 
+
+
+
+        this.add(checkBox, 1);
+    }
+
+    @Override
+    public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
         checkBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 questionChangeListener.onQuestionChanged(question.getName(), new BooleanValue(checkBox.isSelected()));
             }
         });
-
-
-        this.add(checkBox, 1);
     }
 }

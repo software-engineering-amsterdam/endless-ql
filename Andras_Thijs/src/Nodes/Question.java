@@ -14,6 +14,7 @@ public class Question extends ASTNode {
     private Expression expression;
     //TODO: private boolean condition;
 
+    private boolean isDisplayed = false;
     private Term result;
 
     /**
@@ -90,5 +91,13 @@ public class Question extends ASTNode {
         } else {
             throw new UnsupportedOperationException(); // TODO: Change to some type error
         }
+    }
+
+    public void setDisplayed(boolean displayed) {
+        isDisplayed = displayed;
+    }
+
+    public boolean isDisplayed() {
+        return isDisplayed;
     }
 }

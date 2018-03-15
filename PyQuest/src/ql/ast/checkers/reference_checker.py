@@ -22,7 +22,7 @@ class ReferenceChecker:
     def identifier_seen(known_types, unknown_types):
         for identifier in unknown_types:
             if not (identifier in known_types):
-                error(0, "Identifier \"{}\" is unknown".format(identifier))
+                error([0], "Identifier \"{}\" is unknown".format(identifier))
 
 
 

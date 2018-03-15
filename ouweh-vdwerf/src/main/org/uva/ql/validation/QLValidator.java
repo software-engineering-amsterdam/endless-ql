@@ -38,7 +38,7 @@ public class QLValidator implements StatementVisitor<Void, String> {
         QuestionChecker questionChecker = new QuestionChecker(this.questions);
         checkers.add(questionChecker);
         
-        ParameterChecker parameterChecker = new ParameterChecker(this.form, this.symbolTable, new ExpressionList(form).getExpressions());
+        ParameterChecker parameterChecker = new ParameterChecker(this.symbolTable, new ExpressionList(form).getExpressions());
         checkers.add(parameterChecker);
 
         DependencyChecker dependencyChecker = new DependencyChecker(new ExpressionList(form).getExpressions());

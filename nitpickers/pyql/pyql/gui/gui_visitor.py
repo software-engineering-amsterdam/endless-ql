@@ -20,9 +20,10 @@ class GUIVisitor:
     def __init__(self, ast, symbol_table):
         self._expression_visitor = ExpressionEvaluator(symbol_table)
         self._ast = ast
+        self._symbol_table = symbol_table
 
         root = tkinter.Tk()
-        self._window = Window(root, self, symbol_table)
+        self._window = Window(root, self, self._symbol_table)
         self.build()
         root.mainloop()
 
@@ -48,18 +49,29 @@ class GUIVisitor:
 
     @multimethod(ComputedQuestion)
     def visit(self, computed_question):
-        expression_evaluates_true = computed_question.expression.accept(self._expression_visitor)
+        try:
+            expression_evaluated_value = computed_question.expression.accept(self._expression_visitor)
+        except KeyError:
+            return False
 
-        if expression_evaluates_true:
-            computed_question.identifier.accept(self)
-            computed_question.question_type.accept(self)
+        if expression_evaluated_value:
+            identifier = computed_question.identifier.accept(self)
+            type = computed_question.question_type.accept(self)
+
+            self._window.add_computed_question(identifier, computed_question.text, WidgetFactory.widget(type),
+                                               expression_evaluated_value)
 
     @multimethod(Question)
     def visit(self, question):
         identifier = question.identifier.accept(self)
         type = question.question_type.accept(self)
 
-        self._window.add_question(identifier, question.text, WidgetFactory.widget(type))
+        try:
+            value = self._symbol_table.get(identifier)
+        except KeyError:
+            value = ""
+
+        self._window.add_question(identifier, question.text, WidgetFactory.widget(type), value)
 
     @multimethod(IfElse)
     def visit(self, if_else_statement):

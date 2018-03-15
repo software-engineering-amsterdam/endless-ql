@@ -13,7 +13,9 @@ class QLSVisitorHelper(QLSVisitor):
 
         for page in ctx.page():
             page_node = self.visit(page)
+            stylesheet.pages.append(page_node)
 
+        print stylesheet
         return stylesheet
 
 
@@ -23,6 +25,10 @@ class QLSVisitorHelper(QLSVisitor):
 
         for section in ctx.section():
             section_node = self.visit(section)
+            page_node.sections.append(section_node)
+
+        default_style_nodes = self.checkDefaultStyle(ctx)
+        page_node.default_style_widgets.extend(default_style_nodes)
 
         return page_node
 
@@ -33,10 +39,16 @@ class QLSVisitorHelper(QLSVisitor):
         if ctx.section():
             for section in ctx.section():
                 child_section_node = self.visit(section)
+                section_node.sections.append(child_section_node)
 
         if ctx.question():
             for question in ctx.question():
                 question_node = self.visit(question)
+                section_node.questions.append(question_node)
+
+        
+        default_style_nodes = self.checkDefaultStyle(ctx)
+        section_node.default_style_widgets.extend(default_style_nodes)
 
         return section_node
         
@@ -56,27 +68,33 @@ class QLSVisitorHelper(QLSVisitor):
 
     # Visit a parse tree produced by QLSParser#default_style.
     def visitDefault_style(self, ctx):
-        return self.visitChildren(ctx)
+        vartype = ctx.vartype().getText()
+        widget_node = self.visit(ctx.widget())
+        options = {}
+
+        # todo: Make generic?
+        if ctx.default_options():
+            for option in ctx.default_options():
+                if option.width():
+                    name, value = option.getText().split(":")
+
+                elif option.font():
+                    name, value = option.getText().split(":")
+
+                elif option.fontsize():
+                    name, value = option.getText().split(":")
+
+                elif option.color():
+                    name, value = option.getText().split(":")
+
+                options[name] = value
+
+        style_options_node = StyleOptionsNode(vartype)
+        style_options_node.options = options
+        widget_node.options = style_options_node
 
 
-    # Visit a parse tree produced by QLSParser#default_options.
-    def visitDefault_options(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLSParser#stylesheet_id.
-    def visitStylesheet_id(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLSParser#page_id.
-    def visitPage_id(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLSParser#section_id.
-    def visitSection_id(self, ctx):
-        return self.visitChildren(ctx)
+        return widget_node
 
 
     # Visit a parse tree produced by QLSParser#widget.
@@ -86,38 +104,12 @@ class QLSVisitorHelper(QLSVisitor):
         return widget_node
 
 
-    # Visit a parse tree produced by QLSParser#widget_type.
-    def visitWidget_type(self, ctx):
-        return self.visitChildren(ctx)
+    def checkDefaultStyle(self, ctx):
+        default_style_widgets = []
 
+        if ctx.default_style():
+            for style in ctx.default_style():
+                default_style_widget = self.visit(style)
+                default_style_widgets.append(default_style_widget)
 
-    # Visit a parse tree produced by QLSParser#width.
-    def visitWidth(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLSParser#font.
-    def visitFont(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLSParser#fontsize.
-    def visitFontsize(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLSParser#color.
-    def visitColor(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLSParser#var.
-    def visitVar(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLSParser#vartype.
-    def visitVartype(self, ctx):
-        return self.visitChildren(ctx)
-
-
+        return default_style_widgets

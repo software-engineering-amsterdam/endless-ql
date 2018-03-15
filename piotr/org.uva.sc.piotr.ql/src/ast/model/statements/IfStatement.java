@@ -3,7 +3,6 @@ package ast.model.statements;
 import ast.model.expressions.Expression;
 import ast.visitors.ASTNodeVisitor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IfStatement extends Statement {

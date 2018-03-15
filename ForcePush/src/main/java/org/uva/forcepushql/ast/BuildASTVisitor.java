@@ -20,8 +20,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
 
         FormNode node = new FormNode();
         node.setName(context.variable().getText());
-        List<GrammarParser.QuestionTypesContext> list = context.questionTypes();
-        for (GrammarParser.QuestionTypesContext q: list) {
+        for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
             node.setOneQuestion(visit(q));
         }
 

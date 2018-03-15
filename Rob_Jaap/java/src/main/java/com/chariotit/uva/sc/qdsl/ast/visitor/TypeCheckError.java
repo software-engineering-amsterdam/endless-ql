@@ -5,11 +5,25 @@ public class TypeCheckError {
     String message;
     Integer lineNumber;
     Integer columnNumber;
+    Level level;
+
+    public enum Level {
+        ERROR,
+        WARN
+    }
 
     public TypeCheckError(String message, Integer lineNumber, Integer columnNumber) {
         this.message = message;
         this.lineNumber = lineNumber;
         this.columnNumber = columnNumber;
+        this.level = Level.ERROR;
+    }
+
+    public TypeCheckError(String message, Integer lineNumber, Integer columnNumber, Level level) {
+        this.message = message;
+        this.lineNumber = lineNumber;
+        this.columnNumber = columnNumber;
+        this.level = level;
     }
 
     public String getMessage() {
@@ -34,5 +48,13 @@ public class TypeCheckError {
 
     public void setColumnNumber(Integer columnNumber) {
         this.columnNumber = columnNumber;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 }

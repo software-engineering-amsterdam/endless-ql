@@ -59,17 +59,23 @@ public class ApplicationRunner implements CommandLineRunner {
         // Run Typechecker
         TypeChecker typeChecker = new TypeChecker();
         List<TypeCheckError> errors = typeChecker.typeCheckAst(astRoot);
+        Boolean abort = false;
 
-        if (errors.size() > 0) {
-            for (TypeCheckError error : errors) {
-                System.out.println(String.format(
-                        "TypeCheckError line %d, column %d: %s",
-                        error.getLineNumber(),
-                        error.getColumnNumber(),
-                        error.getMessage()
-                ));
+        for (TypeCheckError error : errors) {
+            System.out.println(String.format(
+                    "%4s line %d, column %d: %s",
+                    error.getLevel(),
+                    error.getLineNumber(),
+                    error.getColumnNumber(),
+                    error.getMessage()
+            ));
+
+            if (error.getLevel() == TypeCheckError.Level.ERROR) {
+                abort = true;
             }
+        }
 
+        if (abort) {
             System.exit(1);
         }
 

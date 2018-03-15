@@ -6,14 +6,33 @@ import Page from "../nodes/containers/Page";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
 import Stylesheet from "../nodes/StyleSheet";
+import { QuestionStyles } from "../QuestionStyles";
 
 export default class QuestionStylesVisitor implements StyleNodeVisitor {
+  private questionStyles: QuestionStyles[];
+
+  constructor() {
+    this.questionStyles = [];
+  }
+  getStyles() {
+      return this.questionStyles;
+  }
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
     return;
   }
 
   visitQuestionStyle(question: QuestionStyle): any {
-    return new Error("not implemented yet");
+    let style = new QuestionStyles(question.identifier);
+    let parents = question.getParents();
+
+    for (let parent of parents.reverse()) {
+      // TODO: add question to check if valid with it's type
+      style.inheritStyleFrom(parent);
+    }
+
+    style.addLocalStyle(question);
+    this.questionStyles.push(style);
+    return style;
   }
 
   visitSection(section: Section): any {
@@ -21,7 +40,7 @@ export default class QuestionStylesVisitor implements StyleNodeVisitor {
   }
 
   visitPageAttribute(page: Page): any {
-    return;
+    return page.body.forEach(child => child.accept(this));
   }
 
   visitWidgetAttribute(widgetAttribute: WidgetAttribute): any {

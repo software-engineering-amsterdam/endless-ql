@@ -37,8 +37,6 @@ public class Main {
             HashMap<String, Question> memory = coreVisitor.questionMap;
 
             printQuestionMap(memory);
-            //apply some changes to questions
-            coreVisitor.update();
 
             //Pass the relevant questions to the UI builder
 //            FormBuilder formBuilder = new FormBuilder(builder, memory);

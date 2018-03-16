@@ -27,7 +27,7 @@ public class BlockVisitor extends QLBaseVisitor {
         String questionString = ctx.STR().getText();
         Value value = typeVisitor.visitType(ctx.type());
 
-        Question question = new Question(questionString, value, false);
+        Question question = new Question(questionString, value, false, isVisible);
         questionMap.put(id, question);
 
         return questionMap;
@@ -41,7 +41,7 @@ public class BlockVisitor extends QLBaseVisitor {
         Object expression = expVisitor.visitExpression(ctx.expression());
         value.setValueGeneric(expression);
 
-        Question question = new Question(questionString, value, true);
+        Question question = new Question(questionString, value, true, isVisible);
         questionMap.put(id, question);
 
         return questionMap;

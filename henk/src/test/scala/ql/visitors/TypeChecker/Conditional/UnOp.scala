@@ -20,7 +20,7 @@ class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getForm(getClass.getResource(filename))
     val typechecker = new TypeChecker(form)
 
-    it("check method should return true") {
+    it("check method should return false") {
       assert(!typechecker.check())
     }
 

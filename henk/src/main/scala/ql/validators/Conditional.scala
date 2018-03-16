@@ -27,7 +27,10 @@ object ConditionalValidator {
   }
 
   def isBooleanIdentifier(node: ASTIdentifier, ast: ASTNode): Boolean = {
-    ASTCollector.getTypeDecl(node, ast).exists { _ == ASTBoolean() }
+    infereType(node, ast) match {
+      case Some(ASTBoolean()) => true
+      case other => false
+    }
   }
 
   def validateExpression(node: ASTNode, ast: ASTNode): Boolean = {
@@ -39,35 +42,25 @@ object ConditionalValidator {
     }
   }
 
-  def validateLogical(node: ASTBinary, ast: ASTNode): Boolean = {
-    // validateExpression(node.lhs, ast) && validateExpression(node.rhs, ast)
-    infereType(node, ast) match {
+  def validateBinOp(binOp: ASTNode, ast: ASTNode): Boolean = {
+    infereType(binOp, ast) match {
       case Some(ASTBoolean()) => true
       case other => false
     }
   }
 
-  def validateRelational(node: ASTBinary, ast: ASTNode): Boolean = {
-    infereType(node, ast) match {
-      case None => false
-      // case Some(ASTBoolean()) => false
-      case other => true
+  def validateUnOp(unOp: ASTNode, ast: ASTNode): Boolean = {
+    infereType(unOp, ast) match {
+      case Some(ASTBoolean()) => true
+      case other => false
     }
   }
 
-  def validateBinOp(binOp: ASTNode, ast: ASTNode): Boolean = {
-    binOp match {
-      case ab @ ASTBinary(_, _, op: ASTLogicalOp) => validateLogical(ab, ast)
-      case ab @ ASTBinary(_, _, op: ASTRelationalOp) => validateRelational(ab, ast)
-      case other                                  => false
-    }
-  }
-
-  def returnType(op: ASTNode, nodeType: ASTNode): Option[ASTNode] = {
+  def matchReturnType(op: ASTNode, nodeType: ASTNode): Option[ASTNode] = {
     (op, nodeType) match {
       case (bv1: ASTRelationalOp, ASTInteger()) => Some(ASTBoolean())
       case (bv1: ASTArithmeticOp, ASTInteger()) => Some(ASTInteger())
-      case (bv1: ASTRelationalOp, ASTMoney()) => Some(ASTMoney())
+      case (bv1: ASTRelationalOp, ASTMoney()) => Some(ASTBoolean())
       case (bv1: ASTLogicalOp, ASTBoolean()) => Some(ASTBoolean())
       case other => None
     }
@@ -76,14 +69,15 @@ object ConditionalValidator {
   def infereType(node: ASTNode, ast: ASTNode): Option[ASTNode] = {
     node match {
       case ASTIntegerValue(_) => Some(ASTInteger())
-      case bv: ASTIdentifier => ASTCollector.getTypeDecl(bv, ast)
+      case ASTBoolean() => Some(ASTBoolean())
+      case bv @ ASTIdentifier(_) => ASTCollector.getTypeDecl(bv, ast)
       case bv @ ASTBinary(_,_, op: ASTNode) => {
         val typeLeft = infereType(bv.lhs, ast)
         val typeRight = infereType(bv.rhs, ast)
 
         (typeLeft, typeRight) match {
-          case (Some(_lhs), Some(_rhs)) if _lhs == _rhs => {
-            returnType(op, _lhs)
+          case (Some(lhs), Some(rhs)) if lhs == rhs => {
+            matchReturnType(op, lhs)
           }
           case other => None
         }
@@ -92,19 +86,6 @@ object ConditionalValidator {
         infereType(expr, ast)
       }
       case other => None
-    }
-  }
-
-  def validateUnOp(unOp: ASTNode, ast: ASTNode): Boolean = {
-    unOp match {
-      case ASTUnary(expr: ASTNode, op: ASTUnaryNot) =>
-        validateExpression(expr, ast)
-      case ASTUnary(expr: ASTNode, op: ASTUnaryMin) =>
-        infereType(expr, ast) match {
-          case Some(ASTMoney()) => true
-          case other => false
-        }
-      case other => false
     }
   }
 }

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VisitorStyleSheet extends QLSBaseVisitor<StyleSheet> {
-    // TODO
 
     @Override
     public StyleSheet visitRoot(QLSParser.RootContext ctx) {
@@ -17,7 +16,6 @@ public class VisitorStyleSheet extends QLSBaseVisitor<StyleSheet> {
 
         List<Page> pages = new ArrayList<>();
         for (QLSParser.PageContext pageContext : ctx.page()) {
-            // TODO parse page
             Page page = visitorPage.visitPage(pageContext);
             pages.add(page);
         }

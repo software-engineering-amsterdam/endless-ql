@@ -56,18 +56,12 @@ class MainWindow(QtWidgets.QWidget):
         if ql_text:
             ql_data.set_ql_grammar_text(ql_text)
             ql_data.run_antlr_ql()
+            # print(ql_data.ql_tree)
+            # print(ql_data.ql_tree.depth())
+            # print(type(ql_data.ql_tree))
             listen(ql_data.ql_tree, self.outputFrame)
             self.outputFrame.add_submit_button()
-            # if self.tree:
-            #     self.build_gui(self.tree)
-            # else:
-            #     self.outputWindow.no_tree_label()
-            # self.outputWindow.add_submit_button()
-            # print('below is tree')
-            # print(type(self.tree))
-            # print((self.tree))
-            # print(self.tree.depth())
-            # elif self.tree.depth() > 1:
+
         else:
             self.outputFrame.no_tree_message()
 

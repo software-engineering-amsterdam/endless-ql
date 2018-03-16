@@ -22,12 +22,12 @@ from ql.ast.visitors.visitor_helper import on, when
 class DependencyVisitor(object):
 
     def __init__(self):
-        self.__combinations = []
+        self.__all_dependencies = []
         self.__current_dependencies = []
 
     @property
-    def combinations(self):
-        return self.__combinations
+    def identifier_dependencies(self):
+        return self.__all_dependencies
 
     # Generic method that initializes the dynamic dispatcher
     @on('node')
@@ -50,7 +50,7 @@ class DependencyVisitor(object):
         if node.computed:
             self.__current_dependencies = []
             node.answer.accept(self)
-            self.__combinations.append((node.identifier, self.__current_dependencies))
+            self.__all_dependencies.append((node.identifier, self.__current_dependencies))
 
     @when(AdditionOperatorNode)
     def visit(self, node):

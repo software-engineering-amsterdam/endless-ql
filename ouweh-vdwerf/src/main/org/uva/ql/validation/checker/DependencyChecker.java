@@ -11,10 +11,17 @@ public class DependencyChecker extends Checker {
 
     private Set<Dependency> dependencies;
 
-    public DependencyChecker(Map<String, List<Parameter>> expressions) {
+    public DependencyChecker(Map<String, List<Parameter>> parameterMapping) {
+
+        /*
+         * Unwind the mapping i.e.
+         * var1 : [var2, var3]
+         * to
+         * var 1 -> var2, var2 -> var3
+         */
         this.dependencies = new HashSet<>();
 
-        for (Map.Entry<String, List<Parameter>> entry : expressions.entrySet()) {
+        for (Map.Entry<String, List<Parameter>> entry : parameterMapping.entrySet()) {
             for (Parameter parameter : entry.getValue()) {
                 dependencies.add(new Dependency(entry.getKey(), parameter.toString()));
             }

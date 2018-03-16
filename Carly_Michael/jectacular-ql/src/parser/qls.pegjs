@@ -37,10 +37,10 @@ section         = whitespace comment* whitespace "section" whitespace "\"" name:
                   }
 
 question        = whitespace comment* whitespace "question" whitespace name:identifier whitespace type:defaultWidget {
-                    return new astQls.Question(name, type, location());
+                    return new astQls.QlsQuestion(name, type, location());
                   } /
                   whitespace comment* whitespace "question" whitespace name:identifier {
-                    return new astQls.Question(name, new astQls.Widget(astQls.WidgetType.NONE, []), location());
+                    return new astQls.QlsQuestion(name, new astQls.Widget(astQls.WidgetType.NONE, []), location());
                   }
 
 default         = whitespace comment* whitespace "default" whitespace type:type whitespace "{" whitespace
@@ -48,9 +48,9 @@ default         = whitespace comment* whitespace "default" whitespace type:type 
                   widget: defaultWidget
                   whitespace comment* whitespace
                   "}" {
-                    return new astQls.Default(type, widget, styles, location());
+                    return new astQls.DefaultStyling(type, widget, styles, location());
                   } / whitespace comment* whitespace "default" whitespace type:type whitespace widget:defaultWidget {
-                    return new astQls.Default(type, widget, [], location());
+                    return new astQls.DefaultStyling(type, widget, [], location());
                   }
 
 defaultWidget   = whitespace comment* whitespace "widget" whitespace type:widget {

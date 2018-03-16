@@ -7,10 +7,7 @@ import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 import org.uva.sea.languages.qls.parser.elements.specification.Question;
 import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CheckNoDuplicateQuestions extends BaseStyleASTVisitor<Void> implements IQLSStaticAnalysis {
 
@@ -28,8 +25,8 @@ public class CheckNoDuplicateQuestions extends BaseStyleASTVisitor<Void> impleme
      */
     public Messages doCheck(Form form, Stylesheet stylesheet) {
 
-        List<String> qlsQuestions = getQlSQuestionNames(stylesheet);
-        return checkForDuplicateQuestions(qlsQuestions);
+        List<String> qlsQuestions = this.getQlSQuestionNames(stylesheet);
+        return this.checkForDuplicateQuestions(qlsQuestions);
     }
 
     /**
@@ -56,9 +53,9 @@ public class CheckNoDuplicateQuestions extends BaseStyleASTVisitor<Void> impleme
      * @param listToCheck Question list
      * @return Messages
      */
-    public Messages checkForDuplicateQuestions(List<String> listToCheck) {
+    private Messages checkForDuplicateQuestions(Iterable<String> listToCheck) {
         Messages messages = new Messages();
-        Set<String> validationSet = new HashSet();
+        Collection<String> validationSet = new HashSet();
 
         for (String name : listToCheck) {
             if (!validationSet.add(name))

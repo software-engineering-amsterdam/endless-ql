@@ -14,18 +14,19 @@ public class InitVisitor extends BaseVisitor {
 
     @Override
     public Object visitForm(QLParser.FormContext ctx) {
-        //new VariableChecker(questionMap, ctx.block());
-        new TypeChecker(questionMap, ctx.block());
+        new VariableChecker(ctx);
+        new TypeChecker(ctx);
         visit(ctx.block());
 
         return questionMap;
     }
 
+    //BOOLEAN EXPRESSION VISITORS
     @Override
     public Boolean visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) {
         String id = ctx.getText();
         Question question = getQuestion(id);
-        return (Boolean) question.getValue();
+        return (Boolean) question.getValue().getValue();
     }
 
     @Override

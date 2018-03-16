@@ -1,7 +1,7 @@
 package org.uva.sea.languages.qls.parser.antlr;
 
-public class ParserHelper {
-    public static String removeQuotes(String string) {
-        return string.substring(1, string.length() - 2);
+public final class ParserHelper {
+    public static String removeQuotes(String text) {
+        return text.substring(1, text.length() - 2);
     }
 }

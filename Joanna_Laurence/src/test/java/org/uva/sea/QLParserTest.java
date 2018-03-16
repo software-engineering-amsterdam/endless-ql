@@ -1,20 +1,15 @@
 package org.uva.sea;
 
 import junit.framework.TestCase;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.uva.sea.languages.QlEvaluator;
-import org.uva.sea.languages.ql.interpreter.ASTGenerator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
-import org.uva.sea.languages.ql.interpreter.dataObject.ParseResult;
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,9 +17,9 @@ import java.util.Collection;
 @RunWith(Parameterized.class)
 public class QLParserTest extends TestCase {
 
-    private static TestFileHelper testFileHelper = new TestFileHelper();
-    private String testFile;
-    private Boolean shouldCompile;
+    private static final TestFileHelper testFileHelper = new TestFileHelper();
+    private final String testFile;
+    private final Boolean shouldCompile;
 
 
     public QLParserTest(String testFile, Boolean shouldCompile) {
@@ -32,12 +27,12 @@ public class QLParserTest extends TestCase {
         this.shouldCompile = shouldCompile;
     }
 
-    @Parameterized.Parameters(name = "{index}: {0}")
+    @Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
 
-        Collection<Object[]> testFiles = new ArrayList<Object[]>();
-        testFiles.addAll(getTestFiles("src/test/resources/correctQL/", true));
-        testFiles.addAll(getTestFiles("src/test/resources/incorrectQL/", false));
+        Collection<Object[]> testFiles = new ArrayList<>();
+        testFiles.addAll(QLParserTest.getTestFiles("src/test/resources/correctQL/", true));
+        testFiles.addAll(QLParserTest.getTestFiles("src/test/resources/incorrectQL/", false));
 
         return testFiles;
     }
@@ -48,9 +43,9 @@ public class QLParserTest extends TestCase {
      * @return Map of test files and if they should be interpretable
      */
     private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
-        Collection<Object[]> testFiles = new ArrayList<Object[]>();
+        Collection<Object[]> testFiles = new ArrayList<>();
 
-        Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
+        Collection<String> locations = QLParserTest.testFileHelper.getTestFiles(folderLocation);
         for (String location : locations) {
             testFiles.add(new Object[]{location, shouldCompile});
         }
@@ -69,7 +64,7 @@ public class QLParserTest extends TestCase {
             QlEvaluator qlEvaluator = new QlEvaluator(fileName);
             EvaluationResult evaluationResult = qlEvaluator.getQuestions();
             return !evaluationResult.getMessages().hasMessagePresent(MessageTypes.ERROR);
-        } catch (InterruptedException | IOException e) {
+        } catch (InterruptedException | IOException ignored) {
             return false;
         }
     }

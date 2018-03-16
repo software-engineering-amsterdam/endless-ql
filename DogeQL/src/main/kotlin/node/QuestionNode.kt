@@ -4,6 +4,7 @@ import data.question.Question
 import data.symbol.SymbolTable
 import typechecker.pass.DuplicatePass
 import typechecker.pass.ScopePass
+import typechecker.pass.TypePass
 
 class QuestionNode(symbolTable: SymbolTable, val question: Question) : Node(symbolTable) {
 
@@ -18,6 +19,10 @@ class QuestionNode(symbolTable: SymbolTable, val question: Question) : Node(symb
     }
 
     override fun accept(pass: DuplicatePass) {
+        pass.visit(this)
+    }
+
+    override fun accept(pass: TypePass) {
         pass.visit(this)
     }
 

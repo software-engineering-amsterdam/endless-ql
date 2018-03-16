@@ -4,6 +4,11 @@ import {
 } from "../form_errors";
 import { FieldType, numericFieldTypes } from "../FieldType";
 import Decimal from "decimal.js/decimal";
+import NumberValue from "../values/NumberValue";
+import IntValue from "../values/IntValue";
+import { DecimalValue } from "../values/DecimalValue";
+import NumericOperation from "../values/NumericOperation";
+import { isNumericValue } from "../values/values_helpers";
 
 /**
  * Returns the type of a given value including the classname if it is
@@ -86,6 +91,16 @@ export const assertString = (value: any) => {
 };
 
 /**
+ * Assert that the types of the value is "date" or fail otherwise.
+ *
+ * @param value
+ * @returns {any}
+ */
+export const assertDate = (value: any) => {
+  return assertType(value, "Date");
+};
+
+/**
  * Assert that the types of the value is "number" or fail otherwise.
  *
  * @param value
@@ -105,6 +120,20 @@ export const assertDecimal = (value: any): Decimal => {
   return assertType(value, "Decimal");
 };
 
+/**
+ * Assert that the types of the value is "Decimal" or fail otherwise.
+ *
+ * @param value
+ * @returns {any}
+ */
+export const assertNumberValue = (value: any): NumberValue => {
+  if (value instanceof IntValue === false && value instanceof DecimalValue === false) {
+    throw TypeCheckError.make("NumberValue", getTypeString(value));
+  }
+
+  return value;
+};
+
 export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
   return assertAnyFieldType(fieldType, numericFieldTypes);
 };
@@ -117,8 +146,12 @@ export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
  * @returns {any}
  */
 export const assertComparable = (value: any) => {
-  if (["string", "number", "boolean", "Decimal"].indexOf(typeof  value) === -1) {
-    throw TypeCheckError.make("compareable", getTypeString(value));
+  if (isNumericValue(value)) {
+    return value;
+  }
+
+  if (["string", "number", "boolean", "Date"].indexOf(getTypeString(value)) === -1) {
+    throw TypeCheckError.make("comparable", getTypeString(value));
   }
 
   return value;
@@ -130,13 +163,13 @@ export const assertComparable = (value: any) => {
  *
  * @param dividend
  * @param divisor
- * @returns {{dividend: Decimal; divisor: Decimal}}
+ * @returns {{dividend: NumberValue; divisor: NumberValue}}
  */
-export const assertValidDivision = (dividend: Decimal, divisor: Decimal) => {
-  dividend = assertNumeric(dividend);
-  divisor = assertNumeric(divisor);
+export const assertValidDivision = (dividend: NumberValue, divisor: NumberValue) => {
+  dividend = assertNumberValue(dividend);
+  divisor = assertNumberValue(divisor);
 
-  if (divisor.equals(0)) {
+  if (NumericOperation.make(divisor, new IntValue(0)).equals()) {
     throw DivisionByZeroError.make();
   }
 
@@ -145,6 +178,11 @@ export const assertValidDivision = (dividend: Decimal, divisor: Decimal) => {
 
 export const assertSameType = (left: any, right: any) => {
   if (typeof left !== typeof right) {
+    throw ValuesNotComparableError.make(left, right);
+  }
+
+  if (isNumericValue(left) && !isNumericValue(right) ||
+      !isNumericValue(left) && isNumericValue(right)) {
     throw ValuesNotComparableError.make(left, right);
   }
 

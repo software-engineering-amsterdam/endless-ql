@@ -1,26 +1,24 @@
 package gui.view.widgets;
 
-import ast.model.expressions.Expression;
-import gui.model.FormQuestionHolder;
+import gui.model.QuestionModel;
 import gui.view.Widget;
 
 import javax.swing.*;
 import java.awt.*;
 
-// TODO: change it into a real boolean radio widget
 public class BooleanRadioWidget extends Widget {
 
     private final JPanel radioPanel;
     private final JRadioButton yesButton;
     private final JRadioButton noButton;
 
-    public BooleanRadioWidget(FormQuestionHolder formQuestionHolder) {
-        super(formQuestionHolder);
+    public BooleanRadioWidget(QuestionModel questionModel) {
+        super(questionModel);
 
         this.yesButton = new JRadioButton("Yes");
         this.noButton = new JRadioButton("No");
 
-        if (formQuestionHolder.getAssignedExpression() != null) {
+        if (questionModel.getAssignedExpression() != null) {
             this.yesButton.setEnabled(false);
             this.noButton.setEnabled(false);
         }
@@ -34,9 +32,9 @@ public class BooleanRadioWidget extends Widget {
         radioPanel.add(this.yesButton);
         radioPanel.add(this.noButton);
 
-        this.yesButton.addActionListener(e -> formQuestionHolder.changeValue(true));
+        this.yesButton.addActionListener(e -> questionModel.changeValue(true));
 
-        this.noButton.addActionListener(e -> formQuestionHolder.changeValue(false));
+        this.noButton.addActionListener(e -> questionModel.changeValue(false));
 
         this.radioPanel = radioPanel;
     }
@@ -48,7 +46,7 @@ public class BooleanRadioWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.yesButton.setSelected(this.getFormQuestionHolder().getValueHolder().getBooleanValue());
-        this.noButton.setSelected(!this.getFormQuestionHolder().getValueHolder().getBooleanValue());
+        this.yesButton.setSelected(this.getQuestionModel().getValue().getBooleanValue());
+        this.noButton.setSelected(!this.getQuestionModel().getValue().getBooleanValue());
     }
 }

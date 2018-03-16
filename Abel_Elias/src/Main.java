@@ -1,9 +1,6 @@
 import classes.Question;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import parsing.visitors.BaseVisitor;
-import parsing.gen.QLLexer;
-import parsing.gen.QLParser;
+import gui.FormBuilder;
+import parsing.TreeBuilder;
 import parsing.visitors.InitVisitor;
 
 import java.io.FileInputStream;
@@ -19,43 +16,24 @@ public class Main {
      * parse and build the form file
      * @param inputStream - input stream of the given form file
      */
-    public void parseAndBuild(InputStream inputStream){
+
+    private void parseAndBuild(InputStream inputStream){
         try{
-            //Call the lexer and get the tokens
-            QLLexer lexer = new QLLexer(CharStreams.fromStream(inputStream));
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-            //Parse the tokens/tree
-            QLParser parser = new QLParser(tokens);
-            QLParser.FormContext tree = parser.form();
-
-            //Call the visitor and build the tree
-            InitVisitor builder = new InitVisitor(tree);
+            InitVisitor builder = new InitVisitor(new TreeBuilder().build(inputStream));
             HashMap<String, Question> memory = builder.getQuestions();
 
-//          Test output
+            //Test output
             Iterator it = memory.entrySet().iterator();
             while (it.hasNext()) {
                   Map.Entry pair = (Map.Entry)it.next();
-                  System.out.println(pair.getKey() + " : " + pair.getValue() + " = " + ((Question) pair.getValue()).getValue());
+                  Question q = (Question) pair.getValue();
+                  System.out.println(pair.getKey() + " : " + q.getText() + " = " + q.getValue().getType() + ":" + q.getValue().getValue()) ;
                   it.remove();
             }
-            //System.out.println("done");
-
-            //Construct the form
-            //ParseTree parseTree = parser.form();
-            //Form form = (Form) parseTree.accept(builder);
-
-            //Call parse tree inspector: Show the tree
-            //Trees.inspect(tree, parser);
-
-            //Do typechecking
-            //TypeChecker typeChecker = new TypeChecker();
-            //typeChecker.initTypeChecking(form);
-
             //Pass the relevant questions to the UI builder
-            //FormBuilder formBuilder = new FormBuilder();
-            //formBuilder.initComponents(memory);
+//            FormBuilder formBuilder = new FormBuilder(builder, memory);
+//            formBuilder.initComponents();
 
         } catch (IOException e) {
             e.printStackTrace();

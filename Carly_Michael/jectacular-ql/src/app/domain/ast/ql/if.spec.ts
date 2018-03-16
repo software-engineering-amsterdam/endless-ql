@@ -20,16 +20,18 @@ describe('if statement', () => {
     const dateExpression = new Literal(ExpressionType.DATE, true, emptyLoc);
     const numberExpression = new Literal(ExpressionType.NUMBER, true, emptyLoc);
     const stringExpression = new Literal(ExpressionType.STRING, true, emptyLoc);
-    const ifStatement = new If(null, [], [], emptyLoc);
+    const ifBoolStatement = new If(boolExpression, [], [], emptyLoc);
+    const ifDateStatement = new If(dateExpression, [], [], emptyLoc);
+    const ifNumberStatement = new If(numberExpression, [], [], emptyLoc);
+    const ifStringStatement = new If(stringExpression, [], [], emptyLoc);
 
-    ifStatement.condition = boolExpression;
-    expect(() => ifStatement.checkType([])).not.toThrow();
-    ifStatement.condition = dateExpression;
-    expect(() => ifStatement.checkType([])).toThrow();
-    ifStatement.condition = numberExpression;
-    expect(() => ifStatement.checkType([])).toThrow();
-    ifStatement.condition = stringExpression;
-    expect(() => ifStatement.checkType([])).toThrow();
+    expect(() => ifBoolStatement.checkType([])).not.toThrow();
+
+    expect(() => ifDateStatement.checkType([])).toThrow();
+
+    expect(() => ifNumberStatement.checkType([])).toThrow();
+
+    expect(() => ifStringStatement.checkType([])).toThrow();
   });
 
   it('Should return correct statements', () => {

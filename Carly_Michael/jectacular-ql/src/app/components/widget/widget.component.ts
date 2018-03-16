@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Widget} from '../../domain/ast/qls';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {AbstractControl, FormGroup} from '@angular/forms';
 

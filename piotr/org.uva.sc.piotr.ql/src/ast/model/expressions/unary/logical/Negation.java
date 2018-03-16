@@ -10,6 +10,10 @@ public class Negation extends UnaryExpression{
         super(expression, metaInformation);
     }
 
+    public Negation(Expression expression) {
+        super(expression);
+    }
+
     @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);

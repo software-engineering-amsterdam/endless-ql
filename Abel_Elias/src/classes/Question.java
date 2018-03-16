@@ -1,38 +1,46 @@
 package classes;
+import classes.values.Value;
 
-public class Question<T> {
+public class Question<T>{
     private String questionText;
-    private T value;
-    private Class type;
+    private Value<T> value;
     private boolean fixed;
+    private boolean isVisible;
 
-    public Question(CodeBlock code, String questionText, T value, boolean fixed){
+    public Question(String questionText, Value<T> value, boolean fixed){
         this.fixed = fixed;
         this.value = value;
-        this.type = value.getClass();
         this.questionText = questionText;
+        this.isVisible = isVisible;
+    }
+
+    public Question(String questionText, Value<T> value, boolean fixed, boolean isVisible){
+        this.fixed = fixed;
+        this.value = value;
+        this.questionText = questionText;
+        this.isVisible = isVisible;
     }
 
     public String getText(){
         return questionText;
     }
 
-    public T getValue(){
+    public Value<T> getValue(){
         return value;
     }
 
-    public Question setValue(Object value){
-        this.value = (T) value;
+    public Question setValue(Value<T> value){
+        this.value = value;
         return this;
+    }
+
+    public boolean getVisibility() {
+        return this.isVisible;
     }
 
     public boolean isFixed(){
         return this.fixed;
     }
-
-    public Class getType(){
-        return this.type;
-    }
-
-
 }
+
+

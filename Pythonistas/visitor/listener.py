@@ -53,7 +53,6 @@ class QLListener(ParseTreeListener):
         questionID = children.__next__().getText()
         children.__next__()
         datatype= children.__next__().getText()
-
         choices = ['Yes', 'No']  # Default choices; todo: move to appropriate location.
 
         self.outputWindow.outputlayout.addWidget(QtWidgets.QLabel(question))  # todo: reduce interactions with outputwindow

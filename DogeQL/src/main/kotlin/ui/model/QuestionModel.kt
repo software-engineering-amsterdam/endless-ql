@@ -20,14 +20,12 @@ class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
     var moneyValue = SimpleObjectProperty<BigDecimal>()
 
     private val dogeController: DogeController by inject()
-    private val model: QuestionFormModel by inject()
-
-
+    private val formModel: QuestionFormModel by inject()
 
     init {
         when (item.value.type) {
             SymbolType.INTEGER -> integerValue = bind { SimpleIntegerProperty(item.value.integerValue.value) }
-            SymbolType.Boolean -> booleanValue = bind { SimpleBooleanProperty(item.value.booleanValue.value) }
+            SymbolType.BOOLEAN -> booleanValue = bind { SimpleBooleanProperty(item.value.booleanValue.value) }
             SymbolType.STRING -> stringValue = bind { SimpleStringProperty(item.value.stringValue.value) }
             SymbolType.DECIMAL -> decimalValue = bind { SimpleObjectProperty<BigDecimal>(item.value.decimalValue.value) }
             SymbolType.MONEY -> moneyValue = bind { SimpleObjectProperty<BigDecimal>(item.value.moneyValue.value) }
@@ -39,22 +37,22 @@ class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
         updateDataModel()
     }
 
-    fun validate() : ValidationMessage? {
-        updateDataModel()
-        dogeController.updateQuestion(item)
-//        model.load()
+    fun update() : ValidationMessage? {
+        if (dirtyProperties.size > 0) {
+            updateDataModel()
+            dogeController.updateQuestion(item)
+            formModel.load()
+        }
         return null
     }
 
-    fun updateDataModel(){
-        when (item.value.type) {
-            SymbolType.STRING -> item.value.stringValue.value = stringValue.value
-            SymbolType.Boolean -> item.value.booleanValue.value = booleanValue.value
-            SymbolType.INTEGER -> item.value.integerValue.value = integerValue.value
-            SymbolType.DECIMAL -> item.value.decimalValue.value = decimalValue.value
-            SymbolType.MONEY -> item.value.moneyValue.value = moneyValue.value
-            else -> throw IllegalArgumentException("Unsupported type")
-        }
+    private fun updateDataModel() = when (item.value.type) {
+        SymbolType.STRING -> item.value.stringValue.value = stringValue.value
+        SymbolType.BOOLEAN -> item.value.booleanValue.value = booleanValue.value
+        SymbolType.INTEGER -> item.value.integerValue.value = integerValue.value
+        SymbolType.DECIMAL -> item.value.decimalValue.value = decimalValue.value
+        SymbolType.MONEY -> item.value.moneyValue.value = moneyValue.value
+        else -> throw IllegalArgumentException("Unsupported type")
     }
 }
 

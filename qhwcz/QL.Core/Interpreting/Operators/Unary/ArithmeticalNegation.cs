@@ -1,4 +1,5 @@
 ﻿using QL.Api.Entities;
+using QL.Api.Factories;
 using QL.Api.Operators;
 using System;
 
@@ -6,26 +7,32 @@ namespace QL.Core.Interpreting.Operators
 {
     internal class ArithmeticalNegation : IOperator
     {
-        public string AsString
+        private string _asString;
+        private readonly IValueFactory _valueFactory;
+
+        internal ArithmeticalNegation(string asString, IValueFactory valueFactory)
         {
-            get
-            {
-                return "-";
-            }
+            _asString = asString;
+            _valueFactory = valueFactory;
         }
 
-        public Value Evaluate(Value input, Value empty = null)
+        public override string ToString()
         {
-            if (input.Type == QLType.Integer)
+            return _asString;
+        }
+
+        public IValue Evaluate(IValue input, IValue empty = null)
+        {
+            if (input.GetType() == QLType.Integer)
             {
-                return new Value(-input.ToInt(), input.Type);
+                return _valueFactory.CreateValue(-input.ToInt(), input.GetType());
             }
-            else if (input.Type == QLType.Decimal)
+            else if (input.GetType() == QLType.Decimal)
             {
-                return new Value(-input.ToDecimal(), input.Type);
+                return _valueFactory.CreateValue(-input.ToDecimal(), input.GetType());
             }
 
-            throw new NotSupportedException($"{input.Type} is not supported by the '-' operator.");
+            throw new NotSupportedException($"{input.GetType()} is not supported by the '-' operator.");
         }
 
         public bool AcceptTypes(QLType value, QLType empty = QLType.Undefined)

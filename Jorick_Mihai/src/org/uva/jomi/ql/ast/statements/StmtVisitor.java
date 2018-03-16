@@ -15,19 +15,13 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 
 	private class BlockStmtVisitor extends QLBaseVisitor<BlockStmt> {
 
-		private final StmtVisitor stmtVisitor;
-
-		public BlockStmtVisitor(StmtVisitor stmtVisitor) {
-			this.stmtVisitor = stmtVisitor;
-		}
-
 		// Builds a Block statement using the parser context.
 		@Override public BlockStmt visitBlockStmt(QLParser.BlockStmtContext ctx) {
 			List<Stmt> statements = new ArrayList<>(ctx.command().size());
 
 			// Visit every statement in the block and add it to the statements array.
 			for (CommandContext statement : ctx.command()) {
-				statements.add(statement.accept(stmtVisitor));
+				statements.add(statement.accept(StmtVisitor.this));
 			}
 
 			return new BlockStmt(statements);
@@ -39,9 +33,13 @@ public class StmtVisitor extends QLBaseVisitor<Stmt> {
 	private final BlockStmtVisitor blockStmtVisitor;
 
 	// The expression visitor is initialized in the default constructor
-	public StmtVisitor() {
-		this.exprVisitor = new ExprVisitor();
-		this.blockStmtVisitor = new BlockStmtVisitor(this);
+	public StmtVisitor(boolean printErrors) {
+		this.exprVisitor = new ExprVisitor(printErrors);
+		this.blockStmtVisitor = new BlockStmtVisitor();
+	}
+
+	public int getNumberOfErrors() {
+		return exprVisitor.getNumberOfErrors();
 	}
 
 	// Builds a Form statement using the parser context.

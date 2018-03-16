@@ -1,61 +1,59 @@
+import classes.Form;
+import classes.Question;
+import classes.values.BooleanValue;
+import classes.values.DateValue;
+import classes.values.IntegerValue;
+import classes.values.StringValue;
 import gui.FormBuilder;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import parsing.AST_Visitor;
-import parsing.gen.QLLexer;
+import parsing.TreeBuilder;
+import parsing.checkers.Checks;
 import parsing.gen.QLParser;
-import typechecking.TypeChecker;
+import parsing.visitors.FormVisitor;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Main {
-
     /**
      * parse and build the form file
-     * @param inputStream - input stream of the given form file
      */
-    public void parseAndBuild(InputStream inputStream){
+
+    private HashMap<String, Question> getQuestionTemp() {
+        HashMap<String, Question> questionHashMap = new HashMap<String, Question>();
+        questionHashMap.put("1", new Question("Is this a question?", new BooleanValue(), false, true));
+        questionHashMap.put("2", new Question("Is this a question?", new StringValue(), false, true));
+        questionHashMap.put("3", new Question("Is this a question?", new IntegerValue(), false, true));
+        questionHashMap.put("4", new Question("Is this a question?", new DateValue(), false, true));
+        return questionHashMap;
+    }
+
+    private void printQuestionMap(HashMap<String, Question> memory){
+        //Test output
+        for (Map.Entry e : memory.entrySet()) {
+            Question q = (Question) e.getValue();
+            String id = (String) e.getKey();
+            System.out.println(id + ":\t" + q) ;
+        }
+    }
+
+    private void parseAndBuild(InputStream inputStream){
         try{
-            //Call the lexer and get the tokens
-            QLLexer lexer = new QLLexer(CharStreams.fromStream(inputStream));
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-            //Parse the tokens/tree
-            QLParser parser = new QLParser(tokens);
-            QLParser.FormContext tree = parser.form();
-
-            //Call the visitor and build the tree
-            AST_Visitor builder = new AST_Visitor();
-            HashMap memory = (HashMap) builder.visit(tree);
-
-            //Test output
-            //Iterator it = memory.entrySet().iterator();
-            //while (it.hasNext()) {
-            //      Map.Entry pair = (Map.Entry)it.next();
-            //      System.out.println(pair.getKey() + " = " + pair.getValue());
-            //      it.remove();
-            //}
-            System.out.println("done");
-
-            //Construct the form
-            //ParseTree parseTree = parser.form();
-            //Form form = (Form) parseTree.accept(builder);
-
-            //Call parse tree inspector: Show the tree
-            //Trees.inspect(tree, parser);
-
-            //Do typechecking
-            TypeChecker typeChecker = new TypeChecker();
-            //typeChecker.initTypeChecking(form);
-
+            QLParser.FormContext form = new TreeBuilder().build(inputStream);
+            FormVisitor coreVisitor = new FormVisitor(form);
+            Checks.checkForm(form);
+            HashMap<String, Question> memory = coreVisitor.questionMap;
+            printQuestionMap(memory);
+            //test update function
+            coreVisitor.update();
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder(builder);
-            formBuilder.initComponents(memory);
-
+            FormBuilder formBuilder = new FormBuilder(null, getQuestionTemp());
+            formBuilder.initComponents();
         } catch (IOException e) {
             e.printStackTrace();
         }

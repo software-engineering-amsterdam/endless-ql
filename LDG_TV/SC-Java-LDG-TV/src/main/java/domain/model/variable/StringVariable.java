@@ -1,26 +1,29 @@
 package domain.model.variable;
 
-import domain.model.visitor.Visitor;
+import domain.model.value.StringValue;
+import domain.model.value.Value;
+import domain.visitor.Visitor;
 import javafx.scene.Node;
 
 public class StringVariable extends Variable {
-    private final String value;
+    private Value<String> value;
 
-    public StringVariable(String name, String value) {
-        super(name);
-        this.value = value;
+    public StringVariable(String identifier) {
+        super(identifier);
+        this.value = new StringValue("");
     }
-    public String getValue() {
+
+    @Override
+    public Value getValue() {
         return value;
     }
-
     @Override
-    public String toString() {
-        return this.getName() + ": String = " + this.value;
+    public void setValue(StringValue newVale){
+        this.value = newVale;
     }
 
     @Override
-    public Node getRelatedGUIElement(Visitor v){
+    public Node getRelatedUIElement(Visitor v){
         return v.visit(this);
     }
 }

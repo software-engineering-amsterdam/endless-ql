@@ -10,34 +10,28 @@ import org.uva.jomi.ql.error.WarningHandler;
 public class DuplicatedLabelChecker extends WarningHandler implements Stmt.Visitor<Void> {
 
 	private final HashMap<String, List<String>> labels;
-	
-	
 
 	public DuplicatedLabelChecker(boolean printWarnings) {
 		super("DuplicatedLabelChecker", printWarnings);
 		this.labels = new HashMap<>();
 	}
-	
+
 	public void check(List<Stmt> statements) {
 		for (Stmt statement : statements) {
 			statement.accept(this);
 		}
 	}
-	
-	public int getNumberOfWarnings() {
-		return this.getNumberOfReports();
-	}
-	
+
 	// This method was added for testing purposes.
 	public String getErrorAtIndex(int index) {
 		return this.getReport(index);
 	}
-	
+
 	private void checkLabel(QuestionStmt stmt) {
 			if (labels.containsKey(stmt.getLabel())) {
 				// Get the list of question names
 				List<String> questionNames = this.labels.get(stmt.getLabel());
-	    	
+
 				// If the list is empty add the question name to the list.
 				if (questionNames.size() == 0) {
 					questionNames.add(stmt.getName());
@@ -53,7 +47,7 @@ public class DuplicatedLabelChecker extends WarningHandler implements Stmt.Visit
 		    	questionNames.add(stmt.getName());
 		    	// Update the map
 		    	this.labels.put(stmt.getLabel(), questionNames);
-		    }	
+		    }
 	}
 
 	@Override

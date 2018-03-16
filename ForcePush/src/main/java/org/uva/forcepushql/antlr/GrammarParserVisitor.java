@@ -113,12 +113,6 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitConditionalElse(GrammarParser.ConditionalElseContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GrammarParser#questionMultiAns}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuestionMultiAns(GrammarParser.QuestionMultiAnsContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link GrammarParser#formStructure}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -5,7 +5,7 @@ import org.uva.sea.gui.render.ViewRenderer;
 
 public class ModelRenderer implements QuestionModelVisitor {
 
-    private ViewRenderer viewRenderer;
+    private final ViewRenderer viewRenderer;
 
     public ModelRenderer(ViewRenderer viewRenderer) {
         this.viewRenderer = viewRenderer;

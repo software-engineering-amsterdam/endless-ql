@@ -1,6 +1,8 @@
 // Generated from C:/dev/uva/endless-ql/Abel_Elias/src/parsing\QL.g4 by ANTLR 4.7
 package parsing.gen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+import parsing.checkers.errors.DuplicateVarError;
+import parsing.checkers.errors.UndeclaredVarError;
 
 /**
  * This interface defines a complete generic visitor for a parse tree produced
@@ -23,24 +25,32 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlock(QLParser.BlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#question}.
+	 * Visit a parse tree produced by {@link QLParser#lineInBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestion(QLParser.QuestionContext ctx);
+	T visitLineInBlock(QLParser.LineInBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#statement}.
+	 * Visit a parse tree produced by the {@code normalQuestion}
+	 * labeled alternative in {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStatement(QLParser.StatementContext ctx);
+	T visitNormalQuestion(QLParser.NormalQuestionContext ctx) throws DuplicateVarError;
+	/**
+	 * Visit a parse tree produced by the {@code fixedQuestion}
+	 * labeled alternative in {@link QLParser#question}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFixedQuestion(QLParser.FixedQuestionContext ctx) throws DuplicateVarError;
 	/**
 	 * Visit a parse tree produced by the {@code identifier}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIdentifier(QLParser.IdentifierContext ctx);
+	T visitIdentifier(QLParser.IdentifierContext ctx) throws UndeclaredVarError;
 	/**
 	 * Visit a parse tree produced by the {@code boolExpression}
 	 * labeled alternative in {@link QLParser#expression}.
@@ -68,7 +78,7 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBoolIdentifier(QLParser.BoolIdentifierContext ctx);
+	T visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) throws UndeclaredVarError;
 	/**
 	 * Visit a parse tree produced by the {@code notOperation}
 	 * labeled alternative in {@link QLParser#booleanExpression}.
@@ -117,7 +127,7 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNumIdentifier(QLParser.NumIdentifierContext ctx);
+	T visitNumIdentifier(QLParser.NumIdentifierContext ctx) throws UndeclaredVarError;
 	/**
 	 * Visit a parse tree produced by the {@code numBraces}
 	 * labeled alternative in {@link QLParser#numberExpression}.

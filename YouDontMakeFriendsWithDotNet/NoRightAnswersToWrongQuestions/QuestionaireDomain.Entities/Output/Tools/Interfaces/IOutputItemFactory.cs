@@ -12,6 +12,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
             IList<Reference<IQuestionOutputItem>> questions);
 
         Reference<IQuestionOutputItem> CreateQuestionOutputItem(
+            Guid variableId,
             string text,
             string value,
             Type type,

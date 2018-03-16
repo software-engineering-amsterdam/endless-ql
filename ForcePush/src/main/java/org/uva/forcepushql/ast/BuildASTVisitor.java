@@ -1,16 +1,83 @@
 package org.uva.forcepushql.ast;
 
 import org.uva.forcepushql.antlr.GrammarParser;
+import org.uva.forcepushql.antlr.GrammarParser.QuestionFormatContext;
 import org.uva.forcepushql.antlr.GrammarParserBaseVisitor;
+import org.uva.forcepushql.antlr.GrammarParserVisitor;
 
-public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
+import java.util.List;
+
+public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements GrammarParserVisitor<Node>{
 
 
     @Override
-    public ExpressionNode visitMathUnit(GrammarParser.MathUnitContext context) {
-        return super.visitMathUnit(context);
+    public Node visitCompileUnit(GrammarParser.CompileUnitContext context) {
+        return visit(context.formStructure());
     }
 
+    @Override
+    public Node visitFormStructure(GrammarParser.FormStructureContext context) {
+
+        FormNode node = new FormNode();
+        node.setName(context.variable().getText());
+        for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
+            node.setOneQuestion(visit(q));
+        }
+
+        return node;
+    }
+
+    public Node visitConditionalIf(GrammarParser.ConditionalIfContext context) {
+        ConditionalIfNode node = new ConditionalIfNode();
+
+        node.setCondition(visit(context.variable()));//IT IS NEEDED TO CHANGE THIS!!!
+        for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
+            node.setOneQuestion(visit(q));
+        }
+        return node;
+    }
+
+    @Override
+    public Node visitQuestionAssignValue(GrammarParser.QuestionAssignValueContext context) {
+        QuestionAssignValueNode node = new QuestionAssignValueNode();
+        node.setPrevious(visit(context.questionFormat()));
+        node.setExpression(visit(context.expression()));
+
+        return node;
+    }
+
+    @Override
+    public Node visitMathUnit(GrammarParser.MathUnitContext context) {
+        return visit(context.expression());
+    }
+
+    @Override
+    public Node visitQuestionFormat(QuestionFormatContext context) {
+        QuestionNode node = new QuestionNode();
+        LabelNode labelNode = new LabelNode();
+        labelNode.setLabel(context.LABEL().getText());
+        node.setLeft(labelNode);
+        node.setCenter(visit(context.variable()));
+        node.setRight(visit(context.type()));
+
+        return node;
+    }
+
+    @Override
+    public Node visitVariable(GrammarParser.VariableContext context) {
+        NameNode node = new NameNode();
+        node.setName(context.getText());
+
+        return node;
+    }
+
+    @Override
+    public Node visitType(GrammarParser.TypeContext context) {
+        TypeNode node = new TypeNode();
+        node.setType(context.getText());
+
+        return node;
+    }
 
     @Override
     public ExpressionNode visitNumberExpression(GrammarParser.NumberExpressionContext context) {
@@ -22,8 +89,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
     }
 
     @Override
-    public ExpressionNode visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext context) {
-        return super.visitParenthesisExpression(context);
+    public Node visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext context) {
+        return visit(context.expression());
     }
 
     @Override
@@ -47,24 +114,24 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
                 node = new DivisionNode();
                 break;
             default:
-                node = new AdditionNode();
-                /*try {
-                    throw new Exception();
+                try {
+                    throw new Exception("Invalid Node type");
                 } catch (Exception e) {
                     e.printStackTrace();
-                }*/
+                }
+                return null;
         }
 
-        System.out.println("\nStart of node.Left");
-        node.Left = visit(context.left);
+
+        node.setLeft((ExpressionNode) visit(context.left));
         System.out.println("End of node.Left \n");
 
-        System.out.println("\nStart of node.Right");
-        node.Right = visit(context.right);
+
+        node.setRight((ExpressionNode) visit(context.right));
         System.out.println("End of node.Right \n");
 
-        System.out.println("node.Left is " + node.Left);
-        System.out.println("node.Right is " + node.Right);
+        System.out.println("node.Left is " + node.getLeft());
+        System.out.println("node.Right is " + node.getRight());
         System.out.println(node);
 
         return node;
@@ -72,7 +139,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<ExpressionNode>{
     }
 
     @Override
-    public ExpressionNode visitUnaryExpression(GrammarParser.UnaryExpressionContext context) {
+    public Node visitUnaryExpression(GrammarParser.UnaryExpressionContext context) {
         switch (context.op.getType()){
             case GrammarParser.PLUS:
                 return visit(context.expression());

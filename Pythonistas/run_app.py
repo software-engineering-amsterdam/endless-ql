@@ -11,7 +11,7 @@ import sys
 
 from grammar.run_antlr import run_antlr_parse_gen
 from commons.config import config
-from tests.debug_grammar import debug_grammar
+from grammar.debug_grammar import GrammarDebugger
 from gui.gui import *
 
 
@@ -20,15 +20,17 @@ def main():
     Main program
     """
     # CLI
-    parser = argparse.ArgumentParser(description='Python Questionnaire Language')
+    parser = argparse.ArgumentParser(prog='Python Questionnaire Language Parser',
+                                     description='CLI tool of the python QL/QLS parser with gui.',
+                                     formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=45))
     parser.add_argument('-v', '--version', action='store_true',
                         help="Prints the program version.")
     parser.add_argument('-t', '--test', action='store_true',
                         help="Runs the testsuite.")
-    parser.add_argument('-g', '--grammar', action='store_true',
-                        help="Debug grammar.")
-    parser.add_argument('-p', '--parser', action='store_true',
-                        help="Generate parser.")
+    parser.add_argument('-g', '--grammar', action='store', type=str, metavar='path',
+                        help='Debug grammar. example: python run_app.py tests/forms/ql/pass/money_declare.ql')
+    parser.add_argument('-p', '--parser', action='store', type=str.upper, choices=['QL', 'QLS'],
+                        help='Generate antlr4 parser.')
 
     args = parser.parse_args()
 
@@ -44,17 +46,17 @@ def main():
 
     # Debug grammar
     if args.grammar:
-        # todo: make it so that you give path in CLI call
-        sys.stdout.write(debug_grammar("tests/forms/ql/fail/arithmetic.ql")[0])
+        g_debug = GrammarDebugger(args.grammar)
+        g_debug.debug_grammar()
         sys.exit(0)
 
     # Generate antlr parser
     if args.parser:
-        run_antlr_parse_gen()
+        run_antlr_parse_gen(args.parser)
         sys.exit(0)
 
     # GUI
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     screen = MainWindow()
     screen.show()
 

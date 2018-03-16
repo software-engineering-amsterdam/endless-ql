@@ -1,27 +1,8 @@
-form taxOfficeExample2
+form taxOfficeExample
 {
-  "vraag1"
+  "Int a"
     a: int
-  "vraag1"
-    b: int
-  "vraag1"
-    c: int
-  "vraag1"
-    q: int
-  "vraag1"
-    w: int
-  "vraag1"
-    e: int
-  "vraag1"
-    r: int
-  "vraag1"
-    t: int
-  "vraag1"
-    y: int
-  "vraag1"
-    u: int
-  "vraag1"
-    i: int
 
-  
+  "Bool b"
+  	b : bool
 }

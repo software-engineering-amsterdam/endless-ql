@@ -1,27 +1,28 @@
 package ast
 
+import common.Name
+import data.question.Question
+import data.symbol.SymbolTable
 import node.ExpressionNode
 import node.Node
 import node.QuestionNode
 import node.RootNode
-import data.question.Question
-import expression.Expression
 import java.util.*
 
-class FormTreeBuilder {
+class FormTreeBuilder(var symbolTable: SymbolTable) {
 
     private val nodeStack = ArrayDeque<Node>()
 
     init {
-        nodeStack.push(RootNode())
+        nodeStack.push(RootNode(symbolTable))
     }
 
     fun pushQuestion(question: Question) {
-        nodeStack.first.addChild(QuestionNode(question))
+        nodeStack.first.addChild(QuestionNode(symbolTable, question))
     }
 
-    fun pushExpression(expression: Expression) {
-        nodeStack.push(ExpressionNode(expression))
+    fun pushExpression(reference: Name) {
+        nodeStack.push(ExpressionNode(symbolTable, reference))
     }
 
     fun build(): Node {

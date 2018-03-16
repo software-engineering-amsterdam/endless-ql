@@ -12,6 +12,11 @@ public class VariableReference extends Expression {
         this.name = name;
     }
 
+    public VariableReference(String name) {
+        super();
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

@@ -31,7 +31,13 @@ stylesheet taxOfficeExample
           fontsize: 14
           color: #999999
           widget spinbox
+          
         }
+      }
+      section "TEST"
+      {
+        question sellingPrice2
+        widget spinbox
       }
     }
     default boolean widget radio("Yes", "No")

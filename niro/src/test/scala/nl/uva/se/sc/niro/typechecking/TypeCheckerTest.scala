@@ -1,10 +1,10 @@
 package nl.uva.se.sc.niro.typechecking
 
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model._
+import nl.uva.se.sc.niro.errors.Warning
+import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, IntegerAnswer }
 import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference, UnaryOperation }
-import nl.uva.se.sc.niro.model.ql._
 import org.scalatest.WordSpec
 
 class TypeCheckerTest extends WordSpec {
@@ -20,7 +20,18 @@ class TypeCheckerTest extends WordSpec {
         ))
 
       val result = TypeChecker.pipeline(qlForm)
-      assert(result === Left(TypeCheckError("TypeCheckError", "Found questions with duplicate labels")))
+
+      assert(
+        result === Right(
+          QLForm(
+            "duplicateLabel",
+            List(
+              Question("q1", "duplicate-label", IntegerType, IntegerAnswer(Some(1))),
+              Question("q2", "duplicate-label", IntegerType, IntegerAnswer(Some(1)))
+            ),
+            List(Warning("Warning: questions q1, q2 have duplicate label: duplicate-label"))
+          )
+        ))
     }
 
     "checkOperandsOfInvalidTypeToOperators" in {}

@@ -13,10 +13,6 @@ class FormNode:
         self.block = []
         self.qlOrder = collections.OrderedDict()
 
-    def addStatements(self, statements):
-        for statement in statements:
-            self.block.append(statement)
-
     # Check all types of child forms
     def checkTypes(self):
         types = []
@@ -28,6 +24,10 @@ class FormNode:
     def linkVars(self, varDict):
         for statement in self.block:
             statement.linkVars(varDict)
+
+    def addStatements(self, statements):
+        for statement in statements:
+            self.block.append(statement)
 
     def getQLName(self):
         return self.name

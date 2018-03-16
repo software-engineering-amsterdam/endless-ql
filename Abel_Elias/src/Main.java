@@ -31,6 +31,7 @@ public class Main {
                   System.out.println(pair.getKey() + " : " + q.getText() + " = " + q.getValue().getType() + ":" + q.getValue().getValue()) ;
                   it.remove();
             }
+
             //Pass the relevant questions to the UI builder
 //            FormBuilder formBuilder = new FormBuilder(builder, memory);
 //            formBuilder.initComponents();

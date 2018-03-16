@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 public class InitVisitorTest {
 
-    private TreeBuilder treeBuilder;
+   private TreeBuilder treeBuilder;
    private InitVisitor initVisitor;
 
     @Before

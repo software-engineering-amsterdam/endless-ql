@@ -7,7 +7,7 @@ public class MoneyValue extends NumericValue<Double> {
     }
 
     public MoneyValue() {
-        super(0.0);
+        this(0.0);
     }
 
     @Override

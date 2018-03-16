@@ -6,6 +6,10 @@ public class DecimalValue extends NumericValue<Double> {
         setType(Value.DECIMAL);
     }
 
+    public DecimalValue(){
+        this(0.0);
+    }
+
     @Override
     public void setValueGeneric(Object o) {
         setValue((double) o);
@@ -14,9 +18,5 @@ public class DecimalValue extends NumericValue<Double> {
     @Override
     public double getComputationValue() {
         return getValue();
-    }
-
-    public DecimalValue(){
-        this(0.0);
     }
 }

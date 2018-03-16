@@ -6,6 +6,10 @@ public class IntegerValue extends NumericValue<Integer> {
         setType(Value.INTEGER);
     }
 
+    public IntegerValue() {
+        this(0);
+    }
+
     @Override
     public void setValueGeneric(Object o) {
         setValue((int) o);
@@ -14,9 +18,5 @@ public class IntegerValue extends NumericValue<Integer> {
     @Override
     public double getComputationValue() {
         return (double) getValue();
-    }
-
-    public IntegerValue(){
-        this(0);
     }
 }

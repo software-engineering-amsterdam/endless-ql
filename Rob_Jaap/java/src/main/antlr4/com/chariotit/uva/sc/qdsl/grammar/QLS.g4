@@ -8,7 +8,8 @@ grammar QLS;
 stylesheet      : STYLESHEET identifier page+ ;
 page            : PAGE identifier BRACKET_L section+ defaultdef* BRACKET_R ;
 section_elem    : (section | question) ;
-section         : SECTION STRING BRACKET_L section_elem+ defaultdef* BRACKET_R ;
+section         : SECTION STRING BRACKET_L section_elem+ defaultdef* BRACKET_R
+                | SECTION STRING section_elem ;
 question        : QUESTION identifier widgetproperty? ;
 defaultdef      : blockdefault | linedefault ;
 blockdefault    : DEFAULT type BRACKET_L property+ BRACKET_R ;
@@ -75,7 +76,7 @@ COLON           : ':' ;
 COMMA           : ',' ;
 
 
-COLOR_CODE      : '#'[0-9a-fA-F]+ ;
+COLOR_CODE      : '#'[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]([0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])? ;
 NEWLINE         : ('\r'? '\n' | '\r')+ -> skip ;
 WHITESPACE      : (' ' | '\t') -> skip ;
 

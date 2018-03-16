@@ -3,6 +3,8 @@ package com.chariotit.uva.sc.qdsl.ast.ql.symboltable;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.exception.DuplicateSymbolMismatchException;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class SymbolTable {
 
@@ -17,7 +19,15 @@ public class SymbolTable {
         }
     }
 
+    public Set<Map.Entry<String, SymbolTableEntry>> getEntries() {
+        return entries.entrySet();
+    }
+
     public SymbolTableEntry getEntry(String key) {
         return entries.get(key);
+    }
+
+    public boolean hasEntry(String key) {
+        return getEntry(key) != null;
     }
 }

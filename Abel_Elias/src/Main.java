@@ -27,13 +27,13 @@ public class Main {
             Iterator it = memory.entrySet().iterator();
             while (it.hasNext()) {
                   Map.Entry pair = (Map.Entry)it.next();
-                  System.out.println(pair.getKey() + " : " + pair.getValue() + " = " + ((Question) pair.getValue()).getValue());
+                  Question q = (Question) pair.getValue();
+                  System.out.println(pair.getKey() + " : " + q.getText() + " = " + q.getValue().getType() + ":" + q.getValue().getValue()) ;
                   it.remove();
             }
-
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder(builder, memory);
-            formBuilder.initComponents();
+//            FormBuilder formBuilder = new FormBuilder(builder, memory);
+//            formBuilder.initComponents();
 
         } catch (IOException e) {
             e.printStackTrace();

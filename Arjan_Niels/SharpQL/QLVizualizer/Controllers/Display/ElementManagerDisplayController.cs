@@ -74,9 +74,11 @@ namespace QLVisualizer.Controllers.Display
         /// <param name="widgets">Widgets on form</param>
         public override void DisplayForm()
         {
-            WidgetCreator.CreateWidget(Form, BaseDisplay);
+            UpdateBaseDisplay(WidgetCreator.CreateWidget(Form, BaseDisplay));
             Form.RegisterListeners();
         }
+
+        protected abstract void UpdateBaseDisplay(T newDisplay);
 
         /// <summary>
         /// Resets all values that define its state

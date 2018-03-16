@@ -9,5 +9,10 @@ namespace QLVisualizer.Elements.Managers.CollectionTypes
             base(identifyer, text, "page", parent, controller, activationExpression)
         {
         }
+
+        public void ToggleActive()
+        {
+            SetActive(!Active);
+        }
     }
 }

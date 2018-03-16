@@ -3,16 +3,16 @@ package qls.ast.style;
 import ql.ast.literal.IntegerLiteral;
 import qls.visiting.StyleVisitor;
 
-public class WidthProperty extends StyleProperty {
-	private IntegerLiteral width;
+public class Width extends StyleProperty {
+	private IntegerLiteral widthVal;
 
 	//constructor
-	public WidthProperty(IntegerLiteral width) {
-		this.width = width;
+	public Width(IntegerLiteral widthVal) {
+		this.widthVal = widthVal;
 	}
 
-	public int getWidth() {
-		return width.getValue().getValue();
+	public int getWidthVal() {
+		return widthVal.getValue().getValue();
 	}
 
 	@Override

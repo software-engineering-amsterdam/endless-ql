@@ -1,9 +1,15 @@
 package gui.questions;
 
 import classes.Question;
+<<<<<<< HEAD
+=======
+
+>>>>>>> bdeb7b6ce55ff3bf5c230a0742ab4d5fbe008b58
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 public abstract class QuestionPanel extends JPanel {
     private String key;
@@ -28,9 +34,13 @@ public abstract class QuestionPanel extends JPanel {
         return isActive;
     }
 
+    public Question getQuestion() {
+        return question;
+    }
+
     public abstract JComponent getComponent();
 
-
+    public abstract void setListener(EventListener listener);
 
 //
 

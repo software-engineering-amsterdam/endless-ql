@@ -9,6 +9,7 @@ sealed trait ASTNode {
 sealed trait ASTNonTerminal extends ASTNode
 sealed trait ASTLogicalOp extends ASTNode
 sealed trait ASTRelationalOp extends ASTNode
+sealed trait ASTArithmeticOp extends ASTNode
 
 case class ASTRoot(header: ASTNode, body: ASTNode) extends ASTNonTerminal {
   override def flatten(): List[ASTNode] = {
@@ -74,12 +75,12 @@ case class ASTRelationalGTE() extends ASTRelationalOp
 case class ASTRelationalNE() extends ASTRelationalOp
 case class ASTRelationalEQ() extends ASTRelationalOp
 
-case class ASTAdd() extends ASTNode
-case class ASTMin() extends ASTNode
-case class ASTMul() extends ASTNode
-case class ASTDiv() extends ASTNode
+case class ASTAdd() extends ASTArithmeticOp
+case class ASTMin() extends ASTArithmeticOp
+case class ASTMul() extends ASTArithmeticOp
+case class ASTDiv() extends ASTArithmeticOp
 
-case class ASTBinary(rhs: ASTNode, lhs: ASTNode, op: ASTNode) extends ASTNonTerminal {
+case class ASTBinary(lhs: ASTNode, rhs: ASTNode, op: ASTNode) extends ASTNonTerminal {
   // todo: exprs that contain exprs aren't traversed.
   override def flatten(): List[ASTNode] = {
     List(lhs, rhs, op)

@@ -8,74 +8,25 @@ class OutputFrame(QtWidgets.QFrame):
         self.setLayout(self.frameLayout)
         self.row = 0
 
-        self.quesionIDs = []
-        self.questions = []  # Ordered list of questions
+        self.quesionIDs = [] # Ordered list of question IDs.
+        self.questions = []  # Ordered list of question objects
         self.output_path = 'QL_output.txt'
 
     def get_output_path(self):
         return self.output_path
+
     def set_output_path(self, outputPath):
         self.output_path = outputPath
-
-    # def add_question(self, completequestion):  # todo: split question and its datatype in ast rather than here
-    #     # Adds questions and answer option
-    #
-    #     splitquestion = completequestion.split('"')  # Filters the actual question from the input string
-    #     question = splitquestion[1]
-    #     datatype = splitquestion[2].split(":")[1]  # Filters datatype from the question string
-    #
-    #     choices = ['Yes', 'No']  # Default choices; todo: move to appropriate location.
-    #
-    #     self.frameLayout.addWidget(QtWidgets.QLabel(question))
-    #     self.questions.append(question)
-    #     self.answers.append('undefined')  # Default answer
-    #
-    #     if datatype == 'boolean':
-    #         self.btn_grp.append(QtWidgets.QButtonGroup())  # Makes sure only one radiobutton can be true per question
-    #         for choicenumber in range(len(choices)):
-    #             radiobutton = QtWidgets.QRadioButton(choices[choicenumber])
-    #             radiobutton.answer = choices[choicenumber]
-    #             radiobutton.question = question
-    #
-    #             self.frameLayout.addWidget(radiobutton, self.row, choicenumber+1)
-    #             radiobutton.toggled.connect(self.write_answer)
-    #
-    #             self.btn_grp[-1].setExclusive(True)
-    #             self.btn_grp[-1].addButton(radiobutton)
-    #
-    #     elif datatype == 'money':
-    #         # todo:testing
-    #         textbox = QtWidgets.QLineEdit(self)
-    #         textbox.answer = textbox.text()
-    #         textbox.question = question
-    #         textbox.textEdited.connect(self.write_answer)
-    #         self.frameLayout.addWidget(textbox, self.row, 1)
-    #
-    #     self.row += 1
-
-    def write_answer(self):
-        # Saves the user's answer to the corresponding question
-        sender = self.sender()
-        try:
-            sender.answer = sender.text()
-        except:
-            pass
-
-        self.answers[self.questions.index(sender.question)] = sender.answer
 
     def add_submit_button(self):
         self.submit_button = QtWidgets.QPushButton('Submit', self)
         self.submit_button.clicked.connect(self.submit)
-        self.submit_button.resize(self.submit_button.sizeHint())
         self.frameLayout.addWidget(self.submit_button,self.row,1)
 
     def submit(self):
         # Writes answers to txt file
         file = open(self.output_path, 'w')
 
-        # for i in range(len(self.questions)):
-        #     file.write(self.questions[i]+str(self.answers[i])+"\n")
-        # file.close()
         for i in range(len(self.questions)):
             file.write(self.questions[i].question+str(self.questions[i].answer)+'\n')
         file.close()

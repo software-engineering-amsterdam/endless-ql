@@ -31,6 +31,7 @@ namespace QuestionaireOrchestration.QueryServices
 
             return new QuestionModel(
                 question.Id,
+                question.VariableId,
                 question.QuestionText,
                 question.Visible,
                 question.ReadOnly,

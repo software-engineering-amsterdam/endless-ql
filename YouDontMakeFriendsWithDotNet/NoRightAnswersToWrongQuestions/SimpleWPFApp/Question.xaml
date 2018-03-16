@@ -20,8 +20,7 @@
                 TextWrapping="Wrap"/>
         </Label>
         <TextBox 
-            x:Name="MyTargetControl"
-                Text="{Binding Value, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Value, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
                 
                 MinWidth="100"
                 Margin="10,21,0,0"

@@ -34,6 +34,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         }
 
         public Reference<IQuestionOutputItem> CreateQuestionOutputItem(
+            Guid variableId,
             string text, 
             string value,
             Type type,
@@ -42,6 +43,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         {
             var questionOutputItem = new QuestionOutputItem(
                 m_ids.Next,
+                variableId,
                 text,
                 type,
                 value,

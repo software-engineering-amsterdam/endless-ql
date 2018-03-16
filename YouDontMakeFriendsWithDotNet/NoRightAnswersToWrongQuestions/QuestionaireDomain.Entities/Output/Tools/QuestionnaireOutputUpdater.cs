@@ -29,23 +29,24 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             var name = questionnaireRootNode
                 .ToDomainItem(m_domainItemLocator)
                 .QuestionnaireName;
-
+            //ToDo: this assumes a single root node with the same name
             return m_domainItemLocator
                 .GetAll<IQuestionnaireOutputItem>()
                 .FirstOrDefault(x => x.DisplayName == name);
         }
 
-        public void DeleteOutputFor(Reference<IQuestionnaireRootNode> questionnaireRootNode)
-        {
-            DeleteOutput(GetRootOutput(questionnaireRootNode));
-        }
+        //public void UpdateOutputFor(Reference<IQuestionnaireRootNode> questionnaireRootNode)
+        //{
+        //    UpdateOutput(GetRootOutput(questionnaireRootNode));
+        //}
 
-        private void DeleteOutput(IQuestionnaireOutputItem questionnaireOutputItem)
-        {
-            foreach (var outputItem in questionnaireOutputItem.Questions)
-            {
-                m_domainItemRegistry.Delete(outputItem);
-            }
-        }
+        //private void UpdateOutput(IQuestionnaireOutputItem questionnaireOutputItem)
+        //{
+        //    foreach (var outputItem in questionnaireOutputItem.Questions)
+        //    {
+        //        var domainItem = m_domainItemLocator
+        //        m_domainItemRegistry.Delete(outputItem);
+        //    }
+        //}
     }
 }

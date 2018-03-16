@@ -1,11 +1,11 @@
-package ql.model;
+package qls.model;
 
 import org.antlr.v4.runtime.Token;
 
-public class Node {
+public class QLSNode {
     private Token token;
 
-    public Node(Token start) {
+    public QLSNode(Token start) {
         this.token = start;
     }
 

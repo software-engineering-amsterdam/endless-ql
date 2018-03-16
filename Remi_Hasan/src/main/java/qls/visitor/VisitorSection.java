@@ -21,7 +21,7 @@ public class VisitorSection extends VisitorBlock<Section> {
         List<Question> questions = getQuestions(ctx.question());
         List<Default> defaults = getDefaults(ctx.default_());
 
-        return new Section(identifier, sections, questions, defaults);
+        return new Section(ctx.getStart(), identifier, sections, questions, defaults);
     }
 
     private List<Question> getQuestions(List<QLSParser.QuestionContext> questionContextList) {

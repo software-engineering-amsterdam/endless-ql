@@ -14,6 +14,6 @@ public class VisitorPage extends VisitorBlock<Page> {
     public Page visitPage(QLSParser.PageContext ctx) {
         List<Default> defaults = this.getDefaults(ctx.default_());
         List<Section> sections = this.getSections(ctx.section());
-        return new Page(ctx.IDENTIFIER().getText(), defaults, sections);
+        return new Page(ctx.getStart(), ctx.IDENTIFIER().getText(), defaults, sections);
     }
 }

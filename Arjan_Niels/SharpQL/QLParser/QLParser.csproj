@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Analyser.cs" />
+    <Compile Include="Analysis\Evaluator\StatementType.cs" />
+    <Compile Include="Analysis\Evaluator\StatementTypeEvaluator.cs" />
     <Compile Include="Analysis\IAnalyser.cs" />
     <Compile Include="Analysis\ParseMessage.cs" />
     <Compile Include="Analysis\Semantic\StatementTypeAnalyser.cs" />

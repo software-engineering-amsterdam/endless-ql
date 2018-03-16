@@ -19,10 +19,11 @@ class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
     val filename = s"${resourceDir}/not_money_unop.ql"
     val form = FormHelper.getForm(getClass.getResource(filename))
 
-    it("validate method should not throw an exception") {
-      ConditionalValidator.validate(form) match {
-        case Failure(ConditionalNotBoolean(_)) => succeed
-        case other => fail("ConditionalValidator should have thrown an error")
+    it("check should return an option exception") {
+      ConditionalValidator.check(form) match {
+        case None => fail()
+        case Some(ConditionalNotBoolean(e)) => succeed
+        case other => fail("wrong error thrown")
       }
     }
   }
@@ -31,10 +32,11 @@ class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
     val filename = s"${resourceDir}/not_boolean_unop.ql"
     val form = FormHelper.getForm(getClass.getResource(filename))
 
-    it("validate method should not return a Failure") {
-      ConditionalValidator.validate(form) match {
-        case Failure(e) => fail("ConditionalValidator should not have thrown an error")
-        case Success(_) => succeed
+    it("check should not return an option exception") {
+      ConditionalValidator.check(form) match {
+        case None => succeed
+        case Some(ConditionalNotBoolean(e)) => fail(e)
+        case other => fail("ConditionalValidator should not have thrown an error")
       }
     }
   }
@@ -43,10 +45,11 @@ class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
     val filename = s"${resourceDir}/not_binop_unop.ql"
     val form = FormHelper.getForm(getClass.getResource(filename))
 
-    it("validate method should not return a Failure") {
-      ConditionalValidator.validate(form) match {
-        case Failure(e) => fail("ConditionalValidator should not have thrown an error")
-        case Success(_) => succeed
+    it("check should not return an option exception") {
+      ConditionalValidator.check(form) match {
+        case None => succeed
+        case Some(ConditionalNotBoolean(e)) => fail(e)
+        case other => fail("ConditionalValidator should not have thrown an error")
       }
     }
   }

@@ -19,29 +19,20 @@ class TypeChecker() {
         case bv @ Some(ex) => {
           error = ex
           return bv
-          // errorMessage = s"Identifier with name '${ex.label}' is not declared!"
         }
         case None => None
       }
     })
-    println(result)
     None
-
-    // for {
-      // nothing <- IdentifierValidator.check(node)
-      // nothing <- ConditionalValidator.check(node)
-    // } yield nothing
   }
 
   def setError(exception: Throwable): Unit = {
     exception match {
       case ex: IdentifierNotDeclared => {
         error = ex
-        // errorMessage = s"Identifier with name '${ex.label}' is not declared!"
       }
       case ex: ConditionalNotBoolean => {
         error = ex
-        // errorMessage = s"Identifier with name '${ex.label}' is not declared!"
       }
     }
   }

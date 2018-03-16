@@ -26,22 +26,6 @@ object ConditionalValidator {
     None
   }
 
-  def validate(ast: ASTNode): Try[Boolean] = {
-    val ifStmts = ASTCollector.getIfStatement(ast)
-
-    ifStmts.forEach { stmt =>
-      {
-        val isValid = validateExpression(stmt.expression, ast)
-
-        if (!isValid) {
-          val message = "Expression in conditional has to be of type Boolean"
-          return Failure(new ConditionalNotBoolean(message))
-        }
-      }
-    }
-    Success(true)
-  }
-
   def isBooleanIdentifier(node: ASTIdentifier, ast: ASTNode): Boolean = {
     infereType(node, ast) match {
       case Some(ASTBoolean()) => true

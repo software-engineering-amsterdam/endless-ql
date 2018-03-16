@@ -23,18 +23,4 @@ object IdentifierValidator {
       Some(new IdentifierNotDeclared(undeclaredIdentifiers.head.id))
     }
   }
-
-  def validate(node: ASTNode): Try[Boolean] = {
-    val forms = ASTCollector.getFormBody(node)
-
-    val declaredIdentifiers = forms.flatMap(ASTCollector.getVarDecls).flatMap(ASTCollector.getIdentifiers)
-    val foundIdentifiers = forms.flatMap(ASTCollector.getTerminals).flatMap(ASTCollector.getIdentifiers)
-    val undeclaredIdentifiers = foundIdentifiers.distinct diff declaredIdentifiers.distinct
-
-    if(undeclaredIdentifiers.isEmpty) {
-      Success(true)
-    } else {
-      Failure(new IdentifierNotDeclared(undeclaredIdentifiers.head.id))
-    }
-  }
 }

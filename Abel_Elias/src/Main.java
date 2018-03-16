@@ -20,12 +20,10 @@ public class Main {
 
     private void printQuestionMap(HashMap<String, Question> memory){
         //Test output
-        Iterator it = memory.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            Question q = (Question) pair.getValue();
-            System.out.println(q) ;
-            it.remove();
+        for (Map.Entry e : memory.entrySet()) {
+            Question q = (Question) e.getValue();
+            String id = (String) e.getKey();
+            System.out.println(id + ":\t" + q) ;
         }
     }
 
@@ -38,6 +36,7 @@ public class Main {
 
             printQuestionMap(memory);
 
+            coreVisitor.update();
             //Pass the relevant questions to the UI builder
 //            FormBuilder formBuilder = new FormBuilder(builder, memory);
 //            formBuilder.initComponents();

@@ -14,11 +14,9 @@ public class FormVisitor extends QLBaseVisitor {
 
     public FormVisitor(QLParser.FormContext form){
         this.questionMap = new HashMap<>();
-        this.blockVisitor = new BlockVisitor(questionMap, true);
-        this.updateVisitor = new UpdateVisitor(questionMap, true);
-
+        this.blockVisitor = new BlockVisitor(this.questionMap, true);
+        this.updateVisitor = new UpdateVisitor(this.questionMap, true);
         this.form = form;
-
         visitForm(this.form);
     }
 

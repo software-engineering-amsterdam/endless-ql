@@ -4,13 +4,18 @@ from PyQt5 import QtWidgets
 class OutputFrame(QtWidgets.QFrame):
     def __init__(self):
         super(OutputFrame, self).__init__()
-        self.outputlayout = QtWidgets.QGridLayout()
-        self.setLayout(self.outputlayout)
+        self.frameLayout = QtWidgets.QGridLayout()
+        self.setLayout(self.frameLayout)
         self.row = 0
-        self.btn_grp = []
-        # self.questionDict = {}
+
+        self.quesionIDs = []
         self.questions = []  # Ordered list of questions
-        self.answers = []  # Ordered list of corresponding answers
+        self.output_path = 'QL_output.txt'
+
+    def get_output_path(self):
+        return self.output_path
+    def set_output_path(self, outputPath):
+        self.output_path = outputPath
 
     # def add_question(self, completequestion):  # todo: split question and its datatype in ast rather than here
     #     # Adds questions and answer option
@@ -21,7 +26,7 @@ class OutputFrame(QtWidgets.QFrame):
     #
     #     choices = ['Yes', 'No']  # Default choices; todo: move to appropriate location.
     #
-    #     self.outputlayout.addWidget(QtWidgets.QLabel(question))
+    #     self.frameLayout.addWidget(QtWidgets.QLabel(question))
     #     self.questions.append(question)
     #     self.answers.append('undefined')  # Default answer
     #
@@ -32,7 +37,7 @@ class OutputFrame(QtWidgets.QFrame):
     #             radiobutton.answer = choices[choicenumber]
     #             radiobutton.question = question
     #
-    #             self.outputlayout.addWidget(radiobutton, self.row, choicenumber+1)
+    #             self.frameLayout.addWidget(radiobutton, self.row, choicenumber+1)
     #             radiobutton.toggled.connect(self.write_answer)
     #
     #             self.btn_grp[-1].setExclusive(True)
@@ -44,7 +49,7 @@ class OutputFrame(QtWidgets.QFrame):
     #         textbox.answer = textbox.text()
     #         textbox.question = question
     #         textbox.textEdited.connect(self.write_answer)
-    #         self.outputlayout.addWidget(textbox, self.row, 1)
+    #         self.frameLayout.addWidget(textbox, self.row, 1)
     #
     #     self.row += 1
 
@@ -55,21 +60,28 @@ class OutputFrame(QtWidgets.QFrame):
             sender.answer = sender.text()
         except:
             pass
+
         self.answers[self.questions.index(sender.question)] = sender.answer
 
     def add_submit_button(self):
         self.submit_button = QtWidgets.QPushButton('Submit', self)
         self.submit_button.clicked.connect(self.submit)
         self.submit_button.resize(self.submit_button.sizeHint())
-        self.outputlayout.addWidget(self.submit_button,self.row,1)
+        self.frameLayout.addWidget(self.submit_button,self.row,1)
 
     def submit(self):
         # Writes answers to txt file
-        file = open('QL_output.txt', 'w')
+        file = open(self.output_path, 'w')
 
+        # for i in range(len(self.questions)):
+        #     file.write(self.questions[i]+str(self.answers[i])+"\n")
+        # file.close()
         for i in range(len(self.questions)):
-            file.write(self.questions[i]+str(self.answers[i])+"\n")
+            file.write(self.questions[i].question+str(self.questions[i].answer)+'\n')
         file.close()
 
     def no_tree_message(self):
-        self.outputlayout.addWidget(QtWidgets.QLabel('Invalid input'))
+        self.frameLayout.addWidget(QtWidgets.QLabel('Invalid input'))
+
+    def add_question(self,frame):
+        self.frameLayout.addWidget(frame)

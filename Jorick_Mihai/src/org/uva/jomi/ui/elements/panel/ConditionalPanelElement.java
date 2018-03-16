@@ -2,7 +2,7 @@ package org.uva.jomi.ui.elements.panel;
 
 import javax.swing.JPanel;
 
-import org.uva.jomi.ql.ast.expressions.Expr;
+import org.uva.jomi.ql.ast.expressions.Expression;
 import org.uva.jomi.ui.elements.BaseElement;
 import org.uva.jomi.ui.elements.core.Panel;
 import org.uva.jomi.ui.interpreter.SymbolTableListener;
@@ -14,14 +14,14 @@ import org.uva.jomi.ui.interpreter.value.GenericValue;
 
 public class ConditionalPanelElement implements BaseElement, SymbolTableListener{
 
-	private Expr expression;
+	private Expression expression;
 	private BaseElement ifElement;
 	private BaseElement elseElement;
 
 	private JPanel ifPanel;
 	private JPanel elsePanel;
 
-	public ConditionalPanelElement(Expr expression, BaseElement ifElement, BaseElement elseElement) {
+	public ConditionalPanelElement(Expression expression, BaseElement ifElement, BaseElement elseElement) {
 		this.expression = expression;
 		this.ifElement = ifElement;
 		this.elseElement = elseElement;

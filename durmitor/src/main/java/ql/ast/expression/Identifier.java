@@ -1,6 +1,7 @@
 package ql.ast.expression;
 
 import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.UndefinedLiteral;
 import ql.ast.type.Type;
 import ql.ast.type.Undefined;
 import ql.helpers.Observable;
@@ -16,13 +17,13 @@ public class Identifier extends Expression implements Observable {
     public Identifier(String name) {
         this.name       = name;
         this.type       = new Undefined();
-        this.value      = new ql.ast.expression.literal.UndefinedLiteral();
+        this.value      = new UndefinedLiteral();
     }
     
     public Identifier(String name, Type type) {
         this.name       = name;
         this.type       = type;
-        this.value      = new ql.ast.expression.literal.UndefinedLiteral();
+        this.value      = new UndefinedLiteral();
     }
     
     public String getName() {

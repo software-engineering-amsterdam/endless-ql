@@ -1,6 +1,8 @@
 // Generated from C:/dev/uva/endless-ql/Abel_Elias/src/parsing\QL.g4 by ANTLR 4.7
 package parsing.gen;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
+import parsing.checkers.errors.DuplicateVarError;
+import parsing.checkers.errors.UndeclaredVarError;
 
 /**
  * This class provides an empty implementation of {@link QLVisitor},
@@ -38,21 +40,21 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNormalQuestion(QLParser.NormalQuestionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNormalQuestion(QLParser.NormalQuestionContext ctx) throws DuplicateVarError { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFixedQuestion(QLParser.FixedQuestionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFixedQuestion(QLParser.FixedQuestionContext ctx) throws DuplicateVarError { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIdentifier(QLParser.IdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIdentifier(QLParser.IdentifierContext ctx) throws UndeclaredVarError { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -80,7 +82,7 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) throws UndeclaredVarError { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -129,7 +131,7 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNumIdentifier(QLParser.NumIdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNumIdentifier(QLParser.NumIdentifierContext ctx) throws UndeclaredVarError { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

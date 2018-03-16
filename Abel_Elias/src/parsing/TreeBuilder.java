@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parsing.gen.QLLexer;
 import parsing.gen.QLParser;
-import parsing.visitors.InitVisitor;
 
 import java.io.IOException;
 import java.io.InputStream;

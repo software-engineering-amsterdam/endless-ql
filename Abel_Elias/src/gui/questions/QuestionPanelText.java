@@ -7,7 +7,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.ActionListener;
 import java.util.EventListener;
 
-public abstract class QuestionPanelText extends QuestionPanel{
+public abstract class QuestionPanelText extends QuestionPanel {
 
     private JTextField textField;
 

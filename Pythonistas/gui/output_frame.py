@@ -8,9 +8,13 @@ class OutputFrame(QtWidgets.QFrame):
         self.setLayout(self.frameLayout)
         self.row = 0
 
-        self.quesionIDs = [] # Ordered list of question IDs.
+        self.questionIDs = [] # Ordered list of question IDs.
         self.questions = []  # Ordered list of question objects
         self.output_path = 'QL_output.txt'
+
+    def get_question_object(self,questionID):
+        index = self.questionIDs.index(questionID)
+        return self.questions[index]
 
     def get_output_path(self):
         return self.output_path

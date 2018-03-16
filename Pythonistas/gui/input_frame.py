@@ -11,6 +11,7 @@ class InputFrame(QtWidgets.QFrame):
         self.inputlayout = QtWidgets.QGridLayout()
         self.setLayout(self.inputlayout)
         self.resize(800,600)
+        self.setMinimumWidth(500)
 
         # Creates textbox for QL input, at specified positions
         self.inputlayout.addWidget(QtWidgets.QLabel("Input your QL text here"),0,0)

@@ -73,9 +73,9 @@ class QLListener(ParseTreeListener):
             questionObject = question_classes.MoneyQuestion(questionID, question, datatype)
             textbox = QtWidgets.QLineEdit()
             textbox.textEdited.connect(questionObject.set_answer_text)
-            questionObject.set_text_input(textbox)
+            questionObject.set_text_input_box(textbox)
 
-        self.outputFrame.quesionIDs.append(questionID)
+        self.outputFrame.questionIDs.append(questionID)
         self.outputFrame.questions.append(questionObject)
         self.outputFrame.add_question(questionObject.create_frame())
         self.outputFrame.row += 1
@@ -106,6 +106,11 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#if_.
     def enterIf_(self, ctx:QLParser.If_Context):
+        pass
+
+    # Exit a parse tree produced by QLParser#if_.
+    def exitIf_(self, ctx:QLParser.If_Context):
+        # todo: cleanup
         children = ctx.getChildren()
 
         children.__next__()
@@ -123,20 +128,9 @@ class QLListener(ParseTreeListener):
 
         ggrandchildren = grandchild.getChildren()
         ggrandchildren.__next__()
-        ifquestionID = ggrandchildren.__next__()
-        print(ifquestionID)
+        ifquestionID = ggrandchildren.__next__().getText()
 
-        
-
-        self.inIf = True
-
-
-    # Exit a parse tree produced by QLParser#if_.
-    def exitIf_(self, ctx:QLParser.If_Context):
-        self.inIf = False
-        # self.parentFrame = self.outputFrame
-        pass
-
+        self.outputFrame.get_question_object(conditionalID).add_if_question(self.outputFrame.get_question_object(ifquestionID))
 
     # Enter a parse tree produced by QLParser#type.
     def enterType(self, ctx:QLParser.TypeContext):

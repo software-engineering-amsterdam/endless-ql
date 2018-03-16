@@ -23,6 +23,8 @@ class BooleanQuestion(Question):
         self.falsebutton = None
         self.buttongroup.setExclusive(True)
 
+        self.ifquestions = []
+
     def set_truebutton(self, button):
         # try:
         #     self.buttongroup.removeButton(self.truebutton)
@@ -33,6 +35,12 @@ class BooleanQuestion(Question):
 
     def set_answer_true(self):
         self.answer = True
+        for question in self.ifquestions:
+            question.questionframe.setVisible(True)
+            try:  # todo: make sure this works for bool questions
+                question.set_answer_text()
+            except:
+                pass
 
     def set_falsebutton(self, button):
         # try:
@@ -44,38 +52,45 @@ class BooleanQuestion(Question):
 
     def set_answer_false(self):
         self.answer = False
+        for question in self.ifquestions:
+            question.questionframe.setVisible(False)
+            question.set_answer('undefined')
 
     def create_frame(self):
-        questionframe = QtWidgets.QFrame()
+        self.questionframe = QtWidgets.QFrame()
         self.questionlayout = QtWidgets.QGridLayout()
-        questionframe.setLayout(self.questionlayout)
+        self.questionframe.setLayout(self.questionlayout)
         self.questionlayout.addWidget(QtWidgets.QLabel(self.question), 0, 0)
         self.questionlayout.addWidget(self.truebutton, 0, 1)
         self.questionlayout.addWidget(self.falsebutton, 0, 2)
-        return questionframe
+        return self.questionframe
+
+    def add_if_question(self,question):
+        self.ifquestions.append(question)
+        question.questionframe.setVisible(False)
+
 
 class MoneyQuestion(Question):
     def __init__(self, questionID, question, datatype, answer = 'undefined'):
         Question.__init__(self, questionID, question, datatype, answer)
-        self.textInput = None
+        self.textInputBox = None
 
-    def set_text_input(self,textInput):
-        self.textInput = textInput
+    def set_text_input_box(self,textInputBox):
+        self.textInputBox = textInputBox
 
     def get_text(self):
-        self.textInput.text()
+        self.textInputBox.text()
 
     def set_answer_text(self):
-        self.answer = self.textInput.text()
-        print(self.answer)
+        self.answer = self.textInputBox.text()
 
     def create_frame(self):
         # Creates a frame to be given to the questionnaire output frame.
-        questionframe = QtWidgets.QFrame()
+        self.questionframe = QtWidgets.QFrame()
         self.questionlayout = QtWidgets.QGridLayout()
-        questionframe.setLayout(self.questionlayout)
+        self.questionframe.setLayout(self.questionlayout)
 
         self.questionlayout.addWidget(QtWidgets.QLabel(self.question),0,0)
-        self.questionlayout.addWidget(self.textInput,0,1)
+        self.questionlayout.addWidget(self.textInputBox,0,1)
 
-        return questionframe
+        return self.questionframe

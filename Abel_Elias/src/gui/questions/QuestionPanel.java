@@ -1,10 +1,6 @@
 package gui.questions;
 
 import classes.Question;
-<<<<<<< HEAD
-=======
-
->>>>>>> bdeb7b6ce55ff3bf5c230a0742ab4d5fbe008b58
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;

@@ -1,12 +1,6 @@
 import classes.Question;
 import gui.FormBuilder;
-import jdk.nashorn.api.tree.Tree;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import parsing.TreeBuilder;
-import parsing.visitors.BaseVisitor;
-import parsing.gen.QLLexer;
-import parsing.gen.QLParser;
 import parsing.visitors.InitVisitor;
 
 import java.io.FileInputStream;

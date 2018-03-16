@@ -1,6 +1,8 @@
 package gui.questions;
 
 import classes.Question;
+import gui.FormBuilder;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.EventListener;

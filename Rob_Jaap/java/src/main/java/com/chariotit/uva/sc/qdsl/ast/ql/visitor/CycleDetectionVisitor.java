@@ -109,7 +109,7 @@ public class CycleDetectionVisitor extends NodeVisitor {
     }
 
     @Override
-    public void visitAstRoot(AstRoot astRoot) {
+    public void visitAstRoot(QLAstRoot astRoot) {
 
     }
 

@@ -19,6 +19,23 @@ public class RadioWidget extends WidgetType {
         super(lineNumber, columnNumber);
     }
 
+    public String getNoLabel() {
+        return noLabel;
+    }
+
+    public void setNoLabel(String noLabel) {
+        this.noLabel = noLabel;
+    }
+
+    public String getYesLabel() {
+
+        return yesLabel;
+    }
+
+    public void setYesLabel(String yesLabel) {
+        this.yesLabel = yesLabel;
+    }
+
     @Override
     public boolean isValidExpressionType(ExpressionType expressionType) {
         return expressionType == ExpressionType.BOOLEAN;

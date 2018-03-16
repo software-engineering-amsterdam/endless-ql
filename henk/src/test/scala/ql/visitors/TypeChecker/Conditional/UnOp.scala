@@ -18,11 +18,6 @@ class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
   describe("containing invalid not money expression in unary") {
     val filename = s"${resourceDir}/not_money_unop.ql"
     val form = FormHelper.getForm(getClass.getResource(filename))
-    val typechecker = new TypeChecker(form)
-
-    it("check method should return false") {
-      assert(!typechecker.check())
-    }
 
     it("validate method should not throw an exception") {
       ConditionalValidator.validate(form) match {
@@ -35,11 +30,6 @@ class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
   describe("containing valid not boolean expression in unary") {
     val filename = s"${resourceDir}/not_boolean_unop.ql"
     val form = FormHelper.getForm(getClass.getResource(filename))
-    val typechecker = new TypeChecker(form)
-
-    it("check method should return true") {
-      assert(typechecker.check())
-    }
 
     it("validate method should not return a Failure") {
       ConditionalValidator.validate(form) match {
@@ -52,11 +42,6 @@ class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
   describe("containing valid binop expression in unary") {
     val filename = s"${resourceDir}/not_binop_unop.ql"
     val form = FormHelper.getForm(getClass.getResource(filename))
-    val typechecker = new TypeChecker(form)
-
-    it("check method should return true") {
-      assert(typechecker.check())
-    }
 
     it("validate method should not return a Failure") {
       ConditionalValidator.validate(form) match {

@@ -10,6 +10,20 @@ import scala.util.{ Try, Success, Failure }
 case class IdentifierNotDeclared(label: String) extends Exception(label)
 
 object IdentifierValidator {
+  def check(node: ASTNode): Option[Exception] = {
+    val forms = ASTCollector.getFormBody(node)
+
+    val declaredIdentifiers = forms.flatMap(ASTCollector.getVarDecls).flatMap(ASTCollector.getIdentifiers)
+    val foundIdentifiers = forms.flatMap(ASTCollector.getTerminals).flatMap(ASTCollector.getIdentifiers)
+    val undeclaredIdentifiers = foundIdentifiers.distinct diff declaredIdentifiers.distinct
+
+    if(undeclaredIdentifiers.isEmpty) {
+      None
+    } else {
+      Some(new IdentifierNotDeclared(undeclaredIdentifiers.head.id))
+    }
+  }
+
   def validate(node: ASTNode): Try[Boolean] = {
     val forms = ASTCollector.getFormBody(node)
 
@@ -20,7 +34,7 @@ object IdentifierValidator {
     if(undeclaredIdentifiers.isEmpty) {
       Success(true)
     } else {
-      Failure(new IdentifierNotDeclared(undeclaredIdentifiers(0).id))
+      Failure(new IdentifierNotDeclared(undeclaredIdentifiers.head.id))
     }
   }
 }

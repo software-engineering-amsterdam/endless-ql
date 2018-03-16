@@ -3,16 +3,15 @@ package nl.uva.js.qlparser.logic;
 import nl.uva.js.qlparser.antlr.QLSBaseVisitor;
 import nl.uva.js.qlparser.antlr.QLSParser;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
-import nl.uva.js.qlparser.models.qls.enums.Property;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
+import nl.uva.js.qlparser.models.qls.elements.Page;
 import nl.uva.js.qlparser.models.qls.elements.QuestionReference;
 import nl.uva.js.qlparser.models.qls.elements.Section;
-import nl.uva.js.qlparser.models.qls.style.StyleRule;
-import nl.uva.js.qlparser.models.qls.style.WidgetStyle;
+import nl.uva.js.qlparser.models.qls.enums.Property;
 import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
-import nl.uva.js.qlparser.models.qls.elements.Page;
-import nl.uva.js.qlparser.models.qls.Expression;
+import nl.uva.js.qlparser.models.qls.style.StyleRule;
+import nl.uva.js.qlparser.models.qls.style.WidgetStyle;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.LinkedList;
@@ -37,23 +36,25 @@ public class QLSVisitor extends QLSBaseVisitor{
 
     @Override
     public Stylesheet visitStylesheet(QLSParser.StylesheetContext ctx) {
+        LinkedList<DefaultStyle> defaultStyles = null != ctx.defaultStyle() ?
+                ctx.defaultStyle()
+                .stream()
+                .map(this::visitDefaultStyle)
+                .collect(Collectors.toCollection(LinkedList::new))
+                : null;
+
+        LinkedList<Page> pages = null != ctx.page() ?
+                ctx.page()
+                .stream()
+                .map(this::visitPage)
+                .collect(Collectors.toCollection(LinkedList::new))
+                : null;
+
         return Stylesheet.builder()
                 .name(ctx.NAME().getText())
-                .styleExpressions(ctx.styleBlock().<LinkedList<Expression>>accept(this))
+                .defaultStyles(defaultStyles)
+                .pages(pages)
                 .build();
-    }
-
-    @Override
-    public LinkedList<Expression> visitStyleBlock(QLSParser.StyleBlockContext ctx) {
-        return ctx.expression()
-                .stream()
-                .map(this::visitExpression)
-                .collect(Collectors.toCollection(LinkedList::new));
-    }
-
-    @Override
-    public Expression visitExpression(QLSParser.ExpressionContext ctx) {
-        return (Expression) super.visitExpression(ctx);
     }
 
     @Override

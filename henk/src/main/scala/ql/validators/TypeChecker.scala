@@ -8,35 +8,48 @@ import ql.validators._
 import scala.collection.JavaConversions._
 import scala.util.{Try, Success, Failure}
 
-class TypeChecker(val node: ASTNode) {
+class TypeChecker() {
 
-  var errorMessage = ""
+  var error: Exception = null
 
-  def runValidators(): Try[Boolean] = {
-    for {
-      isValid <- IdentifierValidator.validate(node)
-      isValid <- ConditionalValidator.validate(node)
-    } yield true
+  def checkValidators(node: ASTNode): Option[Exception] = {
+    val validatorList = List(IdentifierValidator.check _, ConditionalValidator.check _)
+    val result = validatorList.flatMap(vc => {
+      vc(node) match {
+        case bv @ Some(ex) => {
+          error = ex
+          return bv
+          // errorMessage = s"Identifier with name '${ex.label}' is not declared!"
+        }
+        case None => None
+      }
+    })
+    println(result)
+    None
+
+    // for {
+      // nothing <- IdentifierValidator.check(node)
+      // nothing <- ConditionalValidator.check(node)
+    // } yield nothing
   }
 
   def setError(exception: Throwable): Unit = {
     exception match {
       case ex: IdentifierNotDeclared => {
-        errorMessage = s"Identifier with name '${ex.label}' is not declared!"
+        error = ex
+        // errorMessage = s"Identifier with name '${ex.label}' is not declared!"
       }
       case ex: ConditionalNotBoolean => {
-        errorMessage = s"Identifier with name '${ex.label}' is not declared!"
+        error = ex
+        // errorMessage = s"Identifier with name '${ex.label}' is not declared!"
       }
     }
   }
 
-  def check(): Boolean = {
-    runValidators() match {
-      case Success(_) => true
-      case Failure(ex) => {
-        setError(ex)
-        false
-      }
+  def validate(node: ASTNode): Boolean = {
+    checkValidators(node) match {
+      case None => true
+      case Some(_) => false
     }
   }
 }

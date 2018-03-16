@@ -1,18 +1,18 @@
 package org.uva.forcepushql.ast;
 
 
-public abstract class ExpressionNode { }
+public abstract class ExpressionNode extends Node{ }
 
 abstract class InfixExpressionNode extends ExpressionNode
 {
-    public ExpressionNode Left;
-    public ExpressionNode Right;
+    private Node left;
+    private Node Right;
 
-    public void setLeft (ExpressionNode left)   { this.Left = left; }
+    public void setLeft (ExpressionNode left)   { this.left = left; }
     public void setRight (ExpressionNode right) { this.Right = right; }
 
-    public ExpressionNode getLeft ()    {  return this.Left;  }
-    public ExpressionNode getRight ()   {  return this.Right; }
+    public Node getLeft ()    {  return this.left;  }
+    public Node getRight ()   {  return this.Right; }
 }
 
 
@@ -26,13 +26,13 @@ class DivisionNode extends InfixExpressionNode { }
 
 class NegateNode extends ExpressionNode
 {
-    private ExpressionNode InnerNode;
+    private Node InnerNode;
 
-    public void setInnerNode(ExpressionNode innerNode) {
+    public void setInnerNode(Node innerNode) {
         this.InnerNode = innerNode;
     }
 
-    public ExpressionNode getInnerNode() {
+    public Node getInnerNode() {
         return InnerNode;
     }
 }

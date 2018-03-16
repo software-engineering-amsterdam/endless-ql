@@ -7,10 +7,10 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class IfStatement extends ASTNode {
 
-    private ASTNode expression;
+    private final ASTNode expression;
 
-    private Statements then;
-    private Statements otherwise;
+    private final Statements then;
+    private final Statements otherwise;
 
     public IfStatement(Token token, ASTNode expression, Statements then, Statements otherwise) {
         super(token);
@@ -20,15 +20,15 @@ public class IfStatement extends ASTNode {
     }
 
     public ASTNode getExpression() {
-        return expression;
+        return this.expression;
     }
 
     public Statements getThen() {
-        return then;
+        return this.then;
     }
 
     public Statements getOtherwise() {
-        return otherwise;
+        return this.otherwise;
     }
 
     public Type getType() {

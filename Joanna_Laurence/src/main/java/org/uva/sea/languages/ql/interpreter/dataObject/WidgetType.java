@@ -1,55 +1,49 @@
 package org.uva.sea.languages.ql.interpreter.dataObject;
 
+import org.uva.sea.languages.ql.parser.NodeType;
+
 public enum WidgetType {
-    INVALID,
     UNKNOWN,
 
+    DEFAULT,
     CHECKBOX,
     CHOICEBOX,
     RADIO,
     SLIDER,
     SPINBOX,
-    TEXTFIELD,
+    TEXTFIELD;
 
-    MONEY_EURO,
-    MONEY_DOLLAR,
-    BOOLEAN,
-    STRING,
-    INTEGER,
-    DATE,
-    DECIMAL;
-
-    public boolean isBooleanCompatible(WidgetType widgetType) {
-        return widgetType == CHECKBOX ||
-                widgetType == CHOICEBOX ||
-                widgetType == RADIO ||
-                widgetType == BOOLEAN;
+    public boolean isBooleanCompatible(NodeType nodeType) {
+        return ((this == CHECKBOX) ||
+                (this == CHOICEBOX) ||
+                (this == RADIO)) &&
+                (nodeType == NodeType.BOOLEAN);
     }
 
-    public boolean isNumberCompatible(WidgetType widgetType) {
-        return widgetType == SLIDER ||
-                widgetType == SPINBOX ||
-                widgetType == INTEGER ||
-                widgetType == DECIMAL;
+    public boolean isNumberCompatible(NodeType nodeType) {
+        return ((this == SLIDER) ||
+                (this == SPINBOX)) && (
+                (nodeType == NodeType.INTEGER) ||
+                        (nodeType == NodeType.DECIMAL)
+        );
     }
 
-    public boolean isStringCompatible(WidgetType widgetType) {
-        return widgetType == TEXTFIELD ||
-                widgetType == STRING ||
-                widgetType == INTEGER ||
-                widgetType == DECIMAL;
+    public boolean isStringCompatible(NodeType nodeType) {
+        return (this == TEXTFIELD) && (
+                (nodeType == NodeType.STRING) ||
+                        (nodeType == NodeType.INTEGER) ||
+                        (nodeType == NodeType.DECIMAL)
+        );
     }
 
-    private boolean isNotUnknown(WidgetType widgetType) {
-        return widgetType != UNKNOWN;
+    private boolean isNotUnknown() {
+        return this != WidgetType.UNKNOWN;
     }
 
-    public boolean isCompatible(WidgetType widgetType) {
-        return  isNotUnknown(widgetType) && isNotUnknown(this) && (
-                    this == widgetType ||
-                    isBooleanCompatible(this) && isBooleanCompatible(widgetType) ||
-                    isNumberCompatible(this) && isNumberCompatible(widgetType) ||
-                    isStringCompatible(this) && isStringCompatible(widgetType)
-                );
+    public boolean isCompatible(NodeType nodeType) {
+        return this.isNotUnknown() ||
+                this.isBooleanCompatible(nodeType) ||
+                this.isNumberCompatible(nodeType) ||
+                this.isStringCompatible(nodeType);
     }
 }

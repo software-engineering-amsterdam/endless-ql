@@ -14,7 +14,7 @@ def run_antlr_parse_gen(grammar):
         pass
     else:
         os.system('java -jar {} -Dlanguage=Python3 grammar/{}.g4 -o {} -visitor'.format(
-            '/usr/local/lib/antlr-4.7.1-complete.jar', grammar.upper(), config['antlr']['directory']))
+            '/usr/local/lib/antlr-4.7.1-complete.jar', grammar, config['antlr']['directory']))
 
 
 # todo: delete processed/antlr after computation?

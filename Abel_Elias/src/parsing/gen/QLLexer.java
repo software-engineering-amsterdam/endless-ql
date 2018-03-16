@@ -20,8 +20,8 @@ public class QLLexer extends Lexer {
 		WS=1, BOOLEANTYPE=2, STRINGTYPE=3, INTEGERTYPE=4, MONEYTYPE=5, DATETYPE=6, 
 		DECIMALTYPE=7, FORM=8, IF=9, COLON=10, CURLY_BRACE_L=11, CURLY_BRACE_R=12, 
 		BRACE_L=13, BRACE_R=14, ADD=15, SUB=16, MUL=17, DIV=18, REM=19, EQT=20, 
-		GRT=21, LST=22, GRTE=23, LSTE=24, AND=25, NEQT=26, OR=27, NOT=28, IDENTIFIER=29, 
-		STR=30, INT=31, BOOL=32, MON=33, DEC=34, NEWLINE=35;
+		GRT=21, LST=22, GRTE=23, LSTE=24, AND=25, NEQT=26, OR=27, NOT=28, BOOL=29, 
+		IDENTIFIER=30, STR=31, INT=32, MON=33, DEC=34, NEWLINE=35;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -35,7 +35,7 @@ public class QLLexer extends Lexer {
 		"DECIMALTYPE", "FORM", "IF", "COLON", "CURLY_BRACE_L", "CURLY_BRACE_R", 
 		"BRACE_L", "BRACE_R", "ADD", "SUB", "MUL", "DIV", "REM", "EQT", "GRT", 
 		"LST", "GRTE", "LSTE", "AND", "NEQT", "OR", "NOT", "DIGIT", "LETTER", 
-		"IDENTIFIER", "STR", "INT", "BOOL", "MON", "DEC", "NEWLINE"
+		"BOOL", "IDENTIFIER", "STR", "INT", "MON", "DEC", "NEWLINE"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -48,8 +48,8 @@ public class QLLexer extends Lexer {
 		null, "WS", "BOOLEANTYPE", "STRINGTYPE", "INTEGERTYPE", "MONEYTYPE", "DATETYPE", 
 		"DECIMALTYPE", "FORM", "IF", "COLON", "CURLY_BRACE_L", "CURLY_BRACE_R", 
 		"BRACE_L", "BRACE_R", "ADD", "SUB", "MUL", "DIV", "REM", "EQT", "GRT", 
-		"LST", "GRTE", "LSTE", "AND", "NEQT", "OR", "NOT", "IDENTIFIER", "STR", 
-		"INT", "BOOL", "MON", "DEC", "NEWLINE"
+		"LST", "GRTE", "LSTE", "AND", "NEQT", "OR", "NOT", "BOOL", "IDENTIFIER", 
+		"STR", "INT", "MON", "DEC", "NEWLINE"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -121,12 +121,12 @@ public class QLLexer extends Lexer {
 		"\3\t\3\t\3\t\3\n\3\n\3\n\3\13\3\13\3\f\3\f\3\r\3\r\3\16\3\16\3\17\3\17"+
 		"\3\20\3\20\3\21\3\21\3\22\3\22\3\23\3\23\3\24\3\24\3\25\3\25\3\25\3\26"+
 		"\3\26\3\27\3\27\3\30\3\30\3\30\3\31\3\31\3\31\3\32\3\32\3\32\3\33\3\33"+
-		"\3\33\3\34\3\34\3\34\3\35\3\35\3\36\3\36\3\37\3\37\3 \3 \3 \3 \7 \u00c4"+
-		"\n \f \16 \u00c7\13 \3!\3!\7!\u00cb\n!\f!\16!\u00ce\13!\3!\3!\3\"\5\""+
-		"\u00d3\n\"\3\"\6\"\u00d6\n\"\r\"\16\"\u00d7\3#\3#\3#\3#\3#\3#\3#\3#\3"+
-		"#\5#\u00e3\n#\3$\6$\u00e6\n$\r$\16$\u00e7\3$\3$\3$\3$\3%\5%\u00ef\n%\3"+
-		"%\6%\u00f2\n%\r%\16%\u00f3\3%\3%\6%\u00f8\n%\r%\16%\u00f9\3&\5&\u00fd"+
-		"\n&\3&\3&\3\u00cc\2\'\3\3\5\4\7\5\t\6\13\7\r\b\17\t\21\n\23\13\25\f\27"+
+		"\3\33\3\34\3\34\3\34\3\35\3\35\3\36\3\36\3\37\3\37\3 \3 \3 \3 \3 \3 \3"+
+		" \3 \3 \5 \u00c9\n \3!\3!\3!\3!\7!\u00cf\n!\f!\16!\u00d2\13!\3\"\3\"\7"+
+		"\"\u00d6\n\"\f\"\16\"\u00d9\13\"\3\"\3\"\3#\5#\u00de\n#\3#\6#\u00e1\n"+
+		"#\r#\16#\u00e2\3$\6$\u00e6\n$\r$\16$\u00e7\3$\3$\3$\3$\3%\5%\u00ef\n%"+
+		"\3%\6%\u00f2\n%\r%\16%\u00f3\3%\3%\6%\u00f8\n%\r%\16%\u00f9\3&\5&\u00fd"+
+		"\n&\3&\3&\3\u00d7\2\'\3\3\5\4\7\5\t\6\13\7\r\b\17\t\21\n\23\13\25\f\27"+
 		"\r\31\16\33\17\35\20\37\21!\22#\23%\24\'\25)\26+\27-\30/\31\61\32\63\33"+
 		"\65\34\67\359\36;\2=\2?\37A C!E\"G#I$K%\3\2\4\4\2\13\13\"\"\4\2C\\c|\2"+
 		"\u010b\2\3\3\2\2\2\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3\2\2\2\2\13\3\2\2\2\2"+
@@ -141,8 +141,8 @@ public class QLLexer extends Lexer {
 		"\2\37\u0099\3\2\2\2!\u009b\3\2\2\2#\u009d\3\2\2\2%\u009f\3\2\2\2\'\u00a1"+
 		"\3\2\2\2)\u00a3\3\2\2\2+\u00a6\3\2\2\2-\u00a8\3\2\2\2/\u00aa\3\2\2\2\61"+
 		"\u00ad\3\2\2\2\63\u00b0\3\2\2\2\65\u00b3\3\2\2\2\67\u00b6\3\2\2\29\u00b9"+
-		"\3\2\2\2;\u00bb\3\2\2\2=\u00bd\3\2\2\2?\u00bf\3\2\2\2A\u00c8\3\2\2\2C"+
-		"\u00d2\3\2\2\2E\u00e2\3\2\2\2G\u00e5\3\2\2\2I\u00ee\3\2\2\2K\u00fc\3\2"+
+		"\3\2\2\2;\u00bb\3\2\2\2=\u00bd\3\2\2\2?\u00c8\3\2\2\2A\u00ca\3\2\2\2C"+
+		"\u00d3\3\2\2\2E\u00dd\3\2\2\2G\u00e5\3\2\2\2I\u00ee\3\2\2\2K\u00fc\3\2"+
 		"\2\2MO\t\2\2\2NM\3\2\2\2OP\3\2\2\2PN\3\2\2\2PQ\3\2\2\2QR\3\2\2\2RS\b\2"+
 		"\2\2S\4\3\2\2\2TU\7d\2\2UV\7q\2\2VW\7q\2\2WX\7n\2\2XY\7g\2\2YZ\7c\2\2"+
 		"Z[\7p\2\2[\6\3\2\2\2\\]\7u\2\2]^\7v\2\2^_\7t\2\2_`\7k\2\2`a\7p\2\2ab\7"+
@@ -166,29 +166,29 @@ public class QLLexer extends Lexer {
 		"\u00b2\7(\2\2\u00b2\64\3\2\2\2\u00b3\u00b4\7#\2\2\u00b4\u00b5\7?\2\2\u00b5"+
 		"\66\3\2\2\2\u00b6\u00b7\7~\2\2\u00b7\u00b8\7~\2\2\u00b88\3\2\2\2\u00b9"+
 		"\u00ba\7#\2\2\u00ba:\3\2\2\2\u00bb\u00bc\4\62;\2\u00bc<\3\2\2\2\u00bd"+
-		"\u00be\t\3\2\2\u00be>\3\2\2\2\u00bf\u00c5\5=\37\2\u00c0\u00c4\5=\37\2"+
-		"\u00c1\u00c4\5;\36\2\u00c2\u00c4\7a\2\2\u00c3\u00c0\3\2\2\2\u00c3\u00c1"+
-		"\3\2\2\2\u00c3\u00c2\3\2\2\2\u00c4\u00c7\3\2\2\2\u00c5\u00c3\3\2\2\2\u00c5"+
-		"\u00c6\3\2\2\2\u00c6@\3\2\2\2\u00c7\u00c5\3\2\2\2\u00c8\u00cc\7$\2\2\u00c9"+
-		"\u00cb\13\2\2\2\u00ca\u00c9\3\2\2\2\u00cb\u00ce\3\2\2\2\u00cc\u00cd\3"+
-		"\2\2\2\u00cc\u00ca\3\2\2\2\u00cd\u00cf\3\2\2\2\u00ce\u00cc\3\2\2\2\u00cf"+
-		"\u00d0\7$\2\2\u00d0B\3\2\2\2\u00d1\u00d3\7/\2\2\u00d2\u00d1\3\2\2\2\u00d2"+
-		"\u00d3\3\2\2\2\u00d3\u00d5\3\2\2\2\u00d4\u00d6\5;\36\2\u00d5\u00d4\3\2"+
-		"\2\2\u00d6\u00d7\3\2\2\2\u00d7\u00d5\3\2\2\2\u00d7\u00d8\3\2\2\2\u00d8"+
-		"D\3\2\2\2\u00d9\u00da\7v\2\2\u00da\u00db\7t\2\2\u00db\u00dc\7w\2\2\u00dc"+
-		"\u00e3\7g\2\2\u00dd\u00de\7h\2\2\u00de\u00df\7c\2\2\u00df\u00e0\7n\2\2"+
-		"\u00e0\u00e1\7u\2\2\u00e1\u00e3\7g\2\2\u00e2\u00d9\3\2\2\2\u00e2\u00dd"+
-		"\3\2\2\2\u00e3F\3\2\2\2\u00e4\u00e6\5;\36\2\u00e5\u00e4\3\2\2\2\u00e6"+
-		"\u00e7\3\2\2\2\u00e7\u00e5\3\2\2\2\u00e7\u00e8\3\2\2\2\u00e8\u00e9\3\2"+
-		"\2\2\u00e9\u00ea\7\60\2\2\u00ea\u00eb\5;\36\2\u00eb\u00ec\5;\36\2\u00ec"+
-		"H\3\2\2\2\u00ed\u00ef\7/\2\2\u00ee\u00ed\3\2\2\2\u00ee\u00ef\3\2\2\2\u00ef"+
-		"\u00f1\3\2\2\2\u00f0\u00f2\5;\36\2\u00f1\u00f0\3\2\2\2\u00f2\u00f3\3\2"+
-		"\2\2\u00f3\u00f1\3\2\2\2\u00f3\u00f4\3\2\2\2\u00f4\u00f5\3\2\2\2\u00f5"+
-		"\u00f7\7\60\2\2\u00f6\u00f8\5;\36\2\u00f7\u00f6\3\2\2\2\u00f8\u00f9\3"+
-		"\2\2\2\u00f9\u00f7\3\2\2\2\u00f9\u00fa\3\2\2\2\u00faJ\3\2\2\2\u00fb\u00fd"+
-		"\7\17\2\2\u00fc\u00fb\3\2\2\2\u00fc\u00fd\3\2\2\2\u00fd\u00fe\3\2\2\2"+
-		"\u00fe\u00ff\7\f\2\2\u00ffL\3\2\2\2\20\2Px\u00c3\u00c5\u00cc\u00d2\u00d7"+
-		"\u00e2\u00e7\u00ee\u00f3\u00f9\u00fc\3\2\3\2";
+		"\u00be\t\3\2\2\u00be>\3\2\2\2\u00bf\u00c0\7v\2\2\u00c0\u00c1\7t\2\2\u00c1"+
+		"\u00c2\7w\2\2\u00c2\u00c9\7g\2\2\u00c3\u00c4\7h\2\2\u00c4\u00c5\7c\2\2"+
+		"\u00c5\u00c6\7n\2\2\u00c6\u00c7\7u\2\2\u00c7\u00c9\7g\2\2\u00c8\u00bf"+
+		"\3\2\2\2\u00c8\u00c3\3\2\2\2\u00c9@\3\2\2\2\u00ca\u00d0\5=\37\2\u00cb"+
+		"\u00cf\5=\37\2\u00cc\u00cf\5;\36\2\u00cd\u00cf\7a\2\2\u00ce\u00cb\3\2"+
+		"\2\2\u00ce\u00cc\3\2\2\2\u00ce\u00cd\3\2\2\2\u00cf\u00d2\3\2\2\2\u00d0"+
+		"\u00ce\3\2\2\2\u00d0\u00d1\3\2\2\2\u00d1B\3\2\2\2\u00d2\u00d0\3\2\2\2"+
+		"\u00d3\u00d7\7$\2\2\u00d4\u00d6\13\2\2\2\u00d5\u00d4\3\2\2\2\u00d6\u00d9"+
+		"\3\2\2\2\u00d7\u00d8\3\2\2\2\u00d7\u00d5\3\2\2\2\u00d8\u00da\3\2\2\2\u00d9"+
+		"\u00d7\3\2\2\2\u00da\u00db\7$\2\2\u00dbD\3\2\2\2\u00dc\u00de\7/\2\2\u00dd"+
+		"\u00dc\3\2\2\2\u00dd\u00de\3\2\2\2\u00de\u00e0\3\2\2\2\u00df\u00e1\5;"+
+		"\36\2\u00e0\u00df\3\2\2\2\u00e1\u00e2\3\2\2\2\u00e2\u00e0\3\2\2\2\u00e2"+
+		"\u00e3\3\2\2\2\u00e3F\3\2\2\2\u00e4\u00e6\5;\36\2\u00e5\u00e4\3\2\2\2"+
+		"\u00e6\u00e7\3\2\2\2\u00e7\u00e5\3\2\2\2\u00e7\u00e8\3\2\2\2\u00e8\u00e9"+
+		"\3\2\2\2\u00e9\u00ea\7\60\2\2\u00ea\u00eb\5;\36\2\u00eb\u00ec\5;\36\2"+
+		"\u00ecH\3\2\2\2\u00ed\u00ef\7/\2\2\u00ee\u00ed\3\2\2\2\u00ee\u00ef\3\2"+
+		"\2\2\u00ef\u00f1\3\2\2\2\u00f0\u00f2\5;\36\2\u00f1\u00f0\3\2\2\2\u00f2"+
+		"\u00f3\3\2\2\2\u00f3\u00f1\3\2\2\2\u00f3\u00f4\3\2\2\2\u00f4\u00f5\3\2"+
+		"\2\2\u00f5\u00f7\7\60\2\2\u00f6\u00f8\5;\36\2\u00f7\u00f6\3\2\2\2\u00f8"+
+		"\u00f9\3\2\2\2\u00f9\u00f7\3\2\2\2\u00f9\u00fa\3\2\2\2\u00faJ\3\2\2\2"+
+		"\u00fb\u00fd\7\17\2\2\u00fc\u00fb\3\2\2\2\u00fc\u00fd\3\2\2\2\u00fd\u00fe"+
+		"\3\2\2\2\u00fe\u00ff\7\f\2\2\u00ffL\3\2\2\2\20\2Px\u00c8\u00ce\u00d0\u00d7"+
+		"\u00dd\u00e2\u00e7\u00ee\u00f3\u00f9\u00fc\3\2\3\2";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

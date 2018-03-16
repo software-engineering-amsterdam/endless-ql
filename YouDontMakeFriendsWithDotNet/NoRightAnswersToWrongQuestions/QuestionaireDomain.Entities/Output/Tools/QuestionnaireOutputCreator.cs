@@ -25,14 +25,16 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             return true;
         }
 
-        public void Create(Reference<IQuestionnaireRootNode> questionnaireRootNode)
+        public void CreateOrUpdate(Reference<IQuestionnaireRootNode> questionnaireRootNode)
         {
-            if (m_outputUpdater.OutputExistsFor(questionnaireRootNode))
-            {
-                m_outputUpdater.DeleteOutputFor(questionnaireRootNode);
-            }
-
-            m_buildOutputVisitor.Build(questionnaireRootNode);
+            //if (m_outputUpdater.OutputExistsFor(questionnaireRootNode))
+            //{
+            //    m_outputUpdater.UpdateOutputFor(questionnaireRootNode);
+            //}
+            //else
+            //{
+                m_buildOutputVisitor.Build(questionnaireRootNode);
+            //}
         }
     }
 }

@@ -7,8 +7,8 @@
 "use strict";
 
 /* tslint:disable */ 
- import * as astQls from '../app/domain/ast/qls';
- import * as astQl from '../app/domain/ast/qls';
+ import * as astQls from '../app/domain/ast/qls/index';
+ import {IntQuestionType, BooleanQuestionType, StringQuestionType, DateQuestionType} from '../app/domain/ast/question-type'
 export class SyntaxError extends Error {
   public static buildMessage(expected: string, found: string) {
     const DESCRIBE_EXPECTATION_FNS = {
@@ -172,18 +172,18 @@ function peg$parse(input, options) {
   const peg$c18 = "question";
   const peg$c19 = peg$literalExpectation("question", false);
   const peg$c20 = function(name, type) {
-                      return new astQls.Question(name, type, location());
+                      return new astQls.QlsQuestion(name, type, location());
                     };
   const peg$c21 = function(name) {
-                      return new astQls.Question(name, new astQls.Widget(astQls.WidgetType.NONE, []), location());
+                      return new astQls.QlsQuestion(name, new astQls.Widget(astQls.WidgetType.NONE, []), location());
                     };
   const peg$c22 = "default";
   const peg$c23 = peg$literalExpectation("default", false);
   const peg$c24 = function(type, styles, widget) {
-                      return new astQls.Default(type, widget, styles, location());
+                      return new astQls.DefaultStyling(type, widget, styles, location());
                     };
   const peg$c25 = function(type, widget) {
-                      return new astQls.Default(type, widget, [], location());
+                      return new astQls.DefaultStyling(type, widget, [], location());
                     };
   const peg$c26 = "widget";
   const peg$c27 = peg$literalExpectation("widget", false);
@@ -234,16 +234,16 @@ function peg$parse(input, options) {
   const peg$c63 = function() {return new astQls.StringValue(text());};
   const peg$c64 = "boolean";
   const peg$c65 = peg$literalExpectation("boolean", false);
-  const peg$c66 = function() { return astQl.QuestionType.BOOLEAN; };
+  const peg$c66 = function() { return new BooleanQuestionType(); };
   const peg$c67 = "string";
   const peg$c68 = peg$literalExpectation("string", false);
-  const peg$c69 = function() { return astQl.QuestionType.STRING; };
+  const peg$c69 = function() { return new StringQuestionType(); };
   const peg$c70 = "integer";
   const peg$c71 = peg$literalExpectation("integer", false);
-  const peg$c72 = function() { return astQl.QuestionType.INT; };
+  const peg$c72 = function() { return new IntQuestionType(); };
   const peg$c73 = "date";
   const peg$c74 = peg$literalExpectation("date", false);
-  const peg$c75 = function() { return astQl.QuestionType.DATE; };
+  const peg$c75 = function() { return new DateQuestionType(); };
   const peg$c76 = "radio";
   const peg$c77 = peg$literalExpectation("radio", false);
   const peg$c78 = "(\"";

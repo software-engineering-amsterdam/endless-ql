@@ -19,6 +19,9 @@ public class ExpressionTable {
         return expressionTable.get(id);
     }
 
+    public void updateExpression(String id, Expression expr){
+        this.expressionTable.replace(id, expr);
+    }
     // for debugging
     public Boolean exisitsIn(String id){
         return this.expressionTable.containsKey(id);

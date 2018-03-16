@@ -20,6 +20,6 @@ public class IntQuestionModel extends BaseQuestionModel {
 
     @Override
     public String displayValue() {
-        return value != null ? String.valueOf(value.getIntValue()) : "No value";
+        return (this.value != null) ? String.valueOf(this.value.getIntValue()) : "No value";
     }
 }

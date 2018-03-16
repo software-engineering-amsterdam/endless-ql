@@ -7,10 +7,10 @@ import java.io.IOException;
 
 public class QlSEvaluator extends QlEvaluator {
 
-    private Evaluator evaluator = new Evaluator();
+    private final Evaluator evaluator = new Evaluator();
 
 
-    private String qlsFileLocation;
+    private final String qlsFileLocation;
 
     /**
      * Constructor
@@ -33,6 +33,6 @@ public class QlSEvaluator extends QlEvaluator {
     public EvaluationResult getQuestions() throws IOException, InterruptedException {
         EvaluationResult qlInterpreterResult = super.getQuestions();
 
-        return evaluator.evaluate(this.qlsFileLocation, qlInterpreterResult);
+        return this.evaluator.evaluate(this.qlsFileLocation, qlInterpreterResult);
     }
 }

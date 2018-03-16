@@ -7,6 +7,8 @@ import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.gui.widgets.QuestionWidget;
 import org.uva.app.LogHandler;
+import org.uva.qls.ast.Stylesheet;
+import org.uva.qls.evaluator.StyleEvaluator;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
@@ -19,12 +21,17 @@ import java.util.logging.Logger;
 public class GUIHandler {
 
     private JFrame frame;
+
     private FormEvaluator formEvaluator;
+    private StyleEvaluator styleEvaluator;
+
     private QuestionChangeListener questionChangeListener;
     private ExpressionEvaluator expressionEvaluator;
 
-    public GUIHandler(FormEvaluator formEvaluator) {
+    public GUIHandler(FormEvaluator formEvaluator, StyleEvaluator styleEvaluator) {
         this.formEvaluator = formEvaluator;
+        this.styleEvaluator = styleEvaluator;
+
         this.questionChangeListener = new QuestionChangeListener(this);
         this.expressionEvaluator = new ExpressionEvaluator();
 
@@ -45,12 +52,15 @@ public class GUIHandler {
     private void generateGUI() {
         frame.getContentPane().removeAll();
 
-        WidgetFactory widgetFactory = new WidgetFactory(this.questionChangeListener);
+        // TODO build pages and sections
+
+        WidgetFactory widgetFactory = new WidgetFactory(this.questionChangeListener, this.styleEvaluator);
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
 
         for (Question question : formEvaluator.getQuestionsAsList()) {
             Value value = formEvaluator.getValueById(question.getName());
             QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
+            // TODO apply styling to widget
 
             if (formEvaluator.questionHasCondition(question)) {
                 BooleanValue expressionValue = (BooleanValue) this.expressionEvaluator.evaluateExpression(
@@ -60,6 +70,7 @@ public class GUIHandler {
                 );
                 widget.setVisible(expressionValue.getValue());
             }
+            //TODO add to correct section
             frame.add(widget);
         }
         frame.setVisible(true);

@@ -3,7 +3,7 @@ grammar QLSGrammar;
 stylesheet: STYLESHEET ID (BRACKETL page* BRACKETR | page) EOF;
 page: PAGE ID (BRACKETL (section|default_style)* BRACKETR | (section|default_style));
 section: SECTION STRING (BRACKETL (section|question|default_style)* BRACKETR | (section|question|default_style));
-question: QUESTION (ID | ID widget);
+question: QUESTION ID (widget | default_style);
 
 widget: WIDGET CHECKBOX|
 		WIDGET TEXT |
@@ -11,7 +11,8 @@ widget: WIDGET CHECKBOX|
 		WIDGET DROPDOWN |
         WIDGET RADIO PARL STRING COMMA STRING PARR |
         WIDGET SPINBOX |
-          FONT COLON STRING |
+
+        FONT COLON STRING |
         WIDTH COLON INT |
         FONTSIZE COLON INT |
         COLOR COLON HEXCOLOR

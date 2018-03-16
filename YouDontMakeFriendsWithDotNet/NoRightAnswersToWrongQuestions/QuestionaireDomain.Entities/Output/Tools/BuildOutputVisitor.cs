@@ -77,7 +77,9 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         {
             var node = questionNode.ToDomainItem(m_domainItemLocator);
             var temp = GetValue(node);
+            //ToDo: here it should be create or update!
             var question = m_outputItemFactory.CreateQuestionOutputItem(
+                node.Id,
                 node.QuestionText,
                 GetValue(node),
                 node.QuestionType,

@@ -1,9 +1,10 @@
 package gui.widgets;
 
 import javafx.scene.control.TextField;
+import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableDecimal;
 
-public class DecimalWidget extends TextField implements WidgetInterface<ExpressionVariableDecimal>{
+public class DecimalWidget extends TextField implements WidgetInterface {
 
     private final String name;
 
@@ -14,12 +15,12 @@ public class DecimalWidget extends TextField implements WidgetInterface<Expressi
     }
 
     @Override
-    public void setExpression(ExpressionVariableDecimal expression) {
-
+    public Expression getExpression() {
+        return new ExpressionVariableDecimal(null, Double.parseDouble(getText()));
     }
 
     @Override
-    public ExpressionVariableDecimal getExpression() {
-        return null;
+    public void setExpression(String value) {
+        this.setText(value);
     }
 }

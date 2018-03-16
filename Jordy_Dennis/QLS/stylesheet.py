@@ -1,10 +1,21 @@
+"""
+    We do not support scoping of defaults, they can only be declared once and will be set everywhere.
+    A default is connected to a widget and a type. 
+"""
 
+from .qlast_methods import *
 
 class Stylesheet:
     def __init__(self, name):
         self.pages = {}
         self.name = name
         self.varDict = None
+
+    def getDefaults(self):
+        defaultDict = {}
+        for page in self.pages:
+            self.pages[page].getDefaults(defaultDict)
+        printDict(defaultDict)
 
     def checkTypes(self):
         for page in self.pages:
@@ -18,15 +29,11 @@ class Stylesheet:
         for page in self.pages:
             self.pages[page].addVarDict(varDict) 
 
-
-<<<<<<< HEAD
-=======
     def getPages(self):
         return self.pages
 
     def getNumberOfPages(self):
         return len(self.pages)
->>>>>>> f72660c77cd153702e369fb13784099e68383615
 
     def __repr__(self):
         return "Stylesheet {}: pages:{}".format(self.name, self.pages)

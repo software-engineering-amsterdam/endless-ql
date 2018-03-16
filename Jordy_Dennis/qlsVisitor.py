@@ -72,22 +72,22 @@ class QLSVisitor(QLSGrammarVisitor):
     # Visit a parse tree produced by QLSGrammarParser#question.
     def visitQuestion(self, ctx: QLSGrammarParser.QuestionContext):
         self.logger.debug("QUESTION")
-
+        question = None
         questionName = ctx.ID().getText()
+
         if (ctx.widget()):
             widget = self.visit(ctx.widget())
-        else:
-            widget = None
-        question = Question(questionName, widget, ctx.start.line)
+            question = Question(questionName, widget, ctx.start.line)
+        
+        elif (ctx.default_style()):
+            default = self.visit(ctx.default_style())
+            question = Question(questionName, None, ctx.start.line, default)
+        
         return question
 
     # Visit a parse tree produced by QLSGrammarParser#widget.
     def visitWidget(self, ctx: QLSGrammarParser.WidgetContext):
-<<<<<<< HEAD
         # Actual widget types: BOOL
-=======
-
->>>>>>> f72660c77cd153702e369fb13784099e68383615
         if(ctx.CHECKBOX()):
             return CheckBoxWidget()
         elif ctx.RADIO():
@@ -109,14 +109,9 @@ class QLSVisitor(QLSGrammarVisitor):
         elif ctx.FONTSIZE():
             return StyleFontSize(ctx.INT().getText())
         elif ctx.FONT():
-<<<<<<< HEAD
             return StyleFont(ctx.STRING()[0].getText())
         elif ctx.COLOR():
             return StyleColor(ctx.HEXCOLOR().getText())
-=======
-            return WidgetFont(ctx.STRING()[0].getText())
->>>>>>> f72660c77cd153702e369fb13784099e68383615
-
 
 
     # Visit a parse tree produced by QLSGrammarParser#default_style.

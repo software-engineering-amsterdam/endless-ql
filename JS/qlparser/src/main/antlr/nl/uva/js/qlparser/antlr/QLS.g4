@@ -85,26 +85,10 @@ property
     | FONTSTYLE
     ;
 
-value
-    : STRVAL
-    | INTVAL
-    | COLORVAL
-    ;
-
-
 // Higher level parsing
 // Entry point for QLS
 stylesheet
-    : STYLESHEET NAME styleBlock
-    ;
-
-styleBlock
-    : LB expression* RB
-    ;
-
-expression
-    : defaultStyle
-    | page
+    : STYLESHEET NAME LB defaultStyle* page* RB
     ;
 
 page
@@ -124,7 +108,7 @@ widgetStyle
     ;
 
 styleRule
-    : property COLON value
+    : property COLON STRVAL
     ;
 
 defaultStyle

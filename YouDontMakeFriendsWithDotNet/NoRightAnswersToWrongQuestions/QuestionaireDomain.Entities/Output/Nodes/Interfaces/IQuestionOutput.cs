@@ -6,6 +6,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
 
     public interface IQuestionOutputItem : IOutputItem
     {
+        Guid VariableId { get; }
         string QuestionText { get; }
         bool Visible { get; set; }
         bool ReadOnly { get; }

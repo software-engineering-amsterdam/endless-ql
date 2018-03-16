@@ -1,29 +1,43 @@
 package typechecker.pass
 
 import common.Name
-import data.question.Question
-import java.util.HashMap
-import kotlin.collections.HashSet
+import node.ExpressionNode
+import node.Node
+import node.QuestionNode
+import node.RootNode
+import typechecker.NodePass
+import typechecker.TypeCheckResult
 
-class DuplicatePass : TypeCheckerPass {
+class DuplicatePass(result: TypeCheckResult) : NodePass<Unit>(result) {
 
-    fun findDuplicateLabels(table: HashMap<Name, Question>): HashSet<String> {
+    private val visitedLabels = hashSetOf<Name>()
+    private val visitedNames = hashSetOf<Name>()
 
-        val uniqueLabels = HashSet<String>()
+    override fun visit(node: Node) {
+        node.children.forEach { child -> child.accept(this) }
+    }
 
-        val duplicateLabels = HashSet<String>()
+    override fun visit(rootNode: RootNode) {
+        rootNode.children.forEach { child -> child.accept(this) }
+    }
 
-        table.forEach { _, question ->
-            if (!uniqueLabels.add(question.label)) {
-                duplicateLabels.add(question.label)
-            }
+    override fun visit(questionNode: QuestionNode) {
+        val label = questionNode.question.label
+        val name = questionNode.question.name
+
+        if (!visitedLabels.add(label)) {
+            result.duplicateLabels.add(label)
         }
 
-        duplicateLabels.forEach { label ->
-            println("Warning duplicate label: $label")
+        if (!visitedNames.add(name)) {
+            result.duplicateNames.add(name)
         }
 
-        return duplicateLabels
+        questionNode.children.forEach { child -> child.accept(this) }
+    }
+
+    override fun visit(expressionNode: ExpressionNode) {
+        expressionNode.children.forEach { child -> child.accept(this) }
     }
 
 }

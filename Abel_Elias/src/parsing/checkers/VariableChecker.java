@@ -1,8 +1,8 @@
 package parsing.checkers;
 
 import classes.Question;
-import parsing.errors.DupVarError;
-import parsing.errors.UndeclaredError;
+import parsing.checkers.errors.DupVarError;
+import parsing.checkers.errors.UndeclaredError;
 import parsing.gen.QLParser;
 import parsing.visitors.BaseVisitor;
 
@@ -10,58 +10,66 @@ import java.util.HashMap;
 
 public class VariableChecker extends BaseVisitor {
     // The variable checker checks if there are any duplicate variables, or references to variables that do not exist
-
-    public VariableChecker(HashMap<String, Question> questionMap, QLParser.BlockContext ctx){
-        super();
-        addQuestions(questionMap);
-        visitChildren(ctx);
+    public VariableChecker(QLParser.FormContext ctx){
+        initQuestionMap();
+        visitBlock(ctx.block());
     }
 
     @Override
     public Object visitNormalQuestion(QLParser.NormalQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        if(containsQuestion(id)){
-            throw new DupVarError(id);
-        }
+        checkVariableDuplication(id);
 
-        return super.visitNormalQuestion(ctx);
+        addQuestion(id, null);
+        return true;
     }
 
     @Override
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        if(containsQuestion(id)){
-            throw new DupVarError(id);
-        }
+        checkVariableDuplication(id);
 
-        return super.visitFixedQuestion(ctx);
+        addQuestion(id, null);
+        return true;
     }
 
     @Override
     public Object visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) {
-       return checkVariableExistence(ctx.getText());
+       checkVariableExistence(ctx.getText());
+       return super.visitBoolIdentifier(ctx);
     }
 
     @Override
-    public Object visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
-        return checkVariableExistence(ctx.getText());
+    public Double visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+        checkVariableExistence(ctx.getText());
+        return 0.0;
     }
 
     @Override
     public Object visitIdentifier(QLParser.IdentifierContext ctx) {
-        return checkVariableExistence(ctx.getText());
+        checkVariableExistence(ctx.getText());
+        return super.visitIdentifier(ctx);
     }
 
     @Override
-    public Object visitBlock(QLParser.BlockContext ctx) {
-        return new VariableChecker(this.getQuestions(), ctx);
+    public Object visitIfStatement(QLParser.IfStatementContext ctx) {
+        HashMap<String, Question> backtrack = new HashMap<>(getQuestions());
+
+        visit(ctx.block());
+
+        setQuestionMap(backtrack);
+        return true;
     }
 
-    private Question checkVariableExistence(String id){
+    private void checkVariableDuplication(String id){
+        if(containsQuestion(id)){
+            throw new DupVarError(id);
+        }
+    }
+
+    private void checkVariableExistence(String id){
         if(!getQuestions().containsKey(id)) {
             throw new UndeclaredError(id);
         }
-
-        return getQuestions().get(id);
     }
 }

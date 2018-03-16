@@ -6,6 +6,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
     {
         public QuestionOutputItem(
             Guid id, 
+            Guid variableId,
             string questionText,
             Type questionType,
             string value,
@@ -13,6 +14,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
             bool isReadonly)
         {
             Id = id;
+            VariableId = variableId;
             DisplayName = questionText;
             QuestionText = questionText;
             Value = value;
@@ -20,8 +22,9 @@ namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
             Visible = isVisible;
             ReadOnly = isReadonly;
         }
-
+        
         public Guid Id { get; }
+        public Guid VariableId { get; }
         public string DisplayName { get; }
         public string QuestionText { get; }
         public bool Visible { get; set; }

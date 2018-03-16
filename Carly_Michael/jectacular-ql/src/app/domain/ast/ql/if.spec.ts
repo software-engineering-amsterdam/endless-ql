@@ -1,7 +1,7 @@
 import {Variable} from './expressions/variable';
 import {emptyLoc} from '../location';
-import {Question} from './question';
-import {QuestionType} from '../question-type';
+import {QlQuestion} from './ql-question';
+import {IntQuestionType} from '../question-type';
 import {If} from './if';
 import {Literal} from './expressions/expression';
 import {ExpressionType} from './expressions/expression-type';
@@ -9,7 +9,7 @@ import {ExpressionType} from './expressions/expression-type';
 describe('if statement', () => {
   it('Should check for impossible if statements', () => {
     const expression = new Variable('questionInBody', emptyLoc);
-    const question = new Question('questionInBody', '', QuestionType.INT, emptyLoc);
+    const question = new QlQuestion('questionInBody', '', new IntQuestionType(), emptyLoc);
     const ifStatement = new If(expression, [question], [], emptyLoc);
 
     expect(() => ifStatement.checkType([question])).toThrow();
@@ -20,21 +20,23 @@ describe('if statement', () => {
     const dateExpression = new Literal(ExpressionType.DATE, true, emptyLoc);
     const numberExpression = new Literal(ExpressionType.NUMBER, true, emptyLoc);
     const stringExpression = new Literal(ExpressionType.STRING, true, emptyLoc);
-    const ifStatement = new If(null, [], [], emptyLoc);
+    const ifBoolStatement = new If(boolExpression, [], [], emptyLoc);
+    const ifDateStatement = new If(dateExpression, [], [], emptyLoc);
+    const ifNumberStatement = new If(numberExpression, [], [], emptyLoc);
+    const ifStringStatement = new If(stringExpression, [], [], emptyLoc);
 
-    ifStatement.condition = boolExpression;
-    expect(() => ifStatement.checkType([])).not.toThrow();
-    ifStatement.condition = dateExpression;
-    expect(() => ifStatement.checkType([])).toThrow();
-    ifStatement.condition = numberExpression;
-    expect(() => ifStatement.checkType([])).toThrow();
-    ifStatement.condition = stringExpression;
-    expect(() => ifStatement.checkType([])).toThrow();
+    expect(() => ifBoolStatement.checkType([])).not.toThrow();
+
+    expect(() => ifDateStatement.checkType([])).toThrow();
+
+    expect(() => ifNumberStatement.checkType([])).toThrow();
+
+    expect(() => ifStringStatement.checkType([])).toThrow();
   });
 
   it('Should return correct statements', () => {
-    const question = new Question('question', '', QuestionType.INT, emptyLoc);
-    const elseQuestion = new Question('elseQuestion', '', QuestionType.INT, emptyLoc);
+    const question = new QlQuestion('question', '', new IntQuestionType(), emptyLoc);
+    const elseQuestion = new QlQuestion('elseQuestion', '', new IntQuestionType(), emptyLoc);
     const ifStatement = new If(null, [question], [elseQuestion], emptyLoc);
 
     const statements = ifStatement.getQuestions();

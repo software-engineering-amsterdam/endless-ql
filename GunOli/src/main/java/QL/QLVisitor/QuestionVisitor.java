@@ -35,9 +35,10 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
         //Format text of type to match EvaluationType declarations
         EvaluationType typeValue = EvaluationType.valueOf(typeText);
 
+        Boolean isPredefined = questionTypeCTX.expression() != null; // checks question is already assigned in form
         Expression initialAnswer = initializeAnswer(questionTypeCTX, typeValue);
         expressionTable.addExpression(name, initialAnswer);
-        return new Question(name, text, typeValue, initialAnswer, condition);
+        return new Question(name, text, typeValue, initialAnswer, condition, isPredefined);
     }
 
     private Expression initializeAnswer(QLParser.QuestionTypeContext ctx, EvaluationType type){

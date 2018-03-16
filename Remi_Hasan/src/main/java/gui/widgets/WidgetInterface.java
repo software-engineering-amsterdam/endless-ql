@@ -2,7 +2,8 @@ package gui.widgets;
 
 import ql.model.expression.Expression;
 
-public interface WidgetInterface<T extends Expression> {
-    public void setExpression(T expression);
-    public T getExpression();
+public interface WidgetInterface {
+    public Expression getExpression();
+
+    public void setExpression(String value);
 }

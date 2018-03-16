@@ -149,162 +149,162 @@ public class TestParser {
         assertEquals(Date.class, parser.parseType("date").getClass());
     }
 
-    @Test
-    public void testBoolLiteral() {
-        assertEquals(BoolLiteral.class, parser.parseExpr("true").getClass());
-        assertEquals(BoolLiteral.class, parser.parseExpr("false").getClass());
-    }
-    
-    @Test
-    public void testStrLiteral() {
-        assertEquals(StrLiteral.class, parser.parseExpr("\"This is a string!?\"").getClass());
-        assertEquals(StrLiteral.class, parser.parseExpr("\"This is \"a\" string!?\"").getClass());
-        assertEquals(StrLiteral.class, parser.parseExpr("\"\"").getClass());
-    }
-
-    @Test
-    public void testIntLiteral() {
-        assertEquals(IntLiteral.class, parser.parseExpr("1").getClass());
-        assertEquals(IntLiteral.class, parser.parseExpr("1111").getClass());
-    }
-    
-    @Test
-    public void testDecimalLiteral() {
-//        TODO: resolve money vs. decimal issue
-//        assertEquals(DecimalLiteral.class, parser.parseExpr("0.00").getClass());
-        assertEquals(DecimalLiteral.class, parser.parseExpr(".00").getClass());
-        assertEquals(DecimalLiteral.class, parser.parseExpr(".0").getClass());
-        assertEquals(DecimalLiteral.class, parser.parseExpr("1.0000").getClass());
-    }
-    
-//    TODO: resolve money vs. decimal issue
-    @Test
-    public void testMoneyLiteral() {
-        assertEquals(MoneyLiteral.class, parser.parseExpr("0.00").getClass());
-    }
-    
-//    TODO: how should dates be formatted?
-    @Test
-    public void testDateLiteral() {
-//        assertEquals(DateLiteral.class, parser.parseExpr("00-00-0000").getClass());
-    }
-    
-    @Test
-    public void testPositive() {
-        assertEquals(Positive.class, parser.parseExpr("+1").getClass());
-        assertEquals(Positive.class, parser.parseExpr("+x").getClass());
-        assertEquals(Positive.class, parser.parseExpr("+-x").getClass());
-        assertEquals(Positive.class, parser.parseExpr("+-+x").getClass());
-        assertEquals(Positive.class, parser.parseExpr("+++x").getClass());
-    }
-
-    @Test
-    public void testNegative() {
-        assertEquals(Negative.class, parser.parseExpr("-1").getClass());
-        assertEquals(Negative.class, parser.parseExpr("-x").getClass());
-        assertEquals(Negative.class, parser.parseExpr("-+x").getClass());
-        assertEquals(Negative.class, parser.parseExpr("-+-x").getClass());
-        assertEquals(Negative.class, parser.parseExpr("---x").getClass());
-    }
-    
-    @Test
-    public void testAdd() {
-        assertEquals(Add.class, parser.parseExpr("1 + 1").getClass());
-        assertEquals(Add.class, parser.parseExpr("-1 + -1").getClass());
-        assertEquals(Add.class, parser.parseExpr("1 + 1 / 1").getClass());
-        assertEquals(Add.class, parser.parseExpr("1 * 1 + 1 / 1").getClass());
-        assertEquals(Add.class, parser.parseExpr("1 - 1 + 1").getClass());
-        assertNotEquals(parser.parseExpr("1 + 1 - 1").getClass(),Add.class);
-    }
-    
-    @Test
-    public void testSubtract() {
-        assertEquals(Subtract.class, parser.parseExpr("1 - 1").getClass());
-        assertEquals(Subtract.class, parser.parseExpr("-1 - -1").getClass());
-        assertEquals(Subtract.class, parser.parseExpr("1 - 1 / 1").getClass());
-        assertEquals(Subtract.class, parser.parseExpr("1 * 1 - 1 / 1").getClass());
-        assertEquals(Subtract.class, parser.parseExpr("1 - 1 - 1").getClass());
-        assertNotEquals(parser.parseExpr("1 - 1 + 1").getClass(),Subtract.class);
-    }
-    
-    @Test
-    public void testMultiply() {
-        assertEquals(Multiply.class, parser.parseExpr("1 * 1").getClass());
-        assertEquals(Multiply.class, parser.parseExpr("-1 * -1").getClass());
-        assertEquals(Multiply.class, parser.parseExpr("1 / 1 * 1").getClass());
-        assertNotEquals(parser.parseExpr("1 * 1 / 1").getClass(),Multiply.class);
-    }
-    
-    @Test
-    public void testDivide() {
-        assertEquals(Divide.class, parser.parseExpr("1 / 1").getClass());
-        assertEquals(Divide.class, parser.parseExpr("-1 / -1").getClass());
-        assertEquals(Divide.class, parser.parseExpr("1 * 1 / 1").getClass());
-        assertNotEquals(parser.parseExpr("1 / 1 * 1").getClass(),Divide.class);
-    }
-    
-    @Test
-    public void testNot() {
-        assertEquals(Negation.class, parser.parseExpr("!true").getClass());
-        assertEquals(Negation.class, parser.parseExpr("!identifier").getClass());
-        assertEquals(Negation.class, parser.parseExpr("!(A + B && C / c)").getClass());
-    }
-    
-    @Test
-    public void testAnd() {
-        assertEquals(And.class, parser.parseExpr("true && false").getClass());
-        assertEquals(And.class, parser.parseExpr("A && B").getClass());
-        assertEquals(And.class, parser.parseExpr("A != B && C == c").getClass());
-        assertEquals(And.class, parser.parseExpr("!A + B && C / c").getClass());
-    }
-    
-    @Test
-    public void testOr() {
-        assertEquals(Or.class, parser.parseExpr("true || false").getClass());
-        assertEquals(Or.class, parser.parseExpr("A || B").getClass());
-        assertEquals(Or.class, parser.parseExpr("A != B && C == D || E").getClass());
-        assertEquals(Or.class, parser.parseExpr("!A + B || C / c").getClass());
-    }
-    
-    @Test
-    public void testEqual() {
-        assertEquals(Equal.class, parser.parseExpr("true == false").getClass());
-        assertEquals(Equal.class, parser.parseExpr("A == B").getClass());
-        assertEquals(Equal.class, parser.parseExpr("A + B == C / D").getClass());
-    }
-    
-    @Test
-    public void testNotEqual() {
-        assertEquals(NotEqual.class, parser.parseExpr("true != false").getClass());
-        assertEquals(NotEqual.class, parser.parseExpr("A != B").getClass());
-        assertEquals(NotEqual.class, parser.parseExpr("A + B != C / D").getClass());
-    }
-    
-    @Test
-    public void testLess() {
-        assertEquals(Less.class, parser.parseExpr("true < false").getClass());
-        assertEquals(Less.class, parser.parseExpr("A < B").getClass());
-        assertEquals(Less.class, parser.parseExpr("A + B < C / D").getClass());
-    }
-    
-    @Test
-    public void testLessEqual() {
-        assertEquals(LessEqual.class, parser.parseExpr("true <= false").getClass());
-        assertEquals(LessEqual.class, parser.parseExpr("A <= B").getClass());
-        assertEquals(LessEqual.class, parser.parseExpr("A + B <= C / D").getClass());
-    }
-    
-    @Test
-    public void testGreater() {
-        assertEquals(Greater.class, parser.parseExpr("true > false").getClass());
-        assertEquals(Greater.class, parser.parseExpr("A > B").getClass());
-        assertEquals(Greater.class, parser.parseExpr("A + B > C / D").getClass());
-    }
-    
-    @Test
-    public void testGreaterEqual() {
-        assertEquals(GreaterEqual.class, parser.parseExpr("true >= false").getClass());
-        assertEquals(GreaterEqual.class, parser.parseExpr("A >= B").getClass());
-        assertEquals(GreaterEqual.class, parser.parseExpr("A + B >= C / D").getClass());
-    }
+//    @Test
+//    public void testBoolLiteral() {
+//        assertEquals(BoolLiteral.class, parser.parseExpr("true").getClass());
+//        assertEquals(BoolLiteral.class, parser.parseExpr("false").getClass());
+//    }
+//    
+//    @Test
+//    public void testStrLiteral() {
+//        assertEquals(StrLiteral.class, parser.parseExpr("\"This is a string!?\"").getClass());
+//        assertEquals(StrLiteral.class, parser.parseExpr("\"This is \"a\" string!?\"").getClass());
+//        assertEquals(StrLiteral.class, parser.parseExpr("\"\"").getClass());
+//    }
+//
+//    @Test
+//    public void testIntLiteral() {
+//        assertEquals(IntLiteral.class, parser.parseExpr("1").getClass());
+//        assertEquals(IntLiteral.class, parser.parseExpr("1111").getClass());
+//    }
+//    
+//    @Test
+//    public void testDecimalLiteral() {
+////        TODO: resolve money vs. decimal issue
+////        assertEquals(DecimalLiteral.class, parser.parseExpr("0.00").getClass());
+//        assertEquals(DecimalLiteral.class, parser.parseExpr(".00").getClass());
+//        assertEquals(DecimalLiteral.class, parser.parseExpr(".0").getClass());
+//        assertEquals(DecimalLiteral.class, parser.parseExpr("1.0000").getClass());
+//    }
+//    
+////    TODO: resolve money vs. decimal issue
+//    @Test
+//    public void testMoneyLiteral() {
+//        assertEquals(MoneyLiteral.class, parser.parseExpr("0.00").getClass());
+//    }
+//    
+////    TODO: how should dates be formatted?
+//    @Test
+//    public void testDateLiteral() {
+////        assertEquals(DateLiteral.class, parser.parseExpr("00-00-0000").getClass());
+//    }
+//    
+//    @Test
+//    public void testPositive() {
+//        assertEquals(Positive.class, parser.parseExpr("+1").getClass());
+//        assertEquals(Positive.class, parser.parseExpr("+x").getClass());
+//        assertEquals(Positive.class, parser.parseExpr("+-x").getClass());
+//        assertEquals(Positive.class, parser.parseExpr("+-+x").getClass());
+//        assertEquals(Positive.class, parser.parseExpr("+++x").getClass());
+//    }
+//
+//    @Test
+//    public void testNegative() {
+//        assertEquals(Negative.class, parser.parseExpr("-1").getClass());
+//        assertEquals(Negative.class, parser.parseExpr("-x").getClass());
+//        assertEquals(Negative.class, parser.parseExpr("-+x").getClass());
+//        assertEquals(Negative.class, parser.parseExpr("-+-x").getClass());
+//        assertEquals(Negative.class, parser.parseExpr("---x").getClass());
+//    }
+//    
+//    @Test
+//    public void testAdd() {
+//        assertEquals(Add.class, parser.parseExpr("1 + 1").getClass());
+//        assertEquals(Add.class, parser.parseExpr("-1 + -1").getClass());
+//        assertEquals(Add.class, parser.parseExpr("1 + 1 / 1").getClass());
+//        assertEquals(Add.class, parser.parseExpr("1 * 1 + 1 / 1").getClass());
+//        assertEquals(Add.class, parser.parseExpr("1 - 1 + 1").getClass());
+//        assertNotEquals(parser.parseExpr("1 + 1 - 1").getClass(),Add.class);
+//    }
+//    
+//    @Test
+//    public void testSubtract() {
+//        assertEquals(Subtract.class, parser.parseExpr("1 - 1").getClass());
+//        assertEquals(Subtract.class, parser.parseExpr("-1 - -1").getClass());
+//        assertEquals(Subtract.class, parser.parseExpr("1 - 1 / 1").getClass());
+//        assertEquals(Subtract.class, parser.parseExpr("1 * 1 - 1 / 1").getClass());
+//        assertEquals(Subtract.class, parser.parseExpr("1 - 1 - 1").getClass());
+//        assertNotEquals(parser.parseExpr("1 - 1 + 1").getClass(),Subtract.class);
+//    }
+//    
+//    @Test
+//    public void testMultiply() {
+//        assertEquals(Multiply.class, parser.parseExpr("1 * 1").getClass());
+//        assertEquals(Multiply.class, parser.parseExpr("-1 * -1").getClass());
+//        assertEquals(Multiply.class, parser.parseExpr("1 / 1 * 1").getClass());
+//        assertNotEquals(parser.parseExpr("1 * 1 / 1").getClass(),Multiply.class);
+//    }
+//    
+//    @Test
+//    public void testDivide() {
+//        assertEquals(Divide.class, parser.parseExpr("1 / 1").getClass());
+//        assertEquals(Divide.class, parser.parseExpr("-1 / -1").getClass());
+//        assertEquals(Divide.class, parser.parseExpr("1 * 1 / 1").getClass());
+//        assertNotEquals(parser.parseExpr("1 / 1 * 1").getClass(),Divide.class);
+//    }
+//    
+//    @Test
+//    public void testNot() {
+//        assertEquals(Negation.class, parser.parseExpr("!true").getClass());
+//        assertEquals(Negation.class, parser.parseExpr("!identifier").getClass());
+//        assertEquals(Negation.class, parser.parseExpr("!(A + B && C / c)").getClass());
+//    }
+//    
+//    @Test
+//    public void testAnd() {
+//        assertEquals(And.class, parser.parseExpr("true && false").getClass());
+//        assertEquals(And.class, parser.parseExpr("A && B").getClass());
+//        assertEquals(And.class, parser.parseExpr("A != B && C == c").getClass());
+//        assertEquals(And.class, parser.parseExpr("!A + B && C / c").getClass());
+//    }
+//    
+//    @Test
+//    public void testOr() {
+//        assertEquals(Or.class, parser.parseExpr("true || false").getClass());
+//        assertEquals(Or.class, parser.parseExpr("A || B").getClass());
+//        assertEquals(Or.class, parser.parseExpr("A != B && C == D || E").getClass());
+//        assertEquals(Or.class, parser.parseExpr("!A + B || C / c").getClass());
+//    }
+//    
+//    @Test
+//    public void testEqual() {
+//        assertEquals(Equal.class, parser.parseExpr("true == false").getClass());
+//        assertEquals(Equal.class, parser.parseExpr("A == B").getClass());
+//        assertEquals(Equal.class, parser.parseExpr("A + B == C / D").getClass());
+//    }
+//    
+//    @Test
+//    public void testNotEqual() {
+//        assertEquals(NotEqual.class, parser.parseExpr("true != false").getClass());
+//        assertEquals(NotEqual.class, parser.parseExpr("A != B").getClass());
+//        assertEquals(NotEqual.class, parser.parseExpr("A + B != C / D").getClass());
+//    }
+//    
+//    @Test
+//    public void testLess() {
+//        assertEquals(Less.class, parser.parseExpr("true < false").getClass());
+//        assertEquals(Less.class, parser.parseExpr("A < B").getClass());
+//        assertEquals(Less.class, parser.parseExpr("A + B < C / D").getClass());
+//    }
+//    
+//    @Test
+//    public void testLessEqual() {
+//        assertEquals(LessEqual.class, parser.parseExpr("true <= false").getClass());
+//        assertEquals(LessEqual.class, parser.parseExpr("A <= B").getClass());
+//        assertEquals(LessEqual.class, parser.parseExpr("A + B <= C / D").getClass());
+//    }
+//    
+//    @Test
+//    public void testGreater() {
+//        assertEquals(Greater.class, parser.parseExpr("true > false").getClass());
+//        assertEquals(Greater.class, parser.parseExpr("A > B").getClass());
+//        assertEquals(Greater.class, parser.parseExpr("A + B > C / D").getClass());
+//    }
+//    
+//    @Test
+//    public void testGreaterEqual() {
+//        assertEquals(GreaterEqual.class, parser.parseExpr("true >= false").getClass());
+//        assertEquals(GreaterEqual.class, parser.parseExpr("A >= B").getClass());
+//        assertEquals(GreaterEqual.class, parser.parseExpr("A + B >= C / D").getClass());
+//    }
 }

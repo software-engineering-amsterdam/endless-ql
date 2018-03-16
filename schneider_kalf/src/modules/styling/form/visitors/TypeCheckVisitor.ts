@@ -6,14 +6,25 @@ import Page from "../nodes/containers/Page";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
 import Stylesheet from "../nodes/StyleSheet";
+import { checkBaseAttribute, checkWidgetAttribute } from "../style_helpers";
 
-export default class QuestionStylesVisitor implements StyleNodeVisitor {
+export default class TypeCheckVisitor implements StyleNodeVisitor {
+  private identifiersQL: Map<string, any>;
+
+  constructor(identifiersQL: Map<string, any>) {
+    this.identifiersQL = identifiersQL;
+  }
+
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
-    return;
+    // TODO: ASK: Added extends StyleTreeNode to StyleAttribute
+    return defaultStyle.children.forEach(child => child.accept(this));
   }
 
   visitQuestionStyle(question: QuestionStyle): any {
-    return new Error("not implemented yet");
+    if (!this.identifiersQL.get[question.identifier]) {
+      // Warning("Question '" + question.identifier + "' does not exist in the QL template")
+    }
+    return question.children.forEach(child => child.accept(this));
   }
 
   visitSection(section: Section): any {
@@ -21,14 +32,16 @@ export default class QuestionStylesVisitor implements StyleNodeVisitor {
   }
 
   visitPageAttribute(page: Page): any {
-    return;
+    return page.body.forEach(child => child.accept(this));
   }
 
   visitWidgetAttribute(widgetAttribute: WidgetAttribute): any {
+    checkWidgetAttribute(widgetAttribute);
     return;
   }
 
   visitBaseAttribute(baseAttribute: BaseAttribute): any {
+    checkBaseAttribute(baseAttribute.name, baseAttribute.value);
     return;
   }
 

@@ -13,7 +13,7 @@ import gui.questions.QuestionPanelText;
 import gui.questions.QuestionPanelTextInt;
 import gui.questions.QuestionPanelTextString;
 import org.jdatepicker.JDatePicker;
-import parsing.visitors.BaseVisitor;
+import parsing.visitors.refactor_tmp.BaseVisitor;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -82,7 +82,7 @@ public class FormBuilder {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
             Question question = (Question) pair.getValue();
-            if(question.getVisibility()) {
+            if(question.isVisible()) {
                 buildQuestionPanel((String) pair.getKey(), question, question.getValue());
             }
             it.remove(); // avoid ConcurrentModificationException

@@ -9,15 +9,13 @@ import parsing.visitors.expressions.ExpressionVisitor;
 import java.util.HashMap;
 
 public class UpdateVisitor extends QLBaseVisitor {
-    private HashMap<String, Question> questionMap;
+    public HashMap<String, Question> questionMap;
     private ExpressionVisitor expVisitor;
-    private TypeVisitor typeVisitor;
     private boolean isVisible;
 
     public UpdateVisitor(HashMap<String, Question> questionMap, boolean isVisible){
         this.questionMap = questionMap;
-        this.expVisitor = new ExpressionVisitor(questionMap);
-        this.typeVisitor = new TypeVisitor();
+        this.expVisitor = new ExpressionVisitor(this.questionMap);
         this.isVisible = isVisible;
     }
 

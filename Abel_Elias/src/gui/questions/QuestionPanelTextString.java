@@ -15,7 +15,7 @@ public class QuestionPanelTextString extends QuestionPanelText{
     @Override
     public void setListener(EventListener listener) {
         FormBuilder.StringDocumentListener stringListener = (FormBuilder.StringDocumentListener) listener;
-        JTextField textField = (JTextField) this.getComponent();
+        JTextField textField = (JTextField) super.getComponent();
         textField.getDocument().addDocumentListener(stringListener);
     }
 }

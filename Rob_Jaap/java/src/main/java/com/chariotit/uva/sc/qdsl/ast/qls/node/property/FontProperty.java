@@ -12,6 +12,14 @@ public class FontProperty extends Property {
         this.font = font;
     }
 
+    public String getFont() {
+        return font;
+    }
+
+    public void setFont(String font) {
+        this.font = font;
+    }
+
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         visitor.visitFontProperty(this);

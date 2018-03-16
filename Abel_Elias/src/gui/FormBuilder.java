@@ -1,15 +1,19 @@
 package gui;
 
 import classes.Question;
+import classes.expressions.Expression;
 import classes.values.BooleanValue;
 import classes.values.IntegerValue;
 import classes.values.StringValue;
 import classes.values.Value;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionPanelCheckBox;
+import gui.questions.QuestionPanelDate;
+import gui.questions.QuestionPanelText;
 import gui.questions.QuestionPanelTextInt;
 import gui.questions.QuestionPanelTextString;
-import parsing.visitors.refactor_tmp.BaseVisitor;
+import org.jdatepicker.JDatePicker;
+import parsing.visitors.BaseVisitor;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -17,7 +21,10 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -75,7 +82,9 @@ public class FormBuilder {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
             Question question = (Question) pair.getValue();
-            buildQuestionPanel((String) pair.getKey(), question, question.getValue());
+            if(question.getVisibility()) {
+                buildQuestionPanel((String) pair.getKey(), question, question.getValue());
+            }
             it.remove(); // avoid ConcurrentModificationException
         }
     }
@@ -108,8 +117,8 @@ public class FormBuilder {
                 qPanel.setListener(new IntegerDocumentListener(key, (JTextField) qPanel.getComponent()));
                 break;
             case Value.DATE:
-                qPanel = new QuestionPanelTextString(key, question);
-                qPanel.setListener(new IntegerDocumentListener(key, (JTextField) qPanel.getComponent()));
+                qPanel = new QuestionPanelDate(key, question);
+                qPanel.setListener(new DateActionListener(key, (JDatePicker) qPanel.getComponent()));
                 break;
             case Value.INTEGER:
                 qPanel = new QuestionPanelTextInt(key, question);
@@ -199,6 +208,25 @@ public class FormBuilder {
      * ActionListener methods
      ***********************************/
 
+    public class DateActionListener implements ActionListener {
+
+        private JDatePicker picker;
+        private String key;
+
+        private DateActionListener(String key, JDatePicker picker) {
+            this.key = key;
+            this.picker = picker;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Date selectedDate = (Date) picker.getModel().getValue();
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            String reportDate = df.format(selectedDate);
+            JOptionPane.showMessageDialog(null,reportDate);
+        }
+    }
+
     //Bool ActionListener
     public class BoolActionListener implements ActionListener {
 
@@ -214,28 +242,34 @@ public class FormBuilder {
         public void actionPerformed(ActionEvent e) {
             if (checkBox.isSelected()) {
                 System.out.println("checkbox checked");
-                updateGUI(key, true);
+                update(key, true);
             } else {
-                updateGUI(key, false);
+                update(key, false);
 
             }
             checkBox.requestFocus();
         }
     }
 
+    private void update(String key, boolean value) {
+        updateQuestion(key, value);
+        updateGUI(key, value);
+
+    }
+
     private void updateGUI(String key, Object value) {
 
-        baseVisitor.updateQuestions(questionHashMap);
-        for (QuestionPanel panel : questionPanelList) {
-            if (questionHashMap.get(panel.getQuestion()) != null) {
-                boolean ifExpressionSatisfied = true;
-                if (ifExpressionSatisfied) {
-                    addQuestionToPanel(panel);
-                } else {
-                    removeQuestionFromPanel(panel);
-                }
-            }
-        }
+        //baseVisitor.updateQuestions(questionHashMap);
+//        for (QuestionPanel panel : questionPanelList) {
+//            if (questionHashMap.get(panel.getQuestion()) != null) {
+//                boolean ifExpressionSatisfied = true;
+//                if (ifExpressionSatisfied) {
+//                    addQuestionToPanel(panel);
+//                } else {
+//                    removeQuestionFromPanel(panel);
+//                }
+//            }
+//        }
         //Update and validate the components
         mainListPanel.revalidate();
         mainListPanel.repaint();

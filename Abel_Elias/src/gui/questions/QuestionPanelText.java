@@ -13,12 +13,13 @@ public abstract class QuestionPanelText extends QuestionPanel{
 
     public QuestionPanelText(String key, Question question) {
         super(key, question);
+        createControlWidget(key);
     }
 
 
     @Override
     public void createControlWidget(String key) {
-        textField = new JTextField();
+        textField = new JTextField("", 20);
         this.add(textField);
     }
 

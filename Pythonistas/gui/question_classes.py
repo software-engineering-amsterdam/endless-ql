@@ -24,7 +24,6 @@ class BooleanQuestion(Question):
         self.buttongroup.setExclusive(True)
 
     def set_truebutton(self, button):
-        # print('b0')
         # try:
         #     self.buttongroup.removeButton(self.truebutton)
         # except:
@@ -50,9 +49,9 @@ class BooleanQuestion(Question):
         questionframe = QtWidgets.QFrame()
         self.questionlayout = QtWidgets.QGridLayout()
         questionframe.setLayout(self.questionlayout)
-        self.questionlayout.addWidget(QtWidgets.QLabel(self.question),0,0)
-        self.questionlayout.addWidget(self.truebutton,0,1)
-        self.questionlayout.addWidget(self.falsebutton,0,2)
+        self.questionlayout.addWidget(QtWidgets.QLabel(self.question), 0, 0)
+        self.questionlayout.addWidget(self.truebutton, 0, 1)
+        self.questionlayout.addWidget(self.falsebutton, 0, 2)
         return questionframe
 
 class MoneyQuestion(Question):
@@ -67,14 +66,16 @@ class MoneyQuestion(Question):
         self.textInput.text()
 
     def set_answer_text(self):
-    # Saves the user's answer to the corresponding question
         self.answer = self.textInput.text()
         print(self.answer)
 
     def create_frame(self):
+        # Creates a frame to be given to the questionnaire output frame.
         questionframe = QtWidgets.QFrame()
         self.questionlayout = QtWidgets.QGridLayout()
         questionframe.setLayout(self.questionlayout)
+
         self.questionlayout.addWidget(QtWidgets.QLabel(self.question),0,0)
         self.questionlayout.addWidget(self.textInput,0,1)
+
         return questionframe

@@ -40,7 +40,7 @@ public class VariableChecker extends BaseVisitor {
     }
 
     @Override
-    public Number visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+    public Double visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
         checkVariableExistence(ctx.getText());
         return 0.0;
     }

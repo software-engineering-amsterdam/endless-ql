@@ -58,7 +58,8 @@ public class BaseVisitor extends QLBaseVisitor {
         String id = ctx.IDENTIFIER().getText();
         CodeBlock codeBlock = CodeBlock.getCodeBlock(ctx);
         String questionString = ctx.STR().getText();
-        Value value = (Value) visit(ctx.expression());
+        Value value =  (Value) visit(ctx.type());
+        value.setValueGeneric(visit(ctx.expression()));
 
         Question question = new Question(questionString, value, true);
         questionMap.put(id, question);
@@ -92,6 +93,7 @@ public class BaseVisitor extends QLBaseVisitor {
         return null;
     }
 
+    // VISIT TYPES
     @Override
     public StringValue visitStringtype(QLParser.StringtypeContext ctx) {
         return new StringValue();
@@ -117,25 +119,6 @@ public class BaseVisitor extends QLBaseVisitor {
         return new DecimalValue();
     }
 
-    // visit boolean values
-    @Override
-    public BooleanValue visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) {
-        String id = ctx.getText();
-        Question question = getQuestion(id);
-
-        return (BooleanValue) question.getValue();
-    }
-
-    @Override
-    public BooleanValue visitBoolBraces(QLParser.BoolBracesContext ctx) {
-        return (BooleanValue) visit(ctx.booleanExpression());
-    }
-
-    @Override
-    public Object visitBoolOperator(QLParser.BoolOperatorContext ctx) {
-        return super.visitBoolOperator(ctx);
-    }
-
     // Visitor methods for values
     @Override
     public String visitString(QLParser.StringContext ctx) {
@@ -148,8 +131,8 @@ public class BaseVisitor extends QLBaseVisitor {
     }
 
     @Override
-    public Integer visitIntValue(QLParser.IntValueContext ctx) {
-        return Integer.parseInt(ctx.getText());
+    public Double visitIntValue(QLParser.IntValueContext ctx) {
+        return Double.parseDouble(ctx.getText());
     }
 
     @Override
@@ -164,21 +147,21 @@ public class BaseVisitor extends QLBaseVisitor {
 
     // Arithmetic functions
     @Override
-    public NumericValue visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+    public Double visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
        Question q = questionMap.get(ctx.IDENTIFIER().getText());
-       return (NumericValue) q.getValue();
+       return ((NumericValue) q.getValue()).getComputationValue();
     }
 
     @Override
-    public Object visitNumBraces(QLParser.NumBracesContext ctx) {
-        return visit(ctx.numberExpression());
+    public Double visitNumBraces(QLParser.NumBracesContext ctx) {
+        return (double) visit(ctx.numberExpression());
     }
 
     @Override
     public Number visitNumOperation(QLParser.NumOperationContext ctx) {
-        Double left = (Double) visit(ctx.left);
+        Double left = (double) visit(ctx.left);
         String operator = ctx.numberOperator().getText();
-        Double right = (Double) visit(ctx.right);
+        Double right = (double) visit(ctx.right);
 
         switch (operator) {
             case "+":

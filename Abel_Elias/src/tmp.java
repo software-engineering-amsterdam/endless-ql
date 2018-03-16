@@ -8,6 +8,11 @@ public class tmp {
         Class c = Boolean.class;
         Boolean y = null;
 
+        Integer i1 = 5;
+        Double i2 = 6.0;
+
+        Double i3 = (double) i1;
+
         System.out.println(haveSameType(b,a));
     }
 

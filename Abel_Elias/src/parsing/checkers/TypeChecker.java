@@ -1,11 +1,11 @@
 package parsing.checkers;
 
-import classes.Question;
+import classes.values.BooleanValue;
+import classes.values.NumericValue;
+import classes.values.Value;
 import parsing.checkers.errors.TypeError;
 import parsing.gen.QLParser;
 import parsing.visitors.BaseVisitor;
-
-import java.util.HashMap;
 
 public class TypeChecker extends BaseVisitor {
     // Typechecker checks if there are any inconsistensies in the types that were given in the syntax of the code
@@ -17,13 +17,13 @@ public class TypeChecker extends BaseVisitor {
     @Override
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        Class expectedType = visit(ctx.type()).getClass();
+        Value expectedType = (Value) visit(ctx.type());
         Class valueType = visit(ctx.expression()).getClass();
+        System.out.println(expectedType.getType());
 
-
-        if(!haveSameType(valueType, expectedType)){
-            throw new TypeError(id, ctx.type().getText());
-        }
+//        if(!haveSameType(valueType, expectedType)){
+//            throw new TypeError(id, ctx.type().getText());
+//        }
 
         return super.visitFixedQuestion(ctx);
     }
@@ -32,7 +32,7 @@ public class TypeChecker extends BaseVisitor {
     public Object visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) {
         String id = ctx.getText();
 
-        if(!haveSameType(Boolean.class, getQuestion(id).getType())){
+        if(!haveSameType(BooleanValue.class, getQuestion(id).getValue().getClass())){
             throw new TypeError(id, "boolean");
         }
 
@@ -40,10 +40,10 @@ public class TypeChecker extends BaseVisitor {
     }
 
     @Override
-    public Number visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+    public Double visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
         String id = ctx.getText();
 
-        if(!haveSameType(Number.class, getQuestion(id).getType())){
+        if(!haveSameType(NumericValue.class, getQuestion(id).getValue().getClass())){
             throw new TypeError(id, "number");
         }
 

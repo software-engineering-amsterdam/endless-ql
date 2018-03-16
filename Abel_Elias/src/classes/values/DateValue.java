@@ -8,6 +8,11 @@ public class DateValue extends Value<Date> {
         setType(Value.DATE);
     }
 
+    @Override
+    public void setValueGeneric(Object o) {
+        setValue((Date) o);
+    }
+
     public DateValue(){
         super(new Date());
     }

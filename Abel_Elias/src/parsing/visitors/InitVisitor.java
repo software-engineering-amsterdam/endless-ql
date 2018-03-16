@@ -21,11 +21,12 @@ public class InitVisitor extends BaseVisitor {
         return questionMap;
     }
 
+    //BOOLEAN EXPRESSION VISITORS
     @Override
     public Boolean visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) {
         String id = ctx.getText();
         Question question = getQuestion(id);
-        return (Boolean) question.getValue();
+        return (Boolean) question.getValue().getValue();
     }
 
     @Override

@@ -1,10 +1,10 @@
-package parsing.visitors.refactor_tmp;
+package parsing.visitors;
 
-import classes.CodeBlock;
 import classes.Question;
 import classes.values.*;
 import parsing.gen.QLBaseVisitor;
 import parsing.gen.QLParser;
+import parsing.visitors.expressions.ExpressionVisitor;
 
 import java.util.HashMap;
 
@@ -27,7 +27,7 @@ public class BlockVisitor extends QLBaseVisitor {
         String questionString = ctx.STR().getText();
         Value value = typeVisitor.visitType(ctx.type());
 
-        Question question = new Question(questionString, value, false);
+        Question question = new Question(questionString, value, false, isVisible);
         questionMap.put(id, question);
 
         return questionMap;
@@ -41,7 +41,7 @@ public class BlockVisitor extends QLBaseVisitor {
         Object expression = expVisitor.visitExpression(ctx.expression());
         value.setValueGeneric(expression);
 
-        Question question = new Question(questionString, value, true);
+        Question question = new Question(questionString, value, true, isVisible);
         questionMap.put(id, question);
 
         return questionMap;
@@ -52,8 +52,8 @@ public class BlockVisitor extends QLBaseVisitor {
         Boolean condition = expVisitor.visitBoolExpression(ctx.booleanExpression());
         QLParser.BlockContext block = ctx.block();
 
-        if(condition){
-            new BlockVisitor(questionMap, isVisible && condition).visitBlock(block);
+        if(isVisible && condition){
+            new BlockVisitor(questionMap, true).visitBlock(block);
         }else{
             new BlockVisitor(questionMap, false).visitBlock(block);
         }

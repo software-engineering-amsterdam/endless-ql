@@ -26,7 +26,7 @@ import ql.gui.fields.MoneyTextField;
 import ql.gui.fields.StrTextField;
 import ql.visitors.interfaces.TypeVisitor;
 
-public class GUIQuestion extends JPanel implements TypeVisitor {
+public class QuestionPanel extends JPanel implements TypeVisitor {
 
     private static final long serialVersionUID = 2816798767896918152L;
     ResourceBundle translations = ResourceBundle.getBundle("ql.i18n.gui");
@@ -36,8 +36,9 @@ public class GUIQuestion extends JPanel implements TypeVisitor {
     private Question question;
     private boolean answerable;
     
-    public GUIQuestion(Question question) {
+    public QuestionPanel(Question question) {
         
+        setName("question");
         this.question   = question;
         this.answerable = question.isAnswerable();
         

@@ -1,7 +1,9 @@
+import classes.Form;
 import classes.Question;
-import gui.FormBuilder;
 import parsing.TreeBuilder;
-import parsing.visitors.InitVisitor;
+import parsing.checkers.Checks;
+import parsing.gen.QLParser;
+import parsing.visitors.FormVisitor;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,28 +16,31 @@ import java.util.Map;
 public class Main {
     /**
      * parse and build the form file
-     * @param inputStream - input stream of the given form file
      */
+
+    private void printQuestionMap(HashMap<String, Question> memory){
+        //Test output
+        Iterator it = memory.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Question q = (Question) pair.getValue();
+            System.out.println(q) ;
+            it.remove();
+        }
+    }
 
     private void parseAndBuild(InputStream inputStream){
         try{
+            QLParser.FormContext form = new TreeBuilder().build(inputStream);
+            FormVisitor coreVisitor = new FormVisitor(form);
+            Checks.checkForm(form);
+            HashMap<String, Question> memory = coreVisitor.questionMap;
 
-            InitVisitor builder = new InitVisitor(new TreeBuilder().build(inputStream));
-            HashMap<String, Question> memory = builder.getQuestions();
-
-            //Test output
-            Iterator it = memory.entrySet().iterator();
-            while (it.hasNext()) {
-                  Map.Entry pair = (Map.Entry)it.next();
-                  Question q = (Question) pair.getValue();
-                  System.out.println(pair.getKey() + " : " + q.getText() + " = " + q.getValue().getType() + ":" + q.getValue().getValue()) ;
-                  it.remove();
-            }
+            printQuestionMap(memory);
 
             //Pass the relevant questions to the UI builder
 //            FormBuilder formBuilder = new FormBuilder(builder, memory);
 //            formBuilder.initComponents();
-
         } catch (IOException e) {
             e.printStackTrace();
         }

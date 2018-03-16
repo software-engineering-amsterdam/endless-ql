@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Evaluator\StatementTypeEvaluatorTests.cs" />
     <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
     <Compile Include="Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />
     <Compile Include="Analysis\Semantic\StatementTypeAnalyserTests.cs" />

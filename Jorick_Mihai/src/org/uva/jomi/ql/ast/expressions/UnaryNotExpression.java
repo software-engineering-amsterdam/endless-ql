@@ -2,9 +2,9 @@ package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.QLToken;
 
-public class UnaryNotExpr extends UnaryExpr {
+public class UnaryNotExpression extends UnaryExpression {
 
-	public UnaryNotExpr(QLToken operator, Expr right) {
+	public UnaryNotExpression(QLToken operator, Expression right) {
 		super(operator, right);
 	}
 

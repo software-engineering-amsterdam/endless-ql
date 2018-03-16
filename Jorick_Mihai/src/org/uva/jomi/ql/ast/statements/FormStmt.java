@@ -1,18 +1,18 @@
 package org.uva.jomi.ql.ast.statements;
 
-import org.uva.jomi.ql.ast.expressions.Expr;
-import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.Expression;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
 
 public class FormStmt extends Stmt {
-	private final IdentifierExpr identifier;
+	private final IdentifierExpression identifier;
 	private final BlockStmt blockStmt;
 	
-	public FormStmt(IdentifierExpr identifier, BlockStmt blockStmt) {
+	public FormStmt(IdentifierExpression identifier, BlockStmt blockStmt) {
 		this.identifier = identifier;
 		this.blockStmt = blockStmt;
 	}
 
-	public IdentifierExpr getIdentifier() {
+	public IdentifierExpression getIdentifier() {
 		return this.identifier;
 	}
 	
@@ -21,7 +21,7 @@ public class FormStmt extends Stmt {
 	}
 	
 	public int getIndetifierExprId() {
-		return this.identifier.getId();
+		return this.identifier.getNodeId();
 	}
 
 	public BlockStmt getBlockStmt() {
@@ -29,10 +29,10 @@ public class FormStmt extends Stmt {
 	}
 	
 	public int getBlockStmtId() {
-		return this.blockStmt.getId();
+		return this.blockStmt.getNodeId();
 	}
 	
-	public <T> T visitIndetifierExpr(Expr.Visitor<T> visitor) {
+	public <T> T visitIndetifierExpr(Expression.Visitor<T> visitor) {
 		return this.identifier.accept(visitor);
 	}
 	

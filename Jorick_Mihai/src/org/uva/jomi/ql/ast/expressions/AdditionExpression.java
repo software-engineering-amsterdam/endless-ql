@@ -2,12 +2,11 @@ package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.QLToken;
 
-public class GreaterThanExpr extends BinaryExpr {
-	
-	public GreaterThanExpr(Expr left, QLToken operator, Expr right) {
+public class AdditionExpression extends BinaryExpression {
+	public AdditionExpression(Expression left, QLToken operator, Expression right) {
 		super(left, operator, right);
 	}
-
+	
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);

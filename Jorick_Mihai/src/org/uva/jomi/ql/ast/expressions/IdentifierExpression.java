@@ -3,15 +3,15 @@ package org.uva.jomi.ql.ast.expressions;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 
-public class IdentifierExpr extends Expr {
+public class IdentifierExpression extends Expression {
 	private final QLToken token;
 	private boolean undefined = true;
 
-	public IdentifierExpr(QLToken token) {
+	public IdentifierExpression(QLToken token) {
 		this.token = token;
 	}
 
-	public IdentifierExpr(QLToken token, QLType type) {
+	public IdentifierExpression(QLToken token, QLType type) {
 		this.setType(type);
 		this.token = token;
 	}
@@ -40,7 +40,7 @@ public class IdentifierExpr extends Expr {
 		this.undefined = undefined;
 	}
 
-	public void updateAllFields(IdentifierExpr idetifier) {
+	public void updateAllFields(IdentifierExpression idetifier) {
 		this.undefined = idetifier.undefined;
 		this.setType(idetifier.getType());
 	}

@@ -3,26 +3,26 @@ package org.uva.jomi.ql.ast.expressions;
 import org.uva.jomi.ql.ast.AstNode;
 import org.uva.jomi.ql.ast.QLType;
 
-abstract public class Expr extends AstNode {
+abstract public class Expression extends AstNode {
 	public interface Visitor<T> {
-		T visit(IdentifierExpr expr);
-		T visit(GroupingExpr expr);
-		T visit(AdditionExpr expr);
-		T visit(SubtractionExpr expr);
-		T visit(MultiplicationExpr expr);
-		T visit(DivisionExpr expr);
-		T visit(LessThanExpr expr);
-		T visit(LessThanOrEqualExpr expr);
-		T visit(GreaterThanExpr expr);
-		T visit(GreaterThanOrEqualExpr expr);
-		T visit(NotEqualExpr expr);
-		T visit(EqualExpr expr);
-		T visit(AndExpr expr);
-		T visit(OrExpr expr);
-		T visit(UnaryNotExpr expr);
-		T visit(IntegerExpr expr);
-		T visit(StringExpr expr);
-		T visit(BooleanExpr expr);
+		T visit(IdentifierExpression expr);
+		T visit(GroupingExpression expr);
+		T visit(AdditionExpression expr);
+		T visit(SubtractionExpression expr);
+		T visit(MultiplicationExpression expr);
+		T visit(DivisionExpression expr);
+		T visit(LessThanExpression expr);
+		T visit(LessThanOrEqualExpression expr);
+		T visit(GreaterThanExpression expr);
+		T visit(GreaterThanOrEqualExpression expr);
+		T visit(NotEqualExpression expr);
+		T visit(EqualExpression expr);
+		T visit(AndExpression expr);
+		T visit(OrExpression expr);
+		T visit(UnaryNotExpression expr);
+		T visit(IntegerExpression expr);
+		T visit(StringExpression expr);
+		T visit(BooleanExpression expr);
 	}
 
 	public abstract <T> T accept(Visitor<T> visitor);
@@ -59,11 +59,11 @@ abstract public class Expr extends AstNode {
 		this.columnNumber = columnNumber;
 	}
 	
-	public <T> T visitExpr(Visitor<T> visitor) {
+	public <T> T visitExpression(Visitor<T> visitor) {
 		return this.accept(visitor);
 	}
 	
-	public int getExprId() {
-		return this.getId();
+	public int getExpressionId() {
+		return this.getNodeId();
 	}
 }

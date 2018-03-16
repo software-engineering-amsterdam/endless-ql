@@ -3,10 +3,10 @@ package org.uva.jomi.ql.ast.expressions;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 
-public abstract class PrimaryExpr extends Expr {
+public abstract class PrimaryExpression extends Expression {
 	private final String lexeme;
 
-	public PrimaryExpr(QLToken token, QLType type) {
+	public PrimaryExpression(QLToken token, QLType type) {
 		this.lexeme = token.getLexeme();
 		this.setType(type);
 		this.setLineNumber(token.getLine());

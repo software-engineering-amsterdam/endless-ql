@@ -2,9 +2,9 @@ package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.QLToken;
 
-public class LessThanOrEqualExpr extends BinaryExpr {
+public class OrExpression extends BinaryExpression {
 	
-	public LessThanOrEqualExpr(Expr left, QLToken operator, Expr right) {
+	public OrExpression(Expression left, QLToken operator, Expression right) {
 		super(left, operator, right);
 	}
 

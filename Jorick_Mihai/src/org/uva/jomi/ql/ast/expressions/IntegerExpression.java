@@ -3,9 +3,9 @@ package org.uva.jomi.ql.ast.expressions;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 
-public class IntegerExpr extends PrimaryExpr {
+public class IntegerExpression extends PrimaryExpression {
 
-	public IntegerExpr(QLToken token, QLType type) {
+	public IntegerExpression(QLToken token, QLType type) {
 		super(token, type);
 	}
 

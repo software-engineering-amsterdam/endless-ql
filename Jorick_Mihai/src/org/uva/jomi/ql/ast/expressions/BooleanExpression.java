@@ -3,9 +3,9 @@ package org.uva.jomi.ql.ast.expressions;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 
-public class BooleanExpr extends PrimaryExpr {
+public class BooleanExpression extends PrimaryExpression {
 
-	public BooleanExpr(QLToken token, QLType type) {
+	public BooleanExpression(QLToken token, QLType type) {
 		super(token, type);
 	}
 	

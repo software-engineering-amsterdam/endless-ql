@@ -1,18 +1,18 @@
 package org.uva.jomi.ql.ast.statements;
 
 import org.uva.jomi.ql.ast.QLType;
-import org.uva.jomi.ql.ast.expressions.Expr;
+import org.uva.jomi.ql.ast.expressions.Expression;
 
 public class IfStmt extends Stmt {
-	private final Expr expression;
+	private final Expression expression;
 	private final BlockStmt ifBlockStmt;
 	
-	public IfStmt(Expr expression, BlockStmt ifBlockStmt) {
+	public IfStmt(Expression expression, BlockStmt ifBlockStmt) {
 		this.expression = expression;
 		this.ifBlockStmt = ifBlockStmt;
 	}
 
-	public Expr getExpr() {
+	public Expression getExpr() {
 		return this.expression;
 	}
 	
@@ -29,7 +29,7 @@ public class IfStmt extends Stmt {
 	}
 	
 	public int getExprId() {
-		return this.ifBlockStmt.getId();
+		return this.ifBlockStmt.getNodeId();
 	}
 
 	public BlockStmt getIfBlockStmt() {
@@ -37,10 +37,10 @@ public class IfStmt extends Stmt {
 	}
 	
 	public int getIfBlockStmtId() {
-		return this.ifBlockStmt.getId();
+		return this.ifBlockStmt.getNodeId();
 	}
 	
-	public <T> T visitExpr(Expr.Visitor<T> visitor) {
+	public <T> T visitExpr(Expression.Visitor<T> visitor) {
 		return this.expression.accept(visitor);
 	}
 	

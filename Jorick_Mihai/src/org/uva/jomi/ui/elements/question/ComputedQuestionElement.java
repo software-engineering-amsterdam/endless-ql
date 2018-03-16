@@ -2,7 +2,7 @@ package org.uva.jomi.ui.elements.question;
 
 import java.util.List;
 
-import org.uva.jomi.ql.ast.expressions.Expr;
+import org.uva.jomi.ql.ast.expressions.Expression;
 import org.uva.jomi.ui.elements.core.Panel;
 import org.uva.jomi.ui.interpreter.SymbolTableListener;
 import org.uva.jomi.ui.interpreter.ExpressionEvaluator;
@@ -13,9 +13,9 @@ import org.uva.jomi.ui.interpreter.value.GenericValue;
 
 public class ComputedQuestionElement extends QuestionElement implements SymbolTableListener {
 
-	private Expr expression;
+	private Expression expression;
 
-	public ComputedQuestionElement(String identifier, String question, String type, Expr expression) {
+	public ComputedQuestionElement(String identifier, String question, String type, Expression expression) {
 		super(identifier, question, type);
 		this.expression = expression;
 

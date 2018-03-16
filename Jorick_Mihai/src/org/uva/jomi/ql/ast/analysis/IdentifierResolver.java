@@ -7,7 +7,7 @@ import org.uva.jomi.ql.ast.expressions.*;
 import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.error.ErrorHandler;
 
-public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
+public class IdentifierResolver implements Expression.Visitor<Void>, Stmt.Visitor<Void> {
 
 	public final IdentifierStack identifierStack;
 	private final ErrorHandler errorHandler;
@@ -45,12 +45,12 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		return questions;
 	}
 	
-	public boolean findDuplicatedIdentifier(IdentifierExpr identifier) {
+	public boolean findDuplicatedIdentifier(IdentifierExpression identifier) {
 		if (identifierStack.isInCurrentScope(identifier.getName())) {
 			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared the current scope");
 			return true;
 		} else {
-			IdentifierExpr outsideIdentifier = identifierStack.getIdentifier(identifier.getName());
+			IdentifierExpression outsideIdentifier = identifierStack.getIdentifier(identifier.getName());
 			if (outsideIdentifier != null) {
 				if (outsideIdentifier.getType() != identifier.getType()) {
 					String error = String.format("Read-only identifier (line: %d, column: %d) with a different type is declared in an outside scope",
@@ -64,9 +64,9 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		return false;
 	}
 	
-	public void visitBinaryExpr(BinaryExpr expr) {
-		expr.visitLeftExpr(this);
-		expr.visitRightExpr(this);
+	public void visitBinaryExpr(BinaryExpression expr) {
+		expr.visitLeftExpression(this);
+		expr.visitRightExpression(this);
 	}
 
 	@Override
@@ -124,9 +124,9 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	}
 
 	@Override
-	public Void visit(IdentifierExpr identifier) {
+	public Void visit(IdentifierExpression identifier) {
 		// Search the identifier
-		IdentifierExpr retrievedIdentifier = identifierStack.getIdentifier(identifier.getName());
+		IdentifierExpression retrievedIdentifier = identifierStack.getIdentifier(identifier.getName());
 		
 		if (retrievedIdentifier != null) {
 			identifier.updateAllFields(retrievedIdentifier);
@@ -138,101 +138,101 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	}
 
 	@Override
-	public Void visit(GroupingExpr expr) {
-		expr.visitInnerExpr(this);
+	public Void visit(GroupingExpression expr) {
+		expr.visitInnerExpression(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(AdditionExpr expr) {
+	public Void visit(AdditionExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(SubtractionExpr expr) {
+	public Void visit(SubtractionExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(MultiplicationExpr expr) {
+	public Void visit(MultiplicationExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(DivisionExpr expr) {
+	public Void visit(DivisionExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(LessThanExpr expr) {
+	public Void visit(LessThanExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(LessThanOrEqualExpr expr) {
+	public Void visit(LessThanOrEqualExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(GreaterThanExpr expr) {
+	public Void visit(GreaterThanExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(GreaterThanOrEqualExpr expr) {
+	public Void visit(GreaterThanOrEqualExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(NotEqualExpr expr) {
+	public Void visit(NotEqualExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(EqualExpr expr) {
+	public Void visit(EqualExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(AndExpr expr) {
+	public Void visit(AndExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(OrExpr expr) {
+	public Void visit(OrExpression expr) {
 		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(UnaryNotExpr expr) {
-		expr.visitRightExpr(this);
+	public Void visit(UnaryNotExpression expr) {
+		expr.visitRightExpression(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IntegerExpr expr) {
+	public Void visit(IntegerExpression expr) {
 		return null;
 	}
 
 	@Override
-	public Void visit(StringExpr expr) {
+	public Void visit(StringExpression expr) {
 		return null;
 	}
 
 	@Override
-	public Void visit(BooleanExpr expr) {
+	public Void visit(BooleanExpression expr) {
 		return null;
 	}
 }

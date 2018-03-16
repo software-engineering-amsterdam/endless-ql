@@ -1,15 +1,15 @@
 package org.uva.jomi.ql.ast.statements;
 
 import org.uva.jomi.ql.ast.QLType;
-import org.uva.jomi.ql.ast.expressions.Expr;
-import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.Expression;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
 
 public class QuestionStmt extends Stmt {
-	private final IdentifierExpr identifier;
+	private final IdentifierExpression identifier;
 	private final String label;
 	private final QLType type;
 
-	public QuestionStmt(IdentifierExpr identifier, String label, QLType type) {
+	public QuestionStmt(IdentifierExpression identifier, String label, QLType type) {
 		this.identifier = identifier;
 		this.label = label;
 		this.type = type;
@@ -23,12 +23,12 @@ public class QuestionStmt extends Stmt {
 		return this.type;
 	}
 
-	public IdentifierExpr getIdentifier() {
+	public IdentifierExpression getIdentifier() {
 		return this.identifier;
 	}
 	
 	public int getIdentifierId() {
-		return this.identifier.getId();
+		return this.identifier.getNodeId();
 	}
 	
 	public String getName() {
@@ -42,7 +42,7 @@ public class QuestionStmt extends Stmt {
 		return this.identifier.getColumnNumber();
 	}
 	
-	public <T> T visitIdentifierExpr(Expr.Visitor<T> visitor) {
+	public <T> T visitIdentifierExpr(Expression.Visitor<T> visitor) {
 		return this.identifier.accept(visitor);
 	}
 

@@ -3,11 +3,11 @@ package org.uva.jomi.ql.ast.expressions;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 
-public abstract class UnaryExpr extends Expr {
+public abstract class UnaryExpression extends Expression {
 	private final QLToken operator;
-	private final Expr right;
+	private final Expression right;
 	
-	public UnaryExpr(QLToken operator, Expr right) {
+	public UnaryExpression(QLToken operator, Expression right) {
 		this.operator = operator;
 		this.right = right;
 	}
@@ -20,15 +20,15 @@ public abstract class UnaryExpr extends Expr {
 		return this.operator.getLexeme();
 	}
 
-	public Expr getRightExpr() {
+	public Expression getRightExpression() {
 		return this.right;
 	}
 	
-	public QLType getRightExprType() {
+	public QLType getRightExpressionType() {
 		return this.right.getType();
 	}
 	
-	public <T> T visitRightExpr(Visitor<T> visitor) {
+	public <T> T visitRightExpression(Visitor<T> visitor) {
 		return this.right.accept(visitor);
 	}
 }

@@ -2,9 +2,9 @@ package org.uva.jomi.ql.ast.expressions;
 
 import org.uva.jomi.ql.ast.QLToken;
 
-public class EqualExpr extends BinaryExpr {
-	
-	public EqualExpr(Expr left, QLToken operator, Expr right) {
+public class MultiplicationExpression extends BinaryExpression {
+
+	public MultiplicationExpression(Expression left, QLToken operator, Expression right) {
 		super(left, operator, right);
 	}
 

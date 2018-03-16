@@ -6,11 +6,11 @@ import org.uva.jomi.ql.error.ErrorHandler;
 import org.uva.jomi.ql.parser.antlr.*;
 import org.uva.jomi.ql.parser.antlr.QLParser.ExpressionContext;
 
-public class ExprVisitor extends QLBaseVisitor<Expr> {
+public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 
 	private ErrorHandler errorHandler;
 
-	public ExprVisitor(boolean printErrors) {
+	public ExpressionVisitor(boolean printErrors) {
 		this.errorHandler = new ErrorHandler(this.getClass().getSimpleName(), printErrors);
 	}
 
@@ -19,7 +19,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	}
 
 	// Sets the line and column number of an expression based on a ANTLR expression context.
-	public void setPosition(Expr expression, ExpressionContext context) {
+	public void setPosition(Expression expression, ExpressionContext context) {
 		int line = context.getStart().getLine();
 		int column = context.getStart().getCharPositionInLine();
 		expression.setLineNumber(line);
@@ -27,33 +27,33 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	}
 
 	// Builds an Identifier expression using the parser context.
-	@Override public Expr visitIdentifierExpr(QLParser.IdentifierExprContext ctx) {
+	@Override public Expression visitIdentifierExpr(QLParser.IdentifierExprContext ctx) {
 		QLToken token = new QLToken(ctx.IDENTIFIER().getSymbol());
-			return new IdentifierExpr(token);
+			return new IdentifierExpression(token);
 	}
 
 	// Builds a Boolean expression using the parser context.
-	@Override public Expr visitBooleanExpr(QLParser.BooleanExprContext ctx) {
+	@Override public Expression visitBooleanExpr(QLParser.BooleanExprContext ctx) {
 		QLToken token = new QLToken(ctx.BOOLEAN().getSymbol());
-		return new BooleanExpr(token, QLType.BOOLEAN);
+		return new BooleanExpression(token, QLType.BOOLEAN);
 	}
 
 	// Builds a String expression using the parser context.
-	@Override public Expr visitStringExpr(QLParser.StringExprContext ctx) {
+	@Override public Expression visitStringExpr(QLParser.StringExprContext ctx) {
 		QLToken token = new QLToken(ctx.LABEL().getSymbol());
-		return new StringExpr(token, QLType.STRING);
+		return new StringExpression(token, QLType.STRING);
 	}
 
 	// Builds an Integer expression using the parser context.
-	@Override public Expr visitIntegerExpr(QLParser.IntegerExprContext ctx) {
+	@Override public Expression visitIntegerExpr(QLParser.IntegerExprContext ctx) {
 		QLToken token = new QLToken(ctx.INTEGER().getSymbol());
-		return new IntegerExpr(token, QLType.INTEGER);
+		return new IntegerExpression(token, QLType.INTEGER);
 	}
 
 	// Builds an And expression using the parser context.
-	@Override public Expr visitAndExpr(QLParser.AndExprContext ctx) {
-		Expr left = ctx.left.accept(this);
-		Expr right = ctx.right.accept(this);
+	@Override public Expression visitAndExpr(QLParser.AndExprContext ctx) {
+		Expression left = ctx.left.accept(this);
+		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
 
 		setPosition(left, ctx.left);
@@ -61,7 +61,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 		switch (ctx.operator.getType()) {
 		case QLParser.AND:
-			return new AndExpr(left, operator, right);
+			return new AndExpression(left, operator, right);
 		default:
 			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in And expression: ");
 			return null;
@@ -69,9 +69,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	}
 
 	// Builds an Or expression using the parser context.
-	@Override public Expr visitOrExpr(QLParser.OrExprContext ctx) {
-		Expr left = ctx.left.accept(this);
-		Expr right = ctx.right.accept(this);
+	@Override public Expression visitOrExpr(QLParser.OrExprContext ctx) {
+		Expression left = ctx.left.accept(this);
+		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
 
 		setPosition(left, ctx.left);
@@ -79,7 +79,7 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 		switch (ctx.operator.getType()) {
 		case QLParser.OR:
-			return new OrExpr(left, operator, right);
+			return new OrExpression(left, operator, right);
 		default:
 			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in Or expression: ");
 			return null;
@@ -87,9 +87,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	}
 
 	// Builds an Addition expression using the parser context.
-	@Override public Expr visitAdditionOrSubtractionExpr(QLParser.AdditionOrSubtractionExprContext ctx) {
-		Expr left = ctx.left.accept(this);
-		Expr right = ctx.right.accept(this);
+	@Override public Expression visitAdditionOrSubtractionExpr(QLParser.AdditionOrSubtractionExprContext ctx) {
+		Expression left = ctx.left.accept(this);
+		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
 
 		setPosition(left, ctx.left);
@@ -97,9 +97,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 		switch (ctx.operator.getType()) {
 		case QLParser.PLUS:
-			return new AdditionExpr(left, operator, right);
+			return new AdditionExpression(left, operator, right);
 		case QLParser.MINUS:
-			return new SubtractionExpr(left, operator, right);
+			return new SubtractionExpression(left, operator, right);
 		default:
 			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in AdditionOrSubtraction expression: ");
 			return null;
@@ -107,9 +107,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	}
 
 	// Builds an Equality expression using the parser context.
-	@Override public Expr visitEqualityExpr(QLParser.EqualityExprContext ctx) {
-		Expr left = ctx.left.accept(this);
-		Expr right = ctx.right.accept(this);
+	@Override public Expression visitEqualityExpr(QLParser.EqualityExprContext ctx) {
+		Expression left = ctx.left.accept(this);
+		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
 
 		setPosition(left, ctx.left);
@@ -117,9 +117,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 		switch (ctx.operator.getType()) {
 		case QLParser.EQUAL_EQUAL:
-			return new EqualExpr(left, operator, right);
+			return new EqualExpression(left, operator, right);
 		case QLParser.BANG_EQUAL:
-			return new NotEqualExpr(left, operator, right);
+			return new NotEqualExpression(left, operator, right);
 		default:
 			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in Equality expression: ");
 			return null;
@@ -127,9 +127,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	}
 
 	// Builds a Comparison expression using the parser context.
-	@Override public Expr visitComparisonExpr(QLParser.ComparisonExprContext ctx) {
-		Expr left = ctx.left.accept(this);
-		Expr right = ctx.right.accept(this);
+	@Override public Expression visitComparisonExpr(QLParser.ComparisonExprContext ctx) {
+		Expression left = ctx.left.accept(this);
+		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
 
 		setPosition(left, ctx.left);
@@ -137,13 +137,13 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 		switch (ctx.operator.getType()) {
 		case QLParser.GREATER:
-			return new GreaterThanExpr(left, operator, right);
+			return new GreaterThanExpression(left, operator, right);
 		case QLParser.GREATER_EQUAL:
-			return new GreaterThanOrEqualExpr(left, operator, right);
+			return new GreaterThanOrEqualExpression(left, operator, right);
 		case QLParser.LESS:
-			return new LessThanExpr(left, operator, right);
+			return new LessThanExpression(left, operator, right);
 		case QLParser.LESS_EQUAL:
-			return new LessThanOrEqualExpr(left, operator, right);
+			return new LessThanOrEqualExpression(left, operator, right);
 		default:
 			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in Comparison expression: ");
 			return null;
@@ -151,9 +151,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	}
 
 	// Builds a Multiplication expression using the parser context.
-	@Override public Expr visitMultiplicationOrDivisionExpr(QLParser.MultiplicationOrDivisionExprContext ctx) {
-		Expr left = ctx.left.accept(this);
-		Expr right = ctx.right.accept(this);
+	@Override public Expression visitMultiplicationOrDivisionExpr(QLParser.MultiplicationOrDivisionExprContext ctx) {
+		Expression left = ctx.left.accept(this);
+		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
 
 		setPosition(left, ctx.left);
@@ -161,9 +161,9 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 
 		switch (ctx.operator.getType()) {
 		case QLParser.STAR:
-			return new MultiplicationExpr(left, operator, right);
+			return new MultiplicationExpression(left, operator, right);
 		case QLParser.SLASH:
-			return new DivisionExpr(left, operator, right);
+			return new DivisionExpression(left, operator, right);
 		default:
 			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in MultiplicationOrDivision expression: ");
 			return null;
@@ -171,24 +171,24 @@ public class ExprVisitor extends QLBaseVisitor<Expr> {
 	}
 
 	// Builds a Grouping expression using the parser context.
-	@Override public Expr visitGroupingExpr(QLParser.GroupingExprContext ctx) {
-		Expr expression = ctx.expression().accept(this);
+	@Override public Expression visitGroupingExpr(QLParser.GroupingExprContext ctx) {
+		Expression expression = ctx.expression().accept(this);
 
 		setPosition(expression, ctx.expression());
 
-		return new GroupingExpr(expression);
+		return new GroupingExpression(expression);
 	}
 
 	// Builds an Unary expression using the parser context.
-	@Override public Expr visitUnaryExpr(QLParser.UnaryExprContext ctx) {
-		Expr right = ctx.expression().accept(this);
+	@Override public Expression visitUnaryExpr(QLParser.UnaryExprContext ctx) {
+		Expression right = ctx.expression().accept(this);
 		QLToken operator = new QLToken(ctx.operator);
 
 		setPosition(right, ctx.expression());
 
 		switch (ctx.operator.getType()) {
 		case QLParser.BANG:
-			return new UnaryNotExpr(operator, right);
+			return new UnaryNotExpression(operator, right);
 
 		default:
 			errorHandler.addIdentifierError(new QLToken(ctx.operator), "Illegal oprator found in Unary expression: ");

@@ -7,7 +7,7 @@ import org.uva.jomi.ql.ast.expressions.*;
 import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.error.ErrorHandler;
 
-public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
+public class TypeResolver implements Expression.Visitor<QLType>, Stmt.Visitor<Void> {
 
 	private final ErrorHandler errorHandler;
 
@@ -30,16 +30,16 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 		return errorHandler.getErrorAtIndex(index);
 	}
 
-	public boolean binaryExprHasEqualTypes(BinaryExpr expr) {
-		if (expr.getLeftExprType() != expr.getRightExprType()) {
-			this.errorHandler.addTypeError(expr.getLeftExpr(), expr.getOperator(), expr.getRightExpr());
+	public boolean binaryExprHasEqualTypes(BinaryExpression expr) {
+		if (expr.getLeftExpressionType() != expr.getRightExpressionType()) {
+			this.errorHandler.addTypeError(expr.getLeftExpression(), expr.getOperator(), expr.getRightExpression());
 			return false;
 		}
 
 		return true;
 	}
 
-	public boolean exprHasAllowedType(Expr expr, QLType ... allowedTypes) {
+	public boolean exprHasAllowedType(Expression expr, QLType ... allowedTypes) {
 
 		// Check whether the expression an allowed type.
 		if (!Arrays.asList(allowedTypes).contains(expr.getType())) {
@@ -50,18 +50,18 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 		return true;
 	}
 
-	public QLType resolveBinaryExpr(BinaryExpr expr, QLType[] validTypes) {
-		if (expr.getLeftExprType() == null) {
-			expr.visitLeftExpr(this);
+	public QLType resolveBinaryExpr(BinaryExpression expr, QLType[] validTypes) {
+		if (expr.getLeftExpressionType() == null) {
+			expr.visitLeftExpression(this);
 		}
 
-		if (expr.getRightExprType() == null) {
-			expr.visitRightExpr(this);
+		if (expr.getRightExpressionType() == null) {
+			expr.visitRightExpression(this);
 		}
 
 		if (binaryExprHasEqualTypes(expr)) {
-			if (exprHasAllowedType(expr.getLeftExpr(), validTypes)) {
-				expr.setType(expr.getLeftExprType());
+			if (exprHasAllowedType(expr.getLeftExpression(), validTypes)) {
+				expr.setType(expr.getLeftExpressionType());
 			} else {
 				expr.setType(QLType.UNKNOWN);
 			}
@@ -126,11 +126,11 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(UnaryNotExpr expr) {
-		QLType expressionType = expr.visitRightExpr(this);
+	public QLType visit(UnaryNotExpression expr) {
+		QLType expressionType = expr.visitRightExpression(this);
 
 		if (expressionType != QLType.BOOLEAN) {
-			this.errorHandler.addTypeError(expr.getRightExpr(), QLType.BOOLEAN);
+			this.errorHandler.addTypeError(expr.getRightExpression(), QLType.BOOLEAN);
 		}
 
 		expr.setType(expressionType);
@@ -139,14 +139,14 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(GroupingExpr expr) {
-		QLType innerExpressionType = expr.visitInnerExpr(this);
+	public QLType visit(GroupingExpression expr) {
+		QLType innerExpressionType = expr.visitInnerExpression(this);
 		expr.setType(innerExpressionType);
-		return expr.visitInnerExpr(this);
+		return expr.visitInnerExpression(this);
 	}
 
 	@Override
-	public QLType visit(IdentifierExpr expr) {
+	public QLType visit(IdentifierExpression expr) {
 		if (expr.getType() == null) {
 			return QLType.UNKNOWN;
 		} else {
@@ -156,35 +156,35 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(AdditionExpr expr) {
+	public QLType visit(AdditionExpression expr) {
 		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
 		return expr.getType();
 	}
 
 	@Override
-	public QLType visit(SubtractionExpr expr) {
+	public QLType visit(SubtractionExpression expr) {
 		QLType[] validTypes = { QLType.INTEGER };
 		resolveBinaryExpr(expr, validTypes);
 		return expr.getType();
 	}
 
 	@Override
-	public QLType visit(MultiplicationExpr expr) {
+	public QLType visit(MultiplicationExpression expr) {
 		QLType[] validTypes = { QLType.INTEGER };
 		resolveBinaryExpr(expr, validTypes);
 		return expr.getType();
 	}
 
 	@Override
-	public QLType visit(DivisionExpr expr) {
+	public QLType visit(DivisionExpression expr) {
 		QLType[] validTypes = { QLType.INTEGER };
 		resolveBinaryExpr(expr, validTypes);
 		return expr.getType();
 	}
 
 	@Override
-	public QLType visit(LessThanExpr expr) {
+	public QLType visit(LessThanExpression expr) {
 		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
 
@@ -194,7 +194,7 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(LessThanOrEqualExpr expr) {
+	public QLType visit(LessThanOrEqualExpression expr) {
 		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
 
@@ -204,7 +204,7 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(GreaterThanExpr expr) {
+	public QLType visit(GreaterThanExpression expr) {
 		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
 
@@ -214,7 +214,7 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(GreaterThanOrEqualExpr expr) {
+	public QLType visit(GreaterThanOrEqualExpression expr) {
 		QLType[] validTypes = { QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
 
@@ -224,7 +224,7 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(NotEqualExpr expr) {
+	public QLType visit(NotEqualExpression expr) {
 		QLType[] validTypes = { QLType.BOOLEAN, QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
 
@@ -234,7 +234,7 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(EqualExpr expr) {
+	public QLType visit(EqualExpression expr) {
 		QLType[] validTypes = { QLType.BOOLEAN, QLType.INTEGER, QLType.STRING };
 		resolveBinaryExpr(expr, validTypes);
 
@@ -244,7 +244,7 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(AndExpr expr) {
+	public QLType visit(AndExpression expr) {
 		QLType[] validTypes = { QLType.BOOLEAN };
 		resolveBinaryExpr(expr, validTypes);
 
@@ -254,7 +254,7 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(OrExpr expr) {
+	public QLType visit(OrExpression expr) {
 		QLType[] validTypes = { QLType.BOOLEAN };
 		resolveBinaryExpr(expr, validTypes);
 
@@ -264,17 +264,17 @@ public class TypeResolver implements Expr.Visitor<QLType>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public QLType visit(IntegerExpr expr) {
+	public QLType visit(IntegerExpression expr) {
 		return expr.getType();
 	}
 
 	@Override
-	public QLType visit(StringExpr expr) {
+	public QLType visit(StringExpression expr) {
 		return expr.getType();
 	}
 
 	@Override
-	public QLType visit(BooleanExpr expr) {
+	public QLType visit(BooleanExpression expr) {
 		return expr.getType();
 	}
 }

@@ -3,12 +3,12 @@ package org.uva.jomi.ql.ast.expressions;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 
-public abstract class BinaryExpr extends Expr {
-	private final Expr left;
+public abstract class BinaryExpression extends Expression {
+	private final Expression left;
 	private final QLToken operator;
-	private final Expr right;
+	private final Expression right;
 	
-	public BinaryExpr(Expr left, QLToken operator, Expr right) {
+	public BinaryExpression(Expression left, QLToken operator, Expression right) {
 		this.left = left;
 		this.operator = operator;
 		this.right = right;
@@ -18,27 +18,27 @@ public abstract class BinaryExpr extends Expr {
 		this.setColumnNumber(left.getColumnNumber());
 	}
 	
-	public Expr getLeftExpr() {
+	public Expression getLeftExpression() {
 		return left;
 	}
 	
-	public QLType getLeftExprType() {
+	public QLType getLeftExpressionType() {
 		return left.getType();
 	}
 	
-	public void setLeftExprType(QLType type) {
+	public void setLeftExpressionType(QLType type) {
 		left.setType(type);
 	}
 	
-	public Expr getRightExpr() {
+	public Expression getRightExpression() {
 		return right;
 	}
 	
-	public QLType getRightExprType() {
+	public QLType getRightExpressionType() {
 		return right.getType();
 	}
 	
-	public void setRightExprType(QLType type) {
+	public void setRightExpressionType(QLType type) {
 		right.setType(type);
 	}
 
@@ -50,19 +50,19 @@ public abstract class BinaryExpr extends Expr {
 		return operator.getLexeme();
 	}
 	
-	public <T> T visitLeftExpr(Visitor<T> visitor) {
+	public <T> T visitLeftExpression(Visitor<T> visitor) {
 		return this.left.accept(visitor);
 	}
 	
-	public <T> T visitRightExpr(Visitor<T> visitor) {
+	public <T> T visitRightExpression(Visitor<T> visitor) {
 		return this.right.accept(visitor);
 	}
 	
-	public int getLeftExprId() {
-		return this.left.getId();
+	public int getLeftExpressionId() {
+		return this.left.getNodeId();
 	}
 	
-	public int getRightExprId() {
-		return this.right.getId();
+	public int getRightExpressionId() {
+		return this.right.getNodeId();
 	}
 }

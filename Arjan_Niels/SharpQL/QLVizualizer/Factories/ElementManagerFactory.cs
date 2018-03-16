@@ -42,7 +42,7 @@ namespace QLVisualizer.Factories
                     ExpressionBool newCondition = expressionFactory.GetCondition(node as ConditionalNode);
 
                     newCondition = (condition == null) ? newCondition : condition.Combine(newCondition, ExpressionOperator.And) as ExpressionBool;
-                    
+
                     // Add children with new condition
                     parent.AddChildren(node.Children.Select(o => ParseChildNode(o, elementManagerController, parent, newCondition)).Where(o => o != null));
 
@@ -108,7 +108,13 @@ namespace QLVisualizer.Factories
             throw new NotImplementedException();
         }
 
-
+        /// <summary>
+        /// Adds QLS to a form
+        /// </summary>
+        /// <param name="formManager">Target form</param>
+        /// <param name="qLSNode">Styling for the form</param>
+        /// <param name="controller">Controller for object creation</param>
+        /// <returns>Styled form</returns>
         public static FormManager ApplyQLS(FormManager formManager, QLSNode qLSNode, ElementManagerController controller)
         {
             if (formManager.Identifier != qLSNode.ID)
@@ -117,13 +123,23 @@ namespace QLVisualizer.Factories
             return ReconstructElementCollection(formManager, ref children, qLSNode.Children, controller) as FormManager;
         }
 
+        /// <summary>
+        /// Creates the elementManager style as provided by the QLS node by inserting
+        /// the manager objects provided by the QLS and insterts the given children into 
+        /// the tree on the positions defined in the QLS
+        /// </summary>
+        /// <param name="collection">Collection element to be reconstructed</param>
+        /// <param name="children">Children that can occur as a child of the collection element</param>
+        /// <param name="qlsChildren">Children of the QLS node that mached the collection node</param>
+        /// <param name="controller">ElementManagerController for element creation</param>
+        /// <returns>Element manager collection that contains all QLS defined children</returns>
         private static ElementManagerCollection ReconstructElementCollection(ElementManagerCollection collection, ref List<ElementManagerLeaf> children, IList<QLSNode> qlsChildren, ElementManagerController controller)
         {
             collection.Children.Clear();
 
-            foreach(QLSNode node in qlsChildren)
+            foreach (QLSNode node in qlsChildren)
             {
-                switch(node.NodeType)
+                switch (node.NodeType)
                 {
                     case QLSNodeType.Page:
                     case QLSNodeType.Section:
@@ -132,52 +148,48 @@ namespace QLVisualizer.Factories
                         collection.AddChild(collectionChild);
                         break;
                     case QLSNodeType.Question:
-                        ElementManagerLeaf child;
-                        try {
-                            child = children.Where(o => o.Identifier == node.ID).First() as ElementManagerLeaf;
-                        } catch
-                        {
-                            throw new InvalidOperationException(string.Format("Identifier: {0}, used in QLS, not found in QL!", node.ID));
-                        }
+                        IEnumerable<ElementManagerLeaf> foundMatches = children.Where(o => o.Identifier == node.ID).Select(o => o as ElementManagerLeaf);
+                        if(foundMatches.Count() != 1)
+                            throw new InvalidOperationException(string.Format("Identifier: {0}, used in QLS, was found {1} times in QL!", node.ID, foundMatches.Count()));
+
+                        ElementManagerLeaf child = foundMatches.First();
                         children.Remove(child);
                         collection.AddChild(QLSToLeaf(node, child));
                         break;
-                        }
+                }
             }
             return collection;
         }
 
+        /// <summary>
+        /// Sets style of a specific element manager leaf
+        /// </summary>
+        /// <param name="node">QLS instructions</param>
+        /// <param name="leaf">ElementManagerLeaf to apply style to</param>
+        /// <returns>Styled element manager leaf</returns>
         private static ElementManagerLeaf QLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
         {
             return leaf;
         }
 
+        /// <summary>
+        /// Creates a ElementManagerCollection that is defined in a QLS node
+        /// </summary>
+        /// <param name="qlsNode">QLS instructions</param>
+        /// <param name="parent">Parent object of the new collection</param>
+        /// <param name="controller">ElementManagerController for object creation</param>
+        /// <returns>ElementManagerCollection as defined by the QLS</returns>
         private static ElementManagerCollection QLSToCollection(QLSNode qlsNode, ElementManager parent, ElementManagerController controller)
         {
-            switch(qlsNode.NodeType)
+            switch (qlsNode.NodeType)
             {
                 case QLSNodeType.Page:
                     return new PageManager(qlsNode.ID, qlsNode.ID, parent, controller);
                 case QLSNodeType.Section:
                     return new SectionManager(qlsNode.ID, qlsNode.ID, parent, controller);
-               
+
             }
             throw new NotImplementedException();
         }
-        /*
-        private static ElementManager ApplyQls(ElementManager elementManager, QLSNode qLSNode)
-        {
-            
-
-
-            switch (elementManager)
-            {
-                case ElementManagerCollection collection:
-
-                    break;
-                case ElementManagerLeaf leaf:
-                    break;
-            }
-        }*/
     }
 }

@@ -4,12 +4,12 @@ import org.uva.jomi.ql.ast.QLType;
 import org.uva.jomi.ql.ast.expressions.Expression;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
 
-public class QuestionStmt extends Stmt {
+public class QuestionStatement extends Statement {
 	private final IdentifierExpression identifier;
 	private final String label;
 	private final QLType type;
 
-	public QuestionStmt(IdentifierExpression identifier, String label, QLType type) {
+	public QuestionStatement(IdentifierExpression identifier, String label, QLType type) {
 		this.identifier = identifier;
 		this.label = label;
 		this.type = type;

@@ -4,36 +4,36 @@ import org.uva.jomi.ql.ast.QLType;
 import org.uva.jomi.ql.ast.expressions.Expression;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
 
-public class ComputedQuestionStmt extends QuestionStmt {
+public class ComputedQuestionStatement extends QuestionStatement {
 
 	private final Expression expression;
 	
-	public ComputedQuestionStmt(IdentifierExpression identifier, String label, QLType type, Expression expression) {
+	public ComputedQuestionStatement(IdentifierExpression identifier, String label, QLType type, Expression expression) {
 		super(identifier, label, type);
 		this.expression = expression;
 	}
 	
-	public Expression getExp() {
+	public Expression getExpression() {
 		return expression;
 	}
 	
-	public int getExpId() {
+	public int getExpressionId() {
 		return expression.getNodeId();
 	}
 	
-	public QLType getExprType() {
+	public QLType getExpressionType() {
 		return expression.getType();
 	}
 	
-	public int getExprLineNumber() {
+	public int getExpressionLineNumber() {
 		return this.expression.getLineNumber();
 	}
 
-	public int getExprColumnNumber() {
+	public int getExpressionColumnNumber() {
 		return this.expression.getColumnNumber();
 	}
 	
-	public <T> T visitExpr(Expression.Visitor<T> visitor) {
+	public <T> T visitExpression(Expression.Visitor<T> visitor) {
 		return this.expression.accept(visitor);
 	}
 

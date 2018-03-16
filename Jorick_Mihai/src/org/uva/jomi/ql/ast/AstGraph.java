@@ -23,20 +23,20 @@ import org.uva.jomi.ql.ast.expressions.PrimaryExpression;
 import org.uva.jomi.ql.ast.expressions.StringExpression;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpression;
 import org.uva.jomi.ql.ast.expressions.UnaryNotExpression;
-import org.uva.jomi.ql.ast.statements.BlockStmt;
-import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.FormStmt;
-import org.uva.jomi.ql.ast.statements.IfElseStmt;
-import org.uva.jomi.ql.ast.statements.IfStmt;
-import org.uva.jomi.ql.ast.statements.QuestionStmt;
-import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.statements.BlockStatement;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStatement;
+import org.uva.jomi.ql.ast.statements.FormStatement;
+import org.uva.jomi.ql.ast.statements.IfElseStatement;
+import org.uva.jomi.ql.ast.statements.IfStatement;
+import org.uva.jomi.ql.ast.statements.QuestionStatement;
+import org.uva.jomi.ql.ast.statements.Statement;
 
-public class AstGraph implements Stmt.Visitor<String>, Expression.Visitor<String> {
+public class AstGraph implements Statement.Visitor<String>, Expression.Visitor<String> {
 
-	public String getGraph(List<Stmt> statements) {
+	public String getGraph(List<Statement> statements) {
 		String header = "digraph G {\n" + "  node [shape=\"box\"]\n";
 		
-		for (Stmt statement : statements) {
+		for (Statement statement : statements) {
 			String result = statement.accept(this);
 			header += result;
 		}
@@ -70,19 +70,19 @@ public class AstGraph implements Stmt.Visitor<String>, Expression.Visitor<String
 	}
 
 	@Override
-	public String visit(FormStmt stmt) {
+	public String visit(FormStatement stmt) {
 		return stmt.visitBlockStmt(this) +
 				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getBlockStmtId()) +
 				stmt.visitIndetifierExpr(this) +
-				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIndetifierExprId()) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIndetifierExpressionId()) +
 				String.format("  %s [label=\"FormStmt\nName: %s\"]\n", stmt.getNodeId(), stmt.getIdentifierName());
 	}
 
 	@Override
-	public String visit(BlockStmt stmt) {
+	public String visit(BlockStatement stmt) {
 		String header = String.format("  %s [label=\"BlockStmt\"]\n", stmt.getNodeId());
 		
-		for (Stmt statement : stmt.getStatements()) {
+		for (Statement statement : stmt.getStatements()) {
 			header += String.format("  %s -> %s\n", stmt.getNodeId(), statement.getNodeId());
 			String result = statement.accept(this);
 			header += result;
@@ -92,7 +92,7 @@ public class AstGraph implements Stmt.Visitor<String>, Expression.Visitor<String
 	}
 
 	@Override
-	public String visit(QuestionStmt stmt) {
+	public String visit(QuestionStatement stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 			   stmt.getNodeId(),
 			   stmt.getName(),
@@ -106,15 +106,15 @@ public class AstGraph implements Stmt.Visitor<String>, Expression.Visitor<String
 	}
 	
 	@Override
-	public String visit(ComputedQuestionStmt stmt) {
+	public String visit(ComputedQuestionStatement stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
 				   stmt.getNodeId(),
 				   stmt.getName(),
 				   stmt.getType());
 
 		// Visit the expression statement
-		header += stmt.visitExpr(this);
-		header += String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getExpId());
+		header += stmt.visitExpression(this);
+		header += String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getExpressionId());
 
 		// Visit the identifier expression
 		header += stmt.visitIdentifierExpr(this);
@@ -131,22 +131,22 @@ public class AstGraph implements Stmt.Visitor<String>, Expression.Visitor<String
 	}
 
 	@Override
-	public String visit(IfStmt stmt) {
-		return stmt.visitExpr(this) +
-				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getExprId()) +
-				stmt.visitIfBlockStmt(this) +
-				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIfBlockStmtId()) +
+	public String visit(IfStatement stmt) {
+		return stmt.visitExpression(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getExpressionId()) +
+				stmt.visitIfBlockStatement(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIfBlockStatementId()) +
 				String.format("  %s [label=\"IfStmt\"]\n", stmt.getNodeId());
 	}
 
 	@Override
-	public String visit(IfElseStmt stmt) {
-		return stmt.visitExpr(this) +
-				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getExprId()) +
-				stmt.visitIfBlockStmt(this) +
-				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIfBlockStmtId()) +
-				stmt.visitElseBlockStmt(this) +
-				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getElseBlockStmtId()) +
+	public String visit(IfElseStatement stmt) {
+		return stmt.visitExpression(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getExpressionId()) +
+				stmt.visitIfBlockStatement(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIfBlockStatementId()) +
+				stmt.visitElseBlockStatement(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getElseBlockStatementId()) +
 				String.format("  %s [label=\"IfElseStmt\"]\n", stmt.getNodeId());
 	}
 

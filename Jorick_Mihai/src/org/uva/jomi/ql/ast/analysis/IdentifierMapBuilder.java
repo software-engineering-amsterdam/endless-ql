@@ -24,15 +24,15 @@ import org.uva.jomi.ql.ast.expressions.OrExpression;
 import org.uva.jomi.ql.ast.expressions.StringExpression;
 import org.uva.jomi.ql.ast.expressions.SubtractionExpression;
 import org.uva.jomi.ql.ast.expressions.UnaryNotExpression;
-import org.uva.jomi.ql.ast.statements.BlockStmt;
-import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.FormStmt;
-import org.uva.jomi.ql.ast.statements.IfElseStmt;
-import org.uva.jomi.ql.ast.statements.IfStmt;
-import org.uva.jomi.ql.ast.statements.QuestionStmt;
-import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.statements.BlockStatement;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStatement;
+import org.uva.jomi.ql.ast.statements.FormStatement;
+import org.uva.jomi.ql.ast.statements.IfElseStatement;
+import org.uva.jomi.ql.ast.statements.IfStatement;
+import org.uva.jomi.ql.ast.statements.QuestionStatement;
+import org.uva.jomi.ql.ast.statements.Statement;
 
-public class IdentifierMapBuilder implements Stmt.Visitor<Void>, Expression.Visitor<List<String>> {
+public class IdentifierMapBuilder implements Statement.Visitor<Void>, Expression.Visitor<List<String>> {
 	
 	private HashMap<String, List<String>> map;
 	
@@ -40,7 +40,7 @@ public class IdentifierMapBuilder implements Stmt.Visitor<Void>, Expression.Visi
 		this.map = new HashMap<>();
 	}
 	
-	public HashMap<String, List<String>> buildMap(List<Stmt> statements) {
+	public HashMap<String, List<String>> buildMap(List<Statement> statements) {
 		// Clear the contents of the map.
 		this.map.clear();
 		statements.forEach( statement -> statement.accept(this));
@@ -56,39 +56,39 @@ public class IdentifierMapBuilder implements Stmt.Visitor<Void>, Expression.Visi
 	}
 	
 	@Override
-	public Void visit(FormStmt stmt) {
+	public Void visit(FormStatement stmt) {
 		stmt.visitBlockStmt(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(BlockStmt stmt) {
+	public Void visit(BlockStatement stmt) {
 		stmt.getStatements().forEach( statement -> statement.accept(this));
 		return null;
 	}
 
 	@Override
-	public Void visit(QuestionStmt stmt) {
+	public Void visit(QuestionStatement stmt) {
 		this.map.put(stmt.getName(), new ArrayList<>());
 		return null;
 	}
 
 	@Override
-	public Void visit(ComputedQuestionStmt stmt) {
-		this.map.put(stmt.getName(), stmt.visitExpr(this));
+	public Void visit(ComputedQuestionStatement stmt) {
+		this.map.put(stmt.getName(), stmt.visitExpression(this));
 		return null;
 	}
 
 	@Override
-	public Void visit(IfStmt stmt) {
-		stmt.visitIfBlockStmt(this);
+	public Void visit(IfStatement stmt) {
+		stmt.visitIfBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfElseStmt stmt) {
-		stmt.visitIfBlockStmt(this);
-		stmt.visitElseBlockStmt(this);
+	public Void visit(IfElseStatement stmt) {
+		stmt.visitIfBlockStatement(this);
+		stmt.visitElseBlockStatement(this);
 		return null;
 	}
 

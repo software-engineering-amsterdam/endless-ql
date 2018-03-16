@@ -6,8 +6,8 @@ import java.util.Arrays;
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
 import org.uva.jomi.ql.ast.expressions.Expression;
-import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.IfStmt;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStatement;
+import org.uva.jomi.ql.ast.statements.IfStatement;
 
 public class ErrorHandler extends ErrorReporter<String> {
 
@@ -137,14 +137,14 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(ComputedQuestionStmt stmt) {
+	public void addTypeError(ComputedQuestionStatement stmt) {
 
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.getExprLineNumber(),
-				stmt.getExprColumnNumber(),
+				stmt.getExpressionLineNumber(),
+				stmt.getExpressionColumnNumber(),
 				stmt.getType(),
-				stmt.getExprType());
+				stmt.getExpressionType());
 
 		Error error = new TypeError(message);
 		this.addReport(error.toString());
@@ -152,14 +152,14 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(IfStmt stmt) {
+	public void addTypeError(IfStatement stmt) {
 
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.getExprLineNumber(),
-				stmt.getExprColumnNumber(),
+				stmt.getExpressionLineNumber(),
+				stmt.getExpressionColumnNumber(),
 				QLType.BOOLEAN,
-				stmt.getExprType());
+				stmt.getExpressionType());
 
 		Error error = new TypeError(message);
 		this.addReport(error.toString());

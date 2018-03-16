@@ -27,31 +27,31 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 	}
 
 	// Builds an Identifier expression using the parser context.
-	@Override public Expression visitIdentifierExpr(QLParser.IdentifierExprContext ctx) {
+	@Override public Expression visitIdentifierExpression(QLParser.IdentifierExpressionContext ctx) {
 		QLToken token = new QLToken(ctx.IDENTIFIER().getSymbol());
 			return new IdentifierExpression(token);
 	}
 
 	// Builds a Boolean expression using the parser context.
-	@Override public Expression visitBooleanExpr(QLParser.BooleanExprContext ctx) {
+	@Override public Expression visitBooleanExpression(QLParser.BooleanExpressionContext ctx) {
 		QLToken token = new QLToken(ctx.BOOLEAN().getSymbol());
 		return new BooleanExpression(token, QLType.BOOLEAN);
 	}
 
 	// Builds a String expression using the parser context.
-	@Override public Expression visitStringExpr(QLParser.StringExprContext ctx) {
+	@Override public Expression visitStringExpression(QLParser.StringExpressionContext ctx) {
 		QLToken token = new QLToken(ctx.LABEL().getSymbol());
 		return new StringExpression(token, QLType.STRING);
 	}
 
 	// Builds an Integer expression using the parser context.
-	@Override public Expression visitIntegerExpr(QLParser.IntegerExprContext ctx) {
+	@Override public Expression visitIntegerExpression(QLParser.IntegerExpressionContext ctx) {
 		QLToken token = new QLToken(ctx.INTEGER().getSymbol());
 		return new IntegerExpression(token, QLType.INTEGER);
 	}
 
 	// Builds an And expression using the parser context.
-	@Override public Expression visitAndExpr(QLParser.AndExprContext ctx) {
+	@Override public Expression visitAndExpression(QLParser.AndExpressionContext ctx) {
 		Expression left = ctx.left.accept(this);
 		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
@@ -69,7 +69,7 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 	}
 
 	// Builds an Or expression using the parser context.
-	@Override public Expression visitOrExpr(QLParser.OrExprContext ctx) {
+	@Override public Expression visitOrExpression(QLParser.OrExpressionContext ctx) {
 		Expression left = ctx.left.accept(this);
 		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
@@ -87,7 +87,7 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 	}
 
 	// Builds an Addition expression using the parser context.
-	@Override public Expression visitAdditionOrSubtractionExpr(QLParser.AdditionOrSubtractionExprContext ctx) {
+	@Override public Expression visitAdditionOrSubtractionExpression(QLParser.AdditionOrSubtractionExpressionContext ctx) {
 		Expression left = ctx.left.accept(this);
 		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
@@ -107,7 +107,7 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 	}
 
 	// Builds an Equality expression using the parser context.
-	@Override public Expression visitEqualityExpr(QLParser.EqualityExprContext ctx) {
+	@Override public Expression visitEqualityExpression(QLParser.EqualityExpressionContext ctx) {
 		Expression left = ctx.left.accept(this);
 		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
@@ -127,7 +127,7 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 	}
 
 	// Builds a Comparison expression using the parser context.
-	@Override public Expression visitComparisonExpr(QLParser.ComparisonExprContext ctx) {
+	@Override public Expression visitComparisonExpression(QLParser.ComparisonExpressionContext ctx) {
 		Expression left = ctx.left.accept(this);
 		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
@@ -151,7 +151,7 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 	}
 
 	// Builds a Multiplication expression using the parser context.
-	@Override public Expression visitMultiplicationOrDivisionExpr(QLParser.MultiplicationOrDivisionExprContext ctx) {
+	@Override public Expression visitMultiplicationOrDivisionExpression(QLParser.MultiplicationOrDivisionExpressionContext ctx) {
 		Expression left = ctx.left.accept(this);
 		Expression right = ctx.right.accept(this);
 		QLToken operator = new QLToken(ctx.operator);
@@ -171,7 +171,7 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 	}
 
 	// Builds a Grouping expression using the parser context.
-	@Override public Expression visitGroupingExpr(QLParser.GroupingExprContext ctx) {
+	@Override public Expression visitGroupingExpression(QLParser.GroupingExpressionContext ctx) {
 		Expression expression = ctx.expression().accept(this);
 
 		setPosition(expression, ctx.expression());
@@ -180,7 +180,7 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 	}
 
 	// Builds an Unary expression using the parser context.
-	@Override public Expression visitUnaryExpr(QLParser.UnaryExprContext ctx) {
+	@Override public Expression visitUnaryExpression(QLParser.UnaryExpressionContext ctx) {
 		Expression right = ctx.expression().accept(this);
 		QLToken operator = new QLToken(ctx.operator);
 

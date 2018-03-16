@@ -2,18 +2,18 @@ package org.uva.jomi.ql.ast.statements;
 
 import java.util.List;
 
-public class BlockStmt extends Stmt {
-	private final List<Stmt> statements;
+public class BlockStatement extends Statement {
+	private final List<Statement> statements;
 	
-	public BlockStmt(List<Stmt> statements) {
+	public BlockStatement(List<Statement> statements) {
 		this.statements = statements;
 	}
 
-	public List<Stmt> getStatements() {
+	public List<Statement> getStatements() {
 		return statements;
 	}
 	
-	public Stmt getStmtAtIndex(int index) {
+	public Statement getStatementAtIndex(int index) {
 		return this.statements.get(index);
 	}
 

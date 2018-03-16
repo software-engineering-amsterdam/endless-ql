@@ -3,13 +3,13 @@ package org.uva.jomi.ql.ast.statements;
 import org.uva.jomi.ql.ast.expressions.Expression;
 import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
 
-public class FormStmt extends Stmt {
+public class FormStatement extends Statement {
 	private final IdentifierExpression identifier;
-	private final BlockStmt blockStmt;
+	private final BlockStatement blockStmt;
 	
-	public FormStmt(IdentifierExpression identifier, BlockStmt blockStmt) {
+	public FormStatement(IdentifierExpression identifier, BlockStatement blockStatement) {
 		this.identifier = identifier;
-		this.blockStmt = blockStmt;
+		this.blockStmt = blockStatement;
 	}
 
 	public IdentifierExpression getIdentifier() {
@@ -20,11 +20,11 @@ public class FormStmt extends Stmt {
 		return this.identifier.getName();
 	}
 	
-	public int getIndetifierExprId() {
+	public int getIndetifierExpressionId() {
 		return this.identifier.getNodeId();
 	}
 
-	public BlockStmt getBlockStmt() {
+	public BlockStatement getBlockStmt() {
 		return this.blockStmt;
 	}
 	

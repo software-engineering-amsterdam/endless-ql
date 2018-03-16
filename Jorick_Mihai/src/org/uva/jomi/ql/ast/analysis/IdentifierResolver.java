@@ -7,7 +7,7 @@ import org.uva.jomi.ql.ast.expressions.*;
 import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.error.ErrorHandler;
 
-public class IdentifierResolver implements Expression.Visitor<Void>, Stmt.Visitor<Void> {
+public class IdentifierResolver implements Expression.Visitor<Void>, Statement.Visitor<Void> {
 
 	public final IdentifierStack identifierStack;
 	private final ErrorHandler errorHandler;
@@ -17,11 +17,11 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Stmt.Visito
 		this.errorHandler = new ErrorHandler(this.getClass().getSimpleName(), printErrors);
 	}
 
-	public void resolve(List<Stmt> statements) {
+	public void resolve(List<Statement> statements) {
 		// Clear previous errors first
 		errorHandler.clearErrors();
 		
-		for (Stmt statment : statements) {
+		for (Statement statment : statements) {
 			statment.accept(this);
 		}
 	}
@@ -36,11 +36,11 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Stmt.Visito
 	}
 	
 	// Return a list that contains only question statements
-	public List<QuestionStmt> filterQuestionStmt(List<Stmt> statements) {
-		List<QuestionStmt> questions = new ArrayList<>();
+	public List<QuestionStatement> filterQuestionStmt(List<Statement> statements) {
+		List<QuestionStatement> questions = new ArrayList<>();
 		
-		statements.stream().filter(questionStmt -> questionStmt instanceof QuestionStmt)
-		.forEach(question -> questions.add((QuestionStmt) question));
+		statements.stream().filter(questionStmt -> questionStmt instanceof QuestionStatement)
+		.forEach(question -> questions.add((QuestionStatement) question));
 		
 		return questions;
 	}
@@ -70,18 +70,18 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Stmt.Visito
 	}
 
 	@Override
-	public Void visit(FormStmt stmt) {
+	public Void visit(FormStatement stmt) {
 		stmt.visitBlockStmt(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(BlockStmt stmt) {
+	public Void visit(BlockStatement stmt) {
 		// Create a new scope for the block statement.
 		identifierStack.enterScope();
 		
 		// Make sure we add all the question identifiers to the stack before we visit each statement.
-		for (QuestionStmt question : filterQuestionStmt(stmt.getStatements())) {
+		for (QuestionStatement question : filterQuestionStmt(stmt.getStatements())) {
 			if (!findDuplicatedIdentifier(question.getIdentifier())) {
 				identifierStack.add(question.getIdentifier());
 			}
@@ -96,30 +96,30 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Stmt.Visito
 	}
 
 	@Override
-	public Void visit(QuestionStmt stmt) {
+	public Void visit(QuestionStatement stmt) {
 		return null;
 	}
 
 	@Override
-	public Void visit(ComputedQuestionStmt stmt) {
+	public Void visit(ComputedQuestionStatement stmt) {
 		
 		// Visit the expression.
-		stmt.visitExpr(this);
+		stmt.visitExpression(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfStmt stmt) {
-		stmt.visitExpr(this);
-		stmt.visitIfBlockStmt(this);
+	public Void visit(IfStatement stmt) {
+		stmt.visitExpression(this);
+		stmt.visitIfBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfElseStmt stmt) {
-		stmt.visitExpr(this);
-		stmt.visitIfBlockStmt(this);
-		stmt.visitElseBlockStmt(this);
+	public Void visit(IfElseStatement stmt) {
+		stmt.visitExpression(this);
+		stmt.visitIfBlockStatement(this);
+		stmt.visitElseBlockStatement(this);
 		return null;
 	}
 

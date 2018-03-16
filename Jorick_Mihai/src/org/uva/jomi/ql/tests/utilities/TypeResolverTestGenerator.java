@@ -3,7 +3,7 @@ package org.uva.jomi.ql.tests.utilities;
 import java.util.List;
 
 import org.uva.jomi.ql.ast.analysis.TypeResolver;
-import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.statements.Statement;
 
 public class TypeResolverTestGenerator {
 	
@@ -18,7 +18,7 @@ public class TypeResolverTestGenerator {
 	
 	public void generateTypeResolverTests() {
 		for (String testSource : testSources) {
-			List<Stmt> ast = TestUtilities.buildAst(testSource);
+			List<Statement> ast = TestUtilities.buildAst(testSource);
 			typeResolver.resolve(ast);
 			System.out.format("	String generatedSource%d = \"%s\";\n\n", testNumber, testSource.replaceAll("\"", "\\\\\""));
 			

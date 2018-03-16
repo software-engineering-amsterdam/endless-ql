@@ -7,7 +7,7 @@ import org.uva.jomi.ql.ast.expressions.*;
 import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.error.ErrorHandler;
 
-public class TypeResolver implements Expression.Visitor<QLType>, Stmt.Visitor<Void> {
+public class TypeResolver implements Expression.Visitor<QLType>, Statement.Visitor<Void> {
 
 	private final ErrorHandler errorHandler;
 
@@ -15,7 +15,7 @@ public class TypeResolver implements Expression.Visitor<QLType>, Stmt.Visitor<Vo
 		this.errorHandler = new ErrorHandler(this.getClass().getSimpleName(), printErrors);
 	}
 
-	public void resolve(List<Stmt> statements) {
+	public void resolve(List<Statement> statements) {
 		// Clear previous errors first
 		errorHandler.clearErrors();
 		statements.forEach( statement -> statement.accept(this));
@@ -73,26 +73,26 @@ public class TypeResolver implements Expression.Visitor<QLType>, Stmt.Visitor<Vo
 	}
 
 	@Override
-	public Void visit(FormStmt form) {
+	public Void visit(FormStatement form) {
 		form.visitBlockStmt(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(BlockStmt block) {
+	public Void visit(BlockStatement block) {
 		block.getStatements().forEach( statement -> statement.accept(this));
 		return null;
 	}
 
 	@Override
-	public Void visit(QuestionStmt stmt) {
+	public Void visit(QuestionStatement stmt) {
 		return null;
 	}
 
 	@Override
-	public Void visit(ComputedQuestionStmt stmt) {
+	public Void visit(ComputedQuestionStatement stmt) {
 
-		QLType expressionType = stmt.visitExpr(this);
+		QLType expressionType = stmt.visitExpression(this);
 		if (stmt.getType() != expressionType) {
 			this.errorHandler.addTypeError(stmt);
 		}
@@ -101,27 +101,27 @@ public class TypeResolver implements Expression.Visitor<QLType>, Stmt.Visitor<Vo
 	}
 
 	@Override
-	public Void visit(IfStmt stmt) {
-		stmt.visitExpr(this);
+	public Void visit(IfStatement stmt) {
+		stmt.visitExpression(this);
 
-		if (stmt.getExprType() != null && stmt.getExprType() != QLType.BOOLEAN) {
+		if (stmt.getExpressionType() != null && stmt.getExpressionType() != QLType.BOOLEAN) {
 			this.errorHandler.addTypeError(stmt);
 		}
 
-		stmt.visitIfBlockStmt(this);
+		stmt.visitIfBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfElseStmt stmt) {
-		stmt.visitExpr(this);
+	public Void visit(IfElseStatement stmt) {
+		stmt.visitExpression(this);
 
-		if (stmt.getExprType() != null && stmt.getExprType() != QLType.BOOLEAN) {
+		if (stmt.getExpressionType() != null && stmt.getExpressionType() != QLType.BOOLEAN) {
 			this.errorHandler.addTypeError(stmt);
 		}
 
-		stmt.visitIfBlockStmt(this);
-		stmt.visitElseBlockStmt(this);
+		stmt.visitIfBlockStatement(this);
+		stmt.visitElseBlockStatement(this);
 		return null;
 	}
 

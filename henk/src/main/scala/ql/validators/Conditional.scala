@@ -10,6 +10,22 @@ import scala.util.{Try, Success, Failure}
 case class ConditionalNotBoolean(label: String) extends Exception(label)
 
 object ConditionalValidator {
+  def check(ast: ASTNode): Option[Exception] = {
+    val ifStmts = ASTCollector.getIfStatement(ast)
+
+    ifStmts.forEach { stmt =>
+      {
+        val isValid = validateExpression(stmt.expression, ast)
+
+        if (!isValid) {
+          val message = "Expression in conditional has to evaluate to type Boolean"
+          return Some(new ConditionalNotBoolean(message))
+        }
+      }
+    }
+    None
+  }
+
   def validate(ast: ASTNode): Try[Boolean] = {
     val ifStmts = ASTCollector.getIfStatement(ast)
 

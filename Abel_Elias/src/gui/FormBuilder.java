@@ -1,17 +1,15 @@
 package gui;
 
 import classes.Question;
-import classes.expressions.Expression;
 import classes.values.BooleanValue;
 import classes.values.IntegerValue;
 import classes.values.StringValue;
 import classes.values.Value;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionPanelCheckBox;
-import gui.questions.QuestionPanelText;
 import gui.questions.QuestionPanelTextInt;
 import gui.questions.QuestionPanelTextString;
-import parsing.visitors.BaseVisitor;
+import parsing.visitors.refactor_tmp.BaseVisitor;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

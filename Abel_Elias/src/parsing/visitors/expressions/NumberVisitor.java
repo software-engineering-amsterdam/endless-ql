@@ -1,13 +1,13 @@
-package parsing.visitors.refactor_tmp;
+package parsing.visitors.expressions;
 
 import classes.Question;
 import classes.values.NumericValue;
+import parsing.gen.QLBaseVisitor;
 import parsing.gen.QLParser;
-import parsing.visitors.BaseVisitor;
 
 import java.util.HashMap;
 
-public class NumberVisitor extends BaseVisitor {
+public class NumberVisitor extends QLBaseVisitor {
     HashMap<String, Question> questionMap;
 
     public NumberVisitor(HashMap<String, Question> questionMap){
@@ -49,4 +49,18 @@ public class NumberVisitor extends BaseVisitor {
         return null;
     }
 
+    @Override
+    public Double visitIntValue(QLParser.IntValueContext ctx) {
+        return Double.parseDouble(ctx.getText());
+    }
+
+    @Override
+    public Double visitMoneyValue(QLParser.MoneyValueContext ctx) {
+        return Double.parseDouble(ctx.getText());
+    }
+
+    @Override
+    public Double visitDecValue(QLParser.DecValueContext ctx) {
+        return Double.parseDouble(ctx.getText());
+    }
 }

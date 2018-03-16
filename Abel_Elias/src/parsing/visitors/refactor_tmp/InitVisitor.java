@@ -4,23 +4,24 @@ import classes.Question;
 import parsing.checkers.TypeChecker;
 import parsing.checkers.VariableChecker;
 import parsing.gen.QLParser;
-import parsing.visitors.BaseVisitor;
 
-import java.util.HashMap;
-
-public class BooleanVisitor extends BaseVisitor {
-    HashMap<String, Question> questionMap;
-    NumberVisitor  numberVisitor;
-
-    public BooleanVisitor(HashMap<String, Question> questionMap, NumberVisitor  numberVisitor){
-        this.questionMap = questionMap;
-        this.numberVisitor = numberVisitor;
+public class InitVisitor extends BaseVisitor {
+    // Reads out the initial AST and returns the questions that were found
+    public InitVisitor(QLParser.FormContext ctx){
+        super(ctx);
+        visitForm(ctx);
     }
 
-    public Boolean visitBoolExpression(QLParser.BooleanExpressionContext ctx){
-        return (Boolean) visit(ctx);
+    @Override
+    public Object visitForm(QLParser.FormContext ctx) {
+        new VariableChecker(ctx);
+        new TypeChecker(ctx);
+        visit(ctx.block());
+
+        return questionMap;
     }
 
+    //BOOLEAN EXPRESSION VISITORS
     @Override
     public Boolean visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) {
         String id = ctx.getText();
@@ -59,22 +60,13 @@ public class BooleanVisitor extends BaseVisitor {
     }
 
     @Override
-    public Boolean visitCompOperation(QLParser.CompOperationContext ctx) {
-        double left = numberVisitor.visitNumberExpression(ctx.left);
-        String operator = ctx.comparisonOperator().getText();
-        double right = numberVisitor.visitNumberExpression(ctx.right);
+    public Object visitIfStatement(QLParser.IfStatementContext ctx) {
+        Boolean condition = (Boolean) visit(ctx.booleanExpression());
 
-        switch (operator) {
-            case "<":
-                return left < right;
-            case ">":
-                return left > right;
-            case "!=":
-                return left != right;
-            case "==":
-                return left == right;
+        if(condition){
+            visit(ctx.block());
         }
 
-        return null;
+        return questionMap;
     }
 }

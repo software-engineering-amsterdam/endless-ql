@@ -1,20 +1,20 @@
-package parsing.visitors.refactor_tmp;
+package parsing.visitors;
 
-import classes.CodeBlock;
 import classes.Question;
-import classes.values.*;
+import classes.values.Value;
 import parsing.gen.QLBaseVisitor;
 import parsing.gen.QLParser;
+import parsing.visitors.expressions.ExpressionVisitor;
 
 import java.util.HashMap;
 
-public class BlockVisitor extends QLBaseVisitor {
+public class UpdateVisitor extends QLBaseVisitor {
     private HashMap<String, Question> questionMap;
     private ExpressionVisitor expVisitor;
     private TypeVisitor typeVisitor;
     private boolean isVisible;
 
-    public BlockVisitor(HashMap<String, Question> questionMap, boolean isVisible){
+    public UpdateVisitor(HashMap<String, Question> questionMap, boolean isVisible){
         this.questionMap = questionMap;
         this.expVisitor = new ExpressionVisitor(questionMap);
         this.typeVisitor = new TypeVisitor();
@@ -24,11 +24,8 @@ public class BlockVisitor extends QLBaseVisitor {
     @Override
     public Object visitNormalQuestion(QLParser.NormalQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        String questionString = ctx.STR().getText();
-        Value value = typeVisitor.visitType(ctx.type());
-
-        Question question = new Question(questionString, value, false);
-        questionMap.put(id, question);
+        Question question = questionMap.get(id);
+        question.setVisibility(isVisible);
 
         return questionMap;
     }
@@ -36,13 +33,11 @@ public class BlockVisitor extends QLBaseVisitor {
     @Override
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        String questionString = ctx.STR().getText();
-        Value value = typeVisitor.visitType(ctx.type());
-        Object expression = expVisitor.visitExpression(ctx.expression());
-        value.setValueGeneric(expression);
+        Question question = questionMap.get(id);
+        question.setVisibility(isVisible);
 
-        Question question = new Question(questionString, value, true);
-        questionMap.put(id, question);
+        Object expression = expVisitor.visitExpression(ctx.expression());
+        question.getValue().setValueGeneric(expression);
 
         return questionMap;
     }
@@ -52,10 +47,10 @@ public class BlockVisitor extends QLBaseVisitor {
         Boolean condition = expVisitor.visitBoolExpression(ctx.booleanExpression());
         QLParser.BlockContext block = ctx.block();
 
-        if(condition){
-            new BlockVisitor(questionMap, isVisible && condition).visitBlock(block);
+        if(isVisible && condition){
+            new UpdateVisitor(questionMap, true).visitBlock(block);
         }else{
-            new BlockVisitor(questionMap, false).visitBlock(block);
+            new UpdateVisitor(questionMap, false).visitBlock(block);
         }
 
         return questionMap;

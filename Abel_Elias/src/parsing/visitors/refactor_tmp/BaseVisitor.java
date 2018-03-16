@@ -1,13 +1,10 @@
-package parsing.visitors;
+package parsing.visitors.refactor_tmp;
 
 import classes.*;
 
 import classes.values.*;
-import parsing.checkers.TypeChecker;
-import parsing.checkers.VariableChecker;
 import parsing.gen.*;
 
-import java.util.Date;
 import java.util.HashMap;
 
 public class BaseVisitor extends QLBaseVisitor {

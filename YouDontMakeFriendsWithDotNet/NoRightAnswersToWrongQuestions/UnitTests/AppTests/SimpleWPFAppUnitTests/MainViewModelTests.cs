@@ -30,6 +30,6 @@ namespace UnitTests.AppTests.SimpleWPFAppUnitTests
 
             Assert.AreEqual(2, viewModel.Questionnaire.Questions.Count);
         }
-        
+
     }
 }

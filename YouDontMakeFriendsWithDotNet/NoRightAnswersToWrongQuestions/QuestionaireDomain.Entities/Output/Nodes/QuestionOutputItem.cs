@@ -1,12 +1,14 @@
 ﻿using System;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
 {
     internal class QuestionOutputItem : IQuestionOutputItem
     {
         public QuestionOutputItem(
-            Guid id, 
-            Guid variableId,
+            Guid id,
+            Reference<IQuestionNode> variable,
             string questionText,
             Type questionType,
             string value,
@@ -14,7 +16,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
             bool isReadonly)
         {
             Id = id;
-            VariableId = variableId;
+            Variable = variable;
             DisplayName = questionText;
             QuestionText = questionText;
             Value = value;
@@ -24,7 +26,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
         }
         
         public Guid Id { get; }
-        public Guid VariableId { get; }
+        public Reference<IQuestionNode> Variable { get; }
         public string DisplayName { get; }
         public string QuestionText { get; }
         public bool Visible { get; set; }

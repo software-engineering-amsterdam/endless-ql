@@ -59,9 +59,11 @@ object ConditionalValidator {
   def matchReturnType(op: ASTNode, nodeType: ASTNode): Option[ASTNode] = {
     (op, nodeType) match {
       case (bv1: ASTRelationalOp, ASTInteger()) => Some(ASTBoolean())
-      case (bv1: ASTArithmeticOp, ASTInteger()) => Some(ASTInteger())
       case (bv1: ASTRelationalOp, ASTMoney()) => Some(ASTBoolean())
+      case (bv1: ASTArithmeticOp, ASTInteger()) => Some(ASTInteger())
+      case (bv1: ASTArithmeticOp, ASTMoney()) => Some(ASTMoney())
       case (bv1: ASTLogicalOp, ASTBoolean()) => Some(ASTBoolean())
+      case (bv1: ASTEqualityOp, _) => Some(ASTBoolean())
       case other => None
     }
   }

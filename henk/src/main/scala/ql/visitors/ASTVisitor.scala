@@ -74,8 +74,8 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
       case ">"  => ASTRelationalGT()
       case "<=" => ASTRelationalLTE()
       case ">=" => ASTRelationalGTE()
-      case "!=" => ASTRelationalNE()
-      case "==" => ASTRelationalEQ()
+      case "!=" => ASTNotEqualOp()
+      case "==" => ASTEqualOp()
     }
 
   override def visitUnOp(ctx: QlParser.UnOpContext): ASTNode =

@@ -67,7 +67,7 @@ namespace QLVisualizer.Factories
         /// </summary>
         /// <param name="questionNode">Node to parse</param>
         /// <returns>Parsed widget</returns>
-        private static ElementManagerLeaf CreateElementManager(QuestionNode questionNode, ExpressionBool condition, ElementManager parent, ElementManagerController elementManagerController)
+        private static ElementManagerLeaf CreateElementManager(QuestionNode questionNode, ExpressionBool condition, ElementManagerCollection parent, ElementManagerController elementManagerController)
         {
             switch (questionNode.ValueType)
             {
@@ -90,7 +90,7 @@ namespace QLVisualizer.Factories
         /// <param name="condition">Condition of widget</param>
         /// <param name="elementManagerController">Widget controller</param>
         /// <returns></returns>
-        private static ElementManagerLeaf CreateComputedWidget(ComputedNode node, ExpressionBool condition, ElementManager parent, ElementManagerController elementManagerController)
+        private static ElementManagerLeaf CreateComputedWidget(ComputedNode node, ExpressionBool condition, ElementManagerCollection parent, ElementManagerController elementManagerController)
         {
             ExpressionFactory expressionFactory = new ExpressionFactory(elementManagerController);
             ExpressionValue expression = expressionFactory.ParseExpressionNode(node.Expression);
@@ -179,7 +179,7 @@ namespace QLVisualizer.Factories
         /// <param name="parent">Parent object of the new collection</param>
         /// <param name="controller">ElementManagerController for object creation</param>
         /// <returns>ElementManagerCollection as defined by the QLS</returns>
-        private static ElementManagerCollection QLSToCollection(QLSNode qlsNode, ElementManager parent, ElementManagerController controller)
+        private static ElementManagerCollection QLSToCollection(QLSNode qlsNode, ElementManagerCollection parent, ElementManagerController controller)
         {
             switch (qlsNode.NodeType)
             {

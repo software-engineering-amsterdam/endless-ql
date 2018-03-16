@@ -5,7 +5,7 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
 {
     public class DoubleQuestionManager : QuestionElementManager<double>
     {
-        public DoubleQuestionManager(string identifyer, string text, ElementManager parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) 
+        public DoubleQuestionManager(string identifyer, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) 
             : base(identifyer, text, parent, controller, activationExpression, answerExpression)
         {
         }

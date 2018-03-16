@@ -30,7 +30,7 @@ namespace QLVisualizer.Elements.Managers
         public delegate void TypedAnswerValueUpdate(QuestionElementValue<T> answer, bool calculated);
         public event TypedAnswerValueUpdate OnTypedAnswerValueUpdate;
 
-        public QuestionElementManager(string identifyer, string text, ElementManager parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : 
+        public QuestionElementManager(string identifyer, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : 
             base(identifyer, text, "question", parent, controller, activationExpression)
         {
             Answer = new QuestionElementValue<T>(default(T), false);

@@ -11,7 +11,7 @@ namespace QLVisualizer.Widgets
 {
     public class WidgetCreatorWindows : WidgetCreator<Control>
     {
-        private List<Button> _pageButtonList;
+        private List<PageManager> _pageList;
 
         private Control CreateWidgetContainer(ElementManagerCollection elementManagerCollection, Control holder, string titleText)
         {
@@ -111,53 +111,78 @@ namespace QLVisualizer.Widgets
 
         protected override Control CreateWidget(FormManager form, Control holder)
         {
-            _pageButtonList = new List<Button>();
+            _pageList = new List<PageManager>();
             int margin = 10;
             int pos = margin;
             Panel result = new Panel();
-            Control formBody = CreateWidgetContainer(form, new Panel { Size = holder.Size }, string.Empty);
-
-            Label formTitle = new Label() { Text = string.Format("Form: {0}", form.Text) };
-
-            FlowLayoutPanel pagePanel = new FlowLayoutPanel
+            Control mainContol = CreateWidgetContainer(form, new Panel { Size = holder.Size - new Size(0, 40) }, string.Empty);
+            Control[] formControls = new Control[]
             {
-                Location = new Point(12, 9),
-                WrapContents = true,
-                FlowDirection = FlowDirection.LeftToRight
+                new Label() { Text = string.Format("Form: {0}", form.Text) },
+                CreatePagePanel(holder.Width),
+                mainContol
             };
 
-            foreach (Button button in _pageButtonList)
-                pagePanel.Controls.Add(button);
+            foreach (Control c in formControls)
+            {
+                c.Location = new Point(10, pos);
+                result.Controls.Add(c);
+                pos += c.Height + margin;
+            }
 
-            formTitle.Location = new Point(10, pos);
-            result.Controls.Add(formTitle);
-            pos += formTitle.Height;
-
-            pagePanel.Location = new Point(10, pos);
-            result.Controls.Add(pagePanel);
-            pos += pagePanel.Height;
-
-            formBody.Height = holder.Height - pos;
-            formBody.Location = new Point(10, pos);
-            result.Controls.Add(formBody);
-            pos += formBody.Height;
             result.Height = holder.Height;
             return result;
+        }
 
+        protected override Control CreateEmpty()
+        {
+            return new Panel { Size = new Size(0, 0) };
+        }
 
+        private Panel CreatePagePanel(int width)
+        {
+            int margin = 5;
+            int pos = 0;
+
+            // TODO: FIX NOT DISPLAYING PAGENAME
+            //Button previous = new Button() { Text = "<" };
+            //Button next = new Button() { Text = ">" };
+            ComboBox selector = new ComboBox() { Width = 150, FormattingEnabled = true, Name="page selector", TabIndex = 0 };
+            selector.Items.AddRange(_pageList.Select(o => o.Text).ToArray());
+
+            // Create listeners
+            selector.SelectedIndexChanged += delegate (object sender, EventArgs eventArgs)
+            {
+                _pageList[selector.SelectedIndex].Activate();
+                //selector.Text = selector.SelectedText;
+                //previous.Enabled = selector.SelectedIndex > 0;
+                //next.Enabled = selector.SelectedIndex > selector.Items.Count;
+            };
+
+            //previous.Click += (object sender, EventArgs eventArgs) => selector.SelectedIndex--;
+            //next.Click += (object sender, EventArgs eventArgs) => selector.SelectedIndex++;
+
+            // Create panel
+            Control[] contents = new Control[] { /*previous, */selector/*, next*/ };
+            Panel result = new Panel() { Size = new Size(contents.Select(o => o.Width).Sum() + margin * contents.Length, contents.Select(o => o.Height).Max()) };
+            foreach(Control content in contents)
+            {
+                content.Location = new Point(pos, 0);
+                result.Controls.Add(content);
+                pos += margin + content.Width;
+            }
+
+            return result;
+        }
+
+        protected override void RegisterPageTab(PageManager page)
+        {
+            _pageList.Add(page);
         }
 
         protected override Control CreateWidget(PageManager page, Control holder)
         {
-            Control result = CreateWidgetContainer(page, holder, string.Format("Page: {0}", page.Text));
-            Button toggleButton = new Button
-            {
-                Text = string.Format("Page: {0}", page.Text)
-            };
-
-            toggleButton.Click += delegate (object sender, EventArgs eventArgs) { page.ToggleActive(); };
-            _pageButtonList.Add(toggleButton);
-            return result;
+            return CreateWidgetContainer(page, holder, string.Format("Page: {0}", page.Text));
         }
 
         protected override Control CreateWidget(SectionManager section, Control holder)

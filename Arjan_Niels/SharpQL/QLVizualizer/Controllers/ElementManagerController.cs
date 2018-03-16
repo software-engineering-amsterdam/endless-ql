@@ -53,13 +53,34 @@ namespace QLVisualizer.Controllers
             Form = HandleQL(rawQL);
             if (rawQLS != "")
                 Form = HandleQLS(rawQLS);
+            RegisterActiveChangedListener(Form);
             DisplayForm();
         }
-       
+
 
         private FormManager HandleQLS(string rawQLS)
         {
             return _parseController.ParseQLS(rawQLS, Form, this).Item2;
+        }
+
+        protected void RegisterActiveChangedListener(ElementManagerCollection elementManagerCollection)
+        {
+            foreach (ElementManager child in elementManagerCollection.Children)
+                switch (child)
+                {
+                    case ElementManagerCollection collection:
+                        collection.OnActiveChange += ElementActiveChanged;
+                        RegisterActiveChangedListener(collection);
+                        break;
+                    case ElementManagerLeaf leaf:
+                        leaf.OnActiveChange += ElementActiveChanged;
+                        break;
+                }
+        }
+
+        private void ElementActiveChanged(string identifier, bool isActive)
+        {
+            DisplayForm();
         }
 
         /// <summary>

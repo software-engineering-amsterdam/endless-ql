@@ -24,7 +24,7 @@ namespace QLVisualizer.Elements.Managers
         /// Add child, set parent of ElementManager
         /// </summary>
         /// <param name="elementManager">ElementManager to add as child</param>
-        public void AddChild(ElementManager elementManager)
+        public virtual void AddChild(ElementManager elementManager)
         {
             Children.Add(elementManager);
             elementManager.Parent = this;

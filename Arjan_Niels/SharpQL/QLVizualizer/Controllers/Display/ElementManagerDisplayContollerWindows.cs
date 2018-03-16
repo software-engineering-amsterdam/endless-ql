@@ -61,27 +61,6 @@ namespace QLVisualizer.Controllers.Display
             BaseDisplay.Controls.Add(newDisplay);
         }
 
-        /*/// <summary>
-        /// Temporary function to diplay dummy widgets
-        /// </summary>
-        public void DummyQL()
-        {
-            // Create widgets
-            _widgetController.SetWidgets(new QLWidget[]
-            {
-                new QLWidgetInt("a", "wat is 10 + 1?"),
-                new QLWidgetInt("b", "wat is 5 + 3?"),
-                new QLWidgetInt("c", "som:", null, new ExpressionInt(new string[]{"a","b" },() => {
-                    return (_widgetController.GetWidget("a") as QLWidgetInt).AnswerValue + (_widgetController.GetWidget("b") as QLWidgetInt).AnswerValue;
-                })),
-                new QLWidgetBool("d", "This statement is False")
-
-            });
-
-            // Display widgets
-            _widgetController.ShowWidgets();
-        }*/
-
         /// <summary>
         /// Shows message box with error(s) to user
         /// </summary>

@@ -30,7 +30,7 @@ namespace QLVisualizer.Elements.Managers
         /// <summary>
         /// Parent of this manager
         /// </summary>
-        public ElementManager Parent;
+        public ElementManagerCollection Parent;
 
         /// <summary>
         /// Expression for activation evaluation

@@ -13,7 +13,7 @@ namespace QLVisualizer.Elements.Managers
         public event AnswerValueUpdate OnAnswerValueUpdate;
 
 
-        public ElementManagerLeaf(string identifyer, string text, string xmlName, ElementManager parent, ElementManagerController controller, ExpressionBool activationExpression = null) : 
+        public ElementManagerLeaf(string identifyer, string text, string xmlName, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null) : 
             base(identifyer, text, xmlName, controller, activationExpression)
         {
             Parent = parent;

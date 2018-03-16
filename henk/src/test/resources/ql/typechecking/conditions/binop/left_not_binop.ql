@@ -5,7 +5,7 @@ form taxOfficeExample {
     soldSecondHouse: boolean
 
 
-  if ((!soldFirstHouse) && (soldSecondHouse)) {
+  if ((!soldFirstHouse) && (soldSecondHouse) && (1 < 1)) {
     "What was the selling price?"
       sellingPrice: money
   }

@@ -40,19 +40,18 @@ object ConditionalValidator {
   }
 
   def validateLogical(node: ASTBinary, ast: ASTNode): Boolean = {
-    validateExpression(node.lhs, ast) && validateExpression(node.rhs, ast)
+    // validateExpression(node.lhs, ast) && validateExpression(node.rhs, ast)
+    infereType(node, ast) match {
+      case Some(ASTBoolean()) => true
+      case other => false
+    }
   }
 
   def validateRelational(node: ASTBinary, ast: ASTNode): Boolean = {
-    node match {
-      case ab: ASTBinary => {
-        infereType(ab, ast) match {
-          case None => false
-          case Some(ASTBoolean()) => false
-          case other => true
-        }
-      }
-      case other => false
+    infereType(node, ast) match {
+      case None => false
+      // case Some(ASTBoolean()) => false
+      case other => true
     }
   }
 
@@ -64,20 +63,32 @@ object ConditionalValidator {
     }
   }
 
+  def returnType(op: ASTNode, nodeType: ASTNode): Option[ASTNode] = {
+    (op, nodeType) match {
+      case (bv1: ASTRelationalOp, ASTInteger()) => Some(ASTBoolean())
+      case (bv1: ASTArithmeticOp, ASTInteger()) => Some(ASTInteger())
+      case (bv1: ASTRelationalOp, ASTMoney()) => Some(ASTMoney())
+      case (bv1: ASTLogicalOp, ASTBoolean()) => Some(ASTBoolean())
+      case other => None
+    }
+  }
+
   def infereType(node: ASTNode, ast: ASTNode): Option[ASTNode] = {
     node match {
-      case bv: ASTIntegerValue => Some(ASTInteger())
+      case ASTIntegerValue(_) => Some(ASTInteger())
       case bv: ASTIdentifier => ASTCollector.getTypeDecl(bv, ast)
-      case bv @ ASTBinary(_,_,_) => {
-        val typeRight = infereType(bv.rhs, ast)
+      case bv @ ASTBinary(_,_, op: ASTNode) => {
         val typeLeft = infereType(bv.lhs, ast)
+        val typeRight = infereType(bv.rhs, ast)
 
-        (typeRight, typeLeft) match {
-          case (Some(_lhs), Some(_rhs)) if _lhs == _rhs => Some(_lhs)
+        (typeLeft, typeRight) match {
+          case (Some(_lhs), Some(_rhs)) if _lhs == _rhs => {
+            returnType(op, _lhs)
+          }
           case other => None
         }
       }
-      case ASTUnary(expr: ASTNode, op: ASTUnaryMin) => {
+      case ASTUnary(expr: ASTNode, _) => {
         infereType(expr, ast)
       }
       case other => None

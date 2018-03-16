@@ -1,19 +1,18 @@
 package gui;
 
 import classes.Question;
-import classes.expressions.Expression;
 import classes.values.BooleanValue;
 import classes.values.IntegerValue;
 import classes.values.StringValue;
+import classes.values.UndefinedValue;
 import classes.values.Value;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionPanelCheckBox;
 import gui.questions.QuestionPanelDate;
-import gui.questions.QuestionPanelText;
 import gui.questions.QuestionPanelTextInt;
 import gui.questions.QuestionPanelTextString;
 import org.jdatepicker.JDatePicker;
-import parsing.visitors.refactor_tmp.BaseVisitor;
+import parsing.visitors.FormVisitor;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -21,21 +20,23 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class FormBuilder {
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which the widgets are located
     private JPanel mainListPanel;
-    private HashMap<String, Question> questionHashMap = new HashMap<String, Question>();
-    private ArrayList<QuestionPanel> questionPanelList;
-    private BaseVisitor baseVisitor;
+    private HashMap<String, Question> questionHashMap;
+    private HashMap<String, QuestionPanel> questionPanelHashMap;
+    private FormVisitor coreVisitor;
 
     private int FRAMEHEIGHT = 800; //The height of the GUI
     private int FRAMEWIDTH = 800; //The width of the GUI
@@ -44,13 +45,12 @@ public class FormBuilder {
      * constructor method
      * initializes the building process of the form
      *
-     * @param baseVisitor
+     * @param coreVisitor
      */
-    public FormBuilder(BaseVisitor baseVisitor, HashMap<String, Question> questionHashMap) {
-        this.baseVisitor = baseVisitor;
+    public FormBuilder(FormVisitor coreVisitor, HashMap<String, Question> questionHashMap) {
+        this.coreVisitor = coreVisitor;
         this.questionHashMap = questionHashMap;
-        this.questionPanelList = new ArrayList<>();
-
+        this.questionPanelHashMap = new HashMap<String, QuestionPanel>();
     }
 
     /**
@@ -78,14 +78,15 @@ public class FormBuilder {
      * the question it's controls through iteration
      */
     private void initQuestionPanels() {
-        Iterator it = questionHashMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            Question question = (Question) pair.getValue();
+        Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<String, Question> entry = entries.next();
+            Question question = entry.getValue();
             if(question.isVisible()) {
-                buildQuestionPanel((String) pair.getKey(), question, question.getValue());
+                buildQuestionPanel(entry.getKey(), question, question.getValue());
+            } else {
+
             }
-            it.remove(); // avoid ConcurrentModificationException
         }
     }
 
@@ -129,6 +130,7 @@ public class FormBuilder {
                 qPanel.setListener(new StringDocumentListener(key, (JTextField) qPanel.getComponent()));
                 break;
         }
+        questionPanelHashMap.put(key, qPanel);
         addQuestionToPanel(qPanel, getQuestionConstraints());
     }
 
@@ -164,29 +166,54 @@ public class FormBuilder {
         mainListPanel = new JPanel(new GridBagLayout());
     }
 
+    private void update(String key, Value value) {
 
-    private void updateQuestion(String key, Boolean value) {
-        Question question = questionHashMap.get(key);
-        question.setValue(new BooleanValue(value));
-        questionHashMap.remove(key);
-        questionHashMap.put(key, question);
-        updateGUI();
+        if(!(value instanceof UndefinedValue)) {
+            updateQuestion(key, value); //step 3
+            coreVisitor.update(); //step 4
+            updateGUI(); // step 5
+        }
+    }
+    private void updateQuestion(String key, Value value) {
+        questionHashMap.get(key).setValue(value);
+        questionPanelHashMap.get(key).setValue(value);
     }
     /**
      * updateGUI() method
      * builds the frame
      */
     private void updateGUI() {
-        questionHashMap = baseVisitor.updateQuestions(questionHashMap);
-        for (Component questionPanel : mainListPanel.getComponents()) {
-            if (questionPanel instanceof QuestionPanel) {
-                if (((QuestionPanel) questionPanel).getState()) {
-                    addQuestionToPanel((QuestionPanel) questionPanel);
+//        Iterator<Map.Entry<String, QuestionPanel>> entries = questionPanelHashMap.entrySet().iterator();
+//        while (entries.hasNext()) {
+//            Map.Entry<String, QuestionPanel> entry = entries.next();
+//            Question question = entry.getValue().getQuestion();
+//            if (question.isVisible()) {
+////                buildQuestionPanel((entry.getKey()), question, question.getValue());
+//                addQuestionToPanel(entry.getValue());
+//            } else {
+//                removeQuestionFromPanel(entry.getValue());
+//            }
+//
+//        }
+        Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<String, Question> entry = entries.next();
+            Question question = entry.getValue();
+            if(question.isVisible()) {
+                if (questionPanelHashMap.get(entry.getKey()) == null) {
+                    buildQuestionPanel(entry.getKey(), question, question.getValue());
                 } else {
-                    removeQuestionFromPanel((QuestionPanel) questionPanel);
+
+                }
+            } else {
+                if (questionPanelHashMap.get(entry.getKey()) != null) {
+                    removeQuestionFromPanel(questionPanelHashMap.get(entry.getKey()));
+                    questionPanelHashMap.remove(entry.getKey());
                 }
             }
         }
+        mainListPanel.revalidate();
+        mainListPanel.repaint();
     }
 
     private void addQuestionToPanel(QuestionPanel questionPanel, GridBagConstraints gbc) {
@@ -242,42 +269,19 @@ public class FormBuilder {
         public void actionPerformed(ActionEvent e) {
             if (checkBox.isSelected()) {
                 System.out.println("checkbox checked");
-                update(key, true);
+                update(key, new BooleanValue(true));
             } else {
-                update(key, false);
+                System.out.println("checkbox unchecked");
+                update(key, new BooleanValue(false));
 
             }
             checkBox.requestFocus();
         }
     }
 
-    private void update(String key, boolean value) {
-        updateQuestion(key, value);
-        updateGUI(key, value);
-
-    }
-
-    private void updateGUI(String key, Object value) {
-
-        //baseVisitor.updateQuestions(questionHashMap);
-//        for (QuestionPanel panel : questionPanelList) {
-//            if (questionHashMap.get(panel.getQuestion()) != null) {
-//                boolean ifExpressionSatisfied = true;
-//                if (ifExpressionSatisfied) {
-//                    addQuestionToPanel(panel);
-//                } else {
-//                    removeQuestionFromPanel(panel);
-//                }
-//            }
-//        }
-        //Update and validate the components
-        mainListPanel.revalidate();
-        mainListPanel.repaint();
-    }
-
     //String ActionListener
     public class StringDocumentListener implements DocumentListener {
-
+        private boolean modified = false;
         private JTextField textField;
         private String key;
 
@@ -288,15 +292,16 @@ public class FormBuilder {
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-
-
             textField.requestFocus();
+            if (!modified) {
+                modified = true;
+            }
             SwingUtilities.invokeLater(new Runnable() {
-
                 @Override
                 public void run() {
                     String textString = textField.getText();
-                    updateGUI(key, new StringValue(textString));
+                    update(key, new StringValue(textString));
+                    modified = false;
                     textField.requestFocus();
                 }
             });
@@ -309,21 +314,23 @@ public class FormBuilder {
         @Override
         public void insertUpdate(DocumentEvent e) {
             textField.requestFocus();
+            if (!modified) {
+                modified = true;
+            }
             SwingUtilities.invokeLater(new Runnable() {
-
                 @Override
                 public void run() {
                     String textString = textField.getText();
-                    updateGUI(key, new StringValue(textString));
+                    update(key, new StringValue(textString));
+                    modified = false;
                     textField.requestFocus();
-
                 }
             });
         }
     }
 
     public class IntegerDocumentListener implements DocumentListener {
-
+        private boolean modified = false;
         private JTextField textField;
         private String key;
 
@@ -335,36 +342,40 @@ public class FormBuilder {
         @Override
         public void insertUpdate(DocumentEvent e) {
             textField.requestFocus();
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    boolean correctInput = true;
-                    int inputNumber = 0;
+            if (!modified) {
+                modified = true;
+            }
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean correctInput = true;
+                        int input = 0;
 
-                    try {
-                        String textString = textField.getText();
-                        inputNumber = Integer.parseInt(textString);
-                    } catch (Exception exception) {                    ///
-                        System.out.println("Insert a number of max 9 digits!");
-                        correctInput = false;
-                    }
+                        try {
+                            String textString = textField.getText();
+                            input = Integer.parseInt(textString);
+                        } catch (Exception exception) {
+                            correctInput = false;
+                        }
 
-                    if (correctInput) {
-                        updateGUI(key, new IntegerValue(inputNumber));
-                    } else {
-                        updateGUI(key, new IntegerValue());
+                        if (correctInput) {
+                            update(key, new IntegerValue(input));
+                        } else {
+                            update(key, new UndefinedValue());
+                        }
+                        modified = false;
+                        textField.requestFocus();
                     }
-                    textField.requestFocus();
-                }
-            });
-        }
+                });
+            }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-
             textField.requestFocus();
+            if (!modified) {
+                modified = true;
+            }
             SwingUtilities.invokeLater(new Runnable() {
-
                 @Override
                 public void run() {
                     boolean correctInput = true;
@@ -376,10 +387,11 @@ public class FormBuilder {
                         correctInput = false;
                     }
                     if (correctInput) {
-                        updateGUI(key, new IntegerValue(input));
+                        update(key, new IntegerValue(input));
                     } else {
-                        updateGUI(key, new IntegerValue());
+                        update(key, new UndefinedValue());
                     }
+                    modified = false;
                     textField.requestFocus();
                 }
             });

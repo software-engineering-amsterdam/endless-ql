@@ -1,6 +1,7 @@
 package gui.questions;
 
 import classes.Question;
+import classes.values.Value;
 import gui.FormBuilder;
 
 import javax.swing.*;

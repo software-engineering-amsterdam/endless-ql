@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.layout.Pane
 import javafx.stage.Stage
-import nl.uva.se.sc.niro.gui.controller.QLBaseController
+import nl.uva.se.sc.niro.gui.controller.{ QLBaseController, QLHomeController }
 
 object QLScenes {
   def getHomeSceneFileName(): String = "/nl/uva/se/sc/niro/gui/QLHome.fxml"
@@ -22,13 +22,14 @@ object QLForms {
 class QLForms extends Application {
 
   @throws[IOException]
-  override def start(stage: Stage): Unit = showScene(stage, QLScenes.getHomeSceneFileName())
+  override def start(stage: Stage): Unit = showScene(stage, QLScenes.getHomeSceneFileName(), new QLHomeController())
 
   @throws[IOException]
-  def showScene(stage: Stage, sceneFile: String): Unit = {
+  def showScene(stage: Stage, sceneFile: String, controller: AnyRef): Unit = {
     stage.setTitle("QL Forms")
 
     val loader = new FXMLLoader(getClass.getResource(sceneFile))
+    loader.setController(controller)
     val actOne: Pane = loader.load()
     loader.getController[QLBaseController]().setActiveStage(stage)
     stage.setScene(new Scene(actOne))

@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="nl.uva.se.sc.niro.gui.controller.QLFormController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <VBox alignment="CENTER" BorderPane.alignment="CENTER">
             <Label fx:id="formName" contentDisplay="CENTER" text="FormName" textAlignment="CENTER"
@@ -14,14 +13,14 @@
                     <Font name="System Bold" size="24.0"/>
                 </font>
             </Label>
-            <Label fx:id="pageName" text="Page Name">
-                <font>
-                    <Font size="18.0"/>
-                </font>
-                <padding>
-                    <Insets top="10.0"/>
-                </padding>
-            </Label>
+            <!--<Label fx:id="pageName" text="Page Name">-->
+                <!--<font>-->
+                    <!--<Font size="18.0"/>-->
+                <!--</font>-->
+                <!--<padding>-->
+                    <!--<Insets top="10.0"/>-->
+                <!--</padding>-->
+            <!--</Label>-->
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </BorderPane.margin>
@@ -32,17 +31,17 @@
     </top>
     <bottom>
         <VBox>
-            <BorderPane fx:id="navigationBar" prefWidth="200.0">
-                <left>
-                    <Button fx:id="previous" onAction="#previousPage" text="Back"/>
-                </left>
-                <right>
-                    <Button fx:id="next" onAction="#nextPage" text="Next"/>
-                </right>
-                <padding>
-                    <Insets left="10.0" right="10.0"/>
-                </padding>
-            </BorderPane>
+            <!--<BorderPane fx:id="navigationBar" prefWidth="200.0">-->
+                <!--<left>-->
+                    <!--&lt;!&ndash;<Button fx:id="previous" onAction="#previousPage" text="Back"/>&ndash;&gt;-->
+                <!--</left>-->
+                <!--<right>-->
+                    <!--&lt;!&ndash;<Button fx:id="next" onAction="#nextPage" text="Next"/>&ndash;&gt;-->
+                <!--</right>-->
+                <!--<padding>-->
+                    <!--<Insets left="10.0" right="10.0"/>-->
+                <!--</padding>-->
+            <!--</BorderPane>-->
             <HBox prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
                 <Button mnemonicParsing="false" onAction="#quitApplication" text="Quit"/>
                 <Button mnemonicParsing="false" onAction="#cancel" text="Cancel"/>

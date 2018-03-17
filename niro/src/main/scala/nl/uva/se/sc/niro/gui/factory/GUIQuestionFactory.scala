@@ -4,19 +4,17 @@ import nl.uva.se.sc.niro.model.gui.GUIQuestion
 import nl.uva.se.sc.niro.model.ql.Question
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
-import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import org.apache.logging.log4j.scala.Logging
 
 object GUIQuestionFactory extends Logging {
 
-  def makeGUIQuestion(visible: Expression, question: Question, stylesheet: Option[QLStylesheet]): GUIQuestion = {
-    val visibilityForPagination = PageVisibilityFactory.createPageVisibility(question, stylesheet, visible)
+  def makeGUIQuestion(visible: Expression, question: Question): GUIQuestion = {
     GUIQuestion(
       question.id,
       question.answerType,
       question.label,
       isReadOnly(question.expression),
-      visibilityForPagination)
+      visible)
   }
 
   private def isReadOnly(expression: Expression): Boolean =

@@ -4,7 +4,7 @@ import ql.model.expression.ReturnType;
 
 public enum WidgetType {
     // TODO: implement text, dropdown and slider
-    SLIDER, SPINBOX, TEXTBOX, RADIO, CHECKBOX, DROPDOWN;
+    SLIDER, SPINBOX, TEXTBOX, RADIO, CHECKBOX, DROPDOWN, DEFAULT;
 
     public boolean isCompatible(ReturnType returnType) {
         switch (returnType) {

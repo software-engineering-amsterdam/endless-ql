@@ -4,6 +4,7 @@ using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Assignment1.Model.QL;
+using Assignment1.Model.QL.QLExpression;
 using Assignment1.Parser;
 
 namespace Assignment1.TypeChecking

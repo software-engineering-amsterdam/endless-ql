@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <local:TypeTemplateSelection x:Key="TemplateSelector" />
+        
         <DataTemplate x:Key="DefaultTemplate">
             <Grid>
                 <Label 
@@ -16,13 +17,17 @@
                     MinWidth ="180" />
             </Grid>
         </DataTemplate>
+        
         <DataTemplate x:Key="StringTemplate">
             <Grid>
                 <TextBox 
-                    Text="{Binding Value}" 
+                    Text="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=LostFocus}" 
                     MinWidth ="180" />
             </Grid>
         </DataTemplate>
+        
         <DataTemplate x:Key="IntTemplate">
             <Grid>
                 <TextBox 
@@ -32,6 +37,7 @@
                     MinWidth ="180" />
             </Grid>
         </DataTemplate>
+        
         <DataTemplate x:Key="DecimalTemplate">
             <Grid>
                 <TextBox 
@@ -41,6 +47,7 @@
                     MinWidth ="180" />
             </Grid>
         </DataTemplate>
+        
         <DataTemplate x:Key="BoolTemplate">
             <Grid>
                 <CheckBox 
@@ -49,6 +56,7 @@
                         , UpdateSourceTrigger=LostFocus}" />
             </Grid>
         </DataTemplate>
+
         <DataTemplate x:Key="DateTemplate">
             <Grid>
                 <DatePicker 

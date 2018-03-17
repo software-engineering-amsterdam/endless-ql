@@ -1,5 +1,6 @@
 package org.uva.qls.collector;
 
+import org.uva.ql.ast.Question;
 import org.uva.qls.ast.Segment.Page;
 import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.ast.Segment.Section;
@@ -8,6 +9,7 @@ import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.visitor.SegmentVisitor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     public StylesheetContext(Stylesheet stylesheet) {
         this.stylesheet = stylesheet;
 
-
+        stylesheet.accept(this, null);
     }
 
     public List<QuestionReference> getQuestions() {
@@ -34,6 +36,16 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
         return new ArrayList<>(pages.values());
     }
 
+    public Segment getPage(Question question) {
+        for (Segment parent : getAllParents("Question."+question.getId())) {
+            if (parents.containsKey(parent.getId())) {
+                return parents.get(parent.getId());
+            }
+        }
+        return null;
+    }
+
+
     public List<Section> getSections() {
         return new ArrayList<>(sections.values());
     }
@@ -43,6 +55,16 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
             return parents.get(segmentId);
         }
         return null;
+    }
+
+    public List<Segment> getAllParents(String segmentId){
+        if (parents.containsKey(segmentId)){
+            Segment parent = parents.get(segmentId);
+            List<Segment> segments = new ArrayList<>(Arrays.asList(parent));
+            segments.addAll(getAllParents(parent.getId()));
+            return segments;
+        }
+        return new ArrayList<>();
     }
 
     public QuestionReference getQuestion(String questionId) {
@@ -74,7 +96,6 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     @Override
     public Segment visit(Page page, Segment parent) {
         pages.put(page.getId(), page);
-        parents.put(page.getId(), parent);
 
         for (Segment segment : page.getSegments()) {
             segment.accept(this, page);
@@ -86,7 +107,7 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     @Override
     public Segment visit(Stylesheet stylesheet) {
         for (Page page : stylesheet.getPages()){
-            page.accept(this, null);
+            page.accept(this, stylesheet);
         }
         return stylesheet;
     }

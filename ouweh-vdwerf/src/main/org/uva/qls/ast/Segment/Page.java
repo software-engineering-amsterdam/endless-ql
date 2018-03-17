@@ -23,6 +23,10 @@ public class Page extends Segment {
 
     @Override
     public String getId() {
+        return "Page."+id;
+    }
+
+    public String getTitle() {
         return id;
     }
 
@@ -36,6 +40,6 @@ public class Page extends Segment {
 
     @Override
     public <S> S accept(SegmentVisitor<S> visitor, Segment parent) {
-        return visitor.visit(this, null);
+        return visitor.visit(this, parent);
     }
 }

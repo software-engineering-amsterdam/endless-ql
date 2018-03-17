@@ -1,5 +1,6 @@
 package org.uva.gui;
 
+import org.uva.ql.ast.Question;
 import org.uva.ql.evaluator.value.Value;
 
 public class QuestionChangeListener {
@@ -10,7 +11,7 @@ public class QuestionChangeListener {
         this.guiHandler = guiHandler;
     }
 
-    public void onQuestionChanged(String id, Value value) {
-        this.guiHandler.onQuestionChange(id, value);
+    public void onQuestionChanged(Question question, Value value) {
+        this.guiHandler.onQuestionChange(question, value);
     }
 }

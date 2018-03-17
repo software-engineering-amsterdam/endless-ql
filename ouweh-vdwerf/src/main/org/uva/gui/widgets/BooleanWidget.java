@@ -31,7 +31,7 @@ public class BooleanWidget extends QuestionWidget {
         checkBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                questionChangeListener.onQuestionChanged(question.getId(), new BooleanValue(checkBox.isSelected()));
+                questionChangeListener.onQuestionChanged(question, new BooleanValue(checkBox.isSelected()));
             }
         });
     }

@@ -20,6 +20,10 @@ public class Section extends Segment {
 
     @Override
     public String getId() {
+        return "Section."+id;
+    }
+
+    public String getTitle() {
         return id;
     }
 

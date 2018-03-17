@@ -30,6 +30,9 @@ public class GUIHandler {
     private QuestionChangeListener questionChangeListener;
     private ExpressionEvaluator expressionEvaluator;
 
+    private Question lastChangedQuestion = null;
+    private JTabbedPane tabbedPane = null;
+
     public GUIHandler(FormEvaluator formEvaluator, StyleEvaluator styleEvaluator) {
         this.formEvaluator = formEvaluator;
         this.styleEvaluator = styleEvaluator;
@@ -46,17 +49,19 @@ public class GUIHandler {
         generateGUI();
     }
 
-    public void onQuestionChange(String id, Value value) {
-        formEvaluator.addOrUpdateValue(id, value);
+    public void onQuestionChange(Question question, Value value) {
+        formEvaluator.addOrUpdateValue(question.getId(), value);
+        this.lastChangedQuestion = question;
         generateGUI();
     }
 
     private void generateGUI() {
         frame.getContentPane().removeAll();
 
+        styleEvaluator.generateSections();
 
-        frame.add(styleEvaluator.getPages());
-        // TODO build pages and sections
+
+
 
         WidgetFactory widgetFactory = new WidgetFactory(this.questionChangeListener, this.styleEvaluator);
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
@@ -66,18 +71,35 @@ public class GUIHandler {
             QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
             // TODO apply styling to widget
 
+
             if (formEvaluator.questionHasCondition(question)) {
                 BooleanValue expressionValue = (BooleanValue) this.expressionEvaluator.evaluateExpression(
                         question.getId(),
                         this.formEvaluator.getConditionById(question.toString()),
                         this.formEvaluator.getValueTable()
                 );
-                widget.setVisible(expressionValue.getValue());
+                if (expressionValue.getValue()) {
+                    this.styleEvaluator.setVisibility(question, true);
+                    widget.setVisible(expressionValue.getValue());
+                }
+            } else {
+                this.styleEvaluator.setVisibility(question, true);
             }
-            //TODO add to correct section
-            frame.add(widget);
+
+            JPanel section = this.styleEvaluator.getSection(question);
+            section.add(widget);
         }
+        this.tabbedPane = new JTabbedPane();
+        frame.add(styleEvaluator.getLayout(this.tabbedPane));
+
+        setFocus(this.lastChangedQuestion);
         frame.setVisible(true);
+    }
+
+    private void setFocus(Question question){
+        if (question != null) {
+            this.tabbedPane.setSelectedComponent(this.styleEvaluator.getPage(question));
+        }
     }
 
     private void initializeFrame() {
@@ -100,16 +122,6 @@ public class GUIHandler {
         }
     }
 
-    protected JComponent makeTextPanel(String text) {
-        JPanel panel = new JPanel(false);
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(Color.CYAN);
 
-        TitledBorder border = BorderFactory.createTitledBorder(text);
-        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 5);
-        border.setBorder(lineBorder);
-        panel.setBorder(border);
-        return panel;
-    }
 
 }

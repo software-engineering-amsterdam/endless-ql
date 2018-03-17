@@ -44,9 +44,8 @@ public class FormPanel extends JPanel {
     }
 
     public void apply(Stylesheet stylesheet) {
-//        formContent.removeAll();
-//
-//        LinkedList<Component> styledComponents = components.clone();
+        LinkedList<Component> styledComponents;
+
 //        components.forEach(formContent::add);
 
         formContent.revalidate();

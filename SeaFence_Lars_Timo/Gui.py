@@ -10,44 +10,44 @@ class Gui():
         # self.window.maxsize(self.window.winfo_screenwidth()/3, self.window.winfo_screenheight())
    
         self.frame = None
-        self.setcurrentstatementframe
+        self.setCurrentStatementFrame
         self.frames = {}
         self.values = {}
 
     #add slider with given min and max values
-    def addslider(self, name, minVal, maxVal, orientation):
+    def addSlider(self, name, minVal, maxVal, orientation):
         slider = tk.Scale(self.window, from_=minVal, to=maxVal, orient=orientation)
         self.sliders[name] = slider
         slider.pack()
 
-    def removeslider(self, name):
+    def removeSlider(self, name):
         if name in self.sliders:
             self.sliders[name].destroy()
             del self.sliders[name]
 
-    def addspinbox(self, name, minVal, maxVal):
+    def addSpinbox(self, name, minVal, maxVal):
         spinbox = tk.Spinbox(self.window, from_=minVal, to=maxVal)
         self.spinBoxes[name] = spinBox
         spinbox.pack()
 
-    def removespinbox(self, name):
+    def removeSpinbox(self, name):
         if name in self.spinboxes:
             self.spinBoxes[name].destroy()
             del self.spinBoxes[name]
 
-    def adddropdown(self, name, items):
+    def addDropdown(self, name, items):
         var = tk.StringVar(self.window)
         var.set(items[0])
         dropdown = apply(tk.OptionMenu, (self.window, var) + tuple(items))
         self.dropdowns[name] = dropDown
         dropDown.pack()
 
-    def removedropdown(self, name):
+    def removeDropdown(self, name):
         if name in self.dropDowns:
             self.dropdowns[name].destroy()
             del self.dropdowns[name]
 
-    def addbooleanquestion(self, name, question, text1, text2, updateFunction, var=None):
+    def addBooleanQuestion(self, name, question, text1, text2, updateFunction, var=None):
         if not var:
             var = tk.IntVar()
             var.trace("w", updateFunction)
@@ -68,7 +68,7 @@ class Gui():
 
         return frame
 
-    def addintquestion(self, name, question, update_function, var=None):
+    def addIntQuestion(self, name, question, update_function, var=None):
         if not var:
             var = tk.StringVar()
             var.trace('w', lambda nm, idx, mode, var=var: self.validateForm(update_function))
@@ -79,7 +79,7 @@ class Gui():
         label = tk.Label(frame, text=question, height=2)
         label.pack(side=LEFT)
 
-        entry = tk.Entry(frame, textvariable=var,validatecommand=self.validateform)
+        entry = tk.Entry(frame, textvariable=var)
         entry.pack(side=LEFT)
 
         self.values[name] = var
@@ -87,24 +87,17 @@ class Gui():
 
         return frame
 
-    def removequestion(self, name):
-        if name in self.frames:
-            self.frames[name].destroy()
-            del self.frames[name]
-
-        if name in self.questions:
-            del self.questions[name]
-
-    def setcurrentstatementframe(self):
+    def setCurrentStatementFrame(self):
         frame = tk.Frame(self.window)
         frame.pack(expand=False, fill='both')
         self.frame = frame
         return frame
 
-    def addassignment(self, var_name, name, result):
-        var = tk.StringVar()
-        self.values[var_name] = var
-        var.set(str(result))
+    def addAssignment(self, var_name, name, result, var=None):
+        if not var:
+            var = tk.StringVar()
+            self.values[var_name] = var
+            var.set(str(result))
         
         frame = tk.Frame(self.window, height=2)
         frame.pack(expand=False, fill='both')
@@ -117,7 +110,7 @@ class Gui():
         
         return frame
 
-    def getvalue(self, var_name, type):
+    def getValue(self, var_name, type):
         if type == "int":
             value = self.values[var_name].get()
             if value == '':
@@ -127,9 +120,9 @@ class Gui():
         else:
             return self.values[var_name].get()
 
-    def updatetext(self, var_name, text):
+    def updateValue(self, var_name, text):
         if var_name in self.values:
             self.values[var_name].set(text)
 
-    def validateform(self, function):
+    def validateForm(self, function):
         function()

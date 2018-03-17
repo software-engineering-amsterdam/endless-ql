@@ -115,9 +115,9 @@
     <Compile Include="Output\Tools\IQuestionnaireOutputUpdater.cs" />
     <Compile Include="Output\Tools\OutputItemFactory.cs" />
     <Compile Include="Output\Nodes\Interfaces\IOutputItem.cs" />
-    <Compile Include="Output\Nodes\Interfaces\QuestionOutputItem.cs" />
+    <Compile Include="Output\Nodes\QuestionOutputItem.cs" />
     <Compile Include="Output\Nodes\Interfaces\IQuestionnaireOutputItem.cs" />
-    <Compile Include="Output\Nodes\Interfaces\QuestionnaireOutputItem.cs" />
+    <Compile Include="Output\Nodes\QuestionnaireOutputItem.cs" />
     <Compile Include="Ast\Tools\AstFactory.cs" />
     <Compile Include="Ast\Nodes\Calculation\AddNode.cs" />
     <Compile Include="Ast\Nodes\Boolean\BooleanBinaryNodeBase.cs" />

@@ -21,6 +21,7 @@ namespace UnitTests.UI.UnitTests
 
             m_inputQuestion1 = new QuestionModel(
                 new Guid("40E98F85-949C-48F0-8194-CECEEBD0177F"),
+                new Guid("F5803811-192B-4858-85C0-A43E2D4D31E0"),
                 "int input question",
                 true,
                 false,
@@ -28,6 +29,7 @@ namespace UnitTests.UI.UnitTests
 
             m_inputQuestion2 = new QuestionModel(
                 new Guid("9568D4CB-7287-4431-9810-E95A83D050EB"),
+                new Guid("CE5B413F-13B4-446A-8019-6856EDC8AE7F"),
                 "string input question",
                 true,
                 false,
@@ -93,8 +95,11 @@ namespace UnitTests.UI.UnitTests
         {
             var wrapper = new QuestionWrapper(m_inputQuestion1);
             Assert.AreEqual(
-                expected: m_inputQuestion1.QuestionId,
-                actual: wrapper.QuestionId);
+                expected: m_inputQuestion1.QuestionOutputId,
+                actual: wrapper.QuestionOutputId);
+            Assert.AreEqual(
+                expected: m_inputQuestion1.QuestionVariableId,
+                actual: wrapper.QuestionVariableId);
             Assert.AreEqual(
                 expected: m_inputQuestion1.QuestionText,
                 actual: wrapper.QuestionText);

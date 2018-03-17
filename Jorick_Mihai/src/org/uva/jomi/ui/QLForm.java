@@ -13,7 +13,7 @@ import org.uva.jomi.ql.ast.analysis.DuplicatedLabelChecker;
 import org.uva.jomi.ql.ast.analysis.IdentifierMapBuilder;
 import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
 import org.uva.jomi.ql.ast.analysis.TypeResolver;
-import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.statements.Statement;
 import org.uva.jomi.ql.parser.antlr.QLLexer;
 import org.uva.jomi.ql.parser.antlr.QLParser;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
@@ -23,7 +23,7 @@ import org.uva.jomi.ui.elements.core.Panel;
 public class QLForm {
 
 	private QLParser parser;
-	private List<Stmt> ast;
+	private List<Statement> ast;
 
 	public QLForm(String filePath) {
 		try {

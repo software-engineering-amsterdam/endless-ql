@@ -48,7 +48,9 @@ numberOperator:
    ADD | SUB | MUL | DIV | REM
 ;
 
-ifStatement : IF BRACE_L booleanExpression BRACE_R block;
+ifStatement:
+    IF BRACE_L booleanExpression BRACE_R ifBlock=block (ELSE (ifStatement | elseBlock=block))?
+;
 
 type: BOOLEANTYPE   #booltype
     | STRINGTYPE    #stringtype
@@ -70,6 +72,7 @@ DECIMALTYPE: 'decimal';
 
 FORM : 'form';
 IF : 'if';
+ELSE: 'else';
 COLON : ':';
 
 // seperators
@@ -103,10 +106,10 @@ NOT : '!';
 fragment DIGIT : ('0'..'9');
 fragment LETTER : ('a'..'z'|'A'..'Z');
 
+BOOL : ('true' | 'false');
 IDENTIFIER: LETTER (LETTER | DIGIT | '_')*;
 STR : '"' .*? '"';
 INT : ('-')? DIGIT+;
-BOOL : ('true' | 'false');
 MON : DIGIT+ '.' DIGIT DIGIT;
 DEC : ('-')? DIGIT+  '.'  DIGIT+;
 NEWLINE : '\r'? '\n';

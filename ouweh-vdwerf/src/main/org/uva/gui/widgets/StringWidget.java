@@ -23,6 +23,6 @@ public class StringWidget extends QuestionWidget {
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question.getName(), new StringValue(textField.getText())));
+        textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question, new StringValue(textField.getText())));
     }
 }

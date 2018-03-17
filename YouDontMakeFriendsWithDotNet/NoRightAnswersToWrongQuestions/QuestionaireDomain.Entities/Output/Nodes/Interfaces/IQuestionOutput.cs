@@ -1,4 +1,6 @@
 ﻿using System;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
 {
@@ -6,6 +8,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
 
     public interface IQuestionOutputItem : IOutputItem
     {
+        Reference<IQuestionNode> Variable { get; }
         string QuestionText { get; }
         bool Visible { get; set; }
         bool ReadOnly { get; }

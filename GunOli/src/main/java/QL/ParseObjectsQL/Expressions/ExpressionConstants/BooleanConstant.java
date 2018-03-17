@@ -9,8 +9,14 @@ public class BooleanConstant extends Constant<Boolean> {
         return EvaluationType.Boolean;
     }
 
+
     @Override
     public Boolean isLogical(){
         return true;
+    }
+
+    @Override
+    public String toString(){
+        return Boolean.toString(this.getValue());
     }
 }

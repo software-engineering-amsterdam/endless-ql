@@ -88,5 +88,13 @@ public class SymbolTable {
         for(ChangeListener listener : listeners){
             listener.stateChanged(new ChangeEvent(new Pair(identifier, value)));
         }
+
+
+        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this);
+        System.out.println("\n\n");
+        for(Map.Entry<String, Expression> entry : table.entrySet()){
+            Value evaluatedValue = expressionEvaluator.visit(entry.getValue());
+            System.out.println(entry.getKey() + " " + evaluatedValue.toString());
+        }
     }
 }

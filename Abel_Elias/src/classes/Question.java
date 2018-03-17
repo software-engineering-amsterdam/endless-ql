@@ -1,19 +1,22 @@
 package classes;
-
-import classes.expressions.ExpressionType;
-import classes.types.Type;
+import classes.values.Value;
 
 public class Question<T>{
     private String questionText;
-    private T value;
-    private Type type;
+    private Value<T> value;
+    private boolean isFixed;
     private boolean isVisible;
-    private boolean fixed;
 
-    public Question(CodeBlock code, String questionText, Type type, T value, boolean fixed, boolean isVisible){
-        this.fixed = fixed;
+    public Question(String questionText, Value<T> value, boolean isFixed){
+        this.isFixed = isFixed;
         this.value = value;
-        this.type = value.getClass();
+        this.questionText = questionText;
+        this.isVisible = isVisible;
+    }
+
+    public Question(String questionText, Value<T> value, boolean isFixed, boolean isVisible){
+        this.isFixed = isFixed;
+        this.value = value;
         this.questionText = questionText;
         this.isVisible = isVisible;
     }
@@ -22,36 +25,31 @@ public class Question<T>{
         return questionText;
     }
 
-    public T getValue(){
+    public Value<T> getValue(){
         return value;
     }
 
-//    public ExpressionType getTypeName() {
-//        String typeText = type.getSimpleName();
-//        typeText = typeText.substring(0,1).toUpperCase() + typeText.substring(1);
-//        return ExpressionType.valueOf(typeText);
-//    }
-
-    public Type getType() {
-        return this.type;
-    }
-
-    public Question setValue(Object value){
-        this.value = (T) value;
+    public Question setValue(Value<T> value){
+        this.value = value;
         return this;
     }
 
-    public boolean getVisibility() {
+    public boolean isVisible() {
         return this.isVisible;
     }
 
-    public boolean isFixed(){
-        return this.fixed;
+    public void setVisibility(boolean isVisible){
+        this.isVisible = isVisible;
     }
 
-    //public Class getType(){
-       // return this.type;
-    //}
+    public boolean isFixed(){
+        return this.isFixed;
+    }
 
-
+    @Override
+    public String toString() {
+        return "Txt: " + questionText + " Val: " + value.getValue() + " Typ: " + value.getType() + " Vis: " + isVisible + " Fix: " + isFixed;
+    }
 }
+
+

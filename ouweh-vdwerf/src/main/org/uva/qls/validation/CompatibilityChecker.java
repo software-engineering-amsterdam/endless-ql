@@ -17,7 +17,7 @@ class CompatibilityChecker extends Checker {
 
     public CompatibilityChecker(List<Question> qlQuestions, List<QuestionReference> qlsQuestions) {
         for (Question question : qlQuestions) {
-            qlQuestionTypes.put(question.getName(), question.getType());
+            qlQuestionTypes.put(question.getId(), question.getType());
         }
         this.qlsQuestions = qlsQuestions;
     }

@@ -6,4 +6,8 @@ public abstract class Statement extends ASTNode {
     Statement(MetaInformation metaInformation) {
         super(metaInformation);
     }
+
+    Statement() {
+        super();
+    }
 }

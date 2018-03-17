@@ -11,7 +11,7 @@ class Window(ttk.Frame):
         self._symbol_table = symbol_table
 
         self.root.title("Questionnaire")
-        self.grid(column=0, row=0, sticky='nsew')
+        self.grid(column=0, row=0, padx=10, pady=10, sticky='nsew')
         self.menubar = tkinter.Menu(self.root)
 
         self.btn_update = ttk.Button(self, text='Update', command=self.btn_update)
@@ -19,30 +19,38 @@ class Window(ttk.Frame):
 
         self._statements = {}
 
+    def show_messages(self, messages):
+        message = "\r\n".join([str(m) for m in messages])
+        message_label = ttk.Label(self, text=message, width=40)
+        message_label.grid(column=0, row=0, padx=5, pady=5)
+
     def build_statement(self, identifier, text, widget, value):
         current_row = len(self._statements) + 1
 
         question_label = ttk.Label(self, text=text, width=40)
-        question_label.grid(column=0, row=current_row)
+        question_label.grid(column=0, row=current_row, padx=5, pady=5)
 
         question_widget = widget(self, identifier, value)
-        question_widget.grid(column=1, row=current_row)
+        question_widget.grid(column=1, row=current_row, padx=5, pady=5)
 
         return question_label, question_widget
 
     def add_question(self, identifier, text, widget, value):
         question_label, question_widget = self.build_statement(identifier, text, widget, value)
+
         self._statements[identifier] = (question_label, question_widget)
 
     def add_computed_question(self, identifier, text, widget, value):
         computed_question_label, computed_question_widget = self.build_statement(identifier, text, widget, value)
         computed_question_widget.configure(state='disabled')
+
         self._statements[identifier] = (computed_question_label, computed_question_widget)
 
     def clear(self):
         for i, (l, w) in self._statements.items():
             l.destroy()
             w.destroy()
+
         self._statements = {}
 
     def btn_update(self):
@@ -50,4 +58,5 @@ class Window(ttk.Frame):
             widget_value = widget.get()
             if widget_value is not None:
                 self._symbol_table.update_or_create(identifier, widget_value)
+
         self._gui_visitor.build()

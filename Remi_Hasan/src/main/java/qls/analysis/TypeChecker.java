@@ -37,7 +37,13 @@ public class TypeChecker {
 
             @Override
             public Void visit(DefaultStyle defaultStyle) {
-                // TODO: check defaultstyle widget type
+                if(defaultStyle.getWidget() != null) {
+                    WidgetType widgetType = defaultStyle.getWidget().type;
+                    if(!widgetType.isCompatible(defaultStyle.type)) {
+                        throw new IllegalArgumentException("Incompatible widget type " + widgetType
+                                + " for question of type " + defaultStyle.type + " " + defaultStyle.getWidget().getLocation());
+                    }
+                }
                 return super.visit(defaultStyle);
             }
         });

@@ -7,5 +7,7 @@ import java.util.List;
 
 public  abstract class Segment extends TreeNode {
 
-    public abstract <S> S accept(SegmentVisitor<S> visitor);
+    public abstract String getId();
+
+    public abstract <S> S accept(SegmentVisitor<S> visitor, Segment parent);
 }

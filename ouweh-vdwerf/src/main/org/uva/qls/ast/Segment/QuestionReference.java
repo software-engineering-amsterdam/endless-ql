@@ -19,6 +19,7 @@ public class QuestionReference extends Segment {
         this.widget = widget;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -29,7 +30,7 @@ public class QuestionReference extends Segment {
 
 
     @Override
-    public <S> S accept(SegmentVisitor<S> visitor) {
-        return visitor.visit(this);
+    public <S> S accept(SegmentVisitor<S> visitor, Segment parent) {
+        return visitor.visit(this, parent);
     }
 }

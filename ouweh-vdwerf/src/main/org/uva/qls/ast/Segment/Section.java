@@ -18,6 +18,7 @@ public class Section extends Segment {
         this.defaultStatements = defaultStatements;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -31,7 +32,7 @@ public class Section extends Segment {
     }
 
     @Override
-    public <S> S accept(SegmentVisitor<S> visitor) {
-        return visitor.visit(this);
+    public <S> S accept(SegmentVisitor<S> visitor, Segment parent) {
+        return visitor.visit(this, parent);
     }
 }

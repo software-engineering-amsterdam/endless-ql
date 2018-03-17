@@ -4,7 +4,7 @@ import org.uva.ql.ast.Question;
 import org.uva.ql.validation.checker.Checker;
 import org.uva.app.LogHandler;
 import org.uva.qls.ast.Segment.QuestionReference;
-import org.uva.qls.ast.Stylesheet;
+import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.collector.StylesheetContext;
 
 import java.util.ArrayList;

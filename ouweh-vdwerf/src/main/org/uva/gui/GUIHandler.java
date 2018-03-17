@@ -54,11 +54,8 @@ public class GUIHandler {
     private void generateGUI() {
         frame.getContentPane().removeAll();
 
-        JTabbedPane tabbedPane = new JTabbedPane();
 
-        JComponent panel1 = makeTextPanel("Panel #1");
-        tabbedPane.addTab("Title", panel1);
-        frame.add(tabbedPane);
+        frame.add(styleEvaluator.getPages());
         // TODO build pages and sections
 
         WidgetFactory widgetFactory = new WidgetFactory(this.questionChangeListener, this.styleEvaluator);
@@ -78,7 +75,7 @@ public class GUIHandler {
                 widget.setVisible(expressionValue.getValue());
             }
             //TODO add to correct section
-            panel1.add(widget);
+            frame.add(widget);
         }
         frame.setVisible(true);
     }
@@ -106,8 +103,9 @@ public class GUIHandler {
     protected JComponent makeTextPanel(String text) {
         JPanel panel = new JPanel(false);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(Color.CYAN);
 
-        TitledBorder border = BorderFactory.createTitledBorder("Title border");
+        TitledBorder border = BorderFactory.createTitledBorder(text);
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 5);
         border.setBorder(lineBorder);
         panel.setBorder(border);

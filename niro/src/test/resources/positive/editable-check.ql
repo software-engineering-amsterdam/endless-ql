@@ -17,7 +17,7 @@ form EditOrNotToEdit {
         "Boolean expression" booleanExpression: boolean = (!booleanConstant)
         "Integer expression" integerExpression: integer = (integerConstant + 1 + integerVariable)
         "Decimal expression" decimalExpression: decimal = (decimalConstant + 1.0 + decimalVariable)
-        "Money expression" moneyExpression: money = moneyConstant // + moneyVariable
+        "Money expression" moneyExpression: money = moneyConstant + moneyVariable
         "Date expression" dateExpression: date = dateVariable
     }
 }

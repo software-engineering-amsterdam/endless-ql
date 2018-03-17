@@ -22,17 +22,17 @@ public class StyledJavafxFormRenderer extends JavafxFormRenderer {
 
     private final Stylesheet stylesheet;
     private final QuestionLocator questionLocator;
-    private final Function<Pane, SectionRenderer> sectionRenderedFactory;
+    private final Function<Pane, StyledSectionRenderer> sectionRendererFactory;
 
     public StyledJavafxFormRenderer(
             Stage stage,
             Function<Pane, QuestionRenderer> questionRendererFactory,
             Stylesheet stylesheet,
-            QuestionLocator questionLocator, Function<Pane, SectionRenderer> sectionRenderedFactory) {
+            QuestionLocator questionLocator, Function<Pane, StyledSectionRenderer> sectionRenderedFactory) {
         super(stage, questionRendererFactory);
         this.stylesheet = stylesheet;
         this.questionLocator = questionLocator;
-        this.sectionRenderedFactory = sectionRenderedFactory;
+        this.sectionRendererFactory = sectionRenderedFactory;
     }
 
     private void render(TabPane target, Page page, FormViewModel form) {
@@ -50,8 +50,8 @@ public class StyledJavafxFormRenderer extends JavafxFormRenderer {
                             this.questionLocator.getSection(questionViewModel).map(s -> s.equals(section)).orElse(false))
                         .collect(Collectors.toList());
 
-            SectionRenderer sectionRenderer = this.sectionRenderedFactory.apply(container);
-            sectionRenderer.render(questionsInSection);
+            StyledSectionRenderer sectionRenderer = this.sectionRendererFactory.apply(container);
+            sectionRenderer.render(questionsInSection, section);
 
             tabContent.getChildren().add(container);
         }

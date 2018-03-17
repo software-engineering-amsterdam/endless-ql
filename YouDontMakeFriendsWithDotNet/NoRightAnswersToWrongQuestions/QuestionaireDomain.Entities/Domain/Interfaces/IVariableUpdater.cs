@@ -5,6 +5,6 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
 {
     public interface IVariableUpdater
     {
-        void Update<T>(Reference<IQuestionNode> node, T value);
+        void Update(Reference<IQuestionNode> node, dynamic value);
     }
 }

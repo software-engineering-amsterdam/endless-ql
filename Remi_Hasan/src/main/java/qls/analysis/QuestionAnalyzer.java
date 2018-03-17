@@ -12,8 +12,16 @@ import java.util.Set;
 
 public class QuestionAnalyzer {
 
-    public void detectDuplicateQuestions(StyleSheet styleSheet) {
-        List<String> identifiers = this.getStyleSheetQuestionIdentifiers(styleSheet);
+    private final Form form;
+    private final StyleSheet styleSheet;
+
+    public QuestionAnalyzer(Form form, StyleSheet styleSheet) {
+        this.form = form;
+        this.styleSheet = styleSheet;
+    }
+
+    public void detectDuplicateQuestions() {
+        List<String> identifiers = this.getStyleSheetQuestionIdentifiers();
         Set<String> duplicates = this.getDuplicates(identifiers);
 
         if (!duplicates.isEmpty()) {
@@ -22,9 +30,9 @@ public class QuestionAnalyzer {
     }
 
     // Checks whether any identifiers in QLS file are not in QL file
-    public void detectUnknownQuestions(Form form, StyleSheet styleSheet) {
-        List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers(styleSheet);
-        List<String> formQuestions = this.getFormQuestionIdentifiers(form);
+    public void detectUnknownQuestions() {
+        List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers();
+        List<String> formQuestions = this.getFormQuestionIdentifiers();
         styleSheetQuestions.removeAll(formQuestions);
 
         if (!styleSheetQuestions.isEmpty()) {
@@ -33,9 +41,9 @@ public class QuestionAnalyzer {
     }
 
     // Checks whether any question in QL file is not placed by QLS file
-    public void detectUnplacedQuestions(Form form, StyleSheet styleSheet) {
-        List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers(styleSheet);
-        List<String> formQuestions = this.getFormQuestionIdentifiers(form);
+    public void detectUnplacedQuestions() {
+        List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers();
+        List<String> formQuestions = this.getFormQuestionIdentifiers();
         formQuestions.removeAll(styleSheetQuestions);
 
         if (!formQuestions.isEmpty()) {
@@ -57,19 +65,19 @@ public class QuestionAnalyzer {
         return duplicates;
     }
 
-    private List<String> getFormQuestionIdentifiers(Form form) {
+    private List<String> getFormQuestionIdentifiers() {
         List<String> identifiers = new ArrayList<>();
 
-        for (ql.model.Question question : form.questions) {
+        for (ql.model.Question question : this.form.questions) {
             identifiers.add(question.name);
         }
 
         return identifiers;
     }
 
-    private List<String> getStyleSheetQuestionIdentifiers(StyleSheet styleSheet) {
+    private List<String> getStyleSheetQuestionIdentifiers() {
         List<String> identifiers = new ArrayList<>();
-        styleSheet.accept(new QLSVisitor<Void>() {
+        this.styleSheet.accept(new QLSVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 identifiers.add(question.name);

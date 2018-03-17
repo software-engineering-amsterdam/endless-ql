@@ -48,8 +48,11 @@ public class GUIQuestion extends VBox {
 
 
         Label label = new Label(question.text);
+        label.managedProperty().bind(widget.managedProperty());
+        label.visibleProperty().bind(widget.visibleProperty());
         this.getChildren().add(label);
         this.getChildren().add(widget);
+
     }
 
 }

@@ -32,6 +32,8 @@ public interface WidgetInterface {
         symbolTable.addListener(e -> {
             widget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
         });
+
+        widget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
     }
 
 

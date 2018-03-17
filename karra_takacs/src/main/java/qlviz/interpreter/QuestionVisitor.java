@@ -25,7 +25,7 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
         QuestionType type =
                 questionTypeTranslator.translate(ctx.QUESTION_TYPE());
         String text = ctx.questionText().getText();
-        text = text.substring(1, text.length()-2); // Remove ""
+        text = text.substring(1, text.length()-1); // Remove ""
         String name = ctx.questionName().getText();
         NumericExpression computedValue = null;
         BooleanExpression computedBoolean = null;

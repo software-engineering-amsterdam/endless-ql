@@ -69,7 +69,8 @@ public class SpinboxUIWidget implements UIWidget, QuestionViewModelVisitor {
         }
         else {
             this.spinner.editableProperty().setValue(false);
-            this.spinner.getValueFactory().valueProperty().bind(numericQuestion.getValueExpression().valueProperty());
+            numericQuestion.getValueExpression().valueProperty().addListener((observable, oldValue, newValue) ->
+                this.spinner.getValueFactory().setValue(newValue));
         }
     }
 

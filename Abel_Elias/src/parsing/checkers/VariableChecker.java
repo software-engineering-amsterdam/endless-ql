@@ -55,7 +55,10 @@ public class VariableChecker extends BaseVisitor {
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
         HashMap<String, Question> backtrack = new HashMap<>(getQuestions());
 
-        visit(ctx.block());
+        visit(ctx.ifBlock);
+        if(ctx.elseBlock != null){
+            visit(ctx.elseBlock);
+        }
 
         setQuestionMap(backtrack);
         return true;

@@ -21,7 +21,7 @@ def main():
     """
     # CLI
     parser = argparse.ArgumentParser(prog='Python Questionnaire Language Parser',
-                                     description='CLI tool of the python QL/QLS parser with gui.',
+                                     description='CLI tool of the python QL/QLS parser with gui. No arguments runs GUI',
                                      formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=45))
     parser.add_argument('-v', '--version', action='store_true',
                         help="Prints the program version.")

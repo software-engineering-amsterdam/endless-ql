@@ -1,7 +1,10 @@
 package qls;
 
 import qls.model.*;
-import qls.model.widgets.*;
+import qls.model.style.*;
+import qls.model.style.StyleAttributeColor;
+import qls.model.style.StyleAttributeFont;
+import qls.model.widget.*;
 
 public interface IQLSVisitor<T> {
     T visit(StyleSheet styleSheet);
@@ -16,15 +19,15 @@ public interface IQLSVisitor<T> {
 
     T visit(WidgetCheckBox widget);
 
-    T visit(WidgetColor widget);
-
-    T visit(WidgetFont widget);
-
-    T visit(WidgetFontSize widget);
-
     T visit(WidgetRadio widget);
 
     T visit(WidgetSpinBox widget);
 
-    T visit(WidgetWidth widget);
+    T visit(StyleAttributeColor widget);
+
+    T visit(StyleAttributeFont widget);
+
+    T visit(StyleAttributeFontSize widget);
+
+    T visit(StyleAttributeWidth widget);
 }

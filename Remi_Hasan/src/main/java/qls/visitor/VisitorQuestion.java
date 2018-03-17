@@ -1,7 +1,7 @@
 package qls.visitor;
 
 import qls.model.Question;
-import qls.model.widgets.Widget;
+import qls.model.widget.Widget;
 import qls.parser.QLSBaseVisitor;
 import qls.parser.QLSParser;
 

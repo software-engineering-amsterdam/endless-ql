@@ -1,14 +1,13 @@
-package qls.model.widgets;
+package qls.model.style;
 
 import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
-import qls.model.QLSNode;
 
-public class WidgetFontSize extends Widget {
+public class StyleAttributeFontSize extends StyleAttribute {
     private final int fontSize;
 
-    public WidgetFontSize(Token token, int fontSize) {
-        super(token, WidgetType.TEXT);
+    public StyleAttributeFontSize(Token start, int fontSize) {
+        super(start);
         this.fontSize = fontSize;
     }
 

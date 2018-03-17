@@ -4,16 +4,21 @@ root            : STYLESHEET IDENTIFIER ('{' page* '}' | page) EOF;
 page            : PAGE IDENTIFIER ((section | defaultStyle) | '{' (section | defaultStyle)* '}');
 section         : SECTION STRING ((section | question | defaultStyle) | '{' (section | question | defaultStyle)* '}');
 question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
-defaultStyle    : DEFAULT type (widget | '{' widget* '}');
 
-// Widgets
-widget          : WIDGET RADIO '(' STRING (',' STRING)* ')' # radioWidget
-                | WIDGET CHECKBOX                           # checkBoxWidget
-                | WIDGET SPINBOX                            # spinBoxWidget
-                | WIDTH ':' INTEGER                         # widgetWidth
+// default styleAttribute without braces can only define one widget type
+// default styleAttribute with braces defines none or multiple styleAttribute attributes,
+// followed by one or no widget type
+defaultStyle    : DEFAULT type (widget | '{' styleAttribute* widget? '}');
+
+styleAttribute  : WIDTH ':' INTEGER                         # widgetWidth
                 | FONT ':' STRING                           # widgetFont
                 | FONTSIZE ':' INTEGER                      # widgetFontSize
                 | COLOR ':' HEXCOLOR                        # widgetColor
+                ;
+
+widget          : WIDGET RADIO '(' STRING (',' STRING)* ')' # radioWidget
+                | WIDGET CHECKBOX                           # checkBoxWidget
+                | WIDGET SPINBOX                            # spinBoxWidget
                 ;
 
 type            : BOOLEANTYPE

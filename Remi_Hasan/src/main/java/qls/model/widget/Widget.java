@@ -1,4 +1,4 @@
-package qls.model.widgets;
+package qls.model.widget;
 
 import org.antlr.v4.runtime.Token;
 import qls.model.QLSNode;

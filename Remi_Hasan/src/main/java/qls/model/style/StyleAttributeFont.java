@@ -1,15 +1,13 @@
-package qls.model.widgets;
+package qls.model.style;
 
 import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
-import qls.model.QLSNode;
 
-// TODO: not a subclass of widget
-public class WidgetFont extends Widget {
+public class StyleAttributeFont extends StyleAttribute {
     private final String fontFamily;
 
-    public WidgetFont(Token token, String fontFamily) {
-        super(token, WidgetType.TEXT);
+    public StyleAttributeFont(Token start, String fontFamily) {
+        super(start);
         this.fontFamily = fontFamily;
     }
 

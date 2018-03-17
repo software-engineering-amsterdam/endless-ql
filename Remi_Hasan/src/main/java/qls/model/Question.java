@@ -2,7 +2,7 @@ package qls.model;
 
 import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
-import qls.model.widgets.Widget;
+import qls.model.widget.Widget;
 
 public class Question extends QLSNode {
 

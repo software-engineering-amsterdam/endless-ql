@@ -3,9 +3,10 @@ package qls.analysis;
 import ql.model.Form;
 import ql.model.expression.ReturnType;
 import qls.QLSVisitor;
+import qls.model.DefaultStyle;
 import qls.model.Question;
 import qls.model.StyleSheet;
-import qls.model.widgets.WidgetType;
+import qls.model.widget.WidgetType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,12 @@ public class TypeChecker {
                 }
 
                 return super.visit(question);
+            }
+
+            @Override
+            public Void visit(DefaultStyle defaultStyle) {
+                // TODO: check defaultstyle widget type
+                return super.visit(defaultStyle);
             }
         });
     }

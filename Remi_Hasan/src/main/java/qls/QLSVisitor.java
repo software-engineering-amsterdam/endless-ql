@@ -1,7 +1,10 @@
 package qls;
 
 import qls.model.*;
-import qls.model.widgets.*;
+import qls.model.style.*;
+import qls.model.widget.WidgetCheckBox;
+import qls.model.widget.WidgetRadio;
+import qls.model.widget.WidgetSpinBox;
 
 public class QLSVisitor<T> implements IQLSVisitor<T> {
 
@@ -34,6 +37,7 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
         for (Section subSection : section.getSections()) {
             subSection.accept(this);
         }
+
         for (DefaultStyle defaultStyle : section.getDefaultStyles()) {
             defaultStyle.accept(this);
         }
@@ -51,29 +55,18 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
 
     @Override
     public T visit(DefaultStyle defaultStyle) {
-        for (Widget widget : defaultStyle.getWidgets()) {
-            widget.accept(this);
+        for (StyleAttribute styleAttribute : defaultStyle.getStyleAttributes()) {
+            styleAttribute.accept(this);
+        }
+
+        if (defaultStyle.getWidget() != null) {
+            defaultStyle.getWidget().accept(this);
         }
         return null;
     }
 
     @Override
     public T visit(WidgetCheckBox widget) {
-        return null;
-    }
-
-    @Override
-    public T visit(WidgetColor widget) {
-        return null;
-    }
-
-    @Override
-    public T visit(WidgetFont widget) {
-        return null;
-    }
-
-    @Override
-    public T visit(WidgetFontSize widget) {
         return null;
     }
 
@@ -88,7 +81,22 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
     }
 
     @Override
-    public T visit(WidgetWidth widget) {
+    public T visit(StyleAttributeColor widget) {
+        return null;
+    }
+
+    @Override
+    public T visit(StyleAttributeFont widget) {
+        return null;
+    }
+
+    @Override
+    public T visit(StyleAttributeFontSize widget) {
+        return null;
+    }
+
+    @Override
+    public T visit(StyleAttributeWidth widget) {
         return null;
     }
 }

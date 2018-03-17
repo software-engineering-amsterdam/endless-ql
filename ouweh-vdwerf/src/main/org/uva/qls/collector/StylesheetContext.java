@@ -35,8 +35,8 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
 
     public Segment getPage(Question question) {
         for (Segment parent : getAllParents("Question."+question.getId())) {
-            if (parents.containsKey(parent.getId())) {
-                return parents.get(parent.getId());
+            if (pages.containsKey(parent.getId())) {
+                return pages.get(parent.getId());
             }
         }
         return null;

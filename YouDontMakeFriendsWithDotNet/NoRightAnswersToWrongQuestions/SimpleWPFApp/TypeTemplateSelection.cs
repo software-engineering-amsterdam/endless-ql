@@ -44,32 +44,32 @@ namespace SimpleWPFApp
 
         private DataTemplate GetDefaultTemplate()
         {
-            return GetTemplate("defaultTemplate");
+            return GetTemplate("DefaultTemplate");
         }
 
         private DataTemplate GetDateTemplate()
         {
-            return GetTemplate("dateTemplate");
+            return GetTemplate("DateTemplate");
         }
 
         private DataTemplate GetIntTemplate()
         {
-            return GetTemplate("intTemplate");
+            return GetTemplate("IntTemplate");
         }
 
         private DataTemplate GetDecimalTemplate()
         {
-            return GetTemplate("decimalTemplate");
+            return GetTemplate("DecimalTemplate");
         }
 
         private DataTemplate GetBoolTemplate()
         {
-            return GetTemplate("boolTemplate");
+            return GetTemplate("BoolTemplate");
         }
 
         private DataTemplate GetStringTemplate()
         {
-            return GetTemplate("stringTemplate");
+            return GetTemplate("StringTemplate");
         }
 
         private DataTemplate GetTemplate(string templateName)

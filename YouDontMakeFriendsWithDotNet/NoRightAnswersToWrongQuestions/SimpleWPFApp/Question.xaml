@@ -9,21 +9,21 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <local:TypeTemplateSelection x:Key="templateSelector" />
-        <DataTemplate x:Key="defaultTemplate">
+        <DataTemplate x:Key="DefaultTemplate">
             <Grid>
                 <Label 
                     Content="unknown type" 
                     MinWidth ="180" />
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="stringTemplate">
+        <DataTemplate x:Key="StringTemplate">
             <Grid>
                 <TextBox 
                     Text="{Binding Value}" 
                     MinWidth ="180" />
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="intTemplate">
+        <DataTemplate x:Key="IntTemplate">
             <Grid>
                 <TextBox 
                     Text="{Binding Value
@@ -32,7 +32,7 @@
                     MinWidth ="180" />
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="decimalTemplate">
+        <DataTemplate x:Key="DecimalTemplate">
             <Grid>
                 <TextBox 
                     Text="{Binding Value
@@ -41,7 +41,7 @@
                     MinWidth ="180" />
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="boolTemplate">
+        <DataTemplate x:Key="BoolTemplate">
             <Grid>
                 <CheckBox 
                     IsChecked="{Binding Value
@@ -49,7 +49,7 @@
                         , UpdateSourceTrigger=LostFocus}" />
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="dateTemplate">
+        <DataTemplate x:Key="DateTemplate">
             <Grid>
                 <DatePicker 
                     Text="{Binding Value}"
@@ -59,7 +59,10 @@
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid Visibility="{Binding Path=Visible, Converter={StaticResource BoolToVis}}">
+    <Grid 
+        Visibility="{Binding Path=Visible
+            , Converter={StaticResource BoolToVis}}">
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="Auto" />

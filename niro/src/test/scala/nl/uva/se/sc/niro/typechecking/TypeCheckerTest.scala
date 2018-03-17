@@ -188,6 +188,17 @@ class TypeCheckerTest extends WordSpec {
         val result = TypeChecker.pipeline(qlForm)
         assert(result === Left(TypeCheckError("TypeCheckError", "Undefined references: List(1)")))
       }
+
+      "and return an error when a reference to a non defined question is encountered within an if statement" in {
+        val qlForm = QLForm(
+          "check references",
+          Seq(
+            Conditional(Reference("a"), List.empty)
+          )
+        )
+        val result = TypeChecker.pipeline(qlForm)
+        assert(result === Left(TypeCheckError("TypeCheckError", "Undefined references: List(a)")))
+      }
     }
   }
 }

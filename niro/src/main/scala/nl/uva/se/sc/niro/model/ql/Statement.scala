@@ -35,8 +35,11 @@ object Statement {
     }
   }
 
-  def collectAllReferences(questions: Seq[Question]): Seq[Reference] = {
-    questions.flatMap(question => Expression.collectAllReferences(question.expression))
+  def collectAllExpressions(statements: Seq[Statement]): Seq[Expression] = {
+    statements.flatMap {
+      case q: Question    => Seq(q.expression)
+      case c: Conditional => Seq(c.predicate) ++ collectAllExpressions(c.thenStatements)
+    }
   }
 
   def saveAnswer(questionId: String, answer: Answer, statements: Seq[Statement]): Seq[Statement] = {

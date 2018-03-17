@@ -11,27 +11,42 @@
         <local:TypeTemplateSelection x:Key="templateSelector" />
         <DataTemplate x:Key="defaultTemplate">
             <Grid>
-                <Label Content="unknown type" MinWidth ="180"></Label>
+                <Label 
+                    Content="unknown type" 
+                    MinWidth ="180" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="stringTemplate">
             <Grid>
-                <TextBox Text="{Binding Value}" MinWidth ="180"></TextBox>
+                <TextBox 
+                    Text="{Binding Value}" 
+                    MinWidth ="180" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="intTemplate">
             <Grid>
-                <TextBox Text="{Binding Value, Mode=TwoWay,UpdateSourceTrigger=LostFocus}" MinWidth ="180"></TextBox>
+                <TextBox 
+                    Text="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=LostFocus}" 
+                    MinWidth ="180" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="decimalTemplate">
             <Grid>
-                <TextBox Text="{Binding Value,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" MinWidth ="180"></TextBox>
+                <TextBox 
+                    Text="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=LostFocus}" 
+                    MinWidth ="180" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="boolTemplate">
             <Grid>
-                <CheckBox IsChecked="{Binding Value,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></CheckBox>
+                <CheckBox 
+                    IsChecked="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=LostFocus}" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="dateTemplate">
@@ -49,15 +64,16 @@
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        
+
         <Label Grid.Column="0">
             <TextBlock 
                 Text="{Binding QuestionText}"
                 TextWrapping="Wrap"/>
         </Label>
 
-
-        <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource templateSelector}" Grid.Column="1"  />
+        <ContentControl 
+            Content="{Binding}" 
+            ContentTemplateSelector="{StaticResource templateSelector}" 
+            Grid.Column="1"  />
     </Grid>
 </UserControl>
-

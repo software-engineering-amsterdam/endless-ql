@@ -4,9 +4,9 @@ import java.util.List;
 
 import qls.visiting.WidgetVisitor;
 
-public class RadioBtn extends MultiOptionsWidget {
+public class AstDropDown extends AstSelectionWidget {
 	//constructor
-    public RadioBtn(List<String> options, String defaultOption) {
+    public AstDropDown(List<String> options, String defaultOption) {
       super(options, defaultOption);
     }
     

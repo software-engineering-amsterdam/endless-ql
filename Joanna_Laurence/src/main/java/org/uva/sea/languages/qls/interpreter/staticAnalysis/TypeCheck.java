@@ -7,26 +7,18 @@ import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 import org.uva.sea.languages.qls.interpreter.evaluate.EvaluateDefaultStyle.Fetcher;
-import org.uva.sea.languages.qls.parser.elements.Page;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 import org.uva.sea.languages.qls.parser.elements.specification.Question;
-import org.uva.sea.languages.qls.parser.elements.specification.Section;
 import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAnalysis {
 
     private final Messages message = new Messages();
 
     private final Fetcher defaultStyleEvaluator = new Fetcher();
-
-    //Current state for visitor Visitor
-    private Page currentPage = null;
-
-    private final Stack<Section> currentSections = new Stack<>();
 
     private Map<String, NodeType> qlQuestionNodeTypes = new HashMap<>();
 
@@ -84,21 +76,6 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
             }
         });
         return questionTypes;
-    }
-
-
-    @Override
-    public Void visit(Page node) {
-        this.currentPage = node;
-        return super.visit(node);
-    }
-
-    @Override
-    public Void visit(Section node) {
-        this.currentSections.add(node);
-        super.visit(node);
-        this.currentSections.pop();
-        return null;
     }
 
     @Override

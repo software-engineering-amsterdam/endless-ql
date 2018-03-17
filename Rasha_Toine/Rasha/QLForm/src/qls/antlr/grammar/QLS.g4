@@ -61,12 +61,12 @@ styles returns [List<StyleProperty> result]
 
 
 widgetType returns [QLSWidget result]
-    : 'text' { $result = addCodeReference($ctx, new TextField()); }
-    | 'checkbox' '(' widgetOptions ')' 'default' STRING  { $result = addCodeReference($ctx, new CheckBox($widgetOptions.result, $STRING.text)); }
-    | 'radioBtn' '(' widgetOptions ')' 'default' STRING  { $result = addCodeReference($ctx, new RadioBtn($widgetOptions.result, $STRING.text)); }
-    | 'dropdown' '(' widgetOptions ')' 'default' STRING  { $result = addCodeReference($ctx, new DropDown($widgetOptions.result, $STRING.text)); }
-    | 'slider' '(' widgetOptions ')' 'default' STRING    { $result = addCodeReference($ctx, new Slider($widgetOptions.result, $STRING.text)); }
-    | 'spinbox' '(' widgetOptions ')' 'default' STRING   { $result = addCodeReference($ctx, new Spinbox($widgetOptions.result, $STRING.text)); }
+    : 'text' { $result = addCodeReference($ctx, new AstTextField()); }
+    | 'checkbox' '(' widgetOptions ')' 'default' STRING  { $result = addCodeReference($ctx, new AstCheckBox($widgetOptions.result, $STRING.text)); }
+    | 'radioBtn' '(' widgetOptions ')' 'default' STRING  { $result = addCodeReference($ctx, new AstRadioBtn($widgetOptions.result, $STRING.text)); }
+    | 'dropdown' '(' widgetOptions ')' 'default' STRING  { $result = addCodeReference($ctx, new AstDropDown($widgetOptions.result, $STRING.text)); }
+    | 'slider' '(' widgetOptions ')' 'default' STRING    { $result = addCodeReference($ctx, new AstSlider($widgetOptions.result, $STRING.text)); }
+    | 'spinbox' '(' widgetOptions ')' 'default' STRING   { $result = addCodeReference($ctx, new AstSpinbox($widgetOptions.result, $STRING.text)); }
    ; 
 
  

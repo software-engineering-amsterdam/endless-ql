@@ -3,14 +3,14 @@ package qls.ast.rule;
 import java.util.List;
 
 import qls.ast.style.StyleProperty;
-import qls.ast.widget.QLSWidget;
+import qls.ast.widget.AstWidget;
 import qls.visiting.ItemVisitor;
 
 public class QuestionItem extends Item {
-	private String name;
+	private final String name;
 
 	//constructor
-	public QuestionItem(String name, QLSWidget widget, List<StyleProperty> properties) {
+	public QuestionItem(String name, AstWidget widget, List<StyleProperty> properties) {
 		super(widget, properties);
 		this.name = name;
 	}

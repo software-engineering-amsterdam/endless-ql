@@ -3,13 +3,12 @@ package nl.uva.se.sc.niro.gui.controller
 import java.io.{ File, IOException }
 
 import javafx.event.ActionEvent
-import javafx.fxml.{ FXML, FXMLLoader }
-import javafx.scene.Scene
+import javafx.fxml.FXML
 import javafx.scene.control.TextArea
-import javafx.scene.layout.Pane
+import javafx.scene.layout.BorderPane
 import javafx.stage.{ FileChooser, Stage }
 import nl.uva.se.sc.niro.errors.Errors
-import nl.uva.se.sc.niro.gui.application.QLForms
+import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import nl.uva.se.sc.niro.{ QLFormService, QLStylesheetService }
@@ -30,7 +29,7 @@ class QLHomeController extends QLBaseController with Logging {
           val stylesheetOrErrors: Either[Seq[Errors.Error], Option[QLStylesheet]] =
             QLStylesheetService.importQLStylesheetSpecification(form, new File(selectedFile.toString + "s"))
           stylesheetOrErrors match {
-            case Right(stylesheet) => handleSuccess(getActiveStage(), form, stylesheet)
+            case Right(stylesheet) => handleSuccess(form, stylesheet)
             case Left(errors)      => handleErrors(errors)
           }
         }
@@ -38,6 +37,7 @@ class QLHomeController extends QLBaseController with Logging {
       }
     } catch {
       case e: IOException => {
+        // TODO Improve message and handling
         errorMessages.setText(s"Oops, please contact the developers:\n\n${e.getMessage}")
         logger.error("Processing a QL/QLS file failed!", e)
         errorMessages.setVisible(true)
@@ -52,9 +52,8 @@ class QLHomeController extends QLBaseController with Logging {
     fileChooser.showOpenDialog(stage)
   }
 
-  private def handleSuccess(stage: Stage, form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
-    val formScene = createSceneForForm(form, stylesheet)
-    stage.setScene(formScene)
+  private def handleSuccess(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
+    showQLForm(form, stylesheet)
   }
 
   private def handleErrors(errors: Seq[Errors.Error]): Unit = {
@@ -62,12 +61,8 @@ class QLHomeController extends QLBaseController with Logging {
     errorMessages.setVisible(true)
   }
 
-  @throws[IOException]
-  private def createSceneForForm(form: QLForm, stylesheet: Option[QLStylesheet]) = {
-    val loader = new FXMLLoader(getClass.getResource(QLForms.FORM_SCREEN))
-    val root: Pane = loader.load()
-    loader.getController[QLFormController]().setActiveStage(getActiveStage())
-    loader.getController[QLFormController]().initializeForm(form, stylesheet)
-    new Scene(root)
+  private def showQLForm(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
+    val formScene: QLScene[BorderPane, QLFormController] = switchToScene(QLScenes.getFormSceneFileName())
+    formScene.controller.initializeForm(form, stylesheet)
   }
 }

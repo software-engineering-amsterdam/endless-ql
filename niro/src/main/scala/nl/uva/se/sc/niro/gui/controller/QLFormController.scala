@@ -8,8 +8,7 @@ import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.{ Alert, Button, ButtonType, Label }
 import javafx.scene.layout.{ BorderPane, VBox }
 import javafx.stage.FileChooser
-import nl.uva.se.sc.niro.{ Evaluator, QLFormService }
-import nl.uva.se.sc.niro.gui.application.QLForms
+import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.control.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.gui.converter.ModelConverter
 import nl.uva.se.sc.niro.gui.factory.PageVisibilityFactory
@@ -19,6 +18,7 @@ import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer, StringAnswer }
 import nl.uva.se.sc.niro.model.qls.{ QLStylesheet, Question }
 import nl.uva.se.sc.niro.util.StringUtil
+import nl.uva.se.sc.niro.{ Evaluator, QLFormService }
 import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.{ JavaConverters, mutable }
@@ -50,7 +50,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
   @FXML
   @throws[IOException]
   def cancel(event: ActionEvent): Unit =
-    QLForms.openHomeScreen(getActiveStage())
+    switchToScene(QLScenes.getHomeSceneFileName())
 
   @FXML
   def saveData(event: ActionEvent): Unit = {

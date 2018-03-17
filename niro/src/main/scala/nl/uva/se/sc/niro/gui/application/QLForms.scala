@@ -7,27 +7,32 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.layout.Pane
 import javafx.stage.Stage
-import nl.uva.se.sc.niro.gui.controller.QLHomeController
+import nl.uva.se.sc.niro.gui.controller.QLBaseController
+
+object QLScenes {
+  def getHomeSceneFileName(): String = "/nl/uva/se/sc/niro/gui/QLHome.fxml"
+  def getFormSceneFileName(): String = "/nl/uva/se/sc/niro/gui/QLForm.fxml"
+}
 
 object QLForms {
-  val HOME_SCREEN = "/nl/uva/se/sc/niro/gui/QLHome.fxml"
-  val FORM_SCREEN = "/nl/uva/se/sc/niro/gui/QLForm.fxml"
 
   def main(args: Array[String]): Unit = Application.launch(classOf[QLForms], args: _*)
-
-  @throws[IOException]
-  def openHomeScreen(stage: Stage): Unit = {
-    val loader = new FXMLLoader(getClass.getResource(QLForms.HOME_SCREEN))
-    val root: Pane = loader.load()
-    val scene = new Scene(root)
-    loader.getController[QLHomeController]().setActiveStage(stage)
-    stage.setTitle("QL Forms")
-    stage.setScene(scene)
-    stage.show()
-  }
 }
 
 class QLForms extends Application {
+
   @throws[IOException]
-  override def start(stage: Stage): Unit = QLForms.openHomeScreen(stage)
+  override def start(stage: Stage): Unit = showScene(stage, QLScenes.getHomeSceneFileName())
+
+  @throws[IOException]
+  def showScene(stage: Stage, sceneFile: String): Unit = {
+    stage.setTitle("QL Forms")
+
+    val loader = new FXMLLoader(getClass.getResource(sceneFile))
+    val actOne: Pane = loader.load()
+    loader.getController[QLBaseController]().setActiveStage(stage)
+    stage.setScene(new Scene(actOne))
+
+    stage.show()
+  }
 }

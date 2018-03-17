@@ -19,7 +19,7 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
             m_domainItemLocator = domainItemLocator;
         }
 
-        public void Update<T>(Reference<IQuestionNode> node, T value)
+        public void Update(Reference<IQuestionNode> node, dynamic value)
         {
             m_symbolTable.Update(node.Id, value);
             var root = m_domainItemLocator.GetRoot(node);

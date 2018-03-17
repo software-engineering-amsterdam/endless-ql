@@ -43,12 +43,16 @@ public class UpdateVisitor extends QLBaseVisitor {
     @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
         Boolean condition = expVisitor.visitBoolExpression(ctx.booleanExpression());
-        QLParser.BlockContext block = ctx.block();
+        QLParser.BlockContext ifBlock = ctx.ifBlock;
+        QLParser.BlockContext elseBlock = ctx.elseBlock;
+        QLParser.IfStatementContext elseIfStatement = ctx.ifStatement();
 
-        if(isVisible && condition){
-            new UpdateVisitor(questionMap, true).visitBlock(block);
-        }else{
-            new UpdateVisitor(questionMap, false).visitBlock(block);
+        new UpdateVisitor(questionMap, isVisible && condition).visitBlock(ifBlock);
+
+        if(elseBlock != null){
+            new UpdateVisitor(questionMap, isVisible && !condition).visitBlock(ifBlock);
+        }else if(elseIfStatement != null){
+            this.visitIfStatement(elseIfStatement);
         }
 
         return questionMap;

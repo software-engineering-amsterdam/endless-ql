@@ -56,6 +56,8 @@
     <Compile Include="Export\FormExporter.cs" />
     <Compile Include="IMainView.cs" />
     <Compile Include="MainPresenter.cs" />
+    <Compile Include="Model\QL\AnswerType.cs" />
+    <Compile Include="Model\QL\Value\AnswerValue.cs" />
     <Compile Include="Model\QL\IQuestionVisitor.cs" />
     <Compile Include="Model\QLS\IContent.cs" />
     <Compile Include="Model\QLS\Page.cs" />
@@ -64,7 +66,7 @@
     <Compile Include="Model\QLS\Style.cs" />
     <Compile Include="Model\QLS\Stylesheet.cs" />
     <Compile Include="Model\QLS\Widget.cs" />
-    <Compile Include="Model\QL\Expression.cs" />
+    <Compile Include="Model\QL\QLExpression\Expression.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +79,14 @@
     <Compile Include="Model\QL\QuestionInt.cs" />
     <Compile Include="Model\QL\QuestionMoney.cs" />
     <Compile Include="Model\QL\QuestionString.cs" />
+    <Compile Include="Model\QL\Value\AnswerValueBool.cs" />
+    <Compile Include="Model\QL\Value\AnswerValueNumber.cs" />
+    <Compile Include="Model\QL\Value\AnswerValueString.cs" />
+    <Compile Include="Model\QL\Value\AnswerValueUndefined.cs" />
+    <Compile Include="Model\QL\Value\IAnswerComparable.cs" />
+    <Compile Include="Model\QL\Value\IAnswerComputable.cs" />
+    <Compile Include="Model\QL\Value\IAnswerLogical.cs" />
+    <Compile Include="Model\QL\Value\IAnswerValuable.cs" />
     <Compile Include="Parser\AntlrGenerated\QL.cs" />
     <Compile Include="Parser\AntlrGenerated\QLBaseListener.cs" />
     <Compile Include="Parser\AntlrGenerated\QLLexer.cs" />

@@ -6,10 +6,11 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.BigDecimalStringConverter;
 import qlviz.gui.viewModel.question.*;
+import qlviz.model.style.PropertySetting;
 
 import java.math.BigDecimal;
 
-public class SpinboxUIWidget implements UIWidget, QuestionViewModelVisitor {
+public class SpinboxUIWidget extends ControlUIWidget<Spinner<BigDecimal>> implements QuestionViewModelVisitor {
 
     private class DecimalSpinnerValueFactory extends SpinnerValueFactory<BigDecimal> {
 
@@ -30,22 +31,32 @@ public class SpinboxUIWidget implements UIWidget, QuestionViewModelVisitor {
         }
     }
 
-    private final Spinner<BigDecimal> spinner;
 
     public SpinboxUIWidget() {
         DecimalSpinnerValueFactory factory = new DecimalSpinnerValueFactory();
-        this.spinner = new Spinner<>();
+        this.node = new Spinner<>();
         TextFormatter<BigDecimal> formatter = new TextFormatter<BigDecimal>(new BigDecimalStringConverter());
         factory.valueProperty().bindBidirectional(formatter.valueProperty());
 
-        this.spinner.editableProperty().setValue(true);
-        this.spinner.editorProperty().get().setTextFormatter(formatter);
-        this.spinner.setValueFactory(factory);
+        this.node.editableProperty().setValue(true);
+        this.node.editorProperty().get().setTextFormatter(formatter);
+        this.node.setValueFactory(factory);
     }
 
     @Override
-    public Node getNode() {
-        return spinner;
+    public void setProperty(PropertySetting setting) {
+        super.setProperty(setting);
+        ParameterValueReader parameterValueReader = new ParameterValueReader();
+        setting.getValue().accept(parameterValueReader);
+        switch (setting.getPropertyKey()) {
+            case "color":
+                this.node.getEditor().setStyle("-fx-text-fill: rgb(" +
+                        parameterValueReader.getColorValue().getRed() + ", " +
+                        parameterValueReader.getColorValue().getGreen() + ", " +
+                        parameterValueReader.getColorValue().getBlue() + ");"
+                );
+                break;
+        }
     }
 
     @Override
@@ -65,12 +76,12 @@ public class SpinboxUIWidget implements UIWidget, QuestionViewModelVisitor {
 
     private void visitInternal(NumericQuestionViewModel numericQuestion) {
         if (numericQuestion.getValueExpression() == null){
-            numericQuestion.valueProperty().bind(this.spinner.getValueFactory().valueProperty());
+            numericQuestion.valueProperty().bind(this.node.getValueFactory().valueProperty());
         }
         else {
-            this.spinner.editableProperty().setValue(false);
+            this.node.editableProperty().setValue(false);
             numericQuestion.getValueExpression().valueProperty().addListener((observable, oldValue, newValue) ->
-                this.spinner.getValueFactory().setValue(newValue));
+                this.node.getValueFactory().setValue(newValue));
         }
     }
 

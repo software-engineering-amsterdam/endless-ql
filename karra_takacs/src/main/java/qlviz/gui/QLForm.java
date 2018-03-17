@@ -56,7 +56,7 @@ public class QLForm extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-		QLSBaseVisitor<PropertySetting> propertySettingVisitor = new QLSBaseVisitor<>();
+		QLSBaseVisitor<PropertySetting> propertySettingVisitor = new PropertySettingVisitor(new ParameterVisitor());
 		QLSBaseVisitor<Widget> widgetVisitor = new WidgetVisitor(
 				new WidgetTypeTranslator(),
 				new ParameterVisitor());

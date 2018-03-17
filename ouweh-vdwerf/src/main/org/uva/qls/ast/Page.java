@@ -19,11 +19,16 @@ public class Page extends TreeNode {
         this.defaultStatements = defaultStatements;
     }
 
-    public List<QuestionReference> getQuestions() {
-        List<QuestionReference> questionReferences = new ArrayList<>();
-        for (Segment segment : segments) {
-            questionReferences.addAll(segment.getQuestions());
-        }
-        return questionReferences;
+    public String getId() {
+        return id;
     }
+
+    public List<DefaultStatement> getDefaultStatements() {
+        return defaultStatements;
+    }
+
+    public List<Segment> getSegments() {
+        return segments;
+    }
+    
 }

@@ -14,6 +14,9 @@ class Question:
     def get_answer(self):
         return self.answer
 
+    def get_datatype(self):
+        return self.datatype
+
 
 class BooleanQuestion(Question):
     def __init__(self, questionID, question, datatype, answer = 'undefined'):
@@ -57,6 +60,7 @@ class BooleanQuestion(Question):
             question.set_answer('undefined')
 
     def create_frame(self):
+        # Creates a frame to be given to the questionnaire output frame.
         self.questionframe = QtWidgets.QFrame()
         self.questionlayout = QtWidgets.QGridLayout()
         self.questionframe.setLayout(self.questionlayout)

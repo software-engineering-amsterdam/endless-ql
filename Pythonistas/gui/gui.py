@@ -60,9 +60,8 @@ class MainWindow(QtWidgets.QWidget):
         if ql_text:
             ql_data.set_ql_grammar_text(ql_text)
             ql_data.run_antlr_ql()
-            # print(ql_data.ql_tree)
-            # print(ql_data.ql_tree.depth())
-            # print(type(ql_data.ql_tree))
+            # if error in tree:
+            #   addwidget errormessgae
             listen(ql_data.ql_tree, self.outputFrame)
             self.outputFrame.add_submit_button()
 

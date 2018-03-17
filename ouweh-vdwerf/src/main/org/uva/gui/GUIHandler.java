@@ -7,12 +7,10 @@ import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.gui.widgets.QuestionWidget;
 import org.uva.app.LogHandler;
-import org.uva.qls.ast.Stylesheet;
 import org.uva.qls.evaluator.StyleEvaluator;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -67,13 +65,13 @@ public class GUIHandler {
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
 
         for (Question question : formEvaluator.getQuestionsAsList()) {
-            Value value = formEvaluator.getValueById(question.getName());
+            Value value = formEvaluator.getValueById(question.getId());
             QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
             // TODO apply styling to widget
 
             if (formEvaluator.questionHasCondition(question)) {
                 BooleanValue expressionValue = (BooleanValue) this.expressionEvaluator.evaluateExpression(
-                        question.getName(),
+                        question.getId(),
                         this.formEvaluator.getConditionById(question.toString()),
                         this.formEvaluator.getValueTable()
                 );

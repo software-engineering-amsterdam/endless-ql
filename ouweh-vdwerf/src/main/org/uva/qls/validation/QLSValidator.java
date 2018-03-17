@@ -30,7 +30,7 @@ public class QLSValidator {
 
     private void initializeCheckers() {
         List<QuestionReference> qlsQuestions = stylesheet.getQuestions();
-        List<String> qlQuestionIds = qlQuestions.stream().map(Question::getName).collect(Collectors.toList());
+        List<String> qlQuestionIds = qlQuestions.stream().map(Question::getId).collect(Collectors.toList());
         List<String> qlsQuestionIds = qlsQuestions.stream().map(QuestionReference::getId).collect(Collectors.toList());
 
         checkers.add(new ReferenceChecker(qlQuestionIds, qlsQuestionIds));

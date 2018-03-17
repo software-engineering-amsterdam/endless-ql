@@ -19,3 +19,7 @@
 .state-output-container textarea {
     min-height: 500px;
 }
+
+.react-datepicker__input-container, .react-datepicker-wrapper {
+    display: block;
+}

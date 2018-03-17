@@ -20,9 +20,6 @@ export class QlParserPipeline {
 
   run(): QlParserResult[] {
     const formNodes: FormNode[] = getQlParser().parse(this._qlInput);
-
-    this.processFormNode(formNodes[0]);
-
     return formNodes.map(this.processFormNode);
   }
 

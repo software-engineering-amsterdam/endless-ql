@@ -78,20 +78,11 @@ yarn build
 Result will be written into the `/build` folder
 
 ## Doubts
+###QLS
+* TODO: Check for double default styles on same level
 
-* Can we have escape characters in string \"?
-* Are comments allowed (and which comments?)?
-* Are new lines required by the syntax?
-* Double and single string support?
-
-* What's the date format?
-* What's the money format?
-* Or just call everything Literal (as JS does)?
-* support multiple minuses --3 (python does)?
-
-* (FIXED) minus numbers
-* (FIXED) unary !
-
+###General
+* TODO: Root of expressions should be within brackets
 * TODO: Replace this simple integer check with solution in parser, differentiate between 10 and 10.0 (See type check visitor visitNumberLiteral)
 * TODO: Allow money and date literal (See type check visitor visitNumberLiteral)
 * TODO: Allow float literals (5.1 and 5.0)

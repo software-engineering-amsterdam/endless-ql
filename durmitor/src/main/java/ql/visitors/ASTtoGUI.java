@@ -1,26 +1,32 @@
 package ql.visitors;
 
+import java.util.LinkedHashMap;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import ql.ast.expression.literal.BoolLiteral;
+import ql.ast.expression.Identifier;
 import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
-import ql.ast.type.Bool;
 import ql.gui.GUI;
-import ql.gui.GUIQuestion;
+import ql.gui.IfThenElsePanel;
+import ql.gui.IfThenPanel;
+import ql.gui.QuestionPanel;
 import ql.gui.fields.actionlisteners.AbstractActionListener;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class ASTtoGUI implements StatementVisitor {
     
     private JPanel parentPanel;
+    public LinkedHashMap<JPanel, Boolean> panelsCollection = new LinkedHashMap<>();
+    public LinkedHashMap<Identifier, String> variableCollection = new LinkedHashMap<>();
 
     public ASTtoGUI(GUI gui) {
         this.parentPanel = gui.panel;
+        panelsCollection.put(this.parentPanel, this.parentPanel.isVisible());
     }
     
     @Override
@@ -39,63 +45,55 @@ public class ASTtoGUI implements StatementVisitor {
     @Override
     public void visit(IfThen stmt) {
         
-        System.out.println("parentPanel ifthen    : "+parentPanel.hashCode());
-        boolean render          = ((BoolLiteral) new Bool().parse(stmt.getCondition().evaluate())).getValue();
-        final JPanel thenPanel  = createContainerPanel();
+        final JPanel thenPanel  = new IfThenPanel(stmt.getCondition(), "then");
+        panelsCollection.put(thenPanel, thenPanel.isVisible());
         
         parentPanel.add(thenPanel);
-        
         parentPanel = thenPanel;
         stmt.getThenStatement().accept(this);
-        AbstractActionListener.setVisibility(thenPanel, render);
-        thenPanel.revalidate();
-        
         parentPanel.revalidate();
     }
     @Override
     public void visit(IfThenElse stmt) {
         
-        boolean render          = ((BoolLiteral) new Bool().parse(stmt.getCondition().evaluate())).getValue();
-        final JPanel thenPanel  = createContainerPanel();
-        final JPanel elsePanel  = createContainerPanel();
+        final IfThenElsePanel thenElsePanel = new IfThenElsePanel(stmt.getCondition(), "ThenElse");
+        panelsCollection.put(thenElsePanel, thenElsePanel.isVisible());
         
-        parentPanel.add(thenPanel);
-        parentPanel.add(elsePanel);
-        
-        parentPanel = thenPanel;
+        parentPanel.add(thenElsePanel);
+        parentPanel = thenElsePanel;
         stmt.getThenStatement().accept(this);
-        AbstractActionListener.setVisibility(thenPanel, render);
-        thenPanel.revalidate();
-        
-        parentPanel = elsePanel;
         stmt.getElseStatement().accept(this);
-        AbstractActionListener.setVisibility(elsePanel, !render);
-        elsePanel.revalidate();
-        
         parentPanel.revalidate();
     }
     @Override
     public void visit(AnswerableQuestion stmt) {
         
-        parentPanel.add(new GUIQuestion(stmt));
+        QuestionPanel question = new QuestionPanel(stmt);
+        parentPanel.add(question);
+        panelsCollection.put(question, true);
+        variableCollection.put(stmt.getIdentifier(), stmt.getIdentifier().getName());
         parentPanel.revalidate();
     }
     @Override
     public void visit(ComputedQuestion stmt) {
         
         boolean render              = !stmt.getComputation().evaluate().isUndefined();
-        final JPanel questionPanel  = createContainerPanel();
+        final JPanel questionPanel  = createContainerPanel("computed");
         
         parentPanel.add(questionPanel);
-        questionPanel.add(new GUIQuestion(stmt));
-        AbstractActionListener.setVisibility(questionPanel, render);
+        questionPanel.add(new QuestionPanel(stmt));
+        AbstractActionListener.setVisibility(questionPanel, true);
+        //AbstractActionListener.setVisibility(questionPanel, render);
+        panelsCollection.put(questionPanel, render);
+        variableCollection.put(stmt.getIdentifier(), stmt.getIdentifier().getName());
         questionPanel.revalidate();
         
         parentPanel.revalidate();
     }
     
-    private JPanel createContainerPanel() {
+    private JPanel createContainerPanel(String name) {
         JPanel containerPanel = new JPanel();
+        containerPanel.setName(name);
         containerPanel.setLayout(
                 new BoxLayout(containerPanel, BoxLayout.PAGE_AXIS));
         return containerPanel;

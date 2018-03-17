@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.misc.ParseCancellationException;
 import ql.QLFormBuilder;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
-import qls.StyleSheetParser;
+import qls.QLSFormBuilder;
 import qls.model.StyleSheet;
 
 import java.io.File;
@@ -31,7 +31,7 @@ public class Renderer extends Application {
             QLFormBuilder qlFormBuilder = new QLFormBuilder();
             this.qlForm = qlFormBuilder.buildForm(new FileInputStream(qlFile));
             this.symbolTable = qlFormBuilder.getSymbolTable();
-            this.qlsStyleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(qlsFile));
+            this.qlsStyleSheet = QLSFormBuilder.parseStyleSheet(new FileInputStream(qlsFile));
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
             return;

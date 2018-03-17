@@ -15,6 +15,7 @@ namespace UnitTests.UI.UnitTests
         {
             m_inputQuestion1 = new QuestionModel(
                 new Guid("40E98F85-949C-48F0-8194-CECEEBD0177F"),
+                new Guid("E1994F74-EBF3-4EAE-9E57-A32238B613E1"),
                 "int input question",
                 true,
                 false,

@@ -10,6 +10,7 @@ using QuestionaireOrchestration;
 using QuestionnaireDomain.Entities;
 using QuestionnaireInfrastructure.API;
 using QuestionnaireUI;
+using SimpleWPFApp.DataProvider;
 
 namespace SimpleWPFApp
 {
@@ -28,7 +29,12 @@ namespace SimpleWPFApp
             collection.AddTransient(
                 typeof(IQuestionnaireViewModel),
                 typeof(QuestionnaireViewModel));
+            collection.AddSingleton(
+                typeof(IQuestionnaireDataProvider),
+                typeof(QuestionnaireDataProvider));
             return collection;
+
+
         }
     }
 }

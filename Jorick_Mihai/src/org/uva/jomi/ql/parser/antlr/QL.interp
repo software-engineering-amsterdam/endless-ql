@@ -68,12 +68,12 @@ IDENTIFIER
 
 rule names:
 parse
-formStmt
-blockStmt
+formStatement
+blockStatement
 command
-questionStmt
-ifStmt
-ifElseStmt
+questionStatement
+ifStatement
+ifElseStatement
 expression
 
 

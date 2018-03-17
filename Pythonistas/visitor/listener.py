@@ -5,18 +5,20 @@ from parser_generator.grammar.QLParser import QLParser
 
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
+from gui import question_classes
 
 
-def listen(tree, outputWindow):
+def listen(tree, outputFrame):
     # print(tree.toStringTree())
-    ql = QLListener(outputWindow)
+    ql = QLListener(outputFrame)
     walker = ParseTreeWalker()
     walker.walk(ql, tree)
 
 
 class QLListener(ParseTreeListener):
-    def __init__(self, outputWindow):
-        self.outputWindow = outputWindow
+    def __init__(self, outputFrame):
+        self.outputFrame = outputFrame
+        self.inIf = False
 
     # Enter a parse tree produced by QLParser#form.
     def enterForm(self, ctx:QLParser.FormContext):
@@ -48,41 +50,36 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#question.
     def enterQuestion(self, ctx:QLParser.QuestionContext):
+        # Filters necessary information from the node
         children = ctx.getChildren()
         question = children.__next__().getText()
         questionID = children.__next__().getText()
         children.__next__()
-        datatype= children.__next__().getText()
-        choices = ['Yes', 'No']  # Default choices; todo: move to appropriate location.
-
-        self.outputWindow.outputlayout.addWidget(QtWidgets.QLabel(question))  # todo: reduce interactions with outputwindow
-        self.outputWindow.questions.append(question)
-        self.outputWindow.answers.append('undefined')  # Default answer
+        datatype = children.__next__().getText()
 
         if datatype == 'boolean':
-            self.outputWindow.btn_grp.append(QtWidgets.QButtonGroup())  # Makes sure only one radiobutton can be true per question
-            for choicenumber in range(len(choices)):
-                radiobutton = QtWidgets.QRadioButton(choices[choicenumber])
-                radiobutton.answer = choices[choicenumber]
-                radiobutton.question = question
+            questionObject = question_classes.BooleanQuestion(questionID, question, datatype)
+            choices = ['Yes','No']  # todo: make flexible
 
-                self.outputWindow.outputlayout.addWidget(radiobutton, self.outputWindow.row, choicenumber+1)
-                radiobutton.toggled.connect(self.outputWindow.write_answer)
+            truebutton = QtWidgets.QRadioButton(choices[0])
+            truebutton.toggled.connect(questionObject.set_answer_true)
+            questionObject.set_truebutton(truebutton)
 
-                self.outputWindow.btn_grp[-1].setExclusive(True)
-                self.outputWindow.btn_grp[-1].addButton(radiobutton)
+            falsebutton = QtWidgets.QRadioButton(choices[1])
+            falsebutton.toggled.connect(questionObject.set_answer_false)
+            questionObject.set_falsebutton(falsebutton)
 
         elif datatype == 'money':
-            # todo:testing
-            textbox = QtWidgets.QLineEdit(self)
-            textbox.answer = textbox.text()
-            textbox.question = question
-            textbox.textEdited.connect(self.outputWindow.write_answer)
-            self.outputWindow.outputlayout.addWidget(textbox, self.outputWindow.row, 1)
+            questionObject = question_classes.MoneyQuestion(questionID, question, datatype)
+            textbox = QtWidgets.QLineEdit()
+            textbox.textEdited.connect(questionObject.set_answer_text)
+            questionObject.set_text_input_box(textbox)
 
-        self.outputWindow.row += 1
-        # print(ctx.getText())
-        # self.outputWindow.add_question(ctx.getText())
+        self.outputFrame.questionIDs.append(questionID)
+        self.outputFrame.questions.append(questionObject)
+        self.outputFrame.add_question(questionObject.create_frame())
+        self.outputFrame.row += 1
+
 
     # Exit a parse tree produced by QLParser#question.
     def exitQuestion(self, ctx:QLParser.QuestionContext):
@@ -109,22 +106,31 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#if_.
     def enterIf_(self, ctx:QLParser.If_Context):
-        print(ctx.getText())
-        children = ctx.getChildren()
-        for child in children:
-            print(child)
-            print(child.getText())
-            print()
-            # print(dir)
-            # for grandchild in child:
-            #     print(grandchild)
-        # question = children.__next__().getText()
-        # pass
+        pass
 
     # Exit a parse tree produced by QLParser#if_.
     def exitIf_(self, ctx:QLParser.If_Context):
-        pass
+        # todo: cleanup
+        children = ctx.getChildren()
 
+        children.__next__()
+        children.__next__()
+        conditionalID = children.__next__().getText()
+        children.__next__()
+        ifquestion = children.__next__()
+
+        ifquestionchildren = ifquestion.getChildren()
+        ifquestionchildren.__next__()
+        ifquestionchild = ifquestionchildren.__next__()
+
+        grandchildren = ifquestionchild.getChildren()
+        grandchild = grandchildren.__next__()
+
+        ggrandchildren = grandchild.getChildren()
+        ggrandchildren.__next__()
+        ifquestionID = ggrandchildren.__next__().getText()
+
+        self.outputFrame.get_question_object(conditionalID).add_if_question(self.outputFrame.get_question_object(ifquestionID))
 
     # Enter a parse tree produced by QLParser#type.
     def enterType(self, ctx:QLParser.TypeContext):

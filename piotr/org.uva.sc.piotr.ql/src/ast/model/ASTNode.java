@@ -34,7 +34,11 @@ abstract public class ASTNode implements VisitableASTNode {
         this.metaInformation = metaInformation;
     }
 
+    protected ASTNode() { }
+
     public MetaInformation getMetaInformation() {
+        if (metaInformation == null)
+            return new MetaInformation(0,0, "<< no meta information available >>");
         return metaInformation;
     }
 

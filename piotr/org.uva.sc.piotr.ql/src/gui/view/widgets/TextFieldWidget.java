@@ -1,6 +1,6 @@
 package gui.view.widgets;
 
-import gui.model.FormQuestion;
+import gui.model.QuestionModel;
 import gui.view.Widget;
 
 import javax.swing.*;
@@ -11,14 +11,14 @@ public class TextFieldWidget extends Widget {
 
     private final JTextField textField;
 
-    public TextFieldWidget(FormQuestion formQuestion) {
+    public TextFieldWidget(QuestionModel questionModel) {
 
-        super(formQuestion);
+        super(questionModel);
 
         JTextField field = new JTextField();
         field.setColumns(20);
 
-        if (formQuestion.getAssignedExpression() != null) {
+        if (questionModel.getAssignedExpression() != null) {
             field.setEditable(false);
         }
 
@@ -37,7 +37,7 @@ public class TextFieldWidget extends Widget {
             }
 
             private void pushEvent() {
-                formQuestion.changeValue(field.getText());
+                questionModel.changeValue(field.getText());
             }
         });
         this.textField = field;
@@ -50,6 +50,6 @@ public class TextFieldWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.textField.setText(this.getFormQuestion().getValue().getStringValue());
+        this.textField.setText(this.getQuestionModel().getValue().getStringValue());
     }
 }

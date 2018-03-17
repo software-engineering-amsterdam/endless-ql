@@ -1,240 +1,42 @@
-//package gui;
-//
-//import classes.Question;
-//import classes.expressions.Expression;
-//import parsing.visitors.BaseVisitor;
-//
-//import javax.swing.*;
-//import javax.swing.border.MatteBorder;
-//import java.awt.*;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.Iterator;
-//import java.util.Map;
-//
-//public class FormBuilder {
-//    private JFrame mainFrame; //The frame on which the form is located
-//    private JPanel mainPanel; //The panel on which the widgets are located
-//    private JPanel mainListPanel;
-//    private HashMap<String, Question> questionHashMap = new HashMap<String, Question>();
-//    private ArrayList<QuestionPanel> questionPanelList;
-//    private BaseVisitor baseVisitor;
-//
-//    private int FRAMEHEIGHT = 800; //The height of the GUI
-//    private int FRAMEWIDTH = 800; //The width of the GUI
-//
-//    /**
-//     * constructor method
-//     * initializes the building process of the form
-//     * @param baseVisitor
-//     */
-//    public FormBuilder(BaseVisitor baseVisitor, HashMap questionHashMap) {
-//        this.baseVisitor = baseVisitor;
-//        this.questionHashMap = questionHashMap;
-//        this.questionPanelList = new ArrayList<QuestionPanel>();
-//
-//    }
-//
-//    /**
-//     * initComponents() method
-//     * initializes the building process for all widgets
-//     */
-//    public void initComponents() {
-//        //Build the frame and panel of the form
-//        buildFrame();
-//        buildPanel();
-//        buildList();
-//        //Add a scroll pane to the form
-//        mainPanel.add(new JScrollPane(mainListPanel));
-//        initQuestionPanels();
-//
-//        mainFrame.add(mainPanel);
-//        mainFrame.setVisible(true);
-//        mainFrame.setLocationRelativeTo(null);
-//        mainFrame.setVisible(true);
-//
-//    }
-//
-//    /**
-//     * Initialize the creation of the panels containing
-//     * the question it's controls through iteration
-//\     */
-//    private void initQuestionPanels() {
-//        Iterator it = questionHashMap.entrySet().iterator();
-//        while (it.hasNext()) {
-//            Map.Entry pair = (Map.Entry)it.next();
-//            buildQuestionPanel((String) pair.getKey(), (Question) pair.getValue());
-//            it.remove(); // avoid a ConcurrentModificationException
-//        }
-//    }
-//
-//    /**
-//     * Build each individual question panel and add
-//     * these to the main panel
-//     * @param key
-//     * @param question
-//     */
-//    private void buildQuestionPanel(String key, Question question) {
-//        QuestionPanel qPanel = new QuestionPanel(key, question);
-//        GridBagConstraints gbc = new GridBagConstraints();
-//        gbc.gridwidth = GridBagConstraints.REMAINDER;
-//        gbc.weightx = 1;
-//        gbc.fill = GridBagConstraints.HORIZONTAL;
-//        addQuestionToPanel(qPanel, gbc);
-//    }
-//
-//    /**
-//     * buildFrame() method
-//     * builds the frame
-//     */
-//    private void buildFrame() {
-//        this.mainFrame = new JFrame("Questionnaire (QL)");
-//        this.mainFrame.setVisible(true);
-//        this.mainFrame.setBounds(0,0,FRAMEHEIGHT, FRAMEWIDTH);
-//        this.mainFrame.setLayout(new BorderLayout());
-//    }
-//
-//    /**
-//     * buildFrame() method
-//     * builds the panel
-//     */
-//    private void buildPanel() {
-//        mainPanel = new JPanel(new BorderLayout());
-//    }
-//
-//    private void buildList() {
-//        mainListPanel = new JPanel(new GridBagLayout());
-//    }
-//
-//
-//    private class QuestionPanel extends JPanel {
-//        private String key;
-//        private Question question;
-//
-//        private QuestionPanel(String key, Question question) {
-//            this.key = key;
-//            this.question = question;
-//            this.add(new JLabel(question.getText()));
-//            this.setBorder(new MatteBorder(1, 1, 1, 1, Color.GRAY));
-//            addQuestionPanelControls(question);
-//        }
-//
-//        private void addQuestionPanelControls(Question question) {
-//            switch(question.getTypeName()) {
-//                case String:
-//                    createStringControl();
-//                    break;
-//                case Boolean:
-//                    createBoolControl();
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//
-//        private void createBoolControl() {
-//            JCheckBox checkBox = new JCheckBox();
-//            checkBox.addActionListener(new BoolActionListener(key, checkBox));
-//            this.add(checkBox);
-//        }
-//
-//        private void createStringControl() {
-//        }
-//    }
-//
-//    public class BoolActionListener implements ActionListener {
-//
-//        private JCheckBox checkBox;
-//        private String key;
-//
-//        private BoolActionListener(String key, JCheckBox checkBox) {
-//            this.key = key;
-//            this.checkBox = checkBox;
-//        }
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            if(checkBox.isSelected()) {
-//                System.out.println("checkbox checked");
-//                updateQuestions(key, true);
-//            } else {
-//                updateQuestions(key, false);
-//
-//            }
-//            checkBox.requestFocus();
-//        }
-//    }
-//
-//    private void updateQuestions(String key, Boolean value) {
-//        questionHashMap.get(key).setValue(value);
-//        updateGUI();
-//    }
-//
-//    private void updateGUI() {
-//        questionHashMap = baseVisitor.updateQuestions(questionHashMap);
-//        for(QuestionPanel questionPanel : questionPanelList) {
-//            Boolean ifExpressionSatisfied = baseVisitor.validateExpression(questionPanel.question);
-//            if(ifExpressionSatisfied) {
-//                addQuestionToPanel(questionPanel);
-//            } else {
-//                removeQuestionFromPanel(questionPanel);
-//            }
-//        }
-//    }
-//
-//    private void addQuestionToPanel(QuestionPanel questionPanel, GridBagConstraints gbc) {
-//        mainListPanel.add(questionPanel, gbc);
-//        questionPanelList.add(questionPanel);
-//    }
-//
-//
-//    private void addQuestionToPanel(QuestionPanel questionPanel) {
-//        mainListPanel.add(questionPanel);
-//        questionPanelList.add(questionPanel);
-//
-//    }
-//
-//
-//
-//    private void removeQuestionFromPanel(QuestionPanel questionPanel) {
-//        mainListPanel.remove(questionPanel);
-//        questionPanelList.remove(questionPanel);
-//
-//    }
-//
-//}
+package gui;
 
 import classes.Question;
-import classes.expressions.Expression;
-import classes.expressions.ExpressionType;
-import classes.types.BooleanType;
-import classes.types.StringType;
-import classes.types.Type;
+import classes.values.BooleanValue;
+import classes.values.IntegerValue;
+import classes.values.StringValue;
+import classes.values.UndefinedValue;
+import classes.values.Value;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionPanelCheckBox;
-import gui.questions.QuestionPanelText;
-import parsing.visitors.BaseVisitor;
+import gui.questions.QuestionPanelDate;
+import gui.questions.QuestionPanelTextInt;
+import gui.questions.QuestionPanelTextString;
+import org.jdatepicker.JDatePicker;
+import parsing.visitors.FormVisitor;
 
-import javax.lang.model.type.TypeVisitor;
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class FormBuilder {
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which the widgets are located
     private JPanel mainListPanel;
-    private HashMap<String, Question> questionHashMap = new HashMap<String, Question>();
-    private ArrayList<QuestionPanel> questionPanelList;
-    private BaseVisitor baseVisitor;
+    private HashMap<String, Question> questionHashMap;
+    private HashMap<String, QuestionPanel> questionPanelHashMap;
+    private FormVisitor coreVisitor;
 
     private int FRAMEHEIGHT = 800; //The height of the GUI
     private int FRAMEWIDTH = 800; //The width of the GUI
@@ -242,13 +44,13 @@ public class FormBuilder {
     /**
      * constructor method
      * initializes the building process of the form
-     * @param baseVisitor
+     *
+     * @param coreVisitor
      */
-    public FormBuilder(BaseVisitor baseVisitor, HashMap questionHashMap) {
-        this.baseVisitor = baseVisitor;
+    public FormBuilder(FormVisitor coreVisitor, HashMap<String, Question> questionHashMap) {
+        this.coreVisitor = coreVisitor;
         this.questionHashMap = questionHashMap;
-        this.questionPanelList = new ArrayList<QuestionPanel>();
-
+        this.questionPanelHashMap = new HashMap<String, QuestionPanel>();
     }
 
     /**
@@ -274,39 +76,61 @@ public class FormBuilder {
     /**
      * Initialize the creation of the panels containing
      * the question it's controls through iteration
-\     */
+     */
     private void initQuestionPanels() {
-        Iterator it = questionHashMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            Question question = (Question) pair.getValue();
-            buildQuestionPanel((String) pair.getKey(), question, question.getType().getTypeName());
-            it.remove(); // avoid a ConcurrentModificationException
+        Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<String, Question> entry = entries.next();
+            Question question = entry.getValue();
+            if(question.isVisible()) {
+                buildQuestionPanel(entry.getKey(), question, question.getValue());
+            } else {
+
+            }
         }
     }
 
     /**
      * Build each individual question panel and add
      * these to the main panel
-     * @param key identifier
+     *
+     * @param key      identifier
      * @param question question
-     * @param String stringType typename
+     * @param value type
      */
-    private void buildQuestionPanel(String key, Question question, String stringType) {
-
+    private void buildQuestionPanel(String key, Question question, Value value) {
         QuestionPanel qPanel;
-
-        switch (stringType) {
-            case "String":
-                qPanel = new QuestionPanelText(key, question);
+        switch (value.getType()) {
+            case Value.STRING:
+                qPanel = new QuestionPanelTextString(key, question);
+                qPanel.setListener(new StringDocumentListener(key, (JTextField) qPanel.getComponent()));
                 break;
-            case "boolean":
+            case Value.BOOLEAN:
                 qPanel = new QuestionPanelCheckBox(key, question);
+                qPanel.setListener(new BoolActionListener(key, (JCheckBox) qPanel.getComponent()));
+                break;
+            case Value.DECIMAL:
+                qPanel = new QuestionPanelTextInt(key, question);
+                qPanel.setListener(new IntegerDocumentListener(key, (JTextField) qPanel.getComponent()));
+                break;
+            case Value.MONEY:
+                qPanel = new QuestionPanelTextInt(key, question);
+                qPanel.setListener(new IntegerDocumentListener(key, (JTextField) qPanel.getComponent()));
+                break;
+            case Value.DATE:
+                qPanel = new QuestionPanelDate(key, question);
+                qPanel.setListener(new DateActionListener(key, (JDatePicker) qPanel.getComponent()));
+                break;
+            case Value.INTEGER:
+                qPanel = new QuestionPanelTextInt(key, question);
+                qPanel.setListener(new IntegerDocumentListener(key, (JTextField) qPanel.getComponent()));
                 break;
             default:
                 qPanel = new QuestionPanelCheckBox(key, question);
+                qPanel.setListener(new StringDocumentListener(key, (JTextField) qPanel.getComponent()));
                 break;
         }
+        questionPanelHashMap.put(key, qPanel);
         addQuestionToPanel(qPanel, getQuestionConstraints());
     }
 
@@ -318,6 +142,7 @@ public class FormBuilder {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         return gbc;
     }
+
     /**
      * buildFrame() method
      * builds the frame
@@ -325,7 +150,7 @@ public class FormBuilder {
     private void buildFrame() {
         this.mainFrame = new JFrame("Questionnaire (QL)");
         this.mainFrame.setVisible(true);
-        this.mainFrame.setBounds(0,0,FRAMEHEIGHT, FRAMEWIDTH);
+        this.mainFrame.setBounds(0, 0, FRAMEHEIGHT, FRAMEWIDTH);
         this.mainFrame.setLayout(new BorderLayout());
     }
 
@@ -341,23 +166,54 @@ public class FormBuilder {
         mainListPanel = new JPanel(new GridBagLayout());
     }
 
+    private void update(String key, Value value) {
 
-    private void updateQuestions(String key, Boolean value) {
-        questionHashMap.get(key).setValue(value);
-        updateGUI();
+        if(!(value instanceof UndefinedValue)) {
+            updateQuestion(key, value); //step 3
+            coreVisitor.update(); //step 4
+            updateGUI(); // step 5
+        }
     }
-
+    private void updateQuestion(String key, Value value) {
+        questionHashMap.get(key).setValue(value);
+        questionPanelHashMap.get(key).setValue(value);
+    }
+    /**
+     * updateGUI() method
+     * builds the frame
+     */
     private void updateGUI() {
-        questionHashMap = baseVisitor.updateQuestions(questionHashMap);
-        for(Component questionPanel : mainListPanel.getComponents()) {
-            if (questionPanel instanceof QuestionPanel) {
-                if (((QuestionPanel) questionPanel).getState()) {
-                    addQuestionToPanel((QuestionPanel) questionPanel);
+//        Iterator<Map.Entry<String, QuestionPanel>> entries = questionPanelHashMap.entrySet().iterator();
+//        while (entries.hasNext()) {
+//            Map.Entry<String, QuestionPanel> entry = entries.next();
+//            Question question = entry.getValue().getQuestion();
+//            if (question.isVisible()) {
+////                buildQuestionPanel((entry.getKey()), question, question.getValue());
+//                addQuestionToPanel(entry.getValue());
+//            } else {
+//                removeQuestionFromPanel(entry.getValue());
+//            }
+//
+//        }
+        Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<String, Question> entry = entries.next();
+            Question question = entry.getValue();
+            if(question.isVisible()) {
+                if (questionPanelHashMap.get(entry.getKey()) == null) {
+                    buildQuestionPanel(entry.getKey(), question, question.getValue());
                 } else {
-                    removeQuestionFromPanel((QuestionPanel) questionPanel);
+
+                }
+            } else {
+                if (questionPanelHashMap.get(entry.getKey()) != null) {
+                    removeQuestionFromPanel(questionPanelHashMap.get(entry.getKey()));
+                    questionPanelHashMap.remove(entry.getKey());
                 }
             }
         }
+        mainListPanel.revalidate();
+        mainListPanel.repaint();
     }
 
     private void addQuestionToPanel(QuestionPanel questionPanel, GridBagConstraints gbc) {
@@ -370,9 +226,180 @@ public class FormBuilder {
     }
 
 
-
     private void removeQuestionFromPanel(QuestionPanel questionPanel) {
         mainListPanel.remove(questionPanel);
     }
 
+
+    /**
+     * ActionListener methods
+     ***********************************/
+
+    public class DateActionListener implements ActionListener {
+
+        private JDatePicker picker;
+        private String key;
+
+        private DateActionListener(String key, JDatePicker picker) {
+            this.key = key;
+            this.picker = picker;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Date selectedDate = (Date) picker.getModel().getValue();
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            String reportDate = df.format(selectedDate);
+            JOptionPane.showMessageDialog(null,reportDate);
+        }
+    }
+
+    //Bool ActionListener
+    public class BoolActionListener implements ActionListener {
+
+        private JCheckBox checkBox;
+        private String key;
+
+        private BoolActionListener(String key, JCheckBox checkBox) {
+            this.key = key;
+            this.checkBox = checkBox;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (checkBox.isSelected()) {
+                System.out.println("checkbox checked");
+                update(key, new BooleanValue(true));
+            } else {
+                System.out.println("checkbox unchecked");
+                update(key, new BooleanValue(false));
+
+            }
+            checkBox.requestFocus();
+        }
+    }
+
+    //String ActionListener
+    public class StringDocumentListener implements DocumentListener {
+        private boolean modified = false;
+        private JTextField textField;
+        private String key;
+
+        public StringDocumentListener(String key, JTextField textField) {
+            this.key = key;
+            this.textField = textField;
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            textField.requestFocus();
+            if (!modified) {
+                modified = true;
+            }
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    String textString = textField.getText();
+                    update(key, new StringValue(textString));
+                    modified = false;
+                    textField.requestFocus();
+                }
+            });
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            textField.requestFocus();
+            if (!modified) {
+                modified = true;
+            }
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    String textString = textField.getText();
+                    update(key, new StringValue(textString));
+                    modified = false;
+                    textField.requestFocus();
+                }
+            });
+        }
+    }
+
+    public class IntegerDocumentListener implements DocumentListener {
+        private boolean modified = false;
+        private JTextField textField;
+        private String key;
+
+        public IntegerDocumentListener(String key, JTextField textField2) {
+            this.key = key;
+            this.textField = textField2;
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            textField.requestFocus();
+            if (!modified) {
+                modified = true;
+            }
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean correctInput = true;
+                        int input = 0;
+
+                        try {
+                            String textString = textField.getText();
+                            input = Integer.parseInt(textString);
+                        } catch (Exception exception) {
+                            correctInput = false;
+                        }
+
+                        if (correctInput) {
+                            update(key, new IntegerValue(input));
+                        } else {
+                            update(key, new UndefinedValue());
+                        }
+                        modified = false;
+                        textField.requestFocus();
+                    }
+                });
+            }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            textField.requestFocus();
+            if (!modified) {
+                modified = true;
+            }
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    boolean correctInput = true;
+                    int input = 0;
+                    try {
+                        String textString = textField.getText();
+                        input = Integer.parseInt(textString);
+                    } catch (Exception exception) {
+                        correctInput = false;
+                    }
+                    if (correctInput) {
+                        update(key, new IntegerValue(input));
+                    } else {
+                        update(key, new UndefinedValue());
+                    }
+                    modified = false;
+                    textField.requestFocus();
+                }
+            });
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+
+        }
+    }
 }

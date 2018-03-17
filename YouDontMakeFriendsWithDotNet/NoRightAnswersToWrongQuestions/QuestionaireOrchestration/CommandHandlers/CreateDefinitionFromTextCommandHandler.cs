@@ -36,7 +36,7 @@ namespace QuestionaireOrchestration.CommandHandlers
 
             if (m_outputCreator.Validate(questionnaireRef))
             {
-                m_outputCreator.Create(questionnaireRef);
+                m_outputCreator.CreateOrUpdate(questionnaireRef);
             }
         }
     }

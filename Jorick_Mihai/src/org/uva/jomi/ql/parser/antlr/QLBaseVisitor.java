@@ -26,14 +26,14 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFormStmt(QLParser.FormStmtContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFormStatement(QLParser.FormStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBlockStmt(QLParser.BlockStmtContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBlockStatement(QLParser.BlockStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -47,103 +47,103 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitQuestionStmt(QLParser.QuestionStmtContext ctx) { return visitChildren(ctx); }
+	@Override public T visitQuestionStatement(QLParser.QuestionStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIfStmt(QLParser.IfStmtContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIfStatement(QLParser.IfStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIfElseStmt(QLParser.IfElseStmtContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIfElseStatement(QLParser.IfElseStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAndExpr(QLParser.AndExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitComparisonExpression(QLParser.ComparisonExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStringExpr(QLParser.StringExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBooleanExpression(QLParser.BooleanExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIntegerExpr(QLParser.IntegerExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMultiplicationOrDivisionExpression(QLParser.MultiplicationOrDivisionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEqualityExpr(QLParser.EqualityExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAndExpression(QLParser.AndExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMultiplicationOrDivisionExpr(QLParser.MultiplicationOrDivisionExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGroupingExpression(QLParser.GroupingExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitComparisonExpr(QLParser.ComparisonExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStringExpression(QLParser.StringExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIdentifierExpr(QLParser.IdentifierExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnaryExpression(QLParser.UnaryExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGroupingExpr(QLParser.GroupingExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIntegerExpression(QLParser.IntegerExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAdditionOrSubtractionExpr(QLParser.AdditionOrSubtractionExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEqualityExpression(QLParser.EqualityExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnaryExpr(QLParser.UnaryExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOrExpression(QLParser.OrExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBooleanExpr(QLParser.BooleanExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIdentifierExpression(QLParser.IdentifierExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOrExpr(QLParser.OrExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAdditionOrSubtractionExpression(QLParser.AdditionOrSubtractionExpressionContext ctx) { return visitChildren(ctx); }
 }

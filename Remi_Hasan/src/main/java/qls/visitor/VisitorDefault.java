@@ -24,6 +24,6 @@ public class VisitorDefault extends QLSBaseVisitor<Default> {
             widgets.add(widget);
         }
 
-        return new Default(returnType, widgets);
+        return new Default(ctx.getStart(), returnType, widgets);
     }
 }

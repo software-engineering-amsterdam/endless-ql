@@ -30,14 +30,14 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
     }
 
     @Override
-    public AstRoot visitForms(QLParser.FormsContext ctx) {
+    public QLAstRoot visitForms(QLParser.FormsContext ctx) {
         List<Form> forms = new ArrayList<>();
 
         for (int i = 0; i < ctx.form().size(); i++) {
             forms.add(visitForm(ctx.form(i)));
         }
 
-        return new AstRoot(forms, lineNumber(ctx), columnNumber(ctx));
+        return new QLAstRoot(forms, lineNumber(ctx), columnNumber(ctx));
     }
 
     @Override

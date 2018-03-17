@@ -1,11 +1,11 @@
 package parsing.checkers;
 
-import classes.Question;
-import parsing.checkers.errors.TypeError;
+import classes.values.BooleanValue;
+import classes.values.NumericValue;
+import classes.values.Value;
+import parsing.checkers.errors.TypeMismatchError;
 import parsing.gen.QLParser;
-import parsing.visitors.BaseVisitor;
-
-import java.util.HashMap;
+import parsing.visitors.refactor_tmp.BaseVisitor;
 
 public class TypeChecker extends BaseVisitor {
     // Typechecker checks if there are any inconsistensies in the types that were given in the syntax of the code
@@ -17,13 +17,12 @@ public class TypeChecker extends BaseVisitor {
     @Override
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        Class expectedType = visit(ctx.type()).getClass();
+        Value expectedType = (Value) visit(ctx.type());
         Class valueType = visit(ctx.expression()).getClass();
 
-
-        if(!haveSameType(valueType, expectedType)){
-            throw new TypeError(id, ctx.type().getText());
-        }
+//        if(!haveSameType(valueType, expectedType)){
+//            throw new TypeMismatchError(id, ctx.type().getText());
+//        }
 
         return super.visitFixedQuestion(ctx);
     }
@@ -32,19 +31,19 @@ public class TypeChecker extends BaseVisitor {
     public Object visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) {
         String id = ctx.getText();
 
-        if(!haveSameType(Boolean.class, getQuestion(id).getType())){
-            throw new TypeError(id, "boolean");
+        if(!haveSameType(BooleanValue.class, getQuestion(id).getValue().getClass())){
+            throw new TypeMismatchError(id, "boolean");
         }
 
         return super.visitBoolIdentifier(ctx);
     }
 
     @Override
-    public Number visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+    public Double visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
         String id = ctx.getText();
 
-        if(!haveSameType(Number.class, getQuestion(id).getType())){
-            throw new TypeError(id, "number");
+        if(!haveSameType(NumericValue.class, getQuestion(id).getValue().getClass())){
+            throw new TypeMismatchError(id, "number");
         }
 
         return super.visitNumIdentifier(ctx);

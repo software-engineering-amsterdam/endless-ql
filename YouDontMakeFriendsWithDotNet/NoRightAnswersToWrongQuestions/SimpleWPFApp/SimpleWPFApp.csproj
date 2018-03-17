@@ -61,6 +61,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataProvider\QuestionnaireDataProvider.cs" />
+    <Compile Include="DataProvider\IQuestionnaireDataProvider.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Question.xaml.cs">
       <DependentUpon>Question.xaml</DependentUpon>

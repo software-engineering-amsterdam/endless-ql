@@ -23,7 +23,7 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
         {
             m_symbolTable.Update(node.Id, value);
             var root = m_domainItemLocator.GetRoot(node);
-            m_questionnaireOutputCreator.Create(root);
+            m_questionnaireOutputCreator.CreateOrUpdate(root);
         }
     }
 }

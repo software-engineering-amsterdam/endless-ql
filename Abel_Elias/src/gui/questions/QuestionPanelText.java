@@ -1,6 +1,7 @@
 package gui.questions;
 
 import classes.Question;
+import classes.values.Value;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
@@ -27,6 +28,12 @@ public abstract class QuestionPanelText extends QuestionPanel {
     public JComponent getComponent() {
         return this.textField;
     }
+
     @Override
     public abstract void setListener(EventListener listener);
+
+    @Override
+    public void setValue(Value value) {
+        this.textField.setText(value.getValue().toString());
+    }
 }

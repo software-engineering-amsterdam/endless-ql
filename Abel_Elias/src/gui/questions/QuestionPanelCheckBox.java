@@ -1,6 +1,7 @@
 package gui.questions;
 
 import classes.Question;
+import classes.values.Value;
 import gui.FormBuilder;
 
 import javax.swing.*;
@@ -31,5 +32,10 @@ public class QuestionPanelCheckBox extends QuestionPanel {
     public void setListener(EventListener listener) {
         FormBuilder.BoolActionListener boolActionListener = (FormBuilder.BoolActionListener) listener;
         checkBox.addActionListener(boolActionListener);
+    }
+
+    @Override
+    public void setValue(Value value) {
+        this.checkBox.setSelected((boolean) value.getValue());
     }
 }

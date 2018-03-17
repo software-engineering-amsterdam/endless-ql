@@ -1,6 +1,8 @@
 package gui.questions;
 
 import classes.Question;
+import classes.values.Value;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -36,6 +38,9 @@ public abstract class QuestionPanel extends JPanel {
     public abstract JComponent getComponent();
 
     public abstract void setListener(EventListener listener);
+
+    public abstract void setValue(Value value);
+
 
 //
 

@@ -1,20 +1,22 @@
 package GUI;
 
+import GUI.Listeners.RefreshListener;
 import Nodes.Question;
-
 import javax.swing.*;
+import java.awt.*;
 
 public class QuestionPanel extends JPanel{
     private Question question;
-    private String name;
     private boolean isAvailable;
 
-    public QuestionPanel (Question question){
+    public QuestionPanel (Question question, RefreshListener listener){
         this.question = question;
-        this.name = question.getName();
+        this.setName(question.getName());
         this.isAvailable = question.isAvailable();
-        this.add(new JTextField(question.getLabel()));
-        this.add(new ComponentFactory().getComponent(this.question.getType()));
+        this.add(new JLabel(question.getLabel()));
+        Component component = new ComponentFactory().getComponent(this.question.getType(), listener);
+        this.add(component);
+
     }
 
     public void setVisibility(){

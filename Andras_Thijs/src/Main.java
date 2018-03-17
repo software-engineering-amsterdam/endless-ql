@@ -1,4 +1,5 @@
 import AST.FormReader;
+import GUI.FormTemplate;
 import Nodes.QLForm;
 import QLExceptions.*;
 
@@ -26,8 +27,8 @@ public class Main {
                 }
             //\TODO
 
-            //FormTemplate formGUI = new FormTemplate(form);
-            //formGUI.initGUI();
+            FormTemplate formGUI = new FormTemplate(form);
+            formGUI.renderForm();
 
         } catch (IOException e) {
             e.printStackTrace();

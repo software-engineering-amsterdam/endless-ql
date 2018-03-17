@@ -1,47 +1,71 @@
 package GUI;
 
-import Nodes.Condition;
+import GUI.Listeners.RefreshListener;
 import Nodes.QLForm;
 import Nodes.Question;
-import Nodes.Type;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
-import javax.swing.text.DateFormatter;
-import javax.swing.text.NumberFormatter;
-import java.awt.*;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
-public class FormTemplate {
+public class FormTemplate implements RefreshListener{
 
     private QLForm form;
+    private List<QuestionPanel> questionPanels;
 
     public FormTemplate(QLForm form){
         this.form = form;
+        questionPanels = new ArrayList<>();
     }
 
     public void renderForm(){
 
         JFrame frame = new JFrame(form.getName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel panel = new JPanel(new FlowLayout());
+        FormLayout layout = new FormLayout(
+                "left:default, 3dlu default");
+
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
         List<Question> questions = form.getAllQuestions();
         Iterator<Question> questionIterator = questions.iterator();
-        while (questionIterator.hasNext())
-            panel.add(new QuestionPanel(questionIterator.next()));
+        while (questionIterator.hasNext()) {
+            QuestionPanel questionPanel = new QuestionPanel(questionIterator.next(), this);
+            questionPanels.add(questionPanel);
+            builder.append(questionPanel);
+        }
+
+        //JButton submit = new JButton("submit");
+
+        //builder.add(submit);
+
+        //JPanel buttonPanel = new JPanel();
+
+        JPanel panel = builder.getPanel();
+
+        frame.add(panel);
 
         frame.pack();
 
         frame.setVisible(true);
 
-
     }
+
+    private void refreshView(){
+        Iterator<QuestionPanel> questionPanelIterator = questionPanels.iterator();
+        while(questionPanelIterator.hasNext()){
+            questionPanelIterator.next().setVisibility();
+        }
+    }
+
+    @Override
+    public void refreshQuestions() {
+        refreshView();
+    }
+
+
 
     /*
     private FormLayout layout;

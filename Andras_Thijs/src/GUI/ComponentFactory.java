@@ -1,5 +1,7 @@
 package GUI;
 
+import GUI.Listeners.RefreshListener;
+import GUI.Listeners.ValueChangeListener;
 import Nodes.Type;
 
 import javax.swing.*;
@@ -13,19 +15,31 @@ import java.util.Date;
 
 public class ComponentFactory {
 
-    public Component getComponent(Type type){
+    public Component getComponent(Type type, RefreshListener listener){
         switch (type){
-            case BOOL: return new JCheckBox();
+            case BOOL:      JCheckBox checkBox = new JCheckBox();
+                            checkBox.addActionListener(new ValueChangeListener(listener));
+                            return checkBox;
 
-            case STRING: return new JTextField();
+            case STRING:    JTextField textField = new JTextField();
+                            textField.addActionListener(new ValueChangeListener(listener));
+                            return textField;
 
-            case INT: return new JFormattedTextField(intField());
+            case INT:       JFormattedTextField intField = new JFormattedTextField(intField());
+                            intField.addActionListener(new ValueChangeListener(listener));
+                            return intField;
 
-            case DATE: return new JFormattedTextField(dateField());
+            case DATE:      JFormattedTextField dateField = new JFormattedTextField(dateField());
+                            dateField.addActionListener(new ValueChangeListener(listener));
+                            return dateField;
 
-            case DECIMAL: return new JFormattedTextField(decimalField());
+            case DECIMAL:   JFormattedTextField decimalField = new JFormattedTextField(decimalField());
+                            decimalField.addActionListener(new ValueChangeListener(listener));
+                            return decimalField;
 
-            case MONEY: return new JFormattedTextField(moneyField());
+            case MONEY:     JFormattedTextField moneyField = new JFormattedTextField(decimalField());
+                            moneyField.addActionListener(new ValueChangeListener(listener));
+                            return moneyField;
 
             default: return new JLabel(String.valueOf(type));
         }
@@ -59,8 +73,4 @@ public class ComponentFactory {
         return formatter;
     }
 
-    // TODO define currency field
-    private NumberFormatter moneyField() {
-        return decimalField();
-    }
 }

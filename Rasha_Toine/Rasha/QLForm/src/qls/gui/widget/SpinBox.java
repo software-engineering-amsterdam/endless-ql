@@ -31,8 +31,8 @@ public class SpinBox extends Widget {
 
 	// configuration
 	private WidgetConfiguration config = new WidgetConfiguration(
-											UIManager.getDefaults().getFont("Spinner.font"),
-											Color.BLACK, new Dimension(120, 15));
+			UIManager.getDefaults().getFont("Spinner.font"),
+			Color.BLACK, new Dimension(120, 15));
 
 	//constructor
 	public SpinBox(Question question, FieldOptions options, EvaluationContext ctx) {

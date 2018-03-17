@@ -25,8 +25,8 @@ public class CheckBox extends Widget {
 	
 	// configuration
 	private WidgetConfiguration config = new WidgetConfiguration(
-												UIManager.getDefaults().getFont("CheckBox.font"),
-												Color.BLACK, new Dimension(100, 10));
+				UIManager.getDefaults().getFont("CheckBox.font"),
+				Color.BLACK, new Dimension(100, 10));
 
 	//constructor
 	public CheckBox(Question question, FieldOptions options, EvaluationContext ctx) {

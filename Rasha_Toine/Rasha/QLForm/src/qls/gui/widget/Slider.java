@@ -31,8 +31,8 @@ public class Slider extends Widget {
 
 	// configuration
 	private WidgetConfiguration config = new WidgetConfiguration(
-												UIManager.getDefaults().getFont("Label.font"),
-												Color.BLACK, new Dimension(150, 20) );
+				UIManager.getDefaults().getFont("Label.font"),
+				Color.BLACK, new Dimension(150, 20) );
 
 	//constructor
 	public Slider(Question question, FieldOptions options, EvaluationContext ctx) {

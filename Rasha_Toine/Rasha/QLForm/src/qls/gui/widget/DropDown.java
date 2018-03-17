@@ -27,8 +27,8 @@ public class DropDown extends Widget {
 
 	// configuration
 	private WidgetConfiguration config = new WidgetConfiguration(
-												UIManager.getDefaults().getFont("ComboBox.font"),
-												Color.BLACK, new Dimension(120, 15));
+				UIManager.getDefaults().getFont("ComboBox.font"),
+				Color.BLACK, new Dimension(120, 15));
 
 	//constructor
 	public DropDown(Question question, FieldOptions options, EvaluationContext ctx) {

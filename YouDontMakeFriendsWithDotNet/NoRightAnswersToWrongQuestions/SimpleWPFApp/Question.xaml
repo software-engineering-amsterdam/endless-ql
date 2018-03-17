@@ -8,22 +8,41 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-        <!--<UserControl.Resources>
-            <BooleanToVisibilityConverter x:Key="BoolToVis" />
-            <DataTemplate DataType="{x:Type System:String}">
-                <local:StringQuestion />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type System:Int32}">
-                <local:IntQuestion />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type System:decimal}">
-                <local:DecimalView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type System:DateTime}">
-                <local:DateTimeView/>
-            </DataTemplate>
-        </UserControl.Resources>-->
-
+        <local:TypeTemplateSelection x:Key="templateSelector" />
+        <DataTemplate x:Key="defaultTemplate">
+            <Grid>
+                <Label Content="unknown type" MinWidth ="180"></Label>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="stringTemplate">
+            <Grid>
+                <TextBox Text="{Binding Value}" MinWidth ="180"></TextBox>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="intTemplate">
+            <Grid>
+                <TextBox Text="{Binding Value, Mode=TwoWay,UpdateSourceTrigger=LostFocus}" MinWidth ="180"></TextBox>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="decimalTemplate">
+            <Grid>
+                <TextBox Text="{Binding Value,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" MinWidth ="180"></TextBox>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="boolTemplate">
+            <Grid>
+                <CheckBox IsChecked="{Binding Value,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></CheckBox>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="dateTemplate">
+            <Grid>
+                <DatePicker 
+                    Text="{Binding Value}"
+                    SelectedDateFormat="Long" 
+                    FirstDayOfWeek="Monday"
+                />
+            </Grid>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid Visibility="{Binding Path=Visible, Converter={StaticResource BoolToVis}}">
         <Grid.ColumnDefinitions>
@@ -36,12 +55,9 @@
                 Text="{Binding QuestionText}"
                 TextWrapping="Wrap"/>
         </Label>
-        
-        <TextBox 
-                Text="{Binding Value, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
-                MinWidth="100"
-                Margin="10,21,0,0"
-                Grid.Column="1"/>
+
+
+        <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource templateSelector}" Grid.Column="1"  />
     </Grid>
 </UserControl>
 

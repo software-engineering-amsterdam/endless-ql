@@ -1,6 +1,6 @@
 //package gui;
 //
-//import gui.widgets.*;
+//import gui.widget.*;
 //import javafx.application.Application;
 //import javafx.beans.value.ChangeListener;
 //import javafx.css.Stylesheet;

@@ -5,10 +5,15 @@ import ast.visitors.ASTNodeVisitor;
 
 public class VariableReference extends Expression {
 
-    private String name;
+    private final String name;
 
     public VariableReference(String name, MetaInformation metaInformation) {
         super(metaInformation);
+        this.name = name;
+    }
+
+    public VariableReference(String name) {
+        super();
         this.name = name;
     }
 

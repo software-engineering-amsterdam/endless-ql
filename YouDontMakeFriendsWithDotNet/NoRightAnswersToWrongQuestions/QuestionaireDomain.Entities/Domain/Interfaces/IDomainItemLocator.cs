@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionnaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 
-namespace QuestionnaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.Domain.Interfaces
 {
     public interface IDomainItemLocator
     {
@@ -13,5 +13,6 @@ namespace QuestionnaireDomain.Entities.API
         IEnumerable<Reference<TDomainItem>> GetAllRefs<TDomainItem>() where TDomainItem : IDomainItem;
 
         bool Exists<TDomainItem>(Guid id) where TDomainItem : IDomainItem;
+        Reference<IQuestionnaireRootNode> GetRoot(Reference<IQuestionNode> node);
     }
 }

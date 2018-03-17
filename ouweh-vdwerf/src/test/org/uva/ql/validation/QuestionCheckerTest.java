@@ -2,45 +2,64 @@ package org.uva.ql.validation;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.ql.app.InputHandler;
-import org.uva.ql.ast.Form;
-import org.uva.ql.parsing.ASTBuilder;
+import org.uva.app.LogHandler;
+import org.uva.ql.ast.Question;
+import org.uva.ql.ast.type.BooleanType;
+import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.ast.type.StringType;
+import org.uva.ql.validation.checker.QuestionChecker;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class QuestionCheckerTest {
 
-    private QuestionChecker questionChecker;
+    private LogHandler logHandler;
 
     @Before
     public void setUp() {
         Logger logger = Logger.getGlobal();
         LogManager.getLogManager().reset();
-        logger.addHandler(new LogHandler());
-
-        String input = new InputHandler().readFile("input/test/questionChecker.ql");
-        ASTBuilder builder = new ASTBuilder();
-        Form form = builder.buildAST(input);
-        questionChecker = new QuestionChecker(form);
+        this.logHandler = new LogHandler();
+        logger.addHandler(logHandler);
     }
 
     @Test
     public void runCheck() {
-        LogHandler logHandler = (LogHandler) Logger.getGlobal().getHandlers()[0];
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question("Q1", "v1", new BooleanType()));
+        questions.add(new Question("Q2", "v2", new IntegerType()));
+        questions.add(new Question("Q3", "v3", new StringType()));
+        QuestionChecker questionChecker = new QuestionChecker(questions);
         questionChecker.runCheck();
-        assertEquals(true, logHandler.hasWarnings());
+
+        assertFalse(this.logHandler.hasWarnings());
     }
 
     @Test
-    public void getSymbolTable() {
-        final int EXPECTED_ENTRIES = 3;
-        final String EXPECTED_TABLE = "{v1=BooleanType, v2=IntegerType, v3=StringType}";
+    public void runCheckDuplicateName() {
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question("Q1", "v1", new BooleanType()));
+        questions.add(new Question("Q1", "v2", new IntegerType()));
+        QuestionChecker questionChecker = new QuestionChecker(questions);
+        questionChecker.runCheck();
 
-        SymbolTable symbolTable = questionChecker.getSymbolTable();
-        assertEquals(EXPECTED_ENTRIES, symbolTable.size());
-        assertEquals(EXPECTED_TABLE, symbolTable.toString());
+        assertTrue(this.logHandler.hasWarnings());
+    }
+
+    @Test
+    public void runCheckDuplicateContent() {
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question("Q1", "v1", new BooleanType()));
+        questions.add(new Question("Q2", "v1", new IntegerType()));
+        QuestionChecker questionChecker = new QuestionChecker(questions);
+        questionChecker.runCheck();
+
+        assertTrue(this.logHandler.hasWarnings());
     }
 }

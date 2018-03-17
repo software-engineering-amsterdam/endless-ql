@@ -3,26 +3,26 @@ package qlviz.interpreter.style;
 import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.Question;
-import qlviz.model.style.WidgetType;
+import qlviz.model.style.Widget;
 
 public class QuestionVisitor extends QLSBaseVisitor<Question> {
 
-    private final QLSBaseVisitor<WidgetType> widgetTypeVisitor;
+    private final QLSBaseVisitor<Widget> widgetTypeVisitor;
 
-    public QuestionVisitor(QLSBaseVisitor<WidgetType> widgetTypeVisitor) {
+    public QuestionVisitor(QLSBaseVisitor<Widget> widgetTypeVisitor) {
         this.widgetTypeVisitor = widgetTypeVisitor;
     }
 
     @Override
     public Question visitQuestion(QLSParser.QuestionContext ctx) {
-        if (ctx.widgetType() == null) {
+        if (ctx.widget() == null) {
             return new Question(ctx.IDENTIFIER().getText(), ctx);
         }
         else
         {
             return new Question(
                     ctx.IDENTIFIER().getText(),
-                    widgetTypeVisitor.visitWidgetType(ctx.widgetType()),
+                    widgetTypeVisitor.visitWidget(ctx.widget()),
                     ctx
             );
         }

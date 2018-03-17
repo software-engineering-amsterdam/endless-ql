@@ -7,10 +7,9 @@ import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.interpreter.style.QuestionVisitor;
 import qlviz.model.style.Question;
-import qlviz.model.style.WidgetType;
+import qlviz.model.style.Widget;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyVararg;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,13 +20,13 @@ public class QuestionVisitorTest {
         // Arrange
         final String name = "test_name";
         QLSParser.QuestionContext contextMock = mock(QLSParser.QuestionContext.class);
-        QLSParser.WidgetTypeContext widgetTypeContextMock = mock(QLSParser.WidgetTypeContext.class);
+        QLSParser.WidgetContext widgetContextMock = mock(QLSParser.WidgetContext.class);
         TerminalNode identifierMock = mock(TerminalNode.class);
 
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(identifierMock.getText()).thenReturn(name);
 
-        QLSBaseVisitor<WidgetType> widgetVisitorMock = mock(QLSBaseVisitor.class);
+        QLSBaseVisitor<Widget> widgetVisitorMock = mock(QLSBaseVisitor.class);
 
         QuestionVisitor questionVisitor = new QuestionVisitor(widgetVisitorMock);
 
@@ -43,13 +42,13 @@ public class QuestionVisitorTest {
         // Arrange
         final String name = "test_name";
         QLSParser.QuestionContext contextMock = mock(QLSParser.QuestionContext.class);
-        QLSParser.WidgetTypeContext widgetTypeContextMock = mock(QLSParser.WidgetTypeContext.class);
+        QLSParser.WidgetContext widgetContextMock = mock(QLSParser.WidgetContext.class);
         TerminalNode identifierMock = mock(TerminalNode.class);
 
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(identifierMock.getText()).thenReturn(name);
 
-        QLSBaseVisitor<WidgetType> widgetVisitorMock = mock(QLSBaseVisitor.class);
+        QLSBaseVisitor<Widget> widgetVisitorMock = mock(QLSBaseVisitor.class);
 
         QuestionVisitor questionVisitor = new QuestionVisitor(widgetVisitorMock);
 
@@ -57,7 +56,7 @@ public class QuestionVisitorTest {
         Question result = questionVisitor.visitQuestion(contextMock);
 
         // Assert
-        Assert.assertEquals(null, result.getWidgetType());
+        Assert.assertEquals(null, result.getWidget());
     }
 
     @Test
@@ -65,15 +64,15 @@ public class QuestionVisitorTest {
         // Arrange
         final String name = "test_name";
         QLSParser.QuestionContext contextMock = mock(QLSParser.QuestionContext.class);
-        QLSParser.WidgetTypeContext widgetTypeContextMock = mock(QLSParser.WidgetTypeContext.class);
+        QLSParser.WidgetContext widgetContextMock = mock(QLSParser.WidgetContext.class);
         TerminalNode identifierMock = mock(TerminalNode.class);
 
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(identifierMock.getText()).thenReturn(name);
-        when(contextMock.widgetType()).thenReturn(widgetTypeContextMock);
+        when(contextMock.widget()).thenReturn(widgetContextMock);
 
-        QLSBaseVisitor<WidgetType> widgetVisitorMock = mock(QLSBaseVisitor.class);
-        when(widgetVisitorMock.visitWidgetType(any())).thenReturn(mock(WidgetType.class));
+        QLSBaseVisitor<Widget> widgetVisitorMock = mock(QLSBaseVisitor.class);
+        when(widgetVisitorMock.visitWidget(any())).thenReturn(mock(Widget.class));
 
         QuestionVisitor questionVisitor = new QuestionVisitor(widgetVisitorMock);
 
@@ -81,7 +80,7 @@ public class QuestionVisitorTest {
         Question result = questionVisitor.visitQuestion(contextMock);
 
         // Assert
-        Assert.assertNotNull(result.getWidgetType());
+        Assert.assertNotNull(result.getWidget());
     }
 
 }

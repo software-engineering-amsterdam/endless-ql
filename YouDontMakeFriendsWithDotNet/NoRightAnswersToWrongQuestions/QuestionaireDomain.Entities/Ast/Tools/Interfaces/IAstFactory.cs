@@ -5,9 +5,9 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
-using QuestionnaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Domain;
 
-namespace QuestionnaireDomain.Entities.API
+namespace QuestionnaireDomain.Entities.Ast.Tools.Interfaces
 {
     public interface IAstFactory
     {
@@ -116,5 +116,8 @@ namespace QuestionnaireDomain.Entities.API
             string definition, 
             Reference<IAstNode> leftExpression, 
             Reference<IAstNode> rightExpression);
+
+        Reference<IUntypedVariableNode> CreateUntypedVariableName(
+            string variableName);
     }
 }

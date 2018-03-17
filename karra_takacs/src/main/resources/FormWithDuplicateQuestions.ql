@@ -4,7 +4,7 @@
   "Did you sell a house in 2010?"
     hasBoughtHouse: boolean
   "Did you enter a loan?"
-    hasMaintLoan: boolean
+    hasSoldHouse: boolean
     
   if (hasSoldHouse) {
     "What was the selling price?"

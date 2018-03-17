@@ -2,7 +2,7 @@
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
-using QuestionnaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
 {
@@ -10,7 +10,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
         AstNodeBase, 
         ICalculatedQuestionNode
     {
-        public string QuestionId { get; }
+        public string QuestionName { get; }
         public string QuestionText { get; }
         public Type QuestionType { get; }
         public Reference<ICalculationNode> CalculatedValue { get; }
@@ -24,7 +24,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
             Reference<ICalculationNode> calculation) 
             : base(id, definition)
         {
-            QuestionId = questionId;
+            QuestionName = questionId;
             QuestionText = questionText;
             QuestionType = questionType;
             CalculatedValue = calculation;

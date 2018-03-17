@@ -1,9 +1,9 @@
 package qlviz.gui.viewModel.linker;
 
-import qlviz.gui.viewModel.ConditionalBlockViewModel;
 import qlviz.gui.viewModel.FormViewModel;
-import qlviz.gui.viewModel.QuestionBlockViewModel;
 import qlviz.gui.viewModel.question.*;
+import qlviz.model.Form;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,47 +13,21 @@ public class QuestionViewModelCollectorImpl implements QuestionViewModelCollecto
     private List<BooleanQuestionViewModel> booleanAccumulator;
     private List<NumericQuestionViewModel> numericAccumulator;
 
-    private void collectNumericQuestionViewModels(QuestionBlockViewModel block)
-    {
-        for (QuestionViewModel question : block.getQuestions()) {
-            question.accept(this);
-        }
-
-        for (ConditionalBlockViewModel conditionalBlock : block.getBlocks()) {
-            for (QuestionBlockViewModel innerBlock : conditionalBlock.getQuestionBlocks()) {
-                this.collectNumericQuestionViewModels(innerBlock);
-            }
-        }
-    }
-
 
     public List<NumericQuestionViewModel> collectNumericQuestionViewModels(FormViewModel form) {
         this.booleanAccumulator = new ArrayList<>();
         this.numericAccumulator = new ArrayList<>();
-        for (QuestionBlockViewModel block : form.getQuestions()) {
-            this.collectNumericQuestionViewModels(block);
+        for (QuestionViewModel question : form.getQuestions()) {
+            question.accept(this);
         }
         return this.numericAccumulator;
     }
 
-    private void collectBooleanQuestionViewModels(QuestionBlockViewModel block)
-    {
-        for (QuestionViewModel question : block.getQuestions()) {
-            question.accept(this);
-        }
-
-        for (ConditionalBlockViewModel conditionalBlock : block.getBlocks()) {
-            for (QuestionBlockViewModel innerBlock : conditionalBlock.getQuestionBlocks()) {
-                this.collectBooleanQuestionViewModels(innerBlock);
-            }
-        }
-    }
-
-    public List<BooleanQuestionViewModel> collectBooleanQuestionViewModels(FormViewModel form) {
-        this.numericAccumulator = new ArrayList<>();
+   public List<BooleanQuestionViewModel> collectBooleanQuestionViewModels(FormViewModel form) {
         this.booleanAccumulator = new ArrayList<>();
-        for (QuestionBlockViewModel block : form.getQuestions()) {
-           this.collectBooleanQuestionViewModels(block);
+        this.numericAccumulator = new ArrayList<>();
+        for (QuestionViewModel question : form.getQuestions()) {
+            question.accept(this);
         }
         return this.booleanAccumulator;
     }

@@ -57,6 +57,13 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypeDeclarationDecimal(QLParser.TypeDeclarationDecimalContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code TypeDeclarationMoney}
+	 * labeled alternative in {@link QLParser#dataType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeDeclarationMoney(QLParser.TypeDeclarationMoneyContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QLParser#ifStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -1,29 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionnaireDomain.Entities.API;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
-using QuestionnaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireInfrastructure.API;
 
-namespace QuestionnaireDomain.Entities
+namespace QuestionnaireDomain.Entities.Ast.Tools
 {
     internal class AstFactory : IAstFactory
     {
         private readonly IIdMaker m_ids;
         private readonly IDomainItemRegistry m_registry;
+        private readonly ISymbolTable m_symbolTable;
 
-        public AstFactory(IIdMaker ids, IDomainItemRegistry registry)
+        public AstFactory(
+            IIdMaker ids, 
+            IDomainItemRegistry registry,
+            ISymbolTable symbolTable)
         {
             m_ids = ids;
             m_registry = registry;
+            m_symbolTable = symbolTable;
         }
 
         public Reference<IQuestionnaireRootNode> CreateQuestionnaire(
@@ -69,7 +76,36 @@ namespace QuestionnaireDomain.Entities
                 questionText,
                 questionType);
 
+            InitializeVariable(question.Id, questionType);
             return DomainItemRegistration<IUserInputQuestionNode>(question);
+        }
+
+        private void InitializeVariable(Guid questionId, Type questionType)
+        {
+            if (questionType == typeof(bool))
+            {
+                m_symbolTable.Add(questionId, default(bool));
+            }
+
+            if (questionType == typeof(decimal))
+            {
+                m_symbolTable.Add(questionId, default(decimal));
+            }
+
+            if (questionType == typeof(int))
+            {
+                m_symbolTable.Add(questionId, default(int));
+            }
+
+            if (questionType == typeof(DateTime))
+            {
+                m_symbolTable.Add(questionId, default(DateTime));
+            }
+            
+            if (questionType == typeof(string))
+            {
+                m_symbolTable.Add(questionId, default(string));
+            }
         }
 
         public Reference<ICalculatedQuestionNode> CreateCalculatedQuestion(
@@ -321,6 +357,15 @@ namespace QuestionnaireDomain.Entities
                 rightExpression);
 
             return DomainItemRegistration<ILessOrEqualNode>(lessOrEqualNode);
+        }
+
+        public Reference<IUntypedVariableNode> CreateUntypedVariableName(string variableName)
+        {
+            var untypedVariableNode = new UntypedVariableNode(
+                m_ids.Next,
+                variableName);
+
+            return DomainItemRegistration<IUntypedVariableNode>(untypedVariableNode);
         }
 
         private Reference<T> DomainItemRegistration<T>(T node) where T : IDomainItem

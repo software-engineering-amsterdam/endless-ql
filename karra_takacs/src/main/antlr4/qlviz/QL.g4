@@ -1,10 +1,10 @@
 grammar QL;
-
+import QLCommon;
 //file to define grammar
 
 
 form : FORM_HEADER IDENTIFIER BRACKET_OPEN questionBlock+ BRACKET_CLOSE EOF;
-question: questionText questionName QUESTION_DELIMITER TYPE computedValue?;
+question: questionText questionName QUESTION_DELIMITER QUESTION_TYPE computedValue?;
 questionText: STRING ;
 questionBlock:  question+
              | conditionalBlock+ ;
@@ -31,35 +31,9 @@ booleanExpression : BOOLEAN
 
 expression: numericExpression | booleanExpression;
 
-//To skip New Lines, White spaces and comments
-NEWLINE: ('\n' | '\r' | '\r\n') -> skip;
-WHITESPACE : (' ' | '\n' | '\r' | '\t') -> skip;
-COMMENT			: ('/*' .*? '*/') ->skip;
-LINE_COMMENT	: '//' ~[\r\n]* ->skip;
-BRACKET_OPEN : '{';
-BRACKET_CLOSE: '}';
-PAREN_OPEN: '(';
-PAREN_CLOSE: ')';
 
 QUESTION_DELIMITER: ':';
 
-//keywords
-TYPE : 'boolean'
-     | 'money'
-     | 'string'
-     | 'integer'
-     | 'date'
-     | 'decimal'
-     ;
-IF	:'if';
-FORM_HEADER :  'form';
-
-
-//literals
-IDENTIFIER	: [a-zA-Z0-1_]+;
-NUMBER		: [0-9]+(.[0-9]+)?;
-BOOLEAN		: 'true' | 'false';
-STRING		: '"' .*? '"';
 
 
 

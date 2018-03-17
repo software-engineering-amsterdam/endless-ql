@@ -11,7 +11,7 @@ declaration: EQUAL PARL value PARR;
 
 expression: ID | PARL expression PARR | boolean_;
 
-if_: IF_TOKEN PARL expression PARR block;
+if_: IF_ PARL expression PARR block;
 type: (BOOLEAN | MONEY | ID); // | OTHER {System.out.println("first token "+$start.getText());}
 value: (INT | BOOL| compute);
 
@@ -21,8 +21,8 @@ boolean_: INT BOOLEAN_OP INT | PARL boolean_ PARR;
 
 // Lexer
 FORM       : 'form';
-IF_TOKEN   : 'if';
-ELSE_TOKEN : 'else';
+IF_        : 'if';
+ELSE_      : 'else';
 BOOLEAN    : 'boolean';
 MONEY      : 'money';
 

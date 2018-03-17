@@ -1,6 +1,6 @@
 ﻿using System;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
-using QuestionnaireDomain.Entities.DomainObjects;
+using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean
 {

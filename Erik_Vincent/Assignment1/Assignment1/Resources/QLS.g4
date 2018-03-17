@@ -15,18 +15,28 @@ options { tokenVocab=QLSLexer; }
 // Add instructions to generate appropriate classes
 
 stylesheet returns [Stylesheet result]
+	@init {
+	$result = new Stylesheet();
+	}
 	: STYLESHEET ID OPEN_CB (page
 		{$result.Pages.Add($page.result);}
 		)+ CLOSE_CB
 	;
 page returns [Page result]
+	@init {
+	$result = new Page();
+	}
 	: PAGE ID OPEN_CB (section
 			{$result.Sections.Add($section.result);})*
 		(default_style
 			{})*
 		CLOSE_CB
+		{$result.Id = $ID.text;}
 	;
 section returns [Section result]
+	@init {
+	$result = new Section();
+	}
 	: SECTION string questionStyle	//TODO: Check if this case is mandatory
 		{$result.Contents.Add($questionStyle.result);}
 	| SECTION string OPEN_CB (content
@@ -34,10 +44,11 @@ section returns [Section result]
 		(default_style
 			{})*
 		CLOSE_CB
+		{$result.Label = $string.result;}
 	;
 content returns [IContent result]
 	: section
-		{$result = new Section();}
+		{$result = $section.result;}
 	| questionStyle
 		{$result = $questionStyle.result;}
 	;
@@ -57,24 +68,25 @@ style returns [Style result]
 	| FONT SEP string
 		{$result.Label = $string.result;}
 	| FONTSIZE SEP NUMBER
-		{$result.FontSize = int.Parse($NUMBER.text);}
+		{$result.FontSize = float.Parse($NUMBER.text);}
 	| COLOR SEP HEXCOLORCODE
 		{$result.Color = ColorTranslator.FromHtml($HEXCOLORCODE.text);}
-	| widget)*	//TODO: Check if widget should have seperator too
+	| widget	//TODO: Check if widget should have seperator too
+		{$result.Widget = $widget.result;})*
 	;
 widget returns [Widget result]
 	: WIDGET CHECKBOX
 		{$result = new CheckBoxWidget();}
-	| WIDGET RADIO OPEN_BR string COMMA string CLOSE_BR
-		{$result = new RadioWidget(new []{""});}
+	| WIDGET RADIO OPEN_BR yes=string COMMA no=string CLOSE_BR
+		{$result = new RadioWidget($yes.result, $no.result);}
 	| WIDGET SLIDER
 		{$result = new SliderWidget();}
 	| WIDGET SPINBOX
 		{$result = new SpinBoxWidget();}
 	| WIDGET TEXTBOX
 		{$result = new TextBoxWidget();}
-	| WIDGET DROPDOWN
-		{$result = new DropDownWidget();}
+	| WIDGET DROPDOWN OPEN_BR yes=string COMMA no=string CLOSE_BR
+		{$result = new DropDownWidget($yes.result, $no.result);}
 	;
 default_style
 	: DEFAULT type OPEN_CB style CLOSE_CB

@@ -23,7 +23,7 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
         QuestionType type =
-                questionTypeTranslator.translate(ctx.TYPE());
+                questionTypeTranslator.translate(ctx.QUESTION_TYPE());
         String text = ctx.questionText().getText();
         String name = ctx.questionName().getText();
         NumericExpression computedValue = null;

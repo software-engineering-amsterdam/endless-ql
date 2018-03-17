@@ -39,6 +39,8 @@ namespace QLVisualizer.Controllers.Display
 
         public WidgetCreator<T> WidgetCreator { get; private set; }
 
+        protected T BaseDisplay;
+
         /// <summary>
         /// Default style in case no style is set
         /// </summary>
@@ -50,14 +52,6 @@ namespace QLVisualizer.Controllers.Display
             ElementIndex = new Dictionary<string, T>();
             DefaultStyle = defaultStyle;
             WidgetCreator = widgetCreator;
-        }
-
-        /// <summary>
-        /// Removes all widgets and shows them again
-        /// </summary>
-        public override void RefreshWidgets()
-        {
-            ShowWidget(_form, DefaultStyle);
         }
 
         /// <summary>
@@ -88,90 +82,13 @@ namespace QLVisualizer.Controllers.Display
         }
 
         /// <summary>
-        /// Remove element by ID
-        /// </summary>
-        /// <param name="id">widgetID</param>
-        public void DestroyElement(string id)
-        {
-            // Remove from view
-            RemoveFromView(ElementIndex[id]);
-
-            // Remove from storage
-            ElementIndex.Remove(id);
-        }
-
-        /// <summary>
-        /// Removes element from view
-        /// </summary>
-        /// <param name="element">Element to remove</param>
-        protected abstract void RemoveFromView(T element);
-
-        /// <summary>
-        /// Displays widget at specified position
-        /// </summary>
-        /// <param name="widget">Widget to be shown</param>
-        /// <param name="position">X-Position of widget</param>
-        /// <returns>Bottom X-Position of placed widget with repsect to all style attributes</returns>
-        public abstract float ShowWidget(ElementManager widget, Y style);
-
-        /// <summary>
         /// Shows form to user
         /// </summary>
         /// <param name="title">Tile of form</param>
         /// <param name="widgets">Widgets on form</param>
-        public override void DisplayForm(FormManager form)
+        public override void DisplayForm()
         {
-            SetTitle(form.Text);
-            _form = form;
-            ShowWidget(_form, DefaultStyle);
-        }
-
-        /// <summary>
-        /// Sets title of the form on view
-        /// </summary>
-        /// <param name="title">Title to show</param>
-        protected abstract void SetTitle(string title);
-
-        /// <summary>
-        /// Updates the position of the widget with the bottom position of the previous widget
-        /// </summary>
-        /// <param name="widget">Widget to update</param>
-        /// <param name="positionAbove">Bottom of previous/above widget</param>
-        /// <param name="style">Style of the widget to update</param>
-        /// <returns>Updated style</returns>
-        public abstract Y UpdatePosition(ElementManager widget, float positionAbove, Y style);
-
-        /// <summary>
-        /// Creates view element
-        /// </summary>
-        /// <param name="widget">Widget to show</param>
-        /// <param name="style">Style of widget</param>
-        /// <returns>View element</returns>
-        protected T CreateElement(ElementManager widget, Y style)
-        {
-            T element = _elementFactory.CreateElement(widget, style);
-            ElementIndex.Add(widget.Identifier, element);
-            return element;
-        }
-
-        /// <summary>
-        /// Updates the view of a specific widget
-        /// </summary>
-        /// <param name="widget">Target widget</param>
-        public override void UpdateView(ElementManager widget)
-        {
-            if (widget.Active == true)
-            {
-                if (!ElementIndex.ContainsKey(widget.Identifier))
-                {
-                    // TODO: ADD WIDGET ON CORRECT POSITION IN VIEW
-                    ShowWidget(widget, DefaultStyle);
-                }
-                else
-                    _elementFactory.UpdateElement(widget, ElementIndex[widget.Identifier]);
-            }
-            else if (ElementIndex.ContainsKey(widget.Identifier))
-                DestroyElement(widget.Identifier);
+            WidgetCreator.CreateWidgets(Form, BaseDisplay);
         }
 
         /// <summary>

@@ -4,11 +4,15 @@ grammar QL;
 /** Parser rules */
 form : FORM IDENTIFIER block EOF; // form
 
-block : CURLY_BRACE_L NEWLINE* ((ifStatement | question | statement) NEWLINE*)* CURLY_BRACE_R NEWLINE*; // content
+block : CURLY_BRACE_L NEWLINE* lineInBlock* CURLY_BRACE_R NEWLINE*; // content
 
-question : IDENTIFIER COLON STR type;
+lineInBlock : ifStatement NEWLINE*
+    | question NEWLINE*
+;
 
-statement : IDENTIFIER COLON STR type expression;
+question : IDENTIFIER COLON STR type #normalQuestion
+    | IDENTIFIER COLON STR type expression #fixedQuestion
+;
 
 expression: IDENTIFIER #identifier
     | booleanExpression #boolExpression
@@ -44,7 +48,9 @@ numberOperator:
    ADD | SUB | MUL | DIV | REM
 ;
 
-ifStatement : IF BRACE_L booleanExpression BRACE_R block*;
+ifStatement:
+    IF BRACE_L booleanExpression BRACE_R ifBlock=block (ELSE (ifStatement | elseBlock=block))?
+;
 
 type: BOOLEANTYPE   #booltype
     | STRINGTYPE    #stringtype
@@ -66,6 +72,7 @@ DECIMALTYPE: 'decimal';
 
 FORM : 'form';
 IF : 'if';
+ELSE: 'else';
 COLON : ':';
 
 // seperators
@@ -99,10 +106,10 @@ NOT : '!';
 fragment DIGIT : ('0'..'9');
 fragment LETTER : ('a'..'z'|'A'..'Z');
 
+BOOL : ('true' | 'false');
 IDENTIFIER: LETTER (LETTER | DIGIT | '_')*;
 STR : '"' .*? '"';
 INT : ('-')? DIGIT+;
-BOOL : ('true' | 'false');
 MON : DIGIT+ '.' DIGIT DIGIT;
 DEC : ('-')? DIGIT+  '.'  DIGIT+;
 NEWLINE : '\r'? '\n';

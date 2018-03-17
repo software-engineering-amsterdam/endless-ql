@@ -5,8 +5,6 @@ using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionaireOrchestration;
 using QuestionaireOrchestration.Visitors;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
-using QuestionnaireDomain.Logic;
-using QuestionnaireDomain.Logic.Logic;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 
@@ -62,10 +60,9 @@ namespace QuestionaireConsoleApp
         {
             Console.WriteLine("Enter statement:");
             var formDefinition = Console.ReadLine();
-            var creator = m_serviceProvider.GetService<IPredicateCreator>();
-            var predicate = creator.Create(formDefinition);
-
-            m_bprint.Print(predicate.ToDomainItem(m_domainItemLocator));
+            //ToDo: move creation of predicate into console app
+  
+           // m_bprint.Print(predicate.ToDomainItem(m_domainItemLocator));
         }
 
         private static void WriteQuestionnaire()
@@ -86,7 +83,6 @@ namespace QuestionaireConsoleApp
 
             QlServiceCollection.AddModule(new InfrastructureModule());
             QlServiceCollection.AddModule(new AntlrModule());
-            QlServiceCollection.AddModule(new DomainLogicModule());
             QlServiceCollection.AddModule(new OrchestrationModule());
             m_serviceProvider = QlServiceCollection.BuildServiceProvider(true);
             m_domainItemLocator = m_serviceProvider.GetService<IDomainItemLocator>();

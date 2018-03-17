@@ -23,14 +23,14 @@ namespace QLVisualizer.Expression.Types
         /// <summary>
         /// Widgets this expression is dependend on
         /// </summary>
-        public string[] UsedWidgetIDs { get; protected set; }
+        public string[] UsedIdentifiers { get; protected set; }
 
         public ExpressionValue(Type[] compatibleTypes, ExpressionOperator[] compatibleOperators, Type type, string[] usedWidgetIDs)
         {
             CompatibleTypes = compatibleTypes;
             CompatibleOperators = compatibleOperators;
             Type = type;
-            UsedWidgetIDs = usedWidgetIDs;
+            UsedIdentifiers = usedWidgetIDs;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace QLVisualizer.Expression.Types
         protected string[] CombineWidgets(ExpressionValue expressionValue)
         {
             // Create a list of unique widgetIDs
-            return UsedWidgetIDs.Concat(expressionValue.UsedWidgetIDs).Distinct().ToArray();
+            return UsedIdentifiers.Concat(expressionValue.UsedIdentifiers).Distinct().ToArray();
         }
     }
 }

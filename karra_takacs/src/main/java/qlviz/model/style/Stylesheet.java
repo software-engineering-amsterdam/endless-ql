@@ -5,7 +5,7 @@ import qlviz.model.Node;
 
 import java.util.List;
 
-public class Stylesheet extends Node {
+public class Stylesheet extends Node implements Scope {
 
     private final List<Page> pages;
     private final String name;
@@ -22,5 +22,20 @@ public class Stylesheet extends Node {
 
     public List<Page> getPages() {
         return pages;
+    }
+
+    @Override
+    public List<DefaultWidgetDeclaration> getDefaultWidgetDeclarations() {
+        return List.of();
+    }
+
+    @Override
+    public Scope getParent() {
+        return this;
+    }
+
+    @Override
+    public List<? extends Scope> getChildren() {
+        return this.pages;
     }
 }

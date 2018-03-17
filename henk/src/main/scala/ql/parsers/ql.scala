@@ -1,7 +1,7 @@
 package ql.parsers
 
 import ql.grammar._
-import ql.models._
+import ql.models.ast._
 import ql.visitors._
 
 import scala.io.Source
@@ -11,7 +11,7 @@ import java.net.URL
 import org.antlr.v4.runtime._
 
 object QlFormParser {
-  def getParser(input:String): ql.grammar.QlParser = {
+  def getParser(input: String): ql.grammar.QlParser = {
     val charStream = new ANTLRInputStream(input)
     val lexer = new QlLexer(charStream)
     val tokens = new CommonTokenStream(lexer)
@@ -19,15 +19,16 @@ object QlFormParser {
     return parser
   }
 
-  def parseFromURL(location:URL): ASTNode = {
+  def parseFromURL(location: URL): ASTNode = {
     val source = Source.fromURL(location)
     val sourcedLines = source.mkString
     source.close
 
-    val visitor = new SimplifierVisitor()
+    val visitor = new ASTVisitor()
     val parser = getParser(sourcedLines)
     val tree = parser.root()
 
     return visitor.visit(tree)
   }
+
 }

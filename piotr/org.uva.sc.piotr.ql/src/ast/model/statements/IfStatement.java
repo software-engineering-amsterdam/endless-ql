@@ -3,17 +3,23 @@ package ast.model.statements;
 import ast.model.expressions.Expression;
 import ast.visitors.ASTNodeVisitor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IfStatement extends Statement {
 
-    private Expression condition;
-    private List<Statement> statementList = new ArrayList<>();
-    private List<Statement> elseStatementList = new ArrayList<>();
+    private final Expression condition;
+    private List<Statement> statementList;
+    private List<Statement> elseStatementList;
 
     public IfStatement(Expression condition, List<Statement> statementList, List<Statement> elseStatementList, MetaInformation metaInformation) {
         super(metaInformation);
+        this.condition = condition;
+        this.statementList = statementList;
+        this.elseStatementList = elseStatementList;
+    }
+
+    public IfStatement(Expression condition, List<Statement> statementList, List<Statement> elseStatementList){
+        super();
         this.condition = condition;
         this.statementList = statementList;
         this.elseStatementList = elseStatementList;

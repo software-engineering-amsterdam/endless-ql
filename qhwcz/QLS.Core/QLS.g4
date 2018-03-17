@@ -1,19 +1,29 @@
 grammar QLS;
 
-stylesheet: STYLESHEET LABEL LEFTCURLY (page)* RIGHCURLY;
-page: PAGE LABEL LEFTCURLY (section)* RIGHCURLY;
-section: SECTION STRING LEFTCURLY (question)* RIGHCURLY;
-question: QUESTION LABEL;
+stylesheet: STYLESHEET LABEL LEFTCURLY (page)* RIGHTCURLY;
+page: PAGE LABEL LEFTCURLY (section)* RIGHTCURLY;
+section: SECTION STRING LEFTCURLY (question)* RIGHTCURLY;
+question: QUESTION LABEL (widget)?;
+widget: WIDGET widget_type;
+
+widget_type: WIDGETRADIO
+		|	 WIDGETDROPDOWN
+		|	WIDGETCHECKBOX;
 
 // Terms
 STYLESHEET: 'stylesheet';
 PAGE: 'page';
 SECTION: 'section';
 QUESTION: 'question';
-
+WIDGET: 'widget';
 
 LEFTCURLY:		'{';
 RIGHTCURLY:		'}';
+
+// Widgets
+WIDGETRADIO:		'radio';
+WIDGETDROPDOWN:		'dropdown';
+WIDGETCHECKBOX:		'checkbox';
 
 // Fragments
 fragment UPPERCASE: ('A'..'Z');

@@ -132,16 +132,19 @@ namespace QLVisualizer.Factories
         }
 
         // Answer values
+        // TODO: Create better alternitive for:
+        //      _widgetController.Form.FindByID(identifierNode.ID)
+        // This method relies on recursiveness and is not a good practice for a frequently-occuring task
         private ExpressionValue ParseIdentifyerNode(IdentifierNode identifierNode)
         {
             switch (identifierNode.GetQValueType())
             {
                 case QValueType.BOOLEAN:
-                    return new ExpressionBool(new string[] { identifierNode.ID }, () => { return (_widgetController.GetElementManager(identifierNode.ID) as BoolQuestionManager).Answer.Value; });
+                    return new ExpressionBool(new string[] { identifierNode.ID }, () => { return (_widgetController.Form.FindByID(new string[] { identifierNode.ID })[identifierNode.ID] as BoolQuestionManager).Answer.Value; });
                 case QValueType.INTEGER:
-                    return new ExpressionInt(new string[] { identifierNode.ID }, () => { return (_widgetController.GetElementManager(identifierNode.ID) as IntQuestionManager).Answer.Value; });
+                    return new ExpressionInt(new string[] { identifierNode.ID }, () => { return (_widgetController.Form.FindByID(new string[] { identifierNode.ID })[identifierNode.ID] as IntQuestionManager).Answer.Value; });
                 case QValueType.MONEY:
-                    return new ExpressionDouble(new string[] { identifierNode.ID }, () => { return (_widgetController.GetElementManager(identifierNode.ID) as MoneyQuestionManager).Answer.Value; });
+                    return new ExpressionDouble(new string[] { identifierNode.ID }, () => { return (_widgetController.Form.FindByID(new string[] { identifierNode.ID })[identifierNode.ID] as MoneyQuestionManager).Answer.Value; });
                 default:
                     throw new NotImplementedException();
             }

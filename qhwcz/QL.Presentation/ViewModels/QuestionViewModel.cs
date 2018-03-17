@@ -1,7 +1,8 @@
 ﻿using System;
 using ReactiveUI;
+using QLS.Api.Entities;
 
-namespace QL.Presentation.ViewModels
+namespace Presentation.ViewModels
 {
     internal abstract class QuestionViewModel : ReactiveObject
     {
@@ -21,14 +22,7 @@ namespace QL.Presentation.ViewModels
 
             this.ObservableForProperty(x => x.Value)
                 .Subscribe(x => parentForm.QuestionValueAssignedCommand.Execute(this));
-        }
-
-        public void Reconcile(QuestionViewModel question)
-        {
-            _description = question._description;
-            _isEvaluated = question._isEvaluated;
-            _value = question._value;
-        }
+        }       
 
         public string Description => _description;
 
@@ -39,6 +33,8 @@ namespace QL.Presentation.ViewModels
             get { return _value; }
             set { this.RaiseAndSetIfChanged(ref _value, value); }
         }
+
+        public WidgetType WidgetType { get; set; } = WidgetType.Textbox;
 
         public bool IsEvaluated => _isEvaluated;
     }

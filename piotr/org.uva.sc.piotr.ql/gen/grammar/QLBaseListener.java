@@ -100,6 +100,18 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTypeDeclarationMoney(QLParser.TypeDeclarationMoneyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTypeDeclarationMoney(QLParser.TypeDeclarationMoneyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterIfStatement(QLParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}

@@ -19,17 +19,17 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParse(QLParser.ParseContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#formStmt}.
+	 * Visit a parse tree produced by {@link QLParser#formStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFormStmt(QLParser.FormStmtContext ctx);
+	T visitFormStatement(QLParser.FormStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#blockStmt}.
+	 * Visit a parse tree produced by {@link QLParser#blockStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBlockStmt(QLParser.BlockStmtContext ctx);
+	T visitBlockStatement(QLParser.BlockStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#command}.
 	 * @param ctx the parse tree
@@ -37,105 +37,105 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCommand(QLParser.CommandContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#questionStmt}.
+	 * Visit a parse tree produced by {@link QLParser#questionStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestionStmt(QLParser.QuestionStmtContext ctx);
+	T visitQuestionStatement(QLParser.QuestionStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#ifStmt}.
+	 * Visit a parse tree produced by {@link QLParser#ifStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfStmt(QLParser.IfStmtContext ctx);
+	T visitIfStatement(QLParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#ifElseStmt}.
+	 * Visit a parse tree produced by {@link QLParser#ifElseStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfElseStmt(QLParser.IfElseStmtContext ctx);
+	T visitIfElseStatement(QLParser.IfElseStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AndExpr}
+	 * Visit a parse tree produced by the {@code ComparisonExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAndExpr(QLParser.AndExprContext ctx);
+	T visitComparisonExpression(QLParser.ComparisonExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code StringExpr}
+	 * Visit a parse tree produced by the {@code BooleanExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStringExpr(QLParser.StringExprContext ctx);
+	T visitBooleanExpression(QLParser.BooleanExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code IntegerExpr}
+	 * Visit a parse tree produced by the {@code MultiplicationOrDivisionExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIntegerExpr(QLParser.IntegerExprContext ctx);
+	T visitMultiplicationOrDivisionExpression(QLParser.MultiplicationOrDivisionExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code EqualityExpr}
+	 * Visit a parse tree produced by the {@code AndExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEqualityExpr(QLParser.EqualityExprContext ctx);
+	T visitAndExpression(QLParser.AndExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MultiplicationOrDivisionExpr}
+	 * Visit a parse tree produced by the {@code GroupingExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMultiplicationOrDivisionExpr(QLParser.MultiplicationOrDivisionExprContext ctx);
+	T visitGroupingExpression(QLParser.GroupingExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ComparisonExpr}
+	 * Visit a parse tree produced by the {@code StringExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitComparisonExpr(QLParser.ComparisonExprContext ctx);
+	T visitStringExpression(QLParser.StringExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code IdentifierExpr}
+	 * Visit a parse tree produced by the {@code UnaryExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIdentifierExpr(QLParser.IdentifierExprContext ctx);
+	T visitUnaryExpression(QLParser.UnaryExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code GroupingExpr}
+	 * Visit a parse tree produced by the {@code IntegerExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitGroupingExpr(QLParser.GroupingExprContext ctx);
+	T visitIntegerExpression(QLParser.IntegerExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AdditionOrSubtractionExpr}
+	 * Visit a parse tree produced by the {@code EqualityExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAdditionOrSubtractionExpr(QLParser.AdditionOrSubtractionExprContext ctx);
+	T visitEqualityExpression(QLParser.EqualityExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code UnaryExpr}
+	 * Visit a parse tree produced by the {@code OrExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUnaryExpr(QLParser.UnaryExprContext ctx);
+	T visitOrExpression(QLParser.OrExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code BooleanExpr}
+	 * Visit a parse tree produced by the {@code IdentifierExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBooleanExpr(QLParser.BooleanExprContext ctx);
+	T visitIdentifierExpression(QLParser.IdentifierExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code OrExpr}
+	 * Visit a parse tree produced by the {@code AdditionOrSubtractionExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOrExpr(QLParser.OrExprContext ctx);
+	T visitAdditionOrSubtractionExpression(QLParser.AdditionOrSubtractionExpressionContext ctx);
 }

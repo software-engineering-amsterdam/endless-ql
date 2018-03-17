@@ -8,7 +8,7 @@ options { tokenVocab=GrammarLexer; }
 //RULES
 
 compileUnit     :formStructure EOF;
-mathUnit        :expression EOF;
+mathUnit        :expression;
 
 //Variables and operators
 variable        :VAR
@@ -20,7 +20,7 @@ variable        :VAR
 type            :(BOOL|STR|DATE|DECIMAL|MONEY);
 
 //Shortcuts
-questionTypes       : (questionFormat|conditionalIf|questionAssignValue|questionMultiAns);
+questionTypes       : (questionFormat|conditionalIf|questionAssignValue);
 
 //Mathematical expressions
 expression        : LPAREN expression RPAREN                                                                            #parenthesisExpression
@@ -29,11 +29,11 @@ expression        : LPAREN expression RPAREN                                    
                   | left=expression     op=(PLUS|MINUS)         right=expression                                        #infixExpression
                   | left=expression     log=(AND|OR)            right=expression                                        #logicalExpression
                   | left=expression     comp=(LESS|GREATER|EQUALGREATER|EQUALLESS|NOTEQUAL|ISEQUAL) right=expression    #comparisonExpression
-                  | value=(NUM|VAR)                                                                                     #numberExpression;
+                  | value=(NUM|VAR|DEC)                                                                                 #numberExpression;
 
 
 //Question types
-questionFormat      : LABEL variable ASSIGN type;
+questionFormat      : LABEL variable ASSIGN  type;
 
 questionAssignValue : questionFormat EQUAL LPAREN* expression RPAREN*;
 
@@ -43,7 +43,7 @@ conditionalIfElse   : IFELSE LPAREN (variable|expression) RPAREN LBRACE question
 
 conditionalElse     : ELSE LBRACE questionTypes+ RBRACE;
 
-questionMultiAns    : LABEL variable ASSIGN MULTIPLEANSWER LPAREN (variable) (COMMA variable)+ RPAREN;
+//questionMultiAns    : LABEL variable ASSIGN MULTIPLEANSWER LPAREN (variable) (COMMA variable)+ RPAREN;
 
 
 //Class structure

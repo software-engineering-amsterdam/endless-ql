@@ -1,10 +1,12 @@
 package GUI;
 
-import ParseObjects.Question;
+import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.ParseObjectsQL.Expressions.Expression;
+import QL.ParseObjectsQL.Expressions.ExpressionConstants.*;
+import QL.ParseObjectsQL.Question;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import ParseObjects.Form;
-import ParseObjects.QuestionMap;
+import QL.ParseObjectsQL.Form;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -14,49 +16,42 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import java.time.LocalDate;
+import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 public class FormBuilder {
     private Form form;
-    private QuestionMap questionMap;
     private Stage stage;
-    private GridPane formGrid;
-    private int fieldRow;
 
-    public FormBuilder(Form form, QuestionMap questionMap, Stage stage){
+    public FormBuilder(Form form, Stage stage){
         setForm(form);
-        setQuestionMap(questionMap);
         setStage(stage);
-
-        formGrid = new GridPane();
-        fieldRow = 0;
-        initializeFormGrid();
     }
 
     public void setForm(Form form){
         this.form = form;
     }
 
-    public void setQuestionMap(QuestionMap questionMap){
-        this.questionMap = questionMap;
-    }
-
     public void setStage(Stage stage){
         this.stage = stage;
     }
 
-    private void initializeFormGrid(){
+    private void initializeFormGrid(GridPane formGrid){
         formGrid.setAlignment(Pos.CENTER);
         formGrid.setHgap(10);
         formGrid.setVgap(10);
         formGrid.setPadding(new Insets(25,25,25,25));
-        //formGrid.setGridLinesVisible(true); // for debugging
+        formGrid.setGridLinesVisible(true); // for debugging
     }
 
     public void renderForm(){
-        createFormTitle();
-        renderFormQuestions();
+        GridPane formGrid = new GridPane();
+        int fieldRow = 0;
+
+        initializeFormGrid(formGrid);
+        fieldRow = createFormTitle(fieldRow, formGrid);
+        fieldRow = renderFormQuestions(fieldRow, formGrid);
 
         VBox submitButtonGroup = createSubmitButtonGroup();
         formGrid.add(submitButtonGroup, 1, fieldRow);
@@ -66,22 +61,27 @@ public class FormBuilder {
         stage.show();
     }
 
-    private void createFormTitle(){
+    private int createFormTitle(int fieldRow, GridPane formGrid){
+        int currentRow = fieldRow;
         Text formTitle = new Text(form.getName());
         formTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 18));
-        formGrid.add(formTitle, 0, fieldRow);
-        fieldRow++;
+        formGrid.add(formTitle, 0, currentRow);
+        currentRow++;
+        return currentRow;
     }
 
-    private void renderFormQuestions(){
-        for(Question q : form.getBlock().getQuestions()){
-            Question question = questionMap.getQuestion(q.getIdentifier());
+    private int renderFormQuestions(int fieldRow, GridPane formGrid){
+        int currentRow = fieldRow;
+        for(Question question : form.getBlock().getQuestions()){
             Label questionLabel = new Label(question.getText());
             Control questionField = createQuestionField(question);
-            formGrid.add(questionLabel, 0, fieldRow);
-            formGrid.add(questionField, 1, fieldRow);
-            fieldRow++;
+            questionLabel.setVisible(question.isEnabled());
+            questionField.setVisible(question.isEnabled());
+            formGrid.add(questionLabel, 0, currentRow);
+            formGrid.add(questionField, 1, currentRow);
+            currentRow++;
         }
+        return currentRow;
     }
 
     private VBox createSubmitButtonGroup(){
@@ -101,48 +101,102 @@ public class FormBuilder {
     }
 
     private Control createQuestionField(Question question){
+        String format = "";
         switch(question.getType()){
             case String:
-                return createStringField();
+                return createInputField(question, format);
             case Integer:
-                return createIntField();
+                format = "-?\\d*";
+                return createInputField(question, format);
             case Decimal:
-                return createDecimalField();
+                format = "-?\\d*(\\.\\d*)?";
+                return createInputField(question, format);
             case Money:
-                return createMoneyField();
+                format = "-?\\d*(\\.\\d{0,2})?";
+                return createInputField(question, format);
             case Boolean:
-                return createBoolField();
+                return createBoolField(question);
             case Date:
-                return createDateField();
+                return createDateField(question);
             default:
                 return null;// Change
         }
     }
 
-    private Control createStringField(){
+    private Control createInputField(Question question, String format){
         TextField textField = new TextField();
+        textField.setEditable(question.isEnabled());
+        textField.setDisable(question.isPredefined());
+
+        String answerString = form.getExpressionTable().getExpression(question.getIdentifier()).evaluate().toString();
+        textField.setText(answerString);
+
+        if(!format.isEmpty()) {
+            textField.setTextFormatter(createInputFormat(format));
+        }
+
+        textField.focusedProperty().addListener((observableFocus, outFocus, inFocus) -> {
+            if(inFocus){
+                textField.textProperty().addListener((observableText, oldValue, newValue) -> {
+                    if(!textField.isDisabled() && !textField.getText().isEmpty()){
+                        Expression newAnswer = createNewAnswer(question.getType(), newValue);
+                        form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
+                    }});
+            } else {
+                renderForm();
+            }
+        });
+
         return textField;
     }
 
-    private Control createIntField(){
-        return new TextField();
-    }
-
-    private Control createDecimalField(){
-        return new TextField();
-    }
-
-    private Control createMoneyField(){
-        return new TextField();
-    }
-
-    private Control createBoolField(){
+    private Control createBoolField(Question question){
         CheckBox checkBox = new CheckBox();
+        checkBox.setSelected(Boolean.valueOf(form.getExpressionTable().getExpression(question.getIdentifier()).evaluate().toString()));
+        checkBox.setDisable(question.isPredefined());
+
+        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                if(!checkBox.isDisabled()){
+                    Expression newAnswer = new BooleanConstant(newValue);
+                    form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
+                    renderForm();
+                }
+            });
         return checkBox;
     }
 
-    private Control createDateField(){
-        return new DatePicker();
+    private Control createDateField(Question question){
+        DatePicker datePicker = new DatePicker();
+        LocalDate currentAnswer = (LocalDate) form.getExpressionTable().getExpression(question.getIdentifier()).evaluate().getValue();
+        datePicker.setValue(currentAnswer);
+        datePicker.setDisable(question.isPredefined());
+
+        datePicker.valueProperty().addListener((observable, oldValue, newValue)->{
+            Expression newAnswer = new DateConstant(newValue);
+            form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
+            renderForm();
+        });
+        return datePicker;
     }
 
+    private Constant createNewAnswer(EvaluationType type, String answer){
+        switch (type){
+            case Integer:
+                return new IntegerConstant(Integer.parseInt(answer));
+            case Decimal:
+                return new DecimalConstant(Double.parseDouble(answer));
+            case Money:
+                return new MoneyConstant(Double.parseDouble(answer));
+            default:
+                return new StringConstant(answer);
+        }
+    }
+
+    private TextFormatter createInputFormat(String inputFormat){
+        Pattern inputPattern = Pattern.compile(inputFormat);
+        UnaryOperator<TextFormatter.Change> format = change -> {
+            return inputPattern.matcher(change.getControlNewText()).matches() ? change : null;
+        };
+        return new TextFormatter(format);
+    }
 }

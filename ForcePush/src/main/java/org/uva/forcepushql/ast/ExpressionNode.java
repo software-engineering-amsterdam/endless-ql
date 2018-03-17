@@ -1,31 +1,20 @@
 package org.uva.forcepushql.ast;
 
 
-public abstract class ExpressionNode { }
+public abstract class ExpressionNode extends Node{ }
 
 abstract class InfixExpressionNode extends ExpressionNode
 {
-    public ExpressionNode Left;
-    public ExpressionNode Right;
+    private Node left;
+    private Node Right;
 
-    public void setLeft (ExpressionNode left){
-        this.Left = left;
-        System.out.println("InfixExpressionNode setLeft = " + this.Left);
-    }
-    public void setRight (ExpressionNode right){
-        this.Right = right;
-        System.out.println("InfixExpressionNode setRight = " + this.Right);
-    }
+    public void setLeft (ExpressionNode left)   { this.left = left; }
+    public void setRight (ExpressionNode right) { this.Right = right; }
 
-    public ExpressionNode getLeft () {
-        System.out.println("InfixExpressionNode getLeft = " + this.Left);
-        return this.Left;
-    }
-    public ExpressionNode getRight () {
-        System.out.println("InfixExpressionNode getRight = " + this.Right);
-        return this.Right;
-    }
+    public Node getLeft ()    {  return this.left;  }
+    public Node getRight ()   {  return this.Right; }
 }
+
 
 class AdditionNode extends InfixExpressionNode { }
 
@@ -37,28 +26,25 @@ class DivisionNode extends InfixExpressionNode { }
 
 class NegateNode extends ExpressionNode
 {
-    public ExpressionNode InnerNode;
+    private Node InnerNode;
 
-    public void setInnerNode(ExpressionNode innerNode) {
+    public void setInnerNode(Node innerNode) {
         this.InnerNode = innerNode;
     }
 
-    public ExpressionNode getInnerNode() {
+    public Node getInnerNode() {
         return InnerNode;
     }
 }
 
 class NumberNode extends ExpressionNode
 {
-    public double Value;
+    private double Value;
 
     public void setValue(double value)
     {
         this.Value = value;
     }
 
-    public double getValue() {
-        System.out.println("I have set and returning value of " + this.Value);
-        return this.Value;
-    }
+    public double getValue() { return this.Value; }
 }

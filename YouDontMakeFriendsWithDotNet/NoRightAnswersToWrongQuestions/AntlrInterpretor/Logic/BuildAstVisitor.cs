@@ -76,12 +76,26 @@ namespace AntlrInterpretor.Logic
                 questionType);
         }
 
+        public override Reference<IAstNode> VisitTypeCheckExpression(QLParser.TypeCheckExpressionContext context)
+        {
+            var leftExpression = m_astFactory.CreateUntypedVariableName(context.leftIdentifier.Text);
+            var rightExpression = m_astFactory.CreateUntypedVariableName(context.rightIdentifier.Text);
+
+            return CreateRelationalOperation(
+                context.relationalOperator().chosenOperator.Type,
+                context.GetText(),
+                leftExpression,
+                rightExpression,
+                context.relationalOperator().chosenOperator.Text);
+        }
+
+
         public override Reference<IAstNode> VisitIfElseStatement(
             QLParser.IfElseStatementContext context)
         {
-            var questionName = context.conditionalStatement().booleanExpression().GetText();
+            var questionName = context.conditionalStatement().expression().GetText();
 
-            var predicate = Visit(context.conditionalStatement().booleanExpression())
+            var predicate = Visit(context.conditionalStatement().expression())
                 .To<IBooleanLogicNode>(m_domainItemLocator);
             
             var consequent = context

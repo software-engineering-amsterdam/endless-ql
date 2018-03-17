@@ -3,52 +3,71 @@ package ast
 import QuestionareLanguageParser
 import QuestionareLanguageParserBaseListener
 import data.question.Question
+import data.question.SymbolType
+import data.symbol.SymbolTable
 import data.value.*
 import expression.BinaryExpression
-import expression.Expression
 import expression.LiteralExpression
+import expression.ReferenceExpression
 import expression.UnaryExpression
 import expression.operation.BinaryOperation
 import expression.operation.UnaryOperation
-import expression.visitor.evaluation.EvaluationVisitor
+import node.Node
+import java.math.BigDecimal
 
 class DogeListener : QuestionareLanguageParserBaseListener() {
 
-    val expressionBuilder = ExpressionBuilder()
+    private val expressionBuilder = ExpressionBuilder()
+    val symbolTable = SymbolTable()
+    private val formTreeBuilder = FormTreeBuilder(symbolTable)
 
-    val questions = HashMap<String, Question>()
-    val subQuestions = HashMap<Expression, ArrayList<String>>()
+    private var ifStatementDepth = 0
 
-    override fun exitForm(ctx: QuestionareLanguageParser.FormContext?) {
-        val visitor = EvaluationVisitor()
-//        val result = expression.accept(visitor)
-        println("yay")
+    override fun enterBlock(ctx: QuestionareLanguageParser.BlockContext?) {
+        if (!expressionBuilder.isEmpty()){
+            --ifStatementDepth
+
+            val ifExpression = expressionBuilder.pop()
+            val result = symbolTable.registerSymbol(SymbolType.BOOLEAN, ifExpression)
+
+            formTreeBuilder.pushExpression(result.name)
+        }
+    }
+
+    override fun enterIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
+        ++ifStatementDepth
+    }
+
+    override fun exitIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
+        formTreeBuilder.build()
     }
 
     override fun exitQuestionStatement(ctx: QuestionareLanguageParser.QuestionStatementContext?) {
         requireNotNull(ctx)
-
         val context = ctx!!
 
         val label = context.LIT_STRING().text
         val name = context.NAME().text
-        val type = context.TYPE().text
+        val value = convertType(context.TYPE().text)
 
-        val question = Question(label, convertType(type))
-
-        questions[name] = question
-
-        if (!expressionBuilder.isEmpty()){
-            if (subQuestions[expressionBuilder.first()] != null){
-                subQuestions[expressionBuilder.first()]?.add(name)
-            }else{
-                subQuestions[expressionBuilder.first()] = arrayListOf(name)
-            }
+        val questionExpression = when {
+            ifStatementDepth >= expressionBuilder.size() -> null
+            else -> expressionBuilder.pop()
         }
-    }
 
-    override fun exitIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
-        expressionBuilder.pop()
+        if (questionExpression != null) {
+            if (questionExpression.containsReference()) {
+                symbolTable.registerSymbol(name, value.type, questionExpression)
+            } else {
+                symbolTable.registerSymbol(name, value.type)
+                symbolTable.assign(name, questionExpression.evaluate(symbolTable))
+            }
+        } else {
+            symbolTable.registerSymbol(name, value.type)
+        }
+
+        val question = Question(name, label, value)
+        formTreeBuilder.pushQuestion(question)
     }
 
     override fun exitExpression(ctx: QuestionareLanguageParser.ExpressionContext?) {
@@ -56,9 +75,8 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
         val context = ctx!!
 
-        println(ctx.text)
-
         context.NAME()?.let {
+            pushReferenceExpression(it.text)
             return
         }
 
@@ -134,57 +152,42 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
         val context = ctx!!
 
-        println(ctx.text)
-
         context.LIT_BOOLEAN()?.let {
-            println("Boolean ${ctx.text}")
-
-            expressionBuilder.push(
-                    LiteralExpression(BooleanValue(it.text))
-            )
-
+            pushLiteralExpression(BooleanValue(it.text))
             return
         }
 
         context.LIT_INTEGER()?.let {
-            println("Integer ${ctx.text}")
-
-            expressionBuilder.push(
-                    LiteralExpression(IntegerValue(it.text))
-            )
-
+            pushLiteralExpression(IntegerValue(it.text))
             return
         }
 
         context.LIT_DECIMAL()?.let {
-            println("Decimal ${ctx.text}")
-
-            expressionBuilder.push(
-                    LiteralExpression(DecimalValue(it.text))
-            )
-
+            pushLiteralExpression(DecimalValue(it.text))
             return
         }
 
         context.LIT_STRING()?.let {
-            println("String ${ctx.text}")
-
-            expressionBuilder.push(
-                    LiteralExpression(StringValue(it.text))
-            )
-
+            pushLiteralExpression(StringValue(it.text))
             return
         }
 
         context.LIT_COLOR()?.let {
-            println("Color ${ctx.text}")
-
-            expressionBuilder.push(
-                    LiteralExpression(ColorValue(it.text))
-            )
-
+            pushLiteralExpression(ColorValue(it.text))
             return
         }
+    }
+
+    private fun pushLiteralExpression(value: BaseSymbolValue) {
+        expressionBuilder.push(
+                LiteralExpression(value)
+        )
+    }
+
+    private fun pushReferenceExpression(name: String) {
+        expressionBuilder.push(
+                ReferenceExpression(name, SymbolType.UNDEFINED)
+        )
     }
 
     private fun pushUnaryExpression(operation: UnaryOperation) {
@@ -207,6 +210,14 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
     private fun convertType(type: String) = when (type) {
         "boolean" -> BooleanValue(false)
         "int" -> IntegerValue(0)
-        else -> BooleanValue(false)
+        "string" -> StringValue("")
+        "money" -> MoneyValue(BigDecimal.ZERO)
+        "decimal" -> DecimalValue(0)
+//        "date" -> DateValue(0)
+        else -> BooleanValue(false)//TODO refactor remove default
+    }
+
+    fun getParsedDogeLanguage(): Node {
+        return formTreeBuilder.build()
     }
 }

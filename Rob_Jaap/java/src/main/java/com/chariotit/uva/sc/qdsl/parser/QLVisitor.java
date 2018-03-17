@@ -1,14 +1,14 @@
 package com.chariotit.uva.sc.qdsl.parser;
 
-import com.chariotit.uva.sc.qdsl.ast.node.*;
-import com.chariotit.uva.sc.qdsl.ast.node.constant.BooleanConstant;
-import com.chariotit.uva.sc.qdsl.ast.node.constant.IntegerConstant;
-import com.chariotit.uva.sc.qdsl.ast.node.constant.MoneyConstant;
-import com.chariotit.uva.sc.qdsl.ast.node.constant.StringConstant;
-import com.chariotit.uva.sc.qdsl.ast.node.operator.*;
-import com.chariotit.uva.sc.qdsl.ast.node.type.*;
-import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanTypeNode;
-import com.chariotit.uva.sc.qdsl.ast.node.type.StringTypeNode;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.BooleanConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.IntegerConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.MoneyConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.StringConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.*;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.type.*;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.type.BooleanTypeNode;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.type.StringTypeNode;
 import com.chariotit.uva.sc.qdsl.grammar.QLBaseVisitor;
 import com.chariotit.uva.sc.qdsl.grammar.QLParser;
 import com.chariotit.uva.sc.qdsl.parser.exception.UnknownOptionException;
@@ -30,6 +30,17 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
     }
 
     @Override
+    public QLAstRoot visitForms(QLParser.FormsContext ctx) {
+        List<Form> forms = new ArrayList<>();
+
+        for (int i = 0; i < ctx.form().size(); i++) {
+            forms.add(visitForm(ctx.form(i)));
+        }
+
+        return new QLAstRoot(forms, lineNumber(ctx), columnNumber(ctx));
+    }
+
+    @Override
     public Form visitForm(QLParser.FormContext ctx) {
         List<FormElement> formElements = new ArrayList<>();
 
@@ -40,21 +51,19 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
         return new Form(ctx.label().getText(), formElements, lineNumber(ctx), columnNumber(ctx));
     }
 
-
-    @Override
-    public AstRoot visitForms(QLParser.FormsContext ctx) {
-        List<Form> forms = new ArrayList<>();
-
-        for (int i = 0; i < ctx.form().size(); i++) {
-            forms.add(visitForm(ctx.form(i)));
-        }
-
-        return new AstRoot(forms, lineNumber(ctx), columnNumber(ctx));
-    }
-
     @Override
     public Label visitLabel(QLParser.LabelContext ctx) {
         return new Label(ctx.WORD().getText(), lineNumber(ctx), columnNumber(ctx));
+    }
+
+    @Override
+    public LineElement visitLine_elm(QLParser.Line_elmContext ctx) {
+        return new LineElement(
+                visitLabel(ctx.label()),
+                visitQuestion(ctx.question()),
+                visitType_expr(ctx.type_expr()),
+                lineNumber(ctx), columnNumber(ctx)
+        );
     }
 
     @Override
@@ -63,6 +72,15 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
             return visitLine_elm(ctx.line_elm());
         } else if (ctx.block_elm() != null) {
             return visitBlock_elm(ctx.block_elm());
+        } else {
+            throw new UnknownOptionException();
+        }
+    }
+
+    @Override
+    public BlockElement visitBlock_elm(QLParser.Block_elmContext ctx) {
+        if (ctx.if_block() != null) {
+            return visitIf_block(ctx.if_block());
         } else {
             throw new UnknownOptionException();
         }
@@ -115,6 +133,38 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
         } else {
             throw new UnknownOptionException();
         }
+    }
+
+    @Override
+    public UnOpExpression visitUnop_expr(QLParser.Unop_exprContext ctx) {
+        return new UnOpExpression(visitUnop(ctx.unop()), visitExpr(ctx.expr()), lineNumber(ctx), columnNumber(ctx));
+    }
+
+    @Override
+    public LabelBinOpExpression visitLabel_binop_expr(QLParser.Label_binop_exprContext ctx) {
+        return new LabelBinOpExpression(
+                visitLabel_expr(ctx.label_expr()),
+                visitBinop(ctx.binop()),
+                visitExpr(ctx.expr()),
+                lineNumber(ctx),
+                columnNumber(ctx)
+        );
+    }
+
+    @Override
+    public ConstBinOpExpression visitConst_binop_expr(QLParser.Const_binop_exprContext ctx) {
+        return new ConstBinOpExpression(
+                visitConstant(ctx.constant()),
+                visitBinop(ctx.binop()),
+                visitExpr(ctx.expr()),
+                lineNumber(ctx),
+                columnNumber(ctx)
+        );
+    }
+
+    @Override
+    public LabelExpression visitLabel_expr(QLParser.Label_exprContext ctx) {
+        return new LabelExpression(ctx.WORD().getSymbol().getText(), lineNumber(ctx), columnNumber(ctx));
     }
 
     @Override
@@ -230,57 +280,6 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
         } else {
             throw new UnknownOptionException();
         }
-    }
-
-    @Override
-    public LineElement visitLine_elm(QLParser.Line_elmContext ctx) {
-        return new LineElement(
-                visitLabel(ctx.label()),
-                visitQuestion(ctx.question()),
-                visitType_expr(ctx.type_expr()),
-                lineNumber(ctx), columnNumber(ctx)
-        );
-    }
-
-    @Override
-    public BlockElement visitBlock_elm(QLParser.Block_elmContext ctx) {
-        if (ctx.if_block() != null) {
-            return visitIf_block(ctx.if_block());
-        } else {
-            throw new UnknownOptionException();
-        }
-    }
-
-    @Override
-    public LabelExpression visitLabel_expr(QLParser.Label_exprContext ctx) {
-        return new LabelExpression(ctx.WORD().getSymbol().getText(), lineNumber(ctx), columnNumber(ctx));
-    }
-
-    @Override
-    public UnOpExpression visitUnop_expr(QLParser.Unop_exprContext ctx) {
-        return new UnOpExpression(visitUnop(ctx.unop()), visitExpr(ctx.expr()), lineNumber(ctx), columnNumber(ctx));
-    }
-
-    @Override
-    public LabelBinOpExpression visitLabel_binop_expr(QLParser.Label_binop_exprContext ctx) {
-        return new LabelBinOpExpression(
-                visitLabel_expr(ctx.label_expr()),
-                visitBinop(ctx.binop()),
-                visitExpr(ctx.expr()),
-                lineNumber(ctx),
-                columnNumber(ctx)
-        );
-    }
-
-    @Override
-    public ConstBinOpExpression visitConst_binop_expr(QLParser.Const_binop_exprContext ctx) {
-        return new ConstBinOpExpression(
-                visitConstant(ctx.constant()),
-                visitBinop(ctx.binop()),
-                visitExpr(ctx.expr()),
-                lineNumber(ctx),
-                columnNumber(ctx)
-        );
     }
 
     @Override

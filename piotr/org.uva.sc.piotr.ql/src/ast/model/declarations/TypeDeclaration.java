@@ -6,8 +6,13 @@ public abstract class TypeDeclaration extends ASTNode implements TypeDeclaration
 
     private String identifier;
 
-    public TypeDeclaration(String identifier, MetaInformation metaInformation) {
+    TypeDeclaration(String identifier, MetaInformation metaInformation) {
         super(metaInformation);
+        this.identifier = identifier;
+    }
+
+    TypeDeclaration(String identifier) {
+        super();
         this.identifier = identifier;
     }
 

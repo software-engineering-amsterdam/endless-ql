@@ -6,17 +6,18 @@ abstract public class UnaryExpression extends Expression {
 
     private Expression expression;
 
-    public UnaryExpression(Expression expression, MetaInformation metaInformation) {
+    protected UnaryExpression(Expression expression, MetaInformation metaInformation) {
         super(metaInformation);
+        this.expression = expression;
+    }
+
+    protected UnaryExpression(Expression expression) {
+        super();
         this.expression = expression;
     }
 
     public Expression getExpression() {
         return expression;
-    }
-
-    public void setExpression(Expression expression) {
-        this.expression = expression;
     }
 
 }

@@ -18,28 +18,23 @@ public class Question extends Statement {
         this.variableType = variableType;
     }
 
-    public String getLabel() {
-        return label;
+    public Question(String label, String variableName, TypeDeclaration variableType) {
+        super();
+        this.label = label;
+        this.variableName = variableName;
+        this.variableType = variableType;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public String getLabel() {
+        return label;
     }
 
     public String getVariableName() {
         return variableName;
     }
 
-    public void setVariableName(String variableName) {
-        this.variableName = variableName;
-    }
-
     public TypeDeclaration getVariableType() {
         return variableType;
-    }
-
-    public void setVariableType(TypeDeclaration variableType) {
-        this.variableType = variableType;
     }
 
     public Expression getAssignedExpression() {

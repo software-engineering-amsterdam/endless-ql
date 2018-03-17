@@ -13,7 +13,7 @@ form taxOfficeExample {
       sellingPrice: money
     "Private debts for the sold house:"
       privateDebt: money
-    "evaluation.value.Value residue:"
+    "ql.evaluation.value.Value residue:"
       valueResidue: money =
         (sellingPrice - privateDebt)
   }

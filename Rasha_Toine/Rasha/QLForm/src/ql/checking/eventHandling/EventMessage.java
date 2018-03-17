@@ -4,19 +4,19 @@ import ql.utils.MessageTypeEnum;
 
 public class EventMessage {
 
-	private String message;
+	private String text;
 	private MessageTypeEnum type;
 	
-	public EventMessage(String message, MessageTypeEnum type) {
-		this.message = message;
+	public EventMessage(String text, MessageTypeEnum type) {
+		this.text = text;
 		this.type = type;
 	}
 	
-	public String getMessage() {
-		return message;
+	public String getText() {
+		return text;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setText(String text) {
+		this.text = text;
 	}
 	
 	public MessageTypeEnum getType() {

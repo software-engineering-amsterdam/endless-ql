@@ -1,4 +1,4 @@
-﻿using QuestionnaireDomain.Entities.API;
+﻿using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces
 {

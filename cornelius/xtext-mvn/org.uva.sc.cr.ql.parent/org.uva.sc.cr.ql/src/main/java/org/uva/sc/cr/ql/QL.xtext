@@ -9,8 +9,10 @@ Form:
 
 Block:
 	'if' '(' expression=Expression ')' '{'
-	body=BlockBody
-	'}';
+	ifBody=BlockBody
+	'}' ('else' '{'
+	elseBody=BlockBody	
+	'}')?;
 
 BlockBody:
 	{BlockBody} questions+=Question*
@@ -35,18 +37,18 @@ ExpressionComparison returns Expression:
 	ExpressionPlusOrMinus ({ExpressionComparison.left=current} op=(">=" | "<=" | ">" | "<") right=ExpressionPlusOrMinus)*;
 
 ExpressionPlusOrMinus returns Expression:
-	ExpressionMulOrDiv (({ExpressionPlusOrMinus.left=current} op=('+' | '-')) right=ExpressionMulOrDiv)*;
+	ExpressionMultiplicationOrDivision (({ExpressionPlusOrMinus.left=current} op=('+' | '-')) right=ExpressionMultiplicationOrDivision)*;
 
-ExpressionMulOrDiv returns Expression:
-	ExpressionAtomic (({ExpressionMulOrDiv.left=current} op=('*' | '/')) right=ExpressionAtomic)*;
+ExpressionMultiplicationOrDivision returns Expression:
+	ExpressionAtomic (({ExpressionMultiplicationOrDivision.left=current} op=('*' | '/')) right=ExpressionAtomic)*;
 
 ExpressionAtomic returns Expression:
-	'(' Expression ')' |
+	{ExpressionParanthesis} '(' expression=Expression ')' |
 	{ExpressionNot} "!" expression=ExpressionAtomic |
 	{ExpressionLiteralString} expression=STRING |
 	{ExpressionLiteralInteger} expression=INT |
 	{ExpressionLiteralBoolean} expression=('true' | 'false') |
-	{ExpressionQuestionRef} question=[Question];
+	{ExpressionQuestionReference} question=[Question];
 
 enum QuestionType:
 	TypeBoolean='boolean' | TypeString='string' | TypeInteger='integer' | TypeDecimal='decimal' | TypeDate='date' |

@@ -21,32 +21,41 @@ public class TypeChecker {
         styleSheet.accept(new QLSVisitor<Void>() {
             @Override
             public Void visit(Question question) {
-                if(question.getWidget() == null) {
-                    return super.visit(question);
-                }
-
-                WidgetType widgetType = question.getWidget().type;
-                ReturnType questionType = formQuestionTypes.get(question.name);
-                if(!widgetType.isCompatible(questionType)) {
-                    throw new IllegalArgumentException("Incompatible widget type " + widgetType
-                            + " for question of type " + questionType + " " + question.getWidget().getLocation());
-                }
-
+                typeCheckQuestion(question, formQuestionTypes);
                 return super.visit(question);
             }
 
             @Override
             public Void visit(DefaultStyle defaultStyle) {
-                if(defaultStyle.getWidget() != null) {
-                    WidgetType widgetType = defaultStyle.getWidget().type;
-                    if(!widgetType.isCompatible(defaultStyle.type)) {
-                        throw new IllegalArgumentException("Incompatible widget type " + widgetType
-                                + " for question of type " + defaultStyle.type + " " + defaultStyle.getWidget().getLocation());
-                    }
-                }
+                typeCheckDefaultStyle(defaultStyle);
                 return super.visit(defaultStyle);
             }
         });
+    }
+
+    private void typeCheckQuestion(Question question, Map<String, ReturnType> formQuestionTypes) {
+        if(question.getWidget() == null) {
+            return;
+        }
+
+        WidgetType widgetType = question.getWidget().type;
+        ReturnType questionType = formQuestionTypes.get(question.name);
+        if(!widgetType.isCompatible(questionType)) {
+            throw new IllegalArgumentException("Incompatible widget type " + widgetType
+                    + " for question of type " + questionType + " " + question.getWidget().getLocation());
+        }
+    }
+
+    private void typeCheckDefaultStyle(DefaultStyle defaultStyle) {
+        if(defaultStyle.getWidget() == null) {
+            return;
+        }
+
+        WidgetType widgetType = defaultStyle.getWidget().type;
+        if(!widgetType.isCompatible(defaultStyle.type)) {
+            throw new IllegalArgumentException("Incompatible widget type " + widgetType
+                    + " for question of type " + defaultStyle.type + " " + defaultStyle.getWidget().getLocation());
+        }
     }
 
     private Map<String, ReturnType> getFormQuestionTypes(Form form) {

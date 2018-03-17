@@ -1,6 +1,6 @@
 package qls.visitor;
 
-import qls.model.Default;
+import qls.model.DefaultStyle;
 import qls.model.Section;
 import qls.parser.QLSBaseVisitor;
 import qls.parser.QLSParser;
@@ -13,14 +13,14 @@ class VisitorBlock<T> extends QLSBaseVisitor<T> {
     // getSections and getDefaults is used by both VisitorPage and VisitorSection
     // so put them in parent class
 
-    List<Section> getSections(List<QLSParser.SectionContext> sectionContextList) {
+    List<Section> getSections(List<QLSParser.SectionContext> sectionContexts) {
         List<Section> sections = new ArrayList<>();
-        if (sectionContextList == null) {
+        if (sectionContexts == null) {
             return sections;
         }
 
         VisitorSection visitorSection = new VisitorSection();
-        for (QLSParser.SectionContext sectionContext : sectionContextList) {
+        for (QLSParser.SectionContext sectionContext : sectionContexts) {
             Section section = visitorSection.visitSection(sectionContext);
             sections.add(section);
         }
@@ -28,18 +28,18 @@ class VisitorBlock<T> extends QLSBaseVisitor<T> {
         return sections;
     }
 
-    List<Default> getDefaults(List<QLSParser.Default_Context> defaultContextList) {
-        List<Default> defaults = new ArrayList<>();
-        if (defaultContextList == null) {
-            return defaults;
+    List<DefaultStyle> getDefaults(List<QLSParser.DefaultStyleContext> defaultStyleContexts) {
+        List<DefaultStyle> defaultStyles = new ArrayList<>();
+        if (defaultStyleContexts == null) {
+            return defaultStyles;
         }
 
         VisitorDefault visitorDefault = new VisitorDefault();
-        for (QLSParser.Default_Context defaultContext : defaultContextList) {
-            Default default_ = visitorDefault.visitDefault_(defaultContext);
-            defaults.add(default_);
+        for (QLSParser.DefaultStyleContext defaultContext : defaultStyleContexts) {
+            DefaultStyle defaultStyle = visitorDefault.visitDefaultStyle(defaultContext);
+            defaultStyles.add(defaultStyle);
         }
 
-        return defaults;
+        return defaultStyles;
     }
 }

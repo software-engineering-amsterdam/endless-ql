@@ -24,6 +24,6 @@ public class IntegerWidget extends QuestionWidget {
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question.getName(), new IntegerValue(Integer.parseInt(textField.getText()))));
+        textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question.getId(), new IntegerValue(Integer.parseInt(textField.getText()))));
     }
 }

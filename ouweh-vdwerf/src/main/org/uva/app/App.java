@@ -10,7 +10,7 @@ import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.QLValidator;
 import org.uva.ql.validation.collector.QuestionContext;
 import org.uva.qls.QLSBuilder;
-import org.uva.qls.ast.Stylesheet;
+import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.evaluator.StyleEvaluator;
 import org.uva.qls.validation.QLSValidator;
 

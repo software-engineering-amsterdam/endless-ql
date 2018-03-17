@@ -39,11 +39,11 @@ public class ParameterMapping implements StatementVisitor<Void, String>, Express
 
     @Override
     public Void visit(CalculatedQuestion calculatedQuestion, String context) {
-        if (!parameterMapping.containsKey(calculatedQuestion.getName())) {
-            parameterMapping.put(calculatedQuestion.getName(), new ArrayList<>());
+        if (!parameterMapping.containsKey(calculatedQuestion.getId())) {
+            parameterMapping.put(calculatedQuestion.getId(), new ArrayList<>());
         }
 
-        calculatedQuestion.getExpression().accept(this, calculatedQuestion.getName());
+        calculatedQuestion.getExpression().accept(this, calculatedQuestion.getId());
         return null;
     }
 

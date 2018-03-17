@@ -4,13 +4,10 @@ import antlr.generated.QLSBaseVisitor;
 import antlr.generated.QLSParser;
 
 import org.uva.ql.ast.type.*;
-import org.uva.qls.ast.*;
 import org.uva.qls.ast.DefaultStatement.DefaultStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
-import org.uva.qls.ast.Segment.QuestionReference;
-import org.uva.qls.ast.Segment.Section;
-import org.uva.qls.ast.Segment.Segment;
+import org.uva.qls.ast.Segment.*;
 import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 import org.uva.qls.ast.Style.StyleProperty.StylePropertyStatement;

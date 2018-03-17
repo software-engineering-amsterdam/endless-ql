@@ -1,9 +1,9 @@
 package qls.visitor;
 
+import qls.model.DefaultStyle;
 import qls.model.Question;
-import qls.parser.QLSParser;
-import qls.model.Default;
 import qls.model.Section;
+import qls.parser.QLSParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +19,19 @@ public class VisitorSection extends VisitorBlock<Section> {
 
         List<Section> sections = this.getSections(ctx.section());
         List<Question> questions = getQuestions(ctx.question());
-        List<Default> defaults = getDefaults(ctx.default_());
+        List<DefaultStyle> defaultStyles = getDefaults(ctx.defaultStyle());
 
-        return new Section(ctx.getStart(), identifier, sections, questions, defaults);
+        return new Section(ctx.getStart(), identifier, sections, questions, defaultStyles);
     }
 
-    private List<Question> getQuestions(List<QLSParser.QuestionContext> questionContextList) {
+    private List<Question> getQuestions(List<QLSParser.QuestionContext> questionContexts) {
         List<Question> questions = new ArrayList<>();
-        if(questionContextList == null) {
+        if (questionContexts == null) {
             return questions;
         }
 
         VisitorQuestion visitorQuestion = new VisitorQuestion();
-        for (QLSParser.QuestionContext questionContext : questionContextList) {
+        for (QLSParser.QuestionContext questionContext : questionContexts) {
             Question question = visitorQuestion.visitQuestion(questionContext);
             questions.add(question);
         }

@@ -52,6 +52,11 @@ public abstract class Value<T> {
     public boolean isUndefined() {
         return false;
     }
+
+    @Override
+    public String toString(){
+        return this.value.toString();
+    }
 }
 
 

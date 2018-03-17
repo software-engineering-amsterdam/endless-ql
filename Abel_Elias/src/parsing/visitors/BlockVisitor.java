@@ -57,7 +57,7 @@ public class BlockVisitor extends QLBaseVisitor {
         new BlockVisitor(questionMap, isVisible && condition).visitBlock(ifBlock);
 
         if(elseBlock != null){
-            new BlockVisitor(questionMap, isVisible && !condition).visitBlock(ifBlock);
+            new BlockVisitor(questionMap, isVisible && !condition).visitBlock(elseBlock);
         }else if(elseIfStatement != null){
             this.visitIfStatement(elseIfStatement);
         }

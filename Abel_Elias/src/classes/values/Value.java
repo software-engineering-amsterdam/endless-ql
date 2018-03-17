@@ -3,12 +3,12 @@ package classes.values;
 import classes.CodeBlock;
 
 public abstract class Value <T extends Object>{
-    public static final String BOOLEAN = "BOOLEAN",
-            DECIMAL = "DECIMAL",
-            INTEGER = "INTEGER",
-            DATE = "BOOLEAN",
-            STRING = "STRING",
-            MONEY = "MONEY";
+    public static final String BOOLEAN = "boolean",
+            DECIMAL = "decimal",
+            INTEGER = "integer",
+            DATE = "date",
+            STRING = "string",
+            MONEY = "money";
 
     private T value;
     private String type;
@@ -17,15 +17,22 @@ public abstract class Value <T extends Object>{
         this.value = value;
     }
 
-    T getValue(){
+    public T getValue(){
         return value;
     }
 
-    void setType(String type){
+    //TODO: put setType in constructor??
+    public void setType(String type){
         this.type = type;
     }
 
-    String getType(){
+    public void setValue(T value){
+        this.value = value;
+    }
+
+    public String getType(){
         return type;
     }
+
+    public abstract void setValueGeneric(Object o);
 }

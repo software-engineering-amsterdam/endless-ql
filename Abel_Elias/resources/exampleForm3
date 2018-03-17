@@ -1,0 +1,17 @@
+form Box3HouseOwning {
+     hasSoldHouse: "Did you sell a  house in 2010?" boolean
+     hasBoughtHouse: "Did you buy a house in 2010?" boolean
+     hasMainLoan: "Did you enter a loan for maintenance/reconstruction?" boolean
+     hasSecondLone: "Enter the amount" integer
+     hasThirdLone: "Enter the text" string
+     hasDate: "Enter the date" date
+     hasMoney: "Enter the money" money
+     if (hasSoldHouse) {
+         sellingPrice: "Price the house was sold for:" money
+         privateDebt: "Private debts for the sold house:" money
+         valueResidue: "Value residue:" money (sellingPrice - 50.0)
+     }
+     if(hasSecondLone > 5 || hasSecondLone == 2) {
+        sellingPrice2: "Price the house was sold for:" integer
+     }
+ }

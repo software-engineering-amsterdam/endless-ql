@@ -1,7 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.ql;
 
 
-import com.chariotit.uva.sc.qdsl.ast.ql.node.AstRoot;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.QLAstRoot;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.SymbolTableBuilderVisitor;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckVisitor;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class TypeChecker {
 
-    public List<TypeCheckError> typeCheckAst(AstRoot astRoot) {
+    public List<TypeCheckError> typeCheckAst(QLAstRoot astRoot) {
 
         // First run. Build symbol table
         SymbolTableBuilderVisitor symbolTableVisitor = new SymbolTableBuilderVisitor();
@@ -30,7 +30,7 @@ public class TypeChecker {
         }
 
         // Second run. TypeNode checker
-        TypeCheckVisitor typeCheckVisitor = new TypeCheckVisitor(astRoot.getSymbolTable());
+        TypeCheckVisitor typeCheckVisitor = new TypeCheckVisitor(astRoot.getQuestionSymbolTable());
         astRoot.acceptVisitor(typeCheckVisitor);
 
         return typeCheckVisitor.getErrors();

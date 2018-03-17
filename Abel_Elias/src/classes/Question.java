@@ -4,18 +4,18 @@ import classes.values.Value;
 public class Question<T>{
     private String questionText;
     private Value<T> value;
-    private boolean fixed;
+    private boolean isFixed;
     private boolean isVisible;
 
-    public Question(String questionText, Value<T> value, boolean fixed){
-        this.fixed = fixed;
+    public Question(String questionText, Value<T> value, boolean isFixed){
+        this.isFixed = isFixed;
         this.value = value;
         this.questionText = questionText;
         this.isVisible = isVisible;
     }
 
-    public Question(String questionText, Value<T> value, boolean fixed, boolean isVisible){
-        this.fixed = fixed;
+    public Question(String questionText, Value<T> value, boolean isFixed, boolean isVisible){
+        this.isFixed = isFixed;
         this.value = value;
         this.questionText = questionText;
         this.isVisible = isVisible;
@@ -34,11 +34,22 @@ public class Question<T>{
         return this;
     }
 
-    public boolean getVisibility() {
+    public boolean isVisible() {
         return this.isVisible;
     }
 
+    public void setVisibility(boolean isVisible){
+        this.isVisible = isVisible;
+    }
+
     public boolean isFixed(){
-        return this.fixed;
+        return this.isFixed;
+    }
+
+    @Override
+    public String toString() {
+        return "Txt: " + questionText + " Val: " + value.getValue() + " Typ: " + value.getType() + " Vis: " + isVisible + " Fix: " + isFixed;
     }
 }
+
+

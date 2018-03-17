@@ -9,4 +9,9 @@ public class BooleanValue extends Value<Boolean> {
     public BooleanValue(){
         this(false);
     }
+
+    @Override
+    public void setValueGeneric(Object o) {
+        setValue((boolean) o );
+    }
 }

@@ -16,7 +16,7 @@ public class SymbolTable {
 
         this.table = new HashMap<>();
         for (Question question : questions) {
-            this.add(question.getName(), question.getType());
+            this.add(question.getId(), question.getType());
         }
     }
 

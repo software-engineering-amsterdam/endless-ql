@@ -105,6 +105,11 @@ namespace QuestionnaireDomain.Entities.Domain
                 {
                     return decimal.Parse(value as string);
                 }
+
+                if (originalDataType == typeof(bool))
+                {
+                    return bool.Parse(value as string);
+                }
             }
 
             throw new ArgumentException(

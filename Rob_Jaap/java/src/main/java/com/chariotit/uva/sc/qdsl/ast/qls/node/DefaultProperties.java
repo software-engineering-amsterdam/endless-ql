@@ -15,6 +15,14 @@ public class DefaultProperties extends AstNode {
         this.properties = properties;
     }
 
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
+
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         properties.acceptVisitor(visitor);

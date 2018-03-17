@@ -296,7 +296,9 @@ namespace UnitTests.Domain.UnitTests.Tests
         }
 
 
-        private void UpdateDateVariable(string variableName, DateTime value)
+        private void UpdateDateVariable(
+            string variableName, 
+            DateTime value)
         {
             var variableItem = m_domainItemLocator
                 .GetAll<IVariableNode>()
@@ -326,7 +328,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                 var questionnaireRef = new Reference<IQuestionnaireRootNode>(questionnaireRootNode.Id);
                 if (m_outputCreator.Validate(questionnaireRef))
                 {
-                    m_outputCreator.Create(questionnaireRef);
+                    m_outputCreator.CreateOrUpdate(questionnaireRef);
                 }
             }
         }

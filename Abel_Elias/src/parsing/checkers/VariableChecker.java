@@ -1,10 +1,10 @@
 package parsing.checkers;
 
 import classes.Question;
-import parsing.checkers.errors.DupVarError;
-import parsing.checkers.errors.UndeclaredError;
+import parsing.checkers.errors.DuplicateVarError;
+import parsing.checkers.errors.UndeclaredVarError;
 import parsing.gen.QLParser;
-import parsing.visitors.BaseVisitor;
+import parsing.visitors.refactor_tmp.BaseVisitor;
 
 import java.util.HashMap;
 
@@ -25,7 +25,7 @@ public class VariableChecker extends BaseVisitor {
     }
 
     @Override
-    public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
+    public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx){
         String id = ctx.IDENTIFIER().getText();
         checkVariableDuplication(id);
 
@@ -40,13 +40,13 @@ public class VariableChecker extends BaseVisitor {
     }
 
     @Override
-    public Number visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
+    public Double visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
         checkVariableExistence(ctx.getText());
         return 0.0;
     }
 
     @Override
-    public Object visitIdentifier(QLParser.IdentifierContext ctx) {
+    public Object visitIdentifier(QLParser.IdentifierContext ctx)  {
         checkVariableExistence(ctx.getText());
         return super.visitIdentifier(ctx);
     }
@@ -55,21 +55,24 @@ public class VariableChecker extends BaseVisitor {
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
         HashMap<String, Question> backtrack = new HashMap<>(getQuestions());
 
-        visit(ctx.block());
+        visit(ctx.ifBlock);
+        if(ctx.elseBlock != null){
+            visit(ctx.elseBlock);
+        }
 
         setQuestionMap(backtrack);
         return true;
     }
 
-    private void checkVariableDuplication(String id){
+    private void checkVariableDuplication(String id) {
         if(containsQuestion(id)){
-            throw new DupVarError(id);
+            throw new DuplicateVarError(id);
         }
     }
 
-    private void checkVariableExistence(String id){
+    private void checkVariableExistence(String id) {
         if(!getQuestions().containsKey(id)) {
-            throw new UndeclaredError(id);
+            throw new UndeclaredVarError(id);
         }
     }
 }

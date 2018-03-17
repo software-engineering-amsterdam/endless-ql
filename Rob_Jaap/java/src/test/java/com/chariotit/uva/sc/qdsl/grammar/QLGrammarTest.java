@@ -34,17 +34,17 @@ public class QLGrammarTest {
         }
     }
 
-    private AstRoot getAst(String inputFile) {
+    private QLAstRoot getAst(String inputFile) {
         QLParser parser = getParser(inputFile);
         ParseTree tree = parser.forms();
         QLVisitor visitor = new QLVisitor();
 
-        return (AstRoot)visitor.visit(tree);
+        return (QLAstRoot)visitor.visit(tree);
     }
 
     @Test
     public void testForms() {
-        AstRoot astRoot = getAst("forms.ql");
+        QLAstRoot astRoot = getAst("forms.ql");
 
         assertEquals(astRoot.getForms().size(), 2);
 
@@ -71,7 +71,7 @@ public class QLGrammarTest {
 
     @Test
     public void testTypes() {
-        AstRoot astRoot = getAst("types.ql");
+        QLAstRoot astRoot = getAst("types.ql");
         List<FormElement> elements = astRoot.getForms().get(0).getFormElements();
 
         assertTrue(((LineElement)elements.get(0)).getTypeExpression().getTypeNode() instanceof
@@ -86,7 +86,7 @@ public class QLGrammarTest {
 
     @Test
     public void testUnops() {
-        AstRoot astRoot = getAst("unops.ql");
+        QLAstRoot astRoot = getAst("unops.ql");
         List<FormElement> elements = astRoot.getForms().get(0).getFormElements();
 
         assertTrue(((UnOpExpression)((LineElement)elements.get(0)).getTypeExpression()
@@ -99,7 +99,7 @@ public class QLGrammarTest {
 
     @Test
     public void testBinops() {
-        AstRoot astRoot = getAst("binops.ql");
+        QLAstRoot astRoot = getAst("binops.ql");
         List<FormElement> elements = astRoot.getForms().get(0).getFormElements();
 
         assertTrue(((LabelBinOpExpression)((LineElement)elements.get(0)).getTypeExpression()
@@ -126,7 +126,7 @@ public class QLGrammarTest {
 
     @Test
     public void testConstants() {
-        AstRoot astRoot = getAst("constants.ql");
+        QLAstRoot astRoot = getAst("constants.ql");
         List<FormElement> elements = astRoot.getForms().get(0).getFormElements();
 
         assertTrue(((LineElement)elements.get(0)).getTypeExpression().getExpression() instanceof

@@ -17,6 +17,22 @@ public class Stylesheet extends AstNode {
         this.label = label;
     }
 
+    public List<Page> getPages() {
+        return pages;
+    }
+
+    public void setPages(List<Page> pages) {
+        this.pages = pages;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         for (Page page : pages) {

@@ -13,6 +13,14 @@ public class WidthProperty extends Property {
         this.width = width;
     }
 
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         visitor.visitWidthProperty(this);

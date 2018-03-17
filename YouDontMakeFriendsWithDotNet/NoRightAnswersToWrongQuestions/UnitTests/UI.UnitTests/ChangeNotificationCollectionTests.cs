@@ -22,6 +22,7 @@ namespace UnitTests.UI.UnitTests
 
             m_inputQuestion1 = new QuestionModel(
                 new Guid("40E98F85-949C-48F0-8194-CECEEBD0177F"),
+                new Guid("F9B5E8FB-46C5-491E-8C72-F3CB2E6400D3"),
                 "int input question",
                 true,
                 false,
@@ -29,6 +30,7 @@ namespace UnitTests.UI.UnitTests
 
             m_inputQuestion2 = new QuestionModel(
                 new Guid("9568D4CB-7287-4431-9810-E95A83D050EB"),
+                new Guid("2701EBE0-095D-4586-914A-050DAD59A033"),
                 "string input question",
                 true,
                 false,

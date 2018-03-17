@@ -1,13 +1,14 @@
 package ql.ast.expression;
 
 import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.UndefinedLiteral;
 import ql.ast.type.Type;
 import ql.ast.type.Undefined;
 import ql.helpers.Observable;
 import ql.helpers.Observer;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Identifier extends Expression implements Observable {
+public class Identifier extends Expression implements Observable, Observer {
     
     private String name;
     private Type type;
@@ -16,13 +17,13 @@ public class Identifier extends Expression implements Observable {
     public Identifier(String name) {
         this.name       = name;
         this.type       = new Undefined();
-        this.value      = new ql.ast.expression.literal.UndefinedLiteral();
+        this.value      = new UndefinedLiteral();
     }
     
     public Identifier(String name, Type type) {
         this.name       = name;
         this.type       = type;
-        this.value      = new ql.ast.expression.literal.UndefinedLiteral();
+        this.value      = new UndefinedLiteral();
     }
     
     public String getName() {
@@ -86,5 +87,11 @@ public class Identifier extends Expression implements Observable {
     @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
+    }
+
+    @Override
+    public void update() {
+        value = this.evaluate();
+        System.out.println(value.getValue());
     }
 }

@@ -71,6 +71,10 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
         return null;
     }
 
+    public QuestionReference getQuestionReference(Question question){
+        return getQuestion("Question."+question.getId());
+    }
+
 
     @Override
     public Segment visit(Section section, Segment parent) {

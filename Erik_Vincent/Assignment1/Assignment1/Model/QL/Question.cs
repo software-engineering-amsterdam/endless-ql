@@ -1,5 +1,4 @@
-﻿using System;
-using Assignment1.Model.QL.QLExpression;
+﻿using Assignment1.Model.QL.QLExpression;
 
 namespace Assignment1.Model.QL
 {

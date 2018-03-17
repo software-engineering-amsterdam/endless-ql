@@ -1,6 +1,7 @@
 package gui;
 
 import gui.widgets.*;
+import javafx.geometry.Insets;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -52,7 +53,7 @@ public class GUIQuestion extends VBox {
         label.visibleProperty().bind(widget.visibleProperty());
         this.getChildren().add(label);
         this.getChildren().add(widget);
-
+        this.setPadding(new Insets(20, 20, 20, 20));
     }
 
 }

@@ -1,14 +1,11 @@
 package gui;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
@@ -18,7 +15,6 @@ import qls.model.Section;
 import qls.model.StyleSheet;
 
 import java.util.Optional;
-import java.util.UnknownFormatConversionException;
 
 public class GUIForm extends VBox {
 
@@ -29,9 +25,11 @@ public class GUIForm extends VBox {
             VBox pagePane = new VBox();
             for(Section section : page.getSections()){
                 // Add section to page
-                Node sectionGUI = createSectionGUI(symbolTable, form, section);
+                VBox sectionGUI = createSectionGUI(symbolTable, form, section);
                 pagePane.getChildren().add(sectionGUI);
+                sectionGUI.prefHeightProperty().bind(pagePane.heightProperty());
             }
+            VBox.setVgrow(pagePane, Priority.ALWAYS);
 
             // Add new page as tab to form
             Tab tab = new Tab();
@@ -42,11 +40,13 @@ public class GUIForm extends VBox {
         }
 
         ScrollPane scrollPane = new ScrollPane(formPane);
-        this.setPrefHeight(500);
+        formPane.setPadding(new Insets(10, 10, 10, 10));
         this.getChildren().add(scrollPane);
+        this.setHeight(640);
+        this.setWidth(320);
     }
 
-    private Node createSectionGUI(SymbolTable symbolTable, Form form, Section section){
+    private VBox createSectionGUI(SymbolTable symbolTable, Form form, Section section){
         // Create section
         VBox sectionPane = new VBox();
         for(qls.model.Question qlsQuestion : section.getQuestions()) {
@@ -57,7 +57,6 @@ public class GUIForm extends VBox {
             Node subSectionGUI = createSectionGUI(symbolTable, form, subSection);
             sectionPane.getChildren().add(subSectionGUI);
         }
-        sectionPane.setPadding(new Insets(20, 20, 20, 20));
         sectionPane.setSpacing(10);
 
         return sectionPane;

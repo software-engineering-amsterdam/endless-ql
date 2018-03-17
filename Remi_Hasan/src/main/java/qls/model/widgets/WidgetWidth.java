@@ -1,9 +1,19 @@
 package qls.model.widgets;
 
-public class WidgetWidth extends Widget {
-    private final int width;
+import org.antlr.v4.runtime.Token;
+import qls.IQLSVisitor;
+import qls.model.QLSNode;
 
-    public WidgetWidth(int width) {
+public class WidgetWidth extends Widget {
+    public final int width;
+
+    public WidgetWidth(Token token, int width) {
+        super(token, WidgetType.TEXT);
         this.width = width;
+    }
+
+    @Override
+    public <T> T accept(IQLSVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

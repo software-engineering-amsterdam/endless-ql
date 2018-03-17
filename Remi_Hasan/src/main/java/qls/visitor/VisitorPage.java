@@ -1,19 +1,18 @@
 package qls.visitor;
 
-import qls.model.Default;
+import qls.model.DefaultStyle;
 import qls.model.Page;
 import qls.model.Section;
 import qls.parser.QLSParser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VisitorPage extends VisitorBlock<Page> {
 
     @Override
     public Page visitPage(QLSParser.PageContext ctx) {
-        List<Default> defaults = this.getDefaults(ctx.default_());
+        List<DefaultStyle> defaultStyles = this.getDefaults(ctx.defaultStyle());
         List<Section> sections = this.getSections(ctx.section());
-        return new Page(ctx.getStart(), ctx.IDENTIFIER().getText(), defaults, sections);
+        return new Page(ctx.getStart(), ctx.IDENTIFIER().getText(), defaultStyles, sections);
     }
 }

@@ -12,7 +12,7 @@ public class VisitorQuestion extends QLSBaseVisitor<Question> {
         VisitorWidget visitorWidget = new VisitorWidget();
 
         Widget widget = null;
-        if(ctx.widget() != null) {
+        if (ctx.widget() != null) {
             widget = visitorWidget.visit(ctx.widget());
         }
 

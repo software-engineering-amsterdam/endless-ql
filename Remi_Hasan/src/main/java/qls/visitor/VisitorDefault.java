@@ -1,21 +1,19 @@
 package qls.visitor;
 
+import ql.model.expression.ReturnType;
+import qls.model.DefaultStyle;
+import qls.model.widgets.Widget;
 import qls.parser.QLSBaseVisitor;
 import qls.parser.QLSParser;
-import ql.model.expression.ReturnType;
-import qls.model.Default;
-import qls.model.widgets.Widget;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisitorDefault extends QLSBaseVisitor<Default> {
+public class VisitorDefault extends QLSBaseVisitor<DefaultStyle> {
+
     @Override
-    public Default visitDefault_(QLSParser.Default_Context ctx) {
-
+    public DefaultStyle visitDefaultStyle(QLSParser.DefaultStyleContext ctx) {
         VisitorWidget visitorWidget = new VisitorWidget();
-
-        // TODO
         ReturnType returnType = ReturnType.valueOf(ctx.type().getText().toUpperCase());
 
         List<Widget> widgets = new ArrayList<>();
@@ -24,6 +22,6 @@ public class VisitorDefault extends QLSBaseVisitor<Default> {
             widgets.add(widget);
         }
 
-        return new Default(ctx.getStart(), returnType, widgets);
+        return new DefaultStyle(ctx.getStart(), returnType, widgets);
     }
 }

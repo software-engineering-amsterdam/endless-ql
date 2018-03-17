@@ -19,9 +19,15 @@ public interface IQLSVisitor<T> {
 
     T visit(WidgetCheckBox widget);
 
+    T visit(WidgetDropdown widget);
+
     T visit(WidgetRadio widget);
 
+    T visit(WidgetSlider widget);
+
     T visit(WidgetSpinBox widget);
+
+    T visit(WidgetTextBox widget);
 
     T visit(StyleAttributeColor widget);
 

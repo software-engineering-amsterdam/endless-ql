@@ -10,15 +10,18 @@ question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
 // followed by one or no widget type
 defaultStyle    : DEFAULT type (widget | '{' styleAttribute* widget? '}');
 
-styleAttribute  : WIDTH ':' INTEGER                         # widgetWidth
-                | FONT ':' STRING                           # widgetFont
-                | FONTSIZE ':' INTEGER                      # widgetFontSize
-                | COLOR ':' HEXCOLOR                        # widgetColor
+styleAttribute  : WIDTH ':' INTEGER                                                 # widgetWidth
+                | FONT ':' STRING                                                   # widgetFont
+                | FONTSIZE ':' INTEGER                                              # widgetFontSize
+                | COLOR ':' HEXCOLOR                                                # widgetColor
                 ;
 
-widget          : WIDGET RADIO '(' STRING (',' STRING)* ')' # radioWidget
-                | WIDGET CHECKBOX                           # checkBoxWidget
-                | WIDGET SPINBOX                            # spinBoxWidget
+widget          : WIDGET RADIO '(' trueLabel=STRING ',' falseLabel=STRING ')'       # radioWidget
+                | WIDGET DROPDOWN '(' trueLabel=STRING ',' falseLabel=STRING ')'    # dropdownWidget
+                | WIDGET CHECKBOX                                                   # checkBoxWidget
+                | WIDGET SPINBOX                                                    # spinBoxWidget
+                | WIDGET SLIDER                                                     # sliderWidget
+                | WIDGET TEXTBOX                                                    # textBoxWidget
                 ;
 
 type            : BOOLEANTYPE
@@ -39,6 +42,9 @@ QUESTION              : 'question';
 RADIO                 : 'radio';
 CHECKBOX              : 'checkbox';
 SPINBOX               : 'spinbox';
+DROPDOWN              : 'dropdown';
+SLIDER                : 'slider';
+TEXTBOX               : 'text';
 WIDTH                 : 'width';
 FONT                  : 'font';
 FONTSIZE              : 'fontsize';

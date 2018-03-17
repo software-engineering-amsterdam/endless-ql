@@ -11,7 +11,6 @@ import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableUndefined;
-import qls.model.widgets.Widget;
 
 public class GUIQuestion extends VBox {
 

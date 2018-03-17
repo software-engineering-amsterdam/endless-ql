@@ -8,7 +8,7 @@ import ql.helpers.Observable;
 import ql.helpers.Observer;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Identifier extends Expression implements Observable {
+public class Identifier extends Expression implements Observable, Observer {
     
     private String name;
     private Type type;
@@ -87,5 +87,11 @@ public class Identifier extends Expression implements Observable {
     @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
+    }
+
+    @Override
+    public void update() {
+        value = this.evaluate();
+        System.out.println(value.getValue());
     }
 }

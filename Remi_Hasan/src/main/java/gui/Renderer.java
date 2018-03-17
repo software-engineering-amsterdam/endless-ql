@@ -31,7 +31,10 @@ public class Renderer extends Application {
             QLFormBuilder qlFormBuilder = new QLFormBuilder();
             this.qlForm = qlFormBuilder.buildForm(new FileInputStream(qlFile));
             this.symbolTable = qlFormBuilder.getSymbolTable();
-            this.qlsStyleSheet = QLSFormBuilder.parseStyleSheet(new FileInputStream(qlsFile));
+
+
+            QLSFormBuilder qlsFormBuilder = new QLSFormBuilder(this.qlForm, this.symbolTable);
+            this.qlsStyleSheet = qlsFormBuilder.parseStyleSheet(new FileInputStream(qlsFile));
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
             return;

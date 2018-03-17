@@ -53,4 +53,24 @@ public class DropdownWidget extends ComboBox<String> implements WidgetInterface 
             symbolTable.setExpression(question.name, getExpression(this, question.type));
         });
     }
+
+    @Override
+    public void setColor(String color) {
+
+    }
+
+    @Override
+    public void setFont(String font) {
+
+    }
+
+    @Override
+    public void setFontSize(int fontSize) {
+
+    }
+
+    @Override
+    public void setWidth(int width) {
+
+    }
 }

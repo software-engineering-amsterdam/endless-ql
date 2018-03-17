@@ -39,16 +39,20 @@ public class StyleEvaluator {
         generateSections();
     }
 
-    public void setWidget(Question question, JPanel widget){
-        sections.put("Question."+question.getId(), widget);
+    public void setWidget(QuestionReference questionReference, JPanel widget){
+        sections.put(questionReference.getId(), widget);
     }
 
-    public void setVisible(Question question){
-        String key = "Question."+question.getId();
+    public void setVisible(QuestionReference questionReference){
+        String key = questionReference.getId();
         visibleSections.add(key);
         for(Segment segment : context.getAllParents(key)){
             visibleSections.add(segment.getId());
         }
+    }
+
+    public QuestionReference getQuestionReference(Question question) {
+        return this.context.getQuestionReference(question);
     }
 
     public JTabbedPane getLayout(JTabbedPane tabbedPane) {
@@ -77,14 +81,6 @@ public class StyleEvaluator {
             }
         }
         return tabbedPane;
-    }
-
-    public JPanel getSection(Question question) {
-        Segment parent = this.context.getParent("Question."+question.getId());
-        if (parent != null && sections.containsKey(parent.getId())) {
-            return sections.get(parent.getId());
-        }
-        return null;
     }
 
     public JPanel getPage(Question question) {

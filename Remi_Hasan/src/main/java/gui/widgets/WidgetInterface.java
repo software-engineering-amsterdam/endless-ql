@@ -44,4 +44,10 @@ public interface WidgetInterface {
             return new ExpressionVariableUndefined(null, returnType);
         }
     }
+
+    // StyleAttribute
+    public void setColor(String color);
+    public void setFont(String font);
+    public void setFontSize(int fontSize);
+    public void setWidth(int width);
 }

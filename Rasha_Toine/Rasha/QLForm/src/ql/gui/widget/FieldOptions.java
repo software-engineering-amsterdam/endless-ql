@@ -41,4 +41,9 @@ public class FieldOptions {
 		}
 		return null;
 	}
+
+	public int optionIndexOf(FieldOption option) {
+		return options.indexOf(option);
+	}
+	
 }

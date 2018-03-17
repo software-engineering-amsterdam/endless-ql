@@ -1,6 +1,7 @@
 package qlviz.gui.renderer.javafx;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import qlviz.gui.renderer.QuestionRenderer;
@@ -33,7 +34,7 @@ public class StyledJavafxQuestionRenderer implements QuestionRenderer {
             UIWidget widget = this.javafxWidgetFactory.create(widgetDefinition);
             widget.bindToQuestion(question);
 
-            VBox container = new VBox();
+            HBox container = new HBox();
 
             Label label = new Label(question.getText());
 

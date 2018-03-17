@@ -5,9 +5,11 @@ import qlviz.gui.renderer.layout.QuestionLocator;
 import qlviz.gui.renderer.layout.QuestionNotFoundException;
 import qlviz.gui.viewModel.question.*;
 import qlviz.model.style.DefaultWidgetDeclaration;
+import qlviz.model.style.PropertySetting;
 import qlviz.model.style.Scope;
 import qlviz.model.style.Widget;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -39,6 +41,21 @@ public class StylesheetWidgetFinder implements WidgetFinder {
             }
         }
         throw new WidgetNotFoundException();
+    }
+
+    @Override
+    public List<PropertySetting> findDefaultProperties(QuestionViewModel questionViewModel) throws QuestionNotFoundException {
+        QuestionLocation questionLocation = this.questionLocator.getPathToQuestion(questionViewModel);
+        Stack<Scope> scopes = questionLocation.getScopes();
+        while (!scopes.empty()) {
+            Scope scope = scopes.pop();
+            for (DefaultWidgetDeclaration declaration : scope.getDefaultWidgetDeclarations()) {
+                if (declaration.getQuestionType() == questionViewModel.getQuestionType()) {
+                    return declaration.getPropertySettings();
+                }
+            }
+        }
+        return new ArrayList<>();
     }
 
 }

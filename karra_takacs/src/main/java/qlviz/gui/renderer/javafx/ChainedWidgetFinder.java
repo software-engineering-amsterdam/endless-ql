@@ -2,8 +2,10 @@ package qlviz.gui.renderer.javafx;
 
 import qlviz.gui.renderer.layout.QuestionNotFoundException;
 import qlviz.gui.viewModel.question.QuestionViewModel;
+import qlviz.model.style.PropertySetting;
 import qlviz.model.style.Widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChainedWidgetFinder implements WidgetFinder {
@@ -29,5 +31,16 @@ public class ChainedWidgetFinder implements WidgetFinder {
             }
         }
         throw new WidgetNotFoundException();
+    }
+
+    @Override
+    public List<PropertySetting> findDefaultProperties(QuestionViewModel questionViewModel) throws QuestionNotFoundException {
+         for (WidgetFinder widgetFinder : this.finders) {
+            List<PropertySetting> propertySettings = widgetFinder.findDefaultProperties(questionViewModel);
+            if (propertySettings.size() > 0) {
+                return propertySettings;
+            }
+        }
+        return new ArrayList<>();
     }
 }

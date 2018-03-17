@@ -2,10 +2,12 @@ package qlviz.gui.renderer.javafx;
 
 import qlviz.gui.renderer.layout.QuestionNotFoundException;
 import qlviz.gui.viewModel.question.*;
+import qlviz.model.style.PropertySetting;
 import qlviz.model.style.Widget;
 import qlviz.model.style.WidgetType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultWidgetProvider implements WidgetFinder, TypedQuestionViewModelVisitor<Widget> {
 
@@ -16,6 +18,11 @@ public class DefaultWidgetProvider implements WidgetFinder, TypedQuestionViewMod
             throw new WidgetNotFoundException();
         }
         return widget;
+    }
+
+    @Override
+    public List<PropertySetting> findDefaultProperties(QuestionViewModel questionViewModel) throws QuestionNotFoundException {
+        return new ArrayList<>();
     }
 
     @Override

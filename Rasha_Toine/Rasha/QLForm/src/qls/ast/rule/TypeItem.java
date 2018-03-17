@@ -4,14 +4,14 @@ import java.util.List;
 
 import ql.ast.type.Type;
 import qls.ast.style.StyleProperty;
-import qls.ast.widget.QLSWidget;
+import qls.ast.widget.AstWidget;
 import qls.visiting.ItemVisitor;
 
 public class TypeItem extends Item {
-	private Type type;
+	private final Type type;
 
 	//constructor
-	public TypeItem(QLSWidget widget, Type type, List<StyleProperty> properties) {
+	public TypeItem(AstWidget widget, Type type, List<StyleProperty> properties) {
 		super(widget, properties);
 		this.type = type;
 	}

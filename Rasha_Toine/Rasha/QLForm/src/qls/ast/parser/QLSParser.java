@@ -514,7 +514,7 @@ public class QLSParser extends Parser {
 	}
 
 	public static class WidgetTypeContext extends ParserRuleContext {
-		public QLSWidget result;
+		public AstWidget result;
 		public WidgetOptionsContext widgetOptions;
 		public Token STRING;
 		public WidgetOptionsContext widgetOptions() {
@@ -547,7 +547,7 @@ public class QLSParser extends Parser {
 				{
 				setState(87);
 				match(T__12);
-				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new TextField()); 
+				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new AstTextField()); 
 				}
 				break;
 			case T__13:
@@ -565,7 +565,7 @@ public class QLSParser extends Parser {
 				match(T__16);
 				setState(94);
 				((WidgetTypeContext)_localctx).STRING = match(STRING);
-				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new CheckBox(((WidgetTypeContext)_localctx).widgetOptions.result, (((WidgetTypeContext)_localctx).STRING!=null?((WidgetTypeContext)_localctx).STRING.getText():null))); 
+				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new AstCheckBox(((WidgetTypeContext)_localctx).widgetOptions.result, (((WidgetTypeContext)_localctx).STRING!=null?((WidgetTypeContext)_localctx).STRING.getText():null))); 
 				}
 				break;
 			case T__17:
@@ -583,7 +583,7 @@ public class QLSParser extends Parser {
 				match(T__16);
 				setState(102);
 				((WidgetTypeContext)_localctx).STRING = match(STRING);
-				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new RadioBtn(((WidgetTypeContext)_localctx).widgetOptions.result, (((WidgetTypeContext)_localctx).STRING!=null?((WidgetTypeContext)_localctx).STRING.getText():null))); 
+				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new AstRadioBtn(((WidgetTypeContext)_localctx).widgetOptions.result, (((WidgetTypeContext)_localctx).STRING!=null?((WidgetTypeContext)_localctx).STRING.getText():null))); 
 				}
 				break;
 			case T__18:
@@ -601,7 +601,7 @@ public class QLSParser extends Parser {
 				match(T__16);
 				setState(110);
 				((WidgetTypeContext)_localctx).STRING = match(STRING);
-				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new DropDown(((WidgetTypeContext)_localctx).widgetOptions.result, (((WidgetTypeContext)_localctx).STRING!=null?((WidgetTypeContext)_localctx).STRING.getText():null))); 
+				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new AstDropDown(((WidgetTypeContext)_localctx).widgetOptions.result, (((WidgetTypeContext)_localctx).STRING!=null?((WidgetTypeContext)_localctx).STRING.getText():null))); 
 				}
 				break;
 			case T__19:
@@ -619,7 +619,7 @@ public class QLSParser extends Parser {
 				match(T__16);
 				setState(118);
 				((WidgetTypeContext)_localctx).STRING = match(STRING);
-				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new Slider(((WidgetTypeContext)_localctx).widgetOptions.result, (((WidgetTypeContext)_localctx).STRING!=null?((WidgetTypeContext)_localctx).STRING.getText():null))); 
+				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new AstSlider(((WidgetTypeContext)_localctx).widgetOptions.result, (((WidgetTypeContext)_localctx).STRING!=null?((WidgetTypeContext)_localctx).STRING.getText():null))); 
 				}
 				break;
 			case T__20:
@@ -637,7 +637,7 @@ public class QLSParser extends Parser {
 				match(T__16);
 				setState(126);
 				((WidgetTypeContext)_localctx).STRING = match(STRING);
-				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new Spinbox(((WidgetTypeContext)_localctx).widgetOptions.result, (((WidgetTypeContext)_localctx).STRING!=null?((WidgetTypeContext)_localctx).STRING.getText():null))); 
+				 ((WidgetTypeContext)_localctx).result =  addCodeReference(_localctx, new AstSpinbox(((WidgetTypeContext)_localctx).widgetOptions.result, (((WidgetTypeContext)_localctx).STRING!=null?((WidgetTypeContext)_localctx).STRING.getText():null))); 
 				}
 				break;
 			default:
@@ -657,7 +657,7 @@ public class QLSParser extends Parser {
 
 	public static class QuestionContext extends ParserRuleContext {
 		public Item result;
-		public QLSWidget widget;
+		public AstWidget widget;
 		List<StyleProperty> props = new ArrayList<>();
 		public IdentifierContext identifier;
 		public WidgetTypeContext widgetType;
@@ -768,7 +768,7 @@ public class QLSParser extends Parser {
 
 	public static class DefaultTypeContext extends ParserRuleContext {
 		public TypeItem result;
-		public QLSWidget widget = null;;
+		public AstWidget widget = null;;
 		public QuestionTypeContext questionType;
 		public StylesContext st;
 		public WidgetTypeContext widgetType;

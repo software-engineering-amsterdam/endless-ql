@@ -4,12 +4,12 @@ import java.util.Collections;
 import java.util.List;
 
 
-public abstract class MultiOptionsWidget extends QLSWidget {
+public abstract class AstSelectionWidget extends AstWidget {
 	private List<String> options;
 	private String defaultOption;
 
 	//constructor
-	public MultiOptionsWidget(List<String> options, String defaultOption) {
+	public AstSelectionWidget(List<String> options, String defaultOption) {
 		this.options = options;
 		this.defaultOption = defaultOption;
 	}

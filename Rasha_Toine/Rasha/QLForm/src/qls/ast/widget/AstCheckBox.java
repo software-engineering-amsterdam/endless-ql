@@ -4,9 +4,9 @@ import java.util.List;
 
 import qls.visiting.WidgetVisitor;
 
-public class DropDown extends MultiOptionsWidget {
+public class AstCheckBox extends AstSelectionWidget {
 	//constructor
-    public DropDown(List<String> options, String defaultOption) {
+    public AstCheckBox(List<String> options, String defaultOption) {
       super(options, defaultOption);
     }
     

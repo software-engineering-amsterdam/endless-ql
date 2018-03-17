@@ -4,14 +4,14 @@ import java.util.List;
 
 import qls.visiting.WidgetVisitor;
 
-public  class Slider extends MultiOptionsWidget {
+public  class AstSpinbox extends AstSelectionWidget {
 	//constructor
-    public Slider(List<String> options, String defaultOption) {
+    public AstSpinbox(List<String> options, String defaultOption) {
       super(options, defaultOption);
     }
     
 	@Override
 	public <T, U> T accept(WidgetVisitor<T, U> visitor, U ctx) {
-		return visitor.visit(this,  ctx);
+		return visitor.visit(this, ctx);
 	}
 }

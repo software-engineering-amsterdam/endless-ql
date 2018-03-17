@@ -16,6 +16,7 @@ import ql.gui.IfThenElsePanel;
 import ql.gui.IfThenPanel;
 import ql.gui.QuestionPanel;
 import ql.gui.fields.actionlisteners.AbstractActionListener;
+import ql.visitors.checker.checkers.ExpressionVisitorIdentifier;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class ASTtoGUI implements StatementVisitor {
@@ -45,22 +46,32 @@ public class ASTtoGUI implements StatementVisitor {
     @Override
     public void visit(IfThen stmt) {
         
-        final JPanel thenPanel  = new IfThenPanel(stmt.getCondition(), "then");
+        final IfThenPanel thenPanel  = new IfThenPanel(stmt.getCondition());
         panelsCollection.put(thenPanel, thenPanel.isVisible());
         
         parentPanel.add(thenPanel);
         parentPanel = thenPanel;
+        
+        stmt.getCondition().accept(new ExpressionVisitorIdentifier()).forEach(identifier -> {
+            identifier.addObserver(thenPanel);
+        });
+        
         stmt.getThenStatement().accept(this);
         parentPanel.revalidate();
     }
     @Override
     public void visit(IfThenElse stmt) {
         
-        final IfThenElsePanel thenElsePanel = new IfThenElsePanel(stmt.getCondition(), "ThenElse");
+        final IfThenElsePanel thenElsePanel = new IfThenElsePanel(stmt.getCondition());
         panelsCollection.put(thenElsePanel, thenElsePanel.isVisible());
         
         parentPanel.add(thenElsePanel);
         parentPanel = thenElsePanel;
+        
+        stmt.getCondition().accept(new ExpressionVisitorIdentifier()).forEach(identifier -> {
+            identifier.addObserver(thenElsePanel);
+        });
+        
         stmt.getThenStatement().accept(this);
         stmt.getElseStatement().accept(this);
         parentPanel.revalidate();

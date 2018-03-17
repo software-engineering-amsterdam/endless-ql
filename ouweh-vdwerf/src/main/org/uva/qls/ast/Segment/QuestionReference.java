@@ -29,11 +29,6 @@ public class QuestionReference extends Segment {
 
 
     @Override
-    public List<QuestionReference> getQuestions() {
-        return Arrays.asList(this);
-    }
-
-    @Override
     public <S> S accept(SegmentVisitor<S> visitor) {
         return visitor.visit(this);
     }

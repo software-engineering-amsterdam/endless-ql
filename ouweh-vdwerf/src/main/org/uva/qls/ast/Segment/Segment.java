@@ -6,7 +6,6 @@ import org.uva.qls.visitor.SegmentVisitor;
 import java.util.List;
 
 public  abstract class Segment extends TreeNode {
-    public abstract List<QuestionReference> getQuestions();
 
     public abstract <S> S accept(SegmentVisitor<S> visitor);
 }

@@ -5,6 +5,7 @@ import org.uva.ql.validation.checker.Checker;
 import org.uva.app.LogHandler;
 import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.ast.Stylesheet;
+import org.uva.qls.collector.StylesheetContext;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -13,7 +14,9 @@ import java.util.*;
 
 public class QLSValidator {
 
-    private Stylesheet stylesheet;
+    private final Stylesheet stylesheet;
+    private final StylesheetContext stylesheetContext;
+
     private List<Question> qlQuestions;
     private LogHandler logHandler;
     private List<Checker> checkers;
@@ -21,6 +24,8 @@ public class QLSValidator {
     public QLSValidator(List<Question> qlQuestions, Stylesheet stylesheet){
         this.qlQuestions = qlQuestions;
         this.stylesheet = stylesheet;
+        this.stylesheetContext = new StylesheetContext(stylesheet);
+
         this.checkers = new ArrayList<>();
 
         this.logHandler = (LogHandler) Logger.getGlobal().getHandlers()[0];
@@ -29,7 +34,7 @@ public class QLSValidator {
     }
 
     private void initializeCheckers() {
-        List<QuestionReference> qlsQuestions = stylesheet.getQuestions();
+        List<QuestionReference> qlsQuestions = stylesheetContext.getQuestions();
         List<String> qlQuestionIds = qlQuestions.stream().map(Question::getId).collect(Collectors.toList());
         List<String> qlsQuestionIds = qlsQuestions.stream().map(QuestionReference::getId).collect(Collectors.toList());
 

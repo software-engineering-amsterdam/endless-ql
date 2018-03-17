@@ -31,15 +31,6 @@ public class Section extends Segment {
     }
 
     @Override
-    public List<QuestionReference> getQuestions() {
-        List<QuestionReference> questionReferences = new ArrayList<>();
-        for (Segment segment : segments) {
-            questionReferences.addAll(segment.getQuestions());
-        }
-        return questionReferences;
-    }
-
-    @Override
     public <S> S accept(SegmentVisitor<S> visitor) {
         return visitor.visit(this);
     }

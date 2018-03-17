@@ -30,12 +30,5 @@ public class Page extends TreeNode {
     public List<Segment> getSegments() {
         return segments;
     }
-
-    public List<QuestionReference> getQuestions() {
-        List<QuestionReference> questionReferences = new ArrayList<>();
-        for (Segment segment : segments) {
-            questionReferences.addAll(segment.getQuestions());
-        }
-        return questionReferences;
-    }
+    
 }

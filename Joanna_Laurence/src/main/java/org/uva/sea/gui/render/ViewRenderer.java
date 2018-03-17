@@ -29,7 +29,7 @@ public class ViewRenderer {
         this.questionBox = questionBox;
         this.messageBox = messageBox;
         this.controller = formController;
-        this.modelRenderer = new ModelRenderer(this);
+        this.modelRenderer = new ModelRenderer(this); //TODO: The constructor creates this. So you cannot use this here?
     }
 
     public void displayQuestionRow(final BaseQuestionModel questionModel) {

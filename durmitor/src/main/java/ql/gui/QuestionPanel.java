@@ -47,6 +47,10 @@ public class QuestionPanel extends JPanel implements TypeVisitor {
         add(new JLabel(question.getLabel()));
         question.getIdentifier().getType().accept(this);
     }
+    
+    public Question getQuestion() {
+        return question;
+    }
 
     @Override
     public void visit(Bool type) {

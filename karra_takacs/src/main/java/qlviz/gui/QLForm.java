@@ -89,7 +89,13 @@ public class QLForm extends Application {
 
 			Function<Pane, QuestionRenderer> questionRendererFactory =
 					pane -> new StyledJavafxQuestionRenderer(pane, javafxWidgetFactory, widgetFinder);
-			this.renderer = new StyledJavafxFormRenderer(stage, questionRendererFactory, stylesheet, new NaiveQuestionLocator(stylesheet));
+			this.renderer =
+					new StyledJavafxFormRenderer(
+							stage,
+							questionRendererFactory,
+							stylesheet,
+							new NaiveQuestionLocator(stylesheet),
+							pane -> new StyledJavafxSectionRenderer(questionRendererFactory, pane));
 		}
 		else {
 			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);
@@ -124,14 +130,14 @@ public class QLForm extends Application {
 
 
 		StaticChecker staticChecker = new StaticChecker();
-		List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLables(this.model);
+		List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLabels(this.model);
 		if (duplicateResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
 			staticCheckResults = duplicateResults;
 		}
 		else
 		{
 			modelBuilder.linkQuestions(this.model);
-            staticCheckResults = staticChecker.valdiate(this.model, containsDuplicates);
+            staticCheckResults = staticChecker.validate(this.model, containsDuplicates);
 		}
 
 		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {

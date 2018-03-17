@@ -54,6 +54,9 @@ class QLListener(ParseTreeListener):
         children = ctx.getChildren()
         question = children.__next__().getText()
         questionID = children.__next__().getText()
+        if questionID in self.outputFrame.questionIDs:
+            # return errormessage
+            pass
         children.__next__()
         datatype = children.__next__().getText()
 
@@ -113,24 +116,38 @@ class QLListener(ParseTreeListener):
         # todo: cleanup
         children = ctx.getChildren()
 
+        # Picks out the ID of the question that is the argument of the if
         children.__next__()
         children.__next__()
         conditionalID = children.__next__().getText()
+
+        # If the ID of the question that is the argument of the if does not exist, throws an error
+        if conditionalID not in self.outputFrame.questionIDs:
+            # return errormessage of sorts
+            pass
+        elif self.outputFrame.get_question_object(conditionalID).get_datatype() != 'boolean':
+            # return another errormessage
+            pass
+
         children.__next__()
-        ifquestion = children.__next__()
+        ifquestion = children.__next__()  # picks out the question within the if
 
         ifquestionchildren = ifquestion.getChildren()
         ifquestionchildren.__next__()
-        ifquestionchild = ifquestionchildren.__next__()
+        for ifchild in ifquestionchildren:  # If there's multiple questions within the if, all are picked out
+            if ifchild.getText() == '}':
+                break
+            grandchildren = ifchild.getChildren()
+            grandchild = grandchildren.__next__()
 
-        grandchildren = ifquestionchild.getChildren()
-        grandchild = grandchildren.__next__()
+            ggrandchildren = grandchild.getChildren()
+            ggrandchildren.__next__()
+            ifquestionID = ggrandchildren.__next__().getText()  # Specifically: picks out the IDs of the questions
 
-        ggrandchildren = grandchild.getChildren()
-        ggrandchildren.__next__()
-        ifquestionID = ggrandchildren.__next__().getText()
+            conditionalQuestion = self.outputFrame.get_question_object(conditionalID)
+            ifQuestion = self.outputFrame.get_question_object(ifquestionID)
+            conditionalQuestion.add_if_question(ifQuestion)
 
-        self.outputFrame.get_question_object(conditionalID).add_if_question(self.outputFrame.get_question_object(ifquestionID))
 
     # Enter a parse tree produced by QLParser#type.
     def enterType(self, ctx:QLParser.TypeContext):

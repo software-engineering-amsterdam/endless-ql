@@ -1,9 +1,9 @@
 package qls.visitor;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
+import qls.model.widget.*;
 import qls.parser.QLSBaseVisitor;
 import qls.parser.QLSParser;
-import qls.model.widgets.*;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
     @Override
     public Widget visitCheckBoxWidget(QLSParser.CheckBoxWidgetContext ctx) {
         // TODO
-        return new WidgetCheckBox();
+        return new WidgetCheckBox(ctx.getStart());
     }
 
     @Override
@@ -26,38 +26,12 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
             option = option.substring(1, option.length() - 1);
             options.add(option);
         }
-        return new WidgetRadio(options);
+        return new WidgetRadio(ctx.getStart(), options);
     }
 
     @Override
     public Widget visitSpinBoxWidget(QLSParser.SpinBoxWidgetContext ctx) {
         // TODO
-        return new WidgetSpinBox();
-    }
-
-    @Override
-    public Widget visitWidgetWidth(QLSParser.WidgetWidthContext ctx) {
-        int width = Integer.parseInt(ctx.INTEGER().getText());
-        return new WidgetWidth(width);
-    }
-
-    @Override
-    public Widget visitWidgetFont(QLSParser.WidgetFontContext ctx) {
-        String fontFamily = ctx.STRING().getText();
-        // Strip quotes
-        fontFamily = fontFamily.substring(1, fontFamily.length() - 1);
-        return new WidgetFont(fontFamily);
-    }
-
-    @Override
-    public Widget visitWidgetFontSize(QLSParser.WidgetFontSizeContext ctx) {
-        int fontSize = Integer.parseInt(ctx.INTEGER().getText());
-        return new WidgetFontSize(fontSize);
-    }
-
-    @Override
-    public Widget visitWidgetColor(QLSParser.WidgetColorContext ctx) {
-        String hexColor = ctx.HEXCOLOR().getText();
-        return new WidgetColor(hexColor);
+        return new WidgetSpinBox(ctx.getStart());
     }
 }

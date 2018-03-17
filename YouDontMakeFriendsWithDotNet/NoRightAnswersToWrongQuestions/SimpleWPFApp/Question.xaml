@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-        <local:TypeTemplateSelection x:Key="templateSelector" />
+        <local:TypeTemplateSelection x:Key="TemplateSelector" />
         <DataTemplate x:Key="DefaultTemplate">
             <Grid>
                 <Label 
@@ -52,7 +52,10 @@
         <DataTemplate x:Key="DateTemplate">
             <Grid>
                 <DatePicker 
-                    Text="{Binding Value}"
+                    SelectedDate="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=LostFocus
+                        , TargetNullValue=''}"
                     SelectedDateFormat="Long" 
                     FirstDayOfWeek="Monday"
                 />
@@ -76,7 +79,7 @@
 
         <ContentControl 
             Content="{Binding}" 
-            ContentTemplateSelector="{StaticResource templateSelector}" 
+            ContentTemplateSelector="{StaticResource TemplateSelector}" 
             Grid.Column="1"  />
     </Grid>
 </UserControl>

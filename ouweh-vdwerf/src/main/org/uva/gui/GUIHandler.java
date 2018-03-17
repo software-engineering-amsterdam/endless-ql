@@ -11,6 +11,10 @@ import org.uva.qls.ast.Stylesheet;
 import org.uva.qls.evaluator.StyleEvaluator;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.logging.Level;
@@ -52,6 +56,11 @@ public class GUIHandler {
     private void generateGUI() {
         frame.getContentPane().removeAll();
 
+        JTabbedPane tabbedPane = new JTabbedPane();
+
+        JComponent panel1 = makeTextPanel("Panel #1");
+        tabbedPane.addTab("Title", panel1);
+        frame.add(tabbedPane);
         // TODO build pages and sections
 
         WidgetFactory widgetFactory = new WidgetFactory(this.questionChangeListener, this.styleEvaluator);
@@ -71,7 +80,7 @@ public class GUIHandler {
                 widget.setVisible(expressionValue.getValue());
             }
             //TODO add to correct section
-            frame.add(widget);
+            panel1.add(widget);
         }
         frame.setVisible(true);
     }
@@ -94,6 +103,17 @@ public class GUIHandler {
             }
             this.frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
+    }
+
+    protected JComponent makeTextPanel(String text) {
+        JPanel panel = new JPanel(false);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        TitledBorder border = BorderFactory.createTitledBorder("Title border");
+        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 5);
+        border.setBorder(lineBorder);
+        panel.setBorder(border);
+        return panel;
     }
 
 }

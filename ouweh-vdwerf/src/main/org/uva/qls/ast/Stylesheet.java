@@ -15,6 +15,10 @@ public class Stylesheet extends TreeNode{
         this.pages = pages;
     }
 
+    public List<Page> getPages() {
+        return pages;
+    }
+
     public List<QuestionReference> getQuestions() {
         List<QuestionReference> questionReferences = new ArrayList<>();
         for (Page page : pages) {

@@ -8,8 +8,8 @@ public class Question extends Statement {
     private String content;
     private Type type;
 
-    public Question(String name, String content, Type type) {
-        this.name = name;
+    public Question(String id, String content, Type type) {
+        this.name = id;
         this.content = content;
         this.type = type;
     }

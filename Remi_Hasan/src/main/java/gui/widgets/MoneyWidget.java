@@ -71,6 +71,7 @@ public class MoneyWidget extends TextField implements WidgetInterface {
 
     @Override
     public void setWidth(int width) {
+        // TODO fix this
         this.setPrefWidth(width);
     }
 }

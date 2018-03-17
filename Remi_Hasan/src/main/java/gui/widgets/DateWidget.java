@@ -59,7 +59,7 @@ public class DateWidget extends DatePicker implements WidgetInterface {
 
     @Override
     public void setFont(String font) {
-        
+
     }
 
     @Override

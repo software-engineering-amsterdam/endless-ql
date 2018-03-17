@@ -27,15 +27,9 @@ class MainWindow(QtWidgets.QWidget):
         self.tree = None
         self.parser = None
 
-        # Initiates frames for within the window, and adds them via a splitter widget.
+        # Initiates frames for within the window, and adds them.
         self.inputFrame = InputFrame()
         self.outputFrame = OutputFrame()
-
-        # self.splitter = QtWidgets.QSplitter(QtCore.Qt.Horizontal)
-        # self.splitter.addWidget(self.inputFrame)
-        # self.splitter.addWidget(self.outputFrame)
-        # self.layout.addWidget(self.splitter)
-
         self.layout.addWidget(self.inputFrame)
         self.layout.addWidget(self.outputFrame)
 
@@ -52,7 +46,6 @@ class MainWindow(QtWidgets.QWidget):
         self.outputFrame = OutputFrame()
 
         self.layout.addWidget(self.outputFrame)
-        # self.splitter.addWidget(self.outputFrame)
 
     def parse(self, ql_text, qls_text):
         ql_data = ParserCarrier()
@@ -62,8 +55,14 @@ class MainWindow(QtWidgets.QWidget):
             ql_data.run_antlr_ql()
             # if error in tree:
             #   addwidget errormessgae
-            listen(ql_data.ql_tree, self.outputFrame)
+            exitMessage = listen(ql_data.ql_tree, self.outputFrame)
             self.outputFrame.add_submit_button()
+
+            if exitMessage:
+                self.initiate_outputFrame()
+                self.outputFrame.frameLayout.addWidget(QtWidgets.QLabel(exitMessage))
+            else:
+                self.outputFrame.check_duplicate_questions()
 
         else:  # todo: if garbage in, this error message out.
             self.outputFrame.no_tree_message()

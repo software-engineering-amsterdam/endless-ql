@@ -13,12 +13,14 @@ def listen(tree, outputFrame):
     ql = QLListener(outputFrame)
     walker = ParseTreeWalker()
     walker.walk(ql, tree)
+    return ql.errorMessage
 
 
 class QLListener(ParseTreeListener):
     def __init__(self, outputFrame):
         self.outputFrame = outputFrame
         self.inIf = False
+        self.errorMessage = None
 
     # Enter a parse tree produced by QLParser#form.
     def enterForm(self, ctx:QLParser.FormContext):
@@ -55,8 +57,8 @@ class QLListener(ParseTreeListener):
         question = children.__next__().getText()
         questionID = children.__next__().getText()
         if questionID in self.outputFrame.questionIDs:
-            # return errormessage
-            pass
+            self.errorMessage = "Error: duplicate question IDs: {}".format(questionID)
+            return
         children.__next__()
         datatype = children.__next__().getText()
 
@@ -123,11 +125,11 @@ class QLListener(ParseTreeListener):
 
         # If the ID of the question that is the argument of the if does not exist, throws an error
         if conditionalID not in self.outputFrame.questionIDs:
-            # return errormessage of sorts
-            pass
+            self.errorMessage = "Error: if argument is undefined: {}".format(conditionalID)
+            return
         elif self.outputFrame.get_question_object(conditionalID).get_datatype() != 'boolean':
-            # return another errormessage
-            pass
+            self.errorMessage = "Error: if argument is not boolean: {}".format(conditionalID)
+            return
 
         children.__next__()
         ifquestion = children.__next__()  # picks out the question within the if

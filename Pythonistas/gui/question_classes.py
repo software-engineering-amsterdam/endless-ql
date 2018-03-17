@@ -40,8 +40,11 @@ class BooleanQuestion(Question):
         self.answer = True
         for question in self.ifquestions:
             question.questionframe.setVisible(True)
-            try:  # todo: make sure this works for bool questions
-                question.set_answer_text()
+            try:  # todo: clean up
+                if question.buttongroup.checkedButton() == question.truebutton:
+                    question.set_answer_true()
+                elif question.buttongroup.checkedButton() == question.falsebutton:
+                    question.set_answer_false()
             except:
                 pass
 

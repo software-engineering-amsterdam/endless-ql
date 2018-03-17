@@ -40,3 +40,22 @@ class OutputFrame(QtWidgets.QFrame):
 
     def add_question(self,frame):
         self.frameLayout.addWidget(frame)
+
+    def check_duplicate_questions(self):
+        questionlist = []
+        for question in self.questions:
+            questionlist.append(question.question)
+        duplicates = set([duplicate for duplicate in questionlist if questionlist.count(duplicate) > 1])
+        if len(duplicates) > 0:
+            return "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
+
+    def check_cyclic_ifs(self):
+        pass  # todo: check cyclic ifs
+        # for question in self.questions:
+        #     question.ifquestions
+
+
+
+
+
+

@@ -10,9 +10,6 @@ import org.uva.app.LogHandler;
 import org.uva.qls.evaluator.StyleEvaluator;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.logging.Level;
@@ -60,34 +57,29 @@ public class GUIHandler {
 
         styleEvaluator.generateSections();
 
-
-
-
         WidgetFactory widgetFactory = new WidgetFactory(this.questionChangeListener, this.styleEvaluator);
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
 
         for (Question question : formEvaluator.getQuestionsAsList()) {
+
             Value value = formEvaluator.getValueById(question.getId());
-            QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
+
             // TODO apply styling to widget
+            QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
 
+            this.styleEvaluator.setWidget(question, widget);
 
+            Boolean condition = true;
             if (formEvaluator.questionHasCondition(question)) {
-                BooleanValue expressionValue = (BooleanValue) this.expressionEvaluator.evaluateExpression(
+                condition = ((BooleanValue)this.expressionEvaluator.evaluateExpression(
                         question.getId(),
                         this.formEvaluator.getConditionById(question.toString()),
-                        this.formEvaluator.getValueTable()
-                );
-                if (expressionValue.getValue()) {
-                    this.styleEvaluator.setVisibility(question, true);
-                    widget.setVisible(expressionValue.getValue());
-                }
-            } else {
-                this.styleEvaluator.setVisibility(question, true);
+                        this.formEvaluator.getValueTable()))
+                        .getValue();
             }
-
-            JPanel section = this.styleEvaluator.getSection(question);
-            section.add(widget);
+            if(condition) {
+                this.styleEvaluator.setVisible(question);
+            }
         }
         this.tabbedPane = new JTabbedPane();
         frame.add(styleEvaluator.getLayout(this.tabbedPane));

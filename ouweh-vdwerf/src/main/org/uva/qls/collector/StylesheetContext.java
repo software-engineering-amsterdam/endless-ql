@@ -8,17 +8,14 @@ import org.uva.qls.ast.Segment.Segment;
 import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.visitor.SegmentVisitor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class StylesheetContext implements SegmentVisitor<Segment> {
 
-    private final HashMap<String, Section> sections = new HashMap<>();
-    private final HashMap<String, QuestionReference> questions = new HashMap<>();
-    private final HashMap<String, Page> pages = new HashMap<>();
-    private final HashMap<String, Segment> parents = new HashMap<>();
+    private final HashMap<String, Section> sections = new LinkedHashMap<>();
+    private final HashMap<String, QuestionReference> questions = new LinkedHashMap<>();
+    private final HashMap<String, Page> pages = new LinkedHashMap<>();
+    private final HashMap<String, Segment> parents = new LinkedHashMap<>();
 
     private final Stylesheet stylesheet;
 
@@ -45,7 +42,6 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
         return null;
     }
 
-
     public List<Section> getSections() {
         return new ArrayList<>(sections.values());
     }
@@ -58,13 +54,14 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     }
 
     public List<Segment> getAllParents(String segmentId){
+        List<Segment> segments = new ArrayList<>();
         if (parents.containsKey(segmentId)){
             Segment parent = parents.get(segmentId);
-            List<Segment> segments = new ArrayList<>(Arrays.asList(parent));
+            segments.add(parent);
             segments.addAll(getAllParents(parent.getId()));
             return segments;
         }
-        return new ArrayList<>();
+        return segments;
     }
 
     public QuestionReference getQuestion(String questionId) {

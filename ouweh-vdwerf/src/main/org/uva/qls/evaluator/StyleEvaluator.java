@@ -1,6 +1,5 @@
 package org.uva.qls.evaluator;
 
-import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
 import org.uva.qls.ast.Segment.*;
 import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Widget.WidgetTypes.CheckboxType;
@@ -14,6 +13,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class StyleEvaluator {
     private Map<String, WidgetType> defaultTypes = new HashMap<>();
 
     private Map<String, JPanel> sections = new HashMap<>();
-    private Map<String, Boolean> sectionVisibility = new HashMap<>();
+    private List<String> visibleSections = new ArrayList<>();
 
     public StyleEvaluator(){
         setDefaultWidgetTypes();
@@ -39,22 +39,32 @@ public class StyleEvaluator {
         generateSections();
     }
 
-    public void setVisibility(Question question, Boolean visible){
+    public void setWidget(Question question, JPanel widget){
+        sections.put("Question."+question.getId(), widget);
+    }
+
+    public void setVisible(Question question){
         String key = "Question."+question.getId();
+        visibleSections.add(key);
         for(Segment segment : context.getAllParents(key)){
-            sectionVisibility.put(segment.getId(), visible);
-            if(!visible){
-                sectionVisibility.remove(segment.getId());
-            }
+            visibleSections.add(segment.getId());
         }
-
-
     }
 
     public JTabbedPane getLayout(JTabbedPane tabbedPane) {
+
+        for (QuestionReference questionReference : this.context.getQuestions()) {
+            Segment parent = this.context.getParent(questionReference.getId());
+            if (parent != null && visibleSections.contains(questionReference.getId())) {
+                JPanel sectionPanel = sections.get(questionReference.getId());
+                JPanel parentPanel = sections.get(parent.getId());
+                parentPanel.add(sectionPanel);
+            }
+        }
+
         for (Section section : this.context.getSections()) {
             Segment parent = this.context.getParent(section.getId());
-            if (parent != null && sectionVisibility.containsKey(section.getId())) {
+            if (parent != null && visibleSections.contains(section.getId())) {
                 JPanel sectionPanel = sections.get(section.getId());
                 JPanel parentPanel = sections.get(parent.getId());
                 parentPanel.add(sectionPanel);
@@ -62,7 +72,7 @@ public class StyleEvaluator {
         }
 
         for (Page page : context.getPages()){
-            if(sectionVisibility.containsKey(page.getId())) {
+            if(visibleSections.contains(page.getId())) {
                 tabbedPane.add(page.getTitle(), sections.get(page.getId()));
             }
         }
@@ -111,7 +121,7 @@ public class StyleEvaluator {
     }
 
     public void generateSections() {
-        sectionVisibility = new HashMap<>();
+        visibleSections = new ArrayList<>();
         sections = new HashMap<>();
         for (Page page : this.context.getPages()) {
             JPanel pagePanel = new JPanel();

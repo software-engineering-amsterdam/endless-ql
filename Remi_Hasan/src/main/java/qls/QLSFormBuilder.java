@@ -42,7 +42,7 @@ public class QLSFormBuilder {
         VisitorStyleSheet visitor = new VisitorStyleSheet();
         StyleSheet styleSheet = visitor.visit(parser.root());
 
-        // TODO: remove
+        // TODO: remove debugging tree
         //parser.reset();
         //Trees.inspect(parser.root(), parser);
 

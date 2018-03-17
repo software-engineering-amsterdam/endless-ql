@@ -12,13 +12,11 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
 
     @Override
     public Widget visitCheckBoxWidget(QLSParser.CheckBoxWidgetContext ctx) {
-        // TODO
         return new WidgetCheckBox(ctx.getStart());
     }
 
     @Override
     public Widget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
-        // TODO
         List<String> options = new ArrayList<>();
         for (TerminalNode stringNode : ctx.STRING()) {
             String option = stringNode.getText();
@@ -31,7 +29,6 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
 
     @Override
     public Widget visitSpinBoxWidget(QLSParser.SpinBoxWidgetContext ctx) {
-        // TODO
         return new WidgetSpinBox(ctx.getStart());
     }
 }

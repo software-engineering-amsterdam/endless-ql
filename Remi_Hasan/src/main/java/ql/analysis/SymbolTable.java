@@ -44,41 +44,8 @@ public class SymbolTable {
         }
     }
 
-    // TODO: move to value?
-    public String getStringValue(String identifier, ReturnType type) {
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this);
-        Value evaluated = expressionEvaluator.visit(table.get(identifier));
-
-        // Undefined values should display nothing
-        if (evaluated.isUndefined()) {
-            return "";
-        }
-
-        switch (type) {
-            case INTEGER:
-                return evaluated.getIntValue().toString();
-            case DECIMAL:
-                return evaluated.getDecimalValue().toString();
-            case MONEY:
-                return evaluated.getMoneyValue().toString();
-            case STRING:
-                return evaluated.getStringValue();
-            case BOOLEAN:
-                return evaluated.getBooleanValue().toString();
-            case DATE:
-                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                return evaluated.getDateValue().format(dateFormatter);
-            default:
-                return "";
-        }
-    }
-
     public void addListener(ChangeListener listener){
         this.listeners.add(listener);
-    }
-
-    public Map<String, Expression> getAllAnswers(){
-        return table;
     }
 
     public void setExpression(String identifier, Expression value) {

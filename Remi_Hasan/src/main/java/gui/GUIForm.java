@@ -10,10 +10,13 @@ import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
 import ql.model.Question;
+import qls.model.DefaultStyle;
 import qls.model.Page;
 import qls.model.Section;
 import qls.model.StyleSheet;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class GUIForm extends VBox {
@@ -24,8 +27,11 @@ public class GUIForm extends VBox {
         for(Page page : qlsStyleSheet.getPages()){
             VBox pagePane = new VBox();
             for(Section section : page.getSections()){
+
+                List<DefaultStyle> defaults = section.getDefaultStyles();
+
                 // Add section to page
-                VBox sectionGUI = createSectionGUI(symbolTable, form, section);
+                VBox sectionGUI = createSectionGUI(symbolTable, form, defaults, section);
                 pagePane.getChildren().add(sectionGUI);
                 sectionGUI.prefHeightProperty().bind(pagePane.heightProperty());
             }
@@ -46,15 +52,18 @@ public class GUIForm extends VBox {
         this.setWidth(320);
     }
 
-    private VBox createSectionGUI(SymbolTable symbolTable, Form form, Section section){
+    private VBox createSectionGUI(SymbolTable symbolTable, Form form, List<DefaultStyle> defaultStyles, Section section){
         // Create section
         VBox sectionPane = new VBox();
         for(qls.model.Question qlsQuestion : section.getQuestions()) {
-            Node questionGUI = createQuestionGUI(symbolTable, form, qlsQuestion);
+            Node questionGUI = createQuestionGUI(symbolTable, form, defaultStyles, qlsQuestion);
             sectionPane.getChildren().add(questionGUI);
         }
         for(qls.model.Section subSection : section.getSections()){
-            Node subSectionGUI = createSectionGUI(symbolTable, form, subSection);
+            List<DefaultStyle> subDefaultStyles = new ArrayList<>();
+            subDefaultStyles.addAll(defaultStyles);
+            subDefaultStyles.addAll(subSection.getDefaultStyles());
+            Node subSectionGUI = createSectionGUI(symbolTable, form, subDefaultStyles, subSection);
             sectionPane.getChildren().add(subSectionGUI);
         }
         sectionPane.setSpacing(10);
@@ -62,10 +71,10 @@ public class GUIForm extends VBox {
         return sectionPane;
     }
 
-    private Node createQuestionGUI(SymbolTable symbolTable, Form form, qls.model.Question qlsQuestion){
+    private Node createQuestionGUI(SymbolTable symbolTable, Form form, List<DefaultStyle> defaultStyles, qls.model.Question qlsQuestion){
         Optional<Question> qlQuestion = form.questions.stream().filter(x -> x.name.equals(qlsQuestion.name)).findFirst();
         if (qlQuestion.isPresent()) {
-            return new GUIQuestion(symbolTable, qlQuestion.get());
+            return new GUIQuestion(symbolTable, defaultStyles, qlQuestion.get());
         } else {
             throw new UnsupportedOperationException("Question with name'" + qlsQuestion.name + "' could not be found");
         }

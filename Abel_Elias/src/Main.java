@@ -52,8 +52,8 @@ public class Main {
             //test update function
             coreVisitor.update();
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder(null, getQuestionTemp());
-            formBuilder.initComponents();
+            //FormBuilder formBuilder = new FormBuilder(null, getQuestionTemp());
+            //formBuilder.initComponents();
         } catch (IOException e) {
             e.printStackTrace();
         }

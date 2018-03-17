@@ -50,12 +50,16 @@ public class BlockVisitor extends QLBaseVisitor {
     @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
         Boolean condition = expVisitor.visitBoolExpression(ctx.booleanExpression());
-        QLParser.BlockContext block = ctx.block();
+        QLParser.BlockContext ifBlock = ctx.ifBlock;
+        QLParser.BlockContext elseBlock = ctx.elseBlock;
+        QLParser.IfStatementContext elseIfStatement = ctx.ifStatement();
 
-        if(isVisible && condition){
-            new BlockVisitor(questionMap, true).visitBlock(block);
-        }else{
-            new BlockVisitor(questionMap, false).visitBlock(block);
+        new BlockVisitor(questionMap, isVisible && condition).visitBlock(ifBlock);
+
+        if(elseBlock != null){
+            new BlockVisitor(questionMap, isVisible && !condition).visitBlock(ifBlock);
+        }else if(elseIfStatement != null){
+            this.visitIfStatement(elseIfStatement);
         }
 
         return questionMap;

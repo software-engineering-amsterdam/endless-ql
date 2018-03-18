@@ -1,5 +1,6 @@
 package nl.uva.se.sc.niro
 
+import nl.uva.se.sc.niro.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions._
@@ -31,7 +32,7 @@ object Evaluator {
 
   def evaluate(question: Question, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
     val expression = memoryLookup(question.id, question.expression, dictionary)
-    val evaluatedAnswer = evaluateExpression(expression, symbolTable: SymbolTable, dictionary)
+    val evaluatedAnswer = expression.evaluate(symbolTable: SymbolTable, dictionary)
     if (evaluatedAnswer.possibleValue.isDefined) {
       dictionary + (question.id -> evaluatedAnswer)
     } else
@@ -42,27 +43,6 @@ object Evaluator {
   def evaluate(conditional: Conditional, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
     evaluate(conditional.thenStatements, symbolTable, dictionary)
   }
-
-  def evaluateExpression(expression: Expression, symbolTable: SymbolTable, dictionary: Dictionary): Answer =
-    expression match {
-      case answer: Answer => answer
-      case Reference(questionId) =>
-        evaluateExpression(
-          memoryLookup(
-            questionId,
-            symbolTable.get(questionId).map(_.expression).getOrElse(dictionary(questionId)),
-            dictionary),
-          symbolTable,
-          dictionary
-        )
-      case UnaryOperation(operator: Operator, leftExpression) =>
-        val answer = evaluateExpression(leftExpression, symbolTable, dictionary)
-        answer.applyUnaryOperator(operator)
-      case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
-        val leftAnswer = evaluateExpression(leftExpression, symbolTable, dictionary)
-        val rightAnswer = evaluateExpression(rightExpression, symbolTable, dictionary)
-        leftAnswer.applyBinaryOperator(operator, rightAnswer)
-    }
 
   /**
     * Only expressions that are defined to be a variable (answer) will be retrieved from the dictionary if exist.

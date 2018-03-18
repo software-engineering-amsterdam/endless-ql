@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro
 
 import java.time.LocalDate
 
-import nl.uva.se.sc.niro.Evaluator.evaluateExpression
+import nl.uva.se.sc.niro.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference }
@@ -25,7 +25,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
 
@@ -41,7 +41,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
 
@@ -55,7 +55,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
 
@@ -79,7 +79,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
     }
@@ -106,7 +106,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
 
@@ -131,7 +131,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
 
@@ -156,7 +156,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
 
@@ -183,7 +183,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
 
@@ -208,7 +208,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
     }
@@ -225,7 +225,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
     }
@@ -240,7 +240,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
       forAll(table) { (operator, left, right, expectedAnswer) =>
         val expression = BinaryOperation(operator, left, right)
-        evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
       }
     }
 
@@ -259,7 +259,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
       )
 
       val q: Seq[Question] = qlForm.statements.collect { case q: Question => q }
-      val x = q.map(q => evaluateExpression(q.expression, qlForm.symbolTable, Map.empty))
+      val x = q.map(q => q.expression.evaluate(qlForm.symbolTable, Map.empty))
       assert(x == Seq(IntegerAnswer(1000), IntegerAnswer(200), IntegerAnswer(800)))
     }
 
@@ -267,17 +267,17 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
       "throw an error for arithmetic operations on unsupported types" in {
         val expression = BinaryOperation(Div, BooleanAnswer(true), BooleanAnswer(true))
 
-        assertThrows[UnsupportedOperationException](evaluateExpression(expression, Map.empty, Map.empty))
+        assertThrows[UnsupportedOperationException](expression.evaluate(Map.empty, Map.empty))
       }
       "throw an error for logical operations on unsupported types" in {
         val expression = BinaryOperation(And, StringAnswer("Foo"), StringAnswer("Bar"))
 
-        assertThrows[UnsupportedOperationException](evaluateExpression(expression, Map.empty, Map.empty))
+        assertThrows[UnsupportedOperationException](expression.evaluate(Map.empty, Map.empty))
       }
       "throw an error when evaluating mixed answertypes" in {
         val expression = BinaryOperation(Eq, BooleanAnswer(true), IntegerAnswer(5))
 
-        assertThrows[IllegalArgumentException](evaluateExpression(expression, Map.empty, Map.empty))
+        assertThrows[IllegalArgumentException](expression.evaluate(Map.empty, Map.empty))
       }
     }
   }

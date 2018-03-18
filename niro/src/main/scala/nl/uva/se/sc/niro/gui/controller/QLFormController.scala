@@ -18,6 +18,7 @@ import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer }
 import nl.uva.se.sc.niro.{ Evaluator, QLFormService }
 import org.apache.logging.log4j.scala.Logging
+import nl.uva.se.sc.niro.ExpressionEvaluator._
 
 import scala.collection.{ JavaConverters, mutable }
 
@@ -104,7 +105,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
   }
 
   def getVisibilitySetting(question: GUIQuestion): Answer = {
-    Evaluator.evaluateExpression(question.visibility, qlForm.symbolTable, dictionary.toMap)
+    question.visibility.evaluate(qlForm.symbolTable, dictionary.toMap)
   }
 
   def showSavedMessage(): Unit = {

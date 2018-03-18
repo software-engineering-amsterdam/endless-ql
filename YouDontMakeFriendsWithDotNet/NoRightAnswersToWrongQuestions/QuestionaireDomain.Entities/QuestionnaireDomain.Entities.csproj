@@ -164,8 +164,10 @@
     <Compile Include="Validators\DuplicateVariableValidator.cs" />
     <Compile Include="Validators\Interfaces\IDuplicateVariableValidator.cs" />
     <Compile Include="Validators\Interfaces\IQuestionnaireValidator.cs" />
+    <Compile Include="Validators\Interfaces\IUndefinedVariableValidator.cs" />
     <Compile Include="Validators\Interfaces\IValidator.cs" />
     <Compile Include="Validators\Severity.cs" />
+    <Compile Include="Validators\UndefinedVariableValidator.cs" />
     <Compile Include="Validators\ValidationMetaData.cs" />
     <Compile Include="Validators\QuestionnaireValidator.cs" />
   </ItemGroup>

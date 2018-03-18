@@ -15,9 +15,11 @@ namespace QuestionnaireDomain.Entities.Validators
             = new List<ValidationMetaData>();
 
         public QuestionnaireValidator(
-            IDuplicateVariableValidator duplicateVariableValidator)
+            IDuplicateVariableValidator duplicateVariableValidator,
+            IUndefinedVariableValidator undefinedVariableValidator)
         {
             m_validators.Add(duplicateVariableValidator);
+            m_validators.Add(undefinedVariableValidator);
         }
         
         public void Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode)

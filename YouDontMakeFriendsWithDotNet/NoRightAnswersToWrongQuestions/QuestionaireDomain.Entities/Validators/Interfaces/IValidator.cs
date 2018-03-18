@@ -6,6 +6,7 @@ namespace QuestionnaireDomain.Entities.Validators.Interfaces
 {
     public interface IValidator
     {
-        IEnumerable<ValidationMetaData> Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode);
+        IEnumerable<ValidationMetaData> Validate(
+            Reference<IQuestionnaireRootNode> questionnaireRootNode);
     }
 }

@@ -5,6 +5,7 @@ import classes.values.Value;
 import gui.FormBuilder;
 
 import javax.swing.*;
+import javax.swing.text.DocumentFilter;
 import java.awt.event.ActionListener;
 import java.util.EventListener;
 

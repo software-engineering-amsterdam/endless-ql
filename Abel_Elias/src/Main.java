@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Main {
@@ -25,7 +26,7 @@ public class Main {
      */
 
     private HashMap<String, Question> getQuestionTemp() {
-        HashMap<String, Question> questionHashMap = new HashMap<String, Question>();
+        LinkedHashMap<String, Question> questionHashMap = new LinkedHashMap<String, Question>();
         questionHashMap.put("1", new Question("Is this a question?", new BooleanValue(), false, true));
         questionHashMap.put("2", new Question("Is this a question?", new StringValue(), false, true));
         questionHashMap.put("3", new Question("Is this a question?", new IntegerValue(), false, true));
@@ -47,13 +48,10 @@ public class Main {
             QLParser.FormContext form = new TreeBuilder().build(inputStream);
             FormVisitor coreVisitor = new FormVisitor(form);
             Checks.checkForm(form);
-            HashMap<String, Question> memory = coreVisitor.questionMap;
-            printQuestionMap(memory);
-            //test update function
-            coreVisitor.update();
+            LinkedHashMap<String, Question> memory = coreVisitor.questionMap;
             //Pass the relevant questions to the UI builder
-            //FormBuilder formBuilder = new FormBuilder(null, getQuestionTemp());
-            //formBuilder.initComponents();
+            FormBuilder formBuilder = new FormBuilder(coreVisitor, memory);
+            formBuilder.initComponents();
         } catch (IOException e) {
             e.printStackTrace();
         }

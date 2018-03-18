@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
 namespace UnitTests.UI.UnitTests
@@ -40,23 +40,7 @@ namespace UnitTests.UI.UnitTests
             Assert.IsTrue(propertyEventWasRaised);
         }
 
-        //ToDO: work out why this test fails with dynamic
-        //    [Test]
-        //    public void WhenPropertyUpdatedWithSameValue_ShouldNotRaisePropertyChangedEvent()
-        //    {
-        //        var propertyEventWasRaised = false;
-        //        var wrapper = new QuestionWrapper(m_inputQuestion1) {Value = 1024};
-        //        wrapper.PropertyChanged += (s, e) =>
-        //        {
-        //            if (e.PropertyName == "Value")
-        //            {
-        //                propertyEventWasRaised = true;
-        //            }
-        //        };
-
-        //        wrapper.Value = 1024;
-        //        Assert.IsFalse(propertyEventWasRaised);
-        //    }
-        //}
+        // ToDo: work out why this test fails with dynamic
+        // public void WhenPropertyUpdatedWithSameValue_ShouldNotRaisePropertyChangedEvent()
     }
 }

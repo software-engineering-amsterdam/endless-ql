@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
+using QuestionnaireOrchestration.Models;
+using QuestionnaireOrchestration.QueryServices.Interfaces;
 
-namespace QuestionaireOrchestration.QueryServices
+namespace QuestionnaireOrchestration.QueryServices
 {
     internal sealed class QuestionnaireOutputModelQueryService :
         ModelQueryServiceBase<QuestionnaireOutputModel>,

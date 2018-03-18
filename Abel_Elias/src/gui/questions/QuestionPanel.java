@@ -5,6 +5,7 @@ import classes.values.Value;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.util.EventListener;
 

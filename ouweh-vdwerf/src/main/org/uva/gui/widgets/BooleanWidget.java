@@ -1,9 +1,9 @@
 package org.uva.gui.widgets;
 
+import org.uva.gui.QuestionChangeListener;
 import org.uva.ql.ast.Question;
 import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
-import org.uva.gui.QuestionChangeListener;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -19,8 +19,6 @@ public class BooleanWidget extends QuestionWidget {
         checkBox.setSelected(Boolean.valueOf(value.toString()));
         checkBox.setHorizontalAlignment(JCheckBox.CENTER);
         checkBox.setEnabled(readOnly);
-
-
 
 
         this.add(checkBox, 1);

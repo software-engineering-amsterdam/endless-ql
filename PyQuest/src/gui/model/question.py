@@ -87,7 +87,7 @@ class Question:
         else:
             self.widget = self.answer_type.pyqt5_default_widget()
 
-        if not show:
+        if not show.value:
             self.widget.hide()
             self.widget_label.hide()
 

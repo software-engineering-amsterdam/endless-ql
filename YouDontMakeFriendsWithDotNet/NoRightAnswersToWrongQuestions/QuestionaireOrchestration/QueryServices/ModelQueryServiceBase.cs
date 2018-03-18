@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
+using QuestionnaireOrchestration.Models;
+using QuestionnaireOrchestration.QueryServices.Interfaces;
 
-namespace QuestionaireOrchestration.QueryServices
+namespace QuestionnaireOrchestration.QueryServices
 {
     internal abstract class ModelQueryServiceBase<T> : IModelQueryService<T> where T : DomainItemModel
     {

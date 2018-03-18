@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
@@ -246,7 +244,6 @@ namespace UnitTests.Domain.UnitTests.Tests
             Assert.AreEqual(expected: 1, actual: actualNewInvisibleCount);
         }
 
-
         private int GetVisibleCount()
         {
             return GetVisibilityCount(x => x.Visible);
@@ -266,40 +263,26 @@ namespace UnitTests.Domain.UnitTests.Tests
 
         private void UpdateIntVariable(string variableName, int value)
         {
-            var variableItem = m_domainItemLocator
-                .GetAll<IVariableNode>()
-                .FirstOrDefault(x => x.VariableName == variableName);
-
-            var questionItem = m_domainItemLocator
-                .GetAll<IQuestionNode>()
-                .Where(x => x.QuestionName == variableItem.VariableName)
-                .Select(x => new Reference<IQuestionNode>(x.Id))
-                .FirstOrDefault();
-
+            var questionItem = GetQuestionToUpdate(variableName);
             m_variableUpdater.Update(questionItem, value);
         }
-
 
         private void UpdateDecimalVariable(string variableName, decimal value)
         {
-            var variableItem = m_domainItemLocator
-                .GetAll<IVariableNode>()
-                .FirstOrDefault(x => x.VariableName == variableName);
-
-            var questionItem = m_domainItemLocator
-                .GetAll<IQuestionNode>()
-                .Where(x => x.QuestionName == variableItem.VariableName)
-                .Select(x => new Reference<IQuestionNode>(x.Id))
-                .FirstOrDefault();
-
+            var questionItem = GetQuestionToUpdate(variableName);
             m_variableUpdater.Update(questionItem, value);
         }
-
 
         private void UpdateDateVariable(
             string variableName, 
             DateTime value)
         {
+            var questionItem = GetQuestionToUpdate(variableName);
+            m_variableUpdater.Update(questionItem, value);
+        }
+
+        private Reference<IQuestionNode> GetQuestionToUpdate(string variableName)
+        {
             var variableItem = m_domainItemLocator
                 .GetAll<IVariableNode>()
                 .FirstOrDefault(x => x.VariableName == variableName);
@@ -309,8 +292,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .Where(x => x.QuestionName == variableItem.VariableName)
                 .Select(x => new Reference<IQuestionNode>(x.Id))
                 .FirstOrDefault();
-
-            m_variableUpdater.Update(questionItem, value);
+            return questionItem;
         }
 
         private void CreateForm(string validText)

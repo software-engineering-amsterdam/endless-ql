@@ -1,7 +1,7 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 using SimpleWPFApp;
 using SimpleWPFApp.DataProvider;

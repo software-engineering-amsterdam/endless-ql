@@ -1,8 +1,9 @@
 ﻿using System;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
-namespace QuestionaireOrchestration.Models
+namespace QuestionnaireOrchestration.Models
 {
+    // ToDo: do I need to use this Type parameter somewhere? or is it just a degenerate marker
     public class ModelReference<T> where T : IOutputItem
     {
         public ModelReference(Guid id, string displayValue)

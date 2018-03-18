@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 
 namespace QuestionnaireUI.Models
 {

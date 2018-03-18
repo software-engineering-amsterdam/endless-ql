@@ -89,57 +89,35 @@ namespace QuestionnaireDomain.Entities.Domain
                 return value;
             }
 
-            if (newDataType == typeof(string))
+            // ToDo: prevent datatypes that are not string coming through as string
+            if (newDataType != typeof(string))
             {
-                var stringValue = value as string;
-                if (originalDataType == typeof(int))
-                {
-                    int parsedInt;
-                    if (int.TryParse(stringValue, out parsedInt))
-                    {
-                        return parsedInt;
-                    }
-                    
-                    throw new ArgumentException($"in the symbolTable there was an attempt to convert {stringValue} to {originalDataType}");
-                }
+                throw new ArgumentException(
+                    $@"tried to put a type of '{newDataType}' with a value '{value}' into a variable of type {
+                            originalDataType
+                        }");
 
-                if (originalDataType == typeof(DateTime))
-                {
-                    DateTime parsedDate;
-                    if (DateTime.TryParse(
-                        stringValue, 
-                        CultureInfo.InvariantCulture, 
-                        DateTimeStyles.None,
-                        out parsedDate))
-                    {
-                        return parsedDate;
-                    }
+            }
 
-                    throw new ArgumentException($"in the symbolTable there was an attempt to convert {stringValue} to {originalDataType}");
-                }
+            var stringValue = value as string;
+            if (originalDataType == typeof(int))
+            {
+                return ParseInt(stringValue);
+            }
 
-                if (originalDataType == typeof(decimal))
-                {
-                    decimal parsedNum;
-                    if (decimal.TryParse(stringValue, out parsedNum))
-                    {
-                        return parsedNum;
-                    }
+            if (originalDataType == typeof(DateTime))
+            {
+                return ParseDate(stringValue);
+            }
 
-                    throw new ArgumentException($"in the symbolTable there was an attempt to convert {stringValue} to {originalDataType}");
-                }
+            if (originalDataType == typeof(decimal))
+            {
+                return ParseDecimal(stringValue);
+            }
 
-                if (originalDataType == typeof(bool))
-                {
-                    bool parsedBool;
-                    if (bool.TryParse(stringValue, out parsedBool))
-                    {
-                        return parsedBool;
-                    }
-
-                    throw new ArgumentException($"in the symbolTable there was an attempt to convert {stringValue} to {originalDataType}");
-
-                }
+            if (originalDataType == typeof(bool))
+            {
+                return ParsedBool(stringValue);
             }
 
             throw new ArgumentException(
@@ -147,7 +125,58 @@ namespace QuestionnaireDomain.Entities.Domain
                         originalDataType
                     }");
         }
-        
+
+        private static bool ParsedBool(string stringValue)
+        {
+            bool parsedBool;
+            if (bool.TryParse(stringValue, out parsedBool))
+            {
+                return parsedBool;
+            }
+
+            throw new ArgumentException(
+                $"in the symbolTable there was an attempt to convert {stringValue} to Boolean");
+        }
+
+        private static decimal ParseDecimal(string stringValue)
+        {
+            decimal parsedNum;
+            if (decimal.TryParse(stringValue, out parsedNum))
+            {
+                return parsedNum;
+            }
+
+            throw new ArgumentException(
+                $"in the symbolTable there was an attempt to convert {stringValue} to Decimal");
+        }
+
+        private static DateTime ParseDate(string stringValue)
+        {
+            DateTime parsedDate;
+            if (DateTime.TryParse(
+                stringValue,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out parsedDate))
+            {
+                return parsedDate;
+            }
+
+            throw new ArgumentException($"in the symbolTable there was an attempt to convert {stringValue} to DateTime");
+        }
+
+        private static int ParseInt(string stringValue)
+        {
+            int parsedInt;
+            if (int.TryParse(stringValue, out parsedInt))
+            {
+                return parsedInt;
+            }
+
+            throw new ArgumentException(
+                $"in the symbolTable there was an attempt to convert {stringValue} to Int32");
+        }
+
         public bool Exists<T>(Guid variableRef)
         {
             var type = typeof(T);

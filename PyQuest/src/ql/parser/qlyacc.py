@@ -78,7 +78,7 @@ class QLParser:
     def p_question(p):
         """question : QUESTION VAR COLON type"""
         p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4],
-                            UndefinedNode(None, QLUndefined, None), False)
+                            p[4].get_literal_node(), False)
 
     @staticmethod
     def p_question_computed(p):
@@ -110,78 +110,78 @@ class QLParser:
     @staticmethod
     def p_variable(p):
         """expression : VAR"""
-        p[0] = VariableNode(Position(p.lineno(1), p.lexpos(1)), QLUndefined, p[1], None)
+        p[0] = VariableNode(Position(p.lineno(1), p.lexpos(1)), QLUndefined, p[1], QLUndefined())
 
     @staticmethod
     def p_not(p):
         """expression : NOT expression"""
-        p[0] = NegationOperatorNode(Position(p.lineno(1), p.lexpos(1)), QLBoolean, p[2], None)
+        p[0] = NegationOperatorNode(Position(p.lineno(1), p.lexpos(1)), QLBoolean, p[2], QLUndefined())
 
     @staticmethod
     def p_negative(p):
         """expression : MINUS expression"""
-        p[0] = NegativeOperatorNode(Position(p.lineno(1), p.lexpos(1)), QLUndefined, p[2], None)
+        p[0] = NegativeOperatorNode(Position(p.lineno(1), p.lexpos(1)), QLUndefined, p[2], QLUndefined())
 
     # Binary operators
     @staticmethod
     def p_and(p):
         """expression : expression AND expression"""
-        p[0] = AndOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], None)
+        p[0] = AndOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_or(p):
         """expression : expression OR expression"""
-        p[0] = OrOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], None)
+        p[0] = OrOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_plus(p):
         """expression : expression PLUS expression"""
-        p[0] = AdditionOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], None)
+        p[0] = AdditionOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_minus(p):
         """expression : expression MINUS expression"""
-        p[0] = SubtractionOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], None)
+        p[0] = SubtractionOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_times(p):
         """expression : expression TIMES expression"""
-        p[0] = MultiplicationOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], None)
+        p[0] = MultiplicationOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_divide(p):
         """expression : expression DIVIDE expression"""
-        p[0] = DivisionOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], None)
+        p[0] = DivisionOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_equals(p):
         """expression : expression EQ expression"""
-        p[0] = EqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], None)
+        p[0] = EqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_not_equals(p):
         """expression : expression NE expression"""
-        p[0] = NotEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], None)
+        p[0] = NotEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_less_equals(p):
         """expression : expression LE expression"""
-        p[0] = LessEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], None)
+        p[0] = LessEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_less_than(p):
         """expression : expression LT expression"""
-        p[0] = LessThanOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], None)
+        p[0] = LessThanOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_greater_equals(p):
         """expression : expression GE expression"""
-        p[0] = GreaterEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], None)
+        p[0] = GreaterEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
 
     @staticmethod
     def p_greater_than(p):
         """expression : expression GT expression"""
-        p[0] = GreaterThanOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], None)
+        p[0] = GreaterThanOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
 
     # Literals
     @staticmethod

@@ -36,6 +36,11 @@ public class QuestionPanelCheckBox extends QuestionPanel {
     }
 
     @Override
+    public void setWidgetFixed() {
+        this.checkBox.setEnabled(false);
+    }
+
+    @Override
     public void setValue(Value value) {
         this.checkBox.setSelected((boolean) value.getValue());
     }

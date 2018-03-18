@@ -128,8 +128,12 @@ public class FormBuilder {
                 break;
             default:
                 qPanel = new QuestionPanelCheckBox(key, question);
-                qPanel.setListener(new StringDocumentListener(key, (JTextField) qPanel.getComponent()));
+                qPanel.setListener(new BoolActionListener(key, (JCheckBox) qPanel.getComponent()));
                 break;
+        }
+        if(question.isFixed()) {
+            qPanel.setWidgetFixed();
+            //qPanel.setValue(question.getValue());
         }
         questionPanelHashMap.put(key, qPanel);
         addQuestionToPanel(qPanel, getQuestionConstraints());
@@ -176,6 +180,7 @@ public class FormBuilder {
         questionHashMap.get(key).setValue(value);
         if(value.isDefined()) {
             questionPanelHashMap.get(key).setValue(value);
+
         }
     }
     /**

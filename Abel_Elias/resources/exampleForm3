@@ -18,6 +18,6 @@ form Box3HouseOwning {
 
         }
      } else if (hasSecondLone == 3) {
-        sellingPrice3: "2b: Price the second house was sold for:" integer
+        sellingPrice3: "2c: Price the second house was sold for:" integer
      }
  }

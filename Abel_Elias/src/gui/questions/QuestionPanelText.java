@@ -38,4 +38,9 @@ public abstract class QuestionPanelText extends QuestionPanel {
     public void setValue(Value value) {
             this.textField.setText(value.getValue().toString());
     }
+
+    @Override
+    public void setWidgetFixed() {
+        this.textField.setEditable(false);
+    }
 }

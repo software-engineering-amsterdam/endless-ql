@@ -42,6 +42,8 @@ public abstract class QuestionPanel extends JPanel {
 
     public abstract void setValue(Value value);
 
+    public abstract void setWidgetFixed ();
+
 
 //
 

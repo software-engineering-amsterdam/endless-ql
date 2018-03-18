@@ -46,6 +46,10 @@ public class QuestionPanelDate extends QuestionPanel {
         picker.addActionListener(dateActionListener);
     }
 
+    @Override
+    public void setWidgetFixed() {
+        this.picker.setEnabled(false);
+    }
 
     @Override
     public void setValue(Value value) {

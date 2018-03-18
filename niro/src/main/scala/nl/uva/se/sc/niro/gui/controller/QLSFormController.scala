@@ -8,7 +8,7 @@ import javafx.geometry.Insets
 import javafx.scene.control.{ Button, Label }
 import javafx.scene.layout.BorderPane
 import nl.uva.se.sc.niro.gui.application.QLScenes
-import nl.uva.se.sc.niro.gui.converter.{ ModelConverter, StyleDecorator }
+import nl.uva.se.sc.niro.gui.converter.{ GUIModelFactory, StyleDecorator }
 import nl.uva.se.sc.niro.gui.factory.{ PageVisibilityFactory, QLSComponentFactory }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.StringAnswer
@@ -81,8 +81,7 @@ class QLSFormController extends QLFormController {
 
     getActiveStage.setTitle("QLS forms")
 
-    guiForm = ModelConverter.convert(this.qlForm)
-    guiForm = StyleDecorator.applyStyle(guiForm, stylesheet)
+    guiForm = StyleDecorator.applyStyle(GUIModelFactory.makeFrom(qlForm), stylesheet)
 
     formName.setText(guiForm.name)
     questions = guiForm.questions.map(QLSComponentFactory.make)

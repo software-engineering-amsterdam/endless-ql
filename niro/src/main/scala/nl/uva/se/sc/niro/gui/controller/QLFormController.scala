@@ -10,7 +10,7 @@ import javafx.scene.layout.{ BorderPane, VBox }
 import javafx.stage.FileChooser
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.control.Component
-import nl.uva.se.sc.niro.gui.converter.ModelConverter
+import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
 import nl.uva.se.sc.niro.gui.factory.QLComponentFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
@@ -66,7 +66,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
 
     getActiveStage.setTitle("QL forms")
 
-    guiForm = ModelConverter.convert(this.qlForm)
+    guiForm = GUIModelFactory.makeFrom(this.qlForm)
     formName.setText(guiForm.name)
 
     questions = guiForm.questions.map(QLComponentFactory.make)

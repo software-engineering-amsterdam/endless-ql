@@ -10,6 +10,6 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
         IEnumerable<T> GetAll<T>() where T : IDomainItem;
         //ToDo: clean the registry better - probably to do with scope!
         void Nuke();
-        void Delete<T>(Reference<T> outputItem) where T : IDomainItem;
+        void Delete<T>(Reference<T> domainItem) where T : IDomainItem;
     }
 }

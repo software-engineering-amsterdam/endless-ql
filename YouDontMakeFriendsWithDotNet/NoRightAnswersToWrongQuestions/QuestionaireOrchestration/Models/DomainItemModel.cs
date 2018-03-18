@@ -2,6 +2,8 @@
 
 namespace QuestionnaireOrchestration.Models
 {
+    // ToDo: make this implement IEqualityComparer to fix the issue:
+    // Classes implementing "IEquatable<T>" should be sealed
     public abstract class DomainItemModel
     {
         protected DomainItemModel(Guid id, string name)

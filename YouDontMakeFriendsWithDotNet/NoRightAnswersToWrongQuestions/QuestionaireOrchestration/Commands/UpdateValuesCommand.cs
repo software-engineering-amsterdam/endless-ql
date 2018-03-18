@@ -5,6 +5,6 @@ namespace QuestionnaireOrchestration.Commands
 {
     public class UpdateValuesCommand : ICommandMessage
     {
-        public QuestionnaireModel Questionnaire;
+        public QuestionnaireModel Questionnaire { get; set; }
     }
 }

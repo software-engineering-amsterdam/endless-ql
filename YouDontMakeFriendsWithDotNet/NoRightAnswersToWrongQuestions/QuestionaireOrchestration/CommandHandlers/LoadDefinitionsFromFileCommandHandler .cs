@@ -18,9 +18,9 @@ namespace QuestionnaireOrchestration.CommandHandlers
             m_questionnaireAstCreator = questionnaireAstCreator;
         }
 
-        public void Execute(LoadDefinitionsFromFileCommand fromFileCommand)
+        public void Execute(LoadDefinitionsFromFileCommand command)
         {
-            var definitions = m_definitionLoader.Load(fromFileCommand.Path);
+            var definitions = m_definitionLoader.Load(command.Path);
             foreach (var definition in definitions)
             {
                 m_questionnaireAstCreator.Create(definition);

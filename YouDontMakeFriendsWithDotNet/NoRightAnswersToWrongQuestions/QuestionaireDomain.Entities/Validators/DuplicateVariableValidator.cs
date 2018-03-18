@@ -4,6 +4,7 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
+using QuestionnaireDomain.Entities.Validators.MetaData;
 
 namespace QuestionnaireDomain.Entities.Validators
 {
@@ -37,11 +38,10 @@ namespace QuestionnaireDomain.Entities.Validators
 
                 if (mismatchCount > 1)
                 {
-                    var validationData = new ValidationMetaData()
+                    var validationData = new DuplicateVariableValidationMetaData
                     {
                         Source = m_domainItemLocator.GetRef<IQuestionNode>(questionNode.Id),
                         Message = $@"The Question identifier '{questionNode.QuestionName}' is used multiple times with different types",
-                        Severity = Severity.Error
                     };
 
                     yield return validationData;

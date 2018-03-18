@@ -10,7 +10,6 @@ import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.validation.checker.TypeChecker;
-import org.uva.ql.validation.collector.QuestionContext;
 import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;

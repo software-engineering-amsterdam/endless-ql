@@ -14,6 +14,7 @@ using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Validators;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
+using QuestionnaireDomain.Entities.Validators.MetaData;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 using UnitTests.Domain.UnitTests.Data;
@@ -55,7 +56,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             string errorMessage)
         {
             CreateAndValidateForm(invalidDescription);
-            var results = m_questionnaireValidator.Results;
+            var results = ResultsFor<DuplicateVariableValidationMetaData>();
             var actualTypes = results
                 .Select(x => m_domainItemLocator.Get<IQuestionNode>(x.Source.Id))
                 .Select(x => x.QuestionType);
@@ -65,6 +66,15 @@ namespace UnitTests.Domain.UnitTests.Tests
             Assert.IsTrue(
                 actualTypes.All(q => expectedSourceTypes.Any()),
                 "The types of the underlying source objects did not match the expected types");
+        }
+
+        private IList<ValidationMetaData> ResultsFor<T>() where T : ValidationMetaData
+        {
+            return m_questionnaireValidator
+                .Results
+                .OfType<T>()
+                .Cast<ValidationMetaData>()
+                .ToList();
         }
 
         [TestCaseSource(
@@ -85,12 +95,28 @@ namespace UnitTests.Domain.UnitTests.Tests
             string errorMessage)
         {
             CreateAndValidateForm(invalidDescription);
-            var results = m_questionnaireValidator.Results;
+            var results = ResultsFor<UndefinedVariableValidationMetaData>();
 
-            AssertThatSeverityLevelIsError(results);
-            Assert.AreEqual(expected:1,actual:results.Count,message:"no type check error");
+            AssertThatSeverityLevelIsError(new List<ValidationMetaData>(results));
+            Assert.AreEqual(expected:1, actual: results.Count,message:"no type check error");
             AssertThatErrorMessagesMatch(errorMessage, results);
         }
+
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.NonBooleanConditionVariable))]
+        public void WhenGivenNonBooleanVariableInCondition_ProducesTheCorrectMetaDatas(
+            string invalidDescription,
+            string errorMessage)
+        {
+            CreateAndValidateForm(invalidDescription);
+            var results = ResultsFor<BooleanConditionValidationMetaData>();
+
+            AssertThatSeverityLevelIsError(results);
+            Assert.AreEqual(expected: 1, actual: results.Count, message: "no type check error");
+            AssertThatErrorMessagesMatch(errorMessage, results);
+        }
+
 
         private static void AssertThatErrorMessagesMatch(string errorMessage, IList<ValidationMetaData> results)
         {
@@ -99,7 +125,8 @@ namespace UnitTests.Domain.UnitTests.Tests
                 $"did not return the expected error message: '{errorMessage}'");
         }
 
-        private static void AssertThatSeverityLevelIsError(IList<ValidationMetaData> results)
+        private static void AssertThatSeverityLevelIsError(
+            IList<ValidationMetaData> results)
         {
             Assert.IsTrue(
                 results.All(x => x.Severity == Severity.Error),

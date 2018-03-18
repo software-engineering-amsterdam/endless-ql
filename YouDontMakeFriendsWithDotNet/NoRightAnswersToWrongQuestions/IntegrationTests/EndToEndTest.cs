@@ -20,7 +20,6 @@ namespace IntegrationTests
             var app = new TestApp();
             app.TakeInput("form MyForm {}");
             //ToDo: test that something is created
-            //Assert.IsTrue(app.UiWasCreated);
         }
     }
 

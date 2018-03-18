@@ -46,8 +46,8 @@ class QLMoney(QLType):
         return self.__currency
 
     @staticmethod
-    def get_literal_node(value):
-        return MoneyNode(None, QLMoney, value)
+    def get_literal_node(value=0.0):
+        return MoneyNode(None, QLMoney, QLMoney(value))
 
     @staticmethod
     def pyqt5_default_widget():

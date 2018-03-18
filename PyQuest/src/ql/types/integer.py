@@ -51,13 +51,13 @@ class QLInteger(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value):
-        return IntegerNode(None, QLInteger, value)
+    def get_literal_node(value=0):
+        return IntegerNode(None, QLInteger, QLInteger(value))
 
     @staticmethod
     def pyqt5_default_widget():
         widget = SpinBox()
-        maximum = 2 ^ 31
+        maximum = 2**31 - 1
         minimum = -maximum
         widget.setRange(minimum, maximum)
         return widget

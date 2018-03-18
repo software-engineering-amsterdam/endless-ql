@@ -79,18 +79,15 @@ class QLSFormController extends QLFormController {
     this.qlForm = form
     this.stylesheet = stylesheet
 
-    getActiveStage.setTitle("QLS forms")
-
     guiForm = StyleDecorator.applyStyle(GUIModelFactory.makeFrom(qlForm), stylesheet)
-
-    formName.setText(guiForm.name)
     questions = guiForm.questions.map(QLSComponentFactory.make)
     questions.foreach(_.addComponentChangedListener(this))
-
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
 
-    next.setDisable(stylesheet.pages.size <= 1)
+    getActiveStage.setTitle("QLS forms")
+    formName.setText(guiForm.name)
 
+    next.setDisable(stylesheet.pages.size <= 1)
     evaluateAnswers()
     updateView()
   }

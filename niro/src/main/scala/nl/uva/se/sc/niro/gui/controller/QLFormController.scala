@@ -64,15 +64,13 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
   def initializeForm(form: QLForm): Unit = {
     this.qlForm = form
 
-    getActiveStage.setTitle("QL forms")
-
     guiForm = GUIModelFactory.makeFrom(this.qlForm)
-    formName.setText(guiForm.name)
-
     questions = guiForm.questions.map(QLComponentFactory.make)
     questions.foreach(_.addComponentChangedListener(this))
-
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
+
+    getActiveStage.setTitle("QL forms")
+    formName.setText(guiForm.name)
 
     evaluateAnswers()
     updateView()

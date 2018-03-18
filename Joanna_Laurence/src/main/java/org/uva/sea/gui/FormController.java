@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.render.*;
 import org.uva.sea.languages.BaseEvaluator;
-import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
@@ -83,21 +82,6 @@ public class FormController implements Initializable {
     }
 
     @FXML
-    public void loadQLAndQlsFile(ActionEvent actionEvent) {
-        FileSelector fileSelector = new FileSelector("Load QL file", "QL", "*.ql");
-        File selectedFile = fileSelector.getFile();
-        if (selectedFile == null) {
-            this.errorRenderer.render("File not found");
-            return;
-        } else {
-            loadQLSFile(actionEvent);
-        }
-        this.qlFile = selectedFile.getAbsolutePath();
-        this.qlsFile = null;
-        useNewGUISpecification(this.qlFile, null);
-    }
-
-    @FXML
     public void loadQLSFile(ActionEvent actionEvent) {
         FileSelector fileSelector = new FileSelector("Load QLS file", "QLS", "*.qls");
         File selectedFile = fileSelector.getFile();
@@ -107,6 +91,12 @@ public class FormController implements Initializable {
         }
         this.qlsFile = selectedFile.getAbsolutePath();
         useNewGUISpecification(this.qlFile, this.qlsFile);
+    }
+
+    @FXML
+    public void loadQLAndQLSFile(ActionEvent actionEvent) {
+        loadQLFile(actionEvent);
+        loadQLSFile(actionEvent);
     }
 
     private void useNewGUISpecification(String qlFile, String qlsFile) {

@@ -33,7 +33,7 @@
         <Button fx:id="loadQlsFileButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" onAction="#loadQLSFile"
                 text="Load QLS" GridPane.columnIndex="1"/>
         <Button alignment="CENTER_RIGHT" onAction="#export" text="Export" GridPane.columnIndex="2"/>
-        <Button fx:id="loadQLAndQlsFile" alignment="CENTER_RIGHT" contentDisplay="CENTER" onAction="#loadQLAndQlsFile"
+        <Button fx:id="loadQLAndQlsFile" alignment="CENTER_RIGHT" contentDisplay="CENTER" onAction="#loadQLAndQLSFile"
                 text="Load QL&amp;QLS" GridPane.rowIndex="1"/>
     </GridPane>
     <columnConstraints>

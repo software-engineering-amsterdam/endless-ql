@@ -68,6 +68,7 @@
       <DependentUpon>Question.xaml</DependentUpon>
     </Compile>
     <Compile Include="QuestionnaireViewModel.cs" />
+    <Compile Include="TypeTemplateSelection.cs" />
     <Page Include="Question.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

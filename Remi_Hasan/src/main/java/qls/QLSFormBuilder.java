@@ -1,15 +1,17 @@
 package qls;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
 import ql.parser.ParseErrorListener;
+import qls.analysis.QuestionAnalyzer;
+import qls.analysis.TypeChecker;
+import qls.model.StyleSheet;
 import qls.parser.QLSLexer;
 import qls.parser.QLSParser;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import qls.model.StyleSheet;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import qls.visitor.VisitorStyleSheet;
 
 import java.io.IOException;
@@ -25,30 +27,38 @@ public class QLSFormBuilder {
         this.symbolTable = symbolTable;
     }
 
-    public static StyleSheet parseStyleSheet(InputStream stream)
-        throws IllegalArgumentException, UnsupportedOperationException, IOException {
-            QLSLexer lexer = new QLSLexer(CharStreams.fromStream(stream));
-            lexer.removeErrorListeners();
-            lexer.addErrorListener(ParseErrorListener.INSTANCE);
+    public StyleSheet parseStyleSheet(InputStream stream) throws IllegalArgumentException, UnsupportedOperationException, IOException {
+        QLSLexer lexer = new QLSLexer(CharStreams.fromStream(stream));
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(ParseErrorListener.INSTANCE);
 
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-            QLSParser parser = new QLSParser(tokens);
-            parser.removeErrorListeners();
-            parser.addErrorListener(ParseErrorListener.INSTANCE);
+        QLSParser parser = new QLSParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(ParseErrorListener.INSTANCE);
 
-            // Visit parse tree and build model
-            VisitorStyleSheet visitor = new VisitorStyleSheet();
-            StyleSheet styleSheet = visitor.visit(parser.root());
+        // Visit parse tree and build model
+        VisitorStyleSheet visitor = new VisitorStyleSheet();
+        StyleSheet styleSheet = visitor.visit(parser.root());
 
-            // TODO: remove
-            //parser.reset();
-            //Trees.inspect(parser.root(), parser);
+        // TODO: remove debugging tree
+        //parser.reset();
+        //Trees.inspect(parser.root(), parser);
 
-            // Debug: print object
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            System.out.println(gson.toJson(styleSheet));
+        // Debug: print object
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gson.toJson(styleSheet));
 
-            return styleSheet;
+        // Analysis
+        QuestionAnalyzer questionAnalyzer = new QuestionAnalyzer(this.qlForm, styleSheet);
+        questionAnalyzer.detectDuplicateQuestions();
+        questionAnalyzer.detectUnknownQuestions();
+        questionAnalyzer.detectUnplacedQuestions();
+
+        TypeChecker typeChecker = new TypeChecker(this.qlForm, styleSheet);
+        typeChecker.typeCheck();
+
+        return styleSheet;
     }
 }

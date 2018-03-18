@@ -1,7 +1,5 @@
 package org.uva.qls.ast.Widget.WidgetTypes;
 
-import org.uva.gui.widgets.QuestionWidget;
-import org.uva.ql.visitor.TypeVisitor;
 import org.uva.qls.ast.TreeNode;
 import org.uva.qls.visitor.WidgetTypeVisitor;
 

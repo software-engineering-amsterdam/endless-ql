@@ -15,7 +15,7 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
 
     private final Relation<String> relations = new Relation<>();
 
-    private String question;
+    private String question = null;
 
     @Override
     public Messages doCheck(Form node) {
@@ -44,9 +44,6 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
         return null;
     }
 
-    /**
-     * @param node
-     */
     private void linkRelationQuestionToQuestionExpression(Question node) {
         if (node.getValue() != null)
             node.getValue().accept(this);

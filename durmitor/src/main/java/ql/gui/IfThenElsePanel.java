@@ -16,10 +16,10 @@ public class IfThenElsePanel extends JPanel implements Observer {
     private final ConditionalPanel thenPanel;
     private final ConditionalPanel elsePanel;
 
-    public IfThenElsePanel(Expression exp, String name) {
+    public IfThenElsePanel(Expression exp) {
         super();
         this.exp = exp;
-        setName(name);
+        setName("thenElse");
         setLayout(
                 new BoxLayout(this, BoxLayout.PAGE_AXIS));
         thenPanel = new ConditionalPanel("then");

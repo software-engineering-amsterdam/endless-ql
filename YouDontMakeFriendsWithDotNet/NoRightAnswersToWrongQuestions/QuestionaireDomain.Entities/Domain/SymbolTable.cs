@@ -91,24 +91,54 @@ namespace QuestionnaireDomain.Entities.Domain
 
             if (newDataType == typeof(string))
             {
+                var stringValue = value as string;
                 if (originalDataType == typeof(int))
                 {
-                    return int.Parse(value as string);
+                    int parsedInt;
+                    if (int.TryParse(stringValue, out parsedInt))
+                    {
+                        return parsedInt;
+                    }
+                    
+                    throw new ArgumentException($"in the symbolTable there was an attempt to convert {stringValue} to {originalDataType}");
                 }
 
                 if (originalDataType == typeof(DateTime))
                 {
-                    return DateTime.Parse(value as string, CultureInfo.InvariantCulture);
+                    DateTime parsedDate;
+                    if (DateTime.TryParse(
+                        stringValue, 
+                        CultureInfo.InvariantCulture, 
+                        DateTimeStyles.None,
+                        out parsedDate))
+                    {
+                        return parsedDate;
+                    }
+
+                    throw new ArgumentException($"in the symbolTable there was an attempt to convert {stringValue} to {originalDataType}");
                 }
-                
+
                 if (originalDataType == typeof(decimal))
                 {
-                    return decimal.Parse(value as string);
+                    decimal parsedNum;
+                    if (decimal.TryParse(stringValue, out parsedNum))
+                    {
+                        return parsedNum;
+                    }
+
+                    throw new ArgumentException($"in the symbolTable there was an attempt to convert {stringValue} to {originalDataType}");
                 }
 
                 if (originalDataType == typeof(bool))
                 {
-                    return bool.Parse(value as string);
+                    bool parsedBool;
+                    if (bool.TryParse(stringValue, out parsedBool))
+                    {
+                        return parsedBool;
+                    }
+
+                    throw new ArgumentException($"in the symbolTable there was an attempt to convert {stringValue} to {originalDataType}");
+
                 }
             }
 

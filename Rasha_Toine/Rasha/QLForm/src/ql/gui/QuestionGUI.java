@@ -35,12 +35,12 @@ public class QuestionGUI implements ContextListener {
 					Expression enableExpression,
 					Expression computableExpression) {
 		
-		this.panel = new JPanel(new BorderLayout());
-		this.panel.setMinimumSize(new Dimension(250, 50));
-		this.panel.setMaximumSize(new Dimension(800, 200));
-		this.panel.setPreferredSize(new Dimension(700, 200));
-		this.panel.add(label.getJComponent(), BorderLayout.CENTER);
-		this.panel.add(value.getJComponent(), BorderLayout.EAST);
+		panel = new JPanel(new BorderLayout());
+		panel.setMinimumSize(new Dimension(250, 50));
+		panel.setMaximumSize(new Dimension(800, 200));
+		panel.setPreferredSize(new Dimension(700, 200));
+		panel.add(label.getJComponent(), BorderLayout.CENTER);
+		panel.add(value.getJComponent(), BorderLayout.EAST);
 	
 		this.label = label;
 		this.value = value;

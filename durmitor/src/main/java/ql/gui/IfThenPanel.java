@@ -11,8 +11,8 @@ public class IfThenPanel extends ConditionalPanel implements Observer {
     private static final long serialVersionUID = -2718716182504678952L;
     private final Expression exp;
     
-    public IfThenPanel(Expression exp, String name) {
-        super(name);
+    public IfThenPanel(Expression exp) {
+        super("then");
         this.exp = exp;
         update();
     }

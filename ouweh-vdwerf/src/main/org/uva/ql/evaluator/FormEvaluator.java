@@ -57,7 +57,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     }
 
     public boolean questionIsCalculated(Question question) {
-        return this.expressionTable.questionHasExpression(question.getName());
+        return this.expressionTable.questionHasExpression(question.getId());
     }
 
     public Value getValueById(String id) {
@@ -66,17 +66,17 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     public void evaluateAllExpressions(ExpressionEvaluator expressionEvaluator) {
         for (Question question : this.getQuestionsAsList()) {
-            if (this.expressionTable.questionHasExpression(question.getName())) {
-                Value value = expressionEvaluator.evaluateExpression(question.getName(), this.expressionTable.getExpressionByName(question.getName()), this.valueTable);
-                this.valueTable.addOrUpdateValue(question.getName(), value);
+            if (this.expressionTable.questionHasExpression(question.getId())) {
+                Value value = expressionEvaluator.evaluateExpression(question.getId(), this.expressionTable.getExpressionByName(question.getId()), this.valueTable);
+                this.valueTable.addOrUpdateValue(question.getId(), value);
             }
         }
     }
 
     @Override
     public Void visit(Question question, String context) {
-        this.statementTable.addQuestion(question.getName(), question);
-        question.getType().accept(this, question.getName());
+        this.statementTable.addQuestion(question.getId(), question);
+        question.getType().accept(this, question.getId());
         return null;
     }
 
@@ -95,9 +95,9 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     @Override
     public Void visit(CalculatedQuestion question, String context) {
-        this.statementTable.addQuestion(question.getName(), question);
-        this.expressionTable.addExpression(question.getName(), question.getExpression());
-        question.getType().accept(this, question.getName());
+        this.statementTable.addQuestion(question.getId(), question);
+        this.expressionTable.addExpression(question.getId(), question.getExpression());
+        question.getType().accept(this, question.getId());
         return null;
     }
 

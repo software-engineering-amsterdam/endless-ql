@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.gui.factory
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.gui.control._
-import nl.uva.se.sc.niro.model.gui.GUIQuestion
+import nl.uva.se.sc.niro.model.gui.{ GUIQuestion, QLGUIQuestion, QLSGUIQuestion }
 import nl.uva.se.sc.niro.model.ql._
 
 trait ComponentFactory {
@@ -16,7 +16,8 @@ class QLComponentFactory extends ComponentFactory {
         StringComponent(question.id, new Label(question.label), QLWidgetFactory.makeStringWidget(question))
       case BooleanType =>
         BooleanComponent(question.id, new Label(question.label), QLWidgetFactory.makeBooleanWidget(question))
-      case DateType => DateComponent(question.id, new Label(question.label), QLWidgetFactory.makeDateWidget(question))
+      case DateType =>
+        DateComponent(question.id, new Label(question.label), QLWidgetFactory.makeDateWidget(question))
       case IntegerType =>
         IntegerComponent(question.id, new Label(question.label), QLWidgetFactory.makeIntegerWidget(question))
       case DecimalType =>
@@ -31,7 +32,19 @@ class QLComponentFactory extends ComponentFactory {
 
 }
 
-class QLSComponentFactory extends QLComponentFactory {}
+class QLSComponentFactory extends QLComponentFactory {
+  override def make(question: GUIQuestion): Component[_] = {
+    val component = question.answerType match {
+      case BooleanType =>
+        BooleanComponent(question.id, new Label(question.label), QLSWidgetFactory.makeBooleanWidget(question))
+      case _ => return super.make(question)
+    }
+    component.setReadOnly(question.isReadOnly)
+    question.component = Some(component)
+    component
+  }
+
+}
 
 object QLComponentFactory extends QLComponentFactory
 

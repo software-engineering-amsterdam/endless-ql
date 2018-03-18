@@ -4,7 +4,9 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
-import javafx.scene.control.{ CheckBox, Control, DatePicker, TextField }
+import javafx.collections.FXCollections
+import javafx.scene.control._
+import javafx.util.StringConverter
 import javafx.util.converter.LocalDateStringConverter
 import nl.uva.se.sc.niro.gui.builder.TextFormatterBuilder
 import nl.uva.se.sc.niro.gui.factory.QLWidgetFactory._
@@ -42,6 +44,18 @@ class QLBooleanField extends CheckBox with QLWidget[Boolean] {
   })
   override def setValue(value: Boolean): Unit = setSelected(value)
   override def getValue: Boolean = isSelected
+}
+
+class QLComboBoxField(trueLabel: String, falseLabel: String) extends ChoiceBox[Boolean] with QLWidget[Boolean] {
+  setItems(FXCollections.observableArrayList(true, false))
+  setConverter(new StringConverter[Boolean]() {
+    override def toString(value: Boolean): String = if (value) trueLabel else falseLabel
+    override def fromString(value: String): Boolean = value == trueLabel
+  })
+  valueProperty().addListener(new ChangeListener[Boolean] {
+    override def changed(observable: ObservableValue[_ <: Boolean], oldValue: Boolean, newValue: Boolean): Unit =
+      valueChanged
+  })
 }
 
 class QLDateField() extends DatePicker with QLWidget[LocalDate] {

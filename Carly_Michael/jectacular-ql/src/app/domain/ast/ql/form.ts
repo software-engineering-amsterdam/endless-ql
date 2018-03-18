@@ -49,17 +49,6 @@ export class Form {
     return _.flatten(allQuestions);
   }
 
-  getQlQuestionByName(name: string): QlQuestion {
-    for (const q of this.getAllQuestions()) {
-      if (q.name === name) {
-        return q;
-      }
-    }
-
-    // TODO make proper error
-    throw new UnknownQuestionError(`question by name ${name} not found`);
-  }
-
   private checkDuplicateIdentifiers(allQuestions: QlQuestion[]): void {
     if (_.uniqBy(allQuestions, 'name').length < allQuestions.length) {
       const groupedQuestions = _.groupBy(allQuestions, 'name');

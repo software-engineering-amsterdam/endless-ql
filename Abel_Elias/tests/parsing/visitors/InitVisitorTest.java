@@ -1,14 +1,14 @@
 package tests.parsing.visitors;
 
-import classes.Form;
-import classes.Question;
+import QL.classes.Form;
+import QL.classes.Question;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Before;
 import org.junit.Test;
-import parsing.TreeBuilder;
-import parsing.gen.QLLexer;
-import parsing.gen.QLParser;
+import QL.parsing.TreeBuilder;
+import QL.parsing.gen.QLLexer;
+import QL.parsing.gen.QLParser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

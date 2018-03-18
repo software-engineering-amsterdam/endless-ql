@@ -1,7 +1,7 @@
 package gui.questions;
 
-import classes.Question;
-import classes.values.Value;
+import QL.classes.Question;
+import QL.classes.values.Value;
 import gui.FormBuilder;
 
 import javax.swing.*;

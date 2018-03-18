@@ -1,14 +1,14 @@
-import classes.Form;
-import classes.Question;
-import classes.values.BooleanValue;
-import classes.values.DateValue;
-import classes.values.IntegerValue;
-import classes.values.StringValue;
+import QL.classes.Form;
+import QL.classes.Question;
+import QL.classes.values.BooleanValue;
+import QL.classes.values.DateValue;
+import QL.classes.values.IntegerValue;
+import QL.classes.values.StringValue;
 import gui.FormBuilder;
-import parsing.TreeBuilder;
-import parsing.checkers.Checks;
-import parsing.gen.QLParser;
-import parsing.visitors.FormVisitor;
+import QL.parsing.TreeBuilder;
+import QL.parsing.checkers.Checks;
+import QL.parsing.gen.QLParser;
+import QL.parsing.visitors.FormVisitor;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

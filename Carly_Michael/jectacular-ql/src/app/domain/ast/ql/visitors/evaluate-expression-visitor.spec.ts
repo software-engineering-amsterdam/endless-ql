@@ -1,16 +1,18 @@
-import {Literal} from './expression';
-import {ExpressionType} from './expression-type';
-import {AndExpression, LogicalExpression, OrExpression} from './logical-expression';
-import {AddExpression, ArithmeticExpression, DivideExpression, MultiplyExpression, SubtractExpression} from './arithmetic-expression';
-import {NegateExpression, NegativeExpression, UnaryExpression} from './unary-expression';
+import {BooleanLiteral} from '../expressions/literals/boolean-literal';
+import {ExpressionType} from '../expressions/expression-type';
+import {AndExpression, OrExpression} from '../expressions/logical-expression';
+import {AddExpression, DivideExpression, MultiplyExpression, SubtractExpression} from '../expressions/arithmetic-expression';
+import {NegateExpression, NegativeExpression} from '../expressions/unary-expression';
 import {Location} from '../../location';
 import {
-  ComparisonExpression, GreaterThanEqualExpression, GreaterThanExpression, LessThanEqualExpression,
+  GreaterThanEqualExpression, GreaterThanExpression, LessThanEqualExpression,
   LessThanExpression
-} from './comparison-expression';
-import {EqualExpression, EqualityExpression, InEqualExpression} from './equality-expression';
+} from '../expressions/comparison-expression';
+import {EqualExpression, EqualityExpression, UnequalExpression} from '../expressions/equality-expression';
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
-import {Variable} from './variable';
+import {Variable} from '../expressions/variable';
+import {DateLiteral, NumberLiteral, StringLiteral} from '../';
+import {EvaluateExpressionVisitor} from './evaluate-expression-visitor';
 
 const location: Location = {
   start: {
@@ -24,26 +26,26 @@ const location: Location = {
     column: 0
   }
 };
-const stringLiteral = new Literal(ExpressionType.STRING, 'string', location);
-const dateLiteral = new Literal(ExpressionType.DATE, new Date('01-01-1990'), location);
-const booleanLiteral = new Literal(ExpressionType.BOOLEAN, true, location);
-const intLiteral = new Literal(ExpressionType.NUMBER, 5, location);
-const decimalLiteral = new Literal(ExpressionType.NUMBER, 8.0, location);
+const stringLiteral = new StringLiteral('string', location);
+const dateLiteral = new DateLiteral(new Date('01-01-1990'), location);
+const booleanLiteral = new BooleanLiteral(true, location);
+const intLiteral = new NumberLiteral(5, location);
+const secondIntLiteral = new NumberLiteral(8, location);
 
 const andExpression = new AndExpression(booleanLiteral, booleanLiteral,  location);
 const orExpression = new OrExpression(booleanLiteral, booleanLiteral,  location);
 
-const timesExpression = new MultiplyExpression(intLiteral, decimalLiteral, location);
+const timesExpression = new MultiplyExpression(intLiteral, secondIntLiteral, location);
 const divideExpression = new DivideExpression(intLiteral, intLiteral, location);
-const addExpression = new AddExpression(decimalLiteral, intLiteral, location);
-const subtractExpression = new SubtractExpression(decimalLiteral, decimalLiteral,  location);
-const lessThanExpression = new LessThanExpression(intLiteral, decimalLiteral, location);
+const addExpression = new AddExpression(secondIntLiteral, intLiteral, location);
+const subtractExpression = new SubtractExpression(secondIntLiteral, secondIntLiteral,  location);
+const lessThanExpression = new LessThanExpression(intLiteral, secondIntLiteral, location);
 const greaterThanExpression = new GreaterThanExpression(intLiteral, intLiteral,  location);
-const lessEqualExpression = new LessThanEqualExpression(decimalLiteral, intLiteral,  location);
-const greaterEqualExpression = new GreaterThanEqualExpression(decimalLiteral, decimalLiteral, location);
+const lessEqualExpression = new LessThanEqualExpression(secondIntLiteral, intLiteral,  location);
+const greaterEqualExpression = new GreaterThanEqualExpression(secondIntLiteral, secondIntLiteral, location);
 
 const equalExpression = new EqualExpression(intLiteral, intLiteral, location);
-const inEqualExpression = new InEqualExpression(booleanLiteral, booleanLiteral,  location);
+const unequalExpression = new UnequalExpression(booleanLiteral, booleanLiteral,  location);
 
 const negativeExpression = new NegativeExpression(intLiteral, location);
 const negateExpression = new NegateExpression(booleanLiteral, location);
@@ -54,49 +56,49 @@ describe('Expressions', () => {
   describe('should evaluate', () => {
     const form = new FormGroup({booleanQuestion: new FormControl({value: ''})});
     it('literals', () => {
-      expect(stringLiteral.evaluate(form)).toBe('string');
-      expect(dateLiteral.evaluate(form)).toEqual(new Date('01-01-1990'));
-      expect(booleanLiteral.evaluate(form)).toBe(true);
-      expect(intLiteral.evaluate(form)).toBe(5);
+      expect(EvaluateExpressionVisitor.evaluate(form, stringLiteral).getValue()).toBe('string');
+      expect(EvaluateExpressionVisitor.evaluate(form, dateLiteral).getValue()).toEqual(new Date('01-01-1990'));
+      expect(EvaluateExpressionVisitor.evaluate(form, booleanLiteral).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.evaluate(form, intLiteral).getValue()).toBe(5);
     });
 
     it('logical expressions', () => {
-      expect(andExpression.evaluate(form)).toBe(true);
-      expect(orExpression.evaluate(form)).toBe(true);
+      expect(EvaluateExpressionVisitor.evaluate(form, andExpression).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.evaluate(form, orExpression).getValue()).toBe(true);
     });
 
     it('arithmetic expressions', () => {
-      expect(timesExpression.evaluate(form)).toBe(40.0);
-      expect(divideExpression.evaluate(form)).toBe(1);
-      expect(addExpression.evaluate(form)).toBe(13.0);
-      expect(subtractExpression.evaluate(form)).toBe(0.0);
+      expect(EvaluateExpressionVisitor.evaluate(form, timesExpression).getValue()).toBe(40.0);
+      expect(EvaluateExpressionVisitor.evaluate(form, divideExpression).getValue()).toBe(1);
+      expect(EvaluateExpressionVisitor.evaluate(form, addExpression).getValue()).toBe(13.0);
+      expect(EvaluateExpressionVisitor.evaluate(form, subtractExpression).getValue()).toBe(0.0);
     });
 
     it('comparison expressions', () => {
-      expect(lessThanExpression.evaluate(form)).toBe(true);
-      expect(greaterThanExpression.evaluate(form)).toBe(false);
-      expect(lessEqualExpression.evaluate(form)).toBe(false);
-      expect(greaterEqualExpression.evaluate(form)).toBe(true);
+      expect(EvaluateExpressionVisitor.evaluate(form, lessThanExpression).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.evaluate(form, greaterThanExpression).getValue()).toBe(false);
+      expect(EvaluateExpressionVisitor.evaluate(form, lessEqualExpression).getValue()).toBe(false);
+      expect(EvaluateExpressionVisitor.evaluate(form, greaterEqualExpression).getValue()).toBe(true);
     });
 
     it('equality expressions', () => {
-      expect(equalExpression.evaluate(form)).toBe(true);
-      expect(inEqualExpression.evaluate(form)).toBe(false);
+      expect(EvaluateExpressionVisitor.evaluate(form, equalExpression).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.evaluate(form, unequalExpression).getValue()).toBe(false);
     });
 
     it('unary expressions', () => {
-      expect(negativeExpression.evaluate(form)).toBe(-5);
-      expect(negateExpression.evaluate(form)).toBe(false);
+      expect(EvaluateExpressionVisitor.evaluate(form, negativeExpression).getValue()).toBe(-5);
+      expect(EvaluateExpressionVisitor.evaluate(form, negateExpression).getValue()).toBe(false);
     });
 
     it('variable expressions', () => {
-      expect(variableExpression.evaluate(form)).toBeUndefined();
+      expect(EvaluateExpressionVisitor.evaluate(form, variableExpression).getValue()).toBeUndefined();
 
       form.controls['booleanQuestion'].setValue(true);
-      expect(variableExpression.evaluate(form)).toBe(true);
+      expect(EvaluateExpressionVisitor.evaluate(form, variableExpression).getValue()).toBe(true);
 
       const unknownIdentifierVariableExpression = new Variable('identifier', location);
-      expect(() => unknownIdentifierVariableExpression.evaluate(form)).toThrow();
+      expect(() => EvaluateExpressionVisitor.evaluate(form, unknownIdentifierVariableExpression).getValue()).toThrow();
     });
   });
   describe('Should check and return type', () => {
@@ -129,16 +131,16 @@ describe('Expressions', () => {
       expect(negateExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
       expect(() => new NegativeExpression(booleanLiteral,  location)
         .checkType([])).toThrowError();
-      expect(() => new NegateExpression(decimalLiteral, location)
+      expect(() => new NegateExpression(secondIntLiteral, location)
         .checkType([])).toThrowError();
     });
 
     it('expressions should type check input literals', () => {
-      const literalArray = [stringLiteral, dateLiteral, booleanLiteral, intLiteral, decimalLiteral];
+      const literalArray = [stringLiteral, dateLiteral, booleanLiteral, intLiteral, secondIntLiteral];
 
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
-          if (literalArray[i].type === ExpressionType.BOOLEAN && literalArray[j].type === ExpressionType.BOOLEAN) {
+          if (literalArray[i].checkType([]) === ExpressionType.BOOLEAN && literalArray[j].checkType([]) === ExpressionType.BOOLEAN) {
             expect(new AndExpression(literalArray[i], literalArray[j], location).checkType([]));
           } else {
             expect(() => {
@@ -150,7 +152,7 @@ describe('Expressions', () => {
 
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
-          if (literalArray[i].type === ExpressionType.NUMBER && literalArray[j].type === ExpressionType.NUMBER) {
+          if (literalArray[i].checkType([]) === ExpressionType.NUMBER && literalArray[j].checkType([]) === ExpressionType.NUMBER) {
             expect(new AddExpression(literalArray[i], literalArray[j],  location).checkType([]));
           } else {
             expect(() => {
@@ -162,7 +164,7 @@ describe('Expressions', () => {
 
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
-          if (literalArray[i].type === ExpressionType.NUMBER && literalArray[j].type === ExpressionType.NUMBER) {
+          if (literalArray[i].checkType([]) === ExpressionType.NUMBER && literalArray[j].checkType([]) === ExpressionType.NUMBER) {
             expect(new LessThanExpression(literalArray[i], literalArray[j],  location).checkType([]));
           } else {
             expect(() => {
@@ -174,7 +176,7 @@ describe('Expressions', () => {
 
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
-          if (literalArray[i].type === literalArray[j].type) {
+          if (literalArray[i].checkType([]) === literalArray[j].checkType([])) {
             expect(new EqualExpression(literalArray[i], literalArray[j],  location).checkType([]));
           } else {
             expect(() => {
@@ -185,7 +187,7 @@ describe('Expressions', () => {
       }
 
       for (let i = 0; i < literalArray.length; i++) {
-        if (literalArray[i].type === ExpressionType.NUMBER) {
+        if (literalArray[i].checkType([]) === ExpressionType.NUMBER) {
           expect(new NegativeExpression(literalArray[i], location).checkType([]));
         } else {
           expect(() => {
@@ -195,7 +197,7 @@ describe('Expressions', () => {
       }
 
       for (let i = 0; i < literalArray.length; i++) {
-        if (literalArray[i].type === ExpressionType.BOOLEAN) {
+        if (literalArray[i].checkType([]) === ExpressionType.BOOLEAN) {
           expect(new NegateExpression(literalArray[i],  location).checkType([]));
         } else {
           expect(() => {

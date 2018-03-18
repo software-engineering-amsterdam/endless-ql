@@ -26,11 +26,11 @@ import javax.swing.event.ChangeListener;
 
 import org.antlr.v4.runtime.RecognitionException;
 
-import nl.khonraad.QL.domain.Question;
-import nl.khonraad.QL.domain.Question.BehaviouralType;
-import nl.khonraad.QL.domain.Questionnaire;
-import nl.khonraad.QL.domain.Type;
-import nl.khonraad.QL.domain.Value;
+import nl.khonraad.qLanguage.domain.Question;
+import nl.khonraad.qLanguage.domain.Question.BehaviouralType;
+import nl.khonraad.qLanguage.domain.Questionnaire;
+import nl.khonraad.qLanguage.domain.Type;
+import nl.khonraad.qLanguage.domain.Value;
 
 public class QLApplication {
 

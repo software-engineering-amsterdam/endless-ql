@@ -1,16 +1,16 @@
-package nl.khonraad.QL.ast;
+package nl.khonraad.qLanguage.ast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.khonraad.QL.ExpressionLanguageBaseVisitor;
-import nl.khonraad.QL.ExpressionLanguageParser;
-import nl.khonraad.QL.domain.Question;
-import nl.khonraad.QL.domain.Questionnaire;
-import nl.khonraad.QL.domain.Type;
-import nl.khonraad.QL.domain.Value;
+import nl.khonraad.qLanguage.QBaseVisitor;
+import nl.khonraad.qLanguage.QParser;
+import nl.khonraad.qLanguage.domain.Question;
+import nl.khonraad.qLanguage.domain.Questionnaire;
+import nl.khonraad.qLanguage.domain.Type;
+import nl.khonraad.qLanguage.domain.Value;
 
-public final class ParseTreeVisitor extends ExpressionLanguageBaseVisitor<Value> {
+public final class ParseTreeVisitor extends QBaseVisitor<Value> {
 
     private Questionnaire questionnaire;
 
@@ -32,7 +32,7 @@ public final class ParseTreeVisitor extends ExpressionLanguageBaseVisitor<Value>
     }
 
     @Override
-    public Value visitForm( ExpressionLanguageParser.FormContext ctx ) {
+    public Value visitForm( QParser.FormContext ctx ) {
 
         declaredQuestionTypes = new ArrayList<String>();
 
@@ -49,7 +49,7 @@ public final class ParseTreeVisitor extends ExpressionLanguageBaseVisitor<Value>
     }
 
     @Override
-    public Value visitIdentifier( ExpressionLanguageParser.IdentifierContext ctx ) {
+    public Value visitIdentifier( QParser.IdentifierContext ctx ) {
 
         String identifier = ctx.Identifier().getText();
 
@@ -67,7 +67,7 @@ public final class ParseTreeVisitor extends ExpressionLanguageBaseVisitor<Value>
     }
 
     @Override
-    public Value visitPartAnswerableQuestion( ExpressionLanguageParser.PartAnswerableQuestionContext ctx ) {
+    public Value visitPartAnswerableQuestion( QParser.PartAnswerableQuestionContext ctx ) {
 
         String identifier = ctx.Identifier().getText();
         String label = removeQuotes( ctx.QuotedString().getText() );
@@ -86,7 +86,7 @@ public final class ParseTreeVisitor extends ExpressionLanguageBaseVisitor<Value>
     }
 
     @Override
-    public Value visitPartComputedQuestion( ExpressionLanguageParser.PartComputedQuestionContext ctx ) {
+    public Value visitPartComputedQuestion( QParser.PartComputedQuestionContext ctx ) {
 
         String identifier = ctx.Identifier().getText();
         String label = removeQuotes( ctx.QuotedString().getText() );
@@ -105,12 +105,12 @@ public final class ParseTreeVisitor extends ExpressionLanguageBaseVisitor<Value>
     }
 
     @Override
-    public Value visitPartBlock( ExpressionLanguageParser.PartBlockContext ctx ) {
+    public Value visitPartBlock( QParser.PartBlockContext ctx ) {
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitUnaryOperator_Expression( ExpressionLanguageParser.UnaryOperator_ExpressionContext ctx ) {
+    public Value visitUnaryOperator_Expression( QParser.UnaryOperator_ExpressionContext ctx ) {
 
         Value expression = visit( ctx.expression() );
         String operator = ctx.unaryOperator().getText();
@@ -132,14 +132,14 @@ public final class ParseTreeVisitor extends ExpressionLanguageBaseVisitor<Value>
     }
 
     @Override
-    public Value visitExpressionQuotedString( ExpressionLanguageParser.ExpressionQuotedStringContext ctx ) {
+    public Value visitExpressionQuotedString( QParser.ExpressionQuotedStringContext ctx ) {
 
         return new Value( Type.String, removeQuotes( ctx.QuotedString().getText() ) );
     }
 
     @Override
     public Value visitExpression_BinaryOperator_Expression(
-            ExpressionLanguageParser.Expression_BinaryOperator_ExpressionContext ctx ) {
+            QParser.Expression_BinaryOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
@@ -150,32 +150,32 @@ public final class ParseTreeVisitor extends ExpressionLanguageBaseVisitor<Value>
     }
 
     @Override
-    public Value visitExpressionMoneyConstant( ExpressionLanguageParser.ExpressionMoneyConstantContext ctx ) {
+    public Value visitExpressionMoneyConstant( QParser.ExpressionMoneyConstantContext ctx ) {
         return new Value( Type.Money, ctx.MoneyConstant().getText() );
     }
 
     @Override
-    public Value visitExpressionDateConstant( ExpressionLanguageParser.ExpressionDateConstantContext ctx ) {
+    public Value visitExpressionDateConstant( QParser.ExpressionDateConstantContext ctx ) {
         return new Value( Type.Date, ctx.DateConstant().getText() );
     }
 
     @Override
-    public Value visitExpressionIntegerConstant( ExpressionLanguageParser.ExpressionIntegerConstantContext ctx ) {
+    public Value visitExpressionIntegerConstant( QParser.ExpressionIntegerConstantContext ctx ) {
         return new Value( Type.Integer, ctx.IntegerConstant().getText() );
     }
 
     @Override
-    public Value visitExpressionBooleanConstant( ExpressionLanguageParser.ExpressionBooleanConstantContext ctx ) {
+    public Value visitExpressionBooleanConstant( QParser.ExpressionBooleanConstantContext ctx ) {
         return new Value( Type.Boolean, ctx.BooleanConstant().getText() );
     }
 
     @Override
-    public Value visitExpressionParenthesized( ExpressionLanguageParser.ExpressionParenthesizedContext ctx ) {
+    public Value visitExpressionParenthesized( QParser.ExpressionParenthesizedContext ctx ) {
         return visit( ctx.expression() );
     }
 
     @Override
-    public Value visitPartConditionalBlock( ExpressionLanguageParser.PartConditionalBlockContext ctx ) {
+    public Value visitPartConditionalBlock( QParser.PartConditionalBlockContext ctx ) {
 
         Value value = visit( ctx.expression() );
 

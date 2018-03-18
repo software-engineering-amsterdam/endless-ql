@@ -1,4 +1,4 @@
-package nl.khonraad.QL.domain;
+package nl.khonraad.qLanguage.domain;
 
 import java.io.IOException;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import nl.khonraad.QL.ast.AbstractParseTreeFactory;
-import nl.khonraad.QL.ast.ParseTreeVisitor;
-import nl.khonraad.QL.domain.Question.BehaviouralType;
+import nl.khonraad.qLanguage.ast.AbstractParseTreeFactory;
+import nl.khonraad.qLanguage.ast.ParseTreeVisitor;
+import nl.khonraad.qLanguage.domain.Question.BehaviouralType;
 
 public class Questionnaire {
 

@@ -1,4 +1,4 @@
-package nl.khonraad.QL.domain;
+package nl.khonraad.qLanguage.domain;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -25,6 +25,22 @@ public final class Value {
 
     private Type                          type;
     private String                        text;
+
+    public static Value ofBoolean( boolean b ) {
+        return b ? Value.TRUE : Value.FALSE;
+    }
+
+    public static Value ofInteger( int i ) {
+        return new Value( Type.Integer, Integer.toString( i ) );
+    }
+
+    public static Value ofString( String s ) {
+        return new Value( Type.String, s );
+    }
+
+    public static Value ofBigDecimal( BigDecimal m ) {
+        return new Value( Type.Money, m.toString() );
+    }
 
     public Value(Type type, String string) {
 

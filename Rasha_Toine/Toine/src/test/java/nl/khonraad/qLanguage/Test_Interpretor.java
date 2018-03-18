@@ -1,12 +1,12 @@
-package nl.khonraad.QL;
+package nl.khonraad.qLanguage;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import nl.khonraad.QL.domain.Questionnaire;
-import nl.khonraad.QL.domain.Type;
-import nl.khonraad.QL.domain.Value;
+import nl.khonraad.qLanguage.domain.Questionnaire;
+import nl.khonraad.qLanguage.domain.Type;
+import nl.khonraad.qLanguage.domain.Value;
 
 public class Test_Interpretor {
 
@@ -37,18 +37,18 @@ public class Test_Interpretor {
         questionnaire.visit();
 //
         questionnaire.storeAnswer( "sellingPrice", new Value( Type.Money, "100.03" ) );
-//        questionnaire.storeAnswer( "privateDebt", new Value( Type.Money, "25.00" ) );
-//        questionnaire.visit();
-//
-//        assertEquals( "Calculated answer", new Value( Type.Money, "75.02" ),
-//
-//                questionnaire.findComputed( "valueResidue" ).getValue()
-//
-//        );
-//        assertEquals( "Calculated answer", new Value( Type.Date, "04/01/1970" ),
-//                questionnaire.findComputed( "testDate" ).getValue() );
-//        assertEquals( "Calculated answer", new Value( Type.String, "abcABC" ),
-//                questionnaire.findComputed( "testString" ).getValue() );
+        questionnaire.storeAnswer( "privateDebt", new Value( Type.Money, "25.00" ) );
+        questionnaire.visit();
+
+        assertEquals( "Calculated answer", new Value( Type.Money, "75.02" ),
+
+                questionnaire.findComputed( "valueResidue" ).getValue()
+
+        );
+        assertEquals( "Calculated answer", new Value( Type.Date, "04/01/1970" ),
+                questionnaire.findComputed( "testDate" ).getValue() );
+        assertEquals( "Calculated answer", new Value( Type.String, "abcABC" ),
+                questionnaire.findComputed( "testString" ).getValue() );
     }
 
     @Test

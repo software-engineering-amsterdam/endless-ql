@@ -1,11 +1,11 @@
-package nl.khonraad.QL.domain;
+package nl.khonraad.qLanguage.domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nl.khonraad.QL.domain.Question.BehaviouralType;
+import nl.khonraad.qLanguage.domain.Question.BehaviouralType;
 
 public class QuestionRepository {
 

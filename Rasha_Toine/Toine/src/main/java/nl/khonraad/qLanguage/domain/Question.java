@@ -1,4 +1,4 @@
-package nl.khonraad.QL.domain;
+package nl.khonraad.qLanguage.domain;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

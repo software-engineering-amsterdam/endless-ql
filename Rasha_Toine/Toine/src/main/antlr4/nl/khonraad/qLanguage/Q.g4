@@ -1,4 +1,4 @@
-grammar ExpressionLanguage;
+grammar Q;
 
 WS              :   [ \t\r\n\u000C]+    -> channel(HIDDEN)                                  ;
 Comment         :   '/*' .*? '*/'       -> channel(HIDDEN)                                  ;

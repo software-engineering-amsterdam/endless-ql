@@ -5,6 +5,7 @@ using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
+using QuestionnaireDomain.Entities.Validators;
 using QuestionnaireInfrastructure.API;
 
 namespace QuestionnaireDomain.Entities
@@ -25,6 +26,8 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IQuestionnaireOutputCreator), typeof(QuestionnaireOutputCreator));
             appRegistration.AddSingleton(typeof(IQuestionnaireOutputUpdater), typeof(QuestionnaireOutputUpdater));
             appRegistration.AddSingleton(typeof(IQuestionnaireAstCreator), typeof(QuestionnaireAstCreator));
+            appRegistration.AddSingleton(typeof(IQuestionnaireValidator), typeof(QuestionnaireValidator));
+            appRegistration.AddSingleton(typeof(IDuplicateVariableValidator), typeof(DuplicateVariableValidator));
         }
     }
 }

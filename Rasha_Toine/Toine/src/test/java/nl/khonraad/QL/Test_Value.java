@@ -9,14 +9,15 @@ import static org.quicktheories.generators.SourceDSL.bigDecimals;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.quicktheories.core.Gen;
 
-import nl.khonraad.QL.domain.Type;
 import nl.khonraad.QL.domain.Value;
+import nl.khonraad.QL.domain.Type;
 
 public class Test_Value {
 
-    Value booleanValue( boolean i ) {
-        return new Value( Type.Boolean, i ? "True" : "False" );
+    Value booleanValue( boolean b ) {
+        return b ? Value.TRUE : Value.FALSE;
     }
 
     Value integerValue( int i ) {
@@ -27,8 +28,8 @@ public class Test_Value {
         return new Value( Type.String, s );
     }
 
-    Value moneyValue( BigDecimal s ) {
-        return new Value( Type.Money, s.toString() );
+    Value moneyValue( BigDecimal m ) {
+        return new Value( Type.Money, m.toString() );
     }
 
     @Test
@@ -74,8 +75,7 @@ public class Test_Value {
 
     @Test
     public void string_plus_money() {
-        qt().forAll( strings().basicLatinAlphabet().ofLengthBetween( 0, 20000 ),
-                bigDecimals().ofBytes( 32 ).withScale( 2 ) )
+        qt().forAll( strings().basicLatinAlphabet().ofLengthBetween( 0, 20000 ), randomBigDecimals() )
                 .check( ( string, money ) -> stringValue( string ).apply( "+", moneyValue( money ) )
                         .equals( stringValue( string + money.toString() ) ) );
     }
@@ -157,4 +157,23 @@ public class Test_Value {
                         .apply( ">=", integerValue( right_integer ) )
                         .equals( booleanValue( left_integer >= right_integer ) ) );
     }
+
+    @Test
+    public void money_times_integer() {
+        qt().forAll( randomBigDecimals(), integers().all() )
+                .check( ( left_money, right_integer ) -> moneyValue( left_money )
+                        .apply( "*", integerValue( right_integer ) )
+                        .equals( moneyValue( left_money.multiply( new BigDecimal( right_integer ) ) ) ) );
+    }
+
+    @Test
+    public void money_plus_money() {
+        qt().forAll( randomBigDecimals(), randomBigDecimals() ).check( ( left, right ) -> moneyValue( left )
+                .apply( "+", moneyValue( right ) ).equals( moneyValue( left.add( right ) ) ) );
+    }
+
+    private Gen<BigDecimal> randomBigDecimals() {
+        return bigDecimals().ofBytes( 32 ).withScale( 2 );
+    }
+
 }

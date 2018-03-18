@@ -5,6 +5,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class Question {
 
+    private static final String ERROR_TYPEERROR                    = "Type error: ";
+    
     public enum BehaviouralType {
 
         ANSWERABLE, COMPUTED;
@@ -13,15 +15,13 @@ public class Question {
     private BehaviouralType behaviouralType;
     private String          identifier;
     private String          label;
-    private Type            type;
     private Value           value;
 
-    public Question(BehaviouralType behaviouralType, String identifier, String label, Type type, Value value) {
+    public Question(BehaviouralType behaviouralType, String identifier, String label, Value value) {
 
         this.behaviouralType = behaviouralType;
         this.identifier = identifier;
         this.label = label;
-        this.type = type;
         this.value = value;
     }
 
@@ -33,10 +33,6 @@ public class Question {
         return identifier;
     }
 
-    public Type getType() {
-        return type;
-    }
-
     public String getLabel() {
         return label;
     }
@@ -45,9 +41,11 @@ public class Question {
         return value;
     }
 
-    public void parseThenSetValue( String s ) {
-
-        this.value = new Value( this.getType(), s );
+    public Value setValue( Value value ) {
+        if( this.getValue().getType() != value.getType() )
+            throw new RuntimeException( ERROR_TYPEERROR + "Question " + identifier + " expects " + this.getValue().getType() + " not " + value.getType() );
+        this.value = value;
+        return value;
     }
 
     @Override

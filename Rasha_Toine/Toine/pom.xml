@@ -14,7 +14,7 @@
 				<artifactId>antlr4-maven-plugin</artifactId>
 				<version>4.7.1</version>
 				<configuration>
-					<listener>false</listener>
+					<listener>true</listener>
 					<visitor>true</visitor>
 
 				</configuration>

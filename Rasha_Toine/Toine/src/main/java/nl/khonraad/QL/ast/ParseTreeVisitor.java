@@ -2,21 +2,25 @@ package nl.khonraad.QL.ast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import nl.khonraad.QL.ExpressionLanguageBaseVisitor;
 import nl.khonraad.QL.ExpressionLanguageParser;
-import nl.khonraad.QL.domain.Form;
 import nl.khonraad.QL.domain.Question;
+import nl.khonraad.QL.domain.Questionnaire;
 import nl.khonraad.QL.domain.Type;
 import nl.khonraad.QL.domain.Value;
-import nl.khonraad.QL.domain.Question.BehaviouralType;
 
-public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
+public final class ParseTreeVisitor extends ExpressionLanguageBaseVisitor<Value> {
+
+    private Questionnaire questionnaire;
+
+    public ParseTreeVisitor(Questionnaire questionnaire) {
+        super();
+        this.questionnaire = questionnaire;
+    }
 
     private List<String>        declaredQuestionTypes              = new ArrayList<String>();
 
-    public Form                 form                               = new Form();
     private List<String>        forwardReferences                  = new ArrayList<String>();
 
     private static final String ERROR_ReferenceToUndefinedQuestion = "Reference to undefined question: ";
@@ -28,16 +32,11 @@ public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitPartBlock( ExpressionLanguageParser.PartBlockContext ctx ) {
-        return visitChildren( ctx );
-    }
-
-    @Override
     public Value visitForm( ExpressionLanguageParser.FormContext ctx ) {
 
         declaredQuestionTypes = new ArrayList<String>();
 
-        form.forgetQuestionsRememberAnswers();
+        questionnaire.forgetQuestionsRememberAnswers();
 
         Value value = visitChildren( ctx );
 
@@ -47,6 +46,67 @@ public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
 
         return value;
 
+    }
+
+    @Override
+    public Value visitIdentifier( ExpressionLanguageParser.IdentifierContext ctx ) {
+
+        String identifier = ctx.Identifier().getText();
+
+        Question question = questionnaire.findAnswerable( identifier );
+
+        if ( question != null ) {
+
+            forwardReferences.remove( identifier );
+
+            return question.getValue();
+
+        }
+
+        throw new RuntimeException( ERROR_ReferenceToUndefinedQuestion + identifier );
+    }
+
+    @Override
+    public Value visitPartAnswerableQuestion( ExpressionLanguageParser.PartAnswerableQuestionContext ctx ) {
+
+        String identifier = ctx.Identifier().getText();
+        String label = removeQuotes( ctx.QuotedString().getText() );
+
+        Type type = Type.parseType( ctx.Type().getText() );
+
+        forwardReferences.remove( identifier );
+
+        if ( declaredQuestionTypes.contains( identifier ) ) {
+            throw new RuntimeException( ERROR_DuplicateQuestionDeclaration + identifier + " typed " + type );
+        }
+        declaredQuestionTypes.add( identifier );
+
+        return questionnaire.storeAnswerableQuestion( identifier, label, type );
+
+    }
+
+    @Override
+    public Value visitPartComputedQuestion( ExpressionLanguageParser.PartComputedQuestionContext ctx ) {
+
+        String identifier = ctx.Identifier().getText();
+        String label = removeQuotes( ctx.QuotedString().getText() );
+
+        Type type = Type.parseType( ctx.Type().getText() );
+
+        forwardReferences.remove( identifier );
+
+        Value value = visit( ctx.expression() );
+
+        if ( !type.equals( value.getType() ) ) {
+            throw new RuntimeException( ERROR_TYPEERROR + identifier + " expects " + type + " not " + value.getType() );
+        }
+
+        return questionnaire.storeComputedQuestion( identifier, label, value );
+    }
+
+    @Override
+    public Value visitPartBlock( ExpressionLanguageParser.PartBlockContext ctx ) {
+        return visitChildren( ctx );
     }
 
     @Override
@@ -90,24 +150,6 @@ public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitIdentifier( ExpressionLanguageParser.IdentifierContext ctx ) {
-
-        String identifier = ctx.Identifier().getText();
-
-        Optional<Question> optionalQuestion = form.findQuestion( BehaviouralType.ANSWERABLE, identifier );
-
-        if ( optionalQuestion.isPresent() ) {
-
-            forwardReferences.remove( identifier );
-
-            return optionalQuestion.get().getValue();
-
-        }
-
-        throw new RuntimeException( ERROR_ReferenceToUndefinedQuestion + identifier );
-    }
-
-    @Override
     public Value visitExpressionMoneyConstant( ExpressionLanguageParser.ExpressionMoneyConstantContext ctx ) {
         return new Value( Type.Money, ctx.MoneyConstant().getText() );
     }
@@ -133,49 +175,11 @@ public class QLVisitor extends ExpressionLanguageBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitPartAnswerableQuestion( ExpressionLanguageParser.PartAnswerableQuestionContext ctx ) {
-
-        String identifier = ctx.Identifier().getText();
-        String label = removeQuotes( ctx.QuotedString().getText() );
-
-        forwardReferences.remove( identifier );
-
-        Type type = Type.parseType( ctx.Type().getText() );
-
-        if ( declaredQuestionTypes.contains( identifier ) ) {
-            throw new RuntimeException( ERROR_DuplicateQuestionDeclaration + identifier + " typed " + type );
-        }
-        declaredQuestionTypes.add( identifier );
-
-        return form.saveAnswerableQuestion( identifier, label, type );
-
-    }
-
-    @Override
-    public Value visitPartComputedQuestion( ExpressionLanguageParser.PartComputedQuestionContext ctx ) {
-
-        String identifier = ctx.Identifier().getText();
-        String label = removeQuotes( ctx.QuotedString().getText() );
-
-        Type type = Type.parseType( ctx.Type().getText() );
-
-        forwardReferences.remove( identifier );
-
-        Value value = visit( ctx.expression() );
-
-        if ( !type.equals( value.getType() ) ) {
-            throw new RuntimeException( ERROR_TYPEERROR + identifier + " expects " + type + " not " + value.getType() );
-        }
-
-        return form.saveComputedQuestion( identifier, label, type, value );
-    }
-
-    @Override
     public Value visitPartConditionalBlock( ExpressionLanguageParser.PartConditionalBlockContext ctx ) {
 
         Value value = visit( ctx.expression() );
 
-        if ( value.equals( new Value( Type.Boolean, "True" ) ) ) {
+        if ( value.equals( Value.TRUE ) ) {
             visitChildren( ctx.block() );
         }
         return value;

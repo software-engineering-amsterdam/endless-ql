@@ -13,8 +13,29 @@ public final class Value {
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT    = new SimpleDateFormat( "dd/MM/yyyy" );
     private static final long             MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000L;
 
+    public static final Value             FALSE                 = new Value( Type.Boolean, "False" );
+    public static final Value             TRUE                  = new Value( Type.Boolean, "True" );
+    public static final Value             EPOCH                 = new Value( Type.Date, "01/01/1970" );
+
+    public static final Value             INITIAL_BOOLEAN       = FALSE;
+    public static final Value             INITIAL_DATE          = EPOCH;
+    public static final Value             INITIAL_INTEGER       = new Value( Type.Integer, "0" );
+    public static final Value             INITIAL_MONEY         = new Value( Type.Money, "0.00" );
+    public static final Value             INITIAL_STRING        = new Value( Type.String, "" );
+
     private Type                          type;
     private String                        text;
+
+    public Value(Type type, String string) {
+
+        this.type = type;
+        this.text = string;
+    }
+
+    private Value(boolean condition) {
+
+        this( Type.Boolean, condition ? TRUE.getText() : FALSE.getText() );
+    }
 
     public Value apply( String operator ) {
 
@@ -28,7 +49,6 @@ public final class Value {
 
             case "!":
                 return not( this );
-
         }
         throw new RuntimeException(
                 "Check Antlr grammar. Unknow unary operator defined there, not implemented here: " + operator );
@@ -70,91 +90,20 @@ public final class Value {
 
             case ">":
                 return this.isGreaterThen( rightOperand );
-
         }
-        throw new RuntimeException(
-                "Check Antlr grammar. Unknow binary operator defined there, not implemented here: " + operator );
-
+        throw new RuntimeException( "Check Antlr grammar. Operator defined there, not implemented here: " + operator );
     }
 
     public Type getType() {
         return type;
     }
 
-    public Value(Type type) {
-
-        this.type = type;
-
-        switch ( type ) {
-            case Boolean:
-                this.text = "False";
-                return;
-
-            case Date:
-                this.text = "01/01/1970";
-                return;
-
-            case Integer:
-                this.text = "0";
-                return;
-
-            case Money:
-                this.text = "0.00";
-                return;
-
-            case String:
-                this.text = "";
-                return;
-        }
-        throw new RuntimeException( "Constructor not imlemented for type " + type );
-    }
-
-    public Value(Type type, String string) {
-
-        this.type = type;
-        this.text = string;
-    }
-
-    private Value(boolean condition) {
-
-        this.type = Type.Boolean;
-        this.text = condition ? "True" : "False";
-    }
-
     public String getText() {
-
         return text;
     }
 
-    private Value added_with( Value rightOperand ) {
-
-        Type type_right = rightOperand.getType();
-        Type type_left = this.getType();
-
-        String text_left = this.getText();
-        String text_right = rightOperand.getText();
-
-        switch ( type_left + " + " + type_right ) {
-
-            case "Date + Integer":
-                return new Value( Type.Date, dateToString(
-                        new Date( dateStringToLong( text_left ) + MILLISECONDS_IN_A_DAY * new Long( text_right ) ) ) );
-
-            case "Integer + Integer":
-                return new Value( Type.Integer,
-                        Integer.toString( (Integer.parseInt( text_left ) + Integer.parseInt( text_right )) ) );
-
-            case "Money + Money":
-                return new Value( Type.Money, "" + new BigDecimal( text_left ).add( new BigDecimal( text_right ) ) );
-
-            case "String + Integer":
-            case "String + Money":
-            case "String + String":
-                return new Value( Type.String, text_left + text_right );
-
-        }
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
-
+    private Value not( Value value ) {
+        return new Value( !TRUE.equals( value ) );
     }
 
     private Value conjuncted_with( Value rightOperand ) {
@@ -165,9 +114,7 @@ public final class Value {
         switch ( type_left + " && " + type_right ) {
 
             case "Boolean && Boolean":
-                // use the Morgan's Theorem
-                return not( booleanOrboolean( not( this ), not( rightOperand ) ) );
-
+                return booleanAndboolean( this, rightOperand );
         }
         throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
     }
@@ -180,61 +127,14 @@ public final class Value {
         switch ( type_left + " || " + type_right ) {
 
             case "Boolean || Boolean":
-                return booleanOrboolean( this, rightOperand );
+
+                // use the Morgan's Theorem
+                return not( booleanAndboolean( not( this ), not( rightOperand ) ) );
         }
         throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
     }
 
-    private Value divided_by( Value rightOperand ) {
-
-        Type type_right = rightOperand.getType();
-        Type type_left = this.getType();
-        String text_left = this.getText();
-        String text_right = rightOperand.getText();
-
-        switch ( type_left + " / " + type_right ) {
-
-            case "Integer / Integer":
-                return new Value( Type.Integer,
-                        Integer.toString( (Integer.parseInt( text_left ) / Integer.parseInt( text_right )) ) );
-
-            case "Money / Integer":
-                return new Value( Type.Money,
-                        Double.toString(
-                                (new BigDecimal( text_left ).divide( new BigDecimal( Integer.parseInt( text_right ) ) ))
-                                        .doubleValue() ) );
-
-        }
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
-    }
-
-    private Value multiplied_by( Value rightOperand ) {
-
-        Type type_right = rightOperand.getType();
-        Type type_left = this.getType();
-        String text_left = this.getText();
-        String text_right = rightOperand.getText();
-
-        switch ( type_left + " * " + type_right ) {
-
-            case "Integer * Integer":
-                return new Value( Type.Integer,
-                        Integer.toString( Integer.parseInt( text_left ) * Integer.parseInt( text_right ) ) );
-
-            case "Integer * Money":
-                return new Value( Type.Money, Double.toString(
-                        (new BigDecimal( text_right ).multiply( new BigDecimal( Integer.parseInt( text_left ) ) ))
-                                .doubleValue() ) );
-
-            case "Money * Integer":
-                return new Value( Type.Money, Double.toString( (new BigDecimal( text_left )
-                        .multiply( new BigDecimal( Integer.parseInt( text_right ) ) ).doubleValue()) ) );
-
-        }
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
-    }
-
-    private Value subtracted_with( Value rightOperand ) {
+    private Value isLowerThen( Value rightOperand ) {
 
         Type type_right = rightOperand.getType();
         Type type_left = this.getType();
@@ -242,46 +142,19 @@ public final class Value {
         String text_left = this.getText();
         String text_right = rightOperand.getText();
 
-        switch ( type_left + " - " + type_right ) {
+        switch ( type_left + " < " + type_right ) {
 
-            case "Date - Integer":
-                return new Value( Type.Date, dateToString(
-                        new Date( dateStringToLong( text_left ) - 24 * 60 * 60 * 1000 * new Long( text_right ) ) ) );
+            case "Date < Date":
+                return new Value( toDate( text_left ).before( toDate( text_right ) ) );
 
-            case "Integer - Integer":
-                return new Value( Type.Integer,
-                        Integer.toString( (Integer.parseInt( text_left ) - Integer.parseInt( text_right )) ) );
+            case "Integer < Integer":
+                return new Value( Integer.parseInt( text_left ) < Integer.parseInt( text_right ) );
 
-            case "Money - Money":
-                return new Value( Type.Money, Double.toString(
-                        new BigDecimal( text_left ).subtract( new BigDecimal( text_right ) ).doubleValue() ) );
-        }
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
-    }
+            case "Money < Money":
+                return new Value( new BigDecimal( text_left ).compareTo( new BigDecimal( text_right ) ) == -1 );
 
-    private Value isGreaterThenOrEqualTo( Value rightOperand ) {
-
-        Type type_right = rightOperand.getType();
-        Type type_left = this.getType();
-
-        String text_left = this.getText();
-        String text_right = rightOperand.getText();
-
-        switch ( type_left + " >= " + type_right ) {
-
-            case "Date >= Date":
-                return new Value( (toDate( text_left ).after( toDate( text_right ) )
-                        || (toDate( text_left ).equals( toDate( text_right ) ))) );
-
-            case "Integer >= Integer":
-                return new Value( (Integer.parseInt( text_left ) >= Integer.parseInt( text_right )) );
-
-            case "Money >= Money":
-                return new Value(
-                        (new BigDecimal( text_left ).doubleValue() >= new BigDecimal( text_right ).doubleValue()) );
-
-            case "String >= String":
-                return new Value( text_left.compareTo( text_right ) != -1 );
+            case "String < String":
+                return new Value( text_left.compareTo( text_right ) == -1 );
 
         }
         throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
@@ -305,8 +178,7 @@ public final class Value {
                 return new Value( (Integer.parseInt( text_left ) <= Integer.parseInt( text_right )) );
 
             case "Money <= Money":
-                return new Value(
-                        (new BigDecimal( text_left ).doubleValue() <= new BigDecimal( text_right ).doubleValue()) );
+                return new Value( new BigDecimal( text_left ).compareTo( new BigDecimal( text_right ) ) != -1 );
 
             case "String <= String":
                 return new Value( text_left.compareTo( text_right ) != 1 );
@@ -354,8 +226,7 @@ public final class Value {
                 return new Value( (Integer.parseInt( text_left ) > Integer.parseInt( text_right )) );
 
             case "Money > Money":
-                return new Value(
-                        new BigDecimal( text_left ).doubleValue() > new BigDecimal( text_right ).doubleValue() );
+                return new Value( new BigDecimal( text_left ).compareTo( new BigDecimal( text_right ) ) == 1 );
 
             case "String > String":
                 return new Value( text_left.compareTo( text_right ) == 1 );
@@ -364,7 +235,7 @@ public final class Value {
         throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
     }
 
-    private Value isLowerThen( Value rightOperand ) {
+    private Value isGreaterThenOrEqualTo( Value rightOperand ) {
 
         Type type_right = rightOperand.getType();
         Type type_left = this.getType();
@@ -372,36 +243,132 @@ public final class Value {
         String text_left = this.getText();
         String text_right = rightOperand.getText();
 
-        switch ( type_left + " < " + type_right ) {
+        switch ( type_left + " >= " + type_right ) {
 
-            case "Date < Date":
-                return new Value( toDate( text_left ).before( toDate( text_right ) ) );
+            case "Date >= Date":
+                return new Value( (toDate( text_left ).after( toDate( text_right ) )
+                        || (toDate( text_left ).equals( toDate( text_right ) ))) );
 
-            case "Integer < Integer":
-                return new Value( Integer.parseInt( text_left ) < Integer.parseInt( text_right ) );
+            case "Integer >= Integer":
+                return new Value( (Integer.parseInt( text_left ) >= Integer.parseInt( text_right )) );
 
-            case "Money < Money":
-                return new Value(
-                        new BigDecimal( text_left ).doubleValue() < new BigDecimal( text_right ).doubleValue() );
+            case "Money >= Money":
+                return new Value( new BigDecimal( text_left ).compareTo( new BigDecimal( text_right ) ) != -1 );
 
-            case "String < String":
-                return new Value( text_left.compareTo( text_right ) == -1 );
+            case "String >= String":
+                return new Value( text_left.compareTo( text_right ) != -1 );
 
         }
         throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
     }
 
-    private Value not( Value value ) {
+    private Value multiplied_by( Value rightOperand ) {
 
-        return new Value( !"True".equals( value.text ) );
+        Type type_right = rightOperand.getType();
+        Type type_left = this.getType();
+        String text_left = this.getText();
+        String text_right = rightOperand.getText();
+
+        switch ( type_left + " * " + type_right ) {
+
+            case "Integer * Integer":
+                return new Value( Type.Integer,
+                        Integer.toString( Integer.parseInt( text_left ) * Integer.parseInt( text_right ) ) );
+
+            case "Integer * Money":
+                return new Value( Type.Money,
+                        new BigDecimal( text_right ).multiply( new BigDecimal( text_left ) ).toString() );
+
+            case "Money * Integer":
+                return new Value( Type.Money,
+                        new BigDecimal( text_left ).multiply( new BigDecimal( text_right ) ).toString() );
+
+        }
+        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
     }
 
-    private Value booleanOrboolean( Value left, Value right ) {
+    private Value divided_by( Value rightOperand ) {
 
-        if ( "True".equals( left.getText() ) || "True".equals( right.getText() ) ) {
-            return new Value( true );
+        Type type_right = rightOperand.getType();
+        Type type_left = this.getType();
+        String text_left = this.getText();
+        String text_right = rightOperand.getText();
+
+        switch ( type_left + " / " + type_right ) {
+
+            case "Integer / Integer":
+                return new Value( Type.Integer,
+                        Integer.toString( (Integer.parseInt( text_left ) / Integer.parseInt( text_right )) ) );
+
+            case "Money / Integer":
+                return new Value( Type.Money,
+                        Double.toString(
+                                (new BigDecimal( text_left ).divide( new BigDecimal( Integer.parseInt( text_right ) ) ))
+                                        .doubleValue() ) );
+
         }
-        return new Value( false );
+        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+    }
+
+    private Value added_with( Value rightOperand ) {
+
+        Type type_right = rightOperand.getType();
+        Type type_left = this.getType();
+
+        String text_left = this.getText();
+        String text_right = rightOperand.getText();
+
+        switch ( type_left + " + " + type_right ) {
+
+            case "Date + Integer":
+                return new Value( Type.Date, dateToString(
+                        new Date( dateStringToLong( text_left ) + MILLISECONDS_IN_A_DAY * new Long( text_right ) ) ) );
+
+            case "Integer + Integer":
+                return new Value( Type.Integer,
+                        Integer.toString( (Integer.parseInt( text_left ) + Integer.parseInt( text_right )) ) );
+
+            case "Money + Money":
+                return new Value( Type.Money, "" + new BigDecimal( text_left ).add( new BigDecimal( text_right ) ) );
+
+            case "String + Integer":
+            case "String + Money":
+            case "String + String":
+                return new Value( Type.String, text_left + text_right );
+
+        }
+        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+
+    }
+
+    private Value subtracted_with( Value rightOperand ) {
+
+        Type type_right = rightOperand.getType();
+        Type type_left = this.getType();
+
+        String text_left = this.getText();
+        String text_right = rightOperand.getText();
+
+        switch ( type_left + " - " + type_right ) {
+
+            case "Date - Integer":
+                return new Value( Type.Date, dateToString(
+                        new Date( dateStringToLong( text_left ) - 24 * 60 * 60 * 1000 * new Long( text_right ) ) ) );
+
+            case "Integer - Integer":
+                return new Value( Type.Integer,
+                        Integer.toString( (Integer.parseInt( text_left ) - Integer.parseInt( text_right )) ) );
+
+            case "Money - Money":
+                return new Value( Type.Money, Double.toString(
+                        new BigDecimal( text_left ).subtract( new BigDecimal( text_right ) ).doubleValue() ) );
+        }
+        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+    }
+
+    private Value booleanAndboolean( Value left, Value right ) {
+
+        return new Value( TRUE.equals( left ) && TRUE.equals( right ) );
     }
 
     private Date toDate( String text ) {

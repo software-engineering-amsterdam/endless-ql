@@ -20,9 +20,9 @@ namespace QuestionnaireOrchestration.CommandHandlers
             m_variableUpdater = variableUpdater;
         }
 
-        public void Execute(UpdateValuesCommand updateValuesCommand)
+        public void Execute(UpdateValuesCommand command)
         {
-            foreach (var question in updateValuesCommand.Questionnaire.Questions)
+            foreach (var question in command.Questionnaire.Questions)
             {
                 if (question.ReadOnly) continue;
                 if (question.Value == null) continue;

@@ -29,13 +29,13 @@ namespace AntlrInterpretor.AstBuilder
         private Reference<T> BuildAstTree<T>(string definition) where T : IAstNode
         {
             var stream = new AntlrInputStream(definition);
-            var lexer = new QLLexer(stream);
+            var lexer = new QlLexer(stream);
             lexer.RemoveErrorListeners();
             lexer.AddErrorListener(new QlErrorListener());
 
             var tokens = new CommonTokenStream(lexer);
 
-            var parser = new QLParser(tokens);
+            var parser = new QlParser(tokens);
             parser.RemoveErrorListeners();
             parser.AddErrorListener(new QlErrorListener());
 

@@ -11,7 +11,7 @@ using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace AntlrInterpretor.AstBuilder
 {
-    public class BuildAstVisitor : QLBaseVisitor<Reference<IAstNode>>
+    public class BuildAstVisitor : QlBaseVisitor<Reference<IAstNode>>
     {
         private readonly IAstFactory m_astFactory;
 
@@ -26,7 +26,7 @@ namespace AntlrInterpretor.AstBuilder
         }
 
         public override Reference<IAstNode> VisitQuestionnaire(
-            QLParser.QuestionnaireContext context)
+            QlParser.QuestionnaireContext context)
         {
             var questionnaireName = context.IDENTIFIER().GetText();
 
@@ -41,7 +41,7 @@ namespace AntlrInterpretor.AstBuilder
         }
 
         public override Reference<IAstNode> VisitCalculatedQuestion(
-            QLParser.CalculatedQuestionContext context)
+            QlParser.CalculatedQuestionContext context)
         {
             var questionName = context.question().IDENTIFIER().GetText();
             var questionText = context.question().TEXT().GetText();
@@ -58,7 +58,7 @@ namespace AntlrInterpretor.AstBuilder
         }
 
         public override Reference<IAstNode> VisitInputQuestion(
-            QLParser.InputQuestionContext context)
+            QlParser.InputQuestionContext context)
         {
             var questionName = context.question().IDENTIFIER().GetText();
             var questionText = context
@@ -75,7 +75,7 @@ namespace AntlrInterpretor.AstBuilder
                 questionType);
         }
 
-        public override Reference<IAstNode> VisitTypeCheckExpression(QLParser.TypeCheckExpressionContext context)
+        public override Reference<IAstNode> VisitTypeCheckExpression(QlParser.TypeCheckExpressionContext context)
         {
             var leftExpression = m_astFactory.CreateUntypedVariableName(context.leftIdentifier.Text);
             var rightExpression = m_astFactory.CreateUntypedVariableName(context.rightIdentifier.Text);
@@ -90,7 +90,7 @@ namespace AntlrInterpretor.AstBuilder
 
 
         public override Reference<IAstNode> VisitIfElseStatement(
-            QLParser.IfElseStatementContext context)
+            QlParser.IfElseStatementContext context)
         {
             var questionName = context.conditionalStatement().expression().GetText();
 
@@ -118,7 +118,7 @@ namespace AntlrInterpretor.AstBuilder
                 alternative); 
         }
 
-        public override Reference<IAstNode> VisitMathComparison(QLParser.MathComparisonContext context)
+        public override Reference<IAstNode> VisitMathComparison(QlParser.MathComparisonContext context)
         {
             var leftExpression = Visit(context.leftExpression);
             var rightExpression = Visit(context.rightExpression);
@@ -132,34 +132,34 @@ namespace AntlrInterpretor.AstBuilder
         }
 
         public override Reference<IAstNode> VisitBooleanQuestionIdentifier(
-            QLParser.BooleanQuestionIdentifierContext context)
+            QlParser.BooleanQuestionIdentifierContext context)
         {
             return m_astFactory.CreateBooleanVariableName(context.GetText());
         }
 
-        public override Reference<IAstNode> VisitBooleanExpressionGroup(QLParser.BooleanExpressionGroupContext context)
+        public override Reference<IAstNode> VisitBooleanExpressionGroup(QlParser.BooleanExpressionGroupContext context)
         {
             return Visit(context.booleanExpression());
         }
 
-        public override Reference<IAstNode> VisitBooleanLiteral(QLParser.BooleanLiteralContext context)
+        public override Reference<IAstNode> VisitBooleanLiteral(QlParser.BooleanLiteralContext context)
         {
             return m_astFactory.CreateBooleanLiteral(context.GetText());
         }
 
-        public override Reference<IAstNode> VisitAndOrStatement(QLParser.AndOrStatementContext context)
+        public override Reference<IAstNode> VisitAndOrStatement(QlParser.AndOrStatementContext context)
         {
             var leftExpression = Visit(context.leftExpression).To<IBooleanLogicNode>(m_domainItemLocator);
             var rightExpression = Visit(context.rightExpression).To<IBooleanLogicNode>(m_domainItemLocator);
 
             switch (context.booleanOperator().chosenOperator.Type)
             {
-                case QLParser.AND:
+                case QlParser.AND:
                     return m_astFactory.CreateAndOperation(
                         context.GetText(), 
                         leftExpression, 
                         rightExpression);
-                case QLParser.OR:
+                case QlParser.OR:
                     return m_astFactory.CreateOrOperation(
                         context.GetText(), 
                         leftExpression, 
@@ -171,15 +171,15 @@ namespace AntlrInterpretor.AstBuilder
             }
         }
 
-        private Type GetQuestionType(QLParser.QuestionContext question)
+        private Type GetQuestionType(QlParser.QuestionContext question)
         {
             switch (question.questionType().chosenType.Type)
             {
-                case QLParser.BOOLTYPE: return typeof(bool);
-                case QLParser.STRINGTYPE: return typeof(string);
-                case QLParser.INTTYPE: return typeof(int);
-                case QLParser.DATETYPE: return typeof(DateTime);
-                case QLParser.DECIMALTYPE: return typeof(decimal);
+                case QlParser.BOOLTYPE: return typeof(bool);
+                case QlParser.STRINGTYPE: return typeof(string);
+                case QlParser.INTTYPE: return typeof(int);
+                case QlParser.DATETYPE: return typeof(DateTime);
+                case QlParser.DECIMALTYPE: return typeof(decimal);
                 default:
                     throw new QlParserException(
                         $@"QuestionType '{question.questionType().chosenType.Type}' handled in the parse tree but not by the AST",
@@ -188,18 +188,18 @@ namespace AntlrInterpretor.AstBuilder
         }
         
         public override Reference<IAstNode> VisitNumberVariableName(
-            QLParser.NumberVariableNameContext context)
+            QlParser.NumberVariableNameContext context)
         {
             return m_astFactory.CreateNumberVariableName(context.GetText());
         }
 
         public override Reference<IAstNode> VisitCalculatedValue(
-            QLParser.CalculatedValueContext context)
+            QlParser.CalculatedValueContext context)
         {
             return Visit(context.mathExpression());
         }
 
-        public override Reference<IAstNode> VisitAddSubtractExpression(QLParser.AddSubtractExpressionContext context)
+        public override Reference<IAstNode> VisitAddSubtractExpression(QlParser.AddSubtractExpressionContext context)
         {
             var leftExpression = Visit(context.leftExpression)
                 .To<ICalculationNode>(m_domainItemLocator);
@@ -210,12 +210,12 @@ namespace AntlrInterpretor.AstBuilder
             var addSubtract = context.@operator.Type;
             switch (addSubtract)
             {
-                case QLParser.ADD:
+                case QlParser.ADD:
                     return m_astFactory.CreateAdditionOperation(
                         context.GetText(),
                         leftExpression,
                         rightExpression);
-                case QLParser.MINUS:
+                case QlParser.MINUS:
                     return m_astFactory.CreateSubtractionOperation(
                         context.GetText(),
                         leftExpression,
@@ -227,7 +227,7 @@ namespace AntlrInterpretor.AstBuilder
             }
         }
 
-        public override Reference<IAstNode> VisitMultiplyDivideExpression(QLParser.MultiplyDivideExpressionContext context)
+        public override Reference<IAstNode> VisitMultiplyDivideExpression(QlParser.MultiplyDivideExpressionContext context)
         {
             var leftExpression = Visit(context.leftExpression)
                 .To<ICalculationNode>(m_domainItemLocator);
@@ -239,12 +239,12 @@ namespace AntlrInterpretor.AstBuilder
             var multiplyDivideOperator = context.@operator.Type;
             switch (multiplyDivideOperator)
             {
-                case QLParser.MULTIPLY:
+                case QlParser.MULTIPLY:
                     return m_astFactory.CreateMultiplicationOperation(
                         context.GetText(),
                         leftExpression,
                         rightExpression);
-                case QLParser.DIVIDE:
+                case QlParser.DIVIDE:
                     return m_astFactory.CreateDivisionOperation(
                         context.GetText(),
                         leftExpression,
@@ -256,19 +256,19 @@ namespace AntlrInterpretor.AstBuilder
             }
         }
 
-        public override Reference<IAstNode> VisitMathExpressionGroup(QLParser.MathExpressionGroupContext context)
+        public override Reference<IAstNode> VisitMathExpressionGroup(QlParser.MathExpressionGroupContext context)
         {
             return Visit(context.mathExpression());
         }
         //booleanComparison
         
         public override Reference<IAstNode> VisitNumberLiteral(
-            QLParser.NumberLiteralContext context)
+            QlParser.NumberLiteralContext context)
         {
             return m_astFactory.CreateNumber(context.GetText());
         }
 
-        public override Reference<IAstNode> VisitNegationExpression(QLParser.NegationExpressionContext context)
+        public override Reference<IAstNode> VisitNegationExpression(QlParser.NegationExpressionContext context)
         {
             var childExpression = Visit(context.booleanExpression())
                 .To<IBooleanLogicNode>(m_domainItemLocator);
@@ -278,13 +278,13 @@ namespace AntlrInterpretor.AstBuilder
                 childExpression);
         }
 
-        public override Reference<IAstNode> VisitDateComparison(QLParser.DateComparisonContext context)
+        public override Reference<IAstNode> VisitDateComparison(QlParser.DateComparisonContext context)
         {
-            var leftDate = context.leftDate.Type == QLParser.DATE
+            var leftDate = context.leftDate.Type == QlParser.DATE
                 ? m_astFactory.CreateDate(context.leftDate.Text)
                 : m_astFactory.CreateDateVariableName(context.leftDate.Text);
 
-            var rightDate = context.rightDate.Type == QLParser.DATE
+            var rightDate = context.rightDate.Type == QlParser.DATE
                 ? m_astFactory.CreateDate(context.rightDate.Text)
                 : m_astFactory.CreateDateVariableName(context.rightDate.Text);
 
@@ -297,13 +297,13 @@ namespace AntlrInterpretor.AstBuilder
         }
 
 
-        public override Reference<IAstNode> VisitTextComparison(QLParser.TextComparisonContext context)
+        public override Reference<IAstNode> VisitTextComparison(QlParser.TextComparisonContext context)
         {
-            var leftDate = context.leftText.Type == QLParser.TEXT
+            var leftDate = context.leftText.Type == QlParser.TEXT
                 ? m_astFactory.CreateText(context.leftText.Text)
                 : m_astFactory.CreateTextVariableName(context.leftText.Text);
 
-            var rightDate = context.rightText.Type == QLParser.TEXT
+            var rightDate = context.rightText.Type == QlParser.TEXT
                 ? m_astFactory.CreateText(context.rightText.Text)
                 : m_astFactory.CreateTextVariableName(context.rightText.Text);
 
@@ -316,7 +316,7 @@ namespace AntlrInterpretor.AstBuilder
         }
 
 
-        public override Reference<IAstNode> VisitBooleanComparison(QLParser.BooleanComparisonContext context)
+        public override Reference<IAstNode> VisitBooleanComparison(QlParser.BooleanComparisonContext context)
         {
             var leftExpression = Visit(context.leftExpression)
                 .To<IAstNode>(m_domainItemLocator);
@@ -344,32 +344,32 @@ namespace AntlrInterpretor.AstBuilder
         {
             switch (relationalOperator)
             {
-                case QLParser.ISEQUAL:
+                case QlParser.ISEQUAL:
                     return m_astFactory.CreateEqualityOperation(
                         definition,
                         leftExpression,
                         rightExpression);
-                case QLParser.ISNOTEQUAL:
+                case QlParser.ISNOTEQUAL:
                     return m_astFactory.CreateInequalityOperation(
                         definition,
                         leftExpression,
                         rightExpression);
-                case QLParser.ISGREATERTHAN:
+                case QlParser.ISGREATERTHAN:
                     return m_astFactory.CreateGreaterThanOperation(
                         definition,
                         leftExpression,
                         rightExpression);
-                case QLParser.ISGREATERTHANOREQUAL:
+                case QlParser.ISGREATERTHANOREQUAL:
                     return m_astFactory.CreateGreaterOrEqualOperation(
                         definition,
                         leftExpression,
                         rightExpression);
-                case QLParser.ISLESSTHAN:
+                case QlParser.ISLESSTHAN:
                     return m_astFactory.CreateLessThanOperation(
                         definition,
                         leftExpression,
                         rightExpression);
-                case QLParser.ISLESSTHANOREQUAL:
+                case QlParser.ISLESSTHANOREQUAL:
                     return m_astFactory.CreateLessOrEqualOperation(
                         definition,
                         leftExpression,
@@ -388,12 +388,12 @@ namespace AntlrInterpretor.AstBuilder
         {
             switch (relationalOperator)
             {
-                case QLParser.ISEQUAL:
+                case QlParser.ISEQUAL:
                     return m_astFactory.CreateEqualityOperation(
                         definition,
                         leftExpression,
                         rightExpression);
-                case QLParser.ISNOTEQUAL:
+                case QlParser.ISNOTEQUAL:
                     return m_astFactory.CreateInequalityOperation(
                         definition,
                         leftExpression,

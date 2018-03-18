@@ -24,11 +24,12 @@ class QLSHomeController extends QLHomeController {
           val stylesheetOrErrors: Either[Seq[Errors.Error], Option[QLStylesheet]] =
             QLStylesheetService.importQLStylesheetSpecification(form, new File(selectedFile.toString + "s"))
           stylesheetOrErrors match {
-            case Right(stylesheet) => stylesheet match {
-              case Some(stylesheet) => showQLSForm(form, stylesheet)
-              case None             => showQLForm(form) // Fall back to pure QL
-            }
-            case Left(errors)      => handleErrors(errors)
+            case Right(stylesheet) =>
+              stylesheet match {
+                case Some(stylesheet) => showQLSForm(form, stylesheet)
+                case None             => showQLForm(form) // Fall back to pure QL
+              }
+            case Left(errors) => handleErrors(errors)
           }
         }
         case Left(errors) => handleErrors(errors)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using QuestionaireOrchestration.Models;
+using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
@@ -25,16 +26,16 @@ namespace QuestionaireOrchestration.QueryServices
 
         public override IEnumerable<QuestionOutputModel> GetAll()
         {
-            return m_domainItemLocator
+            return DomainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .Select(x => new QuestionOutputModel(x.Id, x.DisplayName));
         }
 
         public QuestionModel GetQuestionModel(Guid questionId)
         {
-            var question = m_domainItemLocator
+            var question = DomainItemLocator
                 .Get<IQuestionOutputItem>(questionId);
-            var variable = m_domainItemLocator
+            var variable = DomainItemLocator
                 .Get<IQuestionNode>(question.Variable.Id);
 
             return new QuestionModel(

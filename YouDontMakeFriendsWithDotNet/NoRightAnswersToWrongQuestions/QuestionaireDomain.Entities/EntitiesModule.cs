@@ -6,6 +6,7 @@ using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Validators;
+using QuestionnaireDomain.Entities.Validators.Interfaces;
 using QuestionnaireInfrastructure.API;
 
 namespace QuestionnaireDomain.Entities
@@ -14,6 +15,7 @@ namespace QuestionnaireDomain.Entities
     {
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
+            // ToDo: make sure each service has appropriate lifetime 
             appRegistration.AddSingleton(typeof(IAstFactory), typeof(AstFactory));
             appRegistration.AddSingleton(typeof(IOutputItemFactory), typeof(OutputItemFactory));
             appRegistration.AddSingleton(typeof(IDomainItemRegistry), typeof(DomainItemRegistry));

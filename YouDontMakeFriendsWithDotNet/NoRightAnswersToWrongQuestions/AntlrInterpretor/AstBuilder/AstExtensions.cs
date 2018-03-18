@@ -4,7 +4,7 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 
-namespace AntlrInterpretor.Logic
+namespace AntlrInterpretor.AstBuilder
 {
     public static class AstExtensions
     {

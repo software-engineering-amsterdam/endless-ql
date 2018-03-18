@@ -164,19 +164,17 @@
       <Link>GeneratedCode\QLVisitor.cs</Link>
     </Compile>
     <Compile Include="AntlrModule.cs" />
-    <Compile Include="Logic\AstExtensions.cs" />
-    <Compile Include="Logic\QlErrorListener.cs" />
-    <Compile Include="Logic\AstTreeBuilder.cs" />
-    <Compile Include="Logic\BuildAstVisitor.cs" />
+    <Compile Include="AstBuilder\AstExtensions.cs" />
+    <Compile Include="AstBuilder\QlErrorListener.cs" />
+    <Compile Include="AstBuilder\AstTreeBuilder.cs" />
+    <Compile Include="AstBuilder\BuildAstVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="API\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\AntlGrammar\AntlGrammar.csproj">
       <Project>{ff0183f4-7487-4645-99f9-0713f3cac488}</Project>

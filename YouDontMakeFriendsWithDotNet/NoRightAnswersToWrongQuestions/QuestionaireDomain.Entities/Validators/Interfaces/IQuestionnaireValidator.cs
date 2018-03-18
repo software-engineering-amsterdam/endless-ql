@@ -2,7 +2,7 @@
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace QuestionnaireDomain.Entities.Validators
+namespace QuestionnaireDomain.Entities.Validators.Interfaces
 {
     public interface IQuestionnaireValidator
     {

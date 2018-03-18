@@ -3,11 +3,10 @@ using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
+using QuestionnaireDomain.Entities.Validators.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Validators
 {
-    public interface IDuplicateVariableValidator : IValidator
-    { }
     public class DuplicateVariableValidator : IDuplicateVariableValidator
     {
         private readonly IDomainItemLocator m_domainItemLocator;
@@ -21,10 +20,11 @@ namespace QuestionnaireDomain.Entities.Validators
         {
             var questions = m_domainItemLocator
                 .GetAll<IQuestionNode>();
-            var questionNames = questions
+            var questionNodes = questions.ToList();
+            var questionNames = questionNodes
                 .Select(x => new { x.QuestionName, x.QuestionType})
                 .ToList();
-            foreach (var questionNode in questions)
+            foreach (var questionNode in questionNodes)
             {
                 var mismatchCount = questionNames
                     .Count(x => 

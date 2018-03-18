@@ -13,6 +13,7 @@ using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Validators;
+using QuestionnaireDomain.Entities.Validators.Interfaces;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
 using UnitTests.Domain.UnitTests.Data;

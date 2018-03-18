@@ -9,11 +9,11 @@ namespace QuestionaireOrchestration.QueryServices
 {
     internal abstract class ModelQueryServiceBase<T> : IModelQueryService<T> where T : DomainItemModel
     {
-        protected readonly IDomainItemLocator m_domainItemLocator;
+        protected readonly IDomainItemLocator DomainItemLocator;
 
         protected ModelQueryServiceBase(IDomainItemLocator domainItemLocator)
         {
-            m_domainItemLocator = domainItemLocator;
+            DomainItemLocator = domainItemLocator;
         }
 
         public T FindByName(string name)

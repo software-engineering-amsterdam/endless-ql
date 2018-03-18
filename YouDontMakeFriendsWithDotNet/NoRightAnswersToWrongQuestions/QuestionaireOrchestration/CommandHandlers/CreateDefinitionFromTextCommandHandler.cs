@@ -6,7 +6,7 @@ using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
-using QuestionnaireDomain.Entities.Validators;
+using QuestionnaireDomain.Entities.Validators.Interfaces;
 using QuestionnaireInfrastructure.API;
 
 namespace QuestionaireOrchestration.CommandHandlers
@@ -52,7 +52,6 @@ namespace QuestionaireOrchestration.CommandHandlers
             }
 
             m_outputCreator.CreateOrUpdate(questionnaireRef);
-            
         }
     }
 }

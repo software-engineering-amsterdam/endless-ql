@@ -24,7 +24,7 @@ namespace IntegrationTests
         }
     }
 
-    public class TestApp : QlApp
+    public class TestApp
     {
         private readonly IServiceProvider m_serviceProvider;
         public bool UiWasCreated { get; }

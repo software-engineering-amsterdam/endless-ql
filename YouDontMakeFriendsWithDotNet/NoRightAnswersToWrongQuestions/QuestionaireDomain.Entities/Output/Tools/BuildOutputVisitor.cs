@@ -14,7 +14,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     internal class BuildOutputVisitor : 
         IBuildOutputVisitor
     {
-        private Stack<bool> m_questionsCurrentlyVisible = new Stack<bool>() ;
+        private readonly Stack<bool> m_questionsCurrentlyVisible = new Stack<bool>() ;
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IOutputItemFactory m_outputItemFactory;
         private readonly ISymbolTable m_lookup;
@@ -162,16 +162,5 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 .Get<IQuestionNode>(questionId)
                 ?.QuestionType;
         }
-
-        //public Reference<IQuestionOutputItem> Visit(Reference<IUserInputQuestionNode> node)
-        //{
-        //    var domainItem = node.ToDomainItem(m_domainItemLocator);
-        //    return m_outputItemFactory.CreateQuestionOutputItem(
-        //        domainItem.QuestionText,
-        //        GetValue(node.Id),
-        //        GetQuestionType(node.Id),
-        //        m_questionsCurrentlyVisible,
-        //        false);
-        //}
     }
 }

@@ -1,14 +1,12 @@
-﻿using System.Linq;
-using AntlGrammar;
+﻿using AntlGrammar;
 using Antlr4.Runtime;
-using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 
-namespace AntlrInterpretor.Logic
+namespace AntlrInterpretor.AstBuilder
 {
     internal class AstTreeBuilder : IAstTreeBuilder
     {

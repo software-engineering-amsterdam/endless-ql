@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices.Interfaces;
 
-namespace QuestionaireOrchestration.QueryServices
+namespace QuestionaireOrchestration.QueryServices.Interfaces
 {
     public interface IQuestionnaireOutputModelQueryService : 
         IModelQueryService<QuestionnaireOutputModel>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using AntlGrammar;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
@@ -10,7 +9,7 @@ using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 
-namespace AntlrInterpretor.Logic
+namespace AntlrInterpretor.AstBuilder
 {
     public class BuildAstVisitor : QLBaseVisitor<Reference<IAstNode>>
     {

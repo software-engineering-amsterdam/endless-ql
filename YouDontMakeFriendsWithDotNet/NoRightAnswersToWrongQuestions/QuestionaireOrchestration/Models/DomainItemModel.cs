@@ -34,7 +34,5 @@ namespace QuestionaireOrchestration.Models
         {
             return other.Id == Id;
         }
-        
-        //public static implicit operator Reference(DomainItemModel model);
     }
 }

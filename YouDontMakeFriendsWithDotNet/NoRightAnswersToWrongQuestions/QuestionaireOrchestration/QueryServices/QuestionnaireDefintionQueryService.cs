@@ -16,7 +16,7 @@ namespace QuestionaireOrchestration.QueryServices
 
         public override IEnumerable<QuestionnaireDefinitionModel> GetAll()
         {
-            return m_domainItemLocator
+            return DomainItemLocator
                 .GetAll<IQuestionnaireRootNode>()
                 .Select(x => new QuestionnaireDefinitionModel(x.Id, x.DisplayName));
         }

@@ -11,7 +11,7 @@ public class InputHandler {
 
     private final Logger logger;
 
-    InputHandler() {
+    public InputHandler() {
         this.logger = Logger.getGlobal();
     }
 

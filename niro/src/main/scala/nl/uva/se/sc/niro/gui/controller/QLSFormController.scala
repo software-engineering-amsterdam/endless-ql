@@ -21,11 +21,11 @@ class QLSFormController extends QLFormController {
   private var stylesheet: Option[QLStylesheet] = None
   private var page: Int = 0
 
-  val pageName: Label = new Label
+  val pageName: Label = new Label("Page Name")
 
   val navigationBar: BorderPane = new BorderPane
-  val previous: Button = new Button
-  val next: Button = new Button
+  val previous: Button = new Button("Previous")
+  val next: Button = new Button("Next ")
 
   @FXML
   def initialize(): Unit = {
@@ -67,12 +67,10 @@ class QLSFormController extends QLFormController {
   }
 
   def addButtonsToNavigationBar(): Unit = {
-    previous.setText("Previous")
     previous.setDisable(true)
     previous.setOnAction(previousPage)
     navigationBar.setLeft(previous)
 
-    next.setText("Next")
     next.setOnAction(nextPage)
     navigationBar.setRight(next)
   }

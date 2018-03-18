@@ -67,15 +67,14 @@ class QLSFormController extends QLFormController {
   }
 
   def addButtonsToNavigationBar(): Unit = {
-    val previousButton = new Button("Previous")
-    previousButton.setDisable(true)
-    previousButton.setOnAction(previousPage)
-    navigationBar.setLeft(previousButton)
+    previous.setText("Previous")
+    previous.setDisable(true)
+    previous.setOnAction(previousPage)
+    navigationBar.setLeft(previous)
 
-    val nextButton = new Button("Next")
-    nextButton.setDisable(true)
-    nextButton.setOnAction(nextPage)
-    navigationBar.setRight(nextButton)
+    next.setText("Next")
+    next.setOnAction(nextPage)
+    navigationBar.setRight(next)
   }
 
   def applyStylingToNavigationBar(): Unit = {

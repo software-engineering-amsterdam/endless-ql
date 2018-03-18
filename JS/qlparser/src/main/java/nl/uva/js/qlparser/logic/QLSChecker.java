@@ -8,57 +8,88 @@ import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.Page;
 import nl.uva.js.qlparser.models.qls.elements.QuestionReference;
 import nl.uva.js.qlparser.models.qls.elements.Section;
+import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class QLSChecker {
-    public boolean validate(Form form, Stylesheet stylesheet) throws Exception {
-        HashSet<String> questionReferences = getQuestionReferences(stylesheet);
-        HashSet<String> questions = new HashSet<>();
-        for(Question q : getQuestions(form.getFormExpressions())) {
-            questions.add(q.getVariable().getName());
-        }
+    private ArrayList<String> errors;
 
-        //Todo improve
-        if(!questionReferences.equals(questions)) {
-            throw new Exception("Questions references by QLS do not match QL");
-        }
+    public boolean checkErrors(Form form, Stylesheet stylesheet) throws Exception {
+        errors.clear();
+
+        HashMap<String, Question> questionsByName   = getQuestions(form.getFormExpressions());
+        HashMap<String, QuestionReference> questionRefsByName  = getQuestionReferences(stylesheet);
+
+        checkQuestions(questionsByName.keySet(), questionRefsByName.keySet());
+        checkWidgetAssignments(questionsByName, questionRefsByName, stylesheet.getDefaultStyles());
 
         return true;
     }
 
-    private HashSet<String> getQuestionReferences(Stylesheet stylesheet) {
-        LinkedList<QuestionReference> questionReferences = new LinkedList<>();
+    private void checkQuestions(Set<String> questionNames, Set<String> questionReferences) {
+        checkDuplicateReferences(questionReferences);
+
+        checkDifference(questionNames, questionReferences, "Unplaced QL question: ");
+        checkDifference(questionReferences, questionNames, "Question does not exist: ");
+    }
+
+    private void checkDifference(Set<String> left, Set<String> right, String errorMessage) {
+        ArrayList<String> difference = new ArrayList<>(left);
+        difference.removeAll(right);
+
+        for (String question : difference) {
+            errors.add(errorMessage + question);
+        }
+    }
+
+    private void checkDuplicateReferences(Set<String> questionReferences) {
+        HashSet<String> uniqueQuestionReferences = new HashSet<>(questionReferences);
+        if (questionReferences.size() > uniqueQuestionReferences.size()) {
+            errors.add("A single question may not be placed multiple times.");
+        }
+    }
+
+    private ArrayList<String> getQuestionNames(ArrayList<Question> questions) {
+        return questions.stream().map(q -> q.getVariable().getName()).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    private HashMap<String, QuestionReference> getQuestionReferences(Stylesheet stylesheet) {
+        HashMap<String, QuestionReference> questionReferences = new HashMap<>();
 
         LinkedList<Page> pages = stylesheet.getPages();
         if (null != pages) {
             LinkedList<Section> sections = new LinkedList<>();
-            for (Page page : pages) {
-                sections.addAll(page.getSections());
-            }
+            pages.stream().map(Page::getSections).forEach(sections::addAll);
 
             for (Section section : sections) {
-                questionReferences.addAll(section.getQuestions());
+                LinkedList<QuestionReference> refs = section.getQuestions();
+                refs.forEach(ref -> questionReferences.put(ref.getName(), ref));
             }
         }
-
-        return questionReferences.stream()
-                .map(QuestionReference::getName)
-                .collect(Collectors.toCollection(HashSet::new));
+        return questionReferences;
     }
 
-    private LinkedList<Question> getQuestions(LinkedList<FormExpression> formExpressions) {
-        LinkedList<Question> questions = new LinkedList<>();
+    private HashMap<String, Question> getQuestions(LinkedList<FormExpression> formExpressions) {
+        HashMap<String, Question> questions = new HashMap<>();
 
         for(FormExpression formExpression : formExpressions) {
             if (formExpression instanceof Question) {
-                questions.add((Question) formExpression);
+                questions.put(((Question) formExpression).getVariable().getName(), (Question) formExpression);
             } else if (formExpression instanceof IfBlock) {
-                questions.addAll(getQuestions(((IfBlock) formExpression).getExpressions()));
+                HashMap<String, Question> ifQuestions = getQuestions(((IfBlock) formExpression).getExpressions());
+                questions.putAll(ifQuestions);
             }
         }
         return questions;
+    }
+
+    private void checkWidgetAssignments(
+            HashMap<String, Question> questions,
+            HashMap<String, QuestionReference> questionRefs,
+            LinkedList<DefaultStyle> defaultStyles
+    ) {
+
     }
 }

@@ -21,6 +21,7 @@ import ql.visitors.interfaces.StatementVisitor;
 public class ASTtoGUI implements StatementVisitor {
     
     private JPanel parentPanel;
+    //TODO: temporary fields for console output, remove
     public LinkedHashMap<JPanel, Boolean> panelsCollection = new LinkedHashMap<>();
     public LinkedHashMap<Identifier, String> variableCollection = new LinkedHashMap<>();
 
@@ -93,12 +94,6 @@ public class ASTtoGUI implements StatementVisitor {
         
         parentPanel.add(computedQuestion);
         parentPanel.revalidate();
-        
-//        stmt.getComputation().accept(new ExpressionVisitorIdentifier()).forEach(identifier -> {
-//            // System.out.println(identifier.getName());
-//            System.out.println(computedQuestion.getQuestion().getIdentifier().getValue().getValue());
-//            identifier.addObserver(computedQuestion);
-//        });
         
         panelsCollection.put(computedQuestion, computedQuestion.isVisible());
         variableCollection.put(stmt.getIdentifier(), stmt.getIdentifier().getName());

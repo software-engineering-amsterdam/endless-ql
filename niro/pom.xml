@@ -30,6 +30,8 @@
 		<junit.version>4.12</junit.version>
         <pprint.version>0.5.3</pprint.version>
 		<scalafmt.version>0.7_1.4.0</scalafmt.version>
+		<scala-csv.version>1.3.5</scala-csv.version>
+		<cats.version>0.9.0</cats.version>
 	</properties>
 
 	<dependencies>
@@ -85,14 +87,13 @@
 		<dependency>
 			<groupId>com.github.tototoshi</groupId>
 			<artifactId>scala-csv_2.12</artifactId>
-			<version>1.3.5</version>
+			<version>${scala-csv.version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.typelevel/cats -->
 		<dependency>
 			<groupId>org.typelevel</groupId>
 			<artifactId>cats_2.12</artifactId>
-			<version>0.9.0</version>
+			<version>${cats.version}</version>
 		</dependency>
 
 	</dependencies>

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
@@ -9,11 +11,11 @@ using QuestionnaireDomain.Entities.Validators.MetaData;
 
 namespace QuestionnaireDomain.Entities.Validators
 {
-    internal class UndefinedVariableValidator : IUndefinedVariableValidator
+    internal class BooleanConditionValidator : IBooleanConditionValidator
     {
         private readonly IDomainItemLocator m_domainItemLocator;
 
-        public UndefinedVariableValidator(
+        public BooleanConditionValidator(
             IDomainItemLocator domainItemLocator)
         {
             m_domainItemLocator = domainItemLocator;
@@ -22,24 +24,26 @@ namespace QuestionnaireDomain.Entities.Validators
         public IEnumerable<ValidationMetaData> Validate(
             Reference<IQuestionnaireRootNode> questionnaireRootNode)
         {
-            var variableNodes = m_domainItemLocator
-                .GetAll<IVariableNode>();
+            var booleanVariableNodes = m_domainItemLocator
+                .GetAll<IBooleanVariableNode>();
 
             var questionNodes = m_domainItemLocator
                 .GetAll<IQuestionNode>()
                 .ToList();
 
-            foreach (var variableNode in variableNodes)
+            foreach (var variableNode in booleanVariableNodes)
             {
-                var nameIsDefined = questionNodes
-                    .Any(x => x.QuestionName == variableNode.VariableName);
+                var type = questionNodes
+                    .FirstOrDefault(x => x.QuestionName == variableNode.VariableName)
+                    ?.QuestionType;
 
-                if (!nameIsDefined)
+                if (type == null || type != typeof(bool))
                 {
-                    yield return new UndefinedVariableValidationMetaData
+                    yield return new BooleanConditionValidationMetaData
                     {
-                        Message = $"The variable '{variableNode.VariableName}' has not been defined",
-                        Source = m_domainItemLocator.GetRef<IVariableNode>(variableNode.Id)
+                        Message =
+                            $"The variable '{variableNode.VariableName}' is in a condition but is not a bool, it is '{type}'",
+                        Source = m_domainItemLocator.GetRef<IBooleanVariableNode>(variableNode.Id)
                     };
                 }
             }

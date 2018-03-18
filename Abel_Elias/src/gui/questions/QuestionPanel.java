@@ -1,7 +1,7 @@
 package gui.questions;
 
-import classes.Question;
-import classes.values.Value;
+import QL.classes.Question;
+import QL.classes.values.Value;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;

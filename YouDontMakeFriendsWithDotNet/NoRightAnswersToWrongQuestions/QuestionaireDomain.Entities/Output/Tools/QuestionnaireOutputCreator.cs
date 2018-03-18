@@ -18,13 +18,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             m_buildOutputVisitor = buildOutputVisitor;
             m_outputUpdater = outputUpdater;
         }
-
-        public bool Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode)
-        {
-            //ToDo Make this work
-            return true;
-        }
-
+        
         public void CreateOrUpdate(Reference<IQuestionnaireRootNode> questionnaireRootNode)
         {
             //if (m_outputUpdater.OutputExistsFor(questionnaireRootNode))

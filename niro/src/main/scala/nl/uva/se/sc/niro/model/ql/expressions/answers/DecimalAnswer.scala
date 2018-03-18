@@ -2,9 +2,9 @@ package nl.uva.se.sc.niro.model.ql.expressions.answers
 
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.BasicArithmetics.DecAnswerCanDoBasicArithmetics._
-import nl.uva.se.sc.niro.model.ql.expressions.Orderings.DecAnswerCanDoOrderings._
-import nl.uva.se.sc.niro.model.ql.expressions.MoneyArithmetics.MoneyCanDoArithmetics.{ times => moneyTimes }
 import nl.uva.se.sc.niro.model.ql.expressions.ImplicitConversions._
+import nl.uva.se.sc.niro.model.ql.expressions.MoneyArithmetics.MoneyCanDoArithmetics.{ times => moneyTimes }
+import nl.uva.se.sc.niro.model.ql.expressions.Orderings.DecAnswerCanDoOrderings._
 
 final case class DecimalAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 

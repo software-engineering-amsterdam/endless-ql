@@ -6,8 +6,9 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.{ Alert, ButtonType, Label }
-import javafx.scene.layout.{ BorderPane, VBox }
+import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
+import nl.uva.se.sc.niro.ExpressionEvaluator._
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.control.Component
 import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
@@ -18,7 +19,6 @@ import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer }
 import nl.uva.se.sc.niro.{ Evaluator, QLFormService }
 import org.apache.logging.log4j.scala.Logging
-import nl.uva.se.sc.niro.ExpressionEvaluator._
 
 import scala.collection.{ JavaConverters, mutable }
 

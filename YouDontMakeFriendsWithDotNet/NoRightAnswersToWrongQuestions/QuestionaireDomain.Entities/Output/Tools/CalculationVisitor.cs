@@ -14,9 +14,10 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             m_domainItemLocator = domainItemLocator;
         }
 
-        public decimal Calculate(Reference<ICalculationNode> calculation)
+        public decimal Calculate(
+            Reference<ICalculationNode> calculationNode)
         {
-            var node = m_domainItemLocator.Get<ICalculationNode>(calculation.Id);
+            var node = m_domainItemLocator.Get<ICalculationNode>(calculationNode.Id);
             dynamic d = node;
             return this.Evaluate(d);
         }

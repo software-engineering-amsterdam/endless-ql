@@ -48,6 +48,16 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitLineInBlock(QLSParser.LineInBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QLSParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestion(QLSParser.QuestionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestion(QLSParser.QuestionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QLSParser#section}.
 	 * @param ctx the parse tree
 	 */

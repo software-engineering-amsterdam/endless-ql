@@ -10,7 +10,10 @@ block : CURLY_BRACE_L  lineInBlock* CURLY_BRACE_R NEWLINE*;
 
 lineInBlock : section NEWLINE*
     | defaultWidget NEWLINE*
+    | question NEWLINE*
 ;
+
+question : QUESTION IDENTIFIER (widget)?;
 
 section : SECTION IDENTIFIER block;
 
@@ -66,6 +69,7 @@ PAGE : 'page';
 SECTION : 'section';
 DEFAULT : 'default';
 WIDGET : 'widget';
+QUESTION: 'question';
 
 CURLY_BRACE_L : '{';
 CURLY_BRACE_R: '}';

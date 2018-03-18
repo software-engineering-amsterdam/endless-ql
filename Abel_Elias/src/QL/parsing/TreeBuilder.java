@@ -1,5 +1,7 @@
 package QL.parsing;
 
+import QLS.parsing.gen.QLSLexer;
+import QLS.parsing.gen.QLSParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import QL.parsing.gen.QLLexer;
@@ -18,5 +20,15 @@ public class TreeBuilder {
 
         //Parse the tokens/tree
         QLParser parser = new QLParser(tokens);
-        return parser.form(); }
+        return parser.form();
+    }
+
+    public QLSParser.StylesheetContext buildQls(InputStream inputStream) throws IOException {
+        QLSLexer lexer = new QLSLexer(CharStreams.fromStream(inputStream));
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+        //Parse the tokens/tree
+        QLSParser parser = new QLSParser(tokens);
+        return parser.stylesheet();
+    }
 }

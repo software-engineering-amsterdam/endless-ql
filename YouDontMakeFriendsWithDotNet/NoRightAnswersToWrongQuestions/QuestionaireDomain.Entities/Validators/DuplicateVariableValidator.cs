@@ -4,6 +4,7 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
+using QuestionnaireDomain.Entities.Validators.MetaData;
 
 namespace QuestionnaireDomain.Entities.Validators
 {
@@ -11,33 +12,36 @@ namespace QuestionnaireDomain.Entities.Validators
     {
         private readonly IDomainItemLocator m_domainItemLocator;
 
-        public DuplicateVariableValidator(IDomainItemLocator domainItemLocator)
+        public DuplicateVariableValidator(
+            IDomainItemLocator domainItemLocator)
         {
             m_domainItemLocator = domainItemLocator;
         }
 
-        public IEnumerable<ValidationMetaData> Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode)
+        public IEnumerable<ValidationMetaData> Validate(
+            Reference<IQuestionnaireRootNode> questionnaireRootNode)
         {
-            var questions = m_domainItemLocator
-                .GetAll<IQuestionNode>();
-            var questionNodes = questions.ToList();
-            var questionNames = questionNodes
+            var questionNodes = m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .ToList();
+
+            var questionNameAndTypes = questionNodes
                 .Select(x => new { x.QuestionName, x.QuestionType})
                 .ToList();
+
             foreach (var questionNode in questionNodes)
             {
-                var mismatchCount = questionNames
+                var mismatchCount = questionNameAndTypes
                     .Count(x => 
                         x.QuestionName == questionNode.QuestionName 
                         && x.QuestionType != questionNode.QuestionType);
 
                 if (mismatchCount > 1)
                 {
-                    var validationData = new ValidationMetaData()
+                    var validationData = new DuplicateVariableValidationMetaData
                     {
-                        Source = new Reference<IQuestionNode>(questionNode.Id),
+                        Source = m_domainItemLocator.GetRef<IQuestionNode>(questionNode.Id),
                         Message = $@"The Question identifier '{questionNode.QuestionName}' is used multiple times with different types",
-                        Severity = Severity.Error
                     };
 
                     yield return validationData;

@@ -23,7 +23,7 @@ class Form:
         changed_question = self.find_question_of_widget(changed_widget)
 
         if changed_question:
-            changed_question.answer = changed_question.answer_type.get_literal_node(changed_question.answer_type(changed_question.widget.value()))
+            changed_question.answer = changed_question.answer_type.get_literal_node(changed_question.widget.value())
 
             # number_of_rows = window.form_group_box.layout().rowCount()
             #
@@ -35,7 +35,7 @@ class Form:
             for question in self.block:
                 result = question.evaluate_show_condition(self)
 
-                if result:
+                if result.value:
                     question.widget.show()
                     question.widget_label.show()
                 else:

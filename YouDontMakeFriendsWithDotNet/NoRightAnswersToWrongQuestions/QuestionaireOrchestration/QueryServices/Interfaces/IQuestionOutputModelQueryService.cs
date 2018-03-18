@@ -1,7 +1,7 @@
 ﻿using System;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 
-namespace QuestionaireOrchestration.QueryServices.Interfaces
+namespace QuestionnaireOrchestration.QueryServices.Interfaces
 {
     public interface IQuestionOutputModelQueryService : 
         IModelQueryService<QuestionOutputModel>

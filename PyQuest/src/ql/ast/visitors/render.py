@@ -3,6 +3,7 @@ from ql.ast.statements.if_node import IfNode
 from ql.ast.statements.question_node import QuestionNode
 from ql.ast.expressions.binary_operators.and_node import AndOperatorNode
 from ql.types.boolean import QLBoolean
+from ql.types.undefined import QLUndefined
 from ql.ast.visitors.visitor_helper import when, on
 from gui.model.form import Form
 
@@ -26,7 +27,7 @@ class Render:
     @when(IfNode)
     def visit(self, node):
         previous_condition = self.condition
-        self.condition = AndOperatorNode(None, QLBoolean, self.condition, node.condition, None)
+        self.condition = AndOperatorNode(None, QLBoolean, self.condition, node.condition, QLUndefined())
 
         for child in node.block:
             child.accept(self)

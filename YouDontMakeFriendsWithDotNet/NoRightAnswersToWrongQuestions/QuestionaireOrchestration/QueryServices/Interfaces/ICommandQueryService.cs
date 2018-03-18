@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QuestionaireOrchestration.QueryServices.Interfaces
+namespace QuestionnaireOrchestration.QueryServices.Interfaces
 {
     public interface ICommandQueryService
     {

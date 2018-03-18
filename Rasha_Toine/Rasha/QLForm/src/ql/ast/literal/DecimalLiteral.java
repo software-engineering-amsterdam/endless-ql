@@ -1,7 +1,5 @@
 package ql.ast.literal;
 
-import java.math.BigDecimal;
-
 import ql.visiting.LiteralVisitor;
 import ql.visiting.value.DecimalValue;
 
@@ -9,12 +7,9 @@ public class DecimalLiteral extends Literal{
 
     private DecimalValue value;
     
-    public DecimalLiteral(BigDecimal value) {
-    	this.value = new DecimalValue(value);
-    }
-    
+
     public DecimalLiteral(double value) {
-    	this.value = new DecimalValue(BigDecimal.valueOf(value));
+    	this.value = new DecimalValue(value);
     }
     
     @Override

@@ -47,8 +47,8 @@ class QLDate(QLType):
         return self.__year
 
     @staticmethod
-    def get_literal_node(value):
-        return DateNode(None, QLDate, value)
+    def get_literal_node(day=1, month=1, year=0):
+        return DateNode(None, QLDate, QLDate(day, month, year))
 
     @staticmethod
     def pyqt5_default_widget():

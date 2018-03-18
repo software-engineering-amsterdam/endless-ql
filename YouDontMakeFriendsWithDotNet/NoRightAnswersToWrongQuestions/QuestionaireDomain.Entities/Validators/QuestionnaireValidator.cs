@@ -3,6 +3,7 @@ using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
+using QuestionnaireDomain.Entities.Validators.MetaData;
 
 namespace QuestionnaireDomain.Entities.Validators
 {
@@ -15,9 +16,13 @@ namespace QuestionnaireDomain.Entities.Validators
             = new List<ValidationMetaData>();
 
         public QuestionnaireValidator(
-            IDuplicateVariableValidator duplicateVariableValidator)
+            IDuplicateVariableValidator duplicateVariableValidator,
+            IUndefinedVariableValidator undefinedVariableValidator,
+            IBooleanConditionValidator booleanConditionValidator)
         {
             m_validators.Add(duplicateVariableValidator);
+            m_validators.Add(undefinedVariableValidator);
+            m_validators.Add(booleanConditionValidator);
         }
         
         public void Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode)

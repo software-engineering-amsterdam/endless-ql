@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using QuestionaireOrchestration.Commands;
-using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.Commands;
+using QuestionnaireOrchestration.Models;
+using QuestionnaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireUI.Models;
 
 namespace SimpleWPFApp.DataProvider

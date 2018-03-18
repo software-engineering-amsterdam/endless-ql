@@ -1,11 +1,10 @@
 package org.uva.gui;
 
-import org.uva.ql.ast.Question;
-import org.uva.ql.evaluator.value.Value;
 import org.uva.gui.widgets.BooleanWidget;
 import org.uva.gui.widgets.IntegerWidget;
 import org.uva.gui.widgets.QuestionWidget;
-import org.uva.gui.widgets.StringWidget;
+import org.uva.ql.ast.Question;
+import org.uva.ql.evaluator.value.Value;
 import org.uva.qls.ast.Widget.WidgetTypes.*;
 import org.uva.qls.evaluator.StyleEvaluator;
 import org.uva.qls.visitor.WidgetTypeVisitor;

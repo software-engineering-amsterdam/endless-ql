@@ -4,7 +4,7 @@ public class NumberValue extends Value {
 
     private String value;
 
-    public NumberValue(String value){
+    public NumberValue(String value) {
         this.value = value;
     }
 

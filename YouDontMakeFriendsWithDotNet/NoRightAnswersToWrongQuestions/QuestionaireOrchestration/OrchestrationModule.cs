@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using QuestionaireOrchestration.CommandHandlers;
-using QuestionaireOrchestration.Commands;
-using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices;
-using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.CommandHandlers;
+using QuestionnaireOrchestration.Commands;
+using QuestionnaireOrchestration.Models;
+using QuestionnaireOrchestration.QueryServices;
+using QuestionnaireOrchestration.QueryServices.Interfaces;
 
-namespace QuestionaireOrchestration
+namespace QuestionnaireOrchestration
 {
     public class OrchestrationModule : IHasRegistrations
     {

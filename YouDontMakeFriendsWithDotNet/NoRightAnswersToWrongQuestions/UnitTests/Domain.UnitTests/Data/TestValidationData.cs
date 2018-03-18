@@ -38,5 +38,29 @@ namespace UnitTests.Domain.UnitTests.Data
                     @"form Matthew { x: ""i"" integer x: ""2"" integer x: ""3"" integer }");
             }
         }
+        
+        public static IEnumerable UndefinedVariable
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    @"form Luke { q: ""i"" integer=(pj+3)}",
+                    "The variable 'pj' has not been defined");
+
+                yield return new TestCaseData(
+                    @"form Mark { q: ""i"" integer if (j) { q2: ""i"" integer} }",
+                    "The variable 'j' has not been defined");
+            }
+        }
+
+        public static IEnumerable NonBooleanConditionVariable
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    @"form Phil { nb: ""i"" integer if (nb) { q2: ""i"" integer} }",
+                    "The variable 'nb' is in a condition but is not a bool, it is 'System.Int32'");
+            }
+        }
     }
 }

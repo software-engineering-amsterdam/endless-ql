@@ -30,6 +30,8 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IQuestionnaireAstCreator), typeof(QuestionnaireAstCreator));
             appRegistration.AddSingleton(typeof(IQuestionnaireValidator), typeof(QuestionnaireValidator));
             appRegistration.AddSingleton(typeof(IDuplicateVariableValidator), typeof(DuplicateVariableValidator));
+            appRegistration.AddSingleton(typeof(IUndefinedVariableValidator), typeof(UndefinedVariableValidator));
+            appRegistration.AddSingleton(typeof(IBooleanConditionValidator), typeof(BooleanConditionValidator));
         }
     }
 }

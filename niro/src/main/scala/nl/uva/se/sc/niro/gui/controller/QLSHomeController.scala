@@ -14,6 +14,7 @@ class QLSHomeController extends QLHomeController {
 
   @FXML
   override def openForm(event: ActionEvent): Unit = {
+    // TODO reuse code from QLHomeController??
     errorMessages.setVisible(false)
     val selectedFile: File = selectQLFile(getActiveStage)
     if (selectedFile != null) try {
@@ -23,7 +24,10 @@ class QLSHomeController extends QLHomeController {
           val stylesheetOrErrors: Either[Seq[Errors.Error], Option[QLStylesheet]] =
             QLStylesheetService.importQLStylesheetSpecification(form, new File(selectedFile.toString + "s"))
           stylesheetOrErrors match {
-            case Right(stylesheet) => showQLSForm(form, stylesheet)
+            case Right(stylesheet) => stylesheet match {
+              case Some(stylesheet) => showQLSForm(form, stylesheet)
+              case None             => showQLForm(form) // Fall back to pure QL
+            }
             case Left(errors)      => handleErrors(errors)
           }
         }
@@ -39,7 +43,7 @@ class QLSHomeController extends QLHomeController {
     }
   }
 
-  def showQLSForm(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
+  def showQLSForm(form: QLForm, stylesheet: QLStylesheet): Unit = {
     val formController = new QLSFormController()
     switchToScene(QLScenes.formScene, formController)
     formController.initializeForm(form, stylesheet)

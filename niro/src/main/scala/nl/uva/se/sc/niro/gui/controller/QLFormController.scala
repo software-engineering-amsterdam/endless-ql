@@ -34,6 +34,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
   @FXML protected var formName: Label = _
   @FXML protected var questionArea: VBox = _
   @FXML protected var bottomBox: VBox = _
+
   @FXML
   @throws[IOException]
   def cancel(event: ActionEvent): Unit =
@@ -62,6 +63,8 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
 
   def initializeForm(form: QLForm): Unit = {
     this.qlForm = form
+
+    getActiveStage.setTitle("QL forms")
 
     guiForm = ModelConverter.convert(this.qlForm)
     formName.setText(guiForm.name)

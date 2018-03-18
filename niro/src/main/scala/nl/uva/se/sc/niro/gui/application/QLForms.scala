@@ -9,13 +9,7 @@ import javafx.scene.layout.Pane
 import javafx.stage.Stage
 import nl.uva.se.sc.niro.gui.controller.{ QLBaseController, QLHomeController }
 
-object QLScenes {
-  def homeScene: String = "/nl/uva/se/sc/niro/gui/QLHome.fxml"
-  def formScene: String = "/nl/uva/se/sc/niro/gui/QLForm.fxml"
-}
-
 object QLForms {
-
   def main(args: Array[String]): Unit = Application.launch(classOf[QLForms], args: _*)
 }
 
@@ -36,4 +30,9 @@ class QLForms extends Application {
 
     stage.show()
   }
+}
+
+object QLScenes {
+  def homeScene: String = "/nl/uva/se/sc/niro/gui/QLHome.fxml"
+  def formScene: String = "/nl/uva/se/sc/niro/gui/QLForm.fxml"
 }

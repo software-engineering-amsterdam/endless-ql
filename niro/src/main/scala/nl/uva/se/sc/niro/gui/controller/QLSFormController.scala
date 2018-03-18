@@ -9,7 +9,7 @@ import javafx.scene.control.{ Button, Label }
 import javafx.scene.layout.BorderPane
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.converter.{ ModelConverter, StyleDecorator }
-import nl.uva.se.sc.niro.gui.factory.{ PageVisibilityFactory, QLComponentFactory }
+import nl.uva.se.sc.niro.gui.factory.{ PageVisibilityFactory, QLSComponentFactory }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.StringAnswer
 import nl.uva.se.sc.niro.model.qls.{ QLStylesheet, Question }
@@ -18,7 +18,7 @@ import nl.uva.se.sc.niro.util.StringUtil
 import scala.collection.JavaConverters
 
 class QLSFormController extends QLFormController {
-  private var stylesheet: Option[QLStylesheet] = None
+  private var stylesheet: QLStylesheet = _
   private var page: Int = 0
 
   val pageName: Label = new Label("Page Name")
@@ -36,10 +36,6 @@ class QLSFormController extends QLFormController {
     applyStylingToNavigationBar()
     // Place above existing buttons
     bottomBox.getChildren.add(0, navigationBar)
-
-    navigationBar.managedProperty().bind(navigationBar.visibleProperty())
-    pageName.visibleProperty().bind(navigationBar.visibleProperty())
-    pageName.managedProperty().bind(pageName.visibleProperty())
   }
 
   @FXML
@@ -56,7 +52,7 @@ class QLSFormController extends QLFormController {
 
   def nextPage(event: ActionEvent): Unit = {
     page += 1
-    next.setDisable(page >= stylesheet.map(_.pages.size).getOrElse(0) - 1)
+    next.setDisable(page >= stylesheet.pages.size - 1)
     previous.setDisable(false)
     updateView()
   }
@@ -79,21 +75,22 @@ class QLSFormController extends QLFormController {
     navigationBar.setPadding(new Insets(0.0, 10.0, 0.0, 10.0))
   }
 
-  def initializeForm(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
+  def initializeForm(form: QLForm, stylesheet: QLStylesheet): Unit = {
     this.qlForm = form
     this.stylesheet = stylesheet
 
+    getActiveStage.setTitle("QLS forms")
+
     guiForm = ModelConverter.convert(this.qlForm)
-    guiForm = stylesheet.map(stylesheet => StyleDecorator.applyStyle(guiForm, stylesheet)).getOrElse(guiForm)
+    guiForm = StyleDecorator.applyStyle(guiForm, stylesheet)
 
     formName.setText(guiForm.name)
-    questions = guiForm.questions.map(QLComponentFactory.make)
+    questions = guiForm.questions.map(QLSComponentFactory.make)
     questions.foreach(_.addComponentChangedListener(this))
 
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
 
-    navigationBar.setVisible(stylesheet.exists(_.pages.nonEmpty))
-    next.setDisable(stylesheet.map(_.pages.size).getOrElse(0) <= 1)
+    next.setDisable(stylesheet.pages.size <= 1)
 
     evaluateAnswers()
     updateView()
@@ -114,14 +111,11 @@ class QLSFormController extends QLFormController {
   }
 
   def getActivePageName: String = {
-    stylesheet.map(_.pages(page).name).getOrElse("")
+    stylesheet.pages(page).name
   }
 
   def updateOrder(): Unit = {
-    stylesheet.map(_.collectQuestionsForPage(getActivePageName)) match {
-      case Some(questionToReorder) => reorderComponents(questionToReorder)
-      case _                       => ()
-    }
+    reorderComponents(stylesheet.collectQuestionsForPage(getActivePageName))
   }
 
   def reorderComponents(orderedQuestions: Seq[Question]): Unit = {

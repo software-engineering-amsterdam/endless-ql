@@ -9,7 +9,7 @@ trait ComponentFactory {
   def make(question: GUIQuestion): Component[_]
 }
 
-object QLComponentFactory extends ComponentFactory {
+class QLComponentFactory extends ComponentFactory {
   def make(question: GUIQuestion): Component[_] = {
     val component = question.answerType match {
       case StringType =>
@@ -30,3 +30,9 @@ object QLComponentFactory extends ComponentFactory {
   }
 
 }
+
+class QLSComponentFactory extends QLComponentFactory {}
+
+object QLComponentFactory extends QLComponentFactory
+
+object QLSComponentFactory extends QLSComponentFactory

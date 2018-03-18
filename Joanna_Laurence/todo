@@ -21,6 +21,7 @@ Dependacy injection @ renderer
 
 QL - QLS in one tree? Or in renderer?
 TExt field for each type. DIsallow incorrect input.
+Change Q= in unit tests
 
 base type for renderer
 

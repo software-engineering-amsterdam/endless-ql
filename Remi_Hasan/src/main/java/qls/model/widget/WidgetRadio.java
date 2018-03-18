@@ -7,11 +7,13 @@ import java.util.List;
 
 public class WidgetRadio extends Widget {
 
-    private final List<String> options;
+    private final String trueLabel;
+    private final String falseLabel;
 
-    public WidgetRadio(Token token, List<String> options) {
+    public WidgetRadio(Token token, String trueLabel, String falseLabel) {
         super(token, WidgetType.RADIO);
-        this.options = options;
+        this.trueLabel = trueLabel;
+        this.falseLabel = falseLabel;
     }
 
     @Override

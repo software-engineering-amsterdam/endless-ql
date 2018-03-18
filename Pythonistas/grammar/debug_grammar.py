@@ -2,8 +2,8 @@ import antlr4
 import re
 import io
 import sys
-from contextlib import redirect_stdout
 
+from grammar.run_antlr import MyErrorListener
 from parser_generator.grammar.QLLexer import QLLexer
 from parser_generator.grammar.QLParser import QLParser
 from commons.utility import open_file
@@ -23,9 +23,11 @@ class GrammarDebugger:
         self.print_tokens(tokens)
 
         parser = QLParser(tokens)
-        tree, errors = self.print_tree(parser)
+        parser._listeners = [MyErrorListener()]
 
-        return tree, errors
+        tree = self.print_tree(parser)
+
+        return tree
 
     def print_tokens(self, tokens):
         """ Prints token stream """
@@ -60,7 +62,7 @@ class GrammarDebugger:
                 string += char
         print(string)
 
-        return tree, tree
+        return tree
 
     def get_token_types(self):
         """ Gets token types corrensponding with lexer grammar """

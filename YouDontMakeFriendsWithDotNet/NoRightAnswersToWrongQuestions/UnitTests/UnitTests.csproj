@@ -164,6 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppTests\SimpleWPFAppUnitTests\MainViewModelTests.cs" />
+    <Compile Include="Domain.UnitTests\Data\TestValidationData.cs" />
+    <Compile Include="Domain.UnitTests\Tests\ValidatorUnitTest.cs" />
     <Compile Include="Domain.UnitTests\Utilities\BooleanOperatorCount.cs" />
     <Compile Include="Domain.UnitTests\Tests\CreateModelTests.cs" />
     <Compile Include="Domain.UnitTests\Tests\CreateAstTests.cs" />

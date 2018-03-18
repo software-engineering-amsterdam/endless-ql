@@ -5,11 +5,10 @@ import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 public class IntValue extends Value {
-    private int intValue;
+    private final int intValue;
 
     public IntValue(String value) {
-        if (!value.isEmpty())
-            this.intValue = Integer.parseInt(value);
+        this.intValue = Integer.parseInt(value);
     }
 
     public IntValue(int intValue) {

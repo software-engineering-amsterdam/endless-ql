@@ -54,6 +54,6 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
 
     @Override
     public QuestionWidget visit(TextType textType, Question question, Value value, Boolean readOnly) {
-        return new StringWidget(question, value, readOnly);
+        return new IntegerWidget(question, value, readOnly);
     }
 }

@@ -70,6 +70,7 @@ namespace UnitTests.UI.UnitTests
             Assert.AreEqual(
                 expected: m_questionnaire.Questions.Count,
                 actual: wrapper.Questions.Count);
+
             Assert.IsTrue(m_questionnaire.Questions.All(
                 q => wrapper.Questions.Any(wq => wq.Model == q)));
         }

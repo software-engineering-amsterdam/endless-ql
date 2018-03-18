@@ -102,7 +102,6 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      *
      * @param question Question node
      * @return Style for the widget
-     * @throws InterruptedException
      */
     private Style getQuestionStyle(Question question, NodeType nodeType) {
         Style style = new Style();

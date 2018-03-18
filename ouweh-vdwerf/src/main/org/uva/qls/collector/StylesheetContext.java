@@ -1,5 +1,6 @@
 package org.uva.qls.collector;
 
+import org.uva.ql.ast.Question;
 import org.uva.qls.ast.Segment.Page;
 import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.ast.Segment.Section;
@@ -7,23 +8,21 @@ import org.uva.qls.ast.Segment.Segment;
 import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.visitor.SegmentVisitor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class StylesheetContext implements SegmentVisitor<Segment> {
 
-    private final HashMap<String, Section> sections = new HashMap<>();
-    private final HashMap<String, QuestionReference> questions = new HashMap<>();
-    private final HashMap<String, Page> pages = new HashMap<>();
-    private final HashMap<String, Segment> parents = new HashMap<>();
+    private final HashMap<String, Section> sections = new LinkedHashMap<>();
+    private final HashMap<String, QuestionReference> questions = new LinkedHashMap<>();
+    private final HashMap<String, Page> pages = new LinkedHashMap<>();
+    private final HashMap<String, Segment> parents = new LinkedHashMap<>();
 
     private final Stylesheet stylesheet;
 
     public StylesheetContext(Stylesheet stylesheet) {
         this.stylesheet = stylesheet;
 
-
+        stylesheet.accept(this, null);
     }
 
     public List<QuestionReference> getQuestions() {
@@ -32,6 +31,15 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
 
     public List<Page> getPages() {
         return new ArrayList<>(pages.values());
+    }
+
+    public Segment getPage(Question question) {
+        for (Segment parent : getAllParents("Question."+question.getId())) {
+            if (pages.containsKey(parent.getId())) {
+                return pages.get(parent.getId());
+            }
+        }
+        return null;
     }
 
     public List<Section> getSections() {
@@ -45,11 +53,26 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
         return null;
     }
 
+    public List<Segment> getAllParents(String segmentId){
+        List<Segment> segments = new ArrayList<>();
+        if (parents.containsKey(segmentId)){
+            Segment parent = parents.get(segmentId);
+            segments.add(parent);
+            segments.addAll(getAllParents(parent.getId()));
+            return segments;
+        }
+        return segments;
+    }
+
     public QuestionReference getQuestion(String questionId) {
         if (questions.containsKey(questionId)){
             return questions.get(questionId);
         }
         return null;
+    }
+
+    public QuestionReference getQuestionReference(Question question){
+        return getQuestion("Question."+question.getId());
     }
 
 
@@ -74,7 +97,6 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     @Override
     public Segment visit(Page page, Segment parent) {
         pages.put(page.getId(), page);
-        parents.put(page.getId(), parent);
 
         for (Segment segment : page.getSegments()) {
             segment.accept(this, page);
@@ -86,7 +108,7 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     @Override
     public Segment visit(Stylesheet stylesheet) {
         for (Page page : stylesheet.getPages()){
-            page.accept(this, null);
+            page.accept(this, stylesheet);
         }
         return stylesheet;
     }

@@ -1,8 +1,10 @@
 parser grammar QLS;
 
 @header {
-using Assignment1.Model.QLS;
-using System.Drawing;
+using Type = Assignment1.Model.QL.AST.Type;
+using Assignment1.Model.QLS.AST;
+using Assignment1.Model.QLS.AST.Style;
+using Assignment1.Model.QLS.AST.Style.Widget;
 }
 
 @parser::members
@@ -12,93 +14,92 @@ using System.Drawing;
 
 options { tokenVocab=QLSLexer; }
 
-// Add instructions to generate appropriate classes
-
-stylesheet returns [Stylesheet result]
+stylesheet returns [StyleSheet result]
+	: STYLESHEET ID OPEN_CB pages CLOSE_CB
+		{$result = new StyleSheet($pages.result);}
+	;
+pages returns [List<Page> result]
 	@init {
-	$result = new Stylesheet();
+	$result = new List<Page>();
 	}
-	: STYLESHEET ID OPEN_CB (page
-		{$result.Pages.Add($page.result);}
-		)+ CLOSE_CB
+	: page
+		{$result.Add($page.result);}
 	;
 page returns [Page result]
+	: PAGE ID statements
+		{$result = new Page($ID.text, $statements.result);}
+	;
+statements returns [List<Statement> result]
 	@init {
-	$result = new Page();
+	$result = new List<Statement>();
 	}
-	: PAGE ID OPEN_CB (section
-			{$result.Sections.Add($section.result);})*
-		(default_style
-			{})*
-		CLOSE_CB
-		{$result.Id = $ID.text;}
+	: OPEN_CB statements CLOSE_CB
+		{$result.AddRange($statements.result);}
+	| section
+		{$result.Add($section.result);}
+	| questionStyle
+		{$result.Add($questionStyle.result);}
+	| defaultStyle
+		{$result.Add($defaultStyle.result);}
 	;
 section returns [Section result]
-	@init {
-	$result = new Section();
-	}
-	: SECTION string questionStyle	//TODO: Check if this case is mandatory
-		{$result.Contents.Add($questionStyle.result);}
-	| SECTION string OPEN_CB (content
-			{$result.Contents.Add($content.result);})*
-		(default_style
-			{})*
-		CLOSE_CB
-		{$result.Label = $string.result;}
-	;
-content returns [IContent result]
-	: section
-		{$result = $section.result;}
-	| questionStyle
-		{$result = $questionStyle.result;}
+	: SECTION string statements
+		{$result = new Section($string.result, $statements.result);}
 	;
 questionStyle returns [QuestionStyle result]
-	: QUESTION ID widget
-		{$result = new QuestionStyle($ID.text);
-		$result.Style.Widget = $widget.result;}
-	| QUESTION ID OPEN_CB style CLOSE_CB
-		{$result = new QuestionStyle($ID.text);
-		 $result.Style = $style.result;}
+	: QUESTION ID styles
+		{$result = new QuestionStyle($ID.text, $styles.result);}
 	| QUESTION ID
 		{$result = new QuestionStyle($ID.text);}
 	;
-style returns [Style result]
-	: (WIDTH SEP NUMBER
-		{$result.Width = int.Parse($NUMBER.text);}
-	| FONT SEP string
-		{$result.Label = $string.result;}
-	| FONTSIZE SEP NUMBER
-		{$result.FontSize = float.Parse($NUMBER.text);}
+styles returns [List<IStyle> result]
+	@init {
+	$result = new List<IStyle>();
+	}
+	: OPEN_CB styles CLOSE_CB
+		{$result = $styles.result;}
 	| COLOR SEP HEXCOLORCODE
-		{$result.Color = ColorTranslator.FromHtml($HEXCOLORCODE.text);}
-	| widget	//TODO: Check if widget should have seperator too
-		{$result.Widget = $widget.result;})*
+		{$result.Add(new Color(System.Drawing.ColorTranslator.FromHtml($HEXCOLORCODE.text)));}
+	| FONT SEP string
+		{$result.Add(new Font($string.result));}
+	| FONTSIZE SEP NUMBER
+		{$result.Add(new FontSize(int.Parse($NUMBER.text)));}
+	| WIDTH SEP NUMBER
+		{$result.Add(new Width(int.Parse($NUMBER.text)));}
+	| widget
+		{$result.Add($widget.result);}
 	;
-widget returns [Widget result]
+widget returns [IWidget result]
 	: WIDGET CHECKBOX
-		{$result = new CheckBoxWidget();}
-	| WIDGET RADIO OPEN_BR yes=string COMMA no=string CLOSE_BR
-		{$result = new RadioWidget($yes.result, $no.result);}
-	| WIDGET SLIDER
-		{$result = new SliderWidget();}
-	| WIDGET SPINBOX
-		{$result = new SpinBoxWidget();}
-	| WIDGET TEXTBOX
-		{$result = new TextBoxWidget();}
+		{$result = new CheckBox();}
 	| WIDGET DROPDOWN OPEN_BR yes=string COMMA no=string CLOSE_BR
-		{$result = new DropDownWidget($yes.result, $no.result);}
+		{$result = new DropDown($yes.result, $no.result);}
+	| WIDGET RADIO OPEN_BR yes=string COMMA no=string CLOSE_BR
+		{$result = new Radio($yes.result, $no.result);}
+	| WIDGET SLIDER
+		{$result = new Slider();}
+	| WIDGET SPINBOX
+		{$result = new SpinBox();}
+	| WIDGET TEXTBOX
+		{$result = new TextBox();}
 	;
-default_style
-	: DEFAULT type OPEN_CB style CLOSE_CB
-	| DEFAULT type widget
+defaultStyle returns [DefaultStyle result]
+	: DEFAULT type styles
+		{$result = new DefaultStyle($type.result, $styles.result);}
 	;
-type
+type returns [Type result]
 	: BOOLEAN_TYPE
-	| DATE_TYPE
-	| DECIMAL_TYPE
+		{$result = Type.Boolean;}
 	| INTEGER_TYPE
+		{$result = Type.Integer;}
+	| DATE_TYPE
+		{$result = Type.Date;}
+	| DECIMAL_TYPE
+		{$result = Type.Decimal;}
 	| MONEY_TYPE
+		{$result = Type.Money;}
 	| STRING_TYPE
+		{$result = Type.String;}
 	;
 string returns [string result]
 	: STRING

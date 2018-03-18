@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 public abstract class Checker {
 
-    public Logger logger;
+    protected Logger logger;
 
     protected Checker() {
         this.logger = Logger.getGlobal();

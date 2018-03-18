@@ -13,12 +13,20 @@ import java.util.Map;
 
 public class TypeChecker {
 
-    public void typeCheck(Form form, StyleSheet styleSheet) {
+    private final Form form;
+    private final StyleSheet styleSheet;
+
+    public TypeChecker(Form form, StyleSheet styleSheet) {
+        this.form = form;
+        this.styleSheet = styleSheet;
+    }
+
+    public void typeCheck() {
         // Get question types
-        Map<String, ReturnType> formQuestionTypes = getFormQuestionTypes(form);
+        Map<String, ReturnType> formQuestionTypes = getFormQuestionTypes(this.form);
 
         // Compare to QLS question widget types
-        styleSheet.accept(new QLSVisitor<Void>() {
+        this.styleSheet.accept(new QLSVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 typeCheckQuestion(question, formQuestionTypes);

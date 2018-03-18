@@ -16,7 +16,7 @@ public class QuestionDependencyData {
 	private Map<String, QuestionDependency> dependencyMap; // <id, dependency>
   
 	public QuestionDependencyData() {
-		this.dependencyMap = new HashMap<>(); // empty map at the beginning
+		dependencyMap = new HashMap<>(); // empty map at the beginning
 	}
 
 	public Set<QuestionDependency> getDependencies() {

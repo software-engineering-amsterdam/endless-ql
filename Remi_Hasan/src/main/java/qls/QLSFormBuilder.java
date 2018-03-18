@@ -42,7 +42,7 @@ public class QLSFormBuilder {
         VisitorStyleSheet visitor = new VisitorStyleSheet();
         StyleSheet styleSheet = visitor.visit(parser.root());
 
-        // TODO: remove
+        // TODO: remove debugging tree
         //parser.reset();
         //Trees.inspect(parser.root(), parser);
 
@@ -51,13 +51,13 @@ public class QLSFormBuilder {
         System.out.println(gson.toJson(styleSheet));
 
         // Analysis
-        QuestionAnalyzer questionAnalyzer = new QuestionAnalyzer();
-        questionAnalyzer.detectDuplicateQuestions(styleSheet);
-        questionAnalyzer.detectUnknownQuestions(this.qlForm, styleSheet);
-        questionAnalyzer.detectUnplacedQuestions(this.qlForm, styleSheet);
+        QuestionAnalyzer questionAnalyzer = new QuestionAnalyzer(this.qlForm, styleSheet);
+        questionAnalyzer.detectDuplicateQuestions();
+        questionAnalyzer.detectUnknownQuestions();
+        questionAnalyzer.detectUnplacedQuestions();
 
-        TypeChecker typeChecker = new TypeChecker();
-        typeChecker.typeCheck(this.qlForm, styleSheet);
+        TypeChecker typeChecker = new TypeChecker(this.qlForm, styleSheet);
+        typeChecker.typeCheck();
 
         return styleSheet;
     }

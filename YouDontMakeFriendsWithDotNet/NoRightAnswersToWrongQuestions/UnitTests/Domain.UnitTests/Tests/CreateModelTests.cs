@@ -276,7 +276,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .Select(x => new Reference<IQuestionNode>(x.Id))
                 .FirstOrDefault();
 
-            m_variableUpdater.Update(questionItem, value.ToString(CultureInfo.InvariantCulture));
+            m_variableUpdater.Update(questionItem, value);
         }
 
 
@@ -292,7 +292,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .Select(x => new Reference<IQuestionNode>(x.Id))
                 .FirstOrDefault();
 
-            m_variableUpdater.Update(questionItem, value.ToString(CultureInfo.InvariantCulture));
+            m_variableUpdater.Update(questionItem, value);
         }
 
 
@@ -310,7 +310,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .Select(x => new Reference<IQuestionNode>(x.Id))
                 .FirstOrDefault();
 
-            m_variableUpdater.Update(questionItem, value.ToString(CultureInfo.InvariantCulture));
+            m_variableUpdater.Update(questionItem, value);
         }
 
         private void CreateForm(string validText)
@@ -326,10 +326,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             foreach (var questionnaireRootNode in questionnaireNodes)
             {
                 var questionnaireRef = new Reference<IQuestionnaireRootNode>(questionnaireRootNode.Id);
-                if (m_outputCreator.Validate(questionnaireRef))
-                {
-                    m_outputCreator.CreateOrUpdate(questionnaireRef);
-                }
+                m_outputCreator.CreateOrUpdate(questionnaireRef);
             }
         }
     }

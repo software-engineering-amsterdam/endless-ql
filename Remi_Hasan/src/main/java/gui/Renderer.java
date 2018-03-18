@@ -49,13 +49,13 @@ public class Renderer extends Application {
             return;
         }
 
-        buildQuestions(qlForm, primaryStage);
+        buildQuestions(primaryStage);
 
         primaryStage.show();
     }
 
-    private void buildQuestions(Form form, Stage stage) {
-        GUIForm guiForm = new GUIForm(symbolTable, form);
+    private void buildQuestions(Stage stage) {
+        GUIForm guiForm = new GUIForm(symbolTable, qlForm, qlsStyleSheet);
 
         Scene scene = new Scene(guiForm);
         stage.setTitle(qlForm.identifier + " form");

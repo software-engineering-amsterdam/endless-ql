@@ -7,12 +7,10 @@ import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.gui.widgets.QuestionWidget;
 import org.uva.app.LogHandler;
+import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.evaluator.StyleEvaluator;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,6 +28,9 @@ public class GUIHandler {
     private QuestionChangeListener questionChangeListener;
     private ExpressionEvaluator expressionEvaluator;
 
+    private Question lastChangedQuestion = null;
+    private JTabbedPane tabbedPane = null;
+
     public GUIHandler(FormEvaluator formEvaluator, StyleEvaluator styleEvaluator) {
         this.formEvaluator = formEvaluator;
         this.styleEvaluator = styleEvaluator;
@@ -46,38 +47,52 @@ public class GUIHandler {
         generateGUI();
     }
 
-    public void onQuestionChange(String id, Value value) {
-        formEvaluator.addOrUpdateValue(id, value);
+    public void onQuestionChange(Question question, Value value) {
+        formEvaluator.addOrUpdateValue(question.getId(), value);
+        this.lastChangedQuestion = question;
         generateGUI();
     }
 
     private void generateGUI() {
         frame.getContentPane().removeAll();
 
-
-        frame.add(styleEvaluator.getPages());
-        // TODO build pages and sections
+        styleEvaluator.generateSections();
 
         WidgetFactory widgetFactory = new WidgetFactory(this.questionChangeListener, this.styleEvaluator);
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
 
         for (Question question : formEvaluator.getQuestionsAsList()) {
+            QuestionReference reference = styleEvaluator.getQuestionReference(question);
             Value value = formEvaluator.getValueById(question.getId());
-            QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
-            // TODO apply styling to widget
 
+            // TODO apply styling to widget
+            QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
+
+            this.styleEvaluator.setWidget(reference, widget);
+
+            Boolean condition = true;
             if (formEvaluator.questionHasCondition(question)) {
-                BooleanValue expressionValue = (BooleanValue) this.expressionEvaluator.evaluateExpression(
+                condition = ((BooleanValue)this.expressionEvaluator.evaluateExpression(
                         question.getId(),
                         this.formEvaluator.getConditionById(question.toString()),
-                        this.formEvaluator.getValueTable()
-                );
-                widget.setVisible(expressionValue.getValue());
+                        this.formEvaluator.getValueTable()))
+                        .getValue();
             }
-            //TODO add to correct section
-            frame.add(widget);
+            if(condition) {
+                this.styleEvaluator.setVisible(reference);
+            }
         }
+        this.tabbedPane = new JTabbedPane();
+        frame.add(styleEvaluator.getLayout(this.tabbedPane));
+
+        setFocus(this.lastChangedQuestion);
         frame.setVisible(true);
+    }
+
+    private void setFocus(Question question){
+        if (question != null) {
+            this.tabbedPane.setSelectedComponent(this.styleEvaluator.getPage(question));
+        }
     }
 
     private void initializeFrame() {
@@ -100,16 +115,6 @@ public class GUIHandler {
         }
     }
 
-    protected JComponent makeTextPanel(String text) {
-        JPanel panel = new JPanel(false);
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(Color.CYAN);
 
-        TitledBorder border = BorderFactory.createTitledBorder(text);
-        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 5);
-        border.setBorder(lineBorder);
-        panel.setBorder(border);
-        return panel;
-    }
 
 }

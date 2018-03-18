@@ -22,7 +22,7 @@ public class Stylesheet extends Segment {
 
     @Override
     public String getId() {
-        return id;
+        return "Stylesheet."+id;
     }
 
     @Override

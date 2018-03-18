@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
 namespace UnitTests.UI.UnitTests
@@ -18,7 +18,7 @@ namespace UnitTests.UI.UnitTests
         {
             m_questionnaire = new QuestionnaireModel(
                 new Guid("E746E1F1-0A3A-400E-9824-C28427D51CD6"),
-                "TestQuestionaire");
+                "TestQuestionnaire");
 
             m_inputQuestion1 = new QuestionModel(
                 new Guid("40E98F85-949C-48F0-8194-CECEEBD0177F"),
@@ -70,6 +70,7 @@ namespace UnitTests.UI.UnitTests
             Assert.AreEqual(
                 expected: m_questionnaire.Questions.Count,
                 actual: wrapper.Questions.Count);
+
             Assert.IsTrue(m_questionnaire.Questions.All(
                 q => wrapper.Questions.Any(wq => wq.Model == q)));
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+﻿using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Domain.Interfaces
 {

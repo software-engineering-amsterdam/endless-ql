@@ -35,13 +35,13 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
 
         public Reference<IQuestionnaireRootNode> CreateQuestionnaire(
             string definition,
-            string questionaireName,
+            string questionnaireName,
             IEnumerable<Reference<IStatementNode>> statements)
         {
             var questionnaire = new QuestionnaireRootNode(
                 m_ids.Next,
                 definition,
-                questionaireName,
+                questionnaireName,
                 statements);
 
             return DomainItemRegistration<IQuestionnaireRootNode>(questionnaire);

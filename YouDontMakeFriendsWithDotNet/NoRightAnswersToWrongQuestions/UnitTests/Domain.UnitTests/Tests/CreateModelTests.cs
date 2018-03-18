@@ -326,10 +326,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             foreach (var questionnaireRootNode in questionnaireNodes)
             {
                 var questionnaireRef = new Reference<IQuestionnaireRootNode>(questionnaireRootNode.Id);
-                if (m_outputCreator.Validate(questionnaireRef))
-                {
-                    m_outputCreator.CreateOrUpdate(questionnaireRef);
-                }
+                m_outputCreator.CreateOrUpdate(questionnaireRef);
             }
         }
     }

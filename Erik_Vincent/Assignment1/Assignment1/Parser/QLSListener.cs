@@ -6,19 +6,20 @@ using System.Threading.Tasks;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Assignment1.Model.QLS;
+using Assignment1.Model.QLS.AST;
 
 namespace Assignment1.Parser
 {
     internal class QLSListener : QLSBaseListener
     {
-        private Stylesheet _stylesheet;
+        private StyleSheet _styleSheet;
 
         public override void ExitStylesheet(QLS.StylesheetContext context)
         {
-            _stylesheet = context.result;
+            _styleSheet = context.result;
         }
 
-        internal static Stylesheet ParseString(string input)
+        internal static StyleSheet ParseString(string input)
         {
             QLSListener listener = new QLSListener();
             ICharStream stream = CharStreams.fromstring(input);
@@ -28,7 +29,7 @@ namespace Assignment1.Parser
             QLS.StylesheetContext context = parser.stylesheet();
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.Walk(listener, context);
-            return listener._stylesheet;
+            return listener._styleSheet;
         }
     }
 }

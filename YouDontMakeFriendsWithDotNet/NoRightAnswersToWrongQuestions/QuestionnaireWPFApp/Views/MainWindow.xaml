@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Margin="10" FontSize="40" Grid.ColumnSpan="3">
-            <Bold Foreground="Red">Questionaires</Bold>
+            <Bold Foreground="Red">Questionnaires</Bold>
         </TextBlock>
 
         <StackPanel Background="Azure" Grid.Row="1" Orientation="Horizontal">
@@ -44,7 +44,7 @@
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="TODO: Bind to questionaire Name" />
+                        <TextBlock Text="TODO: Bind to questionnaire Name" />
                         <Button Content="X"
                                 Foreground="White" Padding="0" />
                     </StackPanel>

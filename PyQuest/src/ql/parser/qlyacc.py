@@ -1,6 +1,5 @@
 from ply.yacc import yacc
 from ql.parser import qllex
-
 from ql.ast.position import Position
 from ql.ast.expressions.variable_node import VariableNode
 from ql.ast.expressions.binary_operators.addition_node import AdditionOperatorNode
@@ -15,6 +14,7 @@ from ql.ast.expressions.binary_operators.multiplication_node import Multiplicati
 from ql.ast.expressions.binary_operators.not_equals_node import NotEqualsOperatorNode
 from ql.ast.expressions.binary_operators.or_node import OrOperatorNode
 from ql.ast.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
+from ql.ast.expressions.literals.boolean_node import BooleanNode
 from ql.ast.expressions.literals.integer_node import IntegerNode
 from ql.ast.expressions.literals.decimal_node import DecimalNode
 from ql.ast.expressions.literals.undefined_node import UndefinedNode
@@ -77,7 +77,8 @@ class QLParser:
     @staticmethod
     def p_question(p):
         """question : QUESTION VAR COLON type"""
-        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], UndefinedNode(None, QLUndefined, None), False)
+        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4],
+                            UndefinedNode(None, QLUndefined, None), False)
 
     @staticmethod
     def p_question_computed(p):
@@ -184,12 +185,18 @@ class QLParser:
 
     # Literals
     @staticmethod
-    def p_number(p):
+    def p_boolean_literal(p):
+        """expression   : FALSE
+                        | TRUE"""
+        p[0] = BooleanNode(Position(p.lineno(1), p.lexpos(1)), QLBoolean, p[1])
+
+    @staticmethod
+    def p_integer_literal(p):
         """expression : NUMBER"""
         p[0] = IntegerNode(Position(p.lineno(1), p.lexpos(1)), QLInteger, p[1])
 
     @staticmethod
-    def p_float(p):
+    def p_decimal_literal(p):
         """expression : FLOAT"""
         p[0] = DecimalNode(Position(p.lineno(1), p.lexpos(1)), QLDecimal, p[1])
 

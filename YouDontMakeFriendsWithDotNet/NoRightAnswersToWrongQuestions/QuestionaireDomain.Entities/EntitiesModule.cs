@@ -5,6 +5,8 @@ using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
+using QuestionnaireDomain.Entities.Validators;
+using QuestionnaireDomain.Entities.Validators.Interfaces;
 using QuestionnaireInfrastructure.API;
 
 namespace QuestionnaireDomain.Entities
@@ -13,6 +15,7 @@ namespace QuestionnaireDomain.Entities
     {
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
+            // ToDo: make sure each service has appropriate lifetime 
             appRegistration.AddSingleton(typeof(IAstFactory), typeof(AstFactory));
             appRegistration.AddSingleton(typeof(IOutputItemFactory), typeof(OutputItemFactory));
             appRegistration.AddSingleton(typeof(IDomainItemRegistry), typeof(DomainItemRegistry));
@@ -25,6 +28,10 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IQuestionnaireOutputCreator), typeof(QuestionnaireOutputCreator));
             appRegistration.AddSingleton(typeof(IQuestionnaireOutputUpdater), typeof(QuestionnaireOutputUpdater));
             appRegistration.AddSingleton(typeof(IQuestionnaireAstCreator), typeof(QuestionnaireAstCreator));
+            appRegistration.AddSingleton(typeof(IQuestionnaireValidator), typeof(QuestionnaireValidator));
+            appRegistration.AddSingleton(typeof(IDuplicateVariableValidator), typeof(DuplicateVariableValidator));
+            appRegistration.AddSingleton(typeof(IUndefinedVariableValidator), typeof(UndefinedVariableValidator));
+            appRegistration.AddSingleton(typeof(IBooleanConditionValidator), typeof(BooleanConditionValidator));
         }
     }
 }

@@ -9,7 +9,6 @@ namespace QuestionnaireWPFApp.ViewModels
     public class ResponseNavigationItemViewModel
     {
         private readonly IEventAggregator m_eventAggregator;
-        private string m_displayValue;
 
         public Guid QuestionnaireId { get; }
         public string DisplayValue { get; }

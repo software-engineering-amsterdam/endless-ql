@@ -1,5 +1,5 @@
 ﻿using System;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 
 namespace QuestionnaireUI.Models
 {

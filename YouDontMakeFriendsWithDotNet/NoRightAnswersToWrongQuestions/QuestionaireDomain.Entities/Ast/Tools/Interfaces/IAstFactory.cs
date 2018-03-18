@@ -13,7 +13,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools.Interfaces
     {
         Reference<IQuestionnaireRootNode> CreateQuestionnaire(
             string definition,
-            string questionaireName,
+            string questionnaireName,
             IEnumerable<Reference<IStatementNode>> statements);
 
         Reference<IConditionalStatementNode> CreateConditional(

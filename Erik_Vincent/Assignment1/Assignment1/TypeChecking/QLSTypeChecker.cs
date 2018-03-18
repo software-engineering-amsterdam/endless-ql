@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment1.Model.QL;
-using Assignment1.Model.QLS;
+﻿using Assignment1.Model.QL;
+using Assignment1.Model.QLS.AST;
 
 namespace Assignment1.TypeChecking
 {
-    public class QLSTypeChecker : IContentVisitor
+    public class QLSTypeChecker
     {
-        public void CheckStylesheet(Stylesheet stylesheet, QuestionForm questionForm)
+        public void CheckStylesheet(StyleSheet styleSheet, QuestionForm questionForm)
         {
-            stylesheet.Pages.ForEach(page => page.Sections.ForEach(Visit));
+            
         }
 
         public void Visit(Section section)
         {
-            section.Contents.ForEach(content => content.Accept(this));
+            
         }
 
-        public void Visit(QuestionStyle question)
+        public void Visit(QuestionStyle questionStyle)
         {
-            Console.WriteLine(question.Id);
+            
         }
     }
 }

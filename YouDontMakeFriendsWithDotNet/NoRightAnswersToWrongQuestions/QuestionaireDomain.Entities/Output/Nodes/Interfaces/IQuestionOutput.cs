@@ -4,8 +4,6 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
 {
-    //ToDo: fix this to the available types (in the class)
-
     public interface IQuestionOutputItem : IOutputItem
     {
         Reference<IQuestionNode> Variable { get; }
@@ -13,6 +11,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
         bool Visible { get; set; }
         bool ReadOnly { get; }
         Type QuestionType { get; }
+        // ToDo: should this be dynamic?
         string Value { get; set; }
     }
 }

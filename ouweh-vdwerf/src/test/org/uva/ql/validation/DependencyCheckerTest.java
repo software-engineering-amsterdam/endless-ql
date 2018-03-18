@@ -26,6 +26,14 @@ public class DependencyCheckerTest {
     }
 
     @Test
+    public void runCheckTestInput() {
+
+        
+
+        //TODO
+    }
+
+    @Test
     public void runCheckSelfDependant() {
         Map<String, List<Parameter>> expressions = new HashMap<>();
         List<Parameter> parameters;

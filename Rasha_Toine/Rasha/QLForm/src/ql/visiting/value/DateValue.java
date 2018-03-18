@@ -1,5 +1,8 @@
 package ql.visiting.value;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateValue extends AbstractValue {
@@ -148,10 +151,14 @@ public class DateValue extends AbstractValue {
 	
 	@Override
 	public Value translate(String str) {
-		if (Date.parse(str) != 0) 
-			return new DateValue(new Date(str));
-		else 
-			throw new IllegalArgumentException(str);
+		DateFormat format = new SimpleDateFormat("dd-mm-yyyy");
+		Date date = null;
+		try {
+			date = format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return new DateValue(date);
 	}
 
 	

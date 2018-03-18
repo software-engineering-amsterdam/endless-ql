@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ql.ast.AstNode;
+import ql.ast.statement.Question;
 import qls.visiting.ItemVisitor;
 import qls.ast.rule.*;
+import ql.gui.QuestionGUI;
 
 public class Section extends AstNode {
 	
@@ -27,5 +29,33 @@ public class Section extends AstNode {
 	public List<Item> getItems() {
 		return Collections.unmodifiableList(items);
 	}
+	
+	public QuestionItem getQuestionItem(Question question) {
+		for (QuestionItem item : getQuestionItems()) {
+			//match identifiers between ql question and qls question-item
+			if (item.getIdentifier().equals(question.getIdentifier().toString())) {
+				return item;
+			}
+		}
+		return null;
+	}
 
+	private List<QuestionItem> getQuestionItems() {
+		List<QuestionItem> questionItems = new ArrayList<>();
+		for (Item item : items) {
+			item.accept(new ItemVisitor<Void, Void>(){
+				@Override
+				public Void visit(TypeItem item, Void ctx) {
+					return null;
+				}
+				@Override
+				public Void visit(QuestionItem item, Void ctx) {
+					questionItems.add(item);
+					return null;
+				}
+			},
+			null);
+		}
+		return questionItems;
+	}
 }

@@ -10,7 +10,7 @@ import org.uva.qls.parsing.ParseTreeVisitor;
 
 public class QLSBuilder {
 
-    public QLSBuilder(){
+    public QLSBuilder() {
 
     }
 

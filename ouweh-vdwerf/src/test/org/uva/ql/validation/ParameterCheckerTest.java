@@ -11,7 +11,6 @@ import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.validation.checker.ParameterChecker;
 import org.uva.ql.validation.collector.ParameterMapping;
-import org.uva.ql.validation.collector.QuestionContext;
 import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;

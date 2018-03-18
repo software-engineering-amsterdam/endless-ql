@@ -2,7 +2,6 @@ package org.uva.qls.parsing;
 
 import antlr.generated.QLSBaseVisitor;
 import antlr.generated.QLSParser;
-
 import org.uva.ql.ast.type.*;
 import org.uva.qls.ast.DefaultStatement.DefaultStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
@@ -70,7 +69,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
 
     @Override
     public Object visitSegment(QLSParser.SegmentContext ctx) {
-        if(ctx.section() != null) {
+        if (ctx.section() != null) {
             return visit(ctx.section());
         }
         return visit(ctx.question());
@@ -79,7 +78,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     @Override
     public Object visitDefaultStatement(QLSParser.DefaultStatementContext ctx) {
         Type type = (Type) visit(ctx.type());
-        if(ctx.style() != null) {
+        if (ctx.style() != null) {
             return new DefaultStyleStatement(type, (Style) visit(ctx.style()));
         }
         return new DefaultWidgetStatement(type, (Widget) visit(ctx.widget()));
@@ -91,7 +90,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
         Style style = null;
         Widget widget = null;
 
-        if(ctx.style() != null) {
+        if (ctx.style() != null) {
             style = (Style) visit(ctx.style());
             widget = style.getWidget();
         } else if (ctx.widget() != null) {
@@ -108,21 +107,21 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
 
     @Override
     public Object visitRadioType(QLSParser.RadioTypeContext ctx) {
-        if(ctx.yes != null && ctx.no != null)
+        if (ctx.yes != null && ctx.no != null)
             return new RadioType(ctx.yes.getText(), ctx.no.getText());
         return new RadioType(null, null);
     }
 
     @Override
     public Object visitCheckboxType(QLSParser.CheckboxTypeContext ctx) {
-        if(ctx.yes != null)
+        if (ctx.yes != null)
             return new CheckboxType(ctx.yes.getText());
         return new CheckboxType(null);
     }
 
     @Override
     public Object visitDropdownType(QLSParser.DropdownTypeContext ctx) {
-        if(ctx.yes != null && ctx.no != null)
+        if (ctx.yes != null && ctx.no != null)
             return new DropDownType(ctx.yes.getText(), ctx.no.getText());
         return new DropDownType(null, null);
 

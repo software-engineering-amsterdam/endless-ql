@@ -7,7 +7,7 @@ public class Widget extends TreeNode {
 
     private WidgetType type;
 
-    public Widget(WidgetType type){
+    public Widget(WidgetType type) {
         this.type = type;
     }
 

@@ -44,7 +44,7 @@ class QLSHomeController extends QLHomeController {
   }
 
   def showQLForm(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
-    val formController = new QLSHomeController()
+    val formController = new QLSFormController()
     switchToScene(QLScenes.formScene, formController)
     // FIXME
 //    formController.initializeForm(form, stylesheet)

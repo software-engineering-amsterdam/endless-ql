@@ -1,8 +1,8 @@
-﻿using QuestionaireOrchestration.Commands;
-using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
+﻿using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.Commands;
 
-namespace QuestionaireOrchestration.CommandHandlers
+namespace QuestionnaireOrchestration.CommandHandlers
 {
     internal class LoadDefinitionsFromFileCommandHandler : 
         ICommandHandler<LoadDefinitionsFromFileCommand>

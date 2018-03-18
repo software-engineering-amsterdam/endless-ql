@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuestionaireOrchestration.Models
+namespace QuestionnaireOrchestration.Models
 {
     public abstract class DomainItemModel
     {
@@ -34,7 +34,5 @@ namespace QuestionaireOrchestration.Models
         {
             return other.Id == Id;
         }
-        
-        //public static implicit operator Reference(DomainItemModel model);
     }
 }

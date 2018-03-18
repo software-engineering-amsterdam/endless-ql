@@ -1,10 +1,10 @@
-grammar QL;
-//ToDo: Turkish Test
+grammar Ql;
 //ToDo: Escaped Characters
 //ToDo: Clean - make sure no redundancy / orphans
 //ToDo: Make sure the names are representative of what they do
 //ToDo: Check for dangling else problem
 
+//ToDo: ?Turkish Test?
 //ToDo: ?multiple forms?
 //ToDo: ?string concatination?
 //ToDo: ?calculated string questionText?

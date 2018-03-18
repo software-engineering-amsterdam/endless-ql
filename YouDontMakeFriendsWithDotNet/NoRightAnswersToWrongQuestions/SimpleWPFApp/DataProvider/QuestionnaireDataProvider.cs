@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using QuestionaireOrchestration.Commands;
-using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.Commands;
+using QuestionnaireOrchestration.Models;
+using QuestionnaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireUI.Models;
 
 namespace SimpleWPFApp.DataProvider
@@ -24,8 +24,13 @@ namespace SimpleWPFApp.DataProvider
         public QuestionnaireWrapper GetSingleQuestionnaire()
         {
             var firstItem = m_queryService.GetAll().FirstOrDefault();
-            var model = m_queryService
-                .GetModel(firstItem.Id);
+            if (firstItem == null)
+            {
+                throw new ArgumentException("No Questionnaire Created");
+            }
+
+            var model = m_queryService.GetModel(firstItem.Id);
+
             return new QuestionnaireWrapper(model);
         }
 

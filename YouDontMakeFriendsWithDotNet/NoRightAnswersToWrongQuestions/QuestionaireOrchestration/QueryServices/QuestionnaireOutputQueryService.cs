@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using QuestionaireOrchestration.Models;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
+using QuestionnaireOrchestration.Models;
+using QuestionnaireOrchestration.QueryServices.Interfaces;
 
-namespace QuestionaireOrchestration.QueryServices
+namespace QuestionnaireOrchestration.QueryServices
 {
     internal sealed class QuestionnaireOutputModelQueryService :
         ModelQueryServiceBase<QuestionnaireOutputModel>,
@@ -23,14 +24,14 @@ namespace QuestionaireOrchestration.QueryServices
 
         public override IEnumerable<QuestionnaireOutputModel> GetAll()
         {
-            return m_domainItemLocator
+            return DomainItemLocator
                 .GetAll<IQuestionnaireOutputItem>()
                 .Select(x => new QuestionnaireOutputModel(x.Id, x.DisplayName));
         }
 
         public QuestionnaireModel GetModel(Guid id)
         {
-            var questionnaire = m_domainItemLocator
+            var questionnaire = DomainItemLocator
                 .Get<IQuestionnaireOutputItem>(id);
 
             var questions = questionnaire

@@ -1,7 +1,5 @@
 package org.uva.qls.ast.Segment;
 
-import org.uva.qls.ast.Segment.Page;
-import org.uva.qls.ast.TreeNode;
 import org.uva.qls.visitor.SegmentVisitor;
 
 import java.util.List;
@@ -22,7 +20,7 @@ public class Stylesheet extends Segment {
 
     @Override
     public String getId() {
-        return "Stylesheet."+id;
+        return "Stylesheet." + id;
     }
 
     @Override

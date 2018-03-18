@@ -61,7 +61,7 @@ public class DateValue extends Value {
     @Override
     public Value isGreaterThan(DateValue value) {
         int compare = this.dateValue.compareTo(value.getDateValue());
-        return new BooleanValue(compare == 0);
+        return new BooleanValue((compare > 0));
     }
 
     @Override

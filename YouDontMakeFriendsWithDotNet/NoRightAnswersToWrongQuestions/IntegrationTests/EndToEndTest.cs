@@ -3,10 +3,10 @@ using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using QuestionnaireDomain.Entities;
-using QuestionaireOrchestration;
-using QuestionaireOrchestration.Commands;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration;
+using QuestionnaireOrchestration.Commands;
 using QuestionnaireUI;
 
 namespace IntegrationTests
@@ -24,7 +24,7 @@ namespace IntegrationTests
         }
     }
 
-    public class TestApp : QlApp
+    public class TestApp
     {
         private readonly IServiceProvider m_serviceProvider;
         public bool UiWasCreated { get; }

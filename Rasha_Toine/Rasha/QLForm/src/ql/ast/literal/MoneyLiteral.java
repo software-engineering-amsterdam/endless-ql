@@ -3,18 +3,18 @@ package ql.ast.literal;
 import java.math.BigDecimal;
 
 import ql.visiting.LiteralVisitor;
-import ql.visiting.value.DecimalValue;
+import ql.visiting.value.MoneyValue;
 
 public class MoneyLiteral extends Literal {
 
-    private DecimalValue value;
+    private MoneyValue value;
     
     public MoneyLiteral(BigDecimal value) {
-    	this.value = new DecimalValue(value);
+    	this.value = new MoneyValue(value);
     }
     
     @Override
-	public DecimalValue getValue() {
+	public MoneyValue getValue() {
 		return value;
 	}
 

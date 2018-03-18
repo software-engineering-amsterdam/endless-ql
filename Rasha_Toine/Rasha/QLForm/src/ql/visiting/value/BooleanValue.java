@@ -44,10 +44,10 @@ public class BooleanValue extends AbstractValue {
 	
 	@Override
 	public String getValueString() {
-		if(value == true)
+		if(value == true) {
 			return "Yes";
-		else
-			return "No";
+		}
+		return "No";
 	}
 	
 	@Override
@@ -104,12 +104,17 @@ public class BooleanValue extends AbstractValue {
 	}
 	
 	@Override
-	public BooleanValue eq(DecimalValue val) {
+	public BooleanValue eq(MoneyValue val) {
 		return BooleanValue.FALSE;
 	}
 
 	@Override
 	public BooleanValue eq(DateValue val) {
+		return BooleanValue.FALSE;
+	}
+	
+	@Override
+	public BooleanValue eq(DecimalValue val) {
 		return BooleanValue.FALSE;
 	}
 	

@@ -1,25 +1,26 @@
 package ql.visiting.value;
 
+import java.math.BigDecimal;
 
-public class DecimalValue extends AbstractValue {
+public class MoneyValue extends AbstractValue {
   
-	private double value;
+	private BigDecimal value;
 	
-	public DecimalValue(double value) {
+	public MoneyValue(BigDecimal value) {
 		this.value = value;
 	}
 
-	public double getValue() {
+	public BigDecimal getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(BigDecimal value) {
 		this.value = value;
 	}
 
 	@Override
 	public String getValueString() {
-		return Double.toString(value);
+		return value.toString();
 	}
 	
 	@Override
@@ -28,9 +29,9 @@ public class DecimalValue extends AbstractValue {
 	}
 	
 	@Override
-	public Value add(DecimalValue val) {
-		double result = this.value + val.value;
-		return new DecimalValue(result);
+	public Value add(MoneyValue val) {
+		BigDecimal result = this.value.add(val.value);
+		return new MoneyValue(result);
 	}
 	
 	@Override
@@ -39,9 +40,9 @@ public class DecimalValue extends AbstractValue {
 	}
 	
 	@Override
-	public Value sub(DecimalValue val) {
-		double result = this.value - val.value;
-		return new DecimalValue(result);
+	public Value sub(MoneyValue val) {
+		BigDecimal result = this.value.subtract(val.value);
+		return new MoneyValue(result);
 	}
 	
 	@Override
@@ -50,9 +51,9 @@ public class DecimalValue extends AbstractValue {
 	}
 	
 	@Override
-	public Value mul(DecimalValue val) {
-		double result = this.value * val.value;
-		return new DecimalValue(result);
+	public Value mul(MoneyValue val) {
+		BigDecimal result = this.value.multiply(val.value);
+		return new MoneyValue(result);
 	}
 	
 	@Override
@@ -61,10 +62,10 @@ public class DecimalValue extends AbstractValue {
 	}
 	
 	@Override
-	public Value div(DecimalValue val) {
-		if (val.value!=0) {
-			double result = this.value / val.value;
-			return new DecimalValue(result);
+	public Value div(MoneyValue val) {
+		if (!val.value.equals(0)) {
+			BigDecimal result = this.value.divide(val.value);
+			return new MoneyValue(result);
 		}
 		return throwException();
 	}
@@ -73,6 +74,12 @@ public class DecimalValue extends AbstractValue {
 	@Override
 	public BooleanValue eq(Value val) {
 		return val.eq(this);
+	}
+	
+	@Override
+	public BooleanValue eq(MoneyValue val) {
+		boolean result = this.value == val.value;
+		return new BooleanValue(result);
 	}
 	
 	@Override
@@ -86,8 +93,9 @@ public class DecimalValue extends AbstractValue {
 	}
 	
 	@Override
-	public BooleanValue gt(DecimalValue val) {
-		if (val.value > this.value) {
+	public BooleanValue gt(MoneyValue val) {
+		int result = this.value.compareTo(val.value);
+		if (result == 1) {
 			return new BooleanValue(true);
 		}
 		return new BooleanValue(false);
@@ -99,8 +107,9 @@ public class DecimalValue extends AbstractValue {
 	}
 	
 	@Override
-	public BooleanValue gEq(DecimalValue val) {
-		if (val.value >= this.value) {
+	public BooleanValue gEq(MoneyValue val) {
+		int result = this.value.compareTo(val.value);
+		if (result == 2 || result == 0 ) {
 			return new BooleanValue(true);
 		}
 		return new BooleanValue(false);
@@ -112,8 +121,9 @@ public class DecimalValue extends AbstractValue {
 	}
 	
 	@Override
-	public BooleanValue lt(DecimalValue val) {
-		if (val.value < this.value) {
+	public BooleanValue lt(MoneyValue val) {
+		int result = this.value.compareTo(val.value);
+		if (result == 2) {
 			return new BooleanValue(true);
 		}
 		return new BooleanValue(false);
@@ -126,21 +136,22 @@ public class DecimalValue extends AbstractValue {
 	}
 	
 	@Override
-	public BooleanValue lEq(DecimalValue val) {
-		if (val.value <= this.value) {
+	public BooleanValue lEq(MoneyValue val) {
+		int result = this.value.compareTo(val.value);
+		if (result == 1 || result == 0 ) {
 			return new BooleanValue(true);
 		}
 		return new BooleanValue(false);
 	}
 	
 	@Override
-	public DecimalValue neg() {
-		return new DecimalValue((-1)*this.value);
+	public MoneyValue neg() {
+		return new MoneyValue(this.value.multiply(new BigDecimal(-1)));
 	}
 
 	@Override
-	public DecimalValue pos() {
-		return new DecimalValue((+1)*this.value);
+	public MoneyValue pos() {
+		return new MoneyValue(this.value.multiply(new BigDecimal(+1)));
 	}
 
 	@Override
@@ -153,13 +164,8 @@ public class DecimalValue extends AbstractValue {
 	public BooleanValue and(Value val) {
 		return throwException();
 	}
-
-	@Override
-	public BooleanValue eq(DecimalValue val) {
-		boolean result = this.value == val.value;
-		return new BooleanValue(result);
-	}
 	
+
 	@Override
 	public BooleanValue eq(BooleanValue val) {
 		return BooleanValue.FALSE;
@@ -176,9 +182,10 @@ public class DecimalValue extends AbstractValue {
 	public BooleanValue eq(DateValue val) {
 		return BooleanValue.FALSE;
 	}
-
+	
+	
 	@Override
-	public BooleanValue eq(MoneyValue val) {
+	public BooleanValue eq(DecimalValue val) {
 		return BooleanValue.FALSE;
 	}
 	
@@ -191,4 +198,5 @@ public class DecimalValue extends AbstractValue {
 	public Value translate(String str) {
 		return null;
 	}
+
 }

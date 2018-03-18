@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using QuestionaireOrchestration.Commands;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
@@ -8,8 +7,9 @@ using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.Commands;
 
-namespace QuestionaireOrchestration.CommandHandlers
+namespace QuestionnaireOrchestration.CommandHandlers
 {
     internal class CreateDefinitionFromTextCommandHandler :
         ICommandHandler<CreateDefinitionFromTextCommand>

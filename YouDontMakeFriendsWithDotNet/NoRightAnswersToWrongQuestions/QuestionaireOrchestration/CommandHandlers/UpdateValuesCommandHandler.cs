@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using QuestionaireOrchestration.Commands;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.Commands;
 
-namespace QuestionaireOrchestration.CommandHandlers
+namespace QuestionnaireOrchestration.CommandHandlers
 {
     internal class UpdateValuesCommandHandler : 
         ICommandHandler<UpdateValuesCommand>

@@ -1,7 +1,7 @@
-﻿using QuestionaireOrchestration.Models;
-using QuestionnaireInfrastructure.API;
+﻿using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.Models;
 
-namespace QuestionaireOrchestration.Commands
+namespace QuestionnaireOrchestration.Commands
 {
     public class UpdateValuesCommand : ICommandMessage
     {

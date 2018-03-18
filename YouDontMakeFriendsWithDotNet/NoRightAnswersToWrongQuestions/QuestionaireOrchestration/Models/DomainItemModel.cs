@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuestionaireOrchestration.Models
+namespace QuestionnaireOrchestration.Models
 {
     public abstract class DomainItemModel
     {

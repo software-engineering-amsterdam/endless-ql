@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
 namespace UnitTests.UI.UnitTests

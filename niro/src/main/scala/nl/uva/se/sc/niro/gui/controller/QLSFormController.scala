@@ -4,6 +4,7 @@ import java.io.IOException
 
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
+import javafx.geometry.Insets
 import javafx.scene.control.{ Button, Label }
 import javafx.scene.layout.BorderPane
 import nl.uva.se.sc.niro.gui.application.QLScenes
@@ -28,6 +29,14 @@ class QLSFormController extends QLFormController  {
 
   @FXML
   def initialize(): Unit = {
+    applyStylingToPageName()
+    topBox.getChildren.add(pageName)
+
+    addButtonsToNavigationBar()
+    applyStylingToNavigationBar()
+    // Place above existing buttons
+    bottomBox.getChildren.add(0, navigationBar)
+
     navigationBar.managedProperty().bind(navigationBar.visibleProperty())
     pageName.visibleProperty().bind(navigationBar.visibleProperty())
     pageName.managedProperty().bind(pageName.visibleProperty())
@@ -39,12 +48,31 @@ class QLSFormController extends QLFormController  {
   override def cancel(event: ActionEvent): Unit =
     switchToScene(QLScenes.homeScene, new QLSHomeController())
 
-  @FXML
   def previousPage(event: ActionEvent): Unit = {
     page -= 1
     previous.setDisable(page == 0)
     next.setDisable(false)
     updateView()
+  }
+
+  def applyStylingToPageName(): Unit = {
+    pageName.setPadding(new Insets(10.0, 0.0, 0.0, 0.0))
+    pageName.getStyleClass.add("-fx-font-size: 18pt;")
+  }
+
+  def addButtonsToNavigationBar(): Unit = {
+    val previousButton = new Button("Previous")
+    previousButton.setDisable(true)
+    previousButton.setOnAction(previousPage)
+    navigationBar.setLeft(previousButton)
+
+    val nextButton = new Button("Next")
+    nextButton.setOnAction(nextPage)
+    navigationBar.setRight(nextButton)
+  }
+
+  def applyStylingToNavigationBar(): Unit = {
+    navigationBar.setPadding(new Insets(0.0, 10.0, 0.0, 10.0))
   }
 
   def nextPage(event: ActionEvent): Unit = {

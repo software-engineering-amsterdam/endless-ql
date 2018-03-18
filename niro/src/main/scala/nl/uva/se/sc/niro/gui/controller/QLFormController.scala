@@ -6,7 +6,7 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.{ Alert, ButtonType, Label }
-import javafx.scene.layout.VBox
+import javafx.scene.layout.{ BorderPane, VBox }
 import javafx.stage.FileChooser
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.control.Component
@@ -31,8 +31,10 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
   protected var guiForm: GUIForm = _
   protected var questions: Seq[Component[_]] = _
 
+  @FXML protected var topBox: VBox = _
   @FXML protected var formName: Label = _
   @FXML protected var questionArea: VBox = _
+  @FXML protected var bottomBox: VBox = _
 
 
   @FXML

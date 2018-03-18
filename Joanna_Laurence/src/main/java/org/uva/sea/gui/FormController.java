@@ -5,7 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.render.*;
-import org.uva.sea.languages.QlSEvaluator;
+import org.uva.sea.languages.BaseEvaluator;
+import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
@@ -19,17 +20,13 @@ import java.util.ResourceBundle;
 
 public class FormController implements Initializable {
 
-    private final String defaultQlLocation = "/example.ql";
-//    private final String defaultQlLocation = "/basicQuestions.ql";
+    private final String defaultQlLocation = "/basic.ql";
     private final String defaultQlsLocation = "/basic.qls";
-//    private final String defaultQlsLocation = "/test.qls";
 
-    private QlSEvaluator evaluator;
+    private BaseEvaluator evaluator;
 
     private QuestionRenderer questionRenderer;
-
     private WarningRenderer warningRenderer;
-
     private ErrorRenderer errorRenderer;
 
     private String lastFocusedQuestion = "";
@@ -46,7 +43,7 @@ public class FormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.qlFile = this.getClass().getResource(this.defaultQlLocation).getFile();
         this.qlsFile = this.getClass().getResource(this.defaultQlsLocation).getFile();
-        this.evaluator = new QlSEvaluator(this.qlFile, this.qlsFile);
+        this.evaluator = EvaluatorFactory.getEvaluator(this.qlFile, this.qlsFile);
         ViewRenderer renderer = new ViewRenderer(this.questionBox, this.messageBox, this);
         this.questionRenderer = new QuestionRenderer(renderer);
         this.warningRenderer = new WarningRenderer(renderer);
@@ -80,9 +77,24 @@ public class FormController implements Initializable {
             this.errorRenderer.render("File not found");
             return;
         }
+        this.qlFile = selectedFile.getAbsolutePath();
+        this.qlsFile = null;
+        useNewGUISpecification(this.qlFile, null);
+    }
 
-        String qlFile = selectedFile.getAbsolutePath();
-        useNewGUISpecification(qlFile, null);
+    @FXML
+    public void loadQLAndQlsFile(ActionEvent actionEvent) {
+        FileSelector fileSelector = new FileSelector("Load QL file", "QL", "*.ql");
+        File selectedFile = fileSelector.getFile();
+        if (selectedFile == null) {
+            this.errorRenderer.render("File not found");
+            return;
+        } else {
+            loadQLSFile(actionEvent);
+        }
+        this.qlFile = selectedFile.getAbsolutePath();
+        this.qlsFile = null;
+        useNewGUISpecification(this.qlFile, null);
     }
 
     @FXML
@@ -93,12 +105,12 @@ public class FormController implements Initializable {
             this.errorRenderer.render("File not found");
             return;
         }
-        String qlsFile = selectedFile.getAbsolutePath();
-        useNewGUISpecification(this.qlFile, qlsFile);
+        this.qlsFile = selectedFile.getAbsolutePath();
+        useNewGUISpecification(this.qlFile, this.qlsFile);
     }
 
-    private void useNewGUISpecification(String qlFileLocation, String qlsFile) {
-        this.evaluator = new QlSEvaluator(qlFileLocation, qlsFile);
+    private void useNewGUISpecification(String qlFile, String qlsFile) {
+        this.evaluator = EvaluatorFactory.getEvaluator(qlFile, qlsFile);
         this.drawGui();
     }
 

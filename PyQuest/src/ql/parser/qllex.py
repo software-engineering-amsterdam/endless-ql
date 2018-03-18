@@ -2,7 +2,10 @@
 TODO: Add optimise=1 to the lexer when file is production ready
 """
 
-import ply.lex as lex
+from ply.lex import lex
+from ql.types.boolean import QLBoolean
+from ql.types.decimal import QLDecimal
+from ql.types.integer import QLInteger
 
 
 class LexTokenizer(object):
@@ -16,6 +19,7 @@ class LexTokenizer(object):
         'LBRACKET', 'RBRACKET',
         'LPAREN', 'RPAREN',
         'NUMBER', 'FLOAT',
+        'TRUE', 'FALSE',
         'QUESTION',
         'VAR']
 
@@ -70,18 +74,30 @@ class LexTokenizer(object):
         r'\n+'
         t.lexer.lineno += len(t.value)
 
+    @staticmethod
+    def t_FALSE(t):
+        r'False'
+        t.value = QLBoolean(False)
+        return t
+
+    @staticmethod
+    def t_TRUE(t):
+        r'True'
+        t.value = QLBoolean(True)
+        return t
+
     # Define a rule for detecting decimal numbers
     @staticmethod
     def t_FLOAT(t):
         r'\d+[.]\d+'
-        t.value = float(t.value)
+        t.value = QLDecimal(t.value)
         return t
 
     # Define a rule for detecting round numbers
     @staticmethod
     def t_NUMBER(t):
         r'\d+'
-        t.value = int(t.value)
+        t.value = QLInteger(t.value)
         return t
 
     @staticmethod
@@ -113,4 +129,4 @@ class LexTokenizer(object):
 
     # Class constructor
     def __init__(self):
-        self.lexer = lex.lex(module=self)
+        self.lexer = lex(module=self)

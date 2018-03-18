@@ -5,6 +5,8 @@ import gui.FormBuilder;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
 import java.util.EventListener;
 
 public class QuestionPanelTextString extends QuestionPanelText{

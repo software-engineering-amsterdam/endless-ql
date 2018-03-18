@@ -6,6 +6,7 @@ import gui.FormBuilder;
 import org.jdatepicker.*;
 
 import javax.swing.*;
+import javax.swing.text.DocumentFilter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EventListener;
@@ -44,6 +45,7 @@ public class QuestionPanelDate extends QuestionPanel {
         FormBuilder.DateActionListener dateActionListener = (FormBuilder.DateActionListener) listener;
         picker.addActionListener(dateActionListener);
     }
+
 
     @Override
     public void setValue(Value value) {

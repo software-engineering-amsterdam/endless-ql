@@ -8,7 +8,8 @@ public abstract class Value <T extends Object>{
             INTEGER = "integer",
             DATE = "date",
             STRING = "string",
-            MONEY = "money";
+            MONEY = "money",
+            UNDEFINED = "undefined";
 
     private T value;
     private String type;
@@ -35,4 +36,8 @@ public abstract class Value <T extends Object>{
     }
 
     public abstract void setValueGeneric(Object o);
+
+    public boolean isDefined () {
+        return true;
+    }
 }

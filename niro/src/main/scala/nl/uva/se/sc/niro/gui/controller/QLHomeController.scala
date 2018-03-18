@@ -23,7 +23,7 @@ class QLHomeController extends QLBaseController with Logging {
     if (selectedFile != null) try {
       val formOrErrors: Either[Seq[Errors.Error], QLForm] = QLFormService.importQLSpecification(selectedFile)
       formOrErrors match {
-        case Right(form) => handleSuccess(form)
+        case Right(form)  => showQLForm(form)
         case Left(errors) => handleErrors(errors)
       }
     } catch {
@@ -43,18 +43,14 @@ class QLHomeController extends QLBaseController with Logging {
     fileChooser.showOpenDialog(stage)
   }
 
-  def handleSuccess(form: QLForm): Unit = {
-    showQLForm(form)
+  def showQLForm(form: QLForm): Unit = {
+    val controller = new QLFormController
+    switchToScene(QLScenes.formScene, controller)
+    controller.initializeForm(form)
   }
 
   def handleErrors(errors: Seq[Errors.Error]): Unit = {
     errorMessages.setText(errors.toString)
     errorMessages.setVisible(true)
-  }
-
-  def showQLForm(form: QLForm): Unit = {
-    val controller = new QLFormController
-    switchToScene(QLScenes.formScene, controller)
-    controller.initializeForm(form)
   }
 }

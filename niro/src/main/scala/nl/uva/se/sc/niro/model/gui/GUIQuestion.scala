@@ -4,11 +4,28 @@ import nl.uva.se.sc.niro.gui.control.Component
 import nl.uva.se.sc.niro.model.ql.AnswerType
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
 
-case class GUIQuestion(
-    id: String,
-    answerType: AnswerType,
-    label: String,
-    isReadOnly: Boolean,
-    visibility: Expression, // Holds the accumulated if-conditions.
-    var component: Option[Component[_]] = None
+abstract class GUIQuestion(
+    val id: String,
+    val answerType: AnswerType,
+    val label: String,
+    val isReadOnly: Boolean,
+    val visibility: Expression,
+    var component: Option[Component[_]]
 )
+
+case class QLGUIQuestion(
+    override val id: String,
+    override val answerType: AnswerType,
+    override val label: String,
+    override val isReadOnly: Boolean,
+    override val visibility: Expression
+) extends GUIQuestion(id, answerType, label, isReadOnly, visibility, None)
+
+case class QLSGUIQuestion(
+    override val id: String,
+    override val answerType: AnswerType,
+    override val label: String,
+    override val isReadOnly: Boolean,
+    override val visibility: Expression,
+    styling: Option[Styling]
+) extends GUIQuestion(id, answerType, label, isReadOnly, visibility, None)

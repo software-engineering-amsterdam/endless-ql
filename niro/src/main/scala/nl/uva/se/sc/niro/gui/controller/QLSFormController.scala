@@ -8,7 +8,7 @@ import javafx.geometry.Insets
 import javafx.scene.control.{ Button, Label }
 import javafx.scene.layout.BorderPane
 import nl.uva.se.sc.niro.gui.application.QLScenes
-import nl.uva.se.sc.niro.gui.converter.ModelConverter
+import nl.uva.se.sc.niro.gui.converter.{ ModelConverter, StyleDecorator }
 import nl.uva.se.sc.niro.gui.factory.{ PageVisibilityFactory, QLComponentFactory }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.StringAnswer
@@ -17,7 +17,7 @@ import nl.uva.se.sc.niro.util.StringUtil
 
 import scala.collection.JavaConverters
 
-class QLSFormController extends QLFormController  {
+class QLSFormController extends QLFormController {
   private var stylesheet: Option[QLStylesheet] = None
   private var page: Int = 0
 
@@ -40,7 +40,6 @@ class QLSFormController extends QLFormController  {
     navigationBar.managedProperty().bind(navigationBar.visibleProperty())
     pageName.visibleProperty().bind(navigationBar.visibleProperty())
     pageName.managedProperty().bind(pageName.visibleProperty())
-    previous.setDisable(true)
   }
 
   @FXML
@@ -52,6 +51,13 @@ class QLSFormController extends QLFormController  {
     page -= 1
     previous.setDisable(page == 0)
     next.setDisable(false)
+    updateView()
+  }
+
+  def nextPage(event: ActionEvent): Unit = {
+    page += 1
+    next.setDisable(page >= stylesheet.map(_.pages.size).getOrElse(0) - 1)
+    previous.setDisable(false)
     updateView()
   }
 
@@ -67,6 +73,7 @@ class QLSFormController extends QLFormController  {
     navigationBar.setLeft(previousButton)
 
     val nextButton = new Button("Next")
+    nextButton.setDisable(true)
     nextButton.setOnAction(nextPage)
     navigationBar.setRight(nextButton)
   }
@@ -75,22 +82,14 @@ class QLSFormController extends QLFormController  {
     navigationBar.setPadding(new Insets(0.0, 10.0, 0.0, 10.0))
   }
 
-  def nextPage(event: ActionEvent): Unit = {
-    page += 1
-    next.setDisable(page >= stylesheet.map(_.pages.size).getOrElse(0) - 1)
-    previous.setDisable(false)
-    updateView()
-  }
-
   def initializeForm(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
     this.qlForm = form
     this.stylesheet = stylesheet
 
-    // FIXME
-//    guiForm = ModelConverter.convert(this.qlForm, stylesheet)
     guiForm = ModelConverter.convert(this.qlForm)
-    formName.setText(guiForm.name)
+    guiForm = stylesheet.map(stylesheet => StyleDecorator.applyStyle(guiForm, stylesheet)).getOrElse(guiForm)
 
+    formName.setText(guiForm.name)
     questions = guiForm.questions.map(QLComponentFactory.make)
     questions.foreach(_.addComponentChangedListener(this))
 
@@ -113,6 +112,7 @@ class QLSFormController extends QLFormController  {
   def updatePageTitle(): Unit = {
     val activePageName = getActivePageName
     pageName.setText(StringUtil.addSpaceOnCaseChange(activePageName))
+    // TODO Check if this is a logical location for this...
     dictionary(PageVisibilityFactory.ACTIVE_PAGE_NAME) = StringAnswer(activePageName)
   }
 

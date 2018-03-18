@@ -15,7 +15,6 @@ import nl.uva.se.sc.niro.util.StringUtil
   */
 object ModelConverter {
   // TODO rename to better reflect what is does (according to Nick). Is creates a GUI model...
-  // FIXME make it dynamic for QL/QLS
   def convert(form: QLForm): GUIForm = {
     GUIForm(StringUtil.addSpaceOnCaseChange(form.formName), convert(BooleanAnswer(true), form.statements))
   }

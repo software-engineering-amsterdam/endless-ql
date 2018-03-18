@@ -22,7 +22,6 @@ import nl.uva.se.sc.niro.ExpressionEvaluator._
 
 import scala.collection.{ JavaConverters, mutable }
 
-
 class QLFormController extends QLBaseController with ComponentChangedListener with Logging {
   type ValueStore = mutable.Map[String, Answer]
 
@@ -35,8 +34,6 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
   @FXML protected var formName: Label = _
   @FXML protected var questionArea: VBox = _
   @FXML protected var bottomBox: VBox = _
-
-
   @FXML
   @throws[IOException]
   def cancel(event: ActionEvent): Unit =

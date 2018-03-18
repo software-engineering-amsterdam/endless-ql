@@ -19,7 +19,7 @@ trait WidgetFactory {
 }
 
 object QLWidgetFactory extends WidgetFactory {
-  override def makeBooleanWidget(question: GUIQuestion)= new QLBooleanField()
+  override def makeBooleanWidget(question: GUIQuestion) = new QLBooleanField()
   override def makeDateWidget(question: GUIQuestion): QLWidget[LocalDate] = new QLDateField()
   override def makeStringWidget(question: GUIQuestion): QLWidget[String] = new QLTextField()
   override def makeIntegerWidget(question: GUIQuestion): QLWidget[java.lang.Integer] = new QLIntegerField()

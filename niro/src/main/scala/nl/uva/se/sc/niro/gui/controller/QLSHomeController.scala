@@ -23,7 +23,7 @@ class QLSHomeController extends QLHomeController {
           val stylesheetOrErrors: Either[Seq[Errors.Error], Option[QLStylesheet]] =
             QLStylesheetService.importQLStylesheetSpecification(form, new File(selectedFile.toString + "s"))
           stylesheetOrErrors match {
-            case Right(stylesheet) => handleSuccess(form, stylesheet)
+            case Right(stylesheet) => showQLSForm(form, stylesheet)
             case Left(errors)      => handleErrors(errors)
           }
         }
@@ -39,14 +39,9 @@ class QLSHomeController extends QLHomeController {
     }
   }
 
-  def handleSuccess(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
-    showQLForm(form, stylesheet)
-  }
-
-  def showQLForm(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
+  def showQLSForm(form: QLForm, stylesheet: Option[QLStylesheet]): Unit = {
     val formController = new QLSFormController()
     switchToScene(QLScenes.formScene, formController)
-    // FIXME
-//    formController.initializeForm(form, stylesheet)
+    formController.initializeForm(form, stylesheet)
   }
 }

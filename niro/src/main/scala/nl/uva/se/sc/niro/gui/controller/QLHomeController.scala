@@ -54,7 +54,7 @@ class QLHomeController extends QLBaseController with Logging {
 
   def showQLForm(form: QLForm): Unit = {
     val controller = new QLFormController
-    switchToScene(QLScenes.getFormSceneFileName(), controller)
+    switchToScene(QLScenes.formScene, controller)
     controller.initializeForm(form)
   }
 }

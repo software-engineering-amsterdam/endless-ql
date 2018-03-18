@@ -96,20 +96,3 @@ case class MoneyComponent(id: String, label: Label, control: QLWidget[java.math.
     setValue(dictionary.get(id).flatMap(_.possibleValue.asInstanceOf[Option[BigDecimal]]))
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal = value.map(_.bigDecimal).orNull
 }
-
-object ComponentFactory {
-  def make(question: GUIQuestion): Component[_] = {
-    val component = question.answerType match {
-      case StringType  => StringComponent(question.id, new Label(question.label), StringWidgetFactory.make(question))
-      case BooleanType => BooleanComponent(question.id, new Label(question.label), BooleanWidgetFactory.make(question))
-      case DateType    => DateComponent(question.id, new Label(question.label), DateWidgetFactory.make(question))
-      case IntegerType => IntegerComponent(question.id, new Label(question.label), IntegerWidgetFactory.make(question))
-      case DecimalType => DecimalComponent(question.id, new Label(question.label), DecimalWidgetFactory.make(question))
-      case MoneyType   => MoneyComponent(question.id, new Label(question.label), MoneyWidgetFactory.make(question))
-    }
-    component.setReadOnly(question.isReadOnly)
-    question.component = Some(component)
-    component
-  }
-
-}

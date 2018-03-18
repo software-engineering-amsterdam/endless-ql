@@ -10,8 +10,8 @@ import javafx.stage.Stage
 import nl.uva.se.sc.niro.gui.controller.{ QLBaseController, QLHomeController }
 
 object QLScenes {
-  def getHomeSceneFileName(): String = "/nl/uva/se/sc/niro/gui/QLHome.fxml"
-  def getFormSceneFileName(): String = "/nl/uva/se/sc/niro/gui/QLForm.fxml"
+  def homeScene: String = "/nl/uva/se/sc/niro/gui/QLHome.fxml"
+  def formScene: String = "/nl/uva/se/sc/niro/gui/QLForm.fxml"
 }
 
 object QLForms {
@@ -22,7 +22,7 @@ object QLForms {
 class QLForms extends Application {
 
   @throws[IOException]
-  override def start(stage: Stage): Unit = showScene(stage, QLScenes.getHomeSceneFileName(), new QLHomeController())
+  override def start(stage: Stage): Unit = showScene(stage, QLScenes.homeScene, new QLHomeController())
 
   @throws[IOException]
   def showScene(stage: Stage, sceneFile: String, controller: AnyRef): Unit = {

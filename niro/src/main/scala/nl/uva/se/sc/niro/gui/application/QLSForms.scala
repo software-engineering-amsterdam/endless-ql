@@ -10,7 +10,7 @@ object QLSForms {
 
 class QLSForms extends QLForms {
   override def start(stage: Stage): Unit = {
-    showScene(stage, QLScenes.getHomeSceneFileName(), new QLSHomeController())
+    showScene(stage, QLScenes.homeScene, new QLSHomeController())
     stage.setTitle("QLS Forms")
   }
 }

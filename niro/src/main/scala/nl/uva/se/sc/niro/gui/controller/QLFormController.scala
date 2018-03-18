@@ -9,8 +9,9 @@ import javafx.scene.control.{ Alert, ButtonType, Label }
 import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
 import nl.uva.se.sc.niro.gui.application.QLScenes
-import nl.uva.se.sc.niro.gui.control.{ Component, ComponentFactory }
+import nl.uva.se.sc.niro.gui.control.Component
 import nl.uva.se.sc.niro.gui.converter.ModelConverter
+import nl.uva.se.sc.niro.gui.factory.QLComponentFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
@@ -36,7 +37,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
   @FXML
   @throws[IOException]
   def cancel(event: ActionEvent): Unit =
-    switchToScene(QLScenes.getHomeSceneFileName(), new QLHomeController())
+    switchToScene(QLScenes.homeScene, new QLHomeController())
 
   @FXML
   def saveData(event: ActionEvent): Unit = {
@@ -65,7 +66,7 @@ class QLFormController extends QLBaseController with ComponentChangedListener wi
     guiForm = ModelConverter.convert(this.qlForm)
     formName.setText(guiForm.name)
 
-    questions = guiForm.questions.map(ComponentFactory.make)
+    questions = guiForm.questions.map(QLComponentFactory.make)
     questions.foreach(_.addComponentChangedListener(this))
 
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))

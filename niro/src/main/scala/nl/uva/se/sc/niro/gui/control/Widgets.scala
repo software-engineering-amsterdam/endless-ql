@@ -7,10 +7,7 @@ import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.{ CheckBox, Control, DatePicker, TextField }
 import javafx.util.converter.LocalDateStringConverter
 import nl.uva.se.sc.niro.gui.builder.TextFormatterBuilder
-import nl.uva.se.sc.niro.gui.factory.DateWidgetFactory.DATE_FORMAT
-import nl.uva.se.sc.niro.gui.factory.DecimalWidgetFactory.DECIMAL_MASK
-import nl.uva.se.sc.niro.gui.factory.IntegerWidgetFactory.INTEGER_MASK
-import nl.uva.se.sc.niro.gui.factory.MoneyWidgetFactory.MONEY_MASK
+import nl.uva.se.sc.niro.gui.factory.QLWidgetFactory._
 import nl.uva.se.sc.niro.gui.listener.ValueChangedListener
 
 import scala.collection.mutable.ArrayBuffer

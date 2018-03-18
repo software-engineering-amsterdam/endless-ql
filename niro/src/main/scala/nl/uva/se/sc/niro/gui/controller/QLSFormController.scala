@@ -7,8 +7,8 @@ import javafx.fxml.FXML
 import javafx.scene.control.{ Button, Label }
 import javafx.scene.layout.BorderPane
 import nl.uva.se.sc.niro.gui.application.QLScenes
-import nl.uva.se.sc.niro.gui.control.{ Component, ComponentFactory }
-import nl.uva.se.sc.niro.gui.factory.PageVisibilityFactory
+import nl.uva.se.sc.niro.gui.converter.ModelConverter
+import nl.uva.se.sc.niro.gui.factory.{ PageVisibilityFactory, QLComponentFactory }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.StringAnswer
 import nl.uva.se.sc.niro.model.qls.{ QLStylesheet, Question }
@@ -20,11 +20,11 @@ class QLSFormController extends QLFormController  {
   private var stylesheet: Option[QLStylesheet] = None
   private var page: Int = 0
 
-  @FXML var pageName: Label = _
+  val pageName: Label = new Label
 
-  @FXML var navigationBar: BorderPane = _
-  @FXML var previous: Button = _
-  @FXML var next: Button = _
+  val navigationBar: BorderPane = new BorderPane
+  val previous: Button = new Button
+  val next: Button = new Button
 
   @FXML
   def initialize(): Unit = {
@@ -37,7 +37,7 @@ class QLSFormController extends QLFormController  {
   @FXML
   @throws[IOException]
   override def cancel(event: ActionEvent): Unit =
-    switchToScene(QLScenes.getHomeSceneFileName(), new QLSHomeController())
+    switchToScene(QLScenes.homeScene, new QLSHomeController())
 
   @FXML
   def previousPage(event: ActionEvent): Unit = {
@@ -47,18 +47,10 @@ class QLSFormController extends QLFormController  {
     updateView()
   }
 
-  @FXML
   def nextPage(event: ActionEvent): Unit = {
     page += 1
     next.setDisable(page >= stylesheet.map(_.pages.size).getOrElse(0) - 1)
     previous.setDisable(false)
-    updateView()
-  }
-
-  override def componentChanged(component: Component[_]): Unit = {
-    logger.debug(s"Component [${component.getQuestionId}] changed its value to [${component.getValue}]")
-    dictionary(component.getQuestionId) = component.getValue
-    evaluateAnswers()
     updateView()
   }
 
@@ -68,9 +60,10 @@ class QLSFormController extends QLFormController  {
 
     // FIXME
 //    guiForm = ModelConverter.convert(this.qlForm, stylesheet)
+    guiForm = ModelConverter.convert(this.qlForm)
     formName.setText(guiForm.name)
 
-    questions = guiForm.questions.map(ComponentFactory.make)
+    questions = guiForm.questions.map(QLComponentFactory.make)
     questions.foreach(_.addComponentChangedListener(this))
 
     questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))

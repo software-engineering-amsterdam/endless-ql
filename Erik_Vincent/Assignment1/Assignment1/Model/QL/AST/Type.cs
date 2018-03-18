@@ -6,6 +6,7 @@
         Integer,
         String,
         Date,
-        Decimal
+        Decimal,
+        Money
     }
 }

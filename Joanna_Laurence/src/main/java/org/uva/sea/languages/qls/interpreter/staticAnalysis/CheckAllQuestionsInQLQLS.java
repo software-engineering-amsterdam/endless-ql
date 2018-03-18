@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implements IQLSStaticAnalysis {
+public class CheckAllQuestionsInQLQLS extends QuestionAnalysis implements IQLSStaticAnalysis {
 
     /**
      * Hide constructor
@@ -68,24 +68,6 @@ public class CheckAllQuestionsInQLQLS extends BaseStyleASTVisitor<Void> implemen
             @Override
             public Void visit(org.uva.sea.languages.ql.parser.elements.Question node) {
                 questionNames.add(node.getVariable().getVariableName());
-                return super.visit(node);
-            }
-        });
-        return questionNames;
-    }
-
-    /**
-     * Get all QLS question names
-     *
-     * @param stylesheet AST node
-     * @return The names
-     */
-    private List<String> getQlSQuestionNames(Stylesheet stylesheet) {
-        List<String> questionNames = new ArrayList<>();
-        stylesheet.accept(new BaseStyleASTVisitor<Void>() {
-            @Override
-            public Void visit(Question node) {
-                questionNames.add(node.getName());
                 return super.visit(node);
             }
         });

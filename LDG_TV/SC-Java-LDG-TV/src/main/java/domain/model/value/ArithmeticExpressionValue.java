@@ -28,7 +28,7 @@ public class ArithmeticExpressionValue extends Value<Integer>{
                     return (Integer) this.leftHandOperand.getValue().getValue() * (Integer) this.rightHandOperand.getValue().getValue();
             }
         }catch(Exception e){
-            throw new InvalidArithmeticExpressionException("Invalid aritmatic expression found. Are you using strings were numbers are expected?");
+            throw new InvalidArithmeticExpressionException("Invalid arithmetic expression found. Are you using strings were numbers are expected?");
         }
         return null;
     }
@@ -40,6 +40,11 @@ public class ArithmeticExpressionValue extends Value<Integer>{
 
     @Override
     public void accept(Integer integer) throws Exception {
+        // TODO ?
+    }
 
+    @Override
+    public String toString() {
+        return this.getValue().toString();
     }
 }

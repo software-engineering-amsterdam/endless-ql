@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public final class MixedValueTest {
 
@@ -72,7 +73,8 @@ public final class MixedValueTest {
 
         MixedValue result = val1.add(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(new BigDecimal("5.3"), result.getDecimalValue());
+        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(5.3).setScale( 4, RoundingMode.HALF_UP)), 0);
+
     }
 
     @Test
@@ -82,7 +84,8 @@ public final class MixedValueTest {
 
         MixedValue result = val1.subtract(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(new BigDecimal("40.01"), result.getDecimalValue());
+        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(40.01).setScale( 4, RoundingMode.HALF_UP)), 0);
+
     }
 
     @Test
@@ -92,7 +95,8 @@ public final class MixedValueTest {
 
         MixedValue result = val1.multiply(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(new BigDecimal("6.72"), result.getDecimalValue());
+        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(6.72).setScale( 4, RoundingMode.HALF_UP)), 0);
+
     }
 
     @Test
@@ -102,7 +106,8 @@ public final class MixedValueTest {
 
         MixedValue result = val1.divide(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(new BigDecimal("3.2"), result.getDecimalValue());
+        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(3.2).setScale( 4, RoundingMode.HALF_UP)), 0);
+
     }
 
     @Test
@@ -112,7 +117,8 @@ public final class MixedValueTest {
 
         MixedValue result = val1.add(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(new BigDecimal("5.2"), result.getDecimalValue());
+        Assert.assertEquals(result.getDecimalValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(5.2).setScale(4, RoundingMode.HALF_UP)), 0);
+
     }
 
     @Test
@@ -122,7 +128,8 @@ public final class MixedValueTest {
 
         MixedValue result = val1.subtract(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(new BigDecimal("40.16"), result.getDecimalValue());
+        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(40.16).setScale( 4, RoundingMode.HALF_UP)), 0);
+
     }
 
     @Test
@@ -132,7 +139,7 @@ public final class MixedValueTest {
 
         MixedValue result = val1.multiply(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(new BigDecimal("6.4"), result.getDecimalValue());
+        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(6.4).setScale( 4, RoundingMode.HALF_UP)), 0);
     }
 
     @Test
@@ -142,7 +149,7 @@ public final class MixedValueTest {
 
         MixedValue result = val1.divide(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(new BigDecimal("3.36"), result.getDecimalValue());
+        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(3.36).setScale( 4, RoundingMode.HALF_UP)), 0);
     }
 
     @Test

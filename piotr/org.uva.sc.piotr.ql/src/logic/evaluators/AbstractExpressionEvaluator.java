@@ -10,20 +10,10 @@ import ast.model.expressions.binary.logical.LogicalOr;
 import ast.model.expressions.unary.arithmetics.Minus;
 import ast.model.expressions.unary.logical.Negation;
 import ast.model.expressions.values.Literal;
-import ast.model.expressions.values.VariableReference;
 import ast.visitors.AbstractASTTraverse;
-import gui.model.QuestionModel;
 import logic.type.MixedValue;
 
-import java.util.List;
-
-public class ExpressionEvaluator extends AbstractASTTraverse<MixedValue> {
-
-    private final List<QuestionModel> questionModels;
-
-    public ExpressionEvaluator(List<QuestionModel> questionModels) {
-        this.questionModels = questionModels;
-    }
+public abstract class AbstractExpressionEvaluator extends AbstractASTTraverse<MixedValue> {
 
     @Override
     public MixedValue visit(Negation negation) {
@@ -119,16 +109,6 @@ public class ExpressionEvaluator extends AbstractASTTraverse<MixedValue> {
         MixedValue lhs = logicalOr.getLeftSide().accept(this);
         MixedValue rhs = logicalOr.getRightSide().accept(this);
         return lhs.or(rhs);
-    }
-
-    @Override
-    public MixedValue visit(VariableReference variableReference) {
-        for(QuestionModel questionModel : this.questionModels) {
-            if (questionModel.getVariableName().equals(variableReference.getName())) {
-                return questionModel.getValue();
-            }
-        }
-        return null;
     }
 
     @Override

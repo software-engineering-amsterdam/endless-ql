@@ -4,9 +4,10 @@ import ast.ASTBuilder;
 import ast.model.Form;
 import gui.model.QuestionModel;
 import logic.collectors.CollectQuestionModelsVisitor;
-import logic.evaluators.ExpressionEvaluator;
+import logic.evaluators.ASTExpressionEvaluator;
 import grammar.QLLexer;
 import grammar.QLParser;
+import logic.evaluators.FormModelExpressionEvaluator;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -16,10 +17,10 @@ import org.junit.Before;
 
 import java.util.List;
 
-public class ExpressionEvaluatorTest {
+public class ASTExpressionEvaluatorTest {
 
     private Form astForm;
-    private ExpressionEvaluator evaluator;
+    private FormModelExpressionEvaluator evaluator;
     private List<QuestionModel> questionModels;
 
     @Before
@@ -35,10 +36,9 @@ public class ExpressionEvaluatorTest {
         this.astForm = astBuilder.visitForm(formContext);
 
         CollectQuestionModelsVisitor collectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
-        this.astForm.accept(collectQuestionModelsVisitor);
 
-        this.questionModels = collectQuestionModelsVisitor.getQuestionModels();
-        this.evaluator = new ExpressionEvaluator(this.questionModels);
+        this.questionModels = collectQuestionModelsVisitor.getQuestionModels(astForm);
+        this.evaluator = new FormModelExpressionEvaluator(this.questionModels);
 
     }
 

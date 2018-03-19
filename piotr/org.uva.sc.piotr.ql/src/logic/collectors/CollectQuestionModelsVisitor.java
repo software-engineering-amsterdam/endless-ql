@@ -18,10 +18,13 @@ import java.util.Stack;
 
 public class CollectQuestionModelsVisitor extends AbstractASTTraverse {
 
-    private final List<QuestionModel> questionModels = new ArrayList<>();
-    private final Stack<Expression> conditionsStack = new Stack<>();
+    private List<QuestionModel> questionModels = new ArrayList<>();
+    private Stack<Expression> conditionsStack = new Stack<>();
 
-    public List<QuestionModel> getQuestionModels() {
+    public List<QuestionModel> getQuestionModels(Form form) {
+        this.questionModels = new ArrayList<>();
+        this.conditionsStack = new Stack<>();
+        form.accept(this);
         return questionModels;
     }
 

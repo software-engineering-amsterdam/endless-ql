@@ -5,6 +5,7 @@ import ast.model.Form;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 import com.google.gson.Gson;
+import exceptions.DuplicateDeclarationException;
 import exceptions.UndeclaredReferenceException;
 import grammar.QLLexer;
 import grammar.QLParser;
@@ -13,7 +14,7 @@ import gui.view.QuestionPanel;
 import logic.collectors.CollectQuestionModelsVisitor;
 import logic.collectors.CollectQuestionsVisitor;
 import logic.collectors.CollectReferencesVisitor;
-import logic.evaluators.ExpressionEvaluator;
+import logic.evaluators.FormModelExpressionEvaluator;
 import logic.validators.QuestionsDependencyValidator;
 import logic.validators.QuestionsValidator;
 import logic.validators.VariablesReferencesValidator;
@@ -90,7 +91,11 @@ public class FileOpenActionEvent implements ActionListener {
             }
 
             // Validate duplicate question declarations with different types
-            QuestionsValidator.validateDuplicates(questions);
+            try {
+                QuestionsValidator.validateDuplicates(questions);
+            } catch (DuplicateDeclarationException e1) {
+                e1.printStackTrace();
+            }
 
             // Validate duplicate labels (warning)
             try {
@@ -104,13 +109,12 @@ public class FileOpenActionEvent implements ActionListener {
             // TODO: operands of invalid type to operators
 
             CollectQuestionModelsVisitor collectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
-            form.accept(collectQuestionModelsVisitor);
 
             // start: ONE LIST TO RULE THEM ALL
-            List<QuestionModel> questionModels = collectQuestionModelsVisitor.getQuestionModels();
+            List<QuestionModel> questionModels = collectQuestionModelsVisitor.getQuestionModels(form);
             // end: ONE LIST TO RULE THEM ALL
 
-            ExpressionEvaluator evaluator = new ExpressionEvaluator(questionModels);
+            FormModelExpressionEvaluator evaluator = new FormModelExpressionEvaluator(questionModels);
 
             // GUI
 

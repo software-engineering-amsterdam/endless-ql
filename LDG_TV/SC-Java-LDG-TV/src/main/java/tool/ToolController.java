@@ -9,6 +9,9 @@ import domain.Utilities;
 import domain.model.ast.ASTNode;
 import domain.model.ast.IfASTNode;
 import domain.model.ast.QuestionASTNode;
+import domain.model.stylesheet.Page;
+import domain.model.stylesheet.Section;
+import domain.model.stylesheet.Stylesheet;
 import domain.model.variable.Variable;
 import domain.visitor.UIVisitor;
 import domain.visitor.Visitor;
@@ -19,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.QLLoader;
@@ -45,6 +49,9 @@ public class ToolController implements Initializable, Consumer {
 
     @FXML
     private ListView<Row> lvQuestionnaire;
+
+    @FXML
+    private TabPane tpPages;
 
     @FXML
     private Button btnBuild;
@@ -105,15 +112,14 @@ public class ToolController implements Initializable, Consumer {
             StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
             QLSLoader qlsLoader = new QLSLoader(this.formNode);
             ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
-            System.out.println(this.formNode.getStylesheet());
+            drawPages(this.formNode.getStylesheet());
         }
 
 
         List<ASTNode> astNodes = this.formNode.getASTNodes();
 
         List<QuestionASTNode> questions = getAllQuestions(astNodes);
-        drawQuestions(questions);
-
+        drawQuestions(questions, lvQuestionnaire);
         printInfoMessage("Build successful");
     }
 
@@ -125,9 +131,9 @@ public class ToolController implements Initializable, Consumer {
         lblErrorField.setText(message);
     }
 
-    private void drawQuestions(List<QuestionASTNode> questionASTNodes){
+    private void drawQuestions(List<QuestionASTNode> questionASTNodes, ListView lView){
         Visitor uiVisitor = new UIVisitor();
-        lvQuestionnaire.getItems().clear();
+        lView.getItems().clear();
 
         this.formNode.evaluateIfs();
 
@@ -151,13 +157,23 @@ public class ToolController implements Initializable, Consumer {
 
             Row r = new QuestionRow(questionText, n);
             r.setDisable(qn.isDisabled());
-            lvQuestionnaire.getItems().add(r);
+            lView.getItems().add(r);
         }
 
-        JavaFxObservable.updatesOf(lvQuestionnaire.getItems()).subscribe(rows -> System.out.println("R "+rows));
+        JavaFxObservable.updatesOf(lView.getItems()).subscribe(rows -> System.out.println("R "+rows));
     }
 
-
+    private void drawPages(Stylesheet stylesheet){
+        for (Page p : stylesheet.getPages()){
+            Tab t = new Tab(p.getLabel());
+            for (Section s : p.getSections()){
+                ListView lv = new ListView<Row>();
+                drawQuestions(s.getQuestions(), lv);
+                t.setContent(lv);
+            }
+            this.tpPages.getTabs().add(new Tab(p.getLabel()));
+        }
+    }
 
     private List<QuestionASTNode> getAllQuestions(List<ASTNode> nodes){
         List<QuestionASTNode> visQuestion = new ArrayList<>();
@@ -245,6 +261,6 @@ public class ToolController implements Initializable, Consumer {
     public void accept(Object event) {
         System.out.println("Redraw tree yo");
         List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
-        drawQuestions(questions);
+        drawQuestions(questions, lvQuestionnaire);
     }
 }

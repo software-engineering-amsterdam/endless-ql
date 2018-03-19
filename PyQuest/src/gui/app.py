@@ -1,5 +1,5 @@
-from ql.parser.qllex import QLLexer
-from ql.parser.qlyacc import QLParser
+from ql.parser.lexer import QLLexer
+from ql.parser.parser import QLParser
 from ql.ast.visitors.gui_model_generator import GUIModel
 from ql.ast.extractors.extractor import Extractor
 from ql.ast.visitors.type_visitor import TypeVisitor

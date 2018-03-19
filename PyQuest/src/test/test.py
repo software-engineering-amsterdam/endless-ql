@@ -1,6 +1,6 @@
 from os import listdir
-from ql.parser.qllex import QLLexer
-from ql.parser.qlyacc import QLParser
+from ql.parser.lexer import QLLexer
+from ql.parser.parser import QLParser
 from termcolor import colored
 
 

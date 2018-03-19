@@ -62,9 +62,9 @@ public class FormNode {
     public Variable getVariableFromList(String label){
         Variable qv = null ;
         for (QuestionASTNode qan : getAllQuestionASTNodes()) {
-               if(qan.getVariable().getIdentifier().equals(label) ){
-                   qv = qan.getVariable();
-               }
+           if(qan.getVariable().getIdentifier().equals(label) ){
+               qv = qan.getVariable();
+           }
         }
         return qv;
     }

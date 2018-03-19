@@ -9,6 +9,7 @@ import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.variable.*;
 import domain.model.ast.QuestionASTNode;
+import exception.ReferenceUndefinedVariableException;
 
 
 public class QLLoader extends FormBaseListener {
@@ -79,6 +80,7 @@ public class QLLoader extends FormBaseListener {
                 constructedVariable = new StringVariable(ctx.variable().getText());
                 break;
             default:
+
         }
     }
     @Override

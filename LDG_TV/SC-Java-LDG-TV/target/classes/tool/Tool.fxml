@@ -30,5 +30,10 @@
             <ListView id="lv" fx:id="lvQuestionnaire" stylesheets="@Tool.css" />
         </items>
       </SplitPane>
+      <ToolBar maxHeight="20.0" minHeight="20.0" prefHeight="40.0" prefWidth="200.0">
+         <items>
+            <Label fx:id="lblErrorField" />
+         </items>
+      </ToolBar>
    </children>
 </VBox>

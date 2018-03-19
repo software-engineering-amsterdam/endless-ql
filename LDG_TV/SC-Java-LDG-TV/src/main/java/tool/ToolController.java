@@ -22,6 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.QLLoader;
+import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -29,6 +30,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.*;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -44,6 +46,9 @@ public class ToolController implements Initializable, Consumer {
     @FXML
     private Button btnBuild;
 
+    @FXML
+    private Label lblErrorField;
+
     private FormNode formNode = null;
 
     public ToolController() {
@@ -52,14 +57,6 @@ public class ToolController implements Initializable, Consumer {
 
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Pane initialized");
-
-        Observable<ActionEvent> btnEvents = JavaFxObservable.eventsOf(btnBuild, ActionEvent.ACTION);
-
-
-
-        btnEvents.subscribe(actionEvent -> System.out.println("Action: "+actionEvent), throwable -> {
-            System.out.println(throwable);
-        });
     }
 
     /**
@@ -82,6 +79,9 @@ public class ToolController implements Initializable, Consumer {
 
         FormParser parser = new FormParser(new CommonTokenStream(lexer));
 
+        parser.setErrorHandler(new BailErrorStrategy());
+        parser.addErrorListener(new DialogErrorListener(lblErrorField));
+
         FormParser.FormBuilderContext tree = parser.formBuilder();
         QLLoader loader = new QLLoader();
         ParseTreeWalker.DEFAULT.walk(loader, tree);
@@ -93,8 +93,15 @@ public class ToolController implements Initializable, Consumer {
         List<QuestionASTNode> questions = getAllQuestions(astNodes);
         drawQuestions(questions);
 
+        printInfoMessage("Build successful");
+    }
 
-        System.out.println(this.formNode);
+    private void printInfoMessage(String message){
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+        lblErrorField.setTooltip(new Tooltip(sdf.format(cal.getTime())));
+        lblErrorField.setText(message);
     }
 
     private void drawQuestions(List<QuestionASTNode> questionASTNodes){
@@ -163,7 +170,10 @@ public class ToolController implements Initializable, Consumer {
         Optional<String> qlText = Utilities.readFile(selectedFile.getAbsolutePath());
 
         qlText.ifPresentOrElse(
-                text -> taSourceCode.setText(text),
+                text -> {
+                    taSourceCode.setText(text);
+                    printInfoMessage("Import successful");
+                },
                 () -> showAlertBox("Could not read file.")
         );
     }

@@ -1,6 +1,6 @@
 from ql.parser.qllex import LexTokenizer
 from ql.parser.qlyacc import QLParser
-from ql.ast.visitors.render import Render
+from ql.ast.visitors.gui_model_generator import GUIModel
 from ql.ast.extractors.extractor import Extractor
 from ql.ast.visitors.type_visitor import TypeVisitor
 from ql.ast.checkers.question_checker import QuestionChecker
@@ -112,7 +112,7 @@ class MainApp(QMainWindow):
             QuestionChecker(extractor.extract_questions(ast))
             TypeVisitor(extractor.extract_identifier_types(ast)).visit(ast)
 
-            visitor = Render()
+            visitor = GUIModel()
             visitor.visit(ast)
 
             dialog = Form(visitor.form)

@@ -103,24 +103,23 @@ class MainApp(QMainWindow):
         parser = QLParser()
         lexer = LexTokenizer()
 
-        # try:
-        ast = parser.parser.parse(textbox_value, lexer.lexer)
+        try:
+            ast = parser.parser.parse(textbox_value, lexer.lexer)
 
-        extractor = Extractor()
-        ReferenceChecker(extractor.extract_identifier_scopes(ast))
-        DependencyChecker(extractor.extract_identifier_dependencies(ast))
-        QuestionChecker(extractor.extract_questions(ast))
-        type_vistor = TypeVisitor(extractor.extract_identifier_types(ast))
-        type_vistor.visit(ast)
+            extractor = Extractor()
+            ReferenceChecker(extractor.extract_identifier_scopes(ast))
+            DependencyChecker(extractor.extract_identifier_dependencies(ast))
+            QuestionChecker(extractor.extract_questions(ast))
+            TypeVisitor(extractor.extract_identifier_types(ast)).visit(ast)
 
-        visitor = Render()
-        visitor.visit(ast)
+            visitor = Render()
+            visitor.visit(ast)
 
-        dialog = Form(visitor.form)
-        dialog.exec_()
-        # except:
-        #     QMessageBox.warning(QMessageBox(), 'Warning', 'Unable to create form.',
-        #                         QMessageBox.Close, QMessageBox.Escape)
+            dialog = Form(visitor.form)
+            dialog.exec_()
+        except:
+            QMessageBox.warning(QMessageBox(), 'Warning', 'Unable to create form.',
+                                QMessageBox.Close, QMessageBox.Escape)
 
 
 if __name__ == '__main__':

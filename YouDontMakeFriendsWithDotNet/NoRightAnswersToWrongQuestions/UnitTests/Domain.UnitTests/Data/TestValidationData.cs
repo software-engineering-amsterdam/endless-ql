@@ -146,22 +146,38 @@ namespace UnitTests.Domain.UnitTests.Data
             }
         }
 
-        //public static IEnumerable NonNumberCalculationVariable
-        //{
-        //    get
-        //    {
-        //        yield return new TestCaseData(
-        //            @"form Ricky { rb: ""i"" boolean clc: ""c"" decimal  = (rb) }",
-        //            @"The variable 'rb' is in a calculation but is not a number, it is 'System.Boolean'");
+        public static IEnumerable NonNumberCalculationVariable
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    @"form Charlie { cs: ""i"" boolean clc: ""c"" decimal  = (cs) }",
+                    @"The variable 'cs' is in a calculation but is not a number, it is 'System.Boolean'");
 
-        //        yield return new TestCaseData(
-        //            @"form Pat { pb: ""i"" date clc: ""c"" decimal  = (pb) }",
-        //            @"The variable 'pb' is in a calculation but is not a number, it is 'System.DateTime'");
+                yield return new TestCaseData(
+                    @"form Kat { ks: ""i"" date clc: ""c"" decimal  = (ks) }",
+                    @"The variable 'ks' is in a calculation but is not a number, it is 'System.DateTime'");
 
-        //        yield return new TestCaseData(
-        //            @"form Frank { fb: ""i"" string clc: ""c"" decimal  = (fb) }",
-        //            @"The variable 'fb' is in a calculation but is not a number, it is 'System.String'");
-        //    }
-        //}
+                yield return new TestCaseData(
+                    @"form Zoe { zs: ""i"" string clc: ""c"" decimal  = (zs) }",
+                    @"The variable 'zs' is in a calculation but is not a number, it is 'System.String'");
+
+                yield return new TestCaseData(
+                    @"form LittleMo { lms: ""i"" boolean clc: ""c"" decimal  = (lms + 100) }",
+                    @"The variable 'lms' is in a calculation but is not a number, it is 'System.Boolean'");
+
+                yield return new TestCaseData(
+                    @"form Lynne { ls: ""i"" date clc: ""c"" decimal  = (99 - ls) }",
+                    @"The variable 'ls' is in a calculation but is not a number, it is 'System.DateTime'");
+
+                yield return new TestCaseData(
+                    @"form Viv { vs: ""i"" string clc: ""c"" decimal  = (123.45 * vs) }",
+                    @"The variable 'vs' is in a calculation but is not a number, it is 'System.String'");
+
+                yield return new TestCaseData(
+                    @"form Luke { ls: ""i"" string clc: ""c"" decimal  = (ls / -999.25) }",
+                    @"The variable 'ls' is in a calculation but is not a number, it is 'System.String'");
+            }
+        }
     }
 }

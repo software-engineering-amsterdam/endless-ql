@@ -165,6 +165,7 @@
     <Compile Include="Validators\DateComparisonValidator.cs" />
     <Compile Include="Validators\Interfaces\IDateComparisonValidator.cs" />
     <Compile Include="Validators\Interfaces\IMathComparisonValidator.cs" />
+    <Compile Include="Validators\Interfaces\IMathExpressionValidator.cs" />
     <Compile Include="Validators\Interfaces\ITextComparisonValidator.cs" />
     <Compile Include="Validators\MathComparisonValidator.cs" />
     <Compile Include="Validators\MetaData\BooleanConditionValidationMetaData.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Validators\Interfaces\IValidator.cs" />
     <Compile Include="Validators\BooleanConditionValidator.cs" />
     <Compile Include="Validators\MetaData\MathComparisonValidationMetaData.cs" />
+    <Compile Include="Validators\MetaData\MathExpressionValidationMetaData.cs" />
     <Compile Include="Validators\MetaData\TextComparisonValidationMetaData.cs" />
     <Compile Include="Validators\Severity.cs" />
     <Compile Include="Validators\MetaData\UndefinedVariableValidationMetaData.cs" />

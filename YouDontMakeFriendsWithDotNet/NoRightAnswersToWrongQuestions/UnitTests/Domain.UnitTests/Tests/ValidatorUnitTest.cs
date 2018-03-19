@@ -134,17 +134,17 @@ namespace UnitTests.Domain.UnitTests.Tests
                 errorMessage);
         }
 
-        //[TestCaseSource(
-        //    typeof(TestValidationData),
-        //    nameof(TestValidationData.NonNumberCalculationVariable))]
-        //public void WhenGivenNonNumberInCalculation_ProducesTheCorrectMetaDatas(
-        //    string invalidDescription,
-        //    string errorMessage)
-        //{
-        //    ValidateMetaDataCreation<MathExpressionValidationMetaData>(
-        //        invalidDescription,
-        //        errorMessage);
-        //}
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.NonNumberCalculationVariable))]
+        public void WhenGivenNonNumberInCalculation_ProducesTheCorrectMetaDatas(
+            string invalidDescription,
+            string errorMessage)
+        {
+            ValidateMetaDataCreation<MathExpressionValidationMetaData>(
+                invalidDescription,
+                errorMessage);
+        }
 
         private IList<ValidationMetaData> ResultsFor<T>() where T : ValidationMetaData
         {

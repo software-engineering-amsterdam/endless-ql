@@ -98,6 +98,7 @@ public class FormNode {
             }
             if(an instanceof IfASTNode){
                 temp.addAll(((IfASTNode) an).getQuestionNodes());
+                temp.addAll(((IfASTNode) an).getElseNodess());
             }
         }
         return temp;

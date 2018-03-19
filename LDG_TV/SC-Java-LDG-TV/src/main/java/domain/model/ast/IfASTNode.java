@@ -11,6 +11,7 @@ public class IfASTNode extends ASTNode {
     public IfASTNode(boolean visible) {
         this.questionNodes = new ArrayList<>();
         this.conditions = new ArrayList<>();
+        this.elseNodess = new ArrayList<>();
         this.setDisabled(visible);
     }
 
@@ -58,6 +59,9 @@ public class IfASTNode extends ASTNode {
         }
         for (QuestionASTNode qan : this.getQuestionNodes()){
             qan.setDisabled(!temp);
+        }
+        for (QuestionASTNode qan : this.elseNodess){
+            qan.setDisabled(temp);
         }
         return temp;
     }

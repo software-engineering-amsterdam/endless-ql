@@ -12,6 +12,9 @@ class QLDecimal(QLType):
     def __repr__(self):
         return str(self.value)
 
+    def __neg__(self):
+        return QLDecimal(- self.value)
+
     def __eq__(self, other):
         return QLBoolean(self.value == other.value)
 
@@ -50,8 +53,8 @@ class QLDecimal(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value):
-        return DecimalNode(None, QLDecimal, value)
+    def get_literal_node(value=0.0):
+        return DecimalNode(None, QLDecimal, QLDecimal(value))
 
     @staticmethod
     def pyqt5_default_widget():

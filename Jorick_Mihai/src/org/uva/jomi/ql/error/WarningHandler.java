@@ -2,7 +2,7 @@ package org.uva.jomi.ql.error;
 
 import java.util.List;
 
-import org.uva.jomi.ql.ast.statements.QuestionStmt;
+import org.uva.jomi.ql.ast.statements.QuestionStatement;
 
 public class WarningHandler extends ErrorReporter<String> {
 
@@ -18,7 +18,7 @@ public class WarningHandler extends ErrorReporter<String> {
 		return this.getNumberOfReports();
 	}
 	
-	public void addWarning(QuestionStmt stmt, List<String> questionNames) {
+	public void addWarning(QuestionStatement stmt, List<String> questionNames) {
 		String warning = String.format("[%s] line: %d, column: %d: %s has the same label as questions: %s",
 				moduleName,
 				stmt.getIdentifierLineNumber(),

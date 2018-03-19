@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using Prism.Events;
-using QuestionaireOrchestration.Commands;
-using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.Commands;
+using QuestionnaireOrchestration.Models;
+using QuestionnaireOrchestration.QueryServices.Interfaces;
 
 namespace QuestionnaireWPFApp.ViewModels
 {

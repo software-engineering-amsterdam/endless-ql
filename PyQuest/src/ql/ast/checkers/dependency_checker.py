@@ -7,9 +7,10 @@ class DependencyChecker:
 
     @staticmethod
     def __check_dependencies(combinations):
-        for (identifier, identifier_children) in combinations:
-            parents = [reference for (reference, reference_children) in combinations
-                       if identifier in reference_children]
-            for parent in parents:
+        for (identifier, identifier_children, identifier_position) in combinations:
+            parents = [(reference, reference_position) for (reference, reference_children, reference_position)
+                       in combinations if identifier in reference_children]
+            for (parent, reference_position) in parents:
                 if parent in identifier_children:
-                    error([0], "Cyclic dependency detected")
+                    error([identifier_position.line, reference_position.line],
+                          "Cyclic dependency detected in question identifiers")

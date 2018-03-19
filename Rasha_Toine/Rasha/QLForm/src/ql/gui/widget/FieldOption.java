@@ -3,17 +3,17 @@ package ql.gui.widget;
 import ql.visiting.value.Value;
 
 public class FieldOption {
-	private String name;
+	private String label;
 	private Value value;
 
 	// constructor
-	public FieldOption(String name, Value value) {
-		this.name = name;
+	public FieldOption(String label, Value value) {
+		this.label = label;
 		this.value = value;
 	}
 
-	public String getName() {
-		return name;
+	public String getLabel() {
+		return label;
 	}
 
 	public Value getValue() {
@@ -21,11 +21,11 @@ public class FieldOption {
 	}
 	
 	public boolean equals(FieldOption option) {
-		return (name == option.name) && value.eq(option.value).getValue();
+		return (label == option.label) && value.eq(option.value).getValue();
 	}
 	
 	@Override
 	public String toString() {
-		return "Field option: (" + name + ", " + value + ")";
+		return "Field option: " + label + ": " + value;
 	}
 }

@@ -13,7 +13,7 @@ public abstract class Widget implements WidgetInterface {
 	private EvaluationContext ctx;
 	
 	//preparation for interactive gui & qls
-	public abstract Value getValueToUI();
+	public abstract Value getValueFromUI();
 	public abstract void setValueToUI(Value value);
 
 	// constructor
@@ -30,7 +30,7 @@ public abstract class Widget implements WidgetInterface {
 	
 	@Override
 	public Value getValue() {
-		return getValueToUI();
+		return getValueFromUI();
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public abstract class Widget implements WidgetInterface {
 		ctx.setValue(variable, value);
 		// threading, value changed
 		SwingUtilities.invokeLater(() -> {
-			if (!getValueToUI().equals(value)){
+			if (!getValueFromUI().equals(value)){
 				setValueToUI(value);
 			}
 		});

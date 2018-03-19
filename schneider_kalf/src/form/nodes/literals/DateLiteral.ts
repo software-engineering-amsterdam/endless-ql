@@ -7,7 +7,7 @@ import { ValueIsInvalidDateError } from "../../form_errors";
 import constants from "../../../config/constants";
 
 export default class DateLiteral extends AbstractTreeNode implements Expression {
-  private value: Moment;
+  private value: Date;
 
   static fromString(value: string) {
     const date = moment(value, constants.DEFAULT_DATE_FORMAT);
@@ -16,10 +16,10 @@ export default class DateLiteral extends AbstractTreeNode implements Expression 
       throw ValueIsInvalidDateError.make(value);
     }
 
-    return new DateLiteral(date);
+    return new DateLiteral(date.toDate());
   }
 
-  constructor(value: Moment) {
+  constructor(value: Date) {
     super();
     this.value = value;
   }
@@ -28,7 +28,7 @@ export default class DateLiteral extends AbstractTreeNode implements Expression 
     return visitor.visitDateLiteral(this);
   }
 
-  getValue(): Moment {
+  getValue(): Date {
     return this.value;
   }
 }

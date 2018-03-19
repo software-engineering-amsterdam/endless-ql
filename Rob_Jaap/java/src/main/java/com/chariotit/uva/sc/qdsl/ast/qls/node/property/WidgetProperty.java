@@ -13,6 +13,14 @@ public class WidgetProperty extends Property {
         this.widget = widget;
     }
 
+    public WidgetType getWidget() {
+        return widget;
+    }
+
+    public void setWidget(WidgetType widget) {
+        this.widget = widget;
+    }
+
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         visitor.visitWidgetProperty(this);

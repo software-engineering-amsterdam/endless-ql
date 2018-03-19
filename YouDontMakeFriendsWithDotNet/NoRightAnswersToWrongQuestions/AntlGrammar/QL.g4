@@ -1,10 +1,10 @@
-grammar QL;
-//ToDo: Turkish Test
+grammar Ql;
 //ToDo: Escaped Characters
 //ToDo: Clean - make sure no redundancy / orphans
 //ToDo: Make sure the names are representative of what they do
 //ToDo: Check for dangling else problem
 
+//ToDo: ?Turkish Test?
 //ToDo: ?multiple forms?
 //ToDo: ?string concatination?
 //ToDo: ?calculated string questionText?
@@ -56,7 +56,7 @@ booleanExpression : IDENTIFIER                             #booleanQuestionIdent
                     rightExpression=booleanExpression      #andOrStatement
                   | leftExpression=booleanExpression 
                        operator=equalityOperator 
-                      rightExpression=booleanExpression      #booleanComparison
+                      rightExpression=booleanExpression    #booleanComparison
                   | relationalExpression                   #relativeExpression
                   ;
 
@@ -75,11 +75,11 @@ mathExpression : IDENTIFIER                              #numberVariableName
                | mathValue                               #numberLiteral
                | BEGINGROUP mathExpression ENDGROUP      #mathExpressionGroup
                | leftExpression=mathExpression 
-                     operator=(MULTIPLY | DIVIDE) 
-                   rightExpression=mathExpression          #multiplyDivideExpression
-                 | leftExpression=mathExpression 
-                     operator=(ADD | MINUS) 
-                   rightExpression=mathExpression          #addSubtractExpression
+                    operator=(MULTIPLY | DIVIDE) 
+                 rightExpression=mathExpression          #multiplyDivideExpression
+               | leftExpression=mathExpression 
+                    operator=(ADD | MINUS) 
+                 rightExpression=mathExpression          #addSubtractExpression
                ;
 
 relationalOperator: chosenOperator=(ISEQUAL 

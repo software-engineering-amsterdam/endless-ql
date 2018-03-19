@@ -52,7 +52,7 @@ namespace QuestionnaireDomain.Entities.Domain
 
         public Reference<IQuestionnaireRootNode> GetRoot(Reference<IQuestionNode> node)
         {
-            //Hack for now - assuming just one questionnaire, however will have to put parent into astnodes
+            // ToDo: Hack for now - assuming just one questionnaire, however will have to put parent into astnodes
             // to do this properly
             return GetAllRefs<IQuestionnaireRootNode>().FirstOrDefault();
         }

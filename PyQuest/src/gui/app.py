@@ -1,15 +1,8 @@
-from ql.parser.qllex import LexTokenizer
-from ql.parser.qlyacc import QLParser
-from ql.ast.visitors.render import Render
-from ql.ast.visitors.reference_visitor import ReferenceVisitor
-from ql.ast.visitors.dependency_visitor import DependencyVisitor
-from ql.ast.visitors.question_visitor import QuestionVisitor
-from ql.ast.visitors.identifier_visitor import IdentifierVisitor
-from ql.ast.visitors.label_visitor import LabelVisitor
-from ql.ast.visitors.identifier_type_visitor import IdentifierTypeVisitor
-from ql.ast.visitors.type_checker import TypeChecker
-from ql.ast.checkers.label_checker import LabelChecker
-from ql.ast.checkers.identifier_checker import IdentifierChecker
+from ql.parser.lexer import QLLexer
+from ql.parser.parser import QLParser
+from ql.ast.visitors.gui_model_generator import GUIModel
+from ql.ast.extractors.extractor import Extractor
+from ql.ast.visitors.type_visitor import TypeVisitor
 from ql.ast.checkers.question_checker import QuestionChecker
 from ql.ast.checkers.dependency_checker import DependencyChecker
 from ql.ast.checkers.reference_checker import ReferenceChecker
@@ -108,37 +101,18 @@ class MainApp(QMainWindow):
     def create_form(self):
         textbox_value = self.text_edit.toPlainText()
         parser = QLParser()
-        lexer = LexTokenizer()
+        lexer = QLLexer()
 
         try:
             ast = parser.parser.parse(textbox_value, lexer.lexer)
 
-            reference_visitor = ReferenceVisitor()
-            reference_visitor.visit(ast)
-            ReferenceChecker(reference_visitor.scope)
+            extractor = Extractor()
+            ReferenceChecker(extractor.extract_identifier_scopes(ast))
+            DependencyChecker(extractor.extract_identifier_dependencies(ast))
+            QuestionChecker(extractor.extract_questions(ast))
+            TypeVisitor(extractor.extract_identifier_types(ast)).visit(ast)
 
-            dependency_visitor = DependencyVisitor()
-            dependency_visitor.visit(ast)
-            DependencyChecker(dependency_visitor.combinations)
-
-            question_visitor = QuestionVisitor()
-            question_visitor.visit(ast)
-            QuestionChecker(question_visitor.questions)
-
-            identifier_visitor = IdentifierVisitor()
-            identifier_visitor.visit(ast)
-            IdentifierChecker(identifier_visitor.identifiers)
-
-            label_visitor = LabelVisitor()
-            label_visitor.visit(ast)
-            LabelChecker(label_visitor.labels)
-
-            identifier_type_visitor = IdentifierTypeVisitor()
-            identifier_type_visitor.visit(ast)
-            type_checker = TypeChecker(identifier_type_visitor.label_type_combinations)
-            type_checker.visit(ast)
-
-            visitor = Render()
+            visitor = GUIModel()
             visitor.visit(ast)
 
             dialog = Form(visitor.form)

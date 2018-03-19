@@ -1,6 +1,6 @@
 ﻿namespace AntlGrammar
 {
-    partial class QLParser
+    partial class QlParser
     {
     }
 }

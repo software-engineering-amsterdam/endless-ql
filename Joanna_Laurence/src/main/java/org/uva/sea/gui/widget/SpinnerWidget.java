@@ -6,6 +6,7 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
+import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
 import org.uva.sea.gui.render.visitor.TextToValueVisitor;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
@@ -29,7 +30,7 @@ public class SpinnerWidget implements Widget {
         //TODO: remove listeners repetitions
         spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
             controller.setLastFocused(questionModel.getVariableName());
-            TextToValueVisitor textToValueVisitor = new TextToValueVisitor(newValue.toString());
+            QuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(newValue.toString());
             Value value = questionModel.accept(textToValueVisitor);
             controller.updateGuiModel(questionModel.getVariableName(), value);
         });

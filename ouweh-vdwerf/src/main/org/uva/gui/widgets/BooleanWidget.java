@@ -1,9 +1,9 @@
 package org.uva.gui.widgets;
 
+import org.uva.gui.QuestionChangeListener;
 import org.uva.ql.ast.Question;
 import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
-import org.uva.gui.QuestionChangeListener;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -21,8 +21,6 @@ public class BooleanWidget extends QuestionWidget {
         checkBox.setEnabled(readOnly);
 
 
-
-
         this.add(checkBox, 1);
     }
 
@@ -31,7 +29,7 @@ public class BooleanWidget extends QuestionWidget {
         checkBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                questionChangeListener.onQuestionChanged(question.getName(), new BooleanValue(checkBox.isSelected()));
+                questionChangeListener.onQuestionChanged(question, new BooleanValue(checkBox.isSelected()));
             }
         });
     }

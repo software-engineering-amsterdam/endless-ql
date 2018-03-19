@@ -7,7 +7,7 @@ import org.uva.sea.gui.render.visitor.DefaultWidgetFromValueVisitor;
 
 public class DefaultWidgetFactory extends AbstractWidgetFactory {
 
-    FormController controller;
+    private final FormController controller;
 
     public DefaultWidgetFactory(FormController controller) {
         this.controller = controller;

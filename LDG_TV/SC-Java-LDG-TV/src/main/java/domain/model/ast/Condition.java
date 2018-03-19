@@ -1,4 +1,4 @@
-package domain.model;
+package domain.model.ast;
 
 import domain.model.variable.BooleanVariable;
 import domain.model.variable.Variable;

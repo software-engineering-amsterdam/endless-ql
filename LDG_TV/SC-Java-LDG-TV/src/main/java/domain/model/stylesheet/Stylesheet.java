@@ -1,5 +1,7 @@
 package domain.model.stylesheet;
 
+import domain.model.ast.QuestionASTNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,5 +27,15 @@ public class Stylesheet {
 
     public void addPage(Page p) {
         this.pages.add(p);
+    }
+
+    public List<QuestionASTNode> getAllQuestionASTNodes(){
+        List<QuestionASTNode> temp = new ArrayList<>();
+        for (Page p : getPages()){
+            for (Section s : p.getSections()){
+                temp.addAll(s.getQuestions());
+            }
+        }
+        return temp;
     }
 }

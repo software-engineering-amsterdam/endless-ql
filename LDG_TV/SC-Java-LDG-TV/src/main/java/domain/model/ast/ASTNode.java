@@ -1,4 +1,4 @@
-package domain.model;
+package domain.model.ast;
 
 public abstract class ASTNode {
     private boolean disabled;

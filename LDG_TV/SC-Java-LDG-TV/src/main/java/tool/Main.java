@@ -5,7 +5,7 @@ import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
 import antlr.qls.StylesheetLexer;
 import antlr.qls.StylesheetParser;
-import domain.model.IfASTNode;
+import domain.model.ast.IfASTNode;
 import loader.QL.QLLoader;
 import loader.QLS.QLSLoader;
 import org.antlr.v4.runtime.ANTLRInputStream;

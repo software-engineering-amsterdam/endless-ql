@@ -2,13 +2,13 @@ package loader.QL;
 
 import antlr.ql.FormBaseListener;
 import antlr.ql.FormParser;
-import domain.FormNode;
-import domain.model.Condition;
-import domain.model.IfASTNode;
+import domain.model.ast.FormNode;
+import domain.model.ast.Condition;
+import domain.model.ast.IfASTNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.variable.*;
-import domain.model.QuestionASTNode;
+import domain.model.ast.QuestionASTNode;
 
 
 public class QLLoader extends FormBaseListener {
@@ -36,7 +36,6 @@ public class QLLoader extends FormBaseListener {
 
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
-        System.out.println("Entering if");
         IfASTNode ifASTNode = new IfASTNode(false);
         this.inIfNode = true;
         BooleanVariable v = null;
@@ -64,7 +63,6 @@ public class QLLoader extends FormBaseListener {
      }
     @Override
     public void exitIfStructure(FormParser.IfStructureContext ctx){
-        System.out.println("Exit if");
         this.inIfNode = false;
     }
     @Override

@@ -63,6 +63,7 @@ public class ASTBuilder extends AbstractParseTreeVisitor<Node> implements QLVisi
     @Override
     public Node visitDescription(QLParser.DescriptionContext ctx) {
         return new StringLiteral(ctx.start.getLine(),
+                trimQuotes(ctx.StringLiteral().getText()));
     }
 
     @Override

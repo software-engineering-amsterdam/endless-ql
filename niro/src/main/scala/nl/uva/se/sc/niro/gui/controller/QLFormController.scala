@@ -97,7 +97,7 @@ class QLFormController(homeController: QLHomeController)
     questions.foreach(_.updateValue(dictionary))
   }
 
-  private def updateVisibility(): Unit = {
+  def updateVisibility(): Unit = {
     guiForm.questions.foreach { question =>
       val isQuestionVisible: Boolean = getVisibilitySetting(question)
       question.component.foreach(_.setVisible(isQuestionVisible))

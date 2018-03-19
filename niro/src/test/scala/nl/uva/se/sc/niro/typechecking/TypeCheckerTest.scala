@@ -111,14 +111,15 @@ class TypeCheckerTest extends WordSpec {
 
       val result = TypeChecker.pipeline(qLForm)
 
-      assert(result === Left(
-        List(
-          TypeCheckError(
-            "TypeCheckError",
-            "Non boolean predicate: List(Conditional(BinaryOperation(Mul,IntegerAnswer(5),IntegerAnswer(1)),List()))"
+      assert(
+        result === Left(
+          List(
+            TypeCheckError(
+              "TypeCheckError",
+              "Non boolean predicate: List(Conditional(BinaryOperation(Mul,IntegerAnswer(5),IntegerAnswer(1)),List()))"
+            )
           )
-        )
-      ))
+        ))
     }
 
     "checkDuplicateQuestionDeclarationsWithDifferentTypes" in {

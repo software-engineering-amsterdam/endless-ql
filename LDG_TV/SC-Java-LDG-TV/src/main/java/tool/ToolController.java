@@ -13,6 +13,7 @@ import domain.visitor.Visitor;
 import io.reactivex.Observable;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -25,11 +26,13 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Consumer;
 
-public class ToolController implements Initializable {
+public class ToolController implements Initializable, Consumer<ActionEvent> {
 
     @FXML
     private TextArea taSourceCode;
@@ -86,7 +89,7 @@ public class ToolController implements Initializable {
 
         List<ASTNode> astNodes = node.getASTNodes();
 
-        List<QuestionASTNode> questions = getAllVisibleQuestions(astNodes);
+        List<QuestionASTNode> questions = getAllQuestions(astNodes);
 
 
         drawQuestions(questions);
@@ -135,13 +138,18 @@ public class ToolController implements Initializable {
 
             Node n = qv.getRelatedUIElement(uiVisitor);
 
+            JavaFxObservable.actionEventsOf(n)
+                    .subscribe(this::accept);
+
             Row r = new QuestionRow(questionText, n);
             r.setDisable(qn.isDisabled());
             lvQuestionnaire.getItems().add(r);
         }
     }
 
-    private List<QuestionASTNode> getAllVisibleQuestions(List<ASTNode> nodes){
+
+
+    private List<QuestionASTNode> getAllQuestions(List<ASTNode> nodes){
         List<QuestionASTNode> visQuestion = new ArrayList<>();
         for(ASTNode n : nodes){
 
@@ -151,6 +159,9 @@ public class ToolController implements Initializable {
             }
 
             IfASTNode ifASTNode = (IfASTNode) n;
+
+            boolean cond = ifASTNode.checkConditions();
+            System.out.println("Conditions = " + cond);
 
             visQuestion.addAll(ifASTNode.getQuestionNodes());
         }
@@ -165,7 +176,8 @@ public class ToolController implements Initializable {
     public void importQLFile(ActionEvent event) {
         FileChooser fileChooser = getFileChooser();
 
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        Stage s = new Stage();
+        File selectedFile = fileChooser.showOpenDialog(s);
 
         if (selectedFile == null) {
             return;
@@ -194,5 +206,10 @@ public class ToolController implements Initializable {
         );
 
         return fileChooser;
+    }
+
+    @Override
+    public void accept(ActionEvent actionEvent) {
+        System.out.println("Redraw tree yo");
     }
 }

@@ -142,12 +142,10 @@
     <Compile Include="Parser\AntlrGenerated\QLLexer.cs" />
     <Compile Include="Parser\AntlrGenerated\QLListener.cs" />
     <Compile Include="Parser\AntlrGenerated\QLS.cs" />
-    <Compile Include="Parser\AntlrGenerated\QLSBaseListener.cs" />
     <Compile Include="Parser\AntlrGenerated\QLSLexer.cs" />
-    <Compile Include="Parser\AntlrGenerated\QLSListener.cs" />
     <Compile Include="Parser\QLErrorListener.cs" />
     <Compile Include="Parser\QLParseErrorHandler.cs" />
-    <Compile Include="Parser\QLSListener.cs" />
+    <Compile Include="Parser\QLSParser.cs" />
     <Compile Include="Rendering\QuestionFormWithStyleRenderer.cs" />
     <Compile Include="Model\QL\AST\Statement.cs" />
     <Compile Include="TypeChecking\QLTypeChecker.cs" />

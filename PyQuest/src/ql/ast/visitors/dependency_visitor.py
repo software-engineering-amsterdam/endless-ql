@@ -50,7 +50,9 @@ class DependencyVisitor(object):
         if node.computed:
             self.__current_dependencies = []
             node.answer.accept(self)
-            self.__all_dependencies.append((node.identifier, self.__current_dependencies))
+            self.__all_dependencies.append((node.identifier,
+                                            self.__current_dependencies,
+                                            node.position))
 
     @when(AdditionOperatorNode)
     def visit(self, node):

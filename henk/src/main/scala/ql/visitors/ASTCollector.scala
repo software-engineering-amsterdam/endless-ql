@@ -35,6 +35,11 @@ object ASTCollector {
     }
   }
 
+  def getQuestions(ast: ASTNode): List[ASTQuestion] = {
+    val flattened = flattenNT(ast)
+    flattened.collect { case question: ASTQuestion => question }
+  }
+
   def getVarDecls(node: ASTNode): List[ASTVarDecl] = {
     val flattened = flattenNT(node)
     flattened.collect { case varDecl: ASTVarDecl => varDecl }

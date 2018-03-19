@@ -66,7 +66,6 @@ public class DateValue extends AbstractValue {
 		return val.lEq(this);
 	}
 	
-	
 	@Override
 	public BooleanValue eq(Value val) {
 		return val.eq(this);
@@ -76,7 +75,11 @@ public class DateValue extends AbstractValue {
 		return val.eq(this);
 	}
 	
-
+	@Override
+	public BooleanValue eq(DecimalValue val) {
+		return throwException();
+	}
+	
 	@Override
 	public Value add(Value val) {
 		return throwException();
@@ -145,7 +148,7 @@ public class DateValue extends AbstractValue {
 
 
 	@Override
-	public BooleanValue eq(DecimalValue val) {
+	public BooleanValue eq(MoneyValue val) {
 		return throwException();
 	}
 	

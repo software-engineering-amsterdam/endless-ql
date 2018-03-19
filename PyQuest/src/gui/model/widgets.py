@@ -64,4 +64,4 @@ class CalendarWidget(QCalendarWidget):
         return date.day(), date.month(), date.year()
 
     def on_change(self, change_event_function):
-        self.selection_changed.connect(lambda: change_event_function(self))
+        self.selectionChanged.connect(lambda: change_event_function(self))

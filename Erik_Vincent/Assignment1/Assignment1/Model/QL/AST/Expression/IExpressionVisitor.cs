@@ -1,9 +1,18 @@
-﻿namespace Assignment1.Model.QL.AST.Expression
+﻿using Assignment1.Model.QL.AST.Value;
+
+namespace Assignment1.Model.QL.AST.Expression
 {
     public interface IExpressionVisitor
     {
-        void Visit(Value value);
+        void Visit(QLBoolean value);
+        void Visit(QLInteger value);
+        void Visit(Undefined undefined);
+        void Visit(QLString value);
+        void Visit(QLDate value);
+        void Visit(QLDecimal value);
+        void Visit(QLMoney value);
         void Visit(Not expression);
+        void Visit(Reference expression);
         void Visit(And expression);
         void Visit(Or expression);
         void Visit(LessThan expression);

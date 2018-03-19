@@ -38,8 +38,8 @@ class QLString(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value):
-        return StringNode(None, QLString, value)
+    def get_literal_node(value=''):
+        return StringNode(None, QLString, QLString(value))
 
     @staticmethod
     def pyqt5_default_widget():

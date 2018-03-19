@@ -1,6 +1,6 @@
-from ql.parser.qllex import LexTokenizer
-from ql.parser.qlyacc import QLParser
-from ql.ast.visitors.render import Render
+from ql.parser.lexer import QLLexer
+from ql.parser.parser import QLParser
+from ql.ast.visitors.gui_model_generator import GUIModel
 from ql.ast.extractors.extractor import Extractor
 from ql.ast.visitors.type_visitor import TypeVisitor
 from ql.ast.checkers.question_checker import QuestionChecker
@@ -101,7 +101,7 @@ class MainApp(QMainWindow):
     def create_form(self):
         textbox_value = self.text_edit.toPlainText()
         parser = QLParser()
-        lexer = LexTokenizer()
+        lexer = QLLexer()
 
         try:
             ast = parser.parser.parse(textbox_value, lexer.lexer)
@@ -110,9 +110,9 @@ class MainApp(QMainWindow):
             ReferenceChecker(extractor.extract_identifier_scopes(ast))
             DependencyChecker(extractor.extract_identifier_dependencies(ast))
             QuestionChecker(extractor.extract_questions(ast))
-            TypeVisitor(extractor.extract_identifier_types(ast))
+            TypeVisitor(extractor.extract_identifier_types(ast)).visit(ast)
 
-            visitor = Render()
+            visitor = GUIModel()
             visitor.visit(ast)
 
             dialog = Form(visitor.form)

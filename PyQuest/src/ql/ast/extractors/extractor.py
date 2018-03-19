@@ -29,6 +29,3 @@ class Extractor:
         question_visitor = QuestionVisitor()
         question_visitor.visit(ast)
         return question_visitor.questions
-
-
-

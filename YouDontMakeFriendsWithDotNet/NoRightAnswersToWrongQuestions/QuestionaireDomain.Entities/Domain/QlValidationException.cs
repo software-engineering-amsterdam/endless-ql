@@ -13,7 +13,7 @@ namespace QuestionnaireDomain.Entities.Domain
 
         protected QlValidationException(
             SerializationInfo info,
-            StreamingContext context)
+            StreamingContext context) : base(info, context)
         {
         }
     }

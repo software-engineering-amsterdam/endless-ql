@@ -15,26 +15,26 @@ using Assignment1.Model.QLS.AST.Style.Widget;
 options { tokenVocab=QLSLexer; }
 
 stylesheet returns [StyleSheet result]
-	: STYLESHEET ID OPEN_CB pages CLOSE_CB
+	: STYLESHEET ID pages EOF
 		{$result = new StyleSheet($pages.result);}
 	;
 pages returns [List<Page> result]
 	@init {
 	$result = new List<Page>();
 	}
-	: page
-		{$result.Add($page.result);}
-	;
-page returns [Page result]
-	: PAGE ID statements
-		{$result = new Page($ID.text, $statements.result);}
+	: OPEN_CB (pages
+			{$result.AddRange($pages.result);}
+		)* CLOSE_CB
+	| PAGE ID statements
+		{$result.Add(new Page($ID.text, $statements.result));}
 	;
 statements returns [List<Statement> result]
 	@init {
 	$result = new List<Statement>();
 	}
-	: OPEN_CB statements CLOSE_CB
-		{$result.AddRange($statements.result);}
+	: OPEN_CB (statements
+			{$result.AddRange($statements.result);}
+		)* CLOSE_CB
 	| section
 		{$result.Add($section.result);}
 	| questionStyle
@@ -56,8 +56,9 @@ styles returns [List<IStyle> result]
 	@init {
 	$result = new List<IStyle>();
 	}
-	: OPEN_CB styles CLOSE_CB
-		{$result = $styles.result;}
+	: OPEN_CB (styles
+			{$result.AddRange($styles.result);}
+		)* CLOSE_CB
 	| COLOR SEP HEXCOLORCODE
 		{$result.Add(new Color(System.Drawing.ColorTranslator.FromHtml($HEXCOLORCODE.text)));}
 	| FONT SEP string

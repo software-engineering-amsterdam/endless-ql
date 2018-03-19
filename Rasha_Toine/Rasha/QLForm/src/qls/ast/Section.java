@@ -29,7 +29,11 @@ public class Section extends AstNode {
 	public List<Item> getItems() {
 		return Collections.unmodifiableList(items);
 	}
-	
+
+	public boolean hasQuestion(Question question) {
+		return getQuestionItem(question) != null;
+	}
+
 	public QuestionItem getQuestionItem(Question question) {
 		for (QuestionItem item : getQuestionItems()) {
 			//match identifiers between ql question and qls question-item
@@ -58,4 +62,9 @@ public class Section extends AstNode {
 		}
 		return questionItems;
 	}
+
+	public List<QuestionGUI> getFilteredQuestionsGui(List<QuestionGUI> questions) {
+		return questions.stream().filter(ui -> hasQuestion(ui.getQuestion())).collect(Collectors.toList());
+	}
+	
 }

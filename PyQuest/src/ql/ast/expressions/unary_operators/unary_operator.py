@@ -10,3 +10,10 @@ class UnaryOperatorNode(ExpressionNode):
     def expression(self):
         return self.__expression
 
+    @property
+    def value(self):
+        return self.__value
+
+    @value.setter
+    def value(self, value):
+        self.__value = value

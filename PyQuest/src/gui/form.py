@@ -35,7 +35,6 @@ class Form(QDialog):
             show = question.evaluate_show_condition(self.form)
             question.pyqt5_render(layout, form, show)
             question.widget.on_change(form.update_show_condition_on_change)
-            # form.update_show_condition_on_change(question.widget)
 
         self.form_group_box.setLayout(layout)
 

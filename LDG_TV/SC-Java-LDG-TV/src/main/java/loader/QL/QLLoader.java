@@ -99,13 +99,14 @@ public class QLLoader extends FormBaseListener {
 
         QuestionASTNode q = new QuestionASTNode(questionText, constructedVariable, this.inIfNode);
         if(this.inIfNode) {
+            if (this.inElseNode){
+                this.formNode.addToLastIfElse(q);
+                return;
+            }
             this.formNode.addToLastIf(q);
             return;
         }
-        if (this.inElseNode){
-            this.formNode.addToLastIfElse(q);
-            return;
-        }
+
         this.formNode.addQuestion(new QuestionASTNode(questionText, constructedVariable, false));
     }
     @Override

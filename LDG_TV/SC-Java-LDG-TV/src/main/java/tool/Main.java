@@ -24,7 +24,8 @@ public class Main {
             FormParser.FormBuilderContext tree = parser.formBuilder();
             QLLoader loader = new QLLoader();
             ParseTreeWalker.DEFAULT.walk(loader, tree);
-
+            IfASTNode f = (IfASTNode) loader.getFormNode().getASTNodes().get(2);
+            System.out.println(f);
             ANTLRInputStream sinput = new ANTLRInputStream(new FileInputStream(args[1]));
             StylesheetLexer slexer = new StylesheetLexer(sinput);
             StylesheetParser sparser = new StylesheetParser(new CommonTokenStream(slexer));

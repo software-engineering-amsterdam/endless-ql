@@ -1,4 +1,4 @@
-package domain.model.stylesheet.ui;
+package domain.model.stylesheet;
 
 import java.util.Map;
 

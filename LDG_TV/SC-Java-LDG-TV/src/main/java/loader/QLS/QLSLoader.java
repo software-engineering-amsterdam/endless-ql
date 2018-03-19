@@ -7,7 +7,7 @@ import domain.model.QuestionASTNode;
 import domain.model.stylesheet.Page;
 import domain.model.stylesheet.Section;
 import domain.model.stylesheet.Stylesheet;
-import domain.model.stylesheet.ui.UIElement;
+import domain.model.stylesheet.UIElement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,12 +28,6 @@ public class QLSLoader extends StylesheetBaseListener {
         styleSheet.setLabel(ctx.identifier().getText());
     }
     @Override
-    public void enterStylesheetData(StylesheetParser.StylesheetDataContext ctx) {
-
-    }
-    @Override
-    public void exitStylesheetData(StylesheetParser.StylesheetDataContext ctx) { }
-    @Override
     public void enterPageNodeStructure(StylesheetParser.PageNodeStructureContext ctx) {
         p = new Page(ctx.identifier().getText());
         styleSheet.addPage(p);
@@ -52,18 +46,6 @@ public class QLSLoader extends StylesheetBaseListener {
         s = null;
     }
     @Override
-    public void enterIdentifier(StylesheetParser.IdentifierContext ctx) { }
-    @Override
-    public void exitIdentifier(StylesheetParser.IdentifierContext ctx) { }
-    @Override
-    public void enterLabel(StylesheetParser.LabelContext ctx) { }
-    @Override
-    public void exitLabel(StylesheetParser.LabelContext ctx) { }
-    @Override
-    public void enterValue(StylesheetParser.ValueContext ctx) { }
-    @Override
-    public void exitValue(StylesheetParser.ValueContext ctx) { }
-    @Override
     public void enterQuestionStructure(StylesheetParser.QuestionStructureContext ctx) {
         qan = formNode.getQuestionByVariableIdentifier(ctx.identifier().getText());
     }
@@ -73,7 +55,6 @@ public class QLSLoader extends StylesheetBaseListener {
         qan = null;
     }
     @Override
-
     public void enterUiElement(StylesheetParser.UiElementContext ctx) {
         UIElement uiElement = null;
         Map<String, String> options;
@@ -103,10 +84,4 @@ public class QLSLoader extends StylesheetBaseListener {
         qan.setUiElement(uiElement);
 
     }
-    @Override
-    public void exitUiElement(StylesheetParser.UiElementContext ctx) { }
-    @Override
-    public void enterUiIdentifier(StylesheetParser.UiIdentifierContext ctx) { }
-    @Override
-    public void exitUiIdentifier(StylesheetParser.UiIdentifierContext ctx) { }
 }

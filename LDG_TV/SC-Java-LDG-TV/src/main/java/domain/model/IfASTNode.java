@@ -43,9 +43,11 @@ public class IfASTNode extends ASTNode {
                         temp = temp && (Boolean) condition.getVariable().getValue().getValue();
                 }
             } else {
-                return (Boolean) condition.getVariable().getValue().getValue();
+                temp = (Boolean) condition.getVariable().getValue().getValue();
             }
-            return temp;
+        }
+        for (QuestionASTNode qan : this.getQuestionNodes()){
+            qan.setVisible(temp);
         }
         return temp;
     }

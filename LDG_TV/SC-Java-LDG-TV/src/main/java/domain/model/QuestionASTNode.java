@@ -1,6 +1,6 @@
 package domain.model;
 
-import domain.model.stylesheet.ui.UIElement;
+import domain.model.stylesheet.UIElement;
 import domain.model.variable.Variable;
 
 public class QuestionASTNode extends ASTNode implements Comparable {

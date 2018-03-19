@@ -14,6 +14,14 @@ public class Section {
         this.questions = new ArrayList<>();
     }
 
+    /**
+     * Adds a QuestionASTNode to the questionNodes list.
+     * @param q QuestionASTNode to add
+     */
+    public void addQuestion(QuestionASTNode q) {
+        this.questions.add(q);
+    }
+
     public String getLabel() {
         return label;
     }
@@ -26,7 +34,4 @@ public class Section {
         return questions;
     }
 
-    public void addQuestion(QuestionASTNode q) {
-        this.questions.add(q);
-    }
 }

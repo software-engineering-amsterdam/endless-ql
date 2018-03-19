@@ -13,6 +13,14 @@ public class Page {
         this.sections = new ArrayList<>();
     }
 
+    /**
+     * Adds a Section to sections list.
+     * @param s section to add.
+     */
+    public void addSection(Section s) {
+        this.sections.add(s);
+    }
+
     public String getLabel() {
         return label;
     }
@@ -23,9 +31,5 @@ public class Page {
 
     public List<Section> getSections() {
         return sections;
-    }
-
-    public void addSection(Section s) {
-        this.sections.add(s);
     }
 }

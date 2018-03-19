@@ -81,6 +81,7 @@ public class QLLoader extends FormBaseListener {
                 constructedVariable = new StringVariable(ctx.variable().getText());
                 break;
             default:
+                //TODO Invalid variable type found. throw exception
         }
     }
     @Override

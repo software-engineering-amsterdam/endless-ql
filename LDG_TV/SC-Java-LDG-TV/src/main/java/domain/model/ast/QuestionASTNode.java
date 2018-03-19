@@ -14,19 +14,11 @@ public class QuestionASTNode extends ASTNode implements Comparable {
         this.setDisabled(visible);
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public Variable getVariable() {
-        return variable;
-    }
-
-    @Override
-    public String toString() {
-        return this.text;
-    }
-
+    /**
+     * Compares an QuestionASTNode object against another QuestionASTNode whether the text and variable identifier are the same.
+     * @param o the compared QuestionASTNode
+     * @return returns 1 if object is the same as param object. If not the same returns 0.
+     */
     @Override
     public int compareTo(Object o) {
         QuestionASTNode qan = (QuestionASTNode) o;
@@ -37,6 +29,14 @@ public class QuestionASTNode extends ASTNode implements Comparable {
         }
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public Variable getVariable() {
+        return variable;
+    }
+
     public void setUiElement(UIElement uiElement) {
         this.uiElement = uiElement;
     }
@@ -44,4 +44,10 @@ public class QuestionASTNode extends ASTNode implements Comparable {
     public UIElement getUiElement() {
         return uiElement;
     }
+
+    @Override
+    public String toString() {
+        return this.text;
+    }
+
 }

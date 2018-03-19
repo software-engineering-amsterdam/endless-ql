@@ -54,6 +54,7 @@ public class IfASTNode extends ASTNode {
                         temp = temp && (Boolean) condition.getVariable().getValue().getValue();
                 }
             } else {
+                System.out.println(condition.getVariable());
                 temp = (Boolean) condition.getVariable().getValue().getValue();
             }
         }

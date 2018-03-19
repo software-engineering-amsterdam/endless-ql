@@ -1,9 +1,9 @@
 package QLS.parsing.visitors;
 
-import QLS.classes.Block;
+import QLS.classes.blocks.Block;
 import QLS.classes.Page;
-import QLS.classes.Question;
-import QLS.classes.Section;
+import QLS.classes.blocks.Question;
+import QLS.classes.blocks.Section;
 import QLS.classes.Stylesheet;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
@@ -14,8 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class StylesheetVisitor extends QLSBaseVisitor {
-    private boolean isVisible;
-    private QLS.parsing.visitors.BlockVisitor blockVisitor;
+    private BlockVisitor blockVisitor;
 
 
     public StylesheetVisitor(){
@@ -40,9 +39,8 @@ public class StylesheetVisitor extends QLSBaseVisitor {
         List<Block> blocks = new ArrayList<>();
 
         for (QLSParser.BlockContext c : ctx.block()) {
-            blocks.add((Block) blockVisitor.visitBlock(c));
+            blocks.add(blockVisitor.visitBlock(c));
         }
         return new Page(id, blocks);
     }
-
 }

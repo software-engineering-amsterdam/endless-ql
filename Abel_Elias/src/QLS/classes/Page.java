@@ -1,5 +1,7 @@
 package QLS.classes;
 
+import QLS.classes.blocks.Block;
+
 import java.util.List;
 
 public class Page {

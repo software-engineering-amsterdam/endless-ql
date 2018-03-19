@@ -20,7 +20,9 @@ import tool.ToolController;
 public class UIVisitor implements Visitor {
     @Override
     public Node visit(BooleanVariable bv) {
+        Boolean bool = bv.getValue().getValue();
         CheckBox cb = new CheckBox();
+        cb.setSelected(bool);
 
         JavaFxObservable
                 .valuesOf(cb.selectedProperty())
@@ -31,7 +33,6 @@ public class UIVisitor implements Visitor {
     @Override
     public Node visit(StringVariable sv) {
         TextField tf = new TextField();
-
         JavaFxObservable
                 .valuesOf(tf.textProperty())
                 .subscribe(sv.getValue());

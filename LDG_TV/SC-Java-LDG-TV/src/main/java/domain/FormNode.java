@@ -92,4 +92,19 @@ public class FormNode {
 
         return str.toString();
     }
+
+    public void evaluateIfs() {
+        for (ASTNode an : getASTNodes()) {
+            if(an instanceof IfASTNode){
+                IfASTNode ifNode = (IfASTNode) an;
+                ifNode.checkConditions();
+            }
+        }
+    }
+
+    public void evaluateArithmetic() {
+        for (ASTNode an : getAllQuestionASTNodes())) {
+
+        }
+    }
 }

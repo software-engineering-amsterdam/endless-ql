@@ -47,7 +47,7 @@ public class IfASTNode extends ASTNode {
             }
         }
         for (QuestionASTNode qan : this.getQuestionNodes()){
-            qan.setVisible(temp);
+            qan.setDisabled(!temp);
         }
         return temp;
     }

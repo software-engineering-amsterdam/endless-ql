@@ -43,7 +43,7 @@ public class ToolController implements Initializable, Consumer<ActionEvent> {
     @FXML
     private Button btnBuild;
 
-    private List<Row> data = new ArrayList<>();
+    private FormNode formNode = null;
 
     public ToolController() {
         System.out.println("Class initialized");
@@ -85,52 +85,20 @@ public class ToolController implements Initializable, Consumer<ActionEvent> {
         QLLoader loader = new QLLoader();
         ParseTreeWalker.DEFAULT.walk(loader, tree);
 
-        FormNode node = loader.getFormNode();
+        this.formNode = loader.getFormNode();
 
-        List<ASTNode> astNodes = node.getASTNodes();
+        List<ASTNode> astNodes = this.formNode.getASTNodes();
 
         List<QuestionASTNode> questions = getAllQuestions(astNodes);
-
-
         drawQuestions(questions);
 
 
-        System.out.println(node);
-
-
-//        for (ASTNode n : node.getASTNodes()){
-//
-//            if(!(n instanceof QuestionASTNode)){
-//                break;
-//            }
-//
-//            QuestionASTNode qn = (QuestionASTNode) n;
-//
-//            Variable qv = qn.getVariable();
-//            String qt = qn.getText();
-//
-//            if(qv instanceof BooleanVariable){
-//                CheckBox cb = new CheckBox();
-//
-//                cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
-//                    qv.setValue(new BooleanValue(newValue));
-//                    System.out.println(qn.getText() + " " + qv.getValue().getValue());
-//                });
-//
-//                lvQuestionnaire.getItems().add(new QuestionRow(qt, cb, false));
-//                continue;
-//            }
-//            Node answerNode = qv.getRelatedUIElement(v);
-//
-//            lvQuestionnaire.getItems().add(new QuestionRow(qt, answerNode, false));
-//        }
-
-        //this.lvQuestionnaire.getItems().setAll(dummyRows());
+        System.out.println(this.formNode);
     }
 
     private void drawQuestions(List<QuestionASTNode> questionASTNodes){
         Visitor uiVisitor = new UIVisitor();
-
+        lvQuestionnaire.getItems().clear();
         for(QuestionASTNode qn : questionASTNodes){
             String questionText = qn.getText();
             System.out.println("QUI: " + questionText);
@@ -211,5 +179,8 @@ public class ToolController implements Initializable, Consumer<ActionEvent> {
     @Override
     public void accept(ActionEvent actionEvent) {
         System.out.println("Redraw tree yo");
+        this.formNode.evaluateIfs();
+        List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
+        drawQuestions(questions);
     }
 }

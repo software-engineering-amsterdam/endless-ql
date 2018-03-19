@@ -7,14 +7,14 @@ import domain.visitor.Visitor;
 import javafx.scene.Node;
 
 public class MoneyVariable extends Variable {
-    private Value value;
+    private Value<Integer> value;
 
     public MoneyVariable(String identifier) {
         super(identifier);
         value = new MoneyValue(0); // TODO move setting of value upstream (pass in consturctor)
     }
     @Override
-    public Value getValue() {
+    public Value<Integer> getValue() {
         return value;
     }
     @Override

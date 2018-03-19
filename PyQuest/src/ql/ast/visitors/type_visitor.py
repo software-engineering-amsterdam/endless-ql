@@ -16,6 +16,7 @@ from ql.ast.expressions.binary_operators.or_node import OrOperatorNode
 from ql.ast.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
 from ql.ast.expressions.literals.integer_node import IntegerNode
 from ql.ast.expressions.literals.decimal_node import DecimalNode
+from ql.ast.expressions.literals.date_node import DateNode
 from ql.ast.expressions.literals.undefined_node import UndefinedNode
 from ql.ast.visitors.visitor_helper import when, on
 from ql.types.undefined import QLUndefined
@@ -156,6 +157,10 @@ class TypeVisitor:
         pass
 
     @when(IntegerNode)
+    def visit(self, node):
+        pass
+
+    @when(DateNode)
     def visit(self, node):
         pass
 

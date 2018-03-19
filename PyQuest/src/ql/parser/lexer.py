@@ -89,7 +89,7 @@ class QLLexer:
 
     @staticmethod
     def t_DATE_LITERAL(t):
-        r'date\(\W*\d{1,2},\W*\d{1,2},\W*\d{1,4}\W*\)'
+        r'date\(\s*\d{1,2}\s*,\s*\d{1,2}\s*,\s*\d{1,4}\s*\)'
         numbers = findall(r'\d\d*', t.value)
 
         try:

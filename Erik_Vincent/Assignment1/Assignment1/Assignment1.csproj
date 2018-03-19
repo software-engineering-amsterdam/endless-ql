@@ -88,6 +88,7 @@
     <Compile Include="Model\QL\AST\Expression\Not.cs" />
     <Compile Include="Model\QL\AST\Expression\NotEqual.cs" />
     <Compile Include="Model\QL\AST\Expression\Or.cs" />
+    <Compile Include="Model\QL\AST\Expression\Reference.cs" />
     <Compile Include="Model\QL\AST\Expression\Subtract.cs" />
     <Compile Include="Model\QL\AST\IfStatement.cs" />
     <Compile Include="Model\QL\AST\Question.cs" />
@@ -96,8 +97,14 @@
     <Compile Include="Model\QL\AST\IQLASTVisitor.cs" />
     <Compile Include="Model\QL\AST\NormalQuestion.cs" />
     <Compile Include="Model\QL\AST\QuestionForm.cs" />
-    <Compile Include="Model\QL\AST\Undefined.cs" />
-    <Compile Include="Model\QL\AST\Value.cs" />
+    <Compile Include="Model\QL\AST\Value\QLBoolean.cs" />
+    <Compile Include="Model\QL\AST\Value\QLDate.cs" />
+    <Compile Include="Model\QL\AST\Value\QLDecimal.cs" />
+    <Compile Include="Model\QL\AST\Value\QLInteger.cs" />
+    <Compile Include="Model\QL\AST\Value\QLMoney.cs" />
+    <Compile Include="Model\QL\AST\Value\QLString.cs" />
+    <Compile Include="Model\QL\AST\Value\Undefined.cs" />
+    <Compile Include="Model\QL\AST\Value\IValue.cs" />
     <Compile Include="Model\QL\Value\AnswerValue.cs" />
     <Compile Include="Model\QL\IQuestionVisitor.cs" />
     <Compile Include="Model\QLS\AST\Statement.cs" />

@@ -7,6 +7,7 @@ from gui.model.widgets import CalendarWidget
 class QLDate(QLType):
     def __init__(self, date=(1, 1, 2018)):
         super(QLDate, self).__init__()
+        date = tuple(map(int, date))
         self.__day, self.__month, self.__year = date
 
     def __repr__(self):

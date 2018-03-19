@@ -17,7 +17,10 @@ public class UndefinedValue extends NumericValue {
     }
 
     @Override
-    public void setValueGeneric(Object o) {}
+    public void setValueGeneric(Object o) {
+        setValue((double) o);
+    }
+
 
     @Override
     public double getComputationValue() {

@@ -5,15 +5,15 @@ import domain.model.variable.Variable;
 
 public class Condition {
 
-    private BooleanVariable variable;
+    private Variable variable;
     private String operator;
 
-    public Condition(BooleanVariable variable, String operator) {
+    public Condition(Variable variable, String operator) {
         this.variable = variable;
         this.operator = operator;
     }
 
-    public BooleanVariable getVariable() {
+    public Variable getVariable() {
         return variable;
     }
 

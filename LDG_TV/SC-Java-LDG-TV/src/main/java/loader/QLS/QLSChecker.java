@@ -11,7 +11,9 @@ public class QLSChecker {
     public QLSChecker(FormNode formNode) {
         this.formNode = formNode;
     }
-
+    /**
+     * Execute the checks for QLS.
+     */
     public void doChecks() {
         try {
             this.checkReferenceUndefinedVariable();
@@ -21,6 +23,10 @@ public class QLSChecker {
         }
     }
 
+    /**
+     * Check for referenes of QuestionASTNodes which are not defined in the QL form.
+     * @throws ReferenceUndefinedVariableException
+     */
     public void checkReferenceUndefinedVariable() throws ReferenceUndefinedVariableException {
         for (QuestionASTNode q : formNode.getStylesheet().getAllQuestionASTNodes()){
             if (q == null){
@@ -28,6 +34,11 @@ public class QLSChecker {
             }
         }
     }
+
+    /**
+     * Checks if all the questions defined in QL are also defined in the QLS.
+     * @throws NotAllQuestionInPlaceException
+     */
     public void checkNotAllQuestionsArePlace() throws NotAllQuestionInPlaceException {
         if(formNode.getAllQuestionASTNodes().retainAll(formNode.getStylesheet().getAllQuestionASTNodes())){
             throw new NotAllQuestionInPlaceException("Not all questions defined in QL are defined in QLS.");

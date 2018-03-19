@@ -14,20 +14,24 @@ public class IfASTNode extends ASTNode {
         this.setDisabled(visible);
     }
 
-    public List<QuestionASTNode> getQuestionNodes() {
-        return questionNodes;
-    }
-
-    public List<Condition> getConditions() {
-        return conditions;
-    }
-
+    /**
+     * Adds a QuestionASTNode to the questionNodes list.
+     * @param q QuestionASTNode to add
+     */
     public void addQuestion(QuestionASTNode q){
         this.questionNodes.add(q);
     }
 
+    /**
+     * Adds a Condition to the conditions list.
+     * @param c Condition to add
+     */
     public void addCondition(Condition c){this.conditions.add(c);}
 
+    /**
+     * Checks whether the conditions for this IfASTNode are satisfied.
+     * @return boolean whether conditions are satisfied.
+     */
     public boolean checkConditions() {
         boolean temp = true;
         for (int i = 0; i < this.conditions.size(); i++) {
@@ -49,6 +53,14 @@ public class IfASTNode extends ASTNode {
         }
         return temp;
     }
+    public List<QuestionASTNode> getQuestionNodes() {
+        return questionNodes;
+    }
+
+    public List<Condition> getConditions() {
+        return conditions;
+    }
+
     public String toString () {
 
         StringBuilder str = new StringBuilder("if {\n");

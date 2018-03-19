@@ -1,6 +1,6 @@
 package domain.model.value;
 
-public class MoneyValue extends Value<Integer>{
+public class MoneyValue extends Value<Integer> {
     private Integer value;
 
     public MoneyValue(Integer value){

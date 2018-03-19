@@ -37,12 +37,10 @@ public class ArithmeticExpressionValue extends Value<Integer>{
     public void setValue(Integer value) {
         // TODO
     }
-
     @Override
     public void accept(Integer integer) throws Exception {
         // TODO ?
     }
-
     @Override
     public String toString() {
         return this.getValue().toString();

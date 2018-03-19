@@ -15,6 +15,10 @@ public class QLChecker {
     public QLChecker(FormNode formNode){
         this.formNode = formNode;
     }
+
+    /**
+     * Execute the checks for QL.
+     */
     public void doChecks(){
         try {
             this.checkReferenceUndefinedVariable();
@@ -24,6 +28,11 @@ public class QLChecker {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Check for references to undefined variables.
+     * @throws ReferenceUndefinedVariableException
+     */
     public void checkReferenceUndefinedVariable() throws ReferenceUndefinedVariableException {
         boolean found = false;
         for (Variable referencedVariable : formNode.getReferencedVariables()){
@@ -33,6 +42,10 @@ public class QLChecker {
         }
     }
 
+    /**
+     * Check for duplicate question declarations(same text and identifier).
+     * @throws DuplicateQuestionDeclarationException
+     */
     public void checkDuplicateQuestionDeclaration() throws DuplicateQuestionDeclarationException{
         for (QuestionASTNode qan : formNode.getAllQuestionASTNodes()){
             if (foundQuestionMoreThanOnce(qan)){
@@ -40,6 +53,11 @@ public class QLChecker {
             }
         }
     }
+
+    /**
+     * Check for invalid boolean conditions in ifASTNodes conditions list.
+     * @throws InvalidConditionException
+     */
     public void checkInvalidConditionExpressionException() throws InvalidConditionException {
         for (ASTNode an : formNode.getASTNodes()){
             if (an instanceof IfASTNode){
@@ -52,6 +70,11 @@ public class QLChecker {
         }
     }
 
+    /**
+     * Check whether an QuestionASTNode is found more than once in the formNode questionASTNodes list.
+     * @param qan QuestionASTNode to find duplicates for.
+     * @return true if QuestionASTNode is found more then once. False if not.
+     */
     private boolean foundQuestionMoreThanOnce(QuestionASTNode qan){
         List<QuestionASTNode> temp = formNode.getAllQuestionASTNodes();
         temp.remove(qan);

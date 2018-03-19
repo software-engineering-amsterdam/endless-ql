@@ -85,8 +85,8 @@ public class ToolController implements Initializable, Consumer {
 
         FormParser parser = new FormParser(new CommonTokenStream(lexer));
 
-        parser.setErrorHandler(new BailErrorStrategy());
-        parser.addErrorListener(new DialogErrorListener(lblErrorField));
+        //parser.setErrorHandler(new BailErrorStrategy());
+        parser.addErrorListener(new ToolBarErrorListener(lblErrorField));
 
         FormParser.FormBuilderContext tree = parser.formBuilder();
         QLLoader loader = new QLLoader();
@@ -177,7 +177,7 @@ public class ToolController implements Initializable, Consumer {
         qlsText.ifPresentOrElse(
                 text -> {
                     taSourceCodeQLS.setText(text);
-                    printInfoMessage("Import "+ selectedFile.getName() +"successful");
+                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
                 },
                 () -> showAlertBox("Could not read file.")
         );
@@ -202,7 +202,7 @@ public class ToolController implements Initializable, Consumer {
         qlText.ifPresentOrElse(
                 text -> {
                     taSourceCodeQL.setText(text);
-                    printInfoMessage("Import "+ selectedFile.getName() +"successful");
+                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
                 },
                 () -> showAlertBox("Could not read file.")
         );

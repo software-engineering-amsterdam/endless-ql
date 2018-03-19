@@ -10,12 +10,12 @@ import org.antlr.v4.runtime.Recognizer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class DialogErrorListener extends BaseErrorListener {
+public class ToolBarErrorListener extends BaseErrorListener {
 
 
     private final Label lblErrorField;
 
-    public DialogErrorListener(Label lblErrorField) {
+    public ToolBarErrorListener(Label lblErrorField) {
         this.lblErrorField = lblErrorField;
     }
 

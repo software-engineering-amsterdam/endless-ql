@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assignment1.Model.QL;
 using Assignment1.Model.QL.AST;
 using Assignment1.Model.QL.RenderTree;
@@ -14,7 +15,7 @@ namespace Assignment1.Converters
     {
         private Model.QL.RenderTree.QuestionForm _result;
         private readonly Stack<Expression> _conditions = new Stack<Expression>(new[] { new ExpressionValue(true) });
-        private readonly List<Model.QL.RenderTree.Question> _questions = new List<Model.QL.RenderTree.Question>();
+        private readonly Dictionary<string, Model.QL.RenderTree.Question> _questions = new Dictionary<string, Model.QL.RenderTree.Question>();
 
         private QLASTToRenderTree() { }
 
@@ -32,12 +33,12 @@ namespace Assignment1.Converters
             {
                 statement.Accept(this);
             }
-            _result = new Model.QL.RenderTree.QuestionForm(questionForm.Id, _questions);
+            _result = new Model.QL.RenderTree.QuestionForm(questionForm.Id, _questions.Values.ToList());
         }
 
         public void Visit(IfStatement ifStatement)
         {
-            var condition = QLASTExpressionToRenderExpression.Convert(ifStatement.Condition);
+            var condition = QLASTExpressionToRenderExpression.Convert(ifStatement.Condition, _questions);
             _conditions.Push(new ExpressionAnd(_conditions.Peek(), condition));
             foreach (var statement in ifStatement.ThenStatements)
             {
@@ -54,15 +55,15 @@ namespace Assignment1.Converters
         public void Visit(NormalQuestion question)
         {
             var result = QLASTQuestionToQuestion(question);
-            //result.Value = QLASTExpressionToRenderExpression.Convert(question.Answer).Evaluate();
-            _questions.Add(result);
+            result.Value = QLASTExpressionToRenderExpression.Convert(question.Answer, _questions)?.Evaluate() ?? result.Value; //TODO: Cleanup when Convert method is implemented.
+            _questions.Add(question.Id, result);
         }
 
         public void Visit(ComputedQuestion question)
         {
             var result = QLASTQuestionToQuestion(question);
-            result.Computation = QLASTExpressionToRenderExpression.Convert(question.Computation);
-            _questions.Add(result);
+            result.Computation = QLASTExpressionToRenderExpression.Convert(question.Computation, _questions);
+            _questions.Add(question.Id, result);
         }
 
         private Model.QL.RenderTree.Question QLASTQuestionToQuestion(Question question)

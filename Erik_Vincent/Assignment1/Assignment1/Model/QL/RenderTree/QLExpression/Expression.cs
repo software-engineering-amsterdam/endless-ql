@@ -27,11 +27,10 @@
 
     public class ExpressionId : Expression
     {
-        public readonly string Id;
-        public Question Question;
-        public ExpressionId(string id)
+        public Question Question { get; }
+        public ExpressionId(Question question)
         {
-            Id = id;
+            Question = question;
         }
         public override dynamic Evaluate() => Question.Value; // TODO: Fix return of null
     }

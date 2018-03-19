@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
-using Assignment1.Model.QL;
+using Assignment1.Converters;
 using Assignment1.Model.QL.RenderTree;
 using Assignment1.Model.QL.RenderTree.QLExpression;
 using Assignment1.Parser;
@@ -19,13 +19,13 @@ namespace Assignment1.TypeChecking
         private int currentLineNumber = 0;
 
         #region Type checking functions
-        
+
         private void TypeCheckQuestionId(string questionId)
         {
             if (QuestionIdExists(questionId))
             {
                 _errorHandler.AddError(currentLineNumber, "The question id '" + questionId + "' already exists in the current context.");
-            } 
+            }
         }
 
         private void TypeCheckQuestionLabel(string questionLabel)
@@ -43,7 +43,8 @@ namespace Assignment1.TypeChecking
             {
                 if (!(question.Computation.Evaluate() is bool))
                     _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to bool.");
-            } else
+            }
+            else
             {
                 if (!(question.Value is bool))
                     _errorHandler.AddError(currentLineNumber, "The value is not of type bool.");
@@ -158,62 +159,62 @@ namespace Assignment1.TypeChecking
             {
                 Console.WriteLine(warning);
             }
-            _form = context.result;
+            _form = QLASTToRenderTree.Convert(context.result);
             _form.Warnings = _warnings;
         }
 
         /* Check for each question if the id already exists and add an error if this is the case.
          */
-        public override void ExitQuestion(QL.QuestionContext context)
-        {
-            currentLineNumber = context.Start.Line;
-            string questionId = context.result.Id;
+        //public override void ExitQuestion(QL.QuestionContext context)
+        //{
+        //    currentLineNumber = context.Start.Line;
+        //    string questionId = context.result.Id;
 
-            context.result.Accept(this);
-            _questions.Add(questionId, context.result);
-        }
+        //    context.result.Accept(this);
+        //    _questions.Add(questionId, context.result);
+        //}
 
-        /* Check for each if statement if the expression in the condition is of type boolean.
-         */
-        public override void ExitIfstatement(QL.IfstatementContext context)
-        {
-            object conditionType = context._expression.result.Evaluate();
-            if (!(conditionType is bool))
-            {
-                _errorHandler.AddError(context.Start.Line, "The expression '" + context._expression.GetText() + "' in the if statement is not of type boolean.");
-            }
-        }
+        ///* Check for each if statement if the expression in the condition is of type boolean.
+        // */
+        //public override void ExitIfstatement(QL.IfstatementContext context)
+        //{
+        //    object conditionType = context._expression.result.Evaluate();
+        //    if (!(conditionType is bool))
+        //    {
+        //        _errorHandler.AddError(context.Start.Line, "The expression '" + context._expression.GetText() + "' in the if statement is not of type boolean.");
+        //    }
+        //}
 
         /* Check for each expression if the left and right operands are of the correct type.
          * For example, for an arithmetic expression the left and right operands should be numeric.
          */
-        public override void ExitExpression(QL.ExpressionContext context)
-        {
-            Expression expression = context.result;
-            try
-            {
-                var expressionType = expression.Evaluate();
-            }
-            catch (Exception exception)
-            {
-                _errorHandler.AddError(context.Start.Line, exception.Message);
-            }
-        }
+        //public override void ExitExpression(QL.ExpressionContext context)
+        //{
+        //    Expression expression = context.result;
+        //    try
+        //    {
+        //        var expressionType = expression.Evaluate();
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        _errorHandler.AddError(context.Start.Line, exception.Message);
+        //    }
+        //}
 
-        /* Check for each expressionId if the referenced questionId exists. Adds an error message
-         * if this is not the case.
-         */
-        public override void ExitExpressionId(QL.ExpressionIdContext context)
-        {
-            try
-            {
-                context.result.Question = _questions[context.result.Id];
-            }
-            catch (KeyNotFoundException)
-            {
-                _errorHandler.AddError(context.Start.Line, "The question id '" + context.result.Id + "' does not exist in the current context.");
-            }
-        }
+        ///* Check for each expressionId if the referenced questionId exists. Adds an error message
+        // * if this is not the case.
+        // */
+        //public override void ExitExpressionId(QL.ExpressionIdContext context)
+        //{
+        //    try
+        //    {
+        //        context.result.Question = _questions[context.result.Id];
+        //    }
+        //    catch (KeyNotFoundException)
+        //    {
+        //        _errorHandler.AddError(context.Start.Line, "The question id '" + context.result.Id + "' does not exist in the current context.");
+        //    }
+        //}
 
         #endregion
 

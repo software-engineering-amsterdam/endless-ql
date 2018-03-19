@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Assignment1.Model.QL.AST.Expression;
 using Assignment1.Model.QL.AST.Value;
+using Assignment1.Model.QL.RenderTree;
 using Assignment1.Model.QL.RenderTree.QLExpression;
 
 namespace Assignment1.Converters
@@ -8,21 +10,27 @@ namespace Assignment1.Converters
     public class QLASTExpressionToRenderExpression : IExpressionVisitor
     {
         private Expression _result;
+        private Dictionary<string, Question> _questions;
 
-        private QLASTExpressionToRenderExpression() { }
-
-        public static Expression Convert(IExpression expression)
+        private QLASTExpressionToRenderExpression(Dictionary<string, Question> questions)
         {
-            var converter = new QLASTExpressionToRenderExpression();
+            _questions = questions;
+        }
+
+        public static Expression Convert(IExpression expression, Dictionary<string, Question> questions)
+        {
+            var converter = new QLASTExpressionToRenderExpression(questions);
             expression.Accept(converter);
             return converter._result;
         }
+
+        private Expression Convert(IExpression expression) => Convert(expression, _questions);
 
         public void Visit(QLBoolean value) => _result = new ExpressionValue(value.Value);
 
         public void Visit(QLInteger value) => _result = new ExpressionValue(value.Value);
 
-        public void Visit(Undefined undefined) => throw new NotImplementedException();
+        public void Visit(Undefined undefined) => _result = null; //TODO: Implement
 
         public void Visit(QLString value) => _result = new ExpressionValue(value.Value);
 
@@ -34,7 +42,7 @@ namespace Assignment1.Converters
 
         public void Visit(Not expression) => _result = new ExpressionNot(Convert(expression));
 
-        public void Visit(Reference expression) => _result = new ExpressionId(expression.QuestionId);
+        public void Visit(Reference expression) => _result = new ExpressionId(_questions[expression.QuestionId]);
 
         public void Visit(And expression) =>
             _result = new ExpressionAnd(Convert(expression.Left), Convert(expression.Right));
@@ -70,6 +78,6 @@ namespace Assignment1.Converters
             _result = new ExpressionMult(Convert(expression.Left), Convert(expression.Right));
 
         public void Visit(Divide expression) =>
-            _result = new ExpressionMult(Convert(expression.Left), Convert(expression.Right));
+            _result = new ExpressionDiv(Convert(expression.Left), Convert(expression.Right));
     }
 }

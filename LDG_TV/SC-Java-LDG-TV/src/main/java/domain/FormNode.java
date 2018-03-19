@@ -3,6 +3,7 @@ package domain;
 import domain.model.IfASTNode;
 import domain.model.ASTNode;
 import domain.model.QuestionASTNode;
+import domain.model.stylesheet.Stylesheet;
 import domain.model.value.MoneyValue;
 import domain.model.variable.MoneyVariable;
 import domain.model.variable.Variable;
@@ -15,6 +16,7 @@ public class FormNode {
     private String formIdentifier;
     private List<ASTNode> ASTNodes;
     private List<Variable> referencedVariables;
+    private Stylesheet stylesheet;
     private int lastIfIndex;
 
     public FormNode(){
@@ -39,6 +41,14 @@ public class FormNode {
 
     public void addQuestion(QuestionASTNode q){
         this.ASTNodes.add(q);
+    }
+
+    public Stylesheet getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Stylesheet stylesheet) {
+        this.stylesheet = stylesheet;
     }
 
     public void addIfNode(IfASTNode ifNode){

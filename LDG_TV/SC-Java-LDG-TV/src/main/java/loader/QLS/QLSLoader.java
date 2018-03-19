@@ -19,13 +19,22 @@ public class QLSLoader extends StylesheetBaseListener {
     private Section s;
     private FormNode formNode;
     private QuestionASTNode qan;
+    private QLSChecker qlsChecker;
+
     public QLSLoader(FormNode formNode) {
         styleSheet = new Stylesheet();
         this.formNode = formNode;
     }
+
     @Override
     public void enterStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx){
         styleSheet.setLabel(ctx.identifier().getText());
+    }
+    @Override
+    public void exitStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx){
+        this.formNode.setStylesheet(styleSheet);
+        this.qlsChecker = new QLSChecker(this.formNode);
+        qlsChecker.doChecks();
     }
     @Override
     public void enterPageNodeStructure(StylesheetParser.PageNodeStructureContext ctx) {

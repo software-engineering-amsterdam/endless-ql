@@ -16,13 +16,13 @@ stylesheet taxOfficeExample
     section "Selling"
     {
       question hasSoldHouse
-        widget radio("Yes", "No") 
+        widget radio("Yes", "No")
       section "You sold a house"
       {
         question sellingPrice
           widget spinbox
         question privateDebt
-          widget spinbox 
+          widget spinbox
         question valueResidue
           default money
           {
@@ -30,8 +30,8 @@ stylesheet taxOfficeExample
             font: "Arial"
             fontsize: 14
             color: #999999
-            widget spinbox
-          }
+              widget spinbox
+            }
       }
     }
   }

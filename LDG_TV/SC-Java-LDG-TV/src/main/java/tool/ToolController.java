@@ -10,7 +10,6 @@ import domain.model.ast.QuestionASTNode;
 import domain.model.variable.Variable;
 import domain.visitor.UIVisitor;
 import domain.visitor.Visitor;
-import io.reactivex.Observable;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import io.reactivex.rxjavafx.sources.Change;
 import javafx.event.ActionEvent;
@@ -18,7 +17,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.QLLoader;
@@ -33,7 +31,6 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class ToolController implements Initializable, Consumer {
 

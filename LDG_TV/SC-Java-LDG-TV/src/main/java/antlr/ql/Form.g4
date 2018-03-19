@@ -19,7 +19,15 @@ ifStructure:
     CURLY_BRACKET_OPEN
     (questionNodeStructure)+
     CURLY_BRACKET_CLOSE
+    elseStructure?
 ;
+elseStructure:
+    ELSE
+    CURLY_BRACKET_OPEN
+    (questionNodeStructure)+
+    CURLY_BRACKET_CLOSE
+;
+
 
 statementBlockStructure: BRACKET_OPEN conditions BRACKET_CLOSE ;
 value: (CHARACTERS | NUMBERS);
@@ -85,6 +93,7 @@ QUESTION_VARIABLE_SEPERATOR : ':';
 QUESTION_VARIABLE_VALUE_SEPERATOR : '=';
 
 IF : 'if';
+ELSE : 'else';
 
 WHITESPACE : [ \r\n\t] + -> skip;
 NEWLINE : ('\r'? '\n' | '\r')+ -> skip;

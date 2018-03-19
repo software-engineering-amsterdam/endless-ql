@@ -9,7 +9,6 @@ import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.variable.*;
 import domain.model.ast.QuestionASTNode;
-import exception.ReferenceUndefinedVariableException;
 
 
 public class QLLoader extends FormBaseListener {
@@ -18,6 +17,7 @@ public class QLLoader extends FormBaseListener {
     private QLChecker qlChecker;
     private Variable constructedVariable;
     private boolean inIfNode = false;
+    private boolean inElseNode = false;
 
     public QLLoader(){
         this.formNode = new FormNode();
@@ -65,6 +65,14 @@ public class QLLoader extends FormBaseListener {
 
      }
     @Override
+    public void enterElseStructure(FormParser.ElseStructureContext ctx){
+        this.inElseNode = true;
+    }
+    @Override
+    public void exitElseStructure(FormParser.ElseStructureContext ctx){
+        this.inElseNode = false;
+    }
+    @Override
     public void exitIfStructure(FormParser.IfStructureContext ctx){
         this.inIfNode = false;
     }
@@ -92,6 +100,10 @@ public class QLLoader extends FormBaseListener {
         QuestionASTNode q = new QuestionASTNode(questionText, constructedVariable, this.inIfNode);
         if(this.inIfNode) {
             this.formNode.addToLastIf(q);
+            return;
+        }
+        if (this.inElseNode){
+            this.formNode.addToLastIfElse(q);
             return;
         }
         this.formNode.addQuestion(new QuestionASTNode(questionText, constructedVariable, false));

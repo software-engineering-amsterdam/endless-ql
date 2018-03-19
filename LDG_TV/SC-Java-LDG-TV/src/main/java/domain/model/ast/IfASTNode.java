@@ -7,11 +7,19 @@ public class IfASTNode extends ASTNode {
 
     private List<Condition> conditions;
     private List<QuestionASTNode> questionNodes;
-
+    private List<QuestionASTNode> elseNodess;
     public IfASTNode(boolean visible) {
         this.questionNodes = new ArrayList<>();
         this.conditions = new ArrayList<>();
         this.setDisabled(visible);
+    }
+
+    /**
+     * Add a QuestionASTNode to the elseNodes list.
+     * @param elseNode QuestionASTNode to add.
+     */
+    public void addElseQuestion(QuestionASTNode elseNode) {
+        this.elseNodess.add(elseNode);
     }
 
     /**
@@ -60,6 +68,11 @@ public class IfASTNode extends ASTNode {
     public List<Condition> getConditions() {
         return conditions;
     }
+
+    public List<QuestionASTNode> getElseNodess() {
+        return elseNodess;
+    }
+
 
     public String toString () {
 

@@ -47,6 +47,14 @@ public class FormNode {
         IfASTNode ifNode = (IfASTNode) this.ASTNodes.get(this.lastIfIndex); // TODO check for instance of and not out of bounds
         ifNode.addQuestion(q);
     }
+    /**
+     * Add QuestionASTNode to the last IfNode else questions in ASTNodes list.
+     * @param q QuestionASTNode to add
+     */
+    public void addToLastIfElse(QuestionASTNode q){
+        IfASTNode ifNode = (IfASTNode) this.ASTNodes.get(this.lastIfIndex); // TODO check for instance of and not out of bounds
+        ifNode.addElseQuestion(q);
+    }
 
     /**
      * Get variable from the list of all QuestionASTNode's in ASTNodes list based on the variable identifier.

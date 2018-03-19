@@ -17,16 +17,34 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
           <Button fx:id="btnBuild" mnemonicParsing="false" onAction="#generateQuestionnaire" text="Build" />
-            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#importQLFile" text="Import" />
+            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#importQLFile" text="Import QL" />
+            <Button layoutX="63.0" layoutY="10.0" mnemonicParsing="false" onAction="#importQLSFile" text="Import QLS" />
         </items>
       </ToolBar>
       <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
         <items>
-            <TextArea fx:id="taSourceCode" prefHeight="200.0" prefWidth="200.0" promptText="Write or import questionair language..." wrapText="true">
-                <font>
-                    <Font name="Courier" size="13.0" />
-                </font>
-            </TextArea>
+            <TabPane>
+               <tabs>
+                  <Tab closable="false" text="QL">
+                     <content>
+                        <TextArea fx:id="taSourceCodeQL" prefHeight="200.0" prefWidth="200.0" promptText="Write or import questionair language..." wrapText="true">
+                            <font>
+                                <Font name="Courier" size="13.0" />
+                            </font>
+                        </TextArea>
+                     </content>
+                  </Tab>
+                  <Tab closable="false" text="QLS">
+                     <content>
+                        <TextArea fx:id="taSourceCodeQLS" prefHeight="200.0" prefWidth="200.0" promptText="Write or import questionair language style..." wrapText="true">
+                           <font>
+                              <Font name="Courier" size="13.0" />
+                           </font>
+                        </TextArea>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
             <ListView id="lv" fx:id="lvQuestionnaire" stylesheets="@Tool.css" />
         </items>
       </SplitPane>

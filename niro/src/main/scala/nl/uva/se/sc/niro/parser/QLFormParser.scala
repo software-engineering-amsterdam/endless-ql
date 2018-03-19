@@ -45,7 +45,11 @@ object QLFormParser extends Logging {
   object StatementVisitor extends QLBaseVisitor[Seq[Statement]] {
     override def defaultResult(): Seq[Statement] =
       Seq(
-        Question("error", "There is a serious error in a question or if-else statement!", BooleanType, BooleanAnswer()))
+        Question(
+          "error",
+          "There is a serious error in a question or if-else statement!",
+          BooleanType,
+          Some(BooleanAnswer())))
 
     override def shouldVisitNextChild(node: RuleNode, currentResult: Seq[Statement]): Boolean = {
       errorListener.parseErrors.isEmpty
@@ -63,7 +67,6 @@ object QLFormParser extends Logging {
       val expression = Option(ctx.expression)
         .map(ExpressionVisitor.visit)
         .map(expression => answerTypeConversion(expression, answerType))
-        .getOrElse(Answer(definedAnswerType))
       Seq(Question(questionId, questionLabel, answerType, expression))
     }
 

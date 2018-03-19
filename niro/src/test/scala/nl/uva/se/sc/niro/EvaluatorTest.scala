@@ -22,8 +22,8 @@ class EvaluatorTest extends WordSpec {
         val qLForm = QLForm(
           formName = "Revenue",
           statements = List(
-            Question("revenue", "How much did you earn", IntegerType, IntegerAnswer(1000)),
-            Question("expenses", "How much did you earn", IntegerType, IntegerAnswer(800)),
+            Question("revenue", "How much did you earn", IntegerType, Some(IntegerAnswer(1000))),
+            Question("expenses", "How much did you earn", IntegerType, Some(IntegerAnswer(800))),
             Conditional(
               BooleanAnswer(true),
               Seq(
@@ -31,7 +31,7 @@ class EvaluatorTest extends WordSpec {
                   "profit",
                   "You still have",
                   IntegerType,
-                  BinaryOperation(Sub, Reference("revenue"), Reference("expenses")))
+                  Some(BinaryOperation(Sub, Reference("revenue"), Reference("expenses"))))
               ))
           )
         )
@@ -51,9 +51,9 @@ class EvaluatorTest extends WordSpec {
         val qlForm = QLForm(
           "EditOrNotToEdit",
           List(
-            Question("booleanVariable", "Boolean variable", BooleanType, BooleanAnswer(None)),
-            Question("integerVariable", "Integer variable", IntegerType, IntegerAnswer(None)),
-            Question("decimalVariable", "Decimal variable", DecimalType, DecimalAnswer(None)),
+            Question("booleanVariable", "Boolean variable", BooleanType, Some(BooleanAnswer(None))),
+            Question("integerVariable", "Integer variable", IntegerType, Some(IntegerAnswer(None))),
+            Question("decimalVariable", "Decimal variable", DecimalType, Some(DecimalAnswer(None))),
             Conditional(
               Reference("booleanVariable"),
               List(
@@ -61,9 +61,9 @@ class EvaluatorTest extends WordSpec {
                   "integerConstant",
                   "Integer constant",
                   IntegerType,
-                  BinaryOperation(Mul, IntegerAnswer(21), IntegerAnswer(2))
+                  Some(BinaryOperation(Mul, IntegerAnswer(21), IntegerAnswer(2)))
                 ),
-                Question("decimalConstant", "Decimal constant", DecimalType, DecimalAnswer(42.4))
+                Question("decimalConstant", "Decimal constant", DecimalType, Some(DecimalAnswer(42.4)))
               )
             ),
             Conditional(
@@ -73,21 +73,23 @@ class EvaluatorTest extends WordSpec {
                   "integerExpression",
                   "Integer expression",
                   IntegerType,
-                  BinaryOperation(
-                    Add,
-                    BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(Some(1))),
-                    Reference("integerVariable")
-                  )
+                  Some(
+                    BinaryOperation(
+                      Add,
+                      BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(Some(1))),
+                      Reference("integerVariable")
+                    ))
                 ),
                 Question(
                   "decimalExpression",
                   "Decimal expression",
                   DecimalType,
-                  BinaryOperation(
-                    Add,
-                    BinaryOperation(Add, Reference("decimalConstant"), DecimalAnswer(1.0)),
-                    Reference("decimalVariable")
-                  )
+                  Some(
+                    BinaryOperation(
+                      Add,
+                      BinaryOperation(Add, Reference("decimalConstant"), DecimalAnswer(1.0)),
+                      Reference("decimalVariable")
+                    ))
                 )
               )
             )
@@ -117,26 +119,27 @@ class EvaluatorTest extends WordSpec {
         val qlForm = QLForm(
           "EditOrNotToEdit",
           List(
-            Question("integerVariable", "Integer variable", IntegerType, IntegerAnswer(None)),
-            Question("dateVariable", "Date variable", DateType, DateAnswer(None)),
+            Question("integerVariable", "Integer variable", IntegerType, Some(IntegerAnswer(None))),
+            Question("dateVariable", "Date variable", DateType, Some(DateAnswer(None))),
             Question(
               "integerConstant",
               "Integer constant",
               IntegerType,
-              BinaryOperation(Mul, IntegerAnswer(Some(21)), IntegerAnswer(Some(2)))
+              Some(BinaryOperation(Mul, IntegerAnswer(Some(21)), IntegerAnswer(Some(2))))
             ),
-            Question("dateConstant", "Date constant", DateType, DateAnswer("1970-01-01")),
+            Question("dateConstant", "Date constant", DateType, Some(DateAnswer("1970-01-01"))),
             Question(
               "integerExpression",
               "Integer expression",
               IntegerType,
-              BinaryOperation(
-                Add,
-                BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(Some(1))),
-                Reference("integerVariable")
-              )
+              Some(
+                BinaryOperation(
+                  Add,
+                  BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(Some(1))),
+                  Reference("integerVariable")
+                ))
             ),
-            Question("dateExpression", "Date expression", DateType, Reference("dateVariable"))
+            Question("dateExpression", "Date expression", DateType, Some(Reference("dateVariable")))
           ),
           List()
         )
@@ -181,9 +184,9 @@ class EvaluatorTest extends WordSpec {
         val qlForm = QLForm(
           "EditOrNotToEdit",
           List(
-            Question("a", "a", IntegerType, IntegerAnswer()),
-            Question("b", "b", IntegerType, Reference("a")),
-            Question("c", "c", IntegerType, Reference("b"))
+            Question("a", "a", IntegerType, Some(IntegerAnswer())),
+            Question("b", "b", IntegerType, Some(Reference("a"))),
+            Question("c", "c", IntegerType, Some(Reference("b")))
           )
         )
 

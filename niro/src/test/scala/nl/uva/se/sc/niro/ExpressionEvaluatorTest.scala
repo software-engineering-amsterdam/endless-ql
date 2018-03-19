@@ -248,19 +248,19 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
       val qlForm = QLForm(
         formName = "Revenue",
         statements = List(
-          Question("revenue", "How much did you earn", IntegerType, IntegerAnswer(1000)),
-          Question("expenses", "How much did you spend", IntegerType, IntegerAnswer(200)),
+          Question("revenue", "How much did you earn", IntegerType, Some(IntegerAnswer(1000))),
+          Question("expenses", "How much did you spend", IntegerType, Some(IntegerAnswer(200))),
           Question(
             "profit",
             "You still have",
             IntegerType,
-            BinaryOperation(Sub, Reference("revenue"), Reference("expenses")))
+            Some(BinaryOperation(Sub, Reference("revenue"), Reference("expenses"))))
         )
       )
 
-      val q: Seq[Question] = qlForm.statements.collect { case q: Question => q }
-      val x = q.map(q => q.expression.evaluate(qlForm.symbolTable, Map.empty))
-      assert(x == Seq(IntegerAnswer(1000), IntegerAnswer(200), IntegerAnswer(800)))
+      val questions: Seq[Question] = qlForm.statements.collect { case q: Question => q }
+      val result = questions.flatMap(question => question.expression.map(_.evaluate(qlForm.symbolTable, Map.empty)))
+      assert(result == Seq(IntegerAnswer(1000), IntegerAnswer(200), IntegerAnswer(800)))
     }
 
     "do error handling" should {

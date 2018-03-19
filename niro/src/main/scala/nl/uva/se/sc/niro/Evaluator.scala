@@ -31,7 +31,7 @@ object Evaluator {
   }
 
   def evaluate(question: Question, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
-    val expression = memoryLookup(question.id, question.expression, dictionary)
+    val expression = memoryLookup(question.id, question.expression.get, dictionary)
     val evaluatedAnswer = expression.evaluate(symbolTable: SymbolTable, dictionary)
     if (evaluatedAnswer.possibleValue.isDefined) {
       dictionary + (question.id -> evaluatedAnswer)

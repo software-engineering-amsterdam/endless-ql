@@ -89,30 +89,30 @@ object TypeChecker extends Logging {
 
     if (duplicateQuestionsWithDifferentTypes.nonEmpty) {
       Left(
-      TypeCheckError(
-      message = s"Duplicate question declarations with different types: $duplicateQuestionsWithDifferentTypes"))
+        TypeCheckError(
+          message = s"Duplicate question declarations with different types: $duplicateQuestionsWithDifferentTypes"))
     } else {
       Right(qLForm)
     }
   }
 
   private def buildDependencyGraph(questions: Seq[Question]): Graph = {
-    questions.flatMap {
-      case q @ Question(_, _, _, r @ Reference(_)) => Seq(Edge(q.id, r.questionId))
-      case q @ Question(_, _, _, expression) =>
+    questions.collect {
+      case q @ Question(_, _, _, Some(r @ Reference(_))) => Seq(Edge(q.id, r.questionId))
+      case q @ Question(_, _, _, Some(expression)) =>
         Expression.collectAllReferences(expression).map(r => Edge(q.id, r.questionId))
-    }
+    }.flatten
   }
 
   // TODO implement checkOperandsOfInvalidTypeToOperators
   private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[List[TypeCheckError], QLForm] = {
     logger.info("Phase 3 - Checking operands of invalid type to operators ...")
 
-    val questions = Statement.collectAllQuestions(qLForm.statements)
     val conditionals = Statement.collectAllConditionals(qLForm.statements)
-    val expressions = questions.map(_.expression) ++ conditionals.map(_.predicate)
+    val expressions: Iterable[Expression] = qLForm.symbolTable.values.map(_.expression).flatten
+    val predicates = conditionals.map(_.predicate)
 
-    expressions
+    (expressions ++ predicates)
       .map(expression => typeOf(expression, qLForm.symbolTable))
       .map(either => either.toValidatedNel)
       .toList
@@ -126,7 +126,7 @@ object TypeChecker extends Logging {
   }
 
   def typeOf(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = expr match {
-    case Reference(questionId) => typeOf(symbolTable(questionId).expression, symbolTable)
+    case Reference(questionId) => symbolTable(questionId).answerType.asRight
 
     case UnaryOperation(operator: Operator, expression) =>
       typeOf(expression, symbolTable).flatMap(answerType => checkOperandAndOperator(operator, answerType))

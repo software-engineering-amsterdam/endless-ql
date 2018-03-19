@@ -32,7 +32,7 @@ object ExpressionEvaluator {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Answer = {
       memoryLookup(
         r.questionId,
-        symbolTable.get(r.questionId).map(_.expression).getOrElse(dictionary(r.questionId)),
+        symbolTable.get(r.questionId).flatMap(_.expression).getOrElse(dictionary(r.questionId)),
         dictionary)
         .evaluate(symbolTable, dictionary)
     }

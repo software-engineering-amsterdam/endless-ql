@@ -2,12 +2,11 @@ package QLS.classes;
 
 import java.util.List;
 
-public class Page {
-
+public class Section {
     private String id;
     private List<Block> blocks;
 
-    public Page(String id, List<Block> blocks) {
+    public Section(String id, List<Block> blocks) {
         this.id = id;
         this.blocks = blocks;
     }
@@ -27,5 +26,4 @@ public class Page {
     public void setBlocks(List<Block> blocks) {
         this.blocks = blocks;
     }
-
 }

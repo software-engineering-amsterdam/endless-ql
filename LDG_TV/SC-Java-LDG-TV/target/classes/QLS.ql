@@ -2,7 +2,7 @@ stylesheet taxOfficeExample
 {
   page Housing
   {
-    section BuyinG
+    section "Buying"
     {
       question hasBoughtHouse  
         widget checkbox 
@@ -34,6 +34,5 @@ stylesheet taxOfficeExample
         }        
       }
     }
-    default boolean widget radio("Yes", "No")
-  }  
+  }
 }

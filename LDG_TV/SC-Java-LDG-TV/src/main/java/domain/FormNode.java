@@ -58,6 +58,15 @@ public class FormNode {
         }
         return qv;
     }
+    public QuestionASTNode getQuestionByVariableIdentifier(String identifier){
+        QuestionASTNode qv = null ;
+        for (QuestionASTNode qan : getAllQuestionASTNodes()) {
+            if(qan.getVariable().getIdentifier().equals(identifier) ){
+                return qan;
+            }
+        }
+        return null;
+    }
 
     public List<QuestionASTNode> getAllQuestionASTNodes(){
         List<QuestionASTNode> temp = new ArrayList<>();

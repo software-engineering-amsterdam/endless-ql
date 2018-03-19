@@ -91,7 +91,9 @@ public class StylesheetParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class StylesheetBuilderContext extends ParserRuleContext {
-		public TerminalNode CHARACTERS() { return getToken(StylesheetParser.CHARACTERS, 0); }
+		public IdentifierContext identifier() {
+			return getRuleContext(IdentifierContext.class,0);
+		}
 		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(StylesheetParser.CURLY_BRACKET_OPEN, 0); }
 		public StylesheetDataContext stylesheetData() {
 			return getRuleContext(StylesheetDataContext.class,0);
@@ -120,7 +122,7 @@ public class StylesheetParser extends Parser {
 			setState(34);
 			match(T__0);
 			setState(35);
-			match(CHARACTERS);
+			identifier();
 			setState(36);
 			match(CURLY_BRACKET_OPEN);
 			setState(37);
@@ -196,8 +198,8 @@ public class StylesheetParser extends Parser {
 	}
 
 	public static class PageNodeStructureContext extends ParserRuleContext {
-		public LabelContext label() {
-			return getRuleContext(LabelContext.class,0);
+		public IdentifierContext identifier() {
+			return getRuleContext(IdentifierContext.class,0);
 		}
 		public TerminalNode CURLY_BRACKET_OPEN() { return getToken(StylesheetParser.CURLY_BRACKET_OPEN, 0); }
 		public TerminalNode CURLY_BRACKET_CLOSE() { return getToken(StylesheetParser.CURLY_BRACKET_CLOSE, 0); }
@@ -231,7 +233,7 @@ public class StylesheetParser extends Parser {
 			setState(45);
 			match(T__1);
 			setState(46);
-			label();
+			identifier();
 			setState(47);
 			match(CURLY_BRACKET_OPEN);
 			setState(49); 
@@ -1067,9 +1069,9 @@ public class StylesheetParser extends Parser {
 		"\20\22\24\26\30\32\34\36 \"\2\3\3\2\7\b\2\u0087\2$\3\2\2\2\4+\3\2\2\2"+
 		"\6/\3\2\2\2\b9\3\2\2\2\nM\3\2\2\2\fO\3\2\2\2\16V\3\2\2\2\20X\3\2\2\2\22"+
 		"]\3\2\2\2\24`\3\2\2\2\26f\3\2\2\2\30h\3\2\2\2\32j\3\2\2\2\34p\3\2\2\2"+
-		"\36v\3\2\2\2 x\3\2\2\2\"\u0081\3\2\2\2$%\7\3\2\2%&\7\27\2\2&\'\7\21\2"+
-		"\2\'(\5\4\3\2()\7\22\2\2)\3\3\2\2\2*,\5\6\4\2+*\3\2\2\2,-\3\2\2\2-+\3"+
-		"\2\2\2-.\3\2\2\2.\5\3\2\2\2/\60\7\4\2\2\60\61\5\f\7\2\61\63\7\21\2\2\62"+
+		"\36v\3\2\2\2 x\3\2\2\2\"\u0081\3\2\2\2$%\7\3\2\2%&\5\n\6\2&\'\7\21\2\2"+
+		"\'(\5\4\3\2()\7\22\2\2)\3\3\2\2\2*,\5\6\4\2+*\3\2\2\2,-\3\2\2\2-+\3\2"+
+		"\2\2-.\3\2\2\2.\5\3\2\2\2/\60\7\4\2\2\60\61\5\n\6\2\61\63\7\21\2\2\62"+
 		"\64\5\b\5\2\63\62\3\2\2\2\64\65\3\2\2\2\65\63\3\2\2\2\65\66\3\2\2\2\66"+
 		"\67\3\2\2\2\678\7\22\2\28\7\3\2\2\29:\7\5\2\2:<\5\f\7\2;=\7\21\2\2<;\3"+
 		"\2\2\2<=\3\2\2\2=?\3\2\2\2>@\5\20\t\2?>\3\2\2\2@A\3\2\2\2A?\3\2\2\2AB"+

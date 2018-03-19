@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.gui.factory
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.gui.control._
-import nl.uva.se.sc.niro.model.gui.{ GUIQuestion, QLGUIQuestion, QLSGUIQuestion }
+import nl.uva.se.sc.niro.model.gui.GUIQuestion
 import nl.uva.se.sc.niro.model.ql._
 
 trait ComponentFactory {
@@ -33,15 +33,17 @@ class QLComponentFactory extends ComponentFactory {
 }
 
 class QLSComponentFactory extends QLComponentFactory {
+
   override def make(question: GUIQuestion): Component[_] = {
-    val component = question.answerType match {
+    question.answerType match {
       case BooleanType =>
-        BooleanComponent(question.id, new Label(question.label), QLSWidgetFactory.makeBooleanWidget(question))
-      case _ => return super.make(question)
+        val component =
+          BooleanComponent(question.id, new Label(question.label), QLSWidgetFactory.makeBooleanWidget(question))
+        component.setReadOnly(question.isReadOnly)
+        question.component = Some(component)
+        component
+      case _ => super.make(question)
     }
-    component.setReadOnly(question.isReadOnly)
-    question.component = Some(component)
-    component
   }
 
 }

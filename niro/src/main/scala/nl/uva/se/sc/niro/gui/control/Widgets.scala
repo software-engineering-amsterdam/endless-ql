@@ -5,7 +5,10 @@ import java.time.format.DateTimeFormatter
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.collections.FXCollections
+import javafx.geometry.Insets
+import javafx.scene.Node
 import javafx.scene.control._
+import javafx.scene.layout.HBox
 import javafx.util.StringConverter
 import javafx.util.converter.LocalDateStringConverter
 import nl.uva.se.sc.niro.gui.builder.TextFormatterBuilder
@@ -14,10 +17,11 @@ import nl.uva.se.sc.niro.gui.listener.ValueChangedListener
 
 import scala.collection.mutable.ArrayBuffer
 
-trait QLWidget[T] extends Control {
+trait QLWidget[T] extends Node {
   private val valueChangedListeners = ArrayBuffer[ValueChangedListener]()
   def setValue(value: T): Unit
   def getValue: T
+  def setPrefWidth(width: Double): Unit
   def addValueChangedListener(valueChangedListener: ValueChangedListener): Unit =
     valueChangedListeners.append(valueChangedListener)
   protected def valueChanged: Unit =
@@ -46,7 +50,7 @@ class QLBooleanField extends CheckBox with QLWidget[Boolean] {
   override def getValue: Boolean = isSelected
 }
 
-class QLComboBoxField(trueLabel: String, falseLabel: String) extends ChoiceBox[Boolean] with QLWidget[Boolean] {
+class QLComboBooleanField(trueLabel: String, falseLabel: String) extends ChoiceBox[Boolean] with QLWidget[Boolean] {
   setItems(FXCollections.observableArrayList(true, false))
   setConverter(new StringConverter[Boolean]() {
     override def toString(value: Boolean): String = if (value) trueLabel else falseLabel
@@ -56,6 +60,26 @@ class QLComboBoxField(trueLabel: String, falseLabel: String) extends ChoiceBox[B
     override def changed(observable: ObservableValue[_ <: Boolean], oldValue: Boolean, newValue: Boolean): Unit =
       valueChanged
   })
+}
+
+class QLRadioBooleanField(trueLabel: String, falseLabel: String) extends HBox with QLWidget[Boolean] {
+  val group = new ToggleGroup()
+  val trueChoice = new RadioButton(trueLabel)
+  val falseChoice = new RadioButton(falseLabel)
+  trueChoice.setToggleGroup(group)
+  falseChoice.setToggleGroup(group)
+  getChildren.addAll(trueChoice, falseChoice)
+  setPadding(new Insets(3.0, 0.0, 5.0, 0.0))
+  setSpacing(5.0)
+
+  override def setValue(value: Boolean): Unit = group.selectToggle(if (value) trueChoice else falseChoice)
+  override def getValue: Boolean = group.getSelectedToggle == trueChoice
+  group
+    .selectedToggleProperty()
+    .addListener(new ChangeListener[Toggle] {
+      override def changed(observable: ObservableValue[_ <: Toggle], oldValue: Toggle, newValue: Toggle): Unit =
+        valueChanged
+    })
 }
 
 class QLDateField() extends DatePicker with QLWidget[LocalDate] {

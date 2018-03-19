@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.gui.factory
 import java.time.LocalDate
 
 import nl.uva.se.sc.niro.gui.control._
-import nl.uva.se.sc.niro.model.gui.{ ComboBox, GUIQuestion, QLSGUIQuestion }
+import nl.uva.se.sc.niro.model.gui.{ ComboBox, GUIQuestion, QLSGUIQuestion, Radio }
 
 trait WidgetFactory {
   val INTEGER_MASK = "\\d*"
@@ -29,8 +29,10 @@ class QLWidgetFactory extends WidgetFactory {
 
 class QLSWidgetFactory extends QLWidgetFactory {
   override def makeBooleanWidget(question: GUIQuestion): QLWidget[Boolean] = question match {
-    case QLSGUIQuestion(_, _, _, _, _, _ @ Some(ComboBox(trueLabel, falseLabel))) =>
-      new QLComboBoxField(trueLabel, falseLabel)
+    case QLSGUIQuestion(_, _, _, _, _, _ @Some(ComboBox(trueLabel, falseLabel))) =>
+      new QLComboBooleanField(trueLabel, falseLabel)
+    case QLSGUIQuestion(_, _, _, _, _, _ @Some(Radio(trueLabel, falseLabel))) =>
+      new QLRadioBooleanField(trueLabel, falseLabel)
     case _ =>
       super.makeBooleanWidget(question)
   }

@@ -17,21 +17,21 @@ class LexTokenizer(object):
     tokens = [
         'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'COLON',
         'ASSIGN',
-        'LE', 'LT', 'GE', 'GT', 'EQ', 'NE', 'AND', 'OR',
+        'LE', 'LT', 'GE', 'GT', 'EQ', 'NE', 'AND', 'OR',  # TODO: expand abbreviation
         'NOT',
-        'LBRACKET', 'RBRACKET',
-        'LPAREN', 'RPAREN',
+        'LEFT_BRACE', 'RIGHT_BRACE',
+        'LEFT_BRACKET', 'RIGHT_BRACKET',
         'INTEGER_LITERAL', 'DECIMAL_LITERAL',
         'TRUE', 'FALSE',
         'DATE_LITERAL',
         'STRING_LITERAL',
-        'VAR']
+        'VARIABLE']
 
     # List of reserved keywords
     reserved = {
         'form'    : 'FORM',
         'if'      : 'IF',
-        'elif'    : 'ELIF',
+        'elif'    : 'ELSE_IF',
         'else'    : 'ELSE',
         'boolean' : 'BOOLEAN',
         'string'  : 'STRING',
@@ -64,11 +64,11 @@ class LexTokenizer(object):
 
     t_NOT      = r'\!'
 
-    t_LBRACKET = r'\{'
-    t_RBRACKET = r'\}'
+    t_LEFT_BRACE = r'\{'
+    t_RIGHT_BRACE = r'\}'
 
-    t_LPAREN   = r'\('
-    t_RPAREN   = r'\)'
+    t_LEFT_BRACKET   = r'\('
+    t_RIGHT_BRACKET   = r'\)'
 
     # Define a rule so we can track line numbers
     @staticmethod
@@ -87,7 +87,6 @@ class LexTokenizer(object):
         r'True'
         t.value = QLBoolean(True)
         return t
-        return t
 
     @staticmethod
     def t_DATE_LITERAL(t):
@@ -101,7 +100,7 @@ class LexTokenizer(object):
             error([t.lineno], 'Invalid date.')
 
     @staticmethod
-    def T_DECIMAL_LITERAL(t):
+    def t_DECIMAL_LITERAL(t):
         r'\d+[.]\d+'
         t.value = QLDecimal(t.value)
         return t
@@ -110,6 +109,7 @@ class LexTokenizer(object):
     def t_INTEGER_LITERAL(t):
         r'\d+'
         t.value = QLInteger(t.value)
+        return t
 
     @staticmethod
     def t_STRING_LITERAL(t):
@@ -124,9 +124,9 @@ class LexTokenizer(object):
         t.lexer.skip(1)
 
     # Define a rule for handling all non-tokens
-    def t_VAR(self, t):
+    def t_VARIABLE(self, t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
-        t.type = self.reserved.get(t.value, 'VAR')  # Check for reserved words
+        t.type = self.reserved.get(t.value, 'VARIABLE')  # Check for reserved words
         return t
 
     # Test the lexer output

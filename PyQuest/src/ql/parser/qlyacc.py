@@ -19,7 +19,6 @@ from ql.ast.expressions.literals.date_node import DateNode
 from ql.ast.expressions.literals.integer_node import IntegerNode
 from ql.ast.expressions.literals.decimal_node import DecimalNode
 from ql.ast.expressions.literals.string_node import StringNode
-from ql.ast.expressions.literals.undefined_node import UndefinedNode
 from ql.ast.expressions.unary_operators.negation import NegationOperatorNode
 from ql.ast.expressions.unary_operators.negative import NegativeOperatorNode
 from ql.ast.statements.form_node import FormNode
@@ -54,7 +53,7 @@ class QLParser:
     # Statements
     @staticmethod
     def p_form(p):
-        """form : FORM VAR LBRACKET statements RBRACKET"""
+        """form : FORM VARIABLE LEFT_BRACE statements RIGHT_BRACE"""
         p[0] = FormNode(Position(p.lineno(1), p.lexpos(1)), p[4], p[2])
 
     @staticmethod
@@ -78,40 +77,40 @@ class QLParser:
     # Questions
     @staticmethod
     def p_question(p):
-        """question : STRING_LITERAL VAR COLON type"""
+        """question : STRING_LITERAL VARIABLE COLON type"""
         p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4],
                             p[4].get_literal_node(), False)
 
     @staticmethod
     def p_question_computed(p):
-        """question : STRING_LITERAL VAR COLON type ASSIGN expression"""
+        """question : STRING_LITERAL VARIABLE COLON type ASSIGN expression"""
         p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], p[6], True)
 
     # Control Flow
     @staticmethod
     def p_if(p):
-        """if : IF LPAREN expression RPAREN LBRACKET statements RBRACKET"""
+        """if : IF LEFT_BRACKET expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
         p[0] = IfNode(Position(p.lineno(1), p.lexpos(1)), p[6], p[3])
 
     @staticmethod
     def p_elif(p):
-        """elif : ELIF LPAREN expression RPAREN LBRACKET statements RBRACKET"""
-        p[0] = ('ELIF', p[3], p[6])
+        """elif : ELSE_IF LEFT_BRACKET expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
+        p[0] = ('ELSE_IF', p[3], p[6])
 
     @staticmethod
     def p_else(p):
-        """else : ELSE LBRACKET statements RBRACKET"""
+        """else : ELSE LEFT_BRACE statements RIGHT_BRACE"""
         p[0] = ('ELSE', p[3])
 
     # Expressions
     @staticmethod
     def p_parenthesis(p):
-        """expression : LPAREN expression RPAREN"""
+        """expression : LEFT_BRACKET expression RIGHT_BRACKET"""
         p[0] = p[2]
 
     @staticmethod
     def p_variable(p):
-        """expression : VAR"""
+        """expression : VARIABLE"""
         p[0] = VariableNode(Position(p.lineno(1), p.lexpos(1)), QLUndefined, p[1], QLUndefined())
 
     @staticmethod
@@ -246,16 +245,16 @@ class QLParser:
     # Error handling
     @staticmethod
     def p_if_condition_error(p):
-        """if   : IF LPAREN expression PLUS expression RPAREN LBRACKET statements RBRACKET
-                | IF LPAREN expression MINUS expression RPAREN LBRACKET statements RBRACKET
-                | IF LPAREN expression TIMES expression RPAREN LBRACKET statements RBRACKET
-                | IF LPAREN expression DIVIDE expression RPAREN LBRACKET statements RBRACKET"""
+        """if   : IF LEFT_BRACKET expression PLUS expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
+                | IF LEFT_BRACKET expression MINUS expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
+                | IF LEFT_BRACKET expression TIMES expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
+                | IF LEFT_BRACKET expression DIVIDE expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
         print('Condition of if statement does not evaluate to boolean.')
         raise SyntaxError
 
     # @staticmethod
     # def p_form_error(p):
-    #     """form : FORM VAR LBRACKET RBRACKET"""
+    #     """form : FORM VARIABLE LEFT_BRACE RIGHT_BRACE"""
     #     print('Empty form.')
     #     raise SyntaxError
 

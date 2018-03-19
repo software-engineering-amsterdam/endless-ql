@@ -3,31 +3,34 @@ TODO: Add optimise=1 to the lexer when file is production ready
 """
 
 from ply.lex import lex
+from re import findall
 from ql.types.boolean import QLBoolean
+from ql.types.date import QLDate
 from ql.types.decimal import QLDecimal
 from ql.types.integer import QLInteger
+from debug.debug import error
 
 
-class LexTokenizer(object):
-
+class QLLexer:
     # List of token names.
     tokens = [
         'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'COLON',
         'ASSIGN',
-        'LE', 'LT', 'GE', 'GT', 'EQ', 'NE', 'AND', 'OR',
+        'LE', 'LT', 'GE', 'GT', 'EQ', 'NE', 'AND', 'OR',  # TODO: expand abbreviation
         'NOT',
-        'LBRACKET', 'RBRACKET',
-        'LPAREN', 'RPAREN',
-        'NUMBER', 'FLOAT',
+        'LEFT_BRACE', 'RIGHT_BRACE',
+        'LEFT_BRACKET', 'RIGHT_BRACKET',
+        'INTEGER_LITERAL', 'DECIMAL_LITERAL',
         'TRUE', 'FALSE',
-        'QUESTION',
-        'VAR']
+        'DATE_LITERAL',
+        'STRING_LITERAL',
+        'VARIABLE']
 
     # List of reserved keywords
     reserved = {
         'form'    : 'FORM',
         'if'      : 'IF',
-        'elif'    : 'ELIF',
+        'elif'    : 'ELSE_IF',
         'else'    : 'ELSE',
         'boolean' : 'BOOLEAN',
         'string'  : 'STRING',
@@ -60,13 +63,11 @@ class LexTokenizer(object):
 
     t_NOT      = r'\!'
 
-    t_LBRACKET = r'\{'
-    t_RBRACKET = r'\}'
+    t_LEFT_BRACE = r'\{'
+    t_RIGHT_BRACE = r'\}'
 
-    t_LPAREN   = r'\('
-    t_RPAREN   = r'\)'
-
-    # t_QUESTION = r'\"(.+?)\"'
+    t_LEFT_BRACKET   = r'\('
+    t_RIGHT_BRACKET   = r'\)'
 
     # Define a rule so we can track line numbers
     @staticmethod
@@ -86,22 +87,31 @@ class LexTokenizer(object):
         t.value = QLBoolean(True)
         return t
 
-    # Define a rule for detecting decimal numbers
     @staticmethod
-    def t_FLOAT(t):
+    def t_DATE_LITERAL(t):
+        r'date\(\W*\d{1,2},\W*\d{1,2},\W*\d{1,4}\W*\)'
+        numbers = findall(r'\d\d*', t.value)
+
+        try:
+            t.value = QLDate(numbers)
+            return t
+        except SyntaxError:
+            error([t.lineno], 'Invalid date.')
+
+    @staticmethod
+    def t_DECIMAL_LITERAL(t):
         r'\d+[.]\d+'
         t.value = QLDecimal(t.value)
         return t
 
-    # Define a rule for detecting round numbers
     @staticmethod
-    def t_NUMBER(t):
+    def t_INTEGER_LITERAL(t):
         r'\d+'
         t.value = QLInteger(t.value)
         return t
 
     @staticmethod
-    def t_QUESTION(t):
+    def t_STRING_LITERAL(t):
         r'\"(.+?)\"'
         t.value = t.value[1:-1]
         return t
@@ -113,9 +123,9 @@ class LexTokenizer(object):
         t.lexer.skip(1)
 
     # Define a rule for handling all non-tokens
-    def t_VAR(self, t):
+    def t_VARIABLE(self, t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
-        t.type = self.reserved.get(t.value, 'VAR')  # Check for reserved words
+        t.type = self.reserved.get(t.value, 'VARIABLE')  # Check for reserved words
         return t
 
     # Test the lexer output

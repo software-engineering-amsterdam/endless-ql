@@ -52,9 +52,8 @@ public class Main {
             QLParser.FormContext form = new TreeBuilder().build(inputStream);
             FormVisitor coreVisitor = new FormVisitor(form);
             Checks.checkForm(form);
-            LinkedHashMap<String, Question> memory = coreVisitor.questionMap;
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder(coreVisitor, memory);
+            FormBuilder formBuilder = new FormBuilder(coreVisitor);
             formBuilder.initComponents();
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,7 +94,7 @@ public class Main {
                 new Main().parseAndBuild(System.in);
             } else if (args.length == 1) {
                 FileInputStream fileInputStream = new FileInputStream(args[0]);
-                new Main().parseAndBuildQLS(fileInputStream);
+                new Main().parseAndBuild(fileInputStream);
             } else {
                 System.out.println("Invalid arguments were given");
             }

@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class FormBuilder {
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which houses the list of question panels
     private JPanel mainListPanel; // The panel that lists the questions
-    private LinkedHashMap<String, Question> questionHashMap; //collection of all questions, visible or not
+    private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor; // The visitor
     private int frameHeight = 800; //The height of the GUI
@@ -42,11 +43,10 @@ public class FormBuilder {
      * initializes the building process of the form
      *
      * @param coreVisitor       The main ql visitor
-     * @param questionHashMap   All questions that were extracted from the ql form
      */
-    public FormBuilder(FormVisitor coreVisitor, LinkedHashMap<String, Question> questionHashMap) {
+    public FormBuilder(FormVisitor coreVisitor) {
         this.coreVisitor = coreVisitor;
-        this.questionHashMap = questionHashMap;
+        this.questionHashMap = coreVisitor.getQuestions();
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
     }
 

@@ -8,7 +8,7 @@ from ql.ast.visitors.visitor_helper import when, on
 from gui.model.form import Form
 
 
-class Render:
+class GUIModel:
     def __init__(self):
         self.form = None
         self.condition = QLBoolean.get_literal_node(True)

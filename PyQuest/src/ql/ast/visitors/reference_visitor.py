@@ -73,7 +73,9 @@ class ReferenceVisitor(object):
 
     @when(QuestionNode)
     def visit(self, node):
-        self.__current_block.append(dict({"name": node.identifier, "type": node.answer_type}))
+        self.__current_block.append(dict({"name": node.identifier,
+                                          "type": node.answer_type,
+                                          "position": node.position}))
 
         if node.computed:
             node.answer.accept(self)
@@ -149,4 +151,6 @@ class ReferenceVisitor(object):
     @when(VariableNode)
     def visit(self, node):
         name = node.identifier
-        self.__current_block.append({"name": name, "type": []})
+        self.__current_block.append({"name": name,
+                                     "type": [],
+                                     "position": node.position})

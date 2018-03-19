@@ -34,8 +34,12 @@ public class FormVisitor extends QLBaseVisitor {
         return questionMap;
     }
 
-    public HashMap<String, Question> update(){
+    public LinkedHashMap<String, Question> update(){
         updateVisitor.visitBlock(form.block());
+        return questionMap;
+    }
+
+    public LinkedHashMap<String, Question> getQuestions() {
         return questionMap;
     }
 }

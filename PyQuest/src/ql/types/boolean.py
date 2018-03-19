@@ -8,6 +8,9 @@ class QLBoolean(QLType):
         super(QLBoolean, self).__init__()
         self.__value = bool(value)
 
+    def __bool__(self):
+        return self.value
+
     def __repr__(self):
         return str(self.value)
 

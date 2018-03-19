@@ -25,3 +25,5 @@ class QuestionChecker:
                         if different_types:
                             error([question1["position"].line, question2["position"].line],
                                   "Duplicate questions with different types found")
+                            break
+

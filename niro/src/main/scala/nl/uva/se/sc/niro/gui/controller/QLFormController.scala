@@ -99,13 +99,13 @@ class QLFormController(homeController: QLHomeController)
 
   private def updateVisibility(): Unit = {
     guiForm.questions.foreach { question =>
-      val isQuestionVisible: Boolean = getVisibilitySetting(question).contains(BooleanAnswer(true))
+      val isQuestionVisible: Boolean = getVisibilitySetting(question)
       question.component.foreach(_.setVisible(isQuestionVisible))
     }
   }
 
-  private def getVisibilitySetting(question: GUIQuestion): Option[Answer] = {
-    question.visibility.evaluate(qlForm.symbolTable, dictionary.toMap)
+  private def getVisibilitySetting(question: GUIQuestion): Boolean = {
+    question.visibility.evaluate(qlForm.symbolTable, dictionary.toMap).exists(_.isTrue)
   }
 
   def showSavedMessage(): Unit = {

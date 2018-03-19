@@ -161,6 +161,7 @@
     <Compile Include="Output\Tools\QuestionnaireOutputCreator.cs" />
     <Compile Include="Output\Tools\QuestionnaireOutputUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\ComparisonValidator.cs" />
     <Compile Include="Validators\DateComparisonValidator.cs" />
     <Compile Include="Validators\Interfaces\IDateComparisonValidator.cs" />
     <Compile Include="Validators\Interfaces\IMathComparisonValidator.cs" />

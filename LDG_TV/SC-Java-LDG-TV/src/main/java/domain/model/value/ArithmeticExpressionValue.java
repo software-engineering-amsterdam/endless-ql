@@ -40,6 +40,11 @@ public class ArithmeticExpressionValue extends Value<Integer>{
 
     @Override
     public void accept(Integer integer) throws Exception {
+        // TODO ?
+    }
 
+    @Override
+    public String toString() {
+        return this.getValue().toString();
     }
 }

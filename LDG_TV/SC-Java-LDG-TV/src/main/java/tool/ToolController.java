@@ -12,11 +12,13 @@ import domain.visitor.UIVisitor;
 import domain.visitor.Visitor;
 import io.reactivex.Observable;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
+import io.reactivex.rxjavafx.sources.Change;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.QLLoader;
@@ -29,8 +31,9 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-public class ToolController implements Initializable, Consumer<ActionEvent> {
+public class ToolController implements Initializable, Consumer {
 
     @FXML
     private TextArea taSourceCode;
@@ -107,10 +110,21 @@ public class ToolController implements Initializable, Consumer<ActionEvent> {
             JavaFxObservable.actionEventsOf(n)
                     .subscribe(this::accept);
 
+            if(n instanceof TextField){
+                TextField tf = (TextField) n;
+
+                JavaFxObservable.changesOf(tf.focusedProperty())
+                        .map(Change::getNewVal)
+                        .filter(aBoolean -> !aBoolean)
+                        .subscribe(this::accept);
+            }
+
             Row r = new QuestionRow(questionText, n);
             r.setDisable(qn.isDisabled());
             lvQuestionnaire.getItems().add(r);
         }
+
+        JavaFxObservable.updatesOf(lvQuestionnaire.getItems()).subscribe(rows -> System.out.println("R "+rows));
     }
 
 
@@ -125,9 +139,6 @@ public class ToolController implements Initializable, Consumer<ActionEvent> {
             }
 
             IfASTNode ifASTNode = (IfASTNode) n;
-
-            boolean cond = ifASTNode.checkConditions();
-            System.out.println("Conditions = " + cond);
 
             visQuestion.addAll(ifASTNode.getQuestionNodes());
         }
@@ -175,7 +186,7 @@ public class ToolController implements Initializable, Consumer<ActionEvent> {
     }
 
     @Override
-    public void accept(ActionEvent actionEvent) {
+    public void accept(Object event) {
         System.out.println("Redraw tree yo");
         this.formNode.evaluateIfs();
         List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());

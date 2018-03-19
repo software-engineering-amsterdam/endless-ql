@@ -48,8 +48,8 @@ public class UIVisitor implements Visitor {
 
     @Override
     public Node visit(MoneyVariable mv) {
-        TextField tf = new TextField();
-
+        System.out.println("MV: " + mv.getValue());
+        TextField tf = new TextField(mv.getValue().toString());
         JavaFxObservable
                 .valuesOf(tf.textProperty())
                 .filter(Utilities::isNumeric)

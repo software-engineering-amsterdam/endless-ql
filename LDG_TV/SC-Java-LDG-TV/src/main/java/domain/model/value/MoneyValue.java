@@ -22,5 +22,8 @@ public class MoneyValue extends Value<Integer>{
         this.value = integer;
     }
 
-
+    @Override
+    public String toString() {
+        return value.toString();
+    }
 }

@@ -8,9 +8,9 @@ using QuestionnaireDomain.Entities.Validators.MetaData;
 
 namespace QuestionnaireDomain.Entities.Validators
 {
-    internal class MathComparisonValidator : ComparisonValidator, IMathComparisonValidator
+    internal class MathExpressionValidator : ComparisonValidator, IMathExpressionValidator
     {
-        public MathComparisonValidator(
+        public MathExpressionValidator(
             IDomainItemLocator domainItemLocator)
             : base(domainItemLocator)
         {
@@ -19,10 +19,10 @@ namespace QuestionnaireDomain.Entities.Validators
         public IEnumerable<ValidationMetaData> Validate(
             Reference<IQuestionnaireRootNode> questionnaireRootNode)
         {
-            return Validate<ICalculationVariableNode, MathComparisonValidationMetaData>(
+            return Validate<ICalculationVariableNode, MathExpressionValidationMetaData>(
                 questionnaireRootNode,
                 x => x != typeof(int) && x != typeof(decimal),
-                @"number comparison",
+                @"calculation",
                 @"number");
         }
     }

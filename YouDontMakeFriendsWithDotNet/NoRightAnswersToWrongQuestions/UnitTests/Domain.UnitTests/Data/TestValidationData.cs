@@ -179,5 +179,85 @@ namespace UnitTests.Domain.UnitTests.Data
                     @"The variable 'ls' is in a calculation but is not a number, it is 'System.String'");
             }
         }
+
+        public static IEnumerable UnKnownVariables
+        {
+            get
+            {
+                const string template = @"form formName {{ v1: ""i"" {0} v2: ""c"" {1} if ({2}) {{ a: ""a"" date}} }}";
+
+                const string relationalErrorTemplate = @"The expression '{0}' contains the {1} variables 'v1' and 'v2'. A {1} can only be compared for equality.";
+
+                yield return new TestCaseData(
+                    string.Format(template, @"boolean", @"boolean", @"v1 > v2"),
+                    string.Format(relationalErrorTemplate, @"v1>v2", @"boolean"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"boolean", @"boolean", @"v1 >= v2"),
+                    string.Format(relationalErrorTemplate, @"v1>=v2", @"boolean"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"boolean", @"boolean", @"v1 < v2"),
+                    string.Format(relationalErrorTemplate, @"v1<v2", @"boolean"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"boolean", @"boolean", @"v1 <= v2"),
+                    string.Format(relationalErrorTemplate, @"v1<=v2", @"boolean"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"string", @"string", @"v1 > v2"),
+                    string.Format(relationalErrorTemplate, @"v1>v2", @"string"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"string", @"string", @"v1 >= v2"),
+                    string.Format(relationalErrorTemplate, @"v1>=v2", @"string"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"string", @"string", @"v1 < v2"),
+                    string.Format(relationalErrorTemplate, @"v1<v2", @"string"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"string", @"string", @"v1 <= v2"),
+                    string.Format(relationalErrorTemplate, @"v1<=v2", @"string"));
+
+                const string typeMismatchTemplate = @"The expression '{0}' contains the {1} variable 'v1' and {2} variable 'v2'. The types {1} and {2} cannot be compared.";
+
+                yield return new TestCaseData(
+                    string.Format(template, @"boolean", @"string", @"v1 == v2"),
+                    string.Format(typeMismatchTemplate, @"v1==v2", @"boolean", @"string"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"boolean", @"integer", @"v1 != v2"),
+                    string.Format(typeMismatchTemplate, @"v1!=v2", @"boolean", @"integer"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"boolean", @"decimal", @"v1 == v2"),
+                    string.Format(typeMismatchTemplate, @"v1==v2", @"boolean", @"decimal"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"boolean", @"date", @"v1 != v2"),
+                    string.Format(typeMismatchTemplate, @"v1!=v2", @"boolean", @"date"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"string", @"integer", @"v1 < v2"),
+                    string.Format(typeMismatchTemplate, @"v1<v2", @"string", @"integer"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"string", @"decimal", @"v1 > v2"),
+                    string.Format(typeMismatchTemplate, @"v1>v2", @"string", @"decimal"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"string", @"date", @"v1 <= v2"),
+                    string.Format(typeMismatchTemplate, @"v1<=v2", @"string", @"date"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"integer", @"date", @"v1 >= v2"),
+                    string.Format(typeMismatchTemplate, @"v1>=v2", @"integer", @"date"));
+
+                yield return new TestCaseData(
+                    string.Format(template, @"decimal", @"date", @"v1 != v2"),
+                    string.Format(typeMismatchTemplate, @"v1!=v2", @"decimal", @"date"));
+            }
+        }
     }
 }

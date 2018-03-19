@@ -87,8 +87,7 @@ namespace AntlrInterpretor.AstBuilder
                 rightExpression,
                 context.relationalOperator().chosenOperator.Text);
         }
-
-
+        
         public override Reference<IAstNode> VisitIfElseStatement(
             QlParser.IfElseStatementContext context)
         {

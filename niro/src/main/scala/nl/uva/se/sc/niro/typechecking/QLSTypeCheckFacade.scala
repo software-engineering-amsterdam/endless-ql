@@ -26,10 +26,10 @@ object QLSTypeCheckFacade extends Logging {
   }
 
   def checkReferences(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
-    val questionInStylesheet = stylesheet.collectAllQuestions()
+    val questionsInStylesheet = stylesheet.collectAllQuestions()
     val questionsOnForm = Statement.collectAllQuestions(form.statements)
 
-    val uniqueQuestionNamesInStylesheet = questionInStylesheet.map(_.name).toSet
+    val uniqueQuestionNamesInStylesheet = questionsInStylesheet.map(_.name).toSet
     val uniqueQuestionNamesOnForm = questionsOnForm.map(_.id).toSet
     if (uniqueQuestionNamesInStylesheet == uniqueQuestionNamesOnForm) {
       Right(stylesheet)
@@ -41,7 +41,7 @@ object QLSTypeCheckFacade extends Logging {
             .map(name =>
               TypeCheckError(
                 "ReferenceCheck",
-                s"Question(s) ${questionsOnForm.filter(_.id == name).map(_.id)} is/are defined in QL but not used in the QLS file."))
+                s"Question ${questionsOnForm.filter(_.id == name).map(_.id)} is defined in QL but not used in the QLS file."))
             .toSeq)
       } else {
         val unreferencedQuestionInStylesheet = uniqueQuestionNamesInStylesheet -- uniqueQuestionNamesOnForm
@@ -50,7 +50,7 @@ object QLSTypeCheckFacade extends Logging {
             .map(name =>
               TypeCheckError(
                 "ReferenceCheck",
-                s"Question(s) ${questionInStylesheet.filter(_.name == name).map(_.name)} is/are referenced in the QLS file but have not been defined in thte QL file."
+                s"Question ${questionsInStylesheet.filter(_.name == name).map(_.name)} is referenced in the QLS file but have not been defined in the QL file."
             ))
             .toSeq)
       }

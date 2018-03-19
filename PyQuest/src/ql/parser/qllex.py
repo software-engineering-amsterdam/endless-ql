@@ -3,9 +3,12 @@ TODO: Add optimise=1 to the lexer when file is production ready
 """
 
 from ply.lex import lex
+from re import findall
 from ql.types.boolean import QLBoolean
+from ql.types.date import QLDate
 from ql.types.decimal import QLDecimal
 from ql.types.integer import QLInteger
+from debug.debug import error
 
 
 class LexTokenizer(object):
@@ -18,9 +21,10 @@ class LexTokenizer(object):
         'NOT',
         'LBRACKET', 'RBRACKET',
         'LPAREN', 'RPAREN',
-        'NUMBER', 'FLOAT',
+        'INTEGER_LITERAL', 'DECIMAL_LITERAL',
         'TRUE', 'FALSE',
-        'QUESTION',
+        'DATE_LITERAL',
+        'STRING_LITERAL',
         'VAR']
 
     # List of reserved keywords
@@ -66,8 +70,6 @@ class LexTokenizer(object):
     t_LPAREN   = r'\('
     t_RPAREN   = r'\)'
 
-    # t_QUESTION = r'\"(.+?)\"'
-
     # Define a rule so we can track line numbers
     @staticmethod
     def t_newline(t):
@@ -85,23 +87,32 @@ class LexTokenizer(object):
         r'True'
         t.value = QLBoolean(True)
         return t
+        return t
 
-    # Define a rule for detecting decimal numbers
     @staticmethod
-    def t_FLOAT(t):
+    def t_DATE_LITERAL(t):
+        r'date\(\W*\d{1,2},\W*\d{1,2},\W*\d{1,4}\W*\)'
+        numbers = findall(r'\d\d*', t.value)
+
+        try:
+            t.value = QLDate(numbers)
+            return t
+        except SyntaxError:
+            error([t.lineno], 'Invalid date.')
+
+    @staticmethod
+    def T_DECIMAL_LITERAL(t):
         r'\d+[.]\d+'
         t.value = QLDecimal(t.value)
         return t
 
-    # Define a rule for detecting round numbers
     @staticmethod
-    def t_NUMBER(t):
+    def t_INTEGER_LITERAL(t):
         r'\d+'
         t.value = QLInteger(t.value)
-        return t
 
     @staticmethod
-    def t_QUESTION(t):
+    def t_STRING_LITERAL(t):
         r'\"(.+?)\"'
         t.value = t.value[1:-1]
         return t

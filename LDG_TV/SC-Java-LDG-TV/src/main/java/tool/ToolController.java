@@ -35,7 +35,10 @@ import java.util.function.Consumer;
 public class ToolController implements Initializable, Consumer {
 
     @FXML
-    private TextArea taSourceCode;
+    private TextArea taSourceCodeQL;
+
+    @FXML
+    private TextArea taSourceCodeQLS;
 
     @FXML
     private ListView<Row> lvQuestionnaire;
@@ -61,11 +64,17 @@ public class ToolController implements Initializable, Consumer {
      * @param event that kicked of the invocation
      */
     public void generateQuestionnaire(ActionEvent event) {
-        String qlSource = taSourceCode.getText();
+        String qlSource = taSourceCodeQL.getText();
 
         if(qlSource.isEmpty()){
             showAlertBox("Please import or add QL code");
             return;
+        }
+
+        String qlsSource = taSourceCodeQLS.getText();
+
+        if(qlsSource.isEmpty()){
+            System.out.println("QLS not set, fall back to default styling");
         }
 
         lvQuestionnaire.getItems().clear();
@@ -104,9 +113,11 @@ public class ToolController implements Initializable, Consumer {
     private void drawQuestions(List<QuestionASTNode> questionASTNodes){
         Visitor uiVisitor = new UIVisitor();
         lvQuestionnaire.getItems().clear();
+
+        this.formNode.evaluateIfs();
+
         for(QuestionASTNode qn : questionASTNodes){
             String questionText = qn.getText();
-            System.out.println("QUI: " + questionText);
             Variable qv = qn.getVariable();
 
             Node n = qv.getRelatedUIElement(uiVisitor);
@@ -145,9 +156,31 @@ public class ToolController implements Initializable, Consumer {
             IfASTNode ifASTNode = (IfASTNode) n;
 
             visQuestion.addAll(ifASTNode.getQuestionNodes());
+            visQuestion.addAll(ifASTNode.getElseNodess());
         }
 
         return visQuestion;
+    }
+
+    public void importQLSFile(ActionEvent event) {
+        FileChooser fileChooser = getFileChooser();
+
+        Stage s = new Stage();
+        File selectedFile = fileChooser.showOpenDialog(s);
+
+        if (selectedFile == null) {
+            return;
+        }
+
+        Optional<String> qlsText = Utilities.readFile(selectedFile.getAbsolutePath());
+
+        qlsText.ifPresentOrElse(
+                text -> {
+                    taSourceCodeQLS.setText(text);
+                    printInfoMessage("Import "+ selectedFile.getName() +"successful");
+                },
+                () -> showAlertBox("Could not read file.")
+        );
     }
 
     /**
@@ -168,8 +201,8 @@ public class ToolController implements Initializable, Consumer {
 
         qlText.ifPresentOrElse(
                 text -> {
-                    taSourceCode.setText(text);
-                    printInfoMessage("Import successful");
+                    taSourceCodeQL.setText(text);
+                    printInfoMessage("Import "+ selectedFile.getName() +"successful");
                 },
                 () -> showAlertBox("Could not read file.")
         );
@@ -186,6 +219,7 @@ public class ToolController implements Initializable, Consumer {
         fileChooser.setTitle("Open QL File");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Questionnaire Language File (*.ql)", "*.ql"),
+                new FileChooser.ExtensionFilter("Questionnaire Language File (*.qls)", "*.qls"),
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
 
@@ -195,7 +229,6 @@ public class ToolController implements Initializable, Consumer {
     @Override
     public void accept(Object event) {
         System.out.println("Redraw tree yo");
-        this.formNode.evaluateIfs();
         List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
         drawQuestions(questions);
     }

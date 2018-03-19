@@ -39,9 +39,9 @@ class EvaluatorTest extends WordSpec {
         val result = Evaluator.evaluate(qLForm, Map.empty)
         val expected =
           Map(
-            "revenue" -> IntegerAnswer(Some(1000)),
-            "expenses" -> IntegerAnswer(Some(800)),
-            "profit" -> IntegerAnswer(Some(200))
+            "revenue" -> IntegerAnswer(1000),
+            "expenses" -> IntegerAnswer(800),
+            "profit" -> IntegerAnswer(200)
           )
 
         assert(result == expected)
@@ -51,9 +51,9 @@ class EvaluatorTest extends WordSpec {
         val qlForm = QLForm(
           "EditOrNotToEdit",
           List(
-            Question("booleanVariable", "Boolean variable", BooleanType, Some(BooleanAnswer(None))),
-            Question("integerVariable", "Integer variable", IntegerType, Some(IntegerAnswer(None))),
-            Question("decimalVariable", "Decimal variable", DecimalType, Some(DecimalAnswer(None))),
+            Question("booleanVariable", "Boolean variable", BooleanType, None),
+            Question("integerVariable", "Integer variable", IntegerType, None),
+            Question("decimalVariable", "Decimal variable", DecimalType, None),
             Conditional(
               Reference("booleanVariable"),
               List(
@@ -76,7 +76,7 @@ class EvaluatorTest extends WordSpec {
                   Some(
                     BinaryOperation(
                       Add,
-                      BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(Some(1))),
+                      BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(1)),
                       Reference("integerVariable")
                     ))
                 ),
@@ -119,13 +119,13 @@ class EvaluatorTest extends WordSpec {
         val qlForm = QLForm(
           "EditOrNotToEdit",
           List(
-            Question("integerVariable", "Integer variable", IntegerType, Some(IntegerAnswer(None))),
-            Question("dateVariable", "Date variable", DateType, Some(DateAnswer(None))),
+            Question("integerVariable", "Integer variable", IntegerType, None),
+            Question("dateVariable", "Date variable", DateType, None),
             Question(
               "integerConstant",
               "Integer constant",
               IntegerType,
-              Some(BinaryOperation(Mul, IntegerAnswer(Some(21)), IntegerAnswer(Some(2))))
+              Some(BinaryOperation(Mul, IntegerAnswer(21), IntegerAnswer(2)))
             ),
             Question("dateConstant", "Date constant", DateType, Some(DateAnswer("1970-01-01"))),
             Question(
@@ -135,27 +135,26 @@ class EvaluatorTest extends WordSpec {
               Some(
                 BinaryOperation(
                   Add,
-                  BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(Some(1))),
+                  BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(1)),
                   Reference("integerVariable")
                 ))
             ),
             Question("dateExpression", "Date expression", DateType, Some(Reference("dateVariable")))
-          ),
-          List()
+          )
         )
 
         val inputs: Dictionary = Map(
           "dateConstant" -> DateAnswer("1970-01-01"),
-          "integerVariable" -> IntegerAnswer(Some(123)),
-          "integerConstant" -> IntegerAnswer(Some(42)))
+          "integerVariable" -> IntegerAnswer(123),
+          "integerConstant" -> IntegerAnswer(42))
 
         val result = Evaluator.evaluate(qlForm, inputs)
         val expected: Dictionary =
           Map(
             "dateConstant" -> DateAnswer("1970-01-01"),
-            "integerVariable" -> IntegerAnswer(Some(123)),
-            "integerConstant" -> IntegerAnswer(Some(42)),
-            "integerExpression" -> IntegerAnswer(Some(166))
+            "integerVariable" -> IntegerAnswer(123),
+            "integerConstant" -> IntegerAnswer(42),
+            "integerExpression" -> IntegerAnswer(166)
           )
 
         assert(result == expected, "First pass")
@@ -163,18 +162,18 @@ class EvaluatorTest extends WordSpec {
         val alteredInput: Dictionary =
           Map(
             "dateConstant" -> DateAnswer("1970-01-01"),
-            "integerVariable" -> IntegerAnswer(Some(456)),
-            "integerConstant" -> IntegerAnswer(Some(42)),
-            "integerExpression" -> IntegerAnswer(Some(166))
+            "integerVariable" -> IntegerAnswer(456),
+            "integerConstant" -> IntegerAnswer(42),
+            "integerExpression" -> IntegerAnswer(166)
           )
 
         val alteredResult = Evaluator.evaluate(qlForm, alteredInput)
         val alteredExpected: Dictionary =
           Map(
             "dateConstant" -> DateAnswer("1970-01-01"),
-            "integerConstant" -> IntegerAnswer(Some(42)),
-            "integerExpression" -> IntegerAnswer(Some(499)),
-            "integerVariable" -> IntegerAnswer(Some(456))
+            "integerConstant" -> IntegerAnswer(42),
+            "integerExpression" -> IntegerAnswer(499),
+            "integerVariable" -> IntegerAnswer(456)
           )
 
         assert(alteredResult == alteredExpected, "Second pass")
@@ -184,7 +183,7 @@ class EvaluatorTest extends WordSpec {
         val qlForm = QLForm(
           "EditOrNotToEdit",
           List(
-            Question("a", "a", IntegerType, Some(IntegerAnswer())),
+            Question("a", "a", IntegerType, None),
             Question("b", "b", IntegerType, Some(Reference("a"))),
             Question("c", "c", IntegerType, Some(Reference("b")))
           )
@@ -206,7 +205,6 @@ class EvaluatorTest extends WordSpec {
 
         val alteredInput: Dictionary =
           Map(
-            "a" -> IntegerAnswer(None),
             "b" -> IntegerAnswer(1),
             "c" -> IntegerAnswer(1)
           )

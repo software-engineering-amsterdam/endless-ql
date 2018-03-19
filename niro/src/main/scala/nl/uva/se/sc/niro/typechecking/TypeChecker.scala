@@ -65,8 +65,8 @@ object TypeChecker extends Logging {
     val conditionals: Seq[Conditional] = Statement.collectAllConditionals(qLForm.statements)
     val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
       conditional.predicate.evaluate(qLForm.symbolTable, Map.empty) match {
-        case _: BooleanAnswer => false
-        case _                => true
+        case Some(BooleanAnswer(_)) => false
+        case _                      => true
       }
     }
 

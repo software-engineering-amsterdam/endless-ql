@@ -27,8 +27,8 @@ class TypeCheckerTest extends WordSpec {
           QLForm(
             "duplicateLabel",
             List(
-              Question("q1", "duplicate-label", IntegerType, Some(IntegerAnswer(Some(1)))),
-              Question("q2", "duplicate-label", IntegerType, Some(IntegerAnswer(Some(1))))
+              Question("q1", "duplicate-label", IntegerType, Some(IntegerAnswer(1))),
+              Question("q2", "duplicate-label", IntegerType, Some(IntegerAnswer(1)))
             ),
             List(Warning("Warning: questions q1, q2 have duplicate label: duplicate-label"))
           )
@@ -40,7 +40,11 @@ class TypeCheckerTest extends WordSpec {
         val qlForm = QLForm(
           "invalidTypes",
           Seq(
-            Question("q1", "duplicate-label", IntegerType, Some(BinaryOperation(Mul, StringAnswer(), StringAnswer())))
+            Question(
+              "q1",
+              "duplicate-label",
+              IntegerType,
+              Some(BinaryOperation(Mul, StringAnswer("Foo"), StringAnswer("Bar"))))
           ))
 
         val result = TypeChecker.pipeline(qlForm)
@@ -54,7 +58,11 @@ class TypeCheckerTest extends WordSpec {
         val qlForm = QLForm(
           "invalidTypes",
           Seq(
-            Question("q1", "duplicate-label", IntegerType, Some(BinaryOperation(Eq, StringAnswer(), IntegerAnswer())))
+            Question(
+              "q1",
+              "duplicate-label",
+              IntegerType,
+              Some(BinaryOperation(Eq, StringAnswer("Foo"), IntegerAnswer(0))))
           ))
 
         val result = TypeChecker.pipeline(qlForm)
@@ -67,7 +75,11 @@ class TypeCheckerTest extends WordSpec {
         val qlForm = QLForm(
           "invalidTypes",
           Seq(
-            Question("q1", "duplicate-label", IntegerType, Some(BinaryOperation(Eq, DecimalAnswer(), IntegerAnswer())))
+            Question(
+              "q1",
+              "duplicate-label",
+              IntegerType,
+              Some(BinaryOperation(Eq, DecimalAnswer(1), IntegerAnswer(2))))
           ))
 
         val result = TypeChecker.pipeline(qlForm)
@@ -79,7 +91,7 @@ class TypeCheckerTest extends WordSpec {
         val qlForm = QLForm(
           "invalidTypes",
           Seq(
-            Question("q1", "duplicate-label", IntegerType, Some(BinaryOperation(Eq, MoneyAnswer(), IntegerAnswer())))
+            Question("q1", "duplicate-label", IntegerType, Some(BinaryOperation(Eq, MoneyAnswer(1), IntegerAnswer(1))))
           ))
 
         val result = TypeChecker.pipeline(qlForm)
@@ -98,9 +110,15 @@ class TypeCheckerTest extends WordSpec {
       )
 
       val result = TypeChecker.pipeline(qLForm)
-      assert(result === Left(List(TypeCheckError(
-        "TypeCheckError",
-        "Non boolean predicate: List(Conditional(BinaryOperation(Mul,IntegerAnswer(Some(5)),IntegerAnswer(Some(1))),List()))"))))
+
+      assert(result === Left(
+        List(
+          TypeCheckError(
+            "TypeCheckError",
+            "Non boolean predicate: List(Conditional(BinaryOperation(Mul,IntegerAnswer(5),IntegerAnswer(1)),List()))"
+          )
+        )
+      ))
     }
 
     "checkDuplicateQuestionDeclarationsWithDifferentTypes" in {
@@ -113,12 +131,16 @@ class TypeCheckerTest extends WordSpec {
       )
 
       val result = TypeChecker.pipeline(qLForm)
+
       assert(
         result === Left(
-          List(TypeCheckError(
-            "TypeCheckError",
-            "Duplicate question declarations with different types: List(List(Question(q1,duplicate identifier,IntegerType,Some(IntegerAnswer(Some(1)))), Question(q1,duplicate identifier,BooleanType,Some(IntegerAnswer(Some(1))))))"
-          )))
+          List(
+            TypeCheckError(
+              "TypeCheckError",
+              "Duplicate question declarations with different types: List(List(Question(q1,duplicate identifier,IntegerType,Some(IntegerAnswer(1))), Question(q1,duplicate identifier,BooleanType,Some(IntegerAnswer(1)))))"
+            )
+          )
+        )
       )
     }
 
@@ -129,7 +151,7 @@ class TypeCheckerTest extends WordSpec {
           Seq(
             Question("q1", "question1", IntegerType, Some(Reference("q2"))),
             Question("q2", "question2", IntegerType, Some(Reference("q3"))),
-            Question("q3", "question3", IntegerType, Some(IntegerAnswer()))
+            Question("q3", "question3", IntegerType, Some(IntegerAnswer(1)))
           )
         )
         val result = TypeChecker.pipeline(qlForm)
@@ -179,7 +201,7 @@ class TypeCheckerTest extends WordSpec {
             Question("q1", "question1", IntegerType, Some(BinaryOperation(Mul, Reference("q2"), Reference("q3")))),
             Question("q2", "question2", IntegerType, Some(Reference("q3"))),
             Question("q2", "question2", IntegerType, Some(Reference("q1"))),
-            Question("q3", "question3", IntegerType, Some(UnaryOperation(Sub, IntegerAnswer())))
+            Question("q3", "question3", IntegerType, Some(UnaryOperation(Sub, IntegerAnswer(1))))
           )
         )
 
@@ -193,7 +215,7 @@ class TypeCheckerTest extends WordSpec {
         val qlForm = QLForm(
           "cyclicDependencies",
           Seq(
-            Question("q1", "question1", IntegerType, Some(IntegerAnswer())),
+            Question("q1", "question1", IntegerType, Some(IntegerAnswer(1))),
             Question("q2", "question2", IntegerType, Some(Reference("q3"))),
             Question("q3", "question3", IntegerType, Some(Reference("q2"))),
             Question("q4", "question4", IntegerType, Some(Reference("q5"))),

@@ -97,20 +97,14 @@ class QLFormController(homeController: QLHomeController)
     questions.foreach(_.updateValue(dictionary))
   }
 
-  def updateVisibility(): Unit = {
-    guiForm.questions.foreach(question => {
-      getVisibilitySetting(question) match {
-        case visibility: BooleanAnswer => question.component.foreach(_.setVisible(isVisible(visibility)))
-        case _                         => throw new IllegalArgumentException("A if-condition did not result in a boolean expression!")
-      }
-    })
+  private def updateVisibility(): Unit = {
+    guiForm.questions.foreach { question =>
+      val isQuestionVisible: Boolean = getVisibilitySetting(question).contains(BooleanAnswer(true))
+      question.component.foreach(_.setVisible(isQuestionVisible))
+    }
   }
 
-  def isVisible(b: BooleanAnswer): Boolean = {
-    b.possibleValue.getOrElse(false)
-  }
-
-  def getVisibilitySetting(question: GUIQuestion): Answer = {
+  private def getVisibilitySetting(question: GUIQuestion): Option[Answer] = {
     question.visibility.evaluate(qlForm.symbolTable, dictionary.toMap)
   }
 

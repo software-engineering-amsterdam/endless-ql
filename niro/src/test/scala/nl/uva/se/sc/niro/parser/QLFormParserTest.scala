@@ -54,7 +54,7 @@ class QLFormParserTest extends FunSuite {
             expression = None
           ),
           Conditional(
-            predicate = BooleanAnswer(Some(true)),
+            predicate = BooleanAnswer(true),
             thenStatements = List(
               Question(id = "middleName", label = "What is your middle name?", StringType, expression = None)
             )
@@ -72,7 +72,7 @@ class QLFormParserTest extends FunSuite {
       List(
         Question("firstName", "What is your first name?", StringType, None),
         Conditional(
-          predicate = UnaryOperation(Neg, BooleanAnswer(Some(true))),
+          predicate = UnaryOperation(Neg, BooleanAnswer(true)),
           thenStatements = List(Question("middleName", "What is your middle name?", StringType, None))
         )
       )
@@ -88,13 +88,13 @@ class QLFormParserTest extends FunSuite {
       statements = List(
         Question(id = "firstName", "What is your first name?", StringType, expression = None),
         Conditional(
-          predicate = BooleanAnswer(Some(true)),
+          predicate = BooleanAnswer(true),
           thenStatements = List(
             Question(id = "middleName", label = "What is your middle name?", StringType, expression = None)
           )
         ),
         Conditional(
-          predicate = UnaryOperation(Neg, BooleanAnswer(Some(true))),
+          predicate = UnaryOperation(Neg, BooleanAnswer(true)),
           thenStatements = List(
             Question("lastName", "What is your last name?", StringType, None),
             Question("lastName", "What is your last name?", StringType, None)
@@ -113,20 +113,18 @@ class QLFormParserTest extends FunSuite {
       statements = List(
         Question(id = "firstName", label = "What is your first name?", StringType, expression = None),
         Conditional(
-          predicate = BooleanAnswer(Some(true)),
+          predicate = BooleanAnswer(true),
           thenStatements = List(
             Question("lastName", "What is your last name?", StringType, expression = None)
           )
         ),
         Conditional(
-          predicate = UnaryOperation(Neg, BooleanAnswer(Some(true))),
+          predicate = UnaryOperation(Neg, BooleanAnswer(true)),
           thenStatements = List(
             Question("middleName", "What is your middle name?", StringType, None),
+            Conditional(BooleanAnswer(false), List(Question("lastName", "What is your last name?", StringType, None))),
             Conditional(
-              BooleanAnswer(Some(false)),
-              List(Question("lastName", "What is your last name?", StringType, None))),
-            Conditional(
-              UnaryOperation(Neg, BooleanAnswer(Some(false))),
+              UnaryOperation(Neg, BooleanAnswer(false)),
               List(Question("middleName", "What is your middle name?", StringType, None)))
           )
         )
@@ -148,7 +146,7 @@ class QLFormParserTest extends FunSuite {
           predicate = BinaryOperation(
             And,
             BinaryOperation(Ne, Reference("lastName"), Reference("firstName")),
-            BinaryOperation(Gt, Reference("a"), UnaryOperation(Sub, IntegerAnswer(Some(10))))),
+            BinaryOperation(Gt, Reference("a"), UnaryOperation(Sub, IntegerAnswer(10)))),
           thenStatements = List(
             Question(id = "lastName", label = "What is your last name?", StringType, expression = None)
           )
@@ -171,7 +169,7 @@ class QLFormParserTest extends FunSuite {
           predicate = BinaryOperation(
             And,
             BinaryOperation(Ne, Reference("lastName"), Reference("firstName")),
-            BinaryOperation(Gt, Reference("a"), UnaryOperation(Sub, IntegerAnswer(Some(10))))),
+            BinaryOperation(Gt, Reference("a"), UnaryOperation(Sub, IntegerAnswer(10)))),
           thenStatements = List(
             Question("lastName", "What is your last name?", StringType, None),
             Question("lastName", "What is your last name?", StringType, None)
@@ -183,7 +181,7 @@ class QLFormParserTest extends FunSuite {
             BinaryOperation(
               And,
               BinaryOperation(Ne, Reference("lastName"), Reference("firstName")),
-              BinaryOperation(Gt, Reference("a"), UnaryOperation(Sub, IntegerAnswer(Some(10)))))
+              BinaryOperation(Gt, Reference("a"), UnaryOperation(Sub, IntegerAnswer(10))))
           ),
           thenStatements = List(
             Question("middleName", "Do you have a middle name?", BooleanType, None),
@@ -207,14 +205,11 @@ class QLFormParserTest extends FunSuite {
             binaryOperator = Add,
             left = BinaryOperation(
               binaryOperator = Mul,
-              left = BinaryOperation(
-                binaryOperator = Sub,
-                left = IntegerAnswer(Some(10000)),
-                right = Reference("hasSoldHouse")),
-              right = IntegerAnswer(Some(42))
+              left =
+                BinaryOperation(binaryOperator = Sub, left = IntegerAnswer(10000), right = Reference("hasSoldHouse")),
+              right = IntegerAnswer(42)
             ),
-            right =
-              BinaryOperation(binaryOperator = Div, left = IntegerAnswer(Some(23)), right = IntegerAnswer(Some(54)))
+            right = BinaryOperation(binaryOperator = Div, left = IntegerAnswer(23), right = IntegerAnswer(54))
           ),
           thenStatements = List(
             Question(id = "asd", label = "asd", BooleanType, expression = None)
@@ -238,13 +233,13 @@ class QLFormParserTest extends FunSuite {
             id = "houseBuyingPrice",
             label = "What was the buying price?",
             IntegerType,
-            expression = Some(IntegerAnswer(Some(10000)))
+            expression = Some(IntegerAnswer(10000))
           ),
           Question(
             id = "houseSellingPrice",
             label = "What was the selling price?",
             IntegerType,
-            expression = Some(BinaryOperation(Sub, IntegerAnswer(Some(10000)), Reference("hasSoldHouse")))
+            expression = Some(BinaryOperation(Sub, IntegerAnswer(10000), Reference("hasSoldHouse")))
           )
         )
       )
@@ -260,15 +255,15 @@ class QLFormParserTest extends FunSuite {
         "DanglingElse",
         List(
           Conditional(
-            BooleanAnswer(Some(true)),
+            BooleanAnswer(true),
             List(Question("firstIf", "FirstIf", DecimalType, None))
           ),
           Conditional(
-            BooleanAnswer(Some(false)),
+            BooleanAnswer(false),
             List(Question("firstElseIf", "FirstElseIf", IntegerType, None))
           ),
           Conditional(
-            UnaryOperation(Neg, BooleanAnswer(Some(false))),
+            UnaryOperation(Neg, BooleanAnswer(false)),
             List(Question("danglingElse", "DanglingElse", BooleanType, None))
           )
         )

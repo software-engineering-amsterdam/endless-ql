@@ -5,11 +5,11 @@ import nl.uva.se.sc.niro.model.ql.expressions.BasicArithmetics.IntAnswerCanDoBas
 import nl.uva.se.sc.niro.model.ql.expressions.MoneyArithmetics.MoneyCanDoArithmetics.{ times => moneyTimes }
 import nl.uva.se.sc.niro.model.ql.expressions.Orderings.IntAnswerCanDoOrderings._
 
-final case class IntegerAnswer(possibleValue: Option[Int]) extends Answer {
+final case class IntegerAnswer(value: Int) extends Answer {
 
   type T = Int
 
-  def toDecAnswer = DecimalAnswer(possibleValue.map(BigDecimal(_)))
+  def toDecAnswer = DecimalAnswer(BigDecimal(value))
 
   def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: IntegerAnswer => applyInteger(operator, that)
@@ -46,7 +46,5 @@ final case class IntegerAnswer(possibleValue: Option[Int]) extends Answer {
 }
 
 object IntegerAnswer {
-  def apply() = new IntegerAnswer(None)
-  def apply(value: Int) = new IntegerAnswer(Option(value))
-  def apply(value: java.lang.Integer) = new IntegerAnswer(Option(value).map(_.toInt))
+  def apply(value: java.lang.Integer) = new IntegerAnswer(value.toInt)
 }

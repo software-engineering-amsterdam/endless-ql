@@ -1,3 +1,4 @@
+package test;
 
 import domain.FormNode;
 import domain.model.IfASTNode;
@@ -8,7 +9,10 @@ import domain.model.value.StringValue;
 import domain.model.variable.MoneyVariable;
 import domain.model.variable.StringVariable;
 import domain.model.variable.Variable;
+import exception.DuplicateQuestionDeclarationException;
 import exception.InvalidArithmeticExpressionException;
+import junit.framework.TestCase;
+import loader.QL.QLChecker;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,10 +38,11 @@ public class ASTTest {
     String operator = "-";
 
     ArithmeticExpressionValue arithmeticExpressionValue;
+    QLChecker qlChecker;
     @Before
     public void init(){
         formNode = new FormNode();
-
+        qlChecker = new QLChecker(formNode);
         stringVariable = new StringVariable("testStringVariable");
         stringValue = new StringValue("testStringValue");
         stringVariable.setValue(stringValue);
@@ -63,14 +68,14 @@ public class ASTTest {
     }
     @Test
     public void StringVariableTest(){
-        assertEquals("Test initialization for string variable", stringVariable.getIdentifier(), "testStringVariable");
-        assertEquals("Test initialization for string value", stringValue.getValue(), "testStringValue");
-        assertEquals("Test set value for string value", stringVariable.getValue(), stringValue);
+        TestCase.assertEquals("Test initialization for string variable", stringVariable.getIdentifier(), "testStringVariable");
+        TestCase.assertEquals("Test initialization for string value", stringValue.getValue(), "testStringValue");
+        TestCase.assertEquals("Test set value for string value", stringVariable.getValue(), stringValue);
     }
     @Test
     public void ArithmeticExpressionVariableTest(){
-        assertEquals("Test set value for arithmetic expression value", arithmeticExpressionVariable.getValue(), arithmeticExpressionValue);
-        assertEquals("Test compute value for arithmetic expressions", (Integer) arithmeticExpressionValue.getValue(), (Integer) 500);
+        TestCase.assertEquals("Test set value for arithmetic expression value", arithmeticExpressionVariable.getValue(), arithmeticExpressionValue);
+        TestCase.assertEquals("Test compute value for arithmetic expressions", (Integer) arithmeticExpressionValue.getValue(), (Integer) 500);
     }
 
     @Test(expected = InvalidArithmeticExpressionException.class)
@@ -78,28 +83,33 @@ public class ASTTest {
         arithmeticExpressionValue = new ArithmeticExpressionValue(stringVariable, rightHandOperand, operator);
         arithmeticExpressionValue.getValue();
     }
-
+    @Test(expected = DuplicateQuestionDeclarationException.class)
+    public void TestDuplicateQuestionDeclarationException() {
+        formNode.addQuestion(qan1);
+        formNode.addQuestion(qan1);
+        qlChecker.doChecks();
+    }
 
     @Test
     public void QuestionASTNodeTest(){
-        assertEquals("Check if question ast node is correctly initialized", qan1.getText(), "testQAN1");
+        TestCase.assertEquals("Check if question ast node is correctly initialized", qan1.getText(), "testQAN1");
     }
 
     @Test
     public void IfASTNodeTest(){
         ifAstNode.addQuestion(qan2);
-        assertEquals("Test if question is correctly added to if ast node list", ifAstNode.getQuestionNodes().get(0), qan2);
+        TestCase.assertEquals("Test if question is correctly added to if ast node list", ifAstNode.getQuestionNodes().get(0), qan2);
     }
 
     @Test
     public void FormNodeTest() {
         formNode.setFormIdentifier("TestNode");
-        assertEquals("Return formIdentifier() test", formNode.getFormIdentifier(), "TestNode");
-        assertEquals("Test if questions list is initiated correctly", formNode.getASTNodes().size(), 0);
-        assertEquals("Test if referenced variables is initiated correctly", formNode.getReferencedVariables().size(), 0);
+        TestCase.assertEquals("Return formIdentifier() test", formNode.getFormIdentifier(), "TestNode");
+        TestCase.assertEquals("Test if questions list is initiated correctly", formNode.getASTNodes().size(), 0);
+        TestCase.assertEquals("Test if referenced variables is initiated correctly", formNode.getReferencedVariables().size(), 0);
 
         formNode.addQuestion(qan1);
-        assertEquals("Test if question is added correctly", formNode.getASTNodes().get(0), qan1);
-        assertEquals("Check if variable is taken correcly from list by label", formNode.getVariableFromList("testStringVariable"), qan1.getVariable());
+        TestCase.assertEquals("Test if question is added correctly", formNode.getASTNodes().get(0), qan1);
+        TestCase.assertEquals("Check if variable is taken correcly from list by label", formNode.getVariableFromList("testStringVariable"), qan1.getVariable());
     }
 }

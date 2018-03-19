@@ -36,7 +36,6 @@ public class QLLoader extends FormBaseListener {
 
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
-        System.out.println("Entering if");
         IfASTNode ifASTNode = new IfASTNode(false);
         this.inIfNode = true;
         BooleanVariable v = null;
@@ -64,7 +63,6 @@ public class QLLoader extends FormBaseListener {
      }
     @Override
     public void exitIfStructure(FormParser.IfStructureContext ctx){
-        System.out.println("Exit if");
         this.inIfNode = false;
     }
     @Override

@@ -3,6 +3,8 @@ package domain;
 import domain.model.IfASTNode;
 import domain.model.ASTNode;
 import domain.model.QuestionASTNode;
+import domain.model.value.MoneyValue;
+import domain.model.variable.MoneyVariable;
 import domain.model.variable.Variable;
 
 import java.util.ArrayList;

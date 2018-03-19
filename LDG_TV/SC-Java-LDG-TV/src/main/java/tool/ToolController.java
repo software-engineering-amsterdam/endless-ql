@@ -17,12 +17,19 @@ import domain.visitor.UIVisitor;
 import domain.visitor.Visitor;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import io.reactivex.rxjavafx.sources.Change;
+import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.QLLoader;
@@ -33,10 +40,12 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class ToolController implements Initializable, Consumer {
@@ -164,14 +173,18 @@ public class ToolController implements Initializable, Consumer {
     }
 
     private void drawPages(Stylesheet stylesheet){
+        ListView lv;
+        Label sl;
+        Tab tab;
+        Pane pane;
         for (Page p : stylesheet.getPages()){
-            Tab t = new Tab(p.getLabel());
+            tab = new Tab(p.getLabel());
+            this.tpPages.getTabs().add(tab);
+            lv = new ListView<Row>();
             for (Section s : p.getSections()){
-                ListView lv = new ListView<Row>();
                 drawQuestions(s.getQuestions(), lv);
-                t.setContent(lv);
             }
-            this.tpPages.getTabs().add(new Tab(p.getLabel()));
+            tab.setContent(lv);
         }
     }
 

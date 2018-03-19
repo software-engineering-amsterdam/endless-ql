@@ -27,7 +27,7 @@
                <tabs>
                   <Tab closable="false" text="QL">
                      <content>
-                        <TextArea fx:id="taSourceCodeQL" prefHeight="200.0" prefWidth="200.0" promptText="Write or import questionair language..." wrapText="true">
+                        <TextArea fx:id="taSourceCodeQL" prefHeight="200.0" prefWidth="200.0" promptText="Write or import questionair language..." text="form taxOfficeExample{  &quot;Did you sell a house in 2010?&quot;    hasSoldHouse: boolean  &quot;Did you buy a house in 2010?&quot;    hasBoughtHouse: money  if (hasSoldHouse) {    &quot;What was the selling price?&quot;      sellingPrice: money    &quot;Private debts for the sold house:&quot;      privateDebt: money    &quot;Value residue:&quot;      valueResidue: money =        (sellingPrice - privateDebt)  }else{    &quot;Did you enter a loan?&quot;      hasMaintLoan: boolean  }}" wrapText="true">
                             <font>
                                 <Font name="Courier" size="13.0" />
                             </font>
@@ -36,7 +36,7 @@
                   </Tab>
                   <Tab closable="false" text="QLS">
                      <content>
-                        <TextArea fx:id="taSourceCodeQLS" prefHeight="200.0" prefWidth="200.0" promptText="Write or import questionair language style..." wrapText="true">
+                        <TextArea fx:id="taSourceCodeQLS" prefHeight="200.0" prefWidth="200.0" promptText="Write or import questionair language style..." text="stylesheet taxOfficeExample{  page Housing  {    section &quot;Buying&quot;    {      question hasBoughtHouse          widget checkbox     }    section &quot;Loaning&quot;      question hasMaintLoan     }  page Selling  {     section &quot;Selling&quot;    {      question hasSoldHouse        widget radio(&quot;Yes&quot;, &quot;No&quot;)      section &quot;You sold a house&quot;      {        question sellingPrice          widget spinbox        question privateDebt          widget spinbox        question valueResidue          default money          {            width: 400            font: &quot;Arial&quot;            fontsize: 14            color: #999999              widget spinbox            }      }    }  }}" wrapText="true">
                            <font>
                               <Font name="Courier" size="13.0" />
                            </font>

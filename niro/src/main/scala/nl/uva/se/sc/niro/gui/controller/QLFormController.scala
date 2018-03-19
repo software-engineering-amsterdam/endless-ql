@@ -62,7 +62,7 @@ class QLFormController(homeController: QLHomeController)
 
   def componentChanged(component: Component[_]): Unit = {
     logger.debug(s"Component [${component.getQuestionId}] changed its value to [${component.getValue}]")
-    dictionary(component.getQuestionId) = component.getValue
+    component.getValue foreach (answer => dictionary(component.getQuestionId) = answer)
     evaluateAnswers()
     updateView()
   }

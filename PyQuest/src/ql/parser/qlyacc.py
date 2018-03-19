@@ -35,7 +35,7 @@ from ql.types.undefined import QLUndefined
 
 class QLParser:
     def __init__(self):
-        self.tokens = qllex.LexTokenizer.tokens
+        self.tokens = qllex.QLLexer.tokens
         self.precedence = (
             ('left', 'OR'),
             ('left', 'AND'),

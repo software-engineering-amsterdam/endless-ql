@@ -1,4 +1,4 @@
-from ql.parser.qllex import LexTokenizer
+from ql.parser.qllex import QLLexer
 from ql.parser.qlyacc import QLParser
 from ql.ast.visitors.gui_model_generator import GUIModel
 from ql.ast.extractors.extractor import Extractor
@@ -101,7 +101,7 @@ class MainApp(QMainWindow):
     def create_form(self):
         textbox_value = self.text_edit.toPlainText()
         parser = QLParser()
-        lexer = LexTokenizer()
+        lexer = QLLexer()
 
         try:
             ast = parser.parser.parse(textbox_value, lexer.lexer)

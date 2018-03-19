@@ -11,8 +11,7 @@ from ql.types.integer import QLInteger
 from debug.debug import error
 
 
-class LexTokenizer(object):
-
+class QLLexer:
     # List of token names.
     tokens = [
         'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'COLON',

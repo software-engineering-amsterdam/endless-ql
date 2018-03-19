@@ -134,16 +134,16 @@ public class ToolController implements Initializable {
             Variable qv = qn.getVariable();
 
             Node n = qv.getRelatedUIElement(uiVisitor);
-            lvQuestionnaire.getItems().add(new QuestionRow(questionText, n, false));
+
+            Row r = new QuestionRow(questionText, n);
+            r.setDisable(qn.isDisabled());
+            lvQuestionnaire.getItems().add(r);
         }
     }
 
     private List<QuestionASTNode> getAllVisibleQuestions(List<ASTNode> nodes){
         List<QuestionASTNode> visQuestion = new ArrayList<>();
         for(ASTNode n : nodes){
-            if(!n.isVisible()) {
-                continue;
-            }
 
             if(n instanceof QuestionASTNode){
                 visQuestion.add((QuestionASTNode) n);
@@ -151,25 +151,11 @@ public class ToolController implements Initializable {
             }
 
             IfASTNode ifASTNode = (IfASTNode) n;
+
             visQuestion.addAll(ifASTNode.getQuestionNodes());
         }
 
         return visQuestion;
-    }
-
-
-
-
-    private List<Row> dummyRows(){
-        QuestionRow row1_1 = new QuestionRow("Man or woman", new TextField(), true);
-        QuestionRow row1_2 = new QuestionRow("Where do you work?", new TextField(), true);
-
-        IfRow row1 = new IfRow("Older than 18?", new CheckBox(), Arrays.asList(row1_1, row1_2));
-
-        row1_1.visibleProperty().bindBidirectional(row1.selectedProp());
-        row1_2.visibleProperty().bindBidirectional(row1.selectedProp());
-
-        return Arrays.asList(row1, row1_1, row1_2);
     }
 
     /**

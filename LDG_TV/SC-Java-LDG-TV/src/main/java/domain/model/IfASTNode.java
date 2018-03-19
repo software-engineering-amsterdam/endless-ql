@@ -13,7 +13,7 @@ public class IfASTNode extends ASTNode {
     public IfASTNode(boolean visible) {
         this.questionNodes = new ArrayList<>();
         this.conditions = new ArrayList<>();
-        this.setVisible(visible);
+        this.setDisabled(visible);
     }
 
     public List<QuestionASTNode> getQuestionNodes() {

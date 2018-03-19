@@ -18,7 +18,7 @@ public class FormNodeHandler {
 
         List<QuestionASTNode> visQuestion = new ArrayList<>();
         for(ASTNode n : this.formNode.getASTNodes()){
-            if(!n.isVisible()) {
+            if(n.isDisabled()) {
                 continue;
             }
 

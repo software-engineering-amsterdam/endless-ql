@@ -9,7 +9,7 @@ public class QuestionASTNode extends ASTNode implements Comparable {
     public QuestionASTNode(String text, Variable variable, boolean visible) {
         this.text = text;
         this.variable = variable;
-        this.setVisible(visible);
+        this.setDisabled(visible);
     }
 
     public String getText() {

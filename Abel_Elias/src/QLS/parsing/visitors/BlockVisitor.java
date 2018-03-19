@@ -2,8 +2,8 @@ package QLS.parsing.visitors;
 import QL.classes.values.Value;
 import QLS.classes.Question;
 import QLS.classes.widgets.Widget;
-import QLS.parsing.gen.QLSBaseVisitor;
-import QLS.parsing.gen.QLSParser;
+import QLS.parsing.QLSBaseVisitor;
+import QLS.parsing.QLSParser;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -27,6 +27,7 @@ public class BlockVisitor extends QLSBaseVisitor {
 
     @Override
     public Object visitSection(QLSParser.SectionContext ctx) {
+        visitBlock(ctx.block());
         return questionMap;
     }
 

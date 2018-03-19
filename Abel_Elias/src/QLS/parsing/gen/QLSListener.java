@@ -1,5 +1,5 @@
 // Generated from /home/ajm/Desktop/newEndless/endless-ql/Abel_Elias/src/QLS/parsing/QLS.g4 by ANTLR 4.7
-package QLS.parsing.gen;
+package QLS.parsing;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**

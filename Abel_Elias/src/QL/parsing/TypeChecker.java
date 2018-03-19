@@ -1,7 +1,0 @@
-package QL.parsing;
-import QL.classes.Form;
-
-public class TypeChecker {
-    public void initTypeChecking(Form form) {
-    }
-}

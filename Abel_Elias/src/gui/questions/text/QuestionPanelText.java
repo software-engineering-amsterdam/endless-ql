@@ -1,8 +1,9 @@
-package gui.questions;
+package gui.questions.text;
 
 import QL.classes.Question;
 import QL.classes.values.UndefinedValue;
 import QL.classes.values.Value;
+import gui.questions.QuestionPanel;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
@@ -18,7 +19,6 @@ public abstract class QuestionPanelText extends QuestionPanel {
         super(key, question);
         createControlWidget(key);
     }
-
 
     @Override
     public void createControlWidget(String key) {

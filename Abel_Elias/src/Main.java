@@ -4,7 +4,7 @@ import QL.classes.values.BooleanValue;
 import QL.classes.values.DateValue;
 import QL.classes.values.IntegerValue;
 import QL.classes.values.StringValue;
-import QLS.parsing.gen.QLSParser;
+import QLS.parsing.QLSParser;
 import QLS.parsing.visitors.StylesheetVisitor;
 import gui.FormBuilder;
 import QL.parsing.TreeBuilder;
@@ -23,10 +23,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Main {
-    /**
-     * parse and build the form file
-     */
 
+    // Temp method to create questions
     private HashMap<String, Question> getQuestionTemp() {
         LinkedHashMap<String, Question> questionHashMap = new LinkedHashMap<String, Question>();
         questionHashMap.put("1", new Question("Is this a question?", new BooleanValue(), false, true));
@@ -45,6 +43,10 @@ public class Main {
         }
     }
 
+    /**
+     * parseAndBuild() method
+     * @param inputStream fileInput (Ql)
+     */
     private void parseAndBuild(InputStream inputStream){
         try{
             QLParser.FormContext form = new TreeBuilder().build(inputStream);
@@ -60,13 +62,17 @@ public class Main {
 
     }
 
+    /**
+     * parseAndBuildQLS() method
+     * @param inputStream fileInput (Qls)
+     */
     private void parseAndBuildQLS(InputStream inputStream) {
         try{
             QLSParser.StylesheetContext stylesheet = new TreeBuilder().buildQls(inputStream);
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(stylesheet);
             LinkedHashMap<String, QLS.classes.Question> memory = stylesheetVisitor.questionMap;
-            //Pass the relevant questions to the UI builder
 
+            //Test output
             for (Map.Entry e : memory.entrySet()) {
                 QLS.classes.Question q = (QLS.classes.Question) e.getValue();
                 String id = (String) e.getKey();

@@ -1,8 +1,8 @@
 package QLS.parsing.visitors;
 
 import QLS.classes.Question;
-import QLS.parsing.gen.QLSBaseVisitor;
-import QLS.parsing.gen.QLSParser;
+import QLS.parsing.QLSBaseVisitor;
+import QLS.parsing.QLSParser;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

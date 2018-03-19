@@ -1,4 +1,4 @@
-package gui.questions;
+package gui.questions.text;
 
 import QL.classes.Question;
 import QL.classes.values.Value;

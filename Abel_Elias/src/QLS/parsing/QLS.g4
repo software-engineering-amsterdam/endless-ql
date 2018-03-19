@@ -2,7 +2,7 @@
 grammar QLS;
 
 /** Parser rules */
-stylesheet : STYLESHEET IDENTIFIER page EOF; // form
+stylesheet : STYLESHEET IDENTIFIER page NEWLINE* EOF; // form
 
 page : CURLY_BRACE_L PAGE IDENTIFIER block CURLY_BRACE_R NEWLINE*; // content
 

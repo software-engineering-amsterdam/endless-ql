@@ -1,10 +1,10 @@
 form taxOfficeExample
 {
   "Did you sell a house in 2010?"
-    hasSoldHouse: money
+    hasSoldHouse: boolean
   "Did you buy a house in 2010?"
     hasBoughtHouse: money
-  if ((hasSoldHouse > hasBoughtHouse)) {
+  if (hasSoldHouse) {
     "What was the selling price?"
       sellingPrice: money
     "Private debts for the sold house:"

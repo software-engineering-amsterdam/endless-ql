@@ -156,7 +156,7 @@ public class ToolController implements Initializable, Consumer {
             IfASTNode ifASTNode = (IfASTNode) n;
 
             visQuestion.addAll(ifASTNode.getQuestionNodes());
-            visQuestion.addAll(ifASTNode.getElseNodess());
+            visQuestion.addAll(ifASTNode.getElseNodes());
         }
 
         return visQuestion;

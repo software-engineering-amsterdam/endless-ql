@@ -48,7 +48,7 @@ public class QLLoader extends FormBaseListener {
                v = this.formNode.getVariableFromList(cc.value().getText());
                this.formNode.getReferencedVariables().add(v);
             }
-            if (cc.expression().booleanExpression() instanceof FormParser.BooleanExpressionContext){
+            if (cc.expression() instanceof FormParser.ExpressionContext){
                v = new BooleanVariable(null);
                v.setValue(this.getBooleanExpressionValue(cc.expression()));
             }else{

@@ -13,6 +13,9 @@ class QLMoney(QLType):
     def __repr__(self):
         return '{}{:.2f}'.format(self.currency, self.value)
 
+    def __neg__(self):
+        return QLMoney(- self.value, self.currency)
+
     def __eq__(self, other):
         return QLBoolean(self.value == other.value and self.currency == other.currency)
 
@@ -32,10 +35,14 @@ class QLMoney(QLType):
         return QLBoolean(self.value >= other.value and self.currency == other.currency)
 
     def __add__(self, other):
-        return QLMoney(self.value + other.value)
+        if self.currency == other.currency:
+            return QLMoney(self.value + other.value, self.currency)
+        return NotImplemented
 
     def __sub__(self, other):
-        return QLMoney(self.value - other.value)
+        if self.currency == other.currency:
+            return QLMoney(self.value - other.value, self.currency)
+        return NotImplemented
 
     @property
     def value(self):

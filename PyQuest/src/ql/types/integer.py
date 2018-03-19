@@ -13,6 +13,9 @@ class QLInteger(QLType):
     def __repr__(self):
         return str(self.value)
 
+    def __neg__(self):
+        return QLInteger(- self.value)
+
     def __eq__(self, other):
         return QLBoolean(self.value == other.value)
 

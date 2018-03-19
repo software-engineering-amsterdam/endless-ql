@@ -22,7 +22,8 @@ namespace QuestionnaireDomain.Entities.Validators
             IDateComparisonValidator dateComparisonValidator,
             ITextComparisonValidator textComparisonValidator,
             IMathComparisonValidator mathComparisonValidator,
-            IMathExpressionValidator mathExpressionValidator)
+            IMathExpressionValidator mathExpressionValidator,
+            IUnknownTypeValidator unknownTypeValidator)
         {
             m_validators.Add(duplicateVariableValidator);
             m_validators.Add(undefinedVariableValidator);
@@ -31,6 +32,7 @@ namespace QuestionnaireDomain.Entities.Validators
             m_validators.Add(textComparisonValidator);
             m_validators.Add(mathComparisonValidator);
             m_validators.Add(mathExpressionValidator);
+            m_validators.Add(unknownTypeValidator);
         }
         
         public void Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode)

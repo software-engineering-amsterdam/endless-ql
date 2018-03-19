@@ -36,6 +36,7 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(ITextComparisonValidator), typeof(TextComparisonValidator));
             appRegistration.AddSingleton(typeof(IMathComparisonValidator), typeof(MathComparisonValidator));
             appRegistration.AddSingleton(typeof(IMathExpressionValidator), typeof(MathExpressionValidator));
+            appRegistration.AddSingleton(typeof(IUnknownTypeValidator), typeof(UnknownTypeValidator));
         }
     }
 }

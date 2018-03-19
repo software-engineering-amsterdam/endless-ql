@@ -167,7 +167,9 @@
     <Compile Include="Validators\Interfaces\IMathComparisonValidator.cs" />
     <Compile Include="Validators\Interfaces\IMathExpressionValidator.cs" />
     <Compile Include="Validators\Interfaces\ITextComparisonValidator.cs" />
+    <Compile Include="Validators\Interfaces\IUnknownTypeValidator.cs" />
     <Compile Include="Validators\MathComparisonValidator.cs" />
+    <Compile Include="Validators\MathExpressionValidator.cs" />
     <Compile Include="Validators\MetaData\BooleanConditionValidationMetaData.cs" />
     <Compile Include="Validators\MetaData\DateComparisonValidationMetaData.cs" />
     <Compile Include="Validators\MetaData\DuplicateVariableValidationMetaData.cs" />
@@ -181,12 +183,14 @@
     <Compile Include="Validators\MetaData\MathComparisonValidationMetaData.cs" />
     <Compile Include="Validators\MetaData\MathExpressionValidationMetaData.cs" />
     <Compile Include="Validators\MetaData\TextComparisonValidationMetaData.cs" />
+    <Compile Include="Validators\MetaData\UnkownTypeExpressionValidationMetaData.cs" />
     <Compile Include="Validators\Severity.cs" />
     <Compile Include="Validators\MetaData\UndefinedVariableValidationMetaData.cs" />
     <Compile Include="Validators\TextComparisonValidator.cs" />
     <Compile Include="Validators\UndefinedVariableValidator.cs" />
     <Compile Include="Validators\MetaData\ValidationMetaData.cs" />
     <Compile Include="Validators\QuestionnaireValidator.cs" />
+    <Compile Include="Validators\UnknownTypeValidator.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

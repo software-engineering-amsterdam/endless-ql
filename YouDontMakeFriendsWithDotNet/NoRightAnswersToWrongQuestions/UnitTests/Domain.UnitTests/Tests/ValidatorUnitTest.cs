@@ -146,6 +146,18 @@ namespace UnitTests.Domain.UnitTests.Tests
                 errorMessage);
         }
 
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.UnKnownVariables))]
+        public void WhenGivenTwoVariableInNonValidTypeExpressions_ProducesTheCorrectMetaDatas(
+            string invalidDescription,
+            string errorMessage)
+        {
+            ValidateMetaDataCreation<UnkownTypeExpressionValidationMetaData>(
+                invalidDescription,
+                errorMessage);
+        }
+
         private IList<ValidationMetaData> ResultsFor<T>() where T : ValidationMetaData
         {
             return m_questionnaireValidator
@@ -154,7 +166,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .Cast<ValidationMetaData>()
                 .ToList();
         }
-
+        
         private void ValidateMetaDataCreation<T>(
             string invalidDescription, 
             string errorMessage) where T : ValidationMetaData

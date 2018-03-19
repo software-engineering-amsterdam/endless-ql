@@ -1,4 +1,4 @@
-﻿namespace Assignment1.Model.QL.QLExpression
+﻿namespace Assignment1.Model.QL.RenderTree.QLExpression
 {
     public abstract class Expression
     {

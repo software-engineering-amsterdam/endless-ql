@@ -1,4 +1,4 @@
-﻿namespace Assignment1.Model.QL.Value
+﻿namespace Assignment1.Model.QL.RenderTree.Value
 {
     public class AnswerValue<T> : IAnswerValuable<T>
     {

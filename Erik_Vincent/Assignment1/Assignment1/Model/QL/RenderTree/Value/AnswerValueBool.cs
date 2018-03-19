@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assignment1.Model.QL.Value
+namespace Assignment1.Model.QL.RenderTree.Value
 {
     public class AnswerValueBool : AnswerValue<bool>, IAnswerComparable, IAnswerLogical
     {

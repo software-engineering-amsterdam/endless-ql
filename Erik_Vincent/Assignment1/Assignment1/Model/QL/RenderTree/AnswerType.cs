@@ -1,4 +1,4 @@
-﻿namespace Assignment1.Model.QL
+﻿namespace Assignment1.Model.QL.RenderTree
 {
     public enum AnswerType
     {

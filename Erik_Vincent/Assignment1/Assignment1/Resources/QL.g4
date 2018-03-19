@@ -1,8 +1,8 @@
 parser grammar QL;
 
 @header {
-using Assignment1.Model.QL;
-using Assignment1.Model.QL.QLExpression;
+using Assignment1.Model.QL.RenderTree;
+using Assignment1.Model.QL.RenderTree.QLExpression;
 }
 
 @parser::members

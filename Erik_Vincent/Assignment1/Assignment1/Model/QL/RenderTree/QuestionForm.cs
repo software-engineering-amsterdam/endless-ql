@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Assignment1Tests")]
 
-namespace Assignment1.Model.QL
+namespace Assignment1.Model.QL.RenderTree
 {
     public class QuestionForm
     {

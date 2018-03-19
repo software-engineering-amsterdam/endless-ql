@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assignment1.Model.QL.Value
+namespace Assignment1.Model.QL.RenderTree.Value
 {
     class AnswerValueNumber : AnswerValue<decimal>, IAnswerComputable<decimal>, IAnswerComparable
     {

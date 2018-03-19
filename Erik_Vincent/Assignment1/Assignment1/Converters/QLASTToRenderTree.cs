@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using Assignment1.Model.QL;
 using Assignment1.Model.QL.AST;
-using Assignment1.Model.QL.QLExpression;
+using Assignment1.Model.QL.RenderTree;
+using Assignment1.Model.QL.RenderTree.QLExpression;
 using Question = Assignment1.Model.QL.AST.Question;
 using QuestionForm = Assignment1.Model.QL.AST.QuestionForm;
 using Type = Assignment1.Model.QL.AST.Type;
@@ -11,13 +12,13 @@ namespace Assignment1.Converters
 {
     public class QLASTToRenderTree : IQLASTVisitor
     {
-        private Model.QL.QuestionForm _result;
+        private Model.QL.RenderTree.QuestionForm _result;
         private readonly Stack<Expression> _conditions = new Stack<Expression>(new[] { new ExpressionValue(true) });
-        private readonly List<Model.QL.Question> _questions = new List<Model.QL.Question>();
+        private readonly List<Model.QL.RenderTree.Question> _questions = new List<Model.QL.RenderTree.Question>();
 
         private QLASTToRenderTree() { }
 
-        public static Model.QL.QuestionForm Convert(QuestionForm form)
+        public static Model.QL.RenderTree.QuestionForm Convert(QuestionForm form)
         {
             var converter = new QLASTToRenderTree();
             form.Accept(converter);
@@ -31,7 +32,7 @@ namespace Assignment1.Converters
             {
                 statement.Accept(this);
             }
-            _result = new Model.QL.QuestionForm(questionForm.Id, _questions);
+            _result = new Model.QL.RenderTree.QuestionForm(questionForm.Id, _questions);
         }
 
         public void Visit(IfStatement ifStatement)
@@ -64,9 +65,9 @@ namespace Assignment1.Converters
             _questions.Add(result);
         }
 
-        private Model.QL.Question QLASTQuestionToQuestion(Question question)
+        private Model.QL.RenderTree.Question QLASTQuestionToQuestion(Question question)
         {
-            Model.QL.Question result;
+            Model.QL.RenderTree.Question result;
             switch (question.Type)
             {
                 case Type.Boolean:

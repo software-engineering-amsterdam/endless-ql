@@ -1,6 +1,6 @@
-﻿using Assignment1.Model.QL.QLExpression;
+﻿using Assignment1.Model.QL.RenderTree.QLExpression;
 
-namespace Assignment1.Model.QL
+namespace Assignment1.Model.QL.RenderTree
 {
     public abstract class Question
     {

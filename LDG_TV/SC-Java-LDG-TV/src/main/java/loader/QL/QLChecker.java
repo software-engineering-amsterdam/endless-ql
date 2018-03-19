@@ -1,7 +1,7 @@
 package loader.QL;
 
-import domain.FormNode;
-import domain.model.QuestionASTNode;
+import domain.model.ast.FormNode;
+import domain.model.ast.QuestionASTNode;
 import domain.model.variable.Variable;
 import exception.DuplicateQuestionDeclarationException;
 import exception.ReferenceUndefinedVariableException;

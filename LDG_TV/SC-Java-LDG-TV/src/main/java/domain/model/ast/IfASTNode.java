@@ -1,6 +1,4 @@
-package domain.model;
-
-import domain.model.variable.Variable;
+package domain.model.ast;
 
 import java.util.ArrayList;
 import java.util.List;

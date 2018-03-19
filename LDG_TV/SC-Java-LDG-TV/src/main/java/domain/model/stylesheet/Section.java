@@ -1,6 +1,6 @@
 package domain.model.stylesheet;
 
-import domain.model.QuestionASTNode;
+import domain.model.ast.QuestionASTNode;
 
 import java.util.ArrayList;
 import java.util.List;

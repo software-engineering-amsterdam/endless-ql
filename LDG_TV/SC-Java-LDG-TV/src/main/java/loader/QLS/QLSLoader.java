@@ -2,8 +2,8 @@ package loader.QLS;
 
 import antlr.qls.StylesheetBaseListener;
 import antlr.qls.StylesheetParser;
-import domain.FormNode;
-import domain.model.QuestionASTNode;
+import domain.model.ast.FormNode;
+import domain.model.ast.QuestionASTNode;
 import domain.model.stylesheet.Page;
 import domain.model.stylesheet.Section;
 import domain.model.stylesheet.Stylesheet;

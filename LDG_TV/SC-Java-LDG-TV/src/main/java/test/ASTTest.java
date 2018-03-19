@@ -1,8 +1,8 @@
 package test;
 
-import domain.FormNode;
-import domain.model.IfASTNode;
-import domain.model.QuestionASTNode;
+import domain.model.ast.FormNode;
+import domain.model.ast.IfASTNode;
+import domain.model.ast.QuestionASTNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.MoneyValue;
 import domain.model.value.StringValue;

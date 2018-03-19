@@ -1,11 +1,9 @@
-package domain;
+package domain.model.ast;
 
-import domain.model.IfASTNode;
-import domain.model.ASTNode;
-import domain.model.QuestionASTNode;
+import domain.model.ast.IfASTNode;
+import domain.model.ast.ASTNode;
+import domain.model.ast.QuestionASTNode;
 import domain.model.stylesheet.Stylesheet;
-import domain.model.value.MoneyValue;
-import domain.model.variable.MoneyVariable;
 import domain.model.variable.Variable;
 
 import java.util.ArrayList;

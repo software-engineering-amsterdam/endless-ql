@@ -1,7 +1,6 @@
 package domain.model.stylesheet;
 
-import domain.model.QuestionASTNode;
-import exception.ReferenceUndefinedVariableException;
+import domain.model.ast.QuestionASTNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class Stylesheet {
         this.pages.add(p);
     }
 
-    public List<QuestionASTNode> getAllQuestions(){
+    public List<QuestionASTNode> getAllQuestionASTNodes(){
         List<QuestionASTNode> temp = new ArrayList<>();
         for (Page p : getPages()){
             for (Section s : p.getSections()){

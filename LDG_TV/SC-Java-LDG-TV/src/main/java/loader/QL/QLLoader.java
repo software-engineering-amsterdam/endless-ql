@@ -2,13 +2,13 @@ package loader.QL;
 
 import antlr.ql.FormBaseListener;
 import antlr.ql.FormParser;
-import domain.FormNode;
-import domain.model.Condition;
-import domain.model.IfASTNode;
+import domain.model.ast.FormNode;
+import domain.model.ast.Condition;
+import domain.model.ast.IfASTNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.variable.*;
-import domain.model.QuestionASTNode;
+import domain.model.ast.QuestionASTNode;
 
 
 public class QLLoader extends FormBaseListener {

@@ -1,8 +1,8 @@
 ﻿namespace QuestionnaireDomain.Entities.Validators.MetaData
 {
-    public class BooleanConditionValidationMetaData : ValidationMetaData
+    public class TextComparisonValidationMetaData : ValidationMetaData
     {
-        public BooleanConditionValidationMetaData()
+        public TextComparisonValidationMetaData()
             : base(Severity.Error)
         {
         }

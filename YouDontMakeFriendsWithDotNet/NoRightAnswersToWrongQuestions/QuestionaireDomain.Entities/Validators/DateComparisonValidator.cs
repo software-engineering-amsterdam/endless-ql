@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
@@ -9,11 +11,11 @@ using QuestionnaireDomain.Entities.Validators.MetaData;
 
 namespace QuestionnaireDomain.Entities.Validators
 {
-    internal class BooleanConditionValidator : IBooleanConditionValidator
+    internal class DateComparisonValidator : IDateComparisonValidator
     {
         private readonly IDomainItemLocator m_domainItemLocator;
 
-        public BooleanConditionValidator(
+        public DateComparisonValidator(
             IDomainItemLocator domainItemLocator)
         {
             m_domainItemLocator = domainItemLocator;
@@ -23,7 +25,7 @@ namespace QuestionnaireDomain.Entities.Validators
             Reference<IQuestionnaireRootNode> questionnaireRootNode)
         {
             var booleanVariableNodes = m_domainItemLocator
-                .GetAll<IBooleanVariableNode>();
+                .GetAll<IDateVariableNode>();
 
             var questionNodes = m_domainItemLocator
                 .GetAll<IQuestionNode>()
@@ -35,13 +37,13 @@ namespace QuestionnaireDomain.Entities.Validators
                     .FirstOrDefault(x => x.QuestionName == variableNode.VariableName)
                     ?.QuestionType;
 
-                if (type == null || type != typeof(bool))
+                if (type == null || type != typeof(DateTime))
                 {
-                    yield return new BooleanConditionValidationMetaData
+                    yield return new DateComparisonValidationMetaData
                     {
                         Message =
-                            $"The variable '{variableNode.VariableName}' is in a condition but is not a bool, it is '{type}'",
-                        Source = m_domainItemLocator.GetRef<IBooleanVariableNode>(variableNode.Id)
+                            $"The variable '{variableNode.VariableName}' is in a date comparison but is not a date, it is '{type}'",
+                        Source = m_domainItemLocator.GetRef<IDateVariableNode>(variableNode.Id)
                     };
                 }
             }

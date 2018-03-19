@@ -32,6 +32,8 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IDuplicateVariableValidator), typeof(DuplicateVariableValidator));
             appRegistration.AddSingleton(typeof(IUndefinedVariableValidator), typeof(UndefinedVariableValidator));
             appRegistration.AddSingleton(typeof(IBooleanConditionValidator), typeof(BooleanConditionValidator));
+            appRegistration.AddSingleton(typeof(IDateComparisonValidator), typeof(DateComparisonValidator));
+            appRegistration.AddSingleton(typeof(ITextComparisonValidator), typeof(TextComparisonValidator));
         }
     }
 }

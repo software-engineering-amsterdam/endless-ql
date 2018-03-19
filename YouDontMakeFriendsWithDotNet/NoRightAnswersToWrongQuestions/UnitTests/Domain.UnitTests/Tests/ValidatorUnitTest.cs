@@ -117,6 +117,36 @@ namespace UnitTests.Domain.UnitTests.Tests
             AssertThatErrorMessagesMatch(errorMessage, results);
         }
 
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.NonDateConditionVariable))]
+        public void WhenGivenNonDateInDateComparison_ProducesTheCorrectMetaDatas(
+            string invalidDescription,
+            string errorMessage)
+        {
+            CreateAndValidateForm(invalidDescription);
+            var results = ResultsFor<DateComparisonValidationMetaData>();
+
+            AssertThatSeverityLevelIsError(results);
+            Assert.AreEqual(expected: 1, actual: results.Count, message: "no type check error");
+            AssertThatErrorMessagesMatch(errorMessage, results);
+        }
+
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.NonTextConditionVariable))]
+        public void WhenGivenNonTextInTextComparison_ProducesTheCorrectMetaDatas(
+            string invalidDescription,
+            string errorMessage)
+        {
+            CreateAndValidateForm(invalidDescription);
+            var results = ResultsFor<TextComparisonValidationMetaData>();
+
+            AssertThatSeverityLevelIsError(results);
+            Assert.AreEqual(expected: 1, actual: results.Count, message: "no type check error");
+            AssertThatErrorMessagesMatch(errorMessage, results);
+        }
+
 
         private static void AssertThatErrorMessagesMatch(string errorMessage, IList<ValidationMetaData> results)
         {

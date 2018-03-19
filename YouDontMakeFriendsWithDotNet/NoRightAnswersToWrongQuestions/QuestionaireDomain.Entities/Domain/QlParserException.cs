@@ -10,7 +10,7 @@ namespace QuestionnaireDomain.Entities.Domain
 
         protected QlParserException(
             SerializationInfo info,
-            StreamingContext context)
+            StreamingContext context) : base(info, context)
         {
         }
 

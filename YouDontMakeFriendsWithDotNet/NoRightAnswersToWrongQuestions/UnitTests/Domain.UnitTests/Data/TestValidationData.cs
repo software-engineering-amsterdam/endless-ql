@@ -58,9 +58,60 @@ namespace UnitTests.Domain.UnitTests.Data
             get
             {
                 yield return new TestCaseData(
-                    @"form Phil { nb: ""i"" integer if (nb) { q2: ""i"" integer} }",
-                    "The variable 'nb' is in a condition but is not a bool, it is 'System.Int32'");
+                    @"form Phil { pm: ""i"" integer if (pm) { q2: ""i"" integer} }",
+                    "The variable 'pm' is in a condition but is not a bool, it is 'System.Int32'");
+                yield return new TestCaseData(
+                    @"form Grant { gm: ""i"" date if (gm) { q2: ""i"" integer} }",
+                    "The variable 'gm' is in a condition but is not a bool, it is 'System.DateTime'");
+                yield return new TestCaseData(
+                    @"form Peggy { pm: ""i"" decimal if (pm) { q2: ""i"" integer} }",
+                    "The variable 'pm' is in a condition but is not a bool, it is 'System.Decimal'");
+                yield return new TestCaseData(
+                    @"form Sam { sm: ""i"" string if (sm) { q2: ""i"" integer} }",
+                    "The variable 'sm' is in a condition but is not a bool, it is 'System.String'");
+                yield return new TestCaseData(
+                    @"form Billy { bm: ""i"" integer if (bm && True) { q2: ""i"" integer} }",
+                    "The variable 'bm' is in a condition but is not a bool, it is 'System.Int32'");
+                yield return new TestCaseData(
+                    @"form Sharron { sm: ""i"" date if (False || sm) { q2: ""i"" integer} }",
+                    "The variable 'sm' is in a condition but is not a bool, it is 'System.DateTime'");
+                yield return new TestCaseData(
+                    @"form Tiffany { tm: ""i"" decimal if (!tm) { q2: ""i"" integer} }",
+                    "The variable 'tm' is in a condition but is not a bool, it is 'System.Decimal'");
             }
+        }
+
+        public static IEnumerable NonDateConditionVariable
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    @"form Arthur { af: ""i"" integer if (19/02/1985 == af) { q2: ""i"" integer} }",
+                    "The variable 'af' is in a date comparison but is not a date, it is 'System.Int32'");
+                yield return new TestCaseData(
+                    @"form Pauleen { pf: ""i"" boolean if (pf != 19/2/85) { q2: ""i"" integer} }",
+                    "The variable 'pf' is in a date comparison but is not a date, it is 'System.Boolean'");
+                yield return new TestCaseData(
+                    @"form Mark { mf: ""i"" decimal if (mf > 14/02/2003) { q2: ""i"" integer} }",
+                    "The variable 'mf' is in a date comparison but is not a date, it is 'System.Decimal'");
+                yield return new TestCaseData(
+                    @"form Michelle { mf: ""i"" string if (31/12/94 <= mf) { q2: ""i"" integer} }",
+                    "The variable 'mf' is in a date comparison but is not a date, it is 'System.String'");
+            }
+        }
+
+
+        public static IEnumerable NonTextConditionVariable
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    @"form Ian { ib: ""i"" integer if (""a string"" == ib) { q2: ""i"" integer} }",
+                    "The variable 'ib' is in a string comparison but is not a string, it is 'System.Int32'");
+                yield return new TestCaseData(
+                    @"form Kathy { kb: ""i"" boolean if (kb != ""another sting"") { q2: ""i"" integer} }",
+                    "The variable 'kb' is in a string comparison but is not a string, it is 'System.Boolean'");
+               }
         }
     }
 }

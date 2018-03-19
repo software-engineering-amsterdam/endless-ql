@@ -104,7 +104,6 @@ object TypeChecker extends Logging {
     }.flatten
   }
 
-  // TODO implement checkOperandsOfInvalidTypeToOperators
   private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[List[TypeCheckError], QLForm] = {
     logger.info("Phase 3 - Checking operands of invalid type to operators ...")
 

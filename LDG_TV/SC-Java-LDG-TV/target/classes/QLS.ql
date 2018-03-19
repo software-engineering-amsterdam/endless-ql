@@ -2,7 +2,7 @@ stylesheet taxOfficeExample
 {
   page Housing
   {
-    section BuyinG
+    section "Buying"
     {
       question hasBoughtHouse  
         widget checkbox 
@@ -24,16 +24,15 @@ stylesheet taxOfficeExample
         question privateDebt
           widget spinbox 
         question valueResidue
-        default money
-        {
-          width: 400
-          font: "Arial" 
-          fontsize: 14
-          color: #999999
-          widget spinbox
-        }        
+          default money
+          {
+            width: 400
+            font: "Arial"
+            fontsize: 14
+            color: #999999
+            widget spinbox
+          }
       }
     }
-    default boolean widget radio("Yes", "No")
-  }  
+  }
 }

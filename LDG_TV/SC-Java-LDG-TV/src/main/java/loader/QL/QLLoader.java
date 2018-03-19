@@ -1,4 +1,4 @@
-package loader;
+package loader.QL;
 
 import antlr.ql.FormBaseListener;
 import antlr.ql.FormParser;
@@ -9,9 +9,6 @@ import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.variable.*;
 import domain.model.QuestionASTNode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class QLLoader extends FormBaseListener {

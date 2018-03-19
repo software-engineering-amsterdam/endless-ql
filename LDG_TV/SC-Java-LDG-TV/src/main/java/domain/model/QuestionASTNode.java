@@ -1,10 +1,12 @@
 package domain.model;
 
+import domain.model.stylesheet.UIElement;
 import domain.model.variable.Variable;
 
 public class QuestionASTNode extends ASTNode implements Comparable {
     private String text;
     private Variable variable;
+    private UIElement uiElement;
 
     public QuestionASTNode(String text, Variable variable, boolean visible) {
         this.text = text;
@@ -33,5 +35,13 @@ public class QuestionASTNode extends ASTNode implements Comparable {
         }else{
             return 0;
         }
+    }
+
+    public void setUiElement(UIElement uiElement) {
+        this.uiElement = uiElement;
+    }
+
+    public UIElement getUiElement() {
+        return uiElement;
     }
 }

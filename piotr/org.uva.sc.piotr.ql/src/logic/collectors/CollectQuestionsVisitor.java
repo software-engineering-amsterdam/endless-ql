@@ -1,5 +1,6 @@
 package logic.collectors;
 
+import ast.model.Form;
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
 import ast.visitors.AbstractASTTraverse;
@@ -11,13 +12,17 @@ import java.util.List;
 public class CollectQuestionsVisitor extends AbstractASTTraverse<Void> {
 
     // AST node as key
-    private final HashMap<Question, List<VariableReference>> questionsMap = new HashMap<>();
+    private HashMap<Question, List<VariableReference>> questionsMap = new HashMap<>();
 
-    public List<Question> getQuestions() {
+    public List<Question> getQuestions(Form form) {
+        this.questionsMap = new HashMap<>();
+        form.accept(this);
         return new ArrayList<>(this.questionsMap.keySet());
     }
 
-    public HashMap<Question, List<VariableReference>> getQuestionsMap() {
+    public HashMap<Question, List<VariableReference>> getQuestionsMap(Form form) {
+        this.questionsMap = new HashMap<>();
+        form.accept(this);
         return questionsMap;
     }
 

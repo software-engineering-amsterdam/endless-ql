@@ -105,7 +105,7 @@ public class FormNode {
     }
 
     public void evaluateArithmetic() {
-        for (ASTNode an : getAllQuestionASTNodes())) {
+        for (ASTNode an : getAllQuestionASTNodes()) {
 
         }
     }

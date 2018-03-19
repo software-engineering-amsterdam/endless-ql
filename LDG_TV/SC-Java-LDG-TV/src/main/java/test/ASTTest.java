@@ -11,6 +11,7 @@ import domain.model.variable.StringVariable;
 import domain.model.variable.Variable;
 import exception.DuplicateQuestionDeclarationException;
 import exception.InvalidArithmeticExpressionException;
+import exception.ReferenceUndefinedVariableException;
 import junit.framework.TestCase;
 import loader.QL.QLChecker;
 import org.junit.Before;
@@ -84,10 +85,17 @@ public class ASTTest {
         arithmeticExpressionValue.getValue();
     }
     @Test(expected = DuplicateQuestionDeclarationException.class)
-    public void TestDuplicateQuestionDeclarationException() {
+    public void TestDuplicateQuestionDeclarationException() throws DuplicateQuestionDeclarationException {
         formNode.addQuestion(qan1);
         formNode.addQuestion(qan1);
-        qlChecker.doChecks();
+        qlChecker.checkDuplicateQuestionDeclaration();
+    }
+
+    @Test(expected = ReferenceUndefinedVariableException.class)
+    public void TestReferenceUndefinedVariableException() throws ReferenceUndefinedVariableException{
+        Variable undefinedVariable = formNode.getVariableFromList("undefined");
+        formNode.getReferencedVariables().add(undefinedVariable);
+        qlChecker.checkReferenceUndefinedVariable();
     }
 
     @Test

@@ -104,9 +104,11 @@ public class ToolController implements Initializable, Consumer {
     private void drawQuestions(List<QuestionASTNode> questionASTNodes){
         Visitor uiVisitor = new UIVisitor();
         lvQuestionnaire.getItems().clear();
+
+        this.formNode.evaluateIfs();
+
         for(QuestionASTNode qn : questionASTNodes){
             String questionText = qn.getText();
-            System.out.println("QUI: " + questionText);
             Variable qv = qn.getVariable();
 
             Node n = qv.getRelatedUIElement(uiVisitor);
@@ -145,6 +147,7 @@ public class ToolController implements Initializable, Consumer {
             IfASTNode ifASTNode = (IfASTNode) n;
 
             visQuestion.addAll(ifASTNode.getQuestionNodes());
+            visQuestion.addAll(ifASTNode.getElseNodess());
         }
 
         return visQuestion;
@@ -195,7 +198,6 @@ public class ToolController implements Initializable, Consumer {
     @Override
     public void accept(Object event) {
         System.out.println("Redraw tree yo");
-        this.formNode.evaluateIfs();
         List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
         drawQuestions(questions);
     }

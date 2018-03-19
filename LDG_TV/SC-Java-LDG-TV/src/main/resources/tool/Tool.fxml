@@ -17,7 +17,7 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
           <Button fx:id="btnBuild" mnemonicParsing="false" onAction="#generateQuestionnaire" text="Build" />
-            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#importQLFile" text="Import" />
+            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#importQLFile" text="Import QL" />
         </items>
       </ToolBar>
       <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">

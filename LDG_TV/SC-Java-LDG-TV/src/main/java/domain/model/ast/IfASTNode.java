@@ -73,7 +73,7 @@ public class IfASTNode extends ASTNode {
         return conditions;
     }
 
-    public List<QuestionASTNode> getElseNodess() {
+    public List<QuestionASTNode> getElseNodes() {
         return elseNodess;
     }
 

@@ -93,4 +93,8 @@ public class QLSLoader extends StylesheetBaseListener {
         qan.setUiElement(uiElement);
 
     }
+
+    public Stylesheet getStyleSheet() {
+        return styleSheet;
+    }
 }

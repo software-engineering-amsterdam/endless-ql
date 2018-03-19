@@ -24,14 +24,14 @@ stylesheet taxOfficeExample
         question privateDebt
           widget spinbox 
         question valueResidue
-        default money
-        {
-          width: 400
-          font: "Arial" 
-          fontsize: 14
-          color: #999999
-          widget spinbox
-        }        
+          default money
+          {
+            width: 400
+            font: "Arial"
+            fontsize: 14
+            color: #999999
+            widget spinbox
+          }
       }
     }
   }

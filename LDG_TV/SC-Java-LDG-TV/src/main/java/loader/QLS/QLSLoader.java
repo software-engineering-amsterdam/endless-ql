@@ -7,6 +7,10 @@ import domain.model.QuestionASTNode;
 import domain.model.stylesheet.Page;
 import domain.model.stylesheet.Section;
 import domain.model.stylesheet.Stylesheet;
+import domain.model.stylesheet.ui.UIElement;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class QLSLoader extends StylesheetBaseListener {
 
@@ -14,6 +18,7 @@ public class QLSLoader extends StylesheetBaseListener {
     private Page p;
     private Section s;
     private FormNode formNode;
+    private QuestionASTNode qan;
     public QLSLoader(FormNode formNode) {
         styleSheet = new Stylesheet();
         this.formNode = formNode;
@@ -60,13 +65,44 @@ public class QLSLoader extends StylesheetBaseListener {
     public void exitValue(StylesheetParser.ValueContext ctx) { }
     @Override
     public void enterQuestionStructure(StylesheetParser.QuestionStructureContext ctx) {
-        QuestionASTNode qan = formNode.getQuestionByVariableIdentifier(ctx.identifier().getText());
-        s.addQuestion(qan);
+        qan = formNode.getQuestionByVariableIdentifier(ctx.identifier().getText());
     }
     @Override
-    public void exitQuestionStructure(StylesheetParser.QuestionStructureContext ctx) { }
+    public void exitQuestionStructure(StylesheetParser.QuestionStructureContext ctx) {
+        s.addQuestion(qan);
+        qan = null;
+    }
     @Override
-    public void enterUiElement(StylesheetParser.UiElementContext ctx) { }
+
+    public void enterUiElement(StylesheetParser.UiElementContext ctx) {
+        UIElement uiElement = null;
+        Map<String, String> options;
+        if (ctx.uiType().checkbox() instanceof StylesheetParser.CheckboxContext){
+            options = null;
+            uiElement = new UIElement(ctx.uiType().getText(), options);
+        }
+        if (ctx.uiType().spinbox() instanceof StylesheetParser.SpinboxContext){
+            options = null;
+            uiElement = new UIElement(ctx.uiType().getText(), options);
+        }
+        if (ctx.uiType().radio() instanceof StylesheetParser.RadioContext){
+            options = new HashMap<>();
+            for (int i = 0; i < ctx.uiType().radio().radioOptions().size() ; i++){
+                String option = ctx.uiType().radio().radioOptions().get(i).getText();
+                options.put("option" + i, option);
+            }
+            uiElement = new UIElement(ctx.uiType().getText(), options);
+        }
+        if (ctx.uiType().money() instanceof StylesheetParser.MoneyContext){
+            options = new HashMap<>();
+            for (StylesheetParser.OptionContext octx : ctx.uiType().money().option()){
+                options.put(octx.identifier().getText(), octx.value().getText());
+            }
+            uiElement = new UIElement(ctx.uiType().getText(), options);
+        }
+        qan.setUiElement(uiElement);
+
+    }
     @Override
     public void exitUiElement(StylesheetParser.UiElementContext ctx) { }
     @Override

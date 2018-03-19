@@ -22,7 +22,11 @@ import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.{ JavaConverters, mutable }
 
-class QLFormController(homeController: QLHomeController) extends QLBaseController with ComponentChangedListener with Logging {
+class QLFormController(homeController: QLHomeController)
+    extends QLBaseController
+    with ComponentChangedListener
+    with Logging {
+
   type ValueStore = mutable.Map[String, Answer]
   protected val dictionary: ValueStore = mutable.Map[String, Answer]()
 

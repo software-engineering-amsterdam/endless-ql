@@ -27,7 +27,7 @@ object QLFormParser extends Logging {
   }
 
   object FormVisitor extends QLBaseVisitor[QLForm] {
-    override def defaultResult(): QLForm = QLForm("Unparseable form definition!", Seq.empty)
+    override def defaultResult(): QLForm = QLForm("Unparsable form definition!", Seq.empty)
 
     override def shouldVisitNextChild(node: RuleNode, currentResult: QLForm): Boolean = {
       errorListener.parseErrors.isEmpty

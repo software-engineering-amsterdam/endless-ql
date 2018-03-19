@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
-using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
@@ -10,11 +9,11 @@ using QuestionnaireDomain.Entities.Validators.MetaData;
 
 namespace QuestionnaireDomain.Entities.Validators
 {
-    internal class DateComparisonValidator : IDateComparisonValidator
+    internal class MathComparisonValidator : IMathComparisonValidator
     {
         private readonly IDomainItemLocator m_domainItemLocator;
 
-        public DateComparisonValidator(
+        public MathComparisonValidator(
             IDomainItemLocator domainItemLocator)
         {
             m_domainItemLocator = domainItemLocator;
@@ -24,7 +23,7 @@ namespace QuestionnaireDomain.Entities.Validators
             Reference<IQuestionnaireRootNode> questionnaireRootNode)
         {
             var booleanVariableNodes = m_domainItemLocator
-                .GetAll<IDateVariableNode>();
+                .GetAll<ICalculationVariableNode>();
 
             var questionNodes = m_domainItemLocator
                 .GetAll<IQuestionNode>()
@@ -36,17 +35,16 @@ namespace QuestionnaireDomain.Entities.Validators
                     .FirstOrDefault(x => x.QuestionName == variableNode.VariableName)
                     ?.QuestionType;
 
-                if (type == null || type != typeof(DateTime))
+                if (type == null || (type != typeof(int) && type != typeof(decimal)))
                 {
-                    yield return new DateComparisonValidationMetaData
+                    yield return new MathComparisonValidationMetaData
                     {
                         Message =
-                            $"The variable '{variableNode.VariableName}' is in a date comparison but is not a date, it is '{type}'",
-                        Source = m_domainItemLocator.GetRef<IDateVariableNode>(variableNode.Id)
+                            $@"The variable '{variableNode.VariableName}' is in a number comparison but is not a number, it is '{type}'",
+                        Source = m_domainItemLocator.GetRef<ICalculationVariableNode>(variableNode.Id)
                     };
                 }
             }
         }
     }
-
 }

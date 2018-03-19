@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using QuestionnaireDomain.Entities;
-using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
-using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
-using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Validators;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
 using QuestionnaireDomain.Entities.Validators.MetaData;
@@ -65,16 +61,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             AssertThatErrorMessagesMatch(errorMessage, results);
             Assert.IsTrue(
                 actualTypes.All(q => expectedSourceTypes.Any()),
-                "The types of the underlying source objects did not match the expected types");
-        }
-
-        private IList<ValidationMetaData> ResultsFor<T>() where T : ValidationMetaData
-        {
-            return m_questionnaireValidator
-                .Results
-                .OfType<T>()
-                .Cast<ValidationMetaData>()
-                .ToList();
+                @"The types of the underlying source objects did not match the expected types");
         }
 
         [TestCaseSource(
@@ -94,12 +81,9 @@ namespace UnitTests.Domain.UnitTests.Tests
             string invalidDescription,
             string errorMessage)
         {
-            CreateAndValidateForm(invalidDescription);
-            var results = ResultsFor<UndefinedVariableValidationMetaData>();
-
-            AssertThatSeverityLevelIsError(new List<ValidationMetaData>(results));
-            Assert.AreEqual(expected:1, actual: results.Count,message:"no type check error");
-            AssertThatErrorMessagesMatch(errorMessage, results);
+            ValidateMetaDataCreation<UndefinedVariableValidationMetaData>(
+                invalidDescription, 
+                errorMessage);
         }
 
         [TestCaseSource(
@@ -109,12 +93,9 @@ namespace UnitTests.Domain.UnitTests.Tests
             string invalidDescription,
             string errorMessage)
         {
-            CreateAndValidateForm(invalidDescription);
-            var results = ResultsFor<BooleanConditionValidationMetaData>();
-
-            AssertThatSeverityLevelIsError(results);
-            Assert.AreEqual(expected: 1, actual: results.Count, message: "no type check error");
-            AssertThatErrorMessagesMatch(errorMessage, results);
+            ValidateMetaDataCreation<BooleanConditionValidationMetaData>(
+                invalidDescription,
+                errorMessage);
         }
 
         [TestCaseSource(
@@ -124,12 +105,9 @@ namespace UnitTests.Domain.UnitTests.Tests
             string invalidDescription,
             string errorMessage)
         {
-            CreateAndValidateForm(invalidDescription);
-            var results = ResultsFor<DateComparisonValidationMetaData>();
-
-            AssertThatSeverityLevelIsError(results);
-            Assert.AreEqual(expected: 1, actual: results.Count, message: "no type check error");
-            AssertThatErrorMessagesMatch(errorMessage, results);
+            ValidateMetaDataCreation<DateComparisonValidationMetaData>(
+                invalidDescription,
+                errorMessage);
         }
 
         [TestCaseSource(
@@ -139,20 +117,70 @@ namespace UnitTests.Domain.UnitTests.Tests
             string invalidDescription,
             string errorMessage)
         {
-            CreateAndValidateForm(invalidDescription);
-            var results = ResultsFor<TextComparisonValidationMetaData>();
+            ValidateMetaDataCreation<TextComparisonValidationMetaData>(
+                invalidDescription,
+                errorMessage);
+        }
 
-            AssertThatSeverityLevelIsError(results);
-            Assert.AreEqual(expected: 1, actual: results.Count, message: "no type check error");
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.NonNumericConditionVariable))]
+        public void WhenGivenNonNumberInNumberComparison_ProducesTheCorrectMetaDatas(
+            string invalidDescription,
+            string errorMessage)
+        {
+            ValidateMetaDataCreation<MathComparisonValidationMetaData>(
+                invalidDescription,
+                errorMessage);
+        }
+
+        //[TestCaseSource(
+        //    typeof(TestValidationData),
+        //    nameof(TestValidationData.NonNumberCalculationVariable))]
+        //public void WhenGivenNonNumberInCalculation_ProducesTheCorrectMetaDatas(
+        //    string invalidDescription,
+        //    string errorMessage)
+        //{
+        //    ValidateMetaDataCreation<MathExpressionValidationMetaData>(
+        //        invalidDescription,
+        //        errorMessage);
+        //}
+
+        private IList<ValidationMetaData> ResultsFor<T>() where T : ValidationMetaData
+        {
+            return m_questionnaireValidator
+                .Results
+                .OfType<T>()
+                .Cast<ValidationMetaData>()
+                .ToList();
+        }
+
+        private void ValidateMetaDataCreation<T>(
+            string invalidDescription, 
+            string errorMessage) where T : ValidationMetaData
+        {
+            CreateAndValidateForm(invalidDescription);
+            var results = ResultsFor<T>();
+
+            AssertThatSeverityLevelIsError(new List<ValidationMetaData>(results));
+            AssertThatOneValidationErrorIsCreated(results);
             AssertThatErrorMessagesMatch(errorMessage, results);
         }
 
+        private static void AssertThatOneValidationErrorIsCreated(
+            ICollection<ValidationMetaData> results)
+        {
+            Assert.AreEqual(
+                expected: 1, 
+                actual: results.Count, 
+                message: @"no type check error");
+        }
 
         private static void AssertThatErrorMessagesMatch(string errorMessage, IList<ValidationMetaData> results)
         {
             Assert.IsTrue(
                 results.All(x => x.Message == errorMessage),
-                $"did not return the expected error message: '{errorMessage}'");
+                $@"did not return the expected error message: '{errorMessage}'");
         }
 
         private static void AssertThatSeverityLevelIsError(
@@ -160,8 +188,9 @@ namespace UnitTests.Domain.UnitTests.Tests
         {
             Assert.IsTrue(
                 results.All(x => x.Severity == Severity.Error),
-                "Did not have the Severity 'Error'");
+                @"Did not have the Severity 'Error'");
         }
+
 
         private void CreateAndValidateForm(string validText)
         {
@@ -169,9 +198,11 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .GetService<IQuestionnaireAstCreator>();
             m_questionnaireValidator = m_serviceProvider
                 .GetService<IQuestionnaireValidator>();
+
             var domainItemId = questionnaireCreator.
                 Create(validText);
-            Assert.IsNotNull(domainItemId, "should have created a for from a valid definition");
+
+            Assert.IsNotNull(domainItemId, @"should have created a for from a valid definition");
             m_questionnaireValidator.Validate(domainItemId);
         }
     }

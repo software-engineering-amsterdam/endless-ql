@@ -20,13 +20,15 @@ namespace QuestionnaireDomain.Entities.Validators
             IUndefinedVariableValidator undefinedVariableValidator,
             IBooleanConditionValidator booleanConditionValidator,
             IDateComparisonValidator dateComparisonValidator,
-            ITextComparisonValidator textComparisonValidator)
+            ITextComparisonValidator textComparisonValidator,
+            IMathComparisonValidator mathComparisonValidator)
         {
             m_validators.Add(duplicateVariableValidator);
             m_validators.Add(undefinedVariableValidator);
             m_validators.Add(booleanConditionValidator);
             m_validators.Add(dateComparisonValidator);
             m_validators.Add(textComparisonValidator);
+            m_validators.Add(mathComparisonValidator);
         }
         
         public void Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode)

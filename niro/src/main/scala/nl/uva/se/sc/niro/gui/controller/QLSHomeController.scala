@@ -11,6 +11,7 @@ import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import nl.uva.se.sc.niro.{ QLFormService, QLStylesheetService }
 
 class QLSHomeController extends QLHomeController {
+  override def applicationName(): String = "QLS Forms"
 
   @FXML
   override def openForm(event: ActionEvent): Unit = {
@@ -45,7 +46,7 @@ class QLSHomeController extends QLHomeController {
   }
 
   def showQLSForm(form: QLForm, stylesheet: QLStylesheet): Unit = {
-    val formController = new QLSFormController()
+    val formController = new QLSFormController(this)
     switchToScene(QLScenes.formScene, formController)
     formController.initializeForm(form, stylesheet)
   }

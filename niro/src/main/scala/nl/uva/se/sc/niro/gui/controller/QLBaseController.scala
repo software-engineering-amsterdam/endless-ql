@@ -6,8 +6,10 @@ import javafx.scene.Scene
 import javafx.scene.layout.Pane
 import javafx.stage.Stage
 
-class QLBaseController {
+abstract class QLBaseController {
   private var activeStage: Stage = _
+
+  def applicationName(): String
 
   @FXML
   def quitApplication(event: ActionEvent): Unit = activeStage.close()
@@ -22,6 +24,7 @@ class QLBaseController {
     val pane: P = loader.load()
     controller.setActiveStage(activeStage)
     activeStage.setScene(new Scene(pane))
+    activeStage.setTitle(controller.applicationName())
     pane
   }
 }

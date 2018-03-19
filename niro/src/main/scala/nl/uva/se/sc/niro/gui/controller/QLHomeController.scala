@@ -16,6 +16,8 @@ class QLHomeController extends QLBaseController with Logging {
   @FXML
   var errorMessages: TextArea = _
 
+  override def applicationName(): String = "QL Forms"
+
   @FXML
   def openForm(event: ActionEvent): Unit = {
     errorMessages.setVisible(false)
@@ -44,7 +46,7 @@ class QLHomeController extends QLBaseController with Logging {
   }
 
   def showQLForm(form: QLForm): Unit = {
-    val controller = new QLFormController
+    val controller = new QLFormController(this)
     switchToScene(QLScenes.formScene, controller)
     controller.initializeForm(form)
   }

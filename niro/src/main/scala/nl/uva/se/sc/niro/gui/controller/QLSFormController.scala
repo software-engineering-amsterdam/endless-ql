@@ -1,13 +1,10 @@
 package nl.uva.se.sc.niro.gui.controller
 
-import java.io.IOException
-
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.geometry.Insets
 import javafx.scene.control.{ Button, Label }
 import javafx.scene.layout.BorderPane
-import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.converter.{ GUIModelFactory, StyleDecorator }
 import nl.uva.se.sc.niro.gui.factory.{ PageVisibilityFactory, QLSComponentFactory }
 import nl.uva.se.sc.niro.model.ql.QLForm
@@ -17,7 +14,7 @@ import nl.uva.se.sc.niro.util.StringUtil
 
 import scala.collection.JavaConverters
 
-class QLSFormController extends QLFormController {
+class QLSFormController(homeController: QLHomeController) extends QLFormController(homeController) {
   private var stylesheet: QLStylesheet = _
   private var page: Int = 0
 
@@ -26,6 +23,8 @@ class QLSFormController extends QLFormController {
   val navigationBar: BorderPane = new BorderPane
   val previous: Button = new Button("Previous")
   val next: Button = new Button("Next ")
+
+  override def applicationName(): String = "QLS Forms"
 
   @FXML
   def initialize(): Unit = {
@@ -37,11 +36,6 @@ class QLSFormController extends QLFormController {
     // Place above existing buttons
     bottomBox.getChildren.add(0, navigationBar)
   }
-
-  @FXML
-  @throws[IOException]
-  override def cancel(event: ActionEvent): Unit =
-    switchToScene(QLScenes.homeScene, new QLSHomeController())
 
   def previousPage(event: ActionEvent): Unit = {
     page -= 1

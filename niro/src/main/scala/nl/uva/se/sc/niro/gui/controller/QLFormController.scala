@@ -22,23 +22,25 @@ import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.{ JavaConverters, mutable }
 
-class QLFormController extends QLBaseController with ComponentChangedListener with Logging {
+class QLFormController(homeController: QLHomeController) extends QLBaseController with ComponentChangedListener with Logging {
   type ValueStore = mutable.Map[String, Answer]
-
   protected val dictionary: ValueStore = mutable.Map[String, Answer]()
+
   protected var qlForm: QLForm = _
   protected var guiForm: GUIForm = _
   protected var questions: Seq[Component[_]] = _
-
   @FXML protected var topBox: VBox = _
+
   @FXML protected var formName: Label = _
   @FXML protected var questionArea: VBox = _
   @FXML protected var bottomBox: VBox = _
 
+  override def applicationName(): String = "QL Forms"
+
   @FXML
   @throws[IOException]
   def cancel(event: ActionEvent): Unit =
-    switchToScene(QLScenes.homeScene, new QLHomeController())
+    switchToScene(QLScenes.homeScene, homeController)
 
   @FXML
   def saveData(event: ActionEvent): Unit = {

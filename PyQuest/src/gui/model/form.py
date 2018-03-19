@@ -35,7 +35,7 @@ class Form:
             for question in self.block:
                 result = question.evaluate_show_condition(self)
 
-                if result.value:
+                if result:
                     question.widget.show()
                     question.widget_label.show()
                 else:

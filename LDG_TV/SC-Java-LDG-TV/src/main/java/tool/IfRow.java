@@ -11,7 +11,7 @@ public class IfRow extends Row {
     private List<Row> body;
 
     public IfRow(String question, CheckBox box, List<Row> body) {
-        super(question, box, false);
+        super(question, box);
         this.box = box;
         this.body = body;
     }

@@ -1,13 +1,13 @@
 package domain.model;
 
 public abstract class ASTNode {
-    private boolean visible;
+    private boolean disabled;
 
-    public boolean isVisible() {
-        return visible;
+    public boolean isDisabled() {
+        return disabled;
     }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 }

@@ -14,14 +14,18 @@ import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import tool.ToolController;
 
 
 public class UIVisitor implements Visitor {
     @Override
     public Node visit(BooleanVariable bv) {
+        Boolean bool = bv.getValue().getValue();
         CheckBox cb = new CheckBox();
+        cb.setSelected(bool);
 
-        JavaFxObservable.valuesOf(cb.selectedProperty())
+        JavaFxObservable
+                .valuesOf(cb.selectedProperty())
                 .subscribe(bv.getValue());
         return cb;
     }
@@ -29,8 +33,9 @@ public class UIVisitor implements Visitor {
     @Override
     public Node visit(StringVariable sv) {
         TextField tf = new TextField();
-
-        JavaFxObservable.valuesOf(tf.textProperty()).subscribe(sv.getValue());
+        JavaFxObservable
+                .valuesOf(tf.textProperty())
+                .subscribe(sv.getValue());
         return tf;
     }
 
@@ -45,26 +50,11 @@ public class UIVisitor implements Visitor {
     public Node visit(MoneyVariable mv) {
         TextField tf = new TextField();
 
-        System.out.println("Money Val "+mv.getValue());
-
-        JavaFxObservable.valuesOf(tf.textProperty())
+        JavaFxObservable
+                .valuesOf(tf.textProperty())
                 .filter(Utilities::isNumeric)
                 .map(Integer::valueOf)
                 .subscribe(mv.getValue());
-
-
-//        tf.textProperty()
-//                .addListener((observable, oldValue, newValue) -> {
-//                    boolean isNotNumeric =!Utilities.isNumeric(newValue);
-//                    if(isNotNumeric){
-//                        System.out.println("Got a non-numeric value!");
-//                        return;
-//                    }
-//
-//                    int val = Integer.valueOf(newValue);
-//                    mv.setValue(new MoneyValue(val));
-//                });
-
 
         return tf;
     }

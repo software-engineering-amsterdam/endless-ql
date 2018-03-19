@@ -13,6 +13,7 @@ import domain.visitor.Visitor;
 import io.reactivex.Observable;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -25,11 +26,13 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Consumer;
 
-public class ToolController implements Initializable {
+public class ToolController implements Initializable, Consumer<ActionEvent> {
 
     @FXML
     private TextArea taSourceCode;
@@ -40,7 +43,7 @@ public class ToolController implements Initializable {
     @FXML
     private Button btnBuild;
 
-    private List<Row> data = new ArrayList<>();
+    private FormNode formNode = null;
 
     public ToolController() {
         System.out.println("Class initialized");
@@ -82,68 +85,41 @@ public class ToolController implements Initializable {
         QLLoader loader = new QLLoader();
         ParseTreeWalker.DEFAULT.walk(loader, tree);
 
-        FormNode node = loader.getFormNode();
+        this.formNode = loader.getFormNode();
 
-        List<ASTNode> astNodes = node.getASTNodes();
+        List<ASTNode> astNodes = this.formNode.getASTNodes();
 
-        List<QuestionASTNode> questions = getAllVisibleQuestions(astNodes);
-
-
+        List<QuestionASTNode> questions = getAllQuestions(astNodes);
         drawQuestions(questions);
 
 
-        System.out.println(node);
-
-
-//        for (ASTNode n : node.getASTNodes()){
-//
-//            if(!(n instanceof QuestionASTNode)){
-//                break;
-//            }
-//
-//            QuestionASTNode qn = (QuestionASTNode) n;
-//
-//            Variable qv = qn.getVariable();
-//            String qt = qn.getText();
-//
-//            if(qv instanceof BooleanVariable){
-//                CheckBox cb = new CheckBox();
-//
-//                cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
-//                    qv.setValue(new BooleanValue(newValue));
-//                    System.out.println(qn.getText() + " " + qv.getValue().getValue());
-//                });
-//
-//                lvQuestionnaire.getItems().add(new QuestionRow(qt, cb, false));
-//                continue;
-//            }
-//            Node answerNode = qv.getRelatedUIElement(v);
-//
-//            lvQuestionnaire.getItems().add(new QuestionRow(qt, answerNode, false));
-//        }
-
-        //this.lvQuestionnaire.getItems().setAll(dummyRows());
+        System.out.println(this.formNode);
     }
 
     private void drawQuestions(List<QuestionASTNode> questionASTNodes){
         Visitor uiVisitor = new UIVisitor();
-
+        lvQuestionnaire.getItems().clear();
         for(QuestionASTNode qn : questionASTNodes){
             String questionText = qn.getText();
             System.out.println("QUI: " + questionText);
             Variable qv = qn.getVariable();
 
             Node n = qv.getRelatedUIElement(uiVisitor);
-            lvQuestionnaire.getItems().add(new QuestionRow(questionText, n, false));
+
+            JavaFxObservable.actionEventsOf(n)
+                    .subscribe(this::accept);
+
+            Row r = new QuestionRow(questionText, n);
+            r.setDisable(qn.isDisabled());
+            lvQuestionnaire.getItems().add(r);
         }
     }
 
-    private List<QuestionASTNode> getAllVisibleQuestions(List<ASTNode> nodes){
+
+
+    private List<QuestionASTNode> getAllQuestions(List<ASTNode> nodes){
         List<QuestionASTNode> visQuestion = new ArrayList<>();
         for(ASTNode n : nodes){
-            if(!n.isVisible()) {
-                continue;
-            }
 
             if(n instanceof QuestionASTNode){
                 visQuestion.add((QuestionASTNode) n);
@@ -151,25 +127,14 @@ public class ToolController implements Initializable {
             }
 
             IfASTNode ifASTNode = (IfASTNode) n;
+
+            boolean cond = ifASTNode.checkConditions();
+            System.out.println("Conditions = " + cond);
+
             visQuestion.addAll(ifASTNode.getQuestionNodes());
         }
 
         return visQuestion;
-    }
-
-
-
-
-    private List<Row> dummyRows(){
-        QuestionRow row1_1 = new QuestionRow("Man or woman", new TextField(), true);
-        QuestionRow row1_2 = new QuestionRow("Where do you work?", new TextField(), true);
-
-        IfRow row1 = new IfRow("Older than 18?", new CheckBox(), Arrays.asList(row1_1, row1_2));
-
-        row1_1.visibleProperty().bindBidirectional(row1.selectedProp());
-        row1_2.visibleProperty().bindBidirectional(row1.selectedProp());
-
-        return Arrays.asList(row1, row1_1, row1_2);
     }
 
     /**
@@ -179,7 +144,8 @@ public class ToolController implements Initializable {
     public void importQLFile(ActionEvent event) {
         FileChooser fileChooser = getFileChooser();
 
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        Stage s = new Stage();
+        File selectedFile = fileChooser.showOpenDialog(s);
 
         if (selectedFile == null) {
             return;
@@ -208,5 +174,13 @@ public class ToolController implements Initializable {
         );
 
         return fileChooser;
+    }
+
+    @Override
+    public void accept(ActionEvent actionEvent) {
+        System.out.println("Redraw tree yo");
+        this.formNode.evaluateIfs();
+        List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
+        drawQuestions(questions);
     }
 }

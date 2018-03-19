@@ -38,18 +38,20 @@ public class QLLoader extends FormBaseListener {
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
         IfASTNode ifASTNode = new IfASTNode(false);
         this.inIfNode = true;
-        BooleanVariable v = null;
+        Variable v = null;
         Condition c = null;
         for(int i=0; i< ctx.statementBlockStructure().conditions().condition().size(); i++){
             FormParser.ConditionContext cc = ctx.statementBlockStructure().conditions().condition(i);
             FormParser.BooleanOperatorContext bo = ctx.statementBlockStructure().conditions().booleanOperator(i);
             if (cc.value() instanceof FormParser.ValueContext){
-                v = (BooleanVariable) this.formNode.getVariableFromList(cc.value().getText());
-                this.formNode.getReferencedVariables().add(v);
+               v = this.formNode.getVariableFromList(cc.value().getText());
+               this.formNode.getReferencedVariables().add(v);
             }
-            if (cc.expression() instanceof FormParser.ExpressionContext){
-                v = new BooleanVariable(null);
-                v.setValue(this.getBooleanExpressionValue(cc.expression()));
+            if (cc.expression().booleanExpression() instanceof FormParser.BooleanExpressionContext){
+               v = new BooleanVariable(null);
+               v.setValue(this.getBooleanExpressionValue(cc.expression()));
+            }else{
+               v = null;
             }
             if(bo != null){
                 c = new Condition(v, bo.getText());

@@ -1,9 +1,10 @@
 package loader.QL;
 
-import domain.model.ast.FormNode;
-import domain.model.ast.QuestionASTNode;
+import domain.model.ast.*;
+import domain.model.variable.BooleanVariable;
 import domain.model.variable.Variable;
 import exception.DuplicateQuestionDeclarationException;
+import exception.InvalidConditionException;
 import exception.ReferenceUndefinedVariableException;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class QLChecker {
         try {
             this.checkReferenceUndefinedVariable();
             this.checkDuplicateQuestionDeclaration();
+            this.checkInvalidConditionExpressionException();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,6 +40,18 @@ public class QLChecker {
             }
         }
     }
+    public void checkInvalidConditionExpressionException() throws InvalidConditionException {
+        for (ASTNode an : formNode.getASTNodes()){
+            if (an instanceof IfASTNode){
+                for (Condition c : ((IfASTNode) an).getConditions()){
+                    if (c.getVariable() == null || !(c.getVariable() instanceof BooleanVariable)){
+                        throw new InvalidConditionException("Invalid condition found in the conditions of an if statement");
+                    }
+                }
+            }
+        }
+    }
+
     private boolean foundQuestionMoreThanOnce(QuestionASTNode qan){
         List<QuestionASTNode> temp = formNode.getAllQuestionASTNodes();
         temp.remove(qan);

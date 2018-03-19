@@ -2,6 +2,8 @@ package tool;
 
 import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
+import antlr.qls.StylesheetLexer;
+import antlr.qls.StylesheetParser;
 import domain.model.ast.FormNode;
 import domain.Utilities;
 import domain.model.ast.ASTNode;
@@ -20,6 +22,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.QLLoader;
+import loader.QLS.QLSLoader;
 import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -73,11 +76,7 @@ public class ToolController implements Initializable, Consumer {
 
         String qlsSource = taSourceCodeQLS.getText();
 
-        if(qlsSource.isEmpty()){
-            System.out.println("QLS not set, fall back to default styling");
-        }
-
-        lvQuestionnaire.getItems().clear();
+                lvQuestionnaire.getItems().clear();
 
         // Parse input field and create AST
         CharStream stream = CharStreams.fromString(qlSource);
@@ -93,6 +92,22 @@ public class ToolController implements Initializable, Consumer {
         ParseTreeWalker.DEFAULT.walk(loader, tree);
 
         this.formNode = loader.getFormNode();
+
+        if(!qlsSource.isEmpty()){
+            CharStream qlsStream = CharStreams.fromString(qlsSource);
+            StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
+
+            StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
+
+            //parser.setErrorHandler(new BailErrorStrategy());
+            qlsParser.addErrorListener(new ToolBarErrorListener(lblErrorField));
+
+            StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
+            QLSLoader qlsLoader = new QLSLoader(this.formNode);
+            ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
+            System.out.println(this.formNode.getStylesheet());
+        }
+
 
         List<ASTNode> astNodes = this.formNode.getASTNodes();
 

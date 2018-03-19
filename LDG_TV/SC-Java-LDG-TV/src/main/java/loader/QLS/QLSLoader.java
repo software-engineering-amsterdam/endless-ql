@@ -22,13 +22,14 @@ public class QLSLoader extends StylesheetBaseListener {
     private QLSChecker qlsChecker;
 
     public QLSLoader(FormNode formNode) {
-        styleSheet = new Stylesheet();
+        this.styleSheet = new Stylesheet();
         this.formNode = formNode;
     }
 
     @Override
     public void enterStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx){
-        styleSheet.setLabel(ctx.identifier().getText());
+        System.out.println("sup");
+        this.styleSheet.setLabel(ctx.identifier().getText());
     }
     @Override
     public void exitStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx){

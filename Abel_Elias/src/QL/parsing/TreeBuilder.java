@@ -1,7 +1,7 @@
 package QL.parsing;
 
-import QLS.parsing.QLSLexer;
-import QLS.parsing.QLSParser;
+import QLS.parsing.gen.QLSLexer;
+import QLS.parsing.gen.QLSParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import QL.parsing.gen.QLLexer;

@@ -2,11 +2,11 @@
 grammar QLS;
 
 /** Parser rules */
-stylesheet : STYLESHEET IDENTIFIER page NEWLINE* EOF; // form
+stylesheet : STYLESHEET IDENTIFIER page* NEWLINE* EOF; // form
 
-page : CURLY_BRACE_L PAGE IDENTIFIER block CURLY_BRACE_R NEWLINE*; // content
+page : CURLY_BRACE_L NEWLINE* PAGE IDENTIFIER block* CURLY_BRACE_R NEWLINE*; // content
 
-block : CURLY_BRACE_L  lineInBlock* CURLY_BRACE_R NEWLINE*;
+block : CURLY_BRACE_L NEWLINE* lineInBlock* CURLY_BRACE_R NEWLINE*;
 
 lineInBlock : section NEWLINE*
     | defaultWidget NEWLINE*
@@ -15,13 +15,13 @@ lineInBlock : section NEWLINE*
 
 question : QUESTION IDENTIFIER (widget)?;
 
-section : SECTION IDENTIFIER block;
+section : SECTION IDENTIFIER block*;
 
 defaultWidget : DEFAULT type (widget | widgetStyle);
 
 widget : WIDGET widgetType;
 
-widgetStyle : CURLY_BRACE_L style+ widget? CURLY_BRACE_R;
+widgetStyle : CURLY_BRACE_L NEWLINE* style+ widget? CURLY_BRACE_R NEWLINE*;
 
 style : IDENTIFIER COLON value;
 

@@ -92,9 +92,13 @@
     <Compile Include="Ast\Tools\Interfaces\IQuestionnaireAstCreator.cs" />
     <Compile Include="Ast\Tools\QuestionnaireAstCreator.cs" />
     <Compile Include="Domain\DomainItemLocator.cs" />
+    <Compile Include="Domain\Interfaces\ITypeService.cs" />
+    <Compile Include="Domain\Interfaces\IVariableService.cs" />
     <Compile Include="Domain\Interfaces\IVariableUpdater.cs" />
     <Compile Include="Domain\Interfaces\VariableUpdater.cs" />
     <Compile Include="Domain\QlValidationException.cs" />
+    <Compile Include="Domain\TypeService.cs" />
+    <Compile Include="Domain\VariableService.cs" />
     <Compile Include="Output\Tools\BooleanEvaluatorVisitor.cs" />
     <Compile Include="Output\Tools\BuildOutputVisitor.cs" />
     <Compile Include="Output\Tools\CalculationVisitor.cs" />

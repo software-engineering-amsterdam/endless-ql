@@ -16,9 +16,7 @@ export const FormComponent: React.SFC<FormComponentProps> = (props) => {
   };
 
   const renderFields = () => {
-    console.log('all fields', props.form.getFields());
     return props.form.getFields().map((field: Field) => {
-      console.log("render field", field);
       if (!props.visibleFields.has(field.identifier)) {
         return null;
       }

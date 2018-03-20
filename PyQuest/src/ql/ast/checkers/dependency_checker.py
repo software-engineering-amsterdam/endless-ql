@@ -10,4 +10,4 @@ class DependencyChecker:
             for (parent, reference_position) in parents:
                 if parent in identifier_children:
                     self.__debug.error([identifier_position.line, reference_position.line],
-                                       "Cyclic dependency detected in question identifiers")
+                                       'Cyclic dependency detected in question identifiers')

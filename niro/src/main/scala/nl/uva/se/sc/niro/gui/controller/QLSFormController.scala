@@ -12,6 +12,7 @@ import nl.uva.se.sc.niro.gui.factory.QLSComponentFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
+import nl.uva.se.sc.niro.util.StringUtil
 
 import scala.collection.JavaConverters
 import scala.collection.mutable.ArrayBuffer
@@ -41,7 +42,7 @@ class QLSFormController(homeController: QLHomeController, override val form: QLF
     // TODO extract into own file
     class PageFactory(changedListener: ComponentChangedListener) extends Callback[Integer, Node]() {
       override def call(pageNumber: Integer): Node = {
-        pageName.setText(stylesheet.pages(pageNumber).name)
+        pageName.setText(StringUtil.addSpaceOnCaseChange(stylesheet.pages(pageNumber).name))
         val questionsOnPage = new VBox()
         val children = ArrayBuffer[Node]()
         questions = stylesheet.pages(pageNumber).sections.flatMap(section => {

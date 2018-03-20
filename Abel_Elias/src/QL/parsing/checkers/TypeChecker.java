@@ -65,9 +65,6 @@ public class TypeChecker extends QLBaseVisitor{
 
     @Override
     public Boolean visitEqExpression(QLParser.EqExpressionContext ctx) {
-        checkType(Value.BOOLEAN, visit(ctx.left), ctx.left, ctx);
-        checkType(Value.BOOLEAN, visit(ctx.right), ctx.right, ctx);
-
         return true;
     }
 

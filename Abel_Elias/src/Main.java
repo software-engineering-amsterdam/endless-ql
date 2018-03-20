@@ -55,8 +55,8 @@ public class Main {
             FormVisitor coreVisitor = new FormVisitor(form);
             //Pass the relevant questions to the UI builder
             printQuestionMap(coreVisitor.questionMap);
-            //FormBuilder formBuilder = new FormBuilder(coreVisitor);
-            //formBuilder.initComponents();
+            FormBuilder formBuilder = new FormBuilder(coreVisitor);
+            formBuilder.initComponents();
         } catch (IOException e) {
             e.printStackTrace();
         }

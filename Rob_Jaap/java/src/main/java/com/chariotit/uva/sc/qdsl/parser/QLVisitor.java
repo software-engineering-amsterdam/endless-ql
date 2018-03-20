@@ -1,5 +1,9 @@
 package com.chariotit.uva.sc.qdsl.parser;
 
+import com.chariotit.uva.sc.qdsl.ast.BooleanExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.IntegerExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.MoneyExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.StringExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.BooleanConstant;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.IntegerConstant;
@@ -184,8 +188,9 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
 
     @Override
     public MoneyConstant visitMoney_constant(QLParser.Money_constantContext ctx) {
-        return new MoneyConstant(Float.parseFloat(ctx.NUMBER(0).getText() + "." + ctx.NUMBER(1)
-                .getText()), lineNumber(ctx), columnNumber(ctx));
+        return new MoneyConstant(new MoneyExpressionValue(Float.parseFloat(ctx.NUMBER(0).getText() + "." + ctx
+                .NUMBER(1)
+                .getText())), lineNumber(ctx), columnNumber(ctx));
     }
 
     @Override
@@ -195,15 +200,19 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
                 1, ctx.STRING().getText().length() - 1
         );
 
-        return new StringConstant(string, lineNumber(ctx), columnNumber(ctx));
+        return new StringConstant(
+                new StringExpressionValue(string),
+                lineNumber(ctx), columnNumber(ctx));
     }
 
     @Override
     public BooleanConstant visitBoolean_constant(QLParser.Boolean_constantContext ctx) {
         if (ctx.TRUE() != null) {
-            return new BooleanConstant(true, lineNumber(ctx), columnNumber(ctx));
+            return new BooleanConstant(
+                    new BooleanExpressionValue(true), lineNumber(ctx), columnNumber(ctx));
         } else if (ctx.FALSE() != null) {
-            return new BooleanConstant(false, lineNumber(ctx), columnNumber(ctx));
+            return new BooleanConstant(
+                    new BooleanExpressionValue(false), lineNumber(ctx), columnNumber(ctx));
         } else {
             throw new UnknownOptionException();
         }
@@ -211,7 +220,9 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
 
     @Override
     public IntegerConstant visitInteger_constant(QLParser.Integer_constantContext ctx) {
-        return new IntegerConstant(Integer.parseInt(ctx.NUMBER().getText()), lineNumber(ctx),
+        return new IntegerConstant(
+                new IntegerExpressionValue(Integer.parseInt(ctx.NUMBER().getText())), lineNumber
+                (ctx),
                 columnNumber(ctx));
     }
 

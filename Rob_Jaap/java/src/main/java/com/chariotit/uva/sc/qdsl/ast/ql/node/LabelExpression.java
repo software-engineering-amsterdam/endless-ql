@@ -1,5 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTableEntry;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public class LabelExpression extends Expression {
@@ -20,6 +22,13 @@ public class LabelExpression extends Expression {
         this.label = label;
     }
 
+    @Override
+    public void evaluate(SymbolTable symbolTable) {
+        SymbolTableEntry symbolTableEntry = symbolTable.getEntry(label);
+
+        this.setExpressionValue(symbolTableEntry.getExpressionValue());
+        this.setExpressionType(symbolTableEntry.getExpressionType());
+    }
 
     @Override
     public void acceptVisitor(NodeVisitor visitor) {

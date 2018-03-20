@@ -8,7 +8,7 @@ import ql.helpers.Observable;
 import ql.helpers.Observer;
 import ql.visitors.interfaces.ExpressionVisitor;
 
-public class Identifier extends Expression implements Observable, Observer {
+public class Identifier extends Expression implements Observable {
     
     private String name;
     private Type type;
@@ -42,8 +42,8 @@ public class Identifier extends Expression implements Observable, Observer {
         
         if(!this.value.toString().equals(value.toString()))
         {
-            this.value = type.parse(value);
-            
+            this.value = value.isUndefined()? value : type.parse(value);
+            System.out.println(name+": "+this.value);
             notifyObservers();
         }
     }
@@ -81,17 +81,11 @@ public class Identifier extends Expression implements Observable, Observer {
 
     @Override
     public void notifyObservers() {
-        for(Observer o : observers) o.update();
+        for(Observer o : observers) o.update(this, new Literal<?>[0]);
     }
 
     @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
-    }
-
-    @Override
-    public void update() {
-        value = this.evaluate();
-        System.out.println(value.getValue());
     }
 }

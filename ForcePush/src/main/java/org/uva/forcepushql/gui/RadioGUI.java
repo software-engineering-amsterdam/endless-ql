@@ -3,6 +3,7 @@ package org.uva.forcepushql.gui;
 import org.uva.forcepushql.questions.Radio;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RadioGUI implements QuestionGUI{
@@ -17,9 +18,32 @@ public class RadioGUI implements QuestionGUI{
         JRadioButton option1 = new JRadioButton("Yes");
         JRadioButton option2 = new JRadioButton("No");
 
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() instanceof JRadioButton) {
+                    JRadioButton radioButton = (JRadioButton) e.getSource();
+
+                    if (radioButton.isSelected() && (radioButton.getText() == "Yes")) {
+                        radio.givenAnswer(true);
+
+                    }
+
+                    else if(radioButton.isSelected() && (radioButton.getText() == "No")){
+                        radio.givenAnswer(false);
+
+                    }
+
+                }
+            }
+        };
+
         ButtonGroup bg = new ButtonGroup();
         bg.add(option1);
         bg.add(option2);
+
+        option1.addActionListener(actionListener);
+        option2.addActionListener(actionListener);
 
         options = new JRadioButton[2];
         options[0] = option1;

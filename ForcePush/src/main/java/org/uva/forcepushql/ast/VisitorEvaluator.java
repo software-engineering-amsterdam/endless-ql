@@ -1,30 +1,81 @@
 package org.uva.forcepushql.ast;
 
 
+import org.uva.forcepushql.gui.JPanelGUI;
+import org.uva.forcepushql.questions.Question;
+import org.uva.forcepushql.questions.Radio;
+import org.uva.forcepushql.questions.Textbox;
 
-public class EvaluateExpressionVisitor implements ASTVisitor {
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.LinkedList;
+
+public class VisitorEvaluator implements ASTVisitor {
 
     @Override
-    public String visit(FormNode node) {
-        String result = "Name: " + node.getName();
+    public LinkedList<JPanel> visit(FormNode node) {
+        LinkedList<JPanel> result = new LinkedList<JPanel>();
+        LinkedList<Question> questions = new LinkedList<Question>();
+        HashMap<String,ActionListener> conditions = new HashMap<String, ActionListener>();
+
         for (Node n: node.getQuestions()) {
-            result += n.accept(this);
+            if (n instanceof ConditionalIfNode){
+                String condition = ((ConditionalIfNode) n).getCondition().accept(this);
+                JPanel jPanelIf = n.accept(this);
+                jPanelIf.setVisible(false);
+                ActionListener actionListener = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if(e.getSource() instanceof JRadioButton) {
+                            JRadioButton radioButton = (JRadioButton) e.getSource();
+
+                            if (radioButton.isSelected() && (radioButton.getText() == "Yes")) {
+                               jPanelIf.setVisible(true);
+
+                            }
+
+                            else if(radioButton.isSelected() && (radioButton.getText() == "No")){
+                               jPanelIf.setVisible(false);
+                            }
+
+                        }
+                    }
+                };
+                conditions.put(condition,actionListener);
+                result.add(jPanelIf);
+            }
+            else {
+                questions.add(n.accept(this));
+            }
         }
+
+        JPanelGUI jPanelGUI = new JPanelGUI();
+        JPanel jPanelForm = jPanelGUI.createPanel(questions,0);
+
+        if (!conditions.isEmpty()){
+            conditions.forEach((c,al) -> jPanelGUI.addActionListener(c,al));
+        }
+
+        result.addFirst(jPanelForm);
+
         return result;
     }
 
     @Override
-    public String visit(ConditionalIfNode node) {
-        String result = "\nIf Condition: " + node.getCondition().accept(this) + " Questions: ";
+    public JPanel visit(ConditionalIfNode node) {
+        JPanelGUI jPanelGUI = new JPanelGUI();
+        LinkedList<Question> questions = new LinkedList<Question>();
         for (Node n: node.getQuestions()) {
-            result += n.accept(this);
+            questions.add(n.accept(this));
         }
 
         if (node.getAfter() != null) {
-            result += node.getAfter().accept(this);
+            node.getAfter().accept(this);
         }
 
-        return result;
+        return jPanelGUI.createPanel(questions,0);
     }
 
     @Override
@@ -116,29 +167,41 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
     }
 
     @Override
-    public String visit(QuestionNode node) {
-        return "\n--> " + node.getLeft().accept(this) + node.getCenter().accept(this) + node.getRight().accept(this);
+    public Question visit(QuestionNode node) {
+        Question question;
+        String label = visit((LabelNode)node.getLeft());
+        String name = visit((NameNode)node.getCenter());
+        String type = visit((TypeNode)node.getRight());
+        if(type.equals("boolean")){
+            question = new Radio(label,type,name);
+        }
+
+        else
+            question = new Textbox(label,type,name);
+
+        return question;
 
     }
 
     @Override
-    public String visit(QuestionAssignValueNode node) {
-        return node.getPrevious().accept(this) + " = " + node.getExpression().accept(this);
+    public Question visit(QuestionAssignValueNode node) {
+        //return node.getPrevious().accept(this) + " = " + node.getExpression().accept(this);
+        return null;
     }
 
     @Override
     public String visit(LabelNode node) {
-        return "Question: " + node.getLabel() + "; ";
+        return node.getLabel().replaceAll("\"","" );
     }
 
     @Override
     public String visit(NameNode node) {
-        return "Variable: " + node.getName() + "; ";
+        return node.getName();
     }
 
     @Override
     public String visit(TypeNode node) {
-        return "Type: " + node.getType() + ";";
+        return node.getType();
     }
 
     @Override

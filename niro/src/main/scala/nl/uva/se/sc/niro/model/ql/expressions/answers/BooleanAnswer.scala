@@ -8,7 +8,6 @@ final case class BooleanAnswer(value: Boolean) extends Answer {
 
   type T = Boolean
 
-  // TODO remove
   override def isTrue: Boolean = value
 
   def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {

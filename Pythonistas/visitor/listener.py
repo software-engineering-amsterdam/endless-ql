@@ -61,13 +61,13 @@ class QLListener(ParseTreeListener):
         # Gets necessary information from the node
         question = ctx.STRING().getText()
         questionID = ctx.ID().getText()
-        datatype = ctx.type().getText()
+        data_type = ctx.type().getText()
 
         if questionID in self.questionIDs:
             self.errorMessage = "Error: duplicate question IDs: {}".format(questionID)
             return
 
-        if datatype == 'boolean':
+        if data_type == 'boolean':
             questionObject = question_classes.BooleanQuestion(questionID, question)
             choices = ['Yes','No']  # todo: make flexible
 
@@ -79,11 +79,11 @@ class QLListener(ParseTreeListener):
             falsebutton.pressed.connect(questionObject.set_answer_false)
             questionObject.set_falsebutton(falsebutton)
 
-        elif datatype == 'money':
+        elif data_type == 'money':
             questionObject = question_classes.MoneyQuestion(questionID, question)
 
         else:
-            self.errorMessage = "Error: unknown datatype: {}".format(datatype)
+            self.errorMessage = "Error: unknown data_type: {}".format(data_type)
             return
 
         self.questionIDs.append(questionID)
@@ -100,7 +100,7 @@ class QLListener(ParseTreeListener):
         # print(ctx.value().getText())
         # print(ctx.parentCtx.getText())
         # print((ctx.parentCtx.ID().getText()))
-        self.questions[ctx.parentCtx.ID().getText()].textInputBox = QtWidgets.QLabel(ctx.value().getText())
+        self.questions[ctx.parentCtx.ID().getText()].text_input_box = QtWidgets.QLabel(ctx.value().getText())
         # pass
 
     # Exit a parse tree produced by QLParser#declaration.
@@ -123,7 +123,7 @@ class QLListener(ParseTreeListener):
 
     # Exit a parse tree produced by QLParser#if_.
     def exitIf_(self, ctx:QLParser.If_Context):
-        # todo: cleanup
+        # todo: cleanup, remove the need for __next__s
         children = ctx.getChildren()
 
         # Picks out the ID of the question that is the argument of the if

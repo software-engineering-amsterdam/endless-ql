@@ -19,33 +19,33 @@ class MainWindow(QtWidgets.QWidget):
     def __init__(self):
         super(MainWindow, self).__init__()
         # Parses QL input
-        self.layout = QtWidgets.QHBoxLayout()
-        self.layout.setSpacing(10)
-        self.setLayout(self.layout)
+        self.main_layout = QtWidgets.QHBoxLayout()
+        self.main_layout.setSpacing(10)
+        self.setLayout(self.main_layout)
         self.setWindowTitle('QL parser')
         self.setGeometry(600, 600, 1100, 600)
         self.tree = None
         self.parser = None
 
         # Initiates frames for within the window, and adds them.
-        self.inputFrame = InputFrame()
-        self.outputFrame = OutputFrame()
-        self.layout.addWidget(self.inputFrame)
-        self.layout.addWidget(self.outputFrame)
+        self.input_frame = InputFrame()
+        self.output_frame = OutputFrame()
+        self.main_layout.addWidget(self.input_frame)
+        self.main_layout.addWidget(self.output_frame)
 
-        # When the signal parseIsPressed is given by inputFrame, MainWindow takes necessary actions to parse
-        # self.inputFrame.parseIsPressed.connect(self.initiate_outputFrame)
-        self.inputFrame.parseIsPressed.connect(self.parse)
+        # When the signal parse_is_pressed is given by input_frame, MainWindow takes necessary actions to parse
+        # self.input_frame.parse_is_pressed.connect(self.initiate_output_frame)
+        self.input_frame.parse_is_pressed.connect(self.parse)
 
-    def initiate_outputFrame(self,questionIDs=[], questions={}):
-        # Removes the old outputFrame from the window
-        self.outputFrame.setParent(None)
-        self.outputFrame.destroy()
+    def initiate_output_frame(self,questionIDs=[], questions={}):
+        # Removes the old output_frame from the window
+        self.output_frame.setParent(None)
+        self.output_frame.destroy()
 
         # Reinitializes outputframe
-        self.outputFrame = OutputFrame(questionIDs, questions)
+        self.output_frame = OutputFrame(questionIDs, questions)
 
-        self.layout.addWidget(self.outputFrame)
+        self.main_layout.addWidget(self.output_frame)
 
     def parse(self, ql_text, qls_text):
         ql_data = ParserCarrier()
@@ -54,28 +54,28 @@ class MainWindow(QtWidgets.QWidget):
             ql_data.run_antlr_ql()
             # if error in tree:
             #   addwidget errormessage
-            [errorMessage, questionIDs, questions] = listen(ql_data.ql_tree)
-            self.initiate_outputFrame(questionIDs, questions)
-            self.outputFrame.add_submit_button()
+            [error_message, questionIDs, questions] = listen(ql_data.ql_tree)
+            self.initiate_output_frame(questionIDs, questions)
+            self.output_frame.add_submit_button()
 
-            if errorMessage:
-                self.initiate_outputFrame()
-                self.outputFrame.frameLayout.addWidget(QtWidgets.QLabel(errorMessage))
+            if error_message:
+                self.initiate_output_frame()
+                self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error_message))
             else:
-                self.outputFrame.check_duplicate_questions()
+                self.output_frame.check_duplicate_questions()
 
         else:  # todo: if garbage in, this error message out.
-            self.outputFrame.frameLayout.addWidget(QtWidgets.QLabel("QL input missing"))
+            self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))
             # pass
 
         if qls_text:
             ql_data.set_qls_grammar_text(ql_text)
             ql_data.run_antlr_qls()
             # todo: create listener/visiter for QLS
-            # listen(ql_data.qls_tree, self.outputFrame)
-            # self.outputFrame.add_submit_button()
+            # listen(ql_data.qls_tree, self.output_frame)
+            # self.output_frame.add_submit_button()
         else:
-            # self.outputFrame.no_tree_message()
+            # self.output_frame.no_tree_message()
             pass
 
 

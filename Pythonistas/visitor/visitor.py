@@ -1,5 +1,6 @@
 import ast
 import antlr4
+import antlr4.tree
 from parser_generator.grammar.QLListener import *
 from parser_generator.grammar.QLParser import QLParser
 
@@ -9,6 +10,21 @@ def visit(tree, outputWindow):
     ql = QLVisitor(outputWindow)
     walker = ParseTreeVisitor()
     walker.visit(tree)
+
+
+class MyTreeVisitor(antlr4.tree.ParseTreeVisitor):
+    def visitChildren(self, node):
+        result = self.defaultResult()
+        n = node.getChildCount()
+        for i in range(n):
+            if not self.shouldVisitNextChild(node, result):
+                return
+
+            c = node.getChild(i)
+            childResult = c.accept(self)
+            result = self.aggregateResult(result, childResult)
+
+        return result
 
 
 class QLVisitor(ParseTreeVisitor):
@@ -74,3 +90,4 @@ class QLVisitor(ParseTreeVisitor):
     # Visit a parse tree produced by QLParser#boolean.
     def visitBoolean_(self, ctx:QLParser.Boolean_Context):
         return self.visitChildren(ctx)
+

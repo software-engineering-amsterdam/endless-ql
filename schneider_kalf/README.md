@@ -91,3 +91,7 @@ Result will be written into the `/build` folder
 * TODO: Divide money by money transformed to float
 * TODO: SellingPrice: boolean = (1 / 10) is not a problem
 * TODO improve naming
+* TODO: Rename Nodes to end with "Node"
+* TODO: Rename question style to field style (can also style computed fields)
+* TODO: Rename QuestionStyles to FieldStyle
+* TODO: Either use body or children so we can use this general function (Explain mees how JavaScript works)

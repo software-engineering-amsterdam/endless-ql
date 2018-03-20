@@ -1,5 +1,5 @@
 import DefaultStyle from "../nodes/children/DefaultStyle";
-import Section from "../nodes/containers/Section";
+import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/Page";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";

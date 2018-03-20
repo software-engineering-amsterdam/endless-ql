@@ -5,7 +5,7 @@ import java.time.LocalDate
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.Orderings.DateAnswerCanDoOrderings._
 
-final case class DateAnswer(possibleValue: Option[LocalDate]) extends Answer {
+final case class DateAnswer(value: LocalDate) extends Answer {
 
   type T = LocalDate
 
@@ -28,7 +28,5 @@ final case class DateAnswer(possibleValue: Option[LocalDate]) extends Answer {
 }
 
 object DateAnswer {
-  def apply() = new DateAnswer(None)
-  def apply(value: LocalDate) = new DateAnswer(Some(value))
-  def apply(value: String): DateAnswer = if (value.isEmpty) DateAnswer() else DateAnswer(LocalDate.parse(value))
+  def apply(value: String): DateAnswer = new DateAnswer(LocalDate.parse(value))
 }

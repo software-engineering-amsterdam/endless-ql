@@ -13,13 +13,12 @@ import nl.uva.se.sc.niro.util.StringUtil
   * visibility property of GUI question will consist of all intermediate expressions logical 'and'ed to ensure the
   * desired behaviour.
   */
-object ModelConverter {
-
-  def convert(form: QLForm): GUIForm = {
-    GUIForm(StringUtil.addSpaceOnCaseChange(form.formName), convert(BooleanAnswer(true), form.statements))
+object GUIModelFactory {
+  def makeFrom(form: QLForm): GUIForm = {
+    GUIForm(StringUtil.addSpaceOnCaseChange(form.formName), make(BooleanAnswer(true), form.statements))
   }
 
-  def convert(visible: Expression, statements: Seq[Statement]): Seq[GUIQuestion] = {
+  def make(visible: Expression, statements: Seq[Statement]): Seq[GUIQuestion] = {
     statements.flatMap(statement =>
       statement match {
         case question: Question       => Seq(GUIQuestionFactory.makeGUIQuestion(visible, question))

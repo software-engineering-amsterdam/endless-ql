@@ -15,11 +15,7 @@ class DuplicateQuestionValidator extends BaseValidator {
 
     questions.forEach { question =>
       {
-        val duplicates = questions.collect {
-          case q1: ASTQuestion
-              if notEqualTypeDecl(q1.varDecl, question.varDecl) =>
-            q1
-        }
+        val duplicates = questions.filter(x => notEqualTypeDecl(x.varDecl, question.varDecl))
 
         if (!duplicates.isEmpty) {
           return Some(new DuplicateQuestionDeclaration("already exist"))

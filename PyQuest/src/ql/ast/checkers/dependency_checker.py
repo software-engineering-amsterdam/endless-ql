@@ -1,4 +1,4 @@
-from debug.debug import error
+from debug.debug import Debug
 
 
 class DependencyChecker:
@@ -12,5 +12,5 @@ class DependencyChecker:
                        in combinations if identifier in reference_children]
             for (parent, reference_position) in parents:
                 if parent in identifier_children:
-                    error([identifier_position.line, reference_position.line],
-                          "Cyclic dependency detected in question identifiers")
+                    Debug().error([identifier_position.line, reference_position.line],
+                                  "Cyclic dependency detected in question identifiers")

@@ -1,7 +1,7 @@
 from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.money_node import MoneyNode
-from gui.model.widgets import DoubleSpinBox
+from gui.widgets.double_spinbox import DoubleSpinBox
 
 
 class QLMoney(QLType):

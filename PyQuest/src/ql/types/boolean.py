@@ -1,6 +1,6 @@
 from ql.types.type import QLType
 from ql.ast.expressions.literals.boolean_node import BooleanNode
-from gui.model.widgets import CheckBox
+from gui.widgets.checkbox import CheckBox
 
 
 class QLBoolean(QLType):

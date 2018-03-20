@@ -2,14 +2,13 @@ package org.uva.forcepushql.ast;
 
 import java.util.LinkedList;
 
-public abstract class ConditonalNode extends Node { }
-
-class ConditionalIfNode extends ConditonalNode{
+public abstract class ConditionalNode extends Node {
 
     private Node condition;
     private LinkedList<Node> questions;
+    private Node after;
 
-    public ConditionalIfNode(){
+    public ConditionalNode() {
         questions = new LinkedList<Node>();
     }
 
@@ -25,11 +24,32 @@ class ConditionalIfNode extends ConditonalNode{
         this.questions = questions;
     }
 
-    public void setOneQuestion(Node question){
+    public void setOneQuestion(Node question) {
         questions.add(question);
     }
 
     public LinkedList<Node> getQuestions() {
         return questions;
     }
+
+    public Node getAfter() {
+        return after;
+    }
+
+    public void setAfter(Node after) {
+        this.after = after;
+    }
+}
+
+class ConditionalIfNode extends ConditionalNode {
+
+
+}
+
+class ConditionalIfElseNode extends ConditionalNode {
+
+}
+
+class ConditionalElseNode extends ConditionalNode{
+
 }

@@ -9,8 +9,11 @@ class QLUndefined(QLType):
         super(QLUndefined, self).__init__()
         self.__value = None
 
+    def __bool__(self):
+        return False
+
     def __repr__(self):
-        return 'QLNone'
+        return 'Undefined'
 
     def __eq__(self, other):
         return QLBoolean(self.value == other.value)

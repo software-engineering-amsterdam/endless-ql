@@ -10,7 +10,7 @@ export default class VisibleFieldsVisitor implements FieldVisitor {
   private _visibleFields: Set<string> = new Set();
   private readonly _state: FormState;
 
-  static run(form: Form): Set<String> {
+  static run(form: Form): Set<string> {
     const visitor = new VisibleFieldsVisitor(form.getState());
     return form.accept(visitor);
   }

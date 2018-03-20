@@ -1,15 +1,15 @@
 import * as React from 'react';
-import Field from "../../../form/nodes/fields/FieldNode";
-import { findComponentForFieldType } from "../../field_rendering";
-import { fieldComponentsMapping } from "../../../config/field_components_mapping";
+import { findComponentForFieldType } from "../../../../../rendering/field_rendering";
+import { fieldComponentsMapping } from "../../../../../config/field_components_mapping";
+import StyledFieldNode from "../../../form/StyledFieldNode";
 
 export interface FieldContainerProps {
-  field: Field;
+  field: StyledFieldNode;
   onChange: (value: any) => void;
   value: any;
 }
 
-export const FieldContainer: React.SFC<FieldContainerProps> = (props) => {
+export const StyledFieldContainer: React.SFC<FieldContainerProps> = (props) => {
   const FieldComponent = findComponentForFieldType(props.field.type, fieldComponentsMapping);
 
   return (

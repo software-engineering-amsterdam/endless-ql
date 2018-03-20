@@ -1,4 +1,4 @@
-import Field from "./FieldNode";
+import FieldNode from "./FieldNode";
 import { FieldType } from "../../FieldType";
 import NodeVisitor from "../visitors/NodeVisitor";
 import FormState from "../../state/FormState";
@@ -7,8 +7,8 @@ import NodeLocation from "../location/NodeLocation";
 /**
  * Decorator for Fields that makes the Field "decoratable" for future usage.
  */
-export default class FieldDecorator implements Field {
-  private fieldToBeDecorated: Field;
+export default class FieldNodeDecorator implements FieldNode {
+  private fieldToBeDecorated: FieldNode;
 
   get identifier(): string {
     return this.fieldToBeDecorated.identifier;
@@ -22,7 +22,7 @@ export default class FieldDecorator implements Field {
     return this.fieldToBeDecorated.type;
   }
 
-  constructor(fieldToBeDecorated: Field) {
+  constructor(fieldToBeDecorated: FieldNode) {
     this.fieldToBeDecorated = fieldToBeDecorated;
   }
 

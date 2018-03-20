@@ -124,7 +124,7 @@ object TypeChecker extends Logging {
       .map(_ => qLForm)
   }
 
-  def typeOf(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = expr match {
+  private def typeOf(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = expr match {
     case Reference(questionId) => symbolTable(questionId).answerType.asRight
 
     case UnaryOperation(operator: Operator, expression) =>
@@ -149,7 +149,7 @@ object TypeChecker extends Logging {
   }
 
   // TODO implement type widener
-  def checkLeftRight(leftType: AnswerType, rightType: AnswerType): Either[TypeCheckError, AnswerType] = {
+  private def checkLeftRight(leftType: AnswerType, rightType: AnswerType): Either[TypeCheckError, AnswerType] = {
     if (leftType != rightType)
       TypeCheckError(message = s"Operands of invalid type: $leftType, $rightType").asLeft
     else

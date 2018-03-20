@@ -3,8 +3,8 @@ package logic.type;
 import ast.model.expressions.Expression;
 import com.sun.istack.internal.NotNull;
 import com.sun.tools.javac.util.Pair;
-import exceptions.IllegalValueAssignmentException;
 import exceptions.IllegalOperationOnTypesException;
+import exceptions.IllegalValueAssignmentException;
 import exceptions.IncompatibleTypesException;
 
 import java.math.BigDecimal;

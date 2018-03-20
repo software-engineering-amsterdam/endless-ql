@@ -2,7 +2,6 @@ package logic.evaluators;
 
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
-import ast.visitors.AbstractASTTraverse;
 import logic.type.MixedValue;
 
 import java.util.HashMap;

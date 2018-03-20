@@ -120,12 +120,8 @@ public class QuestionModel {
                 '}';
     }
 
-    public void registerController(FormController formController) throws Exception {
-        if (this.formController != null) {
-            throw new Exception("Form controller can be registered only once");
-        } else {
-            this.formController = formController;
-        }
+    public void registerController(FormController formController) {
+        this.formController = formController;
     }
 
     public void setPanel(QuestionPanel panel) {

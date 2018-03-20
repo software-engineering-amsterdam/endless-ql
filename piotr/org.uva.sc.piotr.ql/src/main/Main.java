@@ -5,9 +5,7 @@ import gui.QLGui;
 public class Main {
     public static void main(String[] args) throws Exception {
 
+        // the whole program runs in a GUI
         new QLGui();
-
-        System.out.println("Main finish.");
-
     }
 }

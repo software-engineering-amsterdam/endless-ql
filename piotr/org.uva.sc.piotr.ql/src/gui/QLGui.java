@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class QLGui {
-    public QLGui() throws Exception {
+    public QLGui() {
 
         JFrame frame = new JFrame("QL Form GUI");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

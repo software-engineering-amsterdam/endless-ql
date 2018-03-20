@@ -1,6 +1,6 @@
 package exceptions;
 
-public class NonBooleanConditionException extends Exception {
+public class NonBooleanConditionException extends RuntimeException {
     public NonBooleanConditionException(String message) {
         super(message);
     }

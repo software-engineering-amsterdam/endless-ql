@@ -15,7 +15,7 @@ public class FormController {
     private final FormModelExpressionEvaluator evaluator;
     private final CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
 
-    public FormController(List<QuestionModel> questionModels, FormModelExpressionEvaluator evaluator) throws Exception {
+    public FormController(List<QuestionModel> questionModels, FormModelExpressionEvaluator evaluator) {
         this.evaluator = evaluator;
 
         // initial evaluation

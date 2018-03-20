@@ -5,7 +5,7 @@ import QuestionStyle from "./nodes/children/QuestionStyle";
 
 export class QuestionStyles {
   private styles: Map<string, StyleAttribute>;
-  private identifier: string ;
+  private identifier: string;
 
   constructor(identifier: string) {
     this.identifier = identifier;
@@ -25,5 +25,9 @@ export class QuestionStyles {
     question.children.forEach(child => {
       this.styles.set(child.name, child);
     });
+  }
+
+  getIdentifier(): string {
+    return this.identifier;
   }
 }

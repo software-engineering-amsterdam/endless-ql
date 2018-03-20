@@ -10,16 +10,16 @@ export interface QlParserResult {
 }
 
 export class QlParserPipeline {
-  private readonly _qlInput: string;
+  private readonly qlInput: string;
 
   constructor(qlInput: string) {
-    this._qlInput = qlInput;
+    this.qlInput = qlInput;
 
     this.processFormNode = this.processFormNode.bind(this);
   }
 
   run(): QlParserResult[] {
-    const formNodes: FormNode[] = getQlParser().parse(this._qlInput);
+    const formNodes: FormNode[] = getQlParser().parse(this.qlInput);
     return formNodes.map(this.processFormNode);
   }
 

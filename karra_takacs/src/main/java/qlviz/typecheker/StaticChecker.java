@@ -7,14 +7,14 @@ import qlviz.model.Form;
 
 public class StaticChecker {
 
-    public List<AnalysisResult> checkForDuplicateLables(Form unlinkedForm) {
+    public List<AnalysisResult> checkForDuplicateLabels(Form unlinkedForm) {
         DuplicateLabelChecker duplicateLabelChecker = new DuplicateLabelChecker();
         duplicateLabelChecker.initialize(unlinkedForm);
         return duplicateLabelChecker.analyze();
     }
 
 
-    public List<AnalysisResult> valdiate(Form form, boolean containsDuplicates) {
+    public List<AnalysisResult> validate(Form form, boolean containsDuplicates) {
         List<AnalysisResult> staticCheckResults = new ArrayList<>();
         DuplicateQuestionChecker duplicateQuestionChecker = new DuplicateQuestionChecker();
         duplicateQuestionChecker.initialize(form);

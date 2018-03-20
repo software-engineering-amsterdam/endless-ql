@@ -56,7 +56,7 @@ public class QLForm extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-		QLSBaseVisitor<PropertySetting> propertySettingVisitor = new QLSBaseVisitor<>();
+		QLSBaseVisitor<PropertySetting> propertySettingVisitor = new PropertySettingVisitor(new ParameterVisitor());
 		QLSBaseVisitor<Widget> widgetVisitor = new WidgetVisitor(
 				new WidgetTypeTranslator(),
 				new ParameterVisitor());
@@ -81,12 +81,21 @@ public class QLForm extends Application {
 
 		if (this.getParameters().getRaw().size() > 1) {
 			Stylesheet stylesheet = styleBuilder.createFromMarkup(this.getParameters().getRaw().get(1));
-			WidgetFinder widgetFinder = new WidgetFinder(new NaiveQuestionLocator(stylesheet));
+			WidgetFinder widgetFinder = new ChainedWidgetFinder(List.of(
+					new StylesheetWidgetFinder(new NaiveQuestionLocator(stylesheet)),
+					new DefaultWidgetProvider()
+			));
 			JavafxWidgetFactory javafxWidgetFactory = new JavafxWidgetFactory();
 
 			Function<Pane, QuestionRenderer> questionRendererFactory =
 					pane -> new StyledJavafxQuestionRenderer(pane, javafxWidgetFactory, widgetFinder);
-			this.renderer = new StyledJavafxFormRenderer(stage, questionRendererFactory, stylesheet, new NaiveQuestionLocator(stylesheet));
+			this.renderer =
+					new StyledJavafxFormRenderer(
+							stage,
+							questionRendererFactory,
+							stylesheet,
+							new NaiveQuestionLocator(stylesheet),
+							pane -> new StyledJavafxSectionRenderer(questionRendererFactory, pane));
 		}
 		else {
 			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);
@@ -121,14 +130,14 @@ public class QLForm extends Application {
 
 
 		StaticChecker staticChecker = new StaticChecker();
-		List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLables(this.model);
+		List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLabels(this.model);
 		if (duplicateResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
 			staticCheckResults = duplicateResults;
 		}
 		else
 		{
 			modelBuilder.linkQuestions(this.model);
-            staticCheckResults = staticChecker.valdiate(this.model, containsDuplicates);
+            staticCheckResults = staticChecker.validate(this.model, containsDuplicates);
 		}
 
 		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {

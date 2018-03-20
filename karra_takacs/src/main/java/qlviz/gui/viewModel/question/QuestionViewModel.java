@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface QuestionViewModel {
     void accept(QuestionViewModelVisitor visitor);
+    <T> T accept(TypedQuestionViewModelVisitor<T> visitor);
     String getText();
     String getName();
     QuestionType getQuestionType();

@@ -72,7 +72,7 @@ export default class QuestionForm implements Form {
     return this.node.name;
   }
 
-  getState(): FormState {
+  getState(): FormState | any {
     return this.state;
   }
 

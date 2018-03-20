@@ -6,4 +6,6 @@ export default interface HasStyleParent {
   getParent(): StyleTreeNode | null;
 
   getParents(): StyleTreeNode[];
+
+  getNearestParent(test: (node: StyleTreeNode) => boolean): StyleTreeNode | undefined | any;
 }

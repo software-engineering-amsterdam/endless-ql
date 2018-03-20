@@ -11,7 +11,7 @@ import scala.util.{Try, Success, Failure}
 class TypeChecker() {
 
   var error: Exception = null
-  val warnings = List()
+  var warnings: Option[List[String]] = None
 
   val validatorList: List[BaseValidator] = List(
     new IdentifierValidator(),
@@ -34,6 +34,9 @@ class TypeChecker() {
         case bv @ Some(ex: DuplicateQuestionDeclaration) => {
           error = ex
           return bv
+        }
+        case Some(ex: DuplicateLabelDeclaration) => {
+          warnings = vc.getWarnings()
         }
         case other => other
       }

@@ -71,7 +71,6 @@ class DuplicateLabelSpec extends FunSpec with BeforeAndAfter {
     it("getWarnings should return list containing two similiar labels") {
       validator.getWarnings match {
         case Some(list: List[String]) => {
-          println(list)
           if(list.size == 2 && list.distinct.size == 1) {
             succeed
           } else {

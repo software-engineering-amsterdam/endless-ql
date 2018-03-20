@@ -79,6 +79,36 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
       }
     }
   }
+
+  describe("when TypeChecker validates a form containing a duplicate label") {
+    val filename = s"${resourceDir}/duplicate_label/single_duplicate_label.ql"
+    val form = FormHelper.getForm(getClass.getResource(filename))
+    val tc = new TypeChecker()
+
+    it("should return true") {
+      assert(tc.validate(form))
+    }
+
+    it("typechecker error should not be defined") {
+      tc.error match {
+        case null => succeed
+        case other => fail("no error should have been set")
+      }
+    }
+
+    it("typechecker warnings should contain a single element") {
+      tc.warnings match {
+        case Some(warnings: List[String]) => {
+          if(warnings.size == 1) {
+            succeed
+          } else {
+            fail("warnings contained less or more than one element")
+          }
+        }
+        case other => fail("no correct error was set")
+      }
+    }
+  }
   // describe("when ConditionalValidator contains a conditional with Money type") {
     // val filename = s"${resourceDir}/money_type_conditional.ql"
     // val form = FormHelper.getForm(getClass.getResource(filename))

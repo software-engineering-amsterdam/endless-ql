@@ -8,7 +8,7 @@ import logic.type.MixedValue;
 import java.util.HashMap;
 import java.util.List;
 
-public class ASTExpressionEvaluator extends AbstractASTTraverse<MixedValue> {
+public class ASTExpressionEvaluator extends AbstractExpressionEvaluator {
 
     private HashMap<String, MixedValue> variablesRegister = new HashMap<>();
 

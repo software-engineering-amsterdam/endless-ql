@@ -1,25 +1,28 @@
 package ExpressionEvaluator;
 
 import ast.model.expressions.Expression;
+import exceptions.IncompatibleTypesException;
 import logic.type.MixedValue;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.Assert;
+import org.junit.rules.ExpectedException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public final class MixedValueTest {
 
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Test
     public void testIncompatibleTypesExceptionMessage() {
         MixedValue val1 = MixedValue.createValue(Expression.DataType.INTEGER, "10");
         MixedValue val2 = MixedValue.createValue(Expression.DataType.STRING, "7");
 
-        try {
-            MixedValue result = val1.add(val2);
-        } catch (Exception e) {
-            Assert.assertEquals("Types not compatible: INTEGER and STRING", e.getMessage());
-        }
+        exception.expect(IncompatibleTypesException.class);
+        val1.add(val2);
     }
 
     @Test
@@ -129,7 +132,6 @@ public final class MixedValueTest {
         MixedValue result = val1.subtract(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
         Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(40.16).setScale( 4, RoundingMode.HALF_UP)), 0);
-
     }
 
     @Test
@@ -281,4 +283,7 @@ public final class MixedValueTest {
     }
 
     // TODO: Exceptions tests
+
+
+
 }

@@ -2,18 +2,17 @@ package TypeChecker;
 
 import ast.ASTBuilder;
 import ast.model.Form;
-import exceptions.DuplicateDeclarationException;
-import exceptions.DuplicateLabelException;
-import exceptions.NonBooleanConditionException;
-import exceptions.UndeclaredReferenceException;
+import ast.model.expressions.Expression;
+import ast.model.statements.Question;
+import exceptions.*;
 import grammar.QLLexer;
 import grammar.QLParser;
 import logic.collectors.CollectConditionsVisitor;
-import logic.collectors.CollectQuestionModelsVisitor;
 import logic.collectors.CollectQuestionsVisitor;
 import logic.collectors.CollectReferencesVisitor;
 import logic.validators.ConditionsValidator;
 import logic.validators.QuestionsValidator;
+import logic.validators.TypesValidator;
 import logic.validators.VariablesReferencesValidator;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -22,12 +21,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.List;
+
 public class TypeCheckerTest {
 
     private CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
     private CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
     private CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
-    private CollectQuestionModelsVisitor collectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
 
     private Form getAstFormFromString(String formString) {
         CharStream charStream = CharStreams.fromString(formString);
@@ -45,14 +45,14 @@ public class TypeCheckerTest {
     @Test
     public void checkReferenceToUndefinedQuestionTest() throws Exception {
 
-        String formWithUndefinedReference = "form wrongForm1 {\n" +
+        String fileContent = "form wrongForm1 {\n" +
                 "\"How much money do you have?\"\n" +
                 "    myBudget: money\n" +
                 "  \"What is your private debt?\"\n" +
                 "    generalPrivateDebt: money = (myBudget - privateDebt)\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(formWithUndefinedReference);
+        Form form = this.getAstFormFromString(fileContent);
 
         exception.expect(UndeclaredReferenceException.class);
 
@@ -66,14 +66,14 @@ public class TypeCheckerTest {
     @Test
     public void checkDuplicateDefinitionsTest() throws Exception {
 
-        String formWithUndefinedReference = "form wrongForm2 {\n" +
+        String fileContent = "form wrongForm2 {\n" +
                 "\"How much money do you have?\"\n" +
                 "    myBudget: money\n" +
                 "  \"What is your budget?\"\n" +
                 "    myBudget: string\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(formWithUndefinedReference);
+        Form form = this.getAstFormFromString(fileContent);
 
         exception.expect(DuplicateDeclarationException.class);
 
@@ -83,14 +83,14 @@ public class TypeCheckerTest {
     @Test
     public void checkDuplicateLabelsTest() throws RuntimeException {
 
-        String formWithUndefinedReference = "form wrongForm3 {\n" +
+        String fileContent = "form wrongForm3 {\n" +
                 "\"How much money do you have?\"\n" +
                 "    myBudget: money\n" +
                 "  \"How much money do you have?\"\n" +
                 "    myMoney: string\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(formWithUndefinedReference);
+        Form form = this.getAstFormFromString(fileContent);
 
         exception.expect(DuplicateLabelException.class);
 
@@ -101,7 +101,7 @@ public class TypeCheckerTest {
     @Test
     public void checkConditionsEvaluationTypeTest() throws Exception {
 
-        String formWithUndefinedReference = "form wrongForm4 {\n" +
+        String fileContent = "form wrongForm4 {\n" +
                 "  \"What is your age?\"\n" +
                 "    age: integer\n" +
                 "  if (age) {\n" +
@@ -110,11 +110,162 @@ public class TypeCheckerTest {
                 "  }\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(formWithUndefinedReference);
+        Form form = this.getAstFormFromString(fileContent);
 
         exception.expect(NonBooleanConditionException.class);
 
         ConditionsValidator.validateConditions(
+                this.collectConditionsVisitor.getConditions(form),
+                this.collectQuestionsVisitor.getQuestions(form)
+        );
+
+    }
+
+    // invalid types to operators
+    @Test
+    public void checkInvalidStringIntegerTypesToOperatorsTest() throws RuntimeException {
+
+        String fileContent = "form wrongForm5 {\n" +
+                "  \"What is your name?\"\n" +
+                "  name: string\n" +
+                "  \"What is your age?\"\n" +
+                "  age: integer\n" +
+                "  \"What is your monthly income?\"\n" +
+                "  income: decimal\n" +
+                "  \"Do you have debts?\"\n" +
+                "  debts: boolean\n" +
+                "\n" +
+                "  if (name + age == \"adult\") {\n" +
+                "    \"Test\"\n" +
+                "    test: string\n" +
+                "  }\n" +
+                "}";
+
+        Form form = this.getAstFormFromString(fileContent);
+
+        exception.expect(IncompatibleTypesException.class);
+
+        TypesValidator.validateTypes(
+                this.collectConditionsVisitor.getConditions(form),
+                this.collectQuestionsVisitor.getQuestions(form)
+        );
+    }
+
+    @Test
+    public void checkInvalidIntegerBooleanTypesToOperatorsTest() throws RuntimeException {
+
+        String fileContent = "form wrongForm5 {\n" +
+                "  \"What is your name?\"\n" +
+                "  name: string\n" +
+                "  \"What is your age?\"\n" +
+                "  age: integer\n" +
+                "  \"What is your monthly income?\"\n" +
+                "  income: decimal\n" +
+                "  \"Do you have debts?\"\n" +
+                "  debts: boolean\n" +
+                "\n" +
+                "  if (age && debts) {\n" +
+                "    \"Test\"\n" +
+                "    test: string\n" +
+                "  }\n" +
+                "}";
+
+        Form form = this.getAstFormFromString(fileContent);
+
+        exception.expect(IncompatibleTypesException.class);
+
+        TypesValidator.validateTypes(
+                this.collectConditionsVisitor.getConditions(form),
+                this.collectQuestionsVisitor.getQuestions(form)
+        );
+
+    }
+
+    @Test
+    public void checkInvalidTypesToOperatorsTest() throws RuntimeException {
+
+        String fileContent = "form wrongForm5 {\n" +
+                "  \"What is your name?\"\n" +
+                "  name: string\n" +
+                "  \"What is your age?\"\n" +
+                "  age: integer\n" +
+                "  \"What is your monthly income?\"\n" +
+                "  income: decimal\n" +
+                "  \"Do you have debts?\"\n" +
+                "  debts: boolean\n" +
+                "  if (income / debts) {\n" +
+                "    \"Test\"\n" +
+                "    test: string\n" +
+                "  }\n" +
+                "  \n" +
+                "}";
+
+        Form form = this.getAstFormFromString(fileContent);
+
+        exception.expect(IncompatibleTypesException.class);
+
+        TypesValidator.validateTypes(
+                this.collectConditionsVisitor.getConditions(form),
+                this.collectQuestionsVisitor.getQuestions(form)
+        );
+
+    }
+
+    @Test
+    public void checkInvalidOperationTest() throws RuntimeException {
+
+        String fileContent = "form wrongForm5 {\n" +
+                "  \"What is your name?\"\n" +
+                "  name: string\n" +
+                "  \"What is your age?\"\n" +
+                "  age: integer\n" +
+                "  \"What is your monthly income?\"\n" +
+                "  income: decimal\n" +
+                "  \"Do you have debts?\"\n" +
+                "  debts: boolean\n" +
+                "\n" +
+                "  if (\"one\" * name) {\n" +
+                "    \"Test\"\n" +
+                "    test: string\n" +
+                "  }\n" +
+                "}";
+
+        Form form = this.getAstFormFromString(fileContent);
+
+        exception.expect(IllegalOperationOnTypesException.class);
+
+        TypesValidator.validateTypes(
+                this.collectConditionsVisitor.getConditions(form),
+                this.collectQuestionsVisitor.getQuestions(form)
+        );
+
+    }
+
+    @Test
+    public void checkInvalidComparisionTypesToOperatorsTest() throws RuntimeException {
+
+        String fileContent = "form wrongForm5 {\n" +
+                "  \"What is your name?\"\n" +
+                "  name: string\n" +
+                "  \"What is your age?\"\n" +
+                "  age: integer\n" +
+                "  \"What is your monthly income?\"\n" +
+                "  income: decimal\n" +
+                "  \"Do you have debts?\"\n" +
+                "  debts: boolean\n" +
+                "\n" +
+                "  if (5 > name) {\n" +
+                "    \"Test\"\n" +
+                "    test: string\n" +
+                "  }\n" +
+                "\n" +
+                "}";
+
+        Form form = this.getAstFormFromString(fileContent);
+
+        exception.expect(IncompatibleTypesException.class);
+
+        TypesValidator.validateTypes(
                 this.collectConditionsVisitor.getConditions(form),
                 this.collectQuestionsVisitor.getQuestions(form)
         );

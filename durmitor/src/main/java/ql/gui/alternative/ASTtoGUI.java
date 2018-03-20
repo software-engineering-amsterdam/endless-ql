@@ -42,8 +42,7 @@ public class ASTtoGUI implements StatementVisitor {
     @Override
     public void visit(IfThen stmt) {
     	
-    		Literal<?> value		= stmt.getCondition().evaluate();
-    		BoolLiteral result	= value.isBoolean()? Bool.parseBool(value) : Bool.parseBool(new UndefinedLiteral());
+        BoolLiteral result	= Bool.parseBool(stmt.getCondition().evaluate());
     		JPanel stmtPanel		= GUI.getStatementPanel(stmt);
     		JPanel thenPanel		= GUI.getStatementPanel(stmt.getThenStatement());
     		
@@ -63,8 +62,7 @@ public class ASTtoGUI implements StatementVisitor {
     @Override
     public void visit(IfThenElse stmt) {
         
-		Literal<?> value		= stmt.getCondition().evaluate();
-		BoolLiteral result	= value.isBoolean()? Bool.parseBool(value) : Bool.parseBool(new UndefinedLiteral());
+        BoolLiteral result	= Bool.parseBool(stmt.getCondition().evaluate());
 		JPanel stmtPanel		= GUI.getStatementPanel(stmt);
 		JPanel thenPanel		= GUI.getStatementPanel(stmt.getThenStatement());
 		JPanel elsePanel		= GUI.getStatementPanel(stmt.getElseStatement());
@@ -102,27 +100,24 @@ public class ASTtoGUI implements StatementVisitor {
     		
     		parentPanel.revalidate();
     		
-    		System.out.println(question.getIdentifier());
-    		System.out.println();
     		new AnswerableQuestionController(question, questionPanel.getWidget());
     }
     
     @Override
     public void visit(ComputedQuestion question) {
         
-    		Literal<?> result = question.getComputation().evaluate();
-    		JPanel stmtPanel  = GUI.getStatementPanel(question);
+        Literal<?> value = question.getComputation().evaluate();
+        
+        question.getIdentifier().setValue(value);
+        
+    		JPanel stmtPanel = GUI.getStatementPanel(question);
     		
     		stmtPanel.removeAll();
-    		question.getIdentifier().setValue(result);
     		
-    		System.out.println(String.format("CQ119: %s --> %s", question.getIdentifier(), result));
-    		if(!result.isUndefined()) stmtPanel.add(new QuestionPanel(question));
+    		if(!value.isUndefined()) stmtPanel.add(new QuestionPanel(question));
     		
     		if(stmtPanel.getParent() == null) parentPanel.add(stmtPanel);
     		
-    		System.out.println(question.getIdentifier());
-    		System.out.println();
     		parentPanel.revalidate();
     }
 }

@@ -33,7 +33,6 @@ public class ComputedQuestion extends Question implements Observer {
     
     @Override
     public void update(Observable observable, Literal<?>[] value) {
-        id.setValue(computation.evaluate());
         this.accept(new ASTtoGUI());
     }
 }

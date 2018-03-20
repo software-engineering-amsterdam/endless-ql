@@ -82,7 +82,6 @@ class ASTVisitor(object):
     def visit(self, node):
         print('Variable node.')
 
-
     @visitor.when(AdditionOperatorNode)
     def visit(self, node):
         node.left_expression.accept(self)

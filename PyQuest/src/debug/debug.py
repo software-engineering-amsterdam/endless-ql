@@ -12,6 +12,7 @@ class Debug:
         if self.__pyqt5:
             QMessageBox.critical(QMessageBox(), 'Error', '[line(s): {}] {}'.format(lines, message),
                                  QMessageBox.Close, QMessageBox.Escape)
+            exit()
         if self.__terminal:
             tag = colored('[error]', 'red')
             print('{} [line(s): {}] {}'.format(tag, separated_lines, message))
@@ -25,4 +26,3 @@ class Debug:
         if self.__terminal:
             tag = colored('[warning]', 'yellow')
             print('{} [line(s): {}] {}'.format(tag, separated_lines, message))
-            exit()

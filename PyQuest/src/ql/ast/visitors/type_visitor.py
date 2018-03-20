@@ -29,6 +29,7 @@ class TypeVisitor:
     def __init__(self, symbol_table, debug):
         self.__symbol_table = symbol_table
         self.__debug = debug
+        self.__errors = False
 
     # Generic method that initializes the dynamic dispatcher
     @on('node')
@@ -39,6 +40,8 @@ class TypeVisitor:
     def visit(self, node):
         for child in node.block:
             child.accept(self)
+
+        return self.__errors
 
     @when(IfNode)
     def visit(self, node):
@@ -55,6 +58,7 @@ class TypeVisitor:
 
             if node.answer_type != result_type:
                 self.__debug.error([node.answer.position.line], 'Expression not of type {}'.format(node.answer_type))
+                self.__errors = True
 
     @when(AdditionOperatorNode)
     def visit(self, node):
@@ -65,6 +69,7 @@ class TypeVisitor:
 
         if result_type == QLUndefined:
             self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
 
         node.set_expression_type(result_type)
 
@@ -77,6 +82,7 @@ class TypeVisitor:
 
         if result_type == QLUndefined:
             self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
 
     @when(DivisionOperatorNode)
     def visit(self, node):
@@ -87,6 +93,7 @@ class TypeVisitor:
 
         if result_type == QLUndefined:
             self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
 
         node.set_expression_type(result_type)
 
@@ -124,6 +131,7 @@ class TypeVisitor:
 
         if result_type == QLUndefined:
             self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
 
         node.set_expression_type(result_type)
 
@@ -141,6 +149,7 @@ class TypeVisitor:
 
         if result_type == QLUndefined:
             self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
 
     @when(SubtractionOperatorNode)
     def visit(self, node):
@@ -151,6 +160,7 @@ class TypeVisitor:
 
         if result_type == QLUndefined:
             self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
 
         node.set_expression_type(result_type)
 
@@ -162,6 +172,7 @@ class TypeVisitor:
 
         if result_type == QLUndefined:
             self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
 
         node.set_expression_type(result_type)
 
@@ -173,6 +184,7 @@ class TypeVisitor:
 
         if result_type == QLUndefined:
             self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
 
         node.set_expression_type(result_type)
 

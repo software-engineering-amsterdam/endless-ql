@@ -41,5 +41,5 @@ logical: CON | DIS;
 relational: GT | LT | LTE | GTE | EQ | NEQ;
 
 varDecl: identifier DD typeDecl;
-valAssign: ASS OB expr CB;
+valAssign: ASS expr;
 typeDecl: BOOL_T | MONEY_T | INTEGER_T | STRING_T;

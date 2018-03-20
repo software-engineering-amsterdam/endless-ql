@@ -148,37 +148,8 @@ form CommentFormML {}";
                     "form NameForm { x: \"xyz\" integer = (10 + 20) }",
                     new[] {@"10+20"},
                     new[] {10m, 20m}, noVarNames);
-//                yield return new TestCaseData(
-//                    "form NameForm { x: \"xyz\" decimal = (10.5 + 20.54) }",
-//                    new[] {@"10.5+20.54"},
-//                    new[] { 10.5m, 20.54m }, 
-//                    noVarNames);
-//                yield return new TestCaseData(
-//                    "form NameForm {  \"xyz\" x: integer =(10/20*30) }", 
-//                    new[] {@"10/20*30"},
-//                    new[] { 10m, 20m, 30m }, 
-//                    noVarNames);
-//                yield return new TestCaseData(
-//                    $@"form NameForm {{  
-//    ""xyz"" x: integer = (10/20*30)
-//    a: ""abc"" decimal =(10.5 - 20.54)
-//}}",
-//                    new[] { @"10/20*30", "10.5-20.54" },
-//                    new[] { 10m, 20m, 30m, 10.5m, 20.54m }, 
-//                    noVarNames);
-//                yield return new TestCaseData(
-//                    $@"form NameForm {{  
-//    ""xyz"" intQuestion: integer
-//    a: ""abc"" decimal = (intQuestion - 20.54)
-//}}",
-//                    new[] { "intQuestion-20.54" },
-//                    new[] { 20.54m },
-//                    new[] {"intQuestion"});
-                //                yield return new TestCaseData($@"form NameForm {{  
-                //    ""xyz"" intQuestion: integer
-                //    a: ""abc"" decimal = ((intQuestion - 20.54) * (intQuestion/3))
-                //}}",
-                //                    new[] { "(intQuestion-20.54)*(intQuestion/3)" });
+                // ToDo: test decimal, multiply, divide, minus, divide by zert
+                // ToDo: test with single and multiple variables
             }
         }
 
@@ -371,14 +342,9 @@ form CommentFormML {}";
                     operators: new BooleanOperatorCount {EqualityCount = 1},
                     subdefinitions: new[] {"true==true"});
 
-                //ToDo: move this to relational test
-                //// test Inequality
-                //yield return BooleanTestCaseData(
-                //    formText: $"form NameForm {{bq1 : \"1\"  boolean if (false != true) {{ x : \"xx\"  date }} }} ",
-                //    definitions: new[] { "false!=true" },
-                //    operators: new BooleanOperatorCount { InequalityCount = 1 },
-                //    subdefinitions: new[] { "false!=true" });
-                //ToDo: continue conversion of old tests
+                // ToDo: test inequality in a to relational test, i.e. "false!=true"
+                // ToDo: continue conversion of old tests
+                // ToDo: random testing for these
             }
         }
 

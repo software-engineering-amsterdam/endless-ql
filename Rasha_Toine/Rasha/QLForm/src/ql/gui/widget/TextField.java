@@ -28,7 +28,7 @@ public class TextField extends Widget {
 	private KeyAdapter adapter = new KeyAdapter() {
 		@Override
 		public void keyReleased(KeyEvent e) {
-			setValue(getValueToUI()); //default value which is mostly ""
+			setValue(getValueFromUI()); //default value which is mostly ""
 		} 
 	};
 
@@ -61,7 +61,7 @@ public class TextField extends Widget {
 	}
 
 	@Override
-	public Value getValueToUI() {
+	public Value getValueFromUI() {
 		return getDefaultValue().translate(input.getText());
 	}
 

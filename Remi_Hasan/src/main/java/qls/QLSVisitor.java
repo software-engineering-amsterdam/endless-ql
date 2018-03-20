@@ -2,9 +2,7 @@ package qls;
 
 import qls.model.*;
 import qls.model.style.*;
-import qls.model.widget.WidgetCheckBox;
-import qls.model.widget.WidgetRadio;
-import qls.model.widget.WidgetSpinBox;
+import qls.model.widget.*;
 
 public class QLSVisitor<T> implements IQLSVisitor<T> {
 
@@ -71,12 +69,27 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
     }
 
     @Override
+    public T visit(WidgetDropdown widget) {
+        return null;
+    }
+
+    @Override
     public T visit(WidgetRadio widget) {
         return null;
     }
 
     @Override
+    public T visit(WidgetSlider widget) {
+        return null;
+    }
+
+    @Override
     public T visit(WidgetSpinBox widget) {
+        return null;
+    }
+
+    @Override
+    public T visit(WidgetTextBox widget) {
         return null;
     }
 

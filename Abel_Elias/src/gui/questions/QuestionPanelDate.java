@@ -1,11 +1,12 @@
 package gui.questions;
 
-import classes.Question;
-import classes.values.Value;
+import QL.classes.Question;
+import QL.classes.values.Value;
 import gui.FormBuilder;
 import org.jdatepicker.*;
 
 import javax.swing.*;
+import javax.swing.text.DocumentFilter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EventListener;
@@ -43,6 +44,11 @@ public class QuestionPanelDate extends QuestionPanel {
     public void setListener(EventListener listener) {
         FormBuilder.DateActionListener dateActionListener = (FormBuilder.DateActionListener) listener;
         picker.addActionListener(dateActionListener);
+    }
+
+    @Override
+    public void setWidgetFixed() {
+        this.picker.setEnabled(false);
     }
 
     @Override

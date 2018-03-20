@@ -29,7 +29,7 @@ literal returns [Literal result] // atom
    | BOOLEAN { $result = addCodeReference($ctx, new BooleanLiteral(Boolean.valueOf($BOOLEAN.text))); }
    | STRING { $result = addCodeReference($ctx, new StringLiteral(String.valueOf($STRING))); }
    | DATE { $result = addCodeReference($ctx, new DateLiteral(Date.valueOf($DATE.text))); }
-   | DECIMAL { $result = addCodeReference($ctx, new DecimalLiteral(Double.valueOf($DECIMAL))); }
+   | DECIMAL { $result = addCodeReference($ctx, new DecimalLiteral(Double.valueOf($DECIMAL.text))); }
   ;
 
 identifier returns [Identifier result]

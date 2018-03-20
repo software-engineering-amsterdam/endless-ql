@@ -24,9 +24,9 @@ public class FieldOptions {
 		return defaultOption;
 	}
 	
-	public FieldOption getOptionByName(String name) {
+	public FieldOption getOptionByLabel(String label) {
 		for (FieldOption option : options) {
-			if (option.getName() == name) {
+			if (option.getLabel() == label) {
 				return option;
 			}
 		}

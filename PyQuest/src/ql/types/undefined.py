@@ -5,7 +5,7 @@ from gui.model.widgets import Label
 
 
 class QLUndefined(QLType):
-    def __init__(self):
+    def __init__(self, value=None):
         super(QLUndefined, self).__init__()
         self.__value = None
 
@@ -23,8 +23,8 @@ class QLUndefined(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node():
-        return UndefinedNode(None, QLUndefined, None)
+    def get_literal_node(value=None):
+        return UndefinedNode(None, QLUndefined, QLUndefined(value))
 
     @staticmethod
     def pyqt5_default_widget():

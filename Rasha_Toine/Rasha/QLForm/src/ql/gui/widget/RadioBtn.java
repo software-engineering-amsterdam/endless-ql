@@ -72,7 +72,7 @@ public class RadioBtn extends Widget implements ActionListener {
 	}
 
 	@Override
-	public Value getValueToUI() {
+	public Value getValueFromUI() {
 		for (FieldOption option : options.getOptions()) {
 			if (radioButtons.get(option).isSelected()) {
 				return option.getValue(); // return value of selected option

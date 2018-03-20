@@ -2,9 +2,9 @@
 {
     public struct MathOperatorCount
     {
-        public int AdditionCount;
-        public int SubtractionCount;
-        public int MultiplicationCount;
-        public int DivisionCount;
+        public int AdditionCount { get; set; }
+        public int SubtractionCount { get; set; }
+        public int MultiplicationCount { get; set; }
+        public int DivisionCount { get; set; }
     }
 }

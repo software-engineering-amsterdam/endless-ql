@@ -7,7 +7,7 @@ class ReferenceChecker:
 
     def check_invalid_references(self, table):
         known_types = [row["name"] for row in table["content"] if row["type"]]
-        unknown_types = [row["name"] for row in table["content"] if not (row["type"])]
+        unknown_types = [(row['name'], row["position"]) for row in table["content"] if not (row["type"])]
 
         self.identifier_seen(known_types, unknown_types)
 
@@ -20,9 +20,9 @@ class ReferenceChecker:
 
     @staticmethod
     def identifier_seen(known_types, unknown_types):
-        for identifier in unknown_types:
+        for (identifier, position) in unknown_types:
             if not (identifier in known_types):
-                error([0], "Identifier \"{}\" is unknown".format(identifier))
+                error([position.line], "Identifier \"{}\" is unknown".format(identifier))
 
 
 

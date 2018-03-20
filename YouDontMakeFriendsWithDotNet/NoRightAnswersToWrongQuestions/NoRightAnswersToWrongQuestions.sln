@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Tests", "_Tests", "{BAE19B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnaireInfrastructure", "QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj", "{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionaireOrchestration", "QuestionaireOrchestration\QuestionaireOrchestration.csproj", "{93708D27-D769-4064-8A54-6BFEF8B09F29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnaireOrchestration", "QuestionaireOrchestration\QuestionnaireOrchestration.csproj", "{93708D27-D769-4064-8A54-6BFEF8B09F29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnaireUI", "QuestionnaireUI\QuestionnaireUI.csproj", "{AAB9C576-34E5-4CBA-88D1-4E8674E3C117}"
 EndProject
@@ -38,9 +38,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWPFApp", "SimpleWPFApp\SimpleWPFApp.csproj", "{56694C1E-34A8-4D83-A1FD-F07EE38B35BA}"
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

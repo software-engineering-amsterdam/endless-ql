@@ -4,7 +4,7 @@ public class ColorValue extends Value {
 
     private String value;
 
-    public ColorValue(String value){
+    public ColorValue(String value) {
         this.value = value;
     }
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
@@ -137,8 +135,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateIntVariable(@"q1", newValueVariable1);
-            UpdateIntVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -161,8 +159,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateIntVariable(@"q1", newValueVariable1);
-            UpdateIntVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -185,8 +183,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateDecimalVariable(@"q1", newValueVariable1);
-            UpdateDecimalVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -209,8 +207,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateDecimalVariable(@"q1", newValueVariable1);
-            UpdateDecimalVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -234,8 +232,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateDateVariable(@"q1", newValueVariable1);
-            UpdateDateVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -245,7 +243,6 @@ namespace UnitTests.Domain.UnitTests.Tests
             Assert.AreEqual(expected: 4, actual: actualNewVisibleCount);
             Assert.AreEqual(expected: 1, actual: actualNewInvisibleCount);
         }
-
 
         private int GetVisibleCount()
         {
@@ -263,24 +260,14 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .GetAll<IQuestionOutputItem>()
                 .Count(predicate);
         }
-
-        private void UpdateIntVariable(string variableName, int value)
+        
+        private void UpdateVariable(string variableName, dynamic value)
         {
-            var variableItem = m_domainItemLocator
-                .GetAll<IVariableNode>()
-                .FirstOrDefault(x => x.VariableName == variableName);
-
-            var questionItem = m_domainItemLocator
-                .GetAll<IQuestionNode>()
-                .Where(x => x.QuestionName == variableItem.VariableName)
-                .Select(x => new Reference<IQuestionNode>(x.Id))
-                .FirstOrDefault();
-
+            var questionItem = GetQuestionToUpdate(variableName);
             m_variableUpdater.Update(questionItem, value);
         }
 
-
-        private void UpdateDecimalVariable(string variableName, decimal value)
+        private Reference<IQuestionNode> GetQuestionToUpdate(string variableName)
         {
             var variableItem = m_domainItemLocator
                 .GetAll<IVariableNode>()
@@ -292,25 +279,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .Select(x => new Reference<IQuestionNode>(x.Id))
                 .FirstOrDefault();
 
-            m_variableUpdater.Update(questionItem, value);
-        }
-
-
-        private void UpdateDateVariable(
-            string variableName, 
-            DateTime value)
-        {
-            var variableItem = m_domainItemLocator
-                .GetAll<IVariableNode>()
-                .FirstOrDefault(x => x.VariableName == variableName);
-
-            var questionItem = m_domainItemLocator
-                .GetAll<IQuestionNode>()
-                .Where(x => x.QuestionName == variableItem.VariableName)
-                .Select(x => new Reference<IQuestionNode>(x.Id))
-                .FirstOrDefault();
-
-            m_variableUpdater.Update(questionItem, value);
+            return questionItem;
         }
 
         private void CreateForm(string validText)
@@ -326,10 +295,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             foreach (var questionnaireRootNode in questionnaireNodes)
             {
                 var questionnaireRef = new Reference<IQuestionnaireRootNode>(questionnaireRootNode.Id);
-                if (m_outputCreator.Validate(questionnaireRef))
-                {
-                    m_outputCreator.CreateOrUpdate(questionnaireRef);
-                }
+                m_outputCreator.CreateOrUpdate(questionnaireRef);
             }
         }
     }

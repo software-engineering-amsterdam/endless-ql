@@ -3,5 +3,6 @@
 namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
 {
     public interface IOutputItem : IDomainItem
-    { }
+    {
+    }
 }

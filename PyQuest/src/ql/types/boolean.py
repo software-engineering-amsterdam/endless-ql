@@ -8,6 +8,9 @@ class QLBoolean(QLType):
         super(QLBoolean, self).__init__()
         self.__value = bool(value)
 
+    def __bool__(self):
+        return self.value
+
     def __repr__(self):
         return str(self.value)
 
@@ -22,8 +25,8 @@ class QLBoolean(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value):
-        return BooleanNode(None, QLBoolean, value)
+    def get_literal_node(value=False):
+        return BooleanNode(None, QLBoolean, QLBoolean(value))
 
     @staticmethod
     def pyqt5_default_widget():

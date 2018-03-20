@@ -4,9 +4,6 @@ import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Widget.Widget;
 import org.uva.qls.visitor.SegmentVisitor;
 
-import java.util.List;
-import java.util.Arrays;
-
 public class QuestionReference extends Segment {
 
     private String id;
@@ -21,7 +18,7 @@ public class QuestionReference extends Segment {
 
     @Override
     public String getId() {
-        return "Question."+id;
+        return "Question." + id;
     }
 
     public Widget getWidget() {

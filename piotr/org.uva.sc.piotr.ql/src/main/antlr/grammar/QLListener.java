@@ -1,4 +1,4 @@
-// Generated from /Users/piotrkosytorz/Library/Mobile Documents/com~apple~CloudDocs/Study/SC/endless-ql/piotr/org.uva.sc.piotr.ql/src/grammar/QL.g4 by ANTLR 4.7
+// Generated from /Users/piotrkosytorz/Library/Mobile Documents/com~apple~CloudDocs/Study/SC/endless-ql/piotr/org.uva.sc.piotr.ql/src/main/java/grammar/QL.g4 by ANTLR 4.7
 package grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

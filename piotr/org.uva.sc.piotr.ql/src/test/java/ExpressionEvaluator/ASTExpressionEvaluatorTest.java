@@ -24,7 +24,7 @@ public class ASTExpressionEvaluatorTest {
 
     @Before
     public void setUp() throws Exception {
-        CharStream charStream = CharStreams.fromFileName("./test/forms/form0.qlform");
+        CharStream charStream = CharStreams.fromFileName("./example-ql/form0.qlform");
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
         QLParser qlParser = new QLParser(commonTokenStream);

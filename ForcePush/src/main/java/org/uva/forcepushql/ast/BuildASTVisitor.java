@@ -5,14 +5,13 @@ import org.uva.forcepushql.antlr.GrammarParser.QuestionFormatContext;
 import org.uva.forcepushql.antlr.GrammarParserBaseVisitor;
 import org.uva.forcepushql.antlr.GrammarParserVisitor;
 
-import java.util.List;
 
 public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements GrammarParserVisitor<Node>{
 
 
     @Override
     public Node visitCompileUnit(GrammarParser.CompileUnitContext context) {
-        return visit(context.formStructure());
+        return context.accept(this);
     }
 
     @Override
@@ -21,7 +20,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         FormNode node = new FormNode();
         node.setName(context.variable().getText());
         for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
-            node.setOneQuestion(visit(q));
+            node.setOneQuestion(q.accept(this));
         }
 
         return node;
@@ -31,13 +30,13 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     public Node visitConditionalIf(GrammarParser.ConditionalIfContext context) {
         ConditionalIfNode node = new ConditionalIfNode();
 
-        node.setCondition(visit(context.variable()));//IT IS NEEDED TO CHANGE THIS!!!
+        node.setCondition(context.variable().accept(this));//IT IS NEEDED TO CHANGE THIS!!!
         for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
-            node.setOneQuestion(visit(q));
+            node.setOneQuestion(q.accept(this));
         }
 
         for (GrammarParser.ConditionalElseContext c: context.conditionalElse()) {
-            node.setAfter(visit(c));
+            node.setAfter(c.accept(this));
         }//CHANGE THIS AS WELL
 
 
@@ -48,9 +47,9 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     public Node visitConditionalIfElse(GrammarParser.ConditionalIfElseContext context) {
         ConditionalIfElseNode node = new ConditionalIfElseNode();
 
-        node.setCondition(visit(context.variable()));//IT IS NEEDED TO CHANGE THIS!!!
+        node.setCondition(context.variable().accept(this));//IT IS NEEDED TO CHANGE THIS!!!
         for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
-            node.setOneQuestion(visit(q));
+            node.setOneQuestion(q.accept(this));
         }
 
         return node;
@@ -62,7 +61,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
 
         node.setCondition(null);//IT IS NEEDED TO CHANGE THIS!!!
         for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
-            node.setOneQuestion(visit(q));
+            node.setOneQuestion(q.accept(this));
         }
         return node;
     }
@@ -70,15 +69,15 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     @Override
     public Node visitQuestionAssignValue(GrammarParser.QuestionAssignValueContext context) {
         QuestionAssignValueNode node = new QuestionAssignValueNode();
-        node.setPrevious(visit(context.questionFormat()));
-        node.setExpression(visit(context.expression()));
+        node.setPrevious(context.questionFormat().accept(this));
+        node.setExpression(context.expression().accept(this));
 
         return node;
     }
 
     @Override
     public Node visitMathUnit(GrammarParser.MathUnitContext context) {
-        return visit(context.expression());
+        return context.expression().accept(this);
     }
 
     @Override
@@ -87,8 +86,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         LabelNode labelNode = new LabelNode();
         labelNode.setLabel(context.LABEL().getText());
         node.setLeft(labelNode);
-        node.setCenter(visit(context.variable()));
-        node.setRight(visit(context.type()));
+        node.setCenter(context.variable().accept(this));
+        node.setRight(context.type().accept(this));
 
         return node;
     }
@@ -136,7 +135,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
 
     @Override
     public Node visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext context) {
-        return visit(context.expression());
+        return context.expression().accept(this);
     }
 
     @Override
@@ -162,8 +161,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
                 return null;
         }
 
-        node.setLeft((ExpressionNode) visit(context.left));
-        node.setRight((ExpressionNode) visit(context.right));
+        node.setLeft((ExpressionNode) context.left.accept(this));
+        node.setRight((ExpressionNode) context.right.accept(this));
 
         return node;
     }
@@ -207,8 +206,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
                 return null;
         }
 
-        node.setLeft((ExpressionNode) visit(context.left));
-        node.setRight((ExpressionNode) visit(context.right));
+        node.setLeft((ExpressionNode) context.left.accept(this));
+        node.setRight((ExpressionNode) context.right.accept(this));
 
         return node;
     }
@@ -244,8 +243,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         }
 
 
-        node.setLeft((ExpressionNode) visit(context.left));
-        node.setRight((ExpressionNode) visit(context.right));
+        node.setLeft((ExpressionNode) context.left.accept(this));
+        node.setRight((ExpressionNode) context.right.accept(this));
 
         return node;
 
@@ -255,11 +254,11 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     public Node visitUnaryExpression(GrammarParser.UnaryExpressionContext context) {
         switch (context.op.getType()){
             case GrammarParser.PLUS:
-                return visit(context.expression());
+                return context.expression().accept(this);
             case GrammarParser.MINUS:
             {
                 NegateNode negateNode = new NegateNode();
-                negateNode.setInnerNode(visit(context.expression()));
+                negateNode.setInnerNode(context.expression().accept(this));
                 negateNode.getInnerNode();
                 return negateNode;
             }

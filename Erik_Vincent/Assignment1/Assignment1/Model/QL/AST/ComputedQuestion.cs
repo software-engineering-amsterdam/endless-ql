@@ -6,7 +6,7 @@ namespace Assignment1.Model.QL.AST
     {
         public IExpression Computation { get; }
 
-        public ComputedQuestion(string id, string label, Type type, IExpression computation) : base(id, label, type)
+        public ComputedQuestion(int lineNumber, string id, string label, Type type, IExpression computation) : base(lineNumber, id, label, type)
         {
             Computation = computation;
         }

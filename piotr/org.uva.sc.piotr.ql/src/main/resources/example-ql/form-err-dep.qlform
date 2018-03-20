@@ -1,0 +1,9 @@
+form dependencyErrorExample
+{
+  "A" a: integer = d + 1
+  "B" b: integer
+  "C" c: integer = a + b
+  "D" d: integer = c + 5
+  "E" e: integer
+  "F" f: integer = e + 10
+}

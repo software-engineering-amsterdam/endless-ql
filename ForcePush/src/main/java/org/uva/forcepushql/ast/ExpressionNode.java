@@ -16,29 +16,89 @@ abstract class InfixExpressionNode extends ExpressionNode
 }
 
 
-class AdditionNode extends InfixExpressionNode { }
+class AdditionNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class SubtractionNode extends InfixExpressionNode { }
+class SubtractionNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class MultiplicationNode extends InfixExpressionNode { }
+class MultiplicationNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class DivisionNode extends InfixExpressionNode { }
+class DivisionNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class AndNode extends InfixExpressionNode { }
+class AndNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class OrNode extends InfixExpressionNode { }
+class OrNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class LessNode extends InfixExpressionNode{ }
+class LessNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class GreaterNode extends InfixExpressionNode{ }
+class GreaterNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class EqualLessNode extends InfixExpressionNode{ }
+class EqualLessNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class EqualGreaterNode extends InfixExpressionNode{ }
+class EqualGreaterNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class NotEqualNode extends InfixExpressionNode{ }
+class NotEqualNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class IsEqualNode extends InfixExpressionNode{ }
+class IsEqualNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
 class NegateNode extends ExpressionNode
 {
@@ -50,6 +110,11 @@ class NegateNode extends ExpressionNode
 
     public Node getInnerNode() {
         return InnerNode;
+    }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
     }
 }
 
@@ -63,6 +128,11 @@ class Variable extends ExpressionNode{
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class NumberNode extends ExpressionNode
@@ -75,6 +145,11 @@ class NumberNode extends ExpressionNode
     }
 
     public int getValue() { return this.value; }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class DecimalNode extends ExpressionNode
@@ -87,4 +162,9 @@ class DecimalNode extends ExpressionNode
     }
 
     public double getValue() { return this.value; }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }

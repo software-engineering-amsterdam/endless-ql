@@ -40,45 +40,45 @@ class ReferenceVisitor(object):
 
     @when(FormNode)
     def visit(self, node):
-        self.__current_scope = {"id": self.__scope_id,
-                                "content": [],
-                                "children": []}
+        self.__current_scope = {'id': self.__scope_id,
+                                'content': [],
+                                'children': []}
 
         self.__current_block = []
 
         for child in node.block:
             child.accept(self)
 
-        self.__current_scope["content"] = self.__current_block
+        self.__current_scope['content'] = self.__current_block
 
     @when(IfNode)
     def visit(self, node):
         node.condition.accept(self)
 
-        self.__current_scope["content"] += self.__current_block
+        self.__current_scope['content'] += self.__current_block
         previous_scope = self.__current_scope
         previous_block = self.__current_block
 
         self.__current_block = []
-        self.__current_scope = {"id": self.__scope_id,
-                                "content": [],
-                                "children": []}
+        self.__current_scope = {'id': self.__scope_id,
+                                'content': [],
+                                'children': []}
 
         for child in node.block:
             child.accept(self)
 
-        self.__current_scope["content"] = self.__current_block
+        self.__current_scope['content'] = self.__current_block
 
-        previous_scope["children"].append(self.__current_scope)
+        previous_scope['children'].append(self.__current_scope)
 
         self.__current_block = previous_block
         self.__current_scope = previous_scope
 
     @when(QuestionNode)
     def visit(self, node):
-        self.__current_block.append(dict({"name": node.identifier,
-                                          "type": node.answer_type,
-                                          "position": node.position}))
+        self.__current_block.append(dict({'name': node.identifier,
+                                          'type': node.answer_type,
+                                          'position': node.position}))
 
         if node.computed:
             node.answer.accept(self)
@@ -166,6 +166,6 @@ class ReferenceVisitor(object):
     @when(VariableNode)
     def visit(self, node):
         name = node.identifier
-        self.__current_block.append({"name": name,
-                                     "type": [],
-                                     "position": node.position})
+        self.__current_block.append({'name': name,
+                                     'type': [],
+                                     'position': node.position})

@@ -9,8 +9,8 @@ import scala.util.{ Try, Success, Failure }
 
 case class IdentifierNotDeclared(label: String) extends Exception(label)
 
-object IdentifierValidator {
-  def check(node: ASTNode): Option[Exception] = {
+class IdentifierValidator extends BaseValidator {
+  def execute(node: ASTNode): Option[Exception] = {
     val forms = ASTCollector.getFormBody(node)
 
     val declaredIdentifiers = forms.flatMap(ASTCollector.getVarDecls).flatMap(ASTCollector.getIdentifiers)

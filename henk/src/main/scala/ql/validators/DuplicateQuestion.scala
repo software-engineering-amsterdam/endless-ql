@@ -9,8 +9,8 @@ import scala.util.{Try, Success, Failure}
 
 case class DuplicateQuestionDeclaration(label: String) extends Exception(label)
 
-object DuplicateQuestion {
-  def check(ast: ASTNode): Option[Exception] = {
+class DuplicateQuestionValidator extends BaseValidator {
+  def execute(ast: ASTNode): Option[Exception] = {
     val questions = ASTCollector.getQuestions(ast)
 
     questions.forEach { question =>

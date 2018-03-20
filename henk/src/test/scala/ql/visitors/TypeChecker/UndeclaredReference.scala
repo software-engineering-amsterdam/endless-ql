@@ -14,13 +14,14 @@ import org.antlr.v4.runtime.tree._
 
 class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
   val resourceDir = "ql/typechecking"
+  val validator = new IdentifierValidator()
 
   describe("when typechecking a simple valid form") {
     val filename = s"${resourceDir}/simple.ql"
     val form = FormHelper.getForm(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      IdentifierValidator.check(form) match {
+      validator.execute(form) match {
         case None => succeed
         case Some(IdentifierNotDeclared(e)) => fail(e)
         case other => fail("ConditionalValidator should not have thrown an error")
@@ -33,7 +34,7 @@ class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getForm(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      IdentifierValidator.check(form) match {
+      validator.execute(form) match {
         case None => fail()
         case Some(IdentifierNotDeclared(e)) => succeed
         case other => fail("wrong error thrown")
@@ -46,7 +47,7 @@ class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getForm(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      IdentifierValidator.check(form) match {
+      validator.execute(form) match {
         case None => fail()
         case Some(IdentifierNotDeclared(e)) => succeed
         case other => fail("wrong error thrown")

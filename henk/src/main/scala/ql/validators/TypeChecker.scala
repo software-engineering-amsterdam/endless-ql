@@ -11,16 +11,18 @@ import scala.util.{Try, Success, Failure}
 class TypeChecker() {
 
   var error: Exception = null
+  val warnings = List()
+
+  val validatorList: List[BaseValidator] = List(
+    new IdentifierValidator(),
+    new ConditionalValidator(),
+    new DuplicateQuestionValidator(),
+    new DuplicateLabelValidator()
+  )
 
   def checkValidators(node: ASTNode): Option[Exception] = {
-    val validatorList = List(
-      IdentifierValidator.check _,
-      ConditionalValidator.check _,
-      DuplicateQuestion.check _
-    )
-
-    val result = validatorList.flatMap(vc => {
-      vc(node) match {
+    validatorList.map(vc => {
+      vc.execute(node) match {
         case bv @ Some(ex: IdentifierNotDeclared) => {
           error = ex
           return bv
@@ -33,7 +35,7 @@ class TypeChecker() {
           error = ex
           return bv
         }
-        case other => None
+        case other => other
       }
     })
     None

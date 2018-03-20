@@ -14,6 +14,7 @@ import org.antlr.v4.runtime.tree._
 
 class BinOpConditional extends FunSpec with BeforeAndAfter {
   val resourceDir = "ql/typechecking/conditions/binop"
+  val validator = new ConditionalValidator()
 
   describe("conjunction") {
     describe("containing a left nested boolean and money binop") {
@@ -21,7 +22,7 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       val form = FormHelper.getForm(getClass.getResource(filename))
 
       it("check should return an option exception") {
-        ConditionalValidator.check(form) match {
+        validator.execute(form) match {
           case None => fail()
           case Some(ConditionalNotBoolean(e)) => succeed
           case other => fail("wrong error thrown")
@@ -34,7 +35,7 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       val form = FormHelper.getForm(getClass.getResource(filename))
 
       it("check should return an option exception") {
-        ConditionalValidator.check(form) match {
+        validator.execute(form) match {
           case None => fail()
           case Some(ConditionalNotBoolean(e)) => succeed
           case other => fail("wrong error thrown")
@@ -47,7 +48,7 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       val form = FormHelper.getForm(getClass.getResource(filename))
 
       it("check should not return an option exception") {
-        ConditionalValidator.check(form) match {
+        validator.execute(form) match {
           case None => succeed
           case Some(ConditionalNotBoolean(e)) => fail(e)
           case other => fail("ConditionalValidator should not have thrown an error")
@@ -59,7 +60,7 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       val filename = s"${resourceDir}/left_not_binop.ql"
       val form = FormHelper.getForm(getClass.getResource(filename))
       it("check should not return an option exception") {
-        ConditionalValidator.check(form) match {
+        validator.execute(form) match {
           case None => succeed
           case Some(ConditionalNotBoolean(e)) => fail(e)
           case other => fail("ConditionalValidator should not have thrown an error")
@@ -72,7 +73,7 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       val form = FormHelper.getForm(getClass.getResource(filename))
 
       it("check should return an option exception") {
-        ConditionalValidator.check(form) match {
+        validator.execute(form) match {
           case None => fail()
           case Some(ConditionalNotBoolean(e)) => succeed
           case other => fail("wrong error thrown")
@@ -87,7 +88,7 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       val form = FormHelper.getForm(getClass.getResource(filename))
 
       it("check should not return an option exception") {
-        ConditionalValidator.check(form) match {
+        validator.execute(form) match {
           case None => succeed
           case Some(ConditionalNotBoolean(e)) => fail(e)
           case other => fail("ConditionalValidator should not have thrown an error")
@@ -100,7 +101,7 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       val form = FormHelper.getForm(getClass.getResource(filename))
 
       it("check should return an option exception") {
-        ConditionalValidator.check(form) match {
+        validator.execute(form) match {
           case None => fail()
           case Some(ConditionalNotBoolean(e)) => succeed
           case other => fail("wrong error thrown")
@@ -115,7 +116,7 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       val form = FormHelper.getForm(getClass.getResource(filename))
 
       it("check should not return an option exception") {
-        ConditionalValidator.check(form) match {
+        validator.execute(form) match {
           case None => succeed
           case Some(ConditionalNotBoolean(e)) => fail(e)
           case other => fail("ConditionalValidator should not have thrown an error")
@@ -128,7 +129,7 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       val form = FormHelper.getForm(getClass.getResource(filename))
 
       it("check should return an option exception") {
-        ConditionalValidator.check(form) match {
+        validator.execute(form) match {
           case None => fail()
           case Some(ConditionalNotBoolean(e)) => succeed
           case other => fail("wrong error thrown")
@@ -141,7 +142,7 @@ class BinOpConditional extends FunSpec with BeforeAndAfter {
       val form = FormHelper.getForm(getClass.getResource(filename))
 
       it("check should not return an option exception") {
-        ConditionalValidator.check(form) match {
+        validator.execute(form) match {
           case None => succeed
           case Some(ConditionalNotBoolean(e)) => fail(e)
           case other => fail("ConditionalValidator should not have thrown an error")

@@ -13,7 +13,7 @@ import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree._
 
 class TypeInferenceSpec extends FunSpec with BeforeAndAfter {
-  val validator = ConditionalValidator
+  val validator = new ConditionalValidator
 
   describe("matching return type") {
     describe("Logical operands") {

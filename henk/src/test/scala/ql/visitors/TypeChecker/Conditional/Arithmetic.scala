@@ -14,13 +14,14 @@ import org.antlr.v4.runtime.tree._
 
 class ArithmeticOpSpec extends FunSpec with BeforeAndAfter {
   val resourceDir = "ql/typechecking/conditions/arithmetic"
+  val validator = new ConditionalValidator()
 
   describe("containing valid not boolean expression in unary") {
     val filename = s"${resourceDir}/simple.ql"
     val form = FormHelper.getForm(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      ConditionalValidator.check(form) match {
+      validator.execute(form) match {
         case None => succeed
         case Some(ConditionalNotBoolean(e)) => fail(e)
         case other => fail("ConditionalValidator should not have thrown an error")

@@ -9,8 +9,8 @@ import scala.util.{Try, Success, Failure}
 
 case class ConditionalNotBoolean(label: String) extends Exception(label)
 
-object ConditionalValidator {
-  def check(ast: ASTNode): Option[Exception] = {
+class ConditionalValidator extends BaseValidator {
+  def execute(ast: ASTNode): Option[Exception] = {
     val ifStmts = ASTCollector.getIfStatement(ast)
 
     ifStmts.forEach { stmt =>

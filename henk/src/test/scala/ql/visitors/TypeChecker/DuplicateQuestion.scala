@@ -14,13 +14,14 @@ import org.antlr.v4.runtime.tree._
 
 class DuplicateQuestionSpec extends FunSpec with BeforeAndAfter {
   val resourceDir = "ql/typechecking/duplicate_question"
+  val validator = new DuplicateQuestionValidator()
 
   describe("when form contains no duplicate questions") {
     val filename = s"${resourceDir}/simple.ql"
     val form = FormHelper.getForm(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      DuplicateQuestion.check(form) match {
+      validator.execute(form) match {
         case None => succeed
         case Some(DuplicateQuestionDeclaration(e)) => fail(e)
         case other => fail("ConditionalValidator should not have thrown an error")
@@ -33,7 +34,7 @@ class DuplicateQuestionSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getForm(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      DuplicateQuestion.check(form) match {
+      validator.execute(form) match {
         case None => succeed
         case Some(DuplicateQuestionDeclaration(e)) => fail(e)
         case other => fail("ConditionalValidator should not have thrown an error")
@@ -46,7 +47,7 @@ class DuplicateQuestionSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getForm(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      DuplicateQuestion.check(form) match {
+      validator.execute(form) match {
         case None => fail()
         case Some(DuplicateQuestionDeclaration(e)) => succeed
         case other => fail("wrong error thrown")

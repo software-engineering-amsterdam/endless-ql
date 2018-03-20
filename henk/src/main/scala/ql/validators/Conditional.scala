@@ -27,7 +27,7 @@ class ConditionalValidator extends BaseValidator {
   }
 
   def isBooleanIdentifier(node: ASTIdentifier, ast: ASTNode): Boolean = {
-    infereType(node, ast) match {
+    ValidatorHelper.infereType(node, ast) match {
       case Some(ASTBoolean()) => true
       case other => false
     }
@@ -43,51 +43,16 @@ class ConditionalValidator extends BaseValidator {
   }
 
   def validateBinOp(binOp: ASTNode, ast: ASTNode): Boolean = {
-    infereType(binOp, ast) match {
+    ValidatorHelper.infereType(binOp, ast) match {
       case Some(ASTBoolean()) => true
       case other => false
     }
   }
 
   def validateUnOp(unOp: ASTNode, ast: ASTNode): Boolean = {
-    infereType(unOp, ast) match {
+    ValidatorHelper.infereType(unOp, ast) match {
       case Some(ASTBoolean()) => true
       case other => false
-    }
-  }
-
-  def matchReturnType(op: ASTNode, nodeType: ASTNode): Option[ASTNode] = {
-    (op, nodeType) match {
-      case (bv1: ASTRelationalOp, ASTInteger()) => Some(ASTBoolean())
-      case (bv1: ASTRelationalOp, ASTMoney()) => Some(ASTBoolean())
-      case (bv1: ASTArithmeticOp, ASTInteger()) => Some(ASTInteger())
-      case (bv1: ASTArithmeticOp, ASTMoney()) => Some(ASTMoney())
-      case (bv1: ASTLogicalOp, ASTBoolean()) => Some(ASTBoolean())
-      case (bv1: ASTEqualityOp, _) => Some(ASTBoolean())
-      case other => None
-    }
-  }
-
-  def infereType(node: ASTNode, ast: ASTNode): Option[ASTNode] = {
-    node match {
-      case ASTIntegerValue(_) => Some(ASTInteger())
-      case ASTBoolean() => Some(ASTBoolean())
-      case bv @ ASTIdentifier(_) => ASTCollector.getTypeDecl(bv, ast)
-      case bv @ ASTBinary(_,_, op: ASTNode) => {
-        val typeLeft = infereType(bv.lhs, ast)
-        val typeRight = infereType(bv.rhs, ast)
-
-        (typeLeft, typeRight) match {
-          case (Some(lhs), Some(rhs)) if lhs == rhs => {
-            matchReturnType(op, lhs)
-          }
-          case other => None
-        }
-      }
-      case ASTUnary(expr: ASTNode, _) => {
-        infereType(expr, ast)
-      }
-      case other => None
     }
   }
 }

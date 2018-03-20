@@ -15,7 +15,7 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("nonExisting")
+                  Question("nonExisting", None)
                 ))
             ))
         ))
@@ -36,7 +36,7 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("nonExisting")
+                  Question("nonExisting", None)
                 ))
             )),
           Page(
@@ -45,7 +45,7 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("countMeOut")
+                  Question("countMeOut", None)
                 ))
             ))
         )
@@ -67,7 +67,7 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("letsStayTogether")
+                  Question("letsStayTogether", None)
                 ))
             ))
         ))
@@ -88,7 +88,7 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("notMe")
+                  Question("notMe", None)
                 ))
             )),
           Page(
@@ -97,7 +97,7 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("letsStayTogether")
+                  Question("letsStayTogether", None)
                 ))
             ))
         )
@@ -119,7 +119,7 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("letsStayTogether")
+                  Question("letsStayTogether", None)
                 ))
             )),
           Page(
@@ -128,7 +128,7 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("letsStayTogether")
+                  Question("letsStayTogether", None)
                 ))
             ))
         )
@@ -152,11 +152,11 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("questionOne")
+                  Question("questionOne", None)
                 ))
             ))
         ))
-      val expected = Seq(Question("questionOne"))
+      val expected = Seq(Question("questionOne", None))
 
       val actual = stylesheet.collectAllQuestions()
 
@@ -173,18 +173,18 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("questionOne")
+                  Question("questionOne", None)
                 )
               ),
               Section(
                 "SectionTwo",
                 Seq(
-                  Question("questionTwo")
+                  Question("questionTwo", None)
                 ))
             ))
         )
       )
-      val expected = Seq(Question("questionOne"), Question("questionTwo"))
+      val expected = Seq(Question("questionOne", None), Question("questionTwo", None))
 
       val actual = stylesheet.collectAllQuestions()
 
@@ -201,14 +201,14 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("questionOne"),
-                  Question("questionTwo")
+                  Question("questionOne", None),
+                  Question("questionTwo", None)
                 )),
               Section(
                 "SectionTwo",
                 Seq(
-                  Question("questionThree"),
-                  Question("questionFour")
+                  Question("questionThree", None),
+                  Question("questionFour", None)
                 ))
             )
           ),
@@ -218,19 +218,19 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionThree",
                 Seq(
-                  Question("questionFive"),
-                  Question("questionSix")
+                  Question("questionFive", None),
+                  Question("questionSix", None)
                 ))
             ))
         )
       )
       val expected = Seq(
-        Question("questionOne"),
-        Question("questionTwo"),
-        Question("questionThree"),
-        Question("questionFour"),
-        Question("questionFive"),
-        Question("questionSix"))
+        Question("questionOne", None),
+        Question("questionTwo", None),
+        Question("questionThree", None),
+        Question("questionFour", None),
+        Question("questionFive", None),
+        Question("questionSix", None))
 
       val actual = stylesheet.collectAllQuestions()
 

@@ -11,24 +11,34 @@ STRING       : 'string' ;
 DECIMAL      : 'decimal' ;
 MONEY        : 'money' ;
 DATE         : 'date' ;
+WIDGET       : 'widget' ;
+CHECKBOX     : 'checkbox' ;
+SPINGBOX     : 'spinbox' ;
+RADIO        : 'radio' ;
 
 CURLY_LEFT   : '{' ;
 CURLY_RIGHT  : '}' ;
 
-BRACK_LEFT   : '(' ;
-BRACK_RIGHT  : ')' ;
+BRACKET_LEFT  : '(' ;
+BRACKET_RIGHT : ')' ;
 
-DOUBLE_COLON : ':' ;
+DOUBLE_COLON  : ':' ;
+COMMA         : ',' ;
 
 Identifier   : [a-zA-Z0-9_]+ ;
 
-Text       : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); } ;
+Text         : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); } ;
 
 WHITESPACE   : [ \t\r\n]+ -> skip ;
 COMMENT      : '//' .*? '\n' -> skip ;
 
 
-stylesheet : STYLESHEET name=Identifier CURLY_LEFT page+ CURLY_RIGHT EOF ;
-page       : PAGE name=Identifier CURLY_LEFT section+ CURLY_RIGHT ;
-section    : SECTION name=Text CURLY_LEFT question+ CURLY_RIGHT ;
-question   : QUESTION name=Identifier ;
+stylesheet    : STYLESHEET name=Identifier CURLY_LEFT page+ CURLY_RIGHT EOF ;
+page          : PAGE name=Identifier CURLY_LEFT section+ CURLY_RIGHT ;
+section       : SECTION name=Text questionBlock ;
+questionBlock : CURLY_LEFT questions+=question+ CURLY_RIGHT
+              | questions+=question ;
+widgetType    : CHECKBOX
+              | SPINGBOX
+              | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT ;
+question      : QUESTION name=Identifier (WIDGET widgetType)? ;

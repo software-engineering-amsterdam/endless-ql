@@ -2,7 +2,7 @@ stylesheet EditOrNotToEdit {
     page PageOne {
         section "Variables" {
             question stringVariable
-            question booleanVariable
+            question booleanVariable widget radio("Ja", "Nee")
             question integerVariable
             question decimalVariable
             question moneyVariable

@@ -35,4 +35,6 @@ object QLSGUIQuestion {
     new QLSGUIQuestion(id, answerType, label, isReadOnly, visibility)
   def apply(question: GUIQuestion) =
     new QLSGUIQuestion(question.id, question.answerType, question.label, question.isReadOnly, question.visibility)
+  def apply(question: GUIQuestion, styling: Styling) =
+    new QLSGUIQuestion(question.id, question.answerType, question.label, question.isReadOnly, question.visibility, Some(styling))
 }

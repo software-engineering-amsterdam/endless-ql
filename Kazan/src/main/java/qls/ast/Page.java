@@ -1,18 +1,17 @@
 package qls.ast;
 
-import qls.ast.SourceLocation;
 import qls.ast.components.Component;
 
 import java.util.List;
 
 public class Page extends ASTNode {
 
-    private String id;
+    private String identifier;
     private List<Component> components;
 
-    public Page(String id, List<Component> components, SourceLocation sourceLocation) {
+    public Page(String identifier, List<Component> components, SourceLocation sourceLocation) {
         super(sourceLocation);
-        this.id = id;
+        this.identifier = identifier;
         this.components = components;
     }
 

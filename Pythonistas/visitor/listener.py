@@ -18,8 +18,6 @@ def listen(tree):
 
 class QLListener(ParseTreeListener):
     def __init__(self):
-
-        self.inIf = False
         self.errorMessage = None
         self.questionIDs = [] # Ordered list of question IDs.
         self.questions = {}  # Ordered list of question objects
@@ -53,16 +51,22 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#question.
     def enterQuestion(self, ctx:QLParser.QuestionContext):
-        # Filters necessary information from the node
-        children = ctx.getChildren()
-        question = children.__next__().getText()
-        questionID = children.__next__().getText()
+        # print(dir(ctx))
+        # print(dir(ctx.declaration())) # todo: how to communicate proper between parents and children?
+        # if len(ctx.declaration()) > 0:
+        #     print(ctx.declaration()[0].getText())
+        #     print(dir(ctx.declaration()[0]))
+        #     print(ctx.declaration()[0].EMPTY)
+
+        # Gets necessary information from the node
+        question = ctx.STRING().getText()
+        questionID = ctx.ID().getText()
+        datatype = ctx.type().getText()
 
         if questionID in self.questionIDs:
             self.errorMessage = "Error: duplicate question IDs: {}".format(questionID)
             return
-        children.__next__()
-        datatype = children.__next__().getText()
+
         if datatype == 'boolean':
             questionObject = question_classes.BooleanQuestion(questionID, question)
             choices = ['Yes','No']  # todo: make flexible
@@ -92,7 +96,12 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#declaration.
     def enterDeclaration(self, ctx:QLParser.DeclarationContext):
-        pass
+        # print(dir(ctx))
+        # print(ctx.value().getText())
+        # print(ctx.parentCtx.getText())
+        # print((ctx.parentCtx.ID().getText()))
+        self.questions[ctx.parentCtx.ID().getText()].textInputBox = QtWidgets.QLabel(ctx.value().getText())
+        # pass
 
     # Exit a parse tree produced by QLParser#declaration.
     def exitDeclaration(self, ctx:QLParser.DeclarationContext):
@@ -118,6 +127,8 @@ class QLListener(ParseTreeListener):
         children = ctx.getChildren()
 
         # Picks out the ID of the question that is the argument of the if
+        # print(children.__next__().getText())
+        # print(children.__next__().getText())
         children.__next__()
         children.__next__()
         conditionalID = children.__next__().getText()

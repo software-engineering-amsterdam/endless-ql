@@ -8,7 +8,7 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
     @Override
     public String visit(Node node) {
         if (node instanceof ExpressionNode) {
-            return String.valueOf(visit((ExpressionNode) node));
+            return visit((ExpressionNode) node);
         }
 
         else if(node instanceof FormNode){
@@ -35,9 +35,18 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
             return visit((QuestionNode) node);
         }
 
+        else if (node instanceof ConditionalElseNode){
+            return visit((ConditionalElseNode)node);
+        }
+
         else if (node instanceof ConditionalIfNode) {
             return visit((ConditionalIfNode) node);
         }
+
+        else if (node instanceof ConditionalIfElseNode){
+            return visit((ConditionalIfElseNode)node);
+        }
+
 
         return "0.0";
     }
@@ -57,11 +66,35 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
         for (Node n: node.getQuestions()) {
             result += visit(n);
         }
+
+        result+= visit(node.getAfter());
+
         return result;
     }
 
     @Override
-    public double visit(ExpressionNode node) {
+    public String visit(ConditionalIfElseNode node) {
+        String result = "\nIf Condition: " + visit(node.getCondition()) + " Questions: ";
+        for (Node n: node.getQuestions()) {
+            result += visit(n);
+        }
+
+        return result;
+    }
+
+    @Override
+    public String visit(ConditionalElseNode node) {
+        String result = "\nElse Conditional > Questions: ";
+        for (Node n: node.getQuestions()) {
+            result += visit(n);
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public String visit(ExpressionNode node) {
         if (node instanceof AdditionNode)
         {
             return visit((AdditionNode) node);
@@ -69,6 +102,12 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
         else if(node instanceof NumberNode)
         {
             return visit((NumberNode) node);
+        }
+        else if (node instanceof Variable){
+            return visit((Variable)node);
+        }
+        else if (node instanceof DecimalNode){
+            return visit((DecimalNode)node);
         }
         else if(node instanceof SubtractionNode)
         {
@@ -86,43 +125,115 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
         {
             return visit((DivisionNode) node);
         }
+        else if(node instanceof AndNode)
+        {
+            return visit((AndNode) node);
+        }
+        else if(node instanceof OrNode)
+        {
+            return visit((OrNode) node);
+        }
+        else if(node instanceof LessNode)
+        {
+            return visit((LessNode) node);
+        }
+        else if(node instanceof GreaterNode)
+        {
+            return visit((GreaterNode) node);
+        }
+        else if(node instanceof EqualLessNode)
+        {
+            return visit((EqualLessNode) node);
+        }
+        else if(node instanceof EqualGreaterNode)
+        {
+            return visit((EqualGreaterNode) node);
+        }
+        else if(node instanceof NotEqualNode)
+        {
+            return visit((NotEqualNode) node);
+        }
+        else if(node instanceof IsEqualNode)
+        {
+            return visit((IsEqualNode) node);
+        }
         else {
             try {
                 throw new Exception();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return 0.0;
+            return "0.0";
         }
 
     }
 
-    public double visit(AdditionNode node)
+    public String visit(AdditionNode node)
     {
-        double result = Double.valueOf(visit(node.getLeft())) + Double.valueOf(visit(node.getRight()));
-        return result;
+        return visit(node.getLeft()) + " + " + visit(node.getRight());
     }
 
-    public double visit(SubtractionNode node)
+    public String visit(SubtractionNode node)
     {
-        return Double.valueOf(visit(node.getLeft())) - Double.valueOf(visit(node.getRight()));
+        return visit(node.getLeft()) + " - " + visit(node.getRight());
     }
 
-    public double visit(MultiplicationNode node) {
-        return Double.valueOf(visit(node.getLeft())) * Double.valueOf(visit(node.getRight())); }
+    public String visit(MultiplicationNode node) {
+        return visit(node.getLeft()) + " * " + visit(node.getRight()); }
 
-    public double visit(DivisionNode node)
+    public String visit(DivisionNode node)
     {
         double divisor = Double.valueOf(visit(node.getRight()));
-        if (divisor != 0.0)
+        if (divisor != 0.0 || !String.valueOf(divisor).equals("0.0"))
         {
-        return Double.valueOf(visit(node.getLeft())) / Double.valueOf(visit(node.getRight()));
+        return visit(node.getLeft()) + " / " + visit(node.getRight());
         }else { throw new ArithmeticException("Division by zero."); }
     }
 
-    public double visit(NegateNode node)
+    @Override
+    public String visit(AndNode node) {
+        return visit(node.getLeft()) + " && " + visit(node.getRight());
+    }
+
+    @Override
+    public String visit(OrNode node) {
+        return visit(node.getLeft()) + " || " + visit(node.getRight());
+    }
+
+    @Override
+    public String visit(LessNode node) {
+        return visit(node.getLeft()) + " < " + visit(node.getRight());
+    }
+
+    @Override
+    public String visit(GreaterNode node) {
+        return visit(node.getLeft()) + " > " + visit(node.getRight());
+    }
+
+    @Override
+    public String visit(EqualLessNode node) {
+        return visit(node.getLeft()) + " <= " + visit(node.getRight());
+    }
+
+    @Override
+    public String visit(EqualGreaterNode node) {
+        return visit(node.getLeft()) + " >= " + visit(node.getRight());
+    }
+
+    @Override
+    public String visit(NotEqualNode node) {
+        return visit(node.getLeft()) + " != " + visit(node.getRight());
+    }
+
+    @Override
+    public String visit(IsEqualNode node) {
+        return visit(node.getLeft()) + " == " + visit(node.getRight());
+    }
+
+
+    public String visit(NegateNode node)
     {
-        return -(Double.valueOf(visit(node.getInnerNode())));
+        return "!" + visit(node.getInnerNode());
     }
 
     @Override
@@ -151,14 +262,20 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
         return "Type: " + node.getType() + ";";
     }
 
-    public double visit(NumberNode node){
-        return node.getValue();
+    @Override
+    public String visit(Variable node) {
+        return node.getName();
     }
 
-    public double visit(InfixExpressionNode node)
-    {
-        return Double.valueOf(visit(node.getLeft()));
+    @Override
+    public String visit(DecimalNode node) {
+        return String.valueOf(node.getValue());
     }
+
+    public String visit(NumberNode node){
+        return String.valueOf(node.getValue());
+    }
+
 
 
 }

@@ -8,7 +8,7 @@ from ql.types.boolean import QLBoolean
 from ql.types.date import QLDate
 from ql.types.decimal import QLDecimal
 from ql.types.integer import QLInteger
-from debug.debug import error
+from debug.debug import Debug
 
 
 class QLLexer:
@@ -96,7 +96,7 @@ class QLLexer:
             t.value = QLDate(numbers)
             return t
         except SyntaxError:
-            error([t.lineno], 'Invalid date.')
+            Debug(pyqt5=False).error([t.lineno], 'Invalid date.')
 
     @staticmethod
     def t_DECIMAL_LITERAL(t):
@@ -124,7 +124,7 @@ class QLLexer:
 
     # Define a rule for handling all non-tokens
     def t_VARIABLE(self, t):
-        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        r'[a-z][a-zA-Z_0-9]*'
         t.type = self.reserved.get(t.value, 'VARIABLE')  # Check for reserved words
         return t
 

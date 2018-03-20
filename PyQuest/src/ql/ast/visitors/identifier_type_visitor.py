@@ -30,5 +30,5 @@ class IdentifierTypeVisitor(object):
 
     @when(QuestionNode)
     def visit(self, node):
-        self.__symbol_table.append({"identifier": node.identifier,
-                                    "answer_type": node.answer_type})
+        self.__symbol_table.append({'identifier': node.identifier,
+                                    'answer_type': node.answer_type})

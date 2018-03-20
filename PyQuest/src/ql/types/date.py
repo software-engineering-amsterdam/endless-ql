@@ -1,7 +1,7 @@
 from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.date_node import DateNode
-from gui.model.widgets import CalendarWidget
+from gui.widgets.calendar import CalendarWidget
 
 
 class QLDate(QLType):

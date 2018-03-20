@@ -9,11 +9,12 @@ namespace Assignment1.Model.QL.AST
         public List<Statement> ThenStatements { get; }
         public List<Statement> ElseStatements { get; }
 
-        public IfStatement(IExpression condition, List<Statement> thenStatements)
-            : this(condition, thenStatements, new List<Statement>()) { }
+        public IfStatement(int lineNumber, IExpression condition, List<Statement> thenStatements)
+            : this(lineNumber, condition, thenStatements, new List<Statement>()) { }
 
-        public IfStatement(IExpression condition, List<Statement> thenStatements, List<Statement> elseStatements)
+        public IfStatement(int lineNumber, IExpression condition, List<Statement> thenStatements, List<Statement> elseStatements)
         {
+            _lineNumber = lineNumber;
             Condition = condition;
             ThenStatements = thenStatements;
             ElseStatements = elseStatements;

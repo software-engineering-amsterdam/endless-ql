@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Assignment1.Model.QL;
+using Assignment1.Model.QL.RenderTree;
+using Assignment1.Model.QL.RenderTree.QLExpression;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Assignment1Tests

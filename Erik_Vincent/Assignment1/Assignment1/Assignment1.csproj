@@ -73,6 +73,7 @@
     <Compile Include="Model\QLS\AST\Style\Widget\TextBox.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\YesNoWidget.cs" />
     <Compile Include="Model\QLS\AST\Style\Width.cs" />
+    <Compile Include="Model\QL\AST\QLNode.cs" />
     <Compile Include="Model\QL\RenderTree\AnswerType.cs" />
     <Compile Include="Model\QL\AST\ComputedQuestion.cs" />
     <Compile Include="Model\QL\AST\Expression\Add.cs" />

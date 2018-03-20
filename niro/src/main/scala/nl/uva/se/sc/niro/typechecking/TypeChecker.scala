@@ -128,14 +128,14 @@ object TypeChecker extends Logging {
     case Reference(questionId) => symbolTable(questionId).answerType.asRight
 
     case UnaryOperation(operator: Operator, expression) =>
-      typeOf(expression, symbolTable).flatMap(answerType => checkOperandAndOperator(operator, answerType))
+      typeOf(expression, symbolTable).flatMap(_.typeOf(operator))
 
     case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
       for {
         leftType <- typeOf(leftExpression, symbolTable)
-        leftTypeAfterOperation <- checkOperandAndOperator(operator, leftType)
+        leftTypeAfterOperation <- leftType.typeOf(operator)
         rightType <- typeOf(rightExpression, symbolTable)
-        rightTypeAfterOperation <- checkOperandAndOperator(operator, rightType)
+        rightTypeAfterOperation <- rightType.typeOf(operator)
         result <- checkLeftRight(leftTypeAfterOperation, rightTypeAfterOperation)
       } yield result
 
@@ -153,35 +153,6 @@ object TypeChecker extends Logging {
       TypeCheckError(message = s"Operands of invalid type: $leftType, $rightType").asLeft
     else
       rightType.asRight
-  }
-
-  // TODO make typecheckable type class
-  private def checkOperandAndOperator(operator: Operator, operand: AnswerType): Either[TypeCheckError, AnswerType] = {
-    operator match {
-      case _: ArithmeticOperator =>
-        operand match {
-          case IntegerType => IntegerType.asRight
-          case DecimalType => DecimalType.asRight
-          case MoneyType   => MoneyType.asRight
-          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
-        }
-      case _: BooleanOperator =>
-        operand match {
-          case IntegerType => BooleanType.asRight
-          case DecimalType => BooleanType.asRight
-          case MoneyType   => BooleanType.asRight
-          case BooleanType => BooleanType.asRight
-          case DateType    => BooleanType.asRight
-          case StringType  => BooleanType.asRight
-          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
-        }
-      case _: LogicalOperator =>
-        operand match {
-          case BooleanType => BooleanType.asRight
-          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
-        }
-      case _ => TypeCheckError(message = s"Operator: $operator not implemented").asLeft
-    }
   }
 
   private def checkDuplicateLabels(qLForm: QLForm): QLForm = {

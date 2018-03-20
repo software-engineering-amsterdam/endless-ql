@@ -34,16 +34,16 @@ class MainWindow(QtWidgets.QWidget):
         self.layout.addWidget(self.outputFrame)
 
         # When the signal parseIsPressed is given by inputFrame, MainWindow takes necessary actions to parse
-        self.inputFrame.parseIsPressed.connect(self.initiate_outputFrame)
+        # self.inputFrame.parseIsPressed.connect(self.initiate_outputFrame)
         self.inputFrame.parseIsPressed.connect(self.parse)
 
-    def initiate_outputFrame(self):
+    def initiate_outputFrame(self,questionIDs=[], questions={}):
         # Removes the old outputFrame from the window
         self.outputFrame.setParent(None)
         self.outputFrame.destroy()
 
         # Reinitializes outputframe
-        self.outputFrame = OutputFrame()
+        self.outputFrame = OutputFrame(questionIDs, questions)
 
         self.layout.addWidget(self.outputFrame)
 
@@ -54,18 +54,19 @@ class MainWindow(QtWidgets.QWidget):
             ql_data.set_ql_grammar_text(ql_text)
             ql_data.run_antlr_ql()
             # if error in tree:
-            #   addwidget errormessgae
-            exitMessage = listen(ql_data.ql_tree, self.outputFrame)
+            #   addwidget errormessage
+            [errorMessage, questionIDs, questions] = listen(ql_data.ql_tree)
+            self.initiate_outputFrame(questionIDs, questions)
             self.outputFrame.add_submit_button()
 
-            if exitMessage:
+            if errorMessage:
                 self.initiate_outputFrame()
-                self.outputFrame.frameLayout.addWidget(QtWidgets.QLabel(exitMessage))
+                self.outputFrame.frameLayout.addWidget(QtWidgets.QLabel(errorMessage))
             else:
-                self.outputFrame.check_duplicate_questionIDs()
+                self.outputFrame.check_duplicate_questions()
 
         else:  # todo: if garbage in, this error message out.
-            self.outputFrame.no_tree_message()
+            self.outputFrame.addWidget(QtWidgets.QLabel("QL input missing"))
             # pass
 
         if qls_text:

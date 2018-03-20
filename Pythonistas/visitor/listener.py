@@ -8,19 +8,21 @@ from PyQt5 import QtCore
 from gui import question_classes
 
 
-def listen(tree, outputFrame):
+def listen(tree):
     # print(tree.toStringTree())
-    ql = QLListener(outputFrame)
+    ql = QLListener()
     walker = ParseTreeWalker()
     walker.walk(ql, tree)
-    return ql.errorMessage
+    return [ql.errorMessage,ql.questionIDs,ql.questions]
 
 
 class QLListener(ParseTreeListener):
-    def __init__(self, outputFrame):
-        self.outputFrame = outputFrame
+    def __init__(self):
+
         self.inIf = False
         self.errorMessage = None
+        self.questionIDs = [] # Ordered list of question IDs.
+        self.questions = {}  # Ordered list of question objects
 
     # Enter a parse tree produced by QLParser#form.
     def enterForm(self, ctx:QLParser.FormContext):
@@ -55,12 +57,12 @@ class QLListener(ParseTreeListener):
         children = ctx.getChildren()
         question = children.__next__().getText()
         questionID = children.__next__().getText()
-        if questionID in self.outputFrame.questionIDs:
+
+        if questionID in self.questionIDs:
             self.errorMessage = "Error: duplicate question IDs: {}".format(questionID)
             return
         children.__next__()
         datatype = children.__next__().getText()
-
         if datatype == 'boolean':
             questionObject = question_classes.BooleanQuestion(questionID, question)
             choices = ['Yes','No']  # todo: make flexible
@@ -76,11 +78,12 @@ class QLListener(ParseTreeListener):
         elif datatype == 'money':
             questionObject = question_classes.MoneyQuestion(questionID, question)
 
-        self.outputFrame.questionIDs.append(questionID)
-        self.outputFrame.questions.append(questionObject)
-        self.outputFrame.add_question(questionObject.create_frame())
-        self.outputFrame.row += 1
+        else:
+            self.errorMessage = "Error: unknown datatype: {}".format(datatype)
+            return
 
+        self.questionIDs.append(questionID)
+        self.questions[questionID] = questionObject
 
     # Exit a parse tree produced by QLParser#question.
     def exitQuestion(self, ctx:QLParser.QuestionContext):
@@ -120,10 +123,10 @@ class QLListener(ParseTreeListener):
         conditionalID = children.__next__().getText()
 
         # If the ID of the question that is the argument of the if does not exist, throws an error
-        if conditionalID not in self.outputFrame.questionIDs:
+        if conditionalID not in self.questionIDs:
             self.errorMessage = "Error: if argument is undefined: {}".format(conditionalID)
             return
-        elif self.outputFrame.get_question_object(conditionalID).get_datatype() != 'boolean':
+        elif self.questions[conditionalID].get_datatype() != 'boolean':
             self.errorMessage = "Error: if argument is not boolean: {}".format(conditionalID)
             return
 
@@ -142,8 +145,8 @@ class QLListener(ParseTreeListener):
             ggrandchildren.__next__()
             ifquestionID = ggrandchildren.__next__().getText()  # Specifically: picks out the IDs of the questions
 
-            conditionalQuestion = self.outputFrame.get_question_object(conditionalID)
-            ifQuestion = self.outputFrame.get_question_object(ifquestionID)
+            conditionalQuestion = self.questions[conditionalID]
+            ifQuestion = self.questions[ifquestionID]
             conditionalQuestion.add_if_question(ifQuestion)
 
 

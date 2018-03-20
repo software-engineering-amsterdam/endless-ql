@@ -15,6 +15,11 @@ class QuestionNode extends QuestionTypeNode{
     public Node getLeft ()    {  return this.left;  }
     public Node getRight ()   {  return this.right; }
     public Node getCenter() { return center; }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+            return visitor.visit(this);
+    }
 }
 
 class QuestionAssignValueNode extends QuestionTypeNode{
@@ -37,31 +42,51 @@ class QuestionAssignValueNode extends QuestionTypeNode{
     public void setPrevious(Node previous) {
         this.previous = previous;
     }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
-class NameNode extends QuestionNode{
+class NameNode extends Node{
     private String name;
 
     public void setName (String name) { this.name = name; }
 
     public String getName ()          { return this.name;  }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
-class TypeNode extends QuestionNode{
+class TypeNode extends Node{
     private String type;
 
     public void setType(String type) { this.type = type; }
 
     public String getType()          { return this.type;  }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
-class LabelNode extends QuestionNode{
+class LabelNode extends Node{
 
     private String label;
 
     public void setLabel (String label) { this.label = label; }
 
     public String getLabel ()           { return this.label;  }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class MathNode extends QuestionNode{

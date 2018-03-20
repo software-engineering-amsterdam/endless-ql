@@ -2,10 +2,7 @@ package org.uva.forcepushql.ast;
 
 import java.util.LinkedList;
 
-
-public abstract class FormStructureNode extends Node{ }
-
-class FormNode extends FormStructureNode{
+public class FormNode extends Node{
     private LinkedList<Node> questions;
     private String name;
 
@@ -32,6 +29,11 @@ class FormNode extends FormStructureNode{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
     }
 }
 

@@ -16,7 +16,7 @@ options { tokenVocab=QLLexer; }
 
 form returns [QuestionForm result]
 	: FORM ID statements EOF
-		{$result = new QuestionForm($ID.text, $statements.result);}
+		{$result = new QuestionForm(_localctx.Start.Line, $ID.text, $statements.result);}
 	;	
 statements returns [List<Statement> result]
 	@init {
@@ -32,11 +32,11 @@ statements returns [List<Statement> result]
 	;
 question returns [Question result]
 	: string ID SEP type ASSIGN value
-		{$result = new NormalQuestion($ID.text, $string.result, $type.result, $value.result);}
+		{$result = new NormalQuestion(_localctx.Start.Line, $ID.text, $string.result, $type.result, $value.result);}
 	| string ID SEP type ASSIGN expression
-		{$result = new ComputedQuestion($ID.text, $string.result, $type.result, $expression.result);}
+		{$result = new ComputedQuestion(_localctx.Start.Line, $ID.text, $string.result, $type.result, $expression.result);}
 	| string ID SEP type
-		{$result = new NormalQuestion($ID.text, $string.result, $type.result);}
+		{$result = new NormalQuestion(_localctx.Start.Line, $ID.text, $string.result, $type.result);}
 	;
 type returns [Type result]
 	: BOOLEAN_TYPE
@@ -54,9 +54,9 @@ type returns [Type result]
 	;
 ifStatement returns [IfStatement result]
 	: IF OPEN_BR expression CLOSE_BR thenStatements=statements ELSE elseStatements=statements
-		{$result = new IfStatement($expression.result, $thenStatements.result, $elseStatements.result);}
+		{$result = new IfStatement(_localctx.Start.Line, $expression.result, $thenStatements.result, $elseStatements.result);}
 	| IF OPEN_BR expression CLOSE_BR statements
-		{$result = new IfStatement($expression.result, $statements.result);}
+		{$result = new IfStatement(_localctx.Start.Line, $expression.result, $statements.result);}
 	;
 expression returns [IExpression result]
 	: value

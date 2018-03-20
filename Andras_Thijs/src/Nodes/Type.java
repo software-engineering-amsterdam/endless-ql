@@ -14,7 +14,7 @@ public enum Type {
 
     private String value;
 
-    Type (String value){
+    Type(String value){
         this.value = value;
     }
 

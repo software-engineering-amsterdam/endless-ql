@@ -20,12 +20,14 @@ from PyQt5.QtWidgets import QAction
 from PyQt5.QtWidgets import QMessageBox
 from sys import exit
 from sys import argv
+from debug.debug import Debug
 
 
 class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.debug = Debug(terminal=False)
         self.setWindowTitle('PyQuest')
         self.current_file = None
         self.create_menu_bar()
@@ -108,10 +110,11 @@ class MainApp(QMainWindow):
 
         try:
             ast = ql_parser.parser.parse(textbox_value, ql_lexer.lexer)
-            ReferenceChecker(extract_identifier_scopes(ast))
-            DependencyChecker(extract_identifier_dependencies(ast))
-            QuestionChecker(extract_questions(ast))
-            TypeVisitor(extract_identifier_types(ast)).visit(ast)
+            ReferenceChecker(extract_identifier_scopes(ast), self.debug)
+            DependencyChecker(extract_identifier_dependencies(ast), self.debug)
+            QuestionChecker(extract_questions(ast), self.debug)
+
+            TypeVisitor(extract_identifier_types(ast), self.debug).visit(ast)
 
             dialog = Form(extract_gui_model(ast))
             dialog.exec_()

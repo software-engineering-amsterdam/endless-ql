@@ -22,13 +22,13 @@ from ql.ast.expressions.literals.date_node import DateNode
 from ql.ast.expressions.literals.undefined_node import UndefinedNode
 from ql.ast.visitors.visitor_helper import when, on
 from ql.types.undefined import QLUndefined
-from debug.debug import Debug
 
 
 class TypeVisitor:
 
-    def __init__(self, symbol_table):
+    def __init__(self, symbol_table, debug):
         self.__symbol_table = symbol_table
+        self.__debug = debug
 
     # Generic method that initializes the dynamic dispatcher
     @on('node')
@@ -54,7 +54,7 @@ class TypeVisitor:
             result_type = node.answer.expression_type
 
             if node.answer_type != result_type:
-                Debug().error([node.answer.position.line], "Expression not of type {}".format(node.answer_type))
+                self.__debug.error([node.answer.position.line], "Expression not of type {}".format(node.answer_type))
 
     @when(AdditionOperatorNode)
     def visit(self, node):
@@ -64,7 +64,7 @@ class TypeVisitor:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            Debug().error([node.position.line], "Invalid operand(s)")
+            self.__debug.error([node.position.line], "Invalid operand(s)")
 
         node.set_expression_type(result_type)
 
@@ -76,7 +76,7 @@ class TypeVisitor:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            Debug().error([node.position.line], "Invalid operand(s)")
+            self.__debug.error([node.position.line], "Invalid operand(s)")
 
     @when(DivisionOperatorNode)
     def visit(self, node):
@@ -86,7 +86,7 @@ class TypeVisitor:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            Debug().error([node.position.line], "Invalid operand(s)")
+            self.__debug.error([node.position.line], "Invalid operand(s)")
 
         node.set_expression_type(result_type)
 
@@ -123,7 +123,7 @@ class TypeVisitor:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            Debug().error([node.position.line], "Invalid operand(s)")
+            self.__debug.error([node.position.line], "Invalid operand(s)")
 
         node.set_expression_type(result_type)
 
@@ -140,7 +140,7 @@ class TypeVisitor:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            Debug().error([node.position.line], "Invalid operand(s)")
+            self.__debug.error([node.position.line], "Invalid operand(s)")
 
     @when(SubtractionOperatorNode)
     def visit(self, node):
@@ -150,7 +150,7 @@ class TypeVisitor:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            Debug().error([node.position.line], "Invalid operand(s)")
+            self.__debug.error([node.position.line], "Invalid operand(s)")
 
         node.set_expression_type(result_type)
 
@@ -161,7 +161,7 @@ class TypeVisitor:
         result_type = node.get_result_type(node.expression.expression_type)
 
         if result_type == QLUndefined:
-            Debug().error([node.position.line], "Invalid operand(s)")
+            self.__debug.error([node.position.line], "Invalid operand(s)")
 
         node.set_expression_type(result_type)
 
@@ -172,7 +172,7 @@ class TypeVisitor:
         result_type = node.get_result_type(node.expression.expression_type)
 
         if result_type == QLUndefined:
-            Debug().error([node.position.line], "Invalid operand(s)")
+            self.__debug.error([node.position.line], "Invalid operand(s)")
 
         node.set_expression_type(result_type)
 

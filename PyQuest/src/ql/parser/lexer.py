@@ -96,7 +96,7 @@ class QLLexer:
             t.value = QLDate(numbers)
             return t
         except SyntaxError:
-            Debug().error([t.lineno], 'Invalid date.')
+            Debug(pyqt5=False).error([t.lineno], 'Invalid date.')
 
     @staticmethod
     def t_DECIMAL_LITERAL(t):

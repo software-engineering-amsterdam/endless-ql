@@ -4,7 +4,7 @@ import nl.uva.se.sc.niro.model.ql.Operator
 
 abstract class Expression
 
-final case class Reference(value: String) extends Expression
+final case class Reference(questionId: String) extends Expression
 
 final case class BinaryOperation(binaryOperator: Operator, left: Expression, right: Expression) extends Expression
 

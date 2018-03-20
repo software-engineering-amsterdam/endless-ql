@@ -11,6 +11,7 @@ import org.uva.forcepushql.ast.Node;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.Normalizer;
 
 public class Test
 {
@@ -34,7 +35,7 @@ public class Test
         //Node ifCondition = new BuildASTVisitor().visitConditionalIf(parser.conditionalIf());
         //String value = new EvaluateExpressionVisitor().visit(ifCondition);
         Node form = new BuildASTVisitor().visitFormStructure(parser.formStructure());
-        String value = new EvaluateExpressionVisitor().visit(form);
+        String value = form.accept(new EvaluateExpressionVisitor());
         System.out.println("Final result is: " + value);
 
     }

@@ -1,13 +1,17 @@
 package qlviz.gui.renderer.javafx;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import qlviz.gui.renderer.QuestionRenderer;
 import qlviz.gui.renderer.javafx.widgets.UIWidget;
 import qlviz.gui.renderer.layout.QuestionNotFoundException;
 import qlviz.gui.viewModel.question.*;
+import qlviz.model.style.PropertySetting;
 import qlviz.model.style.Widget;
+
+import java.util.List;
 
 public class StyledJavafxQuestionRenderer implements QuestionRenderer {
 
@@ -33,7 +37,12 @@ public class StyledJavafxQuestionRenderer implements QuestionRenderer {
             UIWidget widget = this.javafxWidgetFactory.create(widgetDefinition);
             widget.bindToQuestion(question);
 
-            VBox container = new VBox();
+            List<PropertySetting> settings = this.widgetFinder.findDefaultProperties(question);
+            for (PropertySetting setting : settings) {
+                widget.setProperty(setting);
+            }
+
+            HBox container = new HBox();
 
             Label label = new Label(question.getText());
 

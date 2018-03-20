@@ -13,4 +13,4 @@ object SymbolTable {
   type SymbolTable = Map[String, Symbol]
 }
 
-case class Symbol(answerType: AnswerType, expression: Expression)
+case class Symbol(answerType: AnswerType, expression: Option[Expression])

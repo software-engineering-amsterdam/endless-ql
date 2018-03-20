@@ -1,6 +1,8 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
 import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.Operator;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.UnaryOperator;
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public class UnOpExpression extends Expression {
@@ -29,6 +31,17 @@ public class UnOpExpression extends Expression {
 
     public void setExpression(Expression expression) {
         this.expression = expression;
+    }
+
+    @Override
+    public void evaluate(SymbolTable symbolTable) {
+        expression.evaluate(symbolTable);
+
+        if (!(operator instanceof UnaryOperator)) {
+            throw new RuntimeException("Incompatible operator type");
+        }
+
+        setExpressionValue(((UnaryOperator)operator).evaluate(expression));
     }
 
     @Override

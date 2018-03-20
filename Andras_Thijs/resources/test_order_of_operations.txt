@@ -3,4 +3,5 @@ form OrderOfOperations {
 	test2: "test2" integer(10 * 5 + 1 + 1 + 1 + 1+ 1)
 	test3: "test3" integer(1 + 1 + 1 + 1+ 1 + 10 / 2)
 	test4: "test4" integer(1 * 1 * 2 / 3 * 3^3 + 2 * 7^2 + 2 + 2 * 8 / 3 * 3^3 * 9)
+	test5: "test5" integer(test1 + test2 * test3)
 }

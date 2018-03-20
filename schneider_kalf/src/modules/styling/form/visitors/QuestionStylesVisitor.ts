@@ -2,7 +2,7 @@ import StyleNodeVisitor from "./StyleNodeVisitor";
 import DefaultStyle from "../nodes/children/DefaultStyle";
 import QuestionStyle from "../nodes/children/QuestionStyle";
 import Section from "../nodes/containers/SectionNode";
-import Page from "../nodes/containers/Page";
+import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
 import Stylesheet from "../nodes/StyleSheet";

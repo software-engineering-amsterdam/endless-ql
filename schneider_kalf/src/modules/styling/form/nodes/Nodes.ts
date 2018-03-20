@@ -1,6 +1,6 @@
 import Stylesheet from "./StyleSheet";
 import BaseAttribute from "./attributes/BaseAttribute";
-import Page from "./containers/Page";
+import Page from "./containers/PageNode";
 import Section from "./containers/SectionNode";
 import WidgetAttribute from "./attributes/WidgetAttribute";
 import QuestionStyle from "./children/QuestionStyle";

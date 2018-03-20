@@ -95,3 +95,4 @@ Result will be written into the `/build` folder
 * TODO: Rename question style to field style (can also style computed fields)
 * TODO: Rename QuestionStyles to FieldStyle
 * TODO: Either use body or children so we can use this general function (Explain mees how JavaScript works)
+* TODO: Consider variable type to merge default styles

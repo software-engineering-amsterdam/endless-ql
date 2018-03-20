@@ -157,7 +157,7 @@ class QLParser ( Parser ):
             if hasattr( listener, "exitForm" ):
                 listener.exitForm(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor):  # todo: consider replacing with custom visitor
             if hasattr( visitor, "visitForm" ):
                 return visitor.visitForm(self)
             else:

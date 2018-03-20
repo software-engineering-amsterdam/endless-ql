@@ -5,14 +5,15 @@ from parser_generator.grammar.QLListener import *
 from parser_generator.grammar.QLParser import QLParser
 
 
-def visit(tree, outputWindow):
+def visit(tree):
     # print(tree.toStringTree())
-    ql = QLVisitor(outputWindow)
+    ql = QLVisitor()
     walker = ParseTreeVisitor()
     walker.visit(tree)
 
 
-class MyTreeVisitor(antlr4.tree.ParseTreeVisitor):
+class MyTreeVisitor(ParseTreeVisitor):  # todo: move to appropriate place
+    # Class overwrite, to be edited for our own use
     def visitChildren(self, node):
         result = self.defaultResult()
         n = node.getChildCount()
@@ -28,8 +29,8 @@ class MyTreeVisitor(antlr4.tree.ParseTreeVisitor):
 
 
 class QLVisitor(ParseTreeVisitor):
-    def __init__(self, outputWindow):
-        self.outputWindow = outputWindow
+    def __init__(self):
+        pass
 
     # Visit a parse tree produced by QLParser#form.
     def visitForm(self, ctx:QLParser.FormContext):

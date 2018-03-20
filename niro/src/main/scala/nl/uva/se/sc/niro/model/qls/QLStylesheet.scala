@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.model.qls
 
 case class QLStylesheet(name: String, pages: Seq[Page]) {
 
-  def collectStylesForQuesiotn(id: String): Seq[WidgetType] = {
+  def collectStylesForQuesiotn(id: String): Seq[QLSWidgetType] = {
     pages.flatMap(_.sections.flatMap(_.questions.filter(_.name == id).map(_.widgetType.orNull)))
   }
 
@@ -27,9 +27,10 @@ case class Page(name: String, sections: Seq[Section])
 
 case class Section(name: String, questions: Seq[Question])
 
-case class Question(name: String, widgetType: Option[WidgetType])
+case class Question(name: String, widgetType: Option[QLSWidgetType])
 
-abstract class WidgetType
-case class SpinBox() extends WidgetType
-case class CheckBox() extends WidgetType
-case class Radio(trueValue: String, falseValue: String) extends WidgetType
+abstract class QLSWidgetType
+case class QLSSpinBox() extends QLSWidgetType
+case class QLSCheckBox() extends QLSWidgetType
+case class QLSRadio(trueValue: String, falseValue: String) extends QLSWidgetType
+case class QLSComboBox(trueValue: String, falseValue: String) extends QLSWidgetType

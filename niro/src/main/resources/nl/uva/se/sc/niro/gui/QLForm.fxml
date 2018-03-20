@@ -20,8 +20,11 @@
             </padding>
         </VBox>
     </top>
+    <center>
+        <ScrollPane fx:id="questionArea" />
+    </center>
     <bottom>
-        <VBox fx:id="bottomBox">
+        <VBox>
             <HBox prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
                 <Button mnemonicParsing="false" onAction="#quitApplication" text="Quit"/>
                 <Button mnemonicParsing="false" onAction="#cancel" text="Cancel"/>
@@ -32,13 +35,4 @@
             </HBox>
         </VBox>
     </bottom>
-    <center>
-        <ScrollPane>
-            <VBox fx:id="questionArea" maxWidth="1.7976931348623157E308" minWidth="-Infinity">
-                <padding>
-                    <Insets left="20.0" right="20.0"/>
-                </padding>
-            </VBox>
-        </ScrollPane>
-    </center>
 </BorderPane>

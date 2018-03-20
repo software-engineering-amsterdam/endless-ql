@@ -4,8 +4,9 @@ import java.io.IOException
 
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
+import javafx.geometry.Insets
 import javafx.scene.control.Alert.AlertType
-import javafx.scene.control.{ Alert, ButtonType, Label }
+import javafx.scene.control.{ Alert, ButtonType, Label, ScrollPane }
 import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
 import nl.uva.se.sc.niro.ExpressionEvaluator._
@@ -16,7 +17,7 @@ import nl.uva.se.sc.niro.gui.factory.QLComponentFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
 import nl.uva.se.sc.niro.{ Evaluator, QLFormService }
 import org.apache.logging.log4j.scala.Logging
 
@@ -27,17 +28,16 @@ class QLFormController(homeController: QLHomeController)
     with ComponentChangedListener
     with Logging {
 
+  // TODO align naming!
   type ValueStore = mutable.Map[String, Answer]
-  protected val dictionary: ValueStore = mutable.Map[String, Answer]()
+  protected val valuesForQuestions: ValueStore = mutable.Map[String, Answer]()
+  protected var qlForm: QLForm = _ // Needed for evaluation
+  protected var guiForm: GUIForm = _ // Needed because it contains the GUI questions that hold the visibility expression
+  protected var questions: Seq[Component[_]] = _ // The actual components that handle the user interaction
 
-  protected var qlForm: QLForm = _
-  protected var guiForm: GUIForm = _
-  protected var questions: Seq[Component[_]] = _
-  @FXML protected var topBox: VBox = _
-
+  @FXML protected var topBox: VBox = _ // FIXME Is only used by QLSFormController
   @FXML protected var formName: Label = _
-  @FXML protected var questionArea: VBox = _
-  @FXML protected var bottomBox: VBox = _
+  @FXML protected var questionArea: ScrollPane = _
 
   override def applicationName(): String = "QL Forms"
 
@@ -54,7 +54,7 @@ class QLFormController(homeController: QLHomeController)
     val file = fileChooser.showSaveDialog(getActiveStage)
 
     if (file != null) {
-      QLFormService.saveMemoryTableToCSV(dictionary.toMap, file)
+      QLFormService.saveMemoryTableToCSV(valuesForQuestions.toMap, file)
       showSavedMessage()
       cancel(event)
     }
@@ -62,7 +62,7 @@ class QLFormController(homeController: QLHomeController)
 
   def componentChanged(component: Component[_]): Unit = {
     logger.debug(s"Component [${component.getQuestionId}] changed its value to [${component.getValue}]")
-    component.getValue foreach (answer => dictionary(component.getQuestionId) = answer)
+    component.getValue foreach (answer => valuesForQuestions(component.getQuestionId) = answer)
     evaluateAnswers()
     updateView()
   }
@@ -73,7 +73,10 @@ class QLFormController(homeController: QLHomeController)
     guiForm = GUIModelFactory.makeFrom(this.qlForm)
     questions = guiForm.questions.map(QLComponentFactory.make)
     questions.foreach(_.addComponentChangedListener(this))
-    questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
+    val questionBox = new VBox()
+    questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
+    questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
+    questionArea.setContent(questionBox)
 
     getActiveStage.setTitle("QL forms")
     formName.setText(guiForm.name)
@@ -83,9 +86,9 @@ class QLFormController(homeController: QLHomeController)
   }
 
   def evaluateAnswers(): Unit = {
-    logger.debug(s"Values before evaluation:\n${pprint.apply(dictionary)}")
-    dictionary ++= Evaluator.evaluate(qlForm, dictionary.toMap)
-    logger.debug(s"Values after evaluation:\n${pprint.apply(dictionary)}")
+    logger.debug(s"Values before evaluation:\n${pprint.apply(valuesForQuestions)}")
+    valuesForQuestions ++= Evaluator.evaluate(qlForm, valuesForQuestions.toMap)
+    logger.debug(s"Values after evaluation:\n${pprint.apply(valuesForQuestions)}")
   }
 
   def updateView(): Unit = {
@@ -94,7 +97,7 @@ class QLFormController(homeController: QLHomeController)
   }
 
   def updateValues(): Unit = {
-    questions.foreach(_.updateValue(dictionary))
+    questions.foreach(_.updateValue(valuesForQuestions))
   }
 
   def updateVisibility(): Unit = {
@@ -105,7 +108,7 @@ class QLFormController(homeController: QLHomeController)
   }
 
   private def getVisibilitySetting(question: GUIQuestion): Boolean = {
-    question.visibility.evaluate(qlForm.symbolTable, dictionary.toMap).exists(_.isTrue)
+    question.visibility.evaluate(qlForm.symbolTable, valuesForQuestions.toMap).exists(_.isTrue)
   }
 
   def showSavedMessage(): Unit = {

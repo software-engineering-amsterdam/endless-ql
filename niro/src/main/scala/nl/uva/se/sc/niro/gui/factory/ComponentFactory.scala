@@ -10,8 +10,16 @@ trait ComponentFactory {
 }
 
 class QLComponentFactory extends ComponentFactory {
+
   def make(question: GUIQuestion): Component[_] = {
-    val component = question.answerType match {
+    val component = makeComponent(question)
+    component.setReadOnly(question.isReadOnly)
+    question.component = Some(component)
+    component
+  }
+
+  def makeComponent(question: GUIQuestion): Component[_] = {
+    question.answerType match {
       case StringType =>
         StringComponent(question.id, new Label(question.label), QLWidgetFactory.makeStringWidget(question))
       case BooleanType =>
@@ -25,24 +33,16 @@ class QLComponentFactory extends ComponentFactory {
       case MoneyType =>
         MoneyComponent(question.id, new Label(question.label), QLWidgetFactory.makeMoneyWidget(question))
     }
-    component.setReadOnly(question.isReadOnly)
-    question.component = Some(component)
-    component
   }
-
 }
 
 class QLSComponentFactory extends QLComponentFactory {
 
-  override def make(question: GUIQuestion): Component[_] = {
+  override def makeComponent(question: GUIQuestion): Component[_] = {
     question.answerType match {
       case BooleanType =>
-        val component =
-          BooleanComponent(question.id, new Label(question.label), QLSWidgetFactory.makeBooleanWidget(question))
-        component.setReadOnly(question.isReadOnly)
-        question.component = Some(component)
-        component
-      case _ => super.make(question)
+        BooleanComponent(question.id, new Label(question.label), QLSWidgetFactory.makeBooleanWidget(question))
+      case _ => super.makeComponent(question)
     }
   }
 

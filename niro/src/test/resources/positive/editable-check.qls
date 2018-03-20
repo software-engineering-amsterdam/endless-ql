@@ -16,6 +16,7 @@ stylesheet EditOrNotToEdit {
     }
     page PageTwo {
         section "Variables" {
+            question booleanVariable widget combo("Yes", "No")
             question stringVariable
         }
         section "Expressions" {

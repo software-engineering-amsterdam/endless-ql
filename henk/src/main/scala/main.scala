@@ -11,4 +11,12 @@ object Main extends App {
     val parser = new QlParser(tokens)
     return parser
   }
+
+  def getQlsParser(input:String): ql.grammar.QlsParser = {
+    val charStream = new ANTLRInputStream(input)
+    val lexer = new QlsLexer(charStream)
+    val tokens = new CommonTokenStream(lexer)
+    val parser = new QlsParser(tokens)
+    return parser
+  }
 }

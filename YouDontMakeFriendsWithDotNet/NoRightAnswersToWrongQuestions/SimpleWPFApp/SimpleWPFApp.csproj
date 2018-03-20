@@ -39,10 +39,14 @@
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.1.1.1\lib\netstandard1.1\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <HintPath>..\QuestionnaireWPFApp\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression.ZipFile">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -68,6 +72,7 @@
       <DependentUpon>Question.xaml</DependentUpon>
     </Compile>
     <Compile Include="QuestionnaireViewModel.cs" />
+    <Compile Include="TypeTemplateSelection.cs" />
     <Page Include="Question.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -104,6 +109,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -122,9 +128,9 @@
       <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
       <Name>QuestionnaireDomain.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\QuestionaireOrchestration\QuestionaireOrchestration.csproj">
+    <ProjectReference Include="..\QuestionaireOrchestration\QuestionnaireOrchestration.csproj">
       <Project>{93708D27-D769-4064-8A54-6BFEF8B09F29}</Project>
-      <Name>QuestionaireOrchestration</Name>
+      <Name>QuestionnaireOrchestration</Name>
     </ProjectReference>
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>

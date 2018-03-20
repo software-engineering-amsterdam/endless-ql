@@ -12,11 +12,11 @@ form taxFormExample {
         
     if (hasSoldHouse) {
         "What was the selling price?"
-            sellingPrice: money
+            sellingPrice: EUR
         "Private debts for the sold house:"
-            privateDebt: money
+            privateDebt: EUR
         "Value residue:"
-            valueResidue: money = 
+            valueResidue: EUR = 
                 (sellingPrice - privateDebt * 2)
     }
 }

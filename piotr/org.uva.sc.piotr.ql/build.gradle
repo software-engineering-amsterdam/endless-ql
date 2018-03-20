@@ -1,0 +1,41 @@
+group 'Piotr'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+//apply plugin: 'application'
+
+sourceCompatibility = 1.8
+
+//mainClassName = 'main.Main'
+
+
+repositories {
+    //jcenter()
+    mavenCentral()
+}
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    // The production code uses the SLF4J logging API at compile time
+    compile 'org.slf4j:slf4j-api:1.7.24'
+
+    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'org.checkerframework:checker:2.1.12'
+    compile "org.antlr:antlr4-runtime:4.7"
+    testCompile 'junit:junit:4.12'
+
+}
+
+//sourceSets {
+//    main.java.srcDir "src/main/java"
+//    main.resources.srcDir "src/main/resources"
+//}
+//
+//jar {
+//    manifest {
+//        attributes(
+//                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+//                'Main-Class': 'main.Main'
+//        )
+//    }
+//}

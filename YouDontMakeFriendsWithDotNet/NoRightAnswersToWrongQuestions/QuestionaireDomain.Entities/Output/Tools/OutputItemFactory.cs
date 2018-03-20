@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
+using QuestionnaireDomain.Entities.Output.Nodes;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireInfrastructure.API;
@@ -22,10 +24,12 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         }
 
         public Reference<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
+            Reference<IQuestionnaireRootNode> variable,
             string displayName,
             IList<Reference<IQuestionOutputItem>> questions)
         {
             var questionnaireOutputItem= new QuestionnaireOutputItem(
+                variable,
                 m_ids.Next,
                 displayName) {Questions = questions };
 
@@ -34,7 +38,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         }
 
         public Reference<IQuestionOutputItem> CreateQuestionOutputItem(
-            Guid variableId,
+            Reference<IQuestionNode> variable,
             string text, 
             string value,
             Type type,
@@ -43,7 +47,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         {
             var questionOutputItem = new QuestionOutputItem(
                 m_ids.Next,
-                variableId,
+                variable,
                 text,
                 type,
                 value,

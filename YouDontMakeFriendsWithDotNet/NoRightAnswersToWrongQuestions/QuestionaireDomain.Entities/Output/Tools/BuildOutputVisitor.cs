@@ -14,7 +14,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     internal class BuildOutputVisitor : 
         IBuildOutputVisitor
     {
-        private Stack<bool> m_questionsCurrentlyVisible = new Stack<bool>() ;
+        private readonly Stack<bool> m_questionsCurrentlyVisible = new Stack<bool>() ;
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IOutputItemFactory m_outputItemFactory;
         private readonly ISymbolTable m_lookup;
@@ -48,14 +48,22 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 
         public void Visit(Reference<IQuestionnaireRootNode> questionnaireNode)
         {
-            var node = questionnaireNode
+            var astNode = questionnaireNode
                 .ToDomainItem(m_domainItemLocator);
             
-            HandleStatements(node.Statements);
-            
-            m_outputItemFactory.CreateQuestionnaireOutputItem(
-                node.QuestionnaireName,
-                m_questions);
+            HandleStatements(astNode.Statements);
+
+            var existingOutput = m_domainItemLocator
+                .GetAll<IQuestionnaireOutputItem>()
+                .FirstOrDefault(x => x.Variable.Id == astNode.Id);
+
+            if (existingOutput == null)
+            {
+                m_outputItemFactory.CreateQuestionnaireOutputItem(
+                    questionnaireNode,
+                    astNode.QuestionnaireName,
+                    m_questions);
+            }
         }
 
         private void HandleStatements(IEnumerable<Reference<IStatementNode>> statements)
@@ -75,18 +83,29 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 
         private void Visit(Reference<IQuestionNode> questionNode)
         {
-            var node = questionNode.ToDomainItem(m_domainItemLocator);
-            var temp = GetValue(node);
-            //ToDo: here it should be create or update!
-            var question = m_outputItemFactory.CreateQuestionOutputItem(
-                node.Id,
-                node.QuestionText,
-                GetValue(node),
-                node.QuestionType,
-                m_questionsCurrentlyVisible.Peek(),
-                false);
+            //ToDo: where are my readonly / calculated questions
+            var astNode = questionNode.ToDomainItem(m_domainItemLocator);
 
-            m_questions.Add(question);
+            var existingOutput = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .FirstOrDefault(x => x.Variable.Id == astNode.Id);
+            
+            if (existingOutput == null)
+            {
+                var question = m_outputItemFactory.CreateQuestionOutputItem(
+                    questionNode,
+                    astNode.QuestionText,
+                    GetValue(astNode),
+                    astNode.QuestionType,
+                    m_questionsCurrentlyVisible.Peek(),
+                    false);
+
+                m_questions.Add(question);
+            }
+            else
+            {
+                existingOutput.Visible = m_questionsCurrentlyVisible.Peek();
+            }
         }
 
         private void Visit(Reference<IConditionalStatementNode> ifElseNode)
@@ -137,23 +156,11 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             throw new ArgumentException($@"value lookup for type '{type}' not implemented");
         }
 
-
         private Type GetQuestionType(Guid questionId)
         {
             return m_domainItemLocator
                 .Get<IQuestionNode>(questionId)
                 ?.QuestionType;
         }
-
-        //public Reference<IQuestionOutputItem> Visit(Reference<IUserInputQuestionNode> node)
-        //{
-        //    var domainItem = node.ToDomainItem(m_domainItemLocator);
-        //    return m_outputItemFactory.CreateQuestionOutputItem(
-        //        domainItem.QuestionText,
-        //        GetValue(node.Id),
-        //        GetQuestionType(node.Id),
-        //        m_questionsCurrentlyVisible,
-        //        false);
-        //}
     }
 }

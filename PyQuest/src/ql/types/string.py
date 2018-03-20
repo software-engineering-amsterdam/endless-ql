@@ -1,7 +1,7 @@
 from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.string_node import StringNode
-from gui.model.widgets import LineEdit
+from gui.widgets.line_edit import LineEdit
 
 
 class QLString(QLType):
@@ -38,8 +38,8 @@ class QLString(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value):
-        return StringNode(None, QLString, value)
+    def get_literal_node(value=''):
+        return StringNode(None, QLString, QLString(value))
 
     @staticmethod
     def pyqt5_default_widget():

@@ -10,11 +10,11 @@ import qls.ast.widget.*;
 
 public abstract class Item extends AstNode {
 	
-	private QLSWidget widget;
-	private List<StyleProperty> properties;
+	private final AstWidget widget;
+	private final List<StyleProperty> properties;
 	
 	// constructor
-	public Item(QLSWidget widget, List<StyleProperty> properties) {
+	public Item(AstWidget widget, List<StyleProperty> properties) {
 		this.widget = widget;
 		this.properties = properties;
 	}
@@ -25,8 +25,8 @@ public abstract class Item extends AstNode {
 	
 	public abstract <T, U> T accept(ItemVisitor<T, U> visitor, U ctx);
 
-	public QLSWidget getWidget() {
+	public AstWidget getWidget() {
 		//TODO review this
-		return widget == null ? new TextField() : widget;
+		return widget == null ? new AstTextField() : widget;
 	}
 }

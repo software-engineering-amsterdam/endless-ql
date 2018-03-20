@@ -9,14 +9,11 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     internal class QuestionnaireOutputUpdater : IQuestionnaireOutputUpdater
     {
         private readonly IDomainItemLocator m_domainItemLocator;
-        private readonly IDomainItemRegistry m_domainItemRegistry;
 
         public QuestionnaireOutputUpdater(
-            IDomainItemLocator domainItemLocator,
-            IDomainItemRegistry domainItemRegistry)
+            IDomainItemLocator domainItemLocator)
         {
             m_domainItemLocator = domainItemLocator;
-            m_domainItemRegistry = domainItemRegistry;
         }
 
         public bool OutputExistsFor(Reference<IQuestionnaireRootNode> questionnaireRootNode)
@@ -34,19 +31,5 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 .GetAll<IQuestionnaireOutputItem>()
                 .FirstOrDefault(x => x.DisplayName == name);
         }
-
-        //public void UpdateOutputFor(Reference<IQuestionnaireRootNode> questionnaireRootNode)
-        //{
-        //    UpdateOutput(GetRootOutput(questionnaireRootNode));
-        //}
-
-        //private void UpdateOutput(IQuestionnaireOutputItem questionnaireOutputItem)
-        //{
-        //    foreach (var outputItem in questionnaireOutputItem.Questions)
-        //    {
-        //        var domainItem = m_domainItemLocator
-        //        m_domainItemRegistry.Delete(outputItem);
-        //    }
-        //}
     }
 }

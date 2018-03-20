@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.misc.ParseCancellationException;
 import ql.QLFormBuilder;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
-import qls.StyleSheetParser;
+import qls.QLSFormBuilder;
 import qls.model.StyleSheet;
 
 import java.io.File;
@@ -31,7 +31,10 @@ public class Renderer extends Application {
             QLFormBuilder qlFormBuilder = new QLFormBuilder();
             this.qlForm = qlFormBuilder.buildForm(new FileInputStream(qlFile));
             this.symbolTable = qlFormBuilder.getSymbolTable();
-            this.qlsStyleSheet = StyleSheetParser.parseStyleSheet(new FileInputStream(qlsFile));
+
+
+            QLSFormBuilder qlsFormBuilder = new QLSFormBuilder(this.qlForm, this.symbolTable);
+            this.qlsStyleSheet = qlsFormBuilder.parseStyleSheet(new FileInputStream(qlsFile));
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
             return;
@@ -46,13 +49,13 @@ public class Renderer extends Application {
             return;
         }
 
-        buildQuestions(qlForm, primaryStage);
+        buildQuestions(primaryStage);
 
         primaryStage.show();
     }
 
-    private void buildQuestions(Form form, Stage stage) {
-        GUIForm guiForm = new GUIForm(symbolTable, form);
+    private void buildQuestions(Stage stage) {
+        GUIForm guiForm = new GUIForm(symbolTable, qlForm, qlsStyleSheet);
 
         Scene scene = new Scene(guiForm);
         stage.setTitle(qlForm.identifier + " form");

@@ -1,9 +1,9 @@
 package org.uva.gui.widgets;
 
+import org.uva.gui.QuestionChangeListener;
 import org.uva.ql.ast.Question;
 import org.uva.ql.evaluator.value.StringValue;
 import org.uva.ql.evaluator.value.Value;
-import org.uva.gui.QuestionChangeListener;
 
 import javax.swing.*;
 
@@ -23,6 +23,6 @@ public class StringWidget extends QuestionWidget {
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question.getName(), new StringValue(textField.getText())));
+        textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question, new StringValue(textField.getText())));
     }
 }

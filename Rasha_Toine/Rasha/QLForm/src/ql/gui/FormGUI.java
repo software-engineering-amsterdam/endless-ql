@@ -30,7 +30,7 @@ public class FormGUI {
 	public void render() {
 		JFrame frame = new JFrame();
 		JPanel mainPanel = new JPanel();
-		JFileChooser fileChooser = new JFileChooser();
+		//JFileChooser fileChooser = new JFileChooser();
 		JComponent formPane;
 		
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -51,6 +51,6 @@ public class FormGUI {
 		frame.setAutoRequestFocus(true);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		fileChooser.showOpenDialog(frame);
+		//fileChooser.showOpenDialog(frame);
 	}
 }

@@ -2,14 +2,14 @@ package org.uva.jomi.qls.ast.statements;
 
 import java.util.List;
 
-import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
 
 public class StylesheetStmt extends Stmt {
 
-	private IdentifierExpr identifier;
+	private IdentifierExpression identifier;
 	private List<Stmt> pageStatements;
 	
-	public StylesheetStmt(IdentifierExpr identifier, List<Stmt> pageStatements) {
+	public StylesheetStmt(IdentifierExpression identifier, List<Stmt> pageStatements) {
 		this.identifier = identifier;
 		this.pageStatements = pageStatements;
 	}

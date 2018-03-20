@@ -21,8 +21,8 @@ public class QuestionChecker extends Checker {
         Set<String> questionTexts = new HashSet<>();
 
         for (Question question : this.questions) {
-            if (!questionIDs.add(question.getName())) {
-                logger.warning(String.format("WARNING: (var could be overwritten) question name %s already exists", question.getName()));
+            if (!questionIDs.add(question.getId())) {
+                logger.warning(String.format("WARNING: (var could be overwritten) question name %s already exists", question.getId()));
             }
 
             if (!questionTexts.add(question.getContent())) {

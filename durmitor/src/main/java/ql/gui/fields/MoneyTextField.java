@@ -9,15 +9,18 @@ import javax.swing.text.PlainDocument;
 
 import ql.ast.expression.Identifier;
 import ql.gui.fields.document.filters.MoneyFilter;
+import ql.helpers.Observer;
 
-public class MoneyTextField extends JTextField {
+public class MoneyTextField extends JTextField implements Observer {
 
     private static final long serialVersionUID = -3141780028784984723L;
+    private final Identifier identifier;
 
     public MoneyTextField(final Identifier identifier) {
         super();
-        this.setName(identifier.getName());
-        this.setText(identifier.getValue().getValue().toString());
+        this.identifier = identifier;
+        setName(identifier.getName());
+        setText(identifier.getValue().getValue().toString());
         PlainDocument doc = (PlainDocument) this.getDocument();
         doc.setDocumentFilter(new MoneyFilter(identifier, "^[0-9]+[.]?[0-9]{0,2}$"));
         
@@ -48,5 +51,10 @@ public class MoneyTextField extends JTextField {
                 });
             }
         });
+    }
+
+    @Override
+    public void update() {
+        setText(identifier.getValue().toString());
     }
 }

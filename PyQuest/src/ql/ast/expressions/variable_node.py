@@ -9,3 +9,11 @@ class VariableNode(ExpressionNode):
     @property
     def identifier(self):
         return self.__identifier
+
+    @property
+    def value(self):
+        return self.__value
+
+    @value.setter
+    def value(self, value):
+        self.__value = value

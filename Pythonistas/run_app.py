@@ -21,7 +21,7 @@ def main():
     """
     # CLI
     parser = argparse.ArgumentParser(prog='Python Questionnaire Language Parser',
-                                     description='CLI tool of the python QL/QLS parser with gui.',
+                                     description='CLI tool of the python QL/QLS parser with gui. No arguments runs GUI',
                                      formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=45))
     parser.add_argument('-v', '--version', action='store_true',
                         help="Prints the program version.")
@@ -54,6 +54,9 @@ def main():
     if args.parser:
         run_antlr_parse_gen(args.parser)
         sys.exit(0)
+
+    # x = GrammarDebugger(r'C:\Users\svdh\PycharmProjects\sql\endless-ql\Pythonistas\tests\forms\ql\pass\money_declare.ql')
+    # x.debug_grammar()
 
     # GUI
     app = QtWidgets.QApplication(sys.argv)

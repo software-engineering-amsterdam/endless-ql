@@ -1,4 +1,4 @@
-﻿using QuestionaireOrchestration.Models;
+﻿using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
 namespace SimpleWPFApp.DataProvider

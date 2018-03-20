@@ -19,7 +19,7 @@ public class TypeCheckSpecification {
     /**
      * Get the type specification
      *
-     * @return
+     * @return The specification
      */
     public Map<SpecificationKey, NodeType> getSpecification() {
         return this.specification;

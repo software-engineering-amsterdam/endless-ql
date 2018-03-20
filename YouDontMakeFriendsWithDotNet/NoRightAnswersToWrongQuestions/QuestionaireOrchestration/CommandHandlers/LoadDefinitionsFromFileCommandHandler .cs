@@ -1,8 +1,8 @@
-﻿using QuestionaireOrchestration.Commands;
-using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
+﻿using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.Commands;
 
-namespace QuestionaireOrchestration.CommandHandlers
+namespace QuestionnaireOrchestration.CommandHandlers
 {
     internal class LoadDefinitionsFromFileCommandHandler : 
         ICommandHandler<LoadDefinitionsFromFileCommand>
@@ -18,9 +18,9 @@ namespace QuestionaireOrchestration.CommandHandlers
             m_questionnaireAstCreator = questionnaireAstCreator;
         }
 
-        public void Execute(LoadDefinitionsFromFileCommand fromFileCommand)
+        public void Execute(LoadDefinitionsFromFileCommand command)
         {
-            var definitions = m_definitionLoader.Load(fromFileCommand.Path);
+            var definitions = m_definitionLoader.Load(command.Path);
             foreach (var definition in definitions)
             {
                 m_questionnaireAstCreator.Create(definition);

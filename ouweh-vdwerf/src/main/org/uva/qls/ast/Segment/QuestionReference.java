@@ -2,8 +2,7 @@ package org.uva.qls.ast.Segment;
 
 import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Widget.Widget;
-import java.util.List;
-import java.util.Arrays;
+import org.uva.qls.visitor.SegmentVisitor;
 
 public class QuestionReference extends Segment {
 
@@ -17,16 +16,18 @@ public class QuestionReference extends Segment {
         this.widget = widget;
     }
 
+    @Override
     public String getId() {
-        return id;
+        return "Question." + id;
     }
 
     public Widget getWidget() {
         return widget;
     }
 
+
     @Override
-    public List<QuestionReference> getQuestions() {
-        return Arrays.asList(this);
+    public <S> S accept(SegmentVisitor<S> visitor, Segment parent) {
+        return visitor.visit(this, parent);
     }
 }

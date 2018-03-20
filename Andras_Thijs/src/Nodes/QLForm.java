@@ -1,6 +1,8 @@
 package Nodes;
 
+import java.util.Iterator;
 import java.util.List;
+import QLExceptions.SyntaxException;
 
 /**
  * Contains a parsed QL form with the appropriate questions and conditions
@@ -9,7 +11,6 @@ public class QLForm extends ASTNode {
     private String name;
     private List<Question> questions;
     private List<Condition> conditions;
-
 
     /**
      * Creates a QLForm with just a name
@@ -25,7 +26,7 @@ public class QLForm extends ASTNode {
      * @param nodes contains either a list of Questions or a list of Conditions
      * @throws UnsupportedOperationException when the type is not Questions or Conditions
      */
-    public QLForm(String name, List<? extends ASTNode> nodes) {
+    public QLForm(String name, List<? extends ASTNode> nodes) throws SyntaxException {
         this.name = name;
         ASTNode first = nodes.get(0);
         if (first instanceof Question) {
@@ -33,7 +34,7 @@ public class QLForm extends ASTNode {
         } else if (first instanceof Condition) {
             this.conditions = (List<Condition>) nodes;
         } else {
-            throw new UnsupportedOperationException();
+            throw new SyntaxException("Received a List that doesn't contain Questions or Conditions", this);
         }
     }
 
@@ -47,6 +48,19 @@ public class QLForm extends ASTNode {
         this.name = name;
         this.questions = questions;
         this.conditions = conditions;
+    }
+
+    /**
+     * Initiates the parent variable for every child ASTNode.
+     */
+    public void setParents() {
+        if(questions != null)
+            for(Question q : questions)
+                q.setParents(this);
+
+        if(conditions != null)
+            for(Condition c : conditions)
+                c.setParents(this);
     }
 
     /**
@@ -79,5 +93,32 @@ public class QLForm extends ASTNode {
      */
     public void addQuestion(Question question){
         this.questions.add(question);
+    }
+
+
+    public List<Question> getAllQuestions(){
+        List<Question> allQuestions = questions;
+        if(conditions != null){
+            Iterator<Condition> conditionIterator = conditions.iterator();
+            while (conditionIterator.hasNext()) {
+                List<Question> subQuestions = visitCondition(conditionIterator.next());
+                if (subQuestions != null)
+                    allQuestions.addAll(subQuestions);
+            }
+        }
+        return allQuestions;
+    }
+
+    private List<Question> visitCondition(Condition condition){
+
+        List<Question> questions = condition.getQuestions();
+        List<Condition> conditions = condition.getConditions();
+        Iterator<Condition> conditionIterator = conditions.iterator();
+        while (conditionIterator.hasNext()) {
+            List<Question> subQuestions = visitCondition(conditionIterator.next());
+            if (subQuestions != null)
+                questions.addAll(subQuestions);
+        }
+        return questions;
     }
 }

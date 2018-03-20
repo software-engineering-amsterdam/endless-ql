@@ -1,16 +1,16 @@
 package org.uva.app;
 
+import org.uva.gui.GUIHandler;
 import org.uva.ql.ast.Form;
 import org.uva.ql.evaluator.FormEvaluator;
 import org.uva.ql.evaluator.data.ExpressionTable;
 import org.uva.ql.evaluator.data.StatementTable;
 import org.uva.ql.evaluator.data.ValueTable;
-import org.uva.gui.GUIHandler;
 import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.QLValidator;
 import org.uva.ql.validation.collector.QuestionContext;
 import org.uva.qls.QLSBuilder;
-import org.uva.qls.ast.Stylesheet;
+import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.evaluator.StyleEvaluator;
 import org.uva.qls.validation.QLSValidator;
 

@@ -9,6 +9,7 @@ import { getParserErrorMessage } from "./parsing/parsing_helpers";
 import { QlParserPipeline, QlParserResult } from "./parsing/QlParserPipeline";
 import FormState from "./form/state/FormState";
 import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
+import VisibleFieldsVisitor from "./form/evaluation/VisibleFieldsVisitor";
 
 export interface AppComponentProps {
 }
@@ -93,7 +94,11 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     }
 
     return (
-        <FormComponent onChange={this.onChange} form={this.state.form}/>
+        <FormComponent
+            onChange={this.onChange}
+            form={this.state.form}
+            visibleFields={VisibleFieldsVisitor.run(this.state.form)}
+        />
     );
   }
 

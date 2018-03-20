@@ -1,7 +1,9 @@
 ﻿using System;
 
-namespace QuestionaireOrchestration.Models
+namespace QuestionnaireOrchestration.Models
 {
+    // ToDo: make this implement IEqualityComparer to fix the issue:
+    // Classes implementing "IEquatable<T>" should be sealed
     public abstract class DomainItemModel
     {
         protected DomainItemModel(Guid id, string name)
@@ -34,7 +36,5 @@ namespace QuestionaireOrchestration.Models
         {
             return other.Id == Id;
         }
-        
-        //public static implicit operator Reference(DomainItemModel model);
     }
 }

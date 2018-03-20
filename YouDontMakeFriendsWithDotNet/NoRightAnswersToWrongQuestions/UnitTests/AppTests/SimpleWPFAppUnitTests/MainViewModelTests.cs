@@ -1,7 +1,7 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 using SimpleWPFApp;
 using SimpleWPFApp.DataProvider;
@@ -30,6 +30,6 @@ namespace UnitTests.AppTests.SimpleWPFAppUnitTests
 
             Assert.AreEqual(2, viewModel.Questionnaire.Questions.Count);
         }
-        
+
     }
 }

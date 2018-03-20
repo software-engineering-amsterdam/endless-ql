@@ -69,12 +69,12 @@ class QLFormController(homeController: QLHomeController)
 
   def initializeForm(form: QLForm): Unit = {
     this.qlForm = form
+    val questionBox = new VBox()
+    questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
 
     guiForm = GUIModelFactory.makeFrom(this.qlForm)
     questions = guiForm.questions.map(QLComponentFactory.make)
     questions.foreach(_.addComponentChangedListener(this))
-    val questionBox = new VBox()
-    questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
     questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
     questionArea.setContent(questionBox)
 

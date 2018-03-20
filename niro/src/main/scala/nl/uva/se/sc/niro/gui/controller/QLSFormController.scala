@@ -14,16 +14,12 @@ import nl.uva.se.sc.niro.model.qls.QLStylesheet
 class QLSFormController(homeController: QLHomeController) extends QLFormController(homeController) {
   private var stylesheet: QLStylesheet = _
   private val pageName: Label = new Label("Page Name")
-  private val pagination = new Pagination()
-
   override def applicationName(): String = "QLS Forms"
 
   @FXML
   def initialize(): Unit = {
     applyStylingToPageName()
     topBox.getChildren.add(pageName)
-
-    applyStylingToNavigationBar()
   }
 
   def applyStylingToPageName(): Unit = {
@@ -31,16 +27,15 @@ class QLSFormController(homeController: QLHomeController) extends QLFormControll
     pageName.getStyleClass.add("-fx-font-size: 18pt;")
   }
 
-  def applyStylingToNavigationBar(): Unit = {
-    pagination.setPadding(new Insets(0.0, 10.0, 0.0, 10.0))
-  }
-
   def initializeForm(form: QLForm, stylesheet: QLStylesheet): Unit = {
     this.qlForm = form
     this.stylesheet = stylesheet
 
-    pagination.setPageCount(stylesheet.pages.size)
-    // TODO move to own file!
+    guiForm = StyleDecorator.applyStyle(GUIModelFactory.makeFrom(qlForm), stylesheet)
+
+    // Start of code under construction
+    val pagination = new Pagination(stylesheet.pages.size)
+    pagination.setPadding(new Insets(0.0, 10.0, 0.0, 10.0))
     class PageFactory() extends Callback[Integer, Node]() {
       override def call(pageNumber: Integer): Node = {
         pageName.setText(pageNumber.toString)
@@ -52,10 +47,10 @@ class QLSFormController(homeController: QLHomeController) extends QLFormControll
     }
     pagination.setPageFactory(new PageFactory())
 
-    guiForm = StyleDecorator.applyStyle(GUIModelFactory.makeFrom(qlForm), stylesheet)
     questions = guiForm.questions.map(QLSComponentFactory.make)
     questions.foreach(_.addComponentChangedListener(this))
     questionArea.setContent(pagination)
+    // End of code under construction
 
     getActiveStage.setTitle("QLS forms")
     formName.setText(guiForm.name)

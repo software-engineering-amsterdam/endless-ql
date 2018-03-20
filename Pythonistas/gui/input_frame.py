@@ -1,7 +1,14 @@
+'''
+This file contains InputFrame, a frame for the MainWindow in gui.py. In InputFrame there is a ql_input textbox, in which
+Questionnaire Language (QL) text can be pasted, which can then be parsed into an interactive questionnaire by pressing
+the "Parse" button. Further, this frame contains a "Quit" button, which closes the MainWindow.
+'''
+
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 import sys
+
 
 class InputFrame(QtWidgets.QFrame):
     parse_is_pressed = QtCore.pyqtSignal(str,str)

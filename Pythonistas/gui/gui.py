@@ -1,8 +1,8 @@
 """
-This file contains two widget windows. If this file is run, the first, InputWindow, opens.
-In this window QL text can be typed or pasted. When pressing the "Parse" button, this text
-is parsed, and a second window, OutputWindow opens. The Outputwindow contains an interactive
- questionnaire, encoded by the input text.
+This file contains the main window for a Questionnaire Language (QL) parser GUI. The MainWindow contains an input_frame,
+which in turn contains a textbox for entering QL text, and a "Parse" button. When this button is pressed, the text is
+parsed and the encoded questionnaire is opened in an output_frame in the MainWindow. This questionnaire is interactive,
+and the entered answers may be saved to a .txt file by pressing the "Submit" button.
 """
 # import visitor.visitor as visitor_script
 from visitor.listener import listen
@@ -34,7 +34,6 @@ class MainWindow(QtWidgets.QWidget):
         self.main_layout.addWidget(self.output_frame)
 
         # When the signal parse_is_pressed is given by input_frame, MainWindow takes necessary actions to parse
-        # self.input_frame.parse_is_pressed.connect(self.initiate_output_frame)
         self.input_frame.parse_is_pressed.connect(self.parse)
 
     def initiate_output_frame(self,questionIDs=[], questions={}):
@@ -42,9 +41,8 @@ class MainWindow(QtWidgets.QWidget):
         self.output_frame.setParent(None)
         self.output_frame.destroy()
 
-        # Reinitializes outputframe
+        # Reinitializes output_frame and adds it to the main window
         self.output_frame = OutputFrame(questionIDs, questions)
-
         self.main_layout.addWidget(self.output_frame)
 
     def parse(self, ql_text, qls_text):
@@ -54,7 +52,10 @@ class MainWindow(QtWidgets.QWidget):
             ql_data.run_antlr_ql()
             # if error in tree:
             #   addwidget errormessage
-            [error_message, questionIDs, questions] = listen(ql_data.ql_tree)
+
+            # The tree is traversed, the questions it contains are collected, as well as the first error encountered.
+            [questionIDs, questions, error_message] = listen(ql_data.ql_tree)
+            # The output_frame is initialized and appropriately filled with questions and their answering tools.
             self.initiate_output_frame(questionIDs, questions)
             self.output_frame.add_submit_button()
 
@@ -62,7 +63,7 @@ class MainWindow(QtWidgets.QWidget):
                 self.initiate_output_frame()
                 self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error_message))
             else:
-                self.output_frame.check_duplicate_questions()
+                self.output_frame.check_duplicate_question_strings()
 
         else:  # todo: if garbage in, this error message out.
             self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))

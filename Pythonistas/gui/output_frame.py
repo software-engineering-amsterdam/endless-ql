@@ -1,3 +1,7 @@
+'''
+This file contains the OutputFrame class, for use with the MainWindow class from gui.py. After Questionnaire Language
+(QL) is parsed by another widget, OutputFrame will come to contain the encoded questionnaire.
+'''
 from PyQt5 import QtWidgets
 
 
@@ -6,22 +10,22 @@ class OutputFrame(QtWidgets.QFrame):
         super(OutputFrame, self).__init__()
         self.frame_layout = QtWidgets.QVBoxLayout()
         self.setLayout(self.frame_layout)
-        self.row = 0
+        # self.row = 0
 
         self.questionIDs = questionIDs  # Ordered list of question IDs.
-        self.questions = questions  # Ordered list of question objects
+        self.questions = questions  # Dictionary with question objects as values, and question IDs as keys
         self.output_path = 'QL_output.txt'
         self.add_questions()
 
-    def get_question_object(self,questionID):
+    def get_question_object(self, questionID):
         index = self.questionIDs.index(questionID)
         return self.questions[index]
 
     def get_output_path(self):
         return self.output_path
 
-    def set_output_path(self, outputPath):
-        self.output_path = outputPath
+    def set_output_path(self, output_path):
+        self.output_path = output_path
 
     def add_submit_button(self):
         self.submit_button = QtWidgets.QPushButton('Submit', self)
@@ -31,25 +35,28 @@ class OutputFrame(QtWidgets.QFrame):
     def submit(self):
         # Writes answers to txt file
         file = open(self.output_path, 'w')
-        # for i in range(len(self.questions)):
-        for i in self.questionIDs:
-            file.write(self.questions[i].question+str(self.questions[i].answer)+'\n')
+        for ID in self.questionIDs:
+            file.write(self.questions[ID].question+str(self.questions[ID].answer)+'\n')
         file.close()
 
-    def add_question(self,frame):
-        self.frame_layout.addWidget(frame)
+    def add_question(self, question_frame):
+        # Adds a frame containing a question string and the answering method to the OutputFrame
+        self.frame_layout.addWidget(question_frame)
 
     def add_questions(self):
+        # Gets frames containing question string and answering method for each question, and adds them to OutputFrame
         for ID in self.questionIDs:
             question = self.questions[ID]
-            frame = question.create_frame()
-            self.add_question(frame)
+            question_frame = question.create_frame()
+            self.add_question(question_frame)
 
-    def check_duplicate_questions(self):
+    def check_duplicate_question_strings(self):
         question_list = []
+        # Compiles a list of all question strings
         for ID in self.questionIDs:
             question = self.questions[ID]
             question_list.append(question.question)
+
         duplicates = set([duplicate for duplicate in question_list if question_list.count(duplicate) > 1])
         if len(duplicates) > 0:
             warning_string = "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
@@ -64,10 +71,10 @@ class OutputFrame(QtWidgets.QFrame):
         #     oldlists = [question.questionID]
         #     newlists = []
         #     for list in oldlists:
-        #         ifquestion = self.get_question_object(list[-1])
-        #         if_questions = ifquestion.getifquestions
-        #         for ifquestion in if_questions:
-        #             list.append(ifquestion)
+        #         if_question = self.get_question_object(list[-1])
+        #         if_questions = if_question.getifquestions
+        #         for if_question in if_questions:
+        #             list.append(if_question)
         #             newlists.append(list)
         #             duplicates = set([duplicate for duplicate in list if list.count(duplicate) > 1])
         #             print(duplicates)

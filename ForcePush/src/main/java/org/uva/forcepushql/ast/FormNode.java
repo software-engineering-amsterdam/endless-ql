@@ -1,5 +1,6 @@
 package org.uva.forcepushql.ast;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 public class FormNode extends Node{
@@ -32,7 +33,7 @@ public class FormNode extends Node{
     }
 
     @Override
-    public String accept(ASTVisitor visitor) {
+    public LinkedList<JPanel> accept(ASTVisitor visitor) {
         return visitor.visit(this);
     }
 }

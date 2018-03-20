@@ -1,5 +1,7 @@
 package org.uva.forcepushql.ast;
 
+import org.uva.forcepushql.questions.Question;
+
 public abstract class QuestionTypeNode extends Node { }
 
 class QuestionNode extends QuestionTypeNode{
@@ -17,7 +19,7 @@ class QuestionNode extends QuestionTypeNode{
     public Node getCenter() { return center; }
 
     @Override
-    public String accept(ASTVisitor visitor) {
+    public Question accept(ASTVisitor visitor) {
             return visitor.visit(this);
     }
 }
@@ -44,7 +46,7 @@ class QuestionAssignValueNode extends QuestionTypeNode{
     }
 
     @Override
-    public String accept(ASTVisitor visitor) {
+    public Question accept(ASTVisitor visitor) {
         return visitor.visit(this);
     }
 }

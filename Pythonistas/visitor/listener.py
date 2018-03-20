@@ -24,7 +24,6 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#form.
     def enterForm(self, ctx:QLParser.FormContext):
-        # print(ctx.getText())
         pass
 
     # Exit a parse tree produced by QLParser#form.
@@ -63,22 +62,19 @@ class QLListener(ParseTreeListener):
         datatype = children.__next__().getText()
 
         if datatype == 'boolean':
-            questionObject = question_classes.BooleanQuestion(questionID, question, datatype)
+            questionObject = question_classes.BooleanQuestion(questionID, question)
             choices = ['Yes','No']  # todo: make flexible
 
             truebutton = QtWidgets.QRadioButton(choices[0])
-            truebutton.toggled.connect(questionObject.set_answer_true)
+            truebutton.pressed.connect(questionObject.set_answer_true)
             questionObject.set_truebutton(truebutton)
 
             falsebutton = QtWidgets.QRadioButton(choices[1])
-            falsebutton.toggled.connect(questionObject.set_answer_false)
+            falsebutton.pressed.connect(questionObject.set_answer_false)
             questionObject.set_falsebutton(falsebutton)
 
         elif datatype == 'money':
-            questionObject = question_classes.MoneyQuestion(questionID, question, datatype)
-            textbox = QtWidgets.QLineEdit()
-            textbox.textEdited.connect(questionObject.set_answer_text)
-            questionObject.set_text_input_box(textbox)
+            questionObject = question_classes.MoneyQuestion(questionID, question)
 
         self.outputFrame.questionIDs.append(questionID)
         self.outputFrame.questions.append(questionObject)

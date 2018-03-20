@@ -62,7 +62,7 @@ class MainWindow(QtWidgets.QWidget):
                 self.initiate_outputFrame()
                 self.outputFrame.frameLayout.addWidget(QtWidgets.QLabel(exitMessage))
             else:
-                self.outputFrame.check_duplicate_questions()
+                self.outputFrame.check_duplicate_questionIDs()
 
         else:  # todo: if garbage in, this error message out.
             self.outputFrame.no_tree_message()

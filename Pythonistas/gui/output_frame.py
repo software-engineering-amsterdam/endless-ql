@@ -41,7 +41,7 @@ class OutputFrame(QtWidgets.QFrame):
     def add_question(self,frame):
         self.frameLayout.addWidget(frame)
 
-    def check_duplicate_questions(self):
+    def check_duplicate_questionIDs(self):
         questionlist = []
         for question in self.questions:
             questionlist.append(question.question)
@@ -51,9 +51,21 @@ class OutputFrame(QtWidgets.QFrame):
 
     def check_cyclic_ifs(self):
         pass  # todo: check cyclic ifs
-        # for question in self.questions:
-        #     question.ifquestions
+        # Note: there can be no cyclic ifs due to the linear (one-way) nature of the listener
 
+        # for question in self.questions:
+        #     oldlists = [question.questionID]
+        #     newlists = []
+        #     for list in oldlists:
+        #         ifquestion = self.get_question_object(list[-1])
+        #         ifquestions = ifquestion.getifquestions
+        #         for ifquestion in ifquestions:
+        #             list.append(ifquestion)
+        #             newlists.append(list)
+        #             duplicates = set([duplicate for duplicate in list if list.count(duplicate) > 1])
+        #             print(duplicates)
+        #             if len(duplicates) > 0:
+        #                 return "Error: cyclic dependency in if statements"
 
 
 

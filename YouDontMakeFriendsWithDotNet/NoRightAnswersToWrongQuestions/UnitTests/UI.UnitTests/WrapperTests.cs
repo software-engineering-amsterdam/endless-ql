@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
 namespace UnitTests.UI.UnitTests
@@ -17,10 +17,11 @@ namespace UnitTests.UI.UnitTests
         {
             m_questionnaire = new QuestionnaireModel(
                 new Guid("E746E1F1-0A3A-400E-9824-C28427D51CD6"),
-                "TestQuestionaire");
+                "TestQuestionnaire");
 
             m_inputQuestion1 = new QuestionModel(
                 new Guid("40E98F85-949C-48F0-8194-CECEEBD0177F"),
+                new Guid("F5803811-192B-4858-85C0-A43E2D4D31E0"),
                 "int input question",
                 true,
                 false,
@@ -28,6 +29,7 @@ namespace UnitTests.UI.UnitTests
 
             m_inputQuestion2 = new QuestionModel(
                 new Guid("9568D4CB-7287-4431-9810-E95A83D050EB"),
+                new Guid("CE5B413F-13B4-446A-8019-6856EDC8AE7F"),
                 "string input question",
                 true,
                 false,
@@ -58,9 +60,11 @@ namespace UnitTests.UI.UnitTests
         {
             m_questionnaire.Questions.Add(m_inputQuestion1);
             var wrapper = new QuestionnaireWrapper(m_questionnaire);
+
             Assert.AreEqual(
                 expected: m_questionnaire.QuestionnaireId,
                 actual: wrapper.QuestionnaireId);
+
             Assert.AreEqual(
                 expected: m_questionnaire.QuestionnaireDisplayName,
                 actual: wrapper.QuestionnaireDisplayName);
@@ -92,22 +96,33 @@ namespace UnitTests.UI.UnitTests
         public void WhenQuestionWrapperHasModel_ShouldGetUnderlyingModelValues()
         {
             var wrapper = new QuestionWrapper(m_inputQuestion1);
+
             Assert.AreEqual(
-                expected: m_inputQuestion1.QuestionId,
-                actual: wrapper.QuestionId);
+                expected: m_inputQuestion1.QuestionOutputId,
+                actual: wrapper.QuestionOutputId);
+
+            Assert.AreEqual(
+                expected: m_inputQuestion1.QuestionVariableId,
+                actual: wrapper.QuestionVariableId);
+
             Assert.AreEqual(
                 expected: m_inputQuestion1.QuestionText,
                 actual: wrapper.QuestionText);
+
             Assert.AreEqual(
                 expected: m_inputQuestion1.QuestionType,
                 actual: wrapper.QuestionType);
+
             Assert.AreEqual(
                 expected: m_inputQuestion1.ReadOnly,
                 actual: wrapper.ReadOnly);
+
             Assert.AreEqual(
                 expected: m_inputQuestion1.Visible,
                 actual: wrapper.Visible);
+
             m_inputQuestion1.Value = "10";
+
             Assert.AreEqual(
                 expected: m_inputQuestion1.Value,
                 actual: wrapper.Value);
@@ -116,8 +131,14 @@ namespace UnitTests.UI.UnitTests
         [Test]
         public void WhenUpdatingQuestionWrapper_ShouldSetUnderlyingModelValues()
         {
-            var wrapper = new QuestionWrapper(m_inputQuestion1) {Value = "100"};
-            Assert.AreEqual(expected: "100", actual:m_inputQuestion1.Value);
+            var wrapper = new QuestionWrapper(m_inputQuestion1)
+            {
+                Value = "100"
+            };
+
+            Assert.AreEqual(
+                expected: "100", 
+                actual: m_inputQuestion1.Value);
         }
     }
 }

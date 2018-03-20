@@ -7,11 +7,7 @@ namespace QuestionnaireInfrastructure.API
     {
         public IEnumerable<string> Load(string filePath = null)
         {
-            if (string.IsNullOrEmpty(filePath))
-            {
-                filePath = GetLocalPath();
-            }
-            //ToDo: return propper file
+            //ToDo: return proper file
             var file = @"
 form personalInfo {
             name: ""Name: ""  string

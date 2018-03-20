@@ -27,6 +27,30 @@ public class Page extends AstNode {
         this.label = label;
     }
 
+    public List<DefaultProperties> getDefaults() {
+        return defaults;
+    }
+
+    public void setDefaults(List<DefaultProperties> defaults) {
+        this.defaults = defaults;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         for (DefaultProperties defaultProperties : defaults) {

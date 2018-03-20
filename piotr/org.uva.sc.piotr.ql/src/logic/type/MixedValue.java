@@ -3,6 +3,9 @@ package logic.type;
 import ast.model.expressions.Expression;
 import com.sun.istack.internal.NotNull;
 import com.sun.tools.javac.util.Pair;
+import exceptions.IllegalOperationOnTypesException;
+import exceptions.IllegalValueAssignmentException;
+import exceptions.IncompatibleTypesException;
 
 import java.math.BigDecimal;
 
@@ -81,7 +84,8 @@ public class MixedValue {
         if (this.type == Expression.DataType.STRING) {
             this.stringValue = stringValue;
         } else {
-            throw new RuntimeException("Illegal value assignment: String value cannot be assigned to " + this.type.name() + " type.");
+
+            throw new IllegalValueAssignmentException("Illegal value assignment: String value cannot be assigned to " + this.type.name() + " type.");
         }
     }
 
@@ -89,7 +93,7 @@ public class MixedValue {
         if (this.type == Expression.DataType.DECIMAL) {
             this.decimalValue = decimalValue;
         } else {
-            throw new RuntimeException("Illegal value assignment: Decimal value cannot be assigned to " + this.type.name() + " type.");
+            throw new IllegalValueAssignmentException("Illegal value assignment: Decimal value cannot be assigned to " + this.type.name() + " type.");
         }
     }
 
@@ -97,7 +101,7 @@ public class MixedValue {
         if (this.type == Expression.DataType.INTEGER) {
             this.integerValue = integerValue;
         } else {
-            throw new RuntimeException("Illegal value assignment: Integer value cannot be assigned to " + this.type.name() + " type.");
+            throw new IllegalValueAssignmentException("Illegal value assignment: Integer value cannot be assigned to " + this.type.name() + " type.");
         }
     }
 
@@ -105,7 +109,7 @@ public class MixedValue {
         if (this.type == Expression.DataType.BOOLEAN) {
             this.booleanValue = booleanValue;
         } else {
-            throw new RuntimeException("Illegal value assignment: Boolean value cannot be assigned to " + this.type.name() + " type.");
+            throw new IllegalValueAssignmentException("Illegal value assignment: Boolean value cannot be assigned to " + this.type.name() + " type.");
         }
     }
 
@@ -192,7 +196,7 @@ public class MixedValue {
             if (operator == BinaryOperator.PLUS) {
                 return new MixedValue(lhs.type, lhs.stringValue + rhs.stringValue);
             } else {
-                throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+                throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }
         }
 
@@ -210,7 +214,7 @@ public class MixedValue {
                     }
                     throw new RuntimeException("Division by zero!");
                 default:
-                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+                    throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }
         }
 
@@ -234,7 +238,7 @@ public class MixedValue {
                     }
                     throw new RuntimeException("Division by zero!");
                 default:
-                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+                    throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }
         }
 
@@ -245,7 +249,7 @@ public class MixedValue {
                 case OR:
                     return new MixedValue(lhs.type, lhs.booleanValue || rhs.booleanValue);
                 default:
-                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+                    throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }
         }
 
@@ -268,7 +272,7 @@ public class MixedValue {
                 case NEQ:
                     return new MixedValue(Expression.DataType.BOOLEAN, !lhs.stringValue.equals(rhs.stringValue));
                 default:
-                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+                    throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }
         }
 
@@ -287,7 +291,7 @@ public class MixedValue {
                 case NEQ:
                     return new MixedValue(Expression.DataType.BOOLEAN, lhs.decimalValue.compareTo(rhs.decimalValue) != 0);
                 default:
-                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+                    throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }
         }
 
@@ -306,7 +310,7 @@ public class MixedValue {
                 case NEQ:
                     return new MixedValue(Expression.DataType.BOOLEAN, !lhs.integerValue.equals(rhs.integerValue));
                 default:
-                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+                    throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }
         }
 
@@ -317,7 +321,7 @@ public class MixedValue {
                 case NEQ:
                     return new MixedValue(Expression.DataType.BOOLEAN, lhs.booleanValue != rhs.booleanValue);
                 default:
-                    throw new RuntimeException("Operation " + operator.name() + " on type " + lhs.type + " is illegal.");
+                    throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }
         }
 
@@ -337,7 +341,7 @@ public class MixedValue {
                 rhs.decimalValue = new BigDecimal(rhs.integerValue);
                 rhs.integerValue = null;
             } else {
-                throw new RuntimeException("Types not compatible: " + lhs.type.name() + " and " + rhs.type.name());
+                throw new IncompatibleTypesException("Types not compatible: " + lhs.type.name() + " and " + rhs.type.name());
             }
         }
         return new Pair<>(lhs, rhs);

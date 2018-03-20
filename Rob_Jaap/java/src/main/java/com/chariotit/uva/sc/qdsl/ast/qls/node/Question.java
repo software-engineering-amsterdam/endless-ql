@@ -16,6 +16,22 @@ public class Question extends SectionElement {
         this.properties = properties;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
+
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         properties.acceptVisitor(visitor);

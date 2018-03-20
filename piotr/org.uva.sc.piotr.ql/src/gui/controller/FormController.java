@@ -3,7 +3,7 @@ package gui.controller;
 import ast.model.expressions.values.VariableReference;
 import gui.model.QuestionModel;
 import logic.collectors.CollectReferencesVisitor;
-import logic.evaluators.ExpressionEvaluator;
+import logic.evaluators.FormModelExpressionEvaluator;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,10 +12,10 @@ import java.util.List;
 public class FormController {
 
     private final List<QuestionModel> questionModels;
-    private final ExpressionEvaluator evaluator;
+    private final FormModelExpressionEvaluator evaluator;
     private final CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
 
-    public FormController(List<QuestionModel> questionModels, ExpressionEvaluator evaluator) throws Exception {
+    public FormController(List<QuestionModel> questionModels, FormModelExpressionEvaluator evaluator) {
         this.evaluator = evaluator;
 
         // initial evaluation

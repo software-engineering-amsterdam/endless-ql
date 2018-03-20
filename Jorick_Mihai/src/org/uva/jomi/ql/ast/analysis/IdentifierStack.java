@@ -2,20 +2,20 @@ package org.uva.jomi.ql.ast.analysis;
 
 import java.util.HashMap;
 import java.util.Stack;
-import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
 
 public class IdentifierStack {
 
-	private final Stack<HashMap<String, IdentifierExpr>> identifierStack;
+	private final Stack<HashMap<String, IdentifierExpression>> identifierStack;
 
 	// Create a new stack
 	public IdentifierStack() {
-		this.identifierStack = new Stack<HashMap<String, IdentifierExpr>>();
+		this.identifierStack = new Stack<HashMap<String, IdentifierExpression>>();
 	}
 
 	// Create a new scope
 	public void enterScope() {
-		identifierStack.push(new HashMap<String, IdentifierExpr>());
+		identifierStack.push(new HashMap<String, IdentifierExpression>());
 	}
 
 	// Destroy the top scope
@@ -24,12 +24,12 @@ public class IdentifierStack {
 	}
 
 	// Add a new element to the inner most scope
-	public void add(IdentifierExpr identifier) {
+	public void add(IdentifierExpression identifier) {
 		identifierStack.peek().put(identifier.getName(), identifier);
 	}
 
 	// Try to add a new element to the top most scope
-	public boolean tryAdd(String name, IdentifierExpr identifier) {
+	public boolean tryAdd(String name, IdentifierExpression identifier) {
 		if (identifierStack.isEmpty()) {
 			System.err.println("Empty Stack - Could not add the element");
 			return false;
@@ -48,8 +48,8 @@ public class IdentifierStack {
 	}
 
 	// Search from the inner to the outer most scope for a particular identifier name
-	public IdentifierExpr getIdentifier(String name) {
-		for (HashMap<String, IdentifierExpr> map : identifierStack) {
+	public IdentifierExpression getIdentifier(String name) {
+		for (HashMap<String, IdentifierExpression> map : identifierStack) {
 			if (map.containsKey(name)) {
 				return map.get(name);
 			}

@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
-import org.uva.jomi.ql.ast.expressions.Expr;
-import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.IfStmt;
+import org.uva.jomi.ql.ast.expressions.Expression;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStatement;
+import org.uva.jomi.ql.ast.statements.IfStatement;
 
 public class ErrorHandler extends ErrorReporter<String> {
 
@@ -90,7 +90,7 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(Expr expr, QLType...allowedTypes) {
+	public void addTypeError(Expression expr, QLType...allowedTypes) {
 
 		ArrayList<String> typeNames = new ArrayList<>();
 		Arrays.asList(allowedTypes).forEach((type) -> typeNames.add(type.getName()));
@@ -108,7 +108,7 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(Expr parentExpr, Expr childExpr) {
+	public void addTypeError(Expression parentExpr, Expression childExpr) {
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
 				childExpr.getLineNumber(),
@@ -122,7 +122,7 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(Expr leftExpr, QLToken operator, Expr rightExpr) {
+	public void addTypeError(Expression leftExpr, QLToken operator, Expression rightExpr) {
 		String message = String.format("[%s] line: %d, column: %d: Operator %s is undefined for types: %s and %s",
 				moduleName,
 				operator.getLine(),
@@ -137,14 +137,14 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(ComputedQuestionStmt stmt) {
+	public void addTypeError(ComputedQuestionStatement stmt) {
 
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.getExprLineNumber(),
-				stmt.getExprColumnNumber(),
+				stmt.getExpressionLineNumber(),
+				stmt.getExpressionColumnNumber(),
 				stmt.getType(),
-				stmt.getExprType());
+				stmt.getExpressionType());
 
 		Error error = new TypeError(message);
 		this.addReport(error.toString());
@@ -152,14 +152,14 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(IfStmt stmt) {
+	public void addTypeError(IfStatement stmt) {
 
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.getExprLineNumber(),
-				stmt.getExprColumnNumber(),
+				stmt.getExpressionLineNumber(),
+				stmt.getExpressionColumnNumber(),
 				QLType.BOOLEAN,
-				stmt.getExprType());
+				stmt.getExpressionType());
 
 		Error error = new TypeError(message);
 		this.addReport(error.toString());

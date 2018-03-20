@@ -4,8 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import org.uva.sea.gui.model.ResultController;
 import org.uva.sea.gui.render.*;
+import org.uva.sea.languages.QlSEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
@@ -24,7 +24,7 @@ public class FormController implements Initializable {
     private final String defaultQlsLocation = "/basic.qls";
 //    private final String defaultQlsLocation = "/test.qls";
 
-    private ResultController guiModel;
+    private QlSEvaluator evaluator;
 
     private QuestionRenderer questionRenderer;
 
@@ -46,7 +46,7 @@ public class FormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.qlFile = this.getClass().getResource(this.defaultQlLocation).getFile();
         this.qlsFile = this.getClass().getResource(this.defaultQlsLocation).getFile();
-        this.guiModel = new ResultController(this.qlFile, this.qlsFile);
+        this.evaluator = new QlSEvaluator(this.qlFile, this.qlsFile);
         ViewRenderer renderer = new ViewRenderer(this.questionBox, this.messageBox, this);
         this.questionRenderer = new QuestionRenderer(renderer);
         this.warningRenderer = new WarningRenderer(renderer);
@@ -63,7 +63,7 @@ public class FormController implements Initializable {
     }
 
     private void updateGui() throws IOException, InterruptedException {
-        EvaluationResult interpreterResult = this.guiModel.getInterpreterResult();
+        EvaluationResult interpreterResult = this.evaluator.getQuestions();
         this.questionRenderer.render(interpreterResult.getQuestions());
 
         Messages warnings = interpreterResult.getMessages();
@@ -75,28 +75,30 @@ public class FormController implements Initializable {
     @FXML
     public void loadQLFile(ActionEvent actionEvent) {
         FileSelector fileSelector = new FileSelector("Load QL file", "QL", "*.ql");
-        File qlFile = fileSelector.getFile();
-
-        if (qlFile == null) {
+        File selectedFile = fileSelector.getFile();
+        if (selectedFile == null) {
             this.errorRenderer.render("File not found");
             return;
         }
 
-        this.guiModel = new ResultController(qlFile.getAbsolutePath(), null);
-        this.drawGui();
+        String qlFile = selectedFile.getAbsolutePath();
+        useNewGUISpecification(qlFile, null);
     }
 
     @FXML
     public void loadQLSFile(ActionEvent actionEvent) {
         FileSelector fileSelector = new FileSelector("Load QLS file", "QLS", "*.qls");
-        File qlsFile = fileSelector.getFile();
-
-        if (qlsFile == null) {
+        File selectedFile = fileSelector.getFile();
+        if (selectedFile == null) {
             this.errorRenderer.render("File not found");
             return;
         }
+        String qlsFile = selectedFile.getAbsolutePath();
+        useNewGUISpecification(this.qlFile, qlsFile);
+    }
 
-        this.guiModel = new ResultController(new File(this.qlFile).getAbsolutePath(), qlsFile.getAbsolutePath());
+    private void useNewGUISpecification(String qlFileLocation, String qlsFile) {
+        this.evaluator = new QlSEvaluator(qlFileLocation, qlsFile);
         this.drawGui();
     }
 
@@ -107,7 +109,7 @@ public class FormController implements Initializable {
     }
 
     public void updateGuiModel(final String questionName, final Value value) {
-        this.guiModel.updateQuestion(questionName, value);
+        this.evaluator.setVariable(questionName, value);
         this.drawGui();
     }
 

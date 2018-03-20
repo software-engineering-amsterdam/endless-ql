@@ -8,7 +8,7 @@ public class DefaultWidgetStatement extends DefaultStatement {
     private Type type;
     private Widget widget;
 
-    public DefaultWidgetStatement(Type type, Widget widget){
+    public DefaultWidgetStatement(Type type, Widget widget) {
         this.type = type;
         this.widget = widget;
     }

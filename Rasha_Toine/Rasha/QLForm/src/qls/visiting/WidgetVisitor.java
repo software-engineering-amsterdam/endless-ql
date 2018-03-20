@@ -3,10 +3,10 @@ package qls.visiting;
 import qls.ast.widget.*;
 
 public interface WidgetVisitor<T, U> {
-	public T visit(TextField widget, U ctx);
-	public T visit(CheckBox widget, U ctx);
-	public T visit(DropDown widget, U ctx);
-	public T visit(RadioBtn widget, U ctx);
-	public T visit(Spinbox widget, U ctx);
-	public T visit(Slider widget, U ctx);
+	public T visit(AstTextField widget, U ctx);
+	public T visit(AstCheckBox widget, U ctx);
+	public T visit(AstDropDown widget, U ctx);
+	public T visit(AstRadioBtn widget, U ctx);
+	public T visit(AstSpinbox widget, U ctx);
+	public T visit(AstSlider widget, U ctx);
 }

@@ -91,6 +91,16 @@ export const assertString = (value: any) => {
 };
 
 /**
+ * Assert that the types of the value is "date" or fail otherwise.
+ *
+ * @param value
+ * @returns {any}
+ */
+export const assertDate = (value: any) => {
+  return assertType(value, "Date");
+};
+
+/**
  * Assert that the types of the value is "number" or fail otherwise.
  *
  * @param value
@@ -140,7 +150,7 @@ export const assertComparable = (value: any) => {
     return value;
   }
 
-  if (["string", "number", "boolean"].indexOf(getTypeString(value)) === -1) {
+  if (["string", "number", "boolean", "Date"].indexOf(getTypeString(value)) === -1) {
     throw TypeCheckError.make("comparable", getTypeString(value));
   }
 

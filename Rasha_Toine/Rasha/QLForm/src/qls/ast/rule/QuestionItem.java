@@ -3,20 +3,20 @@ package qls.ast.rule;
 import java.util.List;
 
 import qls.ast.style.StyleProperty;
-import qls.ast.widget.QLSWidget;
+import qls.ast.widget.AstWidget;
 import qls.visiting.ItemVisitor;
 
 public class QuestionItem extends Item {
-	private String name;
+	private final String id;
 
 	//constructor
-	public QuestionItem(String name, QLSWidget widget, List<StyleProperty> properties) {
+	public QuestionItem(String id, AstWidget widget, List<StyleProperty> properties) {
 		super(widget, properties);
-		this.name = name;
+		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getIdentifier() {
+		return id;
 	}
 
 	@Override

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using QuestionaireOrchestration.Models;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
+using QuestionnaireOrchestration.Models;
 
-namespace QuestionaireOrchestration.QueryServices
+namespace QuestionnaireOrchestration.QueryServices
 {
     internal sealed class QuestionnaireDefintionQueryService : ModelQueryServiceBase<QuestionnaireDefinitionModel>
     {
@@ -16,7 +16,7 @@ namespace QuestionaireOrchestration.QueryServices
 
         public override IEnumerable<QuestionnaireDefinitionModel> GetAll()
         {
-            return m_domainItemLocator
+            return DomainItemLocator
                 .GetAll<IQuestionnaireRootNode>()
                 .Select(x => new QuestionnaireDefinitionModel(x.Id, x.DisplayName));
         }

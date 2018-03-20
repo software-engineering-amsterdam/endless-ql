@@ -8,7 +8,7 @@ trait BaseValidator {
     None
   }
 
-  def getWarnings(): Option[Exception] = {
+  def getWarnings(): Option[List[String]] = {
     None
   }
 }

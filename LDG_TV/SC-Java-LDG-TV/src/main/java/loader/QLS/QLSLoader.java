@@ -49,6 +49,7 @@ public class QLSLoader extends StylesheetBaseListener {
     @Override
     public void enterSectionNodeStructure(StylesheetParser.SectionNodeStructureContext ctx) {
         s = new Section(ctx.label().getText());
+        s.setLabel(s.getLabel().replaceAll("\"", ""));
         p.addSection(s);
     }
     @Override

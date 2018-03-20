@@ -27,9 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.QLLoader;
@@ -128,7 +126,7 @@ public class ToolController implements Initializable, Consumer {
         List<ASTNode> astNodes = this.formNode.getASTNodes();
 
         List<QuestionASTNode> questions = getAllQuestions(astNodes);
-        drawQuestions(questions, lvQuestionnaire);
+        drawQuestions(questions, lvQuestionnaire, true);
         printInfoMessage("Build successful");
     }
 
@@ -140,9 +138,11 @@ public class ToolController implements Initializable, Consumer {
         lblErrorField.setText(message);
     }
 
-    private void drawQuestions(List<QuestionASTNode> questionASTNodes, ListView lView){
+    private void drawQuestions(List<QuestionASTNode> questionASTNodes, ListView lView, boolean clearView){
         Visitor uiVisitor = new UIVisitor();
-        lView.getItems().clear();
+        if(clearView){
+            lView.getItems().clear();
+        }
 
         this.formNode.evaluateIfs();
 
@@ -171,20 +171,26 @@ public class ToolController implements Initializable, Consumer {
 
         JavaFxObservable.updatesOf(lView.getItems()).subscribe(rows -> System.out.println("R "+rows));
     }
-
+    private void drawSection(String label, ListView lView){
+        Row r = new SectionRow(label);
+        lView.getItems().add(r);
+    }
     private void drawPages(Stylesheet stylesheet){
         ListView lv;
-        Label sl;
         Tab tab;
-        Pane pane;
+        HBox hbox;
         for (Page p : stylesheet.getPages()){
             tab = new Tab(p.getLabel());
             this.tpPages.getTabs().add(tab);
+            hbox = new HBox();
             lv = new ListView<Row>();
             for (Section s : p.getSections()){
-                drawQuestions(s.getQuestions(), lv);
+                drawSection(s.getLabel(), lv);
+                drawQuestions(s.getQuestions(), lv, false);
             }
-            tab.setContent(lv);
+            hbox.setHgrow(lv, Priority.ALWAYS);
+            hbox.getChildren().add(lv);
+            tab.setContent(hbox);
         }
     }
 
@@ -274,6 +280,6 @@ public class ToolController implements Initializable, Consumer {
     public void accept(Object event) {
         System.out.println("Redraw tree yo");
         List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
-        drawQuestions(questions, lvQuestionnaire);
+        drawQuestions(questions, lvQuestionnaire, true);
     }
 }

@@ -17,10 +17,6 @@ class Question:
     def label(self):
         return self.__label
 
-    @label.setter
-    def label(self, value):
-        self.__label = value
-
     @property
     def identifier(self):
         return self.__identifier
@@ -44,10 +40,6 @@ class Question:
     @property
     def show_condition(self):
         return self.__show_condition
-
-    @show_condition.setter
-    def show_condition(self, value):
-        self.__show_condition = value
 
     @property
     def widget(self):

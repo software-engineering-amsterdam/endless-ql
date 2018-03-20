@@ -1,6 +1,6 @@
 package qls.listeners
 
-import ql.grammar._
+import grammar._
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree._;
 import scala.util.Try

@@ -1,6 +1,6 @@
 package ql.parsers
 
-import ql.grammar._
+import grammar._
 import ql.models.ast._
 import ql.visitors._
 
@@ -11,7 +11,7 @@ import java.net.URL
 import org.antlr.v4.runtime._
 
 object QlFormParser {
-  def getParser(input: String): ql.grammar.QlParser = {
+  def getParser(input: String): QlParser = {
     val charStream = new ANTLRInputStream(input)
     val lexer = new QlLexer(charStream)
     val tokens = new CommonTokenStream(lexer)

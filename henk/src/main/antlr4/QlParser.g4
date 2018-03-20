@@ -6,7 +6,10 @@ root: formHeader OCB formBody CCB;
 formHeader: form identifier;
 form: FORM;
 
-integer: INTEGER;
+integerLit: INTEGER;
+booleanLit: BOOLEAN;
+stringLit: STRINGLIT;
+
 identifier: IDENTIFIER;
 
 formBody: stmt+;
@@ -29,8 +32,10 @@ expr:
   OB expr CB #bracketExpression |
   lhs=expr binOp rhs=expr #binaryExpression |
   op=unOp expr #unaryExpression |
-  integer #integerExpression |
-  identifier #identifierExpression
+  identifier #identifierExpression |
+  integerLit #integerExpression |
+  booleanLit #booleanExpression |
+  stringLit #stringExpression 
 ;
 
 binOp: arithmetic | logical | relational;

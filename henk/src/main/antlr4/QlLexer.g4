@@ -41,6 +41,8 @@ fragment DIGIT: '0'..'9';
 INTEGER: DIGIT+;
 /* NUMBER: ('0'..'9')+; */
 
+BOOLEAN: 'false' | 'true';
+
 FLOAT: ('0' .. '9') + ('.' ('0' .. '9') +)?;
 IDENTIFIER: [A-Za-z_][A-Za-z_0-9]*;
 

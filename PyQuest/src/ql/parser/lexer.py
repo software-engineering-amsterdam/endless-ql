@@ -8,7 +8,7 @@ from ql.types.boolean import QLBoolean
 from ql.types.date import QLDate
 from ql.types.decimal import QLDecimal
 from ql.types.integer import QLInteger
-from debug.debug import error
+from debug.debug import Debug
 
 
 class QLLexer:
@@ -96,7 +96,7 @@ class QLLexer:
             t.value = QLDate(numbers)
             return t
         except SyntaxError:
-            error([t.lineno], 'Invalid date.')
+            Debug().error([t.lineno], 'Invalid date.')
 
     @staticmethod
     def t_DECIMAL_LITERAL(t):

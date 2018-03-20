@@ -1,4 +1,4 @@
-from debug.debug import error
+from debug.debug import Debug
 
 
 class ReferenceChecker:
@@ -22,7 +22,7 @@ class ReferenceChecker:
     def identifier_seen(known_types, unknown_types):
         for (identifier, position) in unknown_types:
             if not (identifier in known_types):
-                error([position.line], "Identifier \"{}\" is unknown".format(identifier))
+                Debug().error([position.line], "Identifier \"{}\" is unknown".format(identifier))
 
 
 

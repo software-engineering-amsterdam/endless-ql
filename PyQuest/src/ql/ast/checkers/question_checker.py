@@ -1,5 +1,4 @@
-from debug.debug import error
-from debug.debug import warning
+from debug.debug import Debug
 
 
 class QuestionChecker:
@@ -17,13 +16,12 @@ class QuestionChecker:
                     different_types = question1["answer_type"] != question2["answer_type"]
 
                     if equal_identifiers:
-                        error([question1["position"].line, question2["position"].line],
-                              "Duplicate question identifiers found")
+                        Debug().error([question1["position"].line, question2["position"].line],
+                                      "Duplicate question identifiers found")
                     if equal_labels:
-                        warning([question1["position"].line, question2["position"].line],
-                                "Duplicate question labels found")
+                        Debug().warning([question1["position"].line, question2["position"].line],
+                                        "Duplicate question labels found")
                         if different_types:
-                            error([question1["position"].line, question2["position"].line],
-                                  "Duplicate questions with different types found")
+                            Debug().error([question1["position"].line, question2["position"].line],
+                                          "Duplicate questions with different types found")
                             break
-

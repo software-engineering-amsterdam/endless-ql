@@ -1,6 +1,6 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
 import DefaultStyle from "../nodes/children/DefaultStyle";
-import Page from "../nodes/containers/Page";
+import Page from "../nodes/containers/PageNode";
 import QuestionStyle from "../nodes/children/QuestionStyle";
 import Section from "../nodes/containers/SectionNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
@@ -59,7 +59,7 @@ export default class StyleFilterVisitor implements StyleNodeVisitor {
   // TODO: Either use body or children so we can use this general function
   private visitChildren(children: StyleTreeNode[]) {
     if (this.isInitial === false && this.options.recursive === false) {
-      return false;
+      return [];
     }
 
     this.isInitial = false;

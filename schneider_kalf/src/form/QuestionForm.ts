@@ -58,7 +58,7 @@ export default class QuestionForm implements Form {
     return filterNodes((node) => node instanceof ComputedField, this.node);
   }
 
-  getQuestions(): ComputedField[] {
+  getQuestions(): Question[] {
     return filterNodes((node) => node instanceof Question, this.node);
   }
 
@@ -78,6 +78,10 @@ export default class QuestionForm implements Form {
 
   setAnswer(identifier: string, value: any): Form {
     return new QuestionForm(this.node, this.state.set(identifier, value));
+  }
+
+  getRootNode(): FormNode {
+    return this.node;
   }
 
   getAnswer(identifier: string) {

@@ -27,7 +27,7 @@ export default class FieldNodeDecorator implements FieldNode {
   }
 
   accept(visitor: NodeVisitor) {
-    return this.fieldToBeDecorated.accept(visitor);
+    return visitor.visitFieldDecorator(this);
   }
 
   isReadOnly(): boolean {
@@ -44,5 +44,9 @@ export default class FieldNodeDecorator implements FieldNode {
 
   getLocation(): NodeLocation {
     return this.fieldToBeDecorated.getLocation();
+  }
+
+  getBaseField(): FieldNode {
+    return this.fieldToBeDecorated;
   }
 }

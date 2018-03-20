@@ -11,6 +11,7 @@ import Statement from "../../../../form/nodes/Statement";
 import { QuestionStyles } from "../QuestionStyles";
 import { getQuestionStyleNodes } from "../style_helpers";
 import QuestionStyle from "../nodes/children/QuestionStyle";
+import FieldNodeDecorator from "../../../../form/nodes/fields/FieldNodeDecorator";
 
 export default class SetStyledFieldVisitor implements FieldVisitor {
   private readonly styles: QuestionStyles[];
@@ -24,19 +25,23 @@ export default class SetStyledFieldVisitor implements FieldVisitor {
   }
 
   visitQuestion(question: Question): any {
-    return question;
+    return null;
   }
 
   visitComputedField(computedField: ComputedField): any {
-    return computedField;
+    return null;
   }
 
   visitIfCondition(ifCondition: IfCondition): any {
-    ifCondition.then.map(this.mapStatement.bind(this));
+    ifCondition.then = ifCondition.then.map(this.mapStatement.bind(this));
   }
 
   visitForm(form: FormNode): any {
-    form.statements.map(this.mapStatement.bind(this));
+    form.statements = form.statements.map(this.mapStatement.bind(this));
+  }
+
+  visitFieldDecorator(fieldDecorator: FieldNodeDecorator) {
+    return fieldDecorator.getBaseField().accept(this);
   }
 
   private mapStatement(statement: Statement): Statement {
@@ -44,15 +49,18 @@ export default class SetStyledFieldVisitor implements FieldVisitor {
       return this.makeStyledFieldNode(statement);
     }
 
+    statement.accept(this);
     return statement;
   }
 
   private makeStyledFieldNode(field: FieldNode): StyledFieldNode {
-    const fieldStyle = this.findQuestionStyleOrDefault(field.identifier);
-    return new StyledFieldNode(field, fieldStyle);
+    const mergedFieldStyle = this.findFieldStyleOrDefault(field.identifier);
+    const fieldStyleNode = this.findFieldStyleNode(field.identifier);
+
+    return new StyledFieldNode(field, mergedFieldStyle, fieldStyleNode);
   }
 
-  private findQuestionStyleOrDefault(identifier: string): QuestionStyles {
+  private findFieldStyleOrDefault(identifier: string): QuestionStyles {
     const found: QuestionStyles | undefined = this.styles.find(style => style.getIdentifier() === identifier);
 
     if (!found) {
@@ -60,5 +68,9 @@ export default class SetStyledFieldVisitor implements FieldVisitor {
     }
 
     return found;
+  }
+
+  private findFieldStyleNode(identifier: string): QuestionStyle | undefined {
+    return this.questionStyleNodes.find(styleNode => styleNode.identifier === identifier);
   }
 }

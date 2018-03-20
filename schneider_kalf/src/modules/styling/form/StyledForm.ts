@@ -1,18 +1,20 @@
 import Form from "../../../form/Form";
-import FormNode from "../../../form/nodes/FormNode";
 import PagedFormState from "./PagedFormState";
 import FieldNode from "../../../form/nodes/fields/FieldNode";
 import StyleSheetNode from "../form/nodes/StyleSheet";
-import QuestionForm from "../../../form/QuestionForm";
 import FieldVisitor from "../../../form/nodes/visitors/FieldVisitor";
+import PageNode from "./nodes/containers/PageNode";
+import { filterNodes } from "../../../form/form_helpers";
+import StyledFieldNode from "./StyledFieldNode";
+import FormNode from "../../../form/nodes/FormNode";
 
 export default class StyledForm implements Form {
-  private baseForm: QuestionForm;
+  private baseForm: Form;
   private stylesheetNode: StyleSheetNode;
 
-  constructor(formNode: FormNode, state: PagedFormState, stylesheetNode: StyleSheetNode) {
+  constructor(baseForm: Form, stylesheetNode: StyleSheetNode) {
     this.stylesheetNode = stylesheetNode;
-    this.baseForm = new QuestionForm(formNode, state);
+    this.baseForm = baseForm;
   }
 
   getName(): string {
@@ -20,7 +22,12 @@ export default class StyledForm implements Form {
   }
 
   getFields(): FieldNode[] {
-    return this.baseForm.getFields();
+    return filterNodes(
+        (node) => {
+          return node instanceof StyledFieldNode;
+        },
+        this.baseForm.getRootNode()
+    );
   }
 
   getState(): PagedFormState {
@@ -28,7 +35,12 @@ export default class StyledForm implements Form {
   }
 
   setAnswer(identifier: string, value: any): Form {
-    return this.baseForm.setAnswer(identifier, value);
+    const newBaseForm = this.baseForm.setAnswer(identifier, value);
+    return new StyledForm(newBaseForm, this.stylesheetNode);
+  }
+
+  getRootNode(): FormNode {
+    return this.baseForm.getRootNode();
   }
 
   getAnswer(identifier: string): any {
@@ -37,5 +49,9 @@ export default class StyledForm implements Form {
 
   accept(visitor: FieldVisitor): any {
     return this.baseForm.accept(visitor);
+  }
+
+  getPages(): PageNode[] {
+    return this.stylesheetNode.getPages();
   }
 }

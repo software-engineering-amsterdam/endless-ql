@@ -1,7 +1,6 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Input from "reactstrap/lib/Input";
-import { FormComponent } from "./rendering/components/form_component/FormComponent";
 import Form from "./form/Form";
 import Alert from "reactstrap/lib/Alert";
 import { getParserErrorMessage } from "./parsing/parsing_helpers";
@@ -9,6 +8,9 @@ import VisibleFieldsVisitor from "./form/evaluation/VisibleFieldsVisitor";
 import { QlsParserPipeline, QlsParserResult } from "./modules/styling/parsing/QlsParserPipeline";
 import StyledForm from "./modules/styling/form/StyledForm";
 import PagedFormState from "./modules/styling/form/PagedFormState";
+import { StyledFormContainer } from "./modules/styling/rendering/components/styled_form_container/StyledFormContainer";
+import Question from "./form/nodes/fields/Question";
+import QuestionForm from "./form/QuestionForm";
 
 export interface AppComponentProps {
 }
@@ -16,7 +18,7 @@ export interface AppComponentProps {
 export interface AppComponentState {
   qlInput?: string;
   qlsInput: string;
-  form: Form | null;
+  form: Form | any | null;
   parserError: Error | null;
 }
 
@@ -26,7 +28,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
     this.state = {
       qlInput: require("!raw-loader!./mock/sample.ql.txt"),
-      qlsInput: require("!raw-loader!../../../mock/sample.qls.txt"),
+      qlsInput: require("!raw-loader!./modules/styling/mock/sample.qls.txt"),
       form: null,
       parserError: null
     };
@@ -42,8 +44,10 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     try {
       const parseResult: QlsParserResult = (new QlsParserPipeline(text, this.state.qlsInput)).run();
 
+      const form = new QuestionForm(parseResult.node, this.getFormState());
+
       this.setState({
-        form: new StyledForm(parseResult.node, this.getFormState(), parseResult.styleNode),
+        form: new StyledForm(form, parseResult.styleNode),
         parserError: null,
         qlInput: text
       });
@@ -94,12 +98,21 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     }
 
     return (
-        <FormComponent
+        <StyledFormContainer
             onChange={this.onChange}
             form={this.state.form}
             visibleFields={VisibleFieldsVisitor.run(this.state.form)}
         />
     );
+
+    /*
+    return (
+        <FormComponent
+            onChange={this.onChange}
+            form={this.state.form}
+            visibleFields={VisibleFieldsVisitor.run(this.state.form)}
+        />
+    );*/
   }
 
   render() {
@@ -108,7 +121,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
           <h1>NEWSKQL</h1>
           <div className="row ql-sample-output">
             <div className="col-md-6">
-              <QlsTest/>
               <Input
                   valid={!this.state.parserError}
                   type="textarea"

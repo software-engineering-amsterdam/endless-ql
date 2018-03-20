@@ -4,6 +4,8 @@ import SetParentsVisitor from "../form/visitors/SetParentsVisitor";
 import QuestionStylesVisitor from "../form/visitors/QuestionStylesVisitor";
 import { QuestionStyles } from "../form/QuestionStyles";
 import { QlParserPipeline, QlParserResult } from "../../../parsing/QlParserPipeline";
+import SetStyledFieldVisitor from "../form/visitors/SetStyledFieldVisitor";
+import { getQuestionStyleNodes } from "../form/style_helpers";
 
 export interface QlsParserResult extends QlParserResult {
   styleNode: StyleSheet;
@@ -26,7 +28,11 @@ export class QlsParserPipeline {
     const qlPipelineResult = qlPipeline.run()[0];
 
     const styleNode: StyleSheet = getQlsParser().parse(this.qlsInput);
+
     const stylesheetResult = this.processStylesheetNode(styleNode);
+
+    const setStyledField = new SetStyledFieldVisitor(stylesheetResult.styles, stylesheetResult.styleNode);
+    qlPipelineResult.node.accept(setStyledField);
 
     return {
       node: qlPipelineResult.node,

@@ -3,7 +3,7 @@ import FieldNode from "../../../form/nodes/fields/FieldNode";
 import { QuestionStyles } from "./QuestionStyles";
 import SectionNode from "./nodes/containers/SectionNode";
 import QuestionStyle from "./nodes/children/QuestionStyle";
-import Page from "./nodes/containers/Page";
+import Page from "./nodes/containers/PageNode";
 
 export default class StyledFieldNode extends FieldNodeDecorator {
   private questionStyles: QuestionStyles;

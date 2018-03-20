@@ -55,9 +55,6 @@ def main():
         run_antlr_parse_gen(args.parser)
         sys.exit(0)
 
-    # x = GrammarDebugger(r'C:\Users\svdh\PycharmProjects\sql\endless-ql\Pythonistas\tests\forms\ql\pass\money_declare.ql')
-    # x.debug_grammar()
-
     # GUI
     app = QtWidgets.QApplication(sys.argv)
     screen = MainWindow()

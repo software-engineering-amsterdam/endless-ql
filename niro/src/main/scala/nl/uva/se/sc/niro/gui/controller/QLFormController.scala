@@ -23,7 +23,7 @@ import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.{ JavaConverters, mutable }
 
-class QLFormController(homeController: QLHomeController)
+class QLFormController(homeController: QLHomeController, val form: QLForm)
     extends QLBaseController
     with ComponentChangedListener
     with Logging {
@@ -31,7 +31,6 @@ class QLFormController(homeController: QLHomeController)
   // TODO align naming!
   type ValueStore = mutable.Map[String, Answer]
   protected val valuesForQuestions: ValueStore = mutable.Map[String, Answer]()
-  protected var qlForm: QLForm = _ // Needed for evaluation
   protected var guiForm: GUIForm = _ // Needed because it contains the GUI questions that hold the visibility expression
   protected var questions: Seq[Component[_]] = _ // The actual components that handle the user interaction
 
@@ -67,12 +66,11 @@ class QLFormController(homeController: QLHomeController)
     updateView()
   }
 
-  def initializeForm(form: QLForm): Unit = {
-    this.qlForm = form
+  def initializeForm(): Unit = {
     val questionBox = new VBox()
     questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
 
-    guiForm = GUIModelFactory.makeFrom(this.qlForm)
+    guiForm = GUIModelFactory.makeFrom(form)
     questions = guiForm.questions.map(QLComponentFactory.make)
     questions.foreach(_.addComponentChangedListener(this))
     questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
@@ -87,7 +85,7 @@ class QLFormController(homeController: QLHomeController)
 
   def evaluateAnswers(): Unit = {
     logger.debug(s"Values before evaluation:\n${pprint.apply(valuesForQuestions)}")
-    valuesForQuestions ++= Evaluator.evaluate(qlForm, valuesForQuestions.toMap)
+    valuesForQuestions ++= Evaluator.evaluate(form, valuesForQuestions.toMap)
     logger.debug(s"Values after evaluation:\n${pprint.apply(valuesForQuestions)}")
   }
 
@@ -108,7 +106,7 @@ class QLFormController(homeController: QLHomeController)
   }
 
   private def getVisibilitySetting(question: GUIQuestion): Boolean = {
-    question.visibility.evaluate(qlForm.symbolTable, valuesForQuestions.toMap).exists(_.isTrue)
+    question.visibility.evaluate(form.symbolTable, valuesForQuestions.toMap).exists(_.isTrue)
   }
 
   def showSavedMessage(): Unit = {

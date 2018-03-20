@@ -46,9 +46,9 @@ class QLHomeController extends QLBaseController with Logging {
   }
 
   def showQLForm(form: QLForm): Unit = {
-    val controller = new QLFormController(this)
+    val controller = new QLFormController(this, form)
     switchToScene(QLScenes.formScene, controller)
-    controller.initializeForm(form)
+    controller.initializeForm()
   }
 
   def handleErrors(errors: Seq[Errors.Error]): Unit = {

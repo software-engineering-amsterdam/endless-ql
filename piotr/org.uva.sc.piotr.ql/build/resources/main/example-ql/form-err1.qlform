@@ -1,5 +1,0 @@
-form taxOfficeExample
-{
-  "What is your first name?" name: string
-  "What is your last name?" name: integer
-}

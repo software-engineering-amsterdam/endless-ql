@@ -115,21 +115,18 @@ public class FileOpenActionEvent implements ActionListener {
                 validated = false;
             }
 
-            // Validate cyclic dependencies in questions and expressions
+            // Validate operands of invalid type to operators
             try {
-                ConditionsValidator.validateConditions(conditions, questions);
+                TypesValidator.validateTypes(conditions, questions);
+
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 validated = false;
             }
 
-            // Validate operands of invalid type to operators
+            // Validate cyclic dependencies in questions and expressions
             try {
-                TypesValidator.validateTypes(conditions, questions);
-                QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(questionsMap);
-
-                System.out.println("uuu");
-
+                QuestionsDependencyValidator.validateCyclicDependencies(questionsMap);
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 validated = false;

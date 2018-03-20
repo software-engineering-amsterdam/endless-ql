@@ -3,9 +3,9 @@ package ExpressionEvaluator;
 import ast.model.expressions.Expression;
 import exceptions.IncompatibleTypesException;
 import logic.type.MixedValue;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.Assert;
 import org.junit.rules.ExpectedException;
 
 import java.math.BigDecimal;

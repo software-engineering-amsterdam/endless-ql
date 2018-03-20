@@ -8,8 +8,6 @@ import java.util.*;
 
 public final class QuestionsDependencyValidator {
 
-    private HashSet<Relation> relations = new HashSet<>();
-
     static class Relation {
         private final Question from;
         private final Question to;
@@ -19,7 +17,7 @@ public final class QuestionsDependencyValidator {
             this.to = to;
         }
 
-        public boolean isReflexive() {
+        boolean isReflexive() {
             return this.from.equals(this.to);
         }
 
@@ -35,13 +33,13 @@ public final class QuestionsDependencyValidator {
         }
     }
 
-    public QuestionsDependencyValidator(HashMap<Question, List<VariableReference>> questionsMap) {
-        this.buildRelationsSet(questionsMap);
-        this.constructTransitiveClosure();
+    public static void validateCyclicDependencies(HashMap<Question, List<VariableReference>> questionsMap) {
 
-        for (Relation relation : this.relations) {
+        HashSet<Relation> closure = transitiveClosure((buildRelationsSet(questionsMap)));
+
+        for (Relation relation : closure) {
             if (relation.isReflexive()) {
-                throw new QuestionDependencyException("Detected question dependency: variable \"" +
+                throw new QuestionDependencyException("Detected cyclic question dependency: variable \"" +
                         relation.from.getVariableName() +
                         "\". On line " +
                         relation.from.getMetaInformation().getStartLine() +
@@ -51,20 +49,22 @@ public final class QuestionsDependencyValidator {
         }
     }
 
-    private void buildRelationsSet(HashMap<Question, List<VariableReference>> questionsMap) {
+    private static HashSet<Relation> buildRelationsSet(HashMap<Question, List<VariableReference>> questionsMap) {
+        HashSet<Relation> relations = new HashSet<>();
         // create edges
         for (Map.Entry<Question, List<VariableReference>> entry : questionsMap.entrySet()) {
             // find variables that it refers to
             for (VariableReference reference : entry.getValue()) {
-                Question question = this.findQuestionByVariableName(reference.getName(), questionsMap.keySet());
+                Question question = findQuestionByVariableName(reference.getName(), questionsMap.keySet());
                 if (question != null) {
-                    this.relations.add(new Relation(entry.getKey(), question));
+                    relations.add(new Relation(entry.getKey(), question));
                 }
             }
         }
+        return relations;
     }
 
-    private Question findQuestionByVariableName(String variableName, Set<Question> questions) {
+    private static Question findQuestionByVariableName(String variableName, Set<Question> questions) {
         for (Question question : questions) {
             if (question.getVariableName().equals(variableName)) {
                 return question;
@@ -73,36 +73,36 @@ public final class QuestionsDependencyValidator {
         return null;
     }
 
-    private boolean relationExists(Question from, Question to) {
-        for (Relation relation : this.relations) {
+    private static boolean relationExists(Question from, Question to, HashSet<Relation> relations) {
+        for (Relation relation : relations) {
             if (relation.from.equals(from) && relation.to.equals(to)) {
                 return true;
             }
         }
-
         return false;
     }
 
-    private void constructTransitiveClosure() {
+    private static HashSet<Relation> transitiveClosure(HashSet<Relation> relations) {
 
         boolean carryOn = true;
+        HashSet<Relation> closure = new HashSet<>(relations);
 
         while (carryOn) {
             carryOn = false;
-            HashSet<Relation> closure = new HashSet<>();
+            HashSet<Relation> subClosure = new HashSet<>();
 
-            for (Relation r1 : this.relations) {
-                for (Relation r2 : this.relations) {
+            for (Relation r1 : closure) {
+                for (Relation r2 : closure) {
                     if (r1.to.equals(r2.from)) {
-                        if (!this.relationExists(r1.from, r2.to)) {
-                            closure.add(new Relation(r1.from, r2.to));
+                        if (!relationExists(r1.from, r2.to, closure)) {
+                            subClosure.add(new Relation(r1.from, r2.to));
                             carryOn = true;
                         }
                     }
                 }
             }
-
-            this.relations.addAll(closure);
+            closure.addAll(subClosure);
         }
+        return closure;
     }
 }

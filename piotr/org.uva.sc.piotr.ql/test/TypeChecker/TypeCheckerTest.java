@@ -2,26 +2,19 @@ package TypeChecker;
 
 import ast.ASTBuilder;
 import ast.model.Form;
-import ast.model.expressions.Expression;
-import ast.model.statements.Question;
 import exceptions.*;
 import grammar.QLLexer;
 import grammar.QLParser;
 import logic.collectors.CollectConditionsVisitor;
 import logic.collectors.CollectQuestionsVisitor;
 import logic.collectors.CollectReferencesVisitor;
-import logic.validators.ConditionsValidator;
-import logic.validators.QuestionsValidator;
-import logic.validators.TypesValidator;
-import logic.validators.VariablesReferencesValidator;
+import logic.validators.*;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.util.List;
 
 public class TypeCheckerTest {
 
@@ -272,23 +265,25 @@ public class TypeCheckerTest {
 
     }
 
-//    @Test
-//    public void dependencyErrorTest() {
-//
-//        String fileContent = "form dependencyErrorExample\n" +
-//                "{\n" +
-//                "  \"A\" a: integer = d + 1 \n" +
-//                "  \"B\" b: integer\n" +
-//                "  \"C\" c: integer = a + b\n" +
-//                "  \"D\" d: integer = c + 5\n" +
-//                "  \"E\" e: integer \n" +
-//                "  \"F\" f: integer = e + 10\n" +
-//                "}";
-//
-//        Form form = this.getAstFormFromString(fileContent);
-//
-//        exception.expect(QuestionDependencyException.class);
-//
-//    }
+    @Test
+    public void dependencyErrorTest() {
+
+        String fileContent = "form dependencyErrorExample\n" +
+                "{\n" +
+                "  \"A\" a: integer = d + 1 \n" +
+                "  \"B\" b: integer\n" +
+                "  \"C\" c: integer = a + b\n" +
+                "  \"D\" d: integer = c + 5\n" +
+                "  \"E\" e: integer \n" +
+                "  \"F\" f: integer = e + 10\n" +
+                "}";
+
+        Form form = this.getAstFormFromString(fileContent);
+
+        exception.expect(QuestionDependencyException.class);
+
+        QuestionsDependencyValidator.validateCyclicDependencies(this.collectQuestionsVisitor.getQuestionsMap(form));
+
+    }
 
 }

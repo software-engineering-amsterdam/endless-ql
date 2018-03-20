@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ExpressionEvaluator.ASTExpressionEvaluatorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-03-20T15:13:04" hostname="macbook-pro.home" time="0.166">
+  <properties/>
+  <testcase name="simpleTest" classname="ExpressionEvaluator.ASTExpressionEvaluatorTest" time="0.166"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

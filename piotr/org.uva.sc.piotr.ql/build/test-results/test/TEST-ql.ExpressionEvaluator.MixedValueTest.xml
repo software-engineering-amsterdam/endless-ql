@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ql.ExpressionEvaluator.MixedValueTest" tests="20" skipped="0" failures="0" errors="0" timestamp="2018-03-20T19:54:07" hostname="macbook-pro.home" time="0.024">
+  <properties/>
+  <testcase name="testIntegerNegation" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.004"/>
+  <testcase name="testIntegerCastToDecimalDivision" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.004"/>
+  <testcase name="testLogicalOr" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testDecimalAddition" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testLogicalNegation" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testIntegerMultiplication" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.001"/>
+  <testcase name="testIntegerCastToDecimalSubtraction" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testIntegerSubtraction" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.001"/>
+  <testcase name="testIntegerAddition" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testDecimalSubtraction" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.001"/>
+  <testcase name="testStringConcatenation" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testDecimalMultiplication" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testDecimalDivision" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testIntegerComparision" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testIntegerCastToDecimalAddition" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.001"/>
+  <testcase name="testIncompatibleTypesExceptionMessage" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.005"/>
+  <testcase name="testLogicalAnd" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testDecimalComparision" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <testcase name="testIntegerDivision" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.001"/>
+  <testcase name="testIntegerCastToDecimalMultiplication" classname="ql.ExpressionEvaluator.MixedValueTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

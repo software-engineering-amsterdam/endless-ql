@@ -3,7 +3,6 @@ package ql.visiting;
 import ql.ast.type.*;
 
 public interface TypeVisitor<T, U> {
-	public T visit(Type type, U ctx);
 	public T visit(BooleanType type, U ctx);
 	public T visit(DateType type, U ctx);
 	public T visit(StringType type, U ctx);

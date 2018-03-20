@@ -6,7 +6,7 @@ import org.uva.ql.visitor.ExpressionVisitor;
 public class IntegerLiteral extends Expression {
     private final int value;
 
-    public IntegerLiteral(String value){
+    public IntegerLiteral(String value) {
         this.value = Integer.parseInt(value);
     }
 

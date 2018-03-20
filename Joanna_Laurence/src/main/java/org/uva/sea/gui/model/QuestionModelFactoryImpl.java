@@ -1,11 +1,13 @@
 package org.uva.sea.gui.model;
 
-import org.uva.sea.ql.interpreter.dataObject.QuestionData;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class QuestionModelFactoryImpl implements QuestionModelFactory {
 
     @Override
     public BaseQuestionModel create(QuestionData data) {
+
         switch (data.getNodeType()) {
             case STRING:
                 return new StringQuestionModel(data);
@@ -13,7 +15,8 @@ public class QuestionModelFactoryImpl implements QuestionModelFactory {
                 return new DecimalQuestionModel(data);
             case DATE:
                 return new DateQuestionModel(data);
-            case MONEY:
+            case MONEY_EURO:
+            case MONEY_DOLLAR:
                 return new MoneyQuestionModel(data);
             case INTEGER:
                 return new IntQuestionModel(data);
@@ -21,7 +24,7 @@ public class QuestionModelFactoryImpl implements QuestionModelFactory {
                 return new BooleanQuestionModel(data);
             case UNKNOWN:
             default:
-                return null;
+                throw new NotImplementedException();
         }
     }
 }

@@ -1,8 +1,8 @@
 import IfCondition from "../../form/nodes/conditions/IfCondition";
-import BooleanLiteral from "../../form/nodes/expressions/literals/BooleanLiteral";
+import BooleanLiteral from "../../form/nodes/literals/BooleanLiteral";
 import { typeCheck } from "../../form/type_checking/type_check_functions";
 import { FieldType } from "../../form/FieldType";
-import NumberLiteral from "../../form/nodes/expressions/literals/NumberLiteral";
+import NumberLiteral from "../../form/nodes/literals/NumberLiteral";
 import { TypeCheckError } from "../../form/form_errors";
 import Equals from "../../form/nodes/expressions/comparisons/Equals";
 import Addition from "../../form/nodes/expressions/arithmetic/Addition";
@@ -26,12 +26,12 @@ it("does not allow numbers in if conditions", () => {
 
 it("allows integer comparisons", () => {
   const addition = new Addition(
-      new NumberLiteral(2),
-      new NumberLiteral(31)
+      NumberLiteral.fromString("2"),
+      NumberLiteral.fromString("31")
   );
 
   const expression = new Equals(
-      new NumberLiteral(32),
+      NumberLiteral.fromString("32.0"),
       addition
   );
 
@@ -41,13 +41,13 @@ it("allows integer comparisons", () => {
 
 it("uses the lowest possible numeric type", () => {
   const integerDivision = new Division(
-      new NumberLiteral(10),
-      new NumberLiteral(3)
+      new NumberLiteral(10, FieldType.Integer),
+      new NumberLiteral(3, FieldType.Integer)
   );
 
   const floatAddition = new Addition(
-      new NumberLiteral(2),
-      new NumberLiteral(2.1)
+      new NumberLiteral(2, FieldType.Integer),
+      new NumberLiteral(2.1, FieldType.Decimal)
   );
 
   const moneyVariables: VariableInformation[] = [
@@ -63,7 +63,7 @@ it("uses the lowest possible numeric type", () => {
   );
 
   expect(typeCheck(integerDivision)).toBe(FieldType.Integer);
-  expect(typeCheck(floatAddition)).toBe(FieldType.Float);
+  expect(typeCheck(floatAddition)).toBe(FieldType.Decimal);
   expect(typeCheck(moneySubtraction, variablesToMap(moneyVariables))).toBe(FieldType.Money);
 });
 

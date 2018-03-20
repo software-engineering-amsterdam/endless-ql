@@ -6,17 +6,17 @@ import javafx.event.Event
 import javafx.event.EventHandler
 import javax.inject.Inject
 import javax.inject.Singleton
-import org.uva.sc.cr.ql.interpreter.controls.BooleanControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.ControlWrapper
-import org.uva.sc.cr.ql.interpreter.controls.DateControlWrapper
-import org.uva.sc.cr.ql.interpreter.controls.DecimalControlWrapper
-import org.uva.sc.cr.ql.interpreter.controls.IntegerControlWrapper
-import org.uva.sc.cr.ql.interpreter.controls.TextControlWrapper
 import org.uva.sc.cr.ql.qL.Expression
 import org.uva.sc.cr.ql.qL.Question
 import org.uva.sc.cr.ql.qL.QuestionType
 import org.uva.sc.cr.ql.util.MissingCaseException
-import org.uva.sc.cr.ql.interpreter.controls.MoneyControlWrapper
+import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperBoolean
+import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperDate
+import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperDecimal
+import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperInteger
+import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperMoney
+import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperText
 
 @Singleton
 class ControlService {
@@ -59,31 +59,31 @@ class ControlService {
 
 	def private buildControlForTypeBoolean(Question question) {
 		val binding = bindingService.buildBindingForTypeBoolean(controls, question.expression)
-		return new BooleanControlWrapper(question, binding)
+		return new ControlWrapperBoolean(question, binding)
 	}
 
 	def private buildControlForTypeString(Question question) {
 		val binding = bindingService.buildBindingForTypeString(controls, question.expression)
-		return new TextControlWrapper(question, binding)
+		return new ControlWrapperText(question, binding)
 	}
 
 	def private buildControlForTypeInteger(Question question) {
 		val binding = bindingService.buildBindingForTypeInteger(controls, question.expression)
-		return new IntegerControlWrapper(question, binding)
+		return new ControlWrapperInteger(question, binding)
 	}
 
 	def private buildControlForTypeDecimal(Question question) {
 		val binding = bindingService.buildBindingForTypeDecimal(controls, question.expression)
-		return new DecimalControlWrapper(question, binding)
+		return new ControlWrapperDecimal(question, binding)
 	}
 	
 	def private buildControlForTypeMoney(Question question) {
 		val binding = bindingService.buildBindingForTypeMoney(controls, question.expression)
-		return new MoneyControlWrapper(question, binding)
+		return new ControlWrapperMoney(question, binding)
 	}
 
 	def buildControlForTypeDate(Question question) {
-		return new DateControlWrapper(question, null)
+		return new ControlWrapperDate(question, null)
 	}
 
 	def private buildEventHandler() {

@@ -1,4 +1,4 @@
-from antlr_files_2.QLVisitor import QLVisitor
+from QL.QLVisitor import QLVisitor
 from antlr4 import *
 from QLast import *
 
@@ -89,6 +89,9 @@ class QLVisitorHelper(QLVisitor):
         elif (ctx.var()):
             var = ctx.var().getText()
             return UnOpNode(var)
+        elif(ctx.INT()):
+            int = ctx.INT().getText()
+            return LiteralNode(int)
 
         return
 

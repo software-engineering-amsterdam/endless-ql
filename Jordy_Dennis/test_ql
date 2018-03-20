@@ -18,4 +18,8 @@ form taxOfficeExample
         (sellingPrice - privateDebt)
   }
 
+  "What was the selling price?ELSEEE"
+  sellingPrice2: money
+
+
 }

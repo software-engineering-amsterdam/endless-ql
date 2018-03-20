@@ -1,103 +1,112 @@
 parser grammar QL;
 
 @header {
-using Assignment1.Model;
+using Assignment1.Model.QL.AST;
+using Assignment1.Model.QL.AST.Expression;
+using Assignment1.Model.QL.AST.Value;
+using Type = Assignment1.Model.QL.AST.Type;
+}
+
+@parser::members
+{
+    private static string UnEscapeQLString(string input) => input.Substring(1, input.Length - 2).Replace("\"\"", "\"");
 }
 
 options { tokenVocab=QLLexer; }
 
 form returns [QuestionForm result]
-	: FORM ID content EOF
-		{$result = new QuestionForm($ID.text, $content.result);}
+	: FORM ID statements EOF
+		{$result = new QuestionForm(_localctx.Start.Line, $ID.text, $statements.result);}
 	;	
-content returns [List<Content> result]
+statements returns [List<Statement> result]
 	@init {
-	$result = new List<Content>();
+	$result = new List<Statement>();
 	}
-	: OPEN_CB (question
-		{$result.Add($question.result);}
-		| ifstatement
-		{$result.Add($ifstatement.result);}
+	: OPEN_CB (statements
+			{$result.AddRange($statements.result);}
 		)* CLOSE_CB
+	| question
+		{$result.Add($question.result);}
+	| ifStatement
+		{$result.Add($ifStatement.result);}
 	;
 question returns [Question result]
-	: questionAssign
-		{$result = $questionAssign.result;}
-	| questionNorm
-		{$result = $questionNorm.result;}
+	: string ID SEP type ASSIGN value
+		{$result = new NormalQuestion(_localctx.Start.Line, $ID.text, $string.result, $type.result, $value.result);}
+	| string ID SEP type ASSIGN expression
+		{$result = new ComputedQuestion(_localctx.Start.Line, $ID.text, $string.result, $type.result, $expression.result);}
+	| string ID SEP type
+		{$result = new NormalQuestion(_localctx.Start.Line, $ID.text, $string.result, $type.result);}
 	;
-questionAssign returns [Question result]
-	: questionNorm ASSIGN value
-		{$result = $questionNorm.result;
-		 $result.Value = $value.result;}
-	| questionNorm ASSIGN expression
-		{$result = $questionNorm.result;
-		 $result.Computed = true;
-		 $result.Expression = $expression.result;}
+type returns [Type result]
+	: BOOLEAN_TYPE
+		{$result = Type.Boolean;}
+	| DATE_TYPE
+		{$result = Type.Date;}
+	| DECIMAL_TYPE
+		{$result = Type.Decimal;}
+	| INTEGER_TYPE
+		{$result = Type.Integer;}
+	| MONEY_TYPE
+		{$result = Type.Money;}
+	| STRING_TYPE
+		{$result = Type.String;}
 	;
-questionNorm returns [Question result]
-	: STRING ID SEP BOOLEAN_TYPE
-		{$result = new QuestionBool($ID.text, $STRING.text);}
-	| STRING ID SEP DATE_TYPE
-		{$result = new QuestionDate($ID.text, $STRING.text);}
-	| STRING ID SEP DECIMAL_TYPE
-		{$result = new QuestionDecimal($ID.text, $STRING.text);}
-	| STRING ID SEP INTEGER_TYPE
-		{$result = new QuestionInt($ID.text, $STRING.text);}
-	| STRING ID SEP MONEY_TYPE
-		{$result = new QuestionMoney($ID.text, $STRING.text);}
-	| STRING ID SEP STRING_TYPE
-		{$result = new QuestionString($ID.text, $STRING.text);}
+ifStatement returns [IfStatement result]
+	: IF OPEN_BR expression CLOSE_BR thenStatements=statements ELSE elseStatements=statements
+		{$result = new IfStatement(_localctx.Start.Line, $expression.result, $thenStatements.result, $elseStatements.result);}
+	| IF OPEN_BR expression CLOSE_BR statements
+		{$result = new IfStatement(_localctx.Start.Line, $expression.result, $statements.result);}
 	;
-ifstatement returns [IfStatement result]
-	: IF OPEN_BR expression CLOSE_BR content1=content ELSE content2=content
-		{$result = new IfElseStatement($expression.result, $content1.result, $content2.result);}
-	| IF OPEN_BR expression CLOSE_BR content
-		{$result = new IfStatement($expression.result, $content.result);}
-	;
-expression returns [Expression result]
+expression returns [IExpression result]
 	: value
-		{$result = new ExpressionValue($value.result);}
+		{$result = $value.result;}
 	| OPEN_BR expression CLOSE_BR
 		{$result = $expression.result;}
 	| NOT expression
-		{$result = new ExpressionNot($expression.result);}
+		{$result = new Not(_localctx.Start.Line, $expression.result);}
 	| left=expression ADD right=expression
-		{$result = new ExpressionAdd($left.result, $right.result);}
+		{$result = new Add(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression SUB right=expression
-		{$result = new ExpressionSub($left.result, $right.result);}
+		{$result = new Subtract(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression MULT right=expression
-		{$result = new ExpressionMult($left.result, $right.result);}
+		{$result = new Multiply(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression DIV right=expression
-		{$result = new ExpressionDiv($left.result, $right.result);}
+		{$result = new Divide(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression GTEQ right=expression
-		{$result = new ExpressionGreaterEqual($left.result, $right.result);}
+		{$result = new GreaterThanOrEqual(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression LTEQ right=expression
-		{$result = new ExpressionLessEqual($left.result, $right.result);}
+		{$result = new LessThanOrEqual(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression GT right=expression
-		{$result = new ExpressionGreater($left.result, $right.result);}
+		{$result = new GreaterThan(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression LT right=expression
-		{$result = new ExpressionLess($left.result, $right.result);}
+		{$result = new LessThan(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression EQ right=expression
-		{$result = new ExpressionEqual($left.result, $right.result);}
+		{$result = new Equal(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression NEQ right=expression
-		{$result = new ExpressionNotEqual($left.result, $right.result);}
+		{$result = new NotEqual(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression AND right=expression
-		{$result = new ExpressionAnd($left.result, $right.result);}
+		{$result = new And(_localctx.Start.Line, $left.result, $right.result);}
 	| left=expression OR right=expression
-		{$result = new ExpressionOr($left.result, $right.result);}
-	| expressionId
-		{$result = $expressionId.result;}
+		{$result = new Or(_localctx.Start.Line, $left.result, $right.result);}
+	| ID
+		{$result = new Reference(_localctx.Start.Line, $ID.text);}
 	;
-expressionId returns [ExpressionId result]
-	: ID
-		{$result = new ExpressionId($ID.text);}
+value returns [IValue result]
+	: TRUE
+		{$result = new QLBoolean(true);}
+	| FALSE
+		{$result = new QLBoolean(false);}
+	| DATE
+		{$result = new QLDate(DateTime.Parse($DATE.text));}
+	| DECIMAL
+		{$result = new QLDecimal(decimal.Parse($DECIMAL.text));}
+	| INTEGER
+		{$result = new QLInteger(int.Parse($INTEGER.text));}
+	| string
+		{$result = new QLString($string.result);}
 	;
-value returns [dynamic result]
-	: TRUE    {$result = true;}
-	| FALSE   {$result = false;}
-	| DATE    {$result = DateTime.Parse($DATE.text);}
-	| DECIMAL {$result = decimal.Parse($DECIMAL.text);}
-	| INTEGER {$result = int.Parse($INTEGER.text);}
-	| STRING  {$result = $STRING.text;}
+string returns [string result]
+	: STRING
+		{$result = UnEscapeQLString($STRING.text);}
 	;

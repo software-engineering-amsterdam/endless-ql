@@ -3,118 +3,103 @@ package org.uva.sea.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.model.GuiModel;
-import org.uva.sea.gui.model.QuestionModelFactoryImpl;
-import org.uva.sea.gui.model.ValueChangeListener;
-import org.uva.sea.gui.renderer.JavafxRendererVisitor;
-import org.uva.sea.ql.interpreter.dataObject.QuestionData;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.interpreter.staticAnalysis.helpers.Messages;
+import org.uva.sea.gui.render.*;
+import org.uva.sea.languages.QlSEvaluator;
+import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
+import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
 public class FormController implements Initializable {
 
-    private String fileName = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/example.ql";
-    private List<BaseQuestionModel> questionGUIs;
-    private Messages messages;
-    private GuiModel guiModel;
+    private final String defaultQlLocation = "/example.ql";
+//    private final String defaultQlLocation = "/basicQuestions.ql";
+    private final String defaultQlsLocation = "/basic.qls";
+//    private final String defaultQlsLocation = "/test.qls";
+
+    private QlSEvaluator evaluator;
+
+    private QuestionRenderer questionRenderer;
+
+    private WarningRenderer warningRenderer;
+
+    private ErrorRenderer errorRenderer;
+
+    private String lastFocusedQuestion = "";
+
+    private String qlFile;
+    private String qlsFile;
 
     @FXML
     private VBox questionBox;
     @FXML
-    private VBox warningBox;
-
-    private JavafxRendererVisitor renderer;
+    private VBox messageBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.qlFile = this.getClass().getResource(this.defaultQlLocation).getFile();
+        this.qlsFile = this.getClass().getResource(this.defaultQlsLocation).getFile();
+        this.evaluator = new QlSEvaluator(this.qlFile, this.qlsFile);
+        ViewRenderer renderer = new ViewRenderer(this.questionBox, this.messageBox, this);
+        this.questionRenderer = new QuestionRenderer(renderer);
+        this.warningRenderer = new WarningRenderer(renderer);
+        this.errorRenderer = new ErrorRenderer(renderer);
+        this.drawGui();
+    }
+
+    private void drawGui() {
         try {
-            guiModel = new GuiModel(fileName);
-            renderer = new JavafxRendererVisitor(questionBox, warningBox, this);
-        } catch (IOException | StaticAnalysisError e) {
-            e.printStackTrace();
-            renderer.alertError(e.getMessage());
-        }
-        guiModel.attachListener(new QuestionObserver());
-        initializeInterpreterResultOnGUI();
-    }
-
-    private void initializeInterpreterResultOnGUI() {
-        initializeQuestionGUIs(guiModel.getInterpreterResult().getQuestions(), questionBox);
-        initializeWarningsOnGUI(guiModel.getInterpreterResult().getWarnings(), warningBox);
-        logQuestions(questionGUIs);
-    }
-
-    private void initializeQuestionGUIs(List<QuestionData> data, Pane questionBox) {
-        QuestionModelFactoryImpl factory = new QuestionModelFactoryImpl();
-        this.questionGUIs = new ArrayList<>();
-        for (QuestionData question : data) {
-            BaseQuestionModel questionRow = factory.create(question);
-            questionGUIs.add(questionRow);
-        }
-        displayQuestions(questionBox);
-    }
-
-    private void displayQuestions(Pane vBox) {
-        vBox.getChildren().removeAll(vBox.getChildren());
-        for (BaseQuestionModel questionRow : questionGUIs) {
-            renderer.render(questionRow);
+            this.updateGui();
+        } catch (InterruptedException | IOException e) {
+            this.errorRenderer.render(e.getMessage());
         }
     }
 
-    private void initializeWarningsOnGUI(Messages warnings, VBox warningBox) {
-        warningBox.getChildren().removeAll(warningBox.getChildren());
-        for (String warningMessage : warnings.getMessages()) {
-            renderer.render(warningMessage);
-        }
+    private void updateGui() throws IOException, InterruptedException {
+        EvaluationResult interpreterResult = this.evaluator.getQuestions();
+        this.questionRenderer.render(interpreterResult.getQuestions());
+
+        Messages warnings = interpreterResult.getMessages();
+        for (String warning : warnings.getMessage(MessageTypes.WARNING))
+            this.warningRenderer.render(warning);
     }
 
-    private void logQuestions(List<BaseQuestionModel> questions) {
-        for (BaseQuestionModel question : questions) {
-            System.out.println(question.getLabel() +
-                    " " + question.getVariableName() +
-                    " " + question.displayValue() +
-                    " isComputed: " + question.isComputed());
-        }
-        System.out.println("\n");
-    }
-
-    public void updateGuiModel(String questionName, Value value) throws IOException, StaticAnalysisError {
-        guiModel.updateQuestion(questionName, value);
-    }
 
     @FXML
     public void loadQLFile(ActionEvent actionEvent) {
-        System.out.println("Load QL file");
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choose a QL file");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("QL Files", "*.ql"),
-                new FileChooser.ExtensionFilter("All Files", "*.*"));
-        File qlFile = fileChooser.showOpenDialog(null);
-        if (qlFile != null) {
-            fileName = qlFile.getAbsolutePath();
-            try {
-                guiModel.loadNewForm(fileName);
-            } catch (IOException | StaticAnalysisError e) {
-                e.printStackTrace();
-                renderer.alertError(e.getMessage());
-            }
-
-            System.out.println(qlFile.getAbsolutePath());
+        FileSelector fileSelector = new FileSelector("Load QL file", "QL", "*.ql");
+        File selectedFile = fileSelector.getFile();
+        if (selectedFile == null) {
+            this.errorRenderer.render("File not found");
+            return;
         }
+
+        String qlFile = selectedFile.getAbsolutePath();
+        useNewGUISpecification(qlFile, null);
+    }
+
+    @FXML
+    public void loadQLSFile(ActionEvent actionEvent) {
+        FileSelector fileSelector = new FileSelector("Load QLS file", "QLS", "*.qls");
+        File selectedFile = fileSelector.getFile();
+        if (selectedFile == null) {
+            this.errorRenderer.render("File not found");
+            return;
+        }
+        String qlsFile = selectedFile.getAbsolutePath();
+        useNewGUISpecification(this.qlFile, qlsFile);
+    }
+
+    private void useNewGUISpecification(String qlFileLocation, String qlsFile) {
+        this.evaluator = new QlSEvaluator(qlFileLocation, qlsFile);
+        this.drawGui();
     }
 
     @FXML
@@ -123,11 +108,16 @@ public class FormController implements Initializable {
         System.out.println("Export");
     }
 
-    private class QuestionObserver implements ValueChangeListener {
-        @Override
-        public void onChange() {
-            initializeInterpreterResultOnGUI();
-            System.out.println("Listener on change");
-        }
+    public void updateGuiModel(final String questionName, final Value value) {
+        this.evaluator.setVariable(questionName, value);
+        this.drawGui();
+    }
+
+    public void setLastFocused(String variableName) {
+        this.lastFocusedQuestion = variableName;
+    }
+
+    public String getLastFocusedQuestion() {
+        return this.lastFocusedQuestion;
     }
 }

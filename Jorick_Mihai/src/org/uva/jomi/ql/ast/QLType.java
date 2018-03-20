@@ -9,18 +9,19 @@ public enum QLType {
 	INTEGER ("integer"),
 	DECIMAL ("decimal"),
 	DATE ("date"),
-	MONEY ("money");
-	
+	MONEY ("money"),
+	UNKNOWN ("unknown type");
+
 	private final String name;
 	private static final Map<String, QLType> lookup = new HashMap<>();
-	
+
 	// Populate the table
 	static {
 		for (QLType type : QLType.values()) {
 			lookup.put(type.getName(), type);
 		}
 	}
-	
+
 	public static QLType getType(String name) {
 		return lookup.get(name);
 	}
@@ -30,7 +31,7 @@ public enum QLType {
 	private QLType(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;

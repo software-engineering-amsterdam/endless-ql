@@ -3,16 +3,11 @@ from antlr4 import *
 from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
 from pyql.ast.parse_tree_visitor import ParseTreeVisitor
+from pyql.static_analysis.static_checker import StaticChecker
 
-from pyql.static_analysis.type_check import TypeChecker
-from pyql.static_analysis.expression_evaluator import ExpressionEvaluator
+from pyql.static_analysis.symbol_table import SymbolTable
 
-from pyql.static_analysis.symbol_table import *
-
-from pyql.ast.expression.expressions import *
-from pyql.ast.expression.literals import *
-
-import decimal
+from pyql.gui.gui_visitor import GUIVisitor
 
 
 def main(argv):
@@ -20,49 +15,27 @@ def main(argv):
     lexer = QLLexer(input)
     stream = CommonTokenStream(lexer)
     parser = QLParser(stream)
-    tree = parser.form()
-    print(tree)
-    b = type(tree)
+    parse_tree = parser.form()
+
     visitor = ParseTreeVisitor()
-    c = tree.accept(visitor)
-    print(c)
+    ast = parse_tree.accept(visitor)
 
-    ss = SymbolTableBuilder().build(c)
+    static_checker = StaticChecker()
+    static_checker.run(ast)
+    messages = static_checker.messages()
+    print(messages)
 
-    cn = Multiplication("", IntegerLiteral("", 3), IntegerLiteral("", 7))
-    e = ExpressionEvaluator()
-    ee = cn.accept(e)
-    print(ee)
+    symbol_table = SymbolTable()
 
-    cn = Division("", DecimalLiteral("", 14.0), IntegerLiteral("", 4))
-    e = ExpressionEvaluator()
-    ee = cn.accept(e)
-    print(ee)
-
-    cn = GreaterThan("", IntegerLiteral("", 3), IntegerLiteral("", 7))
-    e = ExpressionEvaluator()
-    ee = cn.accept(e)
-    print(ee)
-
-    cn = GreaterThan("", DecimalLiteral("", decimal.Decimal('11.9999')), IntegerLiteral("", 12))
-    e = ExpressionEvaluator()
-    ee = cn.accept(e)
-    print(ee)
-    #
-    # cn = Addition("", StringLiteral("", "1"), StringLiteral("", "2"))
-    # e = ExpressionEvaluator()
-    # ee = cn.accept(e)
-    # print(ee)
-
-    # cn = Multiplication("", IntegerLiteral("", "1"), StringLiteral("", "2"))
-    # e = ExpressionEvaluator()
-    # ee = cn.accept(e)
-    # print(ee)
-
-    vv = TypeChecker()
-    c.accept(vv)
-    print(c)
+    GUIVisitor(ast, symbol_table, messages)
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    filenames = [
+        "pyql/test/samples/example.ql",
+        "pyql/test/samples/form1.ql",
+        "pyql/test/samples/form2.ql",
+        "pyql/test/samples/form3.ql",
+        "pyql/test/samples/form4.ql"
+    ]
+    main(filenames)

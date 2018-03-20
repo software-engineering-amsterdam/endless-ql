@@ -1,21 +1,27 @@
 package expression.visitor.evaluation
 
+import data.symbol.SymbolTable
 import data.value.BaseSymbolValue
 import expression.BinaryExpression
-import expression.Expression
 import expression.LiteralExpression
+import expression.ReferenceExpression
 import expression.UnaryExpression
 import expression.visitor.ExpressionVisitor
 
 
-class EvaluationVisitor: ExpressionVisitor<BaseSymbolValue> {
-
-    override fun visit(expression: Expression): BaseSymbolValue {
-        throw UnsupportedOperationException("Unable to evaluate expression $expression")
-    }
+class EvaluationVisitor(private val symbolTable: SymbolTable) : ExpressionVisitor<BaseSymbolValue> {
 
     override fun visit(literal: LiteralExpression): BaseSymbolValue {
         return literal.value
+    }
+
+    override fun visit(reference: ReferenceExpression): BaseSymbolValue {
+        symbolTable.findSymbol(reference.name)?.let {
+            it.evaluate(symbolTable)
+            return it.value
+        } ?: run {
+            throw NoSuchElementException("Unable to find reference ${reference.name}")
+        }
     }
 
     override fun visit(unary: UnaryExpression): BaseSymbolValue {

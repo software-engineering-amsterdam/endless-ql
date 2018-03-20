@@ -1,10 +1,10 @@
 package qlviz.gui.viewModel.linker;
 
-import qlviz.gui.viewModel.ConditionalBlockViewModel;
 import qlviz.gui.viewModel.FormViewModel;
-import qlviz.gui.viewModel.QuestionBlockViewModel;
+import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.gui.viewModel.question.BooleanQuestionViewModel;
 import qlviz.gui.viewModel.question.NumericQuestionViewModel;
+import qlviz.gui.viewModel.question.QuestionViewModel;
 
 import java.util.List;
 import java.util.function.Function;
@@ -22,15 +22,6 @@ public class QuestionViewModelLinkerImpl implements QuestionViewModelLinker {
 
 
 
-    private void linkQuestionsInBlock(QuestionBlockViewModel questionBlock, BooleanExpressionViewModelLinker booleanExpressionLinker) {
-        for (ConditionalBlockViewModel conditionalBlock : questionBlock.getBlocks()) {
-            conditionalBlock.getCondition().accept(booleanExpressionLinker);
-            for (QuestionBlockViewModel innerBlock : conditionalBlock.getQuestionBlocks()) {
-                this.linkQuestionsInBlock(innerBlock, booleanExpressionLinker);
-            }
-        }
-    }
-
     @Override
     public void linkQuestionStubs(FormViewModel form) {
         List<BooleanQuestionViewModel> booleanQuestions = this.typedQuestionCollector.collectBooleanQuestionViewModels(form);
@@ -46,8 +37,10 @@ public class QuestionViewModelLinkerImpl implements QuestionViewModelLinker {
                         .collect(Collectors.toMap(BooleanQuestionViewModel::getName, Function.identity())),
             numericLinker);
 
-        for (QuestionBlockViewModel block : form.getQuestions()) {
-            this.linkQuestionsInBlock(block, booleanLinker);
+        for (QuestionViewModel question : form.getQuestions()) {
+            for (BooleanExpressionViewModel expression : question.getEnabledConditions()) {
+                expression.accept(booleanLinker);
+            }
         }
 
         for (NumericQuestionViewModel numericQuestion : numericQuestions) {

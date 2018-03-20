@@ -4,21 +4,21 @@ import org.uva.ql.ast.type.Type;
 import org.uva.ql.visitor.StatementVisitor;
 
 public class Question extends Statement {
-    private String name;
+    private String id;
     private String content;
     private Type type;
 
-    public Question(String name, String content, Type type) {
-        this.name = name;
+    public Question(String id, String content, Type type) {
+        this.id = id;
         this.content = content;
         this.type = type;
     }
 
-    public String getName () {
-        return this.name;
+    public String getId() {
+        return this.id;
     }
 
-    public String getContent () {
+    public String getContent() {
         return this.content;
     }
 
@@ -33,6 +33,6 @@ public class Question extends Statement {
 
     @Override
     public String toString() {
-        return String.format("%s\t%s:%s",this.content, this.name, this.type);
+        return String.format("%s\t%s:%s", this.content, this.id, this.type);
     }
 }

@@ -8,7 +8,7 @@ options { tokenVocab=GrammarLexer; }
 //RULES
 
 compileUnit     :formStructure EOF;
-mathUnit        :expression EOF;
+mathUnit        :expression;
 
 //Variables and operators
 variable        :VAR
@@ -17,24 +17,23 @@ variable        :VAR
                 |NOT VAR;
 
 
-logical         :(AND|OR);
-arithmetic      :(MULTIPLY|DIVIDE);
 type            :(BOOL|STR|DATE|DECIMAL|MONEY);
-comparison      :(LESS|GREATER|EQUALGREATER|EQUALLESS|NOTEQUAL|ISEQUAL);
 
 //Shortcuts
-questionTypes       : (questionFormat|conditionalIf|questionAssignValue|questionMultiAns);
+questionTypes       : (questionFormat|conditionalIf|questionAssignValue);
 
 //Mathematical expressions
-expression          : LPAREN expression RPAREN #parensExpression
-                    | left=expression op=(PLUS|MINUS) right=expression #binaryExpression
-                    | left=expression logical right=expression #logicalExpression
-                    | left=expression comparison right=expression #comparisonExpression
-                    | value=NUM #valueExpression;
+expression        : LPAREN expression RPAREN                                                                            #parenthesisExpression
+                  | op=(PLUS|MINUS)     expression                                                                      #unaryExpression
+                  | left=expression     op=(MULTIPLY|DIVIDE)    right=expression                                        #infixExpression
+                  | left=expression     op=(PLUS|MINUS)         right=expression                                        #infixExpression
+                  | left=expression     log=(AND|OR)            right=expression                                        #logicalExpression
+                  | left=expression     comp=(LESS|GREATER|EQUALGREATER|EQUALLESS|NOTEQUAL|ISEQUAL) right=expression    #comparisonExpression
+                  | value=(NUM|VAR|DEC)                                                                                 #numberExpression;
 
 
 //Question types
-questionFormat      : LABEL variable ASSIGN type;
+questionFormat      : LABEL variable ASSIGN  type;
 
 questionAssignValue : questionFormat EQUAL LPAREN* expression RPAREN*;
 
@@ -44,8 +43,29 @@ conditionalIfElse   : IFELSE LPAREN (variable|expression) RPAREN LBRACE question
 
 conditionalElse     : ELSE LBRACE questionTypes+ RBRACE;
 
-questionMultiAns    : LABEL variable ASSIGN MULTIPLEANSWER LPAREN (variable) (COMMA variable)+ RPAREN;
+//questionMultiAns    : LABEL variable ASSIGN MULTIPLEANSWER LPAREN (variable) (COMMA variable)+ RPAREN;
 
 
 //Class structure
 formStructure       : FORM variable LBRACE questionTypes* RBRACE;
+
+
+
+
+
+
+
+
+
+/*type            :(BOOL|STR|DATE|DECIMAL|MONEY);
+
+  //Shortcuts
+  questionTypes       : (questionFormat|conditionalIf|questionAssignValue|questionMultiAns);
+
+  //Mathematical expressions
+  expression          : LPAREN expression RPAREN                                              #parensExpression
+                      | left=expression op=(PLUS|MINUS) right=expression                      #infixExpression
+                      | left=expression op=(MULTIPLY|DIVIDE) right=expression                 #infixExpression
+                      | left=expression log=(AND|OR) right=expression                         #logicalExpression
+                      | left=expression comp=(LESS|GREATER|EQUALGREATER|EQUALLESS|NOTEQUAL|ISEQUAL) right=expression           #comparisonExpression
+                      | value=NUM #numberExpression; */

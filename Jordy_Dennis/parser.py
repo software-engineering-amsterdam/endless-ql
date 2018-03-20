@@ -6,10 +6,10 @@
 import sys
 import pprint
 from antlr4 import *
-from question_generator import Question_Generator
+from GUI import *
 from parse_grammar import generateParsers
 import logging
-from GUI import Gui
+
 
 # Generate the lexer and parser for the grammar
 generateParsers()
@@ -55,12 +55,11 @@ def getAstFromString(input):
 def main(argv):
     # used to log debug self.logger.debugs
     # set to logging.DEBUG to show debug messages, logging.ERROR to not show
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.ERROR)
     logger = logging.getLogger(__name__)
     # QL
     if len(argv)>1:
         input_file = argv[1]
-        print(input_file)
     else:
         input_file = 'test_ql'
     input = FileStream(input_file)
@@ -70,14 +69,17 @@ def main(argv):
     parser._listeners = [MyErrorListener()]
     qlTree = parser.form()
 
+
     # pass tree to visitor
     qlVisitor = QLVisitor()
     qlVisitor.visit(qlTree)
+
 
     # Get and validate AST -------------------
     ast = qlVisitor.getAst()
     ast.linkVars()
     ast.checkTypes()
+
     # QLS
     if len(argv)>2:
         input_file = argv[2]
@@ -93,8 +95,17 @@ def main(argv):
     # pass tree to visitor
     qlsVisitor = QLSVisitor()
     qlsVisitor.visit(qlsTree)
-    print(qlsTree.toStringTree())
 
+    qlsAST = qlsVisitor.stylesheet
+    qlsAST.addVarDict(ast.getVarDict())
+    qlsAST.getDefaults()
+    # qlsAST.checkTypes()
+    
+    # print(qlsTree.toStringTree())
+
+    # start up Gui
+
+    Gui(ast, qlsVisitor.stylesheet)
 
 if __name__ == '__main__':
     main(sys.argv)

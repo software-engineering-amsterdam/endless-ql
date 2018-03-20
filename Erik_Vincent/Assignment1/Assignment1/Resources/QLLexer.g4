@@ -109,10 +109,10 @@ DATE
 	: '"' NUMBER '-' NUMBER '-' NUMBER '"'
 	;
 STRING
-	: '"' ~'"'*? '"'
+	: '"' (~'"' | '""')* '"'
 	;
 COMMENT
-	: '//' ~'\n'*? '\n' -> skip
+	: '//' ~'\n'* '\n' -> skip
 	;
 WHITESPACE
 	: [ \n\t\r]+ -> skip

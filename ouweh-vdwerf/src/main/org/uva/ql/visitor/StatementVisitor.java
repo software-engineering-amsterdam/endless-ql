@@ -1,6 +1,8 @@
 package org.uva.ql.visitor;
 
-import org.uva.ql.ast.*;
+import org.uva.ql.ast.CalculatedQuestion;
+import org.uva.ql.ast.Conditional;
+import org.uva.ql.ast.Question;
 
 
 public interface StatementVisitor<T, C> {

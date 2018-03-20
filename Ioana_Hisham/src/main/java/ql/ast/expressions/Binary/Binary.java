@@ -4,20 +4,20 @@ import ql.ast.expressions.Expression;
 
 public abstract class Binary extends Expression {
 
-    private final Expression leftHandSide;
-    private final Expression rightHandSide;
+    private final Expression leftExpression;
+    private final Expression rightExpression;
 
-    public Binary (int lineNumber, Expression leftHandSide, Expression rightHandSide) {
+    public Binary (int lineNumber, Expression leftExpression, Expression rightExpression) {
         super(lineNumber);
-        this.leftHandSide = leftHandSide;
-        this.rightHandSide = rightHandSide;
+        this.leftExpression = leftExpression;
+        this.rightExpression = rightExpression;
     }
 
     public Expression getLeftExpression() {
-        return leftHandSide;
+        return leftExpression;
     }
 
     public Expression getRightExpression() {
-        return rightHandSide;
+        return rightExpression;
     }
 }

@@ -10,6 +10,7 @@ class LinkVarsTest(unittest.TestCase):
             ast = getAstFromString(inputText)
             varDict = ast.linkVars()
             enablePrint()
+
             self.assertEqual(str(varDict), outputText, filename)
 
     def testErrorFilesLinkvars(self):

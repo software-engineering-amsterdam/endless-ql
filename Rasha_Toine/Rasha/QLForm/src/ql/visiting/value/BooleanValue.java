@@ -3,8 +3,8 @@ package ql.visiting.value;
 public class BooleanValue extends AbstractValue {
   
 	private boolean value;
-	public static BooleanValue FALSE = new BooleanValue(false);
-	public static BooleanValue TRUE = new BooleanValue(true);
+	public static final BooleanValue FALSE = new BooleanValue(false);
+	public static final BooleanValue TRUE = new BooleanValue(true);
 
 	public BooleanValue(boolean value) {
 		this.value = value;
@@ -44,10 +44,10 @@ public class BooleanValue extends AbstractValue {
 	
 	@Override
 	public String getValueString() {
-		if(value == true)
-			return "true";
-		else
-			return "false";
+		if(value == true) {
+			return "Yes";
+		}
+		return "No";
 	}
 	
 	@Override
@@ -104,12 +104,17 @@ public class BooleanValue extends AbstractValue {
 	}
 	
 	@Override
-	public BooleanValue eq(DecimalValue val) {
+	public BooleanValue eq(MoneyValue val) {
 		return BooleanValue.FALSE;
 	}
 
 	@Override
 	public BooleanValue eq(DateValue val) {
+		return BooleanValue.FALSE;
+	}
+	
+	@Override
+	public BooleanValue eq(DecimalValue val) {
 		return BooleanValue.FALSE;
 	}
 	

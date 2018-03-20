@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="${title}"></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/home.css" />
+    </head>
+    <body>
+        <header>
+            <p id="title-header">Interpreter App</p>
+        </header>
+
+
+        <div id="content">
+            <div id="input-boxes-area">
+                <div id="ql-input-box">
+                    <div class="title">
+                        <p>QL</p>
+                    </div>
+                    <div class="code-wrap">
+                        <!--<form action="#" th:action="@{/greeting}" th:object="${greeting}" method="post">
+                            <p>Id: <input type="text" th:field="*{id}" /></p>
+                            <p>Message: <input type="text" th:field="*{content}" /></p>
+                            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+                        </form>-->
+                    </div>
+                </div>
+                <div id="qls-input-box">
+                    <div class="title">
+                        <p>QLS</p>
+                    </div>
+                    <div class="code-wrap"></div>
+                </div>
+            </div>
+            <div id="result-display-area">
+                <!--TODO Inject html created from json-->
+            </div>
+            <!--<h1 th:text="|Hello ${name}!|"></h1>
+            <h2 th:text="|Welcome to ${title} application|"></h2>-->
+        </div>
+
+
+        <footer>
+            <a href="https://github.com/software-engineering-amsterdam/endless-ql/tree/master/Ioana_Hisham"><p id="title-footer">Made by: Ioana Mirică &amp; Hisham Ahmed </p></a>
+        </footer>
+    </body>
+</html>

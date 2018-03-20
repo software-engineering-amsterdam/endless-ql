@@ -10,15 +10,18 @@ import java.io.IOException;
 
 public class MainGUI extends Application {
 
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 500;
+
     public static void main(String[] args) {
-        launch(args);
+        Application.launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/gui/form.fxml"));
-            Scene scene = new Scene(root, 800, 500);
+            Parent window = FXMLLoader.load(this.getClass().getResource("/gui/form.fxml"));
+            Scene scene = new Scene(window, MainGUI.WIDTH, MainGUI.HEIGHT);
             primaryStage.setTitle("Form");
             primaryStage.setScene(scene);
             primaryStage.show();

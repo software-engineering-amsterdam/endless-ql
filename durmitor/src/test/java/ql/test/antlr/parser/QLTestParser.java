@@ -5,11 +5,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import ql.grammar.QLLexer;
 import ql.grammar.QLParser;
-import ql.visitors.QLVisitorToAst;
+import ql.visitors.TextToAST;
 
 public class QLTestParser {
 
-    QLVisitorToAst visitor = new QLVisitorToAst();
+    TextToAST visitor = new TextToAST();
     
     public Object parseForm(String expr) {
         
@@ -32,12 +32,12 @@ public class QLTestParser {
         return parser.identifier().accept(visitor);
     }
     
-    public Object parseExpr(String expr) {
-        
-        QLParser parser = new QLParser(new CommonTokenStream(new QLLexer(CharStreams.fromString(expr))));
-        
-        return parser.expr().accept(visitor);
-    }
+//    public Object parseExpr(String expr) {
+//        
+//        QLParser parser = new QLParser(new CommonTokenStream(new QLLexer(CharStreams.fromString(expr))));
+//        
+//        return parser.expr().accept(visitor);
+//    }
     
     public Object parseType(String expr) {
         

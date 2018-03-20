@@ -1,49 +1,34 @@
 package ql.evaluator.value.parse;
 
-import ql.ast.expression.literal.BoolLiteral;
-import ql.ast.expression.literal.DateLiteral;
 import ql.ast.expression.literal.DecimalLiteral;
 import ql.ast.expression.literal.IntLiteral;
-import ql.ast.expression.literal.Literal;
 import ql.ast.expression.literal.MoneyLiteral;
-import ql.ast.expression.literal.StrLiteral;
 import ql.ast.expression.literal.UndefinedLiteral;
-import ql.visitors.interfaces.ValueVisitor;
+import ql.ast.type.Int;
 
-public class ToInt implements ValueVisitor {
+public class ToInt extends Convert {
 
+	public ToInt() {
+		target = new Int();
+	}
+	
     @Override
-    public Literal<?> visit(BoolLiteral value) {
-        return new UndefinedLiteral();
-    }
-
-    @Override
-    public Literal<?> visit(StrLiteral value) {
-        return new UndefinedLiteral();
-    }
-
-    @Override
-    public Literal<?> visit(IntLiteral value) {
+    public IntLiteral visit(IntLiteral value) {
         return value;
     }
 
     @Override
-    public Literal<?> visit(DecimalLiteral value) {
+    public IntLiteral visit(DecimalLiteral value) {
         return new IntLiteral(value.getValue().intValue());
     }
 
     @Override
-    public Literal<?> visit(MoneyLiteral value) {
+    public IntLiteral visit(MoneyLiteral value) {
         return new IntLiteral(value.getValue().intValue());
     }
 
     @Override
-    public Literal<?> visit(DateLiteral value) {
-        return new UndefinedLiteral();
-    }
-
-    @Override
-    public Literal<?> visit(UndefinedLiteral value) {
+    public IntLiteral visit(UndefinedLiteral value) {
         return new IntLiteral();
     }
 }

@@ -1,4 +1,15 @@
 form taxOfficeExample {
-    "Is BTC gonna crash?"
-        sendHelp: int = true || (!true || false) && true
+    "Is BTC gonna crash?" crash: int = 5
+
+    if(true && true) {
+        "Send help?" sendHelp: boolean = false
+
+        if(sendHelp) {
+            "Q3" q3: string
+        }
+
+        "Q4" q4: money
+    }
+
+    "Q5" q5: boolean
 }

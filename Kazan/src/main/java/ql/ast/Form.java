@@ -10,7 +10,8 @@ public class Form extends ASTNode {
     private String formId;
     private List<Statement> statements;
 
-    public Form(String formId, List<Statement> statements) {
+    public Form(String formId, List<Statement> statements, SourceLocation sourceLocation) {
+        super(sourceLocation);
         this.formId = formId;
         this.statements = statements;
     }
@@ -20,7 +21,7 @@ public class Form extends ASTNode {
     }
 
     public List<Statement> getStatements() {
-        return this.statements;
+        return statements;
     }
 
     public <T> T accept(FormVisitor<T> visitor) {

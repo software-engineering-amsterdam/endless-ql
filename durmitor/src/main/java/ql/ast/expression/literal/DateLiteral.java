@@ -1,7 +1,5 @@
 package ql.ast.expression.literal;
 
-import java.time.LocalDate;
-
 import ql.ast.type.Date;
 import ql.ast.type.Type;
 import ql.evaluator.comparisons.equal.DateEqual;
@@ -10,22 +8,23 @@ import ql.evaluator.comparisons.greaterequal.DateGreaterEqual;
 import ql.evaluator.comparisons.less.DateLess;
 import ql.evaluator.comparisons.lessequal.DateLessEqual;
 import ql.evaluator.comparisons.notequal.DateNotEqual;
+import ql.helpers.DateParser;
 import ql.visitors.interfaces.ExpressionVisitor;
 import ql.visitors.interfaces.ValueVisitor;
 
-public class DateLiteral extends Literal<LocalDate> {
+public class DateLiteral extends Literal<java.util.Date> {
 
-    private LocalDate value;
+    private java.util.Date value;
 
     public DateLiteral() {
-        this.value = LocalDate.MIN;
+        this.value = new java.util.Date();
     }
-
+    
     public DateLiteral(String value) {
-        this.value = LocalDate.parse(value);
+        this.value = (value == null || value.isEmpty())? new java.util.Date() : DateParser.parse(value);
     }
 
-    public DateLiteral(LocalDate value) {
+    public DateLiteral(java.util.Date value) {
         this.value = value;
     }
 
@@ -35,7 +34,7 @@ public class DateLiteral extends Literal<LocalDate> {
     }
 
     @Override
-    public LocalDate getValue() {
+    public java.util.Date getValue() {
         return value;
     }
     

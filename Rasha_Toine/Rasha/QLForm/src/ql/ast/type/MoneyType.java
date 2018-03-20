@@ -13,7 +13,7 @@ public class MoneyType extends Type {
     }
 
 	public MoneyType() {
-		
+        this.setVal(new BigDecimal(0.00));
 	}
 
 	public BigDecimal getVal() {
@@ -24,10 +24,13 @@ public class MoneyType extends Type {
 		this.val = val;
 	}
 	
+    @Override
+    public String getTypeString() {
+      return "MoneyType";
+    }
+	
 	@Override
 	public <T, U> T accept(TypeVisitor<T, U> visitor, U ctx) {
-		// TODO Auto-generated method stub
-		//return null;
 		return visitor.visit(this, ctx);
 	}
 }

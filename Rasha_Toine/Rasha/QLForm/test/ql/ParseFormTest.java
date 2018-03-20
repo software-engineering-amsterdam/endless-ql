@@ -1,15 +1,18 @@
 package test.ql;
+/**
+ * Test Parsing QL program and generating right ast
+ */
 
 import java.io.File;
 import java.io.IOException;
 
 import org.junit.Test;
 
-import ast.Form;
-import ast.literal.Identifier;
-import ast.statement.IfThenElseStatement;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import ql.ast.Form;
+import ql.ast.literal.Identifier;
+import ql.ast.statement.IfThenElseStatement;
+import org.junit.Assert.assertTrue;
+import org.junit.Assert.assertEquals;
 
 public class ParseFormTest {
     @Test
@@ -18,15 +21,16 @@ public class ParseFormTest {
 		if (args.length != 0){
 			qlPath = args[0];  	
 		} else {
-			qlPath = "src/antlr/grammar/examples/questionnaire.ql";
+			qlPath = "resources/questionnaire.ql";
 		}
+		
 	    File qlFile = new File(qlPath);
 	    if (qlFile != null) {
 	    	 try {
 		    	Form form = Form.parseFileToForm(qlFile);
 		    	Identifier id = form.getId();
 		    	String expectedId = "Box1HouseOwning";
-		    	String extractedId = id.getIdentifier(); 
+		    	String extractedId = id.toString(); 
 	
 		        assertTrue(form != null);
 		        assertEquals(expectedName, extractedId);

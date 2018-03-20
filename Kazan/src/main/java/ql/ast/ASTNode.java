@@ -2,24 +2,14 @@ package ql.ast;
 
 public abstract class ASTNode {
 
-    private int line;
-    private int column;
+    private SourceLocation sourceLocation;
 
-    public ASTNode() {
-
+    public ASTNode(SourceLocation sourceLocation) {
+        this.sourceLocation = sourceLocation;
     }
 
-    public ASTNode(int line, int column) {
-        this.line = line;
-        this.column = column;
-    }
-
-    public int getLine() {
-        return this.line;
-    }
-
-    public int getColumn() {
-        return this.column;
+    public SourceLocation getSourceLocation() {
+        return sourceLocation;
     }
 
 }

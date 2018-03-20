@@ -1,9 +1,9 @@
 import FormNode from "../../form/nodes/FormNode";
 import IfCondition from "../../form/nodes/conditions/IfCondition";
-import BooleanLiteral from "../../form/nodes/expressions/literals/BooleanLiteral";
+import BooleanLiteral from "../../form/nodes/literals/BooleanLiteral";
 import Question from "../../form/nodes/fields/Question";
 import { FieldType } from "../../form/FieldType";
-import NumberLiteral from "../../form/nodes/expressions/literals/NumberLiteral";
+import NumberLiteral from "../../form/nodes/literals/NumberLiteral";
 
 export const validForm = new FormNode("validForm", [
   new IfCondition(new BooleanLiteral(true), [

@@ -28,6 +28,7 @@ repositories {
 }
 
 dependencies {
+	compile('org.joda:joda-money:0.12')
 	compile('org.antlr:antlr4-runtime:4.7.1')
 	compile('org.apache.commons:commons-lang3:3.7')
 	compile('org.springframework.boot:spring-boot-starter')
@@ -44,5 +45,5 @@ generateGrammarSource {
 }
 
 bootRun {
-	systemProperties "ql.file": "ql_input.jsql", "ql.mode": "file"
+	systemProperties "ql.file": "ql_input.jsql", "ql.mode": "file", "qls.file": "qls_input.jsqls"
 }

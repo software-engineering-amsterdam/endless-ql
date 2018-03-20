@@ -69,3 +69,11 @@ class ElseNode(QLast):
 
     def __repr__(self):
         return "Else statements: {}".format(self.statements)
+
+class LiteralNode(QLast):
+    def __init__(self, literal, negate=False):
+        self.literal = literal
+        self.negate = negate
+
+    def __repr__(self):
+        return "Litaral negate: {} {}".format(self.negate, self.literal)

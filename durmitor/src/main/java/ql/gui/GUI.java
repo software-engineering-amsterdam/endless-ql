@@ -75,7 +75,7 @@ public class GUI {
         });
         
         addMenu();
-        addPanel();
+        addPanel("main");
     }
     
     private void addMenu() {
@@ -109,9 +109,10 @@ public class GUI {
         menuItemSave.addActionListener(new SaveMenu(fileChooserSave, frame, node));
     }
     
-    public void addPanel() {
+    public void addPanel(String name) {
         
         panel = new JPanel();
+        panel.setName(name);
         panel.setPreferredSize(new Dimension(frame.getWidth(), frame.getHeight()));
         //panel.setBackground(new Color(0, 200, 0));
         frame.add(panel, BorderLayout.CENTER);
@@ -123,7 +124,7 @@ public class GUI {
     public GUI resetFrame () {
         frame.getContentPane().removeAll();
         addMenu();
-        addPanel();
+        addPanel("reset main");
         
         return this;
     }

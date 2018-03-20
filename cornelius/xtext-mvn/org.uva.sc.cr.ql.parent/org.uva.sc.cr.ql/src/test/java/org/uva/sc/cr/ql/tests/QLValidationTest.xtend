@@ -50,7 +50,7 @@ class QLValidationTest {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
-		validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionQuestionRef,
+		validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionQuestionReference,
 			QLValidator.FORWARD_REFERNCE)
 	}
 
@@ -111,7 +111,7 @@ class QLValidationTest {
 		Assert.assertNotNull(result)
 		Assert.assertTrue(result.eResource.errors.isEmpty)
 
-		validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionQuestionRef,
+		validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionQuestionReference,
 			Diagnostic.LINKING_DIAGNOSTIC)
 	}
 

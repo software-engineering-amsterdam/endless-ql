@@ -1,16 +1,18 @@
 package ql.ast.statements;
 
+import ql.ast.SourceLocation;
 import ql.ast.types.Type;
 import ql.ast.visitors.StatementVisitor;
 
 public class Question extends Statement {
 
     private String label;
-    private String id;
+    private String identifier;
     private Type type;
 
-    public Question(String id, String label, Type type) {
-        this.id = id;
+    public Question(String identifier, String label, Type type, SourceLocation sourceLocation) {
+        super(sourceLocation);
+        this.identifier = identifier;
         this.label = label;
         this.type = type;
     }
@@ -20,7 +22,7 @@ public class Question extends Statement {
     }
 
     public String getId() {
-        return id;
+        return identifier;
     }
 
     public Type getType() {

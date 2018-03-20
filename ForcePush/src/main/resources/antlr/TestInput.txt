@@ -1,13 +1,8 @@
-2+2
-
-
-
-/*
 form taxOfficeExample {
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"
-    hasBoughtHouse: multipleAnswer(a,b)
+    hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: string
 // this is a comment
@@ -22,4 +17,3 @@ form taxOfficeExample {
   }
 
 }
-*/

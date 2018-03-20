@@ -1,138 +1,108 @@
-grammar QLS;
+parser grammar QLS;
 
-// Add instructions to generate appropriate classes
+@header {
+using Type = Assignment1.Model.QL.AST.Type;
+using Assignment1.Model.QLS.AST;
+using Assignment1.Model.QLS.AST.Style;
+using Assignment1.Model.QLS.AST.Style.Widget;
+}
 
-stylesheet
-    : STYLESHEET ID OPEN_CB page+ CLOSE_CB
-    ;
-page
-    : PAGE ID OPEN_CB section+ CLOSE_CB
-    ;
-section
-    : SECTION LABEL content 
-    | SECTION LABEL OPEN_CB content* CLOSE_CB
-    ;
-content
-    : section 
-    | question 
-    | default_style
-    ;
-question
-    : QUESTION ID 
-    | QUESTION ID widget
-    ;
-widget
-    : WIDGET CHECKBOX
-    | WIDGET RADIO OPEN_BR LABEL COMMA LABEL CLOSE_BR
-    | WIDGET SLIDER
-    | WIDGET SPINBOX
-    | WIDGET TEXTBOX
-    | WIDGET DROPDOWN
-    ;
-default_style
-    : DEFAULT type OPEN_CB style* widget CLOSE_CB
-    | DEFAULT type widget
-    ;
-style
-    : WIDTH SEP NUMBER
-    | FONT SEP LABEL
-    | FONTSIZE SEP NUMBER
-    | COLOR SEP HEXCOLORCODE
-    ;
-type
-    : BOOLEAN
-    | MONEY
-    ;
+@parser::members
+{
+    private static string UnEscapeQLSString(string input) => input.Substring(1, input.Length - 2).Replace("\"\"", "\"");
+}
 
-// Move (merge) necessary keywords to lexer file
+options { tokenVocab=QLSLexer; }
 
-STYLESHEET
-    : 'stylesheet'
-    ;
-PAGE
-    : 'page'
-    ;
-SECTION
-    : 'section'
-    ;
-QUESTION
-    : 'question'
-    ;
-WIDGET
-    : 'widget'
-    ;
-RADIO
-    : 'radio'
-    ;
-CHECKBOX
-    : 'checkbox'
-    ;
-SLIDER
-    : 'slider'
-    ;
-SPINBOX
-    : 'spinbox'
-    ;
-TEXTBOX
-    : 'textbox'
-    ;
-DROPDOWN
-    : 'dropdown'
-    ;
-DEFAULT
-    : 'default'
-    ;
-WIDTH
-    : 'width'
-    ;
-FONT
-    : 'font'
-    ;
-FONTSIZE
-    : 'fontsize'
-    ;
-COLOR
-    : 'color'
-    ;
-HEXCOLORCODE
-    : '#' ([0..9] | [a-f]) ([0..9] | [a-f]) ([0..9] | [a-f]) ([0..9] | [a-f]) ([0..9] | [a-f]) ([0..9] | [a-f])
-    ;
-OPEN_BR
-    : '('
-    ;
-CLOSE_BR
-    : ')'
-    ;
-OPEN_CB
-    : '{'
-    ;
-CLOSE_CB
-    : '}'
-    ;
-SEP
-    : ':'
-    ;
-COMMA
-    : ','
-    ;
-BOOLEAN
-    : 'boolean'
-    ;
-MONEY
-    : 'money'
-    ;
-fragment NUMBER
-    : [0-9]+
-    ;
-ID
-    : [a-zA-Z0-9]+
-    ;
-LABEL
-    : '"' ~'"'*? '"'
-    ;
-COMMENT
-    : '//' ~'\n'*? '\n' -> skip
-    ;
-WHITESPACE
-    : [ \n\t\r]+ -> skip
-    ;
+stylesheet returns [StyleSheet result]
+	: STYLESHEET ID pages EOF
+		{$result = new StyleSheet($pages.result);}
+	;
+pages returns [List<Page> result]
+	@init {
+	$result = new List<Page>();
+	}
+	: OPEN_CB (pages
+			{$result.AddRange($pages.result);}
+		)* CLOSE_CB
+	| PAGE ID statements
+		{$result.Add(new Page($ID.text, $statements.result));}
+	;
+statements returns [List<Statement> result]
+	@init {
+	$result = new List<Statement>();
+	}
+	: OPEN_CB (statements
+			{$result.AddRange($statements.result);}
+		)* CLOSE_CB
+	| section
+		{$result.Add($section.result);}
+	| questionStyle
+		{$result.Add($questionStyle.result);}
+	| defaultStyle
+		{$result.Add($defaultStyle.result);}
+	;
+section returns [Section result]
+	: SECTION string statements
+		{$result = new Section($string.result, $statements.result);}
+	;
+questionStyle returns [QuestionStyle result]
+	: QUESTION ID styles
+		{$result = new QuestionStyle($ID.text, $styles.result);}
+	| QUESTION ID
+		{$result = new QuestionStyle($ID.text);}
+	;
+styles returns [List<IStyle> result]
+	@init {
+	$result = new List<IStyle>();
+	}
+	: OPEN_CB (styles
+			{$result.AddRange($styles.result);}
+		)* CLOSE_CB
+	| COLOR SEP HEXCOLORCODE
+		{$result.Add(new Color(System.Drawing.ColorTranslator.FromHtml($HEXCOLORCODE.text)));}
+	| FONT SEP string
+		{$result.Add(new Font($string.result));}
+	| FONTSIZE SEP NUMBER
+		{$result.Add(new FontSize(int.Parse($NUMBER.text)));}
+	| WIDTH SEP NUMBER
+		{$result.Add(new Width(int.Parse($NUMBER.text)));}
+	| widget
+		{$result.Add($widget.result);}
+	;
+widget returns [IWidget result]
+	: WIDGET CHECKBOX
+		{$result = new CheckBox();}
+	| WIDGET DROPDOWN OPEN_BR yes=string COMMA no=string CLOSE_BR
+		{$result = new DropDown($yes.result, $no.result);}
+	| WIDGET RADIO OPEN_BR yes=string COMMA no=string CLOSE_BR
+		{$result = new Radio($yes.result, $no.result);}
+	| WIDGET SLIDER
+		{$result = new Slider();}
+	| WIDGET SPINBOX
+		{$result = new SpinBox();}
+	| WIDGET TEXTBOX
+		{$result = new TextBox();}
+	;
+defaultStyle returns [DefaultStyle result]
+	: DEFAULT type styles
+		{$result = new DefaultStyle($type.result, $styles.result);}
+	;
+type returns [Type result]
+	: BOOLEAN_TYPE
+		{$result = Type.Boolean;}
+	| INTEGER_TYPE
+		{$result = Type.Integer;}
+	| DATE_TYPE
+		{$result = Type.Date;}
+	| DECIMAL_TYPE
+		{$result = Type.Decimal;}
+	| MONEY_TYPE
+		{$result = Type.Money;}
+	| STRING_TYPE
+		{$result = Type.String;}
+	;
+string returns [string result]
+	: STRING
+		{$result = UnEscapeQLSString($STRING.text);}
+	;

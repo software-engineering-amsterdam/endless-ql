@@ -1,12 +1,7 @@
 package Application;
 
 import GUI.QLUserInterface;
-import ParseObjects.Expressions.BinaryExpressions.SubtractExpression;
-import ParseObjects.Expressions.Expression;
-import ParseObjects.Expressions.ExpressionConstants.IntegerConstant;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
 
 

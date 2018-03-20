@@ -6,7 +6,7 @@ import org.uva.ql.visitor.ExpressionVisitor;
 public class Negation extends Expression {
     private final Expression expression;
 
-    public Negation(Expression expression){
+    public Negation(Expression expression) {
         this.expression = expression;
     }
 

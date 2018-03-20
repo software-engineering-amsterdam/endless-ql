@@ -7,7 +7,7 @@ export default interface Form {
 
   getFields(): FieldNode[];
 
-  getState(): FormState;
+  getState(): FormState | any;
 
   setAnswer(identifier: string, value: any): Form;
 

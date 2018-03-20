@@ -1,3 +1,5 @@
+# Lars Lokhoff, Timo Dobber
+# Gui class that holds all gui related functions to add widgets to the windows
 import Tkinter as tk
 from Tkinter import *
 
@@ -5,59 +7,12 @@ class Gui():
     def __init__(self):
         self.window = tk.Tk()
         self.window.geometry('%sx%s' % (self.window.winfo_screenwidth()/3, self.window.winfo_screenheight()))
-        self.window.maxsize(self.window.winfo_screenwidth()/3, self.window.winfo_screenheight())
+        # self.window.maxsize(self.window.winfo_screenwidth()/3, self.window.winfo_screenheight())
    
         self.frame = None
+        self.setCurrentStatementFrame
         self.frames = {}
         self.values = {}
-
-        #deze hebben we misschien niet meer nodig, kijk naar yesno question voorbeeld
-        self.labels = {}
-        self.checkBoxes = {}
-        self.checkBoxValues = {}
-        self.sliders = {}
-        self.spinBoxes = {}
-        # self.textBoxes = {}
-        self.radioButtons = {}
-        self.radioButtonValues = {}
-        self.dropDowns = {}
-        
-        self.entryBoxes = {}
-        self.formVariables = {}
-
-    def configureContent(self, event):
-        self.canvas.itemconfig(self.window, width=event.width)
-
-    def configureCanvas(self, event):
-        self.canvas.configure(scrollregion=self.canvas.bbox('all'))
-
-    #add the label to the dict for destroying/changing later and then pack it in the main frame
-    def addLabel(self, name, text):
-        if self.frame: window = self.frame
-        else: window = self.window
-
-        self.labels[name] = tk.Label(window, text=text)
-        self.labels[name].pack()
-
-    def removeLabel(self, name):
-        if name in self.labels:
-            self.labels[name].destroy()
-            del self.labels[name]
-
-    #add checkbox and keep track of its variable/name (use lambda for command later)
-    def addCheckBox(self, name):
-        var = tk.IntVar()
-        self.checkBoxValues[name] = var
-        self.checkBoxes[name] = tk.Checkbutton(self.window, text="male", variable=var)
-        self.checkBoxes[name].pack()
-
-    def removeCheckBox(self, name):
-        if name in self.checkBoxes:
-            self.checkBoxes[name].destroy()
-            del self.checkBoxes[name]
-
-        if name in self.checkBoxValues:
-            del self.checkBoxValues[name]
 
     #add slider with given min and max values
     def addSlider(self, name, minVal, maxVal, orientation):
@@ -70,81 +25,34 @@ class Gui():
             self.sliders[name].destroy()
             del self.sliders[name]
 
-    def addSpinBox(self, name, minVal, maxVal):
-        spinBox = tk.Spinbox(self.window, from_=minVal, to=maxVal)
+    def addSpinbox(self, name, minVal, maxVal):
+        spinbox = tk.Spinbox(self.window, from_=minVal, to=maxVal)
         self.spinBoxes[name] = spinBox
-        spinBox.pack()
+        spinbox.pack()
 
-    def removeSpinBox(self, name):
-        if name in self.spinBoxes:
+    def removeSpinbox(self, name):
+        if name in self.spinboxes:
             self.spinBoxes[name].destroy()
             del self.spinBoxes[name]
 
-    def addEntryBox(self, name, text):
-        entryBox = tk.Entry(self.window, text=text)
-        self.entryBoxes[name] = entryBox
-        entryBox.pack()
-
-    def removeEntryBox(self, name):
-        if name in self.entryBoxes:
-            self.entryBoxes[name].destroy()
-            del self.entryBoxes[name]
-
-    def addTextBox(self, name, lines, width):
-        textBox = tk.Text(self.window, height=lines, width=width)
-        # self.textBoxes[name] = textBox
-        textBox.pack()
-        return textBox
-
-    # def addTextFrame(self, function):
-    #     var = tk.StringVar()
-    #     # textFrame = tk.Frame(self.window)
-    #     textBox = tk.Entry(self.window, textvariable=var)
-    #     # self.textBoxes[name] = textBox
-    #     def notifyChangeTextBox(*args):
-    #         # selection = "You selected the option " + str(entryVariable2.get())
-    #         # label.config(text = selection)
-    #         print "change"
-    #     textBox.pack()
-    #     var.trace("w", notifyChangeTextBox)
-    #     # textBox.pack()
-    #     return textBox, var
-
-    def removeTextBox(self, name):
-        if name in self.textBoxes:
-            self.textBoxes[name].destroy()
-            del self.textBoxes[name]
-
-    def addRadioButton(self, name, text, var, value):
-        radioButton = tk.Radiobutton(self.window, text=text, variable=var, value=value)
-        self.radioButtons[name] = radioButton
-        self.radioButtonValues[name] = var
-        radioButton.pack()
-
-    def removeRadioButton(self, name):
-        if name in self.radioButtons:
-            self.radioButtons[name].destroy()
-            del self.radioButtons[name]
-
-        if name in self.radioButtonValues:
-            del self.radioButtonValues[name]
-
-    def addDropDown(self, name, items):
+    def addDropdown(self, name, items):
         var = tk.StringVar(self.window)
         var.set(items[0])
-        dropDown = apply(tk.OptionMenu, (self.window, var) + tuple(items))
-        self.dropDowns[name] = dropDown
+        dropdown = apply(tk.OptionMenu, (self.window, var) + tuple(items))
+        self.dropdowns[name] = dropDown
         dropDown.pack()
 
-    def removeDropDown(self, name):
+    def removeDropdown(self, name):
         if name in self.dropDowns:
-            self.dropDowns[name].destroy()
-            del self.dropDowns[name]
+            self.dropdowns[name].destroy()
+            del self.dropdowns[name]
 
-    def addBooleanQuestion(self, name, question, text1, text2):
-        var = tk.IntVar()
-        
-        frame = tk.Frame(self.frame, height=2)
+    def addBooleanQuestion(self, name, question, text1, text2, updateFunction, var=None):
+        if not var:
+            var = tk.IntVar()
+            var.trace("w", updateFunction)
+
+        frame = tk.Frame(self.window, height=2)
         frame.pack(expand=False, fill='both')
         
         label = tk.Label(frame, text=question, height=2)
@@ -158,10 +66,14 @@ class Gui():
         self.values[name] = var
         self.frames[name] = frame
 
-    def addIntQuestion(self, name, question):
-        var = tk.StringVar()
+        return frame
 
-        frame = tk.Frame(self.frame, height=2)
+    def addIntQuestion(self, name, question, update_function, var=None):
+        if not var:
+            var = tk.StringVar()
+            var.trace('w', lambda nm, idx, mode, var=var: self.validateForm(update_function))
+        
+        frame = tk.Frame(self.window, height=2)
         frame.pack(expand=False, fill='both')
 
         label = tk.Label(frame, text=question, height=2)
@@ -173,13 +85,7 @@ class Gui():
         self.values[name] = var
         self.frames[name] = frame
 
-    def removeQuestion(self, name):
-        if name in self.frames:
-            self.frames[name].destroy()
-            del self.frames[name]
-
-        if name in self.questions:
-            del self.questions[name]
+        return frame
 
     def setCurrentStatementFrame(self):
         frame = tk.Frame(self.window)
@@ -187,33 +93,36 @@ class Gui():
         self.frame = frame
         return frame
 
-    def addFormButton(self, parseFunction, ast):
-        button = tk.Button(self.window, text="Submit")
-        button.config(command= lambda: parseFunction(ast, button))
-        button.pack()
+    def addAssignment(self, var_name, name, result, var=None):
+        if not var:
+            var = tk.StringVar()
+            self.values[var_name] = var
+            var.set(str(result))
+        
+        frame = tk.Frame(self.window, height=2)
+        frame.pack(expand=False, fill='both')
 
-        return
+        label = tk.Label(frame, text=name, height=2)
+        label.pack(side=LEFT)
 
-    def showWindow(self):
-        self.window.mainloop()
+        label = tk.Label(frame, height=2, textvariable=var)
+        label.pack(side=LEFT)
+        
+        return frame
 
-    # Loop through current questions and save the values on clicking the button if the input type is correct.
-    # The current questions have to be overwritten with the questions of the new frame if we do this...
-    def getVariables(self):
+    def getValue(self, var_name, type):
+        if type == "int":
+            value = self.values[var_name].get()
+            if value == '':
+                return 0
+            else:
+                return int(value) 
+        else:
+            return self.values[var_name].get()
 
-        # for question in self.questions:
-        #     if type(self.questions[question].get()) is int:
-        #         self.formVariables[question] = self.questions[question].get()
+    def updateValue(self, var_name, text):
+        if var_name in self.values:
+            self.values[var_name].set(text)
 
-        #     # todo: better error handling...
-        #     elif type(self.questions[question].get()) is str and self.questions[question].get().isdigit():
-        #         self.formVariables[question] = self.questions[question].get()
-
-        # print self.formVariables
-        return
-
-def notifyClick(name, vars):
-    print vars[name].get()
-
-def printUpdatedText(name, vars):
-    print vars[name].get()
+    def validateForm(self, function):
+        function()

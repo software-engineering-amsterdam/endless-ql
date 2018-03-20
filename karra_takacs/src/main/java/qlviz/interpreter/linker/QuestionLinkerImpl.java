@@ -7,6 +7,7 @@ import qlviz.model.question.NumericQuestion;
 import qlviz.model.QuestionBlock;
 import qlviz.model.question.BooleanQuestion;
 import qlviz.model.question.VoidQuestionVisitor;
+import qlviz.typecheker.DuplicateLabelChecker;
 
 import java.util.List;
 import java.util.function.Function;
@@ -35,7 +36,7 @@ public class QuestionLinkerImpl implements QuestionLinker {
     }
 
     @Override
-    public void linkQuestionStubs(Form form) {
+    public void linkQuestionStubs(Form form){
         List<BooleanQuestion> booleanQuestions = this.typedQuestionCollector.collectBooleanQuestions(form);
         List<NumericQuestion> numericQuestions = this.typedQuestionCollector.collectNumericQuestions(form);
 
@@ -48,11 +49,12 @@ public class QuestionLinkerImpl implements QuestionLinker {
                         .stream()
                         .collect(Collectors.toMap(BooleanQuestion::getName, Function.identity())),
             numericLinker);
+       
 
         for (QuestionBlock block : form.getQuestions()) {
             this.linkQuestionsInBlock(block, booleanLinker);
         }
-
+      
         for (NumericQuestion numericQuestion : numericQuestions) {
             if (numericQuestion.getValueExpression() != null) {
                 numericQuestion.getValueExpression().accept(numericLinker);

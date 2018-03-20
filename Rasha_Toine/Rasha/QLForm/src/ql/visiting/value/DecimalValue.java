@@ -1,26 +1,25 @@
 package ql.visiting.value;
 
-import java.math.BigDecimal;
 
 public class DecimalValue extends AbstractValue {
   
-	private BigDecimal value;
+	private double value;
 	
-	public DecimalValue(BigDecimal value) {
+	public DecimalValue(double value) {
 		this.value = value;
 	}
 
-	public BigDecimal getValue() {
+	public double getValue() {
 		return value;
 	}
 
-	public void setValue(BigDecimal value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 
 	@Override
 	public String getValueString() {
-		return value.toString();
+		return Double.toString(value);
 	}
 	
 	@Override
@@ -30,7 +29,7 @@ public class DecimalValue extends AbstractValue {
 	
 	@Override
 	public Value add(DecimalValue val) {
-		BigDecimal result = this.value.add(val.value);
+		double result = this.value + val.value;
 		return new DecimalValue(result);
 	}
 	
@@ -41,7 +40,7 @@ public class DecimalValue extends AbstractValue {
 	
 	@Override
 	public Value sub(DecimalValue val) {
-		BigDecimal result = this.value.subtract(val.value);
+		double result = this.value - val.value;
 		return new DecimalValue(result);
 	}
 	
@@ -52,7 +51,7 @@ public class DecimalValue extends AbstractValue {
 	
 	@Override
 	public Value mul(DecimalValue val) {
-		BigDecimal result = this.value.multiply(val.value);
+		double result = this.value * val.value;
 		return new DecimalValue(result);
 	}
 	
@@ -63,11 +62,11 @@ public class DecimalValue extends AbstractValue {
 	
 	@Override
 	public Value div(DecimalValue val) {
-		if (!val.value.equals(0)) {
-			BigDecimal result = this.value.divide(val.value);
+		if (val.value!=0) {
+			double result = this.value / val.value;
 			return new DecimalValue(result);
-		} else 
-			return throwException();
+		}
+		return throwException();
 	}
 
 	
@@ -88,11 +87,10 @@ public class DecimalValue extends AbstractValue {
 	
 	@Override
 	public BooleanValue gt(DecimalValue val) {
-		int result = this.value.compareTo(val.value);
-		if (result == 1)
+		if (val.value > this.value) {
 			return new BooleanValue(true);
-		else
-			return new BooleanValue(false);
+		}
+		return new BooleanValue(false);
 	}
 
 	@Override
@@ -102,11 +100,10 @@ public class DecimalValue extends AbstractValue {
 	
 	@Override
 	public BooleanValue gEq(DecimalValue val) {
-		int result = this.value.compareTo(val.value);
-		if (result == 2 || result == 0 )
+		if (val.value >= this.value) {
 			return new BooleanValue(true);
-		else
-			return new BooleanValue(false);
+		}
+		return new BooleanValue(false);
 	}
 
 	@Override
@@ -116,11 +113,10 @@ public class DecimalValue extends AbstractValue {
 	
 	@Override
 	public BooleanValue lt(DecimalValue val) {
-		int result = this.value.compareTo(val.value);
-		if (result == 2)
+		if (val.value < this.value) {
 			return new BooleanValue(true);
-		else
-			return new BooleanValue(false);
+		}
+		return new BooleanValue(false);
 	}
 	
 	
@@ -131,22 +127,21 @@ public class DecimalValue extends AbstractValue {
 	
 	@Override
 	public BooleanValue lEq(DecimalValue val) {
-		int result = this.value.compareTo(val.value);
-		if (result == 1 || result == 0 )
+		if (val.value <= this.value) {
 			return new BooleanValue(true);
-		else
-			return new BooleanValue(false);
+		}
+		return new BooleanValue(false);
 	}
 	
-	/*@Override
+	@Override
 	public DecimalValue neg() {
-		return new DecimalValue(this.value.multiply(new BigDecimal(-1)));
+		return new DecimalValue((-1)*this.value);
 	}
 
 	@Override
 	public DecimalValue pos() {
-		return new DecimalValue(this.value.multiply(new BigDecimal(+1)));
-	}*/
+		return new DecimalValue((+1)*this.value);
+	}
 
 	@Override
 	public BooleanValue or(Value val) {
@@ -158,8 +153,13 @@ public class DecimalValue extends AbstractValue {
 	public BooleanValue and(Value val) {
 		return throwException();
 	}
-	
 
+	@Override
+	public BooleanValue eq(DecimalValue val) {
+		boolean result = this.value == val.value;
+		return new BooleanValue(result);
+	}
+	
 	@Override
 	public BooleanValue eq(BooleanValue val) {
 		return BooleanValue.FALSE;
@@ -176,10 +176,9 @@ public class DecimalValue extends AbstractValue {
 	public BooleanValue eq(DateValue val) {
 		return BooleanValue.FALSE;
 	}
-	
 
 	@Override
-	public BooleanValue eq(DecimalValue val) {
+	public BooleanValue eq(MoneyValue val) {
 		return BooleanValue.FALSE;
 	}
 	
@@ -190,8 +189,6 @@ public class DecimalValue extends AbstractValue {
 
 	@Override
 	public Value translate(String str) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

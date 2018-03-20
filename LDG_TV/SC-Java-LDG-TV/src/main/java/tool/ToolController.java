@@ -2,34 +2,50 @@ package tool;
 
 import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
+import antlr.qls.StylesheetLexer;
+import antlr.qls.StylesheetParser;
 import domain.model.ast.FormNode;
 import domain.Utilities;
 import domain.model.ast.ASTNode;
 import domain.model.ast.IfASTNode;
 import domain.model.ast.QuestionASTNode;
+import domain.model.stylesheet.Page;
+import domain.model.stylesheet.Section;
+import domain.model.stylesheet.Stylesheet;
 import domain.model.variable.Variable;
 import domain.visitor.UIVisitor;
 import domain.visitor.Visitor;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import io.reactivex.rxjavafx.sources.Change;
+import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.QLLoader;
+import loader.QLS.QLSLoader;
 import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class ToolController implements Initializable, Consumer {
@@ -42,6 +58,9 @@ public class ToolController implements Initializable, Consumer {
 
     @FXML
     private ListView<Row> lvQuestionnaire;
+
+    @FXML
+    private TabPane tpPages;
 
     @FXML
     private Button btnBuild;
@@ -73,11 +92,7 @@ public class ToolController implements Initializable, Consumer {
 
         String qlsSource = taSourceCodeQLS.getText();
 
-        if(qlsSource.isEmpty()){
-            System.out.println("QLS not set, fall back to default styling");
-        }
-
-        lvQuestionnaire.getItems().clear();
+                lvQuestionnaire.getItems().clear();
 
         // Parse input field and create AST
         CharStream stream = CharStreams.fromString(qlSource);
@@ -94,11 +109,26 @@ public class ToolController implements Initializable, Consumer {
 
         this.formNode = loader.getFormNode();
 
+        if(!qlsSource.isEmpty()){
+            CharStream qlsStream = CharStreams.fromString(qlsSource);
+            StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
+
+            StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
+
+            //parser.setErrorHandler(new BailErrorStrategy());
+            qlsParser.addErrorListener(new ToolBarErrorListener(lblErrorField));
+
+            StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
+            QLSLoader qlsLoader = new QLSLoader(this.formNode);
+            ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
+            drawPages(this.formNode.getStylesheet());
+        }
+
+
         List<ASTNode> astNodes = this.formNode.getASTNodes();
 
         List<QuestionASTNode> questions = getAllQuestions(astNodes);
-        drawQuestions(questions);
-
+        drawQuestions(questions, lvQuestionnaire);
         printInfoMessage("Build successful");
     }
 
@@ -110,9 +140,9 @@ public class ToolController implements Initializable, Consumer {
         lblErrorField.setText(message);
     }
 
-    private void drawQuestions(List<QuestionASTNode> questionASTNodes){
+    private void drawQuestions(List<QuestionASTNode> questionASTNodes, ListView lView){
         Visitor uiVisitor = new UIVisitor();
-        lvQuestionnaire.getItems().clear();
+        lView.getItems().clear();
 
         this.formNode.evaluateIfs();
 
@@ -136,11 +166,25 @@ public class ToolController implements Initializable, Consumer {
 
             Row r = new QuestionRow(questionText, n);
             r.setDisable(qn.isDisabled());
-            lvQuestionnaire.getItems().add(r);
+            lView.getItems().add(r);
         }
     }
 
-
+    private void drawPages(Stylesheet stylesheet){
+        ListView lv;
+        Label sl;
+        Tab tab;
+        Pane pane;
+        for (Page p : stylesheet.getPages()){
+            tab = new Tab(p.getLabel());
+            this.tpPages.getTabs().add(tab);
+            lv = new ListView<Row>();
+            for (Section s : p.getSections()){
+                drawQuestions(s.getQuestions(), lv);
+            }
+            tab.setContent(lv);
+        }
+    }
 
     private List<QuestionASTNode> getAllQuestions(List<ASTNode> nodes){
         List<QuestionASTNode> visQuestion = new ArrayList<>();
@@ -228,6 +272,6 @@ public class ToolController implements Initializable, Consumer {
     public void accept(Object event) {
         System.out.println("Redraw tree yo");
         List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
-        drawQuestions(questions);
+        drawQuestions(questions, lvQuestionnaire);
     }
 }

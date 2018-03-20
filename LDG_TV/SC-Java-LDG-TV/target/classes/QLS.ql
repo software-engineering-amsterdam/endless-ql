@@ -7,8 +7,9 @@ stylesheet taxOfficeExample
       question hasBoughtHouse  
         widget checkbox 
     }
-    section "Loaning"  
+    section "Loaning"
       question hasMaintLoan
+   
   }
 
   page Selling

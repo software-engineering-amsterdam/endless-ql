@@ -50,7 +50,6 @@ public class FileOpenActionEvent implements ActionListener {
         if (result == JFileChooser.APPROVE_OPTION) {
 
             File selectedFile = fileChooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 
             CharStream charStream = null;
             try {
@@ -85,9 +84,8 @@ public class FileOpenActionEvent implements ActionListener {
             CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
             List<Expression> conditions = collectConditionsVisitor.getConditions(form);
 
-            // Validate questions against cyclic dependency @TODO: finish
+            // Collect questions with their references for cyclic dependency validator
             HashMap<Question, List<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap(form);
-            QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(questionsMap);
 
             // Validators
 
@@ -117,9 +115,21 @@ public class FileOpenActionEvent implements ActionListener {
                 validated = false;
             }
 
+            // Validate cyclic dependencies in questions and expressions
+            try {
+                ConditionsValidator.validateConditions(conditions, questions);
+            } catch (RuntimeException e) {
+                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                validated = false;
+            }
+
             // Validate operands of invalid type to operators
             try {
                 TypesValidator.validateTypes(conditions, questions);
+                QuestionsDependencyValidator questionsDependencyValidator = new QuestionsDependencyValidator(questionsMap);
+
+                System.out.println("uuu");
+
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 validated = false;
@@ -177,7 +187,6 @@ public class FileOpenActionEvent implements ActionListener {
 
                     Gson gson = new Gson();
                     String jsonResults = gson.toJson(formController.prepareResults());
-                    System.out.println(jsonResults);
 
                     fileChooser.setSelectedFile(new File(form.getName() + "-result.json"));
                     int returnVal = fileChooser.showSaveDialog(null);

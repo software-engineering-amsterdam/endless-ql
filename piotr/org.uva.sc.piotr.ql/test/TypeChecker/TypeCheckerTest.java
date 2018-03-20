@@ -272,4 +272,23 @@ public class TypeCheckerTest {
 
     }
 
+//    @Test
+//    public void dependencyErrorTest() {
+//
+//        String fileContent = "form dependencyErrorExample\n" +
+//                "{\n" +
+//                "  \"A\" a: integer = d + 1 \n" +
+//                "  \"B\" b: integer\n" +
+//                "  \"C\" c: integer = a + b\n" +
+//                "  \"D\" d: integer = c + 5\n" +
+//                "  \"E\" e: integer \n" +
+//                "  \"F\" f: integer = e + 10\n" +
+//                "}";
+//
+//        Form form = this.getAstFormFromString(fileContent);
+//
+//        exception.expect(QuestionDependencyException.class);
+//
+//    }
+
 }

@@ -49,7 +49,6 @@ class MainWindow(QtWidgets.QWidget):
 
     def parse(self, ql_text, qls_text):
         ql_data = ParserCarrier()
-
         if ql_text:
             ql_data.set_ql_grammar_text(ql_text)
             ql_data.run_antlr_ql()
@@ -66,7 +65,7 @@ class MainWindow(QtWidgets.QWidget):
                 self.outputFrame.check_duplicate_questions()
 
         else:  # todo: if garbage in, this error message out.
-            self.outputFrame.addWidget(QtWidgets.QLabel("QL input missing"))
+            self.outputFrame.frameLayout.addWidget(QtWidgets.QLabel("QL input missing"))
             # pass
 
         if qls_text:

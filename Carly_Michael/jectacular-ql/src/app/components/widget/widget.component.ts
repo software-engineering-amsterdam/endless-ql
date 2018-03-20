@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Widget} from '../../domain/ast/qls';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {AbstractControl, FormGroup} from '@angular/forms';
 
@@ -9,12 +8,17 @@ import {AbstractControl, FormGroup} from '@angular/forms';
   styleUrls: ['./widget.component.css']
 })
 export class WidgetComponent implements OnInit {
-  @Input() widget: Widget;
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
   control: AbstractControl;
 
   ngOnInit(): void {
     this.control = this.form.controls[this.question.key];
+  }
+
+  onNumberChange(question: QuestionBase<any>, event) {
+    if (question.type === 'number') {
+      this.form.controls[this.question.key].setValue(parseInt(event.target.value, 10));
+    }
   }
 }

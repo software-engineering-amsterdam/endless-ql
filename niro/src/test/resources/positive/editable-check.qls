@@ -1,0 +1,46 @@
+stylesheet EditOrNotToEdit {
+    page PageOne {
+        section "Variables" {
+            question stringVariable
+            question booleanVariable widget radio("Ja", "Nee")
+            question integerVariable
+            question decimalVariable
+            question moneyVariable
+            question dateVariable
+        }
+        section "Expressions" {
+            question booleanExpression
+            question integerExpression
+            question stringExpression
+        }
+    }
+    page PageTwo {
+        section "Variables" {
+            question stringVariable
+        }
+        section "Expressions" {
+            question stringExpression
+        }
+        section "Constants" {
+            question stringConstant
+            question booleanConstant
+            question integerConstant
+        }
+    }
+    page PageThree {
+        section "Variables" {
+            question stringVariable
+        }
+        section "Constants" {
+            question decimalConstant
+            question moneyConstant
+            question dateConstant
+        }
+        section "Expressions" {
+            question decimalExpression
+            question stringExpression
+            question moneyExpression
+            question dateExpression
+        }
+    }
+}

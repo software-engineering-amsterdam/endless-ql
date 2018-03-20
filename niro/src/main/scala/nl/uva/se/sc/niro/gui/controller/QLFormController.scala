@@ -4,84 +4,114 @@ import java.io.IOException
 
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.Label
+import javafx.geometry.Insets
+import javafx.scene.control.Alert.AlertType
+import javafx.scene.control.{ Alert, ButtonType, Label, ScrollPane }
 import javafx.scene.layout.VBox
-import nl.uva.se.sc.niro.Evaluator
-import nl.uva.se.sc.niro.gui.application.QLForms
-import nl.uva.se.sc.niro.gui.control.{ Component, ComponentFactory }
-import nl.uva.se.sc.niro.gui.converter.ModelConverter
+import javafx.stage.FileChooser
+import nl.uva.se.sc.niro.ExpressionEvaluator._
+import nl.uva.se.sc.niro.gui.application.QLScenes
+import nl.uva.se.sc.niro.gui.control.Component
+import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
+import nl.uva.se.sc.niro.gui.factory.QLComponentFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
+import nl.uva.se.sc.niro.{ Evaluator, QLFormService }
+import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.{ JavaConverters, mutable }
 
-class QLFormController extends QLBaseController with ComponentChangedListener {
-  private val dictionary = mutable.Map[String, Answer]()
-  private var qlForm: QLForm = _
-  private var guiForm: GUIForm = _
-  private var questions: Seq[Component[_]] = _
+class QLFormController(homeController: QLHomeController, val form: QLForm)
+    extends QLBaseController
+    with ComponentChangedListener
+    with Logging {
 
-  @FXML var formName: Label = _
-  @FXML var questionArea: VBox = _
+  // TODO align naming!
+  type ValueStore = mutable.Map[String, Answer]
+  protected val valuesForQuestions: ValueStore = mutable.Map[String, Answer]()
+  protected var guiForm: GUIForm = _ // Needed because it contains the GUI questions that hold the visibility expression
+  protected var questions: Seq[Component[_]] = _ // The actual components that handle the user interaction
+
+  @FXML protected var topBox: VBox = _ // FIXME Is only used by QLSFormController
+  @FXML protected var formName: Label = _
+  @FXML protected var questionArea: ScrollPane = _
+
+  override def applicationName(): String = "QL Forms"
 
   @FXML
   @throws[IOException]
   def cancel(event: ActionEvent): Unit =
-    QLForms.openHomeScreen(getActiveStage(event))
+    switchToScene(QLScenes.homeScene, homeController)
 
-  @FXML def saveData(event: ActionEvent): Unit =
-    // TODO Implement
-    println("Data is saved....")
+  @FXML
+  def saveData(event: ActionEvent): Unit = {
+    val fileChooser = new FileChooser
+    fileChooser.setTitle("Save file")
+    fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("CSV", "*.csv"))
+    val file = fileChooser.showSaveDialog(getActiveStage)
+
+    if (file != null) {
+      QLFormService.saveMemoryTableToCSV(valuesForQuestions.toMap, file)
+      showSavedMessage()
+      cancel(event)
+    }
+  }
 
   def componentChanged(component: Component[_]): Unit = {
-    dictionary(component.getQuestionId) = component.getValue
-    evaluateAnswers
-    updateView
+    logger.debug(s"Component [${component.getQuestionId}] changed its value to [${component.getValue}]")
+    component.getValue foreach (answer => valuesForQuestions(component.getQuestionId) = answer)
+    evaluateAnswers()
+    updateView()
   }
 
-  def initializeForm(form: QLForm): Unit = {
-    this.qlForm = form
-    guiForm = ModelConverter.convert(this.qlForm)
+  def initializeForm(): Unit = {
+    val questionBox = new VBox()
+    questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
+
+    guiForm = GUIModelFactory.makeFrom(form)
+    questions = guiForm.questions.map(QLComponentFactory.make)
+    questions.foreach(_.addComponentChangedListener(this))
+    questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
+    questionArea.setContent(questionBox)
+
+    getActiveStage.setTitle("QL forms")
     formName.setText(guiForm.name)
 
-    questions = guiForm.questions.map(ComponentFactory.make)
-    questions.foreach(_.addComponentChangedListener(this))
-
-    questionArea.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
-
-    evaluateAnswers
-    updateView
+    evaluateAnswers()
+    updateView()
   }
 
-  private def evaluateAnswers(): Unit = {
-    dictionary ++= Evaluator.evaluate(qlForm, dictionary.toMap)
+  def evaluateAnswers(): Unit = {
+    logger.debug(s"Values before evaluation:\n${pprint.apply(valuesForQuestions)}")
+    valuesForQuestions ++= Evaluator.evaluate(form, valuesForQuestions.toMap)
+    logger.debug(s"Values after evaluation:\n${pprint.apply(valuesForQuestions)}")
   }
 
-  private def updateView = {
+  def updateView(): Unit = {
     updateValues()
     updateVisibility()
   }
 
-  private def updateValues(): Unit = {
-    questions.foreach(_.updateValue(dictionary))
+  def updateValues(): Unit = {
+    questions.foreach(_.updateValue(valuesForQuestions))
   }
 
-  private def updateVisibility(): Unit = {
-    guiForm.questions.foreach(question => {
-      getVisibilitySetting(question) match {
-        case visibility: BooleanAnswer => question.component.map(_.setVisible(isVisible(visibility)))
-        case _                         => throw new IllegalArgumentException("A if-condition did not result in a boolean expression!")
-      }
-    })
+  def updateVisibility(): Unit = {
+    guiForm.questions.foreach { question =>
+      val isQuestionVisible: Boolean = getVisibilitySetting(question)
+      question.component.foreach(_.setVisible(isQuestionVisible))
+    }
   }
 
-  private def isVisible(b: BooleanAnswer) = {
-    b.possibleValue.getOrElse(false)
+  private def getVisibilitySetting(question: GUIQuestion): Boolean = {
+    question.visibility.evaluate(form.symbolTable, valuesForQuestions.toMap).exists(_.isTrue)
   }
 
-  private def getVisibilitySetting(question: GUIQuestion) = {
-    Evaluator.evaluateExpression(question.visibility, qlForm.symbolTable, dictionary.toMap)
+  def showSavedMessage(): Unit = {
+    val alert = new Alert(AlertType.INFORMATION, "The file has successfuly been saved.", ButtonType.OK)
+    alert.setTitle("Save results")
+    alert.showAndWait()
   }
 }

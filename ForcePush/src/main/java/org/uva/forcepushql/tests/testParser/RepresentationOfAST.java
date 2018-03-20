@@ -60,6 +60,7 @@ public class RepresentationOfAST{
 
     }
 
+
     public ParseTreeNode toParseTree (ParserRuleContext node){
         ParseTreeNode res = new ParseTreeNode(node.getClass().getSimpleName());
         res.children.forEach( c -> {

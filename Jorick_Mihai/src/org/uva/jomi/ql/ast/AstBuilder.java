@@ -1,21 +1,25 @@
 package org.uva.jomi.ql.ast;
 
-import org.uva.jomi.ql.ast.statements.Stmt;
-import org.uva.jomi.ql.ast.statements.StmtVisitor;
+import org.uva.jomi.ql.ast.statements.Statement;
+import org.uva.jomi.ql.ast.statements.StatementVisitor;
 import org.uva.jomi.ql.parser.antlr.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AstBuilder extends QLBaseVisitor<List<Stmt>> {
-	private final StmtVisitor stmtVisitor;
+public class AstBuilder extends QLBaseVisitor<List<Statement>> {
+	private final StatementVisitor stmtVisitor;
 
-	public AstBuilder() {
-		stmtVisitor = new StmtVisitor();
+	public AstBuilder(boolean printErros) {
+		stmtVisitor = new StatementVisitor(printErros);
 	}
 
-	@Override public List<Stmt> visitParse(QLParser.ParseContext ctx) {
-		List<Stmt> statements = new ArrayList<>(ctx.formStmt().size());
-		for (QLParser.FormStmtContext statement : ctx.formStmt()) {
+	public int getNumberOfErros() {
+		return stmtVisitor.getNumberOfErrors();
+	}
+
+	@Override public List<Statement> visitParse(QLParser.ParseContext ctx) {
+		List<Statement> statements = new ArrayList<>(ctx.formStatement().size());
+		for (QLParser.FormStatementContext statement : ctx.formStatement()) {
 			statements.add(statement.accept(stmtVisitor));
 		}
 

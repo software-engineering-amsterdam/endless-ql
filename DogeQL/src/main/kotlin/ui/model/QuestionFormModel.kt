@@ -4,27 +4,40 @@ import data.question.Question
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import tornadofx.ItemViewModel
-import tornadofx.observable
 import ui.controller.DogeController
 
 class QuestionFormModel : ItemViewModel<QuestionModel>() {
 
     var questions: ObservableList<QuestionModel> = FXCollections.observableArrayList<QuestionModel>()
 
-    private var dataQuestions = FXCollections.observableArrayList<Question>()
+    private var dataQuestions = listOf<Question>()
 
     private val dogeController: DogeController by inject()
 
-    fun load() {
-        runAsync {
-            dogeController.getQuestions().observable()
-        } ui {
-            convertToViewModel(it)
-            dataQuestions.addAll(it)
+    override fun onCommit() {
+        questions.forEach { x ->
+            x.commit()
         }
     }
 
-    private fun convertToViewModel(it: ObservableList<Question>) {
-        questions.addAll(it.map(::QuestionModel))
+    fun load() {
+        runAsync {
+            dogeController.getQuestions()
+        } ui {
+            convertToViewModel(it)
+            dataQuestions = it
+        }
+    }
+
+    private fun convertToViewModel(newDataQuestions: List<Question>) {
+        val toAdd = newDataQuestions - dataQuestions
+
+        questions.removeIf { q ->
+            q.item !in newDataQuestions
+        }
+
+        toAdd.forEach { q ->
+            questions.add(newDataQuestions.indexOf(q), QuestionModel(q))
+        }
     }
 }

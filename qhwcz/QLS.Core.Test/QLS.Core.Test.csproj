@@ -75,6 +75,18 @@
   <ItemGroup>
     <EmbeddedResource Include="CorrectStylesheets\onePageStylesheetWithQuestion.qls" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CorrectStylesheets\onePageStylesheetWithQuestionAndWidget.qls" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CorrectStylesheets\stylesheetWithOneQuestionAndDefaultStyle.qls" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CorrectStylesheets\optionWidgetTest.qls" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CorrectStylesheets\stylesheetWithOneQuestionAndLocalStyle.qls" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

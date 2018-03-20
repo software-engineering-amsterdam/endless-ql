@@ -2,7 +2,7 @@ package nl.uva.js.qlparser.exceptions;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import nl.uva.js.qlparser.models.enums.DataType;
+import nl.uva.js.qlparser.models.ql.enums.DataType;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -9,8 +9,8 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
         void Add<T>(Guid variableRef, T value);
         void Update<T>(Guid variableRef, T value);
         bool Exists<T>(Guid variableRef);
-        T Lookup<T>(Guid id);
-        object Lookup(Guid id);
+        T Lookup<T>(Guid variableRef);
+        object Lookup(Guid variableRef);
     }
     
 }

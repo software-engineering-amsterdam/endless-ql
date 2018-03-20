@@ -2,7 +2,7 @@ package org.uva.sea.gui.render;
 
 public class WarningRenderer implements Renderable<String> {
 
-    private ViewRenderer render;
+    private final ViewRenderer render;
 
     public WarningRenderer(ViewRenderer javafxRendererVisitor) {
         this.render = javafxRendererVisitor;
@@ -10,6 +10,6 @@ public class WarningRenderer implements Renderable<String> {
 
     @Override
     public void render(String warning) {
-        render.displayWarning(warning);
+        this.render.displayWarning(warning);
     }
 }

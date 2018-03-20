@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 
@@ -37,11 +38,11 @@ namespace QuestionnaireDomain.Entities.Domain
         {
             return m_symbols.ContainsKey(variableRef);
         }
-
+        
         public void Add<T>(Guid variableRef, T value)
         {
             ValidateType(typeof(T));
-            if (!m_symbols.ContainsKey(variableRef))
+            if (m_symbols.ContainsKey(variableRef))
             {
                 return;
             }
@@ -51,7 +52,7 @@ namespace QuestionnaireDomain.Entities.Domain
 
         private void ValidateType(Type type)
         {
-            var validTypes = new[] {typeof(decimal), typeof(bool), typeof(DateTime), typeof(string)};
+            var validTypes = new[] {typeof(int), typeof(decimal), typeof(bool), typeof(DateTime), typeof(string)};
             if (validTypes.All(x => x != type))
             {
                 throw new ArgumentException($@"tried to process a variable of a the unsupported type '{type}'");
@@ -63,12 +64,117 @@ namespace QuestionnaireDomain.Entities.Domain
             ValidateType(typeof(T));
             if (m_symbols.ContainsKey(variableRef))
             {
-                m_symbols[variableRef].Value = value;
+                var newDataType = typeof(T);
+                var originalDataType = m_symbols[variableRef].Type;
+                m_symbols[variableRef].Value = TypeConvert(
+                    newDataType, 
+                    originalDataType, 
+                    value);
             }
             else
             {
                 Add(variableRef, value);
             }
+        }
+
+        private object TypeConvert<T>(Type newDataType, Type originalDataType, T value)
+        {
+            if (newDataType == originalDataType)
+            {
+                return value;
+            }
+
+            if (newDataType.IsSubclassOf(originalDataType))
+            {
+                return value;
+            }
+
+            // ToDo: prevent datatypes that are not string coming through as string
+            if (newDataType != typeof(string))
+            {
+                throw new ArgumentException(
+                    $@"tried to put a type of '{newDataType}' with a value '{value}' into a variable of type {
+                            originalDataType
+                        }");
+
+            }
+
+            var stringValue = value as string;
+            if (originalDataType == typeof(int))
+            {
+                return ParseInt(stringValue);
+            }
+
+            if (originalDataType == typeof(DateTime))
+            {
+                return ParseDate(stringValue);
+            }
+
+            if (originalDataType == typeof(decimal))
+            {
+                return ParseDecimal(stringValue);
+            }
+
+            if (originalDataType == typeof(bool))
+            {
+                return ParsedBool(stringValue);
+            }
+
+            throw new ArgumentException(
+                $@"tried to put a type of '{newDataType}' with a value '{value}' into a variable of type {
+                        originalDataType
+                    }");
+        }
+
+        private static bool ParsedBool(string stringValue)
+        {
+            bool parsedBool;
+            if (bool.TryParse(stringValue, out parsedBool))
+            {
+                return parsedBool;
+            }
+
+            throw new ArgumentException(
+                $"in the symbolTable there was an attempt to convert {stringValue} to Boolean");
+        }
+
+        private static decimal ParseDecimal(string stringValue)
+        {
+            decimal parsedNum;
+            if (decimal.TryParse(stringValue, out parsedNum))
+            {
+                return parsedNum;
+            }
+
+            throw new ArgumentException(
+                $"in the symbolTable there was an attempt to convert {stringValue} to Decimal");
+        }
+
+        private static DateTime ParseDate(string stringValue)
+        {
+            DateTime parsedDate;
+            if (DateTime.TryParse(
+                stringValue,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out parsedDate))
+            {
+                return parsedDate;
+            }
+
+            throw new ArgumentException($"in the symbolTable there was an attempt to convert {stringValue} to DateTime");
+        }
+
+        private static int ParseInt(string stringValue)
+        {
+            int parsedInt;
+            if (int.TryParse(stringValue, out parsedInt))
+            {
+                return parsedInt;
+            }
+
+            throw new ArgumentException(
+                $"in the symbolTable there was an attempt to convert {stringValue} to Int32");
         }
 
         public bool Exists<T>(Guid variableRef)
@@ -95,7 +201,13 @@ namespace QuestionnaireDomain.Entities.Domain
                 .Value
                 ?.Value;
 
-            return (T) (value ?? default(T));
+            if (value == null)
+            {
+                Add(variableRef, default(T));
+                value = default(T);
+            }
+
+            return (T) value;
         }
     }
 }

@@ -3,8 +3,10 @@ parser grammar QlParser;
 options { tokenVocab=QlLexer; }
 
 root: formHeader OCB formBody CCB;
-formHeader: form IDENTIFIER;
+formHeader: form identifier;
 form: FORM;
+
+identifier: IDENTIFIER;
 
 formBody: stmt+;
 stmt:
@@ -26,7 +28,7 @@ expr:
   OB expr CB #bracketExpression |
   lhs=expr binOp rhs=expr #binaryExpression |
   op=unOp expr #unaryExpression |
-  IDENTIFIER #identifierExpression |
+  identifier #identifierExpression |
   NUMBER #numberExpression
 ;
 
@@ -37,6 +39,6 @@ unOp: NOT | SUB;
 arithmetic: ADD | SUB | MUL | DIV;
 logical: GT | LT | LTE | GTE | EQ | NEQ | CON | DIS; 
 
-varDecl: IDENTIFIER DD typeDecl;
+varDecl: identifier DD typeDecl;
 valAssign: ASS OB expr CB;
 typeDecl: BOOL | MONEY;

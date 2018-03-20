@@ -2,6 +2,7 @@
 using QLS.Api.Ast;
 using System.Linq;
 using System.Collections.Generic;
+using QLS.Api.Entities;
 
 namespace Presentation.Visitors
 {
@@ -38,6 +39,8 @@ namespace Presentation.Visitors
                 {
                     sectionViewModel.Questions.Add(questionViewModel);
                 }
+
+                // TODO: Include default styles
             }
 
             return sectionViewModel;
@@ -45,7 +48,24 @@ namespace Presentation.Visitors
 
         public override object Visit(QuestionNode question)
         {
-            return _questions.FirstOrDefault(q => q.Id.Equals(question.Label));
+            QuestionViewModel questionVm = _questions.FirstOrDefault(q => q.Id.Equals(question.Label));
+            if (question.ChildNodes.Count == 1 && questionVm != null)
+            {
+                var widgetNode = question.ChildNodes[0];
+                var widgetType = (WidgetType)widgetNode.Accept(this);
+                questionVm.WidgetType = widgetType;
+
+                // TODO: Include overriden styles
+            }
+
+            return questionVm;
+        }
+
+        public override object Visit(WidgetNode node)
+        {
+            // TODO: Extract widget options
+            // return a triplet type, options (2)
+            return node.WidgetType;
         }
     }
 }

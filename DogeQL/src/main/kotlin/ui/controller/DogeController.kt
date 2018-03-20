@@ -1,26 +1,24 @@
 package ui.controller
 
 import ast.DogeParser
+import com.sun.org.apache.xerces.internal.util.SymbolTable
 import data.question.Question
-import data.value.*
-import node.Node
+import data.question.QuestionTable
+import data.question.SymbolType
 import tornadofx.Controller
-import java.math.BigDecimal
 
 class DogeController: Controller() {
 
-//    fun getQuestions(): Node {
-//        val parser = DogeParser()
-//        return parser.parse()
-//    }
+    private val tree = DogeParser().parse()
+
+//    private val symbolTable : SymbolTable()
 
     fun getQuestions(): List<Question> {
-        return listOf(
-                Question("q1", "Question Int 1?", IntegerValue(1)),
-                Question("q2","Question Str 2?", StringValue("Hoi")),
-                Question("q3","Question  Money 3?", MoneyValue(BigDecimal(10))),
-                Question("q4","Question BigDec 4?", DecimalValue(BigDecimal(23))),
-                Question("q5","Question Bool 5?", BooleanValue(false)))
+        tree.symbolTable.evaluateTable()
+        return tree.getEnabledQuestions()
     }
 
+    fun updateQuestion(question: Question){
+        tree.updateQuestion(question)
+    }
 }

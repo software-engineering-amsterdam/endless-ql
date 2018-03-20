@@ -100,6 +100,13 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntegerConstant(QLParser.IntegerConstantContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code booleanConstant}
+	 * labeled alternative in {@link QLParser#constant}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanConstant(QLParser.BooleanConstantContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code decimalConstant}
 	 * labeled alternative in {@link QLParser#constant}.
 	 * @param ctx the parse tree

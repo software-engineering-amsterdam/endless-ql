@@ -9,11 +9,13 @@ import QL.ParseObjectsQL.Expressions.UnaryExpressions.NotExpression;
 import QL.QLAntlrGen.QLBaseVisitor;
 import QL.QLAntlrGen.QLParser;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class ExpressionVisitor extends QLBaseVisitor<Expression> {
     private ExpressionTable expressionTable;
 
     public ExpressionVisitor(ExpressionTable exprTable){
-        super();
         this.expressionTable = exprTable;
     }
 
@@ -97,7 +99,10 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitDateConstant(QLParser.DateConstantContext ctx) {
-        return new DateConstant(ctx.getText());
+        String dateString = ctx.getText();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate localDate = LocalDate.parse(ctx.getText(), formatter);
+        return new DateConstant(localDate);
     }
 
     @Override
@@ -115,7 +120,11 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
         return new MoneyConstant(Double.parseDouble(ctx.getText()));
     }
 
-    //Todo: Boolean Constant?
+    @Override
+    public Expression visitBooleanConstant(QLParser.BooleanConstantContext ctx){
+        return new BooleanConstant(Boolean.parseBoolean(ctx.getText()));
+    }
+
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx){
         return new ConstantExpression(ctx.IDENTIFIER().getText(), expressionTable);

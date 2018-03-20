@@ -9,13 +9,10 @@ import javafx.util.converter.{ BigDecimalStringConverter, IntegerStringConverter
 class TextFormatterBuilder[T] {
   private var converter: StringConverter[_] = _
   private var inputFilter: UnaryOperator[TextFormatter.Change] = _
+  private var defaultValue: T = _
 
   def buildInputFilter(pattern: String): TextFormatterBuilder[T] = {
-    inputFilter = new UnaryOperator[TextFormatter.Change]() {
-      override def apply(change: TextFormatter.Change): TextFormatter.Change = {
-        if (change.getControlNewText.matches(pattern)) change else null
-      }
-    }
+    inputFilter = (change: TextFormatter.Change) => if (change.getControlNewText.matches(pattern)) change else null
     this
   }
 
@@ -29,8 +26,13 @@ class TextFormatterBuilder[T] {
     this
   }
 
+  def buildDefaultValue(defaultValue: T): TextFormatterBuilder[T] = {
+    this.defaultValue = defaultValue
+    this
+  }
+
   def build(): TextFormatter[T] =
-    new TextFormatter[T](converter.asInstanceOf[StringConverter[T]], null.asInstanceOf[T], inputFilter)
+    new TextFormatter[T](converter.asInstanceOf[StringConverter[T]], defaultValue, inputFilter)
 }
 
 object TextFormatterBuilder {

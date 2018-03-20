@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReferencedIdentifiersVisitor implements IExpressionVisitor<List<String>> {
-
+// TODO: duplicate label detection
     private List<String> visitLeftRight(Expression left, Expression right) {
         List<String> identifiers = left.accept(this);
         identifiers.addAll(right.accept(this));

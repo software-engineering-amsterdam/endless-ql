@@ -16,8 +16,6 @@ public class ConstantExpression extends Expression {
         this.identifier = id;
     }
 
-
-    //Todo: Need to find a better way to build the constant expressions with the QuestionMap
     @Override
     public EvaluationType returnType(){
         return expressionTable.getExpression(this.identifier).returnType();
@@ -27,13 +25,4 @@ public class ConstantExpression extends Expression {
     public Constant evaluate(){
         return expressionTable.getExpression(this.identifier).evaluate();
     }
-
-    // Overloaded methods for when parsing is complete and Question Map is populated
-   /* public EvaluationType returnType(QuestionMap questionMap){
-        return questionMap.getQuestion(this.identifier).returnType();
-    }
-
-    public Constant evaluate(QuestionMap questionMap){
-        return questionMap.getQuestion(this.identifier).evaluate();
-    }*/
 }

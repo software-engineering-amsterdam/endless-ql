@@ -27,7 +27,7 @@ object QLFormParser extends Logging {
   }
 
   object FormVisitor extends QLBaseVisitor[QLForm] {
-    override def defaultResult(): QLForm = QLForm("Unparseable form definition!", Seq.empty)
+    override def defaultResult(): QLForm = QLForm("Unparsable form definition!", Seq.empty)
 
     override def shouldVisitNextChild(node: RuleNode, currentResult: QLForm): Boolean = {
       errorListener.parseErrors.isEmpty
@@ -44,8 +44,7 @@ object QLFormParser extends Logging {
 
   object StatementVisitor extends QLBaseVisitor[Seq[Statement]] {
     override def defaultResult(): Seq[Statement] =
-      Seq(
-        Question("error", "There is a serious error in a question or if-else statement!", BooleanType, BooleanAnswer()))
+      Seq(Question("error", "There is a serious error in a question or if-else statement!", BooleanType, None))
 
     override def shouldVisitNextChild(node: RuleNode, currentResult: Seq[Statement]): Boolean = {
       errorListener.parseErrors.isEmpty
@@ -58,11 +57,20 @@ object QLFormParser extends Logging {
     override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {
       val questionId = ctx.Identifier().getText
       val questionLabel = ctx.label.getText
-      val answerType = AnswerType(ctx.answerType().getText)
+      val definedAnswerType = ctx.answerType().getText
+      val answerType = AnswerType(definedAnswerType)
       val expression = Option(ctx.expression)
         .map(ExpressionVisitor.visit)
-        .getOrElse(Answer(ctx.answerType.getText))
+        .map(expression => answerTypeConversion(expression, answerType))
       Seq(Question(questionId, questionLabel, answerType, expression))
+    }
+
+    def answerTypeConversion(expression: Expression, answerType: AnswerType) = {
+      (expression, answerType) match {
+        case (IntegerAnswer(value), MoneyType) => MoneyAnswer(BigDecimal(value))
+        case (DecimalAnswer(value), MoneyType) => MoneyAnswer(value)
+        case _                                 => expression
+      }
     }
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Seq[Statement] = {

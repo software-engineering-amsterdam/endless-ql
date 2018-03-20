@@ -31,7 +31,7 @@ SectionShort returns Section:
 	'section' name=STRING questions+=QuestionReference*;
 
 QuestionReference:
-	'question' questionReference=[Question] (widget=Widget)?;
+	'question' question=[Question] (widget=Widget)?;
 
 Widget:
 	'widget' (WidgetSpinbox | WidgetCheckbox | WidgetSlider | WidgetText | WidgetRadio | WidgetDropdown);

@@ -43,7 +43,7 @@ public class DateEqual extends AbstractEvaluator<DateLiteral> {
 
     @Override
     public Literal<?> visit(DateLiteral secondOperand) {
-        return new BoolLiteral(firstOperand.getValue().isEqual(secondOperand.getValue()));
+        return new BoolLiteral(firstOperand.getValue().equals(secondOperand.getValue()));
     }
 
     @Override

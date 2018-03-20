@@ -8,7 +8,7 @@ import javax.swing.*;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class QLFormBuilder extends JPanel{
+public class QLFormBuilder extends JPanel {
 
     static DefaultFormBuilder builder;
 
@@ -58,7 +58,7 @@ public class QLFormBuilder extends JPanel{
 
     }
 
-    public static void addQuestion(String question){
+    public static void addQuestion(String question) {
 
         builder.append(question, new JTextField());
         builder.nextLine();
@@ -66,7 +66,7 @@ public class QLFormBuilder extends JPanel{
     }
 
 
-    public void showForm () {
+    public void showForm() {
 
         QLFrame f = new QLFrame("Form layout ecxample");
         f.setDefaultSize(36);

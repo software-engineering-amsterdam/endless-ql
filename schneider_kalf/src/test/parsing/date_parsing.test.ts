@@ -20,7 +20,7 @@ it("does parse valid dates", () => {
   expect(computedField.formula).toBeInstanceOf(DateLiteral);
 
   const dateField: DateLiteral = computedField.formula;
-  expect(dateField.getValue().toDate()).toEqual(moment("11.12.1991", "DD.MM.YYYY").toDate());
+  expect(dateField.getValue()).toEqual(moment("11.12.1991", "DD.MM.YYYY").toDate());
 });
 
 it("does not parse invalid dates", () => {

@@ -1,6 +1,8 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class StringValue extends Value<String> {
 
@@ -31,6 +33,11 @@ public class StringValue extends Value<String> {
     @Override
     public String getStringValue() {
         return this.value;
+    }
+
+    @Override
+    public LocalDate getDateValue() {
+        throw new UnsupportedOperationException("Cannot cast string to date");
     }
 
     @Override
@@ -96,10 +103,5 @@ public class StringValue extends Value<String> {
     @Override
     public NumberValue neg() {
         throw new UnsupportedOperationException("Cannot perform neg on string.");
-    }
-
-    @Override
-    public boolean equals(Value other) {
-        return this.value.equals(other.value);
     }
 }

@@ -11,6 +11,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import org.uva.sc.cr.ql.interpreter.controls.ControlWrapper
 import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperBoolean
+import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperDecimal
+import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperInteger
 import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperMoney
 import org.uva.sc.cr.qsl.qSL.DefaultStyle
 import org.uva.sc.cr.qsl.qSL.StyleAttribute
@@ -27,6 +29,12 @@ class StyleControlService {
 	private StyleControlBooleanService styleControlBooleanService
 
 	@Inject
+	private StyleControlIntegerService styleControlIntegerService
+
+	@Inject
+	private StyleControlDecimalService styleControlDecimalService
+
+	@Inject
 	private StyleControlMoneyService styleControlMoneyService
 
 	def styleDefaultControl(ControlWrapper controlWrapper, DefaultStyle defaultStyleToApply) {
@@ -41,6 +49,14 @@ class StyleControlService {
 
 	def dispatch style(ControlWrapperBoolean controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
 		return styleControlBooleanService.styleBoolean(controlWrapper, widget, defaultStyleToApply)
+	}
+
+	def dispatch style(ControlWrapperInteger controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+		return styleControlIntegerService.styleInteger(controlWrapper, widget, defaultStyleToApply)
+	}
+
+	def dispatch style(ControlWrapperDecimal controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+		return styleControlDecimalService.styleDecimal(controlWrapper, widget, defaultStyleToApply)
 	}
 
 	def dispatch style(ControlWrapperMoney controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {

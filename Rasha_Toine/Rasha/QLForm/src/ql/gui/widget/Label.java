@@ -6,7 +6,6 @@ import java.awt.ComponentOrientation;
 
 import javax.swing.JLabel;
 import javax.swing.JComponent;
-import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 
 import ql.visiting.value.StringValue;
@@ -23,10 +22,10 @@ public class Label implements WidgetInterface {
 	// Constructor
 	public Label(String str) {
 		label = new JLabel(str);
-		setStyle(config);
+		setConfiguration(config);
 		//label.setComponentPopupMenu(new JPopupMenu());
 		label.setToolTipText("info");
-		label.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		label.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 	}
 	
 	@Override
@@ -35,12 +34,12 @@ public class Label implements WidgetInterface {
 	}
 	
 	@Override
-	public WidgetConfiguration getStyle() {
+	public WidgetConfiguration getConfiguration() {
 		return config;
 	}
 
 	@Override
-	public void setStyle(WidgetConfiguration config) {
+	public void setConfiguration(WidgetConfiguration config) {
 		label.setPreferredSize(new Dimension(config.getWidth(), config.getHeight()));
 		label.setForeground(config.getColor());
 		label.setFont(config.getFont());

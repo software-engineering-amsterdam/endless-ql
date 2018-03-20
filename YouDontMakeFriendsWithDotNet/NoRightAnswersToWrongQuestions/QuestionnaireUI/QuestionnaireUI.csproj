@@ -48,14 +48,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculatedQuestionModel.cs" />
-    <Compile Include="CalculatedQuestionWrapper.cs" />
-    <Compile Include="QuestionnaireWrapper.cs" />
-    <Compile Include="QuestionnaireModel.cs" />
+    <Compile Include="Models\ModelWrapperBase.cs" />
+    <Compile Include="Models\Observable.cs" />
+    <Compile Include="Models\QuestionnaireWrapper.cs" />
+    <Compile Include="Models\QuestionWrapper.cs" />
     <Compile Include="UiModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QuestionaireOrchestration\QuestionnaireOrchestration.csproj">
+      <Project>{93708D27-D769-4064-8A54-6BFEF8B09F29}</Project>
+      <Name>QuestionnaireOrchestration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
       <Name>QuestionnaireInfrastructure</Name>
@@ -64,6 +68,7 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

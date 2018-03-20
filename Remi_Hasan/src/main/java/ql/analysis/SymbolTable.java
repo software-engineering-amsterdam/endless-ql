@@ -1,32 +1,39 @@
 package ql.analysis;
 
+import javafx.util.Pair;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
-import ql.model.expression.Expression;
-import ql.model.expression.ReturnType;
 import ql.model.Form;
 import ql.model.Question;
+import ql.model.expression.Expression;
+import ql.model.expression.ReturnType;
+import ql.model.expression.variable.ExpressionVariableUndefined;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SymbolTable {
     private Map<String, Expression> table;
+    private List<ChangeListener> listeners;
 
     public SymbolTable() {
         this.table = new HashMap<>();
+        this.listeners = new ArrayList<>();
     }
 
-    public SymbolTable(Form form) {
-        this.table = new HashMap<>();
-
+    public void buildTable(Form form) {
         for (Question question : form.questions) {
-            table.put(question.name, question.defaultAnswer);
+            if(question.isComputed()) {
+                table.put(question.name, question.computedAnswer);
+            } else {
+                table.put(question.name, new ExpressionVariableUndefined(question.getToken(), question.type));
+            }
         }
-    }
-
-    public boolean containsExpression(String identifier) {
-        return this.table.containsKey(identifier);
     }
 
     public Expression getExpression(String identifier) {
@@ -37,37 +44,24 @@ public class SymbolTable {
         }
     }
 
-    // TODO: move to value?
-    public String getStringValue(String identifier, ReturnType type) {
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this);
-        Value evaluated = expressionEvaluator.visit(table.get(identifier));
-
-        // Undefined values should display nothing
-        if (evaluated.isUndefined()) {
-            return "";
-        }
-
-        switch (type) {
-            case INTEGER:
-                return evaluated.getIntValue().toString();
-            case DECIMAL:
-                return evaluated.getDecimalValue().toString();
-            case MONEY:
-                return evaluated.getMoneyValue().toString();
-            case STRING:
-                return evaluated.getStringValue();
-            case BOOLEAN:
-                return evaluated.getBooleanValue().toString();
-            default:
-                return "";
-        }
-    }
-
-    public Map<String, Expression> getAllAnswers(){
-        return table;
+    public void addListener(ChangeListener listener){
+        this.listeners.add(listener);
     }
 
     public void setExpression(String identifier, Expression value) {
         this.table.put(identifier, value);
+
+        // Notify listener
+        for(ChangeListener listener : listeners){
+            listener.stateChanged(new ChangeEvent(new Pair(identifier, value)));
+        }
+
+
+        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this);
+        System.out.println("\n\n");
+        for(Map.Entry<String, Expression> entry : table.entrySet()){
+            Value evaluatedValue = expressionEvaluator.visit(entry.getValue());
+            System.out.println(entry.getKey() + " " + evaluatedValue.toString());
+        }
     }
 }

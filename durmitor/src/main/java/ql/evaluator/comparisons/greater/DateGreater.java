@@ -43,7 +43,7 @@ public class DateGreater extends AbstractEvaluator<DateLiteral> {
 
     @Override
     public Literal<?> visit(DateLiteral secondOperand) {
-        return new BoolLiteral(firstOperand.getValue().isAfter(secondOperand.getValue()));
+        return new BoolLiteral(firstOperand.getValue().after(secondOperand.getValue()));
     }
 
     @Override

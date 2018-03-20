@@ -64,8 +64,8 @@ public class IntegerValue extends AbstractValue {
 		if (val.value != 0) {
 			int result = this.value / val.value;
 			return new IntegerValue(result);
-		} else 
-			return throwException();
+		}
+		return throwException();
 	}
 
 	
@@ -97,6 +97,11 @@ public class IntegerValue extends AbstractValue {
 		return BooleanValue.FALSE;
 	}
 	
+
+	@Override
+	public BooleanValue eq(MoneyValue val) {
+		return BooleanValue.FALSE;
+	}
 
 	@Override
 	public BooleanValue eq(DecimalValue val) {

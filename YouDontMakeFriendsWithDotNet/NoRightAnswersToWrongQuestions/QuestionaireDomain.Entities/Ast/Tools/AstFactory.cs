@@ -21,22 +21,27 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
     {
         private readonly IIdMaker m_ids;
         private readonly IDomainItemRegistry m_registry;
+        private readonly ISymbolTable m_symbolTable;
 
-        public AstFactory(IIdMaker ids, IDomainItemRegistry registry)
+        public AstFactory(
+            IIdMaker ids, 
+            IDomainItemRegistry registry,
+            ISymbolTable symbolTable)
         {
             m_ids = ids;
             m_registry = registry;
+            m_symbolTable = symbolTable;
         }
 
         public Reference<IQuestionnaireRootNode> CreateQuestionnaire(
             string definition,
-            string questionaireName,
+            string questionnaireName,
             IEnumerable<Reference<IStatementNode>> statements)
         {
             var questionnaire = new QuestionnaireRootNode(
                 m_ids.Next,
                 definition,
-                questionaireName,
+                questionnaireName,
                 statements);
 
             return DomainItemRegistration<IQuestionnaireRootNode>(questionnaire);
@@ -71,7 +76,36 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
                 questionText,
                 questionType);
 
+            InitializeVariable(question.Id, questionType);
             return DomainItemRegistration<IUserInputQuestionNode>(question);
+        }
+
+        private void InitializeVariable(Guid questionId, Type questionType)
+        {
+            if (questionType == typeof(bool))
+            {
+                m_symbolTable.Add(questionId, default(bool));
+            }
+
+            if (questionType == typeof(decimal))
+            {
+                m_symbolTable.Add(questionId, default(decimal));
+            }
+
+            if (questionType == typeof(int))
+            {
+                m_symbolTable.Add(questionId, default(int));
+            }
+
+            if (questionType == typeof(DateTime))
+            {
+                m_symbolTable.Add(questionId, default(DateTime));
+            }
+            
+            if (questionType == typeof(string))
+            {
+                m_symbolTable.Add(questionId, default(string));
+            }
         }
 
         public Reference<ICalculatedQuestionNode> CreateCalculatedQuestion(
@@ -248,11 +282,11 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             return DomainItemRegistration<IDateNode>(dateNode);
         }
 
-        public Reference<IAstNode> CreateDateVariableName(string variableName)
+        public Reference<IAstNode> CreateDateVariableName(string dateVariableName)
         {
             var dateNode = new DateVariableNode(
                 m_ids.Next,
-                variableName);
+                dateVariableName);
 
             return DomainItemRegistration<IDateVariableNode>(dateNode);
         }
@@ -266,11 +300,11 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             return DomainItemRegistration<ITextNode>(dateNode);
         }
 
-        public Reference<IAstNode> CreateTextVariableName(string variableName)
+        public Reference<IAstNode> CreateTextVariableName(string textVariableName)
         {
             var textNode = new TextVariableNode(
                 m_ids.Next,
-                variableName);
+                textVariableName);
 
             return DomainItemRegistration<ITextVariableNode>(textNode);
         }

@@ -15,7 +15,6 @@ import ql.ast.literal.Identifier;
 import ql.ast.parser.QLLexer;
 import ql.ast.parser.QLParser;
 
-@SuppressWarnings("deprecation")
 public class Form extends AstNode{
 
 	private final Identifier id;
@@ -31,7 +30,7 @@ public class Form extends AstNode{
 	}
 
 	public Block getBlock() {
-		return this.block;
+		return block;
 	}
 	
 	// generate Form from ql-program

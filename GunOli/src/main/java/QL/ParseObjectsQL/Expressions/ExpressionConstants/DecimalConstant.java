@@ -14,4 +14,9 @@ public class DecimalConstant extends Constant<Double> {
     public Boolean isArithmetic(){
         return true;
     }
+
+    @Override
+    public String toString(){
+        return Double.toString(this.getValue());
+    }
 }

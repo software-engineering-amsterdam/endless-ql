@@ -10,26 +10,31 @@ public class UnknownIdentifiersDetector {
 
     private final Form form;
 
-    public UnknownIdentifiersDetector(Form form){
+    public UnknownIdentifiersDetector(Form form) {
         this.form = form;
     }
 
-    public List<String> detectUnknownIdentifiers(){
+    public void detectUnknownIdentifiers() {
         ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor();
 
         List<String> formQuestionIdentifiers = new ArrayList<>();
         List<String> referencedIdentifiers = new ArrayList<>();
-        for(Question question : form.questions){
+        for (Question question : form.questions) {
             formQuestionIdentifiers.add(question.name);
-            referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.defaultAnswer));
+
+            // Add all references to variables in both the question's computed answer and the question's condition
+            if (question.isComputed()) {
+                referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.computedAnswer));
+            }
             referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.condition));
         }
 
         // Determine which identifiers are referenced but no question exists with such identifier
         // Subtraction of formQuestionIdentifiers - referencedIdentifiers
-        List<String> unknownReferencedIdentifiers = new ArrayList<>(referencedIdentifiers);
-        unknownReferencedIdentifiers.removeAll(formQuestionIdentifiers);
+        referencedIdentifiers.removeAll(formQuestionIdentifiers);
 
-        return unknownReferencedIdentifiers;
+        if (!referencedIdentifiers.isEmpty()) {
+            throw new IllegalArgumentException("Unknown reference(s) to identifiers: " + referencedIdentifiers);
+        }
     }
 }

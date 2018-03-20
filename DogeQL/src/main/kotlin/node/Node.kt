@@ -1,29 +1,29 @@
 package node
 
 import data.question.Question
+import data.symbol.SymbolTable
+import typechecker.pass.DuplicatePass
+import typechecker.pass.ScopePass
+import typechecker.pass.TypePass
 
-abstract class Node {
+abstract class Node(internal var symbolTable: SymbolTable) {
     internal val children = ArrayList<Node>()
 
     fun addChild(child: Node) {
         children.add(child)
     }
 
-    fun getChildren(): ArrayList<Node> {
-        return children
+    open fun updateQuestion(question: Question) {
+        symbolTable.assign(question.name, question.value)
+        symbolTable.evaluateTable()
     }
 
-    fun hasChildren(): Boolean {
-        return children.isEmpty()
-    }
+    abstract fun getEnabledQuestions(): List<Question>
 
-    open fun getAllChildren(): ArrayList<Question> {
-        val allChildren = children.flatMap {
-            getAllChildren()
-        }
+    abstract fun accept(pass: ScopePass)
 
-        return ArrayList(allChildren)
-    }
+    abstract fun accept(pass: DuplicatePass)
 
-    abstract fun validate(): Boolean
+    abstract fun accept(pass: TypePass)
+
 }

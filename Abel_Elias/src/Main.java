@@ -4,7 +4,8 @@ import QL.classes.values.BooleanValue;
 import QL.classes.values.DateValue;
 import QL.classes.values.IntegerValue;
 import QL.classes.values.StringValue;
-import QLS.parsing.QLSParser;
+import QLS.classes.Stylesheet;
+import QLS.parsing.gen.QLSParser;
 import QLS.parsing.visitors.StylesheetVisitor;
 import gui.FormBuilder;
 import QL.parsing.TreeBuilder;
@@ -68,16 +69,10 @@ public class Main {
      */
     private void parseAndBuildQLS(InputStream inputStream) {
         try{
-            QLSParser.StylesheetContext stylesheet = new TreeBuilder().buildQls(inputStream);
-            StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(stylesheet);
-            LinkedHashMap<String, QLS.classes.Question> memory = stylesheetVisitor.questionMap;
-
-            //Test output
-            for (Map.Entry e : memory.entrySet()) {
-                QLS.classes.Question q = (QLS.classes.Question) e.getValue();
-                String id = (String) e.getKey();
-                System.out.println(id + ":\t" + q) ;
-            }
+            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(inputStream);
+            StylesheetVisitor stylesheetVisitor = new StylesheetVisitor();
+            Stylesheet stylesheet = stylesheetVisitor.visitStylesheet(stylesheetContext);
+            System.out.println("Stylesheet constructed");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,7 +90,7 @@ public class Main {
                 new Main().parseAndBuild(System.in);
             } else if (args.length == 1) {
                 FileInputStream fileInputStream = new FileInputStream(args[0]);
-                new Main().parseAndBuild(fileInputStream);
+                new Main().parseAndBuildQLS(fileInputStream);
             } else {
                 System.out.println("Invalid arguments were given");
             }

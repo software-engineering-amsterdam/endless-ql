@@ -1,4 +1,5 @@
 ﻿using Assignment1.Model.QL;
+using Assignment1.Model.QL.RenderTree;
 using Assignment1.Model.QLS.AST;
 
 namespace Assignment1.TypeChecking

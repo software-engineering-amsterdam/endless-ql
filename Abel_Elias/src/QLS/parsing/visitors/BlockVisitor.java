@@ -1,47 +1,65 @@
 package QLS.parsing.visitors;
-import QL.classes.values.Value;
-import QLS.classes.Question;
+import QLS.classes.blocks.Block;
+import QLS.classes.blocks.LineInBlock;
+import QLS.classes.blocks.Question;
+import QLS.classes.blocks.Section;
+import QLS.classes.widgets.CheckBoxWidget;
+import QLS.classes.widgets.DropdownWidget;
+import QLS.classes.widgets.RadioWidget;
+import QLS.classes.widgets.SliderWidget;
+import QLS.classes.widgets.SpinBoxWidget;
+import QLS.classes.widgets.TextWidget;
 import QLS.classes.widgets.Widget;
-import QLS.parsing.QLSBaseVisitor;
-import QLS.parsing.QLSParser;
+import QLS.classes.widgets.WidgetType;
+import QLS.parsing.gen.QLSBaseVisitor;
+import QLS.parsing.gen.QLSParser;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BlockVisitor extends QLSBaseVisitor {
-    private boolean isVisible;
+
     private WidgetVisitor widgetVisitor;
-    private LinkedHashMap<String, Question> questionMap;
 
 
-    public BlockVisitor(LinkedHashMap<String, Question> questionMap, boolean isVisible){
-        this.questionMap = questionMap;
-        this.isVisible = isVisible;
+    public BlockVisitor() {
         this.widgetVisitor = new WidgetVisitor();
     }
 
     @Override
-    public Object visitDefaultWidget(QLSParser.DefaultWidgetContext ctx) {
-        return questionMap;
+    public Block visitBlock(QLSParser.BlockContext ctx) {
+        List<LineInBlock> blockElements = new ArrayList<>();
+        for (QLSParser.LineInBlockContext c : ctx.lineInBlock()) {
+            blockElements.add(this.visitLineInBlock(c));
+        }
+        return new Block(blockElements);
     }
 
     @Override
-    public Object visitSection(QLSParser.SectionContext ctx) {
-        visitBlock(ctx.block());
-        return questionMap;
+    public LineInBlock visitLineInBlock(QLSParser.LineInBlockContext ctx) {
+        if (ctx.section() != null) {
+            return visitSection(ctx.section());
+        } else if (ctx.question() != null) {
+            return visitQuestion(ctx.question());
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Object visitQuestion(QLSParser.QuestionContext ctx) {
+    public Section visitSection(QLSParser.SectionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        Object widget = visitWidget(ctx.widget());
-        Question question = new Question(id, (Widget) widget);
-        questionMap.put(id, question);
-        return questionMap;
+        List<Block> blocks = new ArrayList<>();
+        for (QLSParser.BlockContext c : ctx.block()) {
+            blocks.add(this.visitBlock(c));
+        }
+        return new Section(id, blocks);
     }
 
     @Override
-    public Widget visitWidget(QLSParser.WidgetContext ctx) {
-        return new Widget("new");
+    public Question visitQuestion(QLSParser.QuestionContext ctx) {
+        String id = ctx.IDENTIFIER().getText();
+        Widget widget = widgetVisitor.visitWidget(ctx.widget());
+        return new Question(id, widget);
     }
 }

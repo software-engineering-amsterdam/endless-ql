@@ -1,5 +1,5 @@
 // Generated from /home/ajm/Desktop/newEndless/endless-ql/Abel_Elias/src/QLS/parsing/QLS.g4 by ANTLR 4.7
-package QLS.parsing;
+package QLS.parsing.gen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -87,6 +87,76 @@ public interface QLSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWidget(QLSParser.WidgetContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#widgetType}.
+	 * @param ctx the parse tree
+	 */
+	void enterWidgetType(QLSParser.WidgetTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#widgetType}.
+	 * @param ctx the parse tree
+	 */
+	void exitWidgetType(QLSParser.WidgetTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#checkboxWidget}.
+	 * @param ctx the parse tree
+	 */
+	void enterCheckboxWidget(QLSParser.CheckboxWidgetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#checkboxWidget}.
+	 * @param ctx the parse tree
+	 */
+	void exitCheckboxWidget(QLSParser.CheckboxWidgetContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#textWidget}.
+	 * @param ctx the parse tree
+	 */
+	void enterTextWidget(QLSParser.TextWidgetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#textWidget}.
+	 * @param ctx the parse tree
+	 */
+	void exitTextWidget(QLSParser.TextWidgetContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#radioWidget}.
+	 * @param ctx the parse tree
+	 */
+	void enterRadioWidget(QLSParser.RadioWidgetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#radioWidget}.
+	 * @param ctx the parse tree
+	 */
+	void exitRadioWidget(QLSParser.RadioWidgetContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#spinboxWidget}.
+	 * @param ctx the parse tree
+	 */
+	void enterSpinboxWidget(QLSParser.SpinboxWidgetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#spinboxWidget}.
+	 * @param ctx the parse tree
+	 */
+	void exitSpinboxWidget(QLSParser.SpinboxWidgetContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#sliderWidget}.
+	 * @param ctx the parse tree
+	 */
+	void enterSliderWidget(QLSParser.SliderWidgetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#sliderWidget}.
+	 * @param ctx the parse tree
+	 */
+	void exitSliderWidget(QLSParser.SliderWidgetContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#dropdownWidget}.
+	 * @param ctx the parse tree
+	 */
+	void enterDropdownWidget(QLSParser.DropdownWidgetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#dropdownWidget}.
+	 * @param ctx the parse tree
+	 */
+	void exitDropdownWidget(QLSParser.DropdownWidgetContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLSParser#widgetStyle}.
 	 * @param ctx the parse tree
@@ -180,77 +250,85 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitDecimaltype(QLSParser.DecimaltypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code sliderwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Enter a parse tree produced by {@link QLSParser#defaultdef}.
 	 * @param ctx the parse tree
 	 */
-	void enterSliderwidget(QLSParser.SliderwidgetContext ctx);
+	void enterDefaultdef(QLSParser.DefaultdefContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code sliderwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Exit a parse tree produced by {@link QLSParser#defaultdef}.
 	 * @param ctx the parse tree
 	 */
-	void exitSliderwidget(QLSParser.SliderwidgetContext ctx);
+	void exitDefaultdef(QLSParser.DefaultdefContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code spinboxwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Enter a parse tree produced by {@link QLSParser#blockdefault}.
 	 * @param ctx the parse tree
 	 */
-	void enterSpinboxwidget(QLSParser.SpinboxwidgetContext ctx);
+	void enterBlockdefault(QLSParser.BlockdefaultContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code spinboxwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Exit a parse tree produced by {@link QLSParser#blockdefault}.
 	 * @param ctx the parse tree
 	 */
-	void exitSpinboxwidget(QLSParser.SpinboxwidgetContext ctx);
+	void exitBlockdefault(QLSParser.BlockdefaultContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code checkboxwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Enter a parse tree produced by {@link QLSParser#linedefault}.
 	 * @param ctx the parse tree
 	 */
-	void enterCheckboxwidget(QLSParser.CheckboxwidgetContext ctx);
+	void enterLinedefault(QLSParser.LinedefaultContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code checkboxwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Exit a parse tree produced by {@link QLSParser#linedefault}.
 	 * @param ctx the parse tree
 	 */
-	void exitCheckboxwidget(QLSParser.CheckboxwidgetContext ctx);
+	void exitLinedefault(QLSParser.LinedefaultContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code textwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Enter a parse tree produced by {@link QLSParser#widgetProperty}.
 	 * @param ctx the parse tree
 	 */
-	void enterTextwidget(QLSParser.TextwidgetContext ctx);
+	void enterWidgetProperty(QLSParser.WidgetPropertyContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code textwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Exit a parse tree produced by {@link QLSParser#widgetProperty}.
 	 * @param ctx the parse tree
 	 */
-	void exitTextwidget(QLSParser.TextwidgetContext ctx);
+	void exitWidgetProperty(QLSParser.WidgetPropertyContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code radiowidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Enter a parse tree produced by {@link QLSParser#widthproperty}.
 	 * @param ctx the parse tree
 	 */
-	void enterRadiowidget(QLSParser.RadiowidgetContext ctx);
+	void enterWidthproperty(QLSParser.WidthpropertyContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code radiowidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Exit a parse tree produced by {@link QLSParser#widthproperty}.
 	 * @param ctx the parse tree
 	 */
-	void exitRadiowidget(QLSParser.RadiowidgetContext ctx);
+	void exitWidthproperty(QLSParser.WidthpropertyContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code dropdownwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Enter a parse tree produced by {@link QLSParser#fontproperty}.
 	 * @param ctx the parse tree
 	 */
-	void enterDropdownwidget(QLSParser.DropdownwidgetContext ctx);
+	void enterFontproperty(QLSParser.FontpropertyContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code dropdownwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Exit a parse tree produced by {@link QLSParser#fontproperty}.
 	 * @param ctx the parse tree
 	 */
-	void exitDropdownwidget(QLSParser.DropdownwidgetContext ctx);
+	void exitFontproperty(QLSParser.FontpropertyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#fontsizeproperty}.
+	 * @param ctx the parse tree
+	 */
+	void enterFontsizeproperty(QLSParser.FontsizepropertyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#fontsizeproperty}.
+	 * @param ctx the parse tree
+	 */
+	void exitFontsizeproperty(QLSParser.FontsizepropertyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#colorproperty}.
+	 * @param ctx the parse tree
+	 */
+	void enterColorproperty(QLSParser.ColorpropertyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#colorproperty}.
+	 * @param ctx the parse tree
+	 */
+	void exitColorproperty(QLSParser.ColorpropertyContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLSParser#value}.
 	 * @param ctx the parse tree

@@ -130,14 +130,14 @@ public class FormBuilder {
                 qPanel.setListener(new IntegerDocumentListener(key, (JTextField) qPanel.getComponent()));
                 break;
             default:
-                qPanel = new QuestionPanelCheckBox(key, question);
-                qPanel.setListener(new BoolActionListener(key, (JCheckBox) qPanel.getComponent()));
+                qPanel = new QuestionPanelTextInt(key, question);
+                qPanel.setListener(new IntegerDocumentListener(key, (JTextField) qPanel.getComponent()));
                 break;
         }
         //if the question is marked as fixed, make it non-alterable
         if(question.isFixed()) {
             qPanel.setWidgetFixed();
-            //qPanel.setValue(question.getValue());
+            qPanel.setValue(value);
         }
         //add the questionpanel to a map containing active questionpanels
         questionPanelHashMap.put(key, qPanel);
@@ -225,6 +225,9 @@ public class FormBuilder {
                 if (questionPanelHashMap.get(entry.getKey()) == null) {
                     //build a questionpanel
                     buildQuestionPanel(entry.getKey(), question, question.getValue());
+                }
+                if(question.isFixed()) {
+                    questionPanelHashMap.get(entry.getKey()).setValue(question.getValue());
                 }
             } else {
                 // If the question already is placed in a currently visible panel

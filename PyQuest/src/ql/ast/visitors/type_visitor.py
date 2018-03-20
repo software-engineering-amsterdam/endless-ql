@@ -14,6 +14,8 @@ from ql.ast.expressions.binary_operators.multiplication_node import Multiplicati
 from ql.ast.expressions.binary_operators.not_equals_node import NotEqualsOperatorNode
 from ql.ast.expressions.binary_operators.or_node import OrOperatorNode
 from ql.ast.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
+from ql.ast.expressions.unary_operators.negation import NegationOperatorNode
+from ql.ast.expressions.unary_operators.negative import NegativeOperatorNode
 from ql.ast.expressions.literals.integer_node import IntegerNode
 from ql.ast.expressions.literals.decimal_node import DecimalNode
 from ql.ast.expressions.literals.date_node import DateNode
@@ -146,6 +148,28 @@ class TypeVisitor:
         node.right_expression.accept(self)
 
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
+
+        if result_type == QLUndefined:
+            error([node.position.line], "Invalid operand(s)")
+
+        node.set_expression_type(result_type)
+
+    @when(NegationOperatorNode)
+    def visit(self, node):
+        node.expression.accept(self)
+
+        result_type = node.get_result_type(node.expression.expression_type)
+
+        if result_type == QLUndefined:
+            error([node.position.line], "Invalid operand(s)")
+
+        node.set_expression_type(result_type)
+
+    @when(NegativeOperatorNode)
+    def visit(self, node):
+        node.expression.accept(self)
+
+        result_type = node.get_result_type(node.expression.expression_type)
 
         if result_type == QLUndefined:
             error([node.position.line], "Invalid operand(s)")

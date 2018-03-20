@@ -12,6 +12,7 @@ class MultiplicationOperatorNode(BinaryOperatorNode):
                               (QLDecimal, QLInteger): QLDecimal,
                               (QLDecimal, QLMoney):   QLMoney,
                               (QLInteger, QLInteger): QLInteger,
+                              (QLInteger, QLInteger): QLDecimal,
                               (QLInteger, QLDecimal): QLDecimal,
                               (QLInteger, QLMoney):   QLMoney,
                               (QLMoney, QLDecimal): QLMoney,

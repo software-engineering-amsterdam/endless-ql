@@ -66,7 +66,7 @@ object TypeChecker extends Logging {
     val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
       typeOf(conditional.predicate, qLForm.symbolTable) match {
         case Right(BooleanType) => false
-        case _                      => true
+        case _                  => true
       }
     }
 
@@ -128,15 +128,16 @@ object TypeChecker extends Logging {
     case Reference(questionId) => symbolTable(questionId).answerType.asRight
 
     case UnaryOperation(operator: Operator, expression) =>
-      typeOf(expression, symbolTable).flatMap(_.typeOf(operator))
+      typeOf(expression, symbolTable)
+        .flatMap(_.typeOf(operator))
 
     case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
       for {
         leftType <- typeOf(leftExpression, symbolTable)
-        leftTypeAfterOperation <- leftType.typeOf(operator)
+        _ <- leftType.typeOf(operator)
         rightType <- typeOf(rightExpression, symbolTable)
-        rightTypeAfterOperation <- rightType.typeOf(operator)
-        result <- checkLeftRight(leftTypeAfterOperation, rightTypeAfterOperation)
+        _ <- rightType.typeOf(operator)
+        result <- checkLeftRight(leftType, rightType)
       } yield result
 
     case _: IntegerAnswer => IntegerType.asRight

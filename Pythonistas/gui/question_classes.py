@@ -7,6 +7,8 @@ class Question:
         self.question = question
         self.datatype = datatype
         self.answer = answer
+        self.defaultanswer = answer  # Used to reset an answer when a question is hidden
+        self.hiddenanswer = answer  # Saves the user's answer if a question is hidden
 
     def set_answer(self, answer):
         self.answer = answer
@@ -17,15 +19,30 @@ class Question:
     def get_datatype(self):
         return self.datatype
 
+    def if_is_set_true(self):
+        self.questionframe.setVisible(True)
+        # Restores the original answer when the question is revealed again.
+        self.answer = self.hiddenanswer
+
+    def if_is_set_false(self):
+        self.questionframe.setVisible(False)
+
+        # Saves the original answer even when the question is hidden,
+        # and even when the False button is pressed multiple times.
+        if self.answer == self.defaultanswer:
+            pass
+        else:
+            self.hiddenanswer = self.answer
+        self.answer = self.defaultanswer
+
 
 class BooleanQuestion(Question):
-    def __init__(self, questionID, question, datatype, answer = 'undefined'):
+    def __init__(self, questionID, question, datatype='boolean', answer='undefined'):
         Question.__init__(self, questionID, question, datatype, answer)
         self.buttongroup = QtWidgets.QButtonGroup()
         self.truebutton = None
         self.falsebutton = None
         self.buttongroup.setExclusive(True)
-
         self.ifquestions = []
 
     def set_truebutton(self, button):
@@ -38,12 +55,9 @@ class BooleanQuestion(Question):
 
     def set_answer_true(self):
         self.answer = True
+        self.truebutton.toggle()
         for question in self.ifquestions:
-            question.questionframe.setVisible(True)
-            try:  # todo: make sure this works for bool questions
-                question.set_answer_text()
-            except:
-                pass
+            question.if_is_set_true()
 
     def set_falsebutton(self, button):
         # try:
@@ -55,9 +69,9 @@ class BooleanQuestion(Question):
 
     def set_answer_false(self):
         self.answer = False
+        self.falsebutton.toggle()
         for question in self.ifquestions:
-            question.questionframe.setVisible(False)
-            question.set_answer('undefined')
+            question.if_is_set_false()
 
     def create_frame(self):
         # Creates a frame to be given to the questionnaire output frame.
@@ -75,17 +89,18 @@ class BooleanQuestion(Question):
 
 
 class MoneyQuestion(Question):
-    def __init__(self, questionID, question, datatype, answer = 'undefined'):
+    def __init__(self, questionID, question, datatype='money', answer='undefined'):
         Question.__init__(self, questionID, question, datatype, answer)
-        self.textInputBox = None
+        self.textInputBox = QtWidgets.QLineEdit()
+        self.textInputBox.textEdited.connect(self.update_answer)
 
-    def set_text_input_box(self,textInputBox):
-        self.textInputBox = textInputBox
+    # def set_text_input_box(self,textInputBox):
+    #     self.textInputBox = textInputBox
 
-    def get_text(self):
-        self.textInputBox.text()
+    # def get_text(self):
+    #     self.textInputBox.text()
 
-    def set_answer_text(self):
+    def update_answer(self):
         self.answer = self.textInputBox.text()
 
     def create_frame(self):

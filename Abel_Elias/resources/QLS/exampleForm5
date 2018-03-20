@@ -1,8 +1,19 @@
-stylesheet taxOfficeExample {
-  page Housing {
-    section Buying {
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section Buying
+    {
       question hasBoughtHouse
         widget checkbox
+    }
+  }
+  page Selling
+  {
+    section Selling
+    {
+      question hasSoldHouse
+        widget radio("Yes", "No")
     }
   }
 }

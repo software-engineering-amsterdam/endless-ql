@@ -2,9 +2,9 @@
 grammar QLS;
 
 /** Parser rules */
-stylesheet : STYLESHEET IDENTIFIER page* NEWLINE* EOF; // form
+stylesheet : STYLESHEET IDENTIFIER CURLY_BRACE_L page* NEWLINE* CURLY_BRACE_R EOF; // form
 
-page : CURLY_BRACE_L NEWLINE* PAGE IDENTIFIER block* CURLY_BRACE_R NEWLINE*; // content
+page : PAGE IDENTIFIER block* NEWLINE*; // content
 
 block : CURLY_BRACE_L NEWLINE* lineInBlock* CURLY_BRACE_R NEWLINE*;
 
@@ -21,25 +21,49 @@ defaultWidget : DEFAULT type (widget | widgetStyle);
 
 widget : WIDGET widgetType;
 
+widgetType  : checkboxWidget
+            | textWidget
+            | radioWidget
+            | spinboxWidget
+            | sliderWidget
+            | dropdownWidget
+;
+checkboxWidget : CHECKBOX;
+textWidget : TEXT;
+radioWidget : RADIO BRACE_L yes=STR COMMA no=STR BRACE_R;
+spinboxWidget : SPINBOX;
+sliderWidget : SLIDER;
+dropdownWidget : DROPDOWN BRACE_L yes=STR COMMA no=STR BRACE_R;
+
 widgetStyle : CURLY_BRACE_L NEWLINE* style+ widget? CURLY_BRACE_R NEWLINE*;
 
 style : IDENTIFIER COLON value;
 
-type: BOOLEANTYPE   #booltype
-    | STRINGTYPE    #stringtype
-    | INTEGERTYPE   #integertype
-    | MONEYTYPE     #moneytype
-    | DATETYPE      #datetype
-    | DECIMALTYPE   #decimaltype
+type : BOOLEANTYPE   #booltype
+     | STRINGTYPE    #stringtype
+     | INTEGERTYPE   #integertype
+     | MONEYTYPE     #moneytype
+     | DATETYPE      #datetype
+     | DECIMALTYPE   #decimaltype
 ;
 
-widgetType: SLIDER                                         #sliderwidget
-          | SPINBOX                                        #spinboxwidget
-          | CHECKBOX                                       #checkboxwidget
-          | TEXT                                           #textwidget
-          | RADIO BRACE_L yes=STR COMMA no=STR BRACE_R     #radiowidget
-          | DROPDOWN BRACE_L yes=STR COMMA no=STR BRACE_R  #dropdownwidget
-;
+defaultdef      : blockdefault | linedefault ;
+
+blockdefault    : DEFAULT type CURLY_BRACE_L widgetProperty+ CURLY_BRACE_R ;
+
+linedefault     : DEFAULT type widgetProperty ;
+
+widgetProperty  : widthproperty
+                | fontproperty
+                | fontsizeproperty
+                | colorproperty
+                | widget
+                ;
+
+widthproperty   : WIDTH COLON INT ;
+fontproperty    : FONT COLON INT ;
+fontsizeproperty: FONTSIZE COLON INT ;
+colorproperty   : COLOR COLON INT ;
 
 value           : STR
                 | INT
@@ -56,6 +80,8 @@ MONEYTYPE: 'money' | 'currency';
 DATETYPE: 'date';
 DECIMALTYPE: 'decimal';
 
+
+
 //widget types
 SLIDER: 'slider';
 SPINBOX: 'spinbox';
@@ -63,6 +89,11 @@ CHECKBOX: 'checkbox';
 TEXT: 'text';
 RADIO: 'radio';
 DROPDOWN: 'dropdown';
+
+WIDTH           : 'width' ;
+FONT            : 'font' ;
+FONTSIZE        : 'fontsize' ;
+COLOR           : 'color' ;
 
 STYLESHEET : 'stylesheet';
 PAGE : 'page';

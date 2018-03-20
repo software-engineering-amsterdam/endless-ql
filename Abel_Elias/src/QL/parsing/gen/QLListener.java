@@ -1,4 +1,4 @@
-// Generated from C:/dev/uva/endless-ql/Abel_Elias/src/QL.parsing\QL.g4 by ANTLR 4.7
+// Generated from C:/dev/uva/endless-ql/Abel_Elias/src/QL/parsing\QL.g4 by ANTLR 4.7
 package QL.parsing.gen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -74,6 +74,18 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitIdentifier(QLParser.IdentifierContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code eqExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterEqExpression(QLParser.EqExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code eqExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitEqExpression(QLParser.EqExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code boolExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
@@ -85,6 +97,18 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBoolExpression(QLParser.BoolExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code compExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompExpression(QLParser.CompExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code compExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompExpression(QLParser.CompExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code numExpression}
 	 * labeled alternative in {@link QLParser#expression}.
@@ -98,161 +122,65 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitNumExpression(QLParser.NumExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code string}
+	 * Enter a parse tree produced by the {@code braceExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterString(QLParser.StringContext ctx);
+	void enterBraceExpression(QLParser.BraceExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code string}
+	 * Exit a parse tree produced by the {@code braceExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitString(QLParser.StringContext ctx);
+	void exitBraceExpression(QLParser.BraceExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code boolIdentifier}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * Enter a parse tree produced by the {@code notExpression}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterBoolIdentifier(QLParser.BoolIdentifierContext ctx);
+	void enterNotExpression(QLParser.NotExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code boolIdentifier}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * Exit a parse tree produced by the {@code notExpression}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitBoolIdentifier(QLParser.BoolIdentifierContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code notOperation}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNotOperation(QLParser.NotOperationContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code notOperation}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNotOperation(QLParser.NotOperationContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code compOperation}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterCompOperation(QLParser.CompOperationContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code compOperation}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitCompOperation(QLParser.CompOperationContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code boolBraces}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterBoolBraces(QLParser.BoolBracesContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code boolBraces}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitBoolBraces(QLParser.BoolBracesContext ctx);
+	void exitNotExpression(QLParser.NotExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code boolValue}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterBoolValue(QLParser.BoolValueContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code boolValue}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitBoolValue(QLParser.BoolValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code boolOperation}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * Enter a parse tree produced by the {@code strValue}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterBoolOperation(QLParser.BoolOperationContext ctx);
+	void enterStrValue(QLParser.StrValueContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code boolOperation}
-	 * labeled alternative in {@link QLParser#booleanExpression}.
+	 * Exit a parse tree produced by the {@code strValue}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitBoolOperation(QLParser.BoolOperationContext ctx);
+	void exitStrValue(QLParser.StrValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code intValue}
-	 * labeled alternative in {@link QLParser#numberExpression}.
+	 * Enter a parse tree produced by the {@code numValue}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterIntValue(QLParser.IntValueContext ctx);
+	void enterNumValue(QLParser.NumValueContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code intValue}
-	 * labeled alternative in {@link QLParser#numberExpression}.
+	 * Exit a parse tree produced by the {@code numValue}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitIntValue(QLParser.IntValueContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code numIdentifier}
-	 * labeled alternative in {@link QLParser#numberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNumIdentifier(QLParser.NumIdentifierContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code numIdentifier}
-	 * labeled alternative in {@link QLParser#numberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNumIdentifier(QLParser.NumIdentifierContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code numBraces}
-	 * labeled alternative in {@link QLParser#numberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNumBraces(QLParser.NumBracesContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code numBraces}
-	 * labeled alternative in {@link QLParser#numberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNumBraces(QLParser.NumBracesContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code moneyValue}
-	 * labeled alternative in {@link QLParser#numberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterMoneyValue(QLParser.MoneyValueContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code moneyValue}
-	 * labeled alternative in {@link QLParser#numberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitMoneyValue(QLParser.MoneyValueContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code decValue}
-	 * labeled alternative in {@link QLParser#numberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterDecValue(QLParser.DecValueContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code decValue}
-	 * labeled alternative in {@link QLParser#numberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitDecValue(QLParser.DecValueContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code numOperation}
-	 * labeled alternative in {@link QLParser#numberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNumOperation(QLParser.NumOperationContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code numOperation}
-	 * labeled alternative in {@link QLParser#numberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNumOperation(QLParser.NumOperationContext ctx);
+	void exitNumValue(QLParser.NumValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#boolOperator}.
 	 * @param ctx the parse tree
@@ -273,6 +201,16 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitComparisonOperator(QLParser.ComparisonOperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#equalsOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterEqualsOperator(QLParser.EqualsOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#equalsOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitEqualsOperator(QLParser.EqualsOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#numberOperator}.
 	 * @param ctx the parse tree

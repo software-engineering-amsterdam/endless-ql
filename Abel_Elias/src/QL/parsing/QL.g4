@@ -15,33 +15,27 @@ question : IDENTIFIER COLON STR type #normalQuestion
 ;
 
 expression: IDENTIFIER #identifier
-    | booleanExpression #boolExpression
-    | numberExpression #numExpression
-    | STR #string
-;
-
-booleanExpression: IDENTIFIER #boolIdentifier
-    | left=booleanExpression boolOperator right=booleanExpression #boolOperation
-    | BRACE_L booleanExpression BRACE_R #boolBraces
-    | left=numberExpression comparisonOperator right=numberExpression #compOperation
-    | NOT booleanExpression #notOperation
+    | BRACE_L expression BRACE_R #braceExpression
+    | left=expression boolOperator right=expression #boolExpression
+    | left=expression comparisonOperator right=expression #compExpression
+    | left=expression equalsOperator right=expression #eqExpression
+    | left=expression numberOperator right=expression #numExpression
+    | NOT expression #notExpression
+    | STR #strValue
     | BOOL #boolValue
-;
-
-numberExpression: IDENTIFIER #numIdentifier
-    | BRACE_L numberExpression BRACE_R  #numBraces
-    | left=numberExpression numberOperator right=numberExpression #numOperation
-    | MON #moneyValue
-    | INT #intValue
-    | DEC #decValue
+    | (MON | INT | DEC) #numValue
 ;
 
 boolOperator:
-    EQT | NEQT | AND | OR
+    AND | OR
 ;
 
 comparisonOperator:
-    EQT | GRT | LST | GRTE | LSTE
+    GRT | LST | GRTE | LSTE
+;
+
+equalsOperator:
+    EQT | NEQT
 ;
 
 numberOperator:
@@ -49,7 +43,7 @@ numberOperator:
 ;
 
 ifStatement:
-    IF BRACE_L booleanExpression BRACE_R ifBlock=block (ELSE (ifStatement | elseBlock=block))?
+    IF BRACE_L expression BRACE_R ifBlock=block (ELSE (ifStatement | elseBlock=block))?
 ;
 
 type: BOOLEANTYPE   #booltype
@@ -61,12 +55,14 @@ type: BOOLEANTYPE   #booltype
 ;
 
 /** Lexer rules (tokens)*/
-WS : (' ' | '\t')+ -> channel(HIDDEN);
+WS : (' ' | '\t' )+ -> channel(HIDDEN);
+COMMENT:   '/*' .*? '*/' -> channel(HIDDEN);
+LINE_COMMENT:  '//' ~[\r\n]* -> channel(HIDDEN);
 
 BOOLEANTYPE: 'boolean';
 STRINGTYPE: 'string';
 INTEGERTYPE: 'integer';
-MONEYTYPE: 'money' | 'currency';
+MONEYTYPE: 'money';
 DATETYPE: 'date';
 DECIMALTYPE: 'decimal';
 
@@ -108,7 +104,7 @@ fragment LETTER : ('a'..'z'|'A'..'Z');
 
 BOOL : ('true' | 'false');
 IDENTIFIER: LETTER (LETTER | DIGIT | '_')*;
-STR : '"' .*? '"';
+STR : '"' (~["\\\r\n])* '"';
 INT : ('-')? DIGIT+;
 MON : DIGIT+ '.' DIGIT DIGIT;
 DEC : ('-')? DIGIT+  '.'  DIGIT+;

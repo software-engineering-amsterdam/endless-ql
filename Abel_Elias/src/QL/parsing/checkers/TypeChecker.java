@@ -1,99 +1,143 @@
 package QL.parsing.checkers;
-
-import QL.classes.Question;
-import QL.classes.values.BooleanValue;
-import QL.classes.values.NumericValue;
 import QL.classes.values.Value;
 import QL.parsing.checkers.errors.TypeMismatchError;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
-import QL.parsing.visitors.TypeVisitor;
-import QL.parsing.visitors.expressions.ExpressionVisitor;
-import QL.parsing.visitors.refactor_tmp.BaseVisitor;
-
+import org.antlr.v4.runtime.ParserRuleContext;
 import java.util.Date;
 import java.util.HashMap;
 
-public class TypeChecker extends QLBaseVisitor {
-    // Typechecker checks if there are any inconsistensies in the types that were given in the syntax of the code
-    private ExpressionVisitor expressionVisitor;
-    private TypeVisitor typeVisitor;
-    private HashMap<String, Question> questionMap;
+public class TypeChecker extends QLBaseVisitor{
+    private HashMap<String, Object> typeMap;
 
-    public TypeChecker(QLParser.FormContext ctx, HashMap<String, Question> questionMap) {
-        this.questionMap = questionMap;
-        this.expressionVisitor = new ExpressionVisitor(questionMap);
-        this.typeVisitor = new TypeVisitor();
+    TypeChecker(){
+        typeMap = new HashMap();
+    }
 
-        visitBlock(ctx.block());
+    public void checkForm(QLParser.FormContext form){
+        visit(form);
+    }
+
+    @Override
+    public Object visitNormalQuestion(QLParser.NormalQuestionContext ctx) {
+        String id = ctx.IDENTIFIER().getText();
+        String type = ctx.type().getText();
+
+        switch(type){
+            case "boolean":
+                return typeMap.put(id, true);
+            case "string":
+                return typeMap.put(id, "");
+            case "date":
+                return typeMap.put(id, new Date());
+            case "integer":
+            case "decimal":
+            case "money":
+                return typeMap.put(id, 0.0);
+        }
+
+        return true;
     }
 
     @Override
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        String type = ctx.type().getText();
-        Object value = expressionVisitor.visitExpression(ctx.expression());
-        boolean correctMatch = false;
+        String typeString = ctx.type().getText();
+        Object value = visit(ctx.expression());
 
-        switch (type) {
-            case Value.MONEY:
-            case Value.DECIMAL:
-            case Value.INTEGER:
-                correctMatch = isNumeric(value);
-                break;
-            case Value.DATE:
-                correctMatch = isDate(value);
-                break;
-            case Value.STRING:
-                correctMatch = isString(value);
-                break;
-            case Value.BOOLEAN:
-                correctMatch = isBoolean(value);
-                break;
-        }
+        checkType(typeString, value, ctx.expression(), ctx);
+        typeMap.put(id, value);
 
-        if (!correctMatch) {
-            throw new TypeMismatchError(id, ctx.type().getText());
-        }
-
-        return questionMap;
+        return true;
     }
 
     @Override
-    public Object visitBoolIdentifier(QLParser.BoolIdentifierContext ctx) {
-        String id = ctx.getText();
-
-        if (!questionMap.get(id).getValue().getType().equals(Value.BOOLEAN)) {
-            throw new TypeMismatchError(id, "boolean");
-        }
-
-        return super.visitBoolIdentifier(ctx);
+    public Object visitIfStatement(QLParser.IfStatementContext ctx) {
+        System.out.println("passed here");
+        Object value = visit(ctx.expression());
+        return checkType(Value.BOOLEAN, value, ctx.expression(), ctx);
     }
 
     @Override
-    public Object visitNumIdentifier(QLParser.NumIdentifierContext ctx) {
-        String id = ctx.getText();
+    public Object visitIdentifier(QLParser.IdentifierContext ctx) {
+        return typeMap.get(ctx.IDENTIFIER().getText());
+    }
 
-        if (!isNumeric(questionMap.get(id).getValue().getValue())){
-            throw new TypeMismatchError(id, "number");
+    @Override
+    public Boolean visitEqExpression(QLParser.EqExpressionContext ctx) {
+        return true;
+    }
+
+    @Override
+    public Boolean visitBoolExpression(QLParser.BoolExpressionContext ctx) {
+        checkType(Value.BOOLEAN, visit(ctx.left), ctx.left, ctx);
+        checkType(Value.BOOLEAN, visit(ctx.right), ctx.right, ctx);
+
+        return true;
+    }
+
+    @Override
+    public Boolean visitCompExpression(QLParser.CompExpressionContext ctx) {
+        checkType(Value.DECIMAL, visit(ctx.left), ctx.left, ctx);
+        checkType(Value.DECIMAL, visit(ctx.right), ctx.right, ctx);
+
+        return true;
+    }
+
+    @Override
+    public Double visitNumExpression(QLParser.NumExpressionContext ctx) {
+        checkType(Value.DECIMAL, visit(ctx.left), ctx.left, ctx);
+        checkType(Value.DECIMAL, visit(ctx.right), ctx.right, ctx);
+
+        return 0.0;
+    }
+
+    @Override
+    public Object visitBraceExpression(QLParser.BraceExpressionContext ctx) {
+        return visit(ctx.expression());
+    }
+
+    @Override
+    public Boolean visitNotExpression(QLParser.NotExpressionContext ctx) {
+        checkType(Value.BOOLEAN, visit(ctx.expression()), ctx.expression(), ctx);
+        return true;
+    }
+
+    @Override
+    public Boolean visitBoolValue(QLParser.BoolValueContext ctx) {
+        return true;
+    }
+
+    @Override
+    public String visitStrValue(QLParser.StrValueContext ctx) {
+        return "";
+    }
+
+    @Override
+    public Double visitNumValue(QLParser.NumValueContext ctx) {
+        return 0.0;
+    }
+
+    private boolean checkType(String type, Object value, ParserRuleContext expression, ParserRuleContext code){
+        boolean correct = false;
+
+        switch(type){
+            case "boolean":
+                correct = value instanceof Boolean; break;
+            case "string":
+                correct = value instanceof String; break;
+            case "date":
+                correct = value instanceof Date; break;
+            case "integer":
+            case "decimal":
+            case "money":
+                correct = value instanceof Number; break;
         }
 
-        return questionMap;
-    }
+        if(!correct){
+            throw new TypeMismatchError(expression.getText(), code.getText(), type);
+        }
 
-    private boolean isNumeric(Object value) {
-        return value.getClass().isAssignableFrom(Number.class);
-    }
-
-    private boolean isBoolean(Object value) {
-        return value instanceof Boolean;
-    }
-
-    private boolean isDate(Object value) {
-        return value instanceof Date;
-    }
-
-    private boolean isString(Object value) {
-        return value instanceof String;
+        return correct;
     }
 }

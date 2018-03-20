@@ -1,10 +1,8 @@
 package QL.parsing.visitors;
 
 import QL.classes.Question;
-import QL.classes.values.Value;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
-import QL.parsing.visitors.expressions.ExpressionVisitor;
 
 import java.util.HashMap;
 
@@ -42,7 +40,7 @@ public class UpdateVisitor extends QLBaseVisitor {
 
     @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
-        Boolean condition = expVisitor.visitBoolExpression(ctx.booleanExpression());
+        Boolean condition = (boolean) expVisitor.visitExpression(ctx.expression());
         QLParser.BlockContext ifBlock = ctx.ifBlock;
         QLParser.BlockContext elseBlock = ctx.elseBlock;
         QLParser.IfStatementContext elseIfStatement = ctx.ifStatement();

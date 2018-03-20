@@ -138,8 +138,6 @@ public class ToolController implements Initializable, Consumer {
             r.setDisable(qn.isDisabled());
             lvQuestionnaire.getItems().add(r);
         }
-
-        JavaFxObservable.updatesOf(lvQuestionnaire.getItems()).subscribe(rows -> System.out.println("R "+rows));
     }
 
 

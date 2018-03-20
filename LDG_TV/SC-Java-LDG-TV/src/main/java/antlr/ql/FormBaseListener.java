@@ -64,6 +64,18 @@ public class FormBaseListener implements FormListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterElseStructure(FormParser.ElseStructureContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitElseStructure(FormParser.ElseStructureContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterStatementBlockStructure(FormParser.StatementBlockStructureContext ctx) { }
 	/**
 	 * {@inheritDoc}

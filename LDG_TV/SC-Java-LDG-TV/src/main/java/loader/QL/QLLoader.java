@@ -1,17 +1,14 @@
-package loader;
+package loader.QL;
 
 import antlr.ql.FormBaseListener;
 import antlr.ql.FormParser;
-import domain.FormNode;
-import domain.model.Condition;
-import domain.model.IfASTNode;
+import domain.model.ast.FormNode;
+import domain.model.ast.Condition;
+import domain.model.ast.IfASTNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.variable.*;
-import domain.model.QuestionASTNode;
-
-import java.util.ArrayList;
-import java.util.List;
+import domain.model.ast.QuestionASTNode;
 
 
 public class QLLoader extends FormBaseListener {
@@ -20,6 +17,7 @@ public class QLLoader extends FormBaseListener {
     private QLChecker qlChecker;
     private Variable constructedVariable;
     private boolean inIfNode = false;
+    private boolean inElseNode = false;
 
     public QLLoader(){
         this.formNode = new FormNode();
@@ -39,21 +37,20 @@ public class QLLoader extends FormBaseListener {
 
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
-        System.out.println("Entering if");
         IfASTNode ifASTNode = new IfASTNode(false);
         this.inIfNode = true;
-        BooleanVariable v = null;
+        Variable v = null;
         Condition c = null;
         for(int i=0; i< ctx.statementBlockStructure().conditions().condition().size(); i++){
             FormParser.ConditionContext cc = ctx.statementBlockStructure().conditions().condition(i);
             FormParser.BooleanOperatorContext bo = ctx.statementBlockStructure().conditions().booleanOperator(i);
             if (cc.value() instanceof FormParser.ValueContext){
-                v = (BooleanVariable) this.formNode.getVariableFromList(cc.value().getText());
-                this.formNode.getReferencedVariables().add(v);
+               v = this.formNode.getVariableFromList(cc.value().getText());
+               this.formNode.getReferencedVariables().add(v);
             }
             if (cc.expression() instanceof FormParser.ExpressionContext){
-                v = new BooleanVariable(null);
-                v.setValue(this.getBooleanExpressionValue(cc.expression()));
+               v = new BooleanVariable(null);
+               v.setValue(this.getBooleanExpressionValue(cc.expression()));
             }
             if(bo != null){
                 c = new Condition(v, bo.getText());
@@ -66,8 +63,15 @@ public class QLLoader extends FormBaseListener {
 
      }
     @Override
+    public void enterElseStructure(FormParser.ElseStructureContext ctx){
+        this.inElseNode = true;
+    }
+    @Override
+    public void exitElseStructure(FormParser.ElseStructureContext ctx){
+        this.inElseNode = false;
+    }
+    @Override
     public void exitIfStructure(FormParser.IfStructureContext ctx){
-        System.out.println("Exit if");
         this.inIfNode = false;
     }
     @Override
@@ -84,18 +88,24 @@ public class QLLoader extends FormBaseListener {
                 constructedVariable = new StringVariable(ctx.variable().getText());
                 break;
             default:
+                //TODO Invalid variable type found. throw exception
         }
     }
     @Override
     public void exitQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx) {
         String questionText = ctx.label().getText();
 
-        QuestionASTNode q = new QuestionASTNode(questionText, constructedVariable, !this.inIfNode);
+        QuestionASTNode q = new QuestionASTNode(questionText, constructedVariable, this.inIfNode);
         if(this.inIfNode) {
+            if (this.inElseNode){
+                this.formNode.addToLastIfElse(q);
+                return;
+            }
             this.formNode.addToLastIf(q);
             return;
         }
-        this.formNode.addQuestion(new QuestionASTNode(questionText, constructedVariable, true));
+
+        this.formNode.addQuestion(new QuestionASTNode(questionText, constructedVariable, false));
     }
     @Override
     public void enterVariableValue(FormParser.VariableValueContext ctx){

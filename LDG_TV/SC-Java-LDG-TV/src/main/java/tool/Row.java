@@ -18,7 +18,7 @@ public class Row extends HBox {
 
     private boolean hide;
 
-    public Row(String question, Node answer, boolean hide) {
+    public Row(String question, Node answer) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QuestionRow.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);

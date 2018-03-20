@@ -31,7 +31,6 @@ public class BooleanExpressionValue extends Value<Boolean>{
         }
         return false;
     }
-
     @Override
     public void setValue(Boolean value) {
         // TODO

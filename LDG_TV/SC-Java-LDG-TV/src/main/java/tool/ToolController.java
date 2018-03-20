@@ -2,45 +2,73 @@ package tool;
 
 import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
-import domain.FormNode;
+import antlr.qls.StylesheetLexer;
+import antlr.qls.StylesheetParser;
+import domain.model.ast.FormNode;
 import domain.Utilities;
-import domain.model.ASTNode;
-import domain.model.IfASTNode;
-import domain.model.QuestionASTNode;
+import domain.model.ast.ASTNode;
+import domain.model.ast.IfASTNode;
+import domain.model.ast.QuestionASTNode;
+import domain.model.stylesheet.Page;
+import domain.model.stylesheet.Section;
+import domain.model.stylesheet.Stylesheet;
 import domain.model.variable.Variable;
 import domain.visitor.UIVisitor;
 import domain.visitor.Visitor;
-import io.reactivex.Observable;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
+import io.reactivex.rxjavafx.sources.Change;
+import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import loader.QLLoader;
+import loader.QL.QLLoader;
+import loader.QLS.QLSLoader;
+import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
+import java.util.function.Consumer;
 
-public class ToolController implements Initializable {
+public class ToolController implements Initializable, Consumer {
 
     @FXML
-    private TextArea taSourceCode;
+    private TextArea taSourceCodeQL;
+
+    @FXML
+    private TextArea taSourceCodeQLS;
 
     @FXML
     private ListView<Row> lvQuestionnaire;
 
     @FXML
+    private TabPane tpPages;
+
+    @FXML
     private Button btnBuild;
 
-    private List<Row> data = new ArrayList<>();
+    @FXML
+    private Label lblErrorField;
+
+    private FormNode formNode = null;
 
     public ToolController() {
         System.out.println("Class initialized");
@@ -48,14 +76,6 @@ public class ToolController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Pane initialized");
-
-        Observable<ActionEvent> btnEvents = JavaFxObservable.eventsOf(btnBuild, ActionEvent.ACTION);
-
-
-
-        btnEvents.subscribe(actionEvent -> System.out.println("Action: "+actionEvent), throwable -> {
-            System.out.println(throwable);
-        });
     }
 
     /**
@@ -63,14 +83,16 @@ public class ToolController implements Initializable {
      * @param event that kicked of the invocation
      */
     public void generateQuestionnaire(ActionEvent event) {
-        String qlSource = taSourceCode.getText();
+        String qlSource = taSourceCodeQL.getText();
 
         if(qlSource.isEmpty()){
             showAlertBox("Please import or add QL code");
             return;
         }
 
-        lvQuestionnaire.getItems().clear();
+        String qlsSource = taSourceCodeQLS.getText();
+
+                lvQuestionnaire.getItems().clear();
 
         // Parse input field and create AST
         CharStream stream = CharStreams.fromString(qlSource);
@@ -78,72 +100,95 @@ public class ToolController implements Initializable {
 
         FormParser parser = new FormParser(new CommonTokenStream(lexer));
 
+        //parser.setErrorHandler(new BailErrorStrategy());
+        parser.addErrorListener(new ToolBarErrorListener(lblErrorField));
+
         FormParser.FormBuilderContext tree = parser.formBuilder();
         QLLoader loader = new QLLoader();
         ParseTreeWalker.DEFAULT.walk(loader, tree);
 
-        FormNode node = loader.getFormNode();
+        this.formNode = loader.getFormNode();
 
-        List<ASTNode> astNodes = node.getASTNodes();
+        if(!qlsSource.isEmpty()){
+            CharStream qlsStream = CharStreams.fromString(qlsSource);
+            StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
 
-        List<QuestionASTNode> questions = getAllVisibleQuestions(astNodes);
+            StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
+
+            //parser.setErrorHandler(new BailErrorStrategy());
+            qlsParser.addErrorListener(new ToolBarErrorListener(lblErrorField));
+
+            StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
+            QLSLoader qlsLoader = new QLSLoader(this.formNode);
+            ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
+            drawPages(this.formNode.getStylesheet());
+        }
 
 
-        drawQuestions(questions);
+        List<ASTNode> astNodes = this.formNode.getASTNodes();
 
-
-        System.out.println(node);
-
-
-//        for (ASTNode n : node.getASTNodes()){
-//
-//            if(!(n instanceof QuestionASTNode)){
-//                break;
-//            }
-//
-//            QuestionASTNode qn = (QuestionASTNode) n;
-//
-//            Variable qv = qn.getVariable();
-//            String qt = qn.getText();
-//
-//            if(qv instanceof BooleanVariable){
-//                CheckBox cb = new CheckBox();
-//
-//                cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
-//                    qv.setValue(new BooleanValue(newValue));
-//                    System.out.println(qn.getText() + " " + qv.getValue().getValue());
-//                });
-//
-//                lvQuestionnaire.getItems().add(new QuestionRow(qt, cb, false));
-//                continue;
-//            }
-//            Node answerNode = qv.getRelatedUIElement(v);
-//
-//            lvQuestionnaire.getItems().add(new QuestionRow(qt, answerNode, false));
-//        }
-
-        //this.lvQuestionnaire.getItems().setAll(dummyRows());
+        List<QuestionASTNode> questions = getAllQuestions(astNodes);
+        drawQuestions(questions, lvQuestionnaire);
+        printInfoMessage("Build successful");
     }
 
-    private void drawQuestions(List<QuestionASTNode> questionASTNodes){
+    private void printInfoMessage(String message){
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+        lblErrorField.setTooltip(new Tooltip(sdf.format(cal.getTime())));
+        lblErrorField.setText(message);
+    }
+
+    private void drawQuestions(List<QuestionASTNode> questionASTNodes, ListView lView){
         Visitor uiVisitor = new UIVisitor();
+        lView.getItems().clear();
+
+        this.formNode.evaluateIfs();
 
         for(QuestionASTNode qn : questionASTNodes){
             String questionText = qn.getText();
-            System.out.println("QUI: " + questionText);
             Variable qv = qn.getVariable();
 
             Node n = qv.getRelatedUIElement(uiVisitor);
-            lvQuestionnaire.getItems().add(new QuestionRow(questionText, n, false));
+
+            JavaFxObservable.actionEventsOf(n)
+                    .subscribe(this::accept);
+
+            if(n instanceof TextField){
+                TextField tf = (TextField) n;
+
+                JavaFxObservable.changesOf(tf.focusedProperty())
+                        .map(Change::getNewVal)
+                        .filter(aBoolean -> !aBoolean)
+                        .subscribe(this::accept);
+            }
+
+            Row r = new QuestionRow(questionText, n);
+            r.setDisable(qn.isDisabled());
+            lView.getItems().add(r);
         }
     }
 
-    private List<QuestionASTNode> getAllVisibleQuestions(List<ASTNode> nodes){
+    private void drawPages(Stylesheet stylesheet){
+        ListView lv;
+        Label sl;
+        Tab tab;
+        Pane pane;
+        for (Page p : stylesheet.getPages()){
+            tab = new Tab(p.getLabel());
+            this.tpPages.getTabs().add(tab);
+            lv = new ListView<Row>();
+            for (Section s : p.getSections()){
+                drawQuestions(s.getQuestions(), lv);
+            }
+            tab.setContent(lv);
+        }
+    }
+
+    private List<QuestionASTNode> getAllQuestions(List<ASTNode> nodes){
         List<QuestionASTNode> visQuestion = new ArrayList<>();
         for(ASTNode n : nodes){
-            if(!n.isVisible()) {
-                continue;
-            }
 
             if(n instanceof QuestionASTNode){
                 visQuestion.add((QuestionASTNode) n);
@@ -151,25 +196,33 @@ public class ToolController implements Initializable {
             }
 
             IfASTNode ifASTNode = (IfASTNode) n;
+
             visQuestion.addAll(ifASTNode.getQuestionNodes());
+            visQuestion.addAll(ifASTNode.getElseNodes());
         }
 
         return visQuestion;
     }
 
+    public void importQLSFile(ActionEvent event) {
+        FileChooser fileChooser = getFileChooser();
 
+        Stage s = new Stage();
+        File selectedFile = fileChooser.showOpenDialog(s);
 
+        if (selectedFile == null) {
+            return;
+        }
 
-    private List<Row> dummyRows(){
-        QuestionRow row1_1 = new QuestionRow("Man or woman", new TextField(), true);
-        QuestionRow row1_2 = new QuestionRow("Where do you work?", new TextField(), true);
+        Optional<String> qlsText = Utilities.readFile(selectedFile.getAbsolutePath());
 
-        IfRow row1 = new IfRow("Older than 18?", new CheckBox(), Arrays.asList(row1_1, row1_2));
-
-        row1_1.visibleProperty().bindBidirectional(row1.selectedProp());
-        row1_2.visibleProperty().bindBidirectional(row1.selectedProp());
-
-        return Arrays.asList(row1, row1_1, row1_2);
+        qlsText.ifPresentOrElse(
+                text -> {
+                    taSourceCodeQLS.setText(text);
+                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
+                },
+                () -> showAlertBox("Could not read file.")
+        );
     }
 
     /**
@@ -179,7 +232,8 @@ public class ToolController implements Initializable {
     public void importQLFile(ActionEvent event) {
         FileChooser fileChooser = getFileChooser();
 
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        Stage s = new Stage();
+        File selectedFile = fileChooser.showOpenDialog(s);
 
         if (selectedFile == null) {
             return;
@@ -188,7 +242,10 @@ public class ToolController implements Initializable {
         Optional<String> qlText = Utilities.readFile(selectedFile.getAbsolutePath());
 
         qlText.ifPresentOrElse(
-                text -> taSourceCode.setText(text),
+                text -> {
+                    taSourceCodeQL.setText(text);
+                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
+                },
                 () -> showAlertBox("Could not read file.")
         );
     }
@@ -204,9 +261,17 @@ public class ToolController implements Initializable {
         fileChooser.setTitle("Open QL File");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Questionnaire Language File (*.ql)", "*.ql"),
+                new FileChooser.ExtensionFilter("Questionnaire Language File (*.qls)", "*.qls"),
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
 
         return fileChooser;
+    }
+
+    @Override
+    public void accept(Object event) {
+        System.out.println("Redraw tree yo");
+        List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
+        drawQuestions(questions, lvQuestionnaire);
     }
 }

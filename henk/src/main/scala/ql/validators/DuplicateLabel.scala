@@ -16,6 +16,7 @@ class DuplicateLabelValidator extends BaseValidator {
     val labels = ASTCollector.getQuestions(ast).map(_.label)
     val distinctedLabels = labels.distinct
     if(labels != distinctedLabels) {
+
       warnings = labels.diff(distinctedLabels).map{ duplicateLabel => {
         s"Label '${duplicateLabel} is duplicate'"
       }}

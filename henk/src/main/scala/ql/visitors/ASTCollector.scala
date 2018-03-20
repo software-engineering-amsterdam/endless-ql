@@ -40,6 +40,16 @@ object ASTCollector {
     flattened.collect { case question: ASTQuestion => question }
   }
 
+  def getComputations(ast: ASTNode): Option[List[ASTComputation]] = {
+    val flattened = flattenNT(ast)
+    val comps = flattened.collect { case comp: ASTComputation => comp }
+    if(comps.isEmpty) {
+      None
+    } else {
+      Some(comps)
+    }
+  }
+
   def getVarDecls(node: ASTNode): List[ASTVarDecl] = {
     val flattened = flattenNT(node)
     flattened.collect { case varDecl: ASTVarDecl => varDecl }

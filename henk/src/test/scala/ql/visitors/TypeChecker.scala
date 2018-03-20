@@ -109,6 +109,23 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
       }
     }
   }
+
+  describe("when TypeChecker validates a form containing an invalid type inference") {
+    val filename = s"${resourceDir}/type_inference/invalid_simple.ql"
+    val form = FormHelper.getForm(getClass.getResource(filename))
+    val tc = new TypeChecker()
+
+    it("should return false") {
+      assert(!tc.validate(form))
+    }
+
+    it("typechecker should contain the exception") {
+      tc.error match {
+        case InvalidTypeInfered(_) => succeed
+        case other => fail("no correct error was set")
+      }
+    }
+  }
   // describe("when ConditionalValidator contains a conditional with Money type") {
     // val filename = s"${resourceDir}/money_type_conditional.ql"
     // val form = FormHelper.getForm(getClass.getResource(filename))

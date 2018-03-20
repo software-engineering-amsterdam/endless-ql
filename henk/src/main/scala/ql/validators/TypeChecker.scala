@@ -17,7 +17,8 @@ class TypeChecker() {
     new IdentifierValidator(),
     new ConditionalValidator(),
     new DuplicateQuestionValidator(),
-    new DuplicateLabelValidator()
+    new DuplicateLabelValidator(),
+    new TypeInferenceValidator()
   )
 
   def checkValidators(node: ASTNode): Option[Exception] = {
@@ -37,6 +38,10 @@ class TypeChecker() {
         }
         case Some(ex: DuplicateLabelDeclaration) => {
           warnings = vc.getWarnings()
+        }
+        case bv @ Some(ex: InvalidTypeInfered) => {
+          error = ex
+          return bv
         }
         case other => other
       }

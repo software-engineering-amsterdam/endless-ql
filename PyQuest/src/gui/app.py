@@ -1,6 +1,10 @@
 from ql.parser.lexer import QLLexer
 from ql.parser.parser import QLParser
-from ql.ast.extractors.extractor import Extractor
+from ql.ast.extractors.extractor import extract_gui_model
+from ql.ast.extractors.extractor import extract_identifier_dependencies
+from ql.ast.extractors.extractor import extract_identifier_scopes
+from ql.ast.extractors.extractor import extract_identifier_types
+from ql.ast.extractors.extractor import extract_questions
 from ql.ast.visitors.type_visitor import TypeVisitor
 from ql.ast.checkers.question_checker import QuestionChecker
 from ql.ast.checkers.dependency_checker import DependencyChecker
@@ -104,14 +108,12 @@ class MainApp(QMainWindow):
 
         try:
             ast = ql_parser.parser.parse(textbox_value, ql_lexer.lexer)
+            ReferenceChecker(extract_identifier_scopes(ast))
+            DependencyChecker(extract_identifier_dependencies(ast))
+            QuestionChecker(extract_questions(ast))
+            TypeVisitor(extract_identifier_types(ast)).visit(ast)
 
-            extractor = Extractor()
-            ReferenceChecker(extractor.extract_identifier_scopes(ast))
-            DependencyChecker(extractor.extract_identifier_dependencies(ast))
-            QuestionChecker(extractor.extract_questions(ast))
-            TypeVisitor(extractor.extract_identifier_types(ast)).visit(ast)
-
-            dialog = Form(extractor.extract_gui_model(ast))
+            dialog = Form(extract_gui_model(ast))
             dialog.exec_()
         except:
             QMessageBox.warning(QMessageBox(), 'Warning', 'Unable to create form.',

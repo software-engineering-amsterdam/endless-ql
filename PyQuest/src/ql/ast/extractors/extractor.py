@@ -2,6 +2,8 @@ from ql.ast.visitors.reference_visitor import ReferenceVisitor
 from ql.ast.visitors.dependency_visitor import DependencyVisitor
 from ql.ast.visitors.question_visitor import QuestionVisitor
 from ql.ast.visitors.identifier_type_visitor import IdentifierTypeVisitor
+from ql.ast.visitors.expression_evaluator import ExpressionEvaluator
+from ql.ast.visitors.gui_model_generator import GUIModel
 
 
 class Extractor:
@@ -29,3 +31,15 @@ class Extractor:
         question_visitor = QuestionVisitor()
         question_visitor.visit(ast)
         return question_visitor.questions
+
+    @staticmethod
+    def extract_expression_evaluation(ast, form):
+        expression_evaluator = ExpressionEvaluator(form)
+        expression_evaluator.visit(ast)
+        return expression_evaluator.result
+
+    @staticmethod
+    def extract_gui_model(ast):
+        gui_model_generator = GUIModel()
+        gui_model_generator.visit(ast)
+        return gui_model_generator.form

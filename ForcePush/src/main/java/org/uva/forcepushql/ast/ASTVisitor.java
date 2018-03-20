@@ -2,15 +2,12 @@ package org.uva.forcepushql.ast;
 
 public interface ASTVisitor{
 
-    String visit(Node node);
-
     String visit(FormNode node);
 
     String visit(ConditionalIfNode node);
     String visit(ConditionalIfElseNode node);
     String visit(ConditionalElseNode node);
 
-    String visit(ExpressionNode node);
     String visit(AdditionNode node);
     String visit(SubtractionNode node);
     String visit(NumberNode node);

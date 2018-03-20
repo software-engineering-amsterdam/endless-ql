@@ -44,12 +44,24 @@ public abstract class ConditionalNode extends Node {
 class ConditionalIfNode extends ConditionalNode {
 
 
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class ConditionalIfElseNode extends ConditionalNode {
 
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class ConditionalElseNode extends ConditionalNode{
 
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }

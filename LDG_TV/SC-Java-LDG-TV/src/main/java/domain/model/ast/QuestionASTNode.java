@@ -6,7 +6,6 @@ import domain.model.variable.Variable;
 public class QuestionASTNode extends ASTNode implements Comparable {
     private String text;
     private Variable variable;
-    private UIElement uiElement;
 
     public QuestionASTNode(String text, Variable variable, boolean visible) {
         this.text = text;
@@ -37,13 +36,7 @@ public class QuestionASTNode extends ASTNode implements Comparable {
         return variable;
     }
 
-    public void setUiElement(UIElement uiElement) {
-        this.uiElement = uiElement;
-    }
 
-    public UIElement getUiElement() {
-        return uiElement;
-    }
 
     @Override
     public String toString() {

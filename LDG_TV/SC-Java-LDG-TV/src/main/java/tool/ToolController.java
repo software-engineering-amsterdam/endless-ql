@@ -55,9 +55,6 @@ public class ToolController implements Initializable, Consumer {
     private TextArea taSourceCodeQLS;
 
     @FXML
-    private ListView<Row> lvQuestionnaire;
-
-    @FXML
     private TabPane tpPages;
 
     @FXML
@@ -66,6 +63,9 @@ public class ToolController implements Initializable, Consumer {
     @FXML
     private Label lblErrorField;
 
+    private List<ListView> listViews = new ArrayList<>();
+
+    private boolean qlsEnabled = false;
     private FormNode formNode = null;
 
     public ToolController() {
@@ -82,16 +82,28 @@ public class ToolController implements Initializable, Consumer {
      */
     public void generateQuestionnaire(ActionEvent event) {
         String qlSource = taSourceCodeQL.getText();
-
+        String qlsSource = taSourceCodeQLS.getText();
+        this.qlsEnabled = false;
+        this.tpPages.getTabs().clear();
+        this.listViews.clear();
         if(qlSource.isEmpty()){
             showAlertBox("Please import or add QL code");
             return;
         }
 
-        String qlsSource = taSourceCodeQLS.getText();
-
-                lvQuestionnaire.getItems().clear();
-
+        if (!qlSource.isEmpty() && qlsSource.isEmpty()){
+            generateQL(qlSource);
+            buildQL();
+        }
+        if (!qlSource.isEmpty() && !qlsSource.isEmpty()){
+            this.qlsEnabled = true;
+            generateQL(qlSource);
+            generateQLS(qlsSource);
+            buildQLS();
+        }
+        printInfoMessage("Build successful");
+    }
+    private void generateQL(String qlSource){
         // Parse input field and create AST
         CharStream stream = CharStreams.fromString(qlSource);
         FormLexer lexer = new FormLexer(stream);
@@ -106,28 +118,50 @@ public class ToolController implements Initializable, Consumer {
         ParseTreeWalker.DEFAULT.walk(loader, tree);
 
         this.formNode = loader.getFormNode();
-
-        if(!qlsSource.isEmpty()){
-            CharStream qlsStream = CharStreams.fromString(qlsSource);
-            StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
-
-            StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
-
-            //parser.setErrorHandler(new BailErrorStrategy());
-            qlsParser.addErrorListener(new ToolBarErrorListener(lblErrorField));
-
-            StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
-            QLSLoader qlsLoader = new QLSLoader(this.formNode);
-            ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
-            drawPages(this.formNode.getStylesheet());
-        }
-
-
+    }
+    private void buildQL(){
+        ListView lvQuestionnaire = new ListView();
+        lvQuestionnaire.getItems().clear();
         List<ASTNode> astNodes = this.formNode.getASTNodes();
-
         List<QuestionASTNode> questions = getAllQuestions(astNodes);
-        drawQuestions(questions, lvQuestionnaire, true);
-        printInfoMessage("Build successful");
+        drawQuestions(questions,lvQuestionnaire, true);
+        listViews.add(lvQuestionnaire);
+        Tab t = new Tab("QL Form");
+        t.setContent(lvQuestionnaire);
+        this.tpPages.getTabs().add(t);
+    }
+    private void buildQLS(){
+        Tab tab;
+
+        for (Page p : this.formNode.getStylesheet().getPages()){
+            tab = new Tab(p.getLabel());
+            this.tpPages.getTabs().add(tab);
+            drawPage(tab, p);
+        }
+    }
+    private void drawPage(Tab tab, Page p){
+        HBox hbox = new HBox();
+        ListView lv = new ListView<Row>();
+        for (Section s : p.getSections()){
+            drawSection(s, lv);
+        }
+        listViews.add(lv);
+        hbox.setHgrow(lv, Priority.ALWAYS);
+        hbox.getChildren().add(lv);
+        tab.setContent(hbox);
+    }
+    private void generateQLS(String qlsSource){
+        CharStream qlsStream = CharStreams.fromString(qlsSource);
+        StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
+
+        StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
+
+        //parser.setErrorHandler(new BailErrorStrategy());
+        qlsParser.addErrorListener(new ToolBarErrorListener(lblErrorField));
+
+        StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
+        QLSLoader qlsLoader = new QLSLoader(this.formNode);
+        ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
     }
 
     private void printInfoMessage(String message){
@@ -171,27 +205,15 @@ public class ToolController implements Initializable, Consumer {
 
         JavaFxObservable.updatesOf(lView.getItems()).subscribe(rows -> System.out.println("R "+rows));
     }
-    private void drawSection(String label, ListView lView){
-        Row r = new SectionRow(label);
+    private void drawSection(Section s, ListView lView){
+        Row r = new SectionRow(s.getLabel());
         lView.getItems().add(r);
-    }
-    private void drawPages(Stylesheet stylesheet){
-        ListView lv;
-        Tab tab;
-        HBox hbox;
-        for (Page p : stylesheet.getPages()){
-            tab = new Tab(p.getLabel());
-            this.tpPages.getTabs().add(tab);
-            hbox = new HBox();
-            lv = new ListView<Row>();
-            for (Section s : p.getSections()){
-                drawSection(s.getLabel(), lv);
-                drawQuestions(s.getQuestions(), lv, false);
-            }
-            hbox.setHgrow(lv, Priority.ALWAYS);
-            hbox.getChildren().add(lv);
-            tab.setContent(hbox);
+        List<QuestionASTNode> temp = new ArrayList<>();
+        for (Variable v : s.getVariables()){
+            temp.add(this.formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
         }
+        drawQuestions(temp, lView, false);
+
     }
 
     private List<QuestionASTNode> getAllQuestions(List<ASTNode> nodes){
@@ -275,11 +297,22 @@ public class ToolController implements Initializable, Consumer {
 
         return fileChooser;
     }
+    private void redrawAll(){
+        List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
+        if (!qlsEnabled){
+            drawQuestions(questions, this.listViews.get(0), true);
+        }else{
+            for (int i = 0; i < this.tpPages.getTabs().size(); i ++){
+                Tab tab = this.tpPages.getTabs().get(i);
+                Page page = this.formNode.getStylesheet().getPages().get(i);
+                drawPage(tab, page);
+            }
+        }
+    }
 
     @Override
     public void accept(Object event) {
         System.out.println("Redraw tree yo");
-        List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
-        drawQuestions(questions, lvQuestionnaire, true);
+        this.redrawAll();
     }
 }

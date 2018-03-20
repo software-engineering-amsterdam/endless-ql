@@ -45,15 +45,7 @@
                   </Tab>
                </tabs>
             </TabPane>
-            <TabPane fx:id="tpPages" prefHeight="333.0" prefWidth="0.0" tabClosingPolicy="UNAVAILABLE">
-              <tabs>
-                <Tab text="Page 1">
-                     <content>
-                        <ListView id="lv" fx:id="lvQuestionnaire" stylesheets="@Tool.css" />
-                     </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
+            <TabPane fx:id="tpPages" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" />
         </items>
       </SplitPane>
       <ToolBar maxHeight="20.0" minHeight="20.0" prefHeight="40.0" prefWidth="200.0">

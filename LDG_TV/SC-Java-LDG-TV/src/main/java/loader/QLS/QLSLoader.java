@@ -8,6 +8,7 @@ import domain.model.stylesheet.Page;
 import domain.model.stylesheet.Section;
 import domain.model.stylesheet.Stylesheet;
 import domain.model.stylesheet.UIElement;
+import domain.model.variable.Variable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class QLSLoader extends StylesheetBaseListener {
     private Page p;
     private Section s;
     private FormNode formNode;
-    private QuestionASTNode qan;
+    private Variable v;
     private QLSChecker qlsChecker;
 
     public QLSLoader(FormNode formNode) {
@@ -58,12 +59,12 @@ public class QLSLoader extends StylesheetBaseListener {
     }
     @Override
     public void enterQuestionStructure(StylesheetParser.QuestionStructureContext ctx) {
-        qan = formNode.getQuestionByVariableIdentifier(ctx.identifier().getText());
+        v = formNode.getVariableFromList(ctx.identifier().getText());
     }
     @Override
     public void exitQuestionStructure(StylesheetParser.QuestionStructureContext ctx) {
-        s.addQuestion(qan);
-        qan = null;
+        s.addVariable(v);
+        v = null;
     }
     @Override
     public void enterUiElement(StylesheetParser.UiElementContext ctx) {
@@ -92,7 +93,7 @@ public class QLSLoader extends StylesheetBaseListener {
             }
             uiElement = new UIElement(ctx.uiType().getText(), options);
         }
-        qan.setUiElement(uiElement);
+        v.setUiElement(uiElement);
 
     }
 

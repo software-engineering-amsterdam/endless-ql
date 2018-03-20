@@ -4,53 +4,6 @@ package org.uva.forcepushql.ast;
 
 public class EvaluateExpressionVisitor implements ASTVisitor {
 
-
-    /*@Override
-    public String visit(Node node) {
-        if (node instanceof ExpressionNode) {
-            return visit((ExpressionNode) node);
-        }
-
-        else if(node instanceof FormNode){
-            return visit((FormNode)node);
-        }
-
-        else if (node instanceof LabelNode){
-            return visit((LabelNode)node);
-        }
-
-        else if (node instanceof NameNode){
-            return visit((NameNode)node);
-        }
-
-        else if (node instanceof TypeNode){
-            return visit((TypeNode)node);
-        }
-
-        else if (node instanceof QuestionAssignValueNode){
-            return visit((QuestionAssignValueNode)node);
-        }
-
-        else if (node instanceof  QuestionNode){
-            return visit((QuestionNode) node);
-        }
-
-        else if (node instanceof ConditionalElseNode){
-            return visit((ConditionalElseNode)node);
-        }
-
-        else if (node instanceof ConditionalIfNode) {
-            return visit((ConditionalIfNode) node);
-        }
-
-        else if (node instanceof ConditionalIfElseNode){
-            return visit((ConditionalIfElseNode)node);
-        }
-
-
-        return "0.0";
-    }*/
-
     @Override
     public String visit(FormNode node) {
         String result = "Name: " + node.getName();
@@ -93,82 +46,6 @@ public class EvaluateExpressionVisitor implements ASTVisitor {
 
         return result;
     }
-
-
-    /*@Override
-    public String visit(ExpressionNode node) {
-        if (node instanceof AdditionNode)
-        {
-            return visit((AdditionNode) node);
-        }
-        else if(node instanceof NumberNode)
-        {
-            return visit((NumberNode) node);
-        }
-        else if (node instanceof Variable){
-            return visit((Variable)node);
-        }
-        else if (node instanceof DecimalNode){
-            return visit((DecimalNode)node);
-        }
-        else if(node instanceof SubtractionNode)
-        {
-            return visit((SubtractionNode) node);
-        }
-        else if(node instanceof MultiplicationNode)
-        {
-            return visit((MultiplicationNode) node);
-        }
-        else if(node instanceof NegateNode)
-        {
-            return visit((NegateNode) node);
-        }
-        else if(node instanceof DivisionNode)
-        {
-            return visit((DivisionNode) node);
-        }
-        else if(node instanceof AndNode)
-        {
-            return visit((AndNode) node);
-        }
-        else if(node instanceof OrNode)
-        {
-            return visit((OrNode) node);
-        }
-        else if(node instanceof LessNode)
-        {
-            return visit((LessNode) node);
-        }
-        else if(node instanceof GreaterNode)
-        {
-            return visit((GreaterNode) node);
-        }
-        else if(node instanceof EqualLessNode)
-        {
-            return visit((EqualLessNode) node);
-        }
-        else if(node instanceof EqualGreaterNode)
-        {
-            return visit((EqualGreaterNode) node);
-        }
-        else if(node instanceof NotEqualNode)
-        {
-            return visit((NotEqualNode) node);
-        }
-        else if(node instanceof IsEqualNode)
-        {
-            return visit((IsEqualNode) node);
-        }
-        else {
-            try {
-                throw new Exception();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "0.0";
-        }
-
-    }*/
 
     public String visit(AdditionNode node)
     {

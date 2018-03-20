@@ -1,26 +1,34 @@
 package gui;
 
 import ql.ast.statements.Question;
-import ql.evaluator.Evaluator;
+import ql.evaluator.FormEvaluator;
 
 import java.awt.*;
 
 public class QuestionElement extends GUIElement {
 
-    Evaluator evaluator;
-    Question node;
+    private FormEvaluator evaluator;
+    private Question question;
 
-    public QuestionElement(Question node, int yLocation, Evaluator evaluator) {
+    public QuestionElement(Question question, int yLocation, FormEvaluator evaluator) {
         super(yLocation);
-        this.node = node;
+        this.question = question;
         this.evaluator = evaluator;
-        height = 70;
+        setHeight(70);
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public FormEvaluator getEvaluator() {
+        return evaluator;
     }
 
     @Override
     public void render(Graphics g) {
         g.setColor(Color.black);
-        g.drawString(node.getLabel(), 50, yLocation);
+        g.drawString(question.getLabel(), 50, this.getYLocation());
     }
 
 }

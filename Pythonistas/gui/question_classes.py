@@ -85,7 +85,7 @@ class BooleanQuestion(Question):
 
     def add_if_question(self,question):
         self.ifquestions.append(question)
-        question.questionframe.setVisible(False)
+        question.visibility = False
 
 
 class MoneyQuestion(Question):
@@ -93,9 +93,10 @@ class MoneyQuestion(Question):
         Question.__init__(self, questionID, question, datatype, answer)
         self.textInputBox = QtWidgets.QLineEdit()
         self.textInputBox.textEdited.connect(self.update_answer)
+        self.visibility = True
 
-    # def set_text_input_box(self,textInputBox):
-    #     self.textInputBox = textInputBox
+    def set_answer_box(self,textBox):
+        self.textInputBox = textBox
 
     # def get_text(self):
     #     self.textInputBox.text()
@@ -108,6 +109,7 @@ class MoneyQuestion(Question):
         self.questionframe = QtWidgets.QFrame()
         self.questionlayout = QtWidgets.QGridLayout()
         self.questionframe.setLayout(self.questionlayout)
+        self.questionframe.setVisible(self.visibility)
 
         self.questionlayout.addWidget(QtWidgets.QLabel(self.question),0,0)
         self.questionlayout.addWidget(self.textInputBox,0,1)

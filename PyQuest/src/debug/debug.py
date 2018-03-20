@@ -7,22 +7,29 @@ class Debug:
         self.__terminal = terminal
         self.__pyqt5 = pyqt5
 
+    @property
+    def terminal(self):
+        return self.__terminal
+
+    @property
+    def pyqt5(self):
+        return self.__pyqt5
+
     def error(self, lines, message):
         separated_lines = ' , '.join([str(line) for line in lines])
-        if self.__pyqt5:
+        if self.pyqt5:
             QMessageBox.critical(QMessageBox(), 'Error', '[line(s): {}] {}'.format(lines, message),
                                  QMessageBox.Close, QMessageBox.Escape)
-            exit()
-        if self.__terminal:
+        if self.terminal:
             tag = colored('[error]', 'red')
             print('{} [line(s): {}] {}'.format(tag, separated_lines, message))
             exit()
 
     def warning(self, lines, message):
         separated_lines = ' , '.join([str(line) for line in lines])
-        if self.__pyqt5:
+        if self.pyqt5:
             QMessageBox.critical(QMessageBox(), 'Warning', '[line(s): {}] {}'.format(lines, message),
                                  QMessageBox.Close, QMessageBox.Escape)
-        if self.__terminal:
+        if self.terminal:
             tag = colored('[warning]', 'yellow')
             print('{} [line(s): {}] {}'.format(tag, separated_lines, message))

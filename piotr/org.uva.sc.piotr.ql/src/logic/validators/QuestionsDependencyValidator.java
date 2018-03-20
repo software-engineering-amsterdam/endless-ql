@@ -2,89 +2,107 @@ package logic.validators;
 
 import ast.model.expressions.values.VariableReference;
 import ast.model.statements.Question;
+import exceptions.QuestionDependencyException;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class QuestionsDependencyValidator {
+public final class QuestionsDependencyValidator {
 
-    private final HashMap<String, Node> nodes = new HashMap<>();
+    static class Relation {
+        private final Question from;
+        private final Question to;
 
-    static class Node {
-        private final Question question;
-        private final HashSet<Edge> inEdges;
-        private final HashSet<Edge> outEdges;
-
-        Node(Question question) {
-            this.question = question;
-            this.inEdges = new HashSet<>();
-            this.outEdges = new HashSet<>();
-        }
-
-        void addEdge(Node node) {
-            Edge e = new Edge(this, node);
-            this.outEdges.add(e);
-            node.inEdges.add(e);
-        }
-
-        @Override
-        public String toString() {
-            return question.getVariableName();
-        }
-    }
-
-    static class Edge {
-        private final Node from;
-        private final Node to;
-
-        Edge(Node from, Node to) {
+        Relation(Question from, Question to) {
             this.from = from;
             this.to = to;
         }
 
+        boolean isReflexive() {
+            return this.from.equals(this.to);
+        }
+
         @Override
         public boolean equals(Object obj) {
-            Edge e = (Edge) obj;
-            return e.from == from && e.to == to;
+            Relation relation = (Relation) obj;
+            return relation.from == this.from && relation.to == this.to;
+        }
+
+        @Override
+        public String toString() {
+            return from.getVariableName() + " -> " + to.getVariableName();
         }
     }
 
-    public QuestionsDependencyValidator(HashMap<Question, List<VariableReference>> questionsMap) {
-        this.CreateGraph(questionsMap);
-    }
+    public static void validateCyclicDependencies(HashMap<Question, List<VariableReference>> questionsMap) {
 
-    private void CreateGraph(HashMap<Question, List<VariableReference>> questionsMap) {
+        HashSet<Relation> closure = transitiveClosure((buildRelationsSet(questionsMap)));
 
-        // create nodes
-        for (Question question : questionsMap.keySet()) {
-            this.nodes.put(question.getVariableName(), new Node(question));
-        }
-
-        // create edges
-        for (Map.Entry<Question, List<VariableReference>> entry : questionsMap.entrySet()) {
-
-            // for each given question (entry)
-            Node referringNode = this.nodes.get(entry.getKey().getVariableName());
-
-            // find variables that it refers to
-            for (VariableReference reference : entry.getValue()) {
-
-                // find node by name
-                Node referredNode = nodes.get(reference.getName());
-
-                // add edge
-                if (referredNode != null) {
-                    referringNode.addEdge(referredNode);
-                }
+        for (Relation relation : closure) {
+            if (relation.isReflexive()) {
+                throw new QuestionDependencyException("Detected cyclic question dependency: variable \"" +
+                        relation.from.getVariableName() +
+                        "\". On line " +
+                        relation.from.getMetaInformation().getStartLine() +
+                        "."
+                );
             }
         }
     }
 
+    private static HashSet<Relation> buildRelationsSet(HashMap<Question, List<VariableReference>> questionsMap) {
+        HashSet<Relation> relations = new HashSet<>();
+        // create edges
+        for (Map.Entry<Question, List<VariableReference>> entry : questionsMap.entrySet()) {
+            // find variables that it refers to
+            for (VariableReference reference : entry.getValue()) {
+                Question question = findQuestionByVariableName(reference.getName(), questionsMap.keySet());
+                if (question != null) {
+                    relations.add(new Relation(entry.getKey(), question));
+                }
+            }
+        }
+        return relations;
+    }
 
-    // TODO: write code
-    private void ConstructTransitiveClosure() {
-        
+    private static Question findQuestionByVariableName(String variableName, Set<Question> questions) {
+        for (Question question : questions) {
+            if (question.getVariableName().equals(variableName)) {
+                return question;
+            }
+        }
+        return null;
+    }
+
+    private static boolean relationExists(Question from, Question to, HashSet<Relation> relations) {
+        for (Relation relation : relations) {
+            if (relation.from.equals(from) && relation.to.equals(to)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static HashSet<Relation> transitiveClosure(HashSet<Relation> relations) {
+
+        boolean carryOn = true;
+        HashSet<Relation> closure = new HashSet<>(relations);
+
+        while (carryOn) {
+            carryOn = false;
+            HashSet<Relation> subClosure = new HashSet<>();
+
+            for (Relation r1 : closure) {
+                for (Relation r2 : closure) {
+                    if (r1.to.equals(r2.from)) {
+                        if (!relationExists(r1.from, r2.to, closure)) {
+                            subClosure.add(new Relation(r1.from, r2.to));
+                            carryOn = true;
+                        }
+                    }
+                }
+            }
+            closure.addAll(subClosure);
+        }
+        return closure;
     }
 }

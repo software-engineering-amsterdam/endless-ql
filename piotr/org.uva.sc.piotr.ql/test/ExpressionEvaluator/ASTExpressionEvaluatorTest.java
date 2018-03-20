@@ -2,18 +2,17 @@ package ExpressionEvaluator;
 
 import ast.ASTBuilder;
 import ast.model.Form;
-import gui.model.QuestionModel;
-import logic.collectors.CollectQuestionModelsVisitor;
-import logic.evaluators.ASTExpressionEvaluator;
 import grammar.QLLexer;
 import grammar.QLParser;
+import gui.model.QuestionModel;
+import logic.collectors.CollectQuestionModelsVisitor;
 import logic.evaluators.FormModelExpressionEvaluator;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.junit.Test;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.List;
 

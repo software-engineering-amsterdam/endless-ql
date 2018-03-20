@@ -1,7 +1,7 @@
 from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.undefined_node import UndefinedNode
-from gui.model.widgets import Label
+from gui.widgets.label import Label
 
 
 class QLUndefined(QLType):

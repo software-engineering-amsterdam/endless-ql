@@ -18,12 +18,8 @@ public final class QuestionsValidator {
                         ) {
                     throw new DuplicateDeclarationException("Duplicate question declarations with different types in lines : "
                             + question1.getMetaInformation().getStartLine()
-                            + "-"
-                            + question1.getMetaInformation().getEndLine()
                             + " and "
                             + question2.getMetaInformation().getStartLine()
-                            + "-"
-                            + question2.getMetaInformation().getEndLine()
                     );
                 }
             }

@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.model.ql.expressions.answers
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.Orderings.StringAnswerCanDoOrderings._
 
-final case class StringAnswer(possibleValue: Option[String]) extends Answer {
+final case class StringAnswer(value: String) extends Answer {
 
   type T = String
 
@@ -23,9 +23,4 @@ final case class StringAnswer(possibleValue: Option[String]) extends Answer {
 
   def applyUnaryOperator(operator: Operator): Answer =
     throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
-}
-
-object StringAnswer {
-  def apply() = new StringAnswer(None)
-  def apply(value: String) = new StringAnswer(Option(value).filter(_.nonEmpty))
 }

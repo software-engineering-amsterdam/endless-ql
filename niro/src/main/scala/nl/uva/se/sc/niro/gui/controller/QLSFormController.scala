@@ -90,7 +90,7 @@ class QLSFormController(homeController: QLHomeController) extends QLFormControll
     updatePageTitle()
     updateValues()
     updateOrder()
-    updateVisibility()
+    ()
   }
 
   def updatePageTitle(): Unit = {

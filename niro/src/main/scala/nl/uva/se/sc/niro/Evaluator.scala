@@ -31,25 +31,13 @@ object Evaluator {
   }
 
   def evaluate(question: Question, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
-    val expression = memoryLookup(question.id, question.expression, dictionary)
-    val evaluatedAnswer = expression.evaluate(symbolTable: SymbolTable, dictionary)
-    if (evaluatedAnswer.possibleValue.isDefined) {
-      dictionary + (question.id -> evaluatedAnswer)
-    } else
-      dictionary - question.id
+    val optionalExpression: Option[Expression] = question.expression.orElse(dictionary.get(question.id))
+    val optionalAnswer: Option[Answer] = optionalExpression.flatMap(_.evaluate(symbolTable: SymbolTable, dictionary))
+    optionalAnswer.fold(dictionary - question.id)(answer => dictionary + (question.id -> answer))
   }
 
   // Recursion is happening between evaluateStatement and evaluateConditional
   def evaluate(conditional: Conditional, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
     evaluate(conditional.thenStatements, symbolTable, dictionary)
-  }
-
-  /**
-    * Only expressions that are defined to be a variable (answer) will be retrieved from the dictionary if exist.
-    * This is done so values of calculated fields won't be retrieved from the dictionary
-    */
-  private def memoryLookup(questionId: String, expression: Expression, dictionary: Dictionary) = expression match {
-    case _: Answer => dictionary.getOrElse(questionId, expression)
-    case _         => expression
   }
 }

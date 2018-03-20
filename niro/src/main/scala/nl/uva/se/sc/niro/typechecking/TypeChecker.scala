@@ -13,9 +13,9 @@ import org.apache.logging.log4j.scala.Logging
 
 object TypeChecker extends Logging {
 
-  /** Performs all type checking tasks. Early aborts when one of the tasks returns a TypeCheckError
+  /** Performs all type checking phases. Early aborts when one of the tasks returns a TypeCheckError
     * */
-  // Order of execution is important here to avoid infinite loops in later tasks
+  // Order of execution is important here to avoid infinite loops in subsequent phases
   def pipeline(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] =
     for {
       _ <- checkReferences(qLForm).left.map(error => Seq(error))
@@ -26,15 +26,92 @@ object TypeChecker extends Logging {
       qlFormWithPossibleWarnings = checkDuplicateLabels(qLForm)
     } yield qlFormWithPossibleWarnings
 
-  // TODO implement checkOperandsOfInvalidTypeToOperators
+  private def checkReferences(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
+    logger.info("Phase 1 - Checking references to undefined questions ...")
+
+    val references: Seq[Reference] = Statement
+      .collectAllExpressions(qLForm.statements)
+      .flatMap(Expression.collectAllReferences)
+
+    val undefinedReferences: Seq[String] = references.map(_.questionId).filterNot(qLForm.symbolTable.contains)
+
+    if (undefinedReferences.nonEmpty) {
+      Left(TypeCheckError(message = s"Undefined references: $undefinedReferences"))
+    } else {
+      Right(qLForm)
+    }
+  }
+
+  private def checkCyclicDependenciesBetweenQuestions(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
+    logger.info("Phase 2 - Checking cyclic dependencies between questions ...")
+
+    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
+
+    val dependencyGraph: Graph = buildDependencyGraph(questions)
+
+    val cyclicDependencies: Seq[Graph] =
+      dependencyGraph.flatMap(element => detectCycles(dependencyGraph, Seq(element)))
+
+    if (cyclicDependencies.nonEmpty) {
+      Left(TypeCheckError(message = s"Found cyclic dependencies: ${cyclicDependencies.map(graphToString)}"))
+    } else {
+      Right(qLForm)
+    }
+  }
+
+  private def checkNonBooleanPredicates(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
+    logger.info("Phase 3 - Checking predicates that are not of the type boolean ...")
+
+    val conditionals: Seq[Conditional] = Statement.collectAllConditionals(qLForm.statements)
+    val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
+      typeOf(conditional.predicate, qLForm.symbolTable) match {
+        case Right(BooleanType) => false
+        case _                      => true
+      }
+    }
+
+    if (conditionalsWithNonBooleanPredicates.nonEmpty) {
+      Left(TypeCheckError(message = s"Non boolean predicate: $conditionalsWithNonBooleanPredicates"))
+    } else {
+      Right(qLForm)
+    }
+  }
+
+  private def checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
+    logger.info("Phase 4 - Checking duplicate question declarations with different types ...")
+
+    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
+    val duplicateQuestions: Iterator[Seq[Question]] = questions.groupBy(_.id).valuesIterator.filter(_.size > 1)
+
+    val duplicateQuestionsWithDifferentTypes: Seq[Seq[Question]] = duplicateQuestions
+      .filter(questionsWithMultipleOccurrences => questionsWithMultipleOccurrences.map(_.answerType).toSet.size > 1)
+      .toList
+
+    if (duplicateQuestionsWithDifferentTypes.nonEmpty) {
+      Left(
+        TypeCheckError(
+          message = s"Duplicate question declarations with different types: $duplicateQuestionsWithDifferentTypes"))
+    } else {
+      Right(qLForm)
+    }
+  }
+
+  private def buildDependencyGraph(questions: Seq[Question]): Graph = {
+    questions.collect {
+      case q @ Question(_, _, _, Some(r @ Reference(_))) => Seq(Edge(q.id, r.questionId))
+      case q @ Question(_, _, _, Some(expression)) =>
+        Expression.collectAllReferences(expression).map(r => Edge(q.id, r.questionId))
+    }.flatten
+  }
+
   private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[List[TypeCheckError], QLForm] = {
     logger.info("Phase 3 - Checking operands of invalid type to operators ...")
 
-    val questions = Statement.collectAllQuestions(qLForm.statements)
     val conditionals = Statement.collectAllConditionals(qLForm.statements)
-    val expressions = questions.map(_.expression) ++ conditionals.map(_.predicate)
+    val expressions: Iterable[Expression] = qLForm.symbolTable.values.map(_.expression).flatten
+    val predicates = conditionals.map(_.predicate)
 
-    expressions
+    (expressions ++ predicates)
       .map(expression => typeOf(expression, qLForm.symbolTable))
       .map(either => either.toValidatedNel)
       .toList
@@ -48,7 +125,7 @@ object TypeChecker extends Logging {
   }
 
   def typeOf(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = expr match {
-    case Reference(questionId) => typeOf(symbolTable(questionId).expression, symbolTable)
+    case Reference(questionId) => symbolTable(questionId).answerType.asRight
 
     case UnaryOperation(operator: Operator, expression) =>
       typeOf(expression, symbolTable).flatMap(answerType => checkOperandAndOperator(operator, answerType))
@@ -56,10 +133,10 @@ object TypeChecker extends Logging {
     case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
       for {
         leftType <- typeOf(leftExpression, symbolTable)
-        _ <- checkOperandAndOperator(operator, leftType)
+        leftTypeAfterOperation <- checkOperandAndOperator(operator, leftType)
         rightType <- typeOf(rightExpression, symbolTable)
-        _ <- checkOperandAndOperator(operator, rightType)
-        result <- checkLeftRight(leftType, rightType)
+        rightTypeAfterOperation <- checkOperandAndOperator(operator, rightType)
+        result <- checkLeftRight(leftTypeAfterOperation, rightTypeAfterOperation)
       } yield result
 
     case _: IntegerAnswer => IntegerType.asRight
@@ -104,84 +181,6 @@ object TypeChecker extends Logging {
           case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
         }
       case _ => TypeCheckError(message = s"Operator: $operator not implemented").asLeft
-    }
-  }
-
-  private def checkReferences(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
-    logger.info("Phase 1 - Checking references to undefined questions ...")
-
-    val references: Seq[Reference] = Statement
-      .collectAllExpressions(qLForm.statements)
-      .flatMap(Expression.collectAllReferences)
-
-    val undefinedReferences: Seq[String] = references.map(_.questionId).filterNot(qLForm.symbolTable.contains)
-
-    if (undefinedReferences.nonEmpty) {
-      Left(TypeCheckError(message = s"Undefined references: $undefinedReferences"))
-    } else {
-      Right(qLForm)
-    }
-  }
-
-  private def checkNonBooleanPredicates(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
-    logger.info("Phase 3 - Checking predicates that are not of the type boolean ...")
-
-    val conditionals: Seq[Conditional] = Statement.collectAllConditionals(qLForm.statements)
-    val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
-      conditional.predicate.evaluate(qLForm.symbolTable, Map.empty) match {
-        case _: BooleanAnswer => false
-        case _                => true
-      }
-    }
-
-    if (conditionalsWithNonBooleanPredicates.nonEmpty) {
-      Left(TypeCheckError(message = s"Non boolean predicate: $conditionalsWithNonBooleanPredicates"))
-    } else {
-      Right(qLForm)
-    }
-  }
-
-  private def checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
-    logger.info("Phase 4 - Checking duplicate question declarations with different types ...")
-
-    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
-    val duplicateQuestions: Iterator[Seq[Question]] = questions.groupBy(_.id).valuesIterator.filter(_.size > 1)
-
-    val duplicateQuestionsWithDifferentTypes: Seq[Seq[Question]] = duplicateQuestions
-      .filter(questionsWithMultipleOccurrences => questionsWithMultipleOccurrences.map(_.answerType).toSet.size > 1)
-      .toList
-
-    if (duplicateQuestionsWithDifferentTypes.nonEmpty) {
-      Left(
-        TypeCheckError(
-          message = s"Duplicate question declarations with different types: $duplicateQuestionsWithDifferentTypes"))
-    } else {
-      Right(qLForm)
-    }
-  }
-
-  private def checkCyclicDependenciesBetweenQuestions(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
-    logger.info("Phase 2 - Checking cyclic dependencies between questions ...")
-
-    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
-
-    val dependencyGraph: Graph = buildDependencyGraph(questions)
-
-    val cyclicDependencies: Seq[Graph] =
-      dependencyGraph.flatMap(element => detectCycles(dependencyGraph, Seq(element)))
-
-    if (cyclicDependencies.nonEmpty) {
-      Left(TypeCheckError(message = s"Found cyclic dependencies: ${cyclicDependencies.map(graphToString)}"))
-    } else {
-      Right(qLForm)
-    }
-  }
-
-  private def buildDependencyGraph(questions: Seq[Question]): Graph = {
-    questions.flatMap {
-      case q @ Question(_, _, _, r @ Reference(_)) => Seq(Edge(q.id, r.questionId))
-      case q @ Question(_, _, _, expression) =>
-        Expression.collectAllReferences(expression).map(r => Edge(q.id, r.questionId))
     }
   }
 

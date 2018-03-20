@@ -45,6 +45,6 @@ object QLFormService {
   def tuple2ToList[T](t: (T, T)): List[T] = List(t._1, t._2)
 
   def answerToString(answer: Answer): String = {
-    answer.possibleValue.map(_.toString).getOrElse("")
+    answer.value.toString
   }
 }

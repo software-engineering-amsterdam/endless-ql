@@ -6,7 +6,7 @@ import nl.uva.se.sc.niro.model.ql.expressions.ImplicitConversions._
 import nl.uva.se.sc.niro.model.ql.expressions.MoneyArithmetics.MoneyCanDoArithmetics.{ times => moneyTimes }
 import nl.uva.se.sc.niro.model.ql.expressions.Orderings.DecAnswerCanDoOrderings._
 
-final case class DecimalAnswer(possibleValue: Option[BigDecimal]) extends Answer {
+final case class DecimalAnswer(value: BigDecimal) extends Answer {
 
   type T = BigDecimal
 
@@ -18,7 +18,7 @@ final case class DecimalAnswer(possibleValue: Option[BigDecimal]) extends Answer
   }
 
   def applyUnaryOperator(operator: Operator): Answer = operator match {
-    case Sub => DecimalAnswer(possibleValue.map(-_))
+    case Sub => DecimalAnswer(-value)
     case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 
@@ -43,7 +43,5 @@ final case class DecimalAnswer(possibleValue: Option[BigDecimal]) extends Answer
 }
 
 object DecimalAnswer {
-  def apply() = new DecimalAnswer(None)
-  def apply(value: BigDecimal) = new DecimalAnswer(Option(value))
-  def apply(value: java.math.BigDecimal) = new DecimalAnswer(Option(value).map(BigDecimal(_)))
+  def apply(value: java.math.BigDecimal) = new DecimalAnswer(BigDecimal(value))
 }

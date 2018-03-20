@@ -7,8 +7,8 @@ import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Expression, Ref
 
 object ExpressionEvaluator {
   implicit class ExpressionOps(e: Expression) {
-    def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Answer = e match {
-      case a: Answer          => a
+    def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = e match {
+      case a: Answer          => Some(a)
       case r: Reference       => r.evaluate(symbolTable, dictionary)
       case u: UnaryOperation  => u.evaluate(symbolTable, dictionary)
       case b: BinaryOperation => b.evaluate(symbolTable, dictionary)
@@ -16,25 +16,26 @@ object ExpressionEvaluator {
   }
 
   implicit class UnaryOps(u: UnaryOperation) {
-    def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Answer =
-      u.left.evaluate(symbolTable, dictionary).applyUnaryOperator(u.unaryOperator)
+    def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] =
+      u.left.evaluate(symbolTable, dictionary).map(_.applyUnaryOperator(u.unaryOperator))
   }
 
   implicit class BinaryOps(b: BinaryOperation) {
-    def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Answer = {
-      val leftAnswer = b.left.evaluate(symbolTable, dictionary)
-      val rightAnswer = b.right.evaluate(symbolTable, dictionary)
-      leftAnswer.applyBinaryOperator(b.binaryOperator, rightAnswer)
+    def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
+      for {
+        leftAnswer <- b.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- b.right.evaluate(symbolTable, dictionary)
+      } yield leftAnswer.applyBinaryOperator(b.binaryOperator, rightAnswer)
     }
   }
 
   implicit class ReferenceOps(r: Reference) {
-    def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Answer = {
-      memoryLookup(
-        r.questionId,
-        symbolTable.get(r.questionId).map(_.expression).getOrElse(dictionary(r.questionId)),
-        dictionary)
-        .evaluate(symbolTable, dictionary)
+    def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
+      symbolTable
+        .get(r.questionId)
+        .flatMap(_.expression)
+        .orElse(dictionary.get(r.questionId))
+        .flatMap(_.evaluate(symbolTable, dictionary))
     }
   }
 

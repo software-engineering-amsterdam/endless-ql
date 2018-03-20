@@ -4,11 +4,12 @@ import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.Logicals.BooleanAnswerCanDoLogicals._
 import nl.uva.se.sc.niro.model.ql.expressions.Orderings.BooleanAnswerCanDoOrderings._
 
-final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
+final case class BooleanAnswer(value: Boolean) extends Answer {
 
   type T = Boolean
 
-  override def isTrue: Boolean = possibleValue.getOrElse(false)
+  // TODO remove
+  override def isTrue: Boolean = value
 
   def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: BooleanAnswer =>
@@ -30,9 +31,4 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
     case Neg => !this
     case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
-}
-
-object BooleanAnswer {
-  def apply() = new BooleanAnswer(None)
-  def apply(value: Boolean) = new BooleanAnswer(Option(value))
 }

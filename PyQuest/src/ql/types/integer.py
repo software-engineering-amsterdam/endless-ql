@@ -2,7 +2,7 @@ from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
 from ql.types.decimal import QLDecimal
 from ql.ast.expressions.literals.integer_node import IntegerNode
-from gui.model.widgets import SpinBox
+from gui.widgets.spinbox import SpinBox
 
 
 class QLInteger(QLType):

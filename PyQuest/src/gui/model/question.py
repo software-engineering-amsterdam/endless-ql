@@ -1,4 +1,4 @@
-from gui.model.widgets import Label
+from gui.widgets.label import Label
 from ql.ast.visitors.expression_evaluator import ExpressionEvaluator
 
 

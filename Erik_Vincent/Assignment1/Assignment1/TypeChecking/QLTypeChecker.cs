@@ -186,7 +186,7 @@ namespace Assignment1.TypeChecking
             Question referenced = QuestionIdExists(expression.QuestionId) ? _questions[expression.QuestionId] : null;
             if (referenced == null)
             {
-                _errorHandler.AddError(-1, "Reference to " + expression.QuestionId + " in expression does not exist.");
+                _errorHandler.AddError(expression.LineNumber, "Reference to " + expression.QuestionId + " in expression does not exist.");
                 _currentType = Type.Undefined;
             } else
             {

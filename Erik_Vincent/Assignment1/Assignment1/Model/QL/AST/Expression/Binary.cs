@@ -1,6 +1,6 @@
 ﻿namespace Assignment1.Model.QL.AST.Expression
 {
-    public abstract class Binary : IExpression
+    public abstract class Binary : QLNode, IExpression
     {
         public IExpression Left { get; }
         public IExpression Right { get; }

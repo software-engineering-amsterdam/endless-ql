@@ -126,9 +126,12 @@ booleanLiteral
     return Literal == "true"
 }
 
-// Integer
+// number
 numberLiteral
-  = digits:([-]?[0-9]+) {
+  = minus:[-]? digits:([0-9]+) {
+    let amount = digits.join("");
+    if (minus)
+          amount = minus.concat(amount);
     return parseInt(digits.join(""), 10)
 }
 

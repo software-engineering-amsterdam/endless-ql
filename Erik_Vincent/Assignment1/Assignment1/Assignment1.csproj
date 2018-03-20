@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Converters\QLASTExpressionToRenderExpression.cs" />
     <Compile Include="Converters\QLASTToRenderTree.cs" />
+    <Compile Include="Converters\TextToQLAST.cs" />
     <Compile Include="Export\FormExporter.cs" />
     <Compile Include="IMainView.cs" />
     <Compile Include="MainPresenter.cs" />

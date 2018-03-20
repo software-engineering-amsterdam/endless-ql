@@ -5,6 +5,7 @@ import com.chariotit.uva.sc.qdsl.ast.ql.node.QLAstRoot;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.qls.Validator;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
+import com.chariotit.uva.sc.qdsl.formbuilder.FormBuilder;
 import com.chariotit.uva.sc.qdsl.grammar.QLSLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.QLSVisitor;
@@ -123,6 +124,10 @@ public class ApplicationRunner implements CommandLineRunner {
         if (abort) {
             System.exit(1);
         }
+
+        FormBuilder builder = new FormBuilder();
+        builder.buildForm(astRoot);
+
 
         if (!qlsFilename.equals("")) {
             Stylesheet stylesheet = getQLSFromFilename(qlsFilename);

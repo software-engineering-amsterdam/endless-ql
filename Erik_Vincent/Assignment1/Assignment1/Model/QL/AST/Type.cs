@@ -7,6 +7,7 @@
         String,
         Date,
         Decimal,
-        Money
+        Money,
+        Undefined
     }
 }

@@ -14,7 +14,9 @@ public class ParameterVisitor extends QLSBaseVisitor<Parameter> {
     @Override
     public Parameter visitParameter(QLSParser.ParameterContext ctx) {
         if (ctx.STRING() != null) {
-            return new StringParameter(ctx.STRING().getText());
+            String text = ctx.STRING().getText();
+            text = text.substring(1, text.length()-1);
+            return new StringParameter(text);
         }
         else if (ctx.COLOR() != null) {
             return new ColorParameter(ctx.COLOR().getText());

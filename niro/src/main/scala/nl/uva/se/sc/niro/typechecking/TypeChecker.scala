@@ -1,109 +1,59 @@
 package nl.uva.se.sc.niro.typechecking
 
-import nl.uva.se.sc.niro.Evaluator
+import cats.implicits._
+import nl.uva.se.sc.niro.ExpressionEvaluator._
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
-import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
+import nl.uva.se.sc.niro.model.ql.{ DecimalType, MoneyType, _ }
 import nl.uva.se.sc.niro.typechecking.CycleDetection._
 import org.apache.logging.log4j.scala.Logging
 
 object TypeChecker extends Logging {
 
-  /** Performs all type checking tasks. Early aborts when one of the tasks returns a TypeCheckError
+  /** Performs all type checking phases. Early aborts when one of the tasks returns a TypeCheckError
     * */
-  // Order of execution is important here to avoid infinite loops in later tasks
-  def pipeline(qLForm: QLForm): Either[TypeCheckError, QLForm] =
+  // Order of execution is important here to avoid infinite loops in subsequent phases
+  def pipeline(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] =
     for {
-      _ <- checkReferences(qLForm)
-      _ <- checkCyclicDependenciesBetweenQuestions(qLForm)
+      _ <- checkReferences(qLForm).left.map(error => Seq(error))
+      _ <- checkCyclicDependenciesBetweenQuestions(qLForm).left.map(error => Seq(error))
       _ <- checkOperandsOfInvalidTypeToOperators(qLForm)
-      _ <- checkNonBooleanPredicates(qLForm)
-      _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm)
+      _ <- checkNonBooleanPredicates(qLForm).left.map(error => Seq(error))
+      _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm).left.map(error => Seq(error))
       qlFormWithPossibleWarnings = checkDuplicateLabels(qLForm)
     } yield qlFormWithPossibleWarnings
-
-  // TODO implement checkOperandsOfInvalidTypeToOperators
-  private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
-    logger.info("Phase 3 - Checking operands of invalid type to operators ...")
-
-    val questions = Statement.collectAllQuestions(qLForm.statements)
-    val conditionals = Statement.collectAllConditionals(qLForm.statements)
-    val expressions = questions.map(_.expression) ++ conditionals.map(_.predicate)
-
-    expressions
-      .map(expression => checkExpression(expression, qLForm.symbolTable))
-      .foldLeft(Right(qLForm): Either[TypeCheckError, QLForm])(
-        (acc: Either[TypeCheckError, QLForm], either: Either[TypeCheckError, Answer]) =>
-          acc.flatMap(_ => either.map(_ => qLForm)))
-  }
-
-  // TODO clean up this mess
-  def checkExpression(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, Answer] = expr match {
-    case a: Answer => Right(a)
-    case Reference(questionId) =>
-      checkExpression(symbolTable(questionId).expression, symbolTable)
-    case UnaryOperation(operator: Operator, expression) =>
-      checkExpression(expression, symbolTable).flatMap(
-        answer =>
-          Either.cond(
-            checkOperandsAndOperator(operator, answer).isEmpty,
-            answer,
-            checkOperandsAndOperator(operator, answer).get))
-    case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
-      val leftAnswer: Either[TypeCheckError, Answer] = checkExpression(leftExpression, symbolTable).flatMap(
-        answer =>
-          Either.cond(
-            checkOperandsAndOperator(operator, answer).isEmpty,
-            answer,
-            checkOperandsAndOperator(operator, answer).get))
-      val rightAnswer: Either[TypeCheckError, Answer] = checkExpression(rightExpression, symbolTable).flatMap(
-        answer =>
-          Either.cond(
-            checkOperandsAndOperator(operator, answer).isEmpty,
-            answer,
-            checkOperandsAndOperator(operator, answer).get))
-      leftAnswer.flatMap(la => rightAnswer.flatMap(ra => Right(la.applyBinaryOperator(operator, ra))))
-  }
-
-  // TODO make typecheckable type class
-  private def checkOperandsAndOperator(operator: Operator, operand: Answer): Option[TypeCheckError] = {
-    operator match {
-      case _: ArithmeticOperator =>
-        operand match {
-          case _: IntegerAnswer => None
-          case _: DecimalAnswer => None
-          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
-        }
-      case _: BooleanOperator =>
-        operand match {
-          case _: IntegerAnswer => None
-          case _: DecimalAnswer => None
-          case _: MoneyAnswer   => None
-          case _: BooleanAnswer => None
-          case _: DateAnswer    => None
-          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
-        }
-      case _: LogicalOperator =>
-        operand match {
-          case _: BooleanAnswer => None
-          case _                => Some(TypeCheckError(message = "Operand of invalid type"))
-        }
-      case _ => Some(TypeCheckError(message = "Operator not implemented yet"))
-    }
-  }
 
   private def checkReferences(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
     logger.info("Phase 1 - Checking references to undefined questions ...")
 
-    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
-    val references: Seq[Reference] = Statement.collectAllReferences(questions)
-    val undefinedReferences: Seq[String] = references.map(_.value).filterNot(qLForm.symbolTable.contains)
+    val references: Seq[Reference] = Statement
+      .collectAllExpressions(qLForm.statements)
+      .flatMap(Expression.collectAllReferences)
+
+    val undefinedReferences: Seq[String] = references.map(_.questionId).filterNot(qLForm.symbolTable.contains)
 
     if (undefinedReferences.nonEmpty) {
       Left(TypeCheckError(message = s"Undefined references: $undefinedReferences"))
+    } else {
+      Right(qLForm)
+    }
+  }
+
+  private def checkCyclicDependenciesBetweenQuestions(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
+    logger.info("Phase 2 - Checking cyclic dependencies between questions ...")
+
+    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
+
+    val dependencyGraph: Graph = buildDependencyGraph(questions)
+
+    val cyclicDependencies: Seq[Graph] =
+      dependencyGraph.flatMap(element => detectCycles(dependencyGraph, Seq(element)))
+
+    if (cyclicDependencies.nonEmpty) {
+      Left(TypeCheckError(message = s"Found cyclic dependencies: ${cyclicDependencies.map(graphToString)}"))
     } else {
       Right(qLForm)
     }
@@ -114,9 +64,9 @@ object TypeChecker extends Logging {
 
     val conditionals: Seq[Conditional] = Statement.collectAllConditionals(qLForm.statements)
     val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
-      Evaluator.evaluateExpression(conditional.predicate, qLForm.symbolTable, Map.empty) match {
-        case _: BooleanAnswer => false
-        case _                => true
+      typeOf(conditional.predicate, qLForm.symbolTable) match {
+        case Right(BooleanType) => false
+        case _                      => true
       }
     }
 
@@ -146,28 +96,91 @@ object TypeChecker extends Logging {
     }
   }
 
-  private def checkCyclicDependenciesBetweenQuestions(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
-    logger.info("Phase 2 - Checking cyclic dependencies between questions ...")
-
-    val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
-
-    val dependencyGraph: Graph = buildDependencyGraph(questions)
-
-    val cyclicDependencies: Seq[Graph] =
-      dependencyGraph.flatMap(element => detectCycles(dependencyGraph, Seq(element)))
-
-    if (cyclicDependencies.nonEmpty) {
-      Left(TypeCheckError(message = s"Found cyclic dependencies: ${cyclicDependencies.map(graphToString)}"))
-    } else {
-      Right(qLForm)
-    }
+  private def buildDependencyGraph(questions: Seq[Question]): Graph = {
+    questions.collect {
+      case q @ Question(_, _, _, Some(r @ Reference(_))) => Seq(Edge(q.id, r.questionId))
+      case q @ Question(_, _, _, Some(expression)) =>
+        Expression.collectAllReferences(expression).map(r => Edge(q.id, r.questionId))
+    }.flatten
   }
 
-  private def buildDependencyGraph(questions: Seq[Question]): Graph = {
-    questions.flatMap {
-      case q @ Question(_, _, _, r @ Reference(_)) => Seq(Edge(q.id, r.value))
-      case q @ Question(_, _, _, expression) =>
-        Expression.collectAllReferences(expression).map(r => Edge(q.id, r.value))
+  private def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[List[TypeCheckError], QLForm] = {
+    logger.info("Phase 3 - Checking operands of invalid type to operators ...")
+
+    val conditionals = Statement.collectAllConditionals(qLForm.statements)
+    val expressions: Iterable[Expression] = qLForm.symbolTable.values.map(_.expression).flatten
+    val predicates = conditionals.map(_.predicate)
+
+    (expressions ++ predicates)
+      .map(expression => typeOf(expression, qLForm.symbolTable))
+      .map(either => either.toValidatedNel)
+      .toList
+      .sequenceU_
+      .as(AnswerType)
+      .toEither
+      .left
+      .map(_.toList)
+      .right
+      .map(_ => qLForm)
+  }
+
+  def typeOf(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = expr match {
+    case Reference(questionId) => symbolTable(questionId).answerType.asRight
+
+    case UnaryOperation(operator: Operator, expression) =>
+      typeOf(expression, symbolTable).flatMap(answerType => checkOperandAndOperator(operator, answerType))
+
+    case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
+      for {
+        leftType <- typeOf(leftExpression, symbolTable)
+        leftTypeAfterOperation <- checkOperandAndOperator(operator, leftType)
+        rightType <- typeOf(rightExpression, symbolTable)
+        rightTypeAfterOperation <- checkOperandAndOperator(operator, rightType)
+        result <- checkLeftRight(leftTypeAfterOperation, rightTypeAfterOperation)
+      } yield result
+
+    case _: IntegerAnswer => IntegerType.asRight
+    case _: DecimalAnswer => DecimalType.asRight
+    case _: MoneyAnswer   => MoneyType.asRight
+    case _: BooleanAnswer => BooleanType.asRight
+    case _: StringAnswer  => StringType.asRight
+    case _: DateAnswer    => DateType.asRight
+  }
+
+  // TODO implement type widener
+  def checkLeftRight(leftType: AnswerType, rightType: AnswerType): Either[TypeCheckError, AnswerType] = {
+    if (leftType != rightType)
+      TypeCheckError(message = s"Operands of invalid type: $leftType, $rightType").asLeft
+    else
+      rightType.asRight
+  }
+
+  // TODO make typecheckable type class
+  private def checkOperandAndOperator(operator: Operator, operand: AnswerType): Either[TypeCheckError, AnswerType] = {
+    operator match {
+      case _: ArithmeticOperator =>
+        operand match {
+          case IntegerType => IntegerType.asRight
+          case DecimalType => DecimalType.asRight
+          case MoneyType   => MoneyType.asRight
+          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
+        }
+      case _: BooleanOperator =>
+        operand match {
+          case IntegerType => BooleanType.asRight
+          case DecimalType => BooleanType.asRight
+          case MoneyType   => BooleanType.asRight
+          case BooleanType => BooleanType.asRight
+          case DateType    => BooleanType.asRight
+          case StringType  => BooleanType.asRight
+          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
+        }
+      case _: LogicalOperator =>
+        operand match {
+          case BooleanType => BooleanType.asRight
+          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
+        }
+      case _ => TypeCheckError(message = s"Operator: $operator not implemented").asLeft
     }
   }
 

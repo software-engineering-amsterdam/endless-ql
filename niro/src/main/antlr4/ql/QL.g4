@@ -17,10 +17,10 @@ TRUE         : 'true' ;
 CURLY_LEFT   : '{' ;
 CURLY_RIGHT  : '}' ;
 
-BRACK_LEFT   : '(' ;
-BRACK_RIGHT  : ')' ;
+BRACKET_LEFT   : '(' ;
+BRACKET_RIGHT  : ')' ;
 
-DOUBLE_COLON : ':' ;
+DOUBLE_COLON   :  ':' ;
 
 LESS_THEN          : '<' ;
 LESS_THEN_EQUAL    : '<=' ;
@@ -54,7 +54,7 @@ statement   : question
             | conditional ;
 
 // Precedence as specified by: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
-expression : BRACK_LEFT expression BRACK_RIGHT                                # GroupExpression
+expression : BRACKET_LEFT expression BRACKET_RIGHT                            # GroupExpression
            | operator=unaryOperator expression                                # UnaryExpression
            | left=expression operator=multiplicativeOperator right=expression # MultiplicativeExpression
            | left=expression operator=additiveOperator right=expression       # AdditiveExpression
@@ -73,7 +73,7 @@ block      : CURLY_LEFT statement+ CURLY_RIGHT
            | statement ;
 
 question    : label=Text Identifier DOUBLE_COLON answerType ( ASSIGN expression )?;
-conditional : IF BRACK_LEFT condition=expression BRACK_RIGHT thenBlock+=block ( ELSE elseBlock+=block )? ;
+conditional : IF BRACKET_LEFT condition=expression BRACKET_RIGHT thenBlock+=block ( ELSE elseBlock+=block )? ;
 
 answerType  : BOOLEAN | INTEGER | DECIMAL | MONEY | DATE | STRING ;
 

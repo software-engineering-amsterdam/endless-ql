@@ -50,11 +50,12 @@ public class Main {
     private void parseAndBuild(InputStream inputStream){
         try{
             QLParser.FormContext form = new TreeBuilder().build(inputStream);
-            FormVisitor coreVisitor = new FormVisitor(form);
             Checks.checkForm(form);
+            FormVisitor coreVisitor = new FormVisitor(form);
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder(coreVisitor);
-            formBuilder.initComponents();
+            printQuestionMap(coreVisitor.questionMap);
+//            FormBuilder formBuilder = new FormBuilder(coreVisitor);
+//            formBuilder.initComponents();
         } catch (IOException e) {
             e.printStackTrace();
         }

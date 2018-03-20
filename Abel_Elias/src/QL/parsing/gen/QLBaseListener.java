@@ -1,4 +1,4 @@
-// Generated from C:/dev/uva/endless-ql/Abel_Elias/src/QL.parsing\QL.g4 by ANTLR 4.7
+// Generated from C:/dev/uva/endless-ql/Abel_Elias/src/QL/parsing\QL.g4 by ANTLR 4.7
 package QL.parsing.gen;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -88,6 +88,18 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterEqExpression(QLParser.EqExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEqExpression(QLParser.EqExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBoolExpression(QLParser.BoolExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -95,6 +107,18 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBoolExpression(QLParser.BoolExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCompExpression(QLParser.CompExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCompExpression(QLParser.CompExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -112,61 +136,25 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterString(QLParser.StringContext ctx) { }
+	@Override public void enterBraceExpression(QLParser.BraceExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitString(QLParser.StringContext ctx) { }
+	@Override public void exitBraceExpression(QLParser.BraceExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBoolIdentifier(QLParser.BoolIdentifierContext ctx) { }
+	@Override public void enterNotExpression(QLParser.NotExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBoolIdentifier(QLParser.BoolIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNotOperation(QLParser.NotOperationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNotOperation(QLParser.NotOperationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCompOperation(QLParser.CompOperationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCompOperation(QLParser.CompOperationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBoolBraces(QLParser.BoolBracesContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBoolBraces(QLParser.BoolBracesContext ctx) { }
+	@Override public void exitNotExpression(QLParser.NotExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -184,85 +172,25 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBoolOperation(QLParser.BoolOperationContext ctx) { }
+	@Override public void enterStrValue(QLParser.StrValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBoolOperation(QLParser.BoolOperationContext ctx) { }
+	@Override public void exitStrValue(QLParser.StrValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntValue(QLParser.IntValueContext ctx) { }
+	@Override public void enterNumValue(QLParser.NumValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntValue(QLParser.IntValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNumIdentifier(QLParser.NumIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNumIdentifier(QLParser.NumIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNumBraces(QLParser.NumBracesContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNumBraces(QLParser.NumBracesContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMoneyValue(QLParser.MoneyValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMoneyValue(QLParser.MoneyValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDecValue(QLParser.DecValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDecValue(QLParser.DecValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNumOperation(QLParser.NumOperationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNumOperation(QLParser.NumOperationContext ctx) { }
+	@Override public void exitNumValue(QLParser.NumValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -287,6 +215,18 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComparisonOperator(QLParser.ComparisonOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEqualsOperator(QLParser.EqualsOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEqualsOperator(QLParser.EqualsOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

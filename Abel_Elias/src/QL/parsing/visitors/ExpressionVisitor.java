@@ -65,7 +65,7 @@ public class ExpressionVisitor extends QLBaseVisitor {
     }
 
     @Override
-    public Object visitCompExpression(QLParser.CompExpressionContext ctx) {
+    public Boolean visitCompExpression(QLParser.CompExpressionContext ctx) {
         Double left = (double) visitExpression(ctx.left);
         Double right = (double) visitExpression(ctx.right);
         String operator = ctx.comparisonOperator().getText();
@@ -85,7 +85,7 @@ public class ExpressionVisitor extends QLBaseVisitor {
     }
 
     @Override
-    public Object visitNumExpression(QLParser.NumExpressionContext ctx) {
+    public Double visitNumExpression(QLParser.NumExpressionContext ctx) {
         Double left = (double) visitExpression(ctx.left);
         Double right = (double) visitExpression(ctx.right);
         String operator = ctx.numberOperator().getText();

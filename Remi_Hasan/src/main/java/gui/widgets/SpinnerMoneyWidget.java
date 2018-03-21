@@ -40,7 +40,7 @@ public class SpinnerMoneyWidget extends SpinnerWidget<Double>{
     @Override
     public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
         symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
+            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
             String text = value.isUndefined() ? "" : value.getMoneyValue().toString();
             this.setExpression(text);
         });

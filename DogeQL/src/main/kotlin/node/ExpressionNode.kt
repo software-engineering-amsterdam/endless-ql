@@ -2,12 +2,16 @@ package node
 
 import common.Name
 import data.question.Question
+import data.question.SymbolType
 import data.symbol.SymbolTable
+import expression.SourceLocation
+import typechecker.pass.CircularDependencyPass
 import typechecker.pass.DuplicatePass
 import typechecker.pass.ScopePass
 import typechecker.pass.TypePass
 
-class ExpressionNode(symbolTable: SymbolTable, val reference: Name) : Node(symbolTable) {
+class ExpressionNode(symbolTable: SymbolTable, val reference: Name, val sourceLocation: SourceLocation)
+    : Node(symbolTable) {
 
     override fun getEnabledQuestions(): List<Question> {
 
@@ -17,7 +21,10 @@ class ExpressionNode(symbolTable: SymbolTable, val reference: Name) : Node(symbo
             throw IllegalStateException("TODO")
         }
 
-        if (symbol.value.booleanValue.value) {
+        val castedValue = symbol.value.castTo(SymbolType.BOOLEAN)
+                ?: throw IllegalStateException("Unable to cast to boolean") // TODO: better exception
+
+        if (castedValue.booleanValue.value) {
             return children.flatMap { child ->
                 child.getEnabledQuestions()
             }
@@ -34,6 +41,10 @@ class ExpressionNode(symbolTable: SymbolTable, val reference: Name) : Node(symbo
     }
 
     override fun accept(pass: TypePass) {
+        pass.visit(this)
+    }
+
+    override fun accept(pass: CircularDependencyPass) {
         pass.visit(this)
     }
 }

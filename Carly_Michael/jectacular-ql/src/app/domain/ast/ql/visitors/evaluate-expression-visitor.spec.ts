@@ -8,11 +8,12 @@ import {
   GreaterThanEqualExpression, GreaterThanExpression, LessThanEqualExpression,
   LessThanExpression
 } from '../expressions/comparison-expression';
-import {EqualExpression, EqualityExpression, UnequalExpression} from '../expressions/equality-expression';
+import {EqualExpression, UnequalExpression} from '../expressions/equality-expression';
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {Variable} from '../expressions/variable';
 import {DateLiteral, NumberLiteral, StringLiteral} from '../';
 import {EvaluateExpressionVisitor} from './evaluate-expression-visitor';
+import {CheckExpressionTypeVisitor} from './check-expression-type-visitor';
 
 const location: Location = {
   start: {
@@ -103,36 +104,36 @@ describe('Expressions', () => {
   });
   describe('Should check and return type', () => {
     it('logical expressions', () => {
-      expect(andExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
-      expect(() => new AndExpression(intLiteral, booleanLiteral, location)
-        .checkType([])).toThrowError();
+      expect(CheckExpressionTypeVisitor.evaluate(andExpression)).toBe(ExpressionType.BOOLEAN);
+      expect(() => CheckExpressionTypeVisitor.evaluate(new AndExpression(intLiteral, booleanLiteral, location)
+      )).toThrowError();
     });
 
     it('arithmetic expressions', () => {
-      expect(timesExpression.checkType([])).toBe(ExpressionType.NUMBER);
-      expect(() => new DivideExpression(intLiteral, booleanLiteral, location)
-        .checkType([])).toThrowError();
+      expect(CheckExpressionTypeVisitor.evaluate(timesExpression)).toBe(ExpressionType.NUMBER);
+      expect(() => CheckExpressionTypeVisitor.evaluate(new DivideExpression(intLiteral, booleanLiteral, location)
+        )).toThrowError();
     });
 
     it('comparison expressions', () => {
-      expect(lessThanExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
-      expect(() => new GreaterThanExpression(intLiteral, booleanLiteral, location)
-        .checkType([])).toThrowError();
+      expect(CheckExpressionTypeVisitor.evaluate(lessThanExpression)).toBe(ExpressionType.BOOLEAN);
+      expect(() => CheckExpressionTypeVisitor.evaluate(new GreaterThanExpression(intLiteral, booleanLiteral, location)
+        )).toThrowError();
     });
 
     it('equality expressions', () => {
-      expect(equalExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
-      expect(() => new EqualExpression(intLiteral, booleanLiteral, location)
-        .checkType([])).toThrowError();
+      expect(CheckExpressionTypeVisitor.evaluate(equalExpression)).toBe(ExpressionType.BOOLEAN);
+      expect(() => CheckExpressionTypeVisitor.evaluate(new EqualExpression(intLiteral, booleanLiteral, location)
+        )).toThrowError();
     });
 
     it('unary expressions', () => {
-      expect(negativeExpression.checkType([])).toBe(ExpressionType.NUMBER);
-      expect(negateExpression.checkType([])).toBe(ExpressionType.BOOLEAN);
-      expect(() => new NegativeExpression(booleanLiteral,  location)
-        .checkType([])).toThrowError();
-      expect(() => new NegateExpression(secondIntLiteral, location)
-        .checkType([])).toThrowError();
+      expect(CheckExpressionTypeVisitor.evaluate(negativeExpression)).toBe(ExpressionType.NUMBER);
+      expect(CheckExpressionTypeVisitor.evaluate(negateExpression)).toBe(ExpressionType.BOOLEAN);
+      expect(() => CheckExpressionTypeVisitor.evaluate(new NegativeExpression(booleanLiteral,  location)
+        )).toThrowError();
+      expect(() => CheckExpressionTypeVisitor.evaluate(new NegateExpression(secondIntLiteral, location)
+        )).toThrowError();
     });
 
     it('expressions should type check input literals', () => {
@@ -141,10 +142,12 @@ describe('Expressions', () => {
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
           if (literalArray[i].checkType([]) === ExpressionType.BOOLEAN && literalArray[j].checkType([]) === ExpressionType.BOOLEAN) {
-            expect(new AndExpression(literalArray[i], literalArray[j], location).checkType([]));
+            expect(() => {
+              CheckExpressionTypeVisitor.evaluate(new AndExpression(literalArray[i], literalArray[j], location));
+            }).not.toThrow();
           } else {
             expect(() => {
-              new AndExpression(literalArray[i], literalArray[j],  location).checkType([]);
+              CheckExpressionTypeVisitor.evaluate(new AndExpression(literalArray[i], literalArray[j],  location));
             }).toThrow();
           }
         }
@@ -153,10 +156,12 @@ describe('Expressions', () => {
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
           if (literalArray[i].checkType([]) === ExpressionType.NUMBER && literalArray[j].checkType([]) === ExpressionType.NUMBER) {
-            expect(new AddExpression(literalArray[i], literalArray[j],  location).checkType([]));
+            expect(() => {
+              CheckExpressionTypeVisitor.evaluate(new AddExpression(literalArray[i], literalArray[j],  location));
+            }).not.toThrow();
           } else {
             expect(() => {
-              new AddExpression(literalArray[i], literalArray[j],  location).checkType([]);
+              CheckExpressionTypeVisitor.evaluate(new AddExpression(literalArray[i], literalArray[j],  location));
             }).toThrow();
           }
         }
@@ -165,10 +170,12 @@ describe('Expressions', () => {
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
           if (literalArray[i].checkType([]) === ExpressionType.NUMBER && literalArray[j].checkType([]) === ExpressionType.NUMBER) {
-            expect(new LessThanExpression(literalArray[i], literalArray[j],  location).checkType([]));
+            expect(() => {
+              CheckExpressionTypeVisitor.evaluate(new LessThanExpression(literalArray[i], literalArray[j],  location));
+            }).not.toThrow();
           } else {
             expect(() => {
-              new LessThanExpression(literalArray[i], literalArray[j],  location).checkType([]);
+              CheckExpressionTypeVisitor.evaluate(new LessThanExpression(literalArray[i], literalArray[j],  location));
             }).toThrow();
           }
         }
@@ -177,10 +184,12 @@ describe('Expressions', () => {
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
           if (literalArray[i].checkType([]) === literalArray[j].checkType([])) {
-            expect(new EqualExpression(literalArray[i], literalArray[j],  location).checkType([]));
+            expect(() => {
+              CheckExpressionTypeVisitor.evaluate(new EqualExpression(literalArray[i], literalArray[j],  location));
+            }).not.toThrow();
           } else {
             expect(() => {
-              new EqualExpression(literalArray[i], literalArray[j], location).checkType([]);
+              CheckExpressionTypeVisitor.evaluate(new EqualExpression(literalArray[i], literalArray[j], location));
             }).toThrow();
           }
         }
@@ -188,20 +197,24 @@ describe('Expressions', () => {
 
       for (let i = 0; i < literalArray.length; i++) {
         if (literalArray[i].checkType([]) === ExpressionType.NUMBER) {
-          expect(new NegativeExpression(literalArray[i], location).checkType([]));
+          expect(() => {
+            CheckExpressionTypeVisitor.evaluate(new NegativeExpression(literalArray[i], location));
+          }).not.toThrow();
         } else {
           expect(() => {
-            new NegativeExpression(literalArray[i], location).checkType([]);
+            CheckExpressionTypeVisitor.evaluate(new NegativeExpression(literalArray[i], location));
           }).toThrow();
         }
       }
 
       for (let i = 0; i < literalArray.length; i++) {
         if (literalArray[i].checkType([]) === ExpressionType.BOOLEAN) {
-          expect(new NegateExpression(literalArray[i],  location).checkType([]));
+          expect(() => {
+            CheckExpressionTypeVisitor.evaluate(new NegateExpression(literalArray[i],  location));
+          }).not.toThrow();
         } else {
           expect(() => {
-            new NegateExpression(literalArray[i],  location).checkType([]);
+            CheckExpressionTypeVisitor.evaluate(new NegateExpression(literalArray[i],  location));
           }).toThrow();
         }
       }

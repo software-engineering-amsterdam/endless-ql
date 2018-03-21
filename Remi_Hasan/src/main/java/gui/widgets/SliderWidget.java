@@ -11,15 +11,16 @@ import ql.model.expression.variable.ExpressionVariableDecimal;
 public abstract class SliderWidget extends Slider implements WidgetInterface{
 
     public final Question question;
-    private final double min;
-    private final double max;
-    private final double step;
-
     public SliderWidget(Question question, double min, double max, double step) {
         this.question = question;
-        this.min = min;
-        this.max = max;
-        this.step = step;
+        this.setMin(min);
+        this.setMax(max);
+        this.setBlockIncrement(step);
+        this.setShowTickLabels(true);
+        this.setShowTickMarks(true);
+        this.setMajorTickUnit(step);
+        this.setMinorTickCount(5);
+        this.setBlockIncrement(10);
     }
 
     @Override
@@ -35,7 +36,7 @@ public abstract class SliderWidget extends Slider implements WidgetInterface{
     @Override
     public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
         symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
+            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
             String text = value.isUndefined() ? "" : value.getDecimalValue().toString();
             this.setExpression(text);
         });
@@ -44,7 +45,7 @@ public abstract class SliderWidget extends Slider implements WidgetInterface{
     @Override
     public void addNonComputedListener(SymbolTable symbolTable) {
         this.valueProperty().addListener(e -> {
-            symbolTable.setExpression(question.name, getExpression(this, question.type));
+            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
         });
     }
 

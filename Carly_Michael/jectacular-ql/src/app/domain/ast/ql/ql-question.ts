@@ -5,6 +5,7 @@ import {Statement} from './statement';
 import {Location} from '../location';
 import {QuestionFactory} from '../../../factories/question-factory';
 import {ExpressionType} from './expressions/expression-type';
+import {StatementVisitor} from './visitors/statement-visitor';
 
 export class QlQuestion extends Statement {
   constructor(readonly name: string,
@@ -25,5 +26,9 @@ export class QlQuestion extends Statement {
 
   getExpressionType(): ExpressionType {
     return this.type.toExpressionType();
+  }
+
+  accept<T>(visitor: StatementVisitor<T>): T {
+    return visitor.visitQlQuestion(this);
   }
 }

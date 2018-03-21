@@ -37,13 +37,13 @@ public class DuplicateLabelDetector {
 
         for(Question question : form.questions) {
             Set<String> questionIdentifiers = new HashSet<>();
-            if(questionsPerLabel.containsKey(question.text)) {
-                questionIdentifiers = questionsPerLabel.get(question.text);
+            if(questionsPerLabel.containsKey(question.label)) {
+                questionIdentifiers = questionsPerLabel.get(question.label);
             }
 
             // Save question identifiers with their location, for reporting purposes
-            questionIdentifiers.add(question.name + " " + question.getLocation());
-            questionsPerLabel.put(question.text, questionIdentifiers);
+            questionIdentifiers.add(question.identifier + " " + question.getLocation());
+            questionsPerLabel.put(question.label, questionIdentifiers);
         }
 
         return questionsPerLabel;

@@ -15,10 +15,6 @@ class Symbol(type: SymbolType, val expression: Expression?) {
     }
 
     fun assign(value: BaseSymbolValue) {
-        if (this.value.type != value.type) {
-            throw IllegalArgumentException("Unable to assign type ${value.type} to ${this.value.type}")
-        }
-
         this.value = value
     }
 

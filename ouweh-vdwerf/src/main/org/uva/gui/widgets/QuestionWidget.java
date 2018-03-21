@@ -23,23 +23,23 @@ public abstract class QuestionWidget extends JPanel {
         this.setVisible(true);
     }
 
-    public void setFont(Font font) {
-
+    public void setFont(String font) {
+        int currentSize = questionLabel.getFont().getSize();
+        Font newFont = new Font(font, Font.PLAIN, currentSize);
+        questionLabel.setFont(newFont);
     }
 
     public void setFontSize(int fontSize) {
-
+        Font newFont = questionLabel.getFont().deriveFont((float)fontSize);
+        questionLabel.setFont(newFont);
     }
 
     public void setWidth(int width) {
-
     }
 
     public void setColor(Color color) {
         this.setBackground(color);
     }
-
-
 
     public abstract void setQuestionChangeListener(QuestionChangeListener questionChangeListener);
 }

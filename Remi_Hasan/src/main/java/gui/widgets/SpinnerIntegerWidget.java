@@ -34,7 +34,7 @@ public class SpinnerIntegerWidget extends SpinnerWidget<Integer>{
     @Override
     public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
         symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
+            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
             String text = value.isUndefined() ? "" : value.getIntValue().toString();
             this.setExpression(text);
         });

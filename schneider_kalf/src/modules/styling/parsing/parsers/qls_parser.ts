@@ -186,7 +186,7 @@ function peg$parse(input, options) {
   const peg$c25 = "widget";
   const peg$c26 = peg$literalExpectation("widget", false);
   const peg$c27 = function(id, options) {
-      return new Nodes.WidgetAttribute("widget", id, options);
+      return new Nodes.WidgetAttribute(id, options);
   };
   const peg$c28 = "(";
   const peg$c29 = peg$literalExpectation("(", false);

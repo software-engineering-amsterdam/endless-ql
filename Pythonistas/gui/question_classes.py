@@ -90,6 +90,8 @@ class BooleanQuestion(Question):
         self.question_layout.addWidget(QtWidgets.QLabel(self.question), 0, 0)
         self.question_layout.addWidget(self.truebutton, 0, 1)
         self.question_layout.addWidget(self.falsebutton, 0, 2)
+
+        self.question_frame.setVisible(self.visibility)
         return self.question_frame
 
     def add_if_question(self,question):

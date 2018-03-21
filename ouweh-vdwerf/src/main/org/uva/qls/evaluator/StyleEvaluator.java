@@ -40,7 +40,6 @@ public class StyleEvaluator {
 
     public StyleEvaluator() {
         setDefaultWidgetTypes();
-        setDefaultSection();
         setDefaultStyle();
 
     }
@@ -114,7 +113,7 @@ public class StyleEvaluator {
 
     public WidgetType getWidgetType(Question question) {
         if (stylesheet != null) {
-            QuestionReference questionReference = this.context.getQuestion(question.getId());
+            QuestionReference questionReference = this.context.getQuestionReference(question);
             if (questionReference != null && questionReference.getWidget() != null) {
                 return questionReference.getWidget().getType();
             }
@@ -155,16 +154,13 @@ public class StyleEvaluator {
         }
     }
 
-    private void setDefaultSection() {
-
-    }
 
     private void setDefaultStyle() {
         List<StyleProperty> properties = new ArrayList<>();
-        properties.add(new ColorProperty(new ColorValue("")));
-        properties.add(new FontProperty(new StringValue("")));
-        properties.add(new FontSizeProperty(new NumberValue("")));
-        properties.add(new WidthProperty(new NumberValue("")));
+        properties.add(new ColorProperty(new ColorValue("#eeeeee")));
+        properties.add(new FontProperty(new StringValue("Comic Sans MS")));
+        properties.add(new FontSizeProperty(new NumberValue("25")));
+        properties.add(new WidthProperty(new NumberValue("100")));
         this.defaultStyle = new Style(properties, null);
     }
 

@@ -22,6 +22,12 @@ class QuestionNode(QLast):
     def getNodeType(self):
         return self.node_type
 
+    def getVariableName(self):
+        return self.var
+
+    def getVariableType(self):
+        return self.vartype
+
 class AssignmentNode(QLast):
     def __init__(self, name, var, vartype, expression):
         self.node_type = "assignment"
@@ -35,6 +41,12 @@ class AssignmentNode(QLast):
 
     def getNodeType(self):
         return self.node_type
+
+    def getVariableName(self):
+        return self.var
+
+    def getVariableType(self):
+        return self.vartype
 
 
 class BinOpNode(QLast):

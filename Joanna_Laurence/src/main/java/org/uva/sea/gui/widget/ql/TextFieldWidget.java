@@ -12,10 +12,12 @@ public class TextFieldWidget extends Widget {
 
     private StringValue widgetValue = new StringValue("");
 
+    public TextFieldWidget(QuestionData questionData) {
+        super(questionData);
+    }
 
     @Override
     public boolean updateValue(DecimalValue decimalValue) {
-        //TODO: add to string
         this.widgetValue = new StringValue(decimalValue.toString());
         return true;
     }
@@ -32,10 +34,22 @@ public class TextFieldWidget extends Widget {
         return true;
     }
 
+    @Override
+    public boolean updateValue(DateValue dateValue) {
+        this.widgetValue = new StringValue(dateValue.getDateValue().toString());
+        return true;
+    }
 
+    @Override
+    public boolean updateValue(BooleanValue booleanValue) {
+        this.widgetValue = new StringValue(booleanValue.toString());
+        return true;
+    }
 
-    public TextFieldWidget(QuestionData questionData) {
-        super(questionData);
+    @Override
+    public boolean updateValue(MoneyValue moneyValue) {
+        this.widgetValue = new StringValue(moneyValue.toString());
+        return true;
     }
 
     @Override

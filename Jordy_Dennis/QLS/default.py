@@ -9,11 +9,6 @@ class DefaultStyle:
         self.type = defaultType
         self.widgetType = None
 
-    def checkDefaults(self, defaultDict):
-        print("---------")
-        print(self.type)
-        pass
-
     """
         Check if all the defaults are correct
     """

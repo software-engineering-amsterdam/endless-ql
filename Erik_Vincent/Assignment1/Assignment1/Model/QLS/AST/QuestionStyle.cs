@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assignment1.Model.QLS.AST.Style;
 
 namespace Assignment1.Model.QLS.AST
@@ -12,10 +13,10 @@ namespace Assignment1.Model.QLS.AST
 
         public QuestionStyle(string id) : this(id, new List<IStyle>()) { }
 
-        public QuestionStyle(string id, List<IStyle> styles)
+        public QuestionStyle(string id, IEnumerable<IStyle> styles)
         {
             Id = id;
-            _styles = styles;
+            _styles = styles.ToList();
         }
 
         public override void Accept(IQLSASTVisitor visitor) => visitor.Visit(this);

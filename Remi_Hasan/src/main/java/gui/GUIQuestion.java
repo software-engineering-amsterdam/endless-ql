@@ -27,9 +27,8 @@ public class GUIQuestion extends VBox implements WidgetVisitor<Node> {
             widget = qlsWidget.createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
         } else{
             // If no default widget is specified in QLS, use the default widget for question type
-//            WidgetType widgetType = getWidgetTypeForQuestion(defaultStyles, question);
-//            widget = widgetType.createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
-            widget = new WidgetDefault(null, WidgetType.DEFAULT).createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
+            Widget defaultWidget = getWidgetForQuestion(defaultStyles, question);
+            widget = defaultWidget.createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
         }
 
         Label label = new Label(question.label);
@@ -151,15 +150,16 @@ public class GUIQuestion extends VBox implements WidgetVisitor<Node> {
         return checkboxWidget;
     }
 
-    private WidgetType getWidgetTypeForQuestion(List<DefaultStyle> defaultStyles, Question question) {
+    private Widget getWidgetForQuestion(List<DefaultStyle> defaultStyles, Question question) {
         WidgetType widgetType = WidgetType.valueOf(question.type.toString());
+        Widget widget = new WidgetDefault(null, widgetType);
         for (DefaultStyle defaultStyle : defaultStyles) {
             if (defaultStyle.type.equals(question.type) && defaultStyle.getWidget() != null) {
                 // Get the last one because that is the most local one
-                widgetType = defaultStyle.getWidget().type;
+                widget = defaultStyle.getWidget();
             }
         }
-        return widgetType;
+        return widget;
     }
 
     private void setDefaultStyles(List<DefaultStyle> defaultStyles, Question question, WidgetInterface widget) {

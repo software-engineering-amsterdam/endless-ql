@@ -2,6 +2,7 @@ package node
 
 import common.Name
 import data.question.Question
+import data.question.SymbolType
 import data.symbol.SymbolTable
 import expression.SourceLocation
 import typechecker.pass.CircularDependencyPass
@@ -20,7 +21,10 @@ class ExpressionNode(symbolTable: SymbolTable, val reference: Name, val sourceLo
             throw IllegalStateException("TODO")
         }
 
-        if (symbol.value.booleanValue.value) {
+        val castedValue = symbol.value.castTo(SymbolType.BOOLEAN)
+                ?: throw IllegalStateException("Unable to cast to boolean") // TODO: better exception
+
+        if (castedValue.booleanValue.value) {
             return children.flatMap { child ->
                 child.getEnabledQuestions()
             }

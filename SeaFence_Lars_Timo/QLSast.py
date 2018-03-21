@@ -56,6 +56,12 @@ class QuestionNode(QLSast):
     def getNodeType(self):
         return self.node_type
 
+    def getVariableName(self):
+        return self.var
+
+    def getWidget(self):
+        return self.widget
+
 
 class WidgetNode(QLSast):
 

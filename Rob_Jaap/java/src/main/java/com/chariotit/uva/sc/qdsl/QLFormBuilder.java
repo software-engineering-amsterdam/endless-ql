@@ -12,8 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
 
 import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
-import com.chariotit.uva.sc.qdsl.ast.node.*;
-import com.chariotit.uva.sc.qdsl.ast.visitor.FormVisitor;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
+import com.chariotit.uva.sc.qdsl.ast.ql.visitor.*;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -43,9 +43,6 @@ public class QLFormBuilder extends JPanel {
 
         add(panel);
 
-        addQuestion("Dit is een test");
-
-
         // addQuestion("Testvraag 123");
         QLFrame f = new QLFrame("Form layout ecxample");
 
@@ -56,18 +53,11 @@ public class QLFormBuilder extends JPanel {
         f.setVisible(true);
     }
 
-    public QLFormBuilder(AstRoot root) {
+    public QLFormBuilder(QLAstRoot root) {
 
         super(new BorderLayout());
 
-        List<Form> forms = root.getForms();
         System.out.println("form initialized");
-
-        for (Form form: forms) {
-            System.out.println(form.getClass());
-            renderForm(form);
-        }
-
 
         builder = new DefaultFormBuilder(new FormLayout(""));
 //        builder.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -80,15 +70,18 @@ public class QLFormBuilder extends JPanel {
         builder.appendColumn("3dlu");
         builder.appendColumn("fill:max(pref; 100px)");
 
+        List<Form> forms = root.getForms();
+
+        for (Form form: forms) {
+            System.out.println(form.getClass());
+            renderForm(form);
+        }
+
         panel = builder.getPanel();
 
         add(panel);
 
-        addQuestion("Dit is een test");
-
-
-        // addQuestion("Testvraag 123");
-        QLFrame f = new QLFrame("Form layout ecxample");
+        QLFrame f = new QLFrame("QL Form");
 
         f.add(this);
 
@@ -114,8 +107,8 @@ public class QLFormBuilder extends JPanel {
 
     private void renderLineElement(LineElement element){
         System.out.println("rendering line element");
-        Question question = element.getQuestion();
-
+//        Question question = element.getQuestion();
+        addQuestion(element);
     }
 
     private static JComponent componentForType(ExpressionType type){
@@ -126,6 +119,10 @@ public class QLFormBuilder extends JPanel {
             case INTEGER:   return numericTextField();
             default:        return new JTextField();
         }
+    }
+
+    private static JComponent componentForType(TypeExpression type){
+        return componentForType(type.getTypeNode().getType());
     }
 
     private static JFormattedTextField currencyTextField() {
@@ -169,44 +166,29 @@ public class QLFormBuilder extends JPanel {
         return new JFormattedTextField(formatter);
     }
 
-
-    // this method should be replaced!
-    public static void addQuestion(String question){
-
-        ExpressionType type = ExpressionType.BOOLEAN;
-        addQuestion(question, type);
-
-        ExpressionType type1 = ExpressionType.STRING;
-        addQuestion(question, type1);
-
-        ExpressionType type2 = ExpressionType.MONEY;
-        addQuestion(question, type2);
-
-        ExpressionType type3 = ExpressionType.INTEGER;
-        addQuestion(question, type3);
-
-    }
-
     public static void addQuestion(String question, ExpressionType type){
         builder.append(question, componentForType(type));
         builder.nextLine();
-
-        panel.revalidate();
-        panel.repaint();
-
+        refreshUI();
     }
 
-    public static void addQuestion(LineElement question){
-        builder.append(question.getLabel(), componentForType(question.getTypeExpression()));
+    public static void addQuestion(LineElement element){
+
+        builder.append(element.getQuestion().getQuestion(), componentForType(element.getTypeExpression()));
         builder.nextLine();
 
+        System.out.println("--------------------------------");
+        System.out.println(element.getQuestion().getQuestion());
+        System.out.println(componentForType(element.getTypeExpression()));
+        System.out.println("--------------------------------");
+    }
+
+    private static void refreshUI() {
         panel.revalidate();
         panel.repaint();
     }
 
-
     public void showForm() {
-
 
     }
 }

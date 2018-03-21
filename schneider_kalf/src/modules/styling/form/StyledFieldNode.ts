@@ -6,18 +6,18 @@ import QuestionStyle from "./nodes/children/QuestionStyle";
 import Page from "./nodes/containers/PageNode";
 
 export default class StyledFieldNode extends FieldNodeDecorator {
-  private questionStyles: MergedFieldStyle;
+  private mergedStyle: MergedFieldStyle;
   private section: SectionNode | undefined;
-  private questionStyleNode: QuestionStyle | undefined;
+  private styleNode: QuestionStyle | undefined;
 
-  constructor(fieldToBeDecorated: FieldNode, questionStyles: MergedFieldStyle, questionStyleNode?: QuestionStyle) {
+  constructor(fieldToBeDecorated: FieldNode, mergedStyle: MergedFieldStyle, questionStyleNode?: QuestionStyle) {
     super(fieldToBeDecorated);
-    this.questionStyles = questionStyles;
-    this.questionStyleNode = questionStyleNode;
+    this.mergedStyle = mergedStyle;
+    this.styleNode = questionStyleNode;
   }
 
-  public getStyles(): MergedFieldStyle {
-    return this.questionStyles;
+  public getMergedStyle(): MergedFieldStyle {
+    return this.mergedStyle;
   }
 
   public getStyleNode() {
@@ -25,18 +25,18 @@ export default class StyledFieldNode extends FieldNodeDecorator {
   }
 
   public getParentSection(): SectionNode | undefined {
-    if (!this.questionStyleNode) {
+    if (!this.styleNode) {
       return undefined;
     }
 
-    return this.questionStyleNode.getNearestParent(parent => parent instanceof SectionNode);
+    return this.styleNode.getNearestParent(parent => parent instanceof SectionNode);
   }
 
   public getPage(): Page | undefined {
-    if (!this.questionStyleNode) {
+    if (!this.styleNode) {
       return undefined;
     }
 
-    return this.questionStyleNode.getNearestParent(parent => parent instanceof Page);
+    return this.styleNode.getNearestParent(parent => parent instanceof Page);
   }
 }

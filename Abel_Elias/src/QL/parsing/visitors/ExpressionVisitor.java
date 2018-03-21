@@ -5,8 +5,6 @@ import QL.classes.values.NumericValue;
 import QL.classes.values.Value;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.HashMap;
 
 public class ExpressionVisitor extends QLBaseVisitor {

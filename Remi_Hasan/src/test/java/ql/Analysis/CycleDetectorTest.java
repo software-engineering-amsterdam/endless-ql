@@ -1,4 +1,4 @@
-package ql.Analysis;
+package ql.analysis;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class CycleDetectorTest {
         expectedEx.expectMessage("Cycles detected in the following variables: [someString]");
 
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
-                .getResourceAsStream("/QL/Cycles/CycleToSelf.ql"));
+                .getResourceAsStream("/ql/Cycles/CycleToSelf.ql"));
     }
 
     @Test
@@ -29,7 +29,7 @@ public class CycleDetectorTest {
         }
 
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
-                .getResourceAsStream("/QL/Cycles/CycleBetweenTwo.ql"));
+                .getResourceAsStream("/ql/Cycles/CycleBetweenTwo.ql"));
     }
 
     @Test
@@ -43,6 +43,6 @@ public class CycleDetectorTest {
         }
 
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
-                .getResourceAsStream("/QL/Cycles/CycleBetweenMultiple.ql"));
+                .getResourceAsStream("/ql/Cycles/CycleBetweenMultiple.ql"));
     }
 }

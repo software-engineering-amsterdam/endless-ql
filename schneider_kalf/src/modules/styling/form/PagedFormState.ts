@@ -15,4 +15,8 @@ export default class PagedFormState extends FormState {
   public getActivePageName(): string | undefined {
     return this.activePageName;
   }
+
+  public setActivePageName(pageName: string): PagedFormState {
+    return new PagedFormState(this.store, pageName);
+  }
 }

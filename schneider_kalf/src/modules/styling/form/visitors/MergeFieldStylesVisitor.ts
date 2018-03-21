@@ -7,16 +7,21 @@ import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
 import StyleSheetNode from "../nodes/StyleSheetNode";
 import MergedFieldStyle from "../MergedFieldStyle";
+import { VariableInformation } from "../../../../form/VariableIntformation";
 
 export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
   private questionStyles: MergedFieldStyle[];
+  private qlVariables: Map<string, VariableInformation>;
 
-  constructor() {
+  constructor(qlVariables: Map<string, VariableInformation>) {
+    this.qlVariables = qlVariables;
     this.questionStyles = [];
   }
+
   getStyles() {
       return this.questionStyles;
   }
+
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
     return;
   }
@@ -26,8 +31,7 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     let parents = question.getParents();
 
     for (let parent of parents.reverse()) {
-      // TODO: add question to check if valid with it's type
-      style.inheritStyleFrom(parent);
+      style.inheritStyleFrom(parent, this.qlVariables);
     }
 
     style.addLocalStyle(question);

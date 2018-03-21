@@ -15,7 +15,7 @@ class StylesheetNode(QLSast):
 class PageNode(QLSast):
 
     def __init__(self, name):
-        self.nodetype = "page"
+        self.node_type = "page"
         self.name = name
         self.sections = []
         self.default_style_widgets = []
@@ -24,13 +24,13 @@ class PageNode(QLSast):
         return "Page: {} Sections: {} Styles: {}".format(self.name, self.sections, self.default_style_widgets)
 
     def getNodeType(self):
-        return self.nodetype
+        return self.node_type
 
 
 class SectionNode(QLSast):
     
     def __init__(self, name):
-        self.nodetype = "section"
+        self.node_type = "section"
         self.name = name
         self.sections = []
         self.questions = []
@@ -40,13 +40,13 @@ class SectionNode(QLSast):
         return "Section: {} Sections: {} Questions: {} Styles: {}".format(self.name, self.sections, self.questions, self.default_style_widgets)
 
     def getNodeType(self):
-        return self.nodetype
+        return self.node_type
 
 
 class QuestionNode(QLSast):
 
     def __init__(self, var):
-        self.nodetype = "question"
+        self.node_type = "question"
         self.var = var
         self.widget = None
 
@@ -54,13 +54,13 @@ class QuestionNode(QLSast):
         return "Question: {} Widget: {}".format(self.var, self.widget)
 
     def getNodeType(self):
-        return self.nodetype
+        return self.node_type
 
 
 class WidgetNode(QLSast):
 
     def __init__(self, widget):
-        self.nodetype = "widget"
+        self.node_type = "widget"
         self.widget = widget
         self.options = None
 
@@ -68,7 +68,7 @@ class WidgetNode(QLSast):
         return "Widget: {} Options: {}".format(self.widget, self.options)
 
     def getNodeType(self):
-        return self.nodetype
+        return self.node_type
 
     def getWidget(self):
         return self.widget
@@ -85,7 +85,7 @@ class StyleOptionsNode(QLSast):
 
     # todo: vartype in widget?
     def __init__(self, vartype):
-        self.nodetype = "options"
+        self.node_type = "options"
         self.vartype = vartype
         self.options = None
 
@@ -93,4 +93,4 @@ class StyleOptionsNode(QLSast):
         return "Style vartype: {} Options: {}".format(self.vartype, self.options)
 
     def getNodeType(self):
-        return self.nodetype
+        return self.node_type

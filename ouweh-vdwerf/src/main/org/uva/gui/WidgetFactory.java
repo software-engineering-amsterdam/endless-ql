@@ -1,9 +1,6 @@
 package org.uva.gui;
 
-import org.uva.gui.widgets.CheckboxWidget;
-import org.uva.gui.widgets.IntegerWidget;
-import org.uva.gui.widgets.QuestionWidget;
-import org.uva.gui.widgets.SliderWidget;
+import org.uva.gui.widgets.*;
 import org.uva.ql.ast.Question;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.qls.ast.Widget.WidgetTypes.*;
@@ -39,7 +36,7 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
 
     @Override
     public QuestionWidget visit(RadioType radioType, Question question, Value value, Boolean readOnly) {
-        return new CheckboxWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), "");
+        return new RadioWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), radioType.getTrueLabel(),radioType.getFalseLabel());
     }
 
     @Override

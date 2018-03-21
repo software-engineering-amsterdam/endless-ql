@@ -77,7 +77,11 @@ export default class QuestionForm implements Form {
   }
 
   setAnswer(identifier: string, value: any): Form {
-    return new QuestionForm(this.node, this.state.set(identifier, value));
+    return this.setState(this.state.set(identifier, value));
+  }
+
+  setState(nextState: FormState): Form {
+    return new QuestionForm(this.node, nextState);
   }
 
   getRootNode(): FormNode {

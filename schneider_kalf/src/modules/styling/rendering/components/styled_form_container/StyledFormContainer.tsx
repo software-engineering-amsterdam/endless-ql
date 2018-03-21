@@ -11,6 +11,7 @@ import { getTypeString } from "../../../../../form/type_checking/type_assertions
 export interface StyledFormContainerProps {
   form: StyledForm;
   onChange: (identifier: string, value: any) => void;
+  onChangePage: (nextPage: PageNode) => void;
   visibleFields: Set<string>;
 }
 
@@ -26,13 +27,21 @@ export class StyledFormContainer extends React.Component<StyledFormContainerProp
     this.renderField = this.renderField.bind(this);
   }
 
+  onChangePage(nextPage: PageNode, clickEvent: React.MouseEvent<HTMLElement>) {
+    clickEvent.preventDefault();
+    this.props.onChangePage(nextPage);
+  }
+
   renderPaginationLinks() {
+    const activePage = this.props.form.getActivePage();
     const pages: PageNode[] = this.props.form.getPages();
 
     return pages.map(page => {
+      const isActive = typeof activePage !== 'undefined' && activePage.name === page.name;
+
       return (
-          <PaginationItem key={page.name}>
-            <PaginationLink href="#">
+          <PaginationItem active={isActive} key={page.name}>
+            <PaginationLink onClick={event => this.onChangePage(page, event)} href="#">
               {page.name}
             </PaginationLink>
           </PaginationItem>
@@ -41,6 +50,12 @@ export class StyledFormContainer extends React.Component<StyledFormContainerProp
   }
 
   renderField(field: StyledFieldNode) {
+    const activePage = this.props.form.getActivePage();
+
+    if (!field.isOnPage(activePage)) {
+      return null;
+    }
+
     return (
         <StyledFieldContainer
             onChange={value => this.props.onChange(field.identifier, value)}

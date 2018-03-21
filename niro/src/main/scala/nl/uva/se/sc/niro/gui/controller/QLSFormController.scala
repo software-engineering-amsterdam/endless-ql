@@ -3,24 +3,19 @@ package nl.uva.se.sc.niro.gui.controller
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.fxml.FXML
 import javafx.geometry.Insets
-import javafx.scene.Node
 import javafx.scene.control.{ Label, Pagination }
-import javafx.scene.layout.VBox
-import javafx.util.Callback
+import nl.uva.se.sc.niro.gui.control.Component
 import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
-import nl.uva.se.sc.niro.gui.factory.QLSComponentFactory
-import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
-import nl.uva.se.sc.niro.model.gui.{ GUIQuestion, QLSGUIQuestion, Styling }
+import nl.uva.se.sc.niro.gui.factory.PageFactory
+import nl.uva.se.sc.niro.model.gui.GUIForm
 import nl.uva.se.sc.niro.model.ql.QLForm
-import nl.uva.se.sc.niro.model.qls.{ QLSWidgetType, QLStylesheet }
+import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import nl.uva.se.sc.niro.util.StringUtil
-
-import scala.collection.JavaConverters
-import scala.collection.mutable.ArrayBuffer
 
 class QLSFormController(homeController: QLHomeController, override val form: QLForm, val stylesheet: QLStylesheet)
     extends QLFormController(homeController, form) {
 
+  private val pagination = new Pagination()
   private val pageName: Label = new Label("Page Name")
   override def applicationName(): String = "QLS Forms"
 
@@ -38,48 +33,8 @@ class QLSFormController(homeController: QLHomeController, override val form: QLF
   override def initializeForm(): Unit = {
     guiForm = GUIModelFactory.makeFrom(form)
 
-    val pagination = new Pagination(stylesheet.pages.size)
+    pagination.setPageCount(stylesheet.pages.size)
     pagination.setPadding(new Insets(00.0, 20.0, 00.0, 20.0))
-
-    // TODO extract into own file
-    class PageFactory(changedListener: ComponentChangedListener) extends Callback[Integer, Node]() {
-      private val children = ArrayBuffer[Node]()
-
-      override def call(pageNumber: Integer): Node = {
-        children.clear()
-        val pageToShow = stylesheet.pages(pageNumber)
-        pageName.setText(StringUtil.addSpaceOnCaseChange(pageToShow.name))
-
-        questions = pageToShow.sections.flatMap(section => {
-          children.append(new Label(s"  -- ${section.name} --  "))
-          section.questions.flatMap(question => {
-            guiForm.questions.filter(_.id == question.name).map(makeStyledComponent(_, question.widgetType))
-          })
-        })
-
-        questions.foreach(_.addComponentChangedListener(changedListener))
-
-        // This is the node that is being returned
-        val questionsOnPage = new VBox()
-        questionsOnPage.getChildren.addAll(JavaConverters.bufferAsJavaList(children))
-
-        evaluateAnswers()
-        updateView()
-
-        questionsOnPage
-      }
-
-      def applyWidgetType(question: GUIQuestion, widgetType: Option[QLSWidgetType]): GUIQuestion = {
-        if (widgetType.isDefined) QLSGUIQuestion(question, Styling(widgetType.get)) else question
-      }
-
-      private def makeStyledComponent(question: GUIQuestion, widgetType: Option[QLSWidgetType]) = {
-        val component = QLSComponentFactory.make(applyWidgetType(question, widgetType))
-        children.append(component)
-        component
-
-      }
-    }
 
     pagination.setPageFactory(new PageFactory(this))
     pagination
@@ -99,4 +54,17 @@ class QLSFormController(homeController: QLHomeController, override val form: QLF
     formName.setText(guiForm.name)
   }
 
+  override def updateView(): Unit = {
+    updatePageTitle()
+    super.updateView()
+  }
+
+  private def updatePageTitle(): Unit = {
+    val pageToShow = stylesheet.pages(pagination.getCurrentPageIndex)
+    pageName.setText(StringUtil.addSpaceOnCaseChange(pageToShow.name))
+  }
+
+  def setQuestionControls(questionComponents: Seq[Component[_]]): Unit = this.questionComponents = questionComponents
+  def getQuestionControls: Seq[Component[_]] = questionComponents
+  def getGUIForm: GUIForm = guiForm
 }

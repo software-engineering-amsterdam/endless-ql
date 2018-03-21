@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {AbstractControl} from '@angular/forms';
 
 @Component({
   selector: 'app-spinbox-widget',
   templateUrl: './spinbox-widget.component.html',
   styleUrls: ['./spinbox-widget.component.css']
 })
-export class SpinboxWidgetComponent implements OnInit {
+export class SpinboxWidgetComponent {
+  @Input() label: string;
+  @Input() control: AbstractControl;
+  @Input() styles;
 
-  constructor() { }
-
-  ngOnInit() {
+  onNumberChange(event) {
+    this.control.setValue(parseInt(event.target.value, 10));
   }
-
 }

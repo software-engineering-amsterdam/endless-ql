@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TextWidgetComponent } from './text-widget.component';
+import {MaterialModule} from '../../../material.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 describe('TextWidgetComponent', () => {
   let component: TextWidgetComponent;
@@ -8,6 +10,11 @@ describe('TextWidgetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        FormsModule,
+        ReactiveFormsModule,
+      ],
       declarations: [ TextWidgetComponent ]
     })
     .compileComponents();

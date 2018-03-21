@@ -1,3 +1,6 @@
-<p>
-  text-widget works!
-</p>
+<div *ngIf="label" [ngStyle]="styles">
+  <mat-form-field [ngStyle]="styles">
+    <mat-label [ngStyle]="styles">{{label}}</mat-label>
+    <input matInput [formControl]="control" [type]="type" [ngStyle]="styles">
+  </mat-form-field>
+</div>

@@ -16,12 +16,6 @@ export class WidgetComponent implements OnInit, OnChanges {
     this.control = this.form.controls[this.question.key];
   }
 
-  onNumberChange(question: QuestionBase<any>, event) {
-    if (question.type === 'number') {
-      this.form.controls[this.question.key].setValue(parseInt(event.target.value, 10));
-    }
-  }
-
   ngOnChanges(changes) {
     console.log(changes.question);
   }

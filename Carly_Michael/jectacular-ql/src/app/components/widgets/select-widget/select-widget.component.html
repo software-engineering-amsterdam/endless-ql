@@ -1,8 +1,8 @@
 <div *ngIf="questionLabel" [ngStyle]="styles">
-  <mat-form-field>
-    <mat-label>{{questionLabel}}</mat-label>
+  <mat-form-field [ngStyle]="styles">
+    <mat-label [ngStyle]="styles">{{questionLabel}}</mat-label>
     <mat-select [formControl]="control" [(value)]="selected">
-      <mat-option *ngFor="let label of optionLabels" [value]="label">{{label}}</mat-option>
+      <mat-option *ngFor="let label of optionLabels" [value]="label" [ngStyle]="styles">{{label}}</mat-option>
     </mat-select>
   </mat-form-field>
 </div>

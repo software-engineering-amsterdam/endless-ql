@@ -1,3 +1,5 @@
-<p>
-  slider-widget works!
-</p>
+<div *ngIf="label" [ngStyle]="styles">
+  <mat-label [ngStyle]="styles">{{label}}</mat-label>
+  <mat-slider [formControl]="control" (change)="onNumberChange($event)" [ngStyle]="styles"
+              [thumbLabel]="true"></mat-slider>
+</div>

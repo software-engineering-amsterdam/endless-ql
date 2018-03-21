@@ -23,7 +23,7 @@ import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.{ JavaConverters, mutable }
 
-class QLFormController(homeController: QLHomeController, val form: QLForm)
+class QLFormController(homeController: QLHomeController, model: QLForm, guiForm: GUIForm)
     extends QLBaseController
     with ComponentChangedListener
     with Logging {
@@ -31,7 +31,6 @@ class QLFormController(homeController: QLHomeController, val form: QLForm)
   // TODO align naming!
   type ValueStore = mutable.Map[String, Answer]
   protected val valuesForQuestions: ValueStore = mutable.Map[String, Answer]()
-  protected var guiForm: GUIForm = _ // Needed because it contains the GUI questions that hold the visibility expression
   protected var questionComponents: Seq[Component[_]] = _ // The actual components that handle the user interaction
 
   @FXML protected var topBox: VBox = _ // FIXME Is only used by QLSFormController
@@ -61,18 +60,21 @@ class QLFormController(homeController: QLHomeController, val form: QLForm)
 
   def componentChanged(component: Component[_]): Unit = {
     logger.debug(s"Component [${component.getQuestionId}] changed its value to [${component.getValue}]")
-    component.getValue foreach (answer => valuesForQuestions(component.getQuestionId) = answer)
+    saveNewValue(component)
     evaluateAnswers()
     updateView()
+  }
+
+  def saveNewValue(component: Component[_]): Unit = {
+    component.getValue.foreach(newValue => valuesForQuestions(component.getQuestionId) = newValue)
   }
 
   def initializeForm(): Unit = {
     val questionBox = new VBox()
     questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
 
-    guiForm = GUIModelFactory.makeFrom(form)
-    questionComponents = guiForm.questions.map(QLComponentFactory.make)
     questionComponents.foreach(_.addComponentChangedListener(this))
+
     questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questionComponents))
     questionArea.setContent(questionBox)
 
@@ -85,7 +87,7 @@ class QLFormController(homeController: QLHomeController, val form: QLForm)
 
   def evaluateAnswers(): Unit = {
     logger.debug(s"Values before evaluation:\n${pprint.apply(valuesForQuestions)}")
-    valuesForQuestions ++= Evaluator.evaluate(form, valuesForQuestions.toMap)
+    valuesForQuestions ++= Evaluator.evaluate(model, valuesForQuestions.toMap)
     logger.debug(s"Values after evaluation:\n${pprint.apply(valuesForQuestions)}")
   }
 
@@ -105,8 +107,8 @@ class QLFormController(homeController: QLHomeController, val form: QLForm)
     }
   }
 
-  private def getVisibilitySetting(question: GUIQuestion): Boolean = {
-    question.visibility.evaluate(form.symbolTable, valuesForQuestions.toMap).exists(_.isTrue)
+  def getVisibilitySetting(question: GUIQuestion): Boolean = {
+    question.visibility.evaluate(model.symbolTable, valuesForQuestions.toMap).exists(_.isTrue)
   }
 
   def showSavedMessage(): Unit = {

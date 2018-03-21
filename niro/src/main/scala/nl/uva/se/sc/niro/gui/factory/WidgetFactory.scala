@@ -25,9 +25,9 @@ class QLWidgetFactory extends WidgetFactory {
 
 class QLSWidgetFactory extends QLWidgetFactory {
   override def makeBooleanWidget(question: GUIQuestion): QLWidget[Boolean] = question match {
-    case QLSGUIQuestion(_, _, _, _, _, _ @Some(ComboBoxStyle(trueLabel, falseLabel))) =>
+    case QLSGUIQuestion(_, _, _, _, _, _ @ComboBoxStyle(trueLabel, falseLabel)) =>
       new QLComboBooleanField(trueLabel, falseLabel)
-    case QLSGUIQuestion(_, _, _, _, _, _ @Some(RadioStyle(trueLabel, falseLabel))) =>
+    case QLSGUIQuestion(_, _, _, _, _, _ @RadioStyle(trueLabel, falseLabel)) =>
       new QLRadioBooleanField(trueLabel, falseLabel)
     case _ =>
       super.makeBooleanWidget(question)

@@ -5,44 +5,36 @@ import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import javafx.util.Callback
 import nl.uva.se.sc.niro.gui.controller.QLSFormController
-import nl.uva.se.sc.niro.model.gui.{ GUIQuestion, GUIStylesheet, QLSGUIQuestion, Styling }
+import nl.uva.se.sc.niro.model.gui._
 
-import scala.collection.JavaConverters
-import scala.collection.mutable.ArrayBuffer
-
-// TODO change parameter type (and name)
-class PageFactory(formController: QLSFormController, stylesheet: GUIStylesheet) extends Callback[Integer, Node]() {
-  // TODO Refactor so it is not a instance variable anymore (move into method 'call')
-  private val children = ArrayBuffer[Node]()
+class PageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet) extends Callback[Integer, Node]() {
 
   override def call(pageNumber: Integer): Node = {
-    children.clear()
+    val page = new VBox()
     val pageToShow = stylesheet.pages(pageNumber)
 
-    formController.setQuestionControls(pageToShow.sections.flatMap(section => {
-      children.append(new Label(s"  -- ${section.name} --  "))
-      section.questions.flatMap(question => {
-        formController.getGUIForm.questions.filter(_.id == question.name).map(makeStyledComponent(_, question.style))
+    val components = pageToShow.sections.flatMap(section => {
+      addSectionHeader(page, section)
+
+      section.questionStyles.flatMap(questionStyle => {
+        form.collectQuestionOnName(questionStyle.name).map(question => {
+          val component = QLSComponentFactory(formController).make(QLSGUIQuestion(question, questionStyle.style))
+          question.component = Some(component)
+          page.getChildren.add(component)
+          component
+        })
       })
-    }))
+    })
 
-    formController.getQuestionControls.foreach(_.addComponentChangedListener(formController))
-
-    // This is the node that is being returned
-    val questionsOnPage = new VBox()
-    questionsOnPage.getChildren.addAll(JavaConverters.bufferAsJavaList(children))
-
+    formController.setQuestionControls(components)
     formController.evaluateAnswers()
     formController.updateView()
 
-    questionsOnPage
+    page
   }
 
-  // TODO Make this method not use 'children'
-  private def makeStyledComponent(question: GUIQuestion, style: Styling) = {
-    val component = QLSComponentFactory.make(QLSGUIQuestion(question, style))
-    children.append(component)
-    component
-
+  private def addSectionHeader(questionsOnPage: VBox, section: GUISection) = {
+    questionsOnPage.getChildren.add(new Label(s"  -- ${section.name} --  "))
   }
+
 }

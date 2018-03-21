@@ -2,6 +2,7 @@ package nl.uva.se.sc.niro.gui.factory
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.gui.control._
+import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 import nl.uva.se.sc.niro.model.ql._
 
@@ -9,10 +10,11 @@ trait ComponentFactory {
   def make(question: GUIQuestion): Component[_]
 }
 
-class QLComponentFactory(widgetFactory: WidgetFactory) extends ComponentFactory {
+class QLComponentFactory(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory) extends ComponentFactory {
 
   def make(question: GUIQuestion): Component[_] = {
     val component = makeComponent(question)
+    component.addComponentChangedListener(componentChangeListener)
     component.setReadOnly(question.isReadOnly)
     question.component = Some(component)
     component
@@ -36,6 +38,10 @@ class QLComponentFactory(widgetFactory: WidgetFactory) extends ComponentFactory 
   }
 }
 
-object QLComponentFactory extends QLComponentFactory(new QLWidgetFactory())
+object QLComponentFactory {
+  def apply(componentChangeListener: ComponentChangedListener) = new QLComponentFactory(componentChangeListener, new QLWidgetFactory())
+}
 
-object QLSComponentFactory extends QLComponentFactory(new QLSWidgetFactory())
+object QLSComponentFactory {
+  def apply(componentChangeListener: ComponentChangedListener) = new QLComponentFactory(componentChangeListener, new QLSWidgetFactory())
+}

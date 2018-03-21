@@ -2,6 +2,7 @@ package qlviz.interpreter;
 
 import com.google.inject.Inject;
 import qlviz.QLBaseVisitor;
+import qlviz.QLVisitor;
 import qlviz.QLParser;
 import qlviz.model.numericExpressions.*;
 import qlviz.model.question.NumericQuestionReference;

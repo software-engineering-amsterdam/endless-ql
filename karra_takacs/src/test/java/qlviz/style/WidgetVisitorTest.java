@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
-import qlviz.QLBaseVisitor;
+import qlviz.QLVisitor;
 import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.interpreter.style.WidgetTypeTranslator;

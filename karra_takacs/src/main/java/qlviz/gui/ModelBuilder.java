@@ -14,11 +14,11 @@ import qlviz.model.style.Stylesheet;
 
 public class ModelBuilder {
 
-	private final QLBaseVisitor<Form> formParser;
+	private final QLVisitor<Form> formParser;
 	private final QuestionLinker questionLinker;
 
 	@Inject
-	public ModelBuilder(QLBaseVisitor<Form> formParser, QuestionLinker questionLinker) {
+	public ModelBuilder(QLVisitor<Form> formParser, QuestionLinker questionLinker) {
 		this.formParser = formParser;
 		this.questionLinker = questionLinker;
 	}

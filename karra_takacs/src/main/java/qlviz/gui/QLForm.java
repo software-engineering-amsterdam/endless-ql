@@ -4,7 +4,7 @@ import com.google.inject.*;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import qlviz.QLBaseVisitor;
+import qlviz.QLVisitor;
 import qlviz.gui.renderer.ErrorRenderer;
 import qlviz.gui.renderer.JavafxErrorRenderer;
 import qlviz.gui.renderer.QuestionRenderer;
@@ -82,7 +82,7 @@ public class QLForm extends Application {
 		}
 
 		List<AnalysisResult> staticCheckResults = new ArrayList<>();
-		QLBaseVisitor<Form> visitor = injector.getInstance(Key.get(new TypeLiteral<QLBaseVisitor<Form>>(){}));
+		QLVisitor<Form> visitor = injector.getInstance(Key.get(new TypeLiteral<QLVisitor<Form>>(){}));
 		ModelBuilder modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));
 
 		this.model = modelBuilder.createFormFromMarkup(this.getParameters().getRaw().get(0));

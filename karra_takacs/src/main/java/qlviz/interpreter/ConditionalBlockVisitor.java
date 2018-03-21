@@ -3,6 +3,7 @@ package qlviz.interpreter;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import qlviz.QLBaseVisitor;
+import qlviz.QLVisitor;
 import qlviz.QLParser;
 import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.ConditionalBlock;
@@ -12,13 +13,13 @@ import java.util.stream.Collectors;
 
 public class ConditionalBlockVisitor extends QLBaseVisitor<ConditionalBlock> {
 
-    private final QLBaseVisitor<BooleanExpression> booleanExpressionVisitor;
-    private final QLBaseVisitor<QuestionBlock> questionBlockVisitor;
+    private final QLVisitor<BooleanExpression> booleanExpressionVisitor;
+    private final QLVisitor<QuestionBlock> questionBlockVisitor;
 
     @Inject
     public ConditionalBlockVisitor(
-            QLBaseVisitor<BooleanExpression> booleanExpressionVisitor,
-            @Assisted QLBaseVisitor<QuestionBlock> questionBlockVisitor) {
+            QLVisitor<BooleanExpression> booleanExpressionVisitor,
+            @Assisted QLVisitor<QuestionBlock> questionBlockVisitor) {
         this.booleanExpressionVisitor = booleanExpressionVisitor;
         this.questionBlockVisitor = questionBlockVisitor;
     }

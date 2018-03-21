@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.junit.Assert;
 import org.junit.Test;
-import qlviz.QLBaseVisitor;
+import qlviz.QLVisitor;
 import qlviz.QLParser;
 import qlviz.QLVisitor;
 import qlviz.model.Form;
@@ -17,7 +17,7 @@ public class FormVisitorTest {
     @Test
     public void TestAddsQuestion() {
         // Arrange
-        QLBaseVisitor<QuestionBlock> visitorMock = (QLBaseVisitor<QuestionBlock>) mock(QLVisitor.class);
+        QLVisitor<QuestionBlock> visitorMock = (QLVisitor<QuestionBlock>) mock(QLVisitor.class);
         QLParser.FormContext contextMock = (QLParser.FormContext)mock(QLParser.FormContext.class);
         QLParser.QuestionBlockContext questionContextMock = mock(QLParser.QuestionBlockContext.class);
 

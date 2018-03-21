@@ -10,14 +10,15 @@ stylesheet taxOfficeExample
     section "Section 2"
     {
       question b
-      default int
+      default bool
         {
           width: 400
           font: "Arial"
           fontsize: 14
           color: #999999
-          widget spinbox
+          widget checkbox
         }
     }
+    default boolean widget radio("Yes", "No")
   }
 }

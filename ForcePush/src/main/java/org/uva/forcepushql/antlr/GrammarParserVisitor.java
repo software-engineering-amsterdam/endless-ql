@@ -1,4 +1,4 @@
-// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -40,6 +40,18 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitQuestionTypes(GrammarParser.QuestionTypesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#ifCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfCondition(GrammarParser.IfConditionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#nextCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNextCondition(GrammarParser.NextConditionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code infixExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.

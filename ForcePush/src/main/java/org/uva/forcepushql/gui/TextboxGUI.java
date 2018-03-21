@@ -28,6 +28,7 @@ public class TextboxGUI implements QuestionGUI{
                     JTextField textField = (JTextField) e.getSource();
                     String textFieldValue = textField.getText();
                     question.givenAnswer(textFieldValue);
+                    notifyAllObservers();
                 }
             }
         };

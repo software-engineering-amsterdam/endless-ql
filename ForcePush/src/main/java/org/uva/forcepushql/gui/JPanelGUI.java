@@ -54,17 +54,6 @@ public class JPanelGUI extends Observer{
         return height;
     }
 
-    public void addActionListener(String answerName, ActionListener actionListener){
-
-        for (QuestionGUI q: questionGUIS) {
-
-            if (q.getVariable().equals(answerName)){
-                q.addActionListener(actionListener);
-            }
-
-        }
-    }
-
     public void setEnable(boolean bool, String answerName){
 
         for (QuestionGUI q: questionGUIS) {

@@ -1488,14 +1488,17 @@ function peg$parse(input, options) {
     if (s0 === peg$FAILED) {
       s0 = peg$parsestringLiteral();
       if (s0 === peg$FAILED) {
-        s0 = peg$parsecolor();
+        s0 = peg$parsecolorLiteral();
+        if (s0 === peg$FAILED) {
+          s0 = peg$parsebooleanLiteral();
+        }
       }
     }
 
     return s0;
   }
 
-  function peg$parsecolor() {
+  function peg$parsecolorLiteral() {
     let s0, s1, s2, s3, s4, s5;
 
     s0 = peg$currPos;
@@ -1973,23 +1976,6 @@ function peg$parse(input, options) {
               }
             }
           }
-        }
-      }
-    }
-
-    return s0;
-  }
-
-  function peg$parsevalue() {
-    let s0;
-
-    s0 = peg$parsebooleanLiteral();
-    if (s0 === peg$FAILED) {
-      s0 = peg$parseidentifier();
-      if (s0 === peg$FAILED) {
-        s0 = peg$parsenumberLiteral();
-        if (s0 === peg$FAILED) {
-          s0 = peg$parsestringLiteral();
         }
       }
     }

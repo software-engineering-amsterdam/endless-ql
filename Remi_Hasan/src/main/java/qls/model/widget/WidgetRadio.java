@@ -16,6 +16,14 @@ public class WidgetRadio extends Widget {
         this.falseLabel = falseLabel;
     }
 
+    public String getTrueLabel() {
+        return trueLabel;
+    }
+
+    public String getFalseLabel() {
+        return falseLabel;
+    }
+
     @Override
     public <T> T accept(IQLSVisitor<T> visitor) {
         return visitor.visit(this);

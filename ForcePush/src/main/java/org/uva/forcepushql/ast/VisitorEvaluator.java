@@ -170,7 +170,8 @@ public class VisitorEvaluator implements ASTVisitor {
     @Override
     public Question visit(QuestionAssignValueNode node) {
         Question question = node.getPrevious().accept(this);
-        return null;
+        String expression = node.getExpression().accept(this);
+        return question;
     }
 
     @Override

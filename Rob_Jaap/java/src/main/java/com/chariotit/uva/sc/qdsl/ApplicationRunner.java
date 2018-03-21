@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl;
 
+import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.TypeChecker;
 import com.chariotit.uva.sc.qdsl.ast.node.AstRoot;
 import com.chariotit.uva.sc.qdsl.ast.visitor.TypeCheckError;
@@ -47,14 +48,17 @@ public class ApplicationRunner implements CommandLineRunner {
         ParseTree tree = parser.forms();
         QLVisitor visitor = new QLVisitor();
 
+        AstRoot astRoot = (AstRoot)visitor.visit(tree);
+
 //        QLFormBuilder builder = new QLFormBuilder();
-//
-//        builder.addQuestion("Test question");
-//
-//        builder.showForm();
+
+        QLFormBuilder builder = new QLFormBuilder(astRoot);
+
+        builder.showForm();
+
+        builder.addQuestion("This is my question");
 
         // AST is initialised here.
-        AstRoot astRoot = (AstRoot)visitor.visit(tree);
 
 //        // Run Typechecker
 //        TypeChecker typeChecker = new TypeChecker();

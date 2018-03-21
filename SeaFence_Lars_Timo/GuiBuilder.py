@@ -26,6 +26,8 @@ class GuiBuilder():
     # Walk the AST and render gui items
     def parseStatements(self, form):  
         for statement in form.statements:
+            nodeType = statement.returnNodeType()
+            print nodeType
             if type(statement) is QuestionNode:
                 self.checkWidgetPosition(statement.var)
                 self.parseQuestion(statement)

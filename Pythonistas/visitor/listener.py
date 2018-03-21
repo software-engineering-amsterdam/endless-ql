@@ -143,7 +143,7 @@ class QLListener(ParseTreeListener):
         if conditionalID not in self.questionIDs:
             self.error_message = "Error: if argument is undefined: {}".format(conditionalID)
             return
-        elif self.questions[conditionalID].get_datatype() != 'boolean':
+        elif self.questions[conditionalID].get_data_type() != 'boolean':
             self.error_message = "Error: if argument is not boolean: {}".format(conditionalID)
             return
 

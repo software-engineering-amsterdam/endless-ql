@@ -19,34 +19,50 @@ class InputTypeMap:
         self.varDict = self.questionGenerator.getVarDict()
         self.varName = varName
 
+        # Used for the tracing of variables that get errors when the original trace calls the question generator.
+        # This happends with the spinbox and slider
+        self.init = True
+
     """
         Map the correct widget method to the correct type
     """
-    def getWidget(self, questionType):
+    def getWidget(self, questionType, widgetType='default', **kwargs):
         qTypes = {
             bool: self.returnBool,
             str: self.returnText,
             int: self.returnInt,
-            float: self.returnDecimal
+            float: self.returnFloat
         }
-        return qTypes[questionType]()
+        return qTypes[questionType](widgetType, **kwargs)
 
     """
-        Return boolean textbox widget
+        Return boolean textbox widget,
+        in case of radio, kwargs must contain: trueVal, falseVal
     """
-    def returnBool(self):
+    def returnBool(self, widgetType, **kwargs):
         var = BooleanVar()
         var.set(self.value)
         var.trace('w', lambda nm, idx, mode, var=var: self.validateBool(var))
-        button = Checkbutton(self.parent, variable=var, background="white")
-        button.pack(fill='x')
+        button = None
+        if widgetType == 'default' or widgetType == 'checkbox':
+            button = Checkbutton(self.parent, variable=var, background="white")
+            button.pack(fill='x')
+        elif widgetType == 'radio':
+            button = Radiobutton(self.parent, text=kwargs['trueVal'], variable=var, value=True)
+            button.pack(anchor=W)
+            Radiobutton(self.parent, text=kwargs['falseVal'], variable=var, value=False).pack(anchor=W)
+        elif widgetType == 'dropdown':
+            button = OptionMenu(self.parent, var, 'true', 'false')
+            button.pack()
+        else:
+            throwError("Unknown widget type")
         return button, var
 
 
     """
         Return string textbox widget
     """
-    def returnText(self):
+    def returnText(self, widgetType, **kwargs):
         var = StringVar()
         var.trace('w', lambda nm, idx, mode, var=var: self.validateString(var))
         e = Entry(self.parent, textvariable=var)
@@ -55,27 +71,55 @@ class InputTypeMap:
 
     """
         Return integer textbox widget (same as string but a different validation method)
+        in case of spinbox, kwargs must contain: minVal, maxVal
     """
-    def returnInt(self):
-        var = StringVar()
-        var.set(self.value)
-        self.oldValue = 0
-        var.trace('w', lambda nm, idx, mode, var=var: self.validateInt(var))
-        e = Entry(self.parent, textvariable=var)
-        e.pack(fill='x')
-        return e, var
+    def returnInt(self, widgetType, **kwargs):
+        var = None
+        w = None
+        if widgetType == "text" or widgetType == "default":
+            var = StringVar()
+            var.set(self.value)
+            self.oldValue = 0
+            var.trace('w', lambda nm, idx, mode, var=var: self.validateInt(var))
+            w = Entry(self.parent, textvariable=var)
+        elif widgetType == "spinbox":
+            var = IntVar()
+            var.trace('w', lambda nm, idx, mode, var=var: self.validateSpinbox(var))
+            w = Spinbox(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'], textvariable=var)
+        elif widgetType == "slider":
+            var = IntVar()
+            var.trace('w', lambda nm, idx, mode, var=var: self.validateSpinbox(var))
+            w = Scale(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'], variable=var, orient=HORIZONTAL)
+        else:
+            throwError("Unknown widget type: " + widgetType)
+        w.pack(fill='x')
+        return w, var
 
     """
         Return float textbox widget (same as string but a different validation method)
     """
-    def returnDecimal(self):
-        var = StringVar()
-        var.set(self.value)
-        self.oldValue = 0.0
-        var.trace('w', lambda nm, idx, mode, var=var: self.validateFloat(var))
-        e = Entry(self.parent, textvariable=var)
-        e.pack(fill='x')
-        return e, var
+    def returnFloat(self, widgetType, **kwargs):
+        var = None
+        w = None
+        if widgetType == "text" or widgetType == "default":
+            var = StringVar()
+            var.set(self.value)
+            self.oldValue = 0
+            var.trace('w', lambda nm, idx, mode, var=var: self.validateFloat(var))
+            w = Entry(self.parent, textvariable=var)
+        elif widgetType == "spinbox":
+            var = DoubleVar()
+            var.trace('w', lambda nm, idx, mode, var=var: self.validateSpinbox(var))
+            w = Spinbox(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'], textvariable=var)
+        elif widgetType == "slider":
+            var = DoubleVar()
+            var.trace('w', lambda nm, idx, mode, var=var: self.validateSpinbox(var))
+            w = Scale(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'], \
+                variable=var, orient=HORIZONTAL, digits = 4, resolution = 0.2)
+        else:
+            throwError("Unknown widget type: " + widgetType)
+        w.pack(fill='x')
+        return w, var
 
     """ Validation and tracing methods ------------------------------------------------------"""
 
@@ -84,7 +128,6 @@ class InputTypeMap:
     """
     def validateBool(self, var):
         newVal = var.get()
-
         # save value in vardict
         varNode = self.varDict[self.varName]['node']
         varNode.setVar(newVal)
@@ -108,6 +151,17 @@ class InputTypeMap:
         self.questionGenerator.updateQuestions()
 
         self.oldValue = newVal
+
+    def validateSpinbox(self, var):
+        newVal = var.get()
+        varNode = self.varDict[self.varName]['node']
+        varNode.setVar(newVal)
+        self.setNodeValue(newVal)
+        # update_questions
+        if(self.init == False):
+            self.questionGenerator.updateQuestions()
+        else:
+            self.init = True
 
     """
         Update the Int value in the AST, and update the questions, also validate if the
@@ -139,6 +193,7 @@ class InputTypeMap:
     """
     def validateFloat(self, var):
         newVal = var.get()
+        print(newVal)
         try:
             newVal == '' or newVal == '-' or float(newVal)
             if(newVal == '-'):

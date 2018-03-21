@@ -103,13 +103,6 @@ public class Question extends ASTNode {
         }
     }
 
-    public void setDisplayed(boolean displayed) {
-        isDisplayed = displayed;
-    }
-
-    public boolean isDisplayed() {
-        return isDisplayed;
-    }
 
     // TODO implement recursive function to check expressions up the hiearchy
     public boolean isAvailable() {

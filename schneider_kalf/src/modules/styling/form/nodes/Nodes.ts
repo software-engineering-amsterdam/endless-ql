@@ -1,4 +1,4 @@
-import Stylesheet from "./StyleSheet";
+import StyleSheetNode from "./StyleSheetNode";
 import BaseAttribute from "./attributes/BaseAttribute";
 import Page from "./containers/PageNode";
 import Section from "./containers/SectionNode";
@@ -12,7 +12,7 @@ import DefaultStyle from "./children/DefaultStyle";
  * instances inside the parser.
  */
 export default {
-  Stylesheet,
+  Stylesheet: StyleSheetNode,
   BaseAttribute,
   WidgetAttribute,
   Page,

@@ -1,7 +1,7 @@
 import IfCondition from "../nodes/conditions/IfCondition";
 import FormNode from "../nodes/FormNode";
 import ComputedField from "../nodes/fields/ComputedField";
-import Question from "../nodes/fields/Question";
+import QuestionNode from "../nodes/fields/QuestionNode";
 import FormState from "../state/FormState";
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
 import Form from "../Form";
@@ -29,7 +29,7 @@ export default class VisibleFieldsVisitor implements FieldVisitor {
     return this._visibleFields;
   }
 
-  visitQuestion(question: Question): any {
+  visitQuestion(question: QuestionNode): any {
     this._visibleFields.add(question.identifier);
     return this._visibleFields;
   }

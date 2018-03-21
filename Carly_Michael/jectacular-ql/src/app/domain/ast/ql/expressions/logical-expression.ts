@@ -1,9 +1,9 @@
 import {ExpressionType} from './expression-type';
-import {Expression, LiteralType} from './expression';
+import {Expression} from './expression';
 import {Location} from '../../location';
 import {QlQuestion} from '../ql-question';
-import {FormGroup} from '@angular/forms';
 import {BinaryExpression} from './binary-expression';
+import {ExpressionVisitor} from '../visitors/expression-visitor';
 
 export abstract class LogicalExpression extends BinaryExpression {
   constructor(left: Expression, right: Expression, location: Location) {
@@ -21,8 +21,6 @@ export abstract class LogicalExpression extends BinaryExpression {
       );
     }
   }
-
-  abstract evaluate(form: FormGroup): LiteralType;
 }
 
 export class AndExpression extends LogicalExpression {
@@ -30,8 +28,8 @@ export class AndExpression extends LogicalExpression {
     super(left, right, location);
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return this.left.evaluate(form) && this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitAndExpression(this);
   }
 }
 
@@ -40,7 +38,7 @@ export class OrExpression extends LogicalExpression {
     super(left, right, location);
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return this.left.evaluate(form) || this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitOrExpression(this);
   }
 }

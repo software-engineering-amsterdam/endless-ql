@@ -1,9 +1,9 @@
 import {ExpressionType} from './expression-type';
-import {Expression, LiteralType} from './expression';
+import {Expression} from './expression';
 import {Location} from '../../location';
 import {QlQuestion} from '../ql-question';
-import {FormGroup} from '@angular/forms';
 import {Variable} from './variable';
+import {ExpressionVisitor} from '../visitors/expression-visitor';
 
 export abstract class UnaryExpression extends Expression {
   constructor(public right: Expression, location: Location) {
@@ -15,8 +15,6 @@ export abstract class UnaryExpression extends Expression {
   }
 
   abstract checkType(allQuestions: QlQuestion[]): ExpressionType;
-
-  abstract evaluate(form: FormGroup): LiteralType;
 }
 
 export class NegativeExpression extends UnaryExpression {
@@ -35,8 +33,8 @@ export class NegativeExpression extends UnaryExpression {
     );
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return - this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitNegativeExpression(this);
   }
 }
 
@@ -56,7 +54,7 @@ export class NegateExpression extends UnaryExpression {
     );
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return ! this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitNegateExpression(this);
   }
 }

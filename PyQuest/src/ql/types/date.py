@@ -22,7 +22,9 @@ class QLDate(QLType):
         return '{}-{}-{}'.format(self.day, self.month, self.year)
 
     def __eq__(self, other):
-        return QLBoolean(self.day == other.day and self.month == other.month and self.year == other.year)
+        if type(other) == QLDate:
+            return QLBoolean(self.day == other.day and self.month == other.month and self.year == other.year)
+        return False
 
     def __ne__(self, other):
         return QLBoolean(self.day != other.day or self.month != other.month or self.year != other.year)

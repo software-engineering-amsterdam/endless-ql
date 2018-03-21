@@ -60,6 +60,26 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitDefaultStatement(QLSParser.DefaultStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QLSParser#defaultWidgetStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefaultWidgetStatement(QLSParser.DefaultWidgetStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#defaultWidgetStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefaultWidgetStatement(QLSParser.DefaultWidgetStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#defaultStyleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefaultStyleStatement(QLSParser.DefaultStyleStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#defaultStyleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefaultStyleStatement(QLSParser.DefaultStyleStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QLSParser#question}.
 	 * @param ctx the parse tree
 	 */

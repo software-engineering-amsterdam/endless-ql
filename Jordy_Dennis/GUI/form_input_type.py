@@ -37,7 +37,7 @@ class InputTypeMap:
 
     """
         Return boolean textbox widget,
-        in case of radio, kwargs must contain: trueVal, falseVal
+        in case of radio, kwargs must contain: minVal, maxVal
     """
     def returnBool(self, widgetType, **kwargs):
         var = BooleanVar()
@@ -48,9 +48,9 @@ class InputTypeMap:
             button = Checkbutton(self.parent, variable=var, background="white")
             button.pack(fill='x')
         elif widgetType == 'radio':
-            button = Radiobutton(self.parent, text=kwargs['trueVal'], variable=var, value=True)
+            button = Radiobutton(self.parent, text=kwargs['minVal'], variable=var, value=True)
             button.pack(anchor=W)
-            Radiobutton(self.parent, text=kwargs['falseVal'], variable=var, value=False).pack(anchor=W)
+            Radiobutton(self.parent, text=kwargs['maxVal'], variable=var, value=False).pack(anchor=W)
         elif widgetType == 'dropdown':
             button = OptionMenu(self.parent, var, 'true', 'false')
             button.pack()
@@ -128,6 +128,9 @@ class InputTypeMap:
 
     def validateBool(self, var):
         newVal = var.get()
+        if type(newVal) != bool:
+            newVal = bool(newVal)
+        print(newVal)
         # save value in vardict
         varNode = self.varDict[self.varName]['node']
         varNode.setVar(newVal)

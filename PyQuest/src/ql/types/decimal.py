@@ -32,9 +32,6 @@ class QLDecimal(QLType):
             return QLBoolean(self.value == other.value)
         return False
 
-    def __ne__(self, other):
-        return QLBoolean(self.value != other.value)
-
     def __lt__(self, other):
         return QLBoolean(self.value < other.value)
 

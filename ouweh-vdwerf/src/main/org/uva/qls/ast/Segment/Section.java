@@ -1,6 +1,8 @@
 package org.uva.qls.ast.Segment;
 
 import org.uva.qls.ast.DefaultStatement.DefaultStatement;
+import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
+import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.visitor.SegmentVisitor;
 
 import java.util.List;
@@ -9,12 +11,14 @@ public class Section extends Segment {
 
     private String id;
     private List<Segment> segments;
-    private List<DefaultStatement> defaultStatements;
+    private List<DefaultStyleStatement> defaultStyleStatements;
+    private List<DefaultWidgetStatement> defaultWidgetStatements;
 
-    public Section(String id, List<Segment> segments, List<DefaultStatement> defaultStatements) {
+    public Section(String id, List<Segment> segments, List<DefaultStyleStatement> defaultStyleStatements, List<DefaultWidgetStatement> defaultWidgetStatements) {
         this.id = id;
         this.segments = segments;
-        this.defaultStatements = defaultStatements;
+        this.defaultStyleStatements = defaultStyleStatements;
+        this.defaultWidgetStatements = defaultWidgetStatements;
     }
 
     @Override
@@ -30,8 +34,14 @@ public class Section extends Segment {
         return segments;
     }
 
-    public List<DefaultStatement> getDefaultStatements() {
-        return defaultStatements;
+    @Override
+    public List<DefaultStyleStatement> getDefaultStyleStatements() {
+        return defaultStyleStatements;
+    }
+
+    @Override
+    public List<DefaultWidgetStatement> getDefaultWidgetStatements() {
+        return defaultWidgetStatements;
     }
 
     @Override

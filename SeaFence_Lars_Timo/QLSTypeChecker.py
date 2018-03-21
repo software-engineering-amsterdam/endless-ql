@@ -14,18 +14,36 @@ class QLSTypeChecker(object):
         self.retrieveVariables(self.ql_ast.statements, self.ql_variables, "ql")
         self.retrieveVariables(self.qls_ast.pages, self.qls_variables, "qls")
 
-        self.checkReferencesToQL(self.ql_variables, self.qls_variables)
+        self.checkReferencesInQL(self.ql_variables, self.qls_variables)
+
+        self.checkWidgetQuestionCompatibility(self.ql_variables, self.qls_variables)
 
     # Checks if every question in QL is referenced in QLS.
-    def checkReferencesToQL(self, ql_variables, qls_variables):
+    def checkReferencesInQLS(self, ql_variables, qls_variables):
         for key, value in ql_variables.iteritems():
             if key not in qls_variables:
                 exitProgram("Variable {} is not referenced in QLS, but should be.".format(key))
 
 
+    # Checks if every question in QLS is referenced in QL.
+    def checkReferencesInQL(self, ql_variables, qls_variables):
+        for key, value in qls_variables.iteritems():
+            if key not in ql_variables:
+                print "Warning: Variable {} is not referenced in QL, but should be.".format(key)
+
+
     # Checks whether the types of the questions are compatible with the assigned widgets.
-    def checkWidgetQuestionCompatibility(self):
-    	pass
+    def checkWidgetQuestionCompatibility(self, ql_variables, qls_variables):
+    	for key, value in ql_variables.iteritems():
+            if qls_variables[key] != None:
+                if value == "boolean" and (qls_variables[key].widget == 'radio("Yes", "No")' or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == 'dropdown("Yes", "No")'):
+                    pass
+
+                elif value == "integer" and (qls_variables[key].widget == "slider" or qls_variables[key].widget == "spinbox" or qls_variables[key].widget == "text"):
+                    pass
+
+                else:
+                    exitProgram("Widget {} is incompatible with type {}".format(qls_variables[key].widget, value))
 
 
     # Check if every question is only placed once in the qls ast.

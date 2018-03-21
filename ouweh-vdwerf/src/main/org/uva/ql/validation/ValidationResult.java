@@ -49,10 +49,10 @@ public class ValidationResult {
     }
 
     public ValidationResult merge(ValidationResult validationResult) {
-        List<String> errors = new ArrayList<String>(this.errors);
+        List<String> errors = new ArrayList<>(this.errors);
         errors.addAll(validationResult.getErrors());
 
-        List<String> warnings = new ArrayList<String>(this.warnings);
+        List<String> warnings = new ArrayList<>(this.warnings);
         warnings.addAll(validationResult.getWarnings());
 
         return new ValidationResult(errors, warnings);

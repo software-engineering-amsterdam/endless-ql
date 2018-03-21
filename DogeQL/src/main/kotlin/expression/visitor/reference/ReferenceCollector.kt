@@ -1,6 +1,5 @@
 package expression.visitor.reference
 
-import common.Name
 import expression.BinaryExpression
 import expression.LiteralExpression
 import expression.ReferenceExpression
@@ -9,14 +8,14 @@ import expression.visitor.ExpressionVisitor
 
 class ReferenceCollector : ExpressionVisitor<Unit> {
 
-    val references = mutableListOf<Name>()
+    val references = mutableListOf<ReferenceExpression>()
 
     override fun visit(literal: LiteralExpression) {
 
     }
 
     override fun visit(reference: ReferenceExpression) {
-        references.add(reference.name)
+        references.add(reference)
     }
 
     override fun visit(unary: UnaryExpression) {

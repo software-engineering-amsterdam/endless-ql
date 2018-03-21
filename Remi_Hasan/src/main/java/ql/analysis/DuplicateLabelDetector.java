@@ -26,7 +26,7 @@ public class DuplicateLabelDetector {
                 continue;
             }
 
-            warnings.add("Label + \"" + entry.getKey() + "\" used for multiple questions: " + entry.getValue());
+            warnings.add("Label \"" + entry.getKey() + "\" used for multiple questions: " + entry.getValue());
         }
 
         return warnings;

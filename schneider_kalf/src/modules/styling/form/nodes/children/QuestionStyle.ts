@@ -1,10 +1,10 @@
 import AbstractStyleNode from "../AbstractStyleNode";
 import SectionChild from "./SectionChild";
-import PageChild from "./PageChild";
 import StyleAttribute from "../StyleAttribute";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
+import SectionNode from "../containers/SectionNode";
 
-export default class QuestionStyle extends AbstractStyleNode implements SectionChild, PageChild {
+export default class QuestionStyle extends AbstractStyleNode implements SectionChild {
   readonly identifier: string;
   readonly children: StyleAttribute[];
 
@@ -16,5 +16,17 @@ export default class QuestionStyle extends AbstractStyleNode implements SectionC
 
   accept(visitor: StyleNodeVisitor) {
     return visitor.visitQuestionStyle(this);
+  }
+
+  isSection(): this is SectionNode {
+    return false;
+  }
+
+  isRendered(): boolean {
+    return true;
+  }
+
+  isQuestionStyle(): this is QuestionStyle {
+    return true;
   }
 }

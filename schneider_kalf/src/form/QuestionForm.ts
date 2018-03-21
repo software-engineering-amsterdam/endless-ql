@@ -22,6 +22,10 @@ export default class QuestionForm implements Form {
     this.computeFields();
   }
 
+  getField(identifier: string): FieldNode | undefined | any {
+    return this.getFields().find(field => field.identifier === identifier);
+  }
+
   getFields(): FieldNode[] {
     return filterNodes((node) => node instanceof ComputedField || node instanceof QuestionNode, this.node);
   }

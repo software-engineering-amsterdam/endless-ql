@@ -137,5 +137,4 @@ public class QLLoader extends FormBaseListener {
         this.formNode.getReferencedVariables().add(right);
         return (new ArithmeticExpressionValue(left, right, operator));
     }
-
 }

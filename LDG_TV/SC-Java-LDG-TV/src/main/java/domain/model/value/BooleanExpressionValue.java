@@ -17,7 +17,7 @@ public class BooleanExpressionValue extends Value<Boolean>{
     public Boolean getValue() {
         switch (operator) {
             case "==":
-                return this.leftHandOperand.getValue().getValue() ==  this.rightHandOperand.getValue().getValue();
+                return this.leftHandOperand.getValue().getValue().equals(this.rightHandOperand.getValue().getValue());
             case "!=":
                 return this.leftHandOperand.getValue().getValue() !=  this.rightHandOperand.getValue().getValue();
             case ">":

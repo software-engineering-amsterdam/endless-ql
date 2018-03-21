@@ -28,7 +28,7 @@ object GUIModelFactory {
           GUIConditionalFactory.makeGUIConditional(visible, conditional)
         case _ =>
           Seq.empty
-      })
+    })
   }
 
   def makeFrom(stylesheet: QLStylesheet): GUIStylesheet =

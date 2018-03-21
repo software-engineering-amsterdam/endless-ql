@@ -32,7 +32,19 @@ case class QLSGUIQuestion(
 
 object QLSGUIQuestion {
   def apply(question: GUIQuestion) =
-    new QLSGUIQuestion(question.id, question.answerType, question.label, question.isReadOnly, question.visibility, styling = DefaultStyle())
+    new QLSGUIQuestion(
+      question.id,
+      question.answerType,
+      question.label,
+      question.isReadOnly,
+      question.visibility,
+      styling = DefaultStyle())
   def apply(question: GUIQuestion, styling: Styling) =
-    new QLSGUIQuestion(question.id, question.answerType, question.label, question.isReadOnly, question.visibility, styling)
+    new QLSGUIQuestion(
+      question.id,
+      question.answerType,
+      question.label,
+      question.isReadOnly,
+      question.visibility,
+      styling)
 }

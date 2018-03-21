@@ -7,7 +7,8 @@ import javafx.util.Callback
 import nl.uva.se.sc.niro.gui.controller.QLSFormController
 import nl.uva.se.sc.niro.model.gui._
 
-class PageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet) extends Callback[Integer, Node]() {
+class PageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet)
+    extends Callback[Integer, Node]() {
 
   override def call(pageNumber: Integer): Node = {
     val page = new VBox()
@@ -17,12 +18,14 @@ class PageFactory(formController: QLSFormController, form: GUIForm, stylesheet: 
       addSectionHeader(page, section)
 
       section.questionStyles.flatMap(questionStyle => {
-        form.collectQuestionOnName(questionStyle.name).map(question => {
-          val component = QLSComponentFactory(formController).make(QLSGUIQuestion(question, questionStyle.style))
-          question.component = Some(component)
-          page.getChildren.add(component)
-          component
-        })
+        form
+          .collectQuestionOnName(questionStyle.name)
+          .map(question => {
+            val component = QLSComponentFactory(formController).make(QLSGUIQuestion(question, questionStyle.style))
+            question.component = Some(component)
+            page.getChildren.add(component)
+            component
+          })
       })
     })
 

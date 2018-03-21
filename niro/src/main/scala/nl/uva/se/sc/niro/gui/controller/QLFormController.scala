@@ -33,7 +33,7 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
   protected val valuesForQuestions: ValueStore = mutable.Map[String, Answer]()
   protected var questionComponents: Seq[Component[_]] = _ // The actual components that handle the user interaction
 
-  @FXML protected var topBox: VBox = _ // FIXME Is only used by QLSFormController
+  @FXML protected var topBox: VBox = _
   @FXML protected var formName: Label = _
   @FXML protected var questionArea: ScrollPane = _
 

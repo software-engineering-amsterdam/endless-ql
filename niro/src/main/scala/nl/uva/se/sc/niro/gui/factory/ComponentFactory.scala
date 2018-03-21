@@ -10,7 +10,8 @@ trait ComponentFactory {
   def make(question: GUIQuestion): Component[_]
 }
 
-class QLComponentFactory(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory) extends ComponentFactory {
+class QLComponentFactory(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory)
+    extends ComponentFactory {
 
   def make(question: GUIQuestion): Component[_] = {
     val component = makeComponent(question)
@@ -39,9 +40,11 @@ class QLComponentFactory(componentChangeListener: ComponentChangedListener, widg
 }
 
 object QLComponentFactory {
-  def apply(componentChangeListener: ComponentChangedListener) = new QLComponentFactory(componentChangeListener, new QLWidgetFactory())
+  def apply(componentChangeListener: ComponentChangedListener) =
+    new QLComponentFactory(componentChangeListener, new QLWidgetFactory())
 }
 
 object QLSComponentFactory {
-  def apply(componentChangeListener: ComponentChangedListener) = new QLComponentFactory(componentChangeListener, new QLSWidgetFactory())
+  def apply(componentChangeListener: ComponentChangedListener) =
+    new QLComponentFactory(componentChangeListener, new QLSWidgetFactory())
 }

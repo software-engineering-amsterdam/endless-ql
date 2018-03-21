@@ -230,7 +230,8 @@ class QLStylesheetTest extends WordSpec {
         Question("questionThree", None),
         Question("questionFour", None),
         Question("questionFive", None),
-        Question("questionSix", None))
+        Question("questionSix", None)
+      )
 
       val actual = stylesheet.collectAllQuestions()
 

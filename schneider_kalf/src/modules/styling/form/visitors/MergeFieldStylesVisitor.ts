@@ -5,7 +5,7 @@ import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheet";
+import StyleSheetNode from "../nodes/StyleSheetNode";
 import MergedFieldStyle from "../MergedFieldStyle";
 
 export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
@@ -51,7 +51,7 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     return;
   }
 
-  visitStyleSheet(stylesheet: Stylesheet): any {
+  visitStyleSheet(stylesheet: StyleSheetNode): any {
     return stylesheet.children.forEach(child => child.accept(this));
   }
 }

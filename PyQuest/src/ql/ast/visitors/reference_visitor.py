@@ -27,7 +27,6 @@ class ReferenceVisitor(object):
     def __init__(self):
         self.__current_block = []
         self.__current_scope = {}
-        self.__scope_id = 0
 
     @property
     def identifier_scopes(self):
@@ -40,8 +39,7 @@ class ReferenceVisitor(object):
 
     @when(FormNode)
     def visit(self, node):
-        self.__current_scope = {'id': self.__scope_id,
-                                'content': [],
+        self.__current_scope = {'content': [],
                                 'children': []}
 
         self.__current_block = []
@@ -60,8 +58,7 @@ class ReferenceVisitor(object):
         previous_block = self.__current_block
 
         self.__current_block = []
-        self.__current_scope = {'id': self.__scope_id,
-                                'content': [],
+        self.__current_scope = {'content': [],
                                 'children': []}
 
         for child in node.block:

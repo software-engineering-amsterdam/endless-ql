@@ -3,7 +3,7 @@ import StyleSheetChild from "./children/StyleSheetChild";
 import StyleNodeVisitor from "../visitors/StyleNodeVisitor";
 import Page from "./containers/PageNode";
 
-export default class Stylesheet extends AbstractStyleNode {
+export default class StyleSheetNode extends AbstractStyleNode {
   readonly name: string;
   readonly children: StyleSheetChild[];
 

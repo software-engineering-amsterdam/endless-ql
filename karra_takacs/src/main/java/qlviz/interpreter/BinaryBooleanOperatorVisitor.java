@@ -1,8 +1,12 @@
 package qlviz.interpreter;
 
+import com.google.inject.Inject;
 import qlviz.model.booleanExpressions.BinaryBooleanOperator;
 
 public class BinaryBooleanOperatorVisitor implements BinaryBooleanOperatorTranslator {
+
+    @Inject
+    public BinaryBooleanOperatorVisitor() {}
 
     @Override
     public BinaryBooleanOperator translate(String operatorString) {

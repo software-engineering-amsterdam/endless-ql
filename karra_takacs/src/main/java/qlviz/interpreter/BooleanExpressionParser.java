@@ -1,5 +1,6 @@
 package qlviz.interpreter;
 
+import com.google.inject.Inject;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.model.booleanExpressions.*;
@@ -12,6 +13,7 @@ public class BooleanExpressionParser extends QLBaseVisitor<BooleanExpression> {
     private final BinaryBooleanOperatorTranslator binaryBooleanOperatorTranslator;
     private final NumericComparisonOperatorTranslator numericComparisonOperatorTranslator;
 
+    @Inject
     public BooleanExpressionParser(QLBaseVisitor<NumericExpression> numericExpressionVisitor,
                                    BinaryBooleanOperatorTranslator binaryBooleanOperatorTranslator,
                                    NumericComparisonOperatorTranslator numericComparisonOperatorTranslator) {

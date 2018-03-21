@@ -1,12 +1,10 @@
 package qlviz.gui;
 
 import com.google.inject.*;
-import com.google.inject.Module;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import qlviz.QLBaseVisitor;
-import qlviz.QLSBaseVisitor;
 import qlviz.gui.renderer.ErrorRenderer;
 import qlviz.gui.renderer.JavafxErrorRenderer;
 import qlviz.gui.renderer.QuestionRenderer;
@@ -23,8 +21,6 @@ import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactoryI
 import qlviz.interpreter.*;
 import qlviz.interpreter.QuestionVisitor;
 import qlviz.interpreter.linker.QuestionLinkerImpl;
-import qlviz.interpreter.style.*;
-import qlviz.interpreter.style.ParameterVisitor;
 import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
@@ -44,7 +40,6 @@ public class QLForm extends Application {
 	private boolean containsDuplicates = false;
 
 
-
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -57,7 +52,7 @@ public class QLForm extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 
-		Injector injector = Guice.createInjector(new QLSParserModule());
+		Injector injector = Guice.createInjector(new QLSParserModule(), new ExpressionParserModule());
 		StyleModelBuilder styleBuilder = injector.getInstance(StyleModelBuilder.class);
 
 
@@ -83,16 +78,9 @@ public class QLForm extends Application {
 			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);
 		}
 
-
-		NumericExpressionParser numericExpressionParser = new NumericExpressionParser(new BinaryNumericOperatorVisitor());
-		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor =
-				new BooleanExpressionParser(
-					new NumericExpressionParser(
-							new BinaryNumericOperatorVisitor()
-					),
-					new BinaryBooleanOperatorVisitor(),
-					new NumericComparisonOperatorVisitor());
-		QLBaseVisitor<QuestionBlock> questionBlockVisitor =
+		NumericExpressionParser numericExpressionParser = injector.getInstance(NumericExpressionParser.class);
+		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor = injector.getInstance(Key.get(new TypeLiteral<QLBaseVisitor<BooleanExpression>>(){}));
+        QLBaseVisitor<QuestionBlock> questionBlockVisitor =
 				new QuestionBlockVisitor(
 						new QuestionVisitor(
 								new QuestionTypeVisitor(),

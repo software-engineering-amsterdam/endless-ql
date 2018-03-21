@@ -1,5 +1,6 @@
 package qlviz.interpreter;
 
+import com.google.inject.Inject;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.model.numericExpressions.*;
@@ -12,6 +13,7 @@ public class NumericExpressionParser extends QLBaseVisitor<NumericExpression> {
 
     private final BinaryNumericOperatorTranslator binaryNumericOperatorTranslator;
 
+    @Inject
     public NumericExpressionParser(BinaryNumericOperatorTranslator binaryNumericOperatorTranslator) {
         this.binaryNumericOperatorTranslator = binaryNumericOperatorTranslator;
     }

@@ -35,7 +35,6 @@ public class GUIMain
 	private static void Create_GUI_Frame()
 	{
 	JFrame guiFrame = new JFrame("MainFrame");
-	//RadioButtons radio = new RadioButtons();
 
 	Radio radioQuestion1 = new Radio("Did you sell a house in 2010?", "boolean", "hasSoldHouse");
     Radio radioQuestion2 = new Radio("Did you buy a house in 2010?", "boolean", "hasBoughtHouse");

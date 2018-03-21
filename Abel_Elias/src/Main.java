@@ -1,9 +1,9 @@
-import QL.classes.Form;
 import QL.classes.Question;
 import QL.classes.values.BooleanValue;
 import QL.classes.values.DateValue;
 import QL.classes.values.IntegerValue;
 import QL.classes.values.StringValue;
+import QLS.StylesheetEvaluator;
 import QLS.classes.Stylesheet;
 import QLS.parsing.gen.QLSParser;
 import QLS.parsing.visitors.StylesheetVisitor;
@@ -17,9 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -45,10 +43,10 @@ public class Main {
     }
 
     /**
-     * parseAndBuild() method
+     * parseAndBuildQL() method
      * @param inputStream fileInput (Ql)
      */
-    private void parseAndBuild(InputStream inputStream){
+    private void parseAndBuildQL(InputStream inputStream){
         try{
             QLParser.FormContext form = new TreeBuilder().build(inputStream);
             Checks.checkForm(form);
@@ -71,6 +69,9 @@ public class Main {
             QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(inputStream);
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor();
             Stylesheet stylesheet = stylesheetVisitor.visitStylesheet(stylesheetContext);
+
+            StylesheetEvaluator evaluator = new StylesheetEvaluator(stylesheet);
+
             System.out.println("Stylesheet constructed");
 
         } catch (IOException e) {
@@ -78,6 +79,16 @@ public class Main {
         }
     }
 
+    public static String getFileExtension(String fileName) {
+        int i = fileName.lastIndexOf('.');
+        int p = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
+        if (i > p) {
+            return fileName.substring(i+1);
+        } else
+        {
+            return "";
+        }
+    }
 
     /**
      * Main method
@@ -86,10 +97,16 @@ public class Main {
     public static void main(String[] args) {
         try{
             if(args.length == 0){
-                new Main().parseAndBuild(System.in);
+                new Main().parseAndBuildQL(System.in);
             } else if (args.length == 1) {
                 FileInputStream fileInputStream = new FileInputStream(args[0]);
-                new Main().parseAndBuildQLS(fileInputStream);
+                if(getFileExtension(args[0]).equals("ql")) {
+                    new Main().parseAndBuildQL(fileInputStream);
+                } else if (getFileExtension(args[0]).equals("qls")) {
+                    new Main().parseAndBuildQLS(fileInputStream);
+                } else {
+                    System.out.println("Invalid file type");
+                }
             } else {
                 System.out.println("Invalid arguments were given");
             }

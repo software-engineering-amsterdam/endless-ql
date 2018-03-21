@@ -5,25 +5,21 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import org.uva.sea.gui.newImpl.widget.Widget;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
 public class ChoiceBoxWidget extends Widget {
 
-    private final String label;
-    private final String variableName;
-    private BooleanValue questionValue;
-    private final Style widgetStyle;
+    private BooleanValue widgetValue = new BooleanValue(false);
 
-    public ChoiceBoxWidget(String label, String variableName, Style widgetStyle) {
-        this.label = label;
-        this.variableName = variableName;
-        this.widgetStyle = widgetStyle;
+    public ChoiceBoxWidget(QuestionData questionData) {
+        super(questionData);
     }
 
     @Override
     public boolean updateValue(BooleanValue booleanValue) {
-        this.questionValue = booleanValue;
+        this.widgetValue = booleanValue;
         return true;
     }
 
@@ -31,8 +27,8 @@ public class ChoiceBoxWidget extends Widget {
     public Node convertToGuiNode() {
         ChoiceBox<Boolean> choiceBox = new ChoiceBox<>();
 
-        choiceBox = this.createChoiceBox(choiceBox, this.widgetStyle);
-        choiceBox.setValue((this.questionValue != null) && this.questionValue.getBooleanValue());
+        choiceBox = this.createChoiceBox(choiceBox, this.questionData.getStyle());
+        choiceBox.setValue((this.widgetValue != null) && this.widgetValue.getBooleanValue());
 
         ObservableList<Boolean> booleanList = FXCollections.observableArrayList(true, false);
 
@@ -41,7 +37,7 @@ public class ChoiceBoxWidget extends Widget {
         ChoiceBox<Boolean> finalChoiceBox = choiceBox;
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             BooleanValue newBooleanValue = new BooleanValue(finalChoiceBox.getItems().get((Integer) newValue));
-            this.sendUpdateValueEvent(this.variableName, newBooleanValue);
+            this.sendUpdateValueEvent(this.questionData.getQuestionName(), newBooleanValue);
         });
 
         return choiceBox;

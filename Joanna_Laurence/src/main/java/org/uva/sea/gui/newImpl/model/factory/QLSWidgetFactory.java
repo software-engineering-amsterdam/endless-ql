@@ -1,12 +1,10 @@
 package org.uva.sea.gui.newImpl.model.factory;
 
-import org.uva.sea.gui.newImpl.widget.qls.ChoiceBoxWidget;
 import org.uva.sea.gui.newImpl.widget.Widget;
+import org.uva.sea.gui.newImpl.widget.qls.ChoiceBoxWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
-import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
-import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.InvocationTargetException;

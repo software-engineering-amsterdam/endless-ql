@@ -19,13 +19,13 @@ public class ArithmeticExpressionValue extends Value<Integer>{
         try {
             switch (operator) {
                 case "/":
-                    return (Integer) this.leftHandOperand.getValue().getValue() / (Integer) this.rightHandOperand.getValue().getValue();
+                    return (Integer) this.leftHandOperand.getValueObject().getValue() / (Integer) this.rightHandOperand.getValueObject().getValue();
                 case "+":
-                    return (Integer) this.leftHandOperand.getValue().getValue() + (Integer) this.rightHandOperand.getValue().getValue();
+                    return (Integer) this.leftHandOperand.getValueObject().getValue() + (Integer) this.rightHandOperand.getValueObject().getValue();
                 case "-":
-                    return (Integer) this.leftHandOperand.getValue().getValue() - (Integer) this.rightHandOperand.getValue().getValue();
+                    return (Integer) this.leftHandOperand.getValueObject().getValue() - (Integer) this.rightHandOperand.getValueObject().getValue();
                 case "*":
-                    return (Integer) this.leftHandOperand.getValue().getValue() * (Integer) this.rightHandOperand.getValue().getValue();
+                    return (Integer) this.leftHandOperand.getValueObject().getValue() * (Integer) this.rightHandOperand.getValueObject().getValue();
             }
         }catch(Exception e){
             throw new InvalidArithmeticExpressionException("Invalid arithmetic expression found. Are you using strings were numbers are expected?");

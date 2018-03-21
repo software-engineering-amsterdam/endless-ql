@@ -50,9 +50,9 @@ public class ConditionNode extends ASTNode {
         for (Condition condition : this.conditions) {
             String operator = condition.getOperator();
             if (operator != null) {
-                booleanExpression += String.valueOf(condition.getVariable().getValue().getValue()) + " " + condition.getOperator();
+                booleanExpression += String.valueOf(condition.getVariable().getValueObject().getValue()) + " " + condition.getOperator();
             } else {
-                booleanExpression += String.valueOf(condition.getVariable().getValue().getValue());
+                booleanExpression += String.valueOf(condition.getVariable().getValueObject().getValue());
             }
         }
         temp = (Boolean) MVEL.eval(booleanExpression);

@@ -14,7 +14,7 @@ public class MoneyVariable extends Variable {
         this.value = new MoneyValue(value); // TODO move setting of value upstream (pass in consturctor)
     }
     @Override
-    public Value<Integer> getValue() {
+    public Value<Integer> getValueObject() {
         return value;
     }
     @Override

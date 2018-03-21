@@ -14,7 +14,7 @@ public class StringVariable extends Variable {
     }
 
     @Override
-    public Value<String> getValue() {
+    public Value<String> getValueObject() {
         return value;
     }
     @Override

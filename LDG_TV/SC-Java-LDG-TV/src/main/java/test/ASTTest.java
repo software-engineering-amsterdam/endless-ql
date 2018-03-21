@@ -71,11 +71,11 @@ public class ASTTest {
     public void StringVariableTest(){
         TestCase.assertEquals("Test initialization for string variable", stringVariable.getIdentifier(), "testStringVariable");
         TestCase.assertEquals("Test initialization for string value", stringValue.getValue(), "testStringValue");
-        TestCase.assertEquals("Test set value for string value", stringVariable.getValue(), stringValue);
+        TestCase.assertEquals("Test set value for string value", stringVariable.getValueObject(), stringValue);
     }
     @Test
     public void ArithmeticExpressionVariableTest(){
-        TestCase.assertEquals("Test set value for arithmetic expression value", arithmeticExpressionVariable.getValue(), arithmeticExpressionValue);
+        TestCase.assertEquals("Test set value for arithmetic expression value", arithmeticExpressionVariable.getValueObject(), arithmeticExpressionValue);
         TestCase.assertEquals("Test compute value for arithmetic expressions", (Integer) arithmeticExpressionValue.getValue(), (Integer) 500);
     }
 

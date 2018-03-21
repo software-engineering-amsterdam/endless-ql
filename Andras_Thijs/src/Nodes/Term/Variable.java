@@ -30,7 +30,7 @@ public class Variable extends Term {
         // Find the referenced Question.
         //TODO: Look for all VISIBLE questions.
         for(Question q : ((QLForm) node).getQuestions()) {
-            if(q.getName().equals(this.name)) {
+            if(q.isAvailable() && q.getName().equals(this.name)) {
                 // return the result (Term) of the referenced Question.
                 Term result = q.getResult();
                 if(result == null) {

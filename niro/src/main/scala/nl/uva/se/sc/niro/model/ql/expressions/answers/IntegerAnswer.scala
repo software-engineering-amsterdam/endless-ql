@@ -1,5 +1,6 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
+import nl.uva.se.sc.niro.model.ql.Operators.Operator
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.ql.expressions.MoneyArithmetics.MoneyCanDoArithmetics.{ times => moneyTimes }
@@ -9,7 +10,7 @@ final case class IntegerAnswer(value: Int) extends Answer {
 
   type T = Int
 
-  def typeOf = IntegerType
+  def typeOf: AnswerType = IntegerType
 
   def toDecAnswer = DecimalAnswer(BigDecimal(value))
 
@@ -22,28 +23,28 @@ final case class IntegerAnswer(value: Int) extends Answer {
 
   private def applyMoney(operator: Operator, that: MoneyAnswer) = {
     operator match {
-      case Mul => moneyTimes(this, that)
-      case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
+      case Operators.Mul => moneyTimes(this, that)
+      case _             => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
     }
   }
 
   def applyUnaryOperator(operator: Operator): Answer = operator match {
-    case Sub => -this
-    case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
+    case Operators.Sub => -this
+    case _             => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
   }
 
   private def applyInteger(operator: Operator, that: IntegerAnswer) = operator match {
-    case Add => this + that
-    case Sub => this - that
-    case Mul => this * that
-    case Div => this / that
-    case Lt  => this < that
-    case Lte => this <= that
-    case Gte => this >= that
-    case Gt  => this > that
-    case Ne  => this !== that
-    case Eq  => this === that
-    case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
+    case Operators.Add => this + that
+    case Operators.Sub => this - that
+    case Operators.Mul => this * that
+    case Operators.Div => this / that
+    case Operators.Lt  => this < that
+    case Operators.Lte => this <= that
+    case Operators.Gte => this >= that
+    case Operators.Gt  => this > that
+    case Operators.Ne  => this !== that
+    case Operators.Eq  => this === that
+    case _             => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
   }
 }
 

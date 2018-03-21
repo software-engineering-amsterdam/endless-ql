@@ -2,9 +2,10 @@ package nl.uva.se.sc.niro.model.ql.expressions.answers
 
 import cats.implicits._
 import nl.uva.se.sc.niro.errors.Errors
+import nl.uva.se.sc.niro.model.ql.AnswerType
+import nl.uva.se.sc.niro.model.ql.Operators.Operator
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
-import nl.uva.se.sc.niro.model.ql.{ AnswerType, Operator }
 
 abstract class Answer extends Expression {
 

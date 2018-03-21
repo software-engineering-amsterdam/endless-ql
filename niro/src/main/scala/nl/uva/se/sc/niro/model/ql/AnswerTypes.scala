@@ -2,6 +2,7 @@ package nl.uva.se.sc.niro.model.ql
 
 import cats.implicits._
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
+import nl.uva.se.sc.niro.model.ql.Operators._
 
 sealed trait AnswerType {
   def typeOf(operator: Operator): Either[TypeCheckError, AnswerType]

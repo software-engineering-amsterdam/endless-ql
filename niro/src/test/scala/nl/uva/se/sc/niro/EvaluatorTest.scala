@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro
 import nl.uva.se.sc.niro.Evaluator.Dictionary
 import nl.uva.se.sc.niro.model._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DateAnswer, DecimalAnswer, IntegerAnswer }
-import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference, UnaryOperation }
+import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql._
 import org.scalatest.WordSpec
 
@@ -31,7 +31,7 @@ class EvaluatorTest extends WordSpec {
                   "profit",
                   "You still have",
                   IntegerType,
-                  Some(BinaryOperation(Sub, Reference("revenue"), Reference("expenses"))))
+                  Some(Subtract(Reference("revenue"), Reference("expenses"))))
               ))
           )
         )
@@ -61,22 +61,21 @@ class EvaluatorTest extends WordSpec {
                   "integerConstant",
                   "Integer constant",
                   IntegerType,
-                  Some(BinaryOperation(Mul, IntegerAnswer(21), IntegerAnswer(2)))
+                  Some(Multiply(IntegerAnswer(21), IntegerAnswer(2)))
                 ),
                 Question("decimalConstant", "Decimal constant", DecimalType, Some(DecimalAnswer(42.4)))
               )
             ),
             Conditional(
-              UnaryOperation(Neg, Reference("booleanVariable")),
+              Negate(Reference("booleanVariable")),
               List(
                 Question(
                   "integerExpression",
                   "Integer expression",
                   IntegerType,
                   Some(
-                    BinaryOperation(
-                      Add,
-                      BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(1)),
+                    Addition(
+                      Addition(Reference("integerConstant"), IntegerAnswer(1)),
                       Reference("integerVariable")
                     ))
                 ),
@@ -85,9 +84,8 @@ class EvaluatorTest extends WordSpec {
                   "Decimal expression",
                   DecimalType,
                   Some(
-                    BinaryOperation(
-                      Add,
-                      BinaryOperation(Add, Reference("decimalConstant"), DecimalAnswer(1.0)),
+                    Addition(
+                      Addition(Reference("decimalConstant"), DecimalAnswer(1.0)),
                       Reference("decimalVariable")
                     ))
                 )
@@ -125,7 +123,7 @@ class EvaluatorTest extends WordSpec {
               "integerConstant",
               "Integer constant",
               IntegerType,
-              Some(BinaryOperation(Mul, IntegerAnswer(21), IntegerAnswer(2)))
+              Some(Multiply(IntegerAnswer(21), IntegerAnswer(2)))
             ),
             Question("dateConstant", "Date constant", DateType, Some(DateAnswer("1970-01-01"))),
             Question(
@@ -133,9 +131,8 @@ class EvaluatorTest extends WordSpec {
               "Integer expression",
               IntegerType,
               Some(
-                BinaryOperation(
-                  Add,
-                  BinaryOperation(Add, Reference("integerConstant"), IntegerAnswer(1)),
+                Addition(
+                  Addition(Reference("integerConstant"), IntegerAnswer(1)),
                   Reference("integerVariable")
                 ))
             ),

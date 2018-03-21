@@ -2,8 +2,8 @@ package nl.uva.se.sc.niro.gui.factory
 
 import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
-import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Expression }
-import nl.uva.se.sc.niro.model.ql.{ And, Conditional }
+import nl.uva.se.sc.niro.model.ql.Conditional
+import nl.uva.se.sc.niro.model.ql.expressions.{ And, Expression }
 
 object GUIConditionalFactory {
 
@@ -12,7 +12,7 @@ object GUIConditionalFactory {
   }
 
   private def combineConditions(visible: Expression, predicate: Expression): Expression = {
-    BinaryOperation(And, visible, predicate)
+    And(visible, predicate)
   }
 
 }

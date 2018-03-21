@@ -2,7 +2,8 @@ package org.uva.forcepushql.ast;
 
 import org.uva.forcepushql.questions.Question;
 
-public class QuestionAssignValueNode extends Node{
+public class QuestionAssignValueNode extends Node
+{
 
     private Node previous;
     private Node expression;

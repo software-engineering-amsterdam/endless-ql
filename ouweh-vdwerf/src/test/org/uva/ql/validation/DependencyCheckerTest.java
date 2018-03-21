@@ -1,6 +1,5 @@
 package org.uva.ql.validation;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.uva.app.InputHandler;
 import org.uva.ql.ast.Form;

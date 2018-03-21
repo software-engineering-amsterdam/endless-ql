@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import loader.QL.LoaderErrorListener;
 import loader.QL.QLBuilder;
 
 import java.io.*;
@@ -31,7 +32,7 @@ import java.util.*;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ToolController implements Consumer {
+public class ToolController implements Consumer, LoaderErrorListener {
 
     @FXML
     private TextArea taSourceCodeQL;
@@ -59,8 +60,9 @@ public class ToolController implements Consumer {
         this.listViews.clear();
 
         ToolBarErrorListener tbErrorListener = new ToolBarErrorListener(lblErrorField);
+        DialogErrorListener dialogErrorListener = new DialogErrorListener();
 
-        QLBuilder qlBuilder = new QLBuilder(tbErrorListener);
+        QLBuilder qlBuilder = new QLBuilder(tbErrorListener, dialogErrorListener);
         Utilities.ofEmptyString(taSourceCodeQL.getText())
                 .ifPresentOrElse(
                         qlText -> this.formNode = qlBuilder.toFormNode(qlText),
@@ -234,5 +236,10 @@ public class ToolController implements Consumer {
     @Override
     public void accept(Object event) {
         this.redrawAll();
+    }
+
+    @Override
+    public void onError(String message) {
+        this.showAlertBox(message);
     }
 }

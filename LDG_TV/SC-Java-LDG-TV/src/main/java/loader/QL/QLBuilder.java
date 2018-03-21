@@ -15,10 +15,12 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class QLBuilder {
 
-    private BaseErrorListener errorListener;
+    private final LoaderErrorListener loaderErrorListener;
+    private final BaseErrorListener errorListener;
 
-    public QLBuilder(BaseErrorListener errorListener) {
+    public QLBuilder(BaseErrorListener errorListener, LoaderErrorListener loaderErrorListener) {
         this.errorListener = errorListener;
+        this.loaderErrorListener = loaderErrorListener;
     }
 
     public FormNode toFormNode(String qlSource){
@@ -27,18 +29,13 @@ public class QLBuilder {
         FormLexer lexer = new FormLexer(stream);
 
         FormParser parser = new FormParser(new CommonTokenStream(lexer));
-
-        //parser.setErrorHandler(new BailErrorStrategy()); // TODO look at error handling
+        
         parser.addErrorListener(errorListener);
 
         FormParser.FormBuilderContext tree = parser.formBuilder();
         QLLoader loader = new QLLoader();
-        loader.addErrorListener(new LoaderErrorListener() {
-            @Override
-            public void onError(String message) {
-                System.out.println("ERRRRROR : " + message);
-            }
-        });
+        loader.addErrorListener(loaderErrorListener);
+
         ParseTreeWalker.DEFAULT.walk(loader, tree);
 
         return loader.getFormNode();

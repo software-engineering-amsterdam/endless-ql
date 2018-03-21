@@ -21,7 +21,7 @@ public abstract class SpinnerWidget<T> extends Spinner<T> implements WidgetInter
     @Override
     public void addNonComputedListener(SymbolTable symbolTable) {
         this.getValueFactory().valueProperty().addListener(e -> {
-            symbolTable.setExpression(question.name, getExpression(this, question.type));
+            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
         });
     }
 

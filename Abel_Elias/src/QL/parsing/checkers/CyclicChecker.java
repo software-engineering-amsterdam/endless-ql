@@ -33,7 +33,7 @@ public class CyclicChecker extends QLBaseVisitor{
 
     @Override
     public Object visitIdentifier(QLParser.IdentifierContext ctx) {
-        return pointerMap.get(currentQuestion).add(ctx.getText());
+        return pointerMap.get(currentQuestion).addAll(pointerMap.get(ctx.getText()));
     }
 
     @Override

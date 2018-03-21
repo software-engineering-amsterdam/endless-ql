@@ -5,12 +5,13 @@ import QL.parsing.checkers.errors.UndeclaredVarError;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VariableChecker extends QLBaseVisitor {
-    private ArrayList<String> variableList;
+    private HashMap<String, String> variableList;
 
     public VariableChecker(){
-        variableList = new ArrayList();
+        variableList = new HashMap();
     }
 
     public void checkForm(QLParser.FormContext form){
@@ -20,19 +21,21 @@ public class VariableChecker extends QLBaseVisitor {
     @Override
     public Object visitNormalQuestion(QLParser.NormalQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        checkVariableDuplication(id);
+        String type = ctx.type().getText();
+        checkVariableDuplication(id, type);
 
-        this.variableList.add(id);
+        this.variableList.put(id, type);
         return true;
     }
 
     @Override
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx){
         String id = ctx.IDENTIFIER().getText();
-        checkVariableDuplication(id);
+        String type = ctx.type().getText();
+        checkVariableDuplication(id, type);
         visit(ctx.expression());
 
-        this.variableList.add(id);
+        this.variableList.put(id, type);
         return true;
     }
 
@@ -44,10 +47,10 @@ public class VariableChecker extends QLBaseVisitor {
 
     @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
-        ArrayList<String> backtrack = new ArrayList();
-        backtrack.addAll(variableList);
-        visit(ctx.expression());
+        HashMap<String, String> backtrack = new HashMap();
+        backtrack.putAll(this.variableList);
 
+        visit(ctx.expression());
         visitBlock(ctx.ifBlock);
         if(ctx.elseBlock != null){
             visitBlock(ctx.elseBlock);
@@ -57,15 +60,15 @@ public class VariableChecker extends QLBaseVisitor {
         return true;
     }
 
-    private void checkVariableDuplication(String id) {
-        if(variableList.contains(id)){
-            throw new DuplicateVarError(id);
+    private void checkVariableExistence(String id) {
+        if(!variableList.containsKey(id)) {
+            throw new UndeclaredVarError(id);
         }
     }
 
-    private void checkVariableExistence(String id) {
-        if(!variableList.contains(id)) {
-            throw new UndeclaredVarError(id);
+    private void checkVariableDuplication(String id, String type){
+        if(variableList.containsKey(id) && !variableList.get(id).equals(type)){
+            throw new DuplicateVarError(id);
         }
     }
 }

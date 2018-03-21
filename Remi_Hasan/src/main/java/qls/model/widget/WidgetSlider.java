@@ -29,14 +29,14 @@ public class WidgetSlider extends Widget {
     }
 
     @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, List<DefaultStyle> defaultStyles) {
+    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
         switch(question.type){
             case INTEGER:
-                return visitor.visitWidgetTypeIntegerSlider(symbolTable, question, defaultStyles, (int)min, (int)max, (int)step);
+                return visitor.visitWidgetTypeIntegerSlider(symbolTable, question, qlsQuestion, defaultStyles, (int)min, (int)max, (int)step);
             case DECIMAL:
-                return visitor.visitWidgetTypeDecimalSlider(symbolTable, question, defaultStyles, min, max, step);
+                return visitor.visitWidgetTypeDecimalSlider(symbolTable, question, qlsQuestion, defaultStyles, min, max, step);
             case MONEY:
-                return visitor.visitWidgetTypeMoneySlider(symbolTable, question, defaultStyles, min, max, step);
+                return visitor.visitWidgetTypeMoneySlider(symbolTable, question, qlsQuestion, defaultStyles, min, max, step);
             default:
                 throw new UnsupportedOperationException("Unknown type for spinbox");
         }

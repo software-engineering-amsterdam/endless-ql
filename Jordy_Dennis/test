@@ -1,8 +1,5 @@
 form taxOfficeExample
 {
-  "Int a"
-    a: int
-
-  "Bool b"
+  "Int b"
   	b : bool
 }

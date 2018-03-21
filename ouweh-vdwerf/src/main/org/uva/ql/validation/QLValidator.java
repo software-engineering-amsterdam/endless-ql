@@ -49,11 +49,11 @@ public class QLValidator {
         for (Checker checker : getCheckers()) {
             result = result.merge(checker.runCheck());
 
-            if(result.hasErrors()) {
+            if (result.hasErrors()) {
                 break;
             }
 
-            if(result.hasWarnings()) {
+            if (result.hasWarnings()) {
                 System.out.println("Only some warnings, so we can still roll..");
             }
         }

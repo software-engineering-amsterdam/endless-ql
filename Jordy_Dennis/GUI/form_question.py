@@ -53,8 +53,8 @@ class Question:
         Get the widget according to the question type
     """
 
-    def createInputUser(self, questionType):
-        self.widget, self.answer = self.map.getWidget(questionType)
+    def createInputUser(self, questionType, widgetType="default", **kwargs):
+        self.widget, self.answer = self.map.getWidget(questionType, widgetType, **kwargs)
 
     """
         Getters and setters ----------------------------

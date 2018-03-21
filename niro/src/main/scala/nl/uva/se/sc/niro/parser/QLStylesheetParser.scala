@@ -1,5 +1,7 @@
 package nl.uva.se.sc.niro.parser
 
+import java.util
+
 import nl.uva.se.sc.niro.errors.Errors.Error
 import nl.uva.se.sc.niro.model.qls._
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
@@ -26,28 +28,43 @@ object QLStylesheetParser extends Logging {
   object StylesheetVisitor extends QLSBaseVisitor[QLStylesheet] {
     override def visitStylesheet(ctx: QLSParser.StylesheetContext): QLStylesheet = {
       val pages = JavaConverters.asScalaBuffer(ctx.page).map(PageVisitor.visit)
-      QLStylesheet(ctx.name.getText, pages)
+      val defaultStyles = collectDefaultStyles(ctx.defaultStyle())
+      QLStylesheet(ctx.name.getText, pages, defaultStyles)
     }
+  }
+
+  private def collectDefaultStyles(defaultStyleContexts: util.List[QLSParser.DefaultStyleContext]) = {
+    JavaConverters.asScalaBuffer(defaultStyleContexts).map(DefaultStyleVisitor.visit).fold(Map.empty)(_ ++ _)
+  }
+
+  object DefaultStyleVisitor extends QLSBaseVisitor[Map[String, WidgetType]] {
+    override def visitDefaultStyle(ctx: QLSParser.DefaultStyleContext): Map[String, WidgetType] =
+      WidgetTypeVisitor
+        .visit(ctx.style())
+        .map(widgetType => Map(ctx.questionType().getText -> widgetType))
+        .getOrElse(Map.empty)
   }
 
   object PageVisitor extends QLSBaseVisitor[Page] {
     override def visitPage(ctx: QLSParser.PageContext): Page = {
       val sections = JavaConverters.asScalaBuffer(ctx.section()).map(SectionVisitor.visit)
-      Page(ctx.name.getText, sections)
+      val defaultStyles = collectDefaultStyles(ctx.defaultStyle())
+      Page(ctx.name.getText, sections, defaultStyles)
     }
   }
 
   object SectionVisitor extends QLSBaseVisitor[Section] {
     override def visitSection(ctx: QLSParser.SectionContext): Section = {
       val questions = JavaConverters.asScalaBuffer(ctx.questionBlock().questions).map(QuestionVisitor.visit)
-      Section(ctx.name.getText, questions)
+      val defaultStyles = collectDefaultStyles(ctx.questionBlock().defaultStyle())
+      Section(ctx.name.getText, questions, defaultStyles)
     }
   }
 
   object QuestionVisitor extends QLSBaseVisitor[Question] {
     override def visitQuestion(ctx: QLSParser.QuestionContext): Question = {
-      if (ctx.widgetType == null) Question(ctx.name.getText, None)
-      else Question(ctx.name.getText, WidgetTypeVisitor.visit(ctx.widgetType()))
+      if (ctx.style() == null || ctx.style().widgetType() == null) Question(ctx.name.getText, None)
+      else Question(ctx.name.getText, WidgetTypeVisitor.visit(ctx.style().widgetType()))
     }
   }
 

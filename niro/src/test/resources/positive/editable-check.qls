@@ -2,7 +2,7 @@ stylesheet EditOrNotToEdit {
     page PageOne {
         section "Variables" {
             question stringVariable
-            question booleanVariable widget radio("Ja", "Nee")
+            question booleanVariable widget radio("Yes", "No")
             question integerVariable
             question decimalVariable
             question moneyVariable
@@ -13,10 +13,11 @@ stylesheet EditOrNotToEdit {
             question integerExpression
             question stringExpression
         }
+        default boolean widget radio("Ja", "Nee")
     }
     page PageTwo {
         section "Variables" {
-            question booleanVariable widget combo("Yes", "No")
+            question booleanVariable
             question stringVariable
         }
         section "Expressions" {
@@ -27,9 +28,11 @@ stylesheet EditOrNotToEdit {
             question booleanConstant
             question integerConstant
         }
+        default boolean widget combo("Ja", "Nee")
     }
     page PageThree {
         section "Variables" {
+            question booleanVariable
             question stringVariable
         }
         section "Constants" {
@@ -44,4 +47,5 @@ stylesheet EditOrNotToEdit {
             question dateExpression
         }
     }
+    default boolean widget combo("Yes", "No")
 }

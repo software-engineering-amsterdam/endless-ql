@@ -27,7 +27,7 @@ case class QLSGUIQuestion(
     override val label: String,
     override val isReadOnly: Boolean,
     override val visibility: Expression,
-    styling: Style
+    styling: GUIStyle
 ) extends GUIQuestion(id, answerType, label, isReadOnly, visibility, component = None)
 
 object QLSGUIQuestion {
@@ -38,8 +38,8 @@ object QLSGUIQuestion {
       question.label,
       question.isReadOnly,
       question.visibility,
-      styling = DefaultStyle())
-  def apply(question: GUIQuestion, styling: Style) =
+      styling = GUIDefaultStyle())
+  def apply(question: GUIQuestion, styling: GUIStyle) =
     new QLSGUIQuestion(
       question.id,
       question.answerType,

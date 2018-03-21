@@ -5,7 +5,7 @@ import nl.uva.se.sc.niro.model.gui._
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
 import nl.uva.se.sc.niro.model.ql.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.model.ql.{ Conditional, QLForm, Statement }
-import nl.uva.se.sc.niro.model.qls.{ Page, QLStylesheet, Question, Section }
+import nl.uva.se.sc.niro.model.qls._
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**
@@ -31,12 +31,21 @@ object GUIModelFactory {
     })
   }
 
-  def makeFrom(stylesheet: QLStylesheet): GUIStylesheet =
-    GUIStylesheet(StringUtil.addSpaceOnCaseChange(stylesheet.name), stylesheet.pages.map(make))
+  def makeFrom(stylesheet: QLStylesheet): GUIStylesheet = {
+    val defaultStyles = stylesheet.defaultStyles.mapValues(GUIStyle(_))
+    GUIStylesheet(StringUtil.addSpaceOnCaseChange(stylesheet.name), stylesheet.pages.map(make), defaultStyles)
+  }
 
-  def make(page: Page): GUIPage = GUIPage(StringUtil.addSpaceOnCaseChange(page.name), page.sections.map(make))
+  def make(page: Page): GUIPage = {
+    val defaultStyles = page.defaultStyles.mapValues(GUIStyle(_))
+    GUIPage(StringUtil.addSpaceOnCaseChange(page.name), page.sections.map(make), defaultStyles)
+  }
 
-  def make(section: Section): GUISection = GUISection(section.name, section.questions.map(make))
+  def make(section: Section): GUISection = {
+    val defaultStyles = section.defaultStyles.mapValues(GUIStyle(_))
+    GUISection(section.name, section.questions.map(make), defaultStyles)
+  }
 
-  def make(question: Question): GUIStyledQuestion = GUIStyledQuestion(question.name, Style(question.widgetType))
+  def make(question: Question): GUIStyledQuestion =
+    GUIStyledQuestion(question.name, question.widgetType.map(GUIStyle(_)))
 }

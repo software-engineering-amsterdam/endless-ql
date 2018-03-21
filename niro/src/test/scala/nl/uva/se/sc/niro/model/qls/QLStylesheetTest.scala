@@ -4,143 +4,6 @@ import org.scalatest.WordSpec
 
 class QLStylesheetTest extends WordSpec {
 
-  "stylesheet collectPageNamesWithQuestion" should {
-    "find no page for question" in {
-      val stylesheet = QLStylesheet(
-        "noMatchingQuestion",
-        Seq(
-          Page(
-            "PageOne",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("nonExisting", None)
-                ))
-            ))
-        ))
-      val expected = Seq.empty
-
-      val actual: Seq[String] = stylesheet.collectPageNamesWithQuestion("onlyTheLonely")
-
-      assert(expected == actual)
-    }
-
-    "find no pages for question" in {
-      val stylesheet = QLStylesheet(
-        "noMatchingQuestion",
-        Seq(
-          Page(
-            "PageOne",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("nonExisting", None)
-                ))
-            )),
-          Page(
-            "PageTwo",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("countMeOut", None)
-                ))
-            ))
-        )
-      )
-      val expected = Seq.empty
-
-      val actual: Seq[String] = stylesheet.collectPageNamesWithQuestion("onlyTheLonely")
-
-      assert(expected == actual)
-    }
-
-    "find single page for question" in {
-      val stylesheet = QLStylesheet(
-        "noMatchingQuestion",
-        Seq(
-          Page(
-            "PageOne",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("letsStayTogether", None)
-                ))
-            ))
-        ))
-      val expected = Seq("PageOne")
-
-      val actual = stylesheet.collectPageNamesWithQuestion("letsStayTogether")
-
-      assert(expected == actual)
-    }
-
-    "find pages for question among other pages" in {
-      val stylesheet = QLStylesheet(
-        "noMatchingQuestion",
-        Seq(
-          Page(
-            "PageOne",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("notMe", None)
-                ))
-            )),
-          Page(
-            "PageTwo",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("letsStayTogether", None)
-                ))
-            ))
-        )
-      )
-      val expected = Seq("PageTwo")
-
-      val actual = stylesheet.collectPageNamesWithQuestion("letsStayTogether")
-
-      assert(expected == actual)
-    }
-
-    "find multiple pages for question among other pages" in {
-      val stylesheet = QLStylesheet(
-        "noMatchingQuestion",
-        Seq(
-          Page(
-            "PageOne",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("letsStayTogether", None)
-                ))
-            )),
-          Page(
-            "PageTwo",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("letsStayTogether", None)
-                ))
-            ))
-        )
-      )
-      val expected = Seq("PageOne", "PageTwo")
-
-      val actual = stylesheet.collectPageNamesWithQuestion("letsStayTogether")
-
-      assert(expected == actual)
-    }
-  }
-
   "stylesheet collectAllQuestions" should {
     "find single question" in {
       val stylesheet = QLStylesheet(
@@ -153,9 +16,12 @@ class QLStylesheetTest extends WordSpec {
                 "SectionOne",
                 Seq(
                   Question("questionOne", None)
-                ))
-            ))
-        ))
+                ),
+                Map.empty)
+            ),
+            Map.empty)
+        ),
+        Map.empty)
       val expected = Seq(Question("questionOne", None))
 
       val actual = stylesheet.collectAllQuestions()
@@ -174,15 +40,19 @@ class QLStylesheetTest extends WordSpec {
                 "SectionOne",
                 Seq(
                   Question("questionOne", None)
-                )
-              ),
+                ),
+                Map.empty),
               Section(
                 "SectionTwo",
                 Seq(
                   Question("questionTwo", None)
-                ))
-            ))
-        )
+                ),
+                Map.empty)
+            ),
+            Map.empty
+          )
+        ),
+        Map.empty
       )
       val expected = Seq(Question("questionOne", None), Question("questionTwo", None))
 
@@ -203,14 +73,17 @@ class QLStylesheetTest extends WordSpec {
                 Seq(
                   Question("questionOne", None),
                   Question("questionTwo", None)
-                )),
+                ),
+                Map.empty),
               Section(
                 "SectionTwo",
                 Seq(
                   Question("questionThree", None),
                   Question("questionFour", None)
-                ))
-            )
+                ),
+                Map.empty)
+            ),
+            Map.empty
           ),
           Page(
             "PageTwo",
@@ -220,9 +93,12 @@ class QLStylesheetTest extends WordSpec {
                 Seq(
                   Question("questionFive", None),
                   Question("questionSix", None)
-                ))
-            ))
-        )
+                ),
+                Map.empty)
+            ),
+            Map.empty)
+        ),
+        Map.empty
       )
       val expected = Seq(
         Question("questionOne", None),

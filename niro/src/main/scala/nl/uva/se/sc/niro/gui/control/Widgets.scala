@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox
 import javafx.util.StringConverter
 import javafx.util.converter.LocalDateStringConverter
 import nl.uva.se.sc.niro.gui.builder.TextFormatterBuilder
-import nl.uva.se.sc.niro.gui.factory.QLWidgetFactory._
 import nl.uva.se.sc.niro.gui.listener.ValueChangedListener
 
 import scala.collection.mutable.ArrayBuffer
@@ -83,6 +82,7 @@ class QLRadioBooleanField(trueLabel: String, falseLabel: String) extends HBox wi
 }
 
 class QLDateField() extends DatePicker with QLWidget[LocalDate] {
+  val DATE_FORMAT = "yyyy-MM-dd"
   valueProperty().addListener(new ChangeListener[LocalDate] {
     override def changed(observable: ObservableValue[_ <: LocalDate], oldValue: LocalDate, newValue: LocalDate): Unit =
       valueChanged
@@ -101,6 +101,7 @@ class QLTextField() extends AbstractQLTextField[String] {
 }
 
 class QLIntegerField() extends AbstractQLTextField[java.lang.Integer] {
+  val INTEGER_MASK = "\\d*"
   private val integerFormatter =
     TextFormatterBuilder[Integer]().buildInputFilter(INTEGER_MASK).buildIntegerConverter().build()
   setTextFormatter(integerFormatter)
@@ -109,6 +110,7 @@ class QLIntegerField() extends AbstractQLTextField[java.lang.Integer] {
 }
 
 class QLDecimalField() extends AbstractQLTextField[java.math.BigDecimal] {
+  val DECIMAL_MASK = "\\d*(\\.\\d*)?"
   private val decimalFormatter =
     TextFormatterBuilder[java.math.BigDecimal]().buildInputFilter(DECIMAL_MASK).buildDecimalConverter().build()
   setTextFormatter(decimalFormatter)
@@ -117,6 +119,7 @@ class QLDecimalField() extends AbstractQLTextField[java.math.BigDecimal] {
 }
 
 class QLMoneyField() extends AbstractQLTextField[java.math.BigDecimal] {
+  val MONEY_MASK = "\\d*(\\.\\d{0,2})?"
   private val decimalFormatter =
     TextFormatterBuilder[java.math.BigDecimal]().buildInputFilter(MONEY_MASK).buildDecimalConverter().build()
   setTextFormatter(decimalFormatter)

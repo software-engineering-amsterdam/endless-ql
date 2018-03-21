@@ -3,13 +3,9 @@ package nl.uva.se.sc.niro.gui.factory
 import java.time.LocalDate
 
 import nl.uva.se.sc.niro.gui.control._
-import nl.uva.se.sc.niro.model.gui.{ ComboBox, GUIQuestion, QLSGUIQuestion, Radio }
+import nl.uva.se.sc.niro.model.gui.{ ComboBoxStyle, GUIQuestion, QLSGUIQuestion, RadioStyle }
 
 trait WidgetFactory {
-  val INTEGER_MASK = "\\d*"
-  val DECIMAL_MASK = "\\d*(\\.\\d*)?"
-  val MONEY_MASK = "\\d*(\\.\\d{0,2})?"
-  val DATE_FORMAT = "yyyy-MM-dd"
   def makeBooleanWidget(question: GUIQuestion): QLWidget[Boolean]
   def makeDateWidget(question: GUIQuestion): QLWidget[LocalDate]
   def makeStringWidget(question: GUIQuestion): QLWidget[String]
@@ -29,15 +25,11 @@ class QLWidgetFactory extends WidgetFactory {
 
 class QLSWidgetFactory extends QLWidgetFactory {
   override def makeBooleanWidget(question: GUIQuestion): QLWidget[Boolean] = question match {
-    case QLSGUIQuestion(_, _, _, _, _, _ @Some(ComboBox(trueLabel, falseLabel))) =>
+    case QLSGUIQuestion(_, _, _, _, _, _ @Some(ComboBoxStyle(trueLabel, falseLabel))) =>
       new QLComboBooleanField(trueLabel, falseLabel)
-    case QLSGUIQuestion(_, _, _, _, _, _ @Some(Radio(trueLabel, falseLabel))) =>
+    case QLSGUIQuestion(_, _, _, _, _, _ @Some(RadioStyle(trueLabel, falseLabel))) =>
       new QLRadioBooleanField(trueLabel, falseLabel)
     case _ =>
       super.makeBooleanWidget(question)
   }
 }
-
-object QLWidgetFactory extends QLWidgetFactory
-
-object QLSWidgetFactory extends QLSWidgetFactory

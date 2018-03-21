@@ -9,7 +9,7 @@ trait ComponentFactory {
   def make(question: GUIQuestion): Component[_]
 }
 
-class QLComponentFactory extends ComponentFactory {
+class QLComponentFactory(widgetFactory: WidgetFactory) extends ComponentFactory {
 
   def make(question: GUIQuestion): Component[_] = {
     val component = makeComponent(question)
@@ -21,33 +21,21 @@ class QLComponentFactory extends ComponentFactory {
   def makeComponent(question: GUIQuestion): Component[_] = {
     question.answerType match {
       case StringType =>
-        StringComponent(question.id, new Label(question.label), QLWidgetFactory.makeStringWidget(question))
+        StringComponent(question.id, new Label(question.label), widgetFactory.makeStringWidget(question))
       case BooleanType =>
-        BooleanComponent(question.id, new Label(question.label), QLWidgetFactory.makeBooleanWidget(question))
+        BooleanComponent(question.id, new Label(question.label), widgetFactory.makeBooleanWidget(question))
       case DateType =>
-        DateComponent(question.id, new Label(question.label), QLWidgetFactory.makeDateWidget(question))
+        DateComponent(question.id, new Label(question.label), widgetFactory.makeDateWidget(question))
       case IntegerType =>
-        IntegerComponent(question.id, new Label(question.label), QLWidgetFactory.makeIntegerWidget(question))
+        IntegerComponent(question.id, new Label(question.label), widgetFactory.makeIntegerWidget(question))
       case DecimalType =>
-        DecimalComponent(question.id, new Label(question.label), QLWidgetFactory.makeDecimalWidget(question))
+        DecimalComponent(question.id, new Label(question.label), widgetFactory.makeDecimalWidget(question))
       case MoneyType =>
-        MoneyComponent(question.id, new Label(question.label), QLWidgetFactory.makeMoneyWidget(question))
+        MoneyComponent(question.id, new Label(question.label), widgetFactory.makeMoneyWidget(question))
     }
   }
 }
 
-class QLSComponentFactory extends QLComponentFactory {
+object QLComponentFactory extends QLComponentFactory(new QLWidgetFactory())
 
-  override def makeComponent(question: GUIQuestion): Component[_] = {
-    question.answerType match {
-      case BooleanType =>
-        BooleanComponent(question.id, new Label(question.label), QLSWidgetFactory.makeBooleanWidget(question))
-      case _ => super.makeComponent(question)
-    }
-  }
-
-}
-
-object QLComponentFactory extends QLComponentFactory
-
-object QLSComponentFactory extends QLSComponentFactory
+object QLSComponentFactory extends QLComponentFactory(new QLSWidgetFactory())

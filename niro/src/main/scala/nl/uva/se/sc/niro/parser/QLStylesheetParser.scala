@@ -51,12 +51,12 @@ object QLStylesheetParser extends Logging {
     }
   }
 
-  object WidgetTypeVisitor extends QLSBaseVisitor[Option[QLSWidgetType]] {
-    override def visitWidgetType(ctx: QLSParser.WidgetTypeContext): Option[QLSWidgetType] = {
-      if (ctx.CHECKBOX() != null) return Some(QLSCheckBox())
-      if (ctx.SPINGBOX() != null) return Some(QLSSpinBox())
-      if (ctx.RADIO() != null) return Some(QLSRadio(ctx.trueValue.getText, ctx.falseValue.getText))
-      if (ctx.COMBO() != null) return Some(QLSComboBox(ctx.trueValue.getText, ctx.falseValue.getText))
+  object WidgetTypeVisitor extends QLSBaseVisitor[Option[WidgetType]] {
+    override def visitWidgetType(ctx: QLSParser.WidgetTypeContext): Option[WidgetType] = {
+      if (ctx.CHECKBOX() != null) return Some(CheckBox())
+      if (ctx.SPINGBOX() != null) return Some(SpinBox())
+      if (ctx.RADIO() != null) return Some(Radio(ctx.trueValue.getText, ctx.falseValue.getText))
+      if (ctx.COMBO() != null) return Some(ComboBox(ctx.trueValue.getText, ctx.falseValue.getText))
       None
     }
   }

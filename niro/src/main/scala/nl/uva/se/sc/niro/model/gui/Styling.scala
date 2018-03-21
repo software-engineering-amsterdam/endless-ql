@@ -4,18 +4,18 @@ import nl.uva.se.sc.niro.model.qls._
 
 class Styling
 
-case class Default() extends Styling
-case class SpinBox() extends Styling
-case class ComboBox(trueLabel: String, falseLabel: String) extends Styling
-case class Radio(trueLabel: String, falseLabel: String) extends Styling
+case class DefaultStyle() extends Styling
+case class SpinBoxStyle() extends Styling
+case class ComboBoxStyle(trueLabel: String, falseLabel: String) extends Styling
+case class RadioStyle(trueLabel: String, falseLabel: String) extends Styling
 
 object Styling {
-  def apply(widgetType: QLSWidgetType): Styling = {
-    widgetType match {
-      case QLSSpinBox()                       => SpinBox()
-      case QLSComboBox(trueValue, falseValue) => ComboBox(trueValue, falseValue)
-      case QLSRadio(trueValue, falseValue)    => Radio(trueValue, falseValue)
-      case _                                  => Default()
-    }
+
+  def apply(widgetType: Option[WidgetType]): Styling = widgetType.map(Styling(_)).getOrElse(DefaultStyle())
+
+  def apply(widgetType: WidgetType): Styling = widgetType match {
+    case SpinBox()                       => SpinBoxStyle()
+    case ComboBox(trueValue, falseValue) => ComboBoxStyle(trueValue, falseValue)
+    case Radio(trueValue, falseValue)    => RadioStyle(trueValue, falseValue)
   }
 }

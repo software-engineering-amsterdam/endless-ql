@@ -36,7 +36,7 @@ class QLSFormController(homeController: QLHomeController, override val form: QLF
     pagination.setPageCount(stylesheet.pages.size)
     pagination.setPadding(new Insets(00.0, 20.0, 00.0, 20.0))
 
-    pagination.setPageFactory(new PageFactory(this))
+    pagination.setPageFactory(new PageFactory(this, GUIModelFactory.makeFrom(stylesheet)))
     pagination
       .currentPageIndexProperty()
       .addListener(new ChangeListener[Number] {

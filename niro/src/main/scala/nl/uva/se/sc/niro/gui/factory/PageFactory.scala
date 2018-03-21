@@ -5,25 +5,24 @@ import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import javafx.util.Callback
 import nl.uva.se.sc.niro.gui.controller.QLSFormController
-import nl.uva.se.sc.niro.model.gui.{ GUIQuestion, QLSGUIQuestion, Styling }
-import nl.uva.se.sc.niro.model.qls.QLSWidgetType
+import nl.uva.se.sc.niro.model.gui.{ GUIQuestion, GUIStylesheet, QLSGUIQuestion, Styling }
 
 import scala.collection.JavaConverters
 import scala.collection.mutable.ArrayBuffer
 
 // TODO change parameter type (and name)
-class PageFactory(formController: QLSFormController) extends Callback[Integer, Node]() {
+class PageFactory(formController: QLSFormController, stylesheet: GUIStylesheet) extends Callback[Integer, Node]() {
   // TODO Refactor so it is not a instance variable anymore (move into method 'call')
   private val children = ArrayBuffer[Node]()
 
   override def call(pageNumber: Integer): Node = {
     children.clear()
-    val pageToShow = formController.stylesheet.pages(pageNumber)
+    val pageToShow = stylesheet.pages(pageNumber)
 
     formController.setQuestionControls(pageToShow.sections.flatMap(section => {
       children.append(new Label(s"  -- ${section.name} --  "))
       section.questions.flatMap(question => {
-        formController.getGUIForm.questions.filter(_.id == question.name).map(makeStyledComponent(_, question.widgetType))
+        formController.getGUIForm.questions.filter(_.id == question.name).map(makeStyledComponent(_, question.style))
       })
     }))
 
@@ -39,12 +38,9 @@ class PageFactory(formController: QLSFormController) extends Callback[Integer, N
     questionsOnPage
   }
 
-  def applyWidgetType(question: GUIQuestion, widgetType: Option[QLSWidgetType]): GUIQuestion = {
-    if (widgetType.isDefined) QLSGUIQuestion(question, Styling(widgetType.get)) else question
-  }
-
-  private def makeStyledComponent(question: GUIQuestion, widgetType: Option[QLSWidgetType]) = {
-    val component = QLSComponentFactory.make(applyWidgetType(question, widgetType))
+  // TODO Make this method not use 'children'
+  private def makeStyledComponent(question: GUIQuestion, style: Styling) = {
+    val component = QLSComponentFactory.make(QLSGUIQuestion(question, style))
     children.append(component)
     component
 

@@ -10,8 +10,8 @@ import java.util.Map;
 public class ValueTable {
     private final Map<String, Value> values = new HashMap<>();
 
-    public Value add(String id, Value value) {
-        return values.put(id, value);
+    public Value add(Identifier id, Value value) {
+        return values.put(id.toString(), value);
     }
 
     public Value find(Identifier id) {

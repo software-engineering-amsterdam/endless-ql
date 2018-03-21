@@ -16,7 +16,9 @@ public class Renderer {
     }
 
     private void clear() {
-
+        this.container.getChildren().removeAll(this.container.getChildren());
+        //this.tabPane.getTabs().removeAll();
+        this.messages.getChildren().removeAll(this.messages.getChildren());
     }
 
     public void draw(Iterable<Renderable> displayedComponents) {

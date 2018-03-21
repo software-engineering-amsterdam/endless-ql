@@ -41,6 +41,16 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.renderer = new Renderer(this.container, this.tabPane, this.messages);
+
+        //TODO:remove
+        String qlFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.ql";
+        String qlsFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.qls";
+
+        BaseEvaluator evaluator = new QlSEvaluator(qlFile, qlsFile);
+        this.updateInterpreter(evaluator);
+        this.collectComponentsToDraw();
+        this.drawComponents();
+
     }
 
     private void addElementToDraw(Renderable element) {

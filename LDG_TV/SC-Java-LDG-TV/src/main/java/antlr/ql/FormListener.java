@@ -138,76 +138,6 @@ public interface FormListener extends ParseTreeListener {
 	 */
 	void exitBooleanExpression(FormParser.BooleanExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FormParser#unaryBooleanExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterUnaryBooleanExpression(FormParser.UnaryBooleanExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParser#unaryBooleanExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitUnaryBooleanExpression(FormParser.UnaryBooleanExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FormParser#gtExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterGtExpression(FormParser.GtExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParser#gtExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitGtExpression(FormParser.GtExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FormParser#gteoqExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterGteoqExpression(FormParser.GteoqExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParser#gteoqExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitGteoqExpression(FormParser.GteoqExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FormParser#stExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterStExpression(FormParser.StExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParser#stExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitStExpression(FormParser.StExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FormParser#stoeqExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterStoeqExpression(FormParser.StoeqExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParser#stoeqExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitStoeqExpression(FormParser.StoeqExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FormParser#eqExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterEqExpression(FormParser.EqExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParser#eqExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitEqExpression(FormParser.EqExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FormParser#neqExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNeqExpression(FormParser.NeqExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParser#neqExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNeqExpression(FormParser.NeqExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link FormParser#arithmeticExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -218,45 +148,25 @@ public interface FormListener extends ParseTreeListener {
 	 */
 	void exitArithmeticExpression(FormParser.ArithmeticExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FormParser#mulExpression}.
+	 * Enter a parse tree produced by {@link FormParser#arithmeticExpressionOperator}.
 	 * @param ctx the parse tree
 	 */
-	void enterMulExpression(FormParser.MulExpressionContext ctx);
+	void enterArithmeticExpressionOperator(FormParser.ArithmeticExpressionOperatorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FormParser#mulExpression}.
+	 * Exit a parse tree produced by {@link FormParser#arithmeticExpressionOperator}.
 	 * @param ctx the parse tree
 	 */
-	void exitMulExpression(FormParser.MulExpressionContext ctx);
+	void exitArithmeticExpressionOperator(FormParser.ArithmeticExpressionOperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FormParser#addExpression}.
+	 * Enter a parse tree produced by {@link FormParser#booleanExpressionOperator}.
 	 * @param ctx the parse tree
 	 */
-	void enterAddExpression(FormParser.AddExpressionContext ctx);
+	void enterBooleanExpressionOperator(FormParser.BooleanExpressionOperatorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FormParser#addExpression}.
+	 * Exit a parse tree produced by {@link FormParser#booleanExpressionOperator}.
 	 * @param ctx the parse tree
 	 */
-	void exitAddExpression(FormParser.AddExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FormParser#minExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterMinExpression(FormParser.MinExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParser#minExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitMinExpression(FormParser.MinExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FormParser#divExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterDivExpression(FormParser.DivExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FormParser#divExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitDivExpression(FormParser.DivExpressionContext ctx);
+	void exitBooleanExpressionOperator(FormParser.BooleanExpressionOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FormParser#condition}.
 	 * @param ctx the parse tree

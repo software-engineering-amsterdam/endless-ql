@@ -5,7 +5,6 @@ import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
 import antlr.qls.StylesheetLexer;
 import antlr.qls.StylesheetParser;
-import domain.model.ast.IfASTNode;
 import domain.model.stylesheet.Page;
 import domain.model.stylesheet.Section;
 import domain.model.variable.Variable;

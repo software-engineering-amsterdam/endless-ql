@@ -17,9 +17,9 @@ public class BooleanExpressionValue extends Value<Boolean>{
     public Boolean getValue() {
         switch (operator) {
             case "==":
-                return (Boolean) this.leftHandOperand.getValue().getValue() ==  (Boolean) this.rightHandOperand.getValue().getValue();
+                return this.leftHandOperand.getValue().getValue() ==  this.rightHandOperand.getValue().getValue();
             case "!=":
-                return (Boolean) this.leftHandOperand.getValue().getValue() !=  (Boolean) this.rightHandOperand.getValue().getValue();
+                return this.leftHandOperand.getValue().getValue() !=  this.rightHandOperand.getValue().getValue();
             case ">":
                 return (Integer) this.leftHandOperand.getValue().getValue() >  (Integer) this.rightHandOperand.getValue().getValue();
             case "<":
@@ -31,7 +31,6 @@ public class BooleanExpressionValue extends Value<Boolean>{
         }
         return false;
     }
-    @Override
     public void setValue(Boolean value) {
         // TODO
     }

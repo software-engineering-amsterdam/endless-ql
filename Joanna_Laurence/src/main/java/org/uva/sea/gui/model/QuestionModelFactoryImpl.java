@@ -3,7 +3,7 @@ package org.uva.sea.gui.model;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class QuestionModelFactoryImpl implements QuestionModelFactory {
+public class QuestionModelFactoryImpl implements IQuestionModelFactory {
 
     @Override
     public BaseQuestionModel create(QuestionData data) {

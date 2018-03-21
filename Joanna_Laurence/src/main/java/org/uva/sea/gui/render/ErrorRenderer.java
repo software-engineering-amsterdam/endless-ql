@@ -1,6 +1,6 @@
 package org.uva.sea.gui.render;
 
-public class ErrorRenderer implements Renderable<String> {
+public class ErrorRenderer implements IRenderable<String> {
 
     private final ViewRenderer render;
 

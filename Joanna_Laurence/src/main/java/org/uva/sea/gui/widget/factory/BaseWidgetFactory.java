@@ -5,10 +5,10 @@ import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 
-public abstract class AbstractWidgetFactory {
+public abstract class BaseWidgetFactory {
 
-    public static AbstractWidgetFactory getWidgetFactory(WidgetType widgetType, FormController controller) {
-        AbstractWidgetFactory factory = null;
+    public static BaseWidgetFactory getWidgetFactory(WidgetType widgetType, FormController controller) {
+        BaseWidgetFactory factory = null;
         switch (widgetType) {
             case SLIDER:
                 factory = new SliderWidgetFactory(controller);

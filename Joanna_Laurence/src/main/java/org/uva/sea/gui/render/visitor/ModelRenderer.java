@@ -3,7 +3,7 @@ package org.uva.sea.gui.render.visitor;
 import org.uva.sea.gui.model.*;
 import org.uva.sea.gui.render.ViewRenderer;
 
-public class ModelRenderer implements QuestionModelVisitor {
+public class ModelRenderer implements IQuestionModelVisitor {
 
     private final ViewRenderer viewRenderer;
 

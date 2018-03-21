@@ -1,6 +1,6 @@
 package org.uva.sea.gui.render;
 
-public class WarningRenderer implements Renderable<String> {
+public class WarningRenderer implements IRenderable<String> {
 
     private final ViewRenderer render;
 

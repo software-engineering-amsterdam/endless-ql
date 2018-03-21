@@ -3,7 +3,7 @@ package org.uva.sea.gui.render.visitor;
 import org.uva.sea.gui.model.*;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
 
-public class TextToValueVisitor implements QuestionModelVisitor<Value> {
+public class TextToValueVisitor implements IQuestionModelVisitor<Value> {
     private final String stringValue;
 
     public TextToValueVisitor(String stringValue) {

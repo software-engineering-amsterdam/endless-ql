@@ -5,7 +5,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
+import org.uva.sea.gui.render.visitor.IQuestionModelVisitor;
 import org.uva.sea.gui.render.visitor.TextToValueVisitor;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
@@ -33,11 +33,10 @@ public class SpinnerWidget extends Widget {
 
         if (questionModel.getValue() != null) {
             System.out.println("Computed boolean value " + questionModel.displayValue());
-            ;
             initialValue = new IntValue(questionModel.displayValue()).getIntValue();
         }
 
-        SpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, initialValue);
+        SpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 50, initialValue);
 
         // Value factory.
         spinner.setValueFactory(valueFactory);
@@ -45,7 +44,7 @@ public class SpinnerWidget extends Widget {
         //TODO: remove listeners repetitions
         spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
             controller.setLastFocused(questionModel.getVariableName());
-            QuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(newValue.toString());
+            IQuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(newValue.toString());
             Value value = questionModel.accept(textToValueVisitor);
             controller.updateGuiModel(questionModel.getVariableName(), value);
         });

@@ -3,14 +3,13 @@ package org.uva.sea.gui.render;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.ModelRenderer;
-import org.uva.sea.gui.widget.factory.AbstractWidgetFactory;
+import org.uva.sea.gui.widget.factory.BaseWidgetFactory;
+
+import java.util.List;
 
 public class ViewRenderer {
 
@@ -61,7 +60,7 @@ public class ViewRenderer {
 
         wrapper.add(this.createQuestionLabel(questionModel.getLabel()), 0, 0);
 
-        AbstractWidgetFactory factory = AbstractWidgetFactory.getWidgetFactory(questionModel.getWidgetType(), controller);
+        BaseWidgetFactory factory = BaseWidgetFactory.getWidgetFactory(questionModel.getWidgetType(), controller);
 
         Control widget = factory.createWidget(questionModel);
 

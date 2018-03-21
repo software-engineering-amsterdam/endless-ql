@@ -4,7 +4,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Slider;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
+import org.uva.sea.gui.render.visitor.IQuestionModelVisitor;
 import org.uva.sea.gui.render.visitor.TextToValueVisitor;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.DecimalValue;
@@ -41,7 +41,7 @@ public class SliderWidget extends Widget {
         Slider finalSlider = slider;
         slider.valueChangingProperty().addListener((observable, oldValue, newValue) -> {
             controller.setLastFocused(questionModel.getVariableName());
-            QuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(String.valueOf(finalSlider.getValue()));
+            IQuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(String.valueOf(finalSlider.getValue()));
             Value value = questionModel.accept(textToValueVisitor);
             controller.updateGuiModel(questionModel.getVariableName(), value);
         });

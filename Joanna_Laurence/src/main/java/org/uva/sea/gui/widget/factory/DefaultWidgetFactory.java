@@ -5,7 +5,7 @@ import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.widget.factory.visitor.DefaultWidgetFromValueVisitor;
 
-public class DefaultWidgetFactory extends AbstractWidgetFactory {
+public class DefaultWidgetFactory extends BaseWidgetFactory {
 
     private final FormController controller;
 

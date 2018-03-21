@@ -3,11 +3,11 @@ package org.uva.sea.gui.widget.factory.visitor;
 import javafx.scene.control.Control;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.*;
-import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
+import org.uva.sea.gui.render.visitor.IQuestionModelVisitor;
 import org.uva.sea.gui.widget.CheckBoxWidget;
 import org.uva.sea.gui.widget.TextFieldWidget;
 
-public class DefaultWidgetFromValueVisitor implements QuestionModelVisitor<Control> {
+public class DefaultWidgetFromValueVisitor implements IQuestionModelVisitor<Control> {
 
     private final FormController controller;
 

@@ -1,5 +1,5 @@
 package org.uva.sea.gui.render;
 
-public interface Renderable<T> {
+public interface IRenderable<T> {
     void render(T data);
 }

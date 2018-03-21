@@ -3,9 +3,9 @@ package org.uva.sea.gui.widget.factory;
 import javafx.scene.control.Control;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.widget.factory.visitor.TextFieldFromValueVisitor;
+import org.uva.sea.gui.widget.TextFieldWidget;
 
-public class TextFieldWidgetFactory extends AbstractWidgetFactory {
+public class TextFieldWidgetFactory extends BaseWidgetFactory {
     final FormController controller;
 
     public TextFieldWidgetFactory(FormController controller) {
@@ -14,6 +14,6 @@ public class TextFieldWidgetFactory extends AbstractWidgetFactory {
 
     @Override
     public Control createWidget(BaseQuestionModel questionModel) {
-        return questionModel.accept(new TextFieldFromValueVisitor(this.controller));
+        return new TextFieldWidget(questionModel, controller).initialize();
     }
 }

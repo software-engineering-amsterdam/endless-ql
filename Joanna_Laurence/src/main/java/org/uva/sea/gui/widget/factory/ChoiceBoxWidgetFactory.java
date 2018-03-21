@@ -3,9 +3,9 @@ package org.uva.sea.gui.widget.factory;
 import javafx.scene.control.Control;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.widget.factory.visitor.ChoiceBoxFromValueVisitor;
+import org.uva.sea.gui.widget.ChoiceBoxWidget;
 
-public class ChoiceBoxWidgetFactory extends AbstractWidgetFactory {
+public class ChoiceBoxWidgetFactory extends BaseWidgetFactory {
     final FormController controller;
 
     public ChoiceBoxWidgetFactory(FormController controller) {
@@ -14,6 +14,6 @@ public class ChoiceBoxWidgetFactory extends AbstractWidgetFactory {
 
     @Override
     public Control createWidget(BaseQuestionModel questionModel) {
-        return questionModel.accept(new ChoiceBoxFromValueVisitor(this.controller));
+        return new ChoiceBoxWidget(questionModel, this.controller).initialize();
     }
 }

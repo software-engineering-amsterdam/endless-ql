@@ -2,7 +2,7 @@ package org.uva.sea.gui.render.visitor;
 
 import org.uva.sea.gui.model.*;
 
-public interface QuestionModelVisitor<T> {
+public interface IQuestionModelVisitor<T> {
 
     T visit(BooleanQuestionModel question);
 

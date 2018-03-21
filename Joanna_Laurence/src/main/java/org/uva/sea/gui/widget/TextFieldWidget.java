@@ -2,13 +2,11 @@ package org.uva.sea.gui.widget;
 
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Font;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
+import org.uva.sea.gui.render.visitor.IQuestionModelVisitor;
 import org.uva.sea.gui.render.visitor.TextToValueVisitor;
-import org.uva.sea.gui.widget.formatter.TextFormatterVisitor;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
@@ -31,7 +29,7 @@ public class TextFieldWidget extends Widget {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             controller.setLastFocused(questionModel.getVariableName());
             System.out.println("TextField Text Changed (newValue: " + newValue + ')');
-            QuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(newValue);
+            IQuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(newValue);
             Value value = questionModel.accept(textToValueVisitor);
             controller.updateGuiModel(questionModel.getVariableName(), value);
         });
@@ -55,8 +53,8 @@ public class TextFieldWidget extends Widget {
         }
 
         //text validation
-        TextFormatter textFormatter = questionModel.accept(new TextFormatterVisitor());
-        textField.setTextFormatter(textFormatter);
+//        TextFormatter textFormatter = questionModel.accept(new TextFormatterVisitor());
+//        textField.setTextFormatter(textFormatter);
 
         return textField;
     }

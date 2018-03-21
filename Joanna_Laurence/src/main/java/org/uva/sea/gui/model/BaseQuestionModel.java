@@ -7,7 +7,7 @@ import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.parser.NodeType;
 
-public abstract class BaseQuestionModel extends Control implements BaseQuestionGUI {
+public abstract class BaseQuestionModel extends Control implements IBaseQuestionGUI {
 
     private final String label;
     private final NodeType type;
@@ -54,5 +54,4 @@ public abstract class BaseQuestionModel extends Control implements BaseQuestionG
     public boolean isComputed() {
         return this.isComputed;
     }
-
 }

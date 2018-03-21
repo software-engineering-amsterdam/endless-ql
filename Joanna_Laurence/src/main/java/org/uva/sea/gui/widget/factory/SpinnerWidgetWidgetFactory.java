@@ -3,9 +3,9 @@ package org.uva.sea.gui.widget.factory;
 import javafx.scene.control.Control;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.widget.factory.visitor.SpinnerWidgetFromValueVisitor;
+import org.uva.sea.gui.widget.SpinnerWidget;
 
-public class SpinnerWidgetWidgetFactory extends AbstractWidgetFactory {
+public class SpinnerWidgetWidgetFactory extends BaseWidgetFactory {
     final FormController controller;
 
     public SpinnerWidgetWidgetFactory(FormController controller) {
@@ -14,6 +14,6 @@ public class SpinnerWidgetWidgetFactory extends AbstractWidgetFactory {
 
     @Override
     public Control createWidget(BaseQuestionModel questionModel) {
-        return questionModel.accept(new SpinnerWidgetFromValueVisitor(this.controller));
+        return new SpinnerWidget(questionModel, controller).initialize();
     }
 }

@@ -3,10 +3,9 @@ package org.uva.sea.gui.widget.factory;
 import javafx.scene.control.Control;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.widget.factory.visitor.CheckBoxWidgetFromValueVisitor;
-import org.uva.sea.gui.widget.factory.visitor.SliderWidgetFromValueVisitor;
+import org.uva.sea.gui.widget.CheckBoxWidget;
 
-public class CheckBoxWidgetFactory extends AbstractWidgetFactory {
+public class CheckBoxWidgetFactory extends BaseWidgetFactory {
     final FormController controller;
 
     public CheckBoxWidgetFactory(FormController controller) {
@@ -15,6 +14,6 @@ public class CheckBoxWidgetFactory extends AbstractWidgetFactory {
 
     @Override
     public Control createWidget(BaseQuestionModel questionModel) {
-        return questionModel.accept(new CheckBoxWidgetFromValueVisitor(this.controller));
+        return new CheckBoxWidget(questionModel, controller).initialize();
     }
 }

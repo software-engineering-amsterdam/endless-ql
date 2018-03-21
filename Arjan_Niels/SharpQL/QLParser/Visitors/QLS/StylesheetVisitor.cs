@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
+using System.Collections.Generic;
 using static QLSGrammar.QLSGrammarParser;
 
 namespace QLParser.Visitors.QLS
@@ -21,8 +22,8 @@ namespace QLParser.Visitors.QLS
         public override QLSNode VisitPage([NotNull] PageContext context)
         {
             string id = Util.RemoveQuotes(context.TEXT().GetText());
-            var style = VisitDefaults(context.defaults());
-            var qlsNode = new QLSNode(QLSNodeType.Page, id, style);
+            var styles = VisitDefaults(context.defaults());
+            var qlsNode = new QLSNode(QLSNodeType.Page, id, styles);
 
             foreach (SectionContext sectionContext in context.section())
                 qlsNode.AddNode(VisitSection(sectionContext));
@@ -53,7 +54,7 @@ namespace QLParser.Visitors.QLS
                 var widgetSpecificaitonVisitor = new WidgetSpecificationVisitor();
                 var specification = widgetSpecificaitonVisitor.VisitWidgetspecification(context.widgetspecification());
 
-                var qlsNode = new QLSNode(QLSNodeType.Question, id, new QLSStyle(specification));
+                var qlsNode = new QLSNode(QLSNodeType.Question, id, new List<QLSStyle>() { new QLSStyle(specification) });
                 return qlsNode;
             }
             else
@@ -70,6 +71,15 @@ namespace QLParser.Visitors.QLS
 
             var visitor = new DefaultsVisitor();
             return visitor.VisitDefaults(context);
+        }
+
+        private IList<QLSStyle> VisitDefaults(DefaultsContext[] contexts)
+        {
+            IList<QLSStyle> styles = new List<QLSStyle>();
+            foreach (var defaultContext in contexts)
+                styles.Add(VisitDefaults(defaultContext));
+
+            return styles;
         }
     }
 }

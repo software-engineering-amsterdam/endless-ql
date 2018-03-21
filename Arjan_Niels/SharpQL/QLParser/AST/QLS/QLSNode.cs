@@ -10,18 +10,19 @@ namespace QLParser.AST.QLS
         public string ID { get; private set; }
         public QLSNodeType NodeType { get; private set; }
         public IList<QLSNode> Children { get; private set; }
-        public QLSStyle NodeStyle { get; private set; }
+        public IList<QLSStyle> NodeStyles { get; private set; }
 
         public QLSNode(QLSNodeType type, string id)
         {
             this.NodeType = type;
             this.ID = id;
             this.Children = new List<QLSNode>();
+            this.NodeStyles = new List<QLSStyle>();
         }
 
-        public QLSNode(QLSNodeType type, string id, QLSStyle style) : this(type, id)
+        public QLSNode(QLSNodeType type, string id, IList<QLSStyle> styles) : this(type, id)
         {
-            this.NodeStyle = style;
+            this.NodeStyles = styles;
         }
 
         public void AddNode(QLSNode node)
@@ -39,9 +40,10 @@ namespace QLParser.AST.QLS
             foreach (QLSNode child in this.Children)
                 builder.Append(child.ToString());
 
-            if (this.NodeStyle != null)
+            if (this.NodeStyles.Count != 0)
             {
-                builder.Append("\t").Append(this.NodeStyle);
+                foreach (var style in this.NodeStyles)
+                    builder.Append("\t").Append(style);
                 builder.Append("\n");
             }
             return string.Format("{0} {1} {2}", this.NodeType, this.ID, builder);

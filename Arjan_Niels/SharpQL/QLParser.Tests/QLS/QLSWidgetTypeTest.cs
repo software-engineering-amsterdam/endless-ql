@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser;
+using QLParser.AST.Nodes;
 using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
 
@@ -28,6 +29,32 @@ namespace QL_Parser.Tests.QLS
             "   page \"FirstPage\" {" +
             "      section \"SectionOne\" {" +
             "           question hasSoldHouse widget radio(\"Yes\", \"No\", \"Maybe\")" +
+            "       }" +
+            "   }" +
+            "}";
+        private const string SimpleStyleWithDefaults = "stylesheet TestForm {" +
+            "   page \"FirstPage\" {" +
+            "      section \"SectionOne\" {" +
+            "           question hasSoldHouse widget radio(\"Yes\", \"No\", \"Maybe\")" +
+            "           default money {" +
+            "               width: 100" +
+            "               fontSize: 12.5" +
+            "           }" +
+            "       }" +
+            "   }" +
+            "}";
+
+        private const string SimpleStyleWithMultipleDefaults = "stylesheet TestForm {" +
+            "   page \"FirstPage\" {" +
+            "      section \"SectionOne\" {" +
+            "           question hasSoldHouse widget radio(\"Yes\", \"No\", \"Maybe\")" +
+            "           default money {" +
+            "               width: 100" +
+            "               fontSize: 12.5" +
+            "           }" +
+            "           default boolean {" +
+            "               color: \"green\"" +
+            "           }" +
             "       }" +
             "   }" +
             "}";
@@ -70,8 +97,8 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetType);
 
             var questionNode = qls.Children[0].Children[0].Children[0];
-            Assert.AreEqual(WidgetType.SPINNER, questionNode.NodeStyle.WidgetSpecification.WidgetType);
-            Assert.AreEqual(0, questionNode.NodeStyle.WidgetSpecification.WidgetTypeArguments.Count);
+            Assert.AreEqual(WidgetType.SPINNER, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(0, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
         }
 
         [TestMethod]
@@ -80,11 +107,33 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetTypeWithArguments);
 
             var questionNode = qls.Children[0].Children[0].Children[0];
-            Assert.AreEqual(WidgetType.RADIO, questionNode.NodeStyle.WidgetSpecification.WidgetType);
-            Assert.AreEqual(3, questionNode.NodeStyle.WidgetSpecification.WidgetTypeArguments.Count);
-            Assert.AreEqual("Yes", questionNode.NodeStyle.WidgetSpecification.WidgetTypeArguments[0]);
-            Assert.AreEqual("No", questionNode.NodeStyle.WidgetSpecification.WidgetTypeArguments[1]);
-            Assert.AreEqual("Maybe", questionNode.NodeStyle.WidgetSpecification.WidgetTypeArguments[2]);
+            Assert.AreEqual(WidgetType.RADIO, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(3, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
+            Assert.AreEqual("Yes", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[0]);
+            Assert.AreEqual("No", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[1]);
+            Assert.AreEqual("Maybe", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[2]);
+        }
+
+        [TestMethod]
+        public void DefaultStylesTest()
+        {
+            QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithDefaults);
+
+            var styles = qls.Children[0].NodeStyles;
+            Assert.AreEqual("width", styles[0].StylingValues[0].StyleProperty);
+            Assert.AreEqual(QValueType.INTEGER, styles[0].StylingValues[0].QValueType);
+
+            Assert.AreEqual("fontSize", styles[0].StylingValues[1].StyleProperty);
+            Assert.AreEqual(QValueType.DOUBLE, styles[0].StylingValues[1].QValueType);
+        }
+
+        [TestMethod]
+        public void MultipleDefaultStylesTest()
+        {
+            QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithMultipleDefaults);
+
+            var styles = qls.Children[0].NodeStyles;
+            Assert.AreEqual(2, styles.Count);
         }
     }
 }

@@ -7,6 +7,7 @@ import org.uva.sea.gui.widget.qls.*;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -35,10 +36,14 @@ public class QLSWidgetFactory {
         }
 
         try {
-            Widget newWidget = widget.getDeclaredConstructor(String.class, String.class, Style.class).newInstance(questionData.getLabel(), questionData.getQuestionName(), questionData.getStyle());
+            Widget newWidget = widget.getDeclaredConstructor(QuestionData.class).newInstance(questionData);
             newWidget.addListener(listener);
             WidgetValueUpdate widgetValueUpdate = new WidgetValueUpdate(newWidget);
-            return widgetValueUpdate.updateWidget(questionData.getValue());
+            Value questionValue = questionData.getValue();
+            if(questionValue != null)
+                widgetValueUpdate.updateWidget(questionValue);
+
+            return newWidget;
         } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
             return null;
         }

@@ -66,7 +66,7 @@ object TypeChecker extends Logging {
     val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
       typeOf(conditional.predicate, qLForm.symbolTable) match {
         case Right(BooleanType) => false
-        case _                      => true
+        case _                  => true
       }
     }
 
@@ -124,19 +124,20 @@ object TypeChecker extends Logging {
       .map(_ => qLForm)
   }
 
-  def typeOf(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = expr match {
+  private def typeOf(expr: Expression, symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = expr match {
     case Reference(questionId) => symbolTable(questionId).answerType.asRight
 
     case UnaryOperation(operator: Operator, expression) =>
-      typeOf(expression, symbolTable).flatMap(answerType => checkOperandAndOperator(operator, answerType))
+      typeOf(expression, symbolTable)
+        .flatMap(_.typeOf(operator))
 
     case BinaryOperation(operator: Operator, leftExpression, rightExpression) =>
       for {
         leftType <- typeOf(leftExpression, symbolTable)
-        leftTypeAfterOperation <- checkOperandAndOperator(operator, leftType)
+        _ <- leftType.typeOf(operator)
         rightType <- typeOf(rightExpression, symbolTable)
-        rightTypeAfterOperation <- checkOperandAndOperator(operator, rightType)
-        result <- checkLeftRight(leftTypeAfterOperation, rightTypeAfterOperation)
+        _ <- rightType.typeOf(operator)
+        result <- checkLeftRight(leftType, rightType)
       } yield result
 
     case _: IntegerAnswer => IntegerType.asRight
@@ -148,40 +149,11 @@ object TypeChecker extends Logging {
   }
 
   // TODO implement type widener
-  def checkLeftRight(leftType: AnswerType, rightType: AnswerType): Either[TypeCheckError, AnswerType] = {
+  private def checkLeftRight(leftType: AnswerType, rightType: AnswerType): Either[TypeCheckError, AnswerType] = {
     if (leftType != rightType)
       TypeCheckError(message = s"Operands of invalid type: $leftType, $rightType").asLeft
     else
       rightType.asRight
-  }
-
-  // TODO make typecheckable type class
-  private def checkOperandAndOperator(operator: Operator, operand: AnswerType): Either[TypeCheckError, AnswerType] = {
-    operator match {
-      case _: ArithmeticOperator =>
-        operand match {
-          case IntegerType => IntegerType.asRight
-          case DecimalType => DecimalType.asRight
-          case MoneyType   => MoneyType.asRight
-          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
-        }
-      case _: BooleanOperator =>
-        operand match {
-          case IntegerType => BooleanType.asRight
-          case DecimalType => BooleanType.asRight
-          case MoneyType   => BooleanType.asRight
-          case BooleanType => BooleanType.asRight
-          case DateType    => BooleanType.asRight
-          case StringType  => BooleanType.asRight
-          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
-        }
-      case _: LogicalOperator =>
-        operand match {
-          case BooleanType => BooleanType.asRight
-          case _           => TypeCheckError(message = s"Operand: $operand of invalid type to operator: $operator").asLeft
-        }
-      case _ => TypeCheckError(message = s"Operator: $operator not implemented").asLeft
-    }
   }
 
   private def checkDuplicateLabels(qLForm: QLForm): QLForm = {

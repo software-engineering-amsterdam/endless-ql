@@ -30,14 +30,14 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     public Node visitConditionalIf(GrammarParser.ConditionalIfContext context) {
         ConditionalIfNode node = new ConditionalIfNode();
 
-        node.setCondition(context.variable().accept(this));//IT IS NEEDED TO CHANGE THIS!!!
+        node.setCondition(context.ifCondition().accept(this));
         for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
             node.setOneQuestion(q.accept(this));
         }
 
-        for (GrammarParser.ConditionalElseContext c: context.conditionalElse()) {
+        for (GrammarParser.NextConditionContext c: context.nextCondition()) {
             node.setAfter(c.accept(this));
-        }//CHANGE THIS AS WELL
+        }
 
 
         return node;
@@ -46,10 +46,13 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     @Override
     public Node visitConditionalIfElse(GrammarParser.ConditionalIfElseContext context) {
         ConditionalIfElseNode node = new ConditionalIfElseNode();
-
-        node.setCondition(context.variable().accept(this));//IT IS NEEDED TO CHANGE THIS!!!
+        node.setCondition(context.ifCondition().accept(this));
         for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
             node.setOneQuestion(q.accept(this));
+        }
+
+        for (GrammarParser.NextConditionContext c: context.nextCondition()) {
+            node.setAfter(c.accept(this));
         }
 
         return node;
@@ -59,7 +62,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     public Node visitConditionalElse(GrammarParser.ConditionalElseContext context) {
         ConditionalElseNode node = new ConditionalElseNode();
 
-        node.setCondition(null);//IT IS NEEDED TO CHANGE THIS!!!
+        node.setCondition(null);
         for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
             node.setOneQuestion(q.accept(this));
         }

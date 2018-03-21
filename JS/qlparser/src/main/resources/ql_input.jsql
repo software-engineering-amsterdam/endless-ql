@@ -30,5 +30,5 @@ form taxOfficeExample {
     }
 
     "How would you rate this questionnaire?"
-    grade: decimal = 10.0d
+    grade: decimal = 10.0
 }

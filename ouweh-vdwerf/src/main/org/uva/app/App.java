@@ -25,7 +25,7 @@ public class App {
         Logger logger = Logger.getGlobal();
         LogManager.getLogManager().reset();
 
-        String input = new InputHandler().readFile("input/test/original.ql");
+        String input = new InputHandler().readFile("input/original.ql");
 //        String input = new InputHandler().getUserInput("ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);

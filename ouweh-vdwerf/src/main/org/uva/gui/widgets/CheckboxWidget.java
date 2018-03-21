@@ -12,17 +12,19 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class BooleanWidget extends QuestionWidget {
+public class CheckboxWidget extends QuestionWidget {
 
     private JCheckBox checkBox;
 
-    public BooleanWidget(Question question, Value value, boolean readOnly, Style style) {
+    public CheckboxWidget(Question question, Value value, boolean readOnly, Style style, String label) {
         super(question);
 
         this.checkBox = new JCheckBox();
         this.checkBox.setSelected(Boolean.valueOf(value.toString()));
         this.checkBox.setHorizontalAlignment(JCheckBox.CENTER);
         this.checkBox.setEnabled(readOnly);
+        this.checkBox.setText(label);
+        this.checkBox.setHorizontalTextPosition(SwingConstants.LEFT);
         this.add(checkBox, 1);
 
         for (StyleProperty property : style.getStyleProperties()) {

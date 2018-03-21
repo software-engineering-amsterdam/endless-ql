@@ -148,3 +148,4 @@ Result will be written into the `/build` folder
 - [ ] Add tests to check your syntax extensions.
 - [x] Add AST classes for the provided expression categories, and for you syntactic extensions. Make sure the parser creates objects of the appropriate type.
 - [ ] It is unacceptable that there are remnants of dead code, commented out sections, or debugging print statements etc. in the code that you will present for grading.
+- [ ] Some way of shipping the answers, exporting the result (although I couldn't find it in the assignment)

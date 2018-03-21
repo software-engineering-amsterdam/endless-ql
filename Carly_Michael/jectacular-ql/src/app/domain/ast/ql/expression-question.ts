@@ -4,33 +4,22 @@ import {QuestionType} from '../question-type';
 import {QlQuestion} from './ql-question';
 import {Location} from '../location';
 import {Expression} from './expressions/expression';
-import {ExpressionType, ExpressionTypeUtil} from './expressions/expression-type';
+import {ExpressionType} from './expressions/expression-type';
 import {CircularDependencyError} from '../../errors';
 import * as _ from 'lodash';
-import {Variable} from './expressions/variable';
 import {QuestionFactory} from '../../../factories/question-factory';
 import {EvaluateExpressionVisitor} from './visitors/evaluate-expression-visitor';
+import {StatementVisitor} from './visitors/statement-visitor';
+import {GetExpressionVariablesVisitor} from './visitors/get-expression-variables-visitor';
 
 export class ExpressionQuestion extends QlQuestion {
   constructor(name: string, label: string, type: QuestionType<any>, readonly expression: Expression, location: Location) {
     super(name, label, type, location);
   }
 
-  getVariables(): Variable[] {
-    return this.expression.getVariables();
-  }
-
-  checkType(allQuestions: QlQuestion[]): void {
-    const expressionType = this.expression.checkType(allQuestions);
-    if (! this.expressionTypeValidForQuestion(expressionType)) {
-      throw new TypeError(`Expression type ${ExpressionTypeUtil.toString(expressionType)} ` +
-        `incompatible with question type ${this.type.toString()}`
-      + this.getLocationErrorMessage());
-    }
-  }
-
   checkDependencies(): void {
-    const circularDependency = _.find(this.expression.getVariables(), ['identifier', this.name]);
+    const variables = GetExpressionVariablesVisitor.evaluate(this.expression);
+    const circularDependency = _.find(variables, ['identifier', this.name]);
     if (circularDependency) {
       throw new CircularDependencyError(`The expression of question ${this.name} references to itself`);
     }
@@ -48,5 +37,9 @@ export class ExpressionQuestion extends QlQuestion {
 
   expressionTypeValidForQuestion(expressionType: ExpressionType): boolean {
     return this.type.isCompatibleWithExpression(expressionType);
+  }
+
+  accept<T>(visitor: StatementVisitor<T>): T {
+    return visitor.visitExpressionQuestion(this);
   }
 }

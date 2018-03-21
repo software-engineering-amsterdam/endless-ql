@@ -79,3 +79,17 @@ stylesheet "taxOfficeExample"
     default boolean widget radio("Yes", "No")
   }
 }
+
+//small styling for one question
+stylesheet "Styles" {
+  page "Page" {
+    section "Section" {
+      question question1
+      default date {
+        color: #00FF00
+        width: 400
+        widget text
+      }
+    }
+  }
+}

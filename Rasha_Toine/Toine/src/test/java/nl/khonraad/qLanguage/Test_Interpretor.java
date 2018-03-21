@@ -35,7 +35,7 @@ public class Test_Interpretor {
 
         questionnaire.storeAnswer( "hasSoldHouse", Value.TRUE );
         questionnaire.visit();
-//
+        //
         questionnaire.storeAnswer( "sellingPrice", new Value( Type.Money, "100.03" ) );
         questionnaire.storeAnswer( "privateDebt", new Value( Type.Money, "25.00" ) );
         questionnaire.visit();
@@ -61,25 +61,25 @@ public class Test_Interpretor {
         s = "form x { x: \"x:\" integer (4+5)   }";
         questionnaire = new Questionnaire( s );
         questionnaire.visit();
-        
+
         assertEquals( "x", new Value( Type.Integer, "9" ), questionnaire.findComputed( "x" ).getValue() );
 
         s = "form x { x: \"x:\" boolean (True || False)   }";
         questionnaire = new Questionnaire( s );
         questionnaire.visit();
-        
+
         assertEquals( "x", Value.TRUE, questionnaire.findComputed( "x" ).getValue() );
 
         s = "form x { x: \"x:\" boolean (True == False)   }";
         questionnaire = new Questionnaire( s );
         questionnaire.visit();
-        
+
         assertEquals( "x", Value.FALSE, questionnaire.findComputed( "x" ).getValue() );
 
         s = "form x { x: \"x:\" boolean (2.50 >= (5.50 - 3.00 * 1) )   }";
         questionnaire = new Questionnaire( s );
         questionnaire.visit();
-        
+
         assertEquals( "x", Value.TRUE, questionnaire.findComputed( "x" ).getValue() );
 
     }

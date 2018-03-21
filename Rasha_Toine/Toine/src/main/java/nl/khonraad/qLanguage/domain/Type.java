@@ -12,7 +12,7 @@ public enum Type {
 
     public static Type parseType( String text ) {
 
-        for (Type type : Type.values()) {
+        for ( Type type : Type.values() ) {
 
             if ( type.text.equalsIgnoreCase( text ) ) {
                 return type;

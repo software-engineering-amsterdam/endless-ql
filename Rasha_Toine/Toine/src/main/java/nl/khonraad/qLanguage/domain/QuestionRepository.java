@@ -9,14 +9,14 @@ import nl.khonraad.qLanguage.domain.Question.BehaviouralType;
 
 public class QuestionRepository {
 
-    private List<Question> questions     = new ArrayList<Question>();
-    private Map<String, Value>    stickyAnswers = new HashMap<String, Value>();
+    private List<Question>     questions     = new ArrayList<Question>();
+    private Map<String, Value> stickyAnswers = new HashMap<String, Value>();
 
     public void forgetQuestionsRememberAnswers() {
 
         stickyAnswers.clear();
-        
-        for ( Question question : questions) {
+
+        for ( Question question : questions ) {
             if ( BehaviouralType.ANSWERABLE == question.getBehaviouralType() ) {
                 stickyAnswers.put( question.getIdentifier(), question.getValue() );
             }
@@ -25,15 +25,15 @@ public class QuestionRepository {
     }
 
     public Value storeAnswerableQuestion( String identifier, String label, Type type ) {
-        Question question = new Question( BehaviouralType.ANSWERABLE, identifier, label, 
+        Question question = new Question( BehaviouralType.ANSWERABLE, identifier, label,
                 answerSeenEarlier( identifier, type ) );
 
-        questions.add(  question );
+        questions.add( question );
         return question.getValue();
     }
 
     public Value storeComputedQuestion( String identifier, String label, Value value ) {
-        Question question = new Question( BehaviouralType.COMPUTED, identifier, label,  value );
+        Question question = new Question( BehaviouralType.COMPUTED, identifier, label, value );
 
         questions.add( question );
         return value;
@@ -41,8 +41,8 @@ public class QuestionRepository {
 
     public Question findQuestion( BehaviouralType behaviouralType, String identifier ) {
 
-        for ( Question question : questions) {
-            if ( behaviouralType == question.getBehaviouralType() && question.getIdentifier().equals( identifier )) {
+        for ( Question question : questions ) {
+            if ( behaviouralType == question.getBehaviouralType() && question.getIdentifier().equals( identifier ) ) {
                 return question;
             }
         }
@@ -71,6 +71,7 @@ public class QuestionRepository {
         }
         throw new RuntimeException( "'Constructor' not imlemented for type " + type );
     }
+
     private Value answerSeenEarlier( String identifier, Type type ) {
 
         return stickyAnswers.entrySet().stream().filter( entry -> identifier.equals( entry.getKey() ) )

@@ -138,8 +138,7 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExpression_BinaryOperator_Expression(
-            QParser.Expression_BinaryOperator_ExpressionContext ctx ) {
+    public Value visitExpression_BinaryOperator_Expression( QParser.Expression_BinaryOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );

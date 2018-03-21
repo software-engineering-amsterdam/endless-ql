@@ -1,7 +1,6 @@
 package nl.khonraad.qLanguage.domain;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -32,7 +31,7 @@ public class Questionnaire {
         questionRepository.forgetQuestionsRememberAnswers();
     };
 
-    public List<Question> getQuestionList() {
+    public Iterable<Question> getQuestionList() {
         return questionRepository.listQuestions();
     }
 

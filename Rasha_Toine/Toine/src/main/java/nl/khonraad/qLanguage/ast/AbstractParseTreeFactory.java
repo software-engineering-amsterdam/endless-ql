@@ -19,11 +19,9 @@ public abstract class AbstractParseTreeFactory {
     public static QParser parseDataForTest( String testData ) throws IOException {
         InputStream stream = new ByteArrayInputStream( testData.getBytes( StandardCharsets.UTF_8 ) );
 
-        QLexer QLexer = new QLexer(
-                CharStreams.fromStream( stream, StandardCharsets.UTF_8 ) );
+        QLexer QLexer = new QLexer( CharStreams.fromStream( stream, StandardCharsets.UTF_8 ) );
 
-        QParser QParser = new QParser(
-                new CommonTokenStream( QLexer ) );
+        QParser QParser = new QParser( new CommonTokenStream( QLexer ) );
 
         QParser.addErrorListener( new BaseErrorListener() {
             @Override

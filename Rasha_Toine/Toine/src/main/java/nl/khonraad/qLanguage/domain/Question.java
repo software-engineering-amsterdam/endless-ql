@@ -5,8 +5,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class Question {
 
-    private static final String ERROR_TYPEERROR                    = "Type error: ";
-    
+    private static final String ERROR_TYPEERROR = "Type error: ";
+
     public enum BehaviouralType {
 
         ANSWERABLE, COMPUTED;
@@ -42,8 +42,9 @@ public class Question {
     }
 
     public Value setValue( Value value ) {
-        if( this.getValue().getType() != value.getType() )
-            throw new RuntimeException( ERROR_TYPEERROR + "Question " + identifier + " expects " + this.getValue().getType() + " not " + value.getType() );
+        if ( this.getValue().getType() != value.getType() )
+            throw new RuntimeException( ERROR_TYPEERROR + "Question " + identifier + " expects "
+                    + this.getValue().getType() + " not " + value.getType() );
         this.value = value;
         return value;
     }

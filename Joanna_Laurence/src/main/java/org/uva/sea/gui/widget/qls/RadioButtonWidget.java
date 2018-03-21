@@ -1,6 +1,6 @@
 package org.uva.sea.gui.widget.qls;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Font;
 import org.uva.sea.gui.widget.Widget;
@@ -23,7 +23,7 @@ public class RadioButtonWidget extends Widget {
     }
 
     @Override
-    public Control convertToGuiNode() {
+    public Node convertToGuiNode() {
         final RadioButton radioButton = new RadioButton();
         this.setRadioStyle(radioButton, this.questionData.getStyle());
         radioButton.setFocusTraversable(false);
@@ -37,7 +37,7 @@ public class RadioButtonWidget extends Widget {
                     this.sendUpdateValueEvent(radioButton, this.questionData.getQuestionName(), new BooleanValue(newValue));
                 });
 
-        return radioButton;
+        return this.createRow(this.questionData.getLabel(), radioButton);
     }
 
     private void setRadioStyle(RadioButton radioButton, Style style) {

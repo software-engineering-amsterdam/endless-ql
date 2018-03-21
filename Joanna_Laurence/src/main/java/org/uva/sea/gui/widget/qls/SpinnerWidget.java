@@ -1,6 +1,6 @@
 package org.uva.sea.gui.widget.qls;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import org.uva.sea.gui.widget.Widget;
@@ -44,8 +44,8 @@ public class SpinnerWidget extends Widget {
     }
 
     @Override
-    public Control convertToGuiNode() {
-        if(this.widgetValue == null)
+    public Node convertToGuiNode() {
+        if (this.widgetValue == null)
             return null;
 
         final Spinner spinner = new Spinner<>();
@@ -55,8 +55,8 @@ public class SpinnerWidget extends Widget {
 
         this.widgetValue.accept(new BaseValueVisitor<Void>() {
             @Override
-            public Void visit(IntValue  node) {
-                SpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, (int)SPINNER_MAX_VALUE, node.getIntValue());
+            public Void visit(IntValue node) {
+                SpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, (int) SPINNER_MAX_VALUE, node.getIntValue());
                 spinner.setValueFactory(valueFactory);
                 return null;
             }
@@ -80,7 +80,7 @@ public class SpinnerWidget extends Widget {
             }
         });
 
-        return spinner;
+        return this.createRow(this.questionData.getLabel(), spinner);
     }
 
     private void addSpinnerStyle(Spinner spinner, Style style) {

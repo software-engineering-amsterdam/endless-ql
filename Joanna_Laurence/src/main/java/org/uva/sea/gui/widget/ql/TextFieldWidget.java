@@ -1,6 +1,6 @@
 package org.uva.sea.gui.widget.ql;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import org.uva.sea.gui.widget.Widget;
@@ -53,7 +53,7 @@ public class TextFieldWidget extends Widget {
     }
 
     @Override
-    public Control convertToGuiNode() {
+    public Node convertToGuiNode() {
 
         TextField textField = new TextField();
         this.setStyle(textField, this.questionData.getStyle());
@@ -72,7 +72,7 @@ public class TextFieldWidget extends Widget {
         });
 
         textField.positionCaret(textField.getText().length());
-        return textField;
+        return this.createRow(this.questionData.getLabel(), textField);
     }
 
     //TODO: set color from styleQLS

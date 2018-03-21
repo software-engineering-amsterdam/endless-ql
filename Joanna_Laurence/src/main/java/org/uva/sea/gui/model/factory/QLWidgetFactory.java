@@ -33,7 +33,14 @@ public class QLWidgetFactory {
         }
 
         try {
-            return widget.getDeclaredConstructor(String.class, String.class, Value.class).newInstance(questionData.getLabel(), questionData.getQuestionName(), questionData.getValue());
+            Widget newWidget = widget.getDeclaredConstructor(QuestionData.class).newInstance(questionData);
+            newWidget.addListener(listener);
+            WidgetValueUpdate widgetValueUpdate = new WidgetValueUpdate(newWidget);
+            Value questionValue = questionData.getValue();
+            if(questionValue != null)
+                widgetValueUpdate.updateWidget(questionValue);
+
+            return newWidget;
         } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
             return null;
         }

@@ -6,9 +6,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-import org.uva.sea.gui.model.QuestionModel;
 import org.uva.sea.gui.components.GuiMessage;
 import org.uva.sea.gui.components.Renderable;
+import org.uva.sea.gui.model.QuestionModel;
 import org.uva.sea.languages.BaseEvaluator;
 import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.QlSEvaluator;
@@ -25,11 +25,8 @@ import java.util.ResourceBundle;
 public class FormController implements Initializable, IGuiElementUpdateListener {
 
     private final QuestionModel formModel = new QuestionModel(this);
-
-    private Renderer renderer = null;
-
     private final Collection<Renderable> componentsToDraw = new ArrayList<>();
-
+    private Renderer renderer = null;
     @FXML
     private VBox container;
 
@@ -44,8 +41,10 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
         this.renderer = new Renderer(this.container, this.tabPane, this.messages);
 
         //TODO:remove
-        String qlFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.ql";
-        String qlsFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.qls";
+//        String qlFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.ql";
+        String qlFile = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/basic.ql";
+//        String qlsFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.qls";
+        String qlsFile = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/basic.qls";
 
         BaseEvaluator evaluator = new QlSEvaluator(qlFile, qlsFile);
         this.updateInterpreter(evaluator);
@@ -96,6 +95,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
 
     /**
      * Update the interpreter that is used
+     *
      * @param evaluator
      */
     private void updateInterpreter(BaseEvaluator evaluator) {
@@ -107,6 +107,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
     }
 
     //TODO: Why not show warnigns and errors in a pop-up? Then we do not need all these function.
+
     /**
      * Redraw the GUI
      */

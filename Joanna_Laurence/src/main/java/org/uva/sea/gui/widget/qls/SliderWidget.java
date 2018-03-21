@@ -1,6 +1,6 @@
 package org.uva.sea.gui.widget.qls;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.control.Slider;
 import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
@@ -41,7 +41,7 @@ public class SliderWidget extends Widget {
     }
 
     @Override
-    public Control convertToGuiNode() {
+    public Node convertToGuiNode() {
         final Slider slider = new Slider();
         slider.setMin(0);
         slider.setValueChanging(true);
@@ -79,7 +79,7 @@ public class SliderWidget extends Widget {
             }
         });
 
-        return slider;
+        return this.createRow(this.questionData.getLabel(), slider);
     }
 
     private void setSliderStyle(Slider slider, Style style) {

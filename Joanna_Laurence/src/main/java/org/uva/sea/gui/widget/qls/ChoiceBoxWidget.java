@@ -39,7 +39,7 @@ public class ChoiceBoxWidget extends Widget {
             this.sendUpdateValueEvent(choiceBox, this.questionData.getQuestionName(), newBooleanValue);
         });
 
-        return choiceBox;
+        return this.createRow(this.questionData.getLabel(), choiceBox);
     }
 
     private void createChoiceBox(ChoiceBox<Boolean> choiceBox, Style style) {

@@ -4,7 +4,7 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
 import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 public class ExpressionEvaluator extends BaseASTVisitor<Value> {

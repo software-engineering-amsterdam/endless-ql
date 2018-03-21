@@ -4,7 +4,7 @@ package org.uva.sea.languages.ql.parser.antlr;
 
 import org.uva.sea.languages.ql.parser.elements.*;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
 
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;

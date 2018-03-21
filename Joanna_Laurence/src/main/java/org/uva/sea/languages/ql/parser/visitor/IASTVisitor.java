@@ -2,7 +2,7 @@ package org.uva.sea.languages.ql.parser.visitor;
 
 import org.uva.sea.languages.ql.parser.elements.*;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
 import org.uva.sea.languages.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.languages.ql.parser.nodeTypes.SingleNode;
 

@@ -4,7 +4,7 @@ package org.uva.sea.languages.ql.parser.antlr;
 
 import org.uva.sea.languages.ql.parser.elements.*;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
 
 
 import org.antlr.v4.runtime.atn.*;
@@ -610,7 +610,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class ExpressionContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public OrExprContext expr;
 		public OrExprContext orExpr() {
 			return getRuleContext(OrExprContext.class,0);
@@ -654,7 +654,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class OrExprContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public AndExprContext leftHandSide;
 		public Token or;
 		public AndExprContext rightHandSide;
@@ -721,7 +721,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class AndExprContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public RelExprContext leftHandSide;
 		public Token and;
 		public RelExprContext rightHandSide;
@@ -788,7 +788,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class RelExprContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public AddExprContext leftHandSide;
 		public Token op;
 		public AddExprContext rightHandSide;
@@ -881,7 +881,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class AddExprContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public MulExprContext leftHandSide;
 		public Token op;
 		public MulExprContext rightHandSide;
@@ -962,7 +962,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class MulExprContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public UnExprContext leftHandSide;
 		public Token op;
 		public UnExprContext rightHandSide;
@@ -1043,7 +1043,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class UnExprContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public Token plus;
 		public UnExprContext x;
 		public Token minus;
@@ -1145,7 +1145,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class PrimaryContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public BoolContext bool;
 		public MoneyContext money;
 		public VariableContext variable;
@@ -1285,7 +1285,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class BoolContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public Token BOOLEAN_TRUE;
 		public Token BOOLEAN_FALSE;
 		public TerminalNode BOOLEAN_TRUE() { return getToken(QLParser.BOOLEAN_TRUE, 0); }
@@ -1347,7 +1347,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class NumContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public Token INT;
 		public TerminalNode INT() { return getToken(QLParser.INT, 0); }
 		public NumContext(ParserRuleContext parent, int invokingState) {
@@ -1389,7 +1389,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class DecContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public Token DECIMAL;
 		public TerminalNode DECIMAL() { return getToken(QLParser.DECIMAL, 0); }
 		public DecContext(ParserRuleContext parent, int invokingState) {
@@ -1431,7 +1431,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class StrContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public Token STR;
 		public TerminalNode STR() { return getToken(QLParser.STR, 0); }
 		public StrContext(ParserRuleContext parent, int invokingState) {
@@ -1473,7 +1473,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class MoneyContext extends ParserRuleContext {
-		public ASTNode result;
+		public Expression result;
 		public Token c;
 		public Token v;
 		public TerminalNode DECIMAL() { return getToken(QLParser.DECIMAL, 0); }

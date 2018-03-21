@@ -9,7 +9,7 @@ import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.elements.Question;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.Map;

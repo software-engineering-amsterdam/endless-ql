@@ -63,7 +63,6 @@ public class ToolController implements Consumer {
 
     private boolean qlsEnabled = false;
     private FormNode formNode = null;
-    private QLBuilder qlBuilder = new QLBuilder();
 
     /**
      * Invoked by the 'build' button action, to generate the questionnaire based on the written QL
@@ -73,25 +72,25 @@ public class ToolController implements Consumer {
         this.tpPages.getTabs().clear();
         this.listViews.clear();
 
-        String qlSource = taSourceCodeQL.getText();
-        if(qlSource.isEmpty()){
-            showAlertBox("Please import or add QL code");
-            return;
-        }
-
         ToolBarErrorListener tbErrorListener = new ToolBarErrorListener(lblErrorField);
 
-        this.formNode = qlBuilder.toFormNode(qlSource, tbErrorListener);
+        QLBuilder qlBuilder = new QLBuilder(tbErrorListener);
+        Utilities.ofEmptyString(taSourceCodeQL.getText())
+                .ifPresentOrElse(
+                        qlText -> this.formNode = qlBuilder.toFormNode(qlText),
+                        () -> showAlertBox("Please import or add QL code")
+                );
 
-        String qlsSource = taSourceCodeQLS.getText();
-        this.qlsEnabled = !qlsSource.isEmpty();
-        if (this.qlsEnabled){
-            Stylesheet ss = qlBuilder.toStylesheet(qlsSource, this.formNode, tbErrorListener);
-            this.formNode.setStylesheet(ss);
-            buildQLS();
-        } else {
-            buildQL();
-        }
+        Utilities.ofEmptyString(taSourceCodeQLS.getText())
+                .ifPresentOrElse(
+                        qlsText -> {
+                            Stylesheet ss = qlBuilder.toStylesheet(qlsText, this.formNode);
+                            this.formNode.setStylesheet(ss);
+                            this.qlsEnabled = true;
+                            buildQLS();
+                        },
+                        this::buildQL
+                );
 
         printInfoMessage("Build successful");
     }

@@ -12,10 +12,17 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import tool.ToolBarErrorListener;
 
 public class QLBuilder {
 
-    public FormNode toFormNode(String qlSource, BaseErrorListener errorListener){
+    private BaseErrorListener errorListener;
+
+    public QLBuilder(BaseErrorListener errorListener) {
+        this.errorListener = errorListener;
+    }
+
+    public FormNode toFormNode(String qlSource){
         // Parse input field and create AST
         CharStream stream = CharStreams.fromString(qlSource);
         FormLexer lexer = new FormLexer(stream);
@@ -32,7 +39,7 @@ public class QLBuilder {
         return loader.getFormNode();
     }
 
-    public Stylesheet toStylesheet(String qlsSource, FormNode formNode, BaseErrorListener errorListener){
+    public Stylesheet toStylesheet(String qlsSource, FormNode formNode){
         CharStream qlsStream = CharStreams.fromString(qlsSource);
         StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
 

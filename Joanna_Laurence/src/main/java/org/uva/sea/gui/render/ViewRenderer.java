@@ -62,8 +62,7 @@ public class ViewRenderer {
         wrapper.add(this.createQuestionLabel(questionModel.getLabel()), 0, 0);
 
         AbstractWidgetFactory factory = AbstractWidgetFactory.getWidgetFactory(questionModel.getWidgetType(), controller);
-//
-        //TODO: add QlsWidgetFactory
+
         Control widget = factory.createWidget(questionModel);
 
         //handle last focused widget

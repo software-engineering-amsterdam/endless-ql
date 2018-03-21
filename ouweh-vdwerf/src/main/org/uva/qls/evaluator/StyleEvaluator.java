@@ -113,7 +113,7 @@ public class StyleEvaluator {
 
     public WidgetType getWidgetType(Question question) {
         if (stylesheet != null) {
-            QuestionReference questionReference = this.context.getQuestion(question.getId());
+            QuestionReference questionReference = this.context.getQuestionReference(question);
             if (questionReference != null && questionReference.getWidget() != null) {
                 return questionReference.getWidget().getType();
             }

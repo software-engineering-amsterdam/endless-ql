@@ -46,6 +46,7 @@ export class AppComponent {
         for (const qlsQuestion of this.qlsStylesheet.getQuestions([])) {
           const qlQuestion = this.questions.find(q => q.key === qlsQuestion.question.name);
           qlQuestion.widget.type = qlsQuestion.widget.type;
+          qlQuestion.widget.labels = qlsQuestion.widget.labels;
         }
       }
 

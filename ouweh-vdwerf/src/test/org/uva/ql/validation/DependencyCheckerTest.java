@@ -1,7 +1,7 @@
 package org.uva.ql.validation;
 
 import org.junit.Test;
-import org.uva.app.InputHandler;
+import org.uva.app.IOHandler;
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.parsing.ASTBuilder;
@@ -18,7 +18,7 @@ public class DependencyCheckerTest {
     @Test
     public void runCheckTestInput() {
 
-        String input = new InputHandler().readFile("input/test/circularDependency.ql");
+        String input = new IOHandler().readFile("input/test/circularDependency.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 

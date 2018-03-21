@@ -24,7 +24,9 @@ class QLBoolean(QLType):
         return str(self.value)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value)
+        if type(other) == QLBoolean:
+            return QLBoolean(self.value == other.value)
+        return False
 
     def __ne__(self, other):
         return QLBoolean(self.value != other.value)

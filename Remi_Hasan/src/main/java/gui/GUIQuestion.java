@@ -10,6 +10,7 @@ import ql.model.Question;
 import qls.model.DefaultStyle;
 import qls.model.style.StyleAttribute;
 import qls.model.widget.Widget;
+import qls.model.widget.WidgetDefault;
 import qls.model.widget.WidgetType;
 
 import java.util.List;
@@ -26,11 +27,11 @@ public class GUIQuestion extends VBox implements WidgetVisitor<Node> {
             widget = qlsWidget.createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
         } else{
             // If no default widget is specified in QLS, use the default widget for question type
-            WidgetType widgetType = getWidgetTypeForQuestion(defaultStyles, question);
-            widget = widgetType.createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
+            Widget defaultWidget = getWidgetForQuestion(defaultStyles, question);
+            widget = defaultWidget.createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
         }
 
-        Label label = new Label(question.text);
+        Label label = new Label(question.label);
         label.managedProperty().bind(widget.managedProperty());
         label.visibleProperty().bind(widget.visibleProperty());
         this.getChildren().add(label);
@@ -149,15 +150,16 @@ public class GUIQuestion extends VBox implements WidgetVisitor<Node> {
         return checkboxWidget;
     }
 
-    private WidgetType getWidgetTypeForQuestion(List<DefaultStyle> defaultStyles, Question question) {
+    private Widget getWidgetForQuestion(List<DefaultStyle> defaultStyles, Question question) {
         WidgetType widgetType = WidgetType.valueOf(question.type.toString());
+        Widget widget = new WidgetDefault(null, widgetType);
         for (DefaultStyle defaultStyle : defaultStyles) {
             if (defaultStyle.type.equals(question.type) && defaultStyle.getWidget() != null) {
                 // Get the last one because that is the most local one
-                widgetType = defaultStyle.getWidget().type;
+                widget = defaultStyle.getWidget();
             }
         }
-        return widgetType;
+        return widget;
     }
 
     private void setDefaultStyles(List<DefaultStyle> defaultStyles, Question question, WidgetInterface widget) {

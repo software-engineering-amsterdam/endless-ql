@@ -69,6 +69,11 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
     }
 
     @Override
+    public T visit(WidgetDatePicker widget) {
+        return null;
+    }
+
+    @Override
     public T visit(WidgetCheckBox widget) {
         return null;
     }

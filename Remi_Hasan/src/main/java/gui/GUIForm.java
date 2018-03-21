@@ -4,12 +4,13 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
 import ql.model.Question;
+import ql.model.expression.ReturnType;
+import ql.model.expression.variable.ExpressionVariableUndefined;
 import qls.model.DefaultStyle;
 import qls.model.Page;
 import qls.model.Section;
@@ -46,9 +47,15 @@ public class GUIForm extends VBox {
         }
 
         this.getChildren().add(tabPane);
+        this.setPrefHeight(640);
+        this.setPrefWidth(480);
 
         // Scale tab pane to window size
         VBox.setVgrow(tabPane, Priority.ALWAYS);
+
+        // TODO refactor
+        // Re-evaluation
+        symbolTable.setExpression("dummy", new ExpressionVariableUndefined(null, null));
     }
 
     private VBox createSectionGUI(SymbolTable symbolTable, Form form, List<DefaultStyle> defaultStyles, Section section) {
@@ -71,11 +78,11 @@ public class GUIForm extends VBox {
     }
 
     private Node createQuestionGUI(SymbolTable symbolTable, Form form, List<DefaultStyle> defaultStyles, qls.model.Question qlsQuestion) {
-        Optional<Question> qlQuestion = form.questions.stream().filter(x -> x.name.equals(qlsQuestion.name)).findFirst();
+        Optional<Question> qlQuestion = form.questions.stream().filter(x -> x.identifier.equals(qlsQuestion.name)).findFirst();
         if (qlQuestion.isPresent()) {
             return new GUIQuestion(symbolTable, qlQuestion.get(), qlsQuestion, defaultStyles);
         } else {
-            throw new UnsupportedOperationException("Question with name'" + qlsQuestion.name + "' could not be found");
+            throw new UnsupportedOperationException("Question with identifier'" + qlsQuestion.name + "' could not be found");
         }
     }
 }

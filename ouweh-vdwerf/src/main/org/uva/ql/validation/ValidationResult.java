@@ -1,6 +1,5 @@
 package org.uva.ql.validation;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +18,11 @@ public class ValidationResult {
         this.warnings = warnings;
     }
 
-    public void addWarning(String warning){
+    public void addWarning(String warning) {
         warnings.add(warning);
     }
 
-    public void addError(String error){
+    public void addError(String error) {
         errors.add(error);
     }
 

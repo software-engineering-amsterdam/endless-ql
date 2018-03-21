@@ -3,7 +3,6 @@ package Application;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import QL.ParseObjectsQL.QuestionMap;
 import QL.QLVisitor.ExpressionTable;
 import QL.ParseObjectsQL.Question;
 import QL.ParseObjectsQL.Form;
@@ -15,7 +14,6 @@ import QLS.ParseObjectQLS.Widgets.Widget;
 import QLS.QLSAntlrGen.QLSLexer;
 import QLS.QLSAntlrGen.QLSParser;
 import QLS.QLSVisitor.StylesheetVisitor;
-import org.antlr.v4.gui.Trees; //for debug printing
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 

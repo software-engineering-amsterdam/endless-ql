@@ -9,8 +9,8 @@ import { QlsParserPipeline, QlsParserResult } from "./modules/styling/parsing/Ql
 import StyledForm from "./modules/styling/form/StyledForm";
 import PagedFormState from "./modules/styling/form/PagedFormState";
 import { StyledFormContainer } from "./modules/styling/rendering/components/styled_form_container/StyledFormContainer";
-import Question from "./form/nodes/fields/Question";
 import QuestionForm from "./form/QuestionForm";
+import PageNode from "./modules/styling/form/nodes/containers/PageNode";
 
 export interface AppComponentProps {
 }
@@ -33,14 +33,15 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
       parserError: null
     };
 
-    this.onChange = this.onChange.bind(this);
+    this.onChangeAnswer = this.onChangeAnswer.bind(this);
+    this.onChangePage = this.onChangePage.bind(this);
   }
 
   componentDidMount() {
-    this.onChangeQuestionnaire(require("!raw-loader!./mock/sample.ql.txt"));
+    this.onChangeQlSource(require("!raw-loader!./mock/sample.ql.txt"));
   }
 
-  onChangeQuestionnaire(text: string) {
+  onChangeQlSource(text: string) {
     try {
       const parseResult: QlsParserResult = (new QlsParserPipeline(text, this.state.qlsInput)).run();
 
@@ -68,13 +69,23 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     return this.state.form.getState();
   }
 
-  onChange(identifier: string, value: any) {
+  onChangeAnswer(identifier: string, value: any) {
     if (!this.state.form) {
       return;
     }
 
     this.setState({
       form: this.state.form.setAnswer(identifier, value)
+    });
+  }
+
+  onChangePage(nextPage: PageNode) {
+    if (!this.state.form) {
+      return;
+    }
+
+    this.setState({
+      form: this.state.form.setActivePage(nextPage)
     });
   }
 
@@ -99,7 +110,8 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
     return (
         <StyledFormContainer
-            onChange={this.onChange}
+            onChange={this.onChangeAnswer}
+            onChangePage={this.onChangePage}
             form={this.state.form}
             visibleFields={VisibleFieldsVisitor.run(this.state.form)}
         />
@@ -125,7 +137,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
                   valid={!this.state.parserError}
                   type="textarea"
                   value={this.state.qlInput}
-                  onChange={e => this.onChangeQuestionnaire(e.target.value)}
+                  onChange={e => this.onChangeQlSource(e.target.value)}
                   name="ql_input"
               />
             </div>

@@ -1,9 +1,9 @@
 import {ExpressionType} from './expression-type';
-import {Expression, LiteralType} from './expression';
+import {Expression} from './expression';
 import {Location} from '../../location';
 import {QlQuestion} from '../ql-question';
-import {FormGroup} from '@angular/forms';
 import {BinaryExpression} from './binary-expression';
+import {ExpressionVisitor} from '../visitors/expression-visitor';
 
 export abstract class ComparisonExpression extends BinaryExpression {
   constructor(left: Expression, right: Expression, location: Location) {
@@ -21,8 +21,6 @@ export abstract class ComparisonExpression extends BinaryExpression {
       );
     }
   }
-
-  abstract evaluate(form: FormGroup): LiteralType;
 }
 
 export class GreaterThanExpression extends ComparisonExpression {
@@ -30,8 +28,8 @@ export class GreaterThanExpression extends ComparisonExpression {
     super(left, right, location);
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return this.left.evaluate(form) > this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitGreaterThanExpression(this);
   }
 }
 
@@ -40,8 +38,8 @@ export class GreaterThanEqualExpression extends ComparisonExpression {
     super(left, right, location);
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return this.left.evaluate(form) >= this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitGreaterThanEqualExpression(this);
   }
 }
 
@@ -50,8 +48,8 @@ export class LessThanExpression extends ComparisonExpression {
     super(left, right, location);
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return this.left.evaluate(form) < this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitLessThanExpression(this);
   }
 }
 
@@ -60,8 +58,8 @@ export class LessThanEqualExpression extends ComparisonExpression {
     super(left, right, location);
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return this.left.evaluate(form) <= this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitLessThanEqualExpression(this);
   }
 }
 

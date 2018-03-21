@@ -16,6 +16,10 @@ public class Style extends TreeNode {
         this.widget = widget;
     }
 
+    public List<StyleProperty> getStyleProperties() {
+        return styleProperties;
+    }
+
     public Widget getWidget() {
         return widget;
     }

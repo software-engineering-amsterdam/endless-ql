@@ -7,6 +7,10 @@ import org.uva.ql.ast.type.MoneyType;
 import org.uva.ql.ast.type.StringType;
 import org.uva.qls.ast.Segment.*;
 import org.uva.qls.ast.Style.Style;
+import org.uva.qls.ast.Style.StyleProperty.*;
+import org.uva.qls.ast.Value.ColorValue;
+import org.uva.qls.ast.Value.NumberValue;
+import org.uva.qls.ast.Value.StringValue;
 import org.uva.qls.ast.Widget.WidgetTypes.CheckboxType;
 import org.uva.qls.ast.Widget.WidgetTypes.TextType;
 import org.uva.qls.ast.Widget.WidgetTypes.WidgetType;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 public class StyleEvaluator {
 
@@ -31,9 +36,13 @@ public class StyleEvaluator {
     private Map<String, JPanel> sections = new HashMap<>();
     private List<String> visibleSections = new ArrayList<>();
 
+    private Style defaultStyle;
+
     public StyleEvaluator() {
         setDefaultWidgetTypes();
         setDefaultSection();
+        setDefaultStyle();
+
     }
 
     public void setStylesheet(Stylesheet stylesheet) {
@@ -94,8 +103,13 @@ public class StyleEvaluator {
         return null;
     }
 
+    public Style getStyle(Question question) {
+        return getStyle(this.getQuestionReference(question));
+    }
+
     public Style getStyle(QuestionReference questionReference) {
-        return new Style(null, null);
+
+        return this.defaultStyle;
     }
 
     public WidgetType getWidgetType(Question question) {
@@ -143,6 +157,15 @@ public class StyleEvaluator {
 
     private void setDefaultSection() {
 
+    }
+
+    private void setDefaultStyle() {
+        List<StyleProperty> properties = new ArrayList<>();
+        properties.add(new ColorProperty(new ColorValue("")));
+        properties.add(new FontProperty(new StringValue("")));
+        properties.add(new FontSizeProperty(new NumberValue("")));
+        properties.add(new WidthProperty(new NumberValue("")));
+        this.defaultStyle = new Style(properties, null);
     }
 
 }

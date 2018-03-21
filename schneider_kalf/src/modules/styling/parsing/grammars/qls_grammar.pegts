@@ -105,11 +105,11 @@ style
 
 // Style values
 styleValues
- = numberLiteral / stringLiteral / color
+ = numberLiteral / stringLiteral / colorLiteral / booleanLiteral
 
 // Preliminary color code
 // TODO: make hexadecimal
-color
+colorLiteral
  = _ code:(["#"][0-9]+){
     return "#".concat(code[1].join(""))
 }
@@ -159,8 +159,6 @@ escapeSequence
 
 // Supported types
 type = "boolean" / "money" / "date" / "integer" / "float" / "text"
-
-value = booleanLiteral / identifier / numberLiteral / stringLiteral
 
 // Single line comments
 comment = "//" (![\n] .)*

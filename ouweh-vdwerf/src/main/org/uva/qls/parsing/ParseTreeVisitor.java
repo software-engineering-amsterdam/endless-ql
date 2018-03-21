@@ -8,8 +8,7 @@ import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.ast.Segment.*;
 import org.uva.qls.ast.Style.Style;
-import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
-import org.uva.qls.ast.Style.StyleProperty.StylePropertyStatement;
+import org.uva.qls.ast.Style.StyleProperty.*;
 import org.uva.qls.ast.Value.ColorValue;
 import org.uva.qls.ast.Value.NumberValue;
 import org.uva.qls.ast.Value.StringValue;
@@ -174,8 +173,23 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Object visitStyleProperty(QLSParser.StylePropertyContext ctx) {
-        return new StylePropertyStatement(ctx.property.getText(), (Value) visit(ctx.value()));
+    public Object visitFontSizeProperty(QLSParser.FontSizePropertyContext ctx) {
+        return new FontSizeProperty((NumberValue) visit(ctx.NUMBER()));
+    }
+
+    @Override
+    public Object visitFontProperty(QLSParser.FontPropertyContext ctx) {
+        return new FontProperty((StringValue) visit(ctx.STRING()));
+    }
+
+    @Override
+    public Object visitWidthProperty(QLSParser.WidthPropertyContext ctx) {
+        return new WidthProperty((NumberValue) visit(ctx.NUMBER()));
+    }
+
+    @Override
+    public Object visitColorProperty(QLSParser.ColorPropertyContext ctx) {
+        return new ColorProperty((ColorValue) visit(ctx.COLOR()));
     }
 
     @Override

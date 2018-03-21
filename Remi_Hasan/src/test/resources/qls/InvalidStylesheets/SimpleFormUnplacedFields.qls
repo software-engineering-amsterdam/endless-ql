@@ -1,0 +1,13 @@
+stylesheet simpleForm
+{
+  page Page1
+  {
+    section "All Questions but someInteger and someBoolean"
+    {
+      question someDecimal
+      question someDate
+      question someMoney
+      question someString
+    }
+  }
+}

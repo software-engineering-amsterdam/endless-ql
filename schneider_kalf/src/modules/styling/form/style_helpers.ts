@@ -4,8 +4,7 @@ import StyleFilterVisitor from "./visitors/StyleFilterVisitor";
 import WidgetAttribute from "./nodes/attributes/WidgetAttribute";
 import QuestionStyle from "./nodes/children/QuestionStyle";
 
-// TODO: Rename to getDefaultStyleNodes
-export const getDefaults = (container: StyleTreeNode): DefaultStyle[] => {
+export const getDefaultStyleNodes = (container: StyleTreeNode): DefaultStyle[] => {
   const visitor = new StyleFilterVisitor({
     includeQuestions: false,
     includeDefaults: true,

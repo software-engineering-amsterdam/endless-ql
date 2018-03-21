@@ -10,7 +10,6 @@ class OutputFrame(QtWidgets.QFrame):
         super(OutputFrame, self).__init__()
         self.frame_layout = QtWidgets.QVBoxLayout()
         self.setLayout(self.frame_layout)
-        # self.row = 0
 
         self.questionIDs = questionIDs  # Ordered list of question IDs.
         self.questions = questions  # Dictionary with question objects as values, and question IDs as keys
@@ -50,18 +49,20 @@ class OutputFrame(QtWidgets.QFrame):
             question_frame = question.create_frame()
             self.add_question(question_frame)
 
-    def check_duplicate_question_strings(self):
-        question_list = []
-        # Compiles a list of all question strings
-        for ID in self.questionIDs:
-            question = self.questions[ID]
-            question_list.append(question.question)
-
-        duplicates = set([duplicate for duplicate in question_list if question_list.count(duplicate) > 1])
-        if len(duplicates) > 0:
-            warning_string = "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
-            self.frame_layout.addWidget(QtWidgets.QLabel(warning_string))
-            # return "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
+    # def check_duplicate_question_strings(self):
+    #     question_list = []
+    #     warning_string = None
+    #     # Compiles a list of all question strings
+    #     for ID in self.questionIDs:
+    #         question = self.questions[ID]
+    #         question_list.append(question.question)
+    #
+    #     duplicates = set([duplicate for duplicate in question_list if question_list.count(duplicate) > 1])
+    #     if len(duplicates) > 0:
+    #         warning_string = "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
+    #         self.frame_layout.addWidget(QtWidgets.QLabel(warning_string))
+    #         # return "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
+    #     return warning_string
 
     def check_cyclic_ifs(self):
         pass  # todo: check cyclic ifs

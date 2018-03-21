@@ -9,6 +9,7 @@ from .form_question import Question
 from .form_scroll_frame import ScrollFrameGui
 from .form_question import Question
 import copy
+import QLS
 
 class Section():
 
@@ -25,6 +26,8 @@ class Section():
         text.insert(INSERT, page_header, 'header_conf')
         text.config(state=DISABLED)
         text.pack(anchor=NW, expand=True, fill="both")
+        self.text = text
+        self.scrollFrame = scrollFrame
         self.headerFrame = headerFrame
         self.questions = []
 
@@ -33,6 +36,14 @@ class Section():
     """
     def show(self):
         self.frame.lift()
+
+
+    def hideSection(self):
+        self.scrollFrame.canvas.pack_forget()
+
+    def showSection(self):
+        self.scrollFrame.canvas.pack(expand=True, fill='both')
+
 
     """
         Place the frame inside parent frame
@@ -43,20 +54,34 @@ class Section():
     """
         Add a question from the question generator
     """
-    def addQuestion(self, questionGenerator, varName, questionText, questionType, value):
-        q = Question(self.contents, questionGenerator, varName, questionText, questionType, value)
-        print("ADDDD QUESTION")
+    def addQuestion(self, questionGenerator, varName, questionText, questionType, value, defaults=None):
+        width = 200
+        color = 'black'
+        font = 'Arial'
+        fontSize = '15'
+        if defaults:
+            print("YOU HAVE GOT TO ADD DEFAULTS")
+            for attribute in defaults.attributes:
+                print(type(attribute))
+                if type(attribute) == QLS.StyleWidth:
+                    print("HELLO")
+                    width = attribute.getWidth()
+                elif type(attribute) == QLS.StyleFont:
+                    font = attribute.getFont()
+                elif type(attribute) == QLS.StyleFontSize:
+                    fontSize = attribute.getFontSize()
+                elif type(attribute) == QLS.StyleColor:
+                    color = attribute.getColor()
+
+        q = Question(self.contents, questionGenerator, varName, questionText, questionType, value, width=width, fontType=font, fontSize=fontSize, color=color)
         self.questions.append(q)
 
 
-    def insertQuestion(self, prev, questionGenerator, varName, questionText, questionType, value):
-        print("INSERT QUESTION")
+    def insertQuestion(self, prev, questionGenerator, varName, questionText, questionType, value, defaults=None):
         tmpQuestions = copy.copy(self.questions)
         #first question
-        print("PREV",prev)
         if prev == "":
-            print("HIERRR")
-            self.addQuestion(questionGenerator, varName, questionText, questionType, value)
+            self.addQuestion(questionGenerator, varName, questionText, questionType, value, defaults)
         else:
             for question in self.questions:
                 if question.getVarName() == prev:
@@ -70,7 +95,7 @@ class Section():
                 # print("QUESTION THAT HAS TO BE DELETED:", question.getVarName())
                 self.removeQuestion(question.getVarName())
             # insert question
-            self.addQuestion(questionGenerator, varName, questionText, questionType, value)
+            self.addQuestion(questionGenerator, varName, questionText, questionType, value, defaults)
 
 
             # restore old questions
@@ -79,7 +104,7 @@ class Section():
                 tmpQuestionText = question.questionText
                 tmpQuestionType = question.questionType
                 tmpValue = question.value
-                self.addQuestion(questionGenerator, tmpVarName, tmpQuestionText, tmpQuestionType, tmpValue)
+                self.addQuestion(questionGenerator, tmpVarName, tmpQuestionText, tmpQuestionType, tmpValue, defaults)
 
     """
         Remove a question if it exists in our questions

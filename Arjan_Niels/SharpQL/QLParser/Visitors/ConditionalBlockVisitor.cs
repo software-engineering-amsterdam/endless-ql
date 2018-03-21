@@ -1,14 +1,15 @@
 ﻿using Antlr4.Runtime.Misc;
-using QLanguage;
+using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.Nodes;
 using QLParser.Visitors.ExpressionVisitors;
+using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.Visitors
 {
-    public class ConditionalBlockVisitor : QLanguage.QLanguageBaseVisitor<ConditionalNode>
+    public class ConditionalBlockVisitor : QLGrammarBaseVisitor<ConditionalNode>
     {
-        public override ConditionalNode VisitConditionalBlock([NotNull] QLanguageParser.ConditionalBlockContext context)
+        public override ConditionalNode VisitConditionalBlock([NotNull] ConditionalBlockContext context)
         {
             // Process the statements and add them to the conditionalBlock.
             var logicalExpressionVisitor = new LogicalExpressionVisitor();

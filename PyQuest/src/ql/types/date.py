@@ -13,6 +13,9 @@ class QLDate(QLType):
     def __repr__(self):
         return '{}-{}-{}'.format(self.day, self.month, self.year)
 
+    def __str__(self):
+        return '{}-{}-{}'.format(self.day, self.month, self.year)
+
     def __eq__(self, other):
         return QLBoolean(self.day == other.day and self.month == other.month and self.year == other.year)
 

@@ -1,6 +1,7 @@
 ﻿using QLParser;
 using QLParser.Analysis;
 using QLParser.AST.Nodes;
+using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Factories;
 using System;
@@ -20,10 +21,11 @@ namespace QLVisualizer.Controllers
             return new Tuple<string[], FormManager>(new string[0], formManager);
         }
 
-        public string ParseQLS(string rawQLS)
+        public Tuple<string[], FormManager> ParseQLS(string rawQLS, FormManager form, ElementManagerController elementManagerController)
         {
-            // TODO: to be implemented
-            return "";
+            QLSNode qlsNode = QLSParserHelper.Parse(rawQLS);
+            form = ElementManagerFactory.ApplyQLS(form, qlsNode, elementManagerController);
+            return new Tuple<string[], FormManager>(new string[0], form);
         }
     }
 }

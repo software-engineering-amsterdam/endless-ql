@@ -19,7 +19,8 @@ public class FormNode extends Node{
         this.questions = questions;
     }
 
-    public void setOneQuestion(Node question){
+    public void setOneQuestion(Node question)
+    {
         if (question != null)
             questions.add(question);
     }

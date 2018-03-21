@@ -11,25 +11,14 @@ import nl.uva.se.sc.niro.model.ql._
 class PageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet)
     extends Callback[Integer, Node]() {
 
-  // TODO REFACTOR!!!!!!!!!!
-  val defaultStyles: Map[String, GUIStyle] = Map(
-    "string" -> GUIDefaultStyle(),
-    "boolean" -> GUIDefaultStyle(),
-    "date" -> GUIDefaultStyle(),
-    "integer" -> GUIDefaultStyle(),
-    "decimal" -> GUIDefaultStyle(),
-    "money" -> GUIDefaultStyle()
+  val defaultStyles: Map[AnswerType, GUIStyle] = Map(
+    StringType -> GUIDefaultStyle(),
+    BooleanType -> GUIDefaultStyle(),
+    DateType -> GUIDefaultStyle(),
+    IntegerType -> GUIDefaultStyle(),
+    DecimalType -> GUIDefaultStyle(),
+    MoneyType -> GUIDefaultStyle()
   )
-
-  // TODO Move to better place
-  def bla(question: GUIQuestion): String = question.answerType match {
-    case BooleanType => "boolean"
-    case DateType    => "date"
-    case StringType  => "string"
-    case IntegerType => "integer"
-    case DecimalType => "decimal"
-    case MoneyType   => "money"
-  }
 
   override def call(pageNumber: Integer): Node = {
     val page = new VBox()
@@ -45,7 +34,7 @@ class PageFactory(formController: QLSFormController, form: GUIForm, stylesheet: 
         form
           .collectQuestionOnName(styledQuestion.name)
           .map(question => {
-            val styleToUse = styledQuestion.style.getOrElse(defaultSectionStyles(bla(question)))
+            val styleToUse = styledQuestion.style.getOrElse(defaultSectionStyles(question.answerType))
             val component = QLSComponentFactory(formController).make(QLSGUIQuestion(question, styleToUse))
             question.component = Some(component)
             page.getChildren.add(component)

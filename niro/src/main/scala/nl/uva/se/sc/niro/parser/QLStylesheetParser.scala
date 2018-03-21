@@ -3,6 +3,7 @@ package nl.uva.se.sc.niro.parser
 import java.util
 
 import nl.uva.se.sc.niro.errors.Errors.Error
+import nl.uva.se.sc.niro.model.ql.AnswerType
 import nl.uva.se.sc.niro.model.qls._
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
 import org.apache.logging.log4j.scala.Logging
@@ -37,11 +38,11 @@ object QLStylesheetParser extends Logging {
     JavaConverters.asScalaBuffer(defaultStyleContexts).map(DefaultStyleVisitor.visit).fold(Map.empty)(_ ++ _)
   }
 
-  object DefaultStyleVisitor extends QLSBaseVisitor[Map[String, WidgetType]] {
-    override def visitDefaultStyle(ctx: QLSParser.DefaultStyleContext): Map[String, WidgetType] =
+  object DefaultStyleVisitor extends QLSBaseVisitor[Map[AnswerType, WidgetType]] {
+    override def visitDefaultStyle(ctx: QLSParser.DefaultStyleContext): Map[AnswerType, WidgetType] =
       WidgetTypeVisitor
         .visit(ctx.style())
-        .map(widgetType => Map(ctx.questionType().getText -> widgetType))
+        .map(widgetType => Map(AnswerType(ctx.questionType().getText) -> widgetType))
         .getOrElse(Map.empty)
   }
 

@@ -3,13 +3,14 @@ package nl.uva.se.sc.niro.model.gui
 /**
   * Model used by the frontend
   */
+import nl.uva.se.sc.niro.model.ql.AnswerType
 import nl.uva.se.sc.niro.model.qls.{ ComboBox, Radio, SpinBox, WidgetType }
 
-case class GUIStylesheet(name: String, pages: Seq[GUIPage], defaultStyles: Map[String, GUIStyle])
+case class GUIStylesheet(name: String, pages: Seq[GUIPage], defaultStyles: Map[AnswerType, GUIStyle])
 
-case class GUIPage(name: String, sections: Seq[GUISection], defaultStyles: Map[String, GUIStyle])
+case class GUIPage(name: String, sections: Seq[GUISection], defaultStyles: Map[AnswerType, GUIStyle])
 
-case class GUISection(name: String, questions: Seq[GUIStyledQuestion], defaultStyles: Map[String, GUIStyle])
+case class GUISection(name: String, questions: Seq[GUIStyledQuestion], defaultStyles: Map[AnswerType, GUIStyle])
 
 case class GUIStyledQuestion(name: String, style: Option[GUIStyle])
 

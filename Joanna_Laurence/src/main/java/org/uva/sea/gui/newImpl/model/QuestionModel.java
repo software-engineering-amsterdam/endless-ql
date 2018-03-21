@@ -1,5 +1,6 @@
 package org.uva.sea.gui.newImpl.model;
 
+import org.uva.sea.gui.newImpl.IGuiElementUpdateListener;
 import org.uva.sea.gui.newImpl.components.GuiMessage;
 import org.uva.sea.gui.newImpl.components.Renderable;
 import org.uva.sea.gui.newImpl.model.factory.WidgetFactory;
@@ -16,8 +17,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class QuestionModel {
+    private IGuiElementUpdateListener questionValueUpdateListener;
     private BaseEvaluator interpreter = null;
     private WidgetFactory widgetFactory = new WidgetFactory();
+
+    public QuestionModel(IGuiElementUpdateListener questionValueUpdateListener) {
+        this.questionValueUpdateListener = questionValueUpdateListener;
+    }
 
     public void setInterpreter(BaseEvaluator interpreter) {
         this.interpreter = interpreter;
@@ -39,14 +45,14 @@ public class QuestionModel {
                 guiElements.add(this.createWidget(questionData));
 
         } catch (InterruptedException | IOException e) {
-            guiElements.add(new GuiMessage("Warning: Error: " + e.getMessage()));
+            guiElements.add(new GuiMessage("Error: " + e.getMessage()));
         }
 
         return guiElements;
     }
 
     private Widget createWidget(QuestionData questionData) {
-        return this.widgetFactory.createWidget(questionData);
+        return this.widgetFactory.createWidget(questionData, this.questionValueUpdateListener);
     }
 
     public void setVariable(String identifier, Value value) {

@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 
 public class FormController implements Initializable, IGuiElementUpdateListener {
 
-    private final QuestionModel formModel = new QuestionModel();
+    private final QuestionModel formModel = new QuestionModel(this);
 
     private Renderer renderer = null;
 
@@ -60,6 +60,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
 
     @FXML
     public void loadQLFile(ActionEvent actionEvent) {
+        this.componentsToDraw.clear();
         String qlFile = this.getFileSelector("Load QL file", "ql");
         if (qlFile != null) {
             BaseEvaluator evaluator = new QlEvaluator(qlFile);
@@ -71,6 +72,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
 
     @FXML
     public void loadQLSFile(ActionEvent actionEvent) {
+        this.componentsToDraw.clear();
         String qlFile = this.getFileSelector("Load QL file", "ql");
         String qlsFile = this.getFileSelector("Load QLS file", "qls");
         if ((qlFile != null) && (qlsFile != null)) {
@@ -86,7 +88,6 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
      * @param evaluator
      */
     private void updateInterpreter(BaseEvaluator evaluator) {
-        this.componentsToDraw.clear();
         this.formModel.setInterpreter(evaluator);
     }
 
@@ -94,6 +95,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
         this.componentsToDraw.addAll(this.formModel.getQuestionRenders());
     }
 
+    //TODO: Why not show warnigns and errors in a pop-up? Then we do not need all these function.
     /**
      * Redraw the GUI
      */

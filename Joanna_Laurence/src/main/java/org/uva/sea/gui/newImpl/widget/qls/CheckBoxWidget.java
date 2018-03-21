@@ -32,7 +32,7 @@ public class CheckBoxWidget extends Widget {
             this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newIsFocused));
         });
 
-        return this.createRenderRow(this.questionData.getLabel(), checkBox);
+        return this.createRow(this.questionData.getLabel(), checkBox);
     }
 
     private CheckBox applyCheckboxStyle(CheckBox checkBox, Style style) {

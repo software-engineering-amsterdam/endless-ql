@@ -8,7 +8,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import org.uva.sea.gui.newImpl.widget.Widget;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
 
 public abstract class Renderable {
 
@@ -21,23 +21,22 @@ public abstract class Renderable {
 
     public abstract void render(VBox container, TabPane tabPane, VBox messages);
 
-    protected Node createRenderRow(String label, Control widget) {
+    protected Node createRow(String label, Control widget) {
         GridPane wrapper = new GridPane();
         wrapper.getColumnConstraints().add(new ColumnConstraints(Renderable.COLUMN));
         wrapper.getRowConstraints().add(new RowConstraints(Renderable.ROW));
-        wrapper.add(this.createRenderLabel(label), 0, 0);
+        wrapper.add(this.createLabel(label), 0, 0);
         wrapper.add(widget, 1, 0);
         return wrapper;
     }
 
-    private Label createRenderLabel(String string) {
+    private Label createLabel(String string) {
         Label label = new Label(string.replace("\"", ""));
         label.setWrapText(true);
         return label;
     }
 
-
-    protected Node createMessageRow(String message) {
+    protected Node createTextRow(String message) {
         GridPane wrapper = new GridPane();
 
         wrapper.getColumnConstraints().add(new ColumnConstraints(Renderable.MESSAGE_ROW));
@@ -48,5 +47,29 @@ public abstract class Renderable {
         wrapper.add(label, 0, 0);
 
         return wrapper;
+    }
+
+    public boolean updateValue(BooleanValue booleanValue) {
+        return false;
+    }
+
+    public boolean updateValue(DateValue booleanValue) {
+        return false;
+    }
+
+    public boolean updateValue(DecimalValue booleanValue) {
+        return false;
+    }
+
+    public boolean updateValue(IntValue booleanValue) {
+        return false;
+    }
+
+    public boolean updateValue(MoneyValue booleanValue) {
+        return false;
+    }
+
+    public boolean updateValue(StringValue booleanValue) {
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 package org.uva.sea.gui.newImpl.model.factory;
 
+import org.uva.sea.gui.newImpl.IGuiElementUpdateListener;
 import org.uva.sea.gui.newImpl.widget.Widget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
@@ -22,7 +23,7 @@ public class QLWidgetFactory {
         this.widgetTypeClassEnumMap.put(NodeType.DATE, TextWidget.class);
     }
 
-    public Widget createWidget(NodeType nodeType, QuestionData questionData) {
+    public Widget createWidget(NodeType nodeType, QuestionData questionData, IGuiElementUpdateListener listener) {
 
         Class<? extends Widget> widget = this.widgetTypeClassEnumMap.get(nodeType);
         if(widget == null) {

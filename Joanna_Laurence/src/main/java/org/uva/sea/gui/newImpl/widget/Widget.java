@@ -21,11 +21,11 @@ public abstract class Widget extends Renderable {
 
     protected QuestionData questionData;
 
+    private List<IGuiElementUpdateListener> listeners = new ArrayList<>();
+
     public Widget(QuestionData questionData) {
         this.questionData = questionData;
     }
-
-    private List<IGuiElementUpdateListener> listeners = new ArrayList<>();
 
     public void addListener(IGuiElementUpdateListener listener) {
         this.listeners.add(listener);
@@ -42,29 +42,4 @@ public abstract class Widget extends Renderable {
     }
 
     public abstract Node convertToGuiNode();
-
-
-    public boolean updateValue(BooleanValue booleanValue) {
-        return false;
-    }
-
-    public boolean updateValue(DateValue booleanValue) {
-        return false;
-    }
-
-    public boolean updateValue(DecimalValue booleanValue) {
-        return false;
-    }
-
-    public boolean updateValue(IntValue booleanValue) {
-        return false;
-    }
-
-    public boolean updateValue(MoneyValue booleanValue) {
-        return false;
-    }
-
-    public boolean updateValue(StringValue booleanValue) {
-        return false;
-    }
 }

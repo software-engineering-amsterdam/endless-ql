@@ -13,7 +13,6 @@ public class Question extends ASTNode {
     private Type type;
     public Expression expression; //TODO: TESTING PURPOSES, THIS SHOULD BE PRIVATE!!!
 
-    private boolean isDisplayed = false;
     private Term result;
 
     /**

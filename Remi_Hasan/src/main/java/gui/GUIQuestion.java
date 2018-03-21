@@ -10,6 +10,7 @@ import ql.model.Question;
 import qls.model.DefaultStyle;
 import qls.model.style.StyleAttribute;
 import qls.model.widget.Widget;
+import qls.model.widget.WidgetDefault;
 import qls.model.widget.WidgetType;
 
 import java.util.List;
@@ -26,8 +27,9 @@ public class GUIQuestion extends VBox implements WidgetVisitor<Node> {
             widget = qlsWidget.createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
         } else{
             // If no default widget is specified in QLS, use the default widget for question type
-            WidgetType widgetType = getWidgetTypeForQuestion(defaultStyles, question);
-            widget = widgetType.createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
+//            WidgetType widgetType = getWidgetTypeForQuestion(defaultStyles, question);
+//            widget = widgetType.createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
+            widget = new WidgetDefault(null, WidgetType.DEFAULT).createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
         }
 
         Label label = new Label(question.text);

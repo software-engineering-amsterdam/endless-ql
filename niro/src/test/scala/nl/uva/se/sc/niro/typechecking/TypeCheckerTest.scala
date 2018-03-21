@@ -132,7 +132,7 @@ class TypeCheckerTest extends WordSpec {
           List(
             TypeCheckError(
               "TypeCheckError",
-              "Non boolean predicate: List(Conditional(BinaryOperation(Mul,IntegerAnswer(5),IntegerAnswer(1)),List()))"
+              "Non boolean predicate: List(Conditional(Multiply(IntegerAnswer(5),IntegerAnswer(1)),List()))"
             )
           )
         ))

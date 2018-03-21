@@ -75,7 +75,7 @@ public class GUIForm extends VBox {
     private Node createQuestionGUI(SymbolTable symbolTable, Form form, List<DefaultStyle> defaultStyles, qls.model.Question qlsQuestion) {
         Optional<Question> qlQuestion = form.questions.stream().filter(x -> x.name.equals(qlsQuestion.name)).findFirst();
         if (qlQuestion.isPresent()) {
-            return new GUIQuestion(symbolTable, defaultStyles, qlQuestion.get());
+            return new GUIQuestion(symbolTable, qlQuestion.get(), qlsQuestion, defaultStyles);
         } else {
             throw new UnsupportedOperationException("Question with name'" + qlsQuestion.name + "' could not be found");
         }

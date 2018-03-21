@@ -3,7 +3,8 @@ grammar QL;
 head            : FORM IDENTIFIER block EOF;
 block           : '{' statement+ '}';
 statement       : condition | question;
-condition       : IF '(' expression ')' block;
+condition       : IF '(' expression ')' trueBlock = block
+                | IF '(' expression ')' trueBlock = block ELSE falseBlock = block;
 question        : IDENTIFIER ':' STRING questionType;
 
 questionType    : type | type '=' expression;
@@ -47,6 +48,7 @@ NOT             : '!';
 // Terms
 FORM            : 'form';
 IF              : 'if';
+ELSE            : 'else';
 BOOLEANTYPE     : 'boolean';
 STRINGTYPE      : 'string';
 MONEYTYPE       : 'money';

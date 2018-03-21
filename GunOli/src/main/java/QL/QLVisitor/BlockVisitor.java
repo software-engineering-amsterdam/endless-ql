@@ -35,21 +35,20 @@ public class BlockVisitor extends QLBaseVisitor<Block> {
     @Override
     public Block visitBlock(QLParser.BlockContext ctx){
         QuestionVisitor questionVisitor = new QuestionVisitor(expressionTable, condition);
-        ConditionVisitor conditionVisitor = new ConditionVisitor(expressionTable);
+        ConditionVisitor conditionVisitor = new ConditionVisitor(expressionTable, condition);
 
         ArrayList<Question> questions = new ArrayList<Question>();
-        ArrayList<Condition> conditions = new ArrayList<Condition>();
+        //ArrayList<Condition> conditions = new ArrayList<Condition>(); // not needed?
         for(QLParser.StatementContext statementCtx : ctx.statement()){
             if (statementCtx.question() != null) {
                 Question question = questionVisitor.visitQuestion(statementCtx.question());
                 questions.add(question);
             }  else if(statementCtx.condition() != null) {
-                Condition condition = conditionVisitor.visitCondition(statementCtx.condition());
-                conditions.add(condition);
-                questions.addAll(condition.getBlock().getQuestions());
+                ArrayList<Question> conditionQuestions = conditionVisitor.visitCondition(statementCtx.condition());
+                questions.addAll(conditionQuestions);
             }
         }
-        return new Block(questions, conditions);
+        return new Block(questions);
     }
 }
 

@@ -8,6 +8,7 @@ import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 public class IntegerWidget extends QuestionWidget {
@@ -31,5 +32,18 @@ public class IntegerWidget extends QuestionWidget {
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
         textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question, new IntegerValue(Integer.parseInt(textField.getText()))));
+    }
+
+    @Override
+    public void setFont(String font) {
+        super.setFont(font);
+        textField.setFont(this.questionLabel.getFont());
+    }
+
+    @Override
+    public void setFontSize(int fontSize) {
+        super.setFontSize(fontSize);
+        Font newFont = textField.getFont().deriveFont((float)fontSize);
+        textField.setFont(newFont);
     }
 }

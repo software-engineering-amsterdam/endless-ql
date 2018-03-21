@@ -22,13 +22,8 @@ export default class StyledForm implements Form {
     return this.baseForm.getName();
   }
 
-  getFields(): FieldNode[] {
-    return filterNodes(
-        (node) => {
-          return node instanceof StyledFieldNode;
-        },
-        this.baseForm.getRootNode()
-    );
+  getFields(): StyledFieldNode[] {
+    return filterNodes(node => node instanceof StyledFieldNode, this.baseForm.getRootNode());
   }
 
   getState(): PagedFormState {
@@ -79,5 +74,9 @@ export default class StyledForm implements Form {
 
   getPages(): PageNode[] {
     return this.stylesheetNode.getPages();
+  }
+
+  getField(identifier: string): StyledFieldNode | undefined {
+    return this.getFields().find(field => field.identifier === identifier);
   }
 }

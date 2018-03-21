@@ -15,4 +15,12 @@ export default class BaseAttribute extends AbstractStyleNode implements StyleAtt
   accept(visitor: StyleNodeVisitor): any {
     return visitor.visitBaseAttribute(this);
   }
+
+  getName(): string {
+    return this.name;
+  }
+
+  getStringValue(): string {
+    return this.value;
+  }
 }

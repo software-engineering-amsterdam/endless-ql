@@ -8,7 +8,9 @@ import expression.visitor.evaluation.TypeVisitor
 import expression.visitor.reference.ReferenceCollector
 import expression.visitor.reference.ReferenceVisitor
 
-class BinaryExpression(val left: Expression, val right: Expression, val operation: BinaryOperation) : Expression {
+class BinaryExpression(
+        val left: Expression, val right: Expression, val operation: BinaryOperation, sourceLocation: SourceLocation
+) : Expression(sourceLocation) {
 
     override fun accept(visitor: EvaluationVisitor): BaseSymbolValue {
         return visitor.visit(this)

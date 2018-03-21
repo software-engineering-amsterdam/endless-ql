@@ -13,6 +13,6 @@ public class FontProperty extends StyleProperty {
 
     @Override
     public void apply(QuestionWidget widget) {
-
+        widget.setFont(stringValue.getValue());
     }
 }

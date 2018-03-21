@@ -52,10 +52,6 @@ public class QLValidator {
             if (result.hasErrors()) {
                 break;
             }
-
-            if (result.hasWarnings()) {
-                System.out.println("Only some warnings, so we can still roll..");
-            }
         }
 
         return result;

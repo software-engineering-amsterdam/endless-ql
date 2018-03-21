@@ -33,9 +33,6 @@ class QLMoney(QLType):
             return QLBoolean(self.value == other.value and self.currency == other.currency)
         return False
 
-    def __ne__(self, other):
-        return QLBoolean(self.value != other.value or self.currency != other.currency)
-
     def __lt__(self, other):
         return QLBoolean(self.value < other.value and self.currency == other.currency)
 

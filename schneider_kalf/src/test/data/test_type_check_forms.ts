@@ -1,7 +1,7 @@
 import FormNode from "../../form/nodes/FormNode";
 import IfCondition from "../../form/nodes/conditions/IfCondition";
 import BooleanLiteral from "../../form/nodes/literals/BooleanLiteral";
-import Question from "../../form/nodes/fields/Question";
+import QuestionNode from "../../form/nodes/fields/QuestionNode";
 import { FieldType } from "../../form/FieldType";
 import NumberLiteral from "../../form/nodes/literals/NumberLiteral";
 

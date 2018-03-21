@@ -4,7 +4,7 @@ import FormState from "../../state/FormState";
 import FieldVisitor from "../visitors/FieldVisitor";
 import AbstractTreeNode from "../AbstractTreeNode";
 
-export default class Question extends AbstractTreeNode implements Field {
+export default class QuestionNode extends AbstractTreeNode implements Field {
   readonly label: string;
   readonly identifier: string;
   readonly type: FieldType;

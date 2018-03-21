@@ -1,10 +1,10 @@
 import StyleTreeNode from "./nodes/StyleTreeNode";
 import StyleAttribute from "./nodes/StyleAttribute";
-import { getDefaults } from "./style_helpers";
+import { getDefaultStyleNodes } from "./style_helpers";
 import QuestionStyle from "./nodes/children/QuestionStyle";
 import styleConstants from "../config/styleConstants";
 
-export class QuestionStyles {
+export default class MergedFieldStyle {
   private styles: Map<string, StyleAttribute>;
   private identifier: string;
 
@@ -14,7 +14,7 @@ export class QuestionStyles {
   }
 
   inheritStyleFrom(node: StyleTreeNode) {
-    let defaultNodes = getDefaults(node);
+    let defaultNodes = getDefaultStyleNodes(node);
     defaultNodes.reverse().forEach(defaultNode => {
       defaultNode.children.forEach(styleAttribute => {
         this.styles.set(styleAttribute.name, styleAttribute);

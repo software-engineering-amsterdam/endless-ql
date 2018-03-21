@@ -4,7 +4,7 @@ import Multiplication from "../form/nodes/expressions/arithmetic/Multiplication"
 import Equals from "../form/nodes/expressions/comparisons/Equals";
 import FormNode from "../form/nodes/FormNode";
 import EvaluationVisitor from "../form/evaluation/EvaluationVisitor";
-import Question from "../form/nodes/fields/Question";
+import QuestionNode from "../form/nodes/fields/QuestionNode";
 import Variable from "../form/nodes/expressions/VariableIdentifier";
 import BooleanLiteral from "../form/nodes/literals/BooleanLiteral";
 import IfCondition from "../form/nodes/conditions/IfCondition";

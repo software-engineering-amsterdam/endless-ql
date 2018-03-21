@@ -1,5 +1,5 @@
 import FormNode from './FormNode';
-import Question from './fields/Question';
+import QuestionNode from './fields/QuestionNode';
 import IfCondition from './conditions/IfCondition';
 import Addition from './expressions/arithmetic/Addition';
 import Division from './expressions/arithmetic/Division';

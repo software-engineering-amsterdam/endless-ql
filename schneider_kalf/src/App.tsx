@@ -9,7 +9,6 @@ import { QlsParserPipeline, QlsParserResult } from "./modules/styling/parsing/Ql
 import StyledForm from "./modules/styling/form/StyledForm";
 import PagedFormState from "./modules/styling/form/PagedFormState";
 import { StyledFormContainer } from "./modules/styling/rendering/components/styled_form_container/StyledFormContainer";
-import Question from "./form/nodes/fields/Question";
 import QuestionForm from "./form/QuestionForm";
 
 export interface AppComponentProps {

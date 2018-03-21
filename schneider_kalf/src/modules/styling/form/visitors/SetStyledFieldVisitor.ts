@@ -1,5 +1,5 @@
 import FieldVisitor from "../../../../form/nodes/visitors/FieldVisitor";
-import Question from "../../../../form/nodes/fields/Question";
+import QuestionNode from "../../../../form/nodes/fields/QuestionNode";
 import ComputedField from "../../../../form/nodes/fields/ComputedField";
 import IfCondition from "../../../../form/nodes/conditions/IfCondition";
 import FormNode from "../../../../form/nodes/FormNode";
@@ -8,17 +8,17 @@ import { isFieldNode } from "../../../../form/form_helpers";
 import StyledFieldNode from "../StyledFieldNode";
 import FieldNode from "../../../../form/nodes/fields/FieldNode";
 import Statement from "../../../../form/nodes/Statement";
-import { QuestionStyles } from "../QuestionStyles";
+import MergedFieldStyle from "../MergedFieldStyle";
 import { getQuestionStyleNodes } from "../style_helpers";
 import QuestionStyle from "../nodes/children/QuestionStyle";
 import FieldNodeDecorator from "../../../../form/nodes/fields/FieldNodeDecorator";
 
 export default class SetStyledFieldVisitor implements FieldVisitor {
-  private readonly styles: QuestionStyles[];
+  private readonly styles: MergedFieldStyle[];
   private readonly styleNode: Stylesheet;
   private readonly questionStyleNodes: QuestionStyle[];
 
-  constructor(styles: QuestionStyles[], styleNode: StyleSheet) {
+  constructor(styles: MergedFieldStyle[], styleNode: StyleSheet) {
     this.styles = styles;
     this.styleNode = styleNode;
     this.questionStyleNodes = getQuestionStyleNodes(styleNode, true);
@@ -60,11 +60,11 @@ export default class SetStyledFieldVisitor implements FieldVisitor {
     return new StyledFieldNode(field, mergedFieldStyle, fieldStyleNode);
   }
 
-  private findFieldStyleOrDefault(identifier: string): QuestionStyles {
-    const found: QuestionStyles | undefined = this.styles.find(style => style.getIdentifier() === identifier);
+  private findFieldStyleOrDefault(identifier: string): MergedFieldStyle {
+    const found: MergedFieldStyle | undefined = this.styles.find(style => style.getIdentifier() === identifier);
 
     if (!found) {
-      return new QuestionStyles(identifier);
+      return new MergedFieldStyle(identifier);
     }
 
     return found;

@@ -6,4 +6,4 @@ case class GUIPage(name: String, sections: Seq[GUISection])
 
 case class GUISection(name: String, questionStyles: Seq[GUIStyledQuestion])
 
-case class GUIStyledQuestion(name: String, style: Styling)
+case class GUIStyledQuestion(name: String, style: Style)

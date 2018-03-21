@@ -38,5 +38,5 @@ object GUIModelFactory {
 
   def make(section: Section): GUISection = GUISection(section.name, section.questions.map(make))
 
-  def make(question: Question): GUIStyledQuestion = GUIStyledQuestion(question.name, Styling(question.widgetType))
+  def make(question: Question): GUIStyledQuestion = GUIStyledQuestion(question.name, Style(question.widgetType))
 }

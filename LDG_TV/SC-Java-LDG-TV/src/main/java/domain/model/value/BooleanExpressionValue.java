@@ -2,12 +2,13 @@ package domain.model.value;
 
 import domain.model.variable.Variable;
 
-public class BooleanExpressionValue extends Value<Boolean>{
+public class BooleanExpressionValue extends BooleanValue{
 
     private Variable leftHandOperand;
     private Variable rightHandOperand;
     private String operator;
     public BooleanExpressionValue(Variable leftHandOperand, Variable rightHandOperand, String operator){
+        super(false);
         this.leftHandOperand = leftHandOperand;
         this.rightHandOperand = rightHandOperand;
         this.operator = operator;

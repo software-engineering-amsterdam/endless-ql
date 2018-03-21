@@ -37,20 +37,20 @@ public class UIVisitor implements Visitor {
     }
 
     @Override
-    public Node visit(ArithmeticExpressionValue ev) {
-        Label lbl = new Label();
-        lbl.setText(ev.getValue().toString());
-        return lbl;
-    }
-
-    @Override
     public Node visit(MoneyVariable mv) {
-        TextField tf = new TextField(mv.getValueObject().toString());
-        JavaFxObservable
-                .valuesOf(tf.textProperty())
-                .filter(Utilities::isNumeric)
-                .map(Integer::valueOf)
-                .subscribe(mv.getValueObject());
-        return tf;
+        System.out.println(mv.getValueObject().getClass());
+        if (mv.getValueObject() instanceof ArithmeticExpressionValue){
+            Label lbl = new Label();
+            lbl.setText(mv.getValueObject().getValue().toString());
+            return lbl;
+        }else {
+            TextField tf = new TextField(String.valueOf(mv.getValueObject().getValue()));
+            JavaFxObservable
+                    .valuesOf(tf.textProperty())
+                    .filter(Utilities::isNumeric)
+                    .map(Integer::valueOf)
+                    .subscribe(mv.getValueObject());
+            return tf;
+        }
     }
 }

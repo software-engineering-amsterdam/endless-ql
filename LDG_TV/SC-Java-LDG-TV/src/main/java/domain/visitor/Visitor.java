@@ -11,5 +11,4 @@ public interface Visitor {
     Node visit(BooleanVariable bv);
     Node visit(StringVariable sv);
     Node visit(MoneyVariable mv);
-    Node visit(ArithmeticExpressionValue ev);
 }

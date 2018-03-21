@@ -13,7 +13,7 @@ public class BooleanVariable extends Variable {
     private UIElement uiElement;
     public BooleanVariable(String identifier, boolean value) {
         super(identifier);
-        this.value = new BooleanValue(value); // TODO move setting of value upstream (pass in consturctor)
+        this.value = new BooleanValue(value);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class BooleanVariable extends Variable {
     }
 
     @Override
-    public void setValue(BooleanExpressionValue value){this.value = value;}
+    public void setValue(BooleanValue value){this.value = value;}
 
     @Override
     public void setUiElement(UIElement uiElement) {

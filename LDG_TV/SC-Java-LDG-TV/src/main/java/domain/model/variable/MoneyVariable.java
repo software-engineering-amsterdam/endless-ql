@@ -12,7 +12,7 @@ public class MoneyVariable extends Variable {
     private UIElement uiElement;
     public MoneyVariable(String identifier, int value) {
         super(identifier);
-        this.value = new MoneyValue(value); // TODO move setting of value upstream (pass in consturctor)
+        this.value = new MoneyValue(value);
     }
     @Override
     public Value<Integer> getValueObject() {

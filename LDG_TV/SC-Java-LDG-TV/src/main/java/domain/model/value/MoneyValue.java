@@ -16,9 +16,4 @@ public class MoneyValue extends Value<Integer> {
     public void accept(Integer integer) throws Exception {
         this.value = integer;
     }
-
-    @Override
-    public String toString() {
-        return value.toString();
-    }
 }

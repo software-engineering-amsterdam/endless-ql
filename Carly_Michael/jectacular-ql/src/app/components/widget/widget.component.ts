@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {AbstractControl, FormGroup} from '@angular/forms';
 
@@ -7,7 +7,7 @@ import {AbstractControl, FormGroup} from '@angular/forms';
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.css']
 })
-export class WidgetComponent implements OnInit {
+export class WidgetComponent implements OnInit, OnChanges {
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
   control: AbstractControl;
@@ -20,5 +20,9 @@ export class WidgetComponent implements OnInit {
     if (question.type === 'number') {
       this.form.controls[this.question.key].setValue(parseInt(event.target.value, 10));
     }
+  }
+
+  ngOnChanges(changes) {
+    console.log(changes.question);
   }
 }

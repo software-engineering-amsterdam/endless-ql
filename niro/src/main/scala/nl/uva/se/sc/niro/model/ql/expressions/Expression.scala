@@ -95,7 +95,7 @@ object UnaryOperation {
   def apply(operator: Operator, left: Expression): UnaryOperation = operator match {
     case Operators.Sub => Minus(left)
     case Operators.Neg => Negate(left)
-    case _ => throw new IllegalArgumentException(s"Unknown operator $operator")
+    case _             => throw new IllegalArgumentException(s"Unknown operator $operator")
   }
 }
 
@@ -113,6 +113,6 @@ object BinaryOperation {
     case Operators.Mul => Multiply(left, right)
     case Operators.Or  => Or(left, right)
     case Operators.And => And(left, right)
-    case _ => throw new IllegalArgumentException(s"Unknown operator $operator")
+    case _             => throw new IllegalArgumentException(s"Unknown operator $operator")
   }
 }

@@ -1,4 +1,4 @@
-package ql.Expression;
+package ql.expression;
 
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;

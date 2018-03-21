@@ -24,7 +24,7 @@ class Gui:
     """
     def __init__(self, ast, astQLS=None):
         self.gui = Tk()
-        self.mainframe = create_frame(self.gui, background='pink')
+        self.mainframe = create_frame(self.gui)
         self.mainframe.pack(expand=True, fill='both')
         self.form = None
         self.ast = ast
@@ -42,10 +42,7 @@ class Gui:
         and add a submit button which collects the answers
     """
     def createForm(self):
-        if self.astQLS:
-            self.questionsGenerator.qls()
-        else:
-            self.questionsGenerator.updateQuestions(True)
+        self.questionsGenerator.updateQuestions(True)
 
         b = Button(self.mainframe, text="SUBMIT", command=self.collectAnswers)
         b.pack()
@@ -54,7 +51,7 @@ class Gui:
         Execute the GUI
     """
     def execute(self):
-        self.gui.geometry("600x400")
+        self.gui.geometry("400x800")
         self.gui.mainloop()
 
     """

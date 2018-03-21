@@ -1,0 +1,16 @@
+stylesheet simpleForm
+{
+  page Page1
+  {
+    section "All Questions"
+    {
+      question someInteger
+      question someBoolean
+        widget textbox
+      question someDecimal
+      question someDate
+      question someMoney
+      question someString
+    }
+  }
+}

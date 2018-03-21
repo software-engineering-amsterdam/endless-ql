@@ -1,17 +1,34 @@
 form taxOfficeExample {
-  "Did you sell a house in 2010?"
+    "What is your name?"
+    name: string
+
+    "What is your age?"
+    age: integer
+
+    "Did you sell a house in 2010?"
     hasSoldHouse: boolean
-  "Did you buy a house in 2010?"
+
+    "Did you buy a house in 2010?"
     hasBoughtHouse: boolean = true == true
-  "Did you enter a loan?"
-    hasMaintLoan: boolean
-  if (hasSoldHouse) {
-    "What was the selling price?"
-      sellingPrice: money
-    "Private debts for the sold house:"
-      privateDebt: money = 1000,00
-    "Value residue:"
-      valueResidue: money =
-        (sellingPrice - privateDebt)
-  }
+
+    "Did you enter a loan?"
+    hasMaintLoan: boolean = hasBoughtHouse
+
+    if (hasSoldHouse) {
+        "When was the house sold?"
+        sellingDate: date
+
+        "What was the selling price?"
+        sellingPrice: decimal = EUR3000.00
+
+        "Private debts for the sold house:"
+        privateDebt: money = EUR1000.00
+
+        "Value residue:"
+        valueResidue: money =
+            sellingPrice - privateDebt
+    }
+
+    "How would you rate this questionnaire?"
+    grade: decimal = 10.0d
 }

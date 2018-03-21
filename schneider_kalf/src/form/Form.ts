@@ -12,6 +12,8 @@ export default interface Form {
 
   getState(): FormState | any;
 
+  setState(state: FormState): Form;
+
   setAnswer(identifier: string, value: any): Form;
 
   getAnswer(identifier: string): any;

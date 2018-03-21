@@ -49,7 +49,7 @@ public class QLLoader extends FormBaseListener {
                this.formNode.getReferencedVariables().add(v);
             }
             if (cc.expression() instanceof FormParser.ExpressionContext){
-               v = new BooleanVariable(null);
+               v = new BooleanVariable(null, false);
                v.setValue(this.getBooleanExpressionValue(cc.expression().booleanExpression()));
             }
             if(bo != null){
@@ -79,13 +79,13 @@ public class QLLoader extends FormBaseListener {
         constructedVariable = null;
         switch(ctx.variableType().getText()) {
             case "money":
-                constructedVariable = new MoneyVariable(ctx.variable().getText());
+                constructedVariable = new MoneyVariable(ctx.variable().getText(), 0);
                 break;
             case "boolean":
-                constructedVariable = new BooleanVariable(ctx.variable().getText());
+                constructedVariable = new BooleanVariable(ctx.variable().getText(), false);
                 break;
             case "string":
-                constructedVariable = new StringVariable(ctx.variable().getText());
+                constructedVariable = new StringVariable(ctx.variable().getText(), "");
                 break;
             default:
                 //TODO Invalid variable type found. throw exception

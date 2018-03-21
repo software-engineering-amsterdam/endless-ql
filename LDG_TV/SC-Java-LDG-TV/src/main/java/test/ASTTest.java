@@ -44,17 +44,17 @@ public class ASTTest {
     public void init(){
         formNode = new FormNode();
         qlChecker = new QLChecker(formNode);
-        stringVariable = new StringVariable("testStringVariable");
+        stringVariable = new StringVariable("testStringVariable", "testValue");
         stringValue = new StringValue("testStringValue");
         stringVariable.setValue(stringValue);
 
         qan1 = new QuestionNode("testQAN1", stringVariable, false);
         conditionNode = new ConditionNode(false);
 
-        arithmeticExpressionVariable = new MoneyVariable("testMoneyVariable");
+        arithmeticExpressionVariable = new MoneyVariable("testMoneyVariable", 0);
 
-        leftHandOperand = new MoneyVariable("testLeftHandOperand");
-        rightHandOperand = new MoneyVariable("testRightHandOperand");
+        leftHandOperand = new MoneyVariable("testLeftHandOperand", 50);
+        rightHandOperand = new MoneyVariable("testRightHandOperand", 20);
 
         leftHandOperandValue = new MoneyValue(1000);
         rightHandOperandValue = new MoneyValue(500);

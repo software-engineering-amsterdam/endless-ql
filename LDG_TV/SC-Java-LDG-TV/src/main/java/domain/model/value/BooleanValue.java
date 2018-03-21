@@ -12,11 +12,6 @@ public class BooleanValue extends Value<Boolean>{
     }
 
     @Override
-    public void setValue(Boolean value) {
-        this.value = value;
-    }
-
-    @Override
     public void accept(Boolean b) throws Exception {
         this.value = b;
     }

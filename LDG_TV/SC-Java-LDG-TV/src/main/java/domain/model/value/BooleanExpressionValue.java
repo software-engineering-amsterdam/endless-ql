@@ -7,12 +7,12 @@ public class BooleanExpressionValue extends Value<Boolean>{
     private Variable leftHandOperand;
     private Variable rightHandOperand;
     private String operator;
-
     public BooleanExpressionValue(Variable leftHandOperand, Variable rightHandOperand, String operator){
         this.leftHandOperand = leftHandOperand;
         this.rightHandOperand = rightHandOperand;
         this.operator = operator;
     }
+
     @Override
     public Boolean getValue() {
         switch (operator) {
@@ -31,10 +31,6 @@ public class BooleanExpressionValue extends Value<Boolean>{
         }
         return false;
     }
-    public void setValue(Boolean value) {
-        // TODO
-    }
-
     @Override
     public void accept(Boolean aBoolean) throws Exception {
 

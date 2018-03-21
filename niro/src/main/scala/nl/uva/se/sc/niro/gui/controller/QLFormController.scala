@@ -60,14 +60,16 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
 
   def componentChanged(component: Component[_]): Unit = {
     logger.debug(s"Component [${component.getQuestionId}] changed its value to [${component.getValue}]")
-    saveNewValue(component)
+    updateValueForQuestion(component)
     evaluateAnswers()
     updateView()
   }
 
-  def saveNewValue(component: Component[_]): Unit = {
-    component.getValue.foreach(newValue => valuesForQuestions(component.getQuestionId) = newValue)
-  }
+  def updateValueForQuestion(component: Component[_]): Unit = {
+    component.getValue match {
+      case Some(answer) => valuesForQuestions += (component.getQuestionId ->answer)
+      case None => valuesForQuestions -= component.getQuestionId
+    }  }
 
   def initializeForm(): Unit = {
     val questionBox = new VBox()

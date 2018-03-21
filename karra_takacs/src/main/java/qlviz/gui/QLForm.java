@@ -2,13 +2,10 @@ package qlviz.gui;
 
 import com.google.inject.*;
 import javafx.application.Application;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import qlviz.QLParser;
 import qlviz.QLVisitor;
 import qlviz.gui.renderer.*;
-import qlviz.gui.renderer.javafx.*;
-import qlviz.gui.renderer.layout.NaiveQuestionLocator;
 import qlviz.gui.viewModel.*;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactory;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactoryImpl;
@@ -29,7 +26,6 @@ import qlviz.typecheker.StaticChecker;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
-import java.util.function.Function;
 
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.Parser;
@@ -75,59 +71,30 @@ public class QLForm extends Application {
 		this.renderer = rendererInjector.getInstance(FormRenderer.class);
 
 		List<AnalysisResult> staticCheckResults = new ArrayList<>();
+
 		QLVisitor<Form> visitor = injector.getInstance(Key.get(new TypeLiteral<QLVisitor<Form>>(){}));
-		ModelBuilder modelBuilder=null;
-		boolean validDataTypes = true;
+		ModelBuilder modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));
+
 		try {
-		 modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));
-		 this.parser = modelBuilder.generateParser(this.getParameters().getRaw().get(0));
-		 this.parser.addErrorListener(new ANTLRErrorListener() {
-			
-			@Override
-			public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine,
-					String msg, RecognitionException e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction,
-					ATNConfigSet configs) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex,
-					BitSet conflictingAlts, ATNConfigSet configs) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact,
-					BitSet ambigAlts, ATNConfigSet configs) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		 
-		this.model = modelBuilder.createFormFromMarkup(this.parser);
+	        this.model = modelBuilder.parseForm(this.getParameters().getRaw().get(0));
+
+            StaticChecker staticChecker = new StaticChecker();
+            List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLabels(this.model);
+            if (duplicateResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
+                staticCheckResults = duplicateResults;
+            }
+            else
+            {
+                modelBuilder.linkQuestions(this.model);
+                staticCheckResults = staticChecker.validate(this.model, containsDuplicates);
+            }
+
 		}
-		catch(IllegalArgumentException e){
-			validDataTypes=false;
+		catch (ParserException e) {
+			staticCheckResults.addAll(e.getAnalysisResults());
 		}
-		if(validDataTypes) {
-		StaticChecker staticChecker = new StaticChecker();
-		List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLabels(this.model);
-		if (duplicateResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
-			staticCheckResults = duplicateResults;
-		}
-		else
-		{
-			modelBuilder.linkQuestions(this.model);
-            staticCheckResults = staticChecker.validate(this.model, containsDuplicates);
-		}
+
+
 
 		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
 			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);
@@ -150,6 +117,5 @@ public class QLForm extends Application {
             viewModelLinker.linkQuestionStubs(this.viewModel);
             this.renderer.render(this.viewModel);
 		}
-	}
 	}
 }

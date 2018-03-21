@@ -20,7 +20,7 @@ public class UnknownIdentifiersDetector {
         List<String> formQuestionIdentifiers = new ArrayList<>();
         List<String> referencedIdentifiers = new ArrayList<>();
         for (Question question : form.questions) {
-            formQuestionIdentifiers.add(question.name);
+            formQuestionIdentifiers.add(question.identifier);
 
             // Add all references to variables in both the question's computed answer and the question's condition
             if (question.isComputed()) {

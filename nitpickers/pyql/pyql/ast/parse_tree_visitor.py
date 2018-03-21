@@ -97,7 +97,8 @@ class ParseTreeVisitor(QLVisitor):
         return ctx.getText()
 
     def visitNegNotUnExpression(self, ctx: QLParser.NegNotUnExpressionContext):
-        return self.unaryExpressionFactory(self.location(ctx), ctx.unExpression().accept(self), ctx.getChild(0))
+        return self.unaryExpressionFactory(self.location(ctx), ctx.unExpression().accept(self),
+                                           ctx.getChild(0).getText())
 
     def visitPrimaryUnExpression(self, ctx: QLParser.PrimaryUnExpressionContext):
         return self.visitChildren(ctx)

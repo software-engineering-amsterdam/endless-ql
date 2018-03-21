@@ -47,45 +47,33 @@ class Gui():
             self.dropdowns[name].destroy()
             del self.dropdowns[name]
 
-    def addBooleanQuestion(self, name, question, text1, text2, updateFunction, var=None):
-        if not var:
-            var = tk.IntVar()
-            var.trace("w", updateFunction)
-
+    def addBooleanQuestion(self, widget_var, question, text1, text2):
         frame = tk.Frame(self.window, height=2)
         frame.pack(expand=False, fill='both')
         
         label = tk.Label(frame, text=question, height=2)
         label.pack(side=LEFT)
         
+        var = self.values[widget_var]
         radioButton1 = tk.Radiobutton(frame, text=text1, variable=var, value=0, height=2)
         radioButton2 = tk.Radiobutton(frame, text=text2, variable=var, value=1, height=2)
         radioButton1.pack(side=LEFT)
         radioButton2.pack(side=LEFT)
-        
-        self.values[name] = var
-        self.frames[name] = frame
 
-        return frame
+        self.frames[widget_var] = frame
 
-    def addIntQuestion(self, name, question, update_function, var=None):
-        if not var:
-            var = tk.StringVar()
-            var.trace('w', lambda nm, idx, mode, var=var: self.validateForm(update_function))
-        
+    def addIntQuestion(self, widget_var, question):
         frame = tk.Frame(self.window, height=2)
         frame.pack(expand=False, fill='both')
 
         label = tk.Label(frame, text=question, height=2)
         label.pack(side=LEFT)
 
+        var = self.values[widget_var]
         entry = tk.Entry(frame, textvariable=var)
         entry.pack(side=LEFT)
 
-        self.values[name] = var
-        self.frames[name] = frame
-
-        return frame
+        self.frames[widget_var] = frame
 
     def setCurrentStatementFrame(self):
         frame = tk.Frame(self.window)
@@ -93,22 +81,19 @@ class Gui():
         self.frame = frame
         return frame
 
-    def addAssignment(self, var_name, name, result, var=None):
-        if not var:
-            var = tk.StringVar()
-            self.values[var_name] = var
-            var.set(str(result))
-        
+    def addAssignment(self, widget_var, assignment_var, result):
         frame = tk.Frame(self.window, height=2)
         frame.pack(expand=False, fill='both')
 
-        label = tk.Label(frame, text=name, height=2)
+        label = tk.Label(frame, text=assignment_var, height=2)
         label.pack(side=LEFT)
 
+        var = self.values[widget_var]
         label = tk.Label(frame, height=2, textvariable=var)
         label.pack(side=LEFT)
+
+        self.frames[widget_var] = frame
         
-        return frame
 
     def getValue(self, var_name, type):
         if type == "int":
@@ -126,3 +111,20 @@ class Gui():
 
     def validateForm(self, function):
         function()
+
+    def createTKNoTraceVariable(self, var_key, value):
+        var = tk.StringVar()
+        var.set(str(value))
+        self.values[var_key] = var
+
+    def createTKTraceVariable(self, var_key, var_type, update_function):
+        if var_type is not "boolean":
+            var = tk.StringVar()
+            var.trace('w', lambda nm, idx, mode, var=var: self.validateForm(update_function))
+
+        else:
+            var = tk.IntVar()
+            var.trace("w", update_function)
+
+        self.values[var_key] = var
+

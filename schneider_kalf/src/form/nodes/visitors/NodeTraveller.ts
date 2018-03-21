@@ -1,5 +1,5 @@
 import NodeVisitor from "./NodeVisitor";
-import Question from "../fields/Question";
+import QuestionNode from "../fields/QuestionNode";
 import ComputedField from "../fields/ComputedField";
 import IfCondition from "../conditions/IfCondition";
 import FormNode from "../FormNode";

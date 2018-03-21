@@ -1,7 +1,7 @@
 ///<reference path="../VariableIntformation.ts"/>
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
 import ComputedField from "../nodes/fields/ComputedField";
-import Question from "../nodes/fields/Question";
+import QuestionNode from "../nodes/fields/QuestionNode";
 import IfCondition from "../nodes/conditions/IfCondition";
 import FormNode from "../nodes/FormNode";
 import { VariableScopeStack } from "./VariableScopeStack";

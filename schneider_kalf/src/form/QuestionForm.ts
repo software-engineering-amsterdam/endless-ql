@@ -4,7 +4,7 @@ import FieldNode from "./nodes/fields/FieldNode";
 import { filterNodes } from "./form_helpers";
 import FormState from "./state/FormState";
 import ComputedField from "./nodes/fields/ComputedField";
-import Question from "./nodes/fields/Question";
+import QuestionNode from "./nodes/fields/QuestionNode";
 import Maybe = jest.Maybe;
 import { UnkownDefaultValueError, UnkownFieldError } from "./form_errors";
 import FieldVisitor from "./nodes/visitors/FieldVisitor";

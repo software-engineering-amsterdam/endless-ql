@@ -46,6 +46,8 @@ public class GUIForm extends VBox {
         }
 
         this.getChildren().add(tabPane);
+        this.setPrefHeight(640);
+        this.setPrefWidth(480);
 
         // Scale tab pane to window size
         VBox.setVgrow(tabPane, Priority.ALWAYS);

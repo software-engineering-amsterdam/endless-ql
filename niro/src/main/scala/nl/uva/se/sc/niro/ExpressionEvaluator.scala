@@ -17,7 +17,7 @@ object ExpressionEvaluator {
 
   implicit class UnaryOps(u: UnaryOperation) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] =
-      u.left.evaluate(symbolTable, dictionary).map(_.applyUnaryOperator(u.unaryOperator))
+      u.left.evaluate(symbolTable, dictionary).map(_.applyUnaryOperator(u.operator))
   }
 
   implicit class BinaryOps(b: BinaryOperation) {
@@ -25,7 +25,7 @@ object ExpressionEvaluator {
       for {
         leftAnswer <- b.left.evaluate(symbolTable, dictionary)
         rightAnswer <- b.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.applyBinaryOperator(b.binaryOperator, rightAnswer)
+      } yield leftAnswer.applyBinaryOperator(b.operator, rightAnswer)
     }
   }
 

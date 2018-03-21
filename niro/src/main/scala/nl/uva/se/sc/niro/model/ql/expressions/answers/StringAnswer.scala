@@ -1,11 +1,15 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
+import cats.implicits._
+import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.Orderings.StringAnswerCanDoOrderings._
 
 final case class StringAnswer(value: String) extends Answer {
 
   type T = String
+
+  def typeOf(symbolTable: SymbolTable): Either[Nothing, StringType.type] = StringType.asRight
 
   def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: StringAnswer =>

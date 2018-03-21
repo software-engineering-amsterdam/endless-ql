@@ -1,5 +1,8 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
+import cats.implicits._
+import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
+import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.ql.expressions.MoneyArithmetics.MoneyCanDoArithmetics.{ times => moneyTimes }
@@ -8,6 +11,8 @@ import nl.uva.se.sc.niro.model.ql.expressions.Orderings.IntAnswerCanDoOrderings.
 final case class IntegerAnswer(value: Int) extends Answer {
 
   type T = Int
+
+  def typeOf(symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = IntegerType.asRight
 
   def toDecAnswer = DecimalAnswer(BigDecimal(value))
 

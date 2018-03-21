@@ -71,6 +71,34 @@ class TypeCheckerTest extends WordSpec {
           result === Left(List(TypeCheckError("TypeCheckError", "Operands of invalid type: StringType, IntegerType"))))
       }
 
+      "return no error for operands valid types in nested operations" in {
+        val qlForm = QLForm(
+          "invalidTypes",
+          Seq(
+            Conditional(
+              UnaryOperation(Neg, BinaryOperation(Gt, IntegerAnswer(5), IntegerAnswer(10))),
+              List.empty
+            )
+          )
+        )
+
+        val result = TypeChecker.pipeline(qlForm)
+
+        assert(
+          result === Right(
+            QLForm(
+              "invalidTypes",
+              List(
+                Conditional(
+                  UnaryOperation(Neg, BinaryOperation(Gt, IntegerAnswer(5), IntegerAnswer(10))),
+                  List()
+                )
+              ),
+              List()
+            )
+          ))
+      }
+
       "return no error for operands of different types but valid: Decimal and Integer" ignore {
         val qlForm = QLForm(
           "invalidTypes",

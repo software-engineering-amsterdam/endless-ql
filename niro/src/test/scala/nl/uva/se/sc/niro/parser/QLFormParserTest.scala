@@ -202,14 +202,13 @@ class QLFormParserTest extends FunSuite {
         Question(id = "hasSoldHouse", label = "Did you sell a house in 2010?", BooleanType, expression = None),
         Conditional(
           predicate = BinaryOperation(
-            binaryOperator = Add,
+            operator = Add,
             left = BinaryOperation(
-              binaryOperator = Mul,
-              left =
-                BinaryOperation(binaryOperator = Sub, left = IntegerAnswer(10000), right = Reference("hasSoldHouse")),
+              operator = Mul,
+              left = BinaryOperation(operator = Sub, left = IntegerAnswer(10000), right = Reference("hasSoldHouse")),
               right = IntegerAnswer(42)
             ),
-            right = BinaryOperation(binaryOperator = Div, left = IntegerAnswer(23), right = IntegerAnswer(54))
+            right = BinaryOperation(operator = Div, left = IntegerAnswer(23), right = IntegerAnswer(54))
           ),
           thenStatements = List(
             Question(id = "asd", label = "asd", BooleanType, expression = None)

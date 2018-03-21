@@ -1,5 +1,8 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
+import cats.implicits._
+import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
+import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.BasicArithmetics.DecAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.ql.expressions.ImplicitConversions._
@@ -9,6 +12,8 @@ import nl.uva.se.sc.niro.model.ql.expressions.Orderings.DecAnswerCanDoOrderings.
 final case class DecimalAnswer(value: BigDecimal) extends Answer {
 
   type T = BigDecimal
+
+  def typeOf(symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = DecimalType.asRight
 
   def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: DecimalAnswer => applyDecimal(operator, that)

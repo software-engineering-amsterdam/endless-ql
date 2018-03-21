@@ -1,4 +1,7 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
+
+import cats.implicits._
+import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.MoneyArithmetics.MoneyCanDoArithmetics._
 import nl.uva.se.sc.niro.model.ql.expressions.Orderings.MoneyAnswerCanDoOrderings._
@@ -6,6 +9,8 @@ import nl.uva.se.sc.niro.model.ql.expressions.Orderings.MoneyAnswerCanDoOrdering
 final case class MoneyAnswer(value: BigDecimal) extends Answer {
 
   type T = BigDecimal
+
+  def typeOf(symbolTable: SymbolTable): Either[Nothing, BooleanType.type] = BooleanType.asRight
 
   def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: MoneyAnswer =>

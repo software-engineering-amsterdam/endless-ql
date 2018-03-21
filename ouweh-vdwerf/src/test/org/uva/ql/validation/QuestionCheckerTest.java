@@ -2,7 +2,6 @@ package org.uva.ql.validation;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.app.LogHandler;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
@@ -19,16 +18,6 @@ import static org.junit.Assert.assertTrue;
 
 public class QuestionCheckerTest {
 
-    private LogHandler logHandler;
-
-    @Before
-    public void setUp() {
-        Logger logger = Logger.getGlobal();
-        LogManager.getLogManager().reset();
-        this.logHandler = new LogHandler();
-        logger.addHandler(logHandler);
-    }
-
     @Test
     public void runCheck() {
         List<Question> questions = new ArrayList<>();
@@ -38,7 +27,7 @@ public class QuestionCheckerTest {
         QuestionChecker questionChecker = new QuestionChecker(questions);
         questionChecker.runCheck();
 
-        assertFalse(this.logHandler.hasWarnings());
+        assertFalse(questionChecker.runCheck().hasWarnings());
     }
 
     @Test
@@ -47,9 +36,8 @@ public class QuestionCheckerTest {
         questions.add(new Question("Q1", "v1", new BooleanType()));
         questions.add(new Question("Q1", "v2", new IntegerType()));
         QuestionChecker questionChecker = new QuestionChecker(questions);
-        questionChecker.runCheck();
 
-        assertTrue(this.logHandler.hasWarnings());
+        assertTrue(questionChecker.runCheck().hasWarnings());
     }
 
     @Test
@@ -60,6 +48,6 @@ public class QuestionCheckerTest {
         QuestionChecker questionChecker = new QuestionChecker(questions);
         questionChecker.runCheck();
 
-        assertTrue(this.logHandler.hasWarnings());
+        assertTrue(questionChecker.runCheck().hasWarnings());
     }
 }

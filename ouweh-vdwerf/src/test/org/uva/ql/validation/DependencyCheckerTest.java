@@ -38,7 +38,7 @@ public class DependencyCheckerTest {
 
         DependencyChecker dependencyChecker = new DependencyChecker(parameterMapping);
 
-        assertTrue(dependencyChecker.runCheck().hasWarnings());
+        assertTrue(dependencyChecker.runCheck().hasErrors());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class DependencyCheckerTest {
 
         DependencyChecker dependencyChecker = new DependencyChecker(parameterMapping);
 
-        assertTrue(dependencyChecker.runCheck().hasWarnings());
+        assertTrue(dependencyChecker.runCheck().hasErrors());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class DependencyCheckerTest {
 
         DependencyChecker dependencyChecker = new DependencyChecker(expressions);
 
-        assertTrue(dependencyChecker.runCheck().hasWarnings());
+        assertTrue(dependencyChecker.runCheck().hasErrors());
     }
 
     @Test
@@ -89,6 +89,6 @@ public class DependencyCheckerTest {
 
         DependencyChecker dependencyChecker = new DependencyChecker(expressions);
 
-        assertFalse(dependencyChecker.runCheck().hasWarnings());
+        assertFalse(dependencyChecker.runCheck().hasErrors());
     }
 }

@@ -2,7 +2,6 @@ package org.uva.ql.validation;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.app.LogHandler;
 import org.uva.ql.ast.CalculatedQuestion;
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.Statement;
@@ -23,15 +22,6 @@ import static org.junit.Assert.assertTrue;
 
 public class TypeCheckerTest {
 
-    private LogHandler logHandler;
-
-    @Before
-    public void setUp() {
-        Logger logger = Logger.getGlobal();
-        LogManager.getLogManager().reset();
-        this.logHandler = new LogHandler();
-        logger.addHandler(logHandler);
-    }
 
     @Test
     public void correctTypesRunCheck() {
@@ -51,9 +41,8 @@ public class TypeCheckerTest {
 
 
         TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-        typeChecker.runCheck();
 
-        assertFalse(logHandler.hasWarnings());
+        assertFalse(typeChecker.runCheck().hasWarnings());
     }
 
     @Test
@@ -74,8 +63,7 @@ public class TypeCheckerTest {
 
 
         TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-        typeChecker.runCheck();
 
-        assertTrue(logHandler.hasWarnings());
+        assertTrue(typeChecker.runCheck().hasErrors());
     }
 }

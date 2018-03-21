@@ -4,11 +4,11 @@ import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
 import antlr.qls.StylesheetLexer;
 import antlr.qls.StylesheetParser;
+import domain.model.ast.ConditionNode;
 import domain.model.ast.FormNode;
 import domain.Utilities;
 import domain.model.ast.ASTNode;
-import domain.model.ast.IfASTNode;
-import domain.model.ast.QuestionASTNode;
+import domain.model.ast.QuestionNode;
 import domain.model.stylesheet.Page;
 import domain.model.stylesheet.Section;
 import domain.model.variable.Variable;
@@ -119,7 +119,7 @@ public class ToolController implements Initializable, Consumer {
         ListView lvQuestionnaire = new ListView();
         lvQuestionnaire.getItems().clear();
         List<ASTNode> astNodes = this.formNode.getASTNodes();
-        List<QuestionASTNode> questions = getAllQuestions(astNodes);
+        List<QuestionNode> questions = getAllQuestions(astNodes);
         drawQuestions(questions,lvQuestionnaire, true);
         listViews.add(lvQuestionnaire);
         Tab t = new Tab("QL Form");
@@ -168,7 +168,7 @@ public class ToolController implements Initializable, Consumer {
         lblErrorField.setText(message);
     }
 
-    private void drawQuestions(List<QuestionASTNode> questionASTNodes, ListView lView, boolean clearView){
+    private void drawQuestions(List<QuestionNode> questionNodes, ListView lView, boolean clearView){
         Visitor uiVisitor = new UIVisitor();
         if(clearView){
             lView.getItems().clear();
@@ -176,7 +176,7 @@ public class ToolController implements Initializable, Consumer {
 
         this.formNode.evaluateIfs();
 
-        for(QuestionASTNode qn : questionASTNodes){
+        for(QuestionNode qn : questionNodes){
             String questionText = qn.getText();
             Variable qv = qn.getVariable();
 
@@ -204,7 +204,7 @@ public class ToolController implements Initializable, Consumer {
     private void drawSection(Section s, ListView lView){
         Row r = new SectionRow(s.getLabel());
         lView.getItems().add(r);
-        List<QuestionASTNode> temp = new ArrayList<>();
+        List<QuestionNode> temp = new ArrayList<>();
         for (Variable v : s.getVariables()){
             temp.add(this.formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
         }
@@ -212,19 +212,19 @@ public class ToolController implements Initializable, Consumer {
 
     }
 
-    private List<QuestionASTNode> getAllQuestions(List<ASTNode> nodes){
-        List<QuestionASTNode> visQuestion = new ArrayList<>();
+    private List<QuestionNode> getAllQuestions(List<ASTNode> nodes){
+        List<QuestionNode> visQuestion = new ArrayList<>();
         for(ASTNode n : nodes){
 
-            if(n instanceof QuestionASTNode){
-                visQuestion.add((QuestionASTNode) n);
+            if(n instanceof QuestionNode){
+                visQuestion.add((QuestionNode) n);
                 continue;
             }
 
-            IfASTNode ifASTNode = (IfASTNode) n;
+            ConditionNode conditionNode = (ConditionNode) n;
 
-            visQuestion.addAll(ifASTNode.getQuestionNodes());
-            visQuestion.addAll(ifASTNode.getElseNodes());
+            visQuestion.addAll(conditionNode.getQuestionNodes());
+            visQuestion.addAll(conditionNode.getElseNodes());
         }
 
         return visQuestion;
@@ -294,7 +294,7 @@ public class ToolController implements Initializable, Consumer {
         return fileChooser;
     }
     private void redrawAll(){
-        List<QuestionASTNode> questions = getAllQuestions(this.formNode.getASTNodes());
+        List<QuestionNode> questions = getAllQuestions(this.formNode.getASTNodes());
         if (!qlsEnabled){
             drawQuestions(questions, this.listViews.get(0), true);
         }else{

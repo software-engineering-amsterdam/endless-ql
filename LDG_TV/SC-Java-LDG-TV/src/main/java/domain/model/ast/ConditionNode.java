@@ -3,12 +3,12 @@ package domain.model.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IfASTNode extends ASTNode {
+public class ConditionNode extends ASTNode {
 
     private List<Condition> conditions;
-    private List<QuestionASTNode> questionNodes;
-    private List<QuestionASTNode> elseNodess;
-    public IfASTNode(boolean visible) {
+    private List<QuestionNode> questionNodes;
+    private List<QuestionNode> elseNodess;
+    public ConditionNode(boolean visible) {
         this.questionNodes = new ArrayList<>();
         this.conditions = new ArrayList<>();
         this.elseNodess = new ArrayList<>();
@@ -16,18 +16,18 @@ public class IfASTNode extends ASTNode {
     }
 
     /**
-     * Add a QuestionASTNode to the elseNodes list.
-     * @param elseNode QuestionASTNode to add.
+     * Add a QuestionNode to the elseNodes list.
+     * @param elseNode QuestionNode to add.
      */
-    public void addElseQuestion(QuestionASTNode elseNode) {
+    public void addElseQuestion(QuestionNode elseNode) {
         this.elseNodess.add(elseNode);
     }
 
     /**
-     * Adds a QuestionASTNode to the questionNodes list.
-     * @param q QuestionASTNode to add
+     * Adds a QuestionNode to the questionNodes list.
+     * @param q QuestionNode to add
      */
-    public void addQuestion(QuestionASTNode q){
+    public void addQuestion(QuestionNode q){
         this.questionNodes.add(q);
     }
 
@@ -38,7 +38,7 @@ public class IfASTNode extends ASTNode {
     public void addCondition(Condition c){this.conditions.add(c);}
 
     /**
-     * Checks whether the conditions for this IfASTNode are satisfied.
+     * Checks whether the conditions for this ConditionNode are satisfied.
      * @return boolean whether conditions are satisfied.
      */
     public boolean checkConditions() {
@@ -57,15 +57,15 @@ public class IfASTNode extends ASTNode {
                 temp = (Boolean) condition.getVariable().getValue().getValue();
             }
         }
-        for (QuestionASTNode qan : this.getQuestionNodes()){
+        for (QuestionNode qan : this.getQuestionNodes()){
             qan.setDisabled(!temp);
         }
-        for (QuestionASTNode qan : this.elseNodess){
+        for (QuestionNode qan : this.elseNodess){
             qan.setDisabled(temp);
         }
         return temp;
     }
-    public List<QuestionASTNode> getQuestionNodes() {
+    public List<QuestionNode> getQuestionNodes() {
         return questionNodes;
     }
 
@@ -73,7 +73,7 @@ public class IfASTNode extends ASTNode {
         return conditions;
     }
 
-    public List<QuestionASTNode> getElseNodes() {
+    public List<QuestionNode> getElseNodes() {
         return elseNodess;
     }
 
@@ -81,7 +81,7 @@ public class IfASTNode extends ASTNode {
     public String toString () {
 
         StringBuilder str = new StringBuilder("if {\n");
-        for (QuestionASTNode qn : questionNodes) {
+        for (QuestionNode qn : questionNodes) {
             str.append('\t')
                     .append(qn.toString())
                     .append('\n');

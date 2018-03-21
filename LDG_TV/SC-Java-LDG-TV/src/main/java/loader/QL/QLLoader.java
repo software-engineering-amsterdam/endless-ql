@@ -4,11 +4,11 @@ import antlr.ql.FormBaseListener;
 import antlr.ql.FormParser;
 import domain.model.ast.FormNode;
 import domain.model.ast.Condition;
-import domain.model.ast.IfASTNode;
+import domain.model.ast.ConditionNode;
+import domain.model.ast.QuestionNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.variable.*;
-import domain.model.ast.QuestionASTNode;
 
 
 public class QLLoader extends FormBaseListener {
@@ -37,7 +37,7 @@ public class QLLoader extends FormBaseListener {
 
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
-        IfASTNode ifASTNode = new IfASTNode(false);
+        ConditionNode conditionNode = new ConditionNode(false);
         this.inIfNode = true;
         Variable v = null;
         Condition c = null;
@@ -57,9 +57,9 @@ public class QLLoader extends FormBaseListener {
             }else{
                 c = new Condition(v, null);
             }
-            ifASTNode.addCondition(c);
+            conditionNode.addCondition(c);
         }
-        this.formNode.addIfNode(ifASTNode);
+        this.formNode.addIfNode(conditionNode);
 
      }
     @Override
@@ -95,7 +95,7 @@ public class QLLoader extends FormBaseListener {
     public void exitQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx) {
         String questionText = ctx.label().getText();
 
-        QuestionASTNode q = new QuestionASTNode(questionText, constructedVariable, this.inIfNode);
+        QuestionNode q = new QuestionNode(questionText, constructedVariable, this.inIfNode);
         if(this.inIfNode) {
             if (this.inElseNode){
                 this.formNode.addToLastIfElse(q);
@@ -105,7 +105,7 @@ public class QLLoader extends FormBaseListener {
             return;
         }
 
-        this.formNode.addQuestion(new QuestionASTNode(questionText, constructedVariable, false));
+        this.formNode.addQuestion(new QuestionNode(questionText, constructedVariable, false));
     }
     @Override
     public void enterVariableValue(FormParser.VariableValueContext ctx){

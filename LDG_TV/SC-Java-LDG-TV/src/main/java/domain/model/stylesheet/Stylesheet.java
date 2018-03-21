@@ -1,6 +1,5 @@
 package domain.model.stylesheet;
 
-import domain.model.ast.QuestionASTNode;
 import domain.model.variable.Variable;
 
 import java.util.ArrayList;

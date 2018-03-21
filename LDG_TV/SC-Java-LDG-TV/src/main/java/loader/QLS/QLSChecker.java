@@ -1,7 +1,7 @@
 package loader.QLS;
 
 import domain.model.ast.FormNode;
-import domain.model.ast.QuestionASTNode;
+import domain.model.ast.QuestionNode;
 import domain.model.variable.Variable;
 import exception.NotAllQuestionInPlaceException;
 import exception.ReferenceUndefinedVariableException;
@@ -44,7 +44,7 @@ public class QLSChecker {
      * @throws NotAllQuestionInPlaceException
      */
     public void checkNotAllQuestionsArePlace() throws NotAllQuestionInPlaceException {
-        List<QuestionASTNode> temp = new ArrayList<>();
+        List<QuestionNode> temp = new ArrayList<>();
         for (Variable v : formNode.getStylesheet().getAllVariables()){
             temp.add(formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
         }

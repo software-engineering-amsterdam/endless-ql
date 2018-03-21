@@ -1,8 +1,8 @@
 package test;
 
 import domain.model.ast.FormNode;
-import domain.model.ast.IfASTNode;
-import domain.model.ast.QuestionASTNode;
+import domain.model.ast.ConditionNode;
+import domain.model.ast.QuestionNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.MoneyValue;
 import domain.model.value.StringValue;
@@ -22,9 +22,9 @@ import static junit.framework.TestCase.assertEquals;
 public class ASTTest {
 
     FormNode formNode;
-    IfASTNode ifAstNode;
-    QuestionASTNode qan1;
-    QuestionASTNode qan2;
+    ConditionNode conditionNode;
+    QuestionNode qan1;
+    QuestionNode qan2;
     Variable stringVariable;
     StringValue stringValue;
 
@@ -48,8 +48,8 @@ public class ASTTest {
         stringValue = new StringValue("testStringValue");
         stringVariable.setValue(stringValue);
 
-        qan1 = new QuestionASTNode("testQAN1", stringVariable, false);
-        ifAstNode = new IfASTNode(false);
+        qan1 = new QuestionNode("testQAN1", stringVariable, false);
+        conditionNode = new ConditionNode(false);
 
         arithmeticExpressionVariable = new MoneyVariable("testMoneyVariable");
 
@@ -64,7 +64,7 @@ public class ASTTest {
 
         arithmeticExpressionValue = new ArithmeticExpressionValue(leftHandOperand, rightHandOperand, operator);
         arithmeticExpressionVariable.setValue(arithmeticExpressionValue);
-        qan2 = new QuestionASTNode("testQAN2", arithmeticExpressionVariable, false);
+        qan2 = new QuestionNode("testQAN2", arithmeticExpressionVariable, false);
 
     }
     @Test
@@ -105,8 +105,8 @@ public class ASTTest {
 
     @Test
     public void IfASTNodeTest(){
-        ifAstNode.addQuestion(qan2);
-        TestCase.assertEquals("Test if question is correctly added to if ast node list", ifAstNode.getQuestionNodes().get(0), qan2);
+        conditionNode.addQuestion(qan2);
+        TestCase.assertEquals("Test if question is correctly added to if ast node list", conditionNode.getQuestionNodes().get(0), qan2);
     }
 
     @Test

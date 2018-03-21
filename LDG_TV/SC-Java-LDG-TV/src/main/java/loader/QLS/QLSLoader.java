@@ -32,9 +32,8 @@ public class QLSLoader extends StylesheetBaseListener {
     }
     @Override
     public void exitStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx){
-        this.formNode.setStylesheet(styleSheet);
-        this.qlsChecker = new QLSChecker(this.formNode);
-        qlsChecker.doChecks();
+        this.qlsChecker = new QLSChecker();
+        qlsChecker.verifyStylesheetStructure(styleSheet, this.formNode);
     }
     @Override
     public void enterPageNodeStructure(StylesheetParser.PageNodeStructureContext ctx) {

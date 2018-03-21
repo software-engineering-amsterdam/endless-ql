@@ -2,6 +2,7 @@ package loader.QLS;
 
 import domain.model.ast.FormNode;
 import domain.model.ast.QuestionNode;
+import domain.model.stylesheet.Stylesheet;
 import domain.model.variable.Variable;
 import exception.NotAllQuestionInPlaceException;
 import exception.ReferenceUndefinedVariableException;
@@ -10,18 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QLSChecker {
-    private FormNode formNode;
 
-    public QLSChecker(FormNode formNode) {
-        this.formNode = formNode;
-    }
     /**
-     * Execute the checks for QLS.
+     * Verify stylesheet
+     * @param stylesheet stylesheet to be checked
      */
-    public void doChecks() {
+    public void verifyStylesheetStructure(Stylesheet stylesheet, FormNode formNode) {
         try {
-            this.checkReferenceUndefinedVariable();
-            this.checkNotAllQuestionsArePlace();
+            this.checkReferenceUndefinedVariable(stylesheet);
+            this.checkNotAllQuestionsArePlace(stylesheet, formNode);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -31,8 +29,8 @@ public class QLSChecker {
      * Check for referenes of QuestionASTNodes which are not defined in the QL form.
      * @throws ReferenceUndefinedVariableException
      */
-    public void checkReferenceUndefinedVariable() throws ReferenceUndefinedVariableException {
-        for (Variable v : formNode.getStylesheet().getAllVariables()){
+    public void checkReferenceUndefinedVariable(Stylesheet stylesheet) throws ReferenceUndefinedVariableException {
+        for (Variable v : stylesheet.getAllVariables()){
             if (v == null){
                 throw new ReferenceUndefinedVariableException("Reference undefined variable found.");
             }
@@ -43,9 +41,9 @@ public class QLSChecker {
      * Checks if all the questions defined in QL are also defined in the QLS.
      * @throws NotAllQuestionInPlaceException
      */
-    public void checkNotAllQuestionsArePlace() throws NotAllQuestionInPlaceException {
+    public void checkNotAllQuestionsArePlace(Stylesheet stylesheet, FormNode formNode) throws NotAllQuestionInPlaceException {
         List<QuestionNode> temp = new ArrayList<>();
-        for (Variable v : formNode.getStylesheet().getAllVariables()){
+        for (Variable v : stylesheet.getAllVariables()){
             temp.add(formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
         }
         if(formNode.getAllQuestionASTNodes().retainAll(temp)){

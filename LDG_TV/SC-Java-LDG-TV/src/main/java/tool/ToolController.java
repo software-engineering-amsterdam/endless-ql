@@ -29,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import loader.QL.QLBuilder;
 import loader.QL.QLLoader;
 import loader.QLS.QLSLoader;
 import org.antlr.v4.runtime.BailErrorStrategy;
@@ -62,6 +63,7 @@ public class ToolController implements Consumer {
 
     private boolean qlsEnabled = false;
     private FormNode formNode = null;
+    private QLBuilder qlBuilder = new QLBuilder();
 
     /**
      * Invoked by the 'build' button action, to generate the questionnaire based on the written QL
@@ -77,12 +79,13 @@ public class ToolController implements Consumer {
             return;
         }
 
-        generateQL(qlSource);
+        this.formNode = qlBuilder.toFormNode(qlSource);
 
         String qlsSource = taSourceCodeQLS.getText();
         this.qlsEnabled = !qlsSource.isEmpty();
         if (this.qlsEnabled){
-            generateQLS(qlsSource);
+            Stylesheet ss = qlBuilder.toStylesheet(qlsSource, this.formNode);
+            this.formNode.setStylesheet(ss);
             buildQLS();
         }
 
@@ -113,23 +116,6 @@ public class ToolController implements Consumer {
                 },
                 () -> showAlertBox("Could not read file.")
         );
-    }
-
-    private void generateQL(String qlSource){
-        // Parse input field and create AST
-        CharStream stream = CharStreams.fromString(qlSource);
-        FormLexer lexer = new FormLexer(stream);
-
-        FormParser parser = new FormParser(new CommonTokenStream(lexer));
-
-        //parser.setErrorHandler(new BailErrorStrategy()); // TODO look at error handling
-        parser.addErrorListener(new ToolBarErrorListener(lblErrorField));
-
-        FormParser.FormBuilderContext tree = parser.formBuilder();
-        QLLoader loader = new QLLoader();
-        ParseTreeWalker.DEFAULT.walk(loader, tree);
-
-        this.formNode = loader.getFormNode();
     }
 
     private void generateQLS(String qlsSource){

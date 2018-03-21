@@ -25,6 +25,8 @@ class Section():
         text.insert(INSERT, page_header, 'header_conf')
         text.config(state=DISABLED)
         text.pack(anchor=NW, expand=True, fill="both")
+        self.text = text
+        self.scrollFrame = scrollFrame
         self.headerFrame = headerFrame
         self.questions = []
 
@@ -33,6 +35,14 @@ class Section():
     """
     def show(self):
         self.frame.lift()
+
+
+    def hideSection(self):
+        self.scrollFrame.canvas.pack_forget()
+
+    def showSection(self):
+        self.scrollFrame.canvas.pack(expand=True, fill='both')
+
 
     """
         Place the frame inside parent frame
@@ -45,17 +55,13 @@ class Section():
     """
     def addQuestion(self, questionGenerator, varName, questionText, questionType, value):
         q = Question(self.contents, questionGenerator, varName, questionText, questionType, value)
-        print("ADDDD QUESTION")
         self.questions.append(q)
 
 
     def insertQuestion(self, prev, questionGenerator, varName, questionText, questionType, value):
-        print("INSERT QUESTION")
         tmpQuestions = copy.copy(self.questions)
         #first question
-        print("PREV",prev)
         if prev == "":
-            print("HIERRR")
             self.addQuestion(questionGenerator, varName, questionText, questionType, value)
         else:
             for question in self.questions:

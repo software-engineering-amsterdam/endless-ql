@@ -19,7 +19,7 @@ class Question_Generator:
 
     def updateQuestions(self, initial=False):
         if self.astQLS:
-            self.qls()
+            self.qls(initial)
         else:
             self.ql(initial)
 
@@ -64,31 +64,34 @@ class Question_Generator:
         Setup QLS
     """
 
-    def qls(self):
-        print("UPDATE")
+    def qls(self, initial):
         self.questions = collections.OrderedDict()
         self.get_questions(self.ast.form.block)
         pages = self.astQLS.getPages()
         for page in pages:
             pageName = pages[page].getName()
-            print("PAGE: ", pageName)
             if not self.form.doesPageExist(pageName):
                 self.form.addPage(pages[page].name)
 
             # add sections and questions
             self.addSection(pageName, pages[page].getSection())
 
+        #show first page
+        if(initial):
+            self.form.getPage(next(iter(pages))).show()
+
     def addSection(self, pageName, sections, prev=""):
         page = self.form.getPage(pageName)
         for section in sections:
             sectionName = section.getName()
+            isSectionEmpty = True
             if not self.form.doesSectionExists(sectionName, pageName):
                 page.createSection(sectionName)
 
             for question in section.getQuestions():
                 varName = question.getVarName()
                 if (varName in self.questions):
-
+                    isSectionEmpty = False
                     # get data of question
                     label = self.questions[varName].getQuestion()
                     var_type = self.varDict[varName]['node'].checkTypes()
@@ -107,6 +110,11 @@ class Question_Generator:
                 # delete question
                 else:
                     self.form.removeQuestionFromSection(pageName, sectionName, varName)
+
+            if not isSectionEmpty:
+                self.form.getSection(sectionName, pageName).showSection()
+            else:
+                self.form.getSection(sectionName, pageName).hideSection()
 
             # add child sections
             self.addSection(pageName, section.getSections(), prev)

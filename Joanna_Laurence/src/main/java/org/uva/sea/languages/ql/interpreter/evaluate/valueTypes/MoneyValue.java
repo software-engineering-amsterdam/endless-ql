@@ -65,7 +65,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value divide(Value value) throws EvaluationException {
-        return value.reverseDivide(this);
+        return value.divide(this);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value isGreaterOrEqual(Value value) throws EvaluationException {
-        return value.isLessThan(this);
+        return value.isGreaterOrEqual(this);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value isGreaterThan(Value value) throws EvaluationException {
-        return value.isLessOrEqual(this);
+        return value.isGreaterThan(this);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value isLessOrEqual(Value value) throws EvaluationException {
-        return value.isGreaterThan(this);
+        return value.isLessOrEqual(this);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class MoneyValue extends Value {
 
     @Override
     public Value isLessThan(Value value) throws EvaluationException {
-        return value.isGreaterOrEqual(this);
+        return value.isLessThan(this);
     }
 
     @Override
@@ -191,11 +191,6 @@ public class MoneyValue extends Value {
     }
 
     @Override
-    public Value subtract(Value value) throws EvaluationException {
-        return value.reverseSubtract(this);
-    }
-
-    @Override
     public Value subtract(IntValue value) {
         return new MoneyValue(this.currency, this.amount.subtract(new BigDecimal(value.getIntValue())));
     }
@@ -210,40 +205,6 @@ public class MoneyValue extends Value {
     @Override
     public Value subtract(DecimalValue value) {
         return new MoneyValue(this.currency, this.amount.subtract(BigDecimal.valueOf(value.getDecimalValue())));
-    }
-
-    @Override
-    public Value reverseSubtract(DecimalValue value) throws EvaluationException {
-        return value.subtract(this);
-    }
-
-    @Override
-    public Value reverseSubtract(IntValue value) throws EvaluationException {
-        return value.subtract(this);
-    }
-
-    @Override
-    public Value reverseSubtract(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
-
-        return value.subtract(this);
-    }
-
-    @Override
-    public Value reverseDivide(DecimalValue value) throws EvaluationException {
-        return value.divide(this);
-    }
-
-    @Override
-    public Value reverseDivide(IntValue value) throws EvaluationException {
-        return value.divide(this);
-    }
-
-    @Override
-    public Value reverseDivide(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
-
-        return value.divide(this);
     }
 
     @Override

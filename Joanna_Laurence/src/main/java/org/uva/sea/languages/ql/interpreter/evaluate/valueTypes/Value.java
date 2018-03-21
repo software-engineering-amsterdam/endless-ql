@@ -109,39 +109,6 @@ public abstract class Value {
         return undefinedValue;
     }
 
-    //reverseDivide
-    public Value reverseDivide(Value value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(BooleanValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(DateValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(DecimalValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(IntValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(MoneyValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(StringValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(UndefinedValue undefinedValue) {
-        return undefinedValue;
-    }
-
     //isEqual
     public Value isEqual(Value value) throws EvaluationException {
         throw new EvaluationException("isEqual operator cannot be applied here");
@@ -451,39 +418,6 @@ public abstract class Value {
     }
 
     public Value subtract(UndefinedValue undefinedValue) {
-        return undefinedValue;
-    }
-
-    //subtract
-    public Value reverseSubtract(Value value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(BooleanValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(DateValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(DecimalValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(IntValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(MoneyValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(StringValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 }

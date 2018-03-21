@@ -44,7 +44,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isGreaterOrEqual(Value value) throws EvaluationException {
-        return value.isLessThan(this);
+        return value.isGreaterOrEqual(this);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isGreaterThan(Value value) throws EvaluationException {
-        return value.isLessOrEqual(this);
+        return value.isGreaterThan(this);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isLessOrEqual(Value value) throws EvaluationException {
-        return value.isGreaterThan(this);
+        return value.isLessOrEqual(this);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isLessThan(Value value) throws EvaluationException {
-        return value.isGreaterOrEqual(this);
+        return value.isLessThan(this);
     }
 
     @Override

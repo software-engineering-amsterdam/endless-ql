@@ -8,10 +8,10 @@ public class ErrorValue extends Value {
     private final int line;
     private final int colomn;
 
-    public ErrorValue(String error, int line, int colomn) {
+    public ErrorValue(String error, int line, int column) {
         this.error = error;
         this.line = line;
-        this.colomn = colomn;
+        this.colomn = column;
     }
 
     public String getError() {

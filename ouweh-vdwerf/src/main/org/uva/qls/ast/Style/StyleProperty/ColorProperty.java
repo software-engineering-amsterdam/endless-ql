@@ -7,20 +7,21 @@ import java.awt.*;
 
 public class ColorProperty extends StyleProperty {
 
-    private Color color;
+    private ColorValue colorValue;
 
     public ColorProperty(ColorValue colorValue) {
-        color = Color.LIGHT_GRAY;
+        this.colorValue = colorValue;
+    }
+
+    @Override
+    public void apply(QuestionWidget widget) {
+        Color color = Color.LIGHT_GRAY;
         try {
             color = Color.decode(colorValue.getValue());
         }
         catch (Exception ex) {
 
         }
-    }
-
-    @Override
-    public void apply(QuestionWidget widget) {
-        widget.setColor(this.color);
+        widget.setColor(color);
     }
 }

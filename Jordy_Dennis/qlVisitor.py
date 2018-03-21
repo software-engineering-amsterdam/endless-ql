@@ -51,6 +51,7 @@ class QLVisitor(QLGrammarVisitor):
 
         # collect information about the question
         question = ctx.STRING().getText()
+        question = question.replace("\"", "")
         varName = ctx.ID().getText()
         varType = self.visit(ctx.types())
 
@@ -65,6 +66,7 @@ class QLVisitor(QLGrammarVisitor):
     def visitAssignment(self, ctx: QLGrammarParser.AssignmentContext):
         self.logger.debug("ASSIGMENT")
         question = ctx.STRING().getText()
+        question = question.replace("\"", "")
         varName = ctx.ID().getText()
         varType = mapStringToType(ctx.types().getText())
         expr = self.visit(ctx.expression())
@@ -174,7 +176,7 @@ class QLVisitor(QLGrammarVisitor):
     # Visit a parse tree produced by QLGrammarParser#varnode.
     # Type is temporarily none, this node is used to link the variables
     # in a later stage
-    def visitVarnode(self, ctx:QLGrammarParser.VarnodeContext):
+    def visitVarnode(self, ctx: QLGrammarParser.VarnodeContext):
         self.logger.debug("VARIABLE")
         varName = ctx.ID().getText()
 
@@ -198,6 +200,7 @@ def getOp(ctx):
         op = "or"
     return op
 
+
 # For a literal, change the type to a python type
 def getLiteralValue(ctx):
     litType = None
@@ -219,6 +222,7 @@ def getLiteralValue(ctx):
         litVal = ctx.ID()
     return litVal, litType
 
+
 # Map string-type to an actual python type
 def mapStringToType(obj):
     if obj == 'int' or obj == 'integer':
@@ -233,4 +237,3 @@ def mapStringToType(obj):
         print("QL Interpreter error:")
         print("Unknown type " + obj)
         sys.exit(1)
-

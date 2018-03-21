@@ -25,17 +25,17 @@ class QLWidgetFactory extends WidgetFactory {
 
 class QLSWidgetFactory extends QLWidgetFactory {
   override def makeBooleanWidget(question: GUIQuestion): QLWidget[Boolean] = question match {
-    case QLSGUIQuestion(_, _, _, _, _, _ @ GUIComboBoxStyle(trueLabel, falseLabel)) =>
+    case QLSGUIQuestion(_, _, _, _, _, _ @GUIComboBoxStyle(trueLabel, falseLabel)) =>
       new QLComboBooleanField(trueLabel, falseLabel)
-    case QLSGUIQuestion(_, _, _, _, _, _ @ GUIRadioStyle(trueLabel, falseLabel)) =>
+    case QLSGUIQuestion(_, _, _, _, _, _ @GUIRadioStyle(trueLabel, falseLabel)) =>
       new QLRadioBooleanField(trueLabel, falseLabel)
     case _ =>
       super.makeBooleanWidget(question)
   }
 
   override def makeIntegerWidget(question: GUIQuestion): QLWidget[Integer] = question match {
-    case QLSGUIQuestion(_, _, _, _, _, _ @ GUISpinBoxStyle()) => new QLIntegerSpinField()
-    case _ => super.makeIntegerWidget(question)
+    case QLSGUIQuestion(_, _, _, _, _, _ @GUISpinBoxStyle()) => new QLIntegerSpinField()
+    case _                                                   => super.makeIntegerWidget(question)
   }
 
 }

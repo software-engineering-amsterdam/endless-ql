@@ -115,14 +115,19 @@ class QLIntegerField() extends AbstractQLTextField[java.lang.Integer] {
   override def value: java.lang.Integer = integerFormatter.getValue
 }
 
-class QLIntegerSpinField() extends Spinner[java.lang.Integer](new IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0)) with QLWidget[java.lang.Integer] {
+class QLIntegerSpinField()
+    extends Spinner[java.lang.Integer](new IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0))
+    with QLWidget[java.lang.Integer] {
   setEditable(true)
   valueProperty().addListener(new ChangeListener[Integer] {
     override def changed(observable: ObservableValue[_ <: Integer], oldValue: Integer, newValue: Integer): Unit =
       valueChanged
   })
   focusedProperty().addListener(new ChangeListener[lang.Boolean] {
-    override def changed(observable: ObservableValue[_ <: lang.Boolean], oldValue: lang.Boolean, newValue: lang.Boolean): Unit = {
+    override def changed(
+        observable: ObservableValue[_ <: lang.Boolean],
+        oldValue: lang.Boolean,
+        newValue: lang.Boolean): Unit = {
       if (!newValue) {
         increment(0)
         valueChanged

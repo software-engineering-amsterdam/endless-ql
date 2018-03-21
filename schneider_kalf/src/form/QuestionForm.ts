@@ -4,7 +4,7 @@ import FieldNode from "./nodes/fields/FieldNode";
 import { filterNodes } from "./form_helpers";
 import FormState from "./state/FormState";
 import ComputedField from "./nodes/fields/ComputedField";
-import Question from "./nodes/fields/Question";
+import QuestionNode from "./nodes/fields/QuestionNode";
 import Maybe = jest.Maybe;
 import { UnkownDefaultValueError, UnkownFieldError } from "./form_errors";
 import FieldVisitor from "./nodes/visitors/FieldVisitor";
@@ -22,8 +22,12 @@ export default class QuestionForm implements Form {
     this.computeFields();
   }
 
+  getField(identifier: string): FieldNode | undefined | any {
+    return this.getFields().find(field => field.identifier === identifier);
+  }
+
   getFields(): FieldNode[] {
-    return filterNodes((node) => node instanceof ComputedField || node instanceof Question, this.node);
+    return filterNodes((node) => node instanceof ComputedField || node instanceof QuestionNode, this.node);
   }
 
   computeFields() {
@@ -39,7 +43,7 @@ export default class QuestionForm implements Form {
   fillDefaultValues() {
     let state: FormState = this.state;
 
-    this.getQuestions().forEach((field: Question) => {
+    this.getQuestions().forEach((field: QuestionNode) => {
       if (state.has(field.identifier)) {
         return;
       }
@@ -58,8 +62,8 @@ export default class QuestionForm implements Form {
     return filterNodes((node) => node instanceof ComputedField, this.node);
   }
 
-  getQuestions(): Question[] {
-    return filterNodes((node) => node instanceof Question, this.node);
+  getQuestions(): QuestionNode[] {
+    return filterNodes((node) => node instanceof QuestionNode, this.node);
   }
 
   findField(identifier: string): Maybe<FieldNode> {
@@ -77,7 +81,11 @@ export default class QuestionForm implements Form {
   }
 
   setAnswer(identifier: string, value: any): Form {
-    return new QuestionForm(this.node, this.state.set(identifier, value));
+    return this.setState(this.state.set(identifier, value));
+  }
+
+  setState(nextState: FormState): Form {
+    return new QuestionForm(this.node, nextState);
   }
 
   getRootNode(): FormNode {

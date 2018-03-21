@@ -10,6 +10,10 @@ import org.uva.jomi.ql.error.WarningHandler;
 public class DuplicatedLabelChecker extends WarningHandler implements Statement.Visitor<Void> {
 
 	private final HashMap<String, List<String>> labels;
+	
+	public DuplicatedLabelChecker() {
+		this(false);
+	}
 
 	public DuplicatedLabelChecker(boolean printWarnings) {
 		super("DuplicatedLabelChecker", printWarnings);

@@ -104,7 +104,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "/Users/simon/CodeMaster/endless-ql/schneider_kalf/tsconfig.test.json"
+        "tsConfigFile": "./tsconfig.test.json"
       }
     }
   },

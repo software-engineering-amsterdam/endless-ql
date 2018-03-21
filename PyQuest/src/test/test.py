@@ -54,7 +54,7 @@ def print_result(file, result=True):
 if __name__ == '__main__':
     parser = QLParser()
     lexer = QLLexer()
-    directories = ['parser/']
+    directories = ['parsing/']
 
     for directory in directories:
         test_directory(directory, parser, lexer)

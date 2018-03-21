@@ -1,9 +1,9 @@
 import {ExpressionType, ExpressionTypeUtil} from './expression-type';
-import {Expression, LiteralType} from './expression';
+import {Expression} from './expression';
 import {Location} from '../../location';
 import {QlQuestion} from '../ql-question';
-import {FormGroup} from '@angular/forms';
 import {BinaryExpression} from './binary-expression';
+import {ExpressionVisitor} from '../visitors/expression-visitor';
 
 export abstract class ArithmeticExpression extends BinaryExpression {
   constructor(left: Expression, right: Expression, location: Location) {
@@ -25,8 +25,6 @@ export abstract class ArithmeticExpression extends BinaryExpression {
       );
     }
   }
-
-  abstract evaluate(form: FormGroup): LiteralType;
 }
 
 export class MultiplyExpression extends ArithmeticExpression {
@@ -34,8 +32,8 @@ export class MultiplyExpression extends ArithmeticExpression {
     super(left, right, location);
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return <number>this.left.evaluate(form) * <number>this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitMultiplyExpression(this);
   }
 }
 
@@ -44,8 +42,8 @@ export class DivideExpression extends ArithmeticExpression {
     super(left, right, location);
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return <number>this.left.evaluate(form) / <number>this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitDivideExpression(this);
   }
 }
 
@@ -54,8 +52,8 @@ export class AddExpression extends ArithmeticExpression {
     super(left, right, location);
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return <number>this.left.evaluate(form) + <number>this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitAddExpression(this);
   }
 }
 
@@ -64,7 +62,7 @@ export class SubtractExpression extends ArithmeticExpression {
     super(left, right, location);
   }
 
-  evaluate(form: FormGroup): LiteralType {
-    return <number>this.left.evaluate(form) - <number>this.right.evaluate(form);
+  accept<T>(visitor: ExpressionVisitor<T>): T {
+    return visitor.visitSubtractExpression(this);
   }
 }

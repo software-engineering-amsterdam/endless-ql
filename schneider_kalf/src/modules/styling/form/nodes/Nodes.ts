@@ -1,10 +1,10 @@
-import Stylesheet from "./StyleSheet";
+import StyleSheetNode from "./StyleSheetNode";
 import BaseAttribute from "./attributes/BaseAttribute";
 import Page from "./containers/PageNode";
 import Section from "./containers/SectionNode";
 import WidgetAttribute from "./attributes/WidgetAttribute";
 import QuestionStyle from "./children/QuestionStyle";
-import DefaultStyle from "./children/DefaultStyle";
+import DefaultStyle from "./children/DefaultStyleNode";
 
 /**
  * List all available node types for easy access in the grammar.
@@ -12,7 +12,7 @@ import DefaultStyle from "./children/DefaultStyle";
  * instances inside the parser.
  */
 export default {
-  Stylesheet,
+  Stylesheet: StyleSheetNode,
   BaseAttribute,
   WidgetAttribute,
   Page,

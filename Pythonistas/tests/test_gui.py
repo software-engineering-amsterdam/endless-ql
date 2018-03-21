@@ -12,7 +12,6 @@ def test_input_frame(qtbot):
 
     qtbot.mouseClick(screen.parse_button, QtCore.Qt.LeftButton)
     qtbot.mouseClick(screen.quit_button, QtCore.Qt.LeftButton)
-    # print(screen.isVisible())
     assert screen.isVisible() == False
 
 def test_output_frame(qtbot):
@@ -67,7 +66,7 @@ def test_main_window(qtbot):
 #     assert testtext == 'Did you sell a house in 2010?undefined\nDid you by a house in 2010?undefined\nDid you enter a loan for maintenance/reconstruction?undefined\n'
 #
 
-# # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # """
 # Documentation goes here:
 #

@@ -1,5 +1,6 @@
 package nl.uva.js.qlparser.models.ql.expressions.data;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -29,6 +30,7 @@ public class Variable implements DataExpression {
     }
 
     @Override
+    @JsonValue
     public Object value() {
         return NonNullRun.function(value, DataExpression::value);
     }

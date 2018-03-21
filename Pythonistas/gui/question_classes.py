@@ -13,16 +13,16 @@ class Question:
         self.visibility = True
         self.question_frame = None
 
-    def set_answer(self, answer):
-        self.answer = answer
+    # def set_answer(self, answer):
+    #     self.answer = answer
 
-    def get_answer(self):
-        return self.answer
+    # def get_answer(self):
+    #     return self.answer
 
     def get_data_type(self):
         return self.data_type
 
-    def if_is_set_true(self):
+    def if_is_set_true(self):  # todo: find proper name for this
         if self.question_frame:
             self.question_frame.setVisible(True)
         else:
@@ -30,7 +30,7 @@ class Question:
         # Restores the original answer when the question is revealed again.
         self.answer = self.hidden_answer
 
-    def if_is_set_false(self):
+    def if_is_set_false(self):  # todo: find proper name for this
         if self.question_frame:
             self.question_frame.setVisible(False)
         else:

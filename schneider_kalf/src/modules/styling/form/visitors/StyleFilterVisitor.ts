@@ -1,11 +1,11 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
-import DefaultStyle from "../nodes/children/DefaultStyle";
+import DefaultStyle from "../nodes/children/DefaultStyleNode";
 import Page from "../nodes/containers/PageNode";
 import QuestionStyle from "../nodes/children/QuestionStyle";
 import Section from "../nodes/containers/SectionNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheet";
+import Stylesheet from "../nodes/StyleSheetNode";
 import StyleTreeNode from "../nodes/StyleTreeNode";
 
 const defaults: StyleFilterOptions = {
@@ -56,7 +56,6 @@ export default class StyleFilterVisitor implements StyleNodeVisitor {
     return this.visitChildren(stylesheet.children);
   }
 
-  // TODO: Either use body or children so we can use this general function
   private visitChildren(children: StyleTreeNode[]) {
     if (this.isInitial === false && this.options.recursive === false) {
       return [];

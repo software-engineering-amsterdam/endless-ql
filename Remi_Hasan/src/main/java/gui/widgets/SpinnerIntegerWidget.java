@@ -13,6 +13,8 @@ public class SpinnerIntegerWidget extends SpinnerWidget<Integer>{
 
     public SpinnerIntegerWidget(Question question){
         super(question);
+        this.managedProperty().bind(this.visibleProperty());
+        this.getEditor().setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*"));
     }
 
     @Override

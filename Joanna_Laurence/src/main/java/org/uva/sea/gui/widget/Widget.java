@@ -1,17 +1,11 @@
-package org.uva.sea.gui.newImpl.widget;
+package org.uva.sea.gui.widget;
 
 import javafx.scene.Node;
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import org.uva.sea.gui.newImpl.IGuiElementUpdateListener;
-import org.uva.sea.gui.newImpl.components.Renderable;
+import org.uva.sea.gui.IGuiElementUpdateListener;
+import org.uva.sea.gui.components.Renderable;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package org.uva.sea.gui.newImpl;
+package org.uva.sea.gui;
 
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 

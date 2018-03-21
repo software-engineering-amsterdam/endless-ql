@@ -192,4 +192,9 @@ public class DecimalValue extends Value {
     public NodeType getType() {
         return NodeType.DECIMAL;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.decimalValue);
+    }
 }

@@ -231,4 +231,9 @@ public class MoneyValue extends Value {
 
         throw new NotImplementedException();
     }
+
+    @Override
+    public String toString() {
+        return (this.amount != null) ? (this.currency + this.amount) : "No value";
+    }
 }

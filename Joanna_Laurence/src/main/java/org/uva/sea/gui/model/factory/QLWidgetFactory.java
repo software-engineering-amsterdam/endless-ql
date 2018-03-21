@@ -1,7 +1,7 @@
-package org.uva.sea.gui.newImpl.model.factory;
+package org.uva.sea.gui.model.factory;
 
-import org.uva.sea.gui.newImpl.IGuiElementUpdateListener;
-import org.uva.sea.gui.newImpl.widget.Widget;
+import org.uva.sea.gui.IGuiElementUpdateListener;
+import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.parser.NodeType;

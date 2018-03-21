@@ -189,4 +189,9 @@ public class IntValue extends Value {
     public NodeType getType() {
         return NodeType.INTEGER;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.intValue);
+    }
 }

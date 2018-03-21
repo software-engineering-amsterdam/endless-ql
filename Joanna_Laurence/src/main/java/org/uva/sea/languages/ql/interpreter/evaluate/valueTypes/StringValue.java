@@ -45,4 +45,9 @@ public class StringValue extends Value {
     public NodeType getType() {
         return NodeType.STRING;
     }
+
+    @Override
+    public String toString() {
+        return this.stringValue;
+    }
 }

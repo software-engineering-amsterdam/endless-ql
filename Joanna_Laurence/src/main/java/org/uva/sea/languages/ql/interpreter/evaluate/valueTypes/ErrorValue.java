@@ -42,4 +42,9 @@ public class ErrorValue extends Value {
     public NodeType getType() {
         return NodeType.UNKNOWN;
     }
+
+    @Override
+    public String toString() {
+        return (this.error != null) ? this.error : "No value";
+    }
 }

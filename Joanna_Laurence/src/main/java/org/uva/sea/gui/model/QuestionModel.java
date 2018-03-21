@@ -1,10 +1,10 @@
-package org.uva.sea.gui.newImpl.model;
+package org.uva.sea.gui.model;
 
-import org.uva.sea.gui.newImpl.IGuiElementUpdateListener;
-import org.uva.sea.gui.newImpl.components.GuiMessage;
-import org.uva.sea.gui.newImpl.components.Renderable;
-import org.uva.sea.gui.newImpl.model.factory.WidgetFactory;
-import org.uva.sea.gui.newImpl.widget.Widget;
+import org.uva.sea.gui.IGuiElementUpdateListener;
+import org.uva.sea.gui.components.GuiMessage;
+import org.uva.sea.gui.components.Renderable;
+import org.uva.sea.gui.model.factory.WidgetFactory;
+import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.languages.BaseEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;

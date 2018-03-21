@@ -110,6 +110,6 @@ public class DateValue extends Value {
 
     @Override
     public String toString() {
-        return (this.value != null) ? this.value.getDateValue().toString() : "No value";
+        return (this.dateValue != null) ? this.dateValue.toString() : "No value";
     }
 }

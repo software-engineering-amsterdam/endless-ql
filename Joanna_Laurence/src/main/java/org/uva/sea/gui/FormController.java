@@ -1,13 +1,13 @@
-package org.uva.sea.gui.newImpl;
+package org.uva.sea.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-import org.uva.sea.gui.newImpl.model.QuestionModel;
-import org.uva.sea.gui.newImpl.components.GuiMessage;
-import org.uva.sea.gui.newImpl.components.Renderable;
+import org.uva.sea.gui.model.QuestionModel;
+import org.uva.sea.gui.components.GuiMessage;
+import org.uva.sea.gui.components.Renderable;
 import org.uva.sea.languages.BaseEvaluator;
 import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.QlSEvaluator;

@@ -1,4 +1,4 @@
-package org.uva.sea.gui.newImpl;
+package org.uva.sea.gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

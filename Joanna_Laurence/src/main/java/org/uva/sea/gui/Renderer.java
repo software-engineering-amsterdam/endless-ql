@@ -1,8 +1,8 @@
-package org.uva.sea.gui.newImpl;
+package org.uva.sea.gui;
 
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-import org.uva.sea.gui.newImpl.components.Renderable;
+import org.uva.sea.gui.components.Renderable;
 
 public class Renderer {
     private VBox container;

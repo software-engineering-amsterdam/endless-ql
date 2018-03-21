@@ -1,4 +1,4 @@
-package org.uva.sea.gui.newImpl.components;
+package org.uva.sea.gui.components;
 
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;

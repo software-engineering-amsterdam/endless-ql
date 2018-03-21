@@ -45,7 +45,11 @@ type
 
 style: OPEN_BRACKET styleProperty+ widget? CLOSE_BRACKET;
 
-styleProperty: property=ID ':' value;
+styleProperty: 'fontsize:' NUMBER #fontSizeProperty
+             | 'font:' STRING     #fontProperty
+             | 'width:' NUMBER    #widthProperty
+             | 'color:' COLOR     #colorProperty
+             ;
 
 value: STRING # stringValue
      | NUMBER # numberValue

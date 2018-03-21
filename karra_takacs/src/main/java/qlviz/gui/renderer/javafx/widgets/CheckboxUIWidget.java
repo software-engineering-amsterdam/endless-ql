@@ -5,9 +5,12 @@ import javafx.scene.control.CheckBox;
 import qlviz.gui.viewModel.question.*;
 
 
-public class CheckboxUIWidget implements UIWidget, QuestionViewModelVisitor {
+public class CheckboxUIWidget extends ControlUIWidget<CheckBox> implements QuestionViewModelVisitor {
 
-    private final CheckBox node = new CheckBox();
+    public CheckboxUIWidget() {
+        super();
+        this.node = new CheckBox();
+    }
 
     @Override
     public Node getNode() {

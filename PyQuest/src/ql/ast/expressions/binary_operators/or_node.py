@@ -14,4 +14,4 @@ class OrOperatorNode(BinaryOperatorNode):
         return QLUndefined
 
     def evaluate(self):
-        self.value = self.expression_type(self.left_expression.value.value or self.right_expression.value.value)
+        self.value = self.expression_type(self.left_expression.value or self.right_expression.value)

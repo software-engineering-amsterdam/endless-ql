@@ -1,11 +1,11 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
 import DefaultStyle from "../nodes/children/DefaultStyle";
 import QuestionStyle from "../nodes/children/QuestionStyle";
-import Section from "../nodes/containers/Section";
-import Page from "../nodes/containers/Page";
+import Section from "../nodes/containers/SectionNode";
+import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheet";
+import Stylesheet from "../nodes/StyleSheetNode";
 import { checkBaseAttribute, checkWidgetAttribute } from "../style_helpers";
 
 export default class TypeCheckVisitor implements StyleNodeVisitor {

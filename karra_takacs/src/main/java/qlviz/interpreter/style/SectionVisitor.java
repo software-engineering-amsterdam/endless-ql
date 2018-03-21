@@ -21,8 +21,10 @@ public class SectionVisitor extends QLSBaseVisitor<Section> {
 
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
+        String header = ctx.STRING().getText() ;
+        header = header.substring(1, header.length()-1);
         Section section = new Section(
-               ctx.STRING().getText(),
+               header,
                ctx.question()
                     .stream()
                     .map(questionVisitor::visitQuestion)

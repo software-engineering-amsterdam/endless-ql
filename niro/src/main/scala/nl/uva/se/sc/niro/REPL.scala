@@ -109,9 +109,8 @@ class REPL extends Application with Logging {
           val inputField = new TextField()
 
           val answer: Option[Answer] = dictionary.get(id)
-          answer foreach {
-            case IntegerAnswer(Some(value)) => inputField.setText(value.toString)
-            case IntegerAnswer(None)        => ()
+          answer foreach { value =>
+            inputField.setText(value.toString)
           }
 
           inputField
@@ -119,9 +118,9 @@ class REPL extends Application with Logging {
             .addListener(new ChangeListener[String] {
               def changed(p1: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit = {
                 logger.debug(s"change event on question: $id")
-                val intAnswer = IntegerAnswer(Try(newValue.toInt).toOption)
+                val maybeIntegerAnswer = Try(newValue.toInt).toOption.map(value => IntegerAnswer(value))
 
-                dictionary(id) = intAnswer
+                maybeIntegerAnswer foreach (answer => dictionary(id) = answer)
                 val updatedDictionary = qlFormOrError.map(Evaluator.evaluate(_, dictionary.toMap)).toOption.get
                 pprint.pprintln(updatedDictionary)
                 dictionary ++= mutable.Map(updatedDictionary.toSeq: _*)

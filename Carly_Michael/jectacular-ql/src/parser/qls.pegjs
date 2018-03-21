@@ -56,7 +56,7 @@ questionWithoutType   = whitespace comment* whitespace "question" whitespace nam
                           return new astQls.QlsQuestion(name, new astQls.Widget(astQls.WidgetType.NONE, []), location());
                         }
 
-defaultWidget         = defaultWithStyles / defaultWithoutStyles
+default               = defaultWithStyles / defaultWithoutStyles
 
 defaultWithStyles     = whitespace comment* whitespace "default" whitespace type:type whitespace "{" whitespace
                           styles:style*
@@ -68,6 +68,11 @@ defaultWithStyles     = whitespace comment* whitespace "default" whitespace type
 defaultWithoutStyles  = whitespace comment* whitespace "default" whitespace type:type whitespace widget:defaultWidget {
                           return new astQls.DefaultStyling(type, widget, [], location());
                         }
+
+defaultWidget         = whitespace comment* whitespace "widget" whitespace type:widget {
+                          return type;
+                        }
+
 
 style                 = numberStyle / hexStyle / asciiStyle
 

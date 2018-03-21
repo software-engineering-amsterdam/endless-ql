@@ -12,7 +12,6 @@ class MultiplicationOperatorNode(BinaryOperatorNode):
                               (QLDecimal, QLInteger): QLDecimal,
                               (QLDecimal, QLMoney):   QLMoney,
                               (QLInteger, QLInteger): QLInteger,
-                              (QLInteger, QLInteger): QLDecimal,
                               (QLInteger, QLDecimal): QLDecimal,
                               (QLInteger, QLMoney):   QLMoney,
                               (QLMoney, QLDecimal): QLMoney,
@@ -24,4 +23,4 @@ class MultiplicationOperatorNode(BinaryOperatorNode):
         return QLUndefined
 
     def evaluate(self):
-        self.value = self.expression_type(self.left_expression.value.value * self.right_expression.value.value)
+        self.value = self.expression_type(self.left_expression.value * self.right_expression.value)

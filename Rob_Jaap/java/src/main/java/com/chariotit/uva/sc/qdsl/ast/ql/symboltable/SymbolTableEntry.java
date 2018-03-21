@@ -1,6 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.symboltable;
 
 import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.ExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.AstNode;
 
 public class SymbolTableEntry {
@@ -8,6 +9,7 @@ public class SymbolTableEntry {
     private String label;
     private AstNode node;
     private ExpressionType expressionType;
+    private ExpressionValue expressionValue;
 
 
     public SymbolTableEntry(String label, AstNode node) {
@@ -45,4 +47,11 @@ public class SymbolTableEntry {
         this.expressionType = expressionType;
     }
 
+    public ExpressionValue getExpressionValue() {
+        return expressionValue;
+    }
+
+    public void setExpressionValue(ExpressionValue expressionValue) {
+        this.expressionValue = expressionValue;
+    }
 }

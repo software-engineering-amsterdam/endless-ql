@@ -1,7 +1,7 @@
 from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.date_node import DateNode
-from gui.model.widgets import CalendarWidget
+from gui.widgets.calendar import CalendarWidget
 
 
 class QLDate(QLType):
@@ -11,6 +11,9 @@ class QLDate(QLType):
         self.__day, self.__month, self.__year = date
 
     def __repr__(self):
+        return '{}-{}-{}'.format(self.day, self.month, self.year)
+
+    def __str__(self):
         return '{}-{}-{}'.format(self.day, self.month, self.year)
 
     def __eq__(self, other):

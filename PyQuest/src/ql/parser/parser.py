@@ -249,14 +249,17 @@ class QLParser:
                 | IF LEFT_BRACKET expression MINUS expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
                 | IF LEFT_BRACKET expression TIMES expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
                 | IF LEFT_BRACKET expression DIVIDE expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
-        print('Condition of if statement does not evaluate to boolean.')
-        raise SyntaxError
+        print('a')
+        raise SyntaxError('Condition of if statement does not evaluate to boolean')
 
-    # @staticmethod
-    # def p_form_error(p):
-    #     """form : FORM VARIABLE LEFT_BRACE RIGHT_BRACE"""
-    #     print('Empty form.')
-    #     raise SyntaxError
-
-    def p_error(self, p):
+    @staticmethod
+    def p_form_error(p):
+        """form : FORM VARIABLE LEFT_BRACE RIGHT_BRACE"""
+        print('empty form')
         raise SyntaxError
+        # raise SyntaxError('Empty form at line {}, token={}'.format(p, p))
+        # raise SyntaxError('abc')
+
+    @staticmethod
+    def p_error(p):
+        raise SyntaxError('Syntax error at line {}, token={}'.format(p.lineno, p.type))

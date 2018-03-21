@@ -1,23 +1,30 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.constant;
 
+import com.chariotit.uva.sc.qdsl.ast.BooleanExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.Constant;
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public class BooleanConstant extends Constant {
 
-    private Boolean value;
+    private BooleanExpressionValue value;
 
-    public BooleanConstant(Boolean value, Integer lineNumber, Integer columnNumber) {
+    public BooleanConstant(BooleanExpressionValue value, Integer lineNumber, Integer columnNumber) {
         super(lineNumber, columnNumber);
         this.value = value;
     }
 
-    public Boolean getValue() {
+    public BooleanExpressionValue getValue() {
         return value;
     }
 
-    public void setValue(Boolean value) {
+    public void setValue(BooleanExpressionValue value) {
         this.value = value;
+    }
+
+
+    @Override
+    public void evaluate(SymbolTable symbolTable) {
     }
 
     @Override

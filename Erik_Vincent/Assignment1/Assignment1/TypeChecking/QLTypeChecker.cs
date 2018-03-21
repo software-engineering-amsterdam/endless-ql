@@ -1,139 +1,126 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
-using Assignment1.Converters;
-using Assignment1.Model.QL.RenderTree;
-using Assignment1.Model.QL.RenderTree.QLExpression;
+using Assignment1.Model.QL.AST;
+using Assignment1.Model.QL.AST.Expression;
+using Assignment1.Model.QL.AST.Value;
 using Assignment1.Parser;
 
 namespace Assignment1.TypeChecking
 {
-    internal class QLTypeChecker : QLBaseListener, IQuestionVisitor
+    internal class QLTypeChecker : IQLASTVisitor, IExpressionVisitor
     {
-        private QuestionForm _form;
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
         private readonly List<string> _warnings = new List<string>();
         private QLParseErrorHandler _errorHandler = new QLParseErrorHandler();
-        private int currentLineNumber = 0;
+        private Type _currentType = Type.Undefined;
+        public List<string> Warnings => _warnings;
 
         #region Type checking functions
 
-        private void TypeCheckQuestionId(string questionId)
+        public void TypeCheckQuestionForm(QuestionForm questionForm) => questionForm.Accept(this);
+
+        private void TypeCheckQuestionId(int lineNumber, string questionId)
         {
             if (QuestionIdExists(questionId))
             {
-                _errorHandler.AddError(currentLineNumber, "The question id '" + questionId + "' already exists in the current context.");
+                _errorHandler.AddError(lineNumber, "The question id '" + questionId + "' already exists in the current context.");
             }
         }
 
-        private void TypeCheckQuestionLabel(string questionLabel)
+        private void TypeCheckQuestionLabel(int lineNumber, string questionLabel)
         {
             if (QuestionLabelExists(questionLabel))
-                _warnings.Add("Line " + currentLineNumber + ": The question label '" + questionLabel + "' has already been used.");
+                _warnings.Add("Line " + lineNumber + ": The question label '" + questionLabel + "' has already been used.");
         }
 
-        private void TypeCheckQuestionBool(QuestionBool question)
+        private void TypeCheckQuestionAnswer(int lineNumber, Type questionType, IValue questionValue)
         {
-            string questionId = question.Id;
-            TypeCheckQuestionId(questionId);
-            TypeCheckQuestionLabel(question.Label);
-            if (question.Computed)
+            questionValue.Accept(this);
+            string errorMessage = "Cannot assign value of type " + _currentType.ToString() + " to question of type " + questionType.ToString() + ".";
+            if (_currentType != Type.Undefined)
             {
-                if (!(question.Computation.Evaluate() is bool))
-                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to bool.");
-            }
-            else
-            {
-                if (!(question.Value is bool))
-                    _errorHandler.AddError(currentLineNumber, "The value is not of type bool.");
-            }
-        }
-
-        private void TypeCheckQuestionInt(QuestionInt question)
-        {
-            string questionId = question.Id;
-            TypeCheckQuestionId(questionId);
-            TypeCheckQuestionLabel(question.Label);
-            if (question.Computed)
-            {
-                if (!(question.Computation.Evaluate() is int))
-                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to int.");
-            }
-            else
-            {
-                if (!(question.Value is int))
-                    _errorHandler.AddError(currentLineNumber, "The value is not of type int.");
+                if (questionType == Type.Boolean && _currentType != Type.Boolean)
+                    _errorHandler.AddError(lineNumber, errorMessage);
+                if (questionType == Type.String && _currentType != Type.String)
+                    _errorHandler.AddError(lineNumber, errorMessage);
+                if (questionType == Type.Money && _currentType != Type.Money)
+                    _errorHandler.AddError(lineNumber, errorMessage);
+                if (questionType == Type.Date && _currentType != Type.Date)
+                    _errorHandler.AddError(lineNumber, errorMessage);
+                if (questionType == Type.Decimal && _currentType != Type.Decimal)
+                    _errorHandler.AddError(lineNumber, errorMessage);
+                if (questionType == Type.Integer && _currentType != Type.Integer)
+                    _errorHandler.AddError(lineNumber, errorMessage);
             }
         }
 
-        private void TypeCheckQuestionDecimal(QuestionDecimal question)
+        private void TypeCheckQuestionAnswer(int lineNumber, Type questionType, IExpression questionExpression)
         {
-            string questionId = question.Id;
-            TypeCheckQuestionId(questionId);
-            TypeCheckQuestionLabel(question.Label);
-            if (question.Computed)
-            {
-                if (!(question.Computation.Evaluate() is decimal))
-                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to decimal.");
-            }
-            else
-            {
-                if (!(question.Value is decimal))
-                    _errorHandler.AddError(currentLineNumber, "The value is not of type decimal.");
-            }
+            questionExpression.Accept(this);
+            string errorMessage = "Cannot assign expression of type " + _currentType.ToString() + " to question of type " + questionType.ToString() + ".";
+            if (questionType == Type.Boolean && _currentType != Type.Boolean)
+                _errorHandler.AddError(lineNumber, errorMessage);
+            if (questionType == Type.String && _currentType != Type.String)
+                _errorHandler.AddError(lineNumber, errorMessage);
+            if (questionType == Type.Money && _currentType != Type.Money)
+                _errorHandler.AddError(lineNumber, errorMessage);
+            if (questionType == Type.Date && _currentType != Type.Date)
+                _errorHandler.AddError(lineNumber, errorMessage);
+            if (questionType == Type.Decimal && _currentType != Type.Decimal)
+                _errorHandler.AddError(lineNumber, errorMessage);
+            if (questionType == Type.Integer && _currentType != Type.Integer)
+                _errorHandler.AddError(lineNumber, errorMessage);
         }
 
-        private void TypeCheckQuestionDecimal(QuestionMoney question)
+        private Type TypeCheckBinaryLogical(Binary expression, string logicalOperator)
         {
-            string questionId = question.Id;
-            TypeCheckQuestionId(questionId);
-            TypeCheckQuestionLabel(question.Label);
-            if (question.Computed)
+            expression.Left.Accept(this);
+            Type leftType = _currentType;
+            expression.Right.Accept(this);
+            Type rightType = _currentType;
+
+            if (leftType != Type.Boolean && rightType != Type.Boolean)
             {
-                if (!(question.Computation.Evaluate() is decimal))
-                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to decimal.");
+                _errorHandler.AddError(expression.LineNumber, "Operator " + logicalOperator + 
+                    " cannot be applied to expressions of types " + leftType.ToString() + " and " + rightType.ToString() + ".");
             }
-            else
-            {
-                if (!(question.Value is decimal))
-                    _errorHandler.AddError(currentLineNumber, "The value is not of type decimal.");
-            }
+
+            return Type.Boolean;
         }
 
-        private void TypeCheckQuestionString(QuestionString question)
+        private Type TypeCheckBinaryComparison(Binary expression, string comparisonOperator)
         {
-            string questionId = question.Id;
-            TypeCheckQuestionId(questionId);
-            TypeCheckQuestionLabel(question.Label);
-            if (question.Computed)
+            expression.Left.Accept(this);
+            Type leftType = _currentType;
+            expression.Right.Accept(this);
+            Type rightType = _currentType;
+
+            bool comparisonCondition = comparisonOperator.Equals("==") || comparisonOperator.Equals("!=") ?
+                (leftType != Type.Boolean && rightType != Type.Boolean) || (!leftType.IsNumeric() && !rightType.IsNumeric()) :
+                (!leftType.IsNumeric() && !rightType.IsNumeric());
+            if (comparisonCondition)
             {
-                if (!(question.Computation.Evaluate() is string))
-                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to string.");
+                _errorHandler.AddError(expression.LineNumber, "Operator " + comparisonOperator +
+                    " cannot be applied to expressions of types " + leftType.ToString() + " and " + rightType.ToString() + ".");
             }
-            else
-            {
-                if (!(question.Value is string))
-                    _errorHandler.AddError(currentLineNumber, "The value is not of type string.");
-            }
+
+            return Type.Boolean;
         }
 
-        private void TypeCheckQuestionDate(QuestionDate question)
+        private Type TypeCheckBinaryArithmetic(Binary expression, string arithmeticOperator)
         {
-            string questionId = question.Id;
-            TypeCheckQuestionId(questionId);
-            TypeCheckQuestionLabel(question.Label);
-            if (question.Computed)
+            expression.Left.Accept(this);
+            Type leftType = _currentType;
+            expression.Right.Accept(this);
+            Type rightType = _currentType;
+
+            if (!leftType.IsNumeric() && !rightType.IsNumeric())
             {
-                if (!(question.Computation.Evaluate() is DateTime))
-                    _errorHandler.AddError(currentLineNumber, "The expression does not evaluate to date.");
+                _errorHandler.AddError(expression.LineNumber, "Operator " + arithmeticOperator +
+                    " cannot be applied to expressions of types " + leftType.ToString() + " and " + rightType.ToString() + ".");
             }
-            else
-            {
-                if (!(question.Value is DateTime))
-                    _errorHandler.AddError(currentLineNumber, "The value is not of type date.");
-            }
+
+            return TypeMethods.InferArithmeticType(leftType, rightType);
         }
 
         private bool QuestionIdExists(string questionId) => _questions.ContainsKey(questionId);
@@ -151,128 +138,141 @@ namespace Assignment1.TypeChecking
 
         #endregion
 
-        #region Listener implementation
+        #region QLNode visitor implementation
 
-        public override void ExitForm(QL.FormContext context)
+        public void Visit(QuestionForm questionForm)
         {
-            foreach (string warning in _warnings)
+            foreach (Statement statement in questionForm.Statements)
             {
-                Console.WriteLine(warning);
+                statement.Accept(this);
             }
-            _form = QLASTToRenderTree.Convert(context.result);
-            _form.Warnings = _warnings;
+            if (_errorHandler.FormHasErrors)
+                _errorHandler.ThrowQLParseException();
         }
 
-        /* Check for each question if the id already exists and add an error if this is the case.
-         */
-        //public override void ExitQuestion(QL.QuestionContext context)
-        //{
-        //    currentLineNumber = context.Start.Line;
-        //    string questionId = context.result.Id;
-
-        //    context.result.Accept(this);
-        //    _questions.Add(questionId, context.result);
-        //}
-
-        ///* Check for each if statement if the expression in the condition is of type boolean.
-        // */
-        //public override void ExitIfstatement(QL.IfstatementContext context)
-        //{
-        //    object conditionType = context._expression.result.Evaluate();
-        //    if (!(conditionType is bool))
-        //    {
-        //        _errorHandler.AddError(context.Start.Line, "The expression '" + context._expression.GetText() + "' in the if statement is not of type boolean.");
-        //    }
-        //}
-
-        /* Check for each expression if the left and right operands are of the correct type.
-         * For example, for an arithmetic expression the left and right operands should be numeric.
-         */
-        //public override void ExitExpression(QL.ExpressionContext context)
-        //{
-        //    Expression expression = context.result;
-        //    try
-        //    {
-        //        var expressionType = expression.Evaluate();
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        _errorHandler.AddError(context.Start.Line, exception.Message);
-        //    }
-        //}
-
-        ///* Check for each expressionId if the referenced questionId exists. Adds an error message
-        // * if this is not the case.
-        // */
-        //public override void ExitExpressionId(QL.ExpressionIdContext context)
-        //{
-        //    try
-        //    {
-        //        context.result.Question = _questions[context.result.Id];
-        //    }
-        //    catch (KeyNotFoundException)
-        //    {
-        //        _errorHandler.AddError(context.Start.Line, "The question id '" + context.result.Id + "' does not exist in the current context.");
-        //    }
-        //}
-
-        #endregion
-
-        #region Visitor implementation
-
-        public void Visit(QuestionBool question)
+        public void Visit(NormalQuestion question)
         {
-            TypeCheckQuestionBool(question);
+            TypeCheckQuestionId(question.LineNumber, question.Id);
+            TypeCheckQuestionLabel(question.LineNumber, question.Label);
+            TypeCheckQuestionAnswer(question.LineNumber, question.Type, question.Answer);
+            _questions.Add(question.Id, question);
         }
 
-        public void Visit(QuestionInt question)
+        public void Visit(ComputedQuestion question)
         {
-            TypeCheckQuestionInt(question);
+            TypeCheckQuestionId(question.LineNumber, question.Id);
+            TypeCheckQuestionLabel(question.LineNumber, question.Label);
+            TypeCheckQuestionAnswer(question.LineNumber, question.Type, question.Computation);
+            _questions.Add(question.Id, question);
         }
 
-        public void Visit(QuestionDate question)
+        public void Visit(IfStatement ifStatement)
         {
-            TypeCheckQuestionDate(question);
-        }
-
-        public void Visit(QuestionDecimal question)
-        {
-            TypeCheckQuestionDecimal(question);
-        }
-
-        public void Visit(QuestionMoney question)
-        {
-            TypeCheckQuestionDecimal(question);
-        }
-
-        public void Visit(QuestionString question)
-        {
-            TypeCheckQuestionString(question);
+            ifStatement.Condition.Accept(this);
+            if (_currentType != Type.Boolean)
+                _errorHandler.AddError(ifStatement.LineNumber, "The condition in if statement is not of type boolean.");
+            foreach (Statement statement in ifStatement.ThenStatements)
+            {
+                statement.Accept(this);
+            }
+            foreach (Statement statement in ifStatement.ElseStatements)
+            {
+                statement.Accept(this);
+            }
         }
 
         #endregion
 
-        internal static QuestionForm ParseString(string input)
+        #region Value visitor implementation
+
+        public void Visit(QLBoolean value)
         {
-            QLTypeChecker listener = new QLTypeChecker();
-            QLErrorListener errorListener = new QLErrorListener(listener._errorHandler);
-
-            ICharStream stream = CharStreams.fromstring(input);
-            var lexer = new QLLexer(stream);
-            lexer.RemoveErrorListeners();
-            lexer.AddErrorListener(errorListener);
-            ITokenStream tokens = new CommonTokenStream(lexer);
-            QL parser = new QL(tokens);
-            parser.RemoveErrorListeners();
-            parser.AddErrorListener(errorListener);
-            QL.FormContext context = parser.form();
-
-            ParseTreeWalker walker = new ParseTreeWalker();
-            walker.Walk(listener, context);
-
-            if (listener._errorHandler.FormHasErrors)
-                listener._errorHandler.ThrowQLParseException();
-            return listener._form;
+            _currentType = Type.Boolean;
         }
+
+        public void Visit(QLInteger value)
+        {
+            _currentType = Type.Integer;
+        }
+
+        public void Visit(Undefined undefined)
+        {
+            _currentType = Type.Undefined;
+        }
+
+        public void Visit(QLString value)
+        {
+            _currentType = Type.String;
+        }
+
+        public void Visit(QLDate value)
+        {
+            _currentType = Type.Date;
+        }
+
+        public void Visit(QLDecimal value)
+        {
+            _currentType = Type.Decimal;
+        }
+
+        public void Visit(QLMoney value)
+        {
+            _currentType = Type.Money;
+        }
+
+        #endregion
+
+        #region Expression visitor implementation
+
+        public void Visit(Not expression)
+        {
+            expression.Accept(this);
+
+            if (_currentType != Type.Boolean)
+            {
+                _errorHandler.AddError(expression.LineNumber, "Operator ! cannot be applied to expression of type " + _currentType.ToString());
+            }
+
+            _currentType = Type.Boolean;
+        }
+
+        public void Visit(Reference expression)
+        {
+            Question referenced = QuestionIdExists(expression.QuestionId) ? _questions[expression.QuestionId] : null;
+            if (referenced == null)
+            {
+                _errorHandler.AddError(expression.LineNumber, "Reference to " + expression.QuestionId + " in expression does not exist.");
+                _currentType = Type.Undefined;
+            } else
+            {
+                _currentType = referenced.Type;
+            }
+        }
+
+        public void Visit(And expression) => _currentType = TypeCheckBinaryLogical(expression, "&&");
+
+        public void Visit(Or expression) => _currentType = TypeCheckBinaryLogical(expression, "||");
+
+        public void Visit(LessThan expression) => _currentType = TypeCheckBinaryComparison(expression, "<");
+
+        public void Visit(GreaterThan expression) => _currentType = TypeCheckBinaryComparison(expression, ">");
+
+        public void Visit(GreaterThanOrEqual expression) => _currentType = TypeCheckBinaryComparison(expression, ">=");
+
+        public void Visit(LessThanOrEqual expression) => _currentType = TypeCheckBinaryComparison(expression, "<=");
+
+        public void Visit(NotEqual expression) => _currentType = TypeCheckBinaryComparison(expression, "!=");
+
+        public void Visit(Equal expression) => _currentType = TypeCheckBinaryComparison(expression, "==");
+
+        public void Visit(Add expression) => _currentType = TypeCheckBinaryArithmetic(expression, "+");
+
+        public void Visit(Subtract expression) => _currentType = TypeCheckBinaryArithmetic(expression, "-");
+
+        public void Visit(Multiply expression) => _currentType = TypeCheckBinaryArithmetic(expression, "*");
+
+        public void Visit(Divide expression) => _currentType = TypeCheckBinaryArithmetic(expression, "/");
+
+        #endregion
     }
 }

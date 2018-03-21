@@ -16,7 +16,9 @@ export default abstract class AbstractStyleNode implements StyleTreeNode {
     while (parent !== null) {
 
       // TODO: Refactor so this isn't needed
-      if (parent === undefined) { break; }
+      if (parent === undefined) {
+        break;
+      }
 
       parents.push(parent);
       parent = parent.getParent();
@@ -29,10 +31,9 @@ export default abstract class AbstractStyleNode implements StyleTreeNode {
     this.parent = parent;
   }
 
-  setStyle() {
-    return;
+  getNearestParent(test: (node: StyleTreeNode) => boolean): StyleTreeNode | undefined | any {
+    return this.getParents().reverse().find(test);
   }
 
   abstract accept(visitor: StyleNodeVisitor);
-
 }

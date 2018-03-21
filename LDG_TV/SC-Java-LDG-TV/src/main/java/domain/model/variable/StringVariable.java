@@ -19,10 +19,6 @@ public class StringVariable extends Variable {
     public Value<String> getValueObject() {
         return value;
     }
-    @Override
-    public void setValue(StringValue value){
-        this.value = value;
-    }
 
     @Override
     public void setUiElement(UIElement uiElement) {

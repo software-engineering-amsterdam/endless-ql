@@ -101,7 +101,6 @@ public class QLLoader extends FormBaseListener {
                 break;
             default:
                 this.notifyListenersWithError("Unknown variable type used");
-                //TODO Invalid variable type found. throw exception
         }
     }
     @Override
@@ -122,8 +121,8 @@ public class QLLoader extends FormBaseListener {
     public void enterVariableValue(FormParser.VariableValueContext ctx){
         if(ctx.expression().arithmeticExpression() instanceof FormParser.ArithmeticExpressionContext){
             constructedVariable.setValue(getArithmeticExpressionValue(ctx.expression().arithmeticExpression()));
-        }else if(ctx.expression().booleanExpression() instanceof FormParser.BooleanExpressionContext){
-            System.out.println("booleanexpression");
+        }
+        if(ctx.expression().booleanExpression() instanceof FormParser.BooleanExpressionContext){
             constructedVariable.setValue(getBooleanExpressionValue(ctx.expression().booleanExpression()));
         }
     }

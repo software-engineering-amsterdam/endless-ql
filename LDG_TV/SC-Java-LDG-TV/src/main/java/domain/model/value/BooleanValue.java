@@ -6,13 +6,14 @@ public class BooleanValue extends Value<Boolean>{
     public BooleanValue(Boolean value){
         this.value = value;
     }
+
     @Override
     public Boolean getValue() {
         return value;
     }
 
     @Override
-    public void accept(Boolean b) throws Exception {
+    public void accept(Boolean b){
         this.value = b;
     }
 }

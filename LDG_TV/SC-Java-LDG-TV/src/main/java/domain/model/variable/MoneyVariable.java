@@ -18,10 +18,6 @@ public class MoneyVariable extends Variable {
     public Value<Integer> getValueObject() {
         return value;
     }
-    @Override
-    public void setValue(MoneyValue value){
-        this.value = value;
-    }
 
     @Override
     public void setUiElement(UIElement uiElement) {

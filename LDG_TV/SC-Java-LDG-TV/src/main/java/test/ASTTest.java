@@ -46,7 +46,7 @@ public class ASTTest {
         qlChecker = new QLChecker(formNode);
         stringVariable = new StringVariable("testStringVariable", "testValue");
         stringValue = new StringValue("testStringValue");
-        stringVariable.setValue(stringValue);
+//        stringVariable.setValue(stringValue);
 
         qan1 = new QuestionNode("testQAN1", stringVariable, false);
         conditionNode = new ConditionNode(false);
@@ -59,8 +59,8 @@ public class ASTTest {
         leftHandOperandValue = new MoneyValue(1000);
         rightHandOperandValue = new MoneyValue(500);
 
-        leftHandOperand.setValue(leftHandOperandValue);
-        rightHandOperand.setValue(rightHandOperandValue);
+//        leftHandOperand.setValue(leftHandOperandValue);
+//        rightHandOperand.setValue(rightHandOperandValue);
 
         arithmeticExpressionValue = new ArithmeticExpressionValue(leftHandOperand, rightHandOperand, operator);
         arithmeticExpressionVariable.setValue(arithmeticExpressionValue);

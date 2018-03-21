@@ -30,11 +30,9 @@ public class BooleanExpressionValue extends BooleanValue{
                 return (Integer) this.leftHandOperand.getValueObject().getValue() >= (Integer) this.rightHandOperand.getValueObject().getValue();
             case "<=":
                 return (Integer) this.leftHandOperand.getValueObject().getValue() <= (Integer) this.rightHandOperand.getValueObject().getValue();
+            default:
+                System.out.println("No match found");
         }
         return false;
-    }
-    @Override
-    public void accept(Boolean aBoolean) throws Exception {
-
     }
 }

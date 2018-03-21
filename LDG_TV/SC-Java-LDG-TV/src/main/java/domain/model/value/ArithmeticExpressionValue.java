@@ -33,9 +33,4 @@ public class ArithmeticExpressionValue extends MoneyValue{
         }
         return null;
     }
-
-    @Override
-    public void accept(Integer integer) throws Exception {
-        // TODO ?
-    }
 }

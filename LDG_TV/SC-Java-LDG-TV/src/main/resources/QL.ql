@@ -19,7 +19,7 @@ form taxOfficeExample
 
   if(hasAttendCourses && applyCorrectly){
       "Congratulations you passed your masters"
-          passedMaster: boolean
+          passedMaster: boolean = (amountMandatoryCourses < passedCourses)
   }else{
       "You failed to pass or attend correcctly"
         failedMaster: boolean

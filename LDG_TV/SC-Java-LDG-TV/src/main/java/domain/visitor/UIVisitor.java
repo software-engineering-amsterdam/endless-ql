@@ -19,8 +19,6 @@ public class UIVisitor implements Visitor {
     public Node visit(BooleanVariable bv) {
         CheckBox cb = new CheckBox();
 
-        System.out.println("update checkbox");
-
         cb.setSelected(bv.getValueObject().getValue());
 
         JavaFxObservable
@@ -43,7 +41,7 @@ public class UIVisitor implements Visitor {
     public Node visit(MoneyVariable mv) {
         if (mv.getValueObject() instanceof ArithmeticExpressionValue){
             Label lbl = new Label();
-            lbl.setText(mv.getValueObject().getValue().toString());
+            lbl.setText(String.valueOf(mv.getValueObject().getValue()));
             return lbl;
         }else {
             TextField tf = new TextField(String.valueOf(mv.getValueObject().getValue()));

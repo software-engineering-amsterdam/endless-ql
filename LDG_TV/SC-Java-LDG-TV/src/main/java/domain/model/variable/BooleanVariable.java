@@ -22,9 +22,6 @@ public class BooleanVariable extends Variable {
     }
 
     @Override
-    public void setValue(BooleanValue value){this.value = value;}
-
-    @Override
     public void setUiElement(UIElement uiElement) {
         this.uiElement = uiElement;
     }

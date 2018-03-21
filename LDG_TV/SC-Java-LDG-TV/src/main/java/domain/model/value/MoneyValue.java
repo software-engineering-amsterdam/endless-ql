@@ -13,7 +13,7 @@ public class MoneyValue extends Value<Integer> {
     }
 
     @Override
-    public void accept(Integer integer) throws Exception {
+    public void accept(Integer integer) {
         this.value = integer;
     }
 }

@@ -4,13 +4,11 @@ import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
 import { NotImplementedYetError } from "../../../../../form/form_errors";
 
 export default class WidgetAttribute extends AbstractStyleNode implements StyleAttribute {
-  readonly name: string;
   readonly value: string;
   readonly options: string[] | undefined;
 
-  constructor(name: string, value: string, options?: string[]) {
+  constructor(value: string, options?: string[]) {
     super();
-    this.name = name;
     this.value = value;
     this.options = options;
   }
@@ -20,7 +18,7 @@ export default class WidgetAttribute extends AbstractStyleNode implements StyleA
   }
 
   getName(): string {
-    return this.name;
+    return "widget";
   }
 
   getStringValue(): string {

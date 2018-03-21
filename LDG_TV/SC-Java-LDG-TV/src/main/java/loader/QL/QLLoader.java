@@ -17,7 +17,6 @@ import java.text.Normalizer;
 import java.util.HashSet;
 import java.util.Set;
 
-
 public class QLLoader extends FormBaseListener {
     private FormNode formNode;
 

@@ -1,5 +1,7 @@
 package domain.model.ast;
 
+import org.mvel2.MVEL;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,21 +45,17 @@ public class ConditionNode extends ASTNode {
      * @return boolean whether conditions are satisfied.
      */
     public boolean checkConditions() {
-        boolean temp = true;
-        for (int i = 0; i < this.conditions.size(); i++) {
-            Condition condition = this.conditions.get(i);
+        boolean temp;
+        String booleanExpression = "";
+        for (Condition condition : this.conditions) {
             String operator = condition.getOperator();
             if (operator != null) {
-                switch (operator) {
-                    case "||":
-                        temp = temp || (Boolean) condition.getVariable().getValue().getValue();
-                    case "&&":
-                        temp = temp && (Boolean) condition.getVariable().getValue().getValue();
-                }
+                booleanExpression += String.valueOf(condition.getVariable().getValueObject().getValue()) + " " + condition.getOperator();
             } else {
-                temp = (Boolean) condition.getVariable().getValue().getValue();
+                booleanExpression += String.valueOf(condition.getVariable().getValueObject().getValue());
             }
         }
+        temp = (Boolean) MVEL.eval(booleanExpression);
         for (QuestionNode qan : this.getQuestionNodes()){
             qan.setDisabled(!temp);
         }

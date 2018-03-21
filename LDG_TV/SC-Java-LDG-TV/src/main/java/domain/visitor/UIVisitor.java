@@ -15,13 +15,13 @@ import javafx.scene.control.TextField;
 public class UIVisitor implements Visitor {
     @Override
     public Node visit(BooleanVariable bv) {
-        Boolean bool = bv.getValue().getValue();
+        Boolean bool = bv.getValueObject().getValue();
         CheckBox cb = new CheckBox();
         cb.setSelected(bool);
 
         JavaFxObservable
                 .valuesOf(cb.selectedProperty())
-                .subscribe(bv.getValue());
+                .subscribe(bv.getValueObject());
         return cb;
     }
 
@@ -30,7 +30,7 @@ public class UIVisitor implements Visitor {
         TextField tf = new TextField();
         JavaFxObservable
                 .valuesOf(tf.textProperty())
-                .subscribe(sv.getValue());
+                .subscribe(sv.getValueObject());
         return tf;
     }
 
@@ -43,12 +43,12 @@ public class UIVisitor implements Visitor {
 
     @Override
     public Node visit(MoneyVariable mv) {
-        TextField tf = new TextField(mv.getValue().toString());
+        TextField tf = new TextField(mv.getValueObject().toString());
         JavaFxObservable
                 .valuesOf(tf.textProperty())
                 .filter(Utilities::isNumeric)
                 .map(Integer::valueOf)
-                .subscribe(mv.getValue());
+                .subscribe(mv.getValueObject());
 
         return tf;
     }

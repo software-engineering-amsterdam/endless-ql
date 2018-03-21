@@ -17,17 +17,17 @@ public class BooleanExpressionValue extends Value<Boolean>{
     public Boolean getValue() {
         switch (operator) {
             case "==":
-                return this.leftHandOperand.getValue().getValue() ==  this.rightHandOperand.getValue().getValue();
+                return this.leftHandOperand.getValueObject().getValue().equals(this.rightHandOperand.getValueObject().getValue());
             case "!=":
-                return this.leftHandOperand.getValue().getValue() !=  this.rightHandOperand.getValue().getValue();
+                return this.leftHandOperand.getValueObject().getValue() !=  this.rightHandOperand.getValueObject().getValue();
             case ">":
-                return (Integer) this.leftHandOperand.getValue().getValue() >  (Integer) this.rightHandOperand.getValue().getValue();
+                return (Integer) this.leftHandOperand.getValueObject().getValue() >  (Integer) this.rightHandOperand.getValueObject().getValue();
             case "<":
-                return (Integer) this.leftHandOperand.getValue().getValue() <  (Integer) this.rightHandOperand.getValue().getValue();
+                return (Integer) this.leftHandOperand.getValueObject().getValue() <  (Integer) this.rightHandOperand.getValueObject().getValue();
             case ">=":
-                return (Integer) this.leftHandOperand.getValue().getValue() >= (Integer) this.rightHandOperand.getValue().getValue();
+                return (Integer) this.leftHandOperand.getValueObject().getValue() >= (Integer) this.rightHandOperand.getValueObject().getValue();
             case "<=":
-                return (Integer) this.leftHandOperand.getValue().getValue() <= (Integer) this.rightHandOperand.getValue().getValue();
+                return (Integer) this.leftHandOperand.getValueObject().getValue() <= (Integer) this.rightHandOperand.getValueObject().getValue();
         }
         return false;
     }

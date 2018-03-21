@@ -90,7 +90,7 @@ public class QLSLoader extends StylesheetBaseListener {
             }
             uiElement = new UIElement(ctx.uiIdentifier().getText(), ctx.uiType().getText(), options);
         }
-        v.setUiElement(uiElement);
+            v.setUiElement(uiElement);
 
     }
 

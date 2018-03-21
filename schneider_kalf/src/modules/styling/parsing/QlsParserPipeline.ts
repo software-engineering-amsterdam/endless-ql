@@ -1,5 +1,5 @@
 import { getQlsParser } from "./parsing_helpers";
-import StyleSheet from "../form/nodes/StyleSheet";
+import StyleSheet from "../form/nodes/StyleSheetNode";
 import SetParentsVisitor from "../form/visitors/SetParentsVisitor";
 import QuestionStylesVisitor from "../form/visitors/MergeFieldStylesVisitor";
 import MergedFieldStyle from "../form/MergedFieldStyle";

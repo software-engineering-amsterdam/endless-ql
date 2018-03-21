@@ -29,9 +29,9 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         if (ctx.questionType().expression() != null) {
             Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
             return new Question(ctx.getStart(), questionType, questionName, questionText, defaultAnswer, this.condition);
-        } else {
-            return new Question(ctx.getStart(), questionType, questionName, questionText, this.condition);
         }
+
+        return new Question(ctx.getStart(), questionType, questionName, questionText, this.condition);
     }
 
     private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType) {

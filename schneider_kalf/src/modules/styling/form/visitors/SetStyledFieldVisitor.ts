@@ -3,7 +3,7 @@ import QuestionNode from "../../../../form/nodes/fields/QuestionNode";
 import ComputedField from "../../../../form/nodes/fields/ComputedField";
 import IfCondition from "../../../../form/nodes/conditions/IfCondition";
 import FormNode from "../../../../form/nodes/FormNode";
-import StyleSheet, { default as Stylesheet } from "../nodes/StyleSheet";
+import StyleSheet, { default as Stylesheet } from "../nodes/StyleSheetNode";
 import { isFieldNode } from "../../../../form/form_helpers";
 import StyledFieldNode from "../StyledFieldNode";
 import FieldNode from "../../../../form/nodes/fields/FieldNode";

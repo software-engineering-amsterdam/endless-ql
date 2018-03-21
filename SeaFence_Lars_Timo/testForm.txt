@@ -40,7 +40,6 @@ form taxOfficeExample
     		hasMaint2Loan: boolean
 
 
-    "Value residue:" valueResidue: int = (elseV * elseV2)
 /*
   elif (hasSoldHouse == hasBoughtHouse) {
     "Private debts for the sold house:" privateDebt: int

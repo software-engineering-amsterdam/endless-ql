@@ -35,6 +35,7 @@ def main(argv):
 
     qls_visitor = QLSVisitorHelper()
     qls_ast = qls_visitor.visit(qls_tree)
+    print qls_ast
     
     # if len(argv) == 3:
     #     input = FileStream(argv[2])

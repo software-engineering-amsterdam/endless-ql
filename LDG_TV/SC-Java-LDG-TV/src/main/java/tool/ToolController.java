@@ -11,6 +11,7 @@ import domain.model.ast.ASTNode;
 import domain.model.ast.QuestionNode;
 import domain.model.stylesheet.Page;
 import domain.model.stylesheet.Section;
+import domain.model.stylesheet.Stylesheet;
 import domain.model.variable.Variable;
 import domain.visitor.UIVisitor;
 import domain.visitor.Visitor;
@@ -28,8 +29,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import loader.QL.QLBuilder;
 import loader.QL.QLLoader;
 import loader.QLS.QLSLoader;
+import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -42,7 +45,7 @@ import java.util.*;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ToolController implements Initializable, Consumer {
+public class ToolController implements Consumer {
 
     @FXML
     private TextArea taSourceCodeQL;
@@ -54,70 +57,47 @@ public class ToolController implements Initializable, Consumer {
     private TabPane tpPages;
 
     @FXML
-    private Button btnBuild;
-
-    @FXML
     private Label lblErrorField;
 
     private List<ListView> listViews = new ArrayList<>();
 
     private boolean qlsEnabled = false;
     private FormNode formNode = null;
-
-    public ToolController() { }
-
-    public void initialize(URL location, ResourceBundle resources) { }
+    private QLBuilder qlBuilder = new QLBuilder();
 
     /**
      * Invoked by the 'build' button action, to generate the questionnaire based on the written QL
      * @param event that kicked of the invocation
      */
     public void generateQuestionnaire(ActionEvent event) {
-        String qlSource = taSourceCodeQL.getText();
-        String qlsSource = taSourceCodeQLS.getText();
-        this.qlsEnabled = false;
         this.tpPages.getTabs().clear();
         this.listViews.clear();
+
+        String qlSource = taSourceCodeQL.getText();
         if(qlSource.isEmpty()){
             showAlertBox("Please import or add QL code");
             return;
         }
 
-        if (!qlSource.isEmpty() && qlsSource.isEmpty()){
-            generateQL(qlSource);
+        ToolBarErrorListener tbErrorListener = new ToolBarErrorListener(lblErrorField);
+
+        this.formNode = qlBuilder.toFormNode(qlSource, tbErrorListener);
+
+        String qlsSource = taSourceCodeQLS.getText();
+        this.qlsEnabled = !qlsSource.isEmpty();
+        if (this.qlsEnabled){
+            Stylesheet ss = qlBuilder.toStylesheet(qlsSource, this.formNode, tbErrorListener);
+            this.formNode.setStylesheet(ss);
+            buildQLS();
+        } else {
             buildQL();
         }
-        if (!qlSource.isEmpty() && !qlsSource.isEmpty()){
-            this.qlsEnabled = true;
-            generateQL(qlSource);
-            generateQLS(qlsSource);
-            buildQLS();
-        }
+
         printInfoMessage("Build successful");
     }
 
-    public void importQLSFile(ActionEvent event) {
-        FileChooser fileChooser = getFileChooser();
-
-        Stage s = new Stage();
-        File selectedFile = fileChooser.showOpenDialog(s);
-
-        if (selectedFile == null) {
-            return;
-        }
-
-        Optional<String> qlsText = Utilities.readFile(selectedFile.getAbsolutePath());
-
-        qlsText.ifPresentOrElse(
-                text -> {
-                    taSourceCodeQLS.setText(text);
-                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
-                },
-                () -> showAlertBox("Could not read file.")
-        );
-    }
     /**
-     * Invoked by the 'Import' button action, import .QL file
+     * Invoked by the 'Import' button action, import .QL or .QLS file
      * @param event that kicked of the invocation
      */
     public void importQLFile(ActionEvent event) {
@@ -135,40 +115,10 @@ public class ToolController implements Initializable, Consumer {
         qlText.ifPresentOrElse(
                 text -> {
                     taSourceCodeQL.setText(text);
-                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
+                    printInfoMessage("Import " + selectedFile.getName() + " successful");
                 },
                 () -> showAlertBox("Could not read file.")
         );
-    }
-
-    private void generateQL(String qlSource){
-        // Parse input field and create AST
-        CharStream stream = CharStreams.fromString(qlSource);
-        FormLexer lexer = new FormLexer(stream);
-
-        FormParser parser = new FormParser(new CommonTokenStream(lexer));
-
-        //parser.setErrorHandler(new BailErrorStrategy());
-        parser.addErrorListener(new ToolBarErrorListener(lblErrorField));
-
-        FormParser.FormBuilderContext tree = parser.formBuilder();
-        QLLoader loader = new QLLoader();
-        ParseTreeWalker.DEFAULT.walk(loader, tree);
-
-        this.formNode = loader.getFormNode();
-    }
-    private void generateQLS(String qlsSource){
-        CharStream qlsStream = CharStreams.fromString(qlsSource);
-        StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
-
-        StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
-
-        //parser.setErrorHandler(new BailErrorStrategy());
-        qlsParser.addErrorListener(new ToolBarErrorListener(lblErrorField));
-
-        StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
-        QLSLoader qlsLoader = new QLSLoader(this.formNode);
-        ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
     }
 
     private void buildQL(){
@@ -183,10 +133,10 @@ public class ToolController implements Initializable, Consumer {
         this.tpPages.getTabs().add(t);
     }
     private void buildQLS(){
-        Tab tab;
+        Stylesheet styleSheet = formNode.getStylesheet();
 
-        for (Page p : this.formNode.getStylesheet().getPages()){
-            tab = new Tab(p.getLabel());
+        for (Page p : styleSheet.getPages()){
+            Tab tab = new Tab(p.getLabel());
             this.tpPages.getTabs().add(tab);
             drawPage(tab, p);
         }
@@ -242,7 +192,6 @@ public class ToolController implements Initializable, Consumer {
             r.setDisable(qn.isDisabled());
             lView.getItems().add(r);
         }
-
     }
     private List<QuestionNode> getAllQuestions(List<ASTNode> nodes){
         List<QuestionNode> visibleQuestions = new ArrayList<>();

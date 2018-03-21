@@ -88,7 +88,7 @@ public class FormPanel extends JPanel {
         setPage(pages.keySet().iterator().next());
     }
 
-    private void setPage(String pageName) {
+    public void setPage(String pageName) {
         formContent.removeAll();
 
         pages.get(pageName).forEach(formContent::add);

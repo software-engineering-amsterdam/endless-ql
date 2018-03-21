@@ -132,21 +132,20 @@ public class GUIBuilder {
     }
 
     private static JPanel getTopPanel(LinkedList<Page> pages) {
-        ButtonBar buttonBar = new ButtonBar();
+        ButtonBar topPanel = new ButtonBar();
 
-        // TODO
-        int numberOfPages = pages != null ? pages.size() : 3;
+        if (null != pages) {
+            for (Page page : pages) {
+                JButton pageButton = getButton(page.getName(), 80);
+                pageButton.addActionListener(e -> {
+                    formPanel.setPage(page.getName());
+                });
 
-        for (int i = 1; i <= numberOfPages; i++) {
-            int pageNumber = i;
-            JButton pageButton = getButton(String.valueOf (pageNumber),50);
-            pageButton.addActionListener(e -> {
-                System.out.println(pageNumber);
-            });
-            buttonBar.centerPanel.add(pageButton);
+                topPanel.centerPanel.add(pageButton);
+            }
         }
 
-        return buttonBar;
+        return topPanel;
     }
 
     //TODO refactor
@@ -164,6 +163,7 @@ public class GUIBuilder {
             try {
                 globalForm = FormBuilder.parseFormFromString(qlPanel.getText());
                 formPanel.apply(globalForm);
+                setPageButtons(null);
                 mainFrame.setTitle(globalForm.getHumanizedName());
             } catch (ParseException exception) {
                 log(exception.getMessage());
@@ -180,7 +180,9 @@ public class GUIBuilder {
         qlsProcessButton.addActionListener(e -> {
             try {
                 Stylesheet stylesheet = StylesheetBuilder.parseStylesheetFromString(qlsPanel.getText());
+                // CHECKER HERE //
                 formPanel.apply(stylesheet);
+                setPageButtons(stylesheet.getPages());
             } catch (ParseException exception) {
                 log(exception.getMessage());
             }
@@ -210,6 +212,13 @@ public class GUIBuilder {
         buttonBar.rightPanel.add(qlsProcessButton);
 
         return buttonBar;
+    }
+
+    private static void setPageButtons(LinkedList<Page> pages) {
+        topPanel.removeAll();
+        topPanel.add(getTopPanel(pages));
+        topPanel.revalidate();
+        topPanel.repaint();
     }
 
     public static JButton getButton(String text, int width) {

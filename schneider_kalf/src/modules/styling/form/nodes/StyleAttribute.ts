@@ -1,4 +1,7 @@
-export default interface StyleAttribute {
-  readonly name: string;
-  readonly value: string;
+import StyleTreeNode from "./StyleTreeNode";
+
+export default interface StyleAttribute extends StyleTreeNode {
+  getName(): string;
+
+  getStringValue(): string;
 }

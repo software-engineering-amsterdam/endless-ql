@@ -9,9 +9,10 @@ import {CircularDependencyError} from '../../errors';
 import * as _ from 'lodash';
 import {Variable} from './expressions/variable';
 import {QuestionFactory} from '../../../factories/question-factory';
+import {EvaluateExpressionVisitor} from './visitors/evaluate-expression-visitor';
 
 export class ExpressionQuestion extends QlQuestion {
-  constructor(name: string, label: string, type: QuestionType<any>, public expression: Expression, location: Location) {
+  constructor(name: string, label: string, type: QuestionType<any>, readonly expression: Expression, location: Location) {
     super(name, label, type, location);
   }
 
@@ -39,7 +40,9 @@ export class ExpressionQuestion extends QlQuestion {
                  condition?: (form: FormGroup) => boolean): ReadonlyArray<QuestionBase<any>> {
 
     const question = QuestionFactory.toFormQuestion(this.name, this.label, this.type, condition);
-    question.toCalculatedQuestion((form: FormGroup) => this.expression.evaluate(form));
+    question.toCalculatedQuestion((form: FormGroup) => {
+      return EvaluateExpressionVisitor.evaluate(form, this.expression).getValue();
+    });
     return [question];
   }
 

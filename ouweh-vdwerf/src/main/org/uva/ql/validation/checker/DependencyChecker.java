@@ -1,6 +1,7 @@
 package org.uva.ql.validation.checker;
 
 import org.uva.ql.ast.expression.unary.Parameter;
+import org.uva.ql.validation.ValidationResult;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,29 +30,35 @@ public class DependencyChecker extends Checker {
     }
 
     @Override
-    public void runCheck() {
+    public ValidationResult runCheck() {
+        ValidationResult result = new ValidationResult();
+
         for (Dependency relation : transitiveClosure(dependencies)) {
             if (relation.isReflexive()) {
-                logger.severe(String.format("Circular dependency detected at: %s", relation.getFrom()));
+                String message = String.format("Circular dependency detected at: %s", relation.getFrom());
+
+                result.addError(message);
+                logger.severe(message);
             }
         }
+
+        return result;
     }
 
-    private Set<Dependency> transitiveClosure(Set<Dependency> dependencyGraph) {
-        Set<Dependency> closure = new HashSet<>(dependencyGraph);
+    private Set<Dependency> transitiveClosure(Set<Dependency> closure) {
         Set<Dependency> newClosure = new HashSet<>(closure);
 
-        do {
-            closure.addAll(newClosure);
-
-            for (Dependency i : closure) {
-                for (Dependency j : closure) {
-                    if (i.getTo().equals(j.getFrom())) {
-                        newClosure.add(new Dependency(i.getFrom(), j.getTo()));
-                    }
+        for (Dependency i : closure) {
+            for (Dependency j : closure) {
+                if (i.getTo().equals(j.getFrom())) {
+                    newClosure.add(new Dependency(i.getFrom(), j.getTo()));
                 }
             }
-        } while (!closure.containsAll(newClosure));
+        }
+
+        if (!closure.containsAll(newClosure)) {
+            closure.addAll(transitiveClosure(newClosure));
+        }
 
         return closure;
     }

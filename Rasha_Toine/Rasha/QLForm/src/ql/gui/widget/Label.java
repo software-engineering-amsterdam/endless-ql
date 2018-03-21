@@ -22,7 +22,7 @@ public class Label implements WidgetInterface {
 	// Constructor
 	public Label(String str) {
 		label = new JLabel(str);
-		setStyle(config);
+		setConfiguration(config);
 		//label.setComponentPopupMenu(new JPopupMenu());
 		label.setToolTipText("info");
 		label.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -34,12 +34,12 @@ public class Label implements WidgetInterface {
 	}
 	
 	@Override
-	public WidgetConfiguration getStyle() {
+	public WidgetConfiguration getConfiguration() {
 		return config;
 	}
 
 	@Override
-	public void setStyle(WidgetConfiguration config) {
+	public void setConfiguration(WidgetConfiguration config) {
 		label.setPreferredSize(new Dimension(config.getWidth(), config.getHeight()));
 		label.setForeground(config.getColor());
 		label.setFont(config.getFont());

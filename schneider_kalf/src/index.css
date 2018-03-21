@@ -19,3 +19,22 @@
 .state-output-container textarea {
     min-height: 500px;
 }
+
+.react-datepicker__input-container, .react-datepicker-wrapper {
+    display: block;
+}
+
+fieldset.questionnaire-section {
+    border: 1px solid #eee;
+    padding: 10px;
+}
+
+fieldset.questionnaire-section fieldset.questionnaire-section {
+    margin-top: 10px;
+}
+
+fieldset.questionnaire-section legend {
+    width: auto;
+    font-size: 1em;
+    padding: 5px;
+}

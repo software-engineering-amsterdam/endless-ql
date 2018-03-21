@@ -1,16 +1,17 @@
 package org.uva.app;
 
+import org.uva.gui.GUIHandler;
 import org.uva.ql.ast.Form;
 import org.uva.ql.evaluator.FormEvaluator;
 import org.uva.ql.evaluator.data.ExpressionTable;
 import org.uva.ql.evaluator.data.StatementTable;
 import org.uva.ql.evaluator.data.ValueTable;
-import org.uva.gui.GUIHandler;
 import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.QLValidator;
+import org.uva.ql.validation.ValidationResult;
 import org.uva.ql.validation.collector.QuestionContext;
 import org.uva.qls.QLSBuilder;
-import org.uva.qls.ast.Stylesheet;
+import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.evaluator.StyleEvaluator;
 import org.uva.qls.validation.QLSValidator;
 
@@ -23,9 +24,8 @@ public class App {
     private App() {
         Logger logger = Logger.getGlobal();
         LogManager.getLogManager().reset();
-        logger.addHandler(new LogHandler());
 
-        String input = new InputHandler().readFile("input/original.ql");
+        String input = new InputHandler().readFile("input/test/original.ql");
 //        String input = new InputHandler().getUserInput("ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
@@ -36,7 +36,7 @@ public class App {
         Stylesheet stylesheet = QLSBuilder.buildAST(qlsInput);
 
         QLValidator validator = new QLValidator(form);
-        validator.run();
+        ValidationResult validationResult = validator.run();
 
         QLSValidator qlsValidator = new QLSValidator(new QuestionContext(form).getQuestions(), stylesheet);
 //        qlsValidator.run();
@@ -45,7 +45,7 @@ public class App {
         StyleEvaluator styleEvaluator = new StyleEvaluator();
         styleEvaluator.setStylesheet(stylesheet);
 
-        GUIHandler guiHandler = new GUIHandler(formEvaluator, styleEvaluator);
+        GUIHandler guiHandler = new GUIHandler(formEvaluator, styleEvaluator, validationResult);
     }
 
     public static void main(String[] args) {

@@ -1,26 +1,51 @@
-from ql.types.type import Type
+from ql.types.type import QLType
+from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.string_node import StringNode
-from gui.model.widgets import LineEdit
+from gui.widgets.line_edit import LineEdit
 
 
-class QLString(Type):
-    def __init__(self, value):
+class QLString(QLType):
+    def __init__(self, value=''):
         super(QLString, self).__init__()
-        self.__value = value
+        self.__value = str(value)
 
     def __repr__(self):
-        return self.__value
+        return str(self.value)
+
+    def __bool__(self):
+        return bool(self.value)
+
+    def __str__(self):
+        return str(self.value)
 
     def __eq__(self, other):
-        return type(self) == type(other)
+        return QLBoolean(self.value == other.value)
+
+    def __ne__(self, other):
+        return QLBoolean(self.value != other.value)
+
+    def __lt__(self, other):
+        return QLBoolean(len(self.value) < len(other.value))
+
+    def __gt__(self, other):
+        return QLBoolean(len(self.value) > len(other.value))
+
+    def __le__(self, other):
+        return QLBoolean(len(self.value) <= len(other.value))
+
+    def __ge__(self, other):
+        return QLBoolean(len(self.value) >= len(other.value))
+
+    def __add__(self, other):
+        return QLString(self.value + other.value)
+
+    @property
+    def value(self):
+        return self.__value
 
     @staticmethod
-    def cast(value):
-        return str(value)
-
-    @staticmethod
-    def get_literal_node(value):
-        return StringNode(None, QLString, value)
+    def get_literal_node(value=''):
+        return StringNode(None, QLString, QLString(value))
 
     @staticmethod
     def pyqt5_default_widget():

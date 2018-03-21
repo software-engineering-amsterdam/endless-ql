@@ -1,10 +1,10 @@
 package ql.model.expression;
 
 import ql.evaluation.IExpressionVisitor;
-import ql.model.Node;
+import ql.model.QLNode;
 import org.antlr.v4.runtime.Token;
 
-public abstract class Expression extends Node {
+public abstract class Expression extends QLNode {
 
     Expression(Token start) {
         super(start);

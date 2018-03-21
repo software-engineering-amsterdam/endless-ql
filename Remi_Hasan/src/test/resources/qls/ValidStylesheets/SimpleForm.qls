@@ -1,0 +1,41 @@
+stylesheet simpleForm
+{
+  page Numbers
+  {
+    section "Integer"
+    {
+      question someInteger
+        widget spinbox
+    }
+    section "Decimal"
+    {
+      question someDecimal
+        widget slider
+      question someMoney
+      default money widget textbox
+    }
+  }
+
+  page Others
+  {
+    section "String, date and boolean"
+    {
+      question someString
+      section "Date"
+      {
+        question someDate
+      }
+      section "Boolean"
+      {
+        question someBoolean
+      }
+    }
+    default boolean {
+     width: 400
+     widget radio("Yes", "No")
+    }
+    default integer {
+     width: 400
+    }
+  }
+}

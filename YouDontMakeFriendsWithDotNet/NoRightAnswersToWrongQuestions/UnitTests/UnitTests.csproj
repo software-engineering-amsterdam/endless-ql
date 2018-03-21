@@ -163,15 +163,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppTests\SimpleWPFAppUnitTests\MainViewModelTests.cs" />
+    <Compile Include="Domain.UnitTests\Data\TestValidationData.cs" />
+    <Compile Include="Domain.UnitTests\Tests\ValidatorUnitTest.cs" />
     <Compile Include="Domain.UnitTests\Utilities\BooleanOperatorCount.cs" />
     <Compile Include="Domain.UnitTests\Tests\CreateModelTests.cs" />
     <Compile Include="Domain.UnitTests\Tests\CreateAstTests.cs" />
-    <Compile Include="Domain.UnitTests\Tests\CreateQuestionnaireTests.cs" />
     <Compile Include="Domain.UnitTests\Utilities\MathOperatorCount.cs" />
     <Compile Include="Domain.UnitTests\Utilities\RelationalOperatorCount.cs" />
     <Compile Include="Domain.UnitTests\Data\TestAstData.cs" />
     <Compile Include="Domain.UnitTests\Data\TestModelCreationData.cs" />
-    <Compile Include="Orchestration.UnitTests\CreateQuestionnaireCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI.UnitTests\ChangeNotificationCollectionTests.cs" />
     <Compile Include="UI.UnitTests\ChangeNotificationTests.cs" />
@@ -190,9 +191,9 @@
       <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
       <Name>QuestionnaireDomain.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\QuestionaireOrchestration\QuestionaireOrchestration.csproj">
+    <ProjectReference Include="..\QuestionaireOrchestration\QuestionnaireOrchestration.csproj">
       <Project>{93708D27-D769-4064-8A54-6BFEF8B09F29}</Project>
-      <Name>QuestionaireOrchestration</Name>
+      <Name>QuestionnaireOrchestration</Name>
     </ProjectReference>
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
@@ -202,6 +203,13 @@
       <Project>{AAB9C576-34E5-4CBA-88D1-4E8674E3C117}</Project>
       <Name>QuestionnaireUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleWPFApp\SimpleWPFApp.csproj">
+      <Project>{56694C1E-34A8-4D83-A1FD-F07EE38B35BA}</Project>
+      <Name>SimpleWPFApp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Orchestration.UnitTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

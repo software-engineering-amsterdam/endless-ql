@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <ItemsControl ItemsSource="{Binding Questionnaire.Questions}" Foreground="White">
+        <ItemsControl ItemsSource="{Binding Questionnaire.Questions}" x:Name="MyList"  Foreground="White">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding QuestionId}" />
+                    <local:Question />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

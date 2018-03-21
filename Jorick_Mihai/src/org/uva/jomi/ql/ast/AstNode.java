@@ -9,7 +9,7 @@ public abstract class AstNode {
 		AstNode.ctr = 0;
 	}
 
-	public int getId() {
-		return id;
+	public int getNodeId() {
+		return this.id;
 	}
 }

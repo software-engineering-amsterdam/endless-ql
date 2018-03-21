@@ -24,6 +24,7 @@
     "promise": "8.0.1",
     "raf": "3.4.0",
     "react": "^16.2.0",
+    "react-datepicker": "^1.2.2",
     "react-dev-utils": "4.2.1",
     "react-dom": "^16.2.0",
     "reactstrap": "next",
@@ -103,7 +104,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "/Users/simon/CodeMaster/endless-ql/schneider_kalf/tsconfig.test.json"
+        "tsConfigFile": "./tsconfig.test.json"
       }
     }
   },

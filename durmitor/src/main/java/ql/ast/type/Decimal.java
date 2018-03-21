@@ -1,5 +1,6 @@
 package ql.ast.type;
 
+import ql.ast.expression.literal.DecimalLiteral;
 import ql.ast.expression.literal.Literal;
 import ql.evaluator.value.parse.ToDecimal;
 import ql.visitors.interfaces.TypeVisitor;
@@ -22,12 +23,12 @@ public class Decimal extends Numeric {
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
     
     @Override
-    public Literal<?> parse(Literal<?> value) {
-        return value.accept(new ToDecimal());
+    public DecimalLiteral parse(Literal<?> value) {
+        return (DecimalLiteral) value.accept(new ToDecimal());
     }
 }

@@ -7,13 +7,13 @@ import java.util.List;
 
 public class Style {
 
-    private String color;
-    private String font;
-    private Integer fontSize;
-    private Integer width;
+    private String color = null;
+    private String font = null;
+    private Integer fontSize = null;
+    private Integer width = null;
 
-    private String page;
-    private List<String> section;
+    private String page = null;
+    private List<String> section = null;
 
     private QLWidget widget = new QLWidget(WidgetType.DEFAULT, new ArrayList<>());
 
@@ -112,5 +112,9 @@ public class Style {
 
     public void setWidgetType(WidgetType widgetType) {
         this.widget = new QLWidget(widgetType, new ArrayList<>());
+    }
+
+    public WidgetType getWidgetType() {
+        return this.getWidget().getWidgetType();
     }
 }

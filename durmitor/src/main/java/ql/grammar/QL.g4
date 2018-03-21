@@ -28,7 +28,7 @@ type                : 'boolean' #BooleanType
                     ;
 currency            : UPPERCASE3;
 integer             : (DAY|MONTH|YEAR|INTEGER);
-decimal             : DECIMAL;
+decimal             : DECIMAL|MONEY;
 number              : integer   #IntegerLiteral
                     | decimal   #DecimalLiteral
                     ;

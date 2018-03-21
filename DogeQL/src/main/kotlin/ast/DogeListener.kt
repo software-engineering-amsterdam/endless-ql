@@ -14,16 +14,13 @@ import java.math.BigDecimal
 
 class DogeListener : QuestionareLanguageParserBaseListener() {
 
-    private val expressionBuilder = ExpressionBuilder()
     val symbolTable = SymbolTable()
+    private val expressionBuilder = ExpressionBuilder()
     private val formTreeBuilder = FormTreeBuilder(symbolTable)
 
-    private var ifStatementDepth = 0
 
     override fun enterBlock(ctx: QuestionareLanguageParser.BlockContext?) {
         if (!expressionBuilder.isEmpty()){
-            --ifStatementDepth
-
             val ifExpression = expressionBuilder.pop()
             val result = symbolTable.registerSymbol(SymbolType.BOOLEAN, ifExpression)
 
@@ -31,9 +28,6 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         }
     }
 
-    override fun enterIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
-        ++ifStatementDepth
-    }
 
     override fun exitIfStatement(ctx: QuestionareLanguageParser.IfStatementContext?) {
         formTreeBuilder.build()
@@ -47,20 +41,17 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         val name = context.NAME().text
         val value = convertType(context.TYPE().text)
 
-        val questionExpression = when {
-            ifStatementDepth >= expressionBuilder.size() -> null
-            else -> expressionBuilder.pop()
-        }
 
-        if (questionExpression != null) {
+
+        if (!expressionBuilder.isEmpty()){
+
+            val questionExpression = expressionBuilder.pop()
+
             if (questionExpression.containsReference()) {
-                symbolTable.registerSymbol(name, value.type, questionExpression)
+                symbolTable.assign(name, value.type, questionExpression)
             } else {
-                symbolTable.registerSymbol(name, value.type)
                 symbolTable.assign(name, questionExpression.evaluate(symbolTable))
             }
-        } else {
-            symbolTable.registerSymbol(name, value.type)
         }
 
         val questionNameLocation = SourceLocation(

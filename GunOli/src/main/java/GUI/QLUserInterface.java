@@ -2,7 +2,6 @@ package GUI;
 import java.io.File;
 
 import QL.ParseObjectsQL.Form;
-import QL.ParseObjectsQL.QuestionMap;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -40,7 +39,7 @@ public class QLUserInterface {
 
             Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
 
-            parser.printQLForm(form); //debug print the form questions in console
+            //parser.printQLForm(form); //debug print the form questions in console
             //parser.printQLSStyleSheet(stylesheet); //debug partially print stylesheet to console
 
             FormBuilder formBuilder = new FormBuilder(form, stage);
@@ -59,7 +58,7 @@ public class QLUserInterface {
             if (file != null) {
                 Parser parser = new Parser();
                 Form form = parser.parseInputToForm(file.getPath());
-                QuestionMap questionMap = new QuestionMap(form);
+                parser.printQLForm(form);
                 if (form == null) { Platform.exit(); }
                 else {
                     FormBuilder formBuilder = new FormBuilder(form, stage);

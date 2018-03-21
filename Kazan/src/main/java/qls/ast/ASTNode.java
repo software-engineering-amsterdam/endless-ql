@@ -1,10 +1,8 @@
 package qls.ast;
 
-import ql.ast.SourceLocation;
-
 public abstract class ASTNode {
 
-    SourceLocation sourceLocation;
+    private SourceLocation sourceLocation;
 
     public ASTNode(SourceLocation sourceLocation) {
         this.sourceLocation = sourceLocation;

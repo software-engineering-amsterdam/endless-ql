@@ -3,8 +3,10 @@ import {emptyLoc} from '../location';
 import {QlQuestion} from './ql-question';
 import {IntQuestionType} from '../question-type';
 import {If} from './if';
-import {Literal} from './expressions/expression';
-import {ExpressionType} from './expressions/expression-type';
+import {BooleanLiteral} from './expressions/literals/boolean-literal';
+import {DateLiteral} from './expressions/literals/date-literal';
+import {NumberLiteral} from './expressions/literals/number-literal';
+import {StringLiteral} from './expressions/literals/string-literal';
 
 describe('if statement', () => {
   it('Should check for impossible if statements', () => {
@@ -16,20 +18,22 @@ describe('if statement', () => {
   });
 
   it('Should check if expression type is boolean', () => {
-    const boolExpression = new Literal(ExpressionType.BOOLEAN, true, emptyLoc);
-    const dateExpression = new Literal(ExpressionType.DATE, true, emptyLoc);
-    const numberExpression = new Literal(ExpressionType.NUMBER, true, emptyLoc);
-    const stringExpression = new Literal(ExpressionType.STRING, true, emptyLoc);
-    const ifStatement = new If(null, [], [], emptyLoc);
+    const boolExpression = new BooleanLiteral(true, emptyLoc);
+    const dateExpression = new DateLiteral(new Date(), emptyLoc);
+    const numberExpression = new NumberLiteral(5, emptyLoc);
+    const stringExpression = new StringLiteral('s', emptyLoc);
+    const ifBoolStatement = new If(boolExpression, [], [], emptyLoc);
+    const ifDateStatement = new If(dateExpression, [], [], emptyLoc);
+    const ifNumberStatement = new If(numberExpression, [], [], emptyLoc);
+    const ifStringStatement = new If(stringExpression, [], [], emptyLoc);
 
-    ifStatement.condition = boolExpression;
-    expect(() => ifStatement.checkType([])).not.toThrow();
-    ifStatement.condition = dateExpression;
-    expect(() => ifStatement.checkType([])).toThrow();
-    ifStatement.condition = numberExpression;
-    expect(() => ifStatement.checkType([])).toThrow();
-    ifStatement.condition = stringExpression;
-    expect(() => ifStatement.checkType([])).toThrow();
+    expect(() => ifBoolStatement.checkType([])).not.toThrow();
+
+    expect(() => ifDateStatement.checkType([])).toThrow();
+
+    expect(() => ifNumberStatement.checkType([])).toThrow();
+
+    expect(() => ifStringStatement.checkType([])).toThrow();
   });
 
   it('Should return correct statements', () => {

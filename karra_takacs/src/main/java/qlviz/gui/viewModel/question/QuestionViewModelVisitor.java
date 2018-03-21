@@ -9,3 +9,4 @@ public interface QuestionViewModelVisitor {
     void visit(StringQuestionViewModel stringQuestion);
 
 }
+

@@ -1,4 +1,5 @@
-﻿using QLParser.AST.Nodes;
+﻿using QLParser.Analysis.Evaluator;
+using QLParser.AST.Nodes;
 using QLParser.AST.Nodes.ExpressionNodes;
 using QLParser.AST.Nodes.ExpressionNodes.Enums;
 using QLParser.Exceptions;
@@ -7,14 +8,6 @@ namespace QLParser.Analysis.Semantic
 {
     public class StatementTypeAnalyser : IAnalyser
     {
-        private enum StatementType
-        {
-            BOOLEAN,
-            TEXT,
-            NUMERIC,
-            UNKNOWN
-        }
-
         public bool Analyse(Node node)
         {
             var result = true;
@@ -50,7 +43,7 @@ namespace QLParser.Analysis.Semantic
 
                 case NodeType.LITERAL:
                 case NodeType.IDENTIFIER:
-                    return GetStatementType(node);
+                    return StatementTypeEvaluator.GetStatementType(node);
             }
 
             throw new UnknownNodeTypeException(string.Format("We don't know what to do with this node: {0}", node.GetNodeType()));
@@ -78,31 +71,6 @@ namespace QLParser.Analysis.Semantic
                 default:
                     return null;
             }
-        }
-
-        /// <summary>
-        /// Translate QValueType to StatementType.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        private StatementType GetStatementType(IExpressionNode node)
-        {
-            switch (node.GetQValueType())
-            {
-                case QValueType.BOOLEAN:
-                    return StatementType.BOOLEAN;
-                case QValueType.TEXT:
-                    return StatementType.TEXT;
-                case QValueType.MONEY:
-                case QValueType.INTEGER:
-                case QValueType.DOUBLE:
-                    return StatementType.NUMERIC;
-
-                case QValueType.UNKNOWN:
-                    return StatementType.UNKNOWN;
-            }
-
-            throw new UnknownQValueTypeException("We don't know what to do with this QValueType.");
         }
 
         private StatementType Analyze(ComparisonExpressionNode node)

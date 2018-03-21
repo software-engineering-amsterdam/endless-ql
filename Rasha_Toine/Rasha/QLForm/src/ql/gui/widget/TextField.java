@@ -28,7 +28,7 @@ public class TextField extends Widget {
 	private KeyAdapter adapter = new KeyAdapter() {
 		@Override
 		public void keyReleased(KeyEvent e) {
-			setValue(getValueToUI()); //default value which is mostly ""
+			setValue(getValueFromUI()); //default value which is mostly ""
 		} 
 	};
 
@@ -36,25 +36,24 @@ public class TextField extends Widget {
 	// constructor
 	public TextField(Question question, Value defaultValue, EvaluationContext ctx) {
 		super(question.getIdentifier().toString(), defaultValue, ctx);
-		this.panel = new JPanel();
-		this.input = new JTextField();
+		panel = new JPanel();
+		input = new JTextField();
+		input.setEditable(true);
+		input.addKeyListener(adapter);
+		panel.add(input);
 		
-		this.input.setEditable(true);
-		this.input.addKeyListener(adapter);
-		this.panel.add(input);
-		
-		setStyle(config);
+		setConfiguration(config);
 	}
 
 
 	@Override
-	public WidgetConfiguration getStyle() {
+	public WidgetConfiguration getConfiguration() {
 		return config;
 	}
 
 	// set input styling from configuration object
 	@Override
-	public void setStyle(WidgetConfiguration config) {
+	public void setConfiguration(WidgetConfiguration config) {
 		input.setMinimumSize(new Dimension(4,2));
 		input.setPreferredSize(new Dimension(config.getWidth(), config.getHeight()));
 		input.setFont(config.getFont());
@@ -62,7 +61,7 @@ public class TextField extends Widget {
 	}
 
 	@Override
-	public Value getValueToUI() {
+	public Value getValueFromUI() {
 		return getDefaultValue().translate(input.getText());
 	}
 
@@ -75,7 +74,7 @@ public class TextField extends Widget {
 	@Override
 	public void setVisibility(boolean visible) {
 		input.setVisible(visible);
-		input.validate();
+		input.invalidate();
 		//render again
 		panel.repaint();
 	}

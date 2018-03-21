@@ -53,8 +53,6 @@ NAME: [a-zA-Z][a-zA-Z0-9]*;
 // String values for naming Pages and Sections
 STRVAL: '"'~['\\\r\n]*?'"';
 
-COLORVAL: '#'[a-zA-Z0-9]*;
-
 INTVAL:[0-9]+;
 
 
@@ -88,16 +86,7 @@ property
 // Higher level parsing
 // Entry point for QLS
 stylesheet
-    : STYLESHEET NAME styleBlock
-    ;
-
-styleBlock
-    : LB expression* RB
-    ;
-
-expression
-    : defaultStyle
-    | page
+    : STYLESHEET NAME LB defaultStyle* page* RB
     ;
 
 page
@@ -109,7 +98,7 @@ section
     ;
 
 question
-    : QUESTION NAME (WIDGET widgetType widgetStyle?)?
+    : QUESTION NAME (WIDGET widgetType)? (widgetStyle)?
     ;
 
 widgetStyle

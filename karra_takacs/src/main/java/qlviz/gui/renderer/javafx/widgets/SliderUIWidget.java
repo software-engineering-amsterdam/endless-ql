@@ -8,13 +8,11 @@ import qlviz.gui.viewModel.question.*;
 
 import java.math.BigDecimal;
 
-public class SliderUIWidget implements UIWidget, QuestionViewModelVisitor {
+public class SliderUIWidget extends ControlUIWidget<Slider> implements QuestionViewModelVisitor {
 
-    private final Slider slider = new Slider();
-
-    @Override
-    public Node getNode() {
-        return this.slider;
+    public SliderUIWidget() {
+        super();
+        this.node = new Slider();
     }
 
     @Override
@@ -34,19 +32,19 @@ public class SliderUIWidget implements UIWidget, QuestionViewModelVisitor {
 
     @Override
     public void visit(DecimalQuestionViewModel decimalQuestion) {
-        slider.valueProperty().addListener((observable, oldValue, newValue) ->
+        this.node.valueProperty().addListener((observable, oldValue, newValue) ->
                 decimalQuestion.valueProperty().setValue(BigDecimal.valueOf(newValue.doubleValue())));
     }
 
     @Override
     public void visit(IntegerQuestionViewModel integerQuestion) {
-        slider.valueProperty().addListener((observable, oldValue, newValue) ->
+        this.node.valueProperty().addListener((observable, oldValue, newValue) ->
                 integerQuestion.valueProperty().setValue(BigDecimal.valueOf(newValue.doubleValue())));
     }
 
     @Override
     public void visit(MoneyQuestionViewModel moneyQuestion) {
-         slider.valueProperty().addListener((observable, oldValue, newValue) ->
+        this.node.valueProperty().addListener((observable, oldValue, newValue) ->
                 moneyQuestion.valueProperty().setValue(BigDecimal.valueOf(newValue.doubleValue())));
     }
 

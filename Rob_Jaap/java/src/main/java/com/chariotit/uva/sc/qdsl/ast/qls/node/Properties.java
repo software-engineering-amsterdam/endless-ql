@@ -1,6 +1,5 @@
 package com.chariotit.uva.sc.qdsl.ast.qls.node;
 
-import com.chariotit.uva.sc.qdsl.ast.qls.node.AstNode;
 import com.chariotit.uva.sc.qdsl.ast.qls.visitor.NodeVisitor;
 
 import java.util.ArrayList;

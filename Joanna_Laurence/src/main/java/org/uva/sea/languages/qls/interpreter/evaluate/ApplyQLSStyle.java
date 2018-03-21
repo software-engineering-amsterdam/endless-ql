@@ -18,14 +18,14 @@ import java.util.Stack;
 
 public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
-    private EvaluationResult qlInputResult;
+    private EvaluationResult qlInputResult = null;
 
-    private EvaluationResult outputResult;
+    private EvaluationResult outputResult  = null;
 
     private final Fetcher defaultStyleEvaluator = new Fetcher();
 
     //Current state for visitor Visitor
-    private Page currentPage;
+    private Page currentPage = null;
 
     private final Stack<Section> currentSections = new Stack<>();
 
@@ -102,7 +102,6 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      *
      * @param question Question node
      * @return Style for the widget
-     * @throws InterruptedException
      */
     private Style getQuestionStyle(Question question, NodeType nodeType) {
         Style style = new Style();
@@ -133,7 +132,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      * Hide the visitor, make only doCheck visible
      */
     public static class Linker {
-        public EvaluationResult apply(EvaluationResult interpreterResult, Stylesheet stylesheet) throws InterruptedException {
+        public EvaluationResult apply(EvaluationResult interpreterResult, Stylesheet stylesheet) {
             ApplyQLSStyle interpreter = new ApplyQLSStyle();
             return interpreter.applyStyle(interpreterResult, stylesheet);
         }

@@ -2,21 +2,24 @@ package ql.validator;
 
 import org.junit.Before;
 import org.junit.Test;
+import ql.Helper;
 import ql.ast.Form;
-import ql.parser.ASTBuilder;
+import ql.parser.FormBuilder;
 import ql.validator.issuetracker.IssueTracker;
 
 import static org.junit.Assert.*;
 
 public class CyclicDependencyCheckerTest {
 
-    ASTBuilder astBuilder;
-    CyclicDependencyChecker cyclicDependencyChecker;
-    IssueTracker issueTracker;
+    private FormBuilder formBuilder;
+    private Helper helper;
+    private CyclicDependencyChecker cyclicDependencyChecker;
+    private IssueTracker issueTracker;
 
     @Before
     public void setUp() throws Exception {
-        astBuilder = new ASTBuilder();
+        formBuilder = new FormBuilder();
+        helper = new Helper();
         issueTracker = new IssueTracker();
         cyclicDependencyChecker = new CyclicDependencyChecker(issueTracker);
     }
@@ -24,7 +27,7 @@ public class CyclicDependencyCheckerTest {
     @Test
     public void shouldIssueErrorForCycleWithinQuestion() {
         issueTracker.reset();
-        Form form = astBuilder.buildASTFromFile("src/input/ql/incorrect/cyclicalWithinQuestion.ql");
+        Form form = helper.buildASTFromFile("src/input/ql/incorrect/validator/cyclicalWithinQuestion.ql", formBuilder);
         boolean passesTests = cyclicDependencyChecker.passesTests(form);
         assertFalse(passesTests);
         assertEquals(issueTracker.getWarnings().size(), 0);
@@ -35,7 +38,7 @@ public class CyclicDependencyCheckerTest {
     @Test
     public void shouldIssueErrorForCycleBetweenQuestions() {
         issueTracker.reset();
-        Form form = astBuilder.buildASTFromFile("src/input/ql/incorrect/cyclicalBetweenQuestions.ql");
+        Form form = helper.buildASTFromFile("src/input/ql/incorrect/validator/cyclicalBetweenQuestions.ql", formBuilder);
         boolean passesTests = cyclicDependencyChecker.passesTests(form);
         assertFalse(passesTests);
         assertEquals(issueTracker.getWarnings().size(), 0);
@@ -47,7 +50,7 @@ public class CyclicDependencyCheckerTest {
     @Test
     public void shouldIssueNothingForRegularForm() {
         issueTracker.reset();
-        Form form = astBuilder.buildASTFromFile("src/input/ql/correct/simple.ql");
+        Form form = helper.buildASTFromFile("src/input/ql/correct/simple.ql", formBuilder);
         boolean passesTests = cyclicDependencyChecker.passesTests(form);
         assertTrue(passesTests);
     }

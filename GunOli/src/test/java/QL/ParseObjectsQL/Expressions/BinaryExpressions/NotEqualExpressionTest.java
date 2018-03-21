@@ -6,6 +6,9 @@ import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.runner.RunWith;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnitQuickcheck.class)
@@ -48,8 +51,12 @@ public class NotEqualExpressionTest {
         String firstYear = day1  + "-" + month1 + "-" + year1;
         String secondYear = day2 + "-" + month2 + "-" + year2;
 
-        DateConstant left = new DateConstant(firstYear);
-        DateConstant right = new DateConstant(secondYear);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate firstDate = LocalDate.parse(firstYear, dateTimeFormatter);
+        LocalDate secondDate = LocalDate.parse(secondYear, dateTimeFormatter);
+
+        DateConstant left = new DateConstant(firstDate);
+        DateConstant right = new DateConstant(secondDate);
 
         expressionTest = new NotEqualExpression(left, right);
 

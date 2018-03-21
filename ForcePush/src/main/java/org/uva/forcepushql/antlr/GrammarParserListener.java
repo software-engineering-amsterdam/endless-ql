@@ -58,6 +58,26 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 */
 	void exitQuestionTypes(GrammarParser.QuestionTypesContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link GrammarParser#ifCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfCondition(GrammarParser.IfConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#ifCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfCondition(GrammarParser.IfConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#nextCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterNextCondition(GrammarParser.NextConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#nextCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitNextCondition(GrammarParser.NextConditionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code infixExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree

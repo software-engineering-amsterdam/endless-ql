@@ -1,6 +1,6 @@
 from os import listdir
-from ql.parser.qllex import LexTokenizer
-from ql.parser.qlyacc import QLParser
+from ql.parser.lexer import QLLexer
+from ql.parser.parser import QLParser
 from termcolor import colored
 
 
@@ -53,8 +53,8 @@ def print_result(file, result=True):
 
 if __name__ == '__main__':
     parser = QLParser()
-    lexer = LexTokenizer()
-    directories = ['parser/']
+    lexer = QLLexer()
+    directories = ['parsing/']
 
     for directory in directories:
         test_directory(directory, parser, lexer)

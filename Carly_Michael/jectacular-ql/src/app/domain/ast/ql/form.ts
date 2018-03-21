@@ -6,7 +6,7 @@ import {QlQuestion} from './ql-question';
 import {Location} from '../location';
 
 export class Form {
-  constructor(public name: string, public statements: Statement[], public location: Location) {
+  constructor(readonly name: string, readonly statements: Statement[], readonly location: Location) {
   }
 
   toFormQuestion(): QuestionBase<any>[] {
@@ -47,17 +47,6 @@ export class Form {
       }
     }
     return _.flatten(allQuestions);
-  }
-
-  getQlQuestionByName(name: string): QlQuestion {
-    for (const q of this.getAllQuestions()) {
-      if (q.name === name) {
-        return q;
-      }
-    }
-
-    // TODO make proper error
-    throw new UnknownQuestionError(`question by name ${name} not found`);
   }
 
   private checkDuplicateIdentifiers(allQuestions: QlQuestion[]): void {

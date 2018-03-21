@@ -8,12 +8,13 @@ import {Location} from '../location';
 import {Expression, LiteralType} from './expressions/expression';
 import {ExpressionType, ExpressionTypeUtil} from './expressions/expression-type';
 import {Variable} from './expressions/variable';
+import {EvaluateExpressionVisitor} from './visitors/evaluate-expression-visitor';
 
 export class If extends Statement {
   constructor(
-    public condition: Expression,
-    public statements: Statement[],
-    public elseStatements: Statement[],
+    readonly condition: Expression,
+    readonly statements: Statement[],
+    readonly elseStatements: Statement[],
     location: Location) {
     super(location);
   }
@@ -80,10 +81,11 @@ export class If extends Statement {
 
     // generate function that should be evaluated for the condition
     const conditionFunction = ((form: FormGroup) => {
+      const outcome = EvaluateExpressionVisitor.evaluate(form, this.condition).getValue();
       if (condition) {
-        return condition(form) && this.condition.evaluate(form);
+        return condition(form) && outcome;
       }
-      return this.condition.evaluate(form);
+      return outcome;
     });
 
     const elseConditionFunction = ((form: FormGroup) => {

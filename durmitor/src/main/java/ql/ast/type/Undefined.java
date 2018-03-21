@@ -22,8 +22,8 @@ public class Undefined extends Type {
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
     
     public Literal<?> parse(Literal<?> value) {

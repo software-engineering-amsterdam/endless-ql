@@ -5,12 +5,15 @@ class QLSast(object):
 class StylesheetNode(QLSast):
 
     def __init__(self, name):
+        self.node_type = "QLS"
         self.name = name
         self.pages = []
 
     def __repr__(self):
         return "Stylesheet: {} Pages: {}".format(self.name, self.pages)
 
+    def getNodeType(self):
+        return self.node_type
 
 class PageNode(QLSast):
 

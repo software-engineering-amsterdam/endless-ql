@@ -6,98 +6,121 @@ import operator as op
 from Tkinter import *
 
 class GuiBuilder():
-    def __init__(self, ast):
+    def __init__(self, ql_ast, qls_ast=None):
         self.gui = Gui()
-        self.ast = ast
-        self.form_name = ast.name
+        self.ql_ast = ql_ast
+        self.form_name = ql_ast.name
 
         self.values = []
         self.frames = {}
-        self.frame_order = []
+        self.new_frame_order = []
+        self.rendered_frame_order = []
         self.frame_counter = 0
 
-        self.parseStatements(ast)
+        # First determine the items we need to render, so we traverse AST
+        self.parseQLAST(ql_ast)
+        self.renderQLWidgets()
+        self.rendered_frame_order = self.new_frame_order
+        self.new_frame_order = []
 
     # Update the form if a value in the form has changed
     def updateForm(self, name='', index='', mode=''):
+        print "Updating form"
         self.frame_counter = 0
-        self.parseStatements(self.ast)
+        self.parseQLAST(self.ql_ast)
+        print "New frame order: ", self.new_frame_order
+        print "Old frame order: ", self.rendered_frame_order
+        self.renderQLWidgets()
+        self.rendered_frame_order = self.new_frame_order
+        self.new_frame_order = []
 
-    # Walk the AST and render gui items
-    def parseStatements(self, form):  
-        for statement in form.statements:
-            getType = statement.returnNodeType()
-            print nodeType
-            if type(statement) is QuestionNode:
-                self.checkWidgetPosition(statement.var)
-                self.parseQuestion(statement)
+    def renderQLWidgets(self):
+        for widget_var in self.new_frame_order:
+            widget_info = self.frames[widget_var]
+            widget_type = widget_info[0]
 
-            elif type(statement) is AssignmentNode:
-                self.checkWidgetPosition(statement.var)
-                self.parseAssignment(statement)
+            if widget_type is "question" and self.checkRenderWidget(widget_var):           
+                self.renderQuestion(widget_var, widget_info)
 
-            elif type(statement) is IfNode:
-                if self.checkExpressionvalues(statement.expression):
+            elif widget_type is "assignment" and self.checkRenderWidget(widget_var):           
+                self.renderAssignment(widget_var, widget_info)
+
+            self.frame_counter += 1
+    
+    def parseQLAST(self, ast):
+        for node in ast.statements:
+            node_type = node.getNodeType()
+            if node_type is "question":
+                self.parseQuestion(node)
+
+            elif node_type is "assignment":
+                self.parseAssignment(node)
+
+            elif node_type is "if":
+                if self.checkExpressionvalues(node.expression):
                     condional_shown = True
-                    self.parseStatements(statement)
+                    self.parseQLAST(node)
                 else:
                     condional_shown = False
 
-            elif type(statement) is ElifNode and not condional_shown:
-                if self.checkExpressionvalues(statement.expression):
+            elif node_type is "elif" and not condional_shown:
+                if self.checkExpressionvalues(node.expression):
                     condional_shown = True
-                    self.parseStatements(statement)
+                    self.parseQLAST(node)
                 else:
                     condional_shown = False
 
-            elif type(statement) is ElseNode and not condional_shown:
-                self.parseStatements(statement)
+            elif node_type is "else" and not condional_shown:
+                self.parseQLAST(node)
 
-    def checkWidgetPosition(self, var):
-        if len(self.frame_order) > 0  and self.frame_counter < len(self.frame_order) and self.frame_order[self.frame_counter] is not var:
-            self.removeFrames(self.frame_order[self.frame_counter:])
-            self.frame_order = self.frame_order[:self.frame_counter]
+    # walk the widget list that need to be renderend and render each item accordingly
+    def renderStatements(self):  
+        pass
 
-    # Parse a question statement and render it
+    def checkRenderWidget(self, var):
+        if len(self.rendered_frame_order) > 0  and self.frame_counter < len(self.rendered_frame_order) and self.rendered_frame_order[self.frame_counter] is not var:
+            print self.rendered_frame_order[self.frame_counter], var
+            self.removeFrames(self.rendered_frame_order[self.frame_counter:])
+            self.rendered_frame_order = self.rendered_frame_order[:self.frame_counter]
+            return True
+        elif len(self.rendered_frame_order) <= self.frame_counter:
+            return True
+
+        return False
+
     def parseQuestion(self, statement):
-        if statement.var not in self.frames:
-            if statement.vartype == "boolean":
-                if statement.var not in self.values:        
-                    self.frames[statement.var] = self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes", self.updateForm)
-                    self.values.append(statement.var)
-                else:
-                    self.frames[statement.var] = self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes", self.updateForm, self.gui.values[statement.var])
+        if statement.var not in self.gui.values: 
+            self.gui.createTKTraceVariable(statement.var, statement.vartype, self.updateForm) 
+           
+        # type, type of question, question text
+        self.frames[statement.var] = ("question", statement.vartype, statement.question) 
+        self.new_frame_order.append(statement.var)
 
-                self.frame_order.append(statement.var)
-
-            elif statement.vartype == "int":
-                if statement.var not in self.values:        
-                    self.frames[statement.var] = self.gui.addIntQuestion(statement.var, statement.question, self.updateForm)
-                    self.values.append(statement.var)
-                else:
-                    self.frames[statement.var] = self.gui.addIntQuestion(statement.var, statement.question, self.updateForm, self.gui.values[statement.var])
-                
-                self.frame_order.append(statement.var)
-
-        self.frame_counter += 1
-
-    # Parse an assignment and render it according to filled in values
     def parseAssignment(self, statement):
         result = self.parseBinOpAssignment(statement.expression)
-        if statement.var not in self.frames:
-            if statement.var not in self.values:
-                self.values.append(statement.var)
-                self.frames[statement.var] = self.gui.addAssignment(statement.var, statement.name, result)
-            else:
-                self.frames[statement.var] = self.gui.addAssignment(statement.var, statement.name, result, self.gui.values[statement.var])
-            
-            self.frame_order.append(statement.var)
+        
+        if statement.var not in self.gui.values:
+            self.gui.createTKNoTraceVariable(statement.var, statement.vartype)
         else:
-            self.gui.updateValue(statement.var, result)
+            self.gui.updateValue(statement.var, result) 
 
-        self.frame_counter += 1
+        # type, type of assignment, name, result to show
+        self.frames[statement.var] = ("assignment", statement.name, result)
+        self.new_frame_order.append(statement.var)
 
-    # Parse an assignment and return its value
+    # render a question statement
+    def renderQuestion(self, widget_var, widget_info):
+        if widget_info[1] == "boolean":
+            self.gui.addBooleanQuestion(widget_var, widget_info[2], "Yes", "No")
+        
+        elif widget_info[1] == "int":
+            self.gui.addIntQuestion(widget_var, widget_info[2])
+
+    # render an assignment
+    def renderAssignment(self, widget_var, widget_info):
+        self.gui.addAssignment(widget_var, widget_info[1], widget_info[2])
+
+    # render an assignment and return its value
     def parseBinOpAssignment(self, statement):
         if type(statement) is BinOpNode:
             left = self.parseBinOpAssignment(statement.left)
@@ -113,8 +136,7 @@ class GuiBuilder():
     # Remove a frame and its content
     def removeFrame(self, var_frame):
         if var_frame in self.frames:
-            self.frames[var_frame].destroy()
-            del self.frames[var_frame]
+            self.gui.frames[var_frame].destroy()
 
     # Remove a list of frames
     def removeFrames(self, frame_list):
@@ -139,11 +161,10 @@ class GuiBuilder():
                 result = self.getOperator(expression.op)(left, right)
                 return result
 
-
         if type(expression) is UnOpNode:
-            if not expression.negate and self.gui.values[expression.var].get() == 1:
+            if expression.negate == False and self.gui.values[expression.var].get() == "0":
                 return True
-            elif expression.negate and self.gui.values[expression.var].get() == 0:
+            elif expression.negate and self.gui.values[expression.var].get() == "1":
                 return True
 
         return False

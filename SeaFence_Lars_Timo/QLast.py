@@ -3,6 +3,7 @@ class QLast(object):
 
 class FormNode(QLast):
     def __init__(self, name):
+        self.node_type = "QLS"
         self.name = name
         self.statements = []
 

@@ -8,6 +8,8 @@ form taxOfficeExample
     		hasMaintLoan: boolean
 	/*"if2 > 3 ?"
       		ifV4: int
+	"assignment"
+      		ifV5: int
 	
 	if (hasSoldHouse)
   	{
@@ -25,7 +27,11 @@ form taxOfficeExample
 			elseV: int
 	}
 
-  /*	if (ifV4 > 3)
+	
+    	"Value residue:" valueResidue: int = ifV4 + ifV5
+ /*
+
+ 	if (ifV4 > 3)
   	{
     		"if2"
       			ifV2: int
@@ -39,16 +45,5 @@ form taxOfficeExample
 	"Did you enter a loan?"
     		hasMaint2Loan: boolean
 
-
-    "Value residue:" valueResidue: int = (elseV * elseV2)*/
-/*
-  elif (hasSoldHouse == hasBoughtHouse) {
-    "Private debts for the sold house:" privateDebt: int
-  }
-
-  if (hasSoldHouse > hasBoughtHouse) {
-    "What was the selling price?" sellingPrice: int
-    "Private debts for the sold house:" privateDebt: int
-    "Value residue:" valueResidue: int = (privateIncome * sellingPrice - !privateDebt)
-  }*/
+*/
 }

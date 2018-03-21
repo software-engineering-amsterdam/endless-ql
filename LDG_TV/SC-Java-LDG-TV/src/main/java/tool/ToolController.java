@@ -11,6 +11,7 @@ import domain.model.ast.ASTNode;
 import domain.model.ast.QuestionNode;
 import domain.model.stylesheet.Page;
 import domain.model.stylesheet.Section;
+import domain.model.stylesheet.Stylesheet;
 import domain.model.variable.Variable;
 import domain.visitor.UIVisitor;
 import domain.visitor.Visitor;
@@ -130,6 +131,7 @@ public class ToolController implements Consumer {
 
         this.formNode = loader.getFormNode();
     }
+
     private void generateQLS(String qlsSource){
         CharStream qlsStream = CharStreams.fromString(qlsSource);
         StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
@@ -156,10 +158,10 @@ public class ToolController implements Consumer {
         this.tpPages.getTabs().add(t);
     }
     private void buildQLS(){
-        Tab tab;
+        Stylesheet styleSheet = formNode.getStylesheet();
 
-        for (Page p : this.formNode.getStylesheet().getPages()){
-            tab = new Tab(p.getLabel());
+        for (Page p : styleSheet.getPages()){
+            Tab tab = new Tab(p.getLabel());
             this.tpPages.getTabs().add(tab);
             drawPage(tab, p);
         }

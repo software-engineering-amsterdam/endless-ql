@@ -61,7 +61,7 @@ public final class Value {
                 return this;
 
             case "-":
-                return apply( "*", new Value( Type.Integer, "-1" ) );
+                return apply( operator, new Value( Type.Integer, "-1" ) );
 
             case "!":
                 return not( this );

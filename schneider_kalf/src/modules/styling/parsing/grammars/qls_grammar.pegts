@@ -7,17 +7,17 @@
 
 }
 
-start = lb* stylesheet:stylesheet lb* { return stylesheet}
+start = lb* stylesheet:stylesheet lb* { return stylesheet }
 
 // Stylesheet
 stylesheet
- = _ "stylesheet" _ id:identifier lb* page:page*{
+ = _ "stylesheet" _ id:identifier lb* "{" lb* page:page* lb* "}" lb*{
     return new Nodes.Stylesheet( id, page);
 }
 
 // Page
 page
- = _ "page" _ id:identifier _ block:pageBlock lb*{
+ = _ "page" _ id:identifier lb* block:pageBlock lb* {
     return new Nodes.Page( id, block );
 }
 
@@ -28,43 +28,56 @@ pageBlock
 
 // Section
 section
- = _ "section" _ name:stringLiteral lb* block:sectionBody{
+ = _ "section" _ name:stringLiteral lb* block:sectionBlock {
     return new Nodes.Section( name, block );
 }
 
-sectionBody
- = sectionBlockQuoted / sectionBlockUnquoted
+sectionBlock
+ = sectionBlockBrackets / sectionBlockNoBrackets
 
-sectionBlockQuoted
- = _ "{" lb* body:sectionBlockUnquoted+ lb* "}" lb* {
+sectionBlockBrackets
+ = _ "{" lb* body:sectionBlockNoBrackets "}" lb* {
     return body
 }
 
-sectionBlockUnquoted
- = _ body:(question / section / default) lb* {
-    return body
+sectionBlockNoBrackets
+ = _ block:sectionAttribute+ lb* {
+    return block
+}
+
+sectionAttribute
+ = _ attr:(question / section / default) lb* {
+   return attr
 }
 
 // Question
 question
- = _ "question" _ id:identifier lb* widget:widget? lb*{
-    return new Nodes.QuestionStyle( id, widget );
+ = _ "question" _ id:identifier lb* body:styleBlock? lb*{
+    body = body ? body : [];
+    return new Nodes.QuestionStyle( id, body);
 }
 
 // Default
-default = defaultBlockQuoted / defaultBlockUnquoted
-
-defaultBlockQuoted
- = _ "default" _ type:type _ "{" lb* args:defaultBlockBody+ lb* "}" lb* {
+default
+ = _ "default" _ type:type lb* args:styleBlock {
     return new Nodes.DefaultStyle(type, args);
+ }
+
+// Block with style attributes
+styleBlock
+ = styleBlockNoBrackets / styleBlockBrackets
+
+styleBlockBrackets
+ = "{" lb* args:styleAttribute+ lb* "}" lb* {
+    return args;
 }
 
-defaultBlockUnquoted
- = _ "default" _ type:type lb* args:defaultBlockBody lb* {
-    return new Nodes.DefaultStyle(type, args);
+styleBlockNoBrackets
+ = lb* args:styleAttribute+ lb* {
+    return args;
 }
 
-defaultBlockBody
+styleAttribute
  = (widget / style)
 
 // Widget
@@ -113,9 +126,12 @@ booleanLiteral
     return Literal == "true"
 }
 
-// Integer
+// number
 numberLiteral
-  = digits:([-]?[0-9]+) {
+  = minus:[-]? digits:([0-9]+) {
+    let amount = digits.join("");
+    if (minus)
+          amount = minus.concat(amount);
     return parseInt(digits.join(""), 10)
 }
 

@@ -13,6 +13,11 @@ public class Identifier extends Expression {
     }
 
     @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
     public <T> T accept(ExpressionVisitor<T> expressionVisitor) {
         return expressionVisitor.visit(this);
     }

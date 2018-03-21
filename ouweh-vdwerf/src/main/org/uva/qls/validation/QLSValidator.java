@@ -1,26 +1,31 @@
 package org.uva.qls.validation;
 
+import org.uva.app.LogHandler;
 import org.uva.ql.ast.Question;
-import org.uva.ql.validation.Checker;
-import org.uva.ql.validation.LogHandler;
+import org.uva.ql.validation.checker.Checker;
 import org.uva.qls.ast.Segment.QuestionReference;
-import org.uva.qls.ast.Stylesheet;
+import org.uva.qls.ast.Segment.Stylesheet;
+import org.uva.qls.collector.StylesheetContext;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.*;
-import java.util.*;
+import java.util.stream.Collectors;
 
 public class QLSValidator {
 
-    private Stylesheet stylesheet;
-    private ArrayList<Question> qlQuestions;
+    private final Stylesheet stylesheet;
+    private final StylesheetContext stylesheetContext;
+
+    private List<Question> qlQuestions;
     private LogHandler logHandler;
     private List<Checker> checkers;
 
-    public QLSValidator(ArrayList<Question> qlQuestions, Stylesheet stylesheet){
+    public QLSValidator(List<Question> qlQuestions, Stylesheet stylesheet) {
         this.qlQuestions = qlQuestions;
         this.stylesheet = stylesheet;
+        this.stylesheetContext = new StylesheetContext(stylesheet);
+
         this.checkers = new ArrayList<>();
 
         this.logHandler = (LogHandler) Logger.getGlobal().getHandlers()[0];
@@ -29,10 +34,13 @@ public class QLSValidator {
     }
 
     private void initializeCheckers() {
-        List<String> qlQuestionIds = qlQuestions.stream().map(Question::getName).collect(Collectors.toList());
-        List<String> qlsQuestionIds = stylesheet.getQuestions().stream().map(QuestionReference::getId).collect(Collectors.toList());
+        List<QuestionReference> qlsQuestions = stylesheetContext.getQuestions();
+        List<String> qlQuestionIds = qlQuestions.stream().map(Question::getId).collect(Collectors.toList());
+        List<String> qlsQuestionIds = qlsQuestions.stream().map(QuestionReference::getId).collect(Collectors.toList());
 
         checkers.add(new ReferenceChecker(qlQuestionIds, qlsQuestionIds));
+        checkers.add(new CompatibilityChecker(qlQuestions, qlsQuestions));
+        // TODO Add default CompatibilityChecker
     }
 
     public void run() {

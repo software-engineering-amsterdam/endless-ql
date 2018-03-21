@@ -30,4 +30,12 @@ describe('jectacular-ql App', () => {
       });
     }).then(done, done.fail);
   });
+
+  it('should parse prefilled form with styling', done => {
+    page.prefill();
+    page.parse();
+    page.formDisplayed().then(displayed => {
+      expect(displayed).toBe(true);
+    }).then(done, done.fail);
+  });
 });

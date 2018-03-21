@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Assignment1.Converters;
 using Assignment1.Model;
+using Assignment1.Model.QL.AST;
 using Assignment1.Parser;
 using Assignment1.Rendering;
+using Assignment1.TypeChecking;
 
 namespace Assignment1
 {
@@ -36,10 +39,13 @@ namespace Assignment1
         {
             try
             {
-                var form = QLListener.ParseString(File.ReadAllText(inputFile));
-                IQuestionFormRenderer renderer = new QuestionFormRenderer(form);
+                var astForm = TextToQLAST.ParseString(File.ReadAllText(inputFile));
+                QLTypeChecker typechecker = new QLTypeChecker();
+                typechecker.TypeCheckQuestionForm(astForm);
+                var renderForm = QLASTToRenderTree.Convert(astForm);
+                IQuestionFormRenderer renderer = new QuestionFormRenderer(renderForm);
                 _view.SetFormControl(renderer.Render());
-                _view.SetWarnings(form.Warnings.Values.ToList()); // TODO: find a way to show it above in form or somewhere else?
+                _view.SetWarnings(typechecker.Warnings);
             }
             catch (QLParseException exception)
             {

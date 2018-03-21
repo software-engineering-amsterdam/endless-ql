@@ -1,35 +1,76 @@
 package gui.widgets;
 
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import ql.analysis.SymbolTable;
+import ql.evaluation.ExpressionEvaluator;
+import ql.evaluation.value.Value;
+import ql.model.Question;
+import ql.model.expression.Expression;
+import ql.model.expression.ReturnType;
+import ql.model.expression.variable.ExpressionVariableBoolean;
+import ql.model.expression.variable.ExpressionVariableDecimal;
+import ql.model.expression.variable.ExpressionVariableUndefined;
 
 import java.util.List;
 
-public class DropdownWidget extends Widget {
+public class DropdownWidget extends ComboBox<String> implements WidgetInterface {
 
     private final List<String> options;
+    private final Question question;
 
-    public DropdownWidget(String name, List<String> options){
-        super(name);
+    public DropdownWidget(Question question, List<String> options) {
+        this.question = question;
+        this.managedProperty().bind(this.visibleProperty());
         this.options = options;
     }
 
+    @Override
+    public Expression getExpression() {
+        try{
+            return new ExpressionVariableBoolean(null, Boolean.parseBoolean(this.valueProperty().getValue()));
+        } catch(IllegalArgumentException e){
+            return new ExpressionVariableUndefined(null, ReturnType.BOOLEAN);
+        }
+    }
 
     @Override
-    public Pane getUI() {
-        HBox pane = new HBox();
-        pane.setSpacing(20);
+    public void setExpression(String value) {
+        this.setValue(value);
+    }
 
-        ComboBox<String> comboBox = new ComboBox<>();
-        for(String option : options){
-            comboBox.getItems().add(option);
-        }
+    @Override
+    public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
+        symbolTable.addListener(e -> {
+            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
+            String text = value.isUndefined() ? "" : value.getBooleanValue().toString();
+            this.setExpression(text);
+        });
+    }
 
-        pane.getChildren().add(new Label(name));
-        pane.getChildren().add(comboBox);
+    @Override
+    public void addNonComputedListener(SymbolTable symbolTable) {
+        this.valueProperty().addListener(e -> {
+            symbolTable.setExpression(question.name, getExpression(this, question.type));
+        });
+    }
 
-        return pane;
+    @Override
+    public void setColor(String color) {
+
+    }
+
+    @Override
+    public void setFont(String font) {
+
+    }
+
+    @Override
+    public void setFontSize(int fontSize) {
+
+    }
+
+    @Override
+    public void setWidth(int width) {
+
     }
 }

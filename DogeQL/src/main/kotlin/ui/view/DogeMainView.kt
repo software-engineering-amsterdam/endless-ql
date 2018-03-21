@@ -1,18 +1,28 @@
 package ui.view
 
+import data.question.Question
+import data.value.IntegerValue
+import javafx.beans.property.SimpleIntegerProperty
+import javafx.scene.control.ScrollPane
+import javafx.scene.layout.FlowPane
 import tornadofx.*
 import ui.model.QuestionFormModel
+import ui.model.QuestionModel
 
 
 class DogeMainView : View() {
 
     private val model: QuestionFormModel by inject()
 
+    val t = SimpleIntegerProperty()
 
-    override val root = vbox()
+    override val root = scrollpane()
 
     init {
+        root.minHeight = 400.0
+        root.minWidth = 400.0
         with(root) {
+
             form {
                 fieldset {
                     children.bind(model.questions) {
@@ -21,24 +31,21 @@ class DogeMainView : View() {
                         }
                     }
                 }
+                button("Save") {
+                    action {
+                        save()
+                    }
+                }
             }
 
-            button("Save") {
-                setOnAction { save() }
+            runAsync {
+                model.load()
             }
-        }
-        runAsync {
-            model.load()
         }
     }
 
-
-    fun save() {
+    private fun save() {
         model.commit()
-//        model.questions.forEach { x ->
-//            x.commit()
-//        }
-
-        print("sdfsdf")
-    }
+        model.load()
+        print("sdfsdf")    }
 }

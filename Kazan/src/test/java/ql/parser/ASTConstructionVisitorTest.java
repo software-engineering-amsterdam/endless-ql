@@ -2,6 +2,7 @@ package ql.parser;
 
 import org.junit.Before;
 import org.junit.Test;
+import ql.Helper;
 import ql.QLParser;
 import ql.ast.Form;
 import ql.ast.expressions.Variable;
@@ -11,35 +12,37 @@ import ql.ast.statements.Question;
 
 import static org.junit.Assert.assertEquals;
 
-public class ASTConstructionVisitorTest {
+public class ASTConstructionVisitorTest extends Helper {
 
-    ASTBuilder astBuilder;
+    private FormBuilder formBuilder;
+    private Helper helper;
 
     @Before
     public void setUp() throws Exception {
-        astBuilder = new ASTBuilder();
+        formBuilder = new FormBuilder();
+        helper = new Helper();
     }
 
     @Test
     public void visitNestedExpression() {
         final int EXPECTED_RESULT = 4;
-        QLParser parser = astBuilder.createParser("((((4))))");
-        IntegerLiteral integerLiteral = (IntegerLiteral) astBuilder.getExpression(parser);
+        QLParser parser = formBuilder.createParser("((((4))))");
+        IntegerLiteral integerLiteral = (IntegerLiteral) formBuilder.getExpression(parser);
 
         assertEquals(EXPECTED_RESULT, integerLiteral.getValue());
     }
 
     @Test
     public void visitForm() {
-        Form form = astBuilder.buildASTFromFile("src/input/ql/correct/simple.ql");
+        Form form = buildASTFromFile("src/input/ql/correct/simple.ql", formBuilder);
         assertEquals("taxOfficeExample", form.getFormId());
         assertEquals(3, form.getStatements().size());
     }
 
     @Test
     public void visitQuestion() {
-        // astBuilder.createParser("form testForm {}");
-        Form form = astBuilder.buildASTFromFile("src/input/ql/correct/simple.ql");
+        // formBuilder.createParser("form testForm {}");
+        Form form = helper.buildASTFromFile("src/input/ql/correct/simple.ql", formBuilder);
         Question question = (Question) form.getStatements().get(0);
 
         assertEquals("boolean", question.getType().toString());
@@ -49,7 +52,7 @@ public class ASTConstructionVisitorTest {
 
     @Test
     public void visitComputedQuestion() {
-        Form form = astBuilder.buildASTFromFile("src/input/ql/correct/simple.ql");
+        Form form = helper.buildASTFromFile("src/input/ql/correct/simple.ql", formBuilder);
         Question question = (Question) form.getStatements().get(0);
 
         assertEquals("boolean", question.getType().toString());
@@ -59,7 +62,7 @@ public class ASTConstructionVisitorTest {
 
     @Test
     public void visitIfStatement() {
-        QLParser parser = astBuilder.createParser("if (hasSoldHouse) {\n" +
+        QLParser parser = formBuilder.createParser("if (hasSoldHouse) {\n" +
                 "    \"What was the selling price?\"\n" +
                 "      sellingPrice: money\n" +
                 "    \"Private debts for the sold house:\"\n" +
@@ -68,7 +71,7 @@ public class ASTConstructionVisitorTest {
                 "      valueResidue: money =\n" +
                 "        (sellingPrice - privateDebt)\n" +
                 "  }");
-        IfStatement ifStatement = (IfStatement) astBuilder.getStatement(parser);
+        IfStatement ifStatement = (IfStatement) formBuilder.getStatement(parser);
         Variable variable = (Variable) ifStatement.getCondition();
 
         assertEquals(3, ifStatement.getIfStatements().size());
@@ -77,9 +80,9 @@ public class ASTConstructionVisitorTest {
 
     // @Test
     // public void visitUnaryExpression() {
-    //     QLParser parser = astBuilder.createParser("!(true)");
-    //     LogicalNegation logicalNegation = (LogicalNegation) astBuilder.getExpression(parser);
-    //     ArithmeticNegation arithmeticNegation = (ArithmeticNegation) astBuilder.getExpression(parser);
+    //     QLParser parser = formBuilder.createParser("!(true)");
+    //     LogicalNegation logicalNegation = (LogicalNegation) formBuilder.getExpression(parser);
+    //     ArithmeticNegation arithmeticNegation = (ArithmeticNegation) formBuilder.getExpression(parser);
     // }
 
     // @Test

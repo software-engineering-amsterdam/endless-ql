@@ -14,7 +14,7 @@ class GenericCastTests {
         val right = DecimalValue(2)
         val result = left + right
 
-        result.type `should be` SymbolType.Decimal
+        result.type `should be` SymbolType.DECIMAL
     }
 
     @Test
@@ -23,6 +23,6 @@ class GenericCastTests {
         val right = IntegerValue(2)
         val result = left + right
 
-        result.type `should be` SymbolType.Decimal
+        result.type `should be` SymbolType.DECIMAL
     }
 }

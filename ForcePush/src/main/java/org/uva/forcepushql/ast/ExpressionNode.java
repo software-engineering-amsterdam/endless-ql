@@ -1,50 +1,170 @@
 package org.uva.forcepushql.ast;
 
 
-public abstract class ExpressionNode { }
+public abstract class ExpressionNode extends Node{ }
 
 abstract class InfixExpressionNode extends ExpressionNode
 {
-    public ExpressionNode Left;
-    public ExpressionNode Right;
+    private Node left;
+    private Node Right;
 
-    public void setLeft (ExpressionNode left)   { this.Left = left; }
+    public void setLeft (ExpressionNode left)   { this.left = left; }
     public void setRight (ExpressionNode right) { this.Right = right; }
 
-    public ExpressionNode getLeft ()    {  return this.Left;  }
-    public ExpressionNode getRight ()   {  return this.Right; }
+    public Node getLeft ()    {  return this.left;  }
+    public Node getRight ()   {  return this.Right; }
 }
 
 
-class AdditionNode extends InfixExpressionNode { }
+class AdditionNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class SubtractionNode extends InfixExpressionNode { }
+class SubtractionNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class MultiplicationNode extends InfixExpressionNode { }
+class MultiplicationNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
-class DivisionNode extends InfixExpressionNode { }
+class DivisionNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class AndNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class OrNode extends InfixExpressionNode {
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class LessNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class GreaterNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class EqualLessNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class EqualGreaterNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class NotEqualNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class IsEqualNode extends InfixExpressionNode{
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
 
 class NegateNode extends ExpressionNode
 {
-    private ExpressionNode InnerNode;
+    private Node InnerNode;
 
-    public void setInnerNode(ExpressionNode innerNode) {
+    public void setInnerNode(Node innerNode) {
         this.InnerNode = innerNode;
     }
 
-    public ExpressionNode getInnerNode() {
+    public Node getInnerNode() {
         return InnerNode;
+    }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class Variable extends ExpressionNode{
+    public String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
     }
 }
 
 class NumberNode extends ExpressionNode
 {
-    private double Value;
+    private int value;
+
+    public void setValue(int value)
+    {
+        this.value = value;
+    }
+
+    public int getValue() { return this.value; }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class DecimalNode extends ExpressionNode
+{
+    private double value;
 
     public void setValue(double value)
     {
-        this.Value = value;
+        this.value = value;
     }
 
-    public double getValue() { return this.Value; }
+    public double getValue() { return this.value; }
+
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }

@@ -1,8 +1,8 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
 import DefaultStyle from "../nodes/children/DefaultStyle";
 import QuestionStyle from "../nodes/children/QuestionStyle";
-import Section from "../nodes/containers/Section";
-import Page from "../nodes/containers/Page";
+import Section from "../nodes/containers/SectionNode";
+import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
 import Stylesheet from "../nodes/StyleSheet";
@@ -14,6 +14,10 @@ import StyleTreeNode from "../nodes/StyleTreeNode";
  */
 export default class SetParentsVisitor implements StyleNodeVisitor {
   private queue: StyleTreeNode[];
+
+  constructor() {
+    this.queue = [];
+  }
 
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
     this.setParent(defaultStyle, []);
@@ -41,6 +45,7 @@ export default class SetParentsVisitor implements StyleNodeVisitor {
 
   visitStyleSheet(stylesheet: Stylesheet): any {
     this.setParent(stylesheet, stylesheet.children);
+    // stylesheet.setParent(null);
   }
 
   private setParent(node: StyleTreeNode, children: StyleTreeNode[]) {
@@ -57,8 +62,9 @@ export default class SetParentsVisitor implements StyleNodeVisitor {
       return;
     }
 
-    this.queue[0].accept(this);
-    this.queue.shift();
-  }
+    const oldest = this.queue[0];
+    this.queue.splice(0, 1);
 
+    oldest.accept(this);
+  }
 }

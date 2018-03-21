@@ -2,7 +2,8 @@
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Assignment1.Model;
+using Assignment1.Model.QL;
+using Assignment1.Model.QL.RenderTree;
 
 namespace Assignment1.Rendering
 {

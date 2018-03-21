@@ -33,4 +33,26 @@ public class WidgetConfiguration {
 	public int getHeight() {
 		return height;
 	}
+	
+	/* setters for QLS rendering using styling properties in QLS-stylesheet */
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setFontName(String name) {
+		font = new Font(name, Font.PLAIN, font.getSize());
+	}
+	
+	public void setFontSize(float size) {
+		//apply new size on the same font object
+		font = font.deriveFont(size);
+	}
+	
+	public void setFontColor(Color color) {
+		this.color = color;
+	}
 }

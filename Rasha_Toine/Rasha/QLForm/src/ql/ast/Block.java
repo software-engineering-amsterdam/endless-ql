@@ -17,11 +17,11 @@ public class Block extends AstNode {
 	}
 
 	public Block() {
-		this.statements = new ArrayList<>();
+		statements = new ArrayList<>();
 	}
 
     public void insertStatement(Statement statement){
-        this.statements.add(statement);
+        statements.add(statement);
     }
     
     public List<Statement> getStatements(){

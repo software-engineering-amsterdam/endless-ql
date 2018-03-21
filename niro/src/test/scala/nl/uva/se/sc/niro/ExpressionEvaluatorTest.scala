@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro
 
 import java.time.LocalDate
 
-import nl.uva.se.sc.niro.Evaluator.evaluateExpression
+import nl.uva.se.sc.niro.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Reference }
@@ -25,7 +25,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
         }
       }
 
@@ -41,7 +41,45 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
+        }
+      }
+
+      "on money" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Add, MoneyAnswer(5), MoneyAnswer(3), MoneyAnswer(8)),
+          (Sub, MoneyAnswer(5), MoneyAnswer(3), MoneyAnswer(2)),
+          (Div, MoneyAnswer(10), MoneyAnswer(5), DecimalAnswer(2))
+        )
+
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
+        }
+      }
+
+      // TODO implement type widening for left hand side of the expression
+      "on different types" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Mul, MoneyAnswer(5), IntegerAnswer(3), MoneyAnswer(15)),
+          (Mul, MoneyAnswer(5), DecimalAnswer(3), MoneyAnswer(15)),
+          (Div, MoneyAnswer(10), IntegerAnswer(5), MoneyAnswer(2)),
+          (Div, MoneyAnswer(10), DecimalAnswer(5), MoneyAnswer(2)),
+          (Add, IntegerAnswer(10), DecimalAnswer(5), DecimalAnswer(15)),
+          (Add, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(15)),
+          (Sub, IntegerAnswer(10), DecimalAnswer(6), DecimalAnswer(4)),
+          (Sub, DecimalAnswer(10), IntegerAnswer(6), DecimalAnswer(4)),
+          (Mul, IntegerAnswer(10), DecimalAnswer(5), DecimalAnswer(50)),
+          (Mul, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(50)),
+          (Div, IntegerAnswer(10), DecimalAnswer(5), DecimalAnswer(2)),
+          (Div, DecimalAnswer(10), IntegerAnswer(5), DecimalAnswer(2))
+        )
+
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
         }
       }
     }
@@ -68,7 +106,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
         }
       }
 
@@ -93,7 +131,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
         }
       }
 
@@ -118,11 +156,11 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
         }
       }
 
-      "on money" in {
+      "on dates" in {
         val table = Table(
           ("Operator", "Left", "Right", "Expected Answer"),
           // format: off
@@ -145,7 +183,32 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
+        }
+      }
+
+      "on money" in {
+        val table = Table(
+          ("Operator", "Left", "Right", "Expected Answer"),
+          (Lt, MoneyAnswer(1), MoneyAnswer(2), BooleanAnswer(true)),
+          (Lt, MoneyAnswer(2), MoneyAnswer(1), BooleanAnswer(false)),
+          (Lte, MoneyAnswer(1), MoneyAnswer(2), BooleanAnswer(true)),
+          (Lte, MoneyAnswer(1), MoneyAnswer(1), BooleanAnswer(true)),
+          (Lte, MoneyAnswer(2), MoneyAnswer(1), BooleanAnswer(false)),
+          (Gte, MoneyAnswer(5), MoneyAnswer(3), BooleanAnswer(true)),
+          (Gte, MoneyAnswer(5), MoneyAnswer(5), BooleanAnswer(true)),
+          (Gte, MoneyAnswer(3), MoneyAnswer(5), BooleanAnswer(false)),
+          (Gt, MoneyAnswer(5), MoneyAnswer(3), BooleanAnswer(true)),
+          (Gt, MoneyAnswer(3), MoneyAnswer(5), BooleanAnswer(false)),
+          (Ne, MoneyAnswer(5), MoneyAnswer(3), BooleanAnswer(true)),
+          (Ne, MoneyAnswer(5), MoneyAnswer(5), BooleanAnswer(false)),
+          (Eq, MoneyAnswer(5), MoneyAnswer(5), BooleanAnswer(true)),
+          (Eq, MoneyAnswer(5), MoneyAnswer(3), BooleanAnswer(false))
+        )
+
+        forAll(table) { (operator, left, right, expectedAnswer) =>
+          val expression = BinaryOperation(operator, left, right)
+          expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
         }
       }
     }
@@ -162,7 +225,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (operator, left, right, expectedAnswer) =>
           val expression = BinaryOperation(operator, left, right)
-          evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+          expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
         }
       }
     }
@@ -177,7 +240,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
       forAll(table) { (operator, left, right, expectedAnswer) =>
         val expression = BinaryOperation(operator, left, right)
-        evaluateExpression(expression, Map.empty, Map.empty) should be(expectedAnswer)
+        expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
       }
     }
 
@@ -185,36 +248,36 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
       val qlForm = QLForm(
         formName = "Revenue",
         statements = List(
-          Question("revenue", "How much did you earn", IntegerType, IntegerAnswer(1000)),
-          Question("expenses", "How much did you spend", IntegerType, IntegerAnswer(200)),
+          Question("revenue", "How much did you earn", IntegerType, Some(IntegerAnswer(1000))),
+          Question("expenses", "How much did you spend", IntegerType, Some(IntegerAnswer(200))),
           Question(
             "profit",
             "You still have",
             IntegerType,
-            BinaryOperation(Sub, Reference("revenue"), Reference("expenses")))
+            Some(BinaryOperation(Sub, Reference("revenue"), Reference("expenses"))))
         )
       )
 
-      val q: Seq[Question] = qlForm.statements.collect { case q: Question => q }
-      val x = q.map(q => evaluateExpression(q.expression, qlForm.symbolTable, Map.empty))
-      assert(x == Seq(IntegerAnswer(1000), IntegerAnswer(200), IntegerAnswer(800)))
+      val questions: Seq[Question] = qlForm.statements.collect { case q: Question => q }
+      val result = questions.flatMap(question => question.expression.map(_.evaluate(qlForm.symbolTable, Map.empty)))
+      assert(result == Seq(Some(IntegerAnswer(1000)), Some(IntegerAnswer(200)), Some(IntegerAnswer(800))))
     }
 
     "do error handling" should {
       "throw an error for arithmetic operations on unsupported types" in {
         val expression = BinaryOperation(Div, BooleanAnswer(true), BooleanAnswer(true))
 
-        assertThrows[UnsupportedOperationException](evaluateExpression(expression, Map.empty, Map.empty))
+        assertThrows[UnsupportedOperationException](expression.evaluate(Map.empty, Map.empty))
       }
       "throw an error for logical operations on unsupported types" in {
         val expression = BinaryOperation(And, StringAnswer("Foo"), StringAnswer("Bar"))
 
-        assertThrows[UnsupportedOperationException](evaluateExpression(expression, Map.empty, Map.empty))
+        assertThrows[UnsupportedOperationException](expression.evaluate(Map.empty, Map.empty))
       }
       "throw an error when evaluating mixed answertypes" in {
         val expression = BinaryOperation(Eq, BooleanAnswer(true), IntegerAnswer(5))
 
-        assertThrows[IllegalArgumentException](evaluateExpression(expression, Map.empty, Map.empty))
+        assertThrows[IllegalArgumentException](expression.evaluate(Map.empty, Map.empty))
       }
     }
   }

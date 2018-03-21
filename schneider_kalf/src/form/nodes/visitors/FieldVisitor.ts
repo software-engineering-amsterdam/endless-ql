@@ -2,8 +2,11 @@ import Question from "../fields/Question";
 import ComputedField from "../fields/ComputedField";
 import IfCondition from "../conditions/IfCondition";
 import FormNode from "../FormNode";
+import FieldNodeDecorator from "../fields/FieldNodeDecorator";
 
 interface FieldVisitor {
+  visitFieldDecorator(fieldDecorator: FieldNodeDecorator): any;
+
   visitQuestion(question: Question): any;
 
   visitComputedField(computedField: ComputedField): any;

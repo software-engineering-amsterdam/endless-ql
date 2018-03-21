@@ -11,8 +11,12 @@ public class Style extends TreeNode {
     List<StyleProperty> styleProperties;
     Widget widget;
 
-    public Style(List<StyleProperty> styleProperties, Widget widget){
+    public Style(List<StyleProperty> styleProperties, Widget widget) {
         this.styleProperties = styleProperties;
         this.widget = widget;
+    }
+
+    public Widget getWidget() {
+        return widget;
     }
 }

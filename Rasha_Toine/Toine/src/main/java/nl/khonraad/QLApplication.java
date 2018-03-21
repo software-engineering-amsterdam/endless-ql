@@ -1,209 +1,285 @@
 package nl.khonraad;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.IOException;
-import java.util.Date;
+import java.text.DecimalFormat;
 
-import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.tree.ParseTree;
 
-import nl.khonraad.domain.Question;
-import nl.khonraad.domain.Question.BehaviouralType;
-import nl.khonraad.domain.Type;
-import nl.khonraad.utils.AbstractParserFactory;
+import nl.khonraad.qLanguage.domain.Question;
+import nl.khonraad.qLanguage.domain.Question.BehaviouralType;
+import nl.khonraad.qLanguage.domain.Questionnaire;
+import nl.khonraad.qLanguage.domain.Type;
+import nl.khonraad.qLanguage.domain.Value;
 
 public class QLApplication {
 
-	String testData = "form Box1HouseOwning {																			"
-			+ "   hasSoldHouse: \"Did you sell a house in 2010?\" boolean										"
-			+ "   hasBoughtHouse: \"Did you by a house in 2010?\" boolean										"
-			+ "   hasMaintLoan: \"Did you enter a loan for maintenance/reconstruction?\"  boolean				"
-			+ "																								"
-			+ "	if (hasSoldHouse) {																			"
-			+ "		sellingPrice: \"Price the house was sold for:\" money										"
-			+ "		privateDebt: \"Private debts for the sold house:\" money									"
-			+ "  		valueResidue: \"Value residue:\" money (sellingPrice - privateDebt - 0.01 )				"
-			+ "  		testDate: \"Testdate:\" date (01/01/1970 + 3 )				"
-			+ "  		testString: \"testString:\" string (\"abc\"  + \"ABC\")				"
-			+ "  	}																							"
-			+ "}																								";
+    String              testData      = "                                                                  "
+            + "form     Box1HouseOwning {                                                                  "
+            + "     hasSoldHouse:   \"Did you sell a house in 2010?\" boolean                              "
+            + "     hasBoughtHouse: \"Did you by a house in 2010?\" boolean                                "
+            + "     hasMaintLoan:   \"Did you enter a loan for maintenance/reconstruction?\"  boolean      "
+            + "                                                                                            "
+            + "        if (hasSoldHouse) {                                                                 "
+            + "           sellingPrice: \"Price the house was sold for:\" money                            "
+            + "           privateDebt: \"Private debts for the sold house:\" money                         "
+            + "      valueResidue: \"Value residue:\" money (sellingPrice - privateDebt )                  "
+            + "     }                                                                                      "
+            + "}                                                                                           ";
 
-	final QLVisitor interpretingVisitor = new QLVisitor();
-	final ParseTree parseTree = AbstractParserFactory.parseDataForTest( testData ).form();
-	final JPanel mainPanel = new JPanel();
+    final Questionnaire questionnaire = new Questionnaire( testData );
 
-	public static void main( String[] args ) throws RecognitionException, IOException {
+    final JPanel        mainPanel     = new JPanel();
 
-		new QLApplication();
-	}
+    public static void main( String[] args ) throws RecognitionException, IOException {
 
-	public QLApplication() throws RecognitionException, IOException {
+        new QLApplication();
+    }
 
-		JFrame guiFrame = new JFrame();
+    public QLApplication() throws RecognitionException, IOException {
 
-		initializeGuiFrame( guiFrame );
+        JFrame guiFrame = new JFrame();
 
-		mainPanel.setLayout( new BoxLayout( mainPanel, BoxLayout.Y_AXIS ) );
+        initializeGuiFrame( guiFrame );
 
-		guiFrame.add( mainPanel, BorderLayout.NORTH );
+        mainPanel.setLayout( new GridLayout( 0, 2 ) );
 
-		show( mainPanel );
+        guiFrame.add( mainPanel, BorderLayout.NORTH );
 
-		guiFrame.setVisible( true );
+        visualizeQuestionnaire( mainPanel );
 
-	}
+        guiFrame.setVisible( true );
 
-	private void show( JPanel mainPanel ) throws RecognitionException, IOException {
+    }
 
-		mainPanel.removeAll();
+    private void visualizeQuestionnaire( JPanel mainPanel ) {
 
-		interpretingVisitor.visit( parseTree );
+        mainPanel.removeAll();
 
-		for (Question question : interpretingVisitor.listQuestions()) {
-			mainPanel.add( makeQuestion( question.getIdentifier(), question.getBehaviouralType(),
-					question.getValue().getType(), question.getLabel(), question.getValue().getText() ) );
+        questionnaire.visit();
 
-		}
+        for ( Question question : questionnaire.getQuestionList() ) {
 
-		mainPanel.validate();
-		
-		mainPanel.updateUI();
-		mainPanel.repaint();
+            JLabel jLabel = new JLabel( question.getLabel() );
+            mainPanel.add( jLabel );
 
-	}
+            mainPanel.add( visualizeQuestion( question ) );
+        }
 
-	private void initializeGuiFrame( JFrame guiFrame ) {
+        mainPanel.validate();
+        mainPanel.updateUI();
+        mainPanel.repaint();
 
-		guiFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		guiFrame.setTitle( "GUI" );
-		guiFrame.setSize( 700, 550 );
+    }
 
-		// This will center the JFrame in the middle of the screen
-		guiFrame.setLocationRelativeTo( null );
-	}
+    private void initializeGuiFrame( JFrame guiFrame ) {
 
-	private JPanel addToParent( JPanel parent, JComponent component ) {
-		parent.add( component);
-		return parent;
-	}
+        guiFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        guiFrame.setTitle( "GUI" );
+        guiFrame.setSize( 700, 550 );
 
-	private JPanel makeQuestion( String identifier, BehaviouralType behaviouralType, Type type, String label, String text ) {
+        // This will center the JFrame in the middle of the screen
+        guiFrame.setLocationRelativeTo( null );
+    }
 
-		JPanel container = new JPanel();
+    private JPanel addToParent( JPanel parent, JComponent component ) {
+        JPanel container = new JPanel();
+        container.add( component, new GridLayout( 0, 2 ) );
+        parent.add( container );
+        return parent;
+    }
 
-		JLabel leftComponent = new JLabel( label );
-		container.add( leftComponent, BorderLayout.WEST  );
+    private JPanel visualizeQuestion( Question question ) {
 
-		if (behaviouralType == BehaviouralType.COMPUTED) {
+        String identifier = question.getIdentifier();
+        BehaviouralType behaviouralType = question.getBehaviouralType();
+        Type type = question.getValue().getType();
+        String text = question.getValue().getText();
 
-			return addToParent( container, boldText( text ) );
-		}
+        JPanel container = new JPanel();
 
-		switch ( type ) {
+        if ( behaviouralType == BehaviouralType.COMPUTED ) {
 
-			case Boolean:
-				return addToParent( container, createBooleanBox( identifier, text ) );
+            return addToParent( container, boldText( text ) );
+        }
 
-			case Date:
-				return addToParent( container, createDateBox( identifier, text ) );
+        switch ( type ) {
 
-			case Integer:
-				return addToParent( container, createIntegerBox( identifier, text ) );
+            case Boolean:
+                return addToParent( container, createBooleanBox( identifier, text ) );
 
-			case Money:
-				return addToParent( container, createMoneyBox( identifier, text ) );
+            case Date:
+                return addToParent( container, createDateBox( identifier, text ) );
 
-			case String:
-				return addToParent( container, createStringBox( identifier, text ) );
-		}
-		throw new RuntimeException( "Do not know how to diplay type: " + type );
+            case Integer:
+                return addToParent( container, createIntegerBox( identifier, text ) );
 
-	}
+            case Money:
+                return addToParent( container, createMoneyBox( identifier, text ) );
 
-	private JLabel boldText( String text ) {
-		JLabel jLabel = new JLabel( text );
-		jLabel.setFont( new Font( "Courier", Font.BOLD, 16 ) );
-		return jLabel;
-	}
+            case String:
+                return addToParent( container, createStringBox( identifier, text ) );
+        }
+        throw new RuntimeException( "Do not know how to diplay type: " + type );
 
-	private JSpinner createMoneyBox( String identifier, String text ) {
+    }
 
-		JSpinner m_numberSpinner;
-		SpinnerNumberModel m_numberSpinnerModel;
-		Double current = new Double( text );
-		Double step = new Double( 0.05 );
-		m_numberSpinnerModel = new SpinnerNumberModel( current, null, null, step );
-		m_numberSpinner = new JSpinner( m_numberSpinnerModel );
-		return m_numberSpinner;
+    private JLabel boldText( String text ) {
+        JLabel jLabel = new JLabel( text );
+        jLabel.setFont( new Font( "Courier", Font.BOLD, 16 ) );
+        return jLabel;
+    }
 
-	}
+    private JSpinner createMoneyBox( String identifier, String text ) {
 
-	private JSpinner createIntegerBox( String identifier, String text ) {
+        Double min = null;
+        Double current = new Double( text );
+        Double max = null;
+        Double stepSize = 0.01;
 
-		JSpinner m_numberSpinner;
-		SpinnerNumberModel m_numberSpinnerModel;
-		Integer current = new Integer( text );
-		Integer step = new Integer( "1" );
-		m_numberSpinnerModel = new SpinnerNumberModel( current, null, null, step );
-		m_numberSpinner = new JSpinner( m_numberSpinnerModel );
-		return m_numberSpinner;
+        SpinnerNumberModel model = new SpinnerNumberModel( current, min, max, stepSize );
+        JSpinner spinner = new JSpinner( model );
+        JSpinner.NumberEditor editor = (JSpinner.NumberEditor) spinner.getEditor();
+        DecimalFormat format = editor.getFormat();
+        format.setMaximumFractionDigits( 2 );
+        format.setMinimumFractionDigits( 2 );
+        editor.getTextField().setHorizontalAlignment( SwingConstants.RIGHT );
+        Dimension d = spinner.getPreferredSize();
+        d.width = 85;
+        spinner.setPreferredSize( d );
 
-	}
+        addFocusListenerForSpinner( identifier, spinner, Type.Money );
+        return spinner;
 
-	private JTextField createDateBox( String identifier, String text ) {
+    }
 
-		JTextField rightComponent = new JTextField( text, 10 );
-		return rightComponent;
-	}
+    private JSpinner createIntegerBox( String identifier, String text ) {
 
-	private JTextField createStringBox( String identifier, String text ) {
+        Integer min = null;
+        Integer current = new Integer( text );
+        Integer max = null;
+        Integer stepSize = 1;
 
-		JTextField rightComponent = new JTextField( text, 40 );
-		rightComponent.addActionListener( new ActionListener() {
+        SpinnerNumberModel model = new SpinnerNumberModel( current, min, max, stepSize );
+        JSpinner spinner = new JSpinner( model );
+        JSpinner.NumberEditor editor = (JSpinner.NumberEditor) spinner.getEditor();
+        DecimalFormat format = editor.getFormat();
+        format.setMaximumFractionDigits( 0 );
+        format.setMinimumFractionDigits( 0 );
+        editor.getTextField().setHorizontalAlignment( SwingConstants.RIGHT );
+        Dimension d = spinner.getPreferredSize();
+        d.width = 85;
+        spinner.setPreferredSize( d );
 
-			@Override
-			public void actionPerformed( ActionEvent e ) {
-			}
-		} );
-		return rightComponent;
-	}
+        addFocusListenerForSpinner( identifier, spinner, Type.Integer );
+        return spinner;
 
-	@SuppressWarnings("unchecked")
-	private JComboBox<String> createBooleanBox( String identifier, String text ) {
+    }
 
-		String[] options = { "True", "False" };
-		JComboBox<String> rightComponent = new JComboBox<String>( options );
-		rightComponent.setSelectedItem( text );
-		rightComponent.addActionListener( new ActionListener() {
+    private JTextField createDateBox( String identifier, String text ) {
 
-			@Override
-			public void actionPerformed( ActionEvent e ) {
-				JComboBox<String> combo = (JComboBox<String>) e.getSource();
-				String current = (String) combo.getSelectedItem();
+        JTextField component = new JTextField( text, 10 );
 
-				interpretingVisitor.findQuestion( BehaviouralType.ANSWERABLE, identifier ).get().parseThenSetValue( current );
-				try {
-					show( mainPanel );
-				} catch (RecognitionException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-		} );
-		return rightComponent;
-	}
+        addFocusListenerForJTextField( identifier, component, Type.Date );
+
+        return component;
+    }
+
+    private JTextField createStringBox( String identifier, String text ) {
+
+        JTextField component = new JTextField( text, 40 );
+
+        addFocusListenerForJTextField( identifier, component, Type.String );
+
+        return component;
+    }
+
+    private void addFocusListenerForSpinner( String identifier, JSpinner component, Type type ) {
+        component.addChangeListener( new ChangeListener() {
+
+            @Override
+            public void stateChanged( ChangeEvent e ) {
+
+                JSpinner spinner = (JSpinner) e.getSource();
+                String current = spinner.getModel().getValue().toString();
+
+                questionnaire.storeAnswer( identifier, new Value( type, current ) );
+                visualizeQuestionnaire( mainPanel );
+            }
+        } );
+    }
+
+    private void addFocusListenerForJTextField( String identifier, JTextField component, Type type ) {
+        component.addFocusListener( new FocusListener() {
+
+            @Override
+            public void focusLost( FocusEvent e ) {
+
+                JTextField textField = (JTextField) e.getSource();
+                String current = textField.getText();
+
+                questionnaire.storeAnswer( identifier, new Value( type, current ) );
+                visualizeQuestionnaire( mainPanel );
+            }
+
+            @Override
+            public void focusGained( FocusEvent e ) {
+                // TODO Auto-generated method stub
+
+            }
+        } );
+    }
+
+    @SuppressWarnings("unchecked")
+    private JComboBox<String> createBooleanBox( String identifier, String text ) {
+
+        String[] options = { Value.FALSE.getText(), Value.TRUE.getText() };
+        JComboBox<String> component = new JComboBox<String>( options );
+        component.setSelectedItem( text );
+        component.addActionListener( new ActionListener() {
+
+            @Override
+            public void actionPerformed( ActionEvent e ) {
+
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String current = (String) combo.getSelectedItem();
+
+                questionnaire.storeAnswer( identifier, new Value( Type.Boolean, current ) );
+
+                visualizeQuestionnaire( mainPanel );
+            }
+        } );
+        return component;
+    }
+
+    JFormattedTextField getTextField( JSpinner spinner ) {
+        JComponent editor = spinner.getEditor();
+        if ( editor instanceof JSpinner.DefaultEditor ) {
+            return ((JSpinner.DefaultEditor) editor).getTextField();
+        } else {
+            System.err.println( "Unexpected editor type: " + spinner.getEditor().getClass()
+                    + " isn't a descendant of DefaultEditor" );
+            return null;
+        }
+    }
 }

@@ -20,13 +20,22 @@ def main(argv):
     visitor = ParseTreeVisitor()
     ast = parse_tree.accept(visitor)
 
-    sc = StaticChecker()
-    sc.run(ast)
+    static_checker = StaticChecker()
+    static_checker.run(ast)
+    messages = static_checker.messages()
+    print(messages)
 
-    stb = SymbolTable()
+    symbol_table = SymbolTable()
 
-    GUIVisitor(ast, stb)
+    GUIVisitor(ast, symbol_table, messages)
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    filenames = [
+        "pyql/test/samples/example.ql",
+        "pyql/test/samples/form1.ql",
+        "pyql/test/samples/form2.ql",
+        "pyql/test/samples/form3.ql",
+        "pyql/test/samples/form4.ql"
+    ]
+    main(filenames)

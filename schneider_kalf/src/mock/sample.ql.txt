@@ -1,4 +1,10 @@
 form taxOfficeExample {
+  "How much do you like me?"
+    likeMeInt: integer
+  "How much do you like me precise?"
+    likeMeDecimal: decimal
+  "When do you want to buy your next house"
+    whenNextHouse: date
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"
@@ -6,7 +12,7 @@ form taxOfficeExample {
   "Did you enter a loan?"
     hasMainLoan: boolean
 
-  if (5 - 3 + 1 > 100 && false || hasBoughtHouse ) {
+  if (true) {
     "What was the selling price?"
       sellingPrice: money
     "Private debts for the sold house:"

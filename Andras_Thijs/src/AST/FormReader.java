@@ -3,12 +3,7 @@ package AST;
 import Nodes.*;
 import AST.gen.*;
 import Nodes.Operator.*;
-import Nodes.Term.Boolean;
-import Nodes.Term.Float;
-import Nodes.Term.Integer;
-import Nodes.Term.QLString;
-import Nodes.Term.Term;
-import Nodes.Term.Variable;
+import Nodes.Term.*;
 import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -164,10 +159,10 @@ public class FormReader {
 
 
             if(expressions.size() == 1 && notNode == null)
-                return new Expression(expressionVisitor.visitExpression(expressions.get(0)));
+                return expressionVisitor.visitExpression(expressions.get(0));
 
             if(termContext != null)
-                return new Expression(termVisitor.visitTerm(ctx.term()));
+                return termVisitor.visitTerm(ctx.term());
 
             if(notNode != null)
                 return new Expression(expressionVisitor.visitExpression(expressions.get(0)), new Not(""));
@@ -181,7 +176,6 @@ public class FormReader {
             if(addsubContext != null)
                 return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitArithmetic(addsubContext));
 
-
             if(operatorContext != null)
                 return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), operatorVisitor.visitOperator(operatorContext));
 
@@ -189,7 +183,7 @@ public class FormReader {
         }
     }
 
-    private static class TermVisitor extends QLBaseVisitor<Term>{
+    private static class TermVisitor extends QLBaseVisitor<Term> {
 
         @Override
         public Term visitTerm(@NotNull QLParser.TermContext ctx) {
@@ -199,9 +193,8 @@ public class FormReader {
             TerminalNode integer = ctx.INTEGER();
             TerminalNode decimal = ctx.DECIMAL();
 
-
             if(bool != null)
-                return new Boolean(java.lang.Boolean.parseBoolean(bool.toString()));
+                return new QLBoolean(Boolean.parseBoolean(bool.toString()));
 
             if(qlstring != null)
                 return new QLString((String) qlstring.toString());
@@ -210,17 +203,15 @@ public class FormReader {
                 return new Variable((String) variable.toString());
 
             if(integer != null)
-                return new Integer((java.lang.Integer.parseInt(integer.toString())));
+                return new QLFloat((Integer.parseInt(integer.toString())));
 
             if(decimal != null)
-                return new Float((java.lang.Float.parseFloat(decimal.toString())));
-
+                return new QLFloat((Float.parseFloat(decimal.toString())));
 
             // TODO throw error
 
             return null;
         }
-
     }
 
     private static class ArithmeticVisitor extends QLBaseVisitor<Operator>{

@@ -1,5 +1,5 @@
 import {QuestionBase} from './question-base';
-import {Widget, WidgetType} from '../ast/qls';
+import {Widget, WidgetType} from '../ast/qls/index';
 import {FormGroup} from '@angular/forms';
 
 export class InputQuestion extends QuestionBase<string> {

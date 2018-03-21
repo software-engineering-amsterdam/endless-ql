@@ -1,44 +1,40 @@
 package org.uva.forcepushql.ast;
 
-public abstract class FormNode { }
+import javax.swing.*;
+import java.util.LinkedList;
 
-abstract class QuestionNode extends FormNode{
-
-    private ExpressionNode Left;
-    private ExpressionNode Right;
-
-    public void setLeft (ExpressionNode left)   { this.Left = left; }
-    public void setRight (ExpressionNode right) { this.Right = right; }
-
-    public ExpressionNode getLeft ()    {  return this.Left;  }
-    public ExpressionNode getRight ()   {  return this.Right; }
-}
-
-class NameNode extends QuestionNode{
+public class FormNode extends Node{
+    private LinkedList<Node> questions;
     private String name;
 
-    public void setName (String name) { this.name = name; }
+    public FormNode(){
+        questions = new LinkedList<Node>();
+    }
 
-    public String getName ()          { return this.name;  }
+    public LinkedList<Node> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(LinkedList<Node> questions) {
+        this.questions = questions;
+    }
+
+    public void setOneQuestion(Node question){
+        if (question != null)
+            questions.add(question);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public LinkedList<JPanel> accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
-class TypeNode extends QuestionNode{
-    private String type;
-
-    public void setType(String type) { this.type = type; }
-
-    public String getType()          { return this.type;  }
-}
-
-class LabelNode extends QuestionNode{
-
-    private String label;
-
-    public void setLabel (String label) { this.label = label; }
-
-    public String getLabel ()           { return this.label;  }
-}
-
-class MathNode extends QuestionNode{
-
-}

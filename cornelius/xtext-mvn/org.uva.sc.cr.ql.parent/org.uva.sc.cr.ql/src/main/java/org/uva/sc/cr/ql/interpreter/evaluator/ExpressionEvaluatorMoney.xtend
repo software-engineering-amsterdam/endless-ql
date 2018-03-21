@@ -6,16 +6,21 @@ import java.util.Map
 import javax.inject.Singleton
 import org.joda.money.CurrencyUnit
 import org.joda.money.Money
-import org.uva.sc.cr.ql.qL.ExpressionMulOrDiv
+import org.uva.sc.cr.ql.qL.ExpressionMultiplicationOrDivision
 import org.uva.sc.cr.ql.qL.ExpressionPlusOrMinus
-import org.uva.sc.cr.ql.qL.ExpressionQuestionRef
+import org.uva.sc.cr.ql.qL.ExpressionQuestionReference
 import org.uva.sc.cr.ql.util.Operation
+import org.uva.sc.cr.ql.qL.ExpressionParanthesis
 
 @Singleton
 class ExpressionEvaluatorMoney {
 
 	private static val CURRENCY_UNIT = CurrencyUnit.EUR
 	private static val ROUNDING_MODE = RoundingMode.DOWN
+
+	dispatch def Money evaluateExpression(ExpressionParanthesis expression, Map<String, Object> arguments) {
+		return evaluateExpression(expression.expression, arguments)
+	}
 
 	dispatch def Money evaluateExpression(ExpressionPlusOrMinus expression, Map<String, Object> arguments) {
 		var leftMoney = evaluateExpression(expression.left, arguments)
@@ -27,7 +32,7 @@ class ExpressionEvaluatorMoney {
 		}
 	}
 
-	dispatch def Money evaluateExpression(ExpressionMulOrDiv expression, Map<String, Object> arguments) {
+	dispatch def Money evaluateExpression(ExpressionMultiplicationOrDivision expression, Map<String, Object> arguments) {
 		var leftMoney = evaluateExpression(expression.left, arguments)
 		var rightMoney = evaluateExpression(expression.right, arguments)
 		if (expression.op == Operation.MULTIPLICATION.literal)
@@ -36,7 +41,7 @@ class ExpressionEvaluatorMoney {
 			leftMoney.dividedBy(rightMoney.amount, ROUNDING_MODE)
 	}
 
-	dispatch def Money evaluateExpression(ExpressionQuestionRef expression, Map<String, Object> arguments) {
+	dispatch def Money evaluateExpression(ExpressionQuestionReference expression, Map<String, Object> arguments) {
 		val value = arguments.get(expression.question.name)
 		var BigDecimal bigDecimalValue;
 		try {

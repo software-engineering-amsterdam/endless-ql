@@ -19,7 +19,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class QLFormBuilder extends JPanel{
+public class QLFormBuilder extends JPanel {
 
     static DefaultFormBuilder builder;
     static JPanel panel;
@@ -205,7 +205,7 @@ public class QLFormBuilder extends JPanel{
     }
 
 
-    public void showForm () {
+    public void showForm() {
 
 
     }

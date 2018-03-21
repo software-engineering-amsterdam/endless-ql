@@ -1,6 +1,7 @@
 import AbstractStyleNode from "./AbstractStyleNode";
 import StyleSheetChild from "./children/StyleSheetChild";
 import StyleNodeVisitor from "../visitors/StyleNodeVisitor";
+import Page from "./containers/PageNode";
 
 export default class Stylesheet extends AbstractStyleNode {
   readonly name: string;
@@ -14,5 +15,9 @@ export default class Stylesheet extends AbstractStyleNode {
 
   accept(visitor: StyleNodeVisitor): any {
     return visitor.visitStyleSheet(this);
+  }
+
+  getPages(): Page[] | any {
+    return this.children.filter(child => child instanceof Page);
   }
 }

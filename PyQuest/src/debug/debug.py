@@ -2,22 +2,34 @@ from termcolor import colored
 from PyQt5.QtWidgets import QMessageBox
 
 
-def error(line, message):
-    tag = colored('[error]', 'red')
-    print('{} [line:{}] {}'.format(tag, line, message))
-    exit()
+class Debug:
+    def __init__(self, terminal=True, pyqt5=True):
+        self.__terminal = terminal
+        self.__pyqt5 = pyqt5
 
+    @property
+    def terminal(self):
+        return self.__terminal
 
-def warning(line, message):
-    tag = colored('[warning]', 'yellow')
-    print('{} [line:{}] {}'.format(tag, line, message))
+    @property
+    def pyqt5(self):
+        return self.__pyqt5
 
+    def error(self, lines, message):
+        separated_lines = ' , '.join([str(line) for line in lines])
+        if self.pyqt5:
+            QMessageBox.critical(QMessageBox(), 'Error', '[line(s): {}] {}'.format(lines, message),
+                                 QMessageBox.Close, QMessageBox.Escape)
+        if self.terminal:
+            tag = colored('[error]', 'red')
+            print('{} [line(s): {}] {}'.format(tag, separated_lines, message))
+            exit()
 
-def pyqt5_error(line, message):
-    QMessageBox.critical(QMessageBox(), 'Warning', '[line:{}] {}'.format(line, message),
-                         QMessageBox.Close, QMessageBox.Escape)
-
-
-def pyqt5_warning(line, message):
-    QMessageBox.warning(QMessageBox(), 'Warning', '[line:{}] {}'.format(line, message),
-                        QMessageBox.Close, QMessageBox.Escape)
+    def warning(self, lines, message):
+        separated_lines = ' , '.join([str(line) for line in lines])
+        if self.pyqt5:
+            QMessageBox.critical(QMessageBox(), 'Warning', '[line(s): {}] {}'.format(lines, message),
+                                 QMessageBox.Close, QMessageBox.Escape)
+        if self.terminal:
+            tag = colored('[warning]', 'yellow')
+            print('{} [line(s): {}] {}'.format(tag, separated_lines, message))

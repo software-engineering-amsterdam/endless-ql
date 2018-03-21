@@ -1,18 +1,19 @@
 package ui.view
 
-import data.question.QuestionType
+import data.question.SymbolType
 import tornadofx.View
 import tornadofx.field
+import tornadofx.hbox
 import ui.model.QuestionModel
 
 class QuestionField(question: QuestionModel) : View(){
 
-    override val root = field ()
+    override val root = hbox ()
 
     init{
         with(root){
             when(question.item.value.type) {
-                QuestionType.BOOLEAN-> add(QuestionCheckBox(question))
+                SymbolType.BOOLEAN -> add(QuestionCheckBox(question))
                 else -> add(QuestionTextField(question))
             }
         }

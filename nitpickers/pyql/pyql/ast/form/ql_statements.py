@@ -32,7 +32,6 @@ class Question(statement.Statement):
         return str({"AST QuestionStatement " + str(self.location): str(output)})
 
 
-# money(sellingPrice - privateDebt)
 class ComputedQuestion(Question):
 
     def __init__(self, location, identifier, text, question_type, expression):

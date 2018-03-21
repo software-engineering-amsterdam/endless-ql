@@ -8,7 +8,7 @@ from pyql.ast.form.ql_statements import IfElse
 from pyql.ast.ast import ASTNode
 from pyql.ast.expression.expressions import Identifier
 from pyql.util.types import Type
-from pyql.static_analysis.expression_visitor import ExpressionVisitor
+from pyql.static_analysis.expression_evaluator import ExpressionVisitor
 
 
 class TypeCheckVisitor:

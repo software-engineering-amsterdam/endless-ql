@@ -1,23 +1,37 @@
 package ui.view
 
-import data.question.QuestionType
+import data.question.SymbolType
 import javafx.scene.control.TextField
-import tornadofx.bind
-import tornadofx.validator
+import javafx.util.converter.BigDecimalStringConverter
+import tornadofx.*
 import ui.model.QuestionModel
 
-class QuestionTextField(question: QuestionModel) : TextField(){
+class QuestionTextField(question: QuestionModel) : TextField() {
     init {
-        when(question.item.value.type) {
-            QuestionType.INTEGER -> bind(question.integerValue)
-            QuestionType.STRING -> bind(question.stringValue)
-            QuestionType.DECIMAL-> bind(question.decimalValue)
-            QuestionType.MONEY -> bind(question.moneyValue)
+        when (question.item.value.type) {
+            SymbolType.INTEGER -> {
+                stripNonInteger()
+                bind(question.integerValue)
+            }
+            SymbolType.DECIMAL -> {
+                stripNonNumeric()
+                BigDecimalStringConverter()
+                bind(question.decimalValue)
+            }
+            SymbolType.MONEY -> {
+                stripNonNumeric()
+                BigDecimalStringConverter()
+                bind(question.moneyValue)
+            }
+            SymbolType.STRING -> {
+                stripWhitespace()
+                bind(question.stringValue)
+            }
             else -> throw IllegalArgumentException("unsupported type")
         }
 
-        validator {
-            question.validate()
-        }
+        textProperty().addListener({ _, _, _ ->
+            question.update()
+        })
     }
 }

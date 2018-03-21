@@ -43,7 +43,7 @@ import java.util.*;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ToolController implements Initializable, Consumer {
+public class ToolController implements Consumer {
 
     @FXML
     private TextArea taSourceCodeQL;
@@ -55,9 +55,6 @@ public class ToolController implements Initializable, Consumer {
     private TabPane tpPages;
 
     @FXML
-    private Button btnBuild;
-
-    @FXML
     private Label lblErrorField;
 
     private List<ListView> listViews = new ArrayList<>();
@@ -65,39 +62,30 @@ public class ToolController implements Initializable, Consumer {
     private boolean qlsEnabled = false;
     private FormNode formNode = null;
 
-    public ToolController() {
-        System.out.println("Class initialized");
-    }
-
-    public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Pane initialized");
-    }
-
     /**
      * Invoked by the 'build' button action, to generate the questionnaire based on the written QL
      * @param event that kicked of the invocation
      */
     public void generateQuestionnaire(ActionEvent event) {
-        String qlSource = taSourceCodeQL.getText();
-        String qlsSource = taSourceCodeQLS.getText();
-        this.qlsEnabled = false;
         this.tpPages.getTabs().clear();
         this.listViews.clear();
+
+        String qlSource = taSourceCodeQL.getText();
         if(qlSource.isEmpty()){
             showAlertBox("Please import or add QL code");
             return;
         }
 
-        if (!qlSource.isEmpty() && qlsSource.isEmpty()){
-            generateQL(qlSource);
-            buildQL();
-        }
-        if (!qlSource.isEmpty() && !qlsSource.isEmpty()){
-            this.qlsEnabled = true;
-            generateQL(qlSource);
+        generateQL(qlSource);
+
+        String qlsSource = taSourceCodeQLS.getText();
+        this.qlsEnabled = !qlsSource.isEmpty();
+        if (this.qlsEnabled){
             generateQLS(qlsSource);
             buildQLS();
         }
+
+        buildQL();
         printInfoMessage("Build successful");
     }
 
@@ -120,7 +108,7 @@ public class ToolController implements Initializable, Consumer {
         qlText.ifPresentOrElse(
                 text -> {
                     taSourceCodeQL.setText(text);
-                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
+                    printInfoMessage("Import " + selectedFile.getName() + " successful");
                 },
                 () -> showAlertBox("Could not read file.")
         );

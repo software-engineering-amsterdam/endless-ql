@@ -5,9 +5,7 @@ import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import qlviz.QLVisitor;
-import qlviz.gui.renderer.ErrorRenderer;
-import qlviz.gui.renderer.JavafxErrorRenderer;
-import qlviz.gui.renderer.QuestionRenderer;
+import qlviz.gui.renderer.*;
 import qlviz.gui.renderer.javafx.*;
 import qlviz.gui.renderer.layout.NaiveQuestionLocator;
 import qlviz.gui.viewModel.*;
@@ -19,11 +17,9 @@ import qlviz.gui.viewModel.linker.QuestionViewModelLinkerImpl;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactoryImpl;
 import qlviz.interpreter.*;
-import qlviz.interpreter.QuestionVisitor;
 import qlviz.interpreter.linker.QuestionLinkerImpl;
-import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.interpreter.style.QLSParserModule;
 import qlviz.model.Form;
-import qlviz.model.QuestionBlock;
 import qlviz.model.style.*;
 import qlviz.typecheker.AnalysisResult;
 import qlviz.typecheker.Severity;
@@ -34,7 +30,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public class QLForm extends Application {
-	private JavafxFormRenderer renderer;
+	private FormRenderer renderer;
 	private Form model;
 	private FormViewModel viewModel;
 	private boolean containsDuplicates = false;
@@ -56,30 +52,17 @@ public class QLForm extends Application {
 				new QLSParserModule(),
 				new ExpressionParserModule(),
 				new QLParserModule());
+		Injector rendererInjector = Guice.createInjector(new JavafxRendererModule(stage));
 		StyleModelBuilder styleBuilder = injector.getInstance(StyleModelBuilder.class);
 
 
-		if (this.getParameters().getRaw().size() > 1) {
-			Stylesheet stylesheet = styleBuilder.createFromMarkup(this.getParameters().getRaw().get(1));
-			WidgetFinder widgetFinder = new ChainedWidgetFinder(List.of(
-					new StylesheetWidgetFinder(new NaiveQuestionLocator(stylesheet)),
-					new DefaultWidgetProvider()
-			));
-			JavafxWidgetFactory javafxWidgetFactory = new JavafxWidgetFactory();
 
-			Function<Pane, QuestionRenderer> questionRendererFactory =
-					pane -> new StyledJavafxQuestionRenderer(pane, javafxWidgetFactory, widgetFinder);
-			this.renderer =
-					new StyledJavafxFormRenderer(
-							stage,
-							questionRendererFactory,
-							stylesheet,
-							new NaiveQuestionLocator(stylesheet),
-							pane -> new StyledJavafxSectionRenderer(questionRendererFactory, pane));
+		if (this.getParameters().getRaw().size() > 1) {
+
+			Stylesheet stylesheet = styleBuilder.createFromMarkup(this.getParameters().getRaw().get(1));
+			rendererInjector = Guice.createInjector(new StyledJavafxRendererModule(stylesheet, stage));
 		}
-		else {
-			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);
-		}
+		this.renderer = rendererInjector.getInstance(FormRenderer.class);
 
 		List<AnalysisResult> staticCheckResults = new ArrayList<>();
 		QLVisitor<Form> visitor = injector.getInstance(Key.get(new TypeLiteral<QLVisitor<Form>>(){}));

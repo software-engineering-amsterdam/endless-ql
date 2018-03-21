@@ -3,7 +3,6 @@ package qlviz.gui.renderer.javafx;
 import qlviz.gui.renderer.javafx.widgets.*;
 import qlviz.model.style.Widget;
 
-
 public class JavafxWidgetFactory {
 
     public UIWidget create(Widget widgetDefinition) {

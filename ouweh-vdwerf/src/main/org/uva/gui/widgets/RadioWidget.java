@@ -14,8 +14,6 @@ import java.awt.event.ItemListener;
 
 public class RadioWidget extends QuestionWidget {
 
-    private JCheckBox checkBox;
-
     private JRadioButton trueButton;
     private JRadioButton falseButton;
     private ButtonGroup buttonGroup;

@@ -31,7 +31,7 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
 
     @Override
     public QuestionWidget visit(DropDownType dropDownType, Question question, Value value, Boolean readOnly) {
-        return new CheckboxWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), "");
+        return new DropdownWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), dropDownType.getTrueLabel(), dropDownType.getFalseLabel());
     }
 
     @Override

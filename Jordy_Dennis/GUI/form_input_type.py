@@ -70,7 +70,7 @@ class InputTypeMap:
 
     """
         Return integer textbox widget (same as string but a different validation method)
-        in case of spinbox, kwargs must contain: minVal, maxVal
+        in case of spinbox and slider, kwargs must contain: minVal, maxVal
     """
     def returnInt(self, widgetType, **kwargs):
         var = None
@@ -153,6 +153,10 @@ class InputTypeMap:
 
         self.oldValue = newVal
 
+    """
+        Validation for spinbox and slider which can hold an integer or float, we do not have to check anything since these
+        are limited, they can directly be inserted into the AST
+    """
     def validateSpinbox(self, var):
         newVal = var.get()
         varNode = self.varDict[self.varName]['node']

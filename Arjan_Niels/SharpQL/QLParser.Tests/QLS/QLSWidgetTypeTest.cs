@@ -45,16 +45,19 @@ namespace QL_Parser.Tests.QLS
             "}";
 
         private const string SimpleStyleWithMultipleDefaults = "stylesheet TestForm {" +
-    "   page \"FirstPage\" {" +
-    "      section \"SectionOne\" {" +
-    "           question hasSoldHouse widget radio(\"Yes\", \"No\", \"Maybe\")" +
-    "           default money {" +
-    "               width: 100" +
-    "               fontSize: 12.5" +
-    "           }" +
-    "       }" +
-    "   }" +
-    "}";
+            "   page \"FirstPage\" {" +
+            "      section \"SectionOne\" {" +
+            "           question hasSoldHouse widget radio(\"Yes\", \"No\", \"Maybe\")" +
+            "           default money {" +
+            "               width: 100" +
+            "               fontSize: 12.5" +
+            "           }" +
+            "           default boolean {" +
+            "               color: \"green\"" +
+            "           }" +
+            "       }" +
+            "   }" +
+            "}";
 
         [TestMethod]
         public void StylesheetNameTest()
@@ -130,7 +133,7 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithMultipleDefaults);
 
             var styles = qls.Children[0].NodeStyles;
-            Assert.AreEqual(2, styles[0].StylingValues.Count);
+            Assert.AreEqual(2, styles.Count);
         }
     }
 }

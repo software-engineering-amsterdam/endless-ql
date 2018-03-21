@@ -9,6 +9,8 @@ import node.QuestionNode
 import node.RootNode
 import typechecker.NodePass
 import typechecker.TypeCheckResult
+import typechecker.TypeLocation
+import typechecker.TypeRedefinitionError
 
 class TypePass(result: TypeCheckResult, val symbolTable: SymbolTable) : NodePass<Unit>(result) {
 
@@ -22,11 +24,17 @@ class TypePass(result: TypeCheckResult, val symbolTable: SymbolTable) : NodePass
 
     override fun visit(questionNode: QuestionNode) {
         val expectedType = questionNode.question.value.type
-
         val referenceType = getTypeForReference(questionNode.question.name)
 
         if (expectedType != referenceType) {
-            result.typeConflicts.add(TypeCheckResult.TypeConflict(expectedType, referenceType))
+            val original = TypeLocation(
+                    questionNode.question.name,
+                    questionNode.question.value.type,
+                    questionNode.question.nameLocation
+            )
+
+            val error = TypeRedefinitionError(original, referenceType)
+            result.typeConflicts.add(error)
         }
 
         questionNode.children.forEach { child -> child.accept(this) }
@@ -36,7 +44,15 @@ class TypePass(result: TypeCheckResult, val symbolTable: SymbolTable) : NodePass
         val referenceType = getTypeForReference(expressionNode.reference)
 
         if (referenceType == SymbolType.UNDEFINED) {
-            result.typeErrors.add(expressionNode.reference)
+            val original = TypeLocation(
+                    expressionNode.reference,
+                    referenceType,
+                    expressionNode.sourceLocation
+            )
+
+            val error = TypeRedefinitionError(original, referenceType)
+
+            result.typeErrors.add(error)
         }
 
         expressionNode.children.forEach { child -> child.accept(this) }

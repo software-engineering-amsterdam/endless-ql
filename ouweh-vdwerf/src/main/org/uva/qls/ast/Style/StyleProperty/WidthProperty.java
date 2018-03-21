@@ -13,6 +13,6 @@ public class WidthProperty extends StyleProperty {
 
     @Override
     public void apply(QuestionWidget widget) {
-
+        //todo
     }
 }

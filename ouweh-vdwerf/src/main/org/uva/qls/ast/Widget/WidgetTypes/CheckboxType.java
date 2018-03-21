@@ -7,10 +7,14 @@ import java.util.List;
 
 public class CheckboxType extends WidgetType {
 
-    private String yes;
+    private String label;
 
-    public CheckboxType(String yes) {
-        this.yes = yes;
+    public CheckboxType(String label) {
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     @Override

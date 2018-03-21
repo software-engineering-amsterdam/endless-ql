@@ -49,4 +49,3 @@ public class BlockVisitor extends QLBaseVisitor<Block> {
         return new Block(questions);
     }
 }
-

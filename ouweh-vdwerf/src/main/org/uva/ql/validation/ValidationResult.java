@@ -1,6 +1,5 @@
 package org.uva.ql.validation;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +18,11 @@ public class ValidationResult {
         this.warnings = warnings;
     }
 
-    public void addWarning(String warning){
+    public void addWarning(String warning) {
         warnings.add(warning);
     }
 
-    public void addError(String error){
+    public void addError(String error) {
         errors.add(error);
     }
 
@@ -50,10 +49,10 @@ public class ValidationResult {
     }
 
     public ValidationResult merge(ValidationResult validationResult) {
-        List<String> errors = new ArrayList<String>(this.errors);
+        List<String> errors = new ArrayList<>(this.errors);
         errors.addAll(validationResult.getErrors());
 
-        List<String> warnings = new ArrayList<String>(this.warnings);
+        List<String> warnings = new ArrayList<>(this.warnings);
         warnings.addAll(validationResult.getWarnings());
 
         return new ValidationResult(errors, warnings);

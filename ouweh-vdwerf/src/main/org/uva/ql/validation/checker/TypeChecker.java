@@ -92,6 +92,7 @@ public class TypeChecker extends Checker
         Type calculationType = question.getExpression().accept(this, null);
 
         if (!question.getType().isCompatible(calculationType)) {
+            result.addError(ERROR_MESSAGE + question);
             logger.severe(ERROR_MESSAGE + question);
         }
 

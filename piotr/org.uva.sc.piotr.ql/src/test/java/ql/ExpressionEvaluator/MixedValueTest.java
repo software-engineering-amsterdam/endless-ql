@@ -1,12 +1,12 @@
 package ql.ExpressionEvaluator;
 
-import ql.ast.model.expressions.Expression;
-import ql.exceptions.IncompatibleTypesException;
-import ql.logic.type.MixedValue;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import ql.ast.model.expressions.Expression;
+import ql.exceptions.IncompatibleTypesException;
+import ql.logic.type.MixedValue;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

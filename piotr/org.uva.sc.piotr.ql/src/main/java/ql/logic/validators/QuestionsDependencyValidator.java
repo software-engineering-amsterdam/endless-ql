@@ -2,11 +2,14 @@ package ql.logic.validators;
 
 import ql.ast.model.expressions.values.VariableReference;
 import ql.ast.model.statements.Question;
-import ql.exceptions.QuestionDependencyException;
+import ql.error.Error;
 
 import java.util.*;
 
-public final class QuestionsDependencyValidator {
+public final class QuestionsDependencyValidator extends Validator {
+
+    private final HashMap<Question, List<VariableReference>> questionsMap;
+    private final Set<Question> questions;
 
     static class Relation {
         private final Question from;
@@ -33,29 +36,36 @@ public final class QuestionsDependencyValidator {
         }
     }
 
-    public static void validateCyclicDependencies(HashMap<Question, List<VariableReference>> questionsMap) {
+    public QuestionsDependencyValidator(HashMap<Question, List<VariableReference>> questionsMap) {
+        this.questionsMap = questionsMap;
+        this.questions = questionsMap.keySet();
+    }
 
-        HashSet<Relation> closure = transitiveClosure((buildRelationsSet(questionsMap)));
+    public boolean validate() {
+
+        HashSet<Relation> closure = transitiveClosure((buildRelationsSet()));
 
         for (Relation relation : closure) {
             if (relation.isReflexive()) {
-                throw new QuestionDependencyException("Detected cyclic question dependency: variable \"" +
+                String message = "Detected cyclic question dependency: variable \"" +
                         relation.from.getVariableName() +
                         "\". On line " +
                         relation.from.getMetaInformation().getStartLine() +
-                        "."
-                );
+                        ".";
+                this.setError(new Error(Error.Level.CRITICAL, message));
+                return false;
             }
         }
+        return true;
     }
 
-    private static HashSet<Relation> buildRelationsSet(HashMap<Question, List<VariableReference>> questionsMap) {
+    private HashSet<Relation> buildRelationsSet() {
         HashSet<Relation> relations = new HashSet<>();
         // create edges
-        for (Map.Entry<Question, List<VariableReference>> entry : questionsMap.entrySet()) {
+        for (Map.Entry<Question, List<VariableReference>> entry : this.questionsMap.entrySet()) {
             // find variables that it refers to
             for (VariableReference reference : entry.getValue()) {
-                Question question = findQuestionByVariableName(reference.getName(), questionsMap.keySet());
+                Question question = findQuestionByVariableName(reference.getName());
                 if (question != null) {
                     relations.add(new Relation(entry.getKey(), question));
                 }
@@ -64,8 +74,8 @@ public final class QuestionsDependencyValidator {
         return relations;
     }
 
-    private static Question findQuestionByVariableName(String variableName, Set<Question> questions) {
-        for (Question question : questions) {
+    private Question findQuestionByVariableName(String variableName) {
+        for (Question question : this.questions) {
             if (question.getVariableName().equals(variableName)) {
                 return question;
             }
@@ -73,7 +83,7 @@ public final class QuestionsDependencyValidator {
         return null;
     }
 
-    private static boolean relationExists(Question from, Question to, HashSet<Relation> relations) {
+    private boolean relationExists(Question from, Question to, HashSet<Relation> relations) {
         for (Relation relation : relations) {
             if (relation.from.equals(from) && relation.to.equals(to)) {
                 return true;
@@ -82,7 +92,7 @@ public final class QuestionsDependencyValidator {
         return false;
     }
 
-    private static HashSet<Relation> transitiveClosure(HashSet<Relation> relations) {
+    private HashSet<Relation> transitiveClosure(HashSet<Relation> relations) {
 
         boolean carryOn = true;
         HashSet<Relation> closure = new HashSet<>(relations);
@@ -105,4 +115,5 @@ public final class QuestionsDependencyValidator {
         }
         return closure;
     }
+
 }

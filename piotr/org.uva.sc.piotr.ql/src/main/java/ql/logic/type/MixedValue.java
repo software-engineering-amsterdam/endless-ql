@@ -1,8 +1,8 @@
 package ql.logic.type;
 
-import ql.ast.model.expressions.Expression;
 import com.sun.istack.internal.NotNull;
 import com.sun.tools.javac.util.Pair;
+import ql.ast.model.expressions.Expression;
 import ql.exceptions.IllegalOperationOnTypesException;
 import ql.exceptions.IllegalValueAssignmentException;
 import ql.exceptions.IncompatibleTypesException;

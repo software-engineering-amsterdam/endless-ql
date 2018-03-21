@@ -1,11 +1,15 @@
 package ql.gui.controller;
 
+import com.google.gson.Gson;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import ql.ast.ASTBuilder;
 import ql.ast.model.Form;
 import ql.ast.model.expressions.Expression;
 import ql.ast.model.expressions.values.VariableReference;
 import ql.ast.model.statements.Question;
-import com.google.gson.Gson;
+import ql.error.Error;
 import ql.grammar.QLLexer;
 import ql.grammar.QLParser;
 import ql.gui.model.QuestionModel;
@@ -16,9 +20,6 @@ import ql.logic.collectors.CollectQuestionsVisitor;
 import ql.logic.collectors.CollectReferencesVisitor;
 import ql.logic.evaluators.FormModelExpressionEvaluator;
 import ql.logic.validators.*;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -91,52 +92,24 @@ public class FileOpenActionEvent implements ActionListener {
 
             Boolean validated = true;
 
-            // Validate undeclared variables usage in questions and conditions
-            try {
-                VariablesReferencesValidator.validateVariablesUsage(questions, references);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                validated = false;
-            }
+            Validator[] validators = new Validator[]{
+                    new VariablesReferencesValidator(questions, references),
+                    new QuestionsDuplicationValidator(questions),
+                    new ConditionsValidator(conditions, questions),
+                    new TypesValidator(conditions, questions),
+                    new QuestionsDependencyValidator(questionsMap),
+                    new QuestionLabelsValidator(questions)
+            };
 
-            // Validate duplicate question declarations with different types
-            try {
-                QuestionsValidator.validateDuplicates(questions);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                validated = false;
-            }
-
-            // Validate conditions that are not of the type boolean
-            try {
-                ConditionsValidator.validateConditions(conditions, questions);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                validated = false;
-            }
-
-            // Validate operands of invalid type to operators
-            try {
-                TypesValidator.validateTypes(conditions, questions);
-
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                validated = false;
-            }
-
-            // Validate cyclic dependencies in questions and expressions
-            try {
-                QuestionsDependencyValidator.validateCyclicDependencies(questionsMap);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                validated = false;
-            }
-
-            // Validate duplicate labels (warning)
-            try {
-                QuestionsValidator.validateLabels(questions);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
+            for (Validator validator : validators) {
+                if (!validator.validate()) {
+                    if (validator.getErrorLevel() == Error.Level.CRITICAL) {
+                        JOptionPane.showMessageDialog(frame, validator.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        validated = false;
+                    } else {
+                        JOptionPane.showMessageDialog(frame, validator.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
             }
 
             if (validated) {

@@ -14,6 +14,7 @@ from .form_scroll_frame import ScrollFrameGui
 from .form_question import Question
 from .form_page import Page
 import copy
+import collections
 
 class FormGui:
 
@@ -29,7 +30,7 @@ class FormGui:
         self.headerFrame = None
         self.createHeader(header, parent=self.frame)
 
-        self.pages = {}
+        self.pages = collections.OrderedDict()
         self.buttonFrame = create_frame(self.frame, background='blue')
 
         if qls:

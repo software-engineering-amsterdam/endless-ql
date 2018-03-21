@@ -2,6 +2,7 @@ package qlviz.interpreter.style;
 
 import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
+import qlviz.QLSVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.ColorParameter;
 import qlviz.model.style.NumericParameter;

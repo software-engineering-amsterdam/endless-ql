@@ -2,6 +2,7 @@ package qlviz.interpreter.style;
 
 import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
+import qlviz.QLSVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.DefaultWidgetDeclaration;
 import qlviz.model.style.Question;
@@ -12,11 +13,11 @@ import java.util.stream.Collectors;
 
 public class SectionVisitor extends QLSBaseVisitor<Section> {
 
-    private final QLSBaseVisitor<Question> questionVisitor;
-    private final QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitor;
+    private final QLSVisitor<Question> questionVisitor;
+    private final QLSVisitor<DefaultWidgetDeclaration> defaultWidgetVisitor;
 
     @Inject
-    public SectionVisitor(QLSBaseVisitor<Question> questionVisitor, QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitor) {
+    public SectionVisitor(QLSVisitor<Question> questionVisitor, QLSVisitor<DefaultWidgetDeclaration> defaultWidgetVisitor) {
         this.questionVisitor = questionVisitor;
         this.defaultWidgetVisitor = defaultWidgetVisitor;
     }

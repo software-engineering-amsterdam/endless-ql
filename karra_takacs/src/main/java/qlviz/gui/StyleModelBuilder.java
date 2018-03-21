@@ -3,7 +3,7 @@ package qlviz.gui;
 import com.google.inject.Inject;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import qlviz.QLSBaseVisitor;
+import qlviz.QLSVisitor;
 import qlviz.QLSLexer;
 import qlviz.QLSParser;
 import qlviz.interpreter.style.StylesheetVisitor;
@@ -13,10 +13,10 @@ import java.io.IOException;
 
 public class StyleModelBuilder {
 
-	private final QLSBaseVisitor<Stylesheet> stylesheetVisitor;
+	private final QLSVisitor<Stylesheet> stylesheetVisitor;
 
 	@Inject
-	public StyleModelBuilder(QLSBaseVisitor<Stylesheet> stylesheetVisitor) {
+	public StyleModelBuilder(QLSVisitor<Stylesheet> stylesheetVisitor) {
 		this.stylesheetVisitor = stylesheetVisitor;
 	}
 

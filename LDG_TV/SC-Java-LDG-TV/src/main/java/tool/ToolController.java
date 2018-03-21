@@ -1,9 +1,5 @@
 package tool;
 
-import antlr.ql.FormLexer;
-import antlr.ql.FormParser;
-import antlr.qls.StylesheetLexer;
-import antlr.qls.StylesheetParser;
 import domain.model.ast.ConditionNode;
 import domain.model.ast.FormNode;
 import domain.Utilities;
@@ -19,10 +15,8 @@ import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import io.reactivex.rxjavafx.sources.Change;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -30,16 +24,8 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.QLBuilder;
-import loader.QL.QLLoader;
-import loader.QLS.QLSLoader;
-import org.antlr.v4.runtime.BailErrorStrategy;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.*;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;

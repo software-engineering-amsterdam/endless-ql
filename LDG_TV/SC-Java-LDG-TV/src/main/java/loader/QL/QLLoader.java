@@ -10,8 +10,6 @@ import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.variable.*;
 
-import java.text.Normalizer;
-
 
 public class QLLoader extends FormBaseListener {
     private FormNode formNode;

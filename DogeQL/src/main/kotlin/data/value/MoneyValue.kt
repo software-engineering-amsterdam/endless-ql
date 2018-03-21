@@ -33,8 +33,6 @@ class MoneyValue(var value: BigDecimal) : BaseSymbolValue(SymbolType.MONEY) {
         else -> super.compareTo(other)
     }
 
-    override fun valueString(): String {
-        return "Ð$value"
-    }
+    override fun valueString(): String = "Ð$value"
 
 }

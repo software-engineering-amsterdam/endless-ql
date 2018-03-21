@@ -14,7 +14,5 @@ class StringValue(var value: String) : BaseSymbolValue(SymbolType.STRING) {
         else -> super.compareTo(other)
     }
 
-    override fun valueString(): String {
-        return value
-    }
+    override fun valueString(): String = value
 }

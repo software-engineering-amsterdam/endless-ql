@@ -12,10 +12,10 @@ case class Radio(trueLabel: String, falseLabel: String) extends Styling
 object Styling {
   def apply(widgetType: QLSWidgetType): Styling = {
     widgetType match {
-      case QLSSpinBox()                       => new SpingBox()
-      case QLSCheckBox()                      => new Default()
-      case QLSComboBox(trueValue, falseValue) => new ComboBox(trueValue, falseValue)
-      case QLSRadio(trueValue, falseValue)    => new Radio(trueValue, falseValue)
+      case QLSSpinBox()                       => SpingBox()
+      case QLSComboBox(trueValue, falseValue) => ComboBox(trueValue, falseValue)
+      case QLSRadio(trueValue, falseValue)    => Radio(trueValue, falseValue)
+      case _                                  => Default()
     }
   }
 }

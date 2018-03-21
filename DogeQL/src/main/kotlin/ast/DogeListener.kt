@@ -195,10 +195,15 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         )
     }
 
-    private fun convertStringToType(type: String): SymbolType = try {
-        enumValueOf(type.toUpperCase())
-    } catch (error: IllegalArgumentException) {
-        SymbolType.UNDEFINED
+    private fun convertStringToType(type: String) = when (type) {
+        "boolean" -> SymbolType.BOOLEAN
+        "int" -> SymbolType.INTEGER
+        "string" -> SymbolType.STRING
+        "money" -> SymbolType.MONEY
+        "decimal" -> SymbolType.DECIMAL
+        "date" -> SymbolType.DATE
+        "color" -> SymbolType.COLOR
+        else -> SymbolType.UNDEFINED
     }
 
     private fun convertTerminalNodeToSymbol(type: SymbolType, terminalNode: TerminalNode): BaseSymbolValue = when (type) {

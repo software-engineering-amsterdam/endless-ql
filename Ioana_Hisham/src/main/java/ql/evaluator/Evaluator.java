@@ -1,7 +1,7 @@
 package ql.evaluator;
 
 import ql.ast.expressions.binary.*;
-import ql.ast.expressions.literals.Identifier;
+import ql.ast.expressions.Identifier;
 import ql.ast.expressions.literals.StringLiteral;
 import ql.values.StringValue;
 import ql.values.Value;

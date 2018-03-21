@@ -3,7 +3,7 @@ stylesheet EditOrNotToEdit {
         section "Variables" {
             question stringVariable
             question booleanVariable widget radio("Yes", "No")
-            question integerVariable
+            question integerVariable widget spinbox
             question decimalVariable
             question moneyVariable
             question dateVariable

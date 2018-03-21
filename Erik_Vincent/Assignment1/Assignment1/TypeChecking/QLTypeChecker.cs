@@ -39,17 +39,7 @@ namespace Assignment1.TypeChecking
             string errorMessage = "Cannot assign value of type " + _currentType.ToString() + " to question of type " + questionType.ToString() + ".";
             if (_currentType != Type.Undefined)
             {
-                if (questionType == Type.Boolean && _currentType != Type.Boolean)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-                if (questionType == Type.String && _currentType != Type.String)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-                if (questionType == Type.Money && _currentType != Type.Money)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-                if (questionType == Type.Date && _currentType != Type.Date)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-                if (questionType == Type.Decimal && _currentType != Type.Decimal)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-                if (questionType == Type.Integer && _currentType != Type.Integer)
+                if (questionType != _currentType)
                     _errorHandler.AddError(lineNumber, errorMessage);
             }
         }
@@ -58,17 +48,7 @@ namespace Assignment1.TypeChecking
         {
             questionExpression.Accept(this);
             string errorMessage = "Cannot assign expression of type " + _currentType.ToString() + " to question of type " + questionType.ToString() + ".";
-            if (questionType == Type.Boolean && _currentType != Type.Boolean)
-                _errorHandler.AddError(lineNumber, errorMessage);
-            if (questionType == Type.String && _currentType != Type.String)
-                _errorHandler.AddError(lineNumber, errorMessage);
-            if (questionType == Type.Money && _currentType != Type.Money)
-                _errorHandler.AddError(lineNumber, errorMessage);
-            if (questionType == Type.Date && _currentType != Type.Date)
-                _errorHandler.AddError(lineNumber, errorMessage);
-            if (questionType == Type.Decimal && _currentType != Type.Decimal)
-                _errorHandler.AddError(lineNumber, errorMessage);
-            if (questionType == Type.Integer && _currentType != Type.Integer)
+            if (questionType != _currentType)
                 _errorHandler.AddError(lineNumber, errorMessage);
         }
 

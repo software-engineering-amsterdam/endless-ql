@@ -47,24 +47,24 @@ class Page():
         Add a question from the question generator
     """
 
-    def addQuestionToSection(self, sectionName, varName, questionText="Default Question", questionType=bool, value=False, prev=""):
+    def addQuestionToSection(self, sectionName, varName, questionText="Default Question", questionType=bool, value=False, prev="", defaults = None):
         for section in self.sections:
-            print("HALLO")
-            print(section.getName(), sectionName)
             if section.name == sectionName:
-                section.insertQuestion(prev, self.questionGenerator, varName, questionText, questionType, value)
+                section.insertQuestion(prev, self.questionGenerator, varName, questionText, questionType, value, defaults)
+
     """
         Remove a question if it exists in our questions
     """
+
     def removeQuestionFromSection(self, sectionName, varName):
         for section in self.sections:
             if section.getName() == sectionName:
                 section.removeQuestion(varName)
 
-
     """
         Checks if question is already on this page
     """
+
     def isQuestionOnPage(self, varName, sectionName='default'):
         for section in self.sections:
             if section.getName() == sectionName:
@@ -76,6 +76,7 @@ class Page():
     """
         Returns a question object from the given section
     """
+
     def getQuestionFromSection(self, varName, sectionName='default'):
         for section in self.sections:
             if section.getName() == sectionName:
@@ -87,6 +88,7 @@ class Page():
     """
         Deletes question that are no longer valid, i.e. questions in a if, elif or else
     """
+
     def deleteInvalidQuestions(self, questions, sectionName='default'):
         for section in self.sections:
             if section.getName() == sectionName:

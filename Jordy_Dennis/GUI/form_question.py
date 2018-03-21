@@ -1,6 +1,6 @@
 """
     A question is a frame which consists of a label (question text) and the question widget
-    which is obtained from the InputTypeMap. 
+    which is obtained from the InputTypeMap.
 
     The input type map is an object that can return
     a widget based on its own type, thats why every question gets an instance of this object.
@@ -15,13 +15,14 @@ from .form_input_type import InputTypeMap
 class Question:
 
     """
-        Get the correct widget according to the specification and pack it inside the question frame. 
-        The header is also created. 
+        Get the correct widget according to the specification and pack it inside the question frame.
+        The header is also created.
     """
-    def __init__(self, parent, questionGenerator, varName, questionText, questionType, value, fontType='Arial', fontSize=15):
+    def __init__(self, parent, questionGenerator, varName, questionText, questionType, value, fontType='Arial', fontSize=15, color='black', width = 40):
         self.frame = create_frame(parent)
         self.questionGenerator = questionGenerator
-        self.frame.pack(fill="both", anchor=NW, expand=True)
+        self.frame.pack(fill="both", anchor=NW)
+
         self.varName = varName
         self.map = InputTypeMap(self.frame, self.questionGenerator, varName, value)
 
@@ -30,10 +31,8 @@ class Question:
         self.questionType = questionType
 
         self.varName = varName
-        self.fontSize = fontSize
-        self.fontType = fontType
 
-        self.createHeaderLabel(questionText, self.fontType, self.fontSize)
+        self.createHeaderLabel(questionText, fontType, fontSize, color)
         self.createInputUser(questionType)
 
         self.questionText = questionText
@@ -41,17 +40,18 @@ class Question:
     """
         Create header of the question according to possible QLS or default value
     """
-    def createHeaderLabel(self, questionText, fontType, fontSize):
+    def createHeaderLabel(self, questionText, fontType, fontSize, color):
         label = Label(self.frame)
         label.config(text=questionText)
         label.config(font=(fontType, fontSize))
+        label.config(fg=color)
         label.pack()
 
     """
         Get the widget according to the question type
     """
     def createInputUser(self, questionType):
-        widget, self.answer = self.map.getWidget(questionType)
+        self.widget, self.answer = self.map.getWidget(questionType)
 
     """
         Getters and setters ----------------------------
@@ -74,5 +74,9 @@ class Question:
     def getText(self):
         return self.questionText
 
+    def disableWidget(self):
+        self.widget.config(state='disabled')
+
     def setValue(self, value):
         self.answer.set(value)
+

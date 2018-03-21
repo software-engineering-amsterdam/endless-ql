@@ -26,15 +26,15 @@ def main(argv):
     ql_checker = QLTypeChecker(ql_ast)
     ql_checker.startQLTypeCheck()
 
-    # input = FileStream(argv[2])
-    # qls_lexer = QLSLexer(input)
-    # qls_stream = CommonTokenStream(qls_lexer)
-    # qls_parser = QLSParser(qls_stream)
+    input = FileStream(argv[2])
+    qls_lexer = QLSLexer(input)
+    qls_stream = CommonTokenStream(qls_lexer)
+    qls_parser = QLSParser(qls_stream)
 
-    # qls_tree = qls_parser.stylesheet()
+    qls_tree = qls_parser.stylesheet()
 
-    # qls_visitor = QLSVisitorHelper()
-    # qls_ast = qls_visitor.visit(qls_tree)
+    qls_visitor = QLSVisitorHelper()
+    qls_ast = qls_visitor.visit(qls_tree)
     
     # if len(argv) == 3:
     #     input = FileStream(argv[2])

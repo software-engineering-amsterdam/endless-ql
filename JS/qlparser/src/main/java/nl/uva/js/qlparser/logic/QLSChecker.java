@@ -22,7 +22,7 @@ public class QLSChecker {
     private ArrayList<String> errors;
 
     public ArrayList<String> checkForErrors(Form form, Stylesheet stylesheet) {
-        errors.clear();
+        errors = new ArrayList<>();
 
         HashMap<String, Question> questionsByName              = getQuestions(form.getFormExpressions());
         HashMap<String, QuestionReference> questionRefsByName  = getQuestionReferences(stylesheet);

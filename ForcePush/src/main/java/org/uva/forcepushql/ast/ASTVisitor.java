@@ -31,6 +31,7 @@ public interface ASTVisitor{
 
     Question visit(QuestionNode node);
     Question visit(QuestionAssignValueNode node);
+
     String visit(LabelNode node);
     String visit(NameNode node);
     String visit(TypeNode node);

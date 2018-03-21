@@ -7,33 +7,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
-public class RadioGUI implements QuestionGUI{
+public class RadioGUI implements QuestionGUI
+{
 
     private Radio question;
     private JLabel label;
     private JRadioButton[] options;
     private LinkedList<Observer> observers;
 
-    public RadioGUI(Radio radio){
+    public RadioGUI(Radio radio)
+    {
         observers = new LinkedList<Observer>();
         question = radio;
         label = new JLabel(question.writtenQuestion(), JLabel.CENTER);
         JRadioButton option1 = new JRadioButton("Yes");
         JRadioButton option2 = new JRadioButton("No");
 
-        ActionListener actionListener = new ActionListener() {
+        ActionListener actionListener = new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if(e.getSource() instanceof JRadioButton) {
+            public void actionPerformed(ActionEvent e)
+            {
+                if (e.getSource() instanceof JRadioButton)
+                {
                     JRadioButton radioButton = (JRadioButton) e.getSource();
 
-                    if (radioButton.isSelected() && (radioButton.getText() == "Yes")) {
+                    if (radioButton.isSelected() && (radioButton.getText() == "Yes"))
+                    {
                         radio.givenAnswer(true);
                         notifyAllObservers();
 
-                    }
-
-                    else if(radioButton.isSelected() && (radioButton.getText() == "No")){
+                    } else if (radioButton.isSelected() && (radioButton.getText() == "No"))
+                    {
                         radio.givenAnswer(false);
                         notifyAllObservers();
 
@@ -55,30 +60,37 @@ public class RadioGUI implements QuestionGUI{
         options[1] = option2;
     }
 
-    public JLabel getLabel() {
+    public JLabel getLabel()
+    {
         return label;
     }
 
     @Override
-    public String getVariable() {
+    public String getVariable()
+    {
         return question.answerNameValue();
     }
 
-    public JRadioButton[] getOptions() {
+    public JRadioButton[] getOptions()
+    {
         return options;
     }
 
-    public void addActionListener(ActionListener actionListener){
+    public void addActionListener(ActionListener actionListener)
+    {
         options[0].addActionListener(actionListener);
         options[1].addActionListener(actionListener);
     }
 
-    public void attachObserver(Observer observer){
+    public void attachObserver(Observer observer)
+    {
         observers.add(observer);
     }
 
-    public void notifyAllObservers(){
-        for (Observer obs: observers) {
+    public void notifyAllObservers()
+    {
+        for (Observer obs : observers)
+        {
             obs.updateRadio(question);
         }
     }

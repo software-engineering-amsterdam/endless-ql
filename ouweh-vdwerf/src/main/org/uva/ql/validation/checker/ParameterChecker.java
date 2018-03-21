@@ -1,6 +1,7 @@
 package org.uva.ql.validation.checker;
 
 import org.uva.ql.ast.expression.unary.Parameter;
+import org.uva.ql.validation.ValidationResult;
 import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.HashMap;
@@ -18,13 +19,19 @@ public class ParameterChecker extends Checker {
     }
 
     @Override
-    public void runCheck() {
+    public ValidationResult runCheck() {
+        ValidationResult result = new ValidationResult();
+
         for (HashMap.Entry<String, List<Parameter>> entry : parameterMapping.entrySet()) {
             for (Parameter parameter : entry.getValue()) {
                 if (!symbolTable.contains(parameter.getID())) {
-                    logger.severe(String.format("Referenced parameter does not exist: %s", parameter));
+                    String message = String.format("Referenced parameter does not exist: %s", parameter);
+
+                    result.addError(message);
+                    logger.severe(message);
                 }
             }
         }
+        return result;
     }
 }

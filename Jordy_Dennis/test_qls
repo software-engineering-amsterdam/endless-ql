@@ -28,9 +28,9 @@ stylesheet taxOfficeExample
         default money
         {
           width: 400
-          font: "Arial"
-          fontsize: 14
-          color: #999999
+          font: "Comic Sans MS"
+          fontsize: 20
+          color: #FF0C0C
           widget spinbox
 
         }

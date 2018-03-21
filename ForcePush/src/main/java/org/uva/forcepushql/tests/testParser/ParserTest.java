@@ -13,24 +13,29 @@ import java.io.IOException;
 import java.io.StringReader;
 
 
-public class ParserTest {
+public class ParserTest
+{
 
-    public GrammarLexer lexerForCode (String code) throws IOException {
+    public GrammarLexer lexerForCode(String code) throws IOException
+    {
         return new GrammarLexer(new ANTLRInputStream(new StringReader(code)));
     }
 
-    public GrammarLexer lexerForResource (String resourceName) throws IOException {
+    public GrammarLexer lexerForResource(String resourceName) throws IOException
+    {
         GrammarLexer gl = new GrammarLexer(new ANTLRInputStream(new FileInputStream("src\\main\\java\\org\\uva\\forcepushql\\tests\\testParser\\" + resourceName)));
         System.out.println(gl._input);
         return gl;
     }
 
 
-    public GrammarParser parse (GrammarLexer lexer){
+    public GrammarParser parse(GrammarLexer lexer)
+    {
         return new GrammarParser(new CommonTokenStream(lexer));
     }
 
-    public GrammarParser.QuestionFormatContext parseResource(String resourceName) throws IOException {
+    public GrammarParser.QuestionFormatContext parseResource(String resourceName) throws IOException
+    {
         GrammarLexer gl = lexerForResource(resourceName);
         System.out.println(gl.getRuleNames());
         return new GrammarParser(new CommonTokenStream(gl)).questionFormat();
@@ -38,7 +43,8 @@ public class ParserTest {
     }
 
     @Test
-    public void parseQuestionAssignment() throws IOException {
+    public void parseQuestionAssignment() throws IOException
+    {
         RepresentationOfAST test = new RepresentationOfAST();
         Assert.assertEquals(
                 "QuestionFormat" +

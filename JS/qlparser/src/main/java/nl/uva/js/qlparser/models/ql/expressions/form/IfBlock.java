@@ -1,5 +1,6 @@
 package nl.uva.js.qlparser.models.ql.expressions.form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -20,6 +21,7 @@ public class IfBlock implements FormExpression {
     private LinkedList<FormExpression> expressions;
 
     @Override
+    @JsonIgnore
     public List<Component> getComponents() {
         JPanel panel = new JPanel();
 

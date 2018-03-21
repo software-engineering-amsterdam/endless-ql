@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser;
+using QLParser.AST.Nodes;
 using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
 
@@ -31,6 +32,29 @@ namespace QL_Parser.Tests.QLS
             "       }" +
             "   }" +
             "}";
+        private const string SimpleStyleWithDefaults = "stylesheet TestForm {" +
+            "   page \"FirstPage\" {" +
+            "      section \"SectionOne\" {" +
+            "           question hasSoldHouse widget radio(\"Yes\", \"No\", \"Maybe\")" +
+            "           default money {" +
+            "               width: 100" +
+            "               fontSize: 12.5" +
+            "           }" +
+            "       }" +
+            "   }" +
+            "}";
+
+        private const string SimpleStyleWithMultipleDefaults = "stylesheet TestForm {" +
+    "   page \"FirstPage\" {" +
+    "      section \"SectionOne\" {" +
+    "           question hasSoldHouse widget radio(\"Yes\", \"No\", \"Maybe\")" +
+    "           default money {" +
+    "               width: 100" +
+    "               fontSize: 12.5" +
+    "           }" +
+    "       }" +
+    "   }" +
+    "}";
 
         [TestMethod]
         public void StylesheetNameTest()
@@ -85,6 +109,28 @@ namespace QL_Parser.Tests.QLS
             Assert.AreEqual("Yes", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[0]);
             Assert.AreEqual("No", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[1]);
             Assert.AreEqual("Maybe", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[2]);
+        }
+
+        [TestMethod]
+        public void DefaultStylesTest()
+        {
+            QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithDefaults);
+
+            var styles = qls.Children[0].NodeStyles;
+            Assert.AreEqual("width", styles[0].StylingValues[0].StyleProperty);
+            Assert.AreEqual(QValueType.INTEGER, styles[0].StylingValues[0].QValueType);
+
+            Assert.AreEqual("fontSize", styles[0].StylingValues[1].StyleProperty);
+            Assert.AreEqual(QValueType.DOUBLE, styles[0].StylingValues[1].QValueType);
+        }
+
+        [TestMethod]
+        public void MultipleDefaultStylesTest()
+        {
+            QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithMultipleDefaults);
+
+            var styles = qls.Children[0].NodeStyles;
+            Assert.AreEqual(2, styles[0].StylingValues.Count);
         }
     }
 }

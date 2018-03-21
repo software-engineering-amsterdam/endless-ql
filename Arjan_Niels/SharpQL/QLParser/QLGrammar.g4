@@ -1,9 +1,9 @@
-﻿grammar QLanguage;
+﻿grammar QLGrammar;
 
 /*
  * Parser Rules
 */
-formDeclaration			: FORM formName LCURLY (section)* RCURLY;
+form					: FORM formName LCURLY (section)* RCURLY;
 section					: computedVariable | question | conditionalBlock;
 question				: TEXT ID COLON QTYPE;
 computedVariable		: TEXT ID COLON QTYPE EQUAL (artithmeticExpression | comparisonExpression);
@@ -61,7 +61,7 @@ LE						: '<=';
 EQ						: '==';
 
 FORM					: 'form';
-QTYPE					: 'boolean' | 'money' | 'text' | 'integer' | 'double';
+QTYPE					: 'boolean' | 'money' | 'text' | 'integer' | 'double' | 'hex';
 TRUE					: 'true';
 FALSE					: 'false';
 ID						: [a-zA-Z][a-zA-Z0-9]+;

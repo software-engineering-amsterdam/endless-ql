@@ -30,7 +30,7 @@ class QLSLexer:
         'height':       'HEIGHT',
         'width':        'WIDTH',
         'font':         'FONT',
-        'fontsize':     'FONTSIZE',
+        'fontsize':     'FONT_SIZE',
         'color':        'COLOR',
         'widget':       'WIDGET',
 
@@ -86,7 +86,7 @@ class QLSLexer:
 
     # Define a rule for handling all non-tokens
     def t_IDENTIFIER(self, t):
-        r'[a-z][a-zA-Z_0-9]*'
+        r'[a-zA-Z][a-zA-Z_0-9]*'
         t.type = self.reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words
         return t
 

@@ -5,11 +5,11 @@ import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheet";
-import { QuestionStyles } from "../QuestionStyles";
+import StyleSheetNode from "../nodes/StyleSheetNode";
+import MergedFieldStyle from "../MergedFieldStyle";
 
-export default class QuestionStylesVisitor implements StyleNodeVisitor {
-  private questionStyles: QuestionStyles[];
+export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
+  private questionStyles: MergedFieldStyle[];
 
   constructor() {
     this.questionStyles = [];
@@ -22,7 +22,7 @@ export default class QuestionStylesVisitor implements StyleNodeVisitor {
   }
 
   visitQuestionStyle(question: QuestionStyle): any {
-    let style = new QuestionStyles(question.identifier);
+    let style = new MergedFieldStyle(question.identifier);
     let parents = question.getParents();
 
     for (let parent of parents.reverse()) {
@@ -51,7 +51,7 @@ export default class QuestionStylesVisitor implements StyleNodeVisitor {
     return;
   }
 
-  visitStyleSheet(stylesheet: Stylesheet): any {
+  visitStyleSheet(stylesheet: StyleSheetNode): any {
     return stylesheet.children.forEach(child => child.accept(this));
   }
 }

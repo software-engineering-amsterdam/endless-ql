@@ -24,7 +24,7 @@ import NodeVisitor from "../nodes/visitors/NodeVisitor";
 import FormNode from "../nodes/FormNode";
 import IfCondition from "../nodes/conditions/IfCondition";
 import ComputedField from "../nodes/fields/ComputedField";
-import Question from "../nodes/fields/Question";
+import QuestionNode from "../nodes/fields/QuestionNode";
 import DateLiteral from "../nodes/literals/DateLiteral";
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
@@ -53,7 +53,7 @@ export class TypeCheckVisitor implements NodeVisitor {
     return assertFieldType(formulaType, computedField.type);
   }
 
-  visitQuestion(question: Question) {
+  visitQuestion(question: QuestionNode) {
     return question.type;
   }
 

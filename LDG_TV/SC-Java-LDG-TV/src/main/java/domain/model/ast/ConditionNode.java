@@ -7,11 +7,12 @@ public class ConditionNode extends ASTNode {
 
     private List<Condition> conditions;
     private List<QuestionNode> questionNodes;
-    private List<QuestionNode> elseNodess;
+    private ElseNode elseNode;
+
     public ConditionNode(boolean visible) {
         this.questionNodes = new ArrayList<>();
         this.conditions = new ArrayList<>();
-        this.elseNodess = new ArrayList<>();
+        this.elseNode = new ElseNode();
         this.setDisabled(visible);
     }
 
@@ -20,7 +21,7 @@ public class ConditionNode extends ASTNode {
      * @param elseNode QuestionNode to add.
      */
     public void addElseQuestion(QuestionNode elseNode) {
-        this.elseNodess.add(elseNode);
+        this.elseNode.getQuestionNodes().add(elseNode);
     }
 
     /**
@@ -60,7 +61,7 @@ public class ConditionNode extends ASTNode {
         for (QuestionNode qan : this.getQuestionNodes()){
             qan.setDisabled(!temp);
         }
-        for (QuestionNode qan : this.elseNodess){
+        for (QuestionNode qan : this.elseNode.getQuestionNodes()){
             qan.setDisabled(temp);
         }
         return temp;
@@ -73,22 +74,7 @@ public class ConditionNode extends ASTNode {
         return conditions;
     }
 
-    public List<QuestionNode> getElseNodes() {
-        return elseNodess;
-    }
-
-
-    public String toString () {
-
-        StringBuilder str = new StringBuilder("if {\n");
-        for (QuestionNode qn : questionNodes) {
-            str.append('\t')
-                    .append(qn.toString())
-                    .append('\n');
-        }
-
-        str.append('}');
-
-        return str.toString();
+    public ElseNode getElseNode() {
+        return elseNode;
     }
 }

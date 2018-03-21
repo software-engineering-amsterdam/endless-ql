@@ -230,7 +230,7 @@ public class ToolController implements Consumer {
             ConditionNode conditionNode = (ConditionNode) n;
 
             visibleQuestions.addAll(conditionNode.getQuestionNodes());
-            visibleQuestions.addAll(conditionNode.getElseNodes());
+            visibleQuestions.addAll(conditionNode.getElseNode().getQuestionNodes());
         }
 
         return visibleQuestions;

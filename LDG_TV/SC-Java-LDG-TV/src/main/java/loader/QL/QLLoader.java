@@ -10,24 +10,27 @@ import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.variable.*;
 
+import java.text.Normalizer;
+
 
 public class QLLoader extends FormBaseListener {
     private FormNode formNode;
 
     private QLChecker qlChecker;
     private Variable constructedVariable;
-    private boolean inIfNode = false;
+    private ConditionNode conditionNode;
+    private Condition condition;
+
+    private boolean inConditionNode = false;
     private boolean inElseNode = false;
 
     public QLLoader(){
         this.formNode = new FormNode();
     }
+
     @Override
     public void enterFormBuilder(FormParser.FormBuilderContext ctx) {
         this.formNode.setFormIdentifier(ctx.CHARACTERS().getText());
-    }
-    @Override
-    public void enterFormData(FormParser.FormDataContext ctx) {
     }
     @Override
     public void exitFormData(FormParser.FormDataContext ctx){
@@ -37,42 +40,42 @@ public class QLLoader extends FormBaseListener {
 
     @Override
     public void enterIfStructure(FormParser.IfStructureContext ctx) {
-        ConditionNode conditionNode = new ConditionNode(false);
-        this.inIfNode = true;
-        Variable v = null;
-        Condition c = null;
-        for(int i=0; i< ctx.statementBlockStructure().conditions().condition().size(); i++){
-            FormParser.ConditionContext cc = ctx.statementBlockStructure().conditions().condition(i);
-            FormParser.BooleanOperatorContext bo = ctx.statementBlockStructure().conditions().booleanOperator(i);
-            if (cc.value() instanceof FormParser.ValueContext){
-               v = this.formNode.getVariableFromList(cc.value().getText());
-               this.formNode.getReferencedVariables().add(v);
-            }
-            if (cc.expression() instanceof FormParser.ExpressionContext){
-               v = new BooleanVariable(null, false);
-               v.setValue(this.getBooleanExpressionValue(cc.expression().booleanExpression()));
-            }
-            if(bo != null){
-                c = new Condition(v, bo.getText());
-            }else{
-                c = new Condition(v, null);
-            }
-            conditionNode.addCondition(c);
-        }
-        this.formNode.addIfNode(conditionNode);
+        conditionNode = new ConditionNode(false);
+        this.inConditionNode = true;
+        this.formNode.addConditionNode(conditionNode);
+    }
+    @Override
+    public void exitIfStructure(FormParser.IfStructureContext ctx){
+        this.inConditionNode = false;
+    }
 
-     }
     @Override
     public void enterElseStructure(FormParser.ElseStructureContext ctx){
         this.inElseNode = true;
     }
+
     @Override
     public void exitElseStructure(FormParser.ElseStructureContext ctx){
         this.inElseNode = false;
     }
+
     @Override
-    public void exitIfStructure(FormParser.IfStructureContext ctx){
-        this.inIfNode = false;
+    public void enterCondition(FormParser.ConditionContext ctx){
+        Variable variable = null;
+        if (ctx.value() instanceof FormParser.ValueContext){
+            variable = this.formNode.getVariableFromList(ctx.value().getText());
+            this.formNode.getReferencedVariables().add(variable);
+        }
+        if (ctx.expression() instanceof FormParser.ExpressionContext){
+            variable = new BooleanVariable(null, false);
+            variable.setValue(this.getBooleanExpressionValue(ctx.expression().booleanExpression()));
+        }
+        condition = new Condition(variable);
+        conditionNode.addCondition(condition);
+    }
+    @Override
+    public void enterBooleanOperator(FormParser.BooleanOperatorContext ctx){
+        condition.setOperator(ctx.getText());
     }
     @Override
     public void enterQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx) {
@@ -93,28 +96,24 @@ public class QLLoader extends FormBaseListener {
     }
     @Override
     public void exitQuestionNodeStructure(FormParser.QuestionNodeStructureContext ctx) {
-        String questionText = ctx.label().getText();
-
-        QuestionNode q = new QuestionNode(questionText, constructedVariable, this.inIfNode);
-        if(this.inIfNode) {
+        QuestionNode q = new QuestionNode(ctx.label().getText(), constructedVariable, this.inConditionNode);
+        if(this.inConditionNode) {
             if (this.inElseNode){
-                this.formNode.addToLastIfElse(q);
+                this.conditionNode.getElseNode().addQuestion(q);
                 return;
             }
-            this.formNode.addToLastIf(q);
+            this.conditionNode.addQuestion(q);
             return;
+        }else{
+            this.formNode.addQuestion(new QuestionNode(ctx.label().getText(), constructedVariable, false));
         }
-
-        this.formNode.addQuestion(new QuestionNode(questionText, constructedVariable, false));
     }
     @Override
     public void enterVariableValue(FormParser.VariableValueContext ctx){
-        if(ctx.expression() instanceof FormParser.ExpressionContext){
-            if(ctx.expression().arithmeticExpression() instanceof FormParser.ArithmeticExpressionContext){
-                constructedVariable.setValue(getArithmeticExpressionValue(ctx.expression().arithmeticExpression()));
-            }else if(ctx.expression().booleanExpression() instanceof FormParser.BooleanExpressionContext){
-                constructedVariable.setValue(getBooleanExpressionValue(ctx.expression().booleanExpression()));
-            }
+        if(ctx.expression().arithmeticExpression() instanceof FormParser.ArithmeticExpressionContext){
+            constructedVariable.setValue(getArithmeticExpressionValue(ctx.expression().arithmeticExpression()));
+        }else if(ctx.expression().booleanExpression() instanceof FormParser.BooleanExpressionContext){
+            constructedVariable.setValue(getBooleanExpressionValue(ctx.expression().booleanExpression()));
         }
     }
     public FormNode getFormNode() {

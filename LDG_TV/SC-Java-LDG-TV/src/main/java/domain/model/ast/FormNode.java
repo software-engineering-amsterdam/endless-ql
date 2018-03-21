@@ -31,28 +31,10 @@ public class FormNode {
      * Add ConditionNode to ASTNodes list
      * @param ifNode
      */
-    public void addIfNode(ConditionNode ifNode){
+    public void addConditionNode(ConditionNode ifNode){
         this.ASTNodes.add(ifNode);
         this.lastIfIndex = this.ASTNodes.size() - 1;
     }
-
-    /**
-     * Add QuestionNode to the last IfNode in ASTNodes list.
-     * @param q QuestionNode to add
-     */
-    public void addToLastIf(QuestionNode q){
-        ConditionNode ifNode = (ConditionNode) this.ASTNodes.get(this.lastIfIndex); // TODO check for instance of and not out of bounds
-        ifNode.addQuestion(q);
-    }
-    /**
-     * Add QuestionNode to the last IfNode else questions in ASTNodes list.
-     * @param q QuestionNode to add
-     */
-    public void addToLastIfElse(QuestionNode q){
-        ConditionNode ifNode = (ConditionNode) this.ASTNodes.get(this.lastIfIndex); // TODO check for instance of and not out of bounds
-        ifNode.addElseQuestion(q);
-    }
-
     /**
      * Get variable from the list of all QuestionNode's in ASTNodes list based on the variable identifier.
      * @param identifier Variable identifier to search for in list.
@@ -95,7 +77,7 @@ public class FormNode {
             }
             if(an instanceof ConditionNode){
                 temp.addAll(((ConditionNode) an).getQuestionNodes());
-                temp.addAll(((ConditionNode) an).getElseNodes());
+                temp.addAll(((ConditionNode) an).getElseNode().getQuestionNodes());
             }
         }
         return temp;
@@ -134,18 +116,5 @@ public class FormNode {
 
     public void setStylesheet(Stylesheet stylesheet) {
         this.stylesheet = stylesheet;
-    }
-
-
-    @Override
-    public String toString() {
-
-        StringBuilder str = new StringBuilder();
-        for (ASTNode n : ASTNodes) {
-            str.append(n)
-                    .append('\n');
-        }
-
-        return str.toString();
     }
 }

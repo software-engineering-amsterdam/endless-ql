@@ -8,15 +8,17 @@ public class Condition {
     private Variable variable;
     private String operator;
 
-    public Condition(Variable variable, String operator) {
+    public Condition(Variable variable) {
         this.variable = variable;
-        this.operator = operator;
+        this.operator = null;
     }
 
     public Variable getVariable() {
         return variable;
     }
-
+    public void setOperator(String operator){
+        this.operator = operator;
+    }
     public String getOperator() {
         return operator;
     }

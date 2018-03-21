@@ -70,8 +70,8 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetType);
 
             var questionNode = qls.Children[0].Children[0].Children[0];
-            Assert.AreEqual(WidgetType.SPINNER, questionNode.NodeStyle.WidgetSpecification.WidgetType);
-            Assert.AreEqual(0, questionNode.NodeStyle.WidgetSpecification.WidgetTypeArguments.Count);
+            Assert.AreEqual(WidgetType.SPINNER, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(0, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
         }
 
         [TestMethod]
@@ -80,11 +80,11 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetTypeWithArguments);
 
             var questionNode = qls.Children[0].Children[0].Children[0];
-            Assert.AreEqual(WidgetType.RADIO, questionNode.NodeStyle.WidgetSpecification.WidgetType);
-            Assert.AreEqual(3, questionNode.NodeStyle.WidgetSpecification.WidgetTypeArguments.Count);
-            Assert.AreEqual("Yes", questionNode.NodeStyle.WidgetSpecification.WidgetTypeArguments[0]);
-            Assert.AreEqual("No", questionNode.NodeStyle.WidgetSpecification.WidgetTypeArguments[1]);
-            Assert.AreEqual("Maybe", questionNode.NodeStyle.WidgetSpecification.WidgetTypeArguments[2]);
+            Assert.AreEqual(WidgetType.RADIO, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(3, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
+            Assert.AreEqual("Yes", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[0]);
+            Assert.AreEqual("No", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[1]);
+            Assert.AreEqual("Maybe", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[2]);
         }
     }
 }

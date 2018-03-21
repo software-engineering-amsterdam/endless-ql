@@ -27,6 +27,7 @@ namespace QLParser.AST.QLS
             return WidgetSpecification != null ? " - Node has a specification" : "";
         }
 
+        #region IQLSElement
         public QLSWidgetSpecification GetQLSWidgetSpecification()
         {
             return this.WidgetSpecification;
@@ -36,5 +37,6 @@ namespace QLParser.AST.QLS
         {
             return this.StylingValues;
         }
+        #endregion
     }
 }

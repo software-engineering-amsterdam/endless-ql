@@ -4,7 +4,7 @@
  * Parser rules
 */
 stylesheet			: STYLESHEET ID LCURLY page* RCURLY;
-page				: PAGE TEXT LCURLY section* defaults? RCURLY;
+page				: PAGE TEXT LCURLY section* defaults* RCURLY;
 section				: SECTION TEXT LCURLY (section |question)* RCURLY;
 question			: QUESTION ID widgetspecification
 					| QUESTION ID;

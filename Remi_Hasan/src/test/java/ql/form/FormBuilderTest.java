@@ -20,8 +20,8 @@ public class FormBuilderTest {
 
         assertEquals(form.identifier, "simpleForm");
         assertEquals(form.questions.size(), 6);
-        assertEquals(form.questions.get(0).name, "someInteger");
-        assertEquals(form.questions.get(0).text, "Can you give me an integer value?");
+        assertEquals(form.questions.get(0).identifier, "someInteger");
+        assertEquals(form.questions.get(0).label, "Can you give me an integer value?");
         assertEquals(form.questions.get(0).type, ReturnType.INTEGER);
     }
 

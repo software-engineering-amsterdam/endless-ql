@@ -25,6 +25,7 @@ class Page:
         defaultDict[self.name]['pageDefaults'] = tmpDict
 
 
+
     """
         Check for children if the widget type is compatible with the question type
     """

@@ -20,7 +20,7 @@ namespace QLParser.Visitors.QLS
             return style;
         }
 
-        private QLSStyleValue GetStylevalue(StylevalueContext context)
+        private QLSValue GetStylevalue(StylevalueContext context)
         {
             var value = context.ID().GetText();
             var type = QValueType.UNKNOWN;
@@ -33,7 +33,7 @@ namespace QLParser.Visitors.QLS
             else if (context.INT() != null)
                 type = QValueType.INTEGER;
 
-            return new QLSStyleValue(value, type);
+            return new QLSValue(value, type);
         }
     }
 }

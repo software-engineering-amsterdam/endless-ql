@@ -2,14 +2,14 @@
 
 namespace QLParser.AST.QLS
 {
-    public class QLSStyle
+    public class QLSStyle : IQLSElement
     {
-        public IList<QLSStyleValue> StylingValues { get; set; }
+        public IList<QLSValue> StylingValues { get; set; }
         public QLSWidgetSpecification WidgetSpecification { get; private set; }
 
         public QLSStyle()
         {
-            this.StylingValues = new List<QLSStyleValue>();
+            this.StylingValues = new List<QLSValue>();
         }
 
         public QLSStyle(QLSWidgetSpecification specification) : this()
@@ -17,7 +17,7 @@ namespace QLParser.AST.QLS
             this.WidgetSpecification = specification;
         }
 
-        public void AddStyleValue(QLSStyleValue styleValue)
+        public void AddStyleValue(QLSValue styleValue)
         {
             this.StylingValues.Add(styleValue);
         }
@@ -25,6 +25,16 @@ namespace QLParser.AST.QLS
         public override string ToString()
         {
             return WidgetSpecification != null ? " - Node has a specification" : "";
+        }
+
+        public QLSWidgetSpecification GetQLSWidgetSpecification()
+        {
+            return this.WidgetSpecification;
+        }
+
+        public IList<QLSValue> GetStylingValues()
+        {
+            return this.StylingValues;
         }
     }
 }

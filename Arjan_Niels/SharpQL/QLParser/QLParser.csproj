@@ -80,9 +80,10 @@
     <Compile Include="AST\Nodes\IdentifierNode.cs" />
     <Compile Include="AST\QLS\Enums\QLSNodeType.cs" />
     <Compile Include="AST\QLS\Enums\WidgetType.cs" />
+    <Compile Include="AST\QLS\IQLSElement.cs" />
     <Compile Include="AST\QLS\QLSNode.cs" />
     <Compile Include="AST\QLS\QLSStyle.cs" />
-    <Compile Include="AST\QLS\QLSStyleValue.cs" />
+    <Compile Include="AST\QLS\QLSValue.cs" />
     <Compile Include="AST\QLS\QLSWidgetSpecification.cs" />
     <Compile Include="Exceptions\UnknownLogicalEntity.cs" />
     <Compile Include="Exceptions\UnknownNodeTypeException.cs" />

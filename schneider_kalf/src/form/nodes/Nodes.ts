@@ -46,7 +46,7 @@ export default {
   StringLiteral,
   VariableIdentifier,
   ComputedField,
-  Question,
+  Question: QuestionNode,
   FormNode,
   DateLiteral
 };

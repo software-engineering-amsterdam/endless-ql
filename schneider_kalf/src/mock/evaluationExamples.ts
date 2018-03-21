@@ -37,16 +37,16 @@ export const testExpressionStuff = () => {
   );
 
   const form1 = new FormNode("MyForm1", [
-    new Question("q1", "Is q1 true?", FieldType.Boolean),
+    new QuestionNode("q1", "Is q1 true?", FieldType.Boolean),
     new ComputedField("q2", "Is q1 false?", FieldType.Boolean, new Equals(
         new Variable("q1"),
         new BooleanLiteral(true)
     )),
     new IfCondition(new Negation(new Variable("q1")), [
-      new Question("q3", "Only visible if q1  is false?", FieldType.Boolean),
+      new QuestionNode("q3", "Only visible if q1  is false?", FieldType.Boolean),
     ]),
     new IfCondition(new Negation(new Variable("q2")), [
-      new Question("q3", "Only visible if q1  is false?", FieldType.Boolean),
+      new QuestionNode("q3", "Only visible if q1  is false?", FieldType.Boolean),
     ])
   ]);
 

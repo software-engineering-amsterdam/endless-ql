@@ -23,7 +23,7 @@ export class VariableScopeVisitor implements FieldVisitor {
     this._stack = new VariableScopeStack();
   }
 
-  visitQuestion(question: Question): any {
+  visitQuestion(question: QuestionNode): any {
     this.addToStack(question);
   }
 

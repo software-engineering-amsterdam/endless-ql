@@ -7,7 +7,7 @@ import FieldNodeDecorator from "../fields/FieldNodeDecorator";
 interface FieldVisitor {
   visitFieldDecorator(fieldDecorator: FieldNodeDecorator): any;
 
-  visitQuestion(question: Question): any;
+  visitQuestion(question: QuestionNode): any;
 
   visitComputedField(computedField: ComputedField): any;
 

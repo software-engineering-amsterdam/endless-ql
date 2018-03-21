@@ -41,5 +41,5 @@ export const getUsedVariables = (start: TreeNode) => {
 };
 
 export const isFieldNode = (node: TreeNode): node is FieldNode => {
-  return node instanceof Question || node instanceof ComputedField;
+  return node instanceof QuestionNode || node instanceof ComputedField;
 };

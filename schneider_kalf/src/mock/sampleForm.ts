@@ -26,12 +26,12 @@ import FormState from "../form/state/FormState";
  */
 
 const formNode: FormNode = new FormNode("Box1HouseOwning", [
-  new Question("hasSoldHouse", "Did you sell a house in 2010?", FieldType.Boolean),
-  new Question("hasBoughtHouse", "Did you by a house in 2010?", FieldType.Boolean),
-  new Question("hasMaintLoan", "Did you enter a loan for maintenance/reconstruction?", FieldType.Boolean),
+  new QuestionNode("hasSoldHouse", "Did you sell a house in 2010?", FieldType.Boolean),
+  new QuestionNode("hasBoughtHouse", "Did you by a house in 2010?", FieldType.Boolean),
+  new QuestionNode("hasMaintLoan", "Did you enter a loan for maintenance/reconstruction?", FieldType.Boolean),
   new IfCondition(new VariableIdentifier("hasSoldHouse"), [
-    new Question("sellingPrice", "Price the house was sold for:", FieldType.Money),
-    new Question("privateDebt", "Private debts for the sold house:", FieldType.Money),
+    new QuestionNode("sellingPrice", "Price the house was sold for:", FieldType.Money),
+    new QuestionNode("privateDebt", "Private debts for the sold house:", FieldType.Money),
     new ComputedField(
         "valueResidue",
         "Value residue:", FieldType.Money,

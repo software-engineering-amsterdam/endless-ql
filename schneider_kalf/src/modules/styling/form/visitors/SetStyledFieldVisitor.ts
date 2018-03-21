@@ -24,7 +24,7 @@ export default class SetStyledFieldVisitor implements FieldVisitor {
     this.questionStyleNodes = getQuestionStyleNodes(styleNode, true);
   }
 
-  visitQuestion(question: Question): any {
+  visitQuestion(question: QuestionNode): any {
     return null;
   }
 

@@ -29,7 +29,7 @@ export default class VisibleFieldsVisitor implements FieldVisitor {
     return this._visibleFields;
   }
 
-  visitQuestion(question: Question): any {
+  visitQuestion(question: QuestionNode): any {
     this._visibleFields.add(question.identifier);
     return this._visibleFields;
   }

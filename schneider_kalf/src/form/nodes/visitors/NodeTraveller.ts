@@ -56,7 +56,7 @@ export default class NodeTraveller implements NodeVisitor {
     this.post(node);
   }
 
-  visitQuestion(question: Question): any {
+  visitQuestion(question: QuestionNode): any {
     this.visitPreAndPost(question);
   }
 

@@ -7,12 +7,12 @@ import NumberLiteral from "../../form/nodes/literals/NumberLiteral";
 
 export const validForm = new FormNode("validForm", [
   new IfCondition(new BooleanLiteral(true), [
-    new Question("a", "A", FieldType.Boolean)
+    new QuestionNode("a", "A", FieldType.Boolean)
   ])
 ]);
 
 export const numberInIfPredicateForm = new FormNode("numberInIfForm", [
   new IfCondition(new NumberLiteral(4), [
-    new Question("a", "A", FieldType.Boolean)
+    new QuestionNode("a", "A", FieldType.Boolean)
   ])
 ]);

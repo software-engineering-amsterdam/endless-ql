@@ -23,7 +23,7 @@ export default class QuestionForm implements Form {
   }
 
   getFields(): FieldNode[] {
-    return filterNodes((node) => node instanceof ComputedField || node instanceof Question, this.node);
+    return filterNodes((node) => node instanceof ComputedField || node instanceof QuestionNode, this.node);
   }
 
   computeFields() {
@@ -39,7 +39,7 @@ export default class QuestionForm implements Form {
   fillDefaultValues() {
     let state: FormState = this.state;
 
-    this.getQuestions().forEach((field: Question) => {
+    this.getQuestions().forEach((field: QuestionNode) => {
       if (state.has(field.identifier)) {
         return;
       }
@@ -58,8 +58,8 @@ export default class QuestionForm implements Form {
     return filterNodes((node) => node instanceof ComputedField, this.node);
   }
 
-  getQuestions(): Question[] {
-    return filterNodes((node) => node instanceof Question, this.node);
+  getQuestions(): QuestionNode[] {
+    return filterNodes((node) => node instanceof QuestionNode, this.node);
   }
 
   findField(identifier: string): Maybe<FieldNode> {

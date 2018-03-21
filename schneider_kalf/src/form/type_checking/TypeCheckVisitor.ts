@@ -53,7 +53,7 @@ export class TypeCheckVisitor implements NodeVisitor {
     return assertFieldType(formulaType, computedField.type);
   }
 
-  visitQuestion(question: Question) {
+  visitQuestion(question: QuestionNode) {
     return question.type;
   }
 

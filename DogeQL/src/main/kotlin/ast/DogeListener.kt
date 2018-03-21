@@ -10,7 +10,6 @@ import expression.*
 import expression.operation.BinaryOperation
 import expression.operation.UnaryOperation
 import node.Node
-import java.math.BigDecimal
 
 class DogeListener : QuestionareLanguageParserBaseListener() {
 
@@ -20,7 +19,7 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
 
     override fun enterBlock(ctx: QuestionareLanguageParser.BlockContext?) {
-        if (!expressionBuilder.isEmpty()){
+        if (!expressionBuilder.isEmpty()) {
             val ifExpression = expressionBuilder.pop()
             val result = symbolTable.registerSymbol(SymbolType.BOOLEAN, ifExpression)
 
@@ -39,16 +38,16 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
         val label = context.LIT_STRING().text
         val name = context.NAME().text
-        val value = convertType(context.TYPE().text)
+        val type = convertType(context.TYPE().text)
 
+        symbolTable.registerSymbol(name, type)
 
-
-        if (!expressionBuilder.isEmpty()){
+        if (!expressionBuilder.isEmpty()) {
 
             val questionExpression = expressionBuilder.pop()
 
             if (questionExpression.containsReference()) {
-                symbolTable.assign(name, value.type, questionExpression)
+                symbolTable.assign(name, type, questionExpression)
             } else {
                 symbolTable.assign(name, questionExpression.evaluate(symbolTable))
             }
@@ -60,7 +59,7 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         val questionLabelLocation = SourceLocation(
                 context.LIT_STRING().symbol.line, context.LIT_STRING().symbol.charPositionInLine
         )
-        val question = Question(name, label, value, questionNameLocation, questionLabelLocation)
+        val question = Question(name, label, type.getDefaultInstance(), questionNameLocation, questionLabelLocation)
 
         formTreeBuilder.pushQuestion(question)
     }
@@ -222,13 +221,14 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
     }
 
     private fun convertType(type: String) = when (type) {
-        "boolean" -> BooleanValue(false)
-        "int" -> IntegerValue(0)
-        "string" -> StringValue("")
-        "money" -> MoneyValue(BigDecimal.ZERO)
-        "decimal" -> DecimalValue(0)
-//        "date" -> DateValue(0)
-        else -> BooleanValue(false)//TODO refactor remove default
+        "boolean" -> SymbolType.BOOLEAN
+        "int" -> SymbolType.INTEGER
+        "string" -> SymbolType.STRING
+        "money" -> SymbolType.MONEY
+        "decimal" -> SymbolType.DECIMAL
+        "date" -> SymbolType.DATE
+        "color" -> SymbolType.COLOR
+        else -> SymbolType.UNDEFINED
     }
 
     fun getParsedDogeLanguage(): Node {

@@ -52,7 +52,7 @@ class TypeCheckResult {
     }
 
     private fun printTypeConflictError(error: TypeRedefinitionError) {
-        println("Error: unable to assign type \"${error.redefinitionType.name}\" " +
+        println("Error: unable to assign type ${error.redefinitionType.name} " +
                 "to \"${error.original.name}\" of type ${error.original.type.name} " +
                 "on line ${error.original.sourceLocation.line}:${error.original.sourceLocation.column}")
     }

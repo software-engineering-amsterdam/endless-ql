@@ -111,11 +111,8 @@ comment         = "//" (!lineTerminator .)*
 lineTerminator  = "\n" / "\r\n" / "\r" / "\u2028" / "\u2029"
 
 number          = val:([0-9]+) {return new astQls.NumberValue(parseInt(text(), 10));}
-hex             = "#" r:([0-9][0-9]) g:([0-9][0-9]) b:([0-9][0-9]) {
-                    const parsedRed = parseInt(r[0] + r[1], 10);
-                    const parsedGreen = parseInt(g[0] + g[1], 10);
-                    const parsedBlue = parseInt(b[0] + b[1], 10);
-                    return new astQls.RgbValue(parsedRed, parsedGreen, parsedBlue);
+hex             = "#" [0-9A-F][0-9A-F] [0-9A-F][0-9A-F] [0-9A-F][0-9A-F] {
+                    return new astQls.RgbValue(text());
                   }
 word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 ascii           = [a-zA-Z]+ {return new astQls.StringValue(text());}

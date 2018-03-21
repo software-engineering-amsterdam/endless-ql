@@ -7,8 +7,6 @@ import org.uva.forcepushql.questions.Radio;
 import org.uva.forcepushql.questions.Textbox;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -18,33 +16,15 @@ public class VisitorEvaluator implements ASTVisitor {
     public LinkedList<JPanel> visit(FormNode node) {
         LinkedList<JPanel> result = new LinkedList<JPanel>();
         LinkedList<Question> questions = new LinkedList<Question>();
-        HashMap<String,ActionListener> conditions = new HashMap<String, ActionListener>();
+        HashMap<String,JPanelGUI> conditions = new HashMap<String, JPanelGUI>();
 
         for (Node n: node.getQuestions()) {
             if (n instanceof ConditionalIfNode){
                 String condition = ((ConditionalIfNode) n).getCondition().accept(this);
-                JPanel jPanelIf = n.accept(this);
-                jPanelIf.setVisible(false);
-                ActionListener actionListener = new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if(e.getSource() instanceof JRadioButton) {
-                            JRadioButton radioButton = (JRadioButton) e.getSource();
+                JPanelGUI jPanelIf = n.accept(this);
+                conditions.put(condition,jPanelIf);
+                result.add(jPanelIf.getPanel());
 
-                            if (radioButton.isSelected() && (radioButton.getText() == "Yes")) {
-                               jPanelIf.setVisible(true);
-
-                            }
-
-                            else if(radioButton.isSelected() && (radioButton.getText() == "No")){
-                               jPanelIf.setVisible(false);
-                            }
-
-                        }
-                    }
-                };
-                conditions.put(condition,actionListener);
-                result.add(jPanelIf);
             }
             else {
                 questions.add(n.accept(this));
@@ -52,10 +32,11 @@ public class VisitorEvaluator implements ASTVisitor {
         }
 
         JPanelGUI jPanelGUI = new JPanelGUI();
-        JPanel jPanelForm = jPanelGUI.createPanel(questions,0);
+        jPanelGUI.createPanel(questions,0);
+        JPanel jPanelForm = jPanelGUI.getPanel();
 
         if (!conditions.isEmpty()){
-            conditions.forEach((c,al) -> jPanelGUI.addActionListener(c,al));
+            conditions.forEach((c,o) -> jPanelGUI.getQuestion(c).attachObserver(o));
         }
 
         result.addFirst(jPanelForm);
@@ -64,7 +45,7 @@ public class VisitorEvaluator implements ASTVisitor {
     }
 
     @Override
-    public JPanel visit(ConditionalIfNode node) {
+    public JPanelGUI visit(ConditionalIfNode node) {
         JPanelGUI jPanelGUI = new JPanelGUI();
         LinkedList<Question> questions = new LinkedList<Question>();
         for (Node n: node.getQuestions()) {
@@ -75,7 +56,10 @@ public class VisitorEvaluator implements ASTVisitor {
             node.getAfter().accept(this);
         }
 
-        return jPanelGUI.createPanel(questions,0);
+        jPanelGUI.createPanel(questions,0);
+        jPanelGUI.getPanel().setVisible(false);
+
+        return jPanelGUI;
     }
 
     @Override
@@ -185,7 +169,7 @@ public class VisitorEvaluator implements ASTVisitor {
 
     @Override
     public Question visit(QuestionAssignValueNode node) {
-        //return node.getPrevious().accept(this) + " = " + node.getExpression().accept(this);
+        Question question = node.getPrevious().accept(this);
         return null;
     }
 

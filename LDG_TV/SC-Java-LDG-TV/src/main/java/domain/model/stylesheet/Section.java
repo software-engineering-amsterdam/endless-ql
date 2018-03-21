@@ -1,25 +1,25 @@
 package domain.model.stylesheet;
 
-import domain.model.ast.QuestionASTNode;
+import domain.model.variable.Variable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Section {
     private String label;
-    private List<QuestionASTNode> questions;
+    private List<Variable> variables;
 
     public Section(String label) {
         this.label = label;
-        this.questions = new ArrayList<>();
+        this.variables = new ArrayList<>();
     }
 
     /**
-     * Adds a QuestionASTNode to the questionNodes list.
-     * @param q QuestionASTNode to add
+     * Adds a Variable to the variables list.
+     * @param v Variable to add to add
      */
-    public void addQuestion(QuestionASTNode q) {
-        this.questions.add(q);
+    public void addVariable(Variable v) {
+        this.variables.add(v);
     }
 
     public String getLabel() {
@@ -30,8 +30,8 @@ public class Section {
         this.label = label;
     }
 
-    public List<QuestionASTNode> getQuestions() {
-        return questions;
+    public List<Variable> getVariables() {
+        return variables;
     }
 
 }

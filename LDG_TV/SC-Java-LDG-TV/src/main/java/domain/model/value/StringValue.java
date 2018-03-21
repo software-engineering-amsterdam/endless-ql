@@ -13,11 +13,6 @@ public class StringValue extends Value<String>{
     }
 
     @Override
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    @Override
     public void accept(String s) throws Exception {
         this.value = s;
     }

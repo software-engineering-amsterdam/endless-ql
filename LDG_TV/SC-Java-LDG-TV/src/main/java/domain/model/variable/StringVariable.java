@@ -8,9 +8,9 @@ import javafx.scene.Node;
 public class StringVariable extends Variable {
     private Value<String> value;
 
-    public StringVariable(String identifier) {
+    public StringVariable(String identifier, String value) {
         super(identifier);
-        this.value = new StringValue("");
+        this.value = new StringValue(value);
     }
 
     @Override
@@ -18,8 +18,8 @@ public class StringVariable extends Variable {
         return value;
     }
     @Override
-    public void setValue(StringValue newVale){
-        this.value = newVale;
+    public void setValue(StringValue value){
+        this.value = value;
     }
 
     @Override

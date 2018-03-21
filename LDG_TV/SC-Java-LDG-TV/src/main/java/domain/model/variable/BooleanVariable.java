@@ -10,9 +10,9 @@ public class BooleanVariable extends Variable {
 
     private Value<Boolean> value;
 
-    public BooleanVariable(String identifier) {
+    public BooleanVariable(String identifier, boolean value) {
         super(identifier);
-        this.value = new BooleanValue(false); // TODO move setting of value upstream (pass in consturctor)
+        this.value = new BooleanValue(value); // TODO move setting of value upstream (pass in consturctor)
     }
 
     @Override
@@ -21,8 +21,7 @@ public class BooleanVariable extends Variable {
     }
 
     public void setValue(Boolean newValue){
-        this.value.setValue(newValue);
-    } //TODO set back to BooleanValue type.
+    }
 
     @Override
     public void setValue(BooleanExpressionValue value){this.value = value;};

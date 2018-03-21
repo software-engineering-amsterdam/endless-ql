@@ -40,23 +40,11 @@ variableValue: expression | value;
 
 expression: BRACKET_OPEN (booleanExpression | arithmeticExpression) BRACKET_CLOSE;
 
-booleanExpression: unaryBooleanExpression | gteoqExpression | gtExpression | stExpression | stoeqExpression | eqExpression | neqExpression;
+booleanExpression: variable booleanExpressionOperator variable;
+arithmeticExpression : variable arithmeticExpressionOperator variable;
 
-
-unaryBooleanExpression: '!' value;
-gtExpression: variable GT variable ;
-gteoqExpression: variable GTOEQ variable ;
-stExpression: variable ST variable ;
-stoeqExpression: variable STOEQ variable ;
-eqExpression: variable EQ variable ;
-neqExpression: variable NEQ variable ;
-
-arithmeticExpression : (mulExpression| divExpression | addExpression | minExpression);
-
-mulExpression: variable TIMES variable ;
-addExpression: variable PLUS variable;
-minExpression: variable MINUS variable;
-divExpression: variable DIV variable;
+arithmeticExpressionOperator: ('*' | '+' | '-' | '/');
+booleanExpressionOperator: ('<' | '>' | '=<' '>=' | '!' | '!=' '==');
 
 condition: (value | expression);
 conditions: (condition booleanOperator? condition?)+;
@@ -77,16 +65,6 @@ BRACKET_OPEN : '(';
 BRACKET_CLOSE : ')';
 OR: '||';
 AND: '&&';
-PLUS: '+';
-MINUS: '-';
-TIMES: '*';
-DIV: '/';
-GT: '>';
-GTOEQ: '>=';
-STOEQ: '=<';
-ST: '<';
-EQ: '==';
-NEQ: '!=';
 
 QUESTION_LABEL : '"' + ((CHARACTERS | NUMBERS | ' ' | ':' | '?')+) + '"';
 QUESTION_VARIABLE_SEPERATOR : ':';

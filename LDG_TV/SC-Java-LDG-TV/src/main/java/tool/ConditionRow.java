@@ -5,12 +5,12 @@ import javafx.scene.control.CheckBox;
 
 import java.util.List;
 
-public class IfRow extends Row {
+public class ConditionRow extends Row {
 
     private CheckBox box;
     private List<Row> body;
 
-    public IfRow(String question, CheckBox box, List<Row> body) {
+    public ConditionRow(String question, CheckBox box, List<Row> body) {
         super(question, box);
         this.box = box;
         this.body = body;

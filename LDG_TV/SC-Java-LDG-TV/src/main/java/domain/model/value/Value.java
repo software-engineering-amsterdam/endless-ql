@@ -6,5 +6,4 @@ public abstract class Value<T> implements Consumer<T> {
 
     public abstract T getValue(); // TODO find better name
 
-    public abstract void setValue(T value);
 }

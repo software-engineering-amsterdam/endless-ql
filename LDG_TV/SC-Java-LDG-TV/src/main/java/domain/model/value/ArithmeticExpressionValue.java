@@ -34,10 +34,6 @@ public class ArithmeticExpressionValue extends Value<Integer>{
     }
 
     @Override
-    public void setValue(Integer value) {
-        // TODO
-    }
-    @Override
     public void accept(Integer integer) throws Exception {
         // TODO ?
     }

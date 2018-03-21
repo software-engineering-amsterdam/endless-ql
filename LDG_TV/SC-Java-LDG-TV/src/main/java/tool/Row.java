@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 
@@ -33,7 +34,22 @@ public class Row extends HBox {
 
         this.hide = hide;
     }
+    public Row(String label){
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QuestionRow.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
 
+        try {
+            fxmlLoader.load();
+            this.lblQuestion.setFont(Font.font("Verdana", 16));
+            this.lblQuestion.setText(label);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.hide = hide;
+
+    }
     public boolean isHiden() {
         return hide;
     }

@@ -14,40 +14,36 @@ public class FormParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, NUMBERS=6, CURLY_BRACKET_OPEN=7, 
-		CURLY_BRACKET_CLOSE=8, BRACKET_OPEN=9, BRACKET_CLOSE=10, OR=11, AND=12, 
-		PLUS=13, MINUS=14, TIMES=15, DIV=16, GT=17, GTOEQ=18, STOEQ=19, ST=20, 
-		EQ=21, NEQ=22, QUESTION_LABEL=23, QUESTION_VARIABLE_SEPERATOR=24, QUESTION_VARIABLE_VALUE_SEPERATOR=25, 
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
+		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, NUMBERS=16, 
+		CURLY_BRACKET_OPEN=17, CURLY_BRACKET_CLOSE=18, BRACKET_OPEN=19, BRACKET_CLOSE=20, 
+		OR=21, AND=22, QUESTION_LABEL=23, QUESTION_VARIABLE_SEPERATOR=24, QUESTION_VARIABLE_VALUE_SEPERATOR=25, 
 		IF=26, ELSE=27, WHITESPACE=28, NEWLINE=29, CHARACTERS=30;
 	public static final int
 		RULE_formBuilder = 0, RULE_formData = 1, RULE_questionNodeStructure = 2, 
 		RULE_ifStructure = 3, RULE_elseStructure = 4, RULE_statementBlockStructure = 5, 
 		RULE_value = 6, RULE_label = 7, RULE_variable = 8, RULE_variableType = 9, 
 		RULE_variableValue = 10, RULE_expression = 11, RULE_booleanExpression = 12, 
-		RULE_unaryBooleanExpression = 13, RULE_gtExpression = 14, RULE_gteoqExpression = 15, 
-		RULE_stExpression = 16, RULE_stoeqExpression = 17, RULE_eqExpression = 18, 
-		RULE_neqExpression = 19, RULE_arithmeticExpression = 20, RULE_mulExpression = 21, 
-		RULE_addExpression = 22, RULE_minExpression = 23, RULE_divExpression = 24, 
-		RULE_condition = 25, RULE_conditions = 26, RULE_booleanOperator = 27;
+		RULE_arithmeticExpression = 13, RULE_arithmeticExpressionOperator = 14, 
+		RULE_booleanExpressionOperator = 15, RULE_condition = 16, RULE_conditions = 17, 
+		RULE_booleanOperator = 18;
 	public static final String[] ruleNames = {
 		"formBuilder", "formData", "questionNodeStructure", "ifStructure", "elseStructure", 
 		"statementBlockStructure", "value", "label", "variable", "variableType", 
-		"variableValue", "expression", "booleanExpression", "unaryBooleanExpression", 
-		"gtExpression", "gteoqExpression", "stExpression", "stoeqExpression", 
-		"eqExpression", "neqExpression", "arithmeticExpression", "mulExpression", 
-		"addExpression", "minExpression", "divExpression", "condition", "conditions", 
-		"booleanOperator"
+		"variableValue", "expression", "booleanExpression", "arithmeticExpression", 
+		"arithmeticExpressionOperator", "booleanExpressionOperator", "condition", 
+		"conditions", "booleanOperator"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'form'", "'boolean'", "'money'", "'string'", "'!'", null, "'{'", 
-		"'}'", "'('", "')'", "'||'", "'&&'", "'+'", "'-'", "'*'", "'/'", "'>'", 
-		"'>='", "'=<'", "'<'", "'=='", "'!='", null, "':'", "'='", "'if'", "'else'"
+		null, "'form'", "'boolean'", "'money'", "'string'", "'*'", "'+'", "'-'", 
+		"'/'", "'<'", "'>'", "'=<'", "'>='", "'!'", "'!='", "'=='", null, "'{'", 
+		"'}'", "'('", "')'", "'||'", "'&&'", null, "':'", "'='", "'if'", "'else'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, "NUMBERS", "CURLY_BRACKET_OPEN", "CURLY_BRACKET_CLOSE", 
-		"BRACKET_OPEN", "BRACKET_CLOSE", "OR", "AND", "PLUS", "MINUS", "TIMES", 
-		"DIV", "GT", "GTOEQ", "STOEQ", "ST", "EQ", "NEQ", "QUESTION_LABEL", "QUESTION_VARIABLE_SEPERATOR", 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, "NUMBERS", "CURLY_BRACKET_OPEN", "CURLY_BRACKET_CLOSE", 
+		"BRACKET_OPEN", "BRACKET_CLOSE", "OR", "AND", "QUESTION_LABEL", "QUESTION_VARIABLE_SEPERATOR", 
 		"QUESTION_VARIABLE_VALUE_SEPERATOR", "IF", "ELSE", "WHITESPACE", "NEWLINE", 
 		"CHARACTERS"
 	};
@@ -127,15 +123,15 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(56);
+			setState(38);
 			match(T__0);
-			setState(57);
+			setState(39);
 			match(CHARACTERS);
-			setState(58);
+			setState(40);
 			match(CURLY_BRACKET_OPEN);
-			setState(59);
+			setState(41);
 			formData();
-			setState(60);
+			setState(42);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -184,37 +180,37 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(69); 
+			setState(51); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(62);
+				setState(44);
 				questionNodeStructure();
-				setState(64);
+				setState(46);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
 				case 1:
 					{
-					setState(63);
+					setState(45);
 					questionNodeStructure();
 					}
 					break;
 				}
-				setState(67);
+				setState(49);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==IF) {
 					{
-					setState(66);
+					setState(48);
 					ifStructure();
 					}
 				}
 
 				}
 				}
-				setState(71); 
+				setState(53); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==QUESTION_LABEL );
@@ -267,30 +263,30 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(73);
+			setState(55);
 			label();
-			setState(74);
+			setState(56);
 			variable();
-			setState(75);
+			setState(57);
 			match(QUESTION_VARIABLE_SEPERATOR);
-			setState(76);
+			setState(58);
 			variableType();
-			setState(78);
+			setState(60);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==QUESTION_VARIABLE_VALUE_SEPERATOR) {
 				{
-				setState(77);
+				setState(59);
 				match(QUESTION_VARIABLE_VALUE_SEPERATOR);
 				}
 			}
 
-			setState(81);
+			setState(63);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NUMBERS) | (1L << BRACKET_OPEN) | (1L << CHARACTERS))) != 0)) {
 				{
-				setState(80);
+				setState(62);
 				variableValue();
 				}
 			}
@@ -345,34 +341,34 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(83);
+			setState(65);
 			match(IF);
-			setState(84);
+			setState(66);
 			statementBlockStructure();
-			setState(85);
+			setState(67);
 			match(CURLY_BRACKET_OPEN);
-			setState(87); 
+			setState(69); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(86);
+				setState(68);
 				questionNodeStructure();
 				}
 				}
-				setState(89); 
+				setState(71); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==QUESTION_LABEL );
-			setState(91);
+			setState(73);
 			match(CURLY_BRACKET_CLOSE);
-			setState(93);
+			setState(75);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ELSE) {
 				{
-				setState(92);
+				setState(74);
 				elseStructure();
 				}
 			}
@@ -421,25 +417,25 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(95);
+			setState(77);
 			match(ELSE);
-			setState(96);
+			setState(78);
 			match(CURLY_BRACKET_OPEN);
-			setState(98); 
+			setState(80); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(97);
+				setState(79);
 				questionNodeStructure();
 				}
 				}
-				setState(100); 
+				setState(82); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==QUESTION_LABEL );
-			setState(102);
+			setState(84);
 			match(CURLY_BRACKET_CLOSE);
 			}
 		}
@@ -480,11 +476,11 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(104);
+			setState(86);
 			match(BRACKET_OPEN);
-			setState(105);
+			setState(87);
 			conditions();
-			setState(106);
+			setState(88);
 			match(BRACKET_CLOSE);
 			}
 		}
@@ -523,7 +519,7 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(108);
+			setState(90);
 			_la = _input.LA(1);
 			if ( !(_la==NUMBERS || _la==CHARACTERS) ) {
 			_errHandler.recoverInline(this);
@@ -568,7 +564,7 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(110);
+			setState(92);
 			match(QUESTION_LABEL);
 			}
 		}
@@ -605,7 +601,7 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(112);
+			setState(94);
 			match(CHARACTERS);
 			}
 		}
@@ -642,7 +638,7 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(114);
+			setState(96);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__2) | (1L << T__3))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -690,13 +686,13 @@ public class FormParser extends Parser {
 		VariableValueContext _localctx = new VariableValueContext(_ctx, getState());
 		enterRule(_localctx, 20, RULE_variableValue);
 		try {
-			setState(118);
+			setState(100);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case BRACKET_OPEN:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(116);
+				setState(98);
 				expression();
 				}
 				break;
@@ -704,7 +700,7 @@ public class FormParser extends Parser {
 			case CHARACTERS:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(117);
+				setState(99);
 				value();
 				}
 				break;
@@ -752,25 +748,25 @@ public class FormParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(120);
+			setState(102);
 			match(BRACKET_OPEN);
-			setState(123);
+			setState(105);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
 			case 1:
 				{
-				setState(121);
+				setState(103);
 				booleanExpression();
 				}
 				break;
 			case 2:
 				{
-				setState(122);
+				setState(104);
 				arithmeticExpression();
 				}
 				break;
 			}
-			setState(125);
+			setState(107);
 			match(BRACKET_CLOSE);
 			}
 		}
@@ -786,26 +782,14 @@ public class FormParser extends Parser {
 	}
 
 	public static class BooleanExpressionContext extends ParserRuleContext {
-		public UnaryBooleanExpressionContext unaryBooleanExpression() {
-			return getRuleContext(UnaryBooleanExpressionContext.class,0);
+		public List<VariableContext> variable() {
+			return getRuleContexts(VariableContext.class);
 		}
-		public GteoqExpressionContext gteoqExpression() {
-			return getRuleContext(GteoqExpressionContext.class,0);
+		public VariableContext variable(int i) {
+			return getRuleContext(VariableContext.class,i);
 		}
-		public GtExpressionContext gtExpression() {
-			return getRuleContext(GtExpressionContext.class,0);
-		}
-		public StExpressionContext stExpression() {
-			return getRuleContext(StExpressionContext.class,0);
-		}
-		public StoeqExpressionContext stoeqExpression() {
-			return getRuleContext(StoeqExpressionContext.class,0);
-		}
-		public EqExpressionContext eqExpression() {
-			return getRuleContext(EqExpressionContext.class,0);
-		}
-		public NeqExpressionContext neqExpression() {
-			return getRuleContext(NeqExpressionContext.class,0);
+		public BooleanExpressionOperatorContext booleanExpressionOperator() {
+			return getRuleContext(BooleanExpressionOperatorContext.class,0);
 		}
 		public BooleanExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -825,380 +809,13 @@ public class FormParser extends Parser {
 		BooleanExpressionContext _localctx = new BooleanExpressionContext(_ctx, getState());
 		enterRule(_localctx, 24, RULE_booleanExpression);
 		try {
-			setState(134);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
-			case 1:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(127);
-				unaryBooleanExpression();
-				}
-				break;
-			case 2:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(128);
-				gteoqExpression();
-				}
-				break;
-			case 3:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(129);
-				gtExpression();
-				}
-				break;
-			case 4:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(130);
-				stExpression();
-				}
-				break;
-			case 5:
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(131);
-				stoeqExpression();
-				}
-				break;
-			case 6:
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(132);
-				eqExpression();
-				}
-				break;
-			case 7:
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(133);
-				neqExpression();
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class UnaryBooleanExpressionContext extends ParserRuleContext {
-		public ValueContext value() {
-			return getRuleContext(ValueContext.class,0);
-		}
-		public UnaryBooleanExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_unaryBooleanExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterUnaryBooleanExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitUnaryBooleanExpression(this);
-		}
-	}
-
-	public final UnaryBooleanExpressionContext unaryBooleanExpression() throws RecognitionException {
-		UnaryBooleanExpressionContext _localctx = new UnaryBooleanExpressionContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_unaryBooleanExpression);
-		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(136);
-			match(T__4);
-			setState(137);
-			value();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class GtExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public TerminalNode GT() { return getToken(FormParser.GT, 0); }
-		public GtExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_gtExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterGtExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitGtExpression(this);
-		}
-	}
-
-	public final GtExpressionContext gtExpression() throws RecognitionException {
-		GtExpressionContext _localctx = new GtExpressionContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_gtExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(139);
+			setState(109);
 			variable();
-			setState(140);
-			match(GT);
-			setState(141);
-			variable();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class GteoqExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public TerminalNode GTOEQ() { return getToken(FormParser.GTOEQ, 0); }
-		public GteoqExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_gteoqExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterGteoqExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitGteoqExpression(this);
-		}
-	}
-
-	public final GteoqExpressionContext gteoqExpression() throws RecognitionException {
-		GteoqExpressionContext _localctx = new GteoqExpressionContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_gteoqExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(143);
-			variable();
-			setState(144);
-			match(GTOEQ);
-			setState(145);
-			variable();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class StExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public TerminalNode ST() { return getToken(FormParser.ST, 0); }
-		public StExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_stExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterStExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitStExpression(this);
-		}
-	}
-
-	public final StExpressionContext stExpression() throws RecognitionException {
-		StExpressionContext _localctx = new StExpressionContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_stExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(147);
-			variable();
-			setState(148);
-			match(ST);
-			setState(149);
-			variable();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class StoeqExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public TerminalNode STOEQ() { return getToken(FormParser.STOEQ, 0); }
-		public StoeqExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_stoeqExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterStoeqExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitStoeqExpression(this);
-		}
-	}
-
-	public final StoeqExpressionContext stoeqExpression() throws RecognitionException {
-		StoeqExpressionContext _localctx = new StoeqExpressionContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_stoeqExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(151);
-			variable();
-			setState(152);
-			match(STOEQ);
-			setState(153);
-			variable();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class EqExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public TerminalNode EQ() { return getToken(FormParser.EQ, 0); }
-		public EqExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_eqExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterEqExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitEqExpression(this);
-		}
-	}
-
-	public final EqExpressionContext eqExpression() throws RecognitionException {
-		EqExpressionContext _localctx = new EqExpressionContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_eqExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(155);
-			variable();
-			setState(156);
-			match(EQ);
-			setState(157);
-			variable();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class NeqExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public TerminalNode NEQ() { return getToken(FormParser.NEQ, 0); }
-		public NeqExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_neqExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterNeqExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitNeqExpression(this);
-		}
-	}
-
-	public final NeqExpressionContext neqExpression() throws RecognitionException {
-		NeqExpressionContext _localctx = new NeqExpressionContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_neqExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(159);
-			variable();
-			setState(160);
-			match(NEQ);
-			setState(161);
+			setState(110);
+			booleanExpressionOperator();
+			setState(111);
 			variable();
 			}
 		}
@@ -1214,17 +831,14 @@ public class FormParser extends Parser {
 	}
 
 	public static class ArithmeticExpressionContext extends ParserRuleContext {
-		public MulExpressionContext mulExpression() {
-			return getRuleContext(MulExpressionContext.class,0);
+		public List<VariableContext> variable() {
+			return getRuleContexts(VariableContext.class);
 		}
-		public DivExpressionContext divExpression() {
-			return getRuleContext(DivExpressionContext.class,0);
+		public VariableContext variable(int i) {
+			return getRuleContext(VariableContext.class,i);
 		}
-		public AddExpressionContext addExpression() {
-			return getRuleContext(AddExpressionContext.class,0);
-		}
-		public MinExpressionContext minExpression() {
-			return getRuleContext(MinExpressionContext.class,0);
+		public ArithmeticExpressionOperatorContext arithmeticExpressionOperator() {
+			return getRuleContext(ArithmeticExpressionOperatorContext.class,0);
 		}
 		public ArithmeticExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1242,226 +856,135 @@ public class FormParser extends Parser {
 
 	public final ArithmeticExpressionContext arithmeticExpression() throws RecognitionException {
 		ArithmeticExpressionContext _localctx = new ArithmeticExpressionContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_arithmeticExpression);
+		enterRule(_localctx, 26, RULE_arithmeticExpression);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(167);
+			setState(113);
+			variable();
+			setState(114);
+			arithmeticExpressionOperator();
+			setState(115);
+			variable();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ArithmeticExpressionOperatorContext extends ParserRuleContext {
+		public ArithmeticExpressionOperatorContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_arithmeticExpressionOperator; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterArithmeticExpressionOperator(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitArithmeticExpressionOperator(this);
+		}
+	}
+
+	public final ArithmeticExpressionOperatorContext arithmeticExpressionOperator() throws RecognitionException {
+		ArithmeticExpressionOperatorContext _localctx = new ArithmeticExpressionOperatorContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_arithmeticExpressionOperator);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(117);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class BooleanExpressionOperatorContext extends ParserRuleContext {
+		public BooleanExpressionOperatorContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_booleanExpressionOperator; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).enterBooleanExpressionOperator(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof FormListener ) ((FormListener)listener).exitBooleanExpressionOperator(this);
+		}
+	}
+
+	public final BooleanExpressionOperatorContext booleanExpressionOperator() throws RecognitionException {
+		BooleanExpressionOperatorContext _localctx = new BooleanExpressionOperatorContext(_ctx, getState());
+		enterRule(_localctx, 30, RULE_booleanExpressionOperator);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(126);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
-			case 1:
+			switch (_input.LA(1)) {
+			case T__8:
 				{
-				setState(163);
-				mulExpression();
+				setState(119);
+				match(T__8);
 				}
 				break;
-			case 2:
+			case T__9:
 				{
-				setState(164);
-				divExpression();
+				setState(120);
+				match(T__9);
 				}
 				break;
-			case 3:
+			case T__10:
 				{
-				setState(165);
-				addExpression();
+				setState(121);
+				match(T__10);
+				setState(122);
+				match(T__11);
 				}
 				break;
-			case 4:
+			case T__12:
 				{
-				setState(166);
-				minExpression();
+				setState(123);
+				match(T__12);
 				}
 				break;
+			case T__13:
+				{
+				setState(124);
+				match(T__13);
+				setState(125);
+				match(T__14);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class MulExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public TerminalNode TIMES() { return getToken(FormParser.TIMES, 0); }
-		public MulExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_mulExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterMulExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitMulExpression(this);
-		}
-	}
-
-	public final MulExpressionContext mulExpression() throws RecognitionException {
-		MulExpressionContext _localctx = new MulExpressionContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_mulExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(169);
-			variable();
-			setState(170);
-			match(TIMES);
-			setState(171);
-			variable();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AddExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public TerminalNode PLUS() { return getToken(FormParser.PLUS, 0); }
-		public AddExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_addExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterAddExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitAddExpression(this);
-		}
-	}
-
-	public final AddExpressionContext addExpression() throws RecognitionException {
-		AddExpressionContext _localctx = new AddExpressionContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_addExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(173);
-			variable();
-			setState(174);
-			match(PLUS);
-			setState(175);
-			variable();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class MinExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public TerminalNode MINUS() { return getToken(FormParser.MINUS, 0); }
-		public MinExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_minExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterMinExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitMinExpression(this);
-		}
-	}
-
-	public final MinExpressionContext minExpression() throws RecognitionException {
-		MinExpressionContext _localctx = new MinExpressionContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_minExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(177);
-			variable();
-			setState(178);
-			match(MINUS);
-			setState(179);
-			variable();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class DivExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public TerminalNode DIV() { return getToken(FormParser.DIV, 0); }
-		public DivExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_divExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).enterDivExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof FormListener ) ((FormListener)listener).exitDivExpression(this);
-		}
-	}
-
-	public final DivExpressionContext divExpression() throws RecognitionException {
-		DivExpressionContext _localctx = new DivExpressionContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_divExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(181);
-			variable();
-			setState(182);
-			match(DIV);
-			setState(183);
-			variable();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1498,23 +1021,23 @@ public class FormParser extends Parser {
 
 	public final ConditionContext condition() throws RecognitionException {
 		ConditionContext _localctx = new ConditionContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_condition);
+		enterRule(_localctx, 32, RULE_condition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(187);
+			setState(130);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case NUMBERS:
 			case CHARACTERS:
 				{
-				setState(185);
+				setState(128);
 				value();
 				}
 				break;
 			case BRACKET_OPEN:
 				{
-				setState(186);
+				setState(129);
 				expression();
 				}
 				break;
@@ -1563,42 +1086,42 @@ public class FormParser extends Parser {
 
 	public final ConditionsContext conditions() throws RecognitionException {
 		ConditionsContext _localctx = new ConditionsContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_conditions);
+		enterRule(_localctx, 34, RULE_conditions);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(196); 
+			setState(139); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(189);
+				setState(132);
 				condition();
-				setState(191);
+				setState(134);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==OR || _la==AND) {
 					{
-					setState(190);
+					setState(133);
 					booleanOperator();
 					}
 				}
 
-				setState(194);
+				setState(137);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 				case 1:
 					{
-					setState(193);
+					setState(136);
 					condition();
 					}
 					break;
 				}
 				}
 				}
-				setState(198); 
+				setState(141); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NUMBERS) | (1L << BRACKET_OPEN) | (1L << CHARACTERS))) != 0) );
@@ -1634,12 +1157,12 @@ public class FormParser extends Parser {
 
 	public final BooleanOperatorContext booleanOperator() throws RecognitionException {
 		BooleanOperatorContext _localctx = new BooleanOperatorContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_booleanOperator);
+		enterRule(_localctx, 36, RULE_booleanOperator);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(200);
+			setState(143);
 			_la = _input.LA(1);
 			if ( !(_la==OR || _la==AND) ) {
 			_errHandler.recoverInline(this);
@@ -1663,66 +1186,46 @@ public class FormParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 \u00cd\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 \u0094\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
-		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\3\2\3\2\3\2\3\2\3\2\3\2\3\3\3"+
-		"\3\5\3C\n\3\3\3\5\3F\n\3\6\3H\n\3\r\3\16\3I\3\4\3\4\3\4\3\4\3\4\5\4Q\n"+
-		"\4\3\4\5\4T\n\4\3\5\3\5\3\5\3\5\6\5Z\n\5\r\5\16\5[\3\5\3\5\5\5`\n\5\3"+
-		"\6\3\6\3\6\6\6e\n\6\r\6\16\6f\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\t\3\t"+
-		"\3\n\3\n\3\13\3\13\3\f\3\f\5\fy\n\f\3\r\3\r\3\r\5\r~\n\r\3\r\3\r\3\16"+
-		"\3\16\3\16\3\16\3\16\3\16\3\16\5\16\u0089\n\16\3\17\3\17\3\17\3\20\3\20"+
-		"\3\20\3\20\3\21\3\21\3\21\3\21\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23"+
-		"\3\24\3\24\3\24\3\24\3\25\3\25\3\25\3\25\3\26\3\26\3\26\3\26\5\26\u00aa"+
-		"\n\26\3\27\3\27\3\27\3\27\3\30\3\30\3\30\3\30\3\31\3\31\3\31\3\31\3\32"+
-		"\3\32\3\32\3\32\3\33\3\33\5\33\u00be\n\33\3\34\3\34\5\34\u00c2\n\34\3"+
-		"\34\5\34\u00c5\n\34\6\34\u00c7\n\34\r\34\16\34\u00c8\3\35\3\35\3\35\2"+
-		"\2\36\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668\2\5"+
-		"\4\2\b\b  \3\2\4\6\3\2\r\16\2\u00c7\2:\3\2\2\2\4G\3\2\2\2\6K\3\2\2\2\b"+
-		"U\3\2\2\2\na\3\2\2\2\fj\3\2\2\2\16n\3\2\2\2\20p\3\2\2\2\22r\3\2\2\2\24"+
-		"t\3\2\2\2\26x\3\2\2\2\30z\3\2\2\2\32\u0088\3\2\2\2\34\u008a\3\2\2\2\36"+
-		"\u008d\3\2\2\2 \u0091\3\2\2\2\"\u0095\3\2\2\2$\u0099\3\2\2\2&\u009d\3"+
-		"\2\2\2(\u00a1\3\2\2\2*\u00a9\3\2\2\2,\u00ab\3\2\2\2.\u00af\3\2\2\2\60"+
-		"\u00b3\3\2\2\2\62\u00b7\3\2\2\2\64\u00bd\3\2\2\2\66\u00c6\3\2\2\28\u00ca"+
-		"\3\2\2\2:;\7\3\2\2;<\7 \2\2<=\7\t\2\2=>\5\4\3\2>?\7\n\2\2?\3\3\2\2\2@"+
-		"B\5\6\4\2AC\5\6\4\2BA\3\2\2\2BC\3\2\2\2CE\3\2\2\2DF\5\b\5\2ED\3\2\2\2"+
-		"EF\3\2\2\2FH\3\2\2\2G@\3\2\2\2HI\3\2\2\2IG\3\2\2\2IJ\3\2\2\2J\5\3\2\2"+
-		"\2KL\5\20\t\2LM\5\22\n\2MN\7\32\2\2NP\5\24\13\2OQ\7\33\2\2PO\3\2\2\2P"+
-		"Q\3\2\2\2QS\3\2\2\2RT\5\26\f\2SR\3\2\2\2ST\3\2\2\2T\7\3\2\2\2UV\7\34\2"+
-		"\2VW\5\f\7\2WY\7\t\2\2XZ\5\6\4\2YX\3\2\2\2Z[\3\2\2\2[Y\3\2\2\2[\\\3\2"+
-		"\2\2\\]\3\2\2\2]_\7\n\2\2^`\5\n\6\2_^\3\2\2\2_`\3\2\2\2`\t\3\2\2\2ab\7"+
-		"\35\2\2bd\7\t\2\2ce\5\6\4\2dc\3\2\2\2ef\3\2\2\2fd\3\2\2\2fg\3\2\2\2gh"+
-		"\3\2\2\2hi\7\n\2\2i\13\3\2\2\2jk\7\13\2\2kl\5\66\34\2lm\7\f\2\2m\r\3\2"+
-		"\2\2no\t\2\2\2o\17\3\2\2\2pq\7\31\2\2q\21\3\2\2\2rs\7 \2\2s\23\3\2\2\2"+
-		"tu\t\3\2\2u\25\3\2\2\2vy\5\30\r\2wy\5\16\b\2xv\3\2\2\2xw\3\2\2\2y\27\3"+
-		"\2\2\2z}\7\13\2\2{~\5\32\16\2|~\5*\26\2}{\3\2\2\2}|\3\2\2\2~\177\3\2\2"+
-		"\2\177\u0080\7\f\2\2\u0080\31\3\2\2\2\u0081\u0089\5\34\17\2\u0082\u0089"+
-		"\5 \21\2\u0083\u0089\5\36\20\2\u0084\u0089\5\"\22\2\u0085\u0089\5$\23"+
-		"\2\u0086\u0089\5&\24\2\u0087\u0089\5(\25\2\u0088\u0081\3\2\2\2\u0088\u0082"+
-		"\3\2\2\2\u0088\u0083\3\2\2\2\u0088\u0084\3\2\2\2\u0088\u0085\3\2\2\2\u0088"+
-		"\u0086\3\2\2\2\u0088\u0087\3\2\2\2\u0089\33\3\2\2\2\u008a\u008b\7\7\2"+
-		"\2\u008b\u008c\5\16\b\2\u008c\35\3\2\2\2\u008d\u008e\5\22\n\2\u008e\u008f"+
-		"\7\23\2\2\u008f\u0090\5\22\n\2\u0090\37\3\2\2\2\u0091\u0092\5\22\n\2\u0092"+
-		"\u0093\7\24\2\2\u0093\u0094\5\22\n\2\u0094!\3\2\2\2\u0095\u0096\5\22\n"+
-		"\2\u0096\u0097\7\26\2\2\u0097\u0098\5\22\n\2\u0098#\3\2\2\2\u0099\u009a"+
-		"\5\22\n\2\u009a\u009b\7\25\2\2\u009b\u009c\5\22\n\2\u009c%\3\2\2\2\u009d"+
-		"\u009e\5\22\n\2\u009e\u009f\7\27\2\2\u009f\u00a0\5\22\n\2\u00a0\'\3\2"+
-		"\2\2\u00a1\u00a2\5\22\n\2\u00a2\u00a3\7\30\2\2\u00a3\u00a4\5\22\n\2\u00a4"+
-		")\3\2\2\2\u00a5\u00aa\5,\27\2\u00a6\u00aa\5\62\32\2\u00a7\u00aa\5.\30"+
-		"\2\u00a8\u00aa\5\60\31\2\u00a9\u00a5\3\2\2\2\u00a9\u00a6\3\2\2\2\u00a9"+
-		"\u00a7\3\2\2\2\u00a9\u00a8\3\2\2\2\u00aa+\3\2\2\2\u00ab\u00ac\5\22\n\2"+
-		"\u00ac\u00ad\7\21\2\2\u00ad\u00ae\5\22\n\2\u00ae-\3\2\2\2\u00af\u00b0"+
-		"\5\22\n\2\u00b0\u00b1\7\17\2\2\u00b1\u00b2\5\22\n\2\u00b2/\3\2\2\2\u00b3"+
-		"\u00b4\5\22\n\2\u00b4\u00b5\7\20\2\2\u00b5\u00b6\5\22\n\2\u00b6\61\3\2"+
-		"\2\2\u00b7\u00b8\5\22\n\2\u00b8\u00b9\7\22\2\2\u00b9\u00ba\5\22\n\2\u00ba"+
-		"\63\3\2\2\2\u00bb\u00be\5\16\b\2\u00bc\u00be\5\30\r\2\u00bd\u00bb\3\2"+
-		"\2\2\u00bd\u00bc\3\2\2\2\u00be\65\3\2\2\2\u00bf\u00c1\5\64\33\2\u00c0"+
-		"\u00c2\58\35\2\u00c1\u00c0\3\2\2\2\u00c1\u00c2\3\2\2\2\u00c2\u00c4\3\2"+
-		"\2\2\u00c3\u00c5\5\64\33\2\u00c4\u00c3\3\2\2\2\u00c4\u00c5\3\2\2\2\u00c5"+
-		"\u00c7\3\2\2\2\u00c6\u00bf\3\2\2\2\u00c7\u00c8\3\2\2\2\u00c8\u00c6\3\2"+
-		"\2\2\u00c8\u00c9\3\2\2\2\u00c9\67\3\2\2\2\u00ca\u00cb\t\4\2\2\u00cb9\3"+
-		"\2\2\2\22BEIPS[_fx}\u0088\u00a9\u00bd\u00c1\u00c4\u00c8";
+		"\4\23\t\23\4\24\t\24\3\2\3\2\3\2\3\2\3\2\3\2\3\3\3\3\5\3\61\n\3\3\3\5"+
+		"\3\64\n\3\6\3\66\n\3\r\3\16\3\67\3\4\3\4\3\4\3\4\3\4\5\4?\n\4\3\4\5\4"+
+		"B\n\4\3\5\3\5\3\5\3\5\6\5H\n\5\r\5\16\5I\3\5\3\5\5\5N\n\5\3\6\3\6\3\6"+
+		"\6\6S\n\6\r\6\16\6T\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\t\3\t\3\n\3\n\3"+
+		"\13\3\13\3\f\3\f\5\fg\n\f\3\r\3\r\3\r\5\rl\n\r\3\r\3\r\3\16\3\16\3\16"+
+		"\3\16\3\17\3\17\3\17\3\17\3\20\3\20\3\21\3\21\3\21\3\21\3\21\3\21\3\21"+
+		"\5\21\u0081\n\21\3\22\3\22\5\22\u0085\n\22\3\23\3\23\5\23\u0089\n\23\3"+
+		"\23\5\23\u008c\n\23\6\23\u008e\n\23\r\23\16\23\u008f\3\24\3\24\3\24\2"+
+		"\2\25\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&\2\6\4\2\22\22  \3\2"+
+		"\4\6\3\2\7\n\3\2\27\30\2\u0092\2(\3\2\2\2\4\65\3\2\2\2\69\3\2\2\2\bC\3"+
+		"\2\2\2\nO\3\2\2\2\fX\3\2\2\2\16\\\3\2\2\2\20^\3\2\2\2\22`\3\2\2\2\24b"+
+		"\3\2\2\2\26f\3\2\2\2\30h\3\2\2\2\32o\3\2\2\2\34s\3\2\2\2\36w\3\2\2\2 "+
+		"\u0080\3\2\2\2\"\u0084\3\2\2\2$\u008d\3\2\2\2&\u0091\3\2\2\2()\7\3\2\2"+
+		")*\7 \2\2*+\7\23\2\2+,\5\4\3\2,-\7\24\2\2-\3\3\2\2\2.\60\5\6\4\2/\61\5"+
+		"\6\4\2\60/\3\2\2\2\60\61\3\2\2\2\61\63\3\2\2\2\62\64\5\b\5\2\63\62\3\2"+
+		"\2\2\63\64\3\2\2\2\64\66\3\2\2\2\65.\3\2\2\2\66\67\3\2\2\2\67\65\3\2\2"+
+		"\2\678\3\2\2\28\5\3\2\2\29:\5\20\t\2:;\5\22\n\2;<\7\32\2\2<>\5\24\13\2"+
+		"=?\7\33\2\2>=\3\2\2\2>?\3\2\2\2?A\3\2\2\2@B\5\26\f\2A@\3\2\2\2AB\3\2\2"+
+		"\2B\7\3\2\2\2CD\7\34\2\2DE\5\f\7\2EG\7\23\2\2FH\5\6\4\2GF\3\2\2\2HI\3"+
+		"\2\2\2IG\3\2\2\2IJ\3\2\2\2JK\3\2\2\2KM\7\24\2\2LN\5\n\6\2ML\3\2\2\2MN"+
+		"\3\2\2\2N\t\3\2\2\2OP\7\35\2\2PR\7\23\2\2QS\5\6\4\2RQ\3\2\2\2ST\3\2\2"+
+		"\2TR\3\2\2\2TU\3\2\2\2UV\3\2\2\2VW\7\24\2\2W\13\3\2\2\2XY\7\25\2\2YZ\5"+
+		"$\23\2Z[\7\26\2\2[\r\3\2\2\2\\]\t\2\2\2]\17\3\2\2\2^_\7\31\2\2_\21\3\2"+
+		"\2\2`a\7 \2\2a\23\3\2\2\2bc\t\3\2\2c\25\3\2\2\2dg\5\30\r\2eg\5\16\b\2"+
+		"fd\3\2\2\2fe\3\2\2\2g\27\3\2\2\2hk\7\25\2\2il\5\32\16\2jl\5\34\17\2ki"+
+		"\3\2\2\2kj\3\2\2\2lm\3\2\2\2mn\7\26\2\2n\31\3\2\2\2op\5\22\n\2pq\5 \21"+
+		"\2qr\5\22\n\2r\33\3\2\2\2st\5\22\n\2tu\5\36\20\2uv\5\22\n\2v\35\3\2\2"+
+		"\2wx\t\4\2\2x\37\3\2\2\2y\u0081\7\13\2\2z\u0081\7\f\2\2{|\7\r\2\2|\u0081"+
+		"\7\16\2\2}\u0081\7\17\2\2~\177\7\20\2\2\177\u0081\7\21\2\2\u0080y\3\2"+
+		"\2\2\u0080z\3\2\2\2\u0080{\3\2\2\2\u0080}\3\2\2\2\u0080~\3\2\2\2\u0081"+
+		"!\3\2\2\2\u0082\u0085\5\16\b\2\u0083\u0085\5\30\r\2\u0084\u0082\3\2\2"+
+		"\2\u0084\u0083\3\2\2\2\u0085#\3\2\2\2\u0086\u0088\5\"\22\2\u0087\u0089"+
+		"\5&\24\2\u0088\u0087\3\2\2\2\u0088\u0089\3\2\2\2\u0089\u008b\3\2\2\2\u008a"+
+		"\u008c\5\"\22\2\u008b\u008a\3\2\2\2\u008b\u008c\3\2\2\2\u008c\u008e\3"+
+		"\2\2\2\u008d\u0086\3\2\2\2\u008e\u008f\3\2\2\2\u008f\u008d\3\2\2\2\u008f"+
+		"\u0090\3\2\2\2\u0090%\3\2\2\2\u0091\u0092\t\5\2\2\u0092\'\3\2\2\2\21\60"+
+		"\63\67>AIMTfk\u0080\u0084\u0088\u008b\u008f";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

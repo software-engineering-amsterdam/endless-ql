@@ -13,11 +13,6 @@ public class MoneyValue extends Value<Integer> {
     }
 
     @Override
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    @Override
     public void accept(Integer integer) throws Exception {
         this.value = integer;
     }

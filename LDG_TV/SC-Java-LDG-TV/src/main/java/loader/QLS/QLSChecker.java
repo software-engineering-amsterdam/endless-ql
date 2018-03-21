@@ -1,9 +1,13 @@
 package loader.QLS;
 
 import domain.model.ast.FormNode;
-import domain.model.ast.QuestionASTNode;
+import domain.model.ast.QuestionNode;
+import domain.model.variable.Variable;
 import exception.NotAllQuestionInPlaceException;
 import exception.ReferenceUndefinedVariableException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class QLSChecker {
     private FormNode formNode;
@@ -28,8 +32,8 @@ public class QLSChecker {
      * @throws ReferenceUndefinedVariableException
      */
     public void checkReferenceUndefinedVariable() throws ReferenceUndefinedVariableException {
-        for (QuestionASTNode q : formNode.getStylesheet().getAllQuestionASTNodes()){
-            if (q == null){
+        for (Variable v : formNode.getStylesheet().getAllVariables()){
+            if (v == null){
                 throw new ReferenceUndefinedVariableException("Reference undefined variable found.");
             }
         }
@@ -40,7 +44,11 @@ public class QLSChecker {
      * @throws NotAllQuestionInPlaceException
      */
     public void checkNotAllQuestionsArePlace() throws NotAllQuestionInPlaceException {
-        if(formNode.getAllQuestionASTNodes().retainAll(formNode.getStylesheet().getAllQuestionASTNodes())){
+        List<QuestionNode> temp = new ArrayList<>();
+        for (Variable v : formNode.getStylesheet().getAllVariables()){
+            temp.add(formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
+        }
+        if(formNode.getAllQuestionASTNodes().retainAll(temp)){
             throw new NotAllQuestionInPlaceException("Not all questions defined in QL are defined in QLS.");
         };
     }

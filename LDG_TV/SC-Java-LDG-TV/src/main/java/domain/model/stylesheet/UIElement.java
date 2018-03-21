@@ -5,10 +5,12 @@ import java.util.Map;
 public class UIElement {
 
     private String Identifier;
+    private String type;
     private Map<String, String> options;
 
-    public UIElement(String identifier, Map<String, String> options) {
-        Identifier = identifier;
+    public UIElement(String identifier, String type, Map<String, String> options) {
+        this.Identifier = identifier;
+        this.type = type;
         this.options = options;
     }
 
@@ -24,7 +26,11 @@ public class UIElement {
         return options;
     }
 
-    public void setOptions(Map<String, String> options) {
-        this.options = options;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -47,7 +47,7 @@ public class QLChecker {
      * @throws DuplicateQuestionDeclarationException
      */
     public void checkDuplicateQuestionDeclaration() throws DuplicateQuestionDeclarationException{
-        for (QuestionASTNode qan : formNode.getAllQuestionASTNodes()){
+        for (QuestionNode qan : formNode.getAllQuestionASTNodes()){
             if (foundQuestionMoreThanOnce(qan)){
                 throw new DuplicateQuestionDeclarationException("Duplicate question declaration found for question with label: " + qan.getText());
             }
@@ -60,8 +60,8 @@ public class QLChecker {
      */
     public void checkInvalidConditionExpressionException() throws InvalidConditionException {
         for (ASTNode an : formNode.getASTNodes()){
-            if (an instanceof IfASTNode){
-                for (Condition c : ((IfASTNode) an).getConditions()){
+            if (an instanceof ConditionNode){
+                for (Condition c : ((ConditionNode) an).getConditions()){
                     System.out.println(c.getVariable());
                     if (c.getVariable() == null || !(c.getVariable() instanceof BooleanVariable)){
                         throw new InvalidConditionException("Invalid condition found in the conditions of an if statement");
@@ -72,14 +72,14 @@ public class QLChecker {
     }
 
     /**
-     * Check whether an QuestionASTNode is found more than once in the formNode questionASTNodes list.
-     * @param qan QuestionASTNode to find duplicates for.
-     * @return true if QuestionASTNode is found more then once. False if not.
+     * Check whether an QuestionNode is found more than once in the formNode questionASTNodes list.
+     * @param qan QuestionNode to find duplicates for.
+     * @return true if QuestionNode is found more then once. False if not.
      */
-    private boolean foundQuestionMoreThanOnce(QuestionASTNode qan){
-        List<QuestionASTNode> temp = formNode.getAllQuestionASTNodes();
+    private boolean foundQuestionMoreThanOnce(QuestionNode qan){
+        List<QuestionNode> temp = formNode.getAllQuestionASTNodes();
         temp.remove(qan);
-        for (QuestionASTNode _qan : temp){
+        for (QuestionNode _qan : temp){
             if (_qan.compareTo(qan) == 1){
                 return true;
             }

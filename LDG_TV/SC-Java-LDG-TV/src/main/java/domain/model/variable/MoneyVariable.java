@@ -9,9 +9,9 @@ import javafx.scene.Node;
 public class MoneyVariable extends Variable {
     private Value<Integer> value;
 
-    public MoneyVariable(String identifier) {
+    public MoneyVariable(String identifier, int value) {
         super(identifier);
-        value = new MoneyValue(0); // TODO move setting of value upstream (pass in consturctor)
+        this.value = new MoneyValue(value); // TODO move setting of value upstream (pass in consturctor)
     }
     @Override
     public Value<Integer> getValue() {

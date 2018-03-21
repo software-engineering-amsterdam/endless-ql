@@ -124,7 +124,7 @@ class FormGui:
         page = self.pages[pageName]
         page.removeQuestionFromSection(sectionName, varName)
 
-    def doesSectionExists(self, sectionName, pageName='default'):
+    def doesSectionExists(self, sectionName='default', pageName='default'):
         page = self.pages[pageName]
         for section in page.sections:
             if section.getName() == sectionName:

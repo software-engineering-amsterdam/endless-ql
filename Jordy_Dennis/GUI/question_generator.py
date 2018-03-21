@@ -173,8 +173,8 @@ class Question_Generator:
                             self.form.getQuestionFromPage(varName, pageName).setValue(value)
 
                     # insert new question
-                    if not self.form.isQuestionOnPage(varName, pageName):
-                        self.form.insertQuestion(prev, varName, label, var_type, value, pageName)
+                    if not self.form.isQuestionOnPage(varName, pageName=pageName):
+                        self.form.insertQuestion(prev, varName, label, var_type, value, pageName=pageName)
                     prev = varName
                 # delete question
                 else:

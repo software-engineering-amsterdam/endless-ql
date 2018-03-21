@@ -47,6 +47,8 @@ public class SliderWidget extends Widget {
         slider.setValueChanging(true);
         slider.setMinorTickCount(1);
         slider.setMax(100);
+        slider.setFocusTraversable(false);
+
         this.setSliderStyle(slider, this.questionData.getStyle());
 
         if (this.questionData.getValue() != null) {
@@ -70,9 +72,9 @@ public class SliderWidget extends Widget {
             if (newValue) {
                 try {
                     Value newWidgetValue = this.widgetValue.add(this.incrementStep);
-                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);
+                    this.sendUpdateValueEvent(slider, this.questionData.getQuestionName(), newWidgetValue);
                 } catch (EvaluationException ignored) {
-                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), new UndefinedValue());
+                    this.sendUpdateValueEvent(slider, this.questionData.getQuestionName(), new UndefinedValue());
                 }
             }
         });

@@ -24,20 +24,21 @@ public class CheckBoxWidget extends Widget {
 
     @Override
     public Node convertToGuiNode() {
-        CheckBox checkBox = new CheckBox();
-        checkBox = this.applyCheckboxStyle(checkBox, this.questionData.getStyle());
+        final CheckBox checkBox = new CheckBox();
+        this.applyCheckboxStyle(checkBox, this.questionData.getStyle());
         checkBox.setSelected((this.widgetValue != null) && this.widgetValue.getBooleanValue());
+        checkBox.setFocusTraversable(false);
         checkBox.selectedProperty().addListener((observable, oldIsFocused, newIsFocused) ->
         {
-            this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newIsFocused));
+            this.sendUpdateValueEvent(checkBox, this.questionData.getQuestionName(), new BooleanValue(newIsFocused));
         });
 
         return this.createRow(this.questionData.getLabel(), checkBox);
     }
 
-    private CheckBox applyCheckboxStyle(CheckBox checkBox, Style style) {
+    private void applyCheckboxStyle(CheckBox checkBox, Style style) {
         if (style == null)
-            return checkBox;
+            return;
 
         if ((style.getFont() != null) && (style.getFontSize() != null)) {
             checkBox.setFont(new Font(style.getFont(), style.getFontSize()));
@@ -47,7 +48,5 @@ public class CheckBoxWidget extends Widget {
         }else{
             checkBox.setMinWidth(Widget.TEXT_WIDTH);
         }
-
-        return checkBox;
     }
 }

@@ -60,13 +60,15 @@ public class TextFieldWidget extends Widget {
         textField.setText(this.widgetValue.getStringValue());
         textField.setEditable(true);
         textField.setMinWidth(Widget.TEXT_WIDTH);
+        textField.setFocusTraversable(false);
+
 
         if (this.questionData.isComputed()) {
             textField.setEditable(false);
         }
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            this.sendUpdateValueEvent(this.questionData.getQuestionName(), new StringValue(newValue));
+            this.sendUpdateValueEvent(textField, this.questionData.getQuestionName(), new StringValue(newValue));
         });
 
         textField.positionCaret(textField.getText().length());

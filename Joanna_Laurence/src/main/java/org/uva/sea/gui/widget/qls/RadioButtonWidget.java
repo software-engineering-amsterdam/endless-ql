@@ -24,8 +24,9 @@ public class RadioButtonWidget extends Widget {
 
     @Override
     public Control convertToGuiNode() {
-        RadioButton radioButton = new RadioButton();
-        radioButton = this.createRadioButton(radioButton, this.questionData.getStyle());
+        final RadioButton radioButton = new RadioButton();
+        this.setRadioStyle(radioButton, this.questionData.getStyle());
+        radioButton.setFocusTraversable(false);
 
         if (this.widgetValue != null) {
             radioButton.selectedProperty().setValue(this.widgetValue.getBooleanValue());
@@ -33,15 +34,15 @@ public class RadioButtonWidget extends Widget {
 
         radioButton.selectedProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newValue));
+                    this.sendUpdateValueEvent(radioButton, this.questionData.getQuestionName(), new BooleanValue(newValue));
                 });
 
         return radioButton;
     }
 
-    private RadioButton createRadioButton(RadioButton radioButton, Style style) {
+    private void setRadioStyle(RadioButton radioButton, Style style) {
         if (style == null)
-            return radioButton;
+            return;
 
         if ((style.getFont() != null) && (style.getFontSize() != null)) {
             radioButton.setFont(new Font(style.getFont(), style.getFontSize()));
@@ -51,7 +52,5 @@ public class RadioButtonWidget extends Widget {
         } else {
             radioButton.setMinWidth(Widget.TEXT_WIDTH);
         }
-
-        return radioButton;
     }
 }

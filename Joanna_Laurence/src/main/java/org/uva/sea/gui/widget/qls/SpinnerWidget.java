@@ -49,6 +49,7 @@ public class SpinnerWidget extends Widget {
             return null;
 
         final Spinner spinner = new Spinner<>();
+        spinner.setFocusTraversable(false);
 
         this.addSpinnerStyle(spinner, this.questionData.getStyle());
 
@@ -72,9 +73,9 @@ public class SpinnerWidget extends Widget {
         spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 Value updatedValue = this.widgetValue.add(this.incrementStep);
-                this.sendUpdateValueEvent(this.questionData.getQuestionName(), updatedValue);
+                this.sendUpdateValueEvent(spinner, this.questionData.getQuestionName(), updatedValue);
             } catch (EvaluationException e) {
-                this.sendUpdateValueEvent(this.questionData.getQuestionName(), new UndefinedValue());
+                this.sendUpdateValueEvent(spinner, this.questionData.getQuestionName(), new UndefinedValue());
 
             }
         });

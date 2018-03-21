@@ -25,30 +25,28 @@ public class ChoiceBoxWidget extends Widget {
 
     @Override
     public Node convertToGuiNode() {
-        ChoiceBox<Boolean> choiceBox = new ChoiceBox<>();
-
-        choiceBox = this.createChoiceBox(choiceBox, this.questionData.getStyle());
+        final ChoiceBox<Boolean> choiceBox = new ChoiceBox<>();
+        this.createChoiceBox(choiceBox, this.questionData.getStyle());
         choiceBox.setValue((this.widgetValue != null) && this.widgetValue.getBooleanValue());
+        choiceBox.setFocusTraversable(false);
 
         ObservableList<Boolean> booleanList = FXCollections.observableArrayList(true, false);
 
         choiceBox.setItems(booleanList);
 
-        ChoiceBox<Boolean> finalChoiceBox = choiceBox;
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-            BooleanValue newBooleanValue = new BooleanValue(finalChoiceBox.getItems().get((Integer) newValue));
-            this.sendUpdateValueEvent(this.questionData.getQuestionName(), newBooleanValue);
+            BooleanValue newBooleanValue = new BooleanValue(choiceBox.getItems().get((Integer) newValue));
+            this.sendUpdateValueEvent(choiceBox, this.questionData.getQuestionName(), newBooleanValue);
         });
 
         return choiceBox;
     }
 
-    private ChoiceBox createChoiceBox(ChoiceBox<Boolean> choiceBox, Style style) {
+    private void createChoiceBox(ChoiceBox<Boolean> choiceBox, Style style) {
         if (style == null)
-            return choiceBox;
+            return;
 
         //TODO: Create a default style object and cascade the styles
         choiceBox.setMinWidth((style.getWidth() != null) ? style.getWidth() : Widget.TEXT_WIDTH);
-        return choiceBox;
     }
 }

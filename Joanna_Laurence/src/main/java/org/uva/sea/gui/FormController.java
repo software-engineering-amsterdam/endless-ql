@@ -3,6 +3,7 @@ package org.uva.sea.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.model.QuestionModel;
@@ -120,10 +121,11 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
     }
 
     @Override
-    public void updateGuiVariable(String identifier, Value value) {
+    public void updateGuiVariable(Control control, String identifier, Value value) {
         this.formModel.setVariable(identifier, value);
         this.componentsToDraw.clear();
         this.collectComponentsToDraw();
+        control.setFocusTraversable(true);
         this.drawComponents();
     }
 }

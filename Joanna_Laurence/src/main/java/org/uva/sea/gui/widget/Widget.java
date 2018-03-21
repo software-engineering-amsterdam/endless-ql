@@ -1,6 +1,7 @@
 package org.uva.sea.gui.widget;
 
 import javafx.scene.Node;
+import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.IGuiElementUpdateListener;
@@ -25,9 +26,9 @@ public abstract class Widget extends Renderable {
         this.listeners.add(listener);
     }
 
-    protected void sendUpdateValueEvent(String identifier, Value newValue) {
+    protected void sendUpdateValueEvent(Control control, String identifier, Value newValue) {
         for(IGuiElementUpdateListener listener : this.listeners )
-            listener.updateGuiVariable(identifier, newValue);
+            listener.updateGuiVariable(control, identifier, newValue);
     }
 
     @Override

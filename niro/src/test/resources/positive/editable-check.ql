@@ -13,11 +13,11 @@ form EditOrNotToEdit {
         "Money constant" moneyConstant: money = 42.42
         "Date constant" dateConstant: date = 1970-01-01
     } else {
-        "String expression" stringExpression: string // = (stringConstant + stringVariable)
+        "String expression" stringExpression: string = stringVariable // stringConstant + stringVariable
         "Boolean expression" booleanExpression: boolean = (!booleanConstant)
         "Integer expression" integerExpression: integer = (integerConstant + 1 + integerVariable)
         "Decimal expression" decimalExpression: decimal = (decimalConstant + 1.0 + decimalVariable)
-        "Money expression" moneyExpression: money = moneyConstant // + moneyVariable
+        "Money expression" moneyExpression: money = moneyConstant + moneyVariable
         "Date expression" dateExpression: date = dateVariable
     }
 }

@@ -61,6 +61,39 @@ class Page():
             if section.getName() == sectionName:
                 section.removeQuestion(varName)
 
+
+    """
+        Checks if question is already on this page
+    """
+    def isQuestionOnPage(self, varName, sectionName='default'):
+        for section in self.sections:
+            if section.getName() == sectionName:
+                for question in section.getQuestions():
+                    if question.varName == varName:
+                        return True
+        return False
+
+    """
+        Returns a question object from the given section
+    """
+    def getQuestionFromSection(self, varName, sectionName='default'):
+        for section in self.sections:
+            if section.getName() == sectionName:
+                for question in section.getQuestions():
+                    if question.getVarName() == varName:
+                        return question
+        return None
+
+    """
+        Deletes question that are no longer valid, i.e. questions in a if, elif or else
+    """
+    def deleteInvalidQuestions(self, questions, sectionName='default'):
+        for section in self.sections:
+            if section.getName() == sectionName:
+                for question in section.questions:
+                    if (question.varName not in questions):
+                        section.removeQuestion(question.varName)
+
     def emptyFrame(self):
         f = self.sfg.getFrame()
         f.destroy()

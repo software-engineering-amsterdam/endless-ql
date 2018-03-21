@@ -10,6 +10,7 @@ import { FieldAlreadyDeclaredError, VariableNotInScopeError } from "../form_erro
 import { getUsedVariables } from "../form_helpers";
 import Expression from "../nodes/expressions/Expression";
 import { getVariableInformation, VariableInformation } from "../VariableIntformation";
+import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
 export interface VariableScopeResult {
   variables: Map<string, VariableInformation>;
@@ -30,6 +31,10 @@ export class VariableScopeVisitor implements FieldVisitor {
     this.containsAllVariablesOrFail(computedField.formula);
 
     this.addToStack(computedField);
+  }
+
+  visitFieldDecorator(fieldDecorator: FieldNodeDecorator) {
+    return fieldDecorator.getBaseField().accept(this);
   }
 
   visitIfCondition(ifCondition: IfCondition): any {

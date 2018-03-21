@@ -23,6 +23,11 @@ public class BooleanQuestionViewModel extends BaseQuestionViewModel {
         visitor.visit(this);
     }
 
+    @Override
+    public <T> T accept(TypedQuestionViewModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
     public BooleanProperty valueProperty() {
         return value;
     }

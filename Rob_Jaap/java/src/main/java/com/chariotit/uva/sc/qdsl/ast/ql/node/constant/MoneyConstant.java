@@ -1,23 +1,30 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.constant;
 
+import com.chariotit.uva.sc.qdsl.ast.MoneyExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.Constant;
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public class MoneyConstant extends Constant {
 
-    private Float value;
+    private MoneyExpressionValue value;
 
-    public MoneyConstant(Float value, Integer lineNumber, Integer columnNumber) {
+    public MoneyConstant(MoneyExpressionValue value, Integer lineNumber, Integer columnNumber) {
         super(lineNumber, columnNumber);
         this.value = value;
     }
 
-    public Float getValue() {
+    public MoneyExpressionValue getValue() {
         return value;
     }
 
-    public void setValue(Float value) {
+    public void setValue(MoneyExpressionValue value) {
         this.value = value;
+    }
+
+    @Override
+    public void evaluate(SymbolTable symbolTable) {
+
     }
 
     @Override

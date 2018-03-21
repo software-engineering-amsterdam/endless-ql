@@ -91,11 +91,11 @@ namespace QuestionnaireDomain.Entities.Ast.Tools.Interfaces
 
         Reference<IAstNode> CreateDate(string dateText);
 
-        Reference<IAstNode> CreateDateVariableName(string dateText);
+        Reference<IAstNode> CreateDateVariableName(string dateVariableName);
 
         Reference<IAstNode> CreateText(string text);
 
-        Reference<IAstNode> CreateTextVariableName(string text);
+        Reference<IAstNode> CreateTextVariableName(string textVariableName);
 
         Reference<IAstNode> CreateGreaterThanOperation(
             string definition, 

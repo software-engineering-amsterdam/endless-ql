@@ -14,4 +14,6 @@ HashMap<String, Question> memory = coreVisitor.questionMap;
 
 // 5. Ga door de questions heen en laat alleen die zien die visible zijn (question.isVisible())
 
+
+
 // 6. Herhaal vanaf stap 3

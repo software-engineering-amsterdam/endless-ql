@@ -282,11 +282,11 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             return DomainItemRegistration<IDateNode>(dateNode);
         }
 
-        public Reference<IAstNode> CreateDateVariableName(string variableName)
+        public Reference<IAstNode> CreateDateVariableName(string dateVariableName)
         {
             var dateNode = new DateVariableNode(
                 m_ids.Next,
-                variableName);
+                dateVariableName);
 
             return DomainItemRegistration<IDateVariableNode>(dateNode);
         }
@@ -300,11 +300,11 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             return DomainItemRegistration<ITextNode>(dateNode);
         }
 
-        public Reference<IAstNode> CreateTextVariableName(string variableName)
+        public Reference<IAstNode> CreateTextVariableName(string textVariableName)
         {
             var textNode = new TextVariableNode(
                 m_ids.Next,
-                variableName);
+                textVariableName);
 
             return DomainItemRegistration<ITextVariableNode>(textNode);
         }

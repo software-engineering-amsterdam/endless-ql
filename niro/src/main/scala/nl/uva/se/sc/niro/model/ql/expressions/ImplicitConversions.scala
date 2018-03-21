@@ -5,6 +5,6 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers.{ DecimalAnswer, IntegerAn
 import scala.language.implicitConversions
 
 object ImplicitConversions {
-  implicit def intAnswerToDecAnswer(value: IntegerAnswer): DecimalAnswer =
-    DecimalAnswer(value.possibleValue.map(BigDecimal(_)))
+  implicit def intAnswerToDecAnswer(integerAnswer: IntegerAnswer): DecimalAnswer =
+    DecimalAnswer(BigDecimal(integerAnswer.value))
 }

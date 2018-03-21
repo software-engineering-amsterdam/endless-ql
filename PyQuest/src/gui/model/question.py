@@ -1,5 +1,4 @@
-from gui.model.widgets import Label
-from gui.helper import gui_to_string
+from gui.widgets.label import Label
 from ql.ast.visitors.expression_evaluator import ExpressionEvaluator
 
 
@@ -12,15 +11,11 @@ class Question:
         self.__computed = computed
         self.__show_condition = show_condition
         self.__widget = None
-        self.__widget_label = None
+        self.__widget_label = Label(label)
 
     @property
     def label(self):
         return self.__label
-
-    @label.setter
-    def label(self, value):
-        self.__label = value
 
     @property
     def identifier(self):
@@ -46,10 +41,6 @@ class Question:
     def show_condition(self):
         return self.__show_condition
 
-    @show_condition.setter
-    def show_condition(self, value):
-        self.__show_condition = value
-
     @property
     def widget(self):
         return self.__widget
@@ -61,10 +52,6 @@ class Question:
     @property
     def widget_label(self):
         return self.__widget_label
-
-    @widget_label.setter
-    def widget_label(self, value):
-        self.__widget_label = value
 
     def evaluate_show_condition(self, form):
         visitor = ExpressionEvaluator(form)
@@ -79,10 +66,8 @@ class Question:
         return visitor.result
 
     def pyqt5_render(self, layout, form, show=True):
-        self.widget_label = Label(self.label)
-
         if self.computed:
-            answer_result = gui_to_string(self.evaluate_answer(form))
+            answer_result = str(self.evaluate_answer(form))
             self.widget = Label(answer_result)
         else:
             self.widget = self.answer_type.pyqt5_default_widget()
@@ -91,4 +76,4 @@ class Question:
             self.widget.hide()
             self.widget_label.hide()
 
-        layout.addRow(self.__widget_label, self.widget)
+        layout.addRow(self.widget_label, self.widget)

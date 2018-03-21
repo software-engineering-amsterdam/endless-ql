@@ -5,16 +5,16 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers.{ DecimalAnswer, IntegerAn
 import scala.language.implicitConversions
 
 trait MoneyCanDoArithmetics {
-  def plus(x: MoneyAnswer, y: MoneyAnswer): MoneyAnswer = MoneyAnswer(x.combine(y)(_ + _))
-  def minus(x: MoneyAnswer, y: MoneyAnswer): MoneyAnswer = MoneyAnswer(x.combine(y)(_ - _))
-  def times(x: MoneyAnswer, y: IntegerAnswer): MoneyAnswer = MoneyAnswer(x.combine(y)(_ * _))
+  def plus(x: MoneyAnswer, y: MoneyAnswer): MoneyAnswer = MoneyAnswer(x.value + y.value)
+  def minus(x: MoneyAnswer, y: MoneyAnswer): MoneyAnswer = MoneyAnswer(x.value - y.value)
+  def times(x: MoneyAnswer, y: IntegerAnswer): MoneyAnswer = MoneyAnswer(x.value * y.value)
   def times(x: IntegerAnswer, y: MoneyAnswer): MoneyAnswer = times(y, x)
-  def times(x: MoneyAnswer, y: DecimalAnswer): MoneyAnswer = MoneyAnswer(x.combine(y)(_ * _))
+  def times(x: MoneyAnswer, y: DecimalAnswer): MoneyAnswer = MoneyAnswer(x.value * y.value)
   def times(x: DecimalAnswer, y: MoneyAnswer): MoneyAnswer = times(y, x)
-  def div(x: MoneyAnswer, y: MoneyAnswer): DecimalAnswer = DecimalAnswer(x.combine(y)(_ / _))
-  def div(x: MoneyAnswer, y: IntegerAnswer): MoneyAnswer = MoneyAnswer(x.combine(y)(_ / _))
-  def div(x: MoneyAnswer, y: DecimalAnswer): MoneyAnswer = MoneyAnswer(x.combine(y)(_ / _))
-  def negate(x: MoneyAnswer): MoneyAnswer = MoneyAnswer(x.possibleValue.map(-_))
+  def div(x: MoneyAnswer, y: MoneyAnswer): DecimalAnswer = DecimalAnswer(x.value / y.value)
+  def div(x: MoneyAnswer, y: IntegerAnswer): MoneyAnswer = MoneyAnswer(x.value / y.value)
+  def div(x: MoneyAnswer, y: DecimalAnswer): MoneyAnswer = MoneyAnswer(x.value / y.value)
+  def negate(x: MoneyAnswer): MoneyAnswer = MoneyAnswer(-x.value)
 }
 
 object MoneyArithmetics {

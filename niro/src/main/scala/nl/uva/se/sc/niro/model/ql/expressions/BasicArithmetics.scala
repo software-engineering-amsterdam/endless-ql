@@ -6,20 +6,20 @@ import scala.language.implicitConversions
 
 object BasicArithmetics {
   trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntegerAnswer] {
-    def plus(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.combine(y)(_ + _))
-    def minus(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.combine(y)(_ - _))
-    def times(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.combine(y)(_ * _))
-    def div(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.combine(y)(_ / _))
-    def negate(x: IntegerAnswer) = IntegerAnswer(x.possibleValue.map(-_))
+    def plus(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.value + y.value)
+    def minus(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.value - y.value)
+    def times(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.value * y.value)
+    def div(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.value / y.value)
+    def negate(x: IntegerAnswer) = IntegerAnswer(-x.value)
   }
   implicit object IntAnswerCanDoBasicArithmetics extends IntAnswerCanDoBasicArithmetics
 
   trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecimalAnswer] {
-    def plus(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.combine(y)(_ + _))
-    def minus(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.combine(y)(_ - _))
-    def times(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.combine(y)(_ * _))
-    def div(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.combine(y)(_ / _))
-    def negate(x: DecimalAnswer) = DecimalAnswer(x.possibleValue.map(-_))
+    def plus(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.value + y.value)
+    def minus(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.value - y.value)
+    def times(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.value * y.value)
+    def div(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.value / y.value)
+    def negate(x: DecimalAnswer) = DecimalAnswer(-x.value)
   }
   implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics
 }

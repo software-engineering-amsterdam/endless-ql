@@ -2,14 +2,17 @@
 
 namespace Assignment1.Model.QL.AST
 {
-    public class QuestionForm : IQLASTNode
+    public class QuestionForm : QLNode, IQLASTNode
     {
+        public string Id { get; }
         public IReadOnlyCollection<Statement> Statements => _statements.AsReadOnly();
 
         private readonly List<Statement> _statements;
 
-        public QuestionForm(List<Statement> statements)
+        public QuestionForm(int lineNumber, string id, List<Statement> statements)
         {
+            _lineNumber = lineNumber;
+            Id = id;
             _statements = statements;
         }
 

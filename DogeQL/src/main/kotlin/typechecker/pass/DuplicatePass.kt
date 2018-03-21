@@ -1,17 +1,18 @@
 package typechecker.pass
 
-import common.Name
+import data.question.Question
 import node.ExpressionNode
 import node.Node
 import node.QuestionNode
 import node.RootNode
+import typechecker.DuplicateError
 import typechecker.NodePass
+import typechecker.TokenLocation
 import typechecker.TypeCheckResult
 
 class DuplicatePass(result: TypeCheckResult) : NodePass<Unit>(result) {
 
-    private val visitedLabels = hashSetOf<Name>()
-    private val visitedNames = hashSetOf<Name>()
+    private val visitedQuestions = hashSetOf<Question>()
 
     override fun visit(node: Node) {
         node.children.forEach { child -> child.accept(this) }
@@ -25,13 +26,25 @@ class DuplicatePass(result: TypeCheckResult) : NodePass<Unit>(result) {
         val label = questionNode.question.label
         val name = questionNode.question.name
 
-        if (!visitedLabels.add(label)) {
-            result.duplicateLabels.add(label)
+        val originalByLabel = visitedQuestions.find { question -> question.label == label }
+        if (originalByLabel != null) {
+            val original = TokenLocation(originalByLabel.label, originalByLabel.labelLocation)
+            val duplicate = TokenLocation(label, questionNode.question.labelLocation)
+            val error = DuplicateError(original, duplicate)
+
+            result.duplicateLabels.add(error)
         }
 
-        if (!visitedNames.add(name)) {
-            result.duplicateNames.add(name)
+        val originalByName = visitedQuestions.find { question -> question.name == name }
+        if (originalByName != null) {
+            val original = TokenLocation(originalByName.name, originalByName.nameLocation)
+            val duplicate = TokenLocation(name, questionNode.question.nameLocation)
+            val error = DuplicateError(original, duplicate)
+
+            result.duplicateNames.add(error)
         }
+
+        visitedQuestions.add(questionNode.question)
 
         questionNode.children.forEach { child -> child.accept(this) }
     }

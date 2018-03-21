@@ -6,10 +6,7 @@ import data.question.Question
 import data.question.SymbolType
 import data.symbol.SymbolTable
 import data.value.*
-import expression.BinaryExpression
-import expression.LiteralExpression
-import expression.ReferenceExpression
-import expression.UnaryExpression
+import expression.*
 import expression.operation.BinaryOperation
 import expression.operation.UnaryOperation
 import node.Node
@@ -30,7 +27,7 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
             val ifExpression = expressionBuilder.pop()
             val result = symbolTable.registerSymbol(SymbolType.BOOLEAN, ifExpression)
 
-            formTreeBuilder.pushExpression(result.name)
+            formTreeBuilder.pushExpression(result.name, ifExpression.sourceLocation)
         }
     }
 
@@ -66,7 +63,14 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
             symbolTable.registerSymbol(name, value.type)
         }
 
-        val question = Question(name, label, value)
+        val questionNameLocation = SourceLocation(
+                context.NAME().symbol.line, context.NAME().symbol.charPositionInLine
+        )
+        val questionLabelLocation = SourceLocation(
+                context.LIT_STRING().symbol.line, context.LIT_STRING().symbol.charPositionInLine
+        )
+        val question = Question(name, label, value, questionNameLocation, questionLabelLocation)
+
         formTreeBuilder.pushQuestion(question)
     }
 
@@ -76,72 +80,86 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         val context = ctx!!
 
         context.NAME()?.let {
-            pushReferenceExpression(it.text)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushReferenceExpression(it.text, sourceLocation)
             return
         }
 
         context.NOT()?.let {
-            pushUnaryExpression(UnaryOperation.Negate)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushUnaryExpression(UnaryOperation.Negate, sourceLocation)
             return
         }
 
         context.MUL()?.let {
-            pushBinaryExpression(BinaryOperation.Multiply)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.Multiply, sourceLocation)
             return
         }
 
         context.DIV()?.let {
-            pushBinaryExpression(BinaryOperation.Divide)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.Divide, sourceLocation)
             return
         }
 
         context.ADD()?.let {
-            pushBinaryExpression(BinaryOperation.Add)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.Add, sourceLocation)
             return
         }
 
         context.SUB()?.let {
-            pushBinaryExpression(BinaryOperation.Subtract)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.Subtract, sourceLocation)
             return
         }
 
         context.LT()?.let {
-            pushBinaryExpression(BinaryOperation.Less)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.Less, sourceLocation)
             return
         }
 
         context.GT()?.let {
-            pushBinaryExpression(BinaryOperation.Greater)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.Greater, sourceLocation)
             return
         }
 
         context.LE()?.let {
-            pushBinaryExpression(BinaryOperation.LessOrEqual)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.LessOrEqual, sourceLocation)
             return
         }
 
         context.GE()?.let {
-            pushBinaryExpression(BinaryOperation.GreaterOrEqual)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.GreaterOrEqual, sourceLocation)
             return
         }
 
         context.EQUAL()?.let {
-            pushBinaryExpression(BinaryOperation.Equal)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.Equal, sourceLocation)
             return
         }
 
         context.NOTEQUAL()?.let {
-            pushBinaryExpression(BinaryOperation.NotEqual)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.NotEqual, sourceLocation)
             return
         }
 
         context.AND()?.let {
-            pushBinaryExpression(BinaryOperation.And)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.And, sourceLocation)
             return
         }
 
         context.OR()?.let {
-            pushBinaryExpression(BinaryOperation.Or)
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushBinaryExpression(BinaryOperation.Or, sourceLocation)
             return
         }
 
@@ -153,57 +171,62 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         val context = ctx!!
 
         context.LIT_BOOLEAN()?.let {
-            pushLiteralExpression(BooleanValue(it.text))
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushLiteralExpression(BooleanValue(it.text), sourceLocation)
             return
         }
 
         context.LIT_INTEGER()?.let {
-            pushLiteralExpression(IntegerValue(it.text))
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushLiteralExpression(IntegerValue(it.text), sourceLocation)
             return
         }
 
         context.LIT_DECIMAL()?.let {
-            pushLiteralExpression(DecimalValue(it.text))
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushLiteralExpression(DecimalValue(it.text), sourceLocation)
             return
         }
 
         context.LIT_STRING()?.let {
-            pushLiteralExpression(StringValue(it.text))
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushLiteralExpression(StringValue(it.text), sourceLocation)
             return
         }
 
         context.LIT_COLOR()?.let {
-            pushLiteralExpression(ColorValue(it.text))
+            val sourceLocation = SourceLocation(it.symbol.line, it.symbol.charPositionInLine)
+            pushLiteralExpression(ColorValue(it.text), sourceLocation)
             return
         }
     }
 
-    private fun pushLiteralExpression(value: BaseSymbolValue) {
+    private fun pushLiteralExpression(value: BaseSymbolValue, sourceLocation: SourceLocation) {
         expressionBuilder.push(
-                LiteralExpression(value)
+                LiteralExpression(value, sourceLocation)
         )
     }
 
-    private fun pushReferenceExpression(name: String) {
+    private fun pushReferenceExpression(name: String, sourceLocation: SourceLocation) {
         expressionBuilder.push(
-                ReferenceExpression(name, SymbolType.UNDEFINED)
+                ReferenceExpression(name, SymbolType.UNDEFINED, sourceLocation)
         )
     }
 
-    private fun pushUnaryExpression(operation: UnaryOperation) {
+    private fun pushUnaryExpression(operation: UnaryOperation, sourceLocation: SourceLocation) {
         val value = expressionBuilder.pop()
 
         expressionBuilder.push(
-                UnaryExpression(value, operation)
+                UnaryExpression(value, operation, sourceLocation)
         )
     }
 
-    private fun pushBinaryExpression(operation: BinaryOperation) {
+    private fun pushBinaryExpression(operation: BinaryOperation, sourceLocation: SourceLocation) {
         val right = expressionBuilder.pop()
         val left = expressionBuilder.pop()
 
         expressionBuilder.push(
-                BinaryExpression(left, right, operation)
+                BinaryExpression(left, right, operation, sourceLocation)
         )
     }
 

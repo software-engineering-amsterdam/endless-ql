@@ -3,14 +3,14 @@ Class that controls the widgets as well as the tracing of the widgets.
 It returns the widget based on the requested type, and checks these widgets for correct input
 """
 
-
 from .gui_imports import *
 
-class InputTypeMap:
 
+class InputTypeMap:
     """
         Varname, vardict and question generator are necessary when changing the values in the AST
     """
+
     def __init__(self, parent, questionGenerator, varName, value):
         self.parent = parent
         self.oldValue = None
@@ -57,7 +57,6 @@ class InputTypeMap:
         else:
             throwError("Unknown widget type")
         return button, var
-
 
     """
         Return string textbox widget
@@ -126,6 +125,7 @@ class InputTypeMap:
     """
         Update the boolean value in the AST, and update the questions
     """
+
     def validateBool(self, var):
         newVal = var.get()
         # save value in vardict
@@ -140,6 +140,7 @@ class InputTypeMap:
     """
         Update the string value in the AST, and update the questions
     """
+
     def validateString(self, var):
         newVal = var.get()
 
@@ -171,13 +172,14 @@ class InputTypeMap:
         Update the Int value in the AST, and update the questions, also validate if the
         input is a correct integer, if it is not, do not change the value
     """
+
     def validateInt(self, var):
         newVal = var.get()
         try:
             newVal == '' or newVal == '-' or int(newVal)
-            if(newVal == '-'):
+            if (newVal == '-'):
                 newVal = -0.0
-            if(newVal == ''):
+            if (newVal == ''):
                 newVal = 0
             newVal = int(newVal)
             # save value in vardict
@@ -195,14 +197,15 @@ class InputTypeMap:
         Update the float value in the AST, and update the questions, also validate if the
         input is a correct float, if it is not, do not change the value
     """
+
     def validateFloat(self, var):
         newVal = var.get()
         print(newVal)
         try:
             newVal == '' or newVal == '-' or float(newVal)
-            if(newVal == '-'):
-               newVal = -0.0
-            elif(newVal == ''):
+            if (newVal == '-'):
+                newVal = -0.0
+            elif (newVal == ''):
                 newVal = 0
             newVal = float(newVal)
             # save value in vardict
@@ -220,6 +223,7 @@ class InputTypeMap:
         Set the value of all the nodes in the varDict nodelist to the new value, this
         is done in order to have the correct values in the AST
     """
+
     def setNodeValue(self, value):
         for varNode in self.varDict[self.varName]["node_list"]:
             varNode.setVar(value)

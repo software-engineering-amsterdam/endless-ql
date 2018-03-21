@@ -23,13 +23,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     private final ExpressionTable expressionTable;
     private final StatementTable statementTable;
     private final ValueTable valueTable;
-    private final Form form;
 
     public FormEvaluator(ExpressionTable expressionTable, StatementTable statementTable, ValueTable valueTable, Form form) {
         this.expressionTable = expressionTable;
         this.statementTable = statementTable;
         this.valueTable = valueTable;
-        this.form = form;
 
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);

@@ -30,6 +30,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.QLLoader;
 import loader.QLS.QLSLoader;
+import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -100,28 +101,8 @@ public class ToolController implements Initializable, Consumer {
         printInfoMessage("Build successful");
     }
 
-    public void importQLSFile(ActionEvent event) {
-        FileChooser fileChooser = getFileChooser();
-
-        Stage s = new Stage();
-        File selectedFile = fileChooser.showOpenDialog(s);
-
-        if (selectedFile == null) {
-            return;
-        }
-
-        Optional<String> qlsText = Utilities.readFile(selectedFile.getAbsolutePath());
-
-        qlsText.ifPresentOrElse(
-                text -> {
-                    taSourceCodeQLS.setText(text);
-                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
-                },
-                () -> showAlertBox("Could not read file.")
-        );
-    }
     /**
-     * Invoked by the 'Import' button action, import .QL file
+     * Invoked by the 'Import' button action, import .QL or .QLS file
      * @param event that kicked of the invocation
      */
     public void importQLFile(ActionEvent event) {
@@ -152,7 +133,7 @@ public class ToolController implements Initializable, Consumer {
 
         FormParser parser = new FormParser(new CommonTokenStream(lexer));
 
-        //parser.setErrorHandler(new BailErrorStrategy());
+        //parser.setErrorHandler(new BailErrorStrategy()); // TODO look at error handling
         parser.addErrorListener(new ToolBarErrorListener(lblErrorField));
 
         FormParser.FormBuilderContext tree = parser.formBuilder();
@@ -167,7 +148,7 @@ public class ToolController implements Initializable, Consumer {
 
         StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
 
-        //parser.setErrorHandler(new BailErrorStrategy());
+        //qlsParser.setErrorHandler(new BailErrorStrategy());
         qlsParser.addErrorListener(new ToolBarErrorListener(lblErrorField));
 
         StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();

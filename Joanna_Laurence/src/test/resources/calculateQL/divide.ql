@@ -1,4 +1,4 @@
-//Q=1
+//AssertDisplayedQuestions=1
 form taxOfficeExample {
 
     if (15 / 3 == 5) {

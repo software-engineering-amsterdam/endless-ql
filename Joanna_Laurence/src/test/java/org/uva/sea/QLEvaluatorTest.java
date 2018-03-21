@@ -87,7 +87,7 @@ public class QLEvaluatorTest extends TestCase {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String firstLine = reader.readLine();
 
-            Pattern pattern = Pattern.compile("\\/\\/Q=([0-9]*)");
+            Pattern pattern = Pattern.compile("\\/\\/AssertDisplayedQuestions=([0-9]*)");
             Matcher matcher = pattern.matcher(firstLine);
             if (matcher.find()) {
                 String match = matcher.group(1);

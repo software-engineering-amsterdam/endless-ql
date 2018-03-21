@@ -31,6 +31,8 @@ public class RadioWidget extends HBox implements WidgetInterface {
         falseButton = new RadioButton(falseLabel);
         trueButton = new RadioButton(trueLabel);
 
+        falseButton.setSelected(true);
+
         trueButton.setToggleGroup(group);
         falseButton.setToggleGroup(group);
 

@@ -15,6 +15,7 @@ class StylesheetNode(QLSast):
 class PageNode(QLSast):
 
     def __init__(self, name):
+        self.nodetype = "page"
         self.name = name
         self.sections = []
         self.default_style_widgets = []
@@ -22,10 +23,14 @@ class PageNode(QLSast):
     def __repr__(self):
         return "Page: {} Sections: {} Styles: {}".format(self.name, self.sections, self.default_style_widgets)
 
+    def getNodeType(self):
+        return self.nodetype
+
 
 class SectionNode(QLSast):
     
     def __init__(self, name):
+        self.nodetype = "section"
         self.name = name
         self.sections = []
         self.questions = []
@@ -34,25 +39,39 @@ class SectionNode(QLSast):
     def __repr__(self):
         return "Section: {} Sections: {} Questions: {} Styles: {}".format(self.name, self.sections, self.questions, self.default_style_widgets)
 
+    def getNodeType(self):
+        return self.nodetype
+
 
 class QuestionNode(QLSast):
 
     def __init__(self, var):
+        self.nodetype = "question"
         self.var = var
         self.widget = None
 
     def __repr__(self):
         return "Question: {} Widget: {}".format(self.var, self.widget)
 
+    def getNodeType(self):
+        return self.nodetype
+
 
 class WidgetNode(QLSast):
 
     def __init__(self, widget):
+        self.nodetype = "widget"
         self.widget = widget
         self.options = None
 
     def __repr__(self):
         return "Widget: {} Options: {}".format(self.widget, self.options)
+
+    def getNodeType(self):
+        return self.nodetype
+
+    def getWidget(self):
+        return self.widget
 
 
 class StyleOptionsNode(QLSast):
@@ -66,8 +85,12 @@ class StyleOptionsNode(QLSast):
 
     # todo: vartype in widget?
     def __init__(self, vartype):
+        self.nodetype = "options"
         self.vartype = vartype
         self.options = None
 
     def __repr__(self):
         return "Style vartype: {} Options: {}".format(self.vartype, self.options)
+
+    def getNodeType(self):
+        return self.nodetype

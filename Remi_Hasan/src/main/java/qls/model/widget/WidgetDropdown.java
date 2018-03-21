@@ -27,7 +27,7 @@ public class WidgetDropdown extends Widget {
     }
 
     @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, List<DefaultStyle> defaultStyles) {
-        return visitor.visitWidgetTypeBooleanDropdown(symbolTable, question, defaultStyles, falseLabel, trueLabel);
+    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
+        return visitor.visitWidgetTypeBooleanDropdown(symbolTable, question, qlsQuestion, defaultStyles, falseLabel, trueLabel);
     }
 }

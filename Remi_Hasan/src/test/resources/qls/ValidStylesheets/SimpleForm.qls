@@ -30,6 +30,9 @@ stylesheet simpleForm
         question someBoolean
       }
     }
-    default boolean widget radio("Yes", "No")
+    default boolean {
+     width: 400
+     widget radio("Yes", "No")
+    }
   }
 }

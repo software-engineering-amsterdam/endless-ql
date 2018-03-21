@@ -2,6 +2,8 @@ package org.uva.sea.gui.model.factory;
 
 import org.uva.sea.gui.IGuiElementUpdateListener;
 import org.uva.sea.gui.widget.Widget;
+import org.uva.sea.gui.widget.ql.CheckBoxWidget;
+import org.uva.sea.gui.widget.ql.TextFieldWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.parser.NodeType;
@@ -15,12 +17,12 @@ public class QLWidgetFactory {
     private final Map<NodeType, Class<? extends Widget>> widgetTypeClassEnumMap = new HashMap<>();
 
     public QLWidgetFactory() {
-        this.widgetTypeClassEnumMap.put(NodeType.BOOLEAN, BooleanWidget.class);
-        this.widgetTypeClassEnumMap.put(NodeType.DECIMAL, TextWidget.class);
-        this.widgetTypeClassEnumMap.put(NodeType.INTEGER, TextWidget.class);
-        this.widgetTypeClassEnumMap.put(NodeType.MONEY_EURO, TextWidget.class);
-        this.widgetTypeClassEnumMap.put(NodeType.MONEY_DOLLAR, TextWidget.class);
-        this.widgetTypeClassEnumMap.put(NodeType.DATE, TextWidget.class);
+        this.widgetTypeClassEnumMap.put(NodeType.BOOLEAN, CheckBoxWidget.class);
+        this.widgetTypeClassEnumMap.put(NodeType.DECIMAL, TextFieldWidget.class);
+        this.widgetTypeClassEnumMap.put(NodeType.INTEGER, TextFieldWidget.class);
+        this.widgetTypeClassEnumMap.put(NodeType.MONEY_EURO, TextFieldWidget.class);
+        this.widgetTypeClassEnumMap.put(NodeType.MONEY_DOLLAR, TextFieldWidget.class);
+        this.widgetTypeClassEnumMap.put(NodeType.DATE, TextFieldWidget.class);
     }
 
     public Widget createWidget(NodeType nodeType, QuestionData questionData, IGuiElementUpdateListener listener) {

@@ -1,4 +1,4 @@
-package org.uva.sea.gui.widget.qls;
+package org.uva.sea.gui.widget.ql;
 
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;

@@ -1,4 +1,4 @@
-package org.uva.sea.gui.widget.qls;
+package org.uva.sea.gui.widget.ql;
 
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
@@ -31,6 +31,8 @@ public class TextFieldWidget extends Widget {
         this.widgetValue = stringValue;
         return true;
     }
+
+
 
     public TextFieldWidget(QuestionData questionData) {
         super(questionData);

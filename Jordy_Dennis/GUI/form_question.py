@@ -19,7 +19,7 @@ class Question:
     """
 
     def __init__(self, parent, questionGenerator, varName, questionText, questionType, value, fontType='Arial',
-                 fontSize=15, color='black', width=40):
+                 fontSize=15, color='black', width=40, widgetType='default', **kwargs):
         self.frame = create_frame(parent)
         self.questionGenerator = questionGenerator
         self.frame.pack(fill="both", anchor=NW)
@@ -34,7 +34,7 @@ class Question:
         self.varName = varName
 
         self.createHeaderLabel(questionText, fontType, fontSize, color)
-        self.createInputUser(questionType)
+        self.createInputUser(questionType, widgetType,  **kwargs)
 
         self.questionText = questionText
 

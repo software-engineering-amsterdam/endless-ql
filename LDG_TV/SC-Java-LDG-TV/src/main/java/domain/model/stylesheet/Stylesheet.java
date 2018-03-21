@@ -45,6 +45,4 @@ public class Stylesheet {
     public List<Page> getPages() {
         return pages;
     }
-
-
 }

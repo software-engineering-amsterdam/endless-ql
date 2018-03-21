@@ -28,7 +28,6 @@ public class QLSLoader extends StylesheetBaseListener {
 
     @Override
     public void enterStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx){
-        System.out.println("sup");
         this.styleSheet.setLabel(ctx.identifier().getText());
     }
     @Override

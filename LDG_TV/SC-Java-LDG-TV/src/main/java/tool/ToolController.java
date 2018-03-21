@@ -64,13 +64,9 @@ public class ToolController implements Initializable, Consumer {
     private boolean qlsEnabled = false;
     private FormNode formNode = null;
 
-    public ToolController() {
-        System.out.println("Class initialized");
-    }
+    public ToolController() { }
 
-    public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Pane initialized");
-    }
+    public void initialize(URL location, ResourceBundle resources) { }
 
     /**
      * Invoked by the 'build' button action, to generate the questionnaire based on the written QL
@@ -247,7 +243,6 @@ public class ToolController implements Initializable, Consumer {
             lView.getItems().add(r);
         }
 
-        JavaFxObservable.updatesOf(lView.getItems()).subscribe(rows -> System.out.println("R "+rows));
     }
     private List<QuestionNode> getAllQuestions(List<ASTNode> nodes){
         List<QuestionNode> visibleQuestions = new ArrayList<>();
@@ -261,7 +256,7 @@ public class ToolController implements Initializable, Consumer {
             ConditionNode conditionNode = (ConditionNode) n;
 
             visibleQuestions.addAll(conditionNode.getQuestionNodes());
-            visibleQuestions.addAll(conditionNode.getElseNodes());
+            visibleQuestions.addAll(conditionNode.getElseNode().getQuestionNodes());
         }
 
         return visibleQuestions;

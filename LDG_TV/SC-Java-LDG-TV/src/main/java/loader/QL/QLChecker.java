@@ -62,7 +62,6 @@ public class QLChecker {
         for (ASTNode an : formNode.getASTNodes()){
             if (an instanceof ConditionNode){
                 for (Condition c : ((ConditionNode) an).getConditions()){
-                    System.out.println(c.getVariable());
                     if (c.getVariable() == null || !(c.getVariable() instanceof BooleanVariable)){
                         throw new InvalidConditionException("Invalid condition found in the conditions of an if statement");
                     }

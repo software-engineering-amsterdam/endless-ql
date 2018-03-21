@@ -34,13 +34,6 @@ public class Main {
             QLSLoader qlsLoader = new QLSLoader(loader.getFormNode());
             ParseTreeWalker.DEFAULT.walk(qlsLoader, stree);
 
-            for (Page p : qlsLoader.getStyleSheet().getPages()){
-                for (Section s : p.getSections()){
-                    for (Variable v : s.getVariables()){
-                        System.out.println(v.getUiElement());
-                    }
-                }
-            }
 
         } catch (IOException e) {
             e.printStackTrace();

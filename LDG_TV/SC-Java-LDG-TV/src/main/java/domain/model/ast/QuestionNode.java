@@ -6,10 +6,10 @@ public class QuestionNode extends ASTNode implements Comparable {
     private String text;
     private Variable variable;
 
-    public QuestionNode(String text, Variable variable, boolean visible) {
+    public QuestionNode(String text, Variable variable, boolean disabled) {
         this.text = text;
         this.variable = variable;
-        this.setDisabled(visible);
+        this.setDisabled(disabled);
     }
 
     /**
@@ -33,13 +33,6 @@ public class QuestionNode extends ASTNode implements Comparable {
 
     public Variable getVariable() {
         return variable;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return this.text;
     }
 
 }

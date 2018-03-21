@@ -6,20 +6,24 @@ import org.uva.forcepushql.antlr.GrammarParserBaseVisitor;
 import org.uva.forcepushql.antlr.GrammarParserVisitor;
 
 
-public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements GrammarParserVisitor<Node>{
+public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements GrammarParserVisitor<Node>
+{
 
 
     @Override
-    public Node visitCompileUnit(GrammarParser.CompileUnitContext context) {
+    public Node visitCompileUnit(GrammarParser.CompileUnitContext context)
+    {
         return context.accept(this);
     }
 
     @Override
-    public Node visitFormStructure(GrammarParser.FormStructureContext context) {
+    public Node visitFormStructure(GrammarParser.FormStructureContext context)
+    {
 
         FormNode node = new FormNode();
         node.setName(context.variable().getText());
-        for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
+        for (GrammarParser.QuestionTypesContext q : context.questionTypes())
+        {
             node.setOneQuestion(q.accept(this));
         }
 
@@ -27,15 +31,18 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     }
 
     @Override
-    public Node visitConditionalIf(GrammarParser.ConditionalIfContext context) {
+    public Node visitConditionalIf(GrammarParser.ConditionalIfContext context)
+    {
         ConditionalIfNode node = new ConditionalIfNode();
 
         node.setCondition(context.ifCondition().accept(this));
-        for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
+        for (GrammarParser.QuestionTypesContext q : context.questionTypes())
+        {
             node.setOneQuestion(q.accept(this));
         }
 
-        for (GrammarParser.NextConditionContext c: context.nextCondition()) {
+        for (GrammarParser.NextConditionContext c : context.nextCondition())
+        {
             node.setAfter(c.accept(this));
         }
 
@@ -44,14 +51,17 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     }
 
     @Override
-    public Node visitConditionalIfElse(GrammarParser.ConditionalIfElseContext context) {
+    public Node visitConditionalIfElse(GrammarParser.ConditionalIfElseContext context)
+    {
         ConditionalIfElseNode node = new ConditionalIfElseNode();
         node.setCondition(context.ifCondition().accept(this));
-        for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
+        for (GrammarParser.QuestionTypesContext q : context.questionTypes())
+        {
             node.setOneQuestion(q.accept(this));
         }
 
-        for (GrammarParser.NextConditionContext c: context.nextCondition()) {
+        for (GrammarParser.NextConditionContext c : context.nextCondition())
+        {
             node.setAfter(c.accept(this));
         }
 
@@ -59,18 +69,21 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     }
 
     @Override
-    public Node visitConditionalElse(GrammarParser.ConditionalElseContext context) {
+    public Node visitConditionalElse(GrammarParser.ConditionalElseContext context)
+    {
         ConditionalElseNode node = new ConditionalElseNode();
 
         node.setCondition(null);
-        for (GrammarParser.QuestionTypesContext q: context.questionTypes()) {
+        for (GrammarParser.QuestionTypesContext q : context.questionTypes())
+        {
             node.setOneQuestion(q.accept(this));
         }
         return node;
     }
 
     @Override
-    public Node visitQuestionAssignValue(GrammarParser.QuestionAssignValueContext context) {
+    public Node visitQuestionAssignValue(GrammarParser.QuestionAssignValueContext context)
+    {
         QuestionAssignValueNode node = new QuestionAssignValueNode();
         node.setPrevious(context.questionFormat().accept(this));
         node.setExpression(context.expression().accept(this));
@@ -79,14 +92,16 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     }
 
     @Override
-    public Node visitMathUnit(GrammarParser.MathUnitContext context) {
+    public Node visitMathUnit(GrammarParser.MathUnitContext context)
+    {
         return context.expression().accept(this);
     }
 
     @Override
-    public Node visitQuestionFormat(QuestionFormatContext context) {
-        QuestionNode node = new QuestionNode();
-        LabelNode labelNode = new LabelNode();
+    public Node visitQuestionFormat(QuestionFormatContext context)
+    {
+        QuestionNode node      = new QuestionNode();
+        LabelNode    labelNode = new LabelNode();
         labelNode.setLabel(context.LABEL().getText());
         node.setLeft(labelNode);
         node.setCenter(context.variable().accept(this));
@@ -96,7 +111,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     }
 
     @Override
-    public Node visitVariable(GrammarParser.VariableContext context) {
+    public Node visitVariable(GrammarParser.VariableContext context)
+    {
         NameNode node = new NameNode();
         node.setName(context.getText());
 
@@ -104,7 +120,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     }
 
     @Override
-    public Node visitType(GrammarParser.TypeContext context) {
+    public Node visitType(GrammarParser.TypeContext context)
+    {
         TypeNode node = new TypeNode();
         node.setType(context.getText());
 
@@ -112,40 +129,48 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     }
 
     @Override
-    public Node visitNumberExpression(GrammarParser.NumberExpressionContext context) {
-       switch (context.value.getType()){
-           case GrammarParser.NUM:{
-               NumberNode node = new NumberNode();
-               node.setValue(Integer.valueOf(context.getText()));
-               return node;
-           }
+    public Node visitNumberExpression(GrammarParser.NumberExpressionContext context)
+    {
+        switch (context.value.getType())
+        {
+            case GrammarParser.NUM:
+            {
+                NumberNode node = new NumberNode();
+                node.setValue(Integer.valueOf(context.getText()));
+                return node;
+            }
 
-           case GrammarParser.VAR:{
-               Variable node = new Variable();
-               node.setName(context.getText());
-               return node;
-           }
+            case GrammarParser.VAR:
+            {
+                Variable node = new Variable();
+                node.setName(context.getText());
+                return node;
+            }
 
-           case GrammarParser.DEC:{
-               DecimalNode node = new DecimalNode();
-               node.setValue(Double.valueOf(context.getText()));
-               return node;
-           }
+            case GrammarParser.DEC:
+            {
+                DecimalNode node = new DecimalNode();
+                node.setValue(Double.valueOf(context.getText()));
+                return node;
+            }
 
-       }
+        }
         return null;
     }
 
     @Override
-    public Node visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext context) {
+    public Node visitParenthesisExpression(GrammarParser.ParenthesisExpressionContext context)
+    {
         return context.expression().accept(this);
     }
 
     @Override
-    public Node visitLogicalExpression(GrammarParser.LogicalExpressionContext context) {
+    public Node visitLogicalExpression(GrammarParser.LogicalExpressionContext context)
+    {
         InfixExpressionNode node;
 
-        switch(context.log.getType()){
+        switch (context.log.getType())
+        {
             case GrammarParser.AND:
                 node = new AndNode();
                 break;
@@ -155,27 +180,31 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
                 break;
 
             default:
-                try {
+                try
+                {
                     throw new Exception("Invalid Node Type");
-                }catch (Exception e){
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
 
                 return null;
         }
 
-        node.setLeft((ExpressionNode) context.left.accept(this));
-        node.setRight((ExpressionNode) context.right.accept(this));
+        node.setLeft(context.left.accept(this));
+        node.setRight(context.right.accept(this));
 
         return node;
     }
 
     @Override
-    public Node visitComparisonExpression(GrammarParser.ComparisonExpressionContext context) {
+    public Node visitComparisonExpression(GrammarParser.ComparisonExpressionContext context)
+    {
 
         InfixExpressionNode node;
 
-        switch (context.comp.getType()){
+        switch (context.comp.getType())
+        {
             case GrammarParser.LESS:
                 node = new LessNode();
                 break;
@@ -201,26 +230,30 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
                 break;
 
             default:
-                try {
+                try
+                {
                     throw new Exception("Invalid Node type");
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
                 return null;
         }
 
-        node.setLeft((ExpressionNode) context.left.accept(this));
-        node.setRight((ExpressionNode) context.right.accept(this));
+        node.setLeft(context.left.accept(this));
+        node.setRight(context.right.accept(this));
 
         return node;
     }
 
     @Override
-    public ExpressionNode visitInfixExpression(GrammarParser.InfixExpressionContext context){
+    public ExpressionNode visitInfixExpression(GrammarParser.InfixExpressionContext context)
+    {
 
         InfixExpressionNode node;
 
-        switch(context.op.getType()){
+        switch (context.op.getType())
+        {
             case GrammarParser.PLUS:
                 node = new AdditionNode();
                 break;
@@ -237,25 +270,29 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
                 break;
 
             default:
-                try {
+                try
+                {
                     throw new Exception("Invalid Node type");
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
                 return null;
         }
 
 
-        node.setLeft((ExpressionNode) context.left.accept(this));
-        node.setRight((ExpressionNode) context.right.accept(this));
+        node.setLeft(context.left.accept(this));
+        node.setRight(context.right.accept(this));
 
         return node;
 
     }
 
     @Override
-    public Node visitUnaryExpression(GrammarParser.UnaryExpressionContext context) {
-        switch (context.op.getType()){
+    public Node visitUnaryExpression(GrammarParser.UnaryExpressionContext context)
+    {
+        switch (context.op.getType())
+        {
             case GrammarParser.PLUS:
                 return context.expression().accept(this);
             case GrammarParser.MINUS:

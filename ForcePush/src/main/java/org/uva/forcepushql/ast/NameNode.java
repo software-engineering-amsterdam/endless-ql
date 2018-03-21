@@ -1,6 +1,7 @@
 package org.uva.forcepushql.ast;
 
-public class NameNode extends Node{
+public class NameNode extends Node
+{
     private String name;
 
     public void setName (String name) { this.name = name; }

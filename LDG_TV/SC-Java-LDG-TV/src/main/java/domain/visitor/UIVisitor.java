@@ -18,6 +18,9 @@ public class UIVisitor implements Visitor {
     @Override
     public Node visit(BooleanVariable bv) {
         CheckBox cb = new CheckBox();
+
+        System.out.println("update checkbox");
+
         cb.setSelected(bv.getValueObject().getValue());
 
         JavaFxObservable
@@ -38,7 +41,6 @@ public class UIVisitor implements Visitor {
 
     @Override
     public Node visit(MoneyVariable mv) {
-        System.out.println(mv.getValueObject().getClass());
         if (mv.getValueObject() instanceof ArithmeticExpressionValue){
             Label lbl = new Label();
             lbl.setText(mv.getValueObject().getValue().toString());

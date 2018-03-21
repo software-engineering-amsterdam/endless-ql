@@ -77,7 +77,10 @@ public class ToolController implements Consumer, LoaderErrorListener {
                             this.qlsEnabled = true;
                             buildQLS();
                         },
-                        this::buildQL
+                        () -> {
+                            this.qlsEnabled = false;
+                            this.buildQL();
+                        }
                 );
 
         printInfoMessage("Build successful");

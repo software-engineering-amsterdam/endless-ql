@@ -7,6 +7,7 @@ public class BooleanExpressionValue extends BooleanValue{
     private Variable leftHandOperand;
     private Variable rightHandOperand;
     private String operator;
+
     public BooleanExpressionValue(Variable leftHandOperand, Variable rightHandOperand, String operator){
         super(false);
         this.leftHandOperand = leftHandOperand;

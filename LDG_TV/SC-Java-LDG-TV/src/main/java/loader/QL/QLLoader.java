@@ -13,7 +13,6 @@ import exception.DuplicateQuestionDeclarationException;
 import exception.InvalidConditionException;
 import exception.ReferenceUndefinedVariableException;
 
-import java.text.Normalizer;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -124,6 +123,7 @@ public class QLLoader extends FormBaseListener {
         if(ctx.expression().arithmeticExpression() instanceof FormParser.ArithmeticExpressionContext){
             constructedVariable.setValue(getArithmeticExpressionValue(ctx.expression().arithmeticExpression()));
         }else if(ctx.expression().booleanExpression() instanceof FormParser.BooleanExpressionContext){
+            System.out.println("booleanexpression");
             constructedVariable.setValue(getBooleanExpressionValue(ctx.expression().booleanExpression()));
         }
     }

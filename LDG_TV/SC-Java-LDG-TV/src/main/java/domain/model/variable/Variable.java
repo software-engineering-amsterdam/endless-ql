@@ -20,9 +20,9 @@ public abstract class Variable {
 
     public void setValue(StringValue value){};
     public void setValue(BooleanValue value){};
+    public void setValue(MoneyValue value){};
     public void setValue(ArithmeticExpressionValue value){};
     public void setValue(BooleanExpressionValue value){};
-    public void setValue(MoneyValue value){};
 
     public abstract void setUiElement(UIElement uiElement);
     public abstract UIElement getUiElement();

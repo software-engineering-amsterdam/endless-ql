@@ -44,7 +44,7 @@ booleanExpression: variable booleanExpressionOperator variable;
 arithmeticExpression : variable arithmeticExpressionOperator variable;
 
 arithmeticExpressionOperator: ('*' | '+' | '-' | '/');
-booleanExpressionOperator: ('<' | '>' | '=<' '>=' | '!' | '!=' '==');
+booleanExpressionOperator: ('<' | '>' | '=<' '>=' | '!' | '!=' | '==');
 
 condition: (value | expression);
 conditions: (condition booleanOperator? condition?)+;

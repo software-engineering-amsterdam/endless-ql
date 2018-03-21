@@ -10,4 +10,8 @@ public abstract class ASTNode {
     public void setParent(ASTNode parent) {
         this.parent = parent;
     }
+
+    public boolean isAvailable() {
+        return true;
+    }
 }

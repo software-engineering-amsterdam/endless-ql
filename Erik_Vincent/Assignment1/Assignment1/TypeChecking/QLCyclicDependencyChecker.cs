@@ -64,6 +64,7 @@ namespace Assignment1.TypeChecking
 
         public void Visit(IfStatement ifStatement)
         {
+            ifStatement.Condition.Accept(this);
             VisitStatements(ifStatement.ThenStatements);
             VisitStatements(ifStatement.ElseStatements);
         }

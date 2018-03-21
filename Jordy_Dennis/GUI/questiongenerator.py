@@ -116,7 +116,7 @@ class QuestionGenerator:
                     # Question not in GUI, Add question to GUI
                     else:
                         self.form.insertQuestion(varName, label, var_type, value, sectionName, pageName, insertAfter,
-                                                 current_default)
+                                                 current_default, question.widgetType)
                         # disable input if it is an assigmentNode
                         if type(self.questions[varName]) == AssignmentNode:
                             self.form.getQuestionFromSection(varName, sectionName, pageName).disableWidget()

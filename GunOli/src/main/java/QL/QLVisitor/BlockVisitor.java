@@ -1,7 +1,6 @@
 package QL.QLVisitor;
 
 import QL.ParseObjectsQL.Block;
-import QL.ParseObjectsQL.Condition;
 import QL.ParseObjectsQL.Expressions.Expression;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.BooleanConstant;
 import QL.ParseObjectsQL.Question;
@@ -38,7 +37,6 @@ public class BlockVisitor extends QLBaseVisitor<Block> {
         ConditionVisitor conditionVisitor = new ConditionVisitor(expressionTable, condition);
 
         ArrayList<Question> questions = new ArrayList<Question>();
-        //ArrayList<Condition> conditions = new ArrayList<Condition>(); // not needed?
         for(QLParser.StatementContext statementCtx : ctx.statement()){
             if (statementCtx.question() != null) {
                 Question question = questionVisitor.visitQuestion(statementCtx.question());
@@ -51,4 +49,3 @@ public class BlockVisitor extends QLBaseVisitor<Block> {
         return new Block(questions);
     }
 }
-

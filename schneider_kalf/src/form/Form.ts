@@ -10,6 +10,8 @@ export default interface Form {
 
   getFields(): FieldNode[];
 
+  getField(identifier: string): FieldNode | undefined | any;
+
   getState(): FormState | any;
 
   setState(state: FormState): Form;

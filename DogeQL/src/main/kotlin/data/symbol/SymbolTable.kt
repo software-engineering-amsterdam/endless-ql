@@ -58,6 +58,14 @@ class SymbolTable {
         }
     }
 
+    fun assign(name: String, type: SymbolType, value: Expression) {
+        findSymbol(name)?.let {
+            symbols[name] = Symbol(type, value)
+        } ?: run {
+            throw NoSuchElementException("Unable to find $name in symbol table")
+        }
+    }
+
     fun findSymbol(name: Name): Symbol? = symbols[name]
 
     private fun nextFreeInternalName(): Name {

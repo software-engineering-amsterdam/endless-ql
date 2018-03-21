@@ -13,7 +13,7 @@ form testForm {
                 q8: "You need this much: " money = (q7 - q6)
             }
             if(qqq){
-                q4: "What is your birthdate?" boolean
+                q4: "What is your birthdate?" date
             } else {
                 q9: "You hate birthdays?" boolean
             }

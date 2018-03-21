@@ -25,5 +25,4 @@ class QuestionNode(symbolTable: SymbolTable, val question: Question) : Node(symb
     override fun accept(pass: TypePass) {
         pass.visit(this)
     }
-
 }

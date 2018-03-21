@@ -1,6 +1,5 @@
 package org.uva.qls.validation;
 
-import org.uva.app.LogHandler;
 import org.uva.ql.ast.Question;
 import org.uva.ql.validation.checker.Checker;
 import org.uva.qls.ast.Segment.QuestionReference;
@@ -9,7 +8,6 @@ import org.uva.qls.collector.StylesheetContext;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class QLSValidator {
@@ -18,7 +16,6 @@ public class QLSValidator {
     private final StylesheetContext stylesheetContext;
 
     private List<Question> qlQuestions;
-    private LogHandler logHandler;
     private List<Checker> checkers;
 
     public QLSValidator(List<Question> qlQuestions, Stylesheet stylesheet) {
@@ -28,7 +25,6 @@ public class QLSValidator {
 
         this.checkers = new ArrayList<>();
 
-        this.logHandler = (LogHandler) Logger.getGlobal().getHandlers()[0];
 
         initializeCheckers();
     }
@@ -48,5 +44,4 @@ public class QLSValidator {
             checker.runCheck();
         }
     }
-
 }

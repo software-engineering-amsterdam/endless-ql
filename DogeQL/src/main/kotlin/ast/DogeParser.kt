@@ -26,6 +26,12 @@ class DogeParser {
 
         val result = TypeChecker(listener.symbolTable).check(tree)
 
+        if (result.hasErrors()) {
+            result.printErrors()
+
+            throw Exception() // TODO: fix this flow
+        }
+
         return tree
     }
 

@@ -8,6 +8,7 @@ public class NumberValue extends Value {
         this.value = value;
     }
 
+    //TODO return decimal/int
     public String getValue() {
         return value;
     }

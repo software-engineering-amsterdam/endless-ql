@@ -11,11 +11,11 @@ import java.awt.Font;
 
 import javax.swing.*;
 
-public class StringWidget extends QuestionWidget {
+public class TextWidget extends QuestionWidget {
 
     private JTextField textField = new JTextField();
 
-    public StringWidget(Question question, Value value, boolean readOnly, Style style) {
+    public TextWidget(Question question, Value value, boolean readOnly, Style style) {
         super(question);
 
         textField.setText(value.getValue().toString());
@@ -31,5 +31,10 @@ public class StringWidget extends QuestionWidget {
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
         textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question, new StringValue(textField.getText())));
+    }
+
+    @Override
+    public void setFont(String font) {
+        super.setFont(font);
     }
 }

@@ -1,5 +1,6 @@
 package org.uva.qls.validation;
 
+import org.uva.ql.validation.ValidationResult;
 import org.uva.ql.validation.checker.Checker;
 
 import java.util.ArrayList;
@@ -22,12 +23,15 @@ class ReferenceChecker extends Checker {
     }
 
     @Override
-    public void runCheck() {
+    public ValidationResult runCheck() {
+        ValidationResult result = new ValidationResult();
+
         HashSet uniqueIds = new HashSet();
         List<String> duplicateIds = this.qlsQuestionIds.stream()
                 .filter(e -> !uniqueIds.add(e))
                 .collect(Collectors.toList());
         if (duplicateIds.size() > 0) {
+            result.addError(String.format("Questions: %s are referenced multiple times by the QLS", duplicateIds.toString()));
             logger.severe(String.format("Questions: %s are referenced multiple times by the QLS", duplicateIds.toString()));
         }
 
@@ -35,12 +39,16 @@ class ReferenceChecker extends Checker {
         qlsQuestionIdsCopy.removeAll(qlQuestionIds);
 
         if (qlsQuestionIdsCopy.size() > 0) {
+            result.addError(String.format("Questions:%s are in QLS but not in QL", qlsQuestionIdsCopy.toString()));
             logger.severe(String.format("Questions:%s are in QLS but not in QL", qlsQuestionIdsCopy.toString()));
         }
 
         qlQuestionIds.removeAll(qlsQuestionIds);
         if (qlQuestionIds.size() > 0) {
+            result.addError(String.format("Questions: %s are in QL but not in QLS", qlQuestionIds.toString()));
             logger.severe(String.format("Questions: %s are in QL but not in QLS", qlQuestionIds.toString()));
         }
+
+        return result;
     }
 }

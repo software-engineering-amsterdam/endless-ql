@@ -50,6 +50,7 @@ class QLSVisitor(QLSGrammarVisitor):
         self.logger.debug("SECTION")
 
         sectionName = ctx.STRING().getText()
+        sectionName = sectionName.replace("\"", "")
         section = Section(sectionName)
 
         # sections
@@ -78,17 +79,17 @@ class QLSVisitor(QLSGrammarVisitor):
         if (ctx.widget()):
             widget = self.visit(ctx.widget())
             question = Question(questionName, widget, widget.getWidget(), ctx.start.line)
-        
+
         elif (ctx.default_style()):
             default = self.visit(ctx.default_style())
             question = Question(questionName, default.getWidget(), default.getWidgetType(), ctx.start.line, default)
-        
+
         return question
 
     # Visit a parse tree produced by QLSGrammarParser#widget.
     def visitWidget(self, ctx: QLSGrammarParser.WidgetContext):
         # Actual widget types: BOOL
-        if(ctx.CHECKBOX()):
+        if (ctx.CHECKBOX()):
             return CheckBoxWidget()
         elif ctx.RADIO():
             return RadioWidget(ctx.STRING()[0].getText(), ctx.STRING()[1].getText())
@@ -102,17 +103,18 @@ class QLSVisitor(QLSGrammarVisitor):
             return SliderWidget(0, 10)
         elif ctx.SPINBOX():
             return SpinboxWidget(0, 10)
-        
+
         # Styling classes
         elif ctx.WIDTH():
             return StyleWidth(ctx.INT().getText())
         elif ctx.FONTSIZE():
             return StyleFontSize(ctx.INT().getText())
         elif ctx.FONT():
-            return StyleFont(ctx.STRING()[0].getText())
+            font = ctx.STRING()[0].getText()
+            font = font.replace("\"", "")
+            return StyleFont(font)
         elif ctx.COLOR():
             return StyleColor(ctx.HEXCOLOR().getText())
-
 
     # Visit a parse tree produced by QLSGrammarParser#default_style.
     def visitDefault_style(self, ctx: QLSGrammarParser.Default_styleContext):
@@ -145,8 +147,9 @@ class QLSVisitor(QLSGrammarVisitor):
 
 del QLSGrammarParser
 
-
 import sys
+
+
 # Throw an exception without printing the python stacktrace
 def throwError(text):
     print("QLS Interpreter error:")

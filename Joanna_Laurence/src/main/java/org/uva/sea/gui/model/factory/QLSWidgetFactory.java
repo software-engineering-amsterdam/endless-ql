@@ -2,7 +2,7 @@ package org.uva.sea.gui.model.factory;
 
 import org.uva.sea.gui.IGuiElementUpdateListener;
 import org.uva.sea.gui.widget.Widget;
-import org.uva.sea.gui.widget.qls.ChoiceBoxWidget;
+import org.uva.sea.gui.widget.qls.*;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
@@ -20,8 +20,8 @@ public class QLSWidgetFactory {
         this.widgetTypeClassEnumMap.put(WidgetType.CHECKBOX, ChoiceBoxWidget.class);
         this.widgetTypeClassEnumMap.put(WidgetType.SLIDER, SliderWidget.class);
         this.widgetTypeClassEnumMap.put(WidgetType.CHOICEBOX, ChoiceBoxWidget.class);
-        this.widgetTypeClassEnumMap.put(WidgetType.RADIO, RadioWidget.class);
-        this.widgetTypeClassEnumMap.put(WidgetType.SPINBOX, SpinBoxWidget.class);
+        this.widgetTypeClassEnumMap.put(WidgetType.RADIO, RadioButtonWidget.class);
+        this.widgetTypeClassEnumMap.put(WidgetType.SPINBOX, SpinnerWidget.class);
         this.widgetTypeClassEnumMap.put(WidgetType.TEXTFIELD, TextFieldWidget.class);
     }
 

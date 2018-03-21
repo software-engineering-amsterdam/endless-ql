@@ -32,7 +32,7 @@ export const checkWidgetAttribute = (attribute: WidgetAttribute): void => {
       // radioWidget.checkParentType(attribute.getParent())
       // radioWidget.checkArgumentType(attribute.options)
     default:
-      alert("Widget '" + attribute.name + "' is not supported");
+      alert("Widget '" + attribute.getName() + "' is not supported");
   }
   return;
 };

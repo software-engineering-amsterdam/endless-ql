@@ -28,8 +28,8 @@ public class WidgetDefault extends Widget {
                 return new WidgetTextBox(null).createWidget(visitor, symbolTable, question, qlsQuestion, defaultStyles);
             case DATE:
                 return new WidgetDatePicker(null).createWidget(visitor, symbolTable, question, qlsQuestion, defaultStyles);
-                default:
-                    throw new UnsupportedOperationException("Default widget for type "  + question.type + " unknown.");
+            default:
+                throw new UnsupportedOperationException("Default widget for type "  + question.type + " unknown.");
         }
     }
 

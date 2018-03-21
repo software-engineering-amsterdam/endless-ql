@@ -15,20 +15,8 @@ class ExpressionBuilder {
         return stack.pop()
     }
 
-    fun build(): Expression {
-        return stack.pop()
-    }
-
-    fun first(): Expression{
-        return stack.first
-    }
-
     fun isEmpty(): Boolean {
         return stack.isEmpty()
-    }
-
-    fun size(): Int {
-        return stack.size
     }
 
 }

@@ -10,13 +10,12 @@ from pyql.ast.expression.expressions import *
 
 class VariableDependenciesChecker:
 
-    def __init__(self, tree):
+    def __init__(self):
         self._symbol_table = SymbolTable()
-        self._tree = tree
         self._expressions_checker = ExpressionDependenciesChecker(self._symbol_table)
 
-    def check(self):
-        self._tree.accept(self)
+    def check(self, tree):
+        tree.accept(self)
 
     @property
     def symbol_table(self):

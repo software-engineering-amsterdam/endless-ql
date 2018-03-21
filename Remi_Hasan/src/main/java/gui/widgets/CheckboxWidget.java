@@ -51,7 +51,7 @@ public class CheckboxWidget extends CheckBox implements WidgetInterface {
 
     @Override
     public void setColor(String color) {
-        this.setStyle(this.getStyle() + "-fx-label-inner-color: " + color + ";");
+        this.setStyle(this.getStyle() + "-fx-text-inner-color: " + color + ";");
     }
 
     @Override

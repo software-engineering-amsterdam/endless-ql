@@ -19,10 +19,9 @@ class QLString(QLType):
         return str(self.value)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value)
-
-    def __ne__(self, other):
-        return QLBoolean(self.value != other.value)
+        if type(other) == QLString:
+            return QLBoolean(self.value == other.value)
+        return False
 
     def __lt__(self, other):
         return QLBoolean(len(self.value) < len(other.value))

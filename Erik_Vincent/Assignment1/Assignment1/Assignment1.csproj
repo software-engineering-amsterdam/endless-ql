@@ -146,10 +146,11 @@
     <Compile Include="Parser\AntlrGenerated\QLS.cs" />
     <Compile Include="Parser\AntlrGenerated\QLSLexer.cs" />
     <Compile Include="Parser\QLErrorListener.cs" />
-    <Compile Include="Parser\QLParseErrorHandler.cs" />
+    <Compile Include="Parser\ParseErrorHandler.cs" />
     <Compile Include="Parser\QLSParser.cs" />
     <Compile Include="Rendering\QuestionFormWithStyleRenderer.cs" />
     <Compile Include="Model\QL\AST\Statement.cs" />
+    <Compile Include="TypeChecking\QLCyclicDependencyChecker.cs" />
     <Compile Include="TypeChecking\QLTypeChecker.cs" />
     <Compile Include="Model\QL\RenderTree\Question.cs" />
     <Compile Include="Model\QL\RenderTree\QuestionForm.cs" />

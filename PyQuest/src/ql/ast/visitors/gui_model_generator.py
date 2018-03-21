@@ -4,7 +4,7 @@ from ql.ast.statements.question_node import QuestionNode
 from ql.ast.expressions.binary_operators.and_node import AndOperatorNode
 from ql.types.boolean import QLBoolean
 from ql.types.undefined import QLUndefined
-from gui.model.form import Form
+from gui.model.form import FormModel
 from multimethods import multimethod
 
 
@@ -15,7 +15,7 @@ class GUIModel:
 
     @multimethod(FormNode)
     def visit(self, node):
-        self.form = Form(node.identifier)
+        self.form = FormModel(node.identifier)
 
         for child in node.block:
             child.accept(self)

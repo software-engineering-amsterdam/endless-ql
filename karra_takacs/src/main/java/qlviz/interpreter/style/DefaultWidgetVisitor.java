@@ -1,5 +1,6 @@
 package qlviz.interpreter.style;
 
+import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.interpreter.QuestionTypeTranslator;
@@ -15,6 +16,7 @@ public class DefaultWidgetVisitor extends QLSBaseVisitor<DefaultWidgetDeclaratio
     private final QLSBaseVisitor<Widget> widgetVisitor;
     private final QuestionTypeTranslator questionTypeTranslator;
 
+    @Inject
     public DefaultWidgetVisitor(QLSBaseVisitor<PropertySetting> propertySettingVisitor, QLSBaseVisitor<Widget> widgetVisitor, QuestionTypeTranslator questionTypeTranslator) {
         this.propertySettingVisitor = propertySettingVisitor;
         this.widgetVisitor = widgetVisitor;

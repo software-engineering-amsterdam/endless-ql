@@ -1,5 +1,6 @@
 package qlviz.interpreter.style;
 
+import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.Page;
@@ -11,6 +12,7 @@ public class StylesheetVisitor extends QLSBaseVisitor<Stylesheet> {
 
     private final QLSBaseVisitor<Page> pageVisitor;
 
+    @Inject
     public StylesheetVisitor(QLSBaseVisitor<Page> pageVisitor) {
         this.pageVisitor = pageVisitor;
     }

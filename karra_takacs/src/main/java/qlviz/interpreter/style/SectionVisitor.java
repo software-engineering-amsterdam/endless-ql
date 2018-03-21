@@ -1,5 +1,6 @@
 package qlviz.interpreter.style;
 
+import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.DefaultWidgetDeclaration;
@@ -14,6 +15,7 @@ public class SectionVisitor extends QLSBaseVisitor<Section> {
     private final QLSBaseVisitor<Question> questionVisitor;
     private final QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitor;
 
+    @Inject
     public SectionVisitor(QLSBaseVisitor<Question> questionVisitor, QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitor) {
         this.questionVisitor = questionVisitor;
         this.defaultWidgetVisitor = defaultWidgetVisitor;

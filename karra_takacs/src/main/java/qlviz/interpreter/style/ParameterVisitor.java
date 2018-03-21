@@ -1,5 +1,6 @@
 package qlviz.interpreter.style;
 
+import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.ColorParameter;
@@ -10,6 +11,11 @@ import qlviz.model.style.StringParameter;
 import java.math.BigDecimal;
 
 public class ParameterVisitor extends QLSBaseVisitor<Parameter> {
+
+    @Inject
+    public ParameterVisitor() {
+
+    }
 
     @Override
     public Parameter visitParameter(QLSParser.ParameterContext ctx) {

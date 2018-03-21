@@ -1,5 +1,7 @@
 package qlviz.gui;
 
+import com.google.inject.*;
+import com.google.inject.Module;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -22,13 +24,11 @@ import qlviz.interpreter.*;
 import qlviz.interpreter.QuestionVisitor;
 import qlviz.interpreter.linker.QuestionLinkerImpl;
 import qlviz.interpreter.style.*;
+import qlviz.interpreter.style.ParameterVisitor;
 import qlviz.model.booleanExpressions.BooleanExpression;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
-import qlviz.model.style.DefaultWidgetDeclaration;
-import qlviz.model.style.PropertySetting;
-import qlviz.model.style.Stylesheet;
-import qlviz.model.style.Widget;
+import qlviz.model.style.*;
 import qlviz.typecheker.AnalysisResult;
 import qlviz.typecheker.Severity;
 import qlviz.typecheker.StaticChecker;
@@ -56,27 +56,9 @@ public class QLForm extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-		QLSBaseVisitor<PropertySetting> propertySettingVisitor = new PropertySettingVisitor(new ParameterVisitor());
-		QLSBaseVisitor<Widget> widgetVisitor = new WidgetVisitor(
-				new WidgetTypeTranslator(),
-				new ParameterVisitor());
-		QuestionTypeTranslator questionTypeTranslator = new QuestionTypeVisitor();
-		QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitor =
-				new DefaultWidgetVisitor(propertySettingVisitor, widgetVisitor, questionTypeTranslator);
-		QLSBaseVisitor<Stylesheet> stylesheetVisitor = new StylesheetVisitor(
-				new PageVisitor(
-						new SectionVisitor(
-								new qlviz.interpreter.style.QuestionVisitor(
-										new WidgetVisitor(
-												new WidgetTypeTranslator(),
-												new ParameterVisitor()
-										)
-								),
-								defaultWidgetVisitor
-						),
-						defaultWidgetVisitor)
-		);
-		StyleModelBuilder styleBuilder = new StyleModelBuilder(stylesheetVisitor);
+
+		Injector injector = Guice.createInjector(new QLSParserModule());
+		StyleModelBuilder styleBuilder = injector.getInstance(StyleModelBuilder.class);
 
 
 		if (this.getParameters().getRaw().size() > 1) {

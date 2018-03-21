@@ -1,5 +1,6 @@
 package qlviz.interpreter.style;
 
+import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.Parameter;
@@ -14,6 +15,7 @@ public class WidgetVisitor extends QLSBaseVisitor<Widget> {
    private final WidgetTypeTranslator widgetTypeTranslator;
    private final QLSBaseVisitor<Parameter> parameterVisitor;
 
+   @Inject
     public WidgetVisitor(WidgetTypeTranslator widgetTypeTranslator, QLSBaseVisitor<Parameter> parameterVisitor) {
         this.widgetTypeTranslator = widgetTypeTranslator;
         this.parameterVisitor = parameterVisitor;

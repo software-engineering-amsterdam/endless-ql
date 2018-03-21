@@ -1,5 +1,6 @@
 package qlviz.gui;
 
+import com.google.inject.Inject;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import qlviz.QLSBaseVisitor;
@@ -14,6 +15,7 @@ public class StyleModelBuilder {
 
 	private final QLSBaseVisitor<Stylesheet> stylesheetVisitor;
 
+	@Inject
 	public StyleModelBuilder(QLSBaseVisitor<Stylesheet> stylesheetVisitor) {
 		this.stylesheetVisitor = stylesheetVisitor;
 	}

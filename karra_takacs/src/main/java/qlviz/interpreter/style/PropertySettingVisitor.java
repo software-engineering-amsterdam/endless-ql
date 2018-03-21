@@ -1,5 +1,6 @@
 package qlviz.interpreter.style;
 
+import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.Parameter;
@@ -9,6 +10,7 @@ public class PropertySettingVisitor extends QLSBaseVisitor<PropertySetting> {
 
     private final QLSBaseVisitor<Parameter> parameterVisitor;
 
+    @Inject
     public PropertySettingVisitor(QLSBaseVisitor<Parameter> parameterVisitor) {
         this.parameterVisitor = parameterVisitor;
     }

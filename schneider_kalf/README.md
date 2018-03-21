@@ -96,3 +96,27 @@ Result will be written into the `/build` folder
 * TODO: Rename QuestionStyles to FieldStyle
 * TODO: Either use body or children so we can use this general function (Explain mees how JavaScript works)
 * TODO: Consider variable type to merge default styles
+
+
+####QL Requirements
+
+- [x] Questions are enabled and disabled when different values are entered.
+
+The type checker detects:
+
+- [x] reference to undefined questions
+- [x] duplicate question declarations with different types
+- [ ] conditions that are not of the type boolean
+- [ ] operands of invalid type to operators
+- [ ] cyclic dependencies between questions
+- [x] duplicate labels (warning)
+- [x] The language supports booleans, integers and string values 
+- [x] (possibly also dates and decimals).
+
+- [ ] Different data types in QL map to different (default) GUI widgets.
+
+####Requirements on the implementation:
+- [x] The parser of the DSL is implemented using a grammar-based parser generator.
+- [x] The internal structure of a DSL program is represented using abstract syntax trees.
+- [x] QL programs are executed as GUI programs, not command-line dialogues.
+- [x] QL programs are executed by interpretation, not code generation.

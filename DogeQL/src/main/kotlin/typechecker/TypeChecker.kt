@@ -13,6 +13,11 @@ class TypeChecker(val symbolTable: SymbolTable) {
 
         DuplicatePass(result).visit(tree)
         ScopePass(result, symbolTable).visit(tree)
+
+        if (result.hasErrors()) {
+            return result
+        }
+
         TypePass(result, symbolTable).visit(tree)
 
         return result

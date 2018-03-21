@@ -27,7 +27,7 @@ class QuestionTextField(question: QuestionModel) : TextField() {
                 stripWhitespace()
                 bind(question.stringValue)
             }
-            else -> throw IllegalArgumentException("unsupported type")
+            else -> throw IllegalArgumentException("${question.item.value.type} unsupported type")
         }
 
         textProperty().addListener({ _, _, _ ->

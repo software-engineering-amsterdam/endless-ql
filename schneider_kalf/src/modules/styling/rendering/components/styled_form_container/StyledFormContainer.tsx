@@ -5,12 +5,13 @@ import PageNode from "../../../form/nodes/containers/PageNode";
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import FieldNode from "../../../../../form/nodes/fields/FieldNode";
 import { StyledFieldContainer } from "../styled_field_container/StyledFieldContainer";
-import StyledFieldNode from "../../../form/StyledFieldNode";
-import { getTypeString } from "../../../../../form/type_checking/type_assertions";
+import SectionNode from "../../../form/nodes/containers/SectionNode";
+import { SectionComponent } from "../section_component/SectionComponent";
 
 export interface StyledFormContainerProps {
   form: StyledForm;
   onChange: (identifier: string, value: any) => void;
+  onChangePage: (nextPage: PageNode) => void;
   visibleFields: Set<string>;
 }
 
@@ -26,13 +27,21 @@ export class StyledFormContainer extends React.Component<StyledFormContainerProp
     this.renderField = this.renderField.bind(this);
   }
 
+  onChangePage(nextPage: PageNode, clickEvent: React.MouseEvent<HTMLElement>) {
+    clickEvent.preventDefault();
+    this.props.onChangePage(nextPage);
+  }
+
   renderPaginationLinks() {
+    const activePage = this.props.form.getActivePage();
     const pages: PageNode[] = this.props.form.getPages();
 
     return pages.map(page => {
+      const isActive = typeof activePage !== 'undefined' && activePage.name === page.name;
+
       return (
-          <PaginationItem key={page.name}>
-            <PaginationLink href="#">
+          <PaginationItem active={isActive} key={page.name}>
+            <PaginationLink onClick={event => this.onChangePage(page, event)} href="#">
               {page.name}
             </PaginationLink>
           </PaginationItem>
@@ -40,7 +49,14 @@ export class StyledFormContainer extends React.Component<StyledFormContainerProp
     });
   }
 
-  renderField(field: StyledFieldNode) {
+  renderField(identifier: string) {
+    const field = this.props.form.getField(identifier);
+    const activePage = this.props.form.getActivePage();
+
+    if (!field || !field.isOnPage(activePage) || !this.props.visibleFields.has(field.identifier)) {
+      return null;
+    }
+
     return (
         <StyledFieldContainer
             onChange={value => this.props.onChange(field.identifier, value)}
@@ -51,18 +67,37 @@ export class StyledFormContainer extends React.Component<StyledFormContainerProp
     );
   }
 
+  renderSections(sections: SectionNode[]) {
+    return sections.map(section => {
+      return (
+          <SectionComponent
+              key={section.name}
+              sectionNode={section}
+              renderField={this.renderField}
+          />
+      );
+    });
+  }
+
+  renderPage(page?: PageNode) {
+    if (!page) {
+      return null;
+    }
+
+    return (
+        <div className="questionnaire-page">
+          {this.renderSections(page.getFirstLevelSections())}
+        </div>
+    );
+  }
+
   render() {
     // TODO: Implement page navigation here
 
     return (
         <div>
           <h1>Styled form</h1>
-          <FormComponent
-              form={this.props.form}
-              onChange={this.props.onChange}
-              visibleFields={this.props.visibleFields}
-              renderField={this.renderField}
-          />
+          {this.renderPage(this.props.form.getActivePage())}
           <Pagination>
             {this.renderPaginationLinks()}
           </Pagination>

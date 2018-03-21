@@ -11,7 +11,7 @@ class FormNode(QLast):
 
 class QuestionNode(QLast):
     def __init__(self, question, var, vartype):
-        self.nodeType = "question"
+        self.node_type = "question"
         self.question = question
         self.var = var
         self.vartype = vartype
@@ -20,7 +20,7 @@ class QuestionNode(QLast):
         return "Question({}, {}, {})".format(self.question, self.var, self.vartype)
 
     def getNodeType(self):
-        return self.nodeType
+        return self.node_type
 
     def getVariableName(self):
         return self.var
@@ -30,7 +30,7 @@ class QuestionNode(QLast):
 
 class AssignmentNode(QLast):
     def __init__(self, name, var, vartype, expression):
-        self.nodeType = "assignment"
+        self.node_type = "assignment"
         self.name = name
         self.var = var
         self.vartype = vartype
@@ -40,7 +40,7 @@ class AssignmentNode(QLast):
         return "Assignment: {} {} {} = {}".format(self.name, self.vartype, self.var, self.expression)
 
     def getNodeType(self):
-        return self.nodeType
+        return self.node_type
 
     def getVariableName(self):
         return self.var
@@ -51,7 +51,7 @@ class AssignmentNode(QLast):
 
 class BinOpNode(QLast):
     def __init__(self, left, op, right, negate=False):
-        self.nodeType = "binop"
+        self.node_type = "binop"
         self.left = left
         self.op = op
         self.right = right
@@ -61,11 +61,11 @@ class BinOpNode(QLast):
         return "binop: negate:{} {} {} {}".format(self.negate, self.left, self.op, self.right)
 
     def getNodeType(self):
-        return self.nodeType
+        return self.node_type
 
 class UnOpNode(QLast):
     def __init__(self, var, negate=False):
-        self.nodeType = "unop"
+        self.node_type = "unop"
         self.var = var
         self.negate = negate
 
@@ -77,7 +77,7 @@ class UnOpNode(QLast):
 
 class IfNode(QLast):
     def __init__(self, expression):
-        self.nodeType = "if"
+        self.node_type = "if"
         self.expression = expression
         self.statements = []
 
@@ -85,11 +85,11 @@ class IfNode(QLast):
         return "If expression: {}, statements: {}".format(self.expression, self.statements)
 
     def getNodeType(self):
-        return self.nodeType
+        return self.node_type
 
 class ElifNode(QLast):
     def __init__(self, expression):
-        self.nodeType = "elif"
+        self.node_type = "elif"
         self.expression = expression
         self.statements = []
 
@@ -97,22 +97,22 @@ class ElifNode(QLast):
         return "Elif expression: {}, statements: {}".format(self.expression, self.statements)
 
     def getNodeType(self):
-        return self.nodeType
+        return self.node_type
 
 class ElseNode(QLast):
     def __init__(self):
-        self.nodeType = "else"
+        self.node_type = "else"
         self.statements = []
 
     def __repr__(self):
         return "Else statements: {}".format(self.statements)
 
     def getNodeType(self):
-        return self.nodeType
+        return self.node_type
 
 class LiteralNode(QLast):
     def __init__(self, literal, negate=False):
-        self.nodeType = "literal"
+        self.node_type = "literal"
         self.literal = literal
         self.negate = negate
 
@@ -120,4 +120,4 @@ class LiteralNode(QLast):
         return "Litaral negate: {} {}".format(self.negate, self.literal)
 
     def getNodeType(self):
-        return self.nodeType
+        return self.node_type

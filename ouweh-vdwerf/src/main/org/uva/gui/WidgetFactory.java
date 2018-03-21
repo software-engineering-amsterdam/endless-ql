@@ -1,6 +1,6 @@
 package org.uva.gui;
 
-import org.uva.gui.widgets.BooleanWidget;
+import org.uva.gui.widgets.CheckboxWidget;
 import org.uva.gui.widgets.IntegerWidget;
 import org.uva.gui.widgets.QuestionWidget;
 import org.uva.ql.ast.Question;
@@ -28,31 +28,31 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
 
     @Override
     public QuestionWidget visit(CheckboxType checkboxType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly);
+        return new CheckboxWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), checkboxType.getLabel());
     }
 
     @Override
     public QuestionWidget visit(DropDownType dropDownType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly);
+        return new CheckboxWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), "");
     }
 
     @Override
     public QuestionWidget visit(RadioType radioType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly);
+        return new CheckboxWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), "");
     }
 
     @Override
     public QuestionWidget visit(SliderType sliderType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly);
+        return new IntegerWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 
     @Override
     public QuestionWidget visit(SpinboxType spinboxType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly);
+        return new IntegerWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 
     @Override
     public QuestionWidget visit(TextType textType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly);
+        return new IntegerWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 }

@@ -1,6 +1,12 @@
 package nl.uva.js.qlparser.ui;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.uva.js.qlparser.exceptions.ParseException;
+import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.logic.FormBuilder;
 import nl.uva.js.qlparser.logic.StylesheetBuilder;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
@@ -41,7 +47,11 @@ public class GUIBuilder {
     private static JPanel topPanel;
     private static TextPanel console;
 
+    private static Form globalForm;
+
     public static Frame getGUI(Form form) {
+        globalForm = form;
+
         qlPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
         qlPanel.setText(loadDefaultFileContent());
 
@@ -70,16 +80,21 @@ public class GUIBuilder {
             }
         });
 
-        mainFrame.setTitle(form.getHumanizedName());
+        mainFrame.setTitle(globalForm.getHumanizedName());
 
         return mainFrame;
     }
 
     private static String loadDefaultFileContent() {
         try {
-            String file = GUIBuilder.class.getClassLoader().getResource(System.getProperty("ql.file")).getFile();
-            return new String(Files.readAllBytes(Paths.get(file)));
-        } catch (IOException | ParseException e) {
+            return NonNullRun.function(System.getProperty("ql.file"), qlfile -> {
+                try {
+                    return new String(Files.readAllBytes(Paths.get(GUIBuilder.class.getClassLoader().getResource(qlfile).getFile())));
+                } catch (IOException e) {
+                    return "";
+                }
+            });
+        } catch (ParseException e) {
             log(e.getMessage());
         }
         return "";
@@ -147,9 +162,9 @@ public class GUIBuilder {
         JButton qlProcessButton = getButton("Process", 100);
         qlProcessButton.addActionListener(e -> {
             try {
-                Form form = FormBuilder.parseFormFromString(qlPanel.getText());
-                formPanel.apply(form);
-                mainFrame.setTitle(form.getHumanizedName());
+                globalForm = FormBuilder.parseFormFromString(qlPanel.getText());
+                formPanel.apply(globalForm);
+                mainFrame.setTitle(globalForm.getHumanizedName());
             } catch (ParseException exception) {
                 log(exception.getMessage());
             }
@@ -172,7 +187,17 @@ public class GUIBuilder {
         });
 
         JButton exportButton = getButton("Export form", 250);
-        exportButton.addActionListener(e -> {});
+        exportButton.addActionListener(e -> {
+            try {
+                ObjectMapper mapper = new ObjectMapper()
+                        .registerModule(new JavaTimeModule())
+                        .registerModule(new Jdk8Module());
+                mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+                System.out.println(mapper.writer().writeValueAsString(globalForm));
+            } catch (JsonProcessingException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         buttonBar.leftPanel.add(qlLoadButton);
         buttonBar.leftPanel.add(qlSaveButton);

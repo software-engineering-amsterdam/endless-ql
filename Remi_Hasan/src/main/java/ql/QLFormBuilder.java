@@ -1,9 +1,6 @@
 package ql;
 
-import ql.analysis.CycleDetector;
-import ql.analysis.SymbolTable;
-import ql.analysis.TypeChecker;
-import ql.analysis.UnknownIdentifiersDetector;
+import ql.analysis.*;
 import ql.model.Form;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -14,6 +11,7 @@ import ql.visitor.VisitorForm;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 public class QLFormBuilder {
 
@@ -43,6 +41,11 @@ public class QLFormBuilder {
         this.performAnalysis(form, symbolTable);
 
         return form;
+    }
+
+    public Set<String> getWarnings(Form form) {
+        DuplicateLabelDetector duplicateLabelDetector = new DuplicateLabelDetector(form);
+        return duplicateLabelDetector.getDuplicateLabelWarnings();
     }
 
     private void performAnalysis(Form form, SymbolTable symbolTable) {

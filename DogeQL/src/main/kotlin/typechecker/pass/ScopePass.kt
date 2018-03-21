@@ -8,6 +8,7 @@ import node.Node
 import node.QuestionNode
 import node.RootNode
 import typechecker.NodePass
+import typechecker.TokenLocation
 import typechecker.TypeCheckResult
 import java.util.*
 
@@ -41,25 +42,29 @@ class ScopePass(result: TypeCheckResult, val symbolTable: SymbolTable) : NodePas
             val symbol = symbolTable.findSymbol(reference)
 
             if (symbol == null) {
-                result.undefinedReferences.add(reference)
+                throw IllegalStateException("Unable to find symbol for reference $reference")
             } else {
-                checkReferencesForSymbol(reference, symbol)
+                checkReferencesForSymbol(expressionNode, symbol)
             }
         }
 
         expressionNode.children.forEach { child -> child.accept(this) }
     }
 
-    private fun checkReferencesForSymbol(reference: Name, symbol: Symbol) {
+    private fun checkReferencesForSymbol(expressionNode: ExpressionNode, symbol: Symbol) {
         if (symbol.expression == null) {
-            result.undefinedReferences.add(reference)
+            val error = TokenLocation(expressionNode.reference, expressionNode.sourceLocation)
+            result.undefinedReferences.add(error)
         } else {
             val references = symbol.expression.allReferences()
 
             references.forEach {
-                if (!visibleReferences.contains(it)) {
-                    result.undefinedReferences.add(it)
+
+                if (!visibleReferences.contains(it.name)) {
+                    val error = TokenLocation(it.name, it.sourceLocation)
+                    result.undefinedReferences.add(error)
                 }
+
             }
         }
     }

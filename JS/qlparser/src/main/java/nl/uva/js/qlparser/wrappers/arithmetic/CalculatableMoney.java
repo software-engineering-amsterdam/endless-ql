@@ -1,5 +1,6 @@
 package nl.uva.js.qlparser.wrappers.arithmetic;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.joda.money.Money;
 
 import java.math.RoundingMode;
@@ -31,5 +32,11 @@ public class CalculatableMoney extends Calculatable<Money> {
     @Override
     public Calculatable<Money> div(Calculatable<Money> other) {
         return new CalculatableMoney(this.get().dividedBy(other.get().getAmount(), RoundingMode.HALF_UP));
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return super.toString();
     }
 }

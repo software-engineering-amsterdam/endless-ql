@@ -12,6 +12,10 @@ public class StyleAttributeWidth extends StyleAttribute {
         this.width = width;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
     @Override
     public <T> T accept(IQLSVisitor<T> visitor) {
         return visitor.visit(this);

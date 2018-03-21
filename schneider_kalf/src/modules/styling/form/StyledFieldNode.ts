@@ -3,7 +3,7 @@ import FieldNode from "../../../form/nodes/fields/FieldNode";
 import MergedFieldStyle from "./MergedFieldStyle";
 import SectionNode from "./nodes/containers/SectionNode";
 import QuestionStyle from "./nodes/children/QuestionStyle";
-import Page from "./nodes/containers/PageNode";
+import Page, { default as PageNode } from "./nodes/containers/PageNode";
 
 export default class StyledFieldNode extends FieldNodeDecorator {
   private mergedStyle: MergedFieldStyle;
@@ -38,5 +38,15 @@ export default class StyledFieldNode extends FieldNodeDecorator {
     }
 
     return this.styleNode.getNearestParent(parent => parent instanceof Page);
+  }
+
+  public isOnPage(otherPage?: PageNode): boolean {
+    const page = this.getPage();
+
+    if (!page || !otherPage) {
+      return false;
+    }
+
+    return otherPage.name === page.name;
   }
 }

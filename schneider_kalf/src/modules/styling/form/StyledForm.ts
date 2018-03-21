@@ -7,6 +7,7 @@ import PageNode from "./nodes/containers/PageNode";
 import { filterNodes } from "../../../form/form_helpers";
 import StyledFieldNode from "./StyledFieldNode";
 import FormNode from "../../../form/nodes/FormNode";
+import FormState from "../../../form/state/FormState";
 
 export default class StyledForm implements Form {
   private baseForm: Form;
@@ -21,13 +22,8 @@ export default class StyledForm implements Form {
     return this.baseForm.getName();
   }
 
-  getFields(): FieldNode[] {
-    return filterNodes(
-        (node) => {
-          return node instanceof StyledFieldNode;
-        },
-        this.baseForm.getRootNode()
-    );
+  getFields(): StyledFieldNode[] {
+    return filterNodes(node => node instanceof StyledFieldNode, this.baseForm.getRootNode());
   }
 
   getState(): PagedFormState {
@@ -37,6 +33,16 @@ export default class StyledForm implements Form {
   setAnswer(identifier: string, value: any): Form {
     const newBaseForm = this.baseForm.setAnswer(identifier, value);
     return new StyledForm(newBaseForm, this.stylesheetNode);
+  }
+
+  setState(nextState: FormState): Form {
+    const newBaseForm = this.baseForm.setState(nextState);
+    return new StyledForm(newBaseForm, this.stylesheetNode);
+  }
+
+  setActivePage(nextPage: PageNode): Form {
+    const nextState = this.getState().setActivePageName(nextPage.name);
+    return this.setState(nextState);
   }
 
   getRootNode(): FormNode {
@@ -68,5 +74,9 @@ export default class StyledForm implements Form {
 
   getPages(): PageNode[] {
     return this.stylesheetNode.getPages();
+  }
+
+  getField(identifier: string): StyledFieldNode | undefined {
+    return this.getFields().find(field => field.identifier === identifier);
   }
 }

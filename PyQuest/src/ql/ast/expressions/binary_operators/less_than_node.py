@@ -6,4 +6,4 @@ class LessThanOperatorNode(BinaryOperatorNode):
         super(LessThanOperatorNode, self).__init__(position, expression_type, left_expression, right_expression, value)
 
     def evaluate(self):
-        self.value = self.expression_type(self.left_expression.value.value < self.right_expression.value.value)
+        self.value = self.expression_type(self.left_expression.value < self.right_expression.value)

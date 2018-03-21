@@ -13,6 +13,18 @@ class QLInteger(QLType):
     def __repr__(self):
         return str(self.value)
 
+    def __bool__(self):
+        return bool(self.value)
+
+    def __float__(self):
+        return float(self.value)
+
+    def __int__(self):
+        return int(self.value)
+
+    def __str__(self):
+        return str(self.value)
+
     def __neg__(self):
         return QLInteger(- self.value)
 

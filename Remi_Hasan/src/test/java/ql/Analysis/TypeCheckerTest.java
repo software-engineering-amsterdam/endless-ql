@@ -1,10 +1,9 @@
-package ql.Analysis;
+package ql.analysis;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import ql.QLTestUtilities;
-import ql.analysis.TypeChecker;
 import ql.model.expression.Expression;
 
 public class TypeCheckerTest {

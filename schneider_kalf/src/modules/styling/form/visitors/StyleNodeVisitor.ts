@@ -1,4 +1,4 @@
-import DefaultStyle from "../nodes/children/DefaultStyle";
+import DefaultStyle from "../nodes/children/DefaultStyleNode";
 import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";

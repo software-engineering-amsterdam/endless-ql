@@ -81,11 +81,8 @@ public class QLForm extends Application {
 			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);
 		}
 
-		NumericExpressionParser numericExpressionParser = injector.getInstance(NumericExpressionParser.class);
-		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor = injector.getInstance(Key.get(new TypeLiteral<QLBaseVisitor<BooleanExpression>>(){}));
-        QLBaseVisitor<QuestionBlock> questionBlockVisitor = injector.getInstance(Key.get(new TypeLiteral<QLBaseVisitor<QuestionBlock>>(){}));
 		List<AnalysisResult> staticCheckResults = new ArrayList<>();
-		FormVisitor visitor = new FormVisitor(questionBlockVisitor);
+		QLBaseVisitor<Form> visitor = injector.getInstance(Key.get(new TypeLiteral<QLBaseVisitor<Form>>(){}));
 		ModelBuilder modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));
 
 		this.model = modelBuilder.createFormFromMarkup(this.getParameters().getRaw().get(0));

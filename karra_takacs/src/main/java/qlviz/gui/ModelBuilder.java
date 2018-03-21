@@ -2,12 +2,10 @@ package qlviz.gui;
 
 import java.io.IOException;
 
+import com.google.inject.Inject;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import qlviz.QLLexer;
-import qlviz.QLParser;
-import qlviz.QLSLexer;
-import qlviz.QLSParser;
+import qlviz.*;
 import qlviz.interpreter.FormVisitor;
 import qlviz.interpreter.linker.QuestionLinker;
 import qlviz.interpreter.style.StylesheetVisitor;
@@ -16,11 +14,11 @@ import qlviz.model.style.Stylesheet;
 
 public class ModelBuilder {
 
-	private final FormVisitor formParser;
+	private final QLBaseVisitor<Form> formParser;
 	private final QuestionLinker questionLinker;
 
-
-	public ModelBuilder(FormVisitor formParser, QuestionLinker questionLinker) {
+	@Inject
+	public ModelBuilder(QLBaseVisitor<Form> formParser, QuestionLinker questionLinker) {
 		this.formParser = formParser;
 		this.questionLinker = questionLinker;
 	}

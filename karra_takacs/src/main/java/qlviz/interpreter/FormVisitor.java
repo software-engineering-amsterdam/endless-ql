@@ -3,6 +3,7 @@
  */
 package qlviz.interpreter;
 
+import com.google.inject.Inject;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
@@ -18,9 +19,10 @@ import java.util.stream.Collectors;
  */
 public class FormVisitor extends QLBaseVisitor<Form> {
 
-    private final QLVisitor<QuestionBlock> questionBlockVisitor;
+    private final QLBaseVisitor<QuestionBlock> questionBlockVisitor;
 
-    public FormVisitor(QLVisitor<QuestionBlock> questionBlockVisitor) {
+    @Inject
+    public FormVisitor(QLBaseVisitor<QuestionBlock> questionBlockVisitor) {
 
         this.questionBlockVisitor = questionBlockVisitor;
     }

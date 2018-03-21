@@ -2,27 +2,18 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Assignment1.Model.QL.AST;
 using Assignment1.Model.QL.AST.Expression;
 using Assignment1.Model.QL.AST.Value;
+using Assignment1.TypeChecking;
 
-namespace Assignment1.TypeChecking
+namespace Assignment1.Model.QL.AST
 {
-    public class QLCyclicDependencyChecker : IQLASTVisitor, IExpressionVisitor
+    public abstract class QLASTBaseVisitor : IQLASTVisitor, IExpressionVisitor
     {
         private IDictionary<string, Question> QuestionsInScope => _scopes.SelectMany(scope => scope).ToDictionary(question => question.Id, question => question);
         private readonly Stack<IEnumerable<Question>> _scopes = new Stack<IEnumerable<Question>>();
-        private readonly LinkedList<Question> _currentCycle = new LinkedList<Question>();
 
-        public static void CheckForCycles(QuestionForm questionForm)
-        {
-            var checker = new QLCyclicDependencyChecker();
-            checker.Visit(questionForm);
-        }
-
-        private QLCyclicDependencyChecker() { }
-
-        public void Visit(QuestionForm questionForm)
+        public virtual void Visit(QuestionForm questionForm)
         {
             VisitStatements(questionForm.Statements);
         }
@@ -40,55 +31,63 @@ namespace Assignment1.TypeChecking
             _scopes.Pop();
         }
 
-        public void Visit(NormalQuestion question) { }
-
-        private static void ReportError(string error)
+        public virtual void Visit(NormalQuestion question)
         {
-            Console.WriteLine(error);
+            question.Answer.Accept(this);
         }
 
-        public void Visit(ComputedQuestion question)
+        public virtual void Visit(ComputedQuestion question)
         {
-            if (_currentCycle.Contains(question))
-            {
-                ReportError(question.Id + " depends on itself. Cycle:" + string.Join(" -> ", _currentCycle.Select(q => q.Id)));
-            }
-            else
-            {
-                _currentCycle.AddLast(question);
-                question.Computation.Accept(this);
-                Debug.Assert(_currentCycle.Last.Value.Equals(question));
-                _currentCycle.RemoveLast();
-            }
+            question.Computation.Accept(this);
         }
 
-        public void Visit(IfStatement ifStatement)
+        public virtual void Visit(IfStatement ifStatement)
         {
-            ifStatement.Condition.Accept(this);
             VisitStatements(ifStatement.ThenStatements);
             VisitStatements(ifStatement.ElseStatements);
         }
 
-        public void Visit(QLBoolean value) { }
+        public virtual void Visit(QLBoolean value)
+        {
+            value.Accept(this);
+        }
 
-        public void Visit(QLInteger value) { }
+        public virtual void Visit(QLInteger value)
+        {
+            value.Accept(this);
+        }
 
-        public void Visit(Undefined undefined) { }
+        public virtual void Visit(Undefined undefined)
+        {
+            undefined.Accept(this);
+        }
 
-        public void Visit(QLString value) { }
+        public virtual void Visit(QLString value)
+        {
+            value.Accept(this);
+        }
 
-        public void Visit(QLDate value) { }
+        public virtual void Visit(QLDate value)
+        {
+            value.Accept(this);
+        }
 
-        public void Visit(QLDecimal value) { }
+        public virtual void Visit(QLDecimal value)
+        {
+            value.Accept(this);
+        }
 
-        public void Visit(QLMoney value) { }
+        public virtual void Visit(QLMoney value)
+        {
+            value.Accept(this);
+        }
 
-        public void Visit(Not expression)
+        public virtual void Visit(Not expression)
         {
             expression.Expression.Accept(this);
         }
 
-        public void Visit(Reference expression)
+        public virtual void Visit(Reference expression)
         {
             try
             {
@@ -96,11 +95,11 @@ namespace Assignment1.TypeChecking
             }
             catch (KeyNotFoundException)
             {
-                ReportError(expression.QuestionId + " not declared in this scope.");
+                throw new UndeclaredQuestionException(expression);
             }
             catch (ArgumentNullException)
             {
-                ReportError(expression.QuestionId + " contains an invalid reference.");
+                throw new InvalidExpressionException(expression);
             }
         }
 
@@ -110,62 +109,62 @@ namespace Assignment1.TypeChecking
             expression.Right.Accept(this);
         }
 
-        public void Visit(And expression)
+        public virtual void Visit(And expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(Or expression)
+        public virtual void Visit(Or expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(LessThan expression)
+        public virtual void Visit(LessThan expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(GreaterThan expression)
+        public virtual void Visit(GreaterThan expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(GreaterThanOrEqual expression)
+        public virtual void Visit(GreaterThanOrEqual expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(LessThanOrEqual expression)
+        public virtual void Visit(LessThanOrEqual expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(NotEqual expression)
+        public virtual void Visit(NotEqual expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(Equal expression)
+        public virtual void Visit(Equal expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(Add expression)
+        public virtual void Visit(Add expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(Subtract expression)
+        public virtual void Visit(Subtract expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(Multiply expression)
+        public virtual void Visit(Multiply expression)
         {
             VisitBinaryChildren(expression);
         }
 
-        public void Visit(Divide expression)
+        public virtual void Visit(Divide expression)
         {
             VisitBinaryChildren(expression);
         }

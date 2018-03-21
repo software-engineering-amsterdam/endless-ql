@@ -17,21 +17,20 @@ DECIMAL:    'decimal';
 BOOLEAN:    'boolean';
 INTEGER:    'integer';
 
+IF:         'if';
 // Reserved boolean values
 BOOLVAL:    ('true' | 'false');
+
+// Variable names, also form name
+NAME:       [a-zA-Z][a-zA-Z0-9]*;
 
 // ISO8601 date notation
 DATVAL:     [0-9]+'-'[0-9]+'-'[0-9]+;
 
 INTVAL:     [0-9]+;
-DECVAL:     [0-9]+'.'[0-9]+[dD];
-MONVAL:     [A-Z]+[+-]?[0-9]*[.]?[0-9]*;
+DECVAL:     [0-9]+'.'[0-9]+;
+MONVAL:     [A-Z][A-Z][A-Z][+-]?[0-9]*[.]?[0-9]*;
 STRVAL:     '"'~['\\\r\n]*?'"';
-
-IF:         'if';
-
-// Variable names, also form name
-NAME:       [a-zA-Z][a-zA-Z0-9]*;
 
 COLON:      ':';
 ASSIGN:     '=';
@@ -74,6 +73,7 @@ value
     | MONVAL
     | DECVAL
     | BOOLVAL
+    | DATVAL
     ;
 
 // Higher level parsing

@@ -10,33 +10,38 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class VisitorEvaluator implements ASTVisitor {
+public class ASTVisitorEvaluator implements ASTVisitor
+{
 
     @Override
-    public LinkedList<JPanel> visit(FormNode node) {
-        LinkedList<JPanel> result = new LinkedList<JPanel>();
-        LinkedList<Question> questions = new LinkedList<Question>();
-        HashMap<String,JPanelGUI> conditions = new HashMap<String, JPanelGUI>();
+    public LinkedList<JPanel> visit(FormNode node)
+    {
+        LinkedList<JPanel>         result     = new LinkedList<>();
+        LinkedList<Question>       questions  = new LinkedList<>();
+        HashMap<String, JPanelGUI> conditions = new HashMap<>();
 
-        for (Node n: node.getQuestions()) {
-            if (n instanceof ConditionalIfNode){
-                String condition = ((ConditionalIfNode) n).getCondition().accept(this);
-                JPanelGUI jPanelIf = n.accept(this);
-                conditions.put(condition,jPanelIf);
+        for (Node n : node.getQuestions())
+        {
+            if (n instanceof ConditionalIfNode)
+            {
+                String    condition = ((ConditionalIfNode) n).getCondition().accept(this);
+                JPanelGUI jPanelIf  = n.accept(this);
+                conditions.put(condition, jPanelIf);
                 result.add(jPanelIf.getPanel());
 
-            }
-            else {
+            } else
+            {
                 questions.add(n.accept(this));
             }
         }
 
         JPanelGUI jPanelGUI = new JPanelGUI();
-        jPanelGUI.createPanel(questions,0);
+        jPanelGUI.createPanel(questions, 0);
         JPanel jPanelForm = jPanelGUI.getPanel();
 
-        if (!conditions.isEmpty()){
-            conditions.forEach((c,o) -> jPanelGUI.getQuestion(c).attachObserver(o));
+        if (!conditions.isEmpty())
+        {
+            conditions.forEach((c, o) -> jPanelGUI.getQuestion(c).attachObserver(o));
         }
 
         result.addFirst(jPanelForm);
@@ -45,27 +50,32 @@ public class VisitorEvaluator implements ASTVisitor {
     }
 
     @Override
-    public JPanelGUI visit(ConditionalIfNode node) {
-        JPanelGUI jPanelGUI = new JPanelGUI();
+    public JPanelGUI visit(ConditionalIfNode node)
+    {
+        JPanelGUI            jPanelGUI = new JPanelGUI();
         LinkedList<Question> questions = new LinkedList<Question>();
-        for (Node n: node.getQuestions()) {
+        for (Node n : node.getQuestions())
+        {
             questions.add(n.accept(this));
         }
 
-        if (node.getAfter() != null) {
+        if (node.getAfter() != null)
+        {
             node.getAfter().accept(this);
         }
 
-        jPanelGUI.createPanel(questions,0);
+        jPanelGUI.createPanel(questions, 0);
         jPanelGUI.getPanel().setVisible(false);
 
         return jPanelGUI;
     }
 
     @Override
-    public String visit(ConditionalIfElseNode node) {
+    public String visit(ConditionalIfElseNode node)
+    {
         String result = "\nIf Condition: " + node.getCondition().accept(this) + " Questions: ";
-        for (Node n: node.getQuestions()) {
+        for (Node n : node.getQuestions())
+        {
             result += n.accept(this);
         }
 
@@ -73,9 +83,11 @@ public class VisitorEvaluator implements ASTVisitor {
     }
 
     @Override
-    public String visit(ConditionalElseNode node) {
+    public String visit(ConditionalElseNode node)
+    {
         String result = "\nElse Conditional > Questions: ";
-        for (Node n: node.getQuestions()) {
+        for (Node n : node.getQuestions())
+        {
             result += n.accept(this);
         }
 
@@ -92,8 +104,10 @@ public class VisitorEvaluator implements ASTVisitor {
         return node.getLeft().accept(this) + " - " + node.getRight().accept(this);
     }
 
-    public String visit(MultiplicationNode node) {
-        return node.getLeft().accept(this) + " * " + node.getRight().accept(this); }
+    public String visit(MultiplicationNode node)
+    {
+        return node.getLeft().accept(this) + " * " + node.getRight().accept(this);
+    }
 
     public String visit(DivisionNode node)
     {
@@ -101,46 +115,57 @@ public class VisitorEvaluator implements ASTVisitor {
         if (divisor != 0.0 || !String.valueOf(divisor).equals("0.0"))
         {
             return node.getLeft().accept(this) + " / " + node.getRight().accept(this);
-        }else { throw new ArithmeticException("Division by zero."); }
+        } else
+        {
+            throw new ArithmeticException("Division by zero.");
+        }
     }
 
     @Override
-    public String visit(AndNode node) {
+    public String visit(AndNode node)
+    {
         return node.getLeft().accept(this) + " && " + node.getRight().accept(this);
     }
 
     @Override
-    public String visit(OrNode node) {
+    public String visit(OrNode node)
+    {
         return node.getLeft().accept(this) + " || " + node.getRight().accept(this);
     }
 
     @Override
-    public String visit(LessNode node) {
+    public String visit(LessNode node)
+    {
         return node.getLeft().accept(this) + " < " + node.getRight().accept(this);
     }
 
     @Override
-    public String visit(GreaterNode node) {
+    public String visit(GreaterNode node)
+    {
         return node.getLeft().accept(this) + " > " + node.getRight().accept(this);
     }
 
     @Override
-    public String visit(EqualLessNode node) {
+    public String visit(EqualLessNode node)
+    {
         return node.getLeft().accept(this) + " <= " + node.getRight().accept(this);
     }
 
     @Override
-    public String visit(EqualGreaterNode node) {
+    public String visit(EqualGreaterNode node)
+    {
         return node.getLeft().accept(this) + " >= " + node.getRight().accept(this);
     }
 
     @Override
-    public String visit(NotEqualNode node) {
+    public String visit(NotEqualNode node)
+    {
         return node.getLeft().accept(this) + " != " + node.getRight().accept(this);
     }
 
     @Override
-    public String visit(IsEqualNode node) {
+    public String visit(IsEqualNode node)
+    {
         return node.getLeft().accept(this) + " == " + node.getRight().accept(this);
     }
 
@@ -151,58 +176,66 @@ public class VisitorEvaluator implements ASTVisitor {
     }
 
     @Override
-    public Question visit(QuestionNode node) {
+    public Question visit(QuestionNode node)
+    {
         Question question;
-        String label = visit((LabelNode)node.getLeft());
-        String name = visit((NameNode)node.getCenter());
-        String type = visit((TypeNode)node.getRight());
-        if(type.equals("boolean")){
-            question = new Radio(label,type,name);
+        String   label = visit((LabelNode) node.getLeft());
+        String   name  = visit((NameNode) node.getCenter());
+        String   type  = visit((TypeNode) node.getRight());
+
+        if (type.equals("boolean"))
+        {
+            question = new Radio(label, type, name);
+        } else
+        {
+            question = new Textbox(label, type, name);
         }
-
-        else
-            question = new Textbox(label,type,name);
-
         return question;
 
     }
 
     @Override
-    public Question visit(QuestionAssignValueNode node) {
-        Question question = node.getPrevious().accept(this);
-        String expression = node.getExpression().accept(this);
-        return question;
+    public Question visit(QuestionAssignValueNode node)
+    {
+        Question question   = node.getPrevious().accept(this);
+        String   expression = node.getExpression().accept(this);
+        return null;
     }
 
     @Override
-    public String visit(LabelNode node) {
-        return node.getLabel().replaceAll("\"","" );
+    public String visit(LabelNode node)
+    {
+        return node.getLabel().replaceAll("\"", "");
     }
 
     @Override
-    public String visit(NameNode node) {
+    public String visit(NameNode node)
+    {
         return node.getName();
     }
 
     @Override
-    public String visit(TypeNode node) {
+    public String visit(TypeNode node)
+    {
         return node.getType();
     }
 
     @Override
-    public String visit(Variable node) {
+    public String visit(Variable node)
+    {
         return node.getName();
     }
 
     @Override
-    public String visit(DecimalNode node) {
+    public String visit(DecimalNode node)
+    {
         return String.valueOf(node.getValue());
     }
 
-    public String visit(NumberNode node){
+    public String visit(NumberNode node)
+    {
         return String.valueOf(node.getValue());
     }
-
 
 
 }

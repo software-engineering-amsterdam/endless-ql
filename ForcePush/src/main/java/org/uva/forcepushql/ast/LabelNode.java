@@ -1,6 +1,7 @@
 package org.uva.forcepushql.ast;
 
-public class LabelNode extends Node{
+public class LabelNode extends Node
+{
 
     private String label;
 

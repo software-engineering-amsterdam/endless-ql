@@ -19,14 +19,14 @@ class Question_Generator:
 
     def updateQuestions(self, initial=False):
         if self.astQLS:
-            self.qls(initial)
+            self.updateQls(initial)
         else:
-            self.ql(initial)
+            self.updateQl(initial)
 
     # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
-    def ql(self, initial=False):
+    def updateQl(self, initial=False):
         self.questions = collections.OrderedDict()
-        self.get_questions(self.ast.form.block)
+        self.getQuestions(self.ast.form.block)
         # deep cody dict. This is used to insert if-questions in the GUI
         toBeDeleteQuestions = self.questions.copy()
         if self.form:
@@ -64,9 +64,9 @@ class Question_Generator:
         Setup QLS
     """
 
-    def qls(self, initial):
+    def updateQls(self, initial):
         self.questions = collections.OrderedDict()
-        self.get_questions(self.ast.form.block)
+        self.getQuestions(self.ast.form.block)
         pages = self.astQLS.getPages()
         for page in pages:
             pageName = pages[page].getName()
@@ -76,11 +76,11 @@ class Question_Generator:
             # add sections and questions
             self.addSection(pageName, pages[page].getSection())
 
-        #show first page
-        if(initial):
+        # show first page
+        if (initial):
             self.form.getPage(next(iter(pages))).show()
 
-    def addSection(self, pageName, sections, prev=""):
+    def addSection(self, pageName, sections, insertAfter=""):
         page = self.form.getPage(pageName)
         for section in sections:
             sectionName = section.getName()
@@ -102,11 +102,14 @@ class Question_Generator:
                         if (self.form.getQuestionFromSection(varName, sectionName, pageName)):
                             self.form.getQuestionFromSection(varName, sectionName, pageName).setValue(value)
 
+
                     # insert new question
                     if not self.form.isQuestionOnPage(varName, sectionName, pageName):
-                        self.form.insertQuestion(prev, varName, sectionName, label, var_type, value, pageName)
+                        self.form.insertQuestion(insertAfter, varName, sectionName, label, var_type, value, pageName)
+                        if (type(self.questions[varName]) == AssignmentNode):
+                            self.form.getQuestionFromSection(varName, sectionName, pageName).disableWidget()
 
-                    prev = varName
+                    insertAfter = varName
                 # delete question
                 else:
                     self.form.removeQuestionFromSection(pageName, sectionName, varName)
@@ -117,17 +120,16 @@ class Question_Generator:
                 self.form.getSection(sectionName, pageName).hideSection()
 
             # add child sections
-            self.addSection(pageName, section.getSections(), prev)
+            self.addSection(pageName, section.getSections(), insertAfter)
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy
-    def get_questions(self, block):
+    def getQuestions(self, block):
         for statement in block:
             if type(statement) == QuestionNode:
                 self.questions[statement.getVarName()] = statement
             elif type(statement) == AssignmentNode:
                 statement.evaluate(self.varDict)
                 self.questions[statement.getVarName()] = statement
-
 
             elif type(statement) == ConditionalNode:
                 visited = False
@@ -136,7 +138,7 @@ class Question_Generator:
                 if_exp = ifblock.getExpression()
 
                 if (if_exp.evaluate()):
-                    self.get_questions(ifblock.block)
+                    self.getQuestions(ifblock.block)
                     visited = True
 
                 # check elif block
@@ -145,14 +147,14 @@ class Question_Generator:
                     for elifBlock in elifBlocks:
                         elif_exp = elifBlock.getExpression()
                         if (elif_exp.evaluate()):
-                            self.get_questions(elifBlock.block)
+                            self.getQuestions(elifBlock.block)
                             visited = True
                             break
 
                 # check else block
                 elseBlock = statement.getElse()
                 if (elseBlock and not visited):
-                    self.get_questions(elseBlock)
+                    self.getQuestions(elseBlock)
 
     def getVarDict(self):
         return self.varDict

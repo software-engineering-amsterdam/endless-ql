@@ -28,31 +28,31 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
 
     @Override
     public QuestionWidget visit(CheckboxType checkboxType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly);
+        return new BooleanWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 
     @Override
     public QuestionWidget visit(DropDownType dropDownType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly);
+        return new BooleanWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 
     @Override
     public QuestionWidget visit(RadioType radioType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly);
+        return new BooleanWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 
     @Override
     public QuestionWidget visit(SliderType sliderType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly);
+        return new IntegerWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 
     @Override
     public QuestionWidget visit(SpinboxType spinboxType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly);
+        return new IntegerWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 
     @Override
     public QuestionWidget visit(TextType textType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly);
+        return new IntegerWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 }

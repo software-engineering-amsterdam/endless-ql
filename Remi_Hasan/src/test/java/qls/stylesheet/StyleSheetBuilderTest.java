@@ -47,6 +47,7 @@ public class StyleSheetBuilderTest {
         assertEquals(secondPage.getSections().size(), 1);
         assertEquals(secondPage.getSections().get(0).getSections().size(), 2);
 
+        assertEquals(secondPage.getDefaultStyles().size(), 2);
         assertEquals(secondPage.getDefaultStyles().get(0).type, ReturnType.BOOLEAN);
         assertEquals(secondPage.getDefaultStyles().get(0).getWidget().type, WidgetType.RADIO);
         assertEquals(secondPage.getDefaultStyles().get(0).getStyleAttributes().size(), 1);

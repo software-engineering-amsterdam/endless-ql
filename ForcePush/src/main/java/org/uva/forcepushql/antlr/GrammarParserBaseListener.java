@@ -1,4 +1,4 @@
-// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -71,6 +71,30 @@ public class GrammarParserBaseListener implements GrammarParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitQuestionTypes(GrammarParser.QuestionTypesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIfCondition(GrammarParser.IfConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIfCondition(GrammarParser.IfConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNextCondition(GrammarParser.NextConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNextCondition(GrammarParser.NextConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

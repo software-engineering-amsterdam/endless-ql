@@ -26,13 +26,20 @@ class Page:
 
 
     """
-        Defaults are already checked so check the types for the children
+        Check for children if the widget type is compatible with the question type
     """
     def checkTypes(self):
         for section in self.sections:
             section.checkTypes()
         for default in self.defaults:
             default.checkTypes()
+
+    """
+        Check if each question from QL is used in QLS exactly once
+    """
+    def checkCompleteness(self, varList):
+        for section in self.sections:
+            section.checkCompleteness(varList)
 
     def addSection(self, section):
         self.sections.append(section)

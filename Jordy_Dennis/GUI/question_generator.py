@@ -105,7 +105,7 @@ class Question_Generator:
 
                     # insert new question
                     if not self.form.isQuestionOnPage(varName, sectionName, pageName):
-                        self.form.insertQuestion(insertAfter, varName, sectionName, label, var_type, value, pageName)
+                        self.form.insertQuestion(insertAfter, varName, sectionName, label, var_type, value, pageName, question.default)
                         if (type(self.questions[varName]) == AssignmentNode):
                             self.form.getQuestionFromSection(varName, sectionName, pageName).disableWidget()
 
@@ -158,7 +158,6 @@ class Question_Generator:
 
     def getVarDict(self):
         return self.varDict
-
 
 def printDict(dic):
     pp = pprint.PrettyPrinter(indent=4)

@@ -33,13 +33,22 @@ class Section:
         defaultDict[self.name]['subsectionDefaults'] = sectionDict
 
     """
-        Defaults are already checked so check the types for the children
+        Check for children if the widget type is compatible with the question type
     """
     def checkTypes(self):
         for question in self.questions:
             question.checkTypes()
         for default in self.defaults:
             default.checkTypes()
+
+    """
+        Check if each question from QL is used in QLS exactly once
+    """
+    def checkCompleteness(self, varList):
+        for section in self.sections:
+            section.checkCompleteness(varList)
+        for question in self.questions:
+            question.checkCompleteness(varList)
 
     def addVarDict(self, varDict):
         self.varDict = varDict

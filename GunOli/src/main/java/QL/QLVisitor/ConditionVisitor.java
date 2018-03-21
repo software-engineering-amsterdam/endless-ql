@@ -1,7 +1,6 @@
 package QL.QLVisitor;
 
 import QL.ParseObjectsQL.Block;
-import QL.ParseObjectsQL.Condition;
 import QL.ParseObjectsQL.Expressions.BinaryExpressions.AndExpression;
 import QL.ParseObjectsQL.Expressions.Expression;
 import QL.ParseObjectsQL.Expressions.UnaryExpressions.NotExpression;

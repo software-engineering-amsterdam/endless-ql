@@ -47,10 +47,10 @@ class Page():
         Add a question from the question generator
     """
 
-    def addQuestionToSection(self, sectionName, varName, questionText="Default Question", questionType=bool, value=False, prev=""):
+    def addQuestionToSection(self, sectionName, varName, questionText="Default Question", questionType=bool, value=False, prev="", defaults = None):
         for section in self.sections:
             if section.name == sectionName:
-                section.insertQuestion(prev, self.questionGenerator, varName, questionText, questionType, value)
+                section.insertQuestion(prev, self.questionGenerator, varName, questionText, questionType, value, defaults)
 
     """
         Remove a question if it exists in our questions

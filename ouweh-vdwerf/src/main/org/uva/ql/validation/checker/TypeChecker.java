@@ -5,6 +5,7 @@ import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
 import org.uva.ql.ast.type.*;
+import org.uva.ql.validation.ValidationResult;
 import org.uva.ql.validation.collector.SymbolTable;
 import org.uva.ql.visitor.ExpressionVisitor;
 import org.uva.ql.visitor.StatementVisitor;
@@ -16,6 +17,7 @@ public class TypeChecker extends Checker
     private final String ERROR_MESSAGE = "Type checking error at: ";
     private SymbolTable symbolTable;
     private Form form;
+    private ValidationResult result;
 
     public TypeChecker(Form form, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
@@ -23,10 +25,14 @@ public class TypeChecker extends Checker
     }
 
     @Override
-    public void runCheck() {
+    public ValidationResult runCheck() {
+        result = new ValidationResult();
+
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
         }
+
+        return result;
     }
 
     @NotNull
@@ -35,6 +41,7 @@ public class TypeChecker extends Checker
         Type right = operation.getRight().accept(this, null);
 
         if (!new BooleanType().isCompatible(left) || !new BooleanType().isCompatible(right)) {
+            result.addError(ERROR_MESSAGE + operation);
             logger.severe(ERROR_MESSAGE + operation);
         }
 
@@ -46,6 +53,7 @@ public class TypeChecker extends Checker
         Type right = operation.getRight().accept(this, null);
 
         if (!left.isCompatible(right)) {
+            result.addError(ERROR_MESSAGE + operation);
             logger.severe(ERROR_MESSAGE + operation);
         }
 
@@ -72,6 +80,7 @@ public class TypeChecker extends Checker
         }
 
         if (!new BooleanType().isCompatible(type)) {
+            result.addError(ERROR_MESSAGE + conditional);
             logger.severe(ERROR_MESSAGE + conditional);
         }
 
@@ -83,6 +92,7 @@ public class TypeChecker extends Checker
         Type calculationType = question.getExpression().accept(this, null);
 
         if (!question.getType().isCompatible(calculationType)) {
+            result.addError(ERROR_MESSAGE + question);
             logger.severe(ERROR_MESSAGE + question);
         }
 
@@ -161,6 +171,7 @@ public class TypeChecker extends Checker
         Type type = negation.getExpression().accept(this, null);
 
         if (!new BooleanType().isCompatible(type)) {
+            result.addError(ERROR_MESSAGE + negation);
             logger.severe(ERROR_MESSAGE + negation);
         }
 

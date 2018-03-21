@@ -13,10 +13,6 @@ export abstract class Statement {
                           condition?: (form: FormGroup) => LiteralType): ReadonlyArray<QuestionBase<any>>;
   abstract getQuestions(): QlQuestion[];
 
-  getVariables(): Variable[] {
-    return [];
-  }
-
   checkDependencies(): void {
     return;
   }

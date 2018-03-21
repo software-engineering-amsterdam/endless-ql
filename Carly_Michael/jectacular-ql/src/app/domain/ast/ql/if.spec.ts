@@ -8,6 +8,7 @@ import {DateLiteral} from './expressions/literals/date-literal';
 import {NumberLiteral} from './expressions/literals/number-literal';
 import {StringLiteral} from './expressions/literals/string-literal';
 import {CheckStatementTypeVisitor} from './visitors/check-statement-type-visitor';
+import {GetStatementVariablesVisitor} from './visitors/get-statement-variables-visitor';
 
 describe('if statement', () => {
   it('Should check for impossible if statements', () => {
@@ -54,7 +55,7 @@ describe('if statement', () => {
     const subIfStatement = new If(expression, [], [], emptyLoc);
     const ifStatement = new If(subExpression, [subIfStatement], [], emptyLoc);
 
-    const variables: Variable[] = ifStatement.getVariables();
+    const variables = GetStatementVariablesVisitor.evaluate(ifStatement);
 
     expect(variables.length).toBe(2);
     expect(variables[0].identifier).toBe('expression');

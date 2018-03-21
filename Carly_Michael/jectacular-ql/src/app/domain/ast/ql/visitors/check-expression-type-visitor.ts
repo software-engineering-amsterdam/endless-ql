@@ -89,7 +89,7 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
       return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
     }, typeLeft, typeRight, expr.location);
 
-    return typeLeft;
+    return ExpressionType.BOOLEAN;
   }
 
   visitGreaterThanEqualExpression(expr: GreaterThanEqualExpression): ExpressionType {
@@ -100,7 +100,7 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
       return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
     }, typeLeft, typeRight, expr.location);
 
-    return typeLeft;
+    return ExpressionType.BOOLEAN;
   }
 
   visitLessThanExpression(expr: LessThanExpression): ExpressionType {
@@ -111,7 +111,7 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
       return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
     }, typeLeft, typeRight, expr.location);
 
-    return typeLeft;
+    return ExpressionType.BOOLEAN;
   }
 
   visitLessThanEqualExpression(expr: LessThanEqualExpression): ExpressionType {
@@ -122,7 +122,7 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
       return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
     }, typeLeft, typeRight, expr.location);
 
-    return typeLeft;
+    return ExpressionType.BOOLEAN;
   }
 
   visitEqualExpression(expr: EqualExpression): ExpressionType {
@@ -133,7 +133,7 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
       return typeLeft === typeRight;
     }, typeLeft, typeRight, expr.location);
 
-    return typeLeft;
+    return ExpressionType.BOOLEAN;
   }
 
   visitUnequalExpression(expr: UnequalExpression): ExpressionType {
@@ -144,7 +144,7 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
       return typeLeft === typeRight;
     }, typeLeft, typeRight, expr.location);
 
-    return typeLeft;
+    return ExpressionType.BOOLEAN;
   }
 
   visitAndExpression(expr: AndExpression): ExpressionType {

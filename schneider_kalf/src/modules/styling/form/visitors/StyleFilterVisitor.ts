@@ -56,7 +56,6 @@ export default class StyleFilterVisitor implements StyleNodeVisitor {
     return this.visitChildren(stylesheet.children);
   }
 
-  // TODO: Either use body or children so we can use this general function
   private visitChildren(children: StyleTreeNode[]) {
     if (this.isInitial === false && this.options.recursive === false) {
       return [];

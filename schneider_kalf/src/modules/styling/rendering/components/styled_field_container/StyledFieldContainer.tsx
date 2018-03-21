@@ -12,7 +12,7 @@ export interface StyledFieldContainerProps {
 export const StyledFieldContainer: React.SFC<StyledFieldContainerProps> = (props) => {
   const FieldComponent = findComponentForFieldType(props.field.type, fieldComponentsMapping);
 
-  const cssStyles = props.field.getStyles().getFieldContainerCssStyle();
+  const cssStyles = props.field.getMergedStyle().getFieldContainerCssStyle();
 
   return (
       <div style={cssStyles} className="field-container field-container-styled">

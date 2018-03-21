@@ -1,15 +1,14 @@
 import { getQlsParser } from "./parsing_helpers";
-import StyleSheet from "../form/nodes/StyleSheet";
+import StyleSheet from "../form/nodes/StyleSheetNode";
 import SetParentsVisitor from "../form/visitors/SetParentsVisitor";
-import QuestionStylesVisitor from "../form/visitors/QuestionStylesVisitor";
-import { QuestionStyles } from "../form/QuestionStyles";
+import QuestionStylesVisitor from "../form/visitors/MergeFieldStylesVisitor";
+import MergedFieldStyle from "../form/MergedFieldStyle";
 import { QlParserPipeline, QlParserResult } from "../../../parsing/QlParserPipeline";
 import SetStyledFieldVisitor from "../form/visitors/SetStyledFieldVisitor";
-import { getQuestionStyleNodes } from "../form/style_helpers";
 
 export interface QlsParserResult extends QlParserResult {
   styleNode: StyleSheet;
-  styles: QuestionStyles[];
+  styles: MergedFieldStyle[];
 }
 
 export class QlsParserPipeline {

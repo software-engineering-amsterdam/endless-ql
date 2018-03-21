@@ -3,7 +3,7 @@ import NodeTraveller from "./nodes/visitors/NodeTraveller";
 import VariableIdentifier from "./nodes/expressions/VariableIdentifier";
 import FieldNode from "./nodes/fields/FieldNode";
 import ComputedField from "./nodes/fields/ComputedField";
-import Question from "./nodes/fields/Question";
+import QuestionNode from "./nodes/fields/QuestionNode";
 
 export const filterNodes = (predicate: (node: TreeNode) => boolean, start: TreeNode): any[] => {
   let nodes: TreeNode[] = [];
@@ -41,5 +41,5 @@ export const getUsedVariables = (start: TreeNode) => {
 };
 
 export const isFieldNode = (node: TreeNode): node is FieldNode => {
-  return node instanceof Question || node instanceof ComputedField;
+  return node instanceof QuestionNode || node instanceof ComputedField;
 };

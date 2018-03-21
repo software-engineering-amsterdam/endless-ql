@@ -1,15 +1,15 @@
 ﻿using Antlr4.Runtime.Misc;
+using QLParser.AST;
 using QLParser.AST.Nodes;
 using QLParser.Visitors.ExpressionVisitors;
-using QLanguage;
 using System;
-using QLParser.AST;
+using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.Visitors
 {
-    public class ComputedVariableVisitor : QLanguage.QLanguageBaseVisitor<ComputedNode>
+    public class ComputedVariableVisitor : QLGrammar.QLGrammarBaseVisitor<ComputedNode>
     {
-        public override ComputedNode VisitComputedVariable([NotNull] QLanguageParser.ComputedVariableContext context)
+        public override ComputedNode VisitComputedVariable([NotNull] ComputedVariableContext context)
         {
             var id = context.ID().GetText();
             var textRaw = context.TEXT().GetText();

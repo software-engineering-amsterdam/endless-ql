@@ -14,6 +14,7 @@ from .form_scroll_frame import ScrollFrameGui
 from .form_question import Question
 from .form_page import Page
 import copy
+import collections
 
 class FormGui:
 
@@ -29,7 +30,7 @@ class FormGui:
         self.headerFrame = None
         self.createHeader(header, parent=self.frame)
 
-        self.pages = {}
+        self.pages = collections.OrderedDict()
         self.buttonFrame = create_frame(self.frame, background='blue')
 
         if qls:
@@ -99,35 +100,21 @@ class FormGui:
     """
     def isQuestionOnPage(self, varName, sectionName='default', pageName='default'):
         page = self.pages[pageName]
-        for section in page.sections:
-            if section.getName() == sectionName:
-                for question in section.getQuestions():
-                    if question.varName == varName:
-                        return True
-        return False
+        return page.isQuestionOnPage(varName, sectionName)
 
     """
-        Returns a question object from a page
+        Returns a question object from a section on a page
     """
-    def getQuestionFromSection(self, varName, sectionName, pageName='default'):
+    def getQuestionFromSection(self, varName, sectionName='default', pageName='default'):
         page = self.pages[pageName]
-        for section in page.sections:
-            if section.getName() == sectionName:
-                for question in section.getQuestions():
-                    if question.getVarName() == varName:
-                        return question
-        return None
+        return page.getQuestionFromSection(varName, sectionName)
 
     """
         Deletes question that are no longer valid, i.e. questions in a if, elif or else
     """
-    def deleteInvalidQuestions(self, questions, pageName='default', sectionName='default'):
+    def deleteInvalidQuestions(self, questions, sectionName='default', pageName='default'):
         page = self.pages[pageName]
-        for section in page.sections:
-            if section.getName() == sectionName:
-                for question in section.questions:
-                    if (question.varName not in questions):
-                        section.removeQuestion(question.varName)
+        page.deleteInvalidQuestions(questions, sectionName)
 
     def insertQuestion(self, insertAfterVarName, varName,sectionName='default', questionText="Default Question", questionType=bool, value=False, pageName='default'):
         page = self.pages[pageName]
@@ -138,7 +125,7 @@ class FormGui:
         page = self.pages[pageName]
         page.removeQuestionFromSection(sectionName, varName)
 
-    def doesSectionExists(self, sectionName, pageName='default'):
+    def doesSectionExists(self, sectionName='default', pageName='default'):
         page = self.pages[pageName]
         for section in page.sections:
             if section.getName() == sectionName:

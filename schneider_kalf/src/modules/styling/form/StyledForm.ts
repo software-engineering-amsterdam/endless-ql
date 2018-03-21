@@ -1,12 +1,13 @@
 import Form from "../../../form/Form";
 import PagedFormState from "./PagedFormState";
 import FieldNode from "../../../form/nodes/fields/FieldNode";
-import StyleSheetNode from "../form/nodes/StyleSheet";
+import StyleSheetNode from "./nodes/StyleSheetNode";
 import FieldVisitor from "../../../form/nodes/visitors/FieldVisitor";
 import PageNode from "./nodes/containers/PageNode";
 import { filterNodes } from "../../../form/form_helpers";
 import StyledFieldNode from "./StyledFieldNode";
 import FormNode from "../../../form/nodes/FormNode";
+import FormState from "../../../form/state/FormState";
 
 export default class StyledForm implements Form {
   private baseForm: Form;
@@ -39,6 +40,16 @@ export default class StyledForm implements Form {
     return new StyledForm(newBaseForm, this.stylesheetNode);
   }
 
+  setState(nextState: FormState): Form {
+    const newBaseForm = this.baseForm.setState(nextState);
+    return new StyledForm(newBaseForm, this.stylesheetNode);
+  }
+
+  setActivePage(nextPage: PageNode): Form {
+    const nextState = this.getState().setActivePageName(nextPage.name);
+    return this.setState(nextState);
+  }
+
   getRootNode(): FormNode {
     return this.baseForm.getRootNode();
   }
@@ -49,6 +60,21 @@ export default class StyledForm implements Form {
 
   accept(visitor: FieldVisitor): any {
     return this.baseForm.accept(visitor);
+  }
+
+  getActivePage(): PageNode | undefined {
+    const activePageName = this.getState().getActivePageName();
+
+    const activePage: PageNode | undefined = this.getPages().find(
+        page => typeof activePageName !== 'undefined' && page.name === activePageName
+    );
+
+    // TODO: Assert that style has at least one page
+    if (!activePageName) {
+      return this.getPages()[0];
+    }
+
+    return activePage;
   }
 
   getPages(): PageNode[] {

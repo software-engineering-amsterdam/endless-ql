@@ -8,7 +8,7 @@ stylesheet taxOfficeExample
         widget checkbox
     }
     section "Loaning"
-      question hasMaintLoan
+      question hasMainLoan
   }
 
   page Selling
@@ -23,6 +23,7 @@ stylesheet taxOfficeExample
           widget spinbox
         question privateDebt
           widget spinbox
+          width: 200
         question valueResidue
         default money
         {
@@ -35,5 +36,14 @@ stylesheet taxOfficeExample
       }
     }
     default boolean widget radio("Yes", "No")
+  }
+
+  page EmptyPage
+  {
+         section "EmptySection"
+         {
+           question sellingPrice
+             widget spinbox
+         }
   }
 }

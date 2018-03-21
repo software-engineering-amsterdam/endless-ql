@@ -19,7 +19,7 @@ form taxOfficeExample {
         sellingDate: date
 
         "What was the selling price?"
-        sellingPrice: decimal = EUR3000.00
+        sellingPrice: money = EUR3000.00
 
         "Private debts for the sold house:"
         privateDebt: money = EUR1000.00

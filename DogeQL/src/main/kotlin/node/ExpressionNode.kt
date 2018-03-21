@@ -4,6 +4,7 @@ import common.Name
 import data.question.Question
 import data.symbol.SymbolTable
 import expression.SourceLocation
+import typechecker.pass.CircularDependencyPass
 import typechecker.pass.DuplicatePass
 import typechecker.pass.ScopePass
 import typechecker.pass.TypePass
@@ -36,6 +37,10 @@ class ExpressionNode(symbolTable: SymbolTable, val reference: Name, val sourceLo
     }
 
     override fun accept(pass: TypePass) {
+        pass.visit(this)
+    }
+
+    override fun accept(pass: CircularDependencyPass) {
         pass.visit(this)
     }
 }

@@ -6,7 +6,7 @@ import javax.naming.OperationNotSupportedException
 
 enum class UnaryOperation(private val operation: (input: BaseSymbolValue) -> BaseSymbolValue) {
 
-    Negate({ input ->
+    NEGATE({ input ->
         !input
     });
 

@@ -2,13 +2,18 @@ from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.date_node import DateNode
 from gui.widgets.calendar import CalendarWidget
+from datetime import datetime
 
 
 class QLDate(QLType):
     def __init__(self, date=(1, 1, 2018)):
         super(QLDate, self).__init__()
-        date = tuple(map(int, date))
-        self.__day, self.__month, self.__year = date
+        try:
+            date = tuple(map(int, date))
+            self.__day, self.__month, self.__year = date
+            datetime(self.year, self.month, self.day)
+        except ValueError:
+            raise ValueError('Invalid date input.')
 
     def __repr__(self):
         return '{}-{}-{}'.format(self.day, self.month, self.year)
@@ -17,7 +22,9 @@ class QLDate(QLType):
         return '{}-{}-{}'.format(self.day, self.month, self.year)
 
     def __eq__(self, other):
-        return QLBoolean(self.day == other.day and self.month == other.month and self.year == other.year)
+        if type(other) == QLDate:
+            return QLBoolean(self.day == other.day and self.month == other.month and self.year == other.year)
+        return False
 
     def __ne__(self, other):
         return QLBoolean(self.day != other.day or self.month != other.month or self.year != other.year)

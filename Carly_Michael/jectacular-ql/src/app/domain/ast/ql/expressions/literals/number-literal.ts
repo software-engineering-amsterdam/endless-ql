@@ -18,6 +18,10 @@ export class NumberLiteral extends Literal {
     return ExpressionType.NUMBER;
   }
 
+  getType(): ExpressionType {
+    return ExpressionType.NUMBER;
+  }
+
   accept<T>(visitor: ExpressionVisitor<T>): T {
     return visitor.visitNumberLiteral(this);
   }

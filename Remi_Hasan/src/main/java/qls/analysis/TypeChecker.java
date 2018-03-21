@@ -69,7 +69,7 @@ public class TypeChecker {
     private Map<String, ReturnType> getFormQuestionTypes(Form form) {
         Map<String, ReturnType> questionTypes = new HashMap<>();
         for(ql.model.Question question : form.questions) {
-            questionTypes.put(question.name, question.type);
+            questionTypes.put(question.identifier, question.type);
         }
 
         return questionTypes;

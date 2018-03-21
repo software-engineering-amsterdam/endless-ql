@@ -1,16 +1,19 @@
 package org.uva.forcepushql.ast;
 
+import org.uva.forcepushql.gui.JPanelGUI;
+import org.uva.forcepushql.questions.Question;
+
+import javax.swing.*;
+import java.util.LinkedList;
+
 public interface ASTVisitor{
 
-    String visit(Node node);
+    LinkedList<JPanel> visit(FormNode node);
 
-    String visit(FormNode node);
-
-    String visit(ConditionalIfNode node);
+    JPanelGUI visit(ConditionalIfNode node);
     String visit(ConditionalIfElseNode node);
     String visit(ConditionalElseNode node);
 
-    String visit(ExpressionNode node);
     String visit(AdditionNode node);
     String visit(SubtractionNode node);
     String visit(NumberNode node);
@@ -26,8 +29,8 @@ public interface ASTVisitor{
     String visit(IsEqualNode node);
     String visit(NegateNode node);
 
-    String visit(QuestionNode node);
-    String visit(QuestionAssignValueNode node);
+    Question visit(QuestionNode node);
+    Question visit(QuestionAssignValueNode node);
     String visit(LabelNode node);
     String visit(NameNode node);
     String visit(TypeNode node);

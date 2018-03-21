@@ -1,9 +1,13 @@
 package ql.ast.statement;
 
 import ql.ast.expression.Expression;
+import ql.ast.expression.literal.Literal;
+import ql.gui.alternative.ASTtoGUI;
+import ql.helpers.Observable;
+import ql.helpers.Observer;
 import ql.visitors.interfaces.StatementVisitor;
 
-public class IfThenElse extends Statement {
+public class IfThenElse extends Statement implements Observer {
     
     private Expression condition;
     private Statement thenStmt;
@@ -35,5 +39,10 @@ public class IfThenElse extends Statement {
     @Override
     public void accept(StatementVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public void update(Observable observable, Literal<?>[] values) {
+        this.accept(new ASTtoGUI());
     }
 }

@@ -2,10 +2,15 @@ package com.chariotit.uva.sc.qdsl.ast.ql.visitor;
 
 public class TypeCheckError {
 
-    String message;
-    Integer lineNumber;
-    Integer columnNumber;
-    Level level;
+    private String message;
+    private Integer lineNumber;
+    private Integer columnNumber;
+    private Level level;
+
+    public enum Level {
+        ERROR,
+        WARN
+    }
 
     public TypeCheckError(String message, Integer lineNumber, Integer columnNumber) {
         this.message = message;
@@ -53,8 +58,4 @@ public class TypeCheckError {
         this.level = level;
     }
 
-    public enum Level {
-        ERROR,
-        WARN
-    }
 }

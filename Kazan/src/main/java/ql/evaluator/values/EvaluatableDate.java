@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class EvaluatableDate implements Evaluatable<Date> {
 
-    Date value;
+    private Date value;
 
     public EvaluatableDate(Date value) {
         this.value = value;
@@ -18,31 +18,6 @@ public class EvaluatableDate implements Evaluatable<Date> {
     @Override
     public void setValue(Date value) {
 
-    }
-
-    @Override
-    public Evaluatable add(Evaluatable evaluatable) {
-        return null;
-    }
-
-    @Override
-    public Evaluatable add(EvaluatableMoney evaluatable) {
-        return null;
-    }
-
-    @Override
-    public Evaluatable add(EvaluatableInteger evaluatable) {
-        return null;
-    }
-
-    @Override
-    public Evaluatable add(EvaluatableDecimal evaluatable) {
-        return null;
-    }
-
-    @Override
-    public boolean isTrue() {
-        return false;
     }
 
     @Override

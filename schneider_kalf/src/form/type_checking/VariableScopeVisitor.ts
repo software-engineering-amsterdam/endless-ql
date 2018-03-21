@@ -1,7 +1,7 @@
 ///<reference path="../VariableIntformation.ts"/>
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
 import ComputedField from "../nodes/fields/ComputedField";
-import Question from "../nodes/fields/Question";
+import QuestionNode from "../nodes/fields/QuestionNode";
 import IfCondition from "../nodes/conditions/IfCondition";
 import FormNode from "../nodes/FormNode";
 import { VariableScopeStack } from "./VariableScopeStack";
@@ -10,6 +10,7 @@ import { FieldAlreadyDeclaredError, VariableNotInScopeError } from "../form_erro
 import { getUsedVariables } from "../form_helpers";
 import Expression from "../nodes/expressions/Expression";
 import { getVariableInformation, VariableInformation } from "../VariableIntformation";
+import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
 export interface VariableScopeResult {
   variables: Map<string, VariableInformation>;
@@ -22,7 +23,7 @@ export class VariableScopeVisitor implements FieldVisitor {
     this._stack = new VariableScopeStack();
   }
 
-  visitQuestion(question: Question): any {
+  visitQuestion(question: QuestionNode): any {
     this.addToStack(question);
   }
 
@@ -30,6 +31,10 @@ export class VariableScopeVisitor implements FieldVisitor {
     this.containsAllVariablesOrFail(computedField.formula);
 
     this.addToStack(computedField);
+  }
+
+  visitFieldDecorator(fieldDecorator: FieldNodeDecorator) {
+    return fieldDecorator.getBaseField().accept(this);
   }
 
   visitIfCondition(ifCondition: IfCondition): any {

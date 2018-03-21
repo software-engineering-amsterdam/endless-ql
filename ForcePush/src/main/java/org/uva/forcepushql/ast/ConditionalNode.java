@@ -1,5 +1,8 @@
 package org.uva.forcepushql.ast;
 
+import org.uva.forcepushql.gui.JPanelGUI;
+
+import javax.swing.*;
 import java.util.LinkedList;
 
 public abstract class ConditionalNode extends Node {
@@ -44,12 +47,24 @@ public abstract class ConditionalNode extends Node {
 class ConditionalIfNode extends ConditionalNode {
 
 
+    @Override
+    public JPanelGUI accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class ConditionalIfElseNode extends ConditionalNode {
 
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class ConditionalElseNode extends ConditionalNode{
 
+    @Override
+    public String accept(ASTVisitor visitor) {
+        return visitor.visit(this);
+    }
 }

@@ -105,22 +105,25 @@ class MainApp(QMainWindow):
 
     def create_form(self):
         textbox_value = self.text_edit.toPlainText()
+
         ql_parser = QLParser()
         ql_lexer = QLLexer()
 
-        try:
+        # Nested checkers versus multiple (potentially irrelevant) dialog windows
+
+        if textbox_value:
             ast = ql_parser.parser.parse(textbox_value, ql_lexer.lexer)
-            ReferenceChecker(extract_identifier_scopes(ast), self.debug)
-            DependencyChecker(extract_identifier_dependencies(ast), self.debug)
-            QuestionChecker(extract_questions(ast), self.debug)
+            invalid_references = ReferenceChecker(extract_identifier_scopes(ast), self.debug).has_errors
+            invalid_dependencies = DependencyChecker(extract_identifier_dependencies(ast), self.debug).has_errors
+            invalid_questions = QuestionChecker(extract_questions(ast), self.debug).has_errors
+            invalid_types = TypeVisitor(extract_identifier_types(ast), self.debug).visit(ast)
 
-            TypeVisitor(extract_identifier_types(ast), self.debug).visit(ast)
+            if not any([invalid_references, invalid_dependencies, invalid_questions, invalid_types]):
+                dialog = Form(extract_gui_model(ast))
+                dialog.exec_()
 
-            dialog = Form(extract_gui_model(ast))
-            dialog.exec_()
-        except:
-            QMessageBox.warning(QMessageBox(), 'Warning', 'Unable to create form.',
-                                QMessageBox.Close, QMessageBox.Escape)
+        else:
+            self.debug.error([0], 'Empty Form')
 
 
 if __name__ == '__main__':

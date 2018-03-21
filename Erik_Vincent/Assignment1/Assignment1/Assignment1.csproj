@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Converters\QLASTExpressionToRenderExpression.cs" />
     <Compile Include="Converters\QLASTToRenderTree.cs" />
+    <Compile Include="Converters\TextToQLAST.cs" />
     <Compile Include="Export\FormExporter.cs" />
     <Compile Include="IMainView.cs" />
     <Compile Include="MainPresenter.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Model\QLS\AST\Style\Widget\TextBox.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\YesNoWidget.cs" />
     <Compile Include="Model\QLS\AST\Style\Width.cs" />
+    <Compile Include="Model\QL\AST\QLNode.cs" />
     <Compile Include="Model\QL\RenderTree\AnswerType.cs" />
     <Compile Include="Model\QL\AST\ComputedQuestion.cs" />
     <Compile Include="Model\QL\AST\Expression\Add.cs" />

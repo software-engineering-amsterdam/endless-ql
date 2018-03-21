@@ -1,8 +1,8 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
 import DefaultStyle from "../nodes/children/DefaultStyle";
-import Page from "../nodes/containers/Page";
+import Page from "../nodes/containers/PageNode";
 import QuestionStyle from "../nodes/children/QuestionStyle";
-import Section from "../nodes/containers/Section";
+import Section from "../nodes/containers/SectionNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
 import Stylesheet from "../nodes/StyleSheet";
@@ -10,12 +10,14 @@ import StyleTreeNode from "../nodes/StyleTreeNode";
 
 const defaults: StyleFilterOptions = {
   includeDefaults: true,
-  includeQuestions: true
+  includeQuestions: true,
+  recursive: false,
 };
 
 interface StyleFilterOptions {
   includeDefaults: boolean;
   includeQuestions: boolean;
+  recursive: boolean;
 }
 
 export default class StyleFilterVisitor implements StyleNodeVisitor {
@@ -27,54 +29,42 @@ export default class StyleFilterVisitor implements StyleNodeVisitor {
   }
 
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
-    return this.options.includeDefaults;
+    return (this.options.includeDefaults) ? [defaultStyle] : [];
   }
 
   visitQuestionStyle(question: QuestionStyle): any {
-    return this.options.includeQuestions;
+    return (this.options.includeQuestions) ? [question] : [];
   }
 
   visitWidgetAttribute(widgetAttribute: WidgetAttribute): any {
-    return;
+    return [];
   }
 
   visitBaseAttribute(baseAttribute: BaseAttribute): any {
-    return;
+    return [];
   }
 
   visitSection(section: Section): any {
-    if (!this.isInitial) {
-      return false;
-    }
-
-    this.isInitial = false;
-    return section.body.filter(child => child.accept(this));
+    return this.visitChildren(section.body);
   }
 
   visitPageAttribute(page: Page): any {
-    if (!this.isInitial) {
-      return false;
-    }
-
-    this.isInitial = false;
-    return page.body.filter(child => child.accept(this));
+    return this.visitChildren(page.body);
   }
 
   visitStyleSheet(stylesheet: Stylesheet): any {
-    if (!this.isInitial) {
-      return false;
-    }
-
-    this.isInitial = false;
-    return stylesheet.children.filter(child => child.accept(this));
+    return this.visitChildren(stylesheet.children);
   }
-  // TODO: Either use body or children so we can use this general function
+
   private visitChildren(children: StyleTreeNode[]) {
-    if (!this.isInitial) {
-      return false;
+    if (this.isInitial === false && this.options.recursive === false) {
+      return [];
     }
 
     this.isInitial = false;
-    return children.filter(child => child.accept(this));
+    return children.reduce(
+        (filtered: StyleTreeNode[], child: StyleTreeNode) => filtered.concat(child.accept(this)),
+        []
+    );
   }
 }

@@ -10,7 +10,7 @@ package ql.antlr;
 package ql.antlr;
 }
 
-form            : 'form' Identifier '{' statement* '}' ;
+form            : 'form' id '{' statement* '}' ;
 
 statement       : description id ':' type ('=' expression)?     #question
                 | 'if' '(' expression ')' '{' statement* '}'    #ifThen
@@ -27,7 +27,7 @@ statement       : description id ':' type ('=' expression)?     #question
 
 description     : StringLiteral;
 
-id              : Identifier;
+id              : ID;
 
 type            : 'boolean' #booleanType
                 | 'integer' #integerType
@@ -36,7 +36,7 @@ type            : 'boolean' #booleanType
                 ;
 
 expression      : BooleanLiteral                                        #booleanLiteral
-                | Identifier                                            #identifier
+                | ID                                                    #identifier
                 | StringLiteral                                         #stringLiteral
                 | IntegerLiteral                                        #integerLiteral
                 | '+' expression                                        #unaryPlusExpr
@@ -55,6 +55,6 @@ expression      : BooleanLiteral                                        #boolean
 WS              : (' ' | '\t' | '\n' | '\r')-> channel(HIDDEN) ;
 Comment         : ('/*' .*? '*/') -> channel(HIDDEN) ;
 BooleanLiteral  : ('true' | 'false') ;
-Identifier      : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
+ID      : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
 StringLiteral   : '"' (~'"')* '"' ;
 IntegerLiteral  : ('0'..'9')+ ;

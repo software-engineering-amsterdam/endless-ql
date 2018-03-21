@@ -1,5 +1,6 @@
 package ql.ast.type;
 
+import ql.ast.expression.literal.DateLiteral;
 import ql.ast.expression.literal.Literal;
 import ql.evaluator.value.parse.ToDate;
 import ql.visitors.interfaces.TypeVisitor;
@@ -22,12 +23,12 @@ public class Date extends Type {
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
     
     @Override
-    public Literal<?> parse(Literal<?> value) {
-        return value.accept(new ToDate());
+    public DateLiteral parse(Literal<?> value) {
+        return (DateLiteral) value.accept(new ToDate());
     }
 }

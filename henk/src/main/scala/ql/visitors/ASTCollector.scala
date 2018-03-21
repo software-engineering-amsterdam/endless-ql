@@ -17,12 +17,7 @@ object ASTCollector {
   def getTypeDecl(id: ASTIdentifier, ast: ASTNode): Option[ASTNode] = {
     val forms = getFormBody(ast)
     val formVarDecls = forms.flatMap(getVarDecls)
-    val varDecl = formVarDecls.filter(vd => vd.id == id)
-    if(varDecl.isEmpty) {
-      None
-    } else {
-      Some(varDecl.get(0).typeDecl)
-    }
+    formVarDecls.find(vd => vd.id == id).map(_.typeDecl)
   }
 
   def getTerminals(node: ASTNode): List[ASTNode] = {
@@ -37,6 +32,21 @@ object ASTCollector {
       case nt: ASTNonTerminal => nt.flatten.flatMap(getIdentifiers)
       case id: ASTIdentifier  => List(id)
       case other              => List()
+    }
+  }
+
+  def getQuestions(ast: ASTNode): List[ASTQuestion] = {
+    val flattened = flattenNT(ast)
+    flattened.collect { case question: ASTQuestion => question }
+  }
+
+  def getComputations(ast: ASTNode): Option[List[ASTComputation]] = {
+    val flattened = flattenNT(ast)
+    val comps = flattened.collect { case comp: ASTComputation => comp }
+    if(comps.isEmpty) {
+      None
+    } else {
+      Some(comps)
     }
   }
 

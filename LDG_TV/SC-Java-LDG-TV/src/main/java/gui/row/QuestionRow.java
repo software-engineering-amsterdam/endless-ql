@@ -1,4 +1,4 @@
-package tool;
+package gui.row;
 
 import javafx.scene.Node;
 

@@ -1,4 +1,4 @@
-package tool;
+package gui.tool;
 
 import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
@@ -34,6 +34,9 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import gui.row.QuestionRow;
+import gui.row.Row;
+import gui.row.SectionRow;
 
 import java.io.*;
 import java.net.URL;
@@ -99,6 +102,52 @@ public class ToolController implements Initializable, Consumer {
         }
         printInfoMessage("Build successful");
     }
+
+    public void importQLSFile(ActionEvent event) {
+        FileChooser fileChooser = getFileChooser();
+
+        Stage s = new Stage();
+        File selectedFile = fileChooser.showOpenDialog(s);
+
+        if (selectedFile == null) {
+            return;
+        }
+
+        Optional<String> qlsText = Utilities.readFile(selectedFile.getAbsolutePath());
+
+        qlsText.ifPresentOrElse(
+                text -> {
+                    taSourceCodeQLS.setText(text);
+                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
+                },
+                () -> showAlertBox("Could not read file.")
+        );
+    }
+    /**
+     * Invoked by the 'Import' button action, import .QL file
+     * @param event that kicked of the invocation
+     */
+    public void importQLFile(ActionEvent event) {
+        FileChooser fileChooser = getFileChooser();
+
+        Stage s = new Stage();
+        File selectedFile = fileChooser.showOpenDialog(s);
+
+        if (selectedFile == null) {
+            return;
+        }
+
+        Optional<String> qlText = Utilities.readFile(selectedFile.getAbsolutePath());
+
+        qlText.ifPresentOrElse(
+                text -> {
+                    taSourceCodeQL.setText(text);
+                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
+                },
+                () -> showAlertBox("Could not read file.")
+        );
+    }
+
     private void generateQL(String qlSource){
         // Parse input field and create AST
         CharStream stream = CharStreams.fromString(qlSource);
@@ -115,6 +164,20 @@ public class ToolController implements Initializable, Consumer {
 
         this.formNode = loader.getFormNode();
     }
+    private void generateQLS(String qlsSource){
+        CharStream qlsStream = CharStreams.fromString(qlsSource);
+        StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
+
+        StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
+
+        //parser.setErrorHandler(new BailErrorStrategy());
+        qlsParser.addErrorListener(new ToolBarErrorListener(lblErrorField));
+
+        StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
+        QLSLoader qlsLoader = new QLSLoader(this.formNode);
+        ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
+    }
+
     private void buildQL(){
         ListView lvQuestionnaire = new ListView();
         lvQuestionnaire.getItems().clear();
@@ -146,28 +209,16 @@ public class ToolController implements Initializable, Consumer {
         hbox.getChildren().add(lv);
         tab.setContent(hbox);
     }
-    private void generateQLS(String qlsSource){
-        CharStream qlsStream = CharStreams.fromString(qlsSource);
-        StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
+    private void drawSection(Section s, ListView lView){
+        Row r = new SectionRow(s.getLabel());
+        lView.getItems().add(r);
+        List<QuestionNode> temp = new ArrayList<>();
+        for (Variable v : s.getVariables()){
+            temp.add(this.formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
+        }
+        drawQuestions(temp, lView, false);
 
-        StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
-
-        //parser.setErrorHandler(new BailErrorStrategy());
-        qlsParser.addErrorListener(new ToolBarErrorListener(lblErrorField));
-
-        StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
-        QLSLoader qlsLoader = new QLSLoader(this.formNode);
-        ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
     }
-
-    private void printInfoMessage(String message){
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-
-        lblErrorField.setTooltip(new Tooltip(sdf.format(cal.getTime())));
-        lblErrorField.setText(message);
-    }
-
     private void drawQuestions(List<QuestionNode> questionNodes, ListView lView, boolean clearView){
         Visitor uiVisitor = new UIVisitor();
         if(clearView){
@@ -190,7 +241,7 @@ public class ToolController implements Initializable, Consumer {
 
                 JavaFxObservable.changesOf(tf.focusedProperty())
                         .map(Change::getNewVal)
-                        .filter(aBoolean -> !aBoolean)
+                        .filter(b -> !b)
                         .subscribe(this::accept);
             }
 
@@ -201,87 +252,35 @@ public class ToolController implements Initializable, Consumer {
 
         JavaFxObservable.updatesOf(lView.getItems()).subscribe(rows -> System.out.println("R "+rows));
     }
-    private void drawSection(Section s, ListView lView){
-        Row r = new SectionRow(s.getLabel());
-        lView.getItems().add(r);
-        List<QuestionNode> temp = new ArrayList<>();
-        for (Variable v : s.getVariables()){
-            temp.add(this.formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
-        }
-        drawQuestions(temp, lView, false);
-
-    }
-
     private List<QuestionNode> getAllQuestions(List<ASTNode> nodes){
-        List<QuestionNode> visQuestion = new ArrayList<>();
+        List<QuestionNode> visibleQuestions = new ArrayList<>();
         for(ASTNode n : nodes){
 
             if(n instanceof QuestionNode){
-                visQuestion.add((QuestionNode) n);
+                visibleQuestions.add((QuestionNode) n);
                 continue;
             }
 
             ConditionNode conditionNode = (ConditionNode) n;
 
-            visQuestion.addAll(conditionNode.getQuestionNodes());
-            visQuestion.addAll(conditionNode.getElseNodes());
+            visibleQuestions.addAll(conditionNode.getQuestionNodes());
+            visibleQuestions.addAll(conditionNode.getElseNodes());
         }
 
-        return visQuestion;
+        return visibleQuestions;
     }
-
-    public void importQLSFile(ActionEvent event) {
-        FileChooser fileChooser = getFileChooser();
-
-        Stage s = new Stage();
-        File selectedFile = fileChooser.showOpenDialog(s);
-
-        if (selectedFile == null) {
-            return;
-        }
-
-        Optional<String> qlsText = Utilities.readFile(selectedFile.getAbsolutePath());
-
-        qlsText.ifPresentOrElse(
-                text -> {
-                    taSourceCodeQLS.setText(text);
-                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
-                },
-                () -> showAlertBox("Could not read file.")
-        );
-    }
-
-    /**
-     * Invoked by the 'Import' button action, import .QL file
-     * @param event that kicked of the invocation
-     */
-    public void importQLFile(ActionEvent event) {
-        FileChooser fileChooser = getFileChooser();
-
-        Stage s = new Stage();
-        File selectedFile = fileChooser.showOpenDialog(s);
-
-        if (selectedFile == null) {
-            return;
-        }
-
-        Optional<String> qlText = Utilities.readFile(selectedFile.getAbsolutePath());
-
-        qlText.ifPresentOrElse(
-                text -> {
-                    taSourceCodeQL.setText(text);
-                    printInfoMessage("Import "+ selectedFile.getName() +" successful");
-                },
-                () -> showAlertBox("Could not read file.")
-        );
-    }
-
     private void showAlertBox(String errorMessage){
         Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage);
 
         alert.showAndWait();
     }
+    private void printInfoMessage(String message){
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
+        lblErrorField.setTooltip(new Tooltip(sdf.format(cal.getTime())));
+        lblErrorField.setText(message);
+    }
     private FileChooser getFileChooser(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open QL File");
@@ -308,7 +307,6 @@ public class ToolController implements Initializable, Consumer {
 
     @Override
     public void accept(Object event) {
-        System.out.println("Redraw tree yo");
         this.redrawAll();
     }
 }

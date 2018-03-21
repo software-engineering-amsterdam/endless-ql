@@ -1,4 +1,4 @@
-package tool;
+package gui.tool;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;

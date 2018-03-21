@@ -2,19 +2,14 @@ package domain.visitor;
 
 import domain.Utilities;
 import domain.model.value.ArithmeticExpressionValue;
-import domain.model.value.MoneyValue;
 import domain.model.variable.BooleanVariable;
 import domain.model.variable.MoneyVariable;
 import domain.model.variable.StringVariable;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
-import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import tool.ToolController;
 
 
 public class UIVisitor implements Visitor {

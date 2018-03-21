@@ -1,6 +1,4 @@
-package tool;
-
-import javafx.scene.Node;
+package gui.row;
 
 public class SectionRow extends Row {
 

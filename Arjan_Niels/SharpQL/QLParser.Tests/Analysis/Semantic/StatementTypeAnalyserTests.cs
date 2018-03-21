@@ -7,7 +7,7 @@ using QLParser.AST.Nodes.ExpressionNodes;
 using QLParser.AST.Nodes.ExpressionNodes.Enums;
 using QLParser.Tests;
 
-namespace QL_Parser.Tests.Analysis.Semantic
+namespace QLParser.Tests.Analysis.Semantic
 {
     [TestClass]
     public class StatementTypeAnalyserTests : QLTest

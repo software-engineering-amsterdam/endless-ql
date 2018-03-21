@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.Token;
 
 import java.util.List;
 
-public class Form extends Node {
+public class Form extends QLNode {
 
     public final String identifier;
     public final List<Question> questions;

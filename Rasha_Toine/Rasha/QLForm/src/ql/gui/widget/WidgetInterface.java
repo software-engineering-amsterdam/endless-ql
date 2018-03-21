@@ -8,8 +8,8 @@ import ql.visiting.value.Value;
 public interface WidgetInterface {
 
 	public JComponent getJComponent();
-	public WidgetConfiguration getStyle();
-	public void setStyle(WidgetConfiguration style);
+	public WidgetConfiguration getConfiguration();
+	public void setConfiguration(WidgetConfiguration style);
 	public Value getValue();
 	public void setValue(Value value);
 

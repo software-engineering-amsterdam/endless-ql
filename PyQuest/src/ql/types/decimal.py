@@ -1,7 +1,7 @@
 from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.decimal_node import DecimalNode
-from gui.model.widgets import DoubleSpinBox
+from gui.widgets.double_spinbox import DoubleSpinBox
 
 
 class QLDecimal(QLType):
@@ -11,6 +11,21 @@ class QLDecimal(QLType):
 
     def __repr__(self):
         return str(self.value)
+
+    def __bool__(self):
+        return bool(self.value)
+
+    def __float__(self):
+        return float(self.value)
+
+    def __int__(self):
+        return int(self.value)
+
+    def __str__(self):
+        return str(self.value)
+
+    def __neg__(self):
+        return QLDecimal(- self.value)
 
     def __eq__(self, other):
         return QLBoolean(self.value == other.value)
@@ -50,8 +65,8 @@ class QLDecimal(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value):
-        return DecimalNode(None, QLDecimal, value)
+    def get_literal_node(value=0.0):
+        return DecimalNode(None, QLDecimal, QLDecimal(value))
 
     @staticmethod
     def pyqt5_default_widget():

@@ -1,5 +1,6 @@
 package nl.uva.js.qlparser.models.ql.expressions.form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -15,10 +16,11 @@ import java.util.List;
 @Builder
 public class Question implements FormExpression {
     @NonNull private String question;
-    @NonNull private DataType dataType;
+    @JsonIgnore @NonNull private DataType dataType;
     @NonNull private Variable variable;
 
     @Override
+    @JsonIgnore
     public List<Component> getComponents() {
         Panel panel = new Panel();
         GridLayout layout = new GridLayout(1,2);

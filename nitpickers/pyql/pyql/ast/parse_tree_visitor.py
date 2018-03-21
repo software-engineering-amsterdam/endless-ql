@@ -97,12 +97,7 @@ class ParseTreeVisitor(QLVisitor):
         return ctx.getText()
 
     def visitNegNotUnExpression(self, ctx: QLParser.NegNotUnExpressionContext):
-        operator = ctx.getChild(0)
-        expression = ctx.unExpression().accept(self)
-        location = self.location(ctx)
-        if str(operator) == '!':
-            return Not(location, expression)
-        return Multiplication(location, IntegerLiteral(location, -1), expression)
+        return self.unaryExpressionFactory(self.location(ctx), ctx.unExpression().accept(self), ctx.getChild(0))
 
     def visitPrimaryUnExpression(self, ctx: QLParser.PrimaryUnExpressionContext):
         return self.visitChildren(ctx)
@@ -145,17 +140,24 @@ class ParseTreeVisitor(QLVisitor):
     def binaryOperator(self, ctx):
         return ctx.getChild(1).getText()
 
-    def binaryExpressionFactory(self, location, left, right, operator):
+    def unaryExpressionFactory(self, location, expression, operator):
         switcher = {
-            "*": Multiplication(location, left, right),
-            "/": Division(location, left, right),
-            "+": Addition(location, left, right),
-            "-": Subtraction(location, left, right),
-            "<": LessThan(location, left, right),
-            ">": GreaterThan(location, left, right),
-            "<=": LessThanOrEqual(location, left, right),
-            ">=": GreaterThanOrEqual(location, left, right),
-            "==": Equals(location, left, right),
-            "!=": NotEquals(location, left, right)
+            "!": Not(location, expression),
+            "-": Multiplication(location, IntegerLiteral(location, -1), expression)
         }
         return switcher.get(operator)
+
+    def binaryExpressionFactory(self, location, left, right, operator):
+        switcher = {
+            "*": Multiplication,
+            "/": Division,
+            "+": Addition,
+            "-": Subtraction,
+            "<": LessThan,
+            ">": GreaterThan,
+            "<=": LessThanOrEqual,
+            ">=": GreaterThanOrEqual,
+            "==": Equals,
+            "!=": NotEquals
+        }
+        return switcher.get(operator)(location, left, right)

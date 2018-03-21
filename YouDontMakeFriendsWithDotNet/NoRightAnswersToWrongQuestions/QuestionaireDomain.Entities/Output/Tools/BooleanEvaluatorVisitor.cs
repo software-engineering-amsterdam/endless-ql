@@ -17,8 +17,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ICalculationVisitor m_calculationVisitor;
         private readonly ISymbolTable m_lookup;
-
-
+        
         public BooleanEvaluatorVisitor(
             IDomainItemLocator domainItemLocator,
             ICalculationVisitor calculationVisitor,
@@ -69,8 +68,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 
             return question.Id;
         }
-
-
+        
         public object Evaluate(IUntypedVariableNode node)
         {
             var question = m_domainItemLocator
@@ -106,7 +104,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             dynamic d = expresion;
             return !Evaluate(d);
         }
-        
         
         public DateTime Evaluate(IDateNode node)
         {

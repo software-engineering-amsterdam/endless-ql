@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TextType extends WidgetType {
 
-    public TextType(){
+    public TextType() {
 
     }
 
@@ -19,7 +19,7 @@ public class TextType extends WidgetType {
 
     @Override
     public <T, Q, V, B> T accept(WidgetTypeVisitor<T, Q, V, B> visitor, Q question, V value, B readOnly) {
-        return visitor.visit(this, question ,value, readOnly);
+        return visitor.visit(this, question, value, readOnly);
     }
 
 }

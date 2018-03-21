@@ -9,4 +9,3 @@ class UnaryOperatorNode(ExpressionNode):
     @property
     def expression(self):
         return self.__expression
-

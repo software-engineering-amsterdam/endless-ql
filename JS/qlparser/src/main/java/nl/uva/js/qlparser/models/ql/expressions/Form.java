@@ -1,31 +1,34 @@
 package nl.uva.js.qlparser.models.ql.expressions;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
+import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
 @Builder
 public class Form implements Expression, Expression.TypeCheckable, Expression.Visualizable {
 
-    @NonNull private String name;
-    private LinkedList<FormExpression> formExpressions;
+    @JsonIgnore @NonNull private String name;
+    @JsonProperty("questions") private LinkedList<FormExpression> formExpressions;
 
     @Override
+    @JsonIgnore
     public LinkedList<Component> getComponents() {
         LinkedList<Component> components = new LinkedList<>();
 
-        formExpressions.stream()
+        NonNullRun.consumer(formExpressions, fe -> fe.stream()
                 .map(FormExpression::getComponents)
-                .forEach(components::addAll);
+                .forEach(components::addAll));
 
         return components;
     }

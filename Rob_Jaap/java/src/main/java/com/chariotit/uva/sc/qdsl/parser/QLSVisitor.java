@@ -132,7 +132,7 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
     @Override
     public Property visitProperty(QLSParser.PropertyContext ctx) {
         if (ctx.widgetproperty() != null) {
-            return visitWidthproperty(ctx.widthproperty());
+            return visitWidgetproperty(ctx.widgetproperty());
         } else if (ctx.widthproperty() != null) {
             return visitWidthproperty(ctx.widthproperty());
         } else if (ctx.fontproperty() != null) {
@@ -176,7 +176,7 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
 
     @Override
     public RadioWidget visitRadiowidget(QLSParser.RadiowidgetContext ctx) {
-        if (ctx.STRING() != null) {
+        if (ctx.STRING().size() != 0) {
             return new RadioWidget(
                     ctx.STRING(0).getText(),
                     ctx.STRING(1).getText(),
@@ -210,7 +210,7 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
 
     @Override
     public DropdownWidget visitDropdownwidget(QLSParser.DropdownwidgetContext ctx) {
-        if (ctx.STRING() != null) {
+        if (ctx.STRING().size() != 0) {
             return new DropdownWidget(
                     ctx.STRING(0).getText(),
                     ctx.STRING(1).getText(),
@@ -224,7 +224,8 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
 
     @Override
     public WidthProperty visitWidthproperty(QLSParser.WidthpropertyContext ctx) {
-        return new WidthProperty(Integer.parseInt(ctx.NUMBER().getText()), lineNumber(ctx),
+        return new WidthProperty(Integer.parseInt(ctx.NUMBER().getText()), lineNumber
+                        (ctx),
                 columnNumber(ctx));
     }
 

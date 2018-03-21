@@ -17,7 +17,10 @@ public class FormPanel extends JPanel {
         formContent.setPreferredSize(new Dimension(formWidth, formHeight));
         formContent.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        form.getComponents().forEach(formContent::add);
+        // Initial setup
+        components = new LinkedList<>();
+        components.addAll(form.getComponents());
+        components.forEach(formContent::add);
 
         int panelHeight = viewHeight - 5;
 
@@ -44,9 +47,8 @@ public class FormPanel extends JPanel {
     }
 
     public void apply(Stylesheet stylesheet) {
-//        formContent.removeAll();
-//
-//        LinkedList<Component> styledComponents = components.clone();
+        LinkedList<Component> styledComponents;
+
 //        components.forEach(formContent::add);
 
         formContent.revalidate();

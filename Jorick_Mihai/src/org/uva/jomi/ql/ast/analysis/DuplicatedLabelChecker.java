@@ -7,17 +7,21 @@ import java.util.List;
 import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.error.WarningHandler;
 
-public class DuplicatedLabelChecker extends WarningHandler implements Stmt.Visitor<Void> {
+public class DuplicatedLabelChecker extends WarningHandler implements Statement.Visitor<Void> {
 
 	private final HashMap<String, List<String>> labels;
+	
+	public DuplicatedLabelChecker() {
+		this(false);
+	}
 
 	public DuplicatedLabelChecker(boolean printWarnings) {
 		super("DuplicatedLabelChecker", printWarnings);
 		this.labels = new HashMap<>();
 	}
 
-	public void check(List<Stmt> statements) {
-		for (Stmt statement : statements) {
+	public void check(List<Statement> statements) {
+		for (Statement statement : statements) {
 			statement.accept(this);
 		}
 	}
@@ -27,7 +31,7 @@ public class DuplicatedLabelChecker extends WarningHandler implements Stmt.Visit
 		return this.getReport(index);
 	}
 
-	private void checkLabel(QuestionStmt stmt) {
+	private void checkLabel(QuestionStatement stmt) {
 			if (labels.containsKey(stmt.getLabel())) {
 				// Get the list of question names
 				List<String> questionNames = this.labels.get(stmt.getLabel());
@@ -51,42 +55,42 @@ public class DuplicatedLabelChecker extends WarningHandler implements Stmt.Visit
 	}
 
 	@Override
-	public Void visit(FormStmt stmt) {
+	public Void visit(FormStatement stmt) {
 		stmt.visitBlockStmt(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(BlockStmt stmt) {
+	public Void visit(BlockStatement stmt) {
 		// Visit every statement in the block.
-		for (Stmt statement : stmt.getStatements()) {
+		for (Statement statement : stmt.getStatements()) {
 			statement.accept(this);
 		}
 		return null;
 	}
 
 	@Override
-	public Void visit(QuestionStmt stmt) {
+	public Void visit(QuestionStatement stmt) {
 		checkLabel(stmt);
 		return null;
 	}
 
 	@Override
-	public Void visit(ComputedQuestionStmt stmt) {
+	public Void visit(ComputedQuestionStatement stmt) {
 		checkLabel(stmt);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfStmt stmt) {
-		stmt.visitIfBlockStmt(this);
+	public Void visit(IfStatement stmt) {
+		stmt.visitIfBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfElseStmt stmt) {
-		stmt.visitIfBlockStmt(this);
-		stmt.visitElseBlockStmt(this);
+	public Void visit(IfElseStatement stmt) {
+		stmt.visitIfBlockStatement(this);
+		stmt.visitElseBlockStatement(this);
 		return null;
 	}
 }

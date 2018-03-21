@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using QuestionaireOrchestration.CommandHandlers;
-using QuestionaireOrchestration.Commands;
-using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices;
-using QuestionaireOrchestration.QueryServices.Interfaces;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.CommandHandlers;
+using QuestionnaireOrchestration.Commands;
+using QuestionnaireOrchestration.Models;
+using QuestionnaireOrchestration.QueryServices;
+using QuestionnaireOrchestration.QueryServices.Interfaces;
 
-namespace QuestionaireOrchestration
+namespace QuestionnaireOrchestration
 {
     public class OrchestrationModule : IHasRegistrations
     {
@@ -25,8 +25,12 @@ namespace QuestionaireOrchestration
                 typeof(CreateDefinitionFromTextCommandHandler));
 
             appRegistration.AddTransient(
-                typeof(ICommandHandler<CreateQuestionnaireCommandMessage>), 
+                typeof(ICommandHandler<CreateQuestionnaireCommandMessage>),
                 typeof(ParseTextCommandHandler));
+
+            appRegistration.AddTransient(
+                typeof(ICommandHandler<UpdateValuesCommand>),
+                typeof(UpdateValuesCommandHandler));
 
             appRegistration.AddTransient(
                 typeof(IModelQueryService<QuestionnaireDefinitionModel>),

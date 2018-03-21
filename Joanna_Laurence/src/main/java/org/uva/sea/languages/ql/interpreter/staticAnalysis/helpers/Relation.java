@@ -13,9 +13,9 @@ public class Relation<T> {
     /**
      * Add relation from elementA to elementB
      *
-     * @param elementA
-     * @param elementB
-     * @return
+     * @param elementA Relation from
+     * @param elementB Relation to
+     * @return If the relation not exist yet
      */
     public boolean addRelation(T elementA, T elementB) {
         return this.relations.add(new RelationEntity<>(elementA, elementB));
@@ -41,7 +41,7 @@ public class Relation<T> {
     /**
      * Get transitive closure of the current relation
      *
-     * @return
+     * @return The transitive relation
      */
     private Relation<T> getTransitiveClosure() {
         Relation<T> transitiveClosure = new Relation<>();
@@ -70,7 +70,7 @@ public class Relation<T> {
     /**
      * Add a set of relations
      *
-     * @param relations
+     * @param relations Relations to add
      */
     private void addAll(Collection<RelationEntity<T>> relations) {
         this.relations.addAll(relations);
@@ -79,8 +79,8 @@ public class Relation<T> {
     /**
      * Check if key is related to value
      *
-     * @param key
-     * @param value
+     * @param key Key of relation
+     * @param value Value of relation
      * @return If it this relation
      */
     public boolean contains(T key, T value) {

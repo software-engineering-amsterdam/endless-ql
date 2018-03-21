@@ -26,6 +26,22 @@ public class Section extends SectionElement {
         this.defaults = new ArrayList<>();
     }
 
+    public List<SectionElement> getElements() {
+        return elements;
+    }
+
+    public void setElements(List<SectionElement> elements) {
+        this.elements = elements;
+    }
+
+    public List<DefaultProperties> getDefaults() {
+        return defaults;
+    }
+
+    public void setDefaults(List<DefaultProperties> defaults) {
+        this.defaults = defaults;
+    }
+
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         for (SectionElement element : elements) {

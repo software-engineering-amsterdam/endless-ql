@@ -16,6 +16,22 @@ public class DropdownWidget extends WidgetType {
         this.noLabel = noLabel;
     }
 
+    public String getYesLabel() {
+        return yesLabel;
+    }
+
+    public void setYesLabel(String yesLabel) {
+        this.yesLabel = yesLabel;
+    }
+
+    public String getNoLabel() {
+        return noLabel;
+    }
+
+    public void setNoLabel(String noLabel) {
+        this.noLabel = noLabel;
+    }
+
     public DropdownWidget(Integer lineNumber, Integer columnNumber) {
         super(lineNumber, columnNumber);
     }

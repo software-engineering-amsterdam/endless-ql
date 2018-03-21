@@ -7,7 +7,7 @@ import And from "../nodes/expressions/boolean_expressions/And";
 import Or from "../nodes/expressions/boolean_expressions/Or";
 import {
   assertBoolean, assertComparable, assertSameType, assertString,
-  assertValidDivision, assertNumberValue,
+  assertValidDivision, assertNumberValue, assertDate,
 } from "../type_checking/type_assertions";
 import Variable from "../nodes/expressions/VariableIdentifier";
 import { UnkownVariableIdentifierError } from "../form_errors";
@@ -228,7 +228,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @returns {any}
    */
   visitDateLiteral(literal: DateLiteral): any {
-    return assertString(literal.getValue());
+    return assertDate(literal.getValue());
   }
 
   /**

@@ -50,7 +50,7 @@ public abstract class NodeVisitor {
 
     public abstract void visitStringType(StringTypeNode stringType);
 
-    public abstract void visitAstRoot(AstRoot astRoot);
+    public abstract void visitAstRoot(QLAstRoot astRoot);
 
     public abstract void visitForm(Form form);
 

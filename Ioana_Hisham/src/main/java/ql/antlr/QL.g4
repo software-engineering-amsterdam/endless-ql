@@ -10,29 +10,33 @@ package ql.antlr;
 package ql.antlr;
 }
 
-form            : 'form' Identifier '{' statements* '}' ;
+form            : 'form' id '{' statement* '}' ;
 
-statements      : question
-                | ifStatement
+statement       : description id ':' type ('=' expression)?     #question
+                | 'if' '(' expression ')' '{' statement* '}'    #ifThen
                 ;
 
 //BEGIN STATEMENTS
 
 // ('=' expresion) part is optional and is treated only in case its enabling condition/s are satisfied
-question        : StringLiteral Identifier ':' type ('=' expression)? ; //TODO keep in check if something else than '=' will be used
+//question        : StringLiteral Identifier ':' type ('=' expression)? ; //TODO keep in check if something else than '=' will be used
 
-ifStatement     : 'if' '(' expression ')' '{' statements* '}';
+//ifStatement     : 'if' '(' expression ')' '{' statement* '}';
 
 //END STATEMENTS
 
-type            : 'boolean'
-                | 'integer'
-                | 'string'
-                | 'money'
+description     : StringLiteral;
+
+id              : ID;
+
+type            : 'boolean' #booleanType
+                | 'integer' #integerType
+                | 'string'  #stringType
+                | 'money'   #moneyType
                 ;
 
 expression      : BooleanLiteral                                        #booleanLiteral
-                | Identifier                                            #identifier
+                | ID                                                    #identifier
                 | StringLiteral                                         #stringLiteral
                 | IntegerLiteral                                        #integerLiteral
                 | '+' expression                                        #unaryPlusExpr
@@ -49,8 +53,8 @@ expression      : BooleanLiteral                                        #boolean
 
 // Tokens
 WS              : (' ' | '\t' | '\n' | '\r')-> channel(HIDDEN) ;
-Comment         : ('/*' .* '*/') -> channel(HIDDEN) ;
+Comment         : ('/*' .*? '*/') -> channel(HIDDEN) ;
 BooleanLiteral  : ('true' | 'false') ;
-Identifier      : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
+ID      : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
 StringLiteral   : '"' (~'"')* '"' ;
 IntegerLiteral  : ('0'..'9')+ ;

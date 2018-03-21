@@ -3,13 +3,13 @@ package org.uva.jomi.ui.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.uva.jomi.ql.ast.statements.BlockStmt;
-import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.FormStmt;
-import org.uva.jomi.ql.ast.statements.IfElseStmt;
-import org.uva.jomi.ql.ast.statements.IfStmt;
-import org.uva.jomi.ql.ast.statements.QuestionStmt;
-import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.statements.BlockStatement;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStatement;
+import org.uva.jomi.ql.ast.statements.FormStatement;
+import org.uva.jomi.ql.ast.statements.IfElseStatement;
+import org.uva.jomi.ql.ast.statements.IfStatement;
+import org.uva.jomi.ql.ast.statements.QuestionStatement;
+import org.uva.jomi.ql.ast.statements.Statement;
 import org.uva.jomi.ui.elements.core.Panel;
 import org.uva.jomi.ui.elements.panel.ConditionalPanelElement;
 import org.uva.jomi.ui.elements.panel.FormPanel;
@@ -17,19 +17,19 @@ import org.uva.jomi.ui.elements.panel.PanelElement;
 import org.uva.jomi.ui.elements.question.ComputedQuestionElement;
 import org.uva.jomi.ui.elements.question.QuestionElement;
 
-public class ElementBuilder implements Stmt.Visitor<BaseElement> {
+public class ElementBuilder implements Statement.Visitor<BaseElement> {
 
-	private List<BaseElement> generate(List<Stmt> statements) {
+	private List<BaseElement> generate(List<Statement> statements) {
 		List<BaseElement> elements = new ArrayList<BaseElement>();
 
-		for (Stmt statement : statements) {
+		for (Statement statement : statements) {
 			elements.add(statement.accept(this));
 		}
 
 		return elements;
 	}
 
-	public List<Panel> build(List<Stmt> statements) {
+	public List<Panel> build(List<Statement> statements) {
 		List<Panel> elements = new ArrayList<Panel>();
 
 		for (BaseElement baseElement : this.generate(statements)) {
@@ -40,7 +40,7 @@ public class ElementBuilder implements Stmt.Visitor<BaseElement> {
 	}
 
 	@Override
-	public BaseElement visit(FormStmt form) {
+	public BaseElement visit(FormStatement form) {
 		FormPanel panel = new FormPanel();
 
 		panel.addElement(form.visitBlockStmt(this));
@@ -49,10 +49,10 @@ public class ElementBuilder implements Stmt.Visitor<BaseElement> {
 	}
 
 	@Override
-	public BaseElement visit(BlockStmt block) {
+	public BaseElement visit(BlockStatement block) {
 		PanelElement panel = new PanelElement();
 
-		for (Stmt statement : block.getStatements()) {
+		for (Statement statement : block.getStatements()) {
 			panel.addElement(statement.accept(this));
 		}
 
@@ -60,26 +60,26 @@ public class ElementBuilder implements Stmt.Visitor<BaseElement> {
 	}
 
 	@Override
-	public BaseElement visit(QuestionStmt questionStmt) {
+	public BaseElement visit(QuestionStatement questionStmt) {
 		return new QuestionElement(questionStmt.getName(), questionStmt.getLabel(), questionStmt.getType().toString());
 	}
 
 	@Override
-	public BaseElement visit(ComputedQuestionStmt questionStmt) {
-		return new ComputedQuestionElement(questionStmt.getName(), questionStmt.getLabel(), questionStmt.getType().toString(), questionStmt.getExp());
+	public BaseElement visit(ComputedQuestionStatement questionStmt) {
+		return new ComputedQuestionElement(questionStmt.getName(), questionStmt.getLabel(), questionStmt.getType().toString(), questionStmt.getExpression());
 	}
 
 	@Override
-	public BaseElement visit(IfStmt stmt) {
-		BaseElement ifElement = stmt.visitIfBlockStmt(this);
-		return new ConditionalPanelElement(stmt.getExpr(), ifElement, null);
+	public BaseElement visit(IfStatement stmt) {
+		BaseElement ifElement = stmt.visitIfBlockStatement(this);
+		return new ConditionalPanelElement(stmt.getExpression(), ifElement, null);
 	}
 
 	@Override
-	public BaseElement visit(IfElseStmt stmt) {
-		BaseElement ifElement = stmt.visitIfBlockStmt(this);
-		BaseElement elseElement = stmt.visitElseBlockStmt(this);
-		return new ConditionalPanelElement(stmt.getExpr(), ifElement, elseElement);
+	public BaseElement visit(IfElseStatement stmt) {
+		BaseElement ifElement = stmt.visitIfBlockStatement(this);
+		BaseElement elseElement = stmt.visitElseBlockStatement(this);
+		return new ConditionalPanelElement(stmt.getExpression(), ifElement, elseElement);
 	}
 
 }

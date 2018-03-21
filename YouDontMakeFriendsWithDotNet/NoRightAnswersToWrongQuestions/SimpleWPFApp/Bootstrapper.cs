@@ -1,15 +1,11 @@
 ﻿using QuestionnaireInfrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
-using QuestionaireOrchestration;
 using QuestionnaireDomain.Entities;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration;
 using QuestionnaireUI;
+using SimpleWPFApp.DataProvider;
 
 namespace SimpleWPFApp
 {
@@ -28,6 +24,10 @@ namespace SimpleWPFApp
             collection.AddTransient(
                 typeof(IQuestionnaireViewModel),
                 typeof(QuestionnaireViewModel));
+            collection.AddSingleton(
+                typeof(IQuestionnaireDataProvider),
+                typeof(QuestionnaireDataProvider));
+
             return collection;
         }
     }

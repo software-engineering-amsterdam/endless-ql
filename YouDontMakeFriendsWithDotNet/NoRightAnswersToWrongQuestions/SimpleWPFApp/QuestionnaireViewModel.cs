@@ -1,20 +1,47 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Input;
-using QuestionaireOrchestration.Commands;
-using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices;
-using QuestionnaireInfrastructure.API;
+﻿using System.Windows.Input;
 using QuestionnaireUI.Models;
-using SimpleWPFApp.Properties;
+using SimpleWPFApp.DataProvider;
 
 namespace SimpleWPFApp
 {
-    internal class QuestionnaireViewModel : Observable, IQuestionnaireViewModel
+    public interface IQuestionnaireViewModel
     {
-        private readonly ICommandBus m_commandBus;
-        private readonly IQuestionnaireOutputModelQueryService m_questionnaireQueryService;
+        void Load();
+        QuestionnaireWrapper Questionnaire { get;  }
+    }
+
+    public class QuestionnaireViewModel : Observable, IQuestionnaireViewModel
+    {
+        private readonly IQuestionnaireDataProvider m_dataProvider;
+
+        public QuestionnaireViewModel(
+            IQuestionnaireDataProvider dataProvider)
+        {
+            m_dataProvider = dataProvider;
+        }
+
+        public void Load()
+        {
+            m_dataProvider.LoadDefaultQuestionnaire();
+            Questionnaire = m_dataProvider.GetSingleQuestionnaire();
+            DataChangedCommand = new DelegateCommand(OnDataChangedCommand);
+            foreach (var question in Questionnaire.Questions)
+            {
+                question.PropertyChanged += (s, e) => { OnDataChangedCommand(null); };
+            }
+        }
+
+        private void OnDataChangedCommand(object obj)
+        {
+            m_dataProvider.Reload(Questionnaire.Model);
+            Questionnaire = m_dataProvider.GetSingleQuestionnaire();
+            foreach (var question in Questionnaire.Questions)
+            {
+                question.PropertyChanged += (s, e) => { OnDataChangedCommand(null); };
+            }
+        }
+
+        public ICommand DataChangedCommand { get; private set; }
         private QuestionnaireWrapper m_questionnaire;
 
         public QuestionnaireWrapper Questionnaire
@@ -25,56 +52,6 @@ namespace SimpleWPFApp
                 m_questionnaire = value;
                 RaisePropertyChanged();
             }
-        }
-
-        public QuestionnaireViewModel(
-            ICommandBus commandBus,
-            IQuestionnaireOutputModelQueryService questionnaireQueryService)
-        {
-            m_commandBus = commandBus;
-            m_questionnaireQueryService = questionnaireQueryService;
-
-            ReloadCommand = new DelegateCommand(OnReload);
-        }
-        
-        public ICommand ReloadCommand { get; }
-
-        private void OnReload(object obj)
-        {
-            var command = new UpdateValuesCommand
-            {
-                Questionnaire = Questionnaire.Model
-            };
-            m_commandBus.Send(command);
-            Reload();
-        }
-
-        public void Load()
-        {
-            var command = new CreateDefinitionFromTextCommand
-            {
-                DefinitionText = Resources.ExampleForm
-            };
-
-            m_commandBus.Send(command);
-            Reload();
-        }
-
-        private void Reload()
-        {
-            var questionnaireDefinitionReference = m_questionnaireQueryService
-                .GetAll()
-                .FirstOrDefault();
-
-            if (questionnaireDefinitionReference == null)
-            {
-                throw new ArgumentException("questionnaire not created");
-            }
-
-            var questionnaire = m_questionnaireQueryService.GetModel(
-                questionnaireDefinitionReference.Id);
-
-            Questionnaire = new QuestionnaireWrapper(questionnaire);
         }
     }
 }

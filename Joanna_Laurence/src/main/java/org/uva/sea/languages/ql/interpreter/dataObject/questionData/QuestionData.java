@@ -14,7 +14,6 @@ public class QuestionData {
     private final String questionName;
 
     private Style style = new Style();
-    private WidgetType widgetType;
 
     public QuestionData(Question question, Value value) {
         this.label = question.getLabel();
@@ -65,7 +64,7 @@ public class QuestionData {
     }
 
     public WidgetType getWidgetType() {
-        return this.widgetType;
+        return this.style.getWidgetType();
     }
 
     public void setWidgetType(WidgetType widgetType) {

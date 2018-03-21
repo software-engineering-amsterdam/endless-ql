@@ -1,0 +1,12 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Buying"
+    {
+      question hasBoughtHouse  
+    }
+    section "Loaning"  
+      question hasMaintLoan
+  }
+}

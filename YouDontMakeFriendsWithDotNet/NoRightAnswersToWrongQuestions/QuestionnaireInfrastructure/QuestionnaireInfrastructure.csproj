@@ -127,7 +127,6 @@
     <Compile Include="API\IApp.cs" />
     <Compile Include="API\IIdMaker.cs" />
     <Compile Include="API\IQuestionnaireDefinitionLoader.cs" />
-    <Compile Include="API\QLApp.cs" />
     <Compile Include="API\QuestionnaireDefinitionLoader.cs" />
     <Compile Include="DependencyInjectionContainer.cs" />
     <Compile Include="Logic\CommandBus.cs" />

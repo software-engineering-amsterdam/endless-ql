@@ -19,7 +19,8 @@ import java.util.List;
 public class SymbolTableBuilderVisitor extends NodeVisitor {
 
     private List<TypeCheckError> errors = new ArrayList<>();
-    private SymbolTable symbolTable = new SymbolTable();
+    private SymbolTable questionSymbolTable = new SymbolTable();
+    private SymbolTable formSymbolTable = new SymbolTable();
 
     @Override
     public void visitBooleanConstant(BooleanConstant booleanConstant) {
@@ -117,14 +118,15 @@ public class SymbolTableBuilderVisitor extends NodeVisitor {
     }
 
     @Override
-    public void visitAstRoot(AstRoot astRoot) {
-        astRoot.setSymbolTable(symbolTable);
+    public void visitAstRoot(QLAstRoot astRoot) {
+        astRoot.setQuestionSymbolTable(questionSymbolTable);
+        astRoot.setFormSymbolTable(formSymbolTable);
     }
 
     @Override
     public void visitForm(Form form) {
         try {
-            symbolTable.addEntry(new SymbolTableEntry(
+            formSymbolTable.addEntry(new SymbolTableEntry(
                     form.getLabel(),
                     form));
         } catch (DuplicateSymbolMismatchException exception) {
@@ -160,7 +162,7 @@ public class SymbolTableBuilderVisitor extends NodeVisitor {
     public void visitLineElement(LineElement lineElement) {
 
         try {
-            symbolTable.addEntry(new SymbolTableEntry(
+            questionSymbolTable.addEntry(new SymbolTableEntry(
                     lineElement.getLabel().getLabel(),
                     lineElement,
                     lineElement.getTypeExpression().getTypeNode().getType()

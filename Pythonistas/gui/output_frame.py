@@ -1,75 +1,88 @@
+'''
+This file contains the OutputFrame class, for use with the MainWindow class from gui.py. After Questionnaire Language
+(QL) is parsed by another widget, OutputFrame will come to contain the encoded questionnaire.
+'''
 from PyQt5 import QtWidgets
 
 
 class OutputFrame(QtWidgets.QFrame):
-    def __init__(self):
+    def __init__(self, questionIDs=[], questions={}):
         super(OutputFrame, self).__init__()
-        self.outputlayout = QtWidgets.QGridLayout()
-        self.setLayout(self.outputlayout)
-        self.row = 0
-        self.btn_grp = []
-        # self.questionDict = {}
-        self.questions = []  # Ordered list of questions
-        self.answers = []  # Ordered list of corresponding answers
+        self.frame_layout = QtWidgets.QVBoxLayout()
+        self.setLayout(self.frame_layout)
 
-    # def add_question(self, completequestion):  # todo: split question and its datatype in ast rather than here
-    #     # Adds questions and answer option
-    #
-    #     splitquestion = completequestion.split('"')  # Filters the actual question from the input string
-    #     question = splitquestion[1]
-    #     datatype = splitquestion[2].split(":")[1]  # Filters datatype from the question string
-    #
-    #     choices = ['Yes', 'No']  # Default choices; todo: move to appropriate location.
-    #
-    #     self.outputlayout.addWidget(QtWidgets.QLabel(question))
-    #     self.questions.append(question)
-    #     self.answers.append('undefined')  # Default answer
-    #
-    #     if datatype == 'boolean':
-    #         self.btn_grp.append(QtWidgets.QButtonGroup())  # Makes sure only one radiobutton can be true per question
-    #         for choicenumber in range(len(choices)):
-    #             radiobutton = QtWidgets.QRadioButton(choices[choicenumber])
-    #             radiobutton.answer = choices[choicenumber]
-    #             radiobutton.question = question
-    #
-    #             self.outputlayout.addWidget(radiobutton, self.row, choicenumber+1)
-    #             radiobutton.toggled.connect(self.write_answer)
-    #
-    #             self.btn_grp[-1].setExclusive(True)
-    #             self.btn_grp[-1].addButton(radiobutton)
-    #
-    #     elif datatype == 'money':
-    #         # todo:testing
-    #         textbox = QtWidgets.QLineEdit(self)
-    #         textbox.answer = textbox.text()
-    #         textbox.question = question
-    #         textbox.textEdited.connect(self.write_answer)
-    #         self.outputlayout.addWidget(textbox, self.row, 1)
-    #
-    #     self.row += 1
+        self.questionIDs = questionIDs  # Ordered list of question IDs.
+        self.questions = questions  # Dictionary with question objects as values, and question IDs as keys
+        self.output_path = 'QL_output.txt'
+        self.add_questions()
 
-    def write_answer(self):
-        # Saves the user's answer to the corresponding question
-        sender = self.sender()
-        try:
-            sender.answer = sender.text()
-        except:
-            pass
-        self.answers[self.questions.index(sender.question)] = sender.answer
+    def get_question_object(self, questionID):
+        index = self.questionIDs.index(questionID)
+        return self.questions[index]
+
+    def get_output_path(self):
+        return self.output_path
+
+    def set_output_path(self, output_path):
+        self.output_path = output_path
 
     def add_submit_button(self):
         self.submit_button = QtWidgets.QPushButton('Submit', self)
         self.submit_button.clicked.connect(self.submit)
-        self.submit_button.resize(self.submit_button.sizeHint())
-        self.outputlayout.addWidget(self.submit_button,self.row,1)
+        self.frame_layout.addWidget(self.submit_button)
 
     def submit(self):
         # Writes answers to txt file
-        file = open('QL_output.txt', 'w')
-
-        for i in range(len(self.questions)):
-            file.write(self.questions[i]+str(self.answers[i])+"\n")
+        file = open(self.output_path, 'w')
+        for ID in self.questionIDs:
+            file.write(self.questions[ID].question+str(self.questions[ID].answer)+'\n')
         file.close()
 
-    def no_tree_message(self):
-        self.outputlayout.addWidget(QtWidgets.QLabel('Invalid input'))
+    def add_question(self, question_frame):
+        # Adds a frame containing a question string and the answering method to the OutputFrame
+        self.frame_layout.addWidget(question_frame)
+
+    def add_questions(self):
+        # Gets frames containing question string and answering method for each question, and adds them to OutputFrame
+        for ID in self.questionIDs:
+            question = self.questions[ID]
+            question_frame = question.create_frame()
+            self.add_question(question_frame)
+
+    # def check_duplicate_question_strings(self):
+    #     question_list = []
+    #     warning_string = None
+    #     # Compiles a list of all question strings
+    #     for ID in self.questionIDs:
+    #         question = self.questions[ID]
+    #         question_list.append(question.question)
+    #
+    #     duplicates = set([duplicate for duplicate in question_list if question_list.count(duplicate) > 1])
+    #     if len(duplicates) > 0:
+    #         warning_string = "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
+    #         self.frame_layout.addWidget(QtWidgets.QLabel(warning_string))
+    #         # return "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
+    #     return warning_string
+
+    def check_cyclic_ifs(self):
+        pass  # todo: check cyclic ifs
+        # Note: there can be no cyclic ifs due to the linear (one-way) nature of the listener
+
+        # for question in self.questions:
+        #     oldlists = [question.questionID]
+        #     newlists = []
+        #     for list in oldlists:
+        #         if_question = self.get_question_object(list[-1])
+        #         if_questions = if_question.getifquestions
+        #         for if_question in if_questions:
+        #             list.append(if_question)
+        #             newlists.append(list)
+        #             duplicates = set([duplicate for duplicate in list if list.count(duplicate) > 1])
+        #             print(duplicates)
+        #             if len(duplicates) > 0:
+        #                 return "Error: cyclic dependency in if statements"
+
+
+
+
+

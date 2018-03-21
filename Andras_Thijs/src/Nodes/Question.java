@@ -1,8 +1,8 @@
 package Nodes;
 
+import Nodes.Term.QLBoolean;
 import Nodes.Term.Term;
-
-import java.util.Date;
+import QLExceptions.*;
 
 /**
  * Contains a parsed question with name, label, type, and an expression if applicable
@@ -11,9 +11,9 @@ public class Question extends ASTNode {
     private String name;
     private String label;
     private Type type;
-    private Expression expression;
-    //TODO: private boolean condition;
+    public Expression expression; //TODO: TESTING PURPOSES, THIS SHOULD BE PRIVATE!!!
 
+    private boolean isDisplayed = false;
     private Term result;
 
     /**
@@ -40,6 +40,16 @@ public class Question extends ASTNode {
         this.label = label;
         this.type = Type.getByCode(type);
         this.expression = expression;
+    }
+
+    /**
+     * This sets the parent of this Condition and it's children's parents
+     * @param parent this ASTNode's parent
+     */
+    public void setParents(ASTNode parent) {
+        setParent(parent);
+        if(expression != null)
+            expression.setParents(this);
     }
 
     /**
@@ -74,15 +84,35 @@ public class Question extends ASTNode {
 
     /**
      * Evaluates the expression of the question
-     * @throws UnsupportedOperationException when the Types don't match
+     * @throws TypeException when the Types don't match
      */
     // This function evaluates the expression (which also does typechecking) and stores the resulting value
-    public void getExpressionValue() throws UnsupportedOperationException {
-        Term result = expression.getTerm();
-        if(type.toString().equals(result.toString()) || ((type.toString().equals("money") || type.toString().equals("integer")) && result.toString().equals("float"))) {
+    public void getExpressionValue() throws TypeException, SyntaxException {
+        try {
+            Term result = expression.getTerm();
+            switch(result.getType()) {
+                case BOOL: if(type == Type.BOOL) return;
+                case DECIMAL: if(type == Type.DECIMAL || type == Type.INT || type == Type.MONEY) break;
+                case STRING: if(type == Type.STRING || type == Type.DATE) break;
+                default: throw new TypeException(this, type, Type.getByCode(result.toString()));
+            }
             this.result = result;
-        } else {
-            throw new UnsupportedOperationException(); // TODO: Change to some type error
+        } catch(OtherException e) {
+            // This Exception is thrown when a Variable isn't set yet.
+            result = null;
         }
+    }
+
+    public void setDisplayed(boolean displayed) {
+        isDisplayed = displayed;
+    }
+
+    public boolean isDisplayed() {
+        return isDisplayed;
+    }
+
+    // TODO implement recursive function to check expressions up the hiearchy
+    public boolean isAvailable() {
+        return true;
     }
 }

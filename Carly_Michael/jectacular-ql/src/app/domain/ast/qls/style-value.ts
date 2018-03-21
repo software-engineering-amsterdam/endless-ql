@@ -3,9 +3,9 @@ export interface StyleValue {
 }
 
 export class RgbValue implements StyleValue {
-  constructor(readonly red: number, readonly green: number, readonly blue: number) { }
+  constructor(readonly value: string) { }
   getValueAsString(): string {
-    return '#' + this.red.toString() + this.green.toString() + this.blue.toString();
+    return this.value;
   }
 }
 

@@ -11,6 +11,7 @@ from .form_question import Question
 import copy
 import QLS
 
+
 class Section():
 
     def __init__(self, parent, questionGenerator, page_header='default', color='green'):
@@ -34,9 +35,9 @@ class Section():
     """
         Lifts the frame in case the menu button of the frame is pressed
     """
+
     def show(self):
         self.frame.lift()
-
 
     def hideSection(self):
         self.scrollFrame.canvas.pack_forget()
@@ -44,42 +45,43 @@ class Section():
     def showSection(self):
         self.scrollFrame.canvas.pack(expand=True, fill='both')
 
-
     """
         Place the frame inside parent frame
     """
+
     def place(self, parent, x=0, y=0, relwidth=1, relheight=1):
         self.frame.place(in_=parent, x=x, y=y, relwidth=relwidth, relheight=relheight)
 
     """
         Add a question from the question generator
     """
+
     def addQuestion(self, questionGenerator, varName, questionText, questionType, value, defaults=None):
         width = 200
         color = 'black'
         font = 'Arial'
         fontSize = '15'
+
         if defaults:
-            print("YOU HAVE GOT TO ADD DEFAULTS")
-            for attribute in defaults.attributes:
-                print(type(attribute))
-                if type(attribute) == QLS.StyleWidth:
-                    print("HELLO")
-                    width = attribute.getWidth()
-                elif type(attribute) == QLS.StyleFont:
-                    font = attribute.getFont()
-                elif type(attribute) == QLS.StyleFontSize:
-                    fontSize = attribute.getFontSize()
-                elif type(attribute) == QLS.StyleColor:
-                    color = attribute.getColor()
+            for default in defaults:
+                for attribute in default.attributes:
+                    print(type(attribute))
+                    if type(attribute) == QLS.StyleWidth:
+                        width = attribute.getWidth()
+                    elif type(attribute) == QLS.StyleFont:
+                        font = attribute.getFont()
+                    elif type(attribute) == QLS.StyleFontSize:
+                        fontSize = attribute.getFontSize()
+                    elif type(attribute) == QLS.StyleColor:
+                        color = attribute.getColor()
 
-        q = Question(self.contents, questionGenerator, varName, questionText, questionType, value, width=width, fontType=font, fontSize=fontSize, color=color)
+        q = Question(self.contents, questionGenerator, varName, questionText, questionType, value, width=width,
+                     fontType=font, fontSize=fontSize, color=color)
         self.questions.append(q)
-
 
     def insertQuestion(self, prev, questionGenerator, varName, questionText, questionType, value, defaults=None):
         tmpQuestions = copy.copy(self.questions)
-        #first question
+        # first question
         if prev == "":
             self.addQuestion(questionGenerator, varName, questionText, questionType, value, defaults)
         else:
@@ -97,7 +99,6 @@ class Section():
             # insert question
             self.addQuestion(questionGenerator, varName, questionText, questionType, value, defaults)
 
-
             # restore old questions
             for question in tmpQuestions:
                 tmpVarName = question.getVarName()
@@ -109,6 +110,7 @@ class Section():
     """
         Remove a question if it exists in our questions
     """
+
     def removeQuestion(self, varName):
         for question in self.questions:
             if question.getVarName() == varName:

@@ -16,18 +16,32 @@ from gui import question_classes
 
 
 def listen(tree):
-    # print(tree.toStringTree())
     ql = QLListener()
     walker = ParseTreeWalker()
     walker.walk(ql, tree)
-    return [ql.questionIDs, ql.questions, ql.error_message]
+    warning_message = check_duplicate_question_strings(ql.questionIDs, ql.questions)
+    return [ql.questionIDs, ql.questions, ql.error_message, warning_message]
+
+
+def check_duplicate_question_strings(questionIDs, questions):
+    question_list = []
+    warning_string = None
+    # Compiles a list of all question strings
+    for ID in questionIDs:
+        question = questions[ID]
+        question_list.append(question.question)
+
+    duplicates = set([duplicate for duplicate in question_list if question_list.count(duplicate) > 1])
+    if len(duplicates) > 0:
+        warning_string = "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
+    return warning_string
 
 
 class QLListener(ParseTreeListener):
     def __init__(self):
         self.error_message = None
         self.questionIDs = [] # Ordered list of question IDs.
-        self.questions = {}  # Ordered list of question objects
+        self.questions = {}  # Dictionary with question objects as values, IDs as keys
 
     # Enter a parse tree produced by QLParser#form.
     def enterForm(self, ctx:QLParser.FormContext):
@@ -58,8 +72,9 @@ class QLListener(ParseTreeListener):
 
     # Enter a parse tree produced by QLParser#question.
     def enterQuestion(self, ctx:QLParser.QuestionContext):
+        # todo: how to communicate properly between parents and children?
         # print(dir(ctx))
-        # print(dir(ctx.declaration())) # todo: how to communicate proper between parents and children?
+        # print(dir(ctx.declaration()))
         # if len(ctx.declaration()) > 0:
         #     print(ctx.declaration()[0].getText())
         #     print(dir(ctx.declaration()[0]))
@@ -74,11 +89,14 @@ class QLListener(ParseTreeListener):
             self.error_message = "Error: duplicate question IDs: {}".format(questionID)
             return
 
+        # todo: remove instanceof
         if data_type == 'boolean':
             question_object = question_classes.BooleanQuestion(questionID, question)
-            choices = ['Yes','No']  # todo: make flexible
+            # todo: make flexible
+            choices = ['Yes','No']
 
-            truebutton = QtWidgets.QRadioButton(choices[0])  # todo: move to question_classes
+            # todo: move to question_classes
+            truebutton = QtWidgets.QRadioButton(choices[0])
             truebutton.pressed.connect(question_object.set_answer_true)
             question_object.set_truebutton(truebutton)
 
@@ -107,7 +125,8 @@ class QLListener(ParseTreeListener):
         # print(ctx.value().getText())
         # print(ctx.parentCtx.getText())
         # print((ctx.parentCtx.ID().getText()))
-        self.questions[ctx.parentCtx.ID().getText()].text_input_box = QtWidgets.QLabel(ctx.value().getText())
+        immutable_value = QtWidgets.QLabel(ctx.value().getText())
+        self.questions[ctx.parentCtx.ID().getText()].text_input_box = immutable_value
 
     # Exit a parse tree produced by QLParser#declaration.
     def exitDeclaration(self, ctx:QLParser.DeclarationContext):
@@ -134,10 +153,12 @@ class QLListener(ParseTreeListener):
         # contained question becomes invisible when the argument becomes False.
         children = ctx.getChildren()
 
+        conditionalID = ctx.expression().getText()
         # Picks out the ID of the question that is the argument of the if
         children.__next__()
         children.__next__()
-        conditionalID = children.__next__().getText()
+        children.__next__()
+        # print(dir(ctx))
 
         # If the ID of the question that is the argument of the if does not exist, throws an error
         if conditionalID not in self.questionIDs:
@@ -155,12 +176,12 @@ class QLListener(ParseTreeListener):
         for ifchild in ifquestion_children:  # If there's multiple questions within the if, all are picked out
             if ifchild.getText() == '}':
                 break
+            # print(dir(ifchild))
             grandchildren = ifchild.getChildren()
             grandchild = grandchildren.__next__()
 
-            ggrandchildren = grandchild.getChildren()
-            ggrandchildren.__next__()
-            ifquestionID = ggrandchildren.__next__().getText()  # Specifically: picks out the IDs of the questions
+            ifquestionID = grandchild.ID().getText()  # Specifically: picks out the IDs of the questions
+
 
             conditional_question = self.questions[conditionalID]
             ifquestion = self.questions[ifquestionID]

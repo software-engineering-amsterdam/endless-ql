@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLVisualizer.Expression.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +7,8 @@ namespace QLVisualizer.Expression.Types
 {
     public abstract class TypedExpressionValue<T> : ExpressionValue
     {
+        protected LazyElementExpressionLink<T> _elementExpressionLink { get; private set; }
+
         /// <summary>
         /// Contains all expresssions to be run
         /// </summary>
@@ -27,9 +30,16 @@ namespace QLVisualizer.Expression.Types
             }
         }
 
-        public TypedExpressionValue(Type[] compatibleTypes, ExpressionOperator[] compatibleOperators, string[] usedWidgetIDs, Func<T> expression) : base(compatibleTypes, compatibleOperators, typeof(T), usedWidgetIDs)
+        public TypedExpressionValue(ExpressionType[] compatibleTypes, ExpressionOperator[] compatibleOperators, ExpressionType type, string[] usedWidgetIDs, Func<T> expression) : base(compatibleTypes, compatibleOperators, type, usedWidgetIDs)
         {
             _expressionChain = new List<Func<T>>() { expression };
+            _operatorChain = new List<ExpressionOperator>();
+        }
+
+        public TypedExpressionValue(ExpressionType[] compatibleTypes, ExpressionOperator[] compatibleOperators, ExpressionType type, LazyElementExpressionLink<T> lazyElementExpressionLink) : base(compatibleTypes, compatibleOperators, type, new string[] { lazyElementExpressionLink.QuestionElementManagerID })
+        {
+            _elementExpressionLink = lazyElementExpressionLink;
+            _expressionChain = new List<Func<T>>() { () => _elementExpressionLink.ElementValue };
             _operatorChain = new List<ExpressionOperator>();
         }
 

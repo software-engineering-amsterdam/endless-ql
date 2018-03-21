@@ -6,13 +6,13 @@ from parser_generator.grammar.QLParser import QLParser
 
 
 def visit(tree):
-    # print(tree.toStringTree())
     ql = QLVisitor()
     walker = ParseTreeVisitor()
     walker.visit(tree)
 
 
-class MyTreeVisitor(ParseTreeVisitor):  # todo: move to appropriate place
+# todo: move to appropriate place
+class MyTreeVisitor(ParseTreeVisitor):
     # Class overwrite, to be edited for our own use
     def visitChildren(self, node):
         result = self.defaultResult()

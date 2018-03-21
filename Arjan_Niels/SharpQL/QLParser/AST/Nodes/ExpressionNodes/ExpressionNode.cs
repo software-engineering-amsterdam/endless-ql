@@ -1,4 +1,4 @@
-﻿using QLParser.AST;
+﻿using QLParser.Analysis.Evaluator;
 
 namespace QLParser.AST.Nodes.ExpressionNodes
 {
@@ -13,13 +13,7 @@ namespace QLParser.AST.Nodes.ExpressionNodes
 
         public QValueType GetQValueType()
         {
-            var leftSideType = Left.GetQValueType();
-            var rightSideType = Right.GetQValueType();
-
-            if (leftSideType == rightSideType)
-                return leftSideType;
-            else
-                return QValueType.UNKNOWN;
+            return StatementTypeEvaluator.GetStatementResultType(Left, Right);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLVisualizer.Expression.Enums;
 using QLVisualizer.Expression.Types;
 
 namespace QLVisualizer.Tests.Expression

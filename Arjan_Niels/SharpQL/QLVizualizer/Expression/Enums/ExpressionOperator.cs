@@ -1,4 +1,4 @@
-﻿namespace QLVisualizer.Expression.Types
+﻿namespace QLVisualizer.Expression.Enums
 {
     public enum ExpressionOperator
     {

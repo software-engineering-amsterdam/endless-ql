@@ -5,7 +5,7 @@ import QuestionStyle from "../nodes/children/QuestionStyle";
 import Section from "../nodes/containers/SectionNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheet";
+import Stylesheet from "../nodes/StyleSheetNode";
 import StyleTreeNode from "../nodes/StyleTreeNode";
 
 const defaults: StyleFilterOptions = {

@@ -1,7 +1,8 @@
 ﻿using Antlr4.Runtime;
+using QLGrammar;
 using QLParser.Analysis;
 using QLParser.AST.Nodes;
-using QLanguage;
+using static QLGrammar.QLGrammarParser;
 
 namespace QLParser
 {
@@ -13,14 +14,14 @@ namespace QLParser
             Prepare();
 
             AntlrInputStream inputStream = new AntlrInputStream(qlCode);
-            QLanguageLexer qLanguageLexer = new QLanguageLexer(inputStream);
+            QLGrammarLexer qLanguageLexer = new QLGrammarLexer(inputStream);
             CommonTokenStream commonTokenStream = new CommonTokenStream(qLanguageLexer);
-            QLanguageParser qLanguageParser = new QLanguageParser(commonTokenStream);
+            QLGrammarParser qLanguageParser = new QLGrammarParser(commonTokenStream);
 
-            QLanguageParser.FormDeclarationContext formContext = qLanguageParser.formDeclaration();
+            FormContext formContext = qLanguageParser.form();
             FormVisitor visitor = new FormVisitor();
 
-            return visitor.VisitFormDeclaration(formContext);
+            return visitor.VisitForm(formContext);
         }
 
         private static void Prepare()

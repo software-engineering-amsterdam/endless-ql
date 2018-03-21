@@ -1,4 +1,4 @@
-package ql.Expression;
+package ql.expression;
 
 import ql.QLTestUtilities;
 import ql.evaluation.value.Value;

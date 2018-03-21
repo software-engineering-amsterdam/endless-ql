@@ -1,6 +1,5 @@
 package org.uva.ql.validation;
 
-import org.uva.app.LogHandler;
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.expression.unary.Parameter;
@@ -12,16 +11,13 @@ import org.uva.ql.validation.collector.SymbolTable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class QLValidator {
 
-    private final LogHandler handler;
     private Form form;
 
     public QLValidator(Form form) {
         this.form = form;
-        this.handler = (LogHandler) Logger.getGlobal().getHandlers()[0];
     }
 
     private List<Checker> getCheckers() {
@@ -47,12 +43,21 @@ public class QLValidator {
         return checkers;
     }
 
-    public void run() {
+    public ValidationResult run() {
+        ValidationResult result = new ValidationResult();
+
         for (Checker checker : getCheckers()) {
-            if (handler.hasErrors()) {
+            result = result.merge(checker.runCheck());
+
+            if(result.hasErrors()) {
                 break;
             }
-            checker.runCheck();
+
+            if(result.hasWarnings()) {
+                System.out.println("Only some warnings, so we can still roll..");
+            }
         }
+
+        return result;
     }
 }

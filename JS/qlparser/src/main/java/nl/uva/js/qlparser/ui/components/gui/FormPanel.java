@@ -1,16 +1,28 @@
 package nl.uva.js.qlparser.ui.components.gui;
 
+import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
+import nl.uva.js.qlparser.models.qls.elements.Page;
+import nl.uva.js.qlparser.models.qls.elements.Section;
+import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+
+import static nl.uva.js.qlparser.ui.components.form.ComponentBuilder.buildSectionHeader;
 
 public class FormPanel extends JPanel {
 
     private final JPanel formContent;
-    private LinkedList<Component> components;
+
+    private LinkedHashMap<String, Component> qlComponentsByName;
+
+    public LinkedHashMap<String, LinkedList<Component>> pages;
+    private HashMap<DataType, DefaultStyle> defaultStyles;
 
     public FormPanel(Form form, int viewHeight, int formWidth, int formHeight){
         formContent = new JPanel();
@@ -18,9 +30,7 @@ public class FormPanel extends JPanel {
         formContent.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         // Initial setup
-        components = new LinkedList<>();
-        components.addAll(form.getComponents());
-        components.forEach(formContent::add);
+        loadComponents(form);
 
         int panelHeight = viewHeight - 5;
 
@@ -35,23 +45,64 @@ public class FormPanel extends JPanel {
         this.add(scrollPane);
     }
 
+    /**
+     * Gets components for form, saves them by name and adds them to the content panel
+     */
+    private void loadComponents(Form form) {
+        qlComponentsByName = new LinkedHashMap<>();
+
+        for (Component component : form.getComponents()) {
+            qlComponentsByName.put(component.getName(), component);
+            formContent.add(component);
+        }
+    }
+
+    /**
+     * Resets the content panel and renders the given form
+     */
     public void apply(Form form) {
         formContent.removeAll();
-        components.clear();
+        qlComponentsByName.clear();
 
-        components = form.getComponents();
-        components.forEach(formContent::add);
+        loadComponents(form);
 
         formContent.revalidate();
         formContent.repaint();
     }
 
+    /**
+     * Reorders and styles the current components based on the given stylesheet
+     */
     public void apply(Stylesheet stylesheet) {
+        pages         = new LinkedHashMap<>();
+        defaultStyles = new HashMap<>();
+
         LinkedList<Component> styledComponents;
 
-//        components.forEach(formContent::add);
+        stylesheet.getDefaultStyles().forEach(style -> defaultStyles.put(style.getDataType(), style));
+
+        for (Page page : stylesheet.getPages()) {
+            pages.put(page.getName(), createPageComponents(page));
+        }
+
+        setPage(pages.keySet().iterator().next());
+    }
+
+    private void setPage(String pageName) {
+        formContent.removeAll();
+
+        pages.get(pageName).forEach(formContent::add);
 
         formContent.revalidate();
         formContent.repaint();
+    }
+
+    private LinkedList<Component> createPageComponents(Page page) {
+        LinkedList<Component> pageComponents = new LinkedList<>();
+        for(Section section : page.getSections()) {
+            pageComponents.add(buildSectionHeader(section.getName()));
+
+        }
+        return pageComponents;
     }
 }

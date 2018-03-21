@@ -13,6 +13,8 @@ import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.util.function.Consumer;
 
+import static nl.uva.js.qlparser.ui.GUIBuilder.FORM_WIDTH;
+
 public class ComponentBuilder {
 
     private static <T extends JTextField> T attachTextFieldListeners(T textField, Variable variable) {
@@ -79,6 +81,21 @@ public class ComponentBuilder {
         });
 
         return checkBox;
+    }
+
+    public static Component buildSectionHeader(String name) {
+        Panel panel = getComponentPanel();
+        Label label = new Label(name);
+        label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+        panel.add(label);
+
+        return panel;
+    }
+
+    public static Panel getComponentPanel() {
+        Panel panel = new Panel();
+        panel.setPreferredSize(new Dimension(FORM_WIDTH - 100, 40));
+        return panel;
     }
 
     @RequiredArgsConstructor

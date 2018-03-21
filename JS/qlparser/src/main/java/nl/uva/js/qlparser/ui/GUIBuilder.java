@@ -53,10 +53,10 @@ public class GUIBuilder {
         globalForm = form;
 
         qlPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
-        qlPanel.setText(loadDefaultFileContent());
+        qlPanel.setText(loadDefaultFile("ql.file"));
 
         qlsPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
-//        qlsPanel.setText(loadDefaultFileContent()); //TODO
+        qlsPanel.setText(loadDefaultFile("qls.file"));
 
         formPanel = new FormPanel(form, FORM_VIEW_HEIGHT, FORM_WIDTH, FORM_HEIGHT);
 
@@ -85,9 +85,9 @@ public class GUIBuilder {
         return mainFrame;
     }
 
-    private static String loadDefaultFileContent() {
+    private static String loadDefaultFile(String property) {
         try {
-            return NonNullRun.function(System.getProperty("ql.file"), qlfile -> {
+            return NonNullRun.function(System.getProperty(property), qlfile -> {
                 try {
                     return new String(Files.readAllBytes(Paths.get(GUIBuilder.class.getClassLoader().getResource(qlfile).getFile())));
                 } catch (IOException e) {

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NonNull;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
+import nl.uva.js.qlparser.ui.components.form.ComponentBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,22 +23,20 @@ public class Question implements FormExpression {
     @Override
     @JsonIgnore
     public List<Component> getComponents() {
-        Panel panel = new Panel();
+        Panel panel = ComponentBuilder.getComponentPanel();
+
         GridLayout layout = new GridLayout(1,2);
 
         layout.setHgap(10);
         panel.setLayout(layout);
 
         JComponent component = dataType.getComponent().apply(variable);
+        component.setName(variable.getName());
 
         JLabel label = new JLabel(question, JLabel.LEFT);
 
         panel.add(label);
         panel.add(component);
-        panel.setSize(new Dimension(600, 40));
-        panel.setPreferredSize(new Dimension(600, 40));
-        panel.setMaximumSize(new Dimension(600, 40));
-        panel.setMinimumSize(new Dimension(600, 40));
 
         return Collections.singletonList(panel);
     }

@@ -67,9 +67,10 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
 
   def updateValueForQuestion(component: Component[_]): Unit = {
     component.getValue match {
-      case Some(answer) => valuesForQuestions += (component.getQuestionId ->answer)
-      case None => valuesForQuestions -= component.getQuestionId
-    }  }
+      case Some(answer) => valuesForQuestions += (component.getQuestionId -> answer)
+      case None         => valuesForQuestions -= component.getQuestionId
+    }
+  }
 
   def initializeForm(): Unit = {
     val questionBox = new VBox()

@@ -21,7 +21,7 @@ class Section():
         self.contents = scrollFrame.get_contents()
 
         headerFrame = create_frame(scrollFrame.get_contents())
-        text = Text(scrollFrame.get_contents(), height=1, width=100)
+        text = Text(scrollFrame.get_contents(), height=2, width=100)
         headerFont = Font(family="Arial", size=15, weight='bold')
         text.tag_configure('header_conf', font=headerFont)
         text.insert(INSERT, page_header, 'header_conf')

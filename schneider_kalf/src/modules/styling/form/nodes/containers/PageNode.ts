@@ -3,7 +3,7 @@ import FormChild from "../children/StyleSheetChild";
 import PageChild from "../children/PageChild";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
 
-export default class Page extends AbstractStyleNode implements FormChild {
+export default class PageNode extends AbstractStyleNode implements FormChild {
   readonly body: PageChild[];
   readonly name: string;
 

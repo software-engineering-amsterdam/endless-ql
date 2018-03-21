@@ -16,9 +16,19 @@ public class QLFrame extends JFrame {
 
         super(s);
 
+        //quit the application once the window is closed
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // this hack is needed to ensure that the panel is readable on high resolution displays
+        // TODO Check if there is another way to fix this in a more elegant way.
         setDefaultSize(36);
+
     }
 
+
+    /*
+     * Helper method to scale the application.
+     */
     public static void setDefaultSize(int size) {
 
         Set<Object> keySet = UIManager.getLookAndFeelDefaults().keySet();

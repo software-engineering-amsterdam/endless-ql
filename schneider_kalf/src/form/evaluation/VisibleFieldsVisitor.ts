@@ -5,6 +5,7 @@ import Question from "../nodes/fields/Question";
 import FormState from "../state/FormState";
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
 import Form from "../Form";
+import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
 export default class VisibleFieldsVisitor implements FieldVisitor {
   private _visibleFields: Set<string> = new Set();
@@ -41,5 +42,9 @@ export default class VisibleFieldsVisitor implements FieldVisitor {
   visitForm(form: FormNode): any {
     form.statements.forEach(statement => statement.accept(this));
     return this._visibleFields;
+  }
+
+  visitFieldDecorator(fieldDecorator: FieldNodeDecorator) {
+    return fieldDecorator.getBaseField().accept(this);
   }
 }

@@ -6,21 +6,25 @@ import org.uva.forcepushql.questions.Textbox;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class JPanelGUI {
 
-    private ArrayList<QuestionGUI> questionGUIS;
+    private LinkedList<QuestionGUI> questionGUIS;
     private int height = 0;
+    private JPanel panel;
+
 
     public JPanelGUI(){
 
     }
 
-    public JPanel createPanel(Question[] questions, int height){
-        JPanel panel = new JPanel();
-        questionGUIS = new ArrayList<QuestionGUI>();
+    public JPanel createPanel(LinkedList<Question> questions, int height){
+        panel = new JPanel();
+        questionGUIS = new LinkedList<QuestionGUI>();
 
         for (Question q: questions) {
 

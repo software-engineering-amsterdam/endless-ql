@@ -46,8 +46,14 @@ public class GUIMain
 
 	guiFrame.setLocationRelativeTo(null);
 
-	Question[] q1 = {radioQuestion1,radioQuestion2,radioQuestion3};
-	Question[] q2 = {textBoxQuestion1,textBoxQuestion2,textBoxQuestion3};
+	LinkedList<Question> q1 = new LinkedList<Question>();
+	q1.add(radioQuestion1);
+	q1.add(radioQuestion2);
+    q1.add(radioQuestion3);
+	LinkedList<Question> q2 = new LinkedList<Question>();
+	q2.add(textBoxQuestion1);
+	q2.add(textBoxQuestion2);
+    q2.add(textBoxQuestion3);
 
 	JPanelGUI jPanelGUI1 = new JPanelGUI();
     JPanelGUI jPanelGUI2 = new JPanelGUI();

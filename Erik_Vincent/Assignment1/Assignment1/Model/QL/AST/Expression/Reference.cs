@@ -1,11 +1,12 @@
 ﻿namespace Assignment1.Model.QL.AST.Expression
 {
-    public class Reference : IExpression
+    public class Reference : QLNode, IExpression
     {
         public string QuestionId { get; }
 
-        public Reference(string questionId)
+        public Reference(int lineNumber, string questionId)
         {
+            _lineNumber = lineNumber;
             QuestionId = questionId;
         }
 

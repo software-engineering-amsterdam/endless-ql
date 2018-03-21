@@ -2,6 +2,9 @@ package ql.ast.statement;
 
 import ql.ast.expression.Expression;
 import ql.ast.expression.Identifier;
+import ql.ast.expression.literal.Literal;
+import ql.gui.alternative.ASTtoGUI;
+import ql.helpers.Observable;
 import ql.helpers.Observer;
 import ql.visitors.interfaces.StatementVisitor;
 
@@ -28,12 +31,8 @@ public class ComputedQuestion extends Question implements Observer {
         visitor.visit(this);
     }
     
-    public void evaluate() {
-        id.setValue(computation.evaluate());
-    }
-
     @Override
-    public void update() {
-        evaluate();
+    public void update(Observable observable, Literal<?>[] value) {
+        this.accept(new ASTtoGUI());
     }
 }

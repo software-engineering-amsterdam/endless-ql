@@ -7,6 +7,7 @@ export interface FormComponentProps {
   form: Form;
   onChange: (identifier: string, value: any) => void;
   visibleFields: Set<string>;
+  renderField?: (field: Field) => any;
 }
 
 export const FormComponent: React.SFC<FormComponentProps> = (props) => {
@@ -18,6 +19,10 @@ export const FormComponent: React.SFC<FormComponentProps> = (props) => {
     return props.form.getFields().map((field: Field) => {
       if (!props.visibleFields.has(field.identifier)) {
         return null;
+      }
+
+      if (props.renderField) {
+        return props.renderField(field);
       }
 
       return (

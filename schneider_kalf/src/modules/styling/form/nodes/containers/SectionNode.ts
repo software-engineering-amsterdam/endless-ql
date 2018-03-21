@@ -3,7 +3,7 @@ import PageChild from "../children/PageChild";
 import SectionChild from "../children/SectionChild";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
 
-export default class Section extends AbstractStyleNode implements PageChild {
+export default class SectionNode extends AbstractStyleNode implements PageChild {
   readonly body: SectionChild[];
   readonly name: string;
 

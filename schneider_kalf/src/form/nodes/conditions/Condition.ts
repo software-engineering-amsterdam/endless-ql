@@ -5,6 +5,10 @@ import Expression from "../expressions/Expression";
 import AbstractTreeNode from "../AbstractTreeNode";
 
 export default abstract class Condition extends AbstractTreeNode implements TreeNode {
+  set then(value: Statement[]) {
+    this._then = value;
+  }
+
   get then(): Statement[] {
     return this._then;
   }

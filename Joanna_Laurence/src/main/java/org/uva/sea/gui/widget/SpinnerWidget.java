@@ -3,7 +3,7 @@ package org.uva.sea.gui.widget;
 import javafx.scene.control.Control;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import org.uva.sea.gui.FormController;
+import org.uva.sea.gui.newImpl.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.IQuestionModelVisitor;
 import org.uva.sea.gui.render.visitor.TextToValueVisitor;

@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
-import org.uva.sea.gui.FormController;
+import org.uva.sea.gui.newImpl.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;

@@ -1,7 +1,7 @@
 package org.uva.sea.gui.widget;
 
 import javafx.scene.control.Control;
-import org.uva.sea.gui.FormController;
+import org.uva.sea.gui.newImpl.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 
 public abstract class Widget {
@@ -15,5 +15,4 @@ public abstract class Widget {
         this.controller = controller;
     }
 
-    public abstract Control initialize();
 }

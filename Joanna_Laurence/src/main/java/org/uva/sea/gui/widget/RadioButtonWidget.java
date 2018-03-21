@@ -3,7 +3,7 @@ package org.uva.sea.gui.widget;
 import javafx.scene.control.Control;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Font;
-import org.uva.sea.gui.FormController;
+import org.uva.sea.gui.newImpl.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;

@@ -8,7 +8,7 @@ stylesheet taxOfficeExample
         widget checkbox
     }
     section "Loaning"
-      question hasMaintLoan
+      question hasLoan
   }
 
   page Selling

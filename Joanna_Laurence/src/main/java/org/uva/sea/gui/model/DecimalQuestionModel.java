@@ -11,7 +11,7 @@ public class DecimalQuestionModel extends BaseQuestionModel {
     public DecimalQuestionModel(QuestionData data) {
         super(data);
         //TODO: Handle situation when data.getValue() return ErrorValue
-        //throw an exception and set default valu
+        //throw an exception and set default value
         this.value = (DecimalValue) data.getValue();
     }
 

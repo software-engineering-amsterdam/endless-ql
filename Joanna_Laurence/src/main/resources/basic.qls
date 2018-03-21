@@ -10,7 +10,7 @@ stylesheet taxOfficeExample
 
         question freeBag2
 
-        question nbfreeBags
+        question freeBags
 
         default integer
         {

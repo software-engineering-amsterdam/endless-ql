@@ -1,28 +1,8 @@
-
-In AST node, interface + put it inside AST node. And use get and set location.
-
-Refactor QLSNode and QLNode
-
-".*" <<STR.text. Call method to remove " ". substr.
-
-
-dubble type samen question
-crcilar expressions
-quesion circular noet computed values/ transative
-
-relation. names. lleesbaar
-
-Visiter parameter. Pass state as reference. Then no private elements.
-
-
-
 Base class < renderer
-Dependacy injection @ renderer
-
+Dependacy injection @ renderer?
 base type for renderer
 
 refactor style object
-refactor widgetType and NodeType to remove repetitions
 
 Remove duplicate code
 Line and Column should be in an object

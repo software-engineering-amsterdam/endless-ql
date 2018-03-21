@@ -1,15 +1,21 @@
-form taxOfficeExample {
-    "Is BTC gonna crash?" crash: int = 5 - q1
+form taxOfficeExample
+{
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+  "Did you buy a house in 2010?"
+    hasBoughtHouse: boolean
+  "Did you enter a loan?"
+    hasMaintLoan: boolean
 
-    "q1"  q1 : int = 1
+  if (hasSoldHouse)
+  {
+    "What was the selling price?"
+      sellingPrice: money
+    "Private debts for the sold house:"
+      privateDebt: money
+    "Value residue:"
+      valueResidue: money =
+        (sellingPrice - privateDebt)
+  }
 
-    if(q1 > 2){
-        "q3" q3 : boolean = true
-        if(q3){
-            "q4" q4 : boolean
-        }
-        "q2" q2: int = 2
-
-
-    }
 }

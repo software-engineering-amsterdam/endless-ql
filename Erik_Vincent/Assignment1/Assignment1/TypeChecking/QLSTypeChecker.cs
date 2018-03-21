@@ -12,7 +12,7 @@ namespace Assignment1.TypeChecking
     // TODO: add line numbers to QLS nodes
     public class QLSTypeChecker : IQLSASTVisitor, IQLASTVisitor, IStyleVisitor
     {
-        private QLParseErrorHandler _errorHandler = new QLParseErrorHandler();
+        private ParseErrorHandler _errorHandler = new ParseErrorHandler();
         private Dictionary<string, Question> _qlQuestions = new Dictionary<string, Question>();
         private Dictionary<string, QuestionStyle> _qlsQuestions = new Dictionary<string, QuestionStyle>();
         private string _currentQuestion = "";
@@ -50,9 +50,9 @@ namespace Assignment1.TypeChecking
             }
             TypeCheckQLQuestionsInQLSStylesheet();
             _currentQuestion = "";
-            if (_errorHandler.FormHasErrors)
+            if (_errorHandler.HasErrors)
             {
-                _errorHandler.ThrowQLParseException();
+                _errorHandler.ThrowParseException();
             }
         }
 

@@ -1,5 +1,7 @@
 package qlviz.interpreter;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.model.ConditionalBlock;
@@ -13,7 +15,10 @@ public class QuestionBlockVisitor extends QLBaseVisitor<QuestionBlock> {
     private final QLBaseVisitor<Question> questionVisitor;
     private final QLBaseVisitor<ConditionalBlock> conditionalBlockVisitor;
 
-    public QuestionBlockVisitor(QuestionVisitor questionVisitor, ConditionalBlockVisitorFactory conditionalBlockVisitorFactory) {
+    @Inject
+    public QuestionBlockVisitor(
+            QuestionVisitor questionVisitor,
+            ConditionalBlockVisitorFactory conditionalBlockVisitorFactory) {
         this.questionVisitor = questionVisitor;
         this.conditionalBlockVisitor = conditionalBlockVisitorFactory.create(this);
     }

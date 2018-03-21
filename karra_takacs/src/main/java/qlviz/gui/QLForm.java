@@ -52,7 +52,10 @@ public class QLForm extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 
-		Injector injector = Guice.createInjector(new QLSParserModule(), new ExpressionParserModule());
+		Injector injector = Guice.createInjector(
+				new QLSParserModule(),
+				new ExpressionParserModule(),
+				new QLParserModule());
 		StyleModelBuilder styleBuilder = injector.getInstance(StyleModelBuilder.class);
 
 
@@ -80,18 +83,7 @@ public class QLForm extends Application {
 
 		NumericExpressionParser numericExpressionParser = injector.getInstance(NumericExpressionParser.class);
 		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor = injector.getInstance(Key.get(new TypeLiteral<QLBaseVisitor<BooleanExpression>>(){}));
-        QLBaseVisitor<QuestionBlock> questionBlockVisitor =
-				new QuestionBlockVisitor(
-						new QuestionVisitor(
-								new QuestionTypeVisitor(),
-								numericExpressionParser,
-								new BooleanExpressionParser(
-										numericExpressionParser,
-										new BinaryBooleanOperatorVisitor(),
-										new NumericComparisonOperatorVisitor())
-						),
-						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
-				);
+        QLBaseVisitor<QuestionBlock> questionBlockVisitor = injector.getInstance(Key.get(new TypeLiteral<QLBaseVisitor<QuestionBlock>>(){}));
 		List<AnalysisResult> staticCheckResults = new ArrayList<>();
 		FormVisitor visitor = new FormVisitor(questionBlockVisitor);
 		ModelBuilder modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));

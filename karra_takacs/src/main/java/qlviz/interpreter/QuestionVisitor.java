@@ -1,5 +1,6 @@
 package qlviz.interpreter;
 
+import com.google.inject.Inject;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.model.booleanExpressions.BooleanExpression;
@@ -12,6 +13,7 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
     private final NumericExpressionParser numericExpressionParser;
     private final BooleanExpressionParser booleanExpressionParser;
 
+    @Inject
     public QuestionVisitor(QuestionTypeTranslator questionTypeTranslator,
                            NumericExpressionParser numericExpressionParser,
                            BooleanExpressionParser booleanExpressionParser) {

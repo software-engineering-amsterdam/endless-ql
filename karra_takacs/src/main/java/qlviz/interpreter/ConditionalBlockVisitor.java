@@ -1,5 +1,7 @@
 package qlviz.interpreter;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
 import qlviz.model.booleanExpressions.BooleanExpression;
@@ -13,7 +15,10 @@ public class ConditionalBlockVisitor extends QLBaseVisitor<ConditionalBlock> {
     private final QLBaseVisitor<BooleanExpression> booleanExpressionVisitor;
     private final QLBaseVisitor<QuestionBlock> questionBlockVisitor;
 
-    public ConditionalBlockVisitor(QLBaseVisitor<BooleanExpression> booleanExpressionVisitor, QLBaseVisitor<QuestionBlock> questionBlockVisitor) {
+    @Inject
+    public ConditionalBlockVisitor(
+            QLBaseVisitor<BooleanExpression> booleanExpressionVisitor,
+            @Assisted QLBaseVisitor<QuestionBlock> questionBlockVisitor) {
         this.booleanExpressionVisitor = booleanExpressionVisitor;
         this.questionBlockVisitor = questionBlockVisitor;
     }

@@ -23,6 +23,7 @@ public class QLWidgetFactory {
         this.widgetTypeClassEnumMap.put(NodeType.MONEY_EURO, TextFieldWidget.class);
         this.widgetTypeClassEnumMap.put(NodeType.MONEY_DOLLAR, TextFieldWidget.class);
         this.widgetTypeClassEnumMap.put(NodeType.DATE, TextFieldWidget.class);
+        this.widgetTypeClassEnumMap.put(NodeType.STRING, TextFieldWidget.class);
     }
 
     public Widget createWidget(NodeType nodeType, QuestionData questionData, IGuiElementUpdateListener listener) {

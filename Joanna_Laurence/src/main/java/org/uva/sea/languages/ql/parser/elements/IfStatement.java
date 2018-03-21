@@ -5,7 +5,7 @@ import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.types.Type;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
-public class IfStatement extends ASTNode {
+public class IfStatement extends Statement {
 
     private final ASTNode expression;
 

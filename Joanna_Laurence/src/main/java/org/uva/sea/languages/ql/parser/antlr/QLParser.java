@@ -10,8 +10,11 @@ import org.uva.sea.languages.ql.parser.elements.types.*;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLParser extends Parser {
@@ -219,7 +222,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class StatementContext extends ParserRuleContext {
-		public ASTNode result;
+		public Statement result;
 		public QuestionContext quest;
 		public ConditionContext cont;
 		public QuestionContext question() {

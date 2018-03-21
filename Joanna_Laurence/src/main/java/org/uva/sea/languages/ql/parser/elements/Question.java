@@ -6,7 +6,7 @@ import org.uva.sea.languages.ql.parser.elements.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 
-public class Question extends ASTNode {
+public class Question extends Statement {
 
     private final String label;
     private final Variable variable;

@@ -29,7 +29,7 @@ statements returns [Statements result]
     })*
     ;
 
-statement returns [ASTNode result]
+statement returns [Statement result]
     : quest=question { $result = $quest.result; }
     | cont=condition { $result = $cont.result; }
     ;

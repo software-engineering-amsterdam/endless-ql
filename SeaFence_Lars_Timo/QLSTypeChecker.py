@@ -8,6 +8,10 @@ class QLSTypeChecker(object):
     	self.qls_ast = qls_ast
 
 
+    def startQLSTypeCheck(self):
+        pass
+        
+
     # Checks if every question in QL is referenced in QLS.
     def checkReferencesToQL(self):
     	pass

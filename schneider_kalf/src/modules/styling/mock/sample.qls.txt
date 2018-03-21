@@ -23,6 +23,7 @@ stylesheet taxOfficeExample
           widget spinbox
         question privateDebt
           widget spinbox
+          width: 200
         question valueResidue
         default money
         {

@@ -10,4 +10,8 @@ public interface QuestionGUI {
     public String getVariable();
 
     public void addActionListener(ActionListener actionListener);
+
+    public void attachObserver(Observer observer);
+
+    public void notifyAllObservers();
 }

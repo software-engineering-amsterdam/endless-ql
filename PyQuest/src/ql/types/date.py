@@ -26,9 +26,6 @@ class QLDate(QLType):
             return QLBoolean(self.day == other.day and self.month == other.month and self.year == other.year)
         return False
 
-    def __ne__(self, other):
-        return QLBoolean(self.day != other.day or self.month != other.month or self.year != other.year)
-
     def __lt__(self, other):
         return QLBoolean(self.year < other.year or (self.month < other.month and self.year == other.year) or
                          (self.day < other.day and self.month == other.month and self.year == other.year))

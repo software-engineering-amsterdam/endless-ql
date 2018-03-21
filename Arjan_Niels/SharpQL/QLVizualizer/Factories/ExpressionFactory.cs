@@ -5,17 +5,17 @@ using QLVisualizer.Expression;
 using QLVisualizer.Expression.Types;
 using System;
 using QLParser.AST.Nodes.ExpressionNodes.Enums;
-using QLVisualizer.Elements.Managers.LeafTypes;
+using QLVisualizer.Expression.Enums;
 
 namespace QLVisualizer.Factories
 {
     public class ExpressionFactory
     {
-        private ElementManagerController _widgetController;
+        private ElementManagerController _elementManagerController;
 
-        public ExpressionFactory(ElementManagerController widgetController)
+        public ExpressionFactory(ElementManagerController elementManagerController)
         {
-            _widgetController = widgetController;
+            _elementManagerController = elementManagerController;
         }
 
         /// <summary>
@@ -26,11 +26,14 @@ namespace QLVisualizer.Factories
         public ExpressionBool GetCondition(ConditionalNode conditionalNode)
         {
             ExpressionValue expression = ParseExpressionNode(conditionalNode.Expression);
-            if(expression.Type != typeof(bool))
-                throw new InvalidOperationException(string.Format("Cannot use expression with type of {0} as a condition.", expression.Type));
-            return expression as ExpressionBool;
+            switch (expression.Type)
+            {
+                case ExpressionType.Bool:
+                    return expression as ExpressionBool;
+                default:
+                    throw new InvalidOperationException(string.Format("Cannot use expression with type of {0} as a condition.", expression.Type));
+            }
         }
-
 
         public ExpressionValue ParseExpressionNode(IExpressionNode node)
         {
@@ -131,20 +134,17 @@ namespace QLVisualizer.Factories
             return leftExpressionValue.Combine(rightExpressionValue, expressionOperator);
         }
 
-        // Answer values
-        // TODO: Create better alternitive for:
-        //      _widgetController.Form.FindByID(identifierNode.ID)
-        // This method relies on recursiveness and is not a good practice for a frequently-occuring task
         private ExpressionValue ParseIdentifyerNode(IdentifierNode identifierNode)
         {
             switch (identifierNode.GetQValueType())
             {
                 case QValueType.BOOLEAN:
-                    return new ExpressionBool(new string[] { identifierNode.ID }, () => { return (_widgetController.Form.FindByID(new string[] { identifierNode.ID })[identifierNode.ID] as BoolQuestionManager).Answer.Value; });
+                    return new ExpressionBool(new LazyElementExpressionLink<bool>(_elementManagerController, identifierNode.ID));
                 case QValueType.INTEGER:
-                    return new ExpressionInt(new string[] { identifierNode.ID }, () => { return (_widgetController.Form.FindByID(new string[] { identifierNode.ID })[identifierNode.ID] as IntQuestionManager).Answer.Value; });
+                    return new ExpressionInt(new LazyElementExpressionLink<int>(_elementManagerController, identifierNode.ID));
+                case QValueType.DOUBLE:
                 case QValueType.MONEY:
-                    return new ExpressionDouble(new string[] { identifierNode.ID }, () => { return (_widgetController.Form.FindByID(new string[] { identifierNode.ID })[identifierNode.ID] as MoneyQuestionManager).Answer.Value; });
+                    return new ExpressionDouble(new LazyElementExpressionLink<double>(_elementManagerController, identifierNode.ID));
                 default:
                     throw new NotImplementedException();
             }
@@ -159,6 +159,7 @@ namespace QLVisualizer.Factories
                     return new ExpressionBool(new string[0], () => { return bool.Parse(literalNode.Value); });
                 case QValueType.INTEGER:
                     return new ExpressionInt(new string[0], () => { return int.Parse(literalNode.Value); });
+                case QValueType.DOUBLE:
                 case QValueType.MONEY:
                     return new ExpressionDouble(new string[0], () => { return double.Parse(literalNode.Value); });
                 default:

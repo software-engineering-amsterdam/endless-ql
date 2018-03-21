@@ -6,6 +6,7 @@ import QL.classes.values.IntegerValue;
 import QL.classes.values.StringValue;
 import QL.classes.values.UndefinedValue;
 import QL.classes.values.Value;
+import QLS.classes.Stylesheet;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionPanelCheckBox;
 import gui.questions.QuestionPanelDate;
@@ -49,6 +50,13 @@ public class FormBuilder {
         this.questionHashMap = coreVisitor.getQuestions();
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
     }
+
+    public FormBuilder(FormVisitor coreVisitor, Stylesheet stylesheet) {
+        this.coreVisitor = coreVisitor;
+        this.questionHashMap = coreVisitor.getQuestions();
+        this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
+    }
+
 
     /**
      * initComponents() method

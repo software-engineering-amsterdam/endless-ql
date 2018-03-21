@@ -1,5 +1,6 @@
 package org.uva.forcepushql.ast;
 
+import org.uva.forcepushql.gui.JPanelGUI;
 import org.uva.forcepushql.questions.Question;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ public interface ASTVisitor{
 
     LinkedList<JPanel> visit(FormNode node);
 
-    JPanel visit(ConditionalIfNode node);
+    JPanelGUI visit(ConditionalIfNode node);
     String visit(ConditionalIfElseNode node);
     String visit(ConditionalElseNode node);
 

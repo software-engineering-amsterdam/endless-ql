@@ -35,7 +35,6 @@ public class GUIMain
 	private static void Create_GUI_Frame()
 	{
 	JFrame guiFrame = new JFrame("MainFrame");
-	//RadioButtons radio = new RadioButtons();
 
 	Radio radioQuestion1 = new Radio("Did you sell a house in 2010?", "boolean", "hasSoldHouse");
     Radio radioQuestion2 = new Radio("Did you buy a house in 2010?", "boolean", "hasBoughtHouse");
@@ -58,11 +57,13 @@ public class GUIMain
 	JPanelGUI jPanelGUI1 = new JPanelGUI();
     JPanelGUI jPanelGUI2 = new JPanelGUI();
 
-	JPanel panel1 = jPanelGUI1.createPanel(q1, 0);
-	JPanel panel2 = jPanelGUI2.createPanel(q2, panel1.getHeight());
+	jPanelGUI1.createPanel(q1, 0);
+	jPanelGUI2.createPanel(q2, jPanelGUI1.getHeight());
 
+    JPanel panel1 = jPanelGUI1.getPanel();
+    JPanel panel2 = jPanelGUI2.getPanel();
 
-    final int[] values = new int[2];
+        final int[] values = new int[2];
 
 
     panel2.setVisible(false);

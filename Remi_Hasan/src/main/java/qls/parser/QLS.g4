@@ -44,7 +44,7 @@ CHECKBOX              : 'checkbox';
 SPINBOX               : 'spinbox';
 DROPDOWN              : 'dropdown';
 SLIDER                : 'slider';
-TEXTBOX               : 'text';
+TEXTBOX               : 'textbox';
 WIDTH                 : 'width';
 FONT                  : 'font';
 FONTSIZE              : 'fontsize';

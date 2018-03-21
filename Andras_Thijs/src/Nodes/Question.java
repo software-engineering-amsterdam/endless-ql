@@ -103,7 +103,7 @@ public class Question extends ASTNode {
         }
     }
 
-    public boolean isAvailable() throws TypeException, SyntaxException, OtherException {
+    public boolean isAvailable() {
         return this.getParent().isAvailable();
     }
 }

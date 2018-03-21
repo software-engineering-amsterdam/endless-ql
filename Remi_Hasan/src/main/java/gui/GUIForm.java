@@ -9,6 +9,8 @@ import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
 import ql.model.Question;
+import ql.model.expression.ReturnType;
+import ql.model.expression.variable.ExpressionVariableUndefined;
 import qls.model.DefaultStyle;
 import qls.model.Page;
 import qls.model.Section;
@@ -50,6 +52,10 @@ public class GUIForm extends VBox {
 
         // Scale tab pane to window size
         VBox.setVgrow(tabPane, Priority.ALWAYS);
+
+        // TODO refactor
+        // Re-evaluation
+        symbolTable.setExpression("dummy", new ExpressionVariableUndefined(null, null));
     }
 
     private VBox createSectionGUI(SymbolTable symbolTable, Form form, List<DefaultStyle> defaultStyles, Section section) {

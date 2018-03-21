@@ -13,17 +13,19 @@ import org.uva.jomi.ql.ast.analysis.DuplicatedLabelChecker;
 import org.uva.jomi.ql.ast.analysis.IdentifierMapBuilder;
 import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
 import org.uva.jomi.ql.ast.analysis.TypeResolver;
-import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.statements.Statement;
 import org.uva.jomi.ql.parser.antlr.QLLexer;
 import org.uva.jomi.ql.parser.antlr.QLParser;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
 import org.uva.jomi.ui.elements.ElementBuilder;
 import org.uva.jomi.ui.elements.core.Panel;
+import org.uva.jomi.ui.elements.panel.ErrorPanel;
+import org.uva.jomi.ui.elements.panel.PanelElement;
 
 public class QLForm {
 
 	private QLParser parser;
-	private List<Stmt> ast;
+	private List<Statement> ast;
 
 	public QLForm(String filePath) {
 		try {
@@ -51,11 +53,31 @@ public class QLForm {
 
 	public List<Panel> getPanels() {
 		if(this.hasErrors()) {
-			// Create error panels with messages
-			return new ArrayList<Panel>();
+			List<Panel> panels = new ArrayList<>();
+			panels.add(this.errorPanels());
+			return panels;
 		}
 		ElementBuilder builder = new ElementBuilder();
 		return builder.build(this.ast);
+	}
+	
+	private Panel errorPanels() {
+		PanelElement panel = new PanelElement();
+	
+		if(this.hasErrors()) {
+			panel.addElement(new ErrorPanel(this.getErrors()));
+		}
+		
+		return panel.build();
+	}
+	
+	private List<String> getErrors() {
+		List<String> errors = new ArrayList<String>();
+		errors.addAll(this.errorsOfCyclicDependency());
+		errors.addAll(this.errorsOfIdentifier());
+		errors.addAll(this.errorsOfTypeResolver());
+		errors.addAll(this.errorsOfDuplicatedLabel());
+		return errors;
 	}
 
 	private boolean hasErrors() {
@@ -64,41 +86,57 @@ public class QLForm {
 				(this.numberOfIdentifierErrors() > 0) ||
 				(this.numberOfTypeResolverErrors() > 0);
 	}
-
+	
 	private int numberOfSyntaxErrors() {
 		return parser.getNumberOfSyntaxErrors();
 	}
-
-	private int numberOfCyclicErrors() {
+	
+	
+	private List<String> errorsOfCyclicDependency() {
 		// Check for cyclic references between questions.
-		CyclicDependencyChecker cyclicChecker = new CyclicDependencyChecker(true);
+		CyclicDependencyChecker cyclicChecker = new CyclicDependencyChecker();
 
 		// Build an identifier map instance that will be used to generate a mapping bewteen questions.
 		IdentifierMapBuilder identifierMap = new IdentifierMapBuilder();
 
 		// Build the identifier map and check for cycles.
 		cyclicChecker.check(identifierMap.buildMap(this.ast));
+		
+		return cyclicChecker.getErrors();
+	}
 
-		return cyclicChecker.getNumberofErrors();
+	private int numberOfCyclicErrors() {
+		return this.errorsOfCyclicDependency().size();
+	}
+	
+	private List<String> errorsOfIdentifier() {
+		IdentifierResolver identifierResolver = new IdentifierResolver();
+		identifierResolver.resolve(this.ast);
+		return identifierResolver.getErrors();
 	}
 
 	private int numberOfIdentifierErrors() {
-		IdentifierResolver identifierResolver = new IdentifierResolver(true);
-		identifierResolver.resolve(this.ast);
-
-		return identifierResolver.getNumberOfErrors();
+		return this.errorsOfIdentifier().size();
+	}
+	
+	private List<String> errorsOfTypeResolver() {
+		TypeResolver typeResolver = new TypeResolver();
+		typeResolver.resolve(this.ast);
+		return typeResolver.getErrors();
 	}
 
 	private int numberOfTypeResolverErrors() {
-		TypeResolver typeResolver = new TypeResolver(true);
-		typeResolver.resolve(this.ast);
-		return typeResolver.getNumberOfErrors();
+		return this.errorsOfTypeResolver().size();
+	}
+	
+	private List<String> errorsOfDuplicatedLabel() {
+		DuplicatedLabelChecker labelChecker = new DuplicatedLabelChecker();
+		labelChecker.check(this.ast);
+		return labelChecker.getErrors();
 	}
 
 	private int numberOfDuplicatedLabelErrors() {
-		DuplicatedLabelChecker labelChecker = new DuplicatedLabelChecker(true);
-		labelChecker.check(ast);
-		return labelChecker.getNumberOfReports();
+		return this.errorsOfDuplicatedLabel().size();
 	}
 
 }

@@ -12,7 +12,7 @@ public class SliderType extends WidgetType {
     private String end;
     private String step;
 
-    public SliderType(String start, String end, String step){
+    public SliderType(String start, String end, String step) {
         this.start = start;
         this.end = end;
         this.step = step;
@@ -25,7 +25,7 @@ public class SliderType extends WidgetType {
 
     @Override
     public <T, Q, V, B> T accept(WidgetTypeVisitor<T, Q, V, B> visitor, Q question, V value, B readOnly) {
-        return visitor.visit(this, question ,value, readOnly);
+        return visitor.visit(this, question, value, readOnly);
     }
 
 }

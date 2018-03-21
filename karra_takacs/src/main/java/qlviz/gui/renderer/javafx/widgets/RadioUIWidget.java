@@ -6,9 +6,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import qlviz.gui.viewModel.question.*;
 import qlviz.model.style.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +18,7 @@ public class RadioUIWidget implements UIWidget, QuestionViewModelVisitor, Parame
 
     private final ToggleGroup toggleGroup;
     private final VBox container;
+    private final List<RadioButton> radioButtons = new ArrayList<>();
 
     public RadioUIWidget(List<Parameter> parameters) {
         this.toggleGroup = new ToggleGroup();
@@ -34,6 +37,22 @@ public class RadioUIWidget implements UIWidget, QuestionViewModelVisitor, Parame
     @Override
     public void bindToQuestion(QuestionViewModel questionViewModel) {
         questionViewModel.accept(this);
+    }
+
+    @Override
+    public void setProperty(PropertySetting setting) {
+        ParameterValueReader parameterValueReader = new ParameterValueReader();
+        setting.getValue().accept(parameterValueReader);
+        switch (setting.getPropertyKey()) {
+            case "font":
+                this.radioButtons.forEach(rb ->
+                        rb.setFont(new Font(parameterValueReader.getStringValue(), rb.getFont().getSize())));
+                break;
+            case "fontsize":
+                this.radioButtons.forEach(rb ->
+                        rb.setFont(new Font(rb.getFont().getName(), parameterValueReader.getNumericValue().doubleValue())));
+                break;
+        }
     }
 
     @Override
@@ -74,6 +93,7 @@ public class RadioUIWidget implements UIWidget, QuestionViewModelVisitor, Parame
         radioButton.setText(stringParameter.getValue());
         radioButton.setUserData(stringParameter);
         this.container.getChildren().add(radioButton);
+        this.radioButtons.add(radioButton);
         radioButton.setToggleGroup(this.toggleGroup);
     }
 

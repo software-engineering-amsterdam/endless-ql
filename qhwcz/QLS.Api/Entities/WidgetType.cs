@@ -5,6 +5,8 @@
         Textbox,
         Checkbox,
         Dropdown,
-        Radio
+        Radio,
+        Spinbox,
+        Undefined
     }
 }

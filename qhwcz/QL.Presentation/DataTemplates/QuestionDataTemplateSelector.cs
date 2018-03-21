@@ -1,4 +1,5 @@
 ﻿using Presentation.ViewModels;
+using QL.Api.Entities;
 using QLS.Api.Entities;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,6 +12,8 @@ namespace Presentation.DataTemplates
         public DataTemplate DropdownDataTemplate { get; set; }
         public DataTemplate RadioDataTemplate { get; set; }
         public DataTemplate TextDataTemplate { get; set; }
+        public DataTemplate IntegerDataTemplate { get; set; }
+        public DataTemplate DecimalDataTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -27,7 +30,17 @@ namespace Presentation.DataTemplates
                     return TextDataTemplate;
             }
 
-            return base.SelectTemplate(item, container);
+            if (question.QLType == QLType.Integer)
+            {
+                return IntegerDataTemplate;
+            }
+
+            if (question.QLType == QLType.Decimal)
+            {
+                return DecimalDataTemplate;
+            }
+
+            return TextDataTemplate;
         }
     }
 }

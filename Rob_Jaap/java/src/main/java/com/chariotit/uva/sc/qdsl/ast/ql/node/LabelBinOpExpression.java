@@ -1,6 +1,8 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
+import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.BinaryOperator;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.Operator;
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public class LabelBinOpExpression extends Expression {
@@ -10,8 +12,7 @@ public class LabelBinOpExpression extends Expression {
     private Expression expression;
 
     public LabelBinOpExpression(LabelExpression labelExpression, Operator operator, Expression expression,
-                                Integer
-                                        lineNumber, Integer columnNumber) {
+                                Integer lineNumber, Integer columnNumber) {
         super(lineNumber, columnNumber);
         this.labelExpression = labelExpression;
         this.operator = operator;
@@ -40,6 +41,18 @@ public class LabelBinOpExpression extends Expression {
 
     public void setExpression(Expression expression) {
         this.expression = expression;
+    }
+
+    @Override
+    public void evaluate(SymbolTable symbolTable) {
+        labelExpression.evaluate(symbolTable);
+        expression.evaluate(symbolTable);
+
+        if (!(operator instanceof BinaryOperator)) {
+            throw new RuntimeException("Incompatible operator type");
+        }
+
+        setExpressionValue(((BinaryOperator)operator).evaluate(labelExpression, expression));
     }
 
     @Override

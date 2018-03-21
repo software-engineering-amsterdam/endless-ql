@@ -37,6 +37,10 @@ public class CyclicDependencyChecker {
 	public int getNumberofErrors() {
 		return errors.size();
 	}
+	
+	public CyclicDependencyChecker() {
+		this(false);
+	}
 
 	public CyclicDependencyChecker(boolean printCycles) {
 		graph = new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);

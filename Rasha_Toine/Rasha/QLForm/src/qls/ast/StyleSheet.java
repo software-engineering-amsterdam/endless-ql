@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.TokenStream;
 
 import ql.ast.AstNode;
 import ql.ast.literal.Identifier;
+import ql.ast.statement.Question;
 import qls.ast.parser.QLSLexer;
 import qls.ast.parser.QLSParser;
 import qls.ast.rule.*;
@@ -44,5 +45,18 @@ public class StyleSheet extends AstNode {
 		TokenStream tokenStream = new CommonTokenStream(new QLSLexer(cSteam));
 		QLSParser parser = new QLSParser(tokenStream);
 		return parser.stylesheet().result;
+	}
+	
+	
+	public QuestionItem getQuestionItem(Question question) {
+		for (Page page : pages) {
+			for (Section sc : page.getSections()) {
+				if (!sc.hasQuestion(question)) {
+					continue;
+				}
+				return sc.getQuestionItem(question);
+			}
+		}
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
+import grammar._
+
 import ql.models._
-import ql.grammar._
 import ql.listeners._
 import ql.visitors._
 

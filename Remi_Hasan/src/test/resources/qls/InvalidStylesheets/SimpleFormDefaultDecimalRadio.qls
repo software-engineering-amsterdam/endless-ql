@@ -1,0 +1,19 @@
+stylesheet simpleForm
+{
+  page Page1
+  {
+    section "All Questions"
+    {
+      question someInteger
+      question someBoolean
+      question someDecimal
+      question someDate
+      question someMoney
+      question someString
+    }
+    default decimal {
+      width: 4000
+      widget radio("yes", "no")
+    }
+  }
+}

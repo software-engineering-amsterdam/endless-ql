@@ -7,5 +7,8 @@
         T Visit(SectionNode node);
         T Visit(QuestionNode node);
         T Visit(WidgetNode node);
+        T Visit(PropertyNode node);
+        T Visit(StyleNode node);
+        T Visit(WidgetOptionNode node);
     }
 }

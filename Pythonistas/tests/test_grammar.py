@@ -1,5 +1,6 @@
 import sys
 import os
+import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
 
@@ -12,13 +13,9 @@ def test_all_ql_pass_forms():
 
     for form in os.listdir(path):
         if form.endswith(".ql"):
+            print(form)
             g_debug = GrammarDebugger(path + form)
-            report, err = g_debug.debug_grammar()
-
-            if err:
-                print("Form that failed: {}".format(form))
-                print(err, report)
-                assert False
+            g_debug.debug_grammar()
         else:
             assert True
 
@@ -29,29 +26,36 @@ def test_all_ql_fail_forms():
 
     for form in os.listdir(path):
         if form.endswith(".ql"):
+            print(form)
             g_debug = GrammarDebugger(path + form)
-            report, err = g_debug.debug_grammar()
-
-            if not err:
-                print("Form should fail but didn't: {}".format(form))
-                print(err, report)
-                assert False
+            with pytest.raises(Exception) as e:
+                g_debug.debug_grammar()
         else:
             assert True
 
 
 def test_all_qls_pass_forms():
     """ Iterates through all the passing ql+qls forms directory and finds grammar errors"""
-    path = 'tests/forms/ql/pass/'
+    path = 'tests/forms/qls/pass/'
 
     for form in os.listdir(path):
         if form.endswith(".qls"):
+            print(form)
             g_debug = GrammarDebugger(path + form)
-            report, err = g_debug.debug_grammar()
+            g_debug.debug_grammar()
+        else:
+            assert True
 
-            if err:
-                print("Form that failed: {}".format(form))
-                print(err, report)
-                assert False
+
+def test_all_qls_fail_forms():
+    """ Iterates through all the passing ql+qls forms directory and finds grammar errors"""
+    path = 'tests/forms/qls/fail/'
+
+    for form in os.listdir(path):
+        if form.endswith(".qls"):
+            print(form)
+            g_debug = GrammarDebugger(path + form)
+            with pytest.raises(Exception) as e:
+                g_debug.debug_grammar()
         else:
             assert True

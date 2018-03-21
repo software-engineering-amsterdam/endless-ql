@@ -1,6 +1,7 @@
 """
-    These are style settings that can be applied to the text label of a question. 
+    Base classes with some necessary methods
 """
+
 class AttributeDefault:
 
     def getAttributeType(self):
@@ -12,6 +13,11 @@ class WidgetDefault:
 
     def getWidget(self):
         return self.widget
+
+
+"""
+    These are style settings that can be applied to the text label of a question. 
+"""
 
 class StyleWidth(AttributeDefault):
     def __init__(self, width=200):

@@ -42,7 +42,7 @@ public class FormBuilder {
         formGrid.setHgap(10);
         formGrid.setVgap(10);
         formGrid.setPadding(new Insets(25,25,25,25));
-        formGrid.setGridLinesVisible(true); // for debugging
+        //formGrid.setGridLinesVisible(true); // for debugging
     }
 
     public void renderForm(){

@@ -35,6 +35,10 @@ namespace SimpleWPFApp
         {
             m_dataProvider.Reload(Questionnaire.Model);
             Questionnaire = m_dataProvider.GetSingleQuestionnaire();
+            foreach (var question in Questionnaire.Questions)
+            {
+                question.PropertyChanged += (s, e) => { OnDataChangedCommand(null); };
+            }
         }
 
         public ICommand DataChangedCommand { get; private set; }

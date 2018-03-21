@@ -1,13 +1,10 @@
 ﻿using System.Linq;
-using QuestionaireOrchestration.Commands;
-using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
-using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
-using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.Commands;
 
-namespace QuestionaireOrchestration.CommandHandlers
+namespace QuestionnaireOrchestration.CommandHandlers
 {
     internal class UpdateValuesCommandHandler : 
         ICommandHandler<UpdateValuesCommand>
@@ -23,9 +20,9 @@ namespace QuestionaireOrchestration.CommandHandlers
             m_variableUpdater = variableUpdater;
         }
 
-        public void Execute(UpdateValuesCommand updateValuesCommand)
+        public void Execute(UpdateValuesCommand command)
         {
-            foreach (var question in updateValuesCommand.Questionnaire.Questions)
+            foreach (var question in command.Questionnaire.Questions)
             {
                 if (question.ReadOnly) continue;
                 if (question.Value == null) continue;

@@ -1,6 +1,6 @@
 package ql.visitors
 
-import ql.grammar._
+import grammar._
 import ql.models.ast._
 
 import scala.collection.JavaConversions._
@@ -18,10 +18,6 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
     ASTFormHeader(visit(ctx.identifier))
   }
 
-  override def visitIdentifier(
-      ctx: QlParser.IdentifierContext): ASTIdentifier = {
-    ASTIdentifier(ctx.getText)
-  }
 
   override def visitFormBody(ctx: QlParser.FormBodyContext): ASTFormBody = {
     val statements = ctx.stmt.map(visit).toList
@@ -48,6 +44,8 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
     ctx.getText match {
       case "boolean" => ASTBoolean()
       case "money"   => ASTMoney()
+      case "integer" => ASTInteger()
+      case "string"  => ASTString()
     }
 
   override def visitConditional(ctx: QlParser.ConditionalContext): ASTNode = {
@@ -76,8 +74,8 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
       case ">"  => ASTRelationalGT()
       case "<=" => ASTRelationalLTE()
       case ">=" => ASTRelationalGTE()
-      case "!=" => ASTRelationalNE()
-      case "==" => ASTRelationalEQ()
+      case "!=" => ASTNotEqualOp()
+      case "==" => ASTEqualOp()
     }
 
   override def visitUnOp(ctx: QlParser.UnOpContext): ASTNode =
@@ -85,6 +83,41 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
       case "-" => ASTUnaryMin()
       case "!" => ASTUnaryNot()
     }
+
+  override def visitStringExpression(
+      ctx: QlParser.StringExpressionContext): ASTNode = {
+    visit(ctx.stringLit)
+  }
+
+  override def visitStringLit(
+      ctx: QlParser.StringLitContext): ASTNode = {
+    ASTStringValue(ctx.getText.replace("\"", ""))
+  }
+
+  override def visitBooleanExpression(
+      ctx: QlParser.BooleanExpressionContext): ASTNode = {
+    visit(ctx.booleanLit)
+  }
+
+  override def visitBooleanLit(
+      ctx: QlParser.BooleanLitContext): ASTNode = {
+    ASTBooleanValue(ctx.getText.toBoolean)
+  }
+
+  override def visitIntegerExpression(
+      ctx: QlParser.IntegerExpressionContext): ASTNode = {
+    visit(ctx.integerLit)
+  }
+
+  override def visitIntegerLit(
+      ctx: QlParser.IntegerLitContext): ASTNode = {
+    ASTIntegerValue(Integer.parseInt(ctx.getText))
+  }
+
+  override def visitIdentifier(
+      ctx: QlParser.IdentifierContext): ASTIdentifier = {
+    ASTIdentifier(ctx.getText)
+  }
 
   override def visitIdentifierExpression(
       ctx: QlParser.IdentifierExpressionContext): ASTNode = {
@@ -105,4 +138,5 @@ class ASTVisitor extends QlParserBaseVisitor[ASTNode] {
       ctx: QlParser.BracketExpressionContext): ASTNode = {
     visit(ctx.expr)
   }
+
 }

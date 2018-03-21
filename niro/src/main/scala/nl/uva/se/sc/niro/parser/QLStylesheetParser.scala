@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.parser
 
 import nl.uva.se.sc.niro.errors.Errors.Error
-import nl.uva.se.sc.niro.model.qls.{ Page, QLStylesheet, Question, Section }
+import nl.uva.se.sc.niro.model.qls._
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
 import org.apache.logging.log4j.scala.Logging
 import qls.{ QLSBaseVisitor, QLSLexer, QLSParser }
@@ -39,14 +39,25 @@ object QLStylesheetParser extends Logging {
 
   object SectionVisitor extends QLSBaseVisitor[Section] {
     override def visitSection(ctx: QLSParser.SectionContext): Section = {
-      val questions = JavaConverters.asScalaBuffer(ctx.question()).map(QuestionVisitor.visit)
+      val questions = JavaConverters.asScalaBuffer(ctx.questionBlock().questions).map(QuestionVisitor.visit)
       Section(ctx.name.getText, questions)
     }
   }
 
   object QuestionVisitor extends QLSBaseVisitor[Question] {
     override def visitQuestion(ctx: QLSParser.QuestionContext): Question = {
-      Question(ctx.name.getText)
+      if (ctx.widgetType == null) Question(ctx.name.getText, None)
+      else Question(ctx.name.getText, WidgetTypeVisitor.visit(ctx.widgetType()))
+    }
+  }
+
+  object WidgetTypeVisitor extends QLSBaseVisitor[Option[QLSWidgetType]] {
+    override def visitWidgetType(ctx: QLSParser.WidgetTypeContext): Option[QLSWidgetType] = {
+      if (ctx.CHECKBOX() != null) return Some(QLSCheckBox())
+      if (ctx.SPINGBOX() != null) return Some(QLSSpinBox())
+      if (ctx.RADIO() != null) return Some(QLSRadio(ctx.trueValue.getText, ctx.falseValue.getText))
+      if (ctx.COMBO() != null) return Some(QLSComboBox(ctx.trueValue.getText, ctx.falseValue.getText))
+      None
     }
   }
 }

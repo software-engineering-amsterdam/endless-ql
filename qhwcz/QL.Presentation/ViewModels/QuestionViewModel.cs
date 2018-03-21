@@ -1,41 +1,51 @@
 ﻿using System;
 using ReactiveUI;
 using QLS.Api.Entities;
+using QL.Api.Entities;
+using Presentation.Properties;
 
 namespace Presentation.ViewModels
 {
-    internal abstract class QuestionViewModel : ReactiveObject
+    internal class QuestionViewModel : ReactiveObject
     {
-        private string _description;
-        private string _id;
-        private bool _isEvaluated;
         private object _value;
         private FormViewModel _parentForm;
 
-        protected QuestionViewModel(string description, string id, bool isEvaluated, object value, FormViewModel parentForm)
+        internal QuestionViewModel(string description, string id, bool isEvaluated, object value, QLType type, FormViewModel parentForm)
         {
-            _id = id;
-            _description = description;
-            _isEvaluated = isEvaluated;
             _parentForm = parentForm;
             _value = value;
 
+            Id = id;
+            Description = description;
+            IsEvaluated = isEvaluated;            
+            QLType = type;
+
             this.ObservableForProperty(x => x.Value)
                 .Subscribe(x => parentForm.QuestionValueAssignedCommand.Execute(this));
-        }       
+        }
 
-        public string Description => _description;
+        public string Description { get; }
 
-        public string Id => _id;
+        public string Id { get; }
 
         public object Value
         {
             get { return _value; }
             set { this.RaiseAndSetIfChanged(ref _value, value); }
-        }
+        }        
+
+        public StyleViewModel Style { get; set; }
 
         public WidgetType WidgetType { get; set; } = WidgetType.Textbox;
 
-        public bool IsEvaluated => _isEvaluated;
+        public string YesOption { get; set; } = Resources.Yes;
+
+        public string NoOption { get; set; } = Resources.No;
+        
+
+        public QLType QLType { get; }
+
+        public bool IsEvaluated { get; }
     }
 }

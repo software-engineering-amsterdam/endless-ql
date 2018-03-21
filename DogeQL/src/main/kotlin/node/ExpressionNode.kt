@@ -3,11 +3,13 @@ package node
 import common.Name
 import data.question.Question
 import data.symbol.SymbolTable
+import expression.SourceLocation
 import typechecker.pass.DuplicatePass
 import typechecker.pass.ScopePass
 import typechecker.pass.TypePass
 
-class ExpressionNode(symbolTable: SymbolTable, val reference: Name) : Node(symbolTable) {
+class ExpressionNode(symbolTable: SymbolTable, val reference: Name, val sourceLocation: SourceLocation)
+    : Node(symbolTable) {
 
     override fun getEnabledQuestions(): List<Question> {
 

@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 
-public class Question extends Node {
+public class Question extends QLNode {
 
     public final ReturnType type;
     public final String name;

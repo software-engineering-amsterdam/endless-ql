@@ -23,6 +23,11 @@ public abstract class AbstractValue extends Value {
 	}
 
 	@Override
+	public Value add(MoneyValue val){
+		return throwException();
+	}
+
+	@Override
 	public Value add(DecimalValue val){
 		return throwException();
 	}
@@ -48,10 +53,15 @@ public abstract class AbstractValue extends Value {
 	}
 	
 	@Override
-	public Value sub(DecimalValue val){
+	public Value sub(MoneyValue val){
 		return throwException();
 	}
 
+	@Override
+	public Value sub(DecimalValue val){
+		return throwException();
+	}
+	
 	@Override
 	public Value mul(IntegerValue val){
 		return throwException();
@@ -73,10 +83,15 @@ public abstract class AbstractValue extends Value {
 	}
 	
 	@Override
-	public Value mul(DecimalValue val){
+	public Value mul(MoneyValue val){
 		return throwException();
 	}
 
+	@Override
+	public Value mul(DecimalValue val){
+		return throwException();
+	}
+	
 	@Override
 	public Value div(IntegerValue val){
 		return throwException();
@@ -97,6 +112,11 @@ public abstract class AbstractValue extends Value {
 		return throwException();
 	}
 	
+	@Override
+	public Value div(MoneyValue val){
+		return throwException();
+	}
+
 	@Override
 	public Value div(DecimalValue val){
 		return throwException();
@@ -133,10 +153,15 @@ public abstract class AbstractValue extends Value {
 	}
 	
 	@Override
-	public BooleanValue gt(DecimalValue val){
+	public BooleanValue gt(MoneyValue val){
 		return throwException();
 	}
 
+	@Override
+	public BooleanValue gt(DecimalValue val){
+		return throwException();
+	}
+	
 	@Override
 	public BooleanValue lt(IntegerValue val){
 		return throwException();
@@ -158,9 +183,15 @@ public abstract class AbstractValue extends Value {
 	}
 	
 	@Override
+	public BooleanValue lt(MoneyValue val){
+		return throwException();
+	}
+
+	@Override
 	public BooleanValue lt(DecimalValue val){
 		return throwException();
 	}
+	
 	@Override
 	public BooleanValue gEq(IntegerValue val){
 		return throwException();
@@ -177,7 +208,7 @@ public abstract class AbstractValue extends Value {
 	}
 	
 	@Override
-	public BooleanValue gEq(DecimalValue val){
+	public BooleanValue gEq(MoneyValue val){
 		return throwException();
 	}
 	
@@ -186,6 +217,11 @@ public abstract class AbstractValue extends Value {
 		return throwException();
 	}
 
+	@Override
+	public BooleanValue gEq(DecimalValue val){
+		return throwException();
+	}
+	
 	@Override
 	public BooleanValue lEq(IntegerValue val){
 		return throwException();
@@ -203,7 +239,7 @@ public abstract class AbstractValue extends Value {
 	}
 	
 	@Override
-	public BooleanValue lEq(DecimalValue val){
+	public BooleanValue lEq(MoneyValue val){
 		return throwException();
 	}
 	
@@ -212,6 +248,11 @@ public abstract class AbstractValue extends Value {
 		return throwException();
 	}
 
+	@Override
+	public BooleanValue lEq(DecimalValue val){
+		return throwException();
+	}
+	
 
 	@Override
 	public BooleanValue or(IntegerValue val){
@@ -229,12 +270,17 @@ public abstract class AbstractValue extends Value {
 	}
 	
 	@Override
-	public BooleanValue or(DecimalValue val){
+	public BooleanValue or(MoneyValue val){
 		return throwException();
 	}
 	
 	@Override
 	public BooleanValue or(DateValue val){
+		return throwException();
+	}
+	
+	@Override
+	public BooleanValue or(DecimalValue val){
 		return throwException();
 	}
 
@@ -254,12 +300,17 @@ public abstract class AbstractValue extends Value {
 	}
 	
 	@Override
-	public BooleanValue and(DecimalValue val){
+	public BooleanValue and(MoneyValue val){
 		return throwException();
 	}
 	
 	@Override
 	public BooleanValue and(DateValue val){
+		return throwException();
+	}
+	
+	@Override
+	public BooleanValue and(DecimalValue val){
 		return throwException();
 	}
 

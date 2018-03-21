@@ -1,5 +1,3 @@
-package ql;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -8,9 +6,6 @@ import ql.checking.TypeChecker;
 import ql.gui.FormGUI;
 import ql.gui.QlPageGenerator;
 import ql.ast.Form;
-import ql.ast.literal.Identifier;
-import ql.ast.statement.IfThenElseStatement;
-import ql.ast.statement.IfThenStatement;
 
 
 public class Main {

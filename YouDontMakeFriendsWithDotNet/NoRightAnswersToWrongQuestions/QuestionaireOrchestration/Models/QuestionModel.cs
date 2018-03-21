@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuestionaireOrchestration.Models
+namespace QuestionnaireOrchestration.Models
 {
     public class QuestionModel
     {
@@ -25,7 +25,7 @@ namespace QuestionaireOrchestration.Models
         public string QuestionText { get; }
         public bool Visible { get; }
         public bool ReadOnly { get; }
-        public string Value { get; set; }
+        public dynamic Value { get; set; }
         public Type QuestionType { get; }
     }
 }

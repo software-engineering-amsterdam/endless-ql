@@ -1,51 +1,53 @@
 import antlr4
 import re
-import io
-import sys
-from contextlib import redirect_stdout
 
+from grammar.run_antlr import MyErrorListener
 from parser_generator.grammar.QLLexer import QLLexer
 from parser_generator.grammar.QLParser import QLParser
+from parser_generator.grammar.QLSLexer import QLSLexer
+from parser_generator.grammar.QLSParser import QLSParser
 from commons.utility import open_file
 
 
-# todo: clean
+# todo: refactoring and error if file not compatible for debugging (no ql/qls extension)
 class GrammarDebugger:
+    """ Used to debug grammer """
     def __init__(self, file_path):
         self.file_path = file_path
-        self.error = None
+        self.file_extension = file_path.split('.')[-1]
+        self.parser = None
+        self.tokens = None
 
     def debug_grammar(self):
+        """ Main function - runs through parsing and print out tokens and tree in CLI """
         file = open_file(self.file_path)
-        ql_input = antlr4.InputStream(file)
-        lexer = QLLexer(ql_input)
-        tokens = antlr4.CommonTokenStream(lexer)
-        self.print_tokens(tokens)
+        input_form = antlr4.InputStream(file)
+        lexer = QLLexer(input_form) if self.file_extension == 'ql' else QLSLexer(input_form)
 
-        parser = QLParser(tokens)
-        tree, errors = self.print_tree(parser)
+        self.tokens = antlr4.CommonTokenStream(lexer)
+        self.print_tokens()
 
-        return tree, errors
+        self.parser = QLParser(self.tokens) if self.file_extension == 'ql' else QLSParser(self.tokens)
+        self.parser._listeners = [MyErrorListener()]
+        self.print_tree()
 
-    def print_tokens(self, tokens):
+    def print_tokens(self):
         """ Prints token stream """
         print('\n', end='')
         print('[TOKENS]')
-        tokens.fill()
+        self.tokens.fill()
         token_types = self.get_token_types()
-        for token in tokens.tokens:
+        for token in self.tokens.tokens:
             token_type = token_types[str(token.type)]
             print_width = 15
             print(f"  {token_type: <{print_width}} '{token.text}'")
 
-    def print_tree(self, parser):
+    def print_tree(self):
         """ Prints AST """
-        print('\n', end='')
-        print('[PARSE-TREE]')
-        indentation = 0
-        tree = parser.form().toStringTree(recog=parser)
-
         string = ''
+        indentation = 0
+        tree = self.parser.form().toStringTree(recog=self.parser) if self.file_extension == 'ql' else \
+            self.parser.stylesheet().toStringTree(recog=self.parser)
 
         for char in tree:
             if char == '(':
@@ -58,14 +60,14 @@ class GrammarDebugger:
                 indentation -= 1
             else:
                 string += char
-        print(string)
 
-        return tree, tree
+        print('\n', end='')
+        print('[PARSE-TREE]')
+        print(string)
 
     def get_token_types(self):
         """ Gets token types corrensponding with lexer grammar """
-        # todo: fix ql var for QLS
-        tokens = open_file('parser_generator/grammar/{}.tokens'.format('QL'))
+        tokens = open_file('parser_generator/grammar/{}.tokens'.format(self.file_extension.upper()))
         tokens = tokens.split('\n')
         x = {}
         for token in tokens:

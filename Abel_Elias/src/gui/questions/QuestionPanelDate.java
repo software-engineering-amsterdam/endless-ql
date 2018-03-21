@@ -1,16 +1,22 @@
 package gui.questions;
 
-import classes.Question;
+import QL.classes.Question;
+import QL.classes.values.Value;
 import gui.FormBuilder;
 import org.jdatepicker.*;
 
 import javax.swing.*;
+import javax.swing.text.DocumentFilter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.EventListener;
 import java.util.Properties;
 
 public class QuestionPanelDate extends QuestionPanel {
 
     private JDatePicker picker;
+    private UtilDateModel model;
+    private Calendar cal;
 
     public QuestionPanelDate(String key, Question question) {
         super(key, question);
@@ -19,7 +25,8 @@ public class QuestionPanelDate extends QuestionPanel {
 
     @Override
     public void createControlWidget(String key) {
-        UtilDateModel model = new UtilDateModel();
+        cal = Calendar.getInstance();
+        model = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
         p.put("text.month", "Month");
@@ -39,4 +46,18 @@ public class QuestionPanelDate extends QuestionPanel {
         picker.addActionListener(dateActionListener);
     }
 
+    @Override
+    public void setWidgetFixed() {
+        this.picker.setEnabled(false);
+    }
+
+    @Override
+    public void setValue(Value value) {
+        Date date = (Date) value.getValue();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        this.picker.getModel().setDate(year, month, day);
+    }
 }

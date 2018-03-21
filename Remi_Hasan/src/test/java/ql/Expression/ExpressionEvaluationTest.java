@@ -1,4 +1,4 @@
-package ql.Expression;
+package ql.expression;
 
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
@@ -9,7 +9,9 @@ import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
+import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableInteger;
+import ql.model.expression.variable.ExpressionVariableUndefined;
 
 import java.math.BigDecimal;
 
@@ -138,6 +140,17 @@ public class ExpressionEvaluationTest {
         
         ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
         assertEquals(Integer.valueOf(9), interpreterVisitor.visit(expression).getIntValue());
+    }
+
+    @Test
+    public void additionUndefined() {
+        Expression expression = QLTestUtilities.expressionFromString("2 + someInteger");
+
+        SymbolTable symbolTable = new SymbolTable();
+        symbolTable.setExpression("someInteger", new ExpressionVariableUndefined(null, ReturnType.INTEGER));
+
+        ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
+        assertEquals(true, interpreterVisitor.visit(expression).isUndefined());
     }
 
 }

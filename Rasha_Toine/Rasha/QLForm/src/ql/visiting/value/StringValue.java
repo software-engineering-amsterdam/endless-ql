@@ -106,10 +106,14 @@ public class StringValue extends AbstractValue {
 	
 
 	@Override
-	public BooleanValue eq(DecimalValue val) {
+	public BooleanValue eq(MoneyValue val) {
 		return BooleanValue.FALSE;
 	}
 
+	@Override
+	public BooleanValue eq(DecimalValue val) {
+		return BooleanValue.FALSE;
+	}
 	
 	@Override
 	public StringValue translate(String str) {

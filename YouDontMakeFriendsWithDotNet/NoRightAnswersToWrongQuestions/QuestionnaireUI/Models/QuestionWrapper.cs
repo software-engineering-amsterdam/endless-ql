@@ -1,5 +1,5 @@
 ﻿using System;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 
 namespace QuestionnaireUI.Models
 {
@@ -12,10 +12,14 @@ namespace QuestionnaireUI.Models
         public bool ReadOnly => GetValue<bool>();
         public bool Visible => GetValue<bool>();
 
-        public string Value
+        public dynamic Value
         {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
+            get { return GetValue<dynamic>(); }
+            set
+            {
+                Model.Value = value;
+                RaisePropertyChanged(nameof(Value));
+            }
         }
 
         public QuestionWrapper(QuestionModel model) : base(model)

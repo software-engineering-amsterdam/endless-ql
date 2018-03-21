@@ -1,5 +1,8 @@
 package ql.ast.expression;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import ql.ast.expression.literal.Literal;
 import ql.ast.expression.literal.UndefinedLiteral;
 import ql.ast.type.Type;
@@ -11,19 +14,17 @@ import ql.visitors.interfaces.ExpressionVisitor;
 public class Identifier extends Expression implements Observable {
     
     private String name;
-    private Type type;
-    private Literal<?> value;
+    private Type type               = new Undefined();
+    private Literal<?> value        = new UndefinedLiteral();
+    private Set<Observer> observers = new HashSet<Observer>();
     
     public Identifier(String name) {
-        this.name       = name;
-        this.type       = new Undefined();
-        this.value      = new UndefinedLiteral();
+        this.name = name;
     }
     
     public Identifier(String name, Type type) {
-        this.name       = name;
-        this.type       = type;
-        this.value      = new UndefinedLiteral();
+        this.name = name;
+        this.type = type;
     }
     
     public String getName() {
@@ -42,8 +43,8 @@ public class Identifier extends Expression implements Observable {
         
         if(!this.value.toString().equals(value.toString()))
         {
-            this.value = type.parse(value);
-            
+            this.value = value.isUndefined()? value : type.parse(value);
+
             notifyObservers();
         }
     }
@@ -56,32 +57,31 @@ public class Identifier extends Expression implements Observable {
     }
     
     @Override
-    public String toString() {
-        return name;
+    public boolean isIdentifier() {
+        return true;
     }
-
+    
+    public Literal<?> evaluate() {
+        return getValue();
+    }
+    
+    public boolean equals(Identifier id) {
+        return name.equals(id.getName());
+    }
+    
     @Override
     public <E> E accept(ExpressionVisitor<E> visitor) {
         return visitor.visit(this);
     }
     
     @Override
-    public boolean isIdentifier() {
-        return true;
+    public String toString() {
+        return name;
     }
     
-    public boolean equals(Identifier id) {
-        return name.equals(id.getName());
-    }
-
-    @Override
-    public Literal<?> evaluate() {
-        return getValue();
-    }
-
     @Override
     public void notifyObservers() {
-        for(Observer o : observers) o.update();
+        for(Observer o : observers) o.update(this, new Literal<?>[]{value});
     }
 
     @Override

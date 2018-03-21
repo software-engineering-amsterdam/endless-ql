@@ -15,4 +15,10 @@ public class DateQuestionViewModel extends BaseQuestionViewModel {
     public void accept(QuestionViewModelVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public <T> T accept(TypedQuestionViewModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }

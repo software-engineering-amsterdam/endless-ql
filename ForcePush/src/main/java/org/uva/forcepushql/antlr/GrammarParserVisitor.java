@@ -41,6 +41,18 @@ public interface GrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestionTypes(GrammarParser.QuestionTypesContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link GrammarParser#ifCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfCondition(GrammarParser.IfConditionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GrammarParser#nextCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNextCondition(GrammarParser.NextConditionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code infixExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.
 	 * @param ctx the parse tree

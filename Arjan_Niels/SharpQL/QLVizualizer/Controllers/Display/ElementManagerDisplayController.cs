@@ -28,7 +28,7 @@ namespace QLVisualizer.Controllers.Display
         /// <summary>
         /// Element factory that creates all elements
         /// </summary>
-        protected ElementFactory<T, Y> _elementFactory;
+        //protected ElementFactory<T, Y> _elementFactory;
 
         /// <summary>
         /// Style for each widget, key: widgetID, value: style
@@ -68,28 +68,17 @@ namespace QLVisualizer.Controllers.Display
         }
 
         /// <summary>
-        /// Set default style for all widgets
-        /// </summary>
-        private void UpdateDefaultStyle()
-        {
-            // TODO: ASSIGN STYLE
-            /*if (ElementStyleIndex == null)      // Case no styles set
-                ElementStyleIndex = _form.Keys.ToDictionary(o => o, o => DefaultStyle);
-            else                                // Case styles already set
-                foreach (string s in _form.Keys)
-                    if (!ElementStyleIndex.ContainsKey(s))
-                        ElementStyleIndex.Add(s, DefaultStyle);*/
-        }
-
-        /// <summary>
         /// Shows form to user
         /// </summary>
         /// <param name="title">Tile of form</param>
         /// <param name="widgets">Widgets on form</param>
         public override void DisplayForm()
         {
-            WidgetCreator.CreateWidgets(Form, BaseDisplay);
+            UpdateBaseDisplay(WidgetCreator.CreateWidget(Form, BaseDisplay));
+            Form.RegisterListeners();
         }
+
+        protected abstract void UpdateBaseDisplay(T newDisplay);
 
         /// <summary>
         /// Resets all values that define its state

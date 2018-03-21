@@ -1,36 +1,83 @@
 package GUI;
 
+import GUI.Listeners.RefreshListener;
 import Nodes.QLForm;
 import Nodes.Question;
-import Nodes.Type;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
-import javax.swing.text.DateFormatter;
-import javax.swing.text.NumberFormatter;
-import java.awt.*;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
-public class FormTemplate {
+public class FormTemplate implements RefreshListener{
+
+    private QLForm form;
+    private List<QuestionPanel> questionPanels;
+
+    public FormTemplate(QLForm form){
+        this.form = form;
+        questionPanels = new ArrayList<>();
+    }
+
+    public void renderForm(){
+
+        JFrame frame = new JFrame(form.getName());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        FormLayout layout = new FormLayout(
+                "left:default, 3dlu default");
+
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+
+        List<Question> questions = form.getAllQuestions();
+        Iterator<Question> questionIterator = questions.iterator();
+        while (questionIterator.hasNext()) {
+            QuestionPanel questionPanel = new QuestionPanel(questionIterator.next(), this);
+            questionPanels.add(questionPanel);
+            builder.append(questionPanel);
+        }
+
+        //JButton submit = new JButton("submit");
+
+        //builder.add(submit);
+
+        //JPanel buttonPanel = new JPanel();
+
+        JPanel panel = builder.getPanel();
+
+        frame.add(panel);
+
+        frame.pack();
+
+        frame.setVisible(true);
+
+    }
+
+    private void refreshView(){
+        Iterator<QuestionPanel> questionPanelIterator = questionPanels.iterator();
+        while(questionPanelIterator.hasNext()){
+            questionPanelIterator.next().setVisibility();
+        }
+    }
+
+    @Override
+    public void refreshQuestions() {
+        refreshView();
+    }
+
+
+
+    /*
     private FormLayout layout;
     private JFrame frame;
     private JPanel mainPanel;
     private QLForm body;
     private JButton submit;
-    private List<Component> components;
-
-    public FormTemplate(){
-        body  = new QLForm("Undefined");
-    }
+    private Map<Question, JPanel> questionDictionary;
 
     public FormTemplate(QLForm form){
         body = form;
+        questionDictionary = new HashMap<>();
     }
 
     public final void initGUI(){
@@ -39,103 +86,99 @@ public class FormTemplate {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setPanel(initPanel());
+        layout = new FormLayout(
+                "left:default, 3dlu default");
+
+
+        updatePanel();
+
+
+
+
     }
 
-    private JPanel initPanel(){
+    private void updatePanel(){
 
-        layout = new FormLayout(
-                "left:default, 3dlu default"); // 5 columns; add rows later
+        List<Question> questions = body.getQuestions();
+
+        iterateQuestions(questions);
+
+        List<Condition> conditions = body.getConditions();
+        Iterator<Condition> conditionIterator = conditions.iterator();
+        while (conditionIterator.hasNext())
+            iterateQuestions(visitCondition(conditionIterator.next(), true));
+
+        //builder.append(submit = new JButton("submit"));
+
+    }
+
+    //TODO MOVE TO QLForm
+    // Return the list of all available questions if valid elements is set to false, or all questions if it's set to true
+    private List<Question> visitCondition(Condition condition, boolean allQuestions){
+
+        List<Question> questions;
+
+        if(condition.getResult().getBoolean() || allQuestions){
+            questions = condition.getQuestions();
+            List<Condition> conditions = condition.getConditions();
+            Iterator<Condition> conditionIterator = conditions.iterator();
+            while (conditionIterator.hasNext()) {
+                List<Question> subQuestions = visitCondition(conditionIterator.next(), allQuestions);
+                if (subQuestions != null)
+                    questions.addAll(subQuestions);
+            }
+
+            return questions;
+        }
+
+        return null;
+    }
+
+    //TODO MOVE TO QLForm
+    private void iterateQuestions (List<Question> questions){
+        Iterator<Question> questionIterator = questions.iterator();
+        while (questionIterator.hasNext()) {
+            addQuestion(questionIterator.next());
+        }
+    }
+
+
+    private JPanel createQuestion(Question question){
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+        builder.append(question.getLabel(), getComponent(question.getType()));
+        return builder.getPanel();
+    }
+
+    private void addQuestion(Question question) {
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-        try{
-            List<Question> questions = body.getQuestions();
-            Iterator<Question> iterator = questions.iterator();
-            while (iterator.hasNext()) {
-                Question question = iterator.next();
-                builder.append(question.getLabel(), getComponent(question.getType()));
-            }
-            builder.append(submit = new JButton("submit"));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return builder.getPanel();
 
+        if(!question.isDisplayed()) {
+            if (!questionDictionary.containsKey(question)) {
+                builder.append(question.getLabel(), getComponent(question.getType()));
+                System.out.println(question.getLabel());
+                questionDictionary.put(question, builder.getPanel());
+            }
+            question.setDisplayed(true);
+            frame.add(questionDictionary.get(question));
+        }
     }
 
-    private void setPanel(JPanel newPanel){
+    private void removeQuestion(Question question){
+        if (questionDictionary.containsKey(question) && question.isDisplayed()){
+            frame.remove(questionDictionary.get(question));
+        }
+    }
 
-        mainPanel = newPanel;
+    private void refreshPanel(JPanel newPanel){
 
-        frame.add(mainPanel);
+        frame.add(newPanel);
 
         frame.pack();
 
         frame.setVisible(true);
     }
 
-    private Component getComponent(Type type){
-        switch (type){
-            case BOOL: return new JCheckBox();
+    */
 
-            case STRING: return new JTextField();
-
-            case INT: return new JFormattedTextField(intField());
-
-            case DATE: return new JFormattedTextField(dateField());
-
-            case DECIMAL: return new JFormattedTextField(decimalField());
-
-            case MONEY: return new JFormattedTextField(moneyField());
-
-            default: return new JLabel(String.valueOf(type));
-        }
-    }
-
-
-    private NumberFormatter intField(){
-        NumberFormat format = NumberFormat.getInstance();
-        NumberFormatter formatter = new NumberFormatter(format);
-        formatter.setValueClass(Integer.class);
-        formatter.setMaximum(Integer.MAX_VALUE);
-        formatter.setAllowsInvalid(false);
-        return formatter;
-    }
-
-    private DateFormatter dateField(){
-        DateFormat format = new SimpleDateFormat("yyyy--MMMM--dd");
-        DateFormatter formatter = new DateFormatter(format);
-        formatter.setValueClass(Date.class);
-        formatter.setAllowsInvalid(false);
-        return formatter;
-    }
-
-
-    private NumberFormatter decimalField() {
-        NumberFormat format = NumberFormat.getInstance();
-        NumberFormatter formatter = new NumberFormatter(format);
-        formatter.setValueClass(Double.class);
-        formatter.setMaximum(Double.MAX_VALUE);
-        formatter.setAllowsInvalid(false);
-        return formatter;
-    }
-
-    // TODO define currency field
-    private NumberFormatter moneyField() {
-        return decimalField();
-    }
-
-//    public void setTitle(String title){
-//
-//        frame.setTitle(title);
-//    }
-//
-//    public void addQuestion(Nodes.Question question){
-//
-//        questionPanel.add(new JLabel(question.getType()));
-//
-//        mainPanel.add(questionPanel);
-//
-////        frame.revalidate();
-//    }
 }

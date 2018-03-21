@@ -9,7 +9,7 @@ import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.*;
 
-public class CheckNoDuplicateQuestions extends BaseStyleASTVisitor<Void> implements IQLSStaticAnalysis {
+public class CheckNoDuplicateQuestions extends QuestionAnalysis implements IQLSStaticAnalysis {
 
     /**
      * Hide constructor
@@ -27,24 +27,6 @@ public class CheckNoDuplicateQuestions extends BaseStyleASTVisitor<Void> impleme
 
         List<String> qlsQuestions = this.getQlSQuestionNames(stylesheet);
         return this.checkForDuplicateQuestions(qlsQuestions);
-    }
-
-    /**
-     * Get all QLS question names
-     *
-     * @param stylesheet AST node
-     * @return The names
-     */
-    private List<String> getQlSQuestionNames(Stylesheet stylesheet) {
-        List<String> questionNames = new ArrayList<>();
-        stylesheet.accept(new BaseStyleASTVisitor<Void>() {
-            @Override
-            public Void visit(Question node) {
-                questionNames.add(node.getName());
-                return super.visit(node);
-            }
-        });
-        return questionNames;
     }
 
     /**

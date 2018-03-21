@@ -1,5 +1,7 @@
 package org.uva.ql.evaluator;
 
+import org.json.JSONObject;
+import org.uva.app.IOHandler;
 import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.BooleanType;
@@ -32,6 +34,16 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
         }
+    }
+
+    public void saveState() {
+        JSONObject jsonObject = new JSONObject();
+
+        for (Question question : statementTable.getQuestionsAsList()) {
+            jsonObject.put(question.getContent(), valueTable.getValueByID(question.getId()));
+        }
+
+        new IOHandler().writeOutput(jsonObject);
     }
 
     public List<Question> getQuestionsAsList() {

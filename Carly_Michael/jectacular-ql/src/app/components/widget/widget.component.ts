@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {AbstractControl, FormGroup} from '@angular/forms';
 
@@ -7,16 +7,12 @@ import {AbstractControl, FormGroup} from '@angular/forms';
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.css']
 })
-export class WidgetComponent implements OnInit, OnChanges {
+export class WidgetComponent implements OnInit {
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
   control: AbstractControl;
 
   ngOnInit(): void {
     this.control = this.form.controls[this.question.key];
-  }
-
-  ngOnChanges(changes) {
-    console.log(changes.question);
   }
 }

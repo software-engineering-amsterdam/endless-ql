@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 
 @Component({
@@ -6,12 +6,8 @@ import {AbstractControl} from '@angular/forms';
   templateUrl: './checkbox-widget.component.html',
   styleUrls: ['./checkbox-widget.component.css']
 })
-export class CheckboxWidgetComponent implements OnChanges {
+export class CheckboxWidgetComponent {
   @Input() label: string;
   @Input() styles;
   @Input() control: AbstractControl;
-
-  ngOnChanges(changes) {
-    console.log(changes.styles);
-  }
 }

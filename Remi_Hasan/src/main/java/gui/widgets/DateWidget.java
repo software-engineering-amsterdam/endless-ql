@@ -56,7 +56,7 @@ public class DateWidget extends DatePicker implements WidgetInterface {
 
     @Override
     public void setColor(String color) {
-        this.setStyle("-fx-label-inner-color: " + color + ";");
+        this.setStyle("-fx-text-inner-color: " + color + ";");
     }
 
     @Override

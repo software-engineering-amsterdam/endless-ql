@@ -15,3 +15,9 @@ def sel(label, var):
 def create_frame(parent, background=None):
     frame = Frame(parent, background=background)
     return frame
+
+# Throw an exception without printing the python stacktrace
+def throwError(text):
+    print("GUI error:")
+    print(text)
+    sys.exit(1)

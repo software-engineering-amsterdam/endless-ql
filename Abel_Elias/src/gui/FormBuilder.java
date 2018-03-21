@@ -9,8 +9,8 @@ import QL.classes.values.Value;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionPanelCheckBox;
 import gui.questions.QuestionPanelDate;
-import gui.questions.QuestionPanelTextInt;
-import gui.questions.QuestionPanelTextString;
+import gui.questions.text.QuestionPanelTextInt;
+import gui.questions.text.QuestionPanelTextString;
 import org.jdatepicker.JDatePicker;
 import QL.parsing.visitors.FormVisitor;
 
@@ -20,37 +20,33 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class FormBuilder {
     private JFrame mainFrame; //The frame on which the form is located
-    private JPanel mainPanel; //The panel on which the widgets are located
-    private JPanel mainListPanel;
-    private LinkedHashMap<String, Question> questionHashMap;
-    private LinkedHashMap<String, QuestionPanel> questionPanelHashMap;
-    private FormVisitor coreVisitor;
-
-    private int FRAMEHEIGHT = 800; //The height of the GUI
-    private int FRAMEWIDTH = 800; //The width of the GUI
+    private JPanel mainPanel; //The panel on which houses the list of question panels
+    private JPanel mainListPanel; // The panel that lists the questions
+    private LinkedHashMap<String, Question> questionHashMap; //collection of questions
+    private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
+    private FormVisitor coreVisitor; // The visitor
+    private int frameHeight = 800; //The height of the GUI
+    private int frameWidth = 800; //The width of the GUI
 
     /**
      * constructor method
      * initializes the building process of the form
      *
-     * @param coreVisitor
+     * @param coreVisitor       The main ql visitor
      */
-    public FormBuilder(FormVisitor coreVisitor, LinkedHashMap<String, Question> questionHashMap) {
+    public FormBuilder(FormVisitor coreVisitor) {
         this.coreVisitor = coreVisitor;
-        this.questionHashMap = questionHashMap;
+        this.questionHashMap = coreVisitor.getQuestions();
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
     }
 
@@ -59,45 +55,52 @@ public class FormBuilder {
      * initializes the building process for all widgets
      */
     public void initComponents() {
-        //Build the frame and panel of the form
+        //Build the frame and panels of the form (the base)
         buildFrame();
-        buildPanel();
-        buildList();
+        buildMainPanel();
+        buildListPanel();
+
         //Add a scroll pane to the form
         mainPanel.add(new JScrollPane(mainListPanel));
+
+        //Initiate the construction process of the questionpanels by information extracted from the
+        //passed questions
         initQuestionPanels();
 
+        //Add the panel to the frame, and set some properties
         mainFrame.add(mainPanel);
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
-
     }
 
     /**
+     * initQuestionPanels() method
      * Initialize the creation of the panels containing
      * the question it's controls through iteration
      */
     private void initQuestionPanels() {
+        //Iterate over the questions that were passed
         Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<String, Question> entry = entries.next();
+            //Extract a single question
             Question question = entry.getValue();
+            //If the question is marked as visible, we build a panel
             if(question.isVisible()) {
                 buildQuestionPanel(entry.getKey(), question, question.getValue());
-            } else {
-
             }
         }
     }
 
     /**
-     * Build each individual question panel and add
-     * these to the main panel
+     * buildQuestionPanel() method
+     * Build each individual type of question panel and add
+     * these to the list panel
      *
-     * @param key      identifier
-     * @param question question
-     * @param value type
+     * @param key       question identifier
+     * @param question  the question passed
+     * @param value     the type of the question passed
      */
     private void buildQuestionPanel(String key, Question question, Value value) {
         QuestionPanel qPanel;
@@ -127,19 +130,26 @@ public class FormBuilder {
                 qPanel.setListener(new IntegerDocumentListener(key, (JTextField) qPanel.getComponent()));
                 break;
             default:
-                qPanel = new QuestionPanelCheckBox(key, question);
-                qPanel.setListener(new BoolActionListener(key, (JCheckBox) qPanel.getComponent()));
+                qPanel = new QuestionPanelTextInt(key, question);
+                qPanel.setListener(new IntegerDocumentListener(key, (JTextField) qPanel.getComponent()));
                 break;
         }
+        //if the question is marked as fixed, make it non-alterable
         if(question.isFixed()) {
             qPanel.setWidgetFixed();
-            //qPanel.setValue(question.getValue());
+            qPanel.setValue(value);
         }
+        //add the questionpanel to a map containing active questionpanels
         questionPanelHashMap.put(key, qPanel);
+        //add question to list panel
         addQuestionToPanel(qPanel, getQuestionConstraints());
     }
 
 
+    /**
+     * getQuestionContraints() method
+     * Receive pre-set question panel constraints
+     */
     private GridBagConstraints getQuestionConstraints() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -150,76 +160,121 @@ public class FormBuilder {
 
     /**
      * buildFrame() method
-     * builds the frame
+     * builds the frame of the application
      */
     private void buildFrame() {
         this.mainFrame = new JFrame("Questionnaire (QL)");
         this.mainFrame.setVisible(true);
-        this.mainFrame.setBounds(0, 0, FRAMEHEIGHT, FRAMEWIDTH);
+        this.mainFrame.setBounds(0, 0, frameHeight, frameWidth);
         this.mainFrame.setLayout(new BorderLayout());
     }
 
     /**
-     * buildFrame() method
-     * builds the panel
+     * buildMainPanel() method
+     * builds the container panel
      */
-    private void buildPanel() {
+    private void buildMainPanel() {
         mainPanel = new JPanel(new BorderLayout());
     }
 
-    private void buildList() {
+    /**
+     * buildListPanel() method
+     * builds the list panel
+     */
+    private void buildListPanel() {
         mainListPanel = new JPanel(new GridBagLayout());
     }
 
+    /**
+     * update() method
+     * builds the list panel
+     *
+     * @param key       key identifier of panel
+     * @param value     the value passed
+     */
     private void update(String key, Value value) {
+            // Update the question itself
             updateQuestion(key, value);
+            // Change visibilities en values of the questions in the AST
             coreVisitor.update();
+            // Update the GUI
             updateGUI();
     }
     private void updateQuestion(String key, Value value) {
+        // Set the value in the questionHashMap
         questionHashMap.get(key).setValue(value);
         if(value.isDefined()) {
+            // Set the question on the questionPanelHashMap
             questionPanelHashMap.get(key).setValue(value);
 
         }
     }
     /**
      * updateGUI() method
-     * builds the frame
+     * Updates the GUI
      */
     private void updateGUI() {
+        //Iterate over the total question hashma[
         Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<String, Question> entry = entries.next();
+            // Get concerning question
             Question question = entry.getValue();
             if(question.isVisible()) {
+                //If the panelhashmap has not yet created a panel for this question
                 if (questionPanelHashMap.get(entry.getKey()) == null) {
+                    //build a questionpanel
                     buildQuestionPanel(entry.getKey(), question, question.getValue());
                 }
+                if(question.isFixed()) {
+                    questionPanelHashMap.get(entry.getKey()).setValue(question.getValue());
+                }
             } else {
+                // If the question already is placed in a currently visible panel
                 if (questionPanelHashMap.get(entry.getKey()) != null) {
+                    // remove questionpanel
                     removeQuestionFromPanel(questionPanelHashMap.get(entry.getKey()));
                     questionPanelHashMap.remove(entry.getKey());
                 }
             }
         }
+        //reinitiate the listpanel
         mainListPanel.revalidate();
         mainListPanel.repaint();
     }
 
+    /**
+     * addQuestionToPanel() method
+     * adds a question to the mainlist panel
+     *
+     * @param questionPanel The questionpanel passed
+     * @param gbc           The constraints
+     */
     private void addQuestionToPanel(QuestionPanel questionPanel, GridBagConstraints gbc) {
         mainListPanel.add(questionPanel, gbc);
     }
 
+    /**
+     * removeQuestionFromPanel() method
+     * removes a question to the mainlist panel
+     *
+     * @param questionPanel The questionpanel passed
+     */
     private void removeQuestionFromPanel(QuestionPanel questionPanel) {
         mainListPanel.remove(questionPanel);
     }
 
+    /**
+     ******************************************************************************************
+     *ActionListener methods
+     ******************************************************************************************
+    */
 
     /**
-     * ActionListener methods
-     ***********************************/
-
+     * DateActionListener
+     * Called when a jDatePicker control is changed
+     *
+     */
     public class DateActionListener implements ActionListener {
 
         private JDatePicker picker;
@@ -239,7 +294,11 @@ public class FormBuilder {
         }
     }
 
-    //Bool ActionListener
+    /**
+     * BoolActionListener
+     * Called when a jCheckbox control is changed
+     *
+     */
     public class BoolActionListener implements ActionListener {
 
         private JCheckBox checkBox;
@@ -262,7 +321,11 @@ public class FormBuilder {
         }
     }
 
-    //String ActionListener
+    /**
+     * StringActionListener
+     * Called when a jTextField control is changed
+     * in the case of a String questionPanel
+     */
     public class StringDocumentListener implements DocumentListener {
         private boolean modified = false;
         private JTextField textField;
@@ -303,9 +366,14 @@ public class FormBuilder {
                 }
                 );
             }
-            }
         }
+    }
 
+    /**
+     * StringActionListener
+     * Called when a jTextField control is changed
+     * in the case of a Integer questionPanel
+     */
     public class IntegerDocumentListener implements DocumentListener {
         private boolean modified = false;
         private JTextField textField;

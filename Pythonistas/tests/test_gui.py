@@ -10,8 +10,8 @@ def test_input_frame(qtbot):
     screen = input_frame.InputFrame()
     screen.show()
 
-    qtbot.mouseClick(screen.parsebutton, QtCore.Qt.LeftButton)
-    qtbot.mouseClick(screen.quitbutton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(screen.parse_button, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(screen.quit_button, QtCore.Qt.LeftButton)
     # print(screen.isVisible())
     assert screen.isVisible() == False
 
@@ -34,7 +34,7 @@ def test_main_window(qtbot):
     screen = gui.MainWindow()
     screen.show()
 
-    screen.initiate_outputFrame()
+    screen.initiate_output_frame()
     screen.close()
 
     assert True
@@ -50,14 +50,14 @@ def test_main_window(qtbot):
 #     file.write("hi")
 #     file.close()
 #
-#     screen.qlInput.setText('form Box1HouseOwning {\
+#     screen.ql_input.setText('form Box1HouseOwning {\
 #     "Did you sell a house in 2010?" hasSoldHouse: boolean\
 #     "Did you by a house in 2010?" hasBoughtHouse: boolean\
 #     "Did you enter a loan for maintenance/reconstruction?" hasMaintLoan: boolean\
 # }')
-#     qtbot.mouseClick(screen.parsebutton, QtCore.Qt.LeftButton)
+#     qtbot.mouseClick(screen.parse_button, QtCore.Qt.LeftButton)
 #     qtbot.mouseClick(screen.submit_button, QtCore.Qt.LeftButton)
-#     qtbot.mouseClick(screen.quitbutton, QtCore.Qt.LeftButton)
+#     qtbot.mouseClick(screen.quit_button, QtCore.Qt.LeftButton)
 #
 #     file = open("QL_output.txt")
 #     testtext = file.read()

@@ -35,19 +35,19 @@ class ASTVisitor(object):
     # BaseNode will not be initialized directly
     @visitor.when(BaseNode)
     def visit(self, node):
-        print("Unrecognized node:", node)
+        print('Unrecognized node:', node)
 
     # BlockStatementNode will not be initialized directly
     @visitor.when(BlockStatementNode)
     def visit(self, node):
-        print("Unrecognized node:", node)
+        print('Unrecognized node:', node)
 
     @visitor.when(FormNode)
     def visit(self, node):
         for child in node.block:
             child.accept(self)
 
-        print("Found form node: " + node.identifier)
+        print('Found form node: ' + node.identifier)
 
     @visitor.when(IfNode)
     def visit(self, node):
@@ -61,27 +61,26 @@ class ASTVisitor(object):
         if node.answer:
             node.answer.accept(self)
 
-        print("Found node: " + node.label)
+        print('Found node: ' + node.label)
 
     # ExpressionNode will not be initialized directly
     @visitor.when(ExpressionNode)
     def visit(self, node):
-        print("Unrecognized node:", node)
+        print('Unrecognized node:', node)
 
     # BinaryOperatorNode will not be initialized directly
     @visitor.when(BinaryOperatorNode)
     def visit(self, node):
-        print("Unrecognized node:", node)
+        print('Unrecognized node:', node)
 
     # UnaryOperatorNode will not be initialized directly
     @visitor.when(UnaryOperatorNode)
     def visit(self, node):
-        print("Unrecognized node:", node)
+        print('Unrecognized node:', node)
 
     @visitor.when(VariableNode)
     def visit(self, node):
-        print("Variable node.")
-
+        print('Variable node.')
 
     @visitor.when(AdditionOperatorNode)
     def visit(self, node):

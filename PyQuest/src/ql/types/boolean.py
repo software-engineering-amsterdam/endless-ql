@@ -1,12 +1,15 @@
 from ql.types.type import QLType
 from ql.ast.expressions.literals.boolean_node import BooleanNode
-from gui.model.widgets import CheckBox
+from gui.widgets.checkbox import CheckBox
 
 
 class QLBoolean(QLType):
     def __init__(self, value=False):
         super(QLBoolean, self).__init__()
         self.__value = bool(value)
+
+    def __bool__(self):
+        return self.value
 
     def __repr__(self):
         return str(self.value)

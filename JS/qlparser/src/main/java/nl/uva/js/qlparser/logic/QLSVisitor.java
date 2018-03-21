@@ -116,7 +116,7 @@ public class QLSVisitor extends QLSBaseVisitor{
     public DefaultStyle visitDefaultStyle(QLSParser.DefaultStyleContext ctx) {
         return DefaultStyle.builder()
                 .dataType(ctx.dataType().<DataType>accept(this))
-                .widget(ctx.widgetType().getText())
+                .widgetType(ctx.widgetType().<WidgetType>accept(this))
                 .style((WidgetStyle) getOptional(ctx.widgetStyle()))
                 .build();
     }

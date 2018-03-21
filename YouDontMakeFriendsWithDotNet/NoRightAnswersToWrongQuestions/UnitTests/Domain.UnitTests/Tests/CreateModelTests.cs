@@ -135,8 +135,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateIntVariable(@"q1", newValueVariable1);
-            UpdateIntVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -159,8 +159,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateIntVariable(@"q1", newValueVariable1);
-            UpdateIntVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -183,8 +183,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateDecimalVariable(@"q1", newValueVariable1);
-            UpdateDecimalVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -207,8 +207,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateDecimalVariable(@"q1", newValueVariable1);
-            UpdateDecimalVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -232,8 +232,8 @@ namespace UnitTests.Domain.UnitTests.Tests
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateDateVariable(@"q1", newValueVariable1);
-            UpdateDateVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -260,22 +260,8 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .GetAll<IQuestionOutputItem>()
                 .Count(predicate);
         }
-
-        private void UpdateIntVariable(string variableName, int value)
-        {
-            var questionItem = GetQuestionToUpdate(variableName);
-            m_variableUpdater.Update(questionItem, value);
-        }
-
-        private void UpdateDecimalVariable(string variableName, decimal value)
-        {
-            var questionItem = GetQuestionToUpdate(variableName);
-            m_variableUpdater.Update(questionItem, value);
-        }
-
-        private void UpdateDateVariable(
-            string variableName, 
-            DateTime value)
+        
+        private void UpdateVariable(string variableName, dynamic value)
         {
             var questionItem = GetQuestionToUpdate(variableName);
             m_variableUpdater.Update(questionItem, value);
@@ -292,6 +278,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .Where(x => x.QuestionName == variableItem.VariableName)
                 .Select(x => new Reference<IQuestionNode>(x.Id))
                 .FirstOrDefault();
+
             return questionItem;
         }
 

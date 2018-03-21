@@ -14,3 +14,11 @@ class BinaryOperatorNode(ExpressionNode):
     @property
     def right_expression(self):
         return self.__right_expression
+
+    @property
+    def value(self):
+        return self.__value
+
+    @value.setter
+    def value(self, value):
+        self.__value = value

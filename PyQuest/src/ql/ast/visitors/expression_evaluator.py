@@ -17,6 +17,7 @@ from ql.ast.expressions.unary_operators.negative import NegativeOperatorNode
 from ql.ast.expressions.literals.boolean_node import BooleanNode
 from ql.ast.expressions.literals.decimal_node import DecimalNode
 from ql.ast.expressions.literals.integer_node import IntegerNode
+from ql.ast.expressions.literals.date_node import DateNode
 from ql.ast.expressions.literals.money_node import MoneyNode
 
 
@@ -108,6 +109,10 @@ class ExpressionEvaluator:
         self.result = node.value
 
     @when(DecimalNode)
+    def visit(self, node):
+        self.result = node.value
+
+    @when(DateNode)
     def visit(self, node):
         self.result = node.value
 

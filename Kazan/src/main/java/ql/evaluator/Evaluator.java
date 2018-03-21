@@ -9,67 +9,51 @@ import ql.ast.expressions.literals.*;
 import ql.ast.expressions.unary.ArithmeticNegation;
 import ql.ast.expressions.unary.LogicalNegation;
 import ql.ast.statements.*;
-import ql.ast.types.*;
 import ql.ast.visitors.ExpressionVisitor;
 import ql.ast.visitors.FormVisitor;
 import ql.ast.visitors.StatementVisitor;
 import ql.evaluator.values.*;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 
-public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Void> {
+public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Void>, FormEvaluator {
 
-    HashMap<ASTNode, Evaluatable> storedValues;
-    HashMap<String, Question> idLookup;
-    Form form;
+    private HashMap<ASTNode, Evaluatable> storedValues;
+    private HashMap<String, Question> idLookup;
+    private Form form;
 
     public Evaluator() {
         storedValues = new HashMap<>();
         idLookup = new HashMap<>();
     }
 
-    public Evaluatable get(ASTNode varName) {
-        return storedValues.get(varName);
-    }
-
+    @Override
     public void start(Form form) {
         this.form = form;
         visit(form);
     }
 
-    public void update(Question node, String value) {
-        //Recognize whether answers to question match the declared type
+    @Override
+    public void setEvaluatable(String questionId, Evaluatable value) {
+        ASTNode node = idLookup.get(questionId);
+        storedValues.put(node, value);
+    }
 
-        Evaluatable evaluatable = createEvaluatable(node.getType(), value);
-        //Update what value is stored at this node in the current state
-        storedValues.put(node, evaluatable);
+    @Override
+    public void evaluate() {
         visit(form);
     }
 
-    public void update(Question node, boolean value) {
-        //TODO Recognize whether answers to question match the declared type
-
-        EvaluatableBoolean evaluatable = new EvaluatableBoolean(value);
-        storedValues.put(node, evaluatable);
-        visit(form);
+    @Override
+    public List<Question> getQuestions() {
+        return new LinkedList(idLookup.values());
     }
 
-    private Evaluatable createEvaluatable(Type type, String value) {
-        //TODO write switch which creates the right evaluatable implementation (string, int etc)
-        if (type instanceof StringType) {
-            return new EvaluatableString(value);
-        } else if (type instanceof IntegerType) {
-            return new EvaluatableInteger(Integer.parseInt(value));
-        } else if (type instanceof DecimalType) {
-            return new EvaluatableDecimal(Double.parseDouble(value));
-        } else if (type instanceof MoneyType) {
-            return new EvaluatableMoney(new BigDecimal(value));
-        } else if (type instanceof DateType) {
-            return new EvaluatableDate(new Date(value));
-        }
-        return null;
+    @Override
+    public Evaluatable getQuestionValue(String questionId) {
+        Question node = idLookup.get(questionId);
+        return storedValues.get(node);
     }
 
     @Override
@@ -398,4 +382,5 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
         visit(statements);
         return null;
     }
+
 }

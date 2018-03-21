@@ -1,9 +1,13 @@
 package qlviz.gui.renderer.javafx.widgets;
 
 import javafx.scene.Node;
+import javafx.scene.control.Control;
 import qlviz.gui.viewModel.question.QuestionViewModel;
+import qlviz.model.style.PropertySetting;
 
 public interface UIWidget {
-    public Node getNode();
-    public void bindToQuestion(QuestionViewModel questionViewModel);
+    Node getNode();
+    void bindToQuestion(QuestionViewModel questionViewModel);
+    void setProperty(PropertySetting setting);
 }
+

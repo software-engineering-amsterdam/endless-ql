@@ -4,17 +4,16 @@ import QL.classes.Question;
 import QL.classes.values.*;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
-import QL.parsing.visitors.expressions.ExpressionVisitor;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class BlockVisitor extends QLBaseVisitor {
-    private HashMap<String, Question> questionMap;
+    private LinkedHashMap<String, Question> questionMap;
     private ExpressionVisitor expVisitor;
     private TypeVisitor typeVisitor;
     private boolean isVisible;
 
-    public BlockVisitor(HashMap<String, Question> questionMap, boolean isVisible){
+    public BlockVisitor(LinkedHashMap<String, Question> questionMap, boolean isVisible){
         this.questionMap = questionMap;
         this.expVisitor = new ExpressionVisitor(questionMap);
         this.typeVisitor = new TypeVisitor();
@@ -49,7 +48,7 @@ public class BlockVisitor extends QLBaseVisitor {
 
     @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
-        Boolean condition = expVisitor.visitBoolExpression(ctx.booleanExpression());
+        Boolean condition = (Boolean) expVisitor.visitExpression(ctx.expression());
         QLParser.BlockContext ifBlock = ctx.ifBlock;
         QLParser.BlockContext elseBlock = ctx.elseBlock;
         QLParser.IfStatementContext elseIfStatement = ctx.ifStatement();

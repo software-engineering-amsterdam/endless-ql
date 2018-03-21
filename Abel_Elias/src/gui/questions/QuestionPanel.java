@@ -24,14 +24,6 @@ public abstract class QuestionPanel extends JPanel {
 
     public abstract void createControlWidget(String key);
 
-    public void setPanelState(boolean state) {
-        this.isActive = state;
-    }
-
-    public Boolean getState() {
-        return isActive;
-    }
-
     public Question getQuestion() {
         return question;
     }
@@ -43,29 +35,4 @@ public abstract class QuestionPanel extends JPanel {
     public abstract void setValue(Value value);
 
     public abstract void setWidgetFixed ();
-
-
-//
-
-//    private void addQuestionPanelControls(Question question) {
-//        switch(question.getTypeName()) {
-//            case String:
-//                createStringControl();
-//                break;
-//            case Boolean:
-//                createBoolControl();
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//
-//    private void createBoolControl() {
-//        JCheckBox checkBox = new JCheckBox();
-//        checkBox.addActionListener(new FormBuilder.BoolActionListener(key, checkBox));
-//        this.add(checkBox);
-//    }
-//
-//    private void createStringControl() {
-//    }
 }

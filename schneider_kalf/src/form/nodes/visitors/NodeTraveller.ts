@@ -25,6 +25,7 @@ import VisitorCallback from "./VisitorCallback";
 import TreeNode from "../TreeNode";
 import Statement from "../Statement";
 import DateLiteral from "../literals/DateLiteral";
+import FieldNodeDecorator from "../fields/FieldNodeDecorator";
 
 export default class NodeTraveller implements NodeVisitor {
   private post: VisitorCallback;
@@ -156,4 +157,9 @@ export default class NodeTraveller implements NodeVisitor {
     return this.visitPreAndPost(dateLiteral);
   }
 
+  visitFieldDecorator(fieldDecorator: FieldNodeDecorator) {
+    this.pre(fieldDecorator);
+    fieldDecorator.getBaseField().accept(this);
+    this.post(fieldDecorator);
+  }
 }

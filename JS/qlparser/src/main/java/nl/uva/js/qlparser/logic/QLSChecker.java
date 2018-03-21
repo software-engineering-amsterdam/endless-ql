@@ -1,5 +1,6 @@
 package nl.uva.js.qlparser.logic;
 
+import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
 import nl.uva.js.qlparser.models.ql.expressions.form.IfBlock;
@@ -8,6 +9,7 @@ import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.Page;
 import nl.uva.js.qlparser.models.qls.elements.QuestionReference;
 import nl.uva.js.qlparser.models.qls.elements.Section;
+import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 
 import java.util.*;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 public class QLSChecker {
     private ArrayList<String> errors;
 
-    public boolean checkErrors(Form form, Stylesheet stylesheet) throws Exception {
+    public ArrayList<String> checkErrors(Form form, Stylesheet stylesheet) {
         errors.clear();
 
         HashMap<String, Question> questionsByName   = getQuestions(form.getFormExpressions());
@@ -25,7 +27,7 @@ public class QLSChecker {
         checkQuestions(questionsByName.keySet(), questionRefsByName.keySet());
         checkWidgetAssignments(questionsByName, questionRefsByName, stylesheet.getDefaultStyles());
 
-        return true;
+        return errors;
     }
 
     private void checkQuestions(Set<String> questionNames, Set<String> questionReferences) {
@@ -90,6 +92,23 @@ public class QLSChecker {
             HashMap<String, QuestionReference> questionRefs,
             LinkedList<DefaultStyle> defaultStyles
     ) {
+        for (QuestionReference ref : questionRefs.values()) {
+            DataType dataType = questions.get(ref.getName()).getDataType();
+            WidgetType widgetType = ref.getWidgetType();
 
+            if (null != widgetType && !WidgetType.mapDataTypeToWidget.get(dataType).contains(widgetType)) {
+                errors.add("Can not use widget " + widgetType.name().toLowerCase()
+                           + " for question " + ref.getName() + "with data type " + dataType.name().toLowerCase());
+            }
+        }
+
+        for (DefaultStyle def : defaultStyles) {
+            DataType dataType = def.getDataType();
+            WidgetType widgetType = def.getWidgetType();
+            if (!WidgetType.mapDataTypeToWidget.get(dataType).contains(widgetType)) {
+                errors.add("Can not use widget " + widgetType.name().toLowerCase()
+                           + " with data type " + dataType.name().toLowerCase());
+            }
+        }
     }
 }

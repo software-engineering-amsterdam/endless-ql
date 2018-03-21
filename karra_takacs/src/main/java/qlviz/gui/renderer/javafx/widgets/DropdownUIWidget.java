@@ -9,11 +9,11 @@ import qlviz.model.style.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DropdownUIWidget implements UIWidget, QuestionViewModelVisitor, ParameterVisitor {
+public class DropdownUIWidget extends ControlUIWidget<ComboBox<String>> implements QuestionViewModelVisitor, ParameterVisitor {
 
-    private final ComboBox<String> comboBox = new ComboBox<>();
 
     public DropdownUIWidget(List<Parameter> parameters) {
+        this.node = new ComboBox<>();
         for (Parameter parameter : parameters) {
             parameter.accept(this);
         }
@@ -21,7 +21,7 @@ public class DropdownUIWidget implements UIWidget, QuestionViewModelVisitor, Par
 
     @Override
     public Node getNode() {
-        return this.comboBox;
+        return this.node;
     }
 
     @Override
@@ -56,12 +56,12 @@ public class DropdownUIWidget implements UIWidget, QuestionViewModelVisitor, Par
 
     @Override
     public void visit(StringQuestionViewModel stringQuestion) {
-        stringQuestion.valueProperty().bindBidirectional(this.comboBox.valueProperty());
+        stringQuestion.valueProperty().bindBidirectional(this.node.valueProperty());
     }
 
     @Override
     public void visit(StringParameter stringParameter) {
-        this.comboBox.itemsProperty().get().add(stringParameter.getValue());
+        this.node.itemsProperty().get().add(stringParameter.getValue());
     }
 
     @Override

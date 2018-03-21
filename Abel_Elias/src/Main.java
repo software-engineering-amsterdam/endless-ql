@@ -4,6 +4,9 @@ import QL.classes.values.BooleanValue;
 import QL.classes.values.DateValue;
 import QL.classes.values.IntegerValue;
 import QL.classes.values.StringValue;
+import QLS.classes.Stylesheet;
+import QLS.parsing.gen.QLSParser;
+import QLS.parsing.visitors.StylesheetVisitor;
 import gui.FormBuilder;
 import QL.parsing.TreeBuilder;
 import QL.parsing.checkers.Checks;
@@ -21,10 +24,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Main {
-    /**
-     * parse and build the form file
-     */
 
+    // Temp method to create questions
     private HashMap<String, Question> getQuestionTemp() {
         LinkedHashMap<String, Question> questionHashMap = new LinkedHashMap<String, Question>();
         questionHashMap.put("1", new Question("Is this a question?", new BooleanValue(), false, true));
@@ -43,20 +44,40 @@ public class Main {
         }
     }
 
+    /**
+     * parseAndBuild() method
+     * @param inputStream fileInput (Ql)
+     */
     private void parseAndBuild(InputStream inputStream){
         try{
             QLParser.FormContext form = new TreeBuilder().build(inputStream);
-            FormVisitor coreVisitor = new FormVisitor(form);
             Checks.checkForm(form);
-            LinkedHashMap<String, Question> memory = coreVisitor.questionMap;
+            FormVisitor coreVisitor = new FormVisitor(form);
             //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder(coreVisitor, memory);
+            printQuestionMap(coreVisitor.questionMap);
+            FormBuilder formBuilder = new FormBuilder(coreVisitor);
             formBuilder.initComponents();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
+    /**
+     * parseAndBuildQLS() method
+     * @param inputStream fileInput (Qls)
+     */
+    private void parseAndBuildQLS(InputStream inputStream) {
+        try{
+            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(inputStream);
+            StylesheetVisitor stylesheetVisitor = new StylesheetVisitor();
+            Stylesheet stylesheet = stylesheetVisitor.visitStylesheet(stylesheetContext);
+            System.out.println("Stylesheet constructed");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Main method
@@ -68,7 +89,7 @@ public class Main {
                 new Main().parseAndBuild(System.in);
             } else if (args.length == 1) {
                 FileInputStream fileInputStream = new FileInputStream(args[0]);
-                new Main().parseAndBuild(fileInputStream);
+                new Main().parseAndBuildQLS(fileInputStream);
             } else {
                 System.out.println("Invalid arguments were given");
             }

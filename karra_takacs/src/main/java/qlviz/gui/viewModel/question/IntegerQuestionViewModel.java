@@ -22,4 +22,10 @@ public class IntegerQuestionViewModel extends NumericQuestionViewModel {
     public void accept(QuestionViewModelVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public <T> T accept(TypedQuestionViewModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }

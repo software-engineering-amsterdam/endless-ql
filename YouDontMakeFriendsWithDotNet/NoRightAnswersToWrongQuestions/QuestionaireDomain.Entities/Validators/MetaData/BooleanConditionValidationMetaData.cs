@@ -2,7 +2,7 @@
 {
     public class BooleanConditionValidationMetaData : ValidationMetaData
     {
-        public BooleanConditionValidationMetaData() 
+        public BooleanConditionValidationMetaData()
             : base(Severity.Error)
         {
         }

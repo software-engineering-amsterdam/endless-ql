@@ -35,6 +35,12 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLineInBlock(QLSParser.LineInBlockContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QLSParser#question}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestion(QLSParser.QuestionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QLSParser#section}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -52,6 +58,48 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWidget(QLSParser.WidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#widgetType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWidgetType(QLSParser.WidgetTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#checkboxWidget}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCheckboxWidget(QLSParser.CheckboxWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#textWidget}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextWidget(QLSParser.TextWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#radioWidget}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRadioWidget(QLSParser.RadioWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#spinboxWidget}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSpinboxWidget(QLSParser.SpinboxWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#sliderWidget}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSliderWidget(QLSParser.SliderWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#dropdownWidget}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDropdownWidget(QLSParser.DropdownWidgetContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLSParser#widgetStyle}.
 	 * @param ctx the parse tree
@@ -107,47 +155,53 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDecimaltype(QLSParser.DecimaltypeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code sliderwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Visit a parse tree produced by {@link QLSParser#defaultdef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSliderwidget(QLSParser.SliderwidgetContext ctx);
+	T visitDefaultdef(QLSParser.DefaultdefContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code spinboxwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Visit a parse tree produced by {@link QLSParser#blockdefault}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSpinboxwidget(QLSParser.SpinboxwidgetContext ctx);
+	T visitBlockdefault(QLSParser.BlockdefaultContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code checkboxwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Visit a parse tree produced by {@link QLSParser#linedefault}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCheckboxwidget(QLSParser.CheckboxwidgetContext ctx);
+	T visitLinedefault(QLSParser.LinedefaultContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code textwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Visit a parse tree produced by {@link QLSParser#widgetProperty}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTextwidget(QLSParser.TextwidgetContext ctx);
+	T visitWidgetProperty(QLSParser.WidgetPropertyContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code radiowidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Visit a parse tree produced by {@link QLSParser#widthproperty}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRadiowidget(QLSParser.RadiowidgetContext ctx);
+	T visitWidthproperty(QLSParser.WidthpropertyContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code dropdownwidget}
-	 * labeled alternative in {@link QLSParser#widgetType}.
+	 * Visit a parse tree produced by {@link QLSParser#fontproperty}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDropdownwidget(QLSParser.DropdownwidgetContext ctx);
+	T visitFontproperty(QLSParser.FontpropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#fontsizeproperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFontsizeproperty(QLSParser.FontsizepropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#colorproperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitColorproperty(QLSParser.ColorpropertyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLSParser#value}.
 	 * @param ctx the parse tree

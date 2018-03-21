@@ -1,7 +1,7 @@
 from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.decimal_node import DecimalNode
-from gui.model.widgets import DoubleSpinBox
+from gui.widgets.double_spinbox import DoubleSpinBox
 
 
 class QLDecimal(QLType):
@@ -11,6 +11,9 @@ class QLDecimal(QLType):
 
     def __repr__(self):
         return str(self.value)
+
+    def __neg__(self):
+        return QLDecimal(- self.value)
 
     def __eq__(self, other):
         return QLBoolean(self.value == other.value)

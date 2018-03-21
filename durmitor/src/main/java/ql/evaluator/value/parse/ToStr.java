@@ -4,46 +4,49 @@ import ql.ast.expression.literal.BoolLiteral;
 import ql.ast.expression.literal.DateLiteral;
 import ql.ast.expression.literal.DecimalLiteral;
 import ql.ast.expression.literal.IntLiteral;
-import ql.ast.expression.literal.Literal;
 import ql.ast.expression.literal.MoneyLiteral;
 import ql.ast.expression.literal.StrLiteral;
 import ql.ast.expression.literal.UndefinedLiteral;
-import ql.visitors.interfaces.ValueVisitor;
+import ql.ast.type.Str;
 
-public class ToStr implements ValueVisitor {
+public class ToStr extends Convert {
 
+	public ToStr() {
+		target = new Str();
+	}
+	
     @Override
-    public Literal<?> visit(BoolLiteral value) {
+    public StrLiteral visit(BoolLiteral value) {
         return new StrLiteral(String.valueOf(value.getValue()));
     }
 
     @Override
-    public Literal<?> visit(StrLiteral value) {
+    public StrLiteral visit(StrLiteral value) {
         return value;
     }
 
     @Override
-    public Literal<?> visit(IntLiteral value) {
+    public StrLiteral visit(IntLiteral value) {
         return new StrLiteral(String.valueOf(value.getValue()));
     }
 
     @Override
-    public Literal<?> visit(DecimalLiteral value) {
+    public StrLiteral visit(DecimalLiteral value) {
         return new StrLiteral(String.valueOf(value.getValue()));
     }
 
     @Override
-    public Literal<?> visit(MoneyLiteral value) {
+    public StrLiteral visit(MoneyLiteral value) {
         return new StrLiteral(String.valueOf(value.getValue()));
     }
 
     @Override
-    public Literal<?> visit(DateLiteral value) {
+    public StrLiteral visit(DateLiteral value) {
         return new StrLiteral(String.valueOf(value.getValue()));
     }
 
     @Override
-    public Literal<?> visit(UndefinedLiteral value) {
+    public StrLiteral visit(UndefinedLiteral value) {
         return new StrLiteral();
     }
 }

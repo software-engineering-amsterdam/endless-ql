@@ -6,8 +6,9 @@
         public string Label { get; }
         public Type Type { get; }
 
-        protected Question(string id, string label, Type type)
+        protected Question(int lineNumber, string id, string label, Type type)
         {
+            _lineNumber = lineNumber;
             Id = id;
             Label = label;
             Type = type;

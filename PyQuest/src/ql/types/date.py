@@ -1,15 +1,14 @@
 from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
 from ql.ast.expressions.literals.date_node import DateNode
-from gui.model.widgets import CalendarWidget
+from gui.widgets.calendar import CalendarWidget
 
 
 class QLDate(QLType):
-    def __init__(self, day=1, month=1, year=0):
+    def __init__(self, date=(1, 1, 2018)):
         super(QLDate, self).__init__()
-        self.__day = int(day)
-        self.__month = int(month)
-        self.__year = int(year)
+        date = tuple(map(int, date))
+        self.__day, self.__month, self.__year = date
 
     def __repr__(self):
         return '{}-{}-{}'.format(self.day, self.month, self.year)
@@ -47,8 +46,8 @@ class QLDate(QLType):
         return self.__year
 
     @staticmethod
-    def get_literal_node(day=1, month=1, year=0):
-        return DateNode(None, QLDate, QLDate(day, month, year))
+    def get_literal_node(date=(1, 1, 2018)):
+        return DateNode(None, QLDate, QLDate(date))
 
     @staticmethod
     def pyqt5_default_widget():

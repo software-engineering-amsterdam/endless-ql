@@ -1,5 +1,5 @@
 
-
+from .qlast_methods import *
 class Section:
     def __init__(self, name):
         self.name = name
@@ -8,12 +8,33 @@ class Section:
         self.sections = []
         self.varDict = None
 
-    def getDefaults(self, defaultDict):
-        for question in self.questions:
-            question.getDefaults(defaultDict)
-        for default in self.defaults:
-            default.getDefaults(defaultDict)
+    """
+        Typechecker for the defaults, make sure no (type, widgetType) is declared twice on section level
+    """
+    def checkDefaults(self, defaultDict):
+        defaultDict[self.name] = {}
+        
+        # Add defaults recursively to questions
+        sectionDict = {}
+        for section in self.sections:
+            section.checkDefaults(sectionDict)
 
+        questionDict = {}
+        for question in self.questions:
+            question.checkDefaults(questionDict)
+
+        # tmpDict is used to check if the default types are declarated twice, and to eventually
+        # store them in the defaultDict which is used for debugging purposes
+        tmpDict = {}
+        for default in self.defaults:
+            default.checkDefaultsQuestion(tmpDict)
+        defaultDict[self.name]['sectionDefaults'] = tmpDict
+        defaultDict[self.name]['questionDefaults'] = questionDict
+        defaultDict[self.name]['subsectionDefaults'] = sectionDict
+
+    """
+        Defaults are already checked so check the types for the children
+    """
     def checkTypes(self):
         for question in self.questions:
             question.checkTypes()

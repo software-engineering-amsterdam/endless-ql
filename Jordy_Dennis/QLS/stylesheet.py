@@ -11,10 +11,10 @@ class Stylesheet:
         self.name = name
         self.varDict = None
 
-    def getDefaults(self):
+    def checkDefaults(self):
         defaultDict = {}
         for page in self.pages:
-            self.pages[page].getDefaults(defaultDict)
+            self.pages[page].checkDefaults(defaultDict)
         printDict(defaultDict)
 
     def checkTypes(self):

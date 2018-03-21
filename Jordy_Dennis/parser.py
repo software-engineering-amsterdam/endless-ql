@@ -98,8 +98,8 @@ def main(argv):
 
     qlsAST = qlsVisitor.stylesheet
     qlsAST.addVarDict(ast.getVarDict())
-    qlsAST.getDefaults()
-    # qlsAST.checkTypes()
+    qlsAST.checkDefaults()
+    qlsAST.checkTypes()
     
     # print(qlsTree.toStringTree())
 

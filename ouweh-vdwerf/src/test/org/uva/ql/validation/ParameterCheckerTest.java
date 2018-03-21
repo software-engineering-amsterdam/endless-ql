@@ -1,8 +1,6 @@
 package org.uva.ql.validation;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.uva.app.LogHandler;
 import org.uva.ql.ast.CalculatedQuestion;
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.Statement;
@@ -16,23 +14,12 @@ import org.uva.ql.validation.collector.SymbolTable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ParameterCheckerTest {
 
-    private LogHandler logHandler;
-
-    @Before
-    public void setUp() {
-        Logger logger = Logger.getGlobal();
-        LogManager.getLogManager().reset();
-        this.logHandler = new LogHandler();
-        logger.addHandler(logHandler);
-    }
 
     @Test
     public void runCheckEmptySymbolTable() {
@@ -48,9 +35,8 @@ public class ParameterCheckerTest {
         Form form = new Form("form", statements);
 
         ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(form), new ParameterMapping(form).getParameterMapping());
-        parameterChecker.runCheck();
 
-        assertTrue(this.logHandler.hasWarnings());
+        assertTrue(parameterChecker.runCheck().hasErrors());
     }
 
     @Test
@@ -71,6 +57,6 @@ public class ParameterCheckerTest {
         ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterMapping(form).getParameterMapping());
         parameterChecker.runCheck();
 
-        assertFalse(this.logHandler.hasWarnings());
+        assertFalse(parameterChecker.runCheck().hasWarnings());
     }
 }

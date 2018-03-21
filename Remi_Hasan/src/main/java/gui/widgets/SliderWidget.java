@@ -1,36 +1,35 @@
 package gui.widgets;
 
+import javafx.scene.control.Slider;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.Question;
 import ql.model.expression.Expression;
-import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableDecimal;
-import ql.model.expression.variable.ExpressionVariableUndefined;
 
-public class DecimalWidget  extends TextWidget {
+public abstract class SliderWidget extends Slider implements WidgetInterface{
 
-    private final Question question;
+    public final Question question;
+    private final double min;
+    private final double max;
+    private final double step;
 
-    public DecimalWidget(Question question) {
+    public SliderWidget(Question question, double min, double max, double step) {
         this.question = question;
-        this.managedProperty().bind(this.visibleProperty());
-        this.setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*(\\.\\d*)?"));
+        this.min = min;
+        this.max = max;
+        this.step = step;
     }
 
     @Override
     public Expression getExpression() {
-        try{
-            return new ExpressionVariableDecimal(null, Double.parseDouble(getText()));
-        } catch(IllegalArgumentException e){
-            return new ExpressionVariableUndefined(null, ReturnType.DECIMAL);
-        }
+        return new ExpressionVariableDecimal(null, this.getValue());
     }
 
     @Override
     public void setExpression(String value) {
-        this.setText(value);
+        this.setValue(Double.parseDouble(value));
     }
 
     @Override
@@ -44,8 +43,28 @@ public class DecimalWidget  extends TextWidget {
 
     @Override
     public void addNonComputedListener(SymbolTable symbolTable) {
-        this.textProperty().addListener(e -> {
+        this.valueProperty().addListener(e -> {
             symbolTable.setExpression(question.name, getExpression(this, question.type));
         });
+    }
+
+    @Override
+    public void setColor(String color) {
+
+    }
+
+    @Override
+    public void setFont(String font) {
+
+    }
+
+    @Override
+    public void setFontSize(int fontSize) {
+
+    }
+
+    @Override
+    public void setWidth(int width) {
+
     }
 }

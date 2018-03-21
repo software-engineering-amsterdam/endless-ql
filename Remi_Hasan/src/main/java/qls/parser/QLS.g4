@@ -10,18 +10,18 @@ question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
 // followed by one or no widget type
 defaultStyle    : DEFAULT type (widget | '{' styleAttribute* widget? '}');
 
-styleAttribute  : WIDTH ':' INTEGER                                                 # widgetWidth
-                | FONT ':' STRING                                                   # widgetFont
-                | FONTSIZE ':' INTEGER                                              # widgetFontSize
-                | COLOR ':' HEXCOLOR                                                # widgetColor
+styleAttribute  : WIDTH ':' INTEGER                                                     # widgetWidth
+                | FONT ':' STRING                                                       # widgetFont
+                | FONTSIZE ':' INTEGER                                                  # widgetFontSize
+                | COLOR ':' HEXCOLOR                                                    # widgetColor
                 ;
 
-widget          : WIDGET RADIO '(' trueLabel=STRING ',' falseLabel=STRING ')'       # radioWidget
-                | WIDGET DROPDOWN '(' trueLabel=STRING ',' falseLabel=STRING ')'    # dropdownWidget
-                | WIDGET CHECKBOX                                                   # checkBoxWidget
-                | WIDGET SPINBOX                                                    # spinBoxWidget
-                | WIDGET SLIDER                                                     # sliderWidget
-                | WIDGET TEXTBOX                                                    # textBoxWidget
+widget          : WIDGET RADIO '(' trueLabel=STRING ',' falseLabel=STRING ')'           # radioWidget
+                | WIDGET DROPDOWN '(' trueLabel=STRING ',' falseLabel=STRING ')'        # dropdownWidget
+                | WIDGET CHECKBOX                                                       # checkBoxWidget
+                | WIDGET SPINBOX                                                        # spinBoxWidget
+                | WIDGET TEXTBOX                                                        # textBoxWidget
+                | WIDGET SLIDER '(' min=DECIMAL ',' max=DECIMAL ',' step=DECIMAL ')'    # sliderWidget
                 ;
 
 type            : BOOLEANTYPE

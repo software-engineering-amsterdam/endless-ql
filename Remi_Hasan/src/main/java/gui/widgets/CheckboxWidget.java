@@ -2,6 +2,8 @@ package gui.widgets;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
@@ -53,21 +55,21 @@ public class CheckboxWidget extends CheckBox implements WidgetInterface {
 
     @Override
     public void setColor(String color) {
-
+        this.setStyle(this.getStyle() + "-fx-text-inner-color: " + color + ";");
     }
 
     @Override
     public void setFont(String font) {
-
+        // Checkbox has no text, so no action
     }
 
     @Override
     public void setFontSize(int fontSize) {
-
+        // Checkbox has no text, so no action
     }
 
     @Override
     public void setWidth(int width) {
-
+        this.setStyle(this.getStyle() + "-fx-font-size: " + width + ";");
     }
 }

@@ -79,17 +79,20 @@ public class ToolController implements Consumer {
             return;
         }
 
-        this.formNode = qlBuilder.toFormNode(qlSource);
+        ToolBarErrorListener tbErrorListener = new ToolBarErrorListener(lblErrorField);
+
+        this.formNode = qlBuilder.toFormNode(qlSource, tbErrorListener);
 
         String qlsSource = taSourceCodeQLS.getText();
         this.qlsEnabled = !qlsSource.isEmpty();
         if (this.qlsEnabled){
-            Stylesheet ss = qlBuilder.toStylesheet(qlsSource, this.formNode);
+            Stylesheet ss = qlBuilder.toStylesheet(qlsSource, this.formNode, tbErrorListener);
             this.formNode.setStylesheet(ss);
             buildQLS();
+        } else {
+            buildQL();
         }
 
-        buildQL();
         printInfoMessage("Build successful");
     }
 
@@ -116,20 +119,6 @@ public class ToolController implements Consumer {
                 },
                 () -> showAlertBox("Could not read file.")
         );
-    }
-
-    private void generateQLS(String qlsSource){
-        CharStream qlsStream = CharStreams.fromString(qlsSource);
-        StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
-
-        StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
-
-        //qlsParser.setErrorHandler(new BailErrorStrategy());
-        qlsParser.addErrorListener(new ToolBarErrorListener(lblErrorField));
-
-        StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
-        QLSLoader qlsLoader = new QLSLoader(this.formNode);
-        ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
     }
 
     private void buildQL(){

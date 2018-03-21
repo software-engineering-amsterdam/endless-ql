@@ -20,12 +20,11 @@ def main(argv):
 
     static_checker = StaticChecker()
     static_checker.run(ast)
-    messages = MessageHandler().messages
-    print(messages)
+    print(MessageHandler().messages)
 
     symbol_table = SymbolTable()
 
-    GUIVisitor(ast, symbol_table, messages)
+    GUIVisitor(ast, symbol_table, MessageHandler().messages)
 
 
 if __name__ == '__main__':

@@ -5,4 +5,5 @@ public abstract class FormElement extends AstNode {
     FormElement(Integer lineNumber, Integer columnNumber) {
         super(lineNumber, columnNumber);
     }
+
 }

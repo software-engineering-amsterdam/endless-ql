@@ -44,7 +44,7 @@ public class IOHandler {
         return result;
     }
 
-    public void writeOutput(String data) {
-//        JSONObject
+    public void writeOutput(JSONObject jsonObject) {
+        System.out.println(jsonObject);
     }
 }

@@ -57,18 +57,18 @@
     <Compile Include="Ast\Node.cs" />
     <Compile Include="Ast\QuestionNode.cs" />
     <Compile Include="Ast\VariableNode.cs" />
+    <Compile Include="Entities\IValue.cs" />
     <Compile Include="Entities\Scope.cs" />
     <Compile Include="Entities\MemorySystem.cs" />
+    <Compile Include="Factories\IOperatorFactory.cs" />
+    <Compile Include="Factories\IValueFactory.cs" />
     <Compile Include="Infrastructure\InterpretingTask.cs" />
-    <Compile Include="Infrastructure\IPipelineElement.cs" />
     <Compile Include="Infrastructure\ParsingTask.cs" />
-    <Compile Include="Infrastructure\Pipeline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Symbol.cs" />
     <Compile Include="Entities\SymbolTable.cs" />
     <Compile Include="Operators\IOperator.cs" />
-    <Compile Include="Types\QLType.cs" />
-    <Compile Include="Types\Value.cs" />
+    <Compile Include="Entities\QLType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

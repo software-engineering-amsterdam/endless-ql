@@ -6,9 +6,9 @@ import scala.language.implicitConversions
 
 object Logicals {
   trait BooleanAnswerCanDoLogicals extends Logicals[BooleanAnswer] {
-    def and(x: BooleanAnswer, y: BooleanAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ && _))
-    def or(x: BooleanAnswer, y: BooleanAnswer): BooleanAnswer = BooleanAnswer(x.combine(y)(_ || _))
-    def neg(x: BooleanAnswer): BooleanAnswer = BooleanAnswer(x.possibleValue.map(!_))
+    def and(x: BooleanAnswer, y: BooleanAnswer): BooleanAnswer = BooleanAnswer(x.value && y.value)
+    def or(x: BooleanAnswer, y: BooleanAnswer): BooleanAnswer = BooleanAnswer(x.value || y.value)
+    def neg(x: BooleanAnswer): BooleanAnswer = BooleanAnswer(!x.value)
   }
   implicit object BooleanAnswerCanDoLogicals extends BooleanAnswerCanDoLogicals
 }

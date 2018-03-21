@@ -1,35 +1,40 @@
 ﻿using QL.Api.Ast;
 using QL.Api.Entities;
 using QL.Api.Infrastructure;
-using QL.Api.Types;
 using Presentation.ViewModels;
 using QLS.Api.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Presentation.Visitors;
+using Infrastructure;
+using QL.Api.Factories;
 
 namespace Presentation.Controllers
 {
     internal class MainController
     {        
-        private readonly QL.Api.Infrastructure.Pipeline<ParsingTask> _parsingPipeline;
-        private readonly QL.Api.Infrastructure.Pipeline<InterpretingTask> _interpretingPipeline;
-        private readonly QLS.Api.Infrastructure.Pipeline<StylesheetTask> _stylesheetPipeline;
+        private readonly Pipeline<ParsingTask> _parsingPipeline;
+        private readonly Pipeline<InterpretingTask> _interpretingPipeline;
+        private readonly Pipeline<StylesheetTask> _stylesheetPipeline;
 
         private readonly MainViewModel _mainViewModel;
+        private Node _qlAst;
         private MemorySystem _memory;
         private SymbolTable _symbols;
+        private readonly IValueFactory _valueFactory;
 
         public MainController(MainViewModel viewModel,
-                              QL.Api.Infrastructure.Pipeline<ParsingTask> parsingPipeline,
-                              QL.Api.Infrastructure.Pipeline<InterpretingTask> interpretingPipeline,
-                              QLS.Api.Infrastructure.Pipeline<StylesheetTask> stylesheetPipeline)
+                              Pipeline<ParsingTask> parsingPipeline,
+                              Pipeline<InterpretingTask> interpretingPipeline,
+                              Pipeline<StylesheetTask> stylesheetPipeline,
+                              IValueFactory valueFactory)
         {
             _mainViewModel = viewModel;
             _parsingPipeline = parsingPipeline;
             _interpretingPipeline = interpretingPipeline;
             _stylesheetPipeline = stylesheetPipeline;
+            _valueFactory = valueFactory;
 
             viewModel.RebuildQuestionnaireCommand = new RelayCommand<string>(RebuildQuestionnaireCommand_Execute);
         }
@@ -45,9 +50,10 @@ namespace Presentation.Controllers
                 return;
             }
             _symbols = parsingTask.SymbolTable;
-            _mainViewModel.QuestionnaireValidation = "Validation succeeded! Enjoy your questionnaire";
-
+            _qlAst = parsingTask.Ast;
             _memory = new MemorySystem();
+            _mainViewModel.QuestionnaireValidation = "Validation succeeded! Enjoy your questionnaire.";
+            
             RebuildQuestionnaire(parsingTask.Ast);
         }
 
@@ -55,22 +61,21 @@ namespace Presentation.Controllers
         {
             var questionViewModel = target as QuestionViewModel;
 
-            Value memoryValue;
+            IValue memoryValue;
             if(!_memory.TryRetrieveValue(questionViewModel.Id, out memoryValue))
             {
-                memoryValue = new Value(_symbols[questionViewModel.Id].Type);
+                memoryValue = _valueFactory.CreateDefaultValue(_symbols[questionViewModel.Id].Type);
             }
-            _memory.AssignValue(questionViewModel.Id, new Value(questionViewModel.Value, memoryValue.Type));
-            
-            // TODO: Why rebuild the ast all the time, perhaps replace the parsing pipeline here with interpreting pipeline
-            var parsingTask = _parsingPipeline.Process(new ParsingTask(_mainViewModel.QuestionnaireInput));
-            RebuildQuestionnaire(parsingTask.Ast);
+            _memory.AssignValue(questionViewModel.Id, _valueFactory.CreateValue(questionViewModel.Value, memoryValue.GetType()));                        
+            RebuildQuestionnaire(_qlAst);
         }
 
-        private void RebuildQuestionnaire(Node ast)
+        private void RebuildQuestionnaire(Node evaluatedAst)
         {
-            _mainViewModel.Form = CreateFormViewModelFromQL(ast);
-            _mainViewModel.Form.Pages = CreatePagesFromStylesheet();
+            int selectedPage = _mainViewModel.Form.Pages?.SelectedPage ?? 0;
+
+            _mainViewModel.Form = CreateFormViewModelFromQL(evaluatedAst);            
+            _mainViewModel.Form.Pages = CreatePagesFromStylesheet(selectedPage);            
         }
 
         private FormViewModel CreateFormViewModelFromQL(Node ast)
@@ -85,7 +90,7 @@ namespace Presentation.Controllers
             return form;
         }
 
-        private PagesViewModel CreatePagesFromStylesheet()
+        private PagesViewModel CreatePagesFromStylesheet(int selectedPage)
         {
             IReadOnlyList<QuestionViewModel> questionViewModels = _mainViewModel.Form.Questions.ToList();
             var stylesheetTask = new StylesheetTask(_mainViewModel.StylesheetInput, questionViewModels.Select(x => x.Id).ToList());
@@ -93,6 +98,8 @@ namespace Presentation.Controllers
 
             var stylesheetVisitor = new StylesheetVisitor(questionViewModels);
             processedStylesheet.Ast.Accept(stylesheetVisitor);
+            stylesheetVisitor.PagesViewModel.SelectedPage = selectedPage;
+
             return stylesheetVisitor.PagesViewModel;
         }
     }

@@ -7,7 +7,7 @@ public abstract class AstNode {
 	private CodeReference location;
 
 	public AstNode() {
-		this.location = null;
+		location = null;
 	}
 
 	public AstNode(CodeReference location) {
@@ -15,7 +15,7 @@ public abstract class AstNode {
 	}
 	
 	public CodeReference getLocation() {
-		return this.location;
+		return location;
 	}
 	
 	public void setLocation(CodeReference location) {

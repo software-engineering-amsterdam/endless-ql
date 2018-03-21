@@ -8,7 +8,7 @@ public class DefaultStyleStatement extends DefaultStatement {
     private Type type;
     private Style style;
 
-    public DefaultStyleStatement(Type type, Style style){
+    public DefaultStyleStatement(Type type, Style style) {
         this.type = type;
         this.style = style;
     }

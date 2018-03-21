@@ -1,21 +1,26 @@
 package nl.uva.js.qlparser.ui.components.gui;
 
-import nl.uva.js.qlparser.models.expressions.Form;
+import nl.uva.js.qlparser.models.ql.expressions.Form;
+import nl.uva.js.qlparser.models.qls.Stylesheet;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
+import java.util.LinkedList;
 
 public class FormPanel extends JPanel {
 
     private final JPanel formContent;
+    private LinkedList<Component> components;
 
     public FormPanel(Form form, int viewHeight, int formWidth, int formHeight){
         formContent = new JPanel();
         formContent.setPreferredSize(new Dimension(formWidth, formHeight));
         formContent.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        form.getComponents().forEach(formContent::add);
+        // Initial setup
+        components = new LinkedList<>();
+        components.addAll(form.getComponents());
+        components.forEach(formContent::add);
 
         int panelHeight = viewHeight - 5;
 
@@ -30,11 +35,21 @@ public class FormPanel extends JPanel {
         this.add(scrollPane);
     }
 
-    public void reload(Form form) {
+    public void apply(Form form) {
         formContent.removeAll();
+        components.clear();
 
-        List<Component> components = form.getComponents();
+        components = form.getComponents();
         components.forEach(formContent::add);
+
+        formContent.revalidate();
+        formContent.repaint();
+    }
+
+    public void apply(Stylesheet stylesheet) {
+        LinkedList<Component> styledComponents;
+
+//        components.forEach(formContent::add);
 
         formContent.revalidate();
         formContent.repaint();

@@ -10,6 +10,12 @@ import ql.model.expression.unary.ExpressionUnaryNeg;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
@@ -119,7 +125,10 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitDateConstant(QLParser.DateConstantContext ctx) {
-        return new ExpressionVariableDate(ctx.getStart(), ctx.getText());
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date = LocalDate.parse(ctx.getText(), dateFormatter);
+
+        return new ExpressionVariableDate(ctx.getStart(), date);
     }
 
     @Override

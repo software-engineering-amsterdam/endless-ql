@@ -3,41 +3,32 @@ package org.uva.jomi.ui.interpreter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.uva.jomi.ql.ast.expressions.AdditionExpr;
-import org.uva.jomi.ql.ast.expressions.AndExpr;
-import org.uva.jomi.ql.ast.expressions.BooleanExpr;
-import org.uva.jomi.ql.ast.expressions.DivisionExpr;
-import org.uva.jomi.ql.ast.expressions.EqualExpr;
-import org.uva.jomi.ql.ast.expressions.Expr;
-import org.uva.jomi.ql.ast.expressions.GreaterThanExpr;
-import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpr;
-import org.uva.jomi.ql.ast.expressions.GroupingExpr;
-import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
-import org.uva.jomi.ql.ast.expressions.IntegerExpr;
-import org.uva.jomi.ql.ast.expressions.LessThanExpr;
-import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpr;
-import org.uva.jomi.ql.ast.expressions.MultiplicationExpr;
-import org.uva.jomi.ql.ast.expressions.NotEqualExpr;
-import org.uva.jomi.ql.ast.expressions.OrExpr;
-import org.uva.jomi.ql.ast.expressions.StringExpr;
-import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
-import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
-import org.uva.jomi.ql.ast.statements.BlockStmt;
-import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.FormStmt;
-import org.uva.jomi.ql.ast.statements.IfElseStmt;
-import org.uva.jomi.ql.ast.statements.IfStmt;
-import org.uva.jomi.ql.ast.statements.QuestionStmt;
-import org.uva.jomi.ql.ast.statements.Stmt;
-import org.uva.jomi.ql.ast.statements.Stmt.Visitor;
-import org.uva.jomi.ui.interpreter.value.GenericValue;
+import org.uva.jomi.ql.ast.expressions.AdditionExpression;
+import org.uva.jomi.ql.ast.expressions.AndExpression;
+import org.uva.jomi.ql.ast.expressions.BooleanExpression;
+import org.uva.jomi.ql.ast.expressions.DivisionExpression;
+import org.uva.jomi.ql.ast.expressions.EqualExpression;
+import org.uva.jomi.ql.ast.expressions.Expression;
+import org.uva.jomi.ql.ast.expressions.GreaterThanExpression;
+import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpression;
+import org.uva.jomi.ql.ast.expressions.GroupingExpression;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
+import org.uva.jomi.ql.ast.expressions.IntegerExpression;
+import org.uva.jomi.ql.ast.expressions.LessThanExpression;
+import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpression;
+import org.uva.jomi.ql.ast.expressions.MultiplicationExpression;
+import org.uva.jomi.ql.ast.expressions.NotEqualExpression;
+import org.uva.jomi.ql.ast.expressions.OrExpression;
+import org.uva.jomi.ql.ast.expressions.StringExpression;
+import org.uva.jomi.ql.ast.expressions.SubtractionExpression;
+import org.uva.jomi.ql.ast.expressions.UnaryNotExpression;
 
-public class IdentifierFinder implements Expr.Visitor<List<String>> {
+public class IdentifierFinder implements Expression.Visitor<List<String>> {
 
-	public List<String> find(Expr expr) {
+	public List<String> find(Expression expr) {
 		return expr.accept(this);
 	}
-	
+
 	/*
 	@Override
 	public List<String> visit(FormStmt stmt) {
@@ -78,100 +69,100 @@ public class IdentifierFinder implements Expr.Visitor<List<String>> {
 		return this.combineIdentifiers(identifiers, stmt.getElseBlockStmt().accept(this));
 	}
 	*/
-	
-	
+
+
 	@Override
-	public List<String> visit(IdentifierExpr expr) {
+	public List<String> visit(IdentifierExpression expr) {
 		List<String> identifiers =  new ArrayList<String>();
 		identifiers.add(expr.getName());
 		return identifiers;
 	}
 
 	@Override
-	public List<String> visit(GroupingExpr expr) {
-		return expr.visitInnerExpr(this);
+	public List<String> visit(GroupingExpression expr) {
+		return expr.visitInnerExpression(this);
 	}
 
 	@Override
-	public List<String> visit(AdditionExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(AdditionExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(SubtractionExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(SubtractionExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(MultiplicationExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(MultiplicationExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(DivisionExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(DivisionExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(LessThanExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(LessThanExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(LessThanOrEqualExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(LessThanOrEqualExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(GreaterThanExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(GreaterThanExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(GreaterThanOrEqualExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(GreaterThanOrEqualExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(NotEqualExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(NotEqualExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(EqualExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(EqualExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(AndExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(AndExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(OrExpr expr) {
-		return this.combineIdentifiers(expr.visitLeftExpr(this), expr.visitRightExpr(this));
+	public List<String> visit(OrExpression expr) {
+		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(UnaryNotExpr expr) {
+	public List<String> visit(UnaryNotExpression expr) {
 		return expr.accept(this);
 	}
 
 	@Override
-	public List<String> visit(IntegerExpr expr) {
+	public List<String> visit(IntegerExpression expr) {
 		return new ArrayList<String>();
 	}
 
 	@Override
-	public List<String> visit(StringExpr expr) {
+	public List<String> visit(StringExpression expr) {
 		return new ArrayList<String>();
 	}
 
 	@Override
-	public List<String> visit(BooleanExpr expr) {
+	public List<String> visit(BooleanExpression expr) {
 		return new ArrayList<String>();
 	}
-	
+
 	private List<String> combineIdentifiers(List<String>firstList, List<String>secondList) {
 		for(String identifier : secondList) {
 			firstList.add(identifier);

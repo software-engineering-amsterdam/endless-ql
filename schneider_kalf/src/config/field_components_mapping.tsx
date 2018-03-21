@@ -3,6 +3,7 @@ import { MoneyField } from "../rendering/components/field/MoneyField";
 import { TextField } from "../rendering/components/field/TextField";
 import { FieldType } from "../form/FieldType";
 import { NumberField } from "../rendering/components/field/NumberField";
+import { DateField } from "../rendering/components/field/DateField";
 
 export const fieldComponentsMapping: { type: FieldType, component: any }[] = [
   {
@@ -22,11 +23,11 @@ export const fieldComponentsMapping: { type: FieldType, component: any }[] = [
     component: NumberField
   },
   {
-    type: FieldType.Float,
+    type: FieldType.Decimal,
     component: NumberField
   },
   {
     type: FieldType.Date,
-    component: TextField
+    component: DateField
   }
 ];

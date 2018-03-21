@@ -1,7 +1,7 @@
 package ql.gui.fields;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
@@ -32,8 +32,8 @@ public class DateSpinnerField extends JSpinner {
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                LocalDate localDate = (LocalDate) ((JSpinner) e.getSource()).getValue();
-                id.setValue(new DateLiteral(localDate));
+                Date value = (Date) ((JSpinner) e.getSource()).getValue();
+                id.setValue(new DateLiteral(value));
             }
         });
     }

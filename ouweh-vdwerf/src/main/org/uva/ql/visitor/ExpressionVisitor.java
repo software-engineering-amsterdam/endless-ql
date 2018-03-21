@@ -1,6 +1,5 @@
 package org.uva.ql.visitor;
 
-import org.uva.ql.ast.expression.ParameterGroup;
 import org.uva.ql.ast.expression.binary.*;
 import org.uva.ql.ast.expression.unary.*;
 
@@ -29,9 +28,6 @@ public interface ExpressionVisitor<T, C> {
     T visit(Or or, C context);
 
     T visit(And and, C context);
-
-
-    T visit(ParameterGroup parameterGroup, C context);
 
     T visit(Parameter parameter, C Context);
 

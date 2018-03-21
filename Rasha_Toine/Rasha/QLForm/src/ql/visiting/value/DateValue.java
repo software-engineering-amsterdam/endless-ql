@@ -1,5 +1,8 @@
 package ql.visiting.value;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateValue extends AbstractValue {
@@ -63,7 +66,6 @@ public class DateValue extends AbstractValue {
 		return val.lEq(this);
 	}
 	
-	
 	@Override
 	public BooleanValue eq(Value val) {
 		return val.eq(this);
@@ -73,7 +75,11 @@ public class DateValue extends AbstractValue {
 		return val.eq(this);
 	}
 	
-
+	@Override
+	public BooleanValue eq(DecimalValue val) {
+		return throwException();
+	}
+	
 	@Override
 	public Value add(Value val) {
 		return throwException();
@@ -142,16 +148,20 @@ public class DateValue extends AbstractValue {
 
 
 	@Override
-	public BooleanValue eq(DecimalValue val) {
+	public BooleanValue eq(MoneyValue val) {
 		return throwException();
 	}
 	
 	@Override
 	public Value translate(String str) {
-		if (Date.parse(str) != 0) 
-			return new DateValue(new Date(str));
-		else 
-			throw new IllegalArgumentException(str);
+		DateFormat format = new SimpleDateFormat("dd-mm-yyyy");
+		Date date = null;
+		try {
+			date = format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return new DateValue(date);
 	}
 
 	

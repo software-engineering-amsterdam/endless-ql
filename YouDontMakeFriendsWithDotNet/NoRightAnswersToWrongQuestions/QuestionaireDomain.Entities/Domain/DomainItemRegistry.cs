@@ -36,5 +36,13 @@ namespace QuestionnaireDomain.Entities.Domain
         {
             Registry.Clear();
         }
+
+        public void Delete<T>(Reference<T> domainItem) where T : IDomainItem
+        {
+            if (Registry.ContainsKey(domainItem.Id))
+            {
+                Registry.Remove(domainItem.Id);
+            }
+        }
     }
 }

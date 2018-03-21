@@ -1,16 +1,17 @@
 import IfCondition from "../nodes/conditions/IfCondition";
 import FormNode from "../nodes/FormNode";
 import ComputedField from "../nodes/fields/ComputedField";
-import Question from "../nodes/fields/Question";
+import QuestionNode from "../nodes/fields/QuestionNode";
 import FormState from "../state/FormState";
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
 import Form from "../Form";
+import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
 export default class VisibleFieldsVisitor implements FieldVisitor {
   private _visibleFields: Set<string> = new Set();
   private readonly _state: FormState;
 
-  static run(form: Form): Set<String> {
+  static run(form: Form): Set<string> {
     const visitor = new VisibleFieldsVisitor(form.getState());
     return form.accept(visitor);
   }
@@ -28,7 +29,7 @@ export default class VisibleFieldsVisitor implements FieldVisitor {
     return this._visibleFields;
   }
 
-  visitQuestion(question: Question): any {
+  visitQuestion(question: QuestionNode): any {
     this._visibleFields.add(question.identifier);
     return this._visibleFields;
   }
@@ -41,5 +42,9 @@ export default class VisibleFieldsVisitor implements FieldVisitor {
   visitForm(form: FormNode): any {
     form.statements.forEach(statement => statement.accept(this));
     return this._visibleFields;
+  }
+
+  visitFieldDecorator(fieldDecorator: FieldNodeDecorator) {
+    return fieldDecorator.getBaseField().accept(this);
   }
 }

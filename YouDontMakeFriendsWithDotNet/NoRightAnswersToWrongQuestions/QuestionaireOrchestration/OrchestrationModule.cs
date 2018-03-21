@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using QuestionaireOrchestration.API;
-using QuestionaireOrchestration.CommandHandlers;
-using QuestionaireOrchestration.Visitors;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.CommandHandlers;
+using QuestionnaireOrchestration.Commands;
+using QuestionnaireOrchestration.Models;
+using QuestionnaireOrchestration.QueryServices;
+using QuestionnaireOrchestration.QueryServices.Interfaces;
 
-namespace QuestionaireOrchestration
+namespace QuestionnaireOrchestration
 {
     public class OrchestrationModule : IHasRegistrations
     {
@@ -13,22 +15,35 @@ namespace QuestionaireOrchestration
             appRegistration.AddTransient(
                 typeof(ICommandHandler<CreateQuestionnaireCommandMessage>), 
                 typeof(ParseTextCommandHandler));
+
             appRegistration.AddTransient(
-                typeof(ICommandHandler<LoadQuestionnaireDefinitionsCommand>),
-                typeof(LoadQuestionnaireDefinitionsCommandHandler));
+                typeof(ICommandHandler<LoadDefinitionsFromFileCommand>),
+                typeof(LoadDefinitionsFromFileCommandHandler));
+
             appRegistration.AddTransient(
-                typeof(IQuestionnairePrinter), 
-                typeof(QuestionnairePrinter));
+                typeof(ICommandHandler<CreateDefinitionFromTextCommand>),
+                typeof(CreateDefinitionFromTextCommandHandler));
+
             appRegistration.AddTransient(
-                typeof(IBooleanLogicPrinter), 
-                typeof(BooleanLogicPrinter));
-            appRegistration.AddTransient(
-                typeof(ICommandHandler<CreateQuestionnaireCommandMessage>), 
+                typeof(ICommandHandler<CreateQuestionnaireCommandMessage>),
                 typeof(ParseTextCommandHandler));
 
             appRegistration.AddTransient(
-                typeof(IQuestionnaireQueryService),
-                typeof(QuestionnaireQueryService));
+                typeof(ICommandHandler<UpdateValuesCommand>),
+                typeof(UpdateValuesCommandHandler));
+
+            appRegistration.AddTransient(
+                typeof(IModelQueryService<QuestionnaireDefinitionModel>),
+                typeof(QuestionnaireDefintionQueryService));
+
+            appRegistration.AddTransient(
+                typeof(IQuestionnaireOutputModelQueryService),
+                typeof(QuestionnaireOutputModelQueryService));
+
+            appRegistration.AddTransient(
+                typeof(IQuestionOutputModelQueryService),
+                typeof(QuestionOutputModelQueryService));
+
         }
     }
 }   

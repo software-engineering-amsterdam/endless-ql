@@ -8,10 +8,32 @@ export default abstract class AbstractStyleNode implements StyleTreeNode {
     return this.parent;
   }
 
+  getParents(): StyleTreeNode[] {
+    const parents: StyleTreeNode[] = [];
+    let parent: StyleTreeNode | null = this.parent;
+
+    // Can it actually be null? got error that stylesheet parent is undefined
+    while (parent !== null) {
+
+      // TODO: Refactor so this isn't needed
+      if (parent === undefined) {
+        break;
+      }
+
+      parents.push(parent);
+      parent = parent.getParent();
+    }
+
+    return parents;
+  }
+
   setParent(parent: StyleTreeNode): void {
     this.parent = parent;
   }
 
-  abstract accept(visitor: StyleNodeVisitor);
+  getNearestParent(test: (node: StyleTreeNode) => boolean): StyleTreeNode | undefined | any {
+    return this.getParents().reverse().find(test);
+  }
 
+  abstract accept(visitor: StyleNodeVisitor);
 }

@@ -1,42 +1,41 @@
 package qls.visitor;
 
-import qls.parser.QLSBaseVisitor;
+import qls.model.DefaultStyle;
+import qls.model.Question;
+import qls.model.Section;
 import qls.parser.QLSParser;
-import ql.model.stylesheet.Default;
-import ql.model.stylesheet.Section;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisitorSection extends QLSBaseVisitor<Section> {
+public class VisitorSection extends VisitorBlock<Section> {
 
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
-        VisitorDefault visitorDefault = new VisitorDefault();
-        VisitorSection visitorSection = new VisitorSection();
-
         String identifier = ctx.STRING().getText();
-        // Strip quotes
+
+        // Strip quotes surrounding string
         identifier = identifier.substring(1, identifier.length() - 1);
 
-        // Visit subsections
-        List<Section> sections = new ArrayList<>();
-        if (ctx.section() != null) {
-            for (QLSParser.SectionContext sectionContext : ctx.section()) {
-                Section section = visitorSection.visitSection(sectionContext);
-                sections.add(section);
-            }
+        List<Section> sections = this.getSections(ctx.section());
+        List<Question> questions = getQuestions(ctx.question());
+        List<DefaultStyle> defaultStyles = getDefaults(ctx.defaultStyle());
+
+        return new Section(ctx.getStart(), identifier, sections, questions, defaultStyles);
+    }
+
+    private List<Question> getQuestions(List<QLSParser.QuestionContext> questionContexts) {
+        List<Question> questions = new ArrayList<>();
+        if (questionContexts == null) {
+            return questions;
         }
 
-        // Visit defaults
-        List<Default> defaults = new ArrayList<>();
-        if (ctx.default_() != null) {
-            for (QLSParser.Default_Context default_context : ctx.default_()) {
-                Default default_ = visitorDefault.visitDefault_(default_context);
-                defaults.add(default_);
-            }
+        VisitorQuestion visitorQuestion = new VisitorQuestion();
+        for (QLSParser.QuestionContext questionContext : questionContexts) {
+            Question question = visitorQuestion.visitQuestion(questionContext);
+            questions.add(question);
         }
 
-        return new Section(identifier, sections, defaults);
+        return questions;
     }
 }

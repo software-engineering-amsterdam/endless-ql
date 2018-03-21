@@ -24,8 +24,9 @@ import NodeVisitor from "../nodes/visitors/NodeVisitor";
 import FormNode from "../nodes/FormNode";
 import IfCondition from "../nodes/conditions/IfCondition";
 import ComputedField from "../nodes/fields/ComputedField";
-import Question from "../nodes/fields/Question";
+import QuestionNode from "../nodes/fields/QuestionNode";
 import DateLiteral from "../nodes/literals/DateLiteral";
+import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
 export class TypeCheckVisitor implements NodeVisitor {
   private _variables: VariablesInformation;
@@ -52,7 +53,7 @@ export class TypeCheckVisitor implements NodeVisitor {
     return assertFieldType(formulaType, computedField.type);
   }
 
-  visitQuestion(question: Question) {
+  visitQuestion(question: QuestionNode) {
     return question.type;
   }
 
@@ -61,13 +62,7 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitNumberLiteral(literal: NumberLiteral): any {
-    // TODO: Replace this simple integer check with solution in parser, differentiate between 10 and 10.0
-    // TODO: Allow money and date literal
-    if (Math.round(literal.getValue()) === literal.getValue()) {
-      return FieldType.Integer;
-    }
-
-    return FieldType.Float;
+    return literal.getType();
   }
 
   visitMultiplication(multiplication: Multiplication): any {
@@ -101,7 +96,7 @@ export class TypeCheckVisitor implements NodeVisitor {
     const rightType = assertNumericFieldType(division.right.accept(this));
 
     if (leftType === FieldType.Money && rightType === FieldType.Money) {
-      return FieldType.Float;
+      return FieldType.Decimal;
     }
 
     return getCommonNumericFieldType(leftType, rightType);
@@ -145,6 +140,10 @@ export class TypeCheckVisitor implements NodeVisitor {
 
   visitDateLiteral(dateLiteral: DateLiteral): any {
     return FieldType.Date;
+  }
+
+  visitFieldDecorator(fieldDecorator: FieldNodeDecorator) {
+    return fieldDecorator.getBaseField().accept(this);
   }
 
   private visitBooleanOperator(operator: BinaryOperator): FieldType {

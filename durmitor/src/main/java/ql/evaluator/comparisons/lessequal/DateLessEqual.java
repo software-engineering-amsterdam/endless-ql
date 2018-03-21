@@ -43,8 +43,8 @@ public class DateLessEqual extends AbstractEvaluator<DateLiteral> {
 
     @Override
     public Literal<?> visit(DateLiteral secondOperand) {
-        boolean isLessEqual =   firstOperand.getValue().isBefore(secondOperand.getValue()) ||
-                                firstOperand.getValue().isEqual(secondOperand.getValue());
+        boolean isLessEqual =   firstOperand.getValue().before(secondOperand.getValue()) ||
+                                firstOperand.getValue().equals(secondOperand.getValue());
         return new BoolLiteral(isLessEqual);
     }
 

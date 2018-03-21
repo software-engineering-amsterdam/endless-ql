@@ -1,0 +1,19 @@
+Voorbeeld gebruik van FormVisitor:
+
+QLParser.FormContext form = new TreeBuilder().build(inputStream);
+
+// 1. Form visitor wordt aangemaakt en de eerste questions worden uitgelezen
+FormVisitor coreVisitor = new FormVisitor(form)
+
+// 2. questionMap wordt uit de FormVisitor object gehaald (deze is public en moet worden opgeslagen in de gui controller)
+HashMap<String, Question> memory = coreVisitor.questionMap;
+
+// 3. GUI-listeners maken changes aan de questions die in de questionMap staan (bijvoorbeeld: user drukt op checkbox -> question value wordt true)
+
+// 4. Roep coreVisitor.update() aan om de visibilities en waardes van de question te updaten na de changes
+
+// 5. Ga door de questions heen en laat alleen die zien die visible zijn (question.isVisible())
+
+
+
+// 6. Herhaal vanaf stap 3

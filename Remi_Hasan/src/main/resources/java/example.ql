@@ -1,11 +1,23 @@
-/* This is some comment*/
-/* TODO come up with cases with conditions where some value is undefined, duplicate variables or nonexistent variables in conditions */
-form taxOfficeExample {
-    "Q1: Give me the word 'hello'?" someString: string
-    if(someString == "hello") {
-        "Q4: You can only answer this question if you Q1 equals 1 and Q2 equals 'hello'" someBoolean3: decimal
-    } else {
-        "Q4: You can only answer this question if you Q1 equals 1 and Q2 equals 'hello'" someBoolean3: decimal
-    }
-    "Q6: You can only answer this question if you answered Q5 > 5" someBoolean4: integer = someBoolean3
+// Tax form example provided by Vadim Zaytsev
+
+form taxOfficeExample
+{
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+  "Did you buy a house in 2010?"
+    hasBoughtHouse: boolean
+  "Did you enter a loan?"
+    hasMaintLoan: boolean
+
+  if (hasSoldHouse)
+  {
+    "What was the selling price?"
+      sellingPrice: money
+    "Private debts for the sold house:"
+      privateDebt: money
+    "Value residue:"
+      valueResidue: money =
+        (sellingPrice - privateDebt)
+  }
+
 }

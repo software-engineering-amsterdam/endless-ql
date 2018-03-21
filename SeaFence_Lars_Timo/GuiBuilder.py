@@ -1,3 +1,5 @@
+# Lars Lokhoff, Timo Dobber
+# This class holds all functions related to building the gui according to the AST
 from Gui import Gui
 from QLast import *
 import operator as op
@@ -10,121 +12,133 @@ class GuiBuilder():
         self.form_name = ast.name
 
         self.values = []
-        self.trueExpressions = {}
-        self.submitButtonShown = False
+        self.frames = {}
+        self.frame_order = []
+        self.frame_counter = 0
 
-        self.labels = {}
-        self.textBoxes = {}
-        self.yesNoButtons = {}
-        self.yesNoButtonsValues = {}
         self.parseStatements(ast)
 
-    def parseStatements(self, form, setSubmitButton=True):
+    # Update the form if a value in the form has changed
+    def updateForm(self, name='', index='', mode=''):
+        self.frame_counter = 0
+        self.parseStatements(self.ast)
+
+    # Walk the AST and render gui items
+    def parseStatements(self, form):  
         for statement in form.statements:
+            nodeType = statement.returnNodeType()
+            print nodeType
             if type(statement) is QuestionNode:
+                self.checkWidgetPosition(statement.var)
                 self.parseQuestion(statement)
 
             elif type(statement) is AssignmentNode:
+                self.checkWidgetPosition(statement.var)
                 self.parseAssignment(statement)
 
             elif type(statement) is IfNode:
-                potentiallyShowIfElifElseBlock = True
-                if self.checkExpressionValues(statement.expression): 
-                    potentiallyShowIfElifElseBlock = False
-                    if statement.expression not in self.trueExpressions:
-                        self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
-                    self.parseStatements(statement, False)
-                elif not self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
-                    self.removeIfBlock(statement.expression, statement.statements)
+                if self.checkExpressionvalues(statement.expression):
+                    condional_shown = True
+                    self.parseStatements(statement)
                 else:
-                    continue
+                    condional_shown = False
 
-            elif type(statement) is ElifNode and potentiallyShowIfElifElseBlock:
-                if self.checkExpressionValues(statement.expression):
-                    potentiallyShowIfElifElseBlock = False
-                    if statement.expression not in self.trueExpressions:
-                        self.trueExpressions[statement.expression] = self.gui.setCurrentStatementFrame()
-                    self.parseStatements(statement, False)
-                elif not self.checkExpressionValues(statement.expression) and statement.expression in self.trueExpressions:
-                    self.removeIfBlock(statement.expression, statement.statements)
+            elif type(statement) is ElifNode and not condional_shown:
+                if self.checkExpressionvalues(statement.expression):
+                    condional_shown = True
+                    self.parseStatements(statement)
+                else:
+                    condional_shown = False
 
-            elif type(statement) is ElseNode and potentiallyShowIfElifElseBlock:
-                if len(statement.statements) > 0:
-                    if statement.statements[0].var not in self.trueExpressions:
-                            self.trueExpressions[statement.statements[0].var] = self.gui.setCurrentStatementFrame()
-                    self.parseStatements(statement, False)
+            elif type(statement) is ElseNode and not condional_shown:
+                self.parseStatements(statement)
 
-            elif type(statement) is ElseNode and not potentiallyShowIfElifElseBlock:
-                if len(statement.statements) > 0 and statement.statements[0].var in self.trueExpressions:
-                    self.removeIfBlock(statement.statements[0].var, statement.statements)
+    def checkWidgetPosition(self, var):
+        if len(self.frame_order) > 0  and self.frame_counter < len(self.frame_order) and self.frame_order[self.frame_counter] is not var:
+            self.removeFrames(self.frame_order[self.frame_counter:])
+            self.frame_order = self.frame_order[:self.frame_counter]
 
-        if setSubmitButton:
-            self.gui.addFormButton(self.reEvaluateForm, self.ast)
-            self.submitButtonShown = True
-
-    def reEvaluateForm(self, form, submitButton):
-        submitButton.destroy()
-        self.parseStatements(form)
-
+    # Parse a question statement and render it
     def parseQuestion(self, statement):
-        # print statement
-        if statement.vartype == "boolean" and statement.var not in self.values:
-            self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes")
-            self.values.append(statement.var)
-        elif statement.vartype == "int" and statement.var not in self.values:
-            self.gui.addIntQuestion(statement.var, statement.question)
-            self.values.append(statement.var)
+        if statement.var not in self.frames:
+            if statement.vartype == "boolean":
+                if statement.var not in self.values:        
+                    self.frames[statement.var] = self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes", self.updateForm)
+                    self.values.append(statement.var)
+                else:
+                    self.frames[statement.var] = self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes", self.updateForm, self.gui.values[statement.var])
 
+                self.frame_order.append(statement.var)
+
+            elif statement.vartype == "int":
+                if statement.var not in self.values:        
+                    self.frames[statement.var] = self.gui.addIntQuestion(statement.var, statement.question, self.updateForm)
+                    self.values.append(statement.var)
+                else:
+                    self.frames[statement.var] = self.gui.addIntQuestion(statement.var, statement.question, self.updateForm, self.gui.values[statement.var])
+                
+                self.frame_order.append(statement.var)
+
+        self.frame_counter += 1
+
+    # Parse an assignment and render it according to filled in values
     def parseAssignment(self, statement):
-        if type(statement.expression) is BinOpNode:
-            left = self.parseBinOpAssignment(statement.expression.left)
-            right = self.parseBinOpAssignment(statement.expression.right)
-            result = self.get_operator(statement.expression.op)(left, right)
-
-        if(type(statement.expression) is UnOpNode):
-            result = self.gui.getValue(statement.var, "int")
-
-        if statement.var in self.values:
-            self.gui.updateText(statement.var, result)
+        result = self.parseBinOpAssignment(statement.expression)
+        if statement.var not in self.frames:
+            if statement.var not in self.values:
+                self.values.append(statement.var)
+                self.frames[statement.var] = self.gui.addAssignment(statement.var, statement.name, result)
+            else:
+                self.frames[statement.var] = self.gui.addAssignment(statement.var, statement.name, result, self.gui.values[statement.var])
+            
+            self.frame_order.append(statement.var)
         else:
-            self.values.append(statement.var)
-            self.gui.addAssignment(statement.var, statement.name, result)
+            self.gui.updateValue(statement.var, result)
 
+        self.frame_counter += 1
+
+    # Parse an assignment and return its value
     def parseBinOpAssignment(self, statement):
         if type(statement) is BinOpNode:
             left = self.parseBinOpAssignment(statement.left)
             right = self.parseBinOpAssignment(statement.right)
-            return self.get_operator(statement.op)(left, right)
+            return self.getOperator(statement.op)(left, right)
 
         if type(statement) is UnOpNode:
             return self.gui.getValue(statement.var, "int")
 
-    def removeIfBlock(self, expression, statements):
-        self.trueExpressions[expression].destroy()
-        del self.trueExpressions[expression]
+        if type(statement) is LiteralNode:
+            return int(statement.literal)
 
-        for stmnt in statements:
-            if stmnt.var in self.values:
-                self.values.remove(stmnt.var)
+    # Remove a frame and its content
+    def removeFrame(self, var_frame):
+        if var_frame in self.frames:
+            self.frames[var_frame].destroy()
+            del self.frames[var_frame]
 
-    # def checkIfVariableExists(self, statement):
-    #     print "Checking questions"
-    #     for key in self.gui.formVariables:
-    #         if key == statement.var
-    #             return True
+    # Remove a list of frames
+    def removeFrames(self, frame_list):
+        print "Removing frames: ", frame_list
+        for var_frame in frame_list:
+            self.removeFrame(var_frame)
 
-    #     return False
-
-    # Function that check if the expression variables match the needed values to show the block
-    def checkExpressionValues(self, expression):
+    # Function that checks if the expression variables match the needed values to show the block
+    def checkExpressionvalues(self, expression):
         if type(expression) is BinOpNode:
             if expression.op == "&&":
-                if self.checkExpressionValues(expression.left) and self.checkExpressionValues(expression.right):
+                if self.checkExpressionvalues(expression.left) and self.checkExpressionvalues(expression.right):
                     return True
 
             if expression.op == "||":
-                if self.checkExpressionValues(expression.left) or self.checkExpressionValues(expression.right):
+                if self.checkExpressionvalues(expression.left) or self.checkExpressionvalues(expression.right):
                     return True
+
+            else:
+                left = self.parseBinOpAssignment(expression.left)
+                right = self.parseBinOpAssignment(expression.right)
+                result = self.getOperator(expression.op)(left, right)
+                return result
+
 
         if type(expression) is UnOpNode:
             if not expression.negate and self.gui.values[expression.var].get() == 1:
@@ -134,7 +148,8 @@ class GuiBuilder():
 
         return False
 
-    def get_operator(self, operator):
+    # Function to operate on expressions
+    def getOperator(self, operator):
         return {
             '+' : op.add,
             '-' : op.sub,
@@ -144,6 +159,6 @@ class GuiBuilder():
             '^' : op.xor,
             '<' : op.lt,
             '>' : op.gt,
-            '=<': op.le,
-            '=>': op.ge
+            '<=': op.le,
+            '>=': op.ge
             }[operator]

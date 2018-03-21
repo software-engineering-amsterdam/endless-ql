@@ -2,9 +2,9 @@ package ql;
 
 import ql.ast.form.Form;
 import ql.checker.TypeChecker;
-import ql.gui.GUI;
+import ql.gui.alternative.ASTtoGUI;
+import ql.gui.alternative.StatementVisitorInstallObservers;
 import ql.helpers.MessageBag;
-import ql.visitors.ASTtoGUI;
 
 public class Main {
 
@@ -34,16 +34,30 @@ public class Main {
                 }
                 else
                 {
+                    form.getBlock().accept(new StatementVisitorInstallObservers());
+                    form.getBlock().accept(new ASTtoGUI());
+                    /*
                     // Visit and build GUI from AST
-                    form.getBlock().accept(new ASTtoGUI(new GUI()));
-                    
+                    ASTtoGUI guiVisitor = new ASTtoGUI(new GUI());
+                    form.getBlock().accept(guiVisitor);
+                    LinkedHashMap<JPanel, Boolean> panels = guiVisitor.panelsCollection;
+                    System.out.println("-- PANELS ---");
+                    panels.forEach((panel, value) -> {
+                        System.out.println(panel.getName() + " - " + panel.hashCode() + " - " + panel.isVisible());
+                    });
+                    LinkedHashMap<Identifier, String> variables = guiVisitor.variableCollection;
+                    System.out.println("-- IDENTIFIERS ---");
+                    variables.forEach((identifier, name) -> {
+                        System.out.println(identifier.getType() + " - " + identifier.getValue() + " - " + name);
+                    });
                     // Add Action/DocumentListeners to GUI.
+                     */
                 }
             } else {
                 errors.print();
             }
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             errors.print();
         }
     }

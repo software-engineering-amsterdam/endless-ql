@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
 
 import org.uva.jomi.qls.parser.antlr.QLSParser.CommandContext;
 import org.uva.jomi.qls.ast.QLSToken;
@@ -117,7 +117,7 @@ public class StmtVisitor extends QLSBaseVisitor<Stmt> {
 	
 	@Override
 	public Stmt visitStylesheetStmt(StylesheetStmtContext ctx) {
-		IdentifierExpr identifier = new IdentifierExpr(new QLSToken(ctx.IDENTIFIER().getSymbol()));
+		IdentifierExpression identifier = new IdentifierExpression(new QLSToken(ctx.IDENTIFIER().getSymbol()));
 		List<Stmt> pageStatements = new ArrayList<Stmt>();
 		for (PageStmtContext page : ctx.pageStmt()) {
 			pageStatements.add(page.accept(new StmtVisitor()));
@@ -128,7 +128,7 @@ public class StmtVisitor extends QLSBaseVisitor<Stmt> {
 	
 	@Override
 	public Stmt visitPageStmt(PageStmtContext ctx) {
-		IdentifierExpr identifier = new IdentifierExpr(new QLSToken(ctx.IDENTIFIER().getSymbol()));
+		IdentifierExpression identifier = new IdentifierExpression(new QLSToken(ctx.IDENTIFIER().getSymbol()));
 		BlockStmt blockStmt = ctx.blockStmt().accept(blockStmtVisitor);
 		
 		return new PageStmt(identifier, blockStmt);
@@ -144,7 +144,7 @@ public class StmtVisitor extends QLSBaseVisitor<Stmt> {
 	
 	@Override
 	public Stmt visitQuestionStmt(QuestionStmtContext ctx) {
-		IdentifierExpr identifier = new IdentifierExpr(new QLSToken(ctx.IDENTIFIER().getSymbol()));
+		IdentifierExpression identifier = new IdentifierExpression(new QLSToken(ctx.IDENTIFIER().getSymbol()));
 		
 		if(ctx.widgetStmt() != null) {
 			return new QuestionStmt(identifier, (WidgetStmt)ctx.widgetStmt().accept(new WidgetVisitor(this)));

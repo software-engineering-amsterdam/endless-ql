@@ -7,22 +7,19 @@ namespace QuestionnaireInfrastructure.API
     {
         public IEnumerable<string> Load(string filePath = null)
         {
-            if (string.IsNullOrEmpty(filePath))
-            {
-                filePath = GetLocalPath();
-            }
-            //ToDo: return propper file
+            //ToDo: return proper file
             var file = @"
 form personalInfo {
-  name: ""Name: ""  string
-            dateOfBirth: ""D.O.B."" date
-            childCount: ""number of children:"" integer
-            currentBlance: ""money in pocket:"" decimal
-            isHappy: ""are you happy:"" boolean
-            if (isHappy && (currentBlance < 50))
+            name: ""Name: ""  string
+            dateOfBirth: ""D.O.B.: "" date
+            childCount: ""number of children: "" integer
+            currentBalance: ""money in pocket: "" decimal
+            isHappy: ""are you happy: "" boolean
+            if (isHappy && (currentBalance < 50))
             {
                 shouldNotBeHappy: ""Are you Sure you're happy?"" boolean
             }
+
             if (!isHappy && (currentBalance >= 50))
             {
                 shouldBeHappy: ""Are you Sure you're unhappy?"" boolean

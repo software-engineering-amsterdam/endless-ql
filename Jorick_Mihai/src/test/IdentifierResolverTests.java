@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.uva.jomi.ql.ast.analysis.IdentifierResolver;
-import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.statements.Statement;
 import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class IdentifierResolverTests {
@@ -190,7 +190,7 @@ public class IdentifierResolverTests {
 
 	@Test
 	public void positiveTest2() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(positiveTest2);
+		List<Statement> ast = TestUtilities.buildAst(positiveTest2);
 		identifierResolver.resolve(ast);
 		assertTrue(identifierResolver.getNumberOfErrors() == 0);
 	}
@@ -206,7 +206,7 @@ public class IdentifierResolverTests {
 
 	@Test
 	public void positiveTest3() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(positiveTest3);
+		List<Statement> ast = TestUtilities.buildAst(positiveTest3);
 		identifierResolver.resolve(ast);
 		assertTrue(identifierResolver.getNumberOfErrors() == 0);
 	}

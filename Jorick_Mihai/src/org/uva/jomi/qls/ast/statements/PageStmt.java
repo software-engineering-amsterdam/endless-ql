@@ -1,13 +1,13 @@
 package org.uva.jomi.qls.ast.statements;
 
-import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
 
 public class PageStmt extends Stmt {
-	
-	private IdentifierExpr identifier;
+
+	private IdentifierExpression identifier;
 	private BlockStmt blockStmt;
-	
-	public PageStmt(IdentifierExpr identifier, BlockStmt blockStmt) {
+
+	public PageStmt(IdentifierExpression identifier, BlockStmt blockStmt) {
 		this.identifier = identifier;
 		this.blockStmt = blockStmt;
 	}

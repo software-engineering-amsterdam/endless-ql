@@ -1,35 +1,29 @@
 package Nodes;
 
-import Nodes.Operator.*;
+import Nodes.Operator.Operator;
+import Nodes.Operator.Not;
 import Nodes.Term.Term;
+import QLExceptions.*;
 
 /**
  * Contains a parsed, evaluable expression
  */
-public class Expression {
+public class Expression extends ASTNode {
     private Expression left;
     private Expression right;
     private Operator op;
-    private Term term;
 
     /**
      * Creates an empty expression
+     * This default is needed for the Term class
      */
-    // Default needed for Term class
     public Expression(){}
 
-    /**
-     * Creates an expression containing a single term
-     * @param term
-     */
-    public Expression(Term term){
-        this.term = term;
-    }
-
+    // TODO make NOT operator obsolete
     /**
      * Create an expression with a negated term
-     * @param right
-     * @param op
+     * @param right contains the right side of a Not Expression
+     * @param op contains the Not Operator
      */
     public Expression(Expression right, Not op) {
         this.left = null; // Dirty, but Not is a unary operation.
@@ -39,9 +33,9 @@ public class Expression {
 
     /**
      * Creates an expression with left and right expressions, and an operator
-     * @param left
-     * @param right
-     * @param op
+     * @param left contains the left Expression of an Expression
+     * @param right contains the right Expression of an Expression
+     * @param op contains an instance of the abstract Operator class
      */
     public Expression(Expression left, Expression right, Operator op) {
         this.left = left;
@@ -50,14 +44,29 @@ public class Expression {
     }
 
     /**
-     * Returns the calculated value of the expression
-     * @return The calculated value of the expression
+     * This sets the parent of this Condition and it's children's parents
+     * @param parent this ASTNode's parent
      */
-    public Term getValue() {
+    public void setParents(ASTNode parent) {
+        setParent(parent);
+        op.setParent(this);
+        right.setParents(this);
+        if(left != null) // Specific for the Not operator.
+            left.setParents(this);
+    }
+
+    /**
+     * Evaluates the expression by getting passing the evaluated left and right side of this Expression to it's Operator.
+     * @return The calculated value of the expression.
+     * @throws SyntaxException when an Operator is not a valid Operator.
+     * @throws TypeException when Types don't match.
+     * @throws OtherException when a Variable isn't set yet.
+     */
+    public Term getTerm() throws SyntaxException, TypeException, OtherException {
         if (op instanceof Not) {
-            return op.calculate(null, right.getValue());
+            return op.calculate(null, right.getTerm());
         } else {
-            return op.calculate(left.getValue(), right.getValue());
+            return op.calculate(left.getTerm(), right.getTerm());
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using System;
-using Antlr4.Runtime;
+﻿using Antlr4.Runtime;
 
 namespace QLS.Api.Ast
 {
-    public class SectionNode : Node
+    public sealed class SectionNode : Node
     {
         public SectionNode(IToken token, string label) : base(token)
         {

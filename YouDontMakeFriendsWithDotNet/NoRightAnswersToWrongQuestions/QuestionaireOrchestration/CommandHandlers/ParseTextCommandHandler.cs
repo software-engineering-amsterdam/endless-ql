@@ -1,8 +1,8 @@
 ﻿using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
-using QuestionaireOrchestration.API;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration.Commands;
 
-namespace QuestionaireOrchestration.CommandHandlers
+namespace QuestionnaireOrchestration.CommandHandlers
 {
     internal class ParseTextCommandHandler : ICommandHandler<CreateQuestionnaireCommandMessage>
     {

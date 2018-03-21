@@ -1,10 +1,13 @@
 package qlviz.gui.viewModel.question;
 
+import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.model.question.DateQuestion;
 
+import java.util.List;
+
 public class DateQuestionViewModel extends BaseQuestionViewModel {
-    public DateQuestionViewModel(DateQuestion question) {
-        super(question);
+    public DateQuestionViewModel(DateQuestion question, List<BooleanExpressionViewModel> conditions) {
+        super(question, conditions);
     }
 
 
@@ -12,4 +15,10 @@ public class DateQuestionViewModel extends BaseQuestionViewModel {
     public void accept(QuestionViewModelVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public <T> T accept(TypedQuestionViewModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }

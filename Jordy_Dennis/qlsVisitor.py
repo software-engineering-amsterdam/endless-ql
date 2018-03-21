@@ -77,11 +77,11 @@ class QLSVisitor(QLSGrammarVisitor):
 
         if (ctx.widget()):
             widget = self.visit(ctx.widget())
-            question = Question(questionName, widget, ctx.start.line)
+            question = Question(questionName, widget, widget.getWidget(), ctx.start.line)
         
         elif (ctx.default_style()):
             default = self.visit(ctx.default_style())
-            question = Question(questionName, None, ctx.start.line, default)
+            question = Question(questionName, default.getWidget(), default.getWidgetType(), ctx.start.line, default)
         
         return question
 
@@ -119,9 +119,21 @@ class QLSVisitor(QLSGrammarVisitor):
         self.logger.debug("DEFAULT_STYLE")
         defaultType = self.visit(ctx.types())
         default = DefaultStyle(defaultType, ctx.start.line)
+        hasWidget = False
         for widget in ctx.widget():
             widgetObject = self.visit(widget)
+            if widgetObject.getAttributeType() == 'widget':
+                if hasWidget:
+                    errorstring = "Double declaration of widget in default style near line " + str(ctx.start.line)
+                    throwError(errorstring)
+                else:
+                    hasWidget = True
+                default.setWidgetType(widgetObject.getWidget())
             default.addAttribute(widgetObject)
+
+        if hasWidget == False:
+            errorstring = "Default style missing widget declaration near line " + str(ctx.start.line)
+            throwError(errorstring)
 
         return default
 
@@ -132,3 +144,11 @@ class QLSVisitor(QLSGrammarVisitor):
 
 
 del QLSGrammarParser
+
+
+import sys
+# Throw an exception without printing the python stacktrace
+def throwError(text):
+    print("QLS Interpreter error:")
+    print(text)
+    sys.exit(1)

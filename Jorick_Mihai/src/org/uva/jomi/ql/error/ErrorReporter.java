@@ -30,6 +30,10 @@ public abstract class ErrorReporter<T> {
 	public void clearAllReports() {
 		reports.clear();
 	}
+	
+	public List<T> getErrors() {
+		return this.reports;
+	}
 
 	public int getNumberOfReports() {
 		return this.reports.size();

@@ -5,6 +5,7 @@ import QuestionStylesVisitor from "../form/visitors/MergeFieldStylesVisitor";
 import MergedFieldStyle from "../form/MergedFieldStyle";
 import { QlParserPipeline, QlParserResult } from "../../../parsing/QlParserPipeline";
 import SetStyledFieldVisitor from "../form/visitors/SetStyledFieldVisitor";
+import { VariableInformation } from "../../../form/VariableIntformation";
 
 export interface QlsParserResult extends QlParserResult {
   styleNode: StyleSheet;
@@ -28,7 +29,7 @@ export class QlsParserPipeline {
 
     const styleNode: StyleSheet = getQlsParser().parse(this.qlsInput);
 
-    const stylesheetResult = this.processStylesheetNode(styleNode);
+    const stylesheetResult = this.processStylesheetNode(styleNode, qlPipelineResult.variables);
 
     const setStyledField = new SetStyledFieldVisitor(stylesheetResult.styles, stylesheetResult.styleNode);
     qlPipelineResult.node.accept(setStyledField);
@@ -41,12 +42,12 @@ export class QlsParserPipeline {
     };
   }
 
-  private processStylesheetNode(node: StyleSheet) {
+  private processStylesheetNode(node: StyleSheet, qlVariables: Map<string, VariableInformation> ) {
     const parentsVisitor: SetParentsVisitor = new SetParentsVisitor();
     node.accept(parentsVisitor);
 
     // Why does node.accept(styleVisitor) returns undefined?
-    const styleVisitor = new QuestionStylesVisitor();
+    const styleVisitor = new QuestionStylesVisitor(qlVariables);
     node.accept(styleVisitor);
     const result = styleVisitor.getStyles();
 

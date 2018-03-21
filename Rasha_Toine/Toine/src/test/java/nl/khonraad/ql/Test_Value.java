@@ -1,4 +1,4 @@
-package nl.khonraad.qLanguage;
+package nl.khonraad.ql;
 
 import static org.quicktheories.QuickTheory.qt;
 import static org.quicktheories.generators.SourceDSL.bigDecimals;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.quicktheories.core.Gen;
 
-import nl.khonraad.qLanguage.domain.Value;
+import nl.khonraad.ql.domain.Value;
 
 public class Test_Value {
 

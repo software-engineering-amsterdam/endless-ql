@@ -13,9 +13,9 @@
 //import org.antlr.v4.runtime.RecognitionException;
 //import org.junit.Test;
 //
-//import nl.khonraad.qLanguage.domain.Value;
-//import nl.khonraad.qLanguage.domain.Questionnaire;
-//import nl.khonraad.qLanguage.domain.Type;
+//import nl.khonraad.ql.domain.Value;
+//import nl.khonraad.ql.domain.Questionnaire;
+//import nl.khonraad.ql.domain.Type;
 //
 //public class Test_Form {
 //

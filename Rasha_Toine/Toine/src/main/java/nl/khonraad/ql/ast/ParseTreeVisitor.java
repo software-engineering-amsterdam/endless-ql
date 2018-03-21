@@ -1,14 +1,14 @@
-package nl.khonraad.qLanguage.ast;
+package nl.khonraad.ql.ast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.khonraad.qLanguage.QBaseVisitor;
-import nl.khonraad.qLanguage.QParser;
-import nl.khonraad.qLanguage.domain.Question;
-import nl.khonraad.qLanguage.domain.Questionnaire;
-import nl.khonraad.qLanguage.domain.Type;
-import nl.khonraad.qLanguage.domain.Value;
+import nl.khonraad.ql.QBaseVisitor;
+import nl.khonraad.ql.QParser;
+import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.domain.Questionnaire;
+import nl.khonraad.ql.domain.Type;
+import nl.khonraad.ql.domain.Value;
 
 public final class ParseTreeVisitor extends QBaseVisitor<Value> {
 
@@ -19,13 +19,13 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
         this.questionnaire = questionnaire;
     }
 
-    private List<String>        declaredQuestionTypes              = new ArrayList<String>();
+    private List<String>        declaredQuestionTypes              = new ArrayList<>();
 
-    private List<String>        forwardReferences                  = new ArrayList<String>();
+    private List<String>        forwardReferences                  = new ArrayList<>();
 
-    private static final String ERROR_ReferenceToUndefinedQuestion = "Reference to undefined question: ";
-    private static final String ERROR_DuplicateQuestionDeclaration = "Duplicate question declaration: ";
-    private static final String ERROR_TYPEERROR                    = "Type error: ";
+    private static final String ERROR0_ReferenceToUndefinedQuestion = "Reference to undefined question: ";
+    private static final String ERROR1_DuplicateQuestionDeclaration = "Duplicate question declaration: ";
+    private static final String ERROR2_TYPEERROR                    = "Type error: ";
 
     private String removeQuotes( String text ) {
         return text.substring( 1, text.length() - 1 );
@@ -34,14 +34,14 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
     @Override
     public Value visitForm( QParser.FormContext ctx ) {
 
-        declaredQuestionTypes = new ArrayList<String>();
+        declaredQuestionTypes = new ArrayList<>();
 
         questionnaire.forgetQuestionsRememberAnswers();
 
         Value value = visitChildren( ctx );
 
-        if ( forwardReferences.size() != 0 ) {
-            throw new RuntimeException( ERROR_ReferenceToUndefinedQuestion + forwardReferences.get( 0 ) );
+        if ( !forwardReferences.isEmpty()) {
+            throw new RuntimeException( ERROR0_ReferenceToUndefinedQuestion + forwardReferences.get( 0 ) );
         }
 
         return value;
@@ -63,7 +63,7 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
 
         }
 
-        throw new RuntimeException( ERROR_ReferenceToUndefinedQuestion + identifier );
+        throw new RuntimeException( ERROR0_ReferenceToUndefinedQuestion + identifier );
     }
 
     @Override
@@ -77,7 +77,7 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
         forwardReferences.remove( identifier );
 
         if ( declaredQuestionTypes.contains( identifier ) ) {
-            throw new RuntimeException( ERROR_DuplicateQuestionDeclaration + identifier + " typed " + type );
+            throw new RuntimeException( ERROR1_DuplicateQuestionDeclaration + identifier + " typed " + type );
         }
         declaredQuestionTypes.add( identifier );
 
@@ -98,7 +98,7 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
         Value value = visit( ctx.expression() );
 
         if ( !type.equals( value.getType() ) ) {
-            throw new RuntimeException( ERROR_TYPEERROR + identifier + " expects " + type + " not " + value.getType() );
+            throw new RuntimeException( ERROR2_TYPEERROR + identifier + " expects " + type + " not " + value.getType() );
         }
 
         return questionnaire.storeComputedQuestion( identifier, label, value );

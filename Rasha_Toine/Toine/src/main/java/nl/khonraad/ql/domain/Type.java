@@ -1,4 +1,4 @@
-package nl.khonraad.qLanguage.domain;
+package nl.khonraad.ql.domain;
 
 public enum Type {
 

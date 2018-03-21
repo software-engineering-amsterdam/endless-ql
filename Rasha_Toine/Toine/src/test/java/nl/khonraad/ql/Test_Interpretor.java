@@ -1,12 +1,12 @@
-package nl.khonraad.qLanguage;
+package nl.khonraad.ql;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import nl.khonraad.qLanguage.domain.Questionnaire;
-import nl.khonraad.qLanguage.domain.Type;
-import nl.khonraad.qLanguage.domain.Value;
+import nl.khonraad.ql.domain.Questionnaire;
+import nl.khonraad.ql.domain.Type;
+import nl.khonraad.ql.domain.Value;
 
 public class Test_Interpretor {
 

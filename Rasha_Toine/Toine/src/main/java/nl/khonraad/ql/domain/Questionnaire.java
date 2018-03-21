@@ -1,13 +1,13 @@
-package nl.khonraad.qLanguage.domain;
+package nl.khonraad.ql.domain;
 
 import java.io.IOException;
 
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import nl.khonraad.qLanguage.ast.AbstractParseTreeFactory;
-import nl.khonraad.qLanguage.ast.ParseTreeVisitor;
-import nl.khonraad.qLanguage.domain.Question.BehaviouralType;
+import nl.khonraad.ql.ast.AbstractParseTreeFactory;
+import nl.khonraad.ql.ast.ParseTreeVisitor;
+import nl.khonraad.ql.domain.Question.BehaviouralType;
 
 public class Questionnaire {
 
@@ -15,7 +15,7 @@ public class Questionnaire {
     private ParseTree          parseTree;
     private QuestionRepository questionRepository;
 
-    public Questionnaire(String s) throws RecognitionException, IOException {
+    public Questionnaire(String s) throws IOException {
 
         parseTree = AbstractParseTreeFactory.parseDataForTest( s ).form();
         parseTreeVisitor = new ParseTreeVisitor( this );
@@ -29,7 +29,7 @@ public class Questionnaire {
 
     public void forgetQuestionsRememberAnswers() {
         questionRepository.forgetQuestionsRememberAnswers();
-    };
+    }
 
     public Iterable<Question> getQuestionList() {
         return questionRepository.listQuestions();
@@ -37,15 +37,15 @@ public class Questionnaire {
 
     public Question findAnswerable( String identifier ) {
         return questionRepository.findQuestion( BehaviouralType.ANSWERABLE, identifier );
-    };
+    }
 
     public Question findComputed( String identifier ) {
         return questionRepository.findQuestion( BehaviouralType.COMPUTED, identifier );
-    };
+    }
 
     public Value storeAnswerableQuestion( String identifier, String label, Type type ) {
         return questionRepository.storeAnswerableQuestion( identifier, label, type );
-    };
+    }
 
     public Value storeComputedQuestion( String identifier, String label, Value value ) {
         return questionRepository.storeComputedQuestion( identifier, label, value );
@@ -54,5 +54,5 @@ public class Questionnaire {
     public Value storeAnswer( String identifier, Value value ) {
         return findAnswerable( identifier ).setValue( value );
 
-    };
+    }
 }

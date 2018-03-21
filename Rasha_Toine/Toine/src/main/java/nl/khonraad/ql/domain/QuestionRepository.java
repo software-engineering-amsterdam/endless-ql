@@ -1,16 +1,17 @@
-package nl.khonraad.qLanguage.domain;
+package nl.khonraad.ql.domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import nl.khonraad.qLanguage.domain.Question.BehaviouralType;
+import nl.khonraad.ql.domain.Question.BehaviouralType;
 
 public class QuestionRepository {
 
-    private List<Question>     questions     = new ArrayList<Question>();
-    private Map<String, Value> stickyAnswers = new HashMap<String, Value>();
+    private List<Question>     questions     = new ArrayList<>();
+    private Map<String, Value> stickyAnswers = new HashMap<>();
 
     public void forgetQuestionsRememberAnswers() {
 
@@ -75,7 +76,7 @@ public class QuestionRepository {
     private Value answerSeenEarlier( String identifier, Type type ) {
 
         return stickyAnswers.entrySet().stream().filter( entry -> identifier.equals( entry.getKey() ) )
-                .map( map -> map.getValue() ).findFirst().orElse( initialValueOf( type ) );
+                .map( Entry<String, Value>::getValue ).findFirst().orElse( initialValueOf( type ) );
 
     }
 

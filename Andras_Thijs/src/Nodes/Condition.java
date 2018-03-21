@@ -115,4 +115,13 @@ public class Condition extends ASTNode {
             result = null;
         }
     }
+
+    @Override
+    public boolean isAvailable() throws TypeException, SyntaxException, OtherException {
+        this.getExpressionValue();
+        if(this.result == null)
+            return false;
+        else
+            return this.getParent().isAvailable() && this.result.getBoolean();
+    }
 }

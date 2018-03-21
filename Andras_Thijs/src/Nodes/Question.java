@@ -90,6 +90,7 @@ public class Question extends ASTNode {
     public void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();
+            // TODO code smell! remove if possible
             switch(result.getType()) {
                 case BOOL: if(type == Type.BOOL) return;
                 case DECIMAL: if(type == Type.DECIMAL || type == Type.INT || type == Type.MONEY) break;
@@ -103,9 +104,7 @@ public class Question extends ASTNode {
         }
     }
 
-
-    // TODO implement recursive function to check expressions up the hiearchy
-    public boolean isAvailable() {
-        return true;
+    public boolean isAvailable() throws TypeException, SyntaxException, OtherException {
+        return this.getParent().isAvailable();
     }
 }

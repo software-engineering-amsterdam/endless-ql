@@ -49,8 +49,6 @@ namespace QLVisualizer.Controllers.Display
             WidgetCreator = widgetCreator;
         }
 
-        public abstract bool ValidateStyle(IEnumerable<IQLSElement> qlsElements);
-
         /*/// <summary>
         /// Set style for widgets
         /// </summary>

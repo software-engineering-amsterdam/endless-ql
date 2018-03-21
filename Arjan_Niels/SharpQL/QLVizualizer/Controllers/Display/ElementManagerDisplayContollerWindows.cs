@@ -80,11 +80,6 @@ namespace QLVisualizer.Controllers.Display
             _widgetContainer.Controls.Clear();
         }
 
-        public override bool ValidateStyleElement(IQLSElement qlsElements)
-        {
-            
-        }
-
         #region Main window constructors
         /// <summary>
         /// Construct view and assigns it to _mainForm

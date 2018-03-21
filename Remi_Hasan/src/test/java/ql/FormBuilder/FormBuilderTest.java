@@ -23,7 +23,7 @@ public class FormBuilderTest {
     public void simpleForm() throws Exception {
         QLFormBuilder formBuilder = new QLFormBuilder();
         Form form = formBuilder.buildForm(FormBuilderTest.class
-                .getResourceAsStream("/ValidForms/SimpleForm.ql"));
+                .getResourceAsStream("/QL/ValidForms/SimpleForm.ql"));
 
         assertEquals(form.identifier, "simpleForm");
         assertEquals(form.questions.size(), 6);
@@ -36,7 +36,7 @@ public class FormBuilderTest {
     public void conditionFalseForm() throws Exception {
         QLFormBuilder formBuilder = new QLFormBuilder();
         Form form = formBuilder.buildForm(FormBuilderTest.class
-                .getResourceAsStream("/ValidForms/ConditionFormFalse.ql"));
+                .getResourceAsStream("/QL/ValidForms/ConditionFormFalse.ql"));
 
         assertEquals(form.questions.size(), 3);
 
@@ -53,7 +53,7 @@ public class FormBuilderTest {
     public void conditionTrueForm() throws Exception {
         QLFormBuilder formBuilder = new QLFormBuilder();
         Form form = formBuilder.buildForm(FormBuilderTest.class
-                .getResourceAsStream("/ValidForms/ConditionFormTrue.ql"));
+                .getResourceAsStream("/QL/ValidForms/ConditionFormTrue.ql"));
 
         assertEquals(form.questions.size(), 3);
 
@@ -70,7 +70,7 @@ public class FormBuilderTest {
     public void computedForm() throws Exception {
         QLFormBuilder formBuilder = new QLFormBuilder();
         Form form = formBuilder.buildForm(FormBuilderTest.class.
-                getResourceAsStream("/ValidForms/ComputedForm.ql"));
+                getResourceAsStream("/QL/ValidForms/ComputedForm.ql"));
 
         // Test whether computed field is computed correctly based on another field value
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(formBuilder.getSymbolTable());

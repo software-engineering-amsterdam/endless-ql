@@ -18,6 +18,10 @@ export class StringLiteral extends Literal {
     return ExpressionType.STRING;
   }
 
+  getType(): ExpressionType {
+    return ExpressionType.STRING;
+  }
+
   accept<T>(visitor: ExpressionVisitor<T>): T {
     return visitor.visitStringLiteral(this);
   }

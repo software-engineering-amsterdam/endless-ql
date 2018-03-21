@@ -15,30 +15,38 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class QLBuilder {
 
-    public FormNode toFormNode(String qlSource, BaseErrorListener errorListener){
+    private final LoaderErrorListener loaderErrorListener;
+    private final BaseErrorListener errorListener;
+
+    public QLBuilder(BaseErrorListener errorListener, LoaderErrorListener loaderErrorListener) {
+        this.errorListener = errorListener;
+        this.loaderErrorListener = loaderErrorListener;
+    }
+
+    public FormNode toFormNode(String qlSource){
         // Parse input field and create AST
         CharStream stream = CharStreams.fromString(qlSource);
         FormLexer lexer = new FormLexer(stream);
 
         FormParser parser = new FormParser(new CommonTokenStream(lexer));
-
-        //parser.setErrorHandler(new BailErrorStrategy()); // TODO look at error handling
+        
         parser.addErrorListener(errorListener);
 
         FormParser.FormBuilderContext tree = parser.formBuilder();
         QLLoader loader = new QLLoader();
+        loader.addErrorListener(loaderErrorListener);
+
         ParseTreeWalker.DEFAULT.walk(loader, tree);
 
         return loader.getFormNode();
     }
 
-    public Stylesheet toStylesheet(String qlsSource, FormNode formNode, BaseErrorListener errorListener){
+    public Stylesheet toStylesheet(String qlsSource, FormNode formNode){
         CharStream qlsStream = CharStreams.fromString(qlsSource);
         StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
 
         StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
 
-        //qlsParser.setErrorHandler(new BailErrorStrategy());
         qlsParser.addErrorListener(errorListener);
 
         StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();

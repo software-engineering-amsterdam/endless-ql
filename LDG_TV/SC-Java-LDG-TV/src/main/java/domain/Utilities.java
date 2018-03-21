@@ -1,7 +1,5 @@
 package domain;
 
-import javafx.stage.FileChooser;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -40,4 +38,9 @@ public class Utilities {
     public static boolean isNumeric(String str) {
         return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }
+
+    public static Optional<String> ofEmptyString(String text){
+        return Optional.ofNullable(text).filter(s -> !s.isEmpty());
+    }
+
 }

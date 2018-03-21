@@ -19,14 +19,10 @@ public class QLChecker {
     /**
      * Execute the checks for QL.
      */
-    public void doChecks(){
-        try {
-            this.checkReferenceUndefinedVariable();
-            this.checkDuplicateQuestionDeclaration();
-            this.checkInvalidConditionExpressionException();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void doChecks() throws ReferenceUndefinedVariableException, DuplicateQuestionDeclarationException, InvalidConditionException {
+        this.checkReferenceUndefinedVariable();
+        this.checkDuplicateQuestionDeclaration();
+        this.checkInvalidConditionExpressionException();
     }
 
     /**

@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import loader.QL.LoaderErrorListener;
 import loader.QL.QLBuilder;
 
 import java.io.*;
@@ -31,7 +32,7 @@ import java.util.*;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ToolController implements Consumer {
+public class ToolController implements Consumer, LoaderErrorListener {
 
     @FXML
     private TextArea taSourceCodeQL;
@@ -45,11 +46,10 @@ public class ToolController implements Consumer {
     @FXML
     private Label lblErrorField;
 
-    private List<ListView> listViews = new ArrayList<>();
+    private List<ListView<Row>> listViews = new ArrayList<>();
 
     private boolean qlsEnabled = false;
     private FormNode formNode = null;
-    private QLBuilder qlBuilder = new QLBuilder();
 
     /**
      * Invoked by the 'build' button action, to generate the questionnaire based on the written QL
@@ -59,25 +59,26 @@ public class ToolController implements Consumer {
         this.tpPages.getTabs().clear();
         this.listViews.clear();
 
-        String qlSource = taSourceCodeQL.getText();
-        if(qlSource.isEmpty()){
-            showAlertBox("Please import or add QL code");
-            return;
-        }
-
         ToolBarErrorListener tbErrorListener = new ToolBarErrorListener(lblErrorField);
+        DialogErrorListener dialogErrorListener = new DialogErrorListener();
 
-        this.formNode = qlBuilder.toFormNode(qlSource, tbErrorListener);
+        QLBuilder qlBuilder = new QLBuilder(tbErrorListener, dialogErrorListener);
+        Utilities.ofEmptyString(taSourceCodeQL.getText())
+                .ifPresentOrElse(
+                        qlText -> this.formNode = qlBuilder.toFormNode(qlText),
+                        () -> showAlertBox("Please import or add QL code")
+                );
 
-        String qlsSource = taSourceCodeQLS.getText();
-        this.qlsEnabled = !qlsSource.isEmpty();
-        if (this.qlsEnabled){
-            Stylesheet ss = qlBuilder.toStylesheet(qlsSource, this.formNode, tbErrorListener);
-            this.formNode.setStylesheet(ss);
-            buildQLS();
-        } else {
-            buildQL();
-        }
+        Utilities.ofEmptyString(taSourceCodeQLS.getText())
+                .ifPresentOrElse(
+                        qlsText -> {
+                            Stylesheet ss = qlBuilder.toStylesheet(qlsText, this.formNode);
+                            this.formNode.setStylesheet(ss);
+                            this.qlsEnabled = true;
+                            buildQLS();
+                        },
+                        this::buildQL
+                );
 
         printInfoMessage("Build successful");
     }
@@ -129,16 +130,16 @@ public class ToolController implements Consumer {
     }
     private void drawPage(Tab tab, Page p){
         HBox hbox = new HBox();
-        ListView lv = new ListView<Row>();
+        ListView<Row> lv = new ListView<>();
         for (Section s : p.getSections()){
             drawSection(s, lv);
         }
         listViews.add(lv);
-        hbox.setHgrow(lv, Priority.ALWAYS);
+        HBox.setHgrow(lv, Priority.ALWAYS);
         hbox.getChildren().add(lv);
         tab.setContent(hbox);
     }
-    private void drawSection(Section s, ListView lView){
+    private void drawSection(Section s, ListView<Row> lView){
         Row r = new SectionRow(s.getLabel());
         lView.getItems().add(r);
         List<QuestionNode> temp = new ArrayList<>();
@@ -235,5 +236,10 @@ public class ToolController implements Consumer {
     @Override
     public void accept(Object event) {
         this.redrawAll();
+    }
+
+    @Override
+    public void onError(String message) {
+        this.showAlertBox(message);
     }
 }

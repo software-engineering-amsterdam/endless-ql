@@ -1,4 +1,4 @@
-package gui.tool;
+package tool;
 
 import antlr.ql.FormLexer;
 import antlr.ql.FormParser;
@@ -34,9 +34,6 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import gui.row.QuestionRow;
-import gui.row.Row;
-import gui.row.SectionRow;
 
 import java.io.*;
 import java.net.URL;

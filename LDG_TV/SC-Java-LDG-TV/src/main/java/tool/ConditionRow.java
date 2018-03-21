@@ -1,4 +1,4 @@
-package gui.row;
+package tool;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.CheckBox;

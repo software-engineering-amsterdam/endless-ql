@@ -6,11 +6,16 @@ import {Style} from './style';
 import {WidgetType} from './widget-type';
 import {Widget} from './widget';
 import {QlQuestion as QlQuestion} from '../ql/ql-question';
+import {QlsVisitor} from './visitors/collect-styles-for-question-visitor';
 
 export class Section extends QlsNode {
   constructor(readonly name: string, readonly subSections: Section[], readonly questions: QlsQuestion[],
               readonly location: Location, readonly defaultSettings?: DefaultStyling) {
     super();
+  }
+
+  accept<T>(visitor: QlsVisitor<T>): T {
+    return visitor.visitSection(this);
   }
 
   getQuestions(parentStyles: ReadonlyArray<Style>, widgetTypeParent: Widget): ReadonlyArray<QuestionWithAppliedStyles> {

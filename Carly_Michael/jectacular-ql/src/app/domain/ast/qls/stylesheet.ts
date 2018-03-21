@@ -6,10 +6,15 @@ import {DefaultStyling} from './default-styling';
 import {QlQuestion as QlQuestion} from '../ql';
 import * as _ from 'lodash';
 import {MissingIdentifierError} from '../../errors';
+import {QlsVisitor} from './visitors/collect-styles-for-question-visitor';
 
 export class Stylesheet extends QlsNode {
   constructor(readonly name: string, readonly pages: Page[], readonly location: Location) {
     super();
+  }
+
+  accept<T>(visitor: QlsVisitor<T>): T {
+    return visitor.visitStylesheet(this);
   }
 
   getQuestions(parentStyles: ReadonlyArray<Style>): ReadonlyArray<QuestionWithAppliedStyles> {

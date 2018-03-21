@@ -1,5 +1,5 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
-import DefaultStyle from "../nodes/children/DefaultStyle";
+import DefaultStyle from "../nodes/children/DefaultStyleNode";
 import Page from "../nodes/containers/PageNode";
 import QuestionStyle from "../nodes/children/QuestionStyle";
 import Section from "../nodes/containers/SectionNode";

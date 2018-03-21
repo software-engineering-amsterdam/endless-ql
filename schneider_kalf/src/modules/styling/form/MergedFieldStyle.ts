@@ -17,14 +17,14 @@ export default class MergedFieldStyle {
     let defaultNodes = getDefaultStyleNodes(node);
     defaultNodes.reverse().forEach(defaultNode => {
       defaultNode.children.forEach(styleAttribute => {
-        this.styles.set(styleAttribute.name, styleAttribute);
+        this.styles.set(styleAttribute.getName(), styleAttribute);
       });
     });
   }
 
   addLocalStyle(question: QuestionStyle) {
     question.children.forEach(child => {
-      this.styles.set(child.name, child);
+      this.styles.set(child.getName(), child);
     });
   }
 
@@ -42,7 +42,7 @@ export default class MergedFieldStyle {
         return;
       }
 
-      cssStyles[cssAttributeName] = attribute.value;
+      cssStyles[cssAttributeName] = attribute.getStringValue();
     });
 
     return cssStyles;

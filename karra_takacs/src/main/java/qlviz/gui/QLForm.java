@@ -4,6 +4,7 @@ import com.google.inject.*;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import qlviz.QLParser;
 import qlviz.QLVisitor;
 import qlviz.gui.renderer.*;
 import qlviz.gui.renderer.javafx.*;
@@ -26,14 +27,23 @@ import qlviz.typecheker.Severity;
 import qlviz.typecheker.StaticChecker;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 import java.util.function.Function;
+
+import org.antlr.v4.runtime.ANTLRErrorListener;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
 
 public class QLForm extends Application {
 	private FormRenderer renderer;
 	private Form model;
 	private FormViewModel viewModel;
 	private boolean containsDuplicates = false;
+	private QLParser parser;
 
 
 	public static void main(String[] args) {
@@ -66,11 +76,48 @@ public class QLForm extends Application {
 
 		List<AnalysisResult> staticCheckResults = new ArrayList<>();
 		QLVisitor<Form> visitor = injector.getInstance(Key.get(new TypeLiteral<QLVisitor<Form>>(){}));
-		ModelBuilder modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));
-
-		this.model = modelBuilder.createFormFromMarkup(this.getParameters().getRaw().get(0));
-
-
+		ModelBuilder modelBuilder=null;
+		boolean validDataTypes = true;
+		try {
+		 modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));
+		 this.parser = modelBuilder.generateParser(this.getParameters().getRaw().get(0));
+		 this.parser.addErrorListener(new ANTLRErrorListener() {
+			
+			@Override
+			public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine,
+					String msg, RecognitionException e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction,
+					ATNConfigSet configs) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex,
+					BitSet conflictingAlts, ATNConfigSet configs) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact,
+					BitSet ambigAlts, ATNConfigSet configs) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		 
+		this.model = modelBuilder.createFormFromMarkup(this.parser);
+		}
+		catch(IllegalArgumentException e){
+			validDataTypes=false;
+		}
+		if(validDataTypes) {
 		StaticChecker staticChecker = new StaticChecker();
 		List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLabels(this.model);
 		if (duplicateResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
@@ -104,5 +151,5 @@ public class QLForm extends Application {
             this.renderer.render(this.viewModel);
 		}
 	}
-
+	}
 }

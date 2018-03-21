@@ -24,7 +24,13 @@ public class ModelBuilder {
 	}
 
 
-	public Form createFormFromMarkup(String path){
+	public Form createFormFromMarkup(QLParser parser){
+		Form form = formParser.visitForm(parser.form());
+		return form;
+	}
+
+
+	public QLParser generateParser(String path) {
 		CharStream charStream = null;
 		try {
 			charStream = new FileReader(path).getStream();
@@ -34,8 +40,7 @@ public class ModelBuilder {
 		QLLexer lexer = new QLLexer(charStream);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
-		Form form = formParser.visitForm(parser.form());
-		return form;
+		return parser;
 	}
 
 

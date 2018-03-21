@@ -12,7 +12,6 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import tool.ToolBarErrorListener;
 
 public class QLBuilder {
 
@@ -34,6 +33,12 @@ public class QLBuilder {
 
         FormParser.FormBuilderContext tree = parser.formBuilder();
         QLLoader loader = new QLLoader();
+        loader.addErrorListener(new LoaderErrorListener() {
+            @Override
+            public void onError(String message) {
+                System.out.println("ERRRRROR : " + message);
+            }
+        });
         ParseTreeWalker.DEFAULT.walk(loader, tree);
 
         return loader.getFormNode();
@@ -45,7 +50,6 @@ public class QLBuilder {
 
         StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
 
-        //qlsParser.setErrorHandler(new BailErrorStrategy());
         qlsParser.addErrorListener(errorListener);
 
         StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();

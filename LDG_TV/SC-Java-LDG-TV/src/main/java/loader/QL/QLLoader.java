@@ -9,8 +9,13 @@ import domain.model.ast.QuestionNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.variable.*;
+import exception.DuplicateQuestionDeclarationException;
+import exception.InvalidConditionException;
+import exception.ReferenceUndefinedVariableException;
 
 import java.text.Normalizer;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class QLLoader extends FormBaseListener {
@@ -23,6 +28,7 @@ public class QLLoader extends FormBaseListener {
 
     private boolean inConditionNode = false;
     private boolean inElseNode = false;
+    private Set<LoaderErrorListener> listeners = new HashSet<>();
 
     public QLLoader(){
         this.formNode = new FormNode();
@@ -35,7 +41,12 @@ public class QLLoader extends FormBaseListener {
     @Override
     public void exitFormData(FormParser.FormDataContext ctx){
         this.qlChecker = new QLChecker(formNode);
-        this.qlChecker.doChecks();
+        try {
+            this.qlChecker.doChecks();
+        } catch (ReferenceUndefinedVariableException | DuplicateQuestionDeclarationException | InvalidConditionException e) {
+            this.notifyListenersWithError(e.getMessage());
+            return;
+        }
     }
 
     @Override
@@ -91,6 +102,7 @@ public class QLLoader extends FormBaseListener {
                 constructedVariable = new StringVariable(ctx.variable().getText(), "");
                 break;
             default:
+                this.notifyListenersWithError("Unknown variable type used");
                 //TODO Invalid variable type found. throw exception
         }
     }
@@ -136,6 +148,14 @@ public class QLLoader extends FormBaseListener {
         this.formNode.getReferencedVariables().add(left);
         this.formNode.getReferencedVariables().add(right);
         return (new ArithmeticExpressionValue(left, right, operator));
+    }
+
+    public void addErrorListener(LoaderErrorListener listener) {
+        listeners.add(listener);
+    }
+
+    private void notifyListenersWithError(String message) {
+        this.listeners.forEach(l -> l.onError(message));
     }
 
 }

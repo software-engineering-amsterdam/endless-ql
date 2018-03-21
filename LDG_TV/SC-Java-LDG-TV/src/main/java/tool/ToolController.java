@@ -59,7 +59,7 @@ public class ToolController implements Consumer {
     @FXML
     private Label lblErrorField;
 
-    private List<ListView> listViews = new ArrayList<>();
+    private List<ListView<Row>> listViews = new ArrayList<>();
 
     private boolean qlsEnabled = false;
     private FormNode formNode = null;
@@ -142,16 +142,16 @@ public class ToolController implements Consumer {
     }
     private void drawPage(Tab tab, Page p){
         HBox hbox = new HBox();
-        ListView lv = new ListView<Row>();
+        ListView<Row> lv = new ListView<>();
         for (Section s : p.getSections()){
             drawSection(s, lv);
         }
         listViews.add(lv);
-        hbox.setHgrow(lv, Priority.ALWAYS);
+        HBox.setHgrow(lv, Priority.ALWAYS);
         hbox.getChildren().add(lv);
         tab.setContent(hbox);
     }
-    private void drawSection(Section s, ListView lView){
+    private void drawSection(Section s, ListView<Row> lView){
         Row r = new SectionRow(s.getLabel());
         lView.getItems().add(r);
         List<QuestionNode> temp = new ArrayList<>();

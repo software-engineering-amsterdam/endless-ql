@@ -10,10 +10,11 @@ using QLVisualizer.Style;
 using QLVisualizer.Elements.Managers;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Widgets;
+using QLParser.AST.QLS;
 
 namespace QLVisualizer.Controllers.Display
 {
-    public class ElementManagerDisplayContollerWindows : WidgetDisplayController<Control, WindowsStyleProperties>
+    public class ElementManagerDisplayContollerWindows : WidgetDisplayController<Control>
     {
         /// <summary>
         /// Control element to add all created controls to
@@ -40,11 +41,10 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         private Form _mainForm;
 
-        public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin, new WindowsStyleProperties { Width = 338 }, new WidgetCreatorWindows())
+        public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin, new WidgetCreatorWindows())
         {
             //_elementFactory = new ControlFactory(this);
             ConstructMainWindow();
-            BaseDisplay = _widgetContainer;
         }
 
         /// <summary>
@@ -78,6 +78,11 @@ namespace QLVisualizer.Controllers.Display
         {
             base.Reset();
             _widgetContainer.Controls.Clear();
+        }
+
+        public override bool ValidateStyleElement(IQLSElement qlsElements)
+        {
+            
         }
 
         #region Main window constructors

@@ -1,8 +1,5 @@
-﻿using QLVisualizer.Factories;
-using QLVisualizer.Elements.Managers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Widgets;
 
@@ -12,8 +9,7 @@ namespace QLVisualizer.Controllers.Display
     /// 
     /// </summary>
     /// <typeparam name="T">View-element Type</typeparam>
-    /// <typeparam name="Y">Style-element Type</typeparam>
-    public abstract class WidgetDisplayController<T, Y> : ElementManagerController where Y : ICloneable
+    public abstract class WidgetDisplayController<T> : ElementManagerController
     {
         /// <summary>
         /// X-Position of first widget
@@ -33,9 +29,9 @@ namespace QLVisualizer.Controllers.Display
         /// <summary>
         /// Style for each widget, key: widgetID, value: style
         /// </summary>
-        public Dictionary<string, Y> ElementStyleIndex { get; private set; }
+        //public Dictionary<string, Y> ElementStyleIndex { get; private set; }
 
-        public Dictionary<string, Y> ActiveElementStyles { get; private set; }
+//        public Dictionary<string, Y> ActiveElementStyles { get; private set; }
 
         public WidgetCreator<T> WidgetCreator { get; private set; }
 
@@ -44,17 +40,18 @@ namespace QLVisualizer.Controllers.Display
         /// <summary>
         /// Default style in case no style is set
         /// </summary>
-        public Y DefaultStyle { get; private set; }
+        //public Y DefaultStyle { get; private set; }
 
-        public WidgetDisplayController(FormManager form, float initialPosition, Y defaultStyle, WidgetCreator<T> widgetCreator) : base(form)
+        public WidgetDisplayController(FormManager form, float initialPosition, WidgetCreator<T> widgetCreator) : base(form)
         {
             InitialPosition = initialPosition;
             ElementIndex = new Dictionary<string, T>();
-            DefaultStyle = defaultStyle;
             WidgetCreator = widgetCreator;
         }
 
-        /// <summary>
+        public abstract bool ValidateStyle(IEnumerable<IQLSElement> qlsElements);
+
+        /*/// <summary>
         /// Set style for widgets
         /// </summary>
         /// <param name="styles">Styles by widgetID</param>
@@ -65,7 +62,7 @@ namespace QLVisualizer.Controllers.Display
             else                                // Case defaultstyle already set
                 foreach (KeyValuePair<string, Y> style in styles)
                     ElementStyleIndex[style.Key] = style.Value;
-        }
+        }*/
 
         /// <summary>
         /// Shows form to user
@@ -86,7 +83,7 @@ namespace QLVisualizer.Controllers.Display
         public override void Reset()
         {
             ElementIndex = new Dictionary<string, T>();
-            ElementStyleIndex = new Dictionary<string, Y>();
+            //ElementStyleIndex = new Dictionary<string, Y>();
         }
     }
 }

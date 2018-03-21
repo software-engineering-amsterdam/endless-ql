@@ -1,5 +1,6 @@
 package domain.model.variable;
 
+import domain.model.stylesheet.UIElement;
 import domain.model.value.StringValue;
 import domain.model.value.Value;
 import domain.visitor.Visitor;
@@ -7,6 +8,7 @@ import javafx.scene.Node;
 
 public class StringVariable extends Variable {
     private Value<String> value;
+    private UIElement uiElement;
 
     public StringVariable(String identifier, String value) {
         super(identifier);
@@ -20,6 +22,16 @@ public class StringVariable extends Variable {
     @Override
     public void setValue(StringValue value){
         this.value = value;
+    }
+
+    @Override
+    public void setUiElement(UIElement uiElement) {
+        this.uiElement = uiElement;
+    }
+
+    @Override
+    public UIElement getUiElement() {
+        return uiElement;
     }
 
     @Override

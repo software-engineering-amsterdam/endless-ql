@@ -1,28 +1,30 @@
 package domain.visitor;
 
 import domain.Utilities;
+import domain.model.stylesheet.UIElement;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.variable.BooleanVariable;
 import domain.model.variable.MoneyVariable;
 import domain.model.variable.StringVariable;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+
+import java.util.Map;
+import java.util.Optional;
 
 
 public class UIVisitor implements Visitor {
     @Override
     public Node visit(BooleanVariable bv) {
-        Boolean bool = bv.getValueObject().getValue();
         CheckBox cb = new CheckBox();
-        cb.setSelected(bool);
+        cb.setSelected(bv.getValueObject().getValue());
 
         JavaFxObservable
                 .valuesOf(cb.selectedProperty())
                 .subscribe(bv.getValueObject());
         return cb;
+
     }
 
     @Override
@@ -49,7 +51,6 @@ public class UIVisitor implements Visitor {
                 .filter(Utilities::isNumeric)
                 .map(Integer::valueOf)
                 .subscribe(mv.getValueObject());
-
         return tf;
     }
 }

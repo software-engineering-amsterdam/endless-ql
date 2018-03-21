@@ -69,11 +69,11 @@ public class QLSLoader extends StylesheetBaseListener {
         Map<String, String> options;
         if (ctx.uiType().checkbox() instanceof StylesheetParser.CheckboxContext){
             options = null;
-            uiElement = new UIElement(ctx.uiIdentifier().getText(), ctx.uiType().getText(), options);
+            uiElement = new UIElement(ctx.uiIdentifier().getText(), "checkbox", options);
         }
         if (ctx.uiType().spinbox() instanceof StylesheetParser.SpinboxContext){
             options = null;
-            uiElement = new UIElement(ctx.uiIdentifier().getText(), ctx.uiType().getText(), options);
+            uiElement = new UIElement(ctx.uiIdentifier().getText(), "spinbox", options);
         }
         if (ctx.uiType().radio() instanceof StylesheetParser.RadioContext){
             options = new HashMap<>();
@@ -81,14 +81,14 @@ public class QLSLoader extends StylesheetBaseListener {
                 String option = ctx.uiType().radio().radioOptions().get(i).getText();
                 options.put("option" + i, option);
             }
-            uiElement = new UIElement(ctx.uiIdentifier().getText(), ctx.uiType().getText(), options);
+            uiElement = new UIElement(ctx.uiIdentifier().getText(), "radio", options);
         }
         if (ctx.uiType().money() instanceof StylesheetParser.MoneyContext){
             options = new HashMap<>();
             for (StylesheetParser.OptionContext octx : ctx.uiType().money().option()){
                 options.put(octx.identifier().getText(), octx.value().getText());
             }
-            uiElement = new UIElement(ctx.uiIdentifier().getText(), ctx.uiType().getText(), options);
+            uiElement = new UIElement(ctx.uiIdentifier().getText(), "default", options);
         }
             v.setUiElement(uiElement);
 

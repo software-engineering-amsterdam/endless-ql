@@ -1,5 +1,6 @@
 package domain.model.variable;
 
+import domain.model.stylesheet.UIElement;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.value.BooleanValue;
 import domain.model.value.Value;
@@ -9,7 +10,7 @@ import javafx.scene.Node;
 public class BooleanVariable extends Variable {
 
     private Value<Boolean> value;
-
+    private UIElement uiElement;
     public BooleanVariable(String identifier, boolean value) {
         super(identifier);
         this.value = new BooleanValue(value); // TODO move setting of value upstream (pass in consturctor)
@@ -21,7 +22,19 @@ public class BooleanVariable extends Variable {
     }
 
     @Override
-    public void setValue(BooleanExpressionValue value){this.value = value;};
+    public void setValue(BooleanExpressionValue value){this.value = value;}
+
+    @Override
+    public void setUiElement(UIElement uiElement) {
+        this.uiElement = uiElement;
+    }
+
+    @Override
+    public UIElement getUiElement() {
+        return uiElement;
+    }
+
+    ;
 
     @Override
     public Node getRelatedUIElement(Visitor v){

@@ -8,7 +8,6 @@ import javafx.scene.Node;
 
 public abstract class Variable {
     private final String identifier;
-    private UIElement uiElement;
 
     public Variable(String identifier) {
         this.identifier = identifier;
@@ -24,12 +23,10 @@ public abstract class Variable {
     public void setValue(ArithmeticExpressionValue value){};
     public void setValue(BooleanExpressionValue value){};
     public void setValue(MoneyValue value){};
-    public void setUiElement(UIElement uiElement) {
-        this.uiElement = uiElement;
-    }
-    public UIElement getUiElement() {
-        return uiElement;
-    }
+
+    public abstract void setUiElement(UIElement uiElement);
+    public abstract UIElement getUiElement();
+
     public abstract Node getRelatedUIElement(Visitor v);
 
 

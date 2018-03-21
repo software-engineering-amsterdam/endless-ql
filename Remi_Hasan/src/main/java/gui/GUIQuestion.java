@@ -30,7 +30,7 @@ public class GUIQuestion extends VBox implements WidgetVisitor<Node> {
             widget = widgetType.createWidget(this, symbolTable, question, qlsQuestion, defaultStyles);
         }
 
-        Label label = new Label(question.text);
+        Label label = new Label(question.label);
         label.managedProperty().bind(widget.managedProperty());
         label.visibleProperty().bind(widget.visibleProperty());
         this.getChildren().add(label);

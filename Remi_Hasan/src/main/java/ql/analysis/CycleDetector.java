@@ -20,7 +20,7 @@ public class CycleDetector {
     private Graph<String, DefaultEdge> createVerticesGraph() {
         Graph<String, DefaultEdge> graph = new DefaultDirectedGraph<>(DefaultEdge.class);
         for (Question question : form.questions) {
-            graph.addVertex(question.name);
+            graph.addVertex(question.identifier);
         }
 
         return graph;
@@ -38,7 +38,7 @@ public class CycleDetector {
             // For each question, add references to other questions to the graph
             List<String> referencedIdentifiers = referencedIdentifiersVisitor.visit(question.computedAnswer);
             for (String identifier : referencedIdentifiers) {
-                graph.addEdge(question.name, identifier);
+                graph.addEdge(question.identifier, identifier);
             }
         }
     }

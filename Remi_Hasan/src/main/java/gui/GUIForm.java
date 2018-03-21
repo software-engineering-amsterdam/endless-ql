@@ -4,7 +4,6 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
@@ -73,11 +72,11 @@ public class GUIForm extends VBox {
     }
 
     private Node createQuestionGUI(SymbolTable symbolTable, Form form, List<DefaultStyle> defaultStyles, qls.model.Question qlsQuestion) {
-        Optional<Question> qlQuestion = form.questions.stream().filter(x -> x.name.equals(qlsQuestion.name)).findFirst();
+        Optional<Question> qlQuestion = form.questions.stream().filter(x -> x.identifier.equals(qlsQuestion.name)).findFirst();
         if (qlQuestion.isPresent()) {
             return new GUIQuestion(symbolTable, qlQuestion.get(), qlsQuestion, defaultStyles);
         } else {
-            throw new UnsupportedOperationException("Question with name'" + qlsQuestion.name + "' could not be found");
+            throw new UnsupportedOperationException("Question with identifier'" + qlsQuestion.name + "' could not be found");
         }
     }
 }

@@ -1,5 +1,7 @@
 package org.uva.app;
 
+import org.json.JSONObject;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.IOException;
@@ -43,6 +45,6 @@ public class IOHandler {
     }
 
     public void writeOutput(String data) {
-
+//        JSONObject
     }
 }

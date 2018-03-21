@@ -10,9 +10,7 @@ import javafx.scene.layout.VBox;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.ModelRenderer;
-import org.uva.sea.gui.widget.AbstractWidgetFactory;
-import org.uva.sea.gui.widget.DefaultWidgetFactory;
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
+import org.uva.sea.gui.widget.factory.AbstractWidgetFactory;
 
 public class ViewRenderer {
 
@@ -63,11 +61,8 @@ public class ViewRenderer {
 
         wrapper.add(this.createQuestionLabel(questionModel.getLabel()), 0, 0);
 
-        AbstractWidgetFactory factory = new DefaultWidgetFactory(this.controller);
-
-        if (questionModel.getWidgetType() == WidgetType.DEFAULT) {
-            factory = new DefaultWidgetFactory(this.controller);
-        }
+        AbstractWidgetFactory factory = AbstractWidgetFactory.getWidgetFactory(questionModel.getWidgetType(), controller);
+//
         //TODO: add QlsWidgetFactory
         Control widget = factory.createWidget(questionModel);
 

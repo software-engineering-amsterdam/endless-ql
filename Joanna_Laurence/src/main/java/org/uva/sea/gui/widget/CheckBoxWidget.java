@@ -8,11 +8,21 @@ import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
-public class CheckBoxWidget implements Widget {
+public class CheckBoxWidget extends Widget {
+
+    private final BaseQuestionModel questionModel;
+    private final FormController controller;
+
+    public CheckBoxWidget(BaseQuestionModel questionModel, FormController controller) {
+        super(questionModel, controller);
+        this.questionModel = questionModel;
+        this.controller = controller;
+    }
 
     @Override
-    public Control draw(BaseQuestionModel questionModel, FormController controller) {
+    public Control initialize() {
         CheckBox checkBox = new CheckBox();
+
         checkBox = this.createCheckBox(checkBox, questionModel.getStyleQLS());
 
         if (questionModel.getValue() != null) {
@@ -37,6 +47,8 @@ public class CheckBoxWidget implements Widget {
             }
             if (style.getWidth() != null) {
                 checkBox.setMinWidth(style.getWidth());
+            }else{
+                checkBox.setMinWidth(Widget.TEXT_WIDTH);
             }
         } else {
             System.out.println("Style is null");

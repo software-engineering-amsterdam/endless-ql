@@ -1,9 +1,9 @@
-package org.uva.sea.gui.widget;
+package org.uva.sea.gui.widget.factory;
 
 import javafx.scene.control.Control;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.render.visitor.DefaultWidgetFromValueVisitor;
+import org.uva.sea.gui.widget.factory.visitor.DefaultWidgetFromValueVisitor;
 
 public class DefaultWidgetFactory extends AbstractWidgetFactory {
 

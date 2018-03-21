@@ -2,20 +2,30 @@ package org.uva.sea.gui.widget;
 
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Font;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
 import org.uva.sea.gui.render.visitor.TextToValueVisitor;
+import org.uva.sea.gui.widget.formatter.TextFormatterVisitor;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
-public class TextFieldWidget implements Widget {
+public class TextFieldWidget extends Widget {
 
-    private static final double TEXT_WIDTH = 100.0;
+
+    private final BaseQuestionModel questionModel;
+    private final FormController controller;
+
+    public TextFieldWidget(BaseQuestionModel questionModel, FormController controller) {
+        super(questionModel, controller);
+        this.questionModel = questionModel;
+        this.controller = controller;
+    }
 
     @Override
-    public Control draw(BaseQuestionModel questionModel, FormController controller) {
+    public Control initialize() {
         TextField textField = this.createTextField(questionModel);
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -38,12 +48,15 @@ public class TextFieldWidget implements Widget {
             textField.setText(question.displayValue());
         }
         textField.setEditable(true);
-        textField.setMinWidth(TextFieldWidget.TEXT_WIDTH);
+        textField.setMinWidth(Widget.TEXT_WIDTH);
 
         if (question.isComputed()) {
             textField.setEditable(false);
         }
-        //TODO: validate user input
+
+        //text validation
+        TextFormatter textFormatter = questionModel.accept(new TextFormatterVisitor());
+        textField.setTextFormatter(textFormatter);
 
         return textField;
     }

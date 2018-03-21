@@ -3,28 +3,43 @@ package org.uva.sea.gui.widget;
 import javafx.scene.control.Control;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import org.uva.sea.gui.FormController;
 import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
 import org.uva.sea.gui.render.visitor.TextToValueVisitor;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
-public class SpinnerWidget implements Widget {
+public class SpinnerWidget extends Widget {
+
+    private final BaseQuestionModel questionModel;
+    private final FormController controller;
+
+    public SpinnerWidget(BaseQuestionModel questionModel, FormController controller) {
+        super(questionModel, controller);
+        this.questionModel = questionModel;
+        this.controller = controller;
+    }
+
     @Override
-    public Control draw(BaseQuestionModel questionModel, FormController controller) {
+    public Control initialize() {
         //TODO: set generic
-        Spinner<Integer> spinner = new Spinner<>();
+        Spinner spinner = new Spinner<>();
 
-        spinner = this.setStyle(spinner, questionModel.getStyleQLS());
+        spinner = this.createSpinner(spinner, questionModel.getStyleQLS());
 
-        final int initialValue = 3;
+        int initialValue = 3;
+
+        if (questionModel.getValue() != null) {
+            System.out.println("Computed boolean value " + questionModel.displayValue());
+            ;
+            initialValue = new IntValue(questionModel.displayValue()).getIntValue();
+        }
+
+        SpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, initialValue);
 
         // Value factory.
-        SpinnerValueFactory<Integer> valueFactory = //
-                new IntegerSpinnerValueFactory(1, 5, initialValue);
-
         spinner.setValueFactory(valueFactory);
 
         //TODO: remove listeners repetitions
@@ -39,12 +54,12 @@ public class SpinnerWidget implements Widget {
     }
 
     //TODO: set font, fontsize and color
-    private Spinner<Integer> setStyle(Spinner<Integer> spinner, Style style) {
+    private Spinner createSpinner(Spinner spinner, Style style) {
         if (style != null) {
             if (style.getWidth() != null) {
                 spinner.setMinWidth(style.getWidth());
             } else {
-                System.out.println("Width is null");
+                spinner.setMinWidth(Widget.TEXT_WIDTH); //default style
             }
         } else {
             System.out.println("Style is null");

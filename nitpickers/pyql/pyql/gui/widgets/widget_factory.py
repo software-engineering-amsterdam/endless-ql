@@ -10,11 +10,11 @@ class WidgetFactory:
 
     @multimethod(String)
     def widget(self):
-        return StringWidget
+        return TextWidget
 
     @multimethod(Integer)
     def widget(self):
-        return IntegerWidget
+        return NumberWidget
 
     @multimethod(Decimal)
     def widget(self):
@@ -26,4 +26,4 @@ class WidgetFactory:
 
     @multimethod(Boolean)
     def widget(self):
-        return BooleanWidget
+        return RadioWidget

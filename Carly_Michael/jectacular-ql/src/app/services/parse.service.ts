@@ -3,7 +3,6 @@ import {Form} from '../domain/ast/ql';
 import {Stylesheet} from '../domain/ast/qls';
 import {parse} from '../../parser/ql-parser';
 import {parse as parseQls} from '../../parser/qls-parser';
-import {CheckStatementTypeVisitor} from '../domain/ast/ql/visitors/check-statement-type-visitor';
 
 export class ParseResult {
   constructor(readonly formName: string, readonly form: Form, readonly styles: Stylesheet) { }
@@ -18,7 +17,7 @@ export class ParseService {
     const astQl: Form = parse(qlInput, {});
 
     // static type checking
-    CheckStatementTypeVisitor.evaluate(astQl.getAllQuestions(), astQl);
+    astQl.checkForm();
 
     // only parse qls if there is valid input
     if (qlsInput && qlsInput.trim().length > 0 ) {

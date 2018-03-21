@@ -30,5 +30,4 @@ public abstract class Expression extends AstNode {
     public void setExpressionValue(ExpressionValue expressionValue) {
         this.expressionValue = expressionValue;
     }
-
 }

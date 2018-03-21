@@ -1,7 +1,6 @@
 package ui.model
 
 import data.question.Question
-import data.value.IntegerValue
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import tornadofx.ItemViewModel
@@ -32,20 +31,15 @@ class QuestionFormModel : ItemViewModel<QuestionModel>() {
 
 
     private fun updateViewModel(newDataQuestions: List<Question>) {
-//        var toAdd = newDataQuestions - dataQuestions
-
-        val toAdd = newDataQuestions.filter {
-            q -> q !in dataQuestions || q.readOnly
-        }
+        val toAdd = newDataQuestions - dataQuestions
 
         questions.removeIf { q ->
-            q.item !in newDataQuestions || q.item.readOnly
+            q.item !in newDataQuestions
         }
 
         // Only add new questions, leave old questions as is
         toAdd.forEach { q ->
             questions.add(newDataQuestions.indexOf(q), QuestionModel(q))
         }
-
     }
 }

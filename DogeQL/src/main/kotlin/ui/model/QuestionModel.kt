@@ -18,8 +18,6 @@ class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
     var decimalValue = SimpleObjectProperty<BigDecimal>()
     var moneyValue = SimpleObjectProperty<BigDecimal>()
 
-    var readOnly: Boolean = false
-
     private val dogeController: DogeController by inject()
     private val questionFormModel: QuestionFormModel by inject()
 
@@ -32,8 +30,6 @@ class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
             SymbolType.MONEY -> moneyValue = bind { SimpleObjectProperty<BigDecimal>(item.value.moneyValue.value) }
             else -> throw IllegalArgumentException("${item.value.type} unsupported type")
         }
-
-
     }
 
     override fun onCommit() {
@@ -47,15 +43,6 @@ class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
             dogeController.updateQuestion(item)
             questionFormModel.load()
         }
-    }
-
-    fun setValue(question: Question, type : SymbolType) = when (type) {
-        SymbolType.STRING -> stringValue.value = question.value.stringValue.value
-        SymbolType.BOOLEAN -> booleanValue.value = question.value.booleanValue.value
-        SymbolType.INTEGER -> integerValue.value = question.value.integerValue.value
-        SymbolType.DECIMAL -> decimalValue.value = question.value.decimalValue.value
-        SymbolType.MONEY -> moneyValue.value = question.value.moneyValue.value
-        else -> throw IllegalArgumentException("${item.value.type} unsupported type")
     }
 
     private fun synchronizeDataModel() = when (item.value.type) {

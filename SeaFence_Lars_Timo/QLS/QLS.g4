@@ -22,7 +22,7 @@ widget_type: 'checkbox'
            | 'spinbox'
            | 'slider'
            | 'text'
-           | 'dropdown("Yes", "No")'
+           | 'dropdown("Yes, "No")'
            ;
 
 width: 'width:' NUMBER;

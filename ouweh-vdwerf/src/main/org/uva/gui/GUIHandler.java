@@ -98,7 +98,7 @@ public class GUIHandler {
     private void initializeFrame() {
         this.frame = new JFrame();
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.frame.setSize(750, 600);
+        this.frame.setSize(500, 300);
         this.frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
     }
 

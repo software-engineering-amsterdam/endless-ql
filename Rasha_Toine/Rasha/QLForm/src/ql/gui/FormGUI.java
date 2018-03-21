@@ -1,7 +1,6 @@
 package ql.gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.util.List;
 import java.util.Collections;
 
@@ -38,7 +37,6 @@ public class FormGUI {
 		for (QuestionGUI q : getQuestions()){
 			JComponent questionPanel = q.getJComponent();
 			mainPanel.add(questionPanel);
-			mainPanel.add(Box.createRigidArea(new Dimension(0,2)));
 		}
 		JScrollPane scrollPane = new JScrollPane(mainPanel);
 
@@ -47,7 +45,7 @@ public class FormGUI {
 		formPane.add(scrollPane);
 		formPane.add(Box.createHorizontalGlue());
 
-		frame.setSize(800, 1000);
+		frame.setSize(1000, 1000);
 		frame.setBackground(Color.WHITE);
 		frame.setContentPane(formPane);
 		frame.setAutoRequestFocus(true);

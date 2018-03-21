@@ -41,18 +41,12 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
             segments.add((Segment) visit(segmentContext));
         }
 
-        List<DefaultStyleStatement> defaultStyleStatements = new ArrayList<>();
-        List<DefaultWidgetStatement> defaultWidgetStatements = new ArrayList<>();
+        List<DefaultStatement> defaultStatements = new ArrayList<>();
         for (QLSParser.DefaultStatementContext defaultStatementContext : ctx.defaultStatement()) {
-            if(defaultStatementContext.defaultStyleStatement() != null) {
-                defaultStyleStatements.add((DefaultStyleStatement) visit(defaultStatementContext.defaultStyleStatement()));
-            }
-            else{
-                defaultWidgetStatements.add((DefaultWidgetStatement) visit(defaultStatementContext.defaultWidgetStatement()));
-            }
+            defaultStatements.add((DefaultStatement) visit(defaultStatementContext));
         }
 
-        return new Page(pageId, segments, defaultStyleStatements, defaultWidgetStatements);
+        return new Page(pageId, segments, defaultStatements);
     }
 
     @Override
@@ -64,18 +58,12 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
             segments.add((Segment) visit(segmentContext));
         }
 
-        List<DefaultStyleStatement> defaultStyleStatements = new ArrayList<>();
-        List<DefaultWidgetStatement> defaultWidgetStatements = new ArrayList<>();
+        List<DefaultStatement> defaultStatements = new ArrayList<>();
         for (QLSParser.DefaultStatementContext defaultStatementContext : ctx.defaultStatement()) {
-            if(defaultStatementContext.defaultStyleStatement() != null) {
-                defaultStyleStatements.add((DefaultStyleStatement) visit(defaultStatementContext.defaultStyleStatement()));
-            }
-            else{
-                defaultWidgetStatements.add((DefaultWidgetStatement) visit(defaultStatementContext.defaultWidgetStatement()));
-            }
+            defaultStatements.add((DefaultStatement) visit(defaultStatementContext));
         }
 
-        return new Section(sectionId, segments, defaultStyleStatements, defaultWidgetStatements);
+        return new Section(sectionId, segments, defaultStatements);
     }
 
     @Override
@@ -87,17 +75,12 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Object visitDefaultWidgetStatement(QLSParser.DefaultWidgetStatementContext ctx) {
+    public Object visitDefaultStatement(QLSParser.DefaultStatementContext ctx) {
         Type type = (Type) visit(ctx.type());
-        Widget widget = (Widget) visit(ctx.widget());
-        return new DefaultWidgetStatement(type, widget);
-    }
-
-    @Override
-    public Object visitDefaultStyleStatement(QLSParser.DefaultStyleStatementContext ctx) {
-        Type type = (Type) visit(ctx.type());
-        Style style = (Style) visit(ctx.style());
-        return new DefaultStyleStatement(type, style);
+        if (ctx.style() != null) {
+            return new DefaultStyleStatement(type, (Style) visit(ctx.style()));
+        }
+        return new DefaultWidgetStatement(type, (Widget) visit(ctx.widget()));
     }
 
     @Override

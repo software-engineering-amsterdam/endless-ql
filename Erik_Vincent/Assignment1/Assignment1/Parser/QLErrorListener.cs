@@ -10,9 +10,9 @@ namespace Assignment1.Parser
 {
     class QLErrorListener : BaseErrorListener, IAntlrErrorListener<int>
     {
-        private ParseErrorHandler _errorHandler;
+        private QLParseErrorHandler _errorHandler;
 
-        public QLErrorListener(ParseErrorHandler errorHandler)
+        public QLErrorListener(QLParseErrorHandler errorHandler)
         {
             _errorHandler = errorHandler;
         }

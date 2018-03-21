@@ -4,18 +4,28 @@ import {QlQuestion} from './ql-question';
 import {Location} from '../location';
 import {LiteralType} from './expressions/expression';
 import {Variable} from './expressions/variable';
-import {StatementVisitor} from './visitors/statement-visitor';
 
-export abstract class Statement {
+  export abstract class Statement {
   constructor(readonly location: Location) {}
 
   abstract toFormQuestion(formQuestions: ReadonlyArray<QuestionBase<any>>,
                           condition?: (form: FormGroup) => LiteralType): ReadonlyArray<QuestionBase<any>>;
   abstract getQuestions(): QlQuestion[];
 
+  getVariables(): Variable[] {
+    return [];
+  }
+
+  checkType(allQuestions: QlQuestion[]): void {
+    return;
+  }
+
   checkDependencies(): void {
     return;
   }
 
-  abstract accept<T>(visitor: StatementVisitor<T>): T;
+  protected getLocationErrorMessage(): string {
+    return ` between line ${this.location.start.line}` +
+      ` and col ${this.location.start.column} and line ${this.location.end.line} and col ${this.location.end.column}`;
+  }
 }

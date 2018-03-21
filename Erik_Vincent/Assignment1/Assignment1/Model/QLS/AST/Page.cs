@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Assignment1.Model.QLS.AST
 {
@@ -10,10 +9,10 @@ namespace Assignment1.Model.QLS.AST
 
         private readonly List<Statement> _statements;
 
-        public Page(string id, IEnumerable<Statement> statements)
+        public Page(string id, List<Statement> statements)
         {
             Id = id;
-            _statements = statements.ToList();
+            _statements = statements;
         }
 
         public void Accept(IQLSASTVisitor visitor) => visitor.Visit(this);

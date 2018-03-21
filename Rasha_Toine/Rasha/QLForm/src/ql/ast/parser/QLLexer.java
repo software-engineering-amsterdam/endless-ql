@@ -96,7 +96,7 @@ public class QLLexer extends Lexer {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "QL.g4"; }
+	public String getGrammarFileName() { return "QL_testprototype.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

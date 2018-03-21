@@ -2,7 +2,6 @@ package ui.view
 
 import data.question.SymbolType
 import javafx.scene.control.TextField
-import javafx.scene.control.TextInputControl
 import javafx.util.converter.BigDecimalStringConverter
 import tornadofx.*
 import ui.model.QuestionModel
@@ -31,17 +30,8 @@ class QuestionTextField(question: QuestionModel) : TextField() {
             else -> throw IllegalArgumentException("${question.item.value.type} unsupported type")
         }
 
-        textProperty().addListener({ _, _, newValue ->
-            if (newValue.isNotBlank()) {
-                question.update()
-            }
+        textProperty().addListener({ _, _, _ ->
+            question.update()
         })
     }
-
-    private fun TextInputControl.stripNonNumeric(vararg allowedChars: String = arrayOf(".", ",", "-")) = textProperty().mutateOnChange {
-        it?.replace(Regex("[^0-9${allowedChars.joinToString("")}]"), "")
-    }
-
-    private fun TextInputControl.stripNonInteger() = textProperty().mutateOnChange { it?.replace(Regex("[^0-9\\-]"), "") }
-
 }

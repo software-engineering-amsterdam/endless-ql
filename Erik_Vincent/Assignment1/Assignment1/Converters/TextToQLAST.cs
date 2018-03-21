@@ -14,7 +14,7 @@ namespace Assignment1.Converters
     internal class TextToQLAST : QLBaseListener
     {
         private QuestionForm _form;
-        private ParseErrorHandler _errorHandler = new ParseErrorHandler();
+        private QLParseErrorHandler _errorHandler = new QLParseErrorHandler();
 
         public override void ExitForm(QL.FormContext context)
         {
@@ -39,8 +39,8 @@ namespace Assignment1.Converters
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.Walk(listener, context);
 
-            if (listener._errorHandler.HasErrors)
-                listener._errorHandler.ThrowParseException();
+            if (listener._errorHandler.FormHasErrors)
+                listener._errorHandler.ThrowQLParseException();
             return listener._form;
         }
     }

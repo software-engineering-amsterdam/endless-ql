@@ -11,7 +11,7 @@ namespace Assignment1.TypeChecking
     {
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
         private readonly List<string> _warnings = new List<string>();
-        private ParseErrorHandler _errorHandler = new ParseErrorHandler();
+        private QLParseErrorHandler _errorHandler = new QLParseErrorHandler();
         private Type _currentType = Type.Undefined;
         public List<string> Warnings => _warnings;
 
@@ -126,8 +126,8 @@ namespace Assignment1.TypeChecking
             {
                 statement.Accept(this);
             }
-            if (_errorHandler.HasErrors)
-                _errorHandler.ThrowParseException();
+            if (_errorHandler.FormHasErrors)
+                _errorHandler.ThrowQLParseException();
         }
 
         public void Visit(NormalQuestion question)

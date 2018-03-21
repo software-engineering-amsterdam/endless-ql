@@ -1,7 +1,7 @@
 import antlr4
 import re
 
-from commons.error_handling import MyErrorListener
+from grammar.run_antlr import MyErrorListener
 from parser_generator.grammar.QLLexer import QLLexer
 from parser_generator.grammar.QLParser import QLParser
 from parser_generator.grammar.QLSLexer import QLSLexer

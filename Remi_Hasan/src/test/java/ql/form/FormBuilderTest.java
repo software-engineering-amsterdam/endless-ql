@@ -1,18 +1,11 @@
-package ql.FormBuilder;
+package ql.form;
 
 import org.junit.Test;
-import ql.Analysis.UnknownIdentifiersTest;
 import ql.QLFormBuilder;
-import ql.QLTestUtilities;
-import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.Form;
-import ql.model.Question;
 import ql.model.expression.ReturnType;
-import ql.model.expression.variable.ExpressionVariableBoolean;
-
-import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
@@ -23,7 +16,7 @@ public class FormBuilderTest {
     public void simpleForm() throws Exception {
         QLFormBuilder formBuilder = new QLFormBuilder();
         Form form = formBuilder.buildForm(FormBuilderTest.class
-                .getResourceAsStream("/QL/ValidForms/SimpleForm.ql"));
+                .getResourceAsStream("/ql/ValidForms/SimpleForm.ql"));
 
         assertEquals(form.identifier, "simpleForm");
         assertEquals(form.questions.size(), 6);
@@ -36,7 +29,7 @@ public class FormBuilderTest {
     public void conditionFalseForm() throws Exception {
         QLFormBuilder formBuilder = new QLFormBuilder();
         Form form = formBuilder.buildForm(FormBuilderTest.class
-                .getResourceAsStream("/QL/ValidForms/ConditionFormFalse.ql"));
+                .getResourceAsStream("/ql/ValidForms/ConditionFormFalse.ql"));
 
         assertEquals(form.questions.size(), 3);
 
@@ -53,7 +46,7 @@ public class FormBuilderTest {
     public void conditionTrueForm() throws Exception {
         QLFormBuilder formBuilder = new QLFormBuilder();
         Form form = formBuilder.buildForm(FormBuilderTest.class
-                .getResourceAsStream("/QL/ValidForms/ConditionFormTrue.ql"));
+                .getResourceAsStream("/ql/ValidForms/ConditionFormTrue.ql"));
 
         assertEquals(form.questions.size(), 3);
 
@@ -70,7 +63,7 @@ public class FormBuilderTest {
     public void computedForm() throws Exception {
         QLFormBuilder formBuilder = new QLFormBuilder();
         Form form = formBuilder.buildForm(FormBuilderTest.class.
-                getResourceAsStream("/QL/ValidForms/ComputedForm.ql"));
+                getResourceAsStream("/ql/ValidForms/ComputedForm.ql"));
 
         // Test whether computed field is computed correctly based on another field value
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(formBuilder.getSymbolTable());

@@ -1,4 +1,4 @@
-package ql.Analysis;
+package ql.analysis;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class UnknownIdentifiersTest {
         expectedEx.expectMessage("Unknown reference(s) to identifiers: [unknownString]");
 
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
-                .getResourceAsStream("/QL/UnknownIdentifiers/UnknownAssignment.ql"));
+                .getResourceAsStream("/ql/UnknownIdentifiers/UnknownAssignment.ql"));
     }
 
     @Test
@@ -24,7 +24,7 @@ public class UnknownIdentifiersTest {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Unknown reference(s) to identifiers: [unknownBoolean]");
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
-                .getResourceAsStream("/QL/UnknownIdentifiers/UnknownCondition.ql"));
+                .getResourceAsStream("/ql/UnknownIdentifiers/UnknownCondition.ql"));
     }
 
     @Test
@@ -32,7 +32,7 @@ public class UnknownIdentifiersTest {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Unknown reference(s) to identifiers: [unknownInteger]");
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
-                .getResourceAsStream("/QL/UnknownIdentifiers/UnknownExpressionAssignment.ql"));
+                .getResourceAsStream("/ql/UnknownIdentifiers/UnknownExpressionAssignment.ql"));
     }
 
     @Test
@@ -40,6 +40,6 @@ public class UnknownIdentifiersTest {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Unknown reference(s) to identifiers: [unknownDecimal]");
         QLTestUtilities.buildForm(UnknownIdentifiersTest.class
-                .getResourceAsStream("/QL/UnknownIdentifiers/UnknownExpressionCondition.ql"));
+                .getResourceAsStream("/ql/UnknownIdentifiers/UnknownExpressionCondition.ql"));
     }
 }

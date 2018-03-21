@@ -26,9 +26,9 @@ public class ChoiceBoxWidget extends Widget {
 
         choiceBox = this.createChoiceBox(choiceBox, this.questionModel.getStyleQLS());
 
-        if (questionModel.getValue() != null) {
-            System.out.println("Computed boolean value " + questionModel.displayValue());
-            choiceBox.setValue(new BooleanValue(questionModel.displayValue()).getBooleanValue());
+        if (this.questionModel.getValue() != null) {
+            System.out.println("Computed boolean value " + this.questionModel.displayValue());
+            choiceBox.setValue(new BooleanValue(this.questionModel.displayValue()).getBooleanValue());
         }
 
         ObservableList<Boolean> booleanList = FXCollections.observableArrayList(true, false);
@@ -39,7 +39,7 @@ public class ChoiceBoxWidget extends Widget {
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             BooleanValue newBooleanValue = new BooleanValue(finalChoiceBox.getItems().get((Integer) newValue));
             System.out.println("Choice selected " + newBooleanValue.getBooleanValue());
-            controller.updateGuiModel(questionModel.getVariableName(), newBooleanValue);
+            this.controller.updateGuiModel(this.questionModel.getVariableName(), newBooleanValue);
         });
 
         return choiceBox;

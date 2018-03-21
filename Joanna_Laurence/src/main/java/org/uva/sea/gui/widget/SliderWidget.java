@@ -26,24 +26,24 @@ public class SliderWidget extends Widget {
 
         Slider slider = new Slider();
 
-        slider = createSlider(slider, this.questionModel.getStyleQLS());
+        slider = this.createSlider(slider, this.questionModel.getStyleQLS());
         slider.setMin(0);
         slider.setValueChanging(true);
         slider.setMinorTickCount(1);
         slider.setMax(100);
 
-        if (questionModel.getValue() != null) {
-            System.out.println("Computed boolean value " + questionModel.displayValue());
-            slider.valueProperty().setValue(new DecimalValue(questionModel.displayValue()).getDecimalValue());
+        if (this.questionModel.getValue() != null) {
+            System.out.println("Computed boolean value " + this.questionModel.displayValue());
+            slider.valueProperty().setValue(new DecimalValue(this.questionModel.displayValue()).getDecimalValue());
         }
 
         //TODO: remove listeners repetitions
         Slider finalSlider = slider;
         slider.valueChangingProperty().addListener((observable, oldValue, newValue) -> {
-            controller.setLastFocused(questionModel.getVariableName());
+            this.controller.setLastFocused(this.questionModel.getVariableName());
             IQuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(String.valueOf(finalSlider.getValue()));
-            Value value = questionModel.accept(textToValueVisitor);
-            controller.updateGuiModel(questionModel.getVariableName(), value);
+            Value value = this.questionModel.accept(textToValueVisitor);
+            this.controller.updateGuiModel(this.questionModel.getVariableName(), value);
         });
 
         return slider;

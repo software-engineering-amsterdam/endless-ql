@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane fx:id="mainGrid" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.141"
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.141"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uva.sea.gui.FormController">
     <padding>
         <Insets bottom="40" left="40" right="40" top="40"/>
@@ -28,12 +28,12 @@
             <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES"/>
             <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES"/>
         </rowConstraints>
-        <Button fx:id="loadQlFileButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" onAction="#loadQLFile"
+        <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" onAction="#loadQLFile"
                 text="Load QL"/>
-        <Button fx:id="loadQlsFileButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" onAction="#loadQLSFile"
+        <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" onAction="#loadQLSFile"
                 text="Load QLS" GridPane.columnIndex="1"/>
         <Button alignment="CENTER_RIGHT" onAction="#export" text="Export" GridPane.columnIndex="2"/>
-        <Button fx:id="loadQLAndQlsFile" alignment="CENTER_RIGHT" contentDisplay="CENTER" onAction="#loadQLAndQLSFile"
+        <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" onAction="#loadQLAndQLSFile"
                 text="Load QL&amp;QLS" GridPane.rowIndex="1"/>
     </GridPane>
     <columnConstraints>

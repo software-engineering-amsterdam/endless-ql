@@ -14,16 +14,13 @@ public class TextFormatterBuilder<Value> {
     private Value defaultValue;
     private BaseQuestionModel questionModel;
 
-    public TextFormatterBuilder() {
-    }
-
     TextFormatterBuilder<Value> addDefaultValue(Value defaultValue) {
         this.defaultValue = defaultValue;
         return this;
     }
 
     TextFormatterBuilder<Value> addInputFilter(String pattern) {
-        inputFilter = change -> {
+        this.inputFilter = change -> {
             String text = change.getText();
 
             if (text.matches(pattern)) {
@@ -38,36 +35,36 @@ public class TextFormatterBuilder<Value> {
     }
 
     TextFormatterBuilder<Value> addBooleanConverter() {
-        converter = new BooleanStringConverter();
+        this.converter = new BooleanStringConverter();
         return this;
     }
 
     TextFormatterBuilder<Value> addDecimalConverter() {
-        converter = new BigDecimalStringConverter();
+        this.converter = new BigDecimalStringConverter();
         return this;
     }
 
     TextFormatterBuilder<Value> addIntegerConverter() {
-        converter = new IntegerStringConverter();
+        this.converter = new IntegerStringConverter();
         return this;
     }
 
     TextFormatterBuilder<Value> addDateConverter() {
-        converter = new DateStringConverter();
+        this.converter = new DateStringConverter();
         return this;
     }
 
     TextFormatterBuilder<Value> addMoneyConverter() {
-        converter = new CurrencyStringConverter();
+        this.converter = new CurrencyStringConverter();
         return this;
     }
 
     TextFormatterBuilder<Value> addStringConverter() {
-        converter = new ShortStringConverter();
+        this.converter = new ShortStringConverter();
         return this;
     }
 
     TextFormatter<Value> build() {
-        return new TextFormatter<Value>(converter, defaultValue, inputFilter);
+        return new TextFormatter<Value>(this.converter, this.defaultValue, this.inputFilter);
     }
 }

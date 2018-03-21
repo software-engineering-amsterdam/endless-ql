@@ -8,7 +8,7 @@ import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 public abstract class BaseWidgetFactory {
 
     public static BaseWidgetFactory getWidgetFactory(WidgetType widgetType, FormController controller) {
-        BaseWidgetFactory factory = null;
+        BaseWidgetFactory factory;
         switch (widgetType) {
             case SLIDER:
                 factory = new SliderWidgetFactory(controller);
@@ -28,9 +28,9 @@ public abstract class BaseWidgetFactory {
             case TEXTFIELD:
                 factory = new TextFieldWidgetFactory(controller);
                 break;
-            default:
             case DEFAULT:
             case UNKNOWN:
+            default:
                 factory = new DefaultWidgetFactory(controller);
                 break;
         }

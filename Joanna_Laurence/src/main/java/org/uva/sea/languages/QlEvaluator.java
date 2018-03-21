@@ -31,7 +31,6 @@ public class QlEvaluator implements BaseEvaluator {
      * Generate EvaluationResult
      *
      * @return EvaluationResult
-     * @throws InterruptedException
      */
     public EvaluationResult getQuestions() throws IOException, InterruptedException {
         return this.evaluator.evaluate(this.qlFileLocation, this.symbolTable);

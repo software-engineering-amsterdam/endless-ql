@@ -1,7 +1,6 @@
 package org.uva.sea.languages.ql.parser.nodeTypes;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.elements.expressions.Expression;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 

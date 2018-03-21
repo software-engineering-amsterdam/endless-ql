@@ -22,16 +22,16 @@ public class FormController implements Initializable {
     private final String defaultQlLocation = "/basic.ql";
     private final String defaultQlsLocation = "/basic.qls";
 
-    private BaseEvaluator evaluator;
+    private BaseEvaluator evaluator = null;
 
-    private QuestionRenderer questionRenderer;
-    private WarningRenderer warningRenderer;
-    private ErrorRenderer errorRenderer;
+    private QuestionRenderer questionRenderer = null;
+    private WarningRenderer warningRenderer = null;
+    private ErrorRenderer errorRenderer = null;
 
     private String lastFocusedQuestion = "";
 
-    private String qlFile;
-    private String qlsFile;
+    private String qlFile = "";
+    private String qlsFile = "";
 
     @FXML
     private VBox questionBox;
@@ -78,7 +78,7 @@ public class FormController implements Initializable {
         }
         this.qlFile = selectedFile.getAbsolutePath();
         this.qlsFile = null;
-        useNewGUISpecification(this.qlFile, null);
+        this.useNewGUISpecification(this.qlFile, null);
     }
 
     @FXML
@@ -90,13 +90,13 @@ public class FormController implements Initializable {
             return;
         }
         this.qlsFile = selectedFile.getAbsolutePath();
-        useNewGUISpecification(this.qlFile, this.qlsFile);
+        this.useNewGUISpecification(this.qlFile, this.qlsFile);
     }
 
     @FXML
     public void loadQLAndQLSFile(ActionEvent actionEvent) {
-        loadQLFile(actionEvent);
-        loadQLSFile(actionEvent);
+        this.loadQLFile(actionEvent);
+        this.loadQLSFile(actionEvent);
     }
 
     private void useNewGUISpecification(String qlFile, String qlsFile) {

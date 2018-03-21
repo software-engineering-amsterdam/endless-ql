@@ -24,14 +24,14 @@ public class TextFieldWidget extends Widget {
 
     @Override
     public Control initialize() {
-        TextField textField = this.createTextField(questionModel);
+        TextField textField = this.createTextField(this.questionModel);
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            controller.setLastFocused(questionModel.getVariableName());
+            this.controller.setLastFocused(this.questionModel.getVariableName());
             System.out.println("TextField Text Changed (newValue: " + newValue + ')');
             IQuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(newValue);
-            Value value = questionModel.accept(textToValueVisitor);
-            controller.updateGuiModel(questionModel.getVariableName(), value);
+            Value value = this.questionModel.accept(textToValueVisitor);
+            this.controller.updateGuiModel(this.questionModel.getVariableName(), value);
         });
         textField.positionCaret(textField.getText().length());
         return textField;

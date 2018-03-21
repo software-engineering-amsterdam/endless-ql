@@ -6,7 +6,7 @@ import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.widget.RadioButtonWidget;
 
 public class RadioButtonWidgetFactory extends BaseWidgetFactory {
-    final FormController controller;
+    private final FormController controller;
 
     public RadioButtonWidgetFactory(FormController controller) {
         this.controller = controller;
@@ -14,6 +14,6 @@ public class RadioButtonWidgetFactory extends BaseWidgetFactory {
 
     @Override
     public Control createWidget(BaseQuestionModel questionModel) {
-        return new RadioButtonWidget(questionModel, controller).initialize();
+        return new RadioButtonWidget(questionModel, this.controller).initialize();
     }
 }

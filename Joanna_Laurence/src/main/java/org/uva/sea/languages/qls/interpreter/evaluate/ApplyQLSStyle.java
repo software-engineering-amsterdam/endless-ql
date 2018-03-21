@@ -42,7 +42,6 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      *
      * @param interpreterResult QL interpreterResult
      * @param stylesheet        QLS AST
-     * @throws InterruptedException
      */
     public EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) {
         this.qlInputResult = interpreterResult;

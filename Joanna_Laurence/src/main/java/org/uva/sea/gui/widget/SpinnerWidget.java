@@ -13,6 +13,7 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 public class SpinnerWidget extends Widget {
 
+    public static final int SPINNER_MAX_VALUE = 50;
     private final BaseQuestionModel questionModel;
     private final FormController controller;
 
@@ -27,26 +28,26 @@ public class SpinnerWidget extends Widget {
         //TODO: set generic
         Spinner spinner = new Spinner<>();
 
-        spinner = this.createSpinner(spinner, questionModel.getStyleQLS());
+        spinner = this.createSpinner(spinner, this.questionModel.getStyleQLS());
 
         int initialValue = 3;
 
-        if (questionModel.getValue() != null) {
-            System.out.println("Computed boolean value " + questionModel.displayValue());
-            initialValue = new IntValue(questionModel.displayValue()).getIntValue();
+        if (this.questionModel.getValue() != null) {
+            System.out.println("Computed boolean value " + this.questionModel.displayValue());
+            initialValue = new IntValue(this.questionModel.displayValue()).getIntValue();
         }
 
-        SpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 50, initialValue);
+        SpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, SPINNER_MAX_VALUE, initialValue);
 
         // Value factory.
         spinner.setValueFactory(valueFactory);
 
         //TODO: remove listeners repetitions
         spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
-            controller.setLastFocused(questionModel.getVariableName());
+            this.controller.setLastFocused(this.questionModel.getVariableName());
             IQuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(newValue.toString());
-            Value value = questionModel.accept(textToValueVisitor);
-            controller.updateGuiModel(questionModel.getVariableName(), value);
+            Value value = this.questionModel.accept(textToValueVisitor);
+            this.controller.updateGuiModel(this.questionModel.getVariableName(), value);
         });
 
         return spinner;

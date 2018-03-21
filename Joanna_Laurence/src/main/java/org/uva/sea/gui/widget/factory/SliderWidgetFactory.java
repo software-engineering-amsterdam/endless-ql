@@ -7,7 +7,7 @@ import org.uva.sea.gui.widget.SliderWidget;
 
 public class SliderWidgetFactory extends BaseWidgetFactory {
 
-    final FormController controller;
+    private final FormController controller;
 
     public SliderWidgetFactory(FormController controller) {
         this.controller = controller;
@@ -15,6 +15,6 @@ public class SliderWidgetFactory extends BaseWidgetFactory {
 
     @Override
     public Control createWidget(BaseQuestionModel questionModel) {
-        return new SliderWidget(questionModel, controller).initialize();
+        return new SliderWidget(questionModel, this.controller).initialize();
     }
 }

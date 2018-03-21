@@ -23,17 +23,17 @@ public class CheckBoxWidget extends Widget {
     public Control initialize() {
         CheckBox checkBox = new CheckBox();
 
-        checkBox = this.createCheckBox(checkBox, questionModel.getStyleQLS());
+        checkBox = this.createCheckBox(checkBox, this.questionModel.getStyleQLS());
 
-        if (questionModel.getValue() != null) {
-            System.out.println("Computed boolean value " + questionModel.displayValue());
-            checkBox.setSelected(new BooleanValue(questionModel.displayValue()).getBooleanValue());
+        if (this.questionModel.getValue() != null) {
+            System.out.println("Computed boolean value " + this.questionModel.displayValue());
+            checkBox.setSelected(new BooleanValue(this.questionModel.displayValue()).getBooleanValue());
         }
 
         checkBox.selectedProperty()
                 .addListener((observable, oldIsFocused, newIsFocused) ->
                 {
-                    controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newIsFocused));
+                    this.controller.updateGuiModel(this.questionModel.getVariableName(), new BooleanValue(newIsFocused));
                 });
         return checkBox;
     }

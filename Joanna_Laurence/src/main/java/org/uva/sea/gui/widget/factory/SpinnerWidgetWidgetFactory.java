@@ -6,7 +6,7 @@ import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.widget.SpinnerWidget;
 
 public class SpinnerWidgetWidgetFactory extends BaseWidgetFactory {
-    final FormController controller;
+    private final FormController controller;
 
     public SpinnerWidgetWidgetFactory(FormController controller) {
         this.controller = controller;
@@ -14,6 +14,6 @@ public class SpinnerWidgetWidgetFactory extends BaseWidgetFactory {
 
     @Override
     public Control createWidget(BaseQuestionModel questionModel) {
-        return new SpinnerWidget(questionModel, controller).initialize();
+        return new SpinnerWidget(questionModel, this.controller).initialize();
     }
 }

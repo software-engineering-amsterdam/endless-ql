@@ -9,8 +9,6 @@ import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.render.visitor.ModelRenderer;
 import org.uva.sea.gui.widget.factory.BaseWidgetFactory;
 
-import java.util.List;
-
 public class ViewRenderer {
 
     private static final int COLUMN = 350;
@@ -60,7 +58,7 @@ public class ViewRenderer {
 
         wrapper.add(this.createQuestionLabel(questionModel.getLabel()), 0, 0);
 
-        BaseWidgetFactory factory = BaseWidgetFactory.getWidgetFactory(questionModel.getWidgetType(), controller);
+        BaseWidgetFactory factory = BaseWidgetFactory.getWidgetFactory(questionModel.getWidgetType(), this.controller);
 
         Control widget = factory.createWidget(questionModel);
 

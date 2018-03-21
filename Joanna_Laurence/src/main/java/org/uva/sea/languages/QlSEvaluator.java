@@ -27,7 +27,6 @@ public class QlSEvaluator extends QlEvaluator {
      * Generate EvaluationResult
      *
      * @return EvaluationResult
-     * @throws InterruptedException
      */
     @Override
     public EvaluationResult getQuestions() throws IOException, InterruptedException {

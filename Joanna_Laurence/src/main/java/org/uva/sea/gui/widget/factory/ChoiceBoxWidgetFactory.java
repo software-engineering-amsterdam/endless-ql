@@ -6,7 +6,7 @@ import org.uva.sea.gui.model.BaseQuestionModel;
 import org.uva.sea.gui.widget.ChoiceBoxWidget;
 
 public class ChoiceBoxWidgetFactory extends BaseWidgetFactory {
-    final FormController controller;
+    private final FormController controller;
 
     public ChoiceBoxWidgetFactory(FormController controller) {
         this.controller = controller;

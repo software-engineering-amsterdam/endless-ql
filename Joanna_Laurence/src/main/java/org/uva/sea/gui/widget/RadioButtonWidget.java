@@ -24,15 +24,15 @@ public class RadioButtonWidget extends Widget {
         //TODO: check implementation
         RadioButton radioButton = new RadioButton();
 
-        radioButton = createRadioButton(radioButton, this.questionModel.getStyleQLS());
+        radioButton = this.createRadioButton(radioButton, this.questionModel.getStyleQLS());
 
-        if (questionModel.getValue() != null) {
-            System.out.println("Computed boolean value " + questionModel.displayValue());
-            radioButton.selectedProperty().setValue(new BooleanValue(questionModel.displayValue()).getBooleanValue());
+        if (this.questionModel.getValue() != null) {
+            System.out.println("Computed boolean value " + this.questionModel.displayValue());
+            radioButton.selectedProperty().setValue(new BooleanValue(this.questionModel.displayValue()).getBooleanValue());
         }
 
         radioButton.selectedProperty().addListener(
-                (observable, oldValue, newValue) -> controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newValue))
+                (observable, oldValue, newValue) -> this.controller.updateGuiModel(this.questionModel.getVariableName(), new BooleanValue(newValue))
         );
 
         return radioButton;

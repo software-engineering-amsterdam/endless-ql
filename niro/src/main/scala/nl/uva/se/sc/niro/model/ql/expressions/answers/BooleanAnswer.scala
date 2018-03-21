@@ -1,7 +1,5 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import cats.implicits._
-import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.Logicals.BooleanAnswerCanDoLogicals._
 import nl.uva.se.sc.niro.model.ql.expressions.Orderings.BooleanAnswerCanDoOrderings._
@@ -10,7 +8,7 @@ final case class BooleanAnswer(value: Boolean) extends Answer {
 
   type T = Boolean
 
-  def typeOf(symbolTable: SymbolTable): Either[Nothing, BooleanType.type] = BooleanType.asRight
+  def typeOf = BooleanType
 
   override def isTrue: Boolean = value
 

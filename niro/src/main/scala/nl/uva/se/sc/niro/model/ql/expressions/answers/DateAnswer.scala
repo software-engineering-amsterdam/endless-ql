@@ -2,8 +2,6 @@ package nl.uva.se.sc.niro.model.ql.expressions.answers
 
 import java.time.LocalDate
 
-import cats.implicits._
-import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.Orderings.DateAnswerCanDoOrderings._
 
@@ -11,7 +9,7 @@ final case class DateAnswer(value: LocalDate) extends Answer {
 
   type T = LocalDate
 
-  def typeOf(symbolTable: SymbolTable): Either[Nothing, DateType.type] = DateType.asRight
+  def typeOf: AnswerType = DateType
 
   def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
     case that: DateAnswer =>

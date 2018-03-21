@@ -19,9 +19,9 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
         this.questionnaire = questionnaire;
     }
 
-    private List<String>        declaredQuestionTypes              = new ArrayList<>();
+    private List<String>        declaredQuestionTypes               = new ArrayList<>();
 
-    private List<String>        forwardReferences                  = new ArrayList<>();
+    private List<String>        forwardReferences                   = new ArrayList<>();
 
     private static final String ERROR0_ReferenceToUndefinedQuestion = "Reference to undefined question: ";
     private static final String ERROR1_DuplicateQuestionDeclaration = "Duplicate question declaration: ";
@@ -40,7 +40,7 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
 
         Value value = visitChildren( ctx );
 
-        if ( !forwardReferences.isEmpty()) {
+        if ( !forwardReferences.isEmpty() ) {
             throw new RuntimeException( ERROR0_ReferenceToUndefinedQuestion + forwardReferences.get( 0 ) );
         }
 
@@ -98,7 +98,8 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
         Value value = visit( ctx.expression() );
 
         if ( !type.equals( value.getType() ) ) {
-            throw new RuntimeException( ERROR2_TYPEERROR + identifier + " expects " + type + " not " + value.getType() );
+            throw new RuntimeException(
+                    ERROR2_TYPEERROR + identifier + " expects " + type + " not " + value.getType() );
         }
 
         return questionnaire.storeComputedQuestion( identifier, label, value );

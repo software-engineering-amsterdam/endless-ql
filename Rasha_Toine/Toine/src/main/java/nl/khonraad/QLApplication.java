@@ -52,7 +52,7 @@ public class QLApplication {
         new QLApplication();
     }
 
-    public QLApplication() throws  IOException {
+    public QLApplication() throws IOException {
 
         JFrame guiFrame = new JFrame();
 
@@ -249,9 +249,9 @@ public class QLApplication {
 
         String[] options = { Value.FALSE.getText(), Value.TRUE.getText() };
         JComboBox<String> component = new JComboBox<>( options );
-        
+
         component.setSelectedItem( text );
-        
+
         component.addActionListener( e -> {
 
             JComboBox<String> combo = (JComboBox<String>) e.getSource();

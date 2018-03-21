@@ -376,8 +376,8 @@ public final class Value {
                         Integer.toString( (Integer.parseInt( textLeft ) - Integer.parseInt( textRight )) ) );
 
             case "Money - Money":
-                return new Value( Type.Money, Double.toString(
-                        new BigDecimal( textLeft ).subtract( new BigDecimal( textRight ) ).doubleValue() ) );
+                return new Value( Type.Money, Double
+                        .toString( new BigDecimal( textLeft ).subtract( new BigDecimal( textRight ) ).doubleValue() ) );
         }
         throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
     }

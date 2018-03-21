@@ -7,7 +7,7 @@ import QL.ParseObjectsQL.Expressions.ExpressionConstants.BooleanConstant;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.UndefinedConstant;
 
 public class NotExpression extends UnaryExpression {
-    public NotExpression(Expression<Boolean> expr){
+    public NotExpression(Expression expr){
         super("!", expr);
     }
 
@@ -18,7 +18,7 @@ public class NotExpression extends UnaryExpression {
 
     @Override
     public Constant evaluate(){
-        if(!this.getExpression().isLogical()){
+        if(!this.getExpression().evaluate().isLogical()){
             return new UndefinedConstant();
         }
 

@@ -11,9 +11,18 @@ class ExpressionNode(BaseNode):
     def expression_type(self):
         return self.__expression_type
 
+    @expression_type.setter
+    def expression_type(self, value):
+        self.__expression_type = value
+
+    # TODO remove when visitors are refactored
     def set_expression_type(self, expression_type):
         self.__expression_type = expression_type
 
     @property
     def value(self):
         return self.__value
+
+    @value.setter
+    def value(self, value):
+        self.__value = value

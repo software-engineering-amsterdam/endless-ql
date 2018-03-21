@@ -22,6 +22,10 @@ export default class QuestionForm implements Form {
     this.computeFields();
   }
 
+  getField(identifier: string): FieldNode | undefined | any {
+    return this.getFields().find(field => field.identifier === identifier);
+  }
+
   getFields(): FieldNode[] {
     return filterNodes((node) => node instanceof ComputedField || node instanceof QuestionNode, this.node);
   }
@@ -77,7 +81,11 @@ export default class QuestionForm implements Form {
   }
 
   setAnswer(identifier: string, value: any): Form {
-    return new QuestionForm(this.node, this.state.set(identifier, value));
+    return this.setState(this.state.set(identifier, value));
+  }
+
+  setState(nextState: FormState): Form {
+    return new QuestionForm(this.node, nextState);
   }
 
   getRootNode(): FormNode {

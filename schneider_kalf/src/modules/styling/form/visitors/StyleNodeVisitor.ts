@@ -1,9 +1,9 @@
-import DefaultStyle from "../nodes/children/DefaultStyle";
+import DefaultStyle from "../nodes/children/DefaultStyleNode";
 import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheet";
+import Stylesheet from "../nodes/StyleSheetNode";
 import QuestionStyle from "../nodes/children/QuestionStyle";
 
 export default interface StyleNodeVisitor {

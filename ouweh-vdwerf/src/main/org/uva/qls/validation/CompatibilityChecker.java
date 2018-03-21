@@ -2,6 +2,7 @@ package org.uva.qls.validation;
 
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.Type;
+import org.uva.ql.validation.ValidationResult;
 import org.uva.ql.validation.checker.Checker;
 import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.ast.Widget.Widget;
@@ -23,14 +24,18 @@ class CompatibilityChecker extends Checker {
     }
 
     @Override
-    public void runCheck() {
+    public ValidationResult runCheck() {
+        ValidationResult result = new ValidationResult();
+
         for (QuestionReference questionReference : qlsQuestions) {
             Type type = qlQuestionTypes.get(questionReference.getId());
             Widget widget = questionReference.getWidget();
             if (widget != null && !widget.isCompatible(type.toString())) {
+                result.addError(String.format("Widget %s is not compatible with %s", widget.toString(), type.toString()));
                 logger.severe(String.format("Widget %s is not compatible with %s", widget.toString(), type.toString()));
             }
         }
 
+        return result;
     }
 }

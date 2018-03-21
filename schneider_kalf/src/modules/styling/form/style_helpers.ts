@@ -1,5 +1,5 @@
 import StyleTreeNode from "./nodes/StyleTreeNode";
-import DefaultStyle from "./nodes/children/DefaultStyle";
+import DefaultStyle from "./nodes/children/DefaultStyleNode";
 import StyleFilterVisitor from "./visitors/StyleFilterVisitor";
 import WidgetAttribute from "./nodes/attributes/WidgetAttribute";
 import QuestionStyle from "./nodes/children/QuestionStyle";

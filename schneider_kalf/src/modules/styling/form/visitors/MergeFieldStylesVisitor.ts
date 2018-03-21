@@ -1,22 +1,27 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
-import DefaultStyle from "../nodes/children/DefaultStyle";
+import DefaultStyle from "../nodes/children/DefaultStyleNode";
 import QuestionStyle from "../nodes/children/QuestionStyle";
 import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheet";
+import StyleSheetNode from "../nodes/StyleSheetNode";
 import MergedFieldStyle from "../MergedFieldStyle";
+import { VariableInformation } from "../../../../form/VariableIntformation";
 
 export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
   private questionStyles: MergedFieldStyle[];
+  private qlVariables: Map<string, VariableInformation>;
 
-  constructor() {
+  constructor(qlVariables: Map<string, VariableInformation>) {
+    this.qlVariables = qlVariables;
     this.questionStyles = [];
   }
+
   getStyles() {
       return this.questionStyles;
   }
+
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
     return;
   }
@@ -26,8 +31,7 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     let parents = question.getParents();
 
     for (let parent of parents.reverse()) {
-      // TODO: add question to check if valid with it's type
-      style.inheritStyleFrom(parent);
+      style.inheritStyleFrom(parent, this.qlVariables);
     }
 
     style.addLocalStyle(question);
@@ -51,7 +55,7 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     return;
   }
 
-  visitStyleSheet(stylesheet: Stylesheet): any {
+  visitStyleSheet(stylesheet: StyleSheetNode): any {
     return stylesheet.children.forEach(child => child.accept(this));
   }
 }

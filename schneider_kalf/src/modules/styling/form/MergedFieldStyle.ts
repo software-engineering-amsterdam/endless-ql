@@ -3,6 +3,7 @@ import StyleAttribute from "./nodes/StyleAttribute";
 import { getDefaultStyleNodes } from "./style_helpers";
 import QuestionStyle from "./nodes/children/QuestionStyle";
 import styleConstants from "../config/styleConstants";
+import { VariableInformation } from "../../../form/VariableIntformation";
 
 export default class MergedFieldStyle {
   private styles: Map<string, StyleAttribute>;
@@ -13,18 +14,33 @@ export default class MergedFieldStyle {
     this.styles = new Map();
   }
 
-  inheritStyleFrom(node: StyleTreeNode) {
-    let defaultNodes = getDefaultStyleNodes(node);
-    defaultNodes.reverse().forEach(defaultNode => {
+  inheritStyleFrom(node: StyleTreeNode, qlVariables: Map<string, VariableInformation>) {
+    let defaultNodesBottomUp = getDefaultStyleNodes(node).reverse();
+    defaultNodesBottomUp.forEach(defaultNode => {
+
+      const variableInformation: VariableInformation | undefined = qlVariables.get(this.identifier);
+
+      // Don't apply style when question doesn't exist
+      if (typeof variableInformation === "undefined") {
+        return;
+      }
+
+      // Style should not be applied when types conflict
+      if (variableInformation.type !== defaultNode.type) {
+        return;
+      }
+
+      // Apply style for each style entry in the default node
       defaultNode.children.forEach(styleAttribute => {
-        this.styles.set(styleAttribute.name, styleAttribute);
+        this.styles.set(styleAttribute.getName(), styleAttribute);
       });
+
     });
   }
 
   addLocalStyle(question: QuestionStyle) {
     question.children.forEach(child => {
-      this.styles.set(child.name, child);
+      this.styles.set(child.getName(), child);
     });
   }
 
@@ -42,7 +58,7 @@ export default class MergedFieldStyle {
         return;
       }
 
-      cssStyles[cssAttributeName] = attribute.value;
+      cssStyles[cssAttributeName] = attribute.getStringValue();
     });
 
     return cssStyles;

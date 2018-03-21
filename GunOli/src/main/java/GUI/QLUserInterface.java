@@ -2,7 +2,6 @@ package GUI;
 import java.io.File;
 
 import QL.ParseObjectsQL.Form;
-import QL.ParseObjectsQL.QuestionMap;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;

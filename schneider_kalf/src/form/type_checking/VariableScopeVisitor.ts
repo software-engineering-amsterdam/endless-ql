@@ -1,4 +1,3 @@
-///<reference path="../VariableIntformation.ts"/>
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
 import ComputedField from "../nodes/fields/ComputedField";
 import QuestionNode from "../nodes/fields/QuestionNode";

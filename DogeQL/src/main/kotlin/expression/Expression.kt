@@ -1,6 +1,5 @@
 package expression
 
-import common.Name
 import data.question.SymbolType
 import data.symbol.SymbolTable
 import data.value.BaseSymbolValue
@@ -9,15 +8,15 @@ import expression.visitor.evaluation.TypeVisitor
 import expression.visitor.reference.ReferenceCollector
 import expression.visitor.reference.ReferenceVisitor
 
-interface Expression {
+abstract class Expression(val sourceLocation: SourceLocation) {
 
-    fun accept(visitor: EvaluationVisitor): BaseSymbolValue
+    abstract fun accept(visitor: EvaluationVisitor): BaseSymbolValue
 
-    fun accept(visitor: TypeVisitor): SymbolType
+    abstract fun accept(visitor: TypeVisitor): SymbolType
 
-    fun accept(visitor: ReferenceVisitor): Boolean
+    abstract fun accept(visitor: ReferenceVisitor): Boolean
 
-    fun accept(visitor: ReferenceCollector)
+    abstract fun accept(visitor: ReferenceCollector)
 
     fun containsReference(): Boolean {
         return !accept(ReferenceVisitor())
@@ -31,7 +30,7 @@ interface Expression {
         return accept(TypeVisitor(symbolTable))
     }
 
-    fun allReferences(): List<Name> {
+    fun allReferences(): List<ReferenceExpression> {
         val collector = ReferenceCollector()
         accept(collector)
 

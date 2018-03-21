@@ -13,6 +13,8 @@ import ql.model.expression.variable.ExpressionVariableBoolean;
 import ql.model.expression.variable.ExpressionVariableMoney;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
+import java.util.List;
+
 public class RadioWidget extends HBox implements WidgetInterface {
 
     private final Question question;
@@ -20,14 +22,14 @@ public class RadioWidget extends HBox implements WidgetInterface {
     private final RadioButton falseButton;
     private final RadioButton trueButton;
 
-    public RadioWidget(Question question) {
+    public RadioWidget(Question question, String falseLabel, String trueLabel) {
         this.question = question;
         this.managedProperty().bind(this.visibleProperty());
 
         group = new ToggleGroup();
 
-        falseButton = new RadioButton("false");
-        trueButton = new RadioButton("true");
+        falseButton = new RadioButton(falseLabel);
+        trueButton = new RadioButton(trueLabel);
 
         trueButton.setToggleGroup(group);
         falseButton.setToggleGroup(group);

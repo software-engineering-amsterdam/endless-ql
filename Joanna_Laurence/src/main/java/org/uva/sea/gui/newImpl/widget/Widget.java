@@ -38,7 +38,9 @@ public abstract class Widget extends Renderable {
 
     @Override
     public void render(VBox container, TabPane tabPane, VBox messages) {
-        container.getChildren().add(this.convertToGuiNode());
+        Node node = this.convertToGuiNode();
+        if(node != null)
+            container.getChildren().add(node);
     }
 
     public abstract Node convertToGuiNode();

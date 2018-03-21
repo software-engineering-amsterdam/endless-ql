@@ -18,8 +18,5 @@ public class DateQuestionModel extends BaseQuestionModel {
         return visitor.visit(this);
     }
 
-    @Override
-    public String displayValue() {
-        return (this.value != null) ? this.value.getDateValue().toString() : "No value";
-    }
+
 }

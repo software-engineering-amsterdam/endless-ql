@@ -107,4 +107,9 @@ public class DateValue extends Value {
     public NodeType getType() {
         return NodeType.DATE;
     }
+
+    @Override
+    public String toString() {
+        return (this.value != null) ? this.value.getDateValue().toString() : "No value";
+    }
 }

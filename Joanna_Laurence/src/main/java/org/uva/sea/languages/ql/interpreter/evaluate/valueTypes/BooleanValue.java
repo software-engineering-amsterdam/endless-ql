@@ -73,4 +73,9 @@ public class BooleanValue extends Value {
     public NodeType getType() {
         return NodeType.BOOLEAN;
     }
+
+    @Override
+    public String toString() {
+        return this.booleanValue ? "true" : "false";
+    }
 }

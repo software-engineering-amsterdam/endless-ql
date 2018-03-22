@@ -10,9 +10,9 @@ from gui.helper import append_file_extension
 from json import dumps
 
 
-class Form(QDialog):
+class FormWindow(QDialog):
     def __init__(self, form):
-        super(Form, self).__init__()
+        super(FormWindow, self).__init__()
         self.form = form
         self.form_group_box = QGroupBox(form.identifier)
         self.create_form(form)

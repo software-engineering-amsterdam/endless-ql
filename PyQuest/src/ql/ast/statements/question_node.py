@@ -1,5 +1,5 @@
 from ql.ast.base_node import BaseNode
-from gui.model.question import Question
+from gui.model.question import QuestionModel
 
 
 class QuestionNode(BaseNode):
@@ -38,4 +38,4 @@ class QuestionNode(BaseNode):
                self.__answer == other.answer
 
     def to_question(self, show):
-        return Question(self.label, self.identifier, self.answer_type, self.answer, self.computed, show)
+        return QuestionModel(self.label, self.identifier, self.answer_type, self.answer, self.computed, show)

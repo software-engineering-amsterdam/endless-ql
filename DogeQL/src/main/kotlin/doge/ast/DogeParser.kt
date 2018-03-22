@@ -11,26 +11,26 @@ class DogeParser {
     fun parse(): Node {
         val fileStream = javaClass.getResource("/sample/TestQuestionare.doge").openStream()
 
-        val stream = ANTLRInputStream(fileStream)
-        val lexer = QuestionareLanguageLexer(stream)
-        val tokens = CommonTokenStream(lexer)
-        val parser = QuestionareLanguageParser(tokens)
+//        val stream = ANTLRInputStream(fileStream)
+//        val lexer = QuestionareLanguageLexer(stream)
+//        val tokens = CommonTokenStream(lexer)
+//        val parser = QuestionareLanguageParser(tokens)
         val walker = ParseTreeWalker.DEFAULT
-        val listener = DogeListener()
+//        val listener = DogeListener()
 
-        walker.walk(listener, parser.form())
+//        walker.walk(listener, parser.form())
 
-        val tree = listener.getParsedDogeLanguage()
+//        val tree = listener.getParsedDogeLanguage()
 
-        val result = TypeChecker(listener.symbolTable).check(tree)
+//        val result = TypeChecker(listener.symbolTable).check(tree)
 
-        if (result.hasErrors()) {
-            result.printErrors()
+//        if (result.hasErrors()) {
+//            result.printErrors()
+//
+//            throw Exception() // TODO: fix this flow
+//        }
 
-            throw Exception() // TODO: fix this flow
-        }
-
-        return tree
+        return TODO()
     }
 
 }

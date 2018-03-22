@@ -1,6 +1,8 @@
 package doge.ast
 
-class QuestionaireLanguageVisitor : QuestionnaireLangaugeGrammarBaseVisitor {
+import QuestionnaireLanguageGrammarBaseVisitor
+
+class QuestionaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<> {
 
 
 }

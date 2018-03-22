@@ -8,6 +8,7 @@
 				question seenHouseOfCards
 				section "The first subsubsection"{
 					question soldHouseIn2010 widget radio ("yes", "no", "maybe")
+					question soldHouseIn2010 widget radio ("yes", "no", "maybe")
 				}
 			}
 		}

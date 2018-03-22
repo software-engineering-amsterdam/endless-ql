@@ -5,7 +5,7 @@ namespace QLParser.Analysis.QLS
 {
     public class AllIdentifiersAreUsedAnalyser : IQLSVisitor, IQLSAnalyser
     {
-        private List<string> VisitedIDs { get; set; }
+        private List<string> VisitedIDs;
 
         public AllIdentifiersAreUsedAnalyser()
         {
@@ -21,6 +21,12 @@ namespace QLParser.Analysis.QLS
         }
 
         public void Visit(QLSStructuralNode node)
+        {
+            foreach (var child in node.Children)
+                child.Accept(this);
+        }
+
+        public void Visit(QLSNode node)
         {
             foreach (var child in node.Children)
                 child.Accept(this);
@@ -42,12 +48,6 @@ namespace QLParser.Analysis.QLS
             }
 
             return isValid;
-        }
-
-        public void Visit(QLSNode node)
-        {
-            foreach (var child in node.Children)
-                child.Accept(this);
         }
     }
 }

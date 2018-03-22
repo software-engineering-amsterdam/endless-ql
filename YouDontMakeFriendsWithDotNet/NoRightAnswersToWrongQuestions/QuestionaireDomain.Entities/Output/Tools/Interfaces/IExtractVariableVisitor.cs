@@ -5,9 +5,8 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
-    public interface ICalculationService
+    public interface IExtractVariableVisitor
     {
-        void UpdateCalculations();
-        IEnumerable<IQuestionNode> GetVariables(Reference<ICalculationNode> node);
+        IEnumerable<IQuestionNode> Extract(Reference<ICalculationNode> calculationNode);
     }
 }

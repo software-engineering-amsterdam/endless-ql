@@ -70,4 +70,6 @@ class QLMoney(QLType):
 
     @staticmethod
     def pyqt5_default_widget():
-        return DoubleSpinBox()
+        widget = DoubleSpinBox()
+        widget.setMinimum(0)
+        return widget

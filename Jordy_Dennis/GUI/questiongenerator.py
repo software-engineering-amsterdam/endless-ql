@@ -187,7 +187,7 @@ class QuestionGenerator:
             defaultWidgetType = default.widgetType
             # If type and widget already exits in defaultDict -> overwrite them
             if defaultType in defaultDict and defaultWidgetType in defaultDict[defaultType]:
-                defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default, False,
+                defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default,
                                                                                         defaultDict[defaultType][
                                                                                             defaultWidgetType])
             # Not yet in defaultDict, initialize them
@@ -195,8 +195,8 @@ class QuestionGenerator:
                 defaultDict[defaultType] = {}
                 defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default)
 
-    def getDefaultAttributes(self, default, initial=True, attributeDict={}):
-        if initial:
+    def getDefaultAttributes(self, default, attributeDict=None):
+        if attributeDict is None:
             attributeDict = {
                 'width': 40,
                 'font': 'Arial',
@@ -209,7 +209,7 @@ class QuestionGenerator:
         return attributeDict
 
     """
-    Create the list of all the questions by recursively looping through the statements and adding them to the dictionairy
+    Create the list of all the questions by recursively looping through the statements and adding them to the dictionary
     """
 
     def getQuestions(self, block):
@@ -226,7 +226,7 @@ class QuestionGenerator:
             elif type(statement) == ConditionalNode:
                 blockVisited = False
                 # check if block
-                ifBlock = statement.getIf();
+                ifBlock = statement.getIf()
                 ifExpression = ifBlock.getExpression()
                 if ifExpression.evaluate():
                     self.getQuestions(ifBlock.block)

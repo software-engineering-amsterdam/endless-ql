@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Assignment1.Model.QL.AST;
-using Assignment1.Model.QL.AST.Expression;
-using Assignment1.Model.QL.AST.Value;
 
 namespace Assignment1.TypeChecking
 {
-    public class QLASTCyclicDependencyChecker : QLASTBaseVisitor, IQLASTVisitor, IExpressionVisitor
+    public class QLASTCyclicDependencyChecker : QLASTBaseVisitor
     {
         private readonly LinkedList<Question> _currentCycle = new LinkedList<Question>();
 

@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace QLVisualizer.Widgets
 {
-    public interface IStyleCreator
+    public interface IStyleParser
     {
-        //Dictionary<string, QValueType>
+        Dictionary<string, string> ParseStyle();
+
+
     }
 }

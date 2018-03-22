@@ -1,5 +1,6 @@
 ﻿using QLParser.AST.QLS;
-using QLVisualizer.Elements.Managers.CollectionTypes;
+using QLVisualizer.Elements.Managers;
+using QLVisualizer.Widgets.Collection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace QLVisualizer.Widgets.Collection.Windows
+namespace QLVisualizer.Widgets.Windows.Collection
 {
-    public class FormBuilderWindows : WidgetCollectionBuilder<Control, FormManager>
+    public class WidgetCollectionBuilderWindows<T> : WidgetCollectionBuilder<Control, T> where T : ElementManagerCollection
     {
-        public FormBuilderWindows(List<QLSValue> qlsElements, FormManager elementManagerCollection) : base(qlsElements, elementManagerCollection, null)
+        public WidgetCollectionBuilderWindows(List<QLSValue> qlsElements, T elementManagerCollection, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, elementManagerCollection, parent, new StyleParserWindows())
         {
         }
 

@@ -11,7 +11,7 @@ namespace QLVisualizer.Widgets.Collection
 
         protected ElementManagerCollection _elementManagerCollection { get; private set; }
 
-        public WidgetCollectionBuilder(List<QLSValue> qlsElements, Y elementManagerCollection, IWidgetCollectionBuilder<T> parent) : base(qlsElements, parent)
+        public WidgetCollectionBuilder(List<QLSValue> qlsElements, Y elementManagerCollection, IWidgetCollectionBuilder<T> parent, IStyleParser styleParser) : base(qlsElements, parent, styleParser)
         {
             _children = new List<WidgetBuilder<T>>();
             _elementManagerCollection = elementManagerCollection;

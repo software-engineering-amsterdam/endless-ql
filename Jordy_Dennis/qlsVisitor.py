@@ -1,10 +1,9 @@
-from LexParser.QLSGrammarParser import QLSGrammarParser
-from LexParser.QLSGrammarVisitor import QLSGrammarVisitor
-from qlVisitor import mapStringToType, getLiteralValue
+from Grammar.QLSGrammarParser import QLSGrammarParser
+from Grammar.QLSGrammarVisitor import QLSGrammarVisitor
+from qlVisitor import mapStringToType
 from AST import *
 from QLS import *
 import logging
-import sys
 
 
 class QLSVisitor(QLSGrammarVisitor):

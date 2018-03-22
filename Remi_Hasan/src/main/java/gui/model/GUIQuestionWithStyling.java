@@ -21,8 +21,10 @@ public class GUIQuestionWithStyling {
     public Parent render(SymbolTable symbolTable){
         LabelWithWidget parent = guiQuestion.render(symbolTable, null);
         for(DefaultStyle defaultStyle : defaultStyles){
-            for(StyleAttribute styleAttribute : defaultStyle.getStyleAttributes()){
-                parent.apply(styleAttribute);
+            if(defaultStyle.type == this.guiQuestion.type) {
+                for (StyleAttribute styleAttribute : defaultStyle.getStyleAttributes()) {
+                    parent.apply(styleAttribute);
+                }
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using QuestionnaireDomain.Entities.Ast.Nodes.Calculation;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
@@ -33,7 +34,12 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 
         private void Evaluate(ICalculationNode node)
         {
-            // noop
+            foreach (var child in node.Children)
+            {
+                var childDomainItem = child.ToDomainItem(m_domainItemLocator);
+                dynamic d = childDomainItem;
+                Evaluate(d);
+            }
         }
 
         private void Evaluate(ICalculationVariableNode node)

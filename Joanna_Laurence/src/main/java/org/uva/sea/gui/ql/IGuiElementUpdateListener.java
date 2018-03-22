@@ -1,4 +1,4 @@
-package org.uva.sea.gui;
+package org.uva.sea.gui.ql;
 
 import javafx.scene.control.Control;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;

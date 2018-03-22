@@ -1,11 +1,11 @@
-package org.uva.sea.gui.widget.qls;
+package org.uva.sea.gui.ql.widget.qls;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import org.uva.sea.gui.widget.Renderable;
-import org.uva.sea.gui.widget.Widget;
+import org.uva.sea.gui.ql.widget.QLSWidget;
+import org.uva.sea.gui.ql.widget.Renderable;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.DecimalValue;
@@ -13,7 +13,7 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
-public class SpinnerWidget extends Widget {
+public class SpinnerWidget extends QLSWidget {
 
     private static final double DECIMAL_STEP_SIZE = 0.1;
 

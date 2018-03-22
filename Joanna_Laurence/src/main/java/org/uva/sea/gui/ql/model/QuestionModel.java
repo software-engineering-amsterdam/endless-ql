@@ -1,15 +1,13 @@
-package org.uva.sea.gui.model;
+package org.uva.sea.gui.ql.model;
 
-import org.uva.sea.gui.IGuiElementUpdateListener;
-import org.uva.sea.gui.widget.Renderable;
-import org.uva.sea.gui.model.factory.WidgetFactory;
-import org.uva.sea.gui.widget.Widget;
+import org.uva.sea.gui.ql.IGuiElementUpdateListener;
+import org.uva.sea.gui.ql.widget.Renderable;
+import org.uva.sea.gui.ql.model.factory.WidgetFactory;
+import org.uva.sea.gui.ql.widget.Widget;
 import org.uva.sea.languages.BaseEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
-import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,13 +26,11 @@ public class QuestionModel {
         this.interpreter = interpreter;
     }
 
-    public RenderElements getQuestionRenders() throws IOException, InterruptedException {
-        Collection<Renderable> guiElements = new ArrayList<>();
-        EvaluationResult interpreterResult = this.getEvaluationResults();
-
+    public RenderElements getQuestionRenders(EvaluationResult interpreterResult) {
         if (interpreterResult == null)
             return null;
 
+        Collection<Renderable> guiElements = new ArrayList<>();
         for (QuestionData questionData : interpreterResult.getQuestions())
             guiElements.add(this.createWidget(questionData));
 

@@ -1,6 +1,6 @@
-package org.uva.sea.gui.model;
+package org.uva.sea.gui.ql.model;
 
-import org.uva.sea.gui.widget.Renderable;
+import org.uva.sea.gui.ql.widget.Renderable;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 

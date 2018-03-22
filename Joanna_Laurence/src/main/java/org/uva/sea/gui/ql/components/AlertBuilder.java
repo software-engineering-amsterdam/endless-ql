@@ -1,4 +1,4 @@
-package org.uva.sea.gui.components;
+package org.uva.sea.gui.ql.components;
 
 import javafx.scene.control.Alert;
 

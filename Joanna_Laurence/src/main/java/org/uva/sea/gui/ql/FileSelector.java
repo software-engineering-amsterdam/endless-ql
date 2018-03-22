@@ -1,4 +1,4 @@
-package org.uva.sea.gui;
+package org.uva.sea.gui.ql;
 
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;

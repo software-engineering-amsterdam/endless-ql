@@ -1,15 +1,15 @@
-package org.uva.sea.gui.widget.qls;
+package org.uva.sea.gui.ql.widget.qls;
 
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Font;
-import org.uva.sea.gui.widget.Renderable;
-import org.uva.sea.gui.widget.Widget;
+import org.uva.sea.gui.ql.widget.QLSWidget;
+import org.uva.sea.gui.ql.widget.Renderable;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
-public class RadioButtonWidget extends Widget {
+public class RadioButtonWidget extends QLSWidget {
 
     private BooleanValue widgetValue = new BooleanValue(false);
 

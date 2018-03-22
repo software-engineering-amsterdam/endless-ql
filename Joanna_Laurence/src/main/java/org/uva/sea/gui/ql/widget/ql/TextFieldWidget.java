@@ -1,15 +1,15 @@
-package org.uva.sea.gui.widget.ql;
+package org.uva.sea.gui.ql.widget.ql;
 
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
-import org.uva.sea.gui.widget.Renderable;
-import org.uva.sea.gui.widget.Widget;
+import org.uva.sea.gui.ql.widget.QLWidget;
+import org.uva.sea.gui.ql.widget.Renderable;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
 
-public class TextFieldWidget extends Widget {
+public class TextFieldWidget extends QLWidget {
 
     private StringValue widgetValue = new StringValue("");
 

@@ -1,15 +1,15 @@
-package org.uva.sea.gui.widget.ql;
+package org.uva.sea.gui.ql.widget.ql;
 
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.text.Font;
-import org.uva.sea.gui.widget.Renderable;
-import org.uva.sea.gui.widget.Widget;
+import org.uva.sea.gui.ql.widget.QLWidget;
+import org.uva.sea.gui.ql.widget.Renderable;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
-public class CheckBoxWidget extends Widget {
+public class CheckBoxWidget extends QLWidget {
 
     private BooleanValue widgetValue = new BooleanValue(false);
 

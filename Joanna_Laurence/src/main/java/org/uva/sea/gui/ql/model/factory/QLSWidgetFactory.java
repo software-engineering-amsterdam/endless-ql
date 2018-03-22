@@ -1,15 +1,14 @@
-package org.uva.sea.gui.model.factory;
+package org.uva.sea.gui.ql.model.factory;
 
-import org.uva.sea.gui.IGuiElementUpdateListener;
-import org.uva.sea.gui.widget.Widget;
-import org.uva.sea.gui.widget.ql.TextFieldWidget;
-import org.uva.sea.gui.widget.qls.ChoiceBoxWidget;
-import org.uva.sea.gui.widget.qls.RadioButtonWidget;
-import org.uva.sea.gui.widget.qls.SliderWidget;
-import org.uva.sea.gui.widget.qls.SpinnerWidget;
+import org.uva.sea.gui.ql.IGuiElementUpdateListener;
+import org.uva.sea.gui.ql.widget.Widget;
+import org.uva.sea.gui.ql.widget.ql.TextFieldWidget;
+import org.uva.sea.gui.ql.widget.qls.ChoiceBoxWidget;
+import org.uva.sea.gui.ql.widget.qls.RadioButtonWidget;
+import org.uva.sea.gui.ql.widget.qls.SliderWidget;
+import org.uva.sea.gui.ql.widget.qls.SpinnerWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Map;

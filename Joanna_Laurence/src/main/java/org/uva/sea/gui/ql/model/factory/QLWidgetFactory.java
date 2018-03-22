@@ -1,9 +1,9 @@
-package org.uva.sea.gui.model.factory;
+package org.uva.sea.gui.ql.model.factory;
 
-import org.uva.sea.gui.IGuiElementUpdateListener;
-import org.uva.sea.gui.widget.Widget;
-import org.uva.sea.gui.widget.ql.CheckBoxWidget;
-import org.uva.sea.gui.widget.ql.TextFieldWidget;
+import org.uva.sea.gui.ql.IGuiElementUpdateListener;
+import org.uva.sea.gui.ql.widget.Widget;
+import org.uva.sea.gui.ql.widget.ql.CheckBoxWidget;
+import org.uva.sea.gui.ql.widget.ql.TextFieldWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.parser.NodeType;

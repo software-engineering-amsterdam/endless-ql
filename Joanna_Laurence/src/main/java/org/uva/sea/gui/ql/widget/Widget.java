@@ -1,17 +1,16 @@
-package org.uva.sea.gui.widget;
+package org.uva.sea.gui.ql.widget;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.VBox;
-import org.uva.sea.gui.IGuiElementUpdateListener;
-import org.uva.sea.gui.model.factory.DefaultValueFactory;
+import javafx.scene.layout.Pane;
+import org.uva.sea.gui.ql.IGuiElementUpdateListener;
+import org.uva.sea.gui.ql.model.factory.DefaultValueFactory;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 public abstract class Widget extends Renderable {
 
@@ -34,10 +33,16 @@ public abstract class Widget extends Renderable {
             listener.updateGuiVariable(control, identifier, newValue);
     }
 
+
     @Override
-    public Node render(Group container, TabPane tabPane, VBox messages) {
-        return this.convertToGuiNode();
+    public void render(Map<String, Pane> containers) {
+        Pane container = containers.get(this.drawInContainer());
+        if(container != null) {
+            container.getChildren().add(this.convertToGuiNode());
+        }
     }
 
     public abstract Node convertToGuiNode();
+
+    public abstract String drawInContainer();
 }

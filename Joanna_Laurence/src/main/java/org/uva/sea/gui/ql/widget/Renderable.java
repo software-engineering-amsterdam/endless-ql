@@ -1,15 +1,12 @@
-package org.uva.sea.gui.widget;
+package org.uva.sea.gui.ql.widget;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
+
+import java.util.Map;
 
 public abstract class Renderable {
 
@@ -20,7 +17,7 @@ public abstract class Renderable {
     private static final int MESSAGE_ROW = 600;
     private static final int MESSAGE_COLUMN = 40;
 
-    public abstract Node render(Group container, TabPane tabPane, VBox messages);
+    public abstract void render(Map<String, Pane> containers);
 
     protected Node createRow(String label, Control widget) {
         GridPane wrapper = new GridPane();

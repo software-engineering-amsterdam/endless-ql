@@ -88,14 +88,12 @@ public class FormReader {
             String questionLabel = ctx.STRING().getText();
             String questionType = ctx.TYPE().getText();
 
-            ExpressionVisitor expressionVisitor = new ExpressionVisitor();
-
-            Expression expression = null;
-            
-            if(ctx.expression() != null)
-                expression = expressionVisitor.visitExpression(ctx.expression());
-
-            return new Question(questionName, questionLabel, questionType, expression);
+            if(ctx.expression() == null)
+                return new Question(questionName, questionLabel, questionType);
+            else {
+                ExpressionVisitor expressionVisitor = new ExpressionVisitor();
+                return new Question(questionName, questionLabel, questionType, expressionVisitor.visitExpression(ctx.expression()));
+            }
         }
     }
 
@@ -119,9 +117,7 @@ public class FormReader {
                     .map(condition -> condition.accept(conditionVisitor))
                     .collect(toList());
 
-            Condition condition = new Condition(expression, questions, conditions);
-
-            return condition;
+            return new Condition(expression, questions, conditions);
         }
     }
 

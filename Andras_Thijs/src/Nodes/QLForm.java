@@ -13,32 +13,6 @@ public class QLForm extends ASTNode {
     private List<Condition> conditions;
 
     /**
-     * Creates a QLForm with just a name
-     * @param name contains the name of the form
-     */
-    public QLForm(String name){
-        this.name = name;
-    }
-
-    /**
-     * Creates a QL form with a name and a set of questions
-     * @param name contains the name of the form
-     * @param nodes contains either a list of Questions or a list of Conditions
-     * @throws UnsupportedOperationException when the type is not Questions or Conditions
-     */
-    public QLForm(String name, List<? extends ASTNode> nodes) throws SyntaxException {
-        this.name = name;
-        ASTNode first = nodes.get(0);
-        if (first instanceof Question) {
-            this.questions = (List<Question>) nodes;
-        } else if (first instanceof Condition) {
-            this.conditions = (List<Condition>) nodes;
-        } else {
-            throw new SyntaxException("Received a List that doesn't contain Questions or Conditions", this);
-        }
-    }
-
-    /**
      * Creates a QL form with a name, a set of questions, and a set of conditions
      * @param name contains the name of the form
      * @param questions contains a list of Questions
@@ -54,13 +28,11 @@ public class QLForm extends ASTNode {
      * Initiates the parent variable for every child ASTNode.
      */
     public void setParents() {
-        if(questions != null)
-            for(Question q : questions)
-                q.setParents(this);
+        for(Question q : questions)
+            q.setParents(this);
 
-        if(conditions != null)
-            for(Condition c : conditions)
-                c.setParents(this);
+        for(Condition c : conditions)
+            c.setParents(this);
     }
 
     /**
@@ -85,14 +57,6 @@ public class QLForm extends ASTNode {
      */
     public List<Condition> getConditions() {
         return conditions;
-    }
-
-    /**
-     * Adds a question to the QL form
-     * @param question the Question that needs to be added
-     */
-    public void addQuestion(Question question){
-        this.questions.add(question);
     }
 
 

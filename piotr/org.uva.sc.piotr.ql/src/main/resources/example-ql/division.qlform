@@ -1,0 +1,10 @@
+form division
+{
+  "Give me integer A" intA: integer
+  "Give me integer B" intB: integer
+  "A/B equals" intC: integer = intA/intB
+
+  "Give me decimal A" decA: decimal
+  "Give me decimal B" decB: decimal
+  "A/B equals" decC: decimal = decA/decB
+}

@@ -9,6 +9,7 @@ import ql.exceptions.IncompatibleTypesException;
 import ql.logic.type.MixedValue;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 
 public final class MixedValueTest {
@@ -30,7 +31,8 @@ public final class MixedValueTest {
         MixedValue val1 = MixedValue.createValue(Expression.DataType.INTEGER, "10");
         MixedValue result = val1.negate();
         Assert.assertEquals(result.getType(), val1.getType());
-        Assert.assertEquals(-10, (long) result.getIntegerValue());
+        Assert.assertEquals(result.getIntegerValue().compareTo(BigInteger.valueOf(-10)), 0);
+
     }
 
     @Test
@@ -39,7 +41,8 @@ public final class MixedValueTest {
         MixedValue val2 = MixedValue.createValue(Expression.DataType.INTEGER, "7");
         MixedValue result = val1.add(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(17, (long) result.getIntegerValue());
+        Assert.assertEquals(result.getIntegerValue().compareTo(BigInteger.valueOf(17)), 0);
+
     }
 
     @Test
@@ -48,7 +51,7 @@ public final class MixedValueTest {
         MixedValue val2 = MixedValue.createValue(Expression.DataType.INTEGER, "17");
         MixedValue result = val1.subtract(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(-7, (long) result.getIntegerValue());
+        Assert.assertEquals(result.getIntegerValue().compareTo(BigInteger.valueOf(-7)), 0);
     }
 
     @Test
@@ -57,7 +60,7 @@ public final class MixedValueTest {
         MixedValue val2 = MixedValue.createValue(Expression.DataType.INTEGER, "7");
         MixedValue result = val1.multiply(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(21, (long) result.getIntegerValue());
+        Assert.assertEquals(result.getIntegerValue().compareTo(BigInteger.valueOf(21)), 0);
     }
 
     @Test
@@ -66,7 +69,7 @@ public final class MixedValueTest {
         MixedValue val2 = MixedValue.createValue(Expression.DataType.INTEGER, "3");
         MixedValue result = val1.divide(val2);
         Assert.assertEquals(val1.getType(), val2.getType());
-        Assert.assertEquals(3, (long) result.getIntegerValue());
+        Assert.assertEquals(result.getIntegerValue().compareTo(BigInteger.valueOf(3)), 0);
     }
 
     @Test

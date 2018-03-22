@@ -13,35 +13,35 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ComponentFactory {
+public class WidgetFactory {
 
-    public Component getComponent(Type type, RefreshListener listener){
+    public Widget getWidget(Type type, RefreshListener listener){
         switch (type){
             case BOOL:      JCheckBox checkBox = new JCheckBox();
                             checkBox.addActionListener(new ValueChangeListener(listener));
-                            return checkBox;
+                            return new Widget(type, checkBox);
 
             case STRING:    JTextField textField = new JTextField();
                             textField.addActionListener(new ValueChangeListener(listener));
-                            return textField;
+                            return new Widget(type, textField);
 
             case INT:       JFormattedTextField intField = new JFormattedTextField(intField());
                             intField.addActionListener(new ValueChangeListener(listener));
-                            return intField;
+                            return new Widget(type, intField);
 
             case DATE:      JFormattedTextField dateField = new JFormattedTextField(dateField());
                             dateField.addActionListener(new ValueChangeListener(listener));
-                            return dateField;
+                            return new Widget(type, dateField);
 
             case DECIMAL:   JFormattedTextField decimalField = new JFormattedTextField(decimalField());
                             decimalField.addActionListener(new ValueChangeListener(listener));
-                            return decimalField;
+                            return new Widget(type, decimalField);
 
             case MONEY:     JFormattedTextField moneyField = new JFormattedTextField(decimalField());
                             moneyField.addActionListener(new ValueChangeListener(listener));
-                            return moneyField;
+                            return new Widget(type, moneyField);
 
-            default: return new JLabel(String.valueOf(type));
+            default: return new Widget(type, new JLabel(String.valueOf(type)));
         }
     }
 

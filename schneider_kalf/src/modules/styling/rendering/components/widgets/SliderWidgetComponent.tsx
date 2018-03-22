@@ -8,7 +8,7 @@ export interface SliderWidgetComponentProps {
 export const SliderWidgetComponent: React.SFC<SliderWidgetComponentProps> = (props) => {
   return (
       <div>
-        { props.widget.options.forEach() }
+        Some slider widget
       </div>
   );
 };

@@ -8,7 +8,7 @@ export interface DropdownWidgetComponentProps {
 export const DropdownWidgetComponent: React.SFC<DropdownWidgetComponentProps> = (props) => {
   return (
       <div>
-        { props.widget.options.forEach() }
+        Some checkbox widget
       </div>
   );
 };

@@ -10,13 +10,26 @@ export interface StyledFieldContainerProps {
 }
 
 export const StyledFieldContainer: React.SFC<StyledFieldContainerProps> = (props) => {
-  const FieldComponent = findComponentForFieldType(props.field.type, fieldComponentsMapping);
+  const mergedStyle = props.field.getMergedStyle();
+  const cssStyles = mergedStyle.getFieldContainerCssStyle();
+  const widget = mergedStyle.getWidgetAttribute();
 
-  const cssStyles = props.field.getMergedStyle().getFieldContainerCssStyle();
+  const DefaultFieldComponent = findComponentForFieldType(props.field.type, fieldComponentsMapping);
+  const WidgetComponent = (widget) ? widget.getRenderComponent() : null;
+
+  const renderField = () => {
+    if (!WidgetComponent) {
+      return (
+          <DefaultFieldComponent onChange={props.onChange} value={props.value} field={props.field}/>
+      );
+    }
+
+    return <WidgetComponent widget={widget} onChange={props.onChange} value={props.value} field={props.field}/>;
+  };
 
   return (
       <div style={cssStyles} className="field-container field-container-styled">
-        <FieldComponent onChange={props.onChange} value={props.value} field={props.field}/>
+        {renderField()}
       </div>
   );
 };

@@ -96,7 +96,9 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     const qlsEnabled = qlsSource.length > 0;
 
     if (qlsEnabled) {
-      return (new QlsParserPipeline(qlSource, qlsSource)).run();
+      const qlsResult = (new QlsParserPipeline(qlSource, qlsSource)).run();
+      console.log(qlsResult.styles);
+      return qlsResult;
     }
 
     return (new QlParserPipeline(qlSource)).run()[0];

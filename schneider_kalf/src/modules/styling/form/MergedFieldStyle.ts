@@ -1,10 +1,10 @@
 import StyleAttribute from "./nodes/StyleAttribute";
-import styleConstants from "../config/styleConstants";
 import { FieldType } from "../../../form/FieldType";
 import DefaultStyleNode from "./nodes/children/DefaultStyleNode";
+import WidgetAttribute from "./nodes/attributes/WidgetAttribute";
 
 export default class MergedFieldStyle {
-  private styles: Map<string, StyleAttribute>;
+  private styles: Map<string, StyleAttribute | any>;
   private identifier: string;
   private type: FieldType;
 
@@ -46,5 +46,13 @@ export default class MergedFieldStyle {
     });
 
     return cssStyles;
+  }
+
+  getWidgetAttribute(): WidgetAttribute | null {
+    if (typeof this.styles.get('widget') === 'undefined') {
+      return null;
+    }
+
+    return this.styles.get('widget');
   }
 }

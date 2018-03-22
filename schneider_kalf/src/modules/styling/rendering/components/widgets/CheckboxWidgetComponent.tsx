@@ -8,7 +8,7 @@ export interface CheckboxWidgetComponentProps {
 export const CheckboxWidgetComponent: React.SFC<CheckboxWidgetComponentProps> = (props) => {
   return (
       <div>
-        { props.widget.options.forEach() }
+        Some checkbox widget
       </div>
   );
 };

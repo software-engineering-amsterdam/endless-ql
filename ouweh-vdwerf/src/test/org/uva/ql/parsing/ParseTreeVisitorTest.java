@@ -159,7 +159,7 @@ public class ParseTreeVisitorTest {
         for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             StringLiteral stringLiteral = (StringLiteral) builder.getExpression(parser);
-            Assert.assertEquals(testCase, stringLiteral.toString());
+            Assert.assertEquals(testCase, stringLiteral.getValue());
         }
     }
 
@@ -172,7 +172,7 @@ public class ParseTreeVisitorTest {
         for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             BooleanLiteral booleanLiteral = (BooleanLiteral) builder.getExpression(parser);
-            Assert.assertEquals(testCase.toLowerCase(), booleanLiteral.toString());
+            Assert.assertEquals(Boolean.parseBoolean(testCase), booleanLiteral.getValue());
         }
     }
 

@@ -17,4 +17,13 @@ public enum MoneyType {
     public String toString() {
         return this.name;
     }
+
+    public static MoneyType fromString(String text) {
+        for (MoneyType money : MoneyType.values()) {
+            if (money.name.equalsIgnoreCase(text)) {
+                return money;
+            }
+        }
+        return null;
+    }
 }

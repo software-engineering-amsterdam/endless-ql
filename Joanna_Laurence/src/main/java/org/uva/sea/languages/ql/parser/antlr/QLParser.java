@@ -11,8 +11,11 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.MoneyType;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLParser extends Parser {
@@ -1515,7 +1518,7 @@ public class QLParser extends Parser {
 				setState(223);
 				((MoneyContext)_localctx).v = match(DECIMAL);
 
-				        ((MoneyContext)_localctx).result =  new Money(((MoneyContext)_localctx).v, MoneyType.valueOf((((MoneyContext)_localctx).c!=null?((MoneyContext)_localctx).c.getText():null)), (((MoneyContext)_localctx).v!=null?((MoneyContext)_localctx).v.getText():null));
+				        ((MoneyContext)_localctx).result =  new Money(((MoneyContext)_localctx).v, MoneyType.fromString((((MoneyContext)_localctx).c!=null?((MoneyContext)_localctx).c.getText():null)), (((MoneyContext)_localctx).v!=null?((MoneyContext)_localctx).v.getText():null));
 				    
 				}
 				break;
@@ -1536,7 +1539,7 @@ public class QLParser extends Parser {
 				setState(226);
 				((MoneyContext)_localctx).v = match(INT);
 
-				        ((MoneyContext)_localctx).result =  new Money(((MoneyContext)_localctx).v, MoneyType.valueOf((((MoneyContext)_localctx).c!=null?((MoneyContext)_localctx).c.getText():null)), (((MoneyContext)_localctx).v!=null?((MoneyContext)_localctx).v.getText():null));
+				        ((MoneyContext)_localctx).result =  new Money(((MoneyContext)_localctx).v, MoneyType.fromString((((MoneyContext)_localctx).c!=null?((MoneyContext)_localctx).c.getText():null)), (((MoneyContext)_localctx).v!=null?((MoneyContext)_localctx).v.getText():null));
 				    
 				}
 				break;

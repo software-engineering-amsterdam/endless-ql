@@ -182,11 +182,11 @@ str returns [Expression result]
 
 money returns [Expression result]
     : c=('$' | '€') v=DECIMAL {
-        $result = new Money($v, MoneyType.valueOf($c.text), $v.text);
+        $result = new Money($v, MoneyType.fromString($c.text), $v.text);
     }
 
     | c=('$' | '€') v=INT {
-        $result = new Money($v, MoneyType.valueOf($c.text), $v.text);
+        $result = new Money($v, MoneyType.fromString($c.text), $v.text);
     };
 
 date returns [DateExpr result]

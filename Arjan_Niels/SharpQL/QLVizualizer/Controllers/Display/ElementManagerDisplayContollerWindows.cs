@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using QLVisualizer.Expression;
 using QLVisualizer.Factories;
 using QLVisualizer.Properties;
-using QLVisualizer.Style;
 using QLVisualizer.Elements.Managers;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Widgets;

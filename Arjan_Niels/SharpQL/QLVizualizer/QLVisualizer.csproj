@@ -71,13 +71,6 @@
     <Compile Include="Factories\ElementManagerFactory.cs" />
     <Compile Include="Factories\QValueTypeParser.cs" />
     <Compile Include="Factories\WidgetFactory.cs" />
-    <Compile Include="Style\IStyleCheckable.cs" />
-    <Compile Include="Style\StyleChecker.cs" />
-    <Compile Include="Style\Types\CheckBox.cs" />
-    <Compile Include="Style\Types\SpinBoxStyleWindows.cs" />
-    <Compile Include="Style\Types\TextBoxStyleChecker.cs" />
-    <Compile Include="Style\Types\WindowsStyleTypes.cs" />
-    <Compile Include="Style\WindowsStyleProperties.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\Display\ElementManagerDisplayController.cs" />

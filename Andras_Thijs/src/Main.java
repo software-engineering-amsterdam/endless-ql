@@ -12,19 +12,24 @@ public class Main {
         FormReader formReader = new FormReader();
 
         try {
+            // Read the form from a file and set the parent structure.
             QLForm form = formReader.parseFile("resources/test_grammar.txt");
             form.setParents();
 
+            // Check for duplicate names and labels.
             TwoLists lists = new TwoLists();
             lists.checkQuestions(form.getQuestions());
+            // Recursively check all Questions in Conditions.
             List<Condition> conditions = form.getConditions();
             for(Condition c : conditions) {
                 lists.checkQuestions(c.getQuestions());
                 conditions.addAll(c.getConditions());
             }
 
-            List<String> duplicateStrings = lists.getDuplicateLabels();
-            // TODO: Display these as a warning
+            // TODO: Improve this?
+            // Write a log line for every duplicate label.
+            for(String label : lists.getDuplicateLabels())
+                System.out.println("WARNING: DUPLICATE LABEL " + label);
 
             // TODO: TESTING PURPOSES, REMOVE SOON.
             for(Nodes.Question q : form.getQuestions())

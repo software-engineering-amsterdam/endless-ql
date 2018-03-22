@@ -190,7 +190,7 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
   }
 
   visitVariable(expr: Variable): ExpressionType {
-    return expr.referencedQuestion.getExpressionType();
+    return expr.getExpressionType();
   }
 
   private checkConditionOrThrowBinary(condition: () => boolean, typeLeft: ExpressionType, typeRight: ExpressionType, location: Location) {

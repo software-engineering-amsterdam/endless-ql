@@ -38,7 +38,7 @@ class QSLStyleAttributeValidationTest {
 				 }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.styleAttribute,
 			QSLStyleAttributeValidator.STYLE_ATTRIBUTE_WIDTH_LENGTH)
@@ -60,7 +60,7 @@ class QSLStyleAttributeValidationTest {
 				 }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.styleAttribute,
 			QSLStyleAttributeValidator.STYLE_ATTRIBUTE_WIDTH_LENGTH)
@@ -82,7 +82,7 @@ class QSLStyleAttributeValidationTest {
 				 }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.styleAttribute,
 			QSLStyleAttributeValidator.STYLE_ATTRIBUTE_FONT_UNKNOWN)
@@ -104,7 +104,7 @@ class QSLStyleAttributeValidationTest {
 				 }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.styleAttribute,
 			QSLStyleAttributeValidator.STYLE_ATTRIBUTE_FONT_SIZE)
@@ -126,7 +126,7 @@ class QSLStyleAttributeValidationTest {
 				 }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.styleAttribute,
 			QSLStyleAttributeValidator.STYLE_ATTRIBUTE_FONT_SIZE)
@@ -148,7 +148,7 @@ class QSLStyleAttributeValidationTest {
 				 }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.styleAttribute,
 			QSLStyleAttributeValidator.STYLE_ATTRIBUTE_COLOR_LENGTH)
@@ -170,7 +170,7 @@ class QSLStyleAttributeValidationTest {
 				 }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.styleAttribute,
 			QSLStyleAttributeValidator.STYLE_ATTRIBUTE_COLOR_LENGTH)

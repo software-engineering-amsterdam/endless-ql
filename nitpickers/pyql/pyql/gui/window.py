@@ -5,14 +5,14 @@ from pyql.gui.widgets.widgets import *
 
 class Window(ttk.Frame):
     def __init__(self, parent, gui_visitor, symbol_table, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
-        self._root = parent
+        ttk.Frame.__init__(self, parent, *args, **kwargs)
+        self.root = parent
         self._gui_visitor = gui_visitor
         self._symbol_table = symbol_table
 
-        self._root.title("Questionnaire")
+        self.root.title("Questionnaire")
         self.grid(column=0, row=0, padx=10, pady=10, sticky='nsew')
-        self.menubar = tkinter.Menu(self._root)
+        self.menubar = tkinter.Menu(self.root)
 
         self.btn_update = ttk.Button(self, text='Update', command=self.btn_update)
         self.btn_update.grid(column=0, row=0, columnspan=4)

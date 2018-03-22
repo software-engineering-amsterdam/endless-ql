@@ -4,10 +4,11 @@ which in turn contains a textbox for entering QL text, and a "Parse" button. Whe
 parsed and the encoded questionnaire is opened in an output_frame in the MainWindow. This questionnaire is interactive,
 and the entered answers may be saved to a .txt file by pressing the "Submit" button.
 """
-from visitor.visitor import visit
+# import visitor.visitor as visitor_script
 from visitor.listener import listen
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
+from grammar.run_antlr import run_antlr
 from grammar.data_structure import ParserCarrier
 import sys
 from gui.input_frame import InputFrame
@@ -53,8 +54,8 @@ class MainWindow(QtWidgets.QWidget):
             #   addwidget errormessage
 
             # The tree is traversed, the questions it contains are collected, as well as the first error encountered.
-            [questionIDs, questions, error_message, warning_message] = listen(ql_data.ql_tree)
-            # [questionIDs, questions, error_message, warning_message] = visit(ql_data.ql_tree)
+            # [questionIDs, questions, error_message, warning_message] = listen(ql_data.ql_tree)
+            [questionIDs, questions, error_message, warning_message] = visit(ql_data.ql_tree)
 
             # The output_frame is initialized and appropriately filled with questions and their answering tools.
             self.initiate_output_frame(questionIDs, questions)

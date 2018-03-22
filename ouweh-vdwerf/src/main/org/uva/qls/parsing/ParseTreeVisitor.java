@@ -58,6 +58,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     @Override
     public Object visitSection(QLSParser.SectionContext ctx) {
         String sectionId = ctx.id.getText();
+        sectionId = sectionId.replaceAll("^\"|\"$", "");
 
         List<Segment> segments = new ArrayList<>();
         for (QLSParser.SegmentContext segmentContext : ctx.segment()) {
@@ -191,22 +192,22 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
 
     @Override
     public Object visitFontSizeProperty(QLSParser.FontSizePropertyContext ctx) {
-        return new FontSizeProperty((NumberValue) visit(ctx.NUMBER()));
+        return new FontSizeProperty(new NumberValue(ctx.NUMBER().toString()));
     }
 
     @Override
     public Object visitFontProperty(QLSParser.FontPropertyContext ctx) {
-        return new FontProperty((StringValue) visit(ctx.STRING()));
+        return new FontProperty(new StringValue(ctx.STRING().toString()));
     }
 
     @Override
     public Object visitWidthProperty(QLSParser.WidthPropertyContext ctx) {
-        return new WidthProperty((NumberValue) visit(ctx.NUMBER()));
+        return new WidthProperty(new NumberValue(ctx.NUMBER().toString()));
     }
 
     @Override
     public Object visitColorProperty(QLSParser.ColorPropertyContext ctx) {
-        return new ColorProperty((ColorValue) visit(ctx.COLOR()));
+        return new ColorProperty(new ColorValue(ctx.COLOR().toString()));
     }
 
     @Override

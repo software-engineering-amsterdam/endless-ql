@@ -28,14 +28,16 @@ public class RadioWidget extends QuestionWidget {
         buttonGroup.add(trueButton);
         buttonGroup.add(falseButton);
 
-
-
+        buttonGroup.setSelected(falseButton.getModel(), true);
         if((boolean)value.getValue()){
             buttonGroup.setSelected(trueButton.getModel(), true);
         }
 
-        this.add(trueButton, 1);
+        falseButton.setEnabled(readOnly);
+        trueButton.setEnabled(readOnly);
+
         this.add(falseButton, 1);
+        this.add(trueButton, 1);
 
         for (StyleProperty property : style.getStyleProperties()) {
             property.apply(this);
@@ -44,11 +46,13 @@ public class RadioWidget extends QuestionWidget {
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        trueButton.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                questionChangeListener.onQuestionChanged(question, new BooleanValue(trueButton.isSelected()));
-            }
-        });
+        trueButton.addItemListener(e -> questionChangeListener.onQuestionChanged(question, new BooleanValue(trueButton.isSelected())));
+    }
+
+    @Override
+    public void setColor(Color color) {
+        super.setColor(color);
+        falseButton.setBackground(color);
+        trueButton.setBackground(color);
     }
 }

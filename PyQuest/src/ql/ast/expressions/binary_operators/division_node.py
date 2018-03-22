@@ -23,4 +23,7 @@ class DivisionOperatorNode(BinaryOperatorNode):
         return QLUndefined
 
     def evaluate(self):
-        self.value = self.expression_type(self.left_expression.value / self.right_expression.value)
+        try:
+            self.value = self.expression_type(self.left_expression.value / self.right_expression.value)
+        except ZeroDivisionError:
+            self.value = QLUndefined()

@@ -9,6 +9,7 @@ class GuiBuilder():
     def __init__(self, ql_ast, qls_ast=None):
         self.gui = Gui()
         self.ql_ast = ql_ast
+        self.qls_ast = qls_ast
         self.form_name = ql_ast.name
         self.values = []
         self.frames = {}
@@ -16,13 +17,16 @@ class GuiBuilder():
         self.qls_frame_order = []
         self.rendered_frame_order = []
         self.frame_counter = 0
+        self.sections = {}
+        self.pages = {}
 
         # First determine the items we need to render, so we traverse AST
         self.parseQLAST(ql_ast)
         print "New frame order: ", self.ql_frame_order
-        # if qls_ast:
-        #     self.parseQLSAST(qls_ast)
-        print self.qls_frame_order
+        if qls_ast:
+            self.parseQLSAST(qls_ast)
+            self.ql_frame_order = self.qls_frame_order
+            print "New QLS frame order: ", self.qls_frame_order
 
         self.renderQLWidgets()
         self.rendered_frame_order = self.ql_frame_order
@@ -35,6 +39,12 @@ class GuiBuilder():
         self.parseQLAST(self.ql_ast)
         print "New frame order: ", self.ql_frame_order
         print "Old frame order: ", self.rendered_frame_order
+        if self.qls_ast:
+            self.qls_frame_order = []
+            self.parseQLSAST(self.qls_ast)
+            self.ql_frame_order = self.qls_frame_order
+            print "New QLS frame order: ", self.qls_frame_order
+
         self.renderQLWidgets()
         self.rendered_frame_order = self.ql_frame_order
         self.ql_frame_order = []
@@ -44,10 +54,12 @@ class GuiBuilder():
             widget_info = self.frames[widget_var]
             widget_type = widget_info[0]
 
-            if widget_type is "question" and self.checkRenderWidget(widget_var):           
+            if widget_type == "question" and self.checkRenderWidget(widget_var):
+                print "render1"           
                 self.renderQuestion(widget_var, widget_info)
 
-            elif widget_type is "assignment" and self.checkRenderWidget(widget_var):           
+            elif widget_type == "assignment" and self.checkRenderWidget(widget_var):   
+                print "render"        
                 self.renderAssignment(widget_var, widget_info)
 
             self.frame_counter += 1
@@ -62,7 +74,6 @@ class GuiBuilder():
                 self.parseAssignment(node)
 
             elif node_type is "if":
-                print node.statements
                 if self.checkExpressionvalues(node.expression):
                     condional_shown = True
                     self.parseQLAST(node)
@@ -81,51 +92,72 @@ class GuiBuilder():
 
     def parseQLSAST(self, ast):
         for page in ast.pages:
-            self.gui.addPage(page.name)
+
+            if page.name not in self.pages:
+                current_page = self.gui.addPage(page.name)
+                self.pages[page.name] = current_page
+            else:
+                self.gui.current_page = self.pages[page.name]
 
             render_frame = self.gui.current_page
             default_widgets = page.default_style_widgets
 
             for section in page.sections:
-            # First render the questions in a section, then see if this section contains more sections
-                render_frame = self.gui.addSection(section.name)
-
-                if section.default_style_widgets is not []:
-                    default_widgets = section.default_style_widgets
-
-                for question in section.questions:
-                    print section.name, question
-                    if question.var in self.ql_frame_order:
-                        self.parseQLSQuestion(question, render_frame, default_widgets)
-
-                for nested_section in section.sections:
-                    render_frame = self.gui.addSection(section.name)
+                if self.showOrRemoveSection(section):
+                    if section.name not in self.sections:
+                        render_frame = self.gui.addSection(section.name)
+                        self.sections[section.name] = render_frame
+                    else:
+                        render_frame = self.sections[section.name]
 
                     if section.default_style_widgets is not []:
                         default_widgets = section.default_style_widgets
 
                     for question in section.questions:
-                        print section.name, question
                         if question.var in self.ql_frame_order:
                             self.parseQLSQuestion(question, render_frame, default_widgets)
 
-    # walk the widget list that need to be renderend and render each item accordingly
-    def renderStatements(self):  
-        pass
+                    for nested_section in section.sections:
+                        if self.showOrRemoveSection(nested_section):
+                            if not nested_section.name in self.sections:
+                                nested_render_frame = self.gui.addSection(nested_section.name, render_frame)
+                                self.sections[nested_section.name] = nested_render_frame
+                            else:
+                                nested_render_frame = self.sections[nested_section.name]    
+
+                            if nested_section.default_style_widgets is not []:
+                                default_widgets = nested_section.default_style_widgets
+
+                            for question in nested_section.questions:
+                                if question.var in self.ql_frame_order:
+                                    self.parseQLSQuestion(question, nested_render_frame, default_widgets)
+
+                        
+
+    def showOrRemoveSection(self, section):
+        for question in section.questions:
+            if question.var in self.ql_frame_order:
+                return True
+
+        if section.name in self.sections:
+            self.sections[section.name].destroy()
+            del self.sections[section.name]
+
+        return False
 
     def checkRenderWidget(self, var):
-        if len(self.rendered_frame_order) > 0  and self.frame_counter < len(self.rendered_frame_order) and self.rendered_frame_order[self.frame_counter] is not var:
-            print self.rendered_frame_order[self.frame_counter], var
+        if len(self.rendered_frame_order) > 0 and len(self.rendered_frame_order) > self.frame_counter  and self.rendered_frame_order[self.frame_counter] is not var:
+            self.rendered_frame_order[self.frame_counter] is not var
             self.removeFrames(self.rendered_frame_order[self.frame_counter:])
             self.rendered_frame_order = self.rendered_frame_order[:self.frame_counter]
             return True
         elif len(self.rendered_frame_order) <= self.frame_counter:
             return True
+        print len(self.rendered_frame_order), self.frame_counter
 
         return False
 
     def parseQLQuestion(self, statement):
-        print statement.var
         if statement.var not in self.gui.values: 
             self.gui.createTKTraceVariable(statement.var, statement.vartype, self.updateForm) 
            
@@ -135,7 +167,7 @@ class GuiBuilder():
 
     def parseQLSQuestion(self, question, question_section, default_widgets):
         old_question = self.frames[question.var] 
-
+        print old_question
         default_widget, change_needed = self.checkForDefaultWidget(old_question[1], default_widgets)
 
         if change_needed:
@@ -146,9 +178,8 @@ class GuiBuilder():
             self.qls_frame_order.append(question.var)
 
     def checkForDefaultWidget(self, question_type, default_widgets):
-        if question_type == "boolean":
-            print default_widgets
-            return [], False
+        return [], False
+
 
     def parseAssignment(self, statement):
         result = self.parseBinOpAssignment(statement.expression)
@@ -159,7 +190,7 @@ class GuiBuilder():
             self.gui.updateValue(statement.var, result) 
 
         # type, type of assignment, name, result to show
-        self.frames[statement.var] = ("assignment", statement.name, result)
+        self.frames[statement.var] = ["assignment", statement.name, result, self.gui.window]
         self.ql_frame_order.append(statement.var)
 
     # render a question statement
@@ -172,7 +203,8 @@ class GuiBuilder():
 
     # render an assignment
     def renderAssignment(self, widget_var, widget_info):
-        self.gui.addAssignment(widget_var, widget_info[1], widget_info[2])
+        print "yeah"
+        self.gui.addAssignment(widget_var, widget_info[1], widget_info[2], widget_info[3])
 
     # render an assignment and return its value
     def parseBinOpAssignment(self, statement):

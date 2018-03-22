@@ -8,6 +8,7 @@ import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -31,11 +32,19 @@ public class DropdownWidget extends QuestionWidget {
             property.apply(this);
         }
 
+        comboBox.setEnabled(readOnly);
+
         this.add(comboBox, 1);
     }
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
         comboBox.addActionListener(e -> questionChangeListener.onQuestionChanged(question, new BooleanValue(comboBox.getSelectedIndex() == 0)));
+    }
+
+    @Override
+    public void setColor(Color color) {
+        super.setColor(color);
+        comboBox.setBackground(color);
     }
 }

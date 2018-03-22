@@ -13,7 +13,7 @@ class ControlWrapperBoolean extends ControlWrapper {
 	new(Question question, BooleanBinding binding) {
 		super(question, binding)
 		if (question.expression !== null) {
-			checkBox.selectedProperty.bind(binding)
+			checkBox.selectedProperty().bind(binding)
 		}
 	}
 
@@ -26,7 +26,7 @@ class ControlWrapperBoolean extends ControlWrapper {
 	}
 
 	override protected buildControl() {
-		checkBox = new CheckBox
+		checkBox = new CheckBox()
 	}
 
 }

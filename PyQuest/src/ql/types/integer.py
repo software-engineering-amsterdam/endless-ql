@@ -29,9 +29,10 @@ class QLInteger(QLType):
         return QLInteger(- self.value)
 
     def __eq__(self, other):
-        if type(other) == QLInteger:
-            return QLBoolean(self.value == other.value)
-        return False
+        return QLBoolean(self.value == other.value)
+
+    def __ne__(self, other):
+        return QLBoolean(self.value != other.value)
 
     def __lt__(self, other):
         return QLBoolean(self.value < other.value)
@@ -70,8 +71,4 @@ class QLInteger(QLType):
 
     @staticmethod
     def pyqt5_default_widget():
-        widget = SpinBox()
-        maximum = 2**31 - 1
-        minimum = -maximum
-        widget.setRange(minimum, maximum)
-        return widget
+        return SpinBox()

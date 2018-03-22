@@ -146,6 +146,40 @@ namespace UnitTests.Domain.UnitTests.Data
             }
         }
 
+
+        public static IEnumerable RepeatedText
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    @"form John { q1: ""RepeatedText""  date q2: ""RepeatedText"" string}",
+                    @"The text 'RepeatedText' is used multiple times");
+
+                yield return new TestCaseData(
+                    @"form Peter { qx1: ""blah""  date qx2: ""blah"" string}",
+                    @"The text 'blah' is used multiple times");
+            }
+        }
+
+        public static IEnumerable CyclicDependency
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    @"form John { q1: ""first?"" integer=(q1)}",
+                    @"a cirular dependency was found");
+                //yield return new TestCaseData(
+                //    @"form John { q1: ""first?"" integer=(q1 +100)}",
+                //    @"a cirular dependency was found");
+                //yield return new TestCaseData(
+                //    @"form John { q1: ""first?"" integer=(q2) q2: ""second?"" integer=(q1)}",
+                //    @"a cirular dependency was found");
+                //yield return new TestCaseData(
+                //    @"form John { q1: ""first?"" integer=(q2) q2: ""second?"" integer=(q3) q3: ""third?"" integer=(q1)}",
+                //    @"a cirular dependency was found");
+            }
+        }
+
         public static IEnumerable NonNumberCalculationVariable
         {
             get

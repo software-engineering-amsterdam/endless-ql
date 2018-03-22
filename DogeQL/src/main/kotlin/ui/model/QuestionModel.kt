@@ -49,7 +49,7 @@ class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
         }
     }
 
-    fun setValue(question: Question, type : SymbolType) = when (type) {
+    fun setValue(question: Question, type: SymbolType) = when (type) {
         SymbolType.STRING -> stringValue.value = question.value.stringValue.value
         SymbolType.BOOLEAN -> booleanValue.value = question.value.booleanValue.value
         SymbolType.INTEGER -> integerValue.value = question.value.integerValue.value

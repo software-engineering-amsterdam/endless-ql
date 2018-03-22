@@ -14,11 +14,11 @@ form taxOfficeExample
 			privateDebt: int
     		"ifV"
       			sellingPrice: int
-    		"Value residue:" valueResidue: int = privateDebt + privateDebt
+    		 "Value residue:" valueResidue: int = privateDebt + privateDebt
 
   	}
 	
- /*
+	/*
 
  	if (ifV4 > 3)
   	{

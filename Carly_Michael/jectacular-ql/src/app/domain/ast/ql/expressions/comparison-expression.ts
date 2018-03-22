@@ -4,7 +4,7 @@ import {BinaryExpression} from './binary-expression';
 import {ExpressionVisitor} from '../visitors/expression-visitor';
 
 export class GreaterThanExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, location: Location) {
+  constructor(readonly left: Expression, readonly right: Expression, readonly location: Location) {
     super(left, right, location);
   }
 
@@ -14,7 +14,7 @@ export class GreaterThanExpression extends BinaryExpression {
 }
 
 export class GreaterThanEqualExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, location: Location) {
+  constructor(readonly left: Expression, readonly right: Expression, readonly location: Location) {
     super(left, right, location);
   }
 
@@ -24,7 +24,7 @@ export class GreaterThanEqualExpression extends BinaryExpression {
 }
 
 export class LessThanExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, location: Location) {
+  constructor(readonly left: Expression, readonly right: Expression, readonly location: Location) {
     super(left, right, location);
   }
 
@@ -34,7 +34,7 @@ export class LessThanExpression extends BinaryExpression {
 }
 
 export class LessThanEqualExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, location: Location) {
+  constructor(readonly left: Expression, readonly right: Expression, readonly location: Location) {
     super(left, right, location);
   }
 

@@ -40,67 +40,67 @@ class QSLWidgetValidator extends AbstractQSLValidator {
 
 	dispatch def private isWidgetAllowedForQuestionType(WidgetCheckbox widget, QuestionType questionType) {
 		switch questionType {
-			case TYPE_BOOLEAN: true
-			case TYPE_DATE: false
-			case TYPE_DECIMAL: false
-			case TYPE_INTEGER: false
-			case TYPE_MONEY: false
-			case TYPE_STRING: false
+			case TYPE_BOOLEAN: return true
+			case TYPE_DATE: return false
+			case TYPE_DECIMAL: return false
+			case TYPE_INTEGER: return false
+			case TYPE_MONEY: return false
+			case TYPE_STRING: return false
 		}
 	}
 
 	dispatch def private isWidgetAllowedForQuestionType(WidgetSpinbox widget, QuestionType questionType) {
 		switch questionType {
-			case TYPE_BOOLEAN: false
-			case TYPE_DATE: false
-			case TYPE_DECIMAL: true
-			case TYPE_INTEGER: true
-			case TYPE_MONEY: true
-			case TYPE_STRING: false
+			case TYPE_BOOLEAN: return false
+			case TYPE_DATE: return false
+			case TYPE_DECIMAL: return true
+			case TYPE_INTEGER: return true
+			case TYPE_MONEY: return true
+			case TYPE_STRING: return false
 		}
 	}
 
 	dispatch def private isWidgetAllowedForQuestionType(WidgetSlider widget, QuestionType questionType) {
 		switch questionType {
-			case TYPE_BOOLEAN: false
-			case TYPE_DATE: false
-			case TYPE_DECIMAL: true
-			case TYPE_INTEGER: true
-			case TYPE_MONEY: true
-			case TYPE_STRING: false
+			case TYPE_BOOLEAN: return false
+			case TYPE_DATE: return false
+			case TYPE_DECIMAL: return true
+			case TYPE_INTEGER: return true
+			case TYPE_MONEY: return true
+			case TYPE_STRING: return false
 		}
 	}
 
 	dispatch def private isWidgetAllowedForQuestionType(WidgetText widget, QuestionType questionType) {
 		switch questionType {
-			case TYPE_BOOLEAN: false
-			case TYPE_DATE: false
-			case TYPE_DECIMAL: true
-			case TYPE_INTEGER: true
-			case TYPE_MONEY: true
-			case TYPE_STRING: true
+			case TYPE_BOOLEAN: return false
+			case TYPE_DATE: return false
+			case TYPE_DECIMAL: return true
+			case TYPE_INTEGER: return true
+			case TYPE_MONEY: return true
+			case TYPE_STRING: return true
 		}
 	}
 
 	dispatch def private isWidgetAllowedForQuestionType(WidgetRadio widget, QuestionType questionType) {
 		switch questionType {
-			case TYPE_BOOLEAN: true
-			case TYPE_DATE: false
-			case TYPE_DECIMAL: false
-			case TYPE_INTEGER: false
-			case TYPE_MONEY: false
-			case TYPE_STRING: false
+			case TYPE_BOOLEAN: return true
+			case TYPE_DATE: return false
+			case TYPE_DECIMAL: return false
+			case TYPE_INTEGER: return false
+			case TYPE_MONEY: return false
+			case TYPE_STRING: return false
 		}
 	}
 
 	dispatch def private isWidgetAllowedForQuestionType(WidgetDropdown widget, QuestionType questionType) {
 		switch questionType {
-			case TYPE_BOOLEAN: true
-			case TYPE_DATE: false
-			case TYPE_DECIMAL: false
-			case TYPE_INTEGER: false
-			case TYPE_MONEY: false
-			case TYPE_STRING: false
+			case TYPE_BOOLEAN: return true
+			case TYPE_DATE: return false
+			case TYPE_DECIMAL: return false
+			case TYPE_INTEGER: return false
+			case TYPE_MONEY: return false
+			case TYPE_STRING: return false
 		}
 	}
 

@@ -1,7 +1,7 @@
 package ql.visitors;
 
 import ql.ast.expressions.binary.*;
-import ql.ast.expressions.Identifier;
+import ql.ast.expressions.literals.Identifier;
 import ql.ast.expressions.literals.StringLiteral;
 
 public interface ExpressionVisitor<T> {

@@ -43,7 +43,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
             jsonObject.put(question.getContent(), valueTable.getValueByID(question.getId()));
         }
 
-        new IOHandler().writeOutput(jsonObject);
+        new IOHandler().writeOutput("input/test/test.json", jsonObject);
     }
 
     public List<Question> getQuestionsAsList() {
@@ -92,11 +92,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     @Override
     public Void visit(Conditional conditional, String context) {
-        for (Statement statement : conditional.getIfSide()) {
+        for (Statement statement : conditional.getIfBlock()) {
             this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }
-        for (Statement statement : conditional.getElseSide()) {
+        for (Statement statement : conditional.getElseBlock()) {
             this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }

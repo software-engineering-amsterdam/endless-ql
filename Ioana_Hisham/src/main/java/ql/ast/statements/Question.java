@@ -1,6 +1,6 @@
 package ql.ast.statements;
 
-import ql.ast.expressions.Identifier;
+import ql.ast.expressions.literals.Identifier;
 import ql.ast.expressions.literals.StringLiteral;
 import ql.types.Type;
 import ql.visitors.StatementVisitor;

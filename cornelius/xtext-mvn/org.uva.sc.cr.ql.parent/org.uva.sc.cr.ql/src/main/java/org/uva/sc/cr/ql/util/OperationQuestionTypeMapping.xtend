@@ -26,7 +26,7 @@ class OperationQuestionTypeMapping {
 	}
 
 	def private static ALLOWED_TYPES_FOR_OPERATIONS() {
-		val allowedTypesForOperations = new HashMap<Operation, List<QuestionType>>
+		val allowedTypesForOperations = new HashMap<Operation, List<QuestionType>>()
 		ALLOWED_OPERATIONS_FOR_TYPES.forEach [ type, operations |
 			operations.forEach [
 				if (allowedTypesForOperations.containsKey(it)) {
@@ -40,9 +40,9 @@ class OperationQuestionTypeMapping {
 	}
 
 	def static getAllowedTypesForOperation(String op) {
-		ALLOWED_TYPES_FOR_OPERATIONS.filter [ operation, allowedTypes |
+		return ALLOWED_TYPES_FOR_OPERATIONS().filter [ operation, allowedTypes |
 			operation.literal == op
-		].entrySet.head.value
+		].entrySet().head().value
 	}
 
 }

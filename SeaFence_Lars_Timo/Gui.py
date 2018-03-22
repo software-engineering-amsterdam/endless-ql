@@ -51,6 +51,7 @@ class Gui():
             del self.dropdowns[name]
 
     def addBooleanQuestion(self, widget_var, question, text1, text2, render_frame):
+        print "Added bool question"
         frame = tk.Frame(render_frame, height=2)
         frame.pack(expand=False, fill='both')
         
@@ -66,6 +67,7 @@ class Gui():
         self.frames[widget_var] = frame
 
     def addIntQuestion(self, widget_var, question, render_frame):
+        print "Added int question"
         frame = tk.Frame(render_frame, height=2)
         frame.pack(expand=False, fill='both')
 
@@ -84,8 +86,9 @@ class Gui():
         self.frame = frame
         return frame
 
-    def addAssignment(self, widget_var, assignment_var, result):
-        frame = tk.Frame(self.window, height=2)
+    def addAssignment(self, widget_var, assignment_var, result, render_frame):
+        print "Added assignment: ", render_frame
+        frame = tk.Frame(render_frame, height=2)
         frame.pack(expand=False, fill='both')
 
         label = tk.Label(frame, text=assignment_var, height=2)
@@ -132,6 +135,7 @@ class Gui():
         self.values[var_key] = var
 
     def addPage(self, page_name):
+        print "Added page"
         if not self.notebook_set:
             master = Frame(self.window)
             master.pack(fill=BOTH)
@@ -142,9 +146,15 @@ class Gui():
         self.current_page = Frame(self.notebook)
         self.notebook.add(self.current_page, text=page_name)
 
-    def addSection(self, section_name):
-        labelframe = LabelFrame(self.current_page, text=section_name)
-        labelframe.pack(fill="both", expand="yes")
+        return self.current_page
+
+    def addSection(self, section_name, parent_frame=None):
+        "Added section"
+        if not parent_frame:
+            parent_frame = self.current_page
+
+        labelframe = LabelFrame(parent_frame, text=section_name)
+        labelframe.pack(fill="x", expand="yes")
         left = Label(labelframe, text=section_name)
         left.pack()
 

@@ -40,42 +40,42 @@ namespace Assignment1.Rendering
             _panel.ResumeLayout();
         }
 
-        public void Visit(QuestionBool question)
+        public void Visit(RenderableQuestionBool question)
         {
             _panel.Controls.Add(RenderQuestionBool(question));
         }
 
-        public void Visit(QuestionInt question)
+        public void Visit(RenderableQuestionInt question)
         {
             _panel.Controls.Add(RenderQuestionLabel(question));
             _panel.Controls.Add(RenderQuestionInt(question));
         }
 
-        public void Visit(QuestionDate question)
+        public void Visit(RenderableQuestionDate question)
         {
             _panel.Controls.Add(RenderQuestionLabel(question));
             _panel.Controls.Add(RenderQuestionDate(question));
         }
 
-        public void Visit(QuestionDecimal question)
+        public void Visit(RenderableQuestionDecimal question)
         {
             _panel.Controls.Add(RenderQuestionLabel(question));
             _panel.Controls.Add(RenderQuestionDecimal(question));
         }
 
-        public void Visit(QuestionMoney question)
+        public void Visit(RenderableQuestionMoney question)
         {
             _panel.Controls.Add(RenderQuestionLabel(question));
             _panel.Controls.Add(RenderQuestionMoney(question));
         }
 
-        public void Visit(QuestionString question)
+        public void Visit(RenderableQuestionString question)
         {
             _panel.Controls.Add(RenderQuestionLabel(question));
             _panel.Controls.Add(RenderQuestionString(question));
         }
 
-        public CheckBox RenderQuestionBool(QuestionBool question)
+        public CheckBox RenderQuestionBool(RenderableQuestionBool question)
         {
             if (question.Condition?.Evaluate() == false) return null;
             var checkbox = new CheckBox
@@ -96,7 +96,7 @@ namespace Assignment1.Rendering
             return checkbox;
         }
 
-        public static Label RenderQuestionLabel(Question question)
+        public static Label RenderQuestionLabel(RenderableQuestion question)
         {
             if (question.Condition?.Evaluate() == false) return null;
             return new Label
@@ -106,7 +106,7 @@ namespace Assignment1.Rendering
             };
         }
 
-        public NumericUpDown RenderQuestionInt(QuestionInt question)
+        public NumericUpDown RenderQuestionInt(RenderableQuestionInt question)
         {
             if (question.Condition?.Evaluate() == false) return null;
             var numericUpDown = new NumericUpDown
@@ -128,7 +128,7 @@ namespace Assignment1.Rendering
             return numericUpDown;
         }
 
-        public DateTimePicker RenderQuestionDate(QuestionDate question)
+        public DateTimePicker RenderQuestionDate(RenderableQuestionDate question)
         {
             if (question.Condition?.Evaluate() == false) return null;
             var dateTimePicker = new DateTimePicker
@@ -150,7 +150,7 @@ namespace Assignment1.Rendering
             return dateTimePicker;
         }
 
-        public NumericUpDown RenderQuestionDecimal(QuestionDecimal question)
+        public NumericUpDown RenderQuestionDecimal(RenderableQuestionDecimal question)
         {
             if (question.Condition?.Evaluate() == false) return null;
             var numericUpDown = new NumericUpDown
@@ -173,7 +173,7 @@ namespace Assignment1.Rendering
             return numericUpDown;
         }
 
-        public NumericUpDown RenderQuestionMoney(QuestionMoney question)
+        public NumericUpDown RenderQuestionMoney(RenderableQuestionMoney question)
         {
             if (question.Condition?.Evaluate() == false) return null;
             var numericUpDown = new NumericUpDown
@@ -196,7 +196,7 @@ namespace Assignment1.Rendering
             return numericUpDown;
         }
 
-        public TextBox RenderQuestionString(QuestionString question)
+        public TextBox RenderQuestionString(RenderableQuestionString question)
         {
             if (question.Condition?.Evaluate() == false) return null;
             var textBox = new TextBox

@@ -224,7 +224,7 @@ function peg$parse(input, options) {
   const peg$c58 = /^[0-9A-F]/;
   const peg$c59 = peg$classExpectation([["0", "9"], ["A", "F"]], false, false);
   const peg$c60 = function() {
-                      return new astQls.RgbValue(text());
+                      return new astQls.HexValue(text());
                     };
   const peg$c61 = /^[a-zA-Z0-9:?\\\/.,;!]/;
   const peg$c62 = peg$classExpectation([["a", "z"], ["A", "Z"], ["0", "9"], ":", "?", "\\", "/", ".", ",", ";", "!"], false, false);

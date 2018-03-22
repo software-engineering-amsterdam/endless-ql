@@ -29,9 +29,10 @@ class QLMoney(QLType):
         return QLMoney(- self.value, self.currency)
 
     def __eq__(self, other):
-        if type(other) == QLMoney:
-            return QLBoolean(self.value == other.value and self.currency == other.currency)
-        return False
+        return QLBoolean(self.value == other.value and self.currency == other.currency)
+
+    def __ne__(self, other):
+        return QLBoolean(self.value != other.value or self.currency != other.currency)
 
     def __lt__(self, other):
         return QLBoolean(self.value < other.value and self.currency == other.currency)
@@ -69,4 +70,6 @@ class QLMoney(QLType):
 
     @staticmethod
     def pyqt5_default_widget():
-        return DoubleSpinBox()
+        widget = DoubleSpinBox()
+        widget.setMinimum(0)
+        return widget

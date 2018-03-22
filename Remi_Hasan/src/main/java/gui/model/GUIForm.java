@@ -3,12 +3,14 @@ package gui.model;
 import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
+import ql.model.expression.Expression;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,34 +32,25 @@ public class GUIForm {
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
 
         Map<String, List<GUIWidget>> guiWidgets = new HashMap<>();
+        Map<GUIWidget, Expression> guiWidgetConditions = new HashMap<>();
 
         for (GUIQuestion guiQuestion : this.guiQuestions) {
             Label label = new Label(guiQuestion.label);
             GUIWidget guiWidget = guiQuestion.render();
+
+            // Disable field if it is computed as it can not be edited
             guiWidget.setDisable(guiQuestion.computed);
 
-            // Show/hide based on condition
-            guiWidget.setVisibility(expressionEvaluator.visit(guiQuestion.condition).getBooleanValue());
+            // Display question based on condition
+            boolean visible = expressionEvaluator.visit(guiQuestion.condition).getBooleanValue();
+            guiWidget.setVisibility(visible);
+            guiWidgetConditions.put(guiWidget, guiQuestion.condition);
 
+            // If question is not computed, listen for and handle changed value
             if (!guiQuestion.computed) {
                 guiWidget.setChangeListener(observable -> {
-                    // Update value in symbol table
                     symbolTable.setExpression(guiQuestion.identifier, guiWidget.getExpressionValue());
-
-                    // Update all gui widgets
-                    for(GUIQuestion guiQuestion1 : guiQuestions) {
-                        List<GUIWidget> guiWidgetsEntries = guiWidgets.get(guiQuestion1.identifier);
-                        for (GUIWidget guiWidgetEntry : guiWidgetsEntries) {
-                            // Toggle visibility by evaluating the question's condition
-                            guiWidgetEntry.setVisibility(expressionEvaluator.visit(guiQuestion1.condition).getBooleanValue());
-
-                            // Disabled, so it is a computed field that should be updated
-                            if (guiWidgetEntry.isDisabled()) {
-                                Value result = expressionEvaluator.visit(symbolTable.getExpression(guiQuestion1.identifier));
-                                guiWidgetEntry.setValue(result);
-                            }
-                        }
-                    }
+                    this.updateRenderedQuestions(guiWidgets, guiWidgetConditions, expressionEvaluator, symbolTable);
                 });
             }
 
@@ -79,5 +72,24 @@ public class GUIForm {
         }
 
         return vBox;
+    }
+
+    private void updateRenderedQuestions(Map<String, List<GUIWidget>> guiWidgets,
+                                         Map<GUIWidget, Expression> guiWidgetConditions,
+                                         ExpressionEvaluator expressionEvaluator, SymbolTable symbolTable) {
+        for(GUIQuestion guiQuestion : guiQuestions) {
+            List<GUIWidget> guiWidgetsEntries = guiWidgets.get(guiQuestion.identifier);
+            for (GUIWidget guiWidget : guiWidgetsEntries) {
+                // Toggle visibility by evaluating the widget's condition
+                Expression condition = guiWidgetConditions.get(guiWidget);
+                guiWidget.setVisibility(expressionEvaluator.visit(condition).getBooleanValue());
+
+                // Disabled, so it is a computed field that should be updated
+                if (guiWidget.isDisabled()) {
+                    Value result = expressionEvaluator.visit(symbolTable.getExpression(guiQuestion.identifier));
+                    guiWidget.setValue(result);
+                }
+            }
+        }
     }
 }

@@ -18,6 +18,9 @@ form taxOfficeExample
     "Value residue:"
       valueResidue: money =
         (sellingPrice - privateDebt)
+  } else {
+    "What was the selling price?2"
+        sellingPrice: money
   }
 
 }

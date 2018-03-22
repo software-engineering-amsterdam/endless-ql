@@ -115,12 +115,10 @@ public class FormBuilder extends NodeVisitor {
 
     @Override
     public void visitAstRoot(QLAstRoot astRoot) {
-        System.out.println("ROOT");
     }
 
     @Override
     public void visitForm(Form form) {
-        System.out.println("FORM: " + form.getLabel());
     }
 
     @Override
@@ -130,7 +128,6 @@ public class FormBuilder extends NodeVisitor {
 
     @Override
     public void visitIfBlock(IfBlock ifBlock) {
-        System.out.println("IFBLOCK:");
     }
 
     @Override
@@ -155,7 +152,7 @@ public class FormBuilder extends NodeVisitor {
 
     @Override
     public void visitQuestion(Question question) {
-        System.out.println("Q: " + question.getQuestion());
+
     }
 
     @Override

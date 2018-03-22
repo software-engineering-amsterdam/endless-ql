@@ -130,7 +130,6 @@ class InputTypeMap:
         newVal = var.get()
         if type(newVal) != bool:
             newVal = bool(newVal)
-        print(newVal)
         # save value in vardict
         varNode = self.varDict[self.varName]['node']
         varNode.setVar(newVal)

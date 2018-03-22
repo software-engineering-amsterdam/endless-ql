@@ -39,24 +39,6 @@ public class TextFieldWidget extends QLWidget {
     }
 
     @Override
-    public boolean updateValue(DateValue dateValue) {
-        this.widgetValue = dateValue;
-        return true;
-    }
-
-    @Override
-    public boolean updateValue(BooleanValue booleanValue) {
-        this.widgetValue = booleanValue;
-        return true;
-    }
-
-    @Override
-    public boolean updateValue(MoneyValue moneyValue) {
-        this.widgetValue = moneyValue;
-        return true;
-    }
-
-    @Override
     public Node convertToGuiNode() {
 
         TextField textField = new TextField();

@@ -28,7 +28,7 @@ namespace Assignment1.TypeChecking
             }
         }
 
-        private void TypeCheckQLQuestionsInQLSStylesheet()
+        private void TypeCheckQLQuestionsInQLSStylesheet(int lineNumber)
         {
             var qlIDs = _qlQuestions.Keys.ToList();
             var qlsIDs = _qlsQuestions.Keys.ToList();
@@ -43,7 +43,7 @@ namespace Assignment1.TypeChecking
                     else
                         missingQuestions += question + ", ";
                 }
-                _errorHandler.AddError(1, "The questions " + missingQuestions + " are defined in questionaire form but not used in stylesheet.");
+                _errorHandler.AddError(lineNumber, "The questions " + missingQuestions + " are defined in questionaire form but not used in stylesheet.");
             }
         }
 
@@ -53,7 +53,7 @@ namespace Assignment1.TypeChecking
             {
                 page.Accept(this);
             }
-            TypeCheckQLQuestionsInQLSStylesheet();
+            TypeCheckQLQuestionsInQLSStylesheet(styleSheet.LineNumber);
         }
 
         public void Visit(Page page)
@@ -78,12 +78,12 @@ namespace Assignment1.TypeChecking
             if (!_qlQuestions.ContainsKey(_currentQuestion))
             {
                 // Collect error that question ID is used but doesn't exist in QL form
-                _errorHandler.AddError(1, "Reference to undefined question with id '" + _currentQuestion + "'.");
+                _errorHandler.AddError(questionStyle.LineNumber, "Reference to undefined question with id '" + _currentQuestion + "'.");
             }
             if (_qlsQuestions.ContainsKey(_currentQuestion))
             {
                 // Collect error that question ID is already used before
-                _errorHandler.AddError(1, "Question with id '" + _currentQuestion + "' already used in stylesheet.");
+                _errorHandler.AddError(questionStyle.LineNumber, "Question with id '" + _currentQuestion + "' already used in stylesheet.");
             }
             foreach (IStyle style in questionStyle.Styles)
             {

@@ -69,6 +69,12 @@
     <Compile Include="Expression\Types\ExpressionInt.cs" />
     <Compile Include="Factories\ExpressionFactory.cs" />
     <Compile Include="Factories\ElementManagerFactory.cs" />
+    <Compile Include="Style\IStyleCheckable.cs" />
+    <Compile Include="Style\StyleChecker.cs" />
+    <Compile Include="Style\Types\CheckBox.cs" />
+    <Compile Include="Style\Types\SpinBoxStyleWindows.cs" />
+    <Compile Include="Style\Types\TextBoxStyleChecker.cs" />
+    <Compile Include="Style\Types\WindowsStyleTypes.cs" />
     <Compile Include="Style\WindowsStyleProperties.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

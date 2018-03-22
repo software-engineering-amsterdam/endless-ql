@@ -31,6 +31,8 @@ public class QlSEvaluator extends QlEvaluator {
     @Override
     public EvaluationResult getQuestions() throws IOException, InterruptedException {
         EvaluationResult qlInterpreterResult = super.getQuestions();
+        if(qlInterpreterResult.getAst() == null)
+            return qlInterpreterResult;
 
         return this.evaluator.evaluate(this.qlsFileLocation, qlInterpreterResult);
     }

@@ -1,7 +1,7 @@
 package gui.model;
 
+import gui.elements.LabelWithWidget;
 import gui.widgets.GUIWidget;
-import gui.widgets.LabelWithWidget;
 import gui.widgets.WidgetFactory;
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.Label;

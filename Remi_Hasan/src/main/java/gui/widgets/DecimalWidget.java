@@ -1,7 +1,6 @@
 package gui.widgets;
 
 import ql.evaluation.value.Value;
-import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableDecimal;
@@ -15,7 +14,7 @@ public class DecimalWidget extends TextWidget {
 
     @Override
     public Expression getExpressionValue() {
-        if(this.getText().isEmpty()) {
+        if (this.getText().isEmpty()) {
             return new ExpressionVariableUndefined(null, ReturnType.INTEGER);
         }
 

@@ -14,7 +14,7 @@ public class MoneyWidget extends TextWidget implements GUIWidget {
 
     @Override
     public Expression getExpressionValue() {
-        if(this.getText().isEmpty()) {
+        if (this.getText().isEmpty()) {
             return new ExpressionVariableUndefined(null, ReturnType.MONEY);
         }
 

@@ -3,7 +3,6 @@ package gui.widgets;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
-import ql.model.expression.Expression;
 
 public abstract class SliderWidget extends Slider implements GUIWidget {
 
@@ -16,11 +15,6 @@ public abstract class SliderWidget extends Slider implements GUIWidget {
         this.setMajorTickUnit(step);
         this.setMinorTickCount(5);
         this.setBlockIncrement(10);
-    }
-
-    @Override
-    public void setVisibility(boolean visible) {
-        this.setVisible(visible);
     }
 
     @Override

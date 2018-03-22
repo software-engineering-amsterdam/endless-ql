@@ -9,8 +9,6 @@ import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableDate;
 
-import java.time.LocalDate;
-
 public class DateWidget extends DatePicker implements GUIWidget {
 
     public DateWidget() {
@@ -38,11 +36,6 @@ public class DateWidget extends DatePicker implements GUIWidget {
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
         this.valueProperty().addListener(invalidationListener);
-    }
-
-    @Override
-    public void setVisibility(boolean visible) {
-        this.setVisible(visible);
     }
 
     @Override

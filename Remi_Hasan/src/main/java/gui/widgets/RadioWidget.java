@@ -1,13 +1,11 @@
 package gui.widgets;
 
-import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import ql.evaluation.value.Value;
-import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableBoolean;
 
@@ -37,11 +35,6 @@ public class RadioWidget extends HBox implements GUIWidget {
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
         group.selectedToggleProperty().addListener(invalidationListener);
-    }
-
-    @Override
-    public void setVisibility(boolean visible) {
-        this.setVisible(visible);
     }
 
     @Override

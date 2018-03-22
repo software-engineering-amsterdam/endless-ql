@@ -1,6 +1,6 @@
-package gui.widgets;
+package gui.elements;
 
-import gui.elements.GUIQuestionElement;
+import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -12,14 +12,15 @@ import qls.model.*;
 import qls.model.style.*;
 import qls.model.widget.*;
 
-// TODO: separate interface
 public class LabelWithWidget extends VBox implements GUIQuestionElement, IQLSVisitor<Void> {
 
     private final GUIWidget guiWidget;
 
     public LabelWithWidget(Label label, GUIWidget guiWidget) {
-        this.guiWidget = guiWidget;
+        // This way, when hiding the widget, it will also take no space in the GUI
+        this.managedProperty().bind(this.visibleProperty());
 
+        this.guiWidget = guiWidget;
         this.getChildren().add(label);
         this.getChildren().add(guiWidget.getNode());
     }

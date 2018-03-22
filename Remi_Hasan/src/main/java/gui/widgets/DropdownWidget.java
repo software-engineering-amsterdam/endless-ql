@@ -1,6 +1,5 @@
 package gui.widgets;
 
-import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
@@ -24,11 +23,6 @@ public class DropdownWidget extends ComboBox<String> implements GUIWidget {
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
         this.valueProperty().addListener(invalidationListener);
-    }
-
-    @Override
-    public void setVisibility(boolean visible) {
-        this.setVisible(visible);
     }
 
     @Override

@@ -15,11 +15,6 @@ public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
     }
 
     @Override
-    public void setVisibility(boolean visible) {
-        this.setVisible(visible);
-    }
-
-    @Override
     public Node getNode() {
         return this;
     }

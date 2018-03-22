@@ -56,9 +56,4 @@ public class TextWidget extends TextField implements GUIWidget {
     public void setChangeListener(InvalidationListener invalidationListener) {
         this.textProperty().addListener(invalidationListener);
     }
-
-    @Override
-    public void setVisibility(boolean visible) {
-        this.setVisible(visible);
-    }
 }

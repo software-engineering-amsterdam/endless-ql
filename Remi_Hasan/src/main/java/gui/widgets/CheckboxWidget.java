@@ -1,6 +1,5 @@
 package gui.widgets;
 
-import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -17,11 +16,6 @@ public class CheckboxWidget extends CheckBox implements GUIWidget {
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
         this.selectedProperty().addListener(invalidationListener);
-    }
-
-    @Override
-    public void setVisibility(boolean visible) {
-        this.setVisible(visible);
     }
 
     @Override

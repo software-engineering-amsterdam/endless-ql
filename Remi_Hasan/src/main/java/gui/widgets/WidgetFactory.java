@@ -3,9 +3,9 @@ package gui.widgets;
 import ql.model.expression.ReturnType;
 
 public class WidgetFactory {
-    
+    // TODO: implement interface that can be overidden by QLS
     public static GUIWidget getDefaultWidget(ReturnType questionType) {
-        switch(questionType) {
+        switch (questionType) {
             case STRING:
                 return new TextWidget();
             case INTEGER:

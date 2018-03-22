@@ -1,6 +1,6 @@
 package gui.model;
 
-import gui.widgets.LabelWithWidget;
+import gui.elements.LabelWithWidget;
 import javafx.beans.InvalidationListener;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GUIForm extends VBox{
+public class GUIForm extends VBox {
     public final String identifier;
     public final List<GUIQuestion> guiQuestions;
 

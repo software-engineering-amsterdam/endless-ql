@@ -1,6 +1,6 @@
 package gui.model;
 
-import gui.widgets.LabelWithWidget;
+import gui.elements.LabelWithWidget;
 import javafx.scene.Parent;
 import ql.analysis.SymbolTable;
 import qls.model.DefaultStyle;

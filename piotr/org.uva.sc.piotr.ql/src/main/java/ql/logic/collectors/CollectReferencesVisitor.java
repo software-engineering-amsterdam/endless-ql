@@ -1,9 +1,9 @@
 package ql.logic.collectors;
 
+import com.sun.istack.internal.NotNull;
 import ql.ast.model.ASTNode;
 import ql.ast.model.expressions.values.VariableReference;
 import ql.ast.visitors.AbstractASTTraverse;
-import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;

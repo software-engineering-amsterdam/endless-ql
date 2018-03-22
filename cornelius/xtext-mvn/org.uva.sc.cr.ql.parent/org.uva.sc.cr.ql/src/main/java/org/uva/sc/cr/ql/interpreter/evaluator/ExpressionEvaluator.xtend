@@ -32,25 +32,25 @@ class ExpressionEvaluator {
 
 	private def String buildExpression(Expression expression) {
 		switch expression {
-			ExpressionOr: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionAnd: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionEquality: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionComparison: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionPlusOrMinus: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionMultiplicationOrDivision: '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionParanthesis: ''' ( «buildExpression(expression.expression)» ) '''
+			ExpressionOr: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionAnd: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionEquality: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionComparison: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionPlusOrMinus: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionMultiplicationOrDivision: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionParanthesis: return ''' ( «buildExpression(expression.expression)» ) '''
 			ExpressionNot:
-				Operation.NOT.literal + buildExpression(expression.expression)
+				return Operation.NOT.literal + buildExpression(expression.expression)
 			ExpressionLiteralString:
-				" '" + expression.expression + "' "
+				return " '" + expression.expression + "' "
 			ExpressionLiteralInteger:
-				" " + expression.expression + " "
+				return " " + expression.expression + " "
 			ExpressionLiteralBoolean:
-				" " + expression.expression + " "
+				return " " + expression.expression + " "
 			ExpressionQuestionReference:
-				expression.question.name
+				return expression.question.name
 			default: {
-				throw new MissingCaseException
+				throw new MissingCaseException()
 			}
 		}
 	}

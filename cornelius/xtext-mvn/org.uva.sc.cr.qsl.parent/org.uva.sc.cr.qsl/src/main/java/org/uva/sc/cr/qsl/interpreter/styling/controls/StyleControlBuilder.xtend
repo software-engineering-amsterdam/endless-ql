@@ -1,4 +1,4 @@
-package org.uva.sc.cr.qsl.interpreter.service
+package org.uva.sc.cr.qsl.interpreter.styling.controls
 
 import java.util.List
 import javafx.event.Event
@@ -23,44 +23,44 @@ import org.uva.sc.cr.qsl.qSL.StyleAttributeWidth
 import org.uva.sc.cr.qsl.qSL.Widget
 
 @Singleton
-class StyleControlService {
+class StyleControlBuilder {
 
 	@Inject
-	private StyleControlBooleanService styleControlBooleanService
+	private StyleControlBooleanBuilder styleControlBooleanBuilder
 
 	@Inject
-	private StyleControlIntegerService styleControlIntegerService
+	private StyleControlIntegerBuilder styleControlIntegerBuilder
 
 	@Inject
-	private StyleControlDecimalService styleControlDecimalService
+	private StyleControlDecimalBuilder styleControlDecimalBuilder
 
 	@Inject
-	private StyleControlMoneyService styleControlMoneyService
+	private StyleControlMoneyBuilder styleControlMoneyBuilder
 
-	def styleDefaultControl(ControlWrapper controlWrapper, DefaultStyle defaultStyleToApply) {
+	def HBox styleDefaultControl(ControlWrapper controlWrapper, DefaultStyle defaultStyleToApply) {
 		val hbox = controlWrapper.controlWithLabel
 		applyDefaultStyle(hbox, defaultStyleToApply)
 		return hbox
 	}
 
-	def dispatch style(ControlWrapper controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+	def dispatch HBox style(ControlWrapper controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
 		return styleDefaultControl(controlWrapper, defaultStyleToApply)
 	}
 
-	def dispatch style(ControlWrapperBoolean controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
-		return styleControlBooleanService.styleBoolean(controlWrapper, widget, defaultStyleToApply)
+	def dispatch HBox style(ControlWrapperBoolean controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+		return styleControlBooleanBuilder.styleBoolean(controlWrapper, widget, defaultStyleToApply)
 	}
 
-	def dispatch style(ControlWrapperInteger controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
-		return styleControlIntegerService.styleInteger(controlWrapper, widget, defaultStyleToApply)
+	def dispatch HBox style(ControlWrapperInteger controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+		return styleControlIntegerBuilder.styleInteger(controlWrapper, widget, defaultStyleToApply)
 	}
 
-	def dispatch style(ControlWrapperDecimal controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
-		return styleControlDecimalService.styleDecimal(controlWrapper, widget, defaultStyleToApply)
+	def dispatch HBox style(ControlWrapperDecimal controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+		return styleControlDecimalBuilder.styleDecimal(controlWrapper, widget, defaultStyleToApply)
 	}
 
-	def dispatch style(ControlWrapperMoney controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
-		return styleControlMoneyService.styleMoney(controlWrapper, widget, defaultStyleToApply)
+	def dispatch HBox style(ControlWrapperMoney controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+		return styleControlMoneyBuilder.styleMoney(controlWrapper, widget, defaultStyleToApply)
 	}
 
 	protected def copyControlConfiguration(Control source, Control destination) {
@@ -71,12 +71,12 @@ class StyleControlService {
 			}
 
 		})
-		destination.visibleProperty.bindBidirectional(source.visibleProperty)
-		destination.disableProperty.bindBidirectional(source.disableProperty)
+		destination.visibleProperty().bindBidirectional(source.visibleProperty())
+		destination.disableProperty().bindBidirectional(source.disableProperty())
 	}
 
 	protected def buildHBoxAndApplyDefaultStyle(DefaultStyle defaultStyleToApply, Node... controls) {
-		val hbox = new HBox
+		val hbox = new HBox()
 		hbox.children.addAll(controls)
 		applyDefaultStyle(hbox, defaultStyleToApply)
 		return hbox

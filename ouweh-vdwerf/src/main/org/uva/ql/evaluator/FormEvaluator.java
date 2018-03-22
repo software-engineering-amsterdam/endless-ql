@@ -43,7 +43,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
             jsonObject.put(question.getContent(), valueTable.getValueByID(question.getId()));
         }
 
-        new IOHandler().writeOutput(jsonObject);
+        new IOHandler().writeOutput("input/test/test.json", jsonObject);
     }
 
     public List<Question> getQuestionsAsList() {

@@ -1,4 +1,5 @@
 ﻿using QLParser.AST.QL;
+using QLParser.AST.QL.ExpressionNodes;
 
 namespace QLParser.Analysis.QL.Syntactic
 {
@@ -47,6 +48,16 @@ namespace QLParser.Analysis.QL.Syntactic
         }
 
         public void Visit(QLNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(ExpressionNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(ConditionalNode node)
         {
             VisitChildren(node);
         }

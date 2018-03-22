@@ -4,28 +4,17 @@ using QLParser.Exceptions;
 
 namespace QLParser.Analysis.QL.Semantic
 {
-    public class OnlyInitialisedVarsAnalyser : IQLAnalyser
+    public class OnlyInitialisedVarsAnalyser : IQLAnalyser, IQLVisitor
     {
+        private bool isValid = false;
+
         public bool Analyse(QLNode node)
         {
-            var result = true;
-            if (node.Type == NodeType.CONDITIONAL)
-            {
-                var conditionalNode = (ConditionalNode)node;
-                return AnalyseExpression(conditionalNode.Expression);
-            }
-            else if (node.Type == NodeType.COMPUTED)
-            {
-                var computedNode = (ComputedNode)node;
-                return AnalyseExpression(computedNode.Expression);
-            }
+            this.isValid = true;
+            this.Visit(node);
 
-            // Set result to false when any of the children encounters a error.
-            foreach (QLNode child in node.Children)
-                if (!Analyse(child) && result)
-                    result = false;
+            return isValid;
 
-            return result;
         }
 
         private bool IsIdentiierInSymbolTable(IdentifierNode node)
@@ -61,6 +50,47 @@ namespace QLParser.Analysis.QL.Semantic
                 default:
                     throw new UnknownNodeTypeException(string.Format("We don't know what to do with a {0} node.", node.GetNodeType()));
             }
+        }
+
+        public void Visit(ComputedNode node)
+        {
+            if (!AnalyseExpression(node.Expression))
+                this.isValid = false;
+
+            VisitChildren(node);
+        }
+
+        public void Visit(ConditionalNode node)
+        {
+            if (!AnalyseExpression(node.Expression))
+                this.isValid = false;
+            VisitChildren(node);
+        }
+
+        public void Visit(QLNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(QuestionNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(FormNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(ExpressionNode node)
+        {
+            VisitChildren(node);
+        }
+
+        private void VisitChildren(QLNode node)
+        {
+            foreach (var child in node.Children)
+                child.Accept(this);
         }
     }
 }

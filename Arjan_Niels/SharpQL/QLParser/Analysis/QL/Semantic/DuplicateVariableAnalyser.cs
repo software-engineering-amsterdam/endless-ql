@@ -1,4 +1,5 @@
 ﻿using QLParser.AST.QL;
+using QLParser.AST.QL.ExpressionNodes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -66,6 +67,16 @@ namespace QLParser.Analysis.QL.Semantic
         }
 
         public void Visit(QLNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(ExpressionNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(ConditionalNode node)
         {
             VisitChildren(node);
         }

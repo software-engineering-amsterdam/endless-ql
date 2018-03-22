@@ -65,21 +65,16 @@ public class GUIHandler {
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
 
         for (Question question : formEvaluator.getQuestionsAsList()) {
+
+            // Get current answer/value of this question
             Value value = formEvaluator.getValueById(question.getId());
 
+            // make a widget
             QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
 
             this.styleEvaluator.setWidget(question, widget);
 
-            Boolean condition = true;
-            if (formEvaluator.questionHasCondition(question)) {
-                condition = ((BooleanValue) this.expressionEvaluator.evaluateExpression(
-                        question.getId(),
-                        this.formEvaluator.getConditionById(question.toString()),
-                        this.formEvaluator.getValueTable()))
-                        .getValue();
-            }
-            if (condition) {
+            if (formEvaluator.questionIsVisible(question, this.expressionEvaluator)) {
                 this.styleEvaluator.setVisible(question);
             }
         }

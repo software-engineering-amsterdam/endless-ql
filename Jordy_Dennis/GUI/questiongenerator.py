@@ -151,7 +151,6 @@ class QuestionGenerator:
 
             defaultType = default.type
             defaultWidgetType = default.widgetType
-            print(defaultWidgetType)
             if defaultType in defaultDict and defaultWidgetType in defaultDict[defaultType]:
                 defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default, False,
                                                                                         defaultDict[defaultType][
@@ -159,7 +158,6 @@ class QuestionGenerator:
             else:
                 defaultDict[defaultType] = {}
                 defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default)
-        print(defaultDict)
 
     def getDefaultAttributes(self, default, initial=True, attributeDict={}):
         if initial:

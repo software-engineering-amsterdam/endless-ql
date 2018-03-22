@@ -15,6 +15,9 @@ public class DateWidget extends DatePicker implements GUIWidget {
 
     public DateWidget() {
         this.managedProperty().bind(this.visibleProperty());
+
+        // Do not allow typing, only date selecting using UI element
+        this.getEditor().setDisable(true);
     }
 
     @Override

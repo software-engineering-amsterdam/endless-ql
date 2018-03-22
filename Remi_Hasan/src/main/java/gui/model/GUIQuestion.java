@@ -1,18 +1,14 @@
 package gui.model;
 
-import gui.widgets.*;
-import gui.widgets.CheckboxWidget;
+import gui.widgets.GUIWidget;
+import gui.widgets.LabelWithWidget;
+import gui.widgets.WidgetFactory;
 import javafx.beans.InvalidationListener;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
-
-import java.util.List;
 
 public class GUIQuestion {
     public final String identifier;

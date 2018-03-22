@@ -11,20 +11,18 @@ import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
-public interface GUIWidget<T> {
+public interface GUIWidget {
     // TODO: generic?
     Expression getExpressionValue();
-
     void setValue(Value value);
 
     Node getNode();
 
+    // Generic functions to give us the ability to set visibility/listener
+    // of different kinds of JavaFX UI elements (setting changeListener of a checkbox
+    // is different than setting changeListener of textbox)
     void setChangeListener(InvalidationListener invalidationListener);
-
     void setVisibility(boolean visible);
-    void setDisable(boolean disable);
-    boolean isDisabled();
-    BooleanProperty visibleProperty();
 
     // StyleAttribute
     void setColor(String color);

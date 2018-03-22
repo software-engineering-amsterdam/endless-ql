@@ -144,8 +144,12 @@ class QuestionGenerator:
     def updateDefaults(self, defaultDict, newDefaults):
         for default in newDefaults:
             defaultType = default.type
-
-            print(default)
+            defaultWidgetType = default.widgetType
+            if defaultType in defaultDict and defaultWidgetType in defaultDict[defaultType]:
+                # teoveogen
+            else:
+                defaultDict[defaultType] = {}
+                defaultDict[defaultType][defaultWidgetType] = default
 
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy

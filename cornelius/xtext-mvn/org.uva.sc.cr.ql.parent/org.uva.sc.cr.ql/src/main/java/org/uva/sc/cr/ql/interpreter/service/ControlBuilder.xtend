@@ -19,15 +19,15 @@ import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperMoney
 import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperText
 
 @Singleton
-class ControlService {
+class ControlBuilder {
 
 	@Inject
-	private var BindingService bindingService
+	private var BindingBuilder bindingBuilder
 
 	private val List<ControlWrapper> controls
 
 	new() {
-		controls = new ArrayList<ControlWrapper>
+		controls = new ArrayList<ControlWrapper>()
 	}
 
 	def public buildControlForQuestion(Question question, Expression visibleExpression) {
@@ -46,11 +46,11 @@ class ControlService {
 			case QuestionType.TYPE_DATE:
 				controlWrapper = buildControlForTypeDate(question)
 			default:
-				throw new MissingCaseException
+				throw new MissingCaseException()
 		}
-		controlWrapper.registerListener(buildEventHandler)
+		controlWrapper.registerListener(buildEventHandler())
 		if (visibleExpression !== null) {
-			val binding = bindingService.buildBindingForTypeBoolean(controls, visibleExpression)
+			val binding = bindingBuilder.buildBindingForTypeBoolean(controls, visibleExpression)
 			controlWrapper.bindVisibleProperty(binding)
 		}
 		controls.add(controlWrapper)
@@ -58,27 +58,27 @@ class ControlService {
 	}
 
 	def private buildControlForTypeBoolean(Question question) {
-		val binding = bindingService.buildBindingForTypeBoolean(controls, question.expression)
+		val binding = bindingBuilder.buildBindingForTypeBoolean(controls, question.expression)
 		return new ControlWrapperBoolean(question, binding)
 	}
 
 	def private buildControlForTypeString(Question question) {
-		val binding = bindingService.buildBindingForTypeString(controls, question.expression)
+		val binding = bindingBuilder.buildBindingForTypeString(controls, question.expression)
 		return new ControlWrapperText(question, binding)
 	}
 
 	def private buildControlForTypeInteger(Question question) {
-		val binding = bindingService.buildBindingForTypeInteger(controls, question.expression)
+		val binding = bindingBuilder.buildBindingForTypeInteger(controls, question.expression)
 		return new ControlWrapperInteger(question, binding)
 	}
 
 	def private buildControlForTypeDecimal(Question question) {
-		val binding = bindingService.buildBindingForTypeDecimal(controls, question.expression)
+		val binding = bindingBuilder.buildBindingForTypeDecimal(controls, question.expression)
 		return new ControlWrapperDecimal(question, binding)
 	}
 	
 	def private buildControlForTypeMoney(Question question) {
-		val binding = bindingService.buildBindingForTypeMoney(controls, question.expression)
+		val binding = bindingBuilder.buildBindingForTypeMoney(controls, question.expression)
 		return new ControlWrapperMoney(question, binding)
 	}
 
@@ -86,16 +86,16 @@ class ControlService {
 		return new ControlWrapperDate(question, null)
 	}
 
-	def private buildEventHandler() {
-		new EventHandler() {
+	def private EventHandler buildEventHandler() {
+		return new EventHandler() {
 			override handle(Event arg0) {
-				bindingService.invalidateBindings
+				bindingBuilder.invalidateBindings()
 			}
 		}
 	}
 
 	def getControlByName(String name) {
-		controls.filter[it.name == name].head
+		return controls.filter[it.name == name].head()
 	}
 
 }

@@ -39,12 +39,12 @@ class QLExpressionEvaluatorMoneyTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 		validationTestHelper.assertNoErrors(result)
 
 		val expression = result.body.questions.get(2).expression
 
-		val arguments = new HashMap<String, Object>
+		val arguments = new HashMap<String, Object>()
 		var Money expressionResult = null
 
 		arguments.put("q1", 3.5)
@@ -67,12 +67,12 @@ class QLExpressionEvaluatorMoneyTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 		validationTestHelper.assertNoErrors(result)
 
 		val expression = result.body.questions.get(5).expression
 
-		val arguments = new HashMap<String, Object>
+		val arguments = new HashMap<String, Object>()
 		var Money expressionResult = null
 
 		arguments.put("q1", 3.5)
@@ -94,12 +94,12 @@ class QLExpressionEvaluatorMoneyTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 		validationTestHelper.assertNoErrors(result)
 
 		val expression = result.body.questions.get(2).expression
 
-		val arguments = new HashMap<String, Object>
+		val arguments = new HashMap<String, Object>()
 		var Money expressionResult = null
 
 		arguments.put("q1", "1qe")

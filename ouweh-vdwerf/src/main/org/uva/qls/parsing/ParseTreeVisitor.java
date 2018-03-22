@@ -58,6 +58,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     @Override
     public Object visitSection(QLSParser.SectionContext ctx) {
         String sectionId = ctx.id.getText();
+        sectionId = sectionId.replaceAll("^\"|\"$", "");
 
         List<Segment> segments = new ArrayList<>();
         for (QLSParser.SegmentContext segmentContext : ctx.segment()) {

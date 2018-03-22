@@ -32,7 +32,7 @@ class QLValidationTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QLPackage.eINSTANCE.question, "")
 	}
@@ -48,7 +48,7 @@ class QLValidationTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionQuestionReference,
 			QLValidator.FORWARD_REFERNCE)
@@ -62,7 +62,7 @@ class QLValidationTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QLPackage.eINSTANCE.question, QLValidator.SELF_REFERNCE)
 	}
@@ -75,7 +75,7 @@ class QLValidationTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QLPackage.eINSTANCE.blockBody, QLValidator.BLOCK_MISSING_QUESTION)
 	}
@@ -92,7 +92,7 @@ class QLValidationTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QLPackage.eINSTANCE.blockBody, QLValidator.BLOCK_MISSING_QUESTION)
 	}
@@ -109,7 +109,7 @@ class QLValidationTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QLPackage.eINSTANCE.expressionQuestionReference,
 			Diagnostic.LINKING_DIAGNOSTIC)
@@ -124,7 +124,7 @@ class QLValidationTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertWarning(result, QLPackage.eINSTANCE.question, QLValidator.LABEL_EXISTS)
 	}

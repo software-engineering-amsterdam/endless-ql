@@ -1,4 +1,4 @@
-package org.uva.sc.cr.qsl.interpreter.service
+package org.uva.sc.cr.qsl.interpreter.styling.controls
 
 import javafx.beans.binding.Bindings
 import javafx.scene.control.ChoiceBox
@@ -11,16 +11,17 @@ import org.uva.sc.cr.qsl.qSL.DefaultStyle
 import org.uva.sc.cr.qsl.qSL.Widget
 import org.uva.sc.cr.qsl.qSL.WidgetDropdown
 import org.uva.sc.cr.qsl.qSL.WidgetRadio
+import javafx.scene.layout.HBox
 
 @Singleton
-class StyleControlBooleanService extends StyleControlService {
+class StyleControlBooleanBuilder extends StyleControlBuilder {
 
-	def dispatch styleBoolean(ControlWrapperBoolean controlWrapperBoolean, Widget widgetRadio,
+	def dispatch HBox styleBoolean(ControlWrapperBoolean controlWrapperBoolean, Widget widgetRadio,
 		DefaultStyle defaultStyleToApply) {
 		return styleDefaultControl(controlWrapperBoolean, defaultStyleToApply)
 	}
 
-	def dispatch styleBoolean(ControlWrapperBoolean controlWrapperBoolean, WidgetRadio widgetRadio,
+	def dispatch HBox styleBoolean(ControlWrapperBoolean controlWrapperBoolean, WidgetRadio widgetRadio,
 		DefaultStyle defaultStyleToApply) {
 
 		val group = new ToggleGroup();
@@ -30,7 +31,7 @@ class StyleControlBooleanService extends StyleControlService {
 		radioButton2.toggleGroup = group
 
 		val checkBox = controlWrapperBoolean.checkBox
-		Bindings.bindBidirectional(radioButton1.selectedProperty, checkBox.selectedProperty)
+		Bindings.bindBidirectional(radioButton1.selectedProperty(), checkBox.selectedProperty())
 
 		copyControlConfiguration(checkBox, radioButton1)
 		copyControlConfiguration(checkBox, radioButton2)
@@ -39,15 +40,15 @@ class StyleControlBooleanService extends StyleControlService {
 			radioButton2)
 	}
 
-	def dispatch styleBoolean(ControlWrapperBoolean controlWrapperBoolean, WidgetDropdown widgetDropdown,
+	def dispatch HBox styleBoolean(ControlWrapperBoolean controlWrapperBoolean, WidgetDropdown widgetDropdown,
 		DefaultStyle defaultStyleToApply) {
 
-		val choiceBox = new ChoiceBox
+		val choiceBox = new ChoiceBox()
 		choiceBox.items.add(widgetDropdown.option1)
 		choiceBox.items.add(widgetDropdown.option2)
 
 		val checkBox = controlWrapperBoolean.checkBox
-		Bindings.bindBidirectional(choiceBox.valueProperty, checkBox.selectedProperty, new StringConverter<Boolean>() {
+		Bindings.bindBidirectional(choiceBox.valueProperty(), checkBox.selectedProperty(), new StringConverter<Boolean>() {
 
 			override fromString(String arg0) {
 				if (arg0 == widgetDropdown.option1) {

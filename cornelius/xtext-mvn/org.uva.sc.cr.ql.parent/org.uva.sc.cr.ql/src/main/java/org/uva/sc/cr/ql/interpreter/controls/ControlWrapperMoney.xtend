@@ -17,7 +17,7 @@ class ControlWrapperMoney extends ControlWrapper {
 	new(Question question, StringBinding binding) {
 		super(question, binding)
 		if (question.expression !== null) {
-			textField.textProperty.bind(binding)
+			textField.textProperty().bind(binding)
 		} else {
 			textField.text = "" + DEFAULT_VALUE
 		}
@@ -32,8 +32,8 @@ class ControlWrapperMoney extends ControlWrapper {
 	}
 
 	override protected buildControl() {
-		textField = new TextField
-		textField.textFormatter = new TextFormatter(new BigDecimalStringConverter)
+		textField = new TextField()
+		textField.textFormatter = new TextFormatter(new BigDecimalStringConverter())
 	}
 
 }

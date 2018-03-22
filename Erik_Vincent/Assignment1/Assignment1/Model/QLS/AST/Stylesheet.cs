@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Assignment1.Model.QLS.AST
 {
@@ -8,9 +9,9 @@ namespace Assignment1.Model.QLS.AST
 
         private readonly List<Page> _pages;
 
-        public StyleSheet(List<Page> pages)
+        public StyleSheet(IEnumerable<Page> pages)
         {
-            _pages = pages;
+            _pages = pages.ToList();
         }
 
         public void Accept(IQLSASTVisitor visitor) => visitor.Visit(this);

@@ -3,10 +3,10 @@ form taxOfficeExample
   	"Did you sell a house in 2010?"
         hasSoldHouse: boolean
     "Did you buy a house in 2010?"
-        hasBoughtHouse: boolean
+        hasBoughtHouse: int
     "Did you enter a loan?"
-        hasMaintLoan: boolean
-  "if2 > 3 ?"
+        hasMaintLoan: int
+  /*"if2 > 3 ?"
           ifV4: int
   "assignment"
           ifV5: int
@@ -28,5 +28,5 @@ form taxOfficeExample
   }
 
   
-      "Value residue:" valueResidue: int = ifV4 + ifV5
+      "Value residue:" valueResidue: int = ifV4 + ifV5*/
 }

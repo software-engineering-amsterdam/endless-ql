@@ -14,34 +14,32 @@ class QLSTypeChecker(object):
         self.retrieveVariables(self.ql_ast.statements, self.ql_variables, "ql")
         self.retrieveVariables(self.qls_ast.pages, self.qls_variables, "qls")
 
-        self.checkReferencesInQLS(self.ql_variables, self.qls_variables)
-        self.checkReferencesInQL(self.ql_variables, self.qls_variables)
+        self.checkReferencesOfVariables(self.ql_variables, self.qls_variables, "ql")
+        self.checkReferencesOfVariables(self.qls_variables, self.ql_variables, "qls")
 
         self.checkWidgetQuestionCompatibility(self.ql_variables, self.qls_variables)
 
-    # Checks if every question in QL is referenced in QLS.
-    def checkReferencesInQLS(self, ql_variables, qls_variables):
-        for key, value in ql_variables.iteritems():
-            if key not in qls_variables:
-                exitProgram("Variable {} is not referenced in QLS, but should be.".format(key))
 
+    # Checks if all references of QL or QLS are referenced in the other. Exit when a QL variable is not
+    # referenced in QLS and give a warning if it's the other way around
+    def checkReferencesOfVariables(self, references, variables, flag):
+        for key, value in references.iteritems():
+            if key not in variables:
+                if flag == "ql":
+                    exitProgram("Variable {} is not referenced in QLS, but should be.".format(key))
 
-    # Checks if every question in QLS is referenced in QL.
-    def checkReferencesInQL(self, ql_variables, qls_variables):
-        for key, value in qls_variables.iteritems():
-            if key not in ql_variables:
-                print "Warning: Variable {} is not referenced in QL, but should be.".format(key)
+                elif flag == "qls":
+                    print "Warning: Variable {} is not referenced in QL, but should be.".format(key)
 
 
     # Checks whether the types of the questions are compatible with the assigned widgets.
     def checkWidgetQuestionCompatibility(self, ql_variables, qls_variables):
     	for key, value in ql_variables.iteritems():
             if qls_variables[key] != None:
-                print value
                 if value == "boolean" and (qls_variables[key].widget == 'radio("Yes", "No")' or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == 'dropdown("Yes", "No")'):
                     pass
 
-                elif value == "integer" and (qls_variables[key].widget == "slider" or qls_variables[key].widget == "spinbox" or qls_variables[key].widget == "text"):
+                elif value == "int" and (qls_variables[key].widget == "slider" or qls_variables[key].widget == "spinbox" or qls_variables[key].widget == "text"):
                     pass
 
                 else:

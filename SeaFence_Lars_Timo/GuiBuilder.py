@@ -10,32 +10,37 @@ class GuiBuilder():
         self.gui = Gui()
         self.ql_ast = ql_ast
         self.form_name = ql_ast.name
-
         self.values = []
         self.frames = {}
-        self.new_frame_order = []
+        self.ql_frame_order = []
+        self.qls_frame_order = []
         self.rendered_frame_order = []
         self.frame_counter = 0
 
         # First determine the items we need to render, so we traverse AST
         self.parseQLAST(ql_ast)
+        print "New frame order: ", self.ql_frame_order
+        # if qls_ast:
+        #     self.parseQLSAST(qls_ast)
+        print self.qls_frame_order
+
         self.renderQLWidgets()
-        self.rendered_frame_order = self.new_frame_order
-        self.new_frame_order = []
+        self.rendered_frame_order = self.ql_frame_order
+        self.ql_frame_order = []
 
     # Update the form if a value in the form has changed
     def updateForm(self, name='', index='', mode=''):
         print "Updating form"
         self.frame_counter = 0
         self.parseQLAST(self.ql_ast)
-        print "New frame order: ", self.new_frame_order
+        print "New frame order: ", self.ql_frame_order
         print "Old frame order: ", self.rendered_frame_order
         self.renderQLWidgets()
-        self.rendered_frame_order = self.new_frame_order
-        self.new_frame_order = []
+        self.rendered_frame_order = self.ql_frame_order
+        self.ql_frame_order = []
 
     def renderQLWidgets(self):
-        for widget_var in self.new_frame_order:
+        for widget_var in self.ql_frame_order:
             widget_info = self.frames[widget_var]
             widget_type = widget_info[0]
 
@@ -51,12 +56,13 @@ class GuiBuilder():
         for node in ast.statements:
             node_type = node.getNodeType()
             if node_type is "question":
-                self.parseQuestion(node)
+                self.parseQLQuestion(node)
 
             elif node_type is "assignment":
                 self.parseAssignment(node)
 
             elif node_type is "if":
+                print node.statements
                 if self.checkExpressionvalues(node.expression):
                     condional_shown = True
                     self.parseQLAST(node)
@@ -73,6 +79,36 @@ class GuiBuilder():
             elif node_type is "else" and not condional_shown:
                 self.parseQLAST(node)
 
+    def parseQLSAST(self, ast):
+        for page in ast.pages:
+            self.gui.addPage(page.name)
+
+            render_frame = self.gui.current_page
+            default_widgets = page.default_style_widgets
+
+            for section in page.sections:
+            # First render the questions in a section, then see if this section contains more sections
+                render_frame = self.gui.addSection(section.name)
+
+                if section.default_style_widgets is not []:
+                    default_widgets = section.default_style_widgets
+
+                for question in section.questions:
+                    print section.name, question
+                    if question.var in self.ql_frame_order:
+                        self.parseQLSQuestion(question, render_frame, default_widgets)
+
+                for nested_section in section.sections:
+                    render_frame = self.gui.addSection(section.name)
+
+                    if section.default_style_widgets is not []:
+                        default_widgets = section.default_style_widgets
+
+                    for question in section.questions:
+                        print section.name, question
+                        if question.var in self.ql_frame_order:
+                            self.parseQLSQuestion(question, render_frame, default_widgets)
+
     # walk the widget list that need to be renderend and render each item accordingly
     def renderStatements(self):  
         pass
@@ -88,13 +124,31 @@ class GuiBuilder():
 
         return False
 
-    def parseQuestion(self, statement):
+    def parseQLQuestion(self, statement):
+        print statement.var
         if statement.var not in self.gui.values: 
             self.gui.createTKTraceVariable(statement.var, statement.vartype, self.updateForm) 
            
         # type, type of question, question text
-        self.frames[statement.var] = ("question", statement.vartype, statement.question) 
-        self.new_frame_order.append(statement.var)
+        self.frames[statement.var] = ["question", statement.vartype, statement.question, self.gui.window]
+        self.ql_frame_order.append(statement.var)
+
+    def parseQLSQuestion(self, question, question_section, default_widgets):
+        old_question = self.frames[question.var] 
+
+        default_widget, change_needed = self.checkForDefaultWidget(old_question[1], default_widgets)
+
+        if change_needed:
+            self.frames[question.var] = default_widget
+
+        else:
+            self.frames[question.var][3] = question_section
+            self.qls_frame_order.append(question.var)
+
+    def checkForDefaultWidget(self, question_type, default_widgets):
+        if question_type == "boolean":
+            print default_widgets
+            return [], False
 
     def parseAssignment(self, statement):
         result = self.parseBinOpAssignment(statement.expression)
@@ -106,15 +160,15 @@ class GuiBuilder():
 
         # type, type of assignment, name, result to show
         self.frames[statement.var] = ("assignment", statement.name, result)
-        self.new_frame_order.append(statement.var)
+        self.ql_frame_order.append(statement.var)
 
     # render a question statement
     def renderQuestion(self, widget_var, widget_info):
         if widget_info[1] == "boolean":
-            self.gui.addBooleanQuestion(widget_var, widget_info[2], "Yes", "No")
+            self.gui.addBooleanQuestion(widget_var, widget_info[2], "Yes", "No", widget_info[3])
         
         elif widget_info[1] == "int":
-            self.gui.addIntQuestion(widget_var, widget_info[2])
+            self.gui.addIntQuestion(widget_var, widget_info[2], widget_info[3])
 
     # render an assignment
     def renderAssignment(self, widget_var, widget_info):

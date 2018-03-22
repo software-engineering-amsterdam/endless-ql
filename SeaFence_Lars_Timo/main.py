@@ -11,6 +11,8 @@ from QLSVisitorHelper import QLSVisitorHelper
 from GuiBuilder import GuiBuilder
 from QLTypeChecker import QLTypeChecker
 from QLSTypeChecker import QLSTypeChecker
+from Tkinter import *
+from ttk import *
 
 def main(argv):
     input = FileStream(argv[1])
@@ -52,7 +54,7 @@ def main(argv):
         qls_checker.startQLSTypeCheck()
 
 
-    builder = GuiBuilder(ql_ast)
+    builder = GuiBuilder(ql_ast, qls_ast)
     # gui = Gui()
     # gui.addLabel("hey", "jaja")
     # gui.removeLabel("hey")

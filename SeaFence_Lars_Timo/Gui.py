@@ -2,7 +2,7 @@
 # Gui class that holds all gui related functions to add widgets to the windows
 import Tkinter as tk
 from Tkinter import *
-
+from ttk import *
 class Gui():
     def __init__(self):
         self.window = tk.Tk()
@@ -10,9 +10,12 @@ class Gui():
         # self.window.maxsize(self.window.winfo_screenwidth()/3, self.window.winfo_screenheight())
    
         self.frame = None
-        self.setCurrentStatementFrame
+        self.notebook = None
         self.frames = {}
         self.values = {}
+
+        self.notebook_set = False
+        self.current_page = None
 
     #add slider with given min and max values
     def addSlider(self, name, minVal, maxVal, orientation):
@@ -47,8 +50,8 @@ class Gui():
             self.dropdowns[name].destroy()
             del self.dropdowns[name]
 
-    def addBooleanQuestion(self, widget_var, question, text1, text2):
-        frame = tk.Frame(self.window, height=2)
+    def addBooleanQuestion(self, widget_var, question, text1, text2, render_frame):
+        frame = tk.Frame(render_frame, height=2)
         frame.pack(expand=False, fill='both')
         
         label = tk.Label(frame, text=question, height=2)
@@ -62,8 +65,8 @@ class Gui():
 
         self.frames[widget_var] = frame
 
-    def addIntQuestion(self, widget_var, question):
-        frame = tk.Frame(self.window, height=2)
+    def addIntQuestion(self, widget_var, question, render_frame):
+        frame = tk.Frame(render_frame, height=2)
         frame.pack(expand=False, fill='both')
 
         label = tk.Label(frame, text=question, height=2)
@@ -127,4 +130,23 @@ class Gui():
             var.trace("w", update_function)
 
         self.values[var_key] = var
+
+    def addPage(self, page_name):
+        if not self.notebook_set:
+            master = Frame(self.window)
+            master.pack(fill=BOTH)
+            self.notebook = Notebook(master)
+            self.notebook.pack(fill=BOTH, padx=2, pady=3)
+            self.notebook_set = True
+
+        self.current_page = Frame(self.notebook)
+        self.notebook.add(self.current_page, text=page_name)
+
+    def addSection(self, section_name):
+        labelframe = LabelFrame(self.current_page, text=section_name)
+        labelframe.pack(fill="both", expand="yes")
+        left = Label(labelframe, text=section_name)
+        left.pack()
+
+        return labelframe
 

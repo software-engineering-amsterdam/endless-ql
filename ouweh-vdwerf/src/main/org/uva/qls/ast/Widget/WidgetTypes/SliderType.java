@@ -18,6 +18,18 @@ public class SliderType extends WidgetType {
         this.step = step;
     }
 
+    public int getStart() {
+        return Integer.parseInt(this.start);
+    }
+
+    public int getEnd() {
+        return Integer.parseInt(this.end);
+    }
+
+    public int getStep() {
+        return Integer.parseInt(this.step);
+    }
+
     @Override
     public List<String> getCompatibleTypes() {
         return Arrays.asList("IntegerType");

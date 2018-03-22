@@ -7,12 +7,20 @@ import java.util.List;
 
 public class RadioType extends WidgetType {
 
-    private String yes;
-    private String no;
+    private String trueLabel;
+    private String falseLabel;
 
-    public RadioType(String yes, String no) {
-        this.yes = yes;
-        this.no = no;
+    public RadioType(String trueLabel, String falseLabel) {
+        this.trueLabel = trueLabel;
+        this.falseLabel = falseLabel;
+    }
+
+    public String getFalseLabel() {
+        return falseLabel;
+    }
+
+    public String getTrueLabel() {
+        return trueLabel;
     }
 
     @Override

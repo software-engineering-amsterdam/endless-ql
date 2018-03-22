@@ -7,18 +7,13 @@ import {AbstractControl, FormGroup} from '@angular/forms';
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.css']
 })
-export class WidgetComponent implements OnInit {
+export class WidgetComponent implements OnInit{
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
   control: AbstractControl;
 
   ngOnInit(): void {
     this.control = this.form.controls[this.question.key];
-  }
-
-  onNumberChange(question: QuestionBase<any>, event) {
-    if (question.type === 'number') {
-      this.form.controls[this.question.key].setValue(parseInt(event.target.value, 10));
-    }
+    console.log(this.question);
   }
 }

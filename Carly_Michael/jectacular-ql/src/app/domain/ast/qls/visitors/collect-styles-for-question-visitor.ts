@@ -15,6 +15,17 @@ export interface QlsVisitor<T> {
 }
 
 export class StylesForQlQuestion {
+
+  static getDefaultStyleForInputType(inputType: string): StylesForQlQuestion {
+    switch (inputType) {
+      case 'number': return new StylesForQlQuestion([], new Widget(WidgetType.SPINBOX));
+      case 'boolean': return new StylesForQlQuestion([], new Widget(WidgetType.CHECKBOX));
+      case 'text': return new StylesForQlQuestion([], new Widget(WidgetType.TEXT));
+      case 'date': return new StylesForQlQuestion([], new Widget(WidgetType.TEXT));
+      default: throw new TypeError(`html input type ${inputType} is not supported`);
+    }
+  }
+
   constructor(public styles: Style[], public widget: Widget) { }
 
   isStylingValid(): boolean {
@@ -37,6 +48,11 @@ export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQu
     if (!styles) {
       throw new MissingIdentifierError(`Styles for identifier ${this.questionId} were not found`);
     }
+
+    if(!styles.isStylingValid()) {
+      styles = StylesForQlQuestion.getDefaultStyleForInputType(this.type);
+    }
+
     return styles;
   }
 

@@ -25,6 +25,14 @@ namespace QL_Parser.Tests.QLS
             "   }" +
             "}";
 
+        private const string SimpleStyleWithWidgetTypeTextfield = "stylesheet TestForm {" +
+            "   page \"FirstPage\" {" +
+            "      section \"SectionOne\" {" +
+            "           question hasSoldHouse widget textfield" +
+            "       }" +
+            "   }" +
+            "}";
+
         private const string SimpleStyleWithWidgetTypeWithArguments = "stylesheet TestForm {" +
             "   page \"FirstPage\" {" +
             "      section \"SectionOne\" {" +
@@ -100,6 +108,17 @@ namespace QL_Parser.Tests.QLS
             Assert.AreEqual(WidgetType.SPINNER, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
             Assert.AreEqual(0, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
         }
+
+        [TestMethod]
+        public void WidgetStyleTextfieldTest()
+        {
+            QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetTypeTextfield);
+
+            var questionNode = qls.Children[0].Children[0].Children[0];
+            Assert.AreEqual(WidgetType.TEXTFIELD, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(0, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
+        }
+
 
         [TestMethod]
         public void WidgetStyleArgumentsTest()

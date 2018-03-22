@@ -6,7 +6,7 @@ public class BooleanType extends Type {
 
     @Override
     public boolean isCompatible(Type type) {
-        return "BooleanType".equals(type.toString());
+        return this.getClass().equals(type.getClass());
     }
 
     @Override

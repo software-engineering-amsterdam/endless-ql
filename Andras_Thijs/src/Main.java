@@ -12,6 +12,7 @@ public class Main {
         FormReader formReader = new FormReader();
 
         try {
+            // Read the form from a file and set the parent structure.
             QLForm form = formReader.parseFile("resources/test_grammar.txt");
             form.setParents();
 

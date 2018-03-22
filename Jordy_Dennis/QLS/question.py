@@ -27,7 +27,7 @@ class Question:
     """
     def checkTypes(self):
         if self.default:
-            self.default.checkTypes()
+            self.default.checkTypes(True)
         if self.varName not in self.varDict:
             errorstring = "Variable '" + self.varName + "' not in QL definition but in QLS at line " + str(self.line)
             throwError(errorstring)

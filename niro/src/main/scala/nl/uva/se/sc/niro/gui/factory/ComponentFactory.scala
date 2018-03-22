@@ -13,6 +13,7 @@ trait ComponentFactory {
 class QLComponentFactory(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory)
     extends ComponentFactory {
 
+  // TODO Convert to decorators
   def make(question: GUIQuestion): Component[_] = {
     val component = makeComponent(question)
     component.addComponentChangedListener(componentChangeListener)

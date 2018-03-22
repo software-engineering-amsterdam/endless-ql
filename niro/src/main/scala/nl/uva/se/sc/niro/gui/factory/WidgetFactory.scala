@@ -24,6 +24,7 @@ class QLWidgetFactory extends WidgetFactory {
 }
 
 class QLSWidgetFactory extends QLWidgetFactory {
+
   override def makeBooleanWidget(question: GUIQuestion): QLWidget[Boolean] = question match {
     case QLSGUIQuestion(_, _, _, _, _, _ @GUIComboBoxStyle(trueLabel, falseLabel)) =>
       new QLComboBooleanField(trueLabel, falseLabel)

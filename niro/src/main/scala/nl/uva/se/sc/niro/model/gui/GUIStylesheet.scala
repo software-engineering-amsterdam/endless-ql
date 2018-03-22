@@ -4,7 +4,7 @@ package nl.uva.se.sc.niro.model.gui
   * Model used by the frontend
   */
 import nl.uva.se.sc.niro.model.ql.AnswerType
-import nl.uva.se.sc.niro.model.qls.{ ComboBox, Radio, SpinBox, WidgetType }
+import nl.uva.se.sc.niro.model.qls._
 
 case class GUIStylesheet(name: String, pages: Seq[GUIPage], defaultStyles: Map[AnswerType, GUIStyle])
 
@@ -29,5 +29,6 @@ object GUIStyle {
     case SpinBox()                       => GUISpinBoxStyle()
     case ComboBox(trueValue, falseValue) => GUIComboBoxStyle(trueValue, falseValue)
     case Radio(trueValue, falseValue)    => GUIRadioStyle(trueValue, falseValue)
+    case CheckBox()                      => GUIDefaultStyle()
   }
 }

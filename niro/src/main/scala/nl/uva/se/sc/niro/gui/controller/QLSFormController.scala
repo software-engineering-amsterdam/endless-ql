@@ -38,6 +38,8 @@ class QLSFormController(homeController: QLHomeController, model: QLForm, guiForm
 
     getActiveStage.setTitle("QLS forms")
     formName.setText(guiForm.name)
+
+    evaluateAnswers()
   }
 
   override def updateView(): Unit = {

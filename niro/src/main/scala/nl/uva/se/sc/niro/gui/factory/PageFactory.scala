@@ -44,7 +44,6 @@ class PageFactory(formController: QLSFormController, form: GUIForm, stylesheet: 
     })
 
     formController.setQuestionControls(components)
-    formController.evaluateAnswers()
     formController.updateView()
 
     page

@@ -3,13 +3,14 @@ stylesheet EditOrNotToEdit {
         section "Variables" {
             question stringVariable
             question booleanVariable widget radio("Yes", "No")
+            question booleanNotExpression
             question integerVariable widget spinbox
             question decimalVariable
             question moneyVariable
             question dateVariable
         }
         section "Expressions" {
-            question booleanExpression
+            question booleanExpression widget checkbox
             question integerExpression
             question stringExpression
         }
@@ -18,6 +19,7 @@ stylesheet EditOrNotToEdit {
     page PageTwo {
         section "Variables" {
             question booleanVariable
+            question booleanNotExpression
             question stringVariable
         }
         section "Expressions" {
@@ -33,6 +35,7 @@ stylesheet EditOrNotToEdit {
     page PageThree {
         section "Variables" {
             question booleanVariable
+            question booleanNotExpression
             question stringVariable
         }
         section "Constants" {

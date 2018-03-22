@@ -5,9 +5,6 @@ import Nodes.QLForm;
 import Nodes.Question;
 import QLExceptions.SyntaxException;
 import QLExceptions.TypeException;
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
-
 import javax.swing.*;
 import java.util.*;
 import java.util.List;
@@ -28,18 +25,14 @@ public class FormTemplate implements RefreshListener{
 
         JFrame frame = new JFrame(form.getName());
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        FormLayout layout = new FormLayout(
-                "left:default, 3dlu default");
 
-        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+        JPanel panel = new JPanel();
 
         List<Question> questions = form.getAllQuestions();
         questions.stream().map(question -> new QuestionPanel(question, this)).forEach(questionPanel -> {
             questionPanels.add(questionPanel);
-            builder.append(questionPanel);
+            panel.add(questionPanel);
         });
-
-        JPanel panel = builder.getPanel();
 
         frame.add(panel);
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace QLVisualizer.Widgets.Windows
 {
-    public class StyleParserWindows : IStyleParser
+    public struct StyleParserWindows : IStyleParser
     {
         private static Dictionary<string, Tuple<StyleProperty, QValueType>> _supportedStyleProperties
         {
@@ -23,6 +23,15 @@ namespace QLVisualizer.Widgets.Windows
                 };
             }
         }
+
+        public int Height { get; private set; }
+        public int Width { get; private set; }
+        public int MarginTop { get; private set; }
+        public int MarginBottom { get; private set; }
+        public string BackgroundColor { get; private set; }
+        public string Font { get; private set; }
+        public int FontSize { get; private set; }
+        public string TextColor { get; private set; }
 
         public Dictionary<string, string> ParseStyle()
         {

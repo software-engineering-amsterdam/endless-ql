@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
 

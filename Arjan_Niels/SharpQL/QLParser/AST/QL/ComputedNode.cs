@@ -1,6 +1,6 @@
 ﻿using QLParser.AST;
 
-namespace QLParser.AST.Nodes
+namespace QLParser.AST.QL
 {
     public class ComputedNode : QLNode
     {

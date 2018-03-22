@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser.Analysis.Evaluator;
 using QLParser.AST;
-using QLParser.AST.Nodes;
-using QLParser.AST.Nodes.ExpressionNodes;
-using QLParser.AST.Nodes.ExpressionNodes.Enums;
+using QLParser.AST.QL;
+using QLParser.AST.QL.ExpressionNodes;
+using QLParser.AST.QL.ExpressionNodes.Enums;
 
 namespace QL_Parser.Tests.Analysis.Evaluator
 {

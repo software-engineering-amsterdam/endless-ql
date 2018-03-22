@@ -1,5 +1,5 @@
 ﻿using Antlr4.Runtime.Misc;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 using System;
 using static QLGrammar.QLGrammarParser;
 

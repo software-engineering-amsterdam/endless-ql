@@ -1,4 +1,4 @@
-﻿using QLParser.AST.Nodes;
+﻿using QLParser.AST.QL;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 using QLVisualizer.Elements.Managers;

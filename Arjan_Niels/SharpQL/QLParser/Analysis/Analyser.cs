@@ -1,6 +1,6 @@
 ﻿using QLParser.Analysis.Semantic;
 using QLParser.Analysis.Syntactic;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 using System.Collections.Generic;
 using System.Linq;
 

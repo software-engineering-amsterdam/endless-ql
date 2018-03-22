@@ -1,5 +1,5 @@
-﻿using QLParser.AST.Nodes;
-using QLParser.AST.Nodes.ExpressionNodes;
+﻿using QLParser.AST.QL;
+using QLParser.AST.QL.ExpressionNodes;
 using QLParser.Exceptions;
 
 namespace QLParser.Analysis.Semantic

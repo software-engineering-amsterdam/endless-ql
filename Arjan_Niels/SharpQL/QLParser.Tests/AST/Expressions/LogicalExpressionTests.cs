@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLParser.AST.Nodes;
-using QLParser.AST.Nodes.ExpressionNodes;
-using QLParser.AST.Nodes.ExpressionNodes.Enums;
+using QLParser.AST.QL;
+using QLParser.AST.QL.ExpressionNodes;
+using QLParser.AST.QL.ExpressionNodes.Enums;
 using System.Linq;
 
 namespace QLParser.Tests.AST.Expressions

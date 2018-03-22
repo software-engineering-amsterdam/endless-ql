@@ -1,4 +1,4 @@
-﻿using QLParser.AST.Nodes;
+﻿using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using System;
 using System.Collections.Generic;

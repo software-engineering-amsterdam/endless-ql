@@ -1,8 +1,8 @@
 ﻿using QLParser.AST;
-using QLParser.AST.Nodes.ExpressionNodes.Enums;
+using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLParser.Exceptions;
 
-namespace QLParser.AST.Nodes.ExpressionNodes
+namespace QLParser.AST.QL.ExpressionNodes
 {
     public class ArthimetricExpressionNode : ExpressionNode
     {

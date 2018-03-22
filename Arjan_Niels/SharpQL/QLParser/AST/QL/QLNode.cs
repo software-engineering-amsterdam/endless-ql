@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QLParser.AST.Nodes
+namespace QLParser.AST.QL
 {
     public abstract class QLNode
     {

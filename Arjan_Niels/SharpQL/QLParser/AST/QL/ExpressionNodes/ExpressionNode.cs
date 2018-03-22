@@ -1,6 +1,6 @@
 ﻿using QLParser.Analysis.Evaluator;
 
-namespace QLParser.AST.Nodes.ExpressionNodes
+namespace QLParser.AST.QL.ExpressionNodes
 {
     public abstract class ExpressionNode : QLNode, IExpressionNode
     {

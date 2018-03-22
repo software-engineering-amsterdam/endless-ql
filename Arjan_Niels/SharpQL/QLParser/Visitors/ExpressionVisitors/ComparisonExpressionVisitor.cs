@@ -1,8 +1,8 @@
 ﻿using Antlr4.Runtime.Misc;
 using QLGrammar;
 using QLParser.AST;
-using QLParser.AST.Nodes;
-using QLParser.AST.Nodes.ExpressionNodes;
+using QLParser.AST.QL;
+using QLParser.AST.QL.ExpressionNodes;
 using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.Visitors.ExpressionVisitors

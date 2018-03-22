@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 using System.Linq;
 
 namespace QLParser.Tests.AST

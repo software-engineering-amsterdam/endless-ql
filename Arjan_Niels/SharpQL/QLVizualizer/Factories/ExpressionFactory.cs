@@ -1,10 +1,10 @@
-﻿using QLParser.AST.Nodes;
-using QLParser.AST.Nodes.ExpressionNodes;
+﻿using QLParser.AST.QL;
+using QLParser.AST.QL.ExpressionNodes;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression;
 using QLVisualizer.Expression.Types;
 using System;
-using QLParser.AST.Nodes.ExpressionNodes.Enums;
+using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLVisualizer.Expression.Enums;
 
 namespace QLVisualizer.Factories

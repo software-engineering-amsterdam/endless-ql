@@ -106,4 +106,11 @@ public class Question extends ASTNode {
     public boolean isAvailable() {
         return this.getParent().isAvailable();
     }
+
+    public void updateTerm(Term term) throws SyntaxException, TypeException {
+        if(term.getType() == type)
+            this.result = term;
+        else
+            throw new TypeException(Type.getByCode(term.toString()), Type.getByCode(result.toString()));
+    }
 }

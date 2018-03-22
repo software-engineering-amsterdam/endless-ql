@@ -2,7 +2,7 @@
 
 namespace Assignment1.Model.QL.RenderTree
 {
-    public abstract class Question
+    public abstract class RenderableQuestion
     {
         public int LineNumber { get; }
         public string Id { get; }
@@ -20,13 +20,13 @@ namespace Assignment1.Model.QL.RenderTree
         public bool Computed => Computation != null;
         public Expression Condition;
 
-        protected Question(string id, string label)
+        protected RenderableQuestion(string id, string label)
         {
             Id = id;
             Label = label;
         }
 
-        protected Question(string id, string label, int lineNumber, AnswerType type)
+        protected RenderableQuestion(string id, string label, int lineNumber, AnswerType type)
         {
             Id = id;
             Label = label;
@@ -34,7 +34,7 @@ namespace Assignment1.Model.QL.RenderTree
             Type = type;
         }
 
-        protected Question(string id, string label, int lineNumber, AnswerType type, Expression computation)
+        protected RenderableQuestion(string id, string label, int lineNumber, AnswerType type, Expression computation)
         {
             Id = id;
             Label = label;

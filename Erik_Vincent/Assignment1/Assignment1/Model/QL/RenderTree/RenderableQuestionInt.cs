@@ -1,8 +1,8 @@
 ﻿namespace Assignment1.Model.QL.RenderTree
 {
-    public class QuestionDecimal : Question
+    public class RenderableQuestionInt : RenderableQuestion
     {
-        public QuestionDecimal(string id, string label) : base(id, label)
+        public RenderableQuestionInt(string id, string label) : base(id, label)
         {
             Value = 0;
         }

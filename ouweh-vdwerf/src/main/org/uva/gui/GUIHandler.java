@@ -65,13 +65,11 @@ public class GUIHandler {
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
 
         for (Question question : formEvaluator.getQuestionsAsList()) {
-            QuestionReference reference = styleEvaluator.getQuestionReference(question);
             Value value = formEvaluator.getValueById(question.getId());
 
-            // TODO apply styling to widget
             QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
 
-            this.styleEvaluator.setWidget(reference, widget);
+            this.styleEvaluator.setWidget(question, widget);
 
             Boolean condition = true;
             if (formEvaluator.questionHasCondition(question)) {
@@ -82,7 +80,7 @@ public class GUIHandler {
                         .getValue();
             }
             if (condition) {
-                this.styleEvaluator.setVisible(reference);
+                this.styleEvaluator.setVisible(question);
             }
         }
         this.tabbedPane = new JTabbedPane();

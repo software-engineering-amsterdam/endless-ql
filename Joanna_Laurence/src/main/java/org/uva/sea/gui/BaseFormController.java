@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.ql.FileSelector;
 import org.uva.sea.gui.ql.IGuiElementUpdateListener;
@@ -134,7 +133,7 @@ public abstract class BaseFormController implements Initializable, IGuiElementUp
             }
 
             this.showMessages(questionRenders);
-
+            this.renderer.clearTabPane(this.tabPane);
             Map<String, VBox> panes = this.createContainer(evaluationResult);
             this.renderer.draw(questionRenders.getRenderables(), panes);
 

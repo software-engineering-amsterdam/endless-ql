@@ -45,7 +45,8 @@ public class GUISection extends VBox{
 
         for(Question question : questions){
             Optional<GUIQuestion> guiQuestion = guiQuestions.stream().filter(x -> x.identifier.equals(question.name)).findFirst();
-            vBox.getChildren().add(guiQuestion.get().render(symbolTable, null));
+            GUIQuestionWithStyling questionWithStyling = new GUIQuestionWithStyling(guiQuestion.get(), defaultStyles);
+            vBox.getChildren().add(questionWithStyling.render(symbolTable));
         }
 
         vBox.setPadding(new Insets(0, 0, 0, 20));

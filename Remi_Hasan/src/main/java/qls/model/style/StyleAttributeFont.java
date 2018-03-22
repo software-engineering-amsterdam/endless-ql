@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public class StyleAttributeFont extends StyleAttribute {
-    private final String fontFamily;
+    public final String fontFamily;
 
     public StyleAttributeFont(Token start, String fontFamily) {
         super(start);

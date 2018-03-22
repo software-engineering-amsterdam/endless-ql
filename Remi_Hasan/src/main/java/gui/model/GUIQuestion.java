@@ -41,7 +41,7 @@ public class GUIQuestion {
                 symbolTable.setExpression(this.identifier, guiWidget.getExpressionValue());
 
                 // Notify GUIForm that an input value has changed, so it can update all fields
-                invalidationListener.invalidated(observable);
+//                invalidationListener.invalidated(observable);
             });
         }
 

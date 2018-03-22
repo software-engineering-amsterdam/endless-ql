@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public class StyleAttributeFontSize extends StyleAttribute {
-    private final int fontSize;
+    public final int fontSize;
 
     public StyleAttributeFontSize(Token start, int fontSize) {
         super(start);

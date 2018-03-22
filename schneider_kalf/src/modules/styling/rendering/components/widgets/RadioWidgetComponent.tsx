@@ -21,7 +21,7 @@ export const RadioWidgetComponent: React.SFC<RadioWidgetComponentProps> = (props
           <Label for={props.field.identifier} check={true}>
             <Input
                 readOnly={props.field.isReadOnly()}
-                onChange={e => props.onChange(isTrue)}
+                onChange={() => props.onChange(isTrue)}
                 checked={(isTrue) ? value : !value}
                 name={props.field.identifier}
                 type="radio"

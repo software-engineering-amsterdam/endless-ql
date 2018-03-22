@@ -1,3 +1,5 @@
+package Main;
+
 import AST.FormReader;
 import GUI.FormTemplate;
 import Nodes.Condition;

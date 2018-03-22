@@ -6,7 +6,7 @@ import QLExceptions.*;
 import java.util.List;
 
 public class Variable extends Term {
-    private String name;
+    private final String name;
 
     public Variable(String name) {
         this.name = name;
@@ -62,8 +62,8 @@ public class Variable extends Term {
                 // return the result (Term) of the referenced Question.
                 Term result = q.getResult();
                 // If the Question isn't visible (hidden behind a Condition) or isn't set yet, throw an OtherException, which is handled by the Question or Condition that is being evaluated.
-                if(q.isAvailable() || result == null)
-                    throw new OtherException("Variable isn't set yet");
+                if(!q.isAvailable() || result == null)
+                    throw new OtherException();
                 else
                     return result;
             }

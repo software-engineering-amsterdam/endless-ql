@@ -7,9 +7,9 @@ import QLExceptions.*;
  * Contains a parsed question with name, label, type, and an expression if applicable
  */
 public class Question extends ASTNode {
-    private String name;
-    private String label;
-    private Type type;
+    private final String name;
+    private final String label;
+    private final Type type;
     private Expression expression;
 
     private Term result;
@@ -85,7 +85,7 @@ public class Question extends ASTNode {
      * Evaluates the expression of the question
      * @throws TypeException when the Types don't match
      */
-    // This function evaluates the expression (which also does typechecking) and stores the resulting value
+    // This function evaluates the expression (which also does type checking) and stores the resulting value
     public void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();
@@ -99,7 +99,7 @@ public class Question extends ASTNode {
             this.result = result;
         } catch(OtherException e) {
             // This Exception is thrown when a Variable isn't set yet.
-            result = null;
+            this.result = null;
         }
     }
 

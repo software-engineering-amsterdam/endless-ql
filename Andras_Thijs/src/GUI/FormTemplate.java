@@ -7,9 +7,7 @@ import QLExceptions.SyntaxException;
 import QLExceptions.TypeException;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 

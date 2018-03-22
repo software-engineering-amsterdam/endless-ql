@@ -1,4 +1,4 @@
-package Main
+package Main;
 
 import Nodes.Question;
 import QLExceptions.SyntaxException;
@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * A small class holding two lists, to do duplicate label and name checking at the same time.
  */
-public class DuplicateChecker {
-    private List<String> names, labels, duplicateLabels;
+class DuplicateChecker {
+    private final List<String> names, labels, duplicateLabels;
 
     /**
      * Constructor method to initialize al lists.

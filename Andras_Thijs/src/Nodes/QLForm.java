@@ -6,9 +6,9 @@ import java.util.List;
  * Contains a parsed QL form with the appropriate questions and conditions
  */
 public class QLForm extends ASTNode {
-    private String name;
-    private List<Question> questions;
-    private List<Condition> conditions;
+    private final String name;
+    private final List<Question> questions;
+    private final List<Condition> conditions;
 
     /**
      * Creates a QL form with a name, a set of questions, and a set of conditions

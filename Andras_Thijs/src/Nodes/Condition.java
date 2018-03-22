@@ -10,9 +10,9 @@ import java.util.List;
  * A parsed condition that can contain questions and other conditions
  */
 public class Condition extends ASTNode {
-    private Expression expression;
-    private List<Question> questions;
-    private List<Condition> conditions;
+    private final Expression expression;
+    private final List<Question> questions;
+    private final List<Condition> conditions;
 
     private QLBoolean result;
 
@@ -65,7 +65,7 @@ public class Condition extends ASTNode {
      * Evaluates the expression of the question
      * @throws TypeException when the resulting Term is not QLBoolean.
      */
-    // This function evaluates the expression (which also does typechecking) and stores the resulting value
+    // This function evaluates the expression (which also does type checking) and stores the resulting value
     public void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();

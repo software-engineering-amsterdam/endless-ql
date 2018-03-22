@@ -16,7 +16,7 @@ public class Expression extends ASTNode {
      * Creates an empty expression
      * This default is needed for the Term class
      */
-    public Expression() {}
+    protected Expression() {}
 
     /**
      * Create an unary Expression (only used for Not).

@@ -17,12 +17,11 @@ import static java.util.stream.Collectors.toList;
  * Reads in a QL from in text format and returns a parsed QLForm object
  */
 public class FormReader {
-
     /**
      * Reads a QL form from a text file located at the path and returns a parsed QLForm object
-     * @param path
+     * @param path the path to the QL Form.
      * @return A parsed QLForm object
-     * @throws IOException
+     * @throws IOException when the path points to a non-existing file.
      */
     public QLForm parseFile(String path) throws IOException {
         CharStream charStream = CharStreams.fromFileName(path);
@@ -31,31 +30,18 @@ public class FormReader {
     }
 
     /**
-     * Reads a QL form from a string and returns a parsed QLForm object
-     * @param s
-     * @return A parsed QLForm object
+     * Reads a QL form from a Charstream and returns a parsed QLForm object.
+     * @param charStream a charStream instance.
+     * @return A parsed QLForm object.
      */
-    public QLForm parseString(String s) {
-        CharStream charStream = CharStreams.fromString(s);
-
-        return parseCharstream(charStream);
-    }
-
-    /**
-     * Reads a QL form from a Charstream and returns a parsed QLForm object
-     * @param charStream
-     * @return A parsed QLForm object
-     */
-    public QLForm parseCharstream(CharStream charStream) {
+    private QLForm parseCharstream(CharStream charStream) {
         QLLexer lexer = new QLLexer(charStream);
         TokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
 
         FormVisitor formVisitor = new FormVisitor();
 
-        QLForm traverseResult = formVisitor.visit(parser.form());
-
-        return traverseResult;
+        return formVisitor.visit(parser.form());
     }
 
     private static class FormVisitor extends QLBaseVisitor<QLForm> {
@@ -177,10 +163,10 @@ public class FormReader {
                 return new QLBoolean(Boolean.parseBoolean(bool.toString()));
 
             if(qlstring != null)
-                return new QLString((String) qlstring.toString());
+                return new QLString(qlstring.toString());
 
             if(variable != null)
-                return new Variable((String) variable.toString());
+                return new Variable(variable.toString());
 
             if(integer != null)
                 return new QLFloat((Integer.parseInt(integer.toString())));
@@ -195,15 +181,15 @@ public class FormReader {
     }
 
     private static class ArithmeticVisitor extends QLBaseVisitor<Operator>{
-        public Operator visitArithmetic(@NotNull QLParser.FactorContext ctx) {
+        Operator visitArithmetic(@NotNull QLParser.FactorContext ctx) {
             return new ArithmeticOperation(ctx.getText());
         }
 
-        public Operator visitArithmetic(@NotNull QLParser.MuldivContext ctx) {
+        Operator visitArithmetic(@NotNull QLParser.MuldivContext ctx) {
             return new ArithmeticOperation(ctx.getText());
         }
 
-        public Operator visitArithmetic(@NotNull QLParser.AddsubContext ctx) {
+        Operator visitArithmetic(@NotNull QLParser.AddsubContext ctx) {
             return new ArithmeticOperation(ctx.getText());
         }
     }

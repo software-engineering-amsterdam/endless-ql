@@ -1,17 +1,6 @@
 package QLExceptions;
 
 /**
- * A basic Exception for all other scenarios (So no type or syntax exception)
+ * This Exception is used when a Variable is referenced that isn't set yet.
  */
-public class OtherException extends Exception {
-    private String message;
-
-    public OtherException(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-}
+public class OtherException extends Exception {}

@@ -5,15 +5,13 @@ import Nodes.Term.Term;
 import QLExceptions.*;
 
 public abstract class Operator extends ASTNode {
-    private String value;
+    private final String value;
 
     Operator(String value){
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
+    String getValue() { return value; }
 
     /**
      * The method that will be called on every Operator.

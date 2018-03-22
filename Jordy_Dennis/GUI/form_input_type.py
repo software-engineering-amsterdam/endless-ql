@@ -48,6 +48,7 @@ class InputTypeMap:
             button = Checkbutton(self.parent, variable=var, background="white")
             button.pack(fill='x')
         elif widgetType == 'radio':
+            print(kwargs['minVal'])
             button = Radiobutton(self.parent, text=kwargs['minVal'], variable=var, value=True)
             button.pack(anchor=W)
             Radiobutton(self.parent, text=kwargs['maxVal'], variable=var, value=False).pack(anchor=W)

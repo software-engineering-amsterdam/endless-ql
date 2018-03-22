@@ -2,8 +2,6 @@
     Generate the questions from the varDict and Ast
 """
 
-import collections
-
 from AST import *
 from QLS import *
 
@@ -115,8 +113,15 @@ class QuestionGenerator:
                             questionInGUI.setValue(value)
                     # Question not in GUI, Add question to GUI
                     else:
-                        self.form.insertQuestion(varName, label, var_type, value, sectionName, pageName, insertAfter,
-                                                 current_default, question.widgetType)
+                        if question.widgetType in ['spinbox', 'slider', 'radio']:
+                            self.form.insertQuestion(varName, label, var_type, value, sectionName, pageName,
+                                                     insertAfter,
+                                                     current_default, question.widgetType,
+                                                     minVal=question.widget.minVal, maxVal=question.widget.maxVal)
+                        else:
+                            self.form.insertQuestion(varName, label, var_type, value, sectionName, pageName,
+                                                     insertAfter,
+                                                     current_default, question.widgetType)
                         # disable input if it is an assigmentNode
                         if type(self.questions[varName]) == AssignmentNode:
                             self.form.getQuestionFromSection(varName, sectionName, pageName).disableWidget()

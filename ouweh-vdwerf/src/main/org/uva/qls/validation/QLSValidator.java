@@ -17,7 +17,8 @@ public class QLSValidator {
 
 
     public QLSValidator(Form form, Stylesheet stylesheet) {
-        this.stylesheetContext = new StylesheetContext(stylesheet);
+        this.stylesheetContext = new StylesheetContext();
+        this.stylesheetContext.setStylesheet(stylesheet);
         this.questionContext = new QuestionContext(form);
     }
 

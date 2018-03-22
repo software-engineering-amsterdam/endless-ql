@@ -18,11 +18,10 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     private final HashMap<String, Page> pages = new LinkedHashMap<>();
     private final HashMap<String, Segment> parents = new LinkedHashMap<>();
 
-    private final Stylesheet stylesheet;
+    public StylesheetContext() {
+    }
 
-    public StylesheetContext(Stylesheet stylesheet) {
-        this.stylesheet = stylesheet;
-
+    public void setStylesheet(Stylesheet stylesheet){
         stylesheet.accept(this, null);
     }
 

@@ -5,6 +5,7 @@
 """
 
 from .ast_methods import *
+import collections
 
 class ConditionNodeBlock:
     def __init__(self, expression, line):

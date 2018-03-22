@@ -45,7 +45,7 @@ class FormGui:
         self.name = header
         self.questionGenerator = questionGenerator
 
-        if qls == False:
+        if not qls:
             self.addPage()
             self.pages['default'].createSection()
 

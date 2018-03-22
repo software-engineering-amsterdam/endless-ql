@@ -82,6 +82,7 @@ Result will be written into the `/build` folder
 
 ## QLS
 * TODO: Check for double default styles on same level
+* TODO: Expression must use brackets
 
 ## General
 * TODO: Root of expressions should be within brackets

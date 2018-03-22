@@ -1,7 +1,7 @@
 ﻿using QLParser.AST.QL;
 using QLParser.Exceptions;
 
-namespace QLParser.Analysis.Evaluator
+namespace QLParser.Analysis.QL.Evaluator
 {
     public class StatementTypeEvaluator
     {

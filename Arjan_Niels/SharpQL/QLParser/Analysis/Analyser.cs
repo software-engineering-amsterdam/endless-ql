@@ -1,5 +1,5 @@
-﻿using QLParser.Analysis.Semantic;
-using QLParser.Analysis.Syntactic;
+﻿using QLParser.Analysis.QL.Semantic;
+using QLParser.Analysis.QL.Syntactic;
 using QLParser.AST.QL;
 using System.Collections.Generic;
 using System.Linq;

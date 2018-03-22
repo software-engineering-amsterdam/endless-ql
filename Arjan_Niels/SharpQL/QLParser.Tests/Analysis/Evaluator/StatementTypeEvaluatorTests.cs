@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLParser.Analysis.Evaluator;
+using QLParser.Analysis.QL.Evaluator;
 using QLParser.AST;
 using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;

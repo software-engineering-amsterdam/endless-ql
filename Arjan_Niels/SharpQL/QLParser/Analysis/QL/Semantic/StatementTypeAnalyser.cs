@@ -1,4 +1,4 @@
-﻿using QLParser.Analysis.Evaluator;
+﻿using QLParser.Analysis.QL.Evaluator;
 using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
 using QLParser.AST.QL.ExpressionNodes.Enums;

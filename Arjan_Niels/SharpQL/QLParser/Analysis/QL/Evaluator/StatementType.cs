@@ -1,4 +1,4 @@
-﻿namespace QLParser.Analysis.Evaluator
+﻿namespace QLParser.Analysis.QL.Evaluator
 {
     public enum StatementType
     {

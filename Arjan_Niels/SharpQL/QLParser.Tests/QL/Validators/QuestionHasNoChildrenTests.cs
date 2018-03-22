@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLParser.Analysis.Syntactic;
+using QLParser.Analysis.QL.Syntactic;
 using QLParser.AST;
 using QLParser.AST.QL;
 

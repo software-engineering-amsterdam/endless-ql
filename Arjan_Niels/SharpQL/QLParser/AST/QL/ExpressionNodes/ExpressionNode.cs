@@ -1,4 +1,4 @@
-﻿using QLParser.Analysis.Evaluator;
+﻿using QLParser.Analysis.QL.Evaluator;
 
 namespace QLParser.AST.QL.ExpressionNodes
 {

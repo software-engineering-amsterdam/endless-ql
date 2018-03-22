@@ -1,0 +1,61 @@
+package org.uva.sea.gui.qls.factory;
+
+import org.uva.sea.gui.controller.IGuiElementUpdateListener;
+import org.uva.sea.gui.qls.widget.*;
+import org.uva.sea.gui.widget.BaseWidget;
+import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.parser.NodeType;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class WidgetFactory extends org.uva.sea.gui.model.factory.WidgetFactory {
+
+    private final Map<WidgetType, Class<? extends BaseWidget>> widgetTypeClasses = new HashMap<>();
+    private final Map<NodeType, Class<? extends BaseWidget>> nodeTypeClasses = new HashMap<>();
+
+    public WidgetFactory() {
+        this.widgetTypeClasses.put(WidgetType.CHECKBOX, CheckBoxWidgetQLS.class);
+        this.widgetTypeClasses.put(WidgetType.SLIDER, SliderWidget.class);
+        this.widgetTypeClasses.put(WidgetType.CHOICEBOX, ChoiceBoxWidget.class);
+        this.widgetTypeClasses.put(WidgetType.RADIO, RadioButtonWidget.class);
+        this.widgetTypeClasses.put(WidgetType.SPINBOX, SpinnerWidget.class);
+        this.widgetTypeClasses.put(WidgetType.TEXTFIELD, TextFieldWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.BOOLEAN, CheckBoxWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.DECIMAL, TextFieldWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.INTEGER, TextFieldWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.MONEY_EURO, MoneyWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.MONEY_DOLLAR, MoneyWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.DATE, DateWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.STRING, TextFieldWidgetQLS.class);
+    }
+
+    @Override
+    public BaseWidget createWidget(QuestionData questionData, IGuiElementUpdateListener listener) {
+        WidgetType widgetType = questionData.getWidgetType();
+        if(widgetType == WidgetType.DEFAULT)
+            return this.getNodeTypedWidget(questionData.getNodeType(), questionData, listener);
+
+        return this.getWidgetTypedWidget(widgetType, questionData, listener);
+    }
+
+    private BaseWidget getWidgetTypedWidget(WidgetType widgetType, QuestionData questionData, IGuiElementUpdateListener listener) {
+        Class<? extends BaseWidget> widget = this.widgetTypeClasses.get(widgetType);
+        if (widget == null) {
+            throw new NotImplementedException();
+        }
+
+        return this.getWidget(questionData, listener, widget);
+    }
+
+    private BaseWidget getNodeTypedWidget(NodeType nodeType, QuestionData questionData, IGuiElementUpdateListener listener) {
+        Class<? extends BaseWidget> widget = this.nodeTypeClasses.get(nodeType);
+        if (widget == null) {
+            throw new NotImplementedException();
+        }
+
+        return this.getWidget(questionData, listener, widget);
+    }
+}

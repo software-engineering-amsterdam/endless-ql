@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <GridPane alignment="center" hgap="10" prefHeight="600.0" prefWidth="800.0" vgap="10"
           xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="org.uva.sea.gui.qls.FormControllerQLS">
+          fx:controller="org.uva.sea.gui.qls.FormController">
     <padding>
         <Insets left="40.0" top="40.0"/>
     </padding>

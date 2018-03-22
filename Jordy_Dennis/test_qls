@@ -41,7 +41,7 @@ stylesheet taxOfficeExample
         widget spinbox (0, 10000)
       }
     }
-    default boolean widget radio("Yes", "No")
+    default boolean fontsize: 40
   }
   page TEST
   {

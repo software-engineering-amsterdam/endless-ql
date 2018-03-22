@@ -27,22 +27,36 @@ public class QLDataTypeInteger extends QLDataTypeNumeric<BigInteger> {
     }
 
     @Override
-    public QLDataTypeInteger add(QLDataTypeSummable rhs) {
+    public QLDataTypeNumeric add(QLDataTypeSummable rhs) {
+        if (rhs instanceof QLDataTypeDecimal) {
+            return (new QLDataTypeDecimal(new BigDecimal(this.value))).add(rhs);
+        }
         return new QLDataTypeInteger(this.value.add((BigInteger) rhs.getValue()));
     }
 
     @Override
-    public QLDataTypeInteger subtract(QLDataTypeNumeric rhs) {
+    public QLDataTypeNumeric subtract(QLDataTypeNumeric rhs) {
+        if (rhs instanceof QLDataTypeDecimal) {
+            return (new QLDataTypeDecimal(new BigDecimal(this.value))).subtract(rhs);
+        }
         return new QLDataTypeInteger(this.value.subtract((BigInteger) rhs.getValue()));
     }
 
     @Override
-    public QLDataTypeInteger multiply(QLDataTypeNumeric rhs) {
+    public QLDataTypeNumeric multiply(QLDataTypeNumeric rhs) {
+        if (rhs instanceof QLDataTypeDecimal) {
+            return (new QLDataTypeDecimal(new BigDecimal(this.value))).multiply(rhs);
+        }
         return new QLDataTypeInteger(this.value.multiply((BigInteger) rhs.getValue()));
     }
 
     @Override
-    public QLDataTypeInteger divide(QLDataTypeNumeric rhs) {
+    public QLDataTypeNumeric divide(QLDataTypeNumeric rhs) {
+
+        if (rhs instanceof QLDataTypeDecimal) {
+            return (new QLDataTypeDecimal(new BigDecimal(this.value))).divide(rhs);
+        }
+
         BigInteger rhsValue = (BigInteger) rhs.getValue();
         if (rhsValue.compareTo(BigInteger.ZERO) != 0) {
             return new QLDataTypeInteger(this.value.divide(rhsValue));
@@ -57,31 +71,49 @@ public class QLDataTypeInteger extends QLDataTypeNumeric<BigInteger> {
 
     @Override
     public QLDataTypeBoolean equals(QLDataType rhs) {
+        if (rhs instanceof QLDataTypeDecimal) {
+            return (new QLDataTypeDecimal(new BigDecimal(this.value))).equals(rhs);
+        }
         return new QLDataTypeBoolean(this.value.compareTo((BigInteger) rhs.value) == 0);
     }
 
     @Override
     public QLDataTypeBoolean notEquals(QLDataType rhs) {
+        if (rhs instanceof QLDataTypeDecimal) {
+            return (new QLDataTypeDecimal(new BigDecimal(this.value))).notEquals(rhs);
+        }
         return new QLDataTypeBoolean(this.value.compareTo((BigInteger) rhs.value) != 0);
     }
 
     @Override
     public QLDataTypeBoolean greaterThan(QLDataTypeNumeric rhs) {
+        if (rhs instanceof QLDataTypeDecimal) {
+            return (new QLDataTypeDecimal(new BigDecimal(this.value))).greaterThan(rhs);
+        }
         return new QLDataTypeBoolean(this.value.compareTo((BigInteger) rhs.value) > 0);
     }
 
     @Override
     public QLDataTypeBoolean greaterEqual(QLDataTypeNumeric rhs) {
+        if (rhs instanceof QLDataTypeDecimal) {
+            return (new QLDataTypeDecimal(new BigDecimal(this.value))).greaterEqual(rhs);
+        }
         return new QLDataTypeBoolean(this.value.compareTo((BigInteger) rhs.value) >= 0);
     }
 
     @Override
     public QLDataTypeBoolean lessThan(QLDataTypeNumeric rhs) {
+        if (rhs instanceof QLDataTypeDecimal) {
+            return (new QLDataTypeDecimal(new BigDecimal(this.value))).lessThan(rhs);
+        }
         return new QLDataTypeBoolean(this.value.compareTo((BigInteger) rhs.value) < 0);
     }
 
     @Override
     public QLDataTypeBoolean lessEqual(QLDataTypeNumeric rhs) {
+        if (rhs instanceof QLDataTypeDecimal) {
+            return (new QLDataTypeDecimal(new BigDecimal(this.value))).lessEqual(rhs);
+        }
         return new QLDataTypeBoolean(this.value.compareTo((BigInteger) rhs.value) <= 0);
     }
 }

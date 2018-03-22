@@ -3,6 +3,7 @@ package ql.logic.type;
 import ql.ast.model.expressions.Expression;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class QLDataTypeDecimal extends QLDataTypeNumeric<BigDecimal> {
 
@@ -28,7 +29,7 @@ public class QLDataTypeDecimal extends QLDataTypeNumeric<BigDecimal> {
     // binary operations
     @Override
     public QLDataTypeDecimal add(QLDataTypeSummable rhs) {
-        return new QLDataTypeDecimal(this.value.add((BigDecimal) rhs.getValue()));//TODO: check
+        return new QLDataTypeDecimal(this.value.add(castValueFromQLDataTypeNumeric(rhs.getValue())));
     }
 
     @Override
@@ -57,12 +58,12 @@ public class QLDataTypeDecimal extends QLDataTypeNumeric<BigDecimal> {
 
     @Override
     public QLDataTypeBoolean equals(QLDataType rhs) {
-        return new QLDataTypeBoolean(this.value.compareTo((BigDecimal) rhs.getValue()) == 0);//TODO: check
+        return new QLDataTypeBoolean(this.value.compareTo(castValueFromQLDataTypeNumeric(rhs.getValue())) == 0);
     }
 
     @Override
     public QLDataTypeBoolean notEquals(QLDataType rhs) {
-        return new QLDataTypeBoolean(this.value.compareTo((BigDecimal) rhs.getValue()) != 0); //TODO: check
+        return new QLDataTypeBoolean(this.value.compareTo(castValueFromQLDataTypeNumeric(rhs.getValue())) != 0);
     }
 
     @Override
@@ -83,5 +84,14 @@ public class QLDataTypeDecimal extends QLDataTypeNumeric<BigDecimal> {
     @Override
     public QLDataTypeBoolean lessEqual(QLDataTypeNumeric rhs) {
         return new QLDataTypeBoolean(this.value.compareTo(rhs.castToDecimal().getValue()) <= 0);
+    }
+
+    private static BigDecimal castValueFromQLDataTypeNumeric(Object value) {
+        if (value instanceof BigInteger) {
+            return new BigDecimal((BigInteger) value);
+        } else if (value instanceof BigDecimal) {
+            return (BigDecimal) value;
+        }
+        return null;
     }
 }

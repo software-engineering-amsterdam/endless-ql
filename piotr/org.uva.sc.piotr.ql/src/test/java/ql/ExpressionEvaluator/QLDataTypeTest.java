@@ -4,11 +4,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import ql.ast.model.expressions.Expression;
-import ql.exceptions.IncompatibleTypesException;
-import ql.logic.type.QLDataType;
-import ql.logic.type.QLDataTypeInteger;
-import ql.logic.type.QLDataTypeString;
+import ql.logic.type.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -19,145 +15,142 @@ public final class QLDataTypeTest {
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
-//    @Test
-//    public void testIncompatibleTypesCasting() {
-//        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(10));
-//        QLDataTypeString val2 = new QLDataTypeString("2");
-//
-//        exception.expect(java.lang.ClassCastException.class);
-//
-//        val1.add(val2);
-//    }
-//
-//    @Test
-//    public void testIntegerNegation() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.INTEGER, "10");
-//        QLDataType result = val1.negate();
-//        Assert.assertEquals(result.getType(), val1.getType());
-//        Assert.assertEquals(result.getIntegerValue().compareTo(BigInteger.valueOf(-10)), 0);
-//
-//    }
-//
+    @Test
+    public void testIncompatibleTypesCasting() {
+        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(10));
+        QLDataTypeString val2 = new QLDataTypeString("2");
+
+        exception.expect(java.lang.ClassCastException.class);
+
+        val1.add(val2);
+    }
+
+    @Test
+    public void testIntegerNegation() {
+        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(10));
+        QLDataTypeInteger result = val1.negate();
+        Assert.assertEquals(result.getType(), val1.getType());
+        Assert.assertEquals(result.getValue().compareTo(BigInteger.valueOf(-10)), 0);
+    }
+
 //    @Test
 //    public void testIntegerAddition() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.INTEGER, "10");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.INTEGER, "7");
-//        QLDataType result = val1.add(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getIntegerValue().compareTo(BigInteger.valueOf(17)), 0);
+//        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(10));
+//        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(7));
+//        QLDataTypeNumeric result = val1.add(val2);
+//
+//        Assert.assertEquals(result.getValue().compareTo(BigInteger.valueOf(17)), 0);
 //
 //    }
 //
 //    @Test
 //    public void testIntegerSubtraction() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.INTEGER, "10");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.INTEGER, "17");
-//        QLDataType result = val1.subtract(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getIntegerValue().compareTo(BigInteger.valueOf(-7)), 0);
+//        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(10));
+//        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(17));
+//        QLDataTypeInteger result = val1.subtract(val2);
+//
+//        Assert.assertEquals(result.getValue().compareTo(BigInteger.valueOf(-7)), 0);
 //    }
 //
 //    @Test
 //    public void testIntegerMultiplication() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.INTEGER, "3");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.INTEGER, "7");
-//        QLDataType result = val1.multiply(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getIntegerValue().compareTo(BigInteger.valueOf(21)), 0);
+//        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(3));
+//        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(7));
+//        QLDataTypeInteger result = val1.multiply(val2);
+//
+//        Assert.assertEquals(result.getValue().compareTo(BigInteger.valueOf(21)), 0);
 //    }
-//
-//    @Test
-//    public void testIntegerDivision() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.INTEGER, "9");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.INTEGER, "3");
-//        QLDataType result = val1.divide(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getIntegerValue().compareTo(BigInteger.valueOf(3)), 0);
-//    }
-//
-//    @Test
-//    public void testDecimalAddition() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.DECIMAL, "3.2");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.DECIMAL, "2.1");
-//
-//        QLDataType result = val1.add(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(5.3).setScale( 4, RoundingMode.HALF_UP)), 0);
-//
-//    }
-//
-//    @Test
-//    public void testDecimalSubtraction() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.DECIMAL, "43.16");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.DECIMAL, "3.15");
-//
-//        QLDataType result = val1.subtract(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(40.01).setScale( 4, RoundingMode.HALF_UP)), 0);
-//
-//    }
-//
-//    @Test
-//    public void testDecimalMultiplication() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.DECIMAL, "3.2");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.DECIMAL, "2.1");
-//
-//        QLDataType result = val1.multiply(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(6.72).setScale( 4, RoundingMode.HALF_UP)), 0);
-//
-//    }
-//
-//    @Test
-//    public void testDecimalDivision() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.DECIMAL, "6.72");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.DECIMAL, "2.1");
-//
-//        QLDataType result = val1.divide(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(3.2).setScale( 4, RoundingMode.HALF_UP)), 0);
-//
-//    }
-//
-//    @Test
-//    public void testIntegerCastToDecimalAddition() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.DECIMAL, "3.2");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.INTEGER, "2");
-//
-//        QLDataType result = val1.add(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getDecimalValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(5.2).setScale(4, RoundingMode.HALF_UP)), 0);
-//
-//    }
-//
-//    @Test
-//    public void testIntegerCastToDecimalSubtraction() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.DECIMAL, "43.16");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.INTEGER, "3");
-//
-//        QLDataType result = val1.subtract(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(40.16).setScale( 4, RoundingMode.HALF_UP)), 0);
-//    }
-//
-//    @Test
-//    public void testIntegerCastToDecimalMultiplication() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.DECIMAL, "3.2");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.INTEGER, "2");
-//
-//        QLDataType result = val1.multiply(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(6.4).setScale( 4, RoundingMode.HALF_UP)), 0);
-//    }
-//
+
+    @Test
+    public void testIntegerDivision() {
+        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(9));
+        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(3));
+        QLDataType result = val1.divide(val2);
+
+        Assert.assertEquals(((BigInteger) result.getValue()).compareTo(BigInteger.valueOf(3)), 0);
+    }
+
+    @Test
+    public void testDecimalAddition() {
+        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("3.2"));
+        QLDataTypeDecimal val2 = new QLDataTypeDecimal(new BigDecimal("2.1"));
+
+        QLDataTypeDecimal result = val1.add(val2);
+
+        Assert.assertEquals(result.getValue().setScale(8, RoundingMode.HALF_UP).compareTo(new BigDecimal(5.3).setScale(8, RoundingMode.HALF_UP)), 0);
+    }
+
+    @Test
+    public void testDecimalSubtraction() {
+        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("43.16"));
+        QLDataTypeDecimal val2 = new QLDataTypeDecimal(new BigDecimal("3.15"));
+
+        QLDataTypeDecimal result = val1.subtract(val2);
+
+        Assert.assertEquals(result.getValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(40.01).setScale(4, RoundingMode.HALF_UP)), 0);
+
+    }
+
+    @Test
+    public void testDecimalMultiplication() {
+        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("3.2"));
+        QLDataTypeDecimal val2 = new QLDataTypeDecimal(new BigDecimal("2.1"));
+
+        QLDataTypeDecimal result = val1.multiply(val2);
+
+        Assert.assertEquals(result.getValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(6.72).setScale(4, RoundingMode.HALF_UP)), 0);
+
+    }
+
+    @Test
+    public void testDecimalDivision() {
+        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("6.72"));
+        QLDataTypeDecimal val2 = new QLDataTypeDecimal(new BigDecimal("2.1"));
+
+        QLDataTypeDecimal result = val1.divide(val2);
+
+        Assert.assertEquals(result.getValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(3.2).setScale(4, RoundingMode.HALF_UP)), 0);
+
+    }
+
+    @Test
+    public void testIntegerCastToDecimalAddition() {
+        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("3.2"));
+        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(2));
+
+        QLDataTypeDecimal result = val1.add(val2);
+
+        Assert.assertEquals(result.getValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(5.2).setScale(4, RoundingMode.HALF_UP)), 0);
+
+    }
+
+    @Test
+    public void testIntegerCastToDecimalSubtraction() {
+        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("43.16"));
+        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(3));
+
+        QLDataTypeDecimal result = val1.subtract(val2);
+
+        Assert.assertEquals(result.getValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(40.16).setScale(4, RoundingMode.HALF_UP)), 0);
+    }
+
+    @Test
+    public void testIntegerCastToDecimalMultiplication() {
+        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("3.2"));
+        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(2));
+
+        QLDataTypeDecimal result = val1.multiply(val2);
+        Assert.assertEquals(result.getValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(6.4).setScale(4, RoundingMode.HALF_UP)), 0);
+    }
+
 //    @Test
 //    public void testIntegerCastToDecimalDivision() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.DECIMAL, "6.72");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.INTEGER, "2");
+//        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("6.72");
+//        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf( "2");
 //
 //        QLDataType result = val1.divide(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
-//        Assert.assertEquals(result.getDecimalValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(3.36).setScale( 4, RoundingMode.HALF_UP)), 0);
+//        
+//        Assert.assertEquals(result.getValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(3.36).setScale( 4, RoundingMode.HALF_UP)), 0);
 //    }
 //
 //    @Test
@@ -224,14 +217,14 @@ public final class QLDataTypeTest {
 //        QLDataType val1 = QLDataType.createValue(Expression.DataType.STRING, "One");
 //        QLDataType val2 = QLDataType.createValue(Expression.DataType.STRING, "Two");
 //        QLDataType result = val1.add(val2);
-//        Assert.assertEquals(val1.getType(), val2.getType());
+//        
 //        Assert.assertEquals("OneTwo", result.getStringValue());
 //    }
 //
 //    @Test
 //    public void testIntegerComparision() {
 //        QLDataType val1 = QLDataType.createValue(Expression.DataType.INTEGER, "10");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.INTEGER, "7");
+//        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf( "7");
 //
 //        QLDataType result = val1.equals(val2);
 //        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
@@ -260,8 +253,8 @@ public final class QLDataTypeTest {
 //
 //    @Test
 //    public void testDecimalComparision() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.DECIMAL, "10.4");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.DECIMAL, "7.4");
+//        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("10.4");
+//        QLDataTypeDecimal val2 = new QLDataTypeDecimal(new BigDecimal("7.4");
 //
 //        QLDataType result = val1.equals(val2);
 //        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
@@ -288,8 +281,5 @@ public final class QLDataTypeTest {
 //        Assert.assertEquals(true, result.getBooleanValue());
 //    }
 //
-//    // TODO: Exceptions tests
-
-
 
 }

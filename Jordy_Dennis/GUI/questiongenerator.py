@@ -66,7 +66,6 @@ class QuestionGenerator:
     """
 
     def updateQls(self, initial):
-        print("UPDTE")
         self.questions = collections.OrderedDict()
         self.getQuestions(self.ast.form.block)
         pages = self.astQLS.getPages()
@@ -116,7 +115,6 @@ class QuestionGenerator:
                         # update assignment node with new evaluated data
                         if type(self.questions[varName]) == AssignmentNode:
                             questionInGUI.setValue(value)
-                            print(value)
                     # Question not in GUI, Add question to GUI
                     else:
                         if question.widgetType in ['spinbox', 'slider', 'radio']:
@@ -151,7 +149,6 @@ class QuestionGenerator:
 
             defaultType = default.type
             defaultWidgetType = default.widgetType
-            print(defaultWidgetType)
             if defaultType in defaultDict and defaultWidgetType in defaultDict[defaultType]:
                 defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default, False,
                                                                                         defaultDict[defaultType][
@@ -159,7 +156,6 @@ class QuestionGenerator:
             else:
                 defaultDict[defaultType] = {}
                 defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default)
-        print(defaultDict)
 
     def getDefaultAttributes(self, default, initial=True, attributeDict={}):
         if initial:

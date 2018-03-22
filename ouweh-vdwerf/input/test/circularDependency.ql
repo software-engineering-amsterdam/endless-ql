@@ -1,14 +1,4 @@
 form exampleForm {
-  if (someRefOne){
-      "Q ONE?"
-        someRefTwo: money
-  }
-
-  if (mathQuestion1 > mathQuestion2) {
-    "Q TWO?"
-        someRefOne: money
-  }
-
     "Param1:"
         var1:integer;
     "Param2:"
@@ -16,16 +6,16 @@ form exampleForm {
     "Param3:"
         var3:integer;
 
-    "Math question 1"
-        mathQuestion1:integer = mathQuestion2 + var2;
+    "Question content 1"
+        questionVar1:integer = questionVar2 + var2;
 
-    "Math question 2"
-        mathQuestion2:integer = mathQuestion1 + var3;
+    "Question content 2"
+        questionVar2:integer = questionVar1 + var3;
 
-    "Math question 3"
-        mathQuestion3:integer = mathQuestion1 + mathQuestion2;
+    "Question content 3"
+        questionVar3:integer = questionVar1 + questionVar2;
 
-     "Math question 4"
-        mathQuestion4:integer = mathQuestion4;
+     "Question content 4"
+        questionVar4:integer = questionVar4;
 
 }

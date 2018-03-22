@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Assignment1.Model.QL.AST
 {
-    public class QuestionForm : QLNode, IQLASTNode
+    public class QuestionForm : ASTNode, IQLASTNode
     {
         public string Id { get; }
         public IReadOnlyCollection<Statement> Statements => _statements.AsReadOnly();

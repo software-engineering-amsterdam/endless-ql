@@ -60,8 +60,7 @@ class Section():
         color = 'black'
         font = 'Arial'
         fontSize = '15'
-        print(defaults)
-        print(questionType)
+
         if questionType in defaults and widgetType in defaults[questionType]:
                 font = defaults[questionType][widgetType]['font']
                 fontSize = defaults[questionType][widgetType]['fontSize']

@@ -8,18 +8,12 @@ import WidthAttribute from "../nodes/attributes/base_attributes/WidthAttribute";
 
 export default class AttributeNodeFactory {
   public getWidgetStyleAttribute(value: string, options?: string[]): WidgetAttribute {
-
+    return new WidgetAttribute("test");
   }
 
   public getBaseStyleAttribute(name: string, value: string): StyleAttribute {
     if (name === 'color') {
-      const color = new ColorValue(value);
-
-      if (!color.isValid()) {
-        throw InvalidColorError.make(value);
-      }
-
-      return new ColorAttribute(new ColorValue(value));
+      return this.getColorAttribute(value);
     }
 
     if (name === 'width') {
@@ -31,7 +25,17 @@ export default class AttributeNodeFactory {
     throw UnknownStyleAttributeNameError.make(name);
   }
 
-  public makePixelUnitValue(value: number) {
+  private getColorAttribute(value: string): ColorAttribute {
+    const color = new ColorValue(value);
+
+    if (!color.isValid()) {
+      throw InvalidColorError.make(value);
+    }
+
+    return new ColorAttribute(new ColorValue(value));
+  }
+
+  private makePixelUnitValue(value: number) {
     return new UnitValue(value, 'px');
   }
 }

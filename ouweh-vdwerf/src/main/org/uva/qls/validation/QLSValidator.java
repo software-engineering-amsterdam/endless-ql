@@ -35,7 +35,7 @@ public class QLSValidator {
         List<String> qlsQuestionIds = qlsQuestions.stream().map(QuestionReference::getId).collect(Collectors.toList());
 
         checkers.add(new ReferenceChecker(qlQuestionIds, qlsQuestionIds));
-        checkers.add(new CompatibilityChecker(qlQuestions, qlsQuestions));
+        checkers.add(new CompatibilityChecker(qlQuestions, qlsQuestions, this.stylesheetContext));
         // TODO Add default CompatibilityChecker
     }
 

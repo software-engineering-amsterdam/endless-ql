@@ -168,7 +168,7 @@ class InputTypeMap:
         if(self.init == False):
             self.questionGenerator.updateQuestions()
         else:
-            self.init = True
+            self.init = False
 
     """
         Update the Int value in the AST, and update the questions, also validate if the

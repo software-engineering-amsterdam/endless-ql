@@ -61,7 +61,7 @@ namespace QLParser.Analysis
             return result;
         }
 
-        public static bool Analyse(QLSNode node)
+        private static bool Analyse(QLSNode node)
         {
             if (node == null)
                 return false;
@@ -74,6 +74,20 @@ namespace QLParser.Analysis
             return result;
         }
 
+        public static bool Analyse(QLNode qlNode, QLSNode qlsNode)
+        {
+            Reset();
+
+            if (qlNode == null || qlsNode == null)
+                return false;
+
+            // Analyse QL and QLS.
+            var result = true;
+            result = Analyse(qlNode) && result;
+            result = Analyse(qlsNode) && result;
+
+            return result;
+        }
 
         public static void AddMessage(string message, MessageType type)
         {

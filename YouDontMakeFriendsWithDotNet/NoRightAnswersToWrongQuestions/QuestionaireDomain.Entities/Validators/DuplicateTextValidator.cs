@@ -8,11 +8,11 @@ using QuestionnaireDomain.Entities.Validators.MetaData;
 
 namespace QuestionnaireDomain.Entities.Validators
 {
-    public class DuplicateVariableValidator : IDuplicateVariableValidator
+    public class DuplicateTextValidator : IDuplicateTextValidator
     {
         private readonly IDomainItemLocator m_domainItemLocator;
 
-        public DuplicateVariableValidator(
+        public DuplicateTextValidator(
             IDomainItemLocator domainItemLocator)
         {
             m_domainItemLocator = domainItemLocator;
@@ -25,27 +25,26 @@ namespace QuestionnaireDomain.Entities.Validators
                 .GetAll<IQuestionNode>()
                 .ToList();
 
-            var questionNameAndTypes = questionNodes
-                .Select(x => new { x.QuestionName, x.QuestionType })
+            var duplicateTexts = questionNodes
+                .GroupBy(x => x.QuestionText)
+                .Where(g => g.Count() > 1)
+                .Select(y => y.Key)
                 .ToList();
-
+            
             foreach (var questionNode in questionNodes)
             {
-                var mismatchCount = questionNameAndTypes
-                    .Count(x =>
-                        x.QuestionName == questionNode.QuestionName
-                        && x.QuestionType != questionNode.QuestionType);
-
-                if (mismatchCount > 1)
+                if (duplicateTexts.All(x => x != questionNode.QuestionText))
                 {
-                    var validationData = new DuplicateVariableValidationMetaData
-                    {
-                        Source = m_domainItemLocator.GetRef<IQuestionNode>(questionNode.Id),
-                        Message = $@"The Question identifier '{questionNode.QuestionName}' is used multiple times with different types",
-                    };
-
-                    yield return validationData;
+                    continue;
                 }
+
+                var validationData = new DuplicateTextValidationMetaData()
+                {
+                    Source = m_domainItemLocator.GetRef<IQuestionNode>(questionNode.Id),
+                    Message = $@"The text '{questionNode.QuestionText}' is used multiple times",
+                };
+
+                yield return validationData;
             }
         }
     }

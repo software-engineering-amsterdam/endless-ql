@@ -10,7 +10,7 @@ import doge.data.question.SymbolType
 import doge.data.value.*
 
 
-class QuestionaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLNode>() {
+class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLNode>() {
     override fun visitForm(ctx: QuestionnaireLanguageGrammarParser.FormContext?): QLNode {
         val context = ctx!!
 

@@ -17,7 +17,7 @@ class DogeParser {
         val tokens = CommonTokenStream(lexer)
         val parser = QuestionnaireLanguageGrammarParser(tokens)
 
-        val visitor = QuestionaireLanguageVisitor()
+        val visitor = QuestionnaireLanguageVisitor()
 
         visitor.visit(parser.form())
 

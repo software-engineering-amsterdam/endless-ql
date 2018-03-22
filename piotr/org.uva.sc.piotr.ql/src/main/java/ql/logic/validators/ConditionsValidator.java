@@ -4,7 +4,7 @@ import ql.ast.model.expressions.Expression;
 import ql.ast.model.statements.Question;
 import ql.error.Error;
 import ql.logic.evaluators.ASTExpressionEvaluator;
-import ql.logic.type.QLDataType;
+import ql.logic.type.QLDataTypeWrapper;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public final class ConditionsValidator extends Validator {
         ASTExpressionEvaluator evaluator = new ASTExpressionEvaluator(questions);
 
         for (Expression expression : conditions) {
-            QLDataType result = expression.accept(evaluator);
+            QLDataTypeWrapper result = expression.accept(evaluator);
             if (result.getType() != Expression.DataType.BOOLEAN) {
                 String message = "Condition at line " + expression.getMetaInformation().getStartLine() + " does not evaluate to a boolean type.";
                 this.setError(new Error(Error.Level.CRITICAL, message));

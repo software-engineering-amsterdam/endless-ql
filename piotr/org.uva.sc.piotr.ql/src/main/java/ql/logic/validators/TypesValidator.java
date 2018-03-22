@@ -35,7 +35,6 @@ public final class TypesValidator extends Validator {
             try {
                 expression.accept(evaluator);
             } catch (RuntimeException e) {
-                System.out.println(e.getMessage());
                 String message  = e.getMessage() + ". Line " + expression.getMetaInformation().getStartLine() + ".";
                 this.setError(new Error(Error.Level.CRITICAL, message));
                 return false;

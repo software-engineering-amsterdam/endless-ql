@@ -9,7 +9,7 @@ import ql.ast.model.statements.Question;
 import ql.ast.model.statements.Statement;
 import ql.ast.visitors.AbstractASTTraverse;
 import ql.gui.model.QuestionModel;
-import ql.logic.type.QLDataType;
+import ql.logic.type.QLDataTypeWrapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,9 +98,9 @@ public class CollectQuestionModelsVisitor extends AbstractASTTraverse {
         return finalExpression;
     }
 
-    public HashMap<String, QLDataType> getVariablesValues() {
+    public HashMap<String, QLDataTypeWrapper> getVariablesValues() {
 
-        HashMap<String, QLDataType> variablesValues = new HashMap<>();
+        HashMap<String, QLDataTypeWrapper> variablesValues = new HashMap<>();
         for (QuestionModel questionModel : this.questionModels) {
             variablesValues.put(questionModel.getVariableName(), questionModel.getQLDataTypeValue());
         }

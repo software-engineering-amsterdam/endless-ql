@@ -4,10 +4,7 @@ import ql.ast.model.declarations.TypeDeclaration;
 import ql.ast.model.expressions.Expression;
 import ql.gui.controller.FormController;
 import ql.gui.view.QuestionPanel;
-import ql.logic.type.QLDataType;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import ql.logic.type.QLDataTypeWrapper;
 
 public class QuestionModel {
 
@@ -19,7 +16,7 @@ public class QuestionModel {
     private final Expression assignedExpression;
 
     private Boolean visibility;
-    private QLDataType qlDataTypeValue;
+    private QLDataTypeWrapper qlDataTypeWrapperValue;
 
     private FormController formController;
     private QuestionPanel panel;
@@ -34,7 +31,7 @@ public class QuestionModel {
         this.visibility = true;
 
         this.assignedExpression = assignedExpression;
-        this.qlDataTypeValue = QLDataType.createValue(this.originalDataTypeDeclaration.toDataType(), "");
+        this.qlDataTypeWrapperValue = QLDataTypeWrapper.createValue(this.originalDataTypeDeclaration.toDataType(), "");
     }
 
     public String getLabel() {
@@ -65,20 +62,20 @@ public class QuestionModel {
         this.visibility = visibility;
     }
 
-    public QLDataType getQLDataTypeValue() {
-        return qlDataTypeValue;
+    public QLDataTypeWrapper getQLDataTypeValue() {
+        return qlDataTypeWrapperValue;
     }
 
     public Object getJavaTypedValue() {
-        return this.qlDataTypeValue.getValue();
+        return this.qlDataTypeWrapperValue.getValue();
     }
 
-    public void setQlTypedValue(QLDataType value) {
-        this.qlDataTypeValue = value;
+    public void setQlTypedValue(QLDataTypeWrapper value) {
+        this.qlDataTypeWrapperValue = value;
     }
 
     public void changeValue(Object value) {
-        this.qlDataTypeValue.setValue(value);
+        this.qlDataTypeWrapperValue.setValue(value);
         this.formController.processQuestionModelChange(this);
     }
 

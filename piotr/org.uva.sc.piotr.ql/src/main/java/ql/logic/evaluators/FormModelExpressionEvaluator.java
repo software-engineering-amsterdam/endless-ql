@@ -2,7 +2,7 @@ package ql.logic.evaluators;
 
 import ql.ast.model.expressions.values.VariableReference;
 import ql.gui.model.QuestionModel;
-import ql.logic.type.QLDataType;
+import ql.logic.type.QLDataTypeWrapper;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class FormModelExpressionEvaluator extends AbstractExpressionEvaluator {
     }
 
     @Override
-    public QLDataType visit(VariableReference variableReference) {
+    public QLDataTypeWrapper visit(VariableReference variableReference) {
         for (QuestionModel questionModel : this.questionModels) {
             if (questionModel.getVariableName().equals(variableReference.getName())) {
                 return questionModel.getQLDataTypeValue();

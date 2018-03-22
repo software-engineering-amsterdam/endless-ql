@@ -122,28 +122,23 @@ public class FileOpenActionEvent implements ActionListener {
             // Validators
             Validator[] validators = new Validator[]{
                     new VariablesReferencesValidator(questions, references),
+                    new TypesValidator(conditions, questions),
                     new QuestionsDuplicationValidator(questions),
                     new ConditionsValidator(conditions, questions),
-                    new TypesValidator(conditions, questions),
                     new QuestionsDependencyValidator(questionsMap),
                     new QuestionLabelsValidator(questions)
             };
 
-            this.validated = true;
 
             for (Validator validator : validators) {
                 if (!validator.validate()) {
                     if (validator.getErrorLevel() == Error.Level.CRITICAL) {
                         JOptionPane.showMessageDialog(frame, validator.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                        validated = false;
+                        return;
                     } else {
                         JOptionPane.showMessageDialog(frame, validator.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
                     }
                 }
-            }
-
-            if (!validated) {
-                return;
             }
 
             // hide the initial frame

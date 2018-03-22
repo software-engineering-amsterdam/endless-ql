@@ -246,7 +246,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           result === Left(
             List(TypeCheckError(
               "TypeCheckError",
-              "Found cyclic dependencies: List(q2 -> q3 -> q2, q3 -> q2 -> q3, q4 -> q5 -> q4, q5 -> q4 -> q5)"))))
+              "Found cyclic dependencies: List(q5 -> q4 -> q5, q4 -> q5 -> q4, q3 -> q2 -> q3, q2 -> q3 -> q2)"))))
       }
     }
 

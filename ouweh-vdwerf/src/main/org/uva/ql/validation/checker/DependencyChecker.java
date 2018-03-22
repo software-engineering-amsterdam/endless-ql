@@ -1,6 +1,7 @@
 package org.uva.ql.validation.checker;
 
 import org.uva.ql.ast.expression.unary.Parameter;
+import org.uva.ql.validation.ValidationResult;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,12 +30,16 @@ public class DependencyChecker extends Checker {
     }
 
     @Override
-    public void runCheck() {
+    public ValidationResult runCheck() {
+        ValidationResult result = new ValidationResult();
+
         for (Dependency relation : transitiveClosure(dependencies)) {
             if (relation.isReflexive()) {
-                logger.severe(String.format("Circular dependency detected at: %s", relation.getFrom()));
+                result.addError(String.format("Circular dependency detected at: %s", relation.getFrom()));
             }
         }
+
+        return result;
     }
 
     private Set<Dependency> transitiveClosure(Set<Dependency> closure) {

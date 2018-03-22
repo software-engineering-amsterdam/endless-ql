@@ -33,4 +33,13 @@ public class QuestionAnalyzerTest {
         QLSTestUtilities.buildStyleSheet("/ql/ValidForms/SimpleForm.ql",
                 "/qls/InvalidStylesheets/SimpleFormMultiplePlacedFields.qls");
     }
+
+    @Test
+    public void unknownQuestion() throws Exception {
+        expectedEx.expect(IllegalArgumentException.class);
+        expectedEx.expectMessage("Unknown reference(s) to questions: [unknownQuestion]");
+
+        QLSTestUtilities.buildStyleSheet("/ql/ValidForms/SimpleForm.ql",
+                "/qls/InvalidStylesheets/SimpleFormUnknownQuestion.qls");
+    }
 }

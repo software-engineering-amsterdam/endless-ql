@@ -1,12 +1,12 @@
 import {Location} from '../../../location';
-import {QlQuestion} from '../../ql-question';
 import {ExpressionType} from '../expression-type';
 import {ExpressionVisitor} from '../../visitors/expression-visitor';
 import {Literal} from './literal';
 import {BooleanLiteral} from './boolean-literal';
+import {NumberLiteral} from './number-literal';
 
 export class DateLiteral extends Literal {
-  constructor(public value: Date, location: Location) {
+  constructor(public readonly value: Date, readonly location: Location) {
     super(location);
   }
 
@@ -14,7 +14,7 @@ export class DateLiteral extends Literal {
     return this.value;
   }
 
-  checkType(allQuestions: QlQuestion[]): ExpressionType {
+  getType(): ExpressionType {
     return ExpressionType.DATE;
   }
 
@@ -28,8 +28,9 @@ export class DateLiteral extends Literal {
     return literal.addDate(this);
   }
 
-  addDate(literal: DateLiteral): Literal {
-    return new DateLiteral(new Date(this.value.getDate() + literal.value.getDate()), this.location);
+  addNumber(literal: NumberLiteral): Literal {
+    // add days equal to value
+    return new DateLiteral(new Date(this.value.getTime() + (1000 * 60 * 60 * 24) * literal.value), this.location);
   }
 
   subtract(literal: Literal): Literal {
@@ -37,7 +38,12 @@ export class DateLiteral extends Literal {
   }
 
   subtractDate(literal: DateLiteral): Literal {
-    return new DateLiteral(new Date(this.value.getDate() - literal.value.getDate()), this.location);
+    return new DateLiteral(new Date(this.value.getTime() - literal.value.getTime()), this.location);
+  }
+
+  subtractNumber(literal: NumberLiteral): Literal {
+    // add days equal to value
+    return new DateLiteral(new Date(this.value.getTime() - (1000 * 60 * 60 * 24) * literal.value), this.location);
   }
 
   // boolean ops

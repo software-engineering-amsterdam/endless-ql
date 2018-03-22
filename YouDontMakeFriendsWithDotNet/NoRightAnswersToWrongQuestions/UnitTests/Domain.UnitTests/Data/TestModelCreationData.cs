@@ -131,7 +131,7 @@ namespace UnitTests.Domain.UnitTests.Data
                 yield return FalseResult(@"1 >= 2");
                 yield return FalseResult(@"2 < 1");
                 yield return FalseResult(@"2 <= 1");
-
+                yield return FalseResult(@"(1 + 2) != 3");
 
                 var sameDate = new DateTime(1973, 12, 4).ToString(@"dd/MM/yyyy");
                 var sameDate_1 = new DateTime(1973, 12, 4).ToString(@"d/M/yyyy");
@@ -280,5 +280,16 @@ form TestForm {{
                     new DateTime(2015, 3, 2));
             }
         }
-    }
+
+        public static IEnumerable CalculatedValues
+        {
+            get
+            {
+                const string formTemplate = @"form CalcForm {{ q: ""x"" integer = ({0}) }}";
+                yield return new TestCaseData(
+                    string.Format(formTemplate, @"1"),
+                    1m);
+           }
         }
+    }
+}

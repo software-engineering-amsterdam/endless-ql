@@ -2,7 +2,9 @@ package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class IfBlock extends BlockElement {
 
@@ -47,6 +49,28 @@ public class IfBlock extends BlockElement {
 
     public void setElseElements(List<FormElement> elseElements) {
         this.elseElements = elseElements;
+    }
+
+    @Override
+    public Set<String> getPrerequisites() {
+        return expression.getPrerequisites();
+    }
+
+    @Override
+    public Set<String> getProducedLabels() {
+        Set<String> producedLabels = new HashSet<>();
+
+        for (FormElement formElement : ifElements) {
+            producedLabels.addAll(formElement.getProducedLabels());
+        }
+
+        if (elseElements != null) {
+            for (FormElement formElement : elseElements) {
+                producedLabels.addAll(formElement.getProducedLabels());
+            }
+        }
+
+        return producedLabels;
     }
 
     @Override

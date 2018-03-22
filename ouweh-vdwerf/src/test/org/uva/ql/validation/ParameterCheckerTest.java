@@ -1,37 +1,51 @@
 package org.uva.ql.validation;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.uva.app.LogHandler;
+import org.uva.app.IOHandler;
 import org.uva.ql.ast.CalculatedQuestion;
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.Statement;
 import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.checker.ParameterChecker;
-import org.uva.ql.validation.collector.ParameterMapping;
+import org.uva.ql.validation.collector.ParameterContext;
 import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ParameterCheckerTest {
 
-    private LogHandler logHandler;
+    @Test
+    public void runCheckTestInputCalculation() {
+        String input = new IOHandler().readFile("input/test/parameterCalculation.ql");
+        ASTBuilder builder = new ASTBuilder();
+        Form form = builder.buildAST(input);
 
-    @Before
-    public void setUp() {
-        Logger logger = Logger.getGlobal();
-        LogManager.getLogManager().reset();
-        this.logHandler = new LogHandler();
-        logger.addHandler(logHandler);
+        SymbolTable symbolTable = new SymbolTable(form);
+
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getParameters());
+
+        assertTrue(parameterChecker.runCheck().hasErrors());
+    }
+
+    @Test
+    public void runCheckTestInputConditional() {
+        String input = new IOHandler().readFile("input/test/parameterConditional.ql");
+        ASTBuilder builder = new ASTBuilder();
+        Form form = builder.buildAST(input);
+
+        SymbolTable symbolTable = new SymbolTable(form);
+
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getParameters());
+
+        assertTrue(parameterChecker.runCheck().hasErrors());
     }
 
     @Test
@@ -47,10 +61,9 @@ public class ParameterCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(form), new ParameterMapping(form).getParameterMapping());
-        parameterChecker.runCheck();
+        ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(form), new ParameterContext(form).getParameters());
 
-        assertTrue(this.logHandler.hasWarnings());
+        assertTrue(parameterChecker.runCheck().hasErrors());
     }
 
     @Test
@@ -68,9 +81,9 @@ public class ParameterCheckerTest {
 
         SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new BooleanType());
-        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterMapping(form).getParameterMapping());
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getParameters());
         parameterChecker.runCheck();
 
-        assertFalse(this.logHandler.hasWarnings());
+        assertFalse(parameterChecker.runCheck().hasWarnings());
     }
 }

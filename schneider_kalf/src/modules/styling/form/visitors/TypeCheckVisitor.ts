@@ -1,5 +1,5 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
-import DefaultStyle from "../nodes/children/DefaultStyle";
+import DefaultStyle from "../nodes/children/DefaultStyleNode";
 import QuestionStyle from "../nodes/children/QuestionStyle";
 import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
@@ -41,7 +41,7 @@ export default class TypeCheckVisitor implements StyleNodeVisitor {
   }
 
   visitBaseAttribute(baseAttribute: BaseAttribute): any {
-    checkBaseAttribute(baseAttribute.name, baseAttribute.value);
+    checkBaseAttribute(baseAttribute.getName(), baseAttribute.getStringValue());
     return;
   }
 

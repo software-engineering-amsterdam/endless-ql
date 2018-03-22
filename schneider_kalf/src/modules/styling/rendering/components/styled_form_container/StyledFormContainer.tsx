@@ -5,8 +5,8 @@ import PageNode from "../../../form/nodes/containers/PageNode";
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import FieldNode from "../../../../../form/nodes/fields/FieldNode";
 import { StyledFieldContainer } from "../styled_field_container/StyledFieldContainer";
-import StyledFieldNode from "../../../form/StyledFieldNode";
-import { getTypeString } from "../../../../../form/type_checking/type_assertions";
+import SectionNode from "../../../form/nodes/containers/SectionNode";
+import { SectionComponent } from "../section_component/SectionComponent";
 
 export interface StyledFormContainerProps {
   form: StyledForm;
@@ -49,10 +49,11 @@ export class StyledFormContainer extends React.Component<StyledFormContainerProp
     });
   }
 
-  renderField(field: StyledFieldNode) {
+  renderField(identifier: string) {
+    const field = this.props.form.getField(identifier);
     const activePage = this.props.form.getActivePage();
 
-    if (!field.isOnPage(activePage)) {
+    if (!field || !field.isOnPage(activePage) || !this.props.visibleFields.has(field.identifier)) {
       return null;
     }
 
@@ -66,18 +67,37 @@ export class StyledFormContainer extends React.Component<StyledFormContainerProp
     );
   }
 
+  renderSections(sections: SectionNode[]) {
+    return sections.map(section => {
+      return (
+          <SectionComponent
+              key={section.name}
+              sectionNode={section}
+              renderField={this.renderField}
+          />
+      );
+    });
+  }
+
+  renderPage(page?: PageNode) {
+    if (!page) {
+      return null;
+    }
+
+    return (
+        <div className="questionnaire-page">
+          {this.renderSections(page.getFirstLevelSections())}
+        </div>
+    );
+  }
+
   render() {
     // TODO: Implement page navigation here
 
     return (
         <div>
           <h1>Styled form</h1>
-          <FormComponent
-              form={this.props.form}
-              onChange={this.props.onChange}
-              visibleFields={this.props.visibleFields}
-              renderField={this.renderField}
-          />
+          {this.renderPage(this.props.form.getActivePage())}
           <Pagination>
             {this.renderPaginationLinks()}
           </Pagination>

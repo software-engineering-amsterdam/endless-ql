@@ -1,6 +1,6 @@
 ﻿namespace Assignment1.Model.QL.AST.Expression
 {
-    public class Reference : QLNode, IExpression
+    public class Reference : ASTNode, IExpression
     {
         public string QuestionId { get; }
 

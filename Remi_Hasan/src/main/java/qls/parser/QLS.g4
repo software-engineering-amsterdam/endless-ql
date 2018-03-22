@@ -3,25 +3,27 @@ grammar QLS;
 root            : STYLESHEET IDENTIFIER ('{' page* '}' | page) EOF;
 page            : PAGE IDENTIFIER ((section | defaultStyle) | '{' (section | defaultStyle)* '}');
 section         : SECTION STRING ((section | question | defaultStyle) | '{' (section | question | defaultStyle)* '}');
-question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
+question        : QUESTION (IDENTIFIER | IDENTIFIER singleOrMultipleWidgetOrAttribute);
 
 // default styleAttribute without braces can only define one widget type
 // default styleAttribute with braces defines none or multiple styleAttribute attributes,
 // followed by one or no widget type
-defaultStyle    : DEFAULT type (widget | '{' styleAttribute* widget? '}');
+defaultStyle    : DEFAULT type singleOrMultipleWidgetOrAttribute;
+singleOrMultipleWidgetOrAttribute : (widgetOrAttribute | '{' widgetOrAttribute* '}');
+widgetOrAttribute:  widget | styleAttribute;
 
-styleAttribute  : WIDTH ':' INTEGER                                                 # widgetWidth
-                | FONT ':' STRING                                                   # widgetFont
-                | FONTSIZE ':' INTEGER                                              # widgetFontSize
-                | COLOR ':' HEXCOLOR                                                # widgetColor
+styleAttribute  : WIDTH ':' INTEGER                                                     # widgetWidth
+                | FONT ':' STRING                                                       # widgetFont
+                | FONTSIZE ':' INTEGER                                                  # widgetFontSize
+                | COLOR ':' HEXCOLOR                                                    # widgetColor
                 ;
 
-widget          : WIDGET RADIO '(' trueLabel=STRING ',' falseLabel=STRING ')'       # radioWidget
-                | WIDGET DROPDOWN '(' trueLabel=STRING ',' falseLabel=STRING ')'    # dropdownWidget
-                | WIDGET CHECKBOX                                                   # checkBoxWidget
-                | WIDGET SPINBOX                                                    # spinBoxWidget
-                | WIDGET SLIDER                                                     # sliderWidget
-                | WIDGET TEXTBOX                                                    # textBoxWidget
+widget          : WIDGET RADIO '(' trueLabel=STRING ',' falseLabel=STRING ')'           # radioWidget
+                | WIDGET DROPDOWN '(' trueLabel=STRING ',' falseLabel=STRING ')'        # dropdownWidget
+                | WIDGET CHECKBOX                                                       # checkBoxWidget
+                | WIDGET SPINBOX                                                        # spinBoxWidget
+                | WIDGET TEXTBOX                                                        # textBoxWidget
+                | WIDGET SLIDER '(' min=DECIMAL ',' max=DECIMAL ',' step=DECIMAL ')'    # sliderWidget
                 ;
 
 type            : BOOLEANTYPE

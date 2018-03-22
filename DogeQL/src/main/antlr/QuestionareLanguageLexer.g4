@@ -6,6 +6,31 @@ FORM
     : 'form'
     ;
 
+STYLESHEET
+    : 'stylesheet'
+    ;
+
+PAGE
+    : 'page'
+    ;
+
+SECTION
+    : 'section'
+    ;
+
+WIDGET
+    : 'widget'
+    ;
+
+DEFAULT
+    : 'default'
+    ;
+
+QUESTION
+    : 'question'
+    ;
+
+
 /* Control flow */
 
 IF

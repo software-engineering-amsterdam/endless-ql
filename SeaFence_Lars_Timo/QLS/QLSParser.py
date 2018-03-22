@@ -70,7 +70,7 @@ class QLSParser ( Parser ):
     literalNames = [ u"<INVALID>", u"'stylesheet'", u"'{'", u"'}'", u"'page'", 
                      u"'section'", u"'question'", u"'default'", u"'widget'", 
                      u"'checkbox'", u"'radio(\"Yes\", \"No\")'", u"'spinbox'", 
-                     u"'slider'", u"'text'", u"'dropdown(\"Yes, \"No\")'", 
+                     u"'slider'", u"'text'", u"'dropdown(\"Yes\", \"No\")'", 
                      u"'width:'", u"'font:'", u"'fontsize:'", u"'color:'", 
                      u"'money'", u"'boolean'" ]
 

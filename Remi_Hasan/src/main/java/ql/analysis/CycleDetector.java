@@ -31,12 +31,14 @@ public class CycleDetector {
 
         for (Question question : form.questions) {
             // Only check expression when it is a predefined expression
-            if (question.isComputed()) {
-                // For each question, add references to other questions to the graph
-                List<String> referencedIdentifiers = referencedIdentifiersVisitor.visit(question.computedAnswer);
-                for (String identifier : referencedIdentifiers) {
-                    graph.addEdge(question.name, identifier);
-                }
+            if (!question.isComputed()) {
+                continue;
+            }
+
+            // For each question, add references to other questions to the graph
+            List<String> referencedIdentifiers = referencedIdentifiersVisitor.visit(question.computedAnswer);
+            for (String identifier : referencedIdentifiers) {
+                graph.addEdge(question.name, identifier);
             }
         }
     }

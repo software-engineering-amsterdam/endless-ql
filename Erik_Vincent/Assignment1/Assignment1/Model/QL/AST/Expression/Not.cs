@@ -1,6 +1,6 @@
 ﻿namespace Assignment1.Model.QL.AST.Expression
 {
-    public class Not : QLNode, IExpression
+    public class Not : ASTNode, IExpression
     {
         public IExpression Expression { get; }
 

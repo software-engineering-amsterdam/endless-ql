@@ -1,5 +1,5 @@
 import StyleTreeNode from "./nodes/StyleTreeNode";
-import DefaultStyle from "./nodes/children/DefaultStyle";
+import DefaultStyle from "./nodes/children/DefaultStyleNode";
 import StyleFilterVisitor from "./visitors/StyleFilterVisitor";
 import WidgetAttribute from "./nodes/attributes/WidgetAttribute";
 import QuestionStyle from "./nodes/children/QuestionStyle";
@@ -10,6 +10,7 @@ export const getDefaultStyleNodes = (container: StyleTreeNode): DefaultStyle[] =
     includeDefaults: true,
     recursive: false
   });
+
   return container.accept(visitor);
 };
 
@@ -32,7 +33,7 @@ export const checkWidgetAttribute = (attribute: WidgetAttribute): void => {
       // radioWidget.checkParentType(attribute.getParent())
       // radioWidget.checkArgumentType(attribute.options)
     default:
-      alert("Widget '" + attribute.name + "' is not supported");
+      alert("Widget '" + attribute.getName() + "' is not supported");
   }
   return;
 };

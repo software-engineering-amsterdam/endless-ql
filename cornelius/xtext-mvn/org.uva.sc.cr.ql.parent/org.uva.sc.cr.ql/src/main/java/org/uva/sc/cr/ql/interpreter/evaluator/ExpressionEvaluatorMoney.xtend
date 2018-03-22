@@ -26,9 +26,9 @@ class ExpressionEvaluatorMoney {
 		var leftMoney = evaluateExpression(expression.left, arguments)
 		var rightMoney = evaluateExpression(expression.right, arguments)
 		if (expression.op == Operation.PLUS.literal) {
-			leftMoney.plus(rightMoney)
+			return leftMoney.plus(rightMoney)
 		} else {
-			leftMoney.minus(rightMoney)
+			return leftMoney.minus(rightMoney)
 		}
 	}
 
@@ -36,16 +36,16 @@ class ExpressionEvaluatorMoney {
 		var leftMoney = evaluateExpression(expression.left, arguments)
 		var rightMoney = evaluateExpression(expression.right, arguments)
 		if (expression.op == Operation.MULTIPLICATION.literal)
-			leftMoney.multipliedBy(rightMoney.amount, ROUNDING_MODE)
+			return leftMoney.multipliedBy(rightMoney.amount, ROUNDING_MODE)
 		else
-			leftMoney.dividedBy(rightMoney.amount, ROUNDING_MODE)
+			return leftMoney.dividedBy(rightMoney.amount, ROUNDING_MODE)
 	}
 
 	dispatch def Money evaluateExpression(ExpressionQuestionReference expression, Map<String, Object> arguments) {
 		val value = arguments.get(expression.question.name)
 		var BigDecimal bigDecimalValue;
 		try {
-			bigDecimalValue = new BigDecimal(value.toString)
+			bigDecimalValue = new BigDecimal(value.toString())
 		} catch (NumberFormatException e) {
 			bigDecimalValue = new BigDecimal(0)
 		}

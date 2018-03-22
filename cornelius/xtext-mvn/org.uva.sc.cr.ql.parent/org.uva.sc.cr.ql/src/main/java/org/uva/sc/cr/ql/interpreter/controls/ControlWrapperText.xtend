@@ -11,7 +11,7 @@ class ControlWrapperText extends ControlWrapper {
 	new(Question question, StringBinding binding) {
 		super(question, binding)
 		if (question.expression !== null) {
-			control.textProperty.bind(binding)
+			control.textProperty().bind(binding)
 		}
 	}
 
@@ -24,7 +24,7 @@ class ControlWrapperText extends ControlWrapper {
 	}
 
 	override protected buildControl() {
-		control = new TextField
+		control = new TextField()
 	}
 
 }

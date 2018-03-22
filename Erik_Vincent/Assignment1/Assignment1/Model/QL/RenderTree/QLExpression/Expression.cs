@@ -27,8 +27,8 @@
 
     public class ExpressionId : Expression
     {
-        public Question Question { get; }
-        public ExpressionId(Question question)
+        public RenderableQuestion Question { get; }
+        public ExpressionId(RenderableQuestion question)
         {
             Question = question;
         }

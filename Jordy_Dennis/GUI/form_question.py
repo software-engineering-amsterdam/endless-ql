@@ -8,54 +8,58 @@
     such as the AST and the question generator
 """
 
-
 from .gui_imports import *
 from .form_input_type import InputTypeMap
 
-class Question:
 
+class Question:
     """
         Get the correct widget according to the specification and pack it inside the question frame.
         The header is also created.
     """
-    def __init__(self, parent, questionGenerator, varName, questionText, questionType, value, fontType='Arial', fontSize=15):
+
+    def __init__(self, parent, questionGenerator, varName, questionText, questionType, value, fontType='Arial',
+                 fontSize=15, color='black', width=40, widgetType='default', **kwargs):
         self.frame = create_frame(parent)
         self.questionGenerator = questionGenerator
-        self.frame.pack(fill="both", anchor=NW, expand=True)
+        self.frame.pack(fill="both", anchor=NW)
+
         self.varName = varName
         self.map = InputTypeMap(self.frame, self.questionGenerator, varName, value)
 
-        self.answer = None
+        self.answer =  None
         self.value = value
         self.questionType = questionType
 
         self.varName = varName
-        self.fontSize = fontSize
-        self.fontType = fontType
 
-        self.createHeaderLabel(questionText, self.fontType, self.fontSize)
-        self.createInputUser(questionType)
+        self.createHeaderLabel(questionText, fontType, fontSize, color)
+        self.createInputUser(questionType, widgetType,  **kwargs)
 
         self.questionText = questionText
 
     """
         Create header of the question according to possible QLS or default value
     """
-    def createHeaderLabel(self, questionText, fontType, fontSize):
+
+    def createHeaderLabel(self, questionText, fontType, fontSize, color):
         label = Label(self.frame)
         label.config(text=questionText)
         label.config(font=(fontType, fontSize))
+        label.config(fg=color)
         label.pack()
 
     """
-        Get the widget according to the question type
+        Get the widget according to the question type, and widget in case of QLS
     """
-    def createInputUser(self, questionType):
-        self.widget, self.answer = self.map.getWidget(questionType)
+
+    def createInputUser(self, questionType, widgetType="default", **kwargs):
+        self.widget, self.answer = self.map.getWidget(questionType, widgetType, **kwargs)
 
     """
         Getters and setters ----------------------------
     """
+
     def emptyFrame(self):
         self.frame.destroy()
 
@@ -66,7 +70,7 @@ class Question:
         return self.frame
 
     def getAnswer(self):
-        if((self.questionType == float or self.questionType == int) and (self.answer.get() == "")):
+        if (self.questionType == float or self.questionType == int) and (self.answer.get() == ""):
             return 0
         else:
             return self.answer.get()
@@ -79,4 +83,3 @@ class Question:
 
     def setValue(self, value):
         self.answer.set(value)
-

@@ -1,4 +1,3 @@
-///<reference path="../VariableIntformation.ts"/>
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
 import ComputedField from "../nodes/fields/ComputedField";
 import QuestionNode from "../nodes/fields/QuestionNode";
@@ -41,7 +40,7 @@ export class VariableScopeVisitor implements FieldVisitor {
     this.containsAllVariablesOrFail(ifCondition.predicate);
 
     this._stack.moveDown();
-    ifCondition.then.forEach(statement => statement.accept(this));
+    ifCondition.getAllStatements().forEach(statement => statement.accept(this));
     this._stack.moveUp();
   }
 

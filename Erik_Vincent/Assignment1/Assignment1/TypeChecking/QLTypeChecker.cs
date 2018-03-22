@@ -11,27 +11,11 @@ namespace Assignment1.TypeChecking
     {
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
         private readonly List<string> _warnings = new List<string>();
-        private QLParseErrorHandler _errorHandler = new QLParseErrorHandler();
+        private ParseErrorHandler _errorHandler = new ParseErrorHandler();
         private Type _currentType = Type.Undefined;
         public List<string> Warnings => _warnings;
 
-        #region Type checking functions
-
         public void TypeCheckQuestionForm(QuestionForm questionForm) => questionForm.Accept(this);
-
-        private void TypeCheckQuestionId(int lineNumber, string questionId)
-        {
-            if (QuestionIdExists(questionId))
-            {
-                _errorHandler.AddError(lineNumber, "The question id '" + questionId + "' already exists in the current context.");
-            }
-        }
-
-        private void TypeCheckQuestionLabel(int lineNumber, string questionLabel)
-        {
-            if (QuestionLabelExists(questionLabel))
-                _warnings.Add("Line " + lineNumber + ": The question label '" + questionLabel + "' has already been used.");
-        }
 
         private void TypeCheckQuestionAnswer(int lineNumber, Type questionType, IValue questionValue)
         {
@@ -39,17 +23,7 @@ namespace Assignment1.TypeChecking
             string errorMessage = "Cannot assign value of type " + _currentType.ToString() + " to question of type " + questionType.ToString() + ".";
             if (_currentType != Type.Undefined)
             {
-                if (questionType == Type.Boolean && _currentType != Type.Boolean)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-                if (questionType == Type.String && _currentType != Type.String)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-                if (questionType == Type.Money && _currentType != Type.Money)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-                if (questionType == Type.Date && _currentType != Type.Date)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-                if (questionType == Type.Decimal && _currentType != Type.Decimal)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-                if (questionType == Type.Integer && _currentType != Type.Integer)
+                if (questionType != _currentType)
                     _errorHandler.AddError(lineNumber, errorMessage);
             }
         }
@@ -58,17 +32,7 @@ namespace Assignment1.TypeChecking
         {
             questionExpression.Accept(this);
             string errorMessage = "Cannot assign expression of type " + _currentType.ToString() + " to question of type " + questionType.ToString() + ".";
-            if (questionType == Type.Boolean && _currentType != Type.Boolean)
-                _errorHandler.AddError(lineNumber, errorMessage);
-            if (questionType == Type.String && _currentType != Type.String)
-                _errorHandler.AddError(lineNumber, errorMessage);
-            if (questionType == Type.Money && _currentType != Type.Money)
-                _errorHandler.AddError(lineNumber, errorMessage);
-            if (questionType == Type.Date && _currentType != Type.Date)
-                _errorHandler.AddError(lineNumber, errorMessage);
-            if (questionType == Type.Decimal && _currentType != Type.Decimal)
-                _errorHandler.AddError(lineNumber, errorMessage);
-            if (questionType == Type.Integer && _currentType != Type.Integer)
+            if (questionType != _currentType)
                 _errorHandler.AddError(lineNumber, errorMessage);
         }
 
@@ -125,43 +89,24 @@ namespace Assignment1.TypeChecking
 
         private bool QuestionIdExists(string questionId) => _questions.ContainsKey(questionId);
 
-        public bool QuestionLabelExists(string questionLabel)
-        {
-            List<Question> questionList = _questions.Values.ToList();
-            foreach (Question questionItem in questionList)
-            {
-                if (questionItem.Label.Equals(questionLabel))
-                    return true;
-            }
-            return false;
-        }
-
-        #endregion
-
-        #region QLNode visitor implementation
-
         public void Visit(QuestionForm questionForm)
         {
             foreach (Statement statement in questionForm.Statements)
             {
                 statement.Accept(this);
             }
-            if (_errorHandler.FormHasErrors)
-                _errorHandler.ThrowQLParseException();
+            if (_errorHandler.HasErrors)
+                _errorHandler.ThrowParseException();
         }
 
         public void Visit(NormalQuestion question)
         {
-            TypeCheckQuestionId(question.LineNumber, question.Id);
-            TypeCheckQuestionLabel(question.LineNumber, question.Label);
             TypeCheckQuestionAnswer(question.LineNumber, question.Type, question.Answer);
             _questions.Add(question.Id, question);
         }
 
         public void Visit(ComputedQuestion question)
         {
-            TypeCheckQuestionId(question.LineNumber, question.Id);
-            TypeCheckQuestionLabel(question.LineNumber, question.Label);
             TypeCheckQuestionAnswer(question.LineNumber, question.Type, question.Computation);
             _questions.Add(question.Id, question);
         }
@@ -180,10 +125,6 @@ namespace Assignment1.TypeChecking
                 statement.Accept(this);
             }
         }
-
-        #endregion
-
-        #region Value visitor implementation
 
         public void Visit(QLBoolean value)
         {
@@ -219,10 +160,6 @@ namespace Assignment1.TypeChecking
         {
             _currentType = Type.Money;
         }
-
-        #endregion
-
-        #region Expression visitor implementation
 
         public void Visit(Not expression)
         {
@@ -272,7 +209,5 @@ namespace Assignment1.TypeChecking
         public void Visit(Multiply expression) => _currentType = TypeCheckBinaryArithmetic(expression, "*");
 
         public void Visit(Divide expression) => _currentType = TypeCheckBinaryArithmetic(expression, "/");
-
-        #endregion
     }
 }

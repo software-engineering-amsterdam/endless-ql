@@ -22,6 +22,10 @@ export default class QuestionForm implements Form {
     this.computeFields();
   }
 
+  getField(identifier: string): FieldNode | undefined | any {
+    return this.getFields().find(field => field.identifier === identifier);
+  }
+
   getFields(): FieldNode[] {
     return filterNodes((node) => node instanceof ComputedField || node instanceof QuestionNode, this.node);
   }
@@ -30,7 +34,7 @@ export default class QuestionForm implements Form {
     let state: FormState = this.state;
 
     this.getComputedFields().forEach((field: ComputedField) => {
-      state = state.set(field.identifier, field.computeAnswer(this.state));
+      state = state.set(field.identifier, field.computeAnswer(state));
     });
 
     this.state = state;

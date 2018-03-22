@@ -52,12 +52,12 @@ public class StyleEvaluator {
         generateSections();
     }
 
-    public void setWidget(QuestionReference questionReference, JPanel widget) {
-        sections.put(questionReference.getId(), widget);
+    public void setWidget(Question question, JPanel widget) {
+        sections.put(question.getId(), widget);
     }
 
-    public void setVisible(QuestionReference questionReference) {
-        String key = questionReference.getId();
+    public void setVisible(Question question) {
+        String key = question.getId();
         visibleSections.add(key);
         for (Segment segment : context.getAllParents(key)) {
             visibleSections.add(segment.getId());

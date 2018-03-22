@@ -42,7 +42,7 @@ class CompatibilityChecker extends Checker {
 
     private ValidationResult checkQuestionWidgetCompatibility(ValidationResult validationResult){
         for (QuestionReference questionReference : this.stylesheetContext.getQuestions()) {
-            Type type = qlQuestionTypes.get(questionReference.getQuestionId());
+            Type type = qlQuestionTypes.get(questionReference.getId());
             Widget widget = questionReference.getWidget();
             if (widget != null && !widget.isCompatible(type.getClass())) {
                 validationResult.addError(String.format("Widget %s is not compatible with %s", widget.toString(), type.toString()));

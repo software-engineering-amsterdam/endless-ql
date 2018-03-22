@@ -23,10 +23,6 @@ public class QuestionReference extends Segment {
 
     @Override
     public String getId() {
-        return "Question." + id;
-    }
-
-    public String getQuestionId() {
         return id;
     }
 

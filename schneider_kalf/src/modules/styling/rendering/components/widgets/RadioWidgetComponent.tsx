@@ -35,6 +35,7 @@ export const RadioWidgetComponent: React.SFC<RadioWidgetComponentProps> = (props
 
   return (
       <div className="radio-widget">
+        <Label for={props.field.identifier} check={true}>{props.field.label}</Label>
         {renderRadioButton(true, props.widget.getTrueLabel())}
         {renderRadioButton(false, props.widget.getFalseLabel())}
       </div>

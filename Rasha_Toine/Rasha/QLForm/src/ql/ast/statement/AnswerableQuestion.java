@@ -5,9 +5,9 @@ import ql.ast.type.Type;
 import ql.utils.CodeReference;
 import ql.visiting.StatementVisitor;
 
-public class NormalQuestion extends Question {
+public class AnswerableQuestion extends Question {
 	
-	public NormalQuestion(Identifier id, String name, Type type, CodeReference location) {
+	public AnswerableQuestion(Identifier id, String name, Type type, CodeReference location) {
 		super(id, name, type, location);
 	}
 

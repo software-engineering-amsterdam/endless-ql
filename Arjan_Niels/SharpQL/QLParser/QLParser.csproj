@@ -50,15 +50,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Analyser.cs" />
+    <Compile Include="Analysis\IQLSAnalyser.cs" />
+    <Compile Include="Analysis\QLS\AllIdentifiersAreUsedAnalyser.cs" />
     <Compile Include="Analysis\QL\Evaluator\StatementType.cs" />
     <Compile Include="Analysis\QL\Evaluator\StatementTypeEvaluator.cs" />
-    <Compile Include="Analysis\IAnalyser.cs" />
-    <Compile Include="Analysis\ParseMessage.cs" />
+    <Compile Include="Analysis\IQLAnalyser.cs" />
+    <Compile Include="Analysis\AnalyserMessage.cs" />
     <Compile Include="Analysis\QL\Semantic\StatementTypeAnalyser.cs" />
     <Compile Include="Analysis\QL\Semantic\OnlyInitialisedVarsAnalyser.cs" />
     <Compile Include="Analysis\QL\Semantic\DuplicateVariableAnalyser.cs" />
     <Compile Include="AST\Location.cs" />
+    <Compile Include="AST\QLS\QLSStructuralNode.cs" />
     <Compile Include="AST\QLS\IQLSTraversable.cs" />
+    <Compile Include="AST\QLS\QLSQuestionNode.cs" />
     <Compile Include="AST\QL\ComputedNode.cs" />
     <Compile Include="AST\QL\ConditionalNode.cs" />
     <Compile Include="AST\QL\ExpressionNodes\ArthimetricExpressionNode.cs" />
@@ -127,9 +131,7 @@
   <ItemGroup>
     <Compile Include="AST\QLS\IQLSVisitor.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Analysis\QLS\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

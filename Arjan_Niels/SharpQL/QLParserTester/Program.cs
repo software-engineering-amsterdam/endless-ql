@@ -14,20 +14,20 @@ namespace QLParserTester
         static void Main(string[] args)
         {
             Console.WriteLine("---- Start parsing the QL ----");
-            FormNode form = QLParserHelper.Parse(Util.FileToString(QLFile));
-            QLPrinter.Print(form);
-
-            Analyser.Analyse(form);
-            var errors = Analyser.GetErrors();
-            Console.WriteLine("\n\n---- Errors: {0} ----", errors.Count);
-            foreach (string error in errors)
-                Console.WriteLine(error);
-
+            FormNode ql = QLParserHelper.Parse(Util.FileToString(QLFile));
+            QLPrinter.Print(ql);
 
             Console.WriteLine();
             Console.WriteLine("---- Start parsing QLS ----");
             QLSNode qls = QLSParserHelper.Parse(Util.FileToString(QLSFile));
             QLSPrinter.Print(qls);
+
+            Analyser.Analyse(ql, qls);
+
+            var errors = Analyser.GetErrors();
+            Console.WriteLine("\n\n---- Errors and/or warnings: {0} ----", errors.Count);
+            foreach (string error in errors)
+                Console.WriteLine(error);
 
             Console.ReadLine();
         }

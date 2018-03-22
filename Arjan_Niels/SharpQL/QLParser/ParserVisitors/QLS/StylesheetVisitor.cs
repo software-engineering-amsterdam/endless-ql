@@ -11,7 +11,7 @@ namespace QLParser.ParserVisitors.QLS
         public override QLSNode VisitStylesheet([NotNull] StylesheetContext context)
         {
             string id = context.ID().GetText();
-            var qlsNode = new QLSNode(QLSNodeType.Stylesheet, id);
+            var qlsNode = new QLSStructuralNode(QLSNodeType.Stylesheet, id);
 
             foreach (PageContext pageContext in context.page())
                 qlsNode.AddNode(VisitPage(pageContext));
@@ -23,7 +23,7 @@ namespace QLParser.ParserVisitors.QLS
         {
             string id = Util.RemoveQuotes(context.TEXT().GetText());
             var styles = VisitDefaults(context.defaults());
-            var qlsNode = new QLSNode(QLSNodeType.Page, id, styles);
+            var qlsNode = new QLSStructuralNode(QLSNodeType.Page, id, styles);
 
             foreach (SectionContext sectionContext in context.section())
                 qlsNode.AddNode(VisitSection(sectionContext));
@@ -34,7 +34,7 @@ namespace QLParser.ParserVisitors.QLS
         public override QLSNode VisitSection([NotNull] SectionContext context)
         {
             string id = Util.RemoveQuotes(context.TEXT().GetText());
-            var qlsNode = new QLSNode(QLSNodeType.Section, id);
+            var qlsNode = new QLSStructuralNode(QLSNodeType.Section, id);
 
             foreach (SectionContext sectionContext in context.section())
                 qlsNode.AddNode(VisitSection(sectionContext));
@@ -54,12 +54,12 @@ namespace QLParser.ParserVisitors.QLS
                 var widgetSpecificaitonVisitor = new WidgetSpecificationVisitor();
                 var specification = widgetSpecificaitonVisitor.VisitWidgetspecification(context.widgetspecification());
 
-                var qlsNode = new QLSNode(QLSNodeType.Question, id, new List<QLSStyle>() { new QLSStyle(specification) });
+                var qlsNode = new QLSQuestionNode(id, new List<QLSStyle>() { new QLSStyle(specification) });
                 return qlsNode;
             }
             else
             {
-                var qlsNode = new QLSNode(QLSNodeType.Question, id);
+                var qlsNode = new QLSQuestionNode(id);
                 return qlsNode;
             }
         }

@@ -6,12 +6,12 @@
         WARNING
     }
 
-    public class ParseMessage
+    public class AnalyserMessage
     {
         public MessageType Type { get; private set; }
         public string Message { get; private set; }
 
-        public ParseMessage(string message, MessageType type)
+        public AnalyserMessage(string message, MessageType type)
         {
             this.Message = message;
             this.Type = type;

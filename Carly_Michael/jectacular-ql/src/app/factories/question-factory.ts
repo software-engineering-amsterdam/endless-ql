@@ -5,6 +5,7 @@ import {BooleanQuestion} from '../domain/angular-questions/boolean-question';
 import {FormGroup} from '@angular/forms';
 import {Style, Widget} from '../domain/ast/qls';
 import {StyledQuestion} from '../domain/angular-questions/styled-question';
+import {DateQuestion} from '../domain/angular-questions/date-question';
 
 export class QuestionFactory {
   static toFormQuestion(name: string,
@@ -12,15 +13,17 @@ export class QuestionFactory {
                         type: QuestionType<any>,
                         condition?: (form: FormGroup) => boolean): QuestionBase<any> {
 
-    let formQuestionsToReturn: QuestionBase<any>;
+    let formQuestionToReturn: QuestionBase<any>;
 
     if (type.toString() === 'boolean') {
-      formQuestionsToReturn = new BooleanQuestion(name, label, type.getDefaultValue(), type.toHtmlInputType(), condition);
+      formQuestionToReturn = new BooleanQuestion(name, label, type.getDefaultValue(), type.toHtmlInputType(), condition);
+    } else if(type.toString() === 'date') {
+      formQuestionToReturn = new DateQuestion(name, label, type.getDefaultValue(), type.toHtmlInputType(), condition);
     } else {
-      formQuestionsToReturn = new InputQuestion(name, label, type.getDefaultValue(), type.toHtmlInputType(), condition);
+      formQuestionToReturn = new InputQuestion(name, label, type.getDefaultValue(), type.toHtmlInputType(), condition);
     }
 
-    return formQuestionsToReturn;
+    return formQuestionToReturn;
   }
 
   static applyStylesToFormQuestion<T>(question: QuestionBase<any>, widget: Widget, styles: Style[]): StyledQuestion<T> {

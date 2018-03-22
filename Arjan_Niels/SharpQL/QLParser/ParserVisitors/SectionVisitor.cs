@@ -3,7 +3,7 @@ using QLParser.AST.QL;
 using System;
 using static QLGrammar.QLGrammarParser;
 
-namespace QLParser.Visitors
+namespace QLParser.ParserVisitors
 {
     public class SectionVisitor : QLGrammar.QLGrammarBaseVisitor<QLNode>
     {

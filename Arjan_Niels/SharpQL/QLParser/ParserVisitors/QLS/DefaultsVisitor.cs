@@ -4,7 +4,7 @@ using QLParser.AST.QLS;
 using QLSGrammar;
 using static QLSGrammar.QLSGrammarParser;
 
-namespace QLParser.Visitors.QLS
+namespace QLParser.ParserVisitors.QLS
 {
     public class DefaultsVisitor : QLSGrammarBaseVisitor<QLSStyle>
     {

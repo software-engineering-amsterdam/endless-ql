@@ -3,7 +3,7 @@ using Antlr4.Runtime.Tree;
 using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.QL;
-using QLParser.Visitors;
+using QLParser.ParserVisitors;
 using System.Linq;
 using static QLGrammar.QLGrammarParser;
 

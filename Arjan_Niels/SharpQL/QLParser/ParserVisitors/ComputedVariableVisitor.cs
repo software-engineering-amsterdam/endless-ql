@@ -1,11 +1,11 @@
 ﻿using Antlr4.Runtime.Misc;
 using QLParser.AST;
 using QLParser.AST.QL;
-using QLParser.Visitors.ExpressionVisitors;
+using QLParser.ParserVisitors.ExpressionVisitors;
 using System;
 using static QLGrammar.QLGrammarParser;
 
-namespace QLParser.Visitors
+namespace QLParser.ParserVisitors
 {
     public class ComputedVariableVisitor : QLGrammar.QLGrammarBaseVisitor<ComputedNode>
     {

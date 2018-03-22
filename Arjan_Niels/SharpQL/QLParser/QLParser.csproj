@@ -57,7 +57,6 @@
     <Compile Include="Analysis\Semantic\StatementTypeAnalyser.cs" />
     <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyser.cs" />
     <Compile Include="Analysis\Semantic\DuplicateVariableAnalyser.cs" />
-    <Compile Include="AST\ITraversable.cs" />
     <Compile Include="AST\Location.cs" />
     <Compile Include="AST\QL\ComputedNode.cs" />
     <Compile Include="AST\QL\ConditionalNode.cs" />
@@ -92,19 +91,19 @@
     <Compile Include="Exceptions\UnknownQValueTypeException.cs" />
     <Compile Include="QLSParserHelper.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="Visitors\ExpressionVisitors\ArthimetricExpressionVisitor.cs" />
-    <Compile Include="Visitors\ComputedVariableVisitor.cs" />
-    <Compile Include="Visitors\ConditionalBlockVisitor.cs" />
-    <Compile Include="Visitors\ExpressionVisitors\ComparisonExpressionVisitor.cs" />
-    <Compile Include="Visitors\ExpressionVisitors\LogicalExpressionVisitor.cs" />
-    <Compile Include="Visitors\FormVisitor.cs" />
+    <Compile Include="ParserVisitors\ExpressionVisitors\ArthimetricExpressionVisitor.cs" />
+    <Compile Include="ParserVisitors\ComputedVariableVisitor.cs" />
+    <Compile Include="ParserVisitors\ConditionalBlockVisitor.cs" />
+    <Compile Include="ParserVisitors\ExpressionVisitors\ComparisonExpressionVisitor.cs" />
+    <Compile Include="ParserVisitors\ExpressionVisitors\LogicalExpressionVisitor.cs" />
+    <Compile Include="ParserVisitors\FormVisitor.cs" />
     <Compile Include="QLParserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Visitors\QLS\DefaultsVisitor.cs" />
-    <Compile Include="Visitors\QLS\StylesheetVisitor.cs" />
-    <Compile Include="Visitors\QLS\WidgetSpecificationVisitor.cs" />
-    <Compile Include="Visitors\QuestionVisitor.cs" />
-    <Compile Include="Visitors\SectionVisitor.cs" />
+    <Compile Include="ParserVisitors\QLS\DefaultsVisitor.cs" />
+    <Compile Include="ParserVisitors\QLS\StylesheetVisitor.cs" />
+    <Compile Include="ParserVisitors\QLS\WidgetSpecificationVisitor.cs" />
+    <Compile Include="ParserVisitors\QuestionVisitor.cs" />
+    <Compile Include="ParserVisitors\SectionVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -123,6 +122,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST\QL\LiteralNode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AST\IQLSVisitor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

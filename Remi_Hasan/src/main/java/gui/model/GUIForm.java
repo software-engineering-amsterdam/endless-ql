@@ -32,9 +32,8 @@ public class GUIForm extends VBox{
 
         Map<GUIQuestion, GUIWidget> guiWidgetsMap = new HashMap<>();
 
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
         InvalidationListener invalidationListener = observable -> {
-            this.updateRenderedQuestions(guiWidgetsMap, expressionEvaluator, symbolTable);
+            this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
         };
 
         for (GUIQuestion guiQuestion : this.guiQuestions) {
@@ -50,8 +49,9 @@ public class GUIForm extends VBox{
         return vBox;
     }
 
-    private void updateRenderedQuestions(Map<GUIQuestion, GUIWidget> guiWidgets,
-                                         ExpressionEvaluator expressionEvaluator, SymbolTable symbolTable) {
+    private void updateRenderedQuestions(Map<GUIQuestion, GUIWidget> guiWidgets, SymbolTable symbolTable) {
+        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
+
         for (Map.Entry<GUIQuestion, GUIWidget> mapEntry : guiWidgets.entrySet()) {
             GUIQuestion guiQuestion = mapEntry.getKey();
             GUIWidget guiWidget = mapEntry.getValue();

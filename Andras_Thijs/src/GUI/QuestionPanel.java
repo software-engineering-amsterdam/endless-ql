@@ -1,13 +1,10 @@
 package GUI;
-
 import GUI.Listeners.RefreshListener;
 import Nodes.Question;
 import Nodes.Term.TermFactory;
 import QLExceptions.SyntaxException;
 import QLExceptions.TypeException;
-
 import javax.swing.*;
-import java.awt.*;
 
 public class QuestionPanel extends JPanel{
     private Question question;
@@ -25,11 +22,21 @@ public class QuestionPanel extends JPanel{
     }
 
 
-    public void updateTerm() throws SyntaxException, TypeException {
-        this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));
+    public void refreshPanel() throws SyntaxException, TypeException {
+        updateTerm();
+        setVisibility();
     }
 
-    public void setVisibility(){
+    private void updateTerm() throws SyntaxException, TypeException {
+        switch (widget.getType()){
+            case BOOL: this.question.updateTerm(new TermFactory().getTerm((boolean)this.widget.getValue()));break;
+            case STRING: this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));break;
+            default: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
+        }
+
+    }
+
+    private void setVisibility(){
         this.isAvailable = question.isAvailable();
         this.setVisible(this.isAvailable);
     }

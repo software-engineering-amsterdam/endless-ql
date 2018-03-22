@@ -5,6 +5,7 @@ from ql.ast.extractors.extractor import extract_identifier_dependencies
 from ql.ast.extractors.extractor import extract_identifier_scopes
 from ql.ast.extractors.extractor import extract_identifier_types
 from ql.ast.extractors.extractor import extract_questions
+from ql.ast.visitors.conditional_visitor import ConditionalVisitor
 from ql.ast.visitors.type_visitor import TypeVisitor
 from ql.ast.checkers.question_checker import QuestionChecker
 from ql.ast.checkers.dependency_checker import DependencyChecker
@@ -16,7 +17,9 @@ from PyQt5.QtWidgets import QTextEdit
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QMessageBox
 from debug.debug import Debug
+from debug.errors.conditional_error import ConditionalError
 
 
 class MainApp(QMainWindow):
@@ -114,7 +117,16 @@ class MainApp(QMainWindow):
             invalid_questions = QuestionChecker(extract_questions(ast), self.debug).has_errors
             invalid_types = TypeVisitor(extract_identifier_types(ast), self.debug).visit(ast)
 
-            if not any([invalid_references, invalid_dependencies, invalid_questions, invalid_types]):
+            try:
+                ConditionalVisitor().visit(ast)
+                invalid_conditionals = False
+            except ConditionalError:
+                QMessageBox.critical(QMessageBox(), 'Error', 'Conditional does not evaluate to boolean.',
+                                     QMessageBox.Close, QMessageBox.Escape)
+                invalid_conditionals = True
+
+            if not any([invalid_references, invalid_dependencies, invalid_questions,
+                        invalid_types, invalid_conditionals]):
                 dialog = Form(extract_gui_model(ast))
                 dialog.exec_()
 

@@ -22,7 +22,8 @@ export default class VisibleFieldsVisitor implements FieldVisitor {
 
   visitIfCondition(ifCondition: IfCondition): any {
     if (ifCondition.fails(this._state)) {
-      return;
+      ifCondition.otherwise.forEach((statement) => statement.accept(this));
+      return this._visibleFields;
     }
 
     ifCondition.then.forEach((statement) => statement.accept(this));

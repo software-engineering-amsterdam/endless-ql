@@ -1,13 +1,13 @@
 form anotherExample {
-        "Math question 1"
-            mathQuestion1:integer = mathQuestion3 + 100;
+        "Question content 1"
+            questionVar1:integer = questionVar3 + 100;
 
-        "Math question 2"
-            mathQuestion2:integer = 2 * mathQuestion1;
+        "Question content 2"
+            questionVar2:integer = 2 * questionVar1;
 
-        "Math question 3"
-            mathQuestion3:integer = 10;
+        "Question content 3"
+            questionVar3:integer = 10;
 
-        "Math question 4"
-            mathQuestion4:integer;
+        "Question content 4"
+            questionVar4:integer;
 }

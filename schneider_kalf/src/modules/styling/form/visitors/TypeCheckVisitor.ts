@@ -41,7 +41,7 @@ export default class TypeCheckVisitor implements StyleNodeVisitor {
   }
 
   visitBaseAttribute(baseAttribute: BaseAttribute): any {
-    checkBaseAttribute(baseAttribute.name, baseAttribute.value);
+    checkBaseAttribute(baseAttribute.getName(), baseAttribute.getStringValue());
     return;
   }
 

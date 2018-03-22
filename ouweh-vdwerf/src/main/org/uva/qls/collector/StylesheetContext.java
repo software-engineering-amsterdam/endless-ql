@@ -1,6 +1,7 @@
 package org.uva.qls.collector;
 
 import org.uva.ql.ast.Question;
+import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.ast.Segment.*;
 import org.uva.qls.visitor.SegmentVisitor;
 
@@ -61,6 +62,17 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
             return segments;
         }
         return segments;
+    }
+
+    public List<DefaultWidgetStatement> getAllDefaultWidgetStatements(){
+        List<DefaultWidgetStatement> defaults = new ArrayList<>();
+        for(Segment section: sections.values()){
+            defaults.addAll(section.getDefaultWidgetStatements());
+        }
+        for(Segment page: pages.values()){
+            defaults.addAll(page.getDefaultWidgetStatements());
+        }
+        return defaults;
     }
 
     public QuestionReference getQuestion(String questionId) {

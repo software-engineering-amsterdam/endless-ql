@@ -10,7 +10,7 @@ Follow this guide in order to be able to use our QL and QLS interpreter. Make su
 2. Cd to the root of the folder
 3. Execute the following commands:
 ```
-virtualenv env --python=python3.6		# Or your most recent python version
+virtualenv env --python=python3.6		# Or your most recent python version, at least python 3
 source env/bin/activate
 pip install -r requirements.txt
 export CLASSPATH=".:/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH"  # Needed in order for antlr to work
@@ -23,6 +23,9 @@ python path/to/parser.py path/to/qlFilename path/to/[qlsFilename]	# QLS file is 
 ## Viable Syntax
 
 ## Explenation
-get money
+For explenation on the QL, QLS the GUI and Testing please go to their respective Readme's:
 
-## Limitations
+- [QL]
+- [QLS]
+- [Testing]
+- [GUI]

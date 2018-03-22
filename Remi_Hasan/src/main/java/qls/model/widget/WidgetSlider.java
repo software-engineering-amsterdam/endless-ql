@@ -7,13 +7,11 @@ public class WidgetSlider extends Widget {
 
     public final double min;
     public final double max;
-    public final double step;
 
-    public WidgetSlider(Token start, double min, double max, double step) {
+    public WidgetSlider(Token start, double min, double max) {
         super(start, WidgetType.SLIDER);
         this.min = min;
         this.max = max;
-        this.step = step;
     }
 
     @Override

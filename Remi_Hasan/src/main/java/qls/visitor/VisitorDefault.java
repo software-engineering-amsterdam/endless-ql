@@ -4,8 +4,8 @@ import ql.model.expression.ReturnType;
 import qls.model.DefaultStyle;
 import qls.model.style.StyleAttribute;
 import qls.model.widget.Widget;
-import qls.parser.QLSBaseVisitor;
-import qls.parser.QLSParser;
+import qls.antlr.QLSBaseVisitor;
+import qls.antlr.QLSParser;
 
 import java.util.ArrayList;
 import java.util.List;

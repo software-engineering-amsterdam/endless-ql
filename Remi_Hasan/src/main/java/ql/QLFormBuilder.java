@@ -4,8 +4,8 @@ import ql.analysis.*;
 import ql.model.Form;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import ql.parser.QLLexer;
-import ql.parser.QLParser;
+import ql.antlr.QLLexer;
+import ql.antlr.QLParser;
 import ql.antlr.ParseErrorListener;
 import ql.visitor.VisitorForm;
 

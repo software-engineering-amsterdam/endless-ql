@@ -3,8 +3,8 @@ package ql.visitor;
 import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
-import ql.parser.QLBaseVisitor;
-import ql.parser.QLParser;
+import ql.antlr.QLBaseVisitor;
+import ql.antlr.QLParser;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
 

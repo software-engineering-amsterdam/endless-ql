@@ -3,7 +3,7 @@ package qls.visitor;
 import qls.model.DefaultStyle;
 import qls.model.Question;
 import qls.model.Section;
-import qls.parser.QLSParser;
+import qls.antlr.QLSParser;
 
 import java.util.ArrayList;
 import java.util.List;

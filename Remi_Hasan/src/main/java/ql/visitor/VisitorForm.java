@@ -1,7 +1,7 @@
 package ql.visitor;
 
-import ql.parser.QLBaseVisitor;
-import ql.parser.QLParser;
+import ql.antlr.QLBaseVisitor;
+import ql.antlr.QLParser;
 import ql.model.Form;
 import ql.model.Question;
 

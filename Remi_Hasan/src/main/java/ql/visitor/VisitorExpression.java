@@ -1,8 +1,8 @@
 package ql.visitor;
 
-import ql.parser.QLBaseVisitor;
-import ql.parser.QLLexer;
-import ql.parser.QLParser;
+import ql.antlr.QLBaseVisitor;
+import ql.antlr.QLLexer;
+import ql.antlr.QLParser;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionIdentifier;
 import ql.model.expression.binary.*;

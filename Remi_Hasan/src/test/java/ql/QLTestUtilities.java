@@ -7,8 +7,8 @@ import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.expression.Expression;
-import ql.parser.QLLexer;
-import ql.parser.QLParser;
+import ql.antlr.QLLexer;
+import ql.antlr.QLParser;
 import ql.visitor.VisitorExpression;
 
 import java.io.InputStream;

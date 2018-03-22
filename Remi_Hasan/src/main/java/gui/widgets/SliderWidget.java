@@ -6,15 +6,12 @@ import javafx.scene.control.Slider;
 
 public abstract class SliderWidget extends Slider implements GUIWidget {
 
-    public SliderWidget(double min, double max, double step) {
+    public SliderWidget(double min, double max) {
         this.setMin(min);
         this.setMax(max);
-        this.setBlockIncrement(step);
         this.setShowTickLabels(true);
         this.setShowTickMarks(true);
-        this.setMajorTickUnit(step);
         this.setMinorTickCount(5);
-        this.setBlockIncrement(10);
     }
 
     @Override

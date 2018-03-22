@@ -10,8 +10,8 @@ import ql.antlr.ParseErrorListener;
 import qls.analysis.QuestionAnalyzer;
 import qls.analysis.TypeChecker;
 import qls.model.StyleSheet;
-import qls.parser.QLSLexer;
-import qls.parser.QLSParser;
+import qls.antlr.QLSLexer;
+import qls.antlr.QLSParser;
 import qls.visitor.VisitorStyleSheet;
 
 import java.io.IOException;

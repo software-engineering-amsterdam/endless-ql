@@ -1,8 +1,8 @@
 package qls.visitor;
 
+import qls.antlr.QLSBaseVisitor;
+import qls.antlr.QLSParser;
 import qls.model.widget.*;
-import qls.parser.QLSBaseVisitor;
-import qls.parser.QLSParser;
 
 public class VisitorWidget extends QLSBaseVisitor<Widget> {
 
@@ -39,8 +39,7 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
     public Widget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
         double min = Double.parseDouble(ctx.min.getText());
         double max = Double.parseDouble(ctx.max.getText());
-        double step = Double.parseDouble(ctx.step.getText());
-        return new WidgetSlider(ctx.getStart(), min, max, step);
+        return new WidgetSlider(ctx.getStart(), min, max);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package ql.visitor;
 
-import ql.parser.QLBaseVisitor;
-import ql.parser.QLParser;
+import ql.antlr.QLBaseVisitor;
+import ql.antlr.QLParser;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableBoolean;
 import ql.model.Question;

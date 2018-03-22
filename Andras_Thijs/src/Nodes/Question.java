@@ -10,7 +10,7 @@ public class Question extends ASTNode {
     private String name;
     private String label;
     private Type type;
-    public Expression expression; //TODO: TESTING PURPOSES, THIS SHOULD BE PRIVATE!!!
+    private Expression expression;
 
     private Term result;
 

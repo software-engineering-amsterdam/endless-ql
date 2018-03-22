@@ -1,13 +1,11 @@
 package gui.elements;
 
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.BooleanProperty;
 import javafx.scene.Node;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 
 public interface GUIQuestionElement {
-
     Node getNode();
 
     // Functions to delegate to the internal GUIWidget

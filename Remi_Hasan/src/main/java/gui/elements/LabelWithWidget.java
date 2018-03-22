@@ -8,7 +8,6 @@ import javafx.scene.layout.VBox;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 
-// TODO: separate interface
 public class LabelWithWidget extends VBox implements GUIQuestionElement {
 
     private final GUIWidget guiWidget;

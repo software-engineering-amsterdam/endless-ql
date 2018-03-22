@@ -1,7 +1,6 @@
 package Nodes;
 
 import Nodes.Operator.Operator;
-import Nodes.Operator.Not;
 import Nodes.Term.Term;
 import QLExceptions.*;
 
@@ -17,16 +16,15 @@ public class Expression extends ASTNode {
      * Creates an empty expression
      * This default is needed for the Term class
      */
-    public Expression(){}
+    protected Expression() {}
 
-    // TODO make NOT operator obsolete
     /**
-     * Create an expression with a negated term
-     * @param right contains the right side of a Not Expression
-     * @param op contains the Not Operator
+     * Create an unary Expression (only used for Not).
+     * @param right contains the right side of a Not Expression.
+     * @param op contains the Not Operator.
      */
-    public Expression(Expression right, Not op) {
-        this.left = null; // Dirty, but Not is a unary operation.
+    public Expression(Expression right, Operator op) {
+        this.left = right; // Dirty, but Not is a unary operation.
         this.right = right;
         this.op = op;
     }
@@ -51,8 +49,7 @@ public class Expression extends ASTNode {
         setParent(parent);
         op.setParent(this);
         right.setParents(this);
-        if(left != null) // Specific for the Not operator.
-            left.setParents(this);
+        left.setParents(this);
     }
 
     /**
@@ -63,10 +60,6 @@ public class Expression extends ASTNode {
      * @throws OtherException when a Variable isn't set yet.
      */
     public Term getTerm() throws SyntaxException, TypeException, OtherException {
-        if (op instanceof Not) {
-            return op.calculate(null, right.getTerm());
-        } else {
-            return op.calculate(left.getTerm(), right.getTerm());
-        }
+        return op.calculate(left.getTerm(), right.getTerm());
     }
 }

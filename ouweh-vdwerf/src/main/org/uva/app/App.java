@@ -25,21 +25,21 @@ public class App {
         Logger logger = Logger.getGlobal();
         LogManager.getLogManager().reset();
 
-        String input = new InputHandler().readFile("input/original.ql");
-//        String input = new InputHandler().getUserInput("ql");
+        String input = new IOHandler().readFile("input/original.ql");
+//        String input = new IOHandler().getUserInput("ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
-        String qlsInput = new InputHandler().readFile("input/default.qls");
-//        String input = new InputHandler().getUserInput("qls");
+        String qlsInput = new IOHandler().readFile("input/default.qls");
+//        String input = new IOHandler().getUserInput("qls");
         QLSBuilder QLSBuilder = new QLSBuilder();
         Stylesheet stylesheet = QLSBuilder.buildAST(qlsInput);
 
         QLValidator validator = new QLValidator(form);
         ValidationResult validationResult = validator.run();
 
-        QLSValidator qlsValidator = new QLSValidator(new QuestionContext(form).getQuestions(), stylesheet);
-//        qlsValidator.run();
+        QLSValidator qlsValidator = new QLSValidator(form, stylesheet);
+        validationResult = validationResult.merge(qlsValidator.run());
 
         FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
         StyleEvaluator styleEvaluator = new StyleEvaluator();

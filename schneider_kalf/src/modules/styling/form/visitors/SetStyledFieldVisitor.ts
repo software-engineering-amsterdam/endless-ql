@@ -34,6 +34,7 @@ export default class SetStyledFieldVisitor implements FieldVisitor {
 
   visitIfCondition(ifCondition: IfCondition): any {
     ifCondition.then = ifCondition.then.map(this.mapStatement.bind(this));
+    ifCondition.otherwise = ifCondition.otherwise.map(this.mapStatement.bind(this));
   }
 
   visitForm(form: FormNode): any {

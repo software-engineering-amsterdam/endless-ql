@@ -1,5 +1,7 @@
 package org.uva.ql.evaluator;
 
+import org.json.JSONObject;
+import org.uva.app.IOHandler;
 import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.BooleanType;
@@ -23,17 +25,25 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     private final ExpressionTable expressionTable;
     private final StatementTable statementTable;
     private final ValueTable valueTable;
-    private final Form form;
 
     public FormEvaluator(ExpressionTable expressionTable, StatementTable statementTable, ValueTable valueTable, Form form) {
         this.expressionTable = expressionTable;
         this.statementTable = statementTable;
         this.valueTable = valueTable;
-        this.form = form;
 
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
         }
+    }
+
+    public void saveState() {
+        JSONObject jsonObject = new JSONObject();
+
+        for (Question question : statementTable.getQuestionsAsList()) {
+            jsonObject.put(question.getContent(), valueTable.getValueByID(question.getId()));
+        }
+
+        new IOHandler().writeOutput("input/test/test.json", jsonObject);
     }
 
     public List<Question> getQuestionsAsList() {
@@ -82,11 +92,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     @Override
     public Void visit(Conditional conditional, String context) {
-        for (Statement statement : conditional.getIfSide()) {
+        for (Statement statement : conditional.getIfBlock()) {
             this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }
-        for (Statement statement : conditional.getElseSide()) {
+        for (Statement statement : conditional.getElseBlock()) {
             this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }

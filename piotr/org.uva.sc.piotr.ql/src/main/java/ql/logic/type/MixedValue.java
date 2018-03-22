@@ -1,20 +1,20 @@
 package ql.logic.type;
 
-import ql.ast.model.expressions.Expression;
-import com.sun.istack.internal.NotNull;
 import com.sun.tools.javac.util.Pair;
+import ql.ast.model.expressions.Expression;
 import ql.exceptions.IllegalOperationOnTypesException;
 import ql.exceptions.IllegalValueAssignmentException;
 import ql.exceptions.IncompatibleTypesException;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class MixedValue {
 
     private Expression.DataType type;
     private String stringValue;
     private BigDecimal decimalValue;
-    private Integer integerValue;
+    private BigInteger integerValue;
     private Boolean booleanValue;
 
     private enum BinaryOperator {
@@ -25,11 +25,11 @@ public class MixedValue {
         GT, GE, LT, LE, EQ, NEQ
     }
 
-    public static MixedValue createValue(@NotNull Expression.DataType type, String text) {
+    public static MixedValue createValue(Expression.DataType type, String text) {
 
         switch (type) {
             case INTEGER:
-                Integer safeInteger = text.isEmpty() ? 0 : Integer.parseInt(text);
+                BigInteger safeInteger = text.isEmpty() ? BigInteger.valueOf(0) : new BigInteger(text);
                 return new MixedValue(type, safeInteger);
             case DECIMAL:
                 BigDecimal safeDecimal = text.isEmpty() ? new BigDecimal(0) : new BigDecimal(text);
@@ -44,22 +44,22 @@ public class MixedValue {
         return null;
     }
 
-    private MixedValue(@NotNull Expression.DataType type, @NotNull String stringValue) {
+    private MixedValue(Expression.DataType type, String stringValue) {
         this.type = type;
         this.stringValue = stringValue;
     }
 
-    private MixedValue(@NotNull Expression.DataType type, @NotNull BigDecimal decimalValue) {
+    private MixedValue(Expression.DataType type, BigDecimal decimalValue) {
         this.type = type;
         this.decimalValue = decimalValue;
     }
 
-    private MixedValue(@NotNull Expression.DataType type, @NotNull Integer integerValue) {
+    private MixedValue(Expression.DataType type, BigInteger integerValue) {
         this.type = type;
         this.integerValue = integerValue;
     }
 
-    private MixedValue(@NotNull Expression.DataType type, @NotNull Boolean booleanValue) {
+    private MixedValue(Expression.DataType type, Boolean booleanValue) {
         this.type = type;
         this.booleanValue = booleanValue;
     }
@@ -72,7 +72,7 @@ public class MixedValue {
         return decimalValue;
     }
 
-    public Integer getIntegerValue() {
+    public BigInteger getIntegerValue() {
         return integerValue;
     }
 
@@ -97,9 +97,11 @@ public class MixedValue {
         }
     }
 
-    public void setIntegerValue(Integer integerValue) {
+    public void setIntegerValue(BigInteger integerValue) {
         if (this.type == Expression.DataType.INTEGER) {
             this.integerValue = integerValue;
+        } else if (this.type == Expression.DataType.DECIMAL) {
+            this.decimalValue = new BigDecimal(integerValue);
         } else {
             throw new IllegalValueAssignmentException("Illegal value assignment: Integer value cannot be assigned to " + this.type.name() + " type.");
         }
@@ -125,7 +127,7 @@ public class MixedValue {
             case BOOLEAN:
                 return new MixedValue(this.type, !this.booleanValue);
             case INTEGER:
-                return new MixedValue(this.type, -this.integerValue);
+                return new MixedValue(this.type, this.integerValue.negate());
             case DECIMAL:
                 return new MixedValue(this.type, this.decimalValue.negate());
             default:
@@ -210,9 +212,15 @@ public class MixedValue {
                     return new MixedValue(lhs.type, lhs.decimalValue.multiply(rhs.decimalValue));
                 case DIVIDE:
                     if (rhs.decimalValue.compareTo(BigDecimal.ZERO) != 0) {
-                        return new MixedValue(lhs.type, lhs.decimalValue.divide(rhs.decimalValue, 4, BigDecimal.ROUND_DOWN));
+                        // regular division
+                        return new MixedValue(lhs.type, lhs.decimalValue.divide(rhs.decimalValue, 8, BigDecimal.ROUND_DOWN));
+                    } else if (lhs.decimalValue.compareTo(BigDecimal.ZERO) >= 0) {
+                        // plus infinity
+                        return new MixedValue(lhs.type, new BigDecimal(Double.MAX_VALUE).setScale(8, BigDecimal.ROUND_DOWN));
+                    } else {
+                        // minus infinity
+                        return new MixedValue(lhs.type, new BigDecimal(Double.MAX_VALUE).setScale(8, BigDecimal.ROUND_DOWN).negate());
                     }
-                    throw new RuntimeException("Division by zero!");
                 default:
                     throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }
@@ -221,22 +229,19 @@ public class MixedValue {
         if (this.type == Expression.DataType.INTEGER) {
             switch (operator) {
                 case PLUS:
-                    return new MixedValue(lhs.type, lhs.integerValue + rhs.integerValue);
+                    return new MixedValue(lhs.type, lhs.integerValue.add(rhs.integerValue));
                 case MINUS:
-                    return new MixedValue(lhs.type, lhs.integerValue - rhs.integerValue);
+                    return new MixedValue(lhs.type, lhs.integerValue.subtract(rhs.integerValue));
                 case MULTIPLY:
-                    return new MixedValue(lhs.type, lhs.integerValue * rhs.integerValue);
+                    return new MixedValue(lhs.type, lhs.integerValue.multiply(rhs.integerValue));
                 case DIVIDE:
-                    if (rhs.integerValue != 0) {
-                        if (lhs.integerValue % rhs.integerValue == 0) {
-                            return new MixedValue(lhs.type, lhs.integerValue / rhs.integerValue);
-                        } else {
-                            return new MixedValue(
-                                    Expression.DataType.DECIMAL,
-                                    new BigDecimal(lhs.integerValue).divide(new BigDecimal(rhs.integerValue), 4, BigDecimal.ROUND_DOWN));
-                        }
+                    if (rhs.integerValue.compareTo(BigInteger.ZERO) != 0) {
+                        return new MixedValue(lhs.type, lhs.integerValue.divide(rhs.integerValue));
+                    } else if (lhs.integerValue.compareTo(BigInteger.ZERO) >= 0) {
+                        return new MixedValue(lhs.type, new BigDecimal(Double.MAX_VALUE).setScale(8, BigDecimal.ROUND_DOWN).toBigIntegerExact());
+                    } else {
+                        return new MixedValue(lhs.type, new BigDecimal(Double.MAX_VALUE).setScale(8, BigDecimal.ROUND_DOWN).negate().toBigIntegerExact());
                     }
-                    throw new RuntimeException("Division by zero!");
                 default:
                     throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }
@@ -298,17 +303,17 @@ public class MixedValue {
         if (this.type == Expression.DataType.INTEGER) {
             switch (operator) {
                 case GT:
-                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue > rhs.integerValue);
+                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue.compareTo(rhs.integerValue) > 0);
                 case GE:
-                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue >= rhs.integerValue);
+                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue.compareTo(rhs.integerValue) >= 0);
                 case LT:
-                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue < rhs.integerValue);
+                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue.compareTo(rhs.integerValue) < 0);
                 case LE:
-                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue <= rhs.integerValue);
+                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue.compareTo(rhs.integerValue) <= 0);
                 case EQ:
-                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue.equals(rhs.integerValue));
+                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue.compareTo(rhs.integerValue) == 0);
                 case NEQ:
-                    return new MixedValue(Expression.DataType.BOOLEAN, !lhs.integerValue.equals(rhs.integerValue));
+                    return new MixedValue(Expression.DataType.BOOLEAN, lhs.integerValue.compareTo(rhs.integerValue) != 0);
                 default:
                     throw new IllegalOperationOnTypesException("Operation " + operator.name() + " on types " + lhs.type + " and " + rhs.type + " is illegal.");
             }

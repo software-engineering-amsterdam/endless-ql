@@ -1,4 +1,7 @@
-
+"""
+    A Question has a widget (it comes either from the default or it is specified outside the default),
+    every widget also has a widgetType wich is also set for convenience. A question might have a default. 
+"""
 from .qlast_methods import *
 
 class Question:
@@ -27,7 +30,7 @@ class Question:
     """
     def checkTypes(self):
         if self.default:
-            self.default.checkTypes()
+            self.default.checkTypes(True)
         if self.varName not in self.varDict:
             errorstring = "Variable '" + self.varName + "' not in QL definition but in QLS at line " + str(self.line)
             throwError(errorstring)

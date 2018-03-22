@@ -29,6 +29,7 @@ class FormGui:
         self.frame = create_frame(parent, color)
         self.frame.pack(expand=True, fill='both')
         self.headerFrame = None
+        self.header = header
         self.createHeader(header, parent=self.frame)
 
         self.pages = collections.OrderedDict()
@@ -108,11 +109,12 @@ class FormGui:
         page = self.pages[pageName]
         page.deleteInvalidQuestions(questions, sectionName)
 
-    def insertQuestion(self, insertAfterVarName, varName, sectionName='default', questionText="Default Question", questionType=bool, value=False, pageName='default', defaults = None):
+    def insertQuestion(self, varName, questionText, questionType, value, sectionName='default', pageName='default',
+                       insertAfterVarName="", defaults=None, widgetType='default', **kwargs):
         page = self.pages[pageName]
-        page.addQuestionToSection(sectionName, varName, questionText, questionType, value, insertAfterVarName, defaults)
+        page.addQuestionToSection(sectionName, varName, questionText, questionType, value, insertAfterVarName, defaults, widgetType, **kwargs)
 
-    def removeQuestionFromSection(self, pageName, sectionName, varName):
+    def removeQuestionFromSection(self, varName, sectionName='default', pageName='default'):
         page = self.pages[pageName]
         page.removeQuestionFromSection(sectionName, varName)
 
@@ -130,7 +132,6 @@ class FormGui:
                 return section
         return None
 
-
     """
         Get all of the answers (and assignments) from the varDict, and download them
     """
@@ -140,7 +141,7 @@ class FormGui:
         varDict = self.questionGenerator.getVarDict()
         for varName in varDict:
             answers[varName] = varDict[varName]['node'].evaluate()
-        return answers
+        return answers, self.header
 
     """
         Usefull getter and setter functions

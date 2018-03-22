@@ -4,7 +4,6 @@ grammar QL;
 package antlr.generated;
 }
 
-// parser
 form
     :   'form' id=ID OPEN_BRACKET statement* CLOSE_BRACKET
     ;
@@ -43,7 +42,7 @@ type
     | 'string'                                                              #stringType
     ;
 
-//lexer
+
 TRUE: 'TRUE' ;
 FALSE: 'FALSE' ;
 

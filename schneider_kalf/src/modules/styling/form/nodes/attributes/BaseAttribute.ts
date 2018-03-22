@@ -3,8 +3,8 @@ import StyleAttribute from "../StyleAttribute";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
 
 export default class BaseAttribute extends AbstractStyleNode implements StyleAttribute {
-  readonly name: string;
-  readonly value: string;
+  private value: string;
+  private name: string;
 
   constructor(name: string, value: string) {
     super();

@@ -1,7 +1,10 @@
 package org.uva.qls.ast.Segment;
 
+import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
+import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.visitor.SegmentVisitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Stylesheet extends Segment {
@@ -21,6 +24,16 @@ public class Stylesheet extends Segment {
     @Override
     public String getId() {
         return "Stylesheet." + id;
+    }
+
+    @Override
+    public List<DefaultStyleStatement> getDefaultStyleStatements() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<DefaultWidgetStatement> getDefaultWidgetStatements() {
+        return new ArrayList<>();
     }
 
     @Override

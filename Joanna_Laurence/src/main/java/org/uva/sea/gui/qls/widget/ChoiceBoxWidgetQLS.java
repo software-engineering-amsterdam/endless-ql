@@ -7,11 +7,11 @@ import javafx.scene.control.ChoiceBox;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
-public class ChoiceBoxWidget extends QLSWidget {
+public class ChoiceBoxWidgetQLS extends WidgetQLS {
 
     private BooleanValue widgetValue = new BooleanValue(false);
 
-    public ChoiceBoxWidget(QuestionData questionData) {
+    public ChoiceBoxWidgetQLS(QuestionData questionData) {
         super(questionData);
     }
 
@@ -24,12 +24,9 @@ public class ChoiceBoxWidget extends QLSWidget {
     @Override
     public Node convertToGuiNode() {
         final ChoiceBox<Boolean> choiceBox = new ChoiceBox<>();
-        this.setStyle(choiceBox);
         choiceBox.setValue((this.widgetValue != null) && this.widgetValue.getBooleanValue());
-        choiceBox.setFocusTraversable(false);
 
         ObservableList<Boolean> booleanList = FXCollections.observableArrayList(true, false);
-
         choiceBox.setItems(booleanList);
 
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
@@ -37,6 +34,7 @@ public class ChoiceBoxWidget extends QLSWidget {
             this.sendUpdateValueEvent(this.questionData.getQuestionName(), newBooleanValue);
         });
 
+        this.setStyle(choiceBox);
         return choiceBox;
     }
 }

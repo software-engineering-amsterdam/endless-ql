@@ -5,13 +5,13 @@ import org.uva.sea.gui.widget.BaseWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 
-public abstract class QLSWidget extends BaseWidget {
-    public QLSWidget(QuestionData questionData) {
+public abstract class WidgetQLS extends BaseWidget {
+    WidgetQLS(QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public String drawInContainer() {
+    public String getContainerName() {
         return this.questionData.getStyle().getPage();
     }
 

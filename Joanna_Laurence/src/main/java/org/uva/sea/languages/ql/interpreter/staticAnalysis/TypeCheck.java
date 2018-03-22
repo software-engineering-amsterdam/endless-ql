@@ -30,8 +30,8 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnal
     }
 
     /**
-     * -     * Logs when an error occurred
-     * -     * @param node The node that caused an error
+     * -     * Logs when an displayError occurred
+     * -     * @param node The node that caused an displayError
      * -
      */
     private void error(ASTNode node) {
@@ -50,7 +50,7 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnal
     }
 
     /**
-     * Determine new type, and return error when the operation cannot be done
+     * Determine new type, and return displayError when the operation cannot be done
      *
      * @param node              The node that is checked
      * @param leftHandSideType  Left hand side type, or the first type

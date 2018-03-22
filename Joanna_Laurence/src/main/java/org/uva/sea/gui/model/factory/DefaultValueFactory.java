@@ -24,11 +24,11 @@ public class DefaultValueFactory {
 
     public Value getDefaultValue(NodeType nodeType) {
         try {
-            Value value = this.defaultValues.get(nodeType);
-            if (value == null) {
+            Value defaultValue = this.defaultValues.get(nodeType);
+            if (defaultValue == null) {
                 return new ErrorValue("No default style available for " + nodeType, 0, 0);
             }
-            return value.clone();
+            return defaultValue.clone();
         } catch (CloneNotSupportedException ignored) {
             return new ErrorValue("No default style available for " + nodeType, 0, 0);
         }

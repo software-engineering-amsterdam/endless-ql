@@ -2,9 +2,9 @@ package org.uva.sea.gui.widget;
 
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import org.uva.sea.gui.controller.IGuiElementUpdateListener;
+import org.uva.sea.gui.controller.IQuestionValueUpdatedListener;
 import org.uva.sea.gui.model.factory.DefaultValueFactory;
-import org.uva.sea.gui.model.factory.WidgetValueUpdater;
+import org.uva.sea.gui.model.factory.WidgetValueAssigner;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
@@ -16,7 +16,7 @@ public abstract class BaseWidget extends BaseRenderable {
 
     protected final QuestionData questionData;
 
-    private final Collection<IGuiElementUpdateListener> listeners = new ArrayList<>();
+    private final Collection<IQuestionValueUpdatedListener> listeners = new ArrayList<>();
 
     private final DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
 
@@ -24,18 +24,18 @@ public abstract class BaseWidget extends BaseRenderable {
         this.questionData = questionData;
     }
 
-    public void addListener(IGuiElementUpdateListener listener) {
+    public void addListener(IQuestionValueUpdatedListener listener) {
         this.listeners.add(listener);
     }
 
     protected void sendUpdateValueEvent(String identifier, Value newValue) {
-        for (IGuiElementUpdateListener listener : this.listeners)
+        for (IQuestionValueUpdatedListener listener : this.listeners)
             listener.updateGuiVariable(identifier, newValue);
     }
 
     @Override
     public Node render(Map<String, VBox> containers) {
-        VBox container = containers.get(this.drawInContainer());
+        VBox container = containers.get(this.getContainerName());
         if (container != null) {
             Node guiNode = this.convertToGuiNode();
             Node widgetRow = this.drawComponent(this.questionData.getLabel(), guiNode);
@@ -48,7 +48,7 @@ public abstract class BaseWidget extends BaseRenderable {
     public BaseWidget linkToOtherWidget(BaseWidget widget, QuestionData questionData) {
         DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
         widget.addListener(this::sendUpdateValueEvent);
-        WidgetValueUpdater updater = new WidgetValueUpdater(widget);
+        WidgetValueAssigner updater = new WidgetValueAssigner(widget);
         Value value = questionData.getValue();
         if (value == null)
             value = defaultValueFactory.getDefaultValue(questionData.getNodeType());
@@ -62,5 +62,5 @@ public abstract class BaseWidget extends BaseRenderable {
 
     public abstract Node convertToGuiNode();
 
-    public abstract String drawInContainer();
+    public abstract String getContainerName();
 }

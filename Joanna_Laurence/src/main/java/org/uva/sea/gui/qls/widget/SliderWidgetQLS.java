@@ -10,7 +10,7 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
-public class SliderWidget extends QLSWidget {
+public class SliderWidgetQLS extends WidgetQLS {
 
     private static final double DECIMAL_STEP_SIZE = 0.1;
 
@@ -20,7 +20,7 @@ public class SliderWidget extends QLSWidget {
 
     private Value incrementStep = new DecimalValue(DECIMAL_STEP_SIZE);
 
-    public SliderWidget(QuestionData questionData) {
+    public SliderWidgetQLS(QuestionData questionData) {
         super(questionData);
     }
 
@@ -45,9 +45,6 @@ public class SliderWidget extends QLSWidget {
         slider.setValueChanging(true);
         slider.setMinorTickCount(1);
         slider.setMax(100);
-        slider.setFocusTraversable(false);
-
-        this.setStyle(slider);
 
         if (this.questionData.getValue() != null) {
             this.widgetValue.accept(new BaseValueVisitor<Void>() {
@@ -68,14 +65,17 @@ public class SliderWidget extends QLSWidget {
 
         slider.valueChangingProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
+                Value newWidgetValue;
                 try {
-                    Value newWidgetValue = this.widgetValue.add(this.incrementStep);
-                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);
+                    newWidgetValue = this.widgetValue.add(this.incrementStep);
                 } catch (EvaluationException ignored) {
-                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), new UndefinedValue());
+                    newWidgetValue = this.widgetValue;
                 }
+                this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);
             }
         });
+
+        this.setStyle(slider);
 
         return slider;
     }

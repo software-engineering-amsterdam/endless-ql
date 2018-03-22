@@ -5,7 +5,7 @@ import org.uva.sea.gui.widget.BaseWidget;
 import org.uva.sea.gui.widget.MoneyWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 
-public class MoneyWidgetQLS extends QLSWidget {
+public class MoneyWidgetQLS extends WidgetQLS {
 
     private final BaseWidget moneyWidget;
 

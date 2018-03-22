@@ -5,7 +5,7 @@ import org.uva.sea.gui.widget.BaseWidget;
 import org.uva.sea.gui.widget.TextFieldWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 
-public class TextFieldWidgetQLS extends QLSWidget {
+public class TextFieldWidgetQLS extends WidgetQLS {
 
     private final BaseWidget textFieldWidget;
 

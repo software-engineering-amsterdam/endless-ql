@@ -3,27 +3,27 @@ package org.uva.sea.gui.controller.utility;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
-public class AlertBuilder {
+public final class AlertPopup {
 
-    public Alert buildError(String contentText) {
+    public static void displayError(String contentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR, contentText);
-        this.fillAlert("Error", "Error", alert);
-        return alert;
+        AlertPopup.fillAlert("Error", "Error", alert);
+        alert.show();
     }
 
-    public Alert buildInfo(String contentText) {
+    public static void displayInfo(String contentText) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, contentText);
-        this.fillAlert("Info", "Info", alert);
-        return alert;
+        AlertPopup.fillAlert("Info", "Info", alert);
+        alert.show();
     }
 
-    public Alert buildWarning(String contentText) {
+    public static void displayWarning(String contentText) {
         Alert alert = new Alert(Alert.AlertType.WARNING, contentText);
-        this.fillAlert("Warning", "Warning", alert);
-        return alert;
+        AlertPopup.fillAlert("Warning", "Warning", alert);
+        alert.show();
     }
 
-    private void fillAlert(String header, String title, Alert alert) {
+    private static void fillAlert(String header, String title, Alert alert) {
         alert.setHeaderText(header);
         alert.setTitle(title);
 
@@ -31,6 +31,4 @@ public class AlertBuilder {
         stage.setAlwaysOnTop(true);
         stage.toFront();
     }
-
-
 }

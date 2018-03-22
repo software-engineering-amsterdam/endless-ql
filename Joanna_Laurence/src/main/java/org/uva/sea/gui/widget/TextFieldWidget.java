@@ -43,7 +43,6 @@ public class TextFieldWidget extends Widget {
 
         TextField textField = new TextField();
         this.setStyle(textField, this.questionData.getStyle());
-        textField.setFocusTraversable(false);
         textField.setText(this.widgetValue.toString());
         textField.setEditable(true);
         textField.setMinWidth(BaseRenderable.TEXT_WIDTH);
@@ -66,7 +65,6 @@ public class TextFieldWidget extends Widget {
         return textField;
     }
 
-    //TODO: set color from styleQLS
     private void setStyle(TextField textField, Style style) {
         if (style == null)
             return;

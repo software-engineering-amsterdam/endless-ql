@@ -5,7 +5,7 @@ import org.uva.sea.gui.widget.BaseWidget;
 import org.uva.sea.gui.widget.CheckBoxWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 
-public class CheckBoxWidgetQLS extends QLSWidget {
+public class CheckBoxWidgetQLS extends WidgetQLS {
 
     private final BaseWidget checkBoxWidget;
 

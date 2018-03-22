@@ -40,7 +40,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
 
     /**
      * @param error Error that occur
-     * @param node  The node that caused the error
+     * @param node  The node that caused the displayError
      */
     private void error(String error, ASTNode node) {
         this.messages.addMessage(error + " on line:  " + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
@@ -50,7 +50,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
      * Checks correct variable usage and links variables to questions
      *
      * @param node The root node of the AST that needs to be checked
-     * @return If an error occurred
+     * @return If an displayError occurred
      */
     public Messages doCheck(Form node) {
         node.accept(this);
@@ -62,7 +62,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
 
     /**
      * Link all variables to the correct questionData
-     * Add error when it is not defined
+     * Add displayError when it is not defined
      */
     private void linkVariableInformation() {
         for (Variable variable : this.usedVariables) {

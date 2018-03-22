@@ -5,11 +5,11 @@ import javafx.scene.control.RadioButton;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
-public class RadioButtonWidget extends QLSWidget {
+public class RadioButtonWidgetQLS extends WidgetQLS {
 
     private BooleanValue widgetValue = new BooleanValue(false);
 
-    public RadioButtonWidget(QuestionData questionData) {
+    public RadioButtonWidgetQLS(QuestionData questionData) {
         super(questionData);
     }
 
@@ -22,18 +22,17 @@ public class RadioButtonWidget extends QLSWidget {
     @Override
     public Node convertToGuiNode() {
         final RadioButton radioButton = new RadioButton();
-        this.setStyle(radioButton);
 
         if (this.widgetValue != null) {
             radioButton.selectedProperty().setValue(this.widgetValue.getBooleanValue());
         }
 
-        radioButton.setFocusTraversable(false);
         radioButton.selectedProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newValue));
                 });
 
+        this.setStyle(radioButton);
         return radioButton;
     }
 }

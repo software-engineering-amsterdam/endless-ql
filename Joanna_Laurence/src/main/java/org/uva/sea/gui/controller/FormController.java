@@ -12,9 +12,9 @@ public class FormController extends BaseFormController {
         super(new PrimaryTypeWidgetFactory());
     }
 
-    protected Map<String, VBox> createContainer(EvaluationResult evaluationResult) {
-        Map<String, VBox> panes = new HashMap<>();
-        panes.put("default", this.container); //TODO
-        return panes;
+    protected Map<String, VBox> createContainers(EvaluationResult evaluationResult) {
+        Map<String, VBox> tabs = new HashMap<>();
+        tabs.put("default", this.container);
+        return tabs;
     }
 }

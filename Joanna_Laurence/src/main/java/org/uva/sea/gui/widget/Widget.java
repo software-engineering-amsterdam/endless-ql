@@ -8,7 +8,7 @@ public abstract class Widget extends BaseWidget {
     }
 
     @Override
-    public String drawInContainer() {
+    public String getContainerName() {
         return "default";
     }
 }

@@ -18,21 +18,22 @@ public class FormController extends BaseFormController {
     }
 
     @Override
-    protected Map<String, VBox> createContainer(EvaluationResult evaluationResult) {
-        Map<String, VBox> panes = new HashMap<>();
+    protected Map<String, VBox> createContainers(EvaluationResult evaluationResult) {
+        Map<String, VBox> containers = new HashMap<>();
         for (QuestionData questionData : evaluationResult.getQuestions()) {
             Style style = questionData.getStyle();
-            if (style != null) {
-                String pageName = style.getPage();
-                if (!panes.keySet().contains(pageName))
-                    panes.put(pageName, this.createTab(pageName));
-            }
+            if (style == null)
+                continue;
+
+            String containerName = style.getPage();
+            if(!containers.keySet().contains(containerName))
+                containers.put(containerName, this.createContainerTab(containerName));
         }
 
-        return panes;
+        return containers;
     }
 
-    private VBox createTab(String tabName) {
+    private VBox createContainerTab(String tabName) {
         Tab tab = new Tab();
         tab.setText(tabName);
 

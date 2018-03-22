@@ -5,7 +5,7 @@ import org.uva.sea.gui.widget.BaseWidget;
 import org.uva.sea.gui.widget.DateWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 
-public class DateWidgetQLS extends QLSWidget {
+public class DateWidgetQLS extends WidgetQLS {
 
     private final BaseWidget widget;
 

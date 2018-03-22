@@ -6,13 +6,13 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 
 import java.util.Collection;
 
-public class RenderElements {
+public class RenderingElements {
     private final Collection<BaseWidget> widgets;
-    private final Messages message;
+    private final Messages messages;
 
-    public RenderElements(Collection<BaseWidget> widgets, Messages message) {
+    public RenderingElements(Collection<BaseWidget> widgets, Messages messages) {
         this.widgets = widgets;
-        this.message = message;
+        this.messages = messages;
     }
 
     public Iterable<BaseWidget> getWidgets() {
@@ -20,10 +20,10 @@ public class RenderElements {
     }
 
     public Iterable<String> getWarnings() {
-        return this.message.getMessage(MessageTypes.WARNING);
+        return this.messages.getMessage(MessageTypes.WARNING);
     }
 
     public Iterable<String> getErrors() {
-        return this.message.getMessage(MessageTypes.ERROR);
+        return this.messages.getMessage(MessageTypes.ERROR);
     }
 }

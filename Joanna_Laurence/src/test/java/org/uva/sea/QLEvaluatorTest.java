@@ -153,7 +153,7 @@ public class QLEvaluatorTest extends TestCase {
     }
 
     /**
-     * Check if there was an error
+     * Check if there was an displayError
      *
      * @param questions All the questions
      * @return

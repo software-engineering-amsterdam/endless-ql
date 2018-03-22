@@ -10,7 +10,7 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
-public class SpinnerWidget extends QLSWidget {
+public class SpinnerWidgetQLS extends WidgetQLS {
 
     private static final double DECIMAL_STEP_SIZE = 0.1;
 
@@ -22,7 +22,7 @@ public class SpinnerWidget extends QLSWidget {
 
     private Value incrementStep = new DecimalValue(DECIMAL_STEP_SIZE);
 
-    public SpinnerWidget(QuestionData questionData) {
+    public SpinnerWidgetQLS(QuestionData questionData) {
         super(questionData);
     }
 
@@ -46,7 +46,6 @@ public class SpinnerWidget extends QLSWidget {
             return null;
 
         final Spinner spinner = new Spinner<>();
-        spinner.setFocusTraversable(false);
 
         this.setStyle(spinner);
 

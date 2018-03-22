@@ -76,7 +76,7 @@ public class MoneyValue extends Value {
     @Override
     public Value divide(IntValue value) throws EvaluationException {
         if (value.getIntValue() == 0)
-            throw new EvaluationException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 displayError");
 
         return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getIntValue()), RoundingMode.UNNECESSARY));
     }
@@ -86,7 +86,7 @@ public class MoneyValue extends Value {
         this.validateCurrency(value);
 
         if (value.getAmount().doubleValue() == 0.0)
-            throw new EvaluationException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 displayError");
 
         return new DecimalValue(this.amount.divide(value.getAmount(), RoundingMode.UNNECESSARY).doubleValue());
     }
@@ -94,7 +94,7 @@ public class MoneyValue extends Value {
     @Override
     public Value divide(DecimalValue value) throws EvaluationException {
         if (value.getDecimalValue() == 0)
-            throw new EvaluationException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 displayError");
 
         return new MoneyValue(this.currency, this.amount.divide(BigDecimal.valueOf(value.getDecimalValue()), RoundingMode.UNNECESSARY));
     }

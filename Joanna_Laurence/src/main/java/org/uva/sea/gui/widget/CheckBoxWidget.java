@@ -25,7 +25,6 @@ public class CheckBoxWidget extends Widget {
     public Node convertToGuiNode() {
         final CheckBox checkBox = new CheckBox();
         this.applyCheckboxStyle(checkBox, this.questionData.getStyle());
-        checkBox.setFocusTraversable(false);
         checkBox.setSelected((this.widgetValue != null) && this.widgetValue.getBooleanValue());
         checkBox.selectedProperty().addListener((observable, oldIsFocused, newIsFocused) ->
         {

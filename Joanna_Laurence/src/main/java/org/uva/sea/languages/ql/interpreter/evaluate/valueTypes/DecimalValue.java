@@ -45,7 +45,7 @@ public class DecimalValue extends Value {
     @Override
     public Value divide(IntValue value) throws EvaluationException {
         if (value.getIntValue() == 0)
-            throw new EvaluationException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 displayError");
 
         return new DecimalValue(this.decimalValue / value.getIntValue());
     }
@@ -53,7 +53,7 @@ public class DecimalValue extends Value {
     @Override
     public Value divide(DecimalValue value) throws EvaluationException {
         if (value.getDecimalValue() == 0)
-            throw new EvaluationException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 displayError");
 
         return new DecimalValue(this.decimalValue / value.getDecimalValue());
     }

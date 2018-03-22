@@ -11,41 +11,21 @@ import ql.model.expression.variable.ExpressionVariableUndefined;
 
 public class IntegerWidget extends TextWidget {
 
-    private final Question question;
-
-    public IntegerWidget(Question question) {
-        this.question = question;
-        this.managedProperty().bind(this.visibleProperty());
+    public IntegerWidget() {
         this.setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*"));
     }
 
     @Override
-    public Expression getExpression() {
-        try{
-            return new ExpressionVariableInteger(null, Integer.parseInt(getText()));
-        } catch(IllegalArgumentException e){
+    public Expression getExpressionValue() {
+        if(this.getText().isEmpty()) {
             return new ExpressionVariableUndefined(null, ReturnType.INTEGER);
         }
+
+        return new ExpressionVariableInteger(null, Integer.parseInt(this.getText()));
     }
 
     @Override
-    public void setExpression(String value) {
-        this.setText(value);
-    }
-
-    @Override
-    public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
-        symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
-            String text = value.isUndefined() ? "" : value.getIntValue().toString();
-            this.setExpression(text);
-        });
-    }
-
-    @Override
-    public void addNonComputedListener(SymbolTable symbolTable) {
-        this.textProperty().addListener(e -> {
-            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
-        });
+    public void setValue(Value value) {
+        this.setText(value.isUndefined() ? "" : value.getIntValue().toString());
     }
 }

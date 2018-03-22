@@ -17,11 +17,6 @@ public class WidgetDatePicker extends Widget {
     }
 
     @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
-        return visitor.visitWidgetTypeDate(symbolTable, question, qlsQuestion, defaultStyles);
-    }
-
-    @Override
     public <T> T accept(IQLSVisitor<T> visitor) {
         return visitor.visit(this);
     }

@@ -1,30 +1,33 @@
 package gui.widgets;
 
+import javafx.beans.InvalidationListener;
+import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import ql.analysis.SymbolTable;
-import ql.model.Question;
 
-public abstract class SpinnerWidget<T> extends Spinner<T> implements WidgetInterface {
+public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
 
-    final Question question;
-
-    SpinnerWidget(Question question) {
+    public SpinnerWidget() {
         super(Integer.MIN_VALUE, Integer.MAX_VALUE, 0.0);
-        this.question = question;
         this.managedProperty().bind(this.visibleProperty());
         this.setEditable(true);
     }
 
-
     @Override
-    public void addNonComputedListener(SymbolTable symbolTable) {
-        this.getValueFactory().valueProperty().addListener(e -> {
-            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
-        });
+    public void setVisibility(boolean visible) {
+        this.setVisible(visible);
     }
 
+    @Override
+    public Node getNode() {
+        return this;
+    }
+
+    @Override
+    public void setChangeListener(InvalidationListener invalidationListener) {
+        this.valueProperty().addListener(invalidationListener);
+    }
 
     @Override
     public void setColor(String color) {

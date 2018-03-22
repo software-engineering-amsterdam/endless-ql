@@ -1,26 +1,23 @@
 package gui.widgets;
 
+import gui.widgets.GUIWidget;
+import javafx.beans.InvalidationListener;
+import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
-import ql.analysis.SymbolTable;
-import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.Question;
 import ql.model.expression.Expression;
-import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableBoolean;
-import ql.model.expression.variable.ExpressionVariableUndefined;
 
-public class RadioWidget extends HBox implements WidgetInterface {
+public class RadioWidget extends HBox implements GUIWidget {
 
-    private final Question question;
     private final ToggleGroup group;
     private final RadioButton falseButton;
     private final RadioButton trueButton;
 
-    public RadioWidget(Question question, String falseLabel, String trueLabel) {
-        this.question = question;
+    public RadioWidget(String falseLabel, String trueLabel) {
         this.managedProperty().bind(this.visibleProperty());
 
         group = new ToggleGroup();
@@ -38,37 +35,28 @@ public class RadioWidget extends HBox implements WidgetInterface {
     }
 
     @Override
-    public Expression getExpression() {
-        try{
-            return new ExpressionVariableBoolean(null, trueButton.isSelected());
-        } catch(IllegalArgumentException e){
-            return new ExpressionVariableUndefined(null, ReturnType.BOOLEAN);
-        }
+    public void setChangeListener(InvalidationListener invalidationListener) {
+        group.selectedToggleProperty().addListener(invalidationListener);
     }
 
     @Override
-    public void setExpression(String value) {
-        if(Boolean.parseBoolean(value)){
-            trueButton.setSelected(true);
-        } else {
-            falseButton.setSelected(true);
-        }
+    public void setVisibility(boolean visible) {
+        this.setVisible(visible);
     }
 
     @Override
-    public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
-        symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
-            String text = value.isUndefined() ? "" : value.getBooleanValue().toString();
-            this.setExpression(text);
-        });
+    public Expression getExpressionValue() {
+        return new ExpressionVariableBoolean(null, trueButton.isSelected());
     }
 
     @Override
-    public void addNonComputedListener(SymbolTable symbolTable) {
-        group.selectedToggleProperty().addListener(e -> {
-            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
-        });
+    public void setValue(Value value) {
+        trueButton.setSelected(value.getBooleanValue());
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 
     @Override

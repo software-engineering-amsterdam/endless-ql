@@ -1,18 +1,13 @@
 package gui.widgets;
 
+import javafx.beans.InvalidationListener;
+import javafx.scene.Node;
 import javafx.scene.control.Slider;
-import ql.analysis.SymbolTable;
-import ql.evaluation.ExpressionEvaluator;
-import ql.evaluation.value.Value;
-import ql.model.Question;
 import ql.model.expression.Expression;
-import ql.model.expression.variable.ExpressionVariableDecimal;
 
-public abstract class SliderWidget extends Slider implements WidgetInterface{
+public abstract class SliderWidget extends Slider implements GUIWidget {
 
-    public final Question question;
-    public SliderWidget(Question question, double min, double max, double step) {
-        this.question = question;
+    public SliderWidget(double min, double max, double step) {
         this.setMin(min);
         this.setMax(max);
         this.setBlockIncrement(step);
@@ -24,29 +19,18 @@ public abstract class SliderWidget extends Slider implements WidgetInterface{
     }
 
     @Override
-    public Expression getExpression() {
-        return new ExpressionVariableDecimal(null, this.getValue());
+    public void setVisibility(boolean visible) {
+        this.setVisible(visible);
     }
 
     @Override
-    public void setExpression(String value) {
-        this.setValue(Double.parseDouble(value));
+    public Node getNode() {
+        return this;
     }
 
     @Override
-    public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
-        symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
-            String text = value.isUndefined() ? "" : value.getDecimalValue().toString();
-            this.setExpression(text);
-        });
-    }
-
-    @Override
-    public void addNonComputedListener(SymbolTable symbolTable) {
-        this.valueProperty().addListener(e -> {
-            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
-        });
+    public void setChangeListener(InvalidationListener invalidationListener) {
+        this.valueProperty().addListener(invalidationListener);
     }
 
     @Override

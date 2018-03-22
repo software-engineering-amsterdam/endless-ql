@@ -1,6 +1,9 @@
 package gui;
 
+import gui.model.GUIForm;
+import gui.renderer.RenderVisitor;
 import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Region;
@@ -60,10 +63,10 @@ public class Renderer extends Application {
         primaryStage.show();
     }
 
-    private void buildQuestions(Stage stage) {
-        GUIForm guiForm = new GUIForm(symbolTable, qlForm, qlsStyleSheet);
+    public void buildQuestions(Stage stage) {
+        GUIForm guiForm = GUIFormBuilder.build(this.qlForm);
 
-        Scene scene = new Scene(guiForm);
+        Scene scene = new Scene(guiForm.render(this.symbolTable));
         stage.setTitle(qlForm.identifier + " form");
         stage.setScene(scene);
         stage.show();

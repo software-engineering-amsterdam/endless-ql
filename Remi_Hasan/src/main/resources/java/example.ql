@@ -7,7 +7,7 @@ form taxOfficeExample
   "Did you buy a house in 2010?"
     hasBoughtHouse: boolean
   "Did you enter a loan?"
-    hasMaintLoan: boolean
+    hasMaintLoan: date
 
   if (hasSoldHouse)
   {

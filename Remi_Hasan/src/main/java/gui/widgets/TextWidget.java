@@ -1,10 +1,34 @@
 package gui.widgets;
 
+import javafx.beans.InvalidationListener;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import ql.evaluation.value.Value;
+import ql.model.expression.Expression;
+import ql.model.expression.variable.ExpressionVariableString;
 
-public abstract class TextWidget extends TextField implements WidgetInterface{
+public class TextWidget extends TextField implements GUIWidget {
+
+    public TextWidget() {
+        this.managedProperty().bind(this.visibleProperty());
+    }
+
+    @Override
+    public Expression getExpressionValue() {
+        return new ExpressionVariableString(null, this.getText());
+    }
+
+    @Override
+    public void setValue(Value value) {
+        this.setText(value.isUndefined() ? "" : value.getStringValue());
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
+    }
 
     @Override
     public void setColor(String color) {
@@ -26,5 +50,15 @@ public abstract class TextWidget extends TextField implements WidgetInterface{
     @Override
     public void setWidth(int width) {
         this.setPrefWidth(width);
+    }
+
+    @Override
+    public void setChangeListener(InvalidationListener invalidationListener) {
+        this.textProperty().addListener(invalidationListener);
+    }
+
+    @Override
+    public void setVisibility(boolean visible) {
+        this.setVisible(visible);
     }
 }

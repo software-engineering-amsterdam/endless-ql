@@ -18,6 +18,4 @@ public abstract class Widget extends QLSNode {
         super(start);
         this.type = type;
     }
-
-    public abstract Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles);
 }

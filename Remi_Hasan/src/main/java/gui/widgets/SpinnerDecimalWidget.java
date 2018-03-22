@@ -11,32 +11,17 @@ import ql.model.expression.variable.ExpressionVariableUndefined;
 
 public class SpinnerDecimalWidget extends SpinnerWidget<Double>{
 
-    public SpinnerDecimalWidget(Question question){
-        super(question);
-        this.managedProperty().bind(this.visibleProperty());
+    public SpinnerDecimalWidget(){
         this.getEditor().setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*(\\.\\d*)?"));
     }
 
     @Override
-    public Expression getExpression() {
-        try{
-            return new ExpressionVariableDecimal(null, this.getValueFactory().getValue());
-        } catch(IllegalArgumentException e){
-            return new ExpressionVariableUndefined(null, ReturnType.DECIMAL);
-        }
+    public Expression getExpressionValue() {
+        return new ExpressionVariableDecimal(null, this.getValue());
     }
 
     @Override
-    public void setExpression(String value) {
-        this.getValueFactory().setValue(Double.parseDouble(value));
-    }
-
-    @Override
-    public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
-        symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
-            String text = value.isUndefined() ? "" : value.getDecimalValue().toString();
-            this.setExpression(text);
-        });
+    public void setValue(Value value) {
+        // TODO: implement
     }
 }

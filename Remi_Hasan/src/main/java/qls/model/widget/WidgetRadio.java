@@ -33,9 +33,4 @@ public class WidgetRadio extends Widget {
     public <T> T accept(IQLSVisitor<T> visitor) {
         return visitor.visit(this);
     }
-
-    @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
-        return visitor.visitWidgetTypeBooleanRadio(symbolTable, question, qlsQuestion, defaultStyles, falseLabel, trueLabel);
-    }
 }

@@ -21,13 +21,16 @@ public class WidgetDropdown extends Widget {
         this.falseLabel = falseLabel;
     }
 
-    @Override
-    public <T> T accept(IQLSVisitor<T> visitor) {
-        return visitor.visit(this);
+    public String getTrueLabel() {
+        return trueLabel;
+    }
+
+    public String getFalseLabel() {
+        return falseLabel;
     }
 
     @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
-        return visitor.visitWidgetTypeBooleanDropdown(symbolTable, question, qlsQuestion, defaultStyles, falseLabel, trueLabel);
+    public <T> T accept(IQLSVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -6,6 +6,7 @@ import ql.evaluation.value.Value;
 import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
+import ql.model.expression.variable.ExpressionVariableDecimal;
 import ql.model.expression.variable.ExpressionVariableMoney;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
@@ -13,36 +14,17 @@ import java.math.BigDecimal;
 
 public class SpinnerMoneyWidget extends SpinnerWidget<Double>{
 
-    public SpinnerMoneyWidget(Question question){
-        super(question);
-        this.managedProperty().bind(this.visibleProperty());
+    public SpinnerMoneyWidget(){
         this.getEditor().setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*(\\.\\d{0,2})?"));
     }
 
     @Override
-    public Expression getExpression() {
-        try{
-            return new ExpressionVariableMoney(null, this.getValueFactory().getValue().toString());
-        } catch(IllegalArgumentException e){
-            return new ExpressionVariableUndefined(null, ReturnType.DECIMAL);
-        }
+    public Expression getExpressionValue() {
+        return new ExpressionVariableDecimal(null, this.getValue());
     }
 
     @Override
-    public void setExpression(String value) {
-        try{
-            this.getValueFactory().setValue(new BigDecimal(value).doubleValue());
-        } catch(NumberFormatException e){
-            this.getValueFactory().setValue(new BigDecimal("0.0").doubleValue());
-        }
-    }
-
-    @Override
-    public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
-        symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
-            String text = value.isUndefined() ? "" : value.getMoneyValue().toString();
-            this.setExpression(text);
-        });
+    public void setValue(Value value) {
+        // TODO: implement
     }
 }

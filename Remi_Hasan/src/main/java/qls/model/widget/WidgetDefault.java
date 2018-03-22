@@ -17,23 +17,6 @@ public class WidgetDefault extends Widget {
     }
 
     @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
-        switch(question.type){
-            case BOOLEAN:
-                return new WidgetCheckBox(null).createWidget(visitor, symbolTable, question, qlsQuestion, defaultStyles);
-            case STRING:
-            case INTEGER:
-            case DECIMAL:
-            case MONEY:
-                return new WidgetTextBox(null).createWidget(visitor, symbolTable, question, qlsQuestion, defaultStyles);
-            case DATE:
-                return new WidgetDatePicker(null).createWidget(visitor, symbolTable, question, qlsQuestion, defaultStyles);
-            default:
-                throw new UnsupportedOperationException("Default widget for type "  + question.type + " unknown.");
-        }
-    }
-
-    @Override
     public <T> T accept(IQLSVisitor<T> visitor) {
         return visitor.visit(this);
     }

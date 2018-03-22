@@ -1,52 +1,42 @@
 package gui.widgets;
 
+import gui.widgets.GUIWidget;
+import javafx.beans.InvalidationListener;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
-import ql.analysis.SymbolTable;
-import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
-import ql.model.Question;
 import ql.model.expression.Expression;
-import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableBoolean;
-import ql.model.expression.variable.ExpressionVariableUndefined;
 
-public class CheckboxWidget extends CheckBox implements WidgetInterface {
+public class CheckboxWidget extends CheckBox implements GUIWidget {
 
-    private final Question question;
-
-    public CheckboxWidget(Question question) {
-        this.question = question;
+    public CheckboxWidget() {
         this.managedProperty().bind(this.visibleProperty());
     }
 
     @Override
-    public Expression getExpression() {
-        try{
-            return new ExpressionVariableBoolean(null, this.isSelected());
-        } catch(IllegalArgumentException e){
-            return new ExpressionVariableUndefined(null, ReturnType.BOOLEAN);
-        }
+    public void setChangeListener(InvalidationListener invalidationListener) {
+        this.selectedProperty().addListener(invalidationListener);
     }
 
     @Override
-    public void setExpression(String value) {
-        this.setSelected(Boolean.valueOf(value));
+    public void setVisibility(boolean visible) {
+        this.setVisible(visible);
     }
 
     @Override
-    public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
-        symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
-            String text = value.isUndefined() ? "" : value.getBooleanValue().toString();
-            this.setExpression(text);
-        });
+    public Expression getExpressionValue() {
+        return new ExpressionVariableBoolean(null, this.isSelected());
     }
 
     @Override
-    public void addNonComputedListener(SymbolTable symbolTable) {
-        this.selectedProperty().addListener(e -> {
-            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
-        });
+    public void setValue(Value value) {
+        this.setSelected(value.getBooleanValue());
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 
     @Override

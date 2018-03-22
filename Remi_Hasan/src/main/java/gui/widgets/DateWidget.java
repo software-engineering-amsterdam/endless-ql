@@ -1,58 +1,46 @@
 package gui.widgets;
 
+import javafx.beans.InvalidationListener;
+import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import ql.analysis.SymbolTable;
-import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
-import ql.model.Question;
 import ql.model.expression.Expression;
-import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableDate;
-import ql.model.expression.variable.ExpressionVariableUndefined;
 
 import java.time.LocalDate;
 
-public class DateWidget extends DatePicker implements WidgetInterface {
+public class DateWidget extends DatePicker implements GUIWidget {
 
-    private final Question question;
-
-    public DateWidget(Question question) {
-        this.question = question;
+    public DateWidget() {
         this.managedProperty().bind(this.visibleProperty());
     }
 
     @Override
-    public Expression getExpression() {
-        try{
-            return new ExpressionVariableDate(null, this.valueProperty().getValue());
-        } catch(IllegalArgumentException e){
-            return new ExpressionVariableUndefined(null, ReturnType.DATE);
-        }
+    public Expression getExpressionValue() {
+        return new ExpressionVariableDate(null, LocalDate.parse(this.valueProperty().toString()));
     }
 
     @Override
-    public void setExpression(String value) {
-        this.valueProperty().setValue(LocalDate.parse(value));
+    public void setValue(Value value) {
+        this.setValue(value.getDateValue());
     }
 
     @Override
-    public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
-        symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
-            String text = value.isUndefined() ? "" : value.getDateValue().toString();
-            this.setExpression(text);
-        });
+    public Node getNode() {
+        return this;
     }
 
     @Override
-    public void addNonComputedListener(SymbolTable symbolTable) {
-        this.valueProperty().addListener(e -> {
-            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
-        });
+    public void setChangeListener(InvalidationListener invalidationListener) {
+        this.valueProperty().addListener(invalidationListener);
     }
 
+    @Override
+    public void setVisibility(boolean visible) {
+        this.setVisible(visible);
+    }
 
     @Override
     public void setColor(String color) {

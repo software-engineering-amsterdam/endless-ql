@@ -19,18 +19,4 @@ public class WidgetSpinBox extends Widget {
     public <T> T accept(IQLSVisitor<T> visitor) {
         return null;
     }
-
-    @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
-        switch(question.type){
-            case INTEGER:
-                return visitor.visitWidgetTypeIntegerSpinbox(symbolTable, question, qlsQuestion, defaultStyles);
-            case DECIMAL:
-                return visitor.visitWidgetTypeDecimalSpinbox(symbolTable, question, qlsQuestion, defaultStyles);
-            case MONEY:
-                return visitor.visitWidgetTypeMoneySpinbox(symbolTable, question, qlsQuestion, defaultStyles);
-            default:
-                throw new UnsupportedOperationException("Unknown type for spinbox");
-        }
-    }
 }

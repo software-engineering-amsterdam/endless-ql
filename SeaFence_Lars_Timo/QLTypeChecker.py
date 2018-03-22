@@ -50,12 +50,12 @@ class QLTypeChecker(object):
         elif type(statement) is AssignmentNode:
             if type(statement.expression) is UnOpNode:
                 assignment_type = self.getVariableTypes(statement.expression)
-                print assignment_type
+                # print assignment_type
 
             # todo: implement a vartype into literal?
             elif type(statement.expression) is LiteralNode:
                 assignment_type = statement.expression.vartype
-                print assignment_type
+                # print assignment_type
 
             elif type(statement.expression) is BinOpNode:
                 assignment_type = self.checkInvalidOperations(statement.expression)
@@ -106,7 +106,7 @@ class QLTypeChecker(object):
     def checkInvalidOperations(self, statement):
         left_type = ""
         right_type = ""
-        operator = statement.operator
+        operator = statement.op
 
         if type(statement.left) is BinOpNode:
             left_type = self.checkInvalidOperations(statement.left)

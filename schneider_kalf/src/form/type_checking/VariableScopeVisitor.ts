@@ -40,7 +40,7 @@ export class VariableScopeVisitor implements FieldVisitor {
     this.containsAllVariablesOrFail(ifCondition.predicate);
 
     this._stack.moveDown();
-    ifCondition.then.forEach(statement => statement.accept(this));
+    ifCondition.getAllStatements().forEach(statement => statement.accept(this));
     this._stack.moveUp();
   }
 

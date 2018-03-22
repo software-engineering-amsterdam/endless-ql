@@ -31,12 +31,16 @@ from ql.types.date import QLDate
 from ql.types.money import QLMoney
 from ql.types.decimal import QLDecimal
 from ql.types.undefined import QLUndefined
+from debug.debug import Debug
+from debug.errors.parse_error import ParseError
+from debug.warnings.parse_warning import ParseWarning
 
 
 class QLParser:
-    def __init__(self):
-        self.tokens = lexer.QLLexer.tokens
-        self.precedence = (
+    def __init__(self, debug=Debug()):
+        self.__debug = debug
+        self.__tokens = lexer.QLLexer.tokens
+        self.__precedence = (
             ('left', 'OR'),
             ('left', 'AND'),
             ('nonassoc', 'EQ', 'NE'),
@@ -46,6 +50,26 @@ class QLParser:
             ('right', 'NOT'),
         )
         self.parser = yacc(module=self)
+
+    @property
+    def debug(self):
+        return self.__debug
+
+    @property
+    def tokens(self):
+        return self.__tokens
+
+    @property
+    def precedence(self):
+        return self.__precedence
+
+    # @property
+    # def parser(self):
+    #     return self.__parser
+
+    # @parser.setter
+    # def parser(self, value):
+    #     self.__parser = value
 
     def parse(self, data, lexer):
         return self.parser.parse(data, lexer)
@@ -70,8 +94,7 @@ class QLParser:
         """statement    : if
                         | elif
                         | else
-                        | question
-                        | form"""
+                        | question"""
         p[0] = p[1]
 
     # Questions
@@ -89,18 +112,23 @@ class QLParser:
     # Control Flow
     @staticmethod
     def p_if(p):
-        """if : IF LEFT_BRACKET expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
-        p[0] = IfNode(Position(p.lineno(1), p.lexpos(1)), p[6], p[3])
+        """if : IF condition LEFT_BRACE statements RIGHT_BRACE"""
+        p[0] = IfNode(Position(p.lineno(1), p.lexpos(1)), p[4], p[2])
 
     @staticmethod
     def p_elif(p):
-        """elif : ELSE_IF LEFT_BRACKET expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
+        """elif : ELSE_IF condition LEFT_BRACE statements RIGHT_BRACE"""
         p[0] = ('ELSE_IF', p[3], p[6])
 
     @staticmethod
     def p_else(p):
         """else : ELSE LEFT_BRACE statements RIGHT_BRACE"""
         p[0] = ('ELSE', p[3])
+
+    @staticmethod
+    def p_condition(p):
+        """condition : LEFT_BRACKET expression RIGHT_BRACKET"""
+        p[0] = p[2]
 
     # Expressions
     @staticmethod
@@ -244,19 +272,34 @@ class QLParser:
 
     # Error handling
     @staticmethod
-    def p_if_condition_error(p):
-        """if   : IF LEFT_BRACKET expression PLUS expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
-                | IF LEFT_BRACKET expression MINUS expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
-                | IF LEFT_BRACKET expression TIMES expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
-                | IF LEFT_BRACKET expression DIVIDE expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
-        raise SyntaxError('Condition of if statement does not evaluate to boolean at line {}'.format(p.lineno(4)))
+    def p_empty_form(p):
+        """form : FORM VARIABLE LEFT_BRACE RIGHT_BRACE"""
+        raise ParseError('Empty form at line {}.'.format(p.lineno(1)))
 
     @staticmethod
-    def p_form_error(p):
-        """form : FORM VARIABLE LEFT_BRACE RIGHT_BRACE"""
-        print("Empty form")
-        raise SyntaxError('Empty form at line {}'.format(p.lineno(1)))
+    def p_empty_if(p):
+        """statement : IF condition LEFT_BRACE RIGHT_BRACE"""
+        raise ParseError('Empty if block at line {}.'.format(p.lineno(1)))
+
+    @staticmethod
+    def p_empty_condition(p):
+        """condition : LEFT_BRACKET RIGHT_BRACKET"""
+        raise ParseError('Empty conditional at line {}.'.format(p.lineno(1)))
+
+    # @staticmethod
+    # def p_condition_error(p):
+    #     """condition : LEFT_BRACKET expression PLUS expression RIGHT_BRACKET"""
+    #     print('ew')
+    #     raise ParseError('Conditional does not evaluate to boolean.')
+
+    # @staticmethod
+    # def p_if_condition_error(p):
+    #     """if   : IF LEFT_BRACKET expression PLUS expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
+    #             | IF LEFT_BRACKET expression MINUS expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
+    #             | IF LEFT_BRACKET expression TIMES expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
+    #             | IF LEFT_BRACKET expression DIVIDE expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
+    #     raise ParseError('Condition of if statement does not evaluate to boolean at line {}.'.format(p.lineno(4)))
 
     @staticmethod
     def p_error(p):
-        raise SyntaxError('Syntax error at line {}, token={}'.format(p.lineno, p.type))
+        raise ParseError('Syntax error at line {}, token={}.'.format(p.lineno, p.type))

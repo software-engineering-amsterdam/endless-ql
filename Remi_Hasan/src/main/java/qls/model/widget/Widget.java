@@ -1,7 +1,7 @@
 package qls.model.widget;
 
 import gui.WidgetVisitor;
-import javafx.scene.Node;
+import gui.widgets.WidgetInterface;
 import org.antlr.v4.runtime.Token;
 import ql.analysis.SymbolTable;
 import ql.model.Question;
@@ -19,5 +19,5 @@ public abstract class Widget extends QLSNode {
         this.type = type;
     }
 
-    public abstract Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles);
+    public abstract WidgetInterface createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles);
 }

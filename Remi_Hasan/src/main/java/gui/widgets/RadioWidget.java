@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
@@ -10,10 +11,7 @@ import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableBoolean;
-import ql.model.expression.variable.ExpressionVariableMoney;
 import ql.model.expression.variable.ExpressionVariableUndefined;
-
-import java.util.List;
 
 public class RadioWidget extends HBox implements WidgetInterface {
 
@@ -92,5 +90,10 @@ public class RadioWidget extends HBox implements WidgetInterface {
     @Override
     public void setWidth(int width) {
 
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 }

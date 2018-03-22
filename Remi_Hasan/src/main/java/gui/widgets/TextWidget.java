@@ -4,7 +4,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public abstract class TextWidget extends TextField implements WidgetInterface{
+public abstract class TextWidget extends TextField implements WidgetInterface {
 
     @Override
     public void setColor(String color) {

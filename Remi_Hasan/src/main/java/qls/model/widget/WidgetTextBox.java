@@ -1,7 +1,7 @@
 package qls.model.widget;
 
 import gui.WidgetVisitor;
-import javafx.scene.Node;
+import gui.widgets.WidgetInterface;
 import org.antlr.v4.runtime.Token;
 import ql.analysis.SymbolTable;
 import ql.model.Question;
@@ -21,7 +21,7 @@ public class WidgetTextBox extends Widget {
     }
 
     @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
+    public WidgetInterface createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
         switch(question.type){
             case INTEGER:
                 return visitor.visitWidgetTypeInteger(symbolTable, question, qlsQuestion, defaultStyles);

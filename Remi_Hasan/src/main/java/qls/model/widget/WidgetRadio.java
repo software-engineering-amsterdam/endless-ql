@@ -1,6 +1,7 @@
 package qls.model.widget;
 
 import gui.WidgetVisitor;
+import gui.widgets.WidgetInterface;
 import javafx.scene.Node;
 import org.antlr.v4.runtime.Token;
 import ql.analysis.SymbolTable;
@@ -35,7 +36,7 @@ public class WidgetRadio extends Widget {
     }
 
     @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
+    public WidgetInterface createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
         return visitor.visitWidgetTypeBooleanRadio(symbolTable, question, qlsQuestion, defaultStyles, falseLabel, trueLabel);
     }
 }

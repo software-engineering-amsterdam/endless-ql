@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -47,6 +48,11 @@ public abstract class SpinnerWidget<T> extends Spinner<T> implements WidgetInter
     @Override
     public void setWidth(int width) {
         this.setPrefWidth(width);
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 }
 

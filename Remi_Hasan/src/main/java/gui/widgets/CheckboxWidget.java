@@ -1,9 +1,7 @@
 package gui.widgets;
 
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
@@ -11,7 +9,6 @@ import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableBoolean;
-import ql.model.expression.variable.ExpressionVariableInteger;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
 public class CheckboxWidget extends CheckBox implements WidgetInterface {
@@ -71,5 +68,10 @@ public class CheckboxWidget extends CheckBox implements WidgetInterface {
     @Override
     public void setWidth(int width) {
         this.setStyle(this.getStyle() + "-fx-font-size: " + width + ";");
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 }

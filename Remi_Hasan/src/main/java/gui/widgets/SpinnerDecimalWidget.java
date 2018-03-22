@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import javafx.scene.Node;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
@@ -38,5 +39,10 @@ public class SpinnerDecimalWidget extends SpinnerWidget<Double>{
             String text = value.isUndefined() ? "" : value.getDecimalValue().toString();
             this.setExpression(text);
         });
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 }

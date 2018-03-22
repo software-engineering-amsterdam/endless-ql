@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import javafx.scene.Node;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
@@ -44,5 +45,10 @@ public class StringWidget extends TextWidget {
         this.textProperty().addListener(e -> {
             symbolTable.setExpression(question.name, getExpression(this, question.type));
         });
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 }

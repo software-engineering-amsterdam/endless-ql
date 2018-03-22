@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -9,7 +10,6 @@ import ql.evaluation.value.Value;
 import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
-import ql.model.expression.variable.ExpressionVariableBoolean;
 import ql.model.expression.variable.ExpressionVariableDate;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
@@ -75,5 +75,10 @@ public class DateWidget extends DatePicker implements WidgetInterface {
     @Override
     public void setWidth(int width) {
         this.setPrefWidth(width);
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 }

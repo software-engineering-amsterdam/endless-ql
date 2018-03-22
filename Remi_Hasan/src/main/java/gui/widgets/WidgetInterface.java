@@ -13,7 +13,7 @@ public interface WidgetInterface {
 
     void setExpression(String value);
 
-    default void addListeners(SymbolTable symbolTable, Question question, Node widget) {
+    default void addListeners(SymbolTable symbolTable, Question question, WidgetInterface widget) {
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
         if (question.isComputed()) {
             addComputedListener(symbolTable, expressionEvaluator);
@@ -28,12 +28,12 @@ public interface WidgetInterface {
 
     void addNonComputedListener(SymbolTable symbolTable);
 
-    default void addVisibilityListener(SymbolTable symbolTable, Question question, Node widget, ExpressionEvaluator expressionEvaluator) {
+    default void addVisibilityListener(SymbolTable symbolTable, Question question, WidgetInterface widget, ExpressionEvaluator expressionEvaluator) {
         symbolTable.addListener(e -> {
-            widget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
+            widget.getNode().setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
         });
 
-        widget.setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
+        widget.getNode().setVisible(expressionEvaluator.visit(question.condition).getBooleanValue());
     }
 
 
@@ -50,4 +50,6 @@ public interface WidgetInterface {
     public void setFont(String font);
     public void setFontSize(int fontSize);
     public void setWidth(int width);
+
+    public Node getNode();
 }

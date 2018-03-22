@@ -1,7 +1,7 @@
 package qls.model.widget;
 
 import gui.WidgetVisitor;
-import javafx.scene.Node;
+import gui.widgets.WidgetInterface;
 import org.antlr.v4.runtime.Token;
 import ql.analysis.SymbolTable;
 import ql.model.Question;
@@ -21,14 +21,14 @@ public class WidgetSpinBox extends Widget {
     }
 
     @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
+    public WidgetInterface createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
         switch(question.type){
             case INTEGER:
-                return visitor.visitWidgetTypeIntegerSpinbox(symbolTable, question, qlsQuestion, defaultStyles);
+                return visitor.visitWidgetTypeIntegerSpinBox(symbolTable, question, qlsQuestion, defaultStyles);
             case DECIMAL:
-                return visitor.visitWidgetTypeDecimalSpinbox(symbolTable, question, qlsQuestion, defaultStyles);
+                return visitor.visitWidgetTypeDecimalSpinBox(symbolTable, question, qlsQuestion, defaultStyles);
             case MONEY:
-                return visitor.visitWidgetTypeMoneySpinbox(symbolTable, question, qlsQuestion, defaultStyles);
+                return visitor.visitWidgetTypeMoneySpinBox(symbolTable, question, qlsQuestion, defaultStyles);
             default:
                 throw new UnsupportedOperationException("Unknown type for spinbox");
         }

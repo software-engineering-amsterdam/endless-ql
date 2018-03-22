@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
@@ -8,7 +9,6 @@ import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableBoolean;
-import ql.model.expression.variable.ExpressionVariableDecimal;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
 import java.util.List;
@@ -72,5 +72,10 @@ public class DropdownWidget extends ComboBox<String> implements WidgetInterface 
     @Override
     public void setWidth(int width) {
 
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 }

@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -73,5 +74,10 @@ public class MoneyWidget extends TextField implements WidgetInterface {
     public void setWidth(int width) {
         // TODO fix this
         this.setPrefWidth(width);
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 }

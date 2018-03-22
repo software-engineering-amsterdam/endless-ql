@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import javafx.scene.Node;
 import javafx.scene.control.Slider;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
@@ -8,7 +9,7 @@ import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableDecimal;
 
-public abstract class SliderWidget extends Slider implements WidgetInterface{
+public abstract class SliderWidget extends Slider implements WidgetInterface {
 
     public final Question question;
     public SliderWidget(Question question, double min, double max, double step) {
@@ -67,5 +68,10 @@ public abstract class SliderWidget extends Slider implements WidgetInterface{
     @Override
     public void setWidth(int width) {
 
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 }

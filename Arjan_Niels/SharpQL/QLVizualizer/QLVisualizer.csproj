@@ -102,8 +102,12 @@
     <Compile Include="Widgets\IWidgetBuilder.cs" />
     <Compile Include="Widgets\Leaf\WidgetLeafBuilder.cs" />
     <Compile Include="Widgets\WidgetBuilder.cs" />
+    <Compile Include="Widgets\Windows\Leaf\BoolBuilderWindows.cs" />
+    <Compile Include="Widgets\Windows\Leaf\DoubleBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Leaf\InputCreators\CheckBoxCreator.cs" />
     <Compile Include="Widgets\Windows\Leaf\InputCreators\TextBoxCreator.cs" />
+    <Compile Include="Widgets\Windows\Leaf\IntBuilderWindows.cs" />
+    <Compile Include="Widgets\Windows\Leaf\MoneyBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Leaf\StringBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Leaf\WidgetLeafBuilderWindows.cs" />
     <Compile Include="Widgets\Style\Windows\StyleParserWindows.cs" />

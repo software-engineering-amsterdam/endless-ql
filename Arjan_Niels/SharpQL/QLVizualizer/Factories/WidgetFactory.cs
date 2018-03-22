@@ -54,10 +54,13 @@ namespace QLVisualizer.Factories
             switch (elementManagerLeaf)
             {
                 case BoolQuestionManager boolQuestion:
+                    return new BoolBuilderWindows(null, null, boolQuestion, parent);
                 case DoubleQuestionManager doubleQuestion:
+                    return new DoubleBuilderWindows(null, null, doubleQuestion, parent);
                 case IntQuestionManager intQuestion:
+                    return new IntBuilderWindows(null, null, intQuestion, parent);
                 case MoneyQuestionManager moneyQuestion:
-                    break;
+                    return new MoneyBuilderWindows(null, null, moneyQuestion, parent);
                 case StringQuestionManager stringQuestion:
                     return new StringBuilderWindows(null, null, stringQuestion, parent);
             }

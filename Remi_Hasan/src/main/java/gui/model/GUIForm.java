@@ -3,6 +3,7 @@ package gui.model;
 import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -36,40 +37,42 @@ public class GUIForm extends VBox{
 
         for (GUIQuestion guiQuestion : this.guiQuestions) {
             Label label = new Label(guiQuestion.label);
-            GUIWidget guiWidget = guiQuestion.render(symbolTable);
+            Parent guiWidget = guiQuestion.render(symbolTable);
 
             // Disable field if it is computed as it can not be edited
             guiWidget.setDisable(guiQuestion.computed);
 
             // Display question based on condition
             boolean visible = expressionEvaluator.visit(guiQuestion.condition).getBooleanValue();
-            guiWidget.setVisibility(visible);
-            guiWidgetConditions.put(guiWidget, guiQuestion.condition);
+//            guiWidget.setVisibility(visible);
+//            guiWidgetConditions.put(guiWidget, guiQuestion.condition);
+//
+//            // If question is not computed, listen for and handle changed value
+//            if (!guiQuestion.computed) {
+//                guiWidget.setChangeListener(observable -> {
+//                    symbolTable.setExpression(guiQuestion.identifier, guiWidget.getExpressionValue());
+//                    this.updateRenderedQuestions(guiWidgets, guiWidgetConditions, expressionEvaluator, symbolTable);
+//                });
+//            }
+//
+//            // Bind label visibility to widget visibility
+//            label.visibleProperty().bind(guiWidget.visibleProperty());
+//            label.managedProperty().bind(label.visibleProperty());
+//
+//            // Add widget to map from identifier to corresponding UI elements
+//            List<GUIWidget> mapEntry = new ArrayList<>();
+//            if(guiWidgets.containsKey(guiQuestion.identifier)) {
+//                mapEntry = guiWidgets.get(guiQuestion.identifier);
+//            }
+//            mapEntry.add(guiWidget);
+//            guiWidgets.put(guiQuestion.identifier, mapEntry);
+//
+//            // Render elements
+//            vBox.getChildren().add(label);
+            vBox.getChildren().add(guiWidget);
 
-            // If question is not computed, listen for and handle changed value
-            if (!guiQuestion.computed) {
-                guiWidget.setChangeListener(observable -> {
-                    symbolTable.setExpression(guiQuestion.identifier, guiWidget.getExpressionValue());
-                    this.updateRenderedQuestions(guiWidgets, guiWidgetConditions, expressionEvaluator, symbolTable);
-                });
-            }
-
-            // Bind label visibility to widget visibility
-            label.visibleProperty().bind(guiWidget.visibleProperty());
-            label.managedProperty().bind(label.visibleProperty());
-
-            // Add widget to map from identifier to corresponding UI elements
-            List<GUIWidget> mapEntry = new ArrayList<>();
-            if(guiWidgets.containsKey(guiQuestion.identifier)) {
-                mapEntry = guiWidgets.get(guiQuestion.identifier);
-            }
-            mapEntry.add(guiWidget);
-            guiWidgets.put(guiQuestion.identifier, mapEntry);
-
-            // Render elements
-            vBox.getChildren().add(label);
-            vBox.getChildren().add(guiWidget.getNode());
         }
+        vBox.setPadding(new Insets(100, 10, 10, 10));
 
         return vBox;
     }

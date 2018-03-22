@@ -3,6 +3,8 @@ package gui.model;
 import gui.widgets.*;
 import gui.widgets.CheckboxWidget;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.model.expression.Expression;
@@ -23,22 +25,32 @@ public class GUIQuestion {
         this.computed = computed;
     }
 
-    public GUIWidget render(SymbolTable symbolTable) {
+    public Parent render(SymbolTable symbolTable) {
+        VBox vBox = new VBox();
+        Label questionLabel = new Label(label);
+        vBox.getChildren().add(questionLabel);
         switch (this.type) {
             case STRING:
-                return new TextWidget();
+                vBox.getChildren().add(new TextWidget());
+                break;
             case INTEGER:
-                return new IntegerWidget();
+                vBox.getChildren().add(new IntegerWidget());
+                break;
             case DECIMAL:
-                return new DecimalWidget();
+                vBox.getChildren().add(new DecimalWidget());
+                break;
             case MONEY:
-                return new MoneyWidget();
+                vBox.getChildren().add(new MoneyWidget());
+                break;
             case DATE:
-                return new DateWidget();
+                vBox.getChildren().add(new DateWidget());
+                break;
             case BOOLEAN:
-                return new CheckboxWidget();
+                vBox.getChildren().add(new CheckboxWidget());
+                break;
             default:
                 throw new UnsupportedOperationException("Question type not implemented to render in GUI");
         }
+        return vBox;
     }
 }

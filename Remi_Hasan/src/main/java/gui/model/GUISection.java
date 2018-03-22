@@ -1,6 +1,6 @@
 package gui.model;
 
-import gui.widgets.GUIWidget;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -44,10 +44,11 @@ public class GUISection extends VBox{
         }
 
         for(Question question : questions){
-            Optional<GUIQuestion> guiQuestion = guiQuestions.stream().filter(x -> x.label.equals(question.name)).findFirst();
-            GUIWidget a = guiQuestion.get().render(symbolTable);
-            vBox.getChildren().add(a.getNode());
+            Optional<GUIQuestion> guiQuestion = guiQuestions.stream().filter(x -> x.identifier.equals(question.name)).findFirst();
+            vBox.getChildren().add(guiQuestion.get().render(symbolTable));
         }
+
+        vBox.setPadding(new Insets(0, 0, 0, 20));
 
         return vBox;
     }

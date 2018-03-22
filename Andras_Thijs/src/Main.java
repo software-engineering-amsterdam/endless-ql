@@ -13,25 +13,23 @@ public class Main {
 
         try {
             // Read the form from a file and set the parent structure.
-            QLForm form = formReader.parseFile("resources/test_grammar2.txt");
+            QLForm form = formReader.parseFile("resources/test_grammar.txt");
             form.setParents();
 
             // Check for duplicate names and labels.
-            TwoLists lists = new TwoLists();
-            lists.checkQuestions(form.getQuestions());
+            DuplicateChecker checker = new DuplicateChecker();
+            checker.checkQuestions(form.getQuestions());
             // Recursively check all Questions in Conditions.
             List<Condition> conditions = form.getConditions();
             for(Condition c : conditions) {
-                lists.checkQuestions(c.getQuestions());
+                checker.checkQuestions(c.getQuestions());
                 conditions.addAll(c.getConditions());
             }
 
             // TODO: Improve this?
             // Write a log line for every duplicate label.
-            for(String label : lists.getDuplicateLabels())
+            for(String label : checker.getDuplicateLabels())
                 System.out.println("WARNING: DUPLICATE LABEL " + label);
-
-
 
             FormTemplate formGUI = new FormTemplate(form);
             formGUI.renderForm();

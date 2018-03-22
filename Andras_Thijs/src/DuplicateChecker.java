@@ -7,13 +7,13 @@ import java.util.List;
 /**
  * A small class holding two lists, to do duplicate label and name checking at the same time.
  */
-public class TwoLists {
+public class DuplicateChecker {
     private List<String> names, labels, duplicateLabels;
 
     /**
      * Constructor method to initialize al lists.
      */
-    public TwoLists() {
+    public DuplicateChecker() {
         names = new ArrayList<>();
         labels = new ArrayList<>();
         duplicateLabels = new ArrayList<>();

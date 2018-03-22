@@ -2,7 +2,6 @@ package org.uva.sea.gui.ql.model.factory;
 
 import org.uva.sea.gui.ql.IGuiElementUpdateListener;
 import org.uva.sea.gui.ql.widget.Widget;
-import org.uva.sea.gui.ql.widget.ql.TextFieldWidget;
 import org.uva.sea.gui.ql.widget.qls.*;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
@@ -25,12 +24,12 @@ public class QLSWidgetFactory extends QLWidgetFactory {
         this.widgetTypeClasses.put(WidgetType.SPINBOX, SpinnerWidget.class);
         this.widgetTypeClasses.put(WidgetType.TEXTFIELD, TextFieldWidgetQLS.class);
         this.nodeTypeClasses.put(NodeType.BOOLEAN, CheckBoxWidgetQLS.class);
-        this.nodeTypeClasses.put(NodeType.DECIMAL, TextFieldWidget.class);
-        this.nodeTypeClasses.put(NodeType.INTEGER, TextFieldWidget.class);
-        this.nodeTypeClasses.put(NodeType.MONEY_EURO, TextFieldWidget.class);
-        this.nodeTypeClasses.put(NodeType.MONEY_DOLLAR, TextFieldWidget.class);
-        this.nodeTypeClasses.put(NodeType.DATE, TextFieldWidget.class);
-        this.nodeTypeClasses.put(NodeType.STRING, TextFieldWidget.class);
+        this.nodeTypeClasses.put(NodeType.DECIMAL, TextFieldWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.INTEGER, TextFieldWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.MONEY_EURO, TextFieldWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.MONEY_DOLLAR, TextFieldWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.DATE, TextFieldWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.STRING, TextFieldWidgetQLS.class);
     }
 
     @Override

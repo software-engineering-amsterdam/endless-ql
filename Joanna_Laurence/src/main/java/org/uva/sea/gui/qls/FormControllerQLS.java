@@ -1,5 +1,6 @@
 package org.uva.sea.gui.qls;
 
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.BaseFormController;
@@ -36,8 +37,14 @@ public class FormControllerQLS extends BaseFormController {
     private VBox createTab(String tabName) {
         Tab tab = new Tab();
         tab.setText(tabName);
+
         VBox container = new VBox();
-        tab.setContent(container);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(container);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+
+        tab.setContent(scrollPane);
 
         this.tabPane.getTabs().add(tab);
         return container;

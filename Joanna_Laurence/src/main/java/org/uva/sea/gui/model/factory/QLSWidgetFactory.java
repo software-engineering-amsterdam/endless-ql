@@ -3,14 +3,14 @@ package org.uva.sea.gui.model.factory;
 import org.uva.sea.gui.IGuiElementUpdateListener;
 import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.gui.widget.ql.TextFieldWidget;
-import org.uva.sea.gui.widget.qls.*;
+import org.uva.sea.gui.widget.qls.ChoiceBoxWidget;
+import org.uva.sea.gui.widget.qls.RadioButtonWidget;
+import org.uva.sea.gui.widget.qls.SliderWidget;
+import org.uva.sea.gui.widget.qls.SpinnerWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
-import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +30,7 @@ public class QLSWidgetFactory extends QLWidgetFactory {
     public Widget createWidget(WidgetType widgetType, QuestionData questionData, IGuiElementUpdateListener listener) {
 
         Class<? extends Widget> widget = this.widgetTypeClassEnumMap.get(widgetType);
-        if(widget == null) {
+        if (widget == null) {
             throw new NotImplementedException();
         }
 

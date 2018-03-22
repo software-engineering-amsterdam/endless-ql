@@ -9,9 +9,12 @@ namespace QLVisualizer.Widgets
     {
         protected List<QLSValue> _qlsElements { get; private set; }
 
-        public WidgetBuilder(List<QLSValue> qlsElements, IWidgetCollectionBuilder<T> parent)
+        protected IStyleParser _styleParser { get; private set; }
+
+        public WidgetBuilder(List<QLSValue> qlsElements, IWidgetCollectionBuilder<T> parent, IStyleParser styleParser)
         {
             _qlsElements = qlsElements;
+            _styleParser = styleParser;
             parent?.AddChild(this);
         }
 

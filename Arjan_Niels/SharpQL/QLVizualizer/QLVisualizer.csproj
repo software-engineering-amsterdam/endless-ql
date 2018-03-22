@@ -87,8 +87,18 @@
     <Compile Include="Elements\Managers\LeafTypes\MoneyQuestionManager.cs" />
     <Compile Include="Elements\Managers\LeafTypes\StringQuestionManager.cs" />
     <Compile Include="Elements\Managers\QuestionElementValue.cs" />
+    <Compile Include="Widgets\Collection\IWidgetCollectionBuilder.cs" />
+    <Compile Include="Widgets\Collection\WidgetCollectionBuilder.cs" />
+    <Compile Include="Widgets\Windows\Collection\FormBuilderWindows.cs" />
+    <Compile Include="Widgets\Windows\Collection\WidgetCollectionBuilderWindows.cs" />
+    <Compile Include="Widgets\IStyleCreator.cs" />
+    <Compile Include="Widgets\IWidgetBuilder.cs" />
+    <Compile Include="Widgets\Leaf\WidgetLeafBuilder.cs" />
+    <Compile Include="Widgets\WidgetBuilder.cs" />
     <Compile Include="Widgets\WidgetCreator.cs" />
     <Compile Include="Widgets\WidgetCreatorWindows.cs" />
+    <Compile Include="Widgets\Windows\StyleParserWindows.cs" />
+    <Compile Include="Widgets\StyleProperties.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -121,6 +131,8 @@
       <Name>QLParser</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Widgets\Windows\Leaf\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

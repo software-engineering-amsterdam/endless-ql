@@ -22,18 +22,32 @@ namespace QLParser.Visitors.QLS
 
         private QLSValue GetStylevalue(StylevalueContext context)
         {
-            var value = context.ID().GetText();
+            var property = context.ID().GetText();
+            var stringValue = "";
+
             var type = QValueType.UNKNOWN;
             if (context.TEXT() != null)
+            {
                 type = QValueType.TEXT;
+                stringValue = context.TEXT().GetText();
+            }
             else if (context.DOUBLE() != null)
+            {
                 type = QValueType.DOUBLE;
+                stringValue = context.DOUBLE().GetText();
+            }
             else if (context.HEX() != null)
+            {
                 type = QValueType.HEX;
+                stringValue = context.HEX().GetText();
+            }
             else if (context.INT() != null)
+            {
                 type = QValueType.INTEGER;
+                stringValue = context.INT().GetText();
+            }
 
-            return new QLSValue(value, type);
+            return new QLSValue(property, stringValue, type);
         }
     }
 }

@@ -5,17 +5,19 @@ namespace QLParser.AST.QLS
     public struct QLSValue
     {
         public string StyleProperty { get; private set; }
+        public string StyleValue { get; private set; }
         public QValueType QValueType { get; private set; }
 
-        public QLSValue(string value, QValueType qValueType)
+        public QLSValue(string property, string value, QValueType qValueType)
         {
-            this.StyleProperty = value;
+            this.StyleProperty = property;
+            this.StyleValue = value;
             this.QValueType = qValueType;
         }
 
         public override string ToString()
         {
-            return string.Format("{0} - {1}", StyleProperty, QValueType);
+            return string.Format("{0} - {1} - {2}", StyleProperty, QValueType, StyleValue);
         }
     }
 }

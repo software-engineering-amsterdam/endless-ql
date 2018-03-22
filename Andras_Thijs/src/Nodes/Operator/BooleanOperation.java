@@ -22,11 +22,8 @@ public class BooleanOperation extends Operator {
      * @throws SyntaxException when the value of this Operator is not && or ||.
      */
     public QLBoolean calculate(Term left, Term right) throws TypeException, SyntaxException {
-        // Check if both sides are Booleans, otherwise throw a TypeException.
-        if(!(left instanceof QLBoolean && right instanceof QLBoolean))
-            throw new TypeException(this);
-
         // Apply the correct implementation. Throw a SyntaxException for invalid operators.
+        // When either left or right is not a QLBoolean, a TypeException will be thrown.
         switch(this.getValue()) {
             case "&&": return new QLBoolean(left.getBoolean() && right.getBoolean());
             case "||": return new QLBoolean(left.getBoolean() && right.getBoolean());

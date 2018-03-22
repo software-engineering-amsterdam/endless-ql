@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.ql.IGuiElementUpdateListener;
 import org.uva.sea.gui.ql.model.factory.DefaultValueFactory;
+import org.uva.sea.gui.ql.model.factory.WidgetValueUpdate;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
@@ -41,6 +42,17 @@ public abstract class Widget extends Renderable {
         if(container != null) {
             container.getChildren().add(this.convertToGuiNode());
         }
+    }
+
+    public Widget linkToOtherWidget(Widget checkBoxWidget, QuestionData questionData) {
+        DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
+        checkBoxWidget.addListener(this::sendUpdateValueEvent);
+        WidgetValueUpdate updater = new WidgetValueUpdate(checkBoxWidget);
+        Value value = questionData.getValue();
+        if(value == null)
+            value = defaultValueFactory.getDefaultValue(questionData.getNodeType());
+        updater.updateWidget(value);
+        return checkBoxWidget;
     }
 
     public abstract Node convertToGuiNode();

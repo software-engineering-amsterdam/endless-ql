@@ -2,9 +2,9 @@
 
 namespace QLParser.Analysis.QL.Syntactic
 {
-    public class SingleFormValidator : IQLAnalyser
+    public class SingleFormValidator : IQLAnalyser, IQLVisitor
     {
-        private readonly string errorMessage = "This AST contains multiple 'FormNode'.";
+        private int formNodeCount;
 
         /// <summary>
         /// A recursive function to find out if the AST contains multiple FormNode
@@ -13,19 +13,48 @@ namespace QLParser.Analysis.QL.Syntactic
         /// <returns></returns>
         public bool Analyse(QLNode node)
         {
-            var childValue = true;
-            foreach (QLNode child in node.Children)
-            {
-                if (child.Type == NodeType.FORM)
-                {
-                    Analyser.AddMessage(errorMessage, MessageType.ERROR);
-                    return false;
-                }
-                else
-                    childValue = Analyse(child);
-            }
+            //Reset the formNodeCount
+            formNodeCount = 0;
+            if (node.Type == NodeType.FORM)
+                this.Visit(node as FormNode);
+            else
+                this.Visit(node);
 
-            return childValue;
+            this.Visit(node);
+
+            if (formNodeCount == 0)
+                Analyser.AddMessage("There has no form been defined", MessageType.ERROR);
+            else if (formNodeCount > 1)
+                Analyser.AddMessage("There can only be one form", MessageType.ERROR);
+
+            return formNodeCount == 1;
+        }
+
+        public void Visit(QuestionNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(ComputedNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(FormNode node)
+        {
+            formNodeCount++;
+            VisitChildren(node);
+        }
+
+        public void Visit(QLNode node)
+        {
+            VisitChildren(node);
+        }
+
+        private void VisitChildren(QLNode node)
+        {
+            foreach (var child in node.Children)
+                child.Accept(this);
         }
     }
 }

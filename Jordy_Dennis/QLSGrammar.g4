@@ -57,3 +57,4 @@ HASH: '#';
 
 NEWLINE:'\r'? '\n' -> skip;     // return newlines to parser (is end-statement signal)
 WS  :   [ \t]+ -> skip ; // toss out whitespace
+LINE_COMMENT    : '//' ~[\r\n]* -> skip;

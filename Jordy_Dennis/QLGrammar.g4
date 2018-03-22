@@ -1,6 +1,6 @@
 grammar QLGrammar;
 
-/*parser*/         
+/*parser*/
 form: FORM ID block EOF;
 block: BRACKETL NEWLINE* (statement NEWLINE*)* BRACKETR;
 statement: (question | conditional | assignment);
@@ -30,7 +30,7 @@ else_conditional: ELSE_TOKEN block;
 
 MATH_OPERATOR_PRIO: MUL | DIV;
 MATH_OPERATOR: ADD | SUB;
-MUL :   '*' ; 
+MUL :   '*' ;
 DIV :   '/' ;
 ADD :   '+' ;
 SUB :   '-' ;
@@ -70,3 +70,4 @@ OR: '||';
 
 NEWLINE:'\r'? '\n' -> skip;     // return newlines to parser (is end-statement signal)
 WS  :   [ \t]+ -> skip ; // toss out whitespace
+LINE_COMMENT    : '//' ~[\r\n]* -> skip;

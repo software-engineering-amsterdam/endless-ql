@@ -57,7 +57,6 @@ public class QLForm extends ASTNode {
         return conditions;
     }
 
-
     public List<Question> getAllQuestions(){
         List<Question> allQuestions = questions;
         for (Condition condition : conditions) {

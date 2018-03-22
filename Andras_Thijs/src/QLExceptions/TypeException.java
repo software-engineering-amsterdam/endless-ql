@@ -23,11 +23,6 @@ public class TypeException extends Exception {
         this.received = received;
     }
 
-    @Override
-    public String getMessage() {
-        return "Types don't match";
-    }
-
     public ASTNode getNode() {
         return node;
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser.Analysis;
+using QLParser.Analysis.QL.Syntactic;
 using QLParser.AST;
 using QLParser.AST.QL;
 
@@ -15,14 +16,14 @@ namespace QLParser.Tests.QL.Validators
         public void Initialize()
         {
             _validAST = new FormNode(new Location(0, 0), "ValidForm");
-            var firstQuestion = new QuestionNode(new Location(0, 0), "Q1", "Do you like puppies?", QValueType.BOOLEAN);
-            var secondQuestion = new QuestionNode(new Location(0, 0), "Q2", "Do you like kittens?", QValueType.BOOLEAN);
+            var firstQuestion = new QuestionNode(Location.Null, "Q1", "Do you like puppies?", QValueType.BOOLEAN);
+            var secondQuestion = new QuestionNode(Location.Null, "Q2", "Do you like kittens?", QValueType.BOOLEAN);
 
             _validAST.AddNode(firstQuestion);
             _validAST.AddNode(secondQuestion);
 
-            _invalidAST = new FormNode(new Location(0, 0), "InvalidForm");
-            _invalidAST.AddNode(new FormNode(new Location(0, 0), "InvalidSecondForm"));
+            _invalidAST = new FormNode(Location.Null, "InvalidForm");
+            _invalidAST.AddNode(new FormNode(Location.Null, "InvalidSecondForm"));
         }
 
         [TestMethod]
@@ -45,9 +46,10 @@ namespace QLParser.Tests.QL.Validators
         [TestMethod]
         public void MultipleFormNodesInAST()
         {
-            Analyser.Analyse(_invalidAST);
-            var errors = Analyser.GetErrors();
-            Assert.AreEqual("ERROR This AST contains multiple 'FormNode'.", errors[0]);
+            var analyser = new SingleFormValidator();
+            var result = analyser.Analyse(_invalidAST);
+            Assert.IsFalse(result);
+
         }
 
         [TestMethod]

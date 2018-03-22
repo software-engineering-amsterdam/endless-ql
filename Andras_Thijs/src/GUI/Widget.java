@@ -25,4 +25,8 @@ public class Widget {
             default: return  null;
         }
     }
+
+    public Component getComponent() {
+        return component;
+    }
 }

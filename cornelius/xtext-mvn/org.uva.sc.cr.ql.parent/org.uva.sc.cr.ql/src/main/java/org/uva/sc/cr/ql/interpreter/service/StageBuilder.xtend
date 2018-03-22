@@ -9,10 +9,10 @@ import org.uva.sc.cr.ql.qL.Form
 import org.uva.sc.cr.ql.util.ExpressionUtil
 
 @Singleton
-class StageService {
+class StageBuilder {
 
 	@Inject
-	private var ControlService controlService
+	private var ControlBuilder controlBuilder
 
 	def buildGuiLayout(Form form) {
 		buildPanelForBlock(form.body, null)
@@ -21,7 +21,7 @@ class StageService {
 	def private VBox buildPanelForBlock(BlockBody body, Expression expression) {
 		val box = new VBox
 		body.questions.forEach [
-			val control = controlService.buildControlForQuestion(it, expression)
+			val control = controlBuilder.buildControlForQuestion(it, expression)
 			box.children.add(control)
 		]
 		body.blocks.forEach [

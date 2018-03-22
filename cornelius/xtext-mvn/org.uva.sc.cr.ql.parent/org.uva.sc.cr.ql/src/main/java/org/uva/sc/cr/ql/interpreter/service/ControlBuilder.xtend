@@ -19,10 +19,10 @@ import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperMoney
 import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperText
 
 @Singleton
-class ControlService {
+class ControlBuilder {
 
 	@Inject
-	private var BindingService bindingService
+	private var BindingBuilder bindingBuilder
 
 	private val List<ControlWrapper> controls
 
@@ -50,7 +50,7 @@ class ControlService {
 		}
 		controlWrapper.registerListener(buildEventHandler)
 		if (visibleExpression !== null) {
-			val binding = bindingService.buildBindingForTypeBoolean(controls, visibleExpression)
+			val binding = bindingBuilder.buildBindingForTypeBoolean(controls, visibleExpression)
 			controlWrapper.bindVisibleProperty(binding)
 		}
 		controls.add(controlWrapper)
@@ -58,27 +58,27 @@ class ControlService {
 	}
 
 	def private buildControlForTypeBoolean(Question question) {
-		val binding = bindingService.buildBindingForTypeBoolean(controls, question.expression)
+		val binding = bindingBuilder.buildBindingForTypeBoolean(controls, question.expression)
 		return new ControlWrapperBoolean(question, binding)
 	}
 
 	def private buildControlForTypeString(Question question) {
-		val binding = bindingService.buildBindingForTypeString(controls, question.expression)
+		val binding = bindingBuilder.buildBindingForTypeString(controls, question.expression)
 		return new ControlWrapperText(question, binding)
 	}
 
 	def private buildControlForTypeInteger(Question question) {
-		val binding = bindingService.buildBindingForTypeInteger(controls, question.expression)
+		val binding = bindingBuilder.buildBindingForTypeInteger(controls, question.expression)
 		return new ControlWrapperInteger(question, binding)
 	}
 
 	def private buildControlForTypeDecimal(Question question) {
-		val binding = bindingService.buildBindingForTypeDecimal(controls, question.expression)
+		val binding = bindingBuilder.buildBindingForTypeDecimal(controls, question.expression)
 		return new ControlWrapperDecimal(question, binding)
 	}
 	
 	def private buildControlForTypeMoney(Question question) {
-		val binding = bindingService.buildBindingForTypeMoney(controls, question.expression)
+		val binding = bindingBuilder.buildBindingForTypeMoney(controls, question.expression)
 		return new ControlWrapperMoney(question, binding)
 	}
 
@@ -89,7 +89,7 @@ class ControlService {
 	def private buildEventHandler() {
 		new EventHandler() {
 			override handle(Event arg0) {
-				bindingService.invalidateBindings
+				bindingBuilder.invalidateBindings
 			}
 		}
 	}

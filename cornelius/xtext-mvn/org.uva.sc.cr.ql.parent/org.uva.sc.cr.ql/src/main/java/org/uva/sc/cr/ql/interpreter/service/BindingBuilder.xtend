@@ -14,7 +14,7 @@ import org.uva.sc.cr.ql.interpreter.evaluator.ExpressionEvaluatorMoney
 import org.uva.sc.cr.ql.qL.Expression
 
 @Singleton
-class BindingService {
+class BindingBuilder {
 
 	@Inject
 	private var ExpressionEvaluator evaluator

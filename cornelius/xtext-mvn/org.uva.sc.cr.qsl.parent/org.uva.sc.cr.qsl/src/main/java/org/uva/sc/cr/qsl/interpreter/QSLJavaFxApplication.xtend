@@ -29,7 +29,7 @@ class QSLJavaFxApplication extends QLJavaFxApplication {
 	override start(Stage primaryStage) {
 		val stylesheet = getStylesheet()
 		if (stylesheet !== null) {
-			stageService.buildGuiLayout(form)
+			stageBuilder.buildGuiLayout(form)
 			val wizard = styleService.styleLayout(stylesheet)
 			wizard.title = form.name
 			wizard.showAndWait

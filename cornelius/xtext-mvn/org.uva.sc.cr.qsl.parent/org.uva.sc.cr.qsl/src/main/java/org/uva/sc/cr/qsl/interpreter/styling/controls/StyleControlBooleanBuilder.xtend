@@ -1,4 +1,4 @@
-package org.uva.sc.cr.qsl.interpreter.service
+package org.uva.sc.cr.qsl.interpreter.styling.controls
 
 import javafx.beans.binding.Bindings
 import javafx.scene.control.ChoiceBox
@@ -13,7 +13,7 @@ import org.uva.sc.cr.qsl.qSL.WidgetDropdown
 import org.uva.sc.cr.qsl.qSL.WidgetRadio
 
 @Singleton
-class StyleControlBooleanService extends StyleControlService {
+class StyleControlBooleanBuilder extends StyleControlBuilder {
 
 	def dispatch styleBoolean(ControlWrapperBoolean controlWrapperBoolean, Widget widgetRadio,
 		DefaultStyle defaultStyleToApply) {

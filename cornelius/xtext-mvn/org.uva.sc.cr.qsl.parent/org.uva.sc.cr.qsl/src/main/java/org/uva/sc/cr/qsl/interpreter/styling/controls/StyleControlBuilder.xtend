@@ -1,4 +1,4 @@
-package org.uva.sc.cr.qsl.interpreter.service
+package org.uva.sc.cr.qsl.interpreter.styling.controls
 
 import java.util.List
 import javafx.event.Event
@@ -23,19 +23,19 @@ import org.uva.sc.cr.qsl.qSL.StyleAttributeWidth
 import org.uva.sc.cr.qsl.qSL.Widget
 
 @Singleton
-class StyleControlService {
+class StyleControlBuilder {
 
 	@Inject
-	private StyleControlBooleanService styleControlBooleanService
+	private StyleControlBooleanBuilder styleControlBooleanBuilder
 
 	@Inject
-	private StyleControlIntegerService styleControlIntegerService
+	private StyleControlIntegerBuilder styleControlIntegerBuilder
 
 	@Inject
-	private StyleControlDecimalService styleControlDecimalService
+	private StyleControlDecimalBuilder styleControlDecimalBuilder
 
 	@Inject
-	private StyleControlMoneyService styleControlMoneyService
+	private StyleControlMoneyBuilder styleControlMoneyBuilder
 
 	def styleDefaultControl(ControlWrapper controlWrapper, DefaultStyle defaultStyleToApply) {
 		val hbox = controlWrapper.controlWithLabel
@@ -48,19 +48,19 @@ class StyleControlService {
 	}
 
 	def dispatch style(ControlWrapperBoolean controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
-		return styleControlBooleanService.styleBoolean(controlWrapper, widget, defaultStyleToApply)
+		return styleControlBooleanBuilder.styleBoolean(controlWrapper, widget, defaultStyleToApply)
 	}
 
 	def dispatch style(ControlWrapperInteger controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
-		return styleControlIntegerService.styleInteger(controlWrapper, widget, defaultStyleToApply)
+		return styleControlIntegerBuilder.styleInteger(controlWrapper, widget, defaultStyleToApply)
 	}
 
 	def dispatch style(ControlWrapperDecimal controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
-		return styleControlDecimalService.styleDecimal(controlWrapper, widget, defaultStyleToApply)
+		return styleControlDecimalBuilder.styleDecimal(controlWrapper, widget, defaultStyleToApply)
 	}
 
 	def dispatch style(ControlWrapperMoney controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
-		return styleControlMoneyService.styleMoney(controlWrapper, widget, defaultStyleToApply)
+		return styleControlMoneyBuilder.styleMoney(controlWrapper, widget, defaultStyleToApply)
 	}
 
 	protected def copyControlConfiguration(Control source, Control destination) {

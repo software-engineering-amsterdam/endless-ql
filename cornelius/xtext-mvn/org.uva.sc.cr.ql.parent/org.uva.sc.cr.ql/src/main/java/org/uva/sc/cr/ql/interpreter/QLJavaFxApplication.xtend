@@ -12,15 +12,15 @@ import org.eclipse.xtext.util.CancelIndicator
 import org.eclipse.xtext.validation.CheckMode
 import org.eclipse.xtext.validation.IResourceValidator
 import org.uva.sc.cr.ql.QLStandaloneSetup
-import org.uva.sc.cr.ql.interpreter.service.StageService
 import org.uva.sc.cr.ql.qL.Form
+import org.uva.sc.cr.ql.interpreter.service.StageBuilder
 
 class QLJavaFxApplication extends Application {
 
 	protected var Resource astData
 
 	@Inject
-	protected var StageService stageService
+	protected var StageBuilder stageBuilder
 
 	override init() {
 		val file = parameters.raw.get(0)
@@ -60,7 +60,7 @@ class QLJavaFxApplication extends Application {
 
 	override start(Stage primaryStage) {
 		val form = getForm
-		val rootStage = stageService.buildGuiLayout(form)
+		val rootStage = stageBuilder.buildGuiLayout(form)
 
 		val scene = new Scene(rootStage, 800, 600)
 		primaryStage.setTitle(form.name)

@@ -1,4 +1,4 @@
-package org.uva.sc.cr.qsl.interpreter.service
+package org.uva.sc.cr.qsl.interpreter.styling
 
 import java.util.ArrayList
 import java.util.List
@@ -11,21 +11,22 @@ import javax.inject.Singleton
 import org.controlsfx.dialog.Wizard
 import org.controlsfx.dialog.Wizard.LinearFlow
 import org.controlsfx.dialog.WizardPane
-import org.uva.sc.cr.ql.interpreter.service.ControlService
 import org.uva.sc.cr.qsl.qSL.DefaultStyle
 import org.uva.sc.cr.qsl.qSL.Page
 import org.uva.sc.cr.qsl.qSL.QuestionReference
 import org.uva.sc.cr.qsl.qSL.Section
 import org.uva.sc.cr.qsl.qSL.Stylesheet
+import org.uva.sc.cr.qsl.interpreter.styling.controls.StyleControlBuilder
+import org.uva.sc.cr.ql.interpreter.service.ControlBuilder
 
 @Singleton
-class StyleService {
+class StyleBuilder {
 
 	@Inject
-	private ControlService controlService
+	private ControlBuilder controlBuilder
 	
 	@Inject
-	private StyleControlService styleControlService
+	private StyleControlBuilder styleControlBuilder
 
 	def styleLayout(Stylesheet stylesheet) {
 		val wizard = new Wizard
@@ -66,7 +67,7 @@ class StyleService {
 	}
 
 	def private Node buildStyledControl(List<DefaultStyle> defaultStyles, QuestionReference questionReference) {
-		val controlWrapper = controlService.getControlByName(questionReference.question.name)
+		val controlWrapper = controlBuilder.getControlByName(questionReference.question.name)
 		val defaultStyleToApply = getDefaultStyleForQuestionReference(defaultStyles, questionReference)
 		var widget = questionReference.widget
 		
@@ -75,9 +76,9 @@ class StyleService {
 		}
 		
 		if(widget !== null){
-			return styleControlService.style(controlWrapper, widget, defaultStyleToApply)
+			return styleControlBuilder.style(controlWrapper, widget, defaultStyleToApply)
 		} else {
-			return styleControlService.styleDefaultControl(controlWrapper, defaultStyleToApply)
+			return styleControlBuilder.styleDefaultControl(controlWrapper, defaultStyleToApply)
 		}
 	}
 	

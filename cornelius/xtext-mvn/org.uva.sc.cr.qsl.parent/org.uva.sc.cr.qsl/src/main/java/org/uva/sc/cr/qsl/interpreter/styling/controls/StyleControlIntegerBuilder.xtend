@@ -1,4 +1,4 @@
-package org.uva.sc.cr.qsl.interpreter.service
+package org.uva.sc.cr.qsl.interpreter.styling.controls
 
 import java.text.NumberFormat
 import javafx.beans.binding.Bindings
@@ -15,7 +15,7 @@ import org.uva.sc.cr.qsl.qSL.WidgetSlider
 import org.uva.sc.cr.qsl.qSL.WidgetSpinbox
 
 @Singleton
-class StyleControlIntegerService extends StyleControlService {
+class StyleControlIntegerBuilder extends StyleControlBuilder {
 
 	private static val SPINNER_MIN_VALUE = Integer.MIN_VALUE
 	private static val SPINNER_MAX_VALUE = Integer.MAX_VALUE

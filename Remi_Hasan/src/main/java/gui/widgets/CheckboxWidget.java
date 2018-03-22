@@ -9,10 +9,6 @@ import ql.model.expression.variable.ExpressionVariableBoolean;
 
 public class CheckboxWidget extends CheckBox implements GUIWidget {
 
-    public CheckboxWidget() {
-        this.managedProperty().bind(this.visibleProperty());
-    }
-
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
         this.selectedProperty().addListener(invalidationListener);

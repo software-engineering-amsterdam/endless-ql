@@ -4,6 +4,7 @@ import gui.elements.LabelWithWidget;
 import javafx.beans.InvalidationListener;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
@@ -24,7 +25,6 @@ public class GUIForm extends VBox {
 
     public Parent render(SymbolTable symbolTable) {
         VBox vBox = new VBox();
-
         Map<GUIQuestion, LabelWithWidget> guiWidgetsMap = new HashMap<>();
 
         // Listener that is notified by UI widget input event
@@ -41,9 +41,12 @@ public class GUIForm extends VBox {
             guiWidgetsMap.put(guiQuestion, labelWithWidget);
         }
 
-        vBox.setPadding(new Insets(100, 10, 10, 10));
+        vBox.setPadding(new Insets(10, 10, 10, 10));
 
-        return vBox;
+        // Wrap form in scroll pane, so questions will always be reachable
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(vBox);
+        return scrollPane;
     }
 
     private void updateRenderedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {

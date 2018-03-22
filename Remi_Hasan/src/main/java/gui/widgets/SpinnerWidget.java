@@ -3,14 +3,15 @@ package gui.widgets;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+
+import java.util.Locale;
 
 public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
 
     public SpinnerWidget() {
-        super(Integer.MIN_VALUE, Integer.MAX_VALUE, 0.0);
-        this.managedProperty().bind(this.visibleProperty());
         this.setEditable(true);
     }
 
@@ -31,7 +32,6 @@ public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
 
     @Override
     public void setFont(String font) {
-
         Font currentFont = this.getEditor().getFont();
         this.getEditor().setFont(Font.font(font, FontWeight.NORMAL, currentFont.getSize()));
     }

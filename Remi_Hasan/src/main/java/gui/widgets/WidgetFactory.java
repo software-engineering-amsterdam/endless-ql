@@ -3,7 +3,7 @@ package gui.widgets;
 import ql.model.expression.ReturnType;
 
 public class WidgetFactory {
-    // TODO: implement interface that can be overidden by QLS
+    // TODO: implement interface that can be overridden by QLS
     public static GUIWidget getDefaultWidget(ReturnType questionType) {
         switch (questionType) {
             case STRING:
@@ -13,7 +13,7 @@ public class WidgetFactory {
             case DECIMAL:
                 return new DecimalWidget();
             case MONEY:
-                return new MoneyWidget();
+                return new SpinnerMoneyWidget(0.1);
             case DATE:
                 return new DateWidget();
             case BOOLEAN:

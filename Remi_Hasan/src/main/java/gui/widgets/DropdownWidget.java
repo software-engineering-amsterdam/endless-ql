@@ -16,7 +16,6 @@ public class DropdownWidget extends ComboBox<String> implements GUIWidget {
 
     public DropdownWidget(Question question, List<String> options) {
         this.question = question;
-        this.managedProperty().bind(this.visibleProperty());
         this.options = options;
     }
 

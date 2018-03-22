@@ -16,8 +16,6 @@ public class RadioWidget extends HBox implements GUIWidget {
     private final RadioButton trueButton;
 
     public RadioWidget(String falseLabel, String trueLabel) {
-        this.managedProperty().bind(this.visibleProperty());
-
         group = new ToggleGroup();
 
         falseButton = new RadioButton(falseLabel);

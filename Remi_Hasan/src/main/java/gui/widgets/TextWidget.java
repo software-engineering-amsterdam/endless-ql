@@ -11,10 +11,6 @@ import ql.model.expression.variable.ExpressionVariableString;
 
 public class TextWidget extends TextField implements GUIWidget {
 
-    public TextWidget() {
-        this.managedProperty().bind(this.visibleProperty());
-    }
-
     @Override
     public Expression getExpressionValue() {
         return new ExpressionVariableString(null, this.getText());

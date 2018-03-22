@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Set;
 
 public class Renderer extends Application {
@@ -65,6 +66,9 @@ public class Renderer extends Application {
     }
 
     public void buildQuestions(Stage stage) {
+        // Set locale to US such that DecimalFormat, such as in a spinner, always uses dots instead of commas
+        Locale.setDefault(Locale.US);
+
         GUIForm guiForm = GUIFormBuilder.build(this.qlForm);
 //        if(this.qlsStyleSheet != null){
 //            guiForm = new GUIFormWithStyling(this.qlForm.identifier, guiForm.guiQuestions, this.qlsStyleSheet);
@@ -73,6 +77,8 @@ public class Renderer extends Application {
         Scene scene = new Scene(guiForm.render(this.symbolTable));
         stage.setTitle(qlForm.identifier + " form");
         stage.setScene(scene);
+        stage.setWidth(640);
+        stage.setHeight(480);
         stage.show();
     }
 

@@ -4,7 +4,6 @@ import Nodes.Type;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusListener;
 
 public class Widget {
     private Type type;
@@ -30,5 +29,9 @@ public class Widget {
 
     public Component getComponent() {
         return component;
+    }
+
+    public Type getType() {
+        return type;
     }
 }

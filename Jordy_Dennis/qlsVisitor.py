@@ -92,7 +92,7 @@ class QLSVisitor(QLSGrammarVisitor):
         if (ctx.CHECKBOX()):
             return CheckBoxWidget()
         elif ctx.RADIO():
-            return RadioWidget(ctx.STRING()[0].getText(), ctx.STRING()[1].getText())
+            return RadioWidget(ctx.STRING()[0].getText().replace("\"", ""), ctx.STRING()[1].getText().replace("\"", ""))
         elif ctx.DROPDOWN():
             return DropdownWidget()
 

@@ -8,11 +8,8 @@ import org.uva.ql.ast.Statement;
 import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
-import org.uva.ql.ast.type.Type;
 import org.uva.ql.parsing.ASTBuilder;
-import org.uva.ql.validation.checker.ParameterChecker;
 import org.uva.ql.validation.checker.TypeChecker;
-import org.uva.ql.validation.collector.ParameterContext;
 import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;

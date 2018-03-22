@@ -110,4 +110,8 @@ public class Question extends ASTNode {
     public void updateTerm(Term term){
         this.result = term;
     }
+
+    public boolean hasExpression(){
+        return (this.expression != null);
+    }
 }

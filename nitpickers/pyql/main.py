@@ -1,4 +1,3 @@
-import sys
 from antlr4 import *
 from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
@@ -22,8 +21,7 @@ def main(argv):
 
     static_checker = StaticChecker()
     static_checker.run(ast)
-    messages = static_checker.messages()
-    print(messages)
+    messages = static_checker.messages
 
     symbol_table = SymbolTable()
 

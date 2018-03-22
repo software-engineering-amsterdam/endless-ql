@@ -23,6 +23,19 @@ class QLJavaFxApplication extends Application {
 	@Inject
 	protected var DialogBuilder dialogBuilder
 
+	override start(Stage primaryStage) {
+		val form = parseFileAndValidate().allContents.head() as Form
+		val dialog = dialogBuilder.buildDialog(form)
+		dialog.showAndWait()
+	}
+
+	def parseFileAndValidate() {
+		val file = openFile()
+		val astData = parseFile(file)
+		validateAST(astData)
+		return astData
+	}
+
 	def private openFile() {
 		val fileChooser = new FileChooser()
 		fileChooser.setTitle("Open File")
@@ -73,23 +86,6 @@ class QLJavaFxApplication extends Application {
 			text += "\n"
 		}
 		return text
-	}
-
-	def getForm(Resource astData) {
-		return astData.allContents.head() as Form
-	}
-
-	def parseFileAndValidate() {
-		val file = openFile()
-		val astData = parseFile(file)
-		validateAST(astData)
-		return astData
-	}
-
-	override start(Stage primaryStage) {
-		val astData = parseFileAndValidate()
-		val dialog = dialogBuilder.buildDialog(getForm(astData))
-		dialog.showAndWait()
 	}
 
 }

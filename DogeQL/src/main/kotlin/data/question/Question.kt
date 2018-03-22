@@ -9,7 +9,8 @@ data class Question(
         val label: String,
         var value: BaseSymbolValue,
         val nameLocation: SourceLocation,
-        val labelLocation: SourceLocation
+        val labelLocation: SourceLocation,
+        val readOnly: Boolean
 ) {
     fun update(symbolTable: SymbolTable) {
         symbolTable.findSymbol(name)?.let {

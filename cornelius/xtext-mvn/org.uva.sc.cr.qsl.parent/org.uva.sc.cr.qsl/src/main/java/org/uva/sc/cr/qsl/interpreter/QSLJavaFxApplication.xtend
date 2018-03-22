@@ -20,12 +20,12 @@ class QSLJavaFxApplication extends QLJavaFxApplication {
 		val model = parseFileAndValidate().allContents.head() as Model
 		val form = model.form
 		val stylesheet = model.stylesheet
-		if (stylesheet !== null) {
-			dialogBuilder.buildDialog(form)
+		val qlDialog = dialogBuilder.buildDialog(form)
+		if (stylesheet === null) {
+			qlDialog.showAndWait()
+		} else {
 			val wizard = styleBuilder.buildStyledDialog(form, stylesheet)
 			wizard.showAndWait()
-		} else {
-			super.start(primaryStage)
 		}
 	}
 

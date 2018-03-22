@@ -8,6 +8,8 @@ import * as qlsMock from './qls-mock-input';
 import * as qlMock from './ql-mock-input';
 import {ParseService} from './services/parse.service';
 import {ConvertToFormQuestionsVisitor} from './domain/ast/ql/visitors/convert-to-form-questions-visitor';
+import {CollectStylesForQuestionVisitor} from './domain/ast/qls/visitors/collect-styles-for-question-visitor';
+import {QuestionFactory} from './factories/question-factory';
 
 @Component({
   selector: 'app-root',
@@ -41,14 +43,6 @@ export class AppComponent {
       this.qlsStylesheet = parseResult.styles;
       // make form
       this.questions = ConvertToFormQuestionsVisitor.evaluate(this.qlForm);
-      // loop over questions, update widget types
-
-      if (this.qlsStylesheet) {
-        for (const qlsQuestion of this.qlsStylesheet.getQuestions([])) {
-          const qlQuestion = this.questions.find(q => q.key === qlsQuestion.question.name);
-          qlQuestion.widget.type = qlsQuestion.widget.type;
-        }
-      }
 
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.errorMessage = undefined;

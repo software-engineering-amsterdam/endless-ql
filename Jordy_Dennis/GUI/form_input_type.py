@@ -202,7 +202,6 @@ class InputTypeMap:
 
     def validateFloat(self, var):
         newVal = var.get()
-        print(newVal)
         try:
             newVal == '' or newVal == '-' or float(newVal)
             if (newVal == '-'):

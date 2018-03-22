@@ -1,6 +1,6 @@
-from LexParser.QLGrammarParser import QLGrammarParser
-from LexParser.QLGrammarVisitor import QLGrammarVisitor
-from AST import *
+from Grammar.QLGrammarParser import QLGrammarParser
+from Grammar.QLGrammarVisitor import QLGrammarVisitor
+from QL import *
 import logging
 import sys
 

@@ -1,15 +1,13 @@
-import unittest
 import os
 import sys
-import pprint
 
 Path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, Path + '/../')
 
 from parser import *
 from antlr4.InputStream import InputStream
-from LexParser.QLGrammarLexer import QLGrammarLexer
-from LexParser.QLGrammarParser import QLGrammarParser
+from Grammar.QLGrammarLexer import QLGrammarLexer
+from Grammar.QLGrammarParser import QLGrammarParser
 
 
 # Get the input and output text needed for a test on which the output is controlled

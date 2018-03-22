@@ -65,9 +65,10 @@ class QLParser:
     def parse(self, data, lexer):
         return self.parser.parse(data, lexer)
 
+    # Grammar
     @staticmethod
     def p_form(production):
-        """form : FORM VARIABLE block"""
+        """form : FORM IDENTIFIER block"""
         production[0] = FormNode(Position(production.lineno(1), production.lexpos(1)), production[3], production[2])
 
     @staticmethod
@@ -96,17 +97,17 @@ class QLParser:
     # Questions
     @staticmethod
     def p_question(production):
-        """question : STRING_LITERAL VARIABLE COLON type"""
+        """question : STRING_LITERAL IDENTIFIER COLON type"""
         production[0] = QuestionNode(Position(production.lineno(1), production.lexpos(1)), production[1], production[2],
                                      production[4], production[4].get_literal_node(), False)
 
     @staticmethod
     def p_question_computed(production):
-        """question : STRING_LITERAL VARIABLE COLON type ASSIGN expression"""
+        """question : STRING_LITERAL IDENTIFIER COLON type ASSIGN expression"""
         production[0] = QuestionNode(Position(production.lineno(1), production.lexpos(1)), production[1], production[2],
                                      production[4], production[6], True)
 
-    # Control Flow
+    # Control flow
     @staticmethod
     def p_if(production):
         """if : IF condition block"""
@@ -135,10 +136,11 @@ class QLParser:
 
     @staticmethod
     def p_variable(production):
-        """expression : VARIABLE"""
+        """expression : IDENTIFIER"""
         production[0] = VariableNode(Position(production.lineno(1), production.lexpos(1)), QLUndefined, production[1],
                                      QLUndefined())
 
+    # Unary operators
     @staticmethod
     def p_not(production):
         """expression : NOT expression"""
@@ -284,8 +286,12 @@ class QLParser:
 
     # Error handling
     @staticmethod
+    def p_error(production):
+        raise ParseError('Syntax error at line {}, token={}.'.format(production.lineno, production.type))
+
+    @staticmethod
     def p_empty_form(production):
-        """form : FORM VARIABLE LEFT_BRACE RIGHT_BRACE"""
+        """form : FORM IDENTIFIER LEFT_BRACE RIGHT_BRACE"""
         raise ParseError('Empty form at line {}.'.format(production.lineno(1)))
 
     @staticmethod
@@ -297,7 +303,3 @@ class QLParser:
     def p_empty_condition(production):
         """condition : LEFT_BRACKET RIGHT_BRACKET"""
         raise ParseError('Empty conditional at line {}.'.format(production.lineno(1)))
-
-    @staticmethod
-    def p_error(production):
-        raise ParseError('Syntax error at line {}, token={}.'.format(production.lineno, production.type))

@@ -5,8 +5,9 @@
 
 from .ast_methods import *
 import collections
-class AssignmentNode:
 
+
+class AssignmentNode:
     def __init__(self, question, varNode, expression, line):
         self.question = question
         self.varNode = varNode

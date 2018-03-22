@@ -23,8 +23,8 @@ def main(argv):
     ql_visitor = QLVisitorHelper()
     ql_ast = ql_visitor.visit(ql_tree)
 
-    ql_checker = QLTypeChecker(ql_ast)
-    ql_checker.startQLTypeCheck()
+    ql_checker = QLTypeChecker()
+    ql_checker.startQLTypeCheck(ql_ast.statements)
     
     if len(argv) == 3:
         input = FileStream(argv[2])

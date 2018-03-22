@@ -31,7 +31,11 @@ public class QuestionPanel extends JPanel{
         switch (widget.getType()){
             case BOOL: this.question.updateTerm(new TermFactory().getTerm((boolean)this.widget.getValue()));break;
             case STRING: this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));break;
-            default: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
+            case MONEY: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
+            case INT: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
+            case DECIMAL: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
+            case DATE: this.question.updateTerm(new TermFactory().getTerm((String) this.widget.getValue()));break; //TODO do something with date
+            default: break;
         }
 
     }

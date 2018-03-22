@@ -107,10 +107,7 @@ public class Question extends ASTNode {
         return this.getParent().isAvailable();
     }
 
-    public void updateTerm(Term term) throws SyntaxException, TypeException {
-        if(term.getType() == type)
-            this.result = term;
-        else
-            throw new TypeException(this, Type.getByCode(term.toString()), Type.getByCode(result.toString()));
+    public void updateTerm(Term term){
+        this.result = term;
     }
 }

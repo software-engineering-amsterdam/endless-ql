@@ -1,5 +1,5 @@
 """
-Class that controls the widgets as well as the tracing of the widgets.
+Class that controls the widgets as well as the tracing of the variables in the widgets.
 It returns the widget based on the requested type, and checks these widgets for correct input
 """
 
@@ -96,6 +96,7 @@ class InputTypeMap:
 
     """
         Return float textbox widget (same as string but a different validation method)
+        in case of spinbox and slider, kwargs must contain: minVal, maxVal
     """
     def returnFloat(self, widgetType, **kwargs):
         var = None

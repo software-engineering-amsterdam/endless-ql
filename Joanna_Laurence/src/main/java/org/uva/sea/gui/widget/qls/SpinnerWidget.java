@@ -51,7 +51,6 @@ public class SpinnerWidget extends Widget {
             return null;
 
         final Spinner spinner = new Spinner<>();
-        spinner.setFocusTraversable(false);
 
         this.addSpinnerStyle(spinner, this.questionData.getStyle());
 

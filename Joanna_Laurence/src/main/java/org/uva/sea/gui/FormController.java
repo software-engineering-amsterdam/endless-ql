@@ -3,6 +3,8 @@ package org.uva.sea.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
@@ -15,6 +17,7 @@ import org.uva.sea.languages.QlSEvaluator;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.awt.*;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,19 +41,28 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.renderer = new Renderer(this.container, this.tabPane, this.messages);
+
+        Group groupNode = this.createControllerWidgetContainer(this.container);
+        this.renderer = new Renderer(groupNode, this.tabPane, this.messages);
 
         //TODO:remove
-//        String qlFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.ql";
-        String qlFile = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/basic.ql";
-//        String qlsFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.qls";
-        String qlsFile = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/basic.qls";
+        String qlFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.ql";
+        //String qlFile = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/basic.ql";
+        String qlsFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.qls";
+        //String qlsFile = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/basic.qls";
 
         BaseEvaluator evaluator = new QlSEvaluator(qlFile, qlsFile);
         this.updateInterpreter(evaluator);
         this.collectComponentsToDraw();
         this.drawComponents();
 
+    }
+
+    private Group createControllerWidgetContainer(VBox container) {
+        Group root = new Group();
+        Scene controllerScene = new Scene(root, 800, 500);
+        container.getChildren().add(root);
+        return root;
     }
 
     private void addElementToDraw(Renderable element) {
@@ -126,7 +138,8 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
         this.formModel.setVariable(identifier, value);
         this.componentsToDraw.clear();
         this.collectComponentsToDraw();
-        control.setFocusTraversable(true);
         this.drawComponents();
+
+        control.requestFocus();
     }
 }

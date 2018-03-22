@@ -27,7 +27,6 @@ public class CheckBoxWidget extends Widget {
         final CheckBox checkBox = new CheckBox();
         this.applyCheckboxStyle(checkBox, this.questionData.getStyle());
         checkBox.setSelected((this.widgetValue != null) && this.widgetValue.getBooleanValue());
-        checkBox.setFocusTraversable(false);
         checkBox.selectedProperty().addListener((observable, oldIsFocused, newIsFocused) ->
         {
             this.sendUpdateValueEvent(checkBox, this.questionData.getQuestionName(), new BooleanValue(newIsFocused));

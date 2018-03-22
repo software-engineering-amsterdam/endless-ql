@@ -1,15 +1,16 @@
 package org.uva.sea.gui;
 
+import javafx.scene.Group;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.components.Renderable;
 
 public class Renderer {
-    private VBox container;
+    private Group container;
     private TabPane tabPane;
     private VBox messages;
 
-    public Renderer(VBox container, TabPane tabPane, VBox messages) {
+    public Renderer(Group container, TabPane tabPane, VBox messages) {
         this.container = container;
         this.tabPane = tabPane;
         this.messages = messages;

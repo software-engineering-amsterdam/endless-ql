@@ -28,7 +28,6 @@ public class ChoiceBoxWidget extends Widget {
         final ChoiceBox<Boolean> choiceBox = new ChoiceBox<>();
         this.createChoiceBox(choiceBox, this.questionData.getStyle());
         choiceBox.setValue((this.widgetValue != null) && this.widgetValue.getBooleanValue());
-        choiceBox.setFocusTraversable(false);
 
         ObservableList<Boolean> booleanList = FXCollections.observableArrayList(true, false);
 

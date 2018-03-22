@@ -47,7 +47,6 @@ public class SliderWidget extends Widget {
         slider.setValueChanging(true);
         slider.setMinorTickCount(1);
         slider.setMax(100);
-        slider.setFocusTraversable(false);
 
         this.setSliderStyle(slider, this.questionData.getStyle());
 

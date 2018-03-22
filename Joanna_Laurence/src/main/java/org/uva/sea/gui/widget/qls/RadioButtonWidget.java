@@ -26,7 +26,6 @@ public class RadioButtonWidget extends Widget {
     public Node convertToGuiNode() {
         final RadioButton radioButton = new RadioButton();
         this.setRadioStyle(radioButton, this.questionData.getStyle());
-        radioButton.setFocusTraversable(false);
 
         if (this.widgetValue != null) {
             radioButton.selectedProperty().setValue(this.widgetValue.getBooleanValue());

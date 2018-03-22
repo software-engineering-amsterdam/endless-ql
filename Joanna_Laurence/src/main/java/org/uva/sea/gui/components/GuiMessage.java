@@ -1,5 +1,6 @@
 package org.uva.sea.gui.components;
 
+import javafx.scene.Group;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 
@@ -12,7 +13,7 @@ public class GuiMessage extends Renderable {
     }
 
     @Override
-    public void render(VBox container, TabPane tabPane, VBox messages) {
+    public void render(Group container, TabPane tabPane, VBox messages) {
         messages.getChildren().add(this.createTextRow(this.message));
     }
 }

@@ -1,5 +1,6 @@
 package org.uva.sea.gui.widget;
 
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
@@ -36,7 +37,7 @@ public abstract class Widget extends Renderable {
     }
 
     @Override
-    public void render(VBox container, TabPane tabPane, VBox messages) {
+    public void render(Group container, TabPane tabPane, VBox messages) {
         Node node = this.convertToGuiNode();
         if(node != null)
             container.getChildren().add(node);

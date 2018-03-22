@@ -1,6 +1,7 @@
 package org.uva.sea.gui.widget.ql;
 
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import org.uva.sea.gui.widget.Widget;
@@ -36,7 +37,7 @@ public class TextFieldWidget extends Widget {
 
     @Override
     public boolean updateValue(DateValue dateValue) {
-        this.widgetValue = new StringValue(dateValue.getDateValue().toString());
+        this.widgetValue = new StringValue(dateValue.toString());
         return true;
     }
 
@@ -60,8 +61,6 @@ public class TextFieldWidget extends Widget {
         textField.setText(this.widgetValue.getStringValue());
         textField.setEditable(true);
         textField.setMinWidth(Widget.TEXT_WIDTH);
-        textField.setFocusTraversable(false);
-
 
         if (this.questionData.isComputed()) {
             textField.setEditable(false);

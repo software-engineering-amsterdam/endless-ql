@@ -6,7 +6,9 @@ import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 import java.security.InvalidParameterException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class DateValue extends Value {
 
@@ -110,6 +112,10 @@ public class DateValue extends Value {
 
     @Override
     public String toString() {
-        return (this.dateValue != null) ? this.dateValue.toString() : "No value";
+        if(this.dateValue == null)
+            return "";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY", Locale.ENGLISH);
+        return formatter.format(this.dateValue.getTime());
     }
 }

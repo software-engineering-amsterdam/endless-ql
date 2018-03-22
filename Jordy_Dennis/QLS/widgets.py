@@ -24,7 +24,7 @@ class StyleWidth(AttributeDefault):
         self.width = width
         self.attType = 'width'
 
-    def getWidth(self):
+    def getValue(self):
         return self.width
 
     def __repr__(self):
@@ -36,7 +36,7 @@ class StyleFont(AttributeDefault):
         self.font = font
         self.attType = 'font'
 
-    def getFont(self):
+    def getValue(self):
         return self.font
 
     def __repr__(self):
@@ -47,7 +47,7 @@ class StyleFontSize(AttributeDefault):
         self.fontSize = fontSize
         self.attType = 'fontSize'
 
-    def getFontSize(self):
+    def getValue(self):
         return self.fontSize
 
     def __repr__(self):
@@ -59,7 +59,7 @@ class StyleColor(AttributeDefault):
         self.color = color
         self.attType = 'color'
 
-    def getColor(self):
+    def getValue(self):
         return self.color
 
     def __repr__(self):

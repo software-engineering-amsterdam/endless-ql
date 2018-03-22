@@ -10,6 +10,7 @@ export const getDefaultStyleNodes = (container: StyleTreeNode): DefaultStyle[] =
     includeDefaults: true,
     recursive: false
   });
+
   return container.accept(visitor);
 };
 

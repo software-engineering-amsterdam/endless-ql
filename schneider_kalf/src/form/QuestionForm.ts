@@ -34,7 +34,7 @@ export default class QuestionForm implements Form {
     let state: FormState = this.state;
 
     this.getComputedFields().forEach((field: ComputedField) => {
-      state = state.set(field.identifier, field.computeAnswer(this.state));
+      state = state.set(field.identifier, field.computeAnswer(state));
     });
 
     this.state = state;

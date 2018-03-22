@@ -39,12 +39,7 @@ public class FormControllerQLS extends BaseFormController {
         tab.setText(tabName);
 
         VBox container = new VBox();
-
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(container);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-
-        tab.setContent(scrollPane);
+        tab.setContent(container);
 
         this.tabPane.getTabs().add(tab);
         return container;

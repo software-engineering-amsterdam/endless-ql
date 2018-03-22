@@ -27,7 +27,6 @@ public class MainGUI extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
-            //TODO: Display error message in gui
             e.printStackTrace();
         }
     }

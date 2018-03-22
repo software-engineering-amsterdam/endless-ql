@@ -29,7 +29,7 @@ import java.net.URL;
 import java.util.*;
 
 
-public abstract class FormController implements Initializable, IGuiElementUpdateListener {
+public abstract class BaseFormController implements Initializable, IGuiElementUpdateListener {
 
     private final QuestionModel formModel = new QuestionModel(this);
 

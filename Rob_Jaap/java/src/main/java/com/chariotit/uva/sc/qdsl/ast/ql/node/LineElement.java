@@ -2,6 +2,9 @@ package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class LineElement extends FormElement {
 
     private Label label;
@@ -39,6 +42,18 @@ public class LineElement extends FormElement {
 
     public void setTypeExpression(TypeExpression typeExpression) {
         this.typeExpression = typeExpression;
+    }
+
+    @Override
+    public Set<String> getPrerequisites() {
+        return typeExpression.getExpression().getPrerequisites();
+    }
+
+    @Override
+    public Set<String> getProducedLabels() {
+        Set<String> set = new HashSet<>();
+        set.add(label.getLabel());
+        return set;
     }
 
     @Override

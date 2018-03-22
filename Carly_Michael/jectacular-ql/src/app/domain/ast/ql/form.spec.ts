@@ -1,4 +1,4 @@
-import {Form, QlQuestion, QuestionType} from './index';
+import {Form, QlQuestion} from './index';
 import {BooleanQuestion} from '../../angular-questions/boolean-question';
 import {InputQuestion} from '../../angular-questions/input-question';
 import {Statement} from './index';
@@ -8,6 +8,8 @@ import {Variable} from './expressions/variable';
 import * as astMock from './ast-mock';
 import {BooleanQuestionType, DateQuestionType, IntQuestionType, StringQuestionType} from '../question-type';
 import {ConvertToFormQuestionsVisitor} from './visitors/convert-to-form-questions-visitor';
+import {CheckStatementTypeVisitor} from './visitors/check-statement-type-visitor';
+import {CollectQuestionsVisitor} from './visitors/collect-questions-visitor';
 
 describe('Form', () => {
 
@@ -47,7 +49,10 @@ describe('Form', () => {
   });
 
   it('should check condition of both ifs when nested', () => {
-    const formQuestions = ConvertToFormQuestionsVisitor.evaluate(new Form('test', questions.concat(ifs), astMock.emptyLoc));
+    const form = new Form('test', questions.concat(ifs), astMock.emptyLoc);
+    const allQuestions = CollectQuestionsVisitor.evaluate(form);
+    CheckStatementTypeVisitor.evaluate(allQuestions, form);
+    const formQuestions = ConvertToFormQuestionsVisitor.evaluate(form);
 
     expect(formQuestions.length).toBe(6);
 

@@ -131,7 +131,7 @@ namespace UnitTests.Domain.UnitTests.Data
                 yield return FalseResult(@"1 >= 2");
                 yield return FalseResult(@"2 < 1");
                 yield return FalseResult(@"2 <= 1");
-
+                yield return FalseResult(@"(1 + 2) != 3");
 
                 var sameDate = new DateTime(1973, 12, 4).ToString(@"dd/MM/yyyy");
                 var sameDate_1 = new DateTime(1973, 12, 4).ToString(@"d/M/yyyy");
@@ -280,5 +280,90 @@ form TestForm {{
                     new DateTime(2015, 3, 2));
             }
         }
-    }
+
+        public static IEnumerable CalculatedValues
+        {
+            get
+            {
+                const string formTemplate = @"form CalcForm {{ q: ""x"" integer = ({0}) }}";
+                yield return new TestCaseData(
+                    string.Format(formTemplate, @"1"),
+                    1m);
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate, @"1 + 1"),
+                    2m);
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate, @"10 - 20"),
+                    -10m);
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate, @"10.1 * 2"),
+                    20.2m);
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate, @"15 / 3"),
+                    5m);
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate, @"1 + 2 + 3"),
+                    6m);
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate, @"1 + 2 * 3"),
+                    7m);
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate, @"(1 + 2) * 3"),
+                    9m);
+
+                const string formTemplate2 = @"form CalcForm {{ q1: ""feeder"" integer q: ""x"" integer = ({0}) }}";
+                yield return new TestCaseData(
+                    string.Format(formTemplate2, @"q1 + 1"),
+                    1m);
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate2, @"999 * q1"),
+                    0m);
+            }
         }
+        
+        public static IEnumerable UpdateCalculatedValues
+        {
+            get
+            {
+                const string formTemplate2 = @"form CalcForm {{ f1: ""feeder"" integer q: ""ctext1"" integer = ({0}) }}";
+                yield return new TestCaseData(
+                    string.Format(formTemplate2, @"f1 + 1"),
+                    1,
+                    "2");
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate2, @"f1 * 10"),
+                    3,
+                    "30");
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate2, @"100 - f1"),
+                    30,
+                    "70");
+                
+                yield return new TestCaseData(
+                    string.Format(formTemplate2, @"f1 / 5"),
+                    55,
+                    "11");
+
+                yield return new TestCaseData(
+                    string.Format(formTemplate2, @"f1 + f1"),
+                    11,
+                    "22");
+                
+                yield return new TestCaseData(
+                    string.Format(formTemplate2, @"(f1 * f1) * f1"),
+                    5,
+                    "125");
+            }
+        }
+    }
+}

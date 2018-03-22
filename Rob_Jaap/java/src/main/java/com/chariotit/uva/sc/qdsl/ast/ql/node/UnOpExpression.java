@@ -5,6 +5,8 @@ import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.UnaryOperator;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
+import java.util.Set;
+
 public class UnOpExpression extends Expression {
 
     private Operator operator;
@@ -42,6 +44,11 @@ public class UnOpExpression extends Expression {
         }
 
         setExpressionValue(((UnaryOperator)operator).evaluate(expression));
+    }
+
+    @Override
+    public Set<String> getPrerequisites() {
+        return expression.getPrerequisites();
     }
 
     @Override

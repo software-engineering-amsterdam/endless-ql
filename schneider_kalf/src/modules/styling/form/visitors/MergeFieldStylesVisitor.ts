@@ -8,6 +8,10 @@ import BaseAttribute from "../nodes/attributes/BaseAttribute";
 import StyleSheetNode from "../nodes/StyleSheetNode";
 import MergedFieldStyle from "../MergedFieldStyle";
 import { VariableInformation } from "../../../../form/VariableIntformation";
+import { type } from "os";
+import StyleTreeNode from "../nodes/StyleTreeNode";
+import { getDefaultStyleNodes } from "../style_helpers";
+import { UnkownQuestionUsedInLayoutError } from "../style_errors";
 
 export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
   private questionStyles: MergedFieldStyle[];
@@ -19,7 +23,7 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
   }
 
   getStyles() {
-      return this.questionStyles;
+    return this.questionStyles;
   }
 
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
@@ -27,16 +31,23 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
   }
 
   visitQuestionStyle(question: QuestionStyle): any {
-    let style = new MergedFieldStyle(question.identifier);
-    let parents = question.getParents();
+    const variableInformation: VariableInformation | undefined = this.qlVariables.get(question.identifier);
 
-    for (let parent of parents.reverse()) {
-      style.inheritStyleFrom(parent, this.qlVariables);
+    if (typeof variableInformation === 'undefined') {
+      throw UnkownQuestionUsedInLayoutError.make(question.identifier);
     }
 
-    style.addLocalStyle(question);
-    this.questionStyles.push(style);
-    return style;
+    let mergedStyle = new MergedFieldStyle(question.identifier, variableInformation.type);
+    let parents: StyleTreeNode[] = question.getParents();
+
+    for (let parent of parents.reverse()) {
+      mergedStyle.applyDefaults(getDefaultStyleNodes(parent));
+    }
+
+    mergedStyle.applyStyle(question.children);
+
+    this.questionStyles.push(mergedStyle);
+    return mergedStyle;
   }
 
   visitSection(section: Section): any {

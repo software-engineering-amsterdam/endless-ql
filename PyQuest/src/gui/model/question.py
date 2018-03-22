@@ -2,7 +2,7 @@ from gui.widgets.label import Label
 from ql.ast.visitors.expression_evaluator import ExpressionEvaluator
 
 
-class Question:
+class QuestionModel:
     def __init__(self, label, identifier, answer_type, answer, computed, show_condition):
         self.__label = label
         self.__identifier = identifier

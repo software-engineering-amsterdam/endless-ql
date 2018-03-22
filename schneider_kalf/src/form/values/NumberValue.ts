@@ -28,4 +28,6 @@ export default interface NumberValue {
   isSameTypeAs(other: NumberValue): boolean;
 
   toString(): string;
+
+  toNumber(): number;
 }

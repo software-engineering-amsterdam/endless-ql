@@ -1,5 +1,8 @@
 package GUI.Listeners;
 
+import QLExceptions.SyntaxException;
+import QLExceptions.TypeException;
+
 public interface RefreshListener {
-    void refreshQuestions();
+    void refreshQuestions() throws SyntaxException, TypeException;
 }

@@ -7,14 +7,13 @@ import org.uva.ql.evaluator.value.Value;
 import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 
-public class SliderWidget extends QuestionWidget implements ChangeListener{
+public class SliderWidget extends QuestionWidget implements ChangeListener {
 
     private JSlider slider;
     private QuestionChangeListener questionChangeListener;
@@ -22,7 +21,7 @@ public class SliderWidget extends QuestionWidget implements ChangeListener{
     public SliderWidget(Question question, Value value, boolean readOnly, Style style, int start, int end, int steps) {
         super(question);
 
-        int currentValue = (int)value.getValue();
+        int currentValue = (int) value.getValue();
         if (currentValue > end) {
             currentValue = end;
         } else if (currentValue < start) {
@@ -52,7 +51,7 @@ public class SliderWidget extends QuestionWidget implements ChangeListener{
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        if(!slider.getValueIsAdjusting()){
+        if (!slider.getValueIsAdjusting()) {
             questionChangeListener.onQuestionChanged(question, new IntegerValue(slider.getValue()));
         }
     }

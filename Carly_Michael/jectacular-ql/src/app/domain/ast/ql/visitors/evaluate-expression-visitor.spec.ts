@@ -14,6 +14,8 @@ import {Variable} from '../expressions/variable';
 import {DateLiteral, NumberLiteral, StringLiteral} from '../';
 import {EvaluateExpressionVisitor} from './evaluate-expression-visitor';
 import {CheckExpressionTypeVisitor} from './check-expression-type-visitor';
+import {QlQuestion} from '../ql-question';
+import {IntQuestionType} from '../../question-type';
 
 const location: Location = {
   start: {
@@ -52,6 +54,7 @@ const negativeExpression = new NegativeExpression(intLiteral, location);
 const negateExpression = new NegateExpression(booleanLiteral, location);
 
 const variableExpression = new Variable('booleanQuestion', location);
+variableExpression.referencedQuestion = new QlQuestion('booleanQuestion', 'label', new IntQuestionType(), location);
 
 describe('Expressions', () => {
   describe('should evaluate', () => {
@@ -156,8 +159,11 @@ describe('Expressions', () => {
 
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
-          if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === ExpressionType.NUMBER &&
-              CheckExpressionTypeVisitor.evaluate(literalArray[j]) === ExpressionType.NUMBER) {
+          const left = CheckExpressionTypeVisitor.evaluate(literalArray[i]);
+          const right = CheckExpressionTypeVisitor.evaluate(literalArray[j]);
+          if (left === ExpressionType.NUMBER && right === ExpressionType.NUMBER ||
+              left === ExpressionType.DATE && right === ExpressionType.NUMBER ||
+              left === ExpressionType.STRING && right === ExpressionType.STRING) {
             expect(() => {
               CheckExpressionTypeVisitor.evaluate(new AddExpression(literalArray[i], literalArray[j],  location));
             }).not.toThrow();

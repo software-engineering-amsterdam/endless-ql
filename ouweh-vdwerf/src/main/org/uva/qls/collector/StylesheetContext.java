@@ -1,6 +1,7 @@
 package org.uva.qls.collector;
 
 import org.uva.ql.ast.Question;
+import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.ast.Segment.*;
 import org.uva.qls.visitor.SegmentVisitor;
@@ -17,11 +18,10 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     private final HashMap<String, Page> pages = new LinkedHashMap<>();
     private final HashMap<String, Segment> parents = new LinkedHashMap<>();
 
-    private final Stylesheet stylesheet;
+    public StylesheetContext() {
+    }
 
-    public StylesheetContext(Stylesheet stylesheet) {
-        this.stylesheet = stylesheet;
-
+    public void setStylesheet(Stylesheet stylesheet) {
         stylesheet.accept(this, null);
     }
 
@@ -34,7 +34,7 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     }
 
     public Segment getPage(Question question) {
-        for (Segment parent : getAllParents("Question." + question.getId())) {
+        for (Segment parent : getAllParents(question.getId())) {
             if (pages.containsKey(parent.getId())) {
                 return pages.get(parent.getId());
             }
@@ -64,26 +64,33 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
         return segments;
     }
 
-    public List<DefaultWidgetStatement> getAllDefaultWidgetStatements(){
+    public List<DefaultWidgetStatement> getAllDefaultWidgetStatements() {
         List<DefaultWidgetStatement> defaults = new ArrayList<>();
-        for(Segment section: sections.values()){
+        for (Segment section : sections.values()) {
             defaults.addAll(section.getDefaultWidgetStatements());
         }
-        for(Segment page: pages.values()){
+        for (Segment page : pages.values()) {
             defaults.addAll(page.getDefaultWidgetStatements());
         }
         return defaults;
     }
 
-    public QuestionReference getQuestion(String questionId) {
-        if (questions.containsKey(questionId)) {
-            return questions.get(questionId);
+    public List<DefaultStyleStatement> getAllDefaultStyleStatements() {
+        List<DefaultStyleStatement> defaults = new ArrayList<>();
+        for (Segment section : sections.values()) {
+            defaults.addAll(section.getDefaultStyleStatements());
         }
-        return null;
+        for (Segment page : pages.values()) {
+            defaults.addAll(page.getDefaultStyleStatements());
+        }
+        return defaults;
     }
 
     public QuestionReference getQuestionReference(Question question) {
-        return getQuestion("Question." + question.getId());
+        if (questions.containsKey(question.getId())) {
+            return questions.get(question.getId());
+        }
+        return null;
     }
 
 

@@ -54,4 +54,8 @@ export class DecimalValue extends AbstractNumberValue implements NumberValue {
   toString(): string {
     return this.getValue().toString();
   }
+
+  toNumber(): number {
+    return this.getValue().toNumber();
+  }
 }

@@ -12,6 +12,7 @@ import MergedFieldStyle from "../MergedFieldStyle";
 import { getQuestionStyleNodes } from "../style_helpers";
 import QuestionStyle from "../nodes/children/QuestionStyle";
 import FieldNodeDecorator from "../../../../form/nodes/fields/FieldNodeDecorator";
+import { FieldType } from "../../../../form/FieldType";
 
 export default class SetStyledFieldVisitor implements FieldVisitor {
   private readonly styles: MergedFieldStyle[];
@@ -55,17 +56,17 @@ export default class SetStyledFieldVisitor implements FieldVisitor {
   }
 
   private makeStyledFieldNode(field: FieldNode): StyledFieldNode {
-    const mergedFieldStyle = this.findFieldStyleOrDefault(field.identifier);
+    const mergedFieldStyle = this.findMergedStyleOrEmpty(field.identifier, field.type);
     const fieldStyleNode = this.findFieldStyleNode(field.identifier);
 
     return new StyledFieldNode(field, mergedFieldStyle, fieldStyleNode);
   }
 
-  private findFieldStyleOrDefault(identifier: string): MergedFieldStyle {
+  private findMergedStyleOrEmpty(identifier: string, type: FieldType): MergedFieldStyle {
     const found: MergedFieldStyle | undefined = this.styles.find(style => style.getIdentifier() === identifier);
 
     if (!found) {
-      return new MergedFieldStyle(identifier);
+      return new MergedFieldStyle(identifier, type);
     }
 
     return found;

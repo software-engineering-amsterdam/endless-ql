@@ -1,6 +1,5 @@
-import ast.DogeParser
+import form.ui.DogeApp
 import javafx.application.Application
-import ui.DogeApp
 
 class DogeQL {
 

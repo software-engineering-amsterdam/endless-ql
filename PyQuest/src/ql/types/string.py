@@ -39,6 +39,9 @@ class QLString(QLType):
     def __add__(self, other):
         return QLString(self.value + other.value)
 
+    def get_json_value(self):
+        return self.value
+
     @property
     def value(self):
         return self.__value

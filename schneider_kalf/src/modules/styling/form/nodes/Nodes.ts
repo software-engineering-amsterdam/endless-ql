@@ -5,6 +5,7 @@ import Section from "./containers/SectionNode";
 import WidgetAttribute from "./attributes/WidgetAttribute";
 import QuestionStyle from "./children/QuestionStyle";
 import DefaultStyle from "./children/DefaultStyleNode";
+import AttributeNodeFactory from "../factories/AttributeNodeFactory";
 
 /**
  * List all available node types for easy access in the grammar.
@@ -18,5 +19,6 @@ export default {
   Page,
   Section,
   QuestionStyle,
-  DefaultStyle
+  DefaultStyle,
+  AttributeNodeFactory
 };

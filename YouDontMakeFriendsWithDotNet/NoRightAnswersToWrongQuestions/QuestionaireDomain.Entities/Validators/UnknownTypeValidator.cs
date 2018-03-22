@@ -43,7 +43,7 @@ namespace QuestionnaireDomain.Entities.Validators
 
                 if (m_variableService.AreCompatible(leftName, rightName))
                 {
-                    var type = m_variableService.GetType(leftName);
+                    var type = m_variableService.GetQuestionType(leftName);
                     if (!m_typeService.IsValidOperationForType(untypedOperator, type))
                     {
                         yield return IncompatableOperationError(untypedOperator, leftName, rightName);
@@ -58,8 +58,8 @@ namespace QuestionnaireDomain.Entities.Validators
 
         private ValidationMetaData IncompatibleTypeError(string leftName, string rightName, IRelationalLogicNode untypedOperator)
         {
-            var leftType = m_variableService.GetType(leftName);
-            var rightType = m_variableService.GetType(rightName);
+            var leftType = m_variableService.GetQuestionType(leftName);
+            var rightType = m_variableService.GetQuestionType(rightName);
             
             var leftTypeText = m_typeService.GetTypeDisplay(leftType);
             var rightTypeText = m_typeService.GetTypeDisplay(rightType);
@@ -77,7 +77,7 @@ namespace QuestionnaireDomain.Entities.Validators
 
         private ValidationMetaData IncompatableOperationError( IRelationalLogicNode untypedOperator, string leftName, string rightName)
         {
-            var type = m_variableService.GetType(leftName);
+            var type = m_variableService.GetQuestionType(leftName);
             var displayType = m_typeService.GetTypeDisplay(type);
             return new UnkownTypeExpressionValidationMetaData
             {

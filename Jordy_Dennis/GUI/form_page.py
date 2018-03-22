@@ -1,8 +1,8 @@
 """
     Pages can be added to a parent class and consist of a scrollFrame (contents), to which
-    questions can be added or removed.
+    sections can be added or removed.
 
-    We track a list of questions, in case questions need to be removed or added
+    We track a list of sections, in case questions need to be removed or added from these sections
 """
 from .gui_imports import *
 from .form_question import Question
@@ -11,7 +11,7 @@ from .form_question import Question
 from .form_section import *
 
 
-class Page():
+class Page:
 
     def __init__(self, parent, questionGenerator, page_header='default', color='green'):
         self.questionGenerator = questionGenerator
@@ -95,7 +95,7 @@ class Page():
         for section in self.sections:
             if section.getName() == sectionName:
                 for question in section.questions:
-                    if (question.varName not in questions):
+                    if question.varName not in questions:
                         section.removeQuestion(question.varName)
 
     def emptyFrame(self):

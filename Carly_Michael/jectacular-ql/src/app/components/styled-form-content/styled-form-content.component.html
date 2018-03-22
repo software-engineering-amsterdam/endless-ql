@@ -5,14 +5,9 @@
     </ng-template>
     <mat-list>
       <div *ngFor="let section of page.sections">
-        <h3 mat-subheader>{{section.name}}</h3>
-        <ng-container *ngFor="let question of getSectionQuestions(section, page.defaultSettings)">
-          <mat-list-item *ngIf="question.hiddenCondition(form)">
-            <app-widget [question]="question" [form]="form" ></app-widget>
-          </mat-list-item>
-        </ng-container>
+        <app-styled-form-section [section]="section" [styledQuestionsMap]="qlsToQlQuestionDictionary" [form]="form">
 
-        <mat-divider></mat-divider>
+        </app-styled-form-section>
       </div>
     </mat-list>
   </mat-tab>

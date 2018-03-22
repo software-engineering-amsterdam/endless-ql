@@ -6,21 +6,26 @@ Statements are either conditionals, questions or assignments
 """
 
 from .ast_methods import *
+import collections
+
 class FormNode:
     def __init__(self, name, line):
         self.name = name
         self.line = line
         self.block = []
         self.qlOrder = collections.OrderedDict()
-
-    # Check all types of child forms
+    """
+        Check all types of child forms
+    """
     def checkTypes(self):
         types = []
         for statement in self.block:
             types.append(statement.checkTypes())
         return types
 
-    # Link all variables from the assignments/questions to the variable nodes.
+    """
+        Link all variables from the assignments/questions to the variable nodes.
+    """
     def linkVars(self, varDict):
         for statement in self.block:
             statement.linkVars(varDict)

@@ -13,6 +13,7 @@ public class TextFieldWidgetQLS extends QLSWidget {
     public TextFieldWidgetQLS(QuestionData questionData) {
         super(questionData);
         this.textFieldWidget = new TextFieldWidget(questionData);
+        this.textFieldWidget.addListener(this::sendUpdateValueEvent);
     }
 
     @Override

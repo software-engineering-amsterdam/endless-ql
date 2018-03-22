@@ -1,6 +1,8 @@
+using Assignment1.Model.QL.AST;
+
 namespace Assignment1.Model.QLS.AST.Style
 {
-    public class Color : Style
+    public class Color : ASTNode, IStyle
     {
         public System.Drawing.Color Value { get; }
 
@@ -12,6 +14,6 @@ namespace Assignment1.Model.QLS.AST.Style
             _value = value;
         }
 
-        public override void Accept(IStyleVisitor visitor) => visitor.Visit(this);
+        public void Accept(IStyleVisitor visitor) => visitor.Visit(this);
     }
 }

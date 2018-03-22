@@ -69,11 +69,11 @@ public class TypeChecker extends Checker
     public Type visit(Conditional conditional, String context) {
         Type type = conditional.getCondition().accept(this, null);
 
-        for (Statement statement : conditional.getIfSide()) {
+        for (Statement statement : conditional.getIfBlock()) {
             statement.accept(this, null);
         }
 
-        for (Statement statement : conditional.getElseSide()) {
+        for (Statement statement : conditional.getElseBlock()) {
             statement.accept(this, null);
         }
 

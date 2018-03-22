@@ -66,7 +66,6 @@
     <Compile Include="Model\QLS\AST\Style\Font.cs" />
     <Compile Include="Model\QLS\AST\Style\FontSize.cs" />
     <Compile Include="Model\QLS\AST\Style\IStyleVisitor.cs" />
-    <Compile Include="Model\QLS\AST\Style\Style.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\CheckBox.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\DropDown.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\Radio.cs" />
@@ -110,6 +109,7 @@
     <Compile Include="Model\QL\AST\Value\QLString.cs" />
     <Compile Include="Model\QL\AST\Value\Undefined.cs" />
     <Compile Include="Model\QL\AST\Value\IValue.cs" />
+    <Compile Include="Model\QL\RenderTree\IRenderable.cs" />
     <Compile Include="Model\QL\RenderTree\Value\AnswerValue.cs" />
     <Compile Include="Model\QL\RenderTree\IQuestionVisitor.cs" />
     <Compile Include="Model\QLS\AST\Statement.cs" />
@@ -126,12 +126,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\QL\RenderTree\QuestionBool.cs" />
-    <Compile Include="Model\QL\RenderTree\QuestionDate.cs" />
-    <Compile Include="Model\QL\RenderTree\QuestionDecimal.cs" />
-    <Compile Include="Model\QL\RenderTree\QuestionInt.cs" />
-    <Compile Include="Model\QL\RenderTree\QuestionMoney.cs" />
-    <Compile Include="Model\QL\RenderTree\QuestionString.cs" />
+    <Compile Include="Model\QL\RenderTree\RenderableQuestionBool.cs" />
+    <Compile Include="Model\QL\RenderTree\RenderableQuestionDate.cs" />
+    <Compile Include="Model\QL\RenderTree\RenderableQuestionDecimal.cs" />
+    <Compile Include="Model\QL\RenderTree\RenderableQuestionInt.cs" />
+    <Compile Include="Model\QL\RenderTree\RenderableQuestionMoney.cs" />
+    <Compile Include="Model\QL\RenderTree\RenderableQuestionString.cs" />
     <Compile Include="Model\QL\RenderTree\Value\AnswerValueBool.cs" />
     <Compile Include="Model\QL\RenderTree\Value\AnswerValueNumber.cs" />
     <Compile Include="Model\QL\RenderTree\Value\AnswerValueString.cs" />
@@ -157,7 +157,7 @@
     <Compile Include="TypeChecking\QLASTDuplicateChecker.cs" />
     <Compile Include="TypeChecking\QLASTScopeChecker.cs" />
     <Compile Include="TypeChecking\QLTypeChecker.cs" />
-    <Compile Include="Model\QL\RenderTree\Question.cs" />
+    <Compile Include="Model\QL\RenderTree\RenderableQuestion.cs" />
     <Compile Include="Model\QL\RenderTree\QuestionForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,6 +5,8 @@ import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.Operator;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
+import java.util.Set;
+
 public class ConstBinOpExpression extends Expression {
 
     private Constant constant;
@@ -53,6 +55,11 @@ public class ConstBinOpExpression extends Expression {
         }
 
         setExpressionValue(((BinaryOperator)operator).evaluate(constant, expression));
+    }
+
+    @Override
+    public Set<String> getPrerequisites() {
+        return expression.getPrerequisites();
     }
 
     @Override

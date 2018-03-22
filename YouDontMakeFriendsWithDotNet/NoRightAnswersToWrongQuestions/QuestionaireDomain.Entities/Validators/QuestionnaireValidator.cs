@@ -2,6 +2,7 @@
 using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
 using QuestionnaireDomain.Entities.Validators.MetaData;
 
@@ -9,6 +10,8 @@ namespace QuestionnaireDomain.Entities.Validators
 {
     public class QuestionnaireValidator : IQuestionnaireValidator
     {
+        private readonly IDomainItemLocator m_domainItemLocator;
+
         private readonly List<IValidator> m_validators 
             = new List<IValidator>();
 
@@ -16,6 +19,7 @@ namespace QuestionnaireDomain.Entities.Validators
             = new List<ValidationMetaData>();
 
         public QuestionnaireValidator(
+            IDomainItemLocator domainItemLocator,
             IDuplicateVariableValidator duplicateVariableValidator,
             IUndefinedVariableValidator undefinedVariableValidator,
             IBooleanConditionValidator booleanConditionValidator,
@@ -26,6 +30,7 @@ namespace QuestionnaireDomain.Entities.Validators
             IUnknownTypeValidator unknownTypeValidator,
             IDuplicateTextValidator duplicateTextValidator)
         {
+            m_domainItemLocator = domainItemLocator;
             m_validators.Add(duplicateVariableValidator);
             m_validators.Add(undefinedVariableValidator);
             m_validators.Add(booleanConditionValidator);
@@ -37,7 +42,7 @@ namespace QuestionnaireDomain.Entities.Validators
             m_validators.Add(duplicateTextValidator);
         }
         
-        public void Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode)
+        public bool Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode)
         {
             foreach (var validator in m_validators)
             {
@@ -45,6 +50,8 @@ namespace QuestionnaireDomain.Entities.Validators
                     .Concat(validator.Validate(questionnaireRootNode))
                     .ToList();
             }
+
+            return Results.All(x => x.Severity != Severity.Error);
         }
     }
 }

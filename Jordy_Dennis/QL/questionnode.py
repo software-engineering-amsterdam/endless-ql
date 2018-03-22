@@ -2,7 +2,7 @@
     Node for question, it contains a varnode where the value will be stored
 """
 from .ast_methods import *
-
+import collections
 
 class QuestionNode:
     def __init__(self, question, varNode, line):
@@ -44,6 +44,7 @@ class QuestionNode:
 
     def setVar(self, value ,varDict):
         self.varNode.setVar(value)
+        var = self.varNode.getVarname()
         varDict[var]['node'] = self.varNode
 
     def __repr__(self):

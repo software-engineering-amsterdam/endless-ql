@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
+import java.math.BigInteger;
 import java.text.NumberFormat;
 
 public class IntegerFieldWidget extends Widget {
@@ -37,18 +38,25 @@ public class IntegerFieldWidget extends Widget {
                 warn();
             }
 
-            public void removeUpdate(DocumentEvent e) {
-                warn();
-            }
+            public void removeUpdate(DocumentEvent e) { }
 
             public void insertUpdate(DocumentEvent e) {
                 warn();
             }
 
             private void warn() {
-                String clearText = textField.getText().replaceAll("[^0-9]", "");
-                String safeText = clearText.equals("") ? "0" : clearText;
-                questionModel.changeValue(Integer.parseInt(safeText));
+                Runnable format = () -> {
+                    String text = textField.getText();
+                    if (!text.matches("(-)?\\d*")) {
+                        textField.setText(text.substring(0, text.length() - 1));
+                    }
+                };
+
+                SwingUtilities.invokeLater(format);
+
+                if (textField.getText().matches("(-)?\\d*")) {
+                    questionModel.changeValue(new BigInteger(textField.getText()));
+                }
             }
         });
 

@@ -1,21 +1,22 @@
+"""
+    A Default style can be created on two levels, on a page or section level, and on a question level.
 
+    The question level defaults always need a widget type. The section and page level defaults do not need this.
+
+    A default can have one single widget, and multiple styling attributes for this widget. 
+    Default styling can be overwritten and is therefore scoped. 
+"""
 from .qlast_methods import *
 
 class DefaultStyle:
     def __init__(self, defaultType, line):
         self.attributes = []
         self.line = line
-        self.varDict = None
         self.type = defaultType
         self.widgetType = None
 
-    def checkDefaults(self, defaultDict):
-        print("---------")
-        print(self.type)
-        pass
-
     """
-        Check if all the defaults are correct
+        Check if all the defaults are correct, a default is uncorrect when it is used multiple times.
     """
     def checkDefaultsQuestion(self, defaultDict):
         # If the entry is already present
@@ -35,7 +36,7 @@ class DefaultStyle:
         
 
     """
-        Check if the attribute types only occur once. 
+        Check if the attribute types only occur once in the default. 
         We check the styling attributes by adding them to a list and see if they occur only once.
 
         We check the widgets by using a boolean
@@ -83,7 +84,7 @@ class DefaultStyle:
         return self.type, widgetType
 
     """
-        Check the attributes for a widget (there can only be one), set your own widget if needed,
+        Check the attributes for the widget of the default (there can only be one), set your own widget if needed,
         and return the widget
     """
     def getWidget(self):
@@ -99,9 +100,6 @@ class DefaultStyle:
     """
     def addAttribute(self, attribute):
         self.attributes.append(attribute)
-
-    def addVarDict(self, varDict):
-        self.varDict = varDict
 
     def setWidgetType(self, widgetType):
         self.widgetType = widgetType

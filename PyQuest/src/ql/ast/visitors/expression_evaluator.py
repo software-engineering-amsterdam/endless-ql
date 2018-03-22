@@ -32,3 +32,4 @@ class ExpressionEvaluator:
         for question in self.form.block:
             if node.identifier == question.identifier:
                 node.value = question.answer.value
+                self.result = node.value

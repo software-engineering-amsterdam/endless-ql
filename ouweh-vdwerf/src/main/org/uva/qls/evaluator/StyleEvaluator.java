@@ -31,7 +31,7 @@ import java.util.Arrays;
 public class StyleEvaluator {
 
     private Stylesheet stylesheet;
-    private StylesheetContext context;
+    private final StylesheetContext context;
 
     private Map<String, WidgetType> defaultTypes = new HashMap<>();
 
@@ -41,6 +41,7 @@ public class StyleEvaluator {
     private Style defaultStyle;
 
     public StyleEvaluator() {
+        this.context = new StylesheetContext();
         setDefaultWidgetTypes();
         setDefaultStyle();
 
@@ -48,24 +49,20 @@ public class StyleEvaluator {
 
     public void setStylesheet(Stylesheet stylesheet) {
         this.stylesheet = stylesheet;
-        this.context = new StylesheetContext(stylesheet);
+        this.context.setStylesheet(stylesheet);
         generateSections();
     }
 
-    public void setWidget(QuestionReference questionReference, JPanel widget) {
-        sections.put(questionReference.getId(), widget);
+    public void setWidget(Question question, JPanel widget) {
+        sections.put(question.getId(), widget);
     }
 
-    public void setVisible(QuestionReference questionReference) {
-        String key = questionReference.getId();
+    public void setVisible(Question question) {
+        String key = question.getId();
         visibleSections.add(key);
         for (Segment segment : context.getAllParents(key)) {
             visibleSections.add(segment.getId());
         }
-    }
-
-    public QuestionReference getQuestionReference(Question question) {
-        return this.context.getQuestionReference(question);
     }
 
     public JTabbedPane getLayout(JTabbedPane tabbedPane) {
@@ -129,9 +126,6 @@ public class StyleEvaluator {
                 }
             }
         }
-
-
-        //TODO select scope specific defaults
 
         return defaultTypes.get(question.getType().getClass().toString());
     }

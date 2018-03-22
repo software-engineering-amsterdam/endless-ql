@@ -6,7 +6,7 @@ import subprocess
 
 
 def generateParsers(pythonVersion="Python3", destinationFolder="LexParser"):
-    if (os.path.isdir(destinationFolder) == False):
+    if os.path.isdir(destinationFolder) == False:
         os.makedirs(destinationFolder)
     grammarName = "QLGrammar"
     # Parse Language using antlr

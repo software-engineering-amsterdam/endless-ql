@@ -38,8 +38,8 @@ public class App {
         QLValidator validator = new QLValidator(form);
         ValidationResult validationResult = validator.run();
 
-        QLSValidator qlsValidator = new QLSValidator(new QuestionContext(form).getQuestions(), stylesheet);
-//        qlsValidator.run();
+        QLSValidator qlsValidator = new QLSValidator(form, stylesheet);
+        validationResult = validationResult.merge(qlsValidator.run());
 
         FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
         StyleEvaluator styleEvaluator = new StyleEvaluator();

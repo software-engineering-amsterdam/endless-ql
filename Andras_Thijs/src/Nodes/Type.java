@@ -18,7 +18,7 @@ public enum Type {
         this.value = value;
     }
 
-    static Map<String, Type> map = new HashMap<String, Type>();
+    static Map<String, Type> map = new HashMap<>();
 
     static {
         for (Type type : Type.values()) {

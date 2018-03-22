@@ -7,7 +7,7 @@ import QLExceptions.*;
 public abstract class Operator extends ASTNode {
     private String value;
 
-    public Operator(String value){
+    Operator(String value){
         this.value = value;
     }
 

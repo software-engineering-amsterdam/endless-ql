@@ -9,7 +9,7 @@ public class Widget {
     private Type type;
     private Component component;
 
-    public Widget(Type type, Component component){
+    Widget(Type type, Component component){
         this.type = type;
         this.component = component;
     }

@@ -12,8 +12,6 @@ public class Variable extends Term {
         this.name = name;
     }
 
-    public String getName() { return name; }
-
     /**
      * This function tries to find the value of the referenced Question.
      * @return the value of the referenced Question.

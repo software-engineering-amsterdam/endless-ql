@@ -11,7 +11,7 @@ public class QuestionPanel extends JPanel{
     private boolean isAvailable;
     private Widget widget;
 
-    public QuestionPanel (Question question, RefreshListener listener){
+    QuestionPanel(Question question, RefreshListener listener){
         this.question = question;
         this.setName(question.getName());
         this.isAvailable = question.isAvailable();

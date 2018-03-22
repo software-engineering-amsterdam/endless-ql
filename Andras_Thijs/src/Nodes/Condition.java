@@ -10,7 +10,7 @@ import java.util.List;
  * A parsed condition that can contain questions and other conditions
  */
 public class Condition extends ASTNode {
-    public Expression expression; //TODO: TESTING PURPOSES, THIS SHOULD BE PRIVATE!!!
+    private Expression expression;
     private List<Question> questions;
     private List<Condition> conditions;
 
@@ -41,14 +41,6 @@ public class Condition extends ASTNode {
 
         for(Condition c : conditions)
             c.setParents(this);
-    }
-
-    /**
-     * Returns the condition's evaluable expression
-     * @return The expression
-     */
-    public Expression getExpression() {
-        return expression;
     }
 
     /**

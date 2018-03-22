@@ -1,8 +1,6 @@
 package Nodes;
 
-import java.util.Iterator;
 import java.util.List;
-import QLExceptions.SyntaxException;
 
 /**
  * Contains a parsed QL form with the appropriate questions and conditions
@@ -62,9 +60,8 @@ public class QLForm extends ASTNode {
 
     public List<Question> getAllQuestions(){
         List<Question> allQuestions = questions;
-        Iterator<Condition> conditionIterator = conditions.iterator();
-        while (conditionIterator.hasNext()) {
-            List<Question> subQuestions = visitCondition(conditionIterator.next());
+        for (Condition condition : conditions) {
+            List<Question> subQuestions = visitCondition(condition);
             if (subQuestions != null)
                 allQuestions.addAll(subQuestions);
         }
@@ -75,9 +72,8 @@ public class QLForm extends ASTNode {
 
         List<Question> questions = condition.getQuestions();
         List<Condition> conditions = condition.getConditions();
-        Iterator<Condition> conditionIterator = conditions.iterator();
-        while (conditionIterator.hasNext()) {
-            List<Question> subQuestions = visitCondition(conditionIterator.next());
+        for (Condition condition1 : conditions) {
+            List<Question> subQuestions = visitCondition(condition1);
             if (subQuestions != null)
                 questions.addAll(subQuestions);
         }

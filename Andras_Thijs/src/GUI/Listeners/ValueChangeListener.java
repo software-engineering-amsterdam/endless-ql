@@ -19,9 +19,7 @@ public class ValueChangeListener implements ActionListener {
         if (refreshListener != null) {
             try {
                 refreshListener.refreshQuestions();
-            } catch (SyntaxException e1) {
-                e1.printStackTrace();
-            } catch (TypeException e1) {
+            } catch (SyntaxException | TypeException e1) {
                 e1.printStackTrace();
             }
         }

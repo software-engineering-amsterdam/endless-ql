@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.util.*;
 import java.util.List;
 
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
 public class FormTemplate implements RefreshListener{
 
     private QLForm form;
@@ -25,19 +27,17 @@ public class FormTemplate implements RefreshListener{
     public void renderForm() throws SyntaxException, TypeException {
 
         JFrame frame = new JFrame(form.getName());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         FormLayout layout = new FormLayout(
                 "left:default, 3dlu default");
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
         List<Question> questions = form.getAllQuestions();
-        Iterator<Question> questionIterator = questions.iterator();
-        while (questionIterator.hasNext()) {
-            QuestionPanel questionPanel = new QuestionPanel(questionIterator.next(), this);
+        questions.stream().map(question -> new QuestionPanel(question, this)).forEach(questionPanel -> {
             questionPanels.add(questionPanel);
             builder.append(questionPanel);
-        }
+        });
 
         JPanel panel = builder.getPanel();
 
@@ -52,9 +52,8 @@ public class FormTemplate implements RefreshListener{
     }
 
     private void refreshView() throws SyntaxException, TypeException {
-        Iterator<QuestionPanel> questionPanelIterator = questionPanels.iterator();
-        while(questionPanelIterator.hasNext()){
-            questionPanelIterator.next().refreshPanel();
+        for (QuestionPanel questionPanel : questionPanels) {
+            questionPanel.refreshPanel();
         }
     }
 

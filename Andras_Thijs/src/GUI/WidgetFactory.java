@@ -7,7 +7,6 @@ import Nodes.Type;
 import javax.swing.*;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.NumberFormatter;
-import java.awt.*;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;

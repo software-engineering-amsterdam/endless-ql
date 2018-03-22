@@ -10,7 +10,7 @@ import java.util.Map;
 public class FormControllerQL extends FormController {
     protected Map<String, Pane> createContainer(EvaluationResult evaluationResult) {
         HashMap<String, Pane> panes = new HashMap<>();
-        panes.put("default", new Pane()); //TODO
+        panes.put("default", this.container); //TODO
         return panes;
     }
 }

@@ -18,9 +18,13 @@ public class FormControllerQLS extends FormController {
         for (QuestionData questionData : evaluationResult.getQuestions()) {
             Style style = questionData.getStyle();
             if (style != null)
-                panes.put("default", new Pane()); //TODO
+                panes.put("default", createTab(style.getPage())); //TODO
         }
 
         return panes;
+    }
+
+    private Pane createTab(String tabName) {
+        return new Pane();
     }
 }

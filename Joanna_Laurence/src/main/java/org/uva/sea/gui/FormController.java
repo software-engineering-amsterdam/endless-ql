@@ -38,11 +38,13 @@ public abstract class FormController implements Initializable, IGuiElementUpdate
     private final Renderer renderer = new Renderer();
 
     @FXML
-    private VBox container;
+    protected VBox container;
+
     @FXML
-    private TabPane tabPane;
+    protected TabPane tabPane;
+    
     @FXML
-    private VBox messages;
+    protected VBox messages;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

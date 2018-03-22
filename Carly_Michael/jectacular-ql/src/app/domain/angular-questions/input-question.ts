@@ -8,6 +8,6 @@ export class InputQuestion extends QuestionBase<string> {
               value,
               type: string,
               hiddenCondition?: (form: FormGroup) => boolean) {
-    super(key, label, value, type, 'textbox', new Widget(WidgetType.TEXT, []), hiddenCondition);
+    super(key, label, value, type, 'textbox', hiddenCondition);
   }
 }

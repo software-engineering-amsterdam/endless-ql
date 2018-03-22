@@ -51,7 +51,11 @@ class CompatibilityChecker extends Checker {
 
     private ValidationResult checkDefaultWidgetTypeCompatibility(ValidationResult validationResult){
         for(DefaultWidgetStatement defaultWidgetStatement: this.context.getAllDefaultWidgetStatements()) {
-            defaultWidgetStatement.getWidget();
+            Type type = defaultWidgetStatement.getType();
+            Widget widget = defaultWidgetStatement.getWidget();
+            if (!widget.isCompatible(type.getClass())) {
+               validationResult.addError(String.format("Type %s is not compatible with widget %s", type.toString(), widget.toString()));
+            }
         }
         return validationResult;
     }

@@ -109,7 +109,7 @@ class InputTypeMap:
         elif widgetType == "spinbox":
             var = DoubleVar()
             var.trace('w', lambda nm, idx, mode, var=var: self.validateSpinbox(var))
-            w = Spinbox(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'], textvariable=var)
+            w = Spinbox(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'], textvariable=var, state='readonly')
         elif widgetType == "slider":
             var = DoubleVar()
             var.trace('w', lambda nm, idx, mode, var=var: self.validateSpinbox(var))
@@ -130,7 +130,6 @@ class InputTypeMap:
         newVal = var.get()
         if type(newVal) != bool:
             newVal = bool(newVal)
-        print(newVal)
         # save value in vardict
         varNode = self.varDict[self.varName]['node']
         varNode.setVar(newVal)

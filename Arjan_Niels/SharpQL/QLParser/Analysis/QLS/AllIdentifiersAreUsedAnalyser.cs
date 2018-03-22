@@ -22,7 +22,7 @@ namespace QLParser.Analysis.QLS
             {
                 if (!this.VisitedIDs.Contains(key))
                 {
-                    Analyser.AddMessage(string.Format("{0} has not been added to QLS", key), MessageType.WARNING);
+                    Analyser.AddMessage(string.Format("Identifier has not been included in QLS: {0}", key), MessageType.WARNING);
                     isValid = false;
                 }
             }

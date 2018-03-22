@@ -52,6 +52,7 @@
     <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
     <Compile Include="Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />
     <Compile Include="Analysis\Semantic\StatementTypeAnalyserTests.cs" />
+    <Compile Include="QLS\Analysis\DuplicateVariableTests.cs" />
     <Compile Include="QL\CommentTest.cs" />
     <Compile Include="QL\ComputedNodeTest.cs" />
     <Compile Include="QL\Expressions\ArthimeticExpressionTests.cs" />

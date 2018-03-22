@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace QLParser.AST.QL
 {
-    public abstract class QLNode
+    public abstract class QLNode : IQLTraversable
     {
         public NodeType Type { get; private set; }
         public List<QLNode> Children { get; private set; }
@@ -33,5 +33,7 @@ namespace QLParser.AST.QL
         {
             return this.Type;
         }
+
+        public abstract void Accept(IQLVisitor visitor);
     }
 }

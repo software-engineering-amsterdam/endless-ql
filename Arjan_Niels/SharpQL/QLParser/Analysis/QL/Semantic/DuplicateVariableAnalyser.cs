@@ -1,4 +1,6 @@
 ﻿using QLParser.AST.QL;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace QLParser.Analysis.QL.Semantic
 {
@@ -6,8 +8,15 @@ namespace QLParser.Analysis.QL.Semantic
     /// The TypeAnalyser walks over the tree and looks if all the variable type
     /// are in compliance with the language.
     /// </summary>
-    public class DuplicateVariableAnalyser : IQLAnalyser
+    public class DuplicateVariableAnalyser : IQLAnalyser, IQLVisitor
     {
+        private IList<string> VisitedIDs;
+
+        public DuplicateVariableAnalyser()
+        {
+            this.VisitedIDs = new List<string>();
+        }
+
         /// <summary>
         /// This function will return true if it doesn't encounter any problems. 
         /// </summary>
@@ -16,34 +25,14 @@ namespace QLParser.Analysis.QL.Semantic
         /// <returns></returns>
         public bool Analyse(QLNode node)
         {
-            var result = true;
-            string id = "";
-            QValueType type = QValueType.UNKNOWN;
-            if (node.Type == NodeType.QUESTION)
-            {
-                var questionNode = (QuestionNode)node;
-                id = questionNode.ID;
-                type = questionNode.ValueType;
-                return AddVariable(id, type);
-            }
-            else if (node.Type == NodeType.COMPUTED)
-            {
-                var computedNode = (ComputedNode)node;
-                id = computedNode.ID;
-                type = computedNode.ValueType;
-                return AddVariable(id, type);
-            }
-
-            // Set result to false if any of the children encounters an error.
-            foreach (QLNode child in node.Children)
-                if (!Analyse(child) && result)
-                    result = false;
-
-            return result;
+            // This visit discovers all the identifiers.
+            this.Visit(node);
+            return VisitedIDs.Count == VisitedIDs.Distinct().Count();
         }
 
         public bool AddVariable(string id, QValueType type)
         {
+            VisitedIDs.Add(id);
             if (!SymbolTable.Add(id, type))
             {
                 Analyser.AddMessage(string.Format("Duplicate identifier {0} {1}", id, type), MessageType.ERROR);
@@ -51,6 +40,40 @@ namespace QLParser.Analysis.QL.Semantic
             }
 
             return true;
+        }
+
+        public void Visit(QuestionNode node)
+        {
+            var id = node.ID;
+            var type = node.ValueType;
+            AddVariable(id, type);
+
+            VisitChildren(node);
+        }
+
+        public void Visit(ComputedNode node)
+        {
+            var id = node.ID;
+            var type = node.ValueType;
+            AddVariable(id, type);
+
+            VisitChildren(node);
+        }
+
+        public void Visit(FormNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(QLNode node)
+        {
+            VisitChildren(node);
+        }
+
+        private void VisitChildren(QLNode node)
+        {
+            foreach (var child in node.Children)
+                child.Accept(this);
         }
     }
 }

@@ -20,5 +20,10 @@ namespace QLParser.AST.QL
         {
             return string.Format("{0} {1}", base.ToString(), ID);
         }
+
+        public override void Accept(IQLVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

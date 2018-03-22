@@ -52,7 +52,8 @@
     <Compile Include="Analysis\Analyser.cs" />
     <Compile Include="Analysis\IQLSAnalyser.cs" />
     <Compile Include="Analysis\QLS\AllIdentifiersAreUsedAnalyser.cs" />
-    <Compile Include="Analysis\QLS\NoDuplicateIdentifiersAnalyser.cs" />
+    <Compile Include="Analysis\QLS\DuplicateIdentifiersAnalyser.cs" />
+    <Compile Include="Analysis\QLS\UnknownIdentifiersAnalyser.cs" />
     <Compile Include="Analysis\QL\Evaluator\StatementType.cs" />
     <Compile Include="Analysis\QL\Evaluator\StatementTypeEvaluator.cs" />
     <Compile Include="Analysis\IQLAnalyser.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="AST\QL\ExpressionNodes\LogicalExpressionNode.cs" />
     <Compile Include="AST\QL\FormNode.cs" />
     <Compile Include="AST\QL\IExpressionNode.cs" />
+    <Compile Include="AST\QL\IQLTraversable.cs" />
+    <Compile Include="AST\QL\IQLVisitor.cs" />
     <Compile Include="AST\QL\QLNode.cs" />
     <Compile Include="AST\QL\NodeType.cs" />
     <Compile Include="AST\QL\QuestionNode.cs" />

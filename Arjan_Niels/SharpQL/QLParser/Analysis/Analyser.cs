@@ -44,7 +44,8 @@ namespace QLParser.Analysis
             };
             this._qlsAnalysers = new List<IQLSAnalyser>() {
                 new AllIdentifiersAreUsedAnalyser(),
-                new NoDuplicateIdentifiersAnalyser()
+                new DuplicateIdentifiersAnalyser(),
+                new UnknownIdentifiersAnalyser()
             };
 
         }

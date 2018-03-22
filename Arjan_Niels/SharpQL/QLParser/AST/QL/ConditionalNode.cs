@@ -1,6 +1,4 @@
-﻿using QLParser.AST;
-
-namespace QLParser.AST.QL
+﻿namespace QLParser.AST.QL
 {
     public class ConditionalNode : QLNode
     {
@@ -14,6 +12,11 @@ namespace QLParser.AST.QL
         public override string ToString()
         {
             return string.Format("{0} {1}", base.ToString(), Expression);
+        }
+
+        public override void Accept(IQLVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

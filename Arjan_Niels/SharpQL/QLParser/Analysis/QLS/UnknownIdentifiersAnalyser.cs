@@ -1,28 +1,26 @@
 ﻿using QLParser.AST.QLS;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QLParser.Analysis.QLS
 {
-    public class AllIdentifiersAreUsedAnalyser : IQLSVisitor, IQLSAnalyser
+    public class UnknownIdentifiersAnalyser : IQLSAnalyser, IQLSVisitor
     {
-        private List<string> VisitedIDs;
-
-        public AllIdentifiersAreUsedAnalyser()
+        private IList<string> VisitedIDs;
+        public UnknownIdentifiersAnalyser()
         {
             this.VisitedIDs = new List<string>();
         }
 
         public bool Analyse(QLSNode node)
         {
-            var isValid = true;
-            this.VisitedIDs.Clear();
             this.Visit(node);
-
-            foreach (var key in SymbolTable.Instance.TypeMap.Keys)
+            var isValid = true;
+            foreach (var id in VisitedIDs)
             {
-                if (!this.VisitedIDs.Contains(key))
+                if (!SymbolTable.Instance.TypeMap.Keys.Contains(id))
                 {
-                    Analyser.AddMessage(string.Format("Identifier has not been included in QLS: {0}", key), MessageType.WARNING);
+                    Analyser.AddMessage(string.Format("Unknown identifier in QLS: {0}", id), MessageType.ERROR);
                     isValid = false;
                 }
             }

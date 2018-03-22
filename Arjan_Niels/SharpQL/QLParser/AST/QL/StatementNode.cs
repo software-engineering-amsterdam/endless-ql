@@ -1,6 +1,4 @@
-﻿using QLParser.AST;
-
-namespace QLParser.AST.QL
+﻿namespace QLParser.AST.QL
 {
     public class StatementNode : QLNode, IExpressionNode
     {
@@ -29,6 +27,11 @@ namespace QLParser.AST.QL
                 return leftSideType;
             else
                 return QValueType.UNKNOWN;
+        }
+
+        public override void Accept(IQLVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

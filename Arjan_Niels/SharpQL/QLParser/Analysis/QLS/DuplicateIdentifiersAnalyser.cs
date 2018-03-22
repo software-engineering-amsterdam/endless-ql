@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace QLParser.Analysis.QLS
 {
-    public class NoDuplicateIdentifiersAnalyser : IQLSAnalyser, IQLSVisitor
+    public class DuplicateIdentifiersAnalyser : IQLSAnalyser, IQLSVisitor
     {
         private IList<string> VisitedIDs;
-        public NoDuplicateIdentifiersAnalyser()
+        public DuplicateIdentifiersAnalyser()
         {
             this.VisitedIDs = new List<string>();
         }
@@ -17,35 +17,38 @@ namespace QLParser.Analysis.QLS
             this.VisitedIDs.Clear();
             this.Visit(node);
 
-            var hasDuplicates = false;
+            var isValid = true;
             foreach (var id in this.VisitedIDs.Distinct())
             {
                 var idCount = this.VisitedIDs.Count(x => x == id);
                 if (idCount > 1)
                 {
-                    hasDuplicates = true;
+                    isValid = false;
                     Analyser.AddMessage(string.Format("Duplicate key in QLS: {0}", id), MessageType.WARNING);
                 }
             }
 
-            return hasDuplicates;
+            return isValid;
         }
 
         public void Visit(QLSQuestionNode node)
         {
             this.VisitedIDs.Add(node.ID);
 
-            foreach (var child in node.Children)
-                child.Accept(this);
+            VisitChildren(node);
         }
 
         public void Visit(QLSStructuralNode node)
         {
-            foreach (var child in node.Children)
-                child.Accept(this);
+            VisitChildren(node);
         }
 
         public void Visit(QLSNode node)
+        {
+            VisitChildren(node);
+        }
+
+        private void VisitChildren(QLSNode node)
         {
             foreach (var child in node.Children)
                 child.Accept(this);

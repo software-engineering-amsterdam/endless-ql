@@ -3,6 +3,7 @@ using QLParser;
 using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
+using QLParser.Exceptions;
 
 namespace QL_Parser.Tests.QLS
 {
@@ -21,6 +22,14 @@ namespace QL_Parser.Tests.QLS
             "   page \"FirstPage\" {" +
             "      section \"SectionOne\" {" +
             "           question hasSoldHouse widget spinner" +
+            "       }" +
+            "   }" +
+            "}";
+
+        private const string SimpleStyleWithWidgetTypeTextfield = "stylesheet TestForm {" +
+            "   page \"FirstPage\" {" +
+            "      section \"SectionOne\" {" +
+            "           question hasSoldHouse widget textfield" +
             "       }" +
             "   }" +
             "}";
@@ -102,6 +111,17 @@ namespace QL_Parser.Tests.QLS
         }
 
         [TestMethod]
+        public void WidgetStyleTextfieldTest()
+        {
+            QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetTypeTextfield);
+
+            var questionNode = qls.Children[0].Children[0].Children[0];
+            Assert.AreEqual(WidgetType.TEXTFIELD, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(0, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
+        }
+
+
+        [TestMethod]
         public void WidgetStyleArgumentsTest()
         {
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetTypeWithArguments);
@@ -136,6 +156,13 @@ namespace QL_Parser.Tests.QLS
 
             var styles = qls.Children[0].NodeStyles;
             Assert.AreEqual(2, styles.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnknownNodeTypeException))]
+        public void UnknownWidgetTypeExceptionTest()
+        {
+            QLSWidgetSpecification.ParseWidgetType("Unknown");
         }
     }
 }

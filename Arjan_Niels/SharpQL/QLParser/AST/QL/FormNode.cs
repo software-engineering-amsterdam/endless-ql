@@ -1,6 +1,4 @@
-﻿using QLParser.AST;
-
-namespace QLParser.AST.QL
+﻿namespace QLParser.AST.QL
 {
     public class FormNode : QLNode
     {
@@ -14,6 +12,11 @@ namespace QLParser.AST.QL
         public override string ToString()
         {
             return base.ToString() + string.Format("\t\t{0}", FormName);
+        }
+
+        public override void Accept(IQLVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

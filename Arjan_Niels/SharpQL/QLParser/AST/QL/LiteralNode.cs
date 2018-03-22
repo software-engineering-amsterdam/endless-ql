@@ -1,6 +1,4 @@
-﻿using QLParser.AST;
-
-namespace QLParser.AST.QL
+﻿namespace QLParser.AST.QL
 {
     public class LiteralNode : QLNode, IExpressionNode
     {
@@ -21,6 +19,11 @@ namespace QLParser.AST.QL
         public override string ToString()
         {
             return string.Format("{0} {1}", base.ToString(), Value);
+        }
+
+        public override void Accept(IQLVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

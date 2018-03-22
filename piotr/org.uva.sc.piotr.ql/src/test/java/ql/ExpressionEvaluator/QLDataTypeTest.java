@@ -33,33 +33,33 @@ public final class QLDataTypeTest {
         Assert.assertEquals(result.getValue().compareTo(BigInteger.valueOf(-10)), 0);
     }
 
-//    @Test
-//    public void testIntegerAddition() {
-//        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(10));
-//        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(7));
-//        QLDataTypeNumeric result = val1.add(val2);
-//
-//        Assert.assertEquals(result.getValue().compareTo(BigInteger.valueOf(17)), 0);
-//
-//    }
-//
-//    @Test
-//    public void testIntegerSubtraction() {
-//        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(10));
-//        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(17));
-//        QLDataTypeInteger result = val1.subtract(val2);
-//
-//        Assert.assertEquals(result.getValue().compareTo(BigInteger.valueOf(-7)), 0);
-//    }
-//
-//    @Test
-//    public void testIntegerMultiplication() {
-//        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(3));
-//        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(7));
-//        QLDataTypeInteger result = val1.multiply(val2);
-//
-//        Assert.assertEquals(result.getValue().compareTo(BigInteger.valueOf(21)), 0);
-//    }
+    @Test
+    public void testIntegerAddition() {
+        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(10));
+        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(7));
+        QLDataTypeNumeric result = val1.add(val2);
+        BigInteger resultValue = (BigInteger) result.getValue();
+        Assert.assertEquals(resultValue.compareTo(BigInteger.valueOf(17)), 0);
+
+    }
+
+    @Test
+    public void testIntegerSubtraction() {
+        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(10));
+        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(17));
+        QLDataTypeNumeric result = val1.subtract(val2);
+        BigInteger resultValue = (BigInteger) result.getValue();
+        Assert.assertEquals(resultValue.compareTo(BigInteger.valueOf(-7)), 0);
+    }
+
+    @Test
+    public void testIntegerMultiplication() {
+        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(3));
+        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(7));
+        QLDataTypeNumeric result = val1.multiply(val2);
+        BigInteger resultValue = (BigInteger) result.getValue();
+        Assert.assertEquals(resultValue.compareTo(BigInteger.valueOf(21)), 0);
+    }
 
     @Test
     public void testIntegerDivision() {
@@ -143,143 +143,131 @@ public final class QLDataTypeTest {
         Assert.assertEquals(result.getValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(6.4).setScale(4, RoundingMode.HALF_UP)), 0);
     }
 
-//    @Test
-//    public void testIntegerCastToDecimalDivision() {
-//        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("6.72");
-//        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf( "2");
-//
-//        QLDataType result = val1.divide(val2);
-//        
-//        Assert.assertEquals(result.getValue().setScale( 4, RoundingMode.HALF_UP).compareTo(new BigDecimal(3.36).setScale( 4, RoundingMode.HALF_UP)), 0);
-//    }
-//
-//    @Test
-//    public void testLogicalNegation() {
-//        QLDataType QLDataTypeTrue = QLDataType.createValue(Expression.DataType.BOOLEAN, "true");
-//
-//        QLDataType result = QLDataTypeTrue.negate();
-//        Assert.assertEquals(result.getType(), QLDataTypeTrue.getType());
-//        Assert.assertEquals(false, result.getBooleanValue());
-//    }
-//
-//    @Test
-//    public void testLogicalAnd() {
-//        QLDataType QLDataTypeTrue = QLDataType.createValue(Expression.DataType.BOOLEAN, "true");
-//        QLDataType QLDataTypeFalse = QLDataType.createValue(Expression.DataType.BOOLEAN, "false");
-//
-//        Assert.assertEquals(QLDataTypeTrue.getType(), QLDataTypeFalse.getType());
-//
-//        // true && false -> false
-//        QLDataType result = QLDataTypeTrue.and(QLDataTypeFalse);
-//        Assert.assertEquals(false, result.getBooleanValue());
-//
-//        // false && true -> false
-//        result = QLDataTypeFalse.and(QLDataTypeTrue);
-//        Assert.assertEquals(false, result.getBooleanValue());
-//
-//        // false && false -> false
-//        result = QLDataTypeFalse.and(QLDataTypeFalse);
-//        Assert.assertEquals(false, result.getBooleanValue());
-//
-//        // true && true -> true
-//        result = QLDataTypeTrue.and(QLDataTypeTrue);
-//        Assert.assertEquals(true, result.getBooleanValue());
-//
-//    }
-//
-//    @Test
-//    public void testLogicalOr() {
-//        QLDataType QLDataTypeTrue = QLDataType.createValue(Expression.DataType.BOOLEAN, "true");
-//        QLDataType QLDataTypeFalse = QLDataType.createValue(Expression.DataType.BOOLEAN, "false");
-//
-//        Assert.assertEquals(QLDataTypeTrue.getType(), QLDataTypeFalse.getType());
-//
-//        // true || false -> true
-//        QLDataType result = QLDataTypeTrue.or(QLDataTypeFalse);
-//        Assert.assertEquals(true, result.getBooleanValue());
-//
-//        // false || true -> true
-//        result = QLDataTypeFalse.or(QLDataTypeTrue);
-//        Assert.assertEquals(true, result.getBooleanValue());
-//
-//        // false || false -> false
-//        result = QLDataTypeFalse.or(QLDataTypeFalse);
-//        Assert.assertEquals(false, result.getBooleanValue());
-//
-//        // true || true -> true
-//        result = QLDataTypeTrue.or(QLDataTypeTrue);
-//        Assert.assertEquals(true, result.getBooleanValue());
-//
-//    }
-//
-//    @Test
-//    public void testStringConcatenation() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.STRING, "One");
-//        QLDataType val2 = QLDataType.createValue(Expression.DataType.STRING, "Two");
-//        QLDataType result = val1.add(val2);
-//        
-//        Assert.assertEquals("OneTwo", result.getStringValue());
-//    }
-//
-//    @Test
-//    public void testIntegerComparision() {
-//        QLDataType val1 = QLDataType.createValue(Expression.DataType.INTEGER, "10");
-//        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf( "7");
-//
-//        QLDataType result = val1.equals(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(false, result.getBooleanValue());
-//
-//        result = val1.notEquals(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(true, result.getBooleanValue());
-//
-//        result = val1.lessThan(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(false, result.getBooleanValue());
-//
-//        result = val1.lessEqual(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(false, result.getBooleanValue());
-//
-//        result = val1.greaterThan(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(true, result.getBooleanValue());
-//
-//        result = val1.greaterEqual(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(true, result.getBooleanValue());
-//    }
-//
-//    @Test
-//    public void testDecimalComparision() {
-//        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("10.4");
-//        QLDataTypeDecimal val2 = new QLDataTypeDecimal(new BigDecimal("7.4");
-//
-//        QLDataType result = val1.equals(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(false, result.getBooleanValue());
-//
-//        result = val1.notEquals(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(true, result.getBooleanValue());
-//
-//        result = val1.lessThan(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(false, result.getBooleanValue());
-//
-//        result = val1.lessEqual(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(false, result.getBooleanValue());
-//
-//        result = val1.greaterThan(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(true, result.getBooleanValue());
-//
-//        result = val1.greaterEqual(val2);
-//        Assert.assertEquals(Expression.DataType.BOOLEAN, result.getType());
-//        Assert.assertEquals(true, result.getBooleanValue());
-//    }
-//
+    @Test
+    public void testIntegerCastToDecimalDivision() {
+        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("6.72"));
+        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(2));
+
+        QLDataTypeNumeric result = val1.divide(val2);
+        BigDecimal resultValue = (BigDecimal) result.getValue();
+
+        Assert.assertEquals(resultValue.setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(3.36).setScale(4, RoundingMode.HALF_UP)), 0);
+    }
+
+    @Test
+    public void testLogicalNegation() {
+        QLDataTypeBoolean qlTrue = new QLDataTypeBoolean(true);
+        QLDataTypeBoolean qlFalse = new QLDataTypeBoolean(false);
+
+        QLDataTypeBoolean result = qlTrue.negate();
+        Assert.assertFalse(result.getValue());
+    }
+
+    @Test
+    public void testLogicalAnd() {
+        QLDataTypeBoolean qlTrue = new QLDataTypeBoolean(true);
+        QLDataTypeBoolean qlFalse = new QLDataTypeBoolean(false);
+
+        // true && false -> false
+        QLDataTypeBoolean result = qlTrue.and(qlFalse);
+        Assert.assertFalse(result.getValue());
+
+        // false && true -> false
+        result = qlFalse.and(qlTrue);
+        Assert.assertFalse(result.getValue());
+
+        // false && false -> false
+        result = qlFalse.and(qlFalse);
+        Assert.assertFalse(result.getValue());
+
+        // true && true -> true
+        result = qlTrue.and(qlTrue);
+        Assert.assertTrue(result.getValue());
+
+    }
+
+    @Test
+    public void testLogicalOr() {
+        QLDataTypeBoolean qlTrue = new QLDataTypeBoolean(true);
+        QLDataTypeBoolean qlFalse = new QLDataTypeBoolean(false);
+
+        Assert.assertEquals(qlTrue.getType(), qlFalse.getType());
+
+        // true || false -> true
+        QLDataTypeBoolean result = qlTrue.or(qlFalse);
+        Assert.assertTrue(result.getValue());
+
+        // false || true -> true
+        result = qlFalse.or(qlTrue);
+        Assert.assertTrue(result.getValue());
+
+        // false || false -> false
+        result = qlFalse.or(qlFalse);
+        Assert.assertFalse(result.getValue());
+
+        // true || true -> true
+        result = qlTrue.or(qlTrue);
+        Assert.assertTrue(result.getValue());
+
+    }
+
+    @Test
+    public void testStringConcatenation() {
+        QLDataTypeString val1 = new QLDataTypeString("One");
+        QLDataTypeString val2 = new QLDataTypeString("Two");
+        QLDataTypeString result = val1.add(val2);
+        Assert.assertEquals("OneTwo", result.getValue());
+    }
+
+    @Test
+    public void testIntegerComparision() {
+        QLDataTypeInteger val1 = new QLDataTypeInteger(BigInteger.valueOf(10));
+        QLDataTypeInteger val2 = new QLDataTypeInteger(BigInteger.valueOf(7));
+
+        QLDataTypeBoolean result = val1.equals(val2);
+        Assert.assertFalse(result.getValue());
+
+        result = val1.notEquals(val2);
+        Assert.assertTrue(result.getValue());
+
+        result = val1.lessThan(val2);
+        Assert.assertFalse(result.getValue());
+
+        result = val1.lessEqual(val2);
+        Assert.assertFalse(result.getValue());
+
+        result = val1.greaterThan(val2);
+        Assert.assertTrue(result.getValue());
+
+        result = val1.greaterEqual(val2);
+        Assert.assertTrue(result.getValue());
+    }
+
+    @Test
+    public void testDecimalComparision() {
+        QLDataTypeDecimal val1 = new QLDataTypeDecimal(new BigDecimal("10.4"));
+        QLDataTypeDecimal val2 = new QLDataTypeDecimal(new BigDecimal("7.4"));
+
+        QLDataTypeBoolean result = val1.equals(val2);
+        Assert.assertFalse(result.getValue());
+
+        result = val1.notEquals(val2);
+        Assert.assertTrue(result.getValue());
+
+        result = val1.lessThan(val2);
+        Assert.assertFalse(result.getValue());
+
+        result = val1.lessEqual(val2);
+        Assert.assertFalse(result.getValue());
+
+        result = val1.greaterThan(val2);
+        Assert.assertTrue(result.getValue());
+
+
+        result = val1.greaterEqual(val2);
+        Assert.assertTrue(result.getValue());
+
+    }
+
 
 }

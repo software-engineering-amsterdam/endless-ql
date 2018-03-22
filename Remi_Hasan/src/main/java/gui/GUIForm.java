@@ -12,7 +12,6 @@ import javafx.scene.text.FontWeight;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
 import ql.model.Question;
-import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 import qls.model.DefaultStyle;
 import qls.model.Page;
@@ -101,7 +100,7 @@ public class GUIForm extends VBox {
     }
 
     private Node createQuestionGUI(SymbolTable symbolTable, Form form, List<DefaultStyle> defaultStyles, qls.model.Question qlsQuestion) {
-        Optional<Question> qlQuestion = form.questions.stream().filter(x -> x.name.equals(qlsQuestion.name)).findFirst();
+        Optional<Question> qlQuestion = form.questions.stream().filter(x -> x.identifier.equals(qlsQuestion.name)).findFirst();
         if (qlQuestion.isPresent()) {
             return new GUIQuestion(symbolTable, qlQuestion.get(), qlsQuestion, defaultStyles);
         } else {

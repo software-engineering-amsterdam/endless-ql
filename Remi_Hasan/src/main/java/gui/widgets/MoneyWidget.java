@@ -40,7 +40,7 @@ public class MoneyWidget extends TextField implements WidgetInterface {
     @Override
     public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
         symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
+            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
             String text = value.isUndefined() ? "" : value.getMoneyValue().toString();
             this.setExpression(text);
         });
@@ -49,7 +49,7 @@ public class MoneyWidget extends TextField implements WidgetInterface {
     @Override
     public void addNonComputedListener(SymbolTable symbolTable) {
         this.textProperty().addListener(e -> {
-            symbolTable.setExpression(question.name, getExpression(this, question.type));
+            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
         });
     }
 

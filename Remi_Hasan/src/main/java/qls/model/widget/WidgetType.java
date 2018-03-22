@@ -11,7 +11,7 @@ import java.util.List;
 
 public enum WidgetType{
 
-    // TODO: implement text, dropdown and slider
+    // TODO: implement label, dropdown and slider
     SLIDER {
         @Override
         public WidgetInterface createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {

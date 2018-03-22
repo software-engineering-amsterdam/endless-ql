@@ -6,12 +6,10 @@ import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.Question;
 import ql.model.expression.Expression;
-import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +27,9 @@ public class SymbolTable {
     public void buildTable(Form form) {
         for (Question question : form.questions) {
             if(question.isComputed()) {
-                table.put(question.name, question.computedAnswer);
+                table.put(question.identifier, question.computedAnswer);
             } else {
-                table.put(question.name, new ExpressionVariableUndefined(question.getToken(), question.type));
+                table.put(question.identifier, new ExpressionVariableUndefined(question.getToken(), question.type));
             }
         }
     }

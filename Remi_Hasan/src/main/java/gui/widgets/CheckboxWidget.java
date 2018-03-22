@@ -37,7 +37,7 @@ public class CheckboxWidget extends CheckBox implements WidgetInterface {
     @Override
     public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
         symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
+            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
             String text = value.isUndefined() ? "" : value.getBooleanValue().toString();
             this.setExpression(text);
         });
@@ -46,7 +46,7 @@ public class CheckboxWidget extends CheckBox implements WidgetInterface {
     @Override
     public void addNonComputedListener(SymbolTable symbolTable) {
         this.selectedProperty().addListener(e -> {
-            symbolTable.setExpression(question.name, getExpression(this, question.type));
+            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
         });
     }
 
@@ -57,12 +57,12 @@ public class CheckboxWidget extends CheckBox implements WidgetInterface {
 
     @Override
     public void setFont(String font) {
-        // Checkbox has no text, so no action
+        // Checkbox has no label, so no action
     }
 
     @Override
     public void setFontSize(int fontSize) {
-        // Checkbox has no text, so no action
+        // Checkbox has no label, so no action
     }
 
     @Override

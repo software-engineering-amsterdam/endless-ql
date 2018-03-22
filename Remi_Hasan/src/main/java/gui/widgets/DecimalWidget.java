@@ -37,7 +37,7 @@ public class DecimalWidget  extends TextWidget {
     @Override
     public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
         symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
+            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
             String text = value.isUndefined() ? "" : value.getDecimalValue().toString();
             this.setExpression(text);
         });
@@ -46,7 +46,7 @@ public class DecimalWidget  extends TextWidget {
     @Override
     public void addNonComputedListener(SymbolTable symbolTable) {
         this.textProperty().addListener(e -> {
-            symbolTable.setExpression(question.name, getExpression(this, question.type));
+            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
         });
     }
 

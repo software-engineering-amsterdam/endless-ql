@@ -17,32 +17,6 @@ public class Condition extends ASTNode {
     private QLBoolean result;
 
     /**
-     * Creates an empty condition with just an expression
-     * @param expression contains an Expression
-     */
-    public Condition(Expression expression){
-        this.expression = expression;
-    }
-
-    /**
-     * Creates a condition with an expression and a list of questions or conditions
-     * @param expression contains an Expression
-     * @param nodes contains either a list of Questions, or a list of Conditions
-     * @throws SyntaxException when the type is not Question or Condition
-     */
-    public Condition(Expression expression, List<? extends ASTNode> nodes) throws SyntaxException {
-        this.expression = expression;
-        ASTNode first = nodes.get(0);
-        if(first instanceof Question) {
-            this.questions = (List<Question>) nodes;
-        } else if(first instanceof Condition) {
-            this.conditions = (List<Condition>) nodes;
-        } else {
-            throw new SyntaxException("Received a List that doesn't contain Questions or Conditions", this);
-        }
-    }
-
-    /**
      * Creates a condition with an expression, a list of questions, and a list of conditions
      * @param expression contains an Expression
      * @param questions contains a list of Questions
@@ -62,13 +36,11 @@ public class Condition extends ASTNode {
         setParent(parent);
         expression.setParents(this);
 
-        if(questions != null)
-            for(Question q : questions)
-                q.setParents(this);
+        for(Question q : questions)
+            q.setParents(this);
 
-        if(conditions != null)
-            for(Condition c : conditions)
-                c.setParents(this);
+        for(Condition c : conditions)
+            c.setParents(this);
     }
 
     /**

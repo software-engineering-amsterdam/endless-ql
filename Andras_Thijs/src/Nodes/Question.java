@@ -1,6 +1,5 @@
 package Nodes;
 
-import Nodes.Term.QLBoolean;
 import Nodes.Term.Term;
 import QLExceptions.*;
 
@@ -47,6 +46,7 @@ public class Question extends ASTNode {
      */
     public void setParents(ASTNode parent) {
         setParent(parent);
+        // Not every Question has an Expression!
         if(expression != null)
             expression.setParents(this);
     }

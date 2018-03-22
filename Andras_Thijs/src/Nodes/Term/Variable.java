@@ -1,9 +1,6 @@
 package Nodes.Term;
 
-import Nodes.ASTNode;
-import Nodes.Condition;
-import Nodes.QLForm;
-import Nodes.Question;
+import Nodes.*;
 import QLExceptions.*;
 
 import java.util.List;

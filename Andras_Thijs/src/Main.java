@@ -51,16 +51,14 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //TODO: Fix this
         catch (SyntaxException e) {
-            System.out.println(e.getNode());
-            // There's a syntax error!
+            System.out.println("There is a Syntax error at Node: " + e.getNode());
+            System.out.println(e.getMessage());
             e.printStackTrace();
         } catch (TypeException e) {
-            System.out.println(e.getNode());
-            System.out.println(e.getExpected());
-            System.out.println(e.getReceived());
-            // There's a Type error!
+            System.out.println("There is a Type error at Node: " + e.getNode());
+            System.out.println("Expected: " + e.getExpected());
+            System.out.println("Received: " + e.getReceived());
             e.printStackTrace();
         }
     }

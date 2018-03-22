@@ -1,16 +1,16 @@
 """
     The QLS stylesheet AST consists of pages, sections questions, defaults and attributes for the defaults.
-    
+
     A default is an object that can hold styling attributes. It can only hold each type of attribute once (it will error
     otherwise). The styling attributes are used to style the questions in the gui.
 
     A default can be defined for a question, in which case it must contain a widget attribute. It can also be
-    defined using page- and section-wide scoping. 
+    defined using page- and section-wide scoping.
 
     A stylesheet can have multiple pages, pages can have multiple sections, and sections can have multiple sections
-    and questions. 
+    and questions.
 
-    This AST is completely typechecked using the function prepareAndCheckAst(). 
+    This AST is completely typechecked using the function prepareAndCheckAst().
 
     The typechecker checks for double declarations of defaults, with the same type/widget combination at each scope level.
     It also checks if the widgets are compatible with the question type declared in QL.
@@ -63,7 +63,7 @@ class Stylesheet:
         varList = list(self.varDict.keys())
         for page in self.pages:
             self.pages[page].checkCompleteness(varList)
-        if varList != []:
+        if varList:
             errorstring = "QL question(s) " + str(varList) + " have not been declared in QLS, please add them"
             throwError(errorstring)
 

@@ -22,7 +22,14 @@ public class SliderWidget extends QuestionWidget implements ChangeListener{
     public SliderWidget(Question question, Value value, boolean readOnly, Style style, int start, int end, int steps) {
         super(question);
 
-        slider = new JSlider(start, end, (int)value.getValue());
+        int currentValue = (int)value.getValue();
+        if (currentValue > end) {
+            currentValue = end;
+        } else if (currentValue < start) {
+            currentValue = start;
+        }
+
+        slider = new JSlider(start, end, currentValue);
         slider.setMinorTickSpacing(steps);
         slider.setSnapToTicks(true);
         slider.setPaintTicks(true);
@@ -48,5 +55,11 @@ public class SliderWidget extends QuestionWidget implements ChangeListener{
         if(!slider.getValueIsAdjusting()){
             questionChangeListener.onQuestionChanged(question, new IntegerValue(slider.getValue()));
         }
+    }
+
+    @Override
+    public void setColor(Color color) {
+        super.setColor(color);
+        slider.setBackground(color);
     }
 }

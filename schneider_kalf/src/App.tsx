@@ -44,7 +44,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   onChangeQlSource(text: string) {
     try {
       const parseResult: QlsParserResult = (new QlsParserPipeline(text, this.state.qlsInput)).run();
-      console.log(parseResult.styles);
 
       const form = new QuestionForm(parseResult.node, this.getFormState());
 

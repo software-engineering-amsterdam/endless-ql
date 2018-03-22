@@ -290,4 +290,23 @@ public class TypeCheckerTest {
         Assert.assertFalse(validator.validate());
     }
 
+    @Test
+    public void castingDecimalToIntegerErrorTest() {
+
+        String fileContent = "form division\n" +
+                "{\n" +
+                "  \"Give me integer A\" intA: integer\n" +
+                "  \"Give me decimal B\" decB: decimal\n" +
+                "  \"A/B equals\" intC: integer = intA/decB\n" +
+                "}";
+
+        Form form = this.getAstFormFromString(fileContent);
+
+        IntegerToDecimalCastingValidator validator = new IntegerToDecimalCastingValidator(
+                this.collectQuestionsVisitor.getQuestionsMap(form)
+        );
+
+        Assert.assertFalse(validator.validate());
+    }
+
 }

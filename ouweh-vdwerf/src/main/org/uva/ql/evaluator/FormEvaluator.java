@@ -92,11 +92,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     @Override
     public Void visit(Conditional conditional, String context) {
-        for (Statement statement : conditional.getIfSide()) {
+        for (Statement statement : conditional.getIfBlock()) {
             this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }
-        for (Statement statement : conditional.getElseSide()) {
+        for (Statement statement : conditional.getElseBlock()) {
             this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }

@@ -1,6 +1,7 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.QLFormEvaluator.Dictionary
+import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator
+import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator.Dictionary
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DateAnswer, DecimalAnswer, IntegerAnswer }

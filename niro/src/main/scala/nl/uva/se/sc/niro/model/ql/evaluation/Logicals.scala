@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.ql.expressions
+package nl.uva.se.sc.niro.model.ql.evaluation
 
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer }
 

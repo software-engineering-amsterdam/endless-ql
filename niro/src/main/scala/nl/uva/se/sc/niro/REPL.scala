@@ -8,6 +8,7 @@ import javafx.scene.layout.{ HBox, VBox }
 import javafx.scene.text.Font
 import javafx.stage.{ Screen, Stage }
 import nl.uva.se.sc.niro.errors.Errors._
+import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, IntegerAnswer }
 import nl.uva.se.sc.niro.model.ql.{ QLForm, Question, Statement }
 import org.apache.logging.log4j.scala.Logging

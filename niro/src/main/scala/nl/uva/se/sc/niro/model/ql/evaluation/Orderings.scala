@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.ql.expressions
+package nl.uva.se.sc.niro.model.ql.evaluation
 
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 
@@ -69,20 +69,20 @@ object Orderings {
 // format: on
 
 trait Orderings[SubType <: Answer] {
-  def lt(x: SubType, y: Answer): BooleanAnswer
-  def lte(x: SubType, y: Answer): BooleanAnswer
-  def gte(x: SubType, y: Answer): BooleanAnswer
-  def gt(x: SubType, y: Answer): BooleanAnswer
-  def neq(x: SubType, y: Answer): BooleanAnswer
-  def equ(x: SubType, y: Answer): BooleanAnswer
+  def lt(x: SubType, y: Answer): Answer
+  def lte(x: SubType, y: Answer): Answer
+  def gte(x: SubType, y: Answer): Answer
+  def gt(x: SubType, y: Answer): Answer
+  def neq(x: SubType, y: Answer): Answer
+  def equ(x: SubType, y: Answer): Answer
 
   class Ops(left: SubType) {
-    def <(right: Answer): BooleanAnswer = lt(left, right)
-    def <=(right: Answer): BooleanAnswer = lte(left, right)
-    def >=(right: Answer): BooleanAnswer = gte(left, right)
-    def >(right: Answer): BooleanAnswer = gt(left, right)
-    def !==(right: Answer): BooleanAnswer = neq(left, right)
-    def ===(right: Answer): BooleanAnswer = equ(left, right)
+    def <(right: Answer): Answer = lt(left, right)
+    def <=(right: Answer): Answer = lte(left, right)
+    def >=(right: Answer): Answer = gte(left, right)
+    def >(right: Answer): Answer = gt(left, right)
+    def !==(right: Answer): Answer = neq(left, right)
+    def ===(right: Answer): Answer = equ(left, right)
   }
 
   implicit def mkOrderingOps(left: SubType): Ops = new Ops(left)

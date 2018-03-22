@@ -114,8 +114,8 @@ class InputTypeMap:
         elif widgetType == "slider":
             var = DoubleVar()
             var.trace('w', lambda nm, idx, mode, var=var: self.validateSpinbox(var))
-            w = Scale(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'], \
-                variable=var, orient=HORIZONTAL, digits = 4, resolution = 0.2)
+            w = Scale(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'],
+                      variable=var, orient=HORIZONTAL, digits = 4, resolution = 0.2)
         else:
             throwError("Unknown widget type: " + widgetType)
         w.pack(fill='x')
@@ -166,7 +166,7 @@ class InputTypeMap:
         varNode.setVar(newVal)
         self.setNodeValue(newVal)
         # update_questions
-        if(self.init == False):
+        if self.init == False:
             self.questionGenerator.updateQuestions()
         else:
             self.init = False
@@ -180,9 +180,9 @@ class InputTypeMap:
         newVal = var.get()
         try:
             newVal == '' or newVal == '-' or int(newVal)
-            if (newVal == '-'):
+            if newVal == '-':
                 newVal = -0.0
-            if (newVal == ''):
+            if newVal == '':
                 newVal = 0
             newVal = int(newVal)
             # save value in vardict
@@ -205,9 +205,9 @@ class InputTypeMap:
         newVal = var.get()
         try:
             newVal == '' or newVal == '-' or float(newVal)
-            if (newVal == '-'):
+            if newVal == '-':
                 newVal = -0.0
-            elif (newVal == ''):
+            elif newVal == '':
                 newVal = 0
             newVal = float(newVal)
             # save value in vardict

@@ -6,6 +6,8 @@ Statements are either conditionals, questions or assignments
 """
 
 from .ast_methods import *
+import collections
+
 class FormNode:
     def __init__(self, name, line):
         self.name = name

@@ -33,9 +33,9 @@ class BinaryNode:
         rightType = self.right.checkTypes()
 
         # Compare for the numOp (check that both types are floats/ints), we always return a bool in this case
-        if (self.op in self.numOps):
+        if self.op in self.numOps:
             goodType, expType = self.typeCompareNumOp(leftType, rightType)
-            if (goodType):
+            if goodType:
                 return bool
             else:
                 errorstring = "Incomparible types: " + str(leftType) + " and " + str(rightType) + "; at line " + str(
@@ -43,9 +43,9 @@ class BinaryNode:
                 throwError(errorstring)
 
         # Check if both children are of a numerical type, and return the type (compareOp)
-        elif (self.op in self.arithmeticOps):
+        elif self.op in self.arithmeticOps:
             goodType, expType = self.typeCompareNumOp(leftType, rightType)
-            if (goodType):
+            if goodType:
                 return expType
             else:
                 errorstring = "Incomparible types: " + str(leftType) + " and " + str(rightType) + "; at line " + str(
@@ -55,11 +55,11 @@ class BinaryNode:
 
         # Boolean operators can always be compared
         # (unset or set is converted to True and False) so we do not need a function to check the types serperately
-        elif (self.op in self.boolOps):
+        elif self.op in self.boolOps:
             return bool
 
         # check it for == and !=, which are boolean operators
-        elif (self.op in self.allOps):
+        elif self.op in self.allOps:
             return self.typeCompareAllOp(leftType, rightType)
 
         else:
@@ -71,13 +71,13 @@ class BinaryNode:
         return float (a.k.a convert the int)
     """
     def typeCompareNumOp(self, leftType, rightType):
-        if (leftType == float and rightType == float):
+        if leftType == float and rightType == float:
             return True, float
-        elif (leftType == float and rightType == int):
+        elif leftType == float and rightType == int:
             return True, float
-        elif (leftType == int and rightType == float):
+        elif leftType == int and rightType == float:
             return True, float
-        elif (leftType == int and rightType == int):
+        elif leftType == int and rightType == int:
             return True, int
         else:
             return False, None
@@ -88,9 +88,9 @@ class BinaryNode:
     """
     def typeCompareAllOp(self, leftType, rightType):
         goodType, _ = self.typeCompareNumOp(leftType, rightType)
-        if (goodType):
+        if goodType:
             return bool
-        elif (leftType == rightType):
+        elif leftType == rightType:
             return bool
         else:
             errorstring = "Incomparible types: " + str(leftType) + " and " + str(rightType) + "; at line " + str(
@@ -207,7 +207,7 @@ class VarNode:
         Check if the variable actually exists, if so, set our own type, and now this node will be the node used in the dictionary
     """
     def linkVars(self, varDict):
-        if (self.varname in varDict):
+        if self.varname in varDict:
             self.type = varDict[self.varname]['type']
             self.value = self.getDefaultValue()
 

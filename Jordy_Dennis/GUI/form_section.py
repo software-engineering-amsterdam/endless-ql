@@ -12,7 +12,7 @@ import copy
 import QLS
 
 
-class Section():
+class Section:
 
     def __init__(self, parent, questionGenerator, page_header='default', color='green'):
         self.questionGenerator = questionGenerator

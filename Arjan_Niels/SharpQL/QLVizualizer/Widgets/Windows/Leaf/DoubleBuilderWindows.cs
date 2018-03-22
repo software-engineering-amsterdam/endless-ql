@@ -14,7 +14,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf
 {
     public class DoubleBuilderWindows : WidgetLeafBuilderWindows<DoubleQuestionManager>
     {
-        public DoubleBuilderWindows(List<QLSValue> qlsElements, QLSWidgetSpecification widgetSpecification, DoubleQuestionManager elementManagerLeaf, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, widgetSpecification, elementManagerLeaf, parent)
+        public DoubleBuilderWindows(DoubleQuestionManager elementManagerLeaf) : base(elementManagerLeaf)
         {
         }
 

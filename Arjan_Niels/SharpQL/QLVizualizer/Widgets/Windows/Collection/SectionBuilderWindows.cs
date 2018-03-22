@@ -8,7 +8,7 @@ namespace QLVisualizer.Widgets.Windows.Collection
 {
     public class SectionBuilderWindows : WidgetCollectionBuilderWindows<SectionManager>
     {
-        public SectionBuilderWindows(List<QLSValue> qlsElements, SectionManager elementManagerCollection, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, elementManagerCollection, parent)
+        public SectionBuilderWindows(SectionManager elementManagerCollection) : base(elementManagerCollection)
         {
         }
 

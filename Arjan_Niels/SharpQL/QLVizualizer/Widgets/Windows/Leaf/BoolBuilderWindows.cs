@@ -10,7 +10,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf
 {
     public class BoolBuilderWindows : WidgetLeafBuilderWindows<BoolQuestionManager>
     {
-        public BoolBuilderWindows(List<QLSValue> qlsElements, QLSWidgetSpecification widgetSpecification, BoolQuestionManager elementManagerLeaf, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, widgetSpecification, elementManagerLeaf, parent)
+        public BoolBuilderWindows(BoolQuestionManager elementManagerLeaf) : base(elementManagerLeaf)
         {
         }
 

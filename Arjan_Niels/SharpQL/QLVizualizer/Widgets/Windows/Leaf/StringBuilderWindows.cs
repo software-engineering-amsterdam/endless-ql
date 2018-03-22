@@ -10,7 +10,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf
 {
     public class StringBuilderWindows : WidgetLeafBuilderWindows<StringQuestionManager>
     {
-        public StringBuilderWindows(List<QLSValue> qlsElements, QLSWidgetSpecification widgetSpecification, StringQuestionManager elementManagerLeaf, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, widgetSpecification, elementManagerLeaf, parent)
+        public StringBuilderWindows(StringQuestionManager elementManagerLeaf) : base(elementManagerLeaf)
         {
         }
 

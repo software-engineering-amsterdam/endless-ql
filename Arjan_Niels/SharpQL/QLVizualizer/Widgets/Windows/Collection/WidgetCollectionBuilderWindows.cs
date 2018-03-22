@@ -8,7 +8,7 @@ namespace QLVisualizer.Widgets.Windows.Collection
 {
     public abstract class WidgetCollectionBuilderWindows<Y> : WidgetCollectionBuilder<Control, Y> where Y : ElementManagerCollection
     {
-        public WidgetCollectionBuilderWindows(List<QLSValue> qlsElements, Y elementManagerCollection, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, elementManagerCollection, parent)
+        public WidgetCollectionBuilderWindows(Y elementManagerCollection) : base(elementManagerCollection)
         {
             WindowsStyler styler = new WindowsStyler();
             _styleParser = styler;

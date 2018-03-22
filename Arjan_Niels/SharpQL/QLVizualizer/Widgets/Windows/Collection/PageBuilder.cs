@@ -8,7 +8,7 @@ namespace QLVisualizer.Widgets.Windows.Collection
 {
     public class PageBuilderWindows : WidgetCollectionBuilderWindows<PageManager>
     {
-        public PageBuilderWindows(List<QLSValue> qlsElements, PageManager elementManagerCollection, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, elementManagerCollection, parent)
+        public PageBuilderWindows(PageManager elementManagerCollection) : base(elementManagerCollection)
         {
         }
 

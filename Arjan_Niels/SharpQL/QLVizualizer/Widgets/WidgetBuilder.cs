@@ -8,35 +8,31 @@ namespace QLVisualizer.Widgets
 {
     public abstract class WidgetBuilder<T> : IWidgetBuilder<T>
     {
-        protected List<QLSValue> _qlsElements { get; private set; }
-
         protected IStyleParser _styleParser;
 
         protected IStyler<T> _styler;
 
         protected ElementManager _elementManager;
 
-        public WidgetBuilder(List<QLSValue> qlsElements, IWidgetCollectionBuilder<T> parent, ElementManager elementManager)
+        public WidgetBuilder(ElementManager elementManager)
         {
-            _qlsElements = qlsElements;
-            if (_qlsElements == null)
-                _qlsElements = new List<QLSValue>();
             _elementManager = elementManager;
-            //parent?.AddChild(this);
         }
 
         public abstract T Create();
 
         public void SetParentStyle(List<QLSValue> elements)
         {
-            List<string> ownStyleElements = _qlsElements.Select(element => element.StyleProperty).ToList();
+            List<QLSValue> qlsElements = new List<QLSValue>(_elementManager.Style.GetStylingValues());
+
+            List<string> ownStyleElements = qlsElements.Select(element => element.StyleProperty).ToList();
             foreach (QLSValue element in elements)
                 if (!ownStyleElements.Contains(element.StyleProperty))
-                    _qlsElements.Add(element);
+                    qlsElements.Add(element);
 
+            // TODO: HANDLE ERRORS
             string[] errors = new string[0];
-            _styleParser?.ParseStyle(_qlsElements, out errors);
-
+            _styleParser?.ParseStyle(qlsElements, out errors);
         }
 
         public ElementManager GetElementManager()

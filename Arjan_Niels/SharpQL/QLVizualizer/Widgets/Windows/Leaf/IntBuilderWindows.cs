@@ -14,7 +14,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf
 {
     public class IntBuilderWindows : WidgetLeafBuilderWindows<IntQuestionManager>
     {
-        public IntBuilderWindows(List<QLSValue> qlsElements, QLSWidgetSpecification widgetSpecification, IntQuestionManager elementManagerLeaf, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, widgetSpecification, elementManagerLeaf, parent)
+        public IntBuilderWindows(IntQuestionManager elementManagerLeaf) : base(elementManagerLeaf)
         {
         }
 

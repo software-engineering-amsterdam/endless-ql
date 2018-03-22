@@ -9,7 +9,7 @@ namespace QLVisualizer.Widgets.Windows.Collection
 {
     public class FormBuilderWindows : WidgetCollectionBuilderWindows<FormManager>
     {
-        public FormBuilderWindows(List<QLSValue> qlsElements, FormManager elementManagerCollection) : base(qlsElements, elementManagerCollection, null)
+        public FormBuilderWindows(FormManager elementManagerCollection) : base(elementManagerCollection)
         {
         }
 

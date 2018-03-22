@@ -17,27 +17,27 @@ namespace QLVisualizer.Factories
             switch (elementManager)
             {
                 case ElementManagerLeaf elementManagerLeaf:
-                    return GetLeafBuilder(elementManagerLeaf, parent);
+                    return GetLeafBuilder(elementManagerLeaf);
                 case ElementManagerCollection elementManagerCollection:
-                    return GetCollectionBuilder(elementManagerCollection, parent);
+                    return GetCollectionBuilder(elementManagerCollection);
             }
 
             throw new NotImplementedException();
         }
 
-        private static IWidgetCollectionBuilder<Control> GetCollectionBuilder(ElementManagerCollection elementManagerCollection, IWidgetCollectionBuilder<Control> parent)
+        private static IWidgetCollectionBuilder<Control> GetCollectionBuilder(ElementManagerCollection elementManagerCollection)
         {
             IWidgetCollectionBuilder<Control> builder = null;
             switch (elementManagerCollection)
             {
                 case FormManager formManager:
-                    builder = new FormBuilderWindows(null, formManager);
+                    builder = new FormBuilderWindows(formManager);
                     break;
                 case PageManager pageManager:
-                    builder = new PageBuilderWindows(null, pageManager, parent);
+                    builder = new PageBuilderWindows(pageManager);
                     break;
                 case SectionManager sectionManager:
-                    builder = new SectionBuilderWindows(null, sectionManager, parent);
+                    builder = new SectionBuilderWindows(sectionManager);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -49,20 +49,20 @@ namespace QLVisualizer.Factories
             return builder;
         }
 
-        private static IWidgetBuilder<Control> GetLeafBuilder(ElementManagerLeaf elementManagerLeaf, IWidgetCollectionBuilder<Control> parent)
+        private static IWidgetBuilder<Control> GetLeafBuilder(ElementManagerLeaf elementManagerLeaf)
         {
             switch (elementManagerLeaf)
             {
                 case BoolQuestionManager boolQuestion:
-                    return new BoolBuilderWindows(null, null, boolQuestion, parent);
+                    return new BoolBuilderWindows(boolQuestion);
                 case DoubleQuestionManager doubleQuestion:
-                    return new DoubleBuilderWindows(null, null, doubleQuestion, parent);
+                    return new DoubleBuilderWindows(doubleQuestion);
                 case IntQuestionManager intQuestion:
-                    return new IntBuilderWindows(null, null, intQuestion, parent);
+                    return new IntBuilderWindows(intQuestion);
                 case MoneyQuestionManager moneyQuestion:
-                    return new MoneyBuilderWindows(null, null, moneyQuestion, parent);
+                    return new MoneyBuilderWindows(moneyQuestion);
                 case StringQuestionManager stringQuestion:
-                    return new StringBuilderWindows(null, null, stringQuestion, parent);
+                    return new StringBuilderWindows(stringQuestion);
             }
             throw new NotImplementedException();
         }

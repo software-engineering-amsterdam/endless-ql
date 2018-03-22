@@ -10,7 +10,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf
 {
     public class MoneyBuilderWindows : WidgetLeafBuilderWindows<MoneyQuestionManager>
     {
-        public MoneyBuilderWindows(List<QLSValue> qlsElements, QLSWidgetSpecification widgetSpecification, MoneyQuestionManager elementManagerLeaf, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, widgetSpecification, elementManagerLeaf, parent)
+        public MoneyBuilderWindows(MoneyQuestionManager elementManagerLeaf) : base(elementManagerLeaf)
         {
         }
 

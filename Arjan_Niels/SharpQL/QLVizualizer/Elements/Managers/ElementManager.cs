@@ -1,4 +1,5 @@
-﻿using QLVisualizer.Controllers;
+﻿using QLParser.AST.QLS;
+using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,8 @@ namespace QLVisualizer.Elements.Managers
 
         public event ActiveChanged OnActiveChange;
 
+        public IQLSElement Style;
+
         public ElementManager(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null)
         {
             Text = text;
@@ -55,6 +58,7 @@ namespace QLVisualizer.Elements.Managers
 
             _activationExpression = activationExpression;
             Active = activationExpression == null;
+            Style = new QLSStyle(); // TODO: NON-INTERFACE DEPENDENCY?!
         }
 
         public virtual void RegisterListeners()

@@ -1,6 +1,10 @@
-# Names
+# QL and QLS
+### Contributors
 - Jordy Bottlelier, 10747338
 - Dennis Kruidenberg, 10780998
 
-# How to install?
-magic
+## Installation Guide
+do shit
+
+## Explenation
+get money

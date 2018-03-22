@@ -1,5 +1,5 @@
 """
-    Visits the parse tree created by Antlr
+    Visits the parse tree created by Antlr and create the QLS ast
 """
 
 
@@ -9,6 +9,7 @@ from Visitors.qlVisitor import mapStringToType
 from QL import *
 from QLS import *
 import logging
+import sys
 
 
 class QLSVisitor(QLSGrammarVisitor):
@@ -81,10 +82,12 @@ class QLSVisitor(QLSGrammarVisitor):
         question = None
         questionName = ctx.ID().getText()
 
+        # In case there is no default styling, just get the widget, and set your type
         if (ctx.widget()):
             widget = self.visit(ctx.widget())
             question = Question(questionName, widget, widget.getWidget(), ctx.start.line)
 
+        # In case their is a default style, set your type according to the default style
         elif (ctx.default_style()):
             default = self.visit(ctx.default_style())
             question = Question(questionName, default.getWidget(), default.getWidgetType(), ctx.start.line, default)
@@ -128,6 +131,9 @@ class QLSVisitor(QLSGrammarVisitor):
         defaultType = self.visit(ctx.types())
         default = DefaultStyle(defaultType, ctx.start.line)
         hasWidget = False
+
+        # Add all attributes to the default style object, and already check if there are no
+        # double declarations, we also check if a question has a widget in the default style
         for widget in ctx.widget():
             widgetObject = self.visit(widget)
             if widgetObject.getAttributeType() == 'widget':
@@ -152,8 +158,6 @@ class QLSVisitor(QLSGrammarVisitor):
 
 
 del QLSGrammarParser
-
-import sys
 
 
 # Throw an exception without printing the python stacktrace

@@ -11,24 +11,25 @@ namespace QuestionnaireDomain.Entities.Domain
     {
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ISymbolTable m_symbolTable;
-        private readonly ICalculationVisitor m_calculationVisitor;
 
         public VariableService(
             IDomainItemLocator domainItemLocator,
-            ISymbolTable symbolTable,
-            ICalculationVisitor calculationVisitor)
+            ISymbolTable symbolTable)
         {
             m_domainItemLocator = domainItemLocator;
             m_symbolTable = symbolTable;
-            m_calculationVisitor = calculationVisitor;
+        }
+
+        private IQuestionNode GetQuestionNode(string variableName)
+        {
+            return m_domainItemLocator
+                .GetAll<IQuestionNode>()
+                .FirstOrDefault(x => x.QuestionName == variableName);
         }
 
         public Type GetType(string variableName)
         {
-            return m_domainItemLocator
-                .GetAll<IQuestionNode>()
-                .FirstOrDefault(x => x.QuestionName == variableName)
-                ?.QuestionType;
+            return GetQuestionNode(variableName)?.QuestionType;
         }
 
         public bool AreCompatible(string variableName1, string variableName2)
@@ -46,20 +47,19 @@ namespace QuestionnaireDomain.Entities.Domain
             return IsNumeric(variableName1) && IsNumeric(variableName2);
         }
 
-        public void UpdateCalculations()
+        public decimal GetNumberValue(string variableName)
         {
-            var calculationQuestions = m_domainItemLocator
-                .GetAll<ICalculatedQuestionNode>()
-                .ToList();
-
-            //ToDo: (maybe) deal with dependencies / variable calculation order
-
-            foreach (var calculatedQuestion in calculationQuestions)
+            var variableId = GetQuestionNode(variableName).Id;
+            if (m_symbolTable.Exists<int>(variableId))
             {
-                var calculation = calculatedQuestion.CalculatedValue;
-                var result = m_calculationVisitor.Calculate(calculation);
-                m_symbolTable.Update(calculatedQuestion.Id, result);
+                return m_symbolTable.Lookup<int>(variableId);
             }
+            else if (m_symbolTable.Exists<decimal>(variableId))
+            {
+                return m_symbolTable.Lookup<decimal>(variableId);
+            }
+
+            throw new ApplicationException($"question {variableName} used as numeric but is not");
         }
 
         private bool IsNumeric(string variableName)

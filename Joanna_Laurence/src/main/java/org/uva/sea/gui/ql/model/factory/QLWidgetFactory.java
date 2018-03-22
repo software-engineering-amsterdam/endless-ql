@@ -3,6 +3,8 @@ package org.uva.sea.gui.ql.model.factory;
 import org.uva.sea.gui.ql.IGuiElementUpdateListener;
 import org.uva.sea.gui.ql.widget.Widget;
 import org.uva.sea.gui.ql.widget.ql.CheckBoxWidget;
+import org.uva.sea.gui.ql.widget.ql.DateWidget;
+import org.uva.sea.gui.ql.widget.ql.MoneyWidget;
 import org.uva.sea.gui.ql.widget.ql.TextFieldWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
@@ -22,9 +24,9 @@ public class QLWidgetFactory implements WidgetFactory {
         this.widgetTypeClassEnumMap.put(NodeType.BOOLEAN, CheckBoxWidget.class);
         this.widgetTypeClassEnumMap.put(NodeType.DECIMAL, TextFieldWidget.class);
         this.widgetTypeClassEnumMap.put(NodeType.INTEGER, TextFieldWidget.class);
-        this.widgetTypeClassEnumMap.put(NodeType.MONEY_EURO, TextFieldWidget.class);
-        this.widgetTypeClassEnumMap.put(NodeType.MONEY_DOLLAR, TextFieldWidget.class);
-        this.widgetTypeClassEnumMap.put(NodeType.DATE, TextFieldWidget.class);
+        this.widgetTypeClassEnumMap.put(NodeType.MONEY_EURO, MoneyWidget.class);
+        this.widgetTypeClassEnumMap.put(NodeType.MONEY_DOLLAR, MoneyWidget.class);
+        this.widgetTypeClassEnumMap.put(NodeType.DATE, DateWidget.class);
         this.widgetTypeClassEnumMap.put(NodeType.STRING, TextFieldWidget.class);
     }
 

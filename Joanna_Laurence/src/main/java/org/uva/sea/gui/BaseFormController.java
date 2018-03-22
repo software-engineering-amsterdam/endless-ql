@@ -1,6 +1,5 @@
 package org.uva.sea.gui;
 
-import com.google.gson.GsonBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,22 +10,20 @@ import org.uva.sea.gui.ql.FileSelector;
 import org.uva.sea.gui.ql.IGuiElementUpdateListener;
 import org.uva.sea.gui.ql.Renderer;
 import org.uva.sea.gui.ql.components.AlertBuilder;
-import org.uva.sea.gui.ql.model.RenderElements;
 import org.uva.sea.gui.ql.model.QuestionModel;
+import org.uva.sea.gui.ql.model.RenderElements;
 import org.uva.sea.gui.ql.model.factory.WidgetFactory;
 import org.uva.sea.languages.BaseEvaluator;
 import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.QlSEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URL;
-import java.util.*;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 
 public abstract class BaseFormController implements Initializable, IGuiElementUpdateListener {
@@ -72,7 +69,7 @@ public abstract class BaseFormController implements Initializable, IGuiElementUp
         FileSelector fileSelector = new FileSelector(title, extension, "*." + extension);
         File selectedFile = fileSelector.getFile();
         if (selectedFile == null) {
-            this.displayWarning("Warning: no file selected");
+            this.displayWarning("No file selected");
             return null;
         }
 
@@ -113,10 +110,10 @@ public abstract class BaseFormController implements Initializable, IGuiElementUp
 
 
     private void showMessages(RenderElements questionRenders) {
-        for(String warning : questionRenders.getWarnings())
+        for (String warning : questionRenders.getWarnings())
             this.displayInfo(warning);
 
-        for(String error : questionRenders.getErrors())
+        for (String error : questionRenders.getErrors())
             this.displayError(error);
     }
 
@@ -126,8 +123,8 @@ public abstract class BaseFormController implements Initializable, IGuiElementUp
     private void drawComponents() {
         try {
             EvaluationResult evaluationResult = this.formModel.getEvaluationResults();
-            RenderElements questionRenders = this.formModel.getQuestionRenders(evaluationResult) ;
-            if(questionRenders == null) {
+            RenderElements questionRenders = this.formModel.getQuestionRenders(evaluationResult);
+            if (questionRenders == null) {
                 this.displayError("No questions could be displayed");
                 return;
             }
@@ -180,38 +177,11 @@ public abstract class BaseFormController implements Initializable, IGuiElementUp
     @FXML
     public void export(ActionEvent actionEvent) {
         try {
-            File file = new FileSelector("Choose file to save", "JSON", "*.json").getFile();
-            Writer writer = new FileWriter(file.getAbsolutePath());
-            String json = new GsonBuilder().create().toJson(this.createObjectToSave(this.formModel));
-            writer.write(json);
-            writer.close();
-            this.displayInfo("Saved file in: " + file.getName());
+            Exporter exporter = new Exporter();
+            String fileName = exporter.saveAnswers(this.formModel);
+            this.displayInfo("Saved file in: " + fileName);
         } catch (IOException | InterruptedException e) {
             this.displayError(e.getMessage());
         }
-    }
-
-    /**
-     * Create a HashMap with given answers to questions.
-     *
-     * @param questionModel questions to save
-     * @return HashMap with key as a question label and value as an answer
-     */
-    private HashMap<String, String> createObjectToSave(QuestionModel questionModel) throws IOException, InterruptedException {
-        HashMap<String, String> hashMap = new HashMap<>();
-
-        if (questionModel == null)
-            return hashMap;
-
-        for (QuestionData questionData : questionModel.getEvaluationResults().getQuestions()) {
-            String value;
-            if (questionData.getValue() == null) {
-                value = "null";
-            } else {
-                value = questionData.getValue().toString();
-            }
-            hashMap.put(questionData.getLabel().replace("\"", ""), value.replace("\"", ""));
-        }
-        return hashMap;
     }
 }

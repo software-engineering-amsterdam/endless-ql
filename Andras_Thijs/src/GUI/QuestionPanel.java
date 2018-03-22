@@ -2,8 +2,6 @@ package GUI;
 import GUI.Listeners.RefreshListener;
 import Nodes.Question;
 import Nodes.Term.TermFactory;
-import QLExceptions.SyntaxException;
-import QLExceptions.TypeException;
 import javax.swing.*;
 
 public class QuestionPanel extends JPanel{
@@ -22,19 +20,19 @@ public class QuestionPanel extends JPanel{
     }
 
 
-    public void refreshPanel() throws SyntaxException, TypeException {
+    public void refreshPanel() {
         updateTerm();
         setVisibility();
     }
 
-    private void updateTerm() throws SyntaxException, TypeException {
+    private void updateTerm() {
         switch (widget.getType()){
             case BOOL: this.question.updateTerm(new TermFactory().getTerm((boolean)this.widget.getValue()));break;
             case STRING: this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));break;
             case MONEY: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
             case INT: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
             case DECIMAL: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
-            case DATE: this.question.updateTerm(new TermFactory().getTerm((String) this.widget.getValue()));break; //TODO do something with date
+            case DATE: this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));break; //TODO do something with date
             default: break;
         }
 

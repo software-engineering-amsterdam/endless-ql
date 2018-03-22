@@ -122,9 +122,11 @@ namespace QL_Parser.Tests.QLS
             var styles = qls.Children[0].NodeStyles;
             Assert.AreEqual("width", styles[0].StylingValues[0].StyleProperty);
             Assert.AreEqual(QValueType.INTEGER, styles[0].StylingValues[0].QValueType);
+            Assert.AreEqual("100", styles[0].StylingValues[0].StyleValue);
 
             Assert.AreEqual("fontSize", styles[0].StylingValues[1].StyleProperty);
             Assert.AreEqual(QValueType.DOUBLE, styles[0].StylingValues[1].QValueType);
+            Assert.AreEqual("12.5", styles[0].StylingValues[1].StyleValue);
         }
 
         [TestMethod]

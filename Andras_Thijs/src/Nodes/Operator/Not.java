@@ -10,9 +10,6 @@ public class Not extends Operator {
     }
 
     public QLBoolean calculate(Term left, Term right) throws TypeException, SyntaxException {
-        if(!(right instanceof QLBoolean))
-            throw new TypeException(this);
-
         if(this.getValue().equals("!")) {
             return new QLBoolean(!right.getBoolean());
         } else {

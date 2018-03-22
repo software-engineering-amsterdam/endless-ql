@@ -29,7 +29,7 @@ stylesheet taxOfficeExample
         question sellingPrice
           widget spinbox(0, 100)
         question privateDebt
-          widget spinbox(4, 20)
+          widget slider(4, 20)
         question valueResidue
         default money
         {
@@ -45,6 +45,7 @@ stylesheet taxOfficeExample
   }  
 }
 ```
-Note that 
+Default styling can be overridden on a per type and widget basis. We added minimal and maxium value options for the spinbox and slider widgets (as is shown in the example). 
 
-## Features and Limitations
+## Typechecker
+The typechecker checks if every default that is declared with a question, actually contains a widget, and it checks if the widgets actually support the questio type. All QL questions must be defined in the QLS file, and can only be used once. 

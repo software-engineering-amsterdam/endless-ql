@@ -37,8 +37,8 @@ def main(argv):
         qls_visitor = QLSVisitorHelper()
         qls_ast = qls_visitor.visit(qls_tree)
 
-        qls_checker = QLSTypeChecker(ql_ast, qls_ast)
-        qls_checker.startQLSTypeCheck()
+        qls_checker = QLSTypeChecker()
+        qls_checker.startQLSTypeCheck(ql_ast.statements, qls_ast.pages)
 
     # print ast
 

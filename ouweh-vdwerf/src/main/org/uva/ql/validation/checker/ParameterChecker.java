@@ -11,27 +11,26 @@ import java.util.Map;
 public class ParameterChecker extends Checker {
 
     private SymbolTable symbolTable;
-    private Map<String, List<Parameter>> parameterMapping;
+    private List<Parameter> parameters;
 
-    public ParameterChecker(SymbolTable symbolTable, Map<String, List<Parameter>> parameterMapping) {
+    public ParameterChecker(SymbolTable symbolTable, List<Parameter> parameters) {
         this.symbolTable = symbolTable;
-        this.parameterMapping = parameterMapping;
+        this.parameters = parameters;
     }
 
     @Override
     public ValidationResult runCheck() {
         ValidationResult result = new ValidationResult();
 
-        for (HashMap.Entry<String, List<Parameter>> entry : parameterMapping.entrySet()) {
-            for (Parameter parameter : entry.getValue()) {
-                if (!symbolTable.contains(parameter.getID())) {
-                    String message = String.format("Referenced parameter does not exist: %s", parameter);
+        for (Parameter parameter : parameters) {
+            if (!symbolTable.contains(parameter.getID())) {
+                String message = String.format("Referenced parameter is not declared: %s", parameter);
 
-                    result.addError(message);
-                    logger.severe(message);
-                }
+                result.addError(message);
+                logger.severe(message);
             }
         }
+
         return result;
     }
 }

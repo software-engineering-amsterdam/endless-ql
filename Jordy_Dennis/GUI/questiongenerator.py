@@ -4,6 +4,7 @@
 
 from AST import *
 from QLS import *
+import copy
 
 
 class QuestionGenerator:
@@ -65,6 +66,7 @@ class QuestionGenerator:
     """
 
     def updateQls(self, initial):
+        print("UPDTE")
         self.questions = collections.OrderedDict()
         self.getQuestions(self.ast.form.block)
         pages = self.astQLS.getPages()
@@ -74,22 +76,23 @@ class QuestionGenerator:
                 self.form.addPage(pages[page].name)
 
             # add sections and questions
-            self.addSection(pageName, pages[page].getSection(), pages[page].defaults)
+            defaultDict = {}
+            self.updateDefaults(defaultDict, pages[page].defaults)
+            self.addSection(pageName, pages[page].getSection(), pages[page].defaults, defaultDict)
 
         # show first page on start-up
         if (initial):
             self.form.getPage(next(iter(pages))).show()
 
-    def addSection(self, pageName, sections, pageDefaults, insertAfter=""):
+    def addSection(self, pageName, sections, pageDefaults, defaultDict, insertAfter=""):
         page = self.form.getPage(pageName)
-        defaultDict = {}
-        self.updateDefaults(defaultDict, pageDefaults)
-        current_default = pageDefaults
         for section in sections:
+
             # if section has defaults, set them as net defaults
             if section.defaults:
                 self.updateDefaults(defaultDict, section.defaults)
             sectionName = section.getName()
+
             isSectionEmpty = True
             if not self.form.doesSectionExists(sectionName, pageName):
                 page.createSection(sectionName)
@@ -98,9 +101,9 @@ class QuestionGenerator:
                 varName = question.getVarName()
                 if varName in self.questions:
                     isSectionEmpty = False
-
+                    copyDict = copy.copy(defaultDict)
                     if question.default:
-                        self.updateDefaults(defaultDict, [question.default])
+                        self.updateDefaults(copyDict, [question.default])
 
                     # get data of question
                     label = self.questions[varName].getQuestion()
@@ -113,17 +116,18 @@ class QuestionGenerator:
                         # update assignment node with new evaluated data
                         if type(self.questions[varName]) == AssignmentNode:
                             questionInGUI.setValue(value)
+                            print(value)
                     # Question not in GUI, Add question to GUI
                     else:
                         if question.widgetType in ['spinbox', 'slider', 'radio']:
                             self.form.insertQuestion(varName, label, var_type, value, sectionName, pageName,
                                                      insertAfter,
-                                                     current_default, question.widgetType,
+                                                     copyDict, question.widgetType,
                                                      minVal=question.widget.minVal, maxVal=question.widget.maxVal)
                         else:
                             self.form.insertQuestion(varName, label, var_type, value, sectionName, pageName,
                                                      insertAfter,
-                                                     current_default, question.widgetType)
+                                                     copyDict, question.widgetType)
                         # disable input if it is an assigmentNode
                         if type(self.questions[varName]) == AssignmentNode:
                             self.form.getQuestionFromSection(varName, sectionName, pageName).disableWidget()
@@ -140,19 +144,22 @@ class QuestionGenerator:
                 self.form.getSection(sectionName, pageName).hideSection()
 
             # add child sections
-            self.addSection(pageName, section.getSections(), pageDefaults, insertAfter)
+            self.addSection(pageName, section.getSections(), pageDefaults, defaultDict, insertAfter)
+
     def updateDefaults(self, defaultDict, newDefaults):
         for default in newDefaults:
+
             defaultType = default.type
             defaultWidgetType = default.widgetType
+            print(defaultWidgetType)
             if defaultType in defaultDict and defaultWidgetType in defaultDict[defaultType]:
-                defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default, False, \
-                    defaultDict[defaultType][defaultWidgetType])
+                defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default, False,
+                                                                                        defaultDict[defaultType][
+                                                                                            defaultWidgetType])
             else:
                 defaultDict[defaultType] = {}
                 defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default)
-                
-
+        print(defaultDict)
 
     def getDefaultAttributes(self, default, initial=True, attributeDict={}):
         if initial:
@@ -166,7 +173,6 @@ class QuestionGenerator:
             if attribute.getAttributeType() != 'widget':
                 attributeDict[attribute.getAttributeType()] = attribute.getValue()
         return attributeDict
-
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy
     def getQuestions(self, block):

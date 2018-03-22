@@ -31,12 +31,12 @@ public class Question implements FormExpression {
         panel.setLayout(layout);
 
         JComponent component = dataType.getComponent().apply(variable);
-        component.setName(variable.getName());
 
         JLabel label = new JLabel(question, JLabel.LEFT);
 
         panel.add(label);
         panel.add(component);
+        panel.setName(variable.getName());
 
         return Collections.singletonList(panel);
     }

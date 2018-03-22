@@ -4,6 +4,7 @@ import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.Page;
+import nl.uva.js.qlparser.models.qls.elements.QuestionReference;
 import nl.uva.js.qlparser.models.qls.elements.Section;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 
@@ -85,6 +86,7 @@ public class FormPanel extends JPanel {
             pages.put(page.getName(), createPageComponents(page));
         }
 
+        // Set to first page
         setPage(pages.keySet().iterator().next());
     }
 
@@ -101,7 +103,13 @@ public class FormPanel extends JPanel {
         LinkedList<Component> pageComponents = new LinkedList<>();
         for(Section section : page.getSections()) {
             pageComponents.add(buildSectionHeader(section.getName()));
-
+            for (QuestionReference reference : section.getQuestions()) {
+                Component component = qlComponentsByName.get(reference.getName());
+                // TODO: Invisible components due to unmet ifblock condition are null, causing all sorts of trouble
+                if(null != component) {
+                    pageComponents.add(component);
+                }
+            }
         }
         return pageComponents;
     }

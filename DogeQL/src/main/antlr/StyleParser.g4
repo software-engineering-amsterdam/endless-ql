@@ -33,6 +33,7 @@ section
 
 elements
     : LBRACE element* RBRACE
+    | element
     ;
 
 element
@@ -51,6 +52,7 @@ default
 
 attributes
     : LBRACE attribute* RBRACE
+    | attribute
     ;
 
 attribute

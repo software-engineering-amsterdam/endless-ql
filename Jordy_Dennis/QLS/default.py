@@ -3,8 +3,8 @@
 
     The question level defaults always need a widget type. The section and page level defaults do not need this.
 
-    A default can have one single widget, and multiple styling attributes for this widget. 
-    Default styling can be overwritten and is therefore scoped. 
+    A default can have one single widget, and multiple styling attributes for this widget.
+    Default styling can be overwritten and is therefore scoped.
 """
 from .qlast_methods import *
 
@@ -33,7 +33,7 @@ class DefaultStyle:
             defaultDict[self.type][self.widgetType] = self
         return defaultDict
 
-        
+
 
     """
         Check if the attribute types only occur once in the default. 
@@ -54,8 +54,8 @@ class DefaultStyle:
                 styleTypes.append(attType)
 
             # In case of widgets first check if the type of widget is correct, and check if the widget only occurs once
-            elif(attType == 'widget'):
-                if hasWidget == False:
+            elif attType == 'widget':
+                if not hasWidget:
                     hasWidget = True
                     widgetType = attribute.getWidget()
                     if self.type not in attribute.checkTypes():
@@ -76,7 +76,7 @@ class DefaultStyle:
         # Lastly check if styles are not double declarated
         styleSet = list(set(styleTypes))
         leftover = listDif(styleSet, styleTypes)
-        if leftover != []:
+        if leftover:
             errorstring = "Double declaration(s) of style attribute(s) " + str(leftover)\
             + " in default near line: " + str(self.line)
             throwError(errorstring)

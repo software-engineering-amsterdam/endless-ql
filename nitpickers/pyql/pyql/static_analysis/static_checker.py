@@ -1,10 +1,10 @@
 from pyql.static_analysis.duplication import CheckDuplicatedQuestions
 from pyql.static_analysis.dependency import VariableDependenciesChecker
+from pyql.static_analysis.division_by_zero import CheckDivisionByZero
+from pyql.util.message_handler import MessageHandler
 
 
 class StaticChecker:
-    def __init__(self):
-        self._messages = []
 
     def run(self, tree):
         print("****** Check Duplicated Questions *****")
@@ -12,15 +12,14 @@ class StaticChecker:
         cdq.check(tree)
 
         print("****** Variable Dependencies Checker ******")
-        vdc = VariableDependenciesChecker(tree)
-        vdc.check()
+        vdc = VariableDependenciesChecker()
+        vdc.check(tree)
+
+        print("****** Check Division By Zero ******")
+        cdbz = CheckDivisionByZero()
+        cdbz.check(tree)
+
+        print(self.messages())
 
     def messages(self):
-        return self._messages
-        # stb = SymbolTableBuilder()
-        # st = stb.build_from_tree(c)
-        #
-        # print(st)
-        #
-        # vv = ASTVisitor(stb.symbol_table)
-        # c.accept(vv)
+        return MessageHandler().messages

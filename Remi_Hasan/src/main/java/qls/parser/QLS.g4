@@ -3,12 +3,14 @@ grammar QLS;
 root            : STYLESHEET IDENTIFIER ('{' page* '}' | page) EOF;
 page            : PAGE IDENTIFIER ((section | defaultStyle) | '{' (section | defaultStyle)* '}');
 section         : SECTION STRING ((section | question | defaultStyle) | '{' (section | question | defaultStyle)* '}');
-question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
+question        : QUESTION (IDENTIFIER | IDENTIFIER singleOrMultipleWidgetOrAttribute);
 
 // default styleAttribute without braces can only define one widget type
 // default styleAttribute with braces defines none or multiple styleAttribute attributes,
 // followed by one or no widget type
-defaultStyle    : DEFAULT type (widget | '{' styleAttribute* widget? '}');
+defaultStyle    : DEFAULT type singleOrMultipleWidgetOrAttribute;
+singleOrMultipleWidgetOrAttribute : (widgetOrAttribute | '{' widgetOrAttribute* '}');
+widgetOrAttribute:  widget | styleAttribute;
 
 styleAttribute  : WIDTH ':' INTEGER                                                     # widgetWidth
                 | FONT ':' STRING                                                       # widgetFont

@@ -4,7 +4,7 @@ import {BinaryExpression} from './binary-expression';
 import {ExpressionVisitor} from '../visitors/expression-visitor';
 
 export class MultiplyExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, location: Location) {
+  constructor(readonly left: Expression, readonly right: Expression, readonly location: Location) {
     super(left, right, location);
   }
 
@@ -14,7 +14,7 @@ export class MultiplyExpression extends BinaryExpression {
 }
 
 export class DivideExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, location: Location) {
+  constructor(readonly left: Expression, readonly right: Expression, readonly location: Location) {
     super(left, right, location);
   }
 
@@ -24,7 +24,7 @@ export class DivideExpression extends BinaryExpression {
 }
 
 export class AddExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, location: Location) {
+  constructor(readonly left: Expression, readonly right: Expression, readonly location: Location) {
     super(left, right, location);
   }
 
@@ -34,7 +34,7 @@ export class AddExpression extends BinaryExpression {
 }
 
 export class SubtractExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, location: Location) {
+  constructor(readonly left: Expression, readonly right: Expression, readonly location: Location) {
     super(left, right, location);
   }
 

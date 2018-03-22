@@ -104,7 +104,6 @@ export class EvaluateExpressionVisitor implements ExpressionVisitor<Literal> {
       /* Angular sets the value for a form control with undefined as value to an object {value: ""}
          If there is a value, instead of the object there will be a value, which means value.value is undefined */
       if (referencedControl.value.value === undefined) {
-        console.log(expr.identifier, referencedControl.value);
         return new NumberLiteral(referencedControl.value, expr.location);
       }
 

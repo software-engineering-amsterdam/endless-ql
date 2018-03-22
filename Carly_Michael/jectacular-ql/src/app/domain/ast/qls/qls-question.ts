@@ -28,7 +28,7 @@ export class QlsQuestion extends QlsNode {
     return [new QuestionWithAppliedStyles(this, updatedParentStyles, widget)];
   }
 
-  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: QlQuestion[]): void {
+  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: ReadonlyArray<QlQuestion>): void {
     const qlQuestion: QlQuestion = _.find(allQuestions, {name: this.name});
 
     if (!qlQuestion) {

@@ -37,7 +37,7 @@ export class Section extends QlsNode {
     return questions;
   }
 
-  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: QlQuestion[]): void {
+  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: ReadonlyArray<QlQuestion>): void {
     const defaults = this.defaultSettings ?  parentDefaults.concat(this.defaultSettings) : parentDefaults;
 
     for (const section of this.subSections) {

@@ -9,13 +9,14 @@ import {CheckExpressionTypeVisitor} from './check-expression-type-visitor';
 import {locationToReadableMessage} from '../../location';
 import {DuplicateIdentifierError, ImpossibleIfConditionError, TypeError, UnknownQuestionError} from '../../../errors';
 import * as _ from 'lodash';
-import {GetStatementVariablesVisitor} from './get-statement-variables-visitor';
-import {GetExpressionVariablesVisitor} from './get-expression-variables-visitor';
+import {CollectStatementVariablesVisitor} from './collect-statement-variables-visitor';
+import {CollectExpressionVariablesVisitor} from './collect-expression-variables-visitor';
+import {CollectQuestionsVisitor} from './collect-questions-visitor';
 
 export class CheckStatementTypeVisitor implements StatementVisitor<void> {
-  private constructor(readonly allQuestions: QlQuestion[]) { }
+  private constructor(readonly allQuestions: ReadonlyArray<QlQuestion>) { }
 
-  static evaluate(allQuestions: QlQuestion[], stmt: Statement): void {
+  static evaluate(allQuestions: ReadonlyArray<QlQuestion>, stmt: Statement): void {
     const visitor = new CheckStatementTypeVisitor(allQuestions);
     stmt.accept(visitor);
   }
@@ -30,8 +31,8 @@ export class CheckStatementTypeVisitor implements StatementVisitor<void> {
   }
 
   visitForm(stmt: Form): void {
-    this.checkDuplicateIdentifiers(this.allQuestions);
-    this.setVariableReferences(this.allQuestions, stmt);
+    this.checkDuplicateIdentifiers();
+    this.setVariableReferences(stmt);
 
     for (const subStmt of stmt.statements) {
       subStmt.accept(this);
@@ -48,8 +49,8 @@ export class CheckStatementTypeVisitor implements StatementVisitor<void> {
     }
 
     // check if any of the referenced question(s) in the condition point to questions in the body
-    const variables = GetExpressionVariablesVisitor.evaluate(stmt.condition);
-    const questions = stmt.getQuestions();
+    const variables = CollectExpressionVariablesVisitor.evaluate(stmt.condition);
+    const questions = CollectQuestionsVisitor.evaluate(stmt);
 
     for (const variable of variables) {
       const question = questions.find(q => q.name === variable.identifier);
@@ -73,9 +74,9 @@ export class CheckStatementTypeVisitor implements StatementVisitor<void> {
     // nothing to check
   }
 
-  private checkDuplicateIdentifiers(allQuestions: QlQuestion[]): void {
-    if (_.uniqBy(allQuestions, 'name').length < allQuestions.length) {
-      const groupedQuestions = _.groupBy(allQuestions, 'name');
+  private checkDuplicateIdentifiers(): void {
+    if (_.uniqBy(this.allQuestions, 'name').length < this.allQuestions.length) {
+      const groupedQuestions = _.groupBy(this.allQuestions, 'name');
 
       _.forEach(groupedQuestions, (value: QlQuestion[], key: string) => {
         if (value.length > 1) {
@@ -85,11 +86,11 @@ export class CheckStatementTypeVisitor implements StatementVisitor<void> {
     }
   }
 
-  private setVariableReferences(allQuestions: QlQuestion[], form: Form): void {
-    const allVariables = GetStatementVariablesVisitor.evaluate(form);
+  private setVariableReferences(form: Form): void {
+    const allVariables = CollectStatementVariablesVisitor.evaluate(form);
 
     for (const variable of allVariables) {
-      const referencedQuestion = allQuestions.find(q => q.name === variable.identifier);
+      const referencedQuestion = this.allQuestions.find(q => q.name === variable.identifier);
       if (referencedQuestion) {
         variable.referencedQuestion = referencedQuestion;
       } else {

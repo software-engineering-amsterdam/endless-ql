@@ -7,6 +7,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {Variable} from './expressions/variable';
 import * as astMock from './ast-mock';
 import {BooleanQuestionType, DateQuestionType, IntQuestionType, StringQuestionType} from '../question-type';
+import {ConvertToFormQuestionsVisitor} from './visitors/convert-to-form-questions-visitor';
 
 describe('Form', () => {
 
@@ -32,7 +33,7 @@ describe('Form', () => {
   ];
 
   it('should return the proper QuestionBase questions', () => {
-    const formQuestions = new Form('test', questions, astMock.emptyLoc).toFormQuestion();
+    const formQuestions = ConvertToFormQuestionsVisitor.evaluate(new Form('test', questions, astMock.emptyLoc));
     expect(formQuestions.length).toBe(5);
     expect(formQuestions[0].key).toBe('intQuestion');
     expect(formQuestions[0].label).toBe('intQuestion?');
@@ -46,7 +47,7 @@ describe('Form', () => {
   });
 
   it('should check condition of both ifs when nested', () => {
-    const formQuestions = new Form('test', questions.concat(ifs), astMock.emptyLoc).toFormQuestion();
+    const formQuestions = ConvertToFormQuestionsVisitor.evaluate(new Form('test', questions.concat(ifs), astMock.emptyLoc));
 
     expect(formQuestions.length).toBe(6);
 

@@ -3,6 +3,7 @@ import QL.classes.values.BooleanValue;
 import QL.classes.values.DateValue;
 import QL.classes.values.IntegerValue;
 import QL.classes.values.StringValue;
+import QLS.StylesheetEvaluator;
 import QLS.classes.Stylesheet;
 import QLS.parsing.gen.QLSParser;
 import QLS.parsing.visitors.StylesheetVisitor;
@@ -69,7 +70,7 @@ public class Main {
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor();
             Stylesheet stylesheet = stylesheetVisitor.visitStylesheet(stylesheetContext);
 
-            //StylesheetEvaluator evaluator = new StylesheetEvaluator(stylesheet);
+            StylesheetEvaluator evaluator = new StylesheetEvaluator(stylesheet);
 
             System.out.println("Stylesheet constructed");
 

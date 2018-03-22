@@ -9,7 +9,7 @@ import {
   LessThanExpression
 } from '../expressions/comparison-expression';
 import {EqualExpression, UnequalExpression} from '../expressions/equality-expression';
-import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {Variable} from '../expressions/variable';
 import {DateLiteral, NumberLiteral, StringLiteral} from '../';
 import {EvaluateExpressionVisitor} from './evaluate-expression-visitor';
@@ -141,7 +141,8 @@ describe('Expressions', () => {
 
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
-          if (literalArray[i].checkType([]) === ExpressionType.BOOLEAN && literalArray[j].checkType([]) === ExpressionType.BOOLEAN) {
+          if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === ExpressionType.BOOLEAN &&
+              CheckExpressionTypeVisitor.evaluate(literalArray[j]) === ExpressionType.BOOLEAN) {
             expect(() => {
               CheckExpressionTypeVisitor.evaluate(new AndExpression(literalArray[i], literalArray[j], location));
             }).not.toThrow();
@@ -155,7 +156,8 @@ describe('Expressions', () => {
 
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
-          if (literalArray[i].checkType([]) === ExpressionType.NUMBER && literalArray[j].checkType([]) === ExpressionType.NUMBER) {
+          if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === ExpressionType.NUMBER &&
+              CheckExpressionTypeVisitor.evaluate(literalArray[j]) === ExpressionType.NUMBER) {
             expect(() => {
               CheckExpressionTypeVisitor.evaluate(new AddExpression(literalArray[i], literalArray[j],  location));
             }).not.toThrow();
@@ -169,7 +171,8 @@ describe('Expressions', () => {
 
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
-          if (literalArray[i].checkType([]) === ExpressionType.NUMBER && literalArray[j].checkType([]) === ExpressionType.NUMBER) {
+          if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === ExpressionType.NUMBER &&
+              CheckExpressionTypeVisitor.evaluate(literalArray[j]) === ExpressionType.NUMBER) {
             expect(() => {
               CheckExpressionTypeVisitor.evaluate(new LessThanExpression(literalArray[i], literalArray[j],  location));
             }).not.toThrow();
@@ -183,7 +186,7 @@ describe('Expressions', () => {
 
       for (let i = 0; i < literalArray.length; i++) {
         for (let j = 0; j < literalArray.length; j++) {
-          if (literalArray[i].checkType([]) === literalArray[j].checkType([])) {
+          if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === CheckExpressionTypeVisitor.evaluate(literalArray[j])) {
             expect(() => {
               CheckExpressionTypeVisitor.evaluate(new EqualExpression(literalArray[i], literalArray[j],  location));
             }).not.toThrow();
@@ -196,7 +199,7 @@ describe('Expressions', () => {
       }
 
       for (let i = 0; i < literalArray.length; i++) {
-        if (literalArray[i].checkType([]) === ExpressionType.NUMBER) {
+        if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === ExpressionType.NUMBER) {
           expect(() => {
             CheckExpressionTypeVisitor.evaluate(new NegativeExpression(literalArray[i], location));
           }).not.toThrow();
@@ -208,7 +211,7 @@ describe('Expressions', () => {
       }
 
       for (let i = 0; i < literalArray.length; i++) {
-        if (literalArray[i].checkType([]) === ExpressionType.BOOLEAN) {
+        if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === ExpressionType.BOOLEAN) {
           expect(() => {
             CheckExpressionTypeVisitor.evaluate(new NegateExpression(literalArray[i],  location));
           }).not.toThrow();

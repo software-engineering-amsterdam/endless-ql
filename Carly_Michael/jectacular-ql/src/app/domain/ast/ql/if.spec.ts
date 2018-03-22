@@ -8,7 +8,8 @@ import {DateLiteral} from './expressions/literals/date-literal';
 import {NumberLiteral} from './expressions/literals/number-literal';
 import {StringLiteral} from './expressions/literals/string-literal';
 import {CheckStatementTypeVisitor} from './visitors/check-statement-type-visitor';
-import {GetStatementVariablesVisitor} from './visitors/get-statement-variables-visitor';
+import {CollectStatementVariablesVisitor} from './visitors/collect-statement-variables-visitor';
+import {CollectQuestionsVisitor} from './visitors/collect-questions-visitor';
 
 describe('if statement', () => {
   it('Should check for impossible if statements', () => {
@@ -43,7 +44,7 @@ describe('if statement', () => {
     const elseQuestion = new QlQuestion('elseQuestion', '', new IntQuestionType(), emptyLoc);
     const ifStatement = new If(null, [question], [elseQuestion], emptyLoc);
 
-    const statements = ifStatement.getQuestions();
+    const statements = CollectQuestionsVisitor.evaluate(ifStatement);
     expect(statements.length).toBe(2);
     expect(statements[0].name).toBe('question');
     expect(statements[1].name).toBe('elseQuestion');
@@ -55,7 +56,7 @@ describe('if statement', () => {
     const subIfStatement = new If(expression, [], [], emptyLoc);
     const ifStatement = new If(subExpression, [subIfStatement], [], emptyLoc);
 
-    const variables = GetStatementVariablesVisitor.evaluate(ifStatement);
+    const variables = CollectStatementVariablesVisitor.evaluate(ifStatement);
 
     expect(variables.length).toBe(2);
     expect(variables[0].identifier).toBe('expression');

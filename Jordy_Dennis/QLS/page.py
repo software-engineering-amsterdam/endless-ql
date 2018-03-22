@@ -1,11 +1,12 @@
-
+"""
+    A Page can contain multiple sections, and page-wide default styling.
+"""
 from .qlast_methods import *
 class Page:
     def __init__(self, name):
         self.name = name
         self.sections = []
         self.defaults = []
-        self.varDict = None
 
     """
         Typechecker for the defaults, make sure no (type, widgetType) is declared twice on page level
@@ -23,6 +24,7 @@ class Page:
             default.checkDefaultsQuestion(tmpDict)
         defaultDict[self.name]['sectionDefaults'] = sectionDict
         defaultDict[self.name]['pageDefaults'] = tmpDict
+
 
 
     """
@@ -48,11 +50,8 @@ class Page:
         self.defaults.append(default)
 
     def addVarDict(self, varDict):
-        self.varDict = varDict
         for section in self.sections:
             section.addVarDict(varDict)
-        for default in self.defaults:
-            default.addVarDict(varDict)
 
     def getName(self):
         return self.name

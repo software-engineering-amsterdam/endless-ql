@@ -1,20 +1,37 @@
 stylesheet taxOfficeExample
 {
+  page Fish
+  {
+    section "User input"
+    {
+      question priceFishOne
+      question priceFishTwo
+      question priceFishThree
+    }
+    section "Complex fish calculations"
+    {
+       question priceFishOneAndTwo
+       question priceAllFishes
+    }
+  }
   page Housing
   {
     section "Buying"
     {
       question hasBoughtHouse
-        widget checkbox
+        widget radio("Yes", "No")
     }
     section "Loaning"
+    {
       question hasMainLoan
+    }
   }
 
   page Selling
   {
     section "Selling"
     {
+      question whenNextHouse
       question hasSoldHouse
         widget radio("Yes", "No")
       section "You sold a house"
@@ -23,7 +40,7 @@ stylesheet taxOfficeExample
           widget spinbox
         question privateDebt
           widget spinbox
-          width: 200
+          width: 300
         question valueResidue
         default money
         {
@@ -33,6 +50,10 @@ stylesheet taxOfficeExample
           color: #999999
           widget spinbox
         }
+      }
+      section "You did not sell a house"
+      {
+        question notSellHouseReason
       }
     }
     default boolean widget radio("Yes", "No")

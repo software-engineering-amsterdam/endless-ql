@@ -91,6 +91,7 @@
     <Compile Include="Ast\Nodes\Relational\Interfaces\ITextVariableNode.cs" />
     <Compile Include="Ast\Tools\Interfaces\IQuestionnaireAstCreator.cs" />
     <Compile Include="Ast\Tools\QuestionnaireAstCreator.cs" />
+    <Compile Include="Domain\CalculationVariableVisitor.cs" />
     <Compile Include="Domain\DomainItemLocator.cs" />
     <Compile Include="Domain\Interfaces\ITypeService.cs" />
     <Compile Include="Domain\Interfaces\IVariableService.cs" />
@@ -101,10 +102,12 @@
     <Compile Include="Domain\VariableService.cs" />
     <Compile Include="Output\Tools\BooleanEvaluatorVisitor.cs" />
     <Compile Include="Output\Tools\BuildOutputVisitor.cs" />
+    <Compile Include="Output\Tools\CalculationService.cs" />
     <Compile Include="Output\Tools\CalculationVisitor.cs" />
     <Compile Include="Output\Tools\Interfaces\IBooleanEvaluatorVisitor.cs" />
     <Compile Include="Output\Tools\Interfaces\IAstToOutputVisitor.cs" />
     <Compile Include="Output\Tools\Interfaces\IBuildOutputVisitor.cs" />
+    <Compile Include="Output\Tools\Interfaces\ICalculationService.cs" />
     <Compile Include="Output\Tools\Interfaces\ICalculationVisitor.cs" />
     <Compile Include="Output\Tools\Interfaces\IOutputItemFactory.cs" />
     <Compile Include="Ast\Tools\Interfaces\IAstFactory.cs" />
@@ -166,8 +169,12 @@
     <Compile Include="Output\Tools\QuestionnaireOutputUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\ComparisonValidator.cs" />
+    <Compile Include="Validators\CyclicDependencyValidator.cs" />
     <Compile Include="Validators\DateComparisonValidator.cs" />
+    <Compile Include="Validators\DuplicateTextValidator.cs" />
+    <Compile Include="Validators\Interfaces\ICyclicDependencyValidator.cs" />
     <Compile Include="Validators\Interfaces\IDateComparisonValidator.cs" />
+    <Compile Include="Validators\Interfaces\IDuplicateTextValidator.cs" />
     <Compile Include="Validators\Interfaces\IMathComparisonValidator.cs" />
     <Compile Include="Validators\Interfaces\IMathExpressionValidator.cs" />
     <Compile Include="Validators\Interfaces\ITextComparisonValidator.cs" />
@@ -175,7 +182,9 @@
     <Compile Include="Validators\MathComparisonValidator.cs" />
     <Compile Include="Validators\MathExpressionValidator.cs" />
     <Compile Include="Validators\MetaData\BooleanConditionValidationMetaData.cs" />
+    <Compile Include="Validators\MetaData\CyclicDependencyValidationMetaData.cs" />
     <Compile Include="Validators\MetaData\DateComparisonValidationMetaData.cs" />
+    <Compile Include="Validators\MetaData\DuplicateTextValidationMetaData.cs" />
     <Compile Include="Validators\MetaData\DuplicateVariableValidationMetaData.cs" />
     <Compile Include="Validators\DuplicateVariableValidator.cs" />
     <Compile Include="Validators\Interfaces\IBooleanConditionValidator.cs" />

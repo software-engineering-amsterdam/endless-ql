@@ -83,7 +83,7 @@ styleAttribute
 // Widget
 widget
  = _ "widget" _ id:identifier options:widgetOptions? lb* {
-    return new Nodes.WidgetAttribute("widget", id, options);
+    return new Nodes.WidgetAttribute(id, options);
 }
 
 // WidgetOptions

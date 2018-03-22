@@ -35,10 +35,7 @@ public class DependencyChecker extends Checker {
 
         for (Dependency relation : transitiveClosure(dependencies)) {
             if (relation.isReflexive()) {
-                String message = String.format("Circular dependency detected at: %s", relation.getFrom());
-
-                result.addError(message);
-                logger.severe(message);
+                result.addError(String.format("Circular dependency detected at: %s", relation.getFrom()));
             }
         }
 

@@ -43,22 +43,25 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
   onChangeQlSource(text: string) {
     try {
-      const parseResult: QlsParserResult = (new QlsParserPipeline(text, this.state.qlsInput)).run();
-
-      const form = new QuestionForm(parseResult.node, this.getFormState());
-
-      this.setState({
-        form: new StyledForm(form, parseResult.styleNode),
-        parserError: null,
-        qlInput: text
-      });
+      this.tryToUpdateForm(text);
     } catch (error) {
-      console.error(error);
       this.setState({
         parserError: error,
         qlInput: text
       });
     }
+  }
+
+  tryToUpdateForm(qlSource: string) {
+    const parseResult: QlsParserResult = (new QlsParserPipeline(qlSource, this.state.qlsInput)).run();
+
+    const form = new QuestionForm(parseResult.node, this.getFormState());
+
+    this.setState({
+      form: new StyledForm(form, parseResult.styleNode),
+      parserError: null,
+      qlInput: qlSource
+    });
   }
 
   getFormState() {

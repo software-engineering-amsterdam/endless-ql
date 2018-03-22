@@ -5,6 +5,8 @@ import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.ast.type.MoneyType;
 import org.uva.ql.ast.type.StringType;
+import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
+import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.ast.Segment.*;
 import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Style.StyleProperty.*;
@@ -29,46 +31,43 @@ import java.util.Arrays;
 public class StyleEvaluator {
 
     private Stylesheet stylesheet;
-    private StylesheetContext context;
+    private final StylesheetContext context;
 
     private Map<String, WidgetType> defaultTypes = new HashMap<>();
 
     private Map<String, JPanel> sections = new HashMap<>();
     private List<String> visibleSections = new ArrayList<>();
 
+    private JTabbedPane tabbedPane;
+
     private Style defaultStyle;
 
     public StyleEvaluator() {
+        this.context = new StylesheetContext();
         setDefaultWidgetTypes();
-        setDefaultSection();
         setDefaultStyle();
 
     }
 
     public void setStylesheet(Stylesheet stylesheet) {
         this.stylesheet = stylesheet;
-        this.context = new StylesheetContext(stylesheet);
+        this.context.setStylesheet(stylesheet);
         generateSections();
     }
 
-    public void setWidget(QuestionReference questionReference, JPanel widget) {
-        sections.put(questionReference.getId(), widget);
+    public void setWidget(Question question, JPanel widget) {
+        sections.put(question.getId(), widget);
     }
 
-    public void setVisible(QuestionReference questionReference) {
-        String key = questionReference.getId();
+    public void setVisible(Question question) {
+        String key = question.getId();
         visibleSections.add(key);
         for (Segment segment : context.getAllParents(key)) {
             visibleSections.add(segment.getId());
         }
     }
 
-    public QuestionReference getQuestionReference(Question question) {
-        return this.context.getQuestionReference(question);
-    }
-
-    public JTabbedPane getLayout(JTabbedPane tabbedPane) {
-
+    public JComponent getLayout() {
         for (QuestionReference questionReference : this.context.getQuestions()) {
             Segment parent = this.context.getParent(questionReference.getId());
             if (parent != null && visibleSections.contains(questionReference.getId())) {
@@ -87,12 +86,30 @@ public class StyleEvaluator {
             }
         }
 
-        for (Page page : context.getPages()) {
-            if (visibleSections.contains(page.getId())) {
-                tabbedPane.add(page.getTitle(), sections.get(page.getId()));
+        List<Page> pages = context.getPages();
+
+        if(pages.size() > 0) {
+            this.tabbedPane = new JTabbedPane();
+            for (Page page : pages) {
+                if (visibleSections.contains(page.getId())) {
+                    this.tabbedPane.add(page.getTitle(), sections.get(page.getId()));
+                }
             }
+        } else {
+            JPanel mainPanel = new JPanel();
+            mainPanel.setLayout(new GridLayout(0,1));
+            for(String section : visibleSections){
+                mainPanel.add(sections.get(section));
+            }
+            return mainPanel;
         }
         return tabbedPane;
+    }
+
+    public void setFocus(Question question){
+        if(tabbedPane != null) {
+            this.tabbedPane.setSelectedComponent(this.getPage(question));
+        }
     }
 
     public JPanel getPage(Question question) {
@@ -104,23 +121,29 @@ public class StyleEvaluator {
     }
 
     public Style getStyle(Question question) {
-        return getStyle(this.getQuestionReference(question));
-    }
-
-    public Style getStyle(QuestionReference questionReference) {
-
-        return this.defaultStyle;
+        for (Segment segment: this.context.getAllParents(question.getId())){
+            for(DefaultStyleStatement defaultStyleStatement: segment.getDefaultStyleStatements()){
+                if (defaultStyleStatement.getType().getClass().equals(question.getType().getClass())){
+                    return defaultStyleStatement.getStyle();
+                }
+            }
+        }
+        return defaultStyle;
     }
 
     public WidgetType getWidgetType(Question question) {
-        if (stylesheet != null) {
-            QuestionReference questionReference = this.context.getQuestion(question.getId());
-            if (questionReference != null && questionReference.getWidget() != null) {
-                return questionReference.getWidget().getType();
-            }
+        QuestionReference questionReference = this.context.getQuestionReference(question);
+        if (questionReference != null && questionReference.getWidget() != null) {
+            return questionReference.getWidget().getType();
         }
 
-        //TODO select scope specific defaults
+        for(Segment segment: this.context.getAllParents(question.getId())) {
+            for (DefaultWidgetStatement defaultWidgetStatement : segment.getDefaultWidgetStatements()) {
+                if (defaultWidgetStatement.getType().getClass().equals(question.getType().getClass())){
+                    return defaultWidgetStatement.getWidget().getType();
+                }
+            }
+        }
 
         return defaultTypes.get(question.getType().getClass().toString());
     }
@@ -155,16 +178,13 @@ public class StyleEvaluator {
         }
     }
 
-    private void setDefaultSection() {
-
-    }
 
     private void setDefaultStyle() {
         List<StyleProperty> properties = new ArrayList<>();
-        properties.add(new ColorProperty(new ColorValue("")));
-        properties.add(new FontProperty(new StringValue("")));
-        properties.add(new FontSizeProperty(new NumberValue("")));
-        properties.add(new WidthProperty(new NumberValue("")));
+        properties.add(new ColorProperty(new ColorValue("#effeee")));
+        properties.add(new FontProperty(new StringValue("Times New Roman")));
+        properties.add(new FontSizeProperty(new NumberValue("25")));
+        properties.add(new WidthProperty(new NumberValue("100")));
         this.defaultStyle = new Style(properties, null);
     }
 

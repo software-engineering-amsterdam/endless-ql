@@ -1,7 +1,9 @@
 package com.chariotit.uva.sc.qdsl.ast.ql;
 
 
+import com.chariotit.uva.sc.qdsl.ast.cyclechecker.CycleChecker;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.QLAstRoot;
+import com.chariotit.uva.sc.qdsl.ast.ql.visitor.CycleDetectionVisitor;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.SymbolTableBuilderVisitor;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckVisitor;
@@ -32,6 +34,12 @@ public class TypeChecker {
         // Second run. TypeNode checker
         TypeCheckVisitor typeCheckVisitor = new TypeCheckVisitor(astRoot.getQuestionSymbolTable());
         astRoot.acceptVisitor(typeCheckVisitor);
+
+        // Cycledetection
+        CycleDetectionVisitor cycleDetectionVisitor = new CycleDetectionVisitor();
+        astRoot.acceptVisitor(cycleDetectionVisitor);
+        CycleChecker cycleChecker = new CycleChecker(cycleDetectionVisitor.getDependencyTree());
+        cycleChecker.checkCycles();
 
         return typeCheckVisitor.getErrors();
     }

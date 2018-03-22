@@ -4,37 +4,28 @@ import javafx.stage.Stage
 import javax.inject.Inject
 import org.uva.sc.cr.ql.interpreter.QLJavaFxApplication
 import org.uva.sc.cr.qsl.QSLStandaloneSetup
-import org.uva.sc.cr.qsl.interpreter.service.StyleService
+import org.uva.sc.cr.qsl.interpreter.styling.StyleBuilder
 import org.uva.sc.cr.qsl.qSL.Model
 
 class QSLJavaFxApplication extends QLJavaFxApplication {
 
 	@Inject
-	var StyleService styleService
+	var StyleBuilder styleBuilder
 
 	override createInjector() {
-		new QSLStandaloneSetup().createInjectorAndDoEMFRegistration()
-	}
-
-	override getForm() {
-		val model = astData.allContents.head as Model
-		return model.form
-	}
-
-	def private getStylesheet() {
-		val model = astData.allContents.head as Model
-		return model.stylesheet
+		return new QSLStandaloneSetup().createInjectorAndDoEMFRegistration()
 	}
 
 	override start(Stage primaryStage) {
-		val stylesheet = getStylesheet()
-		if (stylesheet !== null) {
-			stageService.buildGuiLayout(form)
-			val wizard = styleService.styleLayout(stylesheet)
-			wizard.title = form.name
-			wizard.showAndWait
+		val model = parseFileAndValidate().allContents.head() as Model
+		val form = model.form
+		val stylesheet = model.stylesheet
+		val qlDialog = dialogBuilder.buildDialog(form)
+		if (stylesheet === null) {
+			qlDialog.showAndWait()
 		} else {
-			super.start(primaryStage)
+			val wizard = styleBuilder.buildStyledDialog(form, stylesheet)
+			wizard.showAndWait()
 		}
 	}
 

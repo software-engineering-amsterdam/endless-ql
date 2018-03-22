@@ -11,6 +11,9 @@ import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.evaluator.StyleEvaluator;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.logging.Level;
@@ -62,13 +65,11 @@ public class GUIHandler {
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
 
         for (Question question : formEvaluator.getQuestionsAsList()) {
-            QuestionReference reference = styleEvaluator.getQuestionReference(question);
             Value value = formEvaluator.getValueById(question.getId());
 
-            // TODO apply styling to widget
             QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
 
-            this.styleEvaluator.setWidget(reference, widget);
+            this.styleEvaluator.setWidget(question, widget);
 
             Boolean condition = true;
             if (formEvaluator.questionHasCondition(question)) {
@@ -79,27 +80,49 @@ public class GUIHandler {
                         .getValue();
             }
             if (condition) {
-                this.styleEvaluator.setVisible(reference);
+                this.styleEvaluator.setVisible(question);
             }
         }
-        this.tabbedPane = new JTabbedPane();
-        frame.add(styleEvaluator.getLayout(this.tabbedPane));
+        frame.add(styleEvaluator.getLayout());
+
+        this.frame.add(initializeSaveButton());
 
         setFocus(this.lastChangedQuestion);
         frame.setVisible(true);
+        frame.pack();
     }
 
     private void setFocus(Question question) {
         if (question != null) {
-            this.tabbedPane.setSelectedComponent(this.styleEvaluator.getPage(question));
+            this.styleEvaluator.setFocus(question);
         }
     }
 
     private void initializeFrame() {
         this.frame = new JFrame();
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.frame.setSize(500, 300);
+        this.frame.setSize(750, 600);
         this.frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+    }
+
+    private JPanel initializeSaveButton(){
+        JPanel savePanel = new JPanel();
+        savePanel.setLayout(new BorderLayout());
+
+        JButton saveButton = new JButton("Submit");
+        saveButton.addActionListener(e -> {saveAndQuit();});
+
+        savePanel.add(saveButton, BorderLayout.SOUTH);
+        return savePanel;
+    }
+
+    private void saveAndQuit(){
+        int dialogResult = JOptionPane.showConfirmDialog (this.frame, "Would you like to save and quit?","Warning",JOptionPane.YES_NO_OPTION);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            this.formEvaluator.saveState();
+            this.frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        }
+
     }
 
     private void checkForErrors(ValidationResult validationResult) {

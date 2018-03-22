@@ -71,8 +71,4 @@ class QLInteger(QLType):
 
     @staticmethod
     def pyqt5_default_widget():
-        widget = SpinBox()
-        maximum = 2**31 - 1
-        minimum = -maximum
-        widget.setRange(minimum, maximum)
-        return widget
+        return SpinBox()

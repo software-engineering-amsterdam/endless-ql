@@ -1,54 +1,32 @@
 form taxOfficeExample
 { 
   	"Did you sell a house in 2010?"
-    		hasSoldHouse: boolean
-  	"Did you buy a house in 2010?"
-    		hasBoughtHouse: boolean
-  	"Did you enter a loan?"
-    		hasMaintLoan: boolean
-	"if2 > 3 ?"
-      		ifV4: int
-	
-	if (hasSoldHouse)
-  	{
-    		"ifV"
-      			ifV: int
-  	}
-  	elif (hasBoughtHouse)
-  	{
-		"elif"
-      			elifV: int 
-  	}
-	else 
-	{
-		"else"
-			elseV: int
-	}
-
-  	if (ifV4 > 3)
-  	{
-    		"if2"
-      			ifV2: int
- 	}
-	else 
-	{
-		"else2"
-			elseV2: int
-	}
-
-	"Did you enter a loan?"
-    		hasMaint2Loan: boolean
-
-
-    "Value residue:" valueResidue: int = (elseV * elseV2)
-/*
-  elif (hasSoldHouse == hasBoughtHouse) {
-    "Private debts for the sold house:" privateDebt: int
+        hasSoldHouse: boolean
+    "Did you buy a house in 2010?"
+        hasBoughtHouse: int
+    "Did you enter a loan?"
+        hasMaintLoan: int
+  /*"if2 > 3 ?"
+          ifV4: int
+  "assignment"
+          ifV5: int
+  
+  if (hasSoldHouse)
+    {
+        "ifV"
+            ifV: int
+    }
+    elif (hasBoughtHouse)
+    {
+    "elif"
+            elifV: int 
+    }
+  else 
+  {
+    "else"
+      elseV: int
   }
 
-  if (hasSoldHouse > hasBoughtHouse) {
-    "What was the selling price?" sellingPrice: int
-    "Private debts for the sold house:" privateDebt: int
-    "Value residue:" valueResidue: int = (privateIncome * sellingPrice - !privateDebt)
-  }*/
+  
+      "Value residue:" valueResidue: int = ifV4 + ifV5*/
 }

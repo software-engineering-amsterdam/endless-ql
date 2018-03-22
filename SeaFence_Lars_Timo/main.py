@@ -23,32 +23,22 @@ def main(argv):
     ql_visitor = QLVisitorHelper()
     ql_ast = ql_visitor.visit(ql_tree)
 
-    ql_checker = QLTypeChecker(ql_ast)
-    ql_checker.startQLTypeCheck()
-
-    input = FileStream(argv[2])
-    qls_lexer = QLSLexer(input)
-    qls_stream = CommonTokenStream(qls_lexer)
-    qls_parser = QLSParser(qls_stream)
-
-    qls_tree = qls_parser.stylesheet()
-
-    qls_visitor = QLSVisitorHelper()
-    qls_ast = qls_visitor.visit(qls_tree)
+    ql_checker = QLTypeChecker()
+    ql_checker.startQLTypeCheck(ql_ast.statements)
     
-    # if len(argv) == 3:
-    #     input = FileStream(argv[2])
-    #     qls_lexer = QLSLexer(input)
-    #     qls_stream = CommonTokenStream(qls_lexer)
-    #     qls_parser = QLSParser(qls_stream)
+    if len(argv) == 3:
+        input = FileStream(argv[2])
+        qls_lexer = QLSLexer(input)
+        qls_stream = CommonTokenStream(qls_lexer)
+        qls_parser = QLSParser(qls_stream)
 
-    #     qls_tree = qls_parser.stylesheet()
+        qls_tree = qls_parser.stylesheet()
 
-    #     qls_visitor = QLSVisitorHelper()
-    #     qls_ast = qls_visitor.visit(qls_tree)
+        qls_visitor = QLSVisitorHelper()
+        qls_ast = qls_visitor.visit(qls_tree)
 
-    #     qls_checker = QLSTypeChecker(ql_ast, qls_ast)
-    #     qls_checker.startQLSTypeCheck()
+        qls_checker = QLSTypeChecker()
+        qls_checker.startQLSTypeCheck(ql_ast.statements, qls_ast.pages)
 
     # print ast
 

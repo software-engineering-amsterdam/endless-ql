@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
+import ql.model.expression.variable.ExpressionVariableUndefined;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,9 @@ public class GUIForm extends VBox {
             // Add widget to map from identifier to corresponding UI elements
             guiWidgetsMap.put(guiQuestion, labelWithWidget);
         }
+
+        // Update question values/visibility for the first time
+        this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
 
         vBox.setPadding(new Insets(10, 10, 10, 10));
 

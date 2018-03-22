@@ -42,22 +42,7 @@ public class GUIQuestion {
             });
         }
 
-        LabelWithWidget labelWithWidget = new LabelWithWidget(guiLabel, guiWidget);
-
-        // Set computed value if needed
-        if(this.isComputed()) {
-            ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
-            Value result = expressionEvaluator.visit(symbolTable.getExpression(this.identifier));
-            guiWidget.setValue(result);
-        }
-
-        // Show/hide field based on condition
-        labelWithWidget.setVisible(this.isVisible(symbolTable));
-
-        // Disable field if it is computed as it can not be edited
-        labelWithWidget.setDisable(this.computed);
-
-        return labelWithWidget;
+        return new LabelWithWidget(guiLabel, guiWidget);
     }
 
     public boolean isVisible(SymbolTable symbolTable) {

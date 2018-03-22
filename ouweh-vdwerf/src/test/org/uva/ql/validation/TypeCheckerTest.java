@@ -8,11 +8,8 @@ import org.uva.ql.ast.Statement;
 import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
-import org.uva.ql.ast.type.Type;
 import org.uva.ql.parsing.ASTBuilder;
-import org.uva.ql.validation.checker.ParameterChecker;
 import org.uva.ql.validation.checker.TypeChecker;
-import org.uva.ql.validation.collector.ParameterContext;
 import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
@@ -25,8 +22,8 @@ import static org.junit.Assert.assertTrue;
 public class TypeCheckerTest {
 
     @Test
-    public void runCheckTestInput() {
-        String input = new IOHandler().readFile("input/test/typeChecker.ql");
+    public void runCheckTestInputCalculation() {
+        String input = new IOHandler().readFile("input/test/typeCalculation.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
@@ -37,6 +34,18 @@ public class TypeCheckerTest {
         assertTrue(typeChecker.runCheck().hasErrors());
     }
 
+    @Test
+    public void runCheckTestInputConditional() {
+        String input = new IOHandler().readFile("input/test/typeConditional.ql");
+        ASTBuilder builder = new ASTBuilder();
+        Form form = builder.buildAST(input);
+
+        SymbolTable symbolTable = new SymbolTable(form);
+
+        TypeChecker typeChecker = new TypeChecker(form, symbolTable);
+
+        assertTrue(typeChecker.runCheck().hasErrors());
+    }
 
     @Test
     public void correctTypesRunCheck() {

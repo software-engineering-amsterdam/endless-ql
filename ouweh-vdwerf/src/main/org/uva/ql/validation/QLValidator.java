@@ -2,7 +2,6 @@ package org.uva.ql.validation;
 
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.Question;
-import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.validation.checker.*;
 import org.uva.ql.validation.collector.ParameterContext;
 import org.uva.ql.validation.collector.QuestionContext;
@@ -10,7 +9,6 @@ import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class QLValidator {
 

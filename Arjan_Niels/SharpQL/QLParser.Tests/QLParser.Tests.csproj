@@ -48,13 +48,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analysis\Evaluator\StatementTypeEvaluatorTests.cs" />
-    <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
-    <Compile Include="Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />
-    <Compile Include="Analysis\Semantic\StatementTypeAnalyserTests.cs" />
+    <Compile Include="QL\Analysis\Evaluator\StatementTypeEvaluatorTests.cs" />
+    <Compile Include="QL\Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
+    <Compile Include="QL\Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />
+    <Compile Include="QL\Analysis\Semantic\StatementTypeAnalyserTests.cs" />
     <Compile Include="QLS\Analysis\DuplicateVariableTests.cs" />
     <Compile Include="QLS\Analysis\AllIdentifiersAreUsedTests.cs" />
     <Compile Include="QLS\Analysis\UnknownIdentifiersAnalayserTests.cs" />
+    <Compile Include="QL\Analysis\TwoTimesTheSameQLTest.cs" />
     <Compile Include="QL\CommentTest.cs" />
     <Compile Include="QL\ComputedNodeTest.cs" />
     <Compile Include="QL\Expressions\ArthimeticExpressionTests.cs" />

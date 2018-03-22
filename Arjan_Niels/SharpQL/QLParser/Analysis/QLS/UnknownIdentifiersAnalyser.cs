@@ -14,6 +14,7 @@ namespace QLParser.Analysis.QLS
 
         public bool Analyse(QLSNode node)
         {
+            this.VisitedIDs.Clear();
             this.Visit(node);
             var isValid = true;
             foreach (var id in VisitedIDs)

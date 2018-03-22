@@ -2,6 +2,7 @@ package org.uva.qls.ast.Widget.WidgetTypes;
 
 
 import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.ast.type.MoneyType;
 import org.uva.ql.ast.type.Type;
 import org.uva.qls.visitor.WidgetTypeVisitor;
 
@@ -16,7 +17,7 @@ public class SpinboxType extends WidgetType {
 
     @Override
     public List<Class<? extends Type>> getCompatibleTypes() {
-        return Arrays.asList(IntegerType.class);
+        return Arrays.asList(IntegerType.class, MoneyType.class);
     }
 
     @Override

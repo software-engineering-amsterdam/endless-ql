@@ -5,7 +5,7 @@ from ql.ast.expressions.binary_operators.and_node import AndOperatorNode
 from ql.types.boolean import QLBoolean
 from ql.types.undefined import QLUndefined
 from ql.ast.visitors.visitor_helper import when, on
-from gui.model.form import Form
+from gui.model.form import FormModel
 
 
 class GUIModel:
@@ -19,7 +19,7 @@ class GUIModel:
 
     @when(FormNode)
     def visit(self, node):
-        self.form = Form(node.identifier)
+        self.form = FormModel(node.identifier)
 
         for child in node.block:
             child.accept(self)

@@ -1,6 +1,6 @@
 """
-    Pages can be added to a parent class and consist of a scrollFrame (contents), to which
-    questions can be added or removed.
+    Sections can be added to a parent class and consist of a scrollFrame (contents), to which
+    questions and sections can be added or removed.
 
     We track a list of questions, in case questions need to be removed or added
 """

@@ -26,6 +26,10 @@ public class QuestionReference extends Segment {
         return "Question." + id;
     }
 
+    public String getQuestionId() {
+        return id;
+    }
+
     public Widget getWidget() {
         return widget;
     }

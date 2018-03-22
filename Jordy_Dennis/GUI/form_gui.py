@@ -29,6 +29,7 @@ class FormGui:
         self.frame = create_frame(parent, color)
         self.frame.pack(expand=True, fill='both')
         self.headerFrame = None
+        self.header = header
         self.createHeader(header, parent=self.frame)
 
         self.pages = collections.OrderedDict()
@@ -140,7 +141,7 @@ class FormGui:
         varDict = self.questionGenerator.getVarDict()
         for varName in varDict:
             answers[varName] = varDict[varName]['node'].evaluate()
-        return answers
+        return answers, self.header
 
     """
         Usefull getter and setter functions

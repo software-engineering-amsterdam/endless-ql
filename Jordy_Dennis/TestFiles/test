@@ -3,6 +3,9 @@ form taxOfficeExample
   "Int a"
     a: int
 
-  "Bool b"
-  	b : bool
+  if(a){
+  	"Bool b"
+  		b: bool
+
+  }
 }

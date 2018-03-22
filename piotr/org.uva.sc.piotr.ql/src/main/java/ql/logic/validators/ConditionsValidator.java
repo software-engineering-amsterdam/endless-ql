@@ -2,24 +2,37 @@ package ql.logic.validators;
 
 import ql.ast.model.expressions.Expression;
 import ql.ast.model.statements.Question;
-import ql.exceptions.NonBooleanConditionException;
+import ql.error.Error;
 import ql.logic.evaluators.ASTExpressionEvaluator;
 import ql.logic.type.MixedValue;
 
 import java.util.List;
 
-public final class ConditionsValidator {
+public final class ConditionsValidator extends Validator {
 
-    public static void validateConditions(List<Expression> conditions, List<Question> questions) throws NonBooleanConditionException {
+    private final List<Expression> conditions;
+    private final List<Question> questions;
+
+    public ConditionsValidator(List<Expression> conditions, List<Question> questions) {
+        this.conditions = conditions;
+        this.questions = questions;
+    }
+
+    @Override
+    public boolean validate() {
 
         ASTExpressionEvaluator evaluator = new ASTExpressionEvaluator(questions);
 
         for (Expression expression : conditions) {
             MixedValue result = expression.accept(evaluator);
             if (result.getType() != Expression.DataType.BOOLEAN) {
-                throw new NonBooleanConditionException("Condition at line " + expression.getMetaInformation().getStartLine() + " does not evaluate to a boolean type.");
+                String message = "Condition at line " + expression.getMetaInformation().getStartLine() + " does not evaluate to a boolean type.";
+                this.setError(new Error(Error.Level.CRITICAL, message));
+                return false;
             }
         }
+
+        return true;
     }
 
 }

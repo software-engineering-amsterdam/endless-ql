@@ -12,7 +12,7 @@ export class QuestionBase<T> {
               readonly type: string,
               readonly controlType: string,
               hiddenCondition: (form: FormGroup) => boolean) {
-    this.hiddenCondition = hiddenCondition || (() => true);
+    this.hiddenCondition = hiddenCondition;
   }
 
   toCalculatedQuestion(calculateFunction: (form: FormGroup) => T) {

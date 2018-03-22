@@ -11,7 +11,7 @@ export class QuestionFactory {
   static toFormQuestion(name: string,
                         label: string,
                         type: QuestionType<any>,
-                        condition?: (form: FormGroup) => boolean): QuestionBase<any> {
+                        condition: (form: FormGroup) => boolean): QuestionBase<any> {
 
     let formQuestionToReturn: QuestionBase<any>;
 

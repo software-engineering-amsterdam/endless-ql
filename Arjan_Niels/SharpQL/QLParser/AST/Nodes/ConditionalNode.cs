@@ -2,7 +2,7 @@
 
 namespace QLParser.AST.Nodes
 {
-    public class ConditionalNode : Node
+    public class ConditionalNode : QLNode
     {
         public IExpressionNode Expression { get; private set; }
 

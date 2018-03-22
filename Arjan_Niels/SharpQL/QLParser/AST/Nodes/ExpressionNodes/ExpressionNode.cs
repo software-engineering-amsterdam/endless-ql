@@ -2,7 +2,7 @@
 
 namespace QLParser.AST.Nodes.ExpressionNodes
 {
-    public abstract class ExpressionNode : Node, IExpressionNode
+    public abstract class ExpressionNode : QLNode, IExpressionNode
     {
         public IExpressionNode Left { get; protected set; }
         public IExpressionNode Right { get; protected set; }

@@ -2,7 +2,7 @@
 
 namespace QLParser.AST.Nodes
 {
-    public class FormNode : Node
+    public class FormNode : QLNode
     {
         public string FormName { get; set; }
 

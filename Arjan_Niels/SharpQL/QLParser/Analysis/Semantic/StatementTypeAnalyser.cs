@@ -8,7 +8,7 @@ namespace QLParser.Analysis.Semantic
 {
     public class StatementTypeAnalyser : IQLAnalyser
     {
-        public bool Analyse(Node node)
+        public bool Analyse(QLNode node)
         {
             var result = true;
             var expression = GetExpression(node);
@@ -18,7 +18,7 @@ namespace QLParser.Analysis.Semantic
                 return false;
             }
 
-            foreach (Node child in node.Children)
+            foreach (QLNode child in node.Children)
                 if (!Analyse(child))
                     result = false;
 
@@ -54,7 +54,7 @@ namespace QLParser.Analysis.Semantic
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private IExpressionNode GetExpression(Node node)
+        private IExpressionNode GetExpression(QLNode node)
         {
             switch (node.GetNodeType())
             {

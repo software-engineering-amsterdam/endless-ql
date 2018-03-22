@@ -6,10 +6,10 @@ namespace QLParser.Analysis.Syntactic
     {
         private readonly string errorMessage = "Questions can't have child nodes.";
 
-        public bool Analyse(Node node)
+        public bool Analyse(QLNode node)
         {
             var childValue = true;
-            foreach (Node child in node.Children)
+            foreach (QLNode child in node.Children)
             {
                 if (child.Type == NodeType.QUESTION && child.Children.Count != 0)
                 {

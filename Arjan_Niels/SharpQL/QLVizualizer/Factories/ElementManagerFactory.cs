@@ -32,7 +32,7 @@ namespace QLVisualizer.Factories
         /// <param name="node">Node to parse</param>
         /// <param name="condition">Base condition, optional</param>
         /// <returns>Collection of widgets</returns>
-        public static ElementManager ParseChildNode(Node node, ElementManagerController elementManagerController, ElementManagerCollection parent, ExpressionBool condition = null)
+        public static ElementManager ParseChildNode(QLNode node, ElementManagerController elementManagerController, ElementManagerCollection parent, ExpressionBool condition = null)
         {
             switch (node.Type)
             {

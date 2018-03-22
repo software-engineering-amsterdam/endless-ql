@@ -8,8 +8,8 @@ namespace QLParser.Tests.AST.Validators
     [TestClass]
     public class ASTValidatorTests : QLTest
     {
-        private Node _validAST;
-        private Node _invalidAST;
+        private QLNode _validAST;
+        private QLNode _invalidAST;
 
         [TestInitialize]
         public void Initialize()

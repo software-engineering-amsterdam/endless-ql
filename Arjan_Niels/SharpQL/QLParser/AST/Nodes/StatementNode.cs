@@ -2,7 +2,7 @@
 
 namespace QLParser.AST.Nodes
 {
-    public class StatementNode : Node, IExpressionNode
+    public class StatementNode : QLNode, IExpressionNode
     {
         public IExpressionNode LeftSide { get; private set; }
         public string Operator { get; private set; }

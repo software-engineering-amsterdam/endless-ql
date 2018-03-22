@@ -2,7 +2,7 @@
 
 namespace QLParser.AST.Nodes
 {
-    public class ComputedNode : Node
+    public class ComputedNode : QLNode
     {
         public string ID { get; private set; }
         public string Text { get; private set; }

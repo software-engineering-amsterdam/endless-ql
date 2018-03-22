@@ -41,7 +41,7 @@ namespace QLParser.Analysis
             };
         }
 
-        public static bool Analyse(Node node)
+        public static bool Analyse(QLNode node)
         {
             if (node == null)
                 return false;

@@ -8,7 +8,7 @@ namespace QLParserTester
         public static void Print(FormNode form)
         {
             Console.WriteLine(form);
-            foreach (Node section in form.Children)
+            foreach (QLNode section in form.Children)
                 switch (section.GetNodeType())
                 {
                     case NodeType.QUESTION:
@@ -38,7 +38,7 @@ namespace QLParserTester
         public static void PrintSection(ConditionalNode conditional)
         {
             Console.WriteLine("\n" + conditional);
-            foreach (Node section in conditional.Children)
+            foreach (QLNode section in conditional.Children)
                 if (section.GetType() == typeof(QuestionNode))
                     PrintSection(section as QuestionNode);
                 else if (section.GetType() == typeof(ComputedNode))

@@ -6,7 +6,7 @@ namespace QLParser.Analysis.Semantic
 {
     public class OnlyInitialisedVarsAnalyser : IQLAnalyser
     {
-        public bool Analyse(Node node)
+        public bool Analyse(QLNode node)
         {
             var result = true;
             if (node.Type == NodeType.CONDITIONAL)
@@ -21,7 +21,7 @@ namespace QLParser.Analysis.Semantic
             }
 
             // Set result to false when any of the children encounters a error.
-            foreach (Node child in node.Children)
+            foreach (QLNode child in node.Children)
                 if (!Analyse(child) && result)
                     result = false;
 

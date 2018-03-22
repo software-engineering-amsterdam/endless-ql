@@ -8,10 +8,10 @@ namespace QLParser.Tests.AST
     [TestClass]
     public class SingleFormValidatorTest : QLTest
     {
-        private Node _validAST;
-        private Node _multipleFormAST;
-        private Node _multipleFormInLowerNodeAST;
-        private Node _multipleLayerValidForm;
+        private QLNode _validAST;
+        private QLNode _multipleFormAST;
+        private QLNode _multipleFormInLowerNodeAST;
+        private QLNode _multipleLayerValidForm;
 
         [TestInitialize]
         public void Initialize()

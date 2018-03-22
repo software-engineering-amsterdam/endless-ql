@@ -14,7 +14,7 @@ namespace QLParser.Analysis.Semantic
         /// <param name="node"></param>
         /// <param name="logErrors"></param>
         /// <returns></returns>
-        public bool Analyse(Node node)
+        public bool Analyse(QLNode node)
         {
             var result = true;
             string id = "";
@@ -35,7 +35,7 @@ namespace QLParser.Analysis.Semantic
             }
 
             // Set result to false if any of the children encounters an error.
-            foreach (Node child in node.Children)
+            foreach (QLNode child in node.Children)
                 if (!Analyse(child) && result)
                     result = false;
 

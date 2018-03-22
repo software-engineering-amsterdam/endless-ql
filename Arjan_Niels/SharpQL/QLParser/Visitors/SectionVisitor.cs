@@ -5,9 +5,9 @@ using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.Visitors
 {
-    public class SectionVisitor : QLGrammar.QLGrammarBaseVisitor<Node>
+    public class SectionVisitor : QLGrammar.QLGrammarBaseVisitor<QLNode>
     {
-        public override Node VisitSection([NotNull] SectionContext context)
+        public override QLNode VisitSection([NotNull] SectionContext context)
         {
             // If the Section is a Question, process it.
             var questionContext = context.question();

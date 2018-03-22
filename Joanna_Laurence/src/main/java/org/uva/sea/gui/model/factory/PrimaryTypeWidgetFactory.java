@@ -15,12 +15,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WidgetFactory implements IWidgetFactory {
+public class PrimaryTypeWidgetFactory implements IWidgetFactory {
     private final Map<NodeType, Class<? extends BaseWidget>> widgetTypeClassEnumMap = new HashMap<>();
 
     private final DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
 
-    public WidgetFactory() {
+    public PrimaryTypeWidgetFactory() {
         this.widgetTypeClassEnumMap.put(NodeType.BOOLEAN, CheckBoxWidget.class);
         this.widgetTypeClassEnumMap.put(NodeType.DECIMAL, TextFieldWidget.class);
         this.widgetTypeClassEnumMap.put(NodeType.INTEGER, TextFieldWidget.class);

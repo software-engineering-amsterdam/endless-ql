@@ -7,14 +7,13 @@ import org.uva.ql.evaluator.value.Value;
 import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
-import java.awt.Font;
-
 import javax.swing.*;
 
 public class TextWidget extends QuestionWidget {
 
     private JTextField textField = new JTextField();
 
+    //todo test
     public TextWidget(Question question, Value value, boolean readOnly, Style style) {
         super(question);
 

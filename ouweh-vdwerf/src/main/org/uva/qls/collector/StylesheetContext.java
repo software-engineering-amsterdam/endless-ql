@@ -21,7 +21,7 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     public StylesheetContext() {
     }
 
-    public void setStylesheet(Stylesheet stylesheet){
+    public void setStylesheet(Stylesheet stylesheet) {
         stylesheet.accept(this, null);
     }
 
@@ -64,27 +64,28 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
         return segments;
     }
 
-    public List<DefaultWidgetStatement> getAllDefaultWidgetStatements(){
+    public List<DefaultWidgetStatement> getAllDefaultWidgetStatements() {
         List<DefaultWidgetStatement> defaults = new ArrayList<>();
-        for(Segment section: sections.values()){
+        for (Segment section : sections.values()) {
             defaults.addAll(section.getDefaultWidgetStatements());
         }
-        for(Segment page: pages.values()){
+        for (Segment page : pages.values()) {
             defaults.addAll(page.getDefaultWidgetStatements());
         }
         return defaults;
     }
 
-    public List<DefaultStyleStatement> getAllDefaultStyleStatements(){
+    public List<DefaultStyleStatement> getAllDefaultStyleStatements() {
         List<DefaultStyleStatement> defaults = new ArrayList<>();
-        for(Segment section: sections.values()){
+        for (Segment section : sections.values()) {
             defaults.addAll(section.getDefaultStyleStatements());
         }
-        for(Segment page: pages.values()){
+        for (Segment page : pages.values()) {
             defaults.addAll(page.getDefaultStyleStatements());
         }
         return defaults;
     }
+
     public QuestionReference getQuestionReference(Question question) {
         if (questions.containsKey(question.getId())) {
             return questions.get(question.getId());

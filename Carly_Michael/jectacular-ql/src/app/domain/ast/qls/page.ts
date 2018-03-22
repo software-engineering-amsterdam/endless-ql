@@ -27,7 +27,7 @@ export class Page extends QlsNode {
     return questions;
   }
 
-  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: QlQuestion[]): void {
+  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: ReadonlyArray<QlQuestion>): void {
     const defaults = this.defaultSettings ?  parentDefaults.concat(this.defaultSettings) : parentDefaults;
     for (const section of this.sections) {
       section.checkStylesheet(defaults, allQuestions);

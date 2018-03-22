@@ -6,8 +6,12 @@ import org.uva.ql.visitor.ExpressionVisitor;
 public class Negation extends Expression {
     private final Expression expression;
 
-    public Negation(Expression expression){
-        this.expression = expression    ;
+    public Negation(Expression expression) {
+        this.expression = expression;
+    }
+
+    public Expression getExpression() {
+        return expression;
     }
 
     @Override

@@ -1,4 +1,4 @@
-import FieldType from "../form/FieldType";
+import { FieldType } from "../form/FieldType";
 
 export class CannotRenderFieldType extends Error {
   static make(formType?: FieldType) {

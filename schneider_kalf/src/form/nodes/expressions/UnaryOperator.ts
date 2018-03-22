@@ -1,8 +1,9 @@
 import Expression from "./Expression";
 import TreeNode from "../TreeNode";
 import ExpressionVisitor from "../visitors/ExpressionVisitor";
+import AbstractTreeNode from "../AbstractTreeNode";
 
-export default abstract class UnaryOperator implements TreeNode {
+export default abstract class UnaryOperator extends AbstractTreeNode implements TreeNode {
   get expression(): Expression {
     return this._expression;
   }
@@ -15,6 +16,7 @@ export default abstract class UnaryOperator implements TreeNode {
    * @param {Expression} expression
    */
   constructor(expression: Expression) {
+    super();
     this._expression = expression;
   }
 

@@ -1,14 +1,14 @@
 package org.uva.jomi.ql.ast.analysis;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.jomi.ql.ast.expressions.*;
 import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.error.ErrorHandler;
 
-public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
+public class IdentifierResolver implements Expression.Visitor<Void>, Statement.Visitor<Void> {
 
-	
 	public final IdentifierStack identifierStack;
 	private final ErrorHandler errorHandler;
 
@@ -17,11 +17,11 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 		this.errorHandler = new ErrorHandler(this.getClass().getSimpleName(), printErrors);
 	}
 
-	public void resolve(List<Stmt> statements) {
+	public void resolve(List<Statement> statements) {
 		// Clear previous errors first
 		errorHandler.clearErrors();
 		
-		for (Stmt statment : statements) {
+		for (Statement statment : statements) {
 			statment.accept(this);
 		}
 	}
@@ -34,39 +34,61 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	public String getErrorAtIndex(int index) {
 		return errorHandler.getErrorAtIndex(index);
 	}
-
-	/*
-	 * Add supplementary method in order to add the question identifier 
-	 * to the stack.
-	 */
-	public void resolveQuestionIdentifier(IdentifierExpr identifier) {
-		// First check if the identifier is already present in the current scope
-		if (identifierStack.contains(identifier.getName())) {
+	
+	// Return a list that contains only question statements
+	public List<QuestionStatement> filterQuestionStmt(List<Statement> statements) {
+		List<QuestionStatement> questions = new ArrayList<>();
+		
+		statements.stream().filter(questionStmt -> questionStmt instanceof QuestionStatement)
+		.forEach(question -> questions.add((QuestionStatement) question));
+		
+		return questions;
+	}
+	
+	public boolean findDuplicatedIdentifier(IdentifierExpression identifier) {
+		if (identifierStack.isInCurrentScope(identifier.getName())) {
 			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared the current scope");
-		// Make sure the identifier is not declared in any outside scope
-		} else if (identifierStack.getIdentifier(identifier.getName()) != null) {
-			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared in an outside scope");
-		// The identifier is not present in any scope, add it to the top stack;
+			return true;
 		} else {
-			identifierStack.add(identifier);
+			IdentifierExpression outsideIdentifier = identifierStack.getIdentifier(identifier.getName());
+			if (outsideIdentifier != null) {
+				if (outsideIdentifier.getType() != identifier.getType()) {
+					String error = String.format("Read-only identifier (line: %d, column: %d) with a different type is declared in an outside scope",
+							outsideIdentifier.getLineNumber(), outsideIdentifier.getColumnNumber());
+					errorHandler.addIdentifierError(identifier.getToken(), error);
+					return true;
+				}
+			}
 		}
+		
+		return false;
+	}
+	
+	public void visitBinaryExpr(BinaryExpression expr) {
+		expr.visitLeftExpression(this);
+		expr.visitRightExpression(this);
 	}
 
 	@Override
-	public Void visit(FormStmt stmt) {
-		stmt.blockStmt.accept(this);
+	public Void visit(FormStatement stmt) {
+		stmt.visitBlockStmt(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(BlockStmt stmt) {
-		// Create a new scope for the block statement
+	public Void visit(BlockStatement stmt) {
+		// Create a new scope for the block statement.
 		identifierStack.enterScope();
-
-		// Visit every statement in the block and add it to the statements array.
-		for (Stmt statement : stmt.statements) {
-			statement.accept(this);
+		
+		// Make sure we add all the question identifiers to the stack before we visit each statement.
+		for (QuestionStatement question : filterQuestionStmt(stmt.getStatements())) {
+			if (!findDuplicatedIdentifier(question.getIdentifier())) {
+				identifierStack.add(question.getIdentifier());
+			}
 		}
+
+		// Visit every statement in the block.
+		stmt.getStatements().forEach( statement -> statement.accept(this));
 
 		// Remove the innermost scope
 		identifierStack.leaveScope();
@@ -74,45 +96,37 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	}
 
 	@Override
-	public Void visit(QuestionStmt stmt) {
-		// Make  sure the question name has not been already declared
-		resolveQuestionIdentifier(stmt.getIdentifier());
+	public Void visit(QuestionStatement stmt) {
 		return null;
 	}
 
 	@Override
-	public Void visit(ComputedQuestionStmt stmt) {
+	public Void visit(ComputedQuestionStatement stmt) {
 		
-		/*
-		 * Visit the expressions first in case the question identifier is used 
-		 * inside the expression.
-		 */
-		stmt.expression.accept(this);
-		
-		// Make  sure the question name has not been already declared
-		resolveQuestionIdentifier(stmt.getIdentifier());
+		// Visit the expression.
+		stmt.visitExpression(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfStmt stmt) {
-		stmt.expression.accept(this);
-		stmt.blockStmt.accept(this);
+	public Void visit(IfStatement stmt) {
+		stmt.visitExpression(this);
+		stmt.visitIfBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfElseStmt stmt) {
-		stmt.expression.accept(this);
-		stmt.ifBlockStmt.accept(this);
-		stmt.elseBlockStmt.accept(this);
+	public Void visit(IfElseStatement stmt) {
+		stmt.visitExpression(this);
+		stmt.visitIfBlockStatement(this);
+		stmt.visitElseBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IdentifierExpr identifier) {
+	public Void visit(IdentifierExpression identifier) {
 		// Search the identifier
-		IdentifierExpr retrievedIdentifier = identifierStack.getIdentifier(identifier.getName());
+		IdentifierExpression retrievedIdentifier = identifierStack.getIdentifier(identifier.getName());
 		
 		if (retrievedIdentifier != null) {
 			identifier.updateAllFields(retrievedIdentifier);
@@ -124,118 +138,101 @@ public class IdentifierResolver implements Expr.Visitor<Void>, Stmt.Visitor<Void
 	}
 
 	@Override
-	public Void visit(PrimaryExpr expr) {
+	public Void visit(GroupingExpression expr) {
+		expr.visitInnerExpression(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(GroupingExpr expr) {
-		expr.getExpression().accept(this);
+	public Void visit(AdditionExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(AdditionExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(SubtractionExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(SubtractionExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(MultiplicationExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(MultiplicationExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(DivisionExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(DivisionExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(LessThanExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(LessThanExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(LessThanOrEqualExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(LessThanOrEqualExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(GreaterThanExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(GreaterThanExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(GreaterThanOrEqualExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(GreaterThanOrEqualExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(NotEqualExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(NotEqualExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(EqualExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(EqualExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(AndExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(AndExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(OrExpression expr) {
+		visitBinaryExpr(expr);
 		return null;
 	}
 
 	@Override
-	public Void visit(OrExpr expr) {
-		expr.getLeftExpr().accept(this);
-		expr.getRightExpr().accept(this);
+	public Void visit(UnaryNotExpression expr) {
+		expr.visitRightExpression(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(UnaryNotExpr expr) {
-		expr.getRightExpr().accept(this);
+	public Void visit(IntegerExpression expr) {
 		return null;
 	}
 
 	@Override
-	public Void visit(IntegerExpr expr) {
+	public Void visit(StringExpression expr) {
 		return null;
 	}
 
 	@Override
-	public Void visit(StringExpr expr) {
-		return null;
-	}
-
-	@Override
-	public Void visit(BooleanExpr expr) {
+	public Void visit(BooleanExpression expr) {
 		return null;
 	}
 }

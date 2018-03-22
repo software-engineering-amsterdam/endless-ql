@@ -1,125 +1,124 @@
 grammar QL;
 
-/* Requirements
-
-- grouping construct (for assigning characteristics to a group of questions, like style)
-- question
-    - id,
-    - label (actual question)
-    - type
-    - (optional) associated to an expression
-
-// Boolean expressions, e.g.
-&&
-||
-!
-
-// Comparisons
-<
->
->=
-<=
-!=
-==
-
-// Required types
-BOOL
-STRING
-INTEGER
-DATE
-DECIMAL
-MONEY
-
-// Additional options. Only requirement is the data type can be automatically mapped to a widget
-ENUMERATION //(e.g. good, bad, don't know)
-INTEGER_RANGE // (e.g. 1..5)
-
-
+/*
 
 TODO:
-- Refactor lexer/parser divisiion
-- Reconsider money / decimal separation
-- Implement DATE type
+- Optionally add money-specific currency symbols to lexer
 */
 
 
-form            : 'form'  ID  block;
 
-block           : '{'(statement)*'}';
-statement       : question
-                | computedQuestion
-                | ifStatement
-                ;
+form                : 'form' IDENTIFIER block;
 
-
-question        : STRLIT declaration;
-declaration     : ID ':' TYPE;
-
-computedQuestion: STRLIT assignment;
-assignment      : (declaration | ID) '=' expr;
-
-ifStatement          : 'if' '(' exprBool ')' block elseBlock?;
-elseBlock       : 'else' block;
+block               : LEFTBRACKET statement* RIGHTBRACKET;
+statement           : question
+                    | computedQuestion
+                    | ifStatement
+                    ;
 
 
-expr            : exprBool
-                | exprNum
-                | exprStr
-                ;
+question            : STRINGLITERAL declaration;
+declaration         : IDENTIFIER COLON type;
 
-exprBool        : '(' exprBool ')'
-                | '!' exprBool
-                | exprBool '&&' exprBool
-                | exprBool '||' exprBool
-                | exprBool '==' exprBool
-                | exprBool '!=' exprBool
-                | compNum
-                | compStr
-                | valBool
-                ;
+computedQuestion    : STRINGLITERAL declaration ASSIGNMENT expression;
 
-// Compare Numerical
-compNum         : exprNum COMPNUMSYM exprNum;
-compStr         : exprStr '==' exprStr
-                | exprStr '!=' exprStr
-                ;
-valBool         : BOOLLIT | ID;
+ifStatement         : 'if' LEFTPARENTHESES expression RIGHTPARENTHESES block elseBlock?;
+elseBlock           : 'else' block;
 
-exprNum	        : exprNum '+' exprNum
-                | exprNum '-' exprNum
-                | exprNum '/' exprNum
-                | exprNum '*' exprNum
-                | '-' exprNum
-                | '(' exprNum ')'
-                | valNum
-                ;
-valNum	        : INTLIT | ID;
+expression          : LEFTPARENTHESES expression RIGHTPARENTHESES           #nestedExpression
+                    | unaryOperator expression                              #unaryExpression
+                    | left=expression arithmeticOperator right=expression   #arithMeticBinary
+                    | left=expression relationalOperator right=expression   #relationalBinary
+                    | left=expression logicalOperator right=expression      #logicalBinary
+                    | value                                                 #expressionValue
+                    ;
 
-exprStr	        : exprStr '+' exprStr
-                | '(' exprStr ')'
-                | valStr
-                ;
+unaryOperation      : (MINUS | NEGATION) expression;
 
-valStr	        : STRLIT | ID;
+arithmeticOperator  : PLUS
+                    | MINUS
+                    | DIVISION
+                    | MULTIPLICAITON
+                    ;
+
+relationalOperator  : LESSTHAN
+                    | LESSTHANOREQUAL
+                    | GREATERTHAN
+                    | GREATERTHANOREQUAL
+                    | EQUAL
+                    | NOTEQUAL
+                    ;
+
+unaryOperator       : MINUS
+                    | NEGATION
+                    ;
+
+logicalOperator     : AND
+                    | OR
+                    ;
+
+value               : BOOLEANLITERAL                                #booleanLiteral
+                    | INTEGERLITERAL                                #integerLiteral
+                    | STRINGLITERAL                                 #stringLiteral
+                    | MONEYLITERAL                                  #moneyLiteral
+                    | DECIMALLITERAL                                #decimalLiteral
+                    | DATELITERAL                                   #dateLiteral
+                    | IDENTIFIER                                    #variable
+                    ;
+
+type                : 'boolean'                                     #booleanType
+                    | 'integer'                                     #integerType
+                    | 'string'                                      #stringType
+                    | 'money'                                       #moneyType
+                    | 'decimal'                                     #decimalType
+                    | 'date'                                        #dateType
+                    ;
 
 
-//Types
-TYPE            : ('boolean' | 'money' | 'int' | 'float' | 'string');
-STRLIT       : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'?'|'.'|','|':')* '"';
-INTLIT             : ('0'..'9')+;
-//TODO replace "INT" in the line valNum with INT | DECIMAL | MONEY_LITERAL. This will allow using numericals interchangeably. Test this thoroughly.
 
-//TODO the line which defines MONLIT is incorrect. The two INTLIT terms would allow integers of any length at these positions. We could either reuse a DIGIT term, or inline this.
-//MONLIT   : '-'? INTLIT+ '.' INTLIT INTLIT;
-DECLIT : '-'? INTLIT+ '.' INTLIT+;
-BOOLLIT : ('true' | 'false');
+//Literals
+BOOLEANLITERAL      : ('true' | 'false');
+INTEGERLITERAL      : DIGIT+;
+STRINGLITERAL       : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'?'|'.'|','|':')* '"';
+MONEYLITERAL        : DIGIT+ ',' DIGIT DIGIT;
+DECIMALLITERAL      : DIGIT+ '.' DIGIT+;
+DATELITERAL         : DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT DIGIT DIGIT;
+
+IDENTIFIER          : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+DIGIT               : [0-9];
 
 
-//Other terms
-COMPNUMSYM      : ('<'|'<='|'>'|'>='|'=='|'!=');
-ID              : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-WHITESPACE      : (' ' | '\t' | '\n' | '\r')+ -> skip;
+//Operators
 
-MULTI_COMMENT   : '/*' .*? '*/' -> skip;
+//Relational
+LESSTHAN            : '<';
+LESSTHANOREQUAL     : '<=';
+GREATERTHAN         : '>';
+GREATERTHANOREQUAL  : '>=';
+EQUAL               : '==';
+NOTEQUAL            : '!=';
 
-SINGLE_COMMENT  : '//' ~[\r\n]* '\r'? '\n' -> skip;
+//Arithmetic
+MINUS               : '-';
+PLUS                : '+';
+DIVISION            : '/';
+MULTIPLICAITON      : '*';
+
+//Logical
+AND                 : '&&';
+OR                  : '||';
+
+NEGATION            : '!';
+
+COLON               : ':';
+ASSIGNMENT          : '=';
+
+LEFTBRACKET         : '{';
+RIGHTBRACKET        : '}';
+
+LEFTPARENTHESES     : '(';
+RIGHTPARENTHESES    : ')';
+
+WHITESPACE          : (' ' | '\t' | '\n' | '\r')+ -> skip;
+MULTICOMMENT        : '/*' .*? '*/' -> skip;
+SINGLECOMMENT       : '//' ~[\r\n]* '\r'? '\n' -> skip;

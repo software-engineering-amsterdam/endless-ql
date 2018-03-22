@@ -1,4 +1,4 @@
-import FieldType from "../../FieldType";
+import { FieldType } from "../../FieldType";
 import Statement from "../Statement";
 import FormState from "../../state/FormState";
 
@@ -12,5 +12,5 @@ export default interface FieldNode extends Statement {
 
   isReadOnly(): boolean;
 
-  getAnswer(state: FormState): any;
+  computeAnswer(state: FormState): any;
 }

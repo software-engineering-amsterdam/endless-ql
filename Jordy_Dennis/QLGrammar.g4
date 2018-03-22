@@ -9,6 +9,7 @@ question: STRING ID DOT types;
 assignment: STRING ID DOT types ASSIGN PARL expression PARR;
 
 expression: literal
+            | varnode
             | PARL left = expression PARR
             | unaryexp
             | left=expression COMPARE right=expression
@@ -18,7 +19,8 @@ expression: literal
             | left=expression OR right=expression
             ;
 
-literal: INT | BOOL | ID | STRING | FLOAT;
+literal: INT | BOOL | STRING | FLOAT;
+varnode: ID;
 unaryexp: NOT expression;
 
 conditional: if_conditional | (if_conditional elif_conditional* else_conditional?);
@@ -49,7 +51,7 @@ COMPARE: '<'
         | '!='
         ;
 
-types: 'integer' | 'int' | 'boolean' | 'bool' | 'string' | 'str' | 'date' | 'money';
+types: 'integer' | 'int' | 'boolean' | 'bool' | 'string' | 'str' | 'money' | 'float';
 
 BOOL: 'true' | 'false';
 INT :   [0-9]+ ;         // match integers

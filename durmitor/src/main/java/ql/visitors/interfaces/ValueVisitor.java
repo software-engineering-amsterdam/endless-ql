@@ -1,21 +1,21 @@
 package ql.visitors.interfaces;
 
-import ql.evaluator.value.Bool;
-import ql.evaluator.value.Date;
-import ql.evaluator.value.Decimal;
-import ql.evaluator.value.Int;
-import ql.evaluator.value.Money;
-import ql.evaluator.value.Str;
-import ql.evaluator.value.Undefined;
-import ql.evaluator.value.Value;
+import ql.ast.expression.literal.BoolLiteral;
+import ql.ast.expression.literal.DateLiteral;
+import ql.ast.expression.literal.DecimalLiteral;
+import ql.ast.expression.literal.IntLiteral;
+import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.MoneyLiteral;
+import ql.ast.expression.literal.StrLiteral;
+import ql.ast.expression.literal.UndefinedLiteral;
 
 public interface ValueVisitor {
 
-    public Value<?> visit(Bool value);
-    public Value<?> visit(Str value);
-    public Value<?> visit(Int value);
-    public Value<?> visit(Decimal value);
-    public Value<?> visit(Money value);
-    public Value<?> visit(Date value);
-    public Value<?> visit(Undefined value);
+    public Literal<?> visit(BoolLiteral value);
+    public Literal<?> visit(StrLiteral value);
+    public Literal<?> visit(IntLiteral value);
+    public Literal<?> visit(DecimalLiteral value);
+    public Literal<?> visit(MoneyLiteral value);
+    public Literal<?> visit(DateLiteral value);
+    public Literal<?> visit(UndefinedLiteral value);
 }

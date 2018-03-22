@@ -1,5 +1,8 @@
-form taxOfficeExample { 
-  "Did you sell a house in 2010?"
-    hasSoldHouse: int = (!(f<4))
-}
+form taxOfficeExample
+{
+  "Int a"
+    a: int
 
+  "Bool b"
+  	b : bool
+}

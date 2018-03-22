@@ -5,13 +5,13 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class NotEqual extends BinaryOperation {
 
-    public NotEqual(Expression left, Expression right){
-        super(left,right);
+    public NotEqual(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override
     public String toString() {
-        return String.format("%s != %s", this.getLeft(), this.getRight());
+        return String.format("(%s != %s)", this.getLeft(), this.getRight());
     }
 
     @Override

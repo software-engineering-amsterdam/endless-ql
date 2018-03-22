@@ -22,6 +22,7 @@ public class ConditionalBlockVisitor extends QLBaseVisitor<ConditionalBlock> {
     public ConditionalBlock visitConditionalBlock(QLParser.ConditionalBlockContext ctx) {
         return new ConditionalBlock(
                 booleanExpressionVisitor.visitBooleanExpression(ctx.booleanExpression()),
-                ctx.questionBlock().stream().map(questionBlockVisitor::visitQuestionBlock).collect(Collectors.toList()));
+                ctx.questionBlock().stream().map(questionBlockVisitor::visitQuestionBlock).collect(Collectors.toList()),
+                ctx);
     }
 }

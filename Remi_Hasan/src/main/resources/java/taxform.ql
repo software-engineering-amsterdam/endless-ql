@@ -1,6 +1,7 @@
 // Tax form example provided by Vadim Zaytsev
 
-form taxOfficeExample {
+form taxOfficeExample
+{
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"
@@ -8,7 +9,8 @@ form taxOfficeExample {
   "Did you enter a loan?"
     hasMaintLoan: boolean
 
-  if (hasSoldHouse) {
+  if (hasSoldHouse)
+  {
     "What was the selling price?"
       sellingPrice: money
     "Private debts for the sold house:"

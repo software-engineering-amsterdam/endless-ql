@@ -1,49 +1,43 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.model.Expressions._
-import nl.uva.se.sc.niro.model.QLForm.SymbolTable
-import nl.uva.se.sc.niro.model._
+import nl.uva.se.sc.niro.ExpressionEvaluator._
+import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
+import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions._
+import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
 
 object Evaluator {
 
-  def evaluateQLForm(qLForm: QLForm): QLForm = {
-    val evaluatedStatements: Seq[Statement] = qLForm.statements.map(statement => evaluateStatement(statement, qLForm.symbolTable))
+  type Dictionary = Map[String, Answer]
 
-    qLForm.copy(statements = evaluatedStatements)
+  def evaluate(qLForm: QLForm, dictionary: Dictionary): Dictionary = {
+    evaluate(qLForm.statements, qLForm.symbolTable, dictionary)
   }
 
-  def evaluateStatement(statement: Statement, symbolTable: SymbolTable): Statement = {
-    statement match {
-      case q: Question => evaluateQuestion(q, symbolTable)
-      case c: Conditional => evaluateConditional(c, symbolTable)
-      case e: ErrorStatement => e
+  def evaluate(statements: Seq[Statement], symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
+    if (statements.isEmpty) {
+      dictionary
+    } else {
+      val newDictionary: Dictionary = evaluate(statements.head, symbolTable, dictionary)
+      evaluate(statements.tail, symbolTable, newDictionary)
     }
   }
 
-  def evaluateQuestion(question: Question, symbolTable: SymbolTable): Question = {
-    val evaluatedAnswer = evaluateExpression(question.expression, symbolTable: SymbolTable)
+  def evaluate(statement: Statement, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
+    statement match {
+      case q: Question    => evaluate(q, symbolTable, dictionary)
+      case c: Conditional => evaluate(c, symbolTable, dictionary)
+    }
+  }
 
-    question.copy(answer = Some(evaluatedAnswer))
+  def evaluate(question: Question, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
+    val optionalExpression: Option[Expression] = question.expression.orElse(dictionary.get(question.id))
+    val optionalAnswer: Option[Answer] = optionalExpression.flatMap(_.evaluate(symbolTable: SymbolTable, dictionary))
+    optionalAnswer.fold(dictionary - question.id)(answer => dictionary + (question.id -> answer))
   }
 
   // Recursion is happening between evaluateStatement and evaluateConditional
-  def evaluateConditional(conditional: Conditional, symbolTable: SymbolTable): Conditional = {
-    val evaluatedPredicate = evaluateExpression(conditional.predicate, symbolTable)
-    val evaluatedThenStatements = conditional.thenStatements.map(statement => evaluateStatement(statement, symbolTable))
-
-    conditional.copy(predicate = evaluatedPredicate, thenStatements = evaluatedThenStatements)
-  }
-
-  // TODO check if it's necessary to make this call tail recursive
-  def evaluateExpression(expr: Expression, symbolTable: SymbolTable): Answer = expr match {
-    case answer: Answer => answer
-    case Reference(questionId) => evaluateExpression(symbolTable(questionId), symbolTable)
-    case UnaryOperation(operator: UnaryOperator, expression) =>
-      val answer = evaluateExpression(expression, symbolTable)
-      answer.applyUnaryOperator(operator)
-    case BinaryOperation(operator: BinaryOperator, leftExpression, rightExpression) =>
-      val leftAnswer = evaluateExpression(leftExpression, symbolTable)
-      val rightAnswer = evaluateExpression(rightExpression, symbolTable)
-      leftAnswer.applyBinaryOperator(operator, rightAnswer)
+  def evaluate(conditional: Conditional, symbolTable: SymbolTable, dictionary: Dictionary): Dictionary = {
+    evaluate(conditional.thenStatements, symbolTable, dictionary)
   }
 }

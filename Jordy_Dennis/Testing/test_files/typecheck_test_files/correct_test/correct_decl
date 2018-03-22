@@ -1,0 +1,6 @@
+form formName{
+    "Question"
+    answer: int = (5)
+}
+---
+[[['Assign: answer', <class 'int'>]]]

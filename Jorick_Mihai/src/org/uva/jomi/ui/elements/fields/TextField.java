@@ -1,15 +1,14 @@
 package org.uva.jomi.ui.elements.fields;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TextField extends InputField<String> implements DocumentListener {
+import org.uva.jomi.ui.elements.core.Panel;
+import org.uva.jomi.ui.interpreter.value.GenericValue;
+import org.uva.jomi.ui.interpreter.value.StringValue;
+
+public class TextField extends InputField implements DocumentListener {
 
 	private JTextField textfield;
 	
@@ -19,9 +18,8 @@ public class TextField extends InputField<String> implements DocumentListener {
 	}
 	
 	@Override
-	public JPanel build() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS ));
+	public Panel build() {
+		Panel panel = new Panel();
 		
 		panel.add(this.textfield);
 		
@@ -29,8 +27,8 @@ public class TextField extends InputField<String> implements DocumentListener {
 	}
 
 	@Override
-	public String getValue() {
-		return this.textfield.getText();
+	public GenericValue getValue() {
+		return new StringValue(this.textfield.getText());
 	}
 
 	@Override
@@ -54,4 +52,14 @@ public class TextField extends InputField<String> implements DocumentListener {
 		}		
 	}
 
+	@Override
+	public void setValue(GenericValue value) {
+		StringValue stringValue = (StringValue) value;
+		this.textfield.setText(stringValue.getValue());
+	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		this.textfield.setEnabled(enabled);
+	}
 }

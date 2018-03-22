@@ -31,7 +31,7 @@ SectionShort returns Section:
 	'section' name=STRING questions+=QuestionReference*;
 
 QuestionReference:
-	'question' questionReference=[Question] (widget=Widget)?;
+	'question' question=[Question] (widget=Widget)?;
 
 Widget:
 	'widget' (WidgetSpinbox | WidgetCheckbox | WidgetSlider | WidgetText | WidgetRadio | WidgetDropdown);
@@ -70,16 +70,16 @@ StyleAttribute:
 	StyleAttributeWidth | StyleAttributeFont | StyleAttributeFontSize | StyleAttributeColor;
 
 StyleAttributeWidth returns StyleAttribute:
-	'width' ':' width=INT;
+	{StyleAttributeWidth} 'width' ':' value=INT;
 
 StyleAttributeFont returns StyleAttribute:
-	'font' ':' font=STRING;
+	{StyleAttributeFont} 'font' ':' value=STRING;
 
 StyleAttributeFontSize returns StyleAttribute:
-	'fontsize' ':' size=INT;
+	{StyleAttributeFontSize} 'fontsize' ':' value=INT;
 
 StyleAttributeColor returns StyleAttribute:
-	'color' ':' value=HEX;
+	{StyleAttributeColor} 'color' ':' value=HEX;
 
 terminal HEX:
 	'#'+ ('a'..'f' | 'A'..'F' | '0'..'9')*;

@@ -137,26 +137,23 @@ HexDigit
 	: [0-9a-fA-F]
 	;
 
+/* Name */
+
+NAME
+    : NAME_LETTER (NAME_LETTER_OR_DIGIT*)
+    ;
+
+fragment
+NAME_LETTER
+    : [a-zA-Z$_]
+    ;
+
+fragment
+NAME_LETTER_OR_DIGIT
+    : [a-zA-Z0-9$_]
+    ;
+
 /* Operators */
-
-UNARY_OPERATOR
-    : NOT
-    ;
-
-BINARY_OPERATOR
-    : GT
-    | LT
-    | EQUAL
-    | LE
-    | GE
-    | NOTEQUAL
-    | AND
-    | OR
-    | ADD
-    | SUB
-    | MUL
-    | DIV
-    ;
 
 ASSIGN
     : '='
@@ -212,22 +209,6 @@ MUL
 
 DIV
     : '/'
-    ;
-
-/* Name */
-
-NAME
-    : NAME_LETTER (NAME_LETTER_OR_DIGIT*)
-    ;
-
-fragment
-NAME_LETTER
-    : [a-zA-Z$_]
-    ;
-
-fragment
-NAME_LETTER_OR_DIGIT
-    : [a-zA-Z0-9$_]
     ;
 
 /* Whitespace and comments */

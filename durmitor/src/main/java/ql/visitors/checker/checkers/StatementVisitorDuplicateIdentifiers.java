@@ -11,14 +11,16 @@ import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThen;
 import ql.ast.statement.IfThenElse;
 import ql.ast.statement.Statement;
+import ql.exceptions.DuplicateIdentifier;
+import ql.exceptions.QLException;
 import ql.visitors.interfaces.StatementVisitor;
 
 public class StatementVisitorDuplicateIdentifiers implements StatementVisitor {
 
     private Map<String,Integer> frequencies;
-    private List<String> errors;
+    private List<QLException> errors;
     
-    public StatementVisitorDuplicateIdentifiers(List<String> errors) {
+    public StatementVisitorDuplicateIdentifiers(List<QLException> errors) {
         
         this.frequencies    = new HashMap<String,Integer>();
         this.errors         = errors;
@@ -36,10 +38,7 @@ public class StatementVisitorDuplicateIdentifiers implements StatementVisitor {
             frequencies.put(name, count+1);
         }
         
-        if(frequencies.get(name) > 1)
-        {
-            errors.add("Duplicate identifier ["+name+"] found at "+id.getLocation());
-        }
+        if(frequencies.get(name) > 1) errors.add(new DuplicateIdentifier(id));
     }
 
     @Override

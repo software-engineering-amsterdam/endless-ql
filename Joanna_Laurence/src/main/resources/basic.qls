@@ -1,0 +1,28 @@
+stylesheet taxOfficeExample
+{
+
+  page Selling
+  {
+    section "Selling"
+    {
+      section "You sold a house"
+      {
+
+        question freeBag2
+
+        question nbfreeBags
+            widget spinbox
+
+        default spinbox
+        {
+          width: 400
+          font: "Arial"
+          fontsize: 14
+          color: #999999
+          widget spinbox
+        }
+      }
+    }
+    default boolean widget radio("Yes", "No")
+  }
+}

@@ -1,13 +1,12 @@
 ﻿using System;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using NUnit.Framework;
-using QuestionaireOrchestration;
-using QuestionaireOrchestration.API;
-using QuestionnaireDomain.Logic;
+using QuestionnaireDomain.Entities;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
+using QuestionnaireOrchestration;
+using QuestionnaireOrchestration.Commands;
 using QuestionnaireUI;
 
 namespace IntegrationTests
@@ -21,11 +20,10 @@ namespace IntegrationTests
             var app = new TestApp();
             app.TakeInput("form MyForm {}");
             //ToDo: test that something is created
-            //Assert.IsTrue(app.UiWasCreated);
         }
     }
 
-    public class TestApp : QlApp
+    public class TestApp
     {
         private readonly IServiceProvider m_serviceProvider;
         public bool UiWasCreated { get; }
@@ -39,7 +37,7 @@ namespace IntegrationTests
 
             QlServiceCollection.AddModule(new InfrastructureModule());
             QlServiceCollection.AddModule(new AntlrModule());
-            QlServiceCollection.AddModule(new DomainLogicModule());
+            QlServiceCollection.AddModule(new EntitiesModule());
             QlServiceCollection.AddModule(new OrchestrationModule());
             QlServiceCollection.AddModule(new UiModule());
             QlServiceCollection.AddSingleton(typeof(IServiceProvider), x => m_serviceProvider);

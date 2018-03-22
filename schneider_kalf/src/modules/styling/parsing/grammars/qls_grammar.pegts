@@ -7,20 +7,18 @@
 
 }
 
-start = call+
-
-call = lb* stylesheet:stylesheet lb* { return stylesheet}
+start = lb* stylesheet:stylesheet lb* { return stylesheet }
 
 // Stylesheet
 stylesheet
- = _ "stylesheet" _ name:name lb* page:page*{
-    return { name, page }
+ = _ "stylesheet" _ id:identifier lb* "{" lb* page:page* lb* "}" lb*{
+    return new Nodes.Stylesheet( id, page);
 }
 
 // Page
 page
- = _ "page" _ name:name _ block:pageBlock lb*{
-    return { name, block };
+ = _ "page" _ id:identifier lb* block:pageBlock lb* {
+    return new Nodes.Page( id, block );
 }
 
 pageBlock
@@ -30,51 +28,62 @@ pageBlock
 
 // Section
 section
- = _ "section" _ name:stringLiteral lb* block:sectionBody{
-    return { name, block };
+ = _ "section" _ name:stringLiteral lb* block:sectionBlock {
+    return new Nodes.Section( name, block );
 }
 
-sectionBody
- = sectionBlockQuoted / sectionBlockUnquoted
+sectionBlock
+ = sectionBlockBrackets / sectionBlockNoBrackets
 
-sectionBlockQuoted
- = _ "{" lb* body:sectionBlockUnquoted+ lb* "}" lb* {
+sectionBlockBrackets
+ = _ "{" lb* body:sectionBlockNoBrackets "}" lb* {
     return body
 }
 
-sectionBlockUnquoted
- = _ body:(question / section / default) lb* {
-    return body
+sectionBlockNoBrackets
+ = _ block:sectionAttribute+ lb* {
+    return block
+}
+
+sectionAttribute
+ = _ attr:(question / section / default) lb* {
+   return attr
 }
 
 // Question
 question
- = _ "question" _ name:name lb* widget:widget? lb*{
-    return { name, widget };
+ = _ "question" _ id:identifier lb* body:styleBlock? lb*{
+    body = body ? body : [];
+    return new Nodes.QuestionStyle( id, body);
 }
-
-
 
 // Default
-default = defaultBlockQuoted / defaultBlockUnquoted
+default
+ = _ "default" _ type:type lb* args:styleBlock {
+    return new Nodes.DefaultStyle(type, args);
+ }
 
-defaultBlockQuoted
- = _ "default" _ type:type _ "{" lb* args:defaultBlockBody+ lb* "}" lb* {
-    return {type, args};
+// Block with style attributes
+styleBlock
+ = styleBlockNoBrackets / styleBlockBrackets
+
+styleBlockBrackets
+ = "{" lb* args:styleAttribute+ lb* "}" lb* {
+    return args;
 }
 
-defaultBlockUnquoted
- = _ "default" _ type:type lb* args:defaultBlockBody lb* {
-    return {type, args};
+styleBlockNoBrackets
+ = lb* args:styleAttribute+ lb* {
+    return args;
 }
 
-defaultBlockBody
+styleAttribute
  = (widget / style)
 
 // Widget
 widget
- = _ "widget" _ name:name options:widgetOptions? lb* {
-    return {name, options};
+ = _ "widget" _ id:identifier options:widgetOptions? lb* {
+    return new Nodes.WidgetAttribute("widget", id, options);
 }
 
 // WidgetOptions
@@ -90,8 +99,8 @@ arguments
 
 // Style element
 style
- = _ name:name _ ":" _ args:styleValues lb*{
-    return {name, args}
+ = _ id:identifier _ ":" _ args:styleValues lb*{
+    return new Nodes.BaseAttribute(id, args);
 }
 
 // Style values
@@ -105,13 +114,6 @@ color
     return "#".concat(code[1].join(""))
 }
 
-// Name
-// TODO: refactor as this is just an identifier
-name
- = v:([a-zA-Z]+) {
-    return v.join("")
-}
-
 // Identifier?
 identifier
  = chars:([a-zA-Z]+) {
@@ -120,8 +122,8 @@ identifier
 
 // Boolean Literal
 booleanLiteral
-  = Literal:("True" / "False") {
-    return Literal == "True"
+  = Literal:("true" / "false") {
+    return Literal == "true"
 }
 
 // Integer
@@ -155,7 +157,7 @@ escapeSequence
 // Supported types
 type = "boolean" / "money" / "date" / "integer" / "float" / "text"
 
-value = identifier / numberLiteral / stringLiteral / booleanLiteral
+value = booleanLiteral / identifier / numberLiteral / stringLiteral
 
 // Single line comments
 comment = "//" (![\n] .)*

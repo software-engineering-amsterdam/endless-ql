@@ -37,7 +37,8 @@ public class FormVisitor extends QLBaseVisitor<Form> {
           ctx.questionBlock()
                   .stream()
                   .map(this.questionBlockVisitor::visitQuestionBlock)
-                  .collect(Collectors.toList())
+                  .collect(Collectors.toList()),
+          ctx
         );
     }
 }

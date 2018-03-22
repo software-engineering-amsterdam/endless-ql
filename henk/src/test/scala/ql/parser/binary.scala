@@ -1,5 +1,6 @@
+import grammar._
+
 import ql.models.ast._
-import ql.grammar._
 import ql.visitors._
 import ql.parsers._
 
@@ -45,7 +46,7 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
       val expected =
         ASTBinary(ASTIdentifier("hasSoldHouse"),
                   ASTIdentifier("hasBoughtHouse"),
-                  ASTRelationalEQ())
+                  ASTEqualOp())
 
       assert(result.filter(x => x == expected).size == 1)
     }
@@ -95,7 +96,7 @@ class ArithmeticParser extends FunSpec with BeforeAndAfter {
       val expected =
         ASTBinary(ASTIdentifier("hasSoldHouse"),
                   ASTIdentifier("hasBoughtHouse"),
-                  ASTRelationalNE())
+                  ASTNotEqualOp())
 
       assert(result.filter(x => x == expected).size == 1)
     }

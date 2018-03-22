@@ -1,10 +1,11 @@
 package qlviz.model;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import qlviz.model.question.Question;
 
 import java.util.List;
 
-public class QuestionBlock {
+public class QuestionBlock extends Node {
     private List<Question> questions;
     private List<ConditionalBlock> blocks;
 
@@ -16,7 +17,8 @@ public class QuestionBlock {
         return blocks;
     }
 
-    public QuestionBlock(List<Question> questions, List<ConditionalBlock> blocks) {
+    public QuestionBlock(List<Question> questions, List<ConditionalBlock> blocks, ParserRuleContext context) {
+        super(context);
         this.questions = questions;
         this.blocks = blocks;
     }

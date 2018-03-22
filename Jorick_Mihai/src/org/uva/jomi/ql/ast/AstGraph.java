@@ -2,96 +2,88 @@ package org.uva.jomi.ql.ast;
 
 import java.util.List;
 
-import org.uva.jomi.ql.ast.expressions.AdditionExpr;
-import org.uva.jomi.ql.ast.expressions.AndExpr;
-import org.uva.jomi.ql.ast.expressions.BooleanExpr;
-import org.uva.jomi.ql.ast.expressions.DivisionExpr;
-import org.uva.jomi.ql.ast.expressions.EqualExpr;
-import org.uva.jomi.ql.ast.expressions.Expr;
-import org.uva.jomi.ql.ast.expressions.GreaterThanExpr;
-import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpr;
-import org.uva.jomi.ql.ast.expressions.GroupingExpr;
-import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
-import org.uva.jomi.ql.ast.expressions.IntegerExpr;
-import org.uva.jomi.ql.ast.expressions.LessThanExpr;
-import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpr;
-import org.uva.jomi.ql.ast.expressions.MultiplicationExpr;
-import org.uva.jomi.ql.ast.expressions.NotEqualExpr;
-import org.uva.jomi.ql.ast.expressions.OrExpr;
-import org.uva.jomi.ql.ast.expressions.PrimaryExpr;
-import org.uva.jomi.ql.ast.expressions.StringExpr;
-import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
-import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
-import org.uva.jomi.ql.ast.statements.BlockStmt;
-import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.FormStmt;
-import org.uva.jomi.ql.ast.statements.IfElseStmt;
-import org.uva.jomi.ql.ast.statements.IfStmt;
-import org.uva.jomi.ql.ast.statements.QuestionStmt;
-import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.expressions.AdditionExpression;
+import org.uva.jomi.ql.ast.expressions.AndExpression;
+import org.uva.jomi.ql.ast.expressions.BinaryExpression;
+import org.uva.jomi.ql.ast.expressions.BooleanExpression;
+import org.uva.jomi.ql.ast.expressions.DivisionExpression;
+import org.uva.jomi.ql.ast.expressions.EqualExpression;
+import org.uva.jomi.ql.ast.expressions.Expression;
+import org.uva.jomi.ql.ast.expressions.GreaterThanExpression;
+import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpression;
+import org.uva.jomi.ql.ast.expressions.GroupingExpression;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
+import org.uva.jomi.ql.ast.expressions.IntegerExpression;
+import org.uva.jomi.ql.ast.expressions.LessThanExpression;
+import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpression;
+import org.uva.jomi.ql.ast.expressions.MultiplicationExpression;
+import org.uva.jomi.ql.ast.expressions.NotEqualExpression;
+import org.uva.jomi.ql.ast.expressions.OrExpression;
+import org.uva.jomi.ql.ast.expressions.PrimaryExpression;
+import org.uva.jomi.ql.ast.expressions.StringExpression;
+import org.uva.jomi.ql.ast.expressions.SubtractionExpression;
+import org.uva.jomi.ql.ast.expressions.UnaryNotExpression;
+import org.uva.jomi.ql.ast.statements.BlockStatement;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStatement;
+import org.uva.jomi.ql.ast.statements.FormStatement;
+import org.uva.jomi.ql.ast.statements.IfElseStatement;
+import org.uva.jomi.ql.ast.statements.IfStatement;
+import org.uva.jomi.ql.ast.statements.QuestionStatement;
+import org.uva.jomi.ql.ast.statements.Statement;
 
-public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
+public class AstGraph implements Statement.Visitor<String>, Expression.Visitor<String> {
 
-	public String getGraph(List<Stmt> statements) {
+	public String getGraph(List<Statement> statements) {
 		String header = "digraph G {\n" + "  node [shape=\"box\"]\n";
 		
-		for (Stmt statement : statements) {
+		for (Statement statement : statements) {
 			String result = statement.accept(this);
 			header += result;
 		}
 
 		return header + "}";
 	}
+	
+	public String visitPrimaryExpr(PrimaryExpression expr) {
+		String primaryExprType = expr.getClass().getSimpleName();
+		String value = String.format("Type: %s\nValue: %s\n", primaryExprType, expr.getLexeme());
+		return String.format("  %s [label=\"%s\"]\n", expr.getNodeId(), value);
+	}
+	
+	public String visitBinaryExpr(BinaryExpression expr) {
+		String binaryExprType = expr.getClass().getSimpleName();
+		return expr.visitLeftExpression(this) +
+				expr.visitRightExpression(this)+
+				String.format("  %s [label=\"%s: %s\nType: %s\n\"]\n", expr.getNodeId(), binaryExprType, expr.getOperatorName(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getNodeId(), expr.getLeftExpressionId()) +
+				String.format("  %s -> %s\n", expr.getNodeId(), expr.getRightExpressionId());
+	}
+	
 
 	@Override
-	public String visit(IdentifierExpr expr) {
+	public String visit(IdentifierExpression expr) {
 		return String.format("  %s [label=\"[Ident]\nName: %s\nType: %s\nUndefined: %s\"]\n",
-				expr.getId(),
-				expr.token.getLexeme(),
+				expr.getNodeId(),
+				expr.getName(),
 				expr.getType(),
 				expr.isUndefined());
 	}
 
 	@Override
-	public String visit(PrimaryExpr expr) {
-		String value = null;
-		
-		switch (expr.getType()) {
-		case BOOLEAN:
-			value = String.format("Type: %s\nValue: %s\n", expr.getType(), expr.getLexeme());
-			break;
-		case STRING:
-			// Remove double quotes at from the start and end of the string
-			value = expr.getLexeme().substring(1, expr.getLexeme().length() - 1);
-			value = String.format("Type: %s\nValue: %s\n", expr.getType(), value);
-			break;
-		case INTEGER:
-			value = String.format("Type: %s\nValue: %s\n", expr.getType(), expr.getLexeme());
-			break;
-		default:
-			// TODO Improve error by displaying the location of the offending token.
-			System.err.println("[AstGraph] Unexpected literal expression: " + expr.getLexeme().toString());
-			break;
-		}
-		
-		return String.format("  %s [label=\"%s\"]\n", expr.getId(), value);
+	public String visit(FormStatement stmt) {
+		return stmt.visitBlockStmt(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getBlockStmtId()) +
+				stmt.visitIndetifierExpr(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIndetifierExpressionId()) +
+				String.format("  %s [label=\"FormStmt\nName: %s\"]\n", stmt.getNodeId(), stmt.getIdentifierName());
 	}
 
 	@Override
-	public String visit(FormStmt stmt) {
-		return stmt.blockStmt.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.blockStmt.getId()) +
-				stmt.identifier.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId()) +
-				String.format("  %s [label=\"FormStmt\nName: %s\"]\n", stmt.getId(), stmt.identifier.token.getLexeme());
-	}
-
-	@Override
-	public String visit(BlockStmt stmt) {
-		String header = String.format("  %s [label=\"BlockStmt\"]\n", stmt.getId());
+	public String visit(BlockStatement stmt) {
+		String header = String.format("  %s [label=\"BlockStmt\"]\n", stmt.getNodeId());
 		
-		for (Stmt statement : stmt.statements) {
-			header += String.format("  %s -> %s\n", stmt.getId(), statement.getId());
+		for (Statement statement : stmt.getStatements()) {
+			header += String.format("  %s -> %s\n", stmt.getNodeId(), statement.getNodeId());
 			String result = statement.accept(this);
 			header += result;
 		}
@@ -100,192 +92,145 @@ public class AstGraph implements Stmt.Visitor<String>, Expr.Visitor<String> {
 	}
 
 	@Override
-	public String visit(QuestionStmt stmt) {
+	public String visit(QuestionStatement stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
-			   stmt.getId(),
-			   stmt.identifier.token.getLexeme(),
-			   stmt.type.getName());
+			   stmt.getNodeId(),
+			   stmt.getName(),
+			   stmt.getType());
 
 		// Visit the identifier expression
-		header += stmt.identifier.accept(this);
-		header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
+		header += stmt.visitIdentifierExpr(this);
+		header += String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIdentifierId());
 		
 		return header;
 	}
 	
 	@Override
-	public String visit(ComputedQuestionStmt stmt) {
+	public String visit(ComputedQuestionStatement stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",
-				   stmt.getId(),
-				   stmt.identifier.token.getLexeme(),
-				   stmt.type.getName());
+				   stmt.getNodeId(),
+				   stmt.getName(),
+				   stmt.getType());
 
 		// Visit the expression statement
-		header += stmt.expression.accept(this);
-		header += String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId());
+		header += stmt.visitExpression(this);
+		header += String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getExpressionId());
 
 		// Visit the identifier expression
-		header += stmt.identifier.accept(this);
-		header += String.format("  %s -> %s\n", stmt.getId(), stmt.identifier.getId());
+		header += stmt.visitIdentifierExpr(this);
+		header += String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIdentifierId());
 
 		return header;
 	}
 
 	@Override
-	public String visit(GroupingExpr expr) {
-		return expr.getExpression().accept(this) +
-				String.format("  %s [label=\"GroupingExpr\nType: %s\"]\n", expr.getId(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getExpression().getId());
+	public String visit(GroupingExpression expr) {
+		return expr.visitInnerExpression(this) +
+				String.format("  %s [label=\"GroupingExpr\nType: %s\"]\n", expr.getNodeId(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getNodeId(), expr.getInnerExpressionId());
 	}
 
 	@Override
-	public String visit(IfStmt stmt) {
-		return stmt.expression.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId()) +
-				stmt.blockStmt.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.blockStmt.getId()) +
-				String.format("  %s [label=\"IfStmt\"]\n", stmt.getId());
+	public String visit(IfStatement stmt) {
+		return stmt.visitExpression(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getExpressionId()) +
+				stmt.visitIfBlockStatement(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIfBlockStatementId()) +
+				String.format("  %s [label=\"IfStmt\"]\n", stmt.getNodeId());
 	}
 
 	@Override
-	public String visit(IfElseStmt stmt) {
-		return stmt.expression.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.expression.getId()) +
-				stmt.ifBlockStmt.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.ifBlockStmt.getId()) +
-				stmt.elseBlockStmt.accept(this) +
-				String.format("  %s -> %s\n", stmt.getId(), stmt.elseBlockStmt.getId()) +
-				String.format("  %s [label=\"IfElseStmt\"]\n", stmt.getId());
+	public String visit(IfElseStatement stmt) {
+		return stmt.visitExpression(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getExpressionId()) +
+				stmt.visitIfBlockStatement(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIfBlockStatementId()) +
+				stmt.visitElseBlockStatement(this) +
+				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getElseBlockStatementId()) +
+				String.format("  %s [label=\"IfElseStmt\"]\n", stmt.getNodeId());
 	}
 
 	@Override
-	public String visit(AdditionExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"AdditionExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(AdditionExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(SubtractionExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"SubtractionExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(SubtractionExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(MultiplicationExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"MultiplicationExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(MultiplicationExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(DivisionExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"DivisionExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(DivisionExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(LessThanExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"LessThanExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(LessThanExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(LessThanOrEqualExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"LessThanOrEqualExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(LessThanOrEqualExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(GreaterThanExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"GreaterThanExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(GreaterThanExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(GreaterThanOrEqualExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"GreaterThanOrEqualExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(GreaterThanOrEqualExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(NotEqualExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"NotEqualExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(NotEqualExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(EqualExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"EqualExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(EqualExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(AndExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"AndExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(AndExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(OrExpr expr) {
-		return expr.getLeftExpr().accept(this) +
-				expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"OrExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getLeftExpr().getId()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(OrExpression expr) {
+		return visitBinaryExpr(expr);
 	}
 
 	@Override
-	public String visit(UnaryNotExpr expr) {
-		return 	expr.getRightExpr().accept(this) +
-				String.format("  %s [label=\"UnaryNotExpr: %s\nType: %s\n\"]\n", expr.getId(), expr.getOperatorName(), expr.getType()) +
-				String.format("  %s -> %s\n", expr.getId(), expr.getRightExpr().getId());
+	public String visit(UnaryNotExpression expr) {
+		return 	expr.visitRightExpression(this) +
+				String.format("  %s [label=\"UnaryNotExpr: %s\nType: %s\n\"]\n", expr.getNodeId(), expr.getOperatorName(), expr.getType()) +
+				String.format("  %s -> %s\n", expr.getNodeId(), expr.getRightExpression().getNodeId());
 	}
 
 	@Override
-	public String visit(IntegerExpr expr) {
-		return String.format("Type: %s\nValue: %s\n", expr.getType(), expr.getLexeme());
+	public String visit(IntegerExpression expr) {
+		return visitPrimaryExpr(expr);
 	}
 
 	@Override
-	public String visit(StringExpr expr) {
+	public String visit(StringExpression expr) {
 		String value = expr.getLexeme().substring(1, expr.getLexeme().length() - 1);
-		return String.format("Type: %s\nValue: %s\n", expr.getType(), value);
+		value = String.format("Type: %s\nValue: %s\n", expr.getType(), value);
+		return String.format("  %s [label=\"%s\"]\n", expr.getNodeId(), value);
 	}
 
 	@Override
-	public String visit(BooleanExpr expr) {
-		return String.format("Type: %s\nValue: %s\n", expr.getType(), expr.getLexeme());
+	public String visit(BooleanExpression expr) {
+		return visitPrimaryExpr(expr);
 	}
 }

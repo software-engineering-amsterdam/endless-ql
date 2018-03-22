@@ -1,3 +1,4 @@
+//Q=0
 form taxOfficeExample {
   if (true) {
     "What was the selling price?"

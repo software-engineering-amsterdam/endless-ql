@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.uva.jomi.ui.elements.fields.TextField;
 import org.uva.jomi.ui.elements.fields.BooleanField;
 import org.uva.jomi.ui.elements.fields.FieldFactory;
-import org.uva.jomi.ui.elements.fields.MoneyField;
+import org.uva.jomi.ui.elements.fields.IntegerField;
 
 class FieldFactoryTest {
 
@@ -23,9 +23,9 @@ class FieldFactoryTest {
 	}
 	
 	@Test
-	void testMoneyType() {
+	void testIntegerType() {
 		FieldFactory factory = new FieldFactory();
-		assertTrue(factory.getField("money") instanceof MoneyField);
+		assertTrue(factory.getField("integer") instanceof IntegerField);
 	}
 	
 	@Test

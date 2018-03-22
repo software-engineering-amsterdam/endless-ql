@@ -1,6 +1,6 @@
 package ql.ast.expression;
 
-import ql.evaluator.value.Value;
+import ql.ast.expression.literal.Literal;
 import ql.visitors.interfaces.ExpressionVisitor;
 
 public class NotEqual extends BinaryOperator {
@@ -20,7 +20,7 @@ public class NotEqual extends BinaryOperator {
     }
 
     @Override
-    public Value<?> evaluate() {
+    public Literal<?> evaluate() {
         return firstOperand.evaluate().notEqual(secondOperand.evaluate());
     }
 }

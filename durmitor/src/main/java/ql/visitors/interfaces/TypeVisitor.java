@@ -8,13 +8,13 @@ import ql.ast.type.Money;
 import ql.ast.type.Str;
 import ql.ast.type.Undefined;
 
-public interface TypeVisitor<T> {
+public interface TypeVisitor {
 
-    public T visit(Bool type);
-    public T visit(Str type);
-    public T visit(Int type);
-    public T visit(Decimal type);
-    public T visit(Money type);
-    public T visit(Date type);
-    public T visit(Undefined type);
+    public void visit(Bool type);
+    public void visit(Str type);
+    public void visit(Int type);
+    public void visit(Decimal type);
+    public void visit(Money type);
+    public void visit(Date type);
+    public void visit(Undefined type);
 }

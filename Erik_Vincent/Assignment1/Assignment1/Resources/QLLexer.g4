@@ -21,10 +21,22 @@ SEP
 SEMICOLON
 	: ';'
 	;
-BOOLEAN
+BOOLEAN_TYPE
 	: 'boolean'
 	;
-MONEY
+DATE_TYPE
+	: 'date'
+	;
+DECIMAL_TYPE
+	: 'decimal'
+	;
+INTEGER_TYPE
+	: 'integer'
+	;
+STRING_TYPE
+	: 'string'
+	;
+MONEY_TYPE
 	: 'money'
 	;
 ASSIGN
@@ -93,11 +105,14 @@ DIV
 ID
 	: [a-zA-Z0-9]+
 	;
-LABEL
-	: '"' ~'"'*? '"'
+DATE
+	: '"' NUMBER '-' NUMBER '-' NUMBER '"'
+	;
+STRING
+	: '"' (~'"' | '""')* '"'
 	;
 COMMENT
-	: '//' ~'\n'*? '\n' -> skip
+	: '//' ~'\n'* '\n' -> skip
 	;
 WHITESPACE
 	: [ \n\t\r]+ -> skip

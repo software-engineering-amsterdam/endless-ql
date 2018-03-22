@@ -1,8 +1,10 @@
 import Statement from "./Statement";
 import TreeNode from "./TreeNode";
 import NodeVisitor from "./visitors/NodeVisitor";
+import FieldVisitor from "./visitors/FieldVisitor";
+import AbstractTreeNode from "./AbstractTreeNode";
 
-export default class FormNode implements TreeNode {
+export default class FormNode extends AbstractTreeNode implements TreeNode {
   private _name: string;
 
   private _statements: Statement[];
@@ -14,6 +16,7 @@ export default class FormNode implements TreeNode {
    * @param {Statement[]} statements
    */
   constructor(name: string, statements: Statement[]) {
+    super();
     this._name = name;
     this._statements = statements;
   }
@@ -39,7 +42,7 @@ export default class FormNode implements TreeNode {
    * @param {NodeVisitor} visitor
    * @returns {any}
    */
-  accept(visitor: NodeVisitor): any {
+  accept(visitor: FieldVisitor): any {
     return visitor.visitForm(this);
   }
 }

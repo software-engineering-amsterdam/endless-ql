@@ -145,45 +145,40 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AntlGrammar\obj\Debug\QLBaseListener.cs">
-      <Link>GeneratedCode\QLBaseListener.cs</Link>
+    <Compile Include="..\AntlGrammar\obj\Debug\QlBaseListener.cs">
+      <Link>GeneratedCode\QlBaseListener.cs</Link>
     </Compile>
-    <Compile Include="..\AntlGrammar\obj\Debug\QLBaseVisitor.cs">
-      <Link>GeneratedCode\QLBaseVisitor.cs</Link>
+    <Compile Include="..\AntlGrammar\obj\Debug\QlBaseVisitor.cs">
+      <Link>GeneratedCode\QlBaseVisitor.cs</Link>
     </Compile>
-    <Compile Include="..\AntlGrammar\obj\Debug\QLLexer.cs">
-      <Link>GeneratedCode\QLLexer.cs</Link>
+    <Compile Include="..\AntlGrammar\obj\Debug\QlLexer.cs">
+      <Link>GeneratedCode\QlLexer.cs</Link>
     </Compile>
-    <Compile Include="..\AntlGrammar\obj\Debug\QLListener.cs">
-      <Link>GeneratedCode\QLListener.cs</Link>
+    <Compile Include="..\AntlGrammar\obj\Debug\QlListener.cs">
+      <Link>GeneratedCode\QlListener.cs</Link>
     </Compile>
-    <Compile Include="..\AntlGrammar\obj\Debug\QLParser.cs">
-      <Link>GeneratedCode\QLParser.cs</Link>
+    <Compile Include="..\AntlGrammar\obj\Debug\QlParser.cs">
+      <Link>GeneratedCode\QlParser.cs</Link>
     </Compile>
-    <Compile Include="..\AntlGrammar\obj\Debug\QLVisitor.cs">
-      <Link>GeneratedCode\QLVisitor.cs</Link>
+    <Compile Include="..\AntlGrammar\obj\Debug\QlVisitor.cs">
+      <Link>GeneratedCode\QlVisitor.cs</Link>
     </Compile>
     <Compile Include="AntlrModule.cs" />
-    <Compile Include="Logic\QlErrorListener.cs" />
-    <Compile Include="Logic\QlInterpretor.cs" />
-    <Compile Include="Logic\BuildAstVisitor.cs" />
+    <Compile Include="AstBuilder\AstExtensions.cs" />
+    <Compile Include="AstBuilder\QlErrorListener.cs" />
+    <Compile Include="AstBuilder\AstTreeBuilder.cs" />
+    <Compile Include="AstBuilder\BuildAstVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="API\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AntlGrammar\AntlGrammar.csproj">
-      <Project>{ff0183f4-7487-4645-99f9-0713f3cac488}</Project>
-      <Name>AntlGrammar</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionaireDomain.Entities.csproj">
+    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionnaireDomain.Entities.csproj">
       <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
-      <Name>QuestionaireDomain.Entities</Name>
+      <Name>QuestionnaireDomain.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>

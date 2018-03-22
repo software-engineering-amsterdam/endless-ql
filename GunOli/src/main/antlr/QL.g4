@@ -1,6 +1,6 @@
 grammar QL;
 
-form            : FORM IDENTIFIER block EOF;
+head            : FORM IDENTIFIER block EOF;
 block           : '{' statement+ '}';
 statement       : condition | question;
 condition       : IF '(' expression ')' block;
@@ -19,13 +19,13 @@ unaryOp         : MINUS | NOT;
 
 binaryOp        : MUL | DIV | PLUS | MINUS | LE | LT | GE | GT | EQ | NE | AND | OR;
 
-constant        : INTEGER #integerConstant
-                | DECIMAL #decimalConstant
-                | STRING  #stringConstant
-                | IDENTIFIER #identifierConstant
-                | MONEY #moneyConstant
-                | DATE #dateConstant
-                ;
+constant        : INTEGER                                           # integerConstant
+                | BOOLEAN                                           # booleanConstant
+                | DECIMAL                                           # decimalConstant
+                | STRING                                            # stringConstant
+                | IDENTIFIER                                        # identifierConstant
+                | MONEY                                             # moneyConstant
+                | DATE                                              # dateConstant;
 
 type            : BOOLEANTYPE | STRINGTYPE | MONEYTYPE | INTEGERTYPE | DATETYPE | DECIMALTYPE;
 
@@ -55,6 +55,7 @@ DATETYPE        : 'date';
 DECIMALTYPE     : 'decimal';
 
 // Literals
+BOOLEAN         : ('true'|'false');
 INTEGER         : [0-9]+;
 DECIMAL         : [0-9]+ '.' [0-9]+;
 MONEY           : ([0-9]+ '.' [0-9]+) | [0-9]+;

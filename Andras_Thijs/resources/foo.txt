@@ -1,0 +1,9 @@
+QL              :=		NAME [QUESTION]+
+QUESTION		:=		NAME  LABEL TYPE | NAME  LABEL TYPE EXPRESSION | CONDITION NAME  LABEL TYPE | CONDITION NAME  LABEL TYPE EXPRESSION
+NAME			:= 		[a-z, A-Z]+
+LABEL			:=		str
+TYPE			:=		bool | str | int | date | float | money
+EXPRESSION		:=		(OBJECT [BOOL OBJECT | COMPARISON OBJECT]+)
+BOOL			:=		&& | || | !
+COMPARISON		:=		< | > | >= | <= | != | ==
+

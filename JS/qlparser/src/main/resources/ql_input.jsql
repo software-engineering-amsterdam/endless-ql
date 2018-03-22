@@ -1,0 +1,22 @@
+form taxOfficeExample {
+  ""
+    noQuestion: string
+  "What is your name?"
+    name: string
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+  "Did you buy a house in 2010?"
+    hasBoughtHouse: boolean = true == true
+  "Did you enter a loan?"
+    hasMaintLoan: boolean = hasBoughtHouse
+  "Easy integer addition" nummer: integer = 1+1
+  if (hasSoldHouse) {
+    "What was the selling price?"
+      sellingPrice: decimal = 100.00d
+    "Private debts for the sold house:"
+      privateDebt: money = EUR1000.00
+    "Value residue:"
+      valueResidue: money =
+        privateDebt + privateDebt
+  }
+}

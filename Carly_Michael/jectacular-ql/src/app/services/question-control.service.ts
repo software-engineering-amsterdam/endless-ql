@@ -6,13 +6,11 @@ import { QuestionBase } from '../domain/angular-questions/question-base';
 export class QuestionControlService {
   constructor() { }
 
-  toFormGroup(questions: QuestionBase<any>[] ) {
+  toFormGroup(questions: ReadonlyArray<QuestionBase<any>>): FormGroup {
     const group: any = {};
 
     questions.forEach(question => {
-      group[question.key] = question.required ? new FormControl({value: question.value || '', disabled: question.readonly},
-        Validators.required)
-        : new FormControl({value: question.value || '', disabled: question.readonly});
+      group[question.key] = new FormControl({value: question.value, disabled: question.readonly});
     });
     return new FormGroup(group);
   }

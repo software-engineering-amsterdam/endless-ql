@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Assignment1;
+﻿using System.Collections.Generic;
+using Assignment1.Model.QL.RenderTree;
+using Assignment1.Model.QL.RenderTree.QLExpression;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Assignment1Tests
@@ -11,7 +11,7 @@ namespace Assignment1Tests
         [TestMethod]
         public void TestCreateForm()
         {
-            QuestionForm testF = new QuestionForm(TestFormId, new List<Content>());
+            QuestionForm testF = new QuestionForm(TestFormId, new List<Question>());
 
             Assert.AreEqual(TestFormId, testF.Id);
         }
@@ -19,7 +19,7 @@ namespace Assignment1Tests
         [TestMethod]
         public void TestCreateQuestion()
         {
-            Question testQ = new Question(TestQuestionId, TestQuestionLabel);
+            Question testQ = new QuestionBool(TestQuestionId, TestQuestionLabel);
 
             Assert.AreEqual(TestQuestionId, testQ.Id);
             Assert.AreEqual(TestQuestionLabel, testQ.Label);
@@ -28,83 +28,150 @@ namespace Assignment1Tests
         [TestMethod]
         public void TestAddQuestionToForm()
         {
-            Question testQ = new Question(TestQuestionId, TestQuestionLabel);
-            List<Content> contentList = new List<Content>() { testQ };
-            QuestionForm testF = new QuestionForm(TestFormId, contentList);
+            Question testQ = new QuestionBool(TestQuestionId, TestQuestionLabel);
+            List<Question> questions = new List<Question>() { testQ };
+            QuestionForm testF = new QuestionForm(TestFormId, questions);
 
-            Assert.IsNotNull(testF.Content);
-            Assert.AreEqual(1, testF.Content.Count);
-            Assert.AreSame(testQ, testF.Content[0]);
+            Assert.IsNotNull(testF.Questions);
+            Assert.AreEqual(1, testF.Questions.Count);
+            Assert.AreSame(testQ, testF.Questions[0]);
         }
 
         [TestMethod]
-        public void TestBinaryExpression()
+        public void TestAdditionExpression()
         {
-            // Create expression with + operator
-
-            // Run evaluator
+            int leftInt = 1;
+            int rightInt = 2;
+            Expression leftExpr = new ExpressionValue(leftInt);
+            Expression rightExpr = new ExpressionValue(rightInt);
+            ExpressionAdd addExpr = new ExpressionAdd(leftExpr, rightExpr);
             
-            // Left and right operands should be integers
-
-            // Sum should be the sum of the left and right operands
+            Assert.AreEqual(leftInt, leftExpr.Evaluate());
+            Assert.AreEqual(rightInt, rightExpr.Evaluate());
+            Assert.AreEqual(leftInt + rightInt, addExpr.Evaluate());
         }
 
         [TestMethod]
-        public void TestLogicalExpressionBothTrue()
+        public void TestSubtractionExpression()
         {
-            // Create epression with && operator with left and right as true
-
-            // Run evaluator
+            int leftInt = 4;
+            int rightInt = 2;
+            Expression leftExpr = new ExpressionValue(leftInt);
+            Expression rightExpr = new ExpressionValue(rightInt);
+            ExpressionSub addExpr = new ExpressionSub(leftExpr, rightExpr);
             
-            // Left and right operands should be boolean
-
-            // Result should be true
+            Assert.AreEqual(leftInt, leftExpr.Evaluate());
+            Assert.AreEqual(rightInt, rightExpr.Evaluate());
+            Assert.AreEqual(leftInt - rightInt, addExpr.Evaluate());
         }
 
         [TestMethod]
-        public void TestLogicalExpressionLeftFalse()
+        public void TestMultiplyExpression()
         {
-            // Create epression with && operator with left as false and right as true
-
-            // Run evaluator
+            int leftInt = 1;
+            int rightInt = 2;
+            Expression leftExpr = new ExpressionValue(leftInt);
+            Expression rightExpr = new ExpressionValue(rightInt);
+            ExpressionMult addExpr = new ExpressionMult(leftExpr, rightExpr);
             
-            // Left and right operands should be boolean
-
-            // Result should be false
+            Assert.AreEqual(leftInt, leftExpr.Evaluate());
+            Assert.AreEqual(rightInt, rightExpr.Evaluate());
+            Assert.AreEqual(leftInt * rightInt, addExpr.Evaluate());
         }
 
         [TestMethod]
-        public void TestLogicalExpressionRightFalse()
+        public void TestDivisionExpression()
         {
-            // Create epression with && operator with left as true and right as false
-
-            // Run evaluator
+            int leftInt = 4;
+            int rightInt = 2;
+            Expression leftExpr = new ExpressionValue(leftInt);
+            Expression rightExpr = new ExpressionValue(rightInt);
+            ExpressionDiv addExpr = new ExpressionDiv(leftExpr, rightExpr);
             
-            // Left and right operands should be boolean
-
-            // Result should be false
+            Assert.AreEqual(leftInt, leftExpr.Evaluate());
+            Assert.AreEqual(rightInt, rightExpr.Evaluate());
+            Assert.AreEqual(leftInt / rightInt, addExpr.Evaluate());
         }
 
         [TestMethod]
-        public void TestLogicalExpressionInvalidOperand()
+        public void TestAndExpressionBothTrue()
         {
-            // Create epression with && operator with left as true and right as integer
-
-            // Run evaluator
-
-            // Error should be thrown
+            bool leftBool = true;
+            bool rightBool = true;
+            Expression leftExpr = new ExpressionValue(leftBool);
+            Expression rightExpr = new ExpressionValue(rightBool);
+            ExpressionAnd andExpr = new ExpressionAnd(leftExpr, rightExpr);
+            
+            Assert.AreEqual(leftBool, leftExpr.Evaluate());
+            Assert.AreEqual(rightBool, rightExpr.Evaluate());
+            Assert.AreEqual(leftBool && rightBool, andExpr.Evaluate());
         }
 
         [TestMethod]
-        public void TestComparisonExpression()
+        public void TestAndExpressionLeftFalse()
         {
-
+            bool leftBool = false;
+            bool rightBool = true;
+            Expression leftExpr = new ExpressionValue(leftBool);
+            Expression rightExpr = new ExpressionValue(rightBool);
+            ExpressionAnd andExpr = new ExpressionAnd(leftExpr, rightExpr);
+            
+            Assert.AreEqual(leftBool, leftExpr.Evaluate());
+            Assert.AreEqual(rightBool, rightExpr.Evaluate());
+            Assert.AreEqual(leftBool && rightBool, andExpr.Evaluate());
         }
 
         [TestMethod]
-        public void TestIfStatement()
+        public void TestOrExpressionRightFalse()
         {
+            bool leftBool = true;
+            bool rightBool = false;
+            Expression leftExpr = new ExpressionValue(leftBool);
+            Expression rightExpr = new ExpressionValue(rightBool);
+            ExpressionOr orExpr = new ExpressionOr(leftExpr, rightExpr);
+            
+            Assert.AreEqual(leftBool, leftExpr.Evaluate());
+            Assert.AreEqual(rightBool, rightExpr.Evaluate());
+            Assert.AreEqual(leftBool || rightBool, orExpr.Evaluate());
+        }
 
+        [TestMethod]
+        public void TestOrExpressionBothFalse()
+        {
+            bool leftBool = false;
+            bool rightBool = false;
+            Expression leftExpr = new ExpressionValue(leftBool);
+            Expression rightExpr = new ExpressionValue(rightBool);
+            ExpressionOr orExpr = new ExpressionOr(leftExpr, rightExpr);
+
+            Assert.AreEqual(leftBool, leftExpr.Evaluate());
+            Assert.AreEqual(rightBool, rightExpr.Evaluate());
+            Assert.AreEqual(leftBool || rightBool, orExpr.Evaluate());
+        }
+
+        [TestMethod]
+        //[ExpectedException(typeof(RuntimeBinderException))]
+        public void TestInvalidLogicalExpression()
+        {
+            int leftInt = 1;
+            int rightInt = 2;
+            Expression leftExpr = new ExpressionValue(leftInt);
+            Expression rightExpr = new ExpressionValue(rightInt);
+            ExpressionAnd andExpr = new ExpressionAnd(leftExpr, rightExpr);
+
+            //Assert.ThrowsException(andExpr.Evaluate());
+        }
+
+        [TestMethod]
+        public void TestSmallerThanExpression()
+        {
+            int leftInt = 1;
+            int rightInt = 2;
+            Expression leftExpr = new ExpressionValue(leftInt);
+            Expression rightExpr = new ExpressionValue(rightInt);
+            ExpressionLess lessExpr = new ExpressionLess(leftExpr, rightExpr);
+
+            Assert.AreEqual(leftInt < rightInt, lessExpr.Evaluate());
         }
 
         private static string TestFormId = "testForm";

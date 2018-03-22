@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Antlr4.CodeGenerator.4.6.4\build\Antlr4.CodeGenerator.props" Condition="Exists('..\packages\Antlr4.CodeGenerator.4.6.4\build\Antlr4.CodeGenerator.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AED597D7-3472-4D95-9D15-7BA9B8BBE89E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QL_Parser</RootNamespace>
+    <AssemblyName>QL_Parser</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr4.Runtime, Version=4.6.0.0, Culture=neutral, PublicKeyToken=09abb75b9ed49849, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr4.Runtime.4.6.4\lib\net45\Antlr4.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Analysis\Analyser.cs" />
+    <Compile Include="Analysis\IAnalyser.cs" />
+    <Compile Include="Analysis\ParseMessage.cs" />
+    <Compile Include="Analysis\Semantic\StatementTypeAnalyser.cs" />
+    <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyser.cs" />
+    <Compile Include="Analysis\Semantic\DuplicateVariableAnalyser.cs" />
+    <Compile Include="AST\Location.cs" />
+    <Compile Include="AST\Nodes\ComputedNode.cs" />
+    <Compile Include="AST\Nodes\ConditionalNode.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\ArthimetricExpressionNode.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\Enums\ArthimetricOperator.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\ComparisonExpressionNode.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\Enums\ComparisonOperator.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\Enums\LogicalOperator.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\ExpressionNode.cs" />
+    <Compile Include="AST\Nodes\ExpressionNodes\LogicalExpressionNode.cs" />
+    <Compile Include="AST\Nodes\FormNode.cs" />
+    <Compile Include="AST\Nodes\IExpressionNode.cs" />
+    <Compile Include="AST\Nodes\Node.cs" />
+    <Compile Include="AST\Nodes\NodeType.cs" />
+    <Compile Include="AST\Nodes\QuestionNode.cs" />
+    <Compile Include="AST\Nodes\StatementNode.cs" />
+    <Compile Include="Analysis\SymbolTable.cs" />
+    <Compile Include="Analysis\Syntactic\QuestionHasNoChildrenValidator.cs" />
+    <Compile Include="Analysis\Syntactic\SingleFormValidator.cs" />
+    <Compile Include="AST\Nodes\QValueType.cs" />
+    <Compile Include="AST\Nodes\IdentifierNode.cs" />
+    <Compile Include="Exceptions\UnknownLogicalEntity.cs" />
+    <Compile Include="Exceptions\UnknownNodeTypeException.cs" />
+    <Compile Include="Exceptions\UnknownOperatorException.cs" />
+    <Compile Include="Exceptions\UnknownQValueTypeException.cs" />
+    <Compile Include="Visitors\ExpressionVisitors\ArthimetricExpressionVisitor.cs" />
+    <Compile Include="Visitors\ComputedVariableVisitor.cs" />
+    <Compile Include="Visitors\ConditionalBlockVisitor.cs" />
+    <Compile Include="Visitors\ExpressionVisitors\ComparisonExpressionVisitor.cs" />
+    <Compile Include="Visitors\ExpressionVisitors\LogicalExpressionVisitor.cs" />
+    <Compile Include="Visitors\FormVisitor.cs" />
+    <Compile Include="QLParserHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visitors\QuestionVisitor.cs" />
+    <Compile Include="Visitors\SectionVisitor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Antlr4 Include="QLanguage.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>QLanguage</CustomToolNamespace>
+    </Antlr4>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AST\Nodes\LiteralNode.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Antlr4.CodeGenerator.4.6.4\build\Antlr4.CodeGenerator.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Antlr4.CodeGenerator.4.6.4\build\Antlr4.CodeGenerator.props'))" />
+    <Error Condition="!Exists('..\packages\Antlr4.CodeGenerator.4.6.4\build\Antlr4.CodeGenerator.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Antlr4.CodeGenerator.4.6.4\build\Antlr4.CodeGenerator.targets'))" />
+  </Target>
+  <Import Project="..\packages\Antlr4.CodeGenerator.4.6.4\build\Antlr4.CodeGenerator.targets" Condition="Exists('..\packages\Antlr4.CodeGenerator.4.6.4\build\Antlr4.CodeGenerator.targets')" />
+</Project>

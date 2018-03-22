@@ -14,6 +14,13 @@ public class Location {
         length  = 0;
     }
     
+    public Location(int line, int column) {
+        this.line   = line;
+        this.column = column;
+        offset      = 0;
+        length      = 0;
+    }
+    
     public Location(int line, int column, int offset, int length) {
         this.line   = line;
         this.column = column;

@@ -1,10 +1,20 @@
 package qlviz.gui.viewModel.question;
 
-import qlviz.gui.viewModel.propertyEvents.NotifyPropertyChanged;
 
-public interface QuestionViewModel extends NotifyPropertyChanged<QuestionViewModel> {
+import javafx.beans.property.BooleanProperty;
+import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
+import qlviz.model.question.QuestionType;
+
+import java.util.List;
+
+public interface QuestionViewModel {
     void accept(QuestionViewModelVisitor visitor);
+    <T> T accept(TypedQuestionViewModelVisitor<T> visitor);
     String getText();
+    String getName();
+    QuestionType getQuestionType();
+    BooleanProperty isEnabledProperty();
+    List<BooleanExpressionViewModel> getEnabledConditions();
 }
 
 

@@ -1,15 +1,14 @@
 package com.chariotit.uva.sc.qdsl.grammar;
 
-import com.chariotit.uva.sc.qdsl.ast.node.*;
-import com.chariotit.uva.sc.qdsl.ast.node.constant.BooleanConstant;
-import com.chariotit.uva.sc.qdsl.ast.node.constant.IntegerConstant;
-import com.chariotit.uva.sc.qdsl.ast.node.constant.MoneyConstant;
-import com.chariotit.uva.sc.qdsl.ast.node.constant.StringConstant;
-import com.chariotit.uva.sc.qdsl.ast.node.operator.*;
-import com.chariotit.uva.sc.qdsl.ast.node.type.BooleanType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.IntegerType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.MoneyType;
-import com.chariotit.uva.sc.qdsl.ast.node.type.StringType;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.BooleanConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.IntegerConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.MoneyConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.StringConstant;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.*;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.type.*;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.type.IntegerTypeNode;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.type.MoneyTypeNode;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -35,17 +34,17 @@ public class QLGrammarTest {
         }
     }
 
-    private AstRoot getAst(String inputFile) {
+    private QLAstRoot getAst(String inputFile) {
         QLParser parser = getParser(inputFile);
         ParseTree tree = parser.forms();
         QLVisitor visitor = new QLVisitor();
 
-        return (AstRoot)visitor.visit(tree);
+        return (QLAstRoot)visitor.visit(tree);
     }
 
     @Test
     public void testForms() {
-        AstRoot astRoot = getAst("forms.ql");
+        QLAstRoot astRoot = getAst("forms.ql");
 
         assertEquals(astRoot.getForms().size(), 2);
 
@@ -55,13 +54,13 @@ public class QLGrammarTest {
         assertEquals(firstElement.getLabel().getLabel(), "hasSoldHouse");
 
         IfBlock ifBlock = (IfBlock)firstForm.getFormElements().get(3);
-        assertEquals(ifBlock.getFormElements().size(), 3);
-        assertEquals(((LabelExpression)(ifBlock.getExpression())).getLabel().getLabel(),
+        assertEquals(ifBlock.getIfElements().size(), 3);
+        assertEquals(((LabelExpression)(ifBlock.getExpression())).getLabel(),
                 "hasSoldHouse");
 
-        LineElement valueResidue = (LineElement)(ifBlock.getFormElements().get(2));
-        assertTrue(valueResidue.getTypeExpression().getType() instanceof MoneyType);
-        assertFalse(valueResidue.getTypeExpression().getType() instanceof BooleanType);
+        LineElement valueResidue = (LineElement)(ifBlock.getIfElements().get(2));
+        assertTrue(valueResidue.getTypeExpression().getTypeNode() instanceof MoneyTypeNode);
+        assertFalse(valueResidue.getTypeExpression().getTypeNode() instanceof BooleanTypeNode);
         assertEquals(valueResidue.getQuestion().getQuestion(), "Value residue:");
 
         assertTrue(valueResidue.getTypeExpression().getExpression() instanceof
@@ -72,22 +71,22 @@ public class QLGrammarTest {
 
     @Test
     public void testTypes() {
-        AstRoot astRoot = getAst("types.ql");
+        QLAstRoot astRoot = getAst("types.ql");
         List<FormElement> elements = astRoot.getForms().get(0).getFormElements();
 
-        assertTrue(((LineElement)elements.get(0)).getTypeExpression().getType() instanceof
-                BooleanType);
-        assertTrue(((LineElement)elements.get(1)).getTypeExpression().getType() instanceof
-                IntegerType);
-        assertTrue(((LineElement)elements.get(2)).getTypeExpression().getType() instanceof
-                MoneyType);
-        assertTrue(((LineElement)elements.get(3)).getTypeExpression().getType() instanceof
-                StringType);
+        assertTrue(((LineElement)elements.get(0)).getTypeExpression().getTypeNode() instanceof
+                BooleanTypeNode);
+        assertTrue(((LineElement)elements.get(1)).getTypeExpression().getTypeNode() instanceof
+                IntegerTypeNode);
+        assertTrue(((LineElement)elements.get(2)).getTypeExpression().getTypeNode() instanceof
+                MoneyTypeNode);
+        assertTrue(((LineElement)elements.get(3)).getTypeExpression().getTypeNode() instanceof
+                StringTypeNode);
     }
 
     @Test
     public void testUnops() {
-        AstRoot astRoot = getAst("unops.ql");
+        QLAstRoot astRoot = getAst("unops.ql");
         List<FormElement> elements = astRoot.getForms().get(0).getFormElements();
 
         assertTrue(((UnOpExpression)((LineElement)elements.get(0)).getTypeExpression()
@@ -100,7 +99,7 @@ public class QLGrammarTest {
 
     @Test
     public void testBinops() {
-        AstRoot astRoot = getAst("binops.ql");
+        QLAstRoot astRoot = getAst("binops.ql");
         List<FormElement> elements = astRoot.getForms().get(0).getFormElements();
 
         assertTrue(((LabelBinOpExpression)((LineElement)elements.get(0)).getTypeExpression()
@@ -127,7 +126,7 @@ public class QLGrammarTest {
 
     @Test
     public void testConstants() {
-        AstRoot astRoot = getAst("constants.ql");
+        QLAstRoot astRoot = getAst("constants.ql");
         List<FormElement> elements = astRoot.getForms().get(0).getFormElements();
 
         assertTrue(((LineElement)elements.get(0)).getTypeExpression().getExpression() instanceof

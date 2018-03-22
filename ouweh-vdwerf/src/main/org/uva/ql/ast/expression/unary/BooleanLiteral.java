@@ -6,8 +6,12 @@ import org.uva.ql.visitor.ExpressionVisitor;
 public class BooleanLiteral extends Expression {
     private final Boolean value;
 
-    public BooleanLiteral (String value){
+    public BooleanLiteral(String value) {
         this.value = Boolean.parseBoolean(value);
+    }
+
+    public boolean getValue() {
+        return this.value;
     }
 
     @Override

@@ -1,31 +1,53 @@
 package qlviz.gui.viewModel.question;
 
-import qlviz.gui.viewModel.propertyEvents.PropertyChangedListener;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.model.question.Question;
+import qlviz.model.question.QuestionType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseQuestionViewModel implements QuestionViewModel {
 
     private final Question question;
-    private final List<PropertyChangedListener<QuestionViewModel>> listeners = new ArrayList<>();
+    private final List<BooleanExpressionViewModel> conditions;
+    private final BooleanProperty isEnabled;
+    private BooleanBinding isEnabledBinding;
 
-    protected BaseQuestionViewModel(Question question) {
+    protected BaseQuestionViewModel(Question question, List<BooleanExpressionViewModel> conditions) {
         this.question = question;
+        this.conditions = conditions;
+        this.isEnabledBinding = new BooleanBinding() {
+            @Override
+            protected boolean computeValue() {
+                return true;
+            }
+        };
+        for (BooleanExpressionViewModel booleanExpressionViewModel : conditions) {
+            this.isEnabledBinding = booleanExpressionViewModel.valueProperty().and(isEnabledBinding);
+        }
+        this.isEnabled = new SimpleBooleanProperty(true);
+        this.isEnabled.bind(isEnabledBinding);
+    }
+
+    @Override
+    public QuestionType getQuestionType() {
+        return this.question.getType();
     }
 
     public String getText() {
         return this.question.getText();
     }
 
-    protected void notifyPropertyChanged(){
-        this.listeners.forEach(questionObserver -> questionObserver.notifyValueChanged(this));
+    public String getName(){return this.question.getName();}
+
+    public BooleanProperty isEnabledProperty() {
+        return isEnabled;
     }
 
-    @Override
-    public void subscribeToPropertyChanged(PropertyChangedListener<QuestionViewModel> observer) {
-        this.listeners.add(observer);
+    public List<BooleanExpressionViewModel> getEnabledConditions() {
+        return this.conditions;
     }
 }
-

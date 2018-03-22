@@ -1,0 +1,4 @@
+form taxOfficeExample {
+	"test:"
+		a: int = (a)
+}

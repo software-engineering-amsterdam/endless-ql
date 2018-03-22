@@ -1,0 +1,4 @@
+form test {}
+---
+(form form test (block { }) <EOF>)
+

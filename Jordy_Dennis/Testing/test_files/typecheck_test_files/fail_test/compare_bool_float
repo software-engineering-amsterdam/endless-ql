@@ -1,0 +1,12 @@
+form test{
+	"Question"
+		a: float = (5.5)
+
+	"Question"
+	    b: bool = (true)
+
+	if(a == b){
+	"Question"
+	    c: int = (5)
+	}
+}

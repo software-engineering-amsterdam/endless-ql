@@ -1,5 +1,7 @@
 package qlviz.model.question;
 
+import qlviz.QLParser;
+
 public class StringQuestion extends Question {
     private String value;
 
@@ -11,8 +13,8 @@ public class StringQuestion extends Question {
         this.value = value;
     }
 
-    public StringQuestion(String name, String text, QuestionType type) {
-        super(name, text, type);
+    public StringQuestion(String name, String text, QuestionType type, QLParser.QuestionContext context) {
+        super(name, text, type, context);
     }
 
     @Override

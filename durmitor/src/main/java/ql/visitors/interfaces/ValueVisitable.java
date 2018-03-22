@@ -1,8 +1,8 @@
 package ql.visitors.interfaces;
 
-import ql.evaluator.value.Value;
+import ql.ast.expression.literal.Literal;
 
 public interface ValueVisitable {
     
-    public Value<?> accept(ValueVisitor visitor);
+    public Literal<?> accept(ValueVisitor visitor);
 }

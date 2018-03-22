@@ -1,6 +1,3 @@
-from pyql.ast import code_location
-
-
 class ASTNode:
 
     def __init__(self, location):

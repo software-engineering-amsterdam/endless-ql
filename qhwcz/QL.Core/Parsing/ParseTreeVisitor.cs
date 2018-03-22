@@ -1,16 +1,25 @@
-﻿using QL.Core.Ast;
-using static QL.Core.QLParser;
+﻿using static QL.Core.QLParser;
 using Antlr4.Runtime.Tree;
+using QL.Api.Ast;
+using QL.Api.Entities;
+using QL.Api.Factories;
 
 namespace QL.Core.Parsing
 {
     internal class ParseTreeVisitor : QLBaseVisitor<Node>
     {
+        private readonly IOperatorFactory _operatorFactory;
+
+        internal ParseTreeVisitor(IOperatorFactory operatorFactory)
+        {
+            _operatorFactory = operatorFactory;
+        }
+
         public override Node Visit(IParseTree tree)
         {
             if (tree == null)
             {
-                return new NullNode();
+                return null;
             }
 
             return base.Visit(tree);
@@ -25,14 +34,18 @@ namespace QL.Core.Parsing
             return form;
         }
 
+        private int _blockDepth = 0;
         public override Node VisitBlock(BlockContext context)
         {
-            var blockNode = new EmptyNode(context.Start);
+            _blockDepth++;
+
+            var blockNode = new BlockNode(context.Start, _blockDepth);
             foreach (StatementContext x in context.statement())
             {
                 blockNode.AddChild(Visit(x));
             }
 
+            _blockDepth--;
             return blockNode;
         }
 
@@ -52,11 +65,13 @@ namespace QL.Core.Parsing
 
         public override Node VisitQuestion(QuestionContext context)
         {
+            var expressionNode = Visit(context.expression());
             var question = new QuestionNode(context.Start,
                 context.STRING().GetText().Replace("\"", string.Empty),
                 context.LABEL().GetText(),
-                context.type().GetText());
-            question.AddChild(Visit(context.expression()));
+                expressionNode != null,
+                QLTypeConverter.FromStringTypeToQLType(context.type().GetText()));
+            question.AddChild(expressionNode);
 
             return question;
         }
@@ -88,19 +103,20 @@ namespace QL.Core.Parsing
 
         public override Node VisitLiteralExpression(LiteralExpressionContext context)
         {
-            return new LiteralNode(context.Start, context.literal().GetText());
+            QLType type = QLTypeConverter.FromTokenTypeToQLType(context.Start);
+            return new LiteralNode(context.Start, context.literal().GetText(), type);
         }
 
         public override Node VisitUnaryExpression(UnaryExpressionContext context)
         {
-            var expression = new ExpressionNode(context.Start, context.unaryOperator().GetText());
+            var expression = new ExpressionNode(context.Start, _operatorFactory.CreateUnaryOperator(context.unaryOperator().Start));
             expression.AddChild(Visit(context.expression()));
             return expression;
         }
 
         public override Node VisitBinaryExpression(BinaryExpressionContext context)
         {
-            var expression = new ExpressionNode(context.Start, context.binaryOperator().GetText());
+            var expression = new ExpressionNode(context.Start, _operatorFactory.CreateBinaryOperator(context.binaryOperator().Start));
             expression.AddChild(Visit(context.expression(0)));
             expression.AddChild(Visit(context.expression(1)));
             return expression;

@@ -11,3 +11,5 @@ public interface NumericExpressionVisitor {
     void visit(NumericNegation numericNegation);
     void visit(NumericQuestionReference numericQuestionReference);
 }
+
+

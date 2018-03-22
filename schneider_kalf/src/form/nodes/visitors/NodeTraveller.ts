@@ -4,14 +4,14 @@ import ComputedField from "../fields/ComputedField";
 import IfCondition from "../conditions/IfCondition";
 import FormNode from "../FormNode";
 import Addition from "../expressions/arithmetic/Addition";
-import NumberLiteral from "../expressions/arithmetic/NumberLiteral";
+import NumberLiteral from "../literals/NumberLiteral";
 import Multiplication from "../expressions/arithmetic/Multiplication";
 import Or from "../expressions/boolean_expressions/Or";
 import And from "../expressions/boolean_expressions/And";
 import Negation from "../expressions/boolean_expressions/Negation";
 import VariableIdentifier from "../expressions/VariableIdentifier";
 import Division from "../expressions/arithmetic/Division";
-import BooleanLiteral from "../expressions/boolean_expressions/BooleanLiteral";
+import BooleanLiteral from "../literals/BooleanLiteral";
 import Subtraction from "../expressions/arithmetic/Subtraction";
 import Equals from "../expressions/comparisons/Equals";
 import NotEqual from "../expressions/comparisons/NotEqual";
@@ -19,11 +19,12 @@ import LargerThan from "../expressions/comparisons/LargerThan";
 import LargerThanOrEqual from "../expressions/comparisons/LargerThanOrEqual";
 import SmallerThan from "../expressions/comparisons/SmallerThan";
 import SmallerThanOrEqual from "../expressions/comparisons/SmallerThanOrEqual";
-import StringLiteral from "../expressions/string/StringLiteral";
+import StringLiteral from "../literals/StringLiteral";
 import BinaryOperator from "../expressions/BinaryOperator";
 import VisitorCallback from "./VisitorCallback";
 import TreeNode from "../TreeNode";
 import Statement from "../Statement";
+import DateLiteral from "../literals/DateLiteral";
 
 export default class NodeTraveller implements NodeVisitor {
   private post: VisitorCallback;
@@ -149,6 +150,10 @@ export default class NodeTraveller implements NodeVisitor {
 
   visitStringLiteral(stringLiteral: StringLiteral): any {
     return this.visitPreAndPost(stringLiteral);
+  }
+
+  visitDateLiteral(dateLiteral: DateLiteral): any {
+    return this.visitPreAndPost(dateLiteral);
   }
 
 }

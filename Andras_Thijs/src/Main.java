@@ -1,44 +1,49 @@
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
+import AST.FormReader;
+import GUI.FormTemplate;
+import Nodes.QLForm;
+import QLExceptions.*;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 
 public class Main {
     public static void main (String[] args){
-
-        //FormDisplay form = new FormDisplay();
-        //form.displayForm();
-
-
-
-
         FormReader formReader = new FormReader();
 
-
-        CharStream testInput1 = CharStreams.fromString("");
-
-        CharStream testInput2 = CharStreams.fromString("foo");
-
-        CharStream testInput3 = CharStreams.fromString("form Box1HouseOwning {}");
-
-        CharStream testInput4 = CharStreams.fromString("form Box1HouseOwning { foo }");
-
-
         try {
-            QLForm form = formReader.parseFile("src\\test_grammar.txt");
-            List<Question> questions = form.getQuestions();
-            System.out.println("Form name: " + form.getName());
-            Iterator<Question> iterator = questions.iterator();
-            while (iterator.hasNext()) {
-                Question question = iterator.next();
-                System.out.println("Question: " + question.getName() + " Label: " + question.getLabel() + " Type: " + question.getString() );
-            }
+            QLForm form = formReader.parseFile("resources/test_order_of_operations.txt");
+            form.setParents();
+
+            // TODO: TESTING PURPOSES, REMOVE SOON.
+            for(Nodes.Question q : form.getQuestions())
+                if(q.expression != null) {
+                    q.getExpressionValue();
+                    System.out.println(q.getResult().getFloat());
+                }
+
+            for(Nodes.Condition c : form.getConditions())
+                if(c.expression != null) {
+                    c.getExpressionValue();
+                    System.out.println(c.getResult());
+                }
+            //\TODO
+
+            FormTemplate formGUI = new FormTemplate(form);
+            formGUI.renderForm();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        //TODO: Fix this
+        catch (SyntaxException e) {
+            System.out.println(e.getNode());
+            // There's a syntax error!
+            e.printStackTrace();
+        } catch (TypeException e) {
+            System.out.println(e.getNode());
+            System.out.println(e.getExpected());
+            System.out.println(e.getReceived());
+            // There's a Type error!
+            e.printStackTrace();
+        }
     }
 }

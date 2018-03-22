@@ -1,9 +1,10 @@
-import FieldType from "../../FieldType";
+import { FieldType } from "../../FieldType";
 import Field from "./FieldNode";
-import NodeVisitor from "../visitors/NodeVisitor";
 import FormState from "../../state/FormState";
+import FieldVisitor from "../visitors/FieldVisitor";
+import AbstractTreeNode from "../AbstractTreeNode";
 
-export default class Question implements Field {
+export default class Question extends AbstractTreeNode implements Field {
   readonly label: string;
   readonly identifier: string;
   readonly type: FieldType;
@@ -16,12 +17,13 @@ export default class Question implements Field {
    * @param {FieldType} type
    */
   constructor(identifier: string, label: string, type: FieldType) {
+    super();
     this.label = label;
     this.identifier = identifier;
     this.type = type;
   }
 
-  accept(visitor: NodeVisitor): any {
+  accept(visitor: FieldVisitor): any {
     return visitor.visitQuestion(this);
   }
 
@@ -29,7 +31,7 @@ export default class Question implements Field {
     return false;
   }
 
-  getAnswer(state: FormState) {
+  computeAnswer(state: FormState) {
     return state.get(this.identifier);
   }
 }

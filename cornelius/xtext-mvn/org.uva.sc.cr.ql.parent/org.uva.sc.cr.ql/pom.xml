@@ -246,5 +246,10 @@
 			<version>2.9.1.201705291010</version>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.joda</groupId>
+			<artifactId>joda-money</artifactId>
+			<version>0.12</version>
+		</dependency>
 	</dependencies>
 </project>

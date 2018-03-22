@@ -1,53 +1,53 @@
 package ql.evaluator.comparisons.equal;
 
+import ql.ast.expression.literal.BoolLiteral;
+import ql.ast.expression.literal.DateLiteral;
+import ql.ast.expression.literal.DecimalLiteral;
+import ql.ast.expression.literal.IntLiteral;
+import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.MoneyLiteral;
+import ql.ast.expression.literal.StrLiteral;
+import ql.ast.expression.literal.UndefinedLiteral;
 import ql.evaluator.AbstractEvaluator;
-import ql.evaluator.value.Bool;
-import ql.evaluator.value.Date;
-import ql.evaluator.value.Decimal;
-import ql.evaluator.value.Int;
-import ql.evaluator.value.Money;
-import ql.evaluator.value.Str;
-import ql.evaluator.value.Undefined;
-import ql.evaluator.value.Value;
 
-public class IntEqual extends AbstractEvaluator<Int> {
+public class IntEqual extends AbstractEvaluator<IntLiteral> {
 
-    public IntEqual(Int firstOperand) {
+    public IntEqual(IntLiteral firstOperand) {
         super(firstOperand);
     }
 
     @Override
-    public Value<?> visit(Bool secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(BoolLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Str secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(StrLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Int secondOperand) {
-        return new Bool(firstOperand.getValue() == secondOperand.getValue());
+    public Literal<?> visit(IntLiteral secondOperand) {
+        return new BoolLiteral(firstOperand.getValue() == secondOperand.getValue());
     }
 
     @Override
-    public Value<?> visit(Decimal secondOperand) {
-        return new Bool(firstOperand.getValue().doubleValue() == secondOperand.getValue());
+    public Literal<?> visit(DecimalLiteral secondOperand) {
+        return new BoolLiteral(firstOperand.getValue().doubleValue() == secondOperand.getValue());
     }
 
     @Override
-    public Value<?> visit(Money secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(MoneyLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Date secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(DateLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 
     @Override
-    public Value<?> visit(Undefined secondOperand) {
-        return new Undefined();
+    public Literal<?> visit(UndefinedLiteral secondOperand) {
+        return new UndefinedLiteral();
     }
 }

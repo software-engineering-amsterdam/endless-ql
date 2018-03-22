@@ -53,12 +53,21 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#question.
-    def enterQuestion(self, ctx:QLParser.QuestionContext):
+    # Enter a parse tree produced by QLParser#basicQuestion.
+    def enterBasicQuestion(self, ctx:QLParser.BasicQuestionContext):
         pass
 
-    # Exit a parse tree produced by QLParser#question.
-    def exitQuestion(self, ctx:QLParser.QuestionContext):
+    # Exit a parse tree produced by QLParser#basicQuestion.
+    def exitBasicQuestion(self, ctx:QLParser.BasicQuestionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#computedQuestion.
+    def enterComputedQuestion(self, ctx:QLParser.ComputedQuestionContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#computedQuestion.
+    def exitComputedQuestion(self, ctx:QLParser.ComputedQuestionContext):
         pass
 
 
@@ -188,12 +197,30 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#unExpression.
-    def enterUnExpression(self, ctx:QLParser.UnExpressionContext):
+    # Enter a parse tree produced by QLParser#negNotUnExpression.
+    def enterNegNotUnExpression(self, ctx:QLParser.NegNotUnExpressionContext):
         pass
 
-    # Exit a parse tree produced by QLParser#unExpression.
-    def exitUnExpression(self, ctx:QLParser.UnExpressionContext):
+    # Exit a parse tree produced by QLParser#negNotUnExpression.
+    def exitNegNotUnExpression(self, ctx:QLParser.NegNotUnExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#primaryUnExpression.
+    def enterPrimaryUnExpression(self, ctx:QLParser.PrimaryUnExpressionContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#primaryUnExpression.
+    def exitPrimaryUnExpression(self, ctx:QLParser.PrimaryUnExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLParser#primary.
+    def enterPrimary(self, ctx:QLParser.PrimaryContext):
+        pass
+
+    # Exit a parse tree produced by QLParser#primary.
+    def exitPrimary(self, ctx:QLParser.PrimaryContext):
         pass
 
 
@@ -248,15 +275,6 @@ class QLListener(ParseTreeListener):
 
     # Exit a parse tree produced by QLParser#identifier.
     def exitIdentifier(self, ctx:QLParser.IdentifierContext):
-        pass
-
-
-    # Enter a parse tree produced by QLParser#money.
-    def enterMoney(self, ctx:QLParser.MoneyContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#money.
-    def exitMoney(self, ctx:QLParser.MoneyContext):
         pass
 
 

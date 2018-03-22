@@ -37,6 +37,7 @@ NOT=36
 NUM=37
 VAR=38
 LABEL=39
+DEC=40
 'form'=4
 'boolean'=5
 'string'=6

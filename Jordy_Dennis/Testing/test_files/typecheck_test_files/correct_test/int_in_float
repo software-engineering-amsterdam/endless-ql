@@ -1,0 +1,6 @@
+form test{
+	"Question"
+		g: float = (5)
+}
+---
+[[['Assign: g', <class 'float'>]]]

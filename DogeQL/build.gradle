@@ -2,7 +2,7 @@ group 'doge'
 version '1.0.0'
 
 buildscript {
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.30'
 
     repositories {
         mavenCentral()
@@ -36,6 +36,8 @@ dependencies {
     antlr "org.antlr:antlr4:4.5"
 
     implementation 'org.kodein:kodein-generic-jvm:5.0.0-beta4'
+
+    implementation 'no.tornado:tornadofx:1.7.15'
 
     testImplementation 'org.amshove.kluent:kluent:1.34'
 

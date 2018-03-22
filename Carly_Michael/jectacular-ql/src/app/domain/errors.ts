@@ -1,29 +1,34 @@
-export interface Error {
-  type: string;
-  message: string;
-}
-
 export class UnsupportedTypeError implements Error {
-  type = 'UnsupportedType';
+  name = 'UnsupportedType';
   constructor(public message: string) { }
 }
 
 export class UnknownQuestionError implements Error {
-  type = 'UnknownQuestion';
+  name = 'UnknownQuestion';
   constructor(public message: string) {}
 }
 
 export class TypeError implements Error {
-  type = 'TypeError';
+  name = 'TypeError';
   constructor(public message: string) {}
 }
 
 export class DuplicateIdentifierError implements Error {
-  type = 'DuplicateIdentifier';
+  name = 'DuplicateIdentifier';
   constructor(public message: string) {}
 }
 
-export class UnknownOperatorError implements Error {
-  type = 'UnknownOperator';
+export class MissingIdentifierError implements Error {
+  name = 'MissingIdentifier';
+  constructor(public message: string) {}
+}
+
+export class CircularDependencyError implements Error {
+  name = 'CircularDependency';
+  constructor(public message: string) {}
+}
+
+export class ImpossibleIfConditionError implements Error {
+  name = 'ImpossibleIfCondition';
   constructor(public message: string) {}
 }

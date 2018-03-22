@@ -6,6 +6,7 @@ import Field from "../../../form/nodes/fields/FieldNode";
 export interface FormComponentProps {
   form: Form;
   onChange: (identifier: string, value: any) => void;
+  visibleFields: Set<string>;
 }
 
 export const FormComponent: React.SFC<FormComponentProps> = (props) => {
@@ -15,19 +16,23 @@ export const FormComponent: React.SFC<FormComponentProps> = (props) => {
 
   const renderFields = () => {
     return props.form.getFields().map((field: Field) => {
+      if (!props.visibleFields.has(field.identifier)) {
+        return null;
+      }
+
       return (
           <FieldContainer
               onChange={onChange(field.identifier)}
               key={field.identifier}
               field={field}
-              value={props.form.getAnswer(field.identifier)}
+              value={props.form.getState().get(field.identifier)}
           />);
     });
   };
 
   return (
-      <div>
-        <h1>FORM: {props.form.getName()}</h1>
+      <div className="ql-form">
+        <h1>Form ({props.form.getName()})</h1>
         {renderFields()}
       </div>
   );

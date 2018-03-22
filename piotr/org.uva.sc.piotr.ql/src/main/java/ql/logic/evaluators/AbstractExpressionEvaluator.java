@@ -11,7 +11,10 @@ import ql.ast.model.expressions.unary.arithmetics.Minus;
 import ql.ast.model.expressions.unary.logical.Negation;
 import ql.ast.model.expressions.values.Literal;
 import ql.ast.visitors.AbstractASTTraverse;
-import ql.logic.type.*;
+import ql.logic.type.QLBoolean;
+import ql.logic.type.QLDataTypeWrapper;
+import ql.logic.type.QLNumeric;
+import ql.logic.type.QLSummable;
 
 public abstract class AbstractExpressionEvaluator extends AbstractASTTraverse<QLDataTypeWrapper> {
 

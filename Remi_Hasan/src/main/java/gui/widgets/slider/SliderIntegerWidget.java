@@ -1,8 +1,7 @@
-package gui.widgets;
+package gui.widgets.slider;
 
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
-import ql.model.expression.variable.ExpressionVariableDecimal;
 import ql.model.expression.variable.ExpressionVariableInteger;
 
 public class SliderIntegerWidget extends SliderWidget {

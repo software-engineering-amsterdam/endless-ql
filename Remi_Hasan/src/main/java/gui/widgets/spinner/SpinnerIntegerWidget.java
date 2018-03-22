@@ -1,5 +1,6 @@
-package gui.widgets;
+package gui.widgets.spinner;
 
+import gui.widgets.WidgetUtils;
 import javafx.scene.control.SpinnerValueFactory;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;

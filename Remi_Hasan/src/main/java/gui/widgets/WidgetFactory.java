@@ -1,5 +1,9 @@
 package gui.widgets;
 
+import gui.widgets.textbox.TextboxDecimalWidget;
+import gui.widgets.textbox.TextboxIntegerWidget;
+import gui.widgets.textbox.TextboxMoneyWidget;
+import gui.widgets.textbox.TextboxWidget;
 import ql.model.expression.ReturnType;
 
 public class WidgetFactory {
@@ -7,13 +11,13 @@ public class WidgetFactory {
     public static GUIWidget getDefaultWidget(ReturnType questionType) {
         switch (questionType) {
             case STRING:
-                return new TextWidget();
+                return new TextboxWidget();
             case INTEGER:
-                return new SliderIntegerWidget(0, 3);
+                return new TextboxIntegerWidget();
             case DECIMAL:
-                return new SliderDecimalWidget(0, 10);
+                return new TextboxDecimalWidget();
             case MONEY:
-                return new SliderMoneyWidget(0, 10);
+                return new TextboxMoneyWidget();
             case DATE:
                 return new DateWidget();
             case BOOLEAN:

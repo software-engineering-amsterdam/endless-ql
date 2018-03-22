@@ -1,14 +1,15 @@
-package gui.widgets;
+package gui.widgets.textbox;
 
+import gui.widgets.WidgetUtils;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableInteger;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
-public class IntegerWidget extends TextWidget {
+public class TextboxIntegerWidget extends TextboxWidget {
 
-    public IntegerWidget() {
+    public TextboxIntegerWidget() {
         this.setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*"));
     }
 

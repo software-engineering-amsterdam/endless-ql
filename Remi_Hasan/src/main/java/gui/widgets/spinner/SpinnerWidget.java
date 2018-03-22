@@ -1,5 +1,6 @@
-package gui.widgets;
+package gui.widgets.spinner;
 
+import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;

@@ -23,11 +23,11 @@ public class QuestionRenderer extends QLSVisitor<GUIWidget> {
 //            case STRING:
 //                return new StringWidget(question);
 //            case INTEGER:
-//                return new IntegerWidget(question);
+//                return new TextboxIntegerWidget(question);
 //            case DECIMAL:
-//                return new DecimalWidget(question);
+//                return new TextboxDecimalWidget(question);
 //            case MONEY:
-//                return new MoneyWidget(question);
+//                return new TextboxMoneyWidget(question);
 //            case DATE:
 //                return new DateWidget(question);
 //            case BOOLEAN:
@@ -53,11 +53,11 @@ public class QuestionRenderer extends QLSVisitor<GUIWidget> {
 //            case STRING:
 //                return new StringWidget(question);
 //            case INTEGER:
-//                return new IntegerWidget(question);
+//                return new TextboxIntegerWidget(question);
 //            case DECIMAL:
-//                return new DecimalWidget(question);
+//                return new TextboxDecimalWidget(question);
 //            case MONEY:
-//                return new MoneyWidget(question);
+//                return new TextboxMoneyWidget(question);
 //            default:
 //                throw new UnsupportedOperationException("Invalid type for textbox widget");
 //        }

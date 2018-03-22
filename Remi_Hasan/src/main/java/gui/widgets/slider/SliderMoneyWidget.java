@@ -1,4 +1,4 @@
-package gui.widgets;
+package gui.widgets.slider;
 
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
@@ -6,7 +6,6 @@ import ql.model.expression.variable.ExpressionVariableMoney;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 public class SliderMoneyWidget extends SliderWidget {
     public SliderMoneyWidget(double min, double max) {

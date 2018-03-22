@@ -1,5 +1,6 @@
-package gui.widgets;
+package gui.widgets.textbox;
 
+import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
@@ -9,7 +10,7 @@ import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableString;
 
-public class TextWidget extends TextField implements GUIWidget {
+public class TextboxWidget extends TextField implements GUIWidget {
 
     @Override
     public Expression getExpressionValue() {

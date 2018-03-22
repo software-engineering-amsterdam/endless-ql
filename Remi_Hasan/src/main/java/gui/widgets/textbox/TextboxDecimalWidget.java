@@ -1,14 +1,15 @@
-package gui.widgets;
+package gui.widgets.textbox;
 
+import gui.widgets.WidgetUtils;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableDecimal;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
-public class DecimalWidget extends TextWidget {
+public class TextboxDecimalWidget extends TextboxWidget {
 
-    public DecimalWidget() {
+    public TextboxDecimalWidget() {
         this.setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*(\\.\\d*)?"));
     }
 

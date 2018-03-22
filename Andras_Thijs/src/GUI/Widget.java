@@ -4,6 +4,7 @@ import Nodes.Type;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusListener;
 
 public class Widget {
     private Type type;
@@ -14,14 +15,15 @@ public class Widget {
         this.component = component;
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T getValue(){
         switch (this.type){
-            case BOOL: return (T) new Boolean(((JCheckBox)this.component).isSelected());
-            case STRING: return (T) new String(((JTextField)this.component).getText());
-            case MONEY: return (T) new Float(((JTextField)this.component).getText());
-            case INT: return (T) new Float(((JTextField)this.component).getText());
-            case DECIMAL: return (T) new Float(((JTextField)this.component).getText());
-            case DATE: return (T) new Float(((JTextField)this.component).getText());
+            case BOOL: return (T) (Boolean)(((JCheckBox)this.component).isSelected());
+            case STRING: return (T) (((JTextField)this.component).getText());
+            case MONEY: return (T) (Float) Float.parseFloat(((JTextField)this.component).getText());
+            case INT: return (T) (Float) Float.parseFloat(((JTextField)this.component).getText());
+            case DECIMAL: return (T) (Float) Float.parseFloat(((JTextField)this.component).getText());
+            case DATE: return (T) (Float) Float.parseFloat(((JTextField)this.component).getText());
             default: return  null;
         }
     }

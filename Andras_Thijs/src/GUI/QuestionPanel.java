@@ -29,15 +29,36 @@ public class QuestionPanel extends JPanel{
         setVisibility();
     }
 
-    private void updateTerm() {
-        switch (widget.getType()){
-            case BOOL: this.question.updateTerm(new TermFactory().getTerm((boolean)this.widget.getValue()));break;
-            case STRING: this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));break;
-            case MONEY: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
-            case INT: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
-            case DECIMAL: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
-            case DATE: this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));break; //TODO do something with date
-            default: break;
+    private void updateTerm() throws TypeException {
+        if(question.hasExpression()) {
+            try {
+                question.getExpressionValue();
+            } catch (TypeException e) {
+                e.printStackTrace();
+            } catch (SyntaxException e) {
+                e.printStackTrace();
+            }
+            if(question.getResult() == null)
+                return;
+            switch (widget.getType()){
+                case BOOL: ((JCheckBox)widget.getComponent()).setSelected(question.getResult().getBoolean());break;
+                case STRING: ((JTextField)widget.getComponent()).setText(question.getResult().getString());break;
+                case MONEY: ((JTextField)widget.getComponent()).setText(String.valueOf(question.getResult().getFloat()));break;
+                case INT: ((JTextField)widget.getComponent()).setText(String.valueOf(question.getResult().getFloat()));break;
+                case DECIMAL: ((JTextField)widget.getComponent()).setText(String.valueOf(question.getResult().getFloat()));break;
+                case DATE: ((JTextField)widget.getComponent()).setText(question.getResult().getString());break; //TODO do something with date
+                default: break;
+            }
+        } else {
+            switch (widget.getType()){
+                case BOOL: this.question.updateTerm(new TermFactory().getTerm((boolean)this.widget.getValue()));break;
+                case STRING: this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));break;
+                case MONEY: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
+                case INT: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
+                case DECIMAL: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
+                case DATE: this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));break; //TODO do something with date
+                default: break;
+            }
         }
 
     }

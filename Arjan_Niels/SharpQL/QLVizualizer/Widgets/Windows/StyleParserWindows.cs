@@ -6,20 +6,20 @@ namespace QLVisualizer.Widgets.Windows
 {
     public class StyleParserWindows : IStyleParser
     {
-        private static Dictionary<string, Tuple<StyleProperties, QValueType>> _supportedStyleProperties
+        private static Dictionary<string, Tuple<StyleProperty, QValueType>> _supportedStyleProperties
         {
             get
             {
-                return new Dictionary<string, Tuple<StyleProperties, QValueType>>()
+                return new Dictionary<string, Tuple<StyleProperty, QValueType>>()
                 {
-                    {"Height", new Tuple<StyleProperties, QValueType>(StyleProperties.Height,                   QValueType.INTEGER) },
-                    {"Width", new Tuple<StyleProperties, QValueType>(StyleProperties.Width,                     QValueType.INTEGER) },
-                    {"Margin-Top", new Tuple<StyleProperties, QValueType>(StyleProperties.TopMargin,            QValueType.INTEGER) },
-                    {"Margin-Bottom", new Tuple<StyleProperties, QValueType>(StyleProperties.BottomMargin,      QValueType.INTEGER) },
-                    {"BackgroundColor", new Tuple<StyleProperties, QValueType>(StyleProperties.BackgroundColor, QValueType.HEX) },
-                    {"Font", new Tuple<StyleProperties, QValueType>(StyleProperties.Font,                       QValueType.TEXT) },
-                    {"FontSize", new Tuple<StyleProperties, QValueType>(StyleProperties.FontSize,               QValueType.INTEGER) },
-                    {"TextColor", new Tuple<StyleProperties, QValueType>(StyleProperties.TextColor,             QValueType.HEX) }
+                    {"Height", new Tuple<StyleProperty, QValueType>(StyleProperty.Height,                   QValueType.INTEGER) },
+                    {"Width", new Tuple<StyleProperty, QValueType>(StyleProperty.Width,                     QValueType.INTEGER) },
+                    {"Margin-Top", new Tuple<StyleProperty, QValueType>(StyleProperty.TopMargin,            QValueType.INTEGER) },
+                    {"Margin-Bottom", new Tuple<StyleProperty, QValueType>(StyleProperty.BottomMargin,      QValueType.INTEGER) },
+                    {"BackgroundColor", new Tuple<StyleProperty, QValueType>(StyleProperty.BackgroundColor, QValueType.HEX) },
+                    {"Font", new Tuple<StyleProperty, QValueType>(StyleProperty.Font,                       QValueType.TEXT) },
+                    {"FontSize", new Tuple<StyleProperty, QValueType>(StyleProperty.FontSize,               QValueType.INTEGER) },
+                    {"TextColor", new Tuple<StyleProperty, QValueType>(StyleProperty.TextColor,             QValueType.HEX) }
                 };
             }
         }

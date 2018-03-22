@@ -1,4 +1,4 @@
-package com.chariotit.uva.sc.qdsl.ast.cyclechecker;
+package com.chariotit.uva.sc.qdsl.ast.cyclechecker.tree;
 
 import java.util.HashMap;
 import java.util.Map;

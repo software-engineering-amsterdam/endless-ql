@@ -1,5 +1,10 @@
 package com.chariotit.uva.sc.qdsl.ast.cyclechecker;
 
+import com.chariotit.uva.sc.qdsl.ast.cyclechecker.queue.NodeQueue;
+import com.chariotit.uva.sc.qdsl.ast.cyclechecker.queue.QueuedNode;
+import com.chariotit.uva.sc.qdsl.ast.cyclechecker.tree.DependencyTree;
+import com.chariotit.uva.sc.qdsl.ast.cyclechecker.tree.Node;
+
 import java.util.*;
 
 public class CycleChecker {

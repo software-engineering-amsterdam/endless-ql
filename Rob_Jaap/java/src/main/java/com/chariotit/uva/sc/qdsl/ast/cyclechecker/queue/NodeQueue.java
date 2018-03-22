@@ -1,4 +1,4 @@
-package com.chariotit.uva.sc.qdsl.ast.cyclechecker;
+package com.chariotit.uva.sc.qdsl.ast.cyclechecker.queue;
 
 import java.util.ArrayList;
 import java.util.List;

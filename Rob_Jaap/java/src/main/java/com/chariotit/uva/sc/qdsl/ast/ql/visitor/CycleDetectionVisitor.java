@@ -1,7 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.visitor;
 
-import com.chariotit.uva.sc.qdsl.ast.cyclechecker.DependencyTree;
-import com.chariotit.uva.sc.qdsl.ast.cyclechecker.Node;
+import com.chariotit.uva.sc.qdsl.ast.cyclechecker.tree.DependencyTree;
+import com.chariotit.uva.sc.qdsl.ast.cyclechecker.tree.Node;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.BooleanConstant;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.IntegerConstant;

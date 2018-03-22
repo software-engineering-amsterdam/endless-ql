@@ -31,7 +31,7 @@ import java.util.Arrays;
 public class StyleEvaluator {
 
     private Stylesheet stylesheet;
-    private StylesheetContext context;
+    private final StylesheetContext context;
 
     private Map<String, WidgetType> defaultTypes = new HashMap<>();
 
@@ -41,6 +41,7 @@ public class StyleEvaluator {
     private Style defaultStyle;
 
     public StyleEvaluator() {
+        this.context = new StylesheetContext();
         setDefaultWidgetTypes();
         setDefaultStyle();
 
@@ -48,7 +49,7 @@ public class StyleEvaluator {
 
     public void setStylesheet(Stylesheet stylesheet) {
         this.stylesheet = stylesheet;
-        this.context = new StylesheetContext(stylesheet);
+        this.context.setStylesheet(stylesheet);
         generateSections();
     }
 
@@ -62,10 +63,6 @@ public class StyleEvaluator {
         for (Segment segment : context.getAllParents(key)) {
             visibleSections.add(segment.getId());
         }
-    }
-
-    public QuestionReference getQuestionReference(Question question) {
-        return this.context.getQuestionReference(question);
     }
 
     public JTabbedPane getLayout(JTabbedPane tabbedPane) {

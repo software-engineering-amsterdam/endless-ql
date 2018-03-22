@@ -126,42 +126,34 @@ class QLTypeChecker(object):
 
     # Check for operands of invalid type with regard to operators.
     def checkInvalidOperations(self, statement):
-        left_type = ""
-        right_type = ""
         operator = statement.op
 
-        if type(statement.left) is BinOpNode:
-            left_type = self.checkInvalidOperations(statement.left)
-
-        elif type(statement.left) is UnOpNode:
-            self.checkUndefinedVariables(statement.left)
-            left_type = self.getVariableTypes(statement.left)
-
-        elif type(statement.left) is LiteralNode:
-            if statement.left.literal.isdigit():
-                left_type = INTEGER_UNICODE
-
-        if type(statement.right) is BinOpNode:
-            right_type = self.checkInvalidOperations(statement.right)
-
-        elif type(statement.right) is UnOpNode:
-            self.checkUndefinedVariables(statement.right)
-            right_type = self.getVariableTypes(statement.right)
-
-        elif type(statement.right) is LiteralNode:
-            if statement.right.literal.isdigit():
-                right_type = INTEGER_UNICODE
+        left_type = self.getStatementType(statement.left)
+        right_type = self.getStatementType(statement.right)
 
         self.checkNegation(statement.left, left_type)
         self.checkNegation(statement.right, right_type)
-        self.checkNegation(statement, left_type)
 
-        self.checkOperation(statement, left_type, right_type, operator)
+        overall_type = self.checkOperation(statement, left_type, right_type, operator)
+        self.checkNegation(statement, overall_type)
 
-        if operator == "<" or operator == ">" or operator == "<=" or operator == ">=" or operator == "==" or operator == "!=":
-            return BOOLEAN_UNICODE
+        return overall_type
 
-        return left_type
+
+    def getStatementType(self, statement):
+        node_type = statement.getNodeType()
+        if node_type is "binop":
+            statement_type = self.checkInvalidOperations(statement)
+
+        elif node_type is "unop":
+            self.checkUndefinedVariables(statement)
+            statement_type = self.getVariableTypes(statement)
+
+        elif node_type is "literal":
+            if statement.literal.isdigit():
+                statement_type = INTEGER_UNICODE
+
+        return statement_type
 
 
     # Check if negation on a given node is allowed.
@@ -187,7 +179,7 @@ class QLTypeChecker(object):
         return variable_type
 
 
-    # Check if the operation has correct input.
+    # Check if the operation has correct input and returns the output type.
     def checkOperation(self, statement, left_type, right_type, operator):
         if operator == "&&" or operator == "||":
             if left_type != BOOLEAN_UNICODE or right_type != BOOLEAN_UNICODE:
@@ -197,11 +189,16 @@ class QLTypeChecker(object):
             if left_type != right_type:
                 exitProgram("Operation ({}) has invalid types.".format(statement))
 
-        else:
+        elif operator == "<" or operator == ">" or operator == "<=" or operator == ">=":
             if left_type != INTEGER_UNICODE or right_type != INTEGER_UNICODE:
                 exitProgram("Operation ({}) has invalid types.".format(statement))
 
-        return
+        else:
+            if left_type != INTEGER_UNICODE or right_type != INTEGER_UNICODE:
+                exitProgram("Operation ({}) has invalid types.".format(statement))
+            return INTEGER_UNICODE
+
+        return BOOLEAN_UNICODE
 
 
 def exitProgram(message):

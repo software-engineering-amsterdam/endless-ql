@@ -22,8 +22,8 @@ import static org.junit.Assert.assertTrue;
 public class TypeCheckerTest {
 
     @Test
-    public void runCheckTestInput() {
-        String input = new IOHandler().readFile("input/test/typeChecker.ql");
+    public void runCheckTestInputCalculation() {
+        String input = new IOHandler().readFile("input/test/typeCalculation.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
@@ -34,6 +34,18 @@ public class TypeCheckerTest {
         assertTrue(typeChecker.runCheck().hasErrors());
     }
 
+    @Test
+    public void runCheckTestInputConditional() {
+        String input = new IOHandler().readFile("input/test/typeConditional.ql");
+        ASTBuilder builder = new ASTBuilder();
+        Form form = builder.buildAST(input);
+
+        SymbolTable symbolTable = new SymbolTable(form);
+
+        TypeChecker typeChecker = new TypeChecker(form, symbolTable);
+
+        assertTrue(typeChecker.runCheck().hasErrors());
+    }
 
     @Test
     public void correctTypesRunCheck() {

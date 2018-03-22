@@ -88,15 +88,7 @@ public class GUIHandler {
         this.tabbedPane = new JTabbedPane();
         frame.add(styleEvaluator.getLayout(this.tabbedPane));
 
-        JPanel savePanel = new JPanel();
-        savePanel.setLayout(new BorderLayout());
-
-        JButton saveButton = new JButton("Submit");
-        saveButton.addActionListener(e -> {saveAndQuit();});
-
-        savePanel.add(saveButton, BorderLayout.SOUTH);
-
-        this.frame.add(savePanel);
+        this.frame.add(initializeSaveButton());
 
         setFocus(this.lastChangedQuestion);
         frame.setVisible(true);
@@ -114,8 +106,17 @@ public class GUIHandler {
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.frame.setSize(750, 600);
         this.frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+    }
 
+    private JPanel initializeSaveButton(){
+        JPanel savePanel = new JPanel();
+        savePanel.setLayout(new BorderLayout());
 
+        JButton saveButton = new JButton("Submit");
+        saveButton.addActionListener(e -> {saveAndQuit();});
+
+        savePanel.add(saveButton, BorderLayout.SOUTH);
+        return savePanel;
     }
 
     private void saveAndQuit(){

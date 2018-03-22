@@ -2,7 +2,7 @@
     Generate the questions from the varDict and Ast
 """
 
-from AST import *
+from QL import *
 from QLS import *
 import copy
 

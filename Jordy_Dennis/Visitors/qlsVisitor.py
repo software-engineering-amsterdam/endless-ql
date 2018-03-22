@@ -1,7 +1,7 @@
 from Grammar.QLSGrammarParser import QLSGrammarParser
 from Grammar.QLSGrammarVisitor import QLSGrammarVisitor
-from qlVisitor import mapStringToType
-from AST import *
+from Visitors.qlVisitor import mapStringToType
+from QL import *
 from QLS import *
 import logging
 

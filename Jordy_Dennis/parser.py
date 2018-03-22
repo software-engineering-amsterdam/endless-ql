@@ -13,8 +13,8 @@ from GUI import *
 # generateParsers()
 
 # Import the generated files
-from qlVisitor import QLVisitor
-from qlsVisitor import QLSVisitor
+from Visitors.qlVisitor import QLVisitor
+from Visitors.qlsVisitor import QLSVisitor
 from Grammar.QLGrammarLexer import QLGrammarLexer
 from Grammar.QLGrammarParser import QLGrammarParser
 from Grammar.QLSGrammarLexer import QLSGrammarLexer
@@ -61,7 +61,7 @@ def main(argv):
     if len(argv) > 1:
         input_file = argv[1]
     else:
-        input_file = 'test_ql'
+        input_file = 'TestFiles/test_ql'
     input = FileStream(input_file)
     lexer = QLGrammarLexer(input)
     stream = CommonTokenStream(lexer)
@@ -82,7 +82,7 @@ def main(argv):
     if len(argv) > 2:
         input_file = argv[2]
     else:
-        input_file = 'test_qls'
+        input_file = 'TestFiles/test_qls'
     input = FileStream(input_file)
     lexer = QLSGrammarLexer(input)
     stream = CommonTokenStream(lexer)

@@ -48,15 +48,15 @@ public abstract class Widget extends Renderable {
         return null;
     }
 
-    public Widget linkToOtherWidget(Widget checkBoxWidget, QuestionData questionData) {
+    public Widget linkToOtherWidget(Widget widget, QuestionData questionData) {
         DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
-        checkBoxWidget.addListener(this::sendUpdateValueEvent);
-        WidgetValueUpdate updater = new WidgetValueUpdate(checkBoxWidget);
+        widget.addListener(this::sendUpdateValueEvent);
+        WidgetValueUpdate updater = new WidgetValueUpdate(widget);
         Value value = questionData.getValue();
         if(value == null)
             value = defaultValueFactory.getDefaultValue(questionData.getNodeType());
         updater.updateWidget(value);
-        return checkBoxWidget;
+        return widget;
     }
 
     public String getIdentifier() {

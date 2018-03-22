@@ -19,12 +19,15 @@ public abstract class Renderable {
 
     public abstract Node render(Map<String, VBox> containers);
 
-    protected Node drawComponent(String label, Node widget) {
+    protected Node createRow(String label, Node widget) {
+        return createRow(label, widget, "");
+    }
+
+    protected Node createRow(String label, Control widget, String extraLabel) {
         GridPane wrapper = new GridPane();
         wrapper.getColumnConstraints().add(new ColumnConstraints(Renderable.COLUMN));
         wrapper.getRowConstraints().add(new RowConstraints(Renderable.ROW));
-        wrapper.add(this.createLabel(label), 0, 0);
-        wrapper.add(widget, 1, 0);
+        wrapper.addRow(0, this.createLabel(label), this.createLabel(extraLabel), widget);
         return wrapper;
     }
 

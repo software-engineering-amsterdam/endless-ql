@@ -26,9 +26,9 @@ public class QLSWidgetFactory extends QLWidgetFactory {
         this.nodeTypeClasses.put(NodeType.BOOLEAN, CheckBoxWidgetQLS.class);
         this.nodeTypeClasses.put(NodeType.DECIMAL, TextFieldWidgetQLS.class);
         this.nodeTypeClasses.put(NodeType.INTEGER, TextFieldWidgetQLS.class);
-        this.nodeTypeClasses.put(NodeType.MONEY_EURO, TextFieldWidgetQLS.class);
-        this.nodeTypeClasses.put(NodeType.MONEY_DOLLAR, TextFieldWidgetQLS.class);
-        this.nodeTypeClasses.put(NodeType.DATE, TextFieldWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.MONEY_EURO, MoneyWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.MONEY_DOLLAR, MoneyWidgetQLS.class);
+        this.nodeTypeClasses.put(NodeType.DATE, DateWidgetQLS.class);
         this.nodeTypeClasses.put(NodeType.STRING, TextFieldWidgetQLS.class);
     }
 

@@ -19,7 +19,6 @@ import org.uva.sea.languages.QlSEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -141,7 +140,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
      * @param message
      */
     private void displayError(String message) {
-        alertBuilder.buildError(message).show();
+        this.alertBuilder.buildError(message).show();
     }
 
     /**
@@ -150,7 +149,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
      * @param message
      */
     private void displayInfo(String message) {
-        alertBuilder.buildInfo(message).show();
+        this.alertBuilder.buildInfo(message).show();
     }
 
     /**
@@ -159,7 +158,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
      * @param message
      */
     private void displayWarning(String message) {
-        alertBuilder.buildWarning(message).show();
+        this.alertBuilder.buildWarning(message).show();
     }
 
     @Override
@@ -177,7 +176,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
         try {
             File file = new FileSelector("Choose file to save", "JSON", "*.json").getFile();
             Writer writer = new FileWriter(file.getAbsolutePath());
-            String json = new GsonBuilder().create().toJson(createObjectToSave(this.formModel));
+            String json = new GsonBuilder().create().toJson(this.createObjectToSave(this.formModel));
             writer.write(json);
             writer.close();
             this.displayInfo("Saved file in: " + file.getName());
@@ -199,7 +198,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
             return hashMap;
 
         for (QuestionData questionData : questionModel.getEvaluationResults().getQuestions()) {
-            String value = "";
+            String value;
             if (questionData.getValue() == null) {
                 value = "null";
             } else {

@@ -241,4 +241,8 @@ public class MoneyValue extends Value {
     public String toString() {
         return (this.amount != null) ? (this.currency + this.amount) : "No value";
     }
+
+    public MoneyValue clone() throws CloneNotSupportedException {
+        return (MoneyValue) super.clone();
+    }
 }

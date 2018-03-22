@@ -3,6 +3,7 @@ package org.uva.sea.gui.widget.ql;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.text.Font;
+import org.uva.sea.gui.components.Renderable;
 import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
@@ -45,7 +46,7 @@ public class CheckBoxWidget extends Widget {
         if (style.getWidth() != null) {
             checkBox.setMinWidth(style.getWidth());
         }else{
-            checkBox.setMinWidth(Widget.TEXT_WIDTH);
+            checkBox.setMinWidth(Renderable.TEXT_WIDTH);
         }
     }
 }

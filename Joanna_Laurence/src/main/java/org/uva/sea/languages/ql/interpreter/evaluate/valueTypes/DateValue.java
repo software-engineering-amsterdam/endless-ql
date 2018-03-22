@@ -118,4 +118,8 @@ public class DateValue extends Value {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY", Locale.ENGLISH);
         return formatter.format(this.dateValue.getTime());
     }
+
+    public DateValue clone() throws CloneNotSupportedException {
+        return (DateValue) super.clone();
+    }
 }

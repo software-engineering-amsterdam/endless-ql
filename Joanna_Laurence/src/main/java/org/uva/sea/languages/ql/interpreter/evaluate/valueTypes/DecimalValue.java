@@ -197,4 +197,8 @@ public class DecimalValue extends Value {
     public String toString() {
         return String.valueOf(this.decimalValue);
     }
+
+    public DecimalValue clone() throws CloneNotSupportedException {
+        return (DecimalValue) super.clone();
+    }
 }

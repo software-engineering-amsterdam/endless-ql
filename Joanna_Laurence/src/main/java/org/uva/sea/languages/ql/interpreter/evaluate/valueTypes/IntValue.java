@@ -194,4 +194,8 @@ public class IntValue extends Value {
     public String toString() {
         return String.valueOf(this.intValue);
     }
+
+    public IntValue clone() throws CloneNotSupportedException {
+        return (IntValue) super.clone();
+    }
 }

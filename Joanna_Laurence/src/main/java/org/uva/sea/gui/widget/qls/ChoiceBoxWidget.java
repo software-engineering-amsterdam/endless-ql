@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import org.uva.sea.gui.components.Renderable;
 import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
@@ -46,6 +47,6 @@ public class ChoiceBoxWidget extends Widget {
             return;
 
         //TODO: Create a default style object and cascade the styles
-        choiceBox.setMinWidth((style.getWidth() != null) ? style.getWidth() : Widget.TEXT_WIDTH);
+        choiceBox.setMinWidth((style.getWidth() != null) ? style.getWidth() : Renderable.TEXT_WIDTH);
     }
 }

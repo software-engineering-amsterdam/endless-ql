@@ -2,6 +2,7 @@ package org.uva.sea.gui.widget.qls;
 
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
+import org.uva.sea.gui.components.Renderable;
 import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
@@ -85,7 +86,7 @@ public class SliderWidget extends Widget {
         if (style.getWidth() != null) {
             slider.setMinWidth(style.getWidth());
         } else {
-            slider.setMinWidth(org.uva.sea.gui.widget.Widget.TEXT_WIDTH);
+            slider.setMinWidth(Renderable.TEXT_WIDTH);
         }
     }
 }

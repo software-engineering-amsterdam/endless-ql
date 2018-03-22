@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class QuestionModel {
-    private IGuiElementUpdateListener questionValueUpdateListener;
+    private final IGuiElementUpdateListener questionValueUpdateListener;
     private BaseEvaluator interpreter = null;
-    private WidgetFactory widgetFactory = new WidgetFactory();
+    private final WidgetFactory widgetFactory = new WidgetFactory();
 
     public QuestionModel(IGuiElementUpdateListener questionValueUpdateListener) {
         this.questionValueUpdateListener = questionValueUpdateListener;

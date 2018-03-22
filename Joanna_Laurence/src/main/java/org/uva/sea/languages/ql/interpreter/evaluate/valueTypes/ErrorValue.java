@@ -47,4 +47,8 @@ public class ErrorValue extends Value {
     public String toString() {
         return (this.error != null) ? this.error : "No value";
     }
+
+    public ErrorValue clone() throws CloneNotSupportedException {
+        return (ErrorValue) super.clone();
+    }
 }

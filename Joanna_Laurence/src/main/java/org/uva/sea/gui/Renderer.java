@@ -6,9 +6,9 @@ import javafx.scene.layout.VBox;
 import org.uva.sea.gui.components.Renderable;
 
 public class Renderer {
-    private Group container;
-    private TabPane tabPane;
-    private VBox messages;
+    private final Group container;
+    private final TabPane tabPane;
+    private final VBox messages;
 
     public Renderer(Group container, TabPane tabPane, VBox messages) {
         this.container = container;

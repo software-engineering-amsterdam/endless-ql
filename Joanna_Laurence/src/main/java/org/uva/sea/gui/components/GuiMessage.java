@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 
 public class GuiMessage extends Renderable {
 
-    private String message;
+    private final String message;
 
     public GuiMessage(String message) {
         this.message = message;

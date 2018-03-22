@@ -7,9 +7,9 @@ import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData
 
 public class WidgetFactory {
 
-    private QLWidgetFactory qlWidgetFactory = new QLWidgetFactory();
+    private final QLWidgetFactory qlWidgetFactory = new QLWidgetFactory();
 
-    private QLSWidgetFactory qlsWidgetFactory = new QLSWidgetFactory();
+    private final QLSWidgetFactory qlsWidgetFactory = new QLSWidgetFactory();
 
     public Widget createWidget(QuestionData questionData, IGuiElementUpdateListener listener) {
         if( questionData.getWidgetType() == WidgetType.DEFAULT)

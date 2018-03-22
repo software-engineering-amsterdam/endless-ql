@@ -3,6 +3,7 @@ package org.uva.sea.gui.widget.qls;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Font;
+import org.uva.sea.gui.components.Renderable;
 import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
@@ -49,7 +50,7 @@ public class RadioButtonWidget extends Widget {
         if (style.getWidth() != null) {
             radioButton.setMinWidth(style.getWidth());
         } else {
-            radioButton.setMinWidth(Widget.TEXT_WIDTH);
+            radioButton.setMinWidth(Renderable.TEXT_WIDTH);
         }
     }
 }

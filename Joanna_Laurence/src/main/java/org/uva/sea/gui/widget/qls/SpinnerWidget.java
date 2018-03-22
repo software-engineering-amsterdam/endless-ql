@@ -1,18 +1,16 @@
 package org.uva.sea.gui.widget.qls;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import org.uva.sea.gui.components.Renderable;
 import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.DecimalValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
-import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.UndefinedValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 public class SpinnerWidget extends Widget {
@@ -99,7 +97,7 @@ public class SpinnerWidget extends Widget {
         if (style.getWidth() != null) {
             spinner.setMinWidth(style.getWidth());
         } else {
-            spinner.setMinWidth(Widget.TEXT_WIDTH); //default style
+            spinner.setMinWidth(Renderable.TEXT_WIDTH); //default style
         }
     }
 }

@@ -1,9 +1,9 @@
 package org.uva.sea.gui.widget.ql;
 
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
+import org.uva.sea.gui.components.Renderable;
 import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
@@ -60,7 +60,7 @@ public class TextFieldWidget extends Widget {
         this.setStyle(textField, this.questionData.getStyle());
         textField.setText(this.widgetValue.getStringValue());
         textField.setEditable(true);
-        textField.setMinWidth(Widget.TEXT_WIDTH);
+        textField.setMinWidth(Renderable.TEXT_WIDTH);
 
         if (this.questionData.isComputed()) {
             textField.setEditable(false);

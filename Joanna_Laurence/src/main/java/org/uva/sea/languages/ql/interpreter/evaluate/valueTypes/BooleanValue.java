@@ -78,4 +78,8 @@ public class BooleanValue extends Value {
     public String toString() {
         return this.booleanValue ? "true" : "false";
     }
+
+    public BooleanValue clone() throws CloneNotSupportedException {
+        return (BooleanValue) super.clone();
+    }
 }

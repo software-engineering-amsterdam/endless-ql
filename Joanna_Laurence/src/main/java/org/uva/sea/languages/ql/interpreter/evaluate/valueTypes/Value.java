@@ -421,7 +421,7 @@ public abstract class Value implements Cloneable {
         return undefinedValue;
     }
 
-    public Object clone() throws CloneNotSupportedException{
-        return super.clone();
+    public Value clone() throws CloneNotSupportedException{
+        return (Value)super.clone();
     }
 }

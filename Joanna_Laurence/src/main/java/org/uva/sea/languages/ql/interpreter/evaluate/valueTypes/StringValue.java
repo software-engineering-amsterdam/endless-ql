@@ -50,4 +50,8 @@ public class StringValue extends Value {
     public String toString() {
         return this.stringValue;
     }
+
+    public StringValue clone() throws CloneNotSupportedException {
+        return (StringValue) super.clone();
+    }
 }

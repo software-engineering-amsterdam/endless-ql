@@ -28,8 +28,8 @@ public class DefaultValueFactory {
             if(value == null) {
                 return new ErrorValue("No default style available for " + nodeType, 0, 0);
             }
-            return (Value) value.clone();
-        } catch (CloneNotSupportedException e) {
+            return value.clone();
+        } catch (CloneNotSupportedException ignored) {
             return new ErrorValue("No default style available for " + nodeType, 0, 0);
         }
     }

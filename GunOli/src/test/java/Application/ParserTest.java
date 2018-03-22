@@ -2,7 +2,6 @@ package Application;
 
 import QL.ParseObjectsQL.Form;
 import QL.ParseObjectsQL.Question;
-import QL.ParseObjectsQL.QuestionMap;
 import org.junit.Test;
 
 import java.io.File;
@@ -70,15 +69,12 @@ public class ParserTest {
         Parser parser = new Parser();
 
         Form form = parser.parseInputToForm(formFile.getPath());
-        QuestionMap qm = new QuestionMap(form);
-
 
         for(Question question : form.getBlock().getQuestions()){
-            String QuestionName = question.getIdentifier();
-            ActualIdentifier.add(qm.getQuestion(QuestionName).getIdentifier());
-            ActualText.add(qm.getQuestion(QuestionName).getText());
-            ActualType.add(qm.getQuestion(QuestionName).getType().toString());
-            ActualAnswer.add(qm.getQuestion(QuestionName).getAnswer().evaluate().getValue());
+            ActualIdentifier.add(question.getIdentifier());
+            ActualText.add(question.getText());
+            ActualType.add(question.getType().toString());
+            ActualAnswer.add(question.getAnswer().evaluate().getValue());
         }
 
     }

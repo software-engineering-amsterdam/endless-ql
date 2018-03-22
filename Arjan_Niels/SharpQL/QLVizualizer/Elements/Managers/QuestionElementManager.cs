@@ -25,18 +25,18 @@ namespace QLVisualizer.Elements.Managers
         /// <summary>
         /// Indication if the answer is editable
         /// </summary>
-        public bool Editable { get { return _answerExpression == null; } }
+        //public bool Editable { get { return _answerExpression == null; } }
 
+        public delegate void TypedAnswerValueUpdate(QuestionElementValue<T> answer, bool calculated);
+        public event TypedAnswerValueUpdate OnTypedAnswerValueUpdate;
 
-        public delegate void AnswerValueUpdate(QuestionElementValue<T> answer, bool calculated);
-        public event AnswerValueUpdate OnAnswerValueUpdate;
-
-        public QuestionElementManager(string identifyer, string text, ElementManager parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : 
+        public QuestionElementManager(string identifyer, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : 
             base(identifyer, text, "question", parent, controller, activationExpression)
         {
             Answer = new QuestionElementValue<T>(default(T), false);
             IsAnswered = false;
             _answerExpression = answerExpression;
+            Editable = _answerExpression == null;
         }
 
         /// <summary>
@@ -44,13 +44,13 @@ namespace QLVisualizer.Elements.Managers
         /// </summary>
         /// <param name="input">Input value</param>
         /// <returns>Correct value obtained from input</returns>
-        public virtual QuestionElementValue<T> Validate(T input)
+        protected virtual QuestionElementValue<T> Validate(T input)
         {
             // Default accepts all
             return new QuestionElementValue<T>(input, true);
         }
 
-        public abstract QuestionElementValue<T> ParseInput(string input);
+        protected abstract QuestionElementValue<T> ParseInput(string input);
 
         /// <summary>
         /// Set the value of the AnswerValue
@@ -58,10 +58,22 @@ namespace QLVisualizer.Elements.Managers
         /// <param name="answer"></param>
         public void SetAnswer(T answer, bool fromNotify = false)
         {
-            Answer = Validate(answer);
-            IsAnswered = Answer.IsValid;
+            SetAnswer(Validate(answer));
+            TriggerAnwerUpdate(fromNotify);
+        }
 
-            OnAnswerValueUpdate?.Invoke(Answer, fromNotify);
+        public void SetAnswer(string answer)
+        {
+            QuestionElementValue<T> parsedAnswer = ParseInput(answer);
+            if(parsedAnswer.IsValid)
+                SetAnswer(parsedAnswer);
+            TriggerAnwerUpdate(!parsedAnswer.IsValid);
+        }
+
+        public void SetAnswer(QuestionElementValue<T> answer)
+        {
+            Answer = answer;
+            IsAnswered = Answer.IsValid;
         }
 
         /// <summary>
@@ -71,16 +83,28 @@ namespace QLVisualizer.Elements.Managers
         public override void RegisterListeners()
         {
             base.RegisterListeners();
-            Dictionary<string, ElementManager> managers = _elementManagerController.Form.FindByID(_answerExpression.UsedIdentifiers);
-            foreach (ElementManager manager in managers.Values) ;
-            // TODO: cast to questionElementManager to listen to event
 
-                //if(manager.GetType().IsSubclassOf(QuestionElementManager))
+            if (_answerExpression != null)
+            {
+                Dictionary<string, ElementManagerLeaf> managers = _elementManagerController.Form.FindLeafsByID(_answerExpression.UsedIdentifiers);
+                foreach (ElementManagerLeaf manager in managers.Values)
+                    manager.OnAnswerValueUpdate += DependendValueUpdate;
+            }
+        }
+
+        private void DependendValueUpdate(ElementManagerLeaf elementManagerLeaf, bool calculated)
+        {
+            SetAnswer(_answerExpression.Result, true);
         }
 
         public override string ToXML()
         {
             return string.Format("<{0} identifier=\"{1}\" type=\"{2}\" valid=\"{3}\">{4}</{0}>", XMLElementName, Identifier, typeof(T), Answer.IsValid, Answer.Value);
+        }
+
+        public override string AnswerToString()
+        {
+            return Answer.Value.ToString();
         }
     }
 }

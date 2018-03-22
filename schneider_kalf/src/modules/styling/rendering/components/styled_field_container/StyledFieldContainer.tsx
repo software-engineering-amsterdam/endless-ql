@@ -3,17 +3,19 @@ import { findComponentForFieldType } from "../../../../../rendering/field_render
 import { fieldComponentsMapping } from "../../../../../config/field_components_mapping";
 import StyledFieldNode from "../../../form/StyledFieldNode";
 
-export interface FieldContainerProps {
+export interface StyledFieldContainerProps {
   field: StyledFieldNode;
   onChange: (value: any) => void;
   value: any;
 }
 
-export const StyledFieldContainer: React.SFC<FieldContainerProps> = (props) => {
+export const StyledFieldContainer: React.SFC<StyledFieldContainerProps> = (props) => {
   const FieldComponent = findComponentForFieldType(props.field.type, fieldComponentsMapping);
 
+  const cssStyles = props.field.getMergedStyle().getFieldContainerCssStyle();
+
   return (
-      <div className="field-container">
+      <div style={cssStyles} className="field-container field-container-styled">
         <FieldComponent onChange={props.onChange} value={props.value} field={props.field}/>
       </div>
   );

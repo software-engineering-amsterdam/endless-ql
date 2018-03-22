@@ -11,10 +11,12 @@ STRING       : 'string' ;
 DECIMAL      : 'decimal' ;
 MONEY        : 'money' ;
 DATE         : 'date' ;
+
 WIDGET       : 'widget' ;
 CHECKBOX     : 'checkbox' ;
 SPINGBOX     : 'spinbox' ;
 RADIO        : 'radio' ;
+COMBO        : 'combo' ;
 
 CURLY_LEFT   : '{' ;
 CURLY_RIGHT  : '}' ;
@@ -40,5 +42,6 @@ questionBlock : CURLY_LEFT questions+=question+ CURLY_RIGHT
               | questions+=question ;
 widgetType    : CHECKBOX
               | SPINGBOX
+              | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT
               | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT ;
 question      : QUESTION name=Identifier (WIDGET widgetType)? ;

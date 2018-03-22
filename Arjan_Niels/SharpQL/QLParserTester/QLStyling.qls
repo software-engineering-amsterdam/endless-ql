@@ -1,0 +1,25 @@
+﻿stylesheet TestForm {
+	page "First page" {
+	}
+
+	page "Second page" {
+		section "The first section" {
+			section "The first subsection" {
+				question seenHouseOfCards
+				section "The first subsubsection"{
+					question soldHouseIn2010 widget radio ("yes", "no", "maybe")
+				}
+			}
+		}
+	}
+
+	page "Third page" {
+		default money {
+			width: 400
+			font: "Arial" 
+			fontsize: 14
+			color: #999999
+			widget radio("yes", "no")
+		}
+	}
+}

@@ -31,12 +31,15 @@ from ql.types.date import QLDate
 from ql.types.money import QLMoney
 from ql.types.decimal import QLDecimal
 from ql.types.undefined import QLUndefined
+from debug.debug import Debug
+from debug.errors.parse_error import ParseError
 
 
 class QLParser:
-    def __init__(self):
-        self.tokens = lexer.QLLexer.tokens
-        self.precedence = (
+    def __init__(self, debug=Debug()):
+        self.__debug = debug
+        self.__tokens = lexer.QLLexer.tokens
+        self.__precedence = (
             ('left', 'OR'),
             ('left', 'AND'),
             ('nonassoc', 'EQ', 'NE'),
@@ -47,216 +50,256 @@ class QLParser:
         )
         self.parser = yacc(module=self)
 
+    @property
+    def debug(self):
+        return self.__debug
+
+    @property
+    def tokens(self):
+        return self.__tokens
+
+    @property
+    def precedence(self):
+        return self.__precedence
+
     def parse(self, data, lexer):
-        self.parser.parse(data, lexer)
+        return self.parser.parse(data, lexer)
+
+    # Grammar
+    @staticmethod
+    def p_form(production):
+        """form : FORM IDENTIFIER block"""
+        production[0] = FormNode(Position(production.lineno(1), production.lexpos(1)), production[3], production[2])
+
+    @staticmethod
+    def p_block(production):
+        """block : LEFT_BRACE statements RIGHT_BRACE"""
+        production[0] = production[2]
 
     # Statements
     @staticmethod
-    def p_form(p):
-        """form : FORM VARIABLE LEFT_BRACE statements RIGHT_BRACE"""
-        p[0] = FormNode(Position(p.lineno(1), p.lexpos(1)), p[4], p[2])
-
-    @staticmethod
-    def p_statements(p):
+    def p_statements(production):
         """statements   : statement statements
                         | statement"""
-        if len(p) == 3:
-            p[0] = [p[1]] + p[2]
-        elif len(p) == 2:
-            p[0] = [p[1]]
+        if len(production) == 3:
+            production[0] = [production[1]] + production[2]
+        elif len(production) == 2:
+            production[0] = [production[1]]
 
     @staticmethod
-    def p_statement(p):
+    def p_statement(production):
         """statement    : if
                         | elif
                         | else
-                        | question
-                        | form"""
-        p[0] = p[1]
+                        | question"""
+        production[0] = production[1]
 
     # Questions
     @staticmethod
-    def p_question(p):
-        """question : STRING_LITERAL VARIABLE COLON type"""
-        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4],
-                            p[4].get_literal_node(), False)
+    def p_question(production):
+        """question : STRING_LITERAL IDENTIFIER COLON type"""
+        production[0] = QuestionNode(Position(production.lineno(1), production.lexpos(1)), production[1], production[2],
+                                     production[4], production[4].get_literal_node(), False)
 
     @staticmethod
-    def p_question_computed(p):
-        """question : STRING_LITERAL VARIABLE COLON type ASSIGN expression"""
-        p[0] = QuestionNode(Position(p.lineno(1), p.lexpos(1)), p[1], p[2], p[4], p[6], True)
+    def p_question_computed(production):
+        """question : STRING_LITERAL IDENTIFIER COLON type ASSIGN expression"""
+        production[0] = QuestionNode(Position(production.lineno(1), production.lexpos(1)), production[1], production[2],
+                                     production[4], production[6], True)
 
-    # Control Flow
+    # Control flow
     @staticmethod
-    def p_if(p):
-        """if : IF LEFT_BRACKET expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
-        p[0] = IfNode(Position(p.lineno(1), p.lexpos(1)), p[6], p[3])
-
-    @staticmethod
-    def p_elif(p):
-        """elif : ELSE_IF LEFT_BRACKET expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
-        p[0] = ('ELSE_IF', p[3], p[6])
+    def p_if(production):
+        """if : IF condition block"""
+        production[0] = IfNode(Position(production.lineno(1), production.lexpos(1)), production[3], production[2])
 
     @staticmethod
-    def p_else(p):
+    def p_elif(production):
+        """elif : ELSE_IF condition LEFT_BRACE statements RIGHT_BRACE"""
+        production[0] = ('ELSE_IF', production[3], production[6])
+
+    @staticmethod
+    def p_else(production):
         """else : ELSE LEFT_BRACE statements RIGHT_BRACE"""
-        p[0] = ('ELSE', p[3])
+        production[0] = ('ELSE', production[3])
+
+    @staticmethod
+    def p_condition(production):
+        """condition : LEFT_BRACKET expression RIGHT_BRACKET"""
+        production[0] = production[2]
 
     # Expressions
     @staticmethod
-    def p_parenthesis(p):
+    def p_parenthesis(production):
         """expression : LEFT_BRACKET expression RIGHT_BRACKET"""
-        p[0] = p[2]
+        production[0] = production[2]
 
     @staticmethod
-    def p_variable(p):
-        """expression : VARIABLE"""
-        p[0] = VariableNode(Position(p.lineno(1), p.lexpos(1)), QLUndefined, p[1], QLUndefined())
+    def p_variable(production):
+        """expression : IDENTIFIER"""
+        production[0] = VariableNode(Position(production.lineno(1), production.lexpos(1)), QLUndefined, production[1],
+                                     QLUndefined())
 
+    # Unary operators
     @staticmethod
-    def p_not(p):
+    def p_not(production):
         """expression : NOT expression"""
-        p[0] = NegationOperatorNode(Position(p.lineno(1), p.lexpos(1)), QLBoolean, p[2], QLUndefined())
+        production[0] = NegationOperatorNode(Position(production.lineno(1), production.lexpos(1)), QLBoolean,
+                                             production[2], QLUndefined())
 
     @staticmethod
-    def p_negative(p):
+    def p_negative(production):
         """expression : MINUS expression"""
-        p[0] = NegativeOperatorNode(Position(p.lineno(1), p.lexpos(1)), QLUndefined, p[2], QLUndefined())
+        production[0] = NegativeOperatorNode(Position(production.lineno(1), production.lexpos(1)), QLUndefined,
+                                             production[2], QLUndefined())
 
     # Binary operators
     @staticmethod
-    def p_and(p):
+    def p_and(production):
         """expression : expression AND expression"""
-        p[0] = AndOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
+        production[0] = AndOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLBoolean, production[1],
+                                        production[3], QLUndefined())
 
     @staticmethod
-    def p_or(p):
+    def p_or(production):
         """expression : expression OR expression"""
-        p[0] = OrOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
+        production[0] = OrOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLBoolean, production[1],
+                                       production[3], QLUndefined())
 
     @staticmethod
-    def p_plus(p):
+    def p_plus(production):
         """expression : expression PLUS expression"""
-        p[0] = AdditionOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], QLUndefined())
+        production[0] = AdditionOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLUndefined,
+                                             production[1], production[3], QLUndefined())
 
     @staticmethod
-    def p_minus(p):
+    def p_minus(production):
         """expression : expression MINUS expression"""
-        p[0] = SubtractionOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], QLUndefined())
+        production[0] = SubtractionOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLUndefined,
+                                                production[1], production[3], QLUndefined())
 
     @staticmethod
-    def p_times(p):
+    def p_times(production):
         """expression : expression TIMES expression"""
-        p[0] = MultiplicationOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], QLUndefined())
+        production[0] = MultiplicationOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLUndefined,
+                                                   production[1], production[3], QLUndefined())
 
     @staticmethod
-    def p_divide(p):
+    def p_divide(production):
         """expression : expression DIVIDE expression"""
-        p[0] = DivisionOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLUndefined, p[1], p[3], QLUndefined())
+        production[0] = DivisionOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLUndefined,
+                                             production[1], production[3], QLUndefined())
 
     @staticmethod
-    def p_equals(p):
+    def p_equals(production):
         """expression : expression EQ expression"""
-        p[0] = EqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
+        production[0] = EqualsOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLBoolean,
+                                           production[1], production[3], QLUndefined())
 
     @staticmethod
-    def p_not_equals(p):
+    def p_not_equals(production):
         """expression : expression NE expression"""
-        p[0] = NotEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
+        production[0] = NotEqualsOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLBoolean,
+                                              production[1], production[3], QLUndefined())
 
     @staticmethod
-    def p_less_equals(p):
+    def p_less_equals(production):
         """expression : expression LE expression"""
-        p[0] = LessEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
+        production[0] = LessEqualsOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLBoolean,
+                                               production[1], production[3], QLUndefined())
 
     @staticmethod
-    def p_less_than(p):
+    def p_less_than(production):
         """expression : expression LT expression"""
-        p[0] = LessThanOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
+        production[0] = LessThanOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLBoolean,
+                                             production[1], production[3], QLUndefined())
 
     @staticmethod
-    def p_greater_equals(p):
+    def p_greater_equals(production):
         """expression : expression GE expression"""
-        p[0] = GreaterEqualsOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
+        production[0] = GreaterEqualsOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLBoolean,
+                                                  production[1], production[3], QLUndefined())
 
     @staticmethod
-    def p_greater_than(p):
+    def p_greater_than(production):
         """expression : expression GT expression"""
-        p[0] = GreaterThanOperatorNode(Position(p.lineno(2), p.lexpos(2)), QLBoolean, p[1], p[3], QLUndefined())
+        production[0] = GreaterThanOperatorNode(Position(production.lineno(2), production.lexpos(2)), QLBoolean,
+                                                production[1], production[3], QLUndefined())
 
     # Literals
     @staticmethod
-    def p_boolean_literal(p):
+    def p_boolean_literal(production):
         """expression   : FALSE
                         | TRUE"""
-        p[0] = BooleanNode(Position(p.lineno(1), p.lexpos(1)), QLBoolean, p[1])
+        production[0] = BooleanNode(Position(production.lineno(1), production.lexpos(1)), QLBoolean, production[1])
 
     @staticmethod
-    def p_date_literal(p):
+    def p_date_literal(production):
         """expression : DATE_LITERAL"""
-        p[0] = DateNode(Position(p.lineno(1), p.lexpos(1)), QLDate, p[1])
+        production[0] = DateNode(Position(production.lineno(1), production.lexpos(1)), QLDate, production[1])
 
     @staticmethod
-    def p_integer_literal(p):
+    def p_integer_literal(production):
         """expression : INTEGER_LITERAL"""
-        p[0] = IntegerNode(Position(p.lineno(1), p.lexpos(1)), QLInteger, p[1])
+        production[0] = IntegerNode(Position(production.lineno(1), production.lexpos(1)), QLInteger, production[1])
 
     @staticmethod
-    def p_decimal_literal(p):
+    def p_decimal_literal(production):
         """expression : DECIMAL_LITERAL"""
-        p[0] = DecimalNode(Position(p.lineno(1), p.lexpos(1)), QLDecimal, p[1])
+        production[0] = DecimalNode(Position(production.lineno(1), production.lexpos(1)), QLDecimal, production[1])
 
     @staticmethod
-    def p_string_literal(p):
+    def p_string_literal(production):
         """expression : STRING_LITERAL"""
-        p[0] = StringNode(Position(p.lineno(1), p.lexpos(1)), QLString, QLString([1]))
+        production[0] = StringNode(Position(production.lineno(1), production.lexpos(1)), QLString, QLString([1]))
 
     # Types
     @staticmethod
-    def p_boolean(p):
+    def p_boolean(production):
         """type : BOOLEAN"""
-        p[0] = QLBoolean
+        production[0] = QLBoolean
 
     @staticmethod
-    def p_decimal(p):
+    def p_decimal(production):
         """type : DECIMAL"""
-        p[0] = QLDecimal
+        production[0] = QLDecimal
 
     @staticmethod
-    def p_string(p):
+    def p_string(production):
         """type : STRING"""
-        p[0] = QLString
+        production[0] = QLString
 
     @staticmethod
-    def p_date(p):
+    def p_date(production):
         """type : DATE"""
-        p[0] = QLDate
+        production[0] = QLDate
 
     @staticmethod
-    def p_money(p):
+    def p_money(production):
         """type : MONEY"""
-        p[0] = QLMoney
+        production[0] = QLMoney
 
     @staticmethod
-    def p_integer(p):
+    def p_integer(production):
         """type : INTEGER"""
-        p[0] = QLInteger
+        production[0] = QLInteger
 
     # Error handling
     @staticmethod
-    def p_if_condition_error(p):
-        """if   : IF LEFT_BRACKET expression PLUS expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
-                | IF LEFT_BRACKET expression MINUS expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
-                | IF LEFT_BRACKET expression TIMES expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
-                | IF LEFT_BRACKET expression DIVIDE expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
-        print('Condition of if statement does not evaluate to boolean.')
-        raise SyntaxError
+    def p_error(production):
+        raise ParseError('Syntax error at line {}, token={}.'.format(production.lineno, production.type))
 
-    # @staticmethod
-    # def p_form_error(p):
-    #     """form : FORM VARIABLE LEFT_BRACE RIGHT_BRACE"""
-    #     print('Empty form.')
-    #     raise SyntaxError
+    @staticmethod
+    def p_empty_form(production):
+        """form : FORM IDENTIFIER LEFT_BRACE RIGHT_BRACE"""
+        raise ParseError('Empty form at line {}.'.format(production.lineno(1)))
 
-    def p_error(self, p):
-        raise SyntaxError
+    @staticmethod
+    def p_empty_if(production):
+        """statement : IF condition LEFT_BRACE RIGHT_BRACE"""
+        raise ParseError('Empty if block at line {}.'.format(production.lineno(1)))
+
+    @staticmethod
+    def p_empty_condition(production):
+        """condition : LEFT_BRACKET RIGHT_BRACKET"""
+        raise ParseError('Empty conditional at line {}.'.format(production.lineno(1)))

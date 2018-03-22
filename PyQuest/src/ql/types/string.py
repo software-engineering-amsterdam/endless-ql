@@ -10,7 +10,13 @@ class QLString(QLType):
         self.__value = str(value)
 
     def __repr__(self):
-        return self.value
+        return str(self.value)
+
+    def __bool__(self):
+        return bool(self.value)
+
+    def __str__(self):
+        return str(self.value)
 
     def __eq__(self, other):
         return QLBoolean(self.value == other.value)

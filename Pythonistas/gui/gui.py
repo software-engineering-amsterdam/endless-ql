@@ -23,7 +23,7 @@ class MainWindow(QtWidgets.QWidget):
         self.main_layout.setSpacing(10)
         self.setLayout(self.main_layout)
         self.setWindowTitle('QL parser')
-        self.setGeometry(600, 600, 1100, 600)
+        self.setGeometry(200, 200, 1000, 500)
         self.tree = None
         self.parser = None
 
@@ -54,7 +54,9 @@ class MainWindow(QtWidgets.QWidget):
             #   addwidget errormessage
 
             # The tree is traversed, the questions it contains are collected, as well as the first error encountered.
-            [questionIDs, questions, error_message] = listen(ql_data.ql_tree)
+            # [questionIDs, questions, error_message, warning_message] = listen(ql_data.ql_tree)
+            [questionIDs, questions, error_message, warning_message] = visit(ql_data.ql_tree)
+
             # The output_frame is initialized and appropriately filled with questions and their answering tools.
             self.initiate_output_frame(questionIDs, questions)
             self.output_frame.add_submit_button()
@@ -62,8 +64,8 @@ class MainWindow(QtWidgets.QWidget):
             if error_message:
                 self.initiate_output_frame()
                 self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error_message))
-            else:
-                self.output_frame.check_duplicate_question_strings()
+            elif warning_message:
+                self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(warning_message))
 
         else:  # todo: if garbage in, this error message out.
             self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))
@@ -76,7 +78,6 @@ class MainWindow(QtWidgets.QWidget):
             # listen(ql_data.qls_tree, self.output_frame)
             # self.output_frame.add_submit_button()
         else:
-            # self.output_frame.no_tree_message()
             pass
 
 

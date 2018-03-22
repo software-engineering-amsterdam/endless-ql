@@ -10,41 +10,61 @@ class QLTypeChecker(object):
         self.ast = ast
         self.questions = {}
         self.conditionals = {}
-        self.getVariables(self.ast.statements)
+
+
+    def startQLTypeCheck(self):
+        statements = self.ast.statements
+
+        for statement in statements:
+            self.getVariables(statement)
+        
 
     # Retrieve the variables/questions/etc from the ast and keep track of them.
-    def getVariables(self, statements):
-        for statement in statements:
-            if type(statement) is QuestionNode:
-                self.checkDuplicateVariables(statement)
-                statement.question = self.checkDuplicateQuestions(statement.question)
-                self.questions[statement.question] = [statement.var, statement.vartype]
-            
-            elif type(statement) is IfNode or type(statement) is ElifNode:
-                if type(statement.expression) is UnOpNode:
+    def getVariables(self, statement):
 
-                    self.checkConditionals(statement)
+        if type(statement) is QuestionNode:
+            self.checkDuplicateVariables(statement)
+            statement.question = self.checkDuplicateQuestions(statement.question)
+            self.questions[statement.question] = [statement.var, statement.vartype]
+        
+        # todo: implement 1 and 0 for boolean?
+        elif type(statement) is IfNode or type(statement) is ElifNode:
+            if type(statement.expression) is LiteralNode:
+                exitProgram("Condition {} is not of type boolean.".format(statement.expression))
 
-                elif type(statement.expression) is BinOpNode:
-                    conditional_type = self.checkInvalidOperations(statement.expression)
-                    if conditional_type != BOOLEAN_UNICODE:
-                        exitProgram("Condition {} is not of type boolean.".format(statement.expression))
+            elif type(statement.expression) is UnOpNode:
+                self.checkConditionals(statement)
 
-                self.conditionals[statement.expression] = statement.statements
-                self.getVariables(statement.statements)
+            elif type(statement.expression) is BinOpNode:
+                conditional_type = self.checkInvalidOperations(statement.expression)
+                if conditional_type != BOOLEAN_UNICODE:
+                    exitProgram("Condition {} is not of type boolean.".format(statement.expression))
 
-            elif type(statement) is ElseNode:
-                self.conditionals["else"] = statement.statements
-                self.getVariables(statement.statements)
+            self.conditionals[statement.expression] = statement.statements
+            self.getVariables(statement.statements)
 
-            elif type(statement) is AssignmentNode:
+        elif type(statement) is ElseNode:
+            self.conditionals["else"] = statement.statements
+            self.getVariables(statement.statements)
+
+        elif type(statement) is AssignmentNode:
+            if type(statement.expression) is UnOpNode:
+                assignment_type = self.getVariableTypes(statement.expression)
+                # print assignment_type
+
+            # todo: implement a vartype into literal?
+            elif type(statement.expression) is LiteralNode:
+                assignment_type = statement.expression.vartype
+                # print assignment_type
+
+            elif type(statement.expression) is BinOpNode:
                 assignment_type = self.checkInvalidOperations(statement.expression)
-                statement.name = self.checkDuplicateQuestions(statement.name)
+            statement.name = self.checkDuplicateQuestions(statement.name)
 
-                if assignment_type != statement.vartype:
-                    exitProgram("Assignment expression type does not match variable type at {}".format(statement))
-                
-                self.questions[statement.name] = [statement.var, statement.vartype, statement.expression]
+            if assignment_type != statement.vartype:
+                exitProgram("Assignment expression type does not match variable type at {}".format(statement))
+            
+            self.questions[statement.name] = [statement.var, statement.vartype, statement.expression]
         
         # print len(self.questions)
         return

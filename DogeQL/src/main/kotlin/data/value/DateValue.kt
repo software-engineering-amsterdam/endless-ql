@@ -17,8 +17,5 @@ class DateValue(var value: LocalDate) : BaseSymbolValue(SymbolType.DATE) {
         else -> super.compareTo(other)
     }
 
-    override fun valueString(): String {
-        return value.toString()
-    }
-
+    override fun valueString(): String = value.toString()
 }

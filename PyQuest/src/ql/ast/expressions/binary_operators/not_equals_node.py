@@ -5,6 +5,7 @@ from ql.types.decimal import QLDecimal
 from ql.types.integer import QLInteger
 from ql.types.money import QLMoney
 from ql.types.string import QLString
+from ql.types.undefined import QLUndefined
 
 
 class NotEqualsOperatorNode(BinaryOperatorNode):
@@ -20,10 +21,10 @@ class NotEqualsOperatorNode(BinaryOperatorNode):
                               (QLMoney, QLMoney),
                               (QLString, QLString)]
 
-    def valid_operation(self, type1, type2):
+    def get_result_type(self, type1, type2):
         if (type1, type2) or (type2, type1) in self.__valid_types:
-            return True
-        return False
+            return QLBoolean
+        return QLUndefined
 
     def evaluate(self):
-        self.value = self.expression_type(self.left_expression.value.value != self.right_expression.value.value)
+        self.value = self.expression_type(self.left_expression.value != self.right_expression.value)

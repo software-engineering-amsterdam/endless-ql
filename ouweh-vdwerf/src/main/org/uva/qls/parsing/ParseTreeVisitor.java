@@ -8,8 +8,7 @@ import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.ast.Segment.*;
 import org.uva.qls.ast.Style.Style;
-import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
-import org.uva.qls.ast.Style.StyleProperty.StylePropertyStatement;
+import org.uva.qls.ast.Style.StyleProperty.*;
 import org.uva.qls.ast.Value.ColorValue;
 import org.uva.qls.ast.Value.NumberValue;
 import org.uva.qls.ast.Value.StringValue;
@@ -42,29 +41,42 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
             segments.add((Segment) visit(segmentContext));
         }
 
-        List<DefaultStatement> defaultStatements = new ArrayList<>();
+        List<DefaultStyleStatement> defaultStyleStatements = new ArrayList<>();
+        List<DefaultWidgetStatement> defaultWidgetStatements = new ArrayList<>();
         for (QLSParser.DefaultStatementContext defaultStatementContext : ctx.defaultStatement()) {
-            defaultStatements.add((DefaultStatement) visit(defaultStatementContext));
+            if(defaultStatementContext.defaultStyleStatement() != null) {
+                defaultStyleStatements.add((DefaultStyleStatement) visit(defaultStatementContext.defaultStyleStatement()));
+            }
+            else{
+                defaultWidgetStatements.add((DefaultWidgetStatement) visit(defaultStatementContext.defaultWidgetStatement()));
+            }
         }
 
-        return new Page(pageId, segments, defaultStatements);
+        return new Page(pageId, segments, defaultStyleStatements, defaultWidgetStatements);
     }
 
     @Override
     public Object visitSection(QLSParser.SectionContext ctx) {
         String sectionId = ctx.id.getText();
+        sectionId = sectionId.replaceAll("^\"|\"$", "");
 
         List<Segment> segments = new ArrayList<>();
         for (QLSParser.SegmentContext segmentContext : ctx.segment()) {
             segments.add((Segment) visit(segmentContext));
         }
 
-        List<DefaultStatement> defaultStatements = new ArrayList<>();
+        List<DefaultStyleStatement> defaultStyleStatements = new ArrayList<>();
+        List<DefaultWidgetStatement> defaultWidgetStatements = new ArrayList<>();
         for (QLSParser.DefaultStatementContext defaultStatementContext : ctx.defaultStatement()) {
-            defaultStatements.add((DefaultStatement) visit(defaultStatementContext));
+            if(defaultStatementContext.defaultStyleStatement() != null) {
+                defaultStyleStatements.add((DefaultStyleStatement) visit(defaultStatementContext.defaultStyleStatement()));
+            }
+            else{
+                defaultWidgetStatements.add((DefaultWidgetStatement) visit(defaultStatementContext.defaultWidgetStatement()));
+            }
         }
 
-        return new Section(sectionId, segments, defaultStatements);
+        return new Section(sectionId, segments, defaultStyleStatements, defaultWidgetStatements);
     }
 
     @Override
@@ -76,12 +88,17 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Object visitDefaultStatement(QLSParser.DefaultStatementContext ctx) {
+    public Object visitDefaultWidgetStatement(QLSParser.DefaultWidgetStatementContext ctx) {
         Type type = (Type) visit(ctx.type());
-        if (ctx.style() != null) {
-            return new DefaultStyleStatement(type, (Style) visit(ctx.style()));
-        }
-        return new DefaultWidgetStatement(type, (Widget) visit(ctx.widget()));
+        Widget widget = (Widget) visit(ctx.widget());
+        return new DefaultWidgetStatement(type, widget);
+    }
+
+    @Override
+    public Object visitDefaultStyleStatement(QLSParser.DefaultStyleStatementContext ctx) {
+        Type type = (Type) visit(ctx.type());
+        Style style = (Style) visit(ctx.style());
+        return new DefaultStyleStatement(type, style);
     }
 
     @Override
@@ -174,8 +191,23 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Object visitStyleProperty(QLSParser.StylePropertyContext ctx) {
-        return new StylePropertyStatement(ctx.property.getText(), (Value) visit(ctx.value()));
+    public Object visitFontSizeProperty(QLSParser.FontSizePropertyContext ctx) {
+        return new FontSizeProperty(new NumberValue(ctx.NUMBER().toString()));
+    }
+
+    @Override
+    public Object visitFontProperty(QLSParser.FontPropertyContext ctx) {
+        return new FontProperty(new StringValue(ctx.STRING().toString()));
+    }
+
+    @Override
+    public Object visitWidthProperty(QLSParser.WidthPropertyContext ctx) {
+        return new WidthProperty(new NumberValue(ctx.NUMBER().toString()));
+    }
+
+    @Override
+    public Object visitColorProperty(QLSParser.ColorPropertyContext ctx) {
+        return new ColorProperty(new ColorValue(ctx.COLOR().toString()));
     }
 
     @Override

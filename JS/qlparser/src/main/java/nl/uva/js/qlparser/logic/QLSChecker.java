@@ -13,31 +13,35 @@ import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class QLSChecker {
+    public static final String UNPLACED_QL_QUESTION = "Unplaced QL question: ";
+    public static final String QUESTION_DOES_NOT_EXIST = "Question does not exist: ";
+    public static final String DUPLICATE_REFERENCE_TO_QUESTION = "Duplicate reference to question: ";
+
     private ArrayList<String> errors;
 
-    public ArrayList<String> checkErrors(Form form, Stylesheet stylesheet) {
-        errors.clear();
+    public ArrayList<String> checkForErrors(Form form, Stylesheet stylesheet) {
+        errors = new ArrayList<>();
 
-        HashMap<String, Question> questionsByName   = getQuestions(form.getFormExpressions());
+        HashMap<String, Question> questionsByName              = getQuestions(form.getFormExpressions());
         HashMap<String, QuestionReference> questionRefsByName  = getQuestionReferences(stylesheet);
 
-        checkQuestions(questionsByName.keySet(), questionRefsByName.keySet());
+        checkDuplicateReferences(questionRefsByName.values());
+
+        checkQuestionsExist(questionsByName.keySet(), questionRefsByName.keySet());
+
         checkWidgetAssignments(questionsByName, questionRefsByName, stylesheet.getDefaultStyles());
 
         return errors;
     }
 
-    private void checkQuestions(Set<String> questionNames, Set<String> questionReferences) {
-        checkDuplicateReferences(questionReferences);
-
-        checkDifference(questionNames, questionReferences, "Unplaced QL question: ");
-        checkDifference(questionReferences, questionNames, "Question does not exist: ");
+    private void checkQuestionsExist(Set<String> questionNames, Set<String> questionRefNames) {
+        compareLeftToRight(questionNames, questionRefNames, UNPLACED_QL_QUESTION);
+        compareLeftToRight(questionRefNames, questionNames, QUESTION_DOES_NOT_EXIST);
     }
 
-    private void checkDifference(Set<String> left, Set<String> right, String errorMessage) {
+    private void compareLeftToRight(Set<String> left, Set<String> right, String errorMessage) {
         ArrayList<String> difference = new ArrayList<>(left);
         difference.removeAll(right);
 
@@ -46,15 +50,13 @@ public class QLSChecker {
         }
     }
 
-    private void checkDuplicateReferences(Set<String> questionReferences) {
-        HashSet<String> uniqueQuestionReferences = new HashSet<>(questionReferences);
-        if (questionReferences.size() > uniqueQuestionReferences.size()) {
-            errors.add("A single question may not be placed multiple times.");
+    private void checkDuplicateReferences(Collection<QuestionReference> questionReferences) {
+        HashSet<String> uniques = new HashSet<>();
+        for(QuestionReference ref : questionReferences) {
+            if(!uniques.add(ref.getName())) {
+                errors.add(DUPLICATE_REFERENCE_TO_QUESTION + ref.getName());
+            }
         }
-    }
-
-    private ArrayList<String> getQuestionNames(ArrayList<Question> questions) {
-        return questions.stream().map(q -> q.getVariable().getName()).collect(Collectors.toCollection(ArrayList::new));
     }
 
     private HashMap<String, QuestionReference> getQuestionReferences(Stylesheet stylesheet) {
@@ -107,7 +109,7 @@ public class QLSChecker {
             WidgetType widgetType = def.getWidgetType();
             if (!WidgetType.mapDataTypeToWidget.get(dataType).contains(widgetType)) {
                 errors.add("Can not use widget " + widgetType.name().toLowerCase()
-                           + " with data type " + dataType.name().toLowerCase());
+                           + " for data type " + dataType.name().toLowerCase());
             }
         }
     }

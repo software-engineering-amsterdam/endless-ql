@@ -1,16 +1,52 @@
 import FieldNodeDecorator from "../../../form/nodes/fields/FieldNodeDecorator";
 import FieldNode from "../../../form/nodes/fields/FieldNode";
-import { QuestionStyles } from "./QuestionStyles";
+import MergedFieldStyle from "./MergedFieldStyle";
+import SectionNode from "./nodes/containers/SectionNode";
+import QuestionStyle from "./nodes/children/QuestionStyle";
+import Page, { default as PageNode } from "./nodes/containers/PageNode";
 
 export default class StyledFieldNode extends FieldNodeDecorator {
-  private questionStyles: QuestionStyles;
+  private mergedStyle: MergedFieldStyle;
+  private section: SectionNode | undefined;
+  private styleNode: QuestionStyle | undefined;
 
-  constructor(fieldToBeDecorated: FieldNode, questionStyles: QuestionStyles) {
+  constructor(fieldToBeDecorated: FieldNode, mergedStyle: MergedFieldStyle, questionStyleNode?: QuestionStyle) {
     super(fieldToBeDecorated);
-    this.questionStyles = questionStyles;
+    this.mergedStyle = mergedStyle;
+    this.styleNode = questionStyleNode;
   }
 
-  public getStyles(): QuestionStyles {
-    return this.questionStyles;
+  public getMergedStyle(): MergedFieldStyle {
+    return this.mergedStyle;
+  }
+
+  public getStyleNode() {
+    return this.section;
+  }
+
+  public getParentSection(): SectionNode | undefined {
+    if (!this.styleNode) {
+      return undefined;
+    }
+
+    return this.styleNode.getNearestParent(parent => parent instanceof SectionNode);
+  }
+
+  public getPage(): Page | undefined {
+    if (!this.styleNode) {
+      return undefined;
+    }
+
+    return this.styleNode.getNearestParent(parent => parent instanceof Page);
+  }
+
+  public isOnPage(otherPage?: PageNode): boolean {
+    const page = this.getPage();
+
+    if (!page || !otherPage) {
+      return false;
+    }
+
+    return otherPage.name === page.name;
   }
 }

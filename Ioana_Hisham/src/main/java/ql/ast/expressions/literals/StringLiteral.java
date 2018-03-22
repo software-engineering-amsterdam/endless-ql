@@ -17,6 +17,11 @@ public class StringLiteral extends Expression {
     }
 
     @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
     public <T> T accept(ExpressionVisitor<T> expressionVisitor) {
         return expressionVisitor.visit(this);
     }

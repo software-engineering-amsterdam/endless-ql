@@ -5,10 +5,12 @@ stylesheet taxOfficeExample
     section "Buying"
     {
       question hasBoughtHouse
-        widget checkbox
+        widget radio("Yes", "No")
     }
     section "Loaning"
-      question hasMaintLoan
+    {
+      question otherSellingPrice
+    }
   }
 
   page Selling
@@ -23,10 +25,11 @@ stylesheet taxOfficeExample
           widget spinbox
         question privateDebt
           widget spinbox
+          width: 300
         question valueResidue
         default money
         {
-          width: 400
+          width: 500
           font: "Arial"
           fontsize: 14
           color: #999999
@@ -35,5 +38,14 @@ stylesheet taxOfficeExample
       }
     }
     default boolean widget radio("Yes", "No")
+  }
+
+  page EmptyPage
+  {
+         section "EmptySection"
+         {
+           question sellingPrice
+             widget spinbox
+         }
   }
 }

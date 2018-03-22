@@ -7,7 +7,7 @@ import expression.visitor.evaluation.TypeVisitor
 import expression.visitor.reference.ReferenceCollector
 import expression.visitor.reference.ReferenceVisitor
 
-class LiteralExpression(val value: BaseSymbolValue) : Expression {
+class LiteralExpression(val value: BaseSymbolValue, sourceLocation: SourceLocation) : Expression(sourceLocation) {
 
     override fun accept(visitor: EvaluationVisitor): BaseSymbolValue {
         return visitor.visit(this)

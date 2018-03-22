@@ -27,7 +27,7 @@ class TypeVisitor(private val symbolTable: SymbolTable) : ExpressionVisitor<Symb
         }
 
         if (symbol.expression == null) {
-            return reference.type
+            return symbol.value.type
         } else {
             val resolvedType = symbol.expression.accept(this)
 

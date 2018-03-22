@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Converters\QLASTExpressionToRenderExpression.cs" />
     <Compile Include="Converters\QLASTToRenderTree.cs" />
+    <Compile Include="Converters\TextToQLAST.cs" />
     <Compile Include="Export\FormExporter.cs" />
     <Compile Include="IMainView.cs" />
     <Compile Include="MainPresenter.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Model\QLS\AST\Style\Font.cs" />
     <Compile Include="Model\QLS\AST\Style\FontSize.cs" />
     <Compile Include="Model\QLS\AST\Style\IStyleVisitor.cs" />
+    <Compile Include="Model\QLS\AST\Style\Style.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\CheckBox.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\DropDown.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\Radio.cs" />
@@ -73,7 +75,7 @@
     <Compile Include="Model\QLS\AST\Style\Widget\TextBox.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\YesNoWidget.cs" />
     <Compile Include="Model\QLS\AST\Style\Width.cs" />
-    <Compile Include="Model\QL\AST\QLNode.cs" />
+    <Compile Include="Model\QL\AST\ASTNode.cs" />
     <Compile Include="Model\QL\RenderTree\AnswerType.cs" />
     <Compile Include="Model\QL\AST\ComputedQuestion.cs" />
     <Compile Include="Model\QL\AST\Expression\Add.cs" />
@@ -145,10 +147,15 @@
     <Compile Include="Parser\AntlrGenerated\QLS.cs" />
     <Compile Include="Parser\AntlrGenerated\QLSLexer.cs" />
     <Compile Include="Parser\QLErrorListener.cs" />
-    <Compile Include="Parser\QLParseErrorHandler.cs" />
+    <Compile Include="Parser\ParseErrorHandler.cs" />
     <Compile Include="Parser\QLSParser.cs" />
     <Compile Include="Rendering\QuestionFormWithStyleRenderer.cs" />
     <Compile Include="Model\QL\AST\Statement.cs" />
+    <Compile Include="Model\QL\AST\Exceptions.cs" />
+    <Compile Include="TypeChecking\QLASTCyclicDependencyChecker.cs" />
+    <Compile Include="Model\QL\AST\QLASTBaseVisitor.cs" />
+    <Compile Include="TypeChecking\QLASTDuplicateChecker.cs" />
+    <Compile Include="TypeChecking\QLASTScopeChecker.cs" />
     <Compile Include="TypeChecking\QLTypeChecker.cs" />
     <Compile Include="Model\QL\RenderTree\Question.cs" />
     <Compile Include="Model\QL\RenderTree\QuestionForm.cs" />

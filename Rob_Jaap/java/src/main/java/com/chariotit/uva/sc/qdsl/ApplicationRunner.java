@@ -10,6 +10,7 @@ import com.chariotit.uva.sc.qdsl.grammar.QLSLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.QLSVisitor;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
+import com.chariotit.uva.sc.qdsl.QLFrame;
 import org.apache.commons.cli.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,6 @@ import com.chariotit.uva.sc.qdsl.grammar.QLParser;
 
 import java.io.IOException;
 import java.util.List;
-
 
 @Component
 public class ApplicationRunner implements CommandLineRunner {
@@ -68,6 +68,7 @@ public class ApplicationRunner implements CommandLineRunner {
 
         Options options = new Options();
 
+        // AST is initialised here.
 
         Option qlsOption = Option.builder(qlsArgumentShort)
                 .required(false)
@@ -164,6 +165,7 @@ public class ApplicationRunner implements CommandLineRunner {
 //
 //        builder.showForm();
 
+        System.out.println("finished");
         System.out.println(astRoot);
     }
 

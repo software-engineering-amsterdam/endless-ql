@@ -37,7 +37,10 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
 
     @Override
     public Widget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
-        return new WidgetSlider(ctx.getStart());
+        double min = Double.parseDouble(ctx.min.getText());
+        double max = Double.parseDouble(ctx.max.getText());
+        double step = Double.parseDouble(ctx.step.getText());
+        return new WidgetSlider(ctx.getStart(), min, max, step);
     }
 
     @Override
@@ -49,4 +52,6 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
     public Widget visitTextBoxWidget(QLSParser.TextBoxWidgetContext ctx) {
         return new WidgetTextBox(ctx.getStart());
     }
+
+
 }

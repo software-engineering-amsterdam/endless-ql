@@ -12,7 +12,7 @@ form taxOfficeExample {
   "Did you enter a loan?"
     hasMainLoan: boolean
 
-  if (5 - 3 + 1 > 100 && false || hasBoughtHouse ) {
+  if (false) {
     "What was the selling price?"
       sellingPrice: money
     "Private debts for the sold house:"
@@ -20,5 +20,8 @@ form taxOfficeExample {
     "Value residue:"
       valueResidue: money =
         (sellingPrice - privateDebt)
+  } else {
+      "What was the OTHER selling price?"
+        otherSellingPrice: money
   }
 }

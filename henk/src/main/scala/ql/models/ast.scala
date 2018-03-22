@@ -8,6 +8,11 @@ sealed trait ASTNode {
 
 sealed trait ASTNonTerminal extends ASTNode
 
+sealed trait ASTLogicalOp extends ASTNode
+sealed trait ASTRelationalOp extends ASTNode
+sealed trait ASTArithmeticOp extends ASTNode
+sealed trait ASTEqualityOp extends ASTNode
+
 case class ASTRoot(header: ASTNode, body: ASTNode) extends ASTNonTerminal {
   override def flatten(): List[ASTNode] = {
     List(header, body)
@@ -33,7 +38,11 @@ case class ASTQuestion(varDecl: ASTNode, label: String) extends ASTNonTerminal {
 }
 
 case class ASTComputation(varDecl: ASTNode, valAssign: ASTNode, label: String)
-    extends ASTNonTerminal
+    extends ASTNonTerminal {
+  override def flatten(): List[ASTNode] = {
+    List(varDecl, valAssign)
+  }
+}
 
 case class ASTVarDecl(typeDecl: ASTNode, id: ASTNode) extends ASTNonTerminal {
   override def flatten(): List[ASTNode] = {
@@ -42,7 +51,12 @@ case class ASTVarDecl(typeDecl: ASTNode, id: ASTNode) extends ASTNonTerminal {
 }
 
 case class ASTTypeDecl(returnType: ASTNode) extends ASTNode
-case class ASTValAssign(expression: ASTNode) extends ASTNonTerminal
+case class ASTValAssign(expression: ASTNode) extends ASTNonTerminal {
+  override def flatten(): List[ASTNode] = {
+    List(expression)
+  }
+}
+
 case class ASTIfStatement(expression: ASTNode, statements: List[ASTNode])
     extends ASTNonTerminal {
   override def flatten(): List[ASTNode] = {
@@ -52,28 +66,35 @@ case class ASTIfStatement(expression: ASTNode, statements: List[ASTNode])
 
 case class ASTBoolean() extends ASTNode
 case class ASTMoney() extends ASTNode
-case class ASTNumber() extends ASTNode
+case class ASTInteger() extends ASTNode
+case class ASTString() extends ASTNode
+
+case class ASTIntegerValue(value: Int) extends ASTNode
+case class ASTBooleanValue(value: Boolean) extends ASTNode
+case class ASTStringValue(value: String) extends ASTNode
+
 case class ASTIdentifier(id: String) extends ASTNode
 
-case class ASTLogicalCon() extends ASTNode
-case class ASTLogicalDis() extends ASTNode
+case class ASTLogicalCon() extends ASTLogicalOp
+case class ASTLogicalDis() extends ASTLogicalOp
 
 case class ASTUnaryNot() extends ASTNode
 case class ASTUnaryMin() extends ASTNode
 
-case class ASTRelationalLT() extends ASTNode
-case class ASTRelationalLTE() extends ASTNode
-case class ASTRelationalGT() extends ASTNode
-case class ASTRelationalGTE() extends ASTNode
-case class ASTRelationalNE() extends ASTNode
-case class ASTRelationalEQ() extends ASTNode
+case class ASTRelationalLT() extends ASTRelationalOp
+case class ASTRelationalLTE() extends ASTRelationalOp
+case class ASTRelationalGT() extends ASTRelationalOp
+case class ASTRelationalGTE() extends ASTRelationalOp
 
-case class ASTAdd() extends ASTNode
-case class ASTMin() extends ASTNode
-case class ASTMul() extends ASTNode
-case class ASTDiv() extends ASTNode
+case class ASTNotEqualOp() extends ASTEqualityOp
+case class ASTEqualOp() extends ASTEqualityOp
 
-case class ASTBinary(rhs: ASTNode, lhs: ASTNode, op: ASTNode) extends ASTNonTerminal {
+case class ASTAdd() extends ASTArithmeticOp
+case class ASTMin() extends ASTArithmeticOp
+case class ASTMul() extends ASTArithmeticOp
+case class ASTDiv() extends ASTArithmeticOp
+
+case class ASTBinary(lhs: ASTNode, rhs: ASTNode, op: ASTNode) extends ASTNonTerminal {
   // todo: exprs that contain exprs aren't traversed.
   override def flatten(): List[ASTNode] = {
     List(lhs, rhs, op)

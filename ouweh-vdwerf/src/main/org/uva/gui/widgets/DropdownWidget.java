@@ -31,6 +31,8 @@ public class DropdownWidget extends QuestionWidget {
             property.apply(this);
         }
 
+        comboBox.setEnabled(readOnly);
+
         this.add(comboBox, 1);
     }
 

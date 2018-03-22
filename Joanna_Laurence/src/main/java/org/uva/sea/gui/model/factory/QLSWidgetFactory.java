@@ -31,7 +31,7 @@ public class QLSWidgetFactory extends QLWidgetFactory {
 
         Class<? extends Widget> widget = this.widgetTypeClassEnumMap.get(widgetType);
         if (widget == null) {
-            throw new NotImplementedException();
+            return this.createWidget(questionData.getNodeType(), questionData, listener);
         }
 
         return this.getWidget(questionData, listener, widget);

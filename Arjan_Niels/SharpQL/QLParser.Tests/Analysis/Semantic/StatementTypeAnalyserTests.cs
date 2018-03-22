@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser.Analysis;
-using QLParser.Analysis.Semantic;
+using QLParser.Analysis.QL.Semantic;
 using QLParser.AST;
 using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
 using QLParser.AST.QL.ExpressionNodes.Enums;
-using QLParser.Tests;
 
 namespace QLParser.Tests.Analysis.Semantic
 {

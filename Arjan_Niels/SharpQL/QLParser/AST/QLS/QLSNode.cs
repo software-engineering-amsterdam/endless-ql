@@ -5,7 +5,7 @@ using System.Text;
 
 namespace QLParser.AST.QLS
 {
-    public class QLSNode
+    public class QLSNode : IQLSTraversable
     {
         public string ID { get; private set; }
         public QLSNodeType NodeType { get; private set; }
@@ -47,6 +47,11 @@ namespace QLParser.AST.QLS
                 builder.Append("\n");
             }
             return string.Format("{0} {1} {2}", this.NodeType, this.ID, builder);
+        }
+
+        public void Accept(IQLSVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

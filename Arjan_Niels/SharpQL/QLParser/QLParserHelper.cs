@@ -2,6 +2,7 @@
 using QLGrammar;
 using QLParser.Analysis;
 using QLParser.AST.QL;
+using QLParser.ParserVisitors.QL;
 using static QLGrammar.QLGrammarParser;
 
 namespace QLParser

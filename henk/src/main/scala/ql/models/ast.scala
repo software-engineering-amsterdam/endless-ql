@@ -8,6 +8,10 @@ sealed trait ASTNode {
 
 sealed trait ASTNonTerminal extends ASTNode
 
+sealed trait ASTStatement extends ASTNode
+sealed trait ASTExpression extends ASTNode
+sealed trait ASTType extends ASTNode
+
 sealed trait ASTLogicalOp extends ASTNode
 sealed trait ASTRelationalOp extends ASTNode
 sealed trait ASTArithmeticOp extends ASTNode

@@ -29,14 +29,14 @@ public abstract class BaseWidget extends BaseRenderable {
     }
 
     protected void sendUpdateValueEvent(String identifier, Value newValue) {
-        for(IGuiElementUpdateListener listener : this.listeners )
+        for (IGuiElementUpdateListener listener : this.listeners)
             listener.updateGuiVariable(identifier, newValue);
     }
 
     @Override
     public Node render(Map<String, VBox> containers) {
         VBox container = containers.get(this.drawInContainer());
-        if(container != null) {
+        if (container != null) {
             Node guiNode = this.convertToGuiNode();
             Node widgetRow = this.drawComponent(this.questionData.getLabel(), guiNode);
             container.getChildren().add(widgetRow);
@@ -50,7 +50,7 @@ public abstract class BaseWidget extends BaseRenderable {
         widget.addListener(this::sendUpdateValueEvent);
         WidgetValueUpdater updater = new WidgetValueUpdater(widget);
         Value value = questionData.getValue();
-        if(value == null)
+        if (value == null)
             value = defaultValueFactory.getDefaultValue(questionData.getNodeType());
         updater.updateWidget(value);
         return widget;

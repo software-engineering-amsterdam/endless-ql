@@ -14,8 +14,8 @@ import java.util.Collection;
 
 public class QuestionModel {
     private final IGuiElementUpdateListener questionValueUpdateListener;
-    private BaseEvaluator interpreter = null;
     private final IWidgetFactory widgetFactory;
+    private BaseEvaluator interpreter = null;
 
     public QuestionModel(IGuiElementUpdateListener questionValueUpdateListener, IWidgetFactory widgetFactory) {
         this.questionValueUpdateListener = questionValueUpdateListener;

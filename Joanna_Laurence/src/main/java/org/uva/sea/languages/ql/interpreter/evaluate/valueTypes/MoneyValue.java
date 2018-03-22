@@ -112,7 +112,6 @@ public class MoneyValue extends Value {
     }
 
 
-
     @Override
     public Value isGreaterOrEqual(Value value) throws EvaluationException {
         return value.isGreaterOrEqual(this);

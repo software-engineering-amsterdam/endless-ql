@@ -1,11 +1,7 @@
 package org.uva.sea.gui.model.factory;
 
 import org.uva.sea.gui.controller.IGuiElementUpdateListener;
-import org.uva.sea.gui.widget.BaseWidget;
-import org.uva.sea.gui.widget.CheckBoxWidget;
-import org.uva.sea.gui.widget.DateWidget;
-import org.uva.sea.gui.widget.MoneyWidget;
-import org.uva.sea.gui.widget.TextFieldWidget;
+import org.uva.sea.gui.widget.*;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.parser.NodeType;
@@ -33,7 +29,7 @@ public class PrimaryTypeWidgetFactory implements IWidgetFactory {
     @Override
     public BaseWidget createWidget(QuestionData questionData, IGuiElementUpdateListener listener) {
         Class<? extends BaseWidget> widget = this.widgetTypeClassEnumMap.get(questionData.getNodeType());
-        if(widget == null) {
+        if (widget == null) {
             //TODO: Other exception
             throw new NotImplementedException();
         }
@@ -47,7 +43,7 @@ public class PrimaryTypeWidgetFactory implements IWidgetFactory {
             newWidget.addListener(listener);
             WidgetValueUpdater widgetValueUpdate = new WidgetValueUpdater(newWidget);
             Value questionValue = questionData.getValue();
-            if(questionValue == null)
+            if (questionValue == null)
                 questionValue = this.defaultValueFactory.getDefaultValue(questionData.getNodeType());
 
             widgetValueUpdate.updateWidget(questionValue);

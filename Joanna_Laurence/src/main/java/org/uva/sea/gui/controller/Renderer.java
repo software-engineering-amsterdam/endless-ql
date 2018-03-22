@@ -6,7 +6,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.widget.BaseWidget;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Renderer {
 
@@ -17,7 +18,7 @@ public class Renderer {
     }
 
     private void clear(Map<String, VBox> guiContainers) {
-        for(Pane container : guiContainers.values()) {
+        for (Pane container : guiContainers.values()) {
             container.getChildren().removeAll(container.getChildren());
         }
     }
@@ -25,7 +26,7 @@ public class Renderer {
     public void draw(Iterable<BaseWidget> displayedComponents, Map<String, VBox> guiContainers) {
         this.drawNode.clear();
         this.clear(guiContainers);
-        for(BaseWidget widget : displayedComponents) {
+        for (BaseWidget widget : displayedComponents) {
             Node widgetNode = widget.render(guiContainers);
             this.drawNode.put(widget.getIdentifier(), widgetNode);
         }
@@ -33,7 +34,7 @@ public class Renderer {
 
     public void setFocus(String identifier) {
         Node node = this.drawNode.get(identifier);
-        if(node != null)
+        if (node != null)
             node.requestFocus();
     }
 }

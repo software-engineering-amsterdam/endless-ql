@@ -2,8 +2,8 @@ package org.uva.sea.languages.ql.parser.elements.expressions.types;
 
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.languages.ql.parser.NodeType;
-import org.uva.sea.languages.ql.parser.elements.expressions.Expression;
 import org.uva.sea.languages.ql.parser.elements.Question;
+import org.uva.sea.languages.ql.parser.elements.expressions.Expression;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Variable extends Expression {

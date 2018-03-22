@@ -44,7 +44,7 @@ public class CheckBoxWidget extends Widget {
         }
         if (style.getWidth() != null) {
             checkBox.setMinWidth(style.getWidth());
-        }else{
+        } else {
             checkBox.setMinWidth(BaseRenderable.TEXT_WIDTH);
         }
     }

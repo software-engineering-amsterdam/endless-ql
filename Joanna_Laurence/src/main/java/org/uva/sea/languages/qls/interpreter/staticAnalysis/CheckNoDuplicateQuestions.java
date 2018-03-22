@@ -5,7 +5,9 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 public class CheckNoDuplicateQuestions extends QuestionAnalysis implements IQLSStaticAnalysis {
 

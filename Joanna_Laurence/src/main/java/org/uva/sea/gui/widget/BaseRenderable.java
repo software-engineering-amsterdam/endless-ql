@@ -2,7 +2,10 @@ package org.uva.sea.gui.widget;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
 
 import java.util.Map;

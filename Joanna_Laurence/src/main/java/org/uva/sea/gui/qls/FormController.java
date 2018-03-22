@@ -24,7 +24,7 @@ public class FormController extends BaseFormController {
             Style style = questionData.getStyle();
             if (style != null) {
                 String pageName = style.getPage();
-                if(!panes.keySet().contains(pageName))
+                if (!panes.keySet().contains(pageName))
                     panes.put(pageName, this.createTab(pageName));
             }
         }

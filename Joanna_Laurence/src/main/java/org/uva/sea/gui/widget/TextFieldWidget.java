@@ -5,7 +5,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
-import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.DecimalValue;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.StringValue;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -50,15 +53,12 @@ public class TextFieldWidget extends Widget {
         }
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-
             Value newWidgetValue;
             try {
                 newWidgetValue = this.widgetValue.getClass().getDeclaredConstructor(String.class).newInstance(newValue);
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
                 newWidgetValue = this.widgetValue;
             }
-
-
             this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);
         });
 

@@ -1,12 +1,9 @@
 package org.uva.sea.gui.qls.widget;
 
 import javafx.scene.Node;
-import javafx.scene.control.ChoiceBox;
-import org.uva.sea.gui.widget.BaseRenderable;
 import org.uva.sea.gui.widget.BaseWidget;
 import org.uva.sea.gui.widget.CheckBoxWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 
 public class CheckBoxWidgetQLS extends QLSWidget {
 

@@ -4,9 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
-import org.uva.sea.gui.widget.BaseRenderable;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
 public class ChoiceBoxWidget extends QLSWidget {

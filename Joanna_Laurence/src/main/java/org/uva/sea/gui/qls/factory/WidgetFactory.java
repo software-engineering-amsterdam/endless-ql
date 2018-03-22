@@ -36,7 +36,7 @@ public class WidgetFactory extends PrimaryTypeWidgetFactory {
     @Override
     public BaseWidget createWidget(QuestionData questionData, IGuiElementUpdateListener listener) {
         WidgetType widgetType = questionData.getWidgetType();
-        if(widgetType == WidgetType.DEFAULT)
+        if (widgetType == WidgetType.DEFAULT)
             return this.getNodeTypedWidget(questionData.getNodeType(), questionData, listener);
 
         return this.getWidgetTypedWidget(widgetType, questionData, listener);

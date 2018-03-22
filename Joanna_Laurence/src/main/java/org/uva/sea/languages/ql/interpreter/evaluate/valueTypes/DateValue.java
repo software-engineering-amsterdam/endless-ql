@@ -112,7 +112,7 @@ public class DateValue extends Value {
 
     @Override
     public String toString() {
-        if(this.dateValue == null)
+        if (this.dateValue == null)
             return "";
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY", Locale.ENGLISH);

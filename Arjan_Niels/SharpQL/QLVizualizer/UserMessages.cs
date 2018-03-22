@@ -23,5 +23,10 @@ namespace QLVisualizer
             return string.Format("Cannot parse value {0} to {2} value", value, targetType);
         }
         #endregion
+
+        public static string UnsupportedStyle(string styleProperty, string styleType, string displayTarget)
+        {
+            return string.Format("The style property\"{0}\" of type \"{1}\" is not supported by the \"{2}\" visualizer", styleProperty, styleType, displayTarget);
+        }
     }
 }

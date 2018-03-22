@@ -126,6 +126,7 @@ public final class Value {
 
         // use the Morgan's Theorem
         return not( booleanAndboolean( not( this ), not( rightOperand ) ) );
+        
       default:
         throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
     }
@@ -142,7 +143,7 @@ public final class Value {
     switch ( typeLeft + " < " + typeRight ) {
 
       case "Date < Date":
-        return new Value( toDate( this ).isBefore( toDate( rightOperand ) ) );
+        return new Value( toDateTime( this ).isBefore( toDateTime( rightOperand ) ) );
 
       case "Integer < Integer":
         return new Value( Integer.parseInt( textLeft ) < Integer.parseInt( textRight ) );
@@ -169,7 +170,7 @@ public final class Value {
 
       case "Date <= Date":
         return new Value(
-            (toDate( this ).isBefore( toDate( rightOperand ) ) || (toDate( this ).equals( toDate( rightOperand ) ))) );
+            (toDateTime( this ).isBefore( toDateTime( rightOperand ) ) || (toDateTime( this ).equals( toDateTime( rightOperand ) ))) );
 
       case "Integer <= Integer":
         return new Value( (Integer.parseInt( textLeft ) <= Integer.parseInt( textRight )) );
@@ -217,7 +218,7 @@ public final class Value {
     switch ( typeLeft + " > " + typeRight ) {
 
       case "Date > Date":
-        return new Value( toDate( this ).isAfter( toDate( rightOperand ) ) );
+        return new Value( toDateTime( this ).isAfter( toDateTime( rightOperand ) ) );
 
       case "Integer > Integer":
         return new Value( (Integer.parseInt( textLeft ) > Integer.parseInt( textRight )) );
@@ -244,7 +245,7 @@ public final class Value {
 
       case "Date >= Date":
         return new Value(
-            (toDate( this ).isAfter( toDate( rightOperand ) ) || (toDate( this ).equals( toDate( rightOperand ) ))) );
+            (toDateTime( this ).isAfter( toDateTime( rightOperand ) ) || (toDateTime( this ).equals( toDateTime( rightOperand ) ))) );
 
       case "Integer >= Integer":
         return new Value( (Integer.parseInt( textLeft ) >= Integer.parseInt( textRight )) );
@@ -313,7 +314,7 @@ public final class Value {
       case "Date + Integer":
         int days = parseInteger( rightOperand );
 
-        return new Value( Type.Date, Value.dateToString( toDate( this ).plusDays( days ) ) );
+        return new Value( Type.Date, Value.dateTimeToString( toDateTime( this ).plusDays( days ) ) );
 
       case "Integer + Integer":
         return new Value( Type.Integer,
@@ -345,7 +346,7 @@ public final class Value {
       case "Date - Integer":
         int days = parseInteger( rightOperand );
 
-        return new Value( Type.Date, Value.dateToString( toDate( this ).minusDays( days ) ) );
+        return new Value( Type.Date, Value.dateTimeToString( toDateTime( this ).minusDays( days ) ) );
 
       case "Integer - Integer":
         return new Value( Type.Integer,
@@ -364,12 +365,12 @@ public final class Value {
     return new Value( TRUE.equals( left ) && TRUE.equals( right ) );
   }
 
-  private DateTime toDate( Value value ) {
+  private DateTime toDateTime( Value value ) {
 
     return new DateTime( SIMPLE_DATE_FORMAT.parseDateTime( value.getText() ) );
   }
 
-  public static String dateToString( DateTime d ) {
+  private static String dateTimeToString( DateTime d ) {
 
     return SIMPLE_DATE_FORMAT.print( d );
   }
@@ -381,27 +382,11 @@ public final class Value {
         .toString();
   }
 
-  public static String unparse( int i ) {
-    return "" + i;
-  }
-
-  public static String unparse( BigDecimal i ) {
-    return "" + i;
-  }
-
-  public static BigDecimal parseBigDecimal( Value value ) {
-    return new BigDecimal( value.getText() );
-  }
-
-  public static String parseString( Value value ) {
-    return valueText( value );
-  }
-
-  public static Integer parseInteger( Value value ) {
+  private static Integer parseInteger( Value value ) {
     return Integer.parseInt( valueText( value ) );
   }
 
-  public static String valueText( Value value ) {
+  private static String valueText( Value value ) {
     return value.getText();
   }
 

@@ -133,6 +133,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             }
             else
             {
+                existingOutput.Value = GetValue(astNode);
                 existingOutput.Visible = m_questionsCurrentlyVisible.Peek();
             }
         }

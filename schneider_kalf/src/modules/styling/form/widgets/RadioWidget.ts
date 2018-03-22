@@ -8,5 +8,4 @@ export default class RadioWidget implements Widget {
   checkParentType(value: string): any {
     return undefined;
   }
-
 }

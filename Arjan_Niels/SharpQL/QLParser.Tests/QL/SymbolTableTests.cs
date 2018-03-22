@@ -4,7 +4,7 @@ using QLParser.Analysis.Semantic;
 using QLParser.AST.QL;
 using System.Linq;
 
-namespace QLParser.Tests.AST
+namespace QLParser.Tests.QL
 {
     [TestClass]
     public class SymbolTableTests : QLTest

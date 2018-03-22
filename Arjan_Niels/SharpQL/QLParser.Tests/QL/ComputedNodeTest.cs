@@ -2,7 +2,7 @@
 using QLParser.AST.QL;
 using System.Linq;
 
-namespace QLParser.Tests.AST
+namespace QLParser.Tests.QL
 {
     [TestClass]
     public class ComputedNodeTest : QLTest

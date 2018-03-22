@@ -4,7 +4,7 @@ using QLParser.AST.QL.ExpressionNodes;
 using QLParser.AST.QL.ExpressionNodes.Enums;
 using System.Linq;
 
-namespace QLParser.Tests.AST.Expressions
+namespace QLParser.Tests.QL.Expressions
 {
     [TestClass]
     public class ArthimetricExpressionTests : QLTest

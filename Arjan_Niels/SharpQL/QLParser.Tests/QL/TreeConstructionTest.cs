@@ -3,7 +3,7 @@ using QLParser.AST;
 using QLParser.AST.QL;
 using System;
 
-namespace QLParser.Tests.AST
+namespace QLParser.Tests.QL
 {
     [TestClass]
     public class TreeConstructionTest : QLTest

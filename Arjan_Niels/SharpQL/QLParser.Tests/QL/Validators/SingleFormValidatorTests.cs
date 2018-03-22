@@ -3,7 +3,7 @@ using QLParser.Analysis.Syntactic;
 using QLParser.AST;
 using QLParser.AST.QL;
 
-namespace QLParser.Tests.AST
+namespace QLParser.Tests.QL
 {
     [TestClass]
     public class SingleFormValidatorTest : QLTest

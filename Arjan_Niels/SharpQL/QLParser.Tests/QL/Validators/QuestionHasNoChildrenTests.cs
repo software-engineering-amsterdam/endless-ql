@@ -3,7 +3,7 @@ using QLParser.Analysis.Syntactic;
 using QLParser.AST;
 using QLParser.AST.QL;
 
-namespace QLParser.Tests.AST.Validators
+namespace QLParser.Tests.QL.Validators
 {
     [TestClass]
     public class QuestionHasNoChildrenTests : QLTest

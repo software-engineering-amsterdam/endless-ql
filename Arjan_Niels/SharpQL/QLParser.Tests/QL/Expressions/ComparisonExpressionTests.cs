@@ -5,7 +5,7 @@ using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLParser.Exceptions;
 using System.Linq;
 
-namespace QLParser.Tests.AST.Expressions
+namespace QLParser.Tests.QL.Expressions
 {
     [TestClass]
     public class ComparisonExpressionTests : QLTest

@@ -1,6 +1,5 @@
 form taxOfficeExample {
 
-
   "Do you have euros"
     euros: money_euro
 

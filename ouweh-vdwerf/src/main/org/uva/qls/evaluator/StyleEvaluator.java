@@ -5,6 +5,7 @@ import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.ast.type.MoneyType;
 import org.uva.ql.ast.type.StringType;
+import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
 import org.uva.qls.ast.Segment.*;
 import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Style.StyleProperty.*;
@@ -103,12 +104,15 @@ public class StyleEvaluator {
     }
 
     public Style getStyle(Question question) {
-        return getStyle(this.getQuestionReference(question));
-    }
-
-    public Style getStyle(QuestionReference questionReference) {
-
-        return this.defaultStyle;
+        QuestionReference questionReference = this.context.getQuestionReference(question);
+        for (Segment segment: this.context.getAllParents(questionReference.getId())){
+            for(DefaultStyleStatement defaultStyleStatement: segment.getDefaultStyleStatements()){
+                if (defaultStyleStatement.getType().getClass().equals(question.getType().getClass())){
+                    return defaultStyleStatement.getStyle();
+                }
+            }
+        }
+        return defaultStyle;
     }
 
     public WidgetType getWidgetType(Question question) {

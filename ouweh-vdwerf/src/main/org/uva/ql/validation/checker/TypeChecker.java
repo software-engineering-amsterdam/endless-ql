@@ -42,7 +42,6 @@ public class TypeChecker extends Checker
 
         if (!new BooleanType().isCompatible(left) || !new BooleanType().isCompatible(right)) {
             result.addError(ERROR_MESSAGE + operation);
-            logger.severe(ERROR_MESSAGE + operation);
         }
 
         return new BooleanType();
@@ -54,7 +53,6 @@ public class TypeChecker extends Checker
 
         if (!left.isCompatible(right)) {
             result.addError(ERROR_MESSAGE + operation);
-            logger.severe(ERROR_MESSAGE + operation);
         }
 
         return left;
@@ -81,7 +79,6 @@ public class TypeChecker extends Checker
 
         if (!new BooleanType().isCompatible(type)) {
             result.addError(ERROR_MESSAGE + conditional);
-            logger.severe(ERROR_MESSAGE + conditional);
         }
 
         return new BooleanType();
@@ -93,7 +90,6 @@ public class TypeChecker extends Checker
 
         if (!question.getType().isCompatible(calculationType)) {
             result.addError(ERROR_MESSAGE + question);
-            logger.severe(ERROR_MESSAGE + question);
         }
 
         return question.getType();
@@ -172,7 +168,6 @@ public class TypeChecker extends Checker
 
         if (!new BooleanType().isCompatible(type)) {
             result.addError(ERROR_MESSAGE + negation);
-            logger.severe(ERROR_MESSAGE + negation);
         }
 
         return type;

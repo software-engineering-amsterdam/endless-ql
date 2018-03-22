@@ -11,26 +11,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ParameterMapping implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
+public class ParameterContext implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
 
-    private Map<String, List<Parameter>> parameterMapping;
+    private Map<String, List<Parameter>> dependencyMapping;
+    private List<Parameter> parameters;
 
-    public ParameterMapping(Form form) {
-        this.parameterMapping = new HashMap<>();
+    public ParameterContext(Form form) {
+        this.dependencyMapping = new HashMap<>();
+        this.parameters = new ArrayList<>();
 
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
         }
     }
 
-    public Map<String, List<Parameter>> getParameterMapping() {
-        return parameterMapping;
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
+
+    public Map<String, List<Parameter>> getDependencyMapping() {
+        return dependencyMapping;
     }
 
     @Override
     public Void visit(Parameter parameter, String context) {
-        if (parameterMapping.containsKey(context)) {
-            parameterMapping.get(context).add(parameter);
+        parameters.add(parameter);
+
+        if (dependencyMapping.containsKey(context)) {
+            dependencyMapping.get(context).add(parameter);
         } else {
             assert context != null;
         }
@@ -39,8 +47,8 @@ public class ParameterMapping implements StatementVisitor<Void, String>, Express
 
     @Override
     public Void visit(CalculatedQuestion calculatedQuestion, String context) {
-        if (!parameterMapping.containsKey(calculatedQuestion.getId())) {
-            parameterMapping.put(calculatedQuestion.getId(), new ArrayList<>());
+        if (!dependencyMapping.containsKey(calculatedQuestion.getId())) {
+            dependencyMapping.put(calculatedQuestion.getId(), new ArrayList<>());
         }
 
         calculatedQuestion.getExpression().accept(this, calculatedQuestion.getId());

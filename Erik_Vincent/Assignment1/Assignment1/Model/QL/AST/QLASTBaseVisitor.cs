@@ -10,7 +10,7 @@ namespace Assignment1.Model.QL.AST
 {
     public abstract class QLASTBaseVisitor : IQLASTVisitor, IExpressionVisitor
     {
-        private IDictionary<string, Question> QuestionsInScope => _scopes.SelectMany(scope => scope).ToDictionary(question => question.Id, question => question);
+        private IReadOnlyDictionary<string, Question> QuestionsInScope => _scopes.SelectMany(scope => scope).ToDictionary(question => question.Id, question => question);
         private readonly Stack<IEnumerable<Question>> _scopes = new Stack<IEnumerable<Question>>();
 
         public virtual void Visit(QuestionForm questionForm)
@@ -21,7 +21,14 @@ namespace Assignment1.Model.QL.AST
         private void VisitStatements(IEnumerable<Statement> statements)
         {
             statements = statements.ToArray();
-            var questions = statements.OfType<Question>();
+            var questions = statements.OfType<Question>().ToArray();
+            foreach (var question in questions)
+            {
+                if (QuestionsInScope.ContainsKey(question.Id))
+                {
+                    throw new DuplicateQuestionException(question);
+                }
+            }
             _scopes.Push(questions);
             foreach (var statement in statements)
             {

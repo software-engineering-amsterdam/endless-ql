@@ -3,6 +3,8 @@ package org.uva.qls.ast.Widget;
 import org.uva.qls.ast.TreeNode;
 import org.uva.qls.ast.Widget.WidgetTypes.WidgetType;
 
+import org.uva.ql.ast.type.Type;
+
 public class Widget extends TreeNode {
 
     private WidgetType type;
@@ -15,7 +17,7 @@ public class Widget extends TreeNode {
         return type;
     }
 
-    public boolean isCompatible(String questionType) {
+    public boolean isCompatible(Class<? extends Type> questionType) {
         return this.type.getCompatibleTypes().contains(questionType);
     }
 }

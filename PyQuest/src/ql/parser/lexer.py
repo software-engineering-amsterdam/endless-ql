@@ -24,50 +24,53 @@ class QLLexer:
         'TRUE', 'FALSE',
         'DATE_LITERAL',
         'STRING_LITERAL',
-        'VARIABLE']
+        'IDENTIFIER',
+    ]
 
     # List of reserved keywords
     reserved = {
-        'form'    : 'FORM',
-        'if'      : 'IF',
-        'elif'    : 'ELSE_IF',
-        'else'    : 'ELSE',
-        'boolean' : 'BOOLEAN',
-        'string'  : 'STRING',
-        'integer' : 'INTEGER',
-        'date'    : 'DATE',
-        'decimal' : 'DECIMAL',
-        'money'   : 'MONEY'}
+        'form':     'FORM',
+        'if':       'IF',
+        'elif':     'ELSE_IF',
+        'else':     'ELSE',
+
+        # Types
+        'boolean':  'BOOLEAN',
+        'string':   'STRING',
+        'integer':  'INTEGER',
+        'date':     'DATE',
+        'decimal':  'DECIMAL',
+        'money':    'MONEY',
+    }
 
     tokens += list(reserved.values())
 
     # Regular expression rules for simple tokens
-    t_ignore   = ' \t'
+    t_ignore = ' \t'
 
-    t_PLUS     = r'\+'
-    t_MINUS    = r'-'
-    t_TIMES    = r'\*'
-    t_DIVIDE   = r'/'
-    t_COLON    = r':'
+    t_PLUS = r'\+'
+    t_MINUS = r'-'
+    t_TIMES = r'\*'
+    t_DIVIDE = r'/'
+    t_COLON = r':'
+    t_ASSIGN = r'='
 
-    t_ASSIGN   = r'='
+    t_LE = r'<='
+    t_LT = r'<'
+    t_GE = r'>='
+    t_GT = r'>'
+    t_EQ = r'=='
+    t_NE = r'!='
+    t_AND = r'&&'
+    t_OR = r'\|\|'
 
-    t_LE       = r'<='
-    t_LT       = r'<'
-    t_GE       = r'>='
-    t_GT       = r'>'
-    t_EQ       = r'=='
-    t_NE       = r'!='
-    t_AND      = r'&&'
-    t_OR       = r'\|\|'
-
-    t_NOT      = r'\!'
+    t_NOT = r'\!'
 
     t_LEFT_BRACE = r'\{'
     t_RIGHT_BRACE = r'\}'
 
-    t_LEFT_BRACKET   = r'\('
-    t_RIGHT_BRACKET   = r'\)'
+    t_LEFT_BRACKET = r'\('
+    t_RIGHT_BRACKET = r'\)'
 
     # Define a rule so we can track line numbers
     @staticmethod
@@ -123,9 +126,9 @@ class QLLexer:
         t.lexer.skip(1)
 
     # Define a rule for handling all non-tokens
-    def t_VARIABLE(self, t):
-        r'[a-z][a-zA-Z_0-9]*'
-        t.type = self.reserved.get(t.value, 'VARIABLE')  # Check for reserved words
+    def t_IDENTIFIER(self, t):
+        r'[a-zA-Z][a-zA-Z_0-9]*'
+        t.type = self.reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words
         return t
 
     # Test the lexer output

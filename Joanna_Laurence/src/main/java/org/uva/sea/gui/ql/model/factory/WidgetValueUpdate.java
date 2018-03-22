@@ -12,7 +12,7 @@ public class WidgetValueUpdate extends BaseValueVisitor<Void> {
         this.widget = widget;
     }
 
-    Widget updateWidget(Value value) {
+    public Widget updateWidget(Value value) {
         value.accept(this);
         return this.widget;
     }

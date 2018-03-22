@@ -121,7 +121,7 @@ class REPL extends Application with Logging {
                 val maybeIntegerAnswer = Try(newValue.toInt).toOption.map(value => IntegerAnswer(value))
 
                 maybeIntegerAnswer foreach (answer => dictionary(id) = answer)
-                val updatedDictionary = qlFormOrError.map(Evaluator.evaluate(_, dictionary.toMap)).toOption.get
+                val updatedDictionary = qlFormOrError.map(QLFormEvaluator.evaluate(_, dictionary.toMap)).toOption.get
                 pprint.pprintln(updatedDictionary)
                 dictionary ++= mutable.Map(updatedDictionary.toSeq: _*)
                 pprint.pprintln(dictionary)

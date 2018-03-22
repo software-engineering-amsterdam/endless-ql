@@ -18,7 +18,7 @@ import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
-import nl.uva.se.sc.niro.{ Evaluator, QLFormService }
+import nl.uva.se.sc.niro.{ QLFormEvaluator, QLFormService }
 import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.{ JavaConverters, mutable }
@@ -90,7 +90,7 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
 
   def evaluateAnswers(): Unit = {
     logger.debug(s"Values before evaluation:\n${pprint.apply(valuesForQuestions)}")
-    valuesForQuestions ++= Evaluator.evaluate(model, valuesForQuestions.toMap)
+    valuesForQuestions ++= QLFormEvaluator.evaluate(model, valuesForQuestions.toMap)
     logger.debug(s"Values after evaluation:\n${pprint.apply(valuesForQuestions)}")
   }
 

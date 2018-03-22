@@ -1,24 +1,15 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.Evaluator.Dictionary
-import nl.uva.se.sc.niro.model._
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DateAnswer, DecimalAnswer, IntegerAnswer }
-import nl.uva.se.sc.niro.model.ql.expressions._
+import nl.uva.se.sc.niro.QLFormEvaluator.Dictionary
 import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.expressions._
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DateAnswer, DecimalAnswer, IntegerAnswer }
 import org.scalatest.WordSpec
 
-class EvaluatorTest extends WordSpec {
+class QLFormEvaluatorTest extends WordSpec {
 
-  "EvaluatorTest" should {
-    // TODO implement test for the evaluator
-    "evaluateConditional" in {}
-
-    "evaluateQuestion" in {}
-
-    "evaluateStatement" in {}
-
-    "evaluate a QLForm" can {
-      "with single expression" in {
+  "QLFromEvaluator" should {
+     "evaluate a QLForm with single expression" in {
         val qLForm = QLForm(
           formName = "Revenue",
           statements = List(
@@ -36,7 +27,7 @@ class EvaluatorTest extends WordSpec {
           )
         )
 
-        val result = Evaluator.evaluate(qLForm, Map.empty)
+        val result = QLFormEvaluator.evaluate(qLForm, Map.empty)
         val expected =
           Map(
             "revenue" -> IntegerAnswer(1000),
@@ -47,7 +38,7 @@ class EvaluatorTest extends WordSpec {
         assert(result == expected)
       }
 
-      "with multiple expressions" in {
+      "evaluate a QLForm with multiple expressions" in {
         val qlForm = QLForm(
           "EditOrNotToEdit",
           List(
@@ -100,7 +91,7 @@ class EvaluatorTest extends WordSpec {
           "decimalConstant" -> DecimalAnswer(42.4)
         )
 
-        val result = Evaluator.evaluate(qlForm, inputs)
+        val result = QLFormEvaluator.evaluate(qlForm, inputs)
         val expected: Dictionary =
           Map(
             "integerConstant" -> IntegerAnswer(42),
@@ -113,7 +104,7 @@ class EvaluatorTest extends WordSpec {
         assert(result == expected)
       }
 
-      "re-evaluate expression" in {
+      "re-evaluate a QLForm" in {
         val qlForm = QLForm(
           "EditOrNotToEdit",
           List(
@@ -145,7 +136,7 @@ class EvaluatorTest extends WordSpec {
           "integerVariable" -> IntegerAnswer(123),
           "integerConstant" -> IntegerAnswer(42))
 
-        val result = Evaluator.evaluate(qlForm, inputs)
+        val result = QLFormEvaluator.evaluate(qlForm, inputs)
         val expected: Dictionary =
           Map(
             "dateConstant" -> DateAnswer("1970-01-01"),
@@ -164,7 +155,7 @@ class EvaluatorTest extends WordSpec {
             "integerExpression" -> IntegerAnswer(166)
           )
 
-        val alteredResult = Evaluator.evaluate(qlForm, alteredInput)
+        val alteredResult = QLFormEvaluator.evaluate(qlForm, alteredInput)
         val alteredExpected: Dictionary =
           Map(
             "dateConstant" -> DateAnswer("1970-01-01"),
@@ -176,7 +167,7 @@ class EvaluatorTest extends WordSpec {
         assert(alteredResult == alteredExpected, "Second pass")
       }
 
-      "re-evaluate expression 2" in {
+      "re-evaluate another QLForm" in {
         val qlForm = QLForm(
           "EditOrNotToEdit",
           List(
@@ -190,7 +181,7 @@ class EvaluatorTest extends WordSpec {
           "a" -> IntegerAnswer(1)
         )
 
-        val result = Evaluator.evaluate(qlForm, inputs)
+        val result = QLFormEvaluator.evaluate(qlForm, inputs)
         val expected: Dictionary =
           Map(
             "a" -> IntegerAnswer(1),
@@ -206,12 +197,11 @@ class EvaluatorTest extends WordSpec {
             "c" -> IntegerAnswer(1)
           )
 
-        val alteredResult = Evaluator.evaluate(qlForm, alteredInput)
+        val alteredResult = QLFormEvaluator.evaluate(qlForm, alteredInput)
         val alteredExpected: Dictionary =
           Map()
 
         assert(alteredResult == alteredExpected, "Second pass")
       }
-    }
   }
 }

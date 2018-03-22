@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.Evaluator.Dictionary
+import nl.uva.se.sc.niro.QLFormEvaluator.Dictionary
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
 import nl.uva.se.sc.niro.model.ql.expressions.{ BinaryOperation, Expression, Reference, UnaryOperation }

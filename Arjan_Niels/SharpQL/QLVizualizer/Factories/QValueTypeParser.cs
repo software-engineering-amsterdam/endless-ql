@@ -5,48 +5,46 @@ namespace QLVisualizer.Factories
 {
     public static class QValueTypeParser
     {
-        public static string ParseHexadecimal(QValueType qValueType, string value)
+        public static string ParseHexadecimal(string value)
         {  
-            if (qValueType == QValueType.HEX && value.StartsWith("#") && value.Length == 7)
+            if (value.StartsWith("#") && value.Length == 7)
                 return value;
 
-            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, qValueType.ToString(), "Hexadecimal"));
+            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, "Hexadecimal"));
         }
 
-        public static bool ParseBoolean(QValueType qValueType, string value)
+        public static bool ParseBoolean(string value)
         {
             bool result = false;
-            if (qValueType == QValueType.BOOLEAN && bool.TryParse(value, out result))
+            if (bool.TryParse(value, out result))
                 return result;
-            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, qValueType.ToString(), "Boolean"));
+            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, "Boolean"));
         }
 
-        public static double ParseDouble(QValueType qValueType, string value)
+        public static double ParseDouble(string value)
         {
             double result = 0;
-            if (qValueType == QValueType.DOUBLE && double.TryParse(value, out result))
+            if (double.TryParse(value, out result))
                 return result;
-            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, qValueType.ToString(), "Double"));
+            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, "Double"));
         }
 
-        public static double ParseMoney(QValueType qValueType, string value)
+        public static double ParseMoney(string value)
         {
-            if (qValueType == QValueType.MONEY)
-                return ParseDouble(QValueType.DOUBLE, value);
-            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, qValueType.ToString(), "Money"));
+            return ParseDouble(value);
         }
 
-        public static string ParseText(QValueType qValueType, string value)
+        public static string ParseText(string value)
         {
             return value;
         }
 
-        public static int ParseInteger(QValueType qValueType, string value)
+        public static int ParseInteger(string value)
         {
             int result = 0;
-            if (qValueType == QValueType.INTEGER && int.TryParse(value, out result))
+            if (int.TryParse(value, out result))
                 return result;
-            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, qValueType.ToString(), "Integer"));
+            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, "Integer"));
         }
     }
 }

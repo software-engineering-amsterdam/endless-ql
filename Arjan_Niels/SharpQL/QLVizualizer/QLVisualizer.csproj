@@ -69,6 +69,7 @@
     <Compile Include="Expression\Types\ExpressionInt.cs" />
     <Compile Include="Factories\ExpressionFactory.cs" />
     <Compile Include="Factories\ElementManagerFactory.cs" />
+    <Compile Include="Factories\QValueTypeParser.cs" />
     <Compile Include="Style\IStyleCheckable.cs" />
     <Compile Include="Style\StyleChecker.cs" />
     <Compile Include="Style\Types\CheckBox.cs" />
@@ -91,14 +92,14 @@
     <Compile Include="Widgets\Collection\WidgetCollectionBuilder.cs" />
     <Compile Include="Widgets\Windows\Collection\FormBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Collection\WidgetCollectionBuilderWindows.cs" />
-    <Compile Include="Widgets\IStyleCreator.cs" />
+    <Compile Include="Widgets\IStyleParser.cs" />
     <Compile Include="Widgets\IWidgetBuilder.cs" />
     <Compile Include="Widgets\Leaf\WidgetLeafBuilder.cs" />
     <Compile Include="Widgets\WidgetBuilder.cs" />
     <Compile Include="Widgets\WidgetCreator.cs" />
     <Compile Include="Widgets\WidgetCreatorWindows.cs" />
     <Compile Include="Widgets\Windows\StyleParserWindows.cs" />
-    <Compile Include="Widgets\StyleProperties.cs" />
+    <Compile Include="Widgets\StyleProperty.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

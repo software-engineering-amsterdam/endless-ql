@@ -38,6 +38,11 @@ public class DecimalValue extends Value {
     }
 
     @Override
+    public Value divide(Value value) throws EvaluationException {
+        return value.divide(this);
+    }
+
+    @Override
     public Value divide(IntValue value) throws EvaluationException {
         if (value.getIntValue() == 0)
             throw new EvaluationException("Divide by 0 error");

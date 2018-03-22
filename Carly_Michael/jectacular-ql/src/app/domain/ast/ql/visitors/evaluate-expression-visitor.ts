@@ -16,6 +16,7 @@ import {DateLiteral} from '../expressions/literals/date-literal';
 import {FormGroup} from '@angular/forms';
 import {Expression} from '../';
 import {UnknownQuestionError} from '../../../errors';
+import {locationToReadableMessage} from '../../location';
 
 export class EvaluateExpressionVisitor implements ExpressionVisitor<Literal> {
   constructor(private readonly form: FormGroup) { }
@@ -109,7 +110,7 @@ export class EvaluateExpressionVisitor implements ExpressionVisitor<Literal> {
       return new NumberLiteral(undefined, expr.location);
     } else {
       throw new UnknownQuestionError(`Question for identifier ${expr.identifier} could not be found`
-        + expr.getLocationErrorMessage());
+        + locationToReadableMessage(expr.location));
     }
   }
 }

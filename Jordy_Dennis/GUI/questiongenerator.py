@@ -82,11 +82,13 @@ class QuestionGenerator:
 
     def addSection(self, pageName, sections, pageDefaults, insertAfter=""):
         page = self.form.getPage(pageName)
+        defaultDict = {}
+        self.updateDefaults(defaultDict, pageDefaults)
         current_default = pageDefaults
         for section in sections:
             # if section has defaults, set them as net defaults
             if section.defaults:
-                current_default = section.defaults
+                self.updateDefaults(defaultDict, section.defaults)
             sectionName = section.getName()
             isSectionEmpty = True
             if not self.form.doesSectionExists(sectionName, pageName):
@@ -98,7 +100,7 @@ class QuestionGenerator:
                     isSectionEmpty = False
 
                     if question.default:
-                        current_default = [question.default]
+                        self.updateDefaults(defaultDict, [question.default])
 
                     # get data of question
                     label = self.questions[varName].getQuestion()
@@ -139,6 +141,12 @@ class QuestionGenerator:
 
             # add child sections
             self.addSection(pageName, section.getSections(), pageDefaults, insertAfter)
+    def updateDefaults(self, defaultDict, newDefaults):
+        for default in newDefaults:
+            defaultType = default.type
+
+            print(default)
+
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy
     def getQuestions(self, block):

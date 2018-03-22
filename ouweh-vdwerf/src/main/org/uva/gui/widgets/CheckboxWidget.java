@@ -34,12 +34,7 @@ public class CheckboxWidget extends QuestionWidget {
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        checkBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                questionChangeListener.onQuestionChanged(question, new BooleanValue(checkBox.isSelected()));
-            }
-        });
+        checkBox.addItemListener(e -> questionChangeListener.onQuestionChanged(question, new BooleanValue(checkBox.isSelected())));
     }
 
     @Override

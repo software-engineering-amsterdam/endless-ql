@@ -73,6 +73,7 @@ class QLSVisitor(QLSGrammarVisitor):
     # Visit a parse tree produced by QLSGrammarParser#question.
     def visitQuestion(self, ctx: QLSGrammarParser.QuestionContext):
         self.logger.debug("QUESTION")
+        self.isQuestion = True
         question = None
         questionName = ctx.ID().getText()
 
@@ -84,6 +85,7 @@ class QLSVisitor(QLSGrammarVisitor):
             default = self.visit(ctx.default_style())
             question = Question(questionName, default.getWidget(), default.getWidgetType(), ctx.start.line, default)
 
+        self.isQuestion = False
         return question
 
     # Visit a parse tree produced by QLSGrammarParser#widget.
@@ -133,7 +135,7 @@ class QLSVisitor(QLSGrammarVisitor):
                 default.setWidgetType(widgetObject.getWidget())
             default.addAttribute(widgetObject)
 
-        if hasWidget == False:
+        if not hasWidget and self.isQuestion:
             errorstring = "Default style missing widget declaration near line " + str(ctx.start.line)
             throwError(errorstring)
 

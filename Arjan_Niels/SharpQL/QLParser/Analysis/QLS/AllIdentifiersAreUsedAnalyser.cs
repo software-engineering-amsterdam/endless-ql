@@ -12,26 +12,6 @@ namespace QLParser.Analysis.QLS
             this.VisitedIDs = new List<string>();
         }
 
-        public void Visit(QLSQuestionNode node)
-        {
-            this.VisitedIDs.Add(node.ID);
-
-            foreach (var child in node.Children)
-                child.Accept(this);
-        }
-
-        public void Visit(QLSStructuralNode node)
-        {
-            foreach (var child in node.Children)
-                child.Accept(this);
-        }
-
-        public void Visit(QLSNode node)
-        {
-            foreach (var child in node.Children)
-                child.Accept(this);
-        }
-
         public bool Analyse(QLSNode node)
         {
             var isValid = true;
@@ -48,6 +28,28 @@ namespace QLParser.Analysis.QLS
             }
 
             return isValid;
+        }
+
+        public void Visit(QLSQuestionNode node)
+        {
+            this.VisitedIDs.Add(node.ID);
+            VisitChildren(node);
+        }
+
+        public void Visit(QLSStructuralNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(QLSNode node)
+        {
+            VisitChildren(node);
+        }
+
+        private void VisitChildren(QLSNode node)
+        {
+            foreach (var child in node.Children)
+                child.Accept(this);
         }
     }
 }

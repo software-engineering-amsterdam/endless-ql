@@ -1,5 +1,4 @@
-﻿using QLParser.AST;
-using QLParser.AST.QL.ExpressionNodes.Enums;
+﻿using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLParser.Exceptions;
 
 namespace QLParser.AST.QL.ExpressionNodes
@@ -43,6 +42,11 @@ namespace QLParser.AST.QL.ExpressionNodes
         public override string ToString()
         {
             return string.Format("{0} ({1} {2} {3})", base.ToString(), Left, Operator, Right);
+        }
+
+        public override void Accept(IQLVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

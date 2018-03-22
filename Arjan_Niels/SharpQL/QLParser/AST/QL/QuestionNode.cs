@@ -1,6 +1,4 @@
-﻿using QLParser.AST;
-
-namespace QLParser.AST.QL
+﻿namespace QLParser.AST.QL
 {
     public class QuestionNode : QLNode
     {
@@ -18,6 +16,11 @@ namespace QLParser.AST.QL
         public override string ToString()
         {
             return base.ToString() + string.Format("\tID: {0}\t{1}\t\t{2}", ID, ValueType, Text);
+        }
+
+        public override void Accept(IQLVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

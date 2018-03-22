@@ -35,17 +35,20 @@ namespace QLParser.Analysis.QLS
         {
             this.VisitedIDs.Add(node.ID);
 
-            foreach (var child in node.Children)
-                child.Accept(this);
+            VisitChildren(node);
         }
 
         public void Visit(QLSStructuralNode node)
         {
-            foreach (var child in node.Children)
-                child.Accept(this);
+            VisitChildren(node);
         }
 
         public void Visit(QLSNode node)
+        {
+            VisitChildren(node);
+        }
+
+        private void VisitChildren(QLSNode node)
         {
             foreach (var child in node.Children)
                 child.Accept(this);

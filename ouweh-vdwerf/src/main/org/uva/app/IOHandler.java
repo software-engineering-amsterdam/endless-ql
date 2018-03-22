@@ -31,9 +31,10 @@ public class IOHandler {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             return readFile(chooser.getSelectedFile().getName());
         } else {
-            logger.severe("File selection unsuccessful");
+            logger.info("No file selected");
+            System.exit(0);
         }
-        return "";
+        return null;
     }
 
     public String readFile(String location) {

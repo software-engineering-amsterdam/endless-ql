@@ -70,6 +70,9 @@ export default class NodeTraveller implements NodeVisitor {
     ifCondition.then.forEach((statement: Statement) => {
       statement.accept(this);
     });
+    ifCondition.otherwise.forEach((statement: Statement) => {
+      statement.accept(this);
+    });
     this.post(ifCondition);
   }
 

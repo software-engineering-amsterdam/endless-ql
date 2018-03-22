@@ -64,13 +64,13 @@ class Section():
             for default in defaults:
                 for attribute in default.attributes:
                     if type(attribute) == QLS.StyleWidth:
-                        width = attribute.getWidth()
+                        width = attribute.getValue()
                     elif type(attribute) == QLS.StyleFont:
-                        font = attribute.getFont()
+                        font = attribute.getValue()
                     elif type(attribute) == QLS.StyleFontSize:
-                        fontSize = attribute.getFontSize()
+                        fontSize = attribute.getValue()
                     elif type(attribute) == QLS.StyleColor:
-                        color = attribute.getColor()
+                        color = attribute.getValue()
 
         minVal = 0
         maxVal = 1

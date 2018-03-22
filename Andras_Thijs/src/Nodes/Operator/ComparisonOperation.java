@@ -21,11 +21,8 @@ public class ComparisonOperation extends Operator{
      * @throws SyntaxException when the value of this Operator is not >=, <=, > or <.
      */
     public QLBoolean calculate(Term left, Term right) throws TypeException, SyntaxException {
-        // Check if both sides are Floats, otherwise throw a TypeException.
-        if(!(left instanceof QLFloat && right instanceof QLFloat))
-            throw new TypeException(this);
-
         // Apply the correct implementation. Throw a SyntaxException for invalid operators.
+        // When either left or right is not a QLFloat, a TypeException will be thrown.
         switch(this.getValue()) {
             case ">=": return new QLBoolean(left.getFloat() >= right.getFloat());
             case "<=": return new QLBoolean(left.getFloat() <= right.getFloat());

@@ -1,9 +1,12 @@
 package Nodes.Term;
 
 import Nodes.ASTNode;
+import Nodes.Condition;
 import Nodes.QLForm;
 import Nodes.Question;
 import QLExceptions.*;
+
+import java.util.List;
 
 public class Variable extends Term {
     private String name;
@@ -24,24 +27,52 @@ public class Variable extends Term {
     public Term getTerm() throws OtherException, SyntaxException {
         // Get the QLForm node.
         ASTNode node = this.getParent();
-        while(!(node instanceof QLForm))
+        while(node.getParent() != null)
             node = node.getParent();
 
         // Find the referenced Question.
-        //TODO: Look for all VISIBLE questions.
-        for(Question q : ((QLForm) node).getQuestions()) {
-            if(q.isAvailable() && q.getName().equals(this.name)) {
+        // First check the Questions of the QLForm.
+        QLForm form = (QLForm) node;
+        List<Question> questions = form.getQuestions();
+        List<Condition> conditions = form.getConditions();
+        Term result = checkQuestions(questions);
+
+        // If the result is found already, don't check the other Questions.
+        if(result != null)
+            return result;
+
+        // Recursively check the Questions in Conditions, and add any Conditions in Conditions to the list of Conditions that have to be checked.
+        for(Condition c : conditions) {
+            conditions.addAll(c.getConditions());
+            questions = c.getQuestions();
+            result = checkQuestions(questions);
+            // Return the result as soon as the right Question is found.
+            if(result != null)
+                return result;
+        }
+
+        // Throw exception if no variable is found.
+        throw new SyntaxException("A Variable was referenced that doesn't exist", this);
+    }
+
+    /**
+     * This method checks a list of Questions to see if it's referenced by this Variable.
+     * @param questions A list of Questions.
+     * @return A result, or null when the referenced Question is not found.
+     * @throws OtherException when the Question is found, but not yet set.
+     */
+    private Term checkQuestions(List<Question> questions) throws OtherException {
+        for(Question q : questions) {
+            if(q.getName().equals(this.name)) {
                 // return the result (Term) of the referenced Question.
                 Term result = q.getResult();
-                if(result == null) {
+                if(q.isAvailable() || result == null) {
                     throw new OtherException("Variable isn't set yet");
                 } else {
                     return result;
                 }
             }
         }
-
-        // Throw exception if no variable is found.
-        throw new SyntaxException("A Variable was referenced that doesn't exist", this);
+        return null;
     }
 }

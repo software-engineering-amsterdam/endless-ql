@@ -3,7 +3,11 @@ package GUI;
 import GUI.Listeners.RefreshListener;
 import Nodes.QLForm;
 import Nodes.Question;
+import QLExceptions.SyntaxException;
+import QLExceptions.TypeException;
+
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -19,7 +23,7 @@ public class FormTemplate implements RefreshListener{
         questionPanels = new ArrayList<>();
     }
 
-    public void renderForm(){
+    public void renderForm() throws SyntaxException, TypeException {
 
         JFrame frame = new JFrame(form.getName());
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -27,10 +31,12 @@ public class FormTemplate implements RefreshListener{
         JPanel panel = new JPanel();
 
         List<Question> questions = form.getAllQuestions();
-        questions.stream().map(question -> new QuestionPanel(question, this)).forEach(questionPanel -> {
+        for (Question question : questions) {
+            QuestionPanel questionPanel = new QuestionPanel(question, this);
             questionPanels.add(questionPanel);
             panel.add(questionPanel);
-        });
+        }
+
 
         frame.add(panel);
 
@@ -44,7 +50,7 @@ public class FormTemplate implements RefreshListener{
 
 
     @Override
-    public void refreshQuestions(){
+    public void refreshQuestions() throws SyntaxException, TypeException {
         for (QuestionPanel questionPanel : questionPanels) {
             questionPanel.refreshPanel();
         }

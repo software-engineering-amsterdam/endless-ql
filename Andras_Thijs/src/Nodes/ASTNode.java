@@ -1,5 +1,8 @@
 package Nodes;
 
+import QLExceptions.SyntaxException;
+import QLExceptions.TypeException;
+
 public abstract class ASTNode {
     private ASTNode parent;
 
@@ -11,7 +14,7 @@ public abstract class ASTNode {
         this.parent = parent;
     }
 
-    public boolean isAvailable() {
+    public boolean isAvailable() throws SyntaxException, TypeException {
         return true;
     }
 }

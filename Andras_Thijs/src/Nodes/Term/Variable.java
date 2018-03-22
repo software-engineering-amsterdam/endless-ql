@@ -19,7 +19,7 @@ public class Variable extends Term {
      * @throws SyntaxException if the Variable references a Question that doesn't exist.
      */
     @Override
-    public Term getTerm() throws OtherException, SyntaxException {
+    public Term getTerm() throws OtherException, SyntaxException, TypeException {
         // Get the QLForm node.
         ASTNode node = this.getParent();
         while(node.getParent() != null)
@@ -56,7 +56,7 @@ public class Variable extends Term {
      * @return A result, or null when the referenced Question is not found.
      * @throws OtherException when the Question is found, but not yet set.
      */
-    private Term checkQuestions(List<Question> questions) throws OtherException {
+    private Term checkQuestions(List<Question> questions) throws OtherException, SyntaxException, TypeException {
         for(Question q : questions) {
             if(q.getName().equals(this.name)) {
                 // return the result (Term) of the referenced Question.

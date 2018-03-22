@@ -2,6 +2,9 @@ package GUI;
 import GUI.Listeners.RefreshListener;
 import Nodes.Question;
 import Nodes.Term.TermFactory;
+import QLExceptions.SyntaxException;
+import QLExceptions.TypeException;
+
 import javax.swing.*;
 
 public class QuestionPanel extends JPanel{
@@ -9,7 +12,7 @@ public class QuestionPanel extends JPanel{
     private boolean isAvailable;
     private Widget widget;
 
-    QuestionPanel(Question question, RefreshListener listener){
+    QuestionPanel(Question question, RefreshListener listener) throws SyntaxException, TypeException {
         this.question = question;
         this.setName(question.getName());
         this.isAvailable = question.isAvailable();
@@ -20,7 +23,7 @@ public class QuestionPanel extends JPanel{
     }
 
 
-    public void refreshPanel() {
+    public void refreshPanel() throws SyntaxException, TypeException {
         updateTerm();
         setVisibility();
     }
@@ -38,7 +41,7 @@ public class QuestionPanel extends JPanel{
 
     }
 
-    private void setVisibility(){
+    private void setVisibility() throws SyntaxException, TypeException {
         this.isAvailable = question.isAvailable();
         this.setVisible(this.isAvailable);
     }

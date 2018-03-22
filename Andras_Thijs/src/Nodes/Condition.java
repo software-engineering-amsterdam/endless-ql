@@ -75,13 +75,15 @@ public class Condition extends ASTNode {
                 throw new TypeException(this, Type.BOOL, Type.getByCode(result.toString()));
             }
         } catch(OtherException e) {
+            System.out.println(e);
             // This is thrown when a Variable isn't set yet.
             result = null;
         }
     }
 
     @Override
-    public boolean isAvailable() {
+    public boolean isAvailable() throws SyntaxException, TypeException {
+        getExpressionValue();
         return this.result != null && this.getParent().isAvailable() && this.result.getBoolean();
     }
 }

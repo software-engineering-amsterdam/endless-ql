@@ -20,7 +20,7 @@ public abstract class Term extends Expression {
      * It can throw a SyntaxExpression or OtherException when the override in Variable is called.
      */
     @Override
-    public Term getTerm() throws SyntaxException, OtherException {
+    public Term getTerm() throws SyntaxException, OtherException, TypeException {
         return this;
     }
 

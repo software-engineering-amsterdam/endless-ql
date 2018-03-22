@@ -66,7 +66,6 @@ class QuestionGenerator:
     """
 
     def updateQls(self, initial):
-        print("UPDTE")
         self.questions = collections.OrderedDict()
         self.getQuestions(self.ast.form.block)
         pages = self.astQLS.getPages()
@@ -116,7 +115,6 @@ class QuestionGenerator:
                         # update assignment node with new evaluated data
                         if type(self.questions[varName]) == AssignmentNode:
                             questionInGUI.setValue(value)
-                            print(value)
                     # Question not in GUI, Add question to GUI
                     else:
                         if question.widgetType in ['spinbox', 'slider', 'radio']:

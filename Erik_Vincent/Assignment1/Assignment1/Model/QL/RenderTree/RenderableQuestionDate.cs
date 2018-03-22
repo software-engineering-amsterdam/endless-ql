@@ -2,11 +2,11 @@
 
 namespace Assignment1.Model.QL.RenderTree
 {
-    public class QuestionMoney : Question
+    public class RenderableQuestionDate : RenderableQuestion
     {
-        public QuestionMoney(string id, string label) : base(id, label)
+        public RenderableQuestionDate(string id, string label) : base(id, label)
         {
-            Value = new Decimal(0);
+            Value = DateTime.Today;
         }
 
         public override void Accept(IQuestionVisitor visitor)

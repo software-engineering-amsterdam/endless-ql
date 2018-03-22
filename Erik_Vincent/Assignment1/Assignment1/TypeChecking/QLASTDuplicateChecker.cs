@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assignment1.Model.QL.AST;
-using Assignment1.Model.QL.AST.Expression;
 
 namespace Assignment1.TypeChecking
 {

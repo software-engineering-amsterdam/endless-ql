@@ -2,14 +2,16 @@ package QL.ParseObjectsQL;
 
 import QL.QLVisitor.ExpressionTable;
 
+import java.util.ArrayList;
+
 public class Form {
     private String name;
-    private Block block;
+    private ArrayList<Question> questions;
     private ExpressionTable expressionTable;
 
-    public Form(String s, Block b, ExpressionTable exprTable){
-        setName(s);
-        setBlock(b);
+    public Form(String name, ArrayList<Question> questions, ExpressionTable exprTable){
+        setName(name);
+        setQuestions(questions);
         setExpressionTable(exprTable);
     }
 
@@ -29,12 +31,8 @@ public class Form {
         this.name = name;
     }
 
-    public Block getBlock() {
-        return block;
-    }
+    public ArrayList<Question> getQuestions() { return questions; }
 
-    public void setBlock(Block block) {
-        this.block = block;
-    }
+    public void setQuestions(ArrayList<Question> questions) { this.questions = questions;}
 
 }

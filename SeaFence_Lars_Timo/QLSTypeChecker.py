@@ -3,16 +3,16 @@ import sys
 
 class QLSTypeChecker(object):
 	
-    def __init__(self, ql_ast, qls_ast):
-    	self.ql_ast = ql_ast
-    	self.qls_ast = qls_ast
+    def __init__(self):
+    	# self.ql_ast = ql_ast
+    	# self.qls_ast = qls_ast
         self.ql_variables = {}
         self.qls_variables = {}
 
 
-    def startQLSTypeCheck(self):
-        self.retrieveVariables(self.ql_ast.statements, self.ql_variables, "ql")
-        self.retrieveVariables(self.qls_ast.pages, self.qls_variables, "qls")
+    def startQLSTypeCheck(self, statements, pages):
+        self.retrieveVariables(statements, self.ql_variables, "ql")
+        self.retrieveVariables(pages, self.qls_variables, "qls")
 
         self.checkReferencesOfVariables(self.ql_variables, self.qls_variables, "ql")
         self.checkReferencesOfVariables(self.qls_variables, self.ql_variables, "qls")

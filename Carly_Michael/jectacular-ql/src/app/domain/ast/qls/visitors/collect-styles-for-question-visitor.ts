@@ -6,6 +6,7 @@ import {Widget} from '../widget';
 import {QuestionType} from '../../question-type';
 import {WidgetType} from '../widget-type';
 import {Style} from '../style';
+import {MissingIdentifierError} from '../../../errors';
 
 export interface QlsVisitor<T> {
   visitStylesheet(stylesheet: Stylesheet): T;
@@ -16,6 +17,10 @@ export interface QlsVisitor<T> {
 
 export class StylesForQlQuestion {
   constructor(public styles: Style[], public widget: Widget) { }
+
+  isStylingValid(): boolean {
+    return this.styles.length > 0 || this.widget.type !== WidgetType.NONE;
+  }
 }
 
 export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQuestion> {
@@ -27,37 +32,68 @@ export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQu
   }
 
   visitStylesheet(stylesheet: Stylesheet): StylesForQlQuestion {
-    return undefined;
+    let styles: StylesForQlQuestion = undefined;
+    styles = this.findStylesForStyleable(stylesheet.pages);
+
+    if (!styles) {
+      throw new MissingIdentifierError(`Styles for identifier ${this.questionId} were not found`);
+    }
+    return styles;
   }
 
   visitPage(page: Page): StylesForQlQuestion {
-    return undefined;
+    let styles: StylesForQlQuestion;
+
+    styles = this.findStylesForStyleable(page.sections);
+
+    styles = this.collectDefaultStylingIfNeeded(styles, page);
+
+    return styles;
   }
 
   visitSection(section: Section): StylesForQlQuestion {
-    let styles: StylesForQlQuestion;
+    let styles: StylesForQlQuestion = undefined;
     const question = section.questions.find(question => question.name === this.questionId);
 
     if (question) {
-      return question.accept(this);
+      styles = question.accept(this);
     } else {
-      for (const subSection of section.subSections) {
-        subSection.accept(this);
-      }
+      styles = this.findStylesForStyleable(section.subSections);
     }
 
-    return undefined;
+    styles = this.collectDefaultStylingIfNeeded(styles, section);
+
+    return styles;
   }
 
   visitQlsQuestion(qlsQuestion: QlsQuestion): StylesForQlQuestion {
-    if(qlsQuestion.name === this.questionId && qlsQuestion.widget.type !== WidgetType.NONE) {
+    if(qlsQuestion.name === this.questionId) {
       return new StylesForQlQuestion([], qlsQuestion.widget);
     }
     return undefined;
   }
 
-  private collectDefaultStylesForQuestion(defaultStyleable: Section | Page): StylesForQlQuestion {
+  private collectDefaultStylingIfNeeded(styles: StylesForQlQuestion, defaultStyleable: Section | Page): StylesForQlQuestion {
+    if(styles && !styles.isStylingValid()) {
+      return this.collectDefaultStylesForQuestion(defaultStyleable) || styles;
+    }
+    return styles;
+  }
+
+  private findStylesForStyleable(styleableArray: Section[] | Page[]) {
+    for (const styleable of styleableArray) {
+      const styles = styleable.accept(this);
+      if (styles) {
+        return styles
+      }
+    }
     return undefined;
   }
 
+  private collectDefaultStylesForQuestion(defaultStyleable: Section | Page): StylesForQlQuestion {
+    if ( defaultStyleable.defaultSettings && this.questionType.toString() === defaultStyleable.defaultSettings.type.toString()) {
+      return new StylesForQlQuestion(defaultStyleable.defaultSettings.styles, defaultStyleable.defaultSettings.widget);
+    }
+    return undefined;
+  }
 }

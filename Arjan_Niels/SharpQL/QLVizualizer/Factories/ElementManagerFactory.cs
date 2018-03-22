@@ -169,6 +169,8 @@ namespace QLVisualizer.Factories
         /// <returns>Styled element manager leaf</returns>
         private static ElementManagerLeaf QLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
         {
+            // TODO: EXTRACT CODE STYLE
+            QLSStyle style = new QLSStyle(new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
             return leaf;
         }
 

@@ -19,9 +19,12 @@ namespace QLVisualizer.Widgets.Collection
 
         public override T Create()
         {
-            List<QLSValue> qlsValues = new List<QLSValue>(_elementManagerCollection.Style.GetStylingValues());
-            foreach(WidgetBuilder<T> widgetBuilder in _children)
-                widgetBuilder.SetParentStyle(qlsValues);
+            if (_elementManagerCollection.Style != null)
+            {
+                List<QLSValue> qlsValues = new List<QLSValue>(_elementManagerCollection.Style.GetStylingValues());
+                foreach (WidgetBuilder<T> widgetBuilder in _children)
+                    widgetBuilder.SetParentStyle(qlsValues);
+            }
 
             return _styler.StyleElement(Create(_children.ToDictionary(child=> child, child => child.Create())));
         }

@@ -20,7 +20,7 @@ namespace QLVisualizer
 
         public static string ExceptionCannotParse(string value, string targetType)
         {
-            return string.Format("Cannot parse value {0} to {2} value", value, targetType);
+            return string.Format("Cannot parse value {0} to {1} value", value, targetType);
         }
         #endregion
 

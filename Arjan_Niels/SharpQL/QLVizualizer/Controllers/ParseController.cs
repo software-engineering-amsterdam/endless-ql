@@ -14,6 +14,7 @@ namespace QLVisualizer.Controllers
         public Tuple<string[], FormManager> ParseQL(string rawQL, ElementManagerController elementManagerController)
         {
             FormNode node = QLParserHelper.Parse(rawQL);
+            Analyser.Reset();
             if (!Analyser.Analyse(node))
                 return new Tuple<string[], FormManager>(Analyser.GetErrors().ToArray(), null);
 

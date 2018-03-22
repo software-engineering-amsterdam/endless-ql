@@ -11,8 +11,9 @@ object StaticTypeChecker extends Logging {
     logger.info("Phase 3 - Checking operands of invalid type to operators ...")
 
     val conditionals = Statement.collectAllConditionals(qLForm.statements)
-    val expressions: Iterable[Expression] = qLForm.symbolTable.values.flatMap(_.expression)
     val predicates = conditionals.map(_.predicate)
+
+    val expressions: Iterable[Expression] = qLForm.symbolTable.values.flatMap(_.expression)
 
     (expressions ++ predicates)
       .map(expression => expression.typeOf(qLForm.symbolTable))

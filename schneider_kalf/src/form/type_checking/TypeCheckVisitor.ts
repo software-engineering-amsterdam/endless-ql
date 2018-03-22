@@ -45,6 +45,9 @@ export class TypeCheckVisitor implements NodeVisitor {
 
   visitIfCondition(ifCondition: IfCondition) {
     const predicateType = ifCondition.predicate.accept(this);
+
+    ifCondition.getAllStatements().forEach(statement => statement.accept(this));
+
     return assertFieldType(predicateType, FieldType.Boolean);
   }
 

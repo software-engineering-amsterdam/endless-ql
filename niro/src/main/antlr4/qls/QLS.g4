@@ -52,7 +52,7 @@ section       : SECTION name=Text questionBlock ;
 questionBlock : CURLY_LEFT questions+=question+ defaultStyle* CURLY_RIGHT
               | questions+=question ;
 
-question      : QUESTION name=Identifier style? ;
+question      : QUESTION name=Identifier styling? ;
 
 defaultStyle  : DEFAULT questionType styling ;
 

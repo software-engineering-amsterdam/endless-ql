@@ -22,7 +22,9 @@ class PageFactory(formController: QLSFormController, form: GUIForm, stylesheet: 
     MoneyType -> GUIStyling()
   )
 
-  private def mergeStyles(left: Map[AnswerType, GUIStyling], right: Map[AnswerType, GUIStyling]): Map[AnswerType, GUIStyling] =
+  private def mergeStyles(
+      left: Map[AnswerType, GUIStyling],
+      right: Map[AnswerType, GUIStyling]): Map[AnswerType, GUIStyling] =
     Semigroup[Map[AnswerType, GUIStyling]].combine(left, right)
 
   override def call(pageNumber: Integer): Node = {

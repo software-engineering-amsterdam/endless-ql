@@ -53,7 +53,10 @@ object QLStylesheetParser extends Logging {
 
   object StyleVisitor extends QLSBaseVisitor[Styling] {
     override def visitStyle(ctx: QLSParser.StyleContext): Styling = {
-      if (ctx.widgetType != null) Styling(WidgetTypeVisitor.visit(ctx.widgetType()), None, None, None, None)
+      if (ctx.widgetType != null) {
+        val widgetType = WidgetTypeVisitor.visit(ctx.widgetType())
+        Styling(widgetType, None, None, None, None)
+      }
       else Styling()
     }
   }
@@ -76,11 +79,8 @@ object QLStylesheetParser extends Logging {
 
   object QuestionVisitor extends QLSBaseVisitor[Question] {
     override def visitQuestion(ctx: QLSParser.QuestionContext): Question = {
-      if (ctx.style() == null || ctx.style().widgetType() == null) Question(ctx.name.getText, Styling())
-      else
-        Question(
-          ctx.name.getText,
-          Styling(WidgetTypeVisitor.visit(ctx.style().widgetType()), None, None, None, None))
+      if (ctx.styling() == null) Question(ctx.name.getText, Styling())
+      else Question(ctx.name.getText, StylingVisitor.visit(ctx.styling()))
     }
   }
 

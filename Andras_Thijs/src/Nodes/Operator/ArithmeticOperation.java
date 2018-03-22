@@ -15,7 +15,7 @@ public class ArithmeticOperation extends Operator {
 
     /**
      * Implements a arithmetic operator (+, -, /, * and ^).
-     * @param left left hand side of the perator.
+     * @param left left hand side of the operator.
      * @param right right hand side of the operator.
      * @return A new intermediary QLFloat Term with the result of the calculation.
      * @throws TypeException when left and right aren't Floats.
@@ -23,11 +23,8 @@ public class ArithmeticOperation extends Operator {
      */
     @Override
     public QLFloat calculate(Term left, Term right) throws TypeException, SyntaxException {
-        // Check if both sides are Floats, otherwise throw a TypeException.
-        if(!(left instanceof QLFloat && right instanceof QLFloat))
-            throw new TypeException(this);
-
         // Apply the correct implementation. Throw a SyntaxException for invalid operators.
+        // When either left or right is not a QLFloat, a TypeException will be thrown.
         switch(this.getValue()) {
             case "+": return new QLFloat(left.getFloat() + right.getFloat());
             case "-": return new QLFloat(left.getFloat() - right.getFloat());

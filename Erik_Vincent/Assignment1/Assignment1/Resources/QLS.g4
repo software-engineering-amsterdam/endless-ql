@@ -72,17 +72,17 @@ styles returns [List<IStyle> result]
 	;
 widget returns [IWidget result]
 	: WIDGET CHECKBOX
-		{$result = new CheckBox();}
+		{$result = new CheckBox(_localctx.Start.Line);}
 	| WIDGET DROPDOWN OPEN_BR yes=string COMMA no=string CLOSE_BR
-		{$result = new DropDown($yes.result, $no.result);}
+		{$result = new DropDown(_localctx.Start.Line, $yes.result, $no.result);}
 	| WIDGET RADIO OPEN_BR yes=string COMMA no=string CLOSE_BR
-		{$result = new Radio($yes.result, $no.result);}
+		{$result = new Radio(_localctx.Start.Line, $yes.result, $no.result);}
 	| WIDGET SLIDER
-		{$result = new Slider();}
+		{$result = new Slider(_localctx.Start.Line);}
 	| WIDGET SPINBOX
-		{$result = new SpinBox();}
+		{$result = new SpinBox(_localctx.Start.Line);}
 	| WIDGET TEXTBOX
-		{$result = new TextBox();}
+		{$result = new TextBox(_localctx.Start.Line);}
 	;
 defaultStyle returns [DefaultStyle result]
 	: DEFAULT type styles

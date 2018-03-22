@@ -17,15 +17,5 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$APPLICATION_PLUGINS_DIR$/JFormDesigner/lib" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$APPLICATION_PLUGINS_DIR$/JFormDesigner/lib" recursive="false" />
-      </library>
-    </orderEntry>
   </component>
 </module>

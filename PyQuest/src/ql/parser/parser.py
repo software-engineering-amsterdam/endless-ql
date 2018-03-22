@@ -89,8 +89,6 @@ class QLParser:
     @staticmethod
     def p_statement(production):
         """statement    : if
-                        | elif
-                        | else
                         | question"""
         production[0] = production[1]
 
@@ -112,16 +110,6 @@ class QLParser:
     def p_if(production):
         """if : IF condition block"""
         production[0] = IfNode(Position(production.lineno(1), production.lexpos(1)), production[3], production[2])
-
-    @staticmethod
-    def p_elif(production):
-        """elif : ELSE_IF condition LEFT_BRACE statements RIGHT_BRACE"""
-        production[0] = ('ELSE_IF', production[3], production[6])
-
-    @staticmethod
-    def p_else(production):
-        """else : ELSE LEFT_BRACE statements RIGHT_BRACE"""
-        production[0] = ('ELSE', production[3])
 
     @staticmethod
     def p_condition(production):

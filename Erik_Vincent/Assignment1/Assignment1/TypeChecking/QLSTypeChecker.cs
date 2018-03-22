@@ -9,7 +9,6 @@ using System.Linq;
 
 namespace Assignment1.TypeChecking
 {
-    // TODO: add line numbers to QLS nodes
     public class QLSTypeChecker : IQLSASTVisitor, IQLASTVisitor, IStyleVisitor
     {
         private ParseErrorHandler _errorHandler = new ParseErrorHandler();
@@ -92,10 +91,7 @@ namespace Assignment1.TypeChecking
             _qlsQuestions.Add(questionStyle.Id, questionStyle);
         }
 
-        public void Visit(DefaultStyle defaultStyle)
-        {
-            // TODO
-        }
+        public void Visit(DefaultStyle defaultStyle) { }
 
         public void Visit(QuestionForm questionForm)
         {
@@ -131,7 +127,15 @@ namespace Assignment1.TypeChecking
 
         public void Visit(Slider style)
         {
-            // TODO: What are the constraints?
+            Type questionType = _qlQuestions.ContainsKey(_currentQuestion) ? _qlQuestions[_currentQuestion].Type : Type.Undefined;
+            if (questionType == Type.Undefined)
+            {
+                _errorHandler.AddError(style.LineNumber, "Reference to undefined question with id '" + _currentQuestion + "'.");
+            }
+            if (!questionType.IsNumeric())
+            {
+                _errorHandler.AddError(style.LineNumber, "Slider widget cannot be applied to question of type " + questionType.ToString());
+            }
         }
 
         public void Visit(SpinBox style)
@@ -139,13 +143,11 @@ namespace Assignment1.TypeChecking
             Type questionType = _qlQuestions.ContainsKey(_currentQuestion) ? _qlQuestions[_currentQuestion].Type : Type.Undefined;
             if (questionType == Type.Undefined)
             {
-                // Collect error that question could not be found
-                _errorHandler.AddError(1, "Reference to undefined question with id '" + _currentQuestion + "'.");
+                _errorHandler.AddError(style.LineNumber, "Reference to undefined question with id '" + _currentQuestion + "'.");
             }
             if (!questionType.IsNumeric())
             {
-                // Collect error that radio cannot be applied to non-numeric question types
-                _errorHandler.AddError(1, "Spinbox widget cannot be applied to question of type " + questionType.ToString());
+                _errorHandler.AddError(style.LineNumber, "Spinbox widget cannot be applied to question of type " + questionType.ToString());
             }
         }
 
@@ -154,13 +156,11 @@ namespace Assignment1.TypeChecking
             Type questionType = _qlQuestions.ContainsKey(_currentQuestion) ? _qlQuestions[_currentQuestion].Type : Type.Undefined;
             if (questionType == Type.Undefined)
             {
-                // Collect error that question could not be found
-                _errorHandler.AddError(1, "Reference to undefined question with id '" + _currentQuestion + "'.");
+                _errorHandler.AddError(style.LineNumber, "Reference to undefined question with id '" + _currentQuestion + "'.");
             }
             if (questionType == Type.Boolean)
             {
-                // Collect error that radio cannot be applied to boolean question types
-                _errorHandler.AddError(1, "Textbox widget cannot be applied to question of type " + questionType.ToString());
+                _errorHandler.AddError(style.LineNumber, "Textbox widget cannot be applied to question of type " + questionType.ToString());
             }
         }
 
@@ -169,13 +169,11 @@ namespace Assignment1.TypeChecking
             Type questionType = _qlQuestions.ContainsKey(_currentQuestion) ? _qlQuestions[_currentQuestion].Type : Type.Undefined;
             if (questionType == Type.Undefined)
             {
-                // Collect error that question could not be found
-                _errorHandler.AddError(1, "Reference to undefined question with id '" + _currentQuestion + "'.");
+                _errorHandler.AddError(style.LineNumber, "Reference to undefined question with id '" + _currentQuestion + "'.");
             }
             if (questionType.IsNumeric())
             {
-                // Collect error that radio cannot be applied to numeric question types
-                _errorHandler.AddError(1, "Radio widget cannot be applied to question of type " + questionType.ToString());
+                _errorHandler.AddError(style.LineNumber, "Radio widget cannot be applied to question of type " + questionType.ToString());
             }
         }
 
@@ -184,13 +182,11 @@ namespace Assignment1.TypeChecking
             Type questionType = _qlQuestions.ContainsKey(_currentQuestion) ? _qlQuestions[_currentQuestion].Type : Type.Undefined;
             if (questionType == Type.Undefined)
             {
-                // Collect error that question could not be found
-                _errorHandler.AddError(1, "Reference to undefined question with id '" + _currentQuestion + "'.");
+                _errorHandler.AddError(style.LineNumber, "Reference to undefined question with id '" + _currentQuestion + "'.");
             }
             if (questionType.IsNumeric())
             {
-                // Collect error that radio cannot be applied to numeric question types
-                _errorHandler.AddError(1, "Checkbox widget cannot be applied to question of type " + questionType.ToString());
+                _errorHandler.AddError(style.LineNumber, "Checkbox widget cannot be applied to question of type " + questionType.ToString());
             }
         }
 
@@ -199,13 +195,11 @@ namespace Assignment1.TypeChecking
             Type questionType = _qlQuestions.ContainsKey(_currentQuestion) ? _qlQuestions[_currentQuestion].Type : Type.Undefined;
             if (questionType == Type.Undefined)
             {
-                // Collect error that question could not be found
-                _errorHandler.AddError(1, "Reference to undefined question with id '" + _currentQuestion + "'.");
+                _errorHandler.AddError(style.LineNumber, "Reference to undefined question with id '" + _currentQuestion + "'.");
             }
             if (questionType != Type.Boolean)
             {
-                // Collect error that radio cannot be applied to non-boolean question types
-                _errorHandler.AddError(1, "Dropdown widget cannot be applied to question of type " + questionType.ToString());
+                _errorHandler.AddError(style.LineNumber, "Dropdown widget cannot be applied to question of type " + questionType.ToString());
             }
         }
     }

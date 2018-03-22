@@ -1,5 +1,19 @@
 stylesheet taxOfficeExample
 {
+  page Fish
+  {
+    section "User input"
+    {
+      question priceFishOne
+      question priceFishTwo
+      question priceFishThree
+    }
+    section "Complex fish calculations"
+    {
+       question priceFishOneAndTwo
+       question priceAllFishes
+    }
+  }
   page Housing
   {
     section "Buying"
@@ -17,6 +31,7 @@ stylesheet taxOfficeExample
   {
     section "Selling"
     {
+      question whenNextHouse
       question hasSoldHouse
         widget radio("Yes", "No")
       section "You sold a house"

@@ -1,8 +1,8 @@
-""" 
+"""
 AST tree used for the QL visitor
-Important notes: 
+Important notes:
 
--   We do not support variable scopes, THIS IS VERY IMPORTANT, that is why all variables can only be declared or assigned once! 
+-   We do not support variable scopes, THIS IS VERY IMPORTANT, that is why all variables can only be declared or assigned once!
 
 -   Typechecking is done by traversing the tree, and then passing and comparing types bottum-up.
     You can compare integers with floats, but otherwise types should always be the same.
@@ -10,6 +10,7 @@ Important notes:
 
 import pprint
 from .ast_methods import *
+import collections
 
 class QLAst:
     def __init__(self):
@@ -21,8 +22,7 @@ class QLAst:
         Check all types of child forms
     """
     def checkTypes(self):
-        types = []
-        types.append(self.form.checkTypes())
+        types = [self.form.checkTypes()]
         self.types = types
         return types
 

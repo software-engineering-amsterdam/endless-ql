@@ -30,9 +30,9 @@ class AssignmentNode:
         expType = self.expression.checkTypes()
         varNodeType = self.varNode.checkTypes()
 
-        if(expType == int and varNodeType == float):
+        if expType == int and varNodeType == float:
             return ["Assign: " + self.varNode.varname, float]
-        elif(expType == varNodeType):
+        elif expType == varNodeType:
             return ["Assign: " + self.varNode.varname, expType]
         else:
             errorstring = "Incomparible types: " + str(varNodeType) + " and " + \

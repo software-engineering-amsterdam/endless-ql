@@ -1,26 +1,19 @@
 # Jordy Bottelier
 # Dennis Kruidenberg
 
-
 import logging
 
 from antlr4 import *
+from antlr4.InputStream import InputStream
+from antlr4.error.ErrorListener import ErrorListener
 
 from GUI import *
-# from parse_grammar import generateParsers
-#
-# # Generate the lexer and parser for the grammar
-# generateParsers()
-
-# Import the generated files
-from Visitors.qlVisitor import QLVisitor
-from Visitors.qlsVisitor import QLSVisitor
 from Grammar.QLGrammarLexer import QLGrammarLexer
 from Grammar.QLGrammarParser import QLGrammarParser
 from Grammar.QLSGrammarLexer import QLSGrammarLexer
 from Grammar.QLSGrammarParser import QLSGrammarParser
-from antlr4.error.ErrorListener import ErrorListener
-from antlr4.InputStream import InputStream
+from Visitors.qlVisitor import QLVisitor
+from Visitors.qlsVisitor import QLSVisitor
 
 
 # https://stackoverflow.com/questions/32224980/python-2-7-antlr4-make-antlr-throw-exceptions-on-invalid-input
@@ -57,23 +50,27 @@ def main(argv):
     # set to logging.DEBUG to show debug messages, logging.ERROR to not show
     logging.basicConfig(level=logging.ERROR)
     logger = logging.getLogger(__name__)
+
     # QL
     if len(argv) > 1:
         input_file = argv[1]
     else:
-        input_file = 'TestFiles/test_ql'
+        print("Please specify a file to parse")
+        exit(1)
+
+    # parse input file
     input = FileStream(input_file)
     lexer = QLGrammarLexer(input)
     stream = CommonTokenStream(lexer)
     parser = QLGrammarParser(stream)
     parser._listeners = [MyErrorListener()]
-    qlTree = parser.form()
 
-    # pass tree to visitor
+    # visit the parse tree
+    qlTree = parser.form()
     qlVisitor = QLVisitor()
     qlVisitor.visit(qlTree)
 
-    # Get and validate AST -------------------
+    # Generate and validate ast
     ast = qlVisitor.getAst()
     ast.linkVars()
     ast.checkTypes()
@@ -81,27 +78,27 @@ def main(argv):
     # QLS
     if len(argv) > 2:
         input_file = argv[2]
+
+        # parse input file
+        input = FileStream(input_file)
+        lexer = QLSGrammarLexer(input)
+        stream = CommonTokenStream(lexer)
+        parser = QLSGrammarParser(stream)
+        parser._listeners = [MyErrorListener()]
+
+        # visit parse tree
+        qlsTree = parser.stylesheet()
+        qlsVisitor = QLSVisitor()
+        qlsVisitor.visit(qlsTree)
+
+        qlsAST = qlsVisitor.stylesheet
+        qlsAST.prepareAndCheckAst(ast.getVarDict())
+
+        # setup GUI
+        Gui(ast, qlsVisitor.stylesheet)
     else:
-        input_file = 'TestFiles/test_qls'
-    input = FileStream(input_file)
-    lexer = QLSGrammarLexer(input)
-    stream = CommonTokenStream(lexer)
-    parser = QLSGrammarParser(stream)
-    parser._listeners = [MyErrorListener()]
-    qlsTree = parser.stylesheet()
-
-    # pass tree to visitor
-    qlsVisitor = QLSVisitor()
-    qlsVisitor.visit(qlsTree)
-
-    qlsAST = qlsVisitor.stylesheet
-    qlsAST.prepareAndCheckAst(ast.getVarDict())
-
-    # print(qlsTree.toStringTree())
-
-    # start up Gui
-
-    Gui(ast, qlsVisitor.stylesheet)
+        # setup GUI
+        Gui(ast, None)
 
 
 if __name__ == '__main__':

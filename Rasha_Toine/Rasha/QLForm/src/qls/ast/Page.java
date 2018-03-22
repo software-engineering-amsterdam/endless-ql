@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import ql.ast.AstNode;
+import ql.gui.QuestionGUI;
 
 
 public class Page extends AstNode {
@@ -26,4 +27,11 @@ public class Page extends AstNode {
 		return Collections.unmodifiableList(sections);
 	}
 
+	public List<QuestionGUI> getFilteredQuestionsGui(List<QuestionGUI> questions) {
+		List<QuestionGUI> filteredQuestionsGui = new ArrayList<>();
+		sections.stream().forEach(section ->
+			filteredQuestionsGui.addAll(section.getFilteredQuestionsGui(questions)));
+		return Collections.unmodifiableList(filteredQuestionsGui);
+	}
+	
 }

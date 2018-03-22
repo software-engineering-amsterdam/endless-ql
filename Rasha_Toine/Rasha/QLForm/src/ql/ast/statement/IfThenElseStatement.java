@@ -8,8 +8,8 @@ public class IfThenElseStatement extends IfThenStatement {
 
 	private final Block elseBody;
 
-	public IfThenElseStatement(Expression expression, Block ifBody, Block elseBody, CodeReference location) {
-		super(expression, ifBody, location);
+	public IfThenElseStatement(Expression condition, Block ifBody, Block elseBody, CodeReference location) {
+		super(condition, ifBody, location);
 		this.elseBody = elseBody;
 	}
 

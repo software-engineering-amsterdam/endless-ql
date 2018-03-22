@@ -6,7 +6,7 @@ public class MoneyType extends Type {
 
     @Override
     public boolean isCompatible(Type type) {
-        return "MoneyType".equals(type.toString());
+        return this.getClass().equals(type.getClass());
     }
 
     @Override

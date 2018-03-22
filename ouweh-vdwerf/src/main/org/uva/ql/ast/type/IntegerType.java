@@ -6,7 +6,7 @@ public class IntegerType extends Type {
 
     @Override
     public boolean isCompatible(Type type) {
-        return "IntegerType".equals(type.toString());
+        return this.getClass().equals(type.getClass());
     }
 
     @Override

@@ -8,7 +8,6 @@ from ql.types.boolean import QLBoolean
 from ql.types.date import QLDate
 from ql.types.decimal import QLDecimal
 from ql.types.integer import QLInteger
-from debug.debug import Debug
 
 
 class QLLexer:

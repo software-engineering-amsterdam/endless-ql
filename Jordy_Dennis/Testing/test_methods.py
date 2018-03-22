@@ -8,6 +8,7 @@ from parser import *
 from antlr4.InputStream import InputStream
 from Grammar.QLGrammarLexer import QLGrammarLexer
 from Grammar.QLGrammarParser import QLGrammarParser
+import unittest
 
 
 # Get the input and output text needed for a test on which the output is controlled

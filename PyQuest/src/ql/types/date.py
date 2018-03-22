@@ -1,7 +1,7 @@
-from ql.types.type import QLType
-from ql.types.boolean import QLBoolean
-from ql.ast.expressions.literals.date_node import DateNode
 from gui.widgets.calendar import CalendarWidget
+from ql.ast.expressions.literals.date_node import DateNode
+from ql.types.boolean import QLBoolean
+from ql.types.type import QLType
 
 
 class QLDate(QLType):
@@ -35,6 +35,9 @@ class QLDate(QLType):
 
     def __ge__(self, other):
         return QLBoolean(self > other or self == other)
+
+    def get_json_value(self):
+        return {'day': self.day, 'month': self.month, 'year': self.year}
 
     @property
     def day(self):

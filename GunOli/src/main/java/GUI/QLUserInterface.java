@@ -37,6 +37,7 @@ public class QLUserInterface {
 
             Form form = parser.parseInputToForm(formFile.getPath());
 
+            //todo: static analysis typechecker
             Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
 
             //parser.printQLForm(form); //debug print the form questions in console

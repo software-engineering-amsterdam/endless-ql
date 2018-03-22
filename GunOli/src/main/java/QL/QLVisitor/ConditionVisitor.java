@@ -1,6 +1,5 @@
 package QL.QLVisitor;
 
-import QL.ParseObjectsQL.Block;
 import QL.ParseObjectsQL.Expressions.BinaryExpressions.AndExpression;
 import QL.ParseObjectsQL.Expressions.Expression;
 import QL.ParseObjectsQL.Expressions.UnaryExpressions.NotExpression;
@@ -33,14 +32,14 @@ public class ConditionVisitor extends QLBaseVisitor{
             Expression negatedCondition = new NotExpression(condition);
             Expression conditionChain = new AndExpression(negatedCondition, this.condition);
             BlockVisitor falseBlockVisitor = new BlockVisitor(expressionTable, conditionChain);
-            Block falseBlock = falseBlockVisitor.visitBlock(falseBlockCtx);
-            questions.addAll(falseBlock.getQuestions());
+            ArrayList<Question> falseBlockQuestions = falseBlockVisitor.visitBlock(falseBlockCtx);
+            questions.addAll(falseBlockQuestions);
         }
 
         Expression conditionChain = new AndExpression(condition, this.condition);
         BlockVisitor trueBlockVisitor = new BlockVisitor(expressionTable, conditionChain);
-        Block block = trueBlockVisitor.visitBlock(blockCtx);
-        questions.addAll(block.getQuestions());
+        ArrayList<Question> blockQuestions = trueBlockVisitor.visitBlock(blockCtx);
+        questions.addAll(blockQuestions);
         return questions;
     }
 }

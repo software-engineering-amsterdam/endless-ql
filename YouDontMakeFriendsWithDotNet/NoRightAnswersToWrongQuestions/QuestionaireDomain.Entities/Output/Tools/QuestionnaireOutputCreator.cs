@@ -10,16 +10,16 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     {
         private readonly IBuildOutputVisitor m_buildOutputVisitor;
         private readonly IQuestionnaireValidator m_questionnaireValidator;
-        private readonly IVariableService m_variableService;
+        private readonly ICalculationService m_calculationService;
 
         public QuestionnaireOutputCreator(
             IBuildOutputVisitor buildOutputVisitor,
             IQuestionnaireValidator questionnaireValidator,
-            IVariableService variableService)
+            ICalculationService calculationService)
         {
             m_buildOutputVisitor = buildOutputVisitor;
             m_questionnaireValidator = questionnaireValidator;
-            m_variableService = variableService;
+            m_calculationService = calculationService;
         }
         
         public void CreateOrUpdate(Reference<IQuestionnaireRootNode> questionnaireRootNode)
@@ -28,7 +28,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 .Validate(questionnaireRootNode);
             if (isValid)
             {
-                m_variableService.UpdateCalculations();
+                m_calculationService.UpdateCalculations();
                 m_buildOutputVisitor.Build(questionnaireRootNode);
             }
         }

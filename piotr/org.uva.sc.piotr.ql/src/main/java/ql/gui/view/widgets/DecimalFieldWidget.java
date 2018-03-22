@@ -53,7 +53,11 @@ public class DecimalFieldWidget extends Widget {
                 SwingUtilities.invokeLater(format);
 
                 if (textField.getText().matches("(-)?\\d*(\\.\\d{0,8})?")) {
-                    questionModel.changeValue(new BigDecimal(textField.getText()));
+                    if (textField.getText().equals("-")) {
+                        questionModel.changeValue(new BigDecimal(0));
+                    } else {
+                        questionModel.changeValue(new BigDecimal(textField.getText()));
+                    }
                 }
 
             }

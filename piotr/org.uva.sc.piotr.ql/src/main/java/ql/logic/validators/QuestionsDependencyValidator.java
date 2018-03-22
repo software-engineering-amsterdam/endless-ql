@@ -3,13 +3,14 @@ package ql.logic.validators;
 import ql.ast.model.expressions.values.VariableReference;
 import ql.ast.model.statements.Question;
 import ql.error.Error;
+import ql.logic.repositories.QuestionRepository;
 
 import java.util.*;
 
 public final class QuestionsDependencyValidator extends Validator {
 
     private final HashMap<Question, List<VariableReference>> questionsMap;
-    private final Set<Question> questions;
+    private final List<Question> questions;
 
     static class Relation {
         private final Question from;
@@ -38,7 +39,7 @@ public final class QuestionsDependencyValidator extends Validator {
 
     public QuestionsDependencyValidator(HashMap<Question, List<VariableReference>> questionsMap) {
         this.questionsMap = questionsMap;
-        this.questions = questionsMap.keySet();
+        this.questions = new ArrayList<>(questionsMap.keySet());
     }
 
     public boolean validate() {
@@ -65,22 +66,13 @@ public final class QuestionsDependencyValidator extends Validator {
         for (Map.Entry<Question, List<VariableReference>> entry : this.questionsMap.entrySet()) {
             // find variables that it refers to
             for (VariableReference reference : entry.getValue()) {
-                Question question = findQuestionByVariableName(reference.getName());
+                Question question = QuestionRepository.findQuestionByVariableName(reference.getName(), this.questions);
                 if (question != null) {
                     relations.add(new Relation(entry.getKey(), question));
                 }
             }
         }
         return relations;
-    }
-
-    private Question findQuestionByVariableName(String variableName) {
-        for (Question question : this.questions) {
-            if (question.getVariableName().equals(variableName)) {
-                return question;
-            }
-        }
-        return null;
     }
 
     private boolean relationExists(Question from, Question to, HashSet<Relation> relations) {

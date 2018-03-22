@@ -5,7 +5,6 @@ import ql.ast.model.statements.Question;
 import ql.error.Error;
 
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Objects;
 
 public final class VariablesReferencesValidator extends Validator {

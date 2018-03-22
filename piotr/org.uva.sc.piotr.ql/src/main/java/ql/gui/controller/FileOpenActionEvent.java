@@ -1,7 +1,6 @@
 package ql.gui.controller;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.antlr.v4.runtime.*;
 import ql.ast.ASTBuilder;
 import ql.ast.model.Form;
@@ -99,8 +98,6 @@ public class FileOpenActionEvent implements ActionListener {
                 return;
             }
 
-            this.validated = true;
-
             // AST Builder
             ASTBuilder astBuilder = new ASTBuilder();
             Form form = astBuilder.visitForm(formContext);
@@ -129,9 +126,11 @@ public class FileOpenActionEvent implements ActionListener {
                     new ConditionsValidator(conditions, questions),
                     new TypesValidator(conditions, questions),
                     new QuestionsDependencyValidator(questionsMap),
-                    new QuestionLabelsValidator(questions)
+                    new QuestionLabelsValidator(questions),
+                    new IntegerToDecimalCastingValidator(questionsMap)
             };
 
+            this.validated = true;
 
             for (Validator validator : validators) {
                 if (!validator.validate()) {

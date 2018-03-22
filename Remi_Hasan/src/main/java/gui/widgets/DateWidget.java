@@ -19,7 +19,7 @@ public class DateWidget extends DatePicker implements GUIWidget {
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableDate(null, LocalDate.parse(this.valueProperty().toString()));
+        return new ExpressionVariableDate(null, this.getValue());
     }
 
     @Override

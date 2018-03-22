@@ -4,6 +4,47 @@ import org.scalatest.WordSpec
 
 class QLStylesheetTest extends WordSpec {
 
+  "Merging styling" should {
+    "map to default if default is added to default" in {
+      val defaultStyling = Styling()
+
+      val result = defaultStyling ++ defaultStyling
+
+      val expected = Styling()
+      assert(expected == result)
+    }
+
+    "map to current if default is added to current" in {
+      val defaultStyling = Styling()
+      val currentStyling = Styling(color = Some(Color("#010203")))
+
+      val result = currentStyling ++ defaultStyling
+
+      val expected = currentStyling
+      assert(expected == result)
+    }
+
+    "map to new if new is added to default" in {
+      val defaultStyling = Styling()
+      val newStyling = Styling(color = Some(Color("#010203")))
+
+      val result = defaultStyling ++ newStyling
+
+      val expected = newStyling
+      assert(expected == result)
+    }
+
+    "map to new if new is added to other" in {
+      val otherStyling = Styling(color = Some(Color("#CAFEBABE")))
+      val newStyling = Styling(color = Some(Color("#010203")))
+
+      val result = otherStyling ++ newStyling
+
+      val expected = newStyling
+      assert(expected == result)
+    }
+  }
+
   "stylesheet collectAllQuestions" should {
     "find single question" in {
       val stylesheet = QLStylesheet(
@@ -15,14 +56,14 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("questionOne", None)
+                  Question("questionOne", Styling())
                 ),
                 Map.empty)
             ),
             Map.empty)
         ),
         Map.empty)
-      val expected = Seq(Question("questionOne", None))
+      val expected = Seq(Question("questionOne", Styling()))
 
       val actual = stylesheet.collectAllQuestions()
 
@@ -39,13 +80,13 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("questionOne", None)
+                  Question("questionOne", Styling())
                 ),
                 Map.empty),
               Section(
                 "SectionTwo",
                 Seq(
-                  Question("questionTwo", None)
+                  Question("questionTwo", Styling())
                 ),
                 Map.empty)
             ),
@@ -54,7 +95,7 @@ class QLStylesheetTest extends WordSpec {
         ),
         Map.empty
       )
-      val expected = Seq(Question("questionOne", None), Question("questionTwo", None))
+      val expected = Seq(Question("questionOne", Styling()), Question("questionTwo", Styling()))
 
       val actual = stylesheet.collectAllQuestions()
 
@@ -71,15 +112,15 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("questionOne", None),
-                  Question("questionTwo", None)
+                  Question("questionOne", Styling()),
+                  Question("questionTwo", Styling())
                 ),
                 Map.empty),
               Section(
                 "SectionTwo",
                 Seq(
-                  Question("questionThree", None),
-                  Question("questionFour", None)
+                  Question("questionThree", Styling()),
+                  Question("questionFour", Styling())
                 ),
                 Map.empty)
             ),
@@ -91,8 +132,8 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionThree",
                 Seq(
-                  Question("questionFive", None),
-                  Question("questionSix", None)
+                  Question("questionFive", Styling()),
+                  Question("questionSix", Styling())
                 ),
                 Map.empty)
             ),
@@ -101,12 +142,12 @@ class QLStylesheetTest extends WordSpec {
         Map.empty
       )
       val expected = Seq(
-        Question("questionOne", None),
-        Question("questionTwo", None),
-        Question("questionThree", None),
-        Question("questionFour", None),
-        Question("questionFive", None),
-        Question("questionSix", None)
+        Question("questionOne", Styling()),
+        Question("questionTwo", Styling()),
+        Question("questionThree", Styling()),
+        Question("questionFour", Styling()),
+        Question("questionFive", Styling()),
+        Question("questionSix", Styling())
       )
 
       val actual = stylesheet.collectAllQuestions()

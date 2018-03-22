@@ -34,16 +34,28 @@ object QLStylesheetParser extends Logging {
     }
   }
 
-  private def collectDefaultStyles(defaultStyleContexts: util.List[QLSParser.DefaultStyleContext]) = {
+  private def collectDefaultStyles(
+      defaultStyleContexts: util.List[QLSParser.DefaultStyleContext]): Map[AnswerType, Styling] = {
     JavaConverters.asScalaBuffer(defaultStyleContexts).map(DefaultStyleVisitor.visit).fold(Map.empty)(_ ++ _)
   }
 
-  object DefaultStyleVisitor extends QLSBaseVisitor[Map[AnswerType, WidgetType]] {
-    override def visitDefaultStyle(ctx: QLSParser.DefaultStyleContext): Map[AnswerType, WidgetType] =
-      WidgetTypeVisitor
-        .visit(ctx.style())
-        .map(widgetType => Map(AnswerType(ctx.questionType().getText) -> widgetType))
-        .getOrElse(Map.empty)
+  object DefaultStyleVisitor extends QLSBaseVisitor[Map[AnswerType, Styling]] {
+    override def visitDefaultStyle(ctx: QLSParser.DefaultStyleContext): Map[AnswerType, Styling] =
+      Map(AnswerType(ctx.questionType().getText) -> StylingVisitor.visit(ctx.styling()))
+  }
+
+  object StylingVisitor extends QLSBaseVisitor[Styling] {
+    override def visitStyling(ctx: QLSParser.StylingContext): Styling = {
+      if (ctx.widgetType() != null) Styling(WidgetTypeVisitor.visit(ctx.widgetType()), None, None, None, None)
+      else JavaConverters.asScalaBuffer(ctx.style()).map(StyleVisitor.visit).fold(Styling())(_ ++ _)
+    }
+  }
+
+  object StyleVisitor extends QLSBaseVisitor[Styling] {
+    override def visitStyle(ctx: QLSParser.StyleContext): Styling = {
+      if (ctx.widgetType != null) Styling(WidgetTypeVisitor.visit(ctx.widgetType()), None, None, None, None)
+      else Styling()
+    }
   }
 
   object PageVisitor extends QLSBaseVisitor[Page] {
@@ -64,8 +76,11 @@ object QLStylesheetParser extends Logging {
 
   object QuestionVisitor extends QLSBaseVisitor[Question] {
     override def visitQuestion(ctx: QLSParser.QuestionContext): Question = {
-      if (ctx.style() == null || ctx.style().widgetType() == null) Question(ctx.name.getText, None)
-      else Question(ctx.name.getText, WidgetTypeVisitor.visit(ctx.style().widgetType()))
+      if (ctx.style() == null || ctx.style().widgetType() == null) Question(ctx.name.getText, Styling())
+      else
+        Question(
+          ctx.name.getText,
+          Styling(WidgetTypeVisitor.visit(ctx.style().widgetType()), None, None, None, None))
     }
   }
 

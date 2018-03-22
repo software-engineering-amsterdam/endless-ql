@@ -26,17 +26,23 @@ class QLWidgetFactory extends WidgetFactory {
 class QLSWidgetFactory extends QLWidgetFactory {
 
   override def makeBooleanWidget(question: GUIQuestion): QLWidget[Boolean] = question match {
-    case QLSGUIQuestion(_, _, _, _, _, _ @GUIComboBoxStyle(trueLabel, falseLabel)) =>
-      new QLComboBooleanField(trueLabel, falseLabel)
-    case QLSGUIQuestion(_, _, _, _, _, _ @GUIRadioStyle(trueLabel, falseLabel)) =>
-      new QLRadioBooleanField(trueLabel, falseLabel)
+    case qlsQuestion: QLSGUIQuestion => qlsQuestion.styling.widgetStyle match {
+      case Some(GUIComboBoxStyle(trueLabel, falseLabel)) => new QLSComboBooleanField(trueLabel, falseLabel)
+      case Some(GUIRadioStyle(trueLabel, falseLabel))    => new QLSRadioBooleanField(trueLabel, falseLabel)
+      case _                                             => super.makeBooleanWidget(question)
+    }
     case _ =>
       super.makeBooleanWidget(question)
   }
 
   override def makeIntegerWidget(question: GUIQuestion): QLWidget[Integer] = question match {
-    case QLSGUIQuestion(_, _, _, _, _, _ @GUISpinBoxStyle()) => new QLIntegerSpinField()
-    case _                                                   => super.makeIntegerWidget(question)
+    case _ => super.makeIntegerWidget(question)
+    case qlsQuestion: QLSGUIQuestion => qlsQuestion.styling.widgetStyle match {
+      case Some(GUISpinBoxStyle()) => new QLSIntegerSpinField()
+      case _                       => super.makeIntegerWidget(question)
+    }
+    case _ =>
+      super.makeIntegerWidget(question)
   }
 
 }

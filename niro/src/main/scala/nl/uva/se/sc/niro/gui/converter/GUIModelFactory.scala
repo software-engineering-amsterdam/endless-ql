@@ -47,5 +47,5 @@ object GUIModelFactory {
   }
 
   def make(question: Question): GUIStyledQuestion =
-    GUIStyledQuestion(question.name, question.widgetType.map(GUIStyle(_)))
+    GUIStyledQuestion(question.name, GUIStyle(question.widgetType))
 }

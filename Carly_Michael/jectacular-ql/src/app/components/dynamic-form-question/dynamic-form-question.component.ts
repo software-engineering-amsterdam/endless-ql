@@ -42,7 +42,7 @@ export class DynamicFormQuestionComponent implements OnInit {
     let newValue = this.question.calculateValue(this.form);
 
     // displaying of dates is in strings, so convert it.
-    if(newValue instanceof Date) {
+    if (newValue instanceof Date) {
       const date: Date = (<Date>newValue);
       newValue = (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear();
     }

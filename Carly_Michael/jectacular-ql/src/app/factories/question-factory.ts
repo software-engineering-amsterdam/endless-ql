@@ -17,7 +17,7 @@ export class QuestionFactory {
 
     if (type.toString() === 'boolean') {
       formQuestionToReturn = new BooleanQuestion(name, label, type.getDefaultValue(), type.toHtmlInputType(), condition);
-    } else if(type.toString() === 'date') {
+    } else if (type.toString() === 'date') {
       formQuestionToReturn = new DateQuestion(name, label, type.getDefaultValue(), type.toHtmlInputType(), condition);
     } else {
       formQuestionToReturn = new InputQuestion(name, label, type.getDefaultValue(), type.toHtmlInputType(), condition);

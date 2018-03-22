@@ -8,6 +8,6 @@ export class DateQuestion extends QuestionBase<string> {
               value,
               type: string,
               hiddenCondition?: (form: FormGroup) => boolean) {
-    super(key, label, value, type, 'date', new Widget(WidgetType.TEXT, []), hiddenCondition);
+    super(key, label, value, type, 'date', hiddenCondition);
   }
 }

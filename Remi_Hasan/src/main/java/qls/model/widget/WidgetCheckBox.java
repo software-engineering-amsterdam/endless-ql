@@ -23,6 +23,6 @@ public class WidgetCheckBox extends Widget {
 
     @Override
     public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
-        return visitor.visitWidgetTypeBooleanCheckbox(symbolTable, question, qlsQuestion, defaultStyles);
+        return type.createWidget(visitor, symbolTable, question, qlsQuestion, defaultStyles);
     }
 }

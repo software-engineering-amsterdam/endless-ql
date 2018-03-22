@@ -97,8 +97,7 @@ class ParseTreeVisitor(QLVisitor):
         return ctx.getText()
 
     def visitNegNotUnExpression(self, ctx: QLParser.NegNotUnExpressionContext):
-        return self.unaryExpressionFactory(self.location(ctx), ctx.unExpression().accept(self),
-                                           ctx.getChild(0).getText())
+        return self.unaryExpressionFactory(self.location(ctx), ctx.unExpression().accept(self), ctx.getChild(0))
 
     def visitPrimaryUnExpression(self, ctx: QLParser.PrimaryUnExpressionContext):
         return self.visitChildren(ctx)
@@ -110,13 +109,13 @@ class ParseTreeVisitor(QLVisitor):
         return self.visitChildren(ctx)
 
     def visitMoneyLiteral(self, ctx: QLParser.MoneyLiteralContext):
-        return MoneyLiteral(self.location(ctx), self.trimLeadingZeros(ctx.getText()[1:]))
+        return MoneyLiteral(self.location(ctx), ctx.getText()[1:])
 
     def visitDecimalLiteral(self, ctx: QLParser.DecimalLiteralContext):
-        return DecimalLiteral(self.location(ctx), self.trimLeadingZeros(ctx.getText()))
+        return DecimalLiteral(self.location(ctx), ctx.getText())
 
     def visitIntLiteral(self, ctx: QLParser.IntLiteralContext):
-        return IntegerLiteral(self.location(ctx), self.trimLeadingZeros(ctx.getText()))
+        return IntegerLiteral(self.location(ctx), ctx.getText())
 
     def visitStringLiteral(self, ctx: QLParser.StringLiteralContext):
         return StringLiteral(self.location(ctx), ctx.getText())
@@ -137,11 +136,6 @@ class ParseTreeVisitor(QLVisitor):
         expression = expressions.pop()
         return self.binaryExpressionFactory(location, self.buildMultiaryExpression(location, expressions, operators),
                                             expression, operator)
-
-    def trimLeadingZeros(self, number):
-        if str(number) == "0":
-            return number
-        return number.lstrip("0")
 
     def binaryOperator(self, ctx):
         return ctx.getChild(1).getText()

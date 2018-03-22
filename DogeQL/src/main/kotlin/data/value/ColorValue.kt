@@ -8,6 +8,8 @@ class ColorValue(var value: Color) : BaseSymbolValue(SymbolType.COLOR) {
 
     constructor(value: String) : this(Color.fromString(value))
 
-    override fun valueString(): String = value.toString()
+    override fun valueString(): String {
+        return value.toString()
+    }
 
 }

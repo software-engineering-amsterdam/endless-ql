@@ -6,8 +6,8 @@
     The canvas is only used to attach the scrollbar to the contents frame
 """
 
-from .gui_imports import *
 
+from .gui_imports import *
 
 class ScrollFrameGui:
 
@@ -28,7 +28,6 @@ class ScrollFrameGui:
     """
         Create the canvas, together with the frame that will contain the contents
     """
-
     def createScrollCanvas(self, parent):
         canvas = Canvas(parent, background="pink")
         contentsFrame = create_frame(canvas, "blue")
@@ -41,7 +40,6 @@ class ScrollFrameGui:
     """
         used to set the window of the canvas to the total width of the canvas
     """
-
     def onConfigureCanvas(self, event):
         canvas_width = event.width
         self.canvas.itemconfig(self.window, width=canvas_width)
@@ -49,14 +47,12 @@ class ScrollFrameGui:
     """
         Making sure the scroller stays on the canvas and doesnt allow to scroll to infinity
     """
-
     def onConfigureContentFrame(self, event):
         self.canvas.configure(scrollregion=self.canvas.bbox('all'))
 
     """
         Return contents so widgets can be added
     """
-
     def get_contents(self):
         return self.contentsFrame
 

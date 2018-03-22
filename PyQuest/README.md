@@ -11,18 +11,15 @@ This repository contains code implementing a Questionnaire Language (QL) in Pyth
 
 ## Dependencies
 ### Python
-Python version 3.
+Python version 3 or higher.
 
 #### Packages
-- multimethods
 - PLY
 - PyQt5
 - termcolor
 
-
 ## Setup
 ```
-pip install multimethods
 pip install ply
 pip install pyqt5
 pip install termcolor

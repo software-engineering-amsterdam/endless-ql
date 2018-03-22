@@ -1,8 +1,8 @@
 package typechecker.pass
 
 import common.Name
+import data.symbol.Symbol
 import data.symbol.SymbolTable
-import expression.SourceLocation
 import node.ExpressionNode
 import node.Node
 import node.QuestionNode
@@ -17,73 +17,55 @@ class ScopePass(result: TypeCheckResult, val symbolTable: SymbolTable) : NodePas
     private val visibleReferences = ArrayDeque<Name>()
 
     override fun visit(node: Node) {
-        val oldSize = registerReferencesForChildren(node)
-
         node.children.forEach { child -> child.accept(this) }
-
-        popReferencesToLevel(oldSize)
     }
 
     override fun visit(rootNode: RootNode) {
-        val oldSize = registerReferencesForChildren(rootNode)
-
         rootNode.children.forEach { child -> child.accept(this) }
-
-        popReferencesToLevel(oldSize)
     }
 
     override fun visit(questionNode: QuestionNode) {
-        val oldSize = registerReferencesForChildren(questionNode)
-
-        findAllUndefinedReferences(questionNode.question.name, questionNode.question.nameLocation)
+        visibleReferences.push(questionNode.question.name)
 
         questionNode.children.forEach { child -> child.accept(this) }
-
-        popReferencesToLevel(oldSize)
     }
 
     override fun visit(expressionNode: ExpressionNode) {
-        findAllUndefinedReferences(expressionNode.reference, expressionNode.sourceLocation)
 
-        val oldSize = registerReferencesForChildren(expressionNode)
+        val reference = expressionNode.reference
+
+        if (!visibleReferences.contains(reference)) {
+
+            // Reference is not in scope, but this reference might be pointing to a generated expression.
+            // Lets retrieve that expression and check its primitives.
+
+            val symbol = symbolTable.findSymbol(reference)
+
+            if (symbol == null) {
+                throw IllegalStateException("Unable to find symbol for reference $reference")
+            } else {
+                checkReferencesForSymbol(expressionNode, symbol)
+            }
+        }
 
         expressionNode.children.forEach { child -> child.accept(this) }
-
-        popReferencesToLevel(oldSize)
     }
 
-    private fun findAllUndefinedReferences(reference: Name, sourceLocation: SourceLocation) {
-        val symbol = symbolTable.findSymbol(reference)
-
-        if (symbol == null || reference !in visibleReferences) {
-            val error = TokenLocation(reference, sourceLocation)
+    private fun checkReferencesForSymbol(expressionNode: ExpressionNode, symbol: Symbol) {
+        if (symbol.expression == null) {
+            val error = TokenLocation(expressionNode.reference, expressionNode.sourceLocation)
             result.undefinedReferences.add(error)
-        } else if (symbol.expression != null) {
+        } else {
             val references = symbol.expression.allReferences()
 
-            references.forEach { r -> findAllUndefinedReferences(r.name, r.sourceLocation) }
-        }
-    }
+            references.forEach {
 
-    private fun registerReferencesForChildren(node: Node): Int {
-        val oldSize = visibleReferences.size
+                if (!visibleReferences.contains(it.name)) {
+                    val error = TokenLocation(it.name, it.sourceLocation)
+                    result.undefinedReferences.add(error)
+                }
 
-        collectReferences(node).forEach { visibleReferences.push(it) }
-
-        return oldSize
-    }
-
-    private fun collectReferences(node: Node) = node.children.mapNotNull {
-        when (it) {
-            is QuestionNode -> it.question.name
-            is ExpressionNode -> it.reference
-            else -> null
-        }
-    }
-
-    private fun popReferencesToLevel(level: Int) {
-        while (visibleReferences.size > level) {
-            visibleReferences.pop()
+            }
         }
     }
 

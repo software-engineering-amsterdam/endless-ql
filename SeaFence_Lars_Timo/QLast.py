@@ -111,9 +111,10 @@ class ElseNode(QLast):
         return self.node_type
 
 class LiteralNode(QLast):
-    def __init__(self, literal, negate=False):
+    def __init__(self, literal, vartype, negate=False):
         self.node_type = "literal"
         self.literal = literal
+        self.vartype = vartype
         self.negate = negate
 
     def __repr__(self):

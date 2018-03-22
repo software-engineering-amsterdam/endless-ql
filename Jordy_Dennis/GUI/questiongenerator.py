@@ -111,7 +111,7 @@ class QuestionGenerator:
                     questionInGUI = self.form.getQuestionFromSection(varName, sectionName, pageName)
                     if questionInGUI:
                         # update assignment node with new evaluated data
-                        if type(self.questions[varName]) ==  AssignmentNode:
+                        if type(self.questions[varName]) == AssignmentNode:
                             questionInGUI.setValue(value)
                     # Question not in GUI, Add question to GUI
                     else:

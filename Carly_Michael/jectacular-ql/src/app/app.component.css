@@ -2,11 +2,6 @@ h1 {
   font-family: Arial sans-serif;
 }
 
-form {
-  width: 100%;
-  padding: 8px;
-}
-
 .page-container{
   display: flex;
   flex-direction: row;
@@ -41,7 +36,6 @@ form {
 }
 
 button {
-  width: 100%;
   margin: 16px 0;
   background: cornflowerblue;
   border: royalblue;

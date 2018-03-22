@@ -1,9 +1,29 @@
+import {ExpressionType} from './expression-type';
 import {Expression} from './expression';
 import {Location} from '../../location';
+import {QlQuestion} from '../ql-question';
 import {BinaryExpression} from './binary-expression';
 import {ExpressionVisitor} from '../visitors/expression-visitor';
 
-export class GreaterThanExpression extends BinaryExpression {
+export abstract class ComparisonExpression extends BinaryExpression {
+  constructor(left: Expression, right: Expression, location: Location) {
+    super(left, right, location);
+  }
+
+  checkType(allQuestions: QlQuestion[]): ExpressionType {
+    if (this.left.checkType(allQuestions) === this.right.checkType(allQuestions) &&
+      this.left.checkType(allQuestions) === ExpressionType.NUMBER) {
+      return ExpressionType.BOOLEAN;
+    } else {
+      throw new TypeError(
+        `Type of expression left is different from type of expression right `
+        + this.getLocationErrorMessage()
+      );
+    }
+  }
+}
+
+export class GreaterThanExpression extends ComparisonExpression {
   constructor(left: Expression, right: Expression, location: Location) {
     super(left, right, location);
   }
@@ -13,7 +33,7 @@ export class GreaterThanExpression extends BinaryExpression {
   }
 }
 
-export class GreaterThanEqualExpression extends BinaryExpression {
+export class GreaterThanEqualExpression extends ComparisonExpression {
   constructor(left: Expression, right: Expression, location: Location) {
     super(left, right, location);
   }
@@ -23,7 +43,7 @@ export class GreaterThanEqualExpression extends BinaryExpression {
   }
 }
 
-export class LessThanExpression extends BinaryExpression {
+export class LessThanExpression extends ComparisonExpression {
   constructor(left: Expression, right: Expression, location: Location) {
     super(left, right, location);
   }
@@ -33,7 +53,7 @@ export class LessThanExpression extends BinaryExpression {
   }
 }
 
-export class LessThanEqualExpression extends BinaryExpression {
+export class LessThanEqualExpression extends ComparisonExpression {
   constructor(left: Expression, right: Expression, location: Location) {
     super(left, right, location);
   }

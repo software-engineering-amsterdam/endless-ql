@@ -66,6 +66,7 @@
     <Compile Include="Model\QLS\AST\Style\Font.cs" />
     <Compile Include="Model\QLS\AST\Style\FontSize.cs" />
     <Compile Include="Model\QLS\AST\Style\IStyleVisitor.cs" />
+    <Compile Include="Model\QLS\AST\Style\Style.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\CheckBox.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\DropDown.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\Radio.cs" />

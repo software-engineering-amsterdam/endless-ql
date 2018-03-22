@@ -17,6 +17,7 @@ import {FormGroup} from '@angular/forms';
 import {Expression, ExpressionType} from '../';
 import {UnknownQuestionError} from '../../../errors';
 import {locationToReadableMessage} from '../../location';
+import {VariableToLiteralFactory} from '../../../../factories/variable-to-literal-factory';
 
 export class EvaluateExpressionVisitor implements ExpressionVisitor<Literal> {
   constructor(private readonly form: FormGroup) { }
@@ -104,18 +105,7 @@ export class EvaluateExpressionVisitor implements ExpressionVisitor<Literal> {
       /* Angular sets the value for a form control with undefined as value to an object {value: ""}
          If there is a value, instead of the object there will be a value, which means value.value is undefined */
       if (referencedControl.value.value === undefined) {
-        switch (expr.getExpressionType()) {
-          case ExpressionType.NUMBER:
-            return new NumberLiteral(referencedControl.value, expr.location);
-          case ExpressionType.STRING:
-            return new StringLiteral(referencedControl.value, expr.location);
-          case ExpressionType.DATE:
-            return new DateLiteral(new Date(referencedControl.value), expr.location);
-          case ExpressionType.BOOLEAN:
-            return new BooleanLiteral(referencedControl.value, expr.location);
-          default:
-            throw new Error(`Missing implementation for expression type ${expr.getExpressionType()}`);
-        }
+        return VariableToLiteralFactory.toLiteral(expr, referencedControl.value);
       }
 
       return new NumberLiteral(undefined, expr.location);

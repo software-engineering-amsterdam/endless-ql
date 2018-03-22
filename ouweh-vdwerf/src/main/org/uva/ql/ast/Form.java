@@ -25,4 +25,8 @@ public class Form extends TreeNode {
     public List<Statement> getStatements() {
         return statements;
     }
+
+    public String getId() {
+        return this.id;
+    }
 }

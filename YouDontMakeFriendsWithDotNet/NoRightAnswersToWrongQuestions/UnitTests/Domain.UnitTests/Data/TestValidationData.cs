@@ -168,9 +168,10 @@ namespace UnitTests.Domain.UnitTests.Data
                 yield return new TestCaseData(
                     @"form John { q1: ""first?"" integer=(q1)}",
                     @"a cirular dependency was found");
-                //yield return new TestCaseData(
-                //    @"form John { q1: ""first?"" integer=(q1 +100)}",
-                //    @"a cirular dependency was found");
+    
+                yield return new TestCaseData(
+                    @"form John { q1: ""first?"" integer=(q1 +100)}",
+                    @"a cirular dependency was found");
                 //yield return new TestCaseData(
                 //    @"form John { q1: ""first?"" integer=(q2) q2: ""second?"" integer=(q1)}",
                 //    @"a cirular dependency was found");

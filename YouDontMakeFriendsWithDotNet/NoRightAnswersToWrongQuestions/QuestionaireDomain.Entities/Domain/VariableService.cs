@@ -20,14 +20,14 @@ namespace QuestionnaireDomain.Entities.Domain
             m_symbolTable = symbolTable;
         }
 
-        private IQuestionNode GetQuestionNode(string variableName)
+        public IQuestionNode GetQuestionNode(string variableName)
         {
             return m_domainItemLocator
                 .GetAll<IQuestionNode>()
                 .FirstOrDefault(x => x.QuestionName == variableName);
         }
 
-        public Type GetType(string variableName)
+        public Type GetQuestionType(string variableName)
         {
             return GetQuestionNode(variableName)?.QuestionType;
         }
@@ -39,7 +39,7 @@ namespace QuestionnaireDomain.Entities.Domain
                 return true;
             }
 
-            if (GetType(variableName1) == GetType(variableName2))
+            if (GetQuestionType(variableName1) == GetQuestionType(variableName2))
             {
                 return true;
             }
@@ -64,7 +64,7 @@ namespace QuestionnaireDomain.Entities.Domain
 
         private bool IsNumeric(string variableName)
         {
-            var type = GetType(variableName);
+            var type = GetQuestionType(variableName);
             return type == typeof(decimal) || type == typeof(int);
         }
 

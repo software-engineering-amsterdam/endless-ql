@@ -9,8 +9,6 @@ import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class RadioWidget extends QuestionWidget {
 
@@ -29,7 +27,7 @@ public class RadioWidget extends QuestionWidget {
         buttonGroup.add(falseButton);
 
         buttonGroup.setSelected(falseButton.getModel(), true);
-        if((boolean)value.getValue()){
+        if ((boolean) value.getValue()) {
             buttonGroup.setSelected(trueButton.getModel(), true);
         }
 

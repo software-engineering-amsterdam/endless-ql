@@ -3,7 +3,6 @@ package org.uva.qls.parsing;
 import antlr.generated.QLSBaseVisitor;
 import antlr.generated.QLSParser;
 import org.uva.ql.ast.type.*;
-import org.uva.qls.ast.DefaultStatement.DefaultStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.ast.Segment.*;
@@ -12,7 +11,6 @@ import org.uva.qls.ast.Style.StyleProperty.*;
 import org.uva.qls.ast.Value.ColorValue;
 import org.uva.qls.ast.Value.NumberValue;
 import org.uva.qls.ast.Value.StringValue;
-import org.uva.qls.ast.Value.Value;
 import org.uva.qls.ast.Widget.Widget;
 import org.uva.qls.ast.Widget.WidgetTypes.*;
 
@@ -44,10 +42,9 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
         List<DefaultStyleStatement> defaultStyleStatements = new ArrayList<>();
         List<DefaultWidgetStatement> defaultWidgetStatements = new ArrayList<>();
         for (QLSParser.DefaultStatementContext defaultStatementContext : ctx.defaultStatement()) {
-            if(defaultStatementContext.defaultStyleStatement() != null) {
+            if (defaultStatementContext.defaultStyleStatement() != null) {
                 defaultStyleStatements.add((DefaultStyleStatement) visit(defaultStatementContext.defaultStyleStatement()));
-            }
-            else{
+            } else {
                 defaultWidgetStatements.add((DefaultWidgetStatement) visit(defaultStatementContext.defaultWidgetStatement()));
             }
         }
@@ -68,10 +65,9 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
         List<DefaultStyleStatement> defaultStyleStatements = new ArrayList<>();
         List<DefaultWidgetStatement> defaultWidgetStatements = new ArrayList<>();
         for (QLSParser.DefaultStatementContext defaultStatementContext : ctx.defaultStatement()) {
-            if(defaultStatementContext.defaultStyleStatement() != null) {
+            if (defaultStatementContext.defaultStyleStatement() != null) {
                 defaultStyleStatements.add((DefaultStyleStatement) visit(defaultStatementContext.defaultStyleStatement()));
-            }
-            else{
+            } else {
                 defaultWidgetStatements.add((DefaultWidgetStatement) visit(defaultStatementContext.defaultWidgetStatement()));
             }
         }

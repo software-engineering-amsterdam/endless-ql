@@ -14,6 +14,11 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value, String> {
 
     private ValueTable valueTable;
 
+    public boolean evaluateCondition(Expression expression, ValueTable valueTable) {
+        this.valueTable = valueTable;
+        return ((BooleanValue) expression.accept(this, null)).getValue();
+    }
+
     public Value evaluateExpression(String id, Expression expression, ValueTable valueTable) {
         this.valueTable = valueTable;
 

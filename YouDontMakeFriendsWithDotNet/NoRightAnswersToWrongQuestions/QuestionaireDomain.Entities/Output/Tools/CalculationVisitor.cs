@@ -1,4 +1,5 @@
-﻿using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+﻿using System.Linq;
+using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;

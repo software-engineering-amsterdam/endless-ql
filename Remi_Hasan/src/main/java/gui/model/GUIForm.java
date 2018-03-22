@@ -1,6 +1,7 @@
 package gui.model;
 
 import gui.widgets.GUIWidget;
+import gui.widgets.LabelWithWidget;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
@@ -30,18 +31,19 @@ public class GUIForm extends VBox{
     public Parent render(SymbolTable symbolTable) {
         VBox vBox = new VBox();
 
-        Map<GUIQuestion, GUIWidget> guiWidgetsMap = new HashMap<>();
+        Map<GUIQuestion, LabelWithWidget> guiWidgetsMap = new HashMap<>();
 
+        // Listener that is notified by UI widget input event
         InvalidationListener invalidationListener = observable -> {
             this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
         };
 
         for (GUIQuestion guiQuestion : this.guiQuestions) {
-            Parent guiWidget = guiQuestion.render(symbolTable, invalidationListener);
-            vBox.getChildren().add(guiWidget);
+            LabelWithWidget labelWithWidget = guiQuestion.render(symbolTable, invalidationListener);
+            vBox.getChildren().add(labelWithWidget);
 
             // Add widget to map from identifier to corresponding UI elements
-            guiWidgetsMap.put(guiQuestion, guiQuestion.guiWidget);
+            guiWidgetsMap.put(guiQuestion, labelWithWidget);
         }
 
         vBox.setPadding(new Insets(100, 10, 10, 10));
@@ -49,12 +51,12 @@ public class GUIForm extends VBox{
         return vBox;
     }
 
-    private void updateRenderedQuestions(Map<GUIQuestion, GUIWidget> guiWidgets, SymbolTable symbolTable) {
+    private void updateRenderedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
 
-        for (Map.Entry<GUIQuestion, GUIWidget> mapEntry : guiWidgets.entrySet()) {
+        for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : guiWidgets.entrySet()) {
             GUIQuestion guiQuestion = mapEntry.getKey();
-            GUIWidget guiWidget = mapEntry.getValue();
+            LabelWithWidget guiWidget = mapEntry.getValue();
 
             // Toggle visibility by evaluating the widget's condition
             guiWidget.setVisibility(expressionEvaluator.visit(guiQuestion.condition).getBooleanValue());

@@ -21,8 +21,6 @@ public class GUIQuestion {
     public final Expression condition;
     public final boolean computed;
 
-    public GUIWidget guiWidget;
-
     public GUIQuestion(String identifier, String label, ReturnType type, Expression condition, boolean computed) {
         this.identifier = identifier;
         this.label = label;
@@ -31,38 +29,31 @@ public class GUIQuestion {
         this.computed = computed;
     }
 
-    public Parent render(SymbolTable symbolTable, InvalidationListener invalidationListener) {
+    public LabelWithWidget render(SymbolTable symbolTable, InvalidationListener invalidationListener) {
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
 
-        VBox vBox = new VBox();
-
         Label guiLabel = new Label(this.label);
-        this.guiWidget = WidgetFactory.getDefaultWidget(this.type);
-
-        // Disable field if it is computed as it can not be edited
-        this.guiWidget.setDisable(this.computed);
+        GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type);
 
         // Event handling
-        boolean visible = expressionEvaluator.visit(this.condition).getBooleanValue();
-        this.guiWidget.setVisibility(visible);
-
         if(!this.computed) {
-            this.guiWidget.setChangeListener(observable -> {
-                symbolTable.setExpression(this.identifier, this.guiWidget.getExpressionValue());
+            guiWidget.setChangeListener(observable -> {
+                symbolTable.setExpression(this.identifier, guiWidget.getExpressionValue());
 
                 // Notify GUIForm that an input value has changed, so it can update all fields
                 invalidationListener.invalidated(observable);
             });
         }
 
-        // Bind label visibility to widget visibility
-        guiLabel.visibleProperty().bind(guiWidget.visibleProperty());
-        guiLabel.managedProperty().bind(guiLabel.visibleProperty());
+        LabelWithWidget labelWithWidget = new LabelWithWidget(guiLabel, guiWidget);
 
-        vBox.getChildren().add(guiLabel);
-        vBox.getChildren().add(guiWidget.getNode());
-        vBox.setPadding(new Insets(0, 0, 0, 20));
+        // Show/hide field based on condition
+        boolean visible = expressionEvaluator.visit(this.condition).getBooleanValue();
+        labelWithWidget.setVisible(visible);
 
-        return vBox;
+        // Disable field if it is computed as it can not be edited
+        labelWithWidget.setDisable(this.computed);
+
+        return labelWithWidget;
     }
 }

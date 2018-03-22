@@ -30,68 +30,39 @@ public class GUIForm extends VBox{
     public Parent render(SymbolTable symbolTable) {
         VBox vBox = new VBox();
 
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
+        Map<GUIQuestion, GUIWidget> guiWidgetsMap = new HashMap<>();
 
-        Map<String, List<GUIWidget>> guiWidgets = new HashMap<>();
-        Map<GUIWidget, Expression> guiWidgetConditions = new HashMap<>();
+        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
+        InvalidationListener invalidationListener = observable -> {
+            this.updateRenderedQuestions(guiWidgetsMap, expressionEvaluator, symbolTable);
+        };
 
         for (GUIQuestion guiQuestion : this.guiQuestions) {
-            Label label = new Label(guiQuestion.label);
-            Parent guiWidget = guiQuestion.render(symbolTable);
-
-            // Disable field if it is computed as it can not be edited
-            guiWidget.setDisable(guiQuestion.computed);
-
-            // Display question based on condition
-            boolean visible = expressionEvaluator.visit(guiQuestion.condition).getBooleanValue();
-//            guiWidget.setVisibility(visible);
-//            guiWidgetConditions.put(guiWidget, guiQuestion.condition);
-//
-//            // If question is not computed, listen for and handle changed value
-//            if (!guiQuestion.computed) {
-//                guiWidget.setChangeListener(observable -> {
-//                    symbolTable.setExpression(guiQuestion.identifier, guiWidget.getExpressionValue());
-//                    this.updateRenderedQuestions(guiWidgets, guiWidgetConditions, expressionEvaluator, symbolTable);
-//                });
-//            }
-//
-//            // Bind label visibility to widget visibility
-//            label.visibleProperty().bind(guiWidget.visibleProperty());
-//            label.managedProperty().bind(label.visibleProperty());
-//
-//            // Add widget to map from identifier to corresponding UI elements
-//            List<GUIWidget> mapEntry = new ArrayList<>();
-//            if(guiWidgets.containsKey(guiQuestion.identifier)) {
-//                mapEntry = guiWidgets.get(guiQuestion.identifier);
-//            }
-//            mapEntry.add(guiWidget);
-//            guiWidgets.put(guiQuestion.identifier, mapEntry);
-//
-//            // Render elements
-//            vBox.getChildren().add(label);
+            Parent guiWidget = guiQuestion.render(symbolTable, invalidationListener);
             vBox.getChildren().add(guiWidget);
 
+            // Add widget to map from identifier to corresponding UI elements
+            guiWidgetsMap.put(guiQuestion, guiQuestion.guiWidget);
         }
+
         vBox.setPadding(new Insets(100, 10, 10, 10));
 
         return vBox;
     }
 
-    private void updateRenderedQuestions(Map<String, List<GUIWidget>> guiWidgets,
-                                         Map<GUIWidget, Expression> guiWidgetConditions,
+    private void updateRenderedQuestions(Map<GUIQuestion, GUIWidget> guiWidgets,
                                          ExpressionEvaluator expressionEvaluator, SymbolTable symbolTable) {
-        for(GUIQuestion guiQuestion : guiQuestions) {
-            List<GUIWidget> guiWidgetsEntries = guiWidgets.get(guiQuestion.identifier);
-            for (GUIWidget guiWidget : guiWidgetsEntries) {
-                // Toggle visibility by evaluating the widget's condition
-                Expression condition = guiWidgetConditions.get(guiWidget);
-                guiWidget.setVisibility(expressionEvaluator.visit(condition).getBooleanValue());
+        for (Map.Entry<GUIQuestion, GUIWidget> mapEntry : guiWidgets.entrySet()) {
+            GUIQuestion guiQuestion = mapEntry.getKey();
+            GUIWidget guiWidget = mapEntry.getValue();
 
-                // Disabled, so it is a computed field that should be updated
-                if (guiWidget.isDisabled()) {
-                    Value result = expressionEvaluator.visit(symbolTable.getExpression(guiQuestion.identifier));
-                    guiWidget.setValue(result);
-                }
+            // Toggle visibility by evaluating the widget's condition
+            guiWidget.setVisibility(expressionEvaluator.visit(guiQuestion.condition).getBooleanValue());
+
+            // Disabled, so it is a computed field that should be updated
+            if (guiWidget.isDisabled()) {
+                Value result = expressionEvaluator.visit(symbolTable.getExpression(guiQuestion.identifier));
+                guiWidget.setValue(result);
             }
         }
     }

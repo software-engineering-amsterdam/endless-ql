@@ -7,7 +7,7 @@ using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLParser.Exceptions;
 using static QLGrammar.QLGrammarParser;
 
-namespace QLParser.ParserVisitors.ExpressionVisitors
+namespace QLParser.ParserVisitors.QL.ExpressionVisitors
 {
     public class ArthimetricExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {

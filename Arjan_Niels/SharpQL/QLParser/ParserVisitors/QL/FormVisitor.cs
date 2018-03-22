@@ -3,11 +3,10 @@ using Antlr4.Runtime.Tree;
 using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.QL;
-using QLParser.ParserVisitors;
 using System.Linq;
 using static QLGrammar.QLGrammarParser;
 
-namespace QLParser
+namespace QLParser.ParserVisitors.QL
 {
     public class FormVisitor : QLGrammarBaseVisitor<FormNode>
     {

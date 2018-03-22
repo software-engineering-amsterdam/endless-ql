@@ -2,10 +2,10 @@
 using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.QL;
-using QLParser.ParserVisitors.ExpressionVisitors;
+using QLParser.ParserVisitors.QL.ExpressionVisitors;
 using static QLGrammar.QLGrammarParser;
 
-namespace QLParser.ParserVisitors
+namespace QLParser.ParserVisitors.QL
 {
     public class ConditionalBlockVisitor : QLGrammarBaseVisitor<ConditionalNode>
     {

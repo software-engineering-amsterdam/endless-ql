@@ -5,7 +5,7 @@ using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
 using static QLGrammar.QLGrammarParser;
 
-namespace QLParser.ParserVisitors.ExpressionVisitors
+namespace QLParser.ParserVisitors.QL.ExpressionVisitors
 {
     public class ComparisonExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {

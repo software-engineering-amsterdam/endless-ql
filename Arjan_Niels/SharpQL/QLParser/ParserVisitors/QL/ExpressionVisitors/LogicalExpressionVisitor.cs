@@ -6,7 +6,7 @@ using QLParser.AST.QL.ExpressionNodes;
 using QLParser.Exceptions;
 using static QLGrammar.QLGrammarParser;
 
-namespace QLParser.ParserVisitors.ExpressionVisitors
+namespace QLParser.ParserVisitors.QL.ExpressionVisitors
 {
     public class LogicalExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {

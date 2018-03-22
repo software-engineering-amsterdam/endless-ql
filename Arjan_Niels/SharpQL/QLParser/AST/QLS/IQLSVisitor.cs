@@ -1,6 +1,4 @@
-﻿using QLParser.AST.QLS;
-
-namespace QLParser.AST
+﻿namespace QLParser.AST.QLS
 {
     public interface IQLSVisitor
     {

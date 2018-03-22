@@ -156,12 +156,13 @@ namespace QLVisualizer.Factories
             switch (literalNode.GetQValueType())
             {
                 case QValueType.BOOLEAN:
-                    return new ExpressionBool(new string[0], () => { return bool.Parse(literalNode.Value); });
+                    return new ExpressionBool(new string[0], () => QValueTypeParser.ParseBoolean(literalNode.Value));
                 case QValueType.INTEGER:
-                    return new ExpressionInt(new string[0], () => { return int.Parse(literalNode.Value); });
+                    return new ExpressionInt(new string[0], () => QValueTypeParser.ParseInteger(literalNode.Value));
                 case QValueType.DOUBLE:
+                    return new ExpressionDouble(new string[0], () => QValueTypeParser.ParseMoney(literalNode.Value));
                 case QValueType.MONEY:
-                    return new ExpressionDouble(new string[0], () => { return double.Parse(literalNode.Value); });
+                    return new ExpressionDouble(new string[0], () => QValueTypeParser.ParseDouble(literalNode.Value));
                 default:
                     throw new NotImplementedException();
             }

@@ -17,6 +17,11 @@ namespace QLVisualizer
         {
             return string.Format("Comparison for {0} and {1} not implemented for operator {2}", type1, type2, expressionOperator);
         }
+
+        public static string ExceptionCannotParse(string value, string targetType)
+        {
+            return string.Format("Cannot parse value {0} to {2} value", value, targetType);
+        }
         #endregion
     }
 }

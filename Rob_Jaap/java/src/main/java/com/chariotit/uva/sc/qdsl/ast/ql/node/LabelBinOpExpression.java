@@ -5,6 +5,8 @@ import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.Operator;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
+import java.util.Set;
+
 public class LabelBinOpExpression extends Expression {
 
     private LabelExpression labelExpression;
@@ -53,6 +55,14 @@ public class LabelBinOpExpression extends Expression {
         }
 
         setExpressionValue(((BinaryOperator)operator).evaluate(labelExpression, expression));
+    }
+
+    @Override
+    public Set<String> getPrerequisites() {
+        Set<String> set1 = expression.getPrerequisites();
+        Set<String> set2 = labelExpression.getPrerequisites();
+        set1.addAll(set2);
+        return set1;
     }
 
     @Override

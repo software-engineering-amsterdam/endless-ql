@@ -1,18 +1,11 @@
 package ql.ExpressionEvaluator;
 
-import ql.ast.ASTBuilder;
-import ql.ast.model.Form;
-import ql.grammar.QLLexer;
-import ql.grammar.QLParser;
-import ql.gui.model.QuestionModel;
-import ql.logic.collectors.CollectQuestionModelsVisitor;
-import ql.logic.evaluators.FormModelExpressionEvaluator;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ql.ast.model.Form;
+import ql.gui.model.QuestionModel;
+import ql.logic.evaluators.FormModelExpressionEvaluator;
 
 import java.util.List;
 

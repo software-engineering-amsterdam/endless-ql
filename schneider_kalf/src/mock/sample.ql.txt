@@ -1,8 +1,14 @@
 form taxOfficeExample {
-  "How much do you like me?"
-    likeMeInt: integer
-  "How much do you like me precise?"
-    likeMeDecimal: decimal
+  "How much is the fish?"
+    priceFishOne: integer
+  "How much is the other fish precisely?"
+    priceFishTwo: decimal
+  "How much is the third fish precisely?"
+    priceFishThree: decimal
+  "Price of fish 1 and 2"
+    priceFishOneAndTwo: decimal = (priceFishOne + priceFishTwo)
+  "Price of all fishes"
+    priceAllFishes: decimal = (priceFishOneAndTwo + priceFishThree)
   "When do you want to buy your next house"
     whenNextHouse: date
   "Did you sell a house in 2010?"
@@ -12,7 +18,7 @@ form taxOfficeExample {
   "Did you enter a loan?"
     hasMainLoan: boolean
 
-  if (false) {
+  if (hasSoldHouse) {
     "What was the selling price?"
       sellingPrice: money
     "Private debts for the sold house:"
@@ -21,7 +27,7 @@ form taxOfficeExample {
       valueResidue: money =
         (sellingPrice - privateDebt)
   } else {
-      "What was the OTHER selling price?"
-        otherSellingPrice: money
+      "Why did you not sell your house in 2010?"
+        notSellHouseReason: text
   }
 }

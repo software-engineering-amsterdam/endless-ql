@@ -31,4 +31,6 @@ public class IntegerConstant extends Constant {
     public void acceptVisitor(NodeVisitor visitor) {
         visitor.visitIntegerConstant(this);
     }
+
+
 }

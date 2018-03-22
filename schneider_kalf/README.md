@@ -97,6 +97,7 @@ Result will be written into the `/build` folder
 * TODO: Either use body or children so we can use this general function (Explain mees how JavaScript works)
 * TODO: Consider variable type to merge default styles
 * TODO: Divide money by money is equal to decimal. Do not allow money * money and money + decimal
+* TODO: Show empty sections?
 
 ## QL Requirements
 

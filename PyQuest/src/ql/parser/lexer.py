@@ -29,8 +29,6 @@ class QLLexer:
     reserved_keywords = {
         'form':     'FORM',
         'if':       'IF',
-        'elif':     'ELSE_IF',
-        'else':     'ELSE',
 
         # Types
         'boolean':  'BOOLEAN',

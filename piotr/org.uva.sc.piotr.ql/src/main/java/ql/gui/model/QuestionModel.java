@@ -7,6 +7,7 @@ import ql.gui.view.QuestionPanel;
 import ql.logic.type.MixedValue;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class QuestionModel {
 
@@ -97,7 +98,7 @@ public class QuestionModel {
         this.formController.processQuestionModelChange(this);
     }
 
-    public void changeValue(Integer value) {
+    public void changeValue(BigInteger value) {
         this.value.setIntegerValue(value);
         this.formController.processQuestionModelChange(this);
     }

@@ -23,7 +23,7 @@ public class QuestionReference extends Segment {
 
     @Override
     public String getId() {
-        return "Question." + id;
+        return id;
     }
 
     public Widget getWidget() {

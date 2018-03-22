@@ -6,7 +6,6 @@ import ql.utils.CodeReference;
 import ql.visiting.StatementVisitor;
 
 public class NormalQuestion extends Question {
-	//TODO what condition?
 	
 	public NormalQuestion(Identifier id, String name, Type type, CodeReference location) {
 		super(id, name, type, location);

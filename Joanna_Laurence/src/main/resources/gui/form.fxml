@@ -35,14 +35,6 @@
     </GridPane>
    <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
-       <Tab text="Tab">
-            <content>
-
-                <ScrollPane prefHeight="300.0" prefWidth="400.0">
-                    <VBox fx:id="container" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                </ScrollPane>
-            </content>
-         </Tab>
      </tabs>
    </TabPane>
     <columnConstraints>

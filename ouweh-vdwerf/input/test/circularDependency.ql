@@ -17,5 +17,4 @@ form exampleForm {
 
      "Question content 4"
         questionVar4:integer = questionVar4;
-
 }

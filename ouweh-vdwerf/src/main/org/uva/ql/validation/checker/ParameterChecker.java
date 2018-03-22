@@ -4,9 +4,7 @@ import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.validation.ValidationResult;
 import org.uva.ql.validation.collector.SymbolTable;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ParameterChecker extends Checker {
 

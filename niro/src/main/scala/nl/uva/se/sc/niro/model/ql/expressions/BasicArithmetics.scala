@@ -5,37 +5,39 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, I
 import scala.language.implicitConversions
 
 object BasicArithmetics {
+  // format: off
   trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntegerAnswer] {
-    def plus(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.value + y.value)
-    def minus(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.value - y.value)
-    def times(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.value * y.value)
-    def div(x: IntegerAnswer, y: IntegerAnswer): IntegerAnswer = IntegerAnswer(x.value / y.value)
-    def negate(x: IntegerAnswer) = IntegerAnswer(-x.value)
+    def plus(x: IntegerAnswer, y: Answer): IntegerAnswer = y match { case i: IntegerAnswer => IntegerAnswer(x.value + i.value) }
+    def minus(x: IntegerAnswer, y: Answer): IntegerAnswer = y match { case i: IntegerAnswer => IntegerAnswer(x.value - i.value) }
+    def times(x: IntegerAnswer, y: Answer): IntegerAnswer = y match { case i: IntegerAnswer => IntegerAnswer(x.value * i.value) }
+    def div(x: IntegerAnswer, y: Answer): IntegerAnswer = y match { case i: IntegerAnswer => IntegerAnswer(x.value / i.value) }
+    def negate(x: IntegerAnswer): IntegerAnswer = IntegerAnswer(-x.value)
   }
   implicit object IntAnswerCanDoBasicArithmetics extends IntAnswerCanDoBasicArithmetics
 
   trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecimalAnswer] {
-    def plus(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.value + y.value)
-    def minus(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.value - y.value)
-    def times(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.value * y.value)
-    def div(x: DecimalAnswer, y: DecimalAnswer): DecimalAnswer = DecimalAnswer(x.value / y.value)
-    def negate(x: DecimalAnswer) = DecimalAnswer(-x.value)
+    def plus(x: DecimalAnswer, y: Answer): DecimalAnswer = y match { case d: DecimalAnswer => DecimalAnswer(x.value + d.value) }
+    def minus(x: DecimalAnswer, y: Answer): DecimalAnswer = y match { case d: DecimalAnswer => DecimalAnswer(x.value - d.value) }
+    def times(x: DecimalAnswer, y: Answer): DecimalAnswer = y match { case d: DecimalAnswer => DecimalAnswer(x.value * d.value) }
+    def div(x: DecimalAnswer, y: Answer): DecimalAnswer = y match { case d: DecimalAnswer => DecimalAnswer(x.value / d.value) }
+    def negate(x: DecimalAnswer): DecimalAnswer = DecimalAnswer(-x.value)
   }
   implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics
+  // format: on
 }
 
 trait BasicArithmetics[SubType <: Answer] {
-  def plus(x: SubType, y: SubType): SubType
-  def minus(x: SubType, y: SubType): SubType
-  def times(x: SubType, y: SubType): SubType
-  def div(x: SubType, y: SubType): SubType
+  def plus(x: SubType, y: Answer): SubType
+  def minus(x: SubType, y: Answer): SubType
+  def times(x: SubType, y: Answer): SubType
+  def div(x: SubType, y: Answer): SubType
   def negate(x: SubType): SubType
 
   class Ops(left: SubType) {
-    def +(right: SubType): SubType = plus(left, right)
-    def -(right: SubType): SubType = minus(left, right)
-    def *(right: SubType): SubType = times(left, right)
-    def /(right: SubType): SubType = div(left, right)
+    def +(right: Answer): SubType = plus(left, right)
+    def -(right: Answer): SubType = minus(left, right)
+    def *(right: Answer): SubType = times(left, right)
+    def /(right: Answer): SubType = div(left, right)
     def unary_-(): SubType = negate(left)
   }
 

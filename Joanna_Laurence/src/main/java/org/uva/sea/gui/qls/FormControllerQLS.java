@@ -1,5 +1,8 @@
 package org.uva.sea.gui.qls;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Tab;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.FormController;
@@ -19,7 +22,7 @@ public class FormControllerQLS extends FormController {
             Style style = questionData.getStyle();
             if (style != null) {
                 String pageName = style.getPage();
-                panes.put(pageName, this.createTab(pageName)); //TODO
+                panes.put(pageName, this.createTab(pageName));
             }
         }
 
@@ -27,6 +30,12 @@ public class FormControllerQLS extends FormController {
     }
 
     private VBox createTab(String tabName) {
-        return new VBox();
+        Tab tab = new Tab();
+        tab.setText(tabName);
+        VBox container = new VBox();
+        tab.setContent(container);
+
+        this.tabPane.getTabs().add(tab);
+        return container;
     }
 }

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GUIForm {
+public class GUIForm extends VBox{
     public final String identifier;
     public final List<GUIQuestion> guiQuestions;
 
@@ -36,7 +36,7 @@ public class GUIForm {
 
         for (GUIQuestion guiQuestion : this.guiQuestions) {
             Label label = new Label(guiQuestion.label);
-            GUIWidget guiWidget = guiQuestion.render();
+            GUIWidget guiWidget = guiQuestion.render(symbolTable);
 
             // Disable field if it is computed as it can not be edited
             guiWidget.setDisable(guiQuestion.computed);

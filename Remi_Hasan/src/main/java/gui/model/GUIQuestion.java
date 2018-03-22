@@ -2,6 +2,7 @@ package gui.model;
 
 import gui.widgets.*;
 import gui.widgets.CheckboxWidget;
+import javafx.scene.Parent;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.model.expression.Expression;
@@ -22,7 +23,7 @@ public class GUIQuestion {
         this.computed = computed;
     }
 
-    public GUIWidget render() {
+    public GUIWidget render(SymbolTable symbolTable) {
         switch (this.type) {
             case STRING:
                 return new TextWidget();

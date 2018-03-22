@@ -11,11 +11,11 @@ namespace QLVisualizer.Widgets.Windows.Leaf.InputCreators
 {
     public class TextBoxCreator<T> : IInputCreator<Control, T>
     {
-        public Control CreateInput(IStyler<Control> styler, string text, QuestionElementManager<T> questionElementManager)
+        public Control CreateInput(IStyler<Control> styler, string[] text, QuestionElementManager<T> questionElementManager)
         {
             // Create holder
             FlowLayoutPanel holder = new FlowLayoutPanel { FlowDirection = FlowDirection.TopDown };
-            holder.Controls.Add(styler.StyleElement(new Label { Text = text }));
+            holder.Controls.Add(styler.StyleElement(new Label { Text = text[0] }));
 
 
             // Create and style textbox

@@ -146,20 +146,22 @@ class QuestionGenerator:
             defaultType = default.type
             defaultWidgetType = default.widgetType
             if defaultType in defaultDict and defaultWidgetType in defaultDict[defaultType]:
-                pass
+                defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default, False, \
+                    defaultDict[defaultType][defaultWidgetType])
             else:
                 defaultDict[defaultType] = {}
                 defaultDict[defaultType][defaultWidgetType] = self.getDefaultAttributes(default)
                 
 
 
-    def getDefaultAttributes(self, default):
-        attributeDict = {
-            'width': 40,
-            'font': 'Arial',
-            'fontSize': 15,
-            'color': '#000000'
-        }
+    def getDefaultAttributes(self, default, initial=True, attributeDict={}):
+        if initial:
+            attributeDict = {
+                'width': 40,
+                'font': 'Arial',
+                'fontSize': 15,
+                'color': '#000000'
+            }
         for attribute in default.attributes:
             if attribute.getAttributeType() != 'widget':
                 attributeDict[attribute.getAttributeType()] = attribute.getValue()

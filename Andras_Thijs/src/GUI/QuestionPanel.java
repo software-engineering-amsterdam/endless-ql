@@ -10,17 +10,15 @@ import javax.swing.*;
 public class QuestionPanel extends JPanel{
     private Question question;
     private boolean isAvailable;
-    private boolean hasExpression;
     private Widget widget;
 
     QuestionPanel(Question question, RefreshListener listener) throws SyntaxException, TypeException {
         this.question = question;
         this.setName(question.getName());
-        this.hasExpression = question.hasExpression();
         this.isAvailable = question.isAvailable();
         this.add(new JLabel(question.getLabel()));
         this.widget = new WidgetFactory().getWidget(this.question.getType(), listener);
-        this.widget.getComponent().setEnabled(!hasExpression);
+        this.widget.getComponent().setEnabled(!question.hasExpression());
         this.add(widget.getComponent());
 
     }

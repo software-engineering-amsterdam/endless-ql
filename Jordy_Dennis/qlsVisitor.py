@@ -100,15 +100,15 @@ class QLSVisitor(QLSGrammarVisitor):
         elif ctx.TEXT():
             return TextWidget()
         elif ctx.SLIDER():
-            return SliderWidget(0, 10)
+            return SliderWidget(ctx.INT()[0], ctx.INT()[1])
         elif ctx.SPINBOX():
-            return SpinboxWidget(0, 10)
+            return SpinboxWidget(ctx.INT()[0], ctx.INT()[1])
 
         # Styling classes
         elif ctx.WIDTH():
-            return StyleWidth(ctx.INT().getText())
+            return StyleWidth(ctx.INT()[0].getText())
         elif ctx.FONTSIZE():
-            return StyleFontSize(ctx.INT().getText())
+            return StyleFontSize(ctx.INT()[0].getText())
         elif ctx.FONT():
             font = ctx.STRING()[0].getText()
             font = font.replace("\"", "")

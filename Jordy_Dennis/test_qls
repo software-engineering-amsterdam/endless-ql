@@ -21,9 +21,9 @@ stylesheet taxOfficeExample
       section "You sold a house"
       {
         question sellingPrice
-          widget spinbox
+          widget slider (0, 10000)
         question privateDebt
-          widget spinbox
+          widget spinbox (0, 10000)
         question valueResidue
         default money
         {
@@ -31,14 +31,14 @@ stylesheet taxOfficeExample
           font: "Comic Sans MS"
           fontsize: 20
           color: #FF0C0C
-          widget spinbox
+          widget spinbox (0, 10000)
 
         }
       }
       section "TEST"
       {
         question sellingPrice2
-        widget spinbox
+        widget spinbox (0, 10000)
       }
     }
     default boolean widget radio("Yes", "No")

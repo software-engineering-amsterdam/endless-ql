@@ -48,7 +48,6 @@ class InputTypeMap:
             button = Checkbutton(self.parent, variable=var, background="white")
             button.pack(fill='x')
         elif widgetType == 'radio':
-            print(kwargs['minVal'])
             button = Radiobutton(self.parent, text=kwargs['minVal'], variable=var, value=True)
             button.pack(anchor=W)
             Radiobutton(self.parent, text=kwargs['maxVal'], variable=var, value=False).pack(anchor=W)
@@ -110,7 +109,7 @@ class InputTypeMap:
         elif widgetType == "spinbox":
             var = DoubleVar()
             var.trace('w', lambda nm, idx, mode, var=var: self.validateSpinbox(var))
-            w = Spinbox(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'], textvariable=var)
+            w = Spinbox(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'], textvariable=var, state='readonly')
         elif widgetType == "slider":
             var = DoubleVar()
             var.trace('w', lambda nm, idx, mode, var=var: self.validateSpinbox(var))
@@ -131,7 +130,6 @@ class InputTypeMap:
         newVal = var.get()
         if type(newVal) != bool:
             newVal = bool(newVal)
-        print(newVal)
         # save value in vardict
         varNode = self.varDict[self.varName]['node']
         varNode.setVar(newVal)

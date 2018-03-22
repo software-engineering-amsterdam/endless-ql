@@ -1,5 +1,7 @@
 package org.uva.app;
 
+import org.json.JSONObject;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.IOException;
@@ -7,11 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
-public class InputHandler {
+public class IOHandler {
 
     private final Logger logger;
 
-    public InputHandler() {
+    public IOHandler() {
         this.logger = Logger.getGlobal();
     }
 
@@ -40,5 +42,9 @@ public class InputHandler {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public void writeOutput(JSONObject jsonObject) {
+        System.out.println(jsonObject);
     }
 }

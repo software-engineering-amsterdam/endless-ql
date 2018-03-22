@@ -4,7 +4,7 @@ import Nodes.Type;
 import QLExceptions.TypeException;
 
 public class QLFloat extends Term {
-    private float value;
+    private final float value;
 
     public QLFloat(float value) {
         this.value = value;

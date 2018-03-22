@@ -22,7 +22,7 @@ public class FormTemplate implements RefreshListener{
         questionPanels = new ArrayList<>();
     }
 
-    public void renderForm(){
+    public void renderForm() throws SyntaxException, TypeException {
 
         JFrame frame = new JFrame(form.getName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,6 +50,8 @@ public class FormTemplate implements RefreshListener{
         frame.add(panel);
 
         frame.pack();
+
+        refreshQuestions();
 
         frame.setVisible(true);
 

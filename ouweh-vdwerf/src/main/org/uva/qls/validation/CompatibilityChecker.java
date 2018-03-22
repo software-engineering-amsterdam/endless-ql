@@ -43,7 +43,6 @@ class CompatibilityChecker extends Checker {
             Widget widget = questionReference.getWidget();
             if (widget != null && !widget.isCompatible(type.getClass())) {
                 validationResult.addError(String.format("Widget %s is not compatible with %s", widget.toString(), type.toString()));
-                logger.severe(String.format("Widget %s is not compatible with %s", widget.toString(), type.toString()));
             }
         }
         return validationResult;

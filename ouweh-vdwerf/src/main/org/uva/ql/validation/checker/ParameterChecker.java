@@ -24,10 +24,7 @@ public class ParameterChecker extends Checker {
 
         for (Parameter parameter : parameters) {
             if (!symbolTable.contains(parameter.getID())) {
-                String message = String.format("Referenced parameter is not declared: %s", parameter);
-
-                result.addError(message);
-                logger.severe(message);
+                result.addError(String.format("Referenced parameter is not declared: %s", parameter));
             }
         }
 

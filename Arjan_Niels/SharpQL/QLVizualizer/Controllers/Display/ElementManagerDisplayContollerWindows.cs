@@ -41,7 +41,7 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         private Form _mainForm;
 
-        public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin, new WidgetCreatorWindows())
+        public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin)
         {
             //_elementFactory = new ControlFactory(this);
             ConstructMainWindow();
@@ -57,8 +57,9 @@ namespace QLVisualizer.Controllers.Display
 
         protected override void UpdateBaseDisplay(Control newDisplay)
         {
-            BaseDisplay.Controls.Clear();
-            BaseDisplay.Controls.Add(newDisplay);
+            _widgetContainer.Controls.Clear();
+            _widgetContainer.Controls.Add(newDisplay);
+            BaseDisplay = newDisplay;
         }
 
         /// <summary>
@@ -78,6 +79,11 @@ namespace QLVisualizer.Controllers.Display
         {
             base.Reset();
             _widgetContainer.Controls.Clear();
+        }
+
+        protected override Control CreateFormWidget()
+        {
+            return WidgetFactoryWindows.GetBuilder(Form, null).Create();
         }
 
         #region Main window constructors

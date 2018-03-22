@@ -78,7 +78,7 @@ namespace QLVisualizer.Elements.Managers
                 OnActiveChange.Invoke(Identifier, Active);
         }
 
-        protected void SetActive(bool value)
+        public void SetActive(bool value)
         {
             if(Active != value)
             {

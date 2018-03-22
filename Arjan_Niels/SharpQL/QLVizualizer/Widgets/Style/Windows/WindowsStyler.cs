@@ -1,10 +1,6 @@
 ﻿using QLParser.AST.QLS;
 using QLVisualizer.Widgets.Windows;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QLVisualizer.Widgets
@@ -28,13 +24,15 @@ namespace QLVisualizer.Widgets
             element.ForeColor = _styleParser.TextColor;
             element.Font = new System.Drawing.Font(_styleParser.Font, _styleParser.FontSize);
             element.BackColor = _styleParser.BackgroundColor;
-
-            if (_styleParser.Width != StyleParserWindows.Dynamic)
-                element.Width = _styleParser.Width;
-            if (_styleParser.Height != StyleParserWindows.Dynamic)
-                element.Height = _styleParser.Height;
-
+            element.AutoSize = _styleParser.AutoSize;
             element.Margin = new Padding(0, _styleParser.MarginTop, 0, _styleParser.MarginBottom);
+
+            if (!_styleParser.AutoSize)
+            {
+                element.Width = _styleParser.Width;
+                element.Height = _styleParser.Height;
+            }
+
             return element;
         }
     }

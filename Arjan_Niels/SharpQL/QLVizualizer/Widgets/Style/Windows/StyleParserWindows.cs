@@ -22,12 +22,11 @@ namespace QLVisualizer.Widgets.Windows
                     {"background-color", new Tuple<StyleProperty, QValueType>(StyleProperty.BackgroundColor, QValueType.HEX) },
                     {"font", new Tuple<StyleProperty, QValueType>(StyleProperty.Font,                       QValueType.TEXT) },
                     {"font-size", new Tuple<StyleProperty, QValueType>(StyleProperty.FontSize,               QValueType.INTEGER) },
-                    {"text-color", new Tuple<StyleProperty, QValueType>(StyleProperty.TextColor,             QValueType.HEX) }
+                    {"text-color", new Tuple<StyleProperty, QValueType>(StyleProperty.TextColor,             QValueType.HEX) },
+                    {"auto-size", new Tuple<StyleProperty, QValueType>(StyleProperty.AutoSize,               QValueType.BOOLEAN) }
                 };
             }
         }
-
-        public const int Dynamic = -1;
 
         public int Height { get; private set; }
         public int Width { get; private set; }
@@ -37,6 +36,7 @@ namespace QLVisualizer.Widgets.Windows
         public string Font { get; private set; }
         public int FontSize { get; private set; }
         public Color TextColor { get; private set; }
+        public bool AutoSize { get; private set; }
 
         public void ParseStyle(List<QLSValue> qlsValues, out string[] errors)
         {
@@ -75,6 +75,9 @@ namespace QLVisualizer.Widgets.Windows
                             case StyleProperty.TextColor:
                                 TextColor = (Color)colorConverter.ConvertFromString(QValueTypeParser.ParseHexadecimal(qlsValue.StyleValue));
                                 break;
+                            case StyleProperty.AutoSize:
+                                AutoSize = QValueTypeParser.ParseBoolean(qlsValue.StyleValue);
+                                break;
                         }
                     }
                     catch (InvalidOperationException invalidOperation)
@@ -95,13 +98,15 @@ namespace QLVisualizer.Widgets.Windows
         public StyleParserWindows()
         {
             // Default values
-            Height = Dynamic;
-            Width = Dynamic;
+            Height = 150;
+            Width = 200;
+
+            AutoSize = true;
 
             MarginTop = 10;
             MarginBottom = 0;
 
-            BackgroundColor = Color.LightGray;
+            BackgroundColor = SystemColors.Control;
 
             Font = "Arial";
             FontSize = 12;

@@ -9,24 +9,5 @@ namespace QLVisualizer.Elements.Managers.CollectionTypes
             base(identifyer, text, "page", parent, controller, activationExpression)
         {
         }
-
-        public void Activate()
-        {
-
-            // TODO: WAT IS NETTER (cast)?/SWITCH
-
-            foreach (ElementManager manager in Parent.Children)
-                (manager as PageManager)?.SetActive(false);
-
-            SetActive(true);
-            
-            /*switch (manager)
-            {
-                case PageManager pageManager:
-                    if (pageManager.Active)
-                        pageManager.SetActive(false);
-                    break;
-            }*/
-        }
     }
 }

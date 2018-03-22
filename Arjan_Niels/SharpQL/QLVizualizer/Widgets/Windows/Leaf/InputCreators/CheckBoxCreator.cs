@@ -19,7 +19,6 @@ namespace QLVisualizer.Widgets.Windows.Leaf.InputCreators
                     bool check = false;
                     bool.TryParse(elementManagerLeaf.AnswerToString(), out check);
                     checkBox.Checked = check;
-
                 }
             };
 

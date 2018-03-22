@@ -19,7 +19,8 @@ public class FormControllerQLS extends BaseFormController {
             Style style = questionData.getStyle();
             if (style != null) {
                 String pageName = style.getPage();
-                panes.put(pageName, this.createTab(pageName));
+                if(!panes.keySet().contains(pageName))
+                    panes.put(pageName, this.createTab(pageName));
             }
         }
 

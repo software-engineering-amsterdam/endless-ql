@@ -69,7 +69,7 @@ public class QuestionAnalyzer {
         List<String> identifiers = new ArrayList<>();
 
         for (ql.model.Question question : this.form.questions) {
-            identifiers.add(question.identifier);
+            identifiers.add(question.name);
         }
 
         return identifiers;

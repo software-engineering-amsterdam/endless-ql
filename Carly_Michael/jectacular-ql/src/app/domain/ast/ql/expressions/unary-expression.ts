@@ -3,13 +3,13 @@ import {Location} from '../../location';
 import {ExpressionVisitor} from '../visitors/expression-visitor';
 
 export abstract class UnaryExpression extends Expression {
-  constructor(public right: Expression, location: Location) {
+  constructor(public readonly right: Expression, readonly location: Location) {
     super(location);
   }
 }
 
 export class NegativeExpression extends UnaryExpression {
-  constructor(right: Expression, location: Location) {
+  constructor(readonly right: Expression, readonly location: Location) {
     super(right, location);
   }
 
@@ -19,7 +19,7 @@ export class NegativeExpression extends UnaryExpression {
 }
 
 export class NegateExpression extends UnaryExpression {
-  constructor(right: Expression, location: Location) {
+  constructor(readonly right: Expression, readonly location: Location) {
     super(right, location);
   }
 

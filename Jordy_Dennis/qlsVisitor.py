@@ -73,6 +73,7 @@ class QLSVisitor(QLSGrammarVisitor):
     # Visit a parse tree produced by QLSGrammarParser#question.
     def visitQuestion(self, ctx: QLSGrammarParser.QuestionContext):
         self.logger.debug("QUESTION")
+        self.isQuestion = True
         question = None
         questionName = ctx.ID().getText()
 
@@ -84,6 +85,7 @@ class QLSVisitor(QLSGrammarVisitor):
             default = self.visit(ctx.default_style())
             question = Question(questionName, default.getWidget(), default.getWidgetType(), ctx.start.line, default)
 
+        self.isQuestion = False
         return question
 
     # Visit a parse tree produced by QLSGrammarParser#widget.
@@ -92,7 +94,7 @@ class QLSVisitor(QLSGrammarVisitor):
         if (ctx.CHECKBOX()):
             return CheckBoxWidget()
         elif ctx.RADIO():
-            return RadioWidget(ctx.STRING()[0].getText(), ctx.STRING()[1].getText())
+            return RadioWidget(ctx.STRING()[0].getText().replace("\"", ""), ctx.STRING()[1].getText().replace("\"", ""))
         elif ctx.DROPDOWN():
             return DropdownWidget()
 
@@ -100,15 +102,15 @@ class QLSVisitor(QLSGrammarVisitor):
         elif ctx.TEXT():
             return TextWidget()
         elif ctx.SLIDER():
-            return SliderWidget(0, 10)
+            return SliderWidget(ctx.INT()[0], ctx.INT()[1])
         elif ctx.SPINBOX():
-            return SpinboxWidget(0, 10)
+            return SpinboxWidget(ctx.INT()[0], ctx.INT()[1])
 
         # Styling classes
         elif ctx.WIDTH():
-            return StyleWidth(ctx.INT().getText())
+            return StyleWidth(ctx.INT()[0].getText())
         elif ctx.FONTSIZE():
-            return StyleFontSize(ctx.INT().getText())
+            return StyleFontSize(ctx.INT()[0].getText())
         elif ctx.FONT():
             font = ctx.STRING()[0].getText()
             font = font.replace("\"", "")
@@ -133,7 +135,7 @@ class QLSVisitor(QLSGrammarVisitor):
                 default.setWidgetType(widgetObject.getWidget())
             default.addAttribute(widgetObject)
 
-        if hasWidget == False:
+        if not hasWidget and self.isQuestion:
             errorstring = "Default style missing widget declaration near line " + str(ctx.start.line)
             throwError(errorstring)
 

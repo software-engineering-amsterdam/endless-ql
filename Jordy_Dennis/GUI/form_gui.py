@@ -109,9 +109,9 @@ class FormGui:
         page.deleteInvalidQuestions(questions, sectionName)
 
     def insertQuestion(self, varName, questionText, questionType, value, sectionName='default', pageName='default',
-                       insertAfterVarName="", defaults=None, widgetType='default'):
+                       insertAfterVarName="", defaults=None, widgetType='default', **kwargs):
         page = self.pages[pageName]
-        page.addQuestionToSection(sectionName, varName, questionText, questionType, value, insertAfterVarName, defaults, widgetType)
+        page.addQuestionToSection(sectionName, varName, questionText, questionType, value, insertAfterVarName, defaults, widgetType, **kwargs)
 
     def removeQuestionFromSection(self, varName, sectionName='default', pageName='default'):
         page = self.pages[pageName]

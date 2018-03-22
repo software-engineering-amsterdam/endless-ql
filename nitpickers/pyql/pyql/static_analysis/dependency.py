@@ -3,19 +3,25 @@ from pyql.ast.form.form import *
 from pyql.ast.form.block import *
 from pyql.ast.form.ql_statements import *
 from pyql.util import message
-from pyql.util.message_handler import MessageHandler
 from pyql.static_analysis.symbol_table import SymbolTable
 from pyql.ast.expression.expressions import *
 
 
 class VariableDependenciesChecker:
 
-    def __init__(self):
+    def __init__(self, tree):
+        self._messages = []
         self._symbol_table = SymbolTable()
+        self._tree = tree
         self._expressions_checker = ExpressionDependenciesChecker(self._symbol_table)
 
-    def check(self, tree):
-        tree.accept(self)
+    def check(self):
+        self._tree.accept(self)
+        return self._messages
+
+    @property
+    def messages(self):
+        return self._messages
 
     @property
     def symbol_table(self):
@@ -29,7 +35,7 @@ class VariableDependenciesChecker:
     def visit(self, block):
         statements = block.statements
         for q in statements:
-            q.accept(self)
+            self._messages.extend(q.accept(self))
         for q in statements:
             if hasattr(q, "identifier"):
                 try:
@@ -45,17 +51,20 @@ class VariableDependenciesChecker:
     @multimethod(Question)
     def visit(self, question):
         self._symbol_table.create(question.identifier.identifier, question)
+        return []
 
     @multimethod(IfElse)
     def visit(self, if_else_statement):
-        self._expressions_checker.check(if_else_statement.expression)
+        messages = self._expressions_checker.check(if_else_statement.expression)
         if_else_statement.if_block.accept(self)
         if_else_statement.else_block.accept(self)
+        return messages
 
     @multimethod(If)
     def visit(self, if_statement):
-        self._expressions_checker.check(if_statement.expression)
+        messages = self._expressions_checker.check(if_statement.expression)
         if_statement.block.accept(self)
+        return messages
 
     @multimethod(ASTNode)
     def visit(self, node):
@@ -75,24 +84,24 @@ class ExpressionDependenciesChecker:
         self._symbol_table = symbol_table
 
     def check(self, expression):
-        expression.accept(self)
+        return expression.accept(self)
 
     @multimethod(Identifier)
     def visit(self, identifier):
         try:
             self._symbol_table.get(identifier.identifier)
+            return []
         except KeyError:
-            MessageHandler().add(message.Error("Identifier {0} undefined".format(identifier.identifier)))
+            return [message.Error("Identifier {0} undefined".format(identifier.identifier))]
 
     @multimethod(BinaryExpression)
     def visit(self, expression):
-        expression.left.accept(self)
-        expression.right.accept(self)
+        return expression.left.accept(self) + expression.right.accept(self)
 
     @multimethod(UnaryExpression)
     def visit(self, unary_expression):
-        unary_expression.expression.accept(self)
+        return unary_expression.expression.accept(self)
 
     @multimethod(Expression)
     def visit(self, _):
-        pass
+        return []

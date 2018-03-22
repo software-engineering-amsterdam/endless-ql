@@ -20,7 +20,7 @@ class Section():
         scrollFrame = ScrollFrameGui(parent)
         self.contents = scrollFrame.get_contents()
 
-        headerFrame = create_frame(scrollFrame.get_contents())
+        headerFrame =  create_frame(scrollFrame.get_contents())
         text = Text(scrollFrame.get_contents(), height=2, width=100)
         headerFont = Font(family="Arial", size=15, weight='bold')
         text.tag_configure('header_conf', font=headerFont)
@@ -55,7 +55,7 @@ class Section():
     """
         Add a question from the question generator
     """
-    def addQuestion(self, questionGenerator, varName, questionText, questionType, value, defaults=None, widgetType='default'):
+    def addQuestion(self, questionGenerator, varName, questionText, questionType, value, defaults=None, widgetType='default', **kwargs):
         width = 200
         color = 'black'
         font = 'Arial'
@@ -72,18 +72,22 @@ class Section():
                     elif type(attribute) == QLS.StyleColor:
                         color = attribute.getColor()
 
-
+        minVal = 0
+        maxVal = 1
+        if kwargs:
+            minVal = kwargs['minVal']
+            maxVal = kwargs['maxVal']
 
 
         q = Question(self.contents, questionGenerator, varName, questionText, questionType, value, width=width,
-                     fontType=font, fontSize=fontSize, color=color, widgetType=widgetType, minVal=0, maxVal=1)
+                     fontType=font, fontSize=fontSize, color=color, widgetType=widgetType, minVal=minVal, maxVal=maxVal)
         self.questions.append(q)
 
-    def insertQuestion(self, prev, questionGenerator, varName, questionText, questionType, value, defaults=None, widgetType = 'default'):
+    def insertQuestion(self, prev, questionGenerator, varName, questionText, questionType, value, defaults=None, widgetType = 'default', **kwargs):
         tmpQuestions = copy.copy(self.questions)
         # first question
         if prev == "":
-            self.addQuestion(questionGenerator, varName, questionText, questionType, value, defaults, widgetType)
+            self.addQuestion(questionGenerator, varName, questionText, questionType, value, defaults, widgetType, **kwargs)
         else:
             for question in self.questions:
                 if question.getVarName() == prev:
@@ -97,7 +101,7 @@ class Section():
                 # print("QUESTION THAT HAS TO BE DELETED:", question.getVarName())
                 self.removeQuestion(question.getVarName())
             # insert question
-            self.addQuestion(questionGenerator, varName, questionText, questionType, value, defaults, widgetType)
+            self.addQuestion(questionGenerator, varName, questionText, questionType, value, defaults, widgetType, **kwargs)
 
             # restore old questions
             for question in tmpQuestions:
@@ -105,7 +109,7 @@ class Section():
                 tmpQuestionText = question.questionText
                 tmpQuestionType = question.questionType
                 tmpValue = question.value
-                self.addQuestion(questionGenerator, tmpVarName, tmpQuestionText, tmpQuestionType, tmpValue, defaults, widgetType)
+                self.addQuestion(questionGenerator, tmpVarName, tmpQuestionText, tmpQuestionType, tmpValue, defaults, widgetType, **kwargs)
 
     """
         Remove a question if it exists in our questions

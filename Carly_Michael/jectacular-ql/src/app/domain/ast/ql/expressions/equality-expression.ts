@@ -4,7 +4,7 @@ import {BinaryExpression} from './binary-expression';
 import {ExpressionVisitor} from '../visitors/expression-visitor';
 
 export class EqualExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, location: Location) {
+  constructor(readonly left: Expression, readonly right: Expression, readonly location: Location) {
     super(left, right, location);
   }
 
@@ -14,7 +14,7 @@ export class EqualExpression extends BinaryExpression {
 }
 
 export class UnequalExpression extends BinaryExpression {
-  constructor(left: Expression, right: Expression, location: Location) {
+  constructor(readonly left: Expression, readonly right: Expression, readonly location: Location) {
     super(left, right, location);
   }
 

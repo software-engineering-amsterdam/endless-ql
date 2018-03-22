@@ -2,8 +2,6 @@
     Generate the questions from the varDict and Ast
 """
 
-import collections
-
 from AST import *
 from QLS import *
 
@@ -84,11 +82,13 @@ class QuestionGenerator:
 
     def addSection(self, pageName, sections, pageDefaults, insertAfter=""):
         page = self.form.getPage(pageName)
+        defaultDict = {}
+        self.updateDefaults(defaultDict, pageDefaults)
         current_default = pageDefaults
         for section in sections:
             # if section has defaults, set them as net defaults
             if section.defaults:
-                current_default = section.defaults
+                self.updateDefaults(defaultDict, section.defaults)
             sectionName = section.getName()
             isSectionEmpty = True
             if not self.form.doesSectionExists(sectionName, pageName):
@@ -100,7 +100,7 @@ class QuestionGenerator:
                     isSectionEmpty = False
 
                     if question.default:
-                        current_default = [question.default]
+                        self.updateDefaults(defaultDict, [question.default])
 
                     # get data of question
                     label = self.questions[varName].getQuestion()
@@ -115,8 +115,15 @@ class QuestionGenerator:
                             questionInGUI.setValue(value)
                     # Question not in GUI, Add question to GUI
                     else:
-                        self.form.insertQuestion(varName, label, var_type, value, sectionName, pageName, insertAfter,
-                                                 current_default, question.widgetType)
+                        if question.widgetType in ['spinbox', 'slider', 'radio']:
+                            self.form.insertQuestion(varName, label, var_type, value, sectionName, pageName,
+                                                     insertAfter,
+                                                     current_default, question.widgetType,
+                                                     minVal=question.widget.minVal, maxVal=question.widget.maxVal)
+                        else:
+                            self.form.insertQuestion(varName, label, var_type, value, sectionName, pageName,
+                                                     insertAfter,
+                                                     current_default, question.widgetType)
                         # disable input if it is an assigmentNode
                         if type(self.questions[varName]) == AssignmentNode:
                             self.form.getQuestionFromSection(varName, sectionName, pageName).disableWidget()
@@ -134,6 +141,12 @@ class QuestionGenerator:
 
             # add child sections
             self.addSection(pageName, section.getSections(), pageDefaults, insertAfter)
+    def updateDefaults(self, defaultDict, newDefaults):
+        for default in newDefaults:
+            defaultType = default.type
+
+            print(default)
+
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy
     def getQuestions(self, block):

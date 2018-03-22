@@ -19,8 +19,6 @@ public interface IQLSVisitor<T> {
 
     T visit(WidgetDefault widget);
 
-    T visit(WidgetDatePicker widget);
-
     T visit(WidgetCheckBox widget);
 
     T visit(WidgetDropdown widget);

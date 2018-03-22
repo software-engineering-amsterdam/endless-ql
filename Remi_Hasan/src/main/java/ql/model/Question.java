@@ -7,27 +7,27 @@ import ql.model.expression.ReturnType;
 public class Question extends QLNode {
 
     public final ReturnType type;
-    public final String identifier;
-    public final String label;
+    public final String name;
+    public final String text;
     public final Expression computedAnswer;
     public final Expression condition;
     private final boolean isComputed;
 
-    public Question(Token start, ReturnType type, String identifier, String label, Expression condition) {
+    public Question(Token start, ReturnType type, String name, String text, Expression condition) {
         super(start);
         this.type = type;
-        this.identifier = identifier;
-        this.label = label;
+        this.name = name;
+        this.text = text;
         this.computedAnswer = null;
         this.isComputed = false;
         this.condition = condition;
     }
 
-    public Question(Token start, ReturnType type, String identifier, String label, Expression defaultAnswer, Expression condition) {
+    public Question(Token start, ReturnType type, String name, String text, Expression defaultAnswer, Expression condition) {
         super(start);
         this.type = type;
-        this.identifier = identifier;
-        this.label = label;
+        this.name = name;
+        this.text = text;
         this.computedAnswer = defaultAnswer;
         this.isComputed = true;
         this.condition = condition;

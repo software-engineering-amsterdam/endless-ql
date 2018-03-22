@@ -48,7 +48,7 @@ class QLParser:
         self.parser = yacc(module=self)
 
     def parse(self, data, lexer):
-        self.parser.parse(data, lexer)
+        return self.parser.parse(data, lexer)
 
     # Statements
     @staticmethod
@@ -249,16 +249,13 @@ class QLParser:
                 | IF LEFT_BRACKET expression MINUS expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
                 | IF LEFT_BRACKET expression TIMES expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE
                 | IF LEFT_BRACKET expression DIVIDE expression RIGHT_BRACKET LEFT_BRACE statements RIGHT_BRACE"""
-        print('a')
-        raise SyntaxError('Condition of if statement does not evaluate to boolean')
+        raise SyntaxError('Condition of if statement does not evaluate to boolean at line {}'.format(p.lineno(4)))
 
     @staticmethod
     def p_form_error(p):
         """form : FORM VARIABLE LEFT_BRACE RIGHT_BRACE"""
-        print('empty form')
-        raise SyntaxError
-        # raise SyntaxError('Empty form at line {}, token={}'.format(p, p))
-        # raise SyntaxError('abc')
+        print("Empty form")
+        raise SyntaxError('Empty form at line {}'.format(p.lineno(1)))
 
     @staticmethod
     def p_error(p):

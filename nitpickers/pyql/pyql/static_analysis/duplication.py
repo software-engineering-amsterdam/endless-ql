@@ -6,17 +6,22 @@ from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
 from pyql.ast.ast import ASTNode
 from pyql.util import message
-from pyql.util.message_handler import MessageHandler
 from pyql.static_analysis.symbol_table import SymbolTable
 
 
 class CheckDuplicatedQuestions:
 
     def __init__(self):
+        self._messages = []
         self._symbol_table = SymbolTable()
 
     def check(self, tree):
         tree.accept(self)
+        return self._messages
+
+    @property
+    def messages(self):
+        return self._messages
 
     @property
     def symbol_table(self):
@@ -24,7 +29,7 @@ class CheckDuplicatedQuestions:
 
     @multimethod(Form)
     def visit(self, form):
-        form.block.accept(self)
+        return form.block.accept(self)
 
     @multimethod(Block)
     def visit(self, block):
@@ -33,11 +38,11 @@ class CheckDuplicatedQuestions:
     @multimethod(Question)
     def visit(self, question):
         if self._label_exists(question):
-            MessageHandler().add(message.Warning("Duplicate label: {0}".format(question.text)))
+            self._messages.append(message.Warning("Duplicate label: {0}".format(question.text)))
         try:
             self._symbol_table.create(question.identifier.identifier, question)
         except KeyError:
-            MessageHandler().add(message.Error("Duplicate question: {0}".format(question.identifier.identifier)))
+            self._messages.append(message.Error("Duplicate question: {0}".format(question.identifier.identifier)))
 
     @multimethod(IfElse)
     def visit(self, if_else_statement):

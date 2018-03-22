@@ -43,8 +43,12 @@ class IntegerValue(var value: Int) : BaseSymbolValue(SymbolType.INTEGER) {
         else -> super.castTo(that)
     }
 
-    override fun valueString(): String = value.toString()
+    override fun valueString(): String {
+        return value.toString()
+    }
 
-    override fun hashCode(): Int = value
+    override fun hashCode(): Int {
+        return value
+    }
 
 }

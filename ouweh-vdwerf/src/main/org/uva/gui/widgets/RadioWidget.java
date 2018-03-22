@@ -28,14 +28,16 @@ public class RadioWidget extends QuestionWidget {
         buttonGroup.add(trueButton);
         buttonGroup.add(falseButton);
 
-
-
+        buttonGroup.setSelected(falseButton.getModel(), true);
         if((boolean)value.getValue()){
             buttonGroup.setSelected(trueButton.getModel(), true);
         }
 
-        this.add(trueButton, 1);
+        falseButton.setEnabled(readOnly);
+        trueButton.setEnabled(readOnly);
+
         this.add(falseButton, 1);
+        this.add(trueButton, 1);
 
         for (StyleProperty property : style.getStyleProperties()) {
             property.apply(this);

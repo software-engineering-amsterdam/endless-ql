@@ -13,7 +13,7 @@ class Section:
     """
     def checkDefaults(self, defaultDict):
         defaultDict[self.name] = {}
-
+        
         # Add defaults recursively to questions
         sectionDict = {}
         for section in self.sections:
@@ -31,7 +31,6 @@ class Section:
         defaultDict[self.name]['sectionDefaults'] = tmpDict
         defaultDict[self.name]['questionDefaults'] = questionDict
         defaultDict[self.name]['subsectionDefaults'] = sectionDict
-
 
     """
         Check for children if the widget type is compatible with the question type

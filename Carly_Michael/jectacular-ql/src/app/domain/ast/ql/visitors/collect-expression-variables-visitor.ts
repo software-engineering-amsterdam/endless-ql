@@ -9,14 +9,14 @@ import {
   StringLiteral, SubtractExpression, UnequalExpression, Variable
 } from '../index';
 
-export class GetExpressionVariablesVisitor implements ExpressionVisitor<void> {
+export class CollectExpressionVariablesVisitor implements ExpressionVisitor<void> {
   private variables: Variable[];
   private constructor() {
     this.variables = [];
   }
 
   static evaluate(expr: Expression): ReadonlyArray<Variable> {
-    const visitor = new GetExpressionVariablesVisitor();
+    const visitor = new CollectExpressionVariablesVisitor();
     expr.accept(visitor);
     return visitor.variables;
   }

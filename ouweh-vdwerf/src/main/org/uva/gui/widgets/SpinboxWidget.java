@@ -21,13 +21,16 @@ public class SpinboxWidget extends QuestionWidget{
         super(question);
 
         spinner = new JSpinner();
-        spinner.setValue((int)value.getValue());
+        spinner.setValue(value.getValue());
+        spinner.setEnabled(readOnly);
 
         this.add(spinner, 1);
 
         for (StyleProperty property : style.getStyleProperties()) {
             property.apply(this);
         }
+
+
     }
 
     @Override

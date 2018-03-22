@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Type = Assignment1.Model.QL.AST.Type;
 using Assignment1.Model.QLS.AST.Style;
 
@@ -12,10 +11,10 @@ namespace Assignment1.Model.QLS.AST
 
         private readonly List<IStyle> _styles;
 
-        public DefaultStyle(Type type, IEnumerable<IStyle> styles)
+        public DefaultStyle(Type type, List<IStyle> styles)
         {
             Type = type;
-            _styles = styles.ToList();
+            _styles = styles;
         }
 
         public override void Accept(IQLSASTVisitor visitor) => visitor.Visit(this);

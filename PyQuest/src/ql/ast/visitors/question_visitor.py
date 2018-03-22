@@ -1,7 +1,7 @@
 from ql.ast.statements.form_node import FormNode
 from ql.ast.statements.if_node import IfNode
 from ql.ast.statements.question_node import QuestionNode
-from multimethods import multimethod
+from ql.ast.visitors.visitor_helper import on, when
 
 
 class QuestionVisitor(object):
@@ -13,17 +13,22 @@ class QuestionVisitor(object):
     def questions(self):
         return self.__questions
 
-    @multimethod(FormNode)
+    # Generic method that initializes the dynamic dispatcher
+    @on('node')
+    def visit(self, node):
+        pass
+
+    @when(FormNode)
     def visit(self, node):
         for child in node.block:
             child.accept(self)
 
-    @multimethod(IfNode)
+    @when(IfNode)
     def visit(self, node):
         for child in node.block:
             child.accept(self)
 
-    @multimethod(QuestionNode)
+    @when(QuestionNode)
     def visit(self, node):
         self.__questions.append({'label': node.label,
                                  'identifier': node.identifier,

@@ -5,22 +5,22 @@ import {Form} from '../form';
 import {If} from '../if';
 import {QlQuestion} from '../ql-question';
 import {Statement} from '../statement';
-import {GetExpressionVariablesVisitor} from './get-expression-variables-visitor';
+import {CollectExpressionVariablesVisitor} from './collect-expression-variables-visitor';
 
-export class GetStatementVariablesVisitor implements StatementVisitor<void> {
+export class CollectStatementVariablesVisitor implements StatementVisitor<void> {
   private variables: Variable[];
   private constructor() {
     this.variables = [];
   }
 
   static evaluate(stmt: Statement): ReadonlyArray<Variable> {
-    const visitor = new GetStatementVariablesVisitor();
+    const visitor = new CollectStatementVariablesVisitor();
     stmt.accept(visitor);
     return visitor.variables;
   }
 
   visitExpressionQuestion(stmt: ExpressionQuestion): void {
-    this.variables = this.variables.concat(GetExpressionVariablesVisitor.evaluate(stmt.expression));
+    this.variables = this.variables.concat(CollectExpressionVariablesVisitor.evaluate(stmt.expression));
   }
 
   visitForm(stmt: Form): void {
@@ -38,7 +38,7 @@ export class GetStatementVariablesVisitor implements StatementVisitor<void> {
       statement.accept(this);
     }
 
-    this.variables = this.variables.concat(GetExpressionVariablesVisitor.evaluate(stmt.condition));
+    this.variables = this.variables.concat(CollectExpressionVariablesVisitor.evaluate(stmt.condition));
   }
 
   visitQlQuestion(stmt: QlQuestion): void {

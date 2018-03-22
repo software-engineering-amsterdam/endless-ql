@@ -1,21 +1,16 @@
 import {Location} from '../../../location';
-import {QlQuestion} from '../../ql-question';
 import {ExpressionType} from '../expression-type';
 import {ExpressionVisitor} from '../../visitors/expression-visitor';
 import {Literal} from './literal';
 import {BooleanLiteral} from './boolean-literal';
 
 export class DateLiteral extends Literal {
-  constructor(public value: Date, location: Location) {
+  constructor(public readonly value: Date, readonly location: Location) {
     super(location);
   }
 
   getValue(): any {
     return this.value;
-  }
-
-  checkType(allQuestions: QlQuestion[]): ExpressionType {
-    return ExpressionType.DATE;
   }
 
   getType(): ExpressionType {

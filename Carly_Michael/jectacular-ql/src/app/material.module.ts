@@ -1,5 +1,4 @@
 import {
-  MAT_LABEL_GLOBAL_OPTIONS,
   MatCheckboxModule,
   MatFormFieldModule,
   MatInputModule,
@@ -32,8 +31,5 @@ import {NgModule} from '@angular/core';
     MatSelectModule,
     MatInputModule
   ],
-  providers: [
-    {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'}}
-  ]
 })
 export class MaterialModule { }

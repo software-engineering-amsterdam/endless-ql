@@ -90,7 +90,12 @@
     <Compile Include="Elements\Managers\QuestionElementValue.cs" />
     <Compile Include="Widgets\Collection\IWidgetCollectionBuilder.cs" />
     <Compile Include="Widgets\Collection\WidgetCollectionBuilder.cs" />
+    <Compile Include="Widgets\IStyler.cs" />
+    <Compile Include="Widgets\Leaf\IInputCreator.cs" />
+    <Compile Include="Widgets\WindowsStyler.cs" />
     <Compile Include="Widgets\Windows\Collection\FormBuilderWindows.cs" />
+    <Compile Include="Widgets\Windows\Collection\PageBuilder.cs" />
+    <Compile Include="Widgets\Windows\Collection\SectionBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Collection\WidgetCollectionBuilderWindows.cs" />
     <Compile Include="Widgets\IStyleParser.cs" />
     <Compile Include="Widgets\IWidgetBuilder.cs" />
@@ -98,6 +103,8 @@
     <Compile Include="Widgets\WidgetBuilder.cs" />
     <Compile Include="Widgets\WidgetCreator.cs" />
     <Compile Include="Widgets\WidgetCreatorWindows.cs" />
+    <Compile Include="Widgets\Windows\Leaf\InputCreators\TextBoxCreator.cs" />
+    <Compile Include="Widgets\Windows\Leaf\WidgetLeafBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\StyleParserWindows.cs" />
     <Compile Include="Widgets\StyleProperty.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -132,8 +139,6 @@
       <Name>QLParser</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Widgets\Windows\Leaf\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

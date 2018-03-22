@@ -4,8 +4,8 @@
     {
         Width,
         Height,
-        TopMargin,
-        BottomMargin,
+        MarginTop,
+        MarginBottom,
         TextColor,
         Font,
         FontSize,

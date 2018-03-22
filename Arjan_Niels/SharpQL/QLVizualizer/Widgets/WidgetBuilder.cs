@@ -9,13 +9,14 @@ namespace QLVisualizer.Widgets
     {
         protected List<QLSValue> _qlsElements { get; private set; }
 
-        protected IStyleParser _styleParser { get; private set; }
+        protected IStyleParser _styleParser;
 
-        public WidgetBuilder(List<QLSValue> qlsElements, IWidgetCollectionBuilder<T> parent, IStyleParser styleParser)
+        protected IStyler<T> _styler;
+
+        public WidgetBuilder(List<QLSValue> qlsElements, IWidgetCollectionBuilder<T> parent)
         {
             _qlsElements = qlsElements;
-            _styleParser = styleParser;
-            parent?.AddChild(this);
+            parent?.AddChild(this);          
         }
 
         public abstract T Create();
@@ -24,10 +25,11 @@ namespace QLVisualizer.Widgets
         {
             List<string> ownStyleElements = _qlsElements.Select(element => element.StyleProperty).ToList();
             foreach (QLSValue element in elements)
-                if (!ownStyleElements.Contains(element.StyleProperty) && IsCompatible(element.StyleProperty))
+                if (!ownStyleElements.Contains(element.StyleProperty))
                     _qlsElements.Add(element);
-        }
 
-        protected abstract bool IsCompatible(string styleElement);
+            string[] errors;
+            _styleParser.ParseStyle(_qlsElements, out errors);
+        }
     }
 }

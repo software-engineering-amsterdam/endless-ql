@@ -11,7 +11,7 @@ namespace QLVisualizer.Widgets.Collection
 
         protected ElementManagerCollection _elementManagerCollection { get; private set; }
 
-        public WidgetCollectionBuilder(List<QLSValue> qlsElements, Y elementManagerCollection, IWidgetCollectionBuilder<T> parent, IStyleParser styleParser) : base(qlsElements, parent, styleParser)
+        public WidgetCollectionBuilder(List<QLSValue> qlsElements, Y elementManagerCollection, IWidgetCollectionBuilder<T> parent) : base(qlsElements, parent)
         {
             _children = new List<WidgetBuilder<T>>();
             _elementManagerCollection = elementManagerCollection;
@@ -22,10 +22,10 @@ namespace QLVisualizer.Widgets.Collection
             foreach(WidgetBuilder<T> widgetBuilder in _children)
                 widgetBuilder.SetParentStyle(_qlsElements);
 
-            return Create(_children.Select(child => child.Create()));
+            return _styler.StyleElement(Create(_children.ToDictionary(child=> child, child => child.Create())));
         }
 
-        protected abstract T Create(IEnumerable<T> children);
+        protected abstract T Create(Dictionary<WidgetBuilder<T>, T> children);
 
         public void AddChild(WidgetBuilder<T> child)
         {

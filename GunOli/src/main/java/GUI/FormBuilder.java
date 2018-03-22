@@ -72,7 +72,7 @@ public class FormBuilder {
 
     private int renderFormQuestions(int fieldRow, GridPane formGrid){
         int currentRow = fieldRow;
-        for(Question question : form.getBlock().getQuestions()){
+        for(Question question : form.getQuestions()){
             Label questionLabel = new Label(question.getText());
             Control questionField = createQuestionField(question);
             questionLabel.setVisible(question.isEnabled());

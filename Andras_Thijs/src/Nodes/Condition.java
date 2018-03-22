@@ -75,9 +75,8 @@ public class Condition extends ASTNode {
                 throw new TypeException(this, Type.BOOL, Type.getByCode(result.toString()));
             }
         } catch(OtherException e) {
-            System.out.println(e);
             // This is thrown when a Variable isn't set yet.
-            result = null;
+            this.result = null;
         }
     }
 

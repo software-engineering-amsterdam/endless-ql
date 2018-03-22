@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Renderer {
 
-    private Map<String, Node> drawNode = new HashMap<>();
+    private final Map<String, Node> drawNode = new HashMap<>();
 
     public void clearTabPane(TabPane pane) {
         pane.getTabs().removeAll(pane.getTabs());

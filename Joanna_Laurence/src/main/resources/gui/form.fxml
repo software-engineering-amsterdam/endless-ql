@@ -30,8 +30,6 @@
     <TabPane fx:id="tabPane" focusTraversable="false" prefHeight="200.0" prefWidth="397.0"
              style="-fx-open-tab-animation: NONE; -fx-close-tab-animation: NONE;" tabClosingPolicy="UNAVAILABLE"
              GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-        <tabs>
-        </tabs>
     </TabPane>
     <columnConstraints>
         <ColumnConstraints/>

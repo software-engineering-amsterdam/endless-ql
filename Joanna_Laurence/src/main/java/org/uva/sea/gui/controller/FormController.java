@@ -13,7 +13,7 @@ public class FormController extends BaseFormController {
     }
 
     protected Map<String, VBox> createContainer(EvaluationResult evaluationResult) {
-        HashMap<String, VBox> panes = new HashMap<>();
+        Map<String, VBox> panes = new HashMap<>();
         panes.put("default", this.container); //TODO
         return panes;
     }

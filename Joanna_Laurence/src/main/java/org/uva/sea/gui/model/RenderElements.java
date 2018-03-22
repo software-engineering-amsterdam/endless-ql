@@ -7,15 +7,15 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import java.util.Collection;
 
 public class RenderElements {
-    private Collection<BaseWidget> widgets;
-    private Messages message;
+    private final Collection<BaseWidget> widgets;
+    private final Messages message;
 
     public RenderElements(Collection<BaseWidget> widgets, Messages message) {
         this.widgets = widgets;
         this.message = message;
     }
 
-    public Collection<BaseWidget> getWidgets() {
+    public Iterable<BaseWidget> getWidgets() {
         return this.widgets;
     }
 

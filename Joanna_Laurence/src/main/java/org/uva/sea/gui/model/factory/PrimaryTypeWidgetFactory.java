@@ -52,8 +52,8 @@ public class PrimaryTypeWidgetFactory implements IWidgetFactory {
 
             widgetValueUpdate.updateWidget(questionValue);
             return newWidget;
-        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException ignored) {
-            ignored.printStackTrace();
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
             return null;
         }
     }

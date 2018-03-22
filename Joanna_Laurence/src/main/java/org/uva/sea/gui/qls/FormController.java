@@ -19,7 +19,7 @@ public class FormController extends BaseFormController {
 
     @Override
     protected Map<String, VBox> createContainer(EvaluationResult evaluationResult) {
-        HashMap<String, VBox> panes = new HashMap<>();
+        Map<String, VBox> panes = new HashMap<>();
         for (QuestionData questionData : evaluationResult.getQuestions()) {
             Style style = questionData.getStyle();
             if (style != null) {

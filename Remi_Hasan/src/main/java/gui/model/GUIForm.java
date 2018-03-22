@@ -11,9 +11,7 @@ import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GUIForm extends VBox {
     public final String identifier;
@@ -63,6 +61,11 @@ public class GUIForm extends VBox {
     }
 
     private void updateDisplayedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
+        // Keep track of which questions are rendered
+        // so we only set an invisible question in the symbol table
+        // to Undefined when it was not updated by another visible question yet
+        Set<String> visibleQuestions = new HashSet<>();
+
         for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : guiWidgets.entrySet()) {
             GUIQuestion guiQuestion = mapEntry.getKey();
             LabelWithWidget guiWidget = mapEntry.getValue();
@@ -77,6 +80,13 @@ public class GUIForm extends VBox {
                 } else {
                     symbolTable.setExpression(guiQuestion.identifier, guiWidget.getExpressionValue());
                 }
+
+                visibleQuestions.add(guiQuestion.identifier);
+            } else if(!visibleQuestions.contains(guiQuestion.identifier)) {
+                // If question becomes invisible, set value in symbol table to undefined
+                // but only if another question with the same identifier that is visible
+                // did not update the symbol table already
+                symbolTable.setExpression(guiQuestion.identifier, new ExpressionVariableUndefined(null, guiQuestion.type));
             }
         }
     }

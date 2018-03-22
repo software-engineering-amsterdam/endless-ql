@@ -42,7 +42,9 @@ public class GUIQuestion {
             });
         }
 
-        return new LabelWithWidget(guiLabel, guiWidget);
+        LabelWithWidget labelWidget = new LabelWithWidget(guiLabel, guiWidget);
+        labelWidget.setDisable(this.isComputed());
+        return labelWidget;
     }
 
     public boolean isVisible(SymbolTable symbolTable) {

@@ -14,7 +14,7 @@ import org.uva.sc.cr.ql.interpreter.evaluator.ExpressionEvaluatorMoney
 import org.uva.sc.cr.ql.qL.Expression
 
 @Singleton
-class BindingService {
+class BindingBuilder {
 
 	@Inject
 	private var ExpressionEvaluator evaluator
@@ -30,7 +30,7 @@ class BindingService {
 
 	public def invalidateBindings() {
 		bindings.forEach [
-			it.invalidate
+			it.invalidate()
 		]
 	}
 
@@ -38,7 +38,7 @@ class BindingService {
 		val binding = Bindings.createBooleanBinding(new Callable<Boolean>() {
 
 			override call() throws Exception {
-				evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), Boolean)
+				return evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), Boolean)
 			}
 
 		})
@@ -50,7 +50,7 @@ class BindingService {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
-				evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), String)
+				return evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), String)
 			}
 
 		})
@@ -62,8 +62,8 @@ class BindingService {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
-				evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), Double).intValue.
-					toString
+				return evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), Double).
+					intValue().toString()
 			}
 
 		})
@@ -75,7 +75,8 @@ class BindingService {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
-				evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), Double).toString
+				return evaluator.evaluateExpression(expression, getExpressionArguments(controls, expression), Double).
+					toString()
 			}
 
 		})
@@ -87,10 +88,10 @@ class BindingService {
 		val binding = Bindings.createStringBinding(new Callable<String>() {
 
 			override call() throws Exception {
-				evaluatorMoney.evaluateExpression(
+				return evaluatorMoney.evaluateExpression(
 					expression,
 					getExpressionArguments(controls, expression)
-				).amount.toString
+				).amount.toString()
 			}
 
 		})
@@ -99,7 +100,7 @@ class BindingService {
 	}
 
 	def private getExpressionArguments(List<ControlWrapper> controls, Expression exp) {
-		val result = new HashMap<String, Object>
+		val result = new HashMap<String, Object>()
 		controls.forEach [ control |
 			result.put(control.name, control.value)
 		]

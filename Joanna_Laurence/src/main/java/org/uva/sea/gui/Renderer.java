@@ -3,7 +3,7 @@ package org.uva.sea.gui;
 import javafx.scene.Group;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-import org.uva.sea.gui.components.Renderable;
+import org.uva.sea.gui.widget.Renderable;
 
 public class Renderer {
     private final Group container;

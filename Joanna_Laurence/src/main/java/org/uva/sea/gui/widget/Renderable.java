@@ -1,4 +1,4 @@
-package org.uva.sea.gui.components;
+package org.uva.sea.gui.widget;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -20,7 +20,7 @@ public abstract class Renderable {
     private static final int MESSAGE_ROW = 600;
     private static final int MESSAGE_COLUMN = 40;
 
-    public abstract void render(Group container, TabPane tabPane, VBox messages);
+    public abstract Node render(Group container, TabPane tabPane, VBox messages);
 
     protected Node createRow(String label, Control widget) {
         GridPane wrapper = new GridPane();

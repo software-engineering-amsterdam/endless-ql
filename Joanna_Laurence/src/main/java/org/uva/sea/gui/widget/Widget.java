@@ -6,14 +6,12 @@ import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.IGuiElementUpdateListener;
-import org.uva.sea.gui.components.Renderable;
 import org.uva.sea.gui.model.factory.DefaultValueFactory;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public abstract class Widget extends Renderable {
 
@@ -37,10 +35,8 @@ public abstract class Widget extends Renderable {
     }
 
     @Override
-    public void render(Group container, TabPane tabPane, VBox messages) {
-        Node node = this.convertToGuiNode();
-        if(node != null)
-            container.getChildren().add(node);
+    public Node render(Group container, TabPane tabPane, VBox messages) {
+        return this.convertToGuiNode();
     }
 
     public abstract Node convertToGuiNode();

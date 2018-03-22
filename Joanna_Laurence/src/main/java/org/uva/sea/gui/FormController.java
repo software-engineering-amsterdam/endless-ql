@@ -10,8 +10,8 @@ import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.components.AlertBuilder;
-import org.uva.sea.gui.components.GuiMessage;
-import org.uva.sea.gui.components.Renderable;
+import org.uva.sea.gui.model.RenderElements;
+import org.uva.sea.gui.widget.Renderable;
 import org.uva.sea.gui.model.QuestionModel;
 import org.uva.sea.languages.BaseEvaluator;
 import org.uva.sea.languages.QlEvaluator;
@@ -78,7 +78,7 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
         FileSelector fileSelector = new FileSelector(title, extension, "*." + extension);
         File selectedFile = fileSelector.getFile();
         if (selectedFile == null) {
-            this.addElementToDraw(new GuiMessage("Warning: no file selected"));
+            this.displayWarning("Warning: no file selected");
             return null;
         }
 
@@ -121,10 +121,25 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
 
     private void collectComponentsToDraw() {
         try {
-            this.componentsToDraw.addAll(this.formModel.getQuestionRenders());
+            RenderElements questionRenders = this.formModel.getQuestionRenders();
+            if(questionRenders == null) {
+                this.displayError("No questions could be displayed");
+                return;
+            }
+
+            this.showMessages(questionRenders);
+            this.componentsToDraw.addAll(questionRenders.getRenderables());
         } catch (IOException | InterruptedException e) {
             this.displayError(e.getMessage());
         }
+    }
+
+    private void showMessages(RenderElements questionRenders) {
+        for(String warning : questionRenders.getWarnings())
+            this.displayInfo(warning);
+
+        for(String error : questionRenders.getErrors())
+            this.displayError(error);
     }
 
     /**

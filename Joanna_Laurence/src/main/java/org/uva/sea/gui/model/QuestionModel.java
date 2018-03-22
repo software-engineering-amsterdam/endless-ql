@@ -1,8 +1,7 @@
 package org.uva.sea.gui.model;
 
 import org.uva.sea.gui.IGuiElementUpdateListener;
-import org.uva.sea.gui.components.GuiMessage;
-import org.uva.sea.gui.components.Renderable;
+import org.uva.sea.gui.widget.Renderable;
 import org.uva.sea.gui.model.factory.WidgetFactory;
 import org.uva.sea.gui.widget.Widget;
 import org.uva.sea.languages.BaseEvaluator;
@@ -29,21 +28,17 @@ public class QuestionModel {
         this.interpreter = interpreter;
     }
 
-    public Collection<Renderable> getQuestionRenders() throws IOException, InterruptedException {
+    public RenderElements getQuestionRenders() throws IOException, InterruptedException {
         Collection<Renderable> guiElements = new ArrayList<>();
         EvaluationResult interpreterResult = this.getEvaluationResults();
 
         if (interpreterResult == null)
-            return new ArrayList<>();
-
-        Messages warnings = interpreterResult.getMessages();
-        for (String warning : warnings.getMessage(MessageTypes.WARNING))
-            guiElements.add(new GuiMessage(warning));
+            return null;
 
         for (QuestionData questionData : interpreterResult.getQuestions())
             guiElements.add(this.createWidget(questionData));
 
-        return guiElements;
+        return new RenderElements(guiElements, interpreterResult.getMessages());
     }
 
     public EvaluationResult getEvaluationResults() throws IOException, InterruptedException {

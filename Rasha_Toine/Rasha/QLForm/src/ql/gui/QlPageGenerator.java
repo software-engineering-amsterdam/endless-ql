@@ -102,7 +102,7 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 			@Override
 			public WidgetInterface visit(MoneyType type, Void ctx2) {
 				//default 0.0
-				return new TextField(question, new DecimalValue(BigDecimal.valueOf(0.0)), ctx);
+				return new TextField(question, new MoneyValue(BigDecimal.valueOf(0.0)), ctx);
 			}
 			
 			@Override
@@ -120,7 +120,7 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 			@Override
 			public WidgetInterface visit(DecimalType type, Void ctx2) {
 				//default 0.0
-				return new TextField(question, new DecimalValue(BigDecimal.valueOf(0.0)), ctx);
+				return new TextField(question, new MoneyValue(BigDecimal.valueOf(0.0)), ctx);
 			}
 				
 		  },

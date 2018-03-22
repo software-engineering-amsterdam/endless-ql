@@ -3,6 +3,8 @@ package GUI;
 import GUI.Listeners.RefreshListener;
 import Nodes.QLForm;
 import Nodes.Question;
+import QLExceptions.SyntaxException;
+import QLExceptions.TypeException;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
@@ -53,15 +55,15 @@ public class FormTemplate implements RefreshListener{
 
     }
 
-    private void refreshView(){
+    private void refreshView() throws SyntaxException, TypeException {
         Iterator<QuestionPanel> questionPanelIterator = questionPanels.iterator();
         while(questionPanelIterator.hasNext()){
-            questionPanelIterator.next().setVisibility();
+            questionPanelIterator.next().refreshPanel();
         }
     }
 
     @Override
-    public void refreshQuestions() {
+    public void refreshQuestions() throws SyntaxException, TypeException {
         refreshView();
     }
 

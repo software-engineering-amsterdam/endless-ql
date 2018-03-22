@@ -1,7 +1,5 @@
 package Nodes.Term;
 
-import sun.awt.SunHints;
-
 public class TermFactory {
 
     public Term getTerm(boolean value){
@@ -16,5 +14,5 @@ public class TermFactory {
         return new QLString(value);
     }
 
-    //getTerm is not needed for Value as it will not change after parsing
+    //getTerm is not needed for Variable as it will not change after parsing
 }

@@ -6,6 +6,7 @@ import Nodes.Type;
 import QLExceptions.*;
 
 public abstract class Term extends Expression {
+
     /**
      * For Terms, only set the parent because it is a leaf of a tree
      */
@@ -51,4 +52,5 @@ public abstract class Term extends Expression {
         // Default implementation is to throw a TypeException.
         throw new TypeException();
     }
+
 }

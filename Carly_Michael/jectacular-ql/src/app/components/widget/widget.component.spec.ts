@@ -6,12 +6,6 @@ import {Widget, WidgetType} from '../../domain/ast/qls';
 import {InputQuestion} from '../../domain/angular-questions/input-question';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from '../../material.module';
-import {CheckboxWidgetComponent} from '../widgets/checkbox-widget/checkbox-widget.component';
-import {RadioWidgetComponent} from '../widgets/radio-widget/radio-widget.component';
-import {SelectWidgetComponent} from '../widgets/select-widget/select-widget.component';
-import {SliderWidgetComponent} from '../widgets/slider-widget/slider-widget.component';
-import {SpinboxWidgetComponent} from '../widgets/spinbox-widget/spinbox-widget.component';
-import {TextWidgetComponent} from '../widgets/text-widget/text-widget.component';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -30,19 +24,11 @@ describe('WidgetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        WidgetComponent,
-        CheckboxWidgetComponent,
-        RadioWidgetComponent,
-        SelectWidgetComponent,
-        SliderWidgetComponent,
-        SpinboxWidgetComponent,
-        TextWidgetComponent
-      ],
+      declarations: [WidgetComponent],
       imports: [
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        MaterialModule,
+        MaterialModule
       ]
     })
       .compileComponents();

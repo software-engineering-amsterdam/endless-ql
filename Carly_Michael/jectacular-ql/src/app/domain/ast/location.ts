@@ -9,11 +9,6 @@ export interface Location {
   end: Line;
 }
 
-export const locationToReadableMessage = function(location: Location): string {
-  return ` between line ${location.start.line}` +
-    ` and col ${location.start.column} and line ${location.end.line} and col ${location.end.column}`;
-};
-
 export const emptyLoc: Location = {
   start:
     {

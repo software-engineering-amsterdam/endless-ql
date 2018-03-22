@@ -17,10 +17,6 @@ export class BooleanLiteral extends Literal {
     return ExpressionType.BOOLEAN;
   }
 
-  getType(): ExpressionType {
-    return ExpressionType.BOOLEAN;
-  }
-
   accept<T>(visitor: ExpressionVisitor<T>): T {
     return visitor.visitBooleanLiteral(this);
   }

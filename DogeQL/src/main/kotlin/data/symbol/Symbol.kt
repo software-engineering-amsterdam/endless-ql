@@ -17,5 +17,4 @@ class Symbol(type: SymbolType, val expression: Expression?) {
     fun assign(value: BaseSymbolValue) {
         this.value = value
     }
-
 }

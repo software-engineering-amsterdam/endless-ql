@@ -7,58 +7,76 @@ import javax.naming.OperationNotSupportedException
 
 enum class BinaryOperation(private val operation: (left: BaseSymbolValue, right: BaseSymbolValue) -> BaseSymbolValue) {
 
-    GREATER({ left, right ->
+    Greater({ left, right ->
         BooleanValue(left > right)
     }),
 
-    LESS({ left, right ->
+    Less({ left, right ->
         BooleanValue(left < right)
     }),
 
-    GREATEROREQUAL({ left, right ->
+    GreaterOrEqual({ left, right ->
         BooleanValue(left >= right)
     }),
 
-    LESSOREQUAL({ left, right ->
+    LessOrEqual({ left, right ->
         BooleanValue(left <= right)
     }),
 
-    EQUAL({ left, right ->
+    Equal({ left, right ->
         BooleanValue(left == right)
     }),
 
-    NOTEQUAL({ left, right ->
+    NotEqual({ left, right ->
         BooleanValue(left != right)
     }),
 
-    AND({ left, right ->
+    And({ left, right ->
         val boolTrue = BooleanValue(true)
-        EQUAL(left, boolTrue) and EQUAL(right, boolTrue)
+        Equal(left, boolTrue) and Equal(right, boolTrue)
     }),
 
-    OR({ left, right ->
+    Or({ left, right ->
         val boolTrue = BooleanValue(true)
-        EQUAL(left, boolTrue) or (EQUAL(right, boolTrue))
+        Equal(left, boolTrue) or (Equal(right, boolTrue))
     }),
 
-    ADD({ left, right ->
+    Add({ left, right ->
         left + right
     }),
 
-    SUBSTRACT({ left, right ->
+    Subtract({ left, right ->
         left - right
     }),
 
-    MULTIPLY({ left, right ->
+    Multiply({ left, right ->
         left * right
     }),
 
-    DIVIDE({ left, right ->
+    Divide({ left, right ->
         left / right
     });
 
     operator fun invoke(left: BaseSymbolValue, right: BaseSymbolValue): BaseSymbolValue {
         return operation(left, right)
+    }
+
+    companion object {
+        fun fromString(value: String): BinaryOperation? = when (value) {
+            ">" -> Greater
+            "<" -> Less
+            ">=" -> GreaterOrEqual
+            "<=" -> LessOrEqual
+            "==" -> Equal
+            "!=" -> NotEqual
+            "&&" -> And
+            "||" -> Or
+            "+" -> Add
+            "-" -> Subtract
+            "*" -> Multiply
+            "/" -> Divide
+            else -> null
+        }
     }
 
     fun getResolvedType(leftType: SymbolType, rightType: SymbolType): SymbolType {

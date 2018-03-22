@@ -8,6 +8,7 @@ import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableBoolean;
+import ql.model.expression.variable.ExpressionVariableDecimal;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class DropdownWidget extends ComboBox<String> implements WidgetInterface 
     @Override
     public void addComputedListener(SymbolTable symbolTable, ExpressionEvaluator expressionEvaluator) {
         symbolTable.addListener(e -> {
-            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.identifier));
+            Value value = expressionEvaluator.visit(symbolTable.getExpression(question.name));
             String text = value.isUndefined() ? "" : value.getBooleanValue().toString();
             this.setExpression(text);
         });
@@ -49,7 +50,7 @@ public class DropdownWidget extends ComboBox<String> implements WidgetInterface 
     @Override
     public void addNonComputedListener(SymbolTable symbolTable) {
         this.valueProperty().addListener(e -> {
-            symbolTable.setExpression(question.identifier, getExpression(this, question.type));
+            symbolTable.setExpression(question.name, getExpression(this, question.type));
         });
     }
 

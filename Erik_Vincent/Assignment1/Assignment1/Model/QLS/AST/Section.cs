@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Assignment1.Model.QLS.AST
 {
@@ -10,10 +9,10 @@ namespace Assignment1.Model.QLS.AST
 
         private readonly List<Statement> _contents;
 
-        public Section(string label, IEnumerable<Statement> contents)
+        public Section(string label, List<Statement> contents)
         {
             Label = label;
-            _contents = contents.ToList();
+            _contents = contents;
         }
 
         public override void Accept(IQLSASTVisitor visitor) => visitor.Visit(this);

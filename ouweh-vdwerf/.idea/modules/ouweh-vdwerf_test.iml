@@ -3,20 +3,13 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output-test url="file://$MODULE_DIR$/../../out/test/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../build/generated-src/antlr/test">
-      <sourceFolder url="file://$MODULE_DIR$/../../build/generated-src/antlr/test" isTestSource="true" />
-    </content>
     <content url="file://$MODULE_DIR$/../../src/test">
       <sourceFolder url="file://$MODULE_DIR$/../../src/test" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../src/test/antlr" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../src/test/resources" type="java-test-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ouweh-vdwerf_main" />
     <orderEntry type="library" name="Gradle: org.antlr:antlr4:4.7.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.json:json:20180130" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Gradle: org.antlr:antlr4-runtime:4.7.1" level="project" />
     <orderEntry type="library" name="Gradle: org.antlr:ST4:4.0.8" level="project" />

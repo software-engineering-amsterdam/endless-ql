@@ -26,14 +26,6 @@ export default class FormState {
     return this.store.has(identifier);
   }
 
-  hasValueFor(identifier: string): boolean {
-    if (!this.has(identifier)) {
-      return false;
-    }
-
-    return typeof this.get(identifier) !== 'undefined' && this.get(identifier) !== null;
-  }
-
   toString() {
     const lines: string[] = [];
 

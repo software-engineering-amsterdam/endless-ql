@@ -27,7 +27,9 @@ class BooleanValue(var value: Boolean) : BaseSymbolValue(SymbolType.BOOLEAN) {
         else -> super.compareTo(other)
     }
 
-    override fun not(): BaseSymbolValue = BooleanValue(!value)
+    override fun not(): BaseSymbolValue {
+        return BooleanValue(!value)
+    }
 
     override fun castTo(that: SymbolType): BaseSymbolValue? = when (that) {
         SymbolType.INTEGER -> IntegerValue(if (value) 1 else 0)
@@ -35,8 +37,12 @@ class BooleanValue(var value: Boolean) : BaseSymbolValue(SymbolType.BOOLEAN) {
         else -> super.castTo(that)
     }
 
-    override fun valueString(): String = value.toString()
+    override fun valueString(): String {
+        return value.toString()
+    }
 
-    override fun hashCode(): Int = value.hashCode()
+    override fun hashCode(): Int {
+        return value.hashCode()
+    }
 
 }

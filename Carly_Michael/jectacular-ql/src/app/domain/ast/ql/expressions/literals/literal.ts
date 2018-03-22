@@ -5,7 +5,6 @@ import {BooleanLiteral} from './boolean-literal';
 import {NumberLiteral} from './number-literal';
 import {StringLiteral} from './string-literal';
 import {DateLiteral} from './date-literal';
-import {ExpressionType} from '../expression-type';
 
 export abstract class Literal extends Expression {
   constructor(location: Location) {
@@ -17,8 +16,6 @@ export abstract class Literal extends Expression {
   }
 
   abstract getValue(): any;
-
-  abstract getType(): ExpressionType;
 
   // arithmetic
 

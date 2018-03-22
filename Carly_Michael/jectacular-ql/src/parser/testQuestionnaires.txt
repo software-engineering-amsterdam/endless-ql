@@ -1,6 +1,6 @@
 // simple form
 form form {
- 	question1: "Question?"  date
+ 	question: "Question?"  boolean
 }
 
 //with all question types

@@ -2,13 +2,13 @@
     Generate the questions from the varDict and Ast
 """
 
-import collections
-
+import pprint
 from AST import *
 from QLS import *
+import collections
 
 
-class QuestionGenerator:
+class Question_Generator:
 
     def __init__(self, varDict, ast, astQLS, form):
         self.varDict = varDict
@@ -23,7 +23,7 @@ class QuestionGenerator:
         else:
             self.updateQl(initial)
 
-    # Update QL questions
+    # Get a list of all the questions that need to be rendered (depending on the evaluation of the statements)
     def updateQl(self, initial=False):
         self.questions = collections.OrderedDict()
         self.getQuestions(self.ast.form.block)
@@ -37,29 +37,27 @@ class QuestionGenerator:
                     label = self.questions[varName].getQuestion()
                     var_type = self.varDict[varName]['node'].checkTypes()
                     value = self.varDict[varName]['node'].evaluate()
+                    # check if assignment node, only show evaluated value
+                    # don't let the value of an assignment node be changed, only use evaluated data
+                    if (type(self.questions[varName]) == AssignmentNode):
+                        if (self.form.getQuestionFromSection(varName, 'default', 'default')):
+                            self.form.getQuestionFromSection(varName, 'default', 'default').setValue(value)
 
-                    questionInGUI = self.form.getQuestionFromSection(varName)
-                    # question already in gui
-                    if questionInGUI:
-                        # check if assignment node, only show evaluated value
-                        # don't let the value of an assignment node be changed, only use evaluated data
-                        if type(self.questions[varName]) == AssignmentNode:
-                            questionInGUI.setValue(value)
-                    # Question not in GUI, insert question
-                    else:
+                    # if the question is not yet in the GUI
+                    if (not self.form.isQuestionOnPage(varName)):
+
                         # it is not the initial setup process
                         if not initial:
                             # delete every question that is under the to be inserted if-question
                             for varNameToBeDeleted in toBeDeleteQuestions:
-                                self.form.removeQuestionFromSection(varNameToBeDeleted)
+                                self.form.removeQuestionFromSection('default', 'default', varNameToBeDeleted)
 
                         # insert new question into the GUI
-                        self.form.insertQuestion(varName, label, var_type, value)
-
+                        self.form.insertQuestion("", varName, 'default', label, var_type, value)
                     # delete question from the to be deleted list
                     del toBeDeleteQuestions[varName]
 
-                    # remove if question is no longer valid
+                    # remove if question if no longer valid
                     self.form.deleteInvalidQuestions(self.questions)
 
     """
@@ -76,19 +74,15 @@ class QuestionGenerator:
                 self.form.addPage(pages[page].name)
 
             # add sections and questions
-            self.addSection(pageName, pages[page].getSection(), pages[page].defaults)
+            self.addSection(pageName, pages[page].getSection())
 
-        # show first page on start-up
+        # show first page
         if (initial):
             self.form.getPage(next(iter(pages))).show()
 
-    def addSection(self, pageName, sections, pageDefaults, insertAfter=""):
+    def addSection(self, pageName, sections, insertAfter=""):
         page = self.form.getPage(pageName)
-        current_default = pageDefaults
         for section in sections:
-            # if section has defaults, set them as net defaults
-            if section.defaults:
-                current_default = section.defaults
             sectionName = section.getName()
             isSectionEmpty = True
             if not self.form.doesSectionExists(sectionName, pageName):
@@ -96,44 +90,37 @@ class QuestionGenerator:
 
             for question in section.getQuestions():
                 varName = question.getVarName()
-                if varName in self.questions:
+                if (varName in self.questions):
                     isSectionEmpty = False
-
-                    if question.default:
-                        current_default = [question.default]
-
                     # get data of question
                     label = self.questions[varName].getQuestion()
                     var_type = self.varDict[varName]['node'].checkTypes()
                     value = self.varDict[varName]['node'].evaluate()
 
-                    # Is question already in GUI
-                    questionInGUI = self.form.getQuestionFromSection(varName, sectionName, pageName)
-                    if questionInGUI:
-                        # update assignment node with new evaluated data
-                        if type(self.questions[varName]) == AssignmentNode:
-                            questionInGUI.setValue(value)
-                    # Question not in GUI, Add question to GUI
-                    else:
-                        self.form.insertQuestion(varName, label, var_type, value, sectionName, pageName, insertAfter,
-                                                 current_default, question.widgetType)
-                        # disable input if it is an assigmentNode
-                        if type(self.questions[varName]) == AssignmentNode:
-                            self.form.getQuestionFromSection(varName, sectionName, pageName).disableWidget()
-                    # keep track of where to insert a potential new question
-                    insertAfter = varName
-                # delete question, it is no longer valid
-                else:
-                    self.form.removeQuestionFromSection(varName, sectionName, pageName)
+                    # don't let the value of an assignment node be changed, only use evaluated data
+                    if (type(self.questions[varName]) == AssignmentNode):
+                        if (self.form.getQuestionFromSection(varName, sectionName, pageName)):
+                            self.form.getQuestionFromSection(varName, sectionName, pageName).setValue(value)
 
-            # Show section when there are question inside
+
+                    # insert new question
+                    if not self.form.isQuestionOnPage(varName, sectionName, pageName):
+                        self.form.insertQuestion(insertAfter, varName, sectionName, label, var_type, value, pageName, question.default)
+                        if (type(self.questions[varName]) == AssignmentNode):
+                            self.form.getQuestionFromSection(varName, sectionName, pageName).disableWidget()
+
+                    insertAfter = varName
+                # delete question
+                else:
+                    self.form.removeQuestionFromSection(pageName, sectionName, varName)
+
             if not isSectionEmpty:
                 self.form.getSection(sectionName, pageName).showSection()
             else:
                 self.form.getSection(sectionName, pageName).hideSection()
 
             # add child sections
-            self.addSection(pageName, section.getSections(), pageDefaults, insertAfter)
+            self.addSection(pageName, section.getSections(), insertAfter)
 
     # Create the list of all the questions by recursively looping through the statements and adding them to te dictionairy
     def getQuestions(self, block):
@@ -171,7 +158,6 @@ class QuestionGenerator:
 
     def getVarDict(self):
         return self.varDict
-
 
 def printDict(dic):
     pp = pprint.PrettyPrinter(indent=4)

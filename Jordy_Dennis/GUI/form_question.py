@@ -8,18 +8,17 @@
     such as the AST and the question generator
 """
 
+
 from .gui_imports import *
 from .form_input_type import InputTypeMap
 
-
 class Question:
+
     """
         Get the correct widget according to the specification and pack it inside the question frame.
         The header is also created.
     """
-
-    def __init__(self, parent, questionGenerator, varName, questionText, questionType, value, fontType='Arial',
-                 fontSize=15, color='black', width=40, widgetType='default', **kwargs):
+    def __init__(self, parent, questionGenerator, varName, questionText, questionType, value, fontType='Arial', fontSize=15, color='black', width = 40):
         self.frame = create_frame(parent)
         self.questionGenerator = questionGenerator
         self.frame.pack(fill="both", anchor=NW)
@@ -34,14 +33,13 @@ class Question:
         self.varName = varName
 
         self.createHeaderLabel(questionText, fontType, fontSize, color)
-        self.createInputUser(questionType, widgetType,  **kwargs)
+        self.createInputUser(questionType)
 
         self.questionText = questionText
 
     """
         Create header of the question according to possible QLS or default value
     """
-
     def createHeaderLabel(self, questionText, fontType, fontSize, color):
         label = Label(self.frame)
         label.config(text=questionText)
@@ -52,14 +50,12 @@ class Question:
     """
         Get the widget according to the question type
     """
-
-    def createInputUser(self, questionType, widgetType="default", **kwargs):
-        self.widget, self.answer = self.map.getWidget(questionType, widgetType, **kwargs)
+    def createInputUser(self, questionType):
+        self.widget, self.answer = self.map.getWidget(questionType)
 
     """
         Getters and setters ----------------------------
     """
-
     def emptyFrame(self):
         self.frame.destroy()
 
@@ -70,7 +66,7 @@ class Question:
         return self.frame
 
     def getAnswer(self):
-        if ((self.questionType == float or self.questionType == int) and (self.answer.get() == "")):
+        if((self.questionType == float or self.questionType == int) and (self.answer.get() == "")):
             return 0
         else:
             return self.answer.get()
@@ -83,3 +79,4 @@ class Question:
 
     def setValue(self, value):
         self.answer.set(value)
+

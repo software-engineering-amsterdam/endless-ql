@@ -73,6 +73,6 @@ public class DecimalFieldWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.field.setValue(this.getQuestionModel().getValue().getDecimalValue());
+        this.field.setValue(this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 }

@@ -9,7 +9,7 @@ import ql.ast.model.statements.Question;
 import ql.ast.model.statements.Statement;
 import ql.ast.visitors.AbstractASTTraverse;
 import ql.gui.model.QuestionModel;
-import ql.logic.type.MixedValue;
+import ql.logic.type.QLDataType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,11 +98,11 @@ public class CollectQuestionModelsVisitor extends AbstractASTTraverse {
         return finalExpression;
     }
 
-    public HashMap<String, MixedValue> getVariablesValues() {
+    public HashMap<String, QLDataType> getVariablesValues() {
 
-        HashMap<String, MixedValue> variablesValues = new HashMap<>();
+        HashMap<String, QLDataType> variablesValues = new HashMap<>();
         for (QuestionModel questionModel : this.questionModels) {
-            variablesValues.put(questionModel.getVariableName(), questionModel.getValue());
+            variablesValues.put(questionModel.getVariableName(), questionModel.getQLDataTypeValue());
         }
         return variablesValues;
     }

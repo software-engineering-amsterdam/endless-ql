@@ -21,10 +21,10 @@ public class FormController {
         // initial evaluation
         for (QuestionModel questionModel : questionModels) {
             if (questionModel.getAssignedExpression() != null) {
-                questionModel.setValue(questionModel.getAssignedExpression().accept(evaluator));
+                questionModel.setQlTypedValue(questionModel.getAssignedExpression().accept(evaluator));
             }
             if (questionModel.getVisibilityCondition() != null) {
-                questionModel.setVisibility(questionModel.getVisibilityCondition().accept(evaluator).getBooleanValue());
+                questionModel.setVisibility((Boolean) questionModel.getVisibilityCondition().accept(evaluator).getValue());
             } else {
                 questionModel.setVisibility(true);
             }
@@ -81,7 +81,7 @@ public class FormController {
         if (!questionsToUpdateValueModel.isEmpty()) {
             for (QuestionModel questionModel1 : questionsToUpdateValueModel) {
                 // they must (per definition) have assigned expression
-                questionModel1.setValue(questionModel1.getAssignedExpression().accept(evaluator));
+                questionModel1.setQlTypedValue(questionModel1.getAssignedExpression().accept(evaluator));
                 questionModel1.getPanel().refreshValue();
                 this.processQuestionModelChange(questionModel1);
             }
@@ -91,7 +91,7 @@ public class FormController {
         if (!questionsToUpdateVisibilityModel.isEmpty()) {
             for (QuestionModel questionModel1 : questionsToUpdateVisibilityModel) {
                 // they must (per definition) have visibility conditions
-                questionModel1.setVisibility(questionModel1.getVisibilityCondition().accept(evaluator).getBooleanValue());
+                questionModel1.setVisibility((Boolean) questionModel1.getVisibilityCondition().accept(evaluator).getValue());
                 questionModel1.getPanel().refreshVisibility();
                 this.processQuestionModelChange(questionModel1);
             }

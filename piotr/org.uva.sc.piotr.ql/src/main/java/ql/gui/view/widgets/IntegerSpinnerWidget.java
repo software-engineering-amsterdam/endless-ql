@@ -37,7 +37,7 @@ public class IntegerSpinnerWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.spinner.setValue(this.getQuestionModel().getValue().getIntegerValue());
+        this.spinner.setValue(this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 
     @Override

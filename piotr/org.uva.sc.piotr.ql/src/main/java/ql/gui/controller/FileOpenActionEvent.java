@@ -126,8 +126,7 @@ public class FileOpenActionEvent implements ActionListener {
                     new ConditionsValidator(conditions, questions),
                     new TypesValidator(conditions, questions),
                     new QuestionsDependencyValidator(questionsMap),
-                    new QuestionLabelsValidator(questions),
-                    new IntegerToDecimalCastingValidator(questionsMap)
+                    new QuestionLabelsValidator(questions)
             };
 
             this.validated = true;

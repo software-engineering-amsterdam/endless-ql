@@ -32,8 +32,8 @@ form taxOfficeExample {
         "multiplyed it is"
           mult: decimal = random * larger
 
-      "devided it is"
-        div: decimal = random / larger
+      "oposide devided it is"
+        div: decimal = larger / random
 
       "how nice am I?"
         nice: decimal

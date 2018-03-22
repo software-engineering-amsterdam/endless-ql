@@ -13,7 +13,7 @@ import java.util.Map;
 public class FormControllerQLS extends FormController {
 
     @Override
-    protected Map<String, Pane> createPanes(EvaluationResult evaluationResult) {
+    protected Map<String, Pane> createContainer(EvaluationResult evaluationResult) {
         HashMap<String, Pane> panes = new HashMap<>();
         for (QuestionData questionData : evaluationResult.getQuestions()) {
             Style style = questionData.getStyle();

@@ -19,7 +19,6 @@ import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.QlSEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.io.File;
@@ -62,7 +61,7 @@ public abstract class FormController implements Initializable, IGuiElementUpdate
     }
 
 
-    protected abstract Map<String, Pane> createPanes(EvaluationResult evaluationResult);
+    protected abstract Map<String, Pane> createContainer(EvaluationResult evaluationResult);
 
 
     private String getFileSelector(String title, String extension) {
@@ -131,7 +130,7 @@ public abstract class FormController implements Initializable, IGuiElementUpdate
 
             this.showMessages(questionRenders);
 
-            Map<String, Pane> panes = this.createPanes(evaluationResult);
+            Map<String, Pane> panes = this.createContainer(evaluationResult);
             this.renderer.draw(questionRenders.getRenderables(), panes);
 
         } catch (IOException | InterruptedException e) {

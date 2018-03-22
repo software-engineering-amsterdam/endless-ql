@@ -1,51 +1,41 @@
-import StyleTreeNode from "./nodes/StyleTreeNode";
 import StyleAttribute from "./nodes/StyleAttribute";
-import { getDefaultStyleNodes } from "./style_helpers";
-import QuestionStyle from "./nodes/children/QuestionStyle";
 import styleConstants from "../config/styleConstants";
-import { VariableInformation } from "../../../form/VariableIntformation";
+import { FieldType } from "../../../form/FieldType";
+import DefaultStyleNode from "./nodes/children/DefaultStyleNode";
 
 export default class MergedFieldStyle {
   private styles: Map<string, StyleAttribute>;
   private identifier: string;
+  private type: FieldType;
 
-  constructor(identifier: string) {
+  constructor(identifier: string, type: FieldType) {
     this.identifier = identifier;
+    this.type = type;
     this.styles = new Map();
-  }
-
-  inheritStyleFrom(node: StyleTreeNode, qlVariables: Map<string, VariableInformation>) {
-    let defaultNodesBottomUp = getDefaultStyleNodes(node).reverse();
-    defaultNodesBottomUp.forEach(defaultNode => {
-
-      const variableInformation: VariableInformation | undefined = qlVariables.get(this.identifier);
-
-      // Don't apply style when question doesn't exist
-      if (typeof variableInformation === "undefined") {
-        return;
-      }
-
-      // Style should not be applied when types conflict
-      if (variableInformation.type !== defaultNode.type) {
-        return;
-      }
-
-      // Apply style for each style entry in the default node
-      defaultNode.children.forEach(styleAttribute => {
-        this.styles.set(styleAttribute.getName(), styleAttribute);
-      });
-
-    });
-  }
-
-  addLocalStyle(question: QuestionStyle) {
-    question.children.forEach(child => {
-      this.styles.set(child.getName(), child);
-    });
   }
 
   getIdentifier(): string {
     return this.identifier;
+  }
+
+  applyDefaults(defaults: DefaultStyleNode[]) {
+    defaults.forEach(defaultNode => {
+      this.applyDefault(defaultNode);
+    });
+  }
+
+  applyDefault(defaultNode: DefaultStyleNode) {
+    if (this.type !== defaultNode.type) {
+      return;
+    }
+
+    this.applyStyle(defaultNode.children);
+  }
+
+  applyStyle(attributes: StyleAttribute[]) {
+    attributes.forEach(styleAttribute => {
+      this.styles.set(styleAttribute.getName(), styleAttribute);
+    });
   }
 
   getFieldContainerCssStyle(): object {

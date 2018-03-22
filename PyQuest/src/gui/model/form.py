@@ -1,4 +1,4 @@
-class Form:
+class FormModel:
     def __init__(self, identifier):
         self.__identifier = identifier
         self.__block = []

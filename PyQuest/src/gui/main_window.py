@@ -10,7 +10,7 @@ from ql.ast.visitors.type_visitor import TypeVisitor
 from ql.ast.checkers.question_checker import QuestionChecker
 from ql.ast.checkers.dependency_checker import DependencyChecker
 from ql.ast.checkers.reference_checker import ReferenceChecker
-from gui.form import Form
+from gui.form_window import FormWindow
 from gui.helper import append_file_extension
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QTextEdit
@@ -22,7 +22,7 @@ from debug.debug import Debug
 from debug.errors.conditional_error import ConditionalError
 
 
-class MainApp(QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -127,7 +127,7 @@ class MainApp(QMainWindow):
 
             if not any([invalid_references, invalid_dependencies, invalid_questions,
                         invalid_types, invalid_conditionals]):
-                dialog = Form(extract_gui_model(ast))
+                dialog = FormWindow(extract_gui_model(ast))
                 dialog.exec_()
 
         else:

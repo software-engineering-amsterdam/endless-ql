@@ -34,7 +34,6 @@ import { isNumericValue } from "../values/values_helpers";
  * a numeric result after performing arithmetic operations or a boolean result
  * for a logical statement.
  *
- * TODO: Maybe use mixins to separate boolean and arithmetic logic
  */
 export default class EvaluationVisitor implements ExpressionVisitor {
   private state: FormState | undefined;

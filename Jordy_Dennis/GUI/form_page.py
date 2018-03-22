@@ -11,7 +11,7 @@ from .form_question import Question
 from .form_section import *
 
 
-class Page():
+class Page:
 
     def __init__(self, parent, questionGenerator, page_header='default', color='green'):
         self.questionGenerator = questionGenerator
@@ -95,7 +95,7 @@ class Page():
         for section in self.sections:
             if section.getName() == sectionName:
                 for question in section.questions:
-                    if (question.varName not in questions):
+                    if question.varName not in questions:
                         section.removeQuestion(question.varName)
 
     def emptyFrame(self):

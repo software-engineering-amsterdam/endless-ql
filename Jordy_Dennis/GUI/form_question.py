@@ -70,7 +70,7 @@ class Question:
         return self.frame
 
     def getAnswer(self):
-        if ((self.questionType == float or self.questionType == int) and (self.answer.get() == "")):
+        if (self.questionType == float or self.questionType == int) and (self.answer.get() == ""):
             return 0
         else:
             return self.answer.get()

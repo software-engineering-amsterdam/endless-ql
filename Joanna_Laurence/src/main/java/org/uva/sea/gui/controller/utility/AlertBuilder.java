@@ -1,27 +1,36 @@
 package org.uva.sea.gui.controller.utility;
 
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 public class AlertBuilder {
 
     public Alert buildError(String contentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR, contentText);
-        alert.setHeaderText("Error");
-        alert.setTitle("Error");
+        this.fillAlert("Error", "Error", alert);
         return alert;
     }
 
     public Alert buildInfo(String contentText) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, contentText);
-        alert.setHeaderText("Information");
-        alert.setTitle("Information");
+        this.fillAlert("Info", "Info", alert);
         return alert;
     }
 
     public Alert buildWarning(String contentText) {
         Alert alert = new Alert(Alert.AlertType.WARNING, contentText);
-        alert.setHeaderText("Warning");
-        alert.setTitle("Warning");
+        this.fillAlert("Warning", "Warning", alert);
         return alert;
     }
+
+    private void fillAlert(String header, String title, Alert alert) {
+        alert.setHeaderText(header);
+        alert.setTitle(title);
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
+        stage.toFront();
+    }
+
+
 }

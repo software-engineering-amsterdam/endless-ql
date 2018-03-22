@@ -25,7 +25,7 @@ public class RadioButtonWidget extends QLSWidget {
     @Override
     public Node convertToGuiNode() {
         final RadioButton radioButton = new RadioButton();
-        this.setRadioStyle(radioButton, this.questionData.getStyle());
+        this.setStyle(radioButton);
 
         if (this.widgetValue != null) {
             radioButton.selectedProperty().setValue(this.widgetValue.getBooleanValue());
@@ -38,19 +38,5 @@ public class RadioButtonWidget extends QLSWidget {
                 });
 
         return radioButton;
-    }
-
-    private void setRadioStyle(RadioButton radioButton, Style style) {
-        if (style == null)
-            return;
-
-        if ((style.getFont() != null) && (style.getFontSize() != null)) {
-            radioButton.setFont(new Font(style.getFont(), style.getFontSize()));
-        }
-        if (style.getWidth() != null) {
-            radioButton.setMinWidth(style.getWidth());
-        } else {
-            radioButton.setMinWidth(BaseRenderable.TEXT_WIDTH);
-        }
     }
 }

@@ -26,7 +26,7 @@ public class ChoiceBoxWidget extends QLSWidget {
     @Override
     public Node convertToGuiNode() {
         final ChoiceBox<Boolean> choiceBox = new ChoiceBox<>();
-        this.createChoiceBox(choiceBox, this.questionData.getStyle());
+        this.setStyle(choiceBox);
         choiceBox.setValue((this.widgetValue != null) && this.widgetValue.getBooleanValue());
         choiceBox.setFocusTraversable(false);
 
@@ -40,13 +40,5 @@ public class ChoiceBoxWidget extends QLSWidget {
         });
 
         return choiceBox;
-    }
-
-    private void createChoiceBox(ChoiceBox<Boolean> choiceBox, Style style) {
-        if (style == null)
-            return;
-
-        //TODO: Create a default style object and cascade the styles
-        choiceBox.setMinWidth((style.getWidth() != null) ? style.getWidth() : BaseRenderable.TEXT_WIDTH);
     }
 }

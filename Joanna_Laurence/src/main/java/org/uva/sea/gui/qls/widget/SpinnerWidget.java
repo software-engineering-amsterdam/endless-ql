@@ -50,7 +50,7 @@ public class SpinnerWidget extends QLSWidget {
         final Spinner spinner = new Spinner<>();
         spinner.setFocusTraversable(false);
 
-        this.addSpinnerStyle(spinner, this.questionData.getStyle());
+        this.setStyle(spinner);
 
         this.widgetValue.accept(new BaseValueVisitor<Void>() {
             @Override
@@ -88,16 +88,5 @@ public class SpinnerWidget extends QLSWidget {
 
 
         return spinner;
-    }
-
-    private void addSpinnerStyle(Spinner spinner, Style style) {
-        if (style == null)
-            return;
-
-        if (style.getWidth() != null) {
-            spinner.setMinWidth(style.getWidth());
-        } else {
-            spinner.setMinWidth(BaseRenderable.TEXT_WIDTH); //default style
-        }
     }
 }

@@ -1,5 +1,7 @@
 package org.uva.sea.languages.ql.interpreter.dataObject.questionData;
 
+import javafx.beans.binding.Bindings;
+import javafx.scene.Node;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 
 import java.util.ArrayList;
@@ -116,5 +118,23 @@ public class Style {
 
     public WidgetType getWidgetType() {
         return this.getWidget().getWidgetType();
+    }
+
+    public void updateNode(Node node) {
+        String css = "";
+
+        if(this.fontSize != null)
+            css += "-fx-font-size: " + this.fontSize + " pt;";
+
+        if(this.color != null)
+            css += "-fx-text-fill: " + this.color + ";";
+
+        if(this.font != null)
+            css += "-fx-font-family: " + this.font + ";";
+
+        if(this.width != null)
+            css += "-fx-width: " + this.width + ";";
+
+        node.setStyle(css);
     }
 }

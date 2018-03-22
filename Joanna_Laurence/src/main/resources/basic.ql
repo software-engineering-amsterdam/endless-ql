@@ -1,5 +1,8 @@
 form taxOfficeExample {
 
+  "What is your name"
+    name: string
+
   "Do you have euros"
     euros: money_euro
 

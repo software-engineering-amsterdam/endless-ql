@@ -1,6 +1,7 @@
 package org.uva.sea.gui.qls.factory;
 
 import org.uva.sea.gui.controller.IGuiElementUpdateListener;
+import org.uva.sea.gui.model.factory.PrimaryTypeWidgetFactory;
 import org.uva.sea.gui.qls.widget.*;
 import org.uva.sea.gui.widget.BaseWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
@@ -11,7 +12,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WidgetFactory extends org.uva.sea.gui.model.factory.WidgetFactory {
+public class WidgetFactory extends PrimaryTypeWidgetFactory {
 
     private final Map<WidgetType, Class<? extends BaseWidget>> widgetTypeClasses = new HashMap<>();
     private final Map<NodeType, Class<? extends BaseWidget>> nodeTypeClasses = new HashMap<>();

@@ -1,6 +1,5 @@
 package org.uva.sea.gui.controller;
 
-import javafx.scene.control.Control;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 public interface IGuiElementUpdateListener {

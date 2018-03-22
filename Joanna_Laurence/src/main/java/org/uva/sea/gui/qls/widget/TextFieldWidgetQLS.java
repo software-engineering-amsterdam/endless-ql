@@ -16,6 +16,8 @@ public class TextFieldWidgetQLS extends QLSWidget {
 
     @Override
     public Node convertToGuiNode() {
-        return this.textFieldWidget.convertToGuiNode();
+        Node widget = this.textFieldWidget.convertToGuiNode();
+        this.setStyle(widget);
+        return widget;
     }
 }

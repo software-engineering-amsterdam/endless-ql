@@ -7,6 +7,7 @@ stylesheet taxOfficeExample
     {
       section "You sold a house"
       {
+      question name
 
                 question euros
 
@@ -41,6 +42,14 @@ stylesheet taxOfficeExample
 
                 question real
                     widget radio
+
+                default string
+                {
+                  width: 1000
+                  font: "Courier New"
+                  fontsize: 20
+                  color: #95f442
+                }
 
       }
     }

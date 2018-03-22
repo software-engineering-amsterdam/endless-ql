@@ -16,6 +16,8 @@ public class DateWidgetQLS extends QLSWidget {
 
     @Override
     public Node convertToGuiNode() {
-        return this.widget.convertToGuiNode();
+        Node widget = this.widget.convertToGuiNode();
+        this.setStyle(widget);
+        return widget;
     }
 }

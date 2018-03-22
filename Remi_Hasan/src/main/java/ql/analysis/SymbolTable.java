@@ -58,7 +58,7 @@ public class SymbolTable {
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this);
         for(Map.Entry<String, Expression> entry : table.entrySet()){
             Value evaluatedValue = expressionEvaluator.visit(entry.getValue());
-            System.out.println(entry.getKey() + " " + evaluatedValue.toString());
+//            System.out.println(entry.getKey() + " " + evaluatedValue.toString());
         }
     }
 }

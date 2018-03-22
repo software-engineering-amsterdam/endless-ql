@@ -15,7 +15,7 @@ public class GUIFormBuilder {
 
         for(Question question : form.questions) {
             GUIQuestion guiQuestion = new GUIQuestion(question.identifier, question.label, question.type,
-                    question.condition, question.isComputed());
+                    question.condition, question.isComputed(), question.computedAnswer);
             guiQuestions.add(guiQuestion);
         }
 

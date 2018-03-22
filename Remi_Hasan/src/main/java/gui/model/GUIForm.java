@@ -50,18 +50,41 @@ public class GUIForm extends VBox {
     }
 
     private void updateRenderedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
+        // First show/hide questions and update symbol table
+        // Do this before updating calculated values, so we are not relying on the order of the questions
+        this.updateDisplayedQuestions(guiWidgets, symbolTable);
 
+        // Then update the calculated question widget values using symbol table
+        this.updateCalculatedQuestions(guiWidgets, symbolTable);
+    }
+
+    private void updateDisplayedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
         for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : guiWidgets.entrySet()) {
             GUIQuestion guiQuestion = mapEntry.getKey();
             LabelWithWidget guiWidget = mapEntry.getValue();
 
-            // Toggle visibility by evaluating the widget's condition
-            guiWidget.setVisibility(guiQuestion.isVisible(symbolTable));
+            boolean visible = guiQuestion.isVisible(symbolTable);
+            guiWidget.setVisibility(visible);
 
-            // Disabled, so it is a computed field that should be updated
-            if (guiQuestion.isComputed()) {
-                Value result = expressionEvaluator.visit(symbolTable.getExpression(guiQuestion.identifier));
+            // Update symbol table, as another question with the same identifier could now be visible
+            if(visible) {
+                if(guiQuestion.isComputed()) {
+                    symbolTable.setExpression(guiQuestion.identifier, guiQuestion.computedAnswer);
+                } else {
+                    symbolTable.setExpression(guiQuestion.identifier, guiWidget.getExpressionValue());
+                }
+            }
+        }
+    }
+
+    private void updateCalculatedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
+        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
+        for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : guiWidgets.entrySet()) {
+            GUIQuestion guiQuestion = mapEntry.getKey();
+            LabelWithWidget guiWidget = mapEntry.getValue();
+
+            if(guiQuestion.isComputed()) {
+                Value result = expressionEvaluator.visit(guiQuestion.computedAnswer);
                 guiWidget.setValue(result);
             }
         }

@@ -13,7 +13,7 @@ public class WidgetFactory {
             case DECIMAL:
                 return new DecimalWidget();
             case MONEY:
-                return new SpinnerMoneyWidget();
+                return new MoneyWidget();
             case DATE:
                 return new DateWidget();
             case BOOLEAN:

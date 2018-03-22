@@ -2,7 +2,6 @@ package nl.khonraad.ql.domain;
 
 import java.io.IOException;
 
-import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import nl.khonraad.ql.ast.AbstractParseTreeFactory;

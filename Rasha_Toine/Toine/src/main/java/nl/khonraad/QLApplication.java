@@ -20,8 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-import org.antlr.v4.runtime.RecognitionException;
-
 import nl.khonraad.ql.domain.Question;
 import nl.khonraad.ql.domain.Question.BehaviouralType;
 import nl.khonraad.ql.domain.Questionnaire;
@@ -40,6 +38,7 @@ public class QLApplication {
             + "           sellingPrice: \"Price the house was sold for:\" money                            "
             + "           privateDebt: \"Private debts for the sold house:\" money                         "
             + "      valueResidue: \"Value residue:\" money (sellingPrice - privateDebt )                  "
+            + "      epoch: \"A year after Epoch:\" date (01/01/1970 +364 + 1 )                  "
             + "     }                                                                                      "
             + "}                                                                                           ";
 

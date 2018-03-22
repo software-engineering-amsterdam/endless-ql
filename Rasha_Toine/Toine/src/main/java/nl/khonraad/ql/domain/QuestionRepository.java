@@ -6,78 +6,79 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.joda.time.DateTime;
+
 import nl.khonraad.ql.domain.Question.BehaviouralType;
 
 public class QuestionRepository {
 
-    private List<Question>     questions     = new ArrayList<>();
-    private Map<String, Value> stickyAnswers = new HashMap<>();
+  private List<Question>     questions     = new ArrayList<>();
+  private Map<String, Value> stickyAnswers = new HashMap<>();
 
-    public void forgetQuestionsRememberAnswers() {
+  public void forgetQuestionsRememberAnswers() {
 
-        stickyAnswers.clear();
+    stickyAnswers.clear();
 
-        for ( Question question : questions ) {
-            if ( BehaviouralType.ANSWERABLE == question.getBehaviouralType() ) {
-                stickyAnswers.put( question.getIdentifier(), question.getValue() );
-            }
-        }
-        questions.clear();
+    for ( Question question : questions ) {
+      if ( BehaviouralType.ANSWERABLE == question.getBehaviouralType() ) {
+        stickyAnswers.put( question.getIdentifier(), question.getValue() );
+      }
     }
+    questions.clear();
+  }
 
-    public Value storeAnswerableQuestion( String identifier, String label, Type type ) {
-        Question question = new Question( BehaviouralType.ANSWERABLE, identifier, label,
-                answerSeenEarlier( identifier, type ) );
+  public Value storeAnswerableQuestion( String identifier, String label, Type type ) {
+    Question question = new Question( BehaviouralType.ANSWERABLE, identifier, label,
+        answerSeenEarlier( identifier, type ) );
 
-        questions.add( question );
-        return question.getValue();
+    questions.add( question );
+    return question.getValue();
+  }
+
+  public Value storeComputedQuestion( String identifier, String label, Value value ) {
+    Question question = new Question( BehaviouralType.COMPUTED, identifier, label, value );
+
+    questions.add( question );
+    return value;
+  }
+
+  public Question findQuestion( BehaviouralType behaviouralType, String identifier ) {
+
+    for ( Question question : questions ) {
+      if ( behaviouralType == question.getBehaviouralType() && question.getIdentifier().equals( identifier ) ) {
+        return question;
+      }
     }
+    return null;
+  }
 
-    public Value storeComputedQuestion( String identifier, String label, Value value ) {
-        Question question = new Question( BehaviouralType.COMPUTED, identifier, label, value );
+  public List<Question> listQuestions() {
 
-        questions.add( question );
-        return value;
+    return questions;
+
+  }
+
+  private static Value initialValueOf( Type type ) {
+    switch ( type ) {
+      case Boolean:
+        return Value.FALSE;
+      case Date:
+        return new Value( Type.Date, Value.SIMPLE_DATE_FORMAT.print( new DateTime() ) );
+      case Integer:
+        return new Value( Type.Integer, "0" );
+      case Money:
+        return new Value( Type.Money, "0.00" );
+      case String:
+        return new Value( Type.String, "" );
     }
+    throw new RuntimeException( "'Constructor' not imlemented for type " + type );
+  }
 
-    public Question findQuestion( BehaviouralType behaviouralType, String identifier ) {
+  private Value answerSeenEarlier( String identifier, Type type ) {
 
-        for ( Question question : questions ) {
-            if ( behaviouralType == question.getBehaviouralType() && question.getIdentifier().equals( identifier ) ) {
-                return question;
-            }
-        }
-        return null;
-    }
+    return stickyAnswers.entrySet().stream().filter( entry -> identifier.equals( entry.getKey() ) )
+        .map( Entry<String, Value>::getValue ).findFirst().orElse( initialValueOf( type ) );
 
-    public List<Question> listQuestions() {
-
-        return questions;
-
-    }
-
-    private static Value initialValueOf( Type type ) {
-
-        switch ( type ) {
-            case Boolean:
-                return Value.INITIAL_BOOLEAN;
-            case Date:
-                return Value.INITIAL_DATE;
-            case Integer:
-                return Value.INITIAL_INTEGER;
-            case Money:
-                return Value.INITIAL_MONEY;
-            case String:
-                return Value.INITIAL_STRING;
-        }
-        throw new RuntimeException( "'Constructor' not imlemented for type " + type );
-    }
-
-    private Value answerSeenEarlier( String identifier, Type type ) {
-
-        return stickyAnswers.entrySet().stream().filter( entry -> identifier.equals( entry.getKey() ) )
-                .map( Entry<String, Value>::getValue ).findFirst().orElse( initialValueOf( type ) );
-
-    }
+  }
 
 }

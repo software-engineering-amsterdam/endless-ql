@@ -9,17 +9,25 @@ public class SliderIntegerWidget extends SliderWidget {
     public SliderIntegerWidget(int min, int max) {
         super(min, max);
 
-        // Only step between integers
-        this.valueProperty().addListener((obs, oldVal, newVal) -> this.setValue(newVal.intValue()));
+        this.slider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            // Only step between integers
+            this.slider.setValue(newVal.intValue());
+
+            // Integer widget, so show label next to slider as integer
+            this.valueLabel.setText(String.valueOf(newVal.intValue()));
+        });
+
+        // Integer widget, so show initial value as integer as well
+        this.valueLabel.setText("0");
     }
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableInteger(null, (int) this.getValue());
+        return new ExpressionVariableInteger(null, (int) this.slider.getValue());
     }
 
     @Override
     public void setValue(Value value) {
-        this.setValue(value.getIntValue());
+        this.slider.setValue(value.getIntValue());
     }
 }

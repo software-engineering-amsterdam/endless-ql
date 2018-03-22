@@ -37,7 +37,7 @@ public class NumberValue extends Value<BigDecimal> {
 
     @Override
     public BigDecimal getMoneyValue() {
-        return this.value.setScale(2, RoundingMode.CEILING);
+        return this.value.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     @Override

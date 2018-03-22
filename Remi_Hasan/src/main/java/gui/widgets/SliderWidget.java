@@ -1,17 +1,38 @@
 package gui.widgets;
 
 import javafx.beans.InvalidationListener;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 
-public abstract class SliderWidget extends Slider implements GUIWidget {
+public abstract class SliderWidget extends HBox implements GUIWidget {
+    Slider slider;
+    Label valueLabel;
 
     public SliderWidget(double min, double max) {
-        this.setMin(min);
-        this.setMax(max);
-        this.setShowTickLabels(true);
-        this.setShowTickMarks(true);
-        this.setMinorTickCount(5);
+        this.addSlider(min, max);
+        this.addValueLabel();
+    }
+
+    private void addSlider(double min, double max) {
+        Slider slider = new Slider();
+        slider.setMin(min);
+        slider.setMax(max);
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        this.slider = slider;
+        this.getChildren().add(slider);
+    }
+
+    private void addValueLabel() {
+        // Show label next to slider with the current value
+        Label valueLabel = new Label("0.0");
+        valueLabel.setPadding(new Insets(0, 0, 0, 5));
+        this.slider.valueProperty().addListener((obs, oldVal, newVal) -> valueLabel.setText(newVal.toString()));
+        this.valueLabel = valueLabel;
+        this.getChildren().add(valueLabel);
     }
 
     @Override
@@ -21,7 +42,7 @@ public abstract class SliderWidget extends Slider implements GUIWidget {
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        this.valueProperty().addListener(invalidationListener);
+        slider.valueProperty().addListener(invalidationListener);
     }
 
     @Override

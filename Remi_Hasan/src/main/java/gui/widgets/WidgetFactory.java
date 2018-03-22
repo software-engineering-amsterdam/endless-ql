@@ -9,9 +9,9 @@ public class WidgetFactory {
             case STRING:
                 return new TextWidget();
             case INTEGER:
-                return new SliderIntegerWidget(0, 10);
+                return new SliderIntegerWidget(0, 3);
             case DECIMAL:
-                return new DecimalWidget();
+                return new SliderDecimalWidget(0, 10);
             case MONEY:
                 return new SliderMoneyWidget(0, 10);
             case DATE:

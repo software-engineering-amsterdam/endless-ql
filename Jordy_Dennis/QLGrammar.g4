@@ -4,10 +4,8 @@ grammar QLGrammar;
 form: FORM ID block EOF;
 block: BRACKETL NEWLINE* (statement NEWLINE*)* BRACKETR;
 statement: (question | conditional | assignment);
-
 question: STRING ID DOT types;
 assignment: STRING ID DOT types ASSIGN PARL expression PARR;
-
 expression: literal
             | varnode
             | PARL left = expression PARR
@@ -18,11 +16,9 @@ expression: literal
             | left=expression AND right=expression
             | left=expression OR right=expression
             ;
-
 literal: INT | BOOL | STRING | FLOAT;
 varnode: ID;
 unaryexp: NOT expression;
-
 conditional: if_conditional | (if_conditional elif_conditional* else_conditional?);
 if_conditional: IF_TOKEN PARL expression PARR block;
 elif_conditional: ELIF_TOKEN PARL expression PARR block;
@@ -42,7 +38,6 @@ IF_TOKEN: 'if';
 ELIF_TOKEN: 'elif';
 ELSE_TOKEN: 'else';
 
-
 COMPARE: '<'
         | '>'
         | '>='
@@ -52,7 +47,6 @@ COMPARE: '<'
         ;
 
 types: 'integer' | 'int' | 'boolean' | 'bool' | 'string' | 'str' | 'money' | 'float';
-
 BOOL: 'true' | 'false';
 INT :   [0-9]+ ;         // match integers
 FLOAT: [0-9]+.[0-9]+;   // match floats

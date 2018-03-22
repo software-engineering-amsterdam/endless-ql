@@ -20,6 +20,7 @@ import TabPane from "reactstrap/lib/TabPane";
 import { Label } from 'reactstrap';
 import { QlParserPipeline, QlParserResult } from "./parsing/QlParserPipeline";
 import { FormComponent } from "./rendering/components/form_component/FormComponent";
+import Button from "reactstrap/lib/Button";
 
 export interface AppComponentProps {
 }
@@ -96,9 +97,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     const qlsEnabled = qlsSource.length > 0;
 
     if (qlsEnabled) {
-      const qlsResult = (new QlsParserPipeline(qlSource, qlsSource)).run();
-      console.log(qlsResult.styles);
-      return qlsResult;
+      return (new QlsParserPipeline(qlSource, qlsSource)).run();
     }
 
     return (new QlParserPipeline(qlSource)).run()[0];
@@ -177,6 +176,15 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     });
   }
 
+  onExportState() {
+    if (!this.state.form) {
+      return;
+    }
+
+    const json: string = this.state.form.getState().toJson();
+    require("downloadjs")(json, `${this.state.form.getName()}_${Math.round(Date.now())}`, "application/json");
+  }
+
   render() {
     return (
         <div className="app container">
@@ -236,7 +244,14 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
               {this.renderForm()}
               <hr/>
               <div className="state-output-container">
-                <h2>State</h2>
+                <div className="row">
+                  <div className="col-md-8">
+                    <h2>State</h2>
+                  </div>
+                  <div className="col-md-4">
+                    <Button onClick={() => this.onExportState()}>Export state</Button>
+                  </div>
+                </div>
                 <Input
                     type="textarea"
                     readOnly={true}

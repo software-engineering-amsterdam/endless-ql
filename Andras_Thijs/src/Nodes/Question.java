@@ -91,7 +91,7 @@ public class Question extends ASTNode {
             Term result = expression.getTerm();
             // TODO code smell! remove if possible
             switch(result.getType()) {
-                case BOOL: if(type == Type.BOOL) return;
+                case BOOL: if(type == Type.BOOL) break;
                 case DECIMAL: if(type == Type.DECIMAL || type == Type.INT || type == Type.MONEY) break;
                 case STRING: if(type == Type.STRING || type == Type.DATE) break;
                 default: throw new TypeException(this, type, Type.getByCode(result.toString()));

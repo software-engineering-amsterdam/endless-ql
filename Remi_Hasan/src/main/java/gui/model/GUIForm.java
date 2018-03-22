@@ -1,20 +1,14 @@
 package gui.model;
 
-import gui.widgets.GUIWidget;
-import gui.widgets.LabelWithWidget;
+import gui.elements.LabelWithWidget;
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
-import ql.model.expression.Expression;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

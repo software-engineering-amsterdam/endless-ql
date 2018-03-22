@@ -1,5 +1,6 @@
-package gui.widgets;
+package gui.elements;
 
+import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -8,7 +9,7 @@ import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 
 // TODO: separate interface
-public class LabelWithWidget extends VBox implements GUIWidget {
+public class LabelWithWidget extends VBox implements GUIQuestionElement {
 
     private final GUIWidget guiWidget;
 

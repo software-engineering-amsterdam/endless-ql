@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QLVisualizer.Widgets
 {
-    public enum StyleProperties
+    public enum StyleProperty
     {
         Width,
         Height,

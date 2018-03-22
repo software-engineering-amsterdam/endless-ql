@@ -145,7 +145,7 @@ public class ParseTreeVisitorTest {
         for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             Parameter parameter = (Parameter) builder.getExpression(parser);
-            Assert.assertEquals(testCase, parameter.toString());
+            Assert.assertEquals(testCase, parameter.getID());
         }
     }
 

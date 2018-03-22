@@ -22,7 +22,7 @@ describe('WidgetComponent', () => {
     undefined,
     'text',
     'string',
-    (formGroup) => true,
+    () => true,
     new Widget(WidgetType.TEXT),
     {});
 

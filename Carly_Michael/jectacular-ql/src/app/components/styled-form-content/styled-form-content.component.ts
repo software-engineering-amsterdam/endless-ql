@@ -52,7 +52,7 @@ export class StyledFormContentComponent implements OnInit, OnChanges {
   }
 
   createQuestionMappingCache() {
-      for (let question of this.questions) {
+      for (const question of this.questions) {
         const styles = CollectStylesForQuestionVisitor.visit( question.key, question.type, this.styles);
         const questionWithStyling = QuestionFactory.applyStylesToFormQuestion(question, styles.widget, styles.styles);
         this.qlsToQlQuestionDictionary[questionWithStyling.key] = questionWithStyling;

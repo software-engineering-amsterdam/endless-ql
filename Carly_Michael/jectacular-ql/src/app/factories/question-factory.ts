@@ -25,7 +25,7 @@ export class QuestionFactory {
 
   static applyStylesToFormQuestion<T>(question: QuestionBase<any>, widget: Widget, styles: Style[]): StyledQuestion<T> {
 
-    let styleMap: { [key: string]: string } = {};
+    const styleMap: { [key: string]: string } = {};
 
     for (const style of styles) {
       styleMap[style.name] = style.value.getValueAsString();

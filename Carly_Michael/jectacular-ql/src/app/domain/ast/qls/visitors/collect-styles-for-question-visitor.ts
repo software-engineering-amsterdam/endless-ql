@@ -49,7 +49,7 @@ export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQu
       throw new MissingIdentifierError(`Styles for identifier ${this.questionId} were not found`);
     }
 
-    if(!styles.isStylingValid()) {
+    if (!styles.isStylingValid()) {
       styles = StylesForQlQuestion.getDefaultStyleForInputType(this.type);
     }
 
@@ -67,8 +67,8 @@ export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQu
   }
 
   visitSection(section: Section): StylesForQlQuestion {
-    let styles: StylesForQlQuestion = undefined;
-    const question = section.questions.find(question => question.name === this.questionId);
+    let styles: StylesForQlQuestion;
+    const question = section.questions.find(q => q.name === this.questionId);
 
     if (question) {
       styles = question.accept(this);
@@ -82,14 +82,14 @@ export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQu
   }
 
   visitQlsQuestion(qlsQuestion: QlsQuestion): StylesForQlQuestion {
-    if(qlsQuestion.name === this.questionId) {
+    if (qlsQuestion.name === this.questionId) {
       return new StylesForQlQuestion([], qlsQuestion.widget);
     }
     return undefined;
   }
 
   private collectDefaultStylingIfNeeded(styles: StylesForQlQuestion, defaultStyleable: Section | Page): StylesForQlQuestion {
-    if(styles && !styles.isStylingValid()) {
+    if (styles && !styles.isStylingValid()) {
       return this.collectDefaultStylesForQuestion(defaultStyleable) || styles;
     }
     return styles;
@@ -99,7 +99,7 @@ export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQu
     for (const styleable of styleableArray) {
       const styles = styleable.accept(this);
       if (styles) {
-        return styles
+        return styles;
       }
     }
     return undefined;

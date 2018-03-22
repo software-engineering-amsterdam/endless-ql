@@ -7,13 +7,12 @@ import {AbstractControl, FormGroup} from '@angular/forms';
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.css']
 })
-export class WidgetComponent implements OnInit{
+export class WidgetComponent implements OnInit {
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
   control: AbstractControl;
 
   ngOnInit(): void {
     this.control = this.form.controls[this.question.key];
-    console.log(this.question);
   }
 }

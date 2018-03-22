@@ -59,14 +59,12 @@ public class Condition extends ASTNode {
         return questions;
     }
 
-    public QLBoolean getResult() { return result; }
-
     /**
      * Evaluates the expression of the question
      * @throws TypeException when the resulting Term is not QLBoolean.
      */
     // This function evaluates the expression (which also does type checking) and stores the resulting value
-    public void getExpressionValue() throws TypeException, SyntaxException {
+    private void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();
             if(result.getType() == Type.BOOL) {

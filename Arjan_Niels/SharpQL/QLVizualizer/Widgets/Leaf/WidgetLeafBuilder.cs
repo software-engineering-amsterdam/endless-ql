@@ -9,7 +9,7 @@ namespace QLVisualizer.Widgets.Leaf
     {
         protected ElementManagerLeaf _elementManagerLeaf { get; private set; }
 
-        public WidgetLeafBuilder(List<QLSValue> qlsElements, Y elementManagerLeaf, IWidgetCollectionBuilder<T> parent, IStyleParser styleParser) : base(qlsElements, parent, styleParser)
+        public WidgetLeafBuilder(List<QLSValue> qlsElements, Y elementManagerLeaf, IWidgetCollectionBuilder<T> parent) : base(qlsElements, parent)
         {
             _elementManagerLeaf = elementManagerLeaf;
         }

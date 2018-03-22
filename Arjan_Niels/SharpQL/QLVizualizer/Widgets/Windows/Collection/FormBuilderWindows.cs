@@ -1,12 +1,6 @@
 ﻿using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.CollectionTypes;
-using QLVisualizer.Widgets.Collection;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace QLVisualizer.Widgets.Windows.Collection
 {
@@ -14,6 +8,11 @@ namespace QLVisualizer.Widgets.Windows.Collection
     {
         public FormBuilderWindows(List<QLSValue> qlsElements, FormManager elementManagerCollection) : base(qlsElements, elementManagerCollection, null)
         {
+        }
+
+        protected override string GetTitleText()
+        {
+            return string.Format("Form: {0}", _elementManagerCollection.Text);
         }
     }
 }

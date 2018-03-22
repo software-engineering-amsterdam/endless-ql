@@ -1,29 +1,46 @@
 ﻿using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers;
 using QLVisualizer.Widgets.Collection;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QLVisualizer.Widgets.Windows.Collection
 {
-    public class WidgetCollectionBuilderWindows<T> : WidgetCollectionBuilder<Control, T> where T : ElementManagerCollection
+    public abstract class WidgetCollectionBuilderWindows<T> : WidgetCollectionBuilder<Control, T> where T : ElementManagerCollection
     {
-        public WidgetCollectionBuilderWindows(List<QLSValue> qlsElements, T elementManagerCollection, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, elementManagerCollection, parent, new StyleParserWindows())
+        public WidgetCollectionBuilderWindows(List<QLSValue> qlsElements, T elementManagerCollection, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, elementManagerCollection, parent)
         {
+            WindowsStyler styler = new WindowsStyler();
+            _styleParser = styler;
+            _styler = styler;
         }
 
-        protected override Control Create(IEnumerable<Control> children)
+        protected override Control Create(Dictionary<WidgetBuilder<Control>, Control> children)
         {
-            throw new NotImplementedException();
+            FlowLayoutPanel holder = new FlowLayoutPanel() { FlowDirection = FlowDirection.TopDown };
+
+            string title = GetTitleText();
+            if (string.IsNullOrEmpty(title))
+                holder.Controls.Add(CreateTitle(title));
+
+            foreach(KeyValuePair<WidgetBuilder<Control>, Control> child in children)
+                holder.Controls.Add(child.Value);
+
+            _elementManagerCollection.OnActiveChange += (string identifier, bool isActive) =>  holder.Visible = isActive;
+
+            return holder;
         }
 
-        protected override bool IsCompatible(string styleElement)
+        private Control CreateTitle(string text)
         {
-            throw new NotImplementedException();
+            return _styler.StyleElement(new Label { Text = text });
+        }
+
+        protected abstract string GetTitleText();
+
+        protected StyleParserWindows GetStyleParser()
+        {
+            return _styleParser as StyleParserWindows;
         }
     }
 }

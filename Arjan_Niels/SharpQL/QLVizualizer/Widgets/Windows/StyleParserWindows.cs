@@ -27,6 +27,8 @@ namespace QLVisualizer.Widgets.Windows
             }
         }
 
+        public const int Dynamic = -1;
+
         public int Height { get; private set; }
         public int Width { get; private set; }
         public int MarginTop { get; private set; }
@@ -93,11 +95,14 @@ namespace QLVisualizer.Widgets.Windows
         public StyleParserWindows()
         {
             // Default values
-            Height = 20;
-            Width = 100;
+            Height = Dynamic;
+            Width = Dynamic;
+
             MarginTop = 10;
             MarginBottom = 0;
+
             BackgroundColor = Color.LightGray;
+
             Font = "Arial";
             FontSize = 12;
             TextColor = Color.Black;

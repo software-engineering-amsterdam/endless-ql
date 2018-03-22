@@ -50,5 +50,11 @@ stylesheet EditOrNotToEdit {
             question dateExpression
         }
     }
-    default boolean widget combo("Yes", "No")
+    default boolean {
+        widget combo("Yes", "No")
+        width: 300
+        font: "Arial"
+        fontsize: 24
+        color: #A0B0C0
+    }
 }

@@ -33,10 +33,10 @@ BRACKET_RIGHT : ')' ;
 DOUBLE_COLON  : ':' ;
 COMMA         : ',' ;
 
-Identifier   : [a-zA-Z0-9_]+ ;
 IntegerValue : [1-9][0-9]* ;
-HEXDIGIT     : [0-9][A-F] ;
+HEXDIGIT     : [0-9]|[A-F] ;
 HexValue     : '#' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
+Identifier   : [a-zA-Z0-9_]+ ;
 
 Text         : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); } ;
 

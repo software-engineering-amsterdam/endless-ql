@@ -56,8 +56,15 @@ object QLStylesheetParser extends Logging {
       if (ctx.widgetType != null) {
         val widgetType = WidgetTypeVisitor.visit(ctx.widgetType())
         Styling(widgetType, None, None, None, None)
-      }
-      else Styling()
+      } else if (ctx.widthValue != null) {
+        Styling(None, Some(Width(ctx.widthValue.getText.toInt)), None, None, None)
+      } else if (ctx.colorValue != null) {
+        Styling(None, None, Some(Color(ctx.colorValue.getText)), None, None)
+      } else if (ctx.fontType != null) {
+        Styling(None, None, None, Some(FontType(ctx.fontType.getText)), None)
+      } else if (ctx.fontSize != null) {
+        Styling(None, None, None, None, Some(FontSize(ctx.fontSize.getText.toInt)))
+      } else Styling()
     }
   }
 

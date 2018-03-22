@@ -28,12 +28,13 @@ public class GUIForm extends VBox{
         Map<GUIQuestion, LabelWithWidget> guiWidgetsMap = new HashMap<>();
 
         // Listener that is notified by UI widget input event
-        InvalidationListener invalidationListener = observable -> {
+        InvalidationListener allWidgetsListener = observable -> {
             this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
         };
 
+        // Render all QL questions in order
         for (GUIQuestion guiQuestion : this.guiQuestions) {
-            LabelWithWidget labelWithWidget = guiQuestion.render(symbolTable, invalidationListener);
+            LabelWithWidget labelWithWidget = guiQuestion.render(symbolTable, allWidgetsListener);
             vBox.getChildren().add(labelWithWidget);
 
             // Add widget to map from identifier to corresponding UI elements
@@ -53,10 +54,10 @@ public class GUIForm extends VBox{
             LabelWithWidget guiWidget = mapEntry.getValue();
 
             // Toggle visibility by evaluating the widget's condition
-            guiWidget.setVisibility(expressionEvaluator.visit(guiQuestion.condition).getBooleanValue());
+            guiWidget.setVisibility(guiQuestion.isVisible(symbolTable));
 
             // Disabled, so it is a computed field that should be updated
-            if (guiWidget.isDisabled()) {
+            if (guiQuestion.isComputed()) {
                 Value result = expressionEvaluator.visit(symbolTable.getExpression(guiQuestion.identifier));
                 guiWidget.setValue(result);
             }

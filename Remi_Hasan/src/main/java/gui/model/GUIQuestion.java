@@ -14,8 +14,8 @@ public class GUIQuestion {
     public final String identifier;
     public final String label;
     public final ReturnType type;
-    public final Expression condition;
-    public final boolean computed;
+    private final Expression condition;
+    private final boolean computed;
 
     public GUIQuestion(String identifier, String label, ReturnType type, Expression condition, boolean computed) {
         this.identifier = identifier;
@@ -25,9 +25,7 @@ public class GUIQuestion {
         this.computed = computed;
     }
 
-    public LabelWithWidget render(SymbolTable symbolTable, InvalidationListener invalidationListener) {
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
-
+    public LabelWithWidget render(SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
         Label guiLabel = new Label(this.label);
         GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type);
 
@@ -37,19 +35,27 @@ public class GUIQuestion {
                 symbolTable.setExpression(this.identifier, guiWidget.getExpressionValue());
 
                 // Notify GUIForm that an input value has changed, so it can update all fields
-//                invalidationListener.invalidated(observable);
+                allWidgetsListener.invalidated(observable);
             });
         }
 
         LabelWithWidget labelWithWidget = new LabelWithWidget(guiLabel, guiWidget);
 
         // Show/hide field based on condition
-        boolean visible = expressionEvaluator.visit(this.condition).getBooleanValue();
-        labelWithWidget.setVisible(visible);
+        labelWithWidget.setVisible(this.isVisible(symbolTable));
 
         // Disable field if it is computed as it can not be edited
         labelWithWidget.setDisable(this.computed);
 
         return labelWithWidget;
+    }
+
+    public boolean isVisible(SymbolTable symbolTable) {
+        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
+        return expressionEvaluator.visit(this.condition).getBooleanValue();
+    }
+
+    public boolean isComputed() {
+        return computed;
     }
 }

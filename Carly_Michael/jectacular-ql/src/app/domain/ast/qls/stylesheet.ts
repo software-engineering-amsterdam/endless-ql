@@ -6,7 +6,7 @@ import {DefaultStyling} from './default-styling';
 import {QlQuestion as QlQuestion} from '../ql';
 import * as _ from 'lodash';
 import {MissingIdentifierError} from '../../errors';
-import {QlsVisitor} from './visitors/collect-styles-for-question-visitor';
+import {QlsVisitor} from './visitors/qls-visitor';
 
 export class Stylesheet extends QlsNode {
   constructor(readonly name: string, readonly pages: Page[], readonly location: Location) {

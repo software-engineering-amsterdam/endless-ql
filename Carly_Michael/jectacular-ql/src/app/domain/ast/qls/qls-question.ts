@@ -8,7 +8,7 @@ import {WidgetType} from './widget-type';
 import {MissingIdentifierError, UnsupportedTypeError} from '../../errors';
 import {QlQuestion as QlQuestion} from '../ql/ql-question';
 import * as _ from 'lodash';
-import {QlsVisitor} from './visitors/collect-styles-for-question-visitor';
+import {QlsVisitor} from './visitors/qls-visitor';
 
 export class QlsQuestion extends QlsNode {
   constructor(readonly name: string, public widget: Widget, readonly location: Location, readonly defaultSettings?: DefaultStyling) {

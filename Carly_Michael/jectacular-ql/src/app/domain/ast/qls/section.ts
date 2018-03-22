@@ -6,7 +6,7 @@ import {Style} from './style';
 import {WidgetType} from './widget-type';
 import {Widget} from './widget';
 import {QlQuestion as QlQuestion} from '../ql/ql-question';
-import {QlsVisitor} from './visitors/collect-styles-for-question-visitor';
+import {QlsVisitor} from './visitors/qls-visitor';
 
 export class Section extends QlsNode {
   constructor(readonly name: string, readonly subSections: Section[], readonly questions: QlsQuestion[],

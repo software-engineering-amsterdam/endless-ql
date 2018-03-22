@@ -87,6 +87,14 @@
     <Compile Include="Elements\Managers\LeafTypes\MoneyQuestionManager.cs" />
     <Compile Include="Elements\Managers\LeafTypes\StringQuestionManager.cs" />
     <Compile Include="Elements\Managers\QuestionElementValue.cs" />
+    <Compile Include="Widgets\Collection\IWidgetCollectionBuilder.cs" />
+    <Compile Include="Widgets\Collection\WidgetCollectionBuilder.cs" />
+    <Compile Include="Widgets\Collection\Windows\FormBuilderWindows.cs" />
+    <Compile Include="Widgets\Collection\Windows\WidgetCollectionBuilderWindows.cs" />
+    <Compile Include="Widgets\IStyleCreator.cs" />
+    <Compile Include="Widgets\IWidgetBuilder.cs" />
+    <Compile Include="Widgets\Leaf\WidgetLeafBuilder.cs" />
+    <Compile Include="Widgets\WidgetBuilder.cs" />
     <Compile Include="Widgets\WidgetCreator.cs" />
     <Compile Include="Widgets\WidgetCreatorWindows.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

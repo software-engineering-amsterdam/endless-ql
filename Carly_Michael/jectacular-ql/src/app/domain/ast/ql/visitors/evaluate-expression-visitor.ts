@@ -14,9 +14,10 @@ import {NumberLiteral} from '../expressions/literals/number-literal';
 import {StringLiteral} from '../expressions/literals/string-literal';
 import {DateLiteral} from '../expressions/literals/date-literal';
 import {FormGroup} from '@angular/forms';
-import {Expression} from '../';
+import {Expression, ExpressionType} from '../';
 import {UnknownQuestionError} from '../../../errors';
 import {locationToReadableMessage} from '../../location';
+import {VariableToLiteralFactory} from '../../../../factories/variable-to-literal-factory';
 
 export class EvaluateExpressionVisitor implements ExpressionVisitor<Literal> {
   constructor(private readonly form: FormGroup) { }
@@ -104,7 +105,7 @@ export class EvaluateExpressionVisitor implements ExpressionVisitor<Literal> {
       /* Angular sets the value for a form control with undefined as value to an object {value: ""}
          If there is a value, instead of the object there will be a value, which means value.value is undefined */
       if (referencedControl.value.value === undefined) {
-        return new NumberLiteral(referencedControl.value, expr.location);
+        return VariableToLiteralFactory.toLiteral(expr, referencedControl.value);
       }
 
       return new NumberLiteral(undefined, expr.location);

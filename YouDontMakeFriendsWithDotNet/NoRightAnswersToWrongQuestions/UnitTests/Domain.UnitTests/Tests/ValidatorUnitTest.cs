@@ -157,8 +157,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                 invalidDescription,
                 errorMessage);
         }
-
-
+        
         [TestCaseSource(
             typeof(TestValidationData),
             nameof(TestValidationData.RepeatedText))]
@@ -168,8 +167,24 @@ namespace UnitTests.Domain.UnitTests.Tests
         {
             CreateAndValidateForm(invalidDescription);
             var results = ResultsFor<DuplicateTextValidationMetaData>();
-            
+
             AssertThatSeverityLevelIsWarning(results);
+            Assert.IsTrue(results.Any());
+            AssertThatErrorMessagesMatch(errorMessage, results);
+        }
+
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.CyclicDependency))]
+        public void WhenGivenQuestionsWithCyclicalDependecies_ProducesTheCorrectMetaDatas(
+            string invalidDescription,
+            string errorMessage)
+        {
+            CreateAndValidateForm(invalidDescription);
+            var results = ResultsFor<CyclicDependencyValidationMetaData>();
+
+            AssertThatSeverityLevelIsError(results);
+            Assert.IsTrue(results.Any());
             AssertThatErrorMessagesMatch(errorMessage, results);
         }
 

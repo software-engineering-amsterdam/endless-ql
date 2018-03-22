@@ -2,11 +2,13 @@ package org.uva.ql.ast.type;
 
 import org.uva.ql.visitor.TypeVisitor;
 
+import java.util.Arrays;
+
 public class IntegerType extends Type {
 
     @Override
     public boolean isCompatible(Type type) {
-        return "IntegerType".equals(type.toString());
+        return Arrays.asList(MoneyType.class, IntegerType.class).contains(type.getClass());
     }
 
     @Override

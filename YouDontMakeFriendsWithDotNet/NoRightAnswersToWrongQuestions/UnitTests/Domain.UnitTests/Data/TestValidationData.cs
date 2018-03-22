@@ -161,6 +161,26 @@ namespace UnitTests.Domain.UnitTests.Data
             }
         }
 
+        public static IEnumerable CyclicDependency
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    @"form John { q1: ""first?"" integer=(q1)}",
+                    @"a cirular dependency was found");
+    
+                yield return new TestCaseData(
+                    @"form John { q1: ""first?"" integer=(q1 +100)}",
+                    @"a cirular dependency was found");
+                //yield return new TestCaseData(
+                //    @"form John { q1: ""first?"" integer=(q2) q2: ""second?"" integer=(q1)}",
+                //    @"a cirular dependency was found");
+                //yield return new TestCaseData(
+                //    @"form John { q1: ""first?"" integer=(q2) q2: ""second?"" integer=(q3) q3: ""third?"" integer=(q1)}",
+                //    @"a cirular dependency was found");
+            }
+        }
+
         public static IEnumerable NonNumberCalculationVariable
         {
             get

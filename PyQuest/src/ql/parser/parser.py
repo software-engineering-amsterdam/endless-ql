@@ -31,13 +31,11 @@ from ql.types.date import QLDate
 from ql.types.money import QLMoney
 from ql.types.decimal import QLDecimal
 from ql.types.undefined import QLUndefined
-from debug.debug import Debug
-from debug.errors.parse_error import ParseError
 
 
 class QLParser:
-    def __init__(self, debug=Debug()):
-        self.__debug = debug
+    def __init__(self):
+        self.__errors = []
         self.__tokens = lexer.QLLexer.tokens
         self.__precedence = (
             ('left', 'OR'),
@@ -51,8 +49,8 @@ class QLParser:
         self.parser = yacc(module=self)
 
     @property
-    def debug(self):
-        return self.__debug
+    def errors(self):
+        return self.__errors
 
     @property
     def tokens(self):
@@ -89,8 +87,6 @@ class QLParser:
     @staticmethod
     def p_statement(production):
         """statement    : if
-                        | elif
-                        | else
                         | question"""
         production[0] = production[1]
 
@@ -112,16 +108,6 @@ class QLParser:
     def p_if(production):
         """if : IF condition block"""
         production[0] = IfNode(Position(production.lineno(1), production.lexpos(1)), production[3], production[2])
-
-    @staticmethod
-    def p_elif(production):
-        """elif : ELSE_IF condition LEFT_BRACE statements RIGHT_BRACE"""
-        production[0] = ('ELSE_IF', production[3], production[6])
-
-    @staticmethod
-    def p_else(production):
-        """else : ELSE LEFT_BRACE statements RIGHT_BRACE"""
-        production[0] = ('ELSE', production[3])
 
     @staticmethod
     def p_condition(production):
@@ -285,21 +271,17 @@ class QLParser:
         production[0] = QLInteger
 
     # Error handling
-    @staticmethod
-    def p_error(production):
-        raise ParseError('Syntax error at line {}, token={}.'.format(production.lineno, production.type))
+    def p_error(self, production):
+        self.errors.append('Syntax error at line {}, token={}.'.format(production.lineno, production.type))
 
-    @staticmethod
-    def p_empty_form(production):
+    def p_empty_form(self, production):
         """form : FORM IDENTIFIER LEFT_BRACE RIGHT_BRACE"""
-        raise ParseError('Empty form at line {}.'.format(production.lineno(1)))
+        self.errors.append('Empty form at line {}.'.format(production.lineno(1)))
 
-    @staticmethod
-    def p_empty_if(production):
+    def p_empty_if(self, production):
         """statement : IF condition LEFT_BRACE RIGHT_BRACE"""
-        raise ParseError('Empty if block at line {}.'.format(production.lineno(1)))
+        self.errors.append('Empty if block at line {}.'.format(production.lineno(1)))
 
-    @staticmethod
-    def p_empty_condition(production):
+    def p_empty_condition(self, production):
         """condition : LEFT_BRACKET RIGHT_BRACKET"""
-        raise ParseError('Empty conditional at line {}.'.format(production.lineno(1)))
+        self.errors.append('Empty conditional at line {}.'.format(production.lineno(1)))

@@ -78,6 +78,8 @@ yarn build
 Result will be written into the `/build` folder
 
 # Doubts
+"NodeTraveller" might not be right name, maybe NodeCollector?
+
 ## QLS
 * TODO: Check for double default styles on same level
 
@@ -97,6 +99,7 @@ Result will be written into the `/build` folder
 * TODO: Either use body or children so we can use this general function (Explain mees how JavaScript works)
 * TODO: Consider variable type to merge default styles
 * TODO: Divide money by money is equal to decimal. Do not allow money * money and money + decimal
+* TODO: Show empty sections?
 
 ## QL Requirements
 
@@ -127,7 +130,7 @@ Result will be written into the `/build` folder
 - [x] Furthermore, you can define default widget types and styles for questions of a particular type (e.g. boolean questions). 
 - [x] Such default styles can be overridden on a per widget basis.
 - [x] The execution of a QL + QLS program should be the same as executing the QL program individually, except for where questions appear (page/section), what font-styles etc. are used, and what widget types are used.
-- [ ] As widget types you are supposed to support at least: slider, spinbox (for numbers), text (for numbers and strings), yesno-radios, checkbox, yesno-dropdown (for booleans).
+- [ ] As widget types you are supposed to support at least: slider (number min max, step is 1), spinbox (for numbers), text (for numbers and strings), yesno-radios, checkbox, yesno-dropdown (for booleans).
 
 ### The type checker detects:
 - [ ] no references to questions that are not in the QL program

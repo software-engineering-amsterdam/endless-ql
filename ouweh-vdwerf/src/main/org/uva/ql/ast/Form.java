@@ -15,14 +15,18 @@ public class Form extends TreeNode {
 
     @Override
     public String toString() {
-        String form = String.format("Form: %s", this.id);
+        StringBuilder form = new StringBuilder(String.format("Form: %s", this.id));
         for (Statement statement : this.statements) {
-            form += String.format("\n\t%s", statement.toString());
+            form.append(String.format("\n\t%s", statement.toString()));
         }
-        return form;
+        return form.toString();
     }
 
     public List<Statement> getStatements() {
         return statements;
+    }
+
+    public String getId() {
+        return this.id;
     }
 }

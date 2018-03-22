@@ -40,8 +40,10 @@ namespace QuestionnaireOrchestration.CommandHandlers
                 .GetAllRefs<IQuestionnaireRootNode>()
                 .FirstOrDefault();
             
-            m_questionnaireValidator.Validate(questionnaireRef);
-            if (m_questionnaireValidator.Results.Any())
+            var isValid = m_questionnaireValidator
+                .Validate(questionnaireRef);
+
+            if (!isValid)
             {
                 var errorMessage = string.Join(
                     Environment.NewLine,

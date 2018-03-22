@@ -4,20 +4,13 @@ import org.uva.gui.widgets.QuestionWidget;
 import org.uva.ql.ast.Question;
 import org.uva.ql.evaluator.ExpressionEvaluator;
 import org.uva.ql.evaluator.FormEvaluator;
-import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.ql.validation.ValidationResult;
-import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.evaluator.StyleEvaluator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 
@@ -65,47 +58,31 @@ public class GUIHandler {
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
 
         for (Question question : formEvaluator.getQuestionsAsList()) {
-            QuestionReference reference = styleEvaluator.getQuestionReference(question);
+
+            // Get current answer/value of this question
             Value value = formEvaluator.getValueById(question.getId());
 
-            // TODO apply styling to widget
+            // make a widget
             QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
 
-            this.styleEvaluator.setWidget(reference, widget);
+            // Register it at the style evaluator
+            this.styleEvaluator.setWidget(question, widget);
 
-            Boolean condition = true;
-            if (formEvaluator.questionHasCondition(question)) {
-                condition = ((BooleanValue) this.expressionEvaluator.evaluateExpression(
-                        question.getId(),
-                        this.formEvaluator.getConditionById(question.toString()),
-                        this.formEvaluator.getValueTable()))
-                        .getValue();
-            }
-            if (condition) {
-                this.styleEvaluator.setVisible(reference);
+            if (formEvaluator.questionIsVisible(question, this.expressionEvaluator)) {
+                this.styleEvaluator.setVisible(question);
             }
         }
-        this.tabbedPane = new JTabbedPane();
-        frame.add(styleEvaluator.getLayout(this.tabbedPane));
+        frame.add(styleEvaluator.getLayout());
 
-        JPanel savePanel = new JPanel();
-        savePanel.setLayout(new BorderLayout());
-
-        JButton saveButton = new JButton("Submit");
-        saveButton.addActionListener(e -> {saveAndQuit();});
-
-        savePanel.add(saveButton, BorderLayout.SOUTH);
-
-        this.frame.add(savePanel);
+        this.frame.add(getSaveButton());
 
         setFocus(this.lastChangedQuestion);
-        frame.setVisible(true);
         frame.pack();
     }
 
     private void setFocus(Question question) {
         if (question != null) {
-            this.tabbedPane.setSelectedComponent(this.styleEvaluator.getPage(question));
+            this.styleEvaluator.setFocus(question);
         }
     }
 
@@ -114,8 +91,18 @@ public class GUIHandler {
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.frame.setSize(750, 600);
         this.frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        this.frame.setVisible(true);
+    }
 
+    private JPanel getSaveButton(){
+        JPanel savePanel = new JPanel();
+        savePanel.setLayout(new BorderLayout());
 
+        JButton saveButton = new JButton("Submit");
+        saveButton.addActionListener(e -> {saveAndQuit();});
+
+        savePanel.add(saveButton, BorderLayout.SOUTH);
+        return savePanel;
     }
 
     private void saveAndQuit(){

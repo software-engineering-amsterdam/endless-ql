@@ -1,4 +1,7 @@
-class Form:
+from json import dumps
+
+
+class FormModel:
     def __init__(self, identifier):
         self.__identifier = identifier
         self.__block = []
@@ -10,6 +13,9 @@ class Form:
     @property
     def block(self):
         return self.__block
+
+    def to_json(self):
+        return dumps({question.identifier: question.answer.value.get_json_value() for question in self.block})
 
     def find_question_of_widget(self, widget):
         for question in self.block:

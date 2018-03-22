@@ -8,7 +8,6 @@ from ql.types.boolean import QLBoolean
 from ql.types.date import QLDate
 from ql.types.decimal import QLDecimal
 from ql.types.integer import QLInteger
-from debug.debug import Debug
 
 
 class QLLexer:
@@ -29,8 +28,6 @@ class QLLexer:
     reserved_keywords = {
         'form':     'FORM',
         'if':       'IF',
-        'elif':     'ELSE_IF',
-        'else':     'ELSE',
 
         # Types
         'boolean':  'BOOLEAN',

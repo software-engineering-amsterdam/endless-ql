@@ -24,3 +24,14 @@ export class UnknownStyleAttributeNameError extends StyleError {
     return error;
   }
 }
+
+export class UnkownQuestionUsedInLayoutError extends StyleError {
+  static make(identifier: string) {
+    const message = `You used an unkown question identifier in the styling,` +
+        `please make sure to reference it in the QL source: "${identifier}"`;
+
+    const error = new UnkownQuestionUsedInLayoutError(message);
+    Object.setPrototypeOf(error, UnkownQuestionUsedInLayoutError.prototype);
+    return error;
+  }
+}

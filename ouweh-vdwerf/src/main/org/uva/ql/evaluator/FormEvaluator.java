@@ -25,11 +25,13 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     private final ExpressionTable expressionTable;
     private final StatementTable statementTable;
     private final ValueTable valueTable;
+    private final Form form;
 
     public FormEvaluator(ExpressionTable expressionTable, StatementTable statementTable, ValueTable valueTable, Form form) {
         this.expressionTable = expressionTable;
         this.statementTable = statementTable;
         this.valueTable = valueTable;
+        this.form = form;
 
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
@@ -43,7 +45,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
             jsonObject.put(question.getContent(), valueTable.getValueByID(question.getId()));
         }
 
-        new IOHandler().writeOutput("input/test/test.json", jsonObject);
+        new IOHandler().writeOutput("input/" + form.getId() + ".json", jsonObject);
     }
 
     public List<Question> getQuestionsAsList() {
@@ -62,8 +64,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
         return this.statementTable.getConditionByQuestionID(id);
     }
 
-    public boolean questionHasCondition(Question question) {
-        return this.statementTable.questionIsConditional(question.toString());
+    public boolean questionIsVisible(Question question, ExpressionEvaluator expressionEvaluator){
+        if (this.statementTable.questionIsConditional(question.toString())){
+            return !expressionEvaluator.evaluateCondition(getConditionById(question.toString()), this.valueTable);
+        }
+        return false;
     }
 
     public boolean questionIsCalculated(Question question) {
@@ -92,11 +97,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     @Override
     public Void visit(Conditional conditional, String context) {
-        for (Statement statement : conditional.getIfSide()) {
+        for (Statement statement : conditional.getIfBlock()) {
             this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }
-        for (Statement statement : conditional.getElseSide()) {
+        for (Statement statement : conditional.getElseBlock()) {
             this.statementTable.addConditional(statement.toString(), conditional.getCondition());
             statement.accept(this, context);
         }

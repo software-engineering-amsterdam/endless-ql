@@ -65,10 +65,10 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     }
 
     public boolean questionIsVisible(Question question, ExpressionEvaluator expressionEvaluator){
-        if (this.statementTable.questionIsConditional(question.toString())){
-            return !expressionEvaluator.evaluateCondition(getConditionById(question.toString()), this.valueTable);
+        if (this.statementTable.questionIsConditional(question.getId())){
+            return expressionEvaluator.evaluateCondition(getConditionById(question.getId()), this.valueTable);
         }
-        return false;
+        return true;
     }
 
     public boolean questionIsCalculated(Question question) {
@@ -90,7 +90,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     @Override
     public Void visit(Question question, String context) {
-        this.statementTable.addQuestion(question.getId(), question);
+        this.statementTable.addQuestion(question);
         question.getType().accept(this, question.getId());
         return null;
     }
@@ -98,11 +98,11 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     @Override
     public Void visit(Conditional conditional, String context) {
         for (Statement statement : conditional.getIfBlock()) {
-            this.statementTable.addConditional(statement.toString(), conditional.getCondition());
+            this.statementTable.addConditional(statement.getId(), conditional.getCondition());
             statement.accept(this, context);
         }
         for (Statement statement : conditional.getElseBlock()) {
-            this.statementTable.addConditional(statement.toString(), conditional.getCondition());
+            this.statementTable.addConditional(statement.getId(), conditional.getCondition());
             statement.accept(this, context);
         }
         return null;
@@ -110,7 +110,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     @Override
     public Void visit(CalculatedQuestion question, String context) {
-        this.statementTable.addQuestion(question.getId(), question);
+        this.statementTable.addQuestion(question);
         this.expressionTable.addExpression(question.getId(), question.getExpression());
         question.getType().accept(this, question.getId());
         return null;

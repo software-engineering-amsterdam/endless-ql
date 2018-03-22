@@ -8,10 +8,13 @@ import org.uva.sea.gui.ql.widget.Renderable;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
+import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class TextFieldWidget extends QLWidget {
 
-    private StringValue widgetValue = new StringValue("");
+    private Value widgetValue = new StringValue("");
 
     public TextFieldWidget(QuestionData questionData) {
         super(questionData);
@@ -19,13 +22,13 @@ public class TextFieldWidget extends QLWidget {
 
     @Override
     public boolean updateValue(DecimalValue decimalValue) {
-        this.widgetValue = new StringValue(decimalValue.toString());
+        this.widgetValue = decimalValue;
         return true;
     }
 
     @Override
     public boolean updateValue(IntValue intValue) {
-        this.widgetValue = new StringValue(intValue.toString());
+        this.widgetValue = intValue;
         return true;
     }
 
@@ -37,19 +40,19 @@ public class TextFieldWidget extends QLWidget {
 
     @Override
     public boolean updateValue(DateValue dateValue) {
-        this.widgetValue = new StringValue(dateValue.toString());
+        this.widgetValue = dateValue;
         return true;
     }
 
     @Override
     public boolean updateValue(BooleanValue booleanValue) {
-        this.widgetValue = new StringValue(booleanValue.toString());
+        this.widgetValue = booleanValue;
         return true;
     }
 
     @Override
     public boolean updateValue(MoneyValue moneyValue) {
-        this.widgetValue = new StringValue(moneyValue.toString());
+        this.widgetValue = moneyValue;
         return true;
     }
 
@@ -59,7 +62,7 @@ public class TextFieldWidget extends QLWidget {
         TextField textField = new TextField();
         this.setStyle(textField, this.questionData.getStyle());
         textField.setFocusTraversable(false);
-        textField.setText(this.widgetValue.getStringValue());
+        textField.setText(this.widgetValue.toString());
         textField.setEditable(true);
         textField.setMinWidth(Renderable.TEXT_WIDTH);
 
@@ -68,7 +71,16 @@ public class TextFieldWidget extends QLWidget {
         }
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            this.sendUpdateValueEvent(this.questionData.getQuestionName(), new StringValue(newValue));
+
+            Value newWidgetValue;
+            try {
+                newWidgetValue = this.widgetValue.getClass().getDeclaredConstructor(String.class).newInstance(newValue);
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
+                newWidgetValue = this.widgetValue;
+            }
+
+
+            this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);
         });
 
         textField.positionCaret(textField.getText().length());

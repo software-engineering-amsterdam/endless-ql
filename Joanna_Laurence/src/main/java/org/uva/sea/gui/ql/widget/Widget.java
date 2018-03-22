@@ -21,8 +21,6 @@ public abstract class Widget extends Renderable {
 
     private final DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
 
-    private Node guiElement;
-
     public Widget(QuestionData questionData) {
         this.questionData = questionData;
     }

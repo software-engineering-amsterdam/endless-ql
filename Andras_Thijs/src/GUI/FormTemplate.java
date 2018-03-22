@@ -7,6 +7,8 @@ import QLExceptions.SyntaxException;
 import QLExceptions.TypeException;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
@@ -35,6 +37,23 @@ public class FormTemplate implements RefreshListener{
             panel.add(questionPanel);
         }
 
+        JButton button = new JButton("Submit");
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    System.out.println(getResults());
+                } catch (SyntaxException e1) {
+                    e1.printStackTrace();
+                } catch (TypeException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+
+        panel.add(button);
 
         frame.add(panel);
 
@@ -52,5 +71,16 @@ public class FormTemplate implements RefreshListener{
         for (QuestionPanel questionPanel : questionPanels) {
             questionPanel.refreshPanel();
         }
+    }
+
+    public String getResults() throws SyntaxException, TypeException {
+        String results = "{";
+        for (QuestionPanel questionPanel : questionPanels) {
+            results += questionPanel.getResult() + ",";
+        }
+        if(results.length() > 1)
+            results = results.substring(0, results.length() - 1);
+        results += "}";
+        return results;
     }
 }

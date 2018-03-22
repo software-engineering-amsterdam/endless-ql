@@ -68,5 +68,14 @@ public class QuestionPanel extends JPanel{
         this.setVisible(this.isAvailable);
     }
 
+    public String getResult() throws SyntaxException, TypeException {
+        String result = "\"" + question.getName() + "\"" + ":\"";
+        if(question.isAvailable())
+            result += widget.getValue() + "\"";
+        else
+            result += "undefined" + "\"";
+        return result;
+    }
+
 
 }

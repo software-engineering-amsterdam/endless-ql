@@ -7,20 +7,12 @@ import java.util.List;
 
 public class DropDownType extends WidgetType {
 
-    private String trueLabel;
-    private String falseLabel;
+    private String yes;
+    private String no;
 
-    public DropDownType(String trueLabel, String falseLabel) {
-        this.trueLabel = trueLabel;
-        this.falseLabel = falseLabel;
-    }
-
-    public String getTrueLabel() {
-        return trueLabel;
-    }
-
-    public String getFalseLabel() {
-        return falseLabel;
+    public DropDownType(String yes, String no) {
+        this.yes = yes;
+        this.no = no;
     }
 
     @Override

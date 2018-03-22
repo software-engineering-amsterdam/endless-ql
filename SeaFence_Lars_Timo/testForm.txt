@@ -6,10 +6,10 @@ form taxOfficeExample
     		hasBoughtHouse: boolean
   	"Did you enter a loan?"
     		hasMaintLoan: boolean
-	/*"if2 > 3 ?"
+	"if2 > 3 ?"
       		ifV4: int
 	
-	if (hasSoldHouse)
+	/*if (hasSoldHouse)
   	{
     		"ifV"
       			ifV: int

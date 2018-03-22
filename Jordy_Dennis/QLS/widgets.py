@@ -81,7 +81,7 @@ class RadioWidget(AttributeDefault, WidgetDefault):
         self.widget = 'radio'
 
     def getOptions(self):
-        return self.trueVal, self.falseVal
+        return self.options
 
     def __repr__(self):
         return "RadioWidget: T:{} F:{}".format(self.trueVal, self.falseVal)
@@ -109,9 +109,9 @@ class DropdownWidget(AttributeDefault, WidgetDefault):
     Integer and Text Widgets
 """
 class SpinboxWidget(AttributeDefault, WidgetDefault):
-    def __init__(self, minVal, maxVal):
-        self.min = minVal
-        self.max = maxVal
+    def __init__(self, min, max):
+        self.min = min
+        self.max = max
         self.type = [int, float]
         self.attType = 'widget'
         self.widget = 'spinbox'
@@ -129,9 +129,9 @@ class TextWidget(AttributeDefault, WidgetDefault):
         return "TextWidget"
 
 class SliderWidget(AttributeDefault, WidgetDefault):
-    def __init__(self, minVal, maxVal):
-        self.min = minVal
-        self.max = maxVal
+    def __init__(self, min, max):
+        self.min = min
+        self.max = max
         self.type = [int, float]
         self.attType = 'widget'
         self.widget = 'slider'

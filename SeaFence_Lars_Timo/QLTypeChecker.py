@@ -10,7 +10,6 @@ class QLTypeChecker(object):
         self.ast = ast
         self.questions = {}
         self.conditionals = {}
-        # self.getVariables(self.ast.statements)
 
 
     def startQLTypeCheck(self):
@@ -20,20 +19,20 @@ class QLTypeChecker(object):
             self.getVariables(statement)
         
 
-
     # Retrieve the variables/questions/etc from the ast and keep track of them.
     def getVariables(self, statement):
-        # statements = self.ast.statements
 
-        # for statement in statements:
         if type(statement) is QuestionNode:
             self.checkDuplicateVariables(statement)
             statement.question = self.checkDuplicateQuestions(statement.question)
             self.questions[statement.question] = [statement.var, statement.vartype]
         
+        # todo: implement 1 and 0 for boolean?
         elif type(statement) is IfNode or type(statement) is ElifNode:
-            if type(statement.expression) is UnOpNode:
+            if type(statement.expression) is LiteralNode:
+                exitProgram("Condition {} is not of type boolean.".format(statement.expression))
 
+            elif type(statement.expression) is UnOpNode:
                 self.checkConditionals(statement)
 
             elif type(statement.expression) is BinOpNode:
@@ -49,7 +48,17 @@ class QLTypeChecker(object):
             self.getVariables(statement.statements)
 
         elif type(statement) is AssignmentNode:
-            assignment_type = self.checkInvalidOperations(statement.expression)
+            if type(statement.expression) is UnOpNode:
+                assignment_type = self.getVariableTypes(statement.expression)
+                print assignment_type
+
+            # todo: implement a vartype into literal?
+            elif type(statement.expression) is LiteralNode:
+                assignment_type = statement.expression.vartype
+                print assignment_type
+
+            elif type(statement.expression) is BinOpNode:
+                assignment_type = self.checkInvalidOperations(statement.expression)
             statement.name = self.checkDuplicateQuestions(statement.name)
 
             if assignment_type != statement.vartype:
@@ -97,7 +106,7 @@ class QLTypeChecker(object):
     def checkInvalidOperations(self, statement):
         left_type = ""
         right_type = ""
-        operator = statement.op
+        operator = statement.operator
 
         if type(statement.left) is BinOpNode:
             left_type = self.checkInvalidOperations(statement.left)

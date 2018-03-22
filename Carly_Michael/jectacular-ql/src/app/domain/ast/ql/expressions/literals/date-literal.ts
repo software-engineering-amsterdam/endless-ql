@@ -18,10 +18,6 @@ export class DateLiteral extends Literal {
     return ExpressionType.DATE;
   }
 
-  getType(): ExpressionType {
-    return ExpressionType.DATE;
-  }
-
   accept<T>(visitor: ExpressionVisitor<T>): T {
     return visitor.visitDateLiteral(this);
   }

@@ -15,14 +15,13 @@ from .form_scroll_frame import ScrollFrameGui
 from .form_gui import FormGui
 from .form_question import Question
 
-
 class Gui:
+
     """
         Initialize the GUI, create the question generator based on the AST and the VarDict.
         The question generator is initialized first and then later set after the form is created.
         This is done because their is a circular dependency.
     """
-
     def __init__(self, ast, astQLS=None):
         self.gui = Tk()
         self.mainframe = create_frame(self.gui)
@@ -31,9 +30,9 @@ class Gui:
         self.ast = ast
         self.astQLS = astQLS
         self.varDict = ast.varDict
-        self.questionsGenerator = QuestionGenerator(self.varDict, self.ast, self.astQLS, self.form)
+        self.questionsGenerator = Question_Generator(self.varDict, self.ast, self.astQLS, self.form)
 
-        self.form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName(), qls=astQLS != None)
+        self.form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName(), qls=astQLS!=None)
         self.questionsGenerator.form = self.form
         self.createForm()
         self.execute()
@@ -42,7 +41,6 @@ class Gui:
         Create the questions for the form based on the Question Generator,
         and add a submit button which collects the answers
     """
-
     def createForm(self):
         self.questionsGenerator.updateQuestions(True)
 
@@ -52,7 +50,6 @@ class Gui:
     """
         Execute the GUI
     """
-
     def execute(self):
         self.gui.geometry("400x800")
         self.gui.mainloop()
@@ -60,7 +57,6 @@ class Gui:
     """
         Collect the answers from the form varDict
     """
-
     def collectAnswers(self):
         answers = self.form.getAnswers()
         printDict(answers)

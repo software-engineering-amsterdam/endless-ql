@@ -7,8 +7,6 @@ import {BooleanLiteral} from './expressions/literals/boolean-literal';
 import {DateLiteral} from './expressions/literals/date-literal';
 import {NumberLiteral} from './expressions/literals/number-literal';
 import {StringLiteral} from './expressions/literals/string-literal';
-import {CheckStatementTypeVisitor} from './visitors/check-statement-type-visitor';
-import {GetStatementVariablesVisitor} from './visitors/get-statement-variables-visitor';
 
 describe('if statement', () => {
   it('Should check for impossible if statements', () => {
@@ -16,7 +14,7 @@ describe('if statement', () => {
     const question = new QlQuestion('questionInBody', '', new IntQuestionType(), emptyLoc);
     const ifStatement = new If(expression, [question], [], emptyLoc);
 
-    expect(() => CheckStatementTypeVisitor.evaluate([question], ifStatement)).toThrow();
+    expect(() => ifStatement.checkType([question])).toThrow();
   });
 
   it('Should check if expression type is boolean', () => {
@@ -29,13 +27,13 @@ describe('if statement', () => {
     const ifNumberStatement = new If(numberExpression, [], [], emptyLoc);
     const ifStringStatement = new If(stringExpression, [], [], emptyLoc);
 
-    expect(() => CheckStatementTypeVisitor.evaluate([], ifBoolStatement)).not.toThrow();
+    expect(() => ifBoolStatement.checkType([])).not.toThrow();
 
-    expect(() => CheckStatementTypeVisitor.evaluate([], ifDateStatement)).toThrow();
+    expect(() => ifDateStatement.checkType([])).toThrow();
 
-    expect(() => CheckStatementTypeVisitor.evaluate([], ifNumberStatement)).toThrow();
+    expect(() => ifNumberStatement.checkType([])).toThrow();
 
-    expect(() => CheckStatementTypeVisitor.evaluate([], ifStringStatement)).toThrow();
+    expect(() => ifStringStatement.checkType([])).toThrow();
   });
 
   it('Should return correct statements', () => {
@@ -55,7 +53,7 @@ describe('if statement', () => {
     const subIfStatement = new If(expression, [], [], emptyLoc);
     const ifStatement = new If(subExpression, [subIfStatement], [], emptyLoc);
 
-    const variables = GetStatementVariablesVisitor.evaluate(ifStatement);
+    const variables: Variable[] = ifStatement.getVariables();
 
     expect(variables.length).toBe(2);
     expect(variables[0].identifier).toBe('expression');

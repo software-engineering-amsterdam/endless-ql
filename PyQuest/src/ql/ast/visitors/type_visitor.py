@@ -2,7 +2,6 @@ from ql.ast.statements.form_node import FormNode
 from ql.ast.statements.if_node import IfNode
 from ql.ast.statements.question_node import QuestionNode
 from ql.ast.expressions.variable_node import VariableNode
-from ql.types.undefined import QLUndefined
 from ql.ast.expressions.binary_operators.addition_node import AdditionOperatorNode
 from ql.ast.expressions.binary_operators.and_node import AndOperatorNode
 from ql.ast.expressions.binary_operators.division_node import DivisionOperatorNode
@@ -15,9 +14,17 @@ from ql.ast.expressions.binary_operators.multiplication_node import Multiplicati
 from ql.ast.expressions.binary_operators.not_equals_node import NotEqualsOperatorNode
 from ql.ast.expressions.binary_operators.or_node import OrOperatorNode
 from ql.ast.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
-from ql.ast.expressions.unary_operators.unary_operator import UnaryOperatorNode
-from ql.ast.expressions.literals.literal_node import LiteralNode
-from multimethods import multimethod
+from ql.ast.expressions.unary_operators.negation import NegationOperatorNode
+from ql.ast.expressions.unary_operators.negative import NegativeOperatorNode
+from ql.ast.expressions.literals.boolean_node import BooleanNode
+from ql.ast.expressions.literals.decimal_node import DecimalNode
+from ql.ast.expressions.literals.integer_node import IntegerNode
+from ql.ast.expressions.literals.string_node import StringNode
+from ql.ast.expressions.literals.date_node import DateNode
+from ql.ast.expressions.literals.money_node import MoneyNode
+from ql.ast.expressions.literals.undefined_node import UndefinedNode
+from ql.ast.visitors.visitor_helper import when, on
+from ql.types.undefined import QLUndefined
 
 
 class TypeVisitor:
@@ -27,20 +34,25 @@ class TypeVisitor:
         self.__debug = debug
         self.__errors = False
 
-    @multimethod(FormNode)
+    # Generic method that initializes the dynamic dispatcher
+    @on('node')
+    def visit(self, node):
+        pass
+
+    @when(FormNode)
     def visit(self, node):
         for child in node.block:
             child.accept(self)
 
         return self.__errors
 
-    @multimethod(IfNode)
+    @when(IfNode)
     def visit(self, node):
         node.condition.accept(self)
         for child in node.block:
             child.accept(self)
 
-    @multimethod(QuestionNode)
+    @when(QuestionNode)
     def visit(self, node):
         if node.computed:
             node.answer.accept(self)
@@ -51,7 +63,7 @@ class TypeVisitor:
                 self.__debug.error([node.answer.position.line], 'Expression not of type {}'.format(node.answer_type))
                 self.__errors = True
 
-    @multimethod(AdditionOperatorNode)
+    @when(AdditionOperatorNode)
     def visit(self, node):
         node.left_expression.accept(self)
         node.right_expression.accept(self)
@@ -64,7 +76,7 @@ class TypeVisitor:
 
         node.set_expression_type(result_type)
 
-    @multimethod(AndOperatorNode)
+    @when(AndOperatorNode)
     def visit(self, node):
         node.left_expression.accept(self)
         node.right_expression.accept(self)
@@ -75,45 +87,7 @@ class TypeVisitor:
             self.__debug.error([node.position.line], 'Invalid operand(s)')
             self.__errors = True
 
-    @multimethod(DivisionOperatorNode)
-    def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-        result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
-
-        if result_type == QLUndefined:
-            self.__debug.error([node.position.line], 'Invalid operand(s)')
-            self.__errors = True
-
-        node.set_expression_type(result_type)
-
-    @multimethod(EqualsOperatorNode)
-    def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-    @multimethod(GreaterEqualsOperatorNode)
-    def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-    @multimethod(GreaterThanOperatorNode)
-    def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-    @multimethod(LessEqualsOperatorNode)
-    def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-    @multimethod(LessThanOperatorNode)
-    def visit(self, node):
-        node.left_expression.accept(self)
-        node.right_expression.accept(self)
-
-    @multimethod(MultiplicationOperatorNode)
+    @when(DivisionOperatorNode)
     def visit(self, node):
         node.left_expression.accept(self)
         node.right_expression.accept(self)
@@ -126,23 +100,32 @@ class TypeVisitor:
 
         node.set_expression_type(result_type)
 
-    @multimethod(NotEqualsOperatorNode)
+    @when(EqualsOperatorNode)
     def visit(self, node):
         node.left_expression.accept(self)
         node.right_expression.accept(self)
 
-    @multimethod(OrOperatorNode)
+    @when(GreaterEqualsOperatorNode)
     def visit(self, node):
         node.left_expression.accept(self)
         node.right_expression.accept(self)
 
-        result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
+    @when(GreaterThanOperatorNode)
+    def visit(self, node):
+        node.left_expression.accept(self)
+        node.right_expression.accept(self)
 
-        if result_type == QLUndefined:
-            self.__debug.error([node.position.line], 'Invalid operand(s)')
-            self.__errors = True
+    @when(LessEqualsOperatorNode)
+    def visit(self, node):
+        node.left_expression.accept(self)
+        node.right_expression.accept(self)
 
-    @multimethod(SubtractionOperatorNode)
+    @when(LessThanOperatorNode)
+    def visit(self, node):
+        node.left_expression.accept(self)
+        node.right_expression.accept(self)
+
+    @when(MultiplicationOperatorNode)
     def visit(self, node):
         node.left_expression.accept(self)
         node.right_expression.accept(self)
@@ -155,7 +138,36 @@ class TypeVisitor:
 
         node.set_expression_type(result_type)
 
-    @multimethod(UnaryOperatorNode)
+    @when(NotEqualsOperatorNode)
+    def visit(self, node):
+        node.left_expression.accept(self)
+        node.right_expression.accept(self)
+
+    @when(OrOperatorNode)
+    def visit(self, node):
+        node.left_expression.accept(self)
+        node.right_expression.accept(self)
+
+        result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
+
+        if result_type == QLUndefined:
+            self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
+
+    @when(SubtractionOperatorNode)
+    def visit(self, node):
+        node.left_expression.accept(self)
+        node.right_expression.accept(self)
+
+        result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
+
+        if result_type == QLUndefined:
+            self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
+
+        node.set_expression_type(result_type)
+
+    @when(NegationOperatorNode)
     def visit(self, node):
         node.expression.accept(self)
 
@@ -167,15 +179,49 @@ class TypeVisitor:
 
         node.set_expression_type(result_type)
 
-    @multimethod(VariableNode)
+    @when(NegativeOperatorNode)
+    def visit(self, node):
+        node.expression.accept(self)
+
+        result_type = node.get_result_type(node.expression.expression_type)
+
+        if result_type == QLUndefined:
+            self.__debug.error([node.position.line], 'Invalid operand(s)')
+            self.__errors = True
+
+        node.set_expression_type(result_type)
+
+    @when(BooleanNode)
+    def visit(self, node):
+        pass
+
+    @when(DateNode)
+    def visit(self, node):
+        pass
+
+    @when(DecimalNode)
+    def visit(self, node):
+        pass
+
+    @when(IntegerNode)
+    def visit(self, node):
+        pass
+
+    @when(MoneyNode)
+    def visit(self, node):
+        pass
+
+    @when(StringNode)
+    def visit(self, node):
+        pass
+
+    @when(VariableNode)
     def visit(self, node):
         for row in self.__symbol_table:
             if row['identifier'] == node.identifier:
                 node.set_expression_type(row['answer_type'])
-                
-    @multimethod(LiteralNode)
+
+    @when(UndefinedNode)
     def visit(self, node):
         pass
-
-
 

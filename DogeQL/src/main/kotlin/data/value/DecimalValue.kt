@@ -33,6 +33,8 @@ class DecimalValue(var value: BigDecimal) : BaseSymbolValue(SymbolType.DECIMAL) 
         else -> super.compareTo(other)
     }
 
-    override fun valueString(): String = value.toString()
+    override fun valueString(): String {
+        return value.toString()
+    }
 
 }

@@ -11,7 +11,9 @@ namespace QLVisualizer.Widgets
     public interface IWidgetBuilder<T>
     {
         T Create();
+        
         void SetParentStyle(List<QLSValue> elements);
+
         ElementManager GetElementManager();
     }
 }

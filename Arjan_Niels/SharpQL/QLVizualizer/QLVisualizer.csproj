@@ -98,6 +98,7 @@
     <Compile Include="Widgets\Windows\Leaf\BoolBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Leaf\DoubleBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Leaf\InputCreators\CheckBoxCreator.cs" />
+    <Compile Include="Widgets\Windows\Leaf\InputCreators\RadioButtonCreator.cs" />
     <Compile Include="Widgets\Windows\Leaf\InputCreators\TextBoxCreator.cs" />
     <Compile Include="Widgets\Windows\Leaf\IntBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Leaf\MoneyBuilderWindows.cs" />

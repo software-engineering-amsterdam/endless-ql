@@ -1,4 +1,5 @@
 ﻿using QLParser.AST.QLS;
+using QLParser.AST.QLS.Enums;
 using QLVisualizer.Elements.Managers.LeafTypes;
 using QLVisualizer.Widgets.Collection;
 using QLVisualizer.Widgets.Leaf;
@@ -20,15 +21,36 @@ namespace QLVisualizer.Widgets.Windows.Leaf
 
         public override Control Create()
         {
-            IInputCreator<Control, double> inputCreator = null;
-            switch (_widgetType)
+            // Initialize inputcreator options
+            WidgetType widgetType = WidgetType.DEFAULT;
+            List<string> widgetOptions = new List<string>() { _elementManager.Text };
+
+            if (_elementManager.Style != null)
             {
-                default:
-                    inputCreator = new TextBoxCreator<double>();
-                    break;
+                widgetType = _elementManager.Style.GetQLSWidgetSpecification().WidgetType;
+                widgetOptions.AddRange(_elementManager.Style.GetQLSWidgetSpecification().WidgetTypeArguments);
             }
 
-            return inputCreator.CreateInput(_styler, new string[] { _elementManagerLeaf.Text }, _elementManagerLeaf as DoubleQuestionManager);
+            // Get inputcreator
+            IInputCreator<Control, double> inputCreator = null;
+            switch (widgetType)
+            {
+                case WidgetType.DEFAULT:
+                case WidgetType.TEXTFIELD:
+                    inputCreator = new TextBoxCreator<double>();
+                    break;
+
+                case WidgetType.RADIO:
+                    inputCreator = new RadioButtonCreator<double>();
+                    break;
+
+                case WidgetType.CHECKBOX:
+                default:
+                    throw new NotImplementedException();
+            }
+
+            // Return created input
+            return inputCreator.CreateInput(_styler, widgetOptions.ToArray(), _elementManagerLeaf as DoubleQuestionManager);
         }
     }
 }

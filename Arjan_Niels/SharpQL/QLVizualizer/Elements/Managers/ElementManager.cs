@@ -58,7 +58,7 @@ namespace QLVisualizer.Elements.Managers
 
             _activationExpression = activationExpression;
             Active = activationExpression == null;
-            Style = new QLSStyle(); // TODO: NON-INTERFACE DEPENDENCY?!
+            //Style = new QLSStyle(); // TODO: NON-INTERFACE DEPENDENCY?!
         }
 
         public virtual void RegisterListeners()

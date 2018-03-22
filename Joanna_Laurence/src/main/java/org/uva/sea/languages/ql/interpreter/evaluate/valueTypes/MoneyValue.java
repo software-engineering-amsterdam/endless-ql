@@ -28,6 +28,11 @@ public class MoneyValue extends Value {
         this.amount = amount;
     }
 
+    public MoneyValue(MoneyType moneyType, BigDecimal amount) {
+        this.currency = moneyType.toString();
+        this.amount = amount;
+    }
+
     private void validateCurrency(MoneyValue value) throws EvaluationException {
         if (!this.getCurrency().equals(value.getCurrency()))
             throw new EvaluationException("Currencies mismatch");

@@ -4,7 +4,7 @@ import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
-public abstract class Value {
+public abstract class Value implements Cloneable {
 
     public abstract <T> T accept(BaseValueVisitor<T> visitor);
 
@@ -419,5 +419,9 @@ public abstract class Value {
 
     public Value subtract(UndefinedValue undefinedValue) {
         return undefinedValue;
+    }
+
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 }

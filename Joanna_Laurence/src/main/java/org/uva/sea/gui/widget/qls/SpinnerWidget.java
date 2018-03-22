@@ -1,5 +1,7 @@
 package org.uva.sea.gui.widget.qls;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -69,16 +71,24 @@ public class SpinnerWidget extends Widget {
             }
         });
 
+        spinner.valueProperty().addListener(
+                (ChangeListener<Number>) (observableValue, oldValue, newValue) -> {
 
-        spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                Value updatedValue = this.widgetValue.add(this.incrementStep);
-                this.sendUpdateValueEvent(spinner, this.questionData.getQuestionName(), updatedValue);
-            } catch (EvaluationException e) {
-                this.sendUpdateValueEvent(spinner, this.questionData.getQuestionName(), new UndefinedValue());
+                    Value newWidgetValue = this.widgetValue.accept(new BaseValueVisitor<Value>() {
+                        @Override
+                        public Value visit(DecimalValue node) {
+                            return new DecimalValue(newValue.toString());
+                        }
 
-            }
-        });
+                        @Override
+                        public Value visit(IntValue node) {
+                            return new IntValue(newValue.toString());
+                        }
+                    });
+
+                    this.sendUpdateValueEvent(spinner, this.questionData.getQuestionName(), newWidgetValue);
+                });
+
 
         return this.createRow(this.questionData.getLabel(), spinner);
     }

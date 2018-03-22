@@ -8,20 +8,41 @@ stylesheet taxOfficeExample
       section "You sold a house"
       {
 
-        question freeBag2
+                question euros
 
-        question freeBags
+                question dollars
 
-        default integer
-        {
-          width: 100
-          font: "Arial"
-          fontsize: 14
-          color: #999999
-          widget spinbox
-        }
+                question more
+
+                question why
+
+                question when
+
+                question random
+
+                question larger
+                    widget spinbox
+
+                question know
+
+                question mult
+
+
+                question div
+
+                question nice
+                    widget spinbox
+
+                question superNice
+                    widget slider
+
+                question what
+                    widget choicebox
+
+                question real
+                    widget radio
+
       }
     }
-    default boolean widget radio("Yes", "No")
   }
 }

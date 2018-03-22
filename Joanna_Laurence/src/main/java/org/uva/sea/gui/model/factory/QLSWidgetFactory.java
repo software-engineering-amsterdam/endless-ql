@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QLSWidgetFactory {
+public class QLSWidgetFactory extends QLWidgetFactory {
 
     private final Map<WidgetType, Class<? extends Widget>> widgetTypeClassEnumMap = new HashMap<>();
 
@@ -31,21 +31,9 @@ public class QLSWidgetFactory {
 
         Class<? extends Widget> widget = this.widgetTypeClassEnumMap.get(widgetType);
         if(widget == null) {
-            //TODO: Other exception
             throw new NotImplementedException();
         }
 
-        try {
-            Widget newWidget = widget.getDeclaredConstructor(QuestionData.class).newInstance(questionData);
-            newWidget.addListener(listener);
-            WidgetValueUpdate widgetValueUpdate = new WidgetValueUpdate(newWidget);
-            Value questionValue = questionData.getValue();
-            if(questionValue != null)
-                widgetValueUpdate.updateWidget(questionValue);
-
-            return newWidget;
-        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
-            return null;
-        }
+        return this.getWidget(questionData, listener, widget);
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace Assignment1.Model.QL.RenderTree
 {
-    public class QuestionBool : Question
+    public class RenderableQuestionDecimal : RenderableQuestion
     {
-        public QuestionBool(string id, string label) : base(id, label)
+        public RenderableQuestionDecimal(string id, string label) : base(id, label)
         {
-            Value = false;
+            Value = 0;
         }
 
         public override void Accept(IQuestionVisitor visitor)

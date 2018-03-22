@@ -15,7 +15,7 @@ namespace Assignment1.Converters
     {
         private Model.QL.RenderTree.QuestionForm _result;
         private readonly Stack<Expression> _conditions = new Stack<Expression>(new[] { new ExpressionValue(true) });
-        private readonly Dictionary<string, Model.QL.RenderTree.Question> _questions = new Dictionary<string, Model.QL.RenderTree.Question>();
+        private readonly Dictionary<string, Model.QL.RenderTree.RenderableQuestion> _questions = new Dictionary<string, Model.QL.RenderTree.RenderableQuestion>();
 
         private QLASTToRenderTree() { }
 
@@ -66,28 +66,28 @@ namespace Assignment1.Converters
             _questions.Add(question.Id, result);
         }
 
-        private Model.QL.RenderTree.Question QLASTQuestionToQuestion(Question question)
+        private Model.QL.RenderTree.RenderableQuestion QLASTQuestionToQuestion(Question question)
         {
-            Model.QL.RenderTree.Question result;
+            Model.QL.RenderTree.RenderableQuestion result;
             switch (question.Type)
             {
                 case Type.Boolean:
-                    result = new QuestionBool(question.Id, question.Label);
+                    result = new RenderableQuestionBool(question.Id, question.Label);
                     break;
                 case Type.Integer:
-                    result = new QuestionInt(question.Id, question.Label);
+                    result = new RenderableQuestionInt(question.Id, question.Label);
                     break;
                 case Type.String:
-                    result = new QuestionString(question.Id, question.Label);
+                    result = new RenderableQuestionString(question.Id, question.Label);
                     break;
                 case Type.Date:
-                    result = new QuestionDate(question.Id, question.Label);
+                    result = new RenderableQuestionDate(question.Id, question.Label);
                     break;
                 case Type.Decimal:
-                    result = new QuestionDecimal(question.Id, question.Label);
+                    result = new RenderableQuestionDecimal(question.Id, question.Label);
                     break;
                 case Type.Money:
-                    result = new QuestionMoney(question.Id, question.Label);
+                    result = new RenderableQuestionMoney(question.Id, question.Label);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

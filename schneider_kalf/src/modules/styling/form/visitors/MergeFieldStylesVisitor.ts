@@ -11,6 +11,7 @@ import { VariableInformation } from "../../../../form/VariableIntformation";
 import { type } from "os";
 import StyleTreeNode from "../nodes/StyleTreeNode";
 import { getDefaultStyleNodes } from "../style_helpers";
+import { UnkownQuestionUsedInLayoutError } from "../style_errors";
 
 export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
   private questionStyles: MergedFieldStyle[];
@@ -33,7 +34,7 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     const variableInformation: VariableInformation | undefined = this.qlVariables.get(question.identifier);
 
     if (typeof variableInformation === 'undefined') {
-      throw new Error(); // TODO: Make nice error
+      throw UnkownQuestionUsedInLayoutError.make(question.identifier);
     }
 
     let mergedStyle = new MergedFieldStyle(question.identifier, variableInformation.type);

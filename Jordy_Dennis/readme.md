@@ -15,17 +15,15 @@ source env/bin/activate
 pip install -r requirements.txt
 export CLASSPATH=".:/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH"  # Needed in order for antlr to work
 ```
-4. When you have created a QL or QLS program and run it, with the following command:
+4. When you have created a QL or QLS program, run it with the following command:
 ```
 python path/to/parser.py path/to/qlFilename path/to/[qlsFilename]	# QLS file is optional
 ```
 
-## Viable Syntax
-
 ## Explenation
 For explenation on the QL, QLS the GUI and Testing please go to their respective Readme's:
 
-- [QL]
-- [QLS]
-- [Testing]
-- [GUI]
+- [QL](https://github.com/software-engineering-amsterdam/endless-ql/tree/master/Jordy_Dennis/QL)
+- [QLS](https://github.com/software-engineering-amsterdam/endless-ql/tree/master/Jordy_Dennis/QLS)
+- [Testing](https://github.com/software-engineering-amsterdam/endless-ql/tree/master/Jordy_Dennis/Testing)
+- [GUI](https://github.com/software-engineering-amsterdam/endless-ql/tree/master/Jordy_Dennis/GUI)

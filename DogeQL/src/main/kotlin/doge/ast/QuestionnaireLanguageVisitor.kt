@@ -6,6 +6,7 @@ import doge.ast.node.*
 import doge.ast.node.expression.*
 import doge.ast.node.expression.operation.BinaryOperation
 import doge.ast.node.expression.operation.UnaryOperation
+import doge.common.location
 import doge.data.question.SymbolType
 import doge.data.value.*
 
@@ -14,10 +15,11 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
     override fun visitForm(ctx: QuestionnaireLanguageGrammarParser.FormContext?): QLNode {
         val context = ctx!!
 
-        val name = context.NAME().text
+        val identifier = Identifier(context.NAME().text, context.NAME().location())
+
         val block = visit(context.block()) as Block
 
-        return Form(name, block)
+        return Form(identifier, block, location)
     }
 
     override fun visitBlock(ctx: QuestionnaireLanguageGrammarParser.BlockContext?): QLNode {

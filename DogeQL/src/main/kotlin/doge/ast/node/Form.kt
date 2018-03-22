@@ -1,3 +1,11 @@
 package doge.ast.node
 
-class Form(val name: String, val block: Block) : QLNode
+import doge.visitor.QuestionnaireASTBaseVisitor
+
+class Form(val name: Identifier, val block: Block) : QLNode {
+
+    override fun <T> accept(visitor: QuestionnaireASTBaseVisitor<T>): T {
+        return visitor.visit(this)
+    }
+
+}

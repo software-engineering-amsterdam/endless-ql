@@ -9,7 +9,7 @@ import doge.data.question.SymbolType
 import doge.data.symbol.SymbolTable
 import doge.data.value.BaseSymbolValue
 
-abstract class Expression() : QLNode {
+abstract class Expression : QLNode {
 
     val sourceLocation = SourceLocation(0, 0)
 

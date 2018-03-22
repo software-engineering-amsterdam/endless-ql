@@ -7,9 +7,14 @@ import doge.ast.node.expression.visitor.reference.ReferenceCollector
 import doge.ast.node.expression.visitor.reference.ReferenceVisitor
 import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
+import doge.visitor.QuestionnaireASTBaseVisitor
 
 class UnaryExpression(val next: Expression, val operation: UnaryOperation)
     : Expression() {
+
+    override fun <T> accept(visitor: QuestionnaireASTBaseVisitor<T>): T {
+        return visitor.visit(this)
+    }
 
     override fun accept(visitor: EvaluationVisitor): BaseSymbolValue {
         return visitor.visit(this)

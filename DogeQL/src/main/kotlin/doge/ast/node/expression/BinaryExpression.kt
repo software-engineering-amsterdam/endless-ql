@@ -7,9 +7,14 @@ import doge.ast.node.expression.visitor.reference.ReferenceCollector
 import doge.ast.node.expression.visitor.reference.ReferenceVisitor
 import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
+import doge.visitor.QuestionnaireASTBaseVisitor
 
 class BinaryExpression(
         val left: Expression, val right: Expression, val operation: BinaryOperation) : Expression() {
+
+    override fun <T> accept(visitor: QuestionnaireASTBaseVisitor<T>): T {
+        return visitor.visit(this)
+    }
 
     override fun accept(visitor: EvaluationVisitor): BaseSymbolValue {
         return visitor.visit(this)

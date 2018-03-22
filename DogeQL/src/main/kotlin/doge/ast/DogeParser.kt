@@ -3,6 +3,7 @@ package doge.ast
 import QuestionnaireLanguageGrammarLexer
 import QuestionnaireLanguageGrammarParser
 import doge.node.Node
+import doge.visitor.DuplicateQuestionVisitor
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 
@@ -19,7 +20,9 @@ class DogeParser {
 
         val visitor = QuestionnaireLanguageVisitor()
 
-        visitor.visit(parser.form())
+        val ast = visitor.visit(parser.form())
+
+        DuplicateQuestionVisitor().visit(ast)
 
 //        val listener = DogeListener()
 

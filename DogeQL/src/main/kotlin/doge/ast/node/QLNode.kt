@@ -1,3 +1,9 @@
 package doge.ast.node
 
-interface QLNode
+import doge.visitor.QuestionnaireASTBaseVisitor
+
+interface QLNode {
+
+    fun <T> accept(visitor: QuestionnaireASTBaseVisitor<T>): T
+
+}

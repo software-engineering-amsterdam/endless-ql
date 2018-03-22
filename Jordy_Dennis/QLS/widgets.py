@@ -74,8 +74,8 @@ class StyleColor(AttributeDefault):
 
 class RadioWidget(AttributeDefault, WidgetDefault):
     def __init__(self, trueVal, falseVal):
-        self.trueVal = trueVal
-        self.falseVal = falseVal
+        self.minVal = trueVal
+        self.maxVal = falseVal
         self.type = [bool]
         self.attType = 'widget'
         self.widget = 'radio'
@@ -109,9 +109,9 @@ class DropdownWidget(AttributeDefault, WidgetDefault):
     Integer and Text Widgets
 """
 class SpinboxWidget(AttributeDefault, WidgetDefault):
-    def __init__(self, min, max):
-        self.min = min
-        self.max = max
+    def __init__(self, minVal, maxVal):
+        self.min = minVal
+        self.max = maxVal
         self.type = [int, float]
         self.attType = 'widget'
         self.widget = 'spinbox'
@@ -129,9 +129,9 @@ class TextWidget(AttributeDefault, WidgetDefault):
         return "TextWidget"
 
 class SliderWidget(AttributeDefault, WidgetDefault):
-    def __init__(self, min, max):
-        self.min = min
-        self.max = max
+    def __init__(self, minVal, maxVal):
+        self.min = minVal
+        self.max = maxVal
         self.type = [int, float]
         self.attType = 'widget'
         self.widget = 'slider'

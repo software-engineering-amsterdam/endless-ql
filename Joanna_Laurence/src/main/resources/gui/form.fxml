@@ -33,7 +33,7 @@
         <Button alignment="CENTER_RIGHT" onAction="#export" text="Export" GridPane.columnIndex="2" />
 
     </GridPane>
-   <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+   <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
        <Tab text="Tab">
             <content>

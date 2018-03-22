@@ -49,7 +49,7 @@ class Page():
 
     def addQuestionToSection(self, sectionName, varName, questionText="Default Question", questionType=bool,
                              value=False, prev="", defaults=None, widgetType='default'):
-        for section in self.sections:
+        for section  in self.sections:
             if section.name == sectionName:
                 section.insertQuestion(prev, self.questionGenerator, varName, questionText, questionType, value,
                                        defaults, widgetType)

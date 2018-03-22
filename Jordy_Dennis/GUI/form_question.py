@@ -27,7 +27,7 @@ class Question:
         self.varName = varName
         self.map = InputTypeMap(self.frame, self.questionGenerator, varName, value)
 
-        self.answer = None
+        self.answer =  None
         self.value = value
         self.questionType = questionType
 

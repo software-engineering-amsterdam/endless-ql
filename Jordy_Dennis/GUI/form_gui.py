@@ -110,7 +110,7 @@ class FormGui:
 
     def insertQuestion(self, varName, questionText, questionType, value, sectionName='default', pageName='default',
                        insertAfterVarName="", defaults=None, widgetType='default'):
-        page = self.pages[pageName]
+        page =  self.pages[pageName]
         page.addQuestionToSection(sectionName, varName, questionText, questionType, value, insertAfterVarName, defaults, widgetType)
 
     def removeQuestionFromSection(self, varName, sectionName='default', pageName='default'):

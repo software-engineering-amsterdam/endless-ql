@@ -111,6 +111,6 @@ public class Question extends ASTNode {
         if(term.getType() == type)
             this.result = term;
         else
-            throw new TypeException(Type.getByCode(term.toString()), Type.getByCode(result.toString()));
+            throw new TypeException(this, Type.getByCode(term.toString()), Type.getByCode(result.toString()));
     }
 }

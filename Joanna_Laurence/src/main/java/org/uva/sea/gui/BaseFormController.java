@@ -14,6 +14,7 @@ import org.uva.sea.gui.ql.Renderer;
 import org.uva.sea.gui.ql.components.AlertBuilder;
 import org.uva.sea.gui.ql.model.RenderElements;
 import org.uva.sea.gui.ql.model.QuestionModel;
+import org.uva.sea.gui.ql.model.factory.WidgetFactory;
 import org.uva.sea.languages.BaseEvaluator;
 import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.QlSEvaluator;
@@ -31,7 +32,7 @@ import java.util.*;
 
 public abstract class BaseFormController implements Initializable, IGuiElementUpdateListener {
 
-    private final QuestionModel formModel = new QuestionModel(this);
+    private final QuestionModel formModel;
 
     private final AlertBuilder alertBuilder = new AlertBuilder();
 
@@ -45,6 +46,10 @@ public abstract class BaseFormController implements Initializable, IGuiElementUp
 
     @FXML
     protected VBox messages;
+
+    public BaseFormController(WidgetFactory formModel) {
+        this.formModel = new QuestionModel(this, formModel);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

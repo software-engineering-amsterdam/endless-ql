@@ -16,10 +16,11 @@ import java.util.Collection;
 public class QuestionModel {
     private final IGuiElementUpdateListener questionValueUpdateListener;
     private BaseEvaluator interpreter = null;
-    private final WidgetFactory widgetFactory = new WidgetFactory();
+    private final WidgetFactory widgetFactory;
 
-    public QuestionModel(IGuiElementUpdateListener questionValueUpdateListener) {
+    public QuestionModel(IGuiElementUpdateListener questionValueUpdateListener, WidgetFactory widgetFactory) {
         this.questionValueUpdateListener = questionValueUpdateListener;
+        this.widgetFactory = widgetFactory;
     }
 
     public void setInterpreter(BaseEvaluator interpreter) {

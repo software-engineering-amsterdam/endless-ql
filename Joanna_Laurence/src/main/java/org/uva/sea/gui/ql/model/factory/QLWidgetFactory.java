@@ -13,7 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QLWidgetFactory {
+public class QLWidgetFactory implements WidgetFactory {
     private final Map<NodeType, Class<? extends Widget>> widgetTypeClassEnumMap = new HashMap<>();
 
     private final DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
@@ -28,8 +28,9 @@ public class QLWidgetFactory {
         this.widgetTypeClassEnumMap.put(NodeType.STRING, TextFieldWidget.class);
     }
 
-    public Widget createWidget(NodeType nodeType, QuestionData questionData, IGuiElementUpdateListener listener) {
-        Class<? extends Widget> widget = this.widgetTypeClassEnumMap.get(nodeType);
+    @Override
+    public Widget createWidget(QuestionData questionData, IGuiElementUpdateListener listener) {
+        Class<? extends Widget> widget = this.widgetTypeClassEnumMap.get(questionData.getNodeType());
         if(widget == null) {
             //TODO: Other exception
             throw new NotImplementedException();

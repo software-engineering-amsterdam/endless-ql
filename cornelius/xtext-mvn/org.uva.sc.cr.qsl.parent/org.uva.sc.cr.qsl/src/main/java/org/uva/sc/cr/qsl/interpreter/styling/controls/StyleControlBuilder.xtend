@@ -37,29 +37,29 @@ class StyleControlBuilder {
 	@Inject
 	private StyleControlMoneyBuilder styleControlMoneyBuilder
 
-	def styleDefaultControl(ControlWrapper controlWrapper, DefaultStyle defaultStyleToApply) {
+	def HBox styleDefaultControl(ControlWrapper controlWrapper, DefaultStyle defaultStyleToApply) {
 		val hbox = controlWrapper.controlWithLabel
 		applyDefaultStyle(hbox, defaultStyleToApply)
 		return hbox
 	}
 
-	def dispatch style(ControlWrapper controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+	def dispatch HBox style(ControlWrapper controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
 		return styleDefaultControl(controlWrapper, defaultStyleToApply)
 	}
 
-	def dispatch style(ControlWrapperBoolean controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+	def dispatch HBox style(ControlWrapperBoolean controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
 		return styleControlBooleanBuilder.styleBoolean(controlWrapper, widget, defaultStyleToApply)
 	}
 
-	def dispatch style(ControlWrapperInteger controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+	def dispatch HBox style(ControlWrapperInteger controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
 		return styleControlIntegerBuilder.styleInteger(controlWrapper, widget, defaultStyleToApply)
 	}
 
-	def dispatch style(ControlWrapperDecimal controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+	def dispatch HBox style(ControlWrapperDecimal controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
 		return styleControlDecimalBuilder.styleDecimal(controlWrapper, widget, defaultStyleToApply)
 	}
 
-	def dispatch style(ControlWrapperMoney controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
+	def dispatch HBox style(ControlWrapperMoney controlWrapper, Widget widget, DefaultStyle defaultStyleToApply) {
 		return styleControlMoneyBuilder.styleMoney(controlWrapper, widget, defaultStyleToApply)
 	}
 
@@ -71,12 +71,12 @@ class StyleControlBuilder {
 			}
 
 		})
-		destination.visibleProperty.bindBidirectional(source.visibleProperty)
-		destination.disableProperty.bindBidirectional(source.disableProperty)
+		destination.visibleProperty().bindBidirectional(source.visibleProperty())
+		destination.disableProperty().bindBidirectional(source.disableProperty())
 	}
 
 	protected def buildHBoxAndApplyDefaultStyle(DefaultStyle defaultStyleToApply, Node... controls) {
-		val hbox = new HBox
+		val hbox = new HBox()
 		hbox.children.addAll(controls)
 		applyDefaultStyle(hbox, defaultStyleToApply)
 		return hbox

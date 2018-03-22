@@ -29,14 +29,14 @@ class StyleBuilder {
 	private StyleControlBuilder styleControlBuilder
 
 	def styleLayout(Stylesheet stylesheet) {
-		val wizard = new Wizard
+		val wizard = new Wizard()
 		val wizardPanes = stylesheet.pages.map[buildPage(it)]
 		wizard.setFlow(new LinearFlow(wizardPanes))
 		return wizard
 	}
 
 	def private WizardPane buildPage(Page page) {
-		val wizardPane = new WizardPane
+		val wizardPane = new WizardPane()
 		wizardPane.stylesheets.remove(0)
 		val vbox = new VBox(10)
 		page.sections.forEach[
@@ -49,7 +49,7 @@ class StyleBuilder {
 
 	def private VBox buildSection(Section section, List<DefaultStyle> defaultStyles) {
 		
-		val previousAndNewDefaultStyles = new ArrayList<DefaultStyle>
+		val previousAndNewDefaultStyles = new ArrayList<DefaultStyle>()
 		previousAndNewDefaultStyles.addAll(defaultStyles)
 		previousAndNewDefaultStyles.addAll(section.defaultStyles)
 		

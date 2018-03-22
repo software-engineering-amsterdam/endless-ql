@@ -25,22 +25,22 @@ class QLJavaFxApplication extends Application {
 	override init() {
 		val file = parameters.raw.get(0)
 		parseFile(file)
-		validateAST
+		validateAST()
 	}
 
 	def private void parseFile(String file) {
-		val injector = createInjector
+		val injector = createInjector()
 		val resourceSet = injector.getInstance(ResourceSet)
 		astData = resourceSet.getResource(URI.createFileURI(file), true)
 		injector.injectMembers(this)
 	}
 
 	def createInjector() {
-		new QLStandaloneSetup().createInjectorAndDoEMFRegistration()
+		return new QLStandaloneSetup().createInjectorAndDoEMFRegistration()
 	}
 
 	def private void validateAST() {
-		val validator = createInjector.getInstance(IResourceValidator)
+		val validator = createInjector().getInstance(IResourceValidator)
 
 		val issues = validator.validate(astData, CheckMode.ALL, CancelIndicator.NullImpl)
 		val errors = issues.filter[it.severity == Severity.ERROR]
@@ -59,7 +59,7 @@ class QLJavaFxApplication extends Application {
 	}
 
 	override start(Stage primaryStage) {
-		val form = getForm
+		val form = getForm()
 		val rootStage = stageBuilder.buildGuiLayout(form)
 
 		val scene = new Scene(rootStage, 800, 600)
@@ -69,7 +69,7 @@ class QLJavaFxApplication extends Application {
 	}
 
 	def getForm() {
-		astData.allContents.head as Form
+		return astData.allContents.head() as Form
 	}
 
 }

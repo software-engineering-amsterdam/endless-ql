@@ -27,7 +27,7 @@ class ControlBuilder {
 	private val List<ControlWrapper> controls
 
 	new() {
-		controls = new ArrayList<ControlWrapper>
+		controls = new ArrayList<ControlWrapper>()
 	}
 
 	def public buildControlForQuestion(Question question, Expression visibleExpression) {
@@ -46,9 +46,9 @@ class ControlBuilder {
 			case QuestionType.TYPE_DATE:
 				controlWrapper = buildControlForTypeDate(question)
 			default:
-				throw new MissingCaseException
+				throw new MissingCaseException()
 		}
-		controlWrapper.registerListener(buildEventHandler)
+		controlWrapper.registerListener(buildEventHandler())
 		if (visibleExpression !== null) {
 			val binding = bindingBuilder.buildBindingForTypeBoolean(controls, visibleExpression)
 			controlWrapper.bindVisibleProperty(binding)
@@ -86,16 +86,16 @@ class ControlBuilder {
 		return new ControlWrapperDate(question, null)
 	}
 
-	def private buildEventHandler() {
-		new EventHandler() {
+	def private EventHandler buildEventHandler() {
+		return new EventHandler() {
 			override handle(Event arg0) {
-				bindingBuilder.invalidateBindings
+				bindingBuilder.invalidateBindings()
 			}
 		}
 	}
 
 	def getControlByName(String name) {
-		controls.filter[it.name == name].head
+		return controls.filter[it.name == name].head()
 	}
 
 }

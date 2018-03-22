@@ -13,6 +13,7 @@ import org.uva.sc.cr.qsl.qSL.DefaultStyle
 import org.uva.sc.cr.qsl.qSL.Widget
 import org.uva.sc.cr.qsl.qSL.WidgetSlider
 import org.uva.sc.cr.qsl.qSL.WidgetSpinbox
+import javafx.scene.layout.HBox
 
 @Singleton
 class StyleControlIntegerBuilder extends StyleControlBuilder {
@@ -24,35 +25,35 @@ class StyleControlIntegerBuilder extends StyleControlBuilder {
 
 	private static val SLIDER_MAX_VALUE = 100
 
-	def dispatch styleInteger(ControlWrapperInteger controlWrapperInteger, Widget widgetSpinbox,
+	def dispatch HBox styleInteger(ControlWrapperInteger controlWrapperInteger, Widget widgetSpinbox,
 		DefaultStyle defaultStyleToApply) {
 		return styleDefaultControl(controlWrapperInteger, defaultStyleToApply)
 	}
 
-	def dispatch styleInteger(ControlWrapperInteger controlWrapperInteger, WidgetSpinbox widgetSpinbox,
+	def dispatch HBox styleInteger(ControlWrapperInteger controlWrapperInteger, WidgetSpinbox widgetSpinbox,
 		DefaultStyle defaultStyleToApply) {
 
 		val spinner = new Spinner()
 		spinner.valueFactory = new IntegerSpinnerValueFactory(SPINNER_MIN_VALUE, SPINNER_MAX_VALUE,
 			SPINNER_INITIAL_VALUE, SPINNER_STEP_VALUE)
-		spinner.editor.textFormatter = new TextFormatter(new IntegerStringConverter)
+		spinner.editor.textFormatter = new TextFormatter(new IntegerStringConverter())
 		spinner.editable = true
 
 		val textField = controlWrapperInteger.textField
-		Bindings.bindBidirectional(spinner.editor.textProperty, textField.textProperty)
+		Bindings.bindBidirectional(spinner.editor.textProperty(), textField.textProperty())
 		copyControlConfiguration(textField, spinner)
 
 		return buildHBoxAndApplyDefaultStyle(defaultStyleToApply, controlWrapperInteger.label, spinner)
 	}
 
-	def dispatch styleInteger(ControlWrapperInteger controlWrapperInteger, WidgetSlider widgetSlider,
+	def dispatch HBox styleInteger(ControlWrapperInteger controlWrapperInteger, WidgetSlider widgetSlider,
 		DefaultStyle defaultStyleToApply) {
 
 		val slider = new Slider()
 		slider.max = SLIDER_MAX_VALUE
 
 		val textField = controlWrapperInteger.textField
-		Bindings.bindBidirectional(textField.textProperty, slider.valueProperty, NumberFormat.integerInstance)
+		Bindings.bindBidirectional(textField.textProperty(), slider.valueProperty(), NumberFormat.integerInstance)
 		copyControlConfiguration(textField, slider)
 
 		return buildHBoxAndApplyDefaultStyle(defaultStyleToApply, controlWrapperInteger.label, slider)

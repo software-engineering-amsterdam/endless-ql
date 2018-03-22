@@ -15,11 +15,11 @@ class StageBuilder {
 	private var ControlBuilder controlBuilder
 
 	def buildGuiLayout(Form form) {
-		buildPanelForBlock(form.body, null)
+		return buildPanelForBlock(form.body, null)
 	}
 
 	def private VBox buildPanelForBlock(BlockBody body, Expression expression) {
-		val box = new VBox
+		val box = new VBox()
 		body.questions.forEach [
 			val control = controlBuilder.buildControlForQuestion(it, expression)
 			box.children.add(control)

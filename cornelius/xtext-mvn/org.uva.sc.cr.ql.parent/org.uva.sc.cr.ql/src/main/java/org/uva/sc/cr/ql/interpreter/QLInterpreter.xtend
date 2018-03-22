@@ -6,7 +6,7 @@ class QLInterpreter {
 
 	public static def main(String[] args) {
 
-		if (args.size != 1) {
+		if (args.size() != 1) {
 			println("Provide a .ql file as argument!")
 			System.exit(0)
 		}

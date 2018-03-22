@@ -13,16 +13,16 @@ class QSLJavaFxApplication extends QLJavaFxApplication {
 	var StyleService styleService
 
 	override createInjector() {
-		new QSLStandaloneSetup().createInjectorAndDoEMFRegistration()
+		return new QSLStandaloneSetup().createInjectorAndDoEMFRegistration()
 	}
 
 	override getForm() {
-		val model = astData.allContents.head as Model
+		val model = astData.allContents.head() as Model
 		return model.form
 	}
 
 	def private getStylesheet() {
-		val model = astData.allContents.head as Model
+		val model = astData.allContents.head() as Model
 		return model.stylesheet
 	}
 
@@ -32,7 +32,7 @@ class QSLJavaFxApplication extends QLJavaFxApplication {
 			stageBuilder.buildGuiLayout(form)
 			val wizard = styleService.styleLayout(stylesheet)
 			wizard.title = form.name
-			wizard.showAndWait
+			wizard.showAndWait()
 		} else {
 			super.start(primaryStage)
 		}

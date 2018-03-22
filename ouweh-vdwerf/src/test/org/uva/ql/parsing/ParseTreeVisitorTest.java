@@ -188,7 +188,7 @@ public class ParseTreeVisitorTest {
         for (String testCase : testCases) {
             QLParser parser = builder.getQLParser(testCase);
             IntegerLiteral integerLiteral = (IntegerLiteral) builder.getExpression(parser);
-            Assert.assertEquals(testCase, integerLiteral.toString());
+            Assert.assertEquals(Integer.parseInt(testCase), integerLiteral.getValue());
         }
     }
 

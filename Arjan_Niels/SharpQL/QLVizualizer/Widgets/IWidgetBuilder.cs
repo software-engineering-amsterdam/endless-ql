@@ -1,4 +1,5 @@
 ﻿using QLParser.AST.QLS;
+using QLVisualizer.Elements.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace QLVisualizer.Widgets
     {
         T Create();
         void SetParentStyle(List<QLSValue> elements);
+        ElementManager GetElementManager();
     }
 }

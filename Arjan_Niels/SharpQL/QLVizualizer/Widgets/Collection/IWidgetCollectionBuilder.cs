@@ -8,6 +8,6 @@ namespace QLVisualizer.Widgets.Collection
 {
     public interface IWidgetCollectionBuilder<T> : IWidgetBuilder<T>
     {
-        void AddChild(WidgetBuilder<T> builder);
+        void AddChild(IWidgetBuilder<T> builder);
     }
 }

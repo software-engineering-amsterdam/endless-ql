@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace QLVisualizer.Widgets.Windows.Collection
 {
-    public class PageBuilder : WidgetCollectionBuilderWindows<PageManager>
+    public class PageBuilderWindows : WidgetCollectionBuilderWindows<PageManager>
     {
-        public PageBuilder(List<QLSValue> qlsElements, PageManager elementManagerCollection, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, elementManagerCollection, parent)
+        public PageBuilderWindows(List<QLSValue> qlsElements, PageManager elementManagerCollection, IWidgetCollectionBuilder<Control> parent) : base(qlsElements, elementManagerCollection, parent)
         {
         }
 

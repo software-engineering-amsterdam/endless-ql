@@ -9,6 +9,7 @@
         TextColor,
         Font,
         FontSize,
-        BackgroundColor
+        BackgroundColor,
+        AutoSize
     }
 }

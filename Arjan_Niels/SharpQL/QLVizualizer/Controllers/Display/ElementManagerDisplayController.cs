@@ -33,7 +33,7 @@ namespace QLVisualizer.Controllers.Display
 
 //        public Dictionary<string, Y> ActiveElementStyles { get; private set; }
 
-        public WidgetCreator<T> WidgetCreator { get; private set; }
+        //public WidgetCreator<T> WidgetCreator { get; private set; }
 
         protected T BaseDisplay;
 
@@ -42,11 +42,10 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         //public Y DefaultStyle { get; private set; }
 
-        public WidgetDisplayController(FormManager form, float initialPosition, WidgetCreator<T> widgetCreator) : base(form)
+        public WidgetDisplayController(FormManager form, float initialPosition) : base(form)
         {
             InitialPosition = initialPosition;
             ElementIndex = new Dictionary<string, T>();
-            WidgetCreator = widgetCreator;
         }
 
         /*/// <summary>
@@ -69,9 +68,11 @@ namespace QLVisualizer.Controllers.Display
         /// <param name="widgets">Widgets on form</param>
         public override void DisplayForm()
         {
-            UpdateBaseDisplay(WidgetCreator.CreateWidget(Form, BaseDisplay));
+            UpdateBaseDisplay(CreateFormWidget());
             Form.RegisterListeners();
         }
+
+        protected abstract T CreateFormWidget();
 
         protected abstract void UpdateBaseDisplay(T newDisplay);
 

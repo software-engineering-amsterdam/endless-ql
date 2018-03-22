@@ -1,7 +1,14 @@
 package org.uva.qls.validation;
 
+import org.uva.ql.ast.Question;
 import org.uva.ql.validation.ValidationResult;
 import org.uva.ql.validation.checker.Checker;
+import org.uva.qls.ast.Segment.QuestionReference;
+import org.uva.qls.ast.Segment.Stylesheet;
+import org.uva.qls.collector.StylesheetContext;
+import org.uva.ql.validation.collector.QuestionContext;
+
+import org.uva.ql.ast.Form;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,9 +21,10 @@ class ReferenceChecker extends Checker {
     private List<String> qlQuestionIds;
     private List<String> qlsQuestionIds;
 
-    public ReferenceChecker(List<String> qlQuestionIds, List<String> qlsQuestionIds) {
-        this.qlQuestionIds = qlQuestionIds;
-        this.qlsQuestionIds = qlsQuestionIds;
+    public ReferenceChecker(QuestionContext questionContext, StylesheetContext stylesheetContext) {
+        this.qlQuestionIds = questionContext.getQuestions().stream().map(Question::getId).collect(Collectors.toList());
+        this.qlsQuestionIds = stylesheetContext.getQuestions().stream().map(QuestionReference::getQuestionId).collect(Collectors.toList());
+
 
         Collections.sort(this.qlQuestionIds);
         Collections.sort(this.qlsQuestionIds);

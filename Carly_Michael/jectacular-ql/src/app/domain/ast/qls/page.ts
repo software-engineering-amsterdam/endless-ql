@@ -15,27 +15,4 @@ export class Page extends QlsNode {
   accept<T>(visitor: QlsVisitor<T>): T {
     return visitor.visitPage(this);
   }
-
-  getQuestions(parentStyles: ReadonlyArray<Style>): ReadonlyArray<QuestionWithAppliedStyles> {
-    let questions = [];
-
-    // get styles
-    const updatedParentStyles: ReadonlyArray<Style> = this.defaultSettings && this.defaultSettings.styles.length > 0 ?
-      parentStyles.concat(this.defaultSettings.styles) : parentStyles;
-
-    const widgetType = this.defaultSettings ? this.defaultSettings.widget : Widget.Empty;
-
-    for (const section of this.sections) {
-      questions = questions.concat(section.getQuestions(updatedParentStyles, widgetType));
-    }
-
-    return questions;
-  }
-
-  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: ReadonlyArray<QlQuestion>): void {
-    const defaults = this.defaultSettings ?  parentDefaults.concat(this.defaultSettings) : parentDefaults;
-    for (const section of this.sections) {
-      section.checkStylesheet(defaults, allQuestions);
-    }
-  }
 }

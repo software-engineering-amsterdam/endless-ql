@@ -42,7 +42,7 @@ public abstract class FormController implements Initializable, IGuiElementUpdate
 
     @FXML
     protected TabPane tabPane;
-    
+
     @FXML
     protected VBox messages;
 
@@ -63,7 +63,7 @@ public abstract class FormController implements Initializable, IGuiElementUpdate
     }
 
 
-    protected abstract Map<String, Pane> createContainer(EvaluationResult evaluationResult);
+    protected abstract Map<String, VBox> createContainer(EvaluationResult evaluationResult);
 
 
     private String getFileSelector(String title, String extension) {
@@ -132,7 +132,7 @@ public abstract class FormController implements Initializable, IGuiElementUpdate
 
             this.showMessages(questionRenders);
 
-            Map<String, Pane> panes = this.createContainer(evaluationResult);
+            Map<String, VBox> panes = this.createContainer(evaluationResult);
             this.renderer.draw(questionRenders.getRenderables(), panes);
 
         } catch (IOException | InterruptedException e) {

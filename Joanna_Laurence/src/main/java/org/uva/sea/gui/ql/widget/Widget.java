@@ -3,6 +3,7 @@ package org.uva.sea.gui.ql.widget;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import org.uva.sea.gui.ql.IGuiElementUpdateListener;
 import org.uva.sea.gui.ql.model.factory.DefaultValueFactory;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
@@ -35,7 +36,7 @@ public abstract class Widget extends Renderable {
 
 
     @Override
-    public void render(Map<String, Pane> containers) {
+    public void render(Map<String, VBox> containers) {
         Pane container = containers.get(this.drawInContainer());
         if(container != null) {
             container.getChildren().add(this.convertToGuiNode());

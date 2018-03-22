@@ -17,7 +17,7 @@ public abstract class Renderable {
     private static final int MESSAGE_ROW = 600;
     private static final int MESSAGE_COLUMN = 40;
 
-    public abstract void render(Map<String, Pane> containers);
+    public abstract void render(Map<String, VBox> containers);
 
     protected Node createRow(String label, Control widget) {
         GridPane wrapper = new GridPane();

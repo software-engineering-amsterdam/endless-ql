@@ -22,7 +22,7 @@ export class Stylesheet extends QlsNode {
     return questions;
   }
 
-  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: QlQuestion[]): void {
+  checkStylesheet(parentDefaults: ReadonlyArray<DefaultStyling>, allQuestions: ReadonlyArray<QlQuestion>): void {
     for (const page of this.pages) {
       page.checkStylesheet(parentDefaults, allQuestions);
     }

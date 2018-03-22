@@ -26,8 +26,8 @@ class GuiBuilder():
     # Walk the AST and render gui items
     def parseStatements(self, form):  
         for statement in form.statements:
-            getType = statement.returnNodeType()
-            print nodeType
+            getType = statement.getNodeType()
+            print getType
             if type(statement) is QuestionNode:
                 self.checkWidgetPosition(statement.var)
                 self.parseQuestion(statement)
@@ -145,6 +145,20 @@ class GuiBuilder():
                 return True
             elif expression.negate and self.gui.values[expression.var].get() == 0:
                 return True
+
+
+        if type(expression) is LiteralNode:
+            if expression.vartype == u"int":
+                if not expression.negate and int(expression.literal) == 1:
+                    return True
+                elif expression.negate and int(expression.literal) == 0:
+                    return True
+
+            elif expression.vartype == u"boolean":
+                if not expression.negate and expression.literal == "true":
+                    return True
+                elif expression.negate and expression.literal == "false":
+                    return True
 
         return False
 

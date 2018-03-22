@@ -46,10 +46,12 @@ class QLTypeChecker(object):
         # todo: implement 1 and 0 for boolean?
         node_type = statement.expression.getNodeType()
         if node_type == "literal":
-            exitProgram("Condition {} is not of type boolean.".format(statement.expression))
+            print statement.expression
+            if statement.expression.vartype != INTEGER_UNICODE and statement.expression.vartype != BOOLEAN_UNICODE:
+                exitProgram("Condition {} is not of type boolean.".format(statement.expression))
 
         elif node_type == "unop":
-            self.checkConditionals(statement)
+            self.checkConditional(statement)
 
         elif node_type == "binop":
             conditional_type = self.checkInvalidOperations(statement.expression)
@@ -115,11 +117,11 @@ class QLTypeChecker(object):
         return question
 
 
-    # Check for conditionals that are not of the type boolean.
-    def checkConditionals(self, statement):
+    # Check for conditional that is not of the type boolean.
+    def checkConditional(self, statement):
         for key, value in self.questions.iteritems():
-            if statement.expression.var in value and value[1] != BOOLEAN_UNICODE:
-                exitProgram("Condition {} is not of type boolean.".format(statement.expression.var))
+            if statement.expression.var in value and (value[1] != BOOLEAN_UNICODE and value[1] != INTEGER_UNICODE):
+                exitProgram("Condition {} is not of type boolean or integer.".format(statement.expression.var))
                 
         return
 

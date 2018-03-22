@@ -42,13 +42,7 @@ export default class MergedFieldStyle {
     const cssStyles = {};
 
     this.styles.forEach((attribute: StyleAttribute, key: string) => {
-      const cssAttributeName = styleConstants.CSS_STYLE_MAPPING[key];
-
-      if (typeof cssAttributeName === 'undefined') {
-        return;
-      }
-
-      cssStyles[cssAttributeName] = attribute.getStringValue();
+      Object.assign(cssStyles, attribute.getCssValues());
     });
 
     return cssStyles;

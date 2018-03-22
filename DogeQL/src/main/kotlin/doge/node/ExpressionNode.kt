@@ -1,10 +1,10 @@
 package doge.node
 
+import doge.ast.node.expression.SourceLocation
 import doge.common.Name
 import doge.data.question.Question
 import doge.data.question.SymbolType
 import doge.data.symbol.SymbolTable
-import doge.expression.SourceLocation
 import doge.typechecker.pass.CircularDependencyPass
 import doge.typechecker.pass.DuplicatePass
 import doge.typechecker.pass.ScopePass

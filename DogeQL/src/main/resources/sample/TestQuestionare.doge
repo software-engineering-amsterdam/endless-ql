@@ -1,9 +1,9 @@
 doge taxOfficeExample
 {
   "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
+    hasSoldHouse: boolean = true
   "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
+    hasBoughtHouse: boolean = true && hasSoldHouse
   "Did you enter a loan?"
     hasMaintLoan: boolean
 

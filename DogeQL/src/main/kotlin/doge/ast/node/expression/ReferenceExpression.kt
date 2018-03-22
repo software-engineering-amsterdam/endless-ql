@@ -1,14 +1,14 @@
-package doge.expression
+package doge.ast.node.expression
 
+import doge.ast.node.expression.visitor.evaluation.EvaluationVisitor
+import doge.ast.node.expression.visitor.evaluation.TypeVisitor
+import doge.ast.node.expression.visitor.reference.ReferenceCollector
+import doge.ast.node.expression.visitor.reference.ReferenceVisitor
 import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
-import doge.expression.visitor.evaluation.EvaluationVisitor
-import doge.expression.visitor.evaluation.TypeVisitor
-import doge.expression.visitor.reference.ReferenceCollector
-import doge.expression.visitor.reference.ReferenceVisitor
 
-class ReferenceExpression(val name: String, var type: SymbolType, sourceLocation: SourceLocation)
-    : Expression(sourceLocation) {
+class ReferenceExpression(val name: String)
+    : Expression() {
 
     override fun accept(visitor: EvaluationVisitor): BaseSymbolValue {
         return visitor.visit(this)

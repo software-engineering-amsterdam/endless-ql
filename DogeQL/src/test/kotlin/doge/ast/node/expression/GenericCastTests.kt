@@ -1,4 +1,4 @@
-package doge.expression
+package doge.ast.node.expression
 
 import doge.data.question.SymbolType
 import doge.data.value.DecimalValue

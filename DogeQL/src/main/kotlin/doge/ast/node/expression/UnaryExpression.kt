@@ -1,15 +1,15 @@
-package doge.expression
+package doge.ast.node.expression
 
+import doge.ast.node.expression.operation.UnaryOperation
+import doge.ast.node.expression.visitor.evaluation.EvaluationVisitor
+import doge.ast.node.expression.visitor.evaluation.TypeVisitor
+import doge.ast.node.expression.visitor.reference.ReferenceCollector
+import doge.ast.node.expression.visitor.reference.ReferenceVisitor
 import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
-import doge.expression.operation.UnaryOperation
-import doge.expression.visitor.evaluation.EvaluationVisitor
-import doge.expression.visitor.evaluation.TypeVisitor
-import doge.expression.visitor.reference.ReferenceCollector
-import doge.expression.visitor.reference.ReferenceVisitor
 
-class UnaryExpression(val next: Expression, val operation: UnaryOperation, sourceLocation: SourceLocation)
-    : Expression(sourceLocation) {
+class UnaryExpression(val next: Expression, val operation: UnaryOperation)
+    : Expression() {
 
     override fun accept(visitor: EvaluationVisitor): BaseSymbolValue {
         return visitor.visit(this)

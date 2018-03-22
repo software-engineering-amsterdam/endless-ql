@@ -1,6 +1,6 @@
-package doge.expression.visitor
+package doge.ast.node.expression.visitor
 
-import doge.expression.*
+import doge.ast.node.expression.*
 
 
 interface ExpressionVisitor<out O> {

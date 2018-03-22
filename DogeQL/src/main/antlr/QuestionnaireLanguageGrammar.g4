@@ -18,20 +18,20 @@ questionStatement
     ;
 
 ifStatement
-    : IF LPAREN expression RPAREN block
+    : IF LPARENTHESIS expression RPARENTHESIS block
     ;
 
 expression
-    : NOT expression
-    | expression (MUL | DIV) expression
-    | expression (ADD | SUB) expression
-    | expression (LT | GT | LE | GE) expression
-    | expression (EQUAL | NOTEQUAL) expression
-    | expression AND expression
-    | expression OR expression
-    | LPAREN expression RPAREN
-    | literal
-    | NAME
+    : operator=NOT expression                                                                   # unaryExpression
+    | left=expression operator=(MULTIPLY | DIVIDE) right=expression                             # binaryExpression
+    | left=expression operator=(ADD | SUBTRACT) right=expression                                # binaryExpression
+    | left=expression operator=(LESS | GREATER | LESSEQUAL | GREATEREQUAL) right=expression     # binaryExpression
+    | left=expression operator=(EQUAL | NOTEQUAL) right=expression                              # binaryExpression
+    | left=expression operator=AND right=expression                                             # binaryExpression
+    | left=expression operator=OR right=expression                                              # binaryExpression
+    | LPARENTHESIS expression RPARENTHESIS                                                      # parenthesisExpresion
+    | literal                                                                                   # literalExpression
+    | reference=NAME                                                                            # referenceExpression
     ;
 
 literal
@@ -98,7 +98,7 @@ TYPE_BOOLEAN
     ;
 
 TYPE_INT
-    : 'int'
+    : 'integer'
     ;
 
 TYPE_STRING
@@ -119,11 +119,11 @@ TYPE_DATE
 
 /* Separators */
 
-LPAREN
+LPARENTHESIS
     : '('
     ;
 
-RPAREN
+RPARENTHESIS
     : ')'
     ;
 
@@ -229,11 +229,11 @@ ASSIGN
     : '='
     ;
 
-GT
+GREATER
     : '>'
     ;
 
-LT
+LESS
     : '<'
     ;
 
@@ -245,11 +245,11 @@ EQUAL
     : '=='
     ;
 
-LE
+LESSEQUAL
     : '<='
     ;
 
-GE
+GREATEREQUAL
     : '>='
     ;
 
@@ -269,15 +269,15 @@ ADD
     : '+'
     ;
 
-SUB
+SUBTRACT
     : '-'
     ;
 
-MUL
+MULTIPLY
     : '*'
     ;
 
-DIV
+DIVIDE
     : '/'
     ;
 

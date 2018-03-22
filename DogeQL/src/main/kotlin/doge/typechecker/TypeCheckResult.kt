@@ -1,8 +1,8 @@
 package doge.typechecker
 
+import doge.ast.node.expression.SourceLocation
 import doge.common.Name
 import doge.data.question.SymbolType
-import doge.expression.SourceLocation
 
 data class TokenLocation(val name: Name, val sourceLocation: SourceLocation)
 data class TypeLocation(val name: Name, val type: SymbolType, val sourceLocation: SourceLocation)

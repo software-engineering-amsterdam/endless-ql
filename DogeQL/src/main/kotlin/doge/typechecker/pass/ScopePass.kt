@@ -1,8 +1,8 @@
 package doge.typechecker.pass
 
+import doge.ast.node.expression.SourceLocation
 import doge.common.Name
 import doge.data.symbol.SymbolTable
-import doge.expression.SourceLocation
 import doge.node.ExpressionNode
 import doge.node.Node
 import doge.node.QuestionNode

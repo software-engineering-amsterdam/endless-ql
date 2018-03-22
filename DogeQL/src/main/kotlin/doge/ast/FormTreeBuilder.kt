@@ -1,9 +1,9 @@
 package doge.ast
 
+import doge.ast.node.expression.SourceLocation
 import doge.common.Name
 import doge.data.question.Question
 import doge.data.symbol.SymbolTable
-import doge.expression.SourceLocation
 import doge.node.ExpressionNode
 import doge.node.Node
 import doge.node.QuestionNode

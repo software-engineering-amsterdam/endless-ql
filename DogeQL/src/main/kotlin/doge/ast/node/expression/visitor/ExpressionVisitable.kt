@@ -1,4 +1,4 @@
-package doge.expression.visitor
+package doge.ast.node.expression.visitor
 
 interface ExpressionVisitable<in V: ExpressionVisitor<O>, out O> {
 

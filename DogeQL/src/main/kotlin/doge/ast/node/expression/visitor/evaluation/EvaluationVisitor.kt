@@ -1,12 +1,12 @@
-package doge.expression.visitor.evaluation
+package doge.ast.node.expression.visitor.evaluation
 
+import doge.ast.node.expression.BinaryExpression
+import doge.ast.node.expression.LiteralExpression
+import doge.ast.node.expression.ReferenceExpression
+import doge.ast.node.expression.UnaryExpression
+import doge.ast.node.expression.visitor.ExpressionVisitor
 import doge.data.symbol.SymbolTable
 import doge.data.value.BaseSymbolValue
-import doge.expression.BinaryExpression
-import doge.expression.LiteralExpression
-import doge.expression.ReferenceExpression
-import doge.expression.UnaryExpression
-import doge.expression.visitor.ExpressionVisitor
 
 
 class EvaluationVisitor(private val symbolTable: SymbolTable) : ExpressionVisitor<BaseSymbolValue> {

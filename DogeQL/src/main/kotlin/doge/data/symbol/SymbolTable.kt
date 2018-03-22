@@ -1,9 +1,9 @@
 package doge.data.symbol
 
+import doge.ast.node.expression.Expression
 import doge.common.Name
 import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
-import doge.expression.Expression
 
 class SymbolTable {
 

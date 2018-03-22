@@ -1,14 +1,17 @@
-package doge.expression
+package doge.ast.node.expression
 
+import doge.ast.node.QLNode
+import doge.ast.node.expression.visitor.evaluation.EvaluationVisitor
+import doge.ast.node.expression.visitor.evaluation.TypeVisitor
+import doge.ast.node.expression.visitor.reference.ReferenceCollector
+import doge.ast.node.expression.visitor.reference.ReferenceVisitor
 import doge.data.question.SymbolType
 import doge.data.symbol.SymbolTable
 import doge.data.value.BaseSymbolValue
-import doge.expression.visitor.evaluation.EvaluationVisitor
-import doge.expression.visitor.evaluation.TypeVisitor
-import doge.expression.visitor.reference.ReferenceCollector
-import doge.expression.visitor.reference.ReferenceVisitor
 
-abstract class Expression(val sourceLocation: SourceLocation) {
+abstract class Expression() : QLNode {
+
+    val sourceLocation = SourceLocation(0, 0)
 
     abstract fun accept(visitor: EvaluationVisitor): BaseSymbolValue
 

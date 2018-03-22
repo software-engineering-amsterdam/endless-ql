@@ -1,6 +1,6 @@
 package doge.ast
 
-import doge.expression.Expression
+import doge.ast.node.expression.Expression
 import java.util.*
 
 class ExpressionBuilder {

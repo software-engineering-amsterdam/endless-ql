@@ -1,8 +1,8 @@
 package doge.data.question
 
+import doge.ast.node.expression.SourceLocation
 import doge.data.symbol.SymbolTable
 import doge.data.value.BaseSymbolValue
-import doge.expression.SourceLocation
 
 data class Question(
         val name: String,

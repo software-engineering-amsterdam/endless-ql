@@ -1,21 +1,26 @@
 package doge.ast
 
+import QuestionnaireLanguageGrammarLexer
+import QuestionnaireLanguageGrammarParser
 import doge.node.Node
-import doge.typechecker.TypeChecker
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
-import org.antlr.v4.runtime.tree.ParseTreeWalker
+
 
 class DogeParser {
 
     fun parse(): Node {
         val fileStream = javaClass.getResource("/sample/TestQuestionare.doge").openStream()
 
-//        val stream = ANTLRInputStream(fileStream)
-//        val lexer = QuestionareLanguageLexer(stream)
-//        val tokens = CommonTokenStream(lexer)
-//        val parser = QuestionareLanguageParser(tokens)
-        val walker = ParseTreeWalker.DEFAULT
+        val stream = ANTLRInputStream(fileStream)
+        val lexer = QuestionnaireLanguageGrammarLexer(stream)
+        val tokens = CommonTokenStream(lexer)
+        val parser = QuestionnaireLanguageGrammarParser(tokens)
+
+        val visitor = QuestionaireLanguageVisitor()
+
+        visitor.visit(parser.form())
+
 //        val listener = DogeListener()
 
 //        walker.walk(listener, parser.form())

@@ -1,16 +1,13 @@
-package doge.expression
+package doge.ast.node.expression
 
+import doge.ast.node.expression.visitor.evaluation.EvaluationVisitor
+import doge.ast.node.expression.visitor.evaluation.TypeVisitor
+import doge.ast.node.expression.visitor.reference.ReferenceCollector
+import doge.ast.node.expression.visitor.reference.ReferenceVisitor
 import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
-import doge.expression.operation.BinaryOperation
-import doge.expression.visitor.evaluation.EvaluationVisitor
-import doge.expression.visitor.evaluation.TypeVisitor
-import doge.expression.visitor.reference.ReferenceCollector
-import doge.expression.visitor.reference.ReferenceVisitor
 
-class BinaryExpression(
-        val left: Expression, val right: Expression, val operation: BinaryOperation, sourceLocation: SourceLocation
-) : Expression(sourceLocation) {
+class LiteralExpression(val value: BaseSymbolValue) : Expression() {
 
     override fun accept(visitor: EvaluationVisitor): BaseSymbolValue {
         return visitor.visit(this)

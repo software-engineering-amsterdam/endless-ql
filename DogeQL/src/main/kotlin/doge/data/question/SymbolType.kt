@@ -24,4 +24,5 @@ enum class SymbolType {
         SymbolType.COLOR -> ColorValue(Color(0, 0, 0, 0))
         SymbolType.DATE -> DateValue(LocalDate.now())
     }
+
 }

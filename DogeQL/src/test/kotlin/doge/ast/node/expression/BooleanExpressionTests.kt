@@ -1,4 +1,4 @@
-package doge.expression
+package doge.ast.node.expression
 
 import doge.data.value.BooleanValue
 import org.junit.Assert

@@ -1,12 +1,12 @@
-package doge.expression.visitor.evaluation
+package doge.ast.node.expression.visitor.evaluation
 
+import doge.ast.node.expression.BinaryExpression
+import doge.ast.node.expression.LiteralExpression
+import doge.ast.node.expression.ReferenceExpression
+import doge.ast.node.expression.UnaryExpression
+import doge.ast.node.expression.visitor.ExpressionVisitor
 import doge.data.question.SymbolType
 import doge.data.symbol.SymbolTable
-import doge.expression.BinaryExpression
-import doge.expression.LiteralExpression
-import doge.expression.ReferenceExpression
-import doge.expression.UnaryExpression
-import doge.expression.visitor.ExpressionVisitor
 
 
 class TypeVisitor(private val symbolTable: SymbolTable) : ExpressionVisitor<SymbolType> {
@@ -16,25 +16,26 @@ class TypeVisitor(private val symbolTable: SymbolTable) : ExpressionVisitor<Symb
     }
 
     override fun visit(reference: ReferenceExpression): SymbolType {
-        if (reference.type != SymbolType.UNDEFINED) {
-            return reference.type
-        }
-
-        val symbol = symbolTable.findSymbol(reference.name)
-
-        if (symbol == null) {
-            throw IllegalStateException("No symbol registered for reference ${reference.name}")
-        }
-
-        if (symbol.expression == null) {
-            return symbol.value.type
-        } else {
-            val resolvedType = symbol.expression.accept(this)
-
-            reference.type = resolvedType
-
-            return resolvedType
-        }
+//        if (reference.type != SymbolType.UNDEFINED) {
+//            return reference.type
+//        }
+//
+//        val symbol = symbolTable.findSymbol(reference.name)
+//
+//        if (symbol == null) {
+//            throw IllegalStateException("No symbol registered for reference ${reference.name}")
+//        }
+//
+//        if (symbol.expression == null) {
+//            return symbol.value.type
+//        } else {
+//            val resolvedType = symbol.expression.accept(this)
+//
+//            reference.type = resolvedType
+//
+//            return resolvedType
+//        }
+        TODO("Fix")
     }
 
     override fun visit(unary: UnaryExpression): SymbolType {

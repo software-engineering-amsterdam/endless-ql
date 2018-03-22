@@ -1,4 +1,4 @@
-package doge.expression.operation
+package doge.ast.node.expression.operation
 
 import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
@@ -24,5 +24,11 @@ enum class UnaryOperation(private val operation: (input: BaseSymbolValue) -> Bas
         }
     }
 
+    companion object {
+        fun fromString(string: String) = when (string) {
+            "!" -> UnaryOperation.NEGATE
+            else -> throw TypeCastException("Unable to convert $string to unary operation")
+        }
+    }
 }
 

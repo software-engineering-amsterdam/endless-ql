@@ -1,4 +1,4 @@
-package doge.expression.operation
+package doge.ast.node.expression.operation
 
 import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
@@ -15,11 +15,11 @@ enum class BinaryOperation(private val operation: (left: BaseSymbolValue, right:
         BooleanValue(left < right)
     }),
 
-    GREATEROREQUAL({ left, right ->
+    GREATEQUAL({ left, right ->
         BooleanValue(left >= right)
     }),
 
-    LESSOREQUAL({ left, right ->
+    LESSEQUAL({ left, right ->
         BooleanValue(left <= right)
     }),
 
@@ -45,7 +45,7 @@ enum class BinaryOperation(private val operation: (left: BaseSymbolValue, right:
         left + right
     }),
 
-    SUBSTRACT({ left, right ->
+    SUBTRACT({ left, right ->
         left - right
     }),
 
@@ -69,6 +69,24 @@ enum class BinaryOperation(private val operation: (left: BaseSymbolValue, right:
             this(leftDefaultValue, rightDefaultValue).type
         } catch (_: OperationNotSupportedException) {
             SymbolType.UNDEFINED
+        }
+    }
+
+    companion object {
+        fun fromString(string: String) = when (string) {
+            ">" -> GREATER
+            "<" -> LESS
+            ">=" -> GREATEQUAL
+            "<=" -> LESSEQUAL
+            "==" -> EQUAL
+            "!=" -> NOTEQUAL
+            "&&" -> AND
+            "||" -> OR
+            "+" -> ADD
+            "-" -> SUBTRACT
+            "*" -> MULTIPLY
+            "/" -> DIVIDE
+            else -> throw TypeCastException("Unable to convert $string to binary operation")
         }
     }
 

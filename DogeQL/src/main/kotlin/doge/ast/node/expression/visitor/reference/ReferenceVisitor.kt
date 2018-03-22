@@ -1,10 +1,10 @@
-package doge.expression.visitor.reference
+package doge.ast.node.expression.visitor.reference
 
-import doge.expression.BinaryExpression
-import doge.expression.LiteralExpression
-import doge.expression.ReferenceExpression
-import doge.expression.UnaryExpression
-import doge.expression.visitor.ExpressionVisitor
+import doge.ast.node.expression.BinaryExpression
+import doge.ast.node.expression.LiteralExpression
+import doge.ast.node.expression.ReferenceExpression
+import doge.ast.node.expression.UnaryExpression
+import doge.ast.node.expression.visitor.ExpressionVisitor
 
 class ReferenceVisitor : ExpressionVisitor<Boolean> {
 

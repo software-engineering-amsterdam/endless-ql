@@ -15,7 +15,7 @@ class QuestionTable {
 
     fun print(){
         table.forEach { identifier, question ->
-            println("ID: $identifier, Question: $question ")
+            println("ID: $identifier, QuestionStatement: $question ")
         }
     }
 

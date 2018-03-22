@@ -1,15 +1,5 @@
 package doge.ast
 
-import doge.data.question.Question
-import doge.data.question.SymbolType
-import doge.data.symbol.SymbolTable
-import doge.data.value.*
-import doge.expression.*
-import doge.expression.operation.BinaryOperation
-import doge.expression.operation.UnaryOperation
-import doge.node.Node
-import org.antlr.v4.runtime.tree.TerminalNode
-
 class DogeListener {
 
 //    val symbolTable = SymbolTable()
@@ -62,7 +52,7 @@ class DogeListener {
 //                context.LIT_STRING().symbol.line, context.LIT_STRING().symbol.charPositionInLine
 //        )
 //
-//        val question = Question(name, label, type.getDefaultInstance(), questionNameLocation, questionLabelLocation, readOnly)
+//        val question = QuestionStatement(name, label, type.getDefaultInstance(), questionNameLocation, questionLabelLocation, readOnly)
 //
 //        formTreeBuilder.pushQuestion(question)
 //    }
@@ -93,7 +83,7 @@ class DogeListener {
 //        }
 //
 //        context.SUB()?.let {
-//            return pushBinaryExpression(it, BinaryOperation.SUBSTRACT)
+//            return pushBinaryExpression(it, BinaryOperation.SUBTRACT)
 //        }
 //
 //        context.LT()?.let {
@@ -105,11 +95,11 @@ class DogeListener {
 //        }
 //
 //        context.LE()?.let {
-//            return pushBinaryExpression(it, BinaryOperation.LESSOREQUAL)
+//            return pushBinaryExpression(it, BinaryOperation.LESSEQUAL)
 //        }
 //
 //        context.GE()?.let {
-//            return pushBinaryExpression(it, BinaryOperation.GREATEROREQUAL)
+//            return pushBinaryExpression(it, BinaryOperation.GREATEQUAL)
 //        }
 //
 //        context.EQUAL()?.let {

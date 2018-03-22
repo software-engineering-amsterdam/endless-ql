@@ -169,8 +169,8 @@ public class StyleEvaluator {
 
     private void setDefaultStyle() {
         List<StyleProperty> properties = new ArrayList<>();
-        properties.add(new ColorProperty(new ColorValue("#eeeeee")));
-        properties.add(new FontProperty(new StringValue("Comic Sans MS")));
+        properties.add(new ColorProperty(new ColorValue("#effeee")));
+        properties.add(new FontProperty(new StringValue("Times New Roman")));
         properties.add(new FontSizeProperty(new NumberValue("25")));
         properties.add(new WidthProperty(new NumberValue("100")));
         this.defaultStyle = new Style(properties, null);

@@ -17,10 +17,15 @@ namespace Assignment1.TypeChecking
         private Dictionary<string, QuestionStyle> _qlsQuestions = new Dictionary<string, QuestionStyle>();
         private string _currentQuestion = "";
 
-        public void CheckStylesheet(StyleSheet styleSheet, QuestionForm questionForm)
+        public void TypeCheckStylesheet(StyleSheet styleSheet, QuestionForm questionForm)
         {
             questionForm.Accept(this);
             styleSheet.Accept(this);
+            _currentQuestion = "";
+            if (_errorHandler.HasErrors)
+            {
+                _errorHandler.ThrowParseException();
+            }
         }
 
         private void TypeCheckQLQuestionsInQLSStylesheet()
@@ -49,11 +54,6 @@ namespace Assignment1.TypeChecking
                 page.Accept(this);
             }
             TypeCheckQLQuestionsInQLSStylesheet();
-            _currentQuestion = "";
-            if (_errorHandler.HasErrors)
-            {
-                _errorHandler.ThrowParseException();
-            }
         }
 
         public void Visit(Page page)

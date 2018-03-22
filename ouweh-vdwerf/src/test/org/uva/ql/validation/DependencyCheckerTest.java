@@ -6,7 +6,7 @@ import org.uva.ql.ast.Form;
 import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.checker.DependencyChecker;
-import org.uva.ql.validation.collector.ParameterMapping;
+import org.uva.ql.validation.collector.ParameterContext;
 
 import java.util.*;
 
@@ -17,12 +17,11 @@ public class DependencyCheckerTest {
 
     @Test
     public void runCheckTestInput() {
-
         String input = new IOHandler().readFile("input/test/circularDependency.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
-        DependencyChecker dependencyChecker = new DependencyChecker(new ParameterMapping(form).getParameterMapping());
+        DependencyChecker dependencyChecker = new DependencyChecker(new ParameterContext(form).getDependencyMapping());
 
         assertTrue(dependencyChecker.runCheck().hasErrors());
     }

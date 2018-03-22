@@ -40,9 +40,15 @@ stylesheet taxOfficeExample
         question sellingPrice2
         widget spinbox (0, 10000)
       }
+      default boolean fontsize: 10
 
     }
-    default boolean fontsize: 40
+    default boolean
+    {
+        fontsize: 30
+        font: "Comic Sans MS"
+        color: #FF0C0C
+    }
   }
   page TEST
   {

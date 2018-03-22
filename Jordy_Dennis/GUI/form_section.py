@@ -60,17 +60,18 @@ class Section():
         color = 'black'
         font = 'Arial'
         fontSize = '15'
-        if defaults:
-            for default in defaults:
-                for attribute in default.attributes:
-                    if type(attribute) == QLS.StyleWidth:
-                        width = attribute.getValue()
-                    elif type(attribute) == QLS.StyleFont:
-                        font = attribute.getValue()
-                    elif type(attribute) == QLS.StyleFontSize:
-                        fontSize = attribute.getValue()
-                    elif type(attribute) == QLS.StyleColor:
-                        color = attribute.getValue()
+
+        if questionType in defaults and widgetType in defaults[questionType]:
+                font = defaults[questionType][widgetType]['font']
+                fontSize = defaults[questionType][widgetType]['fontSize']
+                width = defaults[questionType][widgetType]['width']
+                color = defaults[questionType][widgetType]['color']
+        elif questionType in defaults:
+            if None in defaults[questionType]:
+                font = defaults[questionType][None]['font']
+                fontSize = defaults[questionType][None]['fontSize']
+                width = defaults[questionType][None]['width']
+                color = defaults[questionType][None]['color']
 
         minVal = 0
         maxVal = 1

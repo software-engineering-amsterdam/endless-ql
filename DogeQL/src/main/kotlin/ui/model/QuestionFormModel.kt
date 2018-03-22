@@ -31,15 +31,20 @@ class QuestionFormModel : ItemViewModel<QuestionModel>() {
 
 
     private fun updateViewModel(newDataQuestions: List<Question>) {
-        val toAdd = newDataQuestions - dataQuestions
+//        var toAdd = newDataQuestions - dataQuestions
+
+        val toAdd = newDataQuestions.filter { q ->
+            q !in dataQuestions || q.readOnly
+        }
 
         questions.removeIf { q ->
-            q.item !in newDataQuestions
+            q.item !in newDataQuestions || q.item.readOnly
         }
 
         // Only add new questions, leave old questions as is
         toAdd.forEach { q ->
             questions.add(newDataQuestions.indexOf(q), QuestionModel(q))
         }
+
     }
 }

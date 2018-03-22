@@ -1,6 +1,8 @@
 ﻿using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.LeafTypes;
 using QLVisualizer.Widgets.Collection;
+using QLVisualizer.Widgets.Leaf;
+using QLVisualizer.Widgets.Windows.Leaf.InputCreators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,15 @@ namespace QLVisualizer.Widgets.Windows.Leaf
 
         public override Control Create()
         {
-            throw new NotImplementedException();
+            IInputCreator<Control, int> inputCreator = null;
+            switch (_widgetType)
+            {
+                default:
+                    inputCreator = new TextBoxCreator<int>();
+                    break;
+            }
+
+            return inputCreator.CreateInput(_styler, new string[] { _elementManagerLeaf.Text }, _elementManagerLeaf as IntQuestionManager);
         }
     }
 }

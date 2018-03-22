@@ -1,11 +1,9 @@
 ﻿using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.LeafTypes;
 using QLVisualizer.Widgets.Collection;
-using System;
+using QLVisualizer.Widgets.Leaf;
+using QLVisualizer.Widgets.Windows.Leaf.InputCreators;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QLVisualizer.Widgets.Windows.Leaf
@@ -18,7 +16,15 @@ namespace QLVisualizer.Widgets.Windows.Leaf
 
         public override Control Create()
         {
-            throw new NotImplementedException();
+            IInputCreator<Control, bool> inputCreator = null;
+            switch (_widgetType)
+            {
+                default:
+                    inputCreator = new CheckBoxCreator<bool>();
+                    break;
+            }
+
+            return inputCreator.CreateInput(_styler, new string[] { _elementManagerLeaf.Text }, _elementManagerLeaf as BoolQuestionManager);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using QLGrammar;
 using QLParser.AST;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 using System;
 using static QLGrammar.QLGrammarParser;
 

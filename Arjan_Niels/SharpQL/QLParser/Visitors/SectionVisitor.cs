@@ -1,13 +1,13 @@
 ﻿using Antlr4.Runtime.Misc;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 using System;
 using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.Visitors
 {
-    public class SectionVisitor : QLGrammar.QLGrammarBaseVisitor<Node>
+    public class SectionVisitor : QLGrammar.QLGrammarBaseVisitor<QLNode>
     {
-        public override Node VisitSection([NotNull] SectionContext context)
+        public override QLNode VisitSection([NotNull] SectionContext context)
         {
             // If the Section is a Question, process it.
             var questionContext = context.question();

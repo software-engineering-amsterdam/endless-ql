@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QLParser.AST.Nodes
+namespace QLParser.AST.QL
 {
-    public abstract class Node
+    public abstract class QLNode
     {
         public NodeType Type { get; private set; }
-        public List<Node> Children { get; private set; }
+        public List<QLNode> Children { get; private set; }
         public Location Location { get; private set; }
 
-        public Node(Location location, NodeType type)
+        public QLNode(Location location, NodeType type)
         {
             this.Type = type;
-            this.Children = new List<Node>();
+            this.Children = new List<QLNode>();
             this.Location = location;
         }
 
-        public void AddNode(Node node)
+        public void AddNode(QLNode node)
         {
             if (node == null)
                 throw new ArgumentNullException("A node can't be null");

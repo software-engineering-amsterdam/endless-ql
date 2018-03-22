@@ -2,9 +2,9 @@
 using QLParser.Analysis;
 using QLParser.Analysis.Semantic;
 using QLParser.AST;
-using QLParser.AST.Nodes;
-using QLParser.AST.Nodes.ExpressionNodes;
-using QLParser.AST.Nodes.ExpressionNodes.Enums;
+using QLParser.AST.QL;
+using QLParser.AST.QL.ExpressionNodes;
+using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLParser.Tests;
 
 namespace QLParser.Tests.Analysis.Semantic

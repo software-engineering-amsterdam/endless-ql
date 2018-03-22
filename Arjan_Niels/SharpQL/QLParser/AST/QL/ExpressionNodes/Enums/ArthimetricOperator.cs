@@ -1,4 +1,4 @@
-﻿namespace QLParser.AST.Nodes.ExpressionNodes.Enums
+﻿namespace QLParser.AST.QL.ExpressionNodes.Enums
 {
     public enum ArthimetricOperator
     {

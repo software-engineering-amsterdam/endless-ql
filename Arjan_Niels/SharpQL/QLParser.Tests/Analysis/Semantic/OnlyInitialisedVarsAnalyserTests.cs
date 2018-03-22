@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser.Analysis;
 using QLParser.Analysis.Semantic;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 
 namespace QLParser.Tests.Analysis.Semantic
 {

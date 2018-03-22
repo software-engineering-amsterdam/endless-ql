@@ -1,4 +1,4 @@
-﻿using QLParser.AST.Nodes;
+﻿using QLParser.AST.QL;
 
 namespace QLParser.Analysis.Syntactic
 {
@@ -11,10 +11,10 @@ namespace QLParser.Analysis.Syntactic
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public bool Analyse(Node node)
+        public bool Analyse(QLNode node)
         {
             var childValue = true;
-            foreach (Node child in node.Children)
+            foreach (QLNode child in node.Children)
             {
                 if (child.Type == NodeType.FORM)
                 {

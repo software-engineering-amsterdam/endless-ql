@@ -1,4 +1,4 @@
-﻿namespace QLParser.AST.Nodes
+﻿namespace QLParser.AST.QL
 {
     public enum QValueType
     {

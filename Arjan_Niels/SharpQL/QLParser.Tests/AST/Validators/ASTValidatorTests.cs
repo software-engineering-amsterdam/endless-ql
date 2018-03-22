@@ -1,15 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser.Analysis;
 using QLParser.AST;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 
 namespace QLParser.Tests.AST.Validators
 {
     [TestClass]
     public class ASTValidatorTests : QLTest
     {
-        private Node _validAST;
-        private Node _invalidAST;
+        private QLNode _validAST;
+        private QLNode _invalidAST;
 
         [TestInitialize]
         public void Initialize()

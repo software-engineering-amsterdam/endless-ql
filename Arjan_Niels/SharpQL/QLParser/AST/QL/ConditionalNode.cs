@@ -1,8 +1,8 @@
 ﻿using QLParser.AST;
 
-namespace QLParser.AST.Nodes
+namespace QLParser.AST.QL
 {
-    public class ConditionalNode : Node
+    public class ConditionalNode : QLNode
     {
         public IExpressionNode Expression { get; private set; }
 

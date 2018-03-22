@@ -1,9 +1,9 @@
-﻿using QLParser.AST.Nodes;
+﻿using QLParser.AST.QL;
 
 namespace QLParser.Analysis
 {
     public interface IQLAnalyser
     {
-        bool Analyse(Node node);
+        bool Analyse(QLNode node);
     }
 }

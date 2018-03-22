@@ -1,8 +1,8 @@
 ﻿using QLParser.AST;
 
-namespace QLParser.AST.Nodes
+namespace QLParser.AST.QL
 {
-    public class StatementNode : Node, IExpressionNode
+    public class StatementNode : QLNode, IExpressionNode
     {
         public IExpressionNode LeftSide { get; private set; }
         public string Operator { get; private set; }

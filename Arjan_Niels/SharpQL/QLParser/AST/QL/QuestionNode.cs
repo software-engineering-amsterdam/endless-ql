@@ -1,8 +1,8 @@
 ﻿using QLParser.AST;
 
-namespace QLParser.AST.Nodes
+namespace QLParser.AST.QL
 {
-    public class QuestionNode : Node
+    public class QuestionNode : QLNode
     {
         public string ID { get; private set; }
         public string Text { get; private set; }

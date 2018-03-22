@@ -1,6 +1,6 @@
 ﻿using QLParser.Analysis.Semantic;
 using QLParser.Analysis.Syntactic;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,7 +41,7 @@ namespace QLParser.Analysis
             };
         }
 
-        public static bool Analyse(Node node)
+        public static bool Analyse(QLNode node)
         {
             if (node == null)
                 return false;

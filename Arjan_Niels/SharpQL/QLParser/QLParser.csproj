@@ -69,7 +69,7 @@
     <Compile Include="AST\Nodes\ExpressionNodes\LogicalExpressionNode.cs" />
     <Compile Include="AST\Nodes\FormNode.cs" />
     <Compile Include="AST\Nodes\IExpressionNode.cs" />
-    <Compile Include="AST\Nodes\Node.cs" />
+    <Compile Include="AST\Nodes\QLNode.cs" />
     <Compile Include="AST\Nodes\NodeType.cs" />
     <Compile Include="AST\Nodes\QuestionNode.cs" />
     <Compile Include="AST\Nodes\StatementNode.cs" />

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser.AST;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 using System;
 
 namespace QLParser.Tests.AST
@@ -8,7 +8,7 @@ namespace QLParser.Tests.AST
     [TestClass]
     public class TreeConstructionTest : QLTest
     {
-        public Node AST { get; set; }
+        public QLNode AST { get; set; }
 
         [TestInitialize]
         public void Initialize()

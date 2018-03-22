@@ -1,6 +1,6 @@
 ﻿using QLParser;
 using QLParser.Analysis;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Factories;

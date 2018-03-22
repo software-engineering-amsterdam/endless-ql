@@ -1,8 +1,8 @@
 ﻿using QLParser.Analysis;
 
-namespace QLParser.AST.Nodes
+namespace QLParser.AST.QL
 {
-    public class IdentifierNode : Node, IExpressionNode
+    public class IdentifierNode : QLNode, IExpressionNode
     {
         public string ID { get; private set; }
 

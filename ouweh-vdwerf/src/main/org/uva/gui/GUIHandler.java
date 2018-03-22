@@ -83,8 +83,7 @@ public class GUIHandler {
                 this.styleEvaluator.setVisible(question);
             }
         }
-        this.tabbedPane = new JTabbedPane();
-        frame.add(styleEvaluator.getLayout(this.tabbedPane));
+        frame.add(styleEvaluator.getLayout());
 
         this.frame.add(initializeSaveButton());
 
@@ -95,7 +94,7 @@ public class GUIHandler {
 
     private void setFocus(Question question) {
         if (question != null) {
-            this.tabbedPane.setSelectedComponent(this.styleEvaluator.getPage(question));
+            this.styleEvaluator.setFocus(question);
         }
     }
 

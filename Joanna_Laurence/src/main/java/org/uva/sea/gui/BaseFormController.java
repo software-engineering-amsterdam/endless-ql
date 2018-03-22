@@ -53,12 +53,10 @@ public abstract class BaseFormController implements Initializable, IGuiElementUp
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //TODO:remove
-        String qlFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.ql";
-        //String qlFile = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/basic.ql";
-        String qlsFile = "/home/eigenaar/IdeaProjects/endless-ql/Joanna_Laurence/src/main/resources/basic.qls";
-        //String qlsFile = "/Users/joannaroczniak/Desktop/UvA/endless-ql/Joanna_Laurence/src/main/resources/basic.qls";
-
+        String defaultQlLocation = "/basic.ql";
+        String defaultQlsLocation = "/basic.qls";
+        String qlFile = BaseFormController.class.getClass().getResource(defaultQlLocation).getFile();
+        String qlsFile = BaseFormController.class.getClass().getResource(defaultQlsLocation).getFile();
         BaseEvaluator evaluator = new QlSEvaluator(qlFile, qlsFile);
 
         this.updateInterpreter(evaluator);

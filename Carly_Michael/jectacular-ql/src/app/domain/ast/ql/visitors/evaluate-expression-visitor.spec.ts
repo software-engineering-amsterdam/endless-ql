@@ -56,7 +56,7 @@ const negativeExpression = new NegativeExpression(intLiteral, location);
 const negateExpression = new NegateExpression(booleanLiteral, location);
 
 const variableExpression = new Variable('booleanQuestion', location);
-variableExpression.referencedQuestion = new QlQuestion('name', 'label', new IntQuestionType(), location);
+variableExpression.referencedQuestion = new QlQuestion('booleanQuestion', 'label', new IntQuestionType(), location);
 
 describe('Expressions', () => {
   describe('should evaluate', () => {
@@ -98,7 +98,6 @@ describe('Expressions', () => {
     });
 
     it('variable expressions', () => {
-
       expect(EvaluateExpressionVisitor.evaluate(form, variableExpression).getValue()).toBeUndefined();
 
       form.controls['booleanQuestion'].setValue(true);

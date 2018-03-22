@@ -3,6 +3,7 @@ using QLParser;
 using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
+using QLParser.Exceptions;
 
 namespace QL_Parser.Tests.QLS
 {
@@ -155,6 +156,13 @@ namespace QL_Parser.Tests.QLS
 
             var styles = qls.Children[0].NodeStyles;
             Assert.AreEqual(2, styles.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnknownNodeTypeException))]
+        public void UnknownWidgetTypeExceptionTest()
+        {
+            QLSWidgetSpecification.ParseWidgetType("Unknown");
         }
     }
 }

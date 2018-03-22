@@ -11,6 +11,7 @@ import {SpinboxWidgetComponent} from '../widgets/spinbox-widget/spinbox-widget.c
 import {SelectWidgetComponent} from '../widgets/select-widget/select-widget.component';
 import {SliderWidgetComponent} from '../widgets/slider-widget/slider-widget.component';
 import {TextWidgetComponent} from '../widgets/text-widget/text-widget.component';
+import {StyledFormSectionComponent} from '../styled-form-section/styled-form-section.component';
 
 describe('StyledFormContentComponent', () => {
   let component: StyledFormContentComponent;
@@ -20,6 +21,7 @@ describe('StyledFormContentComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         StyledFormContentComponent,
+        StyledFormSectionComponent,
         WidgetComponent,
         CheckboxWidgetComponent,
         RadioWidgetComponent,

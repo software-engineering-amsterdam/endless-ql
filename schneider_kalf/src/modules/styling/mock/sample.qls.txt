@@ -23,7 +23,7 @@ stylesheet taxOfficeExample
     }
     section "Loaning"
     {
-      question otherSellingPrice
+      question hasMainLoan
     }
   }
 
@@ -50,6 +50,10 @@ stylesheet taxOfficeExample
           color: #999999
           widget spinbox
         }
+      }
+      section "You did not sell a house"
+      {
+        question notSellHouseReason
       }
     }
     default boolean widget radio("Yes", "No")

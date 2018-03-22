@@ -19,7 +19,7 @@ export class ConvertToFormQuestionsVisitor implements StatementVisitor<QuestionB
   }
 
   visitExpressionQuestion(stmt: ExpressionQuestion): QuestionBase<any>[] {
-    const question = QuestionFactory.toFormQuestion(stmt.name, stmt.label, stmt.type, undefined);
+    const question = QuestionFactory.toFormQuestion(stmt.name, stmt.label, stmt.type, () => true);
     question.toCalculatedQuestion((form: FormGroup) => {
       return EvaluateExpressionVisitor.evaluate(form, stmt.expression).getValue();
     });
@@ -46,10 +46,7 @@ export class ConvertToFormQuestionsVisitor implements StatementVisitor<QuestionB
         const previousCondition = question.hiddenCondition;
         question.hiddenCondition = ((form: FormGroup) => {
           const outcome = EvaluateExpressionVisitor.evaluate(form, stmt.condition).getValue();
-          if (previousCondition) {
-            return previousCondition(form) && outcome;
-          }
-          return outcome;
+          return previousCondition(form) && outcome;
         });
 
         questionsToReturn.push(question);
@@ -63,10 +60,7 @@ export class ConvertToFormQuestionsVisitor implements StatementVisitor<QuestionB
         const previousCondition = question.hiddenCondition;
         question.hiddenCondition = ((form: FormGroup) => {
           const outcome = EvaluateExpressionVisitor.evaluate(form, stmt.condition).getValue();
-          if (previousCondition) {
-            return previousCondition(form) && !outcome;
-          }
-          return !outcome;
+          return previousCondition(form) && !outcome;
         });
 
         questionsToReturn.push(question);
@@ -77,7 +71,7 @@ export class ConvertToFormQuestionsVisitor implements StatementVisitor<QuestionB
   }
 
   visitQlQuestion(stmt: QlQuestion): QuestionBase<any>[] {
-    return [QuestionFactory.toFormQuestion(stmt.name, stmt.label, stmt.type, undefined)];
+    return [QuestionFactory.toFormQuestion(stmt.name, stmt.label, stmt.type, () => true)];
   }
 
 }

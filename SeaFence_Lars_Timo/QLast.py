@@ -73,7 +73,7 @@ class UnOpNode(QLast):
         return "unop: negate:{} {}".format(self.negate, self.var)
 
     def getNodeType(self):
-        return self.nodeType
+        return self.node_type
 
 class IfNode(QLast):
     def __init__(self, expression):

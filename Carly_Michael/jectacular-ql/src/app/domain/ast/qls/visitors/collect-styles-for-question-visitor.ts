@@ -6,13 +6,7 @@ import {Widget} from '../widget';
 import {WidgetType} from '../widget-type';
 import {Style} from '../style';
 import {MissingIdentifierError} from '../../../errors';
-
-export interface QlsVisitor<T> {
-  visitStylesheet(stylesheet: Stylesheet): T;
-  visitPage(page: Page): T;
-  visitSection(section: Section): T;
-  visitQlsQuestion(qlsQuestion: QlsQuestion): T;
-}
+import {QlsVisitor} from './qls-visitor';
 
 export class StylesForQlQuestion {
 
@@ -95,7 +89,7 @@ export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQu
     return styles;
   }
 
-  private findStylesForStyleable(styleableArray: Section[] | Page[]) {
+  private findStylesForStyleable(styleableArray: Section[] | Page[]): StylesForQlQuestion {
     for (const styleable of styleableArray) {
       const styles = styleable.accept(this);
       if (styles) {

@@ -43,7 +43,7 @@ public class App {
 
         FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
         StyleEvaluator styleEvaluator = new StyleEvaluator();
-        styleEvaluator.setStylesheet(stylesheet);
+        //styleEvaluator.setStylesheet(stylesheet);
 
         GUIHandler guiHandler = new GUIHandler(formEvaluator, styleEvaluator, validationResult);
     }

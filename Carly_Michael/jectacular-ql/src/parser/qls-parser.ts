@@ -252,7 +252,8 @@ function peg$parse(input, options) {
   const peg$c84 = "\")";
   const peg$c85 = peg$literalExpectation("\")", false);
   const peg$c86 = function(yesValue, noValue) {
-                      return new astQls.Widget(astQls.WidgetType.RADIO, [yesValue, noValue]);
+                      return new astQls.Widget(astQls.WidgetType.RADIO,
+                      [new astQls.Label(yesValue, true), new astQls.Label(noValue, false)]);
                     };
   const peg$c87 = "text";
   const peg$c88 = peg$literalExpectation("text", false);
@@ -266,7 +267,8 @@ function peg$parse(input, options) {
   const peg$c96 = "dropdown";
   const peg$c97 = peg$literalExpectation("dropdown", false);
   const peg$c98 = function(yesValue, noValue) {
-                      return new astQls.Widget(astQls.WidgetType.DROPDOWN, [yesValue, noValue]);
+                      return new astQls.Widget(astQls.WidgetType.DROPDOWN,
+                      [new astQls.Label(yesValue, true), new astQls.Label(noValue, false)]);
                     };
   const peg$c99 = "slider";
   const peg$c100 = peg$literalExpectation("slider", false);

@@ -253,15 +253,38 @@ namespace UnitTests.Domain.UnitTests.Tests
             CreateOutputForm(validDefinition);
             var outputQuestion = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.QuestionText == "\"x\"");
+
             Assert.IsTrue(outputQuestion.ReadOnly);
             Assert.AreEqual(
                 expected: expectedValue,
                 actual: decimal.Parse(outputQuestion.Value));
         }
 
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.UpdateCalculatedValues))]
+        public void GivenVariableValueChange_CalculatedValueIsUpdated(
+            string validDefinition,
+            int newValueVariable1,
+            string expectedCalculatedValue)
+        {
+            CreateOutputForm(validDefinition);
+            UpdateVariable(@"f1", newValueVariable1);
+            var actualCalcualteValue = GetCalculatedValue("\"ctext1\"");
+            Assert.AreEqual(
+                expected: expectedCalculatedValue, 
+                actual: actualCalcualteValue);
+        }
 
-
+        private string GetCalculatedValue(string questionText)
+        {
+            return m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .FirstOrDefault(x => x.QuestionText == questionText)
+                ?.Value;
+        }
+        
         private int GetVisibleCount()
         {
             return GetVisibilityCount(x => x.Visible);
@@ -281,11 +304,11 @@ namespace UnitTests.Domain.UnitTests.Tests
         
         private void UpdateVariable(string variableName, dynamic value)
         {
-            var questionItem = GetQuestionToUpdate(variableName);
+            var questionItem = GetQuestionByName(variableName);
             m_variableUpdater.Update(questionItem, value);
         }
 
-        private Reference<IQuestionNode> GetQuestionToUpdate(string variableName)
+        private Reference<IQuestionNode> GetQuestionByName(string variableName)
         {
             var variableItem = m_domainItemLocator
                 .GetAll<IVariableNode>()

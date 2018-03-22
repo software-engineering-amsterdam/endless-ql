@@ -7,6 +7,7 @@ package org.uva.sea.languages.ql.parser.antlr;
 import org.uva.sea.languages.ql.parser.elements.*;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
 import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.MoneyType;
 
 }
 
@@ -181,11 +182,11 @@ str returns [Expression result]
 
 money returns [Expression result]
     : c=('$' | '€') v=DECIMAL {
-        $result = new Money($v, $c.text, $v.text);
+        $result = new Money($v, MoneyType.valueOf($c.text), $v.text);
     }
 
     | c=('$' | '€') v=INT {
-        $result = new Money($v, $c.text, $v.text);
+        $result = new Money($v, MoneyType.valueOf($c.text), $v.text);
     };
 
 date returns [DateExpr result]

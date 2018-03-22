@@ -1,6 +1,7 @@
 package org.uva.sea.languages.ql.parser.elements.expressions.types;
 
 import org.antlr.v4.runtime.Token;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.MoneyType;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.expressions.Expression;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
@@ -15,6 +16,12 @@ public class Money extends Expression {
     public Money(Token token, String currency, String amount) {
         super(token);
         this.currency = currency;
+        this.amount = new BigDecimal(amount);
+    }
+
+    public Money(Token token, MoneyType currency, String amount) {
+        super(token);
+        this.currency = currency.toString();
         this.amount = new BigDecimal(amount);
     }
 

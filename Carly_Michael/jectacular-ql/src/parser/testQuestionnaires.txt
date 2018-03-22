@@ -11,7 +11,9 @@ form form {
 
 // simple form
 form form {
- 	question: "Question?"  boolean
+ 	question1: "Question?"  boolean
+ 	question2: "How much do you earn per hour?" integer
+ 	question3: "weekly rate for 40 hour week" integer = 40 * question2
 }
 
 //with all question types

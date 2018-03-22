@@ -85,6 +85,9 @@ stylesheet "Styles" {
   page "Page" {
     section "Section" {
       question question1
+      question question2 widget spinbox
+      question question3 widget slider
+
       default boolean {
         color: #00FF00
         widget radio("yes", "no")

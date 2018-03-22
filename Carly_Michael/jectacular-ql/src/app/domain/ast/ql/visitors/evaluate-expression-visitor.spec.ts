@@ -14,8 +14,6 @@ import {Variable} from '../expressions/variable';
 import {DateLiteral, NumberLiteral, StringLiteral} from '../';
 import {EvaluateExpressionVisitor} from './evaluate-expression-visitor';
 import {CheckExpressionTypeVisitor} from './check-expression-type-visitor';
-import {CheckStatementTypeVisitor} from './check-statement-type-visitor';
-import {CollectQuestionsVisitor} from './collect-questions-visitor';
 import {QlQuestion} from '../ql-question';
 import {IntQuestionType} from '../../question-type';
 

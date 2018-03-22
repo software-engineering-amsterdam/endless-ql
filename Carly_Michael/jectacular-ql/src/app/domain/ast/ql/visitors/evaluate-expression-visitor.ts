@@ -101,13 +101,18 @@ export class EvaluateExpressionVisitor implements ExpressionVisitor<Literal> {
 
   visitVariable(expr: Variable): Literal {
     const referencedControl = this.form.controls[expr.identifier];
+
     if (referencedControl) {
       /* Angular sets the value for a form control with undefined as value to an object {value: ""}
          If there is a value, instead of the object there will be a value, which means value.value is undefined */
-      if (referencedControl.value.value === undefined) {
+
+      if ( referencedControl.value !== null && referencedControl.value.value === undefined) {
         return VariableToLiteralFactory.toLiteral(expr, referencedControl.value);
       }
 
+      // Unknown literal
+      return new NumberLiteral(undefined, expr.location);
+    } else if (referencedControl.value === null) {
       return new NumberLiteral(undefined, expr.location);
     } else {
       throw new UnknownQuestionError(`Question for identifier ${expr.identifier} could not be found`

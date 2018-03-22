@@ -54,7 +54,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             string validDescription,
             string expectedQuestionnaireName)
         {
-            CreateForm(validDescription);
+            CreateOutputForm(validDescription);
 
             var actualDisplayName = m_domainItemLocator
                 .GetAll<IQuestionnaireOutputItem>()
@@ -73,7 +73,7 @@ namespace UnitTests.Domain.UnitTests.Tests
            string validDefinition,
            Type questionType) 
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var domainItem = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .FirstOrDefault();
@@ -91,7 +91,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             string validDefinition,
             string questionValue)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var outputItem = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .FirstOrDefault();
@@ -111,7 +111,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             int expectedVisible,
             int expectedInvisible)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualVisibleCount = GetVisibleCount();
             var actualInvisibleCount = GetInvisibleCount();
 
@@ -131,7 +131,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             int newValueVariable1,
             int newValueVariable2)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
@@ -155,7 +155,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             int newValueVariable1,
             int newValueVariable2)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
@@ -179,7 +179,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             decimal newValueVariable1,
             decimal newValueVariable2)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
@@ -203,7 +203,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             decimal newValueVariable1,
             decimal newValueVariable2)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
@@ -219,7 +219,6 @@ namespace UnitTests.Domain.UnitTests.Tests
             Assert.AreEqual(expected: 2, actual: actualNewInvisibleCount);
         }
 
-
         [TestCaseSource(
             typeof(TestModelCreationData),
             nameof(TestModelCreationData.CalculationDateVariableTrueToFalseValues))]
@@ -228,7 +227,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             DateTime newValueVariable1,
             DateTime newValueVariable2)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
@@ -243,6 +242,25 @@ namespace UnitTests.Domain.UnitTests.Tests
             Assert.AreEqual(expected: 4, actual: actualNewVisibleCount);
             Assert.AreEqual(expected: 1, actual: actualNewInvisibleCount);
         }
+
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.CalculatedValues))]
+        public void GivenCalculatedValue_ReturnsCorrectReadonlyValue(
+            string validDefinition,
+            decimal expectedValue)
+        {
+            CreateOutputForm(validDefinition);
+            var outputQuestion = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .FirstOrDefault();
+            Assert.IsTrue(outputQuestion.ReadOnly);
+            Assert.AreEqual(
+                expected: expectedValue,
+                actual: decimal.Parse(outputQuestion.Value));
+        }
+
+
 
         private int GetVisibleCount()
         {
@@ -282,7 +300,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             return questionItem;
         }
 
-        private void CreateForm(string validText)
+        private void CreateOutputForm(string validText)
         {
             var questionnaireCreator = m_serviceProvider
                 .GetService<IQuestionnaireAstCreator>();

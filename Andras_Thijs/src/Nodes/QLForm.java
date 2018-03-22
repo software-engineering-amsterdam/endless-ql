@@ -62,13 +62,11 @@ public class QLForm extends ASTNode {
 
     public List<Question> getAllQuestions(){
         List<Question> allQuestions = questions;
-        if(conditions != null){
-            Iterator<Condition> conditionIterator = conditions.iterator();
-            while (conditionIterator.hasNext()) {
-                List<Question> subQuestions = visitCondition(conditionIterator.next());
-                if (subQuestions != null)
-                    allQuestions.addAll(subQuestions);
-            }
+        Iterator<Condition> conditionIterator = conditions.iterator();
+        while (conditionIterator.hasNext()) {
+            List<Question> subQuestions = visitCondition(conditionIterator.next());
+            if (subQuestions != null)
+                allQuestions.addAll(subQuestions);
         }
         return allQuestions;
     }

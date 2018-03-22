@@ -1,12 +1,16 @@
 package org.uva.app;
 
-import org.json.JSONObject;
+import org.json.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.logging.Logger;
 
 public class IOHandler {
@@ -44,7 +48,27 @@ public class IOHandler {
         return result;
     }
 
-    public void writeOutput(JSONObject jsonObject) {
-        System.out.println(jsonObject);
+    public void writeOutput(String location, JSONObject jsonObject) {
+        try {
+            new FileOutputStream(location, true).close();
+            JSONArray jsonArray;
+
+            try {
+                jsonArray = new JSONArray(readFile(location));
+            } catch (JSONException e) {
+                logger.warning("JSON in existing output file cannot be parsed, the file will be overwritten");
+                jsonArray = new JSONArray();
+            }
+
+            jsonArray.put(jsonObject);
+
+            FileWriter file = new FileWriter(location);
+            file.write(jsonArray.toString(4));
+            file.close();
+        } catch (Exception e)
+        {
+            logger.severe("Result output unsuccessful");
+            e.printStackTrace();
+        }
     }
 }

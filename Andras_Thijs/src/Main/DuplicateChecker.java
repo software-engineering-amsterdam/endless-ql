@@ -1,3 +1,5 @@
+package Main
+
 import Nodes.Question;
 import QLExceptions.SyntaxException;
 
@@ -13,7 +15,7 @@ public class DuplicateChecker {
     /**
      * Constructor method to initialize al lists.
      */
-    public DuplicateChecker() {
+    DuplicateChecker() {
         names = new ArrayList<>();
         labels = new ArrayList<>();
         duplicateLabels = new ArrayList<>();

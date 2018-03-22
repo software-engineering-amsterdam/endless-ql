@@ -10,7 +10,7 @@ stylesheet simpleForm
     section "Decimal"
     {
       question someDecimal
-        widget slider(0.0,1.0,0.1)
+        widget slider(0,1)
       question someMoney
       default money widget textbox
     }

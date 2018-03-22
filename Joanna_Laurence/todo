@@ -1,10 +1,3 @@
-Base class < renderer
-Dependacy injection @ renderer?
-base type for renderer
-
-refactor style object
-
-Remove duplicate code
-Line and Column should be in an object
-Fix spelling
-Refactor controler, duplicate code
+Pages
+Editors for money, date, etc
+Input validation

@@ -43,7 +43,7 @@ describe('Collect styles for question visitor', () => {
   let visitor: CollectStylesForQuestionVisitor;
 
   beforeEach(() => {
-    visitor = new CollectStylesForQuestionVisitor('name', new StringQuestionType());
+    visitor = new CollectStylesForQuestionVisitor('name', 'text');
   });
 
   describe('visit question', () => {

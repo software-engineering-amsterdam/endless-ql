@@ -3,7 +3,6 @@ import {Section} from '../section';
 import {Stylesheet} from '../stylesheet';
 import {QlsQuestion} from '../qls-question';
 import {Widget} from '../widget';
-import {QuestionType} from '../../question-type';
 import {WidgetType} from '../widget-type';
 import {Style} from '../style';
 import {MissingIdentifierError} from '../../../errors';
@@ -24,15 +23,15 @@ export class StylesForQlQuestion {
 }
 
 export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQuestion> {
-  constructor(private questionId: string, private questionType: QuestionType<any>) { }
+  constructor(private questionId: string, private type: string) { }
 
-  static visit(questionId: string, questionType: QuestionType<any>, stylesheet: Stylesheet): StylesForQlQuestion {
+  static visit(questionId: string, questionType: string, stylesheet: Stylesheet): StylesForQlQuestion {
     const visitor = new CollectStylesForQuestionVisitor(questionId, questionType);
     return stylesheet.accept(visitor);
   }
 
   visitStylesheet(stylesheet: Stylesheet): StylesForQlQuestion {
-    let styles: StylesForQlQuestion = undefined;
+    let styles: StylesForQlQuestion;
     styles = this.findStylesForStyleable(stylesheet.pages);
 
     if (!styles) {
@@ -91,7 +90,7 @@ export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQu
   }
 
   private collectDefaultStylesForQuestion(defaultStyleable: Section | Page): StylesForQlQuestion {
-    if ( defaultStyleable.defaultSettings && this.questionType.toString() === defaultStyleable.defaultSettings.type.toString()) {
+    if ( defaultStyleable.defaultSettings && this.type === defaultStyleable.defaultSettings.type.toHtmlInputType()) {
       return new StylesForQlQuestion(defaultStyleable.defaultSettings.styles, defaultStyleable.defaultSettings.widget);
     }
     return undefined;

@@ -2,6 +2,8 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {DefaultStyling, QlsQuestion, Section, Style, Stylesheet, Widget} from '../../domain/ast/qls';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';
+import {QuestionFactory} from '../../factories/question-factory';
+import {CollectStylesForQuestionVisitor} from '../../domain/ast/qls/visitors/collect-styles-for-question-visitor';
 
 @Component({
   selector: 'app-styled-form-content',
@@ -27,7 +29,6 @@ export class StyledFormContentComponent implements OnInit, OnChanges {
   private init() {
     if (this.styles && this.questions) {
       this.createQuestionMappingCache();
-      this.assignStyleToQuestions();
       this.initialized = true;
     }
   }
@@ -51,43 +52,10 @@ export class StyledFormContentComponent implements OnInit, OnChanges {
   }
 
   createQuestionMappingCache() {
-    for (const qlsQuestion of this.styles.getQuestions([])) {
-      let questionBase: QuestionBase<any>;
-
-      for (const q of this.questions) {
-        if (q.key === qlsQuestion.question.name) {
-          questionBase = q;
-          break;
-        }
+      for (let question of this.questions) {
+        const styles = CollectStylesForQuestionVisitor.visit( question.key, question.type, this.styles);
+        const questionWithStyling = QuestionFactory.applyStylesToFormQuestion(question, styles.widget, styles.styles);
+        this.qlsToQlQuestionDictionary[questionWithStyling.key] = questionWithStyling;
       }
-
-      if (!questionBase) {
-        throw new Error(`Couldn't find question ${qlsQuestion.question.name}`);
-      }
-
-      this.qlsToQlQuestionDictionary[qlsQuestion.question.name] = questionBase;
-    }
-  }
-
-  assignStyleToQuestions() {
-    for (const qlsQuestionWithAppliedStyles of this.styles.getQuestions([])) {
-      const question = this.qlsToQlQuestionDictionary[qlsQuestionWithAppliedStyles.question.name];
-
-      if (qlsQuestionWithAppliedStyles.styles && qlsQuestionWithAppliedStyles.styles.length > 0) {
-        const styles: Map<string, Style> = new Map<string, Style>();
-
-        for (const style of qlsQuestionWithAppliedStyles.styles) {
-          styles.set(style.name, style);
-        }
-
-        const questionStyle = {};
-
-        for (const [, v] of styles) {
-          questionStyle[v.name] = v.value.getValueAsString();
-        }
-
-        question.style = questionStyle;
-      }
-    }
   }
 }

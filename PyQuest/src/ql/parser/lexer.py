@@ -24,7 +24,7 @@ class QLLexer:
         'TRUE', 'FALSE',
         'DATE_LITERAL',
         'STRING_LITERAL',
-        'VARIABLE',
+        'IDENTIFIER',
     ]
 
     # List of reserved keywords
@@ -126,9 +126,9 @@ class QLLexer:
         t.lexer.skip(1)
 
     # Define a rule for handling all non-tokens
-    def t_VARIABLE(self, t):
+    def t_IDENTIFIER(self, t):
         r'[a-zA-Z][a-zA-Z_0-9]*'
-        t.type = self.reserved.get(t.value, 'VARIABLE')  # Check for reserved words
+        t.type = self.reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words
         return t
 
     # Test the lexer output

@@ -4,7 +4,7 @@ import qls.model.style.*;
 import qls.parser.QLSBaseVisitor;
 import qls.parser.QLSParser;
 
-public class VisitorStyle extends QLSBaseVisitor<StyleAttribute> {
+public class VisitorStyleAttribute extends QLSBaseVisitor<StyleAttribute> {
 
     @Override
     public StyleAttribute visitWidgetWidth(QLSParser.WidgetWidthContext ctx) {

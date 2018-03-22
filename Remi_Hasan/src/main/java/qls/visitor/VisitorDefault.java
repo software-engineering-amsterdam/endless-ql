@@ -31,9 +31,9 @@ public class VisitorDefault extends QLSBaseVisitor<DefaultStyle> {
 
     private List<StyleAttribute> getStyles(List<QLSParser.StyleAttributeContext> styleAttributeContexts) {
         List<StyleAttribute> styleAttributes = new ArrayList<>();
-        VisitorStyle visitorStyle = new VisitorStyle();
+        VisitorStyleAttribute visitorStyleAttribute = new VisitorStyleAttribute();
         for(QLSParser.StyleAttributeContext styleAttributeContext : styleAttributeContexts) {
-            StyleAttribute styleAttribute = visitorStyle.visit(styleAttributeContext);
+            StyleAttribute styleAttribute = visitorStyleAttribute.visit(styleAttributeContext);
             styleAttributes.add(styleAttribute);
         }
 

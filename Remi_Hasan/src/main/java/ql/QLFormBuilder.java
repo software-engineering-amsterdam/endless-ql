@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import ql.parser.QLLexer;
 import ql.parser.QLParser;
-import ql.parser.ParseErrorListener;
+import ql.antlr.ParseErrorListener;
 import ql.visitor.VisitorForm;
 
 import java.io.IOException;

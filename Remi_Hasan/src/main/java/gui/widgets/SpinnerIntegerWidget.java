@@ -7,9 +7,10 @@ import ql.model.expression.variable.ExpressionVariableInteger;
 
 public class SpinnerIntegerWidget extends SpinnerWidget<Integer> {
 
-    public SpinnerIntegerWidget(int step) {
+    public SpinnerIntegerWidget() {
+        // Default to 0 and step by 1
         SpinnerValueFactory<Integer> valueFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, step);
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 1);
         this.setValueFactory(valueFactory);
 
         this.getEditor().setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*"));

@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import ql.analysis.SymbolTable;
 import ql.model.Form;
-import ql.parser.ParseErrorListener;
+import ql.antlr.ParseErrorListener;
 import qls.analysis.QuestionAnalyzer;
 import qls.analysis.TypeChecker;
 import qls.model.StyleSheet;

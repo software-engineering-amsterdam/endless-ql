@@ -37,8 +37,9 @@ public class ValidationResult {
 
     @Override
     public String toString() {
-        errors.addAll(warnings);
-        return errors.toString();
+        ArrayList<String> result = new ArrayList<>(errors);
+        result.addAll(warnings);
+        return result.toString();
     }
 
     public List<String> getWarnings() {

@@ -61,9 +61,6 @@ public class GUIForm extends VBox {
     }
 
     private void updateDisplayedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
-        // Keep track of which questions are rendered
-        // so we only set an invisible question in the symbol table
-        // to Undefined when it was not updated by another visible question yet
         Set<String> visibleQuestions = new HashSet<>();
 
         for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : guiWidgets.entrySet()) {
@@ -85,7 +82,7 @@ public class GUIForm extends VBox {
             } else if(!visibleQuestions.contains(guiQuestion.identifier)) {
                 // If question becomes invisible, set value in symbol table to undefined
                 // but only if another question with the same identifier that is visible
-                // did not update the symbol table already
+                // did not update the symbol table already, which we keep track of using visibleQuestions
                 symbolTable.setExpression(guiQuestion.identifier, new ExpressionVariableUndefined(null, guiQuestion.type));
             }
         }

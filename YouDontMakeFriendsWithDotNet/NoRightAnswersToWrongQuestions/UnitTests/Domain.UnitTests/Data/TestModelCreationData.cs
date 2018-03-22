@@ -328,8 +328,7 @@ form TestForm {{
                     0m);
             }
         }
-
-
+        
         public static IEnumerable UpdateCalculatedValues
         {
             get
@@ -349,8 +348,7 @@ form TestForm {{
                     string.Format(formTemplate2, @"100 - f1"),
                     30,
                     "70");
-
-
+                
                 yield return new TestCaseData(
                     string.Format(formTemplate2, @"f1 / 5"),
                     55,
@@ -360,8 +358,7 @@ form TestForm {{
                     string.Format(formTemplate2, @"f1 + f1"),
                     11,
                     "22");
-
-
+                
                 yield return new TestCaseData(
                     string.Format(formTemplate2, @"(f1 * f1) * f1"),
                     5,

@@ -22,22 +22,3 @@ export const getQuestionStyleNodes = (container: StyleTreeNode, recursive: boole
   });
   return container.accept(visitor);
 };
-
-// TODO implementation of checkWidgetAttribute and checkBaseAttribuut
-export const checkWidgetAttribute = (attribute: WidgetAttribute): void => {
-  switch (attribute.value) {
-    case "spinbox":
-      // spinboxWidget.checkParentType(attribute.getParent())
-      // spinboxWidget.checkArgumentType(attribute.options)
-    case "radio":
-      // radioWidget.checkParentType(attribute.getParent())
-      // radioWidget.checkArgumentType(attribute.options)
-    default:
-      alert("Widget '" + attribute.getName() + "' is not supported");
-  }
-  return;
-};
-
-export const checkBaseAttribute = (type: string, argument: string): void => {
-  return;
-};

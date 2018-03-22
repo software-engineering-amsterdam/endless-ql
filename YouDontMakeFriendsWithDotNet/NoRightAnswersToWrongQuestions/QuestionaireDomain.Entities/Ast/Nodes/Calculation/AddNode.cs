@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation

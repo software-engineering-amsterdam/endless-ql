@@ -1,6 +1,6 @@
 ﻿using QLParser.AST.QL;
 
-namespace QLParser.Analysis.Semantic
+namespace QLParser.Analysis.QL.Semantic
 {
     /// <summary>
     /// The TypeAnalyser walks over the tree and looks if all the variable type

@@ -54,9 +54,9 @@
     <Compile Include="Analysis\Evaluator\StatementTypeEvaluator.cs" />
     <Compile Include="Analysis\IAnalyser.cs" />
     <Compile Include="Analysis\ParseMessage.cs" />
-    <Compile Include="Analysis\Semantic\StatementTypeAnalyser.cs" />
-    <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyser.cs" />
-    <Compile Include="Analysis\Semantic\DuplicateVariableAnalyser.cs" />
+    <Compile Include="Analysis\QL\Semantic\StatementTypeAnalyser.cs" />
+    <Compile Include="Analysis\QL\Semantic\OnlyInitialisedVarsAnalyser.cs" />
+    <Compile Include="Analysis\QL\Semantic\DuplicateVariableAnalyser.cs" />
     <Compile Include="AST\Location.cs" />
     <Compile Include="AST\QLS\IQLSTraversable.cs" />
     <Compile Include="AST\QL\ComputedNode.cs" />
@@ -75,8 +75,8 @@
     <Compile Include="AST\QL\QuestionNode.cs" />
     <Compile Include="AST\QL\StatementNode.cs" />
     <Compile Include="Analysis\SymbolTable.cs" />
-    <Compile Include="Analysis\Syntactic\QuestionHasNoChildrenValidator.cs" />
-    <Compile Include="Analysis\Syntactic\SingleFormValidator.cs" />
+    <Compile Include="Analysis\QL\Syntactic\QuestionHasNoChildrenValidator.cs" />
+    <Compile Include="Analysis\QL\Syntactic\SingleFormValidator.cs" />
     <Compile Include="AST\QL\QValueType.cs" />
     <Compile Include="AST\QL\IdentifierNode.cs" />
     <Compile Include="AST\QLS\Enums\QLSNodeType.cs" />

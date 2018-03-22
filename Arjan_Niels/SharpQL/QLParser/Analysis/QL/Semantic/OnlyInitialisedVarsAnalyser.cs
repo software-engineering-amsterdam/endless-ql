@@ -2,7 +2,7 @@
 using QLParser.AST.QL.ExpressionNodes;
 using QLParser.Exceptions;
 
-namespace QLParser.Analysis.Semantic
+namespace QLParser.Analysis.QL.Semantic
 {
     public class OnlyInitialisedVarsAnalyser : IQLAnalyser
     {

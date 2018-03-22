@@ -1,6 +1,6 @@
 ﻿using QLParser.AST.QL;
 
-namespace QLParser.Analysis.Syntactic
+namespace QLParser.Analysis.QL.Syntactic
 {
     public class SingleFormValidator : IQLAnalyser
     {

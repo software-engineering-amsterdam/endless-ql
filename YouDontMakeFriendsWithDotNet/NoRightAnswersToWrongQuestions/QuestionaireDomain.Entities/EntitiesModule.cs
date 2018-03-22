@@ -40,6 +40,7 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IDuplicateTextValidator), typeof(DuplicateTextValidator));
             appRegistration.AddSingleton(typeof(IVariableService), typeof(VariableService));
             appRegistration.AddSingleton(typeof(ITypeService), typeof(TypeService));
+            appRegistration.AddSingleton(typeof(ICalculationService), typeof(CalculationService));
         }
     }
 }

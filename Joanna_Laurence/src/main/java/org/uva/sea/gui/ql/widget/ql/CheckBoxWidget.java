@@ -27,13 +27,14 @@ public class CheckBoxWidget extends QLWidget {
     public Node convertToGuiNode() {
         final CheckBox checkBox = new CheckBox();
         this.applyCheckboxStyle(checkBox, this.questionData.getStyle());
+        checkBox.setFocusTraversable(false);
         checkBox.setSelected((this.widgetValue != null) && this.widgetValue.getBooleanValue());
         checkBox.selectedProperty().addListener((observable, oldIsFocused, newIsFocused) ->
         {
-            this.sendUpdateValueEvent(checkBox, this.questionData.getQuestionName(), new BooleanValue(newIsFocused));
+            this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newIsFocused));
         });
 
-        return this.createRow(this.questionData.getLabel(), checkBox);
+        return this.drawComponent(this.questionData.getLabel(), checkBox);
     }
 
     private void applyCheckboxStyle(CheckBox checkBox, Style style) {

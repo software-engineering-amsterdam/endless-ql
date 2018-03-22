@@ -32,12 +32,13 @@ public class RadioButtonWidget extends QLSWidget {
             radioButton.selectedProperty().setValue(this.widgetValue.getBooleanValue());
         }
 
+        radioButton.setFocusTraversable(false);
         radioButton.selectedProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    this.sendUpdateValueEvent(radioButton, this.questionData.getQuestionName(), new BooleanValue(newValue));
+                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newValue));
                 });
 
-        return this.createRow(this.questionData.getLabel(), radioButton);
+        return radioButton;
     }
 
     private void setRadioStyle(RadioButton radioButton, Style style) {

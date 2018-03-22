@@ -58,6 +58,7 @@ public class TextFieldWidget extends QLWidget {
 
         TextField textField = new TextField();
         this.setStyle(textField, this.questionData.getStyle());
+        textField.setFocusTraversable(false);
         textField.setText(this.widgetValue.getStringValue());
         textField.setEditable(true);
         textField.setMinWidth(Renderable.TEXT_WIDTH);
@@ -67,11 +68,11 @@ public class TextFieldWidget extends QLWidget {
         }
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            this.sendUpdateValueEvent(textField, this.questionData.getQuestionName(), new StringValue(newValue));
+            this.sendUpdateValueEvent(this.questionData.getQuestionName(), new StringValue(newValue));
         });
 
         textField.positionCaret(textField.getText().length());
-        return this.createRow(this.questionData.getLabel(), textField);
+        return textField;
     }
 
     //TODO: set color from styleQLS

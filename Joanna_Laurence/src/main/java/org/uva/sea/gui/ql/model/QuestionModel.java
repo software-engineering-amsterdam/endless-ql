@@ -31,7 +31,7 @@ public class QuestionModel {
         if (interpreterResult == null)
             return null;
 
-        Collection<Renderable> guiElements = new ArrayList<>();
+        Collection<Widget> guiElements = new ArrayList<>();
         for (QuestionData questionData : interpreterResult.getQuestions())
             guiElements.add(this.createWidget(questionData));
 

@@ -4,7 +4,6 @@ import com.google.gson.GsonBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.ql.FileSelector;
@@ -135,7 +134,7 @@ public abstract class BaseFormController implements Initializable, IGuiElementUp
             this.showMessages(questionRenders);
             this.renderer.clearTabPane(this.tabPane);
             Map<String, VBox> panes = this.createContainer(evaluationResult);
-            this.renderer.draw(questionRenders.getRenderables(), panes);
+            this.renderer.draw(questionRenders.getWidgets(), panes);
 
         } catch (IOException | InterruptedException e) {
             this.displayError(e.getMessage());
@@ -171,10 +170,10 @@ public abstract class BaseFormController implements Initializable, IGuiElementUp
     }
 
     @Override
-    public void updateGuiVariable(Control control, String identifier, Value value) {
+    public void updateGuiVariable(String identifier, Value value) {
         this.formModel.setVariable(identifier, value);
         this.drawComponents();
-        control.requestFocus();
+        this.renderer.setFocus(identifier);
     }
 
     @FXML

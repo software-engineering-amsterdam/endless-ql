@@ -49,6 +49,7 @@ public class SpinnerWidget extends QLSWidget {
             return null;
 
         final Spinner spinner = new Spinner<>();
+        spinner.setFocusTraversable(false);
 
         this.addSpinnerStyle(spinner, this.questionData.getStyle());
 
@@ -83,11 +84,11 @@ public class SpinnerWidget extends QLSWidget {
                         }
                     });
 
-                    this.sendUpdateValueEvent(spinner, this.questionData.getQuestionName(), newWidgetValue);
+                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);
                 });
 
 
-        return this.createRow(this.questionData.getLabel(), spinner);
+        return spinner;
     }
 
     private void addSpinnerStyle(Spinner spinner, Style style) {

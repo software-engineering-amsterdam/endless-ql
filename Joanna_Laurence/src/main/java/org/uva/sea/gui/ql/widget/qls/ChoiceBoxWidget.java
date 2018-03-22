@@ -29,6 +29,7 @@ public class ChoiceBoxWidget extends QLSWidget {
         final ChoiceBox<Boolean> choiceBox = new ChoiceBox<>();
         this.createChoiceBox(choiceBox, this.questionData.getStyle());
         choiceBox.setValue((this.widgetValue != null) && this.widgetValue.getBooleanValue());
+        choiceBox.setFocusTraversable(false);
 
         ObservableList<Boolean> booleanList = FXCollections.observableArrayList(true, false);
 
@@ -36,10 +37,10 @@ public class ChoiceBoxWidget extends QLSWidget {
 
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             BooleanValue newBooleanValue = new BooleanValue(choiceBox.getItems().get((Integer) newValue));
-            this.sendUpdateValueEvent(choiceBox, this.questionData.getQuestionName(), newBooleanValue);
+            this.sendUpdateValueEvent(this.questionData.getQuestionName(), newBooleanValue);
         });
 
-        return this.createRow(this.questionData.getLabel(), choiceBox);
+        return choiceBox;
     }
 
     private void createChoiceBox(ChoiceBox<Boolean> choiceBox, Style style) {

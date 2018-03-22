@@ -2,7 +2,6 @@ package org.uva.sea.gui.ql.widget;
 
 import javafx.scene.Node;
 import javafx.scene.control.Control;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.uva.sea.gui.ql.IGuiElementUpdateListener;
 import org.uva.sea.gui.ql.model.factory.DefaultValueFactory;
@@ -22,6 +21,8 @@ public abstract class Widget extends Renderable {
 
     private final DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
 
+    private Node guiElement;
+
     public Widget(QuestionData questionData) {
         this.questionData = questionData;
     }
@@ -30,18 +31,21 @@ public abstract class Widget extends Renderable {
         this.listeners.add(listener);
     }
 
-    protected void sendUpdateValueEvent(Control control, String identifier, Value newValue) {
+    protected void sendUpdateValueEvent(String identifier, Value newValue) {
         for(IGuiElementUpdateListener listener : this.listeners )
-            listener.updateGuiVariable(control, identifier, newValue);
+            listener.updateGuiVariable(identifier, newValue);
     }
 
-
     @Override
-    public void render(Map<String, VBox> containers) {
-        Pane container = containers.get(this.drawInContainer());
+    public Node render(Map<String, VBox> containers) {
+        VBox container = containers.get(this.drawInContainer());
         if(container != null) {
-            container.getChildren().add(this.convertToGuiNode());
+            Node guiNode = this.convertToGuiNode();
+            Node widgetRow = this.drawComponent(this.questionData.getLabel(), guiNode);
+            container.getChildren().add(widgetRow);
+            return guiNode;
         }
+        return null;
     }
 
     public Widget linkToOtherWidget(Widget checkBoxWidget, QuestionData questionData) {
@@ -53,6 +57,10 @@ public abstract class Widget extends Renderable {
             value = defaultValueFactory.getDefaultValue(questionData.getNodeType());
         updater.updateWidget(value);
         return checkBoxWidget;
+    }
+
+    public String getIdentifier() {
+        return this.questionData.getQuestionName();
     }
 
     public abstract Node convertToGuiNode();

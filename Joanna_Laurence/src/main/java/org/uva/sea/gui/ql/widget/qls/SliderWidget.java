@@ -48,6 +48,8 @@ public class SliderWidget extends QLSWidget {
         slider.setValueChanging(true);
         slider.setMinorTickCount(1);
         slider.setMax(100);
+        slider.setFocusTraversable(false);
+
 
         this.setSliderStyle(slider, this.questionData.getStyle());
 
@@ -72,14 +74,14 @@ public class SliderWidget extends QLSWidget {
             if (newValue) {
                 try {
                     Value newWidgetValue = this.widgetValue.add(this.incrementStep);
-                    this.sendUpdateValueEvent(slider, this.questionData.getQuestionName(), newWidgetValue);
+                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);
                 } catch (EvaluationException ignored) {
-                    this.sendUpdateValueEvent(slider, this.questionData.getQuestionName(), new UndefinedValue());
+                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), new UndefinedValue());
                 }
             }
         });
 
-        return this.createRow(this.questionData.getLabel(), slider);
+        return slider;
     }
 
     private void setSliderStyle(Slider slider, Style style) {

@@ -33,24 +33,6 @@ export class StyledFormContentComponent implements OnInit, OnChanges {
     }
   }
 
-  // This function is necessary to circumvent angular locking up the GUI
-  getSectionQuestions(section: Section, parentSettings: DefaultStyling): ReadonlyArray<QuestionBase<any>> {
-    const parentWidget = parentSettings ? parentSettings.widget : Widget.Empty;
-    return section.questions.map(q => {
-      return this.getQuestionBaseByName(q.name);
-    });
-  }
-
-  getQuestionBaseByName(name: string): QuestionBase<any> {
-    const question = this.qlsToQlQuestionDictionary[name];
-
-    if (!question) {
-      throw new Error(`Couldn't get question '${name}'`);
-    }
-
-    return question;
-  }
-
   createQuestionMappingCache() {
       for (const question of this.questions) {
         const styles = CollectStylesForQuestionVisitor.visit( question.key, question.type, this.styles);

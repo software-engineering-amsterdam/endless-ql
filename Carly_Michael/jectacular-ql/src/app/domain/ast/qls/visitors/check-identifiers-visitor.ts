@@ -25,7 +25,7 @@ export class CheckIdentifiersVisitor implements QlsVisitor<void> {
     const differenceQlQls = _.differenceWith(this.qlQuestions, this.qlsQuestions,
       (qlQuestion, qlsQuestion) =>  qlQuestion.name === qlsQuestion.name);
 
-    if(differenceQlQls.length > 0) {
+    if (differenceQlQls.length > 0) {
       const missingIdentifiers = differenceQlQls.map(q => q.name).join(', ');
 
       throw new MissingIdentifierError(`Identifier(s) ${missingIdentifiers} missing in styling definition`);

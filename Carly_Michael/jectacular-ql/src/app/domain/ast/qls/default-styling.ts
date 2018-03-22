@@ -7,7 +7,7 @@ export class DefaultStyling {
   constructor(readonly type: QuestionType<any>, readonly widget: Widget, readonly styles: Style[], readonly location: Location) {}
 
   isQuestionTypeCompatibleWithWidgetType(): boolean {
-    if(this.type && this.widget) {
+    if (this.type && this.widget) {
       return this.type.isCompatibleWithWidget(this.widget.type);
     }
     return false;

@@ -27,25 +27,25 @@ export class CheckTypesVisitor implements QlsVisitor<void> {
   }
 
   visitPage(page: Page): void {
-    for (let section of page.sections) {
+    for (const section of page.sections) {
       section.accept(this);
     }
 
-    if(page.defaultSettings) {
+    if (page.defaultSettings) {
       this.throwIfDefaultStylingIsIncorrect(page.name, page.defaultSettings);
     }
   }
 
   visitSection(section: Section): void {
-    for (let qlsQuestion of section.questions) {
+    for (const qlsQuestion of section.questions) {
       qlsQuestion.accept(this);
     }
 
-    for (let subsection of section.subSections) {
+    for (const subsection of section.subSections) {
       subsection.accept(this);
     }
 
-    if(section.defaultSettings) {
+    if (section.defaultSettings) {
       this.throwIfDefaultStylingIsIncorrect(section.name, section.defaultSettings);
     }
   }
@@ -67,7 +67,7 @@ export class CheckTypesVisitor implements QlsVisitor<void> {
   }
 
   private throwIfDefaultStylingIsIncorrect(name: string, styling: DefaultStyling): void {
-    if(!styling.isQuestionTypeCompatibleWithWidgetType()) {
+    if (!styling.isQuestionTypeCompatibleWithWidgetType()) {
       throw new TypeError(`Default styling of section ${name} has an incompatible widget type ${styling.widget.type}` +
       `for defined question type ${styling.type.toString()}. It should be one of: ${styling.type.getCompatibleWidgetTypes()}`);
     }

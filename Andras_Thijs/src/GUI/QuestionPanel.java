@@ -6,6 +6,7 @@ import QLExceptions.SyntaxException;
 import QLExceptions.TypeException;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class QuestionPanel extends JPanel{
     private Question question;
@@ -16,10 +17,10 @@ public class QuestionPanel extends JPanel{
         this.question = question;
         this.setName(question.getName());
         this.isAvailable = question.isAvailable();
-        this.add(new JLabel(question.getLabel()));
+        this.add(new JLabel(question.getLabel()), BorderLayout.WEST);
         this.widget = new WidgetFactory().getWidget(this.question.getType(), listener);
         this.widget.getComponent().setEnabled(!question.hasExpression());
-        this.add(widget.getComponent());
+        this.add(widget.getComponent(), BorderLayout.EAST);
 
     }
 

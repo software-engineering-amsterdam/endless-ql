@@ -30,6 +30,8 @@ public class FormTemplate implements RefreshListener{
 
         JPanel panel = new JPanel();
 
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+
         List<Question> questions = form.getAllQuestions();
         for (Question question : questions) {
             QuestionPanel questionPanel = new QuestionPanel(question, this);
@@ -39,16 +41,13 @@ public class FormTemplate implements RefreshListener{
 
         JButton button = new JButton("Submit");
 
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    System.out.println(getResults());
-                } catch (SyntaxException e1) {
-                    e1.printStackTrace();
-                } catch (TypeException e1) {
-                    e1.printStackTrace();
-                }
+        button.addActionListener(e -> {
+            try {
+                System.out.println(getResults());
+            } catch (SyntaxException e1) {
+                e1.printStackTrace();
+            } catch (TypeException e1) {
+                e1.printStackTrace();
             }
         });
 

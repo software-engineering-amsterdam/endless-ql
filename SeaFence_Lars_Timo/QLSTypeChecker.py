@@ -14,6 +14,7 @@ class QLSTypeChecker(object):
         self.retrieveVariables(self.ql_ast.statements, self.ql_variables, "ql")
         self.retrieveVariables(self.qls_ast.pages, self.qls_variables, "qls")
 
+        self.checkReferencesInQLS(self.ql_variables, self.qls_variables)
         self.checkReferencesInQL(self.ql_variables, self.qls_variables)
 
         self.checkWidgetQuestionCompatibility(self.ql_variables, self.qls_variables)
@@ -36,6 +37,7 @@ class QLSTypeChecker(object):
     def checkWidgetQuestionCompatibility(self, ql_variables, qls_variables):
     	for key, value in ql_variables.iteritems():
             if qls_variables[key] != None:
+                print value
                 if value == "boolean" and (qls_variables[key].widget == 'radio("Yes", "No")' or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == 'dropdown("Yes", "No")'):
                     pass
 

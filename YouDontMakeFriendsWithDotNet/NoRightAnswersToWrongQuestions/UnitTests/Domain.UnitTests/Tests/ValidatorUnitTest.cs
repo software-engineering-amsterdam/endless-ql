@@ -158,6 +158,21 @@ namespace UnitTests.Domain.UnitTests.Tests
                 errorMessage);
         }
 
+
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.RepeatedText))]
+        public void WhenGivenQuestionsWithRepeatedString_ProducesAWarning(
+            string invalidDescription,
+            string errorMessage)
+        {
+            CreateAndValidateForm(invalidDescription);
+            var results = ResultsFor<DuplicateTextValidationMetaData>();
+            
+            AssertThatSeverityLevelIsWarning(results);
+            AssertThatErrorMessagesMatch(errorMessage, results);
+        }
+
         private IList<ValidationMetaData> ResultsFor<T>() where T : ValidationMetaData
         {
             return m_questionnaireValidator
@@ -203,6 +218,13 @@ namespace UnitTests.Domain.UnitTests.Tests
                 @"Did not have the Severity 'Error'");
         }
 
+        private static void AssertThatSeverityLevelIsWarning(
+            IList<ValidationMetaData> results)
+        {
+            Assert.IsTrue(
+                results.All(x => x.Severity == Severity.Warning),
+                @"Did not have the Severity 'Warning'");
+        }
 
         private void CreateAndValidateForm(string validText)
         {

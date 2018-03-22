@@ -7,9 +7,11 @@ from pyql.util.message_handler import MessageHandler
 class StaticChecker:
 
     def run(self, tree):
+        self._messages = []
+
         print("****** Check Duplicated Questions *****")
         cdq = CheckDuplicatedQuestions()
-        cdq.check(tree)
+        self._messages.extend(cdq.check(tree))
 
         print("****** Variable Dependencies Checker ******")
         vdc = VariableDependenciesChecker()

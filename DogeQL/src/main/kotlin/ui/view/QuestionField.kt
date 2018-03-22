@@ -12,5 +12,6 @@ class QuestionField(question: QuestionModel) : HBox() {
             SymbolType.BOOLEAN -> add(QuestionCheckBox(question))
             else -> add(QuestionTextField(question))
         }
+        isDisable = question.readOnly
     }
 }

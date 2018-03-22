@@ -77,7 +77,7 @@ class QSLParsingTest {
 			  }  
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertNoErrors(result)
 	}
@@ -105,7 +105,7 @@ class QSLParsingTest {
 			  } 
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.questionReference, Diagnostic.LINKING_DIAGNOSTIC)
 	}

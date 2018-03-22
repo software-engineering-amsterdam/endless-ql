@@ -40,7 +40,7 @@ class DefaultStyle:
 
         We check the widgets by using a boolean
     """
-    def checkTypes(self):
+    def checkTypes(self, isQuestion=False):
         styleTypes = []
         hasWidget = False
         widgetType = None
@@ -68,7 +68,7 @@ class DefaultStyle:
             else:
                 throwError("Internal error, unknown attribute in default")
 
-        if hasWidget == False:
+        if hasWidget == False and isQuestion == True:
             errorstring = "Missing declaration of widget in default near line " + str(self.line)
             throwError(errorstring)
 

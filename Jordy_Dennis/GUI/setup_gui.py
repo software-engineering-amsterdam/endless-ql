@@ -30,7 +30,7 @@ class Gui:
         self.ast = ast
         self.astQLS = astQLS
         self.varDict = ast.varDict
-        self.questionsGenerator = Question_Generator(self.varDict, self.ast, self.astQLS, self.form)
+        self.questionsGenerator = QuestionGenerator(self.varDict, self.ast, self.astQLS, self.form)
 
         self.form = FormGui(self.mainframe, self.questionsGenerator, self.ast.getName(), qls=astQLS!=None)
         self.questionsGenerator.form = self.form

@@ -41,6 +41,8 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
         val name = context.NAME().text
         val type = convertStringToType(context.TYPE().text)
 
+        var readOnly = false
+
         symbolTable.registerSymbol(name, type)
 
         if (!expressionBuilder.isEmpty()) {
@@ -49,6 +51,7 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
 
             if (questionExpression.containsReference()) {
                 symbolTable.assign(name, type, questionExpression)
+                readOnly = true
             } else {
                 symbolTable.assign(name, questionExpression.evaluate(symbolTable))
             }
@@ -62,7 +65,7 @@ class DogeListener : QuestionareLanguageParserBaseListener() {
                 context.LIT_STRING().symbol.line, context.LIT_STRING().symbol.charPositionInLine
         )
 
-        val question = Question(name, label, type.getDefaultInstance(), questionNameLocation, questionLabelLocation)
+        val question = Question(name, label, type.getDefaultInstance(), questionNameLocation, questionLabelLocation, readOnly)
 
         formTreeBuilder.pushQuestion(question)
     }

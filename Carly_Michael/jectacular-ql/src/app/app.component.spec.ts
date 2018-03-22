@@ -9,12 +9,6 @@ import {MaterialModule} from './material.module';
 import {StyledFormContentComponent} from './components/styled-form-content/styled-form-content.component';
 import {WidgetComponent} from './components/widget/widget.component';
 import {ParseService} from './services/parse.service';
-import {CheckboxWidgetComponent} from './components/widgets/checkbox-widget/checkbox-widget.component';
-import {RadioWidgetComponent} from './components/widgets/radio-widget/radio-widget.component';
-import {SpinboxWidgetComponent} from './components/widgets/spinbox-widget/spinbox-widget.component';
-import {SelectWidgetComponent} from './components/widgets/select-widget/select-widget.component';
-import {SliderWidgetComponent} from './components/widgets/slider-widget/slider-widget.component';
-import {TextWidgetComponent} from './components/widgets/text-widget/text-widget.component';
 
 describe('AppComponent', () => {
   let app: AppComponent;
@@ -25,13 +19,7 @@ describe('AppComponent', () => {
         AppComponent,
         DynamicFormQuestionComponent,
         StyledFormContentComponent,
-        WidgetComponent,
-        CheckboxWidgetComponent,
-        RadioWidgetComponent,
-        SelectWidgetComponent,
-        SliderWidgetComponent,
-        SpinboxWidgetComponent,
-        TextWidgetComponent
+        WidgetComponent
       ],
       imports: [
         BrowserModule,

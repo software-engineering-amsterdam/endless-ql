@@ -53,6 +53,7 @@
     <Compile Include="Analysis\IQLSAnalyser.cs" />
     <Compile Include="Analysis\QLS\AllIdentifiersAreUsedAnalyser.cs" />
     <Compile Include="Analysis\QLS\DuplicateIdentifiersAnalyser.cs" />
+    <Compile Include="Analysis\QLS\UnknownIdentifiersAnalyser.cs" />
     <Compile Include="Analysis\QL\Evaluator\StatementType.cs" />
     <Compile Include="Analysis\QL\Evaluator\StatementTypeEvaluator.cs" />
     <Compile Include="Analysis\IQLAnalyser.cs" />

@@ -4,20 +4,32 @@ import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import ql.evaluation.value.Value;
-import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableBoolean;
 
-import java.util.List;
-
 public class DropdownWidget extends ComboBox<String> implements GUIWidget {
+
+    private String color;
+    private String font;
+    private int fontSize;
 
     public DropdownWidget(String falseLabel, String trueLabel) {
         this.setItems(FXCollections.observableArrayList(falseLabel, trueLabel));
 
         // Default to false
         this.getSelectionModel().select(0);
+    }
+
+    private void setCellFactory() {
+        this.setCellFactory(param -> new ComboBoxListCell<>() {{
+            setTextFill(Color.valueOf(color));
+            setFont(Font.font(font));
+            setFont(Font.font(fontSize));
+        }});
     }
 
     @Override
@@ -45,21 +57,24 @@ public class DropdownWidget extends ComboBox<String> implements GUIWidget {
 
     @Override
     public void setColor(String color) {
-        // TODO: implement
+        this.color = color;
+        setCellFactory();
     }
 
     @Override
     public void setFont(String font) {
-
+        this.font = font;
+        setCellFactory();
     }
 
     @Override
     public void setFontSize(int fontSize) {
-
+        this.fontSize = fontSize;
+        setCellFactory();
     }
 
     @Override
     public void setWidth(int width) {
-
+        this.setWidth((double) width);
     }
 }

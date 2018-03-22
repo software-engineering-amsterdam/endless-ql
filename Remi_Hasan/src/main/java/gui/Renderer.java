@@ -70,9 +70,9 @@ public class Renderer extends Application {
         Locale.setDefault(Locale.US);
 
         GUIForm guiForm = GUIFormBuilder.build(this.qlForm);
-//        if(this.qlsStyleSheet != null){
-//            guiForm = new GUIFormWithStyling(this.qlForm.identifier, guiForm.guiQuestions, this.qlsStyleSheet);
-//        }
+        if(this.qlsStyleSheet != null){
+            guiForm = new GUIFormWithStyling(this.qlForm.identifier, guiForm.guiQuestions, this.qlsStyleSheet);
+        }
 
         Scene scene = new Scene(guiForm.render(this.symbolTable));
         stage.setTitle(qlForm.identifier + " form");

@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class MainGUI extends Application {
 
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 500;
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 700;
     private static final String GUI_FORM_FXML = "/gui/form.fxml";
 
     public static void main(String[] args) {

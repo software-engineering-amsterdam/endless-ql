@@ -2,11 +2,11 @@ import BaseAttribute from "../BaseAttribute";
 import ColorValue from "../../../values/ColorValue";
 
 export default class ColorAttribute extends BaseAttribute {
-  private value: ColorValue;
+  private color: ColorValue;
 
   constructor(value: ColorValue) {
-    super();
-    this.value = value;
+    super("color", value.toString());
+    this.color = value;
   }
 
   getName(): string {
@@ -14,6 +14,6 @@ export default class ColorAttribute extends BaseAttribute {
   }
 
   getStringValue(): string {
-    return this.value.toString();
+    return this.color.toString();
   }
 }

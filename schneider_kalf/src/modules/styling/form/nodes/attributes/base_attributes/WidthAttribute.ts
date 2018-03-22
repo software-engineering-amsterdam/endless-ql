@@ -2,11 +2,11 @@ import BaseAttribute from "../BaseAttribute";
 import UnitValue  from "../../../values/UnitValue";
 
 export default class WidthAttribute extends BaseAttribute {
-  private value: UnitValue;
+  private unitValue: UnitValue;
 
-  constructor(value: UnitValue) {
-    super();
-    this.value = value;
+  constructor(unitValue: UnitValue) {
+    super("width", unitValue.toString());
+    this.unitValue = unitValue;
   }
 
   getName(): string {
@@ -14,6 +14,6 @@ export default class WidthAttribute extends BaseAttribute {
   }
 
   getStringValue(): string {
-    return this.value.toString();
+    return this.unitValue.toString();
   }
 }

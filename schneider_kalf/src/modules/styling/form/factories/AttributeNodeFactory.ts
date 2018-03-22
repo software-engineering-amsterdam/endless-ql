@@ -35,7 +35,7 @@ export default class AttributeNodeFactory {
     return new ColorAttribute(new ColorValue(value));
   }
 
-  public makePixelUnitValue(value: number) {
+  private makePixelUnitValue(value: number) {
     return new UnitValue(value, 'px');
   }
 }

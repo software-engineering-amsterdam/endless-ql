@@ -17,8 +17,10 @@ public class FormControllerQLS extends FormController {
         HashMap<String, Pane> panes = new HashMap<>();
         for (QuestionData questionData : evaluationResult.getQuestions()) {
             Style style = questionData.getStyle();
-            if (style != null)
-                panes.put("default", createTab(style.getPage())); //TODO
+            if (style != null) {
+                String pageName = style.getPage();
+                panes.put(pageName, this.createTab(pageName)); //TODO
+            }
         }
 
         return panes;

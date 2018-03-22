@@ -4,8 +4,8 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, I
 
 import scala.language.implicitConversions
 
+// format: off
 object BasicArithmetics {
-  // format: off
   trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntegerAnswer] {
     def plus(x: IntegerAnswer, y: Answer): IntegerAnswer = y match { case i: IntegerAnswer => IntegerAnswer(x.value + i.value) }
     def minus(x: IntegerAnswer, y: Answer): IntegerAnswer = y match { case i: IntegerAnswer => IntegerAnswer(x.value - i.value) }
@@ -23,8 +23,8 @@ object BasicArithmetics {
     def negate(x: DecimalAnswer): DecimalAnswer = DecimalAnswer(-x.value)
   }
   implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics
-  // format: on
 }
+// format: on
 
 trait BasicArithmetics[SubType <: Answer] {
   def plus(x: SubType, y: Answer): SubType

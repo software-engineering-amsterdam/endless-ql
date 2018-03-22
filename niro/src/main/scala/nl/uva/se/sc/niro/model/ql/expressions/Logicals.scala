@@ -4,14 +4,16 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer }
 
 import scala.language.implicitConversions
 
+// format: off
 object Logicals {
   trait BooleanAnswerCanDoLogicals extends Logicals[BooleanAnswer] {
-    def and(x: BooleanAnswer, y: Answer): BooleanAnswer = y match { case b:BooleanAnswer => BooleanAnswer(x.value && b.value) }
-    def or(x: BooleanAnswer, y: Answer): BooleanAnswer = y match { case b:BooleanAnswer => BooleanAnswer(x.value || b.value) }
+    def and(x: BooleanAnswer, y: Answer): BooleanAnswer = y match { case b: BooleanAnswer => BooleanAnswer(x.value && b.value) }
+    def or(x: BooleanAnswer, y: Answer): BooleanAnswer = y match { case b: BooleanAnswer => BooleanAnswer(x.value || b.value) }
     def neg(x: BooleanAnswer): BooleanAnswer = BooleanAnswer(!x.value)
   }
   implicit object BooleanAnswerCanDoLogicals extends BooleanAnswerCanDoLogicals
 }
+// format: on
 
 trait Logicals[SubType <: Answer] {
   def and(x: SubType, y: Answer): BooleanAnswer

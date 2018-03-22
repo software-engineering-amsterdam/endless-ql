@@ -4,6 +4,7 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers._
 
 import scala.language.implicitConversions
 
+// format: off
 object Orderings {
   trait IntAnswerCanDoOrderings extends Orderings[IntegerAnswer] {
     def lt(x: IntegerAnswer, y: Answer): BooleanAnswer = y match { case i: IntegerAnswer => BooleanAnswer(x.value < i.value) }
@@ -65,6 +66,7 @@ object Orderings {
   }
   implicit object MoneyAnswerCanDoOrderings extends MoneyAnswerCanDoOrderings
 }
+// format: on
 
 trait Orderings[SubType <: Answer] {
   def lt(x: SubType, y: Answer): BooleanAnswer

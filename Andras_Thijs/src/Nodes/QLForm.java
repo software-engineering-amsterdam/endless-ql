@@ -57,25 +57,19 @@ public class QLForm extends ASTNode {
         return conditions;
     }
 
-    public List<Question> getAllQuestions(){
-        List<Question> allQuestions = questions;
-        for (Condition condition : conditions) {
-            List<Question> subQuestions = visitCondition(condition);
-            if (subQuestions != null)
-                allQuestions.addAll(subQuestions);
-        }
-        return allQuestions;
-    }
+    /**
+     * Returns all Questions in a QLForm.
+     * @return the complete list of Questions.
+     */
+    public List<Question> getAllQuestions() {
+        List<Question> questions = this.questions;
 
-    private List<Question> visitCondition(Condition condition){
-
-        List<Question> questions = condition.getQuestions();
-        List<Condition> conditions = condition.getConditions();
-        for (Condition condition1 : conditions) {
-            List<Question> subQuestions = visitCondition(condition1);
-            if (subQuestions != null)
-                questions.addAll(subQuestions);
+        List<Condition> conditions = this.conditions;
+        for(Condition c : conditions) {
+            questions.addAll(c.getQuestions());
+            conditions.addAll(c.getConditions());
         }
+
         return questions;
     }
 }

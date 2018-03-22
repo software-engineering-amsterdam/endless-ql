@@ -11,7 +11,7 @@ export class QuestionFactory {
   static toFormQuestion(name: string,
                         label: string,
                         type: QuestionType<any>,
-                        condition?: (form: FormGroup) => boolean): QuestionBase<any> {
+                        condition: (form: FormGroup) => boolean): QuestionBase<any> {
 
     let formQuestionToReturn: QuestionBase<any>;
 
@@ -34,7 +34,7 @@ export class QuestionFactory {
       styleMap[style.name] = style.value.getValueAsString();
     }
 
-    return new StyledQuestion<T>(
+    const styledQuestion = new StyledQuestion<T>(
       question.key,
       question.label,
       question.value,
@@ -44,5 +44,11 @@ export class QuestionFactory {
       widget,
       styleMap
     );
+
+    if (question.readonly) {
+      styledQuestion.toCalculatedQuestion(question.calculateValue);
+    }
+
+    return styledQuestion;
   }
 }

@@ -17,12 +17,6 @@ public class ValidationResult {
         warnings = new ArrayList<>();
     }
 
-    private ValidationResult(List<String> errors, List<String> warnings) {
-        logger = Logger.getGlobal();
-        this.errors = errors;
-        this.warnings = warnings;
-    }
-
     public void addWarning(String warning) {
         logger.warning(warning);
         warnings.add(warning);
@@ -43,8 +37,9 @@ public class ValidationResult {
 
     @Override
     public String toString() {
-        errors.addAll(warnings);
-        return errors.toString();
+        ArrayList<String> result = new ArrayList<>(errors);
+        result.addAll(warnings);
+        return result.toString();
     }
 
     public List<String> getWarnings() {
@@ -55,13 +50,9 @@ public class ValidationResult {
         return errors;
     }
 
-    public ValidationResult merge(ValidationResult validationResult) {
-        List<String> errors = new ArrayList<>(this.errors);
-        errors.addAll(validationResult.getErrors());
-
-        List<String> warnings = new ArrayList<>(this.warnings);
-        warnings.addAll(validationResult.getWarnings());
-
-        return new ValidationResult(errors, warnings);
+    public ValidationResult merge(ValidationResult toMerge) {
+        this.errors.addAll(toMerge.getErrors());
+        this.warnings.addAll(toMerge.getWarnings());
+        return this;
     }
 }

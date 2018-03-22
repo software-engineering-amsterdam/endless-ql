@@ -102,11 +102,15 @@
     <Compile Include="Domain\VariableService.cs" />
     <Compile Include="Output\Tools\BooleanEvaluatorVisitor.cs" />
     <Compile Include="Output\Tools\BuildOutputVisitor.cs" />
+    <Compile Include="Output\Tools\CalculationService.cs" />
     <Compile Include="Output\Tools\CalculationVisitor.cs" />
+    <Compile Include="Output\Tools\ExtractVariableVisitor.cs" />
     <Compile Include="Output\Tools\Interfaces\IBooleanEvaluatorVisitor.cs" />
     <Compile Include="Output\Tools\Interfaces\IAstToOutputVisitor.cs" />
     <Compile Include="Output\Tools\Interfaces\IBuildOutputVisitor.cs" />
+    <Compile Include="Output\Tools\Interfaces\ICalculationService.cs" />
     <Compile Include="Output\Tools\Interfaces\ICalculationVisitor.cs" />
+    <Compile Include="Output\Tools\Interfaces\IExtractVariableVisitor.cs" />
     <Compile Include="Output\Tools\Interfaces\IOutputItemFactory.cs" />
     <Compile Include="Ast\Tools\Interfaces\IAstFactory.cs" />
     <Compile Include="Ast\Nodes\Boolean\Interfaces\INegateNode.cs" />

@@ -18,7 +18,7 @@ form taxOfficeExample {
   "Did you enter a loan?"
     hasMainLoan: boolean
 
-  if (false) {
+  if (hasSoldHouse) {
     "What was the selling price?"
       sellingPrice: money
     "Private debts for the sold house:"
@@ -27,7 +27,7 @@ form taxOfficeExample {
       valueResidue: money =
         (sellingPrice - privateDebt)
   } else {
-      "What was the OTHER selling price?"
-        otherSellingPrice: money
+      "Why did you not sell your house in 2010?"
+        notSellHouseReason: text
   }
 }

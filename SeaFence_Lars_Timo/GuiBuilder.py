@@ -132,8 +132,6 @@ class GuiBuilder():
                                 if question.var in self.ql_frame_order:
                                     self.parseQLSQuestion(question, nested_render_frame, default_widgets)
 
-                        
-
     def showOrRemoveSection(self, section):
         for question in section.questions:
             if question.var in self.ql_frame_order:
@@ -252,6 +250,20 @@ class GuiBuilder():
                 return True
             elif expression.negate and self.gui.values[expression.var].get() == "1":
                 return True
+
+
+        if type(expression) is LiteralNode:
+            if expression.vartype == u"int":
+                if not expression.negate and int(expression.literal) == 1:
+                    return True
+                elif expression.negate and int(expression.literal) == 0:
+                    return True
+
+            elif expression.vartype == u"boolean":
+                if not expression.negate and expression.literal == "true":
+                    return True
+                elif expression.negate and expression.literal == "false":
+                    return True
 
         return False
 

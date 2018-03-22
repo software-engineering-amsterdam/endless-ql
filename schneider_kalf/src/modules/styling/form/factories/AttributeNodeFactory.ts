@@ -1,41 +1,56 @@
-import StyleAttribute from "../nodes/StyleAttribute";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import ColorAttribute from "../nodes/attributes/base_attributes/ColorAttribute";
-import ColorValue from "../values/ColorValue";
-import { InvalidColorError, UnknownStyleAttributeNameError } from "../style_errors";
-import UnitValue from "../values/UnitValue";
+import { UnknownStyleAttributeNameError } from "../style_errors";
 import WidthAttribute from "../nodes/attributes/base_attributes/WidthAttribute";
+import TextAttribute from "../nodes/attributes/widget_attribtues/TextAttribute";
+import SliderAttribute from "../nodes/attributes/widget_attribtues/SliderAttribute";
+import DropdownAttribute from "../nodes/attributes/widget_attribtues/DropdownAttribute";
+import CheckboxAttribute from "../nodes/attributes/widget_attribtues/CheckboxAttribute";
+import FontSizeAttribute from "../nodes/attributes/base_attributes/FontSizeAttribute";
+import SpinboxAttribute from "../nodes/attributes/widget_attribtues/SpinBoxAttribute";
+import FontAttribute from "../nodes/attributes/base_attributes/FontAttribute";
+import RadioAttribute from "../nodes/attributes/widget_attribtues/RadioAttribute";
+import BaseAttribute from "../nodes/attributes/BaseAttribute";
 
 export default class AttributeNodeFactory {
-  public getWidgetStyleAttribute(value: string, options?: string[]): WidgetAttribute {
-    return new WidgetAttribute("test");
-  }
+  public getWidgetStyleAttribute(value: string, options?: string[]): WidgetAttribute | undefined {
 
-  public getBaseStyleAttribute(name: string, value: string): StyleAttribute {
-    if (name === 'color') {
-      return this.getColorAttribute(value);
+    if (value === 'spinbox') {
+      return new SpinboxAttribute(options);
     }
-
-    if (name === 'width') {
-      return new WidthAttribute(this.makePixelUnitValue(parseFloat(value)));
+    if (value === 'text') {
+      return new TextAttribute(options);
     }
-
-    // TODO: Implement other attributes
+    if (value === 'slider') {
+      return new SliderAttribute(options);
+    }
+    if (value === 'dropdown') {
+      return new DropdownAttribute(options);
+    }
+    if (value === 'checkbox') {
+      return new CheckboxAttribute(options);
+    }
+    if (value === 'radio') {
+      return new RadioAttribute(options);
+    }
 
     throw UnknownStyleAttributeNameError.make(name);
   }
 
-  private getColorAttribute(value: string): ColorAttribute {
-    const color = new ColorValue(value);
-
-    if (!color.isValid()) {
-      throw InvalidColorError.make(value);
+  public getBaseStyleAttribute(name: string, value: string): BaseAttribute {
+    if (name === 'color') {
+      return ColorAttribute.makeFromString(value);
+    }
+    if (name === 'width') {
+      return new WidthAttribute(value);
+    }
+    if (name === 'fontsize') {
+      return new FontSizeAttribute(value);
+    }
+    if (name === 'font') {
+      return new FontAttribute(value);
     }
 
-    return new ColorAttribute(new ColorValue(value));
-  }
-
-  private makePixelUnitValue(value: number) {
-    return new UnitValue(value, 'px');
+    throw UnknownStyleAttributeNameError.make(name);
   }
 }

@@ -64,7 +64,9 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
     const typeRight = expr.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
-      return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
+      return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER ||
+        typeLeft === ExpressionType.DATE && typeRight === ExpressionType.NUMBER ||
+        typeLeft === typeRight && typeLeft === ExpressionType.STRING;
     }, typeLeft, typeRight, expr.location);
 
     return typeLeft;
@@ -75,7 +77,8 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
     const typeRight = expr.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
-      return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
+      return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER ||
+        typeLeft === ExpressionType.DATE && typeRight === ExpressionType.NUMBER;
     }, typeLeft, typeRight, expr.location);
 
     return typeLeft;
@@ -196,7 +199,7 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
   private checkConditionOrThrowBinary(condition: () => boolean, typeLeft: ExpressionType, typeRight: ExpressionType, location: Location) {
     if (!condition()) {
       throw new TypeError(
-        `Type of expression left(${ExpressionTypeUtil.toString(typeLeft)}) is` +
+        `Type of expression left(${ExpressionTypeUtil.toString(typeLeft)}) is ` +
         `different from type of expression right (${ExpressionTypeUtil.toString(typeRight)})`
         + locationToReadableMessage(location)
       );

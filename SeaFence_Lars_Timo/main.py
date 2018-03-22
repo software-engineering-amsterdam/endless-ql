@@ -25,8 +25,8 @@ def main(argv):
     ql_visitor = QLVisitorHelper()
     ql_ast = ql_visitor.visit(ql_tree)
 
-    ql_checker = QLTypeChecker(ql_ast)
-    ql_checker.startQLTypeCheck()
+    ql_checker = QLTypeChecker()
+    ql_checker.startQLTypeCheck(ql_ast.statements)
 
     input = FileStream(argv[2])
     qls_lexer = QLSLexer(input)
@@ -50,20 +50,10 @@ def main(argv):
         qls_visitor = QLSVisitorHelper()
         qls_ast = qls_visitor.visit(qls_tree)
 
-        qls_checker = QLSTypeChecker(ql_ast, qls_ast)
-        qls_checker.startQLSTypeCheck()
-
+        qls_checker = QLSTypeChecker()
+        qls_checker.startQLSTypeCheck(ql_ast.statements, qls_ast.pages)
 
     builder = GuiBuilder(ql_ast, qls_ast)
-    # gui = Gui()
-    # gui.addLabel("hey", "jaja")
-    # gui.removeLabel("hey")
-    # gui.addCheckBox("yes")
-    # gui.addSlider("slider", 0, 100, 'horizontal')
-    # gui.addSpinBox("spinbox", 0, 100)
-    # gui.addTextBox("text", 3, 30)
-    # gui.addRadioButton("radio", "ben je dik:", 2)
-    # gui.addDropDown("drop", ["1", "2", "3"])
     builder.gui.window.mainloop()
 
 if __name__ == '__main__':

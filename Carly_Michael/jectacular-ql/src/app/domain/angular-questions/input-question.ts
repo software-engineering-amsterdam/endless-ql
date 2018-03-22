@@ -6,7 +6,7 @@ export class InputQuestion extends QuestionBase<string> {
               label: string,
               value,
               type: string,
-              hiddenCondition?: (form: FormGroup) => boolean) {
+              hiddenCondition: (form: FormGroup) => boolean) {
     super(key, label, value, type, 'textbox', hiddenCondition);
   }
 }

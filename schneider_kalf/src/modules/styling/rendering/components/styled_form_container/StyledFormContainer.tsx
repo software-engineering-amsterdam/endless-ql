@@ -92,11 +92,8 @@ export class StyledFormContainer extends React.Component<StyledFormContainerProp
   }
 
   render() {
-    // TODO: Implement page navigation here
-
     return (
-        <div>
-          <h1>Styled form</h1>
+        <div className="form-container--styled">
           {this.renderPage(this.props.form.getActivePage())}
           <Pagination>
             {this.renderPaginationLinks()}

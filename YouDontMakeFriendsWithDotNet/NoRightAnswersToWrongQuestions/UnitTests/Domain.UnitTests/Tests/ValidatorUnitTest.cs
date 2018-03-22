@@ -173,20 +173,20 @@ namespace UnitTests.Domain.UnitTests.Tests
             AssertThatErrorMessagesMatch(errorMessage, results);
         }
 
-        //[TestCaseSource(
-        //    typeof(TestValidationData),
-        //    nameof(TestValidationData.RepeatedText))]
-        //public void WhenGivenQuestionsWithCyclicalDependecies_ProducesTheCorrectMetaDatas(
-        //    string invalidDescription,
-        //    string errorMessage)
-        //{
-        //    CreateAndValidateForm(invalidDescription);
-        //    var results = ResultsFor<CyclicDependencyValidationMetaData>();
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.CyclicDependency))]
+        public void WhenGivenQuestionsWithCyclicalDependecies_ProducesTheCorrectMetaDatas(
+            string invalidDescription,
+            string errorMessage)
+        {
+            CreateAndValidateForm(invalidDescription);
+            var results = ResultsFor<CyclicDependencyValidationMetaData>();
 
-        //    AssertThatSeverityLevelIsError(results);
-        //    Assert.IsTrue(results.Any());
-        //    AssertThatErrorMessagesMatch(errorMessage, results);
-        //}
+            AssertThatSeverityLevelIsError(results);
+            Assert.IsTrue(results.Any());
+            AssertThatErrorMessagesMatch(errorMessage, results);
+        }
 
         private IList<ValidationMetaData> ResultsFor<T>() where T : ValidationMetaData
         {

@@ -91,6 +91,7 @@ class QuestionGenerator:
 
     def addSection(self, pageName, sections, pageDefaults, defaultDict, insertAfter=""):
         page = self.form.getPage(pageName)
+        defaultDict = copy.copy(defaultDict)
         for section in sections:
             sectionName = section.getName()
 

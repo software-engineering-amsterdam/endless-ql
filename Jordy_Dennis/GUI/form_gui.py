@@ -25,7 +25,7 @@ class FormGui:
         will be created
     """
 
-    def __init__(self, parent, questionGenerator, header="No Header Text", color="orange", qls=False):
+    def __init__(self, parent, questionGenerator, header="No Header Text", color="white", qls=False):
         self.frame = create_frame(parent, color)
         self.frame.pack(expand=True, fill='both')
         self.headerFrame = None
@@ -33,7 +33,7 @@ class FormGui:
         self.createHeader(header, parent=self.frame)
 
         self.pages = collections.OrderedDict()
-        self.buttonFrame = create_frame(self.frame, background='blue')
+        self.buttonFrame = create_frame(self.frame, background='white')
 
         if qls:
             self.buttonFrame.pack(side="top", fill="x", expand=False)

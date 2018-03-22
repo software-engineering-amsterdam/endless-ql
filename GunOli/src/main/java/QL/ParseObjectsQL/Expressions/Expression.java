@@ -13,4 +13,9 @@ public abstract class Expression<T> {
     public Boolean isLogical(){
         return false;
     }
+
+    @Override
+    public String toString(){
+       return this.evaluate().toString();
+    }
 }

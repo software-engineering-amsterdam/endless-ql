@@ -8,15 +8,15 @@ import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData
 
 public class DateWidgetQLS extends QLSWidget {
 
-    private final Widget moneyWidget;
+    private final Widget widget;
 
     public DateWidgetQLS(QuestionData questionData) {
         super(questionData);
-        this.moneyWidget = this.linkToOtherWidget(new DateWidget(questionData), questionData);
+        this.widget = this.linkToOtherWidget(new DateWidget(questionData), questionData);
     }
 
     @Override
     public Node convertToGuiNode() {
-        return this.moneyWidget.convertToGuiNode();
+        return this.widget.convertToGuiNode();
     }
 }

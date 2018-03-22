@@ -1,4 +1,4 @@
-package org.uva.sea.gui;
+package org.uva.sea.gui.utility;
 
 import com.google.gson.GsonBuilder;
 import org.uva.sea.gui.ql.FileSelector;

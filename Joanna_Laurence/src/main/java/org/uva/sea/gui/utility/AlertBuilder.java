@@ -1,4 +1,4 @@
-package org.uva.sea.gui.ql.components;
+package org.uva.sea.gui.utility;
 
 import javafx.scene.control.Alert;
 
@@ -25,5 +25,3 @@ public class AlertBuilder {
         return alert;
     }
 }
-
-

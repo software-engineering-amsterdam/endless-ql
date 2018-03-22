@@ -34,7 +34,7 @@ public class CheckBoxWidget extends QLWidget {
             this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newIsFocused));
         });
 
-        return this.drawComponent(this.questionData.getLabel(), checkBox);
+        return checkBox;
     }
 
     private void applyCheckboxStyle(CheckBox checkBox, Style style) {

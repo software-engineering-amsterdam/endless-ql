@@ -4,29 +4,21 @@ import javafx.scene.control.Alert;
 
 public class AlertBuilder {
 
-    private Alert alert;
-
-    public AlertBuilder setType(Alert.AlertType alertType) {
-        alert = new Alert(alertType);
-        return this;
+    public Alert buildError(String contentText) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, contentText);
+        alert.setTitle("Error");
+        return alert;
     }
 
-    public AlertBuilder setTitle(String title) {
-        alert.setTitle(title);
-        return this;
+    public Alert buildInfo(String contentText) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, contentText);
+        alert.setTitle("Information");
+        return alert;
     }
 
-    public AlertBuilder setHeaderText(String headerText) {
-        alert.setHeaderText(headerText);
-        return this;
-    }
-
-    public AlertBuilder setContentText(String contentText) {
-        alert.setContentText(contentText);
-        return this;
-    }
-
-    public Alert build() {
+    public Alert buildWarning(String contentText) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, contentText);
+        alert.setTitle("Warning");
         return alert;
     }
 }

@@ -1,24 +1,30 @@
 package org.uva.sea.gui;
 
+import com.google.gson.GsonBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
+import org.uva.sea.gui.components.AlertBuilder;
 import org.uva.sea.gui.components.GuiMessage;
 import org.uva.sea.gui.components.Renderable;
 import org.uva.sea.gui.model.QuestionModel;
 import org.uva.sea.languages.BaseEvaluator;
 import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.QlSEvaluator;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 
@@ -26,13 +32,13 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
 
     private final QuestionModel formModel = new QuestionModel(this);
     private final Collection<Renderable> componentsToDraw = new ArrayList<>();
+    private final AlertBuilder alertBuilder = new AlertBuilder();
     private Renderer renderer = null;
+
     @FXML
     private VBox container;
-
     @FXML
     private TabPane tabPane;
-
     @FXML
     private VBox messages;
 
@@ -103,10 +109,12 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
     }
 
     private void collectComponentsToDraw() {
-        this.componentsToDraw.addAll(this.formModel.getQuestionRenders());
+        try {
+            this.componentsToDraw.addAll(this.formModel.getQuestionRenders());
+        } catch (IOException | InterruptedException e) {
+            this.displayError(e.getMessage());
+        }
     }
-
-    //TODO: Why not show warnigns and errors in a pop-up? Then we do not need all these function.
 
     /**
      * Redraw the GUI
@@ -115,10 +123,31 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
         this.renderer.draw(this.componentsToDraw);
     }
 
-    @FXML
-    public void export(ActionEvent actionEvent) {
-        //TODO
-        throw new NotImplementedException();
+    /**
+     * Display an error
+     *
+     * @param message
+     */
+    private void displayError(String message) {
+        alertBuilder.buildError(message).show();
+    }
+
+    /**
+     * Display an information
+     *
+     * @param message
+     */
+    private void displayInfo(String message) {
+        alertBuilder.buildInfo(message).show();
+    }
+
+    /**
+     * Display a warning
+     *
+     * @param message
+     */
+    private void displayWarning(String message) {
+        alertBuilder.buildWarning(message).show();
     }
 
     @Override
@@ -128,5 +157,43 @@ public class FormController implements Initializable, IGuiElementUpdateListener 
         this.collectComponentsToDraw();
         control.setFocusTraversable(true);
         this.drawComponents();
+    }
+
+    @FXML
+    public void export(ActionEvent actionEvent) {
+        try {
+            File file = new FileSelector("Choose file to save", "JSON", "*.json").getFile();
+            Writer writer = new FileWriter(file.getAbsolutePath());
+            String json = new GsonBuilder().create().toJson(createObjectToSave(this.formModel));
+            writer.write(json);
+            writer.close();
+            this.displayInfo("Saved file in: " + file.getName());
+        } catch (IOException | InterruptedException e) {
+            this.displayError(e.getMessage());
+        }
+    }
+
+    /**
+     * Create a HashMap with given answers to questions.
+     *
+     * @param questionModel questions to save
+     * @return HashMap with key as a question label and value as an answer
+     */
+    private HashMap<String, String> createObjectToSave(QuestionModel questionModel) throws IOException, InterruptedException {
+        HashMap<String, String> hashMap = new HashMap<>();
+
+        if (questionModel == null)
+            return hashMap;
+
+        for (QuestionData questionData : questionModel.getEvaluationResults().getQuestions()) {
+            String value = "";
+            if (questionData.getValue() == null) {
+                value = "null";
+            } else {
+                value = questionData.getValue().toString();
+            }
+            hashMap.put(questionData.getLabel().replace("\"", ""), value.replace("\"", ""));
+        }
+        return hashMap;
     }
 }

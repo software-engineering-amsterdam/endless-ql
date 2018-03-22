@@ -29,26 +29,28 @@ public class QuestionModel {
         this.interpreter = interpreter;
     }
 
-    public Collection<Renderable> getQuestionRenders() {
-        if(this.interpreter == null)
+    public Collection<Renderable> getQuestionRenders() throws IOException, InterruptedException {
+        Collection<Renderable> guiElements = new ArrayList<>();
+        EvaluationResult interpreterResult = this.getEvaluationResults();
+
+        if (interpreterResult == null)
             return new ArrayList<>();
 
-        Collection<Renderable> guiElements = new ArrayList<>();
-        try {
-            EvaluationResult interpreterResult = this.interpreter.getQuestions();
+        Messages warnings = interpreterResult.getMessages();
+        for (String warning : warnings.getMessage(MessageTypes.WARNING))
+            guiElements.add(new GuiMessage(warning));
 
-            Messages warnings = interpreterResult.getMessages();
-            for (String warning : warnings.getMessage(MessageTypes.WARNING))
-                guiElements.add(new GuiMessage(warning));
-
-            for(QuestionData questionData : interpreterResult.getQuestions())
-                guiElements.add(this.createWidget(questionData));
-
-        } catch (InterruptedException | IOException e) {
-            guiElements.add(new GuiMessage("Error: " + e.getMessage()));
-        }
+        for (QuestionData questionData : interpreterResult.getQuestions())
+            guiElements.add(this.createWidget(questionData));
 
         return guiElements;
+    }
+
+    public EvaluationResult getEvaluationResults() throws IOException, InterruptedException {
+        if (this.interpreter == null)
+            return null;
+
+        return this.interpreter.getQuestions();
     }
 
     private Widget createWidget(QuestionData questionData) {

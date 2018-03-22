@@ -15,7 +15,7 @@ public class ArithmeticOperation extends Operator {
 
     /**
      * Implements a arithmetic operator (+, -, /, * and ^).
-     * @param left left hand side of the perator.
+     * @param left left hand side of the operator.
      * @param right right hand side of the operator.
      * @return A new intermediary QLFloat Term with the result of the calculation.
      * @throws TypeException when left and right aren't Floats.

@@ -3,7 +3,7 @@ package Nodes.Operator;
 import Nodes.Term.*;
 import QLExceptions.*;
 
-public class ComparisonOperation extends Operator{
+public class ComparisonOperation extends Operator {
     /**
      * Constructor that just calls the default constructor.
      * @param value the comparison operator.

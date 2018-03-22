@@ -12,8 +12,6 @@ public class Variable extends Term {
         this.name = name;
     }
 
-    public String getName() { return name; }
-
     /**
      * This function tries to find the value of the referenced Question.
      * @return the value of the referenced Question.
@@ -63,13 +61,14 @@ public class Variable extends Term {
             if(q.getName().equals(this.name)) {
                 // return the result (Term) of the referenced Question.
                 Term result = q.getResult();
-                if(q.isAvailable() || result == null) {
+                // If the Question isn't visible (hidden behind a Condition) or isn't set yet, throw an OtherException, which is handled by the Question or Condition that is being evaluated.
+                if(q.isAvailable() || result == null)
                     throw new OtherException("Variable isn't set yet");
-                } else {
+                else
                     return result;
-                }
             }
         }
+        // Return null when the correct Question isn't found.
         return null;
     }
 }

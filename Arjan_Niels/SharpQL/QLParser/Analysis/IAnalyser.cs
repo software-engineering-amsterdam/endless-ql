@@ -2,7 +2,7 @@
 
 namespace QLParser.Analysis
 {
-    public interface IAnalyser
+    public interface IQLAnalyser
     {
         bool Analyse(Node node);
     }

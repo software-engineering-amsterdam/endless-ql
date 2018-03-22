@@ -2,7 +2,7 @@
 
 namespace QLParser.Analysis.Syntactic
 {
-    public class SingleFormValidator : IAnalyser
+    public class SingleFormValidator : IQLAnalyser
     {
         private readonly string errorMessage = "This AST contains multiple 'FormNode'.";
 

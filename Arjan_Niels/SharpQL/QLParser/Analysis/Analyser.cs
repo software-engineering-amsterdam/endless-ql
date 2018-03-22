@@ -22,13 +22,13 @@ namespace QLParser.Analysis
         }
         #endregion
 
-        private List<IAnalyser> _analysers;
+        private List<IQLAnalyser> _analysers;
         private List<ParseMessage> _messages;
 
         private Analyser()
         {
             this._messages = new List<ParseMessage>();
-            this._analysers = new List<IAnalyser>()
+            this._analysers = new List<IQLAnalyser>()
             {
                 // Syntactic
                 new QuestionHasNoChildrenValidator(),
@@ -47,7 +47,7 @@ namespace QLParser.Analysis
                 return false;
 
             var result = true;
-            foreach (IAnalyser analyser in Instance._analysers)
+            foreach (IQLAnalyser analyser in Instance._analysers)
                 if (!analyser.Analyse(node) && result)
                     result = false;
             return result;

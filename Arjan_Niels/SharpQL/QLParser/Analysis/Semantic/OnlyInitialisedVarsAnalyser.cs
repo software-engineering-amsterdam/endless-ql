@@ -4,7 +4,7 @@ using QLParser.Exceptions;
 
 namespace QLParser.Analysis.Semantic
 {
-    public class OnlyInitialisedVarsAnalyser : IAnalyser
+    public class OnlyInitialisedVarsAnalyser : IQLAnalyser
     {
         public bool Analyse(Node node)
         {

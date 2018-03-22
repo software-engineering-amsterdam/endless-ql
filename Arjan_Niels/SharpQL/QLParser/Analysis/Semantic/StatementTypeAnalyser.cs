@@ -6,7 +6,7 @@ using QLParser.Exceptions;
 
 namespace QLParser.Analysis.Semantic
 {
-    public class StatementTypeAnalyser : IAnalyser
+    public class StatementTypeAnalyser : IQLAnalyser
     {
         public bool Analyse(Node node)
         {

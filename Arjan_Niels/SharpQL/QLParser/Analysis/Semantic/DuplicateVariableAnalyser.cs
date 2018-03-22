@@ -6,7 +6,7 @@ namespace QLParser.Analysis.Semantic
     /// The TypeAnalyser walks over the tree and looks if all the variable type
     /// are in compliance with the language.
     /// </summary>
-    public class DuplicateVariableAnalyser : IAnalyser
+    public class DuplicateVariableAnalyser : IQLAnalyser
     {
         /// <summary>
         /// This function will return true if it doesn't encounter any problems. 

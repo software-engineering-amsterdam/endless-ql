@@ -2,7 +2,7 @@
 
 namespace QLParser.Analysis.Syntactic
 {
-    public class QuestionHasNoChildrenValidator : IAnalyser
+    public class QuestionHasNoChildrenValidator : IQLAnalyser
     {
         private readonly string errorMessage = "Questions can't have child nodes.";
 

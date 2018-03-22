@@ -7,6 +7,7 @@ stylesheet taxOfficeExample
     {
       section "You sold a house"
       {
+      question name
 
                 question euros
 
@@ -42,13 +43,12 @@ stylesheet taxOfficeExample
                 question real
                     widget radio
 
-                default integer
+                default string
                 {
-                  width: 100
-                  font: "Arial"
-                  fontsize: 14
-                  color: #999999
-                  widget spinbox
+                  width: 1000
+                  font: "Courier New"
+                  fontsize: 20
+                  color: #95f442
                 }
 
       }

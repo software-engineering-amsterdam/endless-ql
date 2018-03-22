@@ -16,6 +16,8 @@ public class MoneyWidgetQLS extends QLSWidget {
 
     @Override
     public Node convertToGuiNode() {
-        return this.moneyWidget.convertToGuiNode();
+        Node widget = this.moneyWidget.convertToGuiNode();
+        this.setStyle(widget);
+        return widget;
     }
 }

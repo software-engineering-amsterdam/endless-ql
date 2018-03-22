@@ -49,8 +49,7 @@ public class SliderWidget extends QLSWidget {
         slider.setMax(100);
         slider.setFocusTraversable(false);
 
-
-        this.setSliderStyle(slider, this.questionData.getStyle());
+        this.setStyle(slider);
 
         if (this.questionData.getValue() != null) {
             this.widgetValue.accept(new BaseValueVisitor<Void>() {
@@ -81,14 +80,6 @@ public class SliderWidget extends QLSWidget {
         });
 
         return slider;
-    }
-
-    private void setSliderStyle(Slider slider, Style style) {
-        if (style.getWidth() != null) {
-            slider.setMinWidth(style.getWidth());
-        } else {
-            slider.setMinWidth(BaseRenderable.TEXT_WIDTH);
-        }
     }
 }
 

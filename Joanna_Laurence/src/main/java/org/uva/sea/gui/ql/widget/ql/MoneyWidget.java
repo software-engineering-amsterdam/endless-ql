@@ -41,12 +41,11 @@ public class MoneyWidget extends QLWidget {
         }
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            this.sendUpdateValueEvent(textField, this.questionData.getQuestionName(), new MoneyValue(this.currency, new BigDecimal(newValue)));
+            this.sendUpdateValueEvent(this.questionData.getQuestionName(), new MoneyValue(this.currency, new BigDecimal(newValue)));
         });
 
         textField.positionCaret(textField.getText().length());
-
-        return this.createRow(this.questionData.getLabel(), textField, this.currency);
+        return textField;
     }
 
     //TODO: set color from styleQLS

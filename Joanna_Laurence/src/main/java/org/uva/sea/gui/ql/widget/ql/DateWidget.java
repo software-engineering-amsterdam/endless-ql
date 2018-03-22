@@ -31,6 +31,6 @@ public class DateWidget extends QLWidget {
             System.out.println("Selected date: " + date);
         });
 
-        return this.createRow(this.questionData.getLabel(), datePicker);
+        return this.drawComponent(this.questionData.getLabel(), datePicker);
     }
 }

@@ -53,6 +53,7 @@ public class QLWidgetFactory implements WidgetFactory {
             widgetValueUpdate.updateWidget(questionValue);
             return newWidget;
         } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException ignored) {
+            ignored.printStackTrace();
             return null;
         }
     }

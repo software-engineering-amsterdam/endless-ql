@@ -44,7 +44,7 @@ public class QLSWidgetFactory extends QLWidgetFactory {
     private Widget getWidgetTypedWidget(WidgetType widgetType, QuestionData questionData, IGuiElementUpdateListener listener) {
         Class<? extends Widget> widget = this.widgetTypeClasses.get(widgetType);
         if (widget == null) {
-            return this.createWidget(questionData, listener);
+            throw new NotImplementedException();
         }
 
         return this.getWidget(questionData, listener, widget);

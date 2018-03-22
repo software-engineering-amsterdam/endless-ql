@@ -91,9 +91,14 @@ class QLVisitorHelper(QLVisitor):
             return UnOpNode(var)
 
         # todo: fix vartype declaration
-        elif(ctx.INT()):
+        elif (ctx.INT()):
             var = ctx.INT().getText()
-            vartype = u'int'
+            vartype = u"int"
+            return LiteralNode(var, vartype)
+
+        elif (ctx.BOOL()):
+            var = ctx.BOOL().getText()
+            vartype = u"boolean"
             return LiteralNode(var, vartype)
 
         return

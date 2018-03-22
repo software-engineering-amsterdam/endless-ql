@@ -71,6 +71,8 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     try {
       this.tryToUpdateForm(qlSource, qlsSource, qlsEnabled);
     } catch (error) {
+      console.error(error);
+
       this.setState({
         parserError: error,
         qlInput: qlSource,

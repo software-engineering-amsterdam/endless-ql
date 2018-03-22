@@ -58,13 +58,4 @@ stylesheet taxOfficeExample
     }
     default boolean widget radio("Yes", "No")
   }
-
-  page EmptyPage
-  {
-         section "EmptySection"
-         {
-           question sellingPrice
-             widget spinbox
-         }
-  }
 }

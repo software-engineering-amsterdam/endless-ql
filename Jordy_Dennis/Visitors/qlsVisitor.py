@@ -1,3 +1,8 @@
+"""
+    Visits the parse tree created by Antlr
+"""
+
+
 from Grammar.QLSGrammarParser import QLSGrammarParser
 from Grammar.QLSGrammarVisitor import QLSGrammarVisitor
 from Visitors.qlVisitor import mapStringToType

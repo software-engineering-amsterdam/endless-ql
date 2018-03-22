@@ -1,25 +1,23 @@
-from ql.parser.lexer import QLLexer
-from ql.parser.parser import QLParser
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QTextEdit
+
+from debug.debug import Debug
+from gui.form_window import FormWindow
+from gui.helper import append_file_extension
+from ql.ast.checkers.dependency_checker import DependencyChecker
+from ql.ast.checkers.question_checker import QuestionChecker
+from ql.ast.checkers.reference_checker import ReferenceChecker
 from ql.ast.extractors.extractor import extract_gui_model
 from ql.ast.extractors.extractor import extract_identifier_dependencies
 from ql.ast.extractors.extractor import extract_identifier_scopes
 from ql.ast.extractors.extractor import extract_identifier_types
 from ql.ast.extractors.extractor import extract_questions
-from ql.ast.visitors.conditional_visitor import ConditionalVisitor
 from ql.ast.visitors.type_visitor import TypeVisitor
-from ql.ast.checkers.question_checker import QuestionChecker
-from ql.ast.checkers.dependency_checker import DependencyChecker
-from ql.ast.checkers.reference_checker import ReferenceChecker
-from gui.form_window import FormWindow
-from gui.helper import append_file_extension
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QTextEdit
-from PyQt5.QtWidgets import QFileDialog
-from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtWidgets import QAction
-from PyQt5.QtWidgets import QMessageBox
-from debug.debug import Debug
-from debug.errors.conditional_error import ConditionalError
+from ql.parser.lexer import QLLexer
+from ql.parser.parser import QLParser
 
 
 class MainWindow(QMainWindow):
@@ -92,10 +90,8 @@ class MainWindow(QMainWindow):
             self.save_file()
 
     def save_file(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
         file_name, _ = QFileDialog.getSaveFileName(caption='Save file as', directory='/home',
-                                                   filter='Questionnaire language files (*.ql)', options=options)
+                                                   filter='Questionnaire language files (*.ql)')
 
         if file_name:
             self.current_file = append_file_extension(file_name, 'ql')
@@ -117,16 +113,7 @@ class MainWindow(QMainWindow):
             invalid_questions = QuestionChecker(extract_questions(ast), self.debug).has_errors
             invalid_types = TypeVisitor(extract_identifier_types(ast), self.debug).visit(ast)
 
-            try:
-                ConditionalVisitor().visit(ast)
-                invalid_conditionals = False
-            except ConditionalError:
-                QMessageBox.critical(QMessageBox(), 'Error', 'Conditional does not evaluate to boolean.',
-                                     QMessageBox.Close, QMessageBox.Escape)
-                invalid_conditionals = True
-
-            if not any([invalid_references, invalid_dependencies, invalid_questions,
-                        invalid_types, invalid_conditionals]):
+            if not any([invalid_references, invalid_dependencies, invalid_questions, invalid_types]):
                 dialog = FormWindow(extract_gui_model(ast))
                 dialog.exec_()
 

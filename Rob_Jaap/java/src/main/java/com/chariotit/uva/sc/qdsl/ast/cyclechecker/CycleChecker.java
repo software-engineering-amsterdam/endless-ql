@@ -7,6 +7,7 @@ import com.chariotit.uva.sc.qdsl.ast.cyclechecker.tree.Node;
 
 import java.util.*;
 
+// TODO refactor class
 public class CycleChecker {
 
     private DependencyTree dependencyTree;
@@ -32,7 +33,7 @@ public class CycleChecker {
                     continue;
                 }
 
-                queue.add(currentQueued.createExtended(child));
+                queue.add(QueuedNode.createExtended(currentQueued, child));
             }
         }
     }

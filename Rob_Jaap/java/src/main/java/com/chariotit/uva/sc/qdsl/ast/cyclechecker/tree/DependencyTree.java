@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class DependencyTree {
 
-    HashMap<String, Node> nodes;
+    private HashMap<String, Node> nodes;
 
     public DependencyTree() {
         this.nodes = new HashMap<>();
@@ -26,6 +26,7 @@ public class DependencyTree {
         node.addDependency(dependsOn);
     }
 
+    // TODO remove when done
     public void print() {
         for (Map.Entry<String, Node> node : nodes.entrySet()) {
 

@@ -4,11 +4,10 @@ which in turn contains a textbox for entering QL text, and a "Parse" button. Whe
 parsed and the encoded questionnaire is opened in an output_frame in the MainWindow. This questionnaire is interactive,
 and the entered answers may be saved to a .txt file by pressing the "Submit" button.
 """
-# import visitor.visitor as visitor_script
+from visitor.visitor import visit
 from visitor.listener import listen
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
-from grammar.run_antlr import run_antlr
 from grammar.data_structure import ParserCarrier
 import sys
 from gui.input_frame import InputFrame

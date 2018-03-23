@@ -9,6 +9,7 @@ import javafx.stage.{ FileChooser, Stage }
 import nl.uva.se.sc.niro.QLFormService
 import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLScenes
+import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
 import nl.uva.se.sc.niro.model.ql.QLForm
 import org.apache.logging.log4j.scala.Logging
 
@@ -46,7 +47,7 @@ class QLHomeController extends QLBaseController with Logging {
   }
 
   def showQLForm(form: QLForm): Unit = {
-    val controller = new QLFormController(this, form)
+    val controller = new QLFormController(this, form, GUIModelFactory.makeFrom(form))
     switchToScene(QLScenes.formScene, controller)
     controller.initializeForm()
   }

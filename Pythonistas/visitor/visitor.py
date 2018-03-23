@@ -1,14 +1,17 @@
 import ast
 import antlr4
-import antlr4.tree
 from parser_generator.grammar.QLListener import *
 from parser_generator.grammar.QLParser import QLParser
 
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore
+from gui import question_classes
 
 def visit(tree):
-    ql = QLVisitor()
-    walker = ParseTreeVisitor()
+    walker = QLVisitor()
     walker.visit(tree)
+    warning_message = check_duplicate_question_strings(walker.questionIDs, walker.questions)
+    return [walker.questionIDs, walker.questions, walker.error_message, warning_message]
 
 
 def check_duplicate_question_strings(questionIDs, questions):
@@ -27,21 +30,27 @@ def check_duplicate_question_strings(questionIDs, questions):
 
 class QLVisitor(ParseTreeVisitor):
     def __init__(self):
-        pass
+        self.error_message = None
+        self.questionIDs = [] # Ordered list of question IDs.
+        self.questions = {}  # Dictionary with question objects as values, IDs as keys
 
-    # def visitChildren(self, node):
-    #     result = self.defaultResult()
-    #     n = node.getChildCount()
-    #     for i in range(n):
-    #         if not self.shouldVisitNextChild(node, result):
-    #             return
-    #
-    #         c = node.getChild(i)
-    #         # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
-    #         childResult = c.accept(self)
-    #         result = self.aggregateResult(result, childResult)
-    #
-    #     return result
+    def defaultResult(self):
+        return []
+
+    def visitChildren(self, node):
+        result = self.defaultResult()
+        n = node.getChildCount()
+        for i in range(n):
+            if not self.shouldVisitNextChild(node, result):
+                return
+
+            c = node.getChild(i)
+            # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
+            childResult = c.accept(self)
+            # result = self.aggregateResult(result, childResult)
+            result.extend(childResult)
+
+        return result
 
     # Visit a parse tree produced by QLParser#form.
     def visitForm(self, ctx:QLParser.FormContext):
@@ -100,7 +109,10 @@ class QLVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by QLParser#declaration.
     def visitDeclaration(self, ctx:QLParser.DeclarationContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)
+        declared_value = QtWidgets.QLabel(str(result.pop()))
+        self.questions[ctx.parentCtx.ID().getText()].text_input_box = declared_value
+        return result
 
 
     # Visit a parse tree produced by QLParser#expression.
@@ -146,7 +158,11 @@ class QLVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by QLParser#value.
     def visitValue(self, ctx:QLParser.ValueContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)
+        if result:
+            return result
+        else:
+            return [ctx.INT()]
 
 
     # Visit a parse tree produced by QLParser#compute.
@@ -156,10 +172,10 @@ class QLVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by QLParser#arithmetic.
     def visitArithmetic_(self, ctx:QLParser.Arithmetic_Context):
-        return self.visitChildren(ctx)
+        result = eval(ctx.INT()[0].getText() + ctx.ARITHMETIC_OP().getText() + ctx.INT()[1].getText())
+        return [result]
 
 
     # Visit a parse tree produced by QLParser#boolean.
     def visitBoolean_(self, ctx:QLParser.Boolean_Context):
         return self.visitChildren(ctx)
-

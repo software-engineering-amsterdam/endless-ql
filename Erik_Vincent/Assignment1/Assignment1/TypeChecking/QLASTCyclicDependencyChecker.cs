@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Assignment1.Model.QL.AST;
+using Assignment1.Model.QL.AST.Expression;
 
 namespace Assignment1.TypeChecking
 {
@@ -10,6 +11,11 @@ namespace Assignment1.TypeChecking
     {
         private readonly LinkedList<Question> _currentCycle = new LinkedList<Question>();
 
+        /// <summary>
+        /// Checks for cyclic dependencies.
+        /// Will throw UndeclaredQuestionException, InvalidExpressionException or DuplicateQuestionException if the form is invalid.
+        /// </summary>
+        /// <param name="questionForm">Form without duplicate or undeclared questions.</param>
         public static void CheckForCycles(QuestionForm questionForm)
         {
             var checker = new QLASTCyclicDependencyChecker();
@@ -36,6 +42,11 @@ namespace Assignment1.TypeChecking
                 Debug.Assert(_currentCycle.Last.Value.Equals(question));
                 _currentCycle.RemoveLast();
             }
+        }
+
+        public override void Visit(Reference expression)
+        {
+            FollowReference(expression);
         }
     }
 }

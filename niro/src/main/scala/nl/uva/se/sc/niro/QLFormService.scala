@@ -7,7 +7,7 @@ import nl.uva.se.sc.niro.errors.Errors._
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
 import nl.uva.se.sc.niro.parser.QLFormParser
-import nl.uva.se.sc.niro.typechecking.TypeChecker
+import nl.uva.se.sc.niro.typechecking.ql.TypeCheckerFacade
 import org.antlr.v4.runtime.CharStreams
 
 import scala.io.Source
@@ -23,7 +23,7 @@ object QLFormService {
     val parseErrors: Seq[Error] = QLFormParser.getParseErrors.toList
 
     if (parseErrors.isEmpty) {
-      TypeChecker.pipeline(qlFormAst)
+      TypeCheckerFacade.pipeline(qlFormAst)
     } else {
       Left(parseErrors)
     }

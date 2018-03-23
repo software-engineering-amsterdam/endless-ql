@@ -11,12 +11,14 @@ public class QuestionComponent {
 
     private JPanel panel;
 
-    private JLabel label;
-    private Widget widget;
+    private final JLabel label;
+    private final Widget widget;
 
     public QuestionComponent(FormEvaluator formEvaluator, Question question) {
         label = new JLabel(question.getLabel());
-        // widget = new TextFieldWidget(formEvaluator, question);
+        widget = new TextFieldWidget(formEvaluator, question);
+        panel.add(label);
+        panel.add(widget.getComponent());
     }
 
     public JComponent getComponent() {

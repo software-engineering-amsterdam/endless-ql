@@ -1,6 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.visitor;
 
-import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
@@ -140,13 +141,14 @@ public class TypeCheckVisitor extends NodeVisitor {
         if (constBinOpExpression.getConstant().getExpressionType() != constBinOpExpression
                 .getExpression().getExpressionType()) {
             addError(constBinOpExpression, "Incompatible operands");
-        } else if (!checkOperatorType(constBinOpExpression.getConstant().getExpressionType(),
-                constBinOpExpression.getOperator())) {
+        } else if (!constBinOpExpression.getOperator().isValidExpressionType(constBinOpExpression
+                .getConstant()
+                        .getExpressionType())) {
             addError(constBinOpExpression, "Incompatible operands and operator");
         } else {
             constBinOpExpression.setExpressionType(
-                    getBinOpExpressionType(constBinOpExpression.getExpression().getExpressionType(),
-                            constBinOpExpression.getOperator()
+                    constBinOpExpression.getOperator().getResultExpressionType(
+                            constBinOpExpression.getExpression().getExpressionType()
                     ));
         }
     }
@@ -174,13 +176,15 @@ public class TypeCheckVisitor extends NodeVisitor {
         if (labelBinOpExpression.getExpression().getExpressionType() !=
                 labelBinOpExpression.getLabelExpression().getExpressionType()) {
             addError(labelBinOpExpression, "Incompatible operands");
-        } else if (!checkOperatorType(labelBinOpExpression.getExpression().getExpressionType(),
-                labelBinOpExpression.getOperator())) {
+        } else if (!labelBinOpExpression.getOperator().isValidExpressionType(labelBinOpExpression
+                        .getExpression()
+                        .getExpressionType())) {
             addError(labelBinOpExpression, "Incompatible operands and operator");
         } else {
             labelBinOpExpression.setExpressionType(
-                    getBinOpExpressionType(labelBinOpExpression.getExpression().getExpressionType(),
-                            labelBinOpExpression.getOperator()));
+                    labelBinOpExpression.getOperator().getResultExpressionType(labelBinOpExpression
+                                    .getExpression().getExpressionType()
+                            ));
         }
     }
 
@@ -213,29 +217,9 @@ public class TypeCheckVisitor extends NodeVisitor {
         if (typeExpression.getExpression() != null && typeExpression.getExpression()
                 .getExpressionType() != null) {
 
-            switch (typeExpression.getExpression().getExpressionType()) {
-                case BOOLEAN:
-                    if (!(typeExpression.getTypeNode() instanceof BooleanTypeNode)) {
-                        addError(typeExpression, "Type and expression mismatch");
-                    }
-                    break;
-                case INTEGER:
-                    if (!(typeExpression.getTypeNode() instanceof IntegerTypeNode)) {
-                        addError(typeExpression, "Type and expression mismatch");
-                    }
-                    break;
-                case MONEY:
-                    if (!(typeExpression.getTypeNode() instanceof MoneyTypeNode)) {
-                        addError(typeExpression, "Type and expression mismatch");
-                    }
-                    break;
-                case STRING:
-                    if (!(typeExpression.getTypeNode() instanceof StringTypeNode)) {
-                        addError(typeExpression, "Type and expression mismatch");
-                    }
-                    break;
-                default:
-                    throw new RuntimeException("Missing type");
+            if (typeExpression.getTypeNode().getType() !=
+                    typeExpression.getExpression().getExpressionType()) {
+                addError(typeExpression, "Type and expression mismatch");
             }
         }
     }
@@ -243,8 +227,8 @@ public class TypeCheckVisitor extends NodeVisitor {
     @Override
     public void visitUnOpExpression(UnOpExpression unOpExpression) {
 
-        if (!checkOperatorType(unOpExpression.getExpression().getExpressionType(),
-                unOpExpression.getOperator())) {
+        if (!unOpExpression.getOperator().isValidExpressionType(unOpExpression.getExpression()
+                .getExpressionType())) {
 
             addError(unOpExpression, "Expression and operator type mismatch");
 
@@ -254,49 +238,11 @@ public class TypeCheckVisitor extends NodeVisitor {
     }
 
     private void addError(AstNode node, String message) {
-        errors.add(new TypeCheckError(message, node.getLineNumber(), node.getColumnNumber()));
+        errors.add(new TypeCheckError(message, node.getSourceFilePosition()));
     }
 
     private void addWarning(AstNode node, String message) {
-        errors.add(new TypeCheckError(message, node.getLineNumber(), node.getColumnNumber(),
+        errors.add(new TypeCheckError(message, node.getSourceFilePosition(),
                 TypeCheckError.Level.WARN));
-    }
-
-    /**
-     * Returns the ExpressionType of a binary expression based on the operator and the
-     * ExpressionType of one of the sides of the binary expression. Assumes that compatibility of
-     * operator and operands is already checked.
-     *
-     * @param operandExpressionType
-     * @param operator
-     * @return
-     */
-    private ExpressionType getBinOpExpressionType(ExpressionType operandExpressionType,
-                                                  Operator operator) {
-
-        if (operator instanceof BooleanResultOperator) {
-            return ExpressionType.BOOLEAN;
-        }
-
-        return operandExpressionType;
-    }
-
-    private boolean checkOperatorType(ExpressionType type, Operator operator) {
-        switch (type) {
-            case BOOLEAN:
-                return operator instanceof BooleanOperator;
-            case INTEGER:
-                return operator instanceof IntegerOperator;
-            case MONEY:
-                return operator instanceof MoneyOperator;
-            case STRING:
-                return operator instanceof StringOperator;
-            default:
-                throw new RuntimeException("Missing operator type");
-        }
-    }
-
-    public List<TypeCheckError> getErrors() {
-        return errors;
     }
 }

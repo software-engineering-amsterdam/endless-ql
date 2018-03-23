@@ -1,8 +1,9 @@
 package gui.widgets;
 
 import gui.WidgetListener;
+import ql.ast.statements.Question;
 import ql.evaluator.FormEvaluator;
-import ql.evaluator.values.Evaluatable;
+import ql.evaluator.values.BooleanValue;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,11 +12,11 @@ import java.util.Map;
 
 public class RadioWidget extends BaseWidget {
 
-    private Map<String, JRadioButton> choiceButtonMap;
-    private JPanel panel;
+    private final Map<String, JRadioButton> choiceButtonMap;
+    private final JPanel panel;
 
-    public RadioWidget(FormEvaluator evaluator, Evaluatable value, String identifier) {
-        super(evaluator, value, identifier);
+    public RadioWidget(FormEvaluator evaluator, Question question) {
+        super(evaluator, question);
 
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(200, 50));
@@ -36,6 +37,11 @@ public class RadioWidget extends BaseWidget {
     }
 
     @Override
+    public void setValue() {
+        //TODO
+    }
+
+    @Override
     public void setVisible(boolean visible) {
         for (JRadioButton button : choiceButtonMap.values()) {
             button.setVisible(visible);
@@ -43,9 +49,14 @@ public class RadioWidget extends BaseWidget {
     }
 
     @Override
-    public void addWidgetListener(WidgetListener widgetListener) {
+    public void registerChangeListener(WidgetListener widgetListener) {
         for (JRadioButton button : choiceButtonMap.values()) {
-            //
+            button.addActionListener(e -> {
+                if (button.isSelected()) {
+                    widgetListener.updateEnvironment(question, new BooleanValue(Boolean.parseBoolean(button.getText())));
+                }
+            });
+
         }
     }
 

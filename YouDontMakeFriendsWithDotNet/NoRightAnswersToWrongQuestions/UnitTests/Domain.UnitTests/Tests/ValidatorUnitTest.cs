@@ -172,6 +172,18 @@ namespace UnitTests.Domain.UnitTests.Tests
             Assert.IsTrue(results.Any());
             AssertThatErrorMessagesMatch(errorMessage, results);
         }
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.NoCyclicDependency))]
+        public void WhenGivenNoCyclicalDependecies_ProducesNoMetaDatas(
+            string validDescription)
+        {
+            CreateAndValidateForm(validDescription);
+            var results = ResultsFor<CyclicDependencyValidationMetaData>();
+            
+            Assert.IsTrue(!results.Any());
+        }
+
 
         [TestCaseSource(
             typeof(TestValidationData),

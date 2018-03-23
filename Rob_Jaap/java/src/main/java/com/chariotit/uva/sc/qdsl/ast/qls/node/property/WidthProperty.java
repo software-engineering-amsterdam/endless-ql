@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.qls.node.property;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Property;
 import com.chariotit.uva.sc.qdsl.ast.qls.visitor.NodeVisitor;
 
@@ -8,8 +9,8 @@ public class WidthProperty extends Property {
     private Integer width;
 
 
-    public WidthProperty(Integer width, Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public WidthProperty(Integer width, SourceFilePosition filePosition) {
+        super(filePosition);
         this.width = width;
     }
 

@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.IOException;
@@ -21,16 +19,12 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import org.antlr.v4.runtime.RecognitionException;
-
-import nl.khonraad.qLanguage.domain.Question;
-import nl.khonraad.qLanguage.domain.Question.BehaviouralType;
-import nl.khonraad.qLanguage.domain.Questionnaire;
-import nl.khonraad.qLanguage.domain.Type;
-import nl.khonraad.qLanguage.domain.Value;
+import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.domain.Question.BehaviouralType;
+import nl.khonraad.ql.domain.Questionnaire;
+import nl.khonraad.ql.domain.Type;
+import nl.khonraad.ql.domain.Value;
 
 public class QLApplication {
 
@@ -44,6 +38,7 @@ public class QLApplication {
             + "           sellingPrice: \"Price the house was sold for:\" money                            "
             + "           privateDebt: \"Private debts for the sold house:\" money                         "
             + "      valueResidue: \"Value residue:\" money (sellingPrice - privateDebt )                  "
+            + "      epoch: \"A year after Epoch:\" date (01/01/1970 +364 + 1 )                  "
             + "     }                                                                                      "
             + "}                                                                                           ";
 
@@ -51,12 +46,12 @@ public class QLApplication {
 
     final JPanel        mainPanel     = new JPanel();
 
-    public static void main( String[] args ) throws RecognitionException, IOException {
+    public static void main( String[] args ) throws IOException {
 
         new QLApplication();
     }
 
-    public QLApplication() throws RecognitionException, IOException {
+    public QLApplication() throws IOException {
 
         JFrame guiFrame = new JFrame();
 
@@ -215,17 +210,15 @@ public class QLApplication {
     }
 
     private void addFocusListenerForSpinner( String identifier, JSpinner component, Type type ) {
-        component.addChangeListener( new ChangeListener() {
 
-            @Override
-            public void stateChanged( ChangeEvent e ) {
+        component.addChangeListener( e -> {
 
-                JSpinner spinner = (JSpinner) e.getSource();
-                String current = spinner.getModel().getValue().toString();
+            JSpinner spinner = (JSpinner) e.getSource();
 
-                questionnaire.storeAnswer( identifier, new Value( type, current ) );
-                visualizeQuestionnaire( mainPanel );
-            }
+            String current = spinner.getModel().getValue().toString();
+
+            questionnaire.storeAnswer( identifier, new Value( type, current ) );
+            visualizeQuestionnaire( mainPanel );
         } );
     }
 
@@ -254,20 +247,18 @@ public class QLApplication {
     private JComboBox<String> createBooleanBox( String identifier, String text ) {
 
         String[] options = { Value.FALSE.getText(), Value.TRUE.getText() };
-        JComboBox<String> component = new JComboBox<String>( options );
+        JComboBox<String> component = new JComboBox<>( options );
+
         component.setSelectedItem( text );
-        component.addActionListener( new ActionListener() {
 
-            @Override
-            public void actionPerformed( ActionEvent e ) {
+        component.addActionListener( e -> {
 
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String current = (String) combo.getSelectedItem();
+            JComboBox<String> combo = (JComboBox<String>) e.getSource();
+            String current = (String) combo.getSelectedItem();
 
-                questionnaire.storeAnswer( identifier, new Value( Type.Boolean, current ) );
+            questionnaire.storeAnswer( identifier, new Value( Type.Boolean, current ) );
 
-                visualizeQuestionnaire( mainPanel );
-            }
+            visualizeQuestionnaire( mainPanel );
         } );
         return component;
     }

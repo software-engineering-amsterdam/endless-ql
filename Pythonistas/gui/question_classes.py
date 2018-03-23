@@ -27,6 +27,7 @@ class Question:
             self.question_frame.setVisible(True)
         else:
             self.visibility = True
+
         # Restores the original answer when the question is revealed again.
         self.answer = self.hidden_answer
 
@@ -139,9 +140,6 @@ class MoneyQuestion(Question):
 
     def set_answer_box(self,textBox):
         self.text_input_box = textBox
-
-    # def get_text(self):
-    #     self.text_input_box.text()
 
     def update_answer(self):
         self.answer = self.text_input_box.text()

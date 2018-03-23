@@ -162,7 +162,7 @@ class QLVisitor(ParseTreeVisitor):
         if result:
             return result
         else:
-            return [ctx.INT()]
+            return [ctx.getText()]
 
 
     # Visit a parse tree produced by QLParser#compute.

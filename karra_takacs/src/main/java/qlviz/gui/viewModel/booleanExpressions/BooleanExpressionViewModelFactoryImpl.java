@@ -30,7 +30,7 @@ public class BooleanExpressionViewModelFactoryImpl implements BooleanExpressionV
 
     @Override
     public BooleanExpressionViewModel visit(BooleanLiteral literal) {
-        return new BooleanLiteralViewModel(literal.evaluate());
+        return new BooleanLiteralViewModel(literal.getValue());
     }
 
     @Override

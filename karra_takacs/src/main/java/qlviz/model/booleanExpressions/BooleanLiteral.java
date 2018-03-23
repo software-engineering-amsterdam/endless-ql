@@ -14,7 +14,7 @@ public class BooleanLiteral extends Node implements BooleanExpression {
         this.value = value;
     }
 
-    public boolean evaluate() {
+    public boolean getValue() {
         return this.value;
     }
 

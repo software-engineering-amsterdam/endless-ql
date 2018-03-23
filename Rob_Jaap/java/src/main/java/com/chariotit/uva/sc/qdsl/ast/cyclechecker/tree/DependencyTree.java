@@ -26,18 +26,6 @@ public class DependencyTree {
         node.addDependency(dependsOn);
     }
 
-    // TODO remove when done
-    public void print() {
-        for (Map.Entry<String, Node> node : nodes.entrySet()) {
-
-            System.out.println(node.getValue());
-
-            for (Node n : node.getValue().getDependencies()) {
-                System.out.println("- " + n);
-            }
-        }
-    }
-
     public HashMap<String,Node> getNodes() {
         return nodes;
     }

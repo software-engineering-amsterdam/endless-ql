@@ -30,7 +30,7 @@ public class PageVisitorTest {
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(contextMock.section()).thenReturn(
                 List.of(mock(QLSParser.SectionContext.class), mock(QLSParser.SectionContext.class)));
-        when(sectionVisitorMock.visitPage(any())).thenReturn(mock(Section.class));
+        when(sectionVisitorMock.visitSection(any())).thenReturn(mock(Section.class));
 
         // Act
         Page result = pageVisitor.visitPage(contextMock);
@@ -52,7 +52,7 @@ public class PageVisitorTest {
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(contextMock.section()).thenReturn(
                 List.of(mock(QLSParser.SectionContext.class), mock(QLSParser.SectionContext.class)));
-        when(sectionVisitorMock.visitPage(any())).thenReturn(mock(Section.class));
+        when(sectionVisitorMock.visitSection(any())).thenReturn(mock(Section.class));
         when(identifierMock.getText()).thenReturn(name);
 
         // Act

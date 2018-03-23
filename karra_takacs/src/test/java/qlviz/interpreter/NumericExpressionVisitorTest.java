@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Assert;
 import org.junit.Test;
+import qlviz.QLBaseListener;
 import qlviz.QLLexer;
 import qlviz.QLParser;
 import qlviz.interpreter.linker.NumericExpressionVisitor;
@@ -143,5 +144,25 @@ public class NumericExpressionVisitorTest {
         operands.getRight().accept(new NumericLiteralChecker(BigDecimal.valueOf(5)));
 
     }
-    
+
+    @Test
+    public void testUnaryOperator() {
+        // Arrange
+        var expressionVisitor = new NumericExpressionParser(new BinaryNumericOperatorVisitor());
+        var input = "-5*3";
+        var lexer = new QLLexer(new ANTLRInputStream(input));
+        var parser = new QLParser(new CommonTokenStream(lexer));
+
+        // Act
+        var expression = expressionVisitor.visitNumericExpression(parser.numericExpression());
+        expression.accept(new OperatorTypeChecker(BinaryNumericOperator.Multiply));
+        var operands = expression.accept(new BinaryExpressionDeconstructor());
+        operands.getRight().accept(new NumericLiteralChecker(BigDecimal.valueOf(3)));
+        operands.getLeft().accept(new BaseNumericExpressionVisitor() {
+            @Override
+            public void visit(NumericNegation numericNegation) {
+                numericNegation.getInnerExpression().accept(new NumericLiteralChecker(BigDecimal.valueOf(5)));
+            }
+        });
+    }
 }

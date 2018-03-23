@@ -24,7 +24,7 @@ public class SectionVisitorTest {
     @Test
     public void testName() {
         // Arrange
-        final String name = "test_name";
+        final String name = "\"test_name\"";
         QLSParser.SectionContext contextMock = mock(QLSParser.SectionContext.class);
         TerminalNode stringMock = mock(TerminalNode.class);
         when(contextMock.question()).thenReturn(new ArrayList<>());
@@ -45,7 +45,7 @@ public class SectionVisitorTest {
         Section result = sectionVisitor.visitSection(contextMock);
 
         // Assert
-        Assert.assertEquals(name, result.getName());
+        Assert.assertEquals("test_name", result.getName());
     }
 
     @Test

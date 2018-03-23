@@ -13,12 +13,11 @@ conditionalBlock:  IF  PAREN_OPEN (booleanExpression | IDENTIFIER)PAREN_CLOSE
 computedValue: '=' numericExpression | booleanExpression;
 
 //expressions
-numericExpression : PAREN_OPEN numericExpression PAREN_CLOSE
+numericExpression : ADDITIVE_OPERATION? PAREN_OPEN numericExpression PAREN_CLOSE
                   | numericExpression MULTIPLICATIVE_OPERATION numericExpression
                   | numericExpression ADDITIVE_OPERATION numericExpression
-                  | UNARY_NUMERIC_OPERATOR numericExpression
-                  | NUMBER
-                  | IDENTIFIER
+                  | ADDITIVE_OPERATION? NUMBER
+                  | ADDITIVE_OPERATION? IDENTIFIER
                   ;
 
 booleanExpression : BOOLEAN
@@ -58,5 +57,3 @@ MULTIPLICATIVE_OPERATION : '*'
 ADDITIVE_OPERATION : '+'
                    | '-'
                    ;
-
-UNARY_NUMERIC_OPERATOR:  ('-' | '+') ;

@@ -102,6 +102,16 @@ public class TypeCheckVisitor extends NodeVisitor {
     }
 
     @Override
+    public void visitOrOp(OrOp orOp) {
+
+    }
+
+    @Override
+    public void visitAndOp(AndOp andOp) {
+
+    }
+
+    @Override
     public void visitBooleanType(BooleanTypeNode booleanType) {
 
     }
@@ -244,5 +254,9 @@ public class TypeCheckVisitor extends NodeVisitor {
     private void addWarning(AstNode node, String message) {
         errors.add(new TypeCheckError(message, node.getSourceFilePosition(),
                 TypeCheckError.Level.WARN));
+    }
+
+    public List<TypeCheckError> getErrors() {
+        return errors;
     }
 }

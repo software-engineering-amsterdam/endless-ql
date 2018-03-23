@@ -246,6 +246,10 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
             return new LteOp(getSourceFilePosition(ctx));
         } else if (ctx.LT() != null) {
             return new LtOp(getSourceFilePosition(ctx));
+        } else if (ctx.OR() != null) {
+            return new OrOp(getSourceFilePosition(ctx));
+        } else if (ctx.AND() != null) {
+            return new AndOp(getSourceFilePosition(ctx));
         } else {
             throw new UnknownOptionException();
         }

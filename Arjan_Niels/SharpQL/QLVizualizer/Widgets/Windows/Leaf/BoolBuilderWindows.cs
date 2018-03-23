@@ -23,10 +23,10 @@ namespace QLVisualizer.Widgets.Windows.Leaf
             WidgetType widgetType = WidgetType.DEFAULT;
             List<string> widgetOptions = new List<string>() { _elementManager.Text };
 
-            if (_elementManager.Style != null)
+            if (_elementManager.GetStyle() != null)
             {
-                widgetType = _elementManager.Style.GetQLSWidgetSpecification().WidgetType;
-                widgetOptions.AddRange(_elementManager.Style.GetQLSWidgetSpecification().WidgetTypeArguments);
+                widgetType = _elementManager.GetStyle().GetQLSWidgetSpecification().WidgetType;
+                widgetOptions.AddRange(_elementManager.GetStyle().GetQLSWidgetSpecification().WidgetTypeArguments);
             }
 
             // Get inputcreator

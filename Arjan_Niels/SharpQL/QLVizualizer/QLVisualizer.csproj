@@ -56,6 +56,7 @@
     <Compile Include="Elements\Managers\ElementManagerCollection.cs" />
     <Compile Include="Elements\Managers\ElementManager.cs" />
     <Compile Include="Elements\ElementTypes.cs" />
+    <Compile Include="Elements\Managers\IStylable.cs" />
     <Compile Include="Elements\Managers\LeafTypes\DoubleQuestionManager.cs" />
     <Compile Include="Expression\Enums\ExpressionOperators.cs" />
     <Compile Include="Expression\Enums\ExpressionType.cs" />

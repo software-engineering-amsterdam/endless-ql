@@ -41,7 +41,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf.InputCreators
 
         private string[] AllButFirst(string[] array)
         {
-            return Enumerable.Select(Enumerable.Range(1, array.Length), i => array[i]).ToArray();
+            return Enumerable.Select(Enumerable.Range(1, array.Length - 1), i => array[i]).ToArray();
         }
     }
 }

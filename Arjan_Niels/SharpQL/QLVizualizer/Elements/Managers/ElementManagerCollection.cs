@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using QLParser.AST.QLS;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 
@@ -19,6 +20,8 @@ namespace QLVisualizer.Elements.Managers
         {
             Children = new List<ElementManager>();
         }
+
+        public List<IQLSElement> Styles { get; private set; }
 
         /// <summary>
         /// Add child, set parent of ElementManager
@@ -134,6 +137,19 @@ namespace QLVisualizer.Elements.Managers
             return new Tuple<List<string>, Dictionary<string, ElementManager>>(targets, result);
         }
 
+        public void AddStyle(params IQLSElement[] styles)
+        {
+            Styles.AddRange(styles);
+        }
 
+        public override void SetStyle(IQLSElement style)
+        {
+            Styles = new List<IQLSElement>() { style };
+        }
+
+        public override IQLSElement GetStyle()
+        {
+            return Styles[0];
+        }
     }
 }

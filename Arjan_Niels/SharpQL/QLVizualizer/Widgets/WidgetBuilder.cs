@@ -24,9 +24,9 @@ namespace QLVisualizer.Widgets
         public void SetParentStyle(List<QLSValue> elements)
         {
             List<QLSValue> qlsElements = new List<QLSValue>();
-            if (_elementManager.Style != null)
+            if (_elementManager.GetStyle() != null)
             {
-                qlsElements.AddRange(_elementManager.Style.GetStylingValues());
+                qlsElements.AddRange(_elementManager.GetStyle().GetStylingValues());
 
                 List<string> ownStyleElements = qlsElements.Select(element => element.StyleProperty).ToList();
                 foreach (QLSValue element in elements)

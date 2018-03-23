@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace QLVisualizer.Elements.Managers
 {
-    public abstract class ElementManager
+    public abstract class ElementManager : IStylable
     {
         /// <summary>
         /// Unique identifyer of the Element & ElementManager
@@ -47,8 +47,6 @@ namespace QLVisualizer.Elements.Managers
 
         public event ActiveChanged OnActiveChange;
 
-        public IQLSElement Style;
-
         public ElementManager(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null)
         {
             Text = text;
@@ -58,9 +56,9 @@ namespace QLVisualizer.Elements.Managers
 
             _activationExpression = activationExpression;
             Active = activationExpression == null;
-            //Style = new QLSStyle(); // TODO: NON-INTERFACE DEPENDENCY?!
         }
 
+        
         public virtual void RegisterListeners()
         {
             Dictionary<string, ElementManagerLeaf> targets = _elementManagerController.Form.FindLeafsByID(GetActivationTargetIDs().ToArray());
@@ -96,5 +94,9 @@ namespace QLVisualizer.Elements.Managers
         /// </summary>
         /// <returns>XML representation of the element</returns>
         public abstract string ToXML();
+
+        public abstract void SetStyle(IQLSElement style);
+
+        public abstract IQLSElement GetStyle();
     }
 }

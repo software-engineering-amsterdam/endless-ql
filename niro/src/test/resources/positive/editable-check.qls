@@ -5,7 +5,7 @@ stylesheet EditOrNotToEdit {
             question booleanVariable widget radio("Yes", "No")
             question booleanNotExpression
             question integerVariable widget spinbox
-            question decimalVariable
+            question decimalVariable color: #00FFFF
             question moneyVariable
             question dateVariable
         }

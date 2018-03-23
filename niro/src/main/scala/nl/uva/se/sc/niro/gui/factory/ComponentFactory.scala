@@ -49,18 +49,13 @@ class QLSComponentFactory(componentChangeListener: ComponentChangedListener, wid
       case qlsQuestion: QLSGUIQuestion => {
         // TODO convert to decorators
         val component = super.make(question)
+        val nodes = JavaConverters.asScalaBuffer(component.getChildren)
         qlsQuestion.styling.color.foreach(color => {
-          JavaConverters
-            .asScalaBuffer(component.getChildren)
-            .foreach(child => child.setStyle(s"-fx-text-fill: ${color.color}; ${child.getStyle}"))
+          nodes.foreach(child => child.setStyle(s"-fx-text-fill: ${color.color}; ${child.getStyle}"))
         })
-        qlsQuestion.styling.width.foreach(
-          width =>
-            JavaConverters
-              .asScalaBuffer(component.getChildren)
-              .foreach(child => {
-                child.setStyle(s"-fx-pref-width: ${width.width}px; ${child.getStyle}")
-              }))
+        qlsQuestion.styling.width.foreach(width => {
+          nodes.foreach(child => child.setStyle(s"-fx-pref-width: ${width.width}px; ${child.getStyle}"))
+        })
         qlsQuestion.styling.fontType.foreach(font =>
           component.setStyle(s"-fx-font-family: ${font.fontType}; ${component.getStyle}"))
         qlsQuestion.styling.fontSize.foreach(fontSize =>

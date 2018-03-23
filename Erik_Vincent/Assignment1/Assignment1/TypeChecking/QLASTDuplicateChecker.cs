@@ -12,14 +12,7 @@ namespace Assignment1.TypeChecking
         public static void CheckDuplicates(QuestionForm questionForm)
         {
             var checker = new QLASTDuplicateChecker();
-            try
-            {
-                checker.Visit(questionForm);
-            }
-            catch (DuplicateQuestionException e)
-            {
-                Console.WriteLine("Error found on line " + e.Question.LineNumber + ": " + e.Question.Id + " was already declared in this context.");
-            }
+            checker.Visit(questionForm);
         }
 
         private void CheckDuplicateLabels()
@@ -30,7 +23,6 @@ namespace Assignment1.TypeChecking
                 var lineNumbers = labelQuestion.Value.Select(question => question.LineNumber.ToString());
                 Console.WriteLine("Warning label:\"" + labelQuestion.Key + "\" is defined on lines: " + string.Join(", ", lineNumbers) + ".");
             }
-
         }
 
         public override void Visit(QuestionForm questionForm)
@@ -46,16 +38,24 @@ namespace Assignment1.TypeChecking
             _labelQuestions[question.Label].Add(question);
         }
 
+        private void CheckDuplicateQuestion(Question question)
+        {
+            if (QuestionsInScope[question.Id].Count() > 1)
+            {
+                Console.WriteLine("Error found on line " + question.LineNumber + ": " + question.Id + " was already declared in this context.");
+            }
+        }
+
         public override void Visit(NormalQuestion question)
         {
+            CheckDuplicateQuestion(question);
             AddLabelQuestion(question);
-            base.Visit(question);
         }
 
         public override void Visit(ComputedQuestion question)
         {
+            CheckDuplicateQuestion(question);
             AddLabelQuestion(question);
-            base.Visit(question);
         }
 
         private QLASTDuplicateChecker() { }

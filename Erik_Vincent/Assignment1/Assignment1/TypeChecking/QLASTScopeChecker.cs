@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assignment1.Model.QL.AST;
 using Assignment1.Model.QL.AST.Expression;
 
@@ -22,17 +23,9 @@ namespace Assignment1.TypeChecking
 
         public override void Visit(Reference expression)
         {
-            try
-            {
-                base.Visit(expression);
-            }
-            catch (UndeclaredQuestionException)
+            if (!QuestionsInScope.Contains(expression.QuestionId))
             {
                 ReportError(expression.QuestionId + " not declared in this scope.");
-            }
-            catch (InvalidExpressionException)
-            {
-                ReportError(expression.QuestionId + " contains an invalid reference.");
             }
         }
     }

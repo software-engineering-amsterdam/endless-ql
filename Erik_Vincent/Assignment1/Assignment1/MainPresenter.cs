@@ -40,6 +40,9 @@ namespace Assignment1
             try
             {
                 var astForm = TextToQLAST.ParseString(File.ReadAllText(inputFile));
+                QLASTDuplicateChecker.CheckDuplicates(astForm);
+                QLASTScopeChecker.CheckReferenceScopes(astForm);
+                QLASTCyclicDependencyChecker.CheckForCycles(astForm);
                 QLTypeChecker typechecker = new QLTypeChecker();
                 typechecker.TypeCheckQuestionForm(astForm);
                 var renderForm = QLASTToRenderTree.Convert(astForm);

@@ -1,14 +1,17 @@
 import ast
 import antlr4
-import antlr4.tree
 from parser_generator.grammar.QLListener import *
 from parser_generator.grammar.QLParser import QLParser
 
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore
+from gui import question_classes
 
 def visit(tree):
-    ql = QLVisitor()
-    walker = ParseTreeVisitor()
+    walker = QLVisitor()
     walker.visit(tree)
+    warning_message = check_duplicate_question_strings(walker.questionIDs, walker.questions)
+    return [walker.questionIDs, walker.questions, walker.error_message, warning_message]
 
 
 def check_duplicate_question_strings(questionIDs, questions):
@@ -27,7 +30,9 @@ def check_duplicate_question_strings(questionIDs, questions):
 
 class QLVisitor(ParseTreeVisitor):
     def __init__(self):
-        pass
+        self.error_message = None
+        self.questionIDs = [] # Ordered list of question IDs.
+        self.questions = {}  # Dictionary with question objects as values, IDs as keys
 
     # def visitChildren(self, node):
     #     result = self.defaultResult()
@@ -100,6 +105,9 @@ class QLVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by QLParser#declaration.
     def visitDeclaration(self, ctx:QLParser.DeclarationContext):
+        declared_value = QtWidgets.QLabel(ctx.value().getText())
+        self.questions[ctx.parentCtx.ID().getText()].text_input_box = declared_value
+
         return self.visitChildren(ctx)
 
 
@@ -162,4 +170,3 @@ class QLVisitor(ParseTreeVisitor):
     # Visit a parse tree produced by QLParser#boolean.
     def visitBoolean_(self, ctx:QLParser.Boolean_Context):
         return self.visitChildren(ctx)
-

@@ -2,28 +2,27 @@ package gui.widgets.spinner;
 
 import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
-import javafx.scene.Node;
+import javafx.beans.value.ChangeListener;
+import javafx.scene.Parent;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
-import java.util.Locale;
+import ql.analysis.SymbolTable;
+import qls.model.StyleSheet;
 
 public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
 
-    public SpinnerWidget() {
+    private final String identifier;private final boolean computed;
+
+    public SpinnerWidget(String identifier, boolean computed) {
+        this.identifier = identifier; this.computed = computed;
         this.setEditable(true);
     }
 
     @Override
-    public Node getNode() {
-        return this;
-    }
-
-    @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        this.valueProperty().addListener(invalidationListener);
+        if(!computed)
+            this.valueProperty().addListener(invalidationListener);
     }
 
     @Override
@@ -46,6 +45,27 @@ public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
     @Override
     public void setWidth(int width) {
         this.setPrefWidth(width);
+    }
+
+
+    @Override
+    public void update(SymbolTable symbolTable) {
+        if(computed) setValue(symbolTable.getValue(this.identifier)); else symbolTable.setExpression(identifier, this.getExpressionValue());
+    }
+
+    @Override
+    public void update(StyleSheet styleSheet) {
+
+    }
+
+    @Override
+    public Parent render() {
+        return this;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return identifier;
     }
 }
 

@@ -1,12 +1,14 @@
 package gui.widgets.slider;
 
+import ql.analysis.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableDecimal;
+import qls.model.StyleSheet;
 
 public class SliderDecimalWidget extends SliderWidget {
-    public SliderDecimalWidget(double min, double max) {
-        super(min, max);
+    public SliderDecimalWidget(String identifier, boolean computed, double min, double max) {
+        super(identifier, computed, min, max);
 
         // Display value in label next to slider
         this.slider.valueProperty().addListener((obs, oldVal, newVal) -> valueLabel.setText(newVal.toString()));

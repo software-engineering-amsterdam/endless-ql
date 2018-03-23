@@ -2,15 +2,26 @@ package gui.widgets.textbox;
 
 import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
-import javafx.scene.Node;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import ql.analysis.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableString;
+import qls.model.StyleSheet;
 
 public class TextboxWidget extends TextField implements GUIWidget {
+
+    private final String identifier;private final boolean computed;
+
+    public TextboxWidget(String identifier, boolean computed) {
+        this.identifier = identifier; this.computed = computed;
+    }
 
     @Override
     public Expression getExpressionValue() {
@@ -20,11 +31,6 @@ public class TextboxWidget extends TextField implements GUIWidget {
     @Override
     public void setValue(Value value) {
         this.setText(value.isUndefined() ? "" : value.getStringValue());
-    }
-
-    @Override
-    public Node getNode() {
-        return this;
     }
 
     @Override
@@ -50,7 +56,28 @@ public class TextboxWidget extends TextField implements GUIWidget {
     }
 
     @Override
+    public void update(SymbolTable symbolTable) {
+        if(computed) setValue(symbolTable.getValue(this.identifier)); else symbolTable.setExpression(identifier, this.getExpressionValue());
+    }
+
+    @Override
+    public void update(StyleSheet styleSheet) {
+
+    }
+
+    @Override
+    public Parent render() {
+        return this;
+    }
+
+    @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        this.textProperty().addListener(invalidationListener);
+        if(!computed)
+            this.textProperty().addListener(invalidationListener);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return identifier;
     }
 }

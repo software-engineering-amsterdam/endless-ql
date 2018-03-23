@@ -1,10 +1,10 @@
 package gui;
 
 import gui.model.GUIForm;
-import gui.model.GUIFormWithStyling;
-import gui.renderer.RenderVisitor;
+import gui.model.GUIInterface;
+import gui.widgets.GUIWidget;
 import javafx.application.Application;
-import javafx.scene.Parent;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Region;
@@ -16,6 +16,7 @@ import ql.model.Form;
 import qls.QLSFormBuilder;
 import qls.model.StyleSheet;
 
+import javax.swing.event.ChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -69,12 +70,20 @@ public class Renderer extends Application {
         // Set locale to US such that DecimalFormat, such as in a spinner, always uses dots instead of commas
         Locale.setDefault(Locale.US);
 
-        GUIForm guiForm = GUIFormBuilder.build(this.qlForm);
-//        if(this.qlsStyleSheet != null){
-//            guiForm = new GUIFormWithStyling(this.qlForm.identifier, guiForm.guiQuestions, this.qlsStyleSheet);
-//        }
+        GUIForm guiForm;
+        if(this.qlsStyleSheet != null){
+            guiForm = GUIFormBuilder.buildQLForm(this.qlForm);
+        } else {
+            guiForm = GUIFormBuilder.buildQLSForm(this.qlForm, this.qlsStyleSheet);
+            guiForm.update(qlsStyleSheet);
+        }
+        guiForm.update(symbolTable);
+        guiForm.setChangeListener(e -> {
+            guiForm.update(symbolTable);
+            System.out.println(symbolTable);
+        });
 
-        Scene scene = new Scene(guiForm.render(this.symbolTable));
+        Scene scene = new Scene(guiForm.render());
         stage.setTitle(qlForm.identifier + " form");
         stage.setScene(scene);
         stage.setWidth(640);

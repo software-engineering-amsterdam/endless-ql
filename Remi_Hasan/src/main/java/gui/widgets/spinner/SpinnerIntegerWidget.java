@@ -1,15 +1,19 @@
 package gui.widgets.spinner;
 
 import gui.widgets.WidgetUtils;
+import javafx.scene.Parent;
 import javafx.scene.control.SpinnerValueFactory;
+import ql.analysis.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableInteger;
+import qls.model.StyleSheet;
 
 public class SpinnerIntegerWidget extends SpinnerWidget<Integer> {
 
-    public SpinnerIntegerWidget() {
+    public SpinnerIntegerWidget(String identifier, boolean computed) {
         // Default to 0 and step by 1
+        super(identifier, computed);
         SpinnerValueFactory<Integer> valueFactory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 1);
         this.setValueFactory(valueFactory);
@@ -26,4 +30,5 @@ public class SpinnerIntegerWidget extends SpinnerWidget<Integer> {
     public void setValue(Value value) {
         this.getValueFactory().setValue(value.getIntValue());
     }
+
 }

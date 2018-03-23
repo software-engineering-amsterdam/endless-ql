@@ -32,10 +32,8 @@ namespace QuestionnaireDomain.Entities.Validators
 
             foreach (var questionNode in questionNodes)
             {
-                var variables = m_calculationService
-                    .GetVariables(questionNode.CalculatedValue);
-
-                if (variables.Contains(questionNode))
+                var noUsedVariables = new List<string>();
+                if (IsCyclic(noUsedVariables, questionNode))
                 {
                     yield return new CyclicDependencyValidationMetaData
                     {
@@ -44,6 +42,37 @@ namespace QuestionnaireDomain.Entities.Validators
                     };
                 }
             }
+        }
+
+        // a recursive routine that walks the calculation variables until
+        // it hits itsself.  only looking at variables in branch
+        private bool IsCyclic(
+            IEnumerable<string> usedVariableNames, 
+            ICalculatedQuestionNode currentNode)
+        {
+            if (usedVariableNames.Contains(currentNode.QuestionName))
+            {
+                return true;
+            }
+
+            var variablesInCalculation = m_calculationService
+                .GetVariables(currentNode.CalculatedValue)
+                .OfType<ICalculatedQuestionNode>()
+                .ToList();
+
+            var expandedVariableNameList = usedVariableNames
+                .Concat(new[] {currentNode.QuestionName})
+                .ToList();
+
+            foreach (var nextNode in variablesInCalculation)
+            {
+                if (IsCyclic(expandedVariableNameList, nextNode))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -92,7 +92,7 @@ public class NumberValue extends Value<BigDecimal> {
             return new UndefinedValue();
 
         NumberValue rightValue = (NumberValue) right;
-        return new BooleanValue(this.value.equals(rightValue.value));
+        return new BooleanValue(this.value.compareTo(rightValue.value) == 0);
     }
 
     @Override

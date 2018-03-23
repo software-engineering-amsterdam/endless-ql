@@ -52,7 +52,7 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
             if (question.isComputed()) {
                 ReturnType computedAnswerType = this.visit(question.computedAnswer);
 
-                if (!computedAnswerType.isCompatible(question.type)) {
+                if (!computedAnswerType.canBeAssignedTo(question.type)) {
                     throw new IllegalArgumentException("Invalid assignment: cannot assign " + computedAnswerType
                             + " to " + question.type + question.getLocation());
                 }
@@ -61,24 +61,24 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
     }
 
     private ReturnType checkBinaryArithmetic(ExpressionBinary expression, String operation) {
-        // Check whether operation can be applied to left and right expression
-        boolean selfValid = expression.left.accept(this).isNumber()
-                && expression.right.accept(this).isNumber();
+        ReturnType leftType = expression.left.accept(this);
+        ReturnType rightType = expression.right.accept(this);
 
-        if (!selfValid) {
+        // Check if arithmetic is applied on two number expressions
+        if (!leftType.isCompatibleArithmetic(rightType)) {
             throw new IllegalArgumentException("Invalid " + operation + ": non-numeric value in expression "
                     + expression.getLocation());
         }
 
-        return ReturnType.NUMBER;
+        // Return strongest of the two number types that the operation is applied to
+        return leftType.getStrongestNumber(rightType);
     }
 
     private ReturnType checkBinaryComparison(ExpressionBinary expression, String operation) {
-        // Check whether operation can be applied to left and right expression
-        boolean selfValid = expression.left.accept(this).isNumber()
-                && expression.right.accept(this).isNumber();
+        ReturnType leftType = expression.left.accept(this);
+        ReturnType rightType = expression.right.accept(this);
 
-        if (!selfValid) {
+        if (!leftType.isCompatibleComparison(rightType)) {
             throw new IllegalArgumentException("Invalid " + operation + ": non-numeric value in expression"
                     + expression.getLocation());
         }
@@ -87,9 +87,11 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
     }
 
     private ReturnType checkBinaryBoolean(ExpressionBinary expression, String operation) {
+        ReturnType leftType = expression.left.accept(this);
+        ReturnType rightType = expression.right.accept(this);
+
         // Check whether operation can be applied to left and right expression
-        boolean selfValid = expression.left.accept(this) == ReturnType.BOOLEAN
-                && expression.right.accept(this) == ReturnType.BOOLEAN;
+        boolean selfValid = leftType == ReturnType.BOOLEAN && rightType == ReturnType.BOOLEAN;
 
         if (!selfValid) {
             throw new IllegalArgumentException("Invalid " + operation + ": non-boolean value in expression"
@@ -126,10 +128,12 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionComparisonEq expression) {
-        boolean selfValid = expression.left.accept(this).isCompatible(expression.right.accept(this));
+        ReturnType leftType = expression.left.accept(this);
+        ReturnType rightType = expression.right.accept(this);
 
-        if (!selfValid) {
-            throw new IllegalArgumentException("Invalid equals: comparing incompatible types" + expression.getLocation());
+        if (!leftType.isCompatibleEquality(rightType)) {
+            throw new IllegalArgumentException("Invalid equals: cannot check for equality between "
+                    + leftType + " and " + rightType + " " + expression.getLocation());
         }
 
         return ReturnType.BOOLEAN;
@@ -167,9 +171,9 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionUnaryNot expression) {
-        boolean selfValid = expression.value.accept(this) == ReturnType.BOOLEAN;
+        ReturnType expressionType = expression.value.accept(this);
 
-        if (!selfValid) {
+        if (expressionType != ReturnType.BOOLEAN) {
             throw new IllegalArgumentException("Invalid NOT: non-boolean expression " + expression.getLocation());
         }
 
@@ -178,13 +182,13 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
 
     @Override
     public ReturnType visit(ExpressionUnaryNeg expression) {
-        boolean selfValid = expression.value.accept(this).isNumber();
+        ReturnType expressionType = expression.value.accept(this);
 
-        if (!selfValid) {
+        if (!expressionType.isNumber()) {
             throw new IllegalArgumentException("Invalid negation: non-numeric expression " + expression.getLocation());
         }
 
-        return ReturnType.NUMBER;
+        return expressionType;
     }
 
     @Override

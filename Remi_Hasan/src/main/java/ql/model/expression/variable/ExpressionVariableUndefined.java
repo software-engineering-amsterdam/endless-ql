@@ -12,10 +12,6 @@ public class ExpressionVariableUndefined extends ExpressionVariable<ReturnType> 
     }
 
     public ReturnType getReturnType() {
-        if (this.value.isNumber()) {
-            return ReturnType.NUMBER;
-        }
-
         return this.value;
     }
 

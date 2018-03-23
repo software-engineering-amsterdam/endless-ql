@@ -13,8 +13,6 @@ public enum WidgetType {
     INTEGER,
     DECIMAL,
     MONEY,
-    NUMBER,
-    BOOLEAN,
     STRING,
     DATE;
 
@@ -25,7 +23,6 @@ public enum WidgetType {
             case STRING:
                 return this == TEXTBOX;
             case INTEGER:
-            case NUMBER:
             case DECIMAL:
             case MONEY:
                 return this == SLIDER || this == SPINBOX || this == TEXTBOX;

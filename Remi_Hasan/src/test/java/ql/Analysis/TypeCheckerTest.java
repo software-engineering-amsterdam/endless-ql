@@ -93,6 +93,33 @@ public class TypeCheckerTest {
     }
 
     @Test
+    public void integerEquality() {
+        Expression expression = QLTestUtilities.expressionFromString("2 == 2");
+
+        TypeChecker typeChecker = new TypeChecker(null, null);
+        typeChecker.visit(expression);
+    }
+
+    @Test
+    public void integerDecimalEquality() {
+        Expression expression = QLTestUtilities.expressionFromString("2 == 2.0");
+
+        TypeChecker typeChecker = new TypeChecker(null, null);
+        typeChecker.visit(expression);
+    }
+
+    @Test
+    public void integerStringEquality() {
+        expectedEx.expect(IllegalArgumentException.class);
+        expectedEx.expectMessage("Invalid equals: cannot check for equality between INTEGER and STRING");
+
+        Expression expression = QLTestUtilities.expressionFromString("2 == \"test\"");
+
+        TypeChecker typeChecker = new TypeChecker(null, null);
+        typeChecker.visit(expression);
+    }
+
+    @Test
     public void integerComparison() {
         Expression expression = QLTestUtilities.expressionFromString("1 > 2");
 
@@ -178,4 +205,6 @@ public class TypeCheckerTest {
         TypeChecker typeChecker = new TypeChecker(null, null);
         typeChecker.visit(expression);
     }
+
+    // TODO: type checking of files assigning expressions to question variables
 }

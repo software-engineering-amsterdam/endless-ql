@@ -2,7 +2,6 @@ grammar QL;
 import QLCommon;
 //file to define grammar
 
-
 form : FORM_HEADER IDENTIFIER BRACKET_OPEN questionBlock+ BRACKET_CLOSE EOF;
 question: questionText questionName QUESTION_DELIMITER QUESTION_TYPE computedValue?;
 questionText: STRING ;
@@ -14,11 +13,12 @@ conditionalBlock:  IF  PAREN_OPEN (booleanExpression | IDENTIFIER)PAREN_CLOSE
 computedValue: '=' numericExpression | booleanExpression;
 
 //expressions
-numericExpression : NUMBER
-                  | UNARY_NUMERIC_OPERATOR NUMBER
-                  | numericExpression BINARY_NUMERIC_OPERATOR numericExpression
+numericExpression : PAREN_OPEN numericExpression PAREN_CLOSE
+                  | numericExpression MULTIPLICATIVE_OPERATION numericExpression
+                  | numericExpression ADDITIVE_OPERATION numericExpression
+                  | UNARY_NUMERIC_OPERATOR numericExpression
+                  | NUMBER
                   | IDENTIFIER
-                  | PAREN_OPEN numericExpression PAREN_CLOSE
                   ;
 
 booleanExpression : BOOLEAN
@@ -50,13 +50,13 @@ fragment COMPARISON : '<'
                     ;
 
 BINARY_BOOLEAN_OPERATOR:  ('&&' | '||') ;
-BINARY_NUMERIC_OPERATOR:  NUMERIC_OP ;
 UNARY_BOOLEAN_OPERATOR:  '!' ;
+
+MULTIPLICATIVE_OPERATION : '*'
+                         | '/'
+                         ;
+ADDITIVE_OPERATION : '+'
+                   | '-'
+                   ;
+
 UNARY_NUMERIC_OPERATOR:  ('-' | '+') ;
-
-fragment NUMERIC_OP : '+'
-                    | '-'
-                    | '*'
-                    | '/'
-                    ;
-

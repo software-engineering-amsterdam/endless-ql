@@ -27,8 +27,11 @@ public class NumericExpressionParser extends QLBaseVisitor<NumericExpression> {
         else if (ctx.numericExpression().size() == 2) {
             NumericExpression left = ctx.numericExpression(0).accept(this);
             NumericExpression right = ctx.numericExpression(1).accept(this);
+            var operatorString = ctx.MULTIPLICATIVE_OPERATION() != null
+                                    ? ctx.MULTIPLICATIVE_OPERATION().getSymbol().getText()
+                                    : ctx.ADDITIVE_OPERATION().getSymbol().getText();
             BinaryNumericOperator operator =
-                    this.binaryNumericOperatorTranslator.translate(ctx.BINARY_NUMERIC_OPERATOR().getSymbol().getText());
+                    this.binaryNumericOperatorTranslator.translate(operatorString);
             return new BinaryNumericOperation(left, right, operator, ctx);
         }
         else if (ctx.numericExpression().size() == 1)

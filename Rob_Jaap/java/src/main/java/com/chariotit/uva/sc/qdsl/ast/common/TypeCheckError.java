@@ -39,7 +39,7 @@ public class TypeCheckError {
 
     public static void print(TypeCheckError error) {
         System.out.println(String.format(
-                "%4s line %d, column %d: %s",
+                "%4s line %3d, column %3d: %s",
                 error.getLevel(),
                 error.getSourceFilePosition().getLineNumber(),
                 error.getSourceFilePosition().getColumnNumber(),
@@ -53,7 +53,7 @@ public class TypeCheckError {
         }
     }
 
-    public static boolean hasLevel(List<TypeCheckError> errors, TypeCheckError.Level level) {
+    public static boolean listContainsLevel(List<TypeCheckError> errors, TypeCheckError.Level level) {
         for (TypeCheckError error : errors) {
             if (error.level == level) {
                 return true;

@@ -10,7 +10,6 @@ import com.chariotit.uva.sc.qdsl.grammar.QLSLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.QLSVisitor;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
-import org.apache.commons.cli.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -67,7 +66,7 @@ public class ApplicationRunner implements CommandLineRunner {
 
         TypeCheckError.print(errors);
 
-        if (TypeCheckError.hasLevel(errors, TypeCheckError.Level.ERROR)) {
+        if (TypeCheckError.listContainsLevel(errors, TypeCheckError.Level.ERROR)) {
             System.exit(1);
         }
 
@@ -83,7 +82,7 @@ public class ApplicationRunner implements CommandLineRunner {
 
             TypeCheckError.print(qlsErrors);
 
-            if (TypeCheckError.hasLevel(qlsErrors, TypeCheckError.Level.ERROR)) {
+            if (TypeCheckError.listContainsLevel(qlsErrors, TypeCheckError.Level.ERROR)) {
                 System.exit(1);
             }
         }
@@ -96,7 +95,6 @@ public class ApplicationRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws IOException {
-
         try {
             ApplicationParameters parameters = ApplicationParameters.get(args);
             runProgram(parameters);
@@ -104,7 +102,6 @@ public class ApplicationRunner implements CommandLineRunner {
             ApplicationParameters.printHelp();
             System.exit(1);
         }
-
     }
 
 }

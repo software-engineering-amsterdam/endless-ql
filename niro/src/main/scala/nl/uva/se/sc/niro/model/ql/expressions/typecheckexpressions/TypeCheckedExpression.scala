@@ -1,6 +1,15 @@
 package nl.uva.se.sc.niro.model.ql.expressions.typecheckexpressions
 
-import nl.uva.se.sc.niro.model.ql.expressions.typecheckexpressions.Implicits.{ Addable, Divideable, Logical, Minusable, Multipliable, Orderable, Subtractable, WiderThan }
+import nl.uva.se.sc.niro.model.ql.expressions.typecheckexpressions.Implicits.{
+  Addable,
+  Divideable,
+  Logical,
+  Minusable,
+  Multipliable,
+  Orderable,
+  Subtractable,
+  WiderThan
+}
 
 abstract class Expression[T] {
   def evaluate: Answer[T]
@@ -79,9 +88,9 @@ object Implicits {
   }
 
   trait =!=[A, B]
-  implicit def neq[A, B] : A =!= B = null
-  implicit def neqAmbig1[A] : A =!= A = null
-  implicit def neqAmbig2[B] : B =!= B = null
+  implicit def neq[A, B]: A =!= B = null
+  implicit def neqAmbig1[A]: A =!= A = null
+  implicit def neqAmbig2[B]: B =!= B = null
 
   implicit def widenOne[T, U](v1: Answer[T])(conv: (Answer[T] => Answer[U])): (Answer[U]) =
     conv(v1)
@@ -92,26 +101,26 @@ object Implicits {
   implicit def intDoubleLT: LT[Int, Double] = null
 
   trait WiderThan[T, U, V] {}
-  implicit def rightWider[T, U, V]
-  (implicit rw: LT[T, U],
-   conv2: (Answer[U] => Answer[V]),
-   conv1: (Answer[T] => Answer[V])): WiderThan[T,U,V] = null
+  implicit def rightWider[T, U, V](
+      implicit rw: LT[T, U],
+      conv2: (Answer[U] => Answer[V]),
+      conv1: (Answer[T] => Answer[V])): WiderThan[T, U, V] = null
 
-  implicit def leftWider[T, U, V]
-  (implicit rw: LT[U, T],
-   conv2: (Answer[T] => Answer[V]),
-   conv1: (Answer[U] => Answer[V])): WiderThan[T,U,V] = null
+  implicit def leftWider[T, U, V](
+      implicit rw: LT[U, T],
+      conv2: (Answer[T] => Answer[V]),
+      conv1: (Answer[U] => Answer[V])): WiderThan[T, U, V] = null
 
   implicit def reflWider[T]: WiderThan[T, T, T] = null
 
 }
 
-final case class Addition[T, U, V]
-  (left: Expression[T], right: Expression[U])
-  (implicit lub: WiderThan[T, U, V],
-            widenLeft: Answer[T] => Answer[V],
-            widenRight: Answer[U] => Answer[V],
-            ev: Addable[V]) extends Expression[V] {
+final case class Addition[T, U, V](left: Expression[T], right: Expression[U])(
+    implicit lub: WiderThan[T, U, V],
+    widenLeft: Answer[T] => Answer[V],
+    widenRight: Answer[U] => Answer[V],
+    ev: Addable[V])
+    extends Expression[V] {
   override def evaluate: Answer[V] = {
     val lv = widenLeft(left.evaluate)
     val rv = widenRight(right.evaluate)
@@ -119,7 +128,8 @@ final case class Addition[T, U, V]
   }
 }
 
-final case class Subtract[T](left: Expression[T], right: Expression[T])(implicit ev: Subtractable[T]) extends Expression[T] {
+final case class Subtract[T](left: Expression[T], right: Expression[T])(implicit ev: Subtractable[T])
+    extends Expression[T] {
   override def evaluate: Answer[T] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -127,7 +137,8 @@ final case class Subtract[T](left: Expression[T], right: Expression[T])(implicit
   }
 }
 
-final case class Multiply[T](left: Expression[T], right: Expression[T])(implicit ev: Multipliable[T]) extends Expression[T] {
+final case class Multiply[T](left: Expression[T], right: Expression[T])(implicit ev: Multipliable[T])
+    extends Expression[T] {
   override def evaluate: Answer[T] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -135,7 +146,8 @@ final case class Multiply[T](left: Expression[T], right: Expression[T])(implicit
   }
 }
 
-final case class Divide[T](left: Expression[T], right: Expression[T])(implicit ev: Divideable[T]) extends Expression[T] {
+final case class Divide[T](left: Expression[T], right: Expression[T])(implicit ev: Divideable[T])
+    extends Expression[T] {
   override def evaluate: Answer[T] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -150,7 +162,8 @@ final case class Minus[T](left: Expression[T])(implicit ev: Minusable[T]) extend
   }
 }
 
-final case class LessThan[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T]) extends Expression[BooleanValue] {
+final case class LessThan[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T])
+    extends Expression[BooleanValue] {
   def evaluate: Answer[BooleanValue] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -158,7 +171,8 @@ final case class LessThan[T](left: Expression[T], right: Expression[T])(implicit
   }
 }
 
-final case class LessThanEqual[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T]) extends Expression[BooleanValue] {
+final case class LessThanEqual[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T])
+    extends Expression[BooleanValue] {
   override def evaluate: Answer[BooleanValue] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -166,7 +180,8 @@ final case class LessThanEqual[T](left: Expression[T], right: Expression[T])(imp
   }
 }
 
-final case class GreaterThenEqual[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T]) extends Expression[BooleanValue] {
+final case class GreaterThenEqual[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T])
+    extends Expression[BooleanValue] {
   override def evaluate: Answer[BooleanValue] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -174,7 +189,8 @@ final case class GreaterThenEqual[T](left: Expression[T], right: Expression[T])(
   }
 }
 
-final case class GreaterThen[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T]) extends Expression[BooleanValue] {
+final case class GreaterThen[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T])
+    extends Expression[BooleanValue] {
   override def evaluate: Answer[BooleanValue] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -182,7 +198,8 @@ final case class GreaterThen[T](left: Expression[T], right: Expression[T])(impli
   }
 }
 
-final case class NotEqual[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T]) extends Expression[BooleanValue] {
+final case class NotEqual[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T])
+    extends Expression[BooleanValue] {
   override def evaluate: Answer[BooleanValue] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -190,7 +207,8 @@ final case class NotEqual[T](left: Expression[T], right: Expression[T])(implicit
   }
 }
 
-final case class Equal[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T]) extends Expression[BooleanValue] {
+final case class Equal[T](left: Expression[T], right: Expression[T])(implicit ev: Orderable[T])
+    extends Expression[BooleanValue] {
   override def evaluate: Answer[BooleanValue] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -198,7 +216,8 @@ final case class Equal[T](left: Expression[T], right: Expression[T])(implicit ev
   }
 }
 
-final case class Or[T](left: Expression[T], right: Expression[T])(implicit ev: Logical[T]) extends Expression[BooleanValue] {
+final case class Or[T](left: Expression[T], right: Expression[T])(implicit ev: Logical[T])
+    extends Expression[BooleanValue] {
   override def evaluate: Answer[BooleanValue] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -206,7 +225,8 @@ final case class Or[T](left: Expression[T], right: Expression[T])(implicit ev: L
   }
 }
 
-final case class And[T](left: Expression[T], right: Expression[T])(implicit ev: Logical[T]) extends Expression[BooleanValue] {
+final case class And[T](left: Expression[T], right: Expression[T])(implicit ev: Logical[T])
+    extends Expression[BooleanValue] {
   override def evaluate: Answer[BooleanValue] = {
     val lv = left.evaluate
     val rv = right.evaluate
@@ -214,7 +234,8 @@ final case class And[T](left: Expression[T], right: Expression[T])(implicit ev: 
   }
 }
 
-final case class Negate[T](left: Expression[T], right: Expression[T])(implicit ev: Logical[T]) extends Expression[BooleanValue] {
+final case class Negate[T](left: Expression[T], right: Expression[T])(implicit ev: Logical[T])
+    extends Expression[BooleanValue] {
   override def evaluate: Answer[BooleanValue] = {
     val lv = left.evaluate
     ev.negate(lv.get)

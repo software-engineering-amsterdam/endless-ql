@@ -23,7 +23,7 @@ public class NumericExpressionViewModelFactoryImpl implements NumericExpressionV
 
     @Override
     public NumericExpressionViewModel visit(NumericLiteral numericLiteral) {
-        return new NumericLiteralViewModel(numericLiteral.evaluate());
+        return new NumericLiteralViewModel(numericLiteral.getValue());
     }
 
     @Override

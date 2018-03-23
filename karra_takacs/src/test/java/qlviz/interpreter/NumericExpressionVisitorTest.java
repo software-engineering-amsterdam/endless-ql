@@ -1,14 +1,10 @@
 package qlviz.interpreter;
 
-import com.google.inject.assistedinject.Assisted;
-import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Assert;
 import org.junit.Test;
-import qlviz.QLBaseListener;
-import qlviz.QLBaseVisitor;
 import qlviz.QLLexer;
 import qlviz.QLParser;
 import qlviz.interpreter.linker.NumericExpressionVisitor;
@@ -16,22 +12,16 @@ import qlviz.interpreter.linker.TypedNumericExpressionVisitor;
 import qlviz.model.numericExpressions.*;
 import qlviz.model.question.NumericQuestionReference;
 
+import java.math.BigDecimal;
+
 import static org.mockito.Mockito.mock;
 
 public class NumericExpressionVisitorTest {
 
-    private class OperatorTypeChecker implements NumericExpressionVisitor {
-
-        private final BinaryNumericOperator operator;
-
-        public OperatorTypeChecker(BinaryNumericOperator operator) {
-
-            this.operator = operator;
-        }
-
+    private abstract class BaseNumericExpressionVisitor implements NumericExpressionVisitor {
         @Override
         public void visit(BinaryNumericOperation binaryNumericOperation) {
-            Assert.assertEquals(operator, binaryNumericOperation.getOperator());
+            Assert.fail();
         }
 
         @Override
@@ -50,27 +40,63 @@ public class NumericExpressionVisitorTest {
         }
     }
 
-    private class BinaryExpressionDeconstructor implements
-            TypedNumericExpressionVisitor<Pair<NumericExpression, NumericExpression>> {
+    private abstract class BaseTypedNumericExpressionVisitor<T> implements TypedNumericExpressionVisitor<T> {
+        @Override
+        public T visit(BinaryNumericOperation binaryNumericOperation) {
+            throw new IllegalArgumentException();
+        }
+
+        @Override
+        public T visit(NumericLiteral numericLiteral) {
+            throw new IllegalArgumentException();
+        }
+
+        @Override
+        public T visit(NumericNegation numericNegation) {
+            throw new IllegalArgumentException();
+        }
+
+        @Override
+        public T visit(NumericQuestionReference numericQuestionReference) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private class OperatorTypeChecker extends BaseNumericExpressionVisitor {
+
+        private final BinaryNumericOperator operator;
+
+        public OperatorTypeChecker(BinaryNumericOperator operator) {
+
+            this.operator = operator;
+        }
+
+        @Override
+        public void visit(BinaryNumericOperation binaryNumericOperation) {
+            Assert.assertEquals(operator, binaryNumericOperation.getOperator());
+        }
+    }
+
+    private class BinaryExpressionDeconstructor extends
+            BaseTypedNumericExpressionVisitor<Pair<NumericExpression, NumericExpression>> {
 
         @Override
         public Pair<NumericExpression, NumericExpression> visit(BinaryNumericOperation binaryNumericOperation) {
            return Pair.of(binaryNumericOperation.getLeftSide(), binaryNumericOperation.getRightSide());
         }
+    }
 
-        @Override
-        public Pair<NumericExpression, NumericExpression> visit(NumericLiteral numericLiteral) {
-            throw new IllegalArgumentException();
+    private class NumericLiteralChecker extends BaseNumericExpressionVisitor {
+
+        private final BigDecimal number;
+
+        public NumericLiteralChecker(BigDecimal number) {
+            this.number = number;
         }
 
         @Override
-        public Pair<NumericExpression, NumericExpression> visit(NumericNegation numericNegation) {
-            throw new IllegalArgumentException();
-        }
-
-        @Override
-        public Pair<NumericExpression, NumericExpression> visit(NumericQuestionReference numericQuestionReference) {
-            throw new IllegalArgumentException();
+        public void visit(NumericLiteral numericLiteral) {
+            Assert.assertEquals(number, numericLiteral.getValue());
         }
     }
 
@@ -88,5 +114,11 @@ public class NumericExpressionVisitorTest {
 
         // Assert
         expression.accept(new OperatorTypeChecker(BinaryNumericOperator.Add));
+        var operands = expression.accept(new BinaryExpressionDeconstructor());
+        operands.getLeft().accept(new NumericLiteralChecker(BigDecimal.valueOf(2)));
+        operands.getRight().accept(new OperatorTypeChecker(BinaryNumericOperator.Multiply));
+        operands = operands.getRight().accept(new BinaryExpressionDeconstructor());
+        operands.getLeft().accept(new NumericLiteralChecker(BigDecimal.valueOf(5)));
+        operands.getRight().accept(new NumericLiteralChecker(BigDecimal.valueOf(3)));
     }
 }

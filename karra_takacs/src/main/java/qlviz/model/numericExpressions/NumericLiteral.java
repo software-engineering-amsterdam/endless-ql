@@ -15,7 +15,7 @@ public class NumericLiteral extends Node implements NumericExpression {
         this.value = value;
     }
 
-    public BigDecimal evaluate() {
+    public BigDecimal getValue() {
         return this.value;
     }
 

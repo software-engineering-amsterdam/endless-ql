@@ -128,4 +128,55 @@ public class BooleanExpressionVisitorTest {
             }
         });
     }
+
+    @Test
+    public void testPrecedenceWithParenthesis() {
+        // Arrange
+        var input = "(false || true) && true";
+        var numericVisitorMock = mock(QLVisitor.class);
+        var visitor = new BooleanExpressionParser(
+                numericVisitorMock,
+                new BinaryBooleanOperatorVisitor(),
+                new NumericComparisonOperatorVisitor()
+        );
+        var lexer = new QLLexer(new ANTLRInputStream(input));
+        var parser = new QLParser(new CommonTokenStream(lexer));
+
+        // Act
+        var expression = visitor.visitBooleanExpression(parser.booleanExpression());
+
+        // Assert
+        expression.accept(new BaseBooleanExpressionVisitor(){
+            @Override
+            public void visit(BinaryBooleanOperation binaryBooleanOperation) {
+                Assert.assertEquals(BinaryBooleanOperator.And, binaryBooleanOperation.getOperator());
+            }
+        });
+        var operands = expression.accept(new BinaryBooleanExpressionDeconstructor());
+        operands.getRight().accept(new BaseBooleanExpressionVisitor() {
+            @Override
+            public void visit(BooleanLiteral literal) {
+                Assert.assertEquals(true, literal.getValue());
+            }
+        });
+        operands.getLeft().accept(new BaseBooleanExpressionVisitor() {
+            @Override
+            public void visit(BinaryBooleanOperation binaryBooleanOperation) {
+                Assert.assertEquals(BinaryBooleanOperator.Or, binaryBooleanOperation.getOperator());
+            }
+        });
+        operands = operands.getLeft().accept(new BinaryBooleanExpressionDeconstructor());
+        operands.getRight().accept(new BaseBooleanExpressionVisitor() {
+            @Override
+            public void visit(BooleanLiteral literal) {
+                Assert.assertEquals(true, literal.getValue());
+            }
+        });
+        operands.getLeft().accept(new BaseBooleanExpressionVisitor() {
+            @Override
+            public void visit(BooleanLiteral literal) {
+                Assert.assertEquals(false, literal.getValue());
+            }
+        });
+    }
 }

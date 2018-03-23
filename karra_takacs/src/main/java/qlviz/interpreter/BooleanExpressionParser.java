@@ -37,7 +37,10 @@ public class BooleanExpressionParser extends QLBaseVisitor<BooleanExpression> {
         }
 
         BooleanExpression innerResult = null;
-        if (ctx.BOOLEAN() != null) {
+        if (ctx.booleanExpression().size() == 1) {
+            innerResult = ctx.booleanExpression(0).accept(this);
+        }
+        else if (ctx.BOOLEAN() != null) {
             innerResult = new BooleanLiteral(ctx.BOOLEAN().getSymbol().getText().compareToIgnoreCase("true") == 0, ctx) ;
         }
         else if (ctx.numericExpression().size() == 2) {

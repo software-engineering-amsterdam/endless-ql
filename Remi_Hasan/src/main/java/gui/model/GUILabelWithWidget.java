@@ -4,6 +4,7 @@ import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
+import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.SymbolTable;
 import ql.model.expression.Expression;
 import qls.model.StyleSheet;
@@ -32,6 +33,11 @@ public class GUILabelWithWidget extends VBox implements GUIInterface {
     @Override
     public void update(SymbolTable symbolTable) {
         this.widget.update(symbolTable);
+
+        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
+        boolean visible = expressionEvaluator.visit(this.condition).getBooleanValue();
+        System.out.println("visible[" + identifier + "][" + visible + "]");
+        this.setVisible(visible);
     }
 
     @Override

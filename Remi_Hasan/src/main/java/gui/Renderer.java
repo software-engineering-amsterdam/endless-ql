@@ -74,7 +74,6 @@ public class Renderer extends Application {
             guiForm = GUIFormBuilder.buildQLSForm(this.qlForm, this.qlsStyleSheet);
             guiForm.update(qlsStyleSheet);
         }
-//        guiForm = GUIFormBuilder.buildQLForm(this.qlForm);
         guiForm.update(symbolTable);
         guiForm.setChangeListener(e -> {
             guiForm.update(symbolTable);

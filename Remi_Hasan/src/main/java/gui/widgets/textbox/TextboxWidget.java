@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;

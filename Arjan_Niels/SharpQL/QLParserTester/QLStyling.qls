@@ -22,5 +22,13 @@
 			color: #999999
 			widget radio("yes", "no")
 		}
+
+		default text {
+			width: 400
+			font: "Arial" 
+			fontsize: 12
+			color: #FFFFFF
+			widget radio("yes", "no", "maybe")
+		}
 	}
 }

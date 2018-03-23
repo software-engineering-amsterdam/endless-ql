@@ -5,6 +5,7 @@ import java.util.List;
 public enum ReturnType {
     INTEGER, DECIMAL, MONEY, BOOLEAN, STRING, DATE;
 
+    // Decimal strongest, integer weakest
     private static List numberPriorities = List.of(INTEGER, MONEY, DECIMAL);
 
     public Boolean isNumber() {

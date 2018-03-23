@@ -206,5 +206,36 @@ public class TypeCheckerTest {
         typeChecker.visit(expression);
     }
 
-    // TODO: type checking of files assigning expressions to question variables
+    @Test
+    public void assignDecimalToInteger() throws Exception {
+        expectedEx.expect(IllegalArgumentException.class);
+        expectedEx.expectMessage("Invalid assignment: cannot assign DECIMAL to INTEGER");
+
+        QLTestUtilities.buildForm(UnknownIdentifiersTest.class
+                .getResourceAsStream("/ql/TypeChecking/AssignDecimalToIntegerForm.ql"));
+    }
+
+    @Test
+    public void assignDecimalToMoney() throws Exception {
+        expectedEx.expect(IllegalArgumentException.class);
+        expectedEx.expectMessage("Invalid assignment: cannot assign DECIMAL to MONEY");
+
+        QLTestUtilities.buildForm(UnknownIdentifiersTest.class
+                .getResourceAsStream("/ql/TypeChecking/AssignDecimalToMoneyForm.ql"));
+    }
+
+    @Test
+    public void assignAllToDecimal() throws Exception {
+        QLTestUtilities.buildForm(UnknownIdentifiersTest.class
+                .getResourceAsStream("/ql/TypeChecking/AssignAllToDecimalForm.ql"));
+    }
+
+    @Test
+    public void assignBooleanToString() throws Exception {
+        expectedEx.expect(IllegalArgumentException.class);
+        expectedEx.expectMessage("Invalid assignment: cannot assign BOOLEAN to STRING");
+
+        QLTestUtilities.buildForm(UnknownIdentifiersTest.class
+                .getResourceAsStream("/ql/TypeChecking/AssignBooleanToStringForm.ql"));
+    }
 }

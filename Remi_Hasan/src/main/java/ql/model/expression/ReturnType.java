@@ -22,7 +22,7 @@ public enum ReturnType {
 
     // Check if THIS can be assigned to variable of OTHER
     public Boolean canBeAssignedTo(ReturnType questionType) {
-        if(this.isNumber() && other.isNumber()) {
+        if(this.isNumber() && questionType.isNumber()) {
             // If assigned type is weaker than question type, types are compatible
             return questionType.getStrongestNumber(this) == questionType;
         }

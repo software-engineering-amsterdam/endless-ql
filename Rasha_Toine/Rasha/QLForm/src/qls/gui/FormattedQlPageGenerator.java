@@ -149,6 +149,12 @@ public class FormattedQlPageGenerator extends QlPageGenerator {
 			 public WidgetInterface visit(AstSpinbox widget, Void ctx2) {
 				 return new SpinBox(question, createOptionsForWidget(type, widget), ctx);
 			 }
+
+			/* no widget specified in stylesheet, use ql */
+			@Override
+			public WidgetInterface visit(AstWidgetDefault widget, Void ctx2) {
+                return FormattedQlPageGenerator.super.createValueWidget(question, ctx);
+			}
 		 },
 		 null);
 	}

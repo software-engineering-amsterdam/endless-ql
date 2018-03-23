@@ -24,6 +24,9 @@ public class GUIForm extends VBox {
 
     public Parent render(SymbolTable symbolTable) {
         VBox vBox = new VBox();
+        vBox.setPadding(new Insets(10, 10, 10, 10));
+
+        // Keep track of all widgets, so they can be updated from this GUIForm class
         Map<GUIQuestion, LabelWithWidget> guiWidgetsMap = new HashMap<>();
 
         // Listener that is notified by UI widget input event
@@ -43,8 +46,6 @@ public class GUIForm extends VBox {
         // Update question values/visibility for the first time
         this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
 
-        vBox.setPadding(new Insets(10, 10, 10, 10));
-
         // Wrap form in scroll pane, so questions will always be reachable
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(vBox);
@@ -57,10 +58,11 @@ public class GUIForm extends VBox {
         this.updateDisplayedQuestions(guiWidgets, symbolTable);
 
         // Then update the calculated question widget values using symbol table
-        this.updateCalculatedQuestions(guiWidgets, symbolTable);
+        this.updateComputedQuestions(guiWidgets, symbolTable);
     }
 
     private void updateDisplayedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
+        // Update visibility and symbol table value for every question
         Set<String> visibleQuestions = new HashSet<>();
 
         for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : guiWidgets.entrySet()) {
@@ -88,7 +90,8 @@ public class GUIForm extends VBox {
         }
     }
 
-    private void updateCalculatedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
+    private void updateComputedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
+        // Update all rendered values of the computed questions
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
         for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : guiWidgets.entrySet()) {
             GUIQuestion guiQuestion = mapEntry.getKey();

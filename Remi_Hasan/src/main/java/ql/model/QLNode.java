@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 import ql.IQLVisitor;
 
 public abstract class QLNode {
-    transient private Token token;
+    private transient Token token;
 
     public QLNode(Token start) {
         this.token = start;

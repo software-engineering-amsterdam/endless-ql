@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public abstract class QLSNode {
-    // TODO: remove transient which is here for gson debugging
     private transient Token token;
 
     protected QLSNode(Token start) {

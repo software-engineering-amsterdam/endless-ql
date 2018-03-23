@@ -68,7 +68,7 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
         List<GUIQuestion> guiQuestions = new ArrayList<>();
 
         GUIQuestion guiQuestion = new GUIQuestion(question.identifier, question.label, question.type, this.condition,
-                question.isComputed(), question.computedAnswer);
+                question.computedAnswer);
         guiQuestions.add(guiQuestion);
 
         return guiQuestions;

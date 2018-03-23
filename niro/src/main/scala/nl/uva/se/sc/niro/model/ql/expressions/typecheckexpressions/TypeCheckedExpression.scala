@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.ql.expressions.typecheckexpressions
 
-import nl.uva.se.sc.niro.model.ql.expressions.typecheckexpressions.Implicits.{ Addable, Divideable, Logical, Minusable, Multipliable, Orderable, Subtractable }
+import nl.uva.se.sc.niro.model.ql.expressions.typecheckexpressions.Implicits.{ Addable, Divideable, Logical, Minusable, Multipliable, Orderable, Subtractable, WiderThan }
 
 abstract class Expression[T] {
   def evaluate: Answer[T]
@@ -12,10 +12,10 @@ abstract class Answer[T](value: T) extends Expression[T] {
   def get: T = value
 }
 
-case class IntValue(v: Int) extends Answer(v) {}
-case class DoubleValue(v: Double) extends Answer(v) {}
-case class StringValue(v: String) extends Answer(v) {}
-case class BooleanValue(v: Boolean) extends Answer(v) {}
+case class IntValue(value: Int) extends Answer[Int](value) {}
+case class DoubleValue(value: Double) extends Answer[Double](value) {}
+case class StringValue(value: String) extends Answer[String](value) {}
+case class BooleanValue(value: Boolean) extends Answer[Boolean](value) {}
 case object NullValue extends Answer(null) {}
 
 final case class Reference[T, R](questionId: String) extends Expression[R] {
@@ -23,6 +23,7 @@ final case class Reference[T, R](questionId: String) extends Expression[R] {
 }
 
 object Implicits {
+
   trait Addable[T] {
     def plus(self: T, other: T): Answer[T]
   }
@@ -59,7 +60,9 @@ object Implicits {
 
   trait Logical[T] {
     def and(self: T, other: T): Answer[BooleanValue]
+
     def or(self: T, other: T): Answer[BooleanValue]
+
     def negate(x: T): Answer[BooleanValue]
   }
 
@@ -75,13 +78,43 @@ object Implicits {
     def plus(self: String, other: String) = StringValue(self + other)
   }
 
+  trait =!=[A, B]
+  implicit def neq[A, B] : A =!= B = null
+  implicit def neqAmbig1[A] : A =!= A = null
+  implicit def neqAmbig2[B] : B =!= B = null
+
+  implicit def widenOne[T, U](v1: Answer[T])(conv: (Answer[T] => Answer[U])): (Answer[U]) =
+    conv(v1)
+
+  implicit def reflexiveWiden[T](v1: Answer[T]): Answer[T] = v1
+
+  trait LT[T, U]
+  implicit def intDoubleLT: LT[Int, Double] = null
+
+  trait WiderThan[T, U, V] {}
+  implicit def rightWider[T, U, V]
+  (implicit rw: LT[T, U],
+   conv2: (Answer[U] => Answer[V]),
+   conv1: (Answer[T] => Answer[V])): WiderThan[T,U,V] = null
+
+  implicit def leftWider[T, U, V]
+  (implicit rw: LT[U, T],
+   conv2: (Answer[T] => Answer[V]),
+   conv1: (Answer[U] => Answer[V])): WiderThan[T,U,V] = null
+
+  implicit def reflWider[T]: WiderThan[T, T, T] = null
 
 }
 
-final case class Addition[T](left: Expression[T], right: Expression[T])(implicit ev: Addable[T]) extends Expression[T] {
-  override def evaluate: Answer[T] = {
-    val lv = left.evaluate
-    val rv = right.evaluate
+final case class Addition[T, U, V]
+  (left: Expression[T], right: Expression[U])
+  (implicit lub: WiderThan[T, U, V],
+            widenLeft: Answer[T] => Answer[V],
+            widenRight: Answer[U] => Answer[V],
+            ev: Addable[V]) extends Expression[V] {
+  override def evaluate: Answer[V] = {
+    val lv = widenLeft(left.evaluate)
+    val rv = widenRight(right.evaluate)
     ev.plus(lv.get, rv.get)
   }
 }

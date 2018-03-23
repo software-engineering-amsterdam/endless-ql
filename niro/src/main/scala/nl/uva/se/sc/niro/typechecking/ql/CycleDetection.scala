@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.typechecking
+package nl.uva.se.sc.niro.typechecking.ql
 
 import org.apache.logging.log4j.scala.Logging
 

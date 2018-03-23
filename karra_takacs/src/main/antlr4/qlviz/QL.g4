@@ -20,12 +20,12 @@ numericExpression : ADDITIVE_OPERATION? PAREN_OPEN numericExpression PAREN_CLOSE
                   | ADDITIVE_OPERATION? IDENTIFIER
                   ;
 
-booleanExpression : BOOLEAN
-                  | booleanExpression BINARY_BOOLEAN_OPERATOR booleanExpression
-                  | UNARY_BOOLEAN_OPERATOR booleanExpression
+booleanExpression : NOT? PAREN_OPEN booleanExpression PAREN_CLOSE
+                  | booleanExpression AND booleanExpression
+                  | booleanExpression OR booleanExpression
                   | numericExpression COMPARISON_OPERATOR numericExpression
-                  | IDENTIFIER
-                  | PAREN_OPEN booleanExpression PAREN_CLOSE
+                  | NOT? BOOLEAN
+                  | NOT? IDENTIFIER
                   ;
 
 expression: numericExpression | booleanExpression;
@@ -47,9 +47,9 @@ fragment COMPARISON : '<'
                     | '=='
                     | '!='
                     ;
-
-BINARY_BOOLEAN_OPERATOR:  ('&&' | '||') ;
-UNARY_BOOLEAN_OPERATOR:  '!' ;
+AND: '&&';
+OR: '||';
+NOT:  '!' ;
 
 MULTIPLICATIVE_OPERATION : '*'
                          | '/'

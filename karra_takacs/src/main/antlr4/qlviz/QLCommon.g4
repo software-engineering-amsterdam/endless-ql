@@ -23,7 +23,7 @@ FORM_HEADER :  'form';
 
 //literals
 NUMBER		: [0-9]+('.'[0-9]+)?;
-IDENTIFIER	: [a-zA-Z0-9_]+;
 BOOLEAN		: 'true' | 'false';
+IDENTIFIER	: [a-zA-Z0-9_]+;
 STRING		: '"' .*? '"';
 

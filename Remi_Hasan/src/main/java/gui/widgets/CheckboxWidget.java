@@ -11,15 +11,18 @@ import qls.model.StyleSheet;
 
 public class CheckboxWidget extends CheckBox implements GUIWidget {
 
-    private final String identifier;private final boolean computed;
+    private final String identifier;
+    private final boolean computed;
 
-    CheckboxWidget(String identifier, boolean computed){
-        this.identifier = identifier; this.computed = computed;
+    CheckboxWidget(String identifier, boolean computed) {
+        this.identifier = identifier;
+        this.computed = computed;
     }
 
     @Override
     public void update(SymbolTable symbolTable) {
-        if(computed) setValue(symbolTable.getValue(this.identifier)); else symbolTable.setExpression(identifier, this.getExpressionValue());
+        if (computed) setValue(symbolTable.getValue(this.identifier));
+        else symbolTable.setExpression(identifier, this.getExpressionValue());
     }
 
     @Override
@@ -34,7 +37,7 @@ public class CheckboxWidget extends CheckBox implements GUIWidget {
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        if(!computed)
+        if (!computed)
             this.selectedProperty().addListener(invalidationListener);
     }
 

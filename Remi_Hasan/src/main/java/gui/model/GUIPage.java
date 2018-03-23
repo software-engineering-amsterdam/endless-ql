@@ -9,7 +9,7 @@ import qls.model.StyleSheet;
 
 import java.util.List;
 
-public class GUIPage extends VBox implements GUIInterface{
+public class GUIPage extends VBox implements GUIInterface {
 
     private final String identifier;
     private final List<GUIInterface> children;
@@ -21,7 +21,7 @@ public class GUIPage extends VBox implements GUIInterface{
         Label label = new Label("Page " + identifier);
         this.getChildren().add(label);
 
-        for(GUIInterface child : children){
+        for (GUIInterface child : children) {
             this.getChildren().add(child.render());
         }
 
@@ -31,14 +31,14 @@ public class GUIPage extends VBox implements GUIInterface{
 
     @Override
     public void update(SymbolTable symbolTable) {
-        for(GUIInterface child : children){
+        for (GUIInterface child : children) {
             child.update(symbolTable);
         }
     }
 
     @Override
     public void update(StyleSheet styleSheet) {
-        for(GUIInterface child : children){
+        for (GUIInterface child : children) {
             child.update(styleSheet);
         }
     }
@@ -50,28 +50,8 @@ public class GUIPage extends VBox implements GUIInterface{
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        for(GUIInterface child : children){
+        for (GUIInterface child : children) {
             child.setChangeListener(invalidationListener);
         }
     }
-
-//    public VBox render(SymbolTable symbolTable){
-//        VBox vBox = new VBox();
-//        Label pageLabel = new Label("Page " + identifier);
-//        vBox.getChildren().add(pageLabel);
-//
-//        // Render all sections
-//        for(Section section : sections){
-//            // Combine local styles with broader scope styles
-//            List<DefaultStyle> subDefaultStyles = new ArrayList<>();
-//            subDefaultStyles.addAll(defaultStyles);
-//            subDefaultStyles.addAll(section.getDefaultStyles());
-//
-//            GUISection guiSection = new GUISection(section.identifier, guiQuestions, defaultStyles, section.getDefaultStyles(), section.getQuestions(), section.getSections());
-//            vBox.getChildren().add(guiSection.render(symbolTable));
-//        }
-//
-//        return vBox;
-//    }
-    
 }

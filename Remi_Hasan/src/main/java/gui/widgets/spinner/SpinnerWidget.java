@@ -2,7 +2,6 @@ package gui.widgets.spinner;
 
 import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.Parent;
 import javafx.scene.control.Spinner;
 import javafx.scene.text.Font;
@@ -12,16 +11,18 @@ import qls.model.StyleSheet;
 
 public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
 
-    private final String identifier;private final boolean computed;
+    private final String identifier;
+    private final boolean computed;
 
     public SpinnerWidget(String identifier, boolean computed) {
-        this.identifier = identifier; this.computed = computed;
+        this.identifier = identifier;
+        this.computed = computed;
         this.setEditable(true);
     }
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        if(!computed)
+        if (!computed)
             this.valueProperty().addListener(invalidationListener);
     }
 
@@ -50,7 +51,8 @@ public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
 
     @Override
     public void update(SymbolTable symbolTable) {
-        if(computed) setValue(symbolTable.getValue(this.identifier)); else symbolTable.setExpression(identifier, this.getExpressionValue());
+        if (computed) setValue(symbolTable.getValue(this.identifier));
+        else symbolTable.setExpression(identifier, this.getExpressionValue());
     }
 
     @Override

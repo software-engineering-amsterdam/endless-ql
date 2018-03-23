@@ -18,7 +18,7 @@ public class GUIForm extends ScrollPane implements GUIInterface {
         this.children = children;
 
         VBox vBox = new VBox();
-        for(GUIInterface child : children){
+        for (GUIInterface child : children) {
             vBox.getChildren().add(child.render());
         }
         this.setContent(vBox);
@@ -28,14 +28,14 @@ public class GUIForm extends ScrollPane implements GUIInterface {
 
     @Override
     public void update(SymbolTable symbolTable) {
-        for(GUIInterface child : children){
+        for (GUIInterface child : children) {
             child.update(symbolTable);
         }
     }
 
     @Override
     public void update(StyleSheet styleSheet) {
-        for(GUIInterface child : children){
+        for (GUIInterface child : children) {
             child.update(styleSheet);
         }
     }
@@ -47,7 +47,7 @@ public class GUIForm extends ScrollPane implements GUIInterface {
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        for(GUIInterface child : children){
+        for (GUIInterface child : children) {
             child.setChangeListener(invalidationListener);
         }
     }

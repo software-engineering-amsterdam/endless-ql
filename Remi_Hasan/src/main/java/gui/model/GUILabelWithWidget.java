@@ -2,7 +2,6 @@ package gui.model;
 
 import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 import ql.analysis.SymbolTable;
@@ -10,12 +9,14 @@ import qls.model.StyleSheet;
 
 public class GUILabelWithWidget extends VBox implements GUIInterface {
 
-    private final String identifier;private final boolean computed;
+    private final String identifier;
+    private final boolean computed;
     private final GUIInterface label;
     private final GUIWidget widget;
 
     public GUILabelWithWidget(String identifier, boolean computed, GUILabel label, GUIWidget widget) {
-        this.identifier = identifier; this.computed = computed;
+        this.identifier = identifier;
+        this.computed = computed;
         this.label = label;
         this.widget = widget;
 

@@ -1,13 +1,10 @@
 package gui.widgets.spinner;
 
 import gui.widgets.WidgetUtils;
-import javafx.scene.Parent;
 import javafx.scene.control.SpinnerValueFactory;
-import ql.analysis.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableInteger;
-import qls.model.StyleSheet;
 
 public class SpinnerIntegerWidget extends SpinnerWidget<Integer> {
 

@@ -1,8 +1,6 @@
 package gui.widgets;
 
 import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -15,13 +13,15 @@ import qls.model.StyleSheet;
 
 public class RadioWidget extends HBox implements GUIWidget {
 
-    private final String identifier;private final boolean computed;
+    private final String identifier;
+    private final boolean computed;
     private final ToggleGroup group;
     private final RadioButton falseButton;
     private final RadioButton trueButton;
 
     public RadioWidget(String identifier, boolean computed, String falseLabel, String trueLabel) {
-        this.identifier = identifier; this.computed = computed;
+        this.identifier = identifier;
+        this.computed = computed;
         this.group = new ToggleGroup();
 
         this.falseButton = new RadioButton(falseLabel);
@@ -38,7 +38,7 @@ public class RadioWidget extends HBox implements GUIWidget {
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        if(!computed)
+        if (!computed)
             group.selectedToggleProperty().addListener(invalidationListener);
     }
 
@@ -74,7 +74,8 @@ public class RadioWidget extends HBox implements GUIWidget {
 
     @Override
     public void update(SymbolTable symbolTable) {
-        if(computed) setValue(symbolTable.getValue(this.identifier)); else symbolTable.setExpression(identifier, this.getExpressionValue());
+        if (computed) setValue(symbolTable.getValue(this.identifier));
+        else symbolTable.setExpression(identifier, this.getExpressionValue());
     }
 
     @Override

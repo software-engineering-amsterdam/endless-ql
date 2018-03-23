@@ -1,7 +1,6 @@
 package gui.widgets;
 
 import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.Parent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.text.Font;
@@ -16,17 +15,19 @@ import qls.model.StyleSheet;
 
 public class DateWidget extends DatePicker implements GUIWidget {
 
-    private final String identifier;private final boolean computed;
+    private final String identifier;
+    private final boolean computed;
 
     public DateWidget(String identifier, boolean computed) {
-        this.identifier = identifier; this.computed = computed;
+        this.identifier = identifier;
+        this.computed = computed;
         // Do not allow typing, only date selecting using UI element
         this.getEditor().setDisable(true);
     }
 
     @Override
     public Expression getExpressionValue() {
-        if(this.getValue() == null) {
+        if (this.getValue() == null) {
             return new ExpressionVariableUndefined(null, ReturnType.DATE);
         }
 
@@ -40,7 +41,7 @@ public class DateWidget extends DatePicker implements GUIWidget {
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        if(!computed)
+        if (!computed)
             this.valueProperty().addListener(invalidationListener);
     }
 
@@ -68,7 +69,8 @@ public class DateWidget extends DatePicker implements GUIWidget {
 
     @Override
     public void update(SymbolTable symbolTable) {
-        if(computed) setValue(symbolTable.getValue(this.identifier)); else symbolTable.setExpression(identifier, this.getExpressionValue());
+        if (computed) setValue(symbolTable.getValue(this.identifier));
+        else symbolTable.setExpression(identifier, this.getExpressionValue());
     }
 
     @Override

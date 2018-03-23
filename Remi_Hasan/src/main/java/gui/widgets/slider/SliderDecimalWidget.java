@@ -1,10 +1,8 @@
 package gui.widgets.slider;
 
-import ql.analysis.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableDecimal;
-import qls.model.StyleSheet;
 
 public class SliderDecimalWidget extends SliderWidget {
     public SliderDecimalWidget(String identifier, boolean computed, double min, double max) {

@@ -3,13 +3,11 @@ package gui.widgets.textbox;
 import gui.widgets.GUIWidget;
 import gui.widgets.WidgetUtils;
 import javafx.scene.Parent;
-import ql.analysis.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 import ql.model.expression.variable.ExpressionVariableMoney;
 import ql.model.expression.variable.ExpressionVariableUndefined;
-import qls.model.StyleSheet;
 
 public class TextboxMoneyWidget extends TextboxWidget implements GUIWidget {
 

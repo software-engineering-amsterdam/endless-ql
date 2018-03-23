@@ -6,6 +6,11 @@ stylesheet taxOfficeExample
     {
       question hasBoughtHouse
         widget checkbox
+        section Buying2
+        {
+             question hasBoughtHouse2
+                widget checkbox
+        }
     }
   }
   page Selling

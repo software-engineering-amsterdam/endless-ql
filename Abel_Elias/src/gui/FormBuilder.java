@@ -36,6 +36,7 @@ public class FormBuilder {
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor; // The visitor
+    private StylesheetEvaluator stylesheetEvaluator;
     private int frameHeight = 800; //The height of the GUI
     private int frameWidth = 800; //The width of the GUI
 
@@ -51,21 +52,18 @@ public class FormBuilder {
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
     }
 
-    public FormBuilder(FormVisitor coreVisitor, Stylesheet stylesheet) {
-        this.coreVisitor = coreVisitor;
-        this.questionHashMap = coreVisitor.getQuestions();
-        this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
-    }
-
-
     /**
      * initComponents() method
-     * initializes the building process for all widgets
+     * initializes the building process for the frame
      */
-    public void initComponents() {
+    public void initFrame() {
         //Build the frame and panels of the form (the base)
         buildFrame();
         buildMainPanel();
+    }
+
+    public void initComponents() {
+        initFrame();
         buildListPanel();
 
         //Add a scroll pane to the form
@@ -81,6 +79,23 @@ public class FormBuilder {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
+
+    public void initComponents(Stylesheet stylesheet) {
+        stylesheetEvaluator = new StylesheetEvaluator();
+        initFrame();
+        buildListPanel();
+        mainPanel.add(new JScrollPane(mainListPanel));
+        stylesheetEvaluator.buildPages();
+        initQuestionPanels();
+
+        //mainFrame.add(stylesheetEvaluator.getLayout());
+        mainFrame.add(mainPanel);
+        mainFrame.setVisible(true);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+
+    }
+
 
     /**
      * initQuestionPanels() method

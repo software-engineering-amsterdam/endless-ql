@@ -1,6 +1,6 @@
 package QLS.parsing.visitors;
 import QLS.classes.blocks.Block;
-import QLS.classes.blocks.LineInBlock;
+import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Question;
 import QLS.classes.blocks.Section;
 import QLS.classes.widgets.CheckBoxWidget;
@@ -27,16 +27,7 @@ public class BlockVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Block visitBlock(QLSParser.BlockContext ctx) {
-        List<LineInBlock> blockElements = new ArrayList<>();
-        for (QLSParser.LineInBlockContext c : ctx.lineInBlock()) {
-            blockElements.add(this.visitLineInBlock(c));
-        }
-        return new Block(blockElements);
-    }
-
-    @Override
-    public LineInBlock visitLineInBlock(QLSParser.LineInBlockContext ctx) {
+    public Element visitElement(QLSParser.ElementContext ctx) {
         if (ctx.section() != null) {
             return visitSection(ctx.section());
         } else if (ctx.question() != null) {
@@ -49,11 +40,11 @@ public class BlockVisitor extends QLSBaseVisitor {
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        List<Block> blocks = new ArrayList<>();
-        for (QLSParser.BlockContext c : ctx.block()) {
-            blocks.add(this.visitBlock(c));
+        List<Element> elements = new ArrayList<>();
+        for (QLSParser.ElementContext c : ctx.element()) {
+            elements.add(this.visitElement(c));
         }
-        return new Section(id, blocks);
+        return new Section(id, elements);
     }
 
     @Override

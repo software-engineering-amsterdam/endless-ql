@@ -2,6 +2,7 @@ package QLS.parsing.visitors;
 
 import QLS.classes.blocks.Block;
 import QLS.classes.Page;
+import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Question;
 import QLS.classes.blocks.Section;
 import QLS.classes.Stylesheet;
@@ -36,11 +37,11 @@ public class StylesheetVisitor extends QLSBaseVisitor {
     @Override
     public Page visitPage(QLSParser.PageContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        List<Block> blocks = new ArrayList<>();
+        List<Section> sections = new ArrayList<>();
 
-        for (QLSParser.BlockContext c : ctx.block()) {
-            blocks.add(blockVisitor.visitBlock(c));
+        for (QLSParser.SectionContext c : ctx.section()) {
+            sections.add(blockVisitor.visitSection(c));
         }
-        return new Page(id, blocks);
+        return new Page(id, sections);
     }
 }

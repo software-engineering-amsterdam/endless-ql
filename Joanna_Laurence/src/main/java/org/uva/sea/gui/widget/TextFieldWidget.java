@@ -1,65 +1,79 @@
 package org.uva.sea.gui.widget;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
-import org.uva.sea.gui.FormController;
-import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.render.visitor.QuestionModelVisitor;
-import org.uva.sea.gui.render.visitor.TextToValueVisitor;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.DecimalValue;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.StringValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
-public class TextFieldWidget implements Widget {
+import java.lang.reflect.InvocationTargetException;
 
-    private static final double TEXT_WIDTH = 100.0;
+public class TextFieldWidget extends Widget {
+
+    private Value widgetValue = new StringValue("");
+
+    public TextFieldWidget(QuestionData questionData) {
+        super(questionData);
+    }
 
     @Override
-    public Control draw(BaseQuestionModel questionModel, FormController controller) {
-        TextField textField = this.createTextField(questionModel);
+    public boolean updateValue(DecimalValue decimalValue) {
+        this.widgetValue = decimalValue;
+        return true;
+    }
+
+    @Override
+    public boolean updateValue(IntValue intValue) {
+        this.widgetValue = intValue;
+        return true;
+    }
+
+    @Override
+    public boolean updateValue(StringValue stringValue) {
+        this.widgetValue = stringValue;
+        return true;
+    }
+
+    @Override
+    public Node convertToGuiNode() {
+
+        TextField textField = new TextField();
+        this.setStyle(textField, this.questionData.getStyle());
+        textField.setText(this.widgetValue.toString());
+        textField.setEditable(true);
+        textField.setMinWidth(BaseRenderable.TEXT_WIDTH);
+
+        if (this.questionData.isComputed()) {
+            textField.setEditable(false);
+        }
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            controller.setLastFocused(questionModel.getVariableName());
-            System.out.println("TextField Text Changed (newValue: " + newValue + ')');
-            QuestionModelVisitor<Value> textToValueVisitor = new TextToValueVisitor(newValue);
-            Value value = questionModel.accept(textToValueVisitor);
-            controller.updateGuiModel(questionModel.getVariableName(), value);
+            Value newWidgetValue;
+            try {
+                newWidgetValue = this.widgetValue.getClass().getDeclaredConstructor(String.class).newInstance(newValue);
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
+                newWidgetValue = this.widgetValue;
+            }
+            this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);
         });
+
         textField.positionCaret(textField.getText().length());
         return textField;
     }
 
-    private TextField createTextField(BaseQuestionModel question) {
-        TextField textField = new TextField();
+    private void setStyle(TextField textField, Style style) {
+        if (style == null)
+            return;
 
-        textField = this.setStyle(textField, question.getStyleQLS());
-
-        if (question.getValue() != null) {
-            textField.setText(question.displayValue());
+        if (style.getWidth() != null) {
+            textField.setMinWidth(style.getWidth());
         }
-        textField.setEditable(true);
-        textField.setMinWidth(TextFieldWidget.TEXT_WIDTH);
-
-        if (question.isComputed()) {
-            textField.setEditable(false);
+        if ((style.getFont() != null) && (style.getFontSize() != null)) {
+            textField.setFont(new Font(style.getFont(), style.getFontSize()));
         }
-        //TODO: validate user input
-
-        return textField;
-    }
-
-    //TODO: set color from styleQLS
-    private TextField setStyle(TextField textField, Style style) {
-        if (style != null) {
-            if (style.getWidth() != null) {
-                textField.setMinWidth(style.getWidth());
-            }
-            if ((style.getFont() != null) && (style.getFontSize() != null)) {
-                textField.setFont(new Font(style.getFont(), style.getFontSize()));
-            }
-        } else {
-            System.out.println("Style is null");
-        }
-        return textField;
     }
 }

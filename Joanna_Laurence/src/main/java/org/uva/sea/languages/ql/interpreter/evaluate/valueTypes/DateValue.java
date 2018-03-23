@@ -6,7 +6,9 @@ import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 import java.security.InvalidParameterException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class DateValue extends Value {
 
@@ -44,7 +46,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isGreaterOrEqual(Value value) throws EvaluationException {
-        return value.isLessThan(this);
+        return value.isGreaterOrEqual(this);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isGreaterThan(Value value) throws EvaluationException {
-        return value.isLessOrEqual(this);
+        return value.isGreaterThan(this);
     }
 
     @Override
@@ -66,7 +68,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isLessOrEqual(Value value) throws EvaluationException {
-        return value.isGreaterThan(this);
+        return value.isLessOrEqual(this);
     }
 
     @Override
@@ -77,7 +79,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isLessThan(Value value) throws EvaluationException {
-        return value.isGreaterOrEqual(this);
+        return value.isLessThan(this);
     }
 
     @Override
@@ -106,5 +108,18 @@ public class DateValue extends Value {
     @Override
     public NodeType getType() {
         return NodeType.DATE;
+    }
+
+    @Override
+    public String toString() {
+        if (this.dateValue == null)
+            return "";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY", Locale.ENGLISH);
+        return formatter.format(this.dateValue.getTime());
+    }
+
+    public DateValue clone() throws CloneNotSupportedException {
+        return (DateValue) super.clone();
     }
 }

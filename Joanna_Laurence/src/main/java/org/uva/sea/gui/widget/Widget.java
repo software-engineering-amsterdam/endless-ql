@@ -1,9 +1,14 @@
 package org.uva.sea.gui.widget;
 
-import javafx.scene.control.Control;
-import org.uva.sea.gui.FormController;
-import org.uva.sea.gui.model.BaseQuestionModel;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 
-public interface Widget {
-    Control draw(BaseQuestionModel questionModel, FormController controller);
+public abstract class Widget extends BaseWidget {
+    public Widget(QuestionData questionData) {
+        super(questionData);
+    }
+
+    @Override
+    public String getContainerName() {
+        return "default";
+    }
 }

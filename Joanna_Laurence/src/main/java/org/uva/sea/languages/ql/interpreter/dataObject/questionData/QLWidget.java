@@ -24,7 +24,7 @@ public class QLWidget {
 
     @Override
     public String toString() {
-        return "QLWidget{" +
+        return "Widget{" +
                 "widgetType=" + this.widgetType +
                 ", parameters=" + this.parameters +
                 '}';

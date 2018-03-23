@@ -28,15 +28,15 @@ public class StyleSheetBuilderTest {
 
         Section firstPageFirstSection = firstPage.getSections().get(0);
         assertEquals(firstPageFirstSection.identifier, "Integer");
-        assertEquals(firstPageFirstSection.getQuestions().size(), 1);
-        assertEquals(firstPageFirstSection.getQuestions().get(0).name, "someInteger");
-        assertEquals(firstPageFirstSection.getQuestions().get(0).getWidget().type, WidgetType.SPINBOX);
+        assertEquals(firstPageFirstSection.getQuestionReferences().size(), 1);
+        assertEquals(firstPageFirstSection.getQuestionReferences().get(0).name, "someInteger");
+        assertEquals(firstPageFirstSection.getQuestionReferences().get(0).getWidget().type, WidgetType.SPINBOX);
 
         Section firstPageSecondSection = firstPage.getSections().get(1);
         assertEquals(firstPageSecondSection.identifier, "Decimal");
-        assertEquals(firstPageSecondSection.getQuestions().size(), 2);
-        assertEquals(firstPageSecondSection.getQuestions().get(0).name, "someDecimal");
-        assertEquals(firstPageSecondSection.getQuestions().get(0).getWidget().type, WidgetType.SLIDER);
+        assertEquals(firstPageSecondSection.getQuestionReferences().size(), 2);
+        assertEquals(firstPageSecondSection.getQuestionReferences().get(0).name, "someDecimal");
+        assertEquals(firstPageSecondSection.getQuestionReferences().get(0).getWidget().type, WidgetType.SLIDER);
 
         assertEquals(firstPageSecondSection.getDefaultStyles().size(), 1);
         assertEquals(firstPageSecondSection.getDefaultStyles().get(0).type, ReturnType.MONEY);

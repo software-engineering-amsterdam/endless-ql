@@ -3,7 +3,7 @@ package qls.analysis;
 import ql.analysis.IdentifiersCollector;
 import ql.model.Form;
 import qls.QLSVisitor;
-import qls.model.Question;
+import qls.model.QuestionReference;
 import qls.model.StyleSheet;
 
 import java.util.ArrayList;
@@ -70,9 +70,9 @@ public class QuestionAnalyzer {
         List<String> identifiers = new ArrayList<>();
         this.styleSheet.accept(new QLSVisitor<Void>() {
             @Override
-            public Void visit(Question question) {
-                identifiers.add(question.name);
-                return super.visit(question);
+            public Void visit(QuestionReference questionReference) {
+                identifiers.add(questionReference.name);
+                return super.visit(questionReference);
             }
         });
 

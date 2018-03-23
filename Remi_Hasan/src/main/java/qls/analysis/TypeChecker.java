@@ -5,7 +5,7 @@ import ql.model.Form;
 import ql.model.expression.ReturnType;
 import qls.QLSVisitor;
 import qls.model.DefaultStyle;
-import qls.model.Question;
+import qls.model.QuestionReference;
 import qls.model.StyleSheet;
 import qls.model.widget.WidgetType;
 
@@ -32,20 +32,20 @@ public class TypeChecker extends QLSVisitor<Void> {
     }
 
     @Override
-    public Void visit(Question question) {
-        if(question.getWidget() == null) {
-            return super.visit(question);
+    public Void visit(QuestionReference questionReference) {
+        if(questionReference.getWidget() == null) {
+            return super.visit(questionReference);
         }
 
         // Check if QLS widget is compatible with question type
-        WidgetType widgetType = question.getWidget().type;
-        ReturnType questionType = formQuestionTypes.get(question.name);
+        WidgetType widgetType = questionReference.getWidget().type;
+        ReturnType questionType = formQuestionTypes.get(questionReference.name);
         if(!widgetType.isCompatible(questionType)) {
             throw new IllegalArgumentException("Incompatible widget type " + widgetType
-                    + " for question of type " + questionType + " " + question.getWidget().getLocation());
+                    + " for question of type " + questionType + " " + questionReference.getWidget().getLocation());
         }
 
-        return super.visit(question);
+        return super.visit(questionReference);
     }
 
     @Override

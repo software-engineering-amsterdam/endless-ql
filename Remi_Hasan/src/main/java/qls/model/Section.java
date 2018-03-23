@@ -8,14 +8,14 @@ import java.util.List;
 public class Section extends QLSNode {
     public final String identifier;
     private final List<Section> sections;
-    private final List<Question> questions;
+    private final List<QuestionReference> questionReferences;
     private final List<DefaultStyle> defaultStyles;
 
-    public Section(Token token, String identifier, List<Section> sections, List<Question> questions, List<DefaultStyle> defaultStyles) {
+    public Section(Token token, String identifier, List<Section> sections, List<QuestionReference> questionReferences, List<DefaultStyle> defaultStyles) {
         super(token);
         this.identifier = identifier;
         this.sections = sections;
-        this.questions = questions;
+        this.questionReferences = questionReferences;
         this.defaultStyles = defaultStyles;
     }
 
@@ -23,8 +23,8 @@ public class Section extends QLSNode {
         return sections;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public List<QuestionReference> getQuestionReferences() {
+        return questionReferences;
     }
 
     public List<DefaultStyle> getDefaultStyles() {

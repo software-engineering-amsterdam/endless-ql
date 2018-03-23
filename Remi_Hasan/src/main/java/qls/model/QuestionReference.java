@@ -4,12 +4,12 @@ import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 import qls.model.widget.Widget;
 
-public class Question extends QLSNode {
+public class QuestionReference extends QLSNode {
 
     public final String name;
     private final Widget widget;
 
-    public Question(Token token, String name, Widget widget) {
+    public QuestionReference(Token token, String name, Widget widget) {
         super(token);
         this.name = name;
         this.widget = widget;

@@ -35,7 +35,7 @@ public class GUIPage extends VBox{
             subDefaultStyles.addAll(defaultStyles);
             subDefaultStyles.addAll(section.getDefaultStyles());
 
-            GUISection guiSection = new GUISection(section.identifier, guiQuestions, defaultStyles, section.getDefaultStyles(), section.getQuestions(), section.getSections());
+            GUISection guiSection = new GUISection(section.identifier, guiQuestions, defaultStyles, section.getDefaultStyles(), section.getQuestionReferences(), section.getSections());
             vBox.getChildren().add(guiSection.render(symbolTable));
         }
 

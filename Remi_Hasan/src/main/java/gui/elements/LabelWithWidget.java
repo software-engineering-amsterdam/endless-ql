@@ -91,7 +91,7 @@ public class LabelWithWidget extends VBox implements GUIQuestionElement, IQLSVis
     }
 
     @Override
-    public Void visit(Question question) {
+    public Void visit(QuestionReference questionReference) {
         return null;
     }
 

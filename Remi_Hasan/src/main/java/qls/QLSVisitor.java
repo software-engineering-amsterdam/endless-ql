@@ -28,8 +28,8 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
 
     @Override
     public T visit(Section section) {
-        for (Question question : section.getQuestions()) {
-            question.accept(this);
+        for (QuestionReference questionReference : section.getQuestionReferences()) {
+            questionReference.accept(this);
         }
 
         for (Section subSection : section.getSections()) {
@@ -44,9 +44,9 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
     }
 
     @Override
-    public T visit(Question question) {
-        if (question.getWidget() != null) {
-            question.getWidget().accept(this);
+    public T visit(QuestionReference questionReference) {
+        if (questionReference.getWidget() != null) {
+            questionReference.getWidget().accept(this);
         }
         return null;
     }

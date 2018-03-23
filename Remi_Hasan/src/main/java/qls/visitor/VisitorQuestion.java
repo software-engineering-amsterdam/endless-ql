@@ -1,14 +1,14 @@
 package qls.visitor;
 
-import qls.model.Question;
+import qls.model.QuestionReference;
 import qls.model.widget.Widget;
 import qls.antlr.QLSBaseVisitor;
 import qls.antlr.QLSParser;
 
-public class VisitorQuestion extends QLSBaseVisitor<Question> {
+public class VisitorQuestion extends QLSBaseVisitor<QuestionReference> {
 
     @Override
-    public Question visitQuestion(QLSParser.QuestionContext ctx) {
+    public QuestionReference visitQuestion(QLSParser.QuestionContext ctx) {
         VisitorWidget visitorWidget = new VisitorWidget();
 
         Widget widget = null;
@@ -16,6 +16,6 @@ public class VisitorQuestion extends QLSBaseVisitor<Question> {
             widget = visitorWidget.visit(ctx.widget());
         }
 
-        return new Question(ctx.getStart(), ctx.IDENTIFIER().getText(), widget);
+        return new QuestionReference(ctx.getStart(), ctx.IDENTIFIER().getText(), widget);
     }
 }

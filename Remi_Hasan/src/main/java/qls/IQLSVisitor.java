@@ -13,7 +13,7 @@ public interface IQLSVisitor<T> {
 
     T visit(Section page);
 
-    T visit(Question question);
+    T visit(QuestionReference questionReference);
 
     T visit(DefaultStyle defaultStyle);
 

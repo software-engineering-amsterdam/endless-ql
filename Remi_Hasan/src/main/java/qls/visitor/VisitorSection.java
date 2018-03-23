@@ -1,7 +1,7 @@
 package qls.visitor;
 
 import qls.model.DefaultStyle;
-import qls.model.Question;
+import qls.model.QuestionReference;
 import qls.model.Section;
 import qls.antlr.QLSParser;
 
@@ -18,24 +18,24 @@ public class VisitorSection extends VisitorBlock<Section> {
         identifier = identifier.substring(1, identifier.length() - 1);
 
         List<Section> sections = this.getSections(ctx.section());
-        List<Question> questions = getQuestions(ctx.question());
+        List<QuestionReference> questionReferences = getQuestions(ctx.question());
         List<DefaultStyle> defaultStyles = getDefaults(ctx.defaultStyle());
 
-        return new Section(ctx.getStart(), identifier, sections, questions, defaultStyles);
+        return new Section(ctx.getStart(), identifier, sections, questionReferences, defaultStyles);
     }
 
-    private List<Question> getQuestions(List<QLSParser.QuestionContext> questionContexts) {
-        List<Question> questions = new ArrayList<>();
+    private List<QuestionReference> getQuestions(List<QLSParser.QuestionContext> questionContexts) {
+        List<QuestionReference> questionReferences = new ArrayList<>();
         if (questionContexts == null) {
-            return questions;
+            return questionReferences;
         }
 
         VisitorQuestion visitorQuestion = new VisitorQuestion();
         for (QLSParser.QuestionContext questionContext : questionContexts) {
-            Question question = visitorQuestion.visitQuestion(questionContext);
-            questions.add(question);
+            QuestionReference questionReference = visitorQuestion.visitQuestion(questionContext);
+            questionReferences.add(questionReference);
         }
 
-        return questions;
+        return questionReferences;
     }
 }

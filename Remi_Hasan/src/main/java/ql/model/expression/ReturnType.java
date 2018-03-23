@@ -5,7 +5,7 @@ import java.util.List;
 public enum ReturnType {
     INTEGER, DECIMAL, MONEY, BOOLEAN, STRING, DATE;
 
-    private static List numberPriorities = List.of(INTEGER, DECIMAL, MONEY);
+    private static List numberPriorities = List.of(INTEGER, MONEY, DECIMAL);
 
     public Boolean isNumber() {
         return this == INTEGER || this == DECIMAL || this == MONEY;

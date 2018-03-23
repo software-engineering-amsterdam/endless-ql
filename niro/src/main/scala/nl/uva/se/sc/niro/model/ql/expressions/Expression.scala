@@ -30,6 +30,7 @@ abstract class BinaryOperation extends Expression {
     } yield leftTypeAfterOperation
   }
 }
+
 abstract class UnaryOperation extends Expression {
   val left: Expression
   val operator: Operator
@@ -40,44 +41,55 @@ abstract class UnaryOperation extends Expression {
 final case class Addition(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = Add
 }
+
 final case class Subtract(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = Sub
-
 }
+
 final case class Multiply(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = Mul
-
 }
+
 final case class Divide(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = Div
 }
+
 final case class Minus(left: Expression) extends UnaryOperation {
   val operator: Operator = Sub
 }
+
 final case class LessThan(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = Lt
 }
+
 final case class LessThanEqual(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = Lte
 }
+
 final case class GreaterThenEqual(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = Gte
 }
+
 final case class GreaterThen(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = Gt
 }
+
 final case class NotEqual(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = Ne
 }
+
 final case class Equal(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = Eq
 }
+
 final case class Or(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = nl.uva.se.sc.niro.model.ql.Operators.Or
 }
+
 final case class And(left: Expression, right: Expression) extends BinaryOperation {
   val operator: Operator = nl.uva.se.sc.niro.model.ql.Operators.And
 }
+
 final case class Negate(left: Expression) extends UnaryOperation {
   val operator: Operator = nl.uva.se.sc.niro.model.ql.Operators.Neg
 }

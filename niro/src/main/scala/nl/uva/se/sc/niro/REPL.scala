@@ -8,6 +8,7 @@ import javafx.scene.layout.{ HBox, VBox }
 import javafx.scene.text.Font
 import javafx.stage.{ Screen, Stage }
 import nl.uva.se.sc.niro.errors.Errors._
+import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, IntegerAnswer }
 import nl.uva.se.sc.niro.model.ql.{ QLForm, Question, Statement }
 import org.apache.logging.log4j.scala.Logging
@@ -121,7 +122,7 @@ class REPL extends Application with Logging {
                 val maybeIntegerAnswer = Try(newValue.toInt).toOption.map(value => IntegerAnswer(value))
 
                 maybeIntegerAnswer foreach (answer => dictionary(id) = answer)
-                val updatedDictionary = qlFormOrError.map(Evaluator.evaluate(_, dictionary.toMap)).toOption.get
+                val updatedDictionary = qlFormOrError.map(QLFormEvaluator.evaluate(_, dictionary.toMap)).toOption.get
                 pprint.pprintln(updatedDictionary)
                 dictionary ++= mutable.Map(updatedDictionary.toSeq: _*)
                 pprint.pprintln(dictionary)

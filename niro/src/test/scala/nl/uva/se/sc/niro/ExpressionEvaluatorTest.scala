@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro
 
 import java.time.LocalDate
 
-import nl.uva.se.sc.niro.ExpressionEvaluator._
+import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.model.ql.expressions._

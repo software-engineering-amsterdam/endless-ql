@@ -121,4 +121,27 @@ public class NumericExpressionVisitorTest {
         operands.getLeft().accept(new NumericLiteralChecker(BigDecimal.valueOf(5)));
         operands.getRight().accept(new NumericLiteralChecker(BigDecimal.valueOf(3)));
     }
+
+    @Test
+    public void testParenthesisPrecedence() {
+        // Arrange
+        var expressionVisitor = new NumericExpressionParser(new BinaryNumericOperatorVisitor());
+        var input = "(2+5)*3";
+        var lexer = new QLLexer(new ANTLRInputStream(input));
+        var parser = new QLParser(new CommonTokenStream(lexer));
+
+        // Act
+        var expression = expressionVisitor.visitNumericExpression(parser.numericExpression());
+
+        // Assert
+        expression.accept(new OperatorTypeChecker(BinaryNumericOperator.Multiply));
+        var operands = expression.accept(new BinaryExpressionDeconstructor());
+        operands.getRight().accept(new NumericLiteralChecker(BigDecimal.valueOf(3)));
+        operands.getLeft().accept(new OperatorTypeChecker(BinaryNumericOperator.Add));
+        operands = operands.getLeft().accept(new BinaryExpressionDeconstructor());
+        operands.getLeft().accept(new NumericLiteralChecker(BigDecimal.valueOf(2)));
+        operands.getRight().accept(new NumericLiteralChecker(BigDecimal.valueOf(5)));
+
+    }
+    
 }

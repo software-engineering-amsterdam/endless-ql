@@ -4,7 +4,7 @@ import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
-public abstract class Value {
+public abstract class Value implements Cloneable {
 
     public abstract <T> T accept(BaseValueVisitor<T> visitor);
 
@@ -106,39 +106,6 @@ public abstract class Value {
     }
 
     public Value divide(UndefinedValue undefinedValue) {
-        return undefinedValue;
-    }
-
-    //reverseDivide
-    public Value reverseDivide(Value value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(BooleanValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(DateValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(DecimalValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(IntValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(MoneyValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(StringValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse divide operator cannot be applied here");
-    }
-
-    public Value reverseDivide(UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
@@ -454,36 +421,7 @@ public abstract class Value {
         return undefinedValue;
     }
 
-    //subtract
-    public Value reverseSubtract(Value value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(BooleanValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(DateValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(DecimalValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(IntValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(MoneyValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(StringValue value) throws EvaluationException {
-        throw new EvaluationException("Reverse subtract operator cannot be applied here");
-    }
-
-    public Value reverseSubtract(UndefinedValue undefinedValue) {
-        return undefinedValue;
+    public Value clone() throws CloneNotSupportedException {
+        return (Value) super.clone();
     }
 }

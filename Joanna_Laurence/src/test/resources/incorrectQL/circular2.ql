@@ -1,4 +1,4 @@
-//Q=0
+//AssertDisplayedQuestions=0
 //extraMoney:=IntValue $100
 form taxOfficeExample {
 

@@ -2,17 +2,18 @@ package org.uva.sea.languages.ql.parser.elements;
 
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.languages.ql.parser.NodeType;
-import org.uva.sea.languages.ql.parser.elements.types.Type;
+import org.uva.sea.languages.ql.parser.elements.expressions.Expression;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.Type;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
-public class IfStatement extends ASTNode {
+public class IfStatement extends Statement {
 
-    private final ASTNode expression;
+    private final Expression expression;
 
     private final Statements then;
     private final Statements otherwise;
 
-    public IfStatement(Token token, ASTNode expression, Statements then, Statements otherwise) {
+    public IfStatement(Token token, Expression expression, Statements then, Statements otherwise) {
         super(token);
         this.then = then;
         this.expression = expression;

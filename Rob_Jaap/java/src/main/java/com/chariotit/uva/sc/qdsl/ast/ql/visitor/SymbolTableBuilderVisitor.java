@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.visitor;
 
+import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.BooleanConstant;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.IntegerConstant;
@@ -188,7 +189,7 @@ public class SymbolTableBuilderVisitor extends NodeVisitor {
     }
 
     private void addError(AstNode node, String message) {
-        errors.add(new TypeCheckError(message, node.getLineNumber(), node.getColumnNumber()));
+        errors.add(new TypeCheckError(message, node.getSourceFilePosition()));
     }
 
     public List<TypeCheckError> getErrors() {

@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.qls.node;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.qls.visitor.NodeVisitor;
 
 import java.util.ArrayList;
@@ -11,17 +12,16 @@ public class Page extends AstNode {
     private List<Section> sections;
     private String label;
 
-    public Page(List<Section> sections, String label, List<DefaultProperties> defaults, Integer
-            columnNumber,
-                Integer lineNumber) {
-        super(lineNumber, columnNumber);
+    public Page(List<Section> sections, String label, List<DefaultProperties> defaults,
+                SourceFilePosition filePosition) {
+        super(filePosition);
         this.defaults = defaults;
         this.sections = sections;
         this.label = label;
     }
 
-    public Page(List<Section> sections, String label, Integer columnNumber, Integer lineNumber) {
-        super(lineNumber, columnNumber);
+    public Page(List<Section> sections, String label, SourceFilePosition filePosition) {
+        super(filePosition);
         this.defaults = new ArrayList<>();
         this.sections = sections;
         this.label = label;

@@ -1,6 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.constant;
 
 import com.chariotit.uva.sc.qdsl.ast.BooleanExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.Constant;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
@@ -9,8 +10,8 @@ public class BooleanConstant extends Constant {
 
     private BooleanExpressionValue value;
 
-    public BooleanConstant(BooleanExpressionValue value, Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public BooleanConstant(BooleanExpressionValue value, SourceFilePosition filePosition) {
+        super(filePosition);
         this.value = value;
     }
 

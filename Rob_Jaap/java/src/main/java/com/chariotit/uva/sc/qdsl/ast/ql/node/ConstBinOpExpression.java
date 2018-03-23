@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.BinaryOperator;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.Operator;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
@@ -14,8 +15,8 @@ public class ConstBinOpExpression extends Expression {
     private Expression expression;
 
     public ConstBinOpExpression(Constant constant, Operator operator, Expression expression,
-                                Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+                                SourceFilePosition filePosition) {
+        super(filePosition);
         this.constant = constant;
         this.operator = operator;
         this.expression = expression;

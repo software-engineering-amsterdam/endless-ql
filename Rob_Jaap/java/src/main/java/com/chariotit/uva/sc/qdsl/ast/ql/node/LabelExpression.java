@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTableEntry;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
@@ -11,8 +12,8 @@ public class LabelExpression extends Expression {
 
     private String label;
 
-    public LabelExpression(String label, Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public LabelExpression(String label, SourceFilePosition filePosition) {
+        super(filePosition);
 
         this.label = label;
     }

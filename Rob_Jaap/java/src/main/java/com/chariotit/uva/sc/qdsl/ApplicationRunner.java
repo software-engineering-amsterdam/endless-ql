@@ -2,7 +2,7 @@ package com.chariotit.uva.sc.qdsl;
 
 import com.chariotit.uva.sc.qdsl.ast.ql.TypeChecker;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.QLAstRoot;
-import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckError;
+import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.qls.Validator;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
 import com.chariotit.uva.sc.qdsl.formbuilder.FormBuilder;
@@ -10,7 +10,6 @@ import com.chariotit.uva.sc.qdsl.grammar.QLSLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.QLSVisitor;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
-import com.chariotit.uva.sc.qdsl.QLFrame;
 import org.apache.commons.cli.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -112,8 +111,8 @@ public class ApplicationRunner implements CommandLineRunner {
             System.out.println(String.format(
                     "%4s line %d, column %d: %s",
                     error.getLevel(),
-                    error.getLineNumber(),
-                    error.getColumnNumber(),
+                    error.getSourceFilePosition().getLineNumber(),
+                    error.getSourceFilePosition().getColumnNumber(),
                     error.getMessage()
             ));
 
@@ -140,8 +139,8 @@ public class ApplicationRunner implements CommandLineRunner {
                 System.out.println(String.format(
                         "%4s line %d, column %d: %s",
                         error.getLevel(),
-                        error.getLineNumber(),
-                        error.getColumnNumber(),
+                        error.getSourceFilePosition().getLineNumber(),
+                        error.getSourceFilePosition().getColumnNumber(),
                         error.getMessage()
                 ));
 

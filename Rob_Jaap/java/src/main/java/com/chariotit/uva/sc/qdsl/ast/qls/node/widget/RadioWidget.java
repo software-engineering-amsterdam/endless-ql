@@ -1,6 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.qls.node.widget;
 
 import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.WidgetType;
 import com.chariotit.uva.sc.qdsl.ast.qls.visitor.NodeVisitor;
 
@@ -9,14 +10,14 @@ public class RadioWidget extends WidgetType {
     private String yesLabel;
     private String noLabel;
 
-    public RadioWidget(String yesLabel, String noLabel, Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public RadioWidget(String yesLabel, String noLabel, SourceFilePosition filePosition) {
+        this(filePosition);
         this.yesLabel = yesLabel;
         this.noLabel = noLabel;
     }
 
-    public RadioWidget(Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public RadioWidget(SourceFilePosition filePosition) {
+        super(filePosition);
     }
 
     public String getNoLabel() {

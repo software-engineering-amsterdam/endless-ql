@@ -10,7 +10,7 @@ import qls.model.StyleSheet;
 
 public class GUILabelWithWidget extends VBox implements GUIInterface {
 
-    private final String identifier;
+    public final String identifier;
     private final boolean computed;
     private final Expression condition;
     private final GUIInterface label;

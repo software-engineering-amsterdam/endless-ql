@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using NUnit.Framework;
 
-namespace UnitTests.Domain.UnitTests.Data
+namespace QL.UnitTests.Domain.UnitTests.Data
 {
     public static class TestValidationData
     {

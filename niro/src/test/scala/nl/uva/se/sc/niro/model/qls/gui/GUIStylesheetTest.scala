@@ -12,7 +12,7 @@ class GUIStylesheetTest extends WordSpec {
     "map to default if default is added to default" in {
       val defaultStyling = GUIStyling()
 
-      val result = defaultStyling ++ defaultStyling
+      val result = defaultStyling ++ GUIStyling()
 
       val expected = GUIStyling()
       assert(expected == result)

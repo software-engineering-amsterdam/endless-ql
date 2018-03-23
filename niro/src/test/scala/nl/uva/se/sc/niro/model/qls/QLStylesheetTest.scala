@@ -8,7 +8,7 @@ class QLStylesheetTest extends WordSpec {
     "map to default if default is added to default" in {
       val defaultStyling = Styling()
 
-      val result = defaultStyling ++ defaultStyling
+      val result = defaultStyling ++ Styling()
 
       val expected = Styling()
       assert(expected == result)
@@ -20,7 +20,7 @@ class QLStylesheetTest extends WordSpec {
 
       val result = currentStyling ++ defaultStyling
 
-      val expected = currentStyling
+      val expected = Styling(color = Some(Color("#010203")))
       assert(expected == result)
     }
 
@@ -30,7 +30,7 @@ class QLStylesheetTest extends WordSpec {
 
       val result = defaultStyling ++ newStyling
 
-      val expected = newStyling
+      val expected = Styling(color = Some(Color("#010203")))
       assert(expected == result)
     }
 
@@ -40,7 +40,7 @@ class QLStylesheetTest extends WordSpec {
 
       val result = otherStyling ++ newStyling
 
-      val expected = newStyling
+      val expected = Styling(color = Some(Color("#010203")))
       assert(expected == result)
     }
   }

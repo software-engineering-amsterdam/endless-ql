@@ -40,7 +40,7 @@ public class GUIQuestion {
         GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type);
 
         // Update symbol table and other fields in UI if non-computed field is edited by user
-        if(this.computedAnswer != null) {
+        if(!this.isComputed()) {
             guiWidget.setChangeListener(observable -> {
                 symbolTable.setExpression(this.identifier, guiWidget.getExpressionValue());
 

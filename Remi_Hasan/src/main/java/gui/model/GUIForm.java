@@ -26,8 +26,24 @@ public class GUIForm extends VBox {
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10, 10, 10, 10));
 
-        // Keep track of all widgets, so they can be updated from this GUIForm class
-        Map<GUIQuestion, LabelWithWidget> guiWidgetsMap = new HashMap<>();
+        // Render all questions, save as map so a rendered question can be updated using the corresponding GUIQuestion
+        Map<GUIQuestion, LabelWithWidget> guiWidgetsMap = this.getRenderedQuestions(symbolTable);
+
+        // Add questions to rendered form
+        vBox.getChildren().addAll(guiWidgetsMap.values());
+
+        // Update question values/visibility for the first time
+        this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
+
+        // Wrap form in scroll pane, so questions will always be reachable
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(vBox);
+        return scrollPane;
+    }
+
+    private Map<GUIQuestion, LabelWithWidget> getRenderedQuestions(SymbolTable symbolTable) {
+        // LinkedHashMap, as for QL we want to render the questions in order
+        Map<GUIQuestion, LabelWithWidget> guiWidgetsMap = new LinkedHashMap<>();
 
         // Listener that is notified by UI widget input event
         InvalidationListener allWidgetsListener = observable -> {
@@ -37,19 +53,10 @@ public class GUIForm extends VBox {
         // Render all QL questions in order
         for (GUIQuestion guiQuestion : this.guiQuestions) {
             LabelWithWidget labelWithWidget = guiQuestion.render(symbolTable, allWidgetsListener);
-            vBox.getChildren().add(labelWithWidget);
-
-            // Add widget to map from identifier to corresponding UI elements
             guiWidgetsMap.put(guiQuestion, labelWithWidget);
         }
 
-        // Update question values/visibility for the first time
-        this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
-
-        // Wrap form in scroll pane, so questions will always be reachable
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(vBox);
-        return scrollPane;
+        return guiWidgetsMap;
     }
 
     private void updateRenderedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {

@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
+import nl.khonraad.ql.QParser;
+import nl.khonraad.ql.ast.AbstractParseTreeFactory;
 import nl.khonraad.ql.domain.Question;
 import nl.khonraad.ql.domain.Question.BehaviouralType;
 import nl.khonraad.ql.domain.Questionnaire;
@@ -33,7 +35,11 @@ public class QLApplication {
             + "     hasSoldHouse:   \"Did you sell a house in 2010?\" boolean                              "
             + "     hasBoughtHouse: \"Did you by a house in 2010?\" boolean                                "
             + "     hasMaintLoan:   \"Did you enter a loan for maintenance/reconstruction?\"  boolean      "
+            + "     name:           \"What is your name?\"  string      "
+            + "     dog:           \"Name of your dog?\"  string      "
             + "                                                                                            "
+            + "        if (name == \"Toine\") {                                                                 "
+            + "           hello: \"Hello\" string ( name + \" \" + \"Khonraad\")}                            "
             + "        if (hasSoldHouse) {                                                                 "
             + "           sellingPrice: \"Price the house was sold for:\" money                            "
             + "           privateDebt: \"Private debts for the sold house:\" money                         "
@@ -42,7 +48,8 @@ public class QLApplication {
             + "     }                                                                                      "
             + "}                                                                                           ";
 
-    final Questionnaire questionnaire = new Questionnaire( testData );
+    QParser  qParser = AbstractParseTreeFactory.fromString( testData );
+    final Questionnaire questionnaire = new Questionnaire( qParser.form() );
 
     final JPanel        mainPanel     = new JPanel();
 
@@ -201,7 +208,7 @@ public class QLApplication {
 
     private JTextField createStringBox( String identifier, String text ) {
 
-        JTextField component = new JTextField( text, 40 );
+        JTextField component = new JTextField( text, 25 );
 
         addFocusListenerForJTextField( identifier, component, Type.String );
 
@@ -236,8 +243,7 @@ public class QLApplication {
 
             @Override
             public void focusGained( FocusEvent e ) {
-                // TODO Auto-generated method stub
-
+                // YAGNI
             }
         } );
     }
@@ -247,7 +253,6 @@ public class QLApplication {
 
         String[] options = { Value.FALSE.getText(), Value.TRUE.getText() };
         JComboBox<String> component = new JComboBox<>( options );
-
         component.setSelectedItem( text );
 
         component.addActionListener( e -> {

@@ -42,7 +42,7 @@ public class Test_Value {
 
   @Test
   public void not_boolean() {
-      qt().forAll( booleans().all() ).check( ( φ ) -> guarded_apply( Value.asValue( φ ), "!" ).equals( Value.asValue( !φ ) ) );
+      qt().forAll( booleans().all() ).check( ( φ ) -> guarded_apply( Value.valueOf( φ ), "!" ).equals( Value.valueOf( !φ ) ) );
   }
 
   
@@ -50,19 +50,19 @@ public class Test_Value {
   public void boolean_and_boolean() {
    
     qt().forAll( booleans().all(), booleans().all() )
-        .check( ( φ, ψ ) -> guarded_apply( Value.asValue( φ ), "&&", Value.asValue( ψ ) ).equals( Value.asValue( φ && ψ ) ) );
+        .check( ( φ, ψ ) -> guarded_apply( Value.valueOf( φ ), "&&", Value.valueOf( ψ ) ).equals( Value.valueOf( φ && ψ ) ) );
   }
 
   @Test
   public void boolean_or_boolean() {
     qt().forAll( booleans().all(), booleans().all() )
-        .check( ( φ, ψ ) -> guarded_apply( Value.asValue( φ ), "||", Value.asValue( ψ ) ).equals( Value.asValue( φ || ψ ) ) );
+        .check( ( φ, ψ ) -> guarded_apply( Value.valueOf( φ ), "||", Value.valueOf( ψ ) ).equals( Value.valueOf( φ || ψ ) ) );
   }
 
   @Test
   public void boolean_compared_with_boolean() {
     qt().forAll( booleans().all(), booleans().all() ).check(
-        ( φ, ψ ) -> guarded_apply( Value.asValue( φ ), "==", Value.asValue( ψ ) ).equals( Value.asValue( φ.equals( ψ ) ) ) );
+        ( φ, ψ ) -> guarded_apply( Value.valueOf( φ ), "==", Value.valueOf( ψ ) ).equals( Value.valueOf( φ.equals( ψ ) ) ) );
   }
 
   @Test
@@ -131,7 +131,7 @@ public class Test_Value {
     qt().forAll( integers().all(), integers().all() )
         .check( ( left_integer, right_integer ) -> guarded_apply( Value.asValue( left_integer )
             , "==", Value.asValue( right_integer ) )
-            .equals( Value.asValue( left_integer.equals( right_integer ) ) ) );
+            .equals( Value.valueOf( left_integer.equals( right_integer ) ) ) );
   }
 
   @Test
@@ -139,7 +139,7 @@ public class Test_Value {
     qt().forAll( integers().all(), integers().all() )
         .check( ( left_integer, right_integer ) -> guarded_apply( Value.asValue( left_integer )
             , "<", Value.asValue( right_integer ) )
-            .equals( Value.asValue( left_integer < right_integer ) ) );
+            .equals( Value.valueOf( left_integer < right_integer ) ) );
   }
 
   @Test
@@ -147,7 +147,7 @@ public class Test_Value {
     qt().forAll( integers().all(), integers().all() )
         .check( ( left_integer, right_integer ) -> guarded_apply( Value.asValue( left_integer )
             , ">", Value.asValue( right_integer ) )
-            .equals( Value.asValue( left_integer > right_integer ) ) );
+            .equals( Value.valueOf( left_integer > right_integer ) ) );
   }
 
   @Test
@@ -155,7 +155,7 @@ public class Test_Value {
     qt().forAll( integers().all(), integers().all() )
         .check( ( left_integer, right_integer ) -> guarded_apply( Value.asValue( left_integer )
             , "<=", Value.asValue( right_integer ) )
-            .equals( Value.asValue( left_integer <= right_integer ) ) );
+            .equals( Value.valueOf( left_integer <= right_integer ) ) );
   }
 
   @Test
@@ -163,7 +163,7 @@ public class Test_Value {
     qt().forAll( integers().all(), integers().all() )
         .check( ( left_integer, right_integer ) -> guarded_apply( Value.asValue( left_integer )
             , ">=", Value.asValue( right_integer ) )
-            .equals( Value.asValue( left_integer >= right_integer ) ) );
+            .equals( Value.valueOf( left_integer >= right_integer ) ) );
   }
 
   @Test

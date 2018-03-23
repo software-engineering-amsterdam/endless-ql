@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import nl.khonraad.ql.ast.AbstractParseTreeFactory;
 import nl.khonraad.ql.ast.ParseTreeVisitor;
 import nl.khonraad.ql.domain.Question.BehaviouralType;
 
@@ -14,12 +13,10 @@ public class Questionnaire {
     private ParseTree          parseTree;
     private QuestionRepository questionRepository;
 
-    public Questionnaire(String s) throws IOException {
-
-        parseTree = AbstractParseTreeFactory.parseDataForTest( s ).form();
+    public Questionnaire(ParseTree qParser) throws IOException {
+        parseTree = qParser;
         parseTreeVisitor = new ParseTreeVisitor( this );
         questionRepository = new QuestionRepository();
-
     }
 
     public void visit() {

@@ -95,209 +95,215 @@ public final class Value {
     }
 
     private Value not( Value value ) {
-        return asValue( !TRUE.equals( value ) );
+        return valueOf( !TRUE.equals( value ) );
     }
 
-    private Value less( Value operand ) throws Exception {
+    private Value less( Value that ) throws Exception {
 
-        switch ( operation( "<", operand ) ) {
+        switch ( operation( "<", that ) ) {
 
             case "Date < Date":
-                return asValue( asDateTime( this ).isBefore( asDateTime( operand ) ) );
+                return valueOf( dateTimeFrom( this ).isBefore( dateTimeFrom( that ) ) );
 
             case "Integer < Integer":
-                return asValue( asInteger( this ) < asInteger( operand ) );
+                return valueOf( integerFrom( this ) < integerFrom( that ) );
 
             case "Money < Money":
-                return asValue( asBigDecimal( this ).compareTo( asBigDecimal( operand ) ) < 0 );
+                return valueOf( bigDecimalFrom( this ).compareTo( bigDecimalFrom( that ) ) < 0 );
 
             case "String < String":
-                return asValue( asString( this ).compareTo( asString( operand ) ) < 0 );
+                return valueOf( stringFrom( this ).compareTo( stringFrom( that ) ) < 0 );
 
             default:
                 throw binaryOperationNotSupported;
         }
     }
 
-    private Value notMore( Value operand ) throws Exception {
+    private Value notMore( Value that ) throws Exception {
 
-        switch ( operation( "<=", operand ) ) {
+        switch ( operation( "<=", that ) ) {
 
             case "Date <= Date":
-                return asValue( (asDateTime( this ).isBefore( asDateTime( operand ) )
-                        || (asDateTime( this ).equals( asDateTime( operand ) ))) );
+                return valueOf( (dateTimeFrom( this ).isBefore( dateTimeFrom( that ) )
+                        || (dateTimeFrom( this ).equals( dateTimeFrom( that ) ))) );
 
             case "Integer <= Integer":
-                return asValue( (asInteger( this ) <= asInteger( operand )) );
+                return valueOf( (integerFrom( this ) <= integerFrom( that )) );
 
             case "Money <= Money":
-                return asValue( asBigDecimal( this ).compareTo( asBigDecimal( operand ) ) > -1 );
+                return valueOf( bigDecimalFrom( this ).compareTo( bigDecimalFrom( that ) ) > -1 );
 
             case "String <= String":
-                return asValue( asString( this ).compareTo( asString( operand ) ) < 1 );
+                return valueOf( stringFrom( this ).compareTo( stringFrom( that ) ) < 1 );
 
             default:
                 throw binaryOperationNotSupported;
         }
     }
 
-    private Value is( Value operand ) throws Exception {
+    private Value is( Value that ) throws Exception {
 
-        switch ( operation( "==", operand ) ) {
+        switch ( operation( "==", that ) ) {
 
             case "Boolean == Boolean":
             case "Date == Date":
             case "Integer == Integer":
             case "Money == Money":
             case "String == String":
-                return asValue( this.equals( operand ) );
+                return valueOf( this.equals( that ) );
 
             default:
                 throw binaryOperationNotSupported;
         }
     }
 
-    private Value more( Value operand ) throws Exception {
+    private Value more( Value that ) throws Exception {
 
-        switch ( operation( ">", operand ) ) {
+        switch ( operation( ">", that ) ) {
 
             case "Date > Date":
-                return asValue( asDateTime( this ).isAfter( asDateTime( operand ) ) );
+                return valueOf( dateTimeFrom( this ).isAfter( dateTimeFrom( that ) ) );
 
             case "Integer > Integer":
-                return asValue( (asInteger( this ) > asInteger( operand )) );
+                return valueOf( (integerFrom( this ) > integerFrom( that )) );
 
             case "Money > Money":
-                return asValue( asBigDecimal( this ).compareTo( asBigDecimal( operand ) ) > 0 );
+                return valueOf( bigDecimalFrom( this ).compareTo( bigDecimalFrom( that ) ) > 0 );
 
             case "String > String":
-                return asValue( asString( this ).compareTo( asString( operand ) ) > 0 );
+                return valueOf( stringFrom( this ).compareTo( stringFrom( that ) ) > 0 );
 
             default:
                 throw binaryOperationNotSupported;
         }
     }
 
-    private Value notLess( Value operand ) throws Exception {
+    private Value notLess( Value that ) throws Exception {
 
-        switch ( operation( ">=", operand ) ) {
+        switch ( operation( ">=", that ) ) {
 
             case "Date >= Date":
-                return asValue( (asDateTime( this ).isAfter( asDateTime( operand ) )
-                        || (asDateTime( this ).equals( asDateTime( operand ) ))) );
+                return valueOf( (dateTimeFrom( this ).isAfter( dateTimeFrom( that ) )
+                        || (dateTimeFrom( this ).equals( dateTimeFrom( that ) ))) );
 
             case "Integer >= Integer":
-                return asValue( (asInteger( this ) >= asInteger( operand )) );
+                return valueOf( (integerFrom( this ) >= integerFrom( that )) );
 
             case "Money >= Money":
-                return asValue( asBigDecimal( this ).compareTo( asBigDecimal( operand ) ) > -1 );
+                return valueOf( bigDecimalFrom( this ).compareTo( bigDecimalFrom( that ) ) > -1 );
 
             case "String >= String":
-                return asValue( asString( this ).compareTo( asString( operand ) ) > -1 );
+                return valueOf( stringFrom( this ).compareTo( stringFrom( that ) ) > -1 );
 
             default:
                 throw binaryOperationNotSupported;
         }
     }
 
-    private Value and( Value operand ) throws Exception {
+    private Value and( Value that ) throws Exception {
 
-        switch ( operation( "&&", operand ) ) {
+        /*
+         * Could be implemented with an if statement, though this 
+         * follows the style of the'richer' cases like 'plus'.
+         */
+
+        switch ( operation( "&&", that ) ) {
 
             case "Boolean && Boolean":
-                return asValue( asBoolean( this ) && asBoolean( operand ) );
+                return valueOf( asBoolean( this ) && asBoolean( that ) );
 
             default:
                 throw binaryOperationNotSupported;
         }
     }
 
-    private Value or( Value operand ) throws Exception {
+    private Value or( Value that ) throws Exception {
 
-        switch ( operation( "||", operand ) ) {
+        /*
+         * Could be implemented with an if statement, though this 
+         * follows the style of the'richer' cases like 'plus'.
+         */
+        switch ( operation( "||", that ) ) {
 
             case "Boolean || Boolean":
-                return asValue( asBoolean( this ) || asBoolean( operand ) );
+                return valueOf( asBoolean( this ) || asBoolean( that ) );
 
             default:
                 throw binaryOperationNotSupported;
         }
     }
 
-    private Value times( Value operand ) throws Exception {
+    private Value times( Value that ) throws Exception {
 
-        switch ( operation( "*", operand ) ) {
+        switch ( operation( "*", that ) ) {
 
             case "Integer * Integer":
-                return asValue( asInteger( this ) * asInteger( operand ) );
+                return asValue( integerFrom( this ) * integerFrom( that ) );
 
             case "Integer * Money":
-                return asValue( asBigDecimal( operand ).multiply( asBigDecimal( this ) ) );
+                return asValue( bigDecimalFrom( that ).multiply( bigDecimalFrom( this ) ) );
 
             case "Money * Integer":
-                return asValue( asBigDecimal( this ).multiply( asBigDecimal( operand ) ) );
+                return asValue( bigDecimalFrom( this ).multiply( bigDecimalFrom( that ) ) );
 
             default:
                 throw binaryOperationNotSupported;
         }
     }
 
-    private Value subtract( Value operand ) throws Exception {
+    private Value subtract( Value that ) throws Exception {
 
-        switch ( operation( "/", operand ) ) {
+        switch ( operation( "/", that ) ) {
 
             case "Integer / Integer":
-                return asValue( (asInteger( this ) / asInteger( operand )) );
+                return asValue( (integerFrom( this ) / integerFrom( that )) );
 
             case "Money / Integer":
-                return asValue( (asBigDecimal( this ).divide( new BigDecimal( asInteger( operand ) ) )) );
+                return asValue( (bigDecimalFrom( this ).divide( new BigDecimal( integerFrom( that ) ) )) );
 
             default:
                 throw binaryOperationNotSupported;
         }
     }
 
-    private Value plus( Value operand ) throws Exception {
+    private Value plus( Value that ) throws Exception {
 
-        String textLeft = this.getText();
-        String textRight = operand.getText();
-
-        switch ( operation( "+", operand ) ) {
+        switch ( operation( "+", that ) ) {
 
             case "Date + Integer":
-                int days = asInteger( operand );
+                int days = integerFrom( that );
 
-                return asValue( asDateTime( this ).plusDays( days ) );
+                return asValue( dateTimeFrom( this ).plusDays( days ) );
 
             case "Integer + Integer":
-                return asValue( asInteger( this ) + asInteger( operand ) );
+                return asValue( integerFrom( this ) + integerFrom( that ) );
 
             case "Money + Money":
-                return asValue( asBigDecimal( this ).add( asBigDecimal( operand ) ) );
+                return asValue( bigDecimalFrom( this ).add( bigDecimalFrom( that ) ) );
 
             case "String + Integer":
             case "String + Money":
             case "String + String":
-                return asValue( textLeft + textRight );
+                return asValue( this.text + that.text);
 
             default:
                 throw binaryOperationNotSupported;
         }
     }
 
-    private Value minus( Value operand ) throws Exception {
+    private Value minus( Value that ) throws Exception {
 
-        switch ( operation( "-", operand ) ) {
+        switch ( operation( "-", that ) ) {
 
             case "Date - Integer":
-                int days = asInteger( operand );
-                return asValue( asDateTime( this ).minusDays( days ) );
+                int days = integerFrom( that );
+                return asValue( dateTimeFrom( this ).minusDays( days ) );
 
             case "Integer - Integer":
-                return asValue( asInteger( this ) - asInteger( operand ) );
+                return asValue( integerFrom( this ) - integerFrom( that ) );
 
             case "Money - Money":
-                return asValue( asBigDecimal( this ).subtract( asBigDecimal( operand ) ) );
+                return asValue( bigDecimalFrom( this ).subtract( bigDecimalFrom( that ) ) );
 
             default:
                 throw binaryOperationNotSupported;
@@ -308,24 +314,24 @@ public final class Value {
         return Value.TRUE.equals( right );
     }
 
-    private DateTime asDateTime( Value value ) {
+    private DateTime dateTimeFrom( Value value ) {
 
         return new DateTime( SIMPLE_DATE_FORMAT.parseDateTime( value.getText() ) );
     }
 
-    private static Integer asInteger( Value value ) {
+    private static Integer integerFrom( Value value ) {
         return Integer.parseInt( value.text );
     }
 
-    private static BigDecimal asBigDecimal( Value value ) {
+    private static BigDecimal bigDecimalFrom( Value value ) {
         return new BigDecimal( value.text );
     }
 
-    private static String asString( Value value ) {
+    private static String stringFrom( Value value ) {
         return value.text;
     }
 
-    public static Value asValue( Boolean b ) {
+    public static Value valueOf( Boolean b ) {
         return b ? Value.TRUE : Value.FALSE;
     }
 

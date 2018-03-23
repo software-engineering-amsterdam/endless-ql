@@ -116,20 +116,7 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
         Value expression = visit( ctx.expression() );
         String operator = ctx.unaryOperator().getText();
 
-        switch ( operator ) {
-
-            case "-":
-                return expression.apply( operator );
-
-            case "+":
-                return expression;
-
-            case "!":
-                return expression.apply( operator );
-
-            default:
-                throw new RuntimeException( "Undefined operator: \"" + ctx.unaryOperator().getText() + "\"" );
-        }
+        return expression.apply( operator );
     }
 
     @Override

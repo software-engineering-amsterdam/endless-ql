@@ -2,426 +2,381 @@ package nl.khonraad.ql.domain;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 public final class Value {
 
-  public static final DateTimeFormatter SIMPLE_DATE_FORMAT = DateTimeFormat.forPattern( "dd/MM/yyyy" );
-  public static final Value             FALSE              = new Value( Type.Boolean, "False" );
-  public static final Value             TRUE               = new Value( Type.Boolean, "True" );
+    public static final DateTimeFormatter SIMPLE_DATE_FORMAT = DateTimeFormat.forPattern( "dd/MM/yyyy" );
+    public static final Value             FALSE              = new Value( Type.Boolean, "False" );
+    public static final Value             TRUE               = new Value( Type.Boolean, "True" );
 
-  private Type                          type;
-  private String                        text;
+    private Type                          type;
+    private String                        text;
 
-  public Value(Type type, String string) {
+    public Value(Type type, String string) {
 
-    this.type = type;
-    this.text = string;
-  }
-
-  private Value(boolean condition) {
-
-    this( Type.Boolean, condition ? TRUE.getText() : FALSE.getText() );
-  }
-
-  public Value apply( String operator ) {
-
-    switch ( operator ) {
-
-      case "+":
-        return this;
-
-      case "-":
-        return apply( "*", new Value( Type.Integer, "-1" ) );
-
-      case "!":
-        return not( this );
-
-      default:
-        throw new RuntimeException(
-            "Check Antlr grammar. Unknow unary operator defined there, not implemented here: " + operator );
+        this.type = type;
+        this.text = string;
     }
-  }
 
-  public Value apply( String operator, Value rightOperand ) {
+    public Value apply( String operator ) {
 
-    switch ( operator ) {
+        switch ( operator ) {
 
-      case "*":
-        return this.multiplied_by( rightOperand );
+            case "+":
+                return this;
 
-      case "/":
-        return this.divided_by( rightOperand );
+            case "-":
+                return this.times( asValue( -1 ) );
 
-      case "+":
-        return this.added_with( rightOperand );
+            case "!":
+                return not( this );
 
-      case "-":
-        return this.subtracted_with( rightOperand );
-
-      case "&&":
-        return this.conjuncted_with( rightOperand );
-
-      case "||":
-        return this.disjuncted_with( rightOperand );
-
-      case "==":
-        return this.compared_with( rightOperand );
-
-      case "<=":
-        return this.isLowerThenOrEqualTo( rightOperand );
-
-      case ">=":
-        return this.isGreaterThenOrEqualTo( rightOperand );
-
-      case "<":
-        return this.isLowerThen( rightOperand );
-
-      case ">":
-        return this.isGreaterThen( rightOperand );
-
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operator defined there, not implemented here: " + operator );
+            default:
+                throw new RuntimeException( "Grammar defines operator not implemented: " + operator );
+        }
     }
-  }
 
-  public Type getType() {
-    return type;
-  }
+    public Value apply( String operator, Value operand ) {
 
-  public String getText() {
-    return text;
-  }
+        switch ( operator ) {
 
-  private Value not( Value value ) {
-    return new Value( !TRUE.equals( value ) );
-  }
+            case "*":
+                return times( operand );
 
-  private Value conjuncted_with( Value rightOperand ) {
+            case "/":
+                return subtract( operand );
 
-    Type typeRight = rightOperand.getType();
-    Type typeLeft = this.getType();
+            case "+":
+                return plus( operand );
 
-    switch ( typeLeft + " && " + typeRight ) {
+            case "-":
+                return minus( operand );
 
-      case "Boolean && Boolean":
-        return booleanAndboolean( this, rightOperand );
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+            case "&&":
+                return and( operand );
+
+            case "||":
+                return or( operand );
+
+            case "==":
+                return is( operand );
+
+            case "<=":
+                return notMore( operand );
+
+            case ">=":
+                return notLess( operand );
+
+            case "<":
+                return less( operand );
+
+            case ">":
+                return more( operand );
+
+            default:
+                throw new RuntimeException( "Grammar defines operator not implemented: " + operator );
+        }
     }
-  }
 
-  private Value disjuncted_with( Value rightOperand ) {
-
-    Type typeRight = rightOperand.getType();
-    Type typeLeft = this.getType();
-
-    switch ( typeLeft + " || " + typeRight ) {
-
-      case "Boolean || Boolean":
-
-        // use the Morgan's Theorem
-        return not( booleanAndboolean( not( this ), not( rightOperand ) ) );
-        
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+    public Type getType() {
+        return type;
     }
-  }
 
-  private Value isLowerThen( Value rightOperand ) {
-
-    Type typeRight = rightOperand.getType();
-    Type typeLeft = this.getType();
-
-    String textLeft = this.getText();
-    String textRight = rightOperand.getText();
-
-    switch ( typeLeft + " < " + typeRight ) {
-
-      case "Date < Date":
-        return new Value( toDateTime( this ).isBefore( toDateTime( rightOperand ) ) );
-
-      case "Integer < Integer":
-        return new Value( Integer.parseInt( textLeft ) < Integer.parseInt( textRight ) );
-
-      case "Money < Money":
-        return new Value( new BigDecimal( textLeft ).compareTo( new BigDecimal( textRight ) ) < 0 );
-
-      case "String < String":
-        return new Value( textLeft.compareTo( textRight ) < 0 );
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+    public String getText() {
+        return text;
     }
-  }
 
-  private Value isLowerThenOrEqualTo( Value rightOperand ) {
-
-    Type typeRight = rightOperand.getType();
-    Type typeLeft = this.getType();
-
-    String textLeft = this.getText();
-    String textRight = rightOperand.getText();
-
-    switch ( typeLeft + " <= " + typeRight ) {
-
-      case "Date <= Date":
-        return new Value(
-            (toDateTime( this ).isBefore( toDateTime( rightOperand ) ) || (toDateTime( this ).equals( toDateTime( rightOperand ) ))) );
-
-      case "Integer <= Integer":
-        return new Value( (Integer.parseInt( textLeft ) <= Integer.parseInt( textRight )) );
-
-      case "Money <= Money":
-        return new Value( new BigDecimal( textLeft ).compareTo( new BigDecimal( textRight ) ) > -1 );
-
-      case "String <= String":
-        return new Value( textLeft.compareTo( textRight ) < 1 );
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+    private Value not( Value value ) {
+        return asValue( !TRUE.equals( value ) );
     }
-  }
 
-  private Value compared_with( Value rightOperand ) {
+    private Value less( Value operand ) {
 
-    Type typeRight = rightOperand.getType();
-    Type typeLeft = this.getType();
+        switch ( operation( "<", operand ) ) {
 
-    String textLeft = this.getText();
-    String textRight = rightOperand.getText();
+            case "Date < Date":
 
-    switch ( typeLeft + " == " + typeRight ) {
+                return asValue( asDateTime( this ).isBefore( asDateTime( operand ) ) );
 
-      case "Boolean == Boolean":
-      case "Date == Date":
-      case "Integer == Integer":
-      case "Money == Money":
-      case "String == String":
-        return new Value( this.equals( rightOperand ) );
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible " + typeRight + " " + typeLeft + " "
-            + textLeft + " " + textRight + " " );
+            case "Integer < Integer":
+
+                return asValue( asInteger( this ) < asInteger( operand ) );
+
+            case "Money < Money":
+
+                return asValue( asBigDecimal( this ).compareTo( asBigDecimal( operand ) ) < 0 );
+
+            case "String < String":
+
+                return asValue( asString( this ).compareTo( asString( operand ) ) < 0 );
+
+            default:
+
+                throw new RuntimeException( "Operation on types not supported:" );
+        }
     }
-  }
 
-  private Value isGreaterThen( Value rightOperand ) {
+    private Value notMore( Value operand ) {
 
-    Type typeRight = rightOperand.getType();
-    Type typeLeft = this.getType();
+        switch ( operation( "<=", operand ) ) {
 
-    String textLeft = this.getText();
-    String textRight = rightOperand.getText();
+            case "Date <= Date":
+                return asValue( (asDateTime( this ).isBefore( asDateTime( operand ) )
+                        || (asDateTime( this ).equals( asDateTime( operand ) ))) );
 
-    switch ( typeLeft + " > " + typeRight ) {
+            case "Integer <= Integer":
+                return asValue( (asInteger( this ) <= asInteger( operand )) );
 
-      case "Date > Date":
-        return new Value( toDateTime( this ).isAfter( toDateTime( rightOperand ) ) );
+            case "Money <= Money":
+                return asValue( asBigDecimal( this ).compareTo( asBigDecimal( operand ) ) > -1 );
 
-      case "Integer > Integer":
-        return new Value( (Integer.parseInt( textLeft ) > Integer.parseInt( textRight )) );
+            case "String <= String":
+                return asValue( asString( this ).compareTo( asString( operand ) ) < 1 );
 
-      case "Money > Money":
-        return new Value( new BigDecimal( textLeft ).compareTo( new BigDecimal( textRight ) ) > 0 );
-
-      case "String > String":
-        return new Value( textLeft.compareTo( textRight ) > 0 );
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+            default:
+                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+        }
     }
-  }
 
-  private Value isGreaterThenOrEqualTo( Value rightOperand ) {
+    private Value is( Value operand ) {
 
-    Type typeRight = rightOperand.getType();
-    Type typeLeft = this.getType();
+        switch ( operation( "==", operand ) ) {
 
-    String textLeft = this.getText();
-    String textRight = rightOperand.getText();
+            case "Boolean == Boolean":
+            case "Date == Date":
+            case "Integer == Integer":
+            case "Money == Money":
+            case "String == String":
+                return asValue( this.equals( operand ) );
 
-    switch ( typeLeft + " >= " + typeRight ) {
+            default:
 
-      case "Date >= Date":
-        return new Value(
-            (toDateTime( this ).isAfter( toDateTime( rightOperand ) ) || (toDateTime( this ).equals( toDateTime( rightOperand ) ))) );
+                Type typeRight = operand.getType();
+                Type typeLeft = this.getType();
 
-      case "Integer >= Integer":
-        return new Value( (Integer.parseInt( textLeft ) >= Integer.parseInt( textRight )) );
+                String textLeft = this.getText();
+                String textRight = operand.getText();
 
-      case "Money >= Money":
-        return new Value( new BigDecimal( textLeft ).compareTo( new BigDecimal( textRight ) ) > -1 );
-
-      case "String >= String":
-        return new Value( textLeft.compareTo( textRight ) > -1 );
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+                throw new RuntimeException( "Check Antlr grammar. Operation impossible " + typeRight + " " + typeLeft
+                        + " " + textLeft + " " + textRight + " " );
+        }
     }
-  }
 
-  private Value multiplied_by( Value rightOperand ) {
+    private Value more( Value operand ) {
 
-    Type typeRight = rightOperand.getType();
-    Type typeLeft = this.getType();
-    String textLeft = this.getText();
-    String textRight = rightOperand.getText();
+        switch ( operation( ">", operand ) ) {
 
-    switch ( typeLeft + " * " + typeRight ) {
+            case "Date > Date":
+                return asValue( asDateTime( this ).isAfter( asDateTime( operand ) ) );
 
-      case "Integer * Integer":
-        return new Value( Type.Integer,
-            Integer.toString( Integer.parseInt( textLeft ) * Integer.parseInt( textRight ) ) );
+            case "Integer > Integer":
+                return asValue( (asInteger( this ) > asInteger( operand )) );
 
-      case "Integer * Money":
-        return new Value( Type.Money, new BigDecimal( textRight ).multiply( new BigDecimal( textLeft ) ).toString() );
+            case "Money > Money":
+                return asValue( asBigDecimal( this ).compareTo( asBigDecimal( operand ) ) > 0 );
 
-      case "Money * Integer":
-        return new Value( Type.Money, new BigDecimal( textLeft ).multiply( new BigDecimal( textRight ) ).toString() );
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+            case "String > String":
+                return asValue( asString( this ).compareTo( asString( operand ) ) > 0 );
+            default:
+                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+        }
     }
-  }
 
-  private Value divided_by( Value rightOperand ) {
+    private Value notLess( Value operand ) {
 
-    Type typeRight = rightOperand.getType();
-    Type typeLeft = this.getType();
-    String textLeft = this.getText();
-    String textRight = rightOperand.getText();
+        switch ( operation( ">=", operand ) ) {
 
-    switch ( typeLeft + " / " + typeRight ) {
+            case "Date >= Date":
+                return asValue( (asDateTime( this ).isAfter( asDateTime( operand ) )
+                        || (asDateTime( this ).equals( asDateTime( operand ) ))) );
 
-      case "Integer / Integer":
-        return new Value( Type.Integer,
-            Integer.toString( (Integer.parseInt( textLeft ) / Integer.parseInt( textRight )) ) );
+            case "Integer >= Integer":
+                return asValue( (asInteger( this ) >= asInteger( operand )) );
 
-      case "Money / Integer":
-        return new Value( Type.Money, Double.toString(
-            (new BigDecimal( textLeft ).divide( new BigDecimal( Integer.parseInt( textRight ) ) )).doubleValue() ) );
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+            case "Money >= Money":
+                return asValue( asBigDecimal( this ).compareTo( asBigDecimal( operand ) ) > -1 );
+
+            case "String >= String":
+                return asValue( asString( this ).compareTo( asString( operand ) ) > -1 );
+            default:
+                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+        }
     }
-  }
 
-  private Value added_with( Value rightOperand ) {
+    private Value and( Value operand ) {
 
-    String textLeft = this.getText();
-    String textRight = rightOperand.getText();
+        switch ( operation( "&&", operand ) ) {
 
-    switch ( operation( "+", rightOperand ) ) {
-
-      case "Date + Integer":
-        int days = parseInteger( rightOperand );
-
-        return new Value( Type.Date, Value.dateTimeToString( toDateTime( this ).plusDays( days ) ) );
-
-      case "Integer + Integer":
-        return new Value( Type.Integer,
-            Integer.toString( (Integer.parseInt( textLeft ) + Integer.parseInt( textRight )) ) );
-
-      case "Money + Money":
-        return new Value( Type.Money, "" + new BigDecimal( textLeft ).add( new BigDecimal( textRight ) ) );
-
-      case "String + Integer":
-      case "String + Money":
-      case "String + String":
-        return new Value( Type.String, textLeft + textRight );
-
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+            case "Boolean && Boolean":
+                return asValue( asBoolean( this ) && asBoolean( operand ) );
+            default:
+                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+        }
     }
-  }
 
-  private Value subtracted_with( Value rightOperand ) {
+    private Value or( Value operand ) {
 
-    Type typeRight = rightOperand.getType();
-    Type typeLeft = this.getType();
+        switch ( operation( "||", operand ) ) {
 
-    String textLeft = this.getText();
-    String textRight = rightOperand.getText();
+            case "Boolean || Boolean":
+                return asValue( asBoolean( this ) || asBoolean( operand ) );
 
-    switch ( typeLeft + " - " + typeRight ) {
-
-      case "Date - Integer":
-        int days = parseInteger( rightOperand );
-
-        return new Value( Type.Date, Value.dateTimeToString( toDateTime( this ).minusDays( days ) ) );
-
-      case "Integer - Integer":
-        return new Value( Type.Integer,
-            Integer.toString( (Integer.parseInt( textLeft ) - Integer.parseInt( textRight )) ) );
-
-      case "Money - Money":
-        return new Value( Type.Money,
-            Double.toString( new BigDecimal( textLeft ).subtract( new BigDecimal( textRight ) ).doubleValue() ) );
-      default:
-        throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+            default:
+                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+        }
     }
-  }
 
-  private Value booleanAndboolean( Value left, Value right ) {
+    private Value times( Value operand ) {
 
-    return new Value( TRUE.equals( left ) && TRUE.equals( right ) );
-  }
+        switch ( operation( "*", operand ) ) {
 
-  private DateTime toDateTime( Value value ) {
+            case "Integer * Integer":
+                return asValue( asInteger( this ) * asInteger( operand ) );
 
-    return new DateTime( SIMPLE_DATE_FORMAT.parseDateTime( value.getText() ) );
-  }
+            case "Integer * Money":
+                return asValue( asBigDecimal( operand ).multiply( asBigDecimal( this ) ) );
 
-  private static String dateTimeToString( DateTime d ) {
+            case "Money * Integer":
+                return asValue( asBigDecimal( this ).multiply( asBigDecimal( operand ) ) );
 
-    return SIMPLE_DATE_FORMAT.print( d );
-  }
+            default:
+                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+        }
+    }
 
-  @Override
-  public String toString() {
+    private Value subtract( Value operand ) {
 
-    return new ToStringBuilder( this, ToStringStyle.MULTI_LINE_STYLE ).append( "type", type ).append( "text", text )
-        .toString();
-  }
+        switch ( operation( "/", operand ) ) {
 
-  private static Integer parseInteger( Value value ) {
-    return Integer.parseInt( valueText( value ) );
-  }
+            case "Integer / Integer":
+                return asValue( (asInteger( this ) / asInteger( operand )) );
 
-  private static String valueText( Value value ) {
-    return value.getText();
-  }
+            case "Money / Integer":
+                return asValue( (asBigDecimal( this ).divide( new BigDecimal( asInteger( operand ) ) )) );
 
-  @Override
-  public int hashCode() {
+            default:
+                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+        }
+    }
 
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((text == null) ? 0 : text.hashCode());
-    result = prime * result + ((type == null) ? 0 : type.hashCode());
-    return result;
-  }
+    private Value plus( Value operand ) {
 
-  @Override
-  public boolean equals( Object obj ) {
+        String textLeft = this.getText();
+        String textRight = operand.getText();
 
-    if ( this == obj )
-      return true;
-    if ( obj == null )
-      return false;
-    if ( getClass() != obj.getClass() )
-      return false;
-    Value other = (Value) obj;
-    if ( text == null ) {
-      if ( other.text != null )
-        return false;
-    } else if ( !text.equals( other.text ) )
-      return false;
-    if ( type != other.type )
-      return false;
-    return true;
-  }
+        switch ( operation( "+", operand ) ) {
 
-  private String operation( String operator, Value rightOperand ) {
-    return this.getType() + " + " + rightOperand.getType();
-  }
+            case "Date + Integer":
+                int days = asInteger( operand );
+
+                return asValue( asDateTime( this ).plusDays( days ) );
+
+            case "Integer + Integer":
+                return asValue( asInteger( this ) + asInteger( operand ) );
+
+            case "Money + Money":
+                return asValue( asBigDecimal( this ).add( asBigDecimal( operand ) ) );
+
+            case "String + Integer":
+            case "String + Money":
+            case "String + String":
+                return asValue( textLeft + textRight );
+
+            default:
+                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+        }
+    }
+
+    private Value minus( Value operand ) {
+
+        switch ( operation( "-", operand ) ) {
+
+            case "Date - Integer":
+                int days = asInteger( operand );
+
+                return asValue( asDateTime( this ).minusDays( days ) );
+
+            case "Integer - Integer":
+                return asValue( asInteger( this ) - asInteger( operand ) );
+
+            case "Money - Money":
+                return asValue( asBigDecimal( this ).subtract( asBigDecimal( operand ) ) );
+            default:
+                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+        }
+    }
+
+    private boolean asBoolean( Value right ) {
+        return Value.TRUE.equals( right );
+    }
+
+    private DateTime asDateTime( Value value ) {
+
+        return new DateTime( SIMPLE_DATE_FORMAT.parseDateTime( value.getText() ) );
+    }
+
+    private static Integer asInteger( Value value ) {
+        return Integer.parseInt( value.text );
+    }
+
+    private static BigDecimal asBigDecimal( Value value ) {
+        return new BigDecimal( value.text );
+    }
+
+    private static String asString( Value value ) {
+        return value.text;
+    }
+
+    public static Value asValue( Boolean b ) {
+        return b ? Value.TRUE : Value.FALSE;
+    }
+
+    public static Value asValue( DateTime m ) {
+        return new Value( Type.Date, Value.SIMPLE_DATE_FORMAT.print( m ) );
+    }
+
+    public static Value asValue( BigDecimal m ) {
+        return new Value( Type.Money, m.toString() );
+    }
+
+    public static Value asValue( Integer i ) {
+        return new Value( Type.Integer, Integer.toString( i ) );
+    }
+
+    public static Value asValue( String s ) {
+        return new Value( Type.String, s );
+    }
+
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((text == null) ? 0 : text.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals( Object obj ) {
+
+        if ( this == obj ) return true;
+        if ( obj == null ) return false;
+        if ( getClass() != obj.getClass() ) return false;
+        Value other = (Value) obj;
+        if ( text == null ) {
+            if ( other.text != null ) return false;
+        } else
+            if ( !text.equals( other.text ) ) return false;
+        if ( type != other.type ) return false;
+        return true;
+    }
+
+    private String operation( String operator, Value operand ) {
+        return this.getType() + " " + operator + " " + operand.getType();
+    }
 
 }

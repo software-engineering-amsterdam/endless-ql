@@ -1,5 +1,9 @@
 package nl.khonraad.ql.domain;
 
+/**
+ * Map the QL keywords to enumeration type
+ * Avoid clash to Java keywords
+ */
 public enum Type {
 
   Boolean("boolean"), Date("date"), Integer("integer"), Money("money"), String("string");

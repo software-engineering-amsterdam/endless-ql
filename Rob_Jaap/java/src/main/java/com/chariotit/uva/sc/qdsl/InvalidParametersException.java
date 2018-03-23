@@ -1,4 +1,4 @@
 package com.chariotit.uva.sc.qdsl;
 
-public class InvalidParametersException extends Exception {
+class InvalidParametersException extends Exception {
 }

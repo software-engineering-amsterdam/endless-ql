@@ -20,7 +20,7 @@ public class ApplicationParameters {
         return qlFilename;
     }
 
-    public void setQlFilename(String qlFilename) {
+    private void setQlFilename(String qlFilename) {
         this.qlFilename = qlFilename;
     }
 
@@ -28,7 +28,7 @@ public class ApplicationParameters {
         return qlsFilename;
     }
 
-    public void setQlsFilename(String qlsFilename) {
+    private void setQlsFilename(String qlsFilename) {
         this.qlsFilename = qlsFilename;
     }
 
@@ -42,11 +42,11 @@ public class ApplicationParameters {
 
     public static void printHelp() {
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp(programName, getOptions());
+        formatter.printHelp(programName, getCommandLineOptions());
         System.exit(1);
     }
 
-    private static Options getOptions() {
+    private static Options getCommandLineOptions() {
         Options options = new Options();
 
         Option qlsOption = Option.builder(qlsArgumentShort)
@@ -68,7 +68,7 @@ public class ApplicationParameters {
         CommandLineParser parser = new DefaultParser();
 
         try {
-            commandLine = parser.parse(getOptions(), args);
+            commandLine = parser.parse(getCommandLineOptions(), args);
 
             if (commandLine.hasOption(qlsArgumentLong)) {
                 applicationParameters.setQlsFilename(

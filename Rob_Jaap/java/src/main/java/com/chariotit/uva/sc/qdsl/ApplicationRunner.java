@@ -64,23 +64,10 @@ public class ApplicationRunner implements CommandLineRunner {
         // Run Typechecker
         TypeChecker typeChecker = new TypeChecker();
         List<TypeCheckError> errors = typeChecker.typeCheckAst(astRoot);
-        Boolean abort = false;
 
-        for (TypeCheckError error : errors) {
-            System.out.println(String.format(
-                    "%4s line %d, column %d: %s",
-                    error.getLevel(),
-                    error.getSourceFilePosition().getLineNumber(),
-                    error.getSourceFilePosition().getColumnNumber(),
-                    error.getMessage()
-            ));
+        TypeCheckError.print(errors);
 
-            if (error.getLevel() == TypeCheckError.Level.ERROR) {
-                abort = true;
-            }
-        }
-
-        if (abort) {
+        if (TypeCheckError.hasLevel(errors, TypeCheckError.Level.ERROR)) {
             System.exit(1);
         }
 
@@ -94,24 +81,11 @@ public class ApplicationRunner implements CommandLineRunner {
             Validator validator = new Validator(astRoot);
             List<TypeCheckError> qlsErrors = validator.typeCheckQLS(stylesheet);
 
-            for (TypeCheckError error : qlsErrors) {
-                System.out.println(String.format(
-                        "%4s line %d, column %d: %s",
-                        error.getLevel(),
-                        error.getSourceFilePosition().getLineNumber(),
-                        error.getSourceFilePosition().getColumnNumber(),
-                        error.getMessage()
-                ));
+            TypeCheckError.print(qlsErrors);
 
-                if (error.getLevel() == TypeCheckError.Level.ERROR) {
-                    abort = true;
-                }
-            }
-
-            if (abort) {
+            if (TypeCheckError.hasLevel(qlsErrors, TypeCheckError.Level.ERROR)) {
                 System.exit(1);
             }
-
         }
 
 //        QLFormBuilder builder = new QLFormBuilder();

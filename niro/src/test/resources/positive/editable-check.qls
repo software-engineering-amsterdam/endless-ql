@@ -15,6 +15,11 @@ stylesheet EditOrNotToEdit {
             question stringExpression
         }
         default boolean widget radio("Ja", "Nee")
+        default decimal {
+            width: 300
+            fontsize: 10
+            color: #0000FF
+        }
     }
     page PageTwo {
         section "Variables" {
@@ -56,5 +61,10 @@ stylesheet EditOrNotToEdit {
         font: "Arial"
         fontsize: 24
         color: #A0B0C0
+    }
+    default string {
+        font: "Courier"
+        fontsize: 24
+        color: #AA0000
     }
 }

@@ -24,11 +24,6 @@ public class StringConstant extends Constant {
     }
 
     @Override
-    public void evaluate(SymbolTable symbolTable) {
-
-    }
-
-    @Override
     public void acceptVisitor(NodeVisitor visitor) {
         visitor.visitStringConstant(this);
     }

@@ -141,8 +141,9 @@ public class TypeCheckVisitor extends NodeVisitor {
         if (constBinOpExpression.getConstant().getExpressionType() != constBinOpExpression
                 .getExpression().getExpressionType()) {
             addError(constBinOpExpression, "Incompatible operands");
-        } else if (!checkOperatorType(constBinOpExpression.getConstant().getExpressionType(),
-                constBinOpExpression.getOperator())) {
+        } else if (!constBinOpExpression.getOperator().isValidExpressionType(constBinOpExpression
+                .getConstant()
+                        .getExpressionType())) {
             addError(constBinOpExpression, "Incompatible operands and operator");
         } else {
             constBinOpExpression.setExpressionType(
@@ -175,8 +176,9 @@ public class TypeCheckVisitor extends NodeVisitor {
         if (labelBinOpExpression.getExpression().getExpressionType() !=
                 labelBinOpExpression.getLabelExpression().getExpressionType()) {
             addError(labelBinOpExpression, "Incompatible operands");
-        } else if (!checkOperatorType(labelBinOpExpression.getExpression().getExpressionType(),
-                labelBinOpExpression.getOperator())) {
+        } else if (!labelBinOpExpression.getOperator().isValidExpressionType(labelBinOpExpression
+                        .getExpression()
+                        .getExpressionType())) {
             addError(labelBinOpExpression, "Incompatible operands and operator");
         } else {
             labelBinOpExpression.setExpressionType(
@@ -214,29 +216,9 @@ public class TypeCheckVisitor extends NodeVisitor {
         if (typeExpression.getExpression() != null && typeExpression.getExpression()
                 .getExpressionType() != null) {
 
-            switch (typeExpression.getExpression().getExpressionType()) {
-                case BOOLEAN:
-                    if (!(typeExpression.getTypeNode() instanceof BooleanTypeNode)) {
-                        addError(typeExpression, "Type and expression mismatch");
-                    }
-                    break;
-                case INTEGER:
-                    if (!(typeExpression.getTypeNode() instanceof IntegerTypeNode)) {
-                        addError(typeExpression, "Type and expression mismatch");
-                    }
-                    break;
-                case MONEY:
-                    if (!(typeExpression.getTypeNode() instanceof MoneyTypeNode)) {
-                        addError(typeExpression, "Type and expression mismatch");
-                    }
-                    break;
-                case STRING:
-                    if (!(typeExpression.getTypeNode() instanceof StringTypeNode)) {
-                        addError(typeExpression, "Type and expression mismatch");
-                    }
-                    break;
-                default:
-                    throw new RuntimeException("Missing type");
+            if (typeExpression.getTypeNode().getType() !=
+                    typeExpression.getExpression().getExpressionType()) {
+                addError(typeExpression, "Type and expression mismatch");
             }
         }
     }
@@ -244,8 +226,8 @@ public class TypeCheckVisitor extends NodeVisitor {
     @Override
     public void visitUnOpExpression(UnOpExpression unOpExpression) {
 
-        if (!checkOperatorType(unOpExpression.getExpression().getExpressionType(),
-                unOpExpression.getOperator())) {
+        if (!unOpExpression.getOperator().isValidExpressionType(unOpExpression.getExpression()
+                .getExpressionType())) {
 
             addError(unOpExpression, "Expression and operator type mismatch");
 
@@ -280,21 +262,6 @@ public class TypeCheckVisitor extends NodeVisitor {
         }
 
         return operandExpressionType;
-    }
-
-    private boolean checkOperatorType(ExpressionType type, Operator operator) {
-        switch (type) {
-            case BOOLEAN:
-                return operator instanceof BooleanOperator;
-            case INTEGER:
-                return operator instanceof IntegerOperator;
-            case MONEY:
-                return operator instanceof MoneyOperator;
-            case STRING:
-                return operator instanceof StringOperator;
-            default:
-                throw new RuntimeException("Missing operator type");
-        }
     }
 
     public List<TypeCheckError> getErrors() {

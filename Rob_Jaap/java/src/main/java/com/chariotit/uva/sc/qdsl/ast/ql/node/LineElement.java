@@ -41,10 +41,6 @@ public class LineElement extends FormElement {
         return typeExpression;
     }
 
-    public void setTypeExpression(TypeExpression typeExpression) {
-        this.typeExpression = typeExpression;
-    }
-
     @Override
     public Set<String> getPrerequisites() {
         return typeExpression.getExpression().getPrerequisites();

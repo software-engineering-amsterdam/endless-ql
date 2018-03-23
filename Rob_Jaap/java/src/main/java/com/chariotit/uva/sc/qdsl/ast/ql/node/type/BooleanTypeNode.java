@@ -6,6 +6,7 @@ import com.chariotit.uva.sc.qdsl.ast.ql.node.TypeNode;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public class BooleanTypeNode extends TypeNode {
+
     public BooleanTypeNode(SourceFilePosition filePosition) {
         super(filePosition);
     }

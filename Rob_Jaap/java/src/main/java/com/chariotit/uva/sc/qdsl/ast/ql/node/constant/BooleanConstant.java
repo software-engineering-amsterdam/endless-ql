@@ -23,11 +23,6 @@ public class BooleanConstant extends Constant {
         this.value = value;
     }
 
-
-    @Override
-    public void evaluate(SymbolTable symbolTable) {
-    }
-
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         visitor.visitBooleanConstant(this);

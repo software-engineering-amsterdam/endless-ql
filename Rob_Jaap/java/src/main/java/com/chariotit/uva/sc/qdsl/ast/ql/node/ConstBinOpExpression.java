@@ -14,7 +14,9 @@ public class ConstBinOpExpression extends Expression {
     private Operator operator;
     private Expression expression;
 
-    public ConstBinOpExpression(Constant constant, Operator operator, Expression expression,
+    public ConstBinOpExpression(Constant constant,
+                                Operator operator,
+                                Expression expression,
                                 SourceFilePosition filePosition) {
         super(filePosition);
         this.constant = constant;
@@ -50,10 +52,6 @@ public class ConstBinOpExpression extends Expression {
     public void evaluate(SymbolTable symbolTable) {
         constant.evaluate(symbolTable);
         expression.evaluate(symbolTable);
-
-        if (!(operator instanceof BinaryOperator)) {
-            throw new RuntimeException("Incompatible operator type");
-        }
 
         setExpressionValue(((BinaryOperator)operator).evaluate(constant, expression));
     }

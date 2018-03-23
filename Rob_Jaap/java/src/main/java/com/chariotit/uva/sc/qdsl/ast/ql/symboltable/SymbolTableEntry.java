@@ -11,7 +11,6 @@ public class SymbolTableEntry {
     private ExpressionType expressionType;
     private ExpressionValue expressionValue;
 
-
     public SymbolTableEntry(String label, AstNode node) {
         this.label = label;
         this.node = node;

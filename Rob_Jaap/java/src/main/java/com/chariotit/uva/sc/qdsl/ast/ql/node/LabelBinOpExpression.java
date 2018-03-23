@@ -14,7 +14,9 @@ public class LabelBinOpExpression extends Expression {
     private Operator operator;
     private Expression expression;
 
-    public LabelBinOpExpression(LabelExpression labelExpression, Operator operator, Expression expression,
+    public LabelBinOpExpression(LabelExpression labelExpression,
+                                Operator operator,
+                                Expression expression,
                                 SourceFilePosition filePosition) {
         super(filePosition);
         this.labelExpression = labelExpression;
@@ -24,10 +26,6 @@ public class LabelBinOpExpression extends Expression {
 
     public LabelExpression getLabelExpression() {
         return labelExpression;
-    }
-
-    public void setLabelExpression(LabelExpression labelExpression) {
-        this.labelExpression = labelExpression;
     }
 
     public Operator getOperator() {
@@ -50,10 +48,6 @@ public class LabelBinOpExpression extends Expression {
     public void evaluate(SymbolTable symbolTable) {
         labelExpression.evaluate(symbolTable);
         expression.evaluate(symbolTable);
-
-        if (!(operator instanceof BinaryOperator)) {
-            throw new RuntimeException("Incompatible operator type");
-        }
 
         setExpressionValue(((BinaryOperator)operator).evaluate(labelExpression, expression));
     }

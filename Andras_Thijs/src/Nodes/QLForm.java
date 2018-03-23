@@ -1,5 +1,6 @@
 package Nodes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class QLForm extends ASTNode {
      * @return the name of this form
      */
     public String getName() {
-        return this.name;
+        return name;
     }
 
     /**
@@ -46,7 +47,7 @@ public class QLForm extends ASTNode {
      * @return the list of Questions of this Form
      */
     public List<Question> getQuestions() {
-        return this.questions;
+        return questions;
     }
 
     /**
@@ -62,14 +63,14 @@ public class QLForm extends ASTNode {
      * @return the complete list of Questions.
      */
     public List<Question> getAllQuestions() {
-        List<Question> questions = this.questions;
+        List<Question> allQuestions = new ArrayList<>(questions);
+        List<Condition> allConditions = new ArrayList<>(conditions);
 
-        List<Condition> conditions = this.conditions;
-        for(Condition c : conditions) {
-            questions.addAll(c.getQuestions());
-            conditions.addAll(c.getConditions());
+        for(Condition c : allConditions) {
+            allQuestions.addAll(c.getQuestions());
+            allConditions.addAll(c.getConditions());
         }
 
-        return questions;
+        return allQuestions;
     }
 }

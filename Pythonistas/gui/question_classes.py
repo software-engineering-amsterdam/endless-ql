@@ -87,16 +87,48 @@ class BooleanQuestion(Question):
         self.question_frame = QtWidgets.QFrame()
         self.question_layout = QtWidgets.QGridLayout()
         self.question_frame.setLayout(self.question_layout)
+        self.question_frame.setVisible(self.visibility)
+
         self.question_layout.addWidget(QtWidgets.QLabel(self.question), 0, 0)
         self.question_layout.addWidget(self.truebutton, 0, 1)
         self.question_layout.addWidget(self.falsebutton, 0, 2)
-
-        self.question_frame.setVisible(self.visibility)
         return self.question_frame
 
     def add_if_question(self,question):
         self.if_questions.append(question)
         question.visibility = False
+
+    def if_is_set_true(self):  # todo: find proper name for this
+        if self.question_frame:
+            self.question_frame.setVisible(True)
+        else:
+            self.visibility = True
+
+        # Restores the original answer when the question is revealed again.
+        self.answer = self.hidden_answer
+
+        # Reveals the underlying questions too.
+        if self.answer == True:
+            for question in self.if_questions:
+                question.if_is_set_true()
+
+    def if_is_set_false(self):  # todo: find proper name for this
+        if self.question_frame:
+            self.question_frame.setVisible(False)
+        else:
+            self.visibility = False
+
+        # Saves the original answer even when the question is hidden,
+        # and even when the False button is pressed multiple times.
+        if self.answer == self.default_answer:
+            pass
+        else:
+            self.hidden_answer = self.answer
+        self.answer = self.default_answer
+
+        # Hides the underlying questions too
+        for question in self.if_questions:
+            question.if_is_set_false()
 
 
 class MoneyQuestion(Question):

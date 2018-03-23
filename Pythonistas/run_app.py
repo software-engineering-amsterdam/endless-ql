@@ -39,7 +39,7 @@ def main():
         print('{} {}'.format(config['program']['name'], config['program']['version']))
         sys.exit(0)
 
-    # Run testsuite
+    # Run test suite
     if args.test:
         os.system("pytest -vv")
         sys.exit(0)

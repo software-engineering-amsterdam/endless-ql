@@ -19,4 +19,6 @@ public interface GUIWidget extends GUIInterface {
     void setWidth(int width);
 
     String getIdentifier();
+
+    public void setDisable(boolean editable);
 }

@@ -27,6 +27,8 @@ public class GUILabelWithWidget extends VBox implements GUIInterface {
         this.getChildren().add(label.render());
         this.getChildren().add(widget.render());
 
+        this.widget.setDisable(computed);
+
         this.managedProperty().bind(this.visibleProperty());
     }
 

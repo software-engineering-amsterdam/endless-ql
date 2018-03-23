@@ -45,7 +45,7 @@ public class GUIPage extends VBox implements GUIInterface {
 
     @Override
     public Parent render() {
-        return null;
+        return this;
     }
 
     @Override

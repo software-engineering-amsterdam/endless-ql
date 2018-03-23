@@ -28,15 +28,22 @@ public class GUIFormBuilder {
     public static GUIForm buildQLSForm(Form form, StyleSheet qlsStyleSheet){
         List<GUIInterface> guiPages = new ArrayList<>();
         for(Page qlsPage : qlsStyleSheet.getPages()){
-            for(Section qlsSection : qlsPage.getSections()){
-                GUISection guiSection = buildSection(form, qlsSection);
-                guiPages.add(guiSection);
-            }
+            GUIPage guiPage = buildQLSPage(form, qlsPage);
+            guiPages.add(guiPage);
         }
         return new GUIForm(form.identifier, guiPages);
     }
 
-    private static GUISection buildSection(Form form, Section qlsSection) {
+    private static GUIPage buildQLSPage(Form form, Page qlsPage){
+        List<GUIInterface> guiSections = new ArrayList<>();
+        for(Section qlsSection : qlsPage.getSections()){
+            GUISection guiSection = buildQLSSection(form, qlsSection);
+            guiSections.add(guiSection);
+        }
+        return new GUIPage(qlsPage.identifier, guiSections);
+    }
+
+    private static GUISection buildQLSSection(Form form, Section qlsSection) {
         List<GUIInterface> guiChildren = new ArrayList<>();
         for(qls.model.Question qlsQuestion : qlsSection.getQuestions()){
             Question question = form.questions.stream()
@@ -47,7 +54,7 @@ public class GUIFormBuilder {
             guiChildren.add(guiLabelWithWidget);
         }
         for(Section glsSubSection : qlsSection.getSections()){
-            GUISection guiSection = buildSection(form, glsSubSection);
+            GUISection guiSection = buildQLSSection(form, glsSubSection);
             guiChildren.add(guiSection);
         }
         return new GUISection(qlsSection.identifier, guiChildren);

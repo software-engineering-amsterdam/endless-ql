@@ -71,7 +71,7 @@ public class Renderer extends Application {
         Locale.setDefault(Locale.US);
 
         GUIForm guiForm;
-        if(this.qlsStyleSheet != null){
+        if(this.qlsStyleSheet == null){
             guiForm = GUIFormBuilder.buildQLForm(this.qlForm);
         } else {
             guiForm = GUIFormBuilder.buildQLSForm(this.qlForm, this.qlsStyleSheet);

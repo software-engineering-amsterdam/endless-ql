@@ -10,7 +10,6 @@ import com.chariotit.uva.sc.qdsl.grammar.QLSLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.QLSVisitor;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
-import org.apache.commons.cli.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -56,72 +55,18 @@ public class ApplicationRunner implements CommandLineRunner {
         return (Stylesheet) visitor.visit(tree);
     }
 
-    @Override
-    public void run(String... args) throws IOException {
-        String filename = "";
-        String qlsFilename = "";
-        String qlsArgumentShort = "s";
-        String qlsArgumentLong = "style";
-        CommandLine commandLine;
-        CommandLineParser parser = new DefaultParser();
 
-        Options options = new Options();
-
-        // AST is initialised here.
-
-        Option qlsOption = Option.builder(qlsArgumentShort)
-                .required(false)
-                .longOpt(qlsArgumentLong)
-                .desc("Location of the QLS Stylesheet")
-                .hasArg()
-                .build();
-
-        options.addOption(qlsOption);
-
-        try {
-            commandLine = parser.parse(options, args);
-
-            if (commandLine.hasOption(qlsArgumentLong)) {
-                qlsFilename = commandLine.getOptionValue(qlsArgumentLong);
-            }
-
-            String[] remainder = commandLine.getArgs();
-
-            if (remainder.length != 1) {
-                throw new Exception("");
-            }
-
-            filename = remainder[0];
-
-        } catch (Exception e) {
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("QLProgram", options);
-            System.exit(1);
-        }
-
-        QLAstRoot astRoot = getQLFromFilename(filename);
+    private void runProgram(ApplicationParameters parameters) throws IOException {
+        QLAstRoot astRoot = getQLFromFilename(parameters.getQlFilename());
 
 
         // Run Typechecker
         TypeChecker typeChecker = new TypeChecker();
         List<TypeCheckError> errors = typeChecker.typeCheckAst(astRoot);
-        Boolean abort = false;
 
-        for (TypeCheckError error : errors) {
-            System.out.println(String.format(
-                    "%4s line %d, column %d: %s",
-                    error.getLevel(),
-                    error.getSourceFilePosition().getLineNumber(),
-                    error.getSourceFilePosition().getColumnNumber(),
-                    error.getMessage()
-            ));
+        TypeCheckError.print(errors);
 
-            if (error.getLevel() == TypeCheckError.Level.ERROR) {
-                abort = true;
-            }
-        }
-
-        if (abort) {
+        if (TypeCheckError.listContainsLevel(errors, TypeCheckError.Level.ERROR)) {
             System.exit(1);
         }
 
@@ -129,43 +74,34 @@ public class ApplicationRunner implements CommandLineRunner {
         builder.buildForm(astRoot);
 
 
-        if (!qlsFilename.equals("")) {
-            Stylesheet stylesheet = getQLSFromFilename(qlsFilename);
+        if (parameters.getQlsFilename() != null) {
+            Stylesheet stylesheet = getQLSFromFilename(parameters.getQlsFilename());
 
             Validator validator = new Validator(astRoot);
             List<TypeCheckError> qlsErrors = validator.typeCheckQLS(stylesheet);
 
-            for (TypeCheckError error : qlsErrors) {
-                System.out.println(String.format(
-                        "%4s line %d, column %d: %s",
-                        error.getLevel(),
-                        error.getSourceFilePosition().getLineNumber(),
-                        error.getSourceFilePosition().getColumnNumber(),
-                        error.getMessage()
-                ));
+            TypeCheckError.print(qlsErrors);
 
-                if (error.getLevel() == TypeCheckError.Level.ERROR) {
-                    abort = true;
-                }
-            }
-
-            if (abort) {
+            if (TypeCheckError.listContainsLevel(qlsErrors, TypeCheckError.Level.ERROR)) {
                 System.exit(1);
             }
-
         }
-
-        // If everything ok, build form with new Visitor (extend NodeVisitor in
-        // com.chariotit.uva.sc.qdsl.ast.visitor)
-        // Keep variable values in in SymbolTable (in AstRoot)
-        // SymbolTable is initialised in TypeChecker
 
 //        QLFormBuilder builder = new QLFormBuilder();
 //
 //        builder.showForm();
 
-        System.out.println("finished");
-        System.out.println(astRoot);
+    }
+
+    @Override
+    public void run(String... args) throws IOException {
+        try {
+            ApplicationParameters parameters = ApplicationParameters.get(args);
+            runProgram(parameters);
+        } catch (InvalidParametersException e) {
+            ApplicationParameters.printHelp();
+            System.exit(1);
+        }
     }
 
 }

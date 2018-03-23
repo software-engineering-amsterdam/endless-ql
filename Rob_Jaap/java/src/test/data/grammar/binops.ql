@@ -9,4 +9,6 @@ form FormWithAllTypes {
    elementWithString: "Did you enter a loan for maintenance/reconstruction?" money(e > f)
    elementWithMoney: "Did you enter a loan for maintenance/reconstruction?" money(c < d)
    elementWithString: "Did you enter a loan for maintenance/reconstruction?" money(e <= f)
+   elementWithMoney: "Did you enter a loan for maintenance/reconstruction?" money(c && d)
+   elementWithString: "Did you enter a loan for maintenance/reconstruction?" money(e || f)
 }

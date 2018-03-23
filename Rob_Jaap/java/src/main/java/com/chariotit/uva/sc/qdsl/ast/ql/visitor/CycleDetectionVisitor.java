@@ -131,7 +131,6 @@ public class CycleDetectionVisitor extends NodeVisitor {
     @Override
     public void visitAstRoot(QLAstRoot astRoot) {
 
-        dependencyTree.print();
     }
 
     @Override

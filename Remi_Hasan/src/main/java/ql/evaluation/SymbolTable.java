@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SymbolTable extends QLBaseVisitor<Void> {
+    private ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this);
     private Map<String, Expression> table;
 
     public SymbolTable() {
@@ -42,13 +43,25 @@ public class SymbolTable extends QLBaseVisitor<Void> {
     }
 
     public void setExpression(String identifier, Expression value) {
+        System.out.println("setExpression[" + identifier + "][" + value + "]");
         this.table.put(identifier, value);
+    }
 
-        // TODO remove debugging info below
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this);
-        for (Map.Entry<String, Expression> entry : table.entrySet()) {
-            Value evaluatedValue = expressionEvaluator.visit(entry.getValue());
-            System.out.println(entry.getKey() + " " + evaluatedValue.toString());
+    public Value getValue(String identifier){
+        return expressionEvaluator.visit(getExpression(identifier));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\n\nCurrent form values are: \n");
+        for(Map.Entry<String, Expression> entry : this.table.entrySet()){
+            stringBuilder.append("\t");
+            stringBuilder.append(entry.getKey());
+            stringBuilder.append(" => ");
+            stringBuilder.append(getValue(entry.getKey()));
+            stringBuilder.append("\n");
         }
+        return stringBuilder.toString();
     }
 }

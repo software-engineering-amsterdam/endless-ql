@@ -1,38 +1,45 @@
 package gui.widgets;
 
 import javafx.beans.InvalidationListener;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import ql.evaluation.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableBoolean;
+import qls.model.StyleSheet;
 
 public class RadioWidget extends HBox implements GUIWidget {
 
+    private final String identifier;
+    private final boolean computed;
     private final ToggleGroup group;
     private final RadioButton falseButton;
     private final RadioButton trueButton;
 
-    public RadioWidget(String falseLabel, String trueLabel) {
-        group = new ToggleGroup();
+    public RadioWidget(String identifier, boolean computed, String falseLabel, String trueLabel) {
+        this.identifier = identifier;
+        this.computed = computed;
+        this.group = new ToggleGroup();
 
-        falseButton = new RadioButton(falseLabel);
-        trueButton = new RadioButton(trueLabel);
+        this.falseButton = new RadioButton(falseLabel);
+        this.trueButton = new RadioButton(trueLabel);
 
-        falseButton.setSelected(true);
+        this.falseButton.setSelected(true);
 
-        trueButton.setToggleGroup(group);
-        falseButton.setToggleGroup(group);
+        this.trueButton.setToggleGroup(this.group);
+        this.falseButton.setToggleGroup(this.group);
 
-        this.getChildren().add(falseButton);
-        this.getChildren().add(trueButton);
+        this.getChildren().add(this.falseButton);
+        this.getChildren().add(this.trueButton);
     }
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        group.selectedToggleProperty().addListener(invalidationListener);
+        if (!computed)
+            group.selectedToggleProperty().addListener(invalidationListener);
     }
 
     @Override
@@ -43,11 +50,6 @@ public class RadioWidget extends HBox implements GUIWidget {
     @Override
     public void setValue(Value value) {
         trueButton.setSelected(value.getBooleanValue());
-    }
-
-    @Override
-    public Node getNode() {
-        return this;
     }
 
     @Override
@@ -68,5 +70,26 @@ public class RadioWidget extends HBox implements GUIWidget {
     @Override
     public void setWidth(int width) {
 
+    }
+
+    @Override
+    public void update(SymbolTable symbolTable) {
+        if (computed) setValue(symbolTable.getValue(this.identifier));
+        else symbolTable.setExpression(identifier, this.getExpressionValue());
+    }
+
+    @Override
+    public void update(StyleSheet styleSheet) {
+
+    }
+
+    @Override
+    public Parent render() {
+        return this;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return identifier;
     }
 }

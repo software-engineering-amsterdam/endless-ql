@@ -38,7 +38,7 @@ public class Renderer extends Application {
 
             // Check for warning messages
             Set<String> warnings = qlFormBuilder.getWarnings(this.qlForm);
-            if(!warnings.isEmpty()) {
+            if (!warnings.isEmpty()) {
                 showWarningAlert(String.join("\n", warnings));
             }
 
@@ -67,12 +67,20 @@ public class Renderer extends Application {
         // Set locale to US such that DecimalFormat, such as in a spinner, always uses dots instead of commas
         Locale.setDefault(Locale.US);
 
-        GUIForm guiForm = GUIFormBuilder.build(this.qlForm);
-//        if(this.qlsStyleSheet != null){
-//            guiForm = new GUIFormWithStyling(this.qlForm.identifier, guiForm.guiQuestions, this.qlsStyleSheet);
+        GUIForm guiForm;
+//        if(this.qlsStyleSheet == null){
+        guiForm = GUIFormBuilder.buildQLForm(this.qlForm);
+//        } else {
+//            guiForm = GUIFormBuilder.buildQLSForm(this.qlForm, this.qlsStyleSheet);
+//            guiForm.update(qlsStyleSheet);
 //        }
+        guiForm.update(symbolTable);
+        guiForm.setChangeListener(e -> {
+            guiForm.update(symbolTable);
+            System.out.println(symbolTable);
+        });
 
-        Scene scene = new Scene(guiForm.render(this.symbolTable));
+        Scene scene = new Scene(guiForm.render());
         stage.setTitle(qlForm.identifier + " form");
         stage.setScene(scene);
         stage.setWidth(640);

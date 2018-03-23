@@ -5,8 +5,8 @@ import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableInteger;
 
 public class SliderIntegerWidget extends SliderWidget {
-    public SliderIntegerWidget(int min, int max) {
-        super(min, max);
+    public SliderIntegerWidget(String identifier, boolean computed, int min, int max) {
+        super(identifier, computed, min, max);
 
         this.slider.valueProperty().addListener((obs, oldVal, newVal) -> {
             // Only step between integers

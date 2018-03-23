@@ -9,7 +9,8 @@ import ql.model.expression.variable.ExpressionVariableUndefined;
 
 public class TextboxDecimalWidget extends TextboxWidget {
 
-    public TextboxDecimalWidget() {
+    public TextboxDecimalWidget(String identifier, boolean computed) {
+        super(identifier, computed);
         this.setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*(\\.\\d*)?"));
     }
 

@@ -1,6 +1,9 @@
 package gui.builder;
 
-import gui.model.GUIQuestion;
+import gui.model.GUILabel;
+import gui.model.GUILabelWithWidget;
+import gui.widgets.GUIWidget;
+import gui.widgets.WidgetFactory;
 import ql.QLBaseVisitor;
 import ql.model.IfBlock;
 import ql.model.IfElseBlock;
@@ -13,7 +16,7 @@ import ql.model.expression.unary.ExpressionUnaryNot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
+public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUILabelWithWidget>> {
     private final Expression condition;
 
     public GUIQuestionsBuilder(Expression condition) {
@@ -22,20 +25,20 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
     }
 
     @Override
-    public List<GUIQuestion> visit(Statement statement) {
+    public List<GUILabelWithWidget> visit(Statement statement) {
         return statement.accept(this);
     }
 
     @Override
-    public List<GUIQuestion> visit(IfBlock ifBlock) {
-        List<GUIQuestion> guiQuestions = new ArrayList<>();
+    public List<GUILabelWithWidget> visit(IfBlock ifBlock) {
+        List<GUILabelWithWidget> guiQuestions = new ArrayList<>();
 
         // If blocks can be nested, so chain conditions
         Expression ifCondition = new ExpressionLogicalAnd(null, this.condition, ifBlock.getCondition());
         GUIQuestionsBuilder trueStatementVisitor = new GUIQuestionsBuilder(ifCondition);
 
-        for(Statement statement : ifBlock.getTrueStatements()) {
-            List<GUIQuestion> guiQuestionList = statement.accept(trueStatementVisitor);
+        for (Statement statement : ifBlock.getTrueStatements()) {
+            List<GUILabelWithWidget> guiQuestionList = statement.accept(trueStatementVisitor);
             guiQuestions.addAll(guiQuestionList);
         }
 
@@ -43,16 +46,16 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
     }
 
     @Override
-    public List<GUIQuestion> visit(IfElseBlock ifElseBlock) {
+    public List<GUILabelWithWidget> visit(IfElseBlock ifElseBlock) {
         // Visit if block
-        List<GUIQuestion> guiQuestions = this.visit((IfBlock) ifElseBlock);
+        List<GUILabelWithWidget> guiQuestions = this.visit((IfBlock) ifElseBlock);
 
         // Else block, so negate invert condition
         Expression elseCondition = new ExpressionLogicalAnd(null, this.condition,
                 new ExpressionUnaryNot(null, ifElseBlock.getCondition()));
         GUIQuestionsBuilder falseStatementVisitor = new GUIQuestionsBuilder(elseCondition);
-        for(Statement statement : ifElseBlock.getFalseStatements()) {
-            List<GUIQuestion> guiQuestionList = statement.accept(falseStatementVisitor);
+        for (Statement statement : ifElseBlock.getFalseStatements()) {
+            List<GUILabelWithWidget> guiQuestionList = statement.accept(falseStatementVisitor);
             guiQuestions.addAll(guiQuestionList);
         }
 
@@ -60,14 +63,13 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
     }
 
     @Override
-    public List<GUIQuestion> visit(Question question) {
-        List<GUIQuestion> guiQuestions = new ArrayList<>();
+    public List<GUILabelWithWidget> visit(Question question) {
+        List<GUILabelWithWidget> guiQuestions = new ArrayList<>();
 
-        // TODO: remove isComputed
-        GUIQuestion guiQuestion = new GUIQuestion(question.identifier, question.label, question.type, this.condition,
-                question.isComputed(), question.computedAnswer);
-
-        guiQuestions.add(guiQuestion);
+        GUILabel label = new GUILabel(question.label);
+        GUIWidget widget = WidgetFactory.getDefaultWidget(question.identifier, question.isComputed(), question.type);
+        GUILabelWithWidget guiLabelWithWidget = new GUILabelWithWidget(question.identifier, question.isComputed(), this.condition, label, widget);
+        guiQuestions.add(guiLabelWithWidget);
 
         return guiQuestions;
     }

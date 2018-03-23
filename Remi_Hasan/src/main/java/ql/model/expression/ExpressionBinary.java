@@ -2,7 +2,7 @@ package ql.model.expression;
 
 import org.antlr.v4.runtime.Token;
 
-public abstract class ExpressionBinary<T> extends Expression {
+public abstract class ExpressionBinary extends Expression {
     public final Expression left;
     public final Expression right;
 

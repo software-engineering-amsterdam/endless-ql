@@ -5,7 +5,7 @@ import ql.model.expression.Expression;
 import ql.model.expression.ExpressionBinary;
 import org.antlr.v4.runtime.Token;
 
-public class ExpressionComparisonLE extends ExpressionBinary<Boolean> {
+public class ExpressionComparisonLE extends ExpressionBinary {
 
     public ExpressionComparisonLE(Token start, Expression left, Expression right) {
         super(start, left, right);

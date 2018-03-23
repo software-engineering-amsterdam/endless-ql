@@ -5,9 +5,9 @@ import ql.ast.expressions.Expression;
 
 public abstract class UnaryOperation extends Expression {
 
-    private Expression expression;
+    private final Expression expression;
 
-    public UnaryOperation(Expression expression, SourceLocation sourceLocation) {
+    protected UnaryOperation(Expression expression, SourceLocation sourceLocation) {
         super(sourceLocation);
         this.expression = expression;
     }

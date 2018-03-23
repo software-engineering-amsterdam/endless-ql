@@ -2,14 +2,14 @@ package gui;
 
 import ql.ast.statements.ComputedQuestion;
 import ql.evaluator.FormEvaluator;
-import ql.evaluator.values.Evaluatable;
+import ql.evaluator.values.Value;
 
 import java.awt.*;
 
 public class ComputedQuestionElement extends GUIElement {
 
-    private ComputedQuestion node;
-    private FormEvaluator evaluator;
+    private final ComputedQuestion node;
+    private final FormEvaluator evaluator;
 
     public ComputedQuestionElement(ComputedQuestion node, int yLoc, FormEvaluator evaluator) {
         super(yLoc);
@@ -21,14 +21,14 @@ public class ComputedQuestionElement extends GUIElement {
     public void render(Graphics g) {
         System.out.println("Rendering computedQuestion");
         String varName = node.getId();
-        Object value = "";
+        Object renderValue = "";
 
-        Evaluatable evaluatable = evaluator.getQuestionValue(varName);
-        if (evaluatable != null) {
-            value = evaluatable.getValue();
+        Value value = evaluator.getQuestionValue(varName);
+        if (value != null) {
+            renderValue = value.getValue();
         }
 
         g.setColor(Color.black);
-        g.drawString(varName + ": " + String.valueOf(value), 50, this.getYLocation());
+        g.drawString(varName + ": " + String.valueOf(renderValue), 50, this.getYLocation());
     }
 }

@@ -4,11 +4,11 @@ import main.FileScanner;
 import ql.ast.Form;
 import ql.parser.FormBuilder;
 
-public class Helper {
+public class BaseQlTest {
 
-    public Form buildASTFromFile(String fileName, FormBuilder formBuilder) {
+    protected static Form createForm(String fileName) {
         String fileContent = new FileScanner().loadFile(fileName);
-        return formBuilder.buildASTFromString(fileContent);
+        return new FormBuilder().createForm(fileContent);
     }
 
 }

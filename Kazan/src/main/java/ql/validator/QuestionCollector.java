@@ -2,15 +2,14 @@ package ql.validator;
 
 import ql.ast.Form;
 import ql.ast.statements.*;
-import ql.ast.visitors.FormVisitor;
-import ql.ast.visitors.StatementVisitor;
+import ql.ast.visitors.FormStatementVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionCollector implements FormVisitor<Void>, StatementVisitor<Void> {
+public class QuestionCollector implements FormStatementVisitor<Void> {
 
-    List<Question> questions;
+    private final List<Question> questions;
 
     public QuestionCollector(Form form) {
         questions = new ArrayList<>();
@@ -18,7 +17,7 @@ public class QuestionCollector implements FormVisitor<Void>, StatementVisitor<Vo
     }
 
     public List<Question> getQuestions() {
-        return questions;
+        return new ArrayList<>(questions);
     }
 
     @Override

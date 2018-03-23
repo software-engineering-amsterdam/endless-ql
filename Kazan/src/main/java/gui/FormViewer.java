@@ -12,10 +12,10 @@ import java.util.LinkedList;
 public class FormViewer {
 
     // private FormEvaluator evaluator;
-    FormEvaluator evaluator;
+    final FormEvaluator evaluator;
     // private JPanel panel;
     JPanel panel;
-    private LinkedList<GUIElement> elements;
+    private final LinkedList<GUIElement> elements;
     private JFrame frame;
 
     public FormViewer(FormEvaluator evaluator) {
@@ -31,7 +31,7 @@ public class FormViewer {
     public void start(Form node, Stylesheet stylesheet) {
         initialiseFrame();
 
-        GUIElementConstructionVisitor visitor = new GUIElementConstructionVisitor(this);
+        GUIElementConstructionVisitorForm visitor = new GUIElementConstructionVisitorForm(this);
         visitor.visit(node);
 
         panel.repaint();
@@ -42,7 +42,7 @@ public class FormViewer {
 
     }
 
-    public void initialiseFrame() {
+    private void initialiseFrame() {
         frame = new JFrame("Form Viewer");
         panel = new JPanel();
 

@@ -3,22 +3,21 @@ package gui;
 import ql.ast.Form;
 import ql.ast.statements.*;
 import ql.ast.types.*;
-import ql.ast.visitors.FormVisitor;
-import ql.ast.visitors.StatementVisitor;
+import ql.ast.visitors.FormStatementVisitor;
 import ql.ast.visitors.TypeVisitor;
-import ql.evaluator.values.EvaluatableBoolean;
-import ql.evaluator.values.EvaluatableString;
+import ql.evaluator.values.BooleanValue;
+import ql.evaluator.values.StringValue;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class GUIElementConstructionVisitor implements FormVisitor<Void>, StatementVisitor<Void>, TypeVisitor<Void> {
+public class GUIElementConstructionVisitorForm implements FormStatementVisitor<Void>, TypeVisitor<Void> {
 
-    private FormViewer formViewer;
+    private final FormViewer formViewer;
     private int pointer = 100;
     private QuestionElement newElement;
 
-    public GUIElementConstructionVisitor(FormViewer formViewer) {
+    public GUIElementConstructionVisitorForm(FormViewer formViewer) {
         this.formViewer = formViewer;
     }
 
@@ -76,7 +75,7 @@ public class GUIElementConstructionVisitor implements FormVisitor<Void>, Stateme
 
         ActionListener actionListener = e -> {
             String value = textField.getText();
-            element.getEvaluator().setEvaluatable(element.getQuestion().getId(), new EvaluatableString(value));
+            element.getEvaluator().setValue(element.getQuestion().getId(), new StringValue(value));
         };
         textField.addActionListener(actionListener);
     }
@@ -89,7 +88,7 @@ public class GUIElementConstructionVisitor implements FormVisitor<Void>, Stateme
 
         ActionListener actionListener = e -> {
             boolean value = checkBox.isSelected();
-            element.getEvaluator().setEvaluatable(element.getQuestion().getId(), new EvaluatableBoolean(value));
+            element.getEvaluator().setValue(element.getQuestion().getId(), new BooleanValue(value));
         };
         checkBox.addActionListener(actionListener);
     }

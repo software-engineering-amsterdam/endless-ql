@@ -8,9 +8,13 @@ import org.joda.time.format.DateTimeFormatter;
 
 public final class Value {
 
-    public static final DateTimeFormatter SIMPLE_DATE_FORMAT = DateTimeFormat.forPattern( "dd/MM/yyyy" );
-    public static final Value             FALSE              = new Value( Type.Boolean, "False" );
-    public static final Value             TRUE               = new Value( Type.Boolean, "True" );
+    private static Exception              binaryOperationNotSupported = new Exception( "Unsupported binary operation" );
+    private static Exception              unaryOperationNotSupported  = new Exception( "Unsupported unary operation" );
+
+    public static final DateTimeFormatter SIMPLE_DATE_FORMAT          = DateTimeFormat.forPattern( "dd/MM/yyyy" );
+
+    public static final Value             FALSE                       = new Value( Type.Boolean, "False" );
+    public static final Value             TRUE                        = new Value( Type.Boolean, "True" );
 
     private Type                          type;
     private String                        text;
@@ -21,7 +25,7 @@ public final class Value {
         this.text = string;
     }
 
-    public Value apply( String operator ) {
+    public Value apply( String operator ) throws Exception {
 
         switch ( operator ) {
 
@@ -29,17 +33,18 @@ public final class Value {
                 return this;
 
             case "-":
-                return this.times( asValue( -1 ) );
+                return times( asValue( -1 ) );
 
             case "!":
                 return not( this );
 
             default:
-                throw new RuntimeException( "Grammar defines operator not implemented: " + operator );
+                throw unaryOperationNotSupported;
         }
+
     }
 
-    public Value apply( String operator, Value operand ) {
+    public Value apply( String operator, Value operand ) throws Exception {
 
         switch ( operator ) {
 
@@ -77,7 +82,7 @@ public final class Value {
                 return more( operand );
 
             default:
-                throw new RuntimeException( "Grammar defines operator not implemented: " + operator );
+                throw binaryOperationNotSupported;
         }
     }
 
@@ -93,33 +98,28 @@ public final class Value {
         return asValue( !TRUE.equals( value ) );
     }
 
-    private Value less( Value operand ) {
+    private Value less( Value operand ) throws Exception {
 
         switch ( operation( "<", operand ) ) {
 
             case "Date < Date":
-
                 return asValue( asDateTime( this ).isBefore( asDateTime( operand ) ) );
 
             case "Integer < Integer":
-
                 return asValue( asInteger( this ) < asInteger( operand ) );
 
             case "Money < Money":
-
                 return asValue( asBigDecimal( this ).compareTo( asBigDecimal( operand ) ) < 0 );
 
             case "String < String":
-
                 return asValue( asString( this ).compareTo( asString( operand ) ) < 0 );
 
             default:
-
-                throw new RuntimeException( "Operation on types not supported:" );
+                throw binaryOperationNotSupported;
         }
     }
 
-    private Value notMore( Value operand ) {
+    private Value notMore( Value operand ) throws Exception {
 
         switch ( operation( "<=", operand ) ) {
 
@@ -137,11 +137,11 @@ public final class Value {
                 return asValue( asString( this ).compareTo( asString( operand ) ) < 1 );
 
             default:
-                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+                throw binaryOperationNotSupported;
         }
     }
 
-    private Value is( Value operand ) {
+    private Value is( Value operand ) throws Exception {
 
         switch ( operation( "==", operand ) ) {
 
@@ -153,19 +153,11 @@ public final class Value {
                 return asValue( this.equals( operand ) );
 
             default:
-
-                Type typeRight = operand.getType();
-                Type typeLeft = this.getType();
-
-                String textLeft = this.getText();
-                String textRight = operand.getText();
-
-                throw new RuntimeException( "Check Antlr grammar. Operation impossible " + typeRight + " " + typeLeft
-                        + " " + textLeft + " " + textRight + " " );
+                throw binaryOperationNotSupported;
         }
     }
 
-    private Value more( Value operand ) {
+    private Value more( Value operand ) throws Exception {
 
         switch ( operation( ">", operand ) ) {
 
@@ -180,12 +172,13 @@ public final class Value {
 
             case "String > String":
                 return asValue( asString( this ).compareTo( asString( operand ) ) > 0 );
+
             default:
-                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+                throw binaryOperationNotSupported;
         }
     }
 
-    private Value notLess( Value operand ) {
+    private Value notLess( Value operand ) throws Exception {
 
         switch ( operation( ">=", operand ) ) {
 
@@ -201,23 +194,25 @@ public final class Value {
 
             case "String >= String":
                 return asValue( asString( this ).compareTo( asString( operand ) ) > -1 );
+
             default:
-                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+                throw binaryOperationNotSupported;
         }
     }
 
-    private Value and( Value operand ) {
+    private Value and( Value operand ) throws Exception {
 
         switch ( operation( "&&", operand ) ) {
 
             case "Boolean && Boolean":
                 return asValue( asBoolean( this ) && asBoolean( operand ) );
+
             default:
-                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+                throw binaryOperationNotSupported;
         }
     }
 
-    private Value or( Value operand ) {
+    private Value or( Value operand ) throws Exception {
 
         switch ( operation( "||", operand ) ) {
 
@@ -225,11 +220,11 @@ public final class Value {
                 return asValue( asBoolean( this ) || asBoolean( operand ) );
 
             default:
-                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+                throw binaryOperationNotSupported;
         }
     }
 
-    private Value times( Value operand ) {
+    private Value times( Value operand ) throws Exception {
 
         switch ( operation( "*", operand ) ) {
 
@@ -243,11 +238,11 @@ public final class Value {
                 return asValue( asBigDecimal( this ).multiply( asBigDecimal( operand ) ) );
 
             default:
-                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+                throw binaryOperationNotSupported;
         }
     }
 
-    private Value subtract( Value operand ) {
+    private Value subtract( Value operand ) throws Exception {
 
         switch ( operation( "/", operand ) ) {
 
@@ -258,11 +253,11 @@ public final class Value {
                 return asValue( (asBigDecimal( this ).divide( new BigDecimal( asInteger( operand ) ) )) );
 
             default:
-                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+                throw binaryOperationNotSupported;
         }
     }
 
-    private Value plus( Value operand ) {
+    private Value plus( Value operand ) throws Exception {
 
         String textLeft = this.getText();
         String textRight = operand.getText();
@@ -286,17 +281,16 @@ public final class Value {
                 return asValue( textLeft + textRight );
 
             default:
-                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+                throw binaryOperationNotSupported;
         }
     }
 
-    private Value minus( Value operand ) {
+    private Value minus( Value operand ) throws Exception {
 
         switch ( operation( "-", operand ) ) {
 
             case "Date - Integer":
                 int days = asInteger( operand );
-
                 return asValue( asDateTime( this ).minusDays( days ) );
 
             case "Integer - Integer":
@@ -304,8 +298,9 @@ public final class Value {
 
             case "Money - Money":
                 return asValue( asBigDecimal( this ).subtract( asBigDecimal( operand ) ) );
+
             default:
-                throw new RuntimeException( "Check Antlr grammar. Operation impossible" );
+                throw binaryOperationNotSupported;
         }
     }
 

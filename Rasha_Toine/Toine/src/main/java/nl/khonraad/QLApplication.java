@@ -115,8 +115,7 @@ public class QLApplication {
 
         if ( behaviouralType == BehaviouralType.COMPUTED ) {
 
-            return addToParent( container, boldText( text ) );
-        }
+        return addToParent( container, boldText( text ) ); }
 
         switch ( type ) {
 

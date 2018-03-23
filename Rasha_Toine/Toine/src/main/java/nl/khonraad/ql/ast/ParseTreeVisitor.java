@@ -40,9 +40,8 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
 
         Value value = visitChildren( ctx );
 
-        if ( !forwardReferences.isEmpty() ) {
-            throw new RuntimeException( ERROR0_ReferenceToUndefinedQuestion + forwardReferences.get( 0 ) );
-        }
+        if ( !forwardReferences.isEmpty() ) { throw new RuntimeException( ERROR0_ReferenceToUndefinedQuestion
+                + forwardReferences.get( 0 ) ); }
 
         return value;
 
@@ -76,9 +75,8 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
 
         forwardReferences.remove( identifier );
 
-        if ( declaredQuestionTypes.contains( identifier ) ) {
-            throw new RuntimeException( ERROR1_DuplicateQuestionDeclaration + identifier + " typed " + type );
-        }
+        if ( declaredQuestionTypes.contains( identifier ) ) { throw new RuntimeException( ERROR1_DuplicateQuestionDeclaration
+                + identifier + " typed " + type ); }
         declaredQuestionTypes.add( identifier );
 
         return questionnaire.storeAnswerableQuestion( identifier, label, type );
@@ -97,10 +95,8 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
 
         Value value = visit( ctx.expression() );
 
-        if ( !type.equals( value.getType() ) ) {
-            throw new RuntimeException(
-                    ERROR2_TYPEERROR + identifier + " expects " + type + " not " + value.getType() );
-        }
+        if ( !type.equals( value.getType() ) ) { throw new RuntimeException( ERROR2_TYPEERROR + identifier + " expects "
+                + type + " not " + value.getType() ); }
 
         return questionnaire.storeComputedQuestion( identifier, label, value );
     }
@@ -116,7 +112,11 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
         Value expression = visit( ctx.expression() );
         String operator = ctx.unaryOperator().getText();
 
-        return expression.apply( operator );
+        try {
+            return expression.apply( operator );
+        } catch (Exception e) {
+            throw new RuntimeException( e.getMessage() );
+        }
     }
 
     @Override
@@ -132,7 +132,11 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
         Value right = visit( ctx.expression( 1 ) );
         String operator = ctx.binaryOperator().getText();
 
-        return left.apply( operator, right );
+        try {
+            return left.apply( operator, right );
+        } catch (Exception e) {
+            throw new RuntimeException( e.getMessage() );
+        }
 
     }
 

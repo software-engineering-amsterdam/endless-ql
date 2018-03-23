@@ -25,7 +25,7 @@ public class Test_Interpretor {
         + "		sellingPrice: \"Price the house was sold for:\" money										"
         + "		privateDebt: \"Private debts for the sold house:\" money									"
         + "  		valueResidue: \"Value residue:\" money (sellingPrice - privateDebt - 0.01 )			"
-        + "  		testDate: \"Testdate:\" date (01/01/1970 + 3 + True )										"
+        + "  		testDate: \"Testdate:\" date (01/01/1970 + 3  )										"
         + "  		testString: \"testString:\" string (\"abc\"  + \"ABC\")								"
         + "  	}																						" + "}																								";
 

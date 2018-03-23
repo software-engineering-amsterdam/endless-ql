@@ -26,6 +26,9 @@ namespace QLParser.Analysis.QL.Semantic
         /// <returns></returns>
         public bool Analyse(QLNode node)
         {
+            // Reset the Analyser
+            this.VisitedIDs.Clear();
+
             // This visit discovers all the identifiers.
             this.Visit(node);
             return VisitedIDs.Count == VisitedIDs.Distinct().Count();

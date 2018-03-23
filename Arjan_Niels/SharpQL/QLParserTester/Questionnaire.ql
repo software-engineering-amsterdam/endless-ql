@@ -2,9 +2,11 @@
 	"Did you sell a house in 2010?"
 		soldHouseIn2010: boolean
 
-	"Have you bought a house in 2010?"
-		boughtAHouseIn2010: boolean
-
+	if(soldHouseIn2010 < 10.0) {
+		"Have you bought a house in 2010?"
+			boughtAHouseIn2010: boolean
+	}
+	
 	"What was the selling price?"
 		sellingPrice: money
 

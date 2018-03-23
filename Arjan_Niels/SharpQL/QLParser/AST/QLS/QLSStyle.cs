@@ -10,6 +10,7 @@ namespace QLParser.AST.QLS
         public QLSStyle()
         {
             this.StylingValues = new List<QLSValue>();
+            this.WidgetSpecification = new QLSWidgetSpecification();
         }
 
         public QLSStyle(QLSWidgetSpecification specification) : this()

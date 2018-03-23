@@ -17,6 +17,7 @@ namespace QLParser.AST.QLS
         public QLSWidgetSpecification()
         {
             this.WidgetTypeArguments = new List<string>();
+            this.WidgetType = WidgetType.DEFAULT;
         }
 
         public QLSWidgetSpecification(WidgetType widgetType, IList<string> widgetTypeArguments)

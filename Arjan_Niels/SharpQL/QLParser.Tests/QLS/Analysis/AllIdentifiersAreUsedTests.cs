@@ -10,6 +10,12 @@ namespace QL_Parser.Tests.QLS.Analysis
     [TestClass]
     public class AllIdentifiersAreUsedTests
     {
+        [TestInitialize]
+        public void Initialize()
+        {
+            SymbolTable.Reset();
+        }
+
         [TestCleanup]
         public void CleanUp()
         {

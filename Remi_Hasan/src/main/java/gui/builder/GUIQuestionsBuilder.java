@@ -32,8 +32,9 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
 
         // If blocks can be nested, so chain conditions
         Expression ifCondition = new ExpressionLogicalAnd(null, this.condition, ifBlock.getCondition());
-        GUIQuestionsBuilder trueStatementVisitor = new GUIQuestionsBuilder(ifCondition);
 
+        // Collect all questions inside this if block and give them the condition
+        GUIQuestionsBuilder trueStatementVisitor = new GUIQuestionsBuilder(ifCondition);
         for (Statement statement : ifBlock.getTrueStatements()) {
             List<GUIQuestion> guiQuestionList = statement.accept(trueStatementVisitor);
             guiQuestions.addAll(guiQuestionList);
@@ -50,6 +51,9 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
         // Else block, so negate invert condition
         Expression elseCondition = new ExpressionLogicalAnd(null, this.condition,
                 new ExpressionUnaryNot(null, ifElseBlock.getCondition()));
+
+
+        // Collect all questions inside this e;se block and give them the condition
         GUIQuestionsBuilder falseStatementVisitor = new GUIQuestionsBuilder(elseCondition);
         for (Statement statement : ifElseBlock.getFalseStatements()) {
             List<GUIQuestion> guiQuestionList = statement.accept(falseStatementVisitor);
@@ -63,7 +67,8 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
     public List<GUIQuestion> visit(Question question) {
         List<GUIQuestion> guiQuestions = new ArrayList<>();
 
-        GUIQuestion guiQuestion = new GUIQuestion(question.identifier, question.label, question.type, this.condition, question.isComputed(), question.computedAnswer);
+        GUIQuestion guiQuestion = new GUIQuestion(question.identifier, question.label, question.type, this.condition,
+                question.isComputed(), question.computedAnswer);
         guiQuestions.add(guiQuestion);
 
         return guiQuestions;

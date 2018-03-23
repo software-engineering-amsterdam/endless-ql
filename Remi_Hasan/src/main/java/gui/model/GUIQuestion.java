@@ -32,7 +32,7 @@ public class GUIQuestion {
         Label guiLabel = new Label(this.label);
         GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type);
 
-        // Event handling
+        // Update symbol table and other fields in UI if non-computed field is edited by user
         if(!this.computed) {
             guiWidget.setChangeListener(observable -> {
                 symbolTable.setExpression(this.identifier, guiWidget.getExpressionValue());

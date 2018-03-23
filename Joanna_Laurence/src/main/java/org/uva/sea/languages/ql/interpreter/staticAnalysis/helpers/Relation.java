@@ -1,6 +1,9 @@
 package org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Relation<T> {
 
@@ -79,7 +82,7 @@ public class Relation<T> {
     /**
      * Check if key is related to value
      *
-     * @param key Key of relation
+     * @param key   Key of relation
      * @param value Value of relation
      * @return If it this relation
      */

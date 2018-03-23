@@ -87,7 +87,7 @@ public class QLEvaluatorTest extends TestCase {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String firstLine = reader.readLine();
 
-            Pattern pattern = Pattern.compile("\\/\\/Q=([0-9]*)");
+            Pattern pattern = Pattern.compile("\\/\\/AssertDisplayedQuestions=([0-9]*)");
             Matcher matcher = pattern.matcher(firstLine);
             if (matcher.find()) {
                 String match = matcher.group(1);
@@ -153,7 +153,7 @@ public class QLEvaluatorTest extends TestCase {
     }
 
     /**
-     * Check if there was an error
+     * Check if there was an displayError
      *
      * @param questions All the questions
      * @return

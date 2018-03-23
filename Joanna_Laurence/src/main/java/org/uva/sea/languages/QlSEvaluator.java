@@ -27,11 +27,12 @@ public class QlSEvaluator extends QlEvaluator {
      * Generate EvaluationResult
      *
      * @return EvaluationResult
-     * @throws InterruptedException
      */
     @Override
     public EvaluationResult getQuestions() throws IOException, InterruptedException {
         EvaluationResult qlInterpreterResult = super.getQuestions();
+        if (qlInterpreterResult.getAst() == null)
+            return qlInterpreterResult;
 
         return this.evaluator.evaluate(this.qlsFileLocation, qlInterpreterResult);
     }

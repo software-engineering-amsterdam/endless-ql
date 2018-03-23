@@ -1,4 +1,4 @@
-package com.chariotit.uva.sc.qdsl.ast;
+package com.chariotit.uva.sc.qdsl.ast.ql.type;
 
 public class BooleanExpressionValue extends ExpressionValue {
 

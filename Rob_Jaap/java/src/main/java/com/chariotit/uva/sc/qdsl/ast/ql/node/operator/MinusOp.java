@@ -1,10 +1,10 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.operator;
 
-import com.chariotit.uva.sc.qdsl.ast.BooleanExpressionValue;
-import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
-import com.chariotit.uva.sc.qdsl.ast.ExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.BooleanExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
-import com.chariotit.uva.sc.qdsl.ast.NumberExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.NumberExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.Expression;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 

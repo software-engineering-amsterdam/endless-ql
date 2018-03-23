@@ -1,6 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.operator;
 
-import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.AstNode;
 

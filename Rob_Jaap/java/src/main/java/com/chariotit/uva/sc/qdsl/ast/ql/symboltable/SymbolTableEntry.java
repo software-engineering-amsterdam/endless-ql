@@ -1,7 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.symboltable;
 
-import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
-import com.chariotit.uva.sc.qdsl.ast.ExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.AstNode;
 
 public class SymbolTableEntry {

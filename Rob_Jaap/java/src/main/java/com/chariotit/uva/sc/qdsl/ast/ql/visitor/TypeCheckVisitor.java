@@ -1,6 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.visitor;
 
-import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;

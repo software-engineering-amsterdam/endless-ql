@@ -1,6 +1,5 @@
 package com.chariotit.uva.sc.qdsl.parser;
 
-import com.chariotit.uva.sc.qdsl.ast.*;
 import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.BooleanConstant;
@@ -11,6 +10,10 @@ import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.BooleanTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.StringTypeNode;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.BooleanExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.IntegerExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.MoneyExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.StringExpressionValue;
 import com.chariotit.uva.sc.qdsl.grammar.QLBaseVisitor;
 import com.chariotit.uva.sc.qdsl.grammar.QLParser;
 import com.chariotit.uva.sc.qdsl.parser.exception.UnknownOptionException;

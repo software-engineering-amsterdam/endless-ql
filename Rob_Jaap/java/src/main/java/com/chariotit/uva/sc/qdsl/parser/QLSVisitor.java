@@ -4,7 +4,7 @@ import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.grammar.QLSBaseVisitor;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.exception.UnknownOptionException;
-import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Properties;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.*;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.property.*;

@@ -1,6 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.visitor;
 
 import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
@@ -254,11 +255,11 @@ public class TypeCheckVisitor extends NodeVisitor {
     }
 
     private void addError(AstNode node, String message) {
-        errors.add(new TypeCheckError(message, node.getLineNumber(), node.getColumnNumber()));
+        errors.add(new TypeCheckError(message, node.getSourceFilePosition()));
     }
 
     private void addWarning(AstNode node, String message) {
-        errors.add(new TypeCheckError(message, node.getLineNumber(), node.getColumnNumber(),
+        errors.add(new TypeCheckError(message, node.getSourceFilePosition(),
                 TypeCheckError.Level.WARN));
     }
 

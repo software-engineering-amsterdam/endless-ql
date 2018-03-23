@@ -2,14 +2,15 @@ package com.chariotit.uva.sc.qdsl.ast.ql.node.operator;
 
 import com.chariotit.uva.sc.qdsl.ast.BooleanExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.NumberExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.Expression;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public class MinusOp extends Operator implements BinaryOperator, UnaryOperator, MoneyOperator, IntegerOperator {
 
-    public MinusOp(Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public MinusOp(SourceFilePosition filePosition) {
+        super(filePosition);
     }
 
     @Override

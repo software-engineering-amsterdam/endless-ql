@@ -5,7 +5,7 @@ import com.chariotit.uva.sc.qdsl.ast.cyclechecker.CycleChecker;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.QLAstRoot;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.CycleDetectionVisitor;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.SymbolTableBuilderVisitor;
-import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckError;
+import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckVisitor;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.constant;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.IntegerExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.Constant;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
@@ -9,8 +10,8 @@ public class IntegerConstant extends Constant {
 
     private IntegerExpressionValue value;
 
-    public IntegerConstant(IntegerExpressionValue value, Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public IntegerConstant(IntegerExpressionValue value, SourceFilePosition filePosition) {
+        super(filePosition);
         this.value = value;
     }
 

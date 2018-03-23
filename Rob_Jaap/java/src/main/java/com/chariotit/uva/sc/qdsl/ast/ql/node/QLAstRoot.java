@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
@@ -11,14 +12,14 @@ public class QLAstRoot extends AstNode {
     private SymbolTable formSymbolTable;
     private SymbolTable questionSymbolTable;
 
-    private QLAstRoot(Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    private QLAstRoot(SourceFilePosition filePosition) {
+        super(filePosition);
         formSymbolTable = new SymbolTable();
         questionSymbolTable = new SymbolTable();
     }
 
-    public QLAstRoot(List<Form> forms, Integer lineNumber, Integer columnNumber) {
-        this(lineNumber, columnNumber);
+    public QLAstRoot(List<Form> forms, SourceFilePosition filePosition) {
+        this(filePosition);
         this.forms = forms;
 
     }

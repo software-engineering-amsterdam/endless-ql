@@ -1,13 +1,14 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.operator;
 
 import com.chariotit.uva.sc.qdsl.ast.ExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.Expression;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public class NeqOp extends Operator implements BinaryOperator, BooleanOperator, MoneyOperator, IntegerOperator {
 
-    public NeqOp(Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public NeqOp(SourceFilePosition filePosition) {
+        super(filePosition);
     }
 
     @Override

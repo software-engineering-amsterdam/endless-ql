@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.parser;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.grammar.QLSBaseVisitor;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.exception.UnknownOptionException;
@@ -16,12 +17,8 @@ import java.util.List;
 
 public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
 
-    private Integer lineNumber(ParserRuleContext ctx) {
-        return ctx.getStart().getLine();
-    }
-
-    private Integer columnNumber(ParserRuleContext ctx) {
-        return ctx.getStart().getCharPositionInLine();
+    private SourceFilePosition getSourceFilePosition(ParserRuleContext ctx) {
+        return new SourceFilePosition(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
     }
 
     @Override
@@ -35,7 +32,7 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
         }
 
 
-        return new Stylesheet(pages, label, lineNumber(ctx), columnNumber(ctx));
+        return new Stylesheet(pages, label, getSourceFilePosition(ctx));
     }
 
     @Override
@@ -52,7 +49,7 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
             defaultProperties.add(visitDefaultdef(c));
         }
 
-        return new Page(sections, label, defaultProperties, columnNumber(ctx), lineNumber(ctx));
+        return new Page(sections, label, defaultProperties, getSourceFilePosition(ctx));
     }
 
     @Override
@@ -79,19 +76,19 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
             defaultProperties.add(visitDefaultdef(c));
         }
 
-        return new Section(sectionElements, defaultProperties, lineNumber(ctx), columnNumber(ctx));
+        return new Section(sectionElements, defaultProperties, getSourceFilePosition(ctx));
     }
 
     @Override
     public Question visitQuestion(QLSParser.QuestionContext ctx) {
         String label = ctx.identifier().getText();
-        Properties properties = new Properties(lineNumber(ctx), columnNumber(ctx));
+        Properties properties = new Properties(getSourceFilePosition(ctx));
 
         if (ctx.widgetproperty() != null) {
             properties.getProperties().add(visitWidgetproperty(ctx.widgetproperty()));
         }
 
-        return new Question(label, properties, lineNumber(ctx), columnNumber(ctx));
+        return new Question(label, properties, getSourceFilePosition(ctx));
     }
 
     @Override
@@ -113,20 +110,20 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
             propertyList.add(visitProperty(c));
         }
 
-        Properties properties = new Properties(propertyList, lineNumber(ctx), columnNumber(ctx));
+        Properties properties = new Properties(propertyList, getSourceFilePosition(ctx));
 
-        return new DefaultProperties(getExpressionType(ctx.type()), properties, lineNumber(ctx),
-                columnNumber(ctx));
+        return new DefaultProperties(getExpressionType(ctx.type()), properties,
+                getSourceFilePosition(ctx));
     }
 
     @Override
     public DefaultProperties visitLinedefault(QLSParser.LinedefaultContext ctx) {
         List<Property> propertyList = new ArrayList<>();
         propertyList.add(visitProperty(ctx.property()));
-        Properties properties = new Properties(propertyList, lineNumber(ctx), columnNumber(ctx));
+        Properties properties = new Properties(propertyList, getSourceFilePosition(ctx));
 
-        return new DefaultProperties(getExpressionType(ctx.type()), properties, lineNumber(ctx),
-                columnNumber(ctx));
+        return new DefaultProperties(getExpressionType(ctx.type()), properties,
+                getSourceFilePosition(ctx));
     }
 
     @Override
@@ -150,8 +147,7 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
     public WidgetProperty visitWidgetproperty(QLSParser.WidgetpropertyContext ctx) {
         return new WidgetProperty(
                 visitWidget_type(ctx.widget_type()),
-                lineNumber(ctx),
-                columnNumber(ctx)
+                getSourceFilePosition(ctx)
         );
     }
 
@@ -180,32 +176,31 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
             return new RadioWidget(
                     ctx.STRING(0).getText(),
                     ctx.STRING(1).getText(),
-                    lineNumber(ctx),
-                    columnNumber(ctx)
+                    getSourceFilePosition(ctx)
             );
         }
 
-        return new RadioWidget(lineNumber(ctx), columnNumber(ctx));
+        return new RadioWidget(getSourceFilePosition(ctx));
     }
 
     @Override
     public SpinboxWidget visitSpinboxwidget(QLSParser.SpinboxwidgetContext ctx) {
-        return new SpinboxWidget(lineNumber(ctx), columnNumber(ctx));
+        return new SpinboxWidget(getSourceFilePosition(ctx));
     }
 
     @Override
     public CheckboxWidget visitCheckboxwidget(QLSParser.CheckboxwidgetContext ctx) {
-        return new CheckboxWidget(lineNumber(ctx), columnNumber(ctx));
+        return new CheckboxWidget(getSourceFilePosition(ctx));
     }
 
     @Override
     public TextWidget visitTextwidget(QLSParser.TextwidgetContext ctx) {
-        return new TextWidget(lineNumber(ctx), columnNumber(ctx));
+        return new TextWidget(getSourceFilePosition(ctx));
     }
 
     @Override
     public SliderWidget visitSliderwidget(QLSParser.SliderwidgetContext ctx) {
-        return new SliderWidget(lineNumber(ctx), columnNumber(ctx));
+        return new SliderWidget(getSourceFilePosition(ctx));
     }
 
     @Override
@@ -214,35 +209,35 @@ public class QLSVisitor<T> extends QLSBaseVisitor<AstNode> {
             return new DropdownWidget(
                     ctx.STRING(0).getText(),
                     ctx.STRING(1).getText(),
-                    lineNumber(ctx),
-                    columnNumber(ctx)
+                    getSourceFilePosition(ctx)
             );
         }
 
-        return new DropdownWidget(lineNumber(ctx), columnNumber(ctx));
+        return new DropdownWidget(getSourceFilePosition(ctx));
     }
 
     @Override
     public WidthProperty visitWidthproperty(QLSParser.WidthpropertyContext ctx) {
-        return new WidthProperty(Integer.parseInt(ctx.NUMBER().getText()), lineNumber
-                        (ctx),
-                columnNumber(ctx));
+        return new WidthProperty(Integer.parseInt(ctx.NUMBER().getText()),
+                getSourceFilePosition(ctx)
+        );
     }
 
     @Override
     public FontProperty visitFontproperty(QLSParser.FontpropertyContext ctx) {
-        return new FontProperty(ctx.STRING().getText(), lineNumber(ctx), columnNumber(ctx));
+        return new FontProperty(ctx.STRING().getText(), getSourceFilePosition(ctx));
     }
 
     @Override
     public FontSizeProperty visitFontsizeproperty(QLSParser.FontsizepropertyContext ctx) {
-        return new FontSizeProperty(Integer.parseInt(ctx.NUMBER().getText()), lineNumber(ctx),
-                columnNumber(ctx));
+        return new FontSizeProperty(Integer.parseInt(ctx.NUMBER().getText()),
+                getSourceFilePosition(ctx)
+        );
     }
 
     @Override
     public ColorProperty visitColorproperty(QLSParser.ColorpropertyContext ctx) {
-        return new ColorProperty(ctx.COLOR_CODE().getText(), lineNumber(ctx), columnNumber(ctx));
+        return new ColorProperty(ctx.COLOR_CODE().getText(), getSourceFilePosition(ctx));
     }
 
     @Override

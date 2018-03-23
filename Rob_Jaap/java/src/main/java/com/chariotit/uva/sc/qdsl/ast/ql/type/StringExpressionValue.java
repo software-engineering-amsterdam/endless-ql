@@ -1,4 +1,4 @@
-package com.chariotit.uva.sc.qdsl.ast;
+package com.chariotit.uva.sc.qdsl.ast.ql.type;
 
 public class StringExpressionValue extends ExpressionValue {
 
@@ -16,15 +16,8 @@ public class StringExpressionValue extends ExpressionValue {
         this.value = value;
     }
 
-    private void validateExpressionValueType(ExpressionValue expressionValue) {
-        if (!(expressionValue instanceof StringExpressionValue)) {
-            throw new RuntimeException("Incompatible expression type");
-        }
-    }
-
     @Override
     public BooleanExpressionValue equalTo(ExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new BooleanExpressionValue(value.equals(((StringExpressionValue)expressionValue)
                 .getValue()));
@@ -32,6 +25,7 @@ public class StringExpressionValue extends ExpressionValue {
 
     @Override
     public BooleanExpressionValue notEqualTo(ExpressionValue expressionValue) {
+
         return equalTo(expressionValue).not();
     }
 }

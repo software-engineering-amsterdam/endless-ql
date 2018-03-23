@@ -9,6 +9,8 @@ import java.util.List;
 public class QLAstRoot extends AstNode {
 
     private List<Form> forms;
+
+    // TODO check if formSymbolTable used
     private SymbolTable formSymbolTable;
     private SymbolTable questionSymbolTable;
 

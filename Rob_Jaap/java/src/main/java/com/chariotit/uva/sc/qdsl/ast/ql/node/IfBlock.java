@@ -39,18 +39,6 @@ public class IfBlock extends BlockElement {
         return ifElements;
     }
 
-    public void setIfElements(List<FormElement> ifElements) {
-        this.ifElements = ifElements;
-    }
-
-    public List<FormElement> getElseElements() {
-        return elseElements;
-    }
-
-    public void setElseElements(List<FormElement> elseElements) {
-        this.elseElements = elseElements;
-    }
-
     @Override
     public Set<String> getPrerequisites() {
         return expression.getPrerequisites();

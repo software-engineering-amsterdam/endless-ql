@@ -8,11 +8,13 @@ namespace Assignment1.TypeChecking
     public class QLASTDuplicateChecker : QLASTBaseVisitor
     {
         private readonly Dictionary<string, List<Question>> _labelQuestions = new Dictionary<string, List<Question>>();
+        private readonly MessageContainer _messages = new MessageContainer();
 
-        public static void CheckDuplicates(QuestionForm questionForm)
+        public static (IEnumerable<string> errors, IEnumerable<string> warnings) CheckDuplicates(QuestionForm questionForm)
         {
             var checker = new QLASTDuplicateChecker();
             checker.Visit(questionForm);
+            return checker._messages.ToTuple();
         }
 
         private void CheckDuplicateLabels()
@@ -21,7 +23,7 @@ namespace Assignment1.TypeChecking
             foreach (var labelQuestion in duplicateLabelQuestions)
             {
                 var lineNumbers = labelQuestion.Value.Select(question => question.LineNumber.ToString());
-                Console.WriteLine("Warning label:\"" + labelQuestion.Key + "\" is defined on lines: " + string.Join(", ", lineNumbers) + ".");
+                _messages.AddWarning("Label:\"" + labelQuestion.Key + "\" is defined on lines: " + string.Join(", ", lineNumbers) + ".");
             }
         }
 
@@ -42,7 +44,7 @@ namespace Assignment1.TypeChecking
         {
             if (QuestionsInScope[question.Id].Count() > 1)
             {
-                Console.WriteLine("Error found on line " + question.LineNumber + ": " + question.Id + " was already declared in this context.");
+                _messages.AddError("Line " + question.LineNumber + ": " + question.Id + " was already declared in this context.");
             }
         }
 

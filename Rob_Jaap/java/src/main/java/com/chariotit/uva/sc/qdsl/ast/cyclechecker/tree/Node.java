@@ -37,6 +37,6 @@ public class Node {
 
     @Override
     public boolean equals(Object obj) {
-        return ((Node)obj).getLabel().equals(label);
+        return obj instanceof Node && ((Node)obj).getLabel().equals(label);
     }
 }

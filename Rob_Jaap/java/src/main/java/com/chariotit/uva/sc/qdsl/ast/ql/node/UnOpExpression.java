@@ -39,10 +39,6 @@ public class UnOpExpression extends Expression {
     public void evaluate(SymbolTable symbolTable) {
         expression.evaluate(symbolTable);
 
-        if (!(operator instanceof UnaryOperator)) {
-            throw new RuntimeException("Incompatible operator type");
-        }
-
         setExpressionValue(((UnaryOperator)operator).evaluate(expression));
     }
 

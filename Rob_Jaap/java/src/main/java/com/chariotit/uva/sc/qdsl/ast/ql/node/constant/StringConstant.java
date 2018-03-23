@@ -1,9 +1,8 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.constant;
 
 import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
-import com.chariotit.uva.sc.qdsl.ast.StringExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.StringExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.Constant;
-import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public class StringConstant extends Constant {
@@ -21,11 +20,6 @@ public class StringConstant extends Constant {
 
     public void setValue(StringExpressionValue value) {
         this.value = value;
-    }
-
-    @Override
-    public void evaluate(SymbolTable symbolTable) {
-
     }
 
     @Override

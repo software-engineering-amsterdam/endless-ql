@@ -29,10 +29,6 @@ public class Form extends AstNode {
         return formElements;
     }
 
-    public void setFormElements(List<FormElement> formElements) {
-        this.formElements = formElements;
-    }
-
     @Override
     public void acceptVisitor(NodeVisitor visitor) {
         for (FormElement formElement : formElements) {

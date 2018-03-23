@@ -1,13 +1,17 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.operator;
 
-import com.chariotit.uva.sc.qdsl.ast.ExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
-import com.chariotit.uva.sc.qdsl.ast.NumberExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.NumberExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.Expression;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
-public class GteOp extends Operator implements BinaryOperator, MoneyOperator, IntegerOperator,
-        BooleanResultOperator {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class GteOp extends Operator implements BinaryOperator {
 
     public GteOp(SourceFilePosition filePosition) {
         super(filePosition);
@@ -20,12 +24,24 @@ public class GteOp extends Operator implements BinaryOperator, MoneyOperator, In
 
     @Override
     public ExpressionValue evaluate(Expression leftExpression, Expression rightExpression) {
-        if (!(leftExpression.getExpressionValue() instanceof NumberExpressionValue)) {
-            throw new RuntimeException("Incompatible expression type");
-        }
 
         return ((NumberExpressionValue) leftExpression.getExpressionValue())
                 .greaterThanEquals(
-                        (NumberExpressionValue)rightExpression.getExpressionValue());
+                        (NumberExpressionValue) rightExpression.getExpressionValue());
+    }
+
+    @Override
+    protected List<ExpressionType> getValidExpressionTypes() {
+        return new ArrayList<>(
+                Arrays.asList(
+                        ExpressionType.MONEY,
+                        ExpressionType.INTEGER
+                )
+        );
+    }
+
+    @Override
+    public ExpressionType getResultExpressionType(ExpressionType operandExpressionType) {
+        return ExpressionType.BOOLEAN;
     }
 }

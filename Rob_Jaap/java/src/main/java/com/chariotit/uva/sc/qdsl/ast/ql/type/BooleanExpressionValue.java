@@ -1,4 +1,4 @@
-package com.chariotit.uva.sc.qdsl.ast;
+package com.chariotit.uva.sc.qdsl.ast.ql.type;
 
 public class BooleanExpressionValue extends ExpressionValue {
 
@@ -16,31 +16,22 @@ public class BooleanExpressionValue extends ExpressionValue {
         this.value = value;
     }
 
-    private void validateExpressionValueType(ExpressionValue expressionValue) {
-        if (!(expressionValue instanceof BooleanExpressionValue)) {
-            throw new RuntimeException("Incompatible expression type");
-        }
-    }
-
     public BooleanExpressionValue not() {
         return new BooleanExpressionValue(!value);
     }
 
     public BooleanExpressionValue and(BooleanExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new BooleanExpressionValue(value && expressionValue.getValue());
     }
 
     public BooleanExpressionValue or(BooleanExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new BooleanExpressionValue(value || expressionValue.getValue());
     }
 
     @Override
     public BooleanExpressionValue equalTo(ExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new BooleanExpressionValue(value.equals(((BooleanExpressionValue)expressionValue)
                 .getValue()));
@@ -48,7 +39,6 @@ public class BooleanExpressionValue extends ExpressionValue {
 
     @Override
     public BooleanExpressionValue notEqualTo(ExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new BooleanExpressionValue(!value.equals(((BooleanExpressionValue)expressionValue)
                 .getValue()));

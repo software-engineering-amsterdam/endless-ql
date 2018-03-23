@@ -1,5 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.common;
 
+import java.util.List;
+
 public class TypeCheckError {
 
     private String message;
@@ -34,5 +36,32 @@ public class TypeCheckError {
     public Level getLevel() {
         return level;
     }
+
+    public static void print(TypeCheckError error) {
+        System.out.println(String.format(
+                "%4s line %3d, column %3d: %s",
+                error.getLevel(),
+                error.getSourceFilePosition().getLineNumber(),
+                error.getSourceFilePosition().getColumnNumber(),
+                error.getMessage()
+        ));
+    }
+
+    public static void print(List<TypeCheckError> errors) {
+        for (TypeCheckError error : errors) {
+            print(error);
+        }
+    }
+
+    public static boolean listContainsLevel(List<TypeCheckError> errors, TypeCheckError.Level level) {
+        for (TypeCheckError error : errors) {
+            if (error.level == level) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
 }

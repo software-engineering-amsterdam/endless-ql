@@ -120,7 +120,7 @@ namespace QLVisualizer.Factories
             if (formManager.Identifier != qLSNode.ID)
                 throw new InvalidOperationException("Identifiers do not match!");
             List<ElementManagerLeaf> children = formManager.Children.Select(o => (ElementManagerLeaf)o).ToList();
-            return ReconstructElementCollection(formManager, ref children, qLSNode.Children, controller) as FormManager;
+            return ReconstructElementCollection(formManager, ref children, qLSNode, controller) as FormManager;
         }
 
         /// <summary>
@@ -133,18 +133,18 @@ namespace QLVisualizer.Factories
         /// <param name="qlsChildren">Children of the QLS node that mached the collection node</param>
         /// <param name="controller">ElementManagerController for element creation</param>
         /// <returns>Element manager collection that contains all QLS defined children</returns>
-        private static ElementManagerCollection ReconstructElementCollection(ElementManagerCollection collection, ref List<ElementManagerLeaf> children, IList<QLSNode> qlsChildren, ElementManagerController controller)
+        private static ElementManagerCollection ReconstructElementCollection(ElementManagerCollection collection, ref List<ElementManagerLeaf> children, QLSNode qlsNode, ElementManagerController controller)
         {
             collection.Children.Clear();
 
-            foreach (QLSNode node in qlsChildren)
+            foreach (QLSNode node in qlsNode.Children)
             {
                 switch (node.NodeType)
                 {
                     case QLSNodeType.Page:
                     case QLSNodeType.Section:
                         ElementManagerCollection collectionChild = QLSToCollection(node, collection, controller);
-                        collectionChild = ReconstructElementCollection(collectionChild, ref children, node.Children, controller);
+                        collectionChild = ReconstructElementCollection(collectionChild, ref children, node, controller);
                         collection.AddChild(collectionChild);
                         break;
                     case QLSNodeType.Question:
@@ -158,6 +158,7 @@ namespace QLVisualizer.Factories
                         break;
                 }
             }
+            collection.AddStyle(qlsNode.NodeStyles.ToArray());
             return collection;
         }
 

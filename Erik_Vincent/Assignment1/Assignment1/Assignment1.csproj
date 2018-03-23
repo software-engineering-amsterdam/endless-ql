@@ -75,7 +75,6 @@
     <Compile Include="Model\QLS\AST\Style\Widget\YesNoWidget.cs" />
     <Compile Include="Model\QLS\AST\Style\Width.cs" />
     <Compile Include="Model\QL\AST\ASTNode.cs" />
-    <Compile Include="Model\QL\AST\QLASTValidVisitor.cs" />
     <Compile Include="Model\QL\RenderTree\AnswerType.cs" />
     <Compile Include="Model\QL\AST\ComputedQuestion.cs" />
     <Compile Include="Model\QL\AST\Expression\Add.cs" />

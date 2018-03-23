@@ -152,6 +152,7 @@
     <Compile Include="Rendering\QuestionFormWithStyleRenderer.cs" />
     <Compile Include="Model\QL\AST\Statement.cs" />
     <Compile Include="Model\QL\AST\Exceptions.cs" />
+    <Compile Include="TypeChecking\MessageContainer.cs" />
     <Compile Include="TypeChecking\QLASTCyclicDependencyChecker.cs" />
     <Compile Include="Model\QL\AST\QLASTBaseVisitor.cs" />
     <Compile Include="TypeChecking\QLASTDuplicateChecker.cs" />

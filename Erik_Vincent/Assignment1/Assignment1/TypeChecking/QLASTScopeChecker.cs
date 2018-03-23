@@ -8,24 +8,22 @@ namespace Assignment1.TypeChecking
 {
     public class QLASTScopeChecker : QLASTBaseVisitor
     {
-        public static void CheckReferenceScopes(QuestionForm questionForm)
+        private readonly MessageContainer _messages = new MessageContainer();
+
+        public static (IEnumerable<string> errors, IEnumerable<string> warnings) CheckReferenceScopes(QuestionForm questionForm)
         {
             var checker = new QLASTScopeChecker();
             checker.Visit(questionForm);
+            return checker._messages.ToTuple();
         }
 
         private QLASTScopeChecker() { }
-
-        private static void ReportError(string error)
-        {
-            Console.WriteLine(error);
-        }
 
         public override void Visit(Reference expression)
         {
             if (!QuestionsInScope.Contains(expression.QuestionId))
             {
-                ReportError(expression.QuestionId + " not declared in this scope.");
+                _messages.AddError(expression.QuestionId + " not declared in this scope.");
             }
         }
     }

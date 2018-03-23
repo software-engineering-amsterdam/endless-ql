@@ -56,50 +56,9 @@ public class ApplicationRunner implements CommandLineRunner {
         return (Stylesheet) visitor.visit(tree);
     }
 
-    @Override
-    public void run(String... args) throws IOException {
-        String filename = "";
-        String qlsFilename = "";
-        String qlsArgumentShort = "s";
-        String qlsArgumentLong = "style";
-        CommandLine commandLine;
-        CommandLineParser parser = new DefaultParser();
 
-        Options options = new Options();
-
-        // AST is initialised here.
-
-        Option qlsOption = Option.builder(qlsArgumentShort)
-                .required(false)
-                .longOpt(qlsArgumentLong)
-                .desc("Location of the QLS Stylesheet")
-                .hasArg()
-                .build();
-
-        options.addOption(qlsOption);
-
-        try {
-            commandLine = parser.parse(options, args);
-
-            if (commandLine.hasOption(qlsArgumentLong)) {
-                qlsFilename = commandLine.getOptionValue(qlsArgumentLong);
-            }
-
-            String[] remainder = commandLine.getArgs();
-
-            if (remainder.length != 1) {
-                throw new Exception("");
-            }
-
-            filename = remainder[0];
-
-        } catch (Exception e) {
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("QLProgram", options);
-            System.exit(1);
-        }
-
-        QLAstRoot astRoot = getQLFromFilename(filename);
+    private void runProgram(ApplicationParameters parameters) throws IOException {
+        QLAstRoot astRoot = getQLFromFilename(parameters.getQlFilename());
 
 
         // Run Typechecker
@@ -129,8 +88,8 @@ public class ApplicationRunner implements CommandLineRunner {
         builder.buildForm(astRoot);
 
 
-        if (!qlsFilename.equals("")) {
-            Stylesheet stylesheet = getQLSFromFilename(qlsFilename);
+        if (parameters.getQlsFilename() != null) {
+            Stylesheet stylesheet = getQLSFromFilename(parameters.getQlsFilename());
 
             Validator validator = new Validator(astRoot);
             List<TypeCheckError> qlsErrors = validator.typeCheckQLS(stylesheet);
@@ -155,17 +114,23 @@ public class ApplicationRunner implements CommandLineRunner {
 
         }
 
-        // If everything ok, build form with new Visitor (extend NodeVisitor in
-        // com.chariotit.uva.sc.qdsl.ast.visitor)
-        // Keep variable values in in SymbolTable (in AstRoot)
-        // SymbolTable is initialised in TypeChecker
-
 //        QLFormBuilder builder = new QLFormBuilder();
 //
 //        builder.showForm();
 
-        System.out.println("finished");
-        System.out.println(astRoot);
+    }
+
+    @Override
+    public void run(String... args) throws IOException {
+
+        try {
+            ApplicationParameters parameters = ApplicationParameters.get(args);
+            runProgram(parameters);
+        } catch (InvalidParametersException e) {
+            ApplicationParameters.printHelp();
+            System.exit(1);
+        }
+
     }
 
 }

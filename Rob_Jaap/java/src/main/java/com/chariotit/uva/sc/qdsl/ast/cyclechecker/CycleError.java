@@ -2,8 +2,6 @@ package com.chariotit.uva.sc.qdsl.ast.cyclechecker;
 
 import com.chariotit.uva.sc.qdsl.ast.cyclechecker.tree.Node;
 
-import java.util.Objects;
-
 public class CycleError {
 
     private Node nodeA;

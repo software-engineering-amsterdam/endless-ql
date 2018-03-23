@@ -1,5 +1,6 @@
 package ql.model.expression.variable;
 
+import ql.IQLVisitor;
 import ql.evaluation.IExpressionVisitor;
 import ql.model.expression.ExpressionVariable;
 import ql.model.expression.ReturnType;
@@ -16,7 +17,7 @@ public class ExpressionVariableUndefined extends ExpressionVariable<ReturnType> 
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
+    public <T> T accept(IQLVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

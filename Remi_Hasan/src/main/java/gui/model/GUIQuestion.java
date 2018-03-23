@@ -5,9 +5,8 @@ import gui.widgets.GUIWidget;
 import gui.widgets.WidgetFactory;
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.Label;
-import ql.analysis.SymbolTable;
+import ql.evaluation.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
-import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 
@@ -16,7 +15,7 @@ public class GUIQuestion {
     public final String label;
     public final ReturnType type;
     private final Expression condition;
-    private final boolean computed;
+    private final boolean computed; // TODO: remove isComputed
     public final Expression computedAnswer;
 
     public GUIQuestion(String identifier, String label, ReturnType type, Expression condition, boolean computed, Expression computedAnswer) {

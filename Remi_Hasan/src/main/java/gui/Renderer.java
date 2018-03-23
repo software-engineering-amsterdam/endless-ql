@@ -1,17 +1,15 @@
 package gui;
 
+import gui.builder.GUIFormBuilder;
 import gui.model.GUIForm;
-import gui.model.GUIFormWithStyling;
-import gui.renderer.RenderVisitor;
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import ql.QLFormBuilder;
-import ql.analysis.SymbolTable;
+import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import qls.QLSFormBuilder;
 import qls.model.StyleSheet;

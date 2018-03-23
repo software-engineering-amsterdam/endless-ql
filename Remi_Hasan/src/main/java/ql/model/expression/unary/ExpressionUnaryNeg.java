@@ -1,5 +1,6 @@
 package ql.model.expression.unary;
 
+import ql.IQLVisitor;
 import ql.evaluation.IExpressionVisitor;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionUnary;
@@ -12,7 +13,7 @@ public class ExpressionUnaryNeg extends ExpressionUnary {
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
+    public <T> T accept(IQLVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

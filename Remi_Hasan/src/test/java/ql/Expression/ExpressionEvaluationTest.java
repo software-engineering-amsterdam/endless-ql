@@ -5,7 +5,7 @@ import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import ql.QLTestUtilities;
-import ql.analysis.SymbolTable;
+import ql.evaluation.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;

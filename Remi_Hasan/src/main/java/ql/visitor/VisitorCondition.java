@@ -2,50 +2,41 @@ package ql.visitor;
 
 import ql.antlr.QLBaseVisitor;
 import ql.antlr.QLParser;
+import ql.model.IfBlock;
+import ql.model.IfElseBlock;
+import ql.model.Statement;
 import ql.model.expression.Expression;
-import ql.model.expression.binary.ExpressionLogicalAnd;
-import ql.model.expression.unary.ExpressionUnaryNot;
-import ql.model.Question;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisitorCondition extends QLBaseVisitor<List<Question>> {
-
-    private final Expression condition;
-
-    VisitorCondition(Expression condition) {
-        this.condition = condition;
-    }
+public class VisitorCondition extends QLBaseVisitor<Statement> {
 
     @Override
-    public List<Question> visitCondition(QLParser.ConditionContext ctx) {
+    public Statement visitCondition(QLParser.ConditionContext ctx) {
+        // Get the if condition
         VisitorExpression visitorExpression = new VisitorExpression();
-        Expression expression = visitorExpression.visit(ctx.expression());
+        Expression condition = visitorExpression.visit(ctx.expression());
 
-        List<Question> questions = new ArrayList<>();
+        VisitorStatement visitorStatement = new VisitorStatement();
 
-        // Chain nested conditional statements
-        Expression trueExpression = new ExpressionLogicalAnd(ctx.getStart(), expression, this.condition);
-        this.addQuestions(questions, ctx.conditionTrueBlock.statement(), trueExpression);
+        // Get all statements in the true block
+        List<Statement> trueStatements = new ArrayList<>();
+        for(QLParser.StatementContext statementContext : ctx.conditionTrueBlock.statement()) {
+            trueStatements.add(visitorStatement.visit(statementContext));
+        }
 
         if (ctx.conditionFalseBlock == null) {
-            return questions;
+            return new IfBlock(ctx.getStart(), condition, trueStatements);
         }
 
-        // Else block, so negate condition (and again, chain nested conditional statements)
-        Expression falseExpression = new ExpressionLogicalAnd(ctx.expression().getStart(),
-                new ExpressionUnaryNot(ctx.expression().getStart(), expression), this.condition);
-        this.addQuestions(questions, ctx.conditionFalseBlock.statement(), falseExpression);
-
-        return questions;
-    }
-
-    private void addQuestions(List<Question> questions, List<QLParser.StatementContext> statements, Expression condition) {
-        VisitorStatement visitorStatement = new VisitorStatement(condition);
-        for (QLParser.StatementContext statementContext : statements) {
-            questions.addAll(visitorStatement.visit(statementContext));
+        // Get all statements in the false block
+        List<Statement> falseStatements = new ArrayList<>();
+        for(QLParser.StatementContext statementContext : ctx.conditionFalseBlock.statement()) {
+            falseStatements.add(visitorStatement.visit(statementContext));
         }
+
+        return new IfElseBlock(ctx.getStart(), condition, trueStatements, falseStatements);
     }
 
 }

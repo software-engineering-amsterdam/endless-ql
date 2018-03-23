@@ -1,6 +1,7 @@
 package ql;
 
 import ql.analysis.*;
+import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -53,11 +54,13 @@ public class QLFormBuilder {
         unknownIdentifiersDetector.detectUnknownIdentifiers();
 
         CycleDetector cycleDetector = new CycleDetector(form);
-        cycleDetector.detectCycles();
+        cycleDetector.detect();
 
         TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-        typeChecker.detectDuplicateQuestionsWithDifferentTypes();
         typeChecker.typeCheck();
+
+        InvalidDuplicateQuestionDetector invalidDuplicateQuestionDetector = new InvalidDuplicateQuestionDetector(form);
+        invalidDuplicateQuestionDetector.detect();
     }
 
     public SymbolTable getSymbolTable() {

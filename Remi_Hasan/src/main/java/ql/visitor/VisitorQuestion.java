@@ -8,12 +8,6 @@ import ql.antlr.QLParser;
 
 public class VisitorQuestion extends QLBaseVisitor<Question> {
 
-    private final Expression condition;
-
-    VisitorQuestion(Expression condition) {
-        this.condition = condition;
-    }
-
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
         String questionName = ctx.identifier().getText();
@@ -28,10 +22,10 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         // Check whether answer can be filled in by user, or is computed
         if (ctx.questionType().expression() != null) {
             Expression defaultAnswer = getDefaultAnswer(ctx.questionType());
-            return new Question(ctx.getStart(), questionType, questionName, questionText, defaultAnswer, this.condition);
+            return new Question(ctx.getStart(), questionType, questionName, questionText, defaultAnswer);
         }
 
-        return new Question(ctx.getStart(), questionType, questionName, questionText, this.condition);
+        return new Question(ctx.getStart(), questionType, questionName, questionText);
     }
 
     private Expression getDefaultAnswer(QLParser.QuestionTypeContext questionType) {

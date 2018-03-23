@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import ql.analysis.SymbolTable;
+import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.antlr.ParseErrorListener;
 import qls.analysis.QuestionAnalyzer;

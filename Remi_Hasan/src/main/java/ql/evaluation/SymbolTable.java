@@ -1,17 +1,16 @@
-package ql.analysis;
+package ql.evaluation;
 
-import ql.evaluation.ExpressionEvaluator;
+import ql.QLBaseVisitor;
 import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableUndefined;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SymbolTable {
+public class SymbolTable extends QLBaseVisitor<Void> {
     private Map<String, Expression> table;
 
     public SymbolTable() {
@@ -19,13 +18,19 @@ public class SymbolTable {
     }
 
     public void buildTable(Form form) {
-        for (Question question : form.questions) {
-            if (question.isComputed()) {
-                table.put(question.identifier, question.computedAnswer);
-            } else {
-                table.put(question.identifier, new ExpressionVariableUndefined(question.getToken(), question.type));
-            }
+        form.accept(this);
+    }
+
+    @Override
+    public Void visit(Question question) {
+        // Add form question to the symbol table
+        if (question.computedAnswer != null) {
+            table.put(question.identifier, question.computedAnswer);
+        } else {
+            // Not a computed question, so it is undefined until it is set by the user
+            table.put(question.identifier, new ExpressionVariableUndefined(question.getToken(), question.type));
         }
+        return super.visit(question);
     }
 
     public Expression getExpression(String identifier) {

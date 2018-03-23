@@ -1,5 +1,6 @@
 package ql.model.expression.binary;
 
+import ql.IQLVisitor;
 import ql.evaluation.IExpressionVisitor;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionBinary;
@@ -12,7 +13,7 @@ public class ExpressionArithmeticMultiply extends ExpressionBinary {
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
+    public <T> T accept(IQLVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

@@ -1,12 +1,14 @@
 package ql.analysis;
 
+import ql.QLBaseVisitor;
 import ql.model.Form;
 import ql.model.Question;
+import ql.model.expression.ExpressionIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnknownIdentifiersDetector {
+public class UnknownIdentifiersDetector extends QLBaseVisitor {
 
     private final Form form;
 
@@ -15,19 +17,8 @@ public class UnknownIdentifiersDetector {
     }
 
     public void detectUnknownIdentifiers() {
-        ReferencedIdentifiersVisitor referencedIdentifiersVisitor = new ReferencedIdentifiersVisitor();
-
-        List<String> formQuestionIdentifiers = new ArrayList<>();
-        List<String> referencedIdentifiers = new ArrayList<>();
-        for (Question question : form.questions) {
-            formQuestionIdentifiers.add(question.identifier);
-
-            // Add all references to variables in both the question's computed answer and the question's condition
-            if (question.isComputed()) {
-                referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.computedAnswer));
-            }
-            referencedIdentifiers.addAll(referencedIdentifiersVisitor.visit(question.condition));
-        }
+        List<String> formQuestionIdentifiers = IdentifiersCollector.collectQuestionIdentifiers(this.form);
+        List<String> referencedIdentifiers = IdentifiersCollector.collectReferencedIdentifiers(this.form);
 
         // Determine which identifiers are referenced but no question exists with such identifier
         // Subtraction of formQuestionIdentifiers - referencedIdentifiers

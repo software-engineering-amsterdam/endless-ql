@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import ql.analysis.SymbolTable;
+import ql.evaluation.SymbolTable;
 import qls.model.DefaultStyle;
 import qls.model.Question;
 import qls.model.Section;

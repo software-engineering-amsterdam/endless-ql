@@ -2,7 +2,7 @@ package gui.model;
 
 import gui.elements.LabelWithWidget;
 import javafx.scene.Parent;
-import ql.analysis.SymbolTable;
+import ql.evaluation.SymbolTable;
 import qls.model.DefaultStyle;
 import qls.model.style.StyleAttribute;
 

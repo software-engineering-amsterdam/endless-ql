@@ -1,9 +1,11 @@
 package ql.analysis;
 
-import ql.evaluation.IExpressionVisitor;
+import ql.QLBaseVisitor;
+import ql.evaluation.SymbolTable;
 import ql.model.Form;
+import ql.model.IfBlock;
+import ql.model.IfElseBlock;
 import ql.model.Question;
-import ql.model.expression.Expression;
 import ql.model.expression.ExpressionBinary;
 import ql.model.expression.ExpressionIdentifier;
 import ql.model.expression.ReturnType;
@@ -12,12 +14,7 @@ import ql.model.expression.unary.ExpressionUnaryNeg;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-public class TypeChecker implements IExpressionVisitor<ReturnType> {
+public class TypeChecker extends QLBaseVisitor<ReturnType> {
 
     private final Form form;
     private final SymbolTable symbolTable;
@@ -27,36 +24,15 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
         this.symbolTable = symbolTable;
     }
 
-    public void detectDuplicateQuestionsWithDifferentTypes() {
-        Map<String, ReturnType> types = new HashMap<>();
-        Set<String> duplicates = new HashSet<>();
-
-        for (Question question : form.questions) {
-            if (types.containsKey(question.identifier) && types.get(question.identifier) != question.type) {
-                duplicates.add(question.identifier + " " + question.getLocation());
-            } else {
-                types.put(question.identifier, question.type);
-            }
-        }
-
-        if (!duplicates.isEmpty()) {
-            throw new IllegalArgumentException("Redeclaration of question(s) with different type: " + duplicates);
-        }
+    public void typeCheck() {
+        form.accept(this);
     }
 
-    public void typeCheck() {
-        for (Question question : form.questions) {
-            this.visit(question.condition);
-
-            // Check type of computed answer is same as the question type
-            if (question.isComputed()) {
-                ReturnType computedAnswerType = this.visit(question.computedAnswer);
-
-                if (!computedAnswerType.canBeAssignedTo(question.type)) {
-                    throw new IllegalArgumentException("Invalid assignment: cannot assign " + computedAnswerType
-                            + " to " + question.type + question.getLocation());
-                }
-            }
+    private void checkIfCondition(IfBlock ifBlock) {
+        ReturnType conditionType = ifBlock.getCondition().accept(this);
+        if (conditionType != ReturnType.BOOLEAN) {
+            throw new IllegalArgumentException("Invalid if: condition of type " + conditionType + " instead of BOOLEAN "
+                    + ifBlock.getLocation());
         }
     }
 
@@ -102,8 +78,34 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
     }
 
     @Override
-    public ReturnType visit(Expression expression) {
-        return expression.accept(this);
+    public ReturnType visit(Question question) {
+        // Check type of computed answer is same as the question type
+        if (question.isComputed()) {
+            ReturnType computedAnswerType = this.visit(question.computedAnswer);
+
+            if (!computedAnswerType.canBeAssignedTo(question.type)) {
+                throw new IllegalArgumentException("Invalid assignment: cannot assign " + computedAnswerType
+                        + " to " + question.type + question.getLocation());
+            }
+        }
+
+        return question.type;
+    }
+
+    @Override
+    public ReturnType visit(IfBlock ifBlock) {
+        this.checkIfCondition(ifBlock);
+
+        // Visit if statements using the base visitor
+        return super.visit(ifBlock);
+    }
+
+    @Override
+    public ReturnType visit(IfElseBlock ifElseBlock) {
+        this.checkIfCondition(ifElseBlock);
+
+        // Visit if/else statements using the base visitor
+        return super.visit(ifElseBlock);
     }
 
     @Override

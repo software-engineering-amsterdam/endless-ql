@@ -1,5 +1,6 @@
 package qls.analysis;
 
+import ql.analysis.IdentifiersCollector;
 import ql.model.Form;
 import qls.QLSVisitor;
 import qls.model.Question;
@@ -32,7 +33,7 @@ public class QuestionAnalyzer {
     // Checks whether any identifiers in QLS file are not in QL file
     public void detectUnknownQuestions() {
         List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers();
-        List<String> formQuestions = this.getFormQuestionIdentifiers();
+        List<String> formQuestions = IdentifiersCollector.collectQuestionIdentifiers(this.form);
         styleSheetQuestions.removeAll(formQuestions);
 
         if (!styleSheetQuestions.isEmpty()) {
@@ -43,7 +44,7 @@ public class QuestionAnalyzer {
     // Checks whether any question in QL file is not placed by QLS file
     public void detectUnplacedQuestions() {
         List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers();
-        List<String> formQuestions = this.getFormQuestionIdentifiers();
+        List<String> formQuestions = IdentifiersCollector.collectQuestionIdentifiers(this.form);
         formQuestions.removeAll(styleSheetQuestions);
 
         if (!formQuestions.isEmpty()) {
@@ -63,16 +64,6 @@ public class QuestionAnalyzer {
         }
 
         return duplicates;
-    }
-
-    private List<String> getFormQuestionIdentifiers() {
-        List<String> identifiers = new ArrayList<>();
-
-        for (ql.model.Question question : this.form.questions) {
-            identifiers.add(question.identifier);
-        }
-
-        return identifiers;
     }
 
     private List<String> getStyleSheetQuestionIdentifiers() {

@@ -37,7 +37,6 @@ class QLSWidgetFactory extends QLWidgetFactory {
   }
 
   override def makeIntegerWidget(question: GUIQuestion): QLWidget[Integer] = question match {
-    case _ => super.makeIntegerWidget(question)
     case qlsQuestion: QLSGUIQuestion =>
       qlsQuestion.styling.widgetStyle match {
         case Some(GUISpinBoxStyle()) => new QLSIntegerSpinField()

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LtOp extends Operator implements BinaryOperator, BooleanResultOperator {
+public class LtOp extends Operator implements BinaryOperator {
 
     public LtOp(SourceFilePosition filePosition) {
         super(filePosition);
@@ -38,5 +38,10 @@ public class LtOp extends Operator implements BinaryOperator, BooleanResultOpera
                         ExpressionType.INTEGER
                 )
         );
+    }
+
+    @Override
+    public ExpressionType getResultExpressionType(ExpressionType operandExpressionType) {
+        return ExpressionType.BOOLEAN;
     }
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class EqOp extends Operator implements BinaryOperator, BooleanResultOperator {
+public class EqOp extends Operator implements BinaryOperator {
 
     public EqOp(SourceFilePosition filePosition) {
         super(filePosition);
@@ -36,5 +36,10 @@ public class EqOp extends Operator implements BinaryOperator, BooleanResultOpera
                         ExpressionType.STRING
                 )
         );
+    }
+
+    @Override
+    public ExpressionType getResultExpressionType(ExpressionType operandExpressionType) {
+        return ExpressionType.BOOLEAN;
     }
 }

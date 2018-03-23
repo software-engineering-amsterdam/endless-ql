@@ -147,8 +147,8 @@ public class TypeCheckVisitor extends NodeVisitor {
             addError(constBinOpExpression, "Incompatible operands and operator");
         } else {
             constBinOpExpression.setExpressionType(
-                    getBinOpExpressionType(constBinOpExpression.getExpression().getExpressionType(),
-                            constBinOpExpression.getOperator()
+                    constBinOpExpression.getOperator().getResultExpressionType(
+                            constBinOpExpression.getExpression().getExpressionType()
                     ));
         }
     }
@@ -182,8 +182,9 @@ public class TypeCheckVisitor extends NodeVisitor {
             addError(labelBinOpExpression, "Incompatible operands and operator");
         } else {
             labelBinOpExpression.setExpressionType(
-                    getBinOpExpressionType(labelBinOpExpression.getExpression().getExpressionType(),
-                            labelBinOpExpression.getOperator()));
+                    labelBinOpExpression.getOperator().getResultExpressionType(labelBinOpExpression
+                                    .getExpression().getExpressionType()
+                            ));
         }
     }
 
@@ -243,28 +244,5 @@ public class TypeCheckVisitor extends NodeVisitor {
     private void addWarning(AstNode node, String message) {
         errors.add(new TypeCheckError(message, node.getSourceFilePosition(),
                 TypeCheckError.Level.WARN));
-    }
-
-    /**
-     * Returns the ExpressionType of a binary expression based on the operator and the
-     * ExpressionType of one of the sides of the binary expression. Assumes that compatibility of
-     * operator and operands is already checked.
-     *
-     * @param operandExpressionType
-     * @param operator
-     * @return
-     */
-    private ExpressionType getBinOpExpressionType(ExpressionType operandExpressionType,
-                                                  Operator operator) {
-
-        if (operator instanceof BooleanResultOperator) {
-            return ExpressionType.BOOLEAN;
-        }
-
-        return operandExpressionType;
-    }
-
-    public List<TypeCheckError> getErrors() {
-        return errors;
     }
 }

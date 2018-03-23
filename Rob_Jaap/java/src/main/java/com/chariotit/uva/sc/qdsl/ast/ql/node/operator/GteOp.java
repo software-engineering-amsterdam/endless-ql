@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GteOp extends Operator implements BinaryOperator, BooleanResultOperator {
+public class GteOp extends Operator implements BinaryOperator {
 
     public GteOp(SourceFilePosition filePosition) {
         super(filePosition);
@@ -38,5 +38,10 @@ public class GteOp extends Operator implements BinaryOperator, BooleanResultOper
                         ExpressionType.INTEGER
                 )
         );
+    }
+
+    @Override
+    public ExpressionType getResultExpressionType(ExpressionType operandExpressionType) {
+        return ExpressionType.BOOLEAN;
     }
 }

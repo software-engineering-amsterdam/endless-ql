@@ -18,4 +18,8 @@ public abstract class Operator extends AstNode {
         return getValidExpressionTypes().contains(expressionType);
     }
 
+    public ExpressionType getResultExpressionType(ExpressionType operandExpressionType) {
+        return operandExpressionType;
+    }
+
 }

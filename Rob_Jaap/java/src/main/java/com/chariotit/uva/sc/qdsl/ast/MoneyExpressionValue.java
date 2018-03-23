@@ -16,15 +16,8 @@ public class MoneyExpressionValue extends NumberExpressionValue {
         this.value = value;
     }
 
-    private void validateExpressionValueType(ExpressionValue expressionValue) {
-        if (!(expressionValue instanceof MoneyExpressionValue)) {
-            throw new RuntimeException("Incompatible expression type");
-        }
-    }
-
     @Override
     public MoneyExpressionValue divide(NumberExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new MoneyExpressionValue(value / ((MoneyExpressionValue)
                 expressionValue).getValue());
@@ -32,7 +25,6 @@ public class MoneyExpressionValue extends NumberExpressionValue {
 
     @Override
     public NumberExpressionValue multiply(NumberExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new MoneyExpressionValue(value * ((MoneyExpressionValue)
                 expressionValue).getValue());
@@ -40,7 +32,6 @@ public class MoneyExpressionValue extends NumberExpressionValue {
 
     @Override
     public MoneyExpressionValue add(NumberExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new MoneyExpressionValue(value + ((MoneyExpressionValue)
                 expressionValue).getValue());
@@ -48,7 +39,6 @@ public class MoneyExpressionValue extends NumberExpressionValue {
 
     @Override
     public MoneyExpressionValue subtract(NumberExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new MoneyExpressionValue(value - ((MoneyExpressionValue)
                 expressionValue).getValue());
@@ -56,7 +46,6 @@ public class MoneyExpressionValue extends NumberExpressionValue {
 
     @Override
     public BooleanExpressionValue greaterThan(NumberExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new BooleanExpressionValue(value > ((MoneyExpressionValue)expressionValue)
                 .getValue());
@@ -64,7 +53,6 @@ public class MoneyExpressionValue extends NumberExpressionValue {
 
     @Override
     public BooleanExpressionValue greaterThanEquals(NumberExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new BooleanExpressionValue(value >= ((MoneyExpressionValue)expressionValue)
                 .getValue());
@@ -72,7 +60,6 @@ public class MoneyExpressionValue extends NumberExpressionValue {
 
     @Override
     public BooleanExpressionValue lessThan(NumberExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new BooleanExpressionValue(value < ((MoneyExpressionValue)expressionValue)
                 .getValue());
@@ -80,7 +67,6 @@ public class MoneyExpressionValue extends NumberExpressionValue {
 
     @Override
     public BooleanExpressionValue lessThanEquals(NumberExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new BooleanExpressionValue(value <= ((MoneyExpressionValue)expressionValue)
                 .getValue());
@@ -88,7 +74,6 @@ public class MoneyExpressionValue extends NumberExpressionValue {
 
     @Override
     public BooleanExpressionValue equalTo(ExpressionValue expressionValue) {
-        validateExpressionValueType(expressionValue);
 
         return new BooleanExpressionValue(value.equals(((MoneyExpressionValue)expressionValue)
                 .getValue()));

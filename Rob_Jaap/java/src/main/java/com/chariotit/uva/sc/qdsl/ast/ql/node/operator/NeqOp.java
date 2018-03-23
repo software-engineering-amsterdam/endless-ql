@@ -37,4 +37,9 @@ public class NeqOp extends Operator implements BinaryOperator {
                 )
         );
     }
+
+    @Override
+    public ExpressionType getResultExpressionType(ExpressionType operandExpressionType) {
+        return ExpressionType.BOOLEAN;
+    }
 }

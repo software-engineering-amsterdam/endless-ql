@@ -1,57 +1,45 @@
 package gui.model;
 
-import javafx.beans.InvalidationListener;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ql.evaluation.SymbolTable;
-import qls.model.StyleSheet;
+import qls.model.DefaultStyle;
+import qls.model.Section;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class GUIPage extends VBox implements GUIInterface {
+public class GUIPage extends VBox{
 
     private final String identifier;
-    private final List<GUIInterface> children;
+    private final List<GUIQuestion> guiQuestions;
+    private final List<Section> sections;
+    private final List<DefaultStyle> defaultStyles;
 
-    public GUIPage(String identifier, List<GUIInterface> children) {
+    public GUIPage(String identifier, List<GUIQuestion> guiQuestions, List<Section> sections, List<DefaultStyle> defaultStyles) {
         this.identifier = identifier;
-        this.children = children;
+        this.guiQuestions = guiQuestions;
+        this.sections = sections;
+        this.defaultStyles = defaultStyles;
+    }
 
-        Label label = new Label("Page " + identifier);
-        this.getChildren().add(label);
+    public VBox render(SymbolTable symbolTable){
+        VBox vBox = new VBox();
+        Label pageLabel = new Label("Page " + identifier);
+        vBox.getChildren().add(pageLabel);
 
-        for (GUIInterface child : children) {
-            this.getChildren().add(child.render());
+        // Render all sections
+        for(Section section : sections){
+            // Combine local styles with broader scope styles
+            List<DefaultStyle> subDefaultStyles = new ArrayList<>();
+            subDefaultStyles.addAll(defaultStyles);
+            subDefaultStyles.addAll(section.getDefaultStyles());
+
+            GUISection guiSection = new GUISection(section.identifier, guiQuestions, defaultStyles, section.getDefaultStyles(), section.getQuestions(), section.getSections());
+            vBox.getChildren().add(guiSection.render(symbolTable));
         }
 
-        this.managedProperty().bind(this.visibleProperty());
-
+        return vBox;
     }
-
-    @Override
-    public void update(SymbolTable symbolTable) {
-        for (GUIInterface child : children) {
-            child.update(symbolTable);
-        }
-    }
-
-    @Override
-    public void update(StyleSheet styleSheet) {
-        for (GUIInterface child : children) {
-            child.update(styleSheet);
-        }
-    }
-
-    @Override
-    public Parent render() {
-        return this;
-    }
-
-    @Override
-    public void setChangeListener(InvalidationListener invalidationListener) {
-        for (GUIInterface child : children) {
-            child.setChangeListener(invalidationListener);
-        }
-    }
+    
 }

@@ -5,8 +5,8 @@ import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableDecimal;
 
 public class SliderDecimalWidget extends SliderWidget {
-    public SliderDecimalWidget(String identifier, boolean computed, double min, double max) {
-        super(identifier, computed, min, max);
+    public SliderDecimalWidget(double min, double max) {
+        super(min, max);
 
         // Display value in label next to slider
         this.slider.valueProperty().addListener((obs, oldVal, newVal) -> valueLabel.setText(newVal.toString()));

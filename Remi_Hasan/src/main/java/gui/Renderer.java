@@ -67,20 +67,12 @@ public class Renderer extends Application {
         // Set locale to US such that DecimalFormat, such as in a spinner, always uses dots instead of commas
         Locale.setDefault(Locale.US);
 
-        GUIForm guiForm;
-        if(this.qlsStyleSheet == null){
-            guiForm = GUIFormBuilder.buildQLForm(this.qlForm);
-        } else {
-            guiForm = GUIFormBuilder.buildQLSForm(this.qlForm, this.qlsStyleSheet);
-            guiForm.update(qlsStyleSheet);
-        }
-        guiForm.update(symbolTable);
-        guiForm.setChangeListener(e -> {
-            guiForm.update(symbolTable);
-            System.out.println(symbolTable);
-        });
+        GUIForm guiForm = GUIFormBuilder.buildQLForm(this.qlForm);
+//        if(this.qlsStyleSheet != null){
+//            guiForm = new GUIFormWithStyling(this.qlForm.identifier, guiForm.guiQuestions, this.qlsStyleSheet);
+//        }
 
-        Scene scene = new Scene(guiForm.render());
+        Scene scene = new Scene(guiForm.render(this.symbolTable));
         stage.setTitle(qlForm.identifier + " form");
         stage.setScene(scene);
         stage.setWidth(640);

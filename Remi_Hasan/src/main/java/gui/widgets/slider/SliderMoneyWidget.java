@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class SliderMoneyWidget extends SliderWidget {
-    public SliderMoneyWidget(String identifier, boolean computed, double min, double max) {
-        super(identifier, computed, min, max);
+    public SliderMoneyWidget(double min, double max) {
+        super(min, max);
 
         this.slider.valueProperty().addListener((obs, oldVal, newVal) -> {
             // Always set slider value to two decimal places

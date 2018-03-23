@@ -2,28 +2,22 @@ package gui.widgets;
 
 import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import ql.evaluation.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableBoolean;
-import qls.model.StyleSheet;
 
 public class DropdownWidget extends ComboBox<String> implements GUIWidget {
 
-    private final String identifier;
-    private final boolean computed;
     private String color;
     private String font;
     private int fontSize;
 
-    public DropdownWidget(String identifier, boolean computed, String falseLabel, String trueLabel) {
-        this.identifier = identifier;
-        this.computed = computed;
+    public DropdownWidget(String falseLabel, String trueLabel) {
         this.setItems(FXCollections.observableArrayList(falseLabel, trueLabel));
 
         // Default to false
@@ -40,8 +34,7 @@ public class DropdownWidget extends ComboBox<String> implements GUIWidget {
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        if (!computed)
-            this.valueProperty().addListener(invalidationListener);
+        this.valueProperty().addListener(invalidationListener);
     }
 
     @Override
@@ -55,6 +48,11 @@ public class DropdownWidget extends ComboBox<String> implements GUIWidget {
     public void setValue(Value value) {
         // Index 1 is true, index 0 is false
         this.getSelectionModel().select(value.getBooleanValue() ? 1 : 0);
+    }
+
+    @Override
+    public Node getNode() {
+        return this;
     }
 
     @Override
@@ -78,26 +76,5 @@ public class DropdownWidget extends ComboBox<String> implements GUIWidget {
     @Override
     public void setWidth(int width) {
         this.setWidth((double) width);
-    }
-
-    @Override
-    public void update(SymbolTable symbolTable) {
-        if (computed) setValue(symbolTable.getValue(this.identifier));
-        else symbolTable.setExpression(identifier, this.getExpressionValue());
-    }
-
-    @Override
-    public void update(StyleSheet styleSheet) {
-
-    }
-
-    @Override
-    public Parent render() {
-        return this;
-    }
-
-    @Override
-    public String getIdentifier() {
-        return identifier;
     }
 }

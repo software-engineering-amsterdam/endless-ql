@@ -7,8 +7,8 @@ import ql.model.expression.variable.ExpressionVariableMoney;
 
 public class SpinnerMoneyWidget extends SpinnerDecimalWidget {
 
-    public SpinnerMoneyWidget(String identifier, boolean computed) {
-        super(identifier, computed);
+    public SpinnerMoneyWidget() {
+        super();
         this.getEditor().setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*(\\.\\d{0,2})?"));
     }
 

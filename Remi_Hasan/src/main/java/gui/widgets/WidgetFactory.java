@@ -8,20 +8,20 @@ import ql.model.expression.ReturnType;
 
 public class WidgetFactory {
     // TODO: implement interface that can be overridden by QLS
-    public static GUIWidget getDefaultWidget(String identifier, boolean computed, ReturnType questionType) {
+    public static GUIWidget getDefaultWidget(ReturnType questionType) {
         switch (questionType) {
             case STRING:
-                return new TextboxWidget(identifier, computed);
+                return new TextboxWidget();
             case INTEGER:
-                return new TextboxIntegerWidget(identifier, computed);
+                return new TextboxIntegerWidget();
             case DECIMAL:
-                return new TextboxDecimalWidget(identifier, computed);
+                return new TextboxDecimalWidget();
             case MONEY:
-                return new TextboxMoneyWidget(identifier, computed);
+                return new TextboxMoneyWidget();
             case DATE:
-                return new DateWidget(identifier, computed);
+                return new DateWidget();
             case BOOLEAN:
-                return new DropdownWidget(identifier, computed, "no", "yes");
+                return new DropdownWidget("no", "yes");
             default:
                 throw new UnsupportedOperationException("Question type not implemented to render in GUI");
         }

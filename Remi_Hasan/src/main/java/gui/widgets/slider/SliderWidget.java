@@ -3,22 +3,16 @@ package gui.widgets.slider;
 import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
-import ql.evaluation.SymbolTable;
-import qls.model.StyleSheet;
 
 public abstract class SliderWidget extends HBox implements GUIWidget {
-    private final String identifier;
-    private final boolean computed;
-    protected Slider slider;
-    protected Label valueLabel;
+    Slider slider;
+    Label valueLabel;
 
-    public SliderWidget(String identifier, boolean computed, double min, double max) {
-        this.identifier = identifier;
-        this.computed = computed;
+    public SliderWidget(double min, double max) {
         this.addSlider(min, max);
         this.addValueLabel();
     }
@@ -43,9 +37,13 @@ public abstract class SliderWidget extends HBox implements GUIWidget {
     }
 
     @Override
+    public Node getNode() {
+        return this;
+    }
+
+    @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        if (!computed)
-            slider.valueProperty().addListener(invalidationListener);
+        slider.valueProperty().addListener(invalidationListener);
     }
 
     @Override
@@ -66,26 +64,5 @@ public abstract class SliderWidget extends HBox implements GUIWidget {
     @Override
     public void setWidth(int width) {
 
-    }
-
-    @Override
-    public void update(SymbolTable symbolTable) {
-        if (computed) setValue(symbolTable.getValue(this.identifier));
-        else symbolTable.setExpression(identifier, this.getExpressionValue());
-    }
-
-    @Override
-    public void update(StyleSheet styleSheet) {
-
-    }
-
-    @Override
-    public Parent render() {
-        return this;
-    }
-
-    @Override
-    public String getIdentifier() {
-        return identifier;
     }
 }

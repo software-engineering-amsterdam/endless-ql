@@ -8,10 +8,9 @@ import ql.model.expression.variable.ExpressionVariableDecimal;
 
 public class SpinnerDecimalWidget extends SpinnerWidget<Double> {
 
-    public SpinnerDecimalWidget(String identifier, boolean computed) {
+    public SpinnerDecimalWidget() {
         // JavaFX Spinner does not work with Double.MIN_VALUE but does work with Integer.MIN_VALUE
         // Default to 0.0 and step by 0.1
-        super(identifier, computed);
         SpinnerValueFactory<Double> valueFactory =
                 new SpinnerValueFactory.DoubleSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0.0, 0.1);
         this.setValueFactory(valueFactory);

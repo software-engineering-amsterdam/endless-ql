@@ -1,4 +1,4 @@
-package nl.khonraad.ql.domain;
+package nl.khonraad.ql.algebra;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

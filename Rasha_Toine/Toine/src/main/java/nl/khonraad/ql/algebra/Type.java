@@ -1,4 +1,4 @@
-package nl.khonraad.ql.domain;
+package nl.khonraad.ql.algebra;
 
 /**
  * Map the QL keywords to enumeration type

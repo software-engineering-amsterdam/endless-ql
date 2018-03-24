@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 
 import javax.swing.JComboBox;
@@ -20,45 +21,26 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-import nl.khonraad.ql.QParser;
-import nl.khonraad.ql.ast.AbstractParseTreeFactory;
-import nl.khonraad.ql.domain.Question;
-import nl.khonraad.ql.domain.Question.BehaviouralType;
-import nl.khonraad.ql.domain.Questionnaire;
-import nl.khonraad.ql.domain.Type;
-import nl.khonraad.ql.domain.Value;
+import nl.khonraad.ql.algebra.Question;
+import nl.khonraad.ql.algebra.Question.BehaviouralType;
+import nl.khonraad.ql.algebra.Type;
+import nl.khonraad.ql.algebra.Value;
+import nl.khonraad.ql.dynamics.Questionnaire;
 
-public class QLApplication {
+public class QGui {
 
-    String              testData      = "                                                                  "
-            + "form     Box1HouseOwning {                                                                  "
-            + "     hasSoldHouse:   \"Did you sell a house in 2010?\" boolean                              "
-            + "     hasBoughtHouse: \"Did you by a house in 2010?\" boolean                                "
-            + "     hasMaintLoan:   \"Did you enter a loan for maintenance/reconstruction?\"  boolean      "
-            + "     name:           \"What is your name?\"  string      "
-            + "     dog:           \"Name of your dog?\"  string      "
-            + "                                                                                            "
-            + "        if (name == \"Toine\") {                                                                 "
-            + "           hello: \"Hello\" string ( name + \" \" + \"Khonraad\")}                            "
-            + "        if (hasSoldHouse) {                                                                 "
-            + "           sellingPrice: \"Price the house was sold for:\" money                            "
-            + "           privateDebt: \"Private debts for the sold house:\" money                         "
-            + "      valueResidue: \"Value residue:\" money (sellingPrice - privateDebt )                  "
-            + "      epoch: \"A year after Epoch:\" date (01/01/1970 +364 + 1 )                  "
-            + "     }                                                                                      "
-            + "}                                                                                           ";
+    InputStream         stream        = getClass().getResourceAsStream( "/Gui" );
 
-    QParser  qParser = AbstractParseTreeFactory.fromString( testData );
-    final Questionnaire questionnaire = new Questionnaire( qParser.form() );
+    final Questionnaire questionnaire = new Questionnaire( stream );
 
     final JPanel        mainPanel     = new JPanel();
 
     public static void main( String[] args ) throws IOException {
 
-        new QLApplication();
+        new QGui();
     }
 
-    public QLApplication() throws IOException {
+    public QGui() throws IOException {
 
         JFrame guiFrame = new JFrame();
 

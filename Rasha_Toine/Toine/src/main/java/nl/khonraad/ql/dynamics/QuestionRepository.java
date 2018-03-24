@@ -1,4 +1,4 @@
-package nl.khonraad.ql.domain;
+package nl.khonraad.ql.dynamics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,10 @@ import java.util.Map.Entry;
 
 import org.joda.time.DateTime;
 
-import nl.khonraad.ql.domain.Question.BehaviouralType;
+import nl.khonraad.ql.algebra.Question;
+import nl.khonraad.ql.algebra.Type;
+import nl.khonraad.ql.algebra.Value;
+import nl.khonraad.ql.algebra.Question.BehaviouralType;
 
 public class QuestionRepository {
 

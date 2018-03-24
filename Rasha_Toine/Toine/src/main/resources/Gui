@@ -8,7 +8,7 @@ form Box1HouseOwning {
                                                                                                
     if (name == "Toine") {                                                            
 
-        hello: "Hello there " string ( name + " " + "Khonraad")
+        hello: "Hello there " string ( name + " " + "C.S.")
     }                          
     
     if (hasSoldHouse) {                                                                 

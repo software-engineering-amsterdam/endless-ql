@@ -2,6 +2,7 @@ package qlviz.gui.viewModel.question;
 
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModel;
+import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.model.numericExpressions.NumericExpression;
 import qlviz.model.question.DecimalQuestion;
 
@@ -11,7 +12,7 @@ import java.util.function.Function;
 public class DecimalQuestionViewModel extends NumericQuestionViewModel {
     public DecimalQuestionViewModel(
             DecimalQuestion question,
-            Function<NumericExpression, NumericExpressionViewModel> factory,
+            NumericExpressionViewModelFactory factory,
             List<BooleanExpressionViewModel> conditions) {
         super(question, factory, conditions);
     }

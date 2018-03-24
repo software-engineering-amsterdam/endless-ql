@@ -4,25 +4,14 @@ import com.google.inject.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import qlviz.QLParser;
-import qlviz.QLVisitor;
 import qlviz.gui.renderer.*;
 import qlviz.gui.viewModel.*;
-import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactory;
-import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactoryImpl;
 import qlviz.gui.viewModel.linker.QuestionViewModelCollectorImpl;
 import qlviz.gui.viewModel.linker.QuestionViewModelLinker;
 import qlviz.gui.viewModel.linker.QuestionViewModelLinkerImpl;
-import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
-import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactoryImpl;
 import qlviz.interpreter.*;
-import qlviz.interpreter.linker.QuestionLinkerImpl;
 import qlviz.interpreter.style.QLSParserModule;
 import qlviz.model.Form;
-import qlviz.typecheker.AnalysisResult;
-import qlviz.typecheker.Severity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class QLForm extends Application {
@@ -48,7 +37,9 @@ public class QLForm extends Application {
 		var injector = Guice.createInjector(
 				new QLSParserModule(),
 				new ExpressionParserModule(),
-				new QLParserModule());
+				new QLParserModule(),
+				new ViewModelFactoryModule(),
+				new ViewModelLinkerModule());
 
 		var rendererFactory = new JavafxFormRendererFactory(
 				injector.getInstance(StyleModelBuilder.class),
@@ -63,18 +54,11 @@ public class QLForm extends Application {
 		{
 	        this.model = modelBuilder.parseForm(this.getParameters().getNamed().get("form"));
 	        this.renderer = rendererFactory.create();
-            NumericExpressionViewModelFactory numericExpressionViewModelFactory = new NumericExpressionViewModelFactoryImpl();
-            BooleanExpressionViewModelFactory booleanExpressionFactory = new BooleanExpressionViewModelFactoryImpl(numericExpressionViewModelFactory);
-            ConditionCollector conditionCollector = new CachingConditionCollector(this.model);
-            QuestionViewModelFactoryImpl questionViewModelFactory =
-                    new QuestionViewModelFactoryImpl(
-                            numericExpressionViewModelFactory::create,
-                            booleanExpressionFactory::create,
-                            conditionCollector::getConditions);
 
-            this.viewModel = new FormViewModelImpl(model, questionViewModelFactory::create);
+            var viewModelFactory = injector.getInstance(FormViewModelFactory.class);
+            this.viewModel = viewModelFactory.create(this.model);
 
-            QuestionViewModelLinker viewModelLinker = new QuestionViewModelLinkerImpl(new QuestionViewModelCollectorImpl());
+            var viewModelLinker = injector.getInstance(QuestionViewModelLinker.class);
             viewModelLinker.linkQuestionStubs(this.viewModel);
             this.renderer.render(this.viewModel);
 		}

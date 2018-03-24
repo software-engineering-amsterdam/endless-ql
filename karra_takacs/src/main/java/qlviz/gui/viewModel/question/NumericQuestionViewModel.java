@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModel;
+import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.model.numericExpressions.NumericExpression;
 import qlviz.model.question.NumericQuestion;
 
@@ -19,14 +20,13 @@ public abstract class NumericQuestionViewModel extends BaseQuestionViewModel {
 
     protected NumericQuestionViewModel(
             NumericQuestion question,
-            Function<NumericExpression,
-            NumericExpressionViewModel> viewModelFactory,
+            NumericExpressionViewModelFactory viewModelFactory,
             List<BooleanExpressionViewModel> conditions) {
         super(question, conditions);
         this.question = question;
         this.value = new SimpleObjectProperty<>(BigDecimal.ZERO);
         if (question.getValueExpression() != null) {
-            this.expression = viewModelFactory.apply(question.getValueExpression());
+            this.expression = viewModelFactory.create(question.getValueExpression());
             this.value.bind(this.expression.valueProperty());
         }
         else

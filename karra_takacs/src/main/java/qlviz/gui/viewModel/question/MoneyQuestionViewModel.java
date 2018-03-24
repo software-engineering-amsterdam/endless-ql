@@ -2,6 +2,7 @@ package qlviz.gui.viewModel.question;
 
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModel;
+import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.model.numericExpressions.NumericExpression;
 import qlviz.model.question.MoneyQuestion;
 
@@ -12,8 +13,7 @@ public class MoneyQuestionViewModel extends NumericQuestionViewModel {
 
     public MoneyQuestionViewModel(
             MoneyQuestion question,
-            Function<NumericExpression,
-            NumericExpressionViewModel> factory,
+            NumericExpressionViewModelFactory factory,
             List<BooleanExpressionViewModel> conditions) {
         super(question, factory, conditions);
 

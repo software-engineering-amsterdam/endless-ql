@@ -1,5 +1,6 @@
 package qlviz.gui.viewModel.booleanExpressions;
 
+import com.google.inject.Inject;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.interpreter.linker.TypedBooleanExpressionVisitor;
 import qlviz.model.booleanExpressions.*;
@@ -10,6 +11,7 @@ public class BooleanExpressionViewModelFactoryImpl implements BooleanExpressionV
 
     private final NumericExpressionViewModelFactory numericExpressionViewModelFactory;
 
+    @Inject
     public BooleanExpressionViewModelFactoryImpl(NumericExpressionViewModelFactory numericExpressionViewModelFactory) {
         this.numericExpressionViewModelFactory = numericExpressionViewModelFactory;
     }

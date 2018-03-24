@@ -9,16 +9,18 @@ from gui import question_classes
 
 
 def visit(tree):
+    """ Traverse the parsed tree """
     walker = QLVisitor()
     walker.visit(tree)
-    warning_message = check_duplicate_question_strings(walker.question_ids, walker.questions)
+    warning_message = check_duplicate_questions(walker.question_ids, walker.questions)
     return [walker.question_ids, walker.questions, walker.error_message, warning_message]
 
 
-def check_duplicate_question_strings(question_ids, questions):
+def check_duplicate_questions(question_ids, questions):
+    """ returns warning if duplicate questions """
     question_list = []
     warning_string = None
-    # Compiles a list of all question strings
+
     for question_id in question_ids:
         question = questions[question_id]
         question_list.append(question.question)
@@ -33,7 +35,7 @@ class QLVisitor(ParseTreeVisitor):
     def __init__(self):
         self.error_message = None
         self.question_ids = []  # Ordered list of question IDs.
-        self.questions = {}  # Dictionary with question objects as values, IDs as keys
+        self.questions = {}  # {question_id: question object}
 
     def defaultResult(self):
         return []
@@ -53,16 +55,16 @@ class QLVisitor(ParseTreeVisitor):
 
         return result
 
-    def visitForm(self, ctx:QLParser.FormContext):
+    def visitForm(self, ctx: QLParser.FormContext):
         return self.visitChildren(ctx)
 
-    def visitBlock(self, ctx:QLParser.BlockContext):
+    def visitBlock(self, ctx: QLParser.BlockContext):
         return self.visitChildren(ctx)
 
-    def visitStmt(self, ctx:QLParser.StmtContext):
+    def visitStmt(self, ctx: QLParser.StmtContext):
         return self.visitChildren(ctx)
 
-    def visitQuestion(self, ctx:QLParser.QuestionContext):
+    def visitQuestion(self, ctx: QLParser.QuestionContext):
         # Gets necessary information from the node
         # todo: give node as input to Question?
         question = ctx.STRING().getText()
@@ -82,11 +84,11 @@ class QLVisitor(ParseTreeVisitor):
             # todo: move to question_classes
             truebutton = QtWidgets.QRadioButton(choices[0])
             truebutton.pressed.connect(question_object.set_answer_true)
-            question_object.set_truebutton(truebutton)
+            question_object.set_true_button(truebutton)
 
             falsebutton = QtWidgets.QRadioButton(choices[1])
             falsebutton.pressed.connect(question_object.set_answer_false)
-            question_object.set_falsebutton(falsebutton)
+            question_object.set_false_button(falsebutton)
 
         elif data_type == 'money':
             question_object = question_classes.MoneyQuestion(question_id, question)
@@ -100,16 +102,16 @@ class QLVisitor(ParseTreeVisitor):
 
         return self.visitChildren(ctx)
 
-    def visitDeclaration(self, ctx:QLParser.DeclarationContext):
+    def visitDeclaration(self, ctx: QLParser.DeclarationContext):
         result = self.visitChildren(ctx)
         declared_value = QtWidgets.QLabel(str(result.pop()))
         self.questions[ctx.parentCtx.ID().getText()].text_input_box = declared_value
         return result
 
-    def visitExpression(self, ctx:QLParser.ExpressionContext):
+    def visitExpression(self, ctx: QLParser.ExpressionContext):
         return self.visitChildren(ctx)
 
-    def visitIf_(self, ctx:QLParser.If_Context):
+    def visitIf_(self, ctx: QLParser.If_Context):
         # Gets the question IDs of the if argument and the question contained in the if, then links them so that the
         # contained question becomes invisible when the argument becomes False.
 
@@ -138,22 +140,23 @@ class QLVisitor(ParseTreeVisitor):
 
         return result
 
-    def visitType(self, ctx:QLParser.TypeContext):
+    def visitType(self, ctx: QLParser.TypeContext):
         return self.visitChildren(ctx)
 
-    def visitValue(self, ctx:QLParser.ValueContext):
+    def visitValue(self, ctx: QLParser.ValueContext):
         result = self.visitChildren(ctx)
         if result:
             return result
         else:
             return [ctx.getText()]
 
-    def visitCompute(self, ctx:QLParser.ComputeContext):
+    def visit_compute(self, ctx: QLParser.ComputeContext):
         return self.visitChildren(ctx)
 
-    def visitArithmetic_(self, ctx:QLParser.Arithmetic_Context):
+    @staticmethod
+    def visitArithmetic_(ctx: QLParser.Arithmetic_Context):
         result = eval(ctx.INT()[0].getText() + ctx.ARITHMETIC_OP().getText() + ctx.INT()[1].getText())
         return [result]
 
-    def visitBoolean_(self, ctx:QLParser.Boolean_Context):
+    def visitBoolean_(self, ctx: QLParser.Boolean_Context):
         return self.visitChildren(ctx)

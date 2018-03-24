@@ -2,7 +2,7 @@
 This file contains the OutputFrame class, for use with the MainWindow class from gui.py. After Questionnaire Language
 (QL) is parsed by another widget, OutputFrame will come to contain the encoded questionnaire.
 """
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 
 
 class OutputFrame(QtWidgets.QFrame):
@@ -10,40 +10,32 @@ class OutputFrame(QtWidgets.QFrame):
         super(OutputFrame, self).__init__()
         self.frame_layout = QtWidgets.QVBoxLayout()
         self.setLayout(self.frame_layout)
+        self.submit_button = None
 
-        self.question_ids = question_ids  # Ordered list of question IDs.
-        self.questions = questions  # Dictionary with question objects as values, and question IDs as keys
+        self.question_ids = question_ids  # Ordered list of question id's
+        self.questions = questions  # {question_id: question object}
         self.output_path = 'QL_output.txt'
         self.add_questions()
 
-    def get_question_object(self, question_id):
-        index = self.questionIDs.index(question_id)
-        return self.questions[index]
-
-    def get_output_path(self):
-        return self.output_path
-
-    def set_output_path(self, output_path):
-        self.output_path = output_path
-
     def add_submit_button(self):
+        """ Possible after parsing """
         self.submit_button = QtWidgets.QPushButton('Submit', self)
-        self.submit_button.clicked.connect(self.submit)
-        self.frame_layout.addWidget(self.submit_button)
+        self.submit_button.clicked.connect(self.write_to_txt)
+        self.frame_layout.addWidget(self.submit_button, alignment=QtCore.Qt.AlignRight)
 
-    def submit(self):
-        # Writes answers to txt file
+    def write_to_txt(self):
+        """ Writes answers to txt file """
         file = open(self.output_path, 'w')
         for question_id in self.question_ids:
             file.write(self.questions[question_id].question+str(self.questions[question_id].answer)+'\n')
         file.close()
 
     def add_question(self, question_frame):
-        # Adds a frame containing a question string and the answering method to the OutputFrame
-        self.frame_layout.addWidget(question_frame)
+        """ Adds frame with question and answer string """
+        self.frame_layout.addWidget(question_frame, alignment=QtCore.Qt.AlignRight)
 
     def add_questions(self):
-        # Gets frames containing question string and answering method for each question, and adds them to OutputFrame
+        """ Aggregate individual question frames """
         for question_id in self.question_ids:
             question = self.questions[question_id]
             question_frame = question.create_frame()

@@ -5,9 +5,7 @@ parsed and the encoded questionnaire is opened in an output_frame in the MainWin
 and the entered answers may be saved to a .txt file by pressing the "Submit" button.
 """
 from visitor.visitor import visit
-from visitor.listener import listen
-from PyQt5 import QtWidgets
-from PyQt5 import QtCore
+from PyQt5 import QtWidgets, QtCore
 from grammar.data_structure import ParserCarrier
 import sys
 from gui.input_frame import InputFrame
@@ -17,7 +15,6 @@ from gui.output_frame import OutputFrame
 class MainWindow(QtWidgets.QWidget):
     def __init__(self):
         super(MainWindow, self).__init__()
-        # Parses QL input
         self.main_layout = QtWidgets.QHBoxLayout()
         self.main_layout.setSpacing(10)
         self.setLayout(self.main_layout)
@@ -26,25 +23,25 @@ class MainWindow(QtWidgets.QWidget):
         self.tree = None
         self.parser = None
 
-        # Initiates frames for within the window, and adds them.
+        # Initiates inner frames
         self.input_frame = InputFrame()
         self.output_frame = OutputFrame()
         self.main_layout.addWidget(self.input_frame)
         self.main_layout.addWidget(self.output_frame)
 
-        # When the signal parse_is_pressed is given by input_frame, MainWindow takes necessary actions to parse
+        # Connect btn with parsing
         self.input_frame.parse_is_pressed.connect(self.parse)
 
     def initiate_output_frame(self, question_ids=list(), questions=None):
-        # Removes the old output_frame from the window
+        """ Reinitialize output frame """
         self.output_frame.setParent(None)
         self.output_frame.destroy()
 
-        # Reinitializes output_frame and adds it to the main window
         self.output_frame = OutputFrame(question_ids, questions)
-        self.main_layout.addWidget(self.output_frame)
+        self.main_layout.addWidget(self.output_frame, alignment=QtCore.Qt.AlignRight)
 
     def parse(self, ql_text, qls_text):
+        """ Parse the GUI user input """
         ql_data = ParserCarrier()
         if ql_text:
             ql_data.set_ql_grammar_text(ql_text)
@@ -54,10 +51,10 @@ class MainWindow(QtWidgets.QWidget):
 
             # The tree is traversed, the questions it contains are collected, as well as the first error encountered.
             # [questionIDs, questions, error_message, warning_message] = listen(ql_data.ql_tree)
-            [questionIDs, questions, error_message, warning_message] = visit(ql_data.ql_tree)
+            [question_ids, questions, error_message, warning_message] = visit(ql_data.ql_tree)
 
             # The output_frame is initialized and appropriately filled with questions and their answering tools.
-            self.initiate_output_frame(questionIDs, questions)
+            self.initiate_output_frame(question_ids, questions)
             self.output_frame.add_submit_button()
 
             if error_message:
@@ -78,10 +75,3 @@ class MainWindow(QtWidgets.QWidget):
             # self.output_frame.add_submit_button()
         else:
             pass
-
-
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    ex = MainWindow()
-    ex.show()
-    sys.exit(app.exec_())

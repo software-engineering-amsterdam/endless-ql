@@ -20,7 +20,7 @@ def test_output_frame(qtbot):
     screen = output_frame.OutputFrame()
     screen.show()
     screen.add_submit_button()
-    screen.set_output_path("tests/QL_output.txt")
+    screen.output_path = "tests/QL_output.txt"
 
     qtbot.mouseClick(screen.submit_button, QtCore.Qt.LeftButton)
 

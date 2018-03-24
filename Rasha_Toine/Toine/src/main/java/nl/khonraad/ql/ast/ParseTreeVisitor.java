@@ -102,11 +102,6 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitPartBlock( QParser.PartBlockContext ctx ) {
-        return visitChildren( ctx );
-    }
-
-    @Override
     public Value visitUnaryOperator_Expression( QParser.UnaryOperator_ExpressionContext ctx ) {
 
         Value expression = visit( ctx.expression() );
@@ -126,11 +121,76 @@ public final class ParseTreeVisitor extends QBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExpression_BinaryOperator_Expression( QParser.Expression_BinaryOperator_ExpressionContext ctx ) {
+    public Value visitExpression_MultiplicationOperator_Expression(
+            QParser.Expression_MultiplicationOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
-        String operator = ctx.binaryOperator().getText();
+        String operator = ctx.multiplicationOperator().getText();
+
+        try {
+            return left.apply( operator, right );
+        } catch (Exception e) {
+            throw new RuntimeException( e.getMessage() );
+        }
+
+    }
+
+    @Override
+    public Value visitExpression_AdditionOperator_Expression(
+            QParser.Expression_AdditionOperator_ExpressionContext ctx ) {
+
+        Value left = visit( ctx.expression( 0 ) );
+        Value right = visit( ctx.expression( 1 ) );
+        String operator = ctx.additionOperator().getText();
+
+        try {
+            return left.apply( operator, right );
+        } catch (Exception e) {
+            throw new RuntimeException( e.getMessage() );
+        }
+
+    }
+
+    @Override
+    public Value visitExpression_EqualityOperator_Expression(
+            QParser.Expression_EqualityOperator_ExpressionContext ctx ) {
+
+        Value left = visit( ctx.expression( 0 ) );
+        Value right = visit( ctx.expression( 1 ) );
+        String operator = ctx.equalityOperator().getText();
+
+        try {
+            return left.apply( operator, right );
+        } catch (Exception e) {
+            throw new RuntimeException( e.getMessage() );
+        }
+
+    }
+
+    @Override
+    public Value visitExpression_LogicalOperator_Expression(
+            QParser.Expression_LogicalOperator_ExpressionContext ctx ) {
+
+        Value left = visit( ctx.expression( 0 ) );
+        Value right = visit( ctx.expression( 1 ) );
+        String operator = ctx.logicalOperator().getText();
+
+        try {
+            return left.apply( operator, right );
+        } catch (Exception e) {
+            throw new RuntimeException( e.getMessage() );
+        }
+
+    }
+
+    @Override
+    public Value visitExpression_OrderingOperator_Expression(
+            QParser.Expression_OrderingOperator_ExpressionContext ctx ) {
+
+        Value left = visit( ctx.expression( 0 ) );
+        Value right = visit( ctx.expression( 1 ) );
+        String operator = ctx.orderingOperator().getText();
 
         try {
             return left.apply( operator, right );

@@ -18,21 +18,13 @@ import qlviz.interpreter.*;
 import qlviz.interpreter.linker.QuestionLinkerImpl;
 import qlviz.interpreter.style.QLSParserModule;
 import qlviz.model.Form;
-import qlviz.model.style.*;
 import qlviz.typecheker.AnalysisResult;
 import qlviz.typecheker.Severity;
 import qlviz.typecheker.StaticChecker;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.List;
 
-import org.antlr.v4.runtime.ANTLRErrorListener;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.Recognizer;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
 
 public class QLForm extends Application {
 	private FormRenderer renderer;
@@ -54,21 +46,16 @@ public class QLForm extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 
-		Injector injector = Guice.createInjector(
+		var injector = Guice.createInjector(
 				new QLSParserModule(),
 				new ExpressionParserModule(),
 				new QLParserModule());
-		Injector rendererInjector = Guice.createInjector(new JavafxRendererModule(stage));
-		StyleModelBuilder styleBuilder = injector.getInstance(StyleModelBuilder.class);
 
-
-
-		if (this.getParameters().getRaw().size() > 1) {
-
-			Stylesheet stylesheet = styleBuilder.createFromMarkup(this.getParameters().getRaw().get(1));
-			rendererInjector = Guice.createInjector(new StyledJavafxRendererModule(stylesheet, stage));
-		}
-		this.renderer = rendererInjector.getInstance(FormRenderer.class);
+		var rendererFactory = new JavafxFormRendererFactory(
+				injector.getInstance(StyleModelBuilder.class),
+				stage,
+				this.getParameters().getNamed());
+		this.renderer = rendererFactory.create();
 
 		List<AnalysisResult> staticCheckResults = new ArrayList<>();
 
@@ -76,7 +63,7 @@ public class QLForm extends Application {
 		ModelBuilder modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));
 
 		try {
-	        this.model = modelBuilder.parseForm(this.getParameters().getRaw().get(0));
+	        this.model = modelBuilder.parseForm(this.getParameters().getNamed().get("form"));
 
             StaticChecker staticChecker = new StaticChecker();
             List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLabels(this.model);

@@ -1,5 +1,6 @@
 import antlr4
 import re
+import os
 
 from commons.error_handling import MyErrorListener
 from parser_generator.grammar.QLLexer import QLLexer
@@ -20,6 +21,8 @@ class GrammarDebugger:
 
     def debug_grammar(self):
         """ Main function - runs through parsing and print out tokens and tree in CLI """
+        assert os.path.isfile(self.file_path)
+
         file = open_file(self.file_path)
         input_form = antlr4.InputStream(file)
         lexer = QLLexer(input_form) if self.file_extension == 'ql' else QLSLexer(input_form)

@@ -16,28 +16,25 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
 
     @Override
     public T visit(Page page) {
-        for (DefaultStyle defaultStyle : page.getDefaultStyles()) {
-            defaultStyle.accept(this);
-        }
-
         for (Section section : page.getSections()) {
             section.accept(this);
+        }
+
+        for (DefaultStyle defaultStyle : page.getDefaultStyles()) {
+            defaultStyle.accept(this);
         }
         return null;
     }
 
     @Override
+    public T visit(Statement statement) {
+        return statement.accept(this);
+    }
+
+    @Override
     public T visit(Section section) {
-        for (QuestionReference questionReference : section.getQuestionReferences()) {
-            questionReference.accept(this);
-        }
-
-        for (Section subSection : section.getSections()) {
-            subSection.accept(this);
-        }
-
-        for (DefaultStyle defaultStyle : section.getDefaultStyles()) {
-            defaultStyle.accept(this);
+        for(Statement statement : section.getStatements()) {
+            statement.accept(this);
         }
 
         return null;

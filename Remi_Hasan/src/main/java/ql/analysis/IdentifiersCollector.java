@@ -7,13 +7,15 @@ import ql.model.expression.Expression;
 import ql.model.expression.ExpressionIdentifier;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class IdentifiersCollector {
 
     // Get all question identifiers of a form
-    public static List<String> collectQuestionIdentifiers(Form form) {
-        List<String> questionIdentifiers = new ArrayList<>();
+    public static Set<String> collectQuestionIdentifiers(Form form) {
+        Set<String> questionIdentifiers = new HashSet<>();
 
         form.accept(new QLBaseVisitor<Void>() {
             @Override

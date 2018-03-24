@@ -33,7 +33,7 @@ public class QuestionAnalyzer implements IQLSAnalysis {
     // Checks whether any identifiers in QLS file are not in QL file
     private void detectUnknownQuestions(Form form, StyleSheet styleSheet) {
         List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers(styleSheet);
-        List<String> formQuestions = IdentifiersCollector.collectQuestionIdentifiers(form);
+        Set<String> formQuestions = IdentifiersCollector.collectQuestionIdentifiers(form);
         styleSheetQuestions.removeAll(formQuestions);
 
         if (!styleSheetQuestions.isEmpty()) {
@@ -44,7 +44,7 @@ public class QuestionAnalyzer implements IQLSAnalysis {
     // Checks whether any question in QL file is not placed by QLS file
     private void detectUnplacedQuestions(Form form, StyleSheet styleSheet) {
         List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers(styleSheet);
-        List<String> formQuestions = IdentifiersCollector.collectQuestionIdentifiers(form);
+        Set<String> formQuestions = IdentifiersCollector.collectQuestionIdentifiers(form);
         formQuestions.removeAll(styleSheetQuestions);
 
         if (!formQuestions.isEmpty()) {

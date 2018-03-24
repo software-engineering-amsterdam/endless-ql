@@ -12,6 +12,7 @@ import qls.model.*;
 import qls.model.style.*;
 import qls.model.widget.*;
 
+// TODO: remove visitor here
 public class LabelWithWidget extends VBox implements GUIQuestionElement, IQLSVisitor<Void> {
 
     private final GUIWidget guiWidget;
@@ -82,6 +83,11 @@ public class LabelWithWidget extends VBox implements GUIQuestionElement, IQLSVis
 
     @Override
     public Void visit(Page page) {
+        return null;
+    }
+
+    @Override
+    public Void visit(Statement statement) {
         return null;
     }
 

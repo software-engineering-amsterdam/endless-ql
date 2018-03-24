@@ -8,7 +8,7 @@ import qls.model.widget.Widget;
 
 import java.util.List;
 
-public class DefaultStyle extends QLSNode {
+public class DefaultStyle extends Statement {
 
     public final ReturnType type;
     private final List<StyleAttribute> styleAttributes;

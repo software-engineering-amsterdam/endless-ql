@@ -5,13 +5,14 @@ import ql.evaluation.SymbolTable;
 import ql.model.Form;
 
 import java.util.List;
+import java.util.Set;
 
 public class UnknownIdentifiersDetector implements IQLErrorAnalysis {
 
     @Override
     public void analyze(Form form, SymbolTable symbolTable) {
         // All question identifiers in the form
-        List<String> formQuestionIdentifiers = IdentifiersCollector.collectQuestionIdentifiers(form);
+        Set<String> formQuestionIdentifiers = IdentifiersCollector.collectQuestionIdentifiers(form);
 
         // All references to identifiers in expressions in the form
         List<String> referencedIdentifiers = IdentifiersCollector.collectReferencedIdentifiers(form);

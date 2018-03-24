@@ -28,16 +28,16 @@ public class GUIPage extends VBox{
         Label pageLabel = new Label("Page " + identifier);
         vBox.getChildren().add(pageLabel);
 
-        // Render all sections
-        for(Section section : sections){
-            // Combine local styles with broader scope styles
-            List<DefaultStyle> subDefaultStyles = new ArrayList<>();
-            subDefaultStyles.addAll(defaultStyles);
-            subDefaultStyles.addAll(section.getDefaultStyles());
-
-            GUISection guiSection = new GUISection(section.identifier, guiQuestions, defaultStyles, section.getDefaultStyles(), section.getQuestionReferences(), section.getSections());
-            vBox.getChildren().add(guiSection.render(symbolTable));
-        }
+//        // Render all sections
+//        for(Section section : sections){
+//            // Combine local styles with broader scope styles
+//            List<DefaultStyle> subDefaultStyles = new ArrayList<>();
+//            subDefaultStyles.addAll(defaultStyles);
+//            subDefaultStyles.addAll(section.getDefaultStyles());
+//
+//            GUISection guiSection = new GUISection(section.identifier, guiQuestions, defaultStyles, section.getDefaultStyles(), section.getQuestionReferences(), section.getSections());
+//            vBox.getChildren().add(guiSection.render(symbolTable));
+//        }
 
         return vBox;
     }

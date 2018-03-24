@@ -2,11 +2,12 @@ grammar QLS;
 
 root            : STYLESHEET IDENTIFIER ('{' page* '}' | page) EOF;
 page            : PAGE IDENTIFIER ((section | defaultStyle) | '{' (section | defaultStyle)* '}');
-section         : SECTION STRING ((section | question | defaultStyle) | '{' (section | question | defaultStyle)* '}');
+section         : SECTION STRING (statement | '{' statement* '}');
 question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
+statement       : (section | question | defaultStyle);
 
-// default styleAttribute without braces can only define one widget type
-// default styleAttribute with braces defines none or multiple styleAttribute attributes,
+// default style without braces can only define one widget type
+// default style with braces defines none or multiple style attributes,
 // followed by one or no widget type
 defaultStyle    : DEFAULT type (widget | '{' styleAttribute* widget? '}');
 
@@ -33,34 +34,29 @@ type            : BOOLEANTYPE
                 ;
 
 // Keywords
-STYLESHEET            : 'stylesheet';
-PAGE                  : 'page';
-SECTION               : 'section';
-DEFAULT               : 'default';
-WIDGET                : 'widget';
-QUESTION              : 'question';
-RADIO                 : 'radio';
-CHECKBOX              : 'checkbox';
-SPINBOX               : 'spinbox';
-DROPDOWN              : 'dropdown';
-SLIDER                : 'slider';
-TEXTBOX               : 'textbox';
-WIDTH                 : 'width';
-FONT                  : 'font';
-FONTSIZE              : 'fontsize';
-COLOR                 : 'color';
+STYLESHEET      : 'stylesheet';
+PAGE            : 'page';
+SECTION         : 'section';
+DEFAULT         : 'default';
+WIDGET          : 'widget';
+QUESTION        : 'question';
+RADIO           : 'radio';
+CHECKBOX        : 'checkbox';
+SPINBOX         : 'spinbox';
+DROPDOWN        : 'dropdown';
+SLIDER          : 'slider';
+TEXTBOX         : 'textbox';
+WIDTH           : 'width';
+FONT            : 'font';
+FONTSIZE        : 'fontsize';
+COLOR           : 'color';
 
-BOOLEANTYPE           : 'boolean';
-STRINGTYPE            : 'string';
-INTEGERTYPE           : 'integer';
-DATETYPE              : 'date';
-DECIMALTYPE           : 'decimal';
-MONEYTYPE             : 'money';
-
-WS              : [ \t\r\n]+ -> skip;
-COMMENT         : ('/*' .*? '*/') -> skip;
-LINE_COMMENT    : '//' ~[\r\n]* -> skip;
-
+BOOLEANTYPE     : 'boolean';
+STRINGTYPE      : 'string';
+INTEGERTYPE     : 'integer';
+DATETYPE        : 'date';
+DECIMALTYPE     : 'decimal';
+MONEYTYPE       : 'money';
 
 // Literals
 INTEGER         : [0-9]+;
@@ -70,3 +66,7 @@ DATE            : ([0-9] | [0-3] [0-9]) '-' ([0-9] | [0-3] [0-9]) '-' ([0-9] [0-
 STRING          : '"' .*? '"';
 IDENTIFIER      : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 HEXCOLOR        : '#' [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F];
+
+WS              : [ \t\r\n]+ -> skip;
+COMMENT         : ('/*' .*? '*/') -> skip;
+LINE_COMMENT    : '//' ~[\r\n]* -> skip;

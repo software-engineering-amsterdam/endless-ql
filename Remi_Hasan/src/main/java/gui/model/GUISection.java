@@ -36,12 +36,12 @@ public class GUISection extends VBox{
         Label pageLabel = new Label("Section " + identifier);
         vBox.getChildren().add(pageLabel);
 
-        // Render all sections
-        for(Section section : sections){
-            // Combine local styles with broader scope styles
-            GUISection guiSection = new GUISection(section.identifier, guiQuestions, defaultStyles, section.getDefaultStyles(), section.getQuestionReferences(), section.getSections());
-            vBox.getChildren().add(guiSection.render(symbolTable));
-        }
+//        // Render all sections
+//        for(Section section : sections){
+//            // Combine local styles with broader scope styles
+//            GUISection guiSection = new GUISection(section.identifier, guiQuestions, defaultStyles, section.getDefaultStyles(), section.getQuestionReferences(), section.getSections());
+//            vBox.getChildren().add(guiSection.render(symbolTable));
+//        }
 
         for(QuestionReference questionReference : questionReferences){
             Optional<GUIQuestion> guiQuestion = guiQuestions.stream().filter(x -> x.identifier.equals(questionReference.name)).findFirst();

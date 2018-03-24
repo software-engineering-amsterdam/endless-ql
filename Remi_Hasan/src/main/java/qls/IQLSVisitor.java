@@ -11,7 +11,9 @@ public interface IQLSVisitor<T> {
 
     T visit(Page page);
 
-    T visit(Section page);
+    T visit(Statement statement);
+
+    T visit(Section section);
 
     T visit(QuestionReference questionReference);
 

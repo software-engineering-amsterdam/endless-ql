@@ -19,45 +19,37 @@ public class StyleSheetBuilderTest {
         StyleSheet styleSheet = QLSTestUtilities.buildStyleSheet("/ql/ValidForms/SimpleForm.ql",
                 "/qls/ValidStylesheets/SimpleForm.qls");
 
-        assertEquals(styleSheet.getPages().size(), 2);
+        assertEquals(2, styleSheet.getPages().size());
 
         // First page
         Page firstPage = styleSheet.getPages().get(0);
-        assertEquals(firstPage.identifier, "Numbers");
-        assertEquals(firstPage.getSections().size(), 2);
+        assertEquals("Numbers", firstPage.identifier);
+        assertEquals(2, firstPage.getSections().size());
 
         Section firstPageFirstSection = firstPage.getSections().get(0);
-        assertEquals(firstPageFirstSection.identifier, "Integer");
-        assertEquals(firstPageFirstSection.getQuestionReferences().size(), 1);
-        assertEquals(firstPageFirstSection.getQuestionReferences().get(0).name, "someInteger");
-        assertEquals(firstPageFirstSection.getQuestionReferences().get(0).getWidget().type, WidgetType.SPINBOX);
+        assertEquals("Integer", firstPageFirstSection.identifier);
+        assertEquals(1, firstPageFirstSection.getStatements().size());
 
         Section firstPageSecondSection = firstPage.getSections().get(1);
-        assertEquals(firstPageSecondSection.identifier, "Decimal");
-        assertEquals(firstPageSecondSection.getQuestionReferences().size(), 2);
-        assertEquals(firstPageSecondSection.getQuestionReferences().get(0).name, "someDecimal");
-        assertEquals(firstPageSecondSection.getQuestionReferences().get(0).getWidget().type, WidgetType.SLIDER);
-
-        assertEquals(firstPageSecondSection.getDefaultStyles().size(), 1);
-        assertEquals(firstPageSecondSection.getDefaultStyles().get(0).type, ReturnType.MONEY);
-        assertEquals(firstPageSecondSection.getDefaultStyles().get(0).getWidget().type, WidgetType.TEXTBOX);
+        assertEquals("Decimal", firstPageSecondSection.identifier);
+        assertEquals(3, firstPageSecondSection.getStatements().size());
 
         // Second page
         Page secondPage = styleSheet.getPages().get(1);
-        assertEquals(secondPage.getSections().size(), 1);
-        assertEquals(secondPage.getSections().get(0).getSections().size(), 2);
+        assertEquals(1, secondPage.getSections().size());
+        assertEquals(3, secondPage.getSections().get(0).getStatements().size());
 
-        assertEquals(secondPage.getDefaultStyles().size(), 2);
-        assertEquals(secondPage.getDefaultStyles().get(0).type, ReturnType.BOOLEAN);
-        assertEquals(secondPage.getDefaultStyles().get(0).getWidget().type, WidgetType.RADIO);
-        assertEquals(secondPage.getDefaultStyles().get(0).getStyleAttributes().size(), 1);
+        assertEquals(2, secondPage.getDefaultStyles().size());
+        assertEquals(ReturnType.BOOLEAN, secondPage.getDefaultStyles().get(0).type);
+        assertEquals(WidgetType.RADIO, secondPage.getDefaultStyles().get(0).getWidget().type);
+        assertEquals(1, secondPage.getDefaultStyles().get(0).getStyleAttributes().size());
 
         StyleAttributeWidth styleAttributeWidth =
                 (StyleAttributeWidth) secondPage.getDefaultStyles().get(0).getStyleAttributes().get(0);
-        assertEquals(styleAttributeWidth.getWidth(), 400);
+        assertEquals(400, styleAttributeWidth.getWidth());
 
         WidgetRadio radioWidget = (WidgetRadio) secondPage.getDefaultStyles().get(0).getWidget();
-        assertEquals(radioWidget.getTrueLabel(), "Yes");
-        assertEquals(radioWidget.getFalseLabel(), "No");
+        assertEquals("Yes", radioWidget.getTrueLabel());
+        assertEquals("No", radioWidget.getFalseLabel());
     }
 }

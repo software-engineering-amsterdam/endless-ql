@@ -8,14 +8,14 @@ import java.util.List;
 public class Page extends QLSNode {
 
     public final String identifier;
-    private final List<DefaultStyle> defaultStyles;
     private final List<Section> sections;
+    private final List<DefaultStyle> defaultStyles;
 
-    public Page(Token token, String identifier, List<DefaultStyle> defaultStyles, List<Section> sections) {
+    public Page(Token token, String identifier, List<Section> sections, List<DefaultStyle> defaultStyles) {
         super(token);
         this.identifier = identifier;
-        this.defaultStyles = defaultStyles;
         this.sections = sections;
+        this.defaultStyles = defaultStyles;
     }
 
     @Override

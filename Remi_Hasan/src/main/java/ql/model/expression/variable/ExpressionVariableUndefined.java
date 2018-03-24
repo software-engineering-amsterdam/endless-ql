@@ -1,7 +1,7 @@
 package ql.model.expression.variable;
 
 import ql.IQLVisitor;
-import ql.evaluation.IExpressionVisitor;
+
 import ql.model.expression.ExpressionVariable;
 import ql.model.expression.ReturnType;
 import org.antlr.v4.runtime.Token;

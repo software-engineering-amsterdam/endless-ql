@@ -34,18 +34,16 @@ type            : BOOLEANTYPE
                 | DECIMALTYPE
                 | MONEYTYPE;
 
-constant        : booleanConstant # constant_boolean
-                | integerConstant # constant_integer
-                | decimalConstant # constant_decimal
-                | dateConstant # constant_date
-                | moneyConstant # constant_money
-                | stringConstant # constant_string
-                | identifierConstant # constant_identifier;
+constant        : booleanConstant       # constant_boolean
+                | integerConstant       # constant_integer
+                | decimalConstant       # constant_decimal
+                | moneyConstant         # constant_money
+                | stringConstant        # constant_string
+                | identifierConstant    # constant_identifier;
 
 booleanConstant : (TRUE | FALSE);
 integerConstant : INTEGER;
 decimalConstant : DECIMAL;
-dateConstant : DATE;
 moneyConstant : MONEY;
 stringConstant : STRING;
 identifierConstant : IDENTIFIER;
@@ -82,7 +80,6 @@ ELSE            : 'else';
 INTEGER         : [0-9]+;
 MONEY           : ([0-9]+ '.' [0-9] [0-9]);
 DECIMAL         : [0-9]+ '.' [0-9]+;
-DATE            : ([0-9] | [0-3] [0-9]) '-' ([0-9] | [0-3] [0-9]) '-' ([0-9] [0-9] [0-9] [0-9]);
 STRING          : '"' .*? '"';
 IDENTIFIER      : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 

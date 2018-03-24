@@ -124,14 +124,6 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitDateConstant(QLParser.DateConstantContext ctx) {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate date = LocalDate.parse(ctx.getText(), dateFormatter);
-
-        return new ExpressionVariableDate(ctx.getStart(), date);
-    }
-
-    @Override
     public Expression visitMoneyConstant(QLParser.MoneyConstantContext ctx) {
         return new ExpressionVariableMoney(ctx.getStart(), ctx.getText());
     }

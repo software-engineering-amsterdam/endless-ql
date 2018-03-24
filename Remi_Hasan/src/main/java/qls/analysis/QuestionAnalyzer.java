@@ -11,29 +11,29 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class QuestionAnalyzer {
+public class QuestionAnalyzer implements IQLSAnalysis {
 
-    private final Form form;
-    private final StyleSheet styleSheet;
-
-    public QuestionAnalyzer(Form form, StyleSheet styleSheet) {
-        this.form = form;
-        this.styleSheet = styleSheet;
+    @Override
+    public void analyze(Form form, StyleSheet styleSheet) {
+        this.detectDuplicateQuestions(styleSheet);
+        this.detectUnknownQuestions(form, styleSheet);
+        this.detectUnplacedQuestions(form, styleSheet);
     }
 
-    public void detectDuplicateQuestions() {
-        List<String> identifiers = this.getStyleSheetQuestionIdentifiers();
-        Set<String> duplicates = this.getDuplicates(identifiers);
+    // Checks whether any question is placed multiple times by the StyleSheet
+    private void detectDuplicateQuestions(StyleSheet styleSheet) {
+        List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers(styleSheet);
+        Set<String> duplicates = this.getDuplicates(styleSheetQuestions);
 
         if (!duplicates.isEmpty()) {
-            throw new IllegalArgumentException("Question(s) referenced more than once: " + duplicates);
+            throw new IllegalArgumentException("Question(s) placed more than once: " + duplicates);
         }
     }
 
     // Checks whether any identifiers in QLS file are not in QL file
-    public void detectUnknownQuestions() {
-        List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers();
-        List<String> formQuestions = IdentifiersCollector.collectQuestionIdentifiers(this.form);
+    private void detectUnknownQuestions(Form form, StyleSheet styleSheet) {
+        List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers(styleSheet);
+        List<String> formQuestions = IdentifiersCollector.collectQuestionIdentifiers(form);
         styleSheetQuestions.removeAll(formQuestions);
 
         if (!styleSheetQuestions.isEmpty()) {
@@ -42,9 +42,9 @@ public class QuestionAnalyzer {
     }
 
     // Checks whether any question in QL file is not placed by QLS file
-    public void detectUnplacedQuestions() {
-        List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers();
-        List<String> formQuestions = IdentifiersCollector.collectQuestionIdentifiers(this.form);
+    private void detectUnplacedQuestions(Form form, StyleSheet styleSheet) {
+        List<String> styleSheetQuestions = this.getStyleSheetQuestionIdentifiers(styleSheet);
+        List<String> formQuestions = IdentifiersCollector.collectQuestionIdentifiers(form);
         formQuestions.removeAll(styleSheetQuestions);
 
         if (!formQuestions.isEmpty()) {
@@ -52,23 +52,9 @@ public class QuestionAnalyzer {
         }
     }
 
-    // From: https://stackoverflow.com/a/7414753
-    private Set<String> getDuplicates(List<String> list) {
-        final Set<String> values = new HashSet<>();
-        final Set<String> duplicates = new HashSet<>();
-
-        for (String yourInt : list) {
-            if (!values.add(yourInt)) {
-                duplicates.add(yourInt);
-            }
-        }
-
-        return duplicates;
-    }
-
-    private List<String> getStyleSheetQuestionIdentifiers() {
+    private List<String> getStyleSheetQuestionIdentifiers(StyleSheet styleSheet) {
         List<String> identifiers = new ArrayList<>();
-        this.styleSheet.accept(new QLSVisitor<Void>() {
+        styleSheet.accept(new QLSVisitor<Void>() {
             @Override
             public Void visit(QuestionReference questionReference) {
                 identifiers.add(questionReference.name);
@@ -77,5 +63,19 @@ public class QuestionAnalyzer {
         });
 
         return identifiers;
+    }
+
+    // From: https://stackoverflow.com/a/7414753
+    private Set<String> getDuplicates(List<String> list) {
+        final Set<String> values = new HashSet<>();
+        final Set<String> duplicates = new HashSet<>();
+
+        for (String item : list) {
+            if (!values.add(item)) {
+                duplicates.add(item);
+            }
+        }
+
+        return duplicates;
     }
 }

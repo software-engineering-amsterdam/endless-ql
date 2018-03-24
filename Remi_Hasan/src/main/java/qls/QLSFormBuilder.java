@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.antlr.ParseErrorListener;
+import qls.analysis.QLSErrorAnalyzer;
 import qls.analysis.QuestionAnalyzer;
 import qls.analysis.TypeChecker;
 import qls.model.StyleSheet;
@@ -51,13 +52,8 @@ public class QLSFormBuilder {
         System.out.println(gson.toJson(styleSheet));
 
         // Analysis
-        QuestionAnalyzer questionAnalyzer = new QuestionAnalyzer(this.qlForm, styleSheet);
-        questionAnalyzer.detectDuplicateQuestions();
-        questionAnalyzer.detectUnknownQuestions();
-        questionAnalyzer.detectUnplacedQuestions();
-
-        TypeChecker typeChecker = new TypeChecker(this.qlForm, styleSheet);
-        typeChecker.typeCheck();
+        QLSErrorAnalyzer qlsErrorAnalyzer = new QLSErrorAnalyzer();
+        qlsErrorAnalyzer.analyze(this.qlForm, styleSheet);
 
         return styleSheet;
     }

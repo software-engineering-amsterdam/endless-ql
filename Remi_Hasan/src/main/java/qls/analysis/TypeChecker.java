@@ -12,23 +12,17 @@ import qls.model.widget.WidgetType;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TypeChecker extends QLSVisitor<Void> {
+public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
 
-    private final Form form;
-    private final StyleSheet styleSheet;
     private Map<String, ReturnType> formQuestionTypes;
 
-    public TypeChecker(Form form, StyleSheet styleSheet) {
-        this.form = form;
-        this.styleSheet = styleSheet;
-    }
-
-    public void typeCheck() {
+    @Override
+    public void analyze(Form form, StyleSheet styleSheet) {
         // Get question types
-        this.formQuestionTypes = getFormQuestionTypes(this.form);
+        this.formQuestionTypes = getFormQuestionTypes(form);
 
         // Compare to QLS question widget types
-        this.styleSheet.accept(this);
+        styleSheet.accept(this);
     }
 
     @Override
@@ -39,7 +33,7 @@ public class TypeChecker extends QLSVisitor<Void> {
 
         // Check if QLS widget is compatible with question type
         WidgetType widgetType = questionReference.getWidget().type;
-        ReturnType questionType = formQuestionTypes.get(questionReference.name);
+        ReturnType questionType = this.formQuestionTypes.get(questionReference.name);
         if(!widgetType.isCompatible(questionType)) {
             throw new IllegalArgumentException("Incompatible widget type " + widgetType
                     + " for question of type " + questionType + " " + questionReference.getWidget().getLocation());

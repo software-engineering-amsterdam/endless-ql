@@ -12,12 +12,12 @@ def visit(tree):
     """ Traverse the parsed tree """
     walker = QLVisitor()
     walker.visit(tree)
-    warning_message = check_duplicate_questions(walker.question_ids, walker.questions)
+    warning_message = check_duplicate_question_strings(walker.question_ids, walker.questions)
     return [walker.question_ids, walker.questions, walker.error_message, warning_message]
 
 
-def check_duplicate_questions(question_ids, questions):
-    """ returns warning if duplicate questions """
+def check_duplicate_question_strings(question_ids, questions):
+    """ returns warning if duplicate question strings """
     question_list = []
     warning_string = None
 
@@ -150,7 +150,7 @@ class QLVisitor(ParseTreeVisitor):
         else:
             return [ctx.getText()]
 
-    def visit_compute(self, ctx: QLParser.ComputeContext):
+    def visitCompute(self, ctx: QLParser.ComputeContext):
         return self.visitChildren(ctx)
 
     @staticmethod

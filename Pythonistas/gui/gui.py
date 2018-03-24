@@ -50,7 +50,6 @@ class MainWindow(QtWidgets.QWidget):
             #   addwidget errormessage
 
             # The tree is traversed, the questions it contains are collected, as well as the first error encountered.
-            # [questionIDs, questions, error_message, warning_message] = listen(ql_data.ql_tree)
             [question_ids, questions, error_message, warning_message] = visit(ql_data.ql_tree)
 
             # The output_frame is initialized and appropriately filled with questions and their answering tools.
@@ -63,7 +62,7 @@ class MainWindow(QtWidgets.QWidget):
             elif warning_message:
                 self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(warning_message))
 
-        else:  # todo: if garbage in, this error message out.
+        else:
             self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))
             # pass
 

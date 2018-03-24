@@ -1,4 +1,3 @@
-// Define a grammar called QL
 grammar QL;
 
 root            : FORM IDENTIFIER block EOF;
@@ -6,14 +5,10 @@ block           : '{' statement* '}';
 statement       : condition | question;
 condition       : IF '(' expression ')' conditionTrueBlock=block ELSE conditionFalseBlock=block
                 | IF '(' expression ')' conditionTrueBlock=block;
-question        : questionString identifier ':' questionType;
-
-identifier      : IDENTIFIER;
-questionString  : STRING;
-questionType    : (type | type '=' expression);
+question        : label=STRING IDENTIFIER ':' (type | type '=' expression);
 
 // Expressions, prioritized from top to bottom
-// label them for easier ql.evaluation
+// label them for easier evaluation
 // inspired by: https://stackoverflow.com/a/23092428
 expression      : '(' expr=expression ')'                                   # parenExpr
                 | MINUS expr=expression                                     # negExpr
@@ -34,19 +29,19 @@ type            : BOOLEANTYPE
                 | DECIMALTYPE
                 | MONEYTYPE;
 
-constant        : booleanConstant       # constant_boolean
-                | integerConstant       # constant_integer
-                | decimalConstant       # constant_decimal
-                | moneyConstant         # constant_money
-                | stringConstant        # constant_string
-                | identifierConstant    # constant_identifier;
+constant        : booleanConstant
+                | integerConstant
+                | decimalConstant
+                | moneyConstant
+                | stringConstant
+                | identifierConstant;
 
-booleanConstant : (TRUE | FALSE);
-integerConstant : INTEGER;
-decimalConstant : DECIMAL;
-moneyConstant : MONEY;
-stringConstant : STRING;
-identifierConstant : IDENTIFIER;
+booleanConstant     : (TRUE | FALSE);
+integerConstant     : INTEGER;
+decimalConstant     : DECIMAL;
+moneyConstant       : MONEY;
+stringConstant      : STRING;
+identifierConstant  : IDENTIFIER;
 
 // Operators
 PLUS            : '+';

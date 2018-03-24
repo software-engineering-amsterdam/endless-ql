@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Assignment1.Model.QL;
+using Assignment1.Model.QL.AST.Value;
 using Assignment1.Model.QL.RenderTree;
 
 namespace Assignment1.Rendering
@@ -17,10 +18,14 @@ namespace Assignment1.Rendering
         };
 
         private readonly QuestionForm _form;
+        private SymbolTable _table;
+        private ExpressionEvaluator _evaluator;
 
-        public QuestionFormRenderer(QuestionForm form)
+        public QuestionFormRenderer(QuestionForm form, SymbolTable table)
         {
             _form = form;
+            _table = table;
+            _evaluator = new ExpressionEvaluator(_table);
         }
 
         public Control Render()
@@ -77,28 +82,29 @@ namespace Assignment1.Rendering
 
         public CheckBox RenderQuestionBool(RenderableQuestionBool question)
         {
-            if (question.Condition?.Evaluate() == false) return null;
+            if (!question.IsVisible(_evaluator)) return null;
+            string value = _evaluator.GetValueAsString(_table.GetExpression(question.Id));
             var checkbox = new CheckBox
             {
                 Text = question.Label,
                 AutoSize = true,
-                Checked = question.Value,
+                Checked = Boolean.Parse(value),
                 Enabled = !question.Computed
             };
             if (!question.Computed)
             {
                 checkbox.CheckedChanged += (sender, e) =>
                 {
-                    question.Value = ((CheckBox)sender).Checked;
+                    _table.SetExpression(question.Id, new QLBoolean(((CheckBox)sender).Checked));
                     UpdateControls();
                 };
             }
             return checkbox;
         }
 
-        public static Label RenderQuestionLabel(RenderableQuestion question)
+        public Label RenderQuestionLabel(RenderableQuestion question)
         {
-            if (question.Condition?.Evaluate() == false) return null;
+            if (!question.IsVisible(_evaluator)) return null;
             return new Label
             {
                 Text = question.Label,
@@ -108,20 +114,22 @@ namespace Assignment1.Rendering
 
         public NumericUpDown RenderQuestionInt(RenderableQuestionInt question)
         {
-            if (question.Condition?.Evaluate() == false) return null;
+            if (!question.IsVisible(_evaluator)) return null;
+            IValue value = _evaluator.EvaluateExpression(_table.GetExpression(question.Id));
+            string stringValue = value.Type == Model.QL.AST.Type.Undefined ? "0" : _evaluator.GetValueAsString(value);
             var numericUpDown = new NumericUpDown
             {
                 Minimum = int.MinValue,
                 Maximum = int.MaxValue,
                 DecimalPlaces = 0,
-                Value = question.Value,
+                Value = int.Parse(stringValue),
                 Enabled = !question.Computed
             };
             if (!question.Computed)
             {
                 numericUpDown.ValueChanged += (sender, e) =>
                 {
-                    question.Value = (int)((NumericUpDown)sender).Value;
+                    _table.SetExpression(question.Id, new QLInteger((int)((NumericUpDown)sender).Value));
                     UpdateControls();
                 };
             }
@@ -130,19 +138,21 @@ namespace Assignment1.Rendering
 
         public DateTimePicker RenderQuestionDate(RenderableQuestionDate question)
         {
-            if (question.Condition?.Evaluate() == false) return null;
+            if (!question.IsVisible(_evaluator)) return null;
+            IValue value = _evaluator.EvaluateExpression(_table.GetExpression(question.Id));
+            string stringValue = value.Type == Model.QL.AST.Type.Undefined ? "" : _evaluator.GetValueAsString(value);
             var dateTimePicker = new DateTimePicker
             {
                 MinDate = DateTime.MinValue,
                 MaxDate = DateTime.MaxValue,
-                Value = question.Value,
+                Value = DateTime.Parse(stringValue),
                 Enabled = !question.Computed
             };
             if (!question.Computed)
             {
                 dateTimePicker.ValueChanged += (sender, e) =>
                 {
-                    question.Value = ((DateTimePicker)sender).Value;
+                    _table.SetExpression(question.Id, new QLDate(((DateTimePicker)sender).Value));
                     UpdateControls();
                 };
             }
@@ -152,20 +162,22 @@ namespace Assignment1.Rendering
 
         public NumericUpDown RenderQuestionDecimal(RenderableQuestionDecimal question)
         {
-            if (question.Condition?.Evaluate() == false) return null;
+            if (!question.IsVisible(_evaluator)) return null;
+            IValue value = _evaluator.EvaluateExpression(_table.GetExpression(question.Id));
+            string stringValue = value.Type == Model.QL.AST.Type.Undefined ? "0" : _evaluator.GetValueAsString(value);
             var numericUpDown = new NumericUpDown
             {
                 Minimum = decimal.MinValue,
                 Maximum = decimal.MaxValue,
                 DecimalPlaces = 4,
-                Value = question.Value,
+                Value = Decimal.Parse(stringValue),
                 Enabled = !question.Computed
             };
             if (!question.Computed)
             {
                 numericUpDown.ValueChanged += (sender, e) =>
                 {
-                    question.Value = ((NumericUpDown)sender).Value;
+                    _table.SetExpression(question.Id, new QLDecimal(((NumericUpDown)sender).Value));
                     UpdateControls();
                 };
             }
@@ -175,20 +187,22 @@ namespace Assignment1.Rendering
 
         public NumericUpDown RenderQuestionMoney(RenderableQuestionMoney question)
         {
-            if (question.Condition?.Evaluate() == false) return null;
+            if (!question.IsVisible(_evaluator)) return null;
+            IValue value = _evaluator.EvaluateExpression(_table.GetExpression(question.Id));
+            string stringValue = value.Type == Model.QL.AST.Type.Undefined ? "0" : _evaluator.GetValueAsString(value);
             var numericUpDown = new NumericUpDown
             {
                 Minimum = decimal.MinValue,
                 Maximum = decimal.MaxValue,
                 DecimalPlaces = 2,
-                Value = question.Value,
+                Value = Decimal.Parse(stringValue),
                 Enabled = !question.Computed
             };
             if (!question.Computed)
             {
                 numericUpDown.ValueChanged += (sender, e) =>
                 {
-                    question.Value = ((NumericUpDown)sender).Value;
+                    _table.SetExpression(question.Id, new QLMoney(((NumericUpDown)sender).Value));
                     UpdateControls();
                 };
             }
@@ -198,17 +212,19 @@ namespace Assignment1.Rendering
 
         public TextBox RenderQuestionString(RenderableQuestionString question)
         {
-            if (question.Condition?.Evaluate() == false) return null;
+            if (!question.IsVisible(_evaluator)) return null;
+            IValue value = _evaluator.EvaluateExpression(_table.GetExpression(question.Id));
+            string stringValue = value.Type == Model.QL.AST.Type.Undefined ? "" : _evaluator.GetValueAsString(value);
             var textBox = new TextBox
             {
-                Text = question.Value,
+                Text = stringValue,
                 ReadOnly = question.Computed
             };
             if (!question.Computed)
             {
                 textBox.TextChanged += (sender, e) =>
                 {
-                    question.Value = ((TextBox)sender).Text;
+                    _table.SetExpression(question.Id, new QLString(((TextBox)sender).Text));
                     UpdateControls();
                 };
             }

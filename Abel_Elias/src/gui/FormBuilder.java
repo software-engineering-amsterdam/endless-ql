@@ -6,7 +6,9 @@ import QL.classes.values.IntegerValue;
 import QL.classes.values.StringValue;
 import QL.classes.values.UndefinedValue;
 import QL.classes.values.Value;
+import QLS.classes.Page;
 import QLS.classes.Stylesheet;
+import QLS.parsing.visitors.StylesheetVisitor;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionPanelCheckBox;
 import gui.questions.QuestionPanelDate;
@@ -52,6 +54,13 @@ public class FormBuilder {
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
     }
 
+    public FormBuilder(FormVisitor coreVisitor, StylesheetVisitor stylesheetVisitor) {
+        this.coreVisitor = coreVisitor;
+        this.questionHashMap = coreVisitor.getQuestions();
+        this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
+        initComponents(stylesheetVisitor);
+    }
+
     /**
      * initComponents() method
      * initializes the building process for the frame
@@ -80,13 +89,16 @@ public class FormBuilder {
         mainFrame.setVisible(true);
     }
 
-    public void initComponents(Stylesheet stylesheet) {
-        stylesheetEvaluator = new StylesheetEvaluator();
+    public void initComponents(StylesheetVisitor stylesheetVisitor) {
+        //initStyleSheet(stylesheetVisitor);
         initFrame();
-        buildListPanel();
+        //buildListPanel();
         mainPanel.add(new JScrollPane(mainListPanel));
-        stylesheetEvaluator.buildPages();
-        initQuestionPanels();
+
+        stylesheetEvaluator = new StylesheetEvaluator(stylesheetVisitor);
+        mainPanel.add(stylesheetEvaluator.buildStyleSheet());
+
+        //initQuestionPanels();
 
         //mainFrame.add(stylesheetEvaluator.getLayout());
         mainFrame.add(mainPanel);
@@ -94,6 +106,11 @@ public class FormBuilder {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
 
+    }
+
+    private void initStyleSheet(StylesheetVisitor stylesheetVisitor) {
+        stylesheetEvaluator = new StylesheetEvaluator(stylesheetVisitor);
+        //stylesheetEvaluator.buildStyleSheet();
     }
 
 
@@ -115,6 +132,11 @@ public class FormBuilder {
             }
         }
     }
+
+    private void buildPages(LinkedHashMap pages) {
+
+    }
+
 
     /**
      * buildQuestionPanel() method

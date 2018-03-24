@@ -11,10 +11,7 @@ public class UnknownIdentifiersDetector implements IQLErrorAnalysis {
 
     @Override
     public void analyze(Form form, SymbolTable symbolTable) {
-        // All question identifiers in the form
         Set<String> formQuestionIdentifiers = IdentifiersCollector.collectQuestionIdentifiers(form);
-
-        // All references to identifiers in expressions in the form
         Set<String> referencedIdentifiers = IdentifiersCollector.collectReferencedIdentifiers(form);
 
         // Determine which identifiers are referenced but no question exists with such identifier

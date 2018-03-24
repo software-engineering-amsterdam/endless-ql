@@ -35,13 +35,13 @@ class MainWindow(QtWidgets.QWidget):
         # When the signal parse_is_pressed is given by input_frame, MainWindow takes necessary actions to parse
         self.input_frame.parse_is_pressed.connect(self.parse)
 
-    def initiate_output_frame(self,questionIDs=[], questions={}):
+    def initiate_output_frame(self, question_ids=list(), questions=None):
         # Removes the old output_frame from the window
         self.output_frame.setParent(None)
         self.output_frame.destroy()
 
         # Reinitializes output_frame and adds it to the main window
-        self.output_frame = OutputFrame(questionIDs, questions)
+        self.output_frame = OutputFrame(question_ids, questions)
         self.main_layout.addWidget(self.output_frame)
 
     def parse(self, ql_text, qls_text):

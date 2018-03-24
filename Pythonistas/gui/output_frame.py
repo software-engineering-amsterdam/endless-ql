@@ -1,23 +1,23 @@
-'''
+"""
 This file contains the OutputFrame class, for use with the MainWindow class from gui.py. After Questionnaire Language
 (QL) is parsed by another widget, OutputFrame will come to contain the encoded questionnaire.
-'''
+"""
 from PyQt5 import QtWidgets
 
 
 class OutputFrame(QtWidgets.QFrame):
-    def __init__(self, questionIDs=[], questions={}):
+    def __init__(self, question_ids=list(), questions=None):
         super(OutputFrame, self).__init__()
         self.frame_layout = QtWidgets.QVBoxLayout()
         self.setLayout(self.frame_layout)
 
-        self.questionIDs = questionIDs  # Ordered list of question IDs.
+        self.question_ids = question_ids  # Ordered list of question IDs.
         self.questions = questions  # Dictionary with question objects as values, and question IDs as keys
         self.output_path = 'QL_output.txt'
         self.add_questions()
 
-    def get_question_object(self, questionID):
-        index = self.questionIDs.index(questionID)
+    def get_question_object(self, question_id):
+        index = self.questionIDs.index(question_id)
         return self.questions[index]
 
     def get_output_path(self):
@@ -34,8 +34,8 @@ class OutputFrame(QtWidgets.QFrame):
     def submit(self):
         # Writes answers to txt file
         file = open(self.output_path, 'w')
-        for ID in self.questionIDs:
-            file.write(self.questions[ID].question+str(self.questions[ID].answer)+'\n')
+        for question_id in self.question_ids:
+            file.write(self.questions[question_id].question+str(self.questions[question_id].answer)+'\n')
         file.close()
 
     def add_question(self, question_frame):
@@ -44,8 +44,8 @@ class OutputFrame(QtWidgets.QFrame):
 
     def add_questions(self):
         # Gets frames containing question string and answering method for each question, and adds them to OutputFrame
-        for ID in self.questionIDs:
-            question = self.questions[ID]
+        for question_id in self.question_ids:
+            question = self.questions[question_id]
             question_frame = question.create_frame()
             self.add_question(question_frame)
 

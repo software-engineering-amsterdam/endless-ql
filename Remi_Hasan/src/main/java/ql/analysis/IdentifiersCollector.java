@@ -29,8 +29,8 @@ public class IdentifiersCollector {
     }
 
     // Get all identifiers to which is referred in the form
-    public static List<String> collectReferencedIdentifiers(Form form) {
-        List<String> referencedIdentifiers = new ArrayList<>();
+    public static Set<String> collectReferencedIdentifiers(Form form) {
+        Set<String> referencedIdentifiers = new HashSet<>();
 
         form.accept(new QLBaseVisitor<Void>() {
             @Override
@@ -44,8 +44,8 @@ public class IdentifiersCollector {
     }
 
     // Get all identifiers to which is referred in an expression
-    public static List<String> collectReferencedIdentifiers(Expression expression) {
-        List<String> referencedIdentifiers = new ArrayList<>();
+    public static Set<String> collectReferencedIdentifiers(Expression expression) {
+        Set<String> referencedIdentifiers = new HashSet<>();
 
         expression.accept(new QLBaseVisitor<Void>() {
             @Override

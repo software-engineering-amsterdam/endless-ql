@@ -56,7 +56,7 @@ public class CycleDetector implements IQLErrorAnalysis {
                 }
 
                 // Get all references made to other variables by the computed answer expression
-                List<String> referencedIdentifiers =
+                Set<String> referencedIdentifiers =
                         IdentifiersCollector.collectReferencedIdentifiers(question.computedAnswer);
 
                 // For each referenced question, add references to other questions to the graph

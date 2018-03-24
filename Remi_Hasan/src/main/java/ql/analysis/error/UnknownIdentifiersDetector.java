@@ -15,7 +15,7 @@ public class UnknownIdentifiersDetector implements IQLErrorAnalysis {
         Set<String> formQuestionIdentifiers = IdentifiersCollector.collectQuestionIdentifiers(form);
 
         // All references to identifiers in expressions in the form
-        List<String> referencedIdentifiers = IdentifiersCollector.collectReferencedIdentifiers(form);
+        Set<String> referencedIdentifiers = IdentifiersCollector.collectReferencedIdentifiers(form);
 
         // Determine which identifiers are referenced but no question exists with such identifier
         // Subtraction of formQuestionIdentifiers - referencedIdentifiers

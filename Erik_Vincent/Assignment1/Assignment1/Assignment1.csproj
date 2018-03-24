@@ -77,6 +77,7 @@
     <Compile Include="Model\QLS\AST\Style\Widget\YesNoWidget.cs" />
     <Compile Include="Model\QLS\AST\Style\Width.cs" />
     <Compile Include="Model\QL\AST\ASTNode.cs" />
+    <Compile Include="Model\QL\AST\Value\IOperations.cs" />
     <Compile Include="Model\QL\RenderTree\AnswerType.cs" />
     <Compile Include="Model\QL\AST\ComputedQuestion.cs" />
     <Compile Include="Model\QL\AST\Expression\Add.cs" />
@@ -151,9 +152,11 @@
     <Compile Include="Parser\QLErrorListener.cs" />
     <Compile Include="Parser\ParseErrorHandler.cs" />
     <Compile Include="Parser\QLSParser.cs" />
+    <Compile Include="Rendering\ExpressionEvaluator.cs" />
     <Compile Include="Rendering\QuestionFormWithStyleRenderer.cs" />
     <Compile Include="Model\QL\AST\Statement.cs" />
     <Compile Include="Model\QL\AST\Exceptions.cs" />
+    <Compile Include="Rendering\SymbolTable.cs" />
     <Compile Include="TypeChecking\MessageContainer.cs" />
     <Compile Include="TypeChecking\QLASTCyclicDependencyChecker.cs" />
     <Compile Include="Model\QL\AST\QLASTBaseVisitor.cs" />

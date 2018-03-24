@@ -6,6 +6,8 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLScenes
+import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
+import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIStylesheet }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import nl.uva.se.sc.niro.{ QLFormService, QLStylesheetService }
@@ -25,8 +27,8 @@ class QLSHomeController extends QLHomeController {
           val stylesheetOrErrors: Either[Seq[Errors.Error], Option[QLStylesheet]] =
             QLStylesheetService.importQLStylesheetSpecification(form, new File(selectedFile.toString + "s"))
           stylesheetOrErrors match {
-            case Right(stylesheet) =>
-              stylesheet match {
+            case Right(possibleStylesheet) =>
+              possibleStylesheet match {
                 case Some(stylesheet) => showQLSForm(form, stylesheet)
                 case None             => showQLForm(form) // Fall back to pure QL
               }
@@ -45,8 +47,10 @@ class QLSHomeController extends QLHomeController {
     }
   }
 
-  def showQLSForm(form: QLForm, stylesheet: QLStylesheet): Unit = {
-    val formController = new QLSFormController(this, form, stylesheet)
+  def showQLSForm(model: QLForm, stylesheet: QLStylesheet): Unit = {
+    val guiForm: GUIForm = GUIModelFactory.makeFrom(model)
+    val guiStyle: GUIStylesheet = GUIModelFactory.makeFrom(stylesheet)
+    val formController = new QLSFormController(this, model, guiForm, guiStyle)
     switchToScene(QLScenes.formScene, formController)
     formController.initializeForm()
   }

@@ -1,4 +1,4 @@
-<form [formGroup]="form" *ngIf="question.hiddenCondition(form)">
+<form [formGroup]="form" *ngIf="question.hiddenCondition(form) && question">
 
   <div [ngSwitch]="question.widget.type">
     <app-text-widget *ngSwitchCase="3"[control]="control" [styles]="question.style" [label]="question.key"

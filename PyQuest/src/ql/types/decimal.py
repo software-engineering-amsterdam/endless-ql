@@ -1,7 +1,7 @@
-from ql.types.type import QLType
-from ql.types.boolean import QLBoolean
-from ql.ast.expressions.literals.decimal_node import DecimalNode
 from gui.widgets.double_spinbox import DoubleSpinBox
+from ql.ast.expressions.literals.decimal_node import DecimalNode
+from ql.types.boolean import QLBoolean
+from ql.types.type import QLType
 
 
 class QLDecimal(QLType):
@@ -28,9 +28,10 @@ class QLDecimal(QLType):
         return QLDecimal(- self.value)
 
     def __eq__(self, other):
-        if type(other) == QLDecimal:
-            return QLBoolean(self.value == other.value)
-        return False
+        return QLBoolean(self.value == other.value)
+
+    def __ne__(self, other):
+        return QLBoolean(self.value != other.value)
 
     def __lt__(self, other):
         return QLBoolean(self.value < other.value)
@@ -58,6 +59,9 @@ class QLDecimal(QLType):
 
     def __truediv__(self, other):
         return QLDecimal(self.value / other.value)
+
+    def get_json_value(self):
+        return self.value
 
     @property
     def value(self):

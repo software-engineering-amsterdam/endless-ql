@@ -15,23 +15,7 @@ namespace Assignment1.TypeChecking
         private Type _currentType = Type.Undefined;
         public List<string> Warnings => _warnings;
 
-        #region Type checking functions
-
         public void TypeCheckQuestionForm(QuestionForm questionForm) => questionForm.Accept(this);
-
-        private void TypeCheckQuestionId(int lineNumber, string questionId)
-        {
-            if (QuestionIdExists(questionId))
-            {
-                _errorHandler.AddError(lineNumber, "The question id '" + questionId + "' already exists in the current context.");
-            }
-        }
-
-        private void TypeCheckQuestionLabel(int lineNumber, string questionLabel)
-        {
-            if (QuestionLabelExists(questionLabel))
-                _warnings.Add("Line " + lineNumber + ": The question label '" + questionLabel + "' has already been used.");
-        }
 
         private void TypeCheckQuestionAnswer(int lineNumber, Type questionType, IValue questionValue)
         {
@@ -105,21 +89,6 @@ namespace Assignment1.TypeChecking
 
         private bool QuestionIdExists(string questionId) => _questions.ContainsKey(questionId);
 
-        public bool QuestionLabelExists(string questionLabel)
-        {
-            List<Question> questionList = _questions.Values.ToList();
-            foreach (Question questionItem in questionList)
-            {
-                if (questionItem.Label.Equals(questionLabel))
-                    return true;
-            }
-            return false;
-        }
-
-        #endregion
-
-        #region QLNode visitor implementation
-
         public void Visit(QuestionForm questionForm)
         {
             foreach (Statement statement in questionForm.Statements)
@@ -132,16 +101,12 @@ namespace Assignment1.TypeChecking
 
         public void Visit(NormalQuestion question)
         {
-            TypeCheckQuestionId(question.LineNumber, question.Id);
-            TypeCheckQuestionLabel(question.LineNumber, question.Label);
             TypeCheckQuestionAnswer(question.LineNumber, question.Type, question.Answer);
             _questions.Add(question.Id, question);
         }
 
         public void Visit(ComputedQuestion question)
         {
-            TypeCheckQuestionId(question.LineNumber, question.Id);
-            TypeCheckQuestionLabel(question.LineNumber, question.Label);
             TypeCheckQuestionAnswer(question.LineNumber, question.Type, question.Computation);
             _questions.Add(question.Id, question);
         }
@@ -160,10 +125,6 @@ namespace Assignment1.TypeChecking
                 statement.Accept(this);
             }
         }
-
-        #endregion
-
-        #region Value visitor implementation
 
         public void Visit(QLBoolean value)
         {
@@ -199,10 +160,6 @@ namespace Assignment1.TypeChecking
         {
             _currentType = Type.Money;
         }
-
-        #endregion
-
-        #region Expression visitor implementation
 
         public void Visit(Not expression)
         {
@@ -252,7 +209,5 @@ namespace Assignment1.TypeChecking
         public void Visit(Multiply expression) => _currentType = TypeCheckBinaryArithmetic(expression, "*");
 
         public void Visit(Divide expression) => _currentType = TypeCheckBinaryArithmetic(expression, "/");
-
-        #endregion
     }
 }

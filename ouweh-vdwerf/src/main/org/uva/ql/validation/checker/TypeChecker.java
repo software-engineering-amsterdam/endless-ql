@@ -36,28 +36,15 @@ public class TypeChecker extends Checker
     }
 
     @NotNull
-    private Type validateBooleanExpression(BinaryOperation operation) {
+    private Type validateExpression(BinaryOperation operation, Type type) {
         Type left = operation.getLeft().accept(this, null);
         Type right = operation.getRight().accept(this, null);
 
-        if (!new BooleanType().isCompatible(left) || !new BooleanType().isCompatible(right)) {
+        if (!type.isCompatible(left) || !type.isCompatible(right)) {
             result.addError(ERROR_MESSAGE + operation);
-            logger.severe(ERROR_MESSAGE + operation);
         }
 
-        return new BooleanType();
-    }
-
-    private Type validateType(BinaryOperation operation) {
-        Type left = operation.getLeft().accept(this, null);
-        Type right = operation.getRight().accept(this, null);
-
-        if (!left.isCompatible(right)) {
-            result.addError(ERROR_MESSAGE + operation);
-            logger.severe(ERROR_MESSAGE + operation);
-        }
-
-        return left;
+        return type;
     }
 
     @Override
@@ -71,17 +58,16 @@ public class TypeChecker extends Checker
     public Type visit(Conditional conditional, String context) {
         Type type = conditional.getCondition().accept(this, null);
 
-        for (Statement statement : conditional.getIfSide()) {
+        for (Statement statement : conditional.getIfBlock()) {
             statement.accept(this, null);
         }
 
-        for (Statement statement : conditional.getElseSide()) {
+        for (Statement statement : conditional.getElseBlock()) {
             statement.accept(this, null);
         }
 
         if (!new BooleanType().isCompatible(type)) {
             result.addError(ERROR_MESSAGE + conditional);
-            logger.severe(ERROR_MESSAGE + conditional);
         }
 
         return new BooleanType();
@@ -93,7 +79,6 @@ public class TypeChecker extends Checker
 
         if (!question.getType().isCompatible(calculationType)) {
             result.addError(ERROR_MESSAGE + question);
-            logger.severe(ERROR_MESSAGE + question);
         }
 
         return question.getType();
@@ -101,69 +86,70 @@ public class TypeChecker extends Checker
 
     @Override
     public Type visit(Addition addition, String context) {
-        return validateType(addition);
+        return validateExpression(addition, new IntegerType());
     }
 
     @Override
     public Type visit(Division division, String context) {
-        return validateType(division);
+        return validateExpression(division, new IntegerType());
     }
 
     @Override
     public Type visit(Multiplication multiplication, String context) {
-        return validateType(multiplication);
+        return validateExpression(multiplication, new IntegerType());
     }
 
     @Override
     public Type visit(Subtraction subtraction, String context) {
-        return validateType(subtraction);
-    }
-
-    @Override
-    public Type visit(Equal equal, String context) {
-        validateType(equal);
-        return new BooleanType();
+        return validateExpression(subtraction, new IntegerType());
     }
 
     @Override
     public Type visit(GreaterThan greaterThan, String context) {
-        validateType(greaterThan);
+        validateExpression(greaterThan, new IntegerType());
         return new BooleanType();
     }
 
     @Override
     public Type visit(GreaterThanEqualTo greaterThanEqualTo, String context) {
-        validateType(greaterThanEqualTo);
+        validateExpression(greaterThanEqualTo, new IntegerType());
         return new BooleanType();
     }
 
     @Override
     public Type visit(LessThan lessThan, String context) {
-        validateType(lessThan);
+        validateExpression(lessThan, new IntegerType());
         return new BooleanType();
     }
 
     @Override
     public Type visit(LessThanEqualTo lessThanEqualTo, String context) {
-        validateType(lessThanEqualTo);
+        validateExpression(lessThanEqualTo, new IntegerType());
+        return new BooleanType();
+    }
+
+    @Override
+    public Type visit(Equal equal, String context) {
+        Type expectedType = equal.getLeft().accept(this, null);
+        validateExpression(equal, expectedType);
         return new BooleanType();
     }
 
     @Override
     public Type visit(NotEqual notEqual, String context) {
-        validateType(notEqual);
+        Type expectedType = notEqual.getLeft().accept(this, null);
+        validateExpression(notEqual, expectedType);
         return new BooleanType();
     }
 
-
     @Override
     public Type visit(Or or, String context) {
-        return validateBooleanExpression(or);
+        return validateExpression(or, new BooleanType());
     }
 
     @Override
     public Type visit(And and, String context) {
-        return validateBooleanExpression(and);
+        return validateExpression(and, new BooleanType());
     }
 
     @Override
@@ -172,10 +158,9 @@ public class TypeChecker extends Checker
 
         if (!new BooleanType().isCompatible(type)) {
             result.addError(ERROR_MESSAGE + negation);
-            logger.severe(ERROR_MESSAGE + negation);
         }
 
-        return type;
+        return new BooleanType();
     }
 
     @Override

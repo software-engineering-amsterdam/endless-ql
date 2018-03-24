@@ -3,11 +3,11 @@ package ql.ast.statements;
 import ql.ast.SourceLocation;
 import ql.ast.expressions.Expression;
 import ql.ast.types.Type;
-import ql.ast.visitors.StatementVisitor;
+import ql.ast.visitors.FormStatementVisitor;
 
 public class ComputedQuestion extends Question {
 
-    private Expression expression;
+    private final Expression expression;
 
     public ComputedQuestion(String identifier, String label, Type type, Expression expression, SourceLocation sourceLocation) {
         super(identifier, label, type, sourceLocation);
@@ -19,7 +19,7 @@ public class ComputedQuestion extends Question {
     }
 
     @Override
-    public <T> T accept(StatementVisitor<T> visitor) {
+    public <T> T accept(FormStatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

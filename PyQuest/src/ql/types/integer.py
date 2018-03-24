@@ -1,8 +1,8 @@
-from ql.types.type import QLType
+from gui.widgets.spinbox import SpinBox
+from ql.ast.expressions.literals.integer_node import IntegerNode
 from ql.types.boolean import QLBoolean
 from ql.types.decimal import QLDecimal
-from ql.ast.expressions.literals.integer_node import IntegerNode
-from gui.widgets.spinbox import SpinBox
+from ql.types.type import QLType
 
 
 class QLInteger(QLType):
@@ -29,9 +29,10 @@ class QLInteger(QLType):
         return QLInteger(- self.value)
 
     def __eq__(self, other):
-        if type(other) == QLInteger:
-            return QLBoolean(self.value == other.value)
-        return False
+        return QLBoolean(self.value == other.value)
+
+    def __ne__(self, other):
+        return QLBoolean(self.value != other.value)
 
     def __lt__(self, other):
         return QLBoolean(self.value < other.value)
@@ -60,6 +61,9 @@ class QLInteger(QLType):
     def __truediv__(self, other):
         return QLDecimal(self.value / other.value)
 
+    def get_json_value(self):
+        return self.value
+
     @property
     def value(self):
         return self.__value
@@ -70,8 +74,4 @@ class QLInteger(QLType):
 
     @staticmethod
     def pyqt5_default_widget():
-        widget = SpinBox()
-        maximum = 2**31 - 1
-        minimum = -maximum
-        widget.setRange(minimum, maximum)
-        return widget
+        return SpinBox()

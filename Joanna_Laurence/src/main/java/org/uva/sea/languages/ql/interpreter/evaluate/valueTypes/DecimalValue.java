@@ -39,13 +39,13 @@ public class DecimalValue extends Value {
 
     @Override
     public Value divide(Value value) throws EvaluationException {
-        return value.reverseDivide(this);
+        return value.divide(this);
     }
 
     @Override
     public Value divide(IntValue value) throws EvaluationException {
         if (value.getIntValue() == 0)
-            throw new EvaluationException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 displayError");
 
         return new DecimalValue(this.decimalValue / value.getIntValue());
     }
@@ -53,7 +53,7 @@ public class DecimalValue extends Value {
     @Override
     public Value divide(DecimalValue value) throws EvaluationException {
         if (value.getDecimalValue() == 0)
-            throw new EvaluationException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 displayError");
 
         return new DecimalValue(this.decimalValue / value.getDecimalValue());
     }
@@ -75,7 +75,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isGreaterOrEqual(Value value) throws EvaluationException {
-        return value.isLessThan(this);
+        return value.isGreaterOrEqual(this);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isGreaterThan(Value value) throws EvaluationException {
-        return value.isLessOrEqual(this);
+        return value.isGreaterThan(this);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isLessOrEqual(Value value) throws EvaluationException {
-        return value.isGreaterThan(this);
+        return value.isLessOrEqual(this);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isLessThan(Value value) throws EvaluationException {
-        return value.isGreaterOrEqual(this);
+        return value.isLessThan(this);
     }
 
     @Override
@@ -165,7 +165,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value subtract(Value value) throws EvaluationException {
-        return value.reverseSubtract(this);
+        return value.subtract(this);
     }
 
     @Override
@@ -176,31 +176,6 @@ public class DecimalValue extends Value {
     @Override
     public Value subtract(DecimalValue value) {
         return new DecimalValue(this.decimalValue - value.getDecimalValue());
-    }
-
-    @Override
-    public Value reverseSubtract(DecimalValue value) {
-        return value.subtract(this);
-    }
-
-    @Override
-    public Value reverseSubtract(IntValue value) {
-        return value.subtract(this);
-    }
-
-    @Override
-    public Value reverseDivide(DecimalValue value) throws EvaluationException {
-        return value.divide(this);
-    }
-
-    @Override
-    public Value reverseDivide(IntValue value) throws EvaluationException {
-        return value.divide(this);
-    }
-
-    @Override
-    public Value reverseDivide(MoneyValue value) throws EvaluationException {
-        return value.divide(this);
     }
 
     @Override
@@ -221,5 +196,14 @@ public class DecimalValue extends Value {
     @Override
     public NodeType getType() {
         return NodeType.DECIMAL;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.decimalValue);
+    }
+
+    public DecimalValue clone() throws CloneNotSupportedException {
+        return (DecimalValue) super.clone();
     }
 }

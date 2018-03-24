@@ -186,7 +186,7 @@ function peg$parse(input, options) {
   const peg$c25 = "widget";
   const peg$c26 = peg$literalExpectation("widget", false);
   const peg$c27 = function(id, options) {
-      return new Nodes.WidgetAttribute(id, options);
+      return NodeFactory.getWidgetStyleAttribute(id, options);
   };
   const peg$c28 = "(";
   const peg$c29 = peg$literalExpectation("(", false);
@@ -201,7 +201,7 @@ function peg$parse(input, options) {
   const peg$c36 = ":";
   const peg$c37 = peg$literalExpectation(":", false);
   const peg$c38 = function(id, args) {
-      return new Nodes.BaseAttribute(id, args);
+      return NodeFactory.getBaseStyleAttribute(id, args);
   };
   const peg$c39 = /^["#"]/;
   const peg$c40 = peg$classExpectation(["\"", "#", "\""], false, false);
@@ -2137,7 +2137,7 @@ function peg$parse(input, options) {
   }
 
 
-
+      let NodeFactory = new Nodes.AttributeNodeFactory();
 
 
   peg$result = peg$startRuleFunction();

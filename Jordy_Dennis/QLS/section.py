@@ -1,4 +1,6 @@
-
+"""
+    Sections are used to hold questions, subsections, and any section wide default values. 
+"""
 from .qlast_methods import *
 class Section:
     def __init__(self, name):
@@ -6,14 +8,13 @@ class Section:
         self.defaults = []
         self.questions = []
         self.sections = []
-        self.varDict = None
-
+    
     """
         Typechecker for the defaults, make sure no (type, widgetType) is declared twice on section level
     """
     def checkDefaults(self, defaultDict):
         defaultDict[self.name] = {}
-
+        
         # Add defaults recursively to questions
         sectionDict = {}
         for section in self.sections:
@@ -31,7 +32,6 @@ class Section:
         defaultDict[self.name]['sectionDefaults'] = tmpDict
         defaultDict[self.name]['questionDefaults'] = questionDict
         defaultDict[self.name]['subsectionDefaults'] = sectionDict
-
 
     """
         Check for children if the widget type is compatible with the question type
@@ -52,12 +52,8 @@ class Section:
             question.checkCompleteness(varList)
 
     def addVarDict(self, varDict):
-        self.varDict = varDict
         for question in self.questions:
             question.addVarDict(varDict)
-        for default in self.defaults:
-            default.addVarDict(varDict)
-
 
     def addSection(self, section):
         self.sections.append(section)

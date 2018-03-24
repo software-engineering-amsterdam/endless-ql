@@ -21,7 +21,7 @@ class ControlWrapperDate extends ControlWrapper {
 	}
 
 	override protected buildControl() {
-		control = new DatePicker
+		control = new DatePicker()
 	}
 
 }

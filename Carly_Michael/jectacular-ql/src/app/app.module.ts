@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import { AppComponent } from './components/app.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,6 +16,7 @@ import {SelectWidgetComponent} from './components/widgets/select-widget/select-w
 import {SliderWidgetComponent} from './components/widgets/slider-widget/slider-widget.component';
 import {SpinboxWidgetComponent} from './components/widgets/spinbox-widget/spinbox-widget.component';
 import {TextWidgetComponent} from './components/widgets/text-widget/text-widget.component';
+import {StyledFormSectionComponent} from './components/styled-form-section/styled-form-section.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {TextWidgetComponent} from './components/widgets/text-widget/text-widget.
     DynamicFormQuestionComponent,
     WidgetComponent,
     StyledFormContentComponent,
+    StyledFormSectionComponent,
     CheckboxWidgetComponent,
     RadioWidgetComponent,
     SelectWidgetComponent,

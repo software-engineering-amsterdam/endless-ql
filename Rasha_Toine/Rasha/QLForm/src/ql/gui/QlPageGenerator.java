@@ -9,7 +9,7 @@ import ql.gui.widget.*;
 import ql.ast.Form;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThenStatement;
-import ql.ast.statement.NormalQuestion;
+import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Question;
 import ql.ast.type.*;
 import ql.visiting.MainVisitor;
@@ -31,7 +31,7 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 	
 	    form.getBlock().accept(new MainVisitor<Void, Expression>() {
              @Override
-             public Void visit(NormalQuestion question, Expression enableExpression) {
+             public Void visit(AnswerableQuestion question, Expression enableExpression) {
                questions.add(createQuestionGUI(question, enableExpression, null, ctx));
                return null;
              }
@@ -102,7 +102,7 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 			@Override
 			public WidgetInterface visit(MoneyType type, Void ctx2) {
 				//default 0.0
-				return new TextField(question, new DecimalValue(BigDecimal.valueOf(0.0)), ctx);
+				return new TextField(question, new MoneyValue(BigDecimal.valueOf(0.0)), ctx);
 			}
 			
 			@Override
@@ -120,7 +120,7 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 			@Override
 			public WidgetInterface visit(DecimalType type, Void ctx2) {
 				//default 0.0
-				return new TextField(question, new DecimalValue(BigDecimal.valueOf(0.0)), ctx);
+				return new TextField(question, new MoneyValue(BigDecimal.valueOf(0.0)), ctx);
 			}
 				
 		  },

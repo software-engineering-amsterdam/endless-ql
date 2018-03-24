@@ -27,7 +27,11 @@ money_constant      : NUMBER '.' NUMBER ;
 string_constant     : STRING ;
 boolean_constant    : TRUE | FALSE ;
 integer_constant    : NUMBER ;
-binop               : (MINUS | PLUS | MULTIPLY | DIVIDE | EQ | NEQ | GTE | GT | LTE | LT) ;
+binop               : MINUS | PLUS
+                    | MULTIPLY | DIVIDE
+                    | EQ | NEQ
+                    | GTE | GT | LTE | LT
+                    | AND | OR ;
 unop                : (MINUS | PLUS | NOT) ;
 type_expr           : typeNode
                     | typeNode PARENTH_L expr PARENTH_R ;
@@ -63,6 +67,8 @@ GT              : '>' ;
 LTE             : '<=' ;
 LT              : '<' ;
 NOT             : '!' ;
+AND             : '&&' ;
+OR              : '||' ;
 
 
 NEWLINE         : ('\r'? '\n' | '\r')+ -> skip ;

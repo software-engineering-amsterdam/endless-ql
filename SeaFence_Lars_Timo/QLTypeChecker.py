@@ -6,58 +6,91 @@ INTEGER_UNICODE = u"int"
 
 class QLTypeChecker(object):    
 
-    def __init__(self, ast):
-        self.ast = ast
+    def __init__(self):
         self.questions = {}
         self.conditionals = {}
-        # self.getVariables(self.ast.statements)
 
 
-    def startQLTypeCheck(self):
-        statements = self.ast.statements
+    def startQLTypeCheck(self, statements):
 
         for statement in statements:
-            self.getVariables(statement)
+            node_type = statement.getNodeType()
+            if node_type == "question":
+                self.checkQuestionNodes(statement)
+
+            elif node_type == "if" or node_type == "elif":
+                self.checkConditionalWithExpressionNodes(statement)
+
+            elif node_type == "else":
+                self.checkElseConditionNodes(statement)
+
+            elif node_type == "assignment":
+                self.checkAssignmentNodes(statement)
+
+        # print self.questions
+        return
         
 
+    # Do the type check for question nodes and if everything is okay append the question
+    # to the dictionary.
+    def checkQuestionNodes(self, statement):
+        self.checkDuplicateVariables(statement)
+        statement.question = self.checkDuplicateQuestions(statement.question)
+        self.questions[statement.question] = [statement.var, statement.vartype]
+        return
 
-    # Retrieve the variables/questions/etc from the ast and keep track of them.
-    def getVariables(self, statement):
-        # statements = self.ast.statements
 
-        # for statement in statements:
-        if type(statement) is QuestionNode:
-            self.checkDuplicateVariables(statement)
-            statement.question = self.checkDuplicateQuestions(statement.question)
-            self.questions[statement.question] = [statement.var, statement.vartype]
-        
-        elif type(statement) is IfNode or type(statement) is ElifNode:
-            if type(statement.expression) is UnOpNode:
+    # Do the type check for conditional nodes that depend on an expression and if everything
+    # is okay append the conditional to the dictionary and loop through the statements.
+    def checkConditionalWithExpressionNodes(self, statement):
+        # todo: implement 1 and 0 for boolean?
+        node_type = statement.expression.getNodeType()
+        if node_type == "literal":
+            print statement.expression
+            if statement.expression.vartype != INTEGER_UNICODE and statement.expression.vartype != BOOLEAN_UNICODE:
+                exitProgram("Condition {} is not of type boolean.".format(statement.expression))
 
-                self.checkConditionals(statement)
+        elif node_type == "unop":
+            self.checkConditional(statement)
 
-            elif type(statement.expression) is BinOpNode:
-                conditional_type = self.checkInvalidOperations(statement.expression)
-                if conditional_type != BOOLEAN_UNICODE:
-                    exitProgram("Condition {} is not of type boolean.".format(statement.expression))
+        elif node_type == "binop":
+            conditional_type = self.checkInvalidOperations(statement.expression)
+            if conditional_type != BOOLEAN_UNICODE:
+                exitProgram("Condition {} is not of type boolean.".format(statement.expression))
 
-            self.conditionals[statement.expression] = statement.statements
-            self.getVariables(statement.statements)
+        self.conditionals[statement.expression] = statement.statements
+        self.startQLTypeCheck(statement.statements)
+        return
 
-        elif type(statement) is ElseNode:
-            self.conditionals["else"] = statement.statements
-            self.getVariables(statement.statements)
 
-        elif type(statement) is AssignmentNode:
+    # Do the type check for else condition nodes and if everything is okay append the
+    # conditional to the dictionary and loop through the statements.
+    def checkElseConditionNodes(self, statement):
+        self.conditionals["else"] = statement.statements
+        self.startQLTypeCheck(statement.statements)
+        return
+
+
+    # Do the type check for assignment nodes and if everything is okay append the 
+    # assignment to the questions.
+    def checkAssignmentNodes(self, statement):
+        node_type = statement.expression.getNodeType()
+        if node_type == "unop":
+            assignment_type = self.getVariableTypes(statement.expression)
+
+        elif node_type == "literal":
+            assignment_type = statement.expression.vartype
+
+        elif node_type is "binop":
             assignment_type = self.checkInvalidOperations(statement.expression)
-            statement.name = self.checkDuplicateQuestions(statement.name)
 
-            if assignment_type != statement.vartype:
-                exitProgram("Assignment expression type does not match variable type at {}".format(statement))
-            
-            self.questions[statement.name] = [statement.var, statement.vartype, statement.expression]
+        if assignment_type != statement.vartype:
+            exitProgram("Assignment expression type does not match variable type at {}".format(statement))
+
+        statement.name = self.checkDuplicateQuestions(statement.name)
         
-        # print len(self.questions)
+        self.questions[statement.name] = [statement.var, statement.vartype, statement.expression]
+ 
         return
 
 
@@ -84,53 +117,45 @@ class QLTypeChecker(object):
         return question
 
 
-    # Check for conditionals that are not of the type boolean.
-    def checkConditionals(self, statement):
+    # Check for conditional that is not of the type boolean.
+    def checkConditional(self, statement):
         for key, value in self.questions.iteritems():
-            if statement.expression.var in value and value[1] != BOOLEAN_UNICODE:
-                exitProgram("Condition {} is not of type boolean.".format(statement.expression.var))
+            if statement.expression.var in value and (value[1] != BOOLEAN_UNICODE and value[1] != INTEGER_UNICODE):
+                exitProgram("Condition {} is not of type boolean or integer.".format(statement.expression.var))
                 
         return
 
 
     # Check for operands of invalid type with regard to operators.
     def checkInvalidOperations(self, statement):
-        left_type = ""
-        right_type = ""
         operator = statement.op
 
-        if type(statement.left) is BinOpNode:
-            left_type = self.checkInvalidOperations(statement.left)
-
-        elif type(statement.left) is UnOpNode:
-            self.checkUndefinedVariables(statement.left)
-            left_type = self.getVariableTypes(statement.left)
-
-        elif type(statement.left) is LiteralNode:
-            if statement.left.literal.isdigit():
-                left_type = INTEGER_UNICODE
-
-        if type(statement.right) is BinOpNode:
-            right_type = self.checkInvalidOperations(statement.right)
-
-        elif type(statement.right) is UnOpNode:
-            self.checkUndefinedVariables(statement.right)
-            right_type = self.getVariableTypes(statement.right)
-
-        elif type(statement.right) is LiteralNode:
-            if statement.right.literal.isdigit():
-                right_type = INTEGER_UNICODE
+        left_type = self.getStatementType(statement.left)
+        right_type = self.getStatementType(statement.right)
 
         self.checkNegation(statement.left, left_type)
         self.checkNegation(statement.right, right_type)
-        self.checkNegation(statement, left_type)
 
-        self.checkOperation(statement, left_type, right_type, operator)
+        overall_type = self.checkOperation(statement, left_type, right_type, operator)
+        self.checkNegation(statement, overall_type)
 
-        if operator == "<" or operator == ">" or operator == "<=" or operator == ">=" or operator == "==" or operator == "!=":
-            return BOOLEAN_UNICODE
+        return overall_type
 
-        return left_type
+
+    def getStatementType(self, statement):
+        node_type = statement.getNodeType()
+        if node_type is "binop":
+            statement_type = self.checkInvalidOperations(statement)
+
+        elif node_type is "unop":
+            self.checkUndefinedVariables(statement)
+            statement_type = self.getVariableTypes(statement)
+
+        elif node_type is "literal":
+            if statement.literal.isdigit():
+                statement_type = INTEGER_UNICODE
+
+        return statement_type
 
 
     # Check if negation on a given node is allowed.
@@ -156,7 +181,7 @@ class QLTypeChecker(object):
         return variable_type
 
 
-    # Check if the operation has correct input.
+    # Check if the operation has correct input and returns the output type.
     def checkOperation(self, statement, left_type, right_type, operator):
         if operator == "&&" or operator == "||":
             if left_type != BOOLEAN_UNICODE or right_type != BOOLEAN_UNICODE:
@@ -166,11 +191,16 @@ class QLTypeChecker(object):
             if left_type != right_type:
                 exitProgram("Operation ({}) has invalid types.".format(statement))
 
-        else:
+        elif operator == "<" or operator == ">" or operator == "<=" or operator == ">=":
             if left_type != INTEGER_UNICODE or right_type != INTEGER_UNICODE:
                 exitProgram("Operation ({}) has invalid types.".format(statement))
 
-        return
+        else:
+            if left_type != INTEGER_UNICODE or right_type != INTEGER_UNICODE:
+                exitProgram("Operation ({}) has invalid types.".format(statement))
+            return INTEGER_UNICODE
+
+        return BOOLEAN_UNICODE
 
 
 def exitProgram(message):

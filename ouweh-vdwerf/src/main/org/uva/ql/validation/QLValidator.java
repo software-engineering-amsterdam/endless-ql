@@ -2,15 +2,13 @@ package org.uva.ql.validation;
 
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.Question;
-import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.validation.checker.*;
-import org.uva.ql.validation.collector.ParameterMapping;
+import org.uva.ql.validation.collector.ParameterContext;
 import org.uva.ql.validation.collector.QuestionContext;
 import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class QLValidator {
 
@@ -23,7 +21,7 @@ public class QLValidator {
     private List<Checker> getCheckers() {
         List<Question> questions = new QuestionContext(form).getQuestions();
         SymbolTable symbolTable = new SymbolTable(form);
-        Map<String, List<Parameter>> parameterMapping = new ParameterMapping(form).getParameterMapping();
+        ParameterContext parameterContext = new ParameterContext(form);
 
 
         List<Checker> checkers = new ArrayList<>();
@@ -31,10 +29,10 @@ public class QLValidator {
         QuestionChecker questionChecker = new QuestionChecker(questions);
         checkers.add(questionChecker);
 
-        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, parameterMapping);
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, parameterContext.getParameters());
         checkers.add(parameterChecker);
 
-        DependencyChecker dependencyChecker = new DependencyChecker(parameterMapping);
+        DependencyChecker dependencyChecker = new DependencyChecker(parameterContext.getDependencyMapping());
         checkers.add(dependencyChecker);
 
         TypeChecker typeChecker = new TypeChecker(form, symbolTable);

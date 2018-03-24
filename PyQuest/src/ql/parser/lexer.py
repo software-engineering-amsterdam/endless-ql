@@ -8,11 +8,9 @@ from ql.types.boolean import QLBoolean
 from ql.types.date import QLDate
 from ql.types.decimal import QLDecimal
 from ql.types.integer import QLInteger
-from debug.debug import Debug
 
 
 class QLLexer:
-    # List of token names.
     tokens = [
         'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'COLON',
         'ASSIGN',
@@ -24,118 +22,118 @@ class QLLexer:
         'TRUE', 'FALSE',
         'DATE_LITERAL',
         'STRING_LITERAL',
-        'VARIABLE']
+        'IDENTIFIER',
+    ]
 
-    # List of reserved keywords
-    reserved = {
-        'form'    : 'FORM',
-        'if'      : 'IF',
-        'elif'    : 'ELSE_IF',
-        'else'    : 'ELSE',
-        'boolean' : 'BOOLEAN',
-        'string'  : 'STRING',
-        'integer' : 'INTEGER',
-        'date'    : 'DATE',
-        'decimal' : 'DECIMAL',
-        'money'   : 'MONEY'}
+    reserved_keywords = {
+        'form':     'FORM',
+        'if':       'IF',
 
-    tokens += list(reserved.values())
+        # Types
+        'boolean':  'BOOLEAN',
+        'string':   'STRING',
+        'integer':  'INTEGER',
+        'date':     'DATE',
+        'decimal':  'DECIMAL',
+        'money':    'MONEY',
+    }
+
+    tokens += list(reserved_keywords.values())
 
     # Regular expression rules for simple tokens
-    t_ignore   = ' \t'
+    t_ignore = ' \t'
 
-    t_PLUS     = r'\+'
-    t_MINUS    = r'-'
-    t_TIMES    = r'\*'
-    t_DIVIDE   = r'/'
-    t_COLON    = r':'
+    t_PLUS = r'\+'
+    t_MINUS = r'-'
+    t_TIMES = r'\*'
+    t_DIVIDE = r'/'
+    t_COLON = r':'
+    t_ASSIGN = r'='
 
-    t_ASSIGN   = r'='
+    t_LE = r'<='
+    t_LT = r'<'
+    t_GE = r'>='
+    t_GT = r'>'
+    t_EQ = r'=='
+    t_NE = r'!='
+    t_AND = r'&&'
+    t_OR = r'\|\|'
 
-    t_LE       = r'<='
-    t_LT       = r'<'
-    t_GE       = r'>='
-    t_GT       = r'>'
-    t_EQ       = r'=='
-    t_NE       = r'!='
-    t_AND      = r'&&'
-    t_OR       = r'\|\|'
-
-    t_NOT      = r'\!'
+    t_NOT = r'\!'
 
     t_LEFT_BRACE = r'\{'
     t_RIGHT_BRACE = r'\}'
 
-    t_LEFT_BRACKET   = r'\('
-    t_RIGHT_BRACKET   = r'\)'
+    t_LEFT_BRACKET = r'\('
+    t_RIGHT_BRACKET = r'\)'
 
     # Define a rule so we can track line numbers
     @staticmethod
-    def t_newline(t):
+    def t_newline(token):
         r'\n+'
-        t.lexer.lineno += len(t.value)
+        token.lexer.lineno += len(token.value)
 
+    def t_IDENTIFIER(self, token):
+        r'[a-z][a-zA-Z_0-9]*'
+        token.type = self.reserved_keywords.get(token.value, 'IDENTIFIER')  # Check for reserved words
+        return token
+
+    # Literals
     @staticmethod
-    def t_FALSE(t):
+    def t_FALSE(token):
         r'False'
-        t.value = QLBoolean(False)
-        return t
+        token.value = QLBoolean(False)
+        return token
 
     @staticmethod
-    def t_TRUE(t):
+    def t_TRUE(token):
         r'True'
-        t.value = QLBoolean(True)
-        return t
+        token.value = QLBoolean(True)
+        return token
 
     @staticmethod
-    def t_DATE_LITERAL(t):
+    def t_DATE_LITERAL(token):
         r'date\(\s*\d{1,2}\s*,\s*\d{1,2}\s*,\s*\d{1,4}\s*\)'
-        numbers = findall(r'\d\d*', t.value)
+        numbers = findall(r'\d\d*', token.value)
 
         try:
-            t.value = QLDate(numbers)
-            return t
+            token.value = QLDate(numbers)
+            return token
         except SyntaxError:
-            Debug(pyqt5=False).error([t.lineno], 'Invalid date.')
+            Debug(pyqt5=False).error([token.lineno], 'Invalid date.')
 
     @staticmethod
-    def t_DECIMAL_LITERAL(t):
+    def t_DECIMAL_LITERAL(token):
         r'\d+[.]\d+'
-        t.value = QLDecimal(t.value)
-        return t
+        token.value = QLDecimal(token.value)
+        return token
 
     @staticmethod
-    def t_INTEGER_LITERAL(t):
+    def t_INTEGER_LITERAL(token):
         r'\d+'
-        t.value = QLInteger(t.value)
-        return t
+        token.value = QLInteger(token.value)
+        return token
 
     @staticmethod
-    def t_STRING_LITERAL(t):
+    def t_STRING_LITERAL(token):
         r'\"(.+?)\"'
-        t.value = t.value[1:-1]
-        return t
+        token.value = token.value[1:-1]
+        return token
 
-    # Define a rule for handling erroneous characters
+    # Error handling
     @staticmethod
-    def t_error(t):
-        print("Illegal character '%s'" % t.value[0])
-        t.lexer.skip(1)
-
-    # Define a rule for handling all non-tokens
-    def t_VARIABLE(self, t):
-        r'[a-z][a-zA-Z_0-9]*'
-        t.type = self.reserved.get(t.value, 'VARIABLE')  # Check for reserved words
-        return t
+    def t_error(token):
+        print("Illegal character '%s'" % token.value[0])
+        token.lexer.skip(1)
 
     # Test the lexer output
     def test(self, data):
         self.lexer.input(data)
         while True:
-            tok = self.lexer.token()
-            if not tok:
+            token = self.lexer.token()
+            if not token:
                 break
-            print(tok)
+            print(token)
 
     # Class constructor
     def __init__(self):

@@ -1,12 +1,27 @@
 import BaseAttribute from "../BaseAttribute";
 import ColorValue from "../../../values/ColorValue";
+import { InvalidColorError } from "../../../style_errors";
 
 export default class ColorAttribute extends BaseAttribute {
-  private value: ColorValue;
+  private color: ColorValue;
 
-  constructor(value: ColorValue) {
+  static makeFromString(value: string) {
+    const color = new ColorValue(value);
+    if (!color.isValid()) {
+      throw InvalidColorError.make(value);
+    }
+    return new ColorAttribute(color);
+  }
+
+  constructor(color: ColorValue) {
     super();
-    this.value = value;
+    this.color = color;
+  }
+
+  getCssValues(): object {
+    return {
+      [this.getName()] : this.getStringValue(),
+    };
   }
 
   getName(): string {
@@ -14,6 +29,7 @@ export default class ColorAttribute extends BaseAttribute {
   }
 
   getStringValue(): string {
-    return this.value.toString();
+    return this.color.toString();
   }
+
 }

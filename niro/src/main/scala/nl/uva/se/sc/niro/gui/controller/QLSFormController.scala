@@ -1,19 +1,16 @@
 package nl.uva.se.sc.niro.gui.controller
 
-import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.fxml.FXML
 import javafx.geometry.Insets
 import javafx.scene.control.{ Label, Pagination }
 import nl.uva.se.sc.niro.gui.control.Component
-import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
 import nl.uva.se.sc.niro.gui.factory.PageFactory
-import nl.uva.se.sc.niro.model.gui.GUIForm
+import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIStylesheet }
 import nl.uva.se.sc.niro.model.ql.QLForm
-import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import nl.uva.se.sc.niro.util.StringUtil
 
-class QLSFormController(homeController: QLHomeController, override val form: QLForm, val stylesheet: QLStylesheet)
-    extends QLFormController(homeController, form) {
+class QLSFormController(homeController: QLHomeController, model: QLForm, guiForm: GUIForm, stylesheet: GUIStylesheet)
+    extends QLFormController(homeController, model, guiForm) {
 
   private val pagination = new Pagination()
   private val pageName: Label = new Label("Page Name")
@@ -31,20 +28,9 @@ class QLSFormController(homeController: QLHomeController, override val form: QLF
   }
 
   override def initializeForm(): Unit = {
-    guiForm = GUIModelFactory.makeFrom(form)
-
     pagination.setPageCount(stylesheet.pages.size)
     pagination.setPadding(new Insets(00.0, 20.0, 00.0, 20.0))
-
-    pagination.setPageFactory(new PageFactory(this))
-    pagination
-      .currentPageIndexProperty()
-      .addListener(new ChangeListener[Number] {
-        override def changed(observable: ObservableValue[_ <: Number], oldValue: Number, newValue: Number): Unit = {
-          evaluateAnswers()
-          updateView()
-        }
-      })
+    pagination.setPageFactory(new PageFactory(this, guiForm, stylesheet))
 
     questionArea.setContent(pagination)
     questionArea.setFitToHeight(true)
@@ -52,6 +38,8 @@ class QLSFormController(homeController: QLHomeController, override val form: QLF
 
     getActiveStage.setTitle("QLS forms")
     formName.setText(guiForm.name)
+
+    evaluateAnswers()
   }
 
   override def updateView(): Unit = {
@@ -65,6 +53,4 @@ class QLSFormController(homeController: QLHomeController, override val form: QLF
   }
 
   def setQuestionControls(questionComponents: Seq[Component[_]]): Unit = this.questionComponents = questionComponents
-  def getQuestionControls: Seq[Component[_]] = questionComponents
-  def getGUIForm: GUIForm = guiForm
 }

@@ -70,7 +70,7 @@ public class ParserTest {
 
         Form form = parser.parseInputToForm(formFile.getPath());
 
-        for(Question question : form.getBlock().getQuestions()){
+        for(Question question : form.getQuestions()){
             ActualIdentifier.add(question.getIdentifier());
             ActualText.add(question.getText());
             ActualType.add(question.getType().toString());

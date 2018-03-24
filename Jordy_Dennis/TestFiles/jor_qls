@@ -1,0 +1,13 @@
+stylesheet taxOfficeExample
+{
+  page Page1
+  {
+    section "Section 1"
+    {
+      question a
+        widget spinbox(0, 100)
+      question b
+        widget radio("yes", "no")
+    }
+  }
+}

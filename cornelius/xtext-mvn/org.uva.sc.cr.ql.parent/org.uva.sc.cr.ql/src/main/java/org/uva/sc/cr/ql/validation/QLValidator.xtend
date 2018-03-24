@@ -26,7 +26,7 @@ class QLValidator extends AbstractQLValidator {
 	@Check
 	def checkBlockHasQuestion(BlockBody blockBody) {
 
-		if (blockBody.questions.isEmpty) {
+		if (blockBody.questions.isEmpty()) {
 			error(BLOCK_MISSING_QUESTION_MESSAGE, QLPackage.Literals.BLOCK_BODY__QUESTIONS, BLOCK_MISSING_QUESTION)
 		}
 
@@ -36,7 +36,7 @@ class QLValidator extends AbstractQLValidator {
 	def checkQuestionSelfReference(Question question) {
 
 		if (question.expression !== null) {
-			question.expression.eContents.filter[it instanceof ExpressionQuestionReference].forEach [
+			question.expression.eContents().filter[it instanceof ExpressionQuestionReference].forEach [
 				val questionRef = it as ExpressionQuestionReference
 				if (questionRef.question.name == question.name)
 					error(SELF_REFERNCE_MESSAGE, QLPackage.Literals.QUESTION__EXPRESSION, SELF_REFERNCE)
@@ -49,9 +49,9 @@ class QLValidator extends AbstractQLValidator {
 	def checkForForwardReferences(ExpressionQuestionReference expressionQuestionReference) {
 		val form = getForm(expressionQuestionReference)
 
-		val elementsInTreeBefore = new ArrayList<EObject>
+		val elementsInTreeBefore = new ArrayList<EObject>()
 		var found = false
-		for (elem : form.eAllContents.toList) {
+		for (elem : form.eAllContents().toList()) {
 
 			if (!found) {
 				elementsInTreeBefore.add(elem)
@@ -78,7 +78,7 @@ class QLValidator extends AbstractQLValidator {
 
 		val form = getForm(question)
 
-		val labelExists = form.eAllContents.filter[it instanceof Question && it != question].exists [
+		val labelExists = form.eAllContents().filter[it instanceof Question && it != question].exists [
 			val questionToCompare = it as Question
 			question.label == questionToCompare.label
 		]
@@ -90,7 +90,7 @@ class QLValidator extends AbstractQLValidator {
 	}
 
 	def dispatch Form getForm(EObject obj) {
-		val parent = obj.eContainer
+		val parent = obj.eContainer()
 		return getForm(parent)
 	}
 

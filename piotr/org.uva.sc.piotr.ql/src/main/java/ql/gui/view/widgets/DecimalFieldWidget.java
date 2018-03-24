@@ -18,9 +18,10 @@ public class DecimalFieldWidget extends Widget {
     public DecimalFieldWidget(QuestionModel questionModel) {
         super(questionModel);
         NumberFormat format = DecimalFormat.getInstance();
+        format.setMinimumFractionDigits(0);
+        format.setMaximumFractionDigits(8);
         format.setGroupingUsed(false);
         NumberFormatter formatter = new NumberFormatter(format);
-        // If you want the value to be committed on each keystroke instead of focus lost
         formatter.setCommitsOnValidEdit(true);
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
@@ -34,9 +35,7 @@ public class DecimalFieldWidget extends Widget {
                 warn();
             }
 
-            public void removeUpdate(DocumentEvent e) {
-                warn();
-            }
+            public void removeUpdate(DocumentEvent e) {}
 
             public void insertUpdate(DocumentEvent e) {
                 warn();
@@ -46,16 +45,21 @@ public class DecimalFieldWidget extends Widget {
 
                 Runnable format = () -> {
                     String text = textField.getText();
-                    if (!text.matches("(-)?\\d*(\\.\\d{0,5})?")) {
+                    if (!text.matches("(-)?\\d*(\\.\\d{0,8})?")) {
                         textField.setText(text.substring(0, text.length() - 1));
                     }
                 };
 
                 SwingUtilities.invokeLater(format);
 
-                if (textField.getText().matches("(-)?\\d*(\\.\\d{0,5})?")) {
-                    questionModel.changeValue(new BigDecimal(textField.getText()));
+                if (textField.getText().matches("(-)?\\d*(\\.\\d{0,8})?")) {
+                    if (textField.getText().equals("-")) {
+                        questionModel.changeValue(new BigDecimal(0));
+                    } else {
+                        questionModel.changeValue(new BigDecimal(textField.getText()));
+                    }
                 }
+
             }
         });
 
@@ -69,6 +73,6 @@ public class DecimalFieldWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.field.setValue(this.getQuestionModel().getValue().getDecimalValue());
+        this.field.setValue(this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 }

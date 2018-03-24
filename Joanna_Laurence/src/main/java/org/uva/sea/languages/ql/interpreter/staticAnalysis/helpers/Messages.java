@@ -2,8 +2,9 @@ package org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 
-import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map.Entry;
 
 public class Messages {

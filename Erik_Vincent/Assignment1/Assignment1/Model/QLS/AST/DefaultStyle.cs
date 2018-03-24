@@ -12,8 +12,9 @@ namespace Assignment1.Model.QLS.AST
 
         private readonly List<IStyle> _styles;
 
-        public DefaultStyle(Type type, IEnumerable<IStyle> styles)
+        public DefaultStyle(int lineNumber, Type type, IEnumerable<IStyle> styles)
         {
+            _lineNumber = lineNumber;
             Type = type;
             _styles = styles.ToList();
         }

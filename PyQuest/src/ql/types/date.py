@@ -1,19 +1,14 @@
-from ql.types.type import QLType
-from ql.types.boolean import QLBoolean
-from ql.ast.expressions.literals.date_node import DateNode
 from gui.widgets.calendar import CalendarWidget
-from datetime import datetime
+from ql.ast.expressions.literals.date_node import DateNode
+from ql.types.boolean import QLBoolean
+from ql.types.type import QLType
 
 
 class QLDate(QLType):
     def __init__(self, date=(1, 1, 2018)):
         super(QLDate, self).__init__()
-        try:
-            date = tuple(map(int, date))
-            self.__day, self.__month, self.__year = date
-            datetime(self.year, self.month, self.day)
-        except ValueError:
-            raise ValueError('Invalid date input.')
+        date = tuple(map(int, date))
+        self.__day, self.__month, self.__year = date
 
     def __repr__(self):
         return '{}-{}-{}'.format(self.day, self.month, self.year)
@@ -22,9 +17,10 @@ class QLDate(QLType):
         return '{}-{}-{}'.format(self.day, self.month, self.year)
 
     def __eq__(self, other):
-        if type(other) == QLDate:
-            return QLBoolean(self.day == other.day and self.month == other.month and self.year == other.year)
-        return False
+        return QLBoolean(self.day == other.day and self.month == other.month and self.year == other.year)
+
+    def __ne__(self, other):
+        return QLBoolean(self.day != other.day or self.month != other.month or self.year != other.year)
 
     def __lt__(self, other):
         return QLBoolean(self.year < other.year or (self.month < other.month and self.year == other.year) or
@@ -39,6 +35,9 @@ class QLDate(QLType):
 
     def __ge__(self, other):
         return QLBoolean(self > other or self == other)
+
+    def get_json_value(self):
+        return {'day': self.day, 'month': self.month, 'year': self.year}
 
     @property
     def day(self):

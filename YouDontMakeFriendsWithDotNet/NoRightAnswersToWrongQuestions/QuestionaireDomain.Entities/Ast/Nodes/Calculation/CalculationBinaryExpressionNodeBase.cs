@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 using QuestionnaireDomain.Entities.Domain;
@@ -19,6 +20,9 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation
         {
             LeftCalculation = leftCalculation;
             RightCalculation = rightCalculation;
+            Children = new[] {leftCalculation, rightCalculation};
         }
+
+        public IEnumerable<Reference<ICalculationNode>> Children { get; }
     }
 }

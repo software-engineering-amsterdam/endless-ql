@@ -22,22 +22,27 @@ public class SubtractExpression extends BinaryExpression {
         Expression rightExpr = this.getExprRight();
         Expression leftExpr = this.getExprLeft();
 
+        try {
+            if (!rightExpr.evaluate().isArithmetic() || !leftExpr.evaluate().isArithmetic()) {
+                throw new IllegalArgumentException("Not possible: non-numeric");
+                //return new UndefinedConstant();
+            }
 
-        if(!rightExpr.evaluate().isArithmetic() || !leftExpr.evaluate().isArithmetic()){
+            if (leftExpr.returnType().equals(rightExpr.returnType())
+                    && rightExpr.returnType() == EvaluationType.Integer) {
+                Integer left = Integer.parseInt(leftExpr.evaluate().getValue().toString());
+                Integer right = Integer.parseInt(rightExpr.evaluate().getValue().toString());
+
+                return new IntegerConstant(left - right);
+            }
+            Double left = Double.parseDouble(leftExpr.evaluate().getValue().toString());
+            Double right = Double.parseDouble(rightExpr.evaluate().getValue().toString());
+
+            return new DecimalConstant(left - right);
+        } catch (Exception e){
+            System.out.print(e);
             return new UndefinedConstant();
         }
-
-        if(leftExpr.returnType().equals(rightExpr.returnType())
-                && rightExpr.returnType() == EvaluationType.Integer){
-            Integer left = Integer.parseInt(leftExpr.evaluate().getValue().toString());
-            Integer right = Integer.parseInt(rightExpr.evaluate().getValue().toString());
-
-            return new IntegerConstant(left - right);
-        }
-        Double left = Double.parseDouble(leftExpr.evaluate().getValue().toString());
-        Double right = Double.parseDouble(rightExpr.evaluate().getValue().toString());
-
-        return new DecimalConstant(left - right);
     }
 
     @Override

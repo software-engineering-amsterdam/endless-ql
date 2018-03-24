@@ -56,6 +56,7 @@
     <Compile Include="Converters\QLASTExpressionToRenderExpression.cs" />
     <Compile Include="Converters\QLASTToRenderTree.cs" />
     <Compile Include="Converters\TextToQLAST.cs" />
+    <Compile Include="Execution\QLExecutor.cs" />
     <Compile Include="Execution\QLExpressionEvaluator.cs" />
     <Compile Include="Export\FormExporter.cs" />
     <Compile Include="IMainView.cs" />

@@ -1,4 +1,4 @@
-package ql.analysis;
+package ql.analysis.error;
 
 import ql.QLBaseVisitor;
 import ql.evaluation.SymbolTable;
@@ -14,17 +14,13 @@ import ql.model.expression.unary.ExpressionUnaryNeg;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.*;
 
-public class TypeChecker extends QLBaseVisitor<ReturnType> {
+public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAnalysis {
 
-    private final Form form;
-    private final SymbolTable symbolTable;
+    private SymbolTable symbolTable;
 
-    public TypeChecker(Form form, SymbolTable symbolTable) {
-        this.form = form;
+    @Override
+    public void analyze(Form form, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
-    }
-
-    public void typeCheck() {
         form.accept(this);
     }
 

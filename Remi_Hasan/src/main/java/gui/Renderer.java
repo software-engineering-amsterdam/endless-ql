@@ -9,6 +9,7 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import ql.QLFormBuilder;
+import ql.analysis.warning.QLWarningAnalyzer;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import qls.QLSFormBuilder;
@@ -37,7 +38,8 @@ public class Renderer extends Application {
             this.symbolTable = qlFormBuilder.getSymbolTable();
 
             // Check for warning messages
-            Set<String> warnings = qlFormBuilder.getWarnings(this.qlForm);
+            QLWarningAnalyzer qlWarningAnalyzer = new QLWarningAnalyzer();
+            Set<String> warnings = qlWarningAnalyzer.analyze(this.qlForm, this.symbolTable);
             if (!warnings.isEmpty()) {
                 showWarningAlert(String.join("\n", warnings));
             }

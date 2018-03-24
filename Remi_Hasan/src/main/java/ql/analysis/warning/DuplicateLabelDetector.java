@@ -1,6 +1,7 @@
-package ql.analysis;
+package ql.analysis.warning;
 
 import ql.QLBaseVisitor;
+import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.model.Question;
 
@@ -9,16 +10,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class DuplicateLabelDetector {
+public class DuplicateLabelDetector implements IQLWarningAnalysis {
 
-    private final Form form;
-
-    public DuplicateLabelDetector(Form form) {
-        this.form = form;
-    }
-
-    public Set<String> getDuplicateLabelWarnings() {
-        Map<String, Set<String>> questionsPerLabel = this.getQuestionsPerLabel();
+    @Override
+    public Set<String> analyze(Form form, SymbolTable symbolTable) {
+        Map<String, Set<String>> questionsPerLabel = this.getQuestionsPerLabel(form);
 
         // Find and add warning for all labels that are used for more than one question
         Set<String> warnings = new HashSet<>();
@@ -32,10 +28,10 @@ public class DuplicateLabelDetector {
     }
 
     // Get a map from label to all question with that label
-    private Map<String, Set<String>> getQuestionsPerLabel() {
+    private Map<String, Set<String>> getQuestionsPerLabel(Form form) {
         Map<String, Set<String>> questionsPerLabel = new HashMap<>();
 
-        this.form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLBaseVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 // New set or existing set

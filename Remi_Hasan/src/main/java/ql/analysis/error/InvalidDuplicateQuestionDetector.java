@@ -1,6 +1,7 @@
-package ql.analysis;
+package ql.analysis.error;
 
 import ql.QLBaseVisitor;
+import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.model.Question;
 import ql.model.expression.ReturnType;
@@ -10,18 +11,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class InvalidDuplicateQuestionDetector extends QLBaseVisitor<Void> {
-    private final Form form;
+public class InvalidDuplicateQuestionDetector implements IQLErrorAnalysis {
 
-    public InvalidDuplicateQuestionDetector(Form form) {
-        this.form = form;
-    }
-
-    public void detect() {
+    @Override
+    public void analyze(Form form, SymbolTable symbolTable) {
         Map<String, ReturnType> questionTypes = new HashMap<>();
         Set<String> invalidQuestions = new HashSet<>();
 
-        this.form.accept(new QLBaseVisitor<Void>() {
+        // Visit all questions and check if there are questions with the same identifier but different types
+        form.accept(new QLBaseVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 // If already saw identifier with different type, add this one to the invalid questions

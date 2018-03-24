@@ -1,29 +1,27 @@
-package ql.analysis;
+package ql.analysis.error;
 
 import ql.QLBaseVisitor;
+import ql.analysis.IdentifiersCollector;
+import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.model.Question;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
-import ql.model.expression.Expression;
-import ql.model.expression.ExpressionIdentifier;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class CycleDetector {
+public class CycleDetector implements IQLErrorAnalysis {
 
-    private final Form form;
 
-    public CycleDetector(Form form) {
-        this.form = form;
-    }
+    @Override
+    public void analyze(Form form, SymbolTable symbolTable) {
+        // Add all identifiers to a graph
+        Graph<String, DefaultEdge> referenceGraph = this.createVerticesGraph(form);
 
-    public void detect() {
-        Graph<String, DefaultEdge> referenceGraph = this.createVerticesGraph();
-        this.addReferenceEdges(referenceGraph);
+        // Add all edges between questions referring to each other to the graph
+        this.addReferenceEdges(form, referenceGraph);
 
         org.jgrapht.alg.CycleDetector<String, DefaultEdge> jGraphTCycleDetector
                 = new org.jgrapht.alg.CycleDetector<>(referenceGraph);
@@ -34,11 +32,11 @@ public class CycleDetector {
         }
     }
 
-    private Graph<String, DefaultEdge> createVerticesGraph() {
+    private Graph<String, DefaultEdge> createVerticesGraph(Form form) {
         Graph<String, DefaultEdge> graph = new DefaultDirectedGraph<>(DefaultEdge.class);
 
         // Visit all questions and add their identifier as a vertex to the graph
-        this.form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLBaseVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 graph.addVertex(question.identifier);
@@ -49,8 +47,8 @@ public class CycleDetector {
         return graph;
     }
 
-    private void addReferenceEdges(Graph<String, DefaultEdge> graph) {
-        this.form.accept(new QLBaseVisitor<Void>() {
+    private void addReferenceEdges(Form form, Graph<String, DefaultEdge> graph) {
+        form.accept(new QLBaseVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 // Only need to check expression when it is computed

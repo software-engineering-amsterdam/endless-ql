@@ -2,6 +2,8 @@ package ql.analysis;
 
 import org.junit.Test;
 import ql.QLTestUtilities;
+import ql.analysis.warning.DuplicateLabelDetector;
+import ql.evaluation.SymbolTable;
 import ql.model.Form;
 
 import java.util.Set;
@@ -15,8 +17,8 @@ public class DuplicateLabelTest {
         Form form = QLTestUtilities.buildForm(UnknownIdentifiersTest.class
                 .getResourceAsStream("/ql/DuplicateLabels/DuplicateLabels.ql"));
 
-        DuplicateLabelDetector duplicateLabelDetector = new DuplicateLabelDetector(form);
-        Set<String> warnings = duplicateLabelDetector.getDuplicateLabelWarnings();
+        DuplicateLabelDetector duplicateLabelDetector = new DuplicateLabelDetector();
+        Set<String> warnings = duplicateLabelDetector.analyze(form, new SymbolTable());
 
         assertEquals(1, warnings.size());
     }
@@ -26,8 +28,8 @@ public class DuplicateLabelTest {
         Form form = QLTestUtilities.buildForm(UnknownIdentifiersTest.class
                 .getResourceAsStream("/ql/ValidForms/SimpleForm.ql"));
 
-        DuplicateLabelDetector duplicateLabelDetector = new DuplicateLabelDetector(form);
-        Set<String> warnings = duplicateLabelDetector.getDuplicateLabelWarnings();
+        DuplicateLabelDetector duplicateLabelDetector = new DuplicateLabelDetector();
+        Set<String> warnings = duplicateLabelDetector.analyze(form, new SymbolTable());
 
         assertEquals(0, warnings.size());
     }

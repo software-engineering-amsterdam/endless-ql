@@ -1,6 +1,7 @@
 package ql;
 
-import ql.analysis.*;
+import ql.analysis.error.QLErrorAnalyzer;
+import ql.analysis.warning.DuplicateLabelDetector;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import org.antlr.v4.runtime.CharStreams;
@@ -39,28 +40,11 @@ public class QLFormBuilder {
 
         this.symbolTable.buildTable(form);
 
-        this.performAnalysis(form, symbolTable);
+        // Perform all static analysis
+        QLErrorAnalyzer qlErrorAnalyzer = new QLErrorAnalyzer();
+        qlErrorAnalyzer.analyze(form, symbolTable);
 
         return form;
-    }
-
-    public Set<String> getWarnings(Form form) {
-        DuplicateLabelDetector duplicateLabelDetector = new DuplicateLabelDetector(form);
-        return duplicateLabelDetector.getDuplicateLabelWarnings();
-    }
-
-    private void performAnalysis(Form form, SymbolTable symbolTable) {
-        UnknownIdentifiersDetector unknownIdentifiersDetector = new UnknownIdentifiersDetector(form);
-        unknownIdentifiersDetector.detectUnknownIdentifiers();
-
-        CycleDetector cycleDetector = new CycleDetector(form);
-        cycleDetector.detect();
-
-        TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-        typeChecker.typeCheck();
-
-        InvalidDuplicateQuestionDetector invalidDuplicateQuestionDetector = new InvalidDuplicateQuestionDetector(form);
-        invalidDuplicateQuestionDetector.detect();
     }
 
     public SymbolTable getSymbolTable() {

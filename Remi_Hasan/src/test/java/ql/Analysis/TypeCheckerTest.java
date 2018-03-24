@@ -4,6 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import ql.QLTestUtilities;
+import ql.analysis.error.TypeChecker;
 import ql.model.expression.Expression;
 
 public class TypeCheckerTest {
@@ -15,7 +16,7 @@ public class TypeCheckerTest {
     public void integerSum() {
         Expression expression = QLTestUtilities.expressionFromString("1 + 1");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -23,7 +24,7 @@ public class TypeCheckerTest {
     public void integerDecimalSum() {
         Expression expression = QLTestUtilities.expressionFromString("1 + 1.0");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -31,7 +32,7 @@ public class TypeCheckerTest {
     public void integerMoneySum() {
         Expression expression = QLTestUtilities.expressionFromString("1 + 1.00");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -42,7 +43,7 @@ public class TypeCheckerTest {
 
         Expression expression = QLTestUtilities.expressionFromString("1 + true");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -53,7 +54,7 @@ public class TypeCheckerTest {
 
         Expression expression = QLTestUtilities.expressionFromString("1.0 + true");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -61,7 +62,7 @@ public class TypeCheckerTest {
     public void integerNegation() {
         Expression expression = QLTestUtilities.expressionFromString("-1");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -69,7 +70,7 @@ public class TypeCheckerTest {
     public void decimalNegation() {
         Expression expression = QLTestUtilities.expressionFromString("-1.0");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -77,7 +78,7 @@ public class TypeCheckerTest {
     public void moneyNegation() {
         Expression expression = QLTestUtilities.expressionFromString("-1.00");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -88,7 +89,7 @@ public class TypeCheckerTest {
 
         Expression expression = QLTestUtilities.expressionFromString("-\"test\"");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -96,7 +97,7 @@ public class TypeCheckerTest {
     public void integerEquality() {
         Expression expression = QLTestUtilities.expressionFromString("2 == 2");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -104,7 +105,7 @@ public class TypeCheckerTest {
     public void integerDecimalEquality() {
         Expression expression = QLTestUtilities.expressionFromString("2 == 2.0");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -115,7 +116,7 @@ public class TypeCheckerTest {
 
         Expression expression = QLTestUtilities.expressionFromString("2 == \"test\"");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -123,7 +124,7 @@ public class TypeCheckerTest {
     public void integerComparison() {
         Expression expression = QLTestUtilities.expressionFromString("1 > 2");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -134,7 +135,7 @@ public class TypeCheckerTest {
 
         Expression expression = QLTestUtilities.expressionFromString("1 > \"string\"");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -145,7 +146,7 @@ public class TypeCheckerTest {
 
         Expression expression = QLTestUtilities.expressionFromString("!2");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -156,7 +157,7 @@ public class TypeCheckerTest {
 
         Expression expression = QLTestUtilities.expressionFromString("!\"string\"");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -164,7 +165,7 @@ public class TypeCheckerTest {
     public void booleanNot() {
         Expression expression = QLTestUtilities.expressionFromString("!true");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -175,7 +176,7 @@ public class TypeCheckerTest {
 
         Expression expression = QLTestUtilities.expressionFromString("2 && true");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -186,7 +187,7 @@ public class TypeCheckerTest {
 
         Expression expression = QLTestUtilities.expressionFromString("2 || true");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -194,7 +195,7 @@ public class TypeCheckerTest {
     public void booleanAnd() {
         Expression expression = QLTestUtilities.expressionFromString("false && true");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 
@@ -202,7 +203,7 @@ public class TypeCheckerTest {
     public void booleanOr() {
         Expression expression = QLTestUtilities.expressionFromString("false || true");
 
-        TypeChecker typeChecker = new TypeChecker(null, null);
+        TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(expression);
     }
 

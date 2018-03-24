@@ -7,9 +7,12 @@ import QLExceptions.SyntaxException;
 import QLExceptions.TypeException;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.List;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -30,7 +33,9 @@ public class FormTemplate implements RefreshListener{
 
         JPanel panel = new JPanel();
 
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.setLayout(new GridLayout(0, 1));
+
+        //panel.setPreferredSize(new Dimension(400, 600));
 
         List<Question> questions = form.getAllQuestions();
         for (Question question : questions) {
@@ -51,10 +56,23 @@ public class FormTemplate implements RefreshListener{
             }
         });
 
+        JPanel buttonPanel = new JPanel();
 
-        panel.add(button);
+        buttonPanel.add(button);
 
-        frame.add(panel);
+        panel.add(buttonPanel);
+
+
+        panel.setMaximumSize(new Dimension(400, 600));
+
+        JScrollPane scrPane = new JScrollPane(panel);
+
+        scrPane.setMaximumSize(new Dimension(400, 600));
+
+
+        frame.getContentPane().add(scrPane);
+
+        frame.setResizable(false);
 
         frame.pack();
 

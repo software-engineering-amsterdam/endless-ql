@@ -17,10 +17,20 @@ public class QuestionPanel extends JPanel{
         this.question = question;
         this.setName(question.getName());
         this.isAvailable = question.isAvailable();
-        this.add(new JLabel(question.getLabel()), BorderLayout.WEST);
-        this.widget = new WidgetFactory().getWidget(this.question.getType(), listener);
-        this.widget.getComponent().setEnabled(!question.hasExpression());
-        this.add(widget.getComponent(), BorderLayout.EAST);
+
+        SpringLayout layout = new SpringLayout();
+        this.setLayout(layout);
+
+        JLabel label = new JLabel(question.getLabel());
+        Widget widget = new WidgetFactory().getWidget(this.question.getType(), listener);
+        Component component = widget.getComponent();
+
+        this.setLayout(new GridLayout(1, 2));
+
+        this.add(label);
+        this.widget = widget;
+        component.setEnabled(!question.hasExpression());
+        this.add(component);
 
     }
 

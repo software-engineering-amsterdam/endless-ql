@@ -16,7 +16,7 @@ form taxOfficeExample
     "Private debts for the sold house:"
       privateDebt: money
     "Value residue:"
-      valueResidue: money = (sellingPrice - privateDebot)
+      valueResidue: money = (sellingPrice - privateDebt)
   } else {
     if(hasBoughtHouse) {
         "What was the selling price?2"

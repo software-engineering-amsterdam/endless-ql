@@ -14,7 +14,6 @@ import java.util.Set;
 
 public class CycleDetector implements IQLErrorAnalysis {
 
-
     @Override
     public void analyze(Form form, SymbolTable symbolTable) {
         // Add all identifiers to a graph

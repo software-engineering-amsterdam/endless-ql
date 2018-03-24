@@ -12,7 +12,7 @@ import ql.ast.types.*;
 import ql.ast.visitors.ExpressionVisitor;
 import ql.ast.visitors.FormStatementVisitor;
 import ql.ast.visitors.TypeVisitor;
-import ql.validator.SymbolTable;
+import ql.validator.symboltable.SymbolTable;
 
 import java.util.List;
 
@@ -262,11 +262,11 @@ public class ExpressionChecker implements Checker, FormStatementVisitor<Void>, E
 
     @Override
     public Type visit(Variable variable) {
-        if (!symbolTable.isDeclared(variable.toString())) {
+        if (!symbolTable.isDeclared(variable.getName())) {
             issueTracker.addError(variable.getSourceLocation(), "Reference to undefined question");
             return new ErrorType(variable.getSourceLocation());
         }
-        return symbolTable.lookup(variable.toString());
+        return symbolTable.lookup(variable.getName());
     }
 
 }

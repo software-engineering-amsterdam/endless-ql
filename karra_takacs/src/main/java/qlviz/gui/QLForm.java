@@ -20,7 +20,6 @@ import qlviz.interpreter.style.QLSParserModule;
 import qlviz.model.Form;
 import qlviz.typecheker.AnalysisResult;
 import qlviz.typecheker.Severity;
-import qlviz.typecheker.StaticChecker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,48 +54,23 @@ public class QLForm extends Application {
 				injector.getInstance(StyleModelBuilder.class),
 				stage,
 				this.getParameters().getNamed());
-		this.renderer = rendererFactory.create();
-
-		List<AnalysisResult> staticCheckResults = new ArrayList<>();
-
-		QLVisitor<Form> visitor = injector.getInstance(Key.get(new TypeLiteral<QLVisitor<Form>>(){}));
-		ModelBuilder modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));
-
-		try {
-	        this.model = modelBuilder.parseForm(this.getParameters().getNamed().get("form"));
-
-            StaticChecker staticChecker = new StaticChecker();
-            List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLabels(this.model);
-            if (duplicateResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
-                staticCheckResults = duplicateResults;
-            }
-            else
-            {
-                modelBuilder.linkQuestions(this.model);
-                staticCheckResults = staticChecker.validate(this.model, containsDuplicates);
-            }
-
-		}
-		catch (ParserException e) {
-			staticCheckResults.addAll(e.getAnalysisResults());
-		}
 
 
 
-		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
-			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);
-			errorRenderer.render(staticCheckResults);
-		}
-		else
+		var modelBuilder = injector.getInstance(ModelBuilder.class);
+
+		try
 		{
+	        this.model = modelBuilder.parseForm(this.getParameters().getNamed().get("form"));
+	        this.renderer = rendererFactory.create();
             NumericExpressionViewModelFactory numericExpressionViewModelFactory = new NumericExpressionViewModelFactoryImpl();
             BooleanExpressionViewModelFactory booleanExpressionFactory = new BooleanExpressionViewModelFactoryImpl(numericExpressionViewModelFactory);
-			ConditionCollector conditionCollector = new CachingConditionCollector(this.model);
+            ConditionCollector conditionCollector = new CachingConditionCollector(this.model);
             QuestionViewModelFactoryImpl questionViewModelFactory =
                     new QuestionViewModelFactoryImpl(
-                    		numericExpressionViewModelFactory::create,
-							booleanExpressionFactory::create,
-							conditionCollector::getConditions);
+                            numericExpressionViewModelFactory::create,
+                            booleanExpressionFactory::create,
+                            conditionCollector::getConditions);
 
             this.viewModel = new FormViewModelImpl(model, questionViewModelFactory::create);
 
@@ -104,5 +78,11 @@ public class QLForm extends Application {
             viewModelLinker.linkQuestionStubs(this.viewModel);
             this.renderer.render(this.viewModel);
 		}
+		catch (ParserException e) {
+			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);
+			errorRenderer.render(e.getAnalysisResults());
+		}
+
+
 	}
 }

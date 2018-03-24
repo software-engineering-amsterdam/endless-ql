@@ -5,6 +5,8 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import qlviz.QLVisitor;
 import qlviz.interpreter.*;
+import qlviz.interpreter.linker.QuestionLinker;
+import qlviz.interpreter.linker.QuestionLinkerImpl;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
@@ -17,6 +19,8 @@ public class QLParserModule extends AbstractModule {
 		bind(new TypeLiteral<QLVisitor<Question>>(){}).to(QuestionVisitor.class);
 		bind(QuestionTypeTranslator.class).to(QuestionTypeVisitor.class);
 		bind(new TypeLiteral<QLVisitor<Form>>(){}).to(FormVisitor.class);
+		bind(QuestionLinker.class).to(QuestionLinkerImpl.class);
+		bind(TypedQuestionCollector.class).to(TypedQuestionWalker.class);
 		install(new FactoryModuleBuilder()
 			.implement(new TypeLiteral<QLVisitor<ConditionalBlock>>(){},
 					ConditionalBlockVisitor.class)

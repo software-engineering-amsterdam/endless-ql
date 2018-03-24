@@ -1,5 +1,6 @@
 package qlviz.interpreter.linker;
 
+import com.google.inject.Inject;
 import qlviz.interpreter.TypedQuestionCollector;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
@@ -19,7 +20,7 @@ public class QuestionLinkerImpl implements QuestionLinker {
 
     private final TypedQuestionCollector typedQuestionCollector;
 
-
+    @Inject
     public QuestionLinkerImpl(TypedQuestionCollector typedQuestionCollector) {
         this.typedQuestionCollector = typedQuestionCollector;
     }

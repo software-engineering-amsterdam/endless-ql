@@ -4,29 +4,30 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.inject.Inject;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import qlviz.*;
-import qlviz.interpreter.FormVisitor;
 import qlviz.interpreter.linker.QuestionLinker;
-import qlviz.interpreter.style.StylesheetVisitor;
 import qlviz.model.Form;
-import qlviz.model.style.Stylesheet;
 import qlviz.typecheker.AnalysisResult;
 import qlviz.typecheker.Severity;
+import qlviz.typecheker.StaticChecker;
 
 public class ModelBuilder {
 
 	private final QLVisitor<Form> formParser;
 	private final QuestionLinker questionLinker;
+	private final StaticChecker staticChecker;
 
 	@Inject
-	public ModelBuilder(QLVisitor<Form> formParser, QuestionLinker questionLinker) {
+	public ModelBuilder(QLVisitor<Form> formParser, QuestionLinker questionLinker, StaticChecker staticChecker) {
 		this.formParser = formParser;
 		this.questionLinker = questionLinker;
+		this.staticChecker = staticChecker;
 	}
 
 
@@ -70,12 +71,31 @@ public class ModelBuilder {
 		    throw new ParserException(parserErrors);
         }
 
-        Form form = formParser.visitForm(context);
+        var form = formParser.visitForm(context);
+        var duplicateResults = staticChecker.checkForDuplicateLabels(form);
+        if (duplicateResults.stream()
+                .anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error))
+        {
+            throw new ParserException(duplicateResults);
+        }
+
+        this.linkQuestions(form);
+        var staticCheckResults = staticChecker.validate(form);
+
+        if (staticCheckResults
+                .stream()
+                .anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error))
+        {
+            throw new ParserException(staticCheckResults
+                    .stream()
+                    .filter(ar -> ar.getSeverity() == Severity.Error)
+                    .collect(Collectors.toList()));
+        }
 		return form;
 	}
 
 
-	public void linkQuestions(Form form){
+	private void linkQuestions(Form form){
 		questionLinker.linkQuestionStubs(form);
 	}
 

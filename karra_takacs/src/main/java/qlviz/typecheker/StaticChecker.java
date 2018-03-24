@@ -14,19 +14,20 @@ public class StaticChecker {
     }
 
 
-    public List<AnalysisResult> validate(Form form, boolean containsDuplicates) {
+    public List<AnalysisResult> validate(Form form) {
         List<AnalysisResult> staticCheckResults = new ArrayList<>();
         DuplicateQuestionChecker duplicateQuestionChecker = new DuplicateQuestionChecker();
-        duplicateQuestionChecker.initialize(form);
+        CircularReferenceChecker circularReferenceChecker = new CircularReferenceChecker();
         DuplicateLabelChecker duplicateLabelChecker = new DuplicateLabelChecker();
+
+        duplicateQuestionChecker.initialize(form);
         duplicateLabelChecker.initialize(form);
+        circularReferenceChecker.initialize(form);
+
         staticCheckResults.addAll(duplicateQuestionChecker.analyze());
         staticCheckResults.addAll(duplicateLabelChecker.analyze());
-        if (!containsDuplicates) {
-            CircularReferenceChecker circularReferenceChecker = new CircularReferenceChecker();
-            circularReferenceChecker.initialize(form);
-            staticCheckResults.addAll(circularReferenceChecker.analyze());
-        }
+        staticCheckResults.addAll(circularReferenceChecker.analyze());
+
         return staticCheckResults;
     }
 }

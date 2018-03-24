@@ -9,7 +9,7 @@ import java.util.List;
 public class QLSErrorAnalyzer implements IQLSAnalysis {
 
     // All analysis phases in order
-    private final List<IQLSAnalysis> analysisPhases = Arrays.asList(
+    private final List<IQLSAnalysis> analysisPhases = List.of(
             new QuestionAnalyzer(),
             new TypeChecker());
 

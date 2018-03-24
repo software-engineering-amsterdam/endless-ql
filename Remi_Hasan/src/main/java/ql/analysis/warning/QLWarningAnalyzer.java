@@ -3,7 +3,6 @@ package ql.analysis.warning;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +10,7 @@ import java.util.Set;
 public class QLWarningAnalyzer implements IQLWarningAnalysis {
 
     // All analysis phases in order
-    private final List<IQLWarningAnalysis> analysisPhases = Arrays.asList(
+    private final List<IQLWarningAnalysis> analysisPhases = List.of(
             new DuplicateLabelDetector());
 
     @Override

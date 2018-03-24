@@ -3,13 +3,12 @@ package ql.analysis.error;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class QLErrorAnalyzer implements IQLErrorAnalysis {
 
     // All analysis phases in order
-    private final List<IQLErrorAnalysis> analysisPhases = Arrays.asList(
+    private final List<IQLErrorAnalysis> analysisPhases = List.of(
             new UnknownIdentifiersDetector(),
             new CycleDetector(),
             new TypeChecker(),

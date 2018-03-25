@@ -27,136 +27,136 @@ object ExpressionEvaluator {
     }
   }
 
-  implicit class AdditionOps(a: Addition) {
+  implicit class AdditionOps(expression: Addition) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- a.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- a.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.plus(rightAnswer)
     }
   }
 
-  implicit class SubtractOps(s: Subtract) {
+  implicit class SubtractOps(expression: Subtract) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- s.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- s.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.subtract(rightAnswer)
     }
   }
 
-  implicit class MultiplyOps(m: Multiply) {
+  implicit class MultiplyOps(expression: Multiply) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- m.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- m.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.multiply(rightAnswer)
     }
   }
 
-  implicit class DivideOps(d: Divide) {
+  implicit class DivideOps(expression: Divide) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- d.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- d.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.divide(rightAnswer)
     }
   }
 
-  implicit class MinusOps(m: Minus) {
+  implicit class MinusOps(expression: Minus) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- m.left.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.minus
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
+      } yield rightAnswer.minus
     }
   }
 
-  implicit class LessThanOps(l: LessThan) {
+  implicit class LessThanOps(expression: LessThan) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- l.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- l.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.lessThan(rightAnswer)
     }
   }
 
-  implicit class LessThanEqualOps(l: LessThanEqual) {
+  implicit class LessThanEqualOps(expression: LessThanEqual) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- l.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- l.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.lessThanEquals(rightAnswer)
     }
   }
 
-  implicit class GreaterThenEqualOps(g: GreaterThenEqual) {
+  implicit class GreaterThenEqualOps(expression: GreaterThenEqual) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- g.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- g.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.greaterThenEquals(rightAnswer)
     }
   }
 
-  implicit class GreaterThenOps(g: GreaterThen) {
+  implicit class GreaterThenOps(expression: GreaterThen) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- g.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- g.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.greaterThen(rightAnswer)
     }
   }
 
-  implicit class NotEqualOps(n: NotEqual) {
+  implicit class NotEqualOps(expression: NotEqual) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- n.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- n.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.notEquals(rightAnswer)
     }
   }
 
-  implicit class EqualOps(e: Equal) {
+  implicit class EqualOps(expression: Equal) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- e.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- e.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.equals(rightAnswer)
     }
   }
 
-  implicit class OrOps(e: Or) {
+  implicit class OrOps(expression: Or) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- e.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- e.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.or(rightAnswer)
     }
   }
 
-  implicit class AndOps(e: And) {
+  implicit class AndOps(expression: And) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- e.left.evaluate(symbolTable, dictionary)
-        rightAnswer: Answer <- e.right.evaluate(symbolTable, dictionary)
+        leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.and(rightAnswer)
     }
   }
 
-  implicit class NegateOps(n: Negate) {
+  implicit class NegateOps(expression: Negate) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- n.left.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.negate
+        rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
+      } yield rightAnswer.negate
     }
   }
 
-  implicit class ReferenceOps(r: Reference) {
+  implicit class ReferenceOps(expression: Reference) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       symbolTable
-        .get(r.questionId)
+        .get(expression.questionId)
         .flatMap(_.expression)
-        .orElse(dictionary.get(r.questionId))
+        .orElse(dictionary.get(expression.questionId))
         .flatMap(_.evaluate(symbolTable, dictionary))
     }
   }

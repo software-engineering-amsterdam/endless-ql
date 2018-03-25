@@ -27,6 +27,7 @@ object CyclicDependencyChecker extends Logging {
     symbolTable.flatMap {
       case (questionId, Symbol(_, Some(expression))) =>
         Expression.collectAllReferences(expression).map(r => Edge(questionId, r.questionId))
+      case _ => Seq.empty
     }.toSeq
   }
 }

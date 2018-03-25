@@ -7,19 +7,22 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from gui import question_classes
 
+
 def visit(tree):
+    """ Traverse the parsed tree """
     walker = QLVisitor()
     walker.visit(tree)
-    warning_message = check_duplicate_question_strings(walker.questionIDs, walker.questions)
-    return [walker.questionIDs, walker.questions, walker.error_message, warning_message]
+    warning_message = check_duplicate_question_strings(walker.question_ids, walker.questions)
+    return [walker.question_ids, walker.questions, walker.error_message, warning_message]
 
 
-def check_duplicate_question_strings(questionIDs, questions):
+def check_duplicate_question_strings(question_ids, questions):
+    """ returns warning if duplicate question strings """
     question_list = []
     warning_string = None
-    # Compiles a list of all question strings
-    for ID in questionIDs:
-        question = questions[ID]
+
+    for question_id in question_ids:
+        question = questions[question_id]
         question_list.append(question.question)
 
     duplicates = set([duplicate for duplicate in question_list if question_list.count(duplicate) > 1])
@@ -31,8 +34,8 @@ def check_duplicate_question_strings(questionIDs, questions):
 class QLVisitor(ParseTreeVisitor):
     def __init__(self):
         self.error_message = None
-        self.questionIDs = [] # Ordered list of question IDs.
-        self.questions = {}  # Dictionary with question objects as values, IDs as keys
+        self.question_ids = []  # Ordered list of question IDs.
+        self.questions = {}  # {question_id: question object}
 
     def defaultResult(self):
         return []
@@ -46,136 +49,114 @@ class QLVisitor(ParseTreeVisitor):
 
             c = node.getChild(i)
             # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
-            childResult = c.accept(self)
+            child_result = c.accept(self)
             # result = self.aggregateResult(result, childResult)
-            result.extend(childResult)
+            result.extend(child_result)
 
         return result
 
-    # Visit a parse tree produced by QLParser#form.
-    def visitForm(self, ctx:QLParser.FormContext):
+    def visitForm(self, ctx: QLParser.FormContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by QLParser#block.
-    def visitBlock(self, ctx:QLParser.BlockContext):
+    def visitBlock(self, ctx: QLParser.BlockContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by QLParser#stmt.
-    def visitStmt(self, ctx:QLParser.StmtContext):
+    def visitStmt(self, ctx: QLParser.StmtContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by QLParser#question.
-    def visitQuestion(self, ctx:QLParser.QuestionContext):
+    def visitQuestion(self, ctx: QLParser.QuestionContext):
         # Gets necessary information from the node
         # todo: give node as input to Question?
         question = ctx.STRING().getText()
-        questionID = ctx.ID().getText()
+        question_id = ctx.ID().getText()
         data_type = ctx.type().getText()
 
-        if questionID in self.questionIDs:
-            self.error_message = "Error: duplicate question IDs: {}".format(questionID)
+        if question_id in self.question_ids:
+            self.error_message = "Error: duplicate question IDs: {}".format(question_id)
             return
 
         # todo: remove instanceof
         if data_type == 'boolean':
-            question_object = question_classes.BooleanQuestion(questionID, question)
+            question_object = question_classes.BooleanQuestion(question_id, question)
             # todo: make flexible
             choices = ['Yes','No']
 
             # todo: move to question_classes
             truebutton = QtWidgets.QRadioButton(choices[0])
             truebutton.pressed.connect(question_object.set_answer_true)
-            question_object.set_truebutton(truebutton)
+            question_object.set_true_button(truebutton)
 
             falsebutton = QtWidgets.QRadioButton(choices[1])
             falsebutton.pressed.connect(question_object.set_answer_false)
-            question_object.set_falsebutton(falsebutton)
+            question_object.set_false_button(falsebutton)
 
         elif data_type == 'money':
-            question_object = question_classes.MoneyQuestion(questionID, question)
+            question_object = question_classes.MoneyQuestion(question_id, question)
 
         else:
             self.error_message = "Error: unknown data_type: {}".format(data_type)
             return
 
-        self.questionIDs.append(questionID)
-        self.questions[questionID] = question_object
+        self.question_ids.append(question_id)
+        self.questions[question_id] = question_object
 
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by QLParser#declaration.
-    def visitDeclaration(self, ctx:QLParser.DeclarationContext):
+    def visitDeclaration(self, ctx: QLParser.DeclarationContext):
         result = self.visitChildren(ctx)
         declared_value = QtWidgets.QLabel(str(result.pop()))
         self.questions[ctx.parentCtx.ID().getText()].text_input_box = declared_value
         return result
 
-
-    # Visit a parse tree produced by QLParser#expression.
-    def visitExpression(self, ctx:QLParser.ExpressionContext):
+    def visitExpression(self, ctx: QLParser.ExpressionContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by QLParser#if_.
-    def visitIf_(self, ctx:QLParser.If_Context):
+    def visitIf_(self, ctx: QLParser.If_Context):
         # Gets the question IDs of the if argument and the question contained in the if, then links them so that the
         # contained question becomes invisible when the argument becomes False.
 
         # Picks out the ID of the question that is the argument of the if
-        conditionalID = ctx.expression().getText()
+        conditional_id = ctx.expression().getText()
 
         # If the ID of the question that is the argument of the if does not exist, throws an error
-        if conditionalID not in self.questionIDs:
-            self.error_message = "Error: if argument is undefined: {}".format(conditionalID)
+        if conditional_id not in self.question_ids:
+            self.error_message = "Error: if argument is undefined: {}".format(conditional_id)
             return
-        elif self.questions[conditionalID].get_data_type() != 'boolean':
-            self.error_message = "Error: if argument is not boolean: {}".format(conditionalID)
+        elif self.questions[conditional_id].get_data_type() != 'boolean':
+            self.error_message = "Error: if argument is not boolean: {}".format(conditional_id)
             return
 
-        conditional_question = self.questions[conditionalID]
+        conditional_question = self.questions[conditional_id]
 
         result = self.visitChildren(ctx)
 
         questions_in_if = ctx.block()
 
         for statement in questions_in_if.stmt():
-            ifquestionID = statement.question().ID().getText()
+            if_question_id = statement.question().ID().getText()
 
-            question_in_if = self.questions[ifquestionID]  # todo: use return to get answer
+            question_in_if = self.questions[if_question_id]  # todo: use return to get answer
             conditional_question.add_if_question(question_in_if)
 
         return result
 
-
-    # Visit a parse tree produced by QLParser#type.
-    def visitType(self, ctx:QLParser.TypeContext):
+    def visitType(self, ctx: QLParser.TypeContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by QLParser#value.
-    def visitValue(self, ctx:QLParser.ValueContext):
+    def visitValue(self, ctx: QLParser.ValueContext):
         result = self.visitChildren(ctx)
         if result:
             return result
         else:
             return [ctx.getText()]
 
-
-    # Visit a parse tree produced by QLParser#compute.
-    def visitCompute(self, ctx:QLParser.ComputeContext):
+    def visitCompute(self, ctx: QLParser.ComputeContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by QLParser#arithmetic.
-    def visitArithmetic_(self, ctx:QLParser.Arithmetic_Context):
+    @staticmethod
+    def visitArithmetic_(ctx: QLParser.Arithmetic_Context):
         result = eval(ctx.INT()[0].getText() + ctx.ARITHMETIC_OP().getText() + ctx.INT()[1].getText())
         return [result]
 
-
-    # Visit a parse tree produced by QLParser#boolean.
-    def visitBoolean_(self, ctx:QLParser.Boolean_Context):
+    def visitBoolean_(self, ctx: QLParser.Boolean_Context):
         return self.visitChildren(ctx)

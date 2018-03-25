@@ -84,5 +84,10 @@ class QLSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by QLSParser#choices.
+    def visitChoices(self, ctx:QLSParser.ChoicesContext):
+        return self.visitChildren(ctx)
+
+
 
 del QLSParser

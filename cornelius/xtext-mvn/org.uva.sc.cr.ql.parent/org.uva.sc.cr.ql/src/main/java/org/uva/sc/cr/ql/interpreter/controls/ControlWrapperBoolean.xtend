@@ -8,7 +8,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class ControlWrapperBoolean extends ControlWrapper {
 
 	@Accessors(PUBLIC_GETTER)
-	private var CheckBox checkBox
+	var CheckBox checkBox
 
 	new(Question question, BooleanBinding binding) {
 		super(question, binding)

@@ -25,8 +25,8 @@ public class Evaluator implements FormStatementVisitor<Void>, ExpressionVisitor<
     //TODO: questionValues use String identifier, ASTNodes are not necessary anymore. Also allows removal of idLookup
     private final Map<ASTNode, Value> questionValues;
     private final Map<String, Question> idLookup;
-    private Form form;
     private final IssueTracker issueTracker;
+    private Form form;
 
     public Evaluator() {
         issueTracker = IssueTracker.getIssueTracker();
@@ -48,11 +48,7 @@ public class Evaluator implements FormStatementVisitor<Void>, ExpressionVisitor<
 
     @Override
     public void evaluate() {
-        try {
-            visit(form);
-        } catch (ArithmeticException e) {
-            issueTracker.addError(null, "Attempted to divide by zero.");
-        }
+        visit(form);
     }
 
     @Override
@@ -173,7 +169,11 @@ public class Evaluator implements FormStatementVisitor<Void>, ExpressionVisitor<
         Value rightValue = visitRight(node);
         Value result = null;
         if (isCalculated(leftValue, rightValue)) {
-            result = leftValue.divide(rightValue);
+            try {
+                result = leftValue.divide(rightValue);
+            } catch (ArithmeticException e) {
+                issueTracker.addError(node.getRight().getSourceLocation(), "Attempted to divide by zero.");
+            }
         }
         return result;
     }
@@ -331,7 +331,7 @@ public class Evaluator implements FormStatementVisitor<Void>, ExpressionVisitor<
 
     @Override
     public Value visit(Variable variable) {
-        String varName = variable.toString();
+        String varName = variable.getName();
         Question declarationNode = findDeclarationNode(varName);
         Value value = null;
         if (isCalculated(declarationNode)) {

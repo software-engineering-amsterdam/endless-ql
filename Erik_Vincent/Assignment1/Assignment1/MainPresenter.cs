@@ -53,7 +53,9 @@ namespace Assignment1
                     QLTypeChecker typechecker = new QLTypeChecker();
                     typechecker.TypeCheckQuestionForm(astForm);
                     var renderForm = QLASTToRenderTree.Convert(astForm);
-                    IQuestionFormRenderer renderer = new QuestionFormRenderer(renderForm);
+                    var symbolTable = new SymbolTable();
+                    symbolTable.RegisterQuestions(renderForm.Questions);
+                    IQuestionFormRenderer renderer = new QuestionFormRenderer(renderForm, symbolTable);
                     _view.SetFormControl(renderer.Render());
                 }
                 _view.SetWarnings(messages.Warnings);

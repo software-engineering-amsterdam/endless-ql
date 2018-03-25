@@ -6,7 +6,7 @@ namespace Assignment1.Model.QL.RenderTree.Value
     {
         public AnswerValueBool(bool value) : base(value, AnswerType.Boolean) { }
 
-        public IAnswerValuable<bool> And<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> And<U>(AnswerValue<U> right)
         {
             if (right.Type != AnswerType.Boolean)
             {
@@ -16,7 +16,7 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(Value && rightVal);
         }
 
-        public IAnswerValuable<bool> Equal<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> Equal<U>(AnswerValue<U> right)
         {
             if (right.Type != AnswerType.Boolean)
             {
@@ -26,32 +26,32 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(Value == rightVal);
         }
 
-        public IAnswerValuable<bool> GreaterThan<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> GreaterThan<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }
 
-        public IAnswerValuable<bool> GreaterThanOrEqual<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> GreaterThanOrEqual<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }
 
-        public IAnswerValuable<bool> LessThan<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> LessThan<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }
 
-        public IAnswerValuable<bool> LessThanOrEqual<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> LessThanOrEqual<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }
 
-        public IAnswerValuable<bool> Not()
+        public AnswerValue<bool> Not()
         {
             return new AnswerValueBool(!Value);
         }
 
-        public IAnswerValuable<bool> NotEqual<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> NotEqual<U>(AnswerValue<U> right)
         {
             if (right.Type != AnswerType.Boolean)
             {
@@ -61,7 +61,7 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(Value != rightVal);
         }
 
-        public IAnswerValuable<bool> Or<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> Or<U>(AnswerValue<U> right)
         {
             if (right.Type != AnswerType.Boolean)
             {

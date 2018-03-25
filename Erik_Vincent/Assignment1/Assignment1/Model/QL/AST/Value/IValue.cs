@@ -2,8 +2,9 @@
 
 namespace Assignment1.Model.QL.AST.Value
 {
-    public interface IValue : IExpression
+    public interface IValue : IExpression, IOperations
     {
-
+        Type Type { get; }
+        void Accept(IValueVisitor visitor);
     }
 }

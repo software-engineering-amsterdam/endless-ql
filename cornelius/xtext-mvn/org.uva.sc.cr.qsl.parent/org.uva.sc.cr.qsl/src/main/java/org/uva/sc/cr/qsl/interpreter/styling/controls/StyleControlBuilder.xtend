@@ -26,16 +26,16 @@ import org.uva.sc.cr.qsl.qSL.Widget
 class StyleControlBuilder {
 
 	@Inject
-	private StyleControlBooleanBuilder styleControlBooleanBuilder
+	StyleControlBooleanBuilder styleControlBooleanBuilder
 
 	@Inject
-	private StyleControlIntegerBuilder styleControlIntegerBuilder
+	StyleControlIntegerBuilder styleControlIntegerBuilder
 
 	@Inject
-	private StyleControlDecimalBuilder styleControlDecimalBuilder
+	StyleControlDecimalBuilder styleControlDecimalBuilder
 
 	@Inject
-	private StyleControlMoneyBuilder styleControlMoneyBuilder
+	StyleControlMoneyBuilder styleControlMoneyBuilder
 
 	def HBox styleDefaultControl(ControlWrapper controlWrapper, DefaultStyle defaultStyleToApply) {
 		val hbox = controlWrapper.controlWithLabel

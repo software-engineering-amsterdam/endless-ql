@@ -56,14 +56,14 @@ public class Main {
             FileInputStream qlsInputStream = new FileInputStream("/home/ajm/Desktop/newEndless/endless-ql/Abel_Elias/resources/QLS/exampleForm5.qls");
             QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor();
-            Stylesheet stylesheet = stylesheetVisitor.visitStylesheet(stylesheetContext);
+            stylesheetVisitor.visitStylesheet(stylesheetContext);
 
             //Evaluate
 //            TestPrinter testprinter = new TestPrinter();
 //            testprinter.printQLSStyleSheet(stylesheet);
 
-            FormBuilder formBuilder = new FormBuilder(coreVisitor);
-            formBuilder.initComponents(stylesheet);
+            FormBuilder formBuilder = new FormBuilder(coreVisitor, stylesheetVisitor);
+            formBuilder.initComponents();
 
         } catch (IOException e) {
             e.printStackTrace();

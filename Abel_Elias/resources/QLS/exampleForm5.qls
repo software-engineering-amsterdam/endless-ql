@@ -20,5 +20,10 @@ stylesheet taxOfficeExample
       question hasSoldHouse
         widget radio("Yes", "No")
     }
+    section Selling2
+    {
+          question hasSoldHouse2
+            widget radio("Yes", "No")
+    }
   }
 }

@@ -98,11 +98,11 @@ class QLListener(ParseTreeListener):
             # todo: move to question_classes
             truebutton = QtWidgets.QRadioButton(choices[0])
             truebutton.pressed.connect(question_object.set_answer_true)
-            question_object.set_truebutton(truebutton)
+            question_object.set_true_button(truebutton)
 
             falsebutton = QtWidgets.QRadioButton(choices[1])
             falsebutton.pressed.connect(question_object.set_answer_false)
-            question_object.set_falsebutton(falsebutton)
+            question_object.set_false_button(falsebutton)
 
         elif data_type == 'money':
             question_object = question_classes.MoneyQuestion(questionID, question)

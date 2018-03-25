@@ -12,15 +12,44 @@ class QLSParser:
 
     @staticmethod
     def p_stylesheet(production):
-        """stylesheet : STYLESHEET IDENTIFIER block"""
-        production[0] = ('STYLESHEET', production[2], production[3])
-
-    @staticmethod
-    def p_block(production):
-        """block : LEFT_BRACE statements RIGHT_BRACE"""
-        production[0] = production[2]
+        """stylesheet : STYLESHEET IDENTIFIER LEFT_BRACE pages RIGHT_BRACE"""
+        production[0] = ('STYLESHEET', production[2], production[4])
 
     # Statements
+    @staticmethod
+    def p_pages(production):
+        """pages    : page pages
+                    | page"""
+        if len(production) == 3:
+            production[0] = [production[1]] + production[2]
+        elif len(production) == 2:
+            production[0] = [production[1]]
+
+    @staticmethod
+    def p_page(production):
+        """page : PAGE IDENTIFIER LEFT_BRACE sections RIGHT_BRACE
+                | PAGE IDENTIFIER LEFT_BRACE sections default RIGHT_BRACE
+                | PAGE IDENTIFIER LEFT_BRACE default RIGHT_BRACE"""
+        if len(production) == 6:
+            production[0] = ('PAGE', production[2], production[4])
+        elif len(production) == 7:
+            production[0] = ('PAGE', production[2], production[4], production[5])
+
+    @staticmethod
+    def p_sections(production):
+        """sections : section sections
+                    | section"""
+        if len(production) == 3:
+            production[0] = [production[1]] + production[2]
+        elif len(production) == 2:
+            production[0] = [production[1]]
+
+    @staticmethod
+    def p_statement(production):
+        """statement    : section
+                        | question"""
+        production[0] = production[1]
+
     @staticmethod
     def p_statements(production):
         """statements   : statement statements
@@ -31,23 +60,17 @@ class QLSParser:
             production[0] = [production[1]]
 
     @staticmethod
-    def p_statement(production):
-        """statement    : page
-                        | section
-                        | question
-                        | default"""
-        production[0] = production[1]
-
-    @staticmethod
-    def p_page(production):
-        """page : PAGE IDENTIFIER block"""
-        production[0] = ('PAGE', production[2], production[3])
-
-    @staticmethod
     def p_section(production):
-        """section  : SECTION STRING_LITERAL statement
-                    | SECTION STRING_LITERAL block"""
-        production[0] = ('SECTION', production[2], production[3])
+        """section  : SECTION STRING_LITERAL LEFT_BRACE statements RIGHT_BRACE
+                    | SECTION STRING_LITERAL LEFT_BRACE statements default RIGHT_BRACE
+                    | SECTION STRING_LITERAL question
+                    | SECTION STRING_LITERAL default"""
+        if len(production) == 4:
+            production[0] = ('SECTION', production[2], [production[3]])
+        elif len(production) == 6:
+            production[0] = ('SECTION', production[2], production[4])
+        elif len(production) == 7:
+            production[0] = ('SECTION', production[2], production[4], production[5])
 
     @staticmethod
     def p_question(production):
@@ -172,4 +195,4 @@ class QLSParser:
         production[0] = 'INTEGER'
 
     def p_error(self, production):
-        raise SyntaxError('Syntax error at line {}, token={}'.format(p.lineno, p.type))
+        raise SyntaxError('Syntax error at line {}, token={}'.format(production.lineno, production.type))

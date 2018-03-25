@@ -23,10 +23,11 @@ public class InvalidDuplicateQuestionDetector implements IQLErrorAnalysis {
             @Override
             public Void visit(Question question) {
                 // If already saw identifier with different type, add this one to the invalid questions
-                if (questionTypes.containsKey(question.identifier) && questionTypes.get(question.identifier) != question.type) {
-                    invalidQuestions.add(question.identifier + " " + question.getLocation());
+                if (questionTypes.containsKey(question.getIdentifier())
+                        && questionTypes.get(question.getIdentifier()) != question.getType()) {
+                    invalidQuestions.add(question.getIdentifier() + " " + question.getLocation());
                 } else {
-                    questionTypes.put(question.identifier, question.type);
+                    questionTypes.put(question.getIdentifier(), question.getType());
                 }
                 return super.visit(question);
             }

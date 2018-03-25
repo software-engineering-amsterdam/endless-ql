@@ -66,7 +66,7 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
         form.accept(new QLBaseVisitor<Void>() {
             @Override
             public Void visit(ql.model.Question question) {
-                questionTypes.put(question.identifier, question.type);
+                questionTypes.put(question.getIdentifier(), question.getType());
                 return super.visit(question);
             }
         });

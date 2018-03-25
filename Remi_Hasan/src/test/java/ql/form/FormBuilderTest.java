@@ -37,11 +37,11 @@ public class FormBuilderTest {
                 .getResourceAsStream("/ql/ValidForms/SimpleForm.ql"));
         List<Question> questions = this.getQuestions(form);
 
-        assertEquals(form.identifier, "simpleForm");
+        assertEquals(form.getIdentifier(), "simpleForm");
         assertEquals(questions.size(), 6);
-        assertEquals(questions.get(0).identifier, "someInteger");
-        assertEquals(questions.get(0).label, "Can you give me an integer value?");
-        assertEquals(questions.get(0).type, ReturnType.INTEGER);
+        assertEquals(questions.get(0).getIdentifier(), "someInteger");
+        assertEquals(questions.get(0).getLabel(), "Can you give me an integer value?");
+        assertEquals(questions.get(0).getType(), ReturnType.INTEGER);
     }
 
     @Test
@@ -63,10 +63,10 @@ public class FormBuilderTest {
         // Test whether computed field is computed correctly based on another field value
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(formBuilder.getSymbolTable());
 
-        Value staticResult = expressionEvaluator.visit(questions.get(0).computedAnswer);
+        Value staticResult = expressionEvaluator.visit(questions.get(0).getComputedAnswer());
         assertEquals(staticResult.getIntValue(), Integer.valueOf(2));
 
-        Value calculationResult = expressionEvaluator.visit(questions.get(1).computedAnswer);
+        Value calculationResult = expressionEvaluator.visit(questions.get(1).getComputedAnswer());
         assertEquals(calculationResult.getIntValue(), Integer.valueOf(5));
     }
 

@@ -7,10 +7,10 @@ import ql.model.expression.ReturnType;
 
 public class Question extends Statement {
 
-    public final ReturnType type;
-    public final String identifier;
-    public final String label;
-    public final Expression computedAnswer;
+    private final ReturnType type;
+    private final String identifier;
+    private final String label;
+    private final Expression computedAnswer;
 
     public Question(Token start, ReturnType type, String identifier, String label) {
         super(start);
@@ -26,6 +26,22 @@ public class Question extends Statement {
         this.identifier = identifier;
         this.label = label;
         this.computedAnswer = defaultAnswer;
+    }
+
+    public ReturnType getType() {
+        return type;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public Expression getComputedAnswer() {
+        return computedAnswer;
     }
 
     public boolean isComputed() {

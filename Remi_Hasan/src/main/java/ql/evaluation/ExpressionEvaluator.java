@@ -148,6 +148,6 @@ public class ExpressionEvaluator extends QLBaseVisitor<Value> {
 
     @Override
     public Value visit(ExpressionIdentifier expression) {
-        return this.symbolTable.getExpression(expression.identifier).accept(this);
+        return this.symbolTable.getExpression(expression.getIdentifier()).accept(this);
     }
 }

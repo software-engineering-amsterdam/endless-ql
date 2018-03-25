@@ -77,15 +77,15 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
     public ReturnType visit(Question question) {
         // Check type of computed answer is same as the question type
         if (question.isComputed()) {
-            ReturnType computedAnswerType = this.visit(question.computedAnswer);
+            ReturnType computedAnswerType = this.visit(question.getComputedAnswer());
 
-            if (!computedAnswerType.canBeAssignedTo(question.type)) {
+            if (!computedAnswerType.canBeAssignedTo(question.getType())) {
                 throw new IllegalArgumentException("Invalid assignment: cannot assign " + computedAnswerType
-                        + " to " + question.type + question.getLocation());
+                        + " to " + question.getType() + question.getLocation());
             }
         }
 
-        return question.type;
+        return question.getType();
     }
 
     @Override
@@ -226,6 +226,6 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
 
     @Override
     public ReturnType visit(ExpressionIdentifier expression) {
-        return this.symbolTable.getExpression(expression.identifier).accept(this);
+        return this.symbolTable.getExpression(expression.getIdentifier()).accept(this);
     }
 }

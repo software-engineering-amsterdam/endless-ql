@@ -38,7 +38,7 @@ public class CycleDetector implements IQLErrorAnalysis {
         form.accept(new QLBaseVisitor<Void>() {
             @Override
             public Void visit(Question question) {
-                graph.addVertex(question.identifier);
+                graph.addVertex(question.getIdentifier());
                 return super.visit(question);
             }
         });
@@ -51,17 +51,17 @@ public class CycleDetector implements IQLErrorAnalysis {
             @Override
             public Void visit(Question question) {
                 // Only need to check expression when it is computed
-                if (question.computedAnswer == null) {
+                if (!question.isComputed()) {
                     return super.visit(question);
                 }
 
                 // Get all references made to other variables by the computed answer expression
                 Set<String> referencedIdentifiers =
-                        IdentifiersCollector.collectReferencedIdentifiers(question.computedAnswer);
+                        IdentifiersCollector.collectReferencedIdentifiers(question.getComputedAnswer());
 
                 // For each referenced question, add references to other questions to the graph
                 for (String identifier : referencedIdentifiers) {
-                    graph.addEdge(question.identifier, identifier);
+                    graph.addEdge(question.getIdentifier(), identifier);
                 }
                 return super.visit(question);
             }

@@ -5,11 +5,15 @@ import ql.IQLVisitor;
 
 public class ExpressionIdentifier extends Expression {
 
-    public final String identifier;
+    private final String identifier;
 
     public ExpressionIdentifier(Token start, String identifier) {
         super(start);
         this.identifier = identifier;
+    }
+
+    public String getIdentifier() {
+        return identifier;
     }
 
     @Override

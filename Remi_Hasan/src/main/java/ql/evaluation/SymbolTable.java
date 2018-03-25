@@ -22,11 +22,11 @@ public class SymbolTable {
             @Override
             public Void visit(Question question) {
                 // Add form question to the symbol table
-                if (question.computedAnswer != null) {
-                    table.put(question.identifier, question.computedAnswer);
+                if (question.isComputed()) {
+                    table.put(question.getIdentifier(), question.getComputedAnswer());
                 } else {
                     // Not a computed question, so it is undefined until it is set by the user
-                    table.put(question.identifier, new ExpressionVariableUndefined(question.getToken(), question.type));
+                    table.put(question.getIdentifier(), new ExpressionVariableUndefined(question.getToken(), question.getType()));
                 }
                 return super.visit(question);
             }

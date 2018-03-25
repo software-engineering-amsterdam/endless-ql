@@ -54,8 +54,8 @@ public class QLBaseVisitor<T> implements IQLVisitor<T> {
 
     @Override
     public T visit(Question question) {
-        if (question.computedAnswer != null) {
-            question.computedAnswer.accept(this);
+        if (question.isComputed()) {
+            question.getComputedAnswer().accept(this);
         }
         return null;
     }

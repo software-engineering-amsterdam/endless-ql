@@ -36,13 +36,13 @@ public class DuplicateLabelDetector implements IQLWarningAnalysis {
             public Void visit(Question question) {
                 // New set or existing set
                 Set<String> questionIdentifiers = new HashSet<>();
-                if(questionsPerLabel.containsKey(question.label)) {
-                    questionIdentifiers = questionsPerLabel.get(question.label);
+                if(questionsPerLabel.containsKey(question.getLabel())) {
+                    questionIdentifiers = questionsPerLabel.get(question.getLabel());
                 }
 
                 // Save question identifiers with their location, for reporting purposes
-                questionIdentifiers.add(question.identifier + " " + question.getLocation());
-                questionsPerLabel.put(question.label, questionIdentifiers);
+                questionIdentifiers.add(question.getIdentifier() + " " + question.getLocation());
+                questionsPerLabel.put(question.getLabel(), questionIdentifiers);
                 return super.visit(question);
             }
         });

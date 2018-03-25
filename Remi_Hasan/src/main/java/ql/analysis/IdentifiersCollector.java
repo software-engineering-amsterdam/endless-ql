@@ -20,7 +20,7 @@ public class IdentifiersCollector {
         form.accept(new QLBaseVisitor<Void>() {
             @Override
             public Void visit(Question question) {
-                questionIdentifiers.add(question.identifier);
+                questionIdentifiers.add(question.getIdentifier());
                 return super.visit(question);
             }
         });
@@ -35,7 +35,7 @@ public class IdentifiersCollector {
         form.accept(new QLBaseVisitor<Void>() {
             @Override
             public Void visit(ExpressionIdentifier expression) {
-                referencedIdentifiers.add(expression.identifier);
+                referencedIdentifiers.add(expression.getIdentifier());
                 return super.visit(expression);
             }
         });
@@ -50,7 +50,7 @@ public class IdentifiersCollector {
         expression.accept(new QLBaseVisitor<Void>() {
             @Override
             public Void visit(ExpressionIdentifier expression) {
-                referencedIdentifiers.add(expression.identifier);
+                referencedIdentifiers.add(expression.getIdentifier());
                 return super.visit(expression);
             }
         });

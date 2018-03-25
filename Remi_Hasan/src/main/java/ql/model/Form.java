@@ -9,13 +9,17 @@ import java.util.List;
 
 public class Form extends QLNode {
 
-    public final String identifier;
+    private final String identifier;
     private final List<Statement> statements;
 
     public Form(Token token, String identifier, List<Statement> statements) {
         super(token);
         this.identifier = identifier;
         this.statements = statements;
+    }
+
+    public String getIdentifier() {
+        return identifier;
     }
 
     public List<Statement> getStatements() {

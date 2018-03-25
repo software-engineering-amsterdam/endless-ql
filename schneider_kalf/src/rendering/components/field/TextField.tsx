@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
-import Field from "../../../form/nodes/fields/FieldNode";
+import FieldNode from "../../../form/nodes/fields/FieldNode";
 
 export interface TextFieldProps {
   value: string;
-  field: Field;
+  field: FieldNode;
   onChange: (value: any) => void;
 }
 

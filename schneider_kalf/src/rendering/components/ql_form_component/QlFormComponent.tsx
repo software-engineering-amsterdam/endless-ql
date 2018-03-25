@@ -21,8 +21,8 @@ export const QlFormComponent: React.SFC<QlFormComponentProps> = (props) => {
         return null;
       }
 
-      if (props.renderStyledField) {
-        return props.renderStyledField(field);
+      if (props.renderField) {
+        return props.renderField(field);
       }
 
       return (

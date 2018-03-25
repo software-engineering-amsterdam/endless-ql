@@ -26,13 +26,18 @@ export class QlsFormComponent extends React.Component<QlsFormComponentProps, Qls
 
   fieldIsVisible(field?: StyledFieldNode): boolean {
     const activePage = this.props.form.getActivePage();
-    return field && field.isOnPage(activePage) && this.props.visibleFields.has(field.identifier);
+
+    if (!field) {
+      return false;
+    }
+
+    return field.isOnPage(activePage) && this.props.visibleFields.has(field.identifier);
   }
 
   renderStyledField(identifier: string) {
     const field = this.props.form.getField(identifier);
 
-    if (!this.fieldIsVisible(field)) {
+    if (!field || !this.fieldIsVisible(field)) {
       return null;
     }
 

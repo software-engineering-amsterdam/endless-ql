@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { FormGroup, Label, Input } from 'reactstrap';
-import Field from "../../../form/nodes/fields/FieldNode";
+import { FormGroup, Label, Input, InputGroup } from 'reactstrap';
+import FieldNode from "../../../form/nodes/fields/FieldNode";
 import NumberValue from "../../../form/values/NumberValue";
 import { makeNumberValue } from "../../../form/values/values_helpers";
 import { FieldType } from "../../../form/FieldType";
 
 export interface NumberFieldProps {
   value: NumberValue;
-  field: Field;
+  field: FieldNode;
   onChange: (value: any) => void;
+  renderInputAddon?: () => void;
 }
 
 export interface NumberFieldState {
@@ -48,17 +49,28 @@ export class NumberField extends React.Component<NumberFieldProps, NumberFieldSt
     return this.state.temporaryStringValue;
   }
 
+  renderInputAddon() {
+    if (!this.props.renderInputAddon) {
+      return null;
+    }
+
+    return this.props.renderInputAddon();
+  }
+
   render() {
     return (
         <FormGroup>
           <Label for={this.props.field.identifier}>{this.props.field.label}</Label>
-          <Input
-              readOnly={this.props.field.isReadOnly()}
-              name={this.props.field.identifier}
-              type="number"
-              onChange={e => this.onChange(e.target.value)}
-              value={this.getStringValue()}
-          />
+          <InputGroup>
+            <Input
+                readOnly={this.props.field.isReadOnly()}
+                name={this.props.field.identifier}
+                type="number"
+                onChange={e => this.onChange(e.target.value)}
+                value={this.getStringValue()}
+            />
+            {this.renderInputAddon()}
+          </InputGroup>
         </FormGroup>
     );
   }

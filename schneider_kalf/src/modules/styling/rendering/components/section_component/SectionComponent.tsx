@@ -19,12 +19,12 @@ export const SectionComponent: React.SFC<SectionComponentProps> = (props) => {
             <SectionComponent
                 key={child.name}
                 sectionNode={child}
-                renderField={props.renderStyledField}
+                renderField={props.renderField}
             />);
       }
 
       if (child.isQuestionStyle()) {
-        return props.renderStyledField(child.identifier);
+        return props.renderField(child.identifier);
       }
 
       return (

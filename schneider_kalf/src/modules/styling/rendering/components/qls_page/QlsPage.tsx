@@ -19,7 +19,7 @@ export const QlsPage: React.SFC<QlsPageProps> = (props) => {
           <SectionComponent
               key={section.name}
               sectionNode={section}
-              renderField={props.renderStyledField}
+              renderField={props.renderField}
           />
       );
     });

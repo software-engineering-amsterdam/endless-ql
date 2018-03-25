@@ -18,12 +18,12 @@ import javafx.scene.layout.HBox
 @Singleton
 class StyleControlMoneyBuilder extends StyleControlBuilder {
 
-	private static val SPINNER_MIN_VALUE = Double.MIN_VALUE
-	private static val SPINNER_MAX_VALUE = Double.MAX_VALUE
-	private static val SPINNER_INITIAL_VALUE = 0
-	private static val SPINNER_STEP_VALUE = 0.01
+	static val SPINNER_MIN_VALUE = Double.MIN_VALUE
+	static val SPINNER_MAX_VALUE = Double.MAX_VALUE
+	static val SPINNER_INITIAL_VALUE = 0
+	static val SPINNER_STEP_VALUE = 0.01
 
-	private static val SLIDER_MAX_VALUE = 1000
+	static val SLIDER_MAX_VALUE = 1000
 
 	def dispatch HBox styleMoney(ControlWrapperMoney controlWrapperMoney, Widget widgetSpinbox,
 		DefaultStyle defaultStyleToApply) {

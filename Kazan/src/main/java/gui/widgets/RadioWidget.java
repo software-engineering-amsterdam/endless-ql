@@ -14,6 +14,7 @@ public class RadioWidget extends BaseWidget {
 
     private final Map<String, JRadioButton> choiceButtonMap;
     private final JPanel panel;
+    private final ButtonGroup buttonGroup;
 
     public RadioWidget(FormEvaluator evaluator, Question question) {
         super(evaluator, question);
@@ -23,15 +24,23 @@ public class RadioWidget extends BaseWidget {
 
         this.choiceButtonMap = new HashMap<>();
 
-        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup = new ButtonGroup();
 
-        String[] test = {"one", "two", "three"};
-        for (int i = 0; i < 3; i++) {
-            String name = test[i];
+        String[] test = {"true", "false"};
+        for (String name : test) {
             JRadioButton button = new JRadioButton(name);
             button.setActionCommand(name);
             buttonGroup.add(button);
+            choiceButtonMap.put(name, button);
             panel.add(button);
+        }
+
+        BooleanValue evaluatable = ((BooleanValue) evaluator.getQuestionValue(question.getId()));
+        boolean value = evaluatable != null ? evaluatable.getValue() : false;
+        if (value) {
+            buttonGroup.setSelected(choiceButtonMap.get("true").getModel(), true);
+        } else {
+            buttonGroup.setSelected(choiceButtonMap.get("false").getModel(), true);
         }
 
     }

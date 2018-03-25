@@ -3,7 +3,6 @@ from PyQt5 import QtWidgets
 
 class Question:
     def __init__(self, question_id, question, data_type, answer='undefined'):
-        super(Question, self).__init__()
         self.question_id = question_id
         self.question = question
         self.data_type = data_type
@@ -109,7 +108,7 @@ class BooleanQuestion(Question):
         self.answer = self.hidden_answer
 
         # Reveals the underlying questions too.
-        if self.answer:
+        if self.answer == True:  # Must be explicitly equal to True, as answer may be "undefined".
             for question in self.if_questions:
                 question.if_true()
 

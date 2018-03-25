@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Assignment1.Model.QL.AST.Expression;
@@ -11,11 +10,11 @@ namespace Assignment1.Execution
     public class QLExpressionEvaluator : IExpressionVisitor
     {
         private IValue _result;
-        private readonly Dictionary<string, IValue> _answers;
+        private readonly Func<string, IValue> _getAnswer;
 
-        public static IValue Evaluate(IExpression expression, Dictionary<string, IValue> answers)
+        public static IValue Evaluate(IExpression expression, Func<string, IValue> getAnswer)
         {
-            var evaluator = new QLExpressionEvaluator(answers);
+            var evaluator = new QLExpressionEvaluator(getAnswer);
             try
             {
                 expression.Accept(evaluator);
@@ -28,9 +27,9 @@ namespace Assignment1.Execution
             return evaluator._result;
         }
 
-        private QLExpressionEvaluator(Dictionary<string, IValue> answers)
+        private QLExpressionEvaluator(Func<string, IValue> getAnswer)
         {
-            _answers = answers;
+            _getAnswer = getAnswer;
         }
 
         public static bool AsBool(IValue value)
@@ -81,7 +80,7 @@ namespace Assignment1.Execution
 
         public void Visit(Reference expression)
         {
-            _result = _answers.ContainsKey(expression.QuestionId) ? _answers[expression.QuestionId] : new Undefined();
+            _result = _getAnswer(expression.QuestionId);
         }
 
         private (IValue left, IValue right) VisitBinary(Binary expression)

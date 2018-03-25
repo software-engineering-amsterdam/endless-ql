@@ -5,6 +5,7 @@ parsed and the encoded questionnaire is opened in an output_frame in the MainWin
 and the entered answers may be saved to a .txt file by pressing the "Submit" button.
 """
 from visitor.visitor import visit
+from visitor.QLSVisitor import visit_qls
 from PyQt5 import QtWidgets, QtCore
 from grammar.parser import Parser
 import sys
@@ -48,26 +49,26 @@ class MainWindow(QtWidgets.QWidget):
         if ql_text:
             ql_data.set_ql_grammar_text(ql_text)
             ql_data.run_antlr_ql()
-            # if error in tree:
-            #   addwidget errormessage
-
-            # The tree is traversed, the questions it contains are collected, as well as the first error encountered.
-            # [questionIDs, questions, error_message, warning_message] = listen(ql_data.ql_tree)
+            # Traverses QL AST
             [question_ids, questions, error_message, warning_message] = visit(ql_data.ql_tree)
 
-            # The output_frame is initialized and appropriately filled with questions and their answering tools.
-            self.initiate_output_frame(question_ids, questions)
-            self.output_frame.add_submit_button()
+            if qls_text:
+                ql_data.set_qls_grammar_text(qls_text)
+                ql_data.run_antlr_qls()
+                # todo: create listener/visiter for QLS
+                # Traverses QLS AST
+                x = visit_qls(ql_data.qls_tree, question_ids, questions)
 
             if error_message:
                 self.initiate_output_frame()
                 self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error_message))
-            elif warning_message:
-                self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(warning_message))
+                return
+            # The output_frame is initialized and appropriately filled with questions and their answering tools.
+            self.initiate_output_frame(question_ids, questions)
+            self.output_frame.add_submit_button()
 
-        else:  # todo: if garbage in, this error message out.
-            self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))
-            # pass
+            if warning_message:
+                self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(warning_message))
 
         if qls_text:
             qls_data.set_qls_grammar_text(qls_text)
@@ -76,4 +77,5 @@ class MainWindow(QtWidgets.QWidget):
             # listen(ql_data.qls_tree, self.output_frame)
             # self.output_frame.add_submit_button()
         else:
-            pass
+            self.initiate_output_frame()
+            self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))

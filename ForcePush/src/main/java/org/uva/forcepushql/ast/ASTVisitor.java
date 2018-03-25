@@ -10,9 +10,8 @@ public interface ASTVisitor{
 
     LinkedList<JPanel> visit(FormNode node);
 
-    JPanelGUI visit(ConditionalIfNode node);
-    String visit(ConditionalIfElseNode node);
-    String visit(ConditionalElseNode node);
+    LinkedList<JPanelGUI> visit(ConditionalIfNode node);
+    JPanelGUI visit(ConditionalElseNode node);
 
     String visit(AdditionNode node);
     String visit(SubtractionNode node);

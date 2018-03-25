@@ -2,7 +2,6 @@ package org.uva.forcepushql.ast;
 
 
 import org.uva.forcepushql.gui.JPanelGUI;
-import org.uva.forcepushql.gui.TextboxGUI;
 import org.uva.forcepushql.questions.Question;
 import org.uva.forcepushql.questions.Radio;
 import org.uva.forcepushql.questions.Textbox;
@@ -20,22 +19,43 @@ public class ASTVisitorEvaluator implements ASTVisitor
         LinkedList<JPanel>         result     = new LinkedList<>();
         LinkedList<Question>       questions  = new LinkedList<>();
         HashMap<String, JPanelGUI> conditions = new HashMap<>();
-
+        LinkedList<String> variables = new LinkedList<>();
+        HashMap<String,String> calculations = new HashMap<>();
         for (Node n : node.getQuestions())
         {
             if (n instanceof ConditionalIfNode)
             {
                 String    condition = ((ConditionalIfNode) n).getCondition().accept(this);
-                JPanelGUI jPanelIf  = n.accept(this);
-                jPanelIf.setCondition(condition);
+                LinkedList<JPanelGUI> jPanelIf  = n.accept(this);
+                jPanelIf.getFirst().setCondition(condition);
                 condition = allTogether(condition);
-                String[] variables = condition.split("\\.");
-                for (String s: variables) {
-                    conditions.put(s, jPanelIf);
+                String[] names = condition.split("\\.");
+                for (String s: names) {
+                    conditions.put(s, jPanelIf.getFirst());
                 }
-                result.add(jPanelIf.getPanel());
+                for (JPanelGUI jpg: jPanelIf) {
+                    result.add(jpg.getPanel());
+                }
 
-            } else
+            }
+
+            else if(n instanceof  QuestionAssignValueNode){
+                String calculation = ((QuestionAssignValueNode) n).getExpression().accept(this);
+                Question question = ((QuestionAssignValueNode) n).accept(this);
+                calculations.put(question.answerNameValue(),calculation);
+                calculation = allTogether(calculation);
+                String[] names = calculation.split("\\.");
+                ((Textbox) question).setHasCalculation(true);
+
+                for (String s: names) {
+                    variables.add(s);
+                }
+
+                questions.add(question);
+
+            }
+
+            else
             {
                 questions.add(n.accept(this));
             }
@@ -50,61 +70,139 @@ public class ASTVisitorEvaluator implements ASTVisitor
             conditions.forEach((c, o) -> jPanelGUI.getQuestion(c).attachObserver(o));
         }
 
+        if(!variables.isEmpty()){
+            variables.forEach(v -> jPanelGUI.getQuestion(v).attachObserver(jPanelGUI));
+        }
+
+        if (!calculations.isEmpty()){
+            calculations.forEach((v,c) -> jPanelGUI.addCalculation(v,c));
+        }
+
         result.addFirst(jPanelForm);
 
         return result;
     }
 
     @Override
-    public JPanelGUI visit(ConditionalIfNode node)
+    public LinkedList<JPanelGUI> visit(ConditionalIfNode node)
     {
+        LinkedList<JPanelGUI> result = new LinkedList<>();
         JPanelGUI            jPanelGUI = new JPanelGUI();
         LinkedList<Question> questions = new LinkedList<Question>();
-        HashMap<String, TextboxGUI> calculations = new HashMap<>();
+        HashMap<String, JPanelGUI> conditions = new HashMap<>();
+        LinkedList<String> variables = new LinkedList<>();
+        HashMap<String,String> calculations = new HashMap<>();
         for (Node n : node.getQuestions())
         {
-            if(n instanceof  QuestionAssignValueNode){
-                String calculation = ((QuestionAssignValueNode) n).getExpression().accept(this);
-                calculation = allTogether(calculation);
-                Question question = ((QuestionAssignValueNode) n).accept(this);
+            if (n instanceof ConditionalIfNode)
+            {
+                String    condition = ((ConditionalIfNode) n).getCondition().accept(this);
+                LinkedList<JPanelGUI> jPanelIf  = n.accept(this);
+                jPanelIf.getFirst().setCondition(condition);
+                condition = allTogether(condition);
+                String[] names = condition.split("\\.");
+                for (String s: names) {
+                    conditions.put(s, jPanelIf.getFirst());
+                }
+                for (JPanelGUI jpg: jPanelIf) {
+                    result.add(jpg);
+                }
 
             }
-            questions.add(n.accept(this));
+            else if(n instanceof  QuestionAssignValueNode){
+                String calculation = ((QuestionAssignValueNode) n).getExpression().accept(this);
+                Question question = ((QuestionAssignValueNode) n).accept(this);
+                calculations.put(question.answerNameValue(),calculation);
+                calculation = allTogether(calculation);
+                String[] names = calculation.split("\\.");
+                ((Textbox) question).setHasCalculation(true);
+
+                for (String s: names) {
+                   variables.add(s);
+                }
+
+                questions.add(question);
+
+            }
+
+            else {
+                questions.add(n.accept(this));
+            }
         }
 
         if (node.getAfter() != null)
         {
-            node.getAfter().accept(this);
+            if (node.getAfter() instanceof ConditionalIfNode){
+                LinkedList<JPanelGUI> jPanelGUIS = node.getAfter().accept(this);
+
+                for (JPanelGUI jpg: jPanelGUIS) {
+                    result.add(jpg);
+                }
+            }
+            else {
+                result.add(node.getAfter().accept(this));
+            }
+        }
+
+        jPanelGUI.createPanel(questions, 0);
+        JPanel ifElsePanel = jPanelGUI.getPanel();
+        ifElsePanel.setVisible(false);
+        result.addFirst(jPanelGUI);
+
+        if(!variables.isEmpty()){
+            variables.forEach(v -> jPanelGUI.getQuestion(v).attachObserver(jPanelGUI));
+        }
+
+        if (!calculations.isEmpty()){
+            calculations.forEach((v,c) -> jPanelGUI.addCalculation(v,c));
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public JPanelGUI visit(ConditionalElseNode node)
+    {
+        JPanelGUI            jPanelGUI = new JPanelGUI();
+        LinkedList<Question> questions = new LinkedList<Question>();
+        LinkedList<String> variables = new LinkedList<>();
+        HashMap<String,String> calculations = new HashMap<>();
+        for (Node n : node.getQuestions())
+        {
+            if(n instanceof  QuestionAssignValueNode){
+                String calculation = ((QuestionAssignValueNode) n).getExpression().accept(this);
+                Question question = ((QuestionAssignValueNode) n).accept(this);
+                calculations.put(question.answerNameValue(),calculation);
+                calculation = allTogether(calculation);
+                String[] result = calculation.split("\\.");
+                ((Textbox) question).setHasCalculation(true);
+
+                for (String s: result) {
+                    variables.add(s);
+                }
+
+                questions.add(question);
+
+            }
+
+            else {
+                questions.add(n.accept(this));
+            }
         }
 
         jPanelGUI.createPanel(questions, 0);
         jPanelGUI.getPanel().setVisible(false);
 
+        if(!variables.isEmpty()){
+            variables.forEach(v -> jPanelGUI.getQuestion(v).attachObserver(jPanelGUI));
+        }
+
+        if (!calculations.isEmpty()){
+            calculations.forEach((v,c) -> jPanelGUI.addCalculation(v,c));
+        }
+
         return jPanelGUI;
-    }
-
-    @Override
-    public String visit(ConditionalIfElseNode node)
-    {
-        String result = "\nIf Condition: " + node.getCondition().accept(this) + " Questions: ";
-        for (Node n : node.getQuestions())
-        {
-            result += n.accept(this);
-        }
-
-        return result;
-    }
-
-    @Override
-    public String visit(ConditionalElseNode node)
-    {
-        String result = "\nElse Conditional > Questions: ";
-        for (Node n : node.getQuestions())
-        {
-            result += n.accept(this);
-        }
-
-        return result;
     }
 
     public String visit(AdditionNode node)
@@ -124,14 +222,9 @@ public class ASTVisitorEvaluator implements ASTVisitor
 
     public String visit(DivisionNode node)
     {
-        double divisor = Double.valueOf(node.getRight().accept(this));
-        if (divisor != 0.0 || !String.valueOf(divisor).equals("0.0"))
-        {
-            return node.getLeft().accept(this) + " / " + node.getRight().accept(this);
-        } else
-        {
-            throw new ArithmeticException("Division by zero.");
-        }
+
+        return node.getLeft().accept(this) + " / " + node.getRight().accept(this);
+
     }
 
     @Override

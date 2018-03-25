@@ -18,7 +18,7 @@ public class ASTExpressionVisitorEvaluator implements ASTExpressionVisitor{
 
     @Override
     public double visit(NumberNode node) {
-        return 0.0;
+        return node.getValue();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ASTExpressionVisitorEvaluator implements ASTExpressionVisitor{
 
     @Override
     public double visit(DecimalNode node) {
-        return 0;
+        return node.getValue();
     }
 
     public double visit(MultiplicationNode node)

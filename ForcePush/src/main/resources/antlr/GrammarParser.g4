@@ -24,7 +24,7 @@ nextCondition       : (conditionalElse|conditionalIfElse);
 
 //Mathematical expressions
 expression        : LPAREN expression RPAREN                                                                            #parenthesisExpression
-                  | op=(PLUS|MINUS)     expression                                                                      #unaryExpression
+                  | NOT    expression                                                                      #unaryExpression
                   | left=expression     op=(MULTIPLY|DIVIDE)    right=expression                                        #infixExpression
                   | left=expression     op=(PLUS|MINUS)         right=expression                                        #infixExpression
                   | left=expression     log=(AND|OR)            right=expression                                        #logicalExpression

@@ -1,5 +1,5 @@
 from ql.ast.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
-from ql.ast.expressions.unary_operators.unary_operator import UnaryOperatorNode
+from ql.ast.expressions.unary_operators.unary_operator_node import UnaryOperatorNode
 from ql.ast.expressions.literals.literal_node import LiteralNode
 from ql.ast.expressions.variable_node import VariableNode
 from multimethods import multimethod

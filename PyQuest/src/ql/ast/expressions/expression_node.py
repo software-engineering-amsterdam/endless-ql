@@ -2,8 +2,8 @@ from ql.ast.base_node import BaseNode
 
 
 class ExpressionNode(BaseNode):
-    def __init__(self, position, expression_type, value):
-        super(ExpressionNode, self).__init__(position)
+    def __init__(self, metadata, expression_type, value):
+        super(ExpressionNode, self).__init__(metadata)
         self.__expression_type = expression_type
         self.__value = value
 

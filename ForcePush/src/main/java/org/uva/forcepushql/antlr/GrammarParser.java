@@ -1,4 +1,4 @@
-// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -628,12 +628,10 @@ public class GrammarParser extends Parser {
 		}
 	}
 	public static class UnaryExpressionContext extends ExpressionContext {
-		public Token op;
+		public TerminalNode NOT() { return getToken(GrammarParser.NOT, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode PLUS() { return getToken(GrammarParser.PLUS, 0); }
-		public TerminalNode MINUS() { return getToken(GrammarParser.MINUS, 0); }
 		public UnaryExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -710,23 +708,13 @@ public class GrammarParser extends Parser {
 				match(RPAREN);
 				}
 				break;
-			case PLUS:
-			case MINUS:
+			case NOT:
 				{
 				_localctx = new UnaryExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(60);
-				((UnaryExpressionContext)_localctx).op = _input.LT(1);
-				_la = _input.LA(1);
-				if ( !(_la==PLUS || _la==MINUS) ) {
-					((UnaryExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
+				match(NOT);
 				setState(61);
 				expression(6);
 				}
@@ -1405,7 +1393,7 @@ public class GrammarParser extends Parser {
 		"\r\16\r\u0081\3\r\3\r\6\r\u0086\n\r\r\r\16\r\u0087\3\16\3\16\3\16\6\16"+
 		"\u008d\n\16\r\16\16\16\u008e\3\16\3\16\3\17\3\17\3\17\3\17\7\17\u0097"+
 		"\n\17\f\17\16\17\u009a\13\17\3\17\3\17\3\17\2\3\20\20\2\4\6\b\n\f\16\20"+
-		"\22\24\26\30\32\34\2\b\5\2\7\b\n\13\r\r\3\2\31\32\4\2\'(**\3\2\33\34\3"+
+		"\22\24\26\30\32\34\2\b\5\2\7\b\n\13\r\r\4\2\'(**\3\2\33\34\3\2\31\32\3"+
 		"\2$%\3\2\36#\2\u00a4\2\36\3\2\2\2\4!\3\2\2\2\6(\3\2\2\2\b*\3\2\2\2\n/"+
 		"\3\2\2\2\f\63\3\2\2\2\16\67\3\2\2\2\20A\3\2\2\2\22T\3\2\2\2\24Y\3\2\2"+
 		"\2\26h\3\2\2\2\30y\3\2\2\2\32\u0089\3\2\2\2\34\u0092\3\2\2\2\36\37\5\34"+
@@ -1415,9 +1403,9 @@ public class GrammarParser extends Parser {
 		"\2/,\3\2\2\2/-\3\2\2\2/.\3\2\2\2\60\13\3\2\2\2\61\64\5\6\4\2\62\64\5\20"+
 		"\t\2\63\61\3\2\2\2\63\62\3\2\2\2\64\r\3\2\2\2\658\5\32\16\2\668\5\30\r"+
 		"\2\67\65\3\2\2\2\67\66\3\2\2\28\17\3\2\2\29:\b\t\1\2:;\7\22\2\2;<\5\20"+
-		"\t\2<=\7\23\2\2=B\3\2\2\2>?\t\3\2\2?B\5\20\t\b@B\t\4\2\2A9\3\2\2\2A>\3"+
-		"\2\2\2A@\3\2\2\2BQ\3\2\2\2CD\f\7\2\2DE\t\5\2\2EP\5\20\t\bFG\f\6\2\2GH"+
-		"\t\3\2\2HP\5\20\t\7IJ\f\5\2\2JK\t\6\2\2KP\5\20\t\6LM\f\4\2\2MN\t\7\2\2"+
+		"\t\2<=\7\23\2\2=B\3\2\2\2>?\7&\2\2?B\5\20\t\b@B\t\3\2\2A9\3\2\2\2A>\3"+
+		"\2\2\2A@\3\2\2\2BQ\3\2\2\2CD\f\7\2\2DE\t\4\2\2EP\5\20\t\bFG\f\6\2\2GH"+
+		"\t\5\2\2HP\5\20\t\7IJ\f\5\2\2JK\t\6\2\2KP\5\20\t\6LM\f\4\2\2MN\t\7\2\2"+
 		"NP\5\20\t\5OC\3\2\2\2OF\3\2\2\2OI\3\2\2\2OL\3\2\2\2PS\3\2\2\2QO\3\2\2"+
 		"\2QR\3\2\2\2R\21\3\2\2\2SQ\3\2\2\2TU\7)\2\2UV\5\6\4\2VW\7\16\2\2WX\5\b"+
 		"\5\2X\23\3\2\2\2YZ\5\22\n\2Z^\7\35\2\2[]\7\22\2\2\\[\3\2\2\2]`\3\2\2\2"+

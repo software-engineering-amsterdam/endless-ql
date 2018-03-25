@@ -56,16 +56,7 @@ public abstract class ConditionalNode extends Node
 class ConditionalIfNode extends ConditionalNode
 {
     @Override
-    public JPanelGUI accept(ASTVisitor visitor)
-    {
-        return visitor.visit(this);
-    }
-}
-
-class ConditionalIfElseNode extends ConditionalNode
-{
-    @Override
-    public String accept(ASTVisitor visitor)
+    public LinkedList<JPanelGUI> accept(ASTVisitor visitor)
     {
         return visitor.visit(this);
     }
@@ -74,7 +65,7 @@ class ConditionalIfElseNode extends ConditionalNode
 class ConditionalElseNode extends ConditionalNode
 {
     @Override
-    public String accept(ASTVisitor visitor)
+    public JPanelGUI accept(ASTVisitor visitor)
     {
         return visitor.visit(this);
     }

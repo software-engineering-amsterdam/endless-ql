@@ -2,8 +2,8 @@ from ql.ast.base_node import BaseNode
 
 
 class BlockStatementNode(BaseNode):
-    def __init__(self, position, block):
-        super(BlockStatementNode, self).__init__(position)
+    def __init__(self, metadata, block):
+        super(BlockStatementNode, self).__init__(metadata)
         self.__block = block
 
     @property

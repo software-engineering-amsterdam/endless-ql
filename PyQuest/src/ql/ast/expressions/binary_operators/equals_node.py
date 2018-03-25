@@ -3,8 +3,8 @@ from ql.types.boolean import QLBoolean
 
 
 class EqualsOperatorNode(BinaryOperatorNode):
-    def __init__(self, position, expression_type, left_expression, right_expression, value):
-        super(EqualsOperatorNode, self).__init__(position, expression_type, left_expression, right_expression, value)
+    def __init__(self, metadata, expression_type, left_expression, right_expression, value):
+        super(EqualsOperatorNode, self).__init__(metadata, expression_type, left_expression, right_expression, value)
 
     def get_result_type(self, unused1, unused2):
         return QLBoolean

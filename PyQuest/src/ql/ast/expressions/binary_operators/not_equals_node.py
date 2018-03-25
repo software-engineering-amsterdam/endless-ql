@@ -9,8 +9,8 @@ from ql.types.undefined import QLUndefined
 
 
 class NotEqualsOperatorNode(BinaryOperatorNode):
-    def __init__(self, position, expression_type, left_expression, right_expression, value):
-        super(NotEqualsOperatorNode, self).__init__(position, expression_type, left_expression, right_expression, value)
+    def __init__(self, metadata, expression_type, left_expression, right_expression, value):
+        super(NotEqualsOperatorNode, self).__init__(metadata, expression_type, left_expression, right_expression, value)
         self.__valid_types = [(QLBoolean, QLBoolean),
                               (QLDate, QLDate),
                               (QLDecimal, QLDecimal),

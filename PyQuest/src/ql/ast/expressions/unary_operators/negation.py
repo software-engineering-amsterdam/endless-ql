@@ -4,8 +4,8 @@ from ql.types.undefined import QLUndefined
 
 
 class NegationOperatorNode(UnaryOperatorNode):
-    def __init__(self, position, expression_type, expression, value):
-        super(NegationOperatorNode, self).__init__(position, expression_type, expression, value)
+    def __init__(self, metadata, expression_type, expression, value):
+        super(NegationOperatorNode, self).__init__(metadata, expression_type, expression, value)
         self.__valid_types = {QLBoolean: QLBoolean}
 
     def get_result_type(self, type):

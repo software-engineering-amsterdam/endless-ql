@@ -12,6 +12,7 @@ import javafx.stage.FileChooser
 import nl.uva.se.sc.niro.QLFormService
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.control.Component
+import nl.uva.se.sc.niro.gui.factory.ql.QLComponentFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
@@ -75,7 +76,7 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
     val questionBox = new VBox()
     questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
 
-    questionComponents.foreach(_.addComponentChangedListener(this))
+    questionComponents = guiForm.questions.map(QLComponentFactory(this).make)
 
     questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questionComponents))
     questionArea.setContent(questionBox)

@@ -6,13 +6,17 @@ import qls.model.widget.Widget;
 
 public class QuestionReference extends Statement {
 
-    public final String name;
+    private final String identifier;
     private final Widget widget;
 
-    public QuestionReference(Token token, String name, Widget widget) {
+    public QuestionReference(Token token, String identifier, Widget widget) {
         super(token);
-        this.name = name;
+        this.identifier = identifier;
         this.widget = widget;
+    }
+
+    public String getIdentifier() {
+        return identifier;
     }
 
     public Widget getWidget() {

@@ -33,7 +33,7 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
 
         // Check if QLS widget is compatible with question type
         WidgetType widgetType = questionReference.getWidget().type;
-        ReturnType questionType = this.formQuestionTypes.get(questionReference.name);
+        ReturnType questionType = this.formQuestionTypes.get(questionReference.getIdentifier());
         if(!widgetType.isCompatible(questionType)) {
             throw new IllegalArgumentException("Incompatible widget type " + widgetType
                     + " for question of type " + questionType + " " + questionReference.getWidget().getLocation());

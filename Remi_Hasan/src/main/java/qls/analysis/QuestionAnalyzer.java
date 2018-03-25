@@ -57,7 +57,7 @@ public class QuestionAnalyzer implements IQLSAnalysis {
         styleSheet.accept(new QLSVisitor<Void>() {
             @Override
             public Void visit(QuestionReference questionReference) {
-                identifiers.add(questionReference.name);
+                identifiers.add(questionReference.getIdentifier());
                 return super.visit(questionReference);
             }
         });

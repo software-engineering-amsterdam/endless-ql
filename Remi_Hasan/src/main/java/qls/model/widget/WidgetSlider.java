@@ -5,13 +5,21 @@ import qls.IQLSVisitor;
 
 public class WidgetSlider extends Widget {
 
-    public final double min;
-    public final double max;
+    private final double minValue;
+    private final double maxValue;
 
     public WidgetSlider(Token start, double min, double max) {
         super(start, WidgetType.SLIDER);
-        this.min = min;
-        this.max = max;
+        this.minValue = min;
+        this.maxValue = max;
+    }
+
+    public double getMinValue() {
+        return minValue;
+    }
+
+    public double getMaxValue() {
+        return maxValue;
     }
 
     @Override

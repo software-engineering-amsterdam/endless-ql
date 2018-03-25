@@ -23,7 +23,7 @@ public class StyleSheetBuilderTest {
 
         // First page
         Page firstPage = styleSheet.getPages().get(0);
-        assertEquals("Numbers", firstPage.identifier);
+        assertEquals("Numbers", firstPage.getIdentifier());
         assertEquals(2, firstPage.getSections().size());
 
         Section firstPageFirstSection = firstPage.getSections().get(0);
@@ -40,8 +40,8 @@ public class StyleSheetBuilderTest {
         assertEquals(3, secondPage.getSections().get(0).getStatements().size());
 
         assertEquals(2, secondPage.getDefaultStyles().size());
-        assertEquals(ReturnType.BOOLEAN, secondPage.getDefaultStyles().get(0).type);
-        assertEquals(WidgetType.RADIO, secondPage.getDefaultStyles().get(0).getWidget().type);
+        assertEquals(ReturnType.BOOLEAN, secondPage.getDefaultStyles().get(0).getType());
+        assertEquals(WidgetType.RADIO, secondPage.getDefaultStyles().get(0).getWidget().getType());
         assertEquals(1, secondPage.getDefaultStyles().get(0).getStyleAttributes().size());
 
         StyleAttributeWidth styleAttributeWidth =

@@ -148,25 +148,25 @@ public class LabelWithWidget extends VBox implements GUIQuestionElement, IQLSVis
 
     @Override
     public Void visit(StyleAttributeColor widget) {
-        setColor(widget.color);
+        setColor(widget.getColor());
         return null;
     }
 
     @Override
     public Void visit(StyleAttributeFont widget) {
-        setFont(widget.fontFamily);
+        setFont(widget.getFontFamily());
         return null;
     }
 
     @Override
     public Void visit(StyleAttributeFontSize widget) {
-        setFontSize(widget.fontSize);
+        setFontSize(widget.getFontSize());
         return null;
     }
 
     @Override
     public Void visit(StyleAttributeWidth widget) {
-        setWidth(widget.width);
+        setWidth(widget.getWidth());
         return null;
     }
 }

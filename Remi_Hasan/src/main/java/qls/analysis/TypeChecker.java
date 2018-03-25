@@ -32,7 +32,7 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
         }
 
         // Check if QLS widget is compatible with question type
-        WidgetType widgetType = questionReference.getWidget().type;
+        WidgetType widgetType = questionReference.getWidget().getType();
         ReturnType questionType = this.formQuestionTypes.get(questionReference.getIdentifier());
         if(!widgetType.isCompatible(questionType)) {
             throw new IllegalArgumentException("Incompatible widget type " + widgetType
@@ -50,10 +50,10 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
 
         // Check if widget type defined in the default style is compatible with the
         // question type that is being styled
-        WidgetType widgetType = defaultStyle.getWidget().type;
-        if(!widgetType.isCompatible(defaultStyle.type)) {
+        WidgetType widgetType = defaultStyle.getWidget().getType();
+        if(!widgetType.isCompatible(defaultStyle.getType())) {
             throw new IllegalArgumentException("Incompatible widget type " + widgetType
-                    + " for question of type " + defaultStyle.type + " " + defaultStyle.getWidget().getLocation());
+                    + " for question of type " + defaultStyle.getType() + " " + defaultStyle.getWidget().getLocation());
         }
 
         return super.visit(defaultStyle);

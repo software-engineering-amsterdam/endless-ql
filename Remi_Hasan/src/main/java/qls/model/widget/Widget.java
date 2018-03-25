@@ -5,10 +5,14 @@ import qls.model.QLSNode;
 
 public abstract class Widget extends QLSNode {
 
-    public final WidgetType type;
+    private final WidgetType type;
 
     Widget(Token start, WidgetType type) {
         super(start);
         this.type = type;
+    }
+
+    public WidgetType getType() {
+        return type;
     }
 }

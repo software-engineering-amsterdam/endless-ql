@@ -3,7 +3,6 @@ package qls.model.widget;
 import ql.model.expression.ReturnType;
 
 public enum WidgetType {
-    DEFAULT,
     SLIDER,
     SPINBOX,
     TEXTBOX,
@@ -27,7 +26,6 @@ public enum WidgetType {
             case MONEY:
                 return this == SLIDER || this == SPINBOX || this == TEXTBOX;
             case DATE:
-
                 return false;
         }
 

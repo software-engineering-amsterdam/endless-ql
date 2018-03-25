@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Page extends QLSNode {
 
-    public final String identifier;
+    private final String identifier;
     private final List<Section> sections;
     private final List<DefaultStyle> defaultStyles;
 
@@ -18,9 +18,8 @@ public class Page extends QLSNode {
         this.defaultStyles = defaultStyles;
     }
 
-    @Override
-    public <T> T accept(IQLSVisitor<T> visitor) {
-        return visitor.visit(this);
+    public String getIdentifier() {
+        return identifier;
     }
 
     public List<DefaultStyle> getDefaultStyles() {
@@ -29,5 +28,10 @@ public class Page extends QLSNode {
 
     public List<Section> getSections() {
         return sections;
+    }
+
+    @Override
+    public <T> T accept(IQLSVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

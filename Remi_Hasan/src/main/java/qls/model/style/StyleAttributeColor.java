@@ -4,11 +4,15 @@ import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public class StyleAttributeColor extends StyleAttribute {
-    public final String color;
+    private final String color;
 
     public StyleAttributeColor(Token start, String color) {
         super(start);
         this.color = color;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     @Override

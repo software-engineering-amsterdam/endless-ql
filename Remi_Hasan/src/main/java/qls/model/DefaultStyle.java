@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DefaultStyle extends Statement {
 
-    public final ReturnType type;
+    private final ReturnType type;
     private final List<StyleAttribute> styleAttributes;
     private final Widget widget;
 
@@ -19,6 +19,10 @@ public class DefaultStyle extends Statement {
         this.type = type;
         this.styleAttributes = styleAttributes;
         this.widget = widget;
+    }
+
+    public ReturnType getType() {
+        return type;
     }
 
     public List<StyleAttribute> getStyleAttributes() {

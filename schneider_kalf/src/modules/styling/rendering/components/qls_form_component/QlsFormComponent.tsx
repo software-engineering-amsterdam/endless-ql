@@ -4,6 +4,7 @@ import PageNode from "../../../form/nodes/containers/PageNode";
 import { StyledFieldContainer } from "../styled_field_container/StyledFieldContainer";
 import { QlsPage } from "../qls_page/QlsPage";
 import { QlsPagination } from "../qls_pagination/QlsPagination";
+import StyledFieldNode from "../../../form/StyledFieldNode";
 
 export interface QlsFormComponentProps {
   form: QlsForm;
@@ -20,14 +21,18 @@ export class QlsFormComponent extends React.Component<QlsFormComponentProps, Qls
     super(props);
 
     this.state = {};
-    this.renderField = this.renderField.bind(this);
+    this.renderStyledField = this.renderStyledField.bind(this);
   }
 
-  renderField(identifier: string) {
-    const field = this.props.form.getField(identifier);
+  fieldIsVisible(field?: StyledFieldNode): boolean {
     const activePage = this.props.form.getActivePage();
+    return field && field.isOnPage(activePage) && this.props.visibleFields.has(field.identifier);
+  }
 
-    if (!field || !field.isOnPage(activePage) || !this.props.visibleFields.has(field.identifier)) {
+  renderStyledField(identifier: string) {
+    const field = this.props.form.getField(identifier);
+
+    if (!this.fieldIsVisible(field)) {
       return null;
     }
 
@@ -51,7 +56,7 @@ export class QlsFormComponent extends React.Component<QlsFormComponentProps, Qls
           />
           <QlsPage
               page={this.props.form.getActivePage()}
-              renderField={this.renderField}
+              renderField={this.renderStyledField}
           />
         </div>
     );

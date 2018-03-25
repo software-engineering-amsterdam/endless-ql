@@ -15,7 +15,7 @@ DATE         : 'date' ;
 WIDGET       : 'widget' ;
 DEFAULT      : 'default' ;
 CHECKBOX     : 'checkbox' ;
-SPINBOX     : 'spinbox' ;
+SPINBOX      : 'spinbox' ;
 RADIO        : 'radio' ;
 COMBO        : 'combo' ;
 

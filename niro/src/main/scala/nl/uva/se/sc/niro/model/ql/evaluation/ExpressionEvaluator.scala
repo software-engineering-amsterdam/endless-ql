@@ -2,8 +2,9 @@ package nl.uva.se.sc.niro.model.ql.evaluation
 
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator.Dictionary
+import nl.uva.se.sc.niro.model.ql.expressions.Conversions._
 import nl.uva.se.sc.niro.model.ql.expressions._
-import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer }
 
 object ExpressionEvaluator {
   implicit class ExpressionOps(e: Expression) {
@@ -26,13 +27,19 @@ object ExpressionEvaluator {
       case n: Negate           => n.evaluate(symbolTable, dictionary)
     }
   }
+  private def widen(left: Answer, right: Answer): (Answer, Answer) = (left, right) match {
+    case (i: IntegerAnswer, _: DecimalAnswer) => (i.toDecimal, right)
+    case (_: DecimalAnswer, i: IntegerAnswer) => (left, i.toDecimal)
+    case _                                    => (left, right)
+  }
 
   implicit class AdditionOps(expression: Addition) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.plus(rightAnswer)
+        widened = widen(leftAnswer, rightAnswer)
+      } yield widened._1.plus(widened._2)
     }
   }
 
@@ -41,7 +48,8 @@ object ExpressionEvaluator {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.subtract(rightAnswer)
+        widened = widen(leftAnswer, rightAnswer)
+      } yield widened._1.subtract(widened._2)
     }
   }
 
@@ -50,7 +58,8 @@ object ExpressionEvaluator {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.multiply(rightAnswer)
+        widened = widen(leftAnswer, rightAnswer)
+      } yield widened._1.multiply(widened._2)
     }
   }
 
@@ -59,7 +68,8 @@ object ExpressionEvaluator {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.divide(rightAnswer)
+        widened = widen(leftAnswer, rightAnswer)
+      } yield widened._1.divide(widened._2)
     }
   }
 
@@ -76,7 +86,8 @@ object ExpressionEvaluator {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.lessThan(rightAnswer)
+        widened = widen(leftAnswer, rightAnswer)
+      } yield widened._1.lessThan(widened._2)
     }
   }
 
@@ -85,7 +96,8 @@ object ExpressionEvaluator {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.lessThanEquals(rightAnswer)
+        widened = widen(leftAnswer, rightAnswer)
+      } yield widened._1.lessThanEquals(widened._2)
     }
   }
 
@@ -94,7 +106,8 @@ object ExpressionEvaluator {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.greaterThenEquals(rightAnswer)
+        widened = widen(leftAnswer, rightAnswer)
+      } yield widened._1.greaterThenEquals(widened._2)
     }
   }
 
@@ -103,7 +116,8 @@ object ExpressionEvaluator {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.greaterThen(rightAnswer)
+        widened = widen(leftAnswer, rightAnswer)
+      } yield widened._1.greaterThen(widened._2)
     }
   }
 
@@ -112,7 +126,8 @@ object ExpressionEvaluator {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.notEquals(rightAnswer)
+        widened = widen(leftAnswer, rightAnswer)
+      } yield widened._1.notEquals(widened._2)
     }
   }
 
@@ -121,7 +136,8 @@ object ExpressionEvaluator {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
-      } yield leftAnswer.equals(rightAnswer)
+        widened = widen(leftAnswer, rightAnswer)
+      } yield widened._1.equals(widened._2)
     }
   }
 

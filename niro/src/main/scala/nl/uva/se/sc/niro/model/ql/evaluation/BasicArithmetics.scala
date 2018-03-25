@@ -9,23 +9,18 @@ object BasicArithmetics {
   trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntegerAnswer] {
     def plus(x: IntegerAnswer, y: Answer): Answer = y match {
       case i: IntegerAnswer => IntegerAnswer(x.combine(i)(_ + _))
-      case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ + _))
-      case d: MoneyAnswer => MoneyAnswer(x.combine(d)(_ + _))
       case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
     }
     def minus(x: IntegerAnswer, y: Answer): Answer = y match {
       case i: IntegerAnswer => IntegerAnswer(x.combine(i)(_ - _))
-      case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ - _))
       case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
     }
     def times(x: IntegerAnswer, y: Answer): Answer = y match {
       case i: IntegerAnswer => IntegerAnswer(x.combine(i)(_ * _))
-      case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ * _))
       case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
     }
     def div(x: IntegerAnswer, y: Answer): Answer = y match {
       case i: IntegerAnswer => IntegerAnswer(x.combine(i)(_ / _))
-      case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ / _))
       case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
     }
     def negate(x: IntegerAnswer): Answer = IntegerAnswer(x.possibleValue.map(-_))
@@ -34,22 +29,18 @@ object BasicArithmetics {
 
   trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecimalAnswer] {
     def plus(x: DecimalAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => DecimalAnswer(x.combine(i)(_ + _))
       case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ + _))
       case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
     }
     def minus(x: DecimalAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => DecimalAnswer(x.combine(i)(_ - _))
       case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ - _))
       case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
     }
     def times(x: DecimalAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => DecimalAnswer(x.combine(i)(_ * _))
       case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ * _))
       case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
     }
     def div(x: DecimalAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => DecimalAnswer(x.combine(i)(_ / _))
       case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ / _))
       case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
     }

@@ -7,9 +7,13 @@ namespace Assignment1.Execution
 {
     public class QLExecutor : IQLASTVisitor
     {
+        public IReadOnlyList<Question> VisibleQuestions => _visibleQuestions.AsReadOnly();
+
         private readonly QuestionForm _questionForm;
         private readonly Dictionary<string, IValue> _answers = new Dictionary<string, IValue>();
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
+        private readonly List<Question> _visibleQuestions = new List<Question>();
+        private readonly HashSet<string> _readOnlyQuestions = new HashSet<string>();
 
         public QLExecutor(QuestionForm questionForm)
         {
@@ -25,6 +29,24 @@ namespace Assignment1.Execution
             _questionForm.Accept(this);
         }
 
+        public bool IsReadOnly(string questionId) => _readOnlyQuestions.Contains(questionId);
+
+        public IValue GetAnswer(string questionId) => _answers.ContainsKey(questionId) ? _answers[questionId] : new Undefined();
+
+        private void AddQuestion(Question question, bool readOnly)
+        {
+            _questions.Add(question.Id, question);
+            _visibleQuestions.Add(question);
+            if (readOnly) _readOnlyQuestions.Add(question.Id);
+        }
+
+        private void ClearQuestions()
+        {
+            _questions.Clear();
+            _visibleQuestions.Clear();
+            _readOnlyQuestions.Clear();
+        }
+
         private void VisitStatements(IEnumerable<Statement> statements)
         {
             foreach (var statement in statements)
@@ -35,7 +57,7 @@ namespace Assignment1.Execution
 
         public void Visit(QuestionForm questionForm)
         {
-            _questions.Clear();
+            ClearQuestions();
             VisitStatements(questionForm.Statements);
         }
 
@@ -45,12 +67,13 @@ namespace Assignment1.Execution
             {
                 _answers.Add(question.Id, question.Answer);
             }
-            _questions.Add(question.Id, question);
+            AddQuestion(question, false);
         }
 
         public void Visit(ComputedQuestion question)
         {
-            _questions.Add(question.Id, question);
+            _answers.Add(question.Id, QLExpressionEvaluator.Evaluate(question.Computation, GetAnswer));
+            AddQuestion(question, true);
         }
 
         public void Visit(IfStatement ifStatement)
@@ -58,6 +81,6 @@ namespace Assignment1.Execution
             VisitStatements(EvaluateCondition(ifStatement.Condition) ? ifStatement.ThenStatements : ifStatement.ElseStatements);
         }
 
-        private bool EvaluateCondition(IExpression expression) => QLExpressionEvaluator.AsBool(QLExpressionEvaluator.Evaluate(expression, _answers));
+        private bool EvaluateCondition(IExpression expression) => QLExpressionEvaluator.AsBool(QLExpressionEvaluator.Evaluate(expression, GetAnswer));
     }
 }

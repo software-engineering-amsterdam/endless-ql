@@ -1,6 +1,5 @@
 package gui;
 
-import gui.widgets.TextFieldWidget;
 import gui.widgets.Widget;
 import ql.ast.statements.Question;
 import ql.evaluator.FormEvaluator;
@@ -15,11 +14,11 @@ public class QuestionUI {
 
     private final JLabel label;
     private final Widget widget;
-    private JPanel panel;
+    private final JPanel panel;
 
     public QuestionUI(FormEvaluator formEvaluator, Question question) {
         label = new JLabel(question.getLabel());
-        widget = new TextFieldWidget(formEvaluator, question);
+        widget = new WidgetFactory().createWidget(question, formEvaluator);
         widget.setVisible(true);
 
         panel = new JPanel(new BorderLayout());

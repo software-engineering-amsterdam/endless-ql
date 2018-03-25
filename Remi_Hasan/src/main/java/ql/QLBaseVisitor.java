@@ -12,8 +12,8 @@ import ql.model.expression.variable.*;
 public class QLBaseVisitor<T> implements IQLVisitor<T> {
 
     private T visitBinaryExpression(ExpressionBinary expression) {
-        expression.left.accept(this);
-        expression.right.accept(this);
+        expression.getLeft().accept(this);
+        expression.getRight().accept(this);
         return null;
     }
 
@@ -122,12 +122,12 @@ public class QLBaseVisitor<T> implements IQLVisitor<T> {
 
     @Override
     public T visit(ExpressionUnaryNot expression) {
-        return expression.value.accept(this);
+        return expression.getSubExpresison().accept(this);
     }
 
     @Override
     public T visit(ExpressionUnaryNeg expression) {
-        return expression.value.accept(this);
+        return expression.getSubExpresison().accept(this);
     }
 
     @Override

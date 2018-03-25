@@ -33,8 +33,8 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
     }
 
     private ReturnType checkBinaryArithmetic(ExpressionBinary expression, String operation) {
-        ReturnType leftType = expression.left.accept(this);
-        ReturnType rightType = expression.right.accept(this);
+        ReturnType leftType = expression.getLeft().accept(this);
+        ReturnType rightType = expression.getRight().accept(this);
 
         // Check if arithmetic is applied on two number expressions
         if (!leftType.isCompatibleArithmetic(rightType)) {
@@ -47,8 +47,8 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
     }
 
     private ReturnType checkBinaryComparison(ExpressionBinary expression, String operation) {
-        ReturnType leftType = expression.left.accept(this);
-        ReturnType rightType = expression.right.accept(this);
+        ReturnType leftType = expression.getLeft().accept(this);
+        ReturnType rightType = expression.getRight().accept(this);
 
         if (!leftType.isCompatibleComparison(rightType)) {
             throw new IllegalArgumentException("Invalid " + operation + ": non-numeric value in expression"
@@ -59,8 +59,8 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
     }
 
     private ReturnType checkBinaryBoolean(ExpressionBinary expression, String operation) {
-        ReturnType leftType = expression.left.accept(this);
-        ReturnType rightType = expression.right.accept(this);
+        ReturnType leftType = expression.getLeft().accept(this);
+        ReturnType rightType = expression.getRight().accept(this);
 
         // Check whether operation can be applied to left and right expression
         boolean selfValid = leftType == ReturnType.BOOLEAN && rightType == ReturnType.BOOLEAN;
@@ -126,8 +126,8 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
 
     @Override
     public ReturnType visit(ExpressionComparisonEq expression) {
-        ReturnType leftType = expression.left.accept(this);
-        ReturnType rightType = expression.right.accept(this);
+        ReturnType leftType = expression.getLeft().accept(this);
+        ReturnType rightType = expression.getRight().accept(this);
 
         if (!leftType.isCompatibleEquality(rightType)) {
             throw new IllegalArgumentException("Invalid equals: cannot check for equality between "
@@ -169,7 +169,7 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
 
     @Override
     public ReturnType visit(ExpressionUnaryNot expression) {
-        ReturnType expressionType = expression.value.accept(this);
+        ReturnType expressionType = expression.getSubExpresison().accept(this);
 
         if (expressionType != ReturnType.BOOLEAN) {
             throw new IllegalArgumentException("Invalid NOT: non-boolean expression " + expression.getLocation());
@@ -180,7 +180,7 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
 
     @Override
     public ReturnType visit(ExpressionUnaryNeg expression) {
-        ReturnType expressionType = expression.value.accept(this);
+        ReturnType expressionType = expression.getSubExpresison().accept(this);
 
         if (!expressionType.isNumber()) {
             throw new IllegalArgumentException("Invalid negation: non-numeric expression " + expression.getLocation());

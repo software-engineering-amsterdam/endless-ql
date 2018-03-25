@@ -24,90 +24,90 @@ public class ExpressionEvaluator extends QLBaseVisitor<Value> {
 
     @Override
     public Value visit(ExpressionArithmeticDivide expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.divide(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionArithmeticMultiply expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.multiply(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionArithmeticSubtract expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.subtract(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionArithmeticSum expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.sum(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionComparisonEq expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.eq(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionComparisonGE expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.ge(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionComparisonGT expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.gt(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionComparisonLE expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.le(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionComparisonLT expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.lt(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionLogicalAnd expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.and(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionLogicalOr expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.or(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionUnaryNot expression) {
-        Value valueInterpreted = expression.value.accept(this);
+        Value valueInterpreted = expression.getSubExpresison().accept(this);
         return valueInterpreted.not();
     }
 
     @Override
     public Value visit(ExpressionUnaryNeg expression) {
-        Value valueInterpreted = expression.value.accept(this);
+        Value valueInterpreted = expression.getSubExpresison().accept(this);
         return valueInterpreted.neg();
     }
 

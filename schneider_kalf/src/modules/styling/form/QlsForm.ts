@@ -9,7 +9,7 @@ import StyledFieldNode from "./StyledFieldNode";
 import FormNode from "../../../form/nodes/FormNode";
 import FormState from "../../../form/state/FormState";
 
-export default class StyledForm implements Form {
+export default class QlsForm implements Form {
   private baseForm: Form;
   private stylesheetNode: StyleSheetNode;
 
@@ -32,12 +32,12 @@ export default class StyledForm implements Form {
 
   setAnswer(identifier: string, value: any): Form {
     const newBaseForm = this.baseForm.setAnswer(identifier, value);
-    return new StyledForm(newBaseForm, this.stylesheetNode);
+    return new QlsForm(newBaseForm, this.stylesheetNode);
   }
 
   setState(nextState: FormState): Form {
     const newBaseForm = this.baseForm.setState(nextState);
-    return new StyledForm(newBaseForm, this.stylesheetNode);
+    return new QlsForm(newBaseForm, this.stylesheetNode);
   }
 
   setActivePage(nextPage: PageNode): Form {

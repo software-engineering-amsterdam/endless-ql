@@ -10,7 +10,7 @@ import { UnkownDefaultValueError, UnkownFieldError } from "./form_errors";
 import FieldVisitor from "./nodes/visitors/FieldVisitor";
 import defaultValues from "./defaultValues";
 
-export default class QuestionForm implements Form {
+export default class QlForm implements Form {
   private node: FormNode;
   private state: FormState;
 
@@ -85,7 +85,7 @@ export default class QuestionForm implements Form {
   }
 
   setState(nextState: FormState): Form {
-    return new QuestionForm(this.node, nextState);
+    return new QlForm(this.node, nextState);
   }
 
   getRootNode(): FormNode {

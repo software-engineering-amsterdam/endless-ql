@@ -5,11 +5,11 @@ import Form from "./form/Form";
 import Alert from "reactstrap/lib/Alert";
 import { getParserErrorMessage } from "./parsing/parsing_helpers";
 import VisibleFieldsVisitor from "./form/evaluation/VisibleFieldsVisitor";
-import { QlsParserPipeline, QlsParserResult } from "./modules/styling/parsing/QlsParserPipeline";
-import StyledForm from "./modules/styling/form/StyledForm";
+import { QlsParserPipeline } from "./modules/styling/parsing/QlsParserPipeline";
+import QlsForm from "./modules/styling/form/QlsForm";
 import PagedFormState from "./modules/styling/form/PagedFormState";
-import { StyledFormContainer } from "./modules/styling/rendering/components/styled_form_container/StyledFormContainer";
-import QuestionForm from "./form/QuestionForm";
+import { QlsFormComponent } from "./modules/styling/rendering/components/qls_form_component/QlsFormComponent";
+import QlForm from "./form/QlForm";
 import PageNode from "./modules/styling/form/nodes/containers/PageNode";
 import Nav from "reactstrap/lib/Nav";
 import NavItem from "reactstrap/lib/NavItem";
@@ -84,10 +84,10 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   tryToUpdateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
     const parseResult: any = this.getParseResult(qlSource, (qlsEnabled) ? qlsSource : "");
 
-    const form = new QuestionForm(parseResult.node, this.getFormState());
+    const form = new QlForm(parseResult.node, this.getFormState());
 
     this.setState({
-      form: (typeof parseResult.styleNode !== 'undefined') ? new StyledForm(form, parseResult.styleNode) : form,
+      form: (typeof parseResult.styleNode !== 'undefined') ? new QlsForm(form, parseResult.styleNode) : form,
       parserError: null,
       qlInput: qlSource,
       qlsInput: qlsSource,
@@ -152,9 +152,9 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
       );
     }
 
-    if (this.state.qlsEnabled && this.state.form instanceof StyledForm) {
+    if (this.state.qlsEnabled && this.state.form instanceof QlsForm) {
       return (
-          <StyledFormContainer
+          <QlsFormComponent
               onChange={this.onChangeAnswer}
               onChangePage={this.onChangePage}
               form={this.state.form}

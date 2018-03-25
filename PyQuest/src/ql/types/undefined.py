@@ -1,5 +1,5 @@
 from gui.widgets.label import Label
-from ql.ast.expressions.literals.undefined_node import UndefinedNode
+from ql.ast.nodes.expressions.literals.undefined_node import UndefinedNode
 from ql.types.boolean import QLBoolean
 from ql.types.type import QLType
 

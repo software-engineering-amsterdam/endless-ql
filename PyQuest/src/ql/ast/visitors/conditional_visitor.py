@@ -1,8 +1,8 @@
 from debug.errors.conditional_error import ConditionalError
 from multimethods import multimethod
-from ql.ast.statements.form_node import FormNode
-from ql.ast.statements.if_node import IfNode
-from ql.ast.statements.question_node import QuestionNode
+from ql.ast.nodes.statements.form_node import FormNode
+from ql.ast.nodes.statements.if_node import IfNode
+from ql.ast.nodes.statements.question_node import QuestionNode
 from ql.types.boolean import QLBoolean
 
 

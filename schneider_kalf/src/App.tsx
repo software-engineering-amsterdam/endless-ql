@@ -81,6 +81,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
     let form: Form = new QlForm(parseResult.node, this.getFormState());
 
+    // TODO: Maybe put both pipelines in different functions
     if (typeof parseResult.styleNode !== 'undefined') {
       form = new QlsForm(form, parseResult.styleNode);
     }

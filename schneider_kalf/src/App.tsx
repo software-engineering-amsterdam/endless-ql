@@ -6,13 +6,14 @@ import QlsForm from "./modules/styling/form/QlsForm";
 import PagedFormState from "./modules/styling/form/PagedFormState";
 import QlForm from "./form/QlForm";
 import PageNode from "./modules/styling/form/nodes/containers/PageNode";
-import { QlParserPipeline, QlParserResult } from "./parsing/QlParserPipeline";
+import { QlParserResult } from "./parsing/QlParserPipeline";
 import { ModuleTabNavigation } from "./rendering/components/app_module_tabs/ModuleTabNavigation";
 import { ModuleTabsContent } from "./rendering/components/app_module_tabs/ModuleTabsContent";
 import { FormStateOutput } from "./rendering/components/app_state_output/FormStateOutput";
 import { AppErrorMessage } from "./rendering/components/app_error_message/AppErrorMessage";
 import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
 import { runParserPipeline } from "./parsing/parsing_helpers";
+import constants from "./config/constants";
 
 export interface AppComponentProps {
 }
@@ -34,7 +35,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
       qlInput: require("!raw-loader!./mock/sample.ql.txt"),
       qlsInput: require("!raw-loader!./modules/styling/mock/sample.qls.txt"),
       qlsEnabled: true,
-      activeTab: "ql",
+      activeTab: constants.APP_MODULE_TABS.QL,
       form: null,
       parserError: null
     };

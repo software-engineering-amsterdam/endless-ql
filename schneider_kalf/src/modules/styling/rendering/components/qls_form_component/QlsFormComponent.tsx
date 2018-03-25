@@ -1,10 +1,9 @@
 import * as React from 'react';
 import QlsForm from "../../../form/QlsForm";
 import PageNode from "../../../form/nodes/containers/PageNode";
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { StyledFieldContainer } from "../styled_field_container/StyledFieldContainer";
-import SectionNode from "../../../form/nodes/containers/SectionNode";
-import { SectionComponent } from "../section_component/SectionComponent";
+import { QlsPage } from "../qls_page/QlsPage";
+import { QlsPagination } from "../qls_pagination/QlsPagination";
 
 export interface QlsFormComponentProps {
   form: QlsForm;
@@ -22,28 +21,6 @@ export class QlsFormComponent extends React.Component<QlsFormComponentProps, Qls
 
     this.state = {};
     this.renderField = this.renderField.bind(this);
-  }
-
-  onChangePage(nextPage: PageNode, clickEvent: React.MouseEvent<HTMLElement>) {
-    clickEvent.preventDefault();
-    this.props.onChangePage(nextPage);
-  }
-
-  renderPaginationLinks() {
-    const activePage = this.props.form.getActivePage();
-    const pages: PageNode[] = this.props.form.getPages();
-
-    return pages.map(page => {
-      const isActive = typeof activePage !== 'undefined' && activePage.isEqual(page);
-
-      return (
-          <PaginationItem active={isActive} key={page.name}>
-            <PaginationLink onClick={event => this.onChangePage(page, event)} href="#">
-              {page.name}
-            </PaginationLink>
-          </PaginationItem>
-      );
-    });
   }
 
   renderField(identifier: string) {
@@ -64,37 +41,18 @@ export class QlsFormComponent extends React.Component<QlsFormComponentProps, Qls
     );
   }
 
-  renderSections(sections: SectionNode[]) {
-    return sections.map(section => {
-      return (
-          <SectionComponent
-              key={section.name}
-              sectionNode={section}
-              renderField={this.renderField}
-          />
-      );
-    });
-  }
-
-  renderPage(page?: PageNode) {
-    if (!page) {
-      return null;
-    }
-
-    return (
-        <div className="questionnaire-page">
-          {this.renderSections(page.getFirstLevelSections())}
-        </div>
-    );
-  }
-
   render() {
     return (
         <div className="form-container--styled">
-          {this.renderPage(this.props.form.getActivePage())}
-          <Pagination>
-            {this.renderPaginationLinks()}
-          </Pagination>
+          <QlsPagination
+              activePage={this.props.form.getActivePage()}
+              pages={this.props.form.getPages()}
+              onChangePage={this.props.onChangePage}
+          />
+          <QlsPage
+              page={this.props.form.getActivePage()}
+              renderField={this.renderField}
+          />
         </div>
     );
   }

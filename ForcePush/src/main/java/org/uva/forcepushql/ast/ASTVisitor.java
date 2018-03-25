@@ -35,7 +35,7 @@ public interface ASTVisitor{
     String visit(LabelNode node);
     String visit(NameNode node);
     String visit(TypeNode node);
-    String visit(Variable node);
+    String visit(VariableNode node);
     String visit(DecimalNode node);
 
 }

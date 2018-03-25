@@ -1,5 +1,10 @@
 package org.uva.forcepushql.gui;
 
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.uva.forcepushql.antlr.GrammarLexer;
+import org.uva.forcepushql.antlr.GrammarParser;
+import org.uva.forcepushql.ast.*;
 import org.uva.forcepushql.questions.Question;
 import org.uva.forcepushql.questions.Radio;
 import org.uva.forcepushql.questions.Textbox;
@@ -8,19 +13,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.Expression;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class JPanelGUI extends Observer
 {
 
     private LinkedList<QuestionGUI> questionGUIS;
+    private HashMap<String,Boolean> booleanValues;
+    private String condition;
     private int height = 0;
     private JPanel panel;
 
     public JPanelGUI()
     {
-
+        booleanValues = new HashMap<>();
     }
 
     public void createPanel(LinkedList<Question> questions, int height)
@@ -51,6 +61,49 @@ public class JPanelGUI extends Observer
         }
 
         panel.setPreferredSize(new Dimension(300, height + this.height));
+
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+        condition = condition.replaceAll("&&",".");
+        condition = condition.replaceAll("\\|\\|",".");
+        condition = condition.replaceAll("<",".");
+        condition = condition.replaceAll(">",".");
+        condition = condition.replaceAll("<=",".");
+        condition = condition.replaceAll(">=",".");
+        condition = condition.replaceAll("!=",".");
+        condition = condition.replaceAll("==",".");
+        condition = condition.replaceAll("!","");
+        condition = condition.replaceAll(" ","");
+
+        String[] result = condition.split("\\.");
+
+        for (String s: result) {
+            booleanValues.put(s,false);
+        }
+
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void checkCondition(){
+
+        String toTest = condition;
+
+        for (Map.Entry<String, Boolean> bv: booleanValues.entrySet()) {
+            toTest = toTest.replaceAll(bv.getKey(),String.valueOf(bv.getValue()));
+        }
+        ANTLRInputStream expression = new ANTLRInputStream(toTest);
+        GrammarLexer lexer = new GrammarLexer(expression);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        GrammarParser parser = new GrammarParser(tokens);
+        ExpressionNode mathUnit = new BuildASTExpressionVisitor().visitMathUnit(parser.mathUnit());
+        boolean result = mathUnit.accept(new ASTExpressionVisitorEvaluator());
+
+        panel.setVisible(result);
 
     }
 
@@ -88,13 +141,10 @@ public class JPanelGUI extends Observer
     @Override
     public void updateRadio(Radio radio)
     {
-        boolean state = radio.answerValue();
+        //panel.setVisible(radio.answerValue());
 
-        if (state)
-            panel.setVisible(true);
-
-        else
-            panel.setVisible(false);
+        booleanValues.put(radio.answerNameValue(), radio.answerValue());
+        checkCondition();
     }
 
     @Override

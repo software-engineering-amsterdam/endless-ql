@@ -23,7 +23,7 @@ public class TextboxGUI implements QuestionGUI
         label = new JLabel(question.writtenQuestion(), JLabel.CENTER);
         textField = new JTextField(5);
 
-        ActionListener listener2 = new ActionListener()
+        ActionListener listener = new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -37,6 +37,8 @@ public class TextboxGUI implements QuestionGUI
                 }
             }
         };
+
+        textField.addActionListener(listener);
     }
 
     public JLabel getLabel()

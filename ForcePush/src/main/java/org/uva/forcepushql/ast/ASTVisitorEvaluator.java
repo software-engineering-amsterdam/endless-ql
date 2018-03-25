@@ -2,6 +2,7 @@ package org.uva.forcepushql.ast;
 
 
 import org.uva.forcepushql.gui.JPanelGUI;
+import org.uva.forcepushql.gui.TextboxGUI;
 import org.uva.forcepushql.questions.Question;
 import org.uva.forcepushql.questions.Radio;
 import org.uva.forcepushql.questions.Textbox;
@@ -26,7 +27,12 @@ public class ASTVisitorEvaluator implements ASTVisitor
             {
                 String    condition = ((ConditionalIfNode) n).getCondition().accept(this);
                 JPanelGUI jPanelIf  = n.accept(this);
-                conditions.put(condition, jPanelIf);
+                jPanelIf.setCondition(condition);
+                condition = allTogether(condition);
+                String[] variables = condition.split("\\.");
+                for (String s: variables) {
+                    conditions.put(s, jPanelIf);
+                }
                 result.add(jPanelIf.getPanel());
 
             } else
@@ -54,8 +60,15 @@ public class ASTVisitorEvaluator implements ASTVisitor
     {
         JPanelGUI            jPanelGUI = new JPanelGUI();
         LinkedList<Question> questions = new LinkedList<Question>();
+        HashMap<String, TextboxGUI> calculations = new HashMap<>();
         for (Node n : node.getQuestions())
         {
+            if(n instanceof  QuestionAssignValueNode){
+                String calculation = ((QuestionAssignValueNode) n).getExpression().accept(this);
+                calculation = allTogether(calculation);
+                Question question = ((QuestionAssignValueNode) n).accept(this);
+
+            }
             questions.add(n.accept(this));
         }
 
@@ -195,11 +208,9 @@ public class ASTVisitorEvaluator implements ASTVisitor
     }
 
     @Override
-    public Question visit(QuestionAssignValueNode node)
+    public Textbox visit(QuestionAssignValueNode node)
     {
-        Question question   = node.getPrevious().accept(this);
-        String   expression = node.getExpression().accept(this);
-        return null;
+        return node.getPrevious().accept(this);
     }
 
     @Override
@@ -221,7 +232,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
     }
 
     @Override
-    public String visit(Variable node)
+    public String visit(VariableNode node)
     {
         return node.getName();
     }
@@ -237,5 +248,22 @@ public class ASTVisitorEvaluator implements ASTVisitor
         return String.valueOf(node.getValue());
     }
 
+    private String allTogether(String string){
+        string = string.replaceAll("&&",".");
+        string = string.replaceAll("\\|\\|",".");
+        string = string.replaceAll("<",".");
+        string = string.replaceAll(">",".");
+        string = string.replaceAll("<=",".");
+        string = string.replaceAll(">=",".");
+        string = string.replaceAll("!=",".");
+        string = string.replaceAll("==",".");
+        string = string.replaceAll("!","");
+        string = string.replaceAll("\\+",".");
+        string = string.replaceAll("-",".");
+        string = string.replaceAll("\\*",".");
+        string = string.replaceAll("/",".");
+        string = string.replaceAll(" ","");
 
+        return string;
+    }
 }

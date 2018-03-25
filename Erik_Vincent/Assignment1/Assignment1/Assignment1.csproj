@@ -78,6 +78,7 @@
     <Compile Include="Model\QLS\AST\Style\Width.cs" />
     <Compile Include="Model\QL\AST\ASTNode.cs" />
     <Compile Include="Model\QL\AST\Value\IOperations.cs" />
+    <Compile Include="Model\QL\AST\Value\IValueVisitor.cs" />
     <Compile Include="Model\QL\RenderTree\AnswerType.cs" />
     <Compile Include="Model\QL\AST\ComputedQuestion.cs" />
     <Compile Include="Model\QL\AST\Expression\Add.cs" />

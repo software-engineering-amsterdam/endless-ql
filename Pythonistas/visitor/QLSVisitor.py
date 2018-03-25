@@ -21,6 +21,21 @@ class QLSVisitor(ParseTreeVisitor):
         self.question_ids = question_ids
         self.questions = questions
 
+    def defaultResult(self):
+        return []
+
+    def visitChildren(self, node):
+        result = self.defaultResult()
+        n = node.getChildCount()
+        for i in range(n):
+            if not self.shouldVisitNextChild(node, result):
+                return
+            c = node.getChild(i)
+            # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
+            child_result = c.accept(self)
+            result.extend(child_result)
+        return result
+
     # Visit a parse tree produced by QLSParser#stylesheet.
     def visitStylesheet(self, ctx:QLSParser.StylesheetContext):
         return self.visitChildren(ctx)
@@ -36,10 +51,10 @@ class QLSVisitor(ParseTreeVisitor):
         section_frame = QtWidgets.QFrame()
         section_layout = QtWidgets.QVBoxLayout()
         section_frame.setLayout(section_layout)
-        print(ctx.default())
+        print(dir(ctx))
         result = self.visitChildren(ctx)
-        for question in result:
-            pass
+        for question_widget in result:
+            section_layout.addWidget(question_widget)
         return result
 
 
@@ -47,7 +62,7 @@ class QLSVisitor(ParseTreeVisitor):
     def visitQuestion(self, ctx:QLSParser.QuestionContext):
         # print(dir(ctx))
         # print(ctx.getText())
-        # question = self.questions[ctx.ID().getText()]
+        question = self.questions[ctx.ID().getText()]
         # print(ctx.widget().getText())
         # print()
         return self.visitChildren(ctx)

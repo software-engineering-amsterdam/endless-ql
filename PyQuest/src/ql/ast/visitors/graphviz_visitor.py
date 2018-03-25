@@ -18,7 +18,7 @@ from ql.ast.expressions.binary_operators.multiplication_node import Multiplicati
 from ql.ast.expressions.binary_operators.not_equals_node import NotEqualsOperatorNode
 from ql.ast.expressions.binary_operators.or_node import OrOperatorNode
 from ql.ast.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
-from ql.ast.expressions.unary_operators.unary_operator import UnaryOperatorNode
+from ql.ast.expressions.unary_operators.unary_operator_node import UnaryOperatorNode
 from ql.ast.expressions.literals.integer_node import IntegerNode
 from ql.ast.expressions.literals.decimal_node import DecimalNode
 import ql.ast.visitors.visitor_helper as visitor

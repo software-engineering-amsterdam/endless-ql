@@ -15,7 +15,7 @@ import java.util.*;
 
 public class GUIForm extends VBox {
     public final String identifier;
-    public final List<GUIQuestion> guiQuestions;
+    private final List<GUIQuestion> guiQuestions;
 
     public GUIForm(String identifier, List<GUIQuestion> guiQuestions) {
         this.identifier = identifier;
@@ -59,7 +59,7 @@ public class GUIForm extends VBox {
         return guiWidgetsMap;
     }
 
-    private void updateRenderedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
+    void updateRenderedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
         // First show/hide questions and update symbol table
         // Do this before updating calculated values, so we are not relying on the order of the questions
         this.updateDisplayedQuestions(guiWidgets, symbolTable);

@@ -1,5 +1,6 @@
 package gui.model;
 
+import javafx.beans.InvalidationListener;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ql.evaluation.SymbolTable;
@@ -9,35 +10,27 @@ import qls.model.Section;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GUIPage extends VBox{
+public class GUIPage {
 
     private final String identifier;
-    private final List<GUIQuestion> guiQuestions;
-    private final List<Section> sections;
-    private final List<DefaultStyle> defaultStyles;
+    private final List<GUISection> sections;
 
-    public GUIPage(String identifier, List<GUIQuestion> guiQuestions, List<Section> sections, List<DefaultStyle> defaultStyles) {
+    public GUIPage(String identifier, List<GUISection> sections) {
         this.identifier = identifier;
-        this.guiQuestions = guiQuestions;
         this.sections = sections;
-        this.defaultStyles = defaultStyles;
     }
 
-    public VBox render(SymbolTable symbolTable){
-        VBox vBox = new VBox();
-        Label pageLabel = new Label("Page " + identifier);
-        vBox.getChildren().add(pageLabel);
+    public String getIdentifier() {
+        return identifier;
+    }
 
-//        // Render all sections
-//        for(Section section : sections){
-//            // Combine local styles with broader scope styles
-//            List<DefaultStyle> subDefaultStyles = new ArrayList<>();
-//            subDefaultStyles.addAll(defaultStyles);
-//            subDefaultStyles.addAll(section.getDefaultStyles());
-//
-//            GUISection guiSection = new GUISection(section.identifier, guiQuestions, defaultStyles, section.getDefaultStyles(), section.getQuestionReferences(), section.getSections());
-//            vBox.getChildren().add(guiSection.render(symbolTable));
-//        }
+    public VBox render(SymbolTable symbolTable, InvalidationListener allWidgetsListener){
+        VBox vBox = new VBox();
+
+        // Render all sections
+        for(GUISection section : sections){
+            vBox.getChildren().add(section.render(symbolTable, allWidgetsListener));
+        }
 
         return vBox;
     }

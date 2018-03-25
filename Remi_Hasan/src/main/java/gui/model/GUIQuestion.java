@@ -15,7 +15,7 @@ public class GUIQuestion {
     public final String identifier;
     public final String label;
     public final ReturnType type;
-    private final Expression condition;
+    public final Expression condition;
     public final Expression computedAnswer;
 
     public GUIQuestion(String identifier, String label, ReturnType type, Expression condition, Expression computedAnswer) {
@@ -49,8 +49,12 @@ public class GUIQuestion {
             });
         }
 
-        LabelWithWidget labelWidget = new LabelWithWidget(guiLabel, guiWidget);
-        labelWidget.setDisable(this.isComputed());
-        return labelWidget;
+        LabelWithWidget labelWithWidget = new LabelWithWidget(guiLabel, guiWidget);
+        labelWithWidget.setDisable(this.isComputed());
+
+        // TODO: temporary hack, improve this
+        GUIFormWithStyling.guiWidgetsMap.put(this, labelWithWidget);
+
+        return labelWithWidget;
     }
 }

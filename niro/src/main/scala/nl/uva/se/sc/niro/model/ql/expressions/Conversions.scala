@@ -4,7 +4,8 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers.{ DecimalAnswer, IntegerAn
 
 import scala.language.implicitConversions
 
-object ImplicitConversions {
-  implicit def intAnswerToDecAnswer(value: IntegerAnswer): DecimalAnswer =
-    DecimalAnswer(value.possibleValue.map(BigDecimal(_)))
+object Conversions {
+  implicit class IntAnswerToDecAnswer(integerAnswer: IntegerAnswer) {
+    def toDecimal = DecimalAnswer(integerAnswer.possibleValue.map(BigDecimal(_)))
+  }
 }

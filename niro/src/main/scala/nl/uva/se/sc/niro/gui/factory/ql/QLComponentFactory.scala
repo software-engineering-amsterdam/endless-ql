@@ -8,7 +8,7 @@ import nl.uva.se.sc.niro.model.gui.GUIQuestion
 import nl.uva.se.sc.niro.model.ql._
 
 class QLComponentFactory(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory)
-  extends ComponentFactory {
+    extends ComponentFactory {
 
   // TODO Convert to decorators
   def make(question: GUIQuestion): Component[_] = {

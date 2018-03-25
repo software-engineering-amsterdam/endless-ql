@@ -9,7 +9,7 @@ import nl.uva.se.sc.niro.model.gui.{ GUIQuestion, QLSGUIQuestion }
 import scala.collection.JavaConverters
 
 class QLSComponentFactory(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory)
-  extends QLComponentFactory(componentChangeListener, widgetFactory) {
+    extends QLComponentFactory(componentChangeListener, widgetFactory) {
   override def make(question: GUIQuestion): Component[_] = {
     question match {
       case qlsQuestion: QLSGUIQuestion => {

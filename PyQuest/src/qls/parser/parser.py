@@ -11,165 +11,165 @@ class QLSParser:
         return self.parser.parse(data, lexer)
 
     @staticmethod
-    def p_stylesheet(p):
+    def p_stylesheet(production):
         """stylesheet : STYLESHEET IDENTIFIER block"""
-        p[0] = ('STYLESHEET', p[2], p[3])
+        production[0] = ('STYLESHEET', production[2], production[3])
 
     @staticmethod
-    def p_block(p):
+    def p_block(production):
         """block : LEFT_BRACE statements RIGHT_BRACE"""
-        p[0] = p[2]
+        production[0] = production[2]
 
     # Statements
     @staticmethod
-    def p_statements(p):
+    def p_statements(production):
         """statements   : statement statements
                         | statement"""
-        if len(p) == 3:
-            p[0] = [p[1]] + p[2]
-        elif len(p) == 2:
-            p[0] = [p[1]]
+        if len(production) == 3:
+            production[0] = [production[1]] + production[2]
+        elif len(production) == 2:
+            production[0] = [production[1]]
 
     @staticmethod
-    def p_statement(p):
+    def p_statement(production):
         """statement    : page
                         | section
                         | question
                         | default"""
-        p[0] = p[1]
+        production[0] = production[1]
 
     @staticmethod
-    def p_page(p):
+    def p_page(production):
         """page : PAGE IDENTIFIER block"""
-        p[0] = ('PAGE', p[2], p[3])
+        production[0] = ('PAGE', production[2], production[3])
 
     @staticmethod
-    def p_section(p):
+    def p_section(production):
         """section  : SECTION STRING_LITERAL statement
                     | SECTION STRING_LITERAL block"""
-        p[0] = ('SECTION', p[2], p[3])
+        production[0] = ('SECTION', production[2], production[3])
 
     @staticmethod
-    def p_question(p):
+    def p_question(production):
         """question : QUESTION IDENTIFIER"""
-        p[0] = ('QUESTION', p[2])
+        production[0] = ('QUESTION', production[2])
 
     @staticmethod
-    def p_question_properties(p):
+    def p_question_properties(production):
         """question : QUESTION IDENTIFIER WIDGET widget"""
-        p[0] = ('QUESTION', p[2], p[4])
+        production[0] = ('QUESTION', production[2], production[4])
 
     @staticmethod
-    def p_default(p):
+    def p_default(production):
         """default : DEFAULT type LEFT_BRACE properties RIGHT_BRACE"""
-        p[0] = ('DEFAULT', p[2], p[4])
+        production[0] = ('DEFAULT', production[2], production[4])
 
     @staticmethod
-    def p_default_widget(p):
+    def p_default_widget(production):
         """default : DEFAULT type WIDGET widget"""
-        p[0] = ('DEFAULT', p[2], p[3])
+        production[0] = ('DEFAULT', production[2], production[3])
 
     # Properties
     @staticmethod
-    def p_properties(p):
+    def p_properties(production):
         """properties   : property properties
                         | property"""
-        if len(p) == 3:
-            p[0] = [p[1]] + p[2]
-        elif len(p) == 2:
-            p[0] = [p[1]]
+        if len(production) == 3:
+            production[0] = [production[1]] + production[2]
+        elif len(production) == 2:
+            production[0] = [production[1]]
 
     @staticmethod
-    def p_height(p):
+    def p_height(production):
         """property : HEIGHT COLON INTEGER_LITERAL"""
-        p[0] = ('HEIGHT', p[3])
+        production[0] = ('HEIGHT', production[3])
 
     @staticmethod
-    def p_width(p):
+    def p_width(production):
         """property : WIDTH COLON INTEGER_LITERAL"""
-        p[0] = ('WIDTH', p[3])
+        production[0] = ('WIDTH', production[3])
 
     @staticmethod
-    def p_font(p):
+    def p_font(production):
         """property : FONT COLON STRING_LITERAL"""
-        p[0] = ('FONT', p[3])
+        production[0] = ('FONT', production[3])
 
     @staticmethod
-    def p_font_size(p):
+    def p_font_size(production):
         """property : FONT_SIZE COLON INTEGER_LITERAL"""
-        p[0] = ('FONT_SIZE', p[3])
+        production[0] = ('FONT_SIZE', production[3])
 
     @staticmethod
-    def p_color(p):
+    def p_color(production):
         """property : COLOR COLON HEX_COLOR"""
-        p[0] = ('COLOR', p[3])
+        production[0] = ('COLOR', production[3])
 
     @staticmethod
-    def p_widget(p):
+    def p_widget(production):
         """property : WIDGET widget"""
-        p[0] = ('WIDGET', p[2])
+        production[0] = ('WIDGET', production[2])
 
     # Widgets
     @staticmethod
-    def p_calendar(p):
+    def p_calendar(production):
         """widget : CALENDAR"""
-        p[0] = 'CALENDAR'
+        production[0] = 'CALENDAR'
 
     @staticmethod
-    def p_checkbox(p):
+    def p_checkbox(production):
         """widget : CHECKBOX"""
-        p[0] = 'CHECKBOX'
+        production[0] = 'CHECKBOX'
 
     @staticmethod
-    def p_line_edit(p):
+    def p_line_edit(production):
         """widget : LINE_EDIT"""
-        p[0] = 'LINE_EDIT'
+        production[0] = 'LINE_EDIT'
 
     @staticmethod
-    def p_spinbox(p):
+    def p_spinbox(production):
         """widget : SPINBOX"""
-        p[0] = 'SPINBOX'
+        production[0] = 'SPINBOX'
 
     @staticmethod
-    def p_radio_default(p):
+    def p_radio_default(production):
         """widget : RADIO"""
-        p[0] = 'RADIO'
+        production[0] = 'RADIO'
 
     @staticmethod
-    def p_radio(p):
+    def p_radio(production):
         """widget : RADIO LEFT_BRACKET STRING_LITERAL COMMA STRING_LITERAL RIGHT_BRACKET"""
-        p[0] = ('RADIO', p[3], p[5])
+        production[0] = ('RADIO', production[3], production[5])
 
     # Types
     @staticmethod
-    def p_boolean(p):
+    def p_boolean(production):
         """type : BOOLEAN"""
-        p[0] = 'BOOLEAN'
+        production[0] = 'BOOLEAN'
 
     @staticmethod
-    def p_decimal(p):
+    def p_decimal(production):
         """type : DECIMAL"""
-        p[0] = 'DECIMAL'
+        production[0] = 'DECIMAL'
 
     @staticmethod
-    def p_string(p):
+    def p_string(production):
         """type : STRING"""
-        p[0] = 'STRING'
+        production[0] = 'STRING'
 
     @staticmethod
-    def p_date(p):
+    def p_date(production):
         """type : DATE"""
-        p[0] = 'DATE'
+        production[0] = 'DATE'
 
     @staticmethod
-    def p_money(p):
+    def p_money(production):
         """type : MONEY"""
-        p[0] = 'MONEY'
+        production[0] = 'MONEY'
 
     @staticmethod
-    def p_integer(p):
+    def p_integer(production):
         """type : INTEGER"""
-        p[0] = 'INTEGER'
+        production[0] = 'INTEGER'
 
-    def p_error(self, p):
+    def p_error(self, production):
         raise SyntaxError('Syntax error at line {}, token={}'.format(p.lineno, p.type))

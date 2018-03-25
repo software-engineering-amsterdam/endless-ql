@@ -1,5 +1,5 @@
 import VisibleFieldsVisitor from "../../form/evaluation/VisibleFieldsVisitor";
-import QuestionForm from "../../form/QuestionForm";
+import QlForm from "../../form/QlForm";
 import IfCondition from "../../form/nodes/conditions/IfCondition";
 import BooleanLiteral from "../../form/nodes/literals/BooleanLiteral";
 import QuestionNode from "../../form/nodes/fields/QuestionNode";
@@ -16,7 +16,7 @@ it("shows fields of else path if predicate is false", () => {
     )
   ]);
 
-  const form = new QuestionForm(formStructure, new FormState());
+  const form = new QlForm(formStructure, new FormState());
 
   const visibleFields = VisibleFieldsVisitor.run(form);
 

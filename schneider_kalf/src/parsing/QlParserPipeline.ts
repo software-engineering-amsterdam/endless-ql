@@ -1,5 +1,5 @@
 import FormNode from "../form/nodes/FormNode";
-import { VariableScopeVisitor } from "../form/type_checking/VariableScopeVisitor";
+import { VariableScopeResult, VariableScopeVisitor, VariablesMap } from "../form/type_checking/VariableScopeVisitor";
 import { VariableInformation } from "../form/VariableIntformation";
 import { TypeCheckVisitor } from "../form/type_checking/TypeCheckVisitor";
 import { getQlParser } from "./parsing_helpers";
@@ -14,25 +14,30 @@ export class QlParserPipeline {
 
   constructor(qlInput: string) {
     this.qlInput = qlInput;
-
-    this.processFormNode = this.processFormNode.bind(this);
   }
 
   run(): QlParserResult[] {
     const formNodes: FormNode[] = getQlParser().parse(this.qlInput);
-    return formNodes.map(this.processFormNode);
+    return formNodes.map((node) => this.processFormNode(node));
   }
 
   private processFormNode(node: FormNode): QlParserResult {
-    const scopeVisitor: VariableScopeVisitor = new VariableScopeVisitor();
-    const scopeResult = scopeVisitor.run(node);
-
-    const typeCheckVisitor = new TypeCheckVisitor(scopeResult.variables);
-    node.accept(typeCheckVisitor);
+    const scope = this.checkScope(node);
+    this.checkTypes(node, scope.variables);
 
     return {
       node: node,
-      variables: scopeResult.variables
+      variables: scope.variables
     };
+  }
+
+  private checkScope(node: FormNode): VariableScopeResult {
+    const scopeVisitor: VariableScopeVisitor = new VariableScopeVisitor();
+    return scopeVisitor.run(node);
+  }
+
+  private checkTypes(node: FormNode, variables: VariablesMap) : void {
+    const typeCheckVisitor = new TypeCheckVisitor(variables);
+    node.accept(typeCheckVisitor);
   }
 }

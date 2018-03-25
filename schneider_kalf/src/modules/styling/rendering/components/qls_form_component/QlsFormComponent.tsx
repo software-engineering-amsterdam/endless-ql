@@ -1,5 +1,5 @@
 import * as React from 'react';
-import StyledForm from "../../../form/StyledForm";
+import QlsForm from "../../../form/QlsForm";
 import { FormComponent } from "../../../../../rendering/components/form_component/FormComponent";
 import PageNode from "../../../form/nodes/containers/PageNode";
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
@@ -8,19 +8,19 @@ import { StyledFieldContainer } from "../styled_field_container/StyledFieldConta
 import SectionNode from "../../../form/nodes/containers/SectionNode";
 import { SectionComponent } from "../section_component/SectionComponent";
 
-export interface StyledFormContainerProps {
-  form: StyledForm;
+export interface QlsFormComponentProps {
+  form: QlsForm;
   onChange: (identifier: string, value: any) => void;
   onChangePage: (nextPage: PageNode) => void;
   visibleFields: Set<string>;
 }
 
-export interface StyledFormContainerState {
+export interface QlsFormComponentState {
 
 }
 
-export class StyledFormContainer extends React.Component<StyledFormContainerProps, StyledFormContainerState> {
-  constructor(props: StyledFormContainerProps) {
+export class QlsFormComponent extends React.Component<QlsFormComponentProps, QlsFormComponentState> {
+  constructor(props: QlsFormComponentProps) {
     super(props);
 
     this.state = {};

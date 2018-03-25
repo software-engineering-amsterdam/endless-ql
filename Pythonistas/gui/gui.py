@@ -7,7 +7,7 @@ and the entered answers may be saved to a .txt file by pressing the "Submit" but
 from visitor.visitor import visit
 from visitor.QLSVisitor import visit_qls
 from PyQt5 import QtWidgets, QtCore
-from grammar.data_structure import ParserCarrier
+from grammar.parser import Parser
 import sys
 from gui.input_frame import InputFrame
 from gui.output_frame import OutputFrame
@@ -43,7 +43,8 @@ class MainWindow(QtWidgets.QWidget):
 
     def parse(self, ql_text, qls_text):
         """ Parse the GUI user input """
-        ql_data = ParserCarrier()
+        ql_data = Parser()
+        qls_data = Parser()
 
         if ql_text:
             ql_data.set_ql_grammar_text(ql_text)
@@ -68,7 +69,13 @@ class MainWindow(QtWidgets.QWidget):
 
             if warning_message:
                 self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(warning_message))
-
         else:
             self.initiate_output_frame()
             self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))
+
+        if qls_text:
+            qls_data.set_qls_grammar_text(qls_text)
+            qls_data.run_antlr_qls()
+            # todo: create listener/visiter for QLS
+            # listen(ql_data.qls_tree, self.output_frame)
+            # self.output_frame.add_submit_button()

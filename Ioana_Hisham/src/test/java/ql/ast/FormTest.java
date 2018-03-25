@@ -26,6 +26,17 @@ public class FormTest {
         assertEquals(expected, tree.toStringTree(parser));
     }
 
+    @Test
+    public void createFormIdentifier() {
+        String input = "form f1 {}";
+        String expected = "f1";
+
+        QLParser parser = initQLParser(input);
+        Form form = (Form)visitor.visit(parser.form());
+
+        assertEquals(expected, form.getIdentifier().toString());
+    }
+
     private QLParser initQLParser(String code) {
         return new QLParser(new CommonTokenStream(new QLLexer(new ANTLRInputStream(code))));
     }

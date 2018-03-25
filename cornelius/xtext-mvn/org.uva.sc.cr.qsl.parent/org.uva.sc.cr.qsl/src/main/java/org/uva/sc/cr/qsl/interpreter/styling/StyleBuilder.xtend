@@ -24,10 +24,10 @@ import org.uva.sc.cr.qsl.qSL.Stylesheet
 class StyleBuilder {
 
 	@Inject
-	private ControlBuilder controlBuilder
+	var ControlBuilder controlBuilder
 
 	@Inject
-	private StyleControlBuilder styleControlBuilder
+	var StyleControlBuilder styleControlBuilder
 
 	def buildStyledDialog(Form form, Stylesheet stylesheet) {
 		val wizard = new Wizard()

@@ -9,10 +9,10 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class ControlWrapperInteger extends ControlWrapper {
 
-	private static val DEFAULT_VALUE = 0
+	static val DEFAULT_VALUE = 0
 
 	@Accessors(PUBLIC_GETTER)
-	private var TextField textField
+	var TextField textField
 
 	new(Question question, StringBinding binding) {
 		super(question, binding)

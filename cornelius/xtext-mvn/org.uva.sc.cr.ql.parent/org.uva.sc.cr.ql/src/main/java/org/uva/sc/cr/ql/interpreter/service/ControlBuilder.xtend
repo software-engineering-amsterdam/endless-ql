@@ -22,15 +22,15 @@ import org.uva.sc.cr.ql.interpreter.controls.ControlWrapperText
 class ControlBuilder {
 
 	@Inject
-	private var BindingBuilder bindingBuilder
+	var BindingBuilder bindingBuilder
 
-	private val List<ControlWrapper> controls
+	val List<ControlWrapper> controls
 
 	new() {
 		controls = new ArrayList<ControlWrapper>()
 	}
 
-	def public buildControlForQuestion(Question question, Expression visibleExpression) {
+	def buildControlForQuestion(Question question, Expression visibleExpression) {
 		var ControlWrapper controlWrapper
 		switch question.type {
 			case QuestionType.TYPE_BOOLEAN:

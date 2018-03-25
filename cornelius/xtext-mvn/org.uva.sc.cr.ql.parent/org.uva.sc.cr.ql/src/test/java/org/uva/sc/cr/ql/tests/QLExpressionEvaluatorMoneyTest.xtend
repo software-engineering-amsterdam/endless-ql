@@ -18,7 +18,7 @@ import org.uva.sc.cr.ql.qL.Form
 @InjectWith(QLInjectorProvider)
 class QLExpressionEvaluatorMoneyTest {
 	
-	private static val CURRENCY_UNIT = CurrencyUnit.EUR
+	static val CURRENCY_UNIT = CurrencyUnit.EUR
 
 	@Inject
 	ParseHelper<Form> parseHelper

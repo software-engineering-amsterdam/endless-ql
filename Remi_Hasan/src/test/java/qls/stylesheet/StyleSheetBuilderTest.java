@@ -27,11 +27,11 @@ public class StyleSheetBuilderTest {
         assertEquals(2, firstPage.getSections().size());
 
         Section firstPageFirstSection = firstPage.getSections().get(0);
-        assertEquals("Integer", firstPageFirstSection.identifier);
+        assertEquals("Integer", firstPageFirstSection.getTitle());
         assertEquals(1, firstPageFirstSection.getStatements().size());
 
         Section firstPageSecondSection = firstPage.getSections().get(1);
-        assertEquals("Decimal", firstPageSecondSection.identifier);
+        assertEquals("Decimal", firstPageSecondSection.getTitle());
         assertEquals(3, firstPageSecondSection.getStatements().size());
 
         // Second page

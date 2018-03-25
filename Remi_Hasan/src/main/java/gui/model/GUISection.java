@@ -13,17 +13,17 @@ import java.util.Optional;
 
 public class GUISection {
 
-    private final String identifier;
+    private final String title;
     private final List<GUIQuestion> questions;
 
     public GUISection(String identifier, List<GUIQuestion> guiQuestions) {
-        this.identifier = identifier;
+        this.title = identifier;
         this.questions = guiQuestions;
     }
 
     public Parent render(SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
         VBox vBox = new VBox();
-        Label pageLabel = new Label("Section " + identifier);
+        Label pageLabel = new Label("Section " + title);
         vBox.getChildren().add(pageLabel);
 
         for(GUIQuestion question : questions) {

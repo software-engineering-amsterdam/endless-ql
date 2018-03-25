@@ -7,13 +7,17 @@ import javax.swing.plaf.nimbus.State;
 import java.util.List;
 
 public class Section extends Statement {
-    public final String identifier;
+    private final String title;
     private final List<Statement> statements;
 
-    public Section(Token token, String identifier, List<Statement> statement) {
+    public Section(Token token, String title, List<Statement> statement) {
         super(token);
-        this.identifier = identifier;
+        this.title = title;
         this.statements = statement;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public List<Statement> getStatements() {

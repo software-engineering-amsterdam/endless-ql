@@ -1,14 +1,9 @@
 import WidgetAttribute from "../WidgetAttribute";
 import { SliderWidgetComponent } from "../../../../rendering/components/widgets/SliderWidgetComponent";
-import NumberValue from "../../../../../../form/values/NumberValue";
 
-export default class SliderAttribute extends WidgetAttribute {
+export default class SliderWidgetAttribute extends WidgetAttribute {
   getValue(): string {
     return "slider";
-  }
-
-  getStringValue(): string {
-    return "";
   }
 
   getRenderComponent() {

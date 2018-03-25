@@ -2,13 +2,9 @@ import { DropdownWidgetComponent } from "../../../../rendering/components/widget
 import BooleanWidgetAttribute from "./BooleanWidgetAttribute";
 
 // yesno-dropdown (for booleans)
-export default class DropdownAttribute extends BooleanWidgetAttribute {
+export default class DropdownWidgetAttribute extends BooleanWidgetAttribute {
   getValue(): string {
     return "dropdown";
-  }
-
-  getStringValue(): string {
-    return "NOT IMPLEMENTED YET";
   }
 
   getRenderComponent() {

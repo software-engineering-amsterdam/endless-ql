@@ -10,8 +10,4 @@ export default class CheckboxAttribute extends BooleanWidgetAttribute {
   getValue(): string {
     return "checkbox";
   }
-
-  getStringValue(): string {
-    return "";
-  }
 }

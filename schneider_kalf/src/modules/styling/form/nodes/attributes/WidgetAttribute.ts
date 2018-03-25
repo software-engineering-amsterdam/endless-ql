@@ -22,9 +22,13 @@ export default abstract class WidgetAttribute extends AbstractStyleNode implemen
     return {};
   }
 
-  abstract getValue(): string;
+  getValue(): string {
+    return "";
+  }
 
-  abstract getStringValue(): string;
+  getStringValue(): string {
+    return "";
+  }
 
   abstract getRenderComponent();
 }

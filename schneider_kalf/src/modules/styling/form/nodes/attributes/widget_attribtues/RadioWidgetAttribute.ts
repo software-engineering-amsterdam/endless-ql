@@ -2,13 +2,9 @@ import { RadioWidgetComponent } from "../../../../rendering/components/widgets/R
 import BooleanWidgetAttribute from "./BooleanWidgetAttribute";
 
 // yesno-radios
-export default class RadioAttribute extends BooleanWidgetAttribute {
+export default class RadioWidgetAttribute extends BooleanWidgetAttribute {
   getValue(): string {
     return "radio";
-  }
-
-  getStringValue(): string {
-    return "NOT IMPLEMENTED YET";
   }
 
   getRenderComponent() {

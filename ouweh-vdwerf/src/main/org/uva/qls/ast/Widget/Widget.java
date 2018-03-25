@@ -1,9 +1,8 @@
 package org.uva.qls.ast.Widget;
 
+import org.uva.ql.ast.type.Type;
 import org.uva.qls.ast.TreeNode;
 import org.uva.qls.ast.Widget.WidgetTypes.WidgetType;
-
-import org.uva.ql.ast.type.Type;
 
 public class Widget extends TreeNode {
 

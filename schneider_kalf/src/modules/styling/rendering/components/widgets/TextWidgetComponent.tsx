@@ -8,7 +8,7 @@ export interface TextWidgetComponentProps {
 export const TextWidgetComponent: React.SFC<TextWidgetComponentProps> = (props) => {
   return (
       <div>
-        { props.widget.options.forEach() }
+        Some text widget
       </div>
   );
 };

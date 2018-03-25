@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.qls.node.property;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Property;
 import com.chariotit.uva.sc.qdsl.ast.qls.visitor.NodeVisitor;
 
@@ -7,8 +8,8 @@ public class FontProperty extends Property {
 
     private String font;
 
-    public FontProperty(String font, Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public FontProperty(String font, SourceFilePosition filePosition) {
+        super(filePosition);
         this.font = font;
     }
 

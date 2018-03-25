@@ -2,7 +2,7 @@ package QLS.classes.blocks;
 
 import QLS.classes.widgets.Widget;
 
-public class Question extends LineInBlock {
+public class Question extends Element {
 
     private String name;
     private Widget widget;
@@ -13,6 +13,7 @@ public class Question extends LineInBlock {
         this.widget = widget;
     }
 
+    @Override
     public String getName() {
         return this.name;
     }

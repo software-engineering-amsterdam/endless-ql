@@ -5,17 +5,17 @@ import java.util.List;
 
 public class Block {
 
-    private List<LineInBlock> blockElements;
+    private List<Element> blockElements;
 
-    public Block(List<LineInBlock> blockElements) {
+    public Block(List<Element> blockElements) {
         this.blockElements = blockElements;
     }
 
-    public List<LineInBlock> getBlockElements() {
+    public List<Element> getBlockElements() {
         return blockElements;
     }
 
-    public void setBlockElements(List<LineInBlock> blockElements) {
+    public void setBlockElements(List<Element> blockElements) {
         this.blockElements = blockElements;
     }
 }

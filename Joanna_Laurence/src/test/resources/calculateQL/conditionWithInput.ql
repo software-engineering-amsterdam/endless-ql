@@ -1,4 +1,4 @@
-//Q=2
+//AssertDisplayedQuestions=2
 form taxOfficeExample {
   "What was the selling price?"
     sellingPrice: decimal = 1.5

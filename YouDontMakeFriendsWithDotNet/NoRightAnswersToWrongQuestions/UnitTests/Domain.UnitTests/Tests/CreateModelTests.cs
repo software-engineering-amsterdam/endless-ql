@@ -3,6 +3,7 @@ using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using QL.UnitTests.Domain.UnitTests.Data;
 using QuestionnaireDomain.Entities;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
@@ -13,9 +14,8 @@ using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
-using UnitTests.Domain.UnitTests.Data;
 
-namespace UnitTests.Domain.UnitTests.Tests
+namespace QL.UnitTests.Domain.UnitTests.Tests
 {
     [TestFixture]
     public class CreateModelTests

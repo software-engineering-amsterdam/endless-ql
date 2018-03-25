@@ -130,7 +130,7 @@ public class TypeCheckerTest {
                 "  \"Do you have debts?\"\n" +
                 "  debts: boolean\n" +
                 "\n" +
-                "  if (name + age == \"adult\") {\n" +
+                "  if (name + age == 55) {\n" +
                 "    \"Test\"\n" +
                 "    test: string\n" +
                 "  }\n" +
@@ -143,6 +143,7 @@ public class TypeCheckerTest {
                 this.collectQuestionsVisitor.getQuestions(form)
         );
 
+        boolean x = validator.validate();
         Assert.assertFalse(validator.validate());
     }
 

@@ -99,6 +99,16 @@ public class CycleDetectionVisitor extends NodeVisitor {
     }
 
     @Override
+    public void visitOrOp(OrOp orOp) {
+
+    }
+
+    @Override
+    public void visitAndOp(AndOp andOp) {
+
+    }
+
+    @Override
     public void visitBooleanType(BooleanTypeNode booleanType) {
 
     }
@@ -121,7 +131,6 @@ public class CycleDetectionVisitor extends NodeVisitor {
     @Override
     public void visitAstRoot(QLAstRoot astRoot) {
 
-        dependencyTree.print();
     }
 
     @Override

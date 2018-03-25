@@ -1,4 +1,4 @@
-//Q=3
+//AssertDisplayedQuestions=3
 //waitDays:=IntValue 5
 
 form taxOfficeExample {

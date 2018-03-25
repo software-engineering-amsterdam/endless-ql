@@ -47,7 +47,7 @@ public class QuestionPanel extends JPanel {
     }
 
     public void refreshValue() {
-        if (this.questionModel.getValue() != null) {
+        if (this.questionModel.getQLDataTypeValue() != null) {
             this.widget.updateValue();
         }
     }

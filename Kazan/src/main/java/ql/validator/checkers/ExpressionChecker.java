@@ -5,15 +5,14 @@ import ql.ast.Form;
 import ql.ast.expressions.Variable;
 import ql.ast.expressions.binary.*;
 import ql.ast.expressions.literals.*;
-import ql.ast.expressions.unary.ArithmeticNegation;
-import ql.ast.expressions.unary.LogicalNegation;
+import ql.ast.expressions.unary.Negation;
+import ql.ast.expressions.unary.Negative;
 import ql.ast.statements.*;
 import ql.ast.types.*;
 import ql.ast.visitors.ExpressionVisitor;
-import ql.ast.visitors.FormVisitor;
-import ql.ast.visitors.StatementVisitor;
+import ql.ast.visitors.FormStatementVisitor;
 import ql.ast.visitors.TypeVisitor;
-import ql.validator.SymbolTable;
+import ql.validator.symboltable.SymbolTable;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ import java.util.List;
  * Checks AST for references to undefined questions, conditions of non-boolean type,
  * and invalid operand/operator type combinations
  */
-public class ExpressionChecker implements Checker, FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Type>, TypeVisitor<Type> {
+public class ExpressionChecker implements Checker, FormStatementVisitor<Void>, ExpressionVisitor<Type>, TypeVisitor<Type> {
 
     private final IssueTracker issueTracker;
     private SymbolTable symbolTable;
@@ -43,7 +42,7 @@ public class ExpressionChecker implements Checker, FormVisitor<Void>, StatementV
      * @param binaryOperation
      * @return ErrorType if incompatible, otherwise the dominating return type of the two children
      */
-    public Type checkTypeCompatibility(BinaryOperation binaryOperation) {
+    private Type checkTypeCompatibility(BinaryOperation binaryOperation) {
         Type leftType = binaryOperation.getLeft().accept(this);
         Type rightType = binaryOperation.getRight().accept(this);
 
@@ -185,14 +184,14 @@ public class ExpressionChecker implements Checker, FormVisitor<Void>, StatementV
     }
 
     @Override
-    public Type visit(LogicalNegation logicalNegation) {
-        Type actualType = logicalNegation.getExpression().accept(this);
+    public Type visit(Negation negation) {
+        Type actualType = negation.getExpression().accept(this);
         return verifyType(actualType, "boolean");
     }
 
     @Override
-    public Type visit(ArithmeticNegation arithmeticNegation) {
-        Type actualType = arithmeticNegation.getExpression().accept(this);
+    public Type visit(Negative negative) {
+        Type actualType = negative.getExpression().accept(this);
         return verifyType(actualType, "numeric");
     }
 
@@ -263,11 +262,11 @@ public class ExpressionChecker implements Checker, FormVisitor<Void>, StatementV
 
     @Override
     public Type visit(Variable variable) {
-        if (!symbolTable.isDeclared(variable.toString())) {
+        if (!symbolTable.isDeclared(variable.getName())) {
             issueTracker.addError(variable.getSourceLocation(), "Reference to undefined question");
             return new ErrorType(variable.getSourceLocation());
         }
-        return symbolTable.lookup(variable.toString());
+        return symbolTable.lookup(variable.getName());
     }
 
 }

@@ -1,4 +1,4 @@
-import {Form, QlQuestion, QuestionType} from './index';
+import {Form, QlQuestion} from './index';
 import {BooleanQuestion} from '../../angular-questions/boolean-question';
 import {InputQuestion} from '../../angular-questions/input-question';
 import {Statement} from './index';

@@ -16,24 +16,24 @@ public class StatementTable {
         conditions = new HashMap<>();
     }
 
-    public void addQuestion(String name, Question question) {
-        questions.put(name, question);
+    public void addQuestion(Question question) {
+        questions.put(question.getId(), question);
     }
 
     public List<Question> getQuestionsAsList() {
         return new ArrayList<>(questions.values());
     }
 
-    public void addConditional(String name, Expression expression) {
-        conditions.put(name, expression);
+    public void addConditional(String id, Expression expression) {
+        conditions.put(id, expression);
     }
 
-    public boolean questionIsConditional(String questionName) {
-        return conditions.containsKey(questionName);
+    public boolean questionIsConditional(String id) {
+        return conditions.containsKey(id);
     }
 
-    public Expression getConditionByQuestionID(String questionName) {
-        return conditions.get(questionName);
+    public Expression getConditionByQuestionID(String questionId) {
+        return conditions.get(questionId);
     }
 
 }

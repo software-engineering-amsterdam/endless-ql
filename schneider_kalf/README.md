@@ -82,24 +82,17 @@ Result will be written into the `/build` folder
 
 ## QLS
 * TODO: Check for double default styles on same level
+* TODO: Expression must use brackets
+* TODO: Check widgets for field type (from variable information)
 
 ## General
 * TODO: Root of expressions should be within brackets
-* TODO: Replace this simple integer check with solution in parser, differentiate between 10 and 10.0 (See type check visitor visitNumberLiteral)
-* TODO: Allow money and date literal (See type check visitor visitNumberLiteral)
-* TODO: Allow float literals (5.1 and 5.0)
-* TODO: money = (50 + 10) results in Addition(NumberLiteral(5), NumberLiteral(10))
 * TODO: Every character of changed field is in state (Maybe kill state when form changes?)
 * TODO: Divide money by money transformed to float
-* TODO: SellingPrice: boolean = (1 / 10) is not a problem
 * TODO improve naming
 * TODO: Rename Nodes to end with "Node"
 * TODO: Rename question style to field style (can also style computed fields)
-* TODO: Rename QuestionStyles to FieldStyle
-* TODO: Either use body or children so we can use this general function (Explain mees how JavaScript works)
-* TODO: Consider variable type to merge default styles
 * TODO: Divide money by money is equal to decimal. Do not allow money * money and money + decimal
-* TODO: Show empty sections?
 
 ## QL Requirements
 
@@ -147,8 +140,8 @@ Result will be written into the `/build` folder
 - [x] Do not forget to take care of keyword reservation: true and false should be parsed as boolean literals, not as identifiers.
 - [x] Add single-line comments (a la Java: //).
 - [x] Add syntax productions for forms, questions, computed questions, types (int, bool, and string) and if-then and. Use string literals for question labels. See the LWC'13 link above for an example questionnaire.
-- [ ] if-then-else statements.
+- [x] if-then-else statements.
 - [ ] Add tests to check your syntax extensions.
 - [x] Add AST classes for the provided expression categories, and for you syntactic extensions. Make sure the parser creates objects of the appropriate type.
 - [ ] It is unacceptable that there are remnants of dead code, commented out sections, or debugging print statements etc. in the code that you will present for grading.
-- [ ] Some way of shipping the answers, exporting the result (although I couldn't find it in the assignment)
+- [x] Some way of shipping the answers, exporting the result (although I couldn't find it in the assignment)

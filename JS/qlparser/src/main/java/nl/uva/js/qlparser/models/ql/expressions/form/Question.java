@@ -1,6 +1,6 @@
 package nl.uva.js.qlparser.models.ql.expressions.form;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -11,17 +11,18 @@ import nl.uva.js.qlparser.ui.components.form.ComponentBuilder;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
 public class Question implements FormExpression {
     @NonNull private String question;
-    @JsonIgnore @NonNull private DataType dataType;
+    @NonNull private DataType dataType;
     @NonNull private Variable variable;
 
     @Override
-    @JsonIgnore
     public List<Component> getComponents() {
         Panel panel = ComponentBuilder.getComponentPanel();
 
@@ -44,5 +45,15 @@ public class Question implements FormExpression {
     @Override
     public void checkType() {
         variable.returnCheckedType();
+    }
+
+    @Override
+    @JsonValue
+    public List<Map<String, Object>> getJsonRepresentation() {
+        Map<String, Object> jsonInformation = new HashMap<>();
+        jsonInformation.put("question", question);
+        jsonInformation.put("answer", variable);
+
+        return Collections.singletonList(jsonInformation);
     }
 }

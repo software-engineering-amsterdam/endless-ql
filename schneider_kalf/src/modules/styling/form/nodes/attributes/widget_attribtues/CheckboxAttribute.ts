@@ -1,7 +1,8 @@
-import WidgetAttribute from "../WidgetAttribute";
 import { CheckboxWidgetComponent } from "../../../../rendering/components/widgets/CheckboxWidgetComponent";
+import BooleanWidgetAttribute from "./BooleanWidgetAttribute";
 
-export default class CheckboxAttribute extends WidgetAttribute {
+// TODO should not accept options
+export default class CheckboxAttribute extends BooleanWidgetAttribute {
   getRenderComponent() {
     return CheckboxWidgetComponent;
   }
@@ -11,6 +12,6 @@ export default class CheckboxAttribute extends WidgetAttribute {
   }
 
   getStringValue(): string {
-    return "NOT IMPLEMENTED YET";
+    return "";
   }
 }

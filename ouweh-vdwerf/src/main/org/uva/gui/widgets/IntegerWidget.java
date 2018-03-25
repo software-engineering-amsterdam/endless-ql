@@ -43,7 +43,7 @@ public class IntegerWidget extends QuestionWidget {
     @Override
     public void setFontSize(int fontSize) {
         super.setFontSize(fontSize);
-        Font newFont = textField.getFont().deriveFont((float)fontSize);
+        Font newFont = textField.getFont().deriveFont((float) fontSize);
         textField.setFont(newFont);
     }
 }

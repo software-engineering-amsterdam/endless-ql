@@ -6,13 +6,12 @@ import ql.ast.SourceLocation;
 import ql.ast.expressions.Variable;
 import ql.ast.expressions.binary.*;
 import ql.ast.expressions.literals.*;
-import ql.ast.expressions.unary.ArithmeticNegation;
-import ql.ast.expressions.unary.LogicalNegation;
+import ql.ast.expressions.unary.Negation;
+import ql.ast.expressions.unary.Negative;
 import ql.ast.expressions.unary.UnaryOperation;
 import ql.ast.statements.*;
 import ql.ast.visitors.ExpressionVisitor;
-import ql.ast.visitors.FormVisitor;
-import ql.ast.visitors.StatementVisitor;
+import ql.ast.visitors.FormStatementVisitor;
 import ql.validator.checkers.cycles.DependencyManager;
 import ql.validator.checkers.cycles.DependencyPair;
 
@@ -24,7 +23,7 @@ import java.util.Optional;
 /**
  * Checks AST for cyclic dependencies between questions
  */
-public class CyclicDependencyChecker implements Checker, FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<List<Variable>> {
+public class CyclicDependencyChecker implements Checker, FormStatementVisitor<Void>, ExpressionVisitor<List<Variable>> {
 
 
     private final IssueTracker issueTracker;
@@ -57,7 +56,7 @@ public class CyclicDependencyChecker implements Checker, FormVisitor<Void>, Stat
     private void addDependencies(Question question, List<Variable> variables) {
         if (variables == null) return;
         for (Variable variable : variables) {
-            dependencyManager.addDependency(new DependencyPair(question.getId(), variable.toString()));
+            dependencyManager.addDependency(new DependencyPair(question.getId(), variable.getName()));
         }
     }
 
@@ -94,11 +93,11 @@ public class CyclicDependencyChecker implements Checker, FormVisitor<Void>, Stat
         return null;
     }
 
-    public List<Variable> visitUnaryOperation(UnaryOperation unaryOperation) {
+    private List<Variable> visitUnaryOperation(UnaryOperation unaryOperation) {
         return unaryOperation.getExpression().accept(this);
     }
 
-    public List<Variable> visitBinaryOperation(BinaryOperation binaryOperation) {
+    private List<Variable> visitBinaryOperation(BinaryOperation binaryOperation) {
         List<Variable> result = new ArrayList<>();
         Optional.ofNullable(binaryOperation.getLeft().accept(this)).ifPresent(result::addAll);
         Optional.ofNullable(binaryOperation.getRight().accept(this)).ifPresent(result::addAll);
@@ -167,13 +166,13 @@ public class CyclicDependencyChecker implements Checker, FormVisitor<Void>, Stat
     }
 
     @Override
-    public List<Variable> visit(LogicalNegation logicalNegation) {
-        return visitUnaryOperation(logicalNegation);
+    public List<Variable> visit(Negation negation) {
+        return visitUnaryOperation(negation);
     }
 
     @Override
-    public List<Variable> visit(ArithmeticNegation arithmeticNegation) {
-        return visitUnaryOperation(arithmeticNegation);
+    public List<Variable> visit(Negative negative) {
+        return visitUnaryOperation(negative);
     }
 
     @Override

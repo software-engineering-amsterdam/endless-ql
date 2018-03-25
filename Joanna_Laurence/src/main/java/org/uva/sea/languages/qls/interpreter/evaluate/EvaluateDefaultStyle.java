@@ -34,7 +34,6 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
      *
      * @param node
      * @return
-     * @throws InterruptedException
      */
     public Style findStyle(QLSNode node, NodeType nodeTypeToFind) {
         this.nodeTypeToFind = nodeTypeToFind;

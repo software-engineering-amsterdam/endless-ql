@@ -4,6 +4,11 @@
     {
         public IExpression Expression { get; }
 
+        public Not(IExpression expression)
+        {
+            Expression = expression;
+        }
+
         public Not(int lineNumber, IExpression expression)
         {
             _lineNumber = lineNumber;

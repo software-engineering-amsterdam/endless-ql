@@ -52,4 +52,8 @@ export default class IntValue extends AbstractNumberValue implements NumberValue
   toString(): string {
     return this.getValue().toString();
   }
+
+  toNumber(): number {
+    return this.getValue();
+  }
 }

@@ -69,7 +69,7 @@ public class MoneyFieldWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.field.setValue(this.getQuestionModel().getValue().getDecimalValue());
+        this.field.setValue(this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 
 }

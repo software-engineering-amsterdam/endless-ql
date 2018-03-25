@@ -94,20 +94,22 @@ public class GUIHandler {
         this.frame.setVisible(true);
     }
 
-    private JPanel getSaveButton(){
+    private JPanel getSaveButton() {
         JPanel savePanel = new JPanel();
         savePanel.setLayout(new BorderLayout());
 
         JButton saveButton = new JButton("Submit");
-        saveButton.addActionListener(e -> {saveAndQuit();});
+        saveButton.addActionListener(e -> {
+            saveAndQuit();
+        });
 
         savePanel.add(saveButton, BorderLayout.SOUTH);
         return savePanel;
     }
 
-    private void saveAndQuit(){
-        int dialogResult = JOptionPane.showConfirmDialog (this.frame, "Would you like to save and quit?","Warning",JOptionPane.YES_NO_OPTION);
-        if(dialogResult == JOptionPane.YES_OPTION){
+    private void saveAndQuit() {
+        int dialogResult = JOptionPane.showConfirmDialog(this.frame, "Would you like to save and quit?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION) {
             this.formEvaluator.saveState();
             this.frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }

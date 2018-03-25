@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class DependencyManager {
 
-    private Set<DependencyPair> dependencies;
+    private final Set<DependencyPair> dependencies;
 
     public DependencyManager() {
         this.dependencies = new HashSet<>();
@@ -44,7 +44,7 @@ public class DependencyManager {
         return newEdges;
     }
 
-    protected Set<DependencyPair> makeTransitiveClosure(Set<DependencyPair> input) {
+    private Set<DependencyPair> makeTransitiveClosure(Set<DependencyPair> input) {
         Set<DependencyPair> transitiveClosure = new HashSet<>(input);
 
         while (true) {

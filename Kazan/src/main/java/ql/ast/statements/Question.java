@@ -2,13 +2,13 @@ package ql.ast.statements;
 
 import ql.ast.SourceLocation;
 import ql.ast.types.Type;
-import ql.ast.visitors.StatementVisitor;
+import ql.ast.visitors.FormStatementVisitor;
 
 public class Question extends Statement {
 
-    private String label;
-    private String identifier;
-    private Type type;
+    private final String label;
+    private final String identifier;
+    private final Type type;
 
     public Question(String identifier, String label, Type type, SourceLocation sourceLocation) {
         super(sourceLocation);
@@ -30,7 +30,7 @@ public class Question extends Statement {
     }
 
     @Override
-    public <T> T accept(StatementVisitor<T> visitor) {
+    public <T> T accept(FormStatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

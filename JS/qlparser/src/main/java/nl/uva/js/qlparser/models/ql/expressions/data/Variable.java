@@ -24,6 +24,12 @@ public class Variable implements DataExpression {
         valueChangeListeners.forEach(listener -> listener.onChange(this));
     }
 
+    public DataExpression getValue() {
+        return (value != null)
+                ? value
+                : Value.builder().dataType(dataType).value(dataType.getValueOf().apply(dataType.getEmptyValue())).build();
+    }
+
     @Override
     public DataType returnCheckedType() {
         return dataType;
@@ -32,7 +38,7 @@ public class Variable implements DataExpression {
     @Override
     @JsonValue
     public Object value() {
-        return NonNullRun.function(value, DataExpression::value);
+        return this.getValue().value();
     }
 
     @Override

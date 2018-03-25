@@ -60,11 +60,11 @@ public class IssueTracker {
     }
 
     public List<Error> getErrors() {
-        return errors;
+        return new ArrayList<>(errors);
     }
 
     public List<Warning> getWarnings() {
-        return warnings;
+        return new ArrayList<>(warnings);
     }
 
 }

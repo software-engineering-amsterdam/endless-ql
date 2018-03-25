@@ -3,12 +3,9 @@ package org.uva.qls.validation;
 import org.uva.ql.ast.Question;
 import org.uva.ql.validation.ValidationResult;
 import org.uva.ql.validation.checker.Checker;
-import org.uva.qls.ast.Segment.QuestionReference;
-import org.uva.qls.ast.Segment.Stylesheet;
-import org.uva.qls.collector.StylesheetContext;
 import org.uva.ql.validation.collector.QuestionContext;
-
-import org.uva.ql.ast.Form;
+import org.uva.qls.ast.Segment.QuestionReference;
+import org.uva.qls.collector.StylesheetContext;
 
 import java.util.ArrayList;
 import java.util.Collections;

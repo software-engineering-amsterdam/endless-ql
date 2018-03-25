@@ -98,11 +98,11 @@ class QLListener(ParseTreeListener):
             # todo: move to question_classes
             truebutton = QtWidgets.QRadioButton(choices[0])
             truebutton.pressed.connect(question_object.set_answer_true)
-            question_object.set_truebutton(truebutton)
+            question_object.set_true_button(truebutton)
 
             falsebutton = QtWidgets.QRadioButton(choices[1])
             falsebutton.pressed.connect(question_object.set_answer_false)
-            question_object.set_falsebutton(falsebutton)
+            question_object.set_false_button(falsebutton)
 
         elif data_type == 'money':
             question_object = question_classes.MoneyQuestion(questionID, question)
@@ -125,8 +125,8 @@ class QLListener(ParseTreeListener):
         # print(ctx.value().getText())
         # print(ctx.parentCtx.getText())
         # print((ctx.parentCtx.ID().getText()))
-        immutable_value = QtWidgets.QLabel(ctx.value().getText())
-        self.questions[ctx.parentCtx.ID().getText()].text_input_box = immutable_value
+        declared_value = QtWidgets.QLabel(ctx.value().getText())
+        self.questions[ctx.parentCtx.ID().getText()].text_input_box = declared_value
 
     # Exit a parse tree produced by QLParser#declaration.
     def exitDeclaration(self, ctx:QLParser.DeclarationContext):
@@ -148,17 +148,11 @@ class QLListener(ParseTreeListener):
 
     # Exit a parse tree produced by QLParser#if_.
     def exitIf_(self, ctx:QLParser.If_Context):
-        # todo: cleanup, remove the need for __next__s
         # Gets the question IDs of the if argument and the question contained in the if, then links them so that the
         # contained question becomes invisible when the argument becomes False.
-        children = ctx.getChildren()
 
-        conditionalID = ctx.expression().getText()
         # Picks out the ID of the question that is the argument of the if
-        children.__next__()
-        children.__next__()
-        children.__next__()
-        # print(dir(ctx))
+        conditionalID = ctx.expression().getText()
 
         # If the ID of the question that is the argument of the if does not exist, throws an error
         if conditionalID not in self.questionIDs:
@@ -168,24 +162,15 @@ class QLListener(ParseTreeListener):
             self.error_message = "Error: if argument is not boolean: {}".format(conditionalID)
             return
 
-        children.__next__()
-        if_question = children.__next__()  # picks out the question within the if
+        conditional_question = self.questions[conditionalID]
 
-        ifquestion_children = if_question.getChildren()
-        ifquestion_children.__next__()
-        for ifchild in ifquestion_children:  # If there's multiple questions within the if, all are picked out
-            if ifchild.getText() == '}':
-                break
-            # print(dir(ifchild))
-            grandchildren = ifchild.getChildren()
-            grandchild = grandchildren.__next__()
+        questions_in_if = ctx.block()
 
-            ifquestionID = grandchild.ID().getText()  # Specifically: picks out the IDs of the questions
+        for statement in questions_in_if.stmt():
+            ifquestionID = statement.question().ID().getText()
 
-
-            conditional_question = self.questions[conditionalID]
-            ifquestion = self.questions[ifquestionID]
-            conditional_question.add_if_question(ifquestion)
+            question_in_if = self.questions[ifquestionID]
+            conditional_question.add_if_question(question_in_if)
 
 
     # Enter a parse tree produced by QLParser#type.

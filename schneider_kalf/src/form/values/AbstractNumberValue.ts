@@ -34,4 +34,6 @@ export default abstract class AbstractNumberValue implements NumberValue {
   abstract smallerThan(other: NumberValue): boolean;
 
   abstract largerThan(other: NumberValue): boolean;
+
+  abstract toNumber(): number;
 }

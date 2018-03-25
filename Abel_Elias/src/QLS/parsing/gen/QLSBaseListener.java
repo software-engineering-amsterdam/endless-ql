@@ -40,25 +40,25 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlock(QLSParser.BlockContext ctx) { }
+	@Override public void enterSection(QLSParser.SectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBlock(QLSParser.BlockContext ctx) { }
+	@Override public void exitSection(QLSParser.SectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLineInBlock(QLSParser.LineInBlockContext ctx) { }
+	@Override public void enterElement(QLSParser.ElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLineInBlock(QLSParser.LineInBlockContext ctx) { }
+	@Override public void exitElement(QLSParser.ElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -71,18 +71,6 @@ public class QLSBaseListener implements QLSListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitQuestion(QLSParser.QuestionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSection(QLSParser.SectionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSection(QLSParser.SectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

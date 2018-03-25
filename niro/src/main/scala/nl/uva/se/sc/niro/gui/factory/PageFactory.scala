@@ -1,52 +1,63 @@
 package nl.uva.se.sc.niro.gui.factory
 
+import cats.Semigroup
+import cats.instances.all._
 import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import javafx.util.Callback
 import nl.uva.se.sc.niro.gui.controller.QLSFormController
-import nl.uva.se.sc.niro.model.gui.{ GUIQuestion, QLSGUIQuestion, Styling }
-import nl.uva.se.sc.niro.model.qls.QLSWidgetType
+import nl.uva.se.sc.niro.model.gui._
+import nl.uva.se.sc.niro.model.ql._
 
-import scala.collection.JavaConverters
-import scala.collection.mutable.ArrayBuffer
+class PageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet)
+    extends Callback[Integer, Node]() {
 
-// TODO change parameter type (and name)
-class PageFactory(formController: QLSFormController) extends Callback[Integer, Node]() {
-  // TODO Refactor so it is not a instance variable anymore (move into method 'call')
-  private val children = ArrayBuffer[Node]()
+  val defaultStyles: Map[AnswerType, GUIStyling] = Map(
+    StringType -> GUIStyling(),
+    BooleanType -> GUIStyling(),
+    DateType -> GUIStyling(),
+    IntegerType -> GUIStyling(),
+    DecimalType -> GUIStyling(),
+    MoneyType -> GUIStyling()
+  )
+
+  private def mergeStyles(
+      left: Map[AnswerType, GUIStyling],
+      right: Map[AnswerType, GUIStyling]): Map[AnswerType, GUIStyling] =
+    Semigroup[Map[AnswerType, GUIStyling]].combine(left, right)
 
   override def call(pageNumber: Integer): Node = {
-    children.clear()
-    val pageToShow = formController.stylesheet.pages(pageNumber)
+    val page = new VBox()
+    val pageToShow = stylesheet.pages(pageNumber)
 
-    formController.setQuestionControls(pageToShow.sections.flatMap(section => {
-      children.append(new Label(s"  -- ${section.name} --  "))
-      section.questions.flatMap(question => {
-        formController.getGUIForm.questions.filter(_.id == question.name).map(makeStyledComponent(_, question.widgetType))
+    val defaultPageStyles = mergeStyles(mergeStyles(defaultStyles, stylesheet.defaultStyles), pageToShow.defaultStyles)
+
+    val components = pageToShow.sections.flatMap(section => {
+      addSectionHeader(page, section)
+      val defaultSectionStyles = mergeStyles(defaultPageStyles, section.defaultStyles)
+
+      section.questions.flatMap(styledQuestion => {
+        form
+          .collectQuestionOnName(styledQuestion.name)
+          .map(question => {
+            val styleToUse = defaultSectionStyles(question.answerType) ++ styledQuestion.style
+            val component = QLSComponentFactory(formController).make(QLSGUIQuestion(question, styleToUse))
+            question.component = Some(component)
+            page.getChildren.add(component)
+            component
+          })
       })
-    }))
+    })
 
-    formController.getQuestionControls.foreach(_.addComponentChangedListener(formController))
-
-    // This is the node that is being returned
-    val questionsOnPage = new VBox()
-    questionsOnPage.getChildren.addAll(JavaConverters.bufferAsJavaList(children))
-
-    formController.evaluateAnswers()
+    formController.setQuestionControls(components)
     formController.updateView()
 
-    questionsOnPage
+    page
   }
 
-  def applyWidgetType(question: GUIQuestion, widgetType: Option[QLSWidgetType]): GUIQuestion = {
-    if (widgetType.isDefined) QLSGUIQuestion(question, Styling(widgetType.get)) else question
+  private def addSectionHeader(questionsOnPage: VBox, section: GUISection) = {
+    questionsOnPage.getChildren.add(new Label(s"  -- ${section.name} --  "))
   }
 
-  private def makeStyledComponent(question: GUIQuestion, widgetType: Option[QLSWidgetType]) = {
-    val component = QLSComponentFactory.make(applyWidgetType(question, widgetType))
-    children.append(component)
-    component
-
-  }
 }

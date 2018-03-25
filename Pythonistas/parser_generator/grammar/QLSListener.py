@@ -143,3 +143,12 @@ class QLSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by QLSParser#choices.
+    def enterChoices(self, ctx:QLSParser.ChoicesContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#choices.
+    def exitChoices(self, ctx:QLSParser.ChoicesContext):
+        pass
+
+

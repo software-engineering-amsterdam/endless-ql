@@ -22,7 +22,7 @@ public class SymbolTable {
 
     /**
      * @param name Name of the symbol
-     * @return Value of the symbol or null on error
+     * @return Value of the symbol or null on displayError
      */
     public Value getValue(String name) {
         return this.symbolTable.get(name);

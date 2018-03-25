@@ -8,7 +8,7 @@ export interface SpinboxWidgetComponentProps {
 export const SpinboxWidgetComponent: React.SFC<SpinboxWidgetComponentProps> = (props) => {
   return (
       <div>
-        { props.widget.options.forEach() }
+        Some spinbox widget
       </div>
   );
 };

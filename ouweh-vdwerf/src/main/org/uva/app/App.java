@@ -9,7 +9,6 @@ import org.uva.ql.evaluator.data.ValueTable;
 import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.QLValidator;
 import org.uva.ql.validation.ValidationResult;
-import org.uva.ql.validation.collector.QuestionContext;
 import org.uva.qls.QLSBuilder;
 import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.evaluator.StyleEvaluator;

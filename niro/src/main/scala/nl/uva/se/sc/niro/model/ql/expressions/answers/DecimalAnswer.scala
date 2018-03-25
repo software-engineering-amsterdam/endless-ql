@@ -8,8 +8,6 @@ final case class DecimalAnswer(possibleValue: Option[BigDecimal]) extends Answer
 
   type T = BigDecimal
 
-  def typeOf: AnswerType = DecimalType
-
   override def plus(right: Answer): Answer = this + right
   override def subtract(right: Answer): Answer = this - right
   override def multiply(right: Answer): Answer = this * right

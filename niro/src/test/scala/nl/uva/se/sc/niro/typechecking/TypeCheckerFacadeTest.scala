@@ -48,7 +48,9 @@ class TypeCheckerFacadeTest extends WordSpec {
 
         assert(
           result === Left(
-            List(TypeCheckError("TypeCheckError", "Operand: StringType of invalid type to operator: Mul"))))
+            List(TypeCheckError(
+              "TypeCheckError",
+              "Not a valid expression: Multiply(StringAnswer(Some(Foo)),StringAnswer(Some(Bar)))"))))
       }
 
       "return error for operands of invalid type to eachother" in {
@@ -61,12 +63,15 @@ class TypeCheckerFacadeTest extends WordSpec {
         val result = TypeCheckerFacade.pipeline(qlForm)
 
         assert(
-          result === Left(List(TypeCheckError("TypeCheckError", "Operands of invalid type: StringType, IntegerType"))))
+          result === Left(
+            List(TypeCheckError(
+              "TypeCheckError",
+              "Not a valid expression: Equal(StringAnswer(Some(Foo)),IntegerAnswer(Some(0)))"))))
       }
 
       "return no error for operands valid types in nested operations" in {
         val qlForm = QLForm(
-          "invalidTypes",
+          "nestedOperation",
           Seq(
             Conditional(
               Negate(GreaterThen(IntegerAnswer(5), IntegerAnswer(10))),
@@ -80,16 +85,16 @@ class TypeCheckerFacadeTest extends WordSpec {
         assert(
           result === Right(
             QLForm(
-              "invalidTypes",
+              "nestedOperation",
               List(
                 Conditional(
                   Negate(GreaterThen(IntegerAnswer(5), IntegerAnswer(10))),
-                  List()
+                  List.empty
                 )
-              ),
-              List()
+              )
             )
-          ))
+          )
+        )
       }
 
       "return no error for operands of different types but valid: Decimal and Integer" in {
@@ -104,7 +109,7 @@ class TypeCheckerFacadeTest extends WordSpec {
         assert(result === Right(qlForm))
       }
 
-      "return no error for operands of different types but valid: Money and Integer" ignore {
+      "return no error for operands of different types but valid: Money and Integer" in {
         val qlForm = QLForm(
           "invalidTypes",
           Seq(
@@ -133,7 +138,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           List(
             TypeCheckError(
               "TypeCheckError",
-              "Non boolean predicate: List(Conditional(Multiply(IntegerAnswer(5),IntegerAnswer(1)),List()))"
+              "Non boolean predicate: List(Conditional(Multiply(IntegerAnswer(Some(5)),IntegerAnswer(Some(1))),List()))"
             )
           )
         ))
@@ -155,7 +160,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           List(
             TypeCheckError(
               "TypeCheckError",
-              "Duplicate question declarations with different types: List(List(Question(q1,duplicate identifier,IntegerType,Some(IntegerAnswer(1))), Question(q1,duplicate identifier,BooleanType,Some(IntegerAnswer(1)))))"
+              "Duplicate question declarations with different types: List(List(Question(q1,duplicate identifier,IntegerType,Some(IntegerAnswer(Some(1)))), Question(q1,duplicate identifier,BooleanType,Some(IntegerAnswer(Some(1))))))"
             )
           )
         )

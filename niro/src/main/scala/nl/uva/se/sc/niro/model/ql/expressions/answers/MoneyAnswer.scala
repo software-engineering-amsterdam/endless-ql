@@ -8,8 +8,6 @@ final case class MoneyAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 
   type T = BigDecimal
 
-  def typeOf: AnswerType = MoneyType
-
   override def plus(right: Answer): Answer = moneyPlus(this, right)
   override def subtract(right: Answer): Answer = moneySubtract(this, right)
   override def multiply(right: Answer): Answer = moneyMultiply(this, right)

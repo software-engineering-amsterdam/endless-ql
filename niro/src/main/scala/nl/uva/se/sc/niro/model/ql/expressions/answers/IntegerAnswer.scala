@@ -8,8 +8,6 @@ final case class IntegerAnswer(possibleValue: Option[Int]) extends Answer {
 
   type T = Int
 
-  def typeOf: AnswerType = IntegerType
-
   override def plus(right: Answer): Answer = this + right
   override def subtract(right: Answer): Answer = this - right
   override def multiply(right: Answer): Answer = this * right

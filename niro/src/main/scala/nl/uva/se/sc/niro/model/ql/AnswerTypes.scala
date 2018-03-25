@@ -8,24 +8,38 @@ sealed trait AnswerType {
 
 case object BooleanType extends AnswerType
 case object DateType extends AnswerType
+case object NumericType extends AnswerType {
+  override def isCompatibleWith(that: AnswerType): Boolean = that match {
+    case NumericType => true
+    case IntegerType => true
+    case DecimalType => true
+    case MoneyType   => true
+    case _           => false
+  }
+}
 case object DecimalType extends AnswerType {
   override def isCompatibleWith(that: AnswerType): Boolean = that match {
+    case NumericType => true
     case IntegerType => true
     case DecimalType => true
     case MoneyType   => true
     case _           => false
   }
 }
+
 case object IntegerType extends AnswerType {
   override def isCompatibleWith(that: AnswerType): Boolean = that match {
+    case NumericType => true
     case IntegerType => true
     case DecimalType => true
     case MoneyType   => true
     case _           => false
   }
 }
+
 case object MoneyType extends AnswerType {
   override def isCompatibleWith(that: AnswerType): Boolean = that match {
+    case NumericType => true
     case IntegerType => true
     case DecimalType => true
     case MoneyType   => true

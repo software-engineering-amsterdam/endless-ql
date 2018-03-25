@@ -8,8 +8,6 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
 
   type T = Boolean
 
-  def typeOf: AnswerType = BooleanType
-
   override def isTrue: Boolean = possibleValue.getOrElse(false)
 
   override def lessThan(right: Answer): Answer = this < right

@@ -7,8 +7,6 @@ final case class StringAnswer(possibleValue: Option[String]) extends Answer {
 
   type T = String
 
-  def typeOf: AnswerType = StringType
-
   override def lessThan(right: Answer): Answer = this < right
   override def lessThanEquals(right: Answer): Answer = this <= right
   override def greaterThenEquals(right: Answer): Answer = this >= right

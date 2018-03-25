@@ -9,8 +9,6 @@ final case class DateAnswer(possibleValue: Option[LocalDate]) extends Answer {
 
   type T = LocalDate
 
-  def typeOf: AnswerType = DateType
-
   override def lessThan(right: Answer): Answer = this < right
   override def lessThanEquals(right: Answer): Answer = this <= right
   override def greaterThenEquals(right: Answer): Answer = this >= right

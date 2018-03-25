@@ -21,7 +21,7 @@ object TypeCheckerFacade extends Logging {
     for {
       _ <- checkReferences(qLForm).left.map(error => Seq(error))
       _ <- checkCyclicDependenciesBetweenQuestions(qLForm).left.map(error => Seq(error))
-      _ <- checkOperandsOfInvalidTypeToOperators(qLForm)
+//      _ <- checkOperandsOfInvalidTypeToOperators(qLForm)
       _ <- checkNonBooleanPredicates(qLForm).left.map(error => Seq(error))
       _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm).left.map(error => Seq(error))
       qlFormWithPossibleWarnings = checkDuplicateLabels(qLForm)

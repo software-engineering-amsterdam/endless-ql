@@ -4,7 +4,7 @@ import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.DecAnswerCanDoOrderings._
 import nl.uva.se.sc.niro.model.ql.evaluation.BasicArithmetics.DecAnswerCanDoBasicArithmetics._
 
-final case class DecimalAnswer(value: BigDecimal) extends Answer {
+final case class DecimalAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 
   type T = BigDecimal
 
@@ -24,5 +24,7 @@ final case class DecimalAnswer(value: BigDecimal) extends Answer {
 }
 
 object DecimalAnswer {
-  def apply(value: java.math.BigDecimal) = new DecimalAnswer(BigDecimal(value))
+  def apply() = new DecimalAnswer(None)
+  def apply(value: BigDecimal) = new DecimalAnswer(Option(value))
+  def apply(value: java.math.BigDecimal) = new DecimalAnswer(Option(value).map(BigDecimal(_)))
 }

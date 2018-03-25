@@ -262,7 +262,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
       "throw an error when evaluating mixed answertypes" in {
         val expression = Equal(BooleanAnswer(true), IntegerAnswer(5))
 
-        assertThrows[IllegalArgumentException](expression.evaluate(Map.empty, Map.empty))
+        assertThrows[MatchError](expression.evaluate(Map.empty, Map.empty))
       }
     }
   }

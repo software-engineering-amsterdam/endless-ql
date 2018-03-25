@@ -2,8 +2,9 @@ package nl.uva.se.sc.niro.typechecking.ql
 
 import cats.implicits._
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.ql.{ BooleanType, Conditional, QLForm, Statement }
+import nl.uva.se.sc.niro.model.ql._
 import org.apache.logging.log4j.scala.Logging
+import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
 
 object PredicateChecker extends Logging {
   def checkNonBooleanPredicates(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
@@ -11,7 +12,7 @@ object PredicateChecker extends Logging {
 
     val conditionals: Seq[Conditional] = Statement.collectAllConditionals(qLForm.statements)
     val conditionalsWithNonBooleanPredicates: Seq[Conditional] = conditionals filter { conditional =>
-      conditional.predicate.typeOf(qLForm.symbolTable) != BooleanType.asRight
+      conditional.predicate.evaluate(qLForm.symbolTable, Map.empty) != BooleanType.asRight
     }
 
     if (conditionalsWithNonBooleanPredicates.nonEmpty) {

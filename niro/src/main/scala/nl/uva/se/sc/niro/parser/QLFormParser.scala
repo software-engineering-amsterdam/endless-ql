@@ -68,7 +68,7 @@ object QLFormParser extends Logging {
 
     def answerTypeConversion(expression: Expression, answerType: AnswerType) = {
       (expression, answerType) match {
-        case (IntegerAnswer(value), MoneyType) => MoneyAnswer(BigDecimal(value))
+        case (IntegerAnswer(value), MoneyType) => MoneyAnswer(value.map(BigDecimal(_)))
         case (DecimalAnswer(value), MoneyType) => MoneyAnswer(value)
         case _                                 => expression
       }
@@ -76,7 +76,7 @@ object QLFormParser extends Logging {
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Seq[Statement] = {
       val predicate: Expression = ExpressionVisitor.visit(ctx.condition)
-      val negatedPredicate: Expression = UnaryOperation(Neg, predicate)
+      val negatedPredicate: Expression = Negate(predicate)
 
       val thenStatements: Seq[Statement] =
         JavaConverters.asScalaBuffer(ctx.thenBlock).toList.flatMap(StatementVisitor.visit)
@@ -101,25 +101,25 @@ object QLFormParser extends Logging {
       visit(ctx.expression())
     }
     override def visitUnaryExpression(ctx: QLParser.UnaryExpressionContext): Expression = {
-      UnaryOperation(Operator(ctx.operator.getText), visit(ctx.expression))
+      Expression(ctx.operator.getText, visit(ctx.expression))
     }
     override def visitMultiplicativeExpression(ctx: QLParser.MultiplicativeExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitAdditiveExpression(ctx: QLParser.AdditiveExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitRelationalExpression(ctx: QLParser.RelationalExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitEqualityExpression(ctx: QLParser.EqualityExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitLogicalAndExpression(ctx: QLParser.LogicalAndExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitLogicalOrExpression(ctx: QLParser.LogicalOrExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitIntegerConstant(ctx: QLParser.IntegerConstantContext): Expression = {
       IntegerAnswer(ctx.IntegerValue().getText.toInt)

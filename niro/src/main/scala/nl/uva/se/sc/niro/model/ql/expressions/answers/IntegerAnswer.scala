@@ -4,7 +4,7 @@ import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.evaluation.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.IntAnswerCanDoOrderings._
 
-final case class IntegerAnswer(value: Int) extends Answer {
+final case class IntegerAnswer(possibleValue: Option[Int]) extends Answer {
 
   type T = Int
 
@@ -24,5 +24,7 @@ final case class IntegerAnswer(value: Int) extends Answer {
 }
 
 object IntegerAnswer {
-  def apply(value: java.lang.Integer) = new IntegerAnswer(value.toInt)
+  def apply() = new IntegerAnswer(None)
+  def apply(value: Int) = new IntegerAnswer(Option(value))
+  def apply(value: java.lang.Integer) = new IntegerAnswer(Option(value).map(_.toInt))
 }

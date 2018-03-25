@@ -66,7 +66,7 @@ object ExpressionEvaluator {
   implicit class MinusOps(m: Minus) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- m.left.evaluate(symbolTable, dictionary)
+        leftAnswer: Answer <- m.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.minus
     }
   }
@@ -146,7 +146,7 @@ object ExpressionEvaluator {
   implicit class NegateOps(n: Negate) {
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
-        leftAnswer: Answer <- n.left.evaluate(symbolTable, dictionary)
+        leftAnswer: Answer <- n.right.evaluate(symbolTable, dictionary)
       } yield leftAnswer.negate
     }
   }

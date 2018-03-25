@@ -69,6 +69,9 @@ class MainWindow(QtWidgets.QWidget):
 
             if warning_message:
                 self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(warning_message))
+        else:
+            self.initiate_output_frame()
+            self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))
 
         if qls_text:
             qls_data.set_qls_grammar_text(qls_text)
@@ -76,6 +79,3 @@ class MainWindow(QtWidgets.QWidget):
             # todo: create listener/visiter for QLS
             # listen(ql_data.qls_tree, self.output_frame)
             # self.output_frame.add_submit_button()
-        else:
-            self.initiate_output_frame()
-            self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))

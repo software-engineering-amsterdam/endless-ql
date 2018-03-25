@@ -22,14 +22,6 @@ export default class QlForm implements Form {
     this.computeFields();
   }
 
-  getField(identifier: string): FieldNode | undefined | any {
-    return this.getFields().find(field => field.identifier === identifier);
-  }
-
-  getFields(): FieldNode[] {
-    return filterNodes((node) => node instanceof ComputedField || node instanceof QuestionNode, this.node);
-  }
-
   computeFields() {
     let state: FormState = this.state;
 
@@ -56,6 +48,14 @@ export default class QlForm implements Form {
     });
 
     this.state = state;
+  }
+
+  getField(identifier: string): FieldNode | undefined | any {
+    return this.getFields().find(field => field.identifier === identifier);
+  }
+
+  getFields(): FieldNode[] {
+    return filterNodes((node) => node instanceof ComputedField || node instanceof QuestionNode, this.node);
   }
 
   getComputedFields(): ComputedField[] {

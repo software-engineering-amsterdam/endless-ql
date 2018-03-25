@@ -3,14 +3,14 @@ import Form from "../../../form/Form";
 import { FieldContainer } from "../field_container/FieldContainer";
 import Field from "../../../form/nodes/fields/FieldNode";
 
-export interface FormComponentProps {
+export interface QlFormComponentProps {
   form: Form;
   onChange: (identifier: string, value: any) => void;
   visibleFields: Set<string>;
   renderField?: (field: Field) => any;
 }
 
-export const FormComponent: React.SFC<FormComponentProps> = (props) => {
+export const QlFormComponent: React.SFC<QlFormComponentProps> = (props) => {
   const onChange = (identifier: string) => (value: any): void => {
     props.onChange(identifier, value);
   };

@@ -36,7 +36,7 @@ export class QlParserPipeline {
     return scopeVisitor.run(node);
   }
 
-  private checkTypes(node: FormNode, variables: VariablesMap) : void {
+  private checkTypes(node: FormNode, variables: VariablesMap): void {
     const typeCheckVisitor = new TypeCheckVisitor(variables);
     node.accept(typeCheckVisitor);
   }

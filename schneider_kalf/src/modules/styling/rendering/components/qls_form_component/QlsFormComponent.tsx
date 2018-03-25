@@ -1,9 +1,7 @@
 import * as React from 'react';
 import QlsForm from "../../../form/QlsForm";
-import { FormComponent } from "../../../../../rendering/components/form_component/FormComponent";
 import PageNode from "../../../form/nodes/containers/PageNode";
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import FieldNode from "../../../../../form/nodes/fields/FieldNode";
 import { StyledFieldContainer } from "../styled_field_container/StyledFieldContainer";
 import SectionNode from "../../../form/nodes/containers/SectionNode";
 import { SectionComponent } from "../section_component/SectionComponent";
@@ -16,7 +14,6 @@ export interface QlsFormComponentProps {
 }
 
 export interface QlsFormComponentState {
-
 }
 
 export class QlsFormComponent extends React.Component<QlsFormComponentProps, QlsFormComponentState> {
@@ -37,7 +34,7 @@ export class QlsFormComponent extends React.Component<QlsFormComponentProps, Qls
     const pages: PageNode[] = this.props.form.getPages();
 
     return pages.map(page => {
-      const isActive = typeof activePage !== 'undefined' && activePage.name === page.name;
+      const isActive = typeof activePage !== 'undefined' && activePage.isEqual(page);
 
       return (
           <PaginationItem active={isActive} key={page.name}>

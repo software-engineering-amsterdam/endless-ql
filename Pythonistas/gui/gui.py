@@ -49,15 +49,21 @@ class MainWindow(QtWidgets.QWidget):
         if ql_text:
             ql_data.set_ql_grammar_text(ql_text)
             ql_data.run_antlr_ql()
+            print(ql_data.ql_errors)
+            if ql_data.ql_errors:
+                self.initiate_output_frame()
+                for error in ql_data.ql_errors:
+                    self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error))
+                return
             # Traverses QL AST
             [question_ids, questions, error_message, warning_message] = visit(ql_data.ql_tree)
 
             if qls_text:
-                ql_data.set_qls_grammar_text(qls_text)
-                ql_data.run_antlr_qls()
+                qls_data.set_qls_grammar_text(qls_text)
+                qls_data.run_antlr_qls()
                 # todo: create listener/visiter for QLS
                 # Traverses QLS AST
-                x = visit_qls(ql_data.qls_tree, question_ids, questions)
+                x = visit_qls(qls_data.qls_tree, question_ids, questions)
 
             if error_message:
                 self.initiate_output_frame()

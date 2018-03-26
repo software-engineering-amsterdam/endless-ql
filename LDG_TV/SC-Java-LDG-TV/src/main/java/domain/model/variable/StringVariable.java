@@ -14,10 +14,14 @@ public class StringVariable extends Variable {
         super(identifier);
         this.value = new StringValue(value);
     }
+    @Override
+    public Value<String> getValueObject(){
+        return this.value;
+    }
 
     @Override
-    public Value<String> getValueObject() {
-        return value;
+    public String getComputedValue() {
+        return value.getValue();
     }
 
     @Override
@@ -33,5 +37,10 @@ public class StringVariable extends Variable {
     @Override
     public Node getRelatedUIElement(Visitor v){
         return v.visit(this);
+    }
+
+    @Override
+    public void accept(Object o) {
+        this.value.setValue(o);
     }
 }

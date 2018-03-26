@@ -20,13 +20,13 @@ public class ArithmeticExpressionValue extends MoneyValue{
         try {
             switch (operator) {
                 case "/":
-                    return (Integer) this.leftHandOperand.getValueObject().getValue() / (Integer) this.rightHandOperand.getValueObject().getValue();
+                    return (Integer) leftHandOperand.getComputedValue() / (Integer) rightHandOperand.getComputedValue();
                 case "+":
-                    return (Integer) this.leftHandOperand.getValueObject().getValue() + (Integer) this.rightHandOperand.getValueObject().getValue();
+                    return (Integer) leftHandOperand.getComputedValue() + (Integer) rightHandOperand.getComputedValue();
                 case "-":
-                    return (Integer) this.leftHandOperand.getValueObject().getValue() - (Integer) this.rightHandOperand.getValueObject().getValue();
+                    return (Integer) leftHandOperand.getComputedValue() - (Integer) rightHandOperand.getComputedValue();
                 case "*":
-                    return (Integer) this.leftHandOperand.getValueObject().getValue() * (Integer) this.rightHandOperand.getValueObject().getValue();
+                    return (Integer) leftHandOperand.getComputedValue() * (Integer) rightHandOperand.getComputedValue();
             }
         }catch(Exception e){
             throw new InvalidArithmeticExpressionException("Invalid arithmetic expression found. Are you using strings were numbers are expected?");

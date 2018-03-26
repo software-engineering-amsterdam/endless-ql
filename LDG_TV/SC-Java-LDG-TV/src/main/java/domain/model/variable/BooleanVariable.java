@@ -15,10 +15,14 @@ public class BooleanVariable extends Variable {
         super(identifier);
         this.value = new BooleanValue(value);
     }
+    @Override
+    public Value<Boolean> getValueObject(){
+        return this.value;
+    }
 
     @Override
-    public Value<Boolean> getValueObject() {
-        return value;
+    public Boolean getComputedValue() {
+        return value.getValue();
     }
 
     @Override
@@ -36,5 +40,10 @@ public class BooleanVariable extends Variable {
     @Override
     public Node getRelatedUIElement(Visitor v){
         return v.visit(this);
+    }
+
+    @Override
+    public void accept(Object o) {
+        this.value.setValue(o);
     }
 }

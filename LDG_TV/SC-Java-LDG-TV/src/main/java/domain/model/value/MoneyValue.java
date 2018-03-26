@@ -11,9 +11,8 @@ public class MoneyValue extends Value<Integer> {
     public Integer getValue() {
         return value;
     }
-
     @Override
-    public void accept(Integer integer) {
-        this.value = integer;
+    public Integer setValue(Object o) {
+        return this.value = (Integer) o;
     }
 }

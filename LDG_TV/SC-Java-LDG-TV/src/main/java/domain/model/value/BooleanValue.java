@@ -13,7 +13,7 @@ public class BooleanValue extends Value<Boolean>{
     }
 
     @Override
-    public void accept(Boolean b){
-        this.value = b;
+    public Boolean setValue(Object o) {
+        return this.value = (Boolean) o;
     }
 }

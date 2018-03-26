@@ -15,8 +15,12 @@ public class MoneyVariable extends Variable {
         this.value = new MoneyValue(value);
     }
     @Override
-    public Value<Integer> getValueObject() {
-        return value;
+    public Value<Integer> getValueObject(){
+        return this.value;
+    }
+    @Override
+    public Integer getComputedValue() {
+        return value.getValue();
     }
 
     @Override
@@ -37,5 +41,10 @@ public class MoneyVariable extends Variable {
     @Override
     public Node getRelatedUIElement(Visitor v){
         return v.visit(this);
+    }
+
+    @Override
+    public void accept(Object o) {
+        this.value.setValue(o);
     }
 }

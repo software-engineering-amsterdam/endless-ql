@@ -6,6 +6,7 @@ import domain.model.value.ArithmeticExpressionValue;
 import domain.model.variable.BooleanVariable;
 import domain.model.variable.MoneyVariable;
 import domain.model.variable.StringVariable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -19,11 +20,11 @@ public class UIVisitor implements Visitor {
     public Node visit(BooleanVariable bv) {
         CheckBox cb = new CheckBox();
 
-        cb.setSelected(bv.getValueObject().getValue());
+        cb.setSelected(bv.getComputedValue());
 
         JavaFxObservable
                 .valuesOf(cb.selectedProperty())
-                .subscribe(bv.getValueObject());
+                .subscribe(bv);
         return cb;
 
     }
@@ -33,7 +34,7 @@ public class UIVisitor implements Visitor {
         TextField tf = new TextField();
         JavaFxObservable
                 .valuesOf(tf.textProperty())
-                .subscribe(sv.getValueObject());
+                .subscribe(sv);
         return tf;
     }
 
@@ -41,15 +42,15 @@ public class UIVisitor implements Visitor {
     public Node visit(MoneyVariable mv) {
         if (mv.getValueObject() instanceof ArithmeticExpressionValue){
             Label lbl = new Label();
-            lbl.setText(String.valueOf(mv.getValueObject().getValue()));
+            lbl.setText(String.valueOf(mv.getComputedValue()));
             return lbl;
         }else {
-            TextField tf = new TextField(String.valueOf(mv.getValueObject().getValue()));
+            TextField tf = new TextField(String.valueOf(mv.getComputedValue()));
             JavaFxObservable
                     .valuesOf(tf.textProperty())
                     .filter(Utilities::isNumeric)
                     .map(Integer::valueOf)
-                    .subscribe(mv.getValueObject());
+                    .subscribe(mv);
             return tf;
         }
     }

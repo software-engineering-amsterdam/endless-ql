@@ -19,19 +19,18 @@ public class BooleanExpressionValue extends BooleanValue{
     public Boolean getValue() {
         switch (operator) {
             case "==":
-                return this.leftHandOperand.getValueObject().getValue().equals(this.rightHandOperand.getValueObject().getValue());
+                return leftHandOperand.getComputedValue().equals(rightHandOperand.getComputedValue());
             case "!=":
-                return this.leftHandOperand.getValueObject().getValue() !=  this.rightHandOperand.getValueObject().getValue();
+                return leftHandOperand.getComputedValue() !=  rightHandOperand.getComputedValue();
             case ">":
-                return (Integer) this.leftHandOperand.getValueObject().getValue() >  (Integer) this.rightHandOperand.getValueObject().getValue();
+                return (Integer) leftHandOperand.getComputedValue() >  (Integer) rightHandOperand.getComputedValue();
             case "<":
-                return (Integer) this.leftHandOperand.getValueObject().getValue() <  (Integer) this.rightHandOperand.getValueObject().getValue();
+                return (Integer) leftHandOperand.getComputedValue() <  (Integer) rightHandOperand.getComputedValue();
             case ">=":
-                return (Integer) this.leftHandOperand.getValueObject().getValue() >= (Integer) this.rightHandOperand.getValueObject().getValue();
+                return (Integer) leftHandOperand.getComputedValue() >= (Integer) rightHandOperand.getComputedValue();
             case "<=":
-                return (Integer) this.leftHandOperand.getValueObject().getValue() <= (Integer) this.rightHandOperand.getValueObject().getValue();
+                return (Integer) leftHandOperand.getComputedValue() <= (Integer) rightHandOperand.getComputedValue();
             default:
-                System.out.println("No match found");
         }
         return false;
     }

@@ -1,4 +1,4 @@
-package nl.khonraad.ql.gui2.visuals;
+package nl.khonraad.ql.gui.visuals;
 
 import java.awt.Dimension;
 import java.text.DecimalFormat;
@@ -12,7 +12,7 @@ import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.dynamics.Question;
 import nl.khonraad.ql.dynamics.Questionnaire;
-import nl.khonraad.ql.gui2.QLInterpretor;
+import nl.khonraad.ql.gui.QLInterpretor;
 
 @SuppressWarnings("serial")
 public class MoneyWidget extends JSpinner {

@@ -11,8 +11,8 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import nl.khonraad.ql.QLexer;
-import nl.khonraad.ql.QParser;
+import nl.khonraad.ql.QLLexer;
+import nl.khonraad.ql.QLParser;
 import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.dynamics.Question.BehaviouralType;
@@ -26,9 +26,9 @@ public class Questionnaire {
 
     public Questionnaire(InputStream stream) throws IOException {
 
-        QLexer qLexer = new QLexer( CharStreams.fromStream( stream, StandardCharsets.UTF_8 ) );
+        QLLexer qLexer = new QLLexer( CharStreams.fromStream( stream, StandardCharsets.UTF_8 ) );
 
-        QParser qParser = new QParser( new CommonTokenStream( qLexer ) );
+        QLParser qParser = new QLParser( new CommonTokenStream( qLexer ) );
 
         qParser.addErrorListener( new BaseErrorListener() {
             @Override

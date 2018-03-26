@@ -1,4 +1,4 @@
-package nl.khonraad.ql.gui2.visuals;
+package nl.khonraad.ql.gui.visuals;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;

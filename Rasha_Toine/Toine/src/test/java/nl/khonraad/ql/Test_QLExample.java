@@ -12,7 +12,7 @@ import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.dynamics.Questionnaire;
 
-public class Test_QExample {
+public class Test_QLExample {
 
     @Test
     public void test_Calculations() throws Exception {

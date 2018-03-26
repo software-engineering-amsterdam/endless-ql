@@ -1,4 +1,4 @@
-package nl.khonraad.ql.gui2;
+package nl.khonraad.ql.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -13,13 +13,13 @@ import javax.swing.JPanel;
 import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.dynamics.Question;
 import nl.khonraad.ql.dynamics.Question.BehaviouralType;
+import nl.khonraad.ql.gui.visuals.BooleanWidget;
+import nl.khonraad.ql.gui.visuals.ComputedValue;
+import nl.khonraad.ql.gui.visuals.DateWidget;
+import nl.khonraad.ql.gui.visuals.IntegerWidget;
+import nl.khonraad.ql.gui.visuals.MoneyWidget;
+import nl.khonraad.ql.gui.visuals.StringWidget;
 import nl.khonraad.ql.dynamics.Questionnaire;
-import nl.khonraad.ql.gui2.visuals.BooleanWidget;
-import nl.khonraad.ql.gui2.visuals.ComputedValue;
-import nl.khonraad.ql.gui2.visuals.DateWidget;
-import nl.khonraad.ql.gui2.visuals.IntegerWidget;
-import nl.khonraad.ql.gui2.visuals.MoneyWidget;
-import nl.khonraad.ql.gui2.visuals.StringWidget;
 
 public class QLInterpretor {
 

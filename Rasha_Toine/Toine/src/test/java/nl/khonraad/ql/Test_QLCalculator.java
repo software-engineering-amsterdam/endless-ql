@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import nl.khonraad.ql.dynamics.Questionnaire;
 
-public class Test_QCalculator {
+public class Test_QLCalculator {
 
     @Test
     public void test_Calculations() throws Exception {

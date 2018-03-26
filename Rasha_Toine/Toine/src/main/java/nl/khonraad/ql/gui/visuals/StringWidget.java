@@ -1,4 +1,4 @@
-package nl.khonraad.ql.gui2.visuals;
+package nl.khonraad.ql.gui.visuals;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -10,7 +10,7 @@ import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.dynamics.Question;
 import nl.khonraad.ql.dynamics.Questionnaire;
-import nl.khonraad.ql.gui2.QLInterpretor;
+import nl.khonraad.ql.gui.QLInterpretor;
 
 @SuppressWarnings("serial")
 public class StringWidget extends JTextField {

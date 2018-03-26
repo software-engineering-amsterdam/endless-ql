@@ -32,7 +32,7 @@ public abstract class BaseFormController implements Initializable, IQuestionValu
     private final Renderer renderer = new Renderer();
 
     @FXML
-    protected VBox container;
+    VBox container;
 
     @FXML
     protected TabPane tabPane;
@@ -40,7 +40,7 @@ public abstract class BaseFormController implements Initializable, IQuestionValu
     @FXML
     protected VBox messages;
 
-    public BaseFormController(IWidgetFactory questionModel) {
+    protected BaseFormController(IWidgetFactory questionModel) {
         this.questionModel = new QuestionModel(this, questionModel);
     }
 

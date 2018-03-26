@@ -24,10 +24,8 @@ public class QuestionData {
     }
 
     private boolean doesValueTypeMatch(Question question, Value value) {
-        if (value == null)
-            return true;
+        return value == null || question.getType().getNodeType().isTypeCompatible(value.getType());
 
-        return question.getType().getNodeType().isTypeCompatible(value.getType());
     }
 
     public String getLabel() {

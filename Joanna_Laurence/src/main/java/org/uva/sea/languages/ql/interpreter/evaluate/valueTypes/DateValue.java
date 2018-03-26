@@ -29,10 +29,6 @@ public class DateValue extends Value {
         this.dateValue = dateValue;
     }
 
-    public Calendar getDateValue() {
-        return this.dateValue;
-    }
-
     @Override
     public Value isEqual(Value value) throws EvaluationException {
         return value.isEqual(this);
@@ -40,7 +36,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(this.dateValue);
         return new BooleanValue(compare == 0);
     }
 
@@ -51,7 +47,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isGreaterOrEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(this.dateValue);
         return new BooleanValue((compare == 0) || (compare > 0));
     }
 
@@ -62,7 +58,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isGreaterThan(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue((compare > 0));
     }
 
@@ -73,7 +69,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isLessOrEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue((compare == 0) || (compare < 0));
     }
 
@@ -84,7 +80,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isLessThan(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue(compare < 0);
     }
 
@@ -95,7 +91,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isNotEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue(compare != 0);
 
     }

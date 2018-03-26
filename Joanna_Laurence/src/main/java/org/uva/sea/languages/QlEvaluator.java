@@ -7,9 +7,6 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
 import java.io.IOException;
 
-/**
- * Converts QL file to a list of questions
- */
 public class QlEvaluator implements BaseEvaluator {
 
     private final Evaluator evaluator = new Evaluator();

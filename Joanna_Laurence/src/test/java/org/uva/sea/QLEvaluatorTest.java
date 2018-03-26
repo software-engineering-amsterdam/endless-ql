@@ -32,12 +32,6 @@ public class QLEvaluatorTest extends TestCase {
     private final boolean hasRuntimeError;
     private final boolean hasWarnings;
 
-    /**
-     * Constructor for every test
-     *
-     * @param testFile
-     * @param correctQuestions
-     */
     public QLEvaluatorTest(String testFile, int correctQuestions, boolean hasRuntimeError, boolean hasWarnings) {
         this.testFile = testFile;
         this.correctQuestions = correctQuestions;
@@ -45,11 +39,6 @@ public class QLEvaluatorTest extends TestCase {
         this.hasWarnings = hasWarnings;
     }
 
-    /**
-     * Test generator
-     *
-     * @return Test parameters
-     */
     @Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> testFiles = new ArrayList<>();
@@ -61,10 +50,6 @@ public class QLEvaluatorTest extends TestCase {
 
     }
 
-    /**
-     * @param folderLocation Location of the ql files
-     * @return Map of test files and if they should be interpretable
-     */
     private static Collection<Object[]> getTestFiles(String folderLocation, boolean hasRuntimeError, boolean hasWarnings) {
         Collection<Object[]> testFiles = new ArrayList<>();
 
@@ -76,12 +61,6 @@ public class QLEvaluatorTest extends TestCase {
         return testFiles;
     }
 
-    /**
-     * Extract correct tests from file
-     *
-     * @param location
-     * @return
-     */
     private static int determineExpectedTests(String location) {
         try (FileInputStream inputStream = new FileInputStream(location)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -100,12 +79,6 @@ public class QLEvaluatorTest extends TestCase {
         return 0;
     }
 
-    /**
-     * Extracts the symbol table from the test file
-     *
-     * @param location Location of the test file
-     * @return The Symbol table
-     */
     private SymbolTable getSymbolTableForTest(String location) throws ReflectiveOperationException, IOException {
 
         SymbolTable symbolTable = new SymbolTable();
@@ -132,13 +105,6 @@ public class QLEvaluatorTest extends TestCase {
         return symbolTable;
     }
 
-
-    /**
-     * Compiles the file and checks result
-     *
-     * @param fileName The location of the ql file
-     * @return If the script is interpretable
-     */
     private EvaluationResult getDisplayedQuestions(String fileName) throws IOException, EvaluationException, ReflectiveOperationException {
 
         SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
@@ -152,12 +118,6 @@ public class QLEvaluatorTest extends TestCase {
         return questions;
     }
 
-    /**
-     * Check if there was an displayError
-     *
-     * @param questions All the questions
-     * @return
-     */
     private boolean checkForRuntimeErrors(Iterable<QuestionData> questions) {
         for (QuestionData question : questions) {
             if (question.getValue() == null)

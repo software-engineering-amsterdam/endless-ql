@@ -11,11 +11,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Iterates over the AST and add links between variables and questions
- * Checks if variables are not used before declared
- * Determine if variables are not double defined. Only in if and else can be the same questionData.
- */
 public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStaticAnalysis {
 
 

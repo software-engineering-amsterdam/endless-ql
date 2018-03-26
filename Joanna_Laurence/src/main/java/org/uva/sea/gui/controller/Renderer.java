@@ -9,7 +9,7 @@ import org.uva.sea.gui.widget.BaseWidget;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Renderer {
+class Renderer {
 
     private final Map<String, Node> drawnNodes = new HashMap<>();
 

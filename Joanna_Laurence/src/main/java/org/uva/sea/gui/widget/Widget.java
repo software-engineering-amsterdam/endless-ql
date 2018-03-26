@@ -3,7 +3,7 @@ package org.uva.sea.gui.widget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 
 public abstract class Widget extends BaseWidget {
-    public Widget(QuestionData questionData) {
+    Widget(QuestionData questionData) {
         super(questionData);
     }
 

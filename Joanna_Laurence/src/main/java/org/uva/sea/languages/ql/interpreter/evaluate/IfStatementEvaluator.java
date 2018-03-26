@@ -10,7 +10,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
+class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
 
     private final ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 

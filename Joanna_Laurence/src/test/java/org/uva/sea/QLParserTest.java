@@ -37,11 +37,6 @@ public class QLParserTest extends TestCase {
         return testFiles;
     }
 
-    /**
-     * @param folderLocation Location of the ql files
-     * @param shouldCompile  Should the file be interpretable?
-     * @return Map of test files and if they should be interpretable
-     */
     private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
         Collection<Object[]> testFiles = new ArrayList<>();
 
@@ -53,12 +48,7 @@ public class QLParserTest extends TestCase {
         return testFiles;
     }
 
-    /**
-     * Compiles the file and checks result
-     *
-     * @param fileName The location of the ql file
-     * @return If the script is interpretable
-     */
+
     private boolean doesInterpreter(String fileName) {
         try {
             QlEvaluator qlEvaluator = new QlEvaluator(fileName);

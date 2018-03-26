@@ -26,7 +26,7 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 
     }
 
-    public Style findStyle(QLSNode node, NodeType nodeTypeToFind) {
+    private Style findStyle(QLSNode node, NodeType nodeTypeToFind) {
         this.nodeTypeToFind = nodeTypeToFind;
         node.accept(this);
         return this.foundStyle;

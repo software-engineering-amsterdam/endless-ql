@@ -74,7 +74,7 @@ public class Style {
         this.width = width;
     }
 
-    public QLWidget getWidget() {
+    private QLWidget getWidget() {
         return this.widget;
     }
 

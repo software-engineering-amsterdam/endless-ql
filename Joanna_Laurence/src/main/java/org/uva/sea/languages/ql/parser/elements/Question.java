@@ -34,11 +34,6 @@ public class Question extends Statement {
         return this.nodeType;
     }
 
-    /**
-     * The valueTypes that is defined in ql
-     *
-     * @return Value of the question
-     */
     public ASTNode getValue() {
         return this.value;
     }

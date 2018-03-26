@@ -28,9 +28,7 @@ public class RadioButtonWidgetQLS extends WidgetQLS {
         }
 
         radioButton.selectedProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newValue));
-                });
+                (observable, oldValue, newValue) -> this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newValue)));
 
         this.setStyle(radioButton);
         return radioButton;

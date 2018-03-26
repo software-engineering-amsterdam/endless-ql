@@ -12,7 +12,7 @@ import java.util.Map;
 
 public abstract class BaseRenderable {
 
-    protected static final double TEXT_WIDTH = 100.0;
+    static final double TEXT_WIDTH = 100.0;
     private static final int LABEL_WIDTH = 350;
     private static final int LABEL_HEIGHT = 40;
 
@@ -21,11 +21,11 @@ public abstract class BaseRenderable {
 
     public abstract Node render(Map<String, VBox> containers);
 
-    protected Node drawComponent(String label, Node widget) {
+    Node drawComponent(String label, Node widget) {
         return drawComponent(label, widget, "");
     }
 
-    protected Node drawComponent(String label, Node widget, String extraLabel) {
+    private Node drawComponent(String label, Node widget, String extraLabel) {
         GridPane wrapper = new GridPane();
         wrapper.getColumnConstraints().add(new ColumnConstraints(BaseRenderable.LABEL_WIDTH));
         wrapper.getRowConstraints().add(new RowConstraints(BaseRenderable.LABEL_HEIGHT));

@@ -20,7 +20,7 @@ public abstract class BaseWidget extends BaseRenderable {
 
     private final DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
 
-    public BaseWidget(QuestionData questionData) {
+    protected BaseWidget(QuestionData questionData) {
         this.questionData = questionData;
     }
 
@@ -62,5 +62,5 @@ public abstract class BaseWidget extends BaseRenderable {
 
     public abstract Node convertToGuiNode();
 
-    public abstract String getContainerName();
+    protected abstract String getContainerName();
 }

@@ -31,7 +31,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
     }
 
-    public EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) {
+    private EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) {
         this.qlInputResult = interpreterResult;
         this.outputResult = new EvaluationResult(new ArrayList<>(), interpreterResult.getMessages(), interpreterResult.getAst());
         //The visitor will fill the outputResult

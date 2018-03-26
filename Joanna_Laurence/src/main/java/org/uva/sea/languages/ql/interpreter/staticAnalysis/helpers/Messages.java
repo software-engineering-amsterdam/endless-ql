@@ -28,7 +28,7 @@ public class Messages {
         return false;
     }
 
-    public Collection<Entry<MessageTypes, String>> getMessages() {
+    private Collection<Entry<MessageTypes, String>> getMessages() {
         return this.messages;
     }
 

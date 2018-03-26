@@ -21,7 +21,7 @@ public class WidgetFactory {
             case DATE:
                 return new DateWidget();
             case BOOLEAN:
-                return new DropdownWidget("no", "yes");
+                return new CheckboxWidget();
             default:
                 throw new UnsupportedOperationException("Question type not implemented to render in GUI");
         }

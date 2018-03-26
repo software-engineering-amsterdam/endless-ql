@@ -19,8 +19,6 @@ public abstract class Variable<T> implements Consumer<T>{
         return identifier;
     }
     public abstract T getComputedValue();
-    public abstract Value getValueObject();
-
     public void setValue(ArithmeticExpressionValue value){};
     public void setValue(BooleanExpressionValue value){ };
 

@@ -16,6 +16,7 @@ public class Condition {
     public Variable getVariable() {
         return variable;
     }
+    public Object getComputedValue(){ return variable.getComputedValue(); }
     public void setOperator(String operator){
         this.operator = operator;
     }

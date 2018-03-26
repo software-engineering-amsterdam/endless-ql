@@ -15,10 +15,6 @@ public class MoneyVariable extends Variable {
         this.value = new MoneyValue(value);
     }
     @Override
-    public Value<Integer> getValueObject(){
-        return this.value;
-    }
-    @Override
     public Integer getComputedValue() {
         return value.getValue();
     }

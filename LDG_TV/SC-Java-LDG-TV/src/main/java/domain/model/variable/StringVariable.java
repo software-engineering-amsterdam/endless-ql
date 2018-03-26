@@ -15,11 +15,6 @@ public class StringVariable extends Variable {
         this.value = new StringValue(value);
     }
     @Override
-    public Value<String> getValueObject(){
-        return this.value;
-    }
-
-    @Override
     public String getComputedValue() {
         return value.getValue();
     }

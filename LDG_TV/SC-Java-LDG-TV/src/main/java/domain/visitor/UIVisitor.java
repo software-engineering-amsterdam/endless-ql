@@ -40,11 +40,6 @@ public class UIVisitor implements Visitor {
 
     @Override
     public Node visit(MoneyVariable mv) {
-        if (mv.getValueObject() instanceof ArithmeticExpressionValue){
-            Label lbl = new Label();
-            lbl.setText(String.valueOf(mv.getComputedValue()));
-            return lbl;
-        }else {
             TextField tf = new TextField(String.valueOf(mv.getComputedValue()));
             JavaFxObservable
                     .valuesOf(tf.textProperty())
@@ -52,6 +47,5 @@ public class UIVisitor implements Visitor {
                     .map(Integer::valueOf)
                     .subscribe(mv);
             return tf;
-        }
     }
 }

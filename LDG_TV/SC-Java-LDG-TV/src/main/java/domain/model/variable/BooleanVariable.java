@@ -16,11 +16,6 @@ public class BooleanVariable extends Variable {
         this.value = new BooleanValue(value);
     }
     @Override
-    public Value<Boolean> getValueObject(){
-        return this.value;
-    }
-
-    @Override
     public Boolean getComputedValue() {
         return value.getValue();
     }

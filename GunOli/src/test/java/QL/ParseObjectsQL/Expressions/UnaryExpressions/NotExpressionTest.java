@@ -12,8 +12,8 @@ public class NotExpressionTest {
     NotExpression expressionTest;
     @Property
     public void evaluate(boolean value) {
-        BooleanConstant valueToTest = new BooleanConstant(value);
-        expressionTest = new NotExpression(valueToTest);
+        BooleanConstant valueToTest = new BooleanConstant(value, 0);
+        expressionTest = new NotExpression(valueToTest, 0);
 
         assertEquals(!value, expressionTest.evaluate().getValue());
     }

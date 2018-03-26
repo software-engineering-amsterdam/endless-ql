@@ -3,7 +3,7 @@ package QL.ParseObjectsQL;
 import QL.ParseObjectsQL.Expressions.EvaluationType;
 import QL.ParseObjectsQL.Expressions.Expression;
 
-public class Question {
+public class Question extends ASTNode {
     private String identifier;
     private String text;
     private EvaluationType type;
@@ -11,7 +11,8 @@ public class Question {
     private Expression condition;
     private Boolean predefined;
 
-    public Question(String id, String text, EvaluationType type, Expression answer, Expression condition, Boolean predefined){
+    public Question(String id, String text, EvaluationType type, Expression answer, Expression condition, Boolean predefined, int line){
+        super(line);
         setIdentifier(id);
         setText(text);
         setType(type);

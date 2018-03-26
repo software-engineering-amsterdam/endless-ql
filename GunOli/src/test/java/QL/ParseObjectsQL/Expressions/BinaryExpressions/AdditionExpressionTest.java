@@ -14,19 +14,19 @@ public class AdditionExpressionTest {
     private AdditionExpression expressionTest;
     @Property
     public void evaluate(int left, int right) {
-        IntegerConstant b = new IntegerConstant( left);
-        IntegerConstant c = new IntegerConstant( right);
+        IntegerConstant b = new IntegerConstant( left, 0);
+        IntegerConstant c = new IntegerConstant( right, 0);
 
-        expressionTest = new AdditionExpression(b,c);
+        expressionTest = new AdditionExpression(b,c, 0);
         assertEquals((left + right), expressionTest.evaluate().getValue());
     }
 
     @Property
     public void evaluate(double left, double right) {
-        DecimalConstant b = new DecimalConstant( left);
-        DecimalConstant c = new DecimalConstant( right);
+        DecimalConstant b = new DecimalConstant( left, 0);
+        DecimalConstant c = new DecimalConstant( right, 0);
 
-        expressionTest = new AdditionExpression(b,c);
+        expressionTest = new AdditionExpression(b,c, 0);
         assertEquals((left + right), expressionTest.evaluate().getValue());
     }
 }

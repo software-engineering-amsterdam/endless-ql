@@ -34,7 +34,6 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     public Node visitConditionalIf(GrammarParser.ConditionalIfContext context)
     {
         ConditionalIfNode node = new ConditionalIfNode();
-
         node.setCondition(context.ifCondition().accept(this));
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
@@ -53,7 +52,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     @Override
     public Node visitConditionalIfElse(GrammarParser.ConditionalIfElseContext context)
     {
-        ConditionalIfElseNode node = new ConditionalIfElseNode();
+        ConditionalIfNode node = new ConditionalIfNode();
         node.setCondition(context.ifCondition().accept(this));
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
@@ -142,7 +141,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
 
             case GrammarParser.VAR:
             {
-                Variable node = new Variable();
+                VariableNode node = new VariableNode();
                 node.setName(context.getText());
                 return node;
             }
@@ -191,8 +190,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
                 return null;
         }
 
-        node.setLeft(context.left.accept(this));
-        node.setRight(context.right.accept(this));
+        node.setLeft((ExpressionNode) context.left.accept(this));
+        node.setRight((ExpressionNode) context.right.accept(this));
 
         return node;
     }
@@ -240,8 +239,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
                 return null;
         }
 
-        node.setLeft(context.left.accept(this));
-        node.setRight(context.right.accept(this));
+        node.setLeft((ExpressionNode) context.left.accept(this));
+        node.setRight((ExpressionNode) context.right.accept(this));
 
         return node;
     }
@@ -281,8 +280,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         }
 
 
-        node.setLeft(context.left.accept(this));
-        node.setRight(context.right.accept(this));
+        node.setLeft((ExpressionNode) context.left.accept(this));
+        node.setRight((ExpressionNode) context.right.accept(this));
 
         return node;
 
@@ -291,20 +290,10 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     @Override
     public Node visitUnaryExpression(GrammarParser.UnaryExpressionContext context)
     {
-        switch (context.op.getType())
-        {
-            case GrammarParser.PLUS:
-                return context.expression().accept(this);
-            case GrammarParser.MINUS:
-            {
-                NegateNode negateNode = new NegateNode();
-                negateNode.setInnerNode(context.expression().accept(this));
-                negateNode.getInnerNode();
-                return negateNode;
-            }
-            default:
-                return null;
-        }
+        NegateNode negateNode = new NegateNode();
+        negateNode.setInnerNode((ExpressionNode) context.expression().accept(this));
+        negateNode.getInnerNode();
+        return negateNode;
     }
 
 

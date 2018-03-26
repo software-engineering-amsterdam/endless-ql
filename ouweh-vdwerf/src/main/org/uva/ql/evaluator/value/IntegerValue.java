@@ -74,13 +74,8 @@ public class IntegerValue implements Value {
     }
 
     @Override
-    public Value notEqualTo(IntegerValue value) {
-        return new BooleanValue(value.getValue() != this.value);
-    }
-
-    @Override
     public Value notEqualTo(Value value) {
-        return value.notEqualTo(this);
+        return new BooleanValue(!value.getValue().equals(this.value));
     }
 
     @Override

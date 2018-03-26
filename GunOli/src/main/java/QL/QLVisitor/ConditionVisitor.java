@@ -20,6 +20,7 @@ public class ConditionVisitor extends QLBaseVisitor{
 
     @Override
     public ArrayList<Question> visitCondition(QLParser.ConditionContext ctx){
+        int line = ctx.getStart().getLine();
         ArrayList<Question> questions = new ArrayList<>();
         ExpressionVisitor expressionVisitor = new ExpressionVisitor(expressionTable);
         QLParser.ExpressionContext expressionCtx = ctx.expression();
@@ -29,14 +30,14 @@ public class ConditionVisitor extends QLBaseVisitor{
 
         if(ctx.falseBlock != null){
             QLParser.BlockContext falseBlockCtx = ctx.falseBlock;
-            Expression negatedCondition = new NotExpression(condition);
-            Expression conditionChain = new AndExpression(negatedCondition, this.condition);
+            Expression negatedCondition = new NotExpression(condition, line);
+            Expression conditionChain = new AndExpression(negatedCondition, this.condition, line);
             BlockVisitor falseBlockVisitor = new BlockVisitor(expressionTable, conditionChain);
             ArrayList<Question> falseBlockQuestions = falseBlockVisitor.visitBlock(falseBlockCtx);
             questions.addAll(falseBlockQuestions);
         }
 
-        Expression conditionChain = new AndExpression(condition, this.condition);
+        Expression conditionChain = new AndExpression(condition, this.condition, line);
         BlockVisitor trueBlockVisitor = new BlockVisitor(expressionTable, conditionChain);
         ArrayList<Question> blockQuestions = trueBlockVisitor.visitBlock(blockCtx);
         questions.addAll(blockQuestions);

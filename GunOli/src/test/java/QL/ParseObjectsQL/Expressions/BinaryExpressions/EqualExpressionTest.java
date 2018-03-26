@@ -18,10 +18,10 @@ public class EqualExpressionTest {
 
     @Property
     public void evaluate(int left, int right) {
-        IntegerConstant leftToTest = new IntegerConstant(left);
-        IntegerConstant rightToTest = new IntegerConstant(right);
+        IntegerConstant leftToTest = new IntegerConstant(left,0);
+        IntegerConstant rightToTest = new IntegerConstant(right,0);
 
-        expressionTest = new EqualExpression(leftToTest, rightToTest);
+        expressionTest = new EqualExpression(leftToTest, rightToTest,0);
 
         assertEquals((left == right), expressionTest.evaluate().getValue());
     }
@@ -29,20 +29,20 @@ public class EqualExpressionTest {
     @Property
     public void evaluate(boolean left, boolean right) {
 
-        BooleanConstant leftToTest = new BooleanConstant(left);
-        BooleanConstant rightToTest = new BooleanConstant(right);
+        BooleanConstant leftToTest = new BooleanConstant(left,0);
+        BooleanConstant rightToTest = new BooleanConstant(right,0);
 
-        expressionTest = new EqualExpression(leftToTest,rightToTest);
+        expressionTest = new EqualExpression(leftToTest,rightToTest,0);
 
         assertEquals((left == right), expressionTest.evaluate().getValue());
     }
 
     @Property
     public void evaluate(double left, double right) {
-        DecimalConstant leftToTest = new DecimalConstant(left);
-        DecimalConstant rightToTest = new DecimalConstant(right);
+        DecimalConstant leftToTest = new DecimalConstant(left,0);
+        DecimalConstant rightToTest = new DecimalConstant(right,0);
 
-        expressionTest = new EqualExpression(leftToTest, rightToTest);
+        expressionTest = new EqualExpression(leftToTest, rightToTest,0);
 
         assertEquals((left == right), expressionTest.evaluate().getValue());
 
@@ -56,10 +56,10 @@ public class EqualExpressionTest {
         LocalDate firstDate = LocalDate.parse(firstYear, dateTimeFormatter);
         LocalDate secondDate = LocalDate.parse(secondYear, dateTimeFormatter);
 
-        DateConstant left = new DateConstant(firstDate);
-        DateConstant right = new DateConstant(secondDate);
+        DateConstant left = new DateConstant(firstDate,0);
+        DateConstant right = new DateConstant(secondDate,0);
 
-        expressionTest = new EqualExpression(left, right);
+        expressionTest = new EqualExpression(left, right,0);
 
         assertEquals(firstYear.equals(secondYear), expressionTest.evaluate().getValue());
 
@@ -68,10 +68,10 @@ public class EqualExpressionTest {
     @Property
     public void evaluate(String left, String right) {
 
-        StringConstant leftToTest = new StringConstant(left);
-        StringConstant rightToTest = new StringConstant(right);
+        StringConstant leftToTest = new StringConstant(left,0);
+        StringConstant rightToTest = new StringConstant(right,0);
 
-        expressionTest = new EqualExpression(leftToTest, rightToTest);
+        expressionTest = new EqualExpression(leftToTest, rightToTest,0);
 
         assertEquals((left.equals(right)), expressionTest.evaluate().getValue());
     }

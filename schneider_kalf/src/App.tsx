@@ -1,26 +1,19 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import Input from "reactstrap/lib/Input";
 import Form from "./form/Form";
-import Alert from "reactstrap/lib/Alert";
-import { getParserErrorMessage } from "./parsing/parsing_helpers";
-import VisibleFieldsVisitor from "./form/evaluation/VisibleFieldsVisitor";
 import { QlsParserPipeline, QlsParserResult } from "./modules/styling/parsing/QlsParserPipeline";
-import StyledForm from "./modules/styling/form/StyledForm";
+import QlsForm from "./modules/styling/form/QlsForm";
 import PagedFormState from "./modules/styling/form/PagedFormState";
-import { StyledFormContainer } from "./modules/styling/rendering/components/styled_form_container/StyledFormContainer";
-import QuestionForm from "./form/QuestionForm";
+import QlForm from "./form/QlForm";
 import PageNode from "./modules/styling/form/nodes/containers/PageNode";
-import Nav from "reactstrap/lib/Nav";
-import NavItem from "reactstrap/lib/NavItem";
-import NavLink from "reactstrap/lib/NavLink";
-import * as classnames from "classnames";
-import TabContent from "reactstrap/lib/TabContent";
-import TabPane from "reactstrap/lib/TabPane";
-import { Label } from 'reactstrap';
-import { QlParserPipeline, QlParserResult } from "./parsing/QlParserPipeline";
-import { FormComponent } from "./rendering/components/form_component/FormComponent";
-import Button from "reactstrap/lib/Button";
+import { QlParserResult } from "./parsing/QlParserPipeline";
+import { ModuleTabNavigation } from "./rendering/components/app_module_tabs/ModuleTabNavigation";
+import { ModuleTabsContent } from "./rendering/components/app_module_tabs/ModuleTabsContent";
+import { FormStateOutput } from "./rendering/components/app_state_output/FormStateOutput";
+import { AppErrorMessage } from "./rendering/components/app_error_message/AppErrorMessage";
+import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
+import { runParserPipeline } from "./parsing/parsing_helpers";
+import constants from "./config/constants";
 
 export interface AppComponentProps {
 }
@@ -42,13 +35,17 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
       qlInput: require("!raw-loader!./mock/sample.ql.txt"),
       qlsInput: require("!raw-loader!./modules/styling/mock/sample.qls.txt"),
       qlsEnabled: true,
-      activeTab: "ql",
+      activeTab: constants.APP_MODULE_TABS.QL,
       form: null,
       parserError: null
     };
 
     this.onChangeAnswer = this.onChangeAnswer.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
+    this.onChangeTab = this.onChangeTab.bind(this);
+    this.onChangeQlSource = this.onChangeQlSource.bind(this);
+    this.onChangeQlsSource = this.onChangeQlsSource.bind(this);
+    this.toggleQls = this.toggleQls.bind(this);
   }
 
   componentDidMount() {
@@ -71,8 +68,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     try {
       this.tryToUpdateForm(qlSource, qlsSource, qlsEnabled);
     } catch (error) {
-      console.error(error);
-
       this.setState({
         parserError: error,
         qlInput: qlSource,
@@ -82,27 +77,22 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   tryToUpdateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
-    const parseResult: any = this.getParseResult(qlSource, (qlsEnabled) ? qlsSource : "");
+    const parseResult: QlParserResult | QlsParserResult | any = runParserPipeline(qlSource, qlsSource, qlsEnabled);
 
-    const form = new QuestionForm(parseResult.node, this.getFormState());
+    let form: Form = new QlForm(parseResult.node, this.getFormState());
+
+    // TODO: Maybe put both pipelines in different functions
+    if (typeof parseResult.styleNode !== 'undefined') {
+      form = new QlsForm(form, parseResult.styleNode);
+    }
 
     this.setState({
-      form: (typeof parseResult.styleNode !== 'undefined') ? new StyledForm(form, parseResult.styleNode) : form,
+      form: form,
       parserError: null,
       qlInput: qlSource,
       qlsInput: qlsSource,
       qlsEnabled: qlsEnabled
     });
-  }
-
-  getParseResult(qlSource: string, qlsSource: string): QlParserResult {
-    const qlsEnabled = qlsSource.length > 0;
-
-    if (qlsEnabled) {
-      return (new QlsParserPipeline(qlSource, qlsSource)).run();
-    }
-
-    return (new QlParserPipeline(qlSource)).run()[0];
   }
 
   getFormState() {
@@ -114,77 +104,21 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   onChangeAnswer(identifier: string, value: any) {
-    if (!this.state.form) {
-      return;
-    }
-
     this.setState({
       form: this.state.form.setAnswer(identifier, value)
     });
   }
 
   onChangePage(nextPage: PageNode) {
-    if (!this.state.form) {
-      return;
-    }
-
     this.setState({
       form: this.state.form.setActivePage(nextPage)
     });
   }
 
-  renderErrorMessage() {
-    if (!this.state.parserError) {
-      return null;
-    }
-
-    return (
-        <Alert color="danger">
-          {getParserErrorMessage(this.state.parserError)}
-        </Alert>
-    );
-  }
-
-  renderForm() {
-    if (!this.state.form) {
-      return (
-          <span>Form not yet parsed</span>
-      );
-    }
-
-    if (this.state.qlsEnabled && this.state.form instanceof StyledForm) {
-      return (
-          <StyledFormContainer
-              onChange={this.onChangeAnswer}
-              onChangePage={this.onChangePage}
-              form={this.state.form}
-              visibleFields={VisibleFieldsVisitor.run(this.state.form)}
-          />
-      );
-    }
-
-    return (
-        <FormComponent
-            onChange={this.onChangeAnswer}
-            form={this.state.form}
-            visibleFields={VisibleFieldsVisitor.run(this.state.form)}
-        />
-    );
-  }
-
-  changeActiveTab(nextTab: string) {
+  onChangeTab(nextTab: string) {
     this.setState({
       activeTab: nextTab
     });
-  }
-
-  onExportState() {
-    if (!this.state.form) {
-      return;
-    }
-
-    const json: string = this.state.form.getState().toJson();
-    require("downloadjs")(json, `${this.state.form.getName()}_${Math.round(Date.now())}`, "application/json");
   }
 
   render() {
@@ -193,74 +127,36 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
           <h1>NEWSKQL</h1>
           <div className="row ql-sample-output">
             <div className="col-md-6">
-              <Nav tabs={true}>
-                <NavItem>
-                  <NavLink
-                      className={classnames({active: this.state.activeTab === 'ql'})}
-                      onClick={() => this.changeActiveTab("ql")}
-                  >
-                    QL
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                      className={classnames({active: this.state.activeTab === 'qls'})}
-                      onClick={() => this.changeActiveTab("qls")}
-                  >
-                    QLS ({(this.state.qlsEnabled) ? 'enabled' : 'disabled'})
-                  </NavLink>
-                </NavItem>
-              </Nav>
-              <TabContent activeTab={this.state.activeTab}>
-                <TabPane tabId="ql">
-                  <Input
-                      valid={!this.state.parserError}
-                      type="textarea"
-                      value={this.state.qlInput}
-                      onChange={e => this.onChangeQlSource(e.target.value)}
-                      name="ql_input"
-                  />
-                </TabPane>
-                <TabPane tabId="qls">
-                  <Label check={true}>
-                    <Input
-                        type="checkbox"
-                        checked={this.state.qlsEnabled}
-                        onChange={e => this.toggleQls(e.target.checked)}
-                    />{' '}
-                    Enable QLS
-                  </Label>
-                  <Input
-                      valid={!this.state.parserError}
-                      type="textarea"
-                      disabled={!this.state.qlsEnabled}
-                      value={this.state.qlsInput}
-                      onChange={e => this.onChangeQlsSource(e.target.value)}
-                      name="ql_input"
-                  /> </TabPane>
-              </TabContent>
-
+              <ModuleTabNavigation
+                  activeTab={this.state.activeTab}
+                  onChange={this.onChangeTab}
+                  qlsEnabled={this.state.qlsEnabled}
+              />
+              <ModuleTabsContent
+                  activeTab={this.state.activeTab}
+                  onChangeQl={this.onChangeQlSource}
+                  onChangeQls={this.onChangeQlsSource}
+                  qlInput={this.state.qlInput}
+                  qlsInput={this.state.qlsInput}
+                  qlsEnabled={this.state.qlsEnabled}
+                  toggleQls={this.toggleQls}
+                  error={this.state.parserError}
+              />
             </div>
             <div className="col-md-6">
-              {this.renderErrorMessage()}
-              {this.renderForm()}
+              <AppErrorMessage
+                  error={this.state.parserError}
+              />
+              <AppFormContainer
+                  form={this.state.form}
+                  qlsEnabled={this.state.qlsEnabled}
+                  onChangeAnswer={this.onChangeAnswer}
+                  onChangePage={this.onChangePage}
+              />
               <hr/>
-              <div className="state-output-container">
-                <div className="row">
-                  <div className="col-md-8">
-                    <h2>State</h2>
-                  </div>
-                  <div className="col-md-4">
-                    <Button onClick={() => this.onExportState()}>Export state</Button>
-                  </div>
-                </div>
-                <Input
-                    type="textarea"
-                    readOnly={true}
-                    value={this.getFormState().toString()}
-                />
-              </div>
-
+              <FormStateOutput
+                  form={this.state.form}
+              />
             </div>
           </div>
         </div>

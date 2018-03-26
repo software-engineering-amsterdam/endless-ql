@@ -4,7 +4,7 @@ import { FieldType } from "../../form/FieldType";
 import ComputedField from "../../form/nodes/fields/ComputedField";
 import Addition from "../../form/nodes/expressions/arithmetic/Addition";
 import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier";
-import QuestionForm from "../../form/QuestionForm";
+import QlForm from "../../form/QlForm";
 import FormState from "../../form/state/FormState";
 import IntValue from "../../form/values/IntValue";
 import Form from "../../form/Form";
@@ -31,7 +31,7 @@ const nestedFormNode = new FormNode("fishy", [
 );
 
 it("evaluates nested computed fields correctly", () => {
-  let form: Form = new QuestionForm(nestedFormNode, new FormState());
+  let form: Form = new QlForm(nestedFormNode, new FormState());
 
   form = form.setAnswer("priceFishOne", new IntValue(1));
   form = form.setAnswer("priceFishTwo", new IntValue(2));

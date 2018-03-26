@@ -8,7 +8,7 @@ export default abstract class BaseAttribute extends AbstractStyleNode implements
   }
 
   getRenderComponent() {
-    return [];
+    return null;
   }
 
   abstract getCssValues(): object;
@@ -16,5 +16,4 @@ export default abstract class BaseAttribute extends AbstractStyleNode implements
   abstract getName(): string;
 
   abstract getStringValue(): string;
-
 }

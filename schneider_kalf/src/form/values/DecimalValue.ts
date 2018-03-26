@@ -27,6 +27,14 @@ export class DecimalValue extends AbstractNumberValue implements NumberValue {
     return new DecimalValue(this.getValue().div(other.getValue()));
   }
 
+  increment(): NumberValue {
+    return new DecimalValue(this.getValue().add(1));
+  }
+
+  decrement(): NumberValue {
+    return new DecimalValue(this.getValue().sub(1));
+  }
+
   getValue(): Decimal {
     return this.value;
   }

@@ -4,11 +4,9 @@ import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.MoneyAnswerCanDoOrderings._
 import nl.uva.se.sc.niro.model.ql.evaluation.MoneyArithmetics.MoneyCanDoArithmetics._
 
-final case class MoneyAnswer(value: BigDecimal) extends Answer {
+final case class MoneyAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 
   type T = BigDecimal
-
-  def typeOf: AnswerType = MoneyType
 
   override def plus(right: Answer): Answer = moneyPlus(this, right)
   override def subtract(right: Answer): Answer = moneySubtract(this, right)
@@ -24,5 +22,7 @@ final case class MoneyAnswer(value: BigDecimal) extends Answer {
 }
 
 object MoneyAnswer {
-  def apply(value: java.math.BigDecimal) = new MoneyAnswer(BigDecimal(value))
+  def apply() = new MoneyAnswer(None)
+  def apply(value: BigDecimal) = new MoneyAnswer(Option(value))
+  def apply(value: java.math.BigDecimal) = new MoneyAnswer(Option(value).map(BigDecimal(_)))
 }

@@ -2,36 +2,36 @@ import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import ColorAttribute from "../nodes/attributes/base_attributes/ColorAttribute";
 import { UnknownStyleAttributeNameError } from "../style_errors";
 import WidthAttribute from "../nodes/attributes/base_attributes/WidthAttribute";
-import TextAttribute from "../nodes/attributes/widget_attribtues/TextAttribute";
-import SliderAttribute from "../nodes/attributes/widget_attribtues/SliderAttribute";
-import DropdownAttribute from "../nodes/attributes/widget_attribtues/DropdownAttribute";
-import CheckboxAttribute from "../nodes/attributes/widget_attribtues/CheckboxAttribute";
 import FontSizeAttribute from "../nodes/attributes/base_attributes/FontSizeAttribute";
-import SpinboxAttribute from "../nodes/attributes/widget_attribtues/SpinBoxAttribute";
 import FontAttribute from "../nodes/attributes/base_attributes/FontAttribute";
-import RadioAttribute from "../nodes/attributes/widget_attribtues/RadioAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
+import CheckboxWidgetAttribute from "../nodes/attributes/widget_attribtues/CheckboxWidgetAttribute";
+import TextWidgetAttribute from "../nodes/attributes/widget_attribtues/TextWidgetAttribute";
+import SliderWidgetAttribute from "../nodes/attributes/widget_attribtues/SliderWidgetAttribute";
+import DropdownWidgetAttribute from "../nodes/attributes/widget_attribtues/DropdownWidgetAttribute";
+import RadioWidgetAttribute from "../nodes/attributes/widget_attribtues/RadioWidgetAttribute";
+import SpinBoxWidgetAttribute from "../nodes/attributes/widget_attribtues/SpinBoxWidgetAttribute";
 
 export default class AttributeNodeFactory {
   public getWidgetStyleAttribute(value: string, options?: string[]): WidgetAttribute | undefined {
 
     if (value === 'spinbox') {
-      return new SpinboxAttribute(options);
+      return new SpinBoxWidgetAttribute(options);
     }
     if (value === 'text') {
-      return new TextAttribute(options);
+      return new TextWidgetAttribute(options);
     }
     if (value === 'slider') {
-      return new SliderAttribute(options);
+      return new SliderWidgetAttribute(options);
     }
     if (value === 'dropdown') {
-      return new DropdownAttribute(options);
+      return new DropdownWidgetAttribute(options);
     }
     if (value === 'checkbox') {
-      return new CheckboxAttribute(options);
+      return new CheckboxWidgetAttribute(options);
     }
     if (value === 'radio') {
-      return new RadioAttribute(options);
+      return new RadioWidgetAttribute(options);
     }
 
     throw UnknownStyleAttributeNameError.make(name);

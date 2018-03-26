@@ -18,16 +18,6 @@ export const filterNodes = (predicate: (node: TreeNode) => boolean, start: TreeN
   return nodes;
 };
 
-export const findNode = (predicate: (node: TreeNode) => boolean, start: TreeNode): (TreeNode | null) => {
-  const found = filterNodes(predicate, start);
-
-  if (found.length === 0) {
-    return null;
-  }
-
-  return found[0];
-};
-
 export const getUsedVariables = (start: TreeNode) => {
   const variables: string[] = [];
   const traveller = new NodeTraveller((node: TreeNode) => {

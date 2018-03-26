@@ -14,7 +14,7 @@ public class BlockVisitor extends QLBaseVisitor<ArrayList<Question>> {
 
     public BlockVisitor(ExpressionTable exprTable){
         setExpressionTable(exprTable);
-        setCondition(new BooleanConstant(true));
+        setCondition(new BooleanConstant(true, 0));
     }
 
     public BlockVisitor(ExpressionTable exprTable, Expression condition){

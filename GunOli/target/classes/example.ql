@@ -11,7 +11,6 @@ form testForm {
                 q6: "How much money do you have?" money
                 q7: "How much money do you want" money
                 q8: "You need this much: " money = (q7 - q6)
-                q10: "Test" money = (q2 - q3)
             }
             if(qqq){
                 q4: "What is your birthdate?" date

@@ -1,5 +1,6 @@
 package GUI;
 
+import QL.ParseObjectsQL.Expressions.Constant;
 import QL.ParseObjectsQL.Expressions.EvaluationType;
 import QL.ParseObjectsQL.Expressions.Expression;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.*;
@@ -139,7 +140,7 @@ public class FormBuilder {
             if(inFocus){
                 textField.textProperty().addListener((observableText, oldValue, newValue) -> {
                     if(!textField.isDisabled() && !textField.getText().isEmpty()){
-                        Expression newAnswer = createNewAnswer(question.getType(), newValue);
+                        Expression newAnswer = createNewAnswer(question.getType(), newValue, question.getLine());
                         form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
                     }});
             } else {
@@ -157,7 +158,7 @@ public class FormBuilder {
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if(!checkBox.isDisabled()){
-                    Expression newAnswer = new BooleanConstant(newValue);
+                    Expression newAnswer = new BooleanConstant(newValue, question.getLine());
                     form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
                     renderForm();
                 }
@@ -172,23 +173,23 @@ public class FormBuilder {
         datePicker.setDisable(question.isPredefined());
 
         datePicker.valueProperty().addListener((observable, oldValue, newValue)->{
-            Expression newAnswer = new DateConstant(newValue);
+            Expression newAnswer = new DateConstant(newValue, question.getLine());
             form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
             renderForm();
         });
         return datePicker;
     }
 
-    private Constant createNewAnswer(EvaluationType type, String answer){
+    private Constant createNewAnswer(EvaluationType type, String answer, int line){
         switch (type){
             case Integer:
-                return new IntegerConstant(Integer.parseInt(answer));
+                return new IntegerConstant(Integer.parseInt(answer), line);
             case Decimal:
-                return new DecimalConstant(Double.parseDouble(answer));
+                return new DecimalConstant(Double.parseDouble(answer), line);
             case Money:
-                return new MoneyConstant(Double.parseDouble(answer));
+                return new MoneyConstant(Double.parseDouble(answer), line);
             default:
-                return new StringConstant(answer);
+                return new StringConstant(answer, line);
         }
     }
 

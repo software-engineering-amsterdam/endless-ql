@@ -1,65 +1,53 @@
 package nl.uva.se.sc.niro.model.ql
 
-import cats.implicits._
-import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.ql.Operators._
-
 sealed trait AnswerType {
-  def typeOf(operator: Operator): Either[TypeCheckError, AnswerType]
-
-  def isCompatibleWith(that: AnswerType): Either[TypeCheckError, AnswerType] = {
-    if (this == that) {
-      this.asRight
-    } else TypeCheckError(message = s"Operands of invalid type: $this, $that").asLeft
+  def isCompatibleWith(that: AnswerType): Boolean = {
+    this == that
   }
 }
 
-case object BooleanType extends AnswerType {
-  def typeOf(operator: Operator): Either[TypeCheckError, AnswerType] = operator match {
-    case _: BooleanOperator => operator.typeOf(this).asRight
-    case _: LogicalOperator => operator.typeOf(this).asRight
-    case _                  => TypeCheckError(message = s"Operand: $BooleanType of invalid type to operator: $operator").asLeft
+case object BooleanType extends AnswerType
+case object DateType extends AnswerType
+case object NumericType extends AnswerType {
+  override def isCompatibleWith(that: AnswerType): Boolean = that match {
+    case NumericType => true
+    case IntegerType => true
+    case DecimalType => true
+    case MoneyType   => true
+    case _           => false
   }
 }
-
-case object DateType extends AnswerType {
-  def typeOf(operator: Operator): Either[TypeCheckError, AnswerType] = operator match {
-    case _: ArithmeticOperator => operator.typeOf(this).asRight
-    case _: BooleanOperator    => operator.typeOf(this).asRight
-    case _                     => TypeCheckError(message = s"Operand: $DateType of invalid type to operator: $operator").asLeft
-  }
-}
-
 case object DecimalType extends AnswerType {
-  def typeOf(operator: Operator): Either[TypeCheckError, AnswerType] = operator match {
-    case _: ArithmeticOperator => operator.typeOf(this).asRight
-    case _: BooleanOperator    => operator.typeOf(this).asRight
-    case _                     => TypeCheckError(message = s"Operand: $DecimalType of invalid type to operator: $operator").asLeft
+  override def isCompatibleWith(that: AnswerType): Boolean = that match {
+    case NumericType => true
+    case IntegerType => true
+    case DecimalType => true
+    case MoneyType   => true
+    case _           => false
   }
 }
 
 case object IntegerType extends AnswerType {
-  def typeOf(operator: Operator): Either[TypeCheckError, AnswerType] = operator match {
-    case _: ArithmeticOperator => operator.typeOf(this).asRight
-    case _: BooleanOperator    => operator.typeOf(this).asRight
-    case _                     => TypeCheckError(message = s"Operand: $IntegerType of invalid type to operator: $operator").asLeft
+  override def isCompatibleWith(that: AnswerType): Boolean = that match {
+    case NumericType => true
+    case IntegerType => true
+    case DecimalType => true
+    case MoneyType   => true
+    case _           => false
   }
 }
 
 case object MoneyType extends AnswerType {
-  def typeOf(operator: Operator): Either[TypeCheckError, AnswerType] = operator match {
-    case _: ArithmeticOperator => operator.typeOf(this).asRight
-    case _: BooleanOperator    => operator.typeOf(this).asRight
-    case _                     => TypeCheckError(message = s"Operand: $MoneyType of invalid type to operator: $operator").asLeft
+  override def isCompatibleWith(that: AnswerType): Boolean = that match {
+    case NumericType => true
+    case IntegerType => true
+    case DecimalType => true
+    case MoneyType   => true
+    case _           => false
   }
 }
 
-case object StringType extends AnswerType {
-  def typeOf(operator: Operator): Either[TypeCheckError, AnswerType] = operator match {
-    case _: BooleanOperator => operator.typeOf(this).asRight
-    case _                  => TypeCheckError(message = s"Operand: $StringType of invalid type to operator: $operator").asLeft
-  }
-}
+case object StringType extends AnswerType
 
 object AnswerType {
   def apply(answerType: String): AnswerType = answerType match {

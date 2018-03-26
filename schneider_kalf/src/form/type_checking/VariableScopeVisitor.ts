@@ -12,8 +12,10 @@ import { getVariableInformation, VariableInformation } from "../VariableIntforma
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
 export interface VariableScopeResult {
-  variables: Map<string, VariableInformation>;
+  variables: VariablesMap;
 }
+
+export type VariablesMap = Map<string, VariableInformation>;
 
 export class VariableScopeVisitor implements FieldVisitor {
   private _stack: VariableScopeStack;

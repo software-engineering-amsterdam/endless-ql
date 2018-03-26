@@ -1,13 +1,14 @@
 package com.chariotit.uva.sc.qdsl.ast.qls.node.widget;
 
-import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.WidgetType;
 import com.chariotit.uva.sc.qdsl.ast.qls.visitor.NodeVisitor;
 
 public class SpinboxWidget extends WidgetType {
 
-    public SpinboxWidget(Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public SpinboxWidget(SourceFilePosition filePosition) {
+        super(filePosition);
     }
 
     @Override

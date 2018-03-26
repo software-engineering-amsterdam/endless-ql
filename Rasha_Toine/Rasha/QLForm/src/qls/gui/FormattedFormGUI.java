@@ -1,5 +1,6 @@
 package qls.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,8 @@ public class FormattedFormGUI extends FormGUI {
 		
 		//get selected page from side-menu and re-paint
 		pages.addListSelectionListener(e -> renderPage(pages.getSelectedValue()));
+		
+	    pages.setBackground(Color.LIGHT_GRAY);
 	}
 
 
@@ -79,10 +82,12 @@ public class FormattedFormGUI extends FormGUI {
 
 		//create the main frame
 		JFrame frame = new JFrame();
-		frame.setSize(800, 1000);
+		frame.setSize(700, 900);
 		frame.setAutoRequestFocus(true);
 		frame.setLocationRelativeTo(null);
 		frame.setContentPane(contentPane);
+		frame.setBackground(Color.LIGHT_GRAY);
+		frame.setTitle("Formatted tax return form");
 		frame.setVisible(true);
 		
 		//set selection to first page-gui generated

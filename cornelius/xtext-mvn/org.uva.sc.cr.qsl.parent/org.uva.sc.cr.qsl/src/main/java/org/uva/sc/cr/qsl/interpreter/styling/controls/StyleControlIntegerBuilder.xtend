@@ -18,12 +18,12 @@ import javafx.scene.layout.HBox
 @Singleton
 class StyleControlIntegerBuilder extends StyleControlBuilder {
 
-	private static val SPINNER_MIN_VALUE = Integer.MIN_VALUE
-	private static val SPINNER_MAX_VALUE = Integer.MAX_VALUE
-	private static val SPINNER_INITIAL_VALUE = 0
-	private static val SPINNER_STEP_VALUE = 1
+	static val SPINNER_MIN_VALUE = Integer.MIN_VALUE
+	static val SPINNER_MAX_VALUE = Integer.MAX_VALUE
+	static val SPINNER_INITIAL_VALUE = 0
+	static val SPINNER_STEP_VALUE = 1
 
-	private static val SLIDER_MAX_VALUE = 100
+	static val SLIDER_MAX_VALUE = 100
 
 	def dispatch HBox styleInteger(ControlWrapperInteger controlWrapperInteger, Widget widgetSpinbox,
 		DefaultStyle defaultStyleToApply) {

@@ -6,6 +6,9 @@ import MergedFieldStyle from "../form/MergedFieldStyle";
 import { QlParserPipeline, QlParserResult } from "../../../parsing/QlParserPipeline";
 import SetStyledFieldVisitor from "../form/visitors/SetStyledFieldVisitor";
 import { VariableInformation } from "../../../form/VariableIntformation";
+import TypeCheckVisitor from "../form/visitors/TypeCheckVisitor";
+import { VariablesMap } from "../../../form/type_checking/VariableScopeVisitor";
+import FormNode from "../../../form/nodes/FormNode";
 
 export interface QlsParserResult extends QlParserResult {
   styleNode: StyleSheet;
@@ -19,41 +22,54 @@ export class QlsParserPipeline {
   constructor(qlInput: string, qlsInput: string) {
     this.qlInput = qlInput;
     this.qlsInput = qlsInput;
-
-    this.processStylesheetNode = this.processStylesheetNode.bind(this);
   }
 
   run(): QlsParserResult {
-    const qlPipeline = new QlParserPipeline(this.qlInput);
-    const qlPipelineResult = qlPipeline.run()[0];
+    const qlParserResult = this.parseQl(this.qlInput);
+    const styleSheetNode: StyleSheet = this.parseQls(this.qlsInput);
 
-    const styleNode: StyleSheet = getQlsParser().parse(this.qlsInput);
+    const variablesMap: VariablesMap = qlParserResult.variables;
 
-    const stylesheetResult = this.processStylesheetNode(styleNode, qlPipelineResult.variables);
-
-    const setStyledField = new SetStyledFieldVisitor(stylesheetResult.styles, stylesheetResult.styleNode);
-    qlPipelineResult.node.accept(setStyledField);
+    this.checkTypes(styleSheetNode, variablesMap);
+    this.setNodeParents(styleSheetNode);
+    const styles: MergedFieldStyle[] = this.getQuestionStyles(styleSheetNode, variablesMap);
+    this.addStyleToQlFieldNodes(styles, styleSheetNode, qlParserResult.node);
 
     return {
-      node: qlPipelineResult.node,
-      variables: qlPipelineResult.variables,
-      styleNode: stylesheetResult.styleNode,
-      styles: stylesheetResult.styles
+      node: qlParserResult.node,
+      variables: qlParserResult.variables,
+      styleNode: styleSheetNode,
+      styles: styles
     };
   }
 
-  private processStylesheetNode(node: StyleSheet, qlVariables: Map<string, VariableInformation> ) {
-    const parentsVisitor: SetParentsVisitor = new SetParentsVisitor();
-    node.accept(parentsVisitor);
+  private addStyleToQlFieldNodes(styles: MergedFieldStyle[], styleSheetNode: StyleSheet, qlFormNode: FormNode) {
+    const setStyledField = new SetStyledFieldVisitor(styles, styleSheetNode);
+    qlFormNode.accept(setStyledField);
+  }
 
-    // Why does node.accept(styleVisitor) returns undefined?
+  private getQuestionStyles(node: StyleSheet, qlVariables: VariablesMap) {
     const styleVisitor = new QuestionStylesVisitor(qlVariables);
     node.accept(styleVisitor);
-    const result = styleVisitor.getStyles();
+    return styleVisitor.getMergedStyles();
+  }
 
-    return {
-      styleNode: node,
-      styles: result
-    };
+  private setNodeParents(node: StyleSheet): void {
+    const parentsVisitor: SetParentsVisitor = new SetParentsVisitor();
+    node.accept(parentsVisitor);
+  }
+
+  private checkTypes(node: StyleSheet, qlVariables: VariablesMap): void {
+    const typeCheckQlsVisitor: TypeCheckVisitor = new TypeCheckVisitor(qlVariables);
+    node.accept(typeCheckQlsVisitor);
+  }
+
+  private parseQl(qlInput: string): QlParserResult {
+    const qlPipeline = new QlParserPipeline(qlInput);
+    return qlPipeline.run()[0];
+  }
+
+  private parseQls(qlsInput: string): StyleSheet {
+    return getQlsParser().parse(qlsInput);
   }
 }

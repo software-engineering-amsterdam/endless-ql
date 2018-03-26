@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
+import {Label} from '../../../domain/ast/qls';
 
 @Component({
   selector: 'app-select-widget',
@@ -8,7 +9,7 @@ import {AbstractControl} from '@angular/forms';
 })
 export class SelectWidgetComponent {
   @Input() questionLabel: string;
-  @Input() optionLabels: string[];
+  @Input() optionLabels: Label[];
   @Input() control: AbstractControl;
   @Input() styles;
 }

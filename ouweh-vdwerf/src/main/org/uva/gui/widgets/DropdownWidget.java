@@ -9,8 +9,6 @@ import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class DropdownWidget extends QuestionWidget {
 
@@ -24,7 +22,7 @@ public class DropdownWidget extends QuestionWidget {
         comboBox.addItem(falseLabel);
 
         comboBox.setSelectedItem(falseLabel);
-        if((boolean)value.getValue()){
+        if ((boolean) value.getValue()) {
             comboBox.setSelectedItem(trueLabel);
         }
 

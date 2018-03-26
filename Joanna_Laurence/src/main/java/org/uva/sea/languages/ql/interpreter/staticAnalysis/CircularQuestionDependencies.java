@@ -7,7 +7,7 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.RelationEntit
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.elements.IfStatement;
 import org.uva.sea.languages.ql.parser.elements.Question;
-import org.uva.sea.languages.ql.parser.elements.types.Variable;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.ArrayList;

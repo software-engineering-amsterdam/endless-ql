@@ -26,7 +26,7 @@ namespace Assignment1.Rendering
         {
             _questionForm = questionForm;
             _styleSheet = styleSheet;
-            _basicRenderer = new QuestionFormRenderer(_questionForm);
+            _basicRenderer = new QuestionFormRenderer(_questionForm, null); // TODO: fix later
         }
 
         public Control Render()

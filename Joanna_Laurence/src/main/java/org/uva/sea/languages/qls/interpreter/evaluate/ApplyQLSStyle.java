@@ -18,16 +18,12 @@ import java.util.Stack;
 
 public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
-    private EvaluationResult qlInputResult = null;
-
-    private EvaluationResult outputResult  = null;
-
     private final Fetcher defaultStyleEvaluator = new Fetcher();
-
+    private final Stack<Section> currentSections = new Stack<>();
+    private EvaluationResult qlInputResult = null;
+    private EvaluationResult outputResult = null;
     //Current state for visitor Visitor
     private Page currentPage = null;
-
-    private final Stack<Section> currentSections = new Stack<>();
 
 
     /**
@@ -42,7 +38,6 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
      *
      * @param interpreterResult QL interpreterResult
      * @param stylesheet        QLS AST
-     * @throws InterruptedException
      */
     public EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) {
         this.qlInputResult = interpreterResult;

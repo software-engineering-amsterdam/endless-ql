@@ -1,8 +1,8 @@
 package org.uva.qls.ast.Widget.WidgetTypes;
 
-import org.uva.qls.visitor.WidgetTypeVisitor;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.Type;
+import org.uva.qls.visitor.WidgetTypeVisitor;
 
 import java.util.Arrays;
 import java.util.List;

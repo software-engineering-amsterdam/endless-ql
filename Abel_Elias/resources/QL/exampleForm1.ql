@@ -11,6 +11,6 @@ form Box1HouseOwning {
             line
             comment
          */
-         valueResidue: "Value residue:" money (sellingPrice - 50.0)
+         valueResidue: "Value residue:" money (sellingPrice - privateDebt)
      }
  }

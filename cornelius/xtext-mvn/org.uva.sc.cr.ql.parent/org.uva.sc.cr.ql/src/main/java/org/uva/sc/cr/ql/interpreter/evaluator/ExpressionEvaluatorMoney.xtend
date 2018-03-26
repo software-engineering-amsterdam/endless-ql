@@ -15,8 +15,8 @@ import org.uva.sc.cr.ql.qL.ExpressionParanthesis
 @Singleton
 class ExpressionEvaluatorMoney {
 
-	private static val CURRENCY_UNIT = CurrencyUnit.EUR
-	private static val ROUNDING_MODE = RoundingMode.DOWN
+	static val CURRENCY_UNIT = CurrencyUnit.EUR
+	static val ROUNDING_MODE = RoundingMode.DOWN
 
 	dispatch def Money evaluateExpression(ExpressionParanthesis expression, Map<String, Object> arguments) {
 		return evaluateExpression(expression.expression, arguments)

@@ -1,20 +1,18 @@
 class DependencyChecker:
-    def __init__(self, combinations, debug):
-        self.__has_errors = False
-        self.__debug = debug
+    def __init__(self, combinations):
+        self.__errors = []
         self.__check_dependencies(combinations)
 
     @property
-    def has_errors(self):
-        return self.__has_errors
+    def errors(self):
+        return self.__errors
 
     def __check_dependencies(self, combinations):
         for (identifier, identifier_children, identifier_position) in combinations:
             children = self.__find_children(identifier, combinations)
             if identifier in children:
-                self.__debug.error(self.__find_positions(children, combinations),
-                                   'Cyclic dependency detected in question identifiers')
-                self.__has_errors = True
+                self.__errors.append('Cyclic dependency detected in question identifiers on lines {}'
+                                     .format(str(self.__find_positions(children, combinations))[1:-1]))
 
     def __find_children(self, identifier, combinations):
         (reference, reference_children, _) = combinations[0]

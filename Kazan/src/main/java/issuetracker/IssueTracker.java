@@ -48,23 +48,23 @@ public class IssueTracker {
     }
 
     public void logErrors() {
-        errors.forEach(error -> LOGGER.severe(error.toString()));
+        errors.forEach(error -> LOGGER.severe(error.getFormattedMessage()));
     }
 
     public void logWarnings() {
-        warnings.forEach(warning -> LOGGER.warning(warning.toString()));
+        warnings.forEach(warning -> LOGGER.warning(warning.getFormattedMessage()));
     }
 
     public boolean hasErrors() {
-        return errors.size() > 0;
+        return !errors.isEmpty();
     }
 
     public List<Error> getErrors() {
-        return errors;
+        return new ArrayList<>(errors);
     }
 
     public List<Warning> getWarnings() {
-        return warnings;
+        return new ArrayList<>(warnings);
     }
 
 }

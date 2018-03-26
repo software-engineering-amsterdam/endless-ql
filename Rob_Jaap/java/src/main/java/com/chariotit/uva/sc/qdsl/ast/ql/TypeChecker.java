@@ -1,13 +1,18 @@
 package com.chariotit.uva.sc.qdsl.ast.ql;
 
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
+import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckErrorComparator;
 import com.chariotit.uva.sc.qdsl.ast.cyclechecker.CycleChecker;
+import com.chariotit.uva.sc.qdsl.ast.cyclechecker.CycleError;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.QLAstRoot;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.CycleDetectionVisitor;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.SymbolTableBuilderVisitor;
-import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckError;
+import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckVisitor;
 
+import java.awt.*;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -39,8 +44,23 @@ public class TypeChecker {
         CycleDetectionVisitor cycleDetectionVisitor = new CycleDetectionVisitor();
         astRoot.acceptVisitor(cycleDetectionVisitor);
         CycleChecker cycleChecker = new CycleChecker(cycleDetectionVisitor.getDependencyTree());
-        cycleChecker.checkCycles();
+        List<CycleError> cycleErrors = cycleChecker.checkCycles();
 
-        return typeCheckVisitor.getErrors();
+        List<TypeCheckError> typeCheckErrors = typeCheckVisitor.getErrors();
+
+        for (CycleError cycleError : cycleErrors) {
+            typeCheckErrors.add(
+                    new TypeCheckError(
+                            String.format("Cyclic dependency between '%s' and '%s'",
+                                    cycleError.getNodeA().getLabel(),
+                                    cycleError.getNodeB().getLabel()),
+                            new SourceFilePosition(0, 0)
+                    )
+            );
+        }
+
+        typeCheckErrors.sort(new TypeCheckErrorComparator());
+
+        return typeCheckErrors;
     }
 }

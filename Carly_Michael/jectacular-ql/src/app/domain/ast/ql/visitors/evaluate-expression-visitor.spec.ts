@@ -14,8 +14,6 @@ import {Variable} from '../expressions/variable';
 import {DateLiteral, NumberLiteral, StringLiteral} from '../';
 import {EvaluateExpressionVisitor} from './evaluate-expression-visitor';
 import {CheckExpressionTypeVisitor} from './check-expression-type-visitor';
-import {CheckStatementTypeVisitor} from './check-statement-type-visitor';
-import {CollectQuestionsVisitor} from './collect-questions-visitor';
 import {QlQuestion} from '../ql-question';
 import {IntQuestionType} from '../../question-type';
 
@@ -56,7 +54,7 @@ const negativeExpression = new NegativeExpression(intLiteral, location);
 const negateExpression = new NegateExpression(booleanLiteral, location);
 
 const variableExpression = new Variable('booleanQuestion', location);
-variableExpression.referencedQuestion = new QlQuestion('name', 'label', new IntQuestionType(), location);
+variableExpression.referencedQuestion = new QlQuestion('booleanQuestion', 'label', new IntQuestionType(), location);
 
 describe('Expressions', () => {
   describe('should evaluate', () => {
@@ -98,7 +96,6 @@ describe('Expressions', () => {
     });
 
     it('variable expressions', () => {
-
       expect(EvaluateExpressionVisitor.evaluate(form, variableExpression).getValue()).toBeUndefined();
 
       form.controls['booleanQuestion'].setValue(true);

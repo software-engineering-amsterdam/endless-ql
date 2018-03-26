@@ -4,76 +4,84 @@ import issuetracker.Error;
 import issuetracker.IssueTracker;
 import org.junit.Before;
 import org.junit.Test;
-import ql.Helper;
+import ql.BaseQlTest;
 import ql.ast.Form;
-import ql.evaluator.values.Evaluatable;
-import ql.parser.FormBuilder;
+import ql.evaluator.values.BooleanValue;
+import ql.evaluator.values.Value;
 
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
 
-public class EvaluatorTest {
+public class EvaluatorTest extends BaseQlTest {
 
-    private FormBuilder formBuilder;
-    private Helper helper;
     private FormEvaluator evaluator;
     private IssueTracker issueTracker;
 
     @Before
     public void setUp() throws Exception {
-        formBuilder = new FormBuilder();
-        helper = new Helper();
-        issueTracker = IssueTracker.getIssueTracker();
         evaluator = new Evaluator();
+        issueTracker = IssueTracker.getIssueTracker();
     }
 
     @Test
     public void shouldStoreIntegerValueDecimalAsInteger() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/correct/evaluator/integerValueDecimal.ql", formBuilder);
+        Form form = createForm("src/input/ql/correct/evaluator/integerValueDecimal.ql");
 
         evaluator.start(form);
-        issueTracker.reset();
 
-        Evaluatable evaluatable = evaluator.getQuestionValue("value");
+        Value value = evaluator.getQuestionValue("value");
 
-        assertEquals(4, evaluatable.getValue());
+        assertEquals(4, value.getValue());
+    }
+
+    @Test
+    public void shouldKeepSameStateAfterReevaluation() {
+        Form form = createForm("src/input/ql/correct/evaluator/booleanExpression.ql");
+        evaluator.start(form);
+
+        assertEquals(4, evaluator.getQuestions().size());
+
+        evaluator.evaluate();
+        assertEquals(4, evaluator.getQuestions().size());
+    }
+
+    @Test
+    public void shouldReturnAllQuestionsInIfElseForm() {
+        Form form = createForm("src/input/ql/correct/evaluator/ifElseEvaluation.ql");
+
+        evaluator.start(form);
+        assertEquals(3, evaluator.getQuestions().size());
     }
 
     @Test
     public void shouldStoreDecimal() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/correct/evaluator/simpleDecimal.ql", formBuilder);
+        Form form = createForm("src/input/ql/correct/evaluator/simpleDecimal.ql");
 
         evaluator.start(form);
-        issueTracker.reset();
 
-        Evaluatable evaluatable = evaluator.getQuestionValue("value");
+        Value value = evaluator.getQuestionValue("value");
 
-        assertEquals(3.999, evaluatable.getValue());
+        assertEquals(3.999, value.getValue());
     }
 
     @Test
     public void shouldStoreMoney() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/correct/evaluator/simpleMoney.ql", formBuilder);
+        Form form = createForm("src/input/ql/correct/evaluator/simpleMoney.ql");
 
         evaluator.start(form);
-        issueTracker.reset();
 
-        Evaluatable evaluatable = evaluator.getQuestionValue("value");
+        Value value = evaluator.getQuestionValue("value");
 
         BigDecimal expected = new BigDecimal(3.99);
         expected = expected.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
-        assertEquals(expected, evaluatable.getValue());
+        assertEquals(expected, value.getValue());
     }
 
     @Test
     public void shouldNotDivideByZero() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/correct/evaluator/divideByZero.ql", formBuilder);
+        Form form = createForm("src/input/ql/correct/evaluator/divideByZero.ql");
 
         evaluator.start(form);
 
@@ -87,52 +95,115 @@ public class EvaluatorTest {
 
     @Test
     public void shouldDownCastDecimalToInteger() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/correct/evaluator/downcastDecimalToInteger.ql", formBuilder);
+        Form form = createForm("src/input/ql/correct/evaluator/downcastDecimalToInteger.ql");
 
         evaluator.start(form);
 
-        Evaluatable evaluatable = evaluator.getQuestionValue("result");
+        Value value = evaluator.getQuestionValue("result");
 
-        assertEquals(3, evaluatable.getValue());
+        assertEquals(3, value.getValue());
     }
 
     @Test
     public void shouldMultiplyDecimals() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/correct/evaluator/decimalMultiplication.ql", formBuilder);
+        Form form = createForm("src/input/ql/correct/evaluator/decimalMultiplication.ql");
 
         evaluator.start(form);
-        issueTracker.reset();
 
-        Evaluatable evaluatable = evaluator.getQuestionValue("result");
+        Value value = evaluator.getQuestionValue("result");
 
-        assertEquals(13.0, evaluatable.getValue());
+        assertEquals(13.0, value.getValue());
     }
 
     @Test
     public void shouldDivideMoneyToDecimal() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/correct/evaluator/moneyDivisionToDecimal.ql", formBuilder);
+        Form form = createForm("src/input/ql/correct/evaluator/moneyDivisionToDecimal.ql");
 
         evaluator.start(form);
 
-        Evaluatable evaluatable = evaluator.getQuestionValue("result");
-        assertEquals(0.8125, evaluatable.getValue());
+        Value value = evaluator.getQuestionValue("result");
+        assertEquals(0.8125, value.getValue());
     }
 
     @Test
     public void shouldDivideMoneyToMoney() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/correct/evaluator/moneyDivisionToMoney.ql", formBuilder);
+        Form form = createForm("src/input/ql/correct/evaluator/moneyDivisionToMoney.ql");
 
         evaluator.start(form);
 
-        Evaluatable evaluatable = evaluator.getQuestionValue("result");
+        Value value = evaluator.getQuestionValue("result");
 
         BigDecimal expected = new BigDecimal(3.33);
         expected = expected.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
-        assertEquals(expected, evaluatable.getValue());
+        assertEquals(expected, value.getValue());
+    }
+
+    @Test
+    public void shouldCompareStrings() {
+        Form form = createForm("src/input/ql/correct/evaluator/stringComparison.ql");
+
+        evaluator.start(form);
+
+        Value value = evaluator.getQuestionValue("result");
+
+        assertEquals(false, value.getValue());
+    }
+
+    @Test
+    public void shouldCompareDates() {
+        Form form = createForm("src/input/ql/correct/evaluator/dateComparison.ql");
+
+        evaluator.start(form);
+
+        Value value = evaluator.getQuestionValue("result");
+
+        assertEquals(true, value.getValue());
+    }
+
+    @Test
+    public void shouldEvaluateBooleans() {
+        Form form = createForm("src/input/ql/correct/evaluator/booleanExpression.ql");
+
+        evaluator.start(form);
+
+        Value value = evaluator.getQuestionValue("result");
+
+        assertEquals(true, value.getValue());
+    }
+
+    @Test
+    public void shouldCompareIntegers() {
+        Form form = createForm("src/input/ql/correct/evaluator/integerComparisonAndOperation.ql");
+
+        evaluator.start(form);
+
+        Value value = evaluator.getQuestionValue("result");
+        Value value2 = evaluator.getQuestionValue("result2");
+
+        assertEquals(true, value.getValue());
+        assertEquals(true, value2.getValue());
+    }
+
+    @Test
+    public void shouldFormatDateString() {
+        Form form = createForm("src/input/ql/correct/evaluator/simpleDate.ql");
+
+        evaluator.start(form);
+
+        Value value = evaluator.getQuestionValue("value");
+
+        assertEquals("01-02-1999", value.toString());
+    }
+
+    @Test
+    public void shouldEvaluateElse() {
+        Form form = createForm("src/input/ql/correct/evaluator/ifElseEvaluation.ql");
+
+        evaluator.start(form);
+
+        BooleanValue value = (BooleanValue) evaluator.getQuestionValue("flag");
+
+        assertEquals(true, value.getValue());
     }
 }

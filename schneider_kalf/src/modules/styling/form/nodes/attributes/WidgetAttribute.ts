@@ -1,15 +1,12 @@
 import AbstractStyleNode from "../AbstractStyleNode";
 import StyleAttribute from "../StyleAttribute";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
-import { NotImplementedYetError } from "../../../../../form/form_errors";
 
-export default class WidgetAttribute extends AbstractStyleNode implements StyleAttribute {
-  readonly value: string;
+export default abstract class WidgetAttribute extends AbstractStyleNode implements StyleAttribute {
   readonly options: string[] | undefined;
 
-  constructor(value: string, options?: string[]) {
+  constructor(options?: string[]) {
     super();
-    this.value = value;
     this.options = options;
   }
 
@@ -21,8 +18,17 @@ export default class WidgetAttribute extends AbstractStyleNode implements StyleA
     return "widget";
   }
 
-  getStringValue(): string {
-    // TODO: Keep it like this?
-    throw new NotImplementedYetError("Cannot get string value from widget attribute.");
+  getCssValues(): object {
+    return {};
   }
+
+  getValue(): string {
+    return "";
+  }
+
+  getStringValue(): string {
+    return "";
+  }
+
+  abstract getRenderComponent();
 }

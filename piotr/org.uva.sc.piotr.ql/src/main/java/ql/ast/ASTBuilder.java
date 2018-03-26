@@ -310,9 +310,7 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
 
     private ASTNode.MetaInformation ExtractMetaInformationFromContext(ParserRuleContext ctx) {
         return new ASTNode.MetaInformation(
-                ctx.start.getLine(),
-                ctx.stop.getLine(),
-                ctx.getText()
+                ctx.start.getLine()
         );
     }
 }

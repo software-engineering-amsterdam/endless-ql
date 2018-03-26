@@ -9,9 +9,9 @@ import argparse
 import os
 import sys
 
-from grammar.run_antlr import run_antlr_parse_gen
+from commons.utility import run_antlr_parse_gen
 from commons.config import config
-from grammar.debug_grammar import GrammarDebugger
+from grammar.parser import Parser
 from gui.gui import *
 
 
@@ -39,15 +39,15 @@ def main():
         print('{} {}'.format(config['program']['name'], config['program']['version']))
         sys.exit(0)
 
-    # Run testsuite
+    # Run test suite
     if args.test:
         os.system("pytest -vv")
         sys.exit(0)
 
     # Debug grammar
     if args.grammar:
-        g_debug = GrammarDebugger(args.grammar)
-        g_debug.debug_grammar()
+        g_debug = Parser()
+        g_debug.debug_grammar(args.grammar)
         sys.exit(0)
 
     # Generate antlr parser

@@ -125,13 +125,15 @@ dateType        = "date" { return new DateQuestionType(); }
 
 //widgets
 radioWidget     = "radio" whitespace "(\"" yesValue:identifier "\"," whitespace "\"" noValue:identifier "\")" {
-                    return new astQls.Widget(astQls.WidgetType.RADIO, [yesValue, noValue]);
+                    return new astQls.Widget(astQls.WidgetType.RADIO,
+                    [new astQls.Label(yesValue, true), new astQls.Label(noValue, false)]);
                   }
 textWidget      = "text" { return new astQls.Widget(astQls.WidgetType.TEXT); }
 checkboxWidget  = "checkbox" { return new astQls.Widget(astQls.WidgetType.CHECKBOX); }
 spinboxWidget   = "spinbox" { return new astQls.Widget(astQls.WidgetType.SPINBOX); }
 dropdownWidget  = "dropdown" whitespace "(\"" yesValue:identifier "\"," whitespace "\"" noValue:identifier "\")" {
-                    return new astQls.Widget(astQls.WidgetType.DROPDOWN, [yesValue, noValue]);
+                    return new astQls.Widget(astQls.WidgetType.DROPDOWN,
+                    [new astQls.Label(yesValue, true), new astQls.Label(noValue, false)]);
                   }
 sliderWidget    = "slider" { return new astQls.Widget(astQls.WidgetType.SLIDER); }
 

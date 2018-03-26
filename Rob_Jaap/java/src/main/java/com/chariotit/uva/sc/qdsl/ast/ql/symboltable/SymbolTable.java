@@ -11,7 +11,7 @@ public class SymbolTable {
     private HashMap<String, SymbolTableEntry> entries = new HashMap<>();
 
     public void addEntry(SymbolTableEntry entry) throws DuplicateSymbolMismatchException {
-        if (entries.containsKey(entry.getLabel()) && entries.get(entry.getLabel())
+        if (hasEntry(entry.getLabel()) && entries.get(entry.getLabel())
                 .getExpressionType() != entry.getExpressionType()) {
             throw new DuplicateSymbolMismatchException(entries.get(entry.getLabel()), entry);
         } else {

@@ -6,7 +6,7 @@ import org.uva.sc.cr.ql.qL.Question
 
 class ControlWrapperText extends ControlWrapper {
 
-	private var TextField control
+	var TextField control
 
 	new(Question question, StringBinding binding) {
 		super(question, binding)

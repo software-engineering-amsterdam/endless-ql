@@ -15,7 +15,8 @@ public class CycleChecker {
         this.dependencyTree = dependencyTree;
     }
 
-    private void checkCyclesForNode(Node node) {
+    private Set<CycleError> checkCyclesForNode(Node node) {
+        Set<CycleError> errors = new HashSet<>();
         NodeQueue queue = new NodeQueue();
 
         queue.add(new QueuedNode(node, new ArrayList<>()));
@@ -26,20 +27,26 @@ public class CycleChecker {
 
             for (Node child : current.getDependencies()) {
                 if (currentQueued.hasVisited(child)) {
-                    // Cycle between current and child
-                    // TODO do something here
-                    System.out.println("CYCLE!! " + current.getLabel() + " " + child.getLabel());
+
+                    // Found cycle
+                    errors.add(new CycleError(current, child));
                     continue;
                 }
 
-                queue.add(currentQueued.createExtended(child));
+                queue.add(QueuedNode.createExtended(currentQueued, child));
             }
         }
+
+        return errors;
     }
 
-    public void checkCycles() {
+    public List<CycleError> checkCycles() {
+        Set<CycleError> errors = new HashSet<>();
+
         for (Map.Entry<String, Node> nodeEntrySet : dependencyTree.getNodes().entrySet()) {
-            checkCyclesForNode(nodeEntrySet.getValue());
+            errors.addAll(checkCyclesForNode(nodeEntrySet.getValue()));
         }
+
+        return new ArrayList<>(errors);
     }
 }

@@ -23,20 +23,26 @@ public class TextboxGUI implements QuestionGUI
         label = new JLabel(question.writtenQuestion(), JLabel.CENTER);
         textField = new JTextField(5);
 
-        ActionListener listener2 = new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                if (e.getSource() instanceof JTextField)
-                {
-                    JTextField textField      = (JTextField) e.getSource();
-                    String     textFieldValue = textField.getText();
-                    question.givenAnswer(textFieldValue);
-                    notifyAllObservers();
+        if(!textbox.hasCalculation()) {
+            ActionListener listener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() instanceof JTextField) {
+                        JTextField textField = (JTextField) e.getSource();
+                        String textFieldValue = textField.getText();
+                        question.givenAnswer(textFieldValue);
+                        notifyAllObservers();
+                    }
                 }
-            }
-        };
+            };
+
+            textField.addActionListener(listener);
+        }
+
+        else {
+            textField.setEnabled(false);
+            textField.setDisabledTextColor(Color.BLACK);
+        }
     }
 
     public JLabel getLabel()
@@ -55,10 +61,6 @@ public class TextboxGUI implements QuestionGUI
         return textField;
     }
 
-    public void addActionListener(ActionListener actionListener)
-    {
-        textField.addActionListener(actionListener);
-    }
 
     @Override
     public void attachObserver(Observer observer)

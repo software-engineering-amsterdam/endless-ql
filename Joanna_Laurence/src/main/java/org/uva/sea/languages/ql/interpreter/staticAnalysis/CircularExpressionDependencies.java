@@ -5,7 +5,7 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Relation;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.elements.Question;
-import org.uva.sea.languages.ql.parser.elements.types.Variable;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 public class CircularExpressionDependencies extends BaseASTVisitor<Void> implements IQLStaticAnalysis {

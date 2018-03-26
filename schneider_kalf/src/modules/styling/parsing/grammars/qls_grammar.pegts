@@ -4,7 +4,7 @@
  */
 
 {
-
+    let NodeFactory = new Nodes.AttributeNodeFactory();
 }
 
 start = lb* stylesheet:stylesheet lb* { return stylesheet }
@@ -83,7 +83,7 @@ styleAttribute
 // Widget
 widget
  = _ "widget" _ id:identifier options:widgetOptions? lb* {
-    return new Nodes.WidgetAttribute(id, options);
+    return NodeFactory.getWidgetStyleAttribute(id, options);
 }
 
 // WidgetOptions
@@ -100,7 +100,7 @@ arguments
 // Style element
 style
  = _ id:identifier _ ":" _ args:styleValues lb*{
-    return new Nodes.BaseAttribute(id, args);
+    return NodeFactory.getBaseStyleAttribute(id, args);
 }
 
 // Style values
@@ -108,7 +108,6 @@ styleValues
  = numberLiteral / stringLiteral / colorLiteral / booleanLiteral
 
 // Preliminary color code
-// TODO: make hexadecimal
 colorLiteral
  = _ code:(["#"][0-9]+){
     return "#".concat(code[1].join(""))

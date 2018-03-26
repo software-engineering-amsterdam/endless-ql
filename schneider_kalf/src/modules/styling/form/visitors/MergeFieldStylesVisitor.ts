@@ -22,7 +22,7 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     this.questionStyles = [];
   }
 
-  getStyles() {
+  getMergedStyles() {
     return this.questionStyles;
   }
 

@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Converts QL file to a list of questions
  */
-public class QlEvaluator {
+public class QlEvaluator implements BaseEvaluator {
 
     private final Evaluator evaluator = new Evaluator();
 
@@ -31,7 +31,6 @@ public class QlEvaluator {
      * Generate EvaluationResult
      *
      * @return EvaluationResult
-     * @throws InterruptedException
      */
     public EvaluationResult getQuestions() throws IOException, InterruptedException {
         return this.evaluator.evaluate(this.qlFileLocation, this.symbolTable);

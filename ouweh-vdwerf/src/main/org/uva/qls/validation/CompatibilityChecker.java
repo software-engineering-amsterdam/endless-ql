@@ -40,7 +40,7 @@ class CompatibilityChecker extends Checker {
         return result;
     }
 
-    private ValidationResult checkQuestionWidgetCompatibility(ValidationResult validationResult){
+    private ValidationResult checkQuestionWidgetCompatibility(ValidationResult validationResult) {
         for (QuestionReference questionReference : this.stylesheetContext.getQuestions()) {
             Type type = qlQuestionTypes.get(questionReference.getId());
             Widget widget = questionReference.getWidget();
@@ -51,19 +51,19 @@ class CompatibilityChecker extends Checker {
         return validationResult;
     }
 
-    private ValidationResult checkDefaultWidgetTypeCompatibility(ValidationResult validationResult){
-        for(DefaultWidgetStatement defaultWidgetStatement: this.stylesheetContext.getAllDefaultWidgetStatements()) {
+    private ValidationResult checkDefaultWidgetTypeCompatibility(ValidationResult validationResult) {
+        for (DefaultWidgetStatement defaultWidgetStatement : this.stylesheetContext.getAllDefaultWidgetStatements()) {
             Type type = defaultWidgetStatement.getType();
             Widget widget = defaultWidgetStatement.getWidget();
             if (!widget.isCompatible(type.getClass())) {
-               validationResult.addError(String.format("Type %s is not compatible with widget %s", type.toString(), widget.toString()));
+                validationResult.addError(String.format("Type %s is not compatible with widget %s", type.toString(), widget.toString()));
             }
         }
         return validationResult;
     }
 
-    private ValidationResult checkDefaultWidgetStyleCompatibility(ValidationResult validationResult){
-        for(DefaultStyleStatement defaultStyleStatement: this.stylesheetContext.getAllDefaultStyleStatements()) {
+    private ValidationResult checkDefaultWidgetStyleCompatibility(ValidationResult validationResult) {
+        for (DefaultStyleStatement defaultStyleStatement : this.stylesheetContext.getAllDefaultStyleStatements()) {
             Type type = defaultStyleStatement.getType();
             Style style = defaultStyleStatement.getStyle();
 

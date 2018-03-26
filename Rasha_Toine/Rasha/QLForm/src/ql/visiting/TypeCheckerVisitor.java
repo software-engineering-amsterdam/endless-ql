@@ -48,7 +48,7 @@ public class TypeCheckerVisitor
 						 };
 	
 						 @Override
-						 public Void visit(NormalQuestion question, Void ctx) {
+						 public Void visit(AnswerableQuestion question, Void ctx) {
 							 insertToMap(question.getIdentifier().toString(), question.getType());
 						   return null;
 						 }
@@ -113,7 +113,7 @@ public class TypeCheckerVisitor
 	}
 
 	@Override
-	public Void visit(NormalQuestion node, Void ctx) {
+	public Void visit(AnswerableQuestion node, Void ctx) {
 	   return null;
 	}
 

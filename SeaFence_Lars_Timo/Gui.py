@@ -2,7 +2,7 @@
 # Gui class that holds all gui related functions to add widgets to the windows
 import Tkinter as tk
 from Tkinter import *
-
+from ttk import *
 class Gui():
     def __init__(self):
         self.window = tk.Tk()
@@ -10,9 +10,12 @@ class Gui():
         # self.window.maxsize(self.window.winfo_screenwidth()/3, self.window.winfo_screenheight())
    
         self.frame = None
-        self.setCurrentStatementFrame
+        self.notebook = None
         self.frames = {}
         self.values = {}
+
+        self.notebook_set = False
+        self.current_page = None
 
     #add slider with given min and max values
     def addSlider(self, name, minVal, maxVal, orientation):
@@ -47,45 +50,35 @@ class Gui():
             self.dropdowns[name].destroy()
             del self.dropdowns[name]
 
-    def addBooleanQuestion(self, name, question, text1, text2, updateFunction, var=None):
-        if not var:
-            var = tk.IntVar()
-            var.trace("w", updateFunction)
-
-        frame = tk.Frame(self.window, height=2)
+    def addBooleanQuestion(self, widget_var, question, text1, text2, render_frame):
+        print "Added bool question"
+        frame = tk.Frame(render_frame, height=2)
         frame.pack(expand=False, fill='both')
         
         label = tk.Label(frame, text=question, height=2)
         label.pack(side=LEFT)
         
+        var = self.values[widget_var]
         radioButton1 = tk.Radiobutton(frame, text=text1, variable=var, value=0, height=2)
         radioButton2 = tk.Radiobutton(frame, text=text2, variable=var, value=1, height=2)
         radioButton1.pack(side=LEFT)
         radioButton2.pack(side=LEFT)
-        
-        self.values[name] = var
-        self.frames[name] = frame
 
-        return frame
+        self.frames[widget_var] = frame
 
-    def addIntQuestion(self, name, question, update_function, var=None):
-        if not var:
-            var = tk.StringVar()
-            var.trace('w', lambda nm, idx, mode, var=var: self.validateForm(update_function))
-        
-        frame = tk.Frame(self.window, height=2)
+    def addIntQuestion(self, widget_var, question, render_frame):
+        print "Added int question"
+        frame = tk.Frame(render_frame, height=2)
         frame.pack(expand=False, fill='both')
 
         label = tk.Label(frame, text=question, height=2)
         label.pack(side=LEFT)
 
+        var = self.values[widget_var]
         entry = tk.Entry(frame, textvariable=var)
         entry.pack(side=LEFT)
 
-        self.values[name] = var
-        self.frames[name] = frame
-
-        return frame
+        self.frames[widget_var] = frame
 
     def setCurrentStatementFrame(self):
         frame = tk.Frame(self.window)
@@ -93,22 +86,20 @@ class Gui():
         self.frame = frame
         return frame
 
-    def addAssignment(self, var_name, name, result, var=None):
-        if not var:
-            var = tk.StringVar()
-            self.values[var_name] = var
-            var.set(str(result))
-        
-        frame = tk.Frame(self.window, height=2)
+    def addAssignment(self, widget_var, assignment_var, result, render_frame):
+        print "Added assignment: ", render_frame
+        frame = tk.Frame(render_frame, height=2)
         frame.pack(expand=False, fill='both')
 
-        label = tk.Label(frame, text=name, height=2)
+        label = tk.Label(frame, text=assignment_var, height=2)
         label.pack(side=LEFT)
 
+        var = self.values[widget_var]
         label = tk.Label(frame, height=2, textvariable=var)
         label.pack(side=LEFT)
+
+        self.frames[widget_var] = frame
         
-        return frame
 
     def getValue(self, var_name, type):
         if type == "int":
@@ -126,3 +117,46 @@ class Gui():
 
     def validateForm(self, function):
         function()
+
+    def createTKNoTraceVariable(self, var_key, value):
+        var = tk.StringVar()
+        var.set(str(value))
+        self.values[var_key] = var
+
+    def createTKTraceVariable(self, var_key, var_type, update_function):
+        if var_type is not "boolean":
+            var = tk.StringVar()
+            var.trace('w', lambda nm, idx, mode, var=var: self.validateForm(update_function))
+
+        else:
+            var = tk.IntVar()
+            var.trace("w", update_function)
+
+        self.values[var_key] = var
+
+    def addPage(self, page_name):
+        print "Added page"
+        if not self.notebook_set:
+            master = Frame(self.window)
+            master.pack(fill=BOTH)
+            self.notebook = Notebook(master)
+            self.notebook.pack(fill=BOTH, padx=2, pady=3)
+            self.notebook_set = True
+
+        self.current_page = Frame(self.notebook)
+        self.notebook.add(self.current_page, text=page_name)
+
+        return self.current_page
+
+    def addSection(self, section_name, parent_frame=None):
+        "Added section"
+        if not parent_frame:
+            parent_frame = self.current_page
+
+        labelframe = LabelFrame(parent_frame, text=section_name)
+        labelframe.pack(fill="x", expand="yes")
+        left = Label(labelframe, text=section_name)
+        left.pack()
+
+        return labelframe
+

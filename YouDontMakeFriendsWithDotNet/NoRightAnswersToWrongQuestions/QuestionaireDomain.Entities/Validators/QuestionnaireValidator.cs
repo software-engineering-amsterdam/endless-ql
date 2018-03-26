@@ -28,7 +28,8 @@ namespace QuestionnaireDomain.Entities.Validators
             IMathComparisonValidator mathComparisonValidator,
             IMathExpressionValidator mathExpressionValidator,
             IUnknownTypeValidator unknownTypeValidator,
-            IDuplicateTextValidator duplicateTextValidator)
+            IDuplicateTextValidator duplicateTextValidator,
+            ICyclicDependencyValidator cyclicDependencyValidator)
         {
             m_domainItemLocator = domainItemLocator;
             m_validators.Add(duplicateVariableValidator);
@@ -40,6 +41,7 @@ namespace QuestionnaireDomain.Entities.Validators
             m_validators.Add(mathExpressionValidator);
             m_validators.Add(unknownTypeValidator);
             m_validators.Add(duplicateTextValidator);
+            m_validators.Add(cyclicDependencyValidator);
         }
         
         public bool Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode)

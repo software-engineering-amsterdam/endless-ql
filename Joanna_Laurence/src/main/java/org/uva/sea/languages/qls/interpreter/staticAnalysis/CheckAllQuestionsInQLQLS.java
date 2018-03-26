@@ -5,8 +5,6 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
-import org.uva.sea.languages.qls.parser.elements.specification.Question;
-import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 
 import java.util.ArrayList;
 import java.util.Collection;

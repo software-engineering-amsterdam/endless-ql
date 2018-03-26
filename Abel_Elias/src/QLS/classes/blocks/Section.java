@@ -2,29 +2,30 @@ package QLS.classes.blocks;
 
 import java.util.List;
 
-public class Section extends LineInBlock {
-    private String id;
-    private List<Block> blocks;
+public class Section extends Element {
+    private String name;
+    private List<Element> elements;
 
-    public Section(String id, List<Block> blocks) {
+    public Section(String name, List<Element> elements) {
         super();
-        this.id = id;
-        this.blocks = blocks;
+        this.name = name;
+        this.elements = elements;
     }
 
-    public String getId() {
-        return id;
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<Block> getBlocks() {
-        return blocks;
+    public List<Element> getElements() {
+        return elements;
     }
 
-    public void setBlocks(List<Block> blocks) {
-        this.blocks = blocks;
+    public void setElements(List<Element> elements) {
+        this.elements = elements;
     }
 }

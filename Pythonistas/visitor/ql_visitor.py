@@ -107,7 +107,6 @@ class QLVisitor(ParseTreeVisitor):
         # Picks out the ID of the question that is the argument of the if
         conditional_id = ctx.expression().getText()
 
-        # If the ID of the question that is the argument of the if does not exist, throws an error
         if conditional_id not in self.question_ids:
             self.error_message = "Error: if argument is undefined: {}".format(conditional_id)
             return

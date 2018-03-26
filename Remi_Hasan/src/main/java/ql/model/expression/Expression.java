@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.Token;
 
 public abstract class Expression extends QLNode {
 
-    Expression(Token start) {
+    public Expression(Token start) {
         super(start);
     }
 

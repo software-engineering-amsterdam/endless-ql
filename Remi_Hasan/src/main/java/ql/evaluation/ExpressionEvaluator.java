@@ -101,13 +101,13 @@ public class ExpressionEvaluator extends QLBaseVisitor<Value> {
 
     @Override
     public Value visit(ExpressionUnaryNot expression) {
-        Value valueInterpreted = expression.getSubExpresison().accept(this);
+        Value valueInterpreted = expression.getOperand().accept(this);
         return valueInterpreted.not();
     }
 
     @Override
     public Value visit(ExpressionUnaryNeg expression) {
-        Value valueInterpreted = expression.getSubExpresison().accept(this);
+        Value valueInterpreted = expression.getOperand().accept(this);
         return valueInterpreted.neg();
     }
 

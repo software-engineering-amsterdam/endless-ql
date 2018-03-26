@@ -6,7 +6,7 @@ import ql.model.Form;
 import ql.model.IfBlock;
 import ql.model.IfElseBlock;
 import ql.model.Question;
-import ql.model.expression.ExpressionBinary;
+import ql.model.expression.binary.ExpressionBinary;
 import ql.model.expression.ExpressionIdentifier;
 import ql.model.expression.ReturnType;
 import ql.model.expression.binary.*;
@@ -169,7 +169,7 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
 
     @Override
     public ReturnType visit(ExpressionUnaryNot expression) {
-        ReturnType expressionType = expression.getSubExpresison().accept(this);
+        ReturnType expressionType = expression.getOperand().accept(this);
 
         if (expressionType != ReturnType.BOOLEAN) {
             throw new IllegalArgumentException("Invalid NOT: non-boolean expression " + expression.getLocation());
@@ -180,7 +180,7 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
 
     @Override
     public ReturnType visit(ExpressionUnaryNeg expression) {
-        ReturnType expressionType = expression.getSubExpresison().accept(this);
+        ReturnType expressionType = expression.getOperand().accept(this);
 
         if (!expressionType.isNumber()) {
             throw new IllegalArgumentException("Invalid negation: non-numeric expression " + expression.getLocation());

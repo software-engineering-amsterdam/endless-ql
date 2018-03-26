@@ -2,7 +2,7 @@ package ql;
 
 import ql.model.*;
 import ql.model.expression.Expression;
-import ql.model.expression.ExpressionBinary;
+import ql.model.expression.binary.ExpressionBinary;
 import ql.model.expression.ExpressionIdentifier;
 import ql.model.expression.binary.*;
 import ql.model.expression.unary.ExpressionUnaryNeg;
@@ -122,12 +122,12 @@ public class QLBaseVisitor<T> implements IQLVisitor<T> {
 
     @Override
     public T visit(ExpressionUnaryNot expression) {
-        return expression.getSubExpresison().accept(this);
+        return expression.getOperand().accept(this);
     }
 
     @Override
     public T visit(ExpressionUnaryNeg expression) {
-        return expression.getSubExpresison().accept(this);
+        return expression.getOperand().accept(this);
     }
 
     @Override

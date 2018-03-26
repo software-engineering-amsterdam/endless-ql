@@ -1,6 +1,7 @@
-package ql.model.expression;
+package ql.model.expression.binary;
 
 import org.antlr.v4.runtime.Token;
+import ql.model.expression.Expression;
 
 public abstract class ExpressionBinary extends Expression {
     private final Expression left;

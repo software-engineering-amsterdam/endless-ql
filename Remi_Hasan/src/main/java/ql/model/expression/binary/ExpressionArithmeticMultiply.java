@@ -3,7 +3,6 @@ package ql.model.expression.binary;
 import ql.IQLVisitor;
 
 import ql.model.expression.Expression;
-import ql.model.expression.ExpressionBinary;
 import org.antlr.v4.runtime.Token;
 
 public class ExpressionArithmeticMultiply extends ExpressionBinary {

@@ -15,7 +15,7 @@ DATE         : 'date' ;
 WIDGET       : 'widget' ;
 DEFAULT      : 'default' ;
 CHECKBOX     : 'checkbox' ;
-SPINGBOX     : 'spinbox' ;
+SPINBOX      : 'spinbox' ;
 RADIO        : 'radio' ;
 COMBO        : 'combo' ;
 
@@ -58,16 +58,16 @@ defaultStyle  : DEFAULT questionType styling ;
 
 questionType  : BOOLEAN | STRING | DATE | INTEGER | DECIMAL | MONEY ;
 
-styling       : WIDGET widgetType
+styling       : style
               | CURLY_LEFT style+ CURLY_RIGHT ;
 
-style         : WIDGET widgetType
-              | WIDTH DOUBLE_COLON widthValue=IntegerValue
-              | COLOR DOUBLE_COLON colorValue=HexValue
-              | FONT DOUBLE_COLON fontType=Text
-              | FONTSIZE DOUBLE_COLON fontSize=IntegerValue ;
+style         : WIDGET widgetType                           # WidgetStyling
+              | WIDTH DOUBLE_COLON widthValue=IntegerValue  # WidthStyling
+              | COLOR DOUBLE_COLON colorValue=HexValue      # ColorStyling
+              | FONT DOUBLE_COLON fontType=Text             # FontTypeStyling
+              | FONTSIZE DOUBLE_COLON fontSize=IntegerValue # FontSizeStyling;
 
-widgetType    : CHECKBOX
-              | SPINGBOX
-              | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT
-              | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT ;
+widgetType    : CHECKBOX                                                              # CheckBox
+              | SPINBOX                                                               # SpinBox
+              | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # ComboBox
+              | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # RadioButtons;

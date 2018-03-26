@@ -12,7 +12,7 @@ public class VisitorSection extends QLSBaseVisitor<Section> {
 
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
-        String identifier = ctx.STRING().getText();
+        String identifier = ctx.title.getText();
 
         // Strip quotes surrounding string
         identifier = identifier.substring(1, identifier.length() - 1);

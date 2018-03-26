@@ -1,9 +1,9 @@
 grammar QLS;
 
-root            : STYLESHEET IDENTIFIER ('{' page* '}' | page) EOF;
-page            : PAGE IDENTIFIER ((section | defaultStyle) | '{' (section | defaultStyle)* '}');
-section         : SECTION STRING (statement | '{' statement* '}');
-question        : QUESTION (IDENTIFIER | IDENTIFIER widget);
+root            : STYLESHEET identifier=IDENTIFIER ('{' page* '}' | page) EOF;
+page            : PAGE identifier=IDENTIFIER ((section | defaultStyle) | '{' (section | defaultStyle)* '}');
+section         : SECTION title=STRING (statement | '{' statement* '}');
+question        : QUESTION identifier=IDENTIFIER widget?;
 statement       : (section | question | defaultStyle);
 
 // default style without braces can only define one widget type
@@ -11,10 +11,10 @@ statement       : (section | question | defaultStyle);
 // followed by one or no widget type
 defaultStyle    : DEFAULT type (widget | '{' styleAttribute* widget? '}');
 
-styleAttribute  : WIDTH ':' INTEGER                                                         # widgetWidth
-                | FONT ':' STRING                                                           # widgetFont
-                | FONTSIZE ':' INTEGER                                                      # widgetFontSize
-                | COLOR ':' HEXCOLOR                                                        # widgetColor
+styleAttribute  : WIDTH ':' value=INTEGER                                                   # widgetWidth
+                | FONT ':' value=STRING                                                     # widgetFont
+                | FONTSIZE ':' value=INTEGER                                                # widgetFontSize
+                | COLOR ':' value=HEXCOLOR                                                  # widgetColor
                 ;
 
 widget          : WIDGET RADIO '(' trueLabel=STRING ',' falseLabel=STRING ')'               # radioWidget

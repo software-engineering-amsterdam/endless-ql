@@ -27,6 +27,6 @@ public class VisitorPage extends QLSBaseVisitor<Page> {
             defaultStyles.add(visitorDefault.visitDefaultStyle(defaultStyleContext));
         }
 
-        return new Page(ctx.getStart(), ctx.IDENTIFIER().getText(), sections, defaultStyles);
+        return new Page(ctx.getStart(), ctx.identifier.getText(), sections, defaultStyles);
     }
 }

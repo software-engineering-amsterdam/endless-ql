@@ -7,7 +7,7 @@ public abstract class Expression extends ASTNode {
     protected Expression() {
     }
 
-    protected Expression(Token token) {
+    protected Expression(final Token token) {
         super(token);
     }
 }

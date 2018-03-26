@@ -7,17 +7,17 @@ public class Color extends StyleSpecification {
 
     private final String colorCode;
 
-    public Color(Token token, String colorCode) {
+    public Color(final Token token, final String colorCode) {
         super(token);
         this.colorCode = colorCode;
     }
 
-    public String getColorCode() {
+    public final String getColorCode() {
         return this.colorCode;
     }
 
     @Override
-    public <T> T accept(IStyleASTVisitor<T> visitor) {
+    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

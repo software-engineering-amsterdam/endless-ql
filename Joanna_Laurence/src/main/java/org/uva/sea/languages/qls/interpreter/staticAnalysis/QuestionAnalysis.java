@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 class QuestionAnalysis {
-    List<String> getQlSQuestionNames(Stylesheet stylesheet) {
-        List<String> questionNames = new ArrayList<>();
+    final List<String> getQlSQuestionNames(final Stylesheet stylesheet) {
+        final List<String> questionNames = new ArrayList<>();
         stylesheet.accept(new BaseStyleASTVisitor<Void>() {
             @Override
-            public Void visit(Question node) {
+            public Void visit(final Question node) {
                 questionNames.add(node.getName());
                 return super.visit(node);
             }

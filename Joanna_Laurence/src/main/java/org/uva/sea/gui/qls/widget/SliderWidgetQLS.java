@@ -17,28 +17,28 @@ public class SliderWidgetQLS extends WidgetQLS {
 
     private Value widgetValue = new DecimalValue(0);
 
-    private Value incrementStep = new DecimalValue(DECIMAL_STEP_SIZE);
+    private Value incrementStep = new DecimalValue(SliderWidgetQLS.DECIMAL_STEP_SIZE);
 
-    public SliderWidgetQLS(QuestionData questionData) {
+    public SliderWidgetQLS(final QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public boolean updateValue(DecimalValue decimalValue) {
+    public final boolean updateValue(final DecimalValue decimalValue) {
         this.widgetValue = decimalValue;
-        this.incrementStep = new DecimalValue(DECIMAL_STEP_SIZE);
+        this.incrementStep = new DecimalValue(SliderWidgetQLS.DECIMAL_STEP_SIZE);
         return true;
     }
 
     @Override
-    public boolean updateValue(IntValue intValue) {
+    public final boolean updateValue(final IntValue intValue) {
         this.widgetValue = intValue;
-        this.incrementStep = new IntValue(INTEGER_STEP_SIZE);
+        this.incrementStep = new IntValue(SliderWidgetQLS.INTEGER_STEP_SIZE);
         return true;
     }
 
     @Override
-    public Node convertToGuiNode() {
+    public final Node convertToGuiNode() {
         final Slider slider = new Slider();
         slider.setMin(0);
         slider.setValueChanging(true);
@@ -48,13 +48,13 @@ public class SliderWidgetQLS extends WidgetQLS {
         if (this.questionData.getValue() != null) {
             this.widgetValue.accept(new BaseValueVisitor<Void>() {
                 @Override
-                public Void visit(DecimalValue value) {
+                public Void visit(final DecimalValue value) {
                     slider.valueProperty().setValue(value.getDecimalValue());
                     return null;
                 }
 
                 @Override
-                public Void visit(IntValue value) {
+                public Void visit(final IntValue value) {
                     slider.valueProperty().setValue(value.getIntValue());
                     return null;
                 }
@@ -67,7 +67,7 @@ public class SliderWidgetQLS extends WidgetQLS {
                 Value newWidgetValue;
                 try {
                     newWidgetValue = this.widgetValue.add(this.incrementStep);
-                } catch (EvaluationException ignored) {
+                } catch (final EvaluationException ignored) {
                     newWidgetValue = this.widgetValue;
                 }
                 this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);

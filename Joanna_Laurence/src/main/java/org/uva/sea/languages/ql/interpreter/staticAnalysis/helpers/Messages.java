@@ -11,16 +11,16 @@ public class Messages {
 
     private final Collection<Entry<MessageTypes, String>> messages = new ArrayList<>();
 
-    public void addMessages(Messages messages) {
-        this.messages.addAll(messages.getMessages());
+    public final void addMessages(final Messages messages) {
+        this.messages.addAll(messages.messages);
     }
 
-    public void addMessage(String message, MessageTypes messageType) {
+    public final void addMessage(final String message, final MessageTypes messageType) {
         this.messages.add(new SimpleEntry<>(messageType, message));
     }
 
-    public boolean hasMessagePresent(MessageTypes messageTypes) {
-        for (Entry<MessageTypes, String> entry : this.messages) {
+    public final boolean hasMessagePresent(final MessageTypes messageTypes) {
+        for (final Entry<MessageTypes, String> entry : this.messages) {
             if (entry.getKey() == messageTypes)
                 return true;
         }
@@ -33,13 +33,13 @@ public class Messages {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return this.messages.toString();
     }
 
-    public Iterable<String> getMessage(MessageTypes messageTypes) {
-        Collection<String> messages = new ArrayList<>();
-        for (Entry<MessageTypes, String> entry : this.messages) {
+    public final Iterable<String> getMessage(final MessageTypes messageTypes) {
+        final Collection<String> messages = new ArrayList<>();
+        for (final Entry<MessageTypes, String> entry : this.messages) {
             if (entry.getKey() == messageTypes)
                 messages.add(entry.getValue());
         }

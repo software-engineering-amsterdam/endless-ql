@@ -10,20 +10,20 @@ public class RenderingElements {
     private final Collection<BaseWidget> widgets;
     private final Messages messages;
 
-    RenderingElements(Collection<BaseWidget> widgets, Messages messages) {
+    RenderingElements(final Collection<BaseWidget> widgets, final Messages messages) {
         this.widgets = widgets;
         this.messages = messages;
     }
 
-    public Iterable<BaseWidget> getWidgets() {
+    public final Iterable<BaseWidget> getWidgets() {
         return this.widgets;
     }
 
-    public Iterable<String> getWarnings() {
+    public final Iterable<String> getWarnings() {
         return this.messages.getMessage(MessageTypes.WARNING);
     }
 
-    public Iterable<String> getErrors() {
+    public final Iterable<String> getErrors() {
         return this.messages.getMessage(MessageTypes.ERROR);
     }
 }

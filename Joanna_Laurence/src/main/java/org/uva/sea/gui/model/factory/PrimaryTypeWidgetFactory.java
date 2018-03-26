@@ -26,9 +26,9 @@ public class PrimaryTypeWidgetFactory implements IWidgetFactory {
     }
 
     @Override
-    public BaseWidget createWidget(QuestionData questionData, IQuestionValueUpdatedListener listener) throws WidgetNotFoundException {
-        NodeType nodeType = questionData.getNodeType();
-        Class<? extends BaseWidget> widgetClass = this.nodeTypeToWidgetMap.get(nodeType);
+    public BaseWidget createWidget(final QuestionData questionData, final IQuestionValueUpdatedListener listener) throws WidgetNotFoundException {
+        final NodeType nodeType = questionData.getNodeType();
+        final Class<? extends BaseWidget> widgetClass = this.nodeTypeToWidgetMap.get(nodeType);
         if (widgetClass == null) {
             throw new WidgetNotFoundException("Widget for node type " + nodeType + " not found");
         }
@@ -36,9 +36,9 @@ public class PrimaryTypeWidgetFactory implements IWidgetFactory {
         return this.getWidget(widgetClass, questionData, listener);
     }
 
-    protected BaseWidget getWidget(Class<? extends BaseWidget> widget, QuestionData questionData, IQuestionValueUpdatedListener listener) {
+    protected final BaseWidget getWidget(final Class<? extends BaseWidget> widget, final QuestionData questionData, final IQuestionValueUpdatedListener listener) {
         try {
-            BaseWidget newWidget = widget.getDeclaredConstructor(QuestionData.class).newInstance(questionData);
+            final BaseWidget newWidget = widget.getDeclaredConstructor(QuestionData.class).newInstance(questionData);
             newWidget.addListener(listener);
 
             Value questionValue = questionData.getValue();
@@ -47,11 +47,10 @@ public class PrimaryTypeWidgetFactory implements IWidgetFactory {
             }
 
             //Set supported Value to the widget
-            WidgetValueAssigner widgetValueUpdate = new WidgetValueAssigner(newWidget);
+            final WidgetValueAssigner widgetValueUpdate = new WidgetValueAssigner(newWidget);
             widgetValueUpdate.updateWidget(questionValue);
             return newWidget;
-        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException ignored) {
             return null;
         }
     }

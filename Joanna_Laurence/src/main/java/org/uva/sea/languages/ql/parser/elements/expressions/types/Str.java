@@ -8,21 +8,21 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 public class Str extends Expression {
     private final String value;
 
-    public Str(Token token, String value) {
+    public Str(final Token token, final String value) {
         super(token);
         this.value = value;
     }
 
-    public String getValue() {
+    public final String getValue() {
         return this.value;
     }
 
-    public Type getType() {
+    public final Type getType() {
         return new Type(NodeType.STRING);
     }
 
     @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public final <T> T accept(final IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

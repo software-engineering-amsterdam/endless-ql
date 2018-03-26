@@ -9,22 +9,22 @@ public class Question extends Specification {
     private final String name;
     private final Widget widget;
 
-    public Question(Token token, String name, Widget widget) {
+    public Question(final Token token, final String name, final Widget widget) {
         super(token);
         this.name = name;
         this.widget = widget;
     }
 
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 
-    public Widget getWidget() {
+    public final Widget getWidget() {
         return this.widget;
     }
 
     @Override
-    public <T> T accept(IStyleASTVisitor<T> visitor) {
+    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

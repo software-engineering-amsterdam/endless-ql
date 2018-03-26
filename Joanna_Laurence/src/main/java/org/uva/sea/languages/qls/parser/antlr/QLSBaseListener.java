@@ -19,7 +19,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterStylesheet(QLSParser.StylesheetContext ctx) {
+    public void enterStylesheet(final QLSParser.StylesheetContext ctx) {
     }
 
     /**
@@ -28,7 +28,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitStylesheet(QLSParser.StylesheetContext ctx) {
+    public void exitStylesheet(final QLSParser.StylesheetContext ctx) {
     }
 
     /**
@@ -37,7 +37,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterPages(QLSParser.PagesContext ctx) {
+    public void enterPages(final QLSParser.PagesContext ctx) {
     }
 
     /**
@@ -46,7 +46,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitPages(QLSParser.PagesContext ctx) {
+    public void exitPages(final QLSParser.PagesContext ctx) {
     }
 
     /**
@@ -55,7 +55,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterPage(QLSParser.PageContext ctx) {
+    public void enterPage(final QLSParser.PageContext ctx) {
     }
 
     /**
@@ -64,7 +64,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitPage(QLSParser.PageContext ctx) {
+    public void exitPage(final QLSParser.PageContext ctx) {
     }
 
     /**
@@ -73,7 +73,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterSpecifications(QLSParser.SpecificationsContext ctx) {
+    public void enterSpecifications(final QLSParser.SpecificationsContext ctx) {
     }
 
     /**
@@ -82,7 +82,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitSpecifications(QLSParser.SpecificationsContext ctx) {
+    public void exitSpecifications(final QLSParser.SpecificationsContext ctx) {
     }
 
     /**
@@ -91,7 +91,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterSpecification(QLSParser.SpecificationContext ctx) {
+    public void enterSpecification(final QLSParser.SpecificationContext ctx) {
     }
 
     /**
@@ -100,7 +100,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitSpecification(QLSParser.SpecificationContext ctx) {
+    public void exitSpecification(final QLSParser.SpecificationContext ctx) {
     }
 
     /**
@@ -109,7 +109,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterSection(QLSParser.SectionContext ctx) {
+    public void enterSection(final QLSParser.SectionContext ctx) {
     }
 
     /**
@@ -118,7 +118,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitSection(QLSParser.SectionContext ctx) {
+    public void exitSection(final QLSParser.SectionContext ctx) {
     }
 
     /**
@@ -127,7 +127,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterQuestion(QLSParser.QuestionContext ctx) {
+    public void enterQuestion(final QLSParser.QuestionContext ctx) {
     }
 
     /**
@@ -136,7 +136,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitQuestion(QLSParser.QuestionContext ctx) {
+    public void exitQuestion(final QLSParser.QuestionContext ctx) {
     }
 
     /**
@@ -145,7 +145,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterWidget(QLSParser.WidgetContext ctx) {
+    public void enterWidget(final QLSParser.WidgetContext ctx) {
     }
 
     /**
@@ -154,7 +154,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitWidget(QLSParser.WidgetContext ctx) {
+    public void exitWidget(final QLSParser.WidgetContext ctx) {
     }
 
     /**
@@ -163,7 +163,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterParameters(QLSParser.ParametersContext ctx) {
+    public void enterParameters(final QLSParser.ParametersContext ctx) {
     }
 
     /**
@@ -172,7 +172,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitParameters(QLSParser.ParametersContext ctx) {
+    public void exitParameters(final QLSParser.ParametersContext ctx) {
     }
 
     /**
@@ -181,7 +181,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterParameter(QLSParser.ParameterContext ctx) {
+    public void enterParameter(final QLSParser.ParameterContext ctx) {
     }
 
     /**
@@ -190,7 +190,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitParameter(QLSParser.ParameterContext ctx) {
+    public void exitParameter(final QLSParser.ParameterContext ctx) {
     }
 
     /**
@@ -199,7 +199,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterDefaultStyle(QLSParser.DefaultStyleContext ctx) {
+    public void enterDefaultStyle(final QLSParser.DefaultStyleContext ctx) {
     }
 
     /**
@@ -208,7 +208,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitDefaultStyle(QLSParser.DefaultStyleContext ctx) {
+    public void exitDefaultStyle(final QLSParser.DefaultStyleContext ctx) {
     }
 
     /**
@@ -217,7 +217,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterStyleSpecifications(QLSParser.StyleSpecificationsContext ctx) {
+    public void enterStyleSpecifications(final QLSParser.StyleSpecificationsContext ctx) {
     }
 
     /**
@@ -226,7 +226,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitStyleSpecifications(QLSParser.StyleSpecificationsContext ctx) {
+    public void exitStyleSpecifications(final QLSParser.StyleSpecificationsContext ctx) {
     }
 
     /**
@@ -235,7 +235,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterStyleSpecification(QLSParser.StyleSpecificationContext ctx) {
+    public void enterStyleSpecification(final QLSParser.StyleSpecificationContext ctx) {
     }
 
     /**
@@ -244,7 +244,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitStyleSpecification(QLSParser.StyleSpecificationContext ctx) {
+    public void exitStyleSpecification(final QLSParser.StyleSpecificationContext ctx) {
     }
 
     /**
@@ -253,7 +253,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterEveryRule(ParserRuleContext ctx) {
+    public void enterEveryRule(final ParserRuleContext ctx) {
     }
 
     /**
@@ -262,7 +262,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitEveryRule(ParserRuleContext ctx) {
+    public void exitEveryRule(final ParserRuleContext ctx) {
     }
 
     /**
@@ -271,7 +271,7 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void visitTerminal(TerminalNode node) {
+    public void visitTerminal(final TerminalNode node) {
     }
 
     /**
@@ -280,6 +280,6 @@ public class QLSBaseListener implements QLSListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void visitErrorNode(ErrorNode node) {
+    public void visitErrorNode(final ErrorNode node) {
     }
 }

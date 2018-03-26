@@ -11,299 +11,299 @@ public abstract class Value implements Cloneable {
     public abstract NodeType getType();
 
     //add
-    public Value add(Value value) throws EvaluationException {
+    public Value add(final Value value) throws EvaluationException {
         throw new EvaluationException("Add operator cannot be applied here");
     }
 
-    public Value add(MoneyValue value) throws EvaluationException {
+    Value add(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("Add operator cannot be applied here");
     }
 
-    public Value add(DecimalValue value) throws EvaluationException {
+    Value add(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("Add operator cannot be applied here");
     }
 
-    public Value add(IntValue value) throws EvaluationException {
+    Value add(final IntValue value) throws EvaluationException {
         throw new EvaluationException("Add operator cannot be applied here");
     }
 
-    public Value add(DateValue value) throws EvaluationException {
+    public Value add(final DateValue value) throws EvaluationException {
         throw new EvaluationException("Add operator cannot be applied here");
     }
 
-    public Value add(StringValue value) throws EvaluationException {
+    public Value add(final StringValue value) throws EvaluationException {
         throw new EvaluationException("Add operator cannot be applied here");
     }
 
-    public Value add(BooleanValue value) throws EvaluationException {
+    public Value add(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("Add operator cannot be applied here");
     }
 
-    public Value add(UndefinedValue undefinedValue) {
+    public final Value add(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
     //and
-    public Value and(Value value) throws EvaluationException {
+    public Value and(final Value value) throws EvaluationException {
         throw new EvaluationException("And operator cannot be applied here");
     }
 
-    public Value and(BooleanValue value) throws EvaluationException {
+    Value and(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("And operator cannot be applied here");
     }
 
-    public Value and(DateValue value) throws EvaluationException {
+    public Value and(final DateValue value) throws EvaluationException {
         throw new EvaluationException("And operator cannot be applied here");
     }
 
-    public Value and(DecimalValue value) throws EvaluationException {
+    public Value and(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("And operator cannot be applied here");
     }
 
-    public Value and(IntValue value) throws EvaluationException {
+    public Value and(final IntValue value) throws EvaluationException {
         throw new EvaluationException("And operator cannot be applied here");
     }
 
-    public Value and(MoneyValue value) throws EvaluationException {
+    public Value and(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("And operator cannot be applied here");
     }
 
-    public Value and(StringValue value) throws EvaluationException {
+    public Value and(final StringValue value) throws EvaluationException {
         throw new EvaluationException("And operator cannot be applied here");
     }
 
-    public Value and(UndefinedValue undefinedValue) {
+    public final Value and(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
     //divide
-    public Value divide(Value value) throws EvaluationException {
+    public Value divide(final Value value) throws EvaluationException {
         throw new EvaluationException("Divide operator cannot be applied here");
     }
 
-    public Value divide(BooleanValue value) throws EvaluationException {
+    public Value divide(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("Divide operator cannot be applied here");
     }
 
-    public Value divide(DateValue value) throws EvaluationException {
+    public Value divide(final DateValue value) throws EvaluationException {
         throw new EvaluationException("Divide operator cannot be applied here");
     }
 
-    public Value divide(DecimalValue value) throws EvaluationException {
+    Value divide(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("Divide operator cannot be applied here");
     }
 
-    public Value divide(IntValue value) throws EvaluationException {
+    Value divide(final IntValue value) throws EvaluationException {
         throw new EvaluationException("Divide operator cannot be applied here");
     }
 
-    public Value divide(MoneyValue value) throws EvaluationException {
+    Value divide(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("Divide operator cannot be applied here");
     }
 
-    public Value divide(StringValue value) throws EvaluationException {
+    public Value divide(final StringValue value) throws EvaluationException {
         throw new EvaluationException("Divide operator cannot be applied here");
     }
 
-    public Value divide(UndefinedValue undefinedValue) {
+    public final Value divide(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
     //isEqual
-    public Value isEqual(Value value) throws EvaluationException {
+    public Value isEqual(final Value value) throws EvaluationException {
         throw new EvaluationException("isEqual operator cannot be applied here");
     }
 
-    public Value isEqual(BooleanValue value) throws EvaluationException {
+    Value isEqual(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("isEqual operator cannot be applied here");
     }
 
-    public Value isEqual(DateValue value) throws EvaluationException {
+    Value isEqual(final DateValue value) throws EvaluationException {
         throw new EvaluationException("isEqual operator cannot be applied here");
     }
 
-    public Value isEqual(DecimalValue value) throws EvaluationException {
+    Value isEqual(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("isEqual operator cannot be applied here");
     }
 
-    public Value isEqual(IntValue value) throws EvaluationException {
+    Value isEqual(final IntValue value) throws EvaluationException {
         throw new EvaluationException("isEqual operator cannot be applied here");
     }
 
-    public Value isEqual(MoneyValue value) throws EvaluationException {
+    Value isEqual(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("isEqual operator cannot be applied here");
     }
 
-    public Value isEqual(StringValue value) throws EvaluationException {
+    Value isEqual(final StringValue value) throws EvaluationException {
         throw new EvaluationException("isEqual operator cannot be applied here");
     }
 
-    public Value isEqual(UndefinedValue undefinedValue) {
+    public final Value isEqual(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
     //isGreaterOrEqual
-    public Value isGreaterOrEqual(Value value) throws EvaluationException {
+    public Value isGreaterOrEqual(final Value value) throws EvaluationException {
         throw new EvaluationException("isGreaterOrEqual operator cannot be applied here");
     }
 
-    public Value isGreaterOrEqual(BooleanValue value) throws EvaluationException {
+    public Value isGreaterOrEqual(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterOrEqual operator cannot be applied here");
     }
 
-    public Value isGreaterOrEqual(DateValue value) throws EvaluationException {
+    Value isGreaterOrEqual(final DateValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterOrEqual operator cannot be applied here");
     }
 
-    public Value isGreaterOrEqual(DecimalValue value) throws EvaluationException {
+    Value isGreaterOrEqual(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterOrEqual operator cannot be applied here");
     }
 
-    public Value isGreaterOrEqual(IntValue value) throws EvaluationException {
+    Value isGreaterOrEqual(final IntValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterOrEqual operator cannot be applied here");
     }
 
-    public Value isGreaterOrEqual(MoneyValue value) throws EvaluationException {
+    Value isGreaterOrEqual(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterOrEqual operator cannot be applied here");
     }
 
-    public Value isGreaterOrEqual(StringValue value) throws EvaluationException {
+    public Value isGreaterOrEqual(final StringValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterOrEqual operator cannot be applied here");
     }
 
-    public Value isGreaterOrEqual(UndefinedValue undefinedValue) {
+    public final Value isGreaterOrEqual(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
     //isGreaterThan
-    public Value isGreaterThan(Value value) throws EvaluationException {
+    public Value isGreaterThan(final Value value) throws EvaluationException {
         throw new EvaluationException("isGreaterThan operator cannot be applied here");
     }
 
-    public Value isGreaterThan(BooleanValue value) throws EvaluationException {
+    public Value isGreaterThan(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterThan operator cannot be applied here");
     }
 
-    public Value isGreaterThan(DateValue value) throws EvaluationException {
+    Value isGreaterThan(final DateValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterThan operator cannot be applied here");
     }
 
-    public Value isGreaterThan(DecimalValue value) throws EvaluationException {
+    Value isGreaterThan(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterThan operator cannot be applied here");
     }
 
-    public Value isGreaterThan(IntValue value) throws EvaluationException {
+    Value isGreaterThan(final IntValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterThan operator cannot be applied here");
     }
 
-    public Value isGreaterThan(MoneyValue value) throws EvaluationException {
+    Value isGreaterThan(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterThan operator cannot be applied here");
     }
 
-    public Value isGreaterThan(StringValue value) throws EvaluationException {
+    public Value isGreaterThan(final StringValue value) throws EvaluationException {
         throw new EvaluationException("isGreaterThan operator cannot be applied here");
     }
 
-    public Value isGreaterThan(UndefinedValue undefinedValue) {
+    public final Value isGreaterThan(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
     //isLessOrEqual
-    public Value isLessOrEqual(Value value) throws EvaluationException {
+    public Value isLessOrEqual(final Value value) throws EvaluationException {
         throw new EvaluationException("isLessOrEqual operator cannot be applied here");
     }
 
-    public Value isLessOrEqual(BooleanValue value) throws EvaluationException {
+    public Value isLessOrEqual(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("isLessOrEqual operator cannot be applied here");
     }
 
-    public Value isLessOrEqual(DateValue value) throws EvaluationException {
+    Value isLessOrEqual(final DateValue value) throws EvaluationException {
         throw new EvaluationException("isLessOrEqual operator cannot be applied here");
     }
 
-    public Value isLessOrEqual(DecimalValue value) throws EvaluationException {
+    Value isLessOrEqual(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("isLessOrEqual operator cannot be applied here");
     }
 
-    public Value isLessOrEqual(IntValue value) throws EvaluationException {
+    Value isLessOrEqual(final IntValue value) throws EvaluationException {
         throw new EvaluationException("isLessOrEqual operator cannot be applied here");
     }
 
-    public Value isLessOrEqual(MoneyValue value) throws EvaluationException {
+    Value isLessOrEqual(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("isLessOrEqual operator cannot be applied here");
     }
 
-    public Value isLessOrEqual(StringValue value) throws EvaluationException {
+    public Value isLessOrEqual(final StringValue value) throws EvaluationException {
         throw new EvaluationException("isLessOrEqual operator cannot be applied here");
     }
 
-    public Value isLessOrEqual(UndefinedValue undefinedValue) {
+    public final Value isLessOrEqual(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
     //isLessThan
-    public Value isLessThan(Value value) throws EvaluationException {
+    public Value isLessThan(final Value value) throws EvaluationException {
         throw new EvaluationException("isLessThan operator cannot be applied here");
     }
 
-    public Value isLessThan(BooleanValue value) throws EvaluationException {
+    public Value isLessThan(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("isLessThan operator cannot be applied here");
     }
 
-    public Value isLessThan(DateValue value) throws EvaluationException {
+    Value isLessThan(final DateValue value) throws EvaluationException {
         throw new EvaluationException("isLessThan operator cannot be applied here");
     }
 
-    public Value isLessThan(DecimalValue value) throws EvaluationException {
+    Value isLessThan(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("isLessThan operator cannot be applied here");
     }
 
-    public Value isLessThan(IntValue value) throws EvaluationException {
+    Value isLessThan(final IntValue value) throws EvaluationException {
         throw new EvaluationException("isLessThan operator cannot be applied here");
     }
 
-    public Value isLessThan(MoneyValue value) throws EvaluationException {
+    Value isLessThan(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("isLessThan operator cannot be applied here");
     }
 
-    public Value isLessThan(StringValue value) throws EvaluationException {
+    public Value isLessThan(final StringValue value) throws EvaluationException {
         throw new EvaluationException("isLessThan operator cannot be applied here");
     }
 
-    public Value isLessThan(UndefinedValue undefinedValue) {
+    public final Value isLessThan(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
     //multiply
-    public Value multiply(Value value) throws EvaluationException {
+    public Value multiply(final Value value) throws EvaluationException {
         throw new EvaluationException("Multiply operator cannot be applied here");
     }
 
-    public Value multiply(BooleanValue value) throws EvaluationException {
+    public Value multiply(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("Multiply operator cannot be applied here");
     }
 
-    public Value multiply(DateValue value) throws EvaluationException {
+    public Value multiply(final DateValue value) throws EvaluationException {
         throw new EvaluationException("Multiply operator cannot be applied here");
     }
 
-    public Value multiply(DecimalValue value) throws EvaluationException {
+    Value multiply(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("Multiply operator cannot be applied here");
     }
 
-    public Value multiply(IntValue value) throws EvaluationException {
+    Value multiply(final IntValue value) throws EvaluationException {
         throw new EvaluationException("Multiply operator cannot be applied here");
     }
 
-    public Value multiply(MoneyValue value) throws EvaluationException {
+    Value multiply(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("Multiply operator cannot be applied here");
     }
 
-    public Value multiply(StringValue value) throws EvaluationException {
+    public Value multiply(final StringValue value) throws EvaluationException {
         throw new EvaluationException("Multiply operator cannot be applied here");
     }
 
-    public Value multiply(UndefinedValue undefinedValue) {
+    public final Value multiply(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
@@ -313,35 +313,35 @@ public abstract class Value implements Cloneable {
     }
 
     //isNotEqual
-    public Value isNotEqual(Value value) throws EvaluationException {
+    public Value isNotEqual(final Value value) throws EvaluationException {
         throw new EvaluationException("isNotEqual operator cannot be applied here");
     }
 
-    public Value isNotEqual(BooleanValue value) throws EvaluationException {
+    Value isNotEqual(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("isNotEqual operator cannot be applied here");
     }
 
-    public Value isNotEqual(DateValue value) throws EvaluationException {
+    Value isNotEqual(final DateValue value) throws EvaluationException {
         throw new EvaluationException("isNotEqual operator cannot be applied here");
     }
 
-    public Value isNotEqual(DecimalValue value) throws EvaluationException {
+    Value isNotEqual(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("isNotEqual operator cannot be applied here");
     }
 
-    public Value isNotEqual(IntValue value) throws EvaluationException {
+    Value isNotEqual(final IntValue value) throws EvaluationException {
         throw new EvaluationException("isNotEqual operator cannot be applied here");
     }
 
-    public Value isNotEqual(MoneyValue value) throws EvaluationException {
+    Value isNotEqual(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("isNotEqual operator cannot be applied here");
     }
 
-    public Value isNotEqual(StringValue value) throws EvaluationException {
+    Value isNotEqual(final StringValue value) throws EvaluationException {
         throw new EvaluationException("isNotEqual operator cannot be applied here");
     }
 
-    public Value isNotEqual(UndefinedValue undefinedValue) {
+    public final Value isNotEqual(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
@@ -351,35 +351,35 @@ public abstract class Value implements Cloneable {
     }
 
     //or
-    public Value or(Value value) throws EvaluationException {
+    public Value or(final Value value) throws EvaluationException {
         throw new EvaluationException("Or operator cannot be applied here");
     }
 
-    public Value or(BooleanValue value) throws EvaluationException {
+    Value or(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("Or operator cannot be applied here");
     }
 
-    public Value or(DateValue value) throws EvaluationException {
+    public Value or(final DateValue value) throws EvaluationException {
         throw new EvaluationException("Or operator cannot be applied here");
     }
 
-    public Value or(DecimalValue value) throws EvaluationException {
+    public Value or(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("Or operator cannot be applied here");
     }
 
-    public Value or(IntValue value) throws EvaluationException {
+    public Value or(final IntValue value) throws EvaluationException {
         throw new EvaluationException("Or operator cannot be applied here");
     }
 
-    public Value or(MoneyValue value) throws EvaluationException {
+    public Value or(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("Or operator cannot be applied here");
     }
 
-    public Value or(StringValue value) throws EvaluationException {
+    public Value or(final StringValue value) throws EvaluationException {
         throw new EvaluationException("Or operator cannot be applied here");
     }
 
-    public Value or(UndefinedValue undefinedValue) {
+    public final Value or(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 
@@ -389,35 +389,35 @@ public abstract class Value implements Cloneable {
     }
 
     //subtract
-    public Value subtract(Value value) throws EvaluationException {
+    public Value subtract(final Value value) throws EvaluationException {
         throw new EvaluationException("Subtract operator cannot be applied here");
     }
 
-    public Value subtract(BooleanValue value) throws EvaluationException {
+    public Value subtract(final BooleanValue value) throws EvaluationException {
         throw new EvaluationException("Subtract operator cannot be applied here");
     }
 
-    public Value subtract(DateValue value) throws EvaluationException {
+    public Value subtract(final DateValue value) throws EvaluationException {
         throw new EvaluationException("Subtract operator cannot be applied here");
     }
 
-    public Value subtract(DecimalValue value) throws EvaluationException {
+    Value subtract(final DecimalValue value) throws EvaluationException {
         throw new EvaluationException("Subtract operator cannot be applied here");
     }
 
-    public Value subtract(IntValue value) throws EvaluationException {
+    public Value subtract(final IntValue value) throws EvaluationException {
         throw new EvaluationException("Subtract operator cannot be applied here");
     }
 
-    public Value subtract(MoneyValue value) throws EvaluationException {
+    public Value subtract(final MoneyValue value) throws EvaluationException {
         throw new EvaluationException("Subtract operator cannot be applied here");
     }
 
-    public Value subtract(StringValue value) throws EvaluationException {
+    public Value subtract(final StringValue value) throws EvaluationException {
         throw new EvaluationException("Subtract operator cannot be applied here");
     }
 
-    public Value subtract(UndefinedValue undefinedValue) {
+    public final Value subtract(final UndefinedValue undefinedValue) {
         return undefinedValue;
     }
 

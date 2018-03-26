@@ -6,16 +6,16 @@ import org.uva.sea.languages.ql.parser.nodeTypes.SingleNode;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Positive extends SingleNode {
-    public Positive(Token token, Expression value) {
+    public Positive(final Token token, final Expression value) {
         super(token, value);
     }
 
-    public Type getType() {
+    public final Type getType() {
         return this.getValue().getType();
     }
 
     @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public final <T> T accept(final IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

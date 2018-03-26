@@ -14,16 +14,16 @@ public class QLWidget {
         this.parameters = parameters;
     }
 
-    public List<String> getParameters() {
+    public final List<String> getParameters() {
         return this.parameters;
     }
 
-    public WidgetType getWidgetType() {
+    public final WidgetType getWidgetType() {
         return this.widgetType;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "Widget{" +
                 "widgetType=" + this.widgetType +
                 ", parameters=" + this.parameters +

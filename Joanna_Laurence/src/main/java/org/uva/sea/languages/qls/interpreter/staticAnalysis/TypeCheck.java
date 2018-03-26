@@ -13,7 +13,7 @@ import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAnalysis {
+public final class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAnalysis {
 
     private final Messages message = new Messages();
 
@@ -24,16 +24,16 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
 
     }
 
-    private void errorNotCompatible(Question node, WidgetType widgetType, NodeType nodeType) {
+    private void errorNotCompatible(final Question node, final WidgetType widgetType, final NodeType nodeType) {
         this.message.addMessage(widgetType + " is not compatible with " + nodeType + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
-    private void error(Question node, String errorMessage) {
+    private void error(final Question node, final String errorMessage) {
         this.message.addMessage(errorMessage + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
     @Override
-    public Messages doCheck(Form form, Stylesheet stylesheet) {
+    public Messages doCheck(final Form form, final Stylesheet stylesheet) {
         this.qlQuestionNodeTypes = this.getQLQuestionNodeTypes(form);
 
         //Will check QLS questions with the QL types and reports messages inside this.message
@@ -42,11 +42,11 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
         return this.message;
     }
 
-    private Map<String, NodeType> getQLQuestionNodeTypes(Form form) {
-        Map<String, NodeType> questionTypes = new HashMap<>();
+    private Map<String, NodeType> getQLQuestionNodeTypes(final Form form) {
+        final Map<String, NodeType> questionTypes = new HashMap<>();
         form.accept(new BaseASTVisitor<Void>() {
             @Override
-            public Void visit(org.uva.sea.languages.ql.parser.elements.Question node) {
+            public Void visit(final org.uva.sea.languages.ql.parser.elements.Question node) {
                 questionTypes.put(node.getVariable().getVariableName(), node.getNodeType().getNodeType());
                 return super.visit(node);
             }
@@ -55,13 +55,13 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
     }
 
     @Override
-    public Void visit(Question node) {
-        WidgetType widgetType;
+    public Void visit(final Question node) {
+        final WidgetType widgetType;
         if (node.getWidget() == null)
             return null;
 
         widgetType = node.getWidget().getWidgetType();
-        NodeType questionNodeType = this.qlQuestionNodeTypes.get(node.getName());
+        final NodeType questionNodeType = this.qlQuestionNodeTypes.get(node.getName());
         if (questionNodeType == null) {
             this.error(node, node.getName() + " has no type");
             return null;
@@ -78,8 +78,8 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
 
     public static class Checker implements IQLSStaticAnalysis {
         @Override
-        public Messages doCheck(Form form, Stylesheet stylesheet) {
-            IQLSStaticAnalysis checker = new TypeCheck();
+        public final Messages doCheck(final Form form, final Stylesheet stylesheet) {
+            final IQLSStaticAnalysis checker = new TypeCheck();
             return checker.doCheck(form, stylesheet);
         }
     }

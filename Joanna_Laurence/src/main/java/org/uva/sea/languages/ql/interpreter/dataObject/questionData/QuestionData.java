@@ -15,7 +15,7 @@ public class QuestionData {
 
     private Style style = new Style();
 
-    public QuestionData(Question question, Value value) {
+    public QuestionData(final Question question, final Value value) {
         this.label = question.getLabel();
         this.value = this.doesValueTypeMatch(question, value) ? value : new ErrorValue("Incorrect questionData type", question.getLine(), question.getColumn());
         this.isComputed = question.getValue() != null;
@@ -23,49 +23,49 @@ public class QuestionData {
         this.questionName = question.getVariable().getVariableName();
     }
 
-    private boolean doesValueTypeMatch(Question question, Value value) {
-        return value == null || question.getType().getNodeType().isTypeCompatible(value.getType());
+    private boolean doesValueTypeMatch(final Question question, final Value value) {
+        return (value == null) || question.getType().getNodeType().isTypeCompatible(value.getType());
 
     }
 
-    public String getLabel() {
+    public final String getLabel() {
         return this.label;
     }
 
-    public Value getValue() {
+    public final Value getValue() {
         return this.value;
     }
 
-    public boolean isComputed() {
+    public final boolean isComputed() {
         return this.isComputed;
     }
 
-    public NodeType getNodeType() {
+    public final NodeType getNodeType() {
         return this.nodeType;
     }
 
-    public String getQuestionName() {
+    public final String getQuestionName() {
         return this.questionName;
     }
 
-    public void mergeStyle(Style style) {
+    public final void mergeStyle(final Style style) {
         if (style != null)
             this.style.fillNullFields(style);
     }
 
-    public Style getStyle() {
+    public final Style getStyle() {
         return this.style;
     }
 
-    public void setStyle(Style style) {
+    public final void setStyle(final Style style) {
         this.style = style;
     }
 
-    public WidgetType getWidgetType() {
+    public final WidgetType getWidgetType() {
         return this.style.getWidgetType();
     }
 
-    public void setWidgetType(WidgetType widgetType) {
+    public final void setWidgetType(final WidgetType widgetType) {
         this.style.setWidgetType(widgetType);
     }
 }

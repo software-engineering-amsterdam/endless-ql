@@ -10,7 +10,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
+public final class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
 
     private final Messages errors = new Messages();
@@ -21,20 +21,20 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
 
     }
 
-    private void error(Question node) {
+    private void error(final Question node) {
         this.errors.addMessage(node.getVariable().getVariableName() + " is different defined on line: " + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
-    public Messages doCheck(Form node) {
+    public Messages doCheck(final Form node) {
         node.accept(this);
         return this.errors;
     }
 
-    public Void visit(Question node) {
+    public Void visit(final Question node) {
         super.visit(node);
 
-        NodeType linkedNodeType = this.variables.get(node.getVariable().getVariableName());
-        boolean incorrectNodeTypeLinked = (linkedNodeType != null) && (linkedNodeType != node.getNodeType().getNodeType());
+        final NodeType linkedNodeType = this.variables.get(node.getVariable().getVariableName());
+        final boolean incorrectNodeTypeLinked = (linkedNodeType != null) && (linkedNodeType != node.getNodeType().getNodeType());
 
         if (incorrectNodeTypeLinked) {
             this.error(node);
@@ -45,14 +45,14 @@ public class CheckIncorrectDuplicateQuestions extends BaseASTVisitor<Void> imple
         return null;
     }
 
-    private void linkNodeTypeToVariable(Question node) {
+    private void linkNodeTypeToVariable(final Question node) {
         this.variables.put(node.getLabel(), node.getNodeType().getNodeType());
     }
 
     public static class Checker implements IQLStaticAnalysis {
         @Override
-        public Messages doCheck(Form node) {
-            IQLStaticAnalysis checker = new CheckIncorrectDuplicateQuestions();
+        public final Messages doCheck(final Form node) {
+            final IQLStaticAnalysis checker = new CheckIncorrectDuplicateQuestions();
             return checker.doCheck(node);
         }
     }

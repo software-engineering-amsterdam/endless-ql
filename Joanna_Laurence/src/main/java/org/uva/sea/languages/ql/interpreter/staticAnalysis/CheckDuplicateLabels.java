@@ -9,7 +9,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
+public final class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
 
     private final Messages messages = new Messages();
@@ -20,20 +20,20 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLSta
 
     }
 
-    private void error(Question node) {
+    private void error(final Question node) {
         this.messages.addMessage("Label:" + node.getLabel() + " is already linked to another variable on line: " + node.getLine() + " column: " + node.getColumn(), MessageTypes.WARNING);
     }
 
-    public Messages doCheck(Form node) {
+    public Messages doCheck(final Form node) {
         node.accept(this);
         return this.messages;
     }
 
-    public Void visit(Question node) {
+    public Void visit(final Question node) {
         super.visit(node);
 
-        String labelLink = this.labels.get(node.getLabel());
-        boolean labelLinkedToOtherVariable = (labelLink != null) && !labelLink.equals(node.getVariable().getVariableName());
+        final String labelLink = this.labels.get(node.getLabel());
+        final boolean labelLinkedToOtherVariable = (labelLink != null) && !labelLink.equals(node.getVariable().getVariableName());
 
         if (labelLinkedToOtherVariable) {
             this.error(node);
@@ -44,14 +44,14 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLSta
         return null;
     }
 
-    private void linkQuestionVariableToLabel(Question node) {
+    private void linkQuestionVariableToLabel(final Question node) {
         this.labels.put(node.getLabel(), node.getVariable().getVariableName());
     }
 
     public static class Checker implements IQLStaticAnalysis {
         @Override
-        public Messages doCheck(Form node) {
-            IQLStaticAnalysis checker = new CheckDuplicateLabels();
+        public final Messages doCheck(final Form node) {
+            final IQLStaticAnalysis checker = new CheckDuplicateLabels();
             return checker.doCheck(node);
         }
     }

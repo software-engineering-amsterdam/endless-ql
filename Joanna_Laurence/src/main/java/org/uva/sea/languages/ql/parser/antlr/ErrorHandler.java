@@ -15,23 +15,23 @@ public class ErrorHandler implements ANTLRErrorListener {
 
     private final Messages messages = new Messages();
 
-    public void syntaxError(Recognizer<?, ?> recognizer, Object o, int i, int i1, String s, RecognitionException e) {
+    public final void syntaxError(final Recognizer<?, ?> recognizer, final Object o, final int i, final int i1, final String s, final RecognitionException e) {
         this.messages.addMessage(s, MessageTypes.ERROR);
     }
 
-    public void reportAmbiguity(Parser parser, DFA dfa, int i, int i1, boolean b, BitSet bitSet, ATNConfigSet atnConfigSet) {
+    public void reportAmbiguity(final Parser parser, final DFA dfa, final int i, final int i1, final boolean b, final BitSet bitSet, final ATNConfigSet atnConfigSet) {
 
     }
 
-    public void reportAttemptingFullContext(Parser parser, DFA dfa, int i, int i1, BitSet bitSet, ATNConfigSet atnConfigSet) {
+    public void reportAttemptingFullContext(final Parser parser, final DFA dfa, final int i, final int i1, final BitSet bitSet, final ATNConfigSet atnConfigSet) {
 
     }
 
-    public void reportContextSensitivity(Parser parser, DFA dfa, int i, int i1, int i2, ATNConfigSet atnConfigSet) {
+    public void reportContextSensitivity(final Parser parser, final DFA dfa, final int i, final int i1, final int i2, final ATNConfigSet atnConfigSet) {
 
     }
 
-    public Messages getMessages() {
+    public final Messages getMessages() {
         return this.messages;
     }
 }

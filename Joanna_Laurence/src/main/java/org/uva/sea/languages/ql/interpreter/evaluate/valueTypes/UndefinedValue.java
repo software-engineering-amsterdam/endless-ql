@@ -6,379 +6,379 @@ import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 public class UndefinedValue extends Value {
 
     @Override
-    public <T> T accept(BaseValueVisitor<T> visitor) {
+    public final <T> T accept(final BaseValueVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     //add
-    public Value add(Value value) {
+    public final Value add(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value add(MoneyValue value) {
+    public final Value add(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value add(DecimalValue value) {
+    public final Value add(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value add(IntValue value) {
+    public final Value add(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value add(DateValue value) {
+    public final Value add(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value add(StringValue value) {
+    public final Value add(final StringValue value) {
         return new UndefinedValue();
     }
 
-    public Value add(BooleanValue value) {
+    public final Value add(final BooleanValue value) {
         return new UndefinedValue();
     }
 
     //and
-    public Value and(Value value) {
+    public final Value and(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value and(BooleanValue value) {
+    public final Value and(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value and(DateValue value) {
+    public final Value and(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value and(DecimalValue value) {
+    public final Value and(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value and(IntValue value) {
+    public final Value and(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value and(MoneyValue value) {
+    public final Value and(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value and(StringValue value) {
+    public final Value and(final StringValue value) {
         return new UndefinedValue();
     }
 
     //divide
-    public Value divide(Value value) {
+    public final Value divide(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value divide(BooleanValue value) {
+    public final Value divide(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value divide(DateValue value) {
+    public final Value divide(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value divide(DecimalValue value) {
+    public final Value divide(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value divide(IntValue value) {
+    public final Value divide(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value divide(MoneyValue value) {
+    public final Value divide(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value divide(StringValue value) {
+    public final Value divide(final StringValue value) {
         return new UndefinedValue();
     }
 
     //isEqual
-    public Value isEqual(Value value) {
+    public final Value isEqual(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value isEqual(BooleanValue value) {
+    public final Value isEqual(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value isEqual(DateValue value) {
+    public final Value isEqual(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value isEqual(DecimalValue value) {
+    public final Value isEqual(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value isEqual(IntValue value) {
+    public final Value isEqual(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value isEqual(MoneyValue value) {
+    public final Value isEqual(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value isEqual(StringValue value) {
+    public final Value isEqual(final StringValue value) {
         return new UndefinedValue();
     }
 
     //isGreaterOrEqual
-    public Value isGreaterOrEqual(Value value) {
+    public final Value isGreaterOrEqual(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterOrEqual(BooleanValue value) {
+    public final Value isGreaterOrEqual(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterOrEqual(DateValue value) {
+    public final Value isGreaterOrEqual(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterOrEqual(DecimalValue value) {
+    public final Value isGreaterOrEqual(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterOrEqual(IntValue value) {
+    public final Value isGreaterOrEqual(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterOrEqual(MoneyValue value) {
+    public final Value isGreaterOrEqual(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterOrEqual(StringValue value) {
+    public final Value isGreaterOrEqual(final StringValue value) {
         return new UndefinedValue();
     }
 
     //isGreaterThan
-    public Value isGreaterThan(Value value) {
+    public final Value isGreaterThan(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterThan(BooleanValue value) {
+    public final Value isGreaterThan(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterThan(DateValue value) {
+    public final Value isGreaterThan(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterThan(DecimalValue value) {
+    public final Value isGreaterThan(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterThan(IntValue value) {
+    public final Value isGreaterThan(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterThan(MoneyValue value) {
+    public final Value isGreaterThan(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value isGreaterThan(StringValue value) {
+    public final Value isGreaterThan(final StringValue value) {
         return new UndefinedValue();
     }
 
     //isLessOrEqual
-    public Value isLessOrEqual(Value value) {
+    public final Value isLessOrEqual(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value isLessOrEqual(BooleanValue value) {
+    public final Value isLessOrEqual(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value isLessOrEqual(DateValue value) {
+    public final Value isLessOrEqual(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value isLessOrEqual(DecimalValue value) {
+    public final Value isLessOrEqual(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value isLessOrEqual(IntValue value) {
+    public final Value isLessOrEqual(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value isLessOrEqual(MoneyValue value) {
+    public final Value isLessOrEqual(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value isLessOrEqual(StringValue value) {
+    public final Value isLessOrEqual(final StringValue value) {
         return new UndefinedValue();
     }
 
     //isLessThan
-    public Value isLessThan(Value value) {
+    public final Value isLessThan(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value isLessThan(BooleanValue value) {
+    public final Value isLessThan(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value isLessThan(DateValue value) {
+    public final Value isLessThan(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value isLessThan(DecimalValue value) {
+    public final Value isLessThan(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value isLessThan(IntValue value) {
+    public final Value isLessThan(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value isLessThan(MoneyValue value) {
+    public final Value isLessThan(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value isLessThan(StringValue value) {
+    public final Value isLessThan(final StringValue value) {
         return new UndefinedValue();
     }
 
     //multiply
-    public Value multiply(Value value) {
+    public final Value multiply(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value multiply(BooleanValue value) {
+    public final Value multiply(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value multiply(DateValue value) {
+    public final Value multiply(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value multiply(DecimalValue value) {
+    public final Value multiply(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value multiply(IntValue value) {
+    public final Value multiply(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value multiply(MoneyValue value) {
+    public final Value multiply(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value multiply(StringValue value) {
+    public final Value multiply(final StringValue value) {
         return new UndefinedValue();
     }
 
     //negate
-    public Value negate() {
+    public final Value negate() {
         return new UndefinedValue();
     }
 
     //isNotEqual
-    public Value isNotEqual(Value value) {
+    public final Value isNotEqual(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value isNotEqual(BooleanValue value) {
+    public final Value isNotEqual(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value isNotEqual(DateValue value) {
+    public final Value isNotEqual(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value isNotEqual(DecimalValue value) {
+    public final Value isNotEqual(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value isNotEqual(IntValue value) {
+    public final Value isNotEqual(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value isNotEqual(MoneyValue value) {
+    public final Value isNotEqual(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value isNotEqual(StringValue value) {
+    public final Value isNotEqual(final StringValue value) {
         return new UndefinedValue();
     }
 
     //not
-    public Value not() {
+    public final Value not() {
         return new UndefinedValue();
     }
 
     //or
-    public Value or(Value value) {
+    public final Value or(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value or(BooleanValue value) {
+    public final Value or(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value or(DateValue value) {
+    public final Value or(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value or(DecimalValue value) {
+    public final Value or(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value or(IntValue value) {
+    public final Value or(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value or(MoneyValue value) {
+    public final Value or(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value or(StringValue value) {
+    public final Value or(final StringValue value) {
         return new UndefinedValue();
     }
 
     //positive
-    public Value positive() {
+    public final Value positive() {
         return new UndefinedValue();
     }
 
     //subtract
-    public Value subtract(Value value) {
+    public final Value subtract(final Value value) {
         return new UndefinedValue();
     }
 
-    public Value subtract(BooleanValue value) {
+    public final Value subtract(final BooleanValue value) {
         return new UndefinedValue();
     }
 
-    public Value subtract(DateValue value) {
+    public final Value subtract(final DateValue value) {
         return new UndefinedValue();
     }
 
-    public Value subtract(DecimalValue value) {
+    public final Value subtract(final DecimalValue value) {
         return new UndefinedValue();
     }
 
-    public Value subtract(IntValue value) {
+    public final Value subtract(final IntValue value) {
         return new UndefinedValue();
     }
 
-    public Value subtract(MoneyValue value) {
+    public final Value subtract(final MoneyValue value) {
         return new UndefinedValue();
     }
 
-    public Value subtract(StringValue value) {
+    public final Value subtract(final StringValue value) {
         return new UndefinedValue();
     }
 
     @Override
-    public NodeType getType() {
+    public final NodeType getType() {
         return NodeType.UNKNOWN;
     }
 
-    public UndefinedValue clone() throws CloneNotSupportedException {
+    public final UndefinedValue clone() throws CloneNotSupportedException {
         return (UndefinedValue) super.clone();
     }
 }

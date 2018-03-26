@@ -14,8 +14,8 @@ public class DateValue extends Value {
 
     private final Calendar dateValue;
 
-    public DateValue(String date) {
-        String[] dateSplit = date.split(date, 3);
+    public DateValue(final String date) {
+        final String[] dateSplit = date.split(date, 3);
         if (dateSplit.length != 3)
             throw new InvalidParameterException("Incorrect date: " + date);
 
@@ -25,7 +25,7 @@ public class DateValue extends Value {
         this.dateValue.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateSplit[0]));
     }
 
-    public DateValue(Calendar dateValue) {
+    public DateValue(final Calendar dateValue) {
         this.dateValue = dateValue;
     }
 
@@ -34,92 +34,92 @@ public class DateValue extends Value {
     }
 
     @Override
-    public Value isEqual(Value value) throws EvaluationException {
+    public final Value isEqual(final Value value) throws EvaluationException {
         return value.isEqual(this);
     }
 
     @Override
-    public Value isEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+    public final Value isEqual(final DateValue value) {
+        final int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue(compare == 0);
     }
 
     @Override
-    public Value isGreaterOrEqual(Value value) throws EvaluationException {
+    public final Value isGreaterOrEqual(final Value value) throws EvaluationException {
         return value.isGreaterOrEqual(this);
     }
 
     @Override
-    public Value isGreaterOrEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+    public final Value isGreaterOrEqual(final DateValue value) {
+        final int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue((compare == 0) || (compare > 0));
     }
 
     @Override
-    public Value isGreaterThan(Value value) throws EvaluationException {
+    public final Value isGreaterThan(final Value value) throws EvaluationException {
         return value.isGreaterThan(this);
     }
 
     @Override
-    public Value isGreaterThan(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+    public final Value isGreaterThan(final DateValue value) {
+        final int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue((compare > 0));
     }
 
     @Override
-    public Value isLessOrEqual(Value value) throws EvaluationException {
+    public final Value isLessOrEqual(final Value value) throws EvaluationException {
         return value.isLessOrEqual(this);
     }
 
     @Override
-    public Value isLessOrEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+    public final Value isLessOrEqual(final DateValue value) {
+        final int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue((compare == 0) || (compare < 0));
     }
 
     @Override
-    public Value isLessThan(Value value) throws EvaluationException {
+    public final Value isLessThan(final Value value) throws EvaluationException {
         return value.isLessThan(this);
     }
 
     @Override
-    public Value isLessThan(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+    public final Value isLessThan(final DateValue value) {
+        final int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue(compare < 0);
     }
 
     @Override
-    public Value isNotEqual(Value value) throws EvaluationException {
+    public final Value isNotEqual(final Value value) throws EvaluationException {
         return value.isNotEqual(this);
     }
 
     @Override
-    public Value isNotEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+    public final Value isNotEqual(final DateValue value) {
+        final int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue(compare != 0);
 
     }
 
     @Override
-    public <T> T accept(BaseValueVisitor<T> visitor) {
+    public final <T> T accept(final BaseValueVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public NodeType getType() {
+    public final NodeType getType() {
         return NodeType.DATE;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         if (this.dateValue == null)
             return "";
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY", Locale.ENGLISH);
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY", Locale.ENGLISH);
         return formatter.format(this.dateValue.getTime());
     }
 
-    public DateValue clone() throws CloneNotSupportedException {
+    public final DateValue clone() throws CloneNotSupportedException {
         return (DateValue) super.clone();
     }
 }

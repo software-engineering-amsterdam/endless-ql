@@ -11,17 +11,17 @@ import java.util.List;
 
 public class CheckNoDuplicateQuestions extends QuestionAnalysis implements IQLSStaticAnalysis {
 
-    public Messages doCheck(Form form, Stylesheet stylesheet) {
-        List<String> qlsQuestions = this.getQlSQuestionNames(stylesheet);
+    public final Messages doCheck(final Form form, final Stylesheet stylesheet) {
+        final List<String> qlsQuestions = this.getQlSQuestionNames(stylesheet);
         return this.checkForDuplicateQuestions(qlsQuestions);
     }
 
 
-    private Messages checkForDuplicateQuestions(Iterable<String> listToCheck) {
-        Messages messages = new Messages();
-        Collection<String> validationSet = new HashSet();
+    private Messages checkForDuplicateQuestions(final Iterable<String> listToCheck) {
+        final Messages messages = new Messages();
+        final Collection<String> validationSet = new HashSet();
 
-        for (String name : listToCheck) {
+        for (final String name : listToCheck) {
             if (!validationSet.add(name))
                 messages.addMessage("duplicate question: " + name, MessageTypes.ERROR);
         }
@@ -31,8 +31,8 @@ public class CheckNoDuplicateQuestions extends QuestionAnalysis implements IQLSS
 
     public static class Checker implements IQLSStaticAnalysis {
         @Override
-        public Messages doCheck(Form form, Stylesheet stylesheet) {
-            IQLSStaticAnalysis checker = new CheckNoDuplicateQuestions();
+        public final Messages doCheck(final Form form, final Stylesheet stylesheet) {
+            final IQLSStaticAnalysis checker = new CheckNoDuplicateQuestions();
             return checker.doCheck(form, stylesheet);
         }
     }

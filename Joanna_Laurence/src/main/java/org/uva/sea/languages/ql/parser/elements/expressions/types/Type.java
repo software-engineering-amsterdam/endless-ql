@@ -8,40 +8,40 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 public class Type extends Expression {
     private final NodeType nodeType;
 
-    public Type(Token token, String type) {
+    public Type(final Token token, final String type) {
         super(token);
         this.nodeType = NodeType.valueOf(type.toUpperCase());
     }
 
-    public Type(NodeType type) {
+    public Type(final NodeType type) {
         this.nodeType = type;
     }
 
-    public NodeType getNodeType() {
+    public final NodeType getNodeType() {
         return this.nodeType;
     }
 
-    public Type getType() {
+    public final Type getType() {
         return new Type(NodeType.STRING);
     } //This does not have a type
 
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(final Object o) {
         if (this == o) return true;
         if ((o == null) || (this.getClass() != o.getClass())) return false;
 
-        Type type = (Type) o;
+        final Type type = (Type) o;
 
         return (this.nodeType != null) ? (this.nodeType == type.nodeType) : (type.nodeType == null);
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return (this.nodeType != null) ? this.nodeType.hashCode() : 0;
     }
 
     @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public final <T> T accept(final IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

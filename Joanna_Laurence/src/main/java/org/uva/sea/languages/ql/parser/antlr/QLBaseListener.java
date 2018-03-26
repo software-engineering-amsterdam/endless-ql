@@ -19,7 +19,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterForm(QLParser.FormContext ctx) {
+    public void enterForm(final QLParser.FormContext ctx) {
     }
 
     /**
@@ -28,7 +28,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitForm(QLParser.FormContext ctx) {
+    public void exitForm(final QLParser.FormContext ctx) {
     }
 
     /**
@@ -37,7 +37,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterStatements(QLParser.StatementsContext ctx) {
+    public void enterStatements(final QLParser.StatementsContext ctx) {
     }
 
     /**
@@ -46,7 +46,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitStatements(QLParser.StatementsContext ctx) {
+    public void exitStatements(final QLParser.StatementsContext ctx) {
     }
 
     /**
@@ -55,7 +55,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterStatement(QLParser.StatementContext ctx) {
+    public void enterStatement(final QLParser.StatementContext ctx) {
     }
 
     /**
@@ -64,7 +64,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitStatement(QLParser.StatementContext ctx) {
+    public void exitStatement(final QLParser.StatementContext ctx) {
     }
 
     /**
@@ -73,7 +73,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterQuestion(QLParser.QuestionContext ctx) {
+    public void enterQuestion(final QLParser.QuestionContext ctx) {
     }
 
     /**
@@ -82,7 +82,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitQuestion(QLParser.QuestionContext ctx) {
+    public void exitQuestion(final QLParser.QuestionContext ctx) {
     }
 
     /**
@@ -91,7 +91,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterLabel(QLParser.LabelContext ctx) {
+    public void enterLabel(final QLParser.LabelContext ctx) {
     }
 
     /**
@@ -100,7 +100,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitLabel(QLParser.LabelContext ctx) {
+    public void exitLabel(final QLParser.LabelContext ctx) {
     }
 
     /**
@@ -109,7 +109,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterVariable(QLParser.VariableContext ctx) {
+    public void enterVariable(final QLParser.VariableContext ctx) {
     }
 
     /**
@@ -118,7 +118,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitVariable(QLParser.VariableContext ctx) {
+    public void exitVariable(final QLParser.VariableContext ctx) {
     }
 
     /**
@@ -127,7 +127,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterType(QLParser.TypeContext ctx) {
+    public void enterType(final QLParser.TypeContext ctx) {
     }
 
     /**
@@ -136,7 +136,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitType(QLParser.TypeContext ctx) {
+    public void exitType(final QLParser.TypeContext ctx) {
     }
 
     /**
@@ -145,7 +145,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterCondition(QLParser.ConditionContext ctx) {
+    public void enterCondition(final QLParser.ConditionContext ctx) {
     }
 
     /**
@@ -154,7 +154,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitCondition(QLParser.ConditionContext ctx) {
+    public void exitCondition(final QLParser.ConditionContext ctx) {
     }
 
     /**
@@ -163,7 +163,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterBlock(QLParser.BlockContext ctx) {
+    public void enterBlock(final QLParser.BlockContext ctx) {
     }
 
     /**
@@ -172,7 +172,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitBlock(QLParser.BlockContext ctx) {
+    public void exitBlock(final QLParser.BlockContext ctx) {
     }
 
     /**
@@ -181,7 +181,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterExpression(QLParser.ExpressionContext ctx) {
+    public void enterExpression(final QLParser.ExpressionContext ctx) {
     }
 
     /**
@@ -190,7 +190,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitExpression(QLParser.ExpressionContext ctx) {
+    public void exitExpression(final QLParser.ExpressionContext ctx) {
     }
 
     /**
@@ -199,7 +199,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterOrExpr(QLParser.OrExprContext ctx) {
+    public void enterOrExpr(final QLParser.OrExprContext ctx) {
     }
 
     /**
@@ -208,7 +208,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitOrExpr(QLParser.OrExprContext ctx) {
+    public void exitOrExpr(final QLParser.OrExprContext ctx) {
     }
 
     /**
@@ -217,7 +217,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterAndExpr(QLParser.AndExprContext ctx) {
+    public void enterAndExpr(final QLParser.AndExprContext ctx) {
     }
 
     /**
@@ -226,7 +226,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitAndExpr(QLParser.AndExprContext ctx) {
+    public void exitAndExpr(final QLParser.AndExprContext ctx) {
     }
 
     /**
@@ -235,7 +235,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterRelExpr(QLParser.RelExprContext ctx) {
+    public void enterRelExpr(final QLParser.RelExprContext ctx) {
     }
 
     /**
@@ -244,7 +244,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitRelExpr(QLParser.RelExprContext ctx) {
+    public void exitRelExpr(final QLParser.RelExprContext ctx) {
     }
 
     /**
@@ -253,7 +253,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterAddExpr(QLParser.AddExprContext ctx) {
+    public void enterAddExpr(final QLParser.AddExprContext ctx) {
     }
 
     /**
@@ -262,7 +262,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitAddExpr(QLParser.AddExprContext ctx) {
+    public void exitAddExpr(final QLParser.AddExprContext ctx) {
     }
 
     /**
@@ -271,7 +271,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterMulExpr(QLParser.MulExprContext ctx) {
+    public void enterMulExpr(final QLParser.MulExprContext ctx) {
     }
 
     /**
@@ -280,7 +280,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitMulExpr(QLParser.MulExprContext ctx) {
+    public void exitMulExpr(final QLParser.MulExprContext ctx) {
     }
 
     /**
@@ -289,7 +289,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterUnExpr(QLParser.UnExprContext ctx) {
+    public void enterUnExpr(final QLParser.UnExprContext ctx) {
     }
 
     /**
@@ -298,7 +298,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitUnExpr(QLParser.UnExprContext ctx) {
+    public void exitUnExpr(final QLParser.UnExprContext ctx) {
     }
 
     /**
@@ -307,7 +307,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterPrimary(QLParser.PrimaryContext ctx) {
+    public void enterPrimary(final QLParser.PrimaryContext ctx) {
     }
 
     /**
@@ -316,7 +316,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitPrimary(QLParser.PrimaryContext ctx) {
+    public void exitPrimary(final QLParser.PrimaryContext ctx) {
     }
 
     /**
@@ -325,7 +325,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterBool(QLParser.BoolContext ctx) {
+    public void enterBool(final QLParser.BoolContext ctx) {
     }
 
     /**
@@ -334,7 +334,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitBool(QLParser.BoolContext ctx) {
+    public void exitBool(final QLParser.BoolContext ctx) {
     }
 
     /**
@@ -343,7 +343,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterNum(QLParser.NumContext ctx) {
+    public void enterNum(final QLParser.NumContext ctx) {
     }
 
     /**
@@ -352,7 +352,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitNum(QLParser.NumContext ctx) {
+    public void exitNum(final QLParser.NumContext ctx) {
     }
 
     /**
@@ -361,7 +361,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterDec(QLParser.DecContext ctx) {
+    public void enterDec(final QLParser.DecContext ctx) {
     }
 
     /**
@@ -370,7 +370,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitDec(QLParser.DecContext ctx) {
+    public void exitDec(final QLParser.DecContext ctx) {
     }
 
     /**
@@ -379,7 +379,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterStr(QLParser.StrContext ctx) {
+    public void enterStr(final QLParser.StrContext ctx) {
     }
 
     /**
@@ -388,7 +388,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitStr(QLParser.StrContext ctx) {
+    public void exitStr(final QLParser.StrContext ctx) {
     }
 
     /**
@@ -397,7 +397,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterMoney(QLParser.MoneyContext ctx) {
+    public void enterMoney(final QLParser.MoneyContext ctx) {
     }
 
     /**
@@ -406,7 +406,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitMoney(QLParser.MoneyContext ctx) {
+    public void exitMoney(final QLParser.MoneyContext ctx) {
     }
 
     /**
@@ -415,7 +415,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterDate(QLParser.DateContext ctx) {
+    public void enterDate(final QLParser.DateContext ctx) {
     }
 
     /**
@@ -424,7 +424,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitDate(QLParser.DateContext ctx) {
+    public void exitDate(final QLParser.DateContext ctx) {
     }
 
     /**
@@ -433,7 +433,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void enterEveryRule(ParserRuleContext ctx) {
+    public void enterEveryRule(final ParserRuleContext ctx) {
     }
 
     /**
@@ -442,7 +442,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void exitEveryRule(ParserRuleContext ctx) {
+    public void exitEveryRule(final ParserRuleContext ctx) {
     }
 
     /**
@@ -451,7 +451,7 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void visitTerminal(TerminalNode node) {
+    public void visitTerminal(final TerminalNode node) {
     }
 
     /**
@@ -460,6 +460,6 @@ public class QLBaseListener implements QLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
-    public void visitErrorNode(ErrorNode node) {
+    public void visitErrorNode(final ErrorNode node) {
     }
 }

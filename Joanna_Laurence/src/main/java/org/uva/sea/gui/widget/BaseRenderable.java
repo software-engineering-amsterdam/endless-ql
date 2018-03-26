@@ -18,45 +18,45 @@ public abstract class BaseRenderable {
 
     public abstract Node render(Map<String, VBox> containers);
 
-    Node drawComponent(String label, Node widget) {
-        return drawComponent(label, widget, "");
+    final Node drawComponent(final String label, final Node widget) {
+        return this.drawComponent(label, widget, "");
     }
 
-    private Node drawComponent(String label, Node widget, String extraLabel) {
-        GridPane wrapper = new GridPane();
+    private Node drawComponent(final String label, final Node widget, final String extraLabel) {
+        final GridPane wrapper = new GridPane();
         wrapper.getColumnConstraints().add(new ColumnConstraints(BaseRenderable.LABEL_WIDTH));
         wrapper.getRowConstraints().add(new RowConstraints(BaseRenderable.LABEL_HEIGHT));
         wrapper.addRow(0, this.createLabel(label), this.createLabel(extraLabel), widget);
         return wrapper;
     }
 
-    private Label createLabel(String string) {
-        Label label = new Label(string.replace("\"", ""));
+    private Label createLabel(final String labelName) {
+        final Label label = new Label(labelName.replace("\"", ""));
         label.setWrapText(true);
         return label;
     }
 
-    public boolean updateValue(BooleanValue booleanValue) {
+    public boolean updateValue(final BooleanValue booleanValue) {
         return false;
     }
 
-    public boolean updateValue(DateValue booleanValue) {
+    public boolean updateValue(final DateValue booleanValue) {
         return false;
     }
 
-    public boolean updateValue(DecimalValue booleanValue) {
+    public boolean updateValue(final DecimalValue booleanValue) {
         return false;
     }
 
-    public boolean updateValue(IntValue booleanValue) {
+    public boolean updateValue(final IntValue booleanValue) {
         return false;
     }
 
-    public boolean updateValue(MoneyValue booleanValue) {
+    public boolean updateValue(final MoneyValue booleanValue) {
         return false;
     }
 
-    public boolean updateValue(StringValue booleanValue) {
+    public boolean updateValue(final StringValue booleanValue) {
         return false;
     }
 }

@@ -10,13 +10,13 @@ import java.util.Map;
 
 public class TypeCheckSpecification {
 
-    private HashMap<SpecificationKey, NodeType> specification;
+    private Map<SpecificationKey, NodeType> specification;
 
     public TypeCheckSpecification() {
         this.fillSpecification();
     }
 
-    public Map<SpecificationKey, NodeType> getSpecification() {
+    public final Map<SpecificationKey, NodeType> getSpecification() {
         return this.specification;
     }
 
@@ -58,12 +58,12 @@ public class TypeCheckSpecification {
         this.add(this.operators(Addition.class, Subtraction.class), NodeType.MONEY_EURO, NodeType.MONEY_EURO, NodeType.MONEY_EURO);
     }
 
-    private void add(Iterable<Class<?>> operatorTypes, NodeType left, NodeType right, NodeType returns) {
-        for (Class operatorType : operatorTypes)
+    private void add(final Iterable<Class<?>> operatorTypes, final NodeType left, final NodeType right, final NodeType returns) {
+        for (final Class operatorType : operatorTypes)
             this.specification.put(new SpecificationKey(operatorType, left, right), returns);
     }
 
-    private Iterable<Class<?>> operators(Class<?>... operatorTypes) {
+    private Iterable<Class<?>> operators(final Class<?>... operatorTypes) {
         return Arrays.asList(operatorTypes);
     }
 }

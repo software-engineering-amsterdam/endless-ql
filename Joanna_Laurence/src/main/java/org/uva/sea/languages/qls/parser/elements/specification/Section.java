@@ -10,22 +10,22 @@ public class Section extends Specification {
     private final String name;
     private final List<Specification> specifications;
 
-    public Section(Token token, String name, List<Specification> specifications) {
+    public Section(final Token token, final String name, final List<Specification> specifications) {
         super(token);
         this.name = name;
         this.specifications = specifications;
     }
 
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 
-    public Iterable<Specification> getSpecifications() {
+    public final Iterable<Specification> getSpecifications() {
         return this.specifications;
     }
 
     @Override
-    public <T> T accept(IStyleASTVisitor<T> visitor) {
+    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

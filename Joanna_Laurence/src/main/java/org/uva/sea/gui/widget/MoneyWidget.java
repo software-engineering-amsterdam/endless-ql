@@ -14,21 +14,21 @@ public class MoneyWidget extends Widget {
     private StringValue widgetValue = new StringValue("");
     private String currency = "";
 
-    public MoneyWidget(QuestionData questionData) {
+    public MoneyWidget(final QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public boolean updateValue(MoneyValue moneyValue) {
+    public final boolean updateValue(final MoneyValue moneyValue) {
         this.widgetValue = new StringValue(moneyValue.getAmount().toString());
         this.currency = moneyValue.getCurrency();
         return true;
     }
 
     @Override
-    public Node convertToGuiNode() {
+    public final Node convertToGuiNode() {
 
-        TextField textField = new TextField();
+        final TextField textField = new TextField();
         this.setStyle(textField, this.questionData.getStyle());
         textField.setText(this.widgetValue.getStringValue());
         textField.setEditable(true);
@@ -45,7 +45,7 @@ public class MoneyWidget extends Widget {
         return textField;
     }
 
-    private void setStyle(TextField textField, Style style) {
+    private void setStyle(final TextField textField, final Style style) {
         if (style == null)
             return;
 

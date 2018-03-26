@@ -7,23 +7,23 @@ public class SpecificationKey {
     private final NodeType leftType;
     private final NodeType rightType;
 
-    public SpecificationKey(Class operator, NodeType leftType, NodeType rightType) {
+    public SpecificationKey(final Class operator, final NodeType leftType, final NodeType rightType) {
         this.operator = operator;
         this.leftType = leftType;
         this.rightType = rightType;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if ((obj != null) && (obj instanceof SpecificationKey)) {
-            SpecificationKey key = (SpecificationKey) obj;
+            final SpecificationKey key = (SpecificationKey) obj;
             return this.operator.equals(key.operator) && (this.leftType == key.leftType) && (this.rightType == key.rightType);
         }
         return false;
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return this.operator.hashCode() ^ this.leftType.hashCode() ^ this.rightType.hashCode();
     }
 }

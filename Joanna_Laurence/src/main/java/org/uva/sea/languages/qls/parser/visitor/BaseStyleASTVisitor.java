@@ -11,63 +11,63 @@ import org.uva.sea.languages.qls.parser.elements.style.*;
 
 public class BaseStyleASTVisitor<T> implements IStyleASTVisitor<T> {
 
-    public T visit(Stylesheet node) {
-        for (Page page : node.getPages()) {
+    public final T visit(final Stylesheet node) {
+        for (final Page page : node.getPages()) {
             page.accept(this);
         }
         return null;
     }
 
-    public T visit(Parameter node) {
+    public final T visit(final Parameter node) {
         return null;
     }
 
-    public T visit(Page node) {
-        for (Specification element : node.getSpecificationList()) {
+    public T visit(final Page node) {
+        for (final Specification element : node.getSpecificationList()) {
             element.accept(this);
         }
         return null;
     }
 
-    public T visit(Color node) {
+    public T visit(final Color node) {
         return null;
     }
 
-    public T visit(Font node) {
+    public T visit(final Font node) {
         return null;
     }
 
-    public T visit(FontSize node) {
+    public T visit(final FontSize node) {
         return null;
     }
 
-    public T visit(Widget node) {
-        for (Parameter element : node.getParameters()) {
+    public T visit(final Widget node) {
+        for (final Parameter element : node.getParameters()) {
             element.accept(this);
         }
         return null;
     }
 
-    public T visit(Width node) {
+    public T visit(final Width node) {
         return null;
     }
 
-    public T visit(DefaultStyle node) {
-        for (StyleSpecification element : node.getStyleSpecificationList()) {
+    public T visit(final DefaultStyle node) {
+        for (final StyleSpecification element : node.getStyleSpecificationList()) {
             element.accept(this);
         }
         return null;
     }
 
-    public T visit(Question node) {
-        Widget widget = node.getWidget();
+    public T visit(final Question node) {
+        final Widget widget = node.getWidget();
         if (widget != null)
             return widget.accept(this);
         return null;
     }
 
-    public T visit(Section node) {
-        for (Specification element : node.getSpecifications()) {
+    public T visit(final Section node) {
+        for (final Specification element : node.getSpecifications()) {
             element.accept(this);
         }
         return null;

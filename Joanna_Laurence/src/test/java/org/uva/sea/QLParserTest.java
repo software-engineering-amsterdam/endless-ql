@@ -62,7 +62,7 @@ public class QLParserTest extends TestCase {
     private boolean doesInterpreter(String fileName) {
         try {
             QlEvaluator qlEvaluator = new QlEvaluator(fileName);
-            EvaluationResult evaluationResult = qlEvaluator.getQuestions();
+            EvaluationResult evaluationResult = qlEvaluator.evaluate();
             return !evaluationResult.getMessages().hasMessagePresent(MessageTypes.ERROR);
         } catch (InterruptedException | IOException ignored) {
             return false;

@@ -9,28 +9,17 @@ public class QlSEvaluator extends QlEvaluator {
 
     private final Evaluator evaluator = new Evaluator();
 
-
     private final String qlsFileLocation;
 
-    /**
-     * Constructor
-     *
-     * @param qlFileLocation
-     * @param qlsFileLocation
-     */
+
     public QlSEvaluator(String qlFileLocation, String qlsFileLocation) {
         super(qlFileLocation);
         this.qlsFileLocation = qlsFileLocation;
     }
 
-    /**
-     * Generate EvaluationResult
-     *
-     * @return EvaluationResult
-     */
     @Override
-    public EvaluationResult getQuestions() throws IOException, InterruptedException {
-        EvaluationResult qlInterpreterResult = super.getQuestions();
+    public EvaluationResult evaluate() throws IOException, InterruptedException {
+        EvaluationResult qlInterpreterResult = super.evaluate();
         if (qlInterpreterResult.getAst() == null)
             return qlInterpreterResult;
 

@@ -17,9 +17,6 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
 
     private final Relation<String> dependencies = new Relation<>();
 
-    /**
-     * Hide constructor
-     */
     private CircularQuestionDependencies() {
 
     }
@@ -30,12 +27,6 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
         return this.incorrectDependenciesToErrors(this.getIncorrectAsymmetricElements(this.dependencies));
     }
 
-    /**
-     * Convert dependency errors to Messages
-     *
-     * @param incorrectDependencies The dependency errors
-     * @return The messages
-     */
     private Messages incorrectDependenciesToErrors(Relation<String> incorrectDependencies) {
         Messages errors = new Messages();
         for (RelationEntity<String> dependency : incorrectDependencies.getRelations())
@@ -70,11 +61,6 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
         return null;
     }
 
-    /**
-     * @param questions
-     * @param dependsOn
-     * @param relation
-     */
     private void addRelations(Iterable<String> questions, Iterable<String> dependsOn, Relation<String> relation) {
         for (String question : questions) {
             for (String dependOn : dependsOn) {
@@ -83,13 +69,6 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
         }
     }
 
-    /**
-     * for all a,b IN X (aRb -> NOT(bRa)).
-     * Return all elements that make the map not asymmetric
-     *
-     * @param relation The relations
-     * @return Relations that make the map not asymmetric
-     */
     private Relation<String> getIncorrectAsymmetricElements(Relation<String> relation) {
         Relation<String> incorrectElements = new Relation<>();
 
@@ -101,9 +80,6 @@ public class CircularQuestionDependencies extends BaseASTVisitor<Void> implement
         return incorrectElements;
     }
 
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
     public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {

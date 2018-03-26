@@ -29,48 +29,33 @@ public class Evaluator {
             new CheckNoDuplicateQuestions.Checker(),
             new Checker());
 
-    /**
-     * Generates questions with values
-     *
-     * @param qlsFile            Specification of the GUI
-     * @param qlEvaluationResult The current state of the program
-     * @return List of questions that should be displayed
-     */
-    public EvaluationResult evaluate(String qlsFile, EvaluationResult qlEvaluationResult) throws IOException {
-        Messages evaluationMessages = new Messages();
 
+    public EvaluationResult evaluate(String qlsFile, EvaluationResult qlEvaluationResult) throws IOException {
         ParseResult<Stylesheet> parseResult = this.parse(qlsFile);
-        evaluationMessages.addMessageList(parseResult.getMessages());
-        if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
-            return new EvaluationResult(new ArrayList<>(), parseResult.getMessages(), qlEvaluationResult.getAst());
+
+        Messages parseMessages = parseResult.getMessages();
+        if (parseMessages.hasMessagePresent(MessageTypes.ERROR)) {
+            return new EvaluationResult(new ArrayList<>(), parseMessages, qlEvaluationResult.getAst());
         }
 
-        evaluationMessages.addMessageList(this.performStaticAnalysis(qlEvaluationResult.getAst(), parseResult.getAst()));
-        if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
-            return new EvaluationResult(new ArrayList<>(), evaluationMessages, qlEvaluationResult.getAst());
+        Messages staticAnalysisMessages = this.performStaticAnalysis(qlEvaluationResult.getAst(), parseResult.getAst());
+        if (staticAnalysisMessages.hasMessagePresent(MessageTypes.ERROR)) {
+            return new EvaluationResult(new ArrayList<>(), staticAnalysisMessages, qlEvaluationResult.getAst());
         }
 
         return this.qlQlsLinker.apply(qlEvaluationResult, parseResult.getAst());
     }
 
-    /**
-     * Does the static analysis on the parse result
-     */
+
     private Messages performStaticAnalysis(Form form, Stylesheet stylesheet) {
         Messages returnMessage = new Messages();
         for (IQLSStaticAnalysis staticAnalysis : this.staticAnalyses) {
             Messages analysisMessages = staticAnalysis.doCheck(form, stylesheet);
-            returnMessage.addMessageList(analysisMessages);
+            returnMessage.addMessages(analysisMessages);
         }
         return returnMessage;
     }
 
-
-    /**
-     * Generate the AST
-     *
-     * @param guiSpecification Specification of the GUI
-     */
     private ParseResult<Stylesheet> parse(String guiSpecification) throws IOException {
         return this.astGenerator.createAST(CharStreams.fromStream(new FileInputStream(guiSpecification)));
     }

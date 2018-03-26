@@ -12,18 +12,9 @@ import java.util.List;
 
 public class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
 
-    /**
-     * Expression evaluator
-     */
     private final ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
-    /**
-     * Evaluates the condition, when true the statements are returned
-     *
-     * @param ifStatement Statement that is evaluated
-     * @param symbolTable Symbol table with helpers
-     * @return List of all seen questions
-     */
+
     public List<Question> evaluate(IfStatement ifStatement, SymbolTable symbolTable) {
         Value condition = this.expressionEvaluator.evaluate(ifStatement.getExpression(), symbolTable);
 

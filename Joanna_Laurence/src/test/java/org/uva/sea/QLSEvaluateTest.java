@@ -65,7 +65,7 @@ public class QLSEvaluateTest extends TestCase {
     private boolean doesInterpreter(String fileName) {
         try {
             QlSEvaluator qlsEvaluator = new QlSEvaluator(fileName.replace(".qls",".ql"), fileName);
-            EvaluationResult evaluationResult = qlsEvaluator.getQuestions();
+            EvaluationResult evaluationResult = qlsEvaluator.evaluate();
             Messages evaluationMessages = evaluationResult.getMessages();
             return !evaluationMessages.hasMessagePresent(MessageTypes.ERROR);
         } catch (InterruptedException | IOException ignored) {

@@ -11,12 +11,6 @@ import org.uva.sea.languages.ql.parser.antlr.QLParser;
 import org.uva.sea.languages.ql.parser.elements.Form;
 
 public class ASTGenerator {
-    /**
-     * Create AST for specification
-     *
-     * @param source
-     * @return
-     */
     protected ParseResult<Form> createAST(CharStream source) {
         QLLexer lexer = new QLLexer(source);
         CommonTokenStream tokens = new CommonTokenStream(lexer);

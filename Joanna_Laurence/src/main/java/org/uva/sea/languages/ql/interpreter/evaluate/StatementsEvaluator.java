@@ -12,38 +12,18 @@ import java.util.List;
 
 public class StatementsEvaluator extends BaseASTVisitor<List<Question>> {
 
-    /**
-     *
-     */
     private final SymbolTable symbolTable;
 
-    /**
-     *
-     */
     private final IfStatementEvaluator ifStatementEvaluator = new IfStatementEvaluator();
 
-    /**
-     * @param symbolTable
-     */
     public StatementsEvaluator(SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
     }
 
-    /**
-     * Evaluates the statements
-     *
-     * @return List of all seen questions
-     */
     public List<Question> evaluate(Statements statements) {
         return statements.accept(this);
     }
 
-    /**
-     * Merge all questions from all statements
-     *
-     * @param node Statement node
-     * @return Questions
-     */
     public List<Question> visit(Statements node) {
         List<Question> questions = new ArrayList<>();
         for (ASTNode statement : node.getStatementList()) {
@@ -54,22 +34,10 @@ public class StatementsEvaluator extends BaseASTVisitor<List<Question>> {
         return questions;
     }
 
-    /**
-     * Extract questions for AST
-     *
-     * @param question The questions in the AST
-     * @return The questions in a list
-     */
     public List<Question> visit(Question question) {
         return Collections.singletonList(question);
     }
 
-    /**
-     * Do not evaluate if statements
-     *
-     * @param ifStatement
-     * @return
-     */
     public List<Question> visit(IfStatement ifStatement) {
         return this.ifStatementEvaluator.evaluate(ifStatement, this.symbolTable);
     }

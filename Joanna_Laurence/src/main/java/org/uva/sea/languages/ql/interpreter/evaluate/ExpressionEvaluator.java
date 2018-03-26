@@ -11,11 +11,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
 
     private SymbolTable symbolTable = new SymbolTable();
 
-    /**
-     * Evaluate the AST and get all questions
-     *
-     * @param node The base AST node
-     */
+
     public Value evaluate(ASTNode node, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
         return node.accept(this);

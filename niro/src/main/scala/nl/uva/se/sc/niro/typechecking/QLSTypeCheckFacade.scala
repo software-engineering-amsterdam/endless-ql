@@ -57,17 +57,14 @@ object QLSTypeCheckFacade extends Logging {
   }
 
   def checkWidgetTypeStyling(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
-    val incompatibleWidgetStyles: Seq[(AnswerType, Styling)] =
-      stylesheet.defaultStyles.filterNot(stylingIsCompatible).toSeq ++
-        stylesheet.pages.flatMap(_.defaultStyles.filterNot(stylingIsCompatible)) ++
-        stylesheet.pages.flatMap(
-          _.sections
-            .flatMap(_.defaultStyles.filterNot(stylingIsCompatible))) ++
-        stylesheet
-          .collectAllQuestions()
-          .filter(_.widgetType.widgetType.isDefined)
-          .map(q => (form.symbolTable(q.name).answerType, q.widgetType))
-          .filterNot(stylingIsCompatible)
+    val allWidgetStyles: Seq[(AnswerType, Styling)] =
+      stylesheet.defaultStyles.toSeq ++
+        stylesheet.pages.flatMap(_.defaultStyles.toSeq) ++
+        stylesheet.pages.flatMap(_.sections.flatMap(_.defaultStyles.toSeq)) ++
+        stylesheet.collectAllQuestions().filter(_.widgetType.widgetType.isDefined).map(q => (form.symbolTable(q.name).answerType, q.widgetType))
+
+    val incompatibleWidgetStyles = allWidgetStyles.filterNot(stylingIsCompatible)
+
     if (incompatibleWidgetStyles.isEmpty) {
       Right(stylesheet)
     } else {

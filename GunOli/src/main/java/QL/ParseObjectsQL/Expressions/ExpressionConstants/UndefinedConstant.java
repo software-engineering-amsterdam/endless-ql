@@ -1,17 +1,19 @@
 package QL.ParseObjectsQL.Expressions.ExpressionConstants;
 
+import QL.Analysis.ExpressionVisitorInterface;
+import QL.ParseObjectsQL.Expressions.Constant;
 import QL.ParseObjectsQL.Expressions.EvaluationType;
 
 public class UndefinedConstant extends Constant<Object> {
     private EvaluationType type;
 
-    public UndefinedConstant(){
-        super(null);
+    public UndefinedConstant(int line){
+        super(null, line);
         setType(EvaluationType.Undefined);
     }
 
-    public UndefinedConstant(EvaluationType type){
-        super(null);
+    public UndefinedConstant(EvaluationType type, int line){
+        super(null, line);
         setType(type);
     }
 
@@ -22,5 +24,10 @@ public class UndefinedConstant extends Constant<Object> {
     @Override
     public String toString(){
         return "Undefined";
+    }
+
+    @Override
+    public <T> T accept(ExpressionVisitorInterface<T> visitor){
+        return visitor.visit(this);
     }
 }

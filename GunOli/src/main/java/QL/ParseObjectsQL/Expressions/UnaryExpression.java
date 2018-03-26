@@ -1,12 +1,13 @@
-package QL.ParseObjectsQL.Expressions.UnaryExpressions;
+package QL.ParseObjectsQL.Expressions;
 
 import QL.ParseObjectsQL.Expressions.Expression;
 
-public abstract class UnaryExpression<T> extends Expression<T> {
+public abstract class UnaryExpression extends Expression{
     private Expression expr;
     private String operator;
 
-    public UnaryExpression(String operator, Expression<T> expr){
+    public UnaryExpression(String operator, Expression expr, int line){
+        super(line);
         setOperator(operator);
         setExpression(expr);
     }

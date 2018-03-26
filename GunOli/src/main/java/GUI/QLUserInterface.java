@@ -1,6 +1,7 @@
 package GUI;
 import java.io.File;
 
+import QL.Analysis.TypeChecker;
 import QL.ParseObjectsQL.Form;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
@@ -36,6 +37,9 @@ public class QLUserInterface {
             Parser parser = new Parser();
 
             Form form = parser.parseInputToForm(formFile.getPath());
+
+            TypeChecker typechecker = new TypeChecker(form, form.getExpressionTable());
+            typechecker.typeCheck();
 
             //todo: static analysis typechecker
             Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());

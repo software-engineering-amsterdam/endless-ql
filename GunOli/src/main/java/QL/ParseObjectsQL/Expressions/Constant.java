@@ -1,11 +1,10 @@
-package QL.ParseObjectsQL.Expressions.ExpressionConstants;
+package QL.ParseObjectsQL.Expressions;
 
-import QL.ParseObjectsQL.Expressions.Expression;
-
-public abstract class Constant<T> extends Expression<T> {
+public abstract class Constant<T> extends Expression {
     private T value;
 
-    public Constant(T value) {
+    public Constant(T value, int line) {
+        super(line);
         setValue(value);
     }
 

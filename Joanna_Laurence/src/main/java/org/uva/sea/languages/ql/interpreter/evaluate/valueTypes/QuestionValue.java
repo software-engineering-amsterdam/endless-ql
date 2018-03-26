@@ -8,25 +8,25 @@ public class QuestionValue extends Value {
 
     private final Question question;
 
-    public QuestionValue(Question question) {
+    public QuestionValue(final Question question) {
         this.question = question;
     }
 
-    public Question getQuestion() {
+    public final Question getQuestion() {
         return this.question;
     }
 
     @Override
-    public <T> T accept(BaseValueVisitor<T> visitor) {
+    public final <T> T accept(final BaseValueVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public NodeType getType() {
+    public final NodeType getType() {
         return NodeType.UNKNOWN;
     }
 
-    public QuestionValue clone() throws CloneNotSupportedException {
+    public final QuestionValue clone() throws CloneNotSupportedException {
         return (QuestionValue) super.clone();
     }
 }

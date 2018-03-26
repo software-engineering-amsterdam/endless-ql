@@ -7,15 +7,15 @@ public abstract class QLSNode {
 
     private final Token token;
 
-    protected QLSNode(Token token) {
+    protected QLSNode(final Token token) {
         this.token = token;
     }
 
-    public int getLine() {
+    public final int getLine() {
         return this.token.getLine();
     }
 
-    public int getColumn() {
+    public final int getColumn() {
         return this.token.getCharPositionInLine();
     }
 

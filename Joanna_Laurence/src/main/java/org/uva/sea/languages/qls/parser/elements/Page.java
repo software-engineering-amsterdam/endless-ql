@@ -11,22 +11,22 @@ public class Page extends QLSNode {
     private final String name;
     private final List<Specification> specificationList;
 
-    public Page(Token token, String name, List<Specification> specificationList) {
+    public Page(final Token token, final String name, final List<Specification> specificationList) {
         super(token);
         this.name = name;
         this.specificationList = specificationList;
     }
 
-    public Iterable<Specification> getSpecificationList() {
+    public final Iterable<Specification> getSpecificationList() {
         return this.specificationList;
     }
 
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 
     @Override
-    public <T> T accept(IStyleASTVisitor<T> visitor) {
+    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

@@ -8,26 +8,26 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 public class Decimal extends Expression {
     private final double value;
 
-    public Decimal(Token token, String value) {
+    public Decimal(final Token token, final String value) {
         super(token);
         this.value = Double.parseDouble(value);
     }
 
-    public Decimal(Token token, double value) {
+    public Decimal(final Token token, final double value) {
         super(token);
         this.value = value;
     }
 
-    public double getValue() {
+    public final double getValue() {
         return this.value;
     }
 
-    public Type getType() {
+    public final Type getType() {
         return new Type(NodeType.DECIMAL);
     }
 
     @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public final <T> T accept(final IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

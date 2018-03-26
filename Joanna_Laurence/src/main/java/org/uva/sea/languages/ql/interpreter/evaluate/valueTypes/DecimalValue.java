@@ -9,41 +9,41 @@ public class DecimalValue extends Value {
 
     private final double decimalValue;
 
-    public DecimalValue(String value) {
+    public DecimalValue(final String value) {
         this.decimalValue = Double.parseDouble(value);
     }
 
-    public DecimalValue(double decimalValue) {
+    public DecimalValue(final double decimalValue) {
 
         this.decimalValue = decimalValue;
     }
 
-    public double getDecimalValue() {
+    public final double getDecimalValue() {
         return this.decimalValue;
     }
 
     @Override
-    public Value add(Value value) throws EvaluationException {
+    public final Value add(final Value value) throws EvaluationException {
         return value.add(this);
     }
 
     @Override
-    public Value add(IntValue value) {
+    public final Value add(final IntValue value) {
         return new DecimalValue(this.decimalValue + value.getIntValue());
     }
 
     @Override
-    public Value add(DecimalValue value) {
-        return new DecimalValue(this.decimalValue + value.getDecimalValue());
+    public final Value add(final DecimalValue value) {
+        return new DecimalValue(this.decimalValue + value.decimalValue);
     }
 
     @Override
-    public Value divide(Value value) throws EvaluationException {
+    public final Value divide(final Value value) throws EvaluationException {
         return value.divide(this);
     }
 
     @Override
-    public Value divide(IntValue value) throws EvaluationException {
+    public final Value divide(final IntValue value) throws EvaluationException {
         if (value.getIntValue() == 0)
             throw new EvaluationException("Divide by 0 displayError");
 
@@ -51,159 +51,159 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public Value divide(DecimalValue value) throws EvaluationException {
-        if (value.getDecimalValue() == 0)
+    public final Value divide(final DecimalValue value) throws EvaluationException {
+        if (value.decimalValue == 0)
             throw new EvaluationException("Divide by 0 displayError");
 
-        return new DecimalValue(this.decimalValue / value.getDecimalValue());
+        return new DecimalValue(this.decimalValue / value.decimalValue);
     }
 
     @Override
-    public Value isEqual(Value value) throws EvaluationException {
+    public final Value isEqual(final Value value) throws EvaluationException {
         return value.isEqual(this);
     }
 
     @Override
-    public Value isEqual(IntValue value) {
+    public final Value isEqual(final IntValue value) {
         return new BooleanValue(this.decimalValue == value.getIntValue());
     }
 
     @Override
-    public Value isEqual(DecimalValue value) {
-        return new BooleanValue(this.decimalValue == value.getDecimalValue());
+    public final Value isEqual(final DecimalValue value) {
+        return new BooleanValue(this.decimalValue == value.decimalValue);
     }
 
     @Override
-    public Value isGreaterOrEqual(Value value) throws EvaluationException {
+    public final Value isGreaterOrEqual(final Value value) throws EvaluationException {
         return value.isGreaterOrEqual(this);
     }
 
     @Override
-    public Value isGreaterOrEqual(IntValue value) {
+    public final Value isGreaterOrEqual(final IntValue value) {
         return new BooleanValue(this.decimalValue >= value.getIntValue());
     }
 
     @Override
-    public Value isGreaterOrEqual(DecimalValue value) {
-        return new BooleanValue(this.decimalValue >= value.getDecimalValue());
+    public final Value isGreaterOrEqual(final DecimalValue value) {
+        return new BooleanValue(this.decimalValue >= value.decimalValue);
     }
 
     @Override
-    public Value isGreaterThan(Value value) throws EvaluationException {
+    public final Value isGreaterThan(final Value value) throws EvaluationException {
         return value.isGreaterThan(this);
     }
 
     @Override
-    public Value isGreaterThan(IntValue value) {
+    public final Value isGreaterThan(final IntValue value) {
         return new BooleanValue(this.decimalValue > value.getIntValue());
     }
 
     @Override
-    public Value isGreaterThan(DecimalValue value) {
-        return new BooleanValue(this.decimalValue > value.getDecimalValue());
+    public final Value isGreaterThan(final DecimalValue value) {
+        return new BooleanValue(this.decimalValue > value.decimalValue);
     }
 
     @Override
-    public Value isLessOrEqual(Value value) throws EvaluationException {
+    public final Value isLessOrEqual(final Value value) throws EvaluationException {
         return value.isLessOrEqual(this);
     }
 
     @Override
-    public Value isLessOrEqual(IntValue value) {
+    public final Value isLessOrEqual(final IntValue value) {
         return new BooleanValue(this.decimalValue <= value.getIntValue());
     }
 
     @Override
-    public Value isLessOrEqual(DecimalValue value) {
-        return new BooleanValue(this.decimalValue <= value.getDecimalValue());
+    public final Value isLessOrEqual(final DecimalValue value) {
+        return new BooleanValue(this.decimalValue <= value.decimalValue);
     }
 
     @Override
-    public Value isLessThan(Value value) throws EvaluationException {
+    public final Value isLessThan(final Value value) throws EvaluationException {
         return value.isLessThan(this);
     }
 
     @Override
-    public Value isLessThan(IntValue value) {
+    public final Value isLessThan(final IntValue value) {
         return new BooleanValue(this.decimalValue < value.getIntValue());
     }
 
     @Override
-    public Value isLessThan(DecimalValue value) {
-        return new BooleanValue(this.decimalValue < value.getDecimalValue());
+    public final Value isLessThan(final DecimalValue value) {
+        return new BooleanValue(this.decimalValue < value.decimalValue);
     }
 
     @Override
-    public Value multiply(Value value) throws EvaluationException {
+    public final Value multiply(final Value value) throws EvaluationException {
         return value.multiply(this);
     }
 
     @Override
-    public Value multiply(IntValue value) {
+    public final Value multiply(final IntValue value) {
         return new DecimalValue(this.decimalValue * value.getIntValue());
     }
 
     @Override
-    public Value multiply(DecimalValue value) {
-        return new DecimalValue(this.decimalValue * value.getDecimalValue());
+    public final Value multiply(final DecimalValue value) {
+        return new DecimalValue(this.decimalValue * value.decimalValue);
     }
 
     @Override
-    public Value isNotEqual(Value value) throws EvaluationException {
+    public final Value isNotEqual(final Value value) throws EvaluationException {
         return value.isNotEqual(this);
     }
 
     @Override
-    public Value isNotEqual(IntValue value) {
+    public final Value isNotEqual(final IntValue value) {
         return new BooleanValue(this.decimalValue != value.getIntValue());
     }
 
     @Override
-    public Value isNotEqual(DecimalValue value) {
-        return new BooleanValue(this.decimalValue != value.getDecimalValue());
+    public final Value isNotEqual(final DecimalValue value) {
+        return new BooleanValue(this.decimalValue != value.decimalValue);
     }
 
     @Override
-    public Value subtract(Value value) throws EvaluationException {
+    public final Value subtract(final Value value) throws EvaluationException {
         return value.subtract(this);
     }
 
     @Override
-    public Value subtract(IntValue value) {
+    public final Value subtract(final IntValue value) {
         return new DecimalValue(this.decimalValue - value.getIntValue());
     }
 
     @Override
-    public Value subtract(DecimalValue value) {
-        return new DecimalValue(this.decimalValue - value.getDecimalValue());
+    public final Value subtract(final DecimalValue value) {
+        return new DecimalValue(this.decimalValue - value.decimalValue);
     }
 
     @Override
-    public Value negate() {
+    public final Value negate() {
         return new DecimalValue(this.decimalValue * (-1));
     }
 
     @Override
-    public Value positive() {
+    public final Value positive() {
         return new DecimalValue(this.decimalValue);
     }
 
     @Override
-    public <T> T accept(BaseValueVisitor<T> visitor) {
+    public final <T> T accept(final BaseValueVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public NodeType getType() {
+    public final NodeType getType() {
         return NodeType.DECIMAL;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return String.valueOf(this.decimalValue);
     }
 
-    public DecimalValue clone() throws CloneNotSupportedException {
+    public final DecimalValue clone() throws CloneNotSupportedException {
         return (DecimalValue) super.clone();
     }
 }

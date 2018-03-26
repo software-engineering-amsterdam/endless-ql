@@ -11,26 +11,26 @@ public class ChoiceBoxWidgetQLS extends WidgetQLS {
 
     private BooleanValue widgetValue = new BooleanValue(false);
 
-    public ChoiceBoxWidgetQLS(QuestionData questionData) {
+    public ChoiceBoxWidgetQLS(final QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public boolean updateValue(BooleanValue booleanValue) {
+    public final boolean updateValue(final BooleanValue booleanValue) {
         this.widgetValue = booleanValue;
         return true;
     }
 
     @Override
-    public Node convertToGuiNode() {
+    public final Node convertToGuiNode() {
         final ChoiceBox<Boolean> choiceBox = new ChoiceBox<>();
         choiceBox.setValue((this.widgetValue != null) && this.widgetValue.getBooleanValue());
 
-        ObservableList<Boolean> booleanList = FXCollections.observableArrayList(true, false);
+        final ObservableList<Boolean> booleanList = FXCollections.observableArrayList(true, false);
         choiceBox.setItems(booleanList);
 
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-            BooleanValue newBooleanValue = new BooleanValue(choiceBox.getItems().get((Integer) newValue));
+            final BooleanValue newBooleanValue = new BooleanValue(choiceBox.getItems().get((Integer) newValue));
             this.sendUpdateValueEvent(this.questionData.getQuestionName(), newBooleanValue);
         });
 

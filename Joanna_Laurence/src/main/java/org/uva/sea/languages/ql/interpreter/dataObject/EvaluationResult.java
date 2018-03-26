@@ -15,25 +15,25 @@ public class EvaluationResult {
 
     private final List<QuestionData> questions;
 
-    public EvaluationResult(List<QuestionData> questions, Messages warnings, Form ast) {
+    public EvaluationResult(final List<QuestionData> questions, final Messages warnings, final Form ast) {
         this.messages = warnings;
         this.questions = questions;
         this.ast = ast;
     }
 
-    public Messages getMessages() {
+    public final Messages getMessages() {
         return this.messages;
     }
 
-    public Collection<QuestionData> getQuestions() {
+    public final Collection<QuestionData> getQuestions() {
         return this.questions;
     }
 
-    public void add(QuestionData questionRow) {
+    public final void add(final QuestionData questionRow) {
         this.questions.add(questionRow);
     }
 
-    public Form getAst() {
+    public final Form getAst() {
         return this.ast;
     }
 }

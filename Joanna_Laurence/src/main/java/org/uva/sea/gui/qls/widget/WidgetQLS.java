@@ -6,17 +6,17 @@ import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 
 public abstract class WidgetQLS extends BaseWidget {
-    WidgetQLS(QuestionData questionData) {
+    WidgetQLS(final QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public String getContainerName() {
+    public final String getContainerName() {
         return this.questionData.getStyle().getPage();
     }
 
-    void setStyle(Node node) {
-        Style style = this.questionData.getStyle();
+    final void setStyle(final Node node) {
+        final Style style = this.questionData.getStyle();
         if (style == null)
             return;
 

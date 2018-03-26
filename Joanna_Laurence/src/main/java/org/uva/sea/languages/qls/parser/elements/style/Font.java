@@ -7,17 +7,17 @@ public class Font extends StyleSpecification {
 
     private final String name;
 
-    public Font(Token token, String name) {
+    public Font(final Token token, final String name) {
         super(token);
         this.name = name;
     }
 
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 
     @Override
-    public <T> T accept(IStyleASTVisitor<T> visitor) {
+    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

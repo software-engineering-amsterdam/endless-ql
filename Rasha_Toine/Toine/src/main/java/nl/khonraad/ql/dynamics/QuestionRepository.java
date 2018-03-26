@@ -8,10 +8,9 @@ import java.util.Map.Entry;
 
 import org.joda.time.DateTime;
 
-import nl.khonraad.ql.algebra.Question;
 import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
-import nl.khonraad.ql.algebra.Question.BehaviouralType;
+import nl.khonraad.ql.dynamics.Question.BehaviouralType;
 
 public class QuestionRepository {
 
@@ -72,7 +71,7 @@ public class QuestionRepository {
             case String:
                 return new Value( Type.String, "" );
         }
-        throw new RuntimeException( "'Constructor' not imlemented for type " + type );
+        throw new RuntimeException( "'Constructor' not implemented for type " + type );
     }
 
     private Value answerSeenEarlier( String identifier, Type type ) {

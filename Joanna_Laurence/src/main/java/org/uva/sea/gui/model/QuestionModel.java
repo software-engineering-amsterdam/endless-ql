@@ -21,38 +21,38 @@ public class QuestionModel {
 
     private BaseEvaluator baseEvaluator = null;
 
-    public QuestionModel(IQuestionValueUpdatedListener questionValueUpdateListener, IWidgetFactory widgetFactory) {
+    public QuestionModel(final IQuestionValueUpdatedListener questionValueUpdateListener, final IWidgetFactory widgetFactory) {
         this.questionValueUpdatedListener = questionValueUpdateListener;
         this.widgetFactory = widgetFactory;
     }
 
-    public void setBaseEvaluator(BaseEvaluator baseEvaluator) {
+    public final void setBaseEvaluator(final BaseEvaluator baseEvaluator) {
         this.baseEvaluator = baseEvaluator;
     }
 
-    public RenderingElements getQuestionRenders(EvaluationResult evaluationResult) throws WidgetNotFoundException {
+    public final RenderingElements getQuestionRenders(final EvaluationResult evaluationResult) throws WidgetNotFoundException {
         if (evaluationResult == null)
             return null;
 
-        Collection<BaseWidget> guiElements = new ArrayList<>();
-        for (QuestionData questionData : evaluationResult.getQuestions())
+        final Collection<BaseWidget> guiElements = new ArrayList<>();
+        for (final QuestionData questionData : evaluationResult.getQuestions())
             guiElements.add(this.createWidget(questionData));
 
         return new RenderingElements(guiElements, evaluationResult.getMessages());
     }
 
-    public EvaluationResult getEvaluationResults() throws IOException, InterruptedException {
+    public final EvaluationResult getEvaluationResults() throws IOException, InterruptedException {
         if (this.baseEvaluator == null)
             return null;
 
         return this.baseEvaluator.evaluate();
     }
 
-    private BaseWidget createWidget(QuestionData questionData) throws WidgetNotFoundException {
+    private BaseWidget createWidget(final QuestionData questionData) throws WidgetNotFoundException {
         return this.widgetFactory.createWidget(questionData, this.questionValueUpdatedListener);
     }
 
-    public void setVariable(String identifier, Value value) {
+    public final void setVariable(final String identifier, final Value value) {
         this.baseEvaluator.setVariable(identifier, value);
     }
 }

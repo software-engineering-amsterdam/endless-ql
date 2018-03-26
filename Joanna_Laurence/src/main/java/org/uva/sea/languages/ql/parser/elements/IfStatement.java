@@ -10,34 +10,34 @@ public class IfStatement extends Statement {
 
     private final Expression expression;
 
-    private final Statements then;
-    private final Statements otherwise;
+    private final Statements thenBlock;
+    private final Statements otherwiseBlock;
 
-    public IfStatement(Token token, Expression expression, Statements then, Statements otherwise) {
+    public IfStatement(final Token token, final Expression expression, final Statements thenBlock, final Statements otherwiseBlock) {
         super(token);
-        this.then = then;
+        this.thenBlock = thenBlock;
         this.expression = expression;
-        this.otherwise = otherwise;
+        this.otherwiseBlock = otherwiseBlock;
     }
 
-    public ASTNode getExpression() {
+    public final ASTNode getExpression() {
         return this.expression;
     }
 
-    public Statements getThen() {
-        return this.then;
+    public final Statements getThenBlock() {
+        return this.thenBlock;
     }
 
-    public Statements getOtherwise() {
-        return this.otherwise;
+    public final Statements getOtherwiseBlock() {
+        return this.otherwiseBlock;
     }
 
-    public Type getType() {
+    public final Type getType() {
         return new Type(NodeType.UNKNOWN);
     }
 
     @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public final <T> T accept(final IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

@@ -16,32 +16,32 @@ public class TextFieldWidget extends Widget {
 
     private Value widgetValue = new StringValue("");
 
-    public TextFieldWidget(QuestionData questionData) {
+    public TextFieldWidget(final QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public boolean updateValue(DecimalValue decimalValue) {
+    public final boolean updateValue(final DecimalValue decimalValue) {
         this.widgetValue = decimalValue;
         return true;
     }
 
     @Override
-    public boolean updateValue(IntValue intValue) {
+    public final boolean updateValue(final IntValue intValue) {
         this.widgetValue = intValue;
         return true;
     }
 
     @Override
-    public boolean updateValue(StringValue stringValue) {
+    public final boolean updateValue(final StringValue stringValue) {
         this.widgetValue = stringValue;
         return true;
     }
 
     @Override
-    public Node convertToGuiNode() {
+    public final Node convertToGuiNode() {
 
-        TextField textField = new TextField();
+        final TextField textField = new TextField();
         this.setStyle(textField, this.questionData.getStyle());
         textField.setText(this.widgetValue.toString());
         textField.setEditable(true);
@@ -65,7 +65,7 @@ public class TextFieldWidget extends Widget {
         return textField;
     }
 
-    private void setStyle(TextField textField, Style style) {
+    private void setStyle(final TextField textField, final Style style) {
         if (style == null)
             return;
 

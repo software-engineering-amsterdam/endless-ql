@@ -18,14 +18,14 @@ public class FormController extends BaseFormController {
     }
 
     @Override
-    protected Map<String, VBox> createContainers(EvaluationResult evaluationResult) {
-        Map<String, VBox> containers = new HashMap<>();
-        for (QuestionData questionData : evaluationResult.getQuestions()) {
-            Style style = questionData.getStyle();
+    protected final Map<String, VBox> createContainers(final EvaluationResult evaluationResult) {
+        final Map<String, VBox> containers = new HashMap<>();
+        for (final QuestionData questionData : evaluationResult.getQuestions()) {
+            final Style style = questionData.getStyle();
             if (style == null)
                 continue;
 
-            String containerName = style.getPage();
+            final String containerName = style.getPage();
             if (!containers.keySet().contains(containerName))
                 containers.put(containerName, this.createContainerTab(containerName));
         }
@@ -33,11 +33,11 @@ public class FormController extends BaseFormController {
         return containers;
     }
 
-    private VBox createContainerTab(String tabName) {
-        Tab tab = new Tab();
+    private VBox createContainerTab(final String tabName) {
+        final Tab tab = new Tab();
         tab.setText(tabName);
 
-        VBox container = new VBox();
+        final VBox container = new VBox();
         tab.setContent(container);
 
         this.tabPane.getTabs().add(tab);

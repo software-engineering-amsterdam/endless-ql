@@ -56,9 +56,9 @@ type returns [Type result]
     };
 
 condition returns [IfStatement result]
-    : i='if' '(' expr=expression ')' then=block (e='else' elseBlock=block)? {
+    : i='if' '(' expr=expression ')' thenBlock=block (e='else' elseBlock=block)? {
         Statements elseBlock = $elseBlock.text != null ? $elseBlock.result : null;
-        $result = new IfStatement($i, $expr.result, $then.result, elseBlock);
+        $result = new IfStatement($i, $expr.result, $thenBlock.result, elseBlock);
     };
 
 block returns [Statements result]

@@ -7,17 +7,17 @@ public class Width extends StyleSpecification {
 
     private final int width;
 
-    public Width(Token token, String width) {
+    public Width(final Token token, final String width) {
         super(token);
         this.width = Integer.parseInt(width);
     }
 
-    public int getWidth() {
+    public final int getWidth() {
         return this.width;
     }
 
     @Override
-    public <T> T accept(IStyleASTVisitor<T> visitor) {
+    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

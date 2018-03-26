@@ -15,20 +15,20 @@ class IfStatementEvaluator extends BaseValueVisitor<Boolean> {
     private final ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
 
-    public List<Question> evaluate(IfStatement ifStatement, SymbolTable symbolTable) {
-        Value condition = this.expressionEvaluator.evaluate(ifStatement.getExpression(), symbolTable);
+    public final List<Question> evaluate(final IfStatement ifStatement, final SymbolTable symbolTable) {
+        final Value condition = this.expressionEvaluator.evaluate(ifStatement.getExpression(), symbolTable);
 
-        Boolean conditionTrue = condition.accept(new LookupBooleanValue());
+        final Boolean conditionTrue = condition.accept(new LookupBooleanValue());
         if (conditionTrue == null) {
             return new ArrayList<>();
         }
 
-        Statements execute = conditionTrue ? ifStatement.getThen() : ifStatement.getOtherwise();
+        final Statements execute = conditionTrue ? ifStatement.getThenBlock() : ifStatement.getOtherwiseBlock();
         if (execute == null) {
             return new ArrayList<>();
         }
 
-        StatementsEvaluator statementsEvaluator = new StatementsEvaluator(symbolTable);
+        final StatementsEvaluator statementsEvaluator = new StatementsEvaluator(symbolTable);
         return statementsEvaluator.evaluate(execute);
     }
 }

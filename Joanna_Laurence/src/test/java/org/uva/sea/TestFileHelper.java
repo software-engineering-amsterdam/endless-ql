@@ -6,13 +6,13 @@ import java.util.Collection;
 
 class TestFileHelper {
 
-    public Collection<String> getTestFiles(String folderLocation) {
-        Collection<String> testLocation = new ArrayList<>();
+    public final Collection<String> getTestFiles(final String folderLocation) {
+        final Collection<String> testLocation = new ArrayList<>();
 
-        File folder = new File(folderLocation);
-        File[] listOfFiles = folder.listFiles();
+        final File folder = new File(folderLocation);
+        final File[] listOfFiles = folder.listFiles();
         if (listOfFiles != null) {
-            for (File file : listOfFiles) {
+            for (final File file : listOfFiles) {
                 testLocation.add(file.getAbsolutePath());
             }
         }

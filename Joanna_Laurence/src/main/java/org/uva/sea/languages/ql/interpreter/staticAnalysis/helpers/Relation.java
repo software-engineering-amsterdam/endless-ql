@@ -9,18 +9,18 @@ public class Relation<T> {
 
     private final Set<RelationEntity<T>> relations = new HashSet<>();
 
-    public Set<RelationEntity<T>> getRelations() {
+    public final Iterable<RelationEntity<T>> getRelations() {
         return this.relations;
     }
 
-    public boolean addRelation(T elementA, T elementB) {
+    public final boolean addRelation(final T elementA, final T elementB) {
         return this.relations.add(new RelationEntity<>(elementA, elementB));
     }
 
-    public Iterable<T> getCircularRelations() {
-        Relation<T> transitiveClosure = this.getTransitiveClosure();
-        Collection<T> circular = new ArrayList<>();
-        for (RelationEntity<T> entry : transitiveClosure.getRelations()) {
+    public final Iterable<T> getCircularRelations() {
+        final Relation<T> transitiveClosure = this.getTransitiveClosure();
+        final Collection<T> circular = new ArrayList<>();
+        for (final RelationEntity<T> entry : transitiveClosure.relations) {
             if (entry.getKey().equals(entry.getValue())) {
                 circular.add(entry.getKey());
             }
@@ -30,19 +30,19 @@ public class Relation<T> {
     }
 
     private Relation<T> getTransitiveClosure() {
-        Relation<T> transitiveClosure = new Relation<>();
+        final Relation<T> transitiveClosure = new Relation<>();
         transitiveClosure.addAll(this.relations);
 
         boolean newElementsAdded;
         do {
             newElementsAdded = false;
 
-            Iterable<RelationEntity<T>> relations = new HashSet<>(transitiveClosure.getRelations());
-            for (RelationEntity<T> entry : relations) {
-                T source = entry.getKey();
-                T target = entry.getValue();
-                Set<T> relationTo = transitiveClosure.getRelationTo(target);
-                for (T element : relationTo) {
+            final Iterable<RelationEntity<T>> relations = new HashSet<>(transitiveClosure.relations);
+            for (final RelationEntity<T> entry : relations) {
+                final T source = entry.getKey();
+                final T target = entry.getValue();
+                final Set<T> relationTo = transitiveClosure.getRelationTo(target);
+                for (final T element : relationTo) {
                     if (transitiveClosure.addRelation(source, element)) {
                         newElementsAdded = true;
                     }
@@ -53,17 +53,17 @@ public class Relation<T> {
         return transitiveClosure;
     }
 
-    private void addAll(Collection<RelationEntity<T>> relations) {
+    private void addAll(final Collection<RelationEntity<T>> relations) {
         this.relations.addAll(relations);
     }
 
-    public boolean contains(T key, T value) {
+    public final boolean contains(final T key, final T value) {
         return this.relations.contains(new RelationEntity<>(key, value));
     }
 
-    private Set<T> getRelationTo(T element) {
-        Set<T> result = new HashSet<>();
-        for (RelationEntity<T> entry : this.relations) {
+    private Set<T> getRelationTo(final T element) {
+        final Set<T> result = new HashSet<>();
+        for (final RelationEntity<T> entry : this.relations) {
             if (entry.getKey().equals(element)) {
                 result.add(entry.getValue());
             }

@@ -13,29 +13,29 @@ public class DateWidget extends Widget {
 
     private DateValue widgetValue = new DateValue(Calendar.getInstance());
 
-    public DateWidget(QuestionData questionData) {
+    public DateWidget(final QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public boolean updateValue(DateValue dateValue) {
+    public final boolean updateValue(final DateValue dateValue) {
         this.widgetValue = dateValue;
         return true;
     }
 
     @Override
-    public Node convertToGuiNode() {
-        DatePicker datePicker = new DatePicker();
+    public final Node convertToGuiNode() {
+        final DatePicker datePicker = new DatePicker();
 
         datePicker.getEditor().setText(this.widgetValue.toString());
 
         datePicker.setOnAction(event -> {
-            LocalDate localDate = datePicker.getValue();
-            Calendar calendar = Calendar.getInstance();
+            final LocalDate localDate = datePicker.getValue();
+            final Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
             calendar.set(Calendar.MONTH, localDate.getMonthValue());
             calendar.set(Calendar.YEAR, localDate.getYear());
-            Value newValue = new DateValue(calendar);
+            final Value newValue = new DateValue(calendar);
             this.sendUpdateValueEvent(this.questionData.getQuestionName(), newValue);
         });
 

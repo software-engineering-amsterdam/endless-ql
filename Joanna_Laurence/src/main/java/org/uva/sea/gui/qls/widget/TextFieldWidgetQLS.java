@@ -9,14 +9,14 @@ public class TextFieldWidgetQLS extends WidgetQLS {
 
     private final BaseWidget textFieldWidget;
 
-    public TextFieldWidgetQLS(QuestionData questionData) {
+    public TextFieldWidgetQLS(final QuestionData questionData) {
         super(questionData);
         this.textFieldWidget = this.linkToOtherWidget(new TextFieldWidget(questionData), questionData);
     }
 
     @Override
-    public Node convertToGuiNode() {
-        Node widget = this.textFieldWidget.convertToGuiNode();
+    public final Node convertToGuiNode() {
+        final Node widget = this.textFieldWidget.convertToGuiNode();
         this.setStyle(widget);
         return widget;
     }

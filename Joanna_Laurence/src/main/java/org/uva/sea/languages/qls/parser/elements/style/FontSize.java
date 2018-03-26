@@ -7,17 +7,17 @@ public class FontSize extends StyleSpecification {
 
     private final int size;
 
-    public FontSize(Token token, String size) {
+    public FontSize(final Token token, final String size) {
         super(token);
         this.size = Integer.parseInt(size);
     }
 
-    public int getSize() {
+    public final int getSize() {
         return this.size;
     }
 
     @Override
-    public <T> T accept(IStyleASTVisitor<T> visitor) {
+    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

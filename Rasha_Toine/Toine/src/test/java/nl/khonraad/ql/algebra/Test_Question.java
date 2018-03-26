@@ -5,6 +5,8 @@ import static org.quicktheories.generators.SourceDSL.integers;
 
 import org.junit.Test;
 
+import nl.khonraad.ql.dynamics.Question;
+
 public class Test_Question {
 
     @Test

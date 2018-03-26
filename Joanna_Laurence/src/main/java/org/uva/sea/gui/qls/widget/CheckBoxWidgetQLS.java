@@ -9,14 +9,14 @@ public class CheckBoxWidgetQLS extends WidgetQLS {
 
     private final BaseWidget checkBoxWidget;
 
-    public CheckBoxWidgetQLS(QuestionData questionData) {
+    public CheckBoxWidgetQLS(final QuestionData questionData) {
         super(questionData);
         this.checkBoxWidget = this.linkToOtherWidget(new CheckBoxWidget(questionData), questionData);
     }
 
     @Override
-    public Node convertToGuiNode() {
-        Node widget = this.checkBoxWidget.convertToGuiNode();
+    public final Node convertToGuiNode() {
+        final Node widget = this.checkBoxWidget.convertToGuiNode();
         this.setStyle(widget);
         return widget;
     }

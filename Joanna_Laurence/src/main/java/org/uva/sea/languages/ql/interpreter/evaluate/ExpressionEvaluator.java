@@ -12,211 +12,211 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
     private SymbolTable symbolTable = new SymbolTable();
 
 
-    public Value evaluate(ASTNode node, SymbolTable symbolTable) {
+    public final Value evaluate(final ASTNode node, final SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
         return node.accept(this);
     }
 
     @Override
-    public Value visit(Addition node) {
+    public final Value visit(final Addition node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.add(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(And node) {
+    public final Value visit(final And node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.and(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(Division node) {
+    public final Value visit(final Division node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.divide(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(Equal node) {
+    public final Value visit(final Equal node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.isEqual(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(GreaterOrEqual node) {
+    public final Value visit(final GreaterOrEqual node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.isGreaterOrEqual(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(GreaterThan node) {
+    public final Value visit(final GreaterThan node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.isGreaterThan(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(LessOrEqual node) {
+    public final Value visit(final LessOrEqual node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.isLessOrEqual(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(LessThan node) {
+    public final Value visit(final LessThan node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.isLessThan(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(Multiplication node) {
+    public final Value visit(final Multiplication node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.multiply(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(Negative node) {
+    public final Value visit(final Negative node) {
         try {
-            Value value = node.getValue().accept(this);
+            final Value value = node.getValue().accept(this);
             return value.negate();
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(NotEqual node) {
+    public final Value visit(final NotEqual node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.isNotEqual(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(Not node) {
+    public final Value visit(final Not node) {
         try {
-            Value value = node.getValue().accept(this);
+            final Value value = node.getValue().accept(this);
             return value.not();
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(Or node) {
+    public final Value visit(final Or node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.or(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(Positive node) {
+    public final Value visit(final Positive node) {
         try {
-            Value value = node.getValue().accept(this);
+            final Value value = node.getValue().accept(this);
             return value.positive();
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(Subtraction node) {
+    public final Value visit(final Subtraction node) {
         try {
-            Value left = node.getLeftHandSide().accept(this);
-            Value right = node.getRightHandSide().accept(this);
+            final Value left = node.getLeftHandSide().accept(this);
+            final Value right = node.getRightHandSide().accept(this);
             return right.subtract(left);
-        } catch (EvaluationException e) {
+        } catch (final EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
     }
 
     @Override
-    public Value visit(Bool node) {
+    public final Value visit(final Bool node) {
         return new BooleanValue(node.isTrue());
     }
 
     @Override
-    public Value visit(DateExpr node) {
+    public final Value visit(final DateExpr node) {
         return new DateValue(node.getDate());
     }
 
     @Override
-    public Value visit(Decimal node) {
+    public final Value visit(final Decimal node) {
         return new DecimalValue(node.getValue());
     }
 
     @Override
-    public Value visit(Money node) {
+    public final Value visit(final Money node) {
         return new MoneyValue(node.getCurrency(), node.getAmount());
     }
 
     @Override
-    public Value visit(Int node) {
+    public final Value visit(final Int node) {
         return new IntValue(node.getValue());
     }
 
     @Override
-    public Value visit(Str node) {
+    public final Value visit(final Str node) {
         return new StringValue(node.getValue());
     }
 
     @Override
-    public Value visit(Type node) {
+    public final Value visit(final Type node) {
         return null;
     }
 
     @Override
-    public Value visit(Variable node) {
-        Value symbolValue = this.symbolTable.getValue(node.getVariableName());
+    public final Value visit(final Variable node) {
+        final Value symbolValue = this.symbolTable.getValue(node.getVariableName());
         if (symbolValue != null)
             return symbolValue;
 

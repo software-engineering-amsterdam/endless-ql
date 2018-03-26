@@ -13,28 +13,28 @@ public class Widget extends StyleSpecification {
     private final WidgetType widgetType;
     private final List<Parameter> parameters;
 
-    public Widget(Token token, String widgetType, List<Parameter> parameters) {
+    public Widget(final Token token, final String widgetType, final List<Parameter> parameters) {
         super(token);
         this.parameters = parameters;
         this.widgetType = WidgetType.valueOf(widgetType.toUpperCase());
     }
 
-    public WidgetType getWidgetType() {
+    public final WidgetType getWidgetType() {
         return this.widgetType;
     }
 
-    public Iterable<Parameter> getParameters() {
+    public final Iterable<Parameter> getParameters() {
         return this.parameters;
     }
 
     @Override
-    public <T> T accept(IStyleASTVisitor<T> visitor) {
+    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
-    public List<String> getParametersAsStrings() {
-        List<String> parameters = new ArrayList<>();
-        for (Parameter parameter : this.getParameters())
+    public final List<String> getParametersAsStrings() {
+        final List<String> parameters = new ArrayList<>();
+        for (final Parameter parameter : this.getParameters())
             parameters.add(parameter.getParameter());
         return parameters;
     }

@@ -18,7 +18,7 @@ public class Style {
 
     private QLWidget widget = new QLWidget(WidgetType.DEFAULT, new ArrayList<>());
 
-    public void fillNullFields(Style style) {
+    public final void fillNullFields(final Style style) {
         if (this.color == null)
             this.color = style.color;
 
@@ -42,35 +42,35 @@ public class Style {
     }
 
 
-    public String getColor() {
+    public final String getColor() {
         return this.color;
     }
 
-    public void setColor(String color) {
+    public final void setColor(final String color) {
         this.color = color;
     }
 
-    public String getFont() {
+    public final String getFont() {
         return this.font;
     }
 
-    public void setFont(String font) {
+    public final void setFont(final String font) {
         this.font = font;
     }
 
-    public Integer getFontSize() {
+    public final Integer getFontSize() {
         return this.fontSize;
     }
 
-    public void setFontSize(Integer fontSize) {
+    public final void setFontSize(final Integer fontSize) {
         this.fontSize = fontSize;
     }
 
-    public Integer getWidth() {
+    public final Integer getWidth() {
         return this.width;
     }
 
-    public void setWidth(Integer width) {
+    public final void setWidth(final Integer width) {
         this.width = width;
     }
 
@@ -78,28 +78,28 @@ public class Style {
         return this.widget;
     }
 
-    public void setWidget(QLWidget widget) {
+    public final void setWidget(final QLWidget widget) {
         this.widget = widget;
     }
 
-    public String getPage() {
+    public final String getPage() {
         return this.page;
     }
 
-    public void setPage(String page) {
+    public final void setPage(final String page) {
         this.page = page;
     }
 
-    public List<String> getSection() {
+    public final List<String> getSection() {
         return new ArrayList<>(this.section);
     }
 
-    public void setSection(List<String> sections) {
+    public final void setSection(final List<String> sections) {
         this.section = new ArrayList<>(sections);
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "Style{" +
                 "color='" + this.color + '\'' +
                 ", font='" + this.font + '\'' +
@@ -111,28 +111,28 @@ public class Style {
                 '}';
     }
 
-    public WidgetType getWidgetType() {
-        return this.getWidget().getWidgetType();
+    public final WidgetType getWidgetType() {
+        return this.widget.getWidgetType();
     }
 
-    public void setWidgetType(WidgetType widgetType) {
+    public final void setWidgetType(final WidgetType widgetType) {
         this.widget = new QLWidget(widgetType, new ArrayList<>());
     }
 
-    public void updateNode(Node node) {
+    public final void updateNode(final Node node) {
         String css = "";
 
         if (this.fontSize != null)
             css += "-fx-font-size: " + this.fontSize + " pt;";
 
         if (this.color != null)
-            css += "-fx-text-fill: " + this.color + ";";
+            css += "-fx-text-fill: " + this.color + ';';
 
         if (this.font != null)
-            css += "-fx-font-family: " + this.font + ";";
+            css += "-fx-font-family: " + this.font + ';';
 
         if (this.width != null)
-            css += "-fx-width: " + this.width + ";";
+            css += "-fx-width: " + this.width + ';';
 
         node.setStyle(css);
     }

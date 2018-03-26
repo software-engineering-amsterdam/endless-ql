@@ -10,26 +10,26 @@ public class Form extends ASTNode {
     private final String name;
     private final Statements statements;
 
-    public Form(Token token, String name, Statements statements) {
+    public Form(final Token token, final String name, final Statements statements) {
         super(token);
         this.name = name;
         this.statements = statements;
     }
 
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 
-    public Statements getStatements() {
+    public final Statements getStatements() {
         return this.statements;
     }
 
-    public Type getType() {
+    public final Type getType() {
         return new Type(NodeType.UNKNOWN);
     }
 
     @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public final <T> T accept(final IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

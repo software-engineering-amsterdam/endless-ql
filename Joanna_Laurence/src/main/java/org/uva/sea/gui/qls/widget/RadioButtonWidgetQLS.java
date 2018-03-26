@@ -9,18 +9,18 @@ public class RadioButtonWidgetQLS extends WidgetQLS {
 
     private BooleanValue widgetValue = new BooleanValue(false);
 
-    public RadioButtonWidgetQLS(QuestionData questionData) {
+    public RadioButtonWidgetQLS(final QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public boolean updateValue(BooleanValue booleanValue) {
+    public final boolean updateValue(final BooleanValue booleanValue) {
         this.widgetValue = booleanValue;
         return true;
     }
 
     @Override
-    public Node convertToGuiNode() {
+    public final Node convertToGuiNode() {
         final RadioButton radioButton = new RadioButton();
 
         if (this.widgetValue != null) {

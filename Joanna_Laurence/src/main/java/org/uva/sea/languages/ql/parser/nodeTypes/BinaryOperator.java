@@ -9,22 +9,22 @@ public abstract class BinaryOperator extends Expression {
     private final Expression leftHandSide;
     private final Expression rightHandSide;
 
-    protected BinaryOperator(Token token, Expression leftHandSide, Expression rightHandSide) {
+    protected BinaryOperator(final Token token, final Expression leftHandSide, final Expression rightHandSide) {
         super(token);
         this.leftHandSide = leftHandSide;
         this.rightHandSide = rightHandSide;
     }
 
-    public ASTNode getLeftHandSide() {
+    public final ASTNode getLeftHandSide() {
         return this.leftHandSide;
     }
 
-    public ASTNode getRightHandSide() {
+    public final ASTNode getRightHandSide() {
         return this.rightHandSide;
     }
 
     @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public <T> T accept(final IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

@@ -9,21 +9,21 @@ public class Bool extends Expression {
 
     private final boolean value;
 
-    public Bool(Token token, boolean value) {
+    public Bool(final Token token, final boolean value) {
         super(token);
         this.value = value;
     }
 
-    public boolean isTrue() {
+    public final boolean isTrue() {
         return this.value;
     }
 
-    public Type getType() {
+    public final Type getType() {
         return new Type(NodeType.BOOLEAN);
     }
 
     @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public final <T> T accept(final IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

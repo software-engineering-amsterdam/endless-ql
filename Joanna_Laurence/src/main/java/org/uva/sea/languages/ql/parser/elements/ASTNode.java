@@ -11,17 +11,17 @@ public abstract class ASTNode {
     protected ASTNode() {
     }
 
-    protected ASTNode(Token token) {
+    protected ASTNode(final Token token) {
         this.token = token;
     }
 
     public abstract Type getType();
 
-    public int getLine() {
+    public final int getLine() {
         return this.token.getLine();
     }
 
-    public int getColumn() {
+    public final int getColumn() {
         return this.token.getCharPositionInLine();
     }
 

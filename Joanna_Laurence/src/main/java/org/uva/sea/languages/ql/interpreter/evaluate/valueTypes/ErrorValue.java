@@ -8,47 +8,47 @@ public class ErrorValue extends Value {
     private final int line;
     private final int column;
 
-    public ErrorValue(String error, int line, int column) {
+    public ErrorValue(final String error, final int line, final int column) {
         this.error = error;
         this.line = line;
         this.column = column;
     }
 
-    public String getError() {
+    public final String getError() {
         return this.error;
     }
 
     @Override
-    public <T> T accept(BaseValueVisitor<T> visitor) {
+    public final <T> T accept(final BaseValueVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public Value negate() {
+    public final Value negate() {
         return this;
     }
 
     @Override
-    public Value not() {
+    public final Value not() {
         return this;
     }
 
     @Override
-    public Value positive() {
+    public final Value positive() {
         return this;
     }
 
     @Override
-    public NodeType getType() {
+    public final NodeType getType() {
         return NodeType.UNKNOWN;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return (this.error != null) ? this.error : "No value";
     }
 
-    public ErrorValue clone() throws CloneNotSupportedException {
+    public final ErrorValue clone() throws CloneNotSupportedException {
         return (ErrorValue) super.clone();
     }
 }

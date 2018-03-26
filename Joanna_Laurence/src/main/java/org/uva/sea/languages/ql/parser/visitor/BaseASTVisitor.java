@@ -8,107 +8,107 @@ import org.uva.sea.languages.ql.parser.nodeTypes.SingleNode;
 
 public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
 
-    public T visit(Addition node) {
+    public T visit(final Addition node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(And node) {
+    public T visit(final And node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Division node) {
+    public T visit(final Division node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Equal node) {
+    public T visit(final Equal node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(GreaterOrEqual node) {
+    public T visit(final GreaterOrEqual node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(GreaterThan node) {
+    public T visit(final GreaterThan node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(LessOrEqual node) {
+    public T visit(final LessOrEqual node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(LessThan node) {
+    public T visit(final LessThan node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Multiplication node) {
+    public T visit(final Multiplication node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Negative node) {
+    public T visit(final Negative node) {
         return this.visit((SingleNode) node);
     }
 
-    public T visit(NotEqual node) {
+    public T visit(final NotEqual node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Not node) {
+    public T visit(final Not node) {
         return this.visit((SingleNode) node);
     }
 
-    public T visit(Or node) {
+    public T visit(final Or node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Positive node) {
+    public T visit(final Positive node) {
         return this.visit((SingleNode) node);
     }
 
-    public T visit(Subtraction node) {
+    public T visit(final Subtraction node) {
         return this.visit((BinaryOperator) node);
     }
 
-    public T visit(Bool node) {
+    public T visit(final Bool node) {
         return null;
     }
 
-    public T visit(DateExpr node) {
+    public T visit(final DateExpr node) {
         return null;
     }
 
-    public T visit(Decimal node) {
+    public T visit(final Decimal node) {
         return null;
     }
 
-    public T visit(Money node) {
+    public T visit(final Money node) {
         return null;
     }
 
-    public T visit(Int node) {
+    public T visit(final Int node) {
         return null;
     }
 
-    public T visit(Str node) {
+    public T visit(final Str node) {
         return null;
     }
 
-    public T visit(Type node) {
+    public T visit(final Type node) {
         return null;
     }
 
-    public T visit(Variable node) {
+    public T visit(final Variable node) {
         return null;
     }
 
-    public T visit(IfStatement node) {
+    public T visit(final IfStatement node) {
         node.getExpression().accept(this);
-        node.getThen().accept(this);
-        if (node.getOtherwise() != null)
-            node.getOtherwise().accept(this);
+        node.getThenBlock().accept(this);
+        if (node.getOtherwiseBlock() != null)
+            node.getOtherwiseBlock().accept(this);
         return null;
     }
 
-    public T visit(Form node) {
+    public final T visit(final Form node) {
         return node.getStatements().accept(this);
     }
 
@@ -122,20 +122,20 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
 
-    public T visit(Statements node) {
-        for (ASTNode statement : node.getStatementList()) {
+    public T visit(final Statements node) {
+        for (final ASTNode statement : node.getStatementList()) {
             statement.accept(this);
         }
         return null;
     }
 
-    public T visit(BinaryOperator node) {
+    public final T visit(final BinaryOperator node) {
         node.getLeftHandSide().accept(this);
         node.getRightHandSide().accept(this);
         return null;
     }
 
-    public T visit(SingleNode node) {
+    public final T visit(final SingleNode node) {
         return node.getValue().accept(this);
     }
 }

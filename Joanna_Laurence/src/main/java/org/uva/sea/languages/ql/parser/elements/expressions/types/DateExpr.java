@@ -10,23 +10,23 @@ import java.util.Calendar;
 public class DateExpr extends Expression {
     private final Calendar date = Calendar.getInstance();
 
-    public DateExpr(Token token, String day, String month, String year) {
+    public DateExpr(final Token token, final String day, final String month, final String year) {
         super(token);
         this.date.set(Calendar.YEAR, Integer.parseInt(year));
         this.date.set(Calendar.MONTH, Integer.parseInt(month));
         this.date.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
     }
 
-    public Calendar getDate() {
+    public final Calendar getDate() {
         return this.date;
     }
 
-    public Type getType() {
+    public final Type getType() {
         return new Type(NodeType.DATE);
     }
 
     @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public final <T> T accept(final IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

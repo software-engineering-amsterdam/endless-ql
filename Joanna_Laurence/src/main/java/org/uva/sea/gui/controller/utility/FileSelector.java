@@ -7,8 +7,8 @@ import java.io.File;
 
 public final class FileSelector {
 
-    public static File getFile(String title, String fileType, String fileExtension) {
-        FileChooser fileChooser = new FileChooser();
+    public static File getFile(final String title, final String fileType, final String fileExtension) {
+        final FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(title);
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter(fileType, fileExtension),

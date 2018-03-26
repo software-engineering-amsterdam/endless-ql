@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStaticAnalysis {
+public final class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStaticAnalysis {
 
 
     private final Collection<Variable> usedVariables = new ArrayList<>();
@@ -23,11 +23,11 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
     private LinkAndCheckVariableUsage() {
     }
 
-    private void error(String error, ASTNode node) {
+    private void error(final String error, final ASTNode node) {
         this.messages.addMessage(error + " on line:  " + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
-    public Messages doCheck(Form node) {
+    public Messages doCheck(final Form node) {
         node.accept(this);
 
         this.linkVariableInformation();
@@ -36,8 +36,8 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
     }
 
     private void linkVariableInformation() {
-        for (Variable variable : this.usedVariables) {
-            String variableName = variable.getVariableName();
+        for (final Variable variable : this.usedVariables) {
+            final String variableName = variable.getVariableName();
             if (!this.variableMap.containsKey(variableName)) {
                 this.error("Variable is not defined", variable);
                 return;
@@ -48,15 +48,15 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
     }
 
     @Override
-    public Void visit(Variable node) {
+    public Void visit(final Variable node) {
         super.visit(node);
         this.usedVariables.add(node);
         return null;
     }
 
     @Override
-    public Void visit(Question node) {
-        String variableName = node.getVariable().getVariableName();
+    public Void visit(final Question node) {
+        final String variableName = node.getVariable().getVariableName();
         if (this.variableMap.containsKey(variableName)) {
             this.error("Question already exists", node);
             return null;
@@ -72,14 +72,14 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
     }
 
     @Override
-    public Object visit(IfStatement node) {
+    public Object visit(final IfStatement node) {
         node.getExpression().accept(this);
 
-        HashMap<String, Question> baseMap = new HashMap<>(this.variableMap);
+        final HashMap<String, Question> baseMap = new HashMap<>(this.variableMap);
 
         //It is allowed to have duplicate elements in the then and else. So run both with the base map
-        HashMap<String, Question> thenMap = this.visitStatementsWithVariableMap(baseMap, node.getThen());
-        HashMap<String, Question> elseMap = this.visitStatementsWithVariableMap(baseMap, node.getOtherwise());
+        final HashMap<String, Question> thenMap = this.visitStatementsWithVariableMap(baseMap, node.getThenBlock());
+        final HashMap<String, Question> elseMap = this.visitStatementsWithVariableMap(baseMap, node.getOtherwiseBlock());
 
         this.variableMap = this.combineVariableMap(baseMap, thenMap, elseMap);
 
@@ -87,9 +87,9 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
 
     }
 
-    private HashMap<String, Question> visitStatementsWithVariableMap(final HashMap<String, Question> baseMap, Statements statementsToCheck) {
+    private HashMap<String, Question> visitStatementsWithVariableMap(final HashMap<String, Question> baseMap, final Statements statementsToCheck) {
 
-        HashMap<String, Question> result = new HashMap<>();
+        final HashMap<String, Question> result = new HashMap<>();
         if (statementsToCheck == null)
             return result;
 
@@ -99,12 +99,12 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         return result;
     }
 
-    private Map<String, Question> combineVariableMap(Map<String, Question>... maps) {
+    private Map<String, Question> combineVariableMap(final Map<String, Question>... maps) {
         if (maps.length == 0)
             return new HashMap<>();
 
-        Map<String, Question> result = new HashMap<>();
-        for (Map<String, Question> map : maps) {
+        final Map<String, Question> result = new HashMap<>();
+        for (final Map<String, Question> map : maps) {
             result.putAll(map);
         }
 
@@ -113,8 +113,8 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
 
     public static class Checker implements IQLStaticAnalysis {
         @Override
-        public Messages doCheck(Form node) {
-            IQLStaticAnalysis checker = new LinkAndCheckVariableUsage();
+        public final Messages doCheck(final Form node) {
+            final IQLStaticAnalysis checker = new LinkAndCheckVariableUsage();
             return checker.doCheck(node);
         }
     }

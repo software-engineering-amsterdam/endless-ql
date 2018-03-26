@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.qls
 
-import nl.uva.se.sc.niro.model.ql.AnswerType
+import nl.uva.se.sc.niro.model.ql.{ AnswerType, BooleanType, IntegerType }
 
 /**
   * QLS AST
@@ -21,11 +21,21 @@ case class Question(name: String, widgetType: Styling)
 
 abstract class Style
 
-abstract class WidgetType extends Style
-case class SpinBox() extends WidgetType
-case class CheckBox() extends WidgetType
-case class Radio(trueValue: String, falseValue: String) extends WidgetType
-case class ComboBox(trueValue: String, falseValue: String) extends WidgetType
+abstract class WidgetType extends Style {
+  def isCompatibleWith(answerType: AnswerType): Boolean
+}
+case class SpinBox() extends WidgetType {
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType.isCompatibleWith(IntegerType)
+}
+case class CheckBox() extends WidgetType {
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType.isCompatibleWith(BooleanType)
+}
+case class Radio(trueValue: String, falseValue: String) extends WidgetType {
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType.isCompatibleWith(BooleanType)
+}
+case class ComboBox(trueValue: String, falseValue: String) extends WidgetType {
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType.isCompatibleWith(BooleanType)
+}
 
 case class FontType(name: String) extends Style
 case class FontSize(size: Int) extends Style

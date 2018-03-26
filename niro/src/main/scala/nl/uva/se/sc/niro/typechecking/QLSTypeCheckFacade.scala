@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.typechecking
 
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.ql.{ QLForm, Statement }
-import nl.uva.se.sc.niro.model.qls.QLStylesheet
+import nl.uva.se.sc.niro.model.ql.{ AnswerType, QLForm, Statement }
+import nl.uva.se.sc.niro.model.qls.{ QLStylesheet, Styling }
 import org.apache.logging.log4j.scala.Logging
 
 object QLSTypeCheckFacade extends Logging {
@@ -11,6 +11,7 @@ object QLSTypeCheckFacade extends Logging {
     for {
       _ <- checkFormStylesheetNames(form, stylesheet)
       _ <- checkReferences(form, stylesheet)
+      _ <- checkWidgetTypeStyling(form, stylesheet)
     } yield stylesheet
 
   def checkFormStylesheetNames(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
@@ -54,4 +55,34 @@ object QLSTypeCheckFacade extends Logging {
 
     }
   }
+
+  def checkWidgetTypeStyling(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
+    val incompatibleWidgetStyles: Seq[(AnswerType, Styling)] =
+      stylesheet.defaultStyles.filterNot(stylingIsCompatible).toSeq ++
+        stylesheet.pages.flatMap(_.defaultStyles.filterNot(stylingIsCompatible)) ++
+        stylesheet.pages.flatMap(
+          _.sections
+            .flatMap(_.defaultStyles.filterNot(stylingIsCompatible))) ++
+        stylesheet
+          .collectAllQuestions()
+          .filter(_.widgetType.widgetType.isDefined)
+          .map(q => (form.symbolTable(q.name).answerType, q.widgetType))
+          .filterNot(stylingIsCompatible)
+    if (incompatibleWidgetStyles.isEmpty) {
+      Right(stylesheet)
+    } else {
+      Left(
+        incompatibleWidgetStyles
+          .map((widgetStyling) =>
+            TypeCheckError(
+              "WidgetStylingError",
+              s"The styling '${widgetStyling._2.widgetType
+                .getOrElse("Default")}' is not compatible with the widgets type '${widgetStyling._1}'."
+          )))
+    }
+  }
+
+  def stylingIsCompatible(widgetStyle: (AnswerType, Styling)): Boolean =
+    widgetStyle._2.widgetType.forall(_.isCompatibleWith(widgetStyle._1))
+
 }

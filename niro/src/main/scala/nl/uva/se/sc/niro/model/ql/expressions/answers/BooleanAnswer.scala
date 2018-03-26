@@ -1,6 +1,5 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.evaluation.Logicals.BooleanAnswerCanDoLogicals._
 import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.BooleanAnswerCanDoOrderings._
 

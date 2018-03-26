@@ -1,7 +1,10 @@
 package org.uva.sea.gui.widget;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
@@ -42,7 +45,17 @@ public class MoneyWidget extends Widget {
                 this.sendUpdateValueEvent(this.questionData.getQuestionName(), new MoneyValue(this.currency, new BigDecimal(newValue))));
 
         textField.positionCaret(textField.getText().length());
-        return textField;
+
+
+        return wrapTextFieldWithCurrency(textField, this.currency);
+    }
+
+    private Node wrapTextFieldWithCurrency(TextField textField, String currency) {
+        HBox wrapper = new HBox();
+        wrapper.setAlignment(Pos.CENTER);
+        wrapper.getChildren().add(new Label(this.currency));
+        wrapper.getChildren().add(textField);
+        return wrapper;
     }
 
     private void setStyle(TextField textField, Style style) {

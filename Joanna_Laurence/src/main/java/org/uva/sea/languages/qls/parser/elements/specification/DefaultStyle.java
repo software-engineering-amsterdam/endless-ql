@@ -11,22 +11,22 @@ public class DefaultStyle extends Specification {
     private final String typeName;
     private final List<StyleSpecification> styleSpecificationList;
 
-    public DefaultStyle(final Token token, final String typeName, final List<StyleSpecification> styleSpecificationList) {
+    public DefaultStyle(Token token, String typeName, List<StyleSpecification> styleSpecificationList) {
         super(token);
         this.styleSpecificationList = styleSpecificationList;
         this.typeName = typeName;
     }
 
-    public final Iterable<StyleSpecification> getStyleSpecificationList() {
+    public Iterable<StyleSpecification> getStyleSpecificationList() {
         return this.styleSpecificationList;
     }
 
-    public final String getTypeName() {
+    public String getTypeName() {
         return this.typeName;
     }
 
     @Override
-    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
+    public <T> T accept(IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

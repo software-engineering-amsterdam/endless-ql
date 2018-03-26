@@ -10,22 +10,22 @@ public class Stylesheet extends QLSNode {
     private final List<Page> pages;
     private final String name;
 
-    public Stylesheet(final Token token, final String name, final List<Page> pages) {
+    public Stylesheet(Token token, String name, List<Page> pages) {
         super(token);
         this.pages = pages;
         this.name = name;
     }
 
-    public final Iterable<Page> getPages() {
+    public Iterable<Page> getPages() {
         return this.pages;
     }
 
-    public final String getName() {
+    public String getName() {
         return this.name;
     }
 
     @Override
-    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
+    public <T> T accept(IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

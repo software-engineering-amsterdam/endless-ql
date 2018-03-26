@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public final class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
+public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
     private final Fetcher defaultStyleEvaluator = new Fetcher();
     private final Stack<Section> currentSections = new Stack<>();
@@ -31,7 +31,7 @@ public final class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
     }
 
-    private EvaluationResult applyStyle(final EvaluationResult interpreterResult, final Stylesheet stylesheet) {
+    private EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) {
         this.qlInputResult = interpreterResult;
         this.outputResult = new EvaluationResult(new ArrayList<>(), interpreterResult.getMessages(), interpreterResult.getAst());
         //The helper will fill the outputResult
@@ -39,8 +39,8 @@ public final class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         return this.outputResult;
     }
 
-    private QuestionData getQLQuestionData(final String questionName) {
-        for (final QuestionData questionData : this.qlInputResult.getQuestions()) {
+    private QuestionData getQLQuestionData(String questionName) {
+        for (QuestionData questionData : this.qlInputResult.getQuestions()) {
             if (questionData.getQuestionName().equals(questionName)) {
                 return questionData;
             }
@@ -50,13 +50,13 @@ public final class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(final Page node) {
+    public Void visit(Page node) {
         this.currentPage = node;
         return super.visit(node);
     }
 
     @Override
-    public Void visit(final Section node) {
+    public Void visit(Section node) {
         this.currentSections.add(node);
         super.visit(node);
         this.currentSections.pop();
@@ -64,8 +64,8 @@ public final class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(final Question node) {
-        final QuestionData questionData = this.getQLQuestionData(node.getName());
+    public Void visit(Question node) {
+        QuestionData questionData = this.getQLQuestionData(node.getName());
 
         if (questionData != null) {
             if (node.getWidget() != null) {
@@ -79,29 +79,29 @@ public final class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         return null;
     }
 
-    private Style getQuestionStyle(final Question question, final NodeType nodeType) {
-        final Style style = new Style();
+    private Style getQuestionStyle(Question question, NodeType nodeType) {
+        Style style = new Style();
         style.setPage(this.currentPage.getName());
         style.setSection(this.getCurrentSection());
 
         if (question.getWidget() != null)
             style.setWidget(new QLWidget(question.getWidget().getWidgetType(), question.getWidget().getParametersAsStrings()));
 
-        final Style styleFromStylesheet = this.defaultStyleEvaluator.getCascadingStyle(nodeType, this.currentSections, this.currentPage);
+        Style styleFromStylesheet = this.defaultStyleEvaluator.getCascadingStyle(nodeType, this.currentSections, this.currentPage);
         style.fillNullFields(styleFromStylesheet);
         return style;
     }
 
     private List<String> getCurrentSection() {
-        final List<String> sections = new ArrayList<>();
-        for (final Section section : this.currentSections)
+        List<String> sections = new ArrayList<>();
+        for (Section section : this.currentSections)
             sections.add(section.getName());
         return sections;
     }
 
     public static class Linker {
-        public final EvaluationResult apply(final EvaluationResult interpreterResult, final Stylesheet stylesheet) {
-            final ApplyQLSStyle interpreter = new ApplyQLSStyle();
+        public EvaluationResult apply(EvaluationResult interpreterResult, Stylesheet stylesheet) {
+            ApplyQLSStyle interpreter = new ApplyQLSStyle();
             return interpreter.applyStyle(interpreterResult, stylesheet);
         }
     }

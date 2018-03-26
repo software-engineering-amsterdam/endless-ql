@@ -7,16 +7,16 @@ import org.uva.sea.languages.ql.parser.nodeTypes.SingleNode;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Not extends SingleNode {
-    public Not(final Token token, final Expression value) {
+    public Not(Token token, Expression value) {
         super(token, value);
     }
 
-    public final Type getType() {
+    public Type getType() {
         return new Type(NodeType.BOOLEAN);
     }
 
     @Override
-    public final <T> T accept(final IASTVisitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

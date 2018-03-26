@@ -6,12 +6,12 @@ public enum MoneyType {
 
     private final String name;
 
-    MoneyType(final String s) {
+    MoneyType(String s) {
         this.name = s;
     }
 
-    public static MoneyType fromString(final String text) {
-        for (final MoneyType money : MoneyType.values()) {
+    public static MoneyType fromString(String text) {
+        for (MoneyType money : MoneyType.values()) {
             if (money.name.equalsIgnoreCase(text)) {
                 return money;
             }
@@ -19,7 +19,7 @@ public enum MoneyType {
         return null;
     }
 
-    public boolean equalsName(final String otherName) {
+    public boolean equalsName(String otherName) {
         return (this.name != null) && this.name.equals(otherName);
     }
 

@@ -20,34 +20,34 @@ public abstract class BaseWidget extends BaseRenderable {
 
     private final DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
 
-    protected BaseWidget(final QuestionData questionData) {
+    protected BaseWidget(QuestionData questionData) {
         this.questionData = questionData;
     }
 
-    public final void addListener(final IQuestionValueUpdatedListener listener) {
+    public void addListener(IQuestionValueUpdatedListener listener) {
         this.listeners.add(listener);
     }
 
-    protected final void sendUpdateValueEvent(final String identifier, final Value newValue) {
-        for (final IQuestionValueUpdatedListener listener : this.listeners)
+    protected void sendUpdateValueEvent(String identifier, Value newValue) {
+        for (IQuestionValueUpdatedListener listener : this.listeners)
             listener.updateGuiVariable(identifier, newValue);
     }
 
     @Override
-    public final Node render(final Map<String, VBox> containers) {
-        final VBox container = containers.get(this.getContainerName());
+    public Node render(Map<String, VBox> containers) {
+        VBox container = containers.get(this.getContainerName());
         if (container != null) {
-            final Node guiNode = this.convertToGuiNode();
-            final Node widgetRow = this.drawComponent(this.questionData.getLabel(), guiNode);
+            Node guiNode = this.convertToGuiNode();
+            Node widgetRow = this.drawComponent(this.questionData.getLabel(), guiNode);
             container.getChildren().add(widgetRow);
             return guiNode;
         }
         return null;
     }
 
-    protected final BaseWidget linkToOtherWidget(final BaseWidget widget, final QuestionData questionData) {
+    protected BaseWidget linkToOtherWidget(BaseWidget widget, QuestionData questionData) {
         widget.addListener(this::sendUpdateValueEvent);
-        final WidgetValueAssigner updater = new WidgetValueAssigner(widget);
+        WidgetValueAssigner updater = new WidgetValueAssigner(widget);
         Value value = questionData.getValue();
         if (value == null)
             value = this.defaultValueFactory.getDefaultValue(questionData.getNodeType());
@@ -55,7 +55,7 @@ public abstract class BaseWidget extends BaseRenderable {
         return widget;
     }
 
-    public final String getIdentifier() {
+    public String getIdentifier() {
         return this.questionData.getQuestionName();
     }
 

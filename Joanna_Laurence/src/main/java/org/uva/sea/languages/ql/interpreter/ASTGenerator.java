@@ -11,18 +11,18 @@ import org.uva.sea.languages.ql.parser.antlr.QLParser;
 import org.uva.sea.languages.ql.parser.elements.Form;
 
 class ASTGenerator {
-    final ParseResult<Form> createAST(final CharStream source) {
-        final QLLexer lexer = new QLLexer(source);
-        final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    ParseResult<Form> createAST(CharStream source) {
+        QLLexer lexer = new QLLexer(source);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-        final QLParser parser = new QLParser(tokens);
+        QLParser parser = new QLParser(tokens);
 
-        final ErrorHandler parseErrorListener = new ErrorHandler();
+        ErrorHandler parseErrorListener = new ErrorHandler();
         parser.addErrorListener(parseErrorListener);
 
-        final QLParser.FormContext form = parser.form();
+        QLParser.FormContext form = parser.form();
 
-        final Messages parseMessages = parseErrorListener.getMessages();
+        Messages parseMessages = parseErrorListener.getMessages();
         if (parseMessages.hasMessagePresent(MessageTypes.ERROR))
             return new ParseResult<>(null, parseMessages);
 

@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 import org.uva.sea.languages.qls.parser.elements.QLSNode;
 
 public abstract class StyleSpecification extends QLSNode {
-    StyleSpecification(final Token token) {
+    StyleSpecification(Token token) {
         super(token);
     }
 }

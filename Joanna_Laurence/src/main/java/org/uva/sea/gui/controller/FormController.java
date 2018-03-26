@@ -12,8 +12,8 @@ public class FormController extends BaseFormController {
         super(new PrimaryTypeWidgetFactory());
     }
 
-    protected final Map<String, VBox> createContainers(final EvaluationResult evaluationResult) {
-        final Map<String, VBox> tabs = new HashMap<>();
+    protected Map<String, VBox> createContainers(EvaluationResult evaluationResult) {
+        Map<String, VBox> tabs = new HashMap<>();
         tabs.put("default", this.container);
         return tabs;
     }

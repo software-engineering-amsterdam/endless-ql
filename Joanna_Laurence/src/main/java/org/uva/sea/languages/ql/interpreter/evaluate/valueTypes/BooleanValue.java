@@ -7,79 +7,79 @@ import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 public class BooleanValue extends Value {
     private final boolean booleanValue;
 
-    public BooleanValue(final String value) {
+    public BooleanValue(String value) {
         this.booleanValue = value.equals("true") || value.equals("TRUE");
     }
 
-    public BooleanValue(final boolean booleanValue) {
+    public BooleanValue(boolean booleanValue) {
         this.booleanValue = booleanValue;
     }
 
-    public final boolean getBooleanValue() {
+    public boolean getBooleanValue() {
         return this.booleanValue;
     }
 
     @Override
-    public final Value and(final Value value) throws EvaluationException {
+    public Value and(Value value) throws EvaluationException {
         return value.and(this);
     }
 
     @Override
-    public final Value and(final BooleanValue value) {
+    public Value and(BooleanValue value) {
         return new BooleanValue(this.booleanValue && value.booleanValue);
     }
 
     @Override
-    public final Value isEqual(final Value value) throws EvaluationException {
+    public Value isEqual(Value value) throws EvaluationException {
         return value.isEqual(this);
     }
 
     @Override
-    public final Value isEqual(final BooleanValue value) {
+    public Value isEqual(BooleanValue value) {
         return new BooleanValue(this.booleanValue == value.booleanValue);
     }
 
     @Override
-    public final Value isNotEqual(final Value value) throws EvaluationException {
+    public Value isNotEqual(Value value) throws EvaluationException {
         return value.isNotEqual(this);
     }
 
     @Override
-    public final Value isNotEqual(final BooleanValue value) {
+    public Value isNotEqual(BooleanValue value) {
         return new BooleanValue(this.booleanValue != value.booleanValue);
     }
 
     @Override
-    public final Value or(final Value value) throws EvaluationException {
+    public Value or(Value value) throws EvaluationException {
         return value.or(this);
     }
 
     @Override
-    public final Value or(final BooleanValue value) {
+    public Value or(BooleanValue value) {
         return new BooleanValue(this.booleanValue || value.booleanValue);
     }
 
     @Override
-    public final Value not() {
+    public Value not() {
         return new BooleanValue(!this.booleanValue);
     }
 
     @Override
-    public final <T> T accept(final BaseValueVisitor<T> visitor) {
+    public <T> T accept(BaseValueVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public final NodeType getType() {
+    public NodeType getType() {
         return NodeType.BOOLEAN;
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return this.booleanValue ? "true" : "false";
     }
 
-    public final BooleanValue clone() throws CloneNotSupportedException {
+    public BooleanValue clone() throws CloneNotSupportedException {
         return (BooleanValue) super.clone();
     }
 }

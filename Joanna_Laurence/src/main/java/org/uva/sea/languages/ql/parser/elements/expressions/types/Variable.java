@@ -11,24 +11,24 @@ public class Variable extends Expression {
 
     private Question linkedQuestion = null;
 
-    public Variable(final Token token, final String variableName) {
+    public Variable(Token token, String variableName) {
         super(token);
         this.variableName = variableName;
     }
 
-    public final String getVariableName() {
+    public String getVariableName() {
         return this.variableName;
     }
 
-    public final Question getLinkedQuestion() {
+    public Question getLinkedQuestion() {
         return this.linkedQuestion;
     }
 
-    public final void setLinkedQuestion(final Question linkedQuestion) {
+    public void setLinkedQuestion(Question linkedQuestion) {
         this.linkedQuestion = linkedQuestion;
     }
 
-    public final Type getType() {
+    public Type getType() {
         if (this.linkedQuestion == null) {
             return new Type(NodeType.UNKNOWN);
         }
@@ -37,7 +37,7 @@ public class Variable extends Expression {
     }
 
     @Override
-    public final <T> T accept(final IASTVisitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

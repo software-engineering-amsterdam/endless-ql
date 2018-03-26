@@ -10,11 +10,11 @@ public class SymbolTable {
     private final Map<String, Value> symbolTable = new HashMap<>();
 
 
-    public final void addOrUpdateValue(final String name, final Value val) {
+    public void addOrUpdateValue(String name, Value val) {
         this.symbolTable.put(name, val);
     }
 
-    public final Value getValue(final String name) {
+    public Value getValue(String name) {
         return this.symbolTable.get(name);
     }
 }

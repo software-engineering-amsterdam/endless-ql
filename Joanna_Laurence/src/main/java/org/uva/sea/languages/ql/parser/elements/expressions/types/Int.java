@@ -8,26 +8,26 @@ import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 public class Int extends Expression {
     private final int value;
 
-    public Int(final Token token, final String value) {
+    public Int(Token token, String value) {
         super(token);
         this.value = Integer.parseInt(value);
     }
 
-    public Int(final Token token, final int value) {
+    public Int(Token token, int value) {
         super(token);
         this.value = value;
     }
 
-    public final int getValue() {
+    public int getValue() {
         return this.value;
     }
 
     @Override
-    public final <T> T accept(final IASTVisitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
-    public final Type getType() {
+    public Type getType() {
         return new Type(NodeType.INTEGER);
     }
 }

@@ -35,11 +35,11 @@ public class Evaluator {
             new CircularQuestionDependencies.Checker(),
             new Checker());
 
-    public final EvaluationResult evaluate(final String qlFile, final SymbolTable symbolTable) throws IOException {
+    public EvaluationResult evaluate(String qlFile, SymbolTable symbolTable) throws IOException {
 
-        final Messages evaluationMessages = new Messages();
+        Messages evaluationMessages = new Messages();
 
-        final ParseResult<Form> parseResult = this.parse(qlFile);
+        ParseResult<Form> parseResult = this.parse(qlFile);
         evaluationMessages.addMessages(parseResult.getMessages());
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
             return new EvaluationResult(new ArrayList<>(), parseResult.getMessages(), parseResult.getAst());
@@ -53,39 +53,39 @@ public class Evaluator {
         return this.evaluateQuestions(parseResult, symbolTable, evaluationMessages);
     }
 
-    private EvaluationResult evaluateQuestions(final ParseResult<Form> parseResult, final SymbolTable symbolTable, final Messages evaluationMessages) {
-        final FormEvaluator evaluator = new FormEvaluator();
-        final List<Question> questions = evaluator.evaluate(parseResult.getAst(), symbolTable);
-        final List<QuestionData> questionData = this.evaluateQuestionValues(questions, symbolTable);
+    private EvaluationResult evaluateQuestions(ParseResult<Form> parseResult, SymbolTable symbolTable, Messages evaluationMessages) {
+        FormEvaluator evaluator = new FormEvaluator();
+        List<Question> questions = evaluator.evaluate(parseResult.getAst(), symbolTable);
+        List<QuestionData> questionData = this.evaluateQuestionValues(questions, symbolTable);
         return new EvaluationResult(questionData, evaluationMessages, parseResult.getAst());
     }
 
-    private Messages performStaticAnalysis(final ParseResult<Form> parseResult) {
-        final Messages returnMessage = new Messages();
-        for (final IQLStaticAnalysis staticAnalysis : this.staticAnalyses) {
-            final Messages analysisMessages = staticAnalysis.doCheck(parseResult.getAst());
+    private Messages performStaticAnalysis(ParseResult<Form> parseResult) {
+        Messages returnMessage = new Messages();
+        for (IQLStaticAnalysis staticAnalysis : this.staticAnalyses) {
+            Messages analysisMessages = staticAnalysis.doCheck(parseResult.getAst());
             returnMessage.addMessages(analysisMessages);
         }
         return returnMessage;
     }
 
-    private List<QuestionData> evaluateQuestionValues(final Iterable<Question> questions, final SymbolTable symbolTable) {
-        final List<QuestionData> questionDataList = new ArrayList<>();
-        for (final Question question : questions) {
-            final Value value = this.getQuestionValue(question, symbolTable);
+    private List<QuestionData> evaluateQuestionValues(Iterable<Question> questions, SymbolTable symbolTable) {
+        List<QuestionData> questionDataList = new ArrayList<>();
+        for (Question question : questions) {
+            Value value = this.getQuestionValue(question, symbolTable);
             questionDataList.add(new QuestionData(question, value));
         }
         return questionDataList;
     }
 
-    private Value getQuestionValue(final Question question, final SymbolTable symbolTable) {
+    private Value getQuestionValue(Question question, SymbolTable symbolTable) {
         if (question.getValue() != null)
             return this.expressionEvaluator.evaluate(question.getValue(), symbolTable);
 
         return symbolTable.getValue(question.getVariable().getVariableName());
     }
 
-    private ParseResult<Form> parse(final String guiSpecification) throws IOException {
+    private ParseResult<Form> parse(String guiSpecification) throws IOException {
         return this.astGenerator.createAST(CharStreams.fromStream(new FileInputStream(guiSpecification)));
     }
 }

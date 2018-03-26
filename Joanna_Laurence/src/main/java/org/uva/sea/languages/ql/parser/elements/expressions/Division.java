@@ -6,16 +6,16 @@ import org.uva.sea.languages.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class Division extends BinaryOperator {
-    public Division(final Token token, final Expression leftHandSide, final Expression rightHandSide) {
+    public Division(Token token, Expression leftHandSide, Expression rightHandSide) {
         super(token, leftHandSide, rightHandSide);
     }
 
-    public final Type getType() {
+    public Type getType() {
         return this.getLeftHandSide().getType();
     }
 
     @Override
-    public final <T> T accept(final IASTVisitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

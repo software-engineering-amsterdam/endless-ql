@@ -13,7 +13,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public final class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
+public class CircularQuestionDependencies extends BaseASTVisitor<Void> implements IQLStaticAnalysis {
 
     private final Relation<String> dependencies = new Relation<>();
 
@@ -22,23 +22,23 @@ public final class CircularQuestionDependencies extends BaseASTVisitor<Void> imp
     }
 
     @Override
-    public Messages doCheck(final Form node) {
+    public Messages doCheck(Form node) {
         node.accept(this);
         return this.incorrectDependenciesToErrors(this.getIncorrectAsymmetricElements(this.dependencies));
     }
 
-    private Messages incorrectDependenciesToErrors(final Relation<String> incorrectDependencies) {
-        final Messages errors = new Messages();
-        for (final RelationEntity<String> dependency : incorrectDependencies.getRelations())
+    private Messages incorrectDependenciesToErrors(Relation<String> incorrectDependencies) {
+        Messages errors = new Messages();
+        for (RelationEntity<String> dependency : incorrectDependencies.getRelations())
             errors.addMessage(dependency.getKey() + " has a circular dependency with" + dependency.getValue(), MessageTypes.ERROR);
         return errors;
     }
 
     @Override
-    public Void visit(final IfStatement ifNode) {
-        final Collection<String> dependsOn = new ArrayList<>();
+    public Void visit(IfStatement ifNode) {
+        Collection<String> dependsOn = new ArrayList<>();
         ifNode.getExpression().accept(new BaseASTVisitor<Void>() {
-            public Void visit(final Variable node) {
+            public Void visit(Variable node) {
                 if ((node.getLinkedQuestion() != null) && (node.getLinkedQuestion().getValue() == null))
                     dependsOn.add(node.getVariableName());
 
@@ -46,9 +46,9 @@ public final class CircularQuestionDependencies extends BaseASTVisitor<Void> imp
             }
         });
 
-        final Collection<String> questions = new ArrayList<>();
+        Collection<String> questions = new ArrayList<>();
         ifNode.getThenBlock().accept(new BaseASTVisitor<Void>() {
-            public Void visit(final Question node) {
+            public Void visit(Question node) {
                 questions.add(node.getVariable().getVariableName());
                 return null;
             }
@@ -61,18 +61,18 @@ public final class CircularQuestionDependencies extends BaseASTVisitor<Void> imp
         return null;
     }
 
-    private void addRelations(final Iterable<String> questions, final Iterable<String> dependsOn, final Relation<String> relation) {
-        for (final String question : questions) {
-            for (final String dependOn : dependsOn) {
+    private void addRelations(Iterable<String> questions, Iterable<String> dependsOn, Relation<String> relation) {
+        for (String question : questions) {
+            for (String dependOn : dependsOn) {
                 relation.addRelation(question, dependOn);
             }
         }
     }
 
-    private Relation<String> getIncorrectAsymmetricElements(final Relation<String> relation) {
-        final Relation<String> incorrectElements = new Relation<>();
+    private Relation<String> getIncorrectAsymmetricElements(Relation<String> relation) {
+        Relation<String> incorrectElements = new Relation<>();
 
-        for (final RelationEntity<String> entry : relation.getRelations()) {
+        for (RelationEntity<String> entry : relation.getRelations()) {
             if (relation.contains(entry.getValue(), entry.getKey()))
                 incorrectElements.addRelation(entry.getKey(), entry.getValue());
         }
@@ -82,8 +82,8 @@ public final class CircularQuestionDependencies extends BaseASTVisitor<Void> imp
 
     public static class Checker implements IQLStaticAnalysis {
         @Override
-        public final Messages doCheck(final Form node) {
-            final IQLStaticAnalysis checker = new CircularQuestionDependencies();
+        public Messages doCheck(Form node) {
+            IQLStaticAnalysis checker = new CircularQuestionDependencies();
             return checker.doCheck(node);
         }
     }

@@ -18,16 +18,16 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
     private String question = null;
 
     @Override
-    public final Messages doCheck(final Form node) {
+    public Messages doCheck(Form node) {
         node.accept(this);
 
-        for (final String circularRelation : this.relations.getCircularRelations())
+        for (String circularRelation : this.relations.getCircularRelations())
             this.messages.addMessage("Circular dependency with " + circularRelation, MessageTypes.ERROR);
 
         return this.messages;
     }
 
-    public final Void visit(final Variable node) {
+    public Void visit(Variable node) {
         if (this.question == null)
             return null;
 
@@ -35,7 +35,7 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
         return null;
     }
 
-    public final Void visit(final Question node) {
+    public Void visit(Question node) {
 
         this.question = node.getVariable().getVariableName();
         this.linkRelationQuestionToQuestionExpression(node);
@@ -44,15 +44,15 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
         return null;
     }
 
-    private void linkRelationQuestionToQuestionExpression(final Question node) {
+    private void linkRelationQuestionToQuestionExpression(Question node) {
         if (node.getValue() != null)
             node.getValue().accept(this);
     }
 
     public static class Checker implements IQLStaticAnalysis {
         @Override
-        public final Messages doCheck(final Form node) {
-            final IQLStaticAnalysis checker = new CircularExpressionDependencies();
+        public Messages doCheck(Form node) {
+            IQLStaticAnalysis checker = new CircularExpressionDependencies();
             return checker.doCheck(node);
         }
     }

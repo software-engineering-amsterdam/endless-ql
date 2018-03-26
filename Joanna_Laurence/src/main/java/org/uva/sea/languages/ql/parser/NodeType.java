@@ -15,9 +15,9 @@ public enum NodeType {
         return (this == NodeType.INTEGER) || (this == NodeType.DECIMAL);
     }
 
-    public boolean isTypeCompatible(final NodeType type) {
-        final boolean exactlyTheSame = this == type;
-        final boolean compatibleTypes = (this == NodeType.DECIMAL) && type.isBasicNumber();
+    public boolean isTypeCompatible(NodeType type) {
+        boolean exactlyTheSame = this == type;
+        boolean compatibleTypes = (this == NodeType.DECIMAL) && type.isBasicNumber();
         return (exactlyTheSame || compatibleTypes);
     }
 }

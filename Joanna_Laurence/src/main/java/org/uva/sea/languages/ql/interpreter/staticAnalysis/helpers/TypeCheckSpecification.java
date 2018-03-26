@@ -16,7 +16,7 @@ public class TypeCheckSpecification {
         this.fillSpecification();
     }
 
-    public final Map<SpecificationKey, NodeType> getSpecification() {
+    public Map<SpecificationKey, NodeType> getSpecification() {
         return this.specification;
     }
 
@@ -58,12 +58,12 @@ public class TypeCheckSpecification {
         this.add(this.operators(Addition.class, Subtraction.class), NodeType.MONEY_EURO, NodeType.MONEY_EURO, NodeType.MONEY_EURO);
     }
 
-    private void add(final Iterable<Class<?>> operatorTypes, final NodeType left, final NodeType right, final NodeType returns) {
-        for (final Class operatorType : operatorTypes)
+    private void add(Iterable<Class<?>> operatorTypes, NodeType left, NodeType right, NodeType returns) {
+        for (Class operatorType : operatorTypes)
             this.specification.put(new SpecificationKey(operatorType, left, right), returns);
     }
 
-    private Iterable<Class<?>> operators(final Class<?>... operatorTypes) {
+    private Iterable<Class<?>> operators(Class<?>... operatorTypes) {
         return Arrays.asList(operatorTypes);
     }
 }

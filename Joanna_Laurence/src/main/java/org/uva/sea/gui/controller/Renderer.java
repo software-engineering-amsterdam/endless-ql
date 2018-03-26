@@ -13,27 +13,27 @@ class Renderer {
 
     private final Map<String, Node> drawnNodes = new HashMap<>();
 
-    public final void clearTabPane(final TabPane pane) {
+    public void clearTabPane(TabPane pane) {
         pane.getTabs().removeAll(pane.getTabs());
     }
 
-    private void clearContainers(final Map<String, VBox> guiContainers) {
-        for (final Pane container : guiContainers.values()) {
+    private void clearContainers(Map<String, VBox> guiContainers) {
+        for (Pane container : guiContainers.values()) {
             container.getChildren().removeAll(container.getChildren());
         }
     }
 
-    public final void draw(final Iterable<BaseWidget> displayedComponents, final Map<String, VBox> guiContainers) {
+    public void draw(Iterable<BaseWidget> displayedComponents, Map<String, VBox> guiContainers) {
         this.drawnNodes.clear();
         this.clearContainers(guiContainers);
-        for (final BaseWidget widget : displayedComponents) {
-            final Node widgetNode = widget.render(guiContainers);
+        for (BaseWidget widget : displayedComponents) {
+            Node widgetNode = widget.render(guiContainers);
             this.drawnNodes.put(widget.getIdentifier(), widgetNode);
         }
     }
 
-    public final void setFocus(final String identifier) {
-        final Node node = this.drawnNodes.get(identifier);
+    public void setFocus(String identifier) {
+        Node node = this.drawnNodes.get(identifier);
         if (node != null)
             node.requestFocus();
     }

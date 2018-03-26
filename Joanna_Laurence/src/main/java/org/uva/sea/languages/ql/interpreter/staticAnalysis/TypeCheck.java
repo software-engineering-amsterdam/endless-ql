@@ -15,7 +15,7 @@ import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 import java.util.Map;
 
 
-public final class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnalysis {
+public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnalysis {
 
     private final Messages errors = new Messages();
 
@@ -23,25 +23,25 @@ public final class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStat
 
 
     private TypeCheck() {
-        final TypeCheckSpecification typeCheckSpecification = new TypeCheckSpecification();
+        TypeCheckSpecification typeCheckSpecification = new TypeCheckSpecification();
         this.typeCheckSpecification = typeCheckSpecification.getSpecification();
     }
 
 
-    private void error(final ASTNode node) {
+    private void error(ASTNode node) {
         this.errors.addMessage("Incorrect type on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
-    public Messages doCheck(final Form node) {
+    public Messages doCheck(Form node) {
         node.accept(this);
         return this.errors;
     }
 
-    private NodeType getNodeTypeAndReportErrors(final ASTNode node, final NodeType leftHandSideType, final NodeType rightHandSideType) {
+    private NodeType getNodeTypeAndReportErrors(ASTNode node, NodeType leftHandSideType, NodeType rightHandSideType) {
         if ((leftHandSideType == NodeType.INVALID) || (rightHandSideType == NodeType.INVALID))
             return NodeType.INVALID;
 
-        final NodeType returnType = this.typeCheckSpecification.get(new SpecificationKey(node.getClass(), leftHandSideType, rightHandSideType));
+        NodeType returnType = this.typeCheckSpecification.get(new SpecificationKey(node.getClass(), leftHandSideType, rightHandSideType));
         if (returnType == null) {
             this.error(node);
             return NodeType.INVALID;
@@ -50,154 +50,154 @@ public final class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStat
     }
 
     @Override
-    public NodeType visit(final Addition node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(Addition node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final And node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(And node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final Division node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(Division node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final Equal node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(Equal node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final GreaterOrEqual node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(GreaterOrEqual node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final GreaterThan node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(GreaterThan node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final LessOrEqual node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(LessOrEqual node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final LessThan node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(LessThan node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final Multiplication node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(Multiplication node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final Negative node) {
-        final NodeType type = node.getType().accept(this);
+    public NodeType visit(Negative node) {
+        NodeType type = node.getType().accept(this);
         return this.getNodeTypeAndReportErrors(node, type, NodeType.UNKNOWN);
     }
 
     @Override
-    public NodeType visit(final NotEqual node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(NotEqual node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final Not node) {
-        final NodeType type = node.getType().accept(this);
+    public NodeType visit(Not node) {
+        NodeType type = node.getType().accept(this);
         return this.getNodeTypeAndReportErrors(node, type, NodeType.UNKNOWN);
     }
 
     @Override
-    public NodeType visit(final Type node) {
+    public NodeType visit(Type node) {
         return node.getNodeType();
     }
 
     @Override
-    public NodeType visit(final Or node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(Or node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final Positive node) {
-        final NodeType type = node.getType().accept(this);
+    public NodeType visit(Positive node) {
+        NodeType type = node.getType().accept(this);
         return this.getNodeTypeAndReportErrors(node, type, NodeType.UNKNOWN);
     }
 
     @Override
-    public NodeType visit(final Subtraction node) {
-        final NodeType leftHandSideType = node.getLeftHandSide().accept(this);
-        final NodeType rightHandSideType = node.getRightHandSide().accept(this);
+    public NodeType visit(Subtraction node) {
+        NodeType leftHandSideType = node.getLeftHandSide().accept(this);
+        NodeType rightHandSideType = node.getRightHandSide().accept(this);
         return this.getNodeTypeAndReportErrors(node, leftHandSideType, rightHandSideType);
     }
 
     @Override
-    public NodeType visit(final Variable node) {
+    public NodeType visit(Variable node) {
         return node.getType().getNodeType();
     }
 
     @Override
-    public NodeType visit(final Bool node) {
+    public NodeType visit(Bool node) {
         return NodeType.BOOLEAN;
     }
 
     @Override
-    public NodeType visit(final DateExpr node) {
+    public NodeType visit(DateExpr node) {
         return NodeType.DATE;
     }
 
     @Override
-    public NodeType visit(final Decimal node) {
+    public NodeType visit(Decimal node) {
         return NodeType.DECIMAL;
     }
 
     @Override
-    public NodeType visit(final Money node) {
+    public NodeType visit(Money node) {
         return node.getType().getNodeType();
     }
 
     @Override
-    public NodeType visit(final Int node) {
+    public NodeType visit(Int node) {
         return NodeType.INTEGER;
     }
 
     @Override
-    public NodeType visit(final Str node) {
+    public NodeType visit(Str node) {
         return NodeType.STRING;
     }
 
     @Override
-    public NodeType visit(final Question node) {
-        final NodeType questionType = node.getType().getNodeType();
-        final ASTNode valueNode = node.getValue();
+    public NodeType visit(Question node) {
+        NodeType questionType = node.getType().getNodeType();
+        ASTNode valueNode = node.getValue();
 
         if (valueNode != null) {
-            final NodeType valueType = valueNode.accept(this);
+            NodeType valueType = valueNode.accept(this);
             if (questionType != valueType) {
                 this.error(node);
                 return NodeType.INVALID;
@@ -210,8 +210,8 @@ public final class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStat
 
     public static class Checker implements IQLStaticAnalysis {
         @Override
-        public final Messages doCheck(final Form node) {
-            final IQLStaticAnalysis checker = new TypeCheck();
+        public Messages doCheck(Form node) {
+            IQLStaticAnalysis checker = new TypeCheck();
             return checker.doCheck(node);
         }
     }

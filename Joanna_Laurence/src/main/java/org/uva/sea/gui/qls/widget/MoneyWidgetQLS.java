@@ -9,14 +9,14 @@ public class MoneyWidgetQLS extends WidgetQLS {
 
     private final BaseWidget moneyWidget;
 
-    public MoneyWidgetQLS(final QuestionData questionData) {
+    public MoneyWidgetQLS(QuestionData questionData) {
         super(questionData);
         this.moneyWidget = this.linkToOtherWidget(new MoneyWidget(questionData), questionData);
     }
 
     @Override
-    public final Node convertToGuiNode() {
-        final Node widget = this.moneyWidget.convertToGuiNode();
+    public Node convertToGuiNode() {
+        Node widget = this.moneyWidget.convertToGuiNode();
         this.setStyle(widget);
         return widget;
     }

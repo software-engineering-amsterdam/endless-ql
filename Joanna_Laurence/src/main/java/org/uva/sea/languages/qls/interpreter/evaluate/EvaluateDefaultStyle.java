@@ -15,7 +15,7 @@ import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 import java.util.List;
 import java.util.ListIterator;
 
-public final class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
+public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 
     private NodeType nodeTypeToFind = null;
 
@@ -26,47 +26,47 @@ public final class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 
     }
 
-    private Style findStyle(final QLSNode node, final NodeType nodeTypeToFind) {
+    private Style findStyle(QLSNode node, NodeType nodeTypeToFind) {
         this.nodeTypeToFind = nodeTypeToFind;
         node.accept(this);
         return this.foundStyle;
     }
 
     @Override
-    public Void visit(final DefaultStyle style) {
+    public Void visit(DefaultStyle style) {
 
-        final NodeType styleType = NodeType.valueOf(style.getTypeName().toUpperCase());
+        NodeType styleType = NodeType.valueOf(style.getTypeName().toUpperCase());
         if (styleType != this.nodeTypeToFind)
             return null;
 
-        final Style defaultStyle = new Style();
+        Style defaultStyle = new Style();
         style.accept(new BaseStyleASTVisitor<Void>() {
             @Override
-            public Void visit(final Color node) {
+            public Void visit(Color node) {
                 defaultStyle.setColor(node.getColorCode());
                 return null;
             }
 
             @Override
-            public Void visit(final Font node) {
+            public Void visit(Font node) {
                 defaultStyle.setFont(node.getName());
                 return null;
             }
 
             @Override
-            public Void visit(final FontSize node) {
+            public Void visit(FontSize node) {
                 defaultStyle.setFontSize(node.getSize());
                 return null;
             }
 
             @Override
-            public Void visit(final Widget node) {
+            public Void visit(Widget node) {
                 defaultStyle.setWidget(new QLWidget(node.getWidgetType(), node.getParametersAsStrings()));
                 return null;
             }
 
             @Override
-            public Void visit(final Width node) {
+            public Void visit(Width node) {
                 defaultStyle.setWidth(node.getWidth());
                 return null;
             }
@@ -80,43 +80,43 @@ public final class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(final Question node) {
+    public Void visit(Question node) {
         return null;
     }
 
     @Override
-    public Void visit(final Section node) {
+    public Void visit(Section node) {
         return null;
     }
 
 
     public static class Fetcher {
-        public final Style getCascadingStyle(final NodeType nodeType, final List<Section> inSection, final Page inPage) {
-            final Style style = new Style();
+        public Style getCascadingStyle(NodeType nodeType, List<Section> inSection, Page inPage) {
+            Style style = new Style();
 
-            final ListIterator<Section> li = inSection.listIterator(inSection.size());
+            ListIterator<Section> li = inSection.listIterator(inSection.size());
             while (li.hasPrevious()) {
-                final Style defaultStyle = this.findStyle(li.previous(), nodeType);
+                Style defaultStyle = this.findStyle(li.previous(), nodeType);
                 style.fillNullFields(defaultStyle);
             }
-            final Style pageStyle = this.findStyle(inPage, nodeType);
+            Style pageStyle = this.findStyle(inPage, nodeType);
             style.fillNullFields(pageStyle);
             return style;
         }
 
-        private Style findStyle(final Section node, final NodeType nodeTypeToFind) {
+        private Style findStyle(Section node, NodeType nodeTypeToFind) {
             return this.getStyle(nodeTypeToFind, node.getSpecifications());
         }
 
-        private Style findStyle(final Page node, final NodeType nodeTypeToFind) {
+        private Style findStyle(Page node, NodeType nodeTypeToFind) {
             return this.getStyle(nodeTypeToFind, node.getSpecificationList());
         }
 
-        private Style getStyle(final NodeType nodeTypeToFind, final Iterable<Specification> specifications) {
-            final Style returnStyle = new Style();
-            final EvaluateDefaultStyle fetcher = new EvaluateDefaultStyle();
-            for (final Specification specification : specifications) {
-                final Style elementStyle = fetcher.findStyle(specification, nodeTypeToFind);
+        private Style getStyle(NodeType nodeTypeToFind, Iterable<Specification> specifications) {
+            Style returnStyle = new Style();
+            EvaluateDefaultStyle fetcher = new EvaluateDefaultStyle();
+            for (Specification specification : specifications) {
+                Style elementStyle = fetcher.findStyle(specification, nodeTypeToFind);
                 returnStyle.fillNullFields(elementStyle);
             }
             return returnStyle;

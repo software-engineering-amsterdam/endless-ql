@@ -22,14 +22,14 @@ public class DefaultValueFactory {
         this.defaultValues.put(NodeType.STRING, new StringValue(""));
     }
 
-    public final Value getDefaultValue(final NodeType nodeType) {
+    public Value getDefaultValue(NodeType nodeType) {
         try {
-            final Value defaultValue = this.defaultValues.get(nodeType);
+            Value defaultValue = this.defaultValues.get(nodeType);
             if (defaultValue == null) {
                 return new ErrorValue("No default style available for " + nodeType, 0, 0);
             }
             return defaultValue.clone();
-        } catch (final CloneNotSupportedException ignored) {
+        } catch (CloneNotSupportedException ignored) {
             return new ErrorValue("No default style available for " + nodeType, 0, 0);
         }
     }

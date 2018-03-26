@@ -12,14 +12,14 @@ public class QlSEvaluator extends QlEvaluator {
     private final String qlsFileLocation;
 
 
-    public QlSEvaluator(final String qlFileLocation, final String qlsFileLocation) {
+    public QlSEvaluator(String qlFileLocation, String qlsFileLocation) {
         super(qlFileLocation);
         this.qlsFileLocation = qlsFileLocation;
     }
 
     @Override
-    public final EvaluationResult evaluate() throws IOException, InterruptedException {
-        final EvaluationResult qlInterpreterResult = super.evaluate();
+    public EvaluationResult evaluate() throws IOException, InterruptedException {
+        EvaluationResult qlInterpreterResult = super.evaluate();
         if (qlInterpreterResult.getAst() == null)
             return qlInterpreterResult;
 

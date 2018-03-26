@@ -13,27 +13,27 @@ public class Money extends Expression {
     private final String currency;
     private final BigDecimal amount;
 
-    public Money(final Token token, final String currency, final String amount) {
+    public Money(Token token, String currency, String amount) {
         super(token);
         this.currency = currency;
         this.amount = new BigDecimal(amount);
     }
 
-    public Money(final Token token, final MoneyType currency, final String amount) {
+    public Money(Token token, MoneyType currency, String amount) {
         super(token);
         this.currency = currency.toString();
         this.amount = new BigDecimal(amount);
     }
 
-    public final String getCurrency() {
+    public String getCurrency() {
         return this.currency;
     }
 
-    public final BigDecimal getAmount() {
+    public BigDecimal getAmount() {
         return this.amount;
     }
 
-    public final Type getType() {
+    public Type getType() {
         if (this.currency.equals("€"))
             return new Type(NodeType.MONEY_EURO);
         else if (this.currency.equals("$"))
@@ -43,7 +43,7 @@ public class Money extends Expression {
     }
 
     @Override
-    public final <T> T accept(final IASTVisitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

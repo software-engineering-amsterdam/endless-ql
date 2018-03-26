@@ -19,27 +19,27 @@ public class SliderWidgetQLS extends WidgetQLS {
 
     private Value incrementStep = new DecimalValue(SliderWidgetQLS.DECIMAL_STEP_SIZE);
 
-    public SliderWidgetQLS(final QuestionData questionData) {
+    public SliderWidgetQLS(QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public final boolean updateValue(final DecimalValue decimalValue) {
+    public boolean updateValue(DecimalValue decimalValue) {
         this.widgetValue = decimalValue;
         this.incrementStep = new DecimalValue(SliderWidgetQLS.DECIMAL_STEP_SIZE);
         return true;
     }
 
     @Override
-    public final boolean updateValue(final IntValue intValue) {
+    public boolean updateValue(IntValue intValue) {
         this.widgetValue = intValue;
         this.incrementStep = new IntValue(SliderWidgetQLS.INTEGER_STEP_SIZE);
         return true;
     }
 
     @Override
-    public final Node convertToGuiNode() {
-        final Slider slider = new Slider();
+    public Node convertToGuiNode() {
+        Slider slider = new Slider();
         slider.setMin(0);
         slider.setValueChanging(true);
         slider.setMinorTickCount(1);
@@ -48,13 +48,13 @@ public class SliderWidgetQLS extends WidgetQLS {
         if (this.questionData.getValue() != null) {
             this.widgetValue.accept(new BaseValueVisitor<Void>() {
                 @Override
-                public Void visit(final DecimalValue value) {
+                public Void visit(DecimalValue value) {
                     slider.valueProperty().setValue(value.getDecimalValue());
                     return null;
                 }
 
                 @Override
-                public Void visit(final IntValue value) {
+                public Void visit(IntValue value) {
                     slider.valueProperty().setValue(value.getIntValue());
                     return null;
                 }
@@ -67,7 +67,7 @@ public class SliderWidgetQLS extends WidgetQLS {
                 Value newWidgetValue;
                 try {
                     newWidgetValue = this.widgetValue.add(this.incrementStep);
-                } catch (final EvaluationException ignored) {
+                } catch (EvaluationException ignored) {
                     newWidgetValue = this.widgetValue;
                 }
                 this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);

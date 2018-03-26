@@ -37,12 +37,12 @@ public abstract class BaseFormController implements Initializable, IQuestionValu
     @FXML
     VBox container;
 
-    protected BaseFormController(final IWidgetFactory questionModel) {
+    protected BaseFormController(IWidgetFactory questionModel) {
         this.questionModel = new QuestionModel(this, questionModel);
     }
 
     @Override
-    public void initialize(final URL location, final ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources) {
 
     }
 
@@ -50,8 +50,8 @@ public abstract class BaseFormController implements Initializable, IQuestionValu
     protected abstract Map<String, VBox> createContainers(EvaluationResult evaluationResult);
 
 
-    private String askFileLocation(final String title, final String extension) {
-        final File selectedFile = FileSelector.getFile(title, extension, "*." + extension);
+    private String askFileLocation(String title, String extension) {
+        File selectedFile = FileSelector.getFile(title, extension, "*." + extension);
         if (selectedFile == null) {
             AlertPopup.displayWarning("No file selected");
             return null;
@@ -61,44 +61,44 @@ public abstract class BaseFormController implements Initializable, IQuestionValu
     }
 
     @FXML
-    public final void loadQLFile(final ActionEvent actionEvent) {
-        final String qlFile = this.askFileLocation("Load QL file", "ql");
+    public void loadQLFile(ActionEvent actionEvent) {
+        String qlFile = this.askFileLocation("Load QL file", "ql");
         if (qlFile == null)
             return;
 
-        final BaseEvaluator evaluator = new QlEvaluator(qlFile);
+        BaseEvaluator evaluator = new QlEvaluator(qlFile);
         this.updateInterpreter(evaluator);
         this.drawComponents();
     }
 
     @FXML
-    public final void loadQLSFile(final ActionEvent actionEvent) {
-        final String qlFile = this.askFileLocation("Load QL file", "ql");
-        final String qlsFile = this.askFileLocation("Load QLS file", "qls");
+    public void loadQLSFile(ActionEvent actionEvent) {
+        String qlFile = this.askFileLocation("Load QL file", "ql");
+        String qlsFile = this.askFileLocation("Load QLS file", "qls");
         if ((qlFile == null) || (qlsFile == null))
             return;
 
-        final BaseEvaluator evaluator = new QlSEvaluator(qlFile, qlsFile);
+        BaseEvaluator evaluator = new QlSEvaluator(qlFile, qlsFile);
         this.updateInterpreter(evaluator);
         this.drawComponents();
     }
 
-    private void updateInterpreter(final BaseEvaluator evaluator) {
+    private void updateInterpreter(BaseEvaluator evaluator) {
         this.questionModel.setBaseEvaluator(evaluator);
     }
 
-    private void showMessages(final RenderingElements questionRenders) {
-        for (final String warning : questionRenders.getWarnings())
+    private void showMessages(RenderingElements questionRenders) {
+        for (String warning : questionRenders.getWarnings())
             AlertPopup.displayWarning(warning);
 
-        for (final String error : questionRenders.getErrors())
+        for (String error : questionRenders.getErrors())
             AlertPopup.displayError(error);
     }
 
     private void drawComponents() {
         try {
-            final EvaluationResult evaluationResult = this.questionModel.getEvaluationResults();
-            final RenderingElements questionRenders = this.questionModel.getQuestionRenders(evaluationResult);
+            EvaluationResult evaluationResult = this.questionModel.getEvaluationResults();
+            RenderingElements questionRenders = this.questionModel.getQuestionRenders(evaluationResult);
             if (questionRenders == null) {
                 AlertPopup.displayError("No questions could be displayed");
                 return;
@@ -106,7 +106,7 @@ public abstract class BaseFormController implements Initializable, IQuestionValu
 
             this.showMessages(questionRenders);
             this.renderer.clearTabPane(this.tabPane);
-            final Map<String, VBox> panes = this.createContainers(evaluationResult);
+            Map<String, VBox> panes = this.createContainers(evaluationResult);
             this.renderer.draw(questionRenders.getWidgets(), panes);
 
         } catch (WidgetNotFoundException | IOException | InterruptedException e) {
@@ -116,17 +116,17 @@ public abstract class BaseFormController implements Initializable, IQuestionValu
 
 
     @Override
-    public final void updateGuiVariable(final String identifier, final Value value) {
+    public void updateGuiVariable(String identifier, Value value) {
         this.questionModel.setVariable(identifier, value);
         this.drawComponents();
         this.renderer.setFocus(identifier);
     }
 
     @FXML
-    public final void export(final ActionEvent actionEvent) {
+    public void export(ActionEvent actionEvent) {
         try {
-            final Exporter exporter = new Exporter();
-            final String fileName = exporter.saveAnswers(this.questionModel);
+            Exporter exporter = new Exporter();
+            String fileName = exporter.saveAnswers(this.questionModel);
             AlertPopup.displayInfo("Saved file in: " + fileName);
         } catch (IOException | InterruptedException e) {
             AlertPopup.displayError(e.getMessage());

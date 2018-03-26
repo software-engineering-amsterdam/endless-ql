@@ -22,7 +22,7 @@ public class QLSEvaluateTest extends TestCase {
     private final String testFile;
     private final Boolean shouldCompile;
 
-    public QLSEvaluateTest(final String testFile, final Boolean shouldCompile) {
+    public QLSEvaluateTest(String testFile, Boolean shouldCompile) {
         this.testFile = testFile;
         this.shouldCompile = shouldCompile;
     }
@@ -30,7 +30,7 @@ public class QLSEvaluateTest extends TestCase {
     @Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
 
-        final Collection<Object[]> testFiles = new ArrayList<>();
+        Collection<Object[]> testFiles = new ArrayList<>();
         testFiles.addAll(QLSEvaluateTest.getTestFiles("src/test/resources/correctQLS/", true));
         testFiles.addAll(QLSEvaluateTest.getTestFiles("src/test/resources/incorrectQLS/", false));
 
@@ -38,11 +38,11 @@ public class QLSEvaluateTest extends TestCase {
     }
 
 
-    private static Collection<Object[]> getTestFiles(final String folderLocation, final Boolean shouldCompile) {
-        final Collection<Object[]> testFiles = new ArrayList<>();
+    private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
+        Collection<Object[]> testFiles = new ArrayList<>();
 
-        final Collection<String> locations = QLSEvaluateTest.testFileHelper.getTestFiles(folderLocation);
-        for (final String location : locations) {
+        Collection<String> locations = QLSEvaluateTest.testFileHelper.getTestFiles(folderLocation);
+        for (String location : locations) {
             if (!location.endsWith(".qls"))
                 continue;
 
@@ -52,11 +52,11 @@ public class QLSEvaluateTest extends TestCase {
         return testFiles;
     }
 
-    private boolean doesInterpreter(final String fileName) {
+    private boolean doesInterpreter(String fileName) {
         try {
-            final QlSEvaluator qlsEvaluator = new QlSEvaluator(fileName.replace(".qls", ".ql"), fileName);
-            final EvaluationResult evaluationResult = qlsEvaluator.evaluate();
-            final Messages evaluationMessages = evaluationResult.getMessages();
+            QlSEvaluator qlsEvaluator = new QlSEvaluator(fileName.replace(".qls", ".ql"), fileName);
+            EvaluationResult evaluationResult = qlsEvaluator.evaluate();
+            Messages evaluationMessages = evaluationResult.getMessages();
             return !evaluationMessages.hasMessagePresent(MessageTypes.ERROR);
         } catch (InterruptedException | IOException ignored) {
             return false;
@@ -65,7 +65,7 @@ public class QLSEvaluateTest extends TestCase {
 
 
     @Test
-    public final void testFile() {
+    public void testFile() {
         System.out.println("Testing: " + this.testFile);
         Assert.assertEquals(this.shouldCompile, this.doesInterpreter(this.testFile));
     }

@@ -7,17 +7,17 @@ public class Parameter extends QLSNode {
 
     private final String parameter;
 
-    public Parameter(final Token token, final String parameter) {
+    public Parameter(Token token, String parameter) {
         super(token);
         this.parameter = parameter;
     }
 
-    public final String getParameter() {
+    public String getParameter() {
         return this.parameter;
     }
 
     @Override
-    public final <T> T accept(final IStyleASTVisitor<T> visitor) {
+    public <T> T accept(IStyleASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

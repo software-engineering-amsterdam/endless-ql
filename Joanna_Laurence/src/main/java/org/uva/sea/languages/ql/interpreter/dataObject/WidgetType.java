@@ -13,14 +13,14 @@ public enum WidgetType {
     SPINBOX,
     TEXTFIELD;
 
-    private boolean isBooleanCompatible(final NodeType nodeType) {
+    private boolean isBooleanCompatible(NodeType nodeType) {
         return ((this == WidgetType.CHECKBOX) ||
                 (this == WidgetType.CHOICEBOX) ||
                 (this == WidgetType.RADIO)) &&
                 (nodeType == NodeType.BOOLEAN);
     }
 
-    private boolean isNumberCompatible(final NodeType nodeType) {
+    private boolean isNumberCompatible(NodeType nodeType) {
         return ((this == WidgetType.SLIDER) ||
                 (this == WidgetType.SPINBOX)) && (
                 (nodeType == NodeType.INTEGER) ||
@@ -28,7 +28,7 @@ public enum WidgetType {
         );
     }
 
-    private boolean isStringCompatible(final NodeType nodeType) {
+    private boolean isStringCompatible(NodeType nodeType) {
         return (this == WidgetType.TEXTFIELD) && (
                 (nodeType == NodeType.STRING) ||
                         (nodeType == NodeType.INTEGER) ||
@@ -40,7 +40,7 @@ public enum WidgetType {
         return this != WidgetType.UNKNOWN;
     }
 
-    public boolean isCompatible(final NodeType nodeType) {
+    public boolean isCompatible(NodeType nodeType) {
         return this.isNotUnknown() ||
                 this.isBooleanCompatible(nodeType) ||
                 this.isNumberCompatible(nodeType) ||

@@ -16,29 +16,29 @@ public class StatementsEvaluator extends BaseASTVisitor<List<Question>> {
 
     private final IfStatementEvaluator ifStatementEvaluator = new IfStatementEvaluator();
 
-    public StatementsEvaluator(final SymbolTable symbolTable) {
+    public StatementsEvaluator(SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
     }
 
-    public final List<Question> evaluate(final Statements statements) {
+    public List<Question> evaluate(Statements statements) {
         return statements.accept(this);
     }
 
-    public final List<Question> visit(final Statements node) {
-        final List<Question> questions = new ArrayList<>();
-        for (final ASTNode statement : node.getStatementList()) {
-            final List<Question> subQuestions = statement.accept(this);
+    public List<Question> visit(Statements node) {
+        List<Question> questions = new ArrayList<>();
+        for (ASTNode statement : node.getStatementList()) {
+            List<Question> subQuestions = statement.accept(this);
             if (subQuestions != null)
                 questions.addAll(subQuestions);
         }
         return questions;
     }
 
-    public final List<Question> visit(final Question question) {
+    public List<Question> visit(Question question) {
         return Collections.singletonList(question);
     }
 
-    public final List<Question> visit(final IfStatement ifStatement) {
+    public List<Question> visit(IfStatement ifStatement) {
         return this.ifStatementEvaluator.evaluate(ifStatement, this.symbolTable);
     }
 }

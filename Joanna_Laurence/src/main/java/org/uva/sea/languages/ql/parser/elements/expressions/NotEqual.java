@@ -7,16 +7,16 @@ import org.uva.sea.languages.ql.parser.nodeTypes.BinaryOperator;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 public class NotEqual extends BinaryOperator {
-    public NotEqual(final Token token, final Expression leftHandSide, final Expression rightHandSide) {
+    public NotEqual(Token token, Expression leftHandSide, Expression rightHandSide) {
         super(token, leftHandSide, rightHandSide);
     }
 
-    public final Type getType() {
+    public Type getType() {
         return new Type(NodeType.BOOLEAN);
     }
 
     @Override
-    public final <T> T accept(final IASTVisitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

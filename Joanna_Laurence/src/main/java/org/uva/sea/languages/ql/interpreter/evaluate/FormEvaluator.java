@@ -9,10 +9,10 @@ import java.util.List;
 
 public class FormEvaluator extends BaseASTVisitor<List<Question>> {
 
-    public final List<Question> evaluate(final Form form, final SymbolTable symbolTable) {
-        final StatementsEvaluator statementsEvaluator = new StatementsEvaluator(symbolTable);
+    public List<Question> evaluate(Form form, SymbolTable symbolTable) {
+        StatementsEvaluator statementsEvaluator = new StatementsEvaluator(symbolTable);
 
-        final Statements formStatements = form.getStatements();
+        Statements formStatements = form.getStatements();
         return statementsEvaluator.evaluate(formStatements);
     }
 }

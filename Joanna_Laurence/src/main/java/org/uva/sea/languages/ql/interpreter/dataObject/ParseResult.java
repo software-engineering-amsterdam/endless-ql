@@ -7,16 +7,16 @@ public class ParseResult<T> {
     private final Messages warnings;
     private final T ast;
 
-    public ParseResult(final T ast, final Messages messages) {
+    public ParseResult(T ast, Messages messages) {
         this.warnings = messages;
         this.ast = ast;
     }
 
-    public final Messages getMessages() {
+    public Messages getMessages() {
         return this.warnings;
     }
 
-    public final T getAst() {
+    public T getAst() {
         return this.ast;
     }
 }

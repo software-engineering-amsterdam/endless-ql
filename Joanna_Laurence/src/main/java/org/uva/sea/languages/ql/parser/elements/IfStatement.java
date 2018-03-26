@@ -13,31 +13,31 @@ public class IfStatement extends Statement {
     private final Statements thenBlock;
     private final Statements otherwiseBlock;
 
-    public IfStatement(final Token token, final Expression expression, final Statements thenBlock, final Statements otherwiseBlock) {
+    public IfStatement(Token token, Expression expression, Statements thenBlock, Statements otherwiseBlock) {
         super(token);
         this.thenBlock = thenBlock;
         this.expression = expression;
         this.otherwiseBlock = otherwiseBlock;
     }
 
-    public final ASTNode getExpression() {
+    public ASTNode getExpression() {
         return this.expression;
     }
 
-    public final Statements getThenBlock() {
+    public Statements getThenBlock() {
         return this.thenBlock;
     }
 
-    public final Statements getOtherwiseBlock() {
+    public Statements getOtherwiseBlock() {
         return this.otherwiseBlock;
     }
 
-    public final Type getType() {
+    public Type getType() {
         return new Type(NodeType.UNKNOWN);
     }
 
     @Override
-    public final <T> T accept(final IASTVisitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

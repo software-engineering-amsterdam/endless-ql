@@ -11,19 +11,19 @@ public class CheckBoxWidget extends Widget {
 
     private BooleanValue widgetValue = new BooleanValue(false);
 
-    public CheckBoxWidget(final QuestionData questionData) {
+    public CheckBoxWidget(QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public final boolean updateValue(final BooleanValue booleanValue) {
+    public boolean updateValue(BooleanValue booleanValue) {
         this.widgetValue = booleanValue;
         return true;
     }
 
     @Override
-    public final Node convertToGuiNode() {
-        final CheckBox checkBox = new CheckBox();
+    public Node convertToGuiNode() {
+        CheckBox checkBox = new CheckBox();
         this.applyCheckboxStyle(checkBox, this.questionData.getStyle());
         checkBox.setSelected((this.widgetValue != null) && this.widgetValue.getBooleanValue());
         checkBox.selectedProperty().addListener((observable, oldIsFocused, newIsFocused) ->
@@ -32,7 +32,7 @@ public class CheckBoxWidget extends Widget {
         return checkBox;
     }
 
-    private void applyCheckboxStyle(final CheckBox checkBox, final Style style) {
+    private void applyCheckboxStyle(CheckBox checkBox, Style style) {
         if (style == null)
             return;
 

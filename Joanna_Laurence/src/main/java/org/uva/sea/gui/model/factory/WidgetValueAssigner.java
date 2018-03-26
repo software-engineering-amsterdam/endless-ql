@@ -8,47 +8,47 @@ public class WidgetValueAssigner extends BaseValueVisitor<Void> {
 
     private final BaseWidget widget;
 
-    public WidgetValueAssigner(final BaseWidget widget) {
+    public WidgetValueAssigner(BaseWidget widget) {
         this.widget = widget;
     }
 
-    public final BaseWidget updateWidget(final Value value) {
+    public BaseWidget updateWidget(Value value) {
         value.accept(this);
         return this.widget;
     }
 
     @Override
-    public final Void visit(final BooleanValue value) {
+    public Void visit(BooleanValue value) {
         this.widget.updateValue(value);
         return null;
     }
 
     @Override
-    public final Void visit(final DateValue value) {
+    public Void visit(DateValue value) {
         this.widget.updateValue(value);
         return null;
     }
 
     @Override
-    public final Void visit(final DecimalValue value) {
+    public Void visit(DecimalValue value) {
         this.widget.updateValue(value);
         return null;
     }
 
     @Override
-    public final Void visit(final IntValue value) {
+    public Void visit(IntValue value) {
         this.widget.updateValue(value);
         return null;
     }
 
     @Override
-    public final Void visit(final MoneyValue value) {
+    public Void visit(MoneyValue value) {
         this.widget.updateValue(value);
         return null;
     }
 
     @Override
-    public final Void visit(final StringValue value) {
+    public Void visit(StringValue value) {
         this.widget.updateValue(value);
         return null;
     }

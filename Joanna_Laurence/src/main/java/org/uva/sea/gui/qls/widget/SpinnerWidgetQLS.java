@@ -16,42 +16,42 @@ public class SpinnerWidgetQLS extends WidgetQLS {
 
     private Value widgetValue = new DecimalValue(0);
 
-    public SpinnerWidgetQLS(final QuestionData questionData) {
+    public SpinnerWidgetQLS(QuestionData questionData) {
         super(questionData);
     }
 
     @Override
-    public final boolean updateValue(final DecimalValue decimalValue) {
+    public boolean updateValue(DecimalValue decimalValue) {
         this.widgetValue = decimalValue;
         return true;
     }
 
     @Override
-    public final boolean updateValue(final IntValue intValue) {
+    public boolean updateValue(IntValue intValue) {
         this.widgetValue = intValue;
         return true;
     }
 
     @Override
-    public final Node convertToGuiNode() {
+    public Node convertToGuiNode() {
         if (this.widgetValue == null)
             return null;
 
-        final Spinner spinner = new Spinner<>();
+        Spinner spinner = new Spinner<>();
 
         this.setStyle(spinner);
 
         this.widgetValue.accept(new BaseValueVisitor<Void>() {
             @Override
-            public Void visit(final IntValue node) {
-                final SpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, (int) SpinnerWidgetQLS.SPINNER_MAX_VALUE, node.getIntValue());
+            public Void visit(IntValue node) {
+                SpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, (int) SpinnerWidgetQLS.SPINNER_MAX_VALUE, node.getIntValue());
                 spinner.setValueFactory(valueFactory);
                 return null;
             }
 
             @Override
-            public Void visit(final DecimalValue node) {
-                final SpinnerValueFactory valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, SpinnerWidgetQLS.SPINNER_MAX_VALUE, node.getDecimalValue());
+            public Void visit(DecimalValue node) {
+                SpinnerValueFactory valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, SpinnerWidgetQLS.SPINNER_MAX_VALUE, node.getDecimalValue());
                 spinner.setValueFactory(valueFactory);
                 return null;
             }
@@ -60,14 +60,14 @@ public class SpinnerWidgetQLS extends WidgetQLS {
         spinner.valueProperty().addListener(
                 (ChangeListener<Number>) (observableValue, oldValue, newValue) -> {
 
-                    final Value newWidgetValue = this.widgetValue.accept(new BaseValueVisitor<Value>() {
+                    Value newWidgetValue = this.widgetValue.accept(new BaseValueVisitor<Value>() {
                         @Override
-                        public Value visit(final DecimalValue node) {
+                        public Value visit(DecimalValue node) {
                             return new DecimalValue(newValue.toString());
                         }
 
                         @Override
-                        public Value visit(final IntValue node) {
+                        public Value visit(IntValue node) {
                             return new IntValue(newValue.toString());
                         }
                     });

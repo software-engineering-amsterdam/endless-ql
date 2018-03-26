@@ -15,7 +15,7 @@ public class QlEvaluator implements BaseEvaluator {
 
     private final String qlFileLocation;
 
-    public QlEvaluator(final String fileLocation) {
+    public QlEvaluator(String fileLocation) {
         this.qlFileLocation = fileLocation;
     }
 
@@ -23,7 +23,7 @@ public class QlEvaluator implements BaseEvaluator {
         return this.evaluator.evaluate(this.qlFileLocation, this.symbolTable);
     }
 
-    public final void setVariable(final String name, final Value value) {
+    public void setVariable(String name, Value value) {
         this.symbolTable.addOrUpdateValue(name, value);
     }
 }

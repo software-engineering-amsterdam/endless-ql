@@ -14,7 +14,7 @@ public class Question extends Statement {
     private final Type nodeType;
     private final Expression value;
 
-    public Question(final Token token, final String label, final Variable variable, final Type nodeType, final Expression value) {
+    public Question(Token token, String label, Variable variable, Type nodeType, Expression value) {
         super(token);
         this.label = label;
         this.variable = variable;
@@ -22,28 +22,28 @@ public class Question extends Statement {
         this.value = value;
     }
 
-    public final String getLabel() {
+    public String getLabel() {
         return this.label;
     }
 
-    public final Variable getVariable() {
+    public Variable getVariable() {
         return this.variable;
     }
 
-    public final Type getNodeType() {
+    public Type getNodeType() {
         return this.nodeType;
     }
 
-    public final ASTNode getValue() {
+    public ASTNode getValue() {
         return this.value;
     }
 
-    public final Type getType() {
+    public Type getType() {
         return this.nodeType;
     }
 
     @Override
-    public final <T> T accept(final IASTVisitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

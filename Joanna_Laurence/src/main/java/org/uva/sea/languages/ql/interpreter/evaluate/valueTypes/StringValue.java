@@ -8,50 +8,50 @@ public class StringValue extends Value {
 
     private final String stringValue;
 
-    public StringValue(final String stringValue) {
+    public StringValue(String stringValue) {
         this.stringValue = stringValue;
     }
 
-    public final String getStringValue() {
+    public String getStringValue() {
         return this.stringValue;
     }
 
     @Override
-    public final Value isEqual(final Value value) throws EvaluationException {
+    public Value isEqual(Value value) throws EvaluationException {
         return value.isEqual(this);
     }
 
     @Override
-    public final Value isEqual(final StringValue value) {
+    public Value isEqual(StringValue value) {
         return new BooleanValue(this.stringValue.equals(value.stringValue));
     }
 
     @Override
-    public final Value isNotEqual(final Value value) throws EvaluationException {
+    public Value isNotEqual(Value value) throws EvaluationException {
         return value.isNotEqual(this);
     }
 
     @Override
-    public final Value isNotEqual(final StringValue value) {
+    public Value isNotEqual(StringValue value) {
         return new BooleanValue(!this.stringValue.equals(value.stringValue));
     }
 
     @Override
-    public final <T> T accept(final BaseValueVisitor<T> visitor) {
+    public <T> T accept(BaseValueVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public final NodeType getType() {
+    public NodeType getType() {
         return NodeType.STRING;
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return this.stringValue;
     }
 
-    public final StringValue clone() throws CloneNotSupportedException {
+    public StringValue clone() throws CloneNotSupportedException {
         return (StringValue) super.clone();
     }
 }

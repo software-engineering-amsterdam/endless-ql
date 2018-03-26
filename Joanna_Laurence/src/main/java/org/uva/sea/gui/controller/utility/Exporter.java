@@ -14,33 +14,33 @@ import java.util.Map;
 
 public class Exporter {
 
-    public final String saveAnswers(final QuestionModel formModel) throws IOException, InterruptedException {
-        final File exportFile = FileSelector.getFile("Choose file to save", "JSON", "*.json");
+    public String saveAnswers(QuestionModel formModel) throws IOException, InterruptedException {
+        File exportFile = FileSelector.getFile("Choose file to save", "JSON", "*.json");
         try (Writer writer = new FileWriter(exportFile.getAbsolutePath())) {
-            final String json = new GsonBuilder().create().toJson(this.getQuestionnaireResult(formModel));
+            String json = new GsonBuilder().create().toJson(this.getQuestionnaireResult(formModel));
             writer.write(json);
         }
 
         return exportFile.getName();
     }
 
-    private Map<String, String> getQuestionnaireResult(final QuestionModel questionModel) throws IOException, InterruptedException {
+    private Map<String, String> getQuestionnaireResult(QuestionModel questionModel) throws IOException, InterruptedException {
         if (questionModel == null) {
             return new HashMap<>();
         }
 
-        final Map<String, String> questionValueMap = new HashMap<>();
-        final EvaluationResult evaluationResults = questionModel.getEvaluationResults();
+        Map<String, String> questionValueMap = new HashMap<>();
+        EvaluationResult evaluationResults = questionModel.getEvaluationResults();
 
-        for (final QuestionData data : evaluationResults.getQuestions()) {
-            final String question = data.getLabel();
-            final String value = (data.getValue() != null) ? data.getValue().toString() : "null";
+        for (QuestionData data : evaluationResults.getQuestions()) {
+            String question = data.getLabel();
+            String value = (data.getValue() != null) ? data.getValue().toString() : "null";
             questionValueMap.put(this.makeJsonCompatible(question), this.makeJsonCompatible(value));
         }
         return questionValueMap;
     }
 
-    private String makeJsonCompatible(final String input) {
+    private String makeJsonCompatible(String input) {
         return input.replace("\"", "");
     }
 }

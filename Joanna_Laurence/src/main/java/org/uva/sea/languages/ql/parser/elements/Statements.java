@@ -15,20 +15,20 @@ public class Statements extends ASTNode {
         this.statementList = new ArrayList<>();
     }
 
-    public final Iterable<Statement> getStatementList() {
+    public Iterable<Statement> getStatementList() {
         return this.statementList;
     }
 
-    public final void addStatement(final Statement item) {
+    public void addStatement(Statement item) {
         this.statementList.add(item);
     }
 
-    public final Type getType() {
+    public Type getType() {
         return new Type(NodeType.UNKNOWN);
     }
 
     @Override
-    public final <T> T accept(final IASTVisitor<T> visitor) {
+    public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

@@ -9,14 +9,14 @@ public class DateWidgetQLS extends WidgetQLS {
 
     private final BaseWidget widget;
 
-    public DateWidgetQLS(final QuestionData questionData) {
+    public DateWidgetQLS(QuestionData questionData) {
         super(questionData);
         this.widget = this.linkToOtherWidget(new DateWidget(questionData), questionData);
     }
 
     @Override
-    public final Node convertToGuiNode() {
-        final Node widget = this.widget.convertToGuiNode();
+    public Node convertToGuiNode() {
+        Node widget = this.widget.convertToGuiNode();
         this.setStyle(widget);
         return widget;
     }

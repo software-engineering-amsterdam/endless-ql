@@ -14,18 +14,18 @@ import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 class ASTGenerator {
 
 
-    public final ParseResult<Stylesheet> createAST(final CharStream source) {
-        final QLSLexer lexer = new QLSLexer(source);
-        final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    public ParseResult<Stylesheet> createAST(CharStream source) {
+        QLSLexer lexer = new QLSLexer(source);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-        final QLSParser parser = new QLSParser(tokens);
+        QLSParser parser = new QLSParser(tokens);
 
-        final ErrorHandler parseErrorListener = new ErrorHandler();
+        ErrorHandler parseErrorListener = new ErrorHandler();
         parser.addErrorListener(parseErrorListener);
 
-        final StylesheetContext styleSheet = parser.stylesheet();
+        StylesheetContext styleSheet = parser.stylesheet();
 
-        final Messages parseMessages = parseErrorListener.getMessages();
+        Messages parseMessages = parseErrorListener.getMessages();
         if (parseMessages.hasMessagePresent(MessageTypes.ERROR))
             return new ParseResult<>(null, parseMessages);
 

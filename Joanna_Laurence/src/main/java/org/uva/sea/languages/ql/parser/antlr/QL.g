@@ -35,7 +35,6 @@ statement returns [Statement result]
     | cont=condition { $result = $cont.result; }
     ;
 
-//TODO: .text is used to check if it is not null
 question returns [Question result]
     : lab=label var=variable ':' t=type ('=' ex=expression)? {
         $result = new Question($lab.start, $lab.result, $var.result, $t.result,$ex.text == null ? null : $ex.result);

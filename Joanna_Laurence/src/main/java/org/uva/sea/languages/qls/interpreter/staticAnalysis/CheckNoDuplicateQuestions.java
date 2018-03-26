@@ -12,7 +12,6 @@ import java.util.List;
 public class CheckNoDuplicateQuestions extends QuestionAnalysis implements IQLSStaticAnalysis {
 
     public Messages doCheck(Form form, Stylesheet stylesheet) {
-
         List<String> qlsQuestions = this.getQlSQuestionNames(stylesheet);
         return this.checkForDuplicateQuestions(qlsQuestions);
     }

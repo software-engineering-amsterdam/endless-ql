@@ -23,7 +23,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     private EvaluationResult qlInputResult = null;
     private EvaluationResult outputResult = null;
 
-    //Current state for visitor Visitor
+    //Current state for helper Visitor
     private Page currentPage = null;
 
 
@@ -34,12 +34,12 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     private EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) {
         this.qlInputResult = interpreterResult;
         this.outputResult = new EvaluationResult(new ArrayList<>(), interpreterResult.getMessages(), interpreterResult.getAst());
-        //The visitor will fill the outputResult
+        //The helper will fill the outputResult
         stylesheet.accept(this);
         return this.outputResult;
     }
 
-    private QuestionData getOriginalQuestionData(String questionName) {
+    private QuestionData getQLQuestionData(String questionName) {
         for (QuestionData questionData : this.qlInputResult.getQuestions()) {
             if (questionData.getQuestionName().equals(questionName)) {
                 return questionData;
@@ -65,7 +65,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
     @Override
     public Void visit(Question node) {
-        QuestionData questionData = this.getOriginalQuestionData(node.getName());
+        QuestionData questionData = this.getQLQuestionData(node.getName());
 
         if (questionData != null) {
             if (node.getWidget() != null) {
@@ -87,7 +87,8 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         if (question.getWidget() != null)
             style.setWidget(new QLWidget(question.getWidget().getWidgetType(), question.getWidget().getParametersAsStrings()));
 
-        style.fillNullFields(this.defaultStyleEvaluator.getCascadingStyle(nodeType, this.currentSections, this.currentPage));
+        Style styleFromStylesheet = this.defaultStyleEvaluator.getCascadingStyle(nodeType, this.currentSections, this.currentPage);
+        style.fillNullFields(styleFromStylesheet);
         return style;
     }
 

@@ -16,9 +16,6 @@ public abstract class BaseRenderable {
     private static final int LABEL_WIDTH = 350;
     private static final int LABEL_HEIGHT = 40;
 
-    private static final int MESSAGE_ROW = 600;
-    private static final int MESSAGE_COLUMN = 40;
-
     public abstract Node render(Map<String, VBox> containers);
 
     Node drawComponent(String label, Node widget) {
@@ -37,19 +34,6 @@ public abstract class BaseRenderable {
         Label label = new Label(string.replace("\"", ""));
         label.setWrapText(true);
         return label;
-    }
-
-    protected Node createTextRow(String message) {
-        GridPane wrapper = new GridPane();
-
-        wrapper.getColumnConstraints().add(new ColumnConstraints(BaseRenderable.MESSAGE_ROW));
-        wrapper.getRowConstraints().add(new RowConstraints(BaseRenderable.MESSAGE_COLUMN));
-
-        Label label = new Label(message);
-        label.setWrapText(true);
-        wrapper.add(label, 0, 0);
-
-        return wrapper;
     }
 
     public boolean updateValue(BooleanValue booleanValue) {

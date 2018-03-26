@@ -44,8 +44,7 @@ public class ASTExpressionVisitorEvaluator implements ASTExpressionVisitor{
         if (divisor != 0.0)
         {
             double left = node.getLeft().accept(this);
-            double right = node.getRight().accept(this);
-            return left / right;
+            return left / divisor;
         } else
         {
             throw new ArithmeticException("Division by zero.");

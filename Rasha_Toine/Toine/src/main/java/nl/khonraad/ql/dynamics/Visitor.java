@@ -6,7 +6,6 @@ import java.util.List;
 import nl.khonraad.ql.QBaseVisitor;
 import nl.khonraad.ql.QParser;
 import nl.khonraad.ql.algebra.PartialFunction;
-import nl.khonraad.ql.algebra.Question;
 import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
 

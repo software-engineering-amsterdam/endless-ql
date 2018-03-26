@@ -3,7 +3,6 @@ package nl.khonraad.ql.dynamics;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CharStreams;
@@ -14,10 +13,9 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import nl.khonraad.ql.QLexer;
 import nl.khonraad.ql.QParser;
-import nl.khonraad.ql.algebra.Question;
 import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
-import nl.khonraad.ql.algebra.Question.BehaviouralType;
+import nl.khonraad.ql.dynamics.Question.BehaviouralType;
 
 public class Questionnaire {
 
@@ -77,6 +75,5 @@ public class Questionnaire {
 
     public Value storeAnswer( String identifier, Value value ) {
         return findAnswerable( identifier ).setValue( value );
-
-    }
+   }
 }

@@ -1,7 +1,9 @@
-package nl.khonraad.ql.algebra;
+package nl.khonraad.ql.dynamics;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import nl.khonraad.ql.algebra.Value;
 
 public class Question {
 
@@ -41,7 +43,8 @@ public class Question {
         return value;
     }
 
-    public Value setValue( Value value ) {
+    Value setValue( Value value ) {
+        
         if ( this.getValue().getType() != value.getType() ) throw new RuntimeException( ERROR_TYPEERROR + "Question "
                 + identifier + " expects " + this.getValue().getType() + " not " + value.getType() );
         this.value = value;

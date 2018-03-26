@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.InputStream;
-import java.math.BigDecimal;
 
 import org.junit.Test;
 
@@ -24,9 +23,9 @@ public class Test_QExample {
 
         questionnaire.visit();
 
-        questionnaire.findAnswerable( "hasSoldHouse" ).setValue( Value.TRUE );
-        questionnaire.findAnswerable( "hasBoughtHouse" ).setValue( Value.TRUE );
-        questionnaire.findAnswerable( "hasMaintLoan" ).setValue( Value.TRUE );
+        questionnaire.storeAnswer( "hasSoldHouse", Value.TRUE );
+        questionnaire.storeAnswer( "hasBoughtHouse", Value.TRUE );
+        questionnaire.storeAnswer( "hasMaintLoan", Value.TRUE );
 
         assertNull( questionnaire.findAnswerable( "sellingPrice" ) );
         assertNull( questionnaire.findAnswerable( "privateDebt" ) );
@@ -36,8 +35,8 @@ public class Test_QExample {
         assertNotNull( questionnaire.findAnswerable( "sellingPrice" ) );
         assertNotNull( questionnaire.findAnswerable( "privateDebt" ) );
 
-        questionnaire.findAnswerable( "sellingPrice" ).setValue( new Value( Type.Money, "1000000.00" ) );
-        questionnaire.findAnswerable( "privateDebt" ).setValue( new Value( Type.Money, "800000.00" ) );
+        questionnaire.storeAnswer( "sellingPrice", new Value( Type.Money, "1000000.00" ) );
+        questionnaire.storeAnswer( "privateDebt", new Value( Type.Money, "800000.00" ) );
 
         questionnaire.visit();
 

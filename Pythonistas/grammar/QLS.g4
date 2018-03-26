@@ -3,9 +3,9 @@ grammar QLS;
 // Parser
 stylesheet : STYLESHEET ID page+ EOF;
 page       : PAGE ID BRAL section+ (default)? BRAR;
-section    : SECTION STRING ((question+ | question+ section) |
-                        BRAL (question+ | question+ section) BRAR);
-question   : QUESTION ID (widget | default);
+section    : SECTION STRING ((question+ | question+ section) (default)? |
+                        BRAL (question+ | question+ section) (default)? BRAR);
+question   : QUESTION ID (widget)?;
 
 widget     : WIDGET (checkbox | radio | spinbox);
 default    : DEFAULT type ((BRAL attributes BRAR) | widget);

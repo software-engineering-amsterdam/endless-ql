@@ -16,6 +16,6 @@ public class VisitorQuestion extends QLSBaseVisitor<QuestionReference> {
             widget = visitorWidget.visit(ctx.widget());
         }
 
-        return new QuestionReference(ctx.getStart(), ctx.IDENTIFIER().getText(), widget);
+        return new QuestionReference(ctx.getStart(), ctx.identifier.getText(), widget);
     }
 }

@@ -22,7 +22,7 @@ public class VisitorForm extends QLBaseVisitor<Form> {
             statements.add(statement);
         }
 
-        return new Form(ctx.getStart(), ctx.IDENTIFIER().getText(), statements);
+        return new Form(ctx.getStart(), ctx.identifier.getText(), statements);
     }
 
 }

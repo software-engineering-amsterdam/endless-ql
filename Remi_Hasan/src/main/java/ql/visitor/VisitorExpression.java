@@ -130,7 +130,7 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitStringConstant(QLParser.StringConstantContext ctx) {
-        String text = ctx.STRING().toString();
+        String text = ctx.getText();
 
         // remove quotes surrounding the string
         text = text.substring(1, text.length() - 1);
@@ -140,6 +140,6 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx) {
-        return new ExpressionIdentifier(ctx.getStart(), ctx.IDENTIFIER().getText());
+        return new ExpressionIdentifier(ctx.getStart(), ctx.getText());
     }
 }

@@ -1,11 +1,11 @@
 grammar QL;
 
-root            : FORM IDENTIFIER block EOF;
+root            : FORM identifier=IDENTIFIER block EOF;
 block           : '{' statement* '}';
 statement       : condition | question;
 condition       : IF '(' expression ')' conditionTrueBlock=block ELSE conditionFalseBlock=block
                 | IF '(' expression ')' conditionTrueBlock=block;
-question        : label=STRING IDENTIFIER ':' (type | type '=' expression);
+question        : label=STRING identifier=IDENTIFIER ':' (type | type '=' expression);
 
 // Expressions, prioritized from top to bottom
 // label them for easier evaluation
@@ -29,19 +29,12 @@ type            : BOOLEANTYPE
                 | DECIMALTYPE
                 | MONEYTYPE;
 
-constant        : booleanConstant
-                | integerConstant
-                | decimalConstant
-                | moneyConstant
-                | stringConstant
-                | identifierConstant;
-
-booleanConstant     : (TRUE | FALSE);
-integerConstant     : INTEGER;
-decimalConstant     : DECIMAL;
-moneyConstant       : MONEY;
-stringConstant      : STRING;
-identifierConstant  : IDENTIFIER;
+constant        : (TRUE | FALSE)    # booleanConstant
+                | INTEGER           # integerConstant
+                | DECIMAL           # decimalConstant
+                | MONEY             # moneyConstant
+                | STRING            # stringConstant
+                | IDENTIFIER        # identifierConstant;
 
 // Operators
 PLUS            : '+';

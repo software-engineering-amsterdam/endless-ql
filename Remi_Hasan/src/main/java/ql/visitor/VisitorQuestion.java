@@ -10,7 +10,7 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx) {
-        String questionName = ctx.IDENTIFIER().getText();
+        String questionName = ctx.identifier.getText();
         String questionText = ctx.label.getText();
 
         // Remove quotes surrounding the string

@@ -32,12 +32,7 @@ public class Widget extends StyleSpecification {
         return visitor.visit(this);
     }
 
-    /**
-     * Get parameters from widget
-     *
-     * @return List of parameters
-     */
-    public List<String> getStringParameters() {
+    public List<String> getParametersAsStrings() {
         List<String> parameters = new ArrayList<>();
         for (Parameter parameter : this.getParameters())
             parameters.add(parameter.getParameter());

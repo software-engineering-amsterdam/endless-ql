@@ -6,7 +6,6 @@ import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
-import org.uva.sea.languages.qls.interpreter.evaluate.EvaluateDefaultStyle.Fetcher;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 import org.uva.sea.languages.qls.parser.elements.specification.Question;
 import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
@@ -18,25 +17,13 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
 
     private final Messages message = new Messages();
 
-    private final Fetcher defaultStyleEvaluator = new Fetcher();
-
     private Map<String, NodeType> qlQuestionNodeTypes = new HashMap<>();
 
 
-    /**
-     * Hide constructor
-     */
     private TypeCheck() {
 
     }
 
-    /**
-     * Display errorNotCompatible message
-     *
-     * @param node
-     * @param widgetType
-     * @param nodeType
-     */
     private void errorNotCompatible(Question node, WidgetType widgetType, NodeType nodeType) {
         this.message.addMessage(widgetType + " is not compatible with " + nodeType + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
@@ -45,27 +32,16 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
         this.message.addMessage(errorMessage + " on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
-
-    /**
-     * @param form
-     * @param stylesheet
-     * @return
-     */
     @Override
     public Messages doCheck(Form form, Stylesheet stylesheet) {
         this.qlQuestionNodeTypes = this.getQLQuestionNodeTypes(form);
 
-        //Will check QLS questions with the QL types
+        //Will check QLS questions with the QL types and reports messages inside this.message
         stylesheet.accept(this);
+
         return this.message;
     }
 
-    /**
-     * Get all QL question names
-     *
-     * @param form AST node
-     * @return The names
-     */
     private Map<String, NodeType> getQLQuestionNodeTypes(Form form) {
         Map<String, NodeType> questionTypes = new HashMap<>();
         form.accept(new BaseASTVisitor<Void>() {
@@ -100,9 +76,6 @@ public class TypeCheck extends BaseStyleASTVisitor<Void> implements IQLSStaticAn
     }
 
 
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
     public static class Checker implements IQLSStaticAnalysis {
         @Override
         public Messages doCheck(Form form, Stylesheet stylesheet) {

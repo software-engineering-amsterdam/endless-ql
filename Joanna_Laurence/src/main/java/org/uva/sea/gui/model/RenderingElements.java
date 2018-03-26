@@ -10,7 +10,7 @@ public class RenderingElements {
     private final Collection<BaseWidget> widgets;
     private final Messages messages;
 
-    public RenderingElements(Collection<BaseWidget> widgets, Messages messages) {
+    RenderingElements(Collection<BaseWidget> widgets, Messages messages) {
         this.widgets = widgets;
         this.messages = messages;
     }

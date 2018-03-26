@@ -35,24 +35,17 @@ public class Evaluator {
             new CircularQuestionDependencies.Checker(),
             new Checker());
 
-    /**
-     * Generates questions with values
-     *
-     * @param qlFile      Specification of the GUI
-     * @param symbolTable The current state of the program
-     * @return List of questions that should be displayed
-     */
     public EvaluationResult evaluate(String qlFile, SymbolTable symbolTable) throws IOException {
 
         Messages evaluationMessages = new Messages();
 
         ParseResult<Form> parseResult = this.parse(qlFile);
-        evaluationMessages.addMessageList(parseResult.getMessages());
+        evaluationMessages.addMessages(parseResult.getMessages());
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
             return new EvaluationResult(new ArrayList<>(), parseResult.getMessages(), parseResult.getAst());
         }
 
-        evaluationMessages.addMessageList(this.performStaticAnalysis(parseResult));
+        evaluationMessages.addMessages(this.performStaticAnalysis(parseResult));
         if (evaluationMessages.hasMessagePresent(MessageTypes.ERROR)) {
             return new EvaluationResult(new ArrayList<>(), evaluationMessages, parseResult.getAst());
         }
@@ -60,14 +53,6 @@ public class Evaluator {
         return this.evaluateQuestions(parseResult, symbolTable, evaluationMessages);
     }
 
-    /**
-     * Evaluate AST
-     *
-     * @param parseResult        Parse result
-     * @param symbolTable        Symbol table
-     * @param evaluationMessages Message container
-     * @return
-     */
     private EvaluationResult evaluateQuestions(ParseResult<Form> parseResult, SymbolTable symbolTable, Messages evaluationMessages) {
         FormEvaluator evaluator = new FormEvaluator();
         List<Question> questions = evaluator.evaluate(parseResult.getAst(), symbolTable);
@@ -75,27 +60,15 @@ public class Evaluator {
         return new EvaluationResult(questionData, evaluationMessages, parseResult.getAst());
     }
 
-    /**
-     * Does the static analysis on the parse result
-     *
-     * @param parseResult Parse result
-     */
     private Messages performStaticAnalysis(ParseResult<Form> parseResult) {
         Messages returnMessage = new Messages();
         for (IQLStaticAnalysis staticAnalysis : this.staticAnalyses) {
             Messages analysisMessages = staticAnalysis.doCheck(parseResult.getAst());
-            returnMessage.addMessageList(analysisMessages);
+            returnMessage.addMessages(analysisMessages);
         }
         return returnMessage;
     }
 
-    /**
-     * ApplyQLSStyle questions, and return results
-     *
-     * @param symbolTable Symbol table
-     * @param questions   questions that are converted
-     * @return Interpreted questions
-     */
     private List<QuestionData> evaluateQuestionValues(Iterable<Question> questions, SymbolTable symbolTable) {
         List<QuestionData> questionDataList = new ArrayList<>();
         for (Question question : questions) {
@@ -105,13 +78,6 @@ public class Evaluator {
         return questionDataList;
     }
 
-    /**
-     * Compute valueTypes or get the valueTypes from the symbol table
-     *
-     * @param symbolTable Symbol table
-     * @param question    Questions
-     * @return Value of the questionData
-     */
     private Value getQuestionValue(Question question, SymbolTable symbolTable) {
         if (question.getValue() != null)
             return this.expressionEvaluator.evaluate(question.getValue(), symbolTable);
@@ -119,11 +85,6 @@ public class Evaluator {
         return symbolTable.getValue(question.getVariable().getVariableName());
     }
 
-    /**
-     * Generate the AST
-     *
-     * @param guiSpecification Specification of the GUI
-     */
     private ParseResult<Form> parse(String guiSpecification) throws IOException {
         return this.astGenerator.createAST(CharStreams.fromStream(new FileInputStream(guiSpecification)));
     }

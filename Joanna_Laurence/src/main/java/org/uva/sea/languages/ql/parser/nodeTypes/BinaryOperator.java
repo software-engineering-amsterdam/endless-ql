@@ -9,7 +9,7 @@ public abstract class BinaryOperator extends Expression {
     private final Expression leftHandSide;
     private final Expression rightHandSide;
 
-    public BinaryOperator(Token token, Expression leftHandSide, Expression rightHandSide) {
+    protected BinaryOperator(Token token, Expression leftHandSide, Expression rightHandSide) {
         super(token);
         this.leftHandSide = leftHandSide;
         this.rightHandSide = rightHandSide;

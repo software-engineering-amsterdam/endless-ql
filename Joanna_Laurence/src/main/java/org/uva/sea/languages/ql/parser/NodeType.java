@@ -11,7 +11,7 @@ public enum NodeType {
     DATE,
     DECIMAL;
 
-    public boolean isBasicNumber() {
+    private boolean isBasicNumber() {
         return (this == INTEGER) || (this == DECIMAL);
     }
 

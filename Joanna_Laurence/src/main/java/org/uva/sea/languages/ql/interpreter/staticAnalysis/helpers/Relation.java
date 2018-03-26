@@ -13,22 +13,10 @@ public class Relation<T> {
         return this.relations;
     }
 
-    /**
-     * Add relation from elementA to elementB
-     *
-     * @param elementA Relation from
-     * @param elementB Relation to
-     * @return If the relation not exist yet
-     */
     public boolean addRelation(T elementA, T elementB) {
         return this.relations.add(new RelationEntity<>(elementA, elementB));
     }
 
-    /**
-     * Checks if there are circular relations
-     *
-     * @return List of relations that are circular
-     */
     public Iterable<T> getCircularRelations() {
         Relation<T> transitiveClosure = this.getTransitiveClosure();
         Collection<T> circular = new ArrayList<>();
@@ -41,11 +29,6 @@ public class Relation<T> {
         return circular;
     }
 
-    /**
-     * Get transitive closure of the current relation
-     *
-     * @return The transitive relation
-     */
     private Relation<T> getTransitiveClosure() {
         Relation<T> transitiveClosure = new Relation<>();
         transitiveClosure.addAll(this.relations);
@@ -70,32 +53,14 @@ public class Relation<T> {
         return transitiveClosure;
     }
 
-    /**
-     * Add a set of relations
-     *
-     * @param relations Relations to add
-     */
     private void addAll(Collection<RelationEntity<T>> relations) {
         this.relations.addAll(relations);
     }
 
-    /**
-     * Check if key is related to value
-     *
-     * @param key   Key of relation
-     * @param value Value of relation
-     * @return If it this relation
-     */
     public boolean contains(T key, T value) {
         return this.relations.contains(new RelationEntity<>(key, value));
     }
 
-    /**
-     * Find what elements have a relation with element
-     *
-     * @param element The element
-     * @return Set of items that have a relation to element
-     */
     private Set<T> getRelationTo(T element) {
         Set<T> result = new HashSet<>();
         for (RelationEntity<T> entry : this.relations) {

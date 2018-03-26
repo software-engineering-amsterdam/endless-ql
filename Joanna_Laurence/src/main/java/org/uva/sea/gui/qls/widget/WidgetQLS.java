@@ -15,7 +15,7 @@ public abstract class WidgetQLS extends BaseWidget {
         return this.questionData.getStyle().getPage();
     }
 
-    protected void setStyle(Node node) {
+    void setStyle(Node node) {
         Style style = this.questionData.getStyle();
         if (style == null)
             return;

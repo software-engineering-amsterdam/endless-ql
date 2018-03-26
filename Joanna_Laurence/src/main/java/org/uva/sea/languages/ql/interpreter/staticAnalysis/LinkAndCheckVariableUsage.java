@@ -11,47 +11,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Iterates over the AST and add links between variables and questions
- * Checks if variables are not used before declared
- * Determine if variables are not double defined. Only in if and else can be the same questionData.
- */
 public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStaticAnalysis {
 
-    /**
-     * Contains variables that are used in the program. They are linked to questions
-     * at the send of the evaluation
-     */
+
     private final Collection<Variable> usedVariables = new ArrayList<>();
-    /**
-     *
-     */
+
     private final Messages messages = new Messages();
-    /**
-     * Contain what questions is related to what variable
-     */
+
     private Map<String, Question> variableMap = new HashMap<>();
 
-    /**
-     * Hide constructor
-     */
     private LinkAndCheckVariableUsage() {
     }
 
-    /**
-     * @param error Error that occur
-     * @param node  The node that caused the displayError
-     */
     private void error(String error, ASTNode node) {
         this.messages.addMessage(error + " on line:  " + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
-    /**
-     * Checks correct variable usage and links variables to questions
-     *
-     * @param node The root node of the AST that needs to be checked
-     * @return If an displayError occurred
-     */
     public Messages doCheck(Form node) {
         node.accept(this);
 
@@ -60,10 +35,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         return this.messages;
     }
 
-    /**
-     * Link all variables to the correct questionData
-     * Add displayError when it is not defined
-     */
     private void linkVariableInformation() {
         for (Variable variable : this.usedVariables) {
             String variableName = variable.getVariableName();
@@ -76,11 +47,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         }
     }
 
-    /**
-     * Variables have to be defined before used
-     *
-     * @param node The var node in the AST that is traversed
-     */
     @Override
     public Void visit(Variable node) {
         super.visit(node);
@@ -88,11 +54,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         return null;
     }
 
-    /**
-     * Questions should not be defined yet. Map the questionData by its name
-     *
-     * @param node The questionData node in the AST that is traversed
-     */
     @Override
     public Void visit(Question node) {
         String variableName = node.getVariable().getVariableName();
@@ -126,13 +87,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
 
     }
 
-    /**
-     * Visits statements with a base map
-     *
-     * @param baseMap           The base map
-     * @param statementsToCheck Statements to check
-     * @return A new HashSet that contains all the mappings from base and statements
-     */
     private HashMap<String, Question> visitStatementsWithVariableMap(final HashMap<String, Question> baseMap, Statements statementsToCheck) {
 
         HashMap<String, Question> result = new HashMap<>();
@@ -145,12 +99,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         return result;
     }
 
-    /**
-     * Combines variable map
-     *
-     * @param maps Variable maps
-     * @return New map with all elements combined
-     */
     private Map<String, Question> combineVariableMap(Map<String, Question>... maps) {
         if (maps.length == 0)
             return new HashMap<>();
@@ -163,9 +111,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         return result;
     }
 
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
     public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {

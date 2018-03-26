@@ -20,7 +20,7 @@ public abstract class BaseWidget extends BaseRenderable {
 
     private final DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
 
-    public BaseWidget(QuestionData questionData) {
+    protected BaseWidget(QuestionData questionData) {
         this.questionData = questionData;
     }
 
@@ -45,13 +45,12 @@ public abstract class BaseWidget extends BaseRenderable {
         return null;
     }
 
-    public BaseWidget linkToOtherWidget(BaseWidget widget, QuestionData questionData) {
-        DefaultValueFactory defaultValueFactory = new DefaultValueFactory();
+    protected BaseWidget linkToOtherWidget(BaseWidget widget, QuestionData questionData) {
         widget.addListener(this::sendUpdateValueEvent);
         WidgetValueAssigner updater = new WidgetValueAssigner(widget);
         Value value = questionData.getValue();
         if (value == null)
-            value = defaultValueFactory.getDefaultValue(questionData.getNodeType());
+            value = this.defaultValueFactory.getDefaultValue(questionData.getNodeType());
         updater.updateWidget(value);
         return widget;
     }
@@ -62,5 +61,5 @@ public abstract class BaseWidget extends BaseRenderable {
 
     public abstract Node convertToGuiNode();
 
-    public abstract String getContainerName();
+    protected abstract String getContainerName();
 }

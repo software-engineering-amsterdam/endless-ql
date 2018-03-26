@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class TestFileHelper {
+class TestFileHelper {
 
     public Collection<String> getTestFiles(String folderLocation) {
         Collection<String> testLocation = new ArrayList<>();

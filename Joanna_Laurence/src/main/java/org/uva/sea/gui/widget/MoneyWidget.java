@@ -38,15 +38,13 @@ public class MoneyWidget extends Widget {
             textField.setEditable(false);
         }
 
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            this.sendUpdateValueEvent(this.questionData.getQuestionName(), new MoneyValue(this.currency, new BigDecimal(newValue)));
-        });
+        textField.textProperty().addListener((observable, oldValue, newValue) ->
+                this.sendUpdateValueEvent(this.questionData.getQuestionName(), new MoneyValue(this.currency, new BigDecimal(newValue))));
 
         textField.positionCaret(textField.getText().length());
         return textField;
     }
 
-    //TODO: set color from styleQLS
     private void setStyle(TextField textField, Style style) {
         if (style == null)
             return;

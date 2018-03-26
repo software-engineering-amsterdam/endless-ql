@@ -22,20 +22,11 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
     private Style foundStyle = new Style();
 
 
-    /**
-     * Hide constructor
-     */
     private EvaluateDefaultStyle() {
 
     }
 
-    /**
-     * Find all default blocks inside element
-     *
-     * @param node
-     * @return
-     */
-    public Style findStyle(QLSNode node, NodeType nodeTypeToFind) {
+    private Style findStyle(QLSNode node, NodeType nodeTypeToFind) {
         this.nodeTypeToFind = nodeTypeToFind;
         node.accept(this);
         return this.foundStyle;
@@ -70,7 +61,7 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 
             @Override
             public Void visit(Widget node) {
-                defaultStyle.setWidget(new QLWidget(node.getWidgetType(), node.getStringParameters()));
+                defaultStyle.setWidget(new QLWidget(node.getWidgetType(), node.getParametersAsStrings()));
                 return null;
             }
 
@@ -99,17 +90,7 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
     }
 
 
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
     public static class Fetcher {
-
-        /**
-         * Lookup style in parent sections and pages
-         *
-         * @param nodeType For what widget type the style has to be fetched
-         * @return Cascading style
-         */
         public Style getCascadingStyle(NodeType nodeType, List<Section> inSection, Page inPage) {
             Style style = new Style();
 

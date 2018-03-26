@@ -11,9 +11,6 @@ public class And extends BinaryOperator {
         super(token, leftHandSide, rightHandSide);
     }
 
-    /**
-     * @return True or false is returned
-     */
     public Type getType() {
         return new Type(NodeType.BOOLEAN);
     }

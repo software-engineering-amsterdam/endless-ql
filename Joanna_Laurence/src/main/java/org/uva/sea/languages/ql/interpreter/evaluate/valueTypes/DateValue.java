@@ -29,7 +29,7 @@ public class DateValue extends Value {
         this.dateValue = dateValue;
     }
 
-    public Calendar getDateValue() {
+    private Calendar getDateValue() {
         return this.dateValue;
     }
 

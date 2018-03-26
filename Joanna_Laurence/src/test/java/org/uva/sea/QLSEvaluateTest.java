@@ -43,7 +43,7 @@ public class QLSEvaluateTest extends TestCase {
 
         Collection<String> locations = QLSEvaluateTest.testFileHelper.getTestFiles(folderLocation);
         for (String location : locations) {
-            if(!location.endsWith(".qls"))
+            if (!location.endsWith(".qls"))
                 continue;
 
             testFiles.add(new Object[]{location, shouldCompile});
@@ -54,7 +54,7 @@ public class QLSEvaluateTest extends TestCase {
 
     private boolean doesInterpreter(String fileName) {
         try {
-            QlSEvaluator qlsEvaluator = new QlSEvaluator(fileName.replace(".qls",".ql"), fileName);
+            QlSEvaluator qlsEvaluator = new QlSEvaluator(fileName.replace(".qls", ".ql"), fileName);
             EvaluationResult evaluationResult = qlsEvaluator.evaluate();
             Messages evaluationMessages = evaluationResult.getMessages();
             return !evaluationMessages.hasMessagePresent(MessageTypes.ERROR);

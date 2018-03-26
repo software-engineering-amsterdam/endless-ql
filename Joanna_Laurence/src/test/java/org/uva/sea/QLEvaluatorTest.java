@@ -10,13 +10,16 @@ import org.uva.sea.languages.ql.interpreter.Evaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.ErrorValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
-import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Matcher;

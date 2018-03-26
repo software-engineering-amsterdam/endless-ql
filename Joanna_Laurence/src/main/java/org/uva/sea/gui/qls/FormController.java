@@ -26,7 +26,7 @@ public class FormController extends BaseFormController {
                 continue;
 
             String containerName = style.getPage();
-            if(!containers.keySet().contains(containerName))
+            if (!containers.keySet().contains(containerName))
                 containers.put(containerName, this.createContainerTab(containerName));
         }
 

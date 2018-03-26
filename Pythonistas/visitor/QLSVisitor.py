@@ -36,6 +36,7 @@ class QLSVisitor(ParseTreeVisitor):
             result.extend(child_result)
         return result
 
+
     # Visit a parse tree produced by QLSParser#stylesheet.
     def visitStylesheet(self, ctx:QLSParser.StylesheetContext):
         return self.visitChildren(ctx)
@@ -51,7 +52,9 @@ class QLSVisitor(ParseTreeVisitor):
         section_frame = QtWidgets.QFrame()
         section_layout = QtWidgets.QVBoxLayout()
         section_frame.setLayout(section_layout)
-        print(dir(ctx))
+        # print(dir(ctx))
+        # print(ctx.getText())
+        # print(ctx.default().getText())
         result = self.visitChildren(ctx)
         for question_widget in result:
             section_layout.addWidget(question_widget)
@@ -62,6 +65,8 @@ class QLSVisitor(ParseTreeVisitor):
     def visitQuestion(self, ctx:QLSParser.QuestionContext):
         # print(dir(ctx))
         # print(ctx.getText())
+        if not ctx.ID().getText() in self.questions:
+            self.error_message = "Error: undefined reference to QL text"
         question = self.questions[ctx.ID().getText()]
         # print(ctx.widget().getText())
         # print()

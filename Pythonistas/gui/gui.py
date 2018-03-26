@@ -8,7 +8,6 @@ from visitor.visitor import visit
 from visitor.QLSVisitor import visit_qls
 from PyQt5 import QtWidgets, QtCore
 from grammar.parser import Parser
-import sys
 from gui.input_frame import InputFrame
 from gui.output_frame import OutputFrame
 
@@ -49,7 +48,6 @@ class MainWindow(QtWidgets.QWidget):
         if ql_text:
             ql_data.set_ql_grammar_text(ql_text)
             ql_data.run_antlr_ql()
-            print(ql_data.ql_errors)
             if ql_data.ql_errors:
                 self.initiate_output_frame()
                 for error in ql_data.ql_errors:

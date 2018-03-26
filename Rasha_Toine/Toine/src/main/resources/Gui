@@ -1,16 +1,12 @@
 form Box1HouseOwning {                                                                  
 
+i: "IntegerBox" integer
     hasSoldHouse:       "Did you sell a house in 2010?" boolean                              
-    hasBoughtHouse:     "Did you by a house in 2010?" boolean                                
-    hasMaintLoan:       "Did you enter a loan for maintenance/reconstruction?"  boolean      
-    name:               "What is your name?"  string                                        
-    dog:                "Name of your dog?"  string                                          
-                                                                                               
-    if (name == "Toine") {                                                            
+    hasBoughtHouse:     "Did you buy a house in 2010?" boolean                                
+    hasMaintLoan:       "Did you enter a loan for maintenance/reconstruction?"  boolean
+    s:       "WHatever?" string
+          
 
-        hello: "Hello there " string ( name + " " + "C.S.")
-    }                          
-    
     if (hasSoldHouse) {                                                                 
         
         sellingPrice: "Price the house was sold for:" money                            

@@ -4,8 +4,8 @@ which in turn contains a textbox for entering QL text, and a "Parse" button. Whe
 parsed and the encoded questionnaire is opened in an output_frame in the MainWindow. This questionnaire is interactive,
 and the entered answers may be saved to a .txt file by pressing the "Submit" button.
 """
-from visitor.visitor import visit
-from visitor.QLSVisitor import visit_qls
+from visitor.ql_visitor import visit
+from visitor.qls_visitor import visit_qls
 from PyQt5 import QtWidgets, QtCore
 from grammar.parser import Parser
 from gui.input_frame import InputFrame

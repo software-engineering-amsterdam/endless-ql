@@ -37,97 +37,91 @@ class QLSVisitor(ParseTreeVisitor):
         return result
 
 
-    # Visit a parse tree produced by QLSParser#stylesheet.
     def visitStylesheet(self, ctx:QLSParser.StylesheetContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#page.
     def visitPage(self, ctx:QLSParser.PageContext):
-        return self.visitChildren(ctx)
+        page_frame = QtWidgets.QFrame()
+        page_layout = QtWidgets.QVBoxLayout()
+        page_frame.setLayout(page_layout)
+        result = self.visitChildren(ctx)
+
+        for section_widget in result:
+            page_layout.addWidget(section_widget)
+
+        return page_frame
 
 
-    # Visit a parse tree produced by QLSParser#section.
     def visitSection(self, ctx:QLSParser.SectionContext):
         section_frame = QtWidgets.QFrame()
         section_layout = QtWidgets.QVBoxLayout()
         section_frame.setLayout(section_layout)
-        # print(dir(ctx))
+        print(dir(ctx))
         # print(ctx.getText())
-        # print(ctx.default().getText())
+        if ctx.default():
+            print(ctx.default().getText())
+
         result = self.visitChildren(ctx)
-        for question_widget in result:
-            section_layout.addWidget(question_widget)
-        return result
+        for child_widget in result:
+            section_layout.addWidget(child_widget)
+        return [section_frame]
 
 
-    # Visit a parse tree produced by QLSParser#question.
     def visitQuestion(self, ctx:QLSParser.QuestionContext):
         # print(dir(ctx))
         # print(ctx.getText())
         if not ctx.ID().getText() in self.questions:
-            self.error_message = "Error: undefined reference to QL text"
+            self.error_message = "Error: undefined reference to QL ID"
         question = self.questions[ctx.ID().getText()]
         # print(ctx.widget().getText())
         # print()
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#widget.
     def visitWidget(self, ctx:QLSParser.WidgetContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#default.
     def visitDefault(self, ctx:QLSParser.DefaultContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#type.
     def visitType(self, ctx:QLSParser.TypeContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#attributes.
     def visitAttributes(self, ctx:QLSParser.AttributesContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#width.
     def visitWidth(self, ctx:QLSParser.WidthContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#font.
     def visitFont(self, ctx:QLSParser.FontContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#fontsize.
     def visitFontsize(self, ctx:QLSParser.FontsizeContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#color.
     def visitColor(self, ctx:QLSParser.ColorContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#checkbox.
     def visitCheckbox(self, ctx:QLSParser.CheckboxContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#radio.
     def visitRadio(self, ctx:QLSParser.RadioContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#spinbox.
     def visitSpinbox(self, ctx:QLSParser.SpinboxContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#choices.
     def visitChoices(self, ctx:QLSParser.ChoicesContext):
         return self.visitChildren(ctx)

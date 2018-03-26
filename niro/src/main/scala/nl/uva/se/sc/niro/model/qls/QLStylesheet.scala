@@ -25,16 +25,16 @@ abstract class WidgetType extends Style {
   def isCompatibleWith(answerType: AnswerType): Boolean
 }
 case class SpinBox() extends WidgetType {
-  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType.isCompatibleWith(IntegerType)
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType == IntegerType
 }
 case class CheckBox() extends WidgetType {
-  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType.isCompatibleWith(BooleanType)
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType == BooleanType
 }
 case class Radio(trueValue: String, falseValue: String) extends WidgetType {
-  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType.isCompatibleWith(BooleanType)
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType == BooleanType
 }
 case class ComboBox(trueValue: String, falseValue: String) extends WidgetType {
-  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType.isCompatibleWith(BooleanType)
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType == BooleanType
 }
 
 case class FontType(name: String) extends Style

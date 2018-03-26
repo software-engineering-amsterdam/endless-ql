@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.typechecking
 
-import nl.uva.se.sc.niro.model.ql.{ BooleanType, IntegerType }
+import nl.uva.se.sc.niro.model.ql.{ BooleanType, IntegerType, MoneyType }
 import nl.uva.se.sc.niro.model.qls._
 import org.scalatest.WordSpec
 
@@ -70,6 +70,41 @@ class QLSTypeCheckFacadeTest extends WordSpec {
     "not be compatible with spinbox styling" in {
       val actual =
         QLSTypeCheckFacade.stylingIsCompatible(BooleanType, Styling(widgetType = Some(SpinBox())))
+      val expected = false
+      assert(actual == expected)
+    }
+  }
+
+  "money widget" should {
+    "be compatible with default (none) styling" in {
+      val actual = QLSTypeCheckFacade.stylingIsCompatible(MoneyType, Styling())
+      val expected = true
+      assert(actual == expected)
+    }
+
+    "be compatible with default checkbox styling" in {
+      val actual = QLSTypeCheckFacade.stylingIsCompatible(MoneyType, Styling(widgetType = Some(CheckBox())))
+      val expected = false
+      assert(actual == expected)
+    }
+
+    "not be compatible with radio styling" in {
+      val actual =
+        QLSTypeCheckFacade.stylingIsCompatible(MoneyType, Styling(widgetType = Some(Radio("true", "false"))))
+      val expected = false
+      assert(actual == expected)
+    }
+
+    "not be compatible with combobox styling" in {
+      val actual =
+        QLSTypeCheckFacade.stylingIsCompatible(MoneyType, Styling(widgetType = Some(ComboBox("true", "false"))))
+      val expected = false
+      assert(actual == expected)
+    }
+
+    "not be compatible with spinbox styling" in {
+      val actual =
+        QLSTypeCheckFacade.stylingIsCompatible(MoneyType, Styling(widgetType = Some(SpinBox())))
       val expected = false
       assert(actual == expected)
     }

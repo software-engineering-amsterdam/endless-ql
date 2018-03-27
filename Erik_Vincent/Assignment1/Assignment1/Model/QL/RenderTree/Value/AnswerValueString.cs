@@ -2,11 +2,11 @@
 
 namespace Assignment1.Model.QL.RenderTree.Value
 {
-    public class AnswerValueString : AnswerValue<string>, IAnswerComparable, IAnswerComputable<string>
+    public class AnswerValueString : AnswerValue<string>, IAnswerComparable, IAnswerComputable
     {
         public AnswerValueString(string value) : base(value, AnswerType.String) { }
 
-        public IAnswerValuable<string> Add<U>(IAnswerValuable<U> right)
+        public IAnswerValuable Add<U>(AnswerValue<U> right)
         {
             if (right.Type != AnswerType.String)
             {
@@ -15,12 +15,12 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueString(Value + right.Value);
         }
 
-        public IAnswerValuable<string> Divide<U>(IAnswerValuable<U> right)
+        public IAnswerValuable Divide<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }
 
-        public IAnswerValuable<bool> Equal<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> Equal<U>(AnswerValue<U> right)
         {
             if (right.Type != AnswerType.String)
             {
@@ -29,32 +29,32 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(Value.Equals(right.Value));
         }
 
-        public IAnswerValuable<bool> GreaterThan<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> GreaterThan<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }
 
-        public IAnswerValuable<bool> GreaterThanOrEqual<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> GreaterThanOrEqual<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }
 
-        public IAnswerValuable<bool> LessThan<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> LessThan<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }
 
-        public IAnswerValuable<bool> LessThanOrEqual<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> LessThanOrEqual<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }
 
-        public IAnswerValuable<string> Multiply<U>(IAnswerValuable<U> right)
+        public IAnswerValuable Multiply<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }
 
-        public IAnswerValuable<bool> NotEqual<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> NotEqual<U>(AnswerValue<U> right)
         {
             if (right.Type != AnswerType.String)
             {
@@ -63,7 +63,7 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(!(Value.Equals(right.Value)));
         }
 
-        public IAnswerValuable<string> Subtract<U>(IAnswerValuable<U> right)
+        public IAnswerValuable Subtract<U>(AnswerValue<U> right)
         {
             throw new InvalidOperationException();
         }

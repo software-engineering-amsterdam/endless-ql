@@ -14,7 +14,7 @@ import org.uva.sc.cr.ql.QLStandaloneSetup
 class QLIdeSetup extends QLStandaloneSetup {
 
 	override createInjector() {
-		Guice.createInjector(Modules2.mixin(new QLRuntimeModule, new QLIdeModule))
+		return Guice.createInjector(Modules2.mixin(new QLRuntimeModule(), new QLIdeModule()))
 	}
 	
 }

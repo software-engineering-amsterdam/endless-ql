@@ -14,19 +14,19 @@ public class LessThanExpressionTest {
     LessThanExpression expressionTest;
     @Property
     public void evaluate(int left, int right) {
-        IntegerConstant leftToTest = new IntegerConstant(left);
-        IntegerConstant rightToTest = new IntegerConstant(right);
+        IntegerConstant leftToTest = new IntegerConstant(left, 0);
+        IntegerConstant rightToTest = new IntegerConstant(right, 0);
 
-        expressionTest = new LessThanExpression(leftToTest, rightToTest);
+        expressionTest = new LessThanExpression(leftToTest, rightToTest, 0);
 
         assertEquals((left < right), expressionTest.evaluate().getValue() );
     }
     @Property
     public void evaluate(double left, double right) {
-        DecimalConstant leftToTest = new DecimalConstant(left);
-        DecimalConstant rightToTest = new DecimalConstant(right);
+        DecimalConstant leftToTest = new DecimalConstant(left, 0);
+        DecimalConstant rightToTest = new DecimalConstant(right, 0);
 
-        expressionTest = new LessThanExpression(leftToTest, rightToTest);
+        expressionTest = new LessThanExpression(leftToTest, rightToTest, 0);
 
         assertEquals((left < right), expressionTest.evaluate().getValue() );
     }

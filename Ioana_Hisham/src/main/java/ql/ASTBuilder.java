@@ -3,14 +3,12 @@ package ql;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
-import org.antlr.v4.runtime.tree.ParseTree;
-import ql.antlr.QLBaseVisitor;
 import ql.antlr.QLLexer;
 import ql.antlr.QLParser;
 import ql.antlr.QLVisitor;
 import ql.ast.Form;
 import ql.ast.Node;
-import ql.ast.expressions.literals.Identifier;
+import ql.ast.expressions.Identifier;
 import ql.ast.expressions.literals.StringLiteral;
 import ql.ast.statements.Question;
 import ql.ast.statements.Statement;
@@ -41,7 +39,7 @@ public class ASTBuilder extends AbstractParseTreeVisitor<Node> implements QLVisi
             statements.add((Statement) visit(statementContext));
         }
         return new Form(ctx.start.getLine(),
-                (Identifier) visit(ctx.Identifier()),
+                (Identifier) visit(ctx.id()),
                 statements
         );
     }
@@ -69,13 +67,15 @@ public class ASTBuilder extends AbstractParseTreeVisitor<Node> implements QLVisi
     @Override
     public Node visitId(QLParser.IdContext ctx) {
         return new Identifier(ctx.start.getLine(),
-                ctx.Identifier().getText()
+                ctx.ID().getText()
         );
     }
 
     @Override
     public Node visitBooleanType(QLParser.BooleanTypeContext ctx) {
-        return new Boolean(ctx.start.getLine());
+        return new Boolean(ctx.start.getLine(),
+                ctx.getText()
+        );
     }
 
     @Override
@@ -85,7 +85,9 @@ public class ASTBuilder extends AbstractParseTreeVisitor<Node> implements QLVisi
 
     @Override
     public Node visitStringType(QLParser.StringTypeContext ctx) {
-        return new String(ctx.start.getLine());
+        return new String(ctx.start.getLine(),
+                ctx.getText()
+        );
     }
 
     @Override
@@ -96,7 +98,7 @@ public class ASTBuilder extends AbstractParseTreeVisitor<Node> implements QLVisi
     @Override
     public Identifier visitIdentifier(QLParser.IdentifierContext ctx) {
         return new Identifier(ctx.start.getLine(),
-                ctx.Identifier().getText()
+                ctx.ID().getText()
         );
     }
 

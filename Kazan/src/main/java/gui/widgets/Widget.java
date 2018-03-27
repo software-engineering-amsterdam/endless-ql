@@ -1,17 +1,20 @@
 package gui.widgets;
 
-import ql.evaluator.values.Evaluatable;
+import gui.WidgetListener;
+import ql.evaluator.values.Value;
 
 import javax.swing.*;
 
 public interface Widget {
 
-    Evaluatable getValue();
+    Value getValue();
+
+    void setValue();
 
     JComponent getComponent();
 
-    void setEditable(boolean editable);
-
     void setVisible(boolean visible);
+
+    void registerChangeListener(WidgetListener widgetListener);
 
 }

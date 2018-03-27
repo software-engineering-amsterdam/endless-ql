@@ -4,6 +4,7 @@ import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.Form;
 
+import java.util.Collection;
 import java.util.List;
 
 public class EvaluationResult {
@@ -24,7 +25,7 @@ public class EvaluationResult {
         return this.messages;
     }
 
-    public List<QuestionData> getQuestions() {
+    public Collection<QuestionData> getQuestions() {
         return this.questions;
     }
 

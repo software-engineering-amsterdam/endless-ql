@@ -1,23 +1,30 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import Input from "reactstrap/lib/Input";
-import { FormComponent } from "./rendering/components/form_component/FormComponent";
 import Form from "./form/Form";
-import QuestionForm from "./form/QuestionForm";
-import Alert from "reactstrap/lib/Alert";
-import { getParserErrorMessage } from "./parsing/parsing_helpers";
-import { QlParserPipeline, QlParserResult } from "./parsing/QlParserPipeline";
-import FormState from "./form/state/FormState";
-import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
-import VisibleFieldsVisitor from "./form/evaluation/VisibleFieldsVisitor";
+import { QlsParserPipeline, QlsParserResult } from "./modules/styling/parsing/QlsParserPipeline";
+import QlsForm from "./modules/styling/form/QlsForm";
+import PagedFormState from "./modules/styling/form/PagedFormState";
+import QlForm from "./form/QlForm";
+import PageNode from "./modules/styling/form/nodes/containers/PageNode";
+import { QlParserResult } from "./parsing/QlParserPipeline";
+import { ModuleTabNavigation } from "./rendering/components/app_module_tabs/ModuleTabNavigation";
+import { ModuleTabsContent } from "./rendering/components/app_module_tabs/ModuleTabsContent";
+import { FormStateOutput } from "./rendering/components/app_state_output/FormStateOutput";
+import { AppErrorMessage } from "./rendering/components/app_error_message/AppErrorMessage";
+import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
+import { runParserPipeline } from "./parsing/parsing_helpers";
+import constants from "./config/constants";
 
 export interface AppComponentProps {
 }
 
 export interface AppComponentState {
-  qlInput?: string;
-  form: Form | null;
+  qlInput: string;
+  qlsInput: string;
+  form: Form | any | null;
   parserError: Error | null;
+  qlsEnabled: boolean;
+  activeTab: string;
 }
 
 class App extends React.Component<AppComponentProps, AppComponentState> {
@@ -26,114 +33,130 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
     this.state = {
       qlInput: require("!raw-loader!./mock/sample.ql.txt"),
+      qlsInput: require("!raw-loader!./modules/styling/mock/sample.qls.txt"),
+      qlsEnabled: true,
+      activeTab: constants.APP_MODULE_TABS.QL,
       form: null,
       parserError: null
     };
 
-    this.onChange = this.onChange.bind(this);
+    this.onChangeAnswer = this.onChangeAnswer.bind(this);
+    this.onChangePage = this.onChangePage.bind(this);
+    this.onChangeTab = this.onChangeTab.bind(this);
+    this.onChangeQlSource = this.onChangeQlSource.bind(this);
+    this.onChangeQlsSource = this.onChangeQlsSource.bind(this);
+    this.toggleQls = this.toggleQls.bind(this);
   }
 
   componentDidMount() {
-    this.onChangeQuestionnaire(require("!raw-loader!./mock/sample.ql.txt"));
+    this.updateForm(this.state.qlInput, this.state.qlsInput, this.state.qlsEnabled);
   }
 
-  onChangeQuestionnaire(text: string) {
-    try {
-      const parseResults: QlParserResult[] = (new QlParserPipeline(text)).run();
+  onChangeQlSource(text: string) {
+    this.updateForm(text, this.state.qlsInput, this.state.qlsEnabled);
+  }
 
-      this.setState({
-        form: new QuestionForm(parseResults[0].node, this.getFormState()),
-        parserError: null,
-        qlInput: text
-      });
+  onChangeQlsSource(text: string) {
+    this.updateForm(this.state.qlInput, text, this.state.qlsEnabled);
+  }
+
+  toggleQls(qlsEnabled: boolean) {
+    this.updateForm(this.state.qlInput, this.state.qlsInput, qlsEnabled);
+  }
+
+  updateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
+    try {
+      this.tryToUpdateForm(qlSource, qlsSource, qlsEnabled);
     } catch (error) {
-      console.error(error);
       this.setState({
         parserError: error,
-        qlInput: text
+        qlInput: qlSource,
+        qlsInput: qlsSource
       });
     }
+  }
+
+  tryToUpdateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
+    const parseResult: QlParserResult | QlsParserResult | any = runParserPipeline(qlSource, qlsSource, qlsEnabled);
+
+    let form: Form = new QlForm(parseResult.node, this.getFormState());
+
+    // TODO: Maybe put both pipelines in different functions
+    if (typeof parseResult.styleNode !== 'undefined') {
+      form = new QlsForm(form, parseResult.styleNode);
+    }
+
+    this.setState({
+      form: form,
+      parserError: null,
+      qlInput: qlSource,
+      qlsInput: qlsSource,
+      qlsEnabled: qlsEnabled
+    });
   }
 
   getFormState() {
     if (!this.state.form) {
-      return new FormState();
+      return new PagedFormState();
     }
 
     return this.state.form.getState();
-
   }
 
-  onChange(identifier: string, value: any) {
-    if (!this.state.form) {
-      return;
-    }
-
+  onChangeAnswer(identifier: string, value: any) {
     this.setState({
       form: this.state.form.setAnswer(identifier, value)
     });
   }
 
-  renderErrorMessage() {
-    if (!this.state.parserError) {
-      return null;
-    }
-
-    return (
-        <Alert color="danger">
-          {getParserErrorMessage(this.state.parserError)}
-        </Alert>
-    );
+  onChangePage(nextPage: PageNode) {
+    this.setState({
+      form: this.state.form.setActivePage(nextPage)
+    });
   }
 
-  renderForm() {
-    if (!this.state.form) {
-      return (
-          <span>Form not yet parsed</span>
-      );
-    }
-
-    return (
-        <FormComponent
-            onChange={this.onChange}
-            form={this.state.form}
-            visibleFields={VisibleFieldsVisitor.run(this.state.form)}
-        />
-    );
+  onChangeTab(nextTab: string) {
+    this.setState({
+      activeTab: nextTab
+    });
   }
 
   render() {
     return (
-        /**
-         * The lines below only demonstrate the behaviour of the DSL and will be replaced by
-         * the real formula.
-         */
         <div className="app container">
           <h1>NEWSKQL</h1>
           <div className="row ql-sample-output">
             <div className="col-md-6">
-              <QlsTest/>
-              <Input
-                  valid={!this.state.parserError}
-                  type="textarea"
-                  value={this.state.qlInput}
-                  onChange={e => this.onChangeQuestionnaire(e.target.value)}
-                  name="ql_input"
+              <ModuleTabNavigation
+                  activeTab={this.state.activeTab}
+                  onChange={this.onChangeTab}
+                  qlsEnabled={this.state.qlsEnabled}
+              />
+              <ModuleTabsContent
+                  activeTab={this.state.activeTab}
+                  onChangeQl={this.onChangeQlSource}
+                  onChangeQls={this.onChangeQlsSource}
+                  qlInput={this.state.qlInput}
+                  qlsInput={this.state.qlsInput}
+                  qlsEnabled={this.state.qlsEnabled}
+                  toggleQls={this.toggleQls}
+                  error={this.state.parserError}
               />
             </div>
             <div className="col-md-6">
-              {this.renderErrorMessage()}
-              {this.renderForm()}
+              <AppErrorMessage
+                  error={this.state.parserError}
+              />
+              <AppFormContainer
+                  form={this.state.form}
+                  qlsEnabled={this.state.qlsEnabled}
+                  onChangeAnswer={this.onChangeAnswer}
+                  onChangePage={this.onChangePage}
+              />
               <hr/>
-              <div className="state-output-container">
-                <h2>State</h2>
-                <Input
-                    type="textarea"
-                    readOnly={true}
-                    value={this.getFormState().toString()}
-                />
-              </div>
-
+              <FormStateOutput
+                  form={this.state.form}
+              />
             </div>
           </div>
         </div>

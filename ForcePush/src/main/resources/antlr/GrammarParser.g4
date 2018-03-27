@@ -2,8 +2,6 @@ parser grammar GrammarParser;
 
 options { tokenVocab=GrammarLexer; }
 
-//TESTING RULES, DO NOT UNCOMMENT
-//{System.out.println("variable = "+$variable.text+"| Assign = "+$ASSIGN.text+"| Label = "+$LABEL.text+"| Type = "+$type.text);}
 
 //RULES
 
@@ -21,10 +19,12 @@ type            :(BOOL|STR|DATE|DECIMAL|MONEY);
 
 //Shortcuts
 questionTypes       : (questionFormat|conditionalIf|questionAssignValue);
+ifCondition         : (variable|expression);
+nextCondition       : (conditionalElse|conditionalIfElse);
 
 //Mathematical expressions
 expression        : LPAREN expression RPAREN                                                                            #parenthesisExpression
-                  | op=(PLUS|MINUS)     expression                                                                      #unaryExpression
+                  | NOT    expression                                                                      #unaryExpression
                   | left=expression     op=(MULTIPLY|DIVIDE)    right=expression                                        #infixExpression
                   | left=expression     op=(PLUS|MINUS)         right=expression                                        #infixExpression
                   | left=expression     log=(AND|OR)            right=expression                                        #logicalExpression
@@ -37,9 +37,9 @@ questionFormat      : LABEL variable ASSIGN  type;
 
 questionAssignValue : questionFormat EQUAL LPAREN* expression RPAREN*;
 
-conditionalIf       : IF LPAREN (variable|expression) RPAREN LBRACE questionTypes+ RBRACE (conditionalElse|conditionalIfElse)*;
+conditionalIf       : IF LPAREN ifCondition RPAREN LBRACE questionTypes+ RBRACE nextCondition*;
 
-conditionalIfElse   : IFELSE LPAREN (variable|expression) RPAREN LBRACE questionTypes+ RBRACE (conditionalElse|conditionalElse)+;
+conditionalIfElse   : IFELSE LPAREN ifCondition RPAREN LBRACE questionTypes+ RBRACE nextCondition+;
 
 conditionalElse     : ELSE LBRACE questionTypes+ RBRACE;
 
@@ -49,23 +49,3 @@ conditionalElse     : ELSE LBRACE questionTypes+ RBRACE;
 //Class structure
 formStructure       : FORM variable LBRACE questionTypes* RBRACE;
 
-
-
-
-
-
-
-
-
-/*type            :(BOOL|STR|DATE|DECIMAL|MONEY);
-
-  //Shortcuts
-  questionTypes       : (questionFormat|conditionalIf|questionAssignValue|questionMultiAns);
-
-  //Mathematical expressions
-  expression          : LPAREN expression RPAREN                                              #parensExpression
-                      | left=expression op=(PLUS|MINUS) right=expression                      #infixExpression
-                      | left=expression op=(MULTIPLY|DIVIDE) right=expression                 #infixExpression
-                      | left=expression log=(AND|OR) right=expression                         #logicalExpression
-                      | left=expression comp=(LESS|GREATER|EQUALGREATER|EQUALLESS|NOTEQUAL|ISEQUAL) right=expression           #comparisonExpression
-                      | value=NUM #numberExpression; */

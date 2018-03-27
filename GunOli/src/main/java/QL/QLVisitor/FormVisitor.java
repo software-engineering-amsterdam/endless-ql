@@ -4,6 +4,8 @@ import QL.ParseObjectsQL.*;
 import QL.QLAntlrGen.QLBaseVisitor;
 import QL.QLAntlrGen.QLParser;
 
+import java.util.ArrayList;
+
 public class FormVisitor extends QLBaseVisitor<Form> {
     private ExpressionTable expressionTable;
 
@@ -13,9 +15,10 @@ public class FormVisitor extends QLBaseVisitor<Form> {
 
     @Override
     public Form visitHead(QLParser.HeadContext ctx) {
+        int line = ctx.getStart().getLine();
         BlockVisitor blockVisitor = new BlockVisitor(expressionTable);
-        Block block = blockVisitor.visitBlock(ctx.block());
+        ArrayList<Question> blockQuestions = blockVisitor.visitBlock(ctx.block());
 
-        return new Form(ctx.IDENTIFIER().getText(), block, expressionTable);
+        return new Form(ctx.IDENTIFIER().getText(), blockQuestions, expressionTable, line);
     }
 }

@@ -30,7 +30,7 @@ class QLSLexer:
         'height':       'HEIGHT',
         'width':        'WIDTH',
         'font':         'FONT',
-        'fontsize':     'FONTSIZE',
+        'fontsize':     'FONT_SIZE',
         'color':        'COLOR',
         'widget':       'WIDGET',
 
@@ -68,33 +68,37 @@ class QLSLexer:
 
     # Define a rule so we can track line numbers
     @staticmethod
-    def t_newline(t):
+    def t_newline(token):
         r'\n+'
-        t.lexer.lineno += len(t.value)
+        token.lexer.lineno += len(token.value)
 
     @staticmethod
-    def t_INTEGER_LITERAL(t):
+    def t_eof(token):
+        token.lexer.lineno = 1
+
+    @staticmethod
+    def t_INTEGER_LITERAL(token):
         r'\d+'
-        t.value = int(t.value)
-        return t
+        token.value = int(token.value)
+        return token
 
     @staticmethod
-    def t_STRING_LITERAL(t):
+    def t_STRING_LITERAL(token):
         r'\"(.+?)\"'
-        t.value = t.value[1:-1]
-        return t
+        token.value = token.value[1:-1]
+        return token
 
     # Define a rule for handling all non-tokens
-    def t_IDENTIFIER(self, t):
-        r'[a-z][a-zA-Z_0-9]*'
-        t.type = self.reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words
-        return t
+    def t_IDENTIFIER(self, token):
+        r'[a-zA-Z][a-zA-Z_0-9]*'
+        token.type = self.reserved.get(token.value, 'IDENTIFIER')  # Check for reserved words
+        return token
 
     # Define a rule for handling erroneous characters
     @staticmethod
-    def t_error(t):
-        print("Illegal character '%s'" % t.value[0])
-        t.lexer.skip(1)
+    def t_error(token):
+        print("Illegal character '%s'" % token.value[0])
+        token.lexer.skip(1)
 
     # Test the lexer output
     def test(self, data):

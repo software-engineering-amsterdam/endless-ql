@@ -13,6 +13,8 @@ public class SpinnerDecimalWidget extends SpinnerWidget<Double>{
 
     public SpinnerDecimalWidget(Question question){
         super(question);
+        this.managedProperty().bind(this.visibleProperty());
+        this.getEditor().setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*(\\.\\d*)?"));
     }
 
     @Override

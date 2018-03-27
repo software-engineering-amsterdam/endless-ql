@@ -1,9 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QL.Api.Entities;
 using QLS.Api.Ast;
 using QLS.Api.Entities;
 using QLS.Api.Infrastructure;
-using QLS.Core.Parsing;
-using System.Collections.Generic;
+using QLS.Core.Infrastructure;
+using QLS.Core.Validation.WidgetTypes;
 
 namespace QLS.Core.Test.Parsing
 {
@@ -23,7 +24,7 @@ namespace QLS.Core.Test.Parsing
         [TestMethod]
         public void ParseSimpleStylesheetWithOnePage_WillSucceed()
         {
-            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("emptyStylesheetWithOnePage.qls"), new List<string>());
+            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("emptyStylesheetWithOnePage.qls"), new SymbolTable());
             Node ast = _parsingService.Process(stylesheetTask).Ast;
 
             _assertVisitor.EnqueueStylesheetNodeCallback(st =>
@@ -41,7 +42,7 @@ namespace QLS.Core.Test.Parsing
         [TestMethod]
         public void ParseSimpleStylesheetWithTwoPagesAndSections_WillSucceed()
         {
-            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("emptyStylesheetWithTwoPagesAndSections.qls"), new List<string>());
+            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("emptyStylesheetWithTwoPagesAndSections.qls"), new SymbolTable());
             Node ast = _parsingService.Process(stylesheetTask).Ast;
 
             _assertVisitor.EnqueueStylesheetNodeCallback(st =>
@@ -71,7 +72,7 @@ namespace QLS.Core.Test.Parsing
         [TestMethod]
         public void ParseSimpleStylesheetWithOnePageOneSectionOneQuestion_WillSucceed()
         {
-            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("onePageStylesheetWithQuestion.qls"), new List<string>());
+            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("onePageStylesheetWithQuestion.qls"), new SymbolTable());
             Node ast = _parsingService.Process(stylesheetTask).Ast;
 
             _assertVisitor.EnqueueStylesheetNodeCallback(st =>
@@ -93,12 +94,12 @@ namespace QLS.Core.Test.Parsing
         [TestMethod]
         public void ParseSimpleStylesheetWithOnePageOneSectionOneQuestionAndWidget_WillSucceed()
         {
-            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("onePageStylesheetWithQuestionAndWidget.qls"), new List<string>());
+            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("onePageStylesheetWithQuestionAndWidget.qls"), new SymbolTable());
             Node ast = _parsingService.Process(stylesheetTask).Ast;
 
             _assertVisitor.EnqueueWidgetNodeCallback(w =>
             {
-                Assert.AreEqual(WidgetType.Radio, w.WidgetType);
+                Assert.AreEqual("Radio", w.WidgetType.ToString());
             });
             ast.Accept(_assertVisitor);
             _assertVisitor.VerifyAll();
@@ -107,7 +108,7 @@ namespace QLS.Core.Test.Parsing
         [TestMethod]
         public void ParseStylesheetWithADefaultStyleAndAllProperties_WillSucceed()
         {
-            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("stylesheetWithOneQuestionAndDefaultStyle.qls"), new List<string>());
+            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("stylesheetWithOneQuestionAndDefaultStyle.qls"), new SymbolTable());
             Node ast = _parsingService.Process(stylesheetTask).Ast;
 
             _assertVisitor.EnqueueStyleNodeCallback(s =>
@@ -136,7 +137,7 @@ namespace QLS.Core.Test.Parsing
             });
             _assertVisitor.EnqueueWidgetNodeCallback(p =>
             {
-                Assert.AreEqual(WidgetType.Spinbox, p.WidgetType);
+                Assert.AreEqual("Spinbox", p.WidgetType.ToString());
             });
             ast.Accept(_assertVisitor);
             _assertVisitor.VerifyAll();
@@ -145,7 +146,7 @@ namespace QLS.Core.Test.Parsing
         [TestMethod]
         public void ParseStylesheetWithALocalStyleAndAllProperties_WillSucceed()
         {
-            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("stylesheetWithOneQuestionAndLocalStyle.qls"), new List<string>());
+            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("stylesheetWithOneQuestionAndLocalStyle.qls"), new SymbolTable());
             Node ast = _parsingService.Process(stylesheetTask).Ast;
 
             _assertVisitor.EnqueueQuestionNodeCallback(q =>
@@ -174,7 +175,7 @@ namespace QLS.Core.Test.Parsing
             });
             _assertVisitor.EnqueueWidgetNodeCallback(p =>
             {
-                Assert.AreEqual(WidgetType.Spinbox, p.WidgetType);
+                Assert.AreEqual("Spinbox", p.WidgetType.ToString());
             });
             ast.Accept(_assertVisitor);
             _assertVisitor.VerifyAll();
@@ -183,12 +184,12 @@ namespace QLS.Core.Test.Parsing
         [TestMethod]
         public void ParseOptionWidgetWithCustomText_WillSucceed()
         {
-            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("optionWidgetTest.qls"), new List<string>());
+            var stylesheetTask = new StylesheetTask(TestDataResolver.LoadTestFile("optionWidgetTest.qls"), new SymbolTable());
             Node ast = _parsingService.Process(stylesheetTask).Ast;
 
             _assertVisitor.EnqueueWidgetNodeCallback(w =>
             {
-                Assert.AreEqual(WidgetType.Radio, w.WidgetType);
+                Assert.AreEqual("Radio", w.WidgetType.ToString());
             });
             _assertVisitor.EnqueueWidgetOptionNodeCallback(o =>
             {

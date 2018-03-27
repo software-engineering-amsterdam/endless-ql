@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Assignment1.Converters;
 using Assignment1.Model;
+using Assignment1.Model.QL.AST;
 using Assignment1.Parser;
 using Assignment1.Rendering;
 using Assignment1.TypeChecking;
@@ -37,10 +39,26 @@ namespace Assignment1
         {
             try
             {
-                var form = QLTypeChecker.ParseString(File.ReadAllText(inputFile));
-                IQuestionFormRenderer renderer = new QuestionFormRenderer(form);
-                _view.SetFormControl(renderer.Render());
-                _view.SetWarnings(form.Warnings);
+                var astForm = TextToQLAST.ParseString(File.ReadAllText(inputFile));
+                var messages = new MessageContainer();
+                messages.Add(QLASTDuplicateChecker.CheckDuplicates(astForm));
+                messages.Add(QLASTScopeChecker.CheckReferenceScopes(astForm));
+                if (messages.Errors.Any())
+                {
+                    _view.SetErrors(messages.Errors);
+                }
+                else
+                {
+                    messages.Add(QLASTCyclicDependencyChecker.CheckForCycles(astForm));
+                    QLTypeChecker typechecker = new QLTypeChecker();
+                    typechecker.TypeCheckQuestionForm(astForm);
+                    var renderForm = QLASTToRenderTree.Convert(astForm);
+                    var symbolTable = new SymbolTable();
+                    symbolTable.RegisterQuestions(renderForm.Questions);
+                    IQuestionFormRenderer renderer = new QuestionFormRenderer(renderForm, symbolTable);
+                    _view.SetFormControl(renderer.Render());
+                }
+                _view.SetWarnings(messages.Warnings);
             }
             catch (QLParseException exception)
             {

@@ -1,7 +1,7 @@
-from ql.types.type import QLType
-from ql.types.boolean import QLBoolean
-from ql.ast.expressions.literals.money_node import MoneyNode
 from gui.widgets.double_spinbox import DoubleSpinBox
+from ql.ast.nodes.expressions.literals.money_node import MoneyNode
+from ql.types.boolean import QLBoolean
+from ql.types.type import QLType
 
 
 class QLMoney(QLType):
@@ -11,6 +11,18 @@ class QLMoney(QLType):
         self.__currency = currency
 
     def __repr__(self):
+        return '{}{:.2f}'.format(self.currency, self.value)
+
+    def __bool__(self):
+        return bool(self.value)
+
+    def __float__(self):
+        return float(self.value)
+
+    def __int__(self):
+        return int(self.value)
+
+    def __str__(self):
         return '{}{:.2f}'.format(self.currency, self.value)
 
     def __neg__(self):
@@ -44,6 +56,9 @@ class QLMoney(QLType):
             return QLMoney(self.value - other.value, self.currency)
         return NotImplemented
 
+    def get_json_value(self):
+        return {'value': round(self.value, 2), 'currency': self.currency}
+
     @property
     def value(self):
         return self.__value
@@ -58,4 +73,6 @@ class QLMoney(QLType):
 
     @staticmethod
     def pyqt5_default_widget():
-        return DoubleSpinBox()
+        widget = DoubleSpinBox()
+        widget.setMinimum(0)
+        return widget

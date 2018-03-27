@@ -13,7 +13,7 @@ namespace Assignment1
 
         void Show();
         void SetFormControl(Control control);
-        void SetErrors(List<string> errors);
-        void SetWarnings(List<string> warnings);
+        void SetErrors(IEnumerable<string> errors);
+        void SetWarnings(IEnumerable<string> warnings);
     }
 }

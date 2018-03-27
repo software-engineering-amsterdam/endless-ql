@@ -1,21 +1,55 @@
 grammar QLS;
 
 // Parser
-stylesheet: ID (BRACKETL page* BRACKETR) EOF;
-page: ID (BRACKETL section* BRACKETR);
-section: STRING (BRACKETL question* BRACKETR);
-question: ID widget;
-widget: checkbox;
-checkbox: CHECKBOX;
+stylesheet : STYLESHEET ID page+ EOF;
+page       : PAGE ID BRAL section+ (default)? BRAR;
+section    : SECTION STRING ((question+ | question+ section) (default)? |
+                        BRAL (question+ | question+ section) (default)? BRAR);
+question   : QUESTION ID (widget)?;
+
+widget     : WIDGET (checkbox | radio | spinbox);
+default    : DEFAULT type ((BRAL attributes BRAR) | widget);
+type       : (BOOLEAN | MONEY | ID);
+attributes : width font fontsize color widget;
+
+width    : 'width' COL INT;
+font     : 'font' COL STRING;
+fontsize : 'fontsize' COL INT;
+color    : 'color' COL HEX;
+
+checkbox : CHECKBOX;
+radio    : RADIO choices;
+spinbox  : SPINBOX;
+
+choices : PARL (STRING COM)* STRING PARR;
 
 // Lexer
-CHECKBOX: 'checkbox';
+STYLESHEET : 'stylesheet';
+PAGE       : 'page';
+SECTION    : 'section';
+QUESTION   : 'question';
+WIDGET     : 'widget';
+DEFAULT    : 'default';
 
-ID: [A-Za-z][A-Za-z0-9_]*;
-STRING: '"' (~('"' | '\\' | '\r' | '\n'))* '"';
+CHECKBOX : 'checkbox';
+RADIO    : 'radio';
+SPINBOX  : 'spinbox';
 
-BRACKETL : '{';
-BRACKETR : '}';
+BOOLEAN : 'boolean';
+MONEY   : 'money';
 
-SPACE: [ \t]+ -> skip;
-NEWLINE: '\r'? '\n' -> skip;
+INT    : [0-9]+;
+ID     : [A-Za-z][A-Za-z0-9_]*;
+STRING : '"' (~('"' | '\\' | '\r' | '\n'))* '"';
+HEX    : HASH INT;
+
+BRAL : '{';
+BRAR : '}';
+PARL : '(';
+PARR : ')';
+COL  : ':';
+COM  : ',';
+HASH : '#';
+
+SPACE   : [ \t]+ -> skip;
+NEWLINE : '\r'? '\n' -> skip;

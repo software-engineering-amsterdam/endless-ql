@@ -13,10 +13,10 @@ public class AndExpressionTest {
     @Property
     public void evaluate(boolean left, boolean right){
 
-        BooleanConstant leftConst = new BooleanConstant(left);
-        BooleanConstant rightConst = new BooleanConstant(right);
+        BooleanConstant leftConst = new BooleanConstant(left,0);
+        BooleanConstant rightConst = new BooleanConstant(right,0);
 
-        AndExpression expressionTest = new AndExpression(leftConst, rightConst);
+        AndExpression expressionTest = new AndExpression(leftConst, rightConst,0);
         assertEquals((left && right), expressionTest.evaluate().getValue());
 
     }

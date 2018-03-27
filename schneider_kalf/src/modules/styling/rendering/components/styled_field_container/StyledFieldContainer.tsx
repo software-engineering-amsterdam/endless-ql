@@ -3,18 +3,33 @@ import { findComponentForFieldType } from "../../../../../rendering/field_render
 import { fieldComponentsMapping } from "../../../../../config/field_components_mapping";
 import StyledFieldNode from "../../../form/StyledFieldNode";
 
-export interface FieldContainerProps {
+export interface StyledFieldContainerProps {
   field: StyledFieldNode;
   onChange: (value: any) => void;
   value: any;
 }
 
-export const StyledFieldContainer: React.SFC<FieldContainerProps> = (props) => {
-  const FieldComponent = findComponentForFieldType(props.field.type, fieldComponentsMapping);
+export const StyledFieldContainer: React.SFC<StyledFieldContainerProps> = (props) => {
+  const mergedStyle = props.field.getMergedStyle();
+  const cssStyles = mergedStyle.getFieldContainerCssStyle();
+  const widget = mergedStyle.getWidgetAttribute();
+
+  const DefaultFieldComponent = findComponentForFieldType(props.field.type, fieldComponentsMapping);
+  const WidgetComponent = (widget) ? widget.getRenderComponent() : null;
+
+  const renderField = () => {
+    if (!WidgetComponent) {
+      return (
+          <DefaultFieldComponent onChange={props.onChange} value={props.value} field={props.field}/>
+      );
+    }
+
+    return <WidgetComponent widget={widget} onChange={props.onChange} value={props.value} field={props.field}/>;
+  };
 
   return (
-      <div className="field-container">
-        <FieldComponent onChange={props.onChange} value={props.value} field={props.field}/>
+      <div style={cssStyles} className="field-container field-container-styled">
+        {renderField()}
       </div>
   );
 };

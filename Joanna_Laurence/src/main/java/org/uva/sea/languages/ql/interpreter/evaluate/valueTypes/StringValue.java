@@ -23,7 +23,7 @@ public class StringValue extends Value {
 
     @Override
     public Value isEqual(StringValue value) {
-        return new BooleanValue(this.stringValue.equals(value.getStringValue()));
+        return new BooleanValue(this.stringValue.equals(value.stringValue));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class StringValue extends Value {
 
     @Override
     public Value isNotEqual(StringValue value) {
-        return new BooleanValue(!this.stringValue.equals(value.getStringValue()));
+        return new BooleanValue(!this.stringValue.equals(value.stringValue));
     }
 
     @Override
@@ -44,5 +44,14 @@ public class StringValue extends Value {
     @Override
     public NodeType getType() {
         return NodeType.STRING;
+    }
+
+    @Override
+    public String toString() {
+        return this.stringValue;
+    }
+
+    public StringValue clone() throws CloneNotSupportedException {
+        return (StringValue) super.clone();
     }
 }

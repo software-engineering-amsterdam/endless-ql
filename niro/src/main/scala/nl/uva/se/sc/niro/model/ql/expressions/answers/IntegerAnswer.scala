@@ -1,50 +1,28 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
 import nl.uva.se.sc.niro.model.ql._
-import nl.uva.se.sc.niro.model.ql.expressions.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
-import nl.uva.se.sc.niro.model.ql.expressions.MoneyArithmetics.MoneyCanDoArithmetics.{ times => moneyTimes }
-import nl.uva.se.sc.niro.model.ql.expressions.Orderings.IntAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model.ql.evaluation.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
+import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.IntAnswerCanDoOrderings._
 
-final case class IntegerAnswer(value: Int) extends Answer {
+final case class IntegerAnswer(possibleValue: Option[Int]) extends Answer {
 
   type T = Int
 
-  def toDecAnswer = DecimalAnswer(BigDecimal(value))
+  override def plus(right: Answer): Answer = this + right
+  override def subtract(right: Answer): Answer = this - right
+  override def multiply(right: Answer): Answer = this * right
+  override def divide(right: Answer): Answer = this / right
 
-  def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
-    case that: IntegerAnswer => applyInteger(operator, that)
-    case that: DecimalAnswer => toDecAnswer.applyBinaryOperator(operator, that)
-    case that: MoneyAnswer   => applyMoney(operator, that)
-    case _                   => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
-  }
-
-  private def applyMoney(operator: Operator, that: MoneyAnswer) = {
-    operator match {
-      case Mul => moneyTimes(this, that)
-      case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
-    }
-  }
-
-  def applyUnaryOperator(operator: Operator): Answer = operator match {
-    case Sub => -this
-    case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
-  }
-
-  private def applyInteger(operator: Operator, that: IntegerAnswer) = operator match {
-    case Add => this + that
-    case Sub => this - that
-    case Mul => this * that
-    case Div => this / that
-    case Lt  => this < that
-    case Lte => this <= that
-    case Gte => this >= that
-    case Gt  => this > that
-    case Ne  => this !== that
-    case Eq  => this === that
-    case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
-  }
+  override def lessThan(right: Answer): Answer = this < right
+  override def lessThanEquals(right: Answer): Answer = this <= right
+  override def greaterThenEquals(right: Answer): Answer = this >= right
+  override def greaterThen(right: Answer): Answer = this > right
+  override def notEquals(right: Answer): Answer = this !== right
+  override def equals(right: Answer): Answer = this === right
 }
 
 object IntegerAnswer {
-  def apply(value: java.lang.Integer) = new IntegerAnswer(value.toInt)
+  def apply() = new IntegerAnswer(None)
+  def apply(value: Int) = new IntegerAnswer(Option(value))
+  def apply(value: java.lang.Integer) = new IntegerAnswer(Option(value).map(_.toInt))
 }

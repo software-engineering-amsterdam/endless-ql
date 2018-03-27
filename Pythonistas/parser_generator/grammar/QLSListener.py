@@ -53,12 +53,102 @@ class QLSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by QLSParser#default.
+    def enterDefault(self, ctx:QLSParser.DefaultContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#default.
+    def exitDefault(self, ctx:QLSParser.DefaultContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#type.
+    def enterType(self, ctx:QLSParser.TypeContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#type.
+    def exitType(self, ctx:QLSParser.TypeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#attributes.
+    def enterAttributes(self, ctx:QLSParser.AttributesContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#attributes.
+    def exitAttributes(self, ctx:QLSParser.AttributesContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#width.
+    def enterWidth(self, ctx:QLSParser.WidthContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#width.
+    def exitWidth(self, ctx:QLSParser.WidthContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#font.
+    def enterFont(self, ctx:QLSParser.FontContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#font.
+    def exitFont(self, ctx:QLSParser.FontContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#fontsize.
+    def enterFontsize(self, ctx:QLSParser.FontsizeContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#fontsize.
+    def exitFontsize(self, ctx:QLSParser.FontsizeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#color.
+    def enterColor(self, ctx:QLSParser.ColorContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#color.
+    def exitColor(self, ctx:QLSParser.ColorContext):
+        pass
+
+
     # Enter a parse tree produced by QLSParser#checkbox.
     def enterCheckbox(self, ctx:QLSParser.CheckboxContext):
         pass
 
     # Exit a parse tree produced by QLSParser#checkbox.
     def exitCheckbox(self, ctx:QLSParser.CheckboxContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#radio.
+    def enterRadio(self, ctx:QLSParser.RadioContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#radio.
+    def exitRadio(self, ctx:QLSParser.RadioContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#spinbox.
+    def enterSpinbox(self, ctx:QLSParser.SpinboxContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#spinbox.
+    def exitSpinbox(self, ctx:QLSParser.SpinboxContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#choices.
+    def enterChoices(self, ctx:QLSParser.ChoicesContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#choices.
+    def exitChoices(self, ctx:QLSParser.ChoicesContext):
         pass
 
 

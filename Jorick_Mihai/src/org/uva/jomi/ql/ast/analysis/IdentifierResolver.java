@@ -11,6 +11,10 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 
 	public final IdentifierStack identifierStack;
 	private final ErrorHandler errorHandler;
+	
+	public IdentifierResolver() {
+		this(false);
+	}
 
 	public IdentifierResolver(boolean printErrors) {
 		this.identifierStack = new IdentifierStack();
@@ -24,6 +28,10 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 		for (Statement statment : statements) {
 			statment.accept(this);
 		}
+	}
+	
+	public List<String> getErrors() {
+		return errorHandler.getErrors();
 	}
 	
 	public int getNumberOfErrors() {

@@ -17,51 +17,31 @@ import static java.util.stream.Collectors.toList;
  * Reads in a QL from in text format and returns a parsed QLForm object
  */
 public class FormReader {
-
     /**
      * Reads a QL form from a text file located at the path and returns a parsed QLForm object
-     * @param path
+     * @param path the path to the QL Form.
      * @return A parsed QLForm object
-     * @throws IOException
+     * @throws IOException when the path points to a non-existing file.
      */
     public QLForm parseFile(String path) throws IOException {
-
         CharStream charStream = CharStreams.fromFileName(path);
 
         return parseCharstream(charStream);
-
     }
 
     /**
-     * Reads a QL form from a string and returns a parsed QLForm object
-     * @param s
-     * @return A parsed QLForm object
+     * Reads a QL form from a Charstream and returns a parsed QLForm object.
+     * @param charStream a charStream instance.
+     * @return A parsed QLForm object.
      */
-    public QLForm parseString(String s) {
-
-        CharStream charStream = CharStreams.fromString(s);
-
-        return parseCharstream(charStream);
-
-    }
-
-    /**
-     * Reads a QL form from a Charstream and returns a parsed QLForm object
-     * @param charStream
-     * @return A parsed QLForm object
-     */
-    public QLForm parseCharstream(CharStream charStream) {
-
+    private QLForm parseCharstream(CharStream charStream) {
         QLLexer lexer = new QLLexer(charStream);
         TokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
 
         FormVisitor formVisitor = new FormVisitor();
 
-        QLForm traverseResult = formVisitor.visit(parser.form());
-
-        return traverseResult;
-
+        return formVisitor.visit(parser.form());
     }
 
     private static class FormVisitor extends QLBaseVisitor<QLForm> {
@@ -88,26 +68,18 @@ public class FormReader {
 
     private static class QuestionVisitor extends QLBaseVisitor<Question> {
 
-
-
         @Override
         public Question visitQuestion(@NotNull QLParser.QuestionContext ctx) {
-
             String questionName = ctx.VARIABLE().getText();
             String questionLabel = ctx.STRING().getText();
             String questionType = ctx.TYPE().getText();
 
-
-
-            ExpressionVisitor expressionVisitor = new ExpressionVisitor();
-
-
-            Expression expression = null;
-            
-            if(ctx.expression() != null)
-                expression = expressionVisitor.visitExpression(ctx.expression());
-
-            return new Question(questionName, questionLabel, questionType, expression);
+            if(ctx.expression() == null)
+                return new Question(questionName, questionLabel, questionType);
+            else {
+                ExpressionVisitor expressionVisitor = new ExpressionVisitor();
+                return new Question(questionName, questionLabel, questionType, expressionVisitor.visitExpression(ctx.expression()));
+            }
         }
     }
 
@@ -115,7 +87,6 @@ public class FormReader {
 
         @Override
         public Condition visitCondition(@NotNull QLParser.ConditionContext ctx){
-
             QuestionVisitor questionVisitor = new QuestionVisitor();
             ConditionVisitor conditionVisitor = new ConditionVisitor();
             ExpressionVisitor expressionVisitor = new ExpressionVisitor();
@@ -132,9 +103,7 @@ public class FormReader {
                     .map(condition -> condition.accept(conditionVisitor))
                     .collect(toList());
 
-            Condition condition = new Condition(expression, questions, conditions);
-
-            return  condition;
+            return new Condition(expression, questions, conditions);
         }
     }
 
@@ -142,12 +111,10 @@ public class FormReader {
 
         @Override
         public Expression visitExpression(@NotNull QLParser.ExpressionContext ctx) {
-
             ExpressionVisitor expressionVisitor = new ExpressionVisitor();
             TermVisitor termVisitor = new TermVisitor();
             ArithmeticVisitor arithmeticVisitor = new ArithmeticVisitor();
             OperatorVisitor operatorVisitor = new OperatorVisitor();
-
 
             List<QLParser.ExpressionContext> expressions = ctx.expression();
             QLParser.TermContext termContext = ctx.term();
@@ -157,7 +124,6 @@ public class FormReader {
             QLParser.AddsubContext addsubContext = ctx.addsub();
             QLParser.OperatorContext operatorContext = ctx.operator();
 
-
             if(expressions.size() == 1 && notNode == null)
                 return expressionVisitor.visitExpression(expressions.get(0));
 
@@ -165,7 +131,7 @@ public class FormReader {
                 return termVisitor.visitTerm(ctx.term());
 
             if(notNode != null)
-                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), new Not(""));
+                return new Expression(expressionVisitor.visitExpression(expressions.get(0)), new Not("!"));
 
             if(factorContext != null)
                 return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), arithmeticVisitor.visitArithmetic(factorContext));
@@ -197,10 +163,10 @@ public class FormReader {
                 return new QLBoolean(Boolean.parseBoolean(bool.toString()));
 
             if(qlstring != null)
-                return new QLString((String) qlstring.toString());
+                return new QLString(qlstring.toString());
 
             if(variable != null)
-                return new Variable((String) variable.toString());
+                return new Variable(variable.toString());
 
             if(integer != null)
                 return new QLFloat((Integer.parseInt(integer.toString())));
@@ -215,26 +181,23 @@ public class FormReader {
     }
 
     private static class ArithmeticVisitor extends QLBaseVisitor<Operator>{
-
-        public Operator visitArithmetic(@NotNull QLParser.FactorContext ctx) {
+        Operator visitArithmetic(@NotNull QLParser.FactorContext ctx) {
             return new ArithmeticOperation(ctx.getText());
         }
 
-        public Operator visitArithmetic(@NotNull QLParser.MuldivContext ctx) {
+        Operator visitArithmetic(@NotNull QLParser.MuldivContext ctx) {
             return new ArithmeticOperation(ctx.getText());
         }
 
-        public Operator visitArithmetic(@NotNull QLParser.AddsubContext ctx) {
+        Operator visitArithmetic(@NotNull QLParser.AddsubContext ctx) {
             return new ArithmeticOperation(ctx.getText());
         }
-
     }
 
     private static class OperatorVisitor extends QLBaseVisitor<Operator>{
 
         @Override
         public Operator visitOperator(@NotNull QLParser.OperatorContext ctx) {
-
             QLParser.BooloperatorContext booloperatorContext = ctx.booloperator();
             QLParser.EqualoperatorContext equaloperatorContext = ctx.equaloperator();
             QLParser.ComparisonContext comparisonContext = ctx.comparison();
@@ -254,6 +217,5 @@ public class FormReader {
             // TODO throw exception
             return null; //TODO return fitting operator
         }
-
     }
 }

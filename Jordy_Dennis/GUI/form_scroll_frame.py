@@ -2,7 +2,7 @@
     A scrollframe is basically a modifyable frame with a scrollbar
 
     Each scrollFrame contains a scrollbar, a canvas, and a contentsFrame.
-    The contentsFrame can contain widgets. 
+    The contentsFrame can contain widgets.
     The canvas is only used to attach the scrollbar to the contents frame
 """
 
@@ -12,9 +12,10 @@ from .gui_imports import *
 class ScrollFrameGui:
 
     def __init__(self, parent):
-        self.frame = create_frame(parent, 'black')
+        self.frame = create_frame(parent)
         self.frame.pack(expand=True, fill='both')
         self.canvas, self.contentsFrame = self.createScrollCanvas(self.frame)
+        self.contentsFrame.pack(expand=True, fill="both")
         self.canvas.pack(expand=True, fill="both")
 
         # create a window for the contents frame inside the canvas
@@ -28,8 +29,8 @@ class ScrollFrameGui:
         Create the canvas, together with the frame that will contain the contents
     """
     def createScrollCanvas(self, parent):
-        canvas = Canvas(parent, background="pink")
-        contentsFrame = create_frame(canvas, "blue")
+        canvas = Canvas(parent, background="white")
+        contentsFrame = create_frame(canvas, "white")
 
         scrollbar = Scrollbar(parent, command=canvas.yview)
         scrollbar.pack(side=RIGHT, fill='both')

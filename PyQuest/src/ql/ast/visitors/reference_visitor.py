@@ -1,24 +1,27 @@
-from ql.ast.statements.form_node import FormNode
-from ql.ast.statements.if_node import IfNode
-from ql.ast.statements.question_node import QuestionNode
-from ql.ast.expressions.variable_node import VariableNode
-from ql.ast.expressions.binary_operators.addition_node import AdditionOperatorNode
-from ql.ast.expressions.binary_operators.and_node import AndOperatorNode
-from ql.ast.expressions.binary_operators.division_node import DivisionOperatorNode
-from ql.ast.expressions.binary_operators.equals_node import EqualsOperatorNode
-from ql.ast.expressions.binary_operators.greater_equals_node import GreaterEqualsOperatorNode
-from ql.ast.expressions.binary_operators.greater_than_node import GreaterThanOperatorNode
-from ql.ast.expressions.binary_operators.less_equals_node import LessEqualsOperatorNode
-from ql.ast.expressions.binary_operators.less_than_node import LessThanOperatorNode
-from ql.ast.expressions.binary_operators.multiplication_node import MultiplicationOperatorNode
-from ql.ast.expressions.binary_operators.not_equals_node import NotEqualsOperatorNode
-from ql.ast.expressions.binary_operators.or_node import OrOperatorNode
-from ql.ast.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
-from ql.ast.expressions.unary_operators.negation import NegationOperatorNode
-from ql.ast.expressions.unary_operators.negative import NegativeOperatorNode
-from ql.ast.expressions.literals.integer_node import IntegerNode
-from ql.ast.expressions.literals.decimal_node import DecimalNode
-from ql.ast.expressions.literals.date_node import DateNode
+from ql.ast.nodes.statements.form_node import FormNode
+from ql.ast.nodes.statements.if_node import IfNode
+from ql.ast.nodes.statements.question_node import QuestionNode
+from ql.ast.nodes.expressions.variable_node import VariableNode
+from ql.ast.nodes.expressions.binary_operators.addition_node import AdditionOperatorNode
+from ql.ast.nodes.expressions.binary_operators.and_node import AndOperatorNode
+from ql.ast.nodes.expressions.binary_operators.division_node import DivisionOperatorNode
+from ql.ast.nodes.expressions.binary_operators.equals_node import EqualsOperatorNode
+from ql.ast.nodes.expressions.binary_operators.greater_equals_node import GreaterEqualsOperatorNode
+from ql.ast.nodes.expressions.binary_operators.greater_than_node import GreaterThanOperatorNode
+from ql.ast.nodes.expressions.binary_operators.less_equals_node import LessEqualsOperatorNode
+from ql.ast.nodes.expressions.binary_operators.less_than_node import LessThanOperatorNode
+from ql.ast.nodes.expressions.binary_operators.multiplication_node import MultiplicationOperatorNode
+from ql.ast.nodes.expressions.binary_operators.not_equals_node import NotEqualsOperatorNode
+from ql.ast.nodes.expressions.binary_operators.or_node import OrOperatorNode
+from ql.ast.nodes.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
+from ql.ast.nodes.expressions.unary_operators.negation_node import NegationOperatorNode
+from ql.ast.nodes.expressions.unary_operators.negative_node import NegativeOperatorNode
+from ql.ast.nodes.expressions.literals.boolean_node import BooleanNode
+from ql.ast.nodes.expressions.literals.decimal_node import DecimalNode
+from ql.ast.nodes.expressions.literals.integer_node import IntegerNode
+from ql.ast.nodes.expressions.literals.string_node import StringNode
+from ql.ast.nodes.expressions.literals.date_node import DateNode
+from ql.ast.nodes.expressions.literals.money_node import MoneyNode
 from ql.ast.visitors.visitor_helper import on, when
 
 
@@ -27,7 +30,6 @@ class ReferenceVisitor(object):
     def __init__(self):
         self.__current_block = []
         self.__current_scope = {}
-        self.__scope_id = 0
 
     @property
     def identifier_scopes(self):
@@ -40,8 +42,7 @@ class ReferenceVisitor(object):
 
     @when(FormNode)
     def visit(self, node):
-        self.__current_scope = {'id': self.__scope_id,
-                                'content': [],
+        self.__current_scope = {'content': [],
                                 'children': []}
 
         self.__current_block = []
@@ -60,8 +61,7 @@ class ReferenceVisitor(object):
         previous_block = self.__current_block
 
         self.__current_block = []
-        self.__current_scope = {'id': self.__scope_id,
-                                'content': [],
+        self.__current_scope = {'content': [],
                                 'children': []}
 
         for child in node.block:
@@ -151,7 +151,11 @@ class ReferenceVisitor(object):
     def visit(self, node):
         node.expression.accept(self)
 
-    @when(IntegerNode)
+    @when(BooleanNode)
+    def visit(self, node):
+        pass
+
+    @when(DateNode)
     def visit(self, node):
         pass
 
@@ -159,7 +163,15 @@ class ReferenceVisitor(object):
     def visit(self, node):
         pass
 
-    @when(DateNode)
+    @when(IntegerNode)
+    def visit(self, node):
+        pass
+
+    @when(MoneyNode)
+    def visit(self, node):
+        pass
+
+    @when(StringNode)
     def visit(self, node):
         pass
 

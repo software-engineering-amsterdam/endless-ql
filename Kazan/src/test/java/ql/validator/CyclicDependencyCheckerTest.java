@@ -2,55 +2,45 @@ package ql.validator;
 
 import org.junit.Before;
 import org.junit.Test;
-import ql.Helper;
+import ql.BaseQlTest;
 import ql.ast.Form;
-import ql.parser.FormBuilder;
-import ql.validator.issuetracker.IssueTracker;
+import ql.validator.checkers.CyclicDependencyChecker;
 
 import static org.junit.Assert.*;
 
-public class CyclicDependencyCheckerTest {
+public class CyclicDependencyCheckerTest extends BaseQlTest {
 
-    private FormBuilder formBuilder;
-    private Helper helper;
     private CyclicDependencyChecker cyclicDependencyChecker;
-    private IssueTracker issueTracker;
 
     @Before
     public void setUp() throws Exception {
-        formBuilder = new FormBuilder();
-        helper = new Helper();
-        issueTracker = new IssueTracker();
-        cyclicDependencyChecker = new CyclicDependencyChecker(issueTracker);
+        cyclicDependencyChecker = new CyclicDependencyChecker();
     }
 
     @Test
     public void shouldIssueErrorForCycleWithinQuestion() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/incorrect/validator/cyclicalWithinQuestion.ql", formBuilder);
+        Form form = createForm("src/input/ql/incorrect/validator/cyclicalWithinQuestion.ql");
         boolean passesTests = cyclicDependencyChecker.passesTests(form);
         assertFalse(passesTests);
-        assertEquals(issueTracker.getWarnings().size(), 0);
-        assertEquals(issueTracker.getErrors().size(), 1);
-        assertEquals(issueTracker.getErrors().get(0).getMessage(), "Variable first involved in circular dependency");
+        assertEquals(cyclicDependencyChecker.getWarnings().size(), 0);
+        assertEquals(cyclicDependencyChecker.getErrors().size(), 1);
+        assertEquals(cyclicDependencyChecker.getErrors().get(0).getMessage(), "Variable first involved in circular dependency");
     }
 
     @Test
     public void shouldIssueErrorForCycleBetweenQuestions() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/incorrect/validator/cyclicalBetweenQuestions.ql", formBuilder);
+        Form form = createForm("src/input/ql/incorrect/validator/cyclicalBetweenQuestions.ql");
         boolean passesTests = cyclicDependencyChecker.passesTests(form);
         assertFalse(passesTests);
-        assertEquals(issueTracker.getWarnings().size(), 0);
-        assertEquals(issueTracker.getErrors().size(), 2);
-        assertEquals(issueTracker.getErrors().get(0).getMessage(), "Variable second involved in circular dependency");
-        assertEquals(issueTracker.getErrors().get(1).getMessage(), "Variable first involved in circular dependency");
+        assertEquals(cyclicDependencyChecker.getWarnings().size(), 0);
+        assertEquals(cyclicDependencyChecker.getErrors().size(), 2);
+        assertEquals(cyclicDependencyChecker.getErrors().get(0).getMessage(), "Variable second involved in circular dependency");
+        assertEquals(cyclicDependencyChecker.getErrors().get(1).getMessage(), "Variable first involved in circular dependency");
     }
 
     @Test
     public void shouldIssueNothingForRegularForm() {
-        issueTracker.reset();
-        Form form = helper.buildASTFromFile("src/input/ql/correct/simple.ql", formBuilder);
+        Form form = createForm("src/input/ql/correct/simple.ql");
         boolean passesTests = cyclicDependencyChecker.passesTests(form);
         assertTrue(passesTests);
     }

@@ -26,6 +26,7 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
 
     @Override
     public Question visitQuestion(QLParser.QuestionContext ctx){
+        int line = ctx.getStart().getLine();
         String name = ctx.IDENTIFIER().getText();
         String text = ctx.STRING().getText();
 
@@ -38,10 +39,11 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
         Boolean isPredefined = questionTypeCTX.expression() != null; // checks question is already assigned in form
         Expression initialAnswer = initializeAnswer(questionTypeCTX, typeValue);
         expressionTable.addExpression(name, initialAnswer);
-        return new Question(name, text, typeValue, initialAnswer, condition, isPredefined);
+        return new Question(name, text, typeValue, initialAnswer, condition, isPredefined, line);
     }
 
     private Expression initializeAnswer(QLParser.QuestionTypeContext ctx, EvaluationType type){
+        int line = ctx.getStart().getLine();
         if(ctx.expression() != null) {
             ExpressionVisitor expressionVisitor = new ExpressionVisitor(expressionTable);
             return expressionVisitor.visit(ctx.expression());
@@ -49,19 +51,19 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
 
         switch(type){
             case Boolean:
-                return new BooleanConstant(null);
+                return new BooleanConstant(null, line);
             case Date:
-                return new DateConstant(null);
+                return new DateConstant(null, line);
             case Decimal:
-                return new DecimalConstant(null);
+                return new DecimalConstant(null, line);
             case Integer:
-                return new IntegerConstant(null);
+                return new IntegerConstant(null, line);
             case Money:
-                return new MoneyConstant(null);
+                return new MoneyConstant(null, line);
             case String:
-                return new StringConstant(null);
+                return new StringConstant(null, line);
             default:
-                return new UndefinedConstant(type);
+                return new UndefinedConstant(type, line);
         }
     }
 }

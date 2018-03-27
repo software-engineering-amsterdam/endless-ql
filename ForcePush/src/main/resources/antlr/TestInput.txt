@@ -4,7 +4,8 @@ form taxOfficeExample {
   "Did you buy a house in 2010?"
     hasBoughtHouse: boolean
   "Did you enter a loan?"
-    hasMaintLoan: string
+    hasMaintLoan: boolean
+
 // this is a comment
   if (hasSoldHouse) {
     "What was the selling price?"
@@ -13,7 +14,6 @@ form taxOfficeExample {
       privateDebt: money
     "Value residue:"
       valueResidue: money =
-        (sellingPrice - privateDebt)
-  }
-
+       (sellingPrice - privateDebt)
+    }
 }

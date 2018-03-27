@@ -26,7 +26,11 @@ public abstract class Item extends AstNode {
 	public abstract <T, U> T accept(ItemVisitor<T, U> visitor, U ctx);
 
 	public AstWidget getWidget() {
-		//TODO review this
-		return widget == null ? new AstTextField() : widget;
+		// if no widget specified for item (e.g question) in stylesheet, get default one 
+		// ql-default: RadioBtn for boolean, and TextField for other types
+		if (widget == null) {
+			return new AstWidgetDefault();
+		}
+		return widget;
 	}
 }

@@ -15,6 +15,8 @@ public class SpinnerMoneyWidget extends SpinnerWidget<Double>{
 
     public SpinnerMoneyWidget(Question question){
         super(question);
+        this.managedProperty().bind(this.visibleProperty());
+        this.getEditor().setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*(\\.\\d{0,2})?"));
     }
 
     @Override

@@ -2,19 +2,33 @@ import AbstractStyleNode from "../AbstractStyleNode";
 import StyleAttribute from "../StyleAttribute";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
 
-export default class WidgetAttribute extends AbstractStyleNode implements StyleAttribute {
-  readonly name: string;
-  readonly value: string;
+export default abstract class WidgetAttribute extends AbstractStyleNode implements StyleAttribute {
   readonly options: string[] | undefined;
 
-  constructor(name: string, value: string, options?: string[]) {
+  constructor(options?: string[]) {
     super();
-    this.name = name;
-    this.value = value;
     this.options = options;
   }
 
   accept(visitor: StyleNodeVisitor) {
     return visitor.visitWidgetAttribute(this);
   }
+
+  getName(): string {
+    return "widget";
+  }
+
+  getCssValues(): object {
+    return {};
+  }
+
+  getValue(): string {
+    return "";
+  }
+
+  getStringValue(): string {
+    return "";
+  }
+
+  abstract getRenderComponent();
 }

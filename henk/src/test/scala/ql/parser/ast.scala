@@ -1,82 +1,69 @@
 import ql.models.ast._
-import ql.grammar._
-import ql.visitors._
-import ql.parsers._
-
-import scala.io.Source
+import ql.spec.helpers._
 
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
-import org.scalatest.BeforeAndAfter
 
-import org.antlr.v4.runtime._
-import org.antlr.v4.runtime.tree._
-
-class ASTParserSpec extends FunSpec with BeforeAndAfter {
-  // maybe extract method to general helper class
-  private def getForm(location: String): ASTNode = {
-    return QlFormParser.parseFromURL(getClass.getResource(location))
-  }
-
-  private def getFlattenedForm(location: String): List[ASTNode] = {
-    val form = QlFormParser.parseFromURL(getClass.getResource(location))
-    ASTCollector.flattenNT(form)
-  }
-
+class QLASTParserSpec extends FunSpec {
   describe("when parsing a form") {
     it("should contain a single question") {
-      val result = getFlattenedForm("ql/simple.ql")
-      val expected = ASTQuestion(ASTVarDecl(ASTBoolean(), ASTIdentifier("hasSoldHouse")),
-                                 "Did you sell a house in 2010?")
+      val questions =
+        FormHelper.getQuestions(getClass.getResource("ql/simple.ql"))
+      val expected =
+        Question(VarDecl(BooleanType(), Identifier("hasSoldHouse")),
+                 "Did you sell a house in 2010?")
 
-      assert(result.filter(x => x == expected).size == 1)
+      questions should contain(expected)
     }
+  }
 
-    it("should contain two questions") {
-      val result = getFlattenedForm("ql/two_statements_simple.ql")
-      val q1 = ASTQuestion(ASTVarDecl(ASTBoolean(), ASTIdentifier("hasSoldHouse")),
-                           "Did you sell a house in 2010?")
-      val q2 = ASTQuestion(ASTVarDecl(ASTBoolean(), ASTIdentifier("hasSoldHouse")),
-                           "Did you sell a house in 2011?")
+  it("should contain two questions") {
+    val questions = FormHelper.getQuestions(
+      getClass.getResource("ql/two_statements_simple.ql"))
+    val q1 = Question(VarDecl(BooleanType(), Identifier("hasSoldHouse")),
+                      "Did you sell a house in 2010?")
+    val q2 = Question(VarDecl(BooleanType(), Identifier("hasSoldHouse")),
+                      "Did you sell a house in 2011?")
 
-      assert(result.filter(x => x == q1 || x == q2).size == 2)
-    }
+    questions should contain(q1)
+    questions should contain(q2)
+  }
 
-    it("should contain conditional") {
-      val result = getFlattenedForm("ql/conditional.ql")
-      val expected = ASTIfStatement(
-        ASTIdentifier("hasSoldHouse"),
-        List(
-          ASTQuestion(ASTVarDecl(ASTMoney(), ASTIdentifier("sellingPrice")),
-                      "What was the selling price?"),
-          ASTQuestion(ASTVarDecl(ASTMoney(), ASTIdentifier("privateDebt")),
-                      "Private debts for the sold house:"),
-          ASTComputation(
-            ASTVarDecl(ASTMoney(), ASTIdentifier("valueResidue")),
-            ASTValAssign(
-              ASTBinary(
-                ASTIdentifier("sellingPrice"),
-                ASTIdentifier("privateDebt"),
-                ASTMin()
-              )
-            ),
-            "Value residue:"
-          )
+  it("should contain conditional") {
+    val ifStmt =
+      FormHelper.getIfStatements(getClass.getResource("ql/conditional.ql"))
+    val expected = IfStatement(
+      Identifier("hasSoldHouse"),
+      List(
+        Question(VarDecl(MoneyType(), Identifier("sellingPrice")),
+                 "What was the selling price?"),
+        Question(VarDecl(MoneyType(), Identifier("privateDebt")),
+                 "Private debts for the sold house:"),
+        Computation(
+          VarDecl(MoneyType(), Identifier("valueResidue")),
+          ValAssign(
+            MinOp(
+              Identifier("sellingPrice"),
+              Identifier("privateDebt")
+            )
+          ),
+          "Value residue:"
         )
       )
-      assert(result.filter(x => x == expected).size == 1)
-    }
+    )
+    ifStmt should contain(expected)
+  }
 
-    it("should skip an extra set of brackets") {
-      val result = getFlattenedForm("ql/conditional_bracket.ql")
-      val expected = ASTIfStatement(
-        ASTIdentifier("hasSoldHouse"),
-        List(
-          ASTQuestion(ASTVarDecl(ASTMoney(), ASTIdentifier("sellingPrice")),
-                      "What was the selling price?")
-        )
+  it("should skip an extra set of brackets") {
+    val ifStmt = FormHelper.getIfStatements(
+      getClass.getResource("ql/conditional_bracket.ql"))
+    val expected = IfStatement(
+      Identifier("hasSoldHouse"),
+      List(
+        Question(VarDecl(MoneyType(), Identifier("sellingPrice")),
+                 "What was the selling price?")
       )
-      assert(result.filter(x => x == expected).size == 1)
-    }
+    )
+    ifStmt should contain(expected)
   }
 }

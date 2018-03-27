@@ -13,17 +13,17 @@ public class NegationExpressionTest {
     NegationExpression expressionTest;
     @Property
     public void evaluate(int value) {
-        IntegerConstant valueToTest = new IntegerConstant(value);
+        IntegerConstant valueToTest = new IntegerConstant(value, 0);
 
-        expressionTest = new NegationExpression(valueToTest);
+        expressionTest = new NegationExpression(valueToTest, 0);
 
         assertEquals((value*(-1)), expressionTest.evaluate().getValue());
     }
     @Property
     public void evaluate(double value) {
-        DecimalConstant valueToTest = new DecimalConstant(value);
+        DecimalConstant valueToTest = new DecimalConstant(value, 0);
 
-        expressionTest = new NegationExpression(valueToTest);
+        expressionTest = new NegationExpression(valueToTest, 0);
 
         assertEquals((value*(-1)), expressionTest.evaluate().getValue());
     }

@@ -1,6 +1,12 @@
 package nl.uva.js.qlparser.ui;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.uva.js.qlparser.exceptions.ParseException;
+import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.logic.FormBuilder;
 import nl.uva.js.qlparser.logic.StylesheetBuilder;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
@@ -41,12 +47,16 @@ public class GUIBuilder {
     private static JPanel topPanel;
     private static TextPanel console;
 
+    private static Form globalForm;
+
     public static Frame getGUI(Form form) {
+        globalForm = form;
+
         qlPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
-        qlPanel.setText(loadDefaultFileContent());
+        qlPanel.setText(loadDefaultFile("ql.file"));
 
         qlsPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
-//        qlsPanel.setText(loadDefaultFileContent()); //TODO
+        qlsPanel.setText(loadDefaultFile("qls.file"));
 
         formPanel = new FormPanel(form, FORM_VIEW_HEIGHT, FORM_WIDTH, FORM_HEIGHT);
 
@@ -70,16 +80,21 @@ public class GUIBuilder {
             }
         });
 
-        mainFrame.setTitle(form.getHumanizedName());
+        mainFrame.setTitle(globalForm.getHumanizedName());
 
         return mainFrame;
     }
 
-    private static String loadDefaultFileContent() {
+    private static String loadDefaultFile(String property) {
         try {
-            String file = GUIBuilder.class.getClassLoader().getResource(System.getProperty("ql.file")).getFile();
-            return new String(Files.readAllBytes(Paths.get(file)));
-        } catch (IOException | ParseException e) {
+            return NonNullRun.function(System.getProperty(property), qlfile -> {
+                try {
+                    return new String(Files.readAllBytes(Paths.get(GUIBuilder.class.getClassLoader().getResource(qlfile).getFile())));
+                } catch (IOException e) {
+                    return "";
+                }
+            });
+        } catch (ParseException e) {
             log(e.getMessage());
         }
         return "";
@@ -117,21 +132,20 @@ public class GUIBuilder {
     }
 
     private static JPanel getTopPanel(LinkedList<Page> pages) {
-        ButtonBar buttonBar = new ButtonBar();
+        ButtonBar topPanel = new ButtonBar();
 
-        // TODO
-        int numberOfPages = pages != null ? pages.size() : 3;
+        if (null != pages) {
+            for (Page page : pages) {
+                JButton pageButton = getButton(page.getName(), 80);
+                pageButton.addActionListener(e -> {
+                    formPanel.setPage(page.getName());
+                });
 
-        for (int i = 1; i <= numberOfPages; i++) {
-            int pageNumber = i;
-            JButton pageButton = getButton(String.valueOf (pageNumber),50);
-            pageButton.addActionListener(e -> {
-                System.out.println(pageNumber);
-            });
-            buttonBar.centerPanel.add(pageButton);
+                topPanel.centerPanel.add(pageButton);
+            }
         }
 
-        return buttonBar;
+        return topPanel;
     }
 
     //TODO refactor
@@ -147,9 +161,10 @@ public class GUIBuilder {
         JButton qlProcessButton = getButton("Process", 100);
         qlProcessButton.addActionListener(e -> {
             try {
-                Form form = FormBuilder.parseFormFromString(qlPanel.getText());
-                formPanel.apply(form);
-                mainFrame.setTitle(form.getHumanizedName());
+                globalForm = FormBuilder.parseFormFromString(qlPanel.getText());
+                formPanel.apply(globalForm);
+                setPageButtons(null);
+                mainFrame.setTitle(globalForm.getHumanizedName());
             } catch (ParseException exception) {
                 log(exception.getMessage());
             }
@@ -165,14 +180,26 @@ public class GUIBuilder {
         qlsProcessButton.addActionListener(e -> {
             try {
                 Stylesheet stylesheet = StylesheetBuilder.parseStylesheetFromString(qlsPanel.getText());
+                // CHECKER HERE //
                 formPanel.apply(stylesheet);
+                setPageButtons(stylesheet.getPages());
             } catch (ParseException exception) {
                 log(exception.getMessage());
             }
         });
 
         JButton exportButton = getButton("Export form", 250);
-        exportButton.addActionListener(e -> {});
+        exportButton.addActionListener(e -> {
+            try {
+                ObjectMapper mapper = new ObjectMapper()
+                        .registerModule(new JavaTimeModule())
+                        .registerModule(new Jdk8Module());
+                mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+                System.out.println(mapper.writer().writeValueAsString(globalForm));
+            } catch (JsonProcessingException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         buttonBar.leftPanel.add(qlLoadButton);
         buttonBar.leftPanel.add(qlSaveButton);
@@ -185,6 +212,13 @@ public class GUIBuilder {
         buttonBar.rightPanel.add(qlsProcessButton);
 
         return buttonBar;
+    }
+
+    private static void setPageButtons(LinkedList<Page> pages) {
+        topPanel.removeAll();
+        topPanel.add(getTopPanel(pages));
+        topPanel.revalidate();
+        topPanel.repaint();
     }
 
     public static JButton getButton(String text, int width) {

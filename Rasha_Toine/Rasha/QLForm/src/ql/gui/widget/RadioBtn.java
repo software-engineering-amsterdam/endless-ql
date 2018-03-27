@@ -37,8 +37,8 @@ public class RadioBtn extends Widget implements ActionListener {
 	    ButtonGroup group = new ButtonGroup();
 
 		for (FieldOption option : options.getOptions()) {
-			JRadioButton radioBtn = new JRadioButton(option.getName());
-			radioBtn.setActionCommand(option.getName());
+			JRadioButton radioBtn = new JRadioButton(option.getLabel());
+			radioBtn.setActionCommand(option.getLabel());
 			radioBtn.addActionListener(this);
 			group.add(radioBtn);
 			radioButtons.put(option, radioBtn); //key = option, val= radioBtn
@@ -107,6 +107,6 @@ public class RadioBtn extends Widget implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		setValue(options.getOptionByName(e.getActionCommand()).getValue());
+		setValue(options.getOptionByLabel(e.getActionCommand()).getValue());
 	}
 }

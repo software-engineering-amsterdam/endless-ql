@@ -42,6 +42,10 @@ public abstract class NodeVisitor {
 
     public abstract void visitPlusOp(PlusOp plusOp);
 
+    public abstract void visitOrOp(OrOp orOp);
+
+    public abstract void visitAndOp(AndOp andOp);
+
     public abstract void visitBooleanType(BooleanTypeNode booleanType);
 
     public abstract void visitIntegerType(IntegerTypeNode integerType);

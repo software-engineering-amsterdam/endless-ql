@@ -1,13 +1,12 @@
 package org.uva.sea.languages.ql.parser.elements.expressions;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.languages.ql.parser.elements.ASTNode;
-import org.uva.sea.languages.ql.parser.elements.types.Type;
-import org.uva.sea.languages.ql.parser.nodeTypes.SingleNode;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.Type;
+import org.uva.sea.languages.ql.parser.nodeTypes.SingleOperator;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
-public class Positive extends SingleNode {
-    public Positive(Token token, ASTNode value) {
+public class Positive extends SingleOperator {
+    public Positive(Token token, Expression value) {
         super(token, value);
     }
 

@@ -4,14 +4,15 @@ import org.antlr.v4.runtime.*;
 import org.uva.forcepushql.antlr.GrammarLexer;
 import org.uva.forcepushql.antlr.GrammarParser;
 import org.uva.forcepushql.ast.BuildASTVisitor;
-import org.uva.forcepushql.ast.EvaluateExpressionVisitor;
-import org.uva.forcepushql.ast.ExpressionNode;
 import org.uva.forcepushql.ast.Node;
+import org.uva.forcepushql.ast.ASTVisitorEvaluator;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.text.Normalizer;
+import java.util.LinkedList;
 
 public class Test
 {
@@ -35,8 +36,34 @@ public class Test
         //Node ifCondition = new BuildASTVisitor().visitConditionalIf(parser.conditionalIf());
         //String value = new EvaluateExpressionVisitor().visit(ifCondition);
         Node form = new BuildASTVisitor().visitFormStructure(parser.formStructure());
-        String value = form.accept(new EvaluateExpressionVisitor());
-        System.out.println("Final result is: " + value);
+        //String value = form.accept(new ASTVisitorEvaluator());
+
+        JFrame guiFrame = new JFrame("MainFrame");
+        guiFrame.setLocationRelativeTo(null);
+
+        guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        guiFrame.setTitle("Questionnaire");
+        guiFrame.setSize(720,720);
+
+        guiFrame.setLayout(null);
+
+        //ADD PANELS
+        LinkedList<JPanel> jPanels = form.accept(new ASTVisitorEvaluator());
+        Insets insets = guiFrame.getInsets();
+        int height = 5;
+
+        for (JPanel jp: jPanels) {
+            guiFrame.add(jp);
+            Dimension size = jp.preferredSize();
+            jp.setBounds(220 + insets.left, height + insets.top, size.width, size.height);
+            height += 95;
+        }
+
+        /*size = panel2.preferredSize();
+        panel2.setBounds(220 + insets.left, 100 + insets.top, 20 + size.width, size.height);*/
+
+        guiFrame.setVisible(true);
+
 
     }
 }

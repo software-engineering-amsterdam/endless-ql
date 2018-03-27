@@ -8,41 +8,45 @@ import NodeLocation from "../location/NodeLocation";
  * Decorator for Fields that makes the Field "decoratable" for future usage.
  */
 export default class FieldNodeDecorator implements FieldNode {
-  private fieldToBeDecorated: FieldNode;
+  private _fieldToBeDecorated: FieldNode;
 
   get identifier(): string {
-    return this.fieldToBeDecorated.identifier;
+    return this._fieldToBeDecorated.identifier;
   }
 
   get label(): string {
-    return this.fieldToBeDecorated.label;
+    return this._fieldToBeDecorated.label;
   }
 
   get type(): FieldType {
-    return this.fieldToBeDecorated.type;
+    return this._fieldToBeDecorated.type;
   }
 
   constructor(fieldToBeDecorated: FieldNode) {
-    this.fieldToBeDecorated = fieldToBeDecorated;
+    this._fieldToBeDecorated = fieldToBeDecorated;
   }
 
   accept(visitor: NodeVisitor) {
-    return this.fieldToBeDecorated.accept(visitor);
+    return visitor.visitFieldDecorator(this);
   }
 
   isReadOnly(): boolean {
-    return this.fieldToBeDecorated.isReadOnly();
+    return this._fieldToBeDecorated.isReadOnly();
   }
 
   computeAnswer(state: FormState) {
-    return this.fieldToBeDecorated.computeAnswer(state);
+    return this._fieldToBeDecorated.computeAnswer(state);
   }
 
   setLocation(location: NodeLocation): void {
-    this.fieldToBeDecorated.setLocation(location);
+    this._fieldToBeDecorated.setLocation(location);
   }
 
   getLocation(): NodeLocation {
-    return this.fieldToBeDecorated.getLocation();
+    return this._fieldToBeDecorated.getLocation();
+  }
+
+  getBaseField(): FieldNode {
+    return this._fieldToBeDecorated;
   }
 }

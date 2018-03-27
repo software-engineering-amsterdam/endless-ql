@@ -1,2 +1,5 @@
 rootProject.name = 'org.uva.sc.piotr.qls'
 
+include(":org.uva.sc.piotr.ql")
+project(':org.uva.sc.piotr.ql').projectDir = new File('../org.uva.sc.piotr.ql')
+

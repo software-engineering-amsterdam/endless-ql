@@ -1,8 +1,8 @@
 package GUI;
 import java.io.File;
 
+import QL.Analysis.TypeChecker;
 import QL.ParseObjectsQL.Form;
-import QL.ParseObjectsQL.QuestionMap;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -38,6 +38,10 @@ public class QLUserInterface {
 
             Form form = parser.parseInputToForm(formFile.getPath());
 
+            TypeChecker typechecker = new TypeChecker(form, form.getExpressionTable());
+            typechecker.typeCheck();
+
+            //todo: static analysis typechecker
             Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
 
             //parser.printQLForm(form); //debug print the form questions in console

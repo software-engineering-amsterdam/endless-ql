@@ -1,6 +1,8 @@
 package QL.ParseObjectsQL.Expressions.BinaryExpressions;
 
-import QL.ParseObjectsQL.Expressions.ExpressionConstants.Constant;
+import QL.Analysis.ExpressionVisitorInterface;
+import QL.ParseObjectsQL.Expressions.BinaryExpression;
+import QL.ParseObjectsQL.Expressions.Constant;
 import QL.ParseObjectsQL.Expressions.EvaluationType;
 import QL.ParseObjectsQL.Expressions.Expression;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.DecimalConstant;
@@ -8,8 +10,8 @@ import QL.ParseObjectsQL.Expressions.ExpressionConstants.IntegerConstant;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.UndefinedConstant;
 
 public class DivisionExpression extends BinaryExpression {
-    public DivisionExpression(Expression left, Expression right){
-        super("/", left, right);
+    public DivisionExpression(Expression left, Expression right, int line){
+        super("/", left, right, line);
     }
 
     @Override
@@ -21,7 +23,7 @@ public class DivisionExpression extends BinaryExpression {
         Expression leftExpr = this.getExprLeft();
 
         if(!rightExpr.evaluate().isArithmetic() || !leftExpr.evaluate().isArithmetic()){
-            return new UndefinedConstant();
+            return new UndefinedConstant(this.getLine());
         }
 
         if(leftExpr.returnType().equals(rightExpr.returnType())
@@ -29,12 +31,17 @@ public class DivisionExpression extends BinaryExpression {
             Integer left = Integer.parseInt(leftExpr.evaluate().getValue().toString());
             Integer right = Integer.parseInt(rightExpr.evaluate().getValue().toString());
 
-            return new IntegerConstant(left / right);
+            return new IntegerConstant(left / right, this.getLine());
         }
         Double left = Double.parseDouble(leftExpr.evaluate().getValue().toString());
         Double right = Double.parseDouble(rightExpr.evaluate().getValue().toString());
 
-        return new DecimalConstant(left / right);
+        return new DecimalConstant(left / right, this.getLine());
+    }
+
+    @Override
+    public <T> T accept(ExpressionVisitorInterface<T> visitor){
+        return visitor.visit(this);
     }
 
     @Override

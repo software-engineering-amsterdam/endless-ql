@@ -1,6 +1,7 @@
 package ql.ast.type;
 
 import ql.ast.expression.literal.Literal;
+import ql.ast.expression.literal.MoneyLiteral;
 import ql.evaluator.value.parse.ToMoney;
 import ql.helpers.Currency;
 import ql.visitors.interfaces.TypeVisitor;
@@ -37,12 +38,12 @@ public class Money extends Type {
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
     
     @Override
-    public Literal<?> parse(Literal<?> value) {
-        return value.accept(new ToMoney(currency));
+    public MoneyLiteral parse(Literal<?> value) {
+        return (MoneyLiteral) value.accept(new ToMoney(currency));
     }
 }

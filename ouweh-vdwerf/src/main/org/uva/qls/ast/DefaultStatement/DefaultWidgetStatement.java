@@ -12,4 +12,12 @@ public class DefaultWidgetStatement extends DefaultStatement {
         this.type = type;
         this.widget = widget;
     }
+
+    public Type getType() {
+        return type;
+    }
+
+    public Widget getWidget() {
+        return widget;
+    }
 }

@@ -1,4 +1,4 @@
-// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/resources/antlr\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -57,6 +57,26 @@ public interface GrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitQuestionTypes(GrammarParser.QuestionTypesContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#ifCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfCondition(GrammarParser.IfConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#ifCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfCondition(GrammarParser.IfConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#nextCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterNextCondition(GrammarParser.NextConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#nextCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitNextCondition(GrammarParser.NextConditionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code infixExpression}
 	 * labeled alternative in {@link GrammarParser#expression}.

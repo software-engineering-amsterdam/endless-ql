@@ -1,4 +1,5 @@
-﻿using QuestionnaireDomain.Entities.Domain.Interfaces;
+﻿using System.Collections.Generic;
+using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces
 {

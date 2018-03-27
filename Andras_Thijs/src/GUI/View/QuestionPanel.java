@@ -1,5 +1,5 @@
-package GUI;
-import GUI.Listeners.RefreshListener;
+package GUI.View;
+import GUI.Controller.RefreshListener;
 import Nodes.Question;
 import Nodes.Term.TermFactory;
 import QLExceptions.SyntaxException;
@@ -13,7 +13,7 @@ public class QuestionPanel extends JPanel{
     private boolean isAvailable;
     private Widget widget;
 
-    QuestionPanel(Question question, RefreshListener listener) throws SyntaxException, TypeException {
+    public QuestionPanel(Question question, RefreshListener listener) throws SyntaxException, TypeException {
         this.question = question;
         this.setName(question.getName());
         this.isAvailable = question.isAvailable();

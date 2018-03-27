@@ -1,27 +1,25 @@
 package GUI;
 
-import GUI.Listeners.RefreshListener;
+import GUI.Controller.RefreshListener;
+import GUI.View.QuestionPanel;
 import Nodes.QLForm;
 import Nodes.Question;
 import QLExceptions.SyntaxException;
 import QLExceptions.TypeException;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-public class FormTemplate implements RefreshListener{
+public class QLGUI implements RefreshListener{
 
     private QLForm form;
     private List<QuestionPanel> questionPanels;
 
-    public FormTemplate(QLForm form){
+    public QLGUI(QLForm form){
         this.form = form;
         questionPanels = new ArrayList<>();
     }

@@ -1,4 +1,4 @@
-package GUI.Listeners;
+package GUI.Controller;
 
 import QLExceptions.SyntaxException;
 import QLExceptions.TypeException;

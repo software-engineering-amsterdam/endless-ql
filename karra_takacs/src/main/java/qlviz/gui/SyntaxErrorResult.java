@@ -1,7 +1,7 @@
 package qlviz.gui;
 
-import qlviz.typecheker.AnalysisResult;
-import qlviz.typecheker.Severity;
+import qlviz.analyzer.AnalysisResult;
+import qlviz.analyzer.Severity;
 
 public class SyntaxErrorResult implements AnalysisResult {
 

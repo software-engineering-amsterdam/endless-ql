@@ -2,13 +2,9 @@ package qlviz.interpreter;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 import qlviz.QLVisitor;
-import qlviz.interpreter.*;
-import qlviz.model.QuestionBlock;
-import qlviz.model.booleanExpressions.BooleanExpression;
-import qlviz.model.numericExpressions.NumericExpression;
-import qlviz.model.question.Question;
+import qlviz.model.expressions.booleanExpressions.BooleanExpression;
+import qlviz.model.expressions.numericExpressions.NumericExpression;
 
 public class ExpressionParserModule extends AbstractModule {
 	@Override

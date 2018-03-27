@@ -3,12 +3,9 @@ package qlviz.gui;
 import com.google.inject.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import qlviz.QLParser;
 import qlviz.gui.renderer.*;
 import qlviz.gui.viewModel.*;
-import qlviz.gui.viewModel.linker.QuestionViewModelCollectorImpl;
 import qlviz.gui.viewModel.linker.QuestionViewModelLinker;
-import qlviz.gui.viewModel.linker.QuestionViewModelLinkerImpl;
 import qlviz.interpreter.*;
 import qlviz.interpreter.style.QLSParserModule;
 import qlviz.model.Form;
@@ -18,8 +15,6 @@ public class QLForm extends Application {
 	private FormRenderer renderer;
 	private Form model;
 	private FormViewModel viewModel;
-	private boolean containsDuplicates = false;
-	private QLParser parser;
 
 
 	public static void main(String[] args) {

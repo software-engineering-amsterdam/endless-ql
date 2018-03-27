@@ -2,19 +2,12 @@ package qlviz.gui.viewModel;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import qlviz.gui.renderer.FormRenderer;
 import qlviz.gui.viewModel.question.QuestionViewModel;
-import qlviz.gui.viewModel.question.QuestionViewModelFactory;
-import qlviz.interpreter.ConditionCollector;
 import qlviz.interpreter.ConditionCollectorFactory;
 import qlviz.model.Form;
-import qlviz.model.QuestionBlock;
-import qlviz.model.question.Question;
-import qlviz.typecheker.QuestionCollector;
+import qlviz.analyzer.QuestionCollector;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class FormViewModelImpl implements FormViewModel {

@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 import qlviz.QLBaseVisitor;
 import qlviz.QLVisitor;
 import qlviz.QLParser;
-import qlviz.model.booleanExpressions.*;
-import qlviz.model.numericExpressions.NumericExpression;
+import qlviz.model.expressions.booleanExpressions.*;
+import qlviz.model.expressions.numericExpressions.NumericExpression;
 import qlviz.model.question.BooleanQuestionReference;
 
 public class BooleanExpressionParser extends QLBaseVisitor<BooleanExpression> {

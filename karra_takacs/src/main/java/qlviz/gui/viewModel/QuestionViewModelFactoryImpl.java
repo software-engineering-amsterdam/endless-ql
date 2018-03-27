@@ -4,16 +4,12 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactory;
-import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModel;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.gui.viewModel.question.*;
 import qlviz.interpreter.ConditionCollector;
-import qlviz.model.booleanExpressions.BooleanExpression;
-import qlviz.model.numericExpressions.NumericExpression;
 import qlviz.model.question.*;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class QuestionViewModelFactoryImpl implements QuestionViewModelFactory, QuestionVisitor<QuestionViewModel> {
@@ -43,7 +39,7 @@ public class QuestionViewModelFactoryImpl implements QuestionViewModelFactory, Q
                                     .stream()
                                     .map(booleanExpressionViewModelFactory::create)
                                     .collect(Collectors.toList());
-        return new BooleanQuestionViewModel(booleanQuestion, conditions);
+        return new BooleanQuestionViewModel(booleanQuestion, conditions, booleanExpressionViewModelFactory);
     }
 
     @Override

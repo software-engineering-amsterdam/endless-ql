@@ -1,7 +1,7 @@
 package qlviz.interpreter;
 
 import com.google.inject.Inject;
-import qlviz.model.booleanExpressions.NumericComparisonOperator;
+import qlviz.model.expressions.booleanExpressions.NumericComparisonOperator;
 
 public class NumericComparisonOperatorVisitor implements NumericComparisonOperatorTranslator {
 

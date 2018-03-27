@@ -1,10 +1,10 @@
 package qlviz.gui.viewModel.numericExpressions;
 
 import qlviz.interpreter.linker.TypedNumericExpressionVisitor;
-import qlviz.model.numericExpressions.BinaryNumericOperation;
-import qlviz.model.numericExpressions.NumericExpression;
-import qlviz.model.numericExpressions.NumericLiteral;
-import qlviz.model.numericExpressions.NumericNegation;
+import qlviz.model.expressions.numericExpressions.BinaryNumericOperation;
+import qlviz.model.expressions.numericExpressions.NumericExpression;
+import qlviz.model.expressions.numericExpressions.NumericLiteral;
+import qlviz.model.expressions.numericExpressions.NumericNegation;
 import qlviz.model.question.NumericQuestionReference;
 
 public class NumericExpressionViewModelFactoryImpl implements NumericExpressionViewModelFactory, TypedNumericExpressionVisitor<NumericExpressionViewModel> {

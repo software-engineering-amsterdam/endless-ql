@@ -1,7 +1,7 @@
 package qlviz.interpreter;
 
 import com.google.inject.Inject;
-import qlviz.model.booleanExpressions.BinaryBooleanOperator;
+import qlviz.model.expressions.booleanExpressions.BinaryBooleanOperator;
 
 public class BinaryBooleanOperatorVisitor implements BinaryBooleanOperatorTranslator {
 

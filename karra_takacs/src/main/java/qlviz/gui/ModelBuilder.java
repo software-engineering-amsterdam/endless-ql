@@ -13,9 +13,9 @@ import org.antlr.v4.runtime.dfa.DFA;
 import qlviz.*;
 import qlviz.interpreter.linker.QuestionLinker;
 import qlviz.model.Form;
-import qlviz.typecheker.AnalysisResult;
-import qlviz.typecheker.Severity;
-import qlviz.typecheker.StaticChecker;
+import qlviz.analyzer.AnalysisResult;
+import qlviz.analyzer.Severity;
+import qlviz.analyzer.StaticChecker;
 
 public class ModelBuilder {
 

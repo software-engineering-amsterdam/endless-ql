@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
-import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.model.expressions.booleanExpressions.BooleanExpression;
 import qlviz.model.question.Question;
 
 import java.util.ArrayList;

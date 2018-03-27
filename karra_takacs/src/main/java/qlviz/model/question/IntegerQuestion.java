@@ -1,11 +1,11 @@
 package qlviz.model.question;
 
 import qlviz.QLParser;
-import qlviz.model.numericExpressions.NumericExpression;
+import qlviz.model.expressions.Expression;
 
 public class IntegerQuestion extends NumericQuestion {
 
-    public IntegerQuestion(String name, String text, QuestionType type, NumericExpression valueExpression, QLParser.QuestionContext context) {
+    public IntegerQuestion(String name, String text, QuestionType type, Expression valueExpression, QLParser.QuestionContext context) {
         super(name, text, type, valueExpression, context);
     }
 

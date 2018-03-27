@@ -7,12 +7,9 @@ import qlviz.model.Form;
 import qlviz.model.question.NumericQuestion;
 import qlviz.model.QuestionBlock;
 import qlviz.model.question.BooleanQuestion;
-import qlviz.model.question.VoidQuestionVisitor;
-import qlviz.typecheker.DuplicateLabelChecker;
 
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -50,7 +47,7 @@ public class QuestionLinkerImpl implements QuestionLinker {
                         .stream()
                         .collect(Collectors.toMap(BooleanQuestion::getName, Function.identity())),
             numericLinker);
-       
+        var expressionLinker = new ExpressionLinker(booleanLinker, numericLinker);
 
         for (QuestionBlock block : form.getQuestions()) {
             this.linkQuestionsInBlock(block, booleanLinker);
@@ -58,7 +55,7 @@ public class QuestionLinkerImpl implements QuestionLinker {
       
         for (NumericQuestion numericQuestion : numericQuestions) {
             if (numericQuestion.getValueExpression() != null) {
-                numericQuestion.getValueExpression().accept(numericLinker);
+                numericQuestion.getValueExpression().accept(expressionLinker);
             }
         }
     }

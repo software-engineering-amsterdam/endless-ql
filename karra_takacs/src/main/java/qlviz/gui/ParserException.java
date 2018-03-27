@@ -1,6 +1,6 @@
 package qlviz.gui;
 
-import qlviz.typecheker.AnalysisResult;
+import qlviz.analyzer.AnalysisResult;
 
 import java.util.List;
 

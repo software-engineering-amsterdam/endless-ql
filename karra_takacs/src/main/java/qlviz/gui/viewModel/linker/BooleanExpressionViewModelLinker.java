@@ -2,12 +2,6 @@ package qlviz.gui.viewModel.linker;
 
 import qlviz.gui.viewModel.booleanExpressions.*;
 import qlviz.gui.viewModel.question.BooleanQuestionViewModel;
-import qlviz.model.booleanExpressions.BinaryBooleanOperation;
-import qlviz.model.booleanExpressions.BooleanLiteral;
-import qlviz.model.booleanExpressions.Negation;
-import qlviz.model.booleanExpressions.NumericComparison;
-import qlviz.model.question.BooleanQuestion;
-import qlviz.model.question.BooleanQuestionReference;
 
 import java.util.Map;
 

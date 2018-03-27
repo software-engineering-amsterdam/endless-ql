@@ -3,7 +3,7 @@ package qlviz.gui.viewModel.booleanExpressions;
 import com.google.inject.Inject;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.interpreter.linker.TypedBooleanExpressionVisitor;
-import qlviz.model.booleanExpressions.*;
+import qlviz.model.expressions.booleanExpressions.*;
 import qlviz.model.question.BooleanQuestionReference;
 
 public class BooleanExpressionViewModelFactoryImpl implements BooleanExpressionViewModelFactory,

@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import qlviz.QLVisitor;
 import qlviz.QLParser;
-import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.model.expressions.booleanExpressions.BooleanExpression;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.QuestionBlock;
 

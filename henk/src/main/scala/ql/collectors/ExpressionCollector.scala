@@ -11,4 +11,10 @@ object ExpressionCollector {
       case decl: VarDecl => decl.id
     }
   }
+
+  def getIdentifiers(statement: Statement): List[Identifier] = {
+    getExpressions(statement).collect {
+      case id: Identifier => id
+    }
+  }
 }

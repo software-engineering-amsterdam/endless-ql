@@ -2,18 +2,17 @@ package ql.validators
 
 import ql.models.ast._
 import ql.parsers._
-import ql.visitors._
+import ql.collectors._
 
 import scala.collection.JavaConversions._
-import scala.util.{Try, Success, Failure}
 
 case class DuplicateLabelDeclaration(label: String) extends Exception(label)
 
 class DuplicateLabelValidator extends BaseValidator {
   var warnings: List[String] = List()
 
-  def execute(ast: ASTNode): Option[Exception] = {
-    val labels = ASTCollector.getQuestions(ast).map(_.label)
+  def check(ast: Statement): Option[Exception] = {
+    val labels = StatementCollector.getQuestions(ast).map(_.label)
     val distinctedLabels = labels.distinct
     if(labels != distinctedLabels) {
 

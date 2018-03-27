@@ -28,17 +28,17 @@ class StatementVisitor extends QLBaseVisitor[Statement] {
   }
 
   override def visitQuestion(ctx: QLParser.QuestionContext): Statement = {
-    val varDecl = visit(ctx.varDecl)
+    val varDecl = visitVarDecl(ctx.varDecl)
     Question(varDecl, ctx.label.getText.replace("\"", ""))
   }
 
   override def visitComputation(ctx: QLParser.ComputationContext): Statement = {
-    val varDecl = visit(ctx.varDecl)
-    val valAssign = visit(ctx.valAssign)
+    val varDecl = visitVarDecl(ctx.varDecl)
+    val valAssign = visitValAssign(ctx.valAssign)
     Computation(varDecl, valAssign, ctx.label.getText.replace("\"", ""))
   }
 
-  override def visitVarDecl(ctx: QLParser.VarDeclContext): Statement = {
+  override def visitVarDecl(ctx: QLParser.VarDeclContext): VarDecl = {
     val typeDecl = typeVisitor.visit(ctx.typeDecl)
     val identifier = expressionVisitor.visit(ctx.identifier)
     VarDecl(typeDecl, identifier)
@@ -54,7 +54,7 @@ class StatementVisitor extends QLBaseVisitor[Statement] {
     IfStatement(predicate, statements)
   }
 
-  override def visitValAssign(ctx: QLParser.ValAssignContext): Statement = {
+  override def visitValAssign(ctx: QLParser.ValAssignContext): ValAssign = {
     val expression = expressionVisitor.visit(ctx.expr)
     ValAssign(expression)
   }

@@ -27,7 +27,10 @@ public class DateWidget extends Widget {
     public Node convertToGuiNode() {
         DatePicker datePicker = new DatePicker();
 
-        datePicker.setValue(convertToLocalDate(this.widgetValue.toString()));
+        LocalDate localDate = convertToLocalDate(this.widgetValue.toString());
+        if(localDate != null){
+            datePicker.setValue(localDate);
+        }
 
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
             this.sendUpdateValueEvent(this.questionData.getQuestionName(), convertToDateValue(newValue));
@@ -38,6 +41,8 @@ public class DateWidget extends Widget {
 
     private LocalDate convertToLocalDate(String date) {
         String dates[] = date.split("/");
+        if(dates.length != 3)
+            return null;
         return LocalDate.of(Integer.parseInt(dates[2]), Integer.parseInt(dates[1]), Integer.parseInt(dates[0]));
     }
 

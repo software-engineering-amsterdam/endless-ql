@@ -16,6 +16,6 @@ public class BooleanLiteral extends Expression {
 
     @Override
     public <T> T accept(ExpressionVisitor<T> expressionVisitor) {
-        return null;
+        return expressionVisitor.visit(this);
     }
 }

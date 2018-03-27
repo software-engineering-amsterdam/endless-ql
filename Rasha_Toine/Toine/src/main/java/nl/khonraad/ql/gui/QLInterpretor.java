@@ -1,7 +1,9 @@
 package nl.khonraad.ql.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -23,6 +25,8 @@ import nl.khonraad.ql.dynamics.Questionnaire;
 
 public class QLInterpretor {
 
+    private static final double GOLDEN_RATIO = 1.61803398875;
+
     public static void main( String[] args ) throws IOException {
 
         new QLInterpretor();
@@ -33,7 +37,16 @@ public class QLInterpretor {
         JFrame guiFrame = new JFrame();
         guiFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         guiFrame.setTitle( getClass().getSimpleName() );
-        guiFrame.setSize( 800, 700 );
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = screenSize.height * 2 / 3;
+        
+        Double goldenHeight = height * GOLDEN_RATIO;
+        int width = goldenHeight.intValue();
+        
+        guiFrame.setSize( new Dimension( width, height ) );
+
+        // Center to screen
         guiFrame.setLocationRelativeTo( null );
 
         JPanel mainPanel = new JPanel();
@@ -42,9 +55,9 @@ public class QLInterpretor {
         guiFrame.add( mainPanel, BorderLayout.NORTH );
 
         InputStream stream = getClass().getResourceAsStream( "/Gui" );
-        
+
         final Questionnaire questionnaire = new Questionnaire( stream );
-        
+
         visualizeQuestionnaire( questionnaire, mainPanel );
 
         guiFrame.setVisible( true );
@@ -58,7 +71,7 @@ public class QLInterpretor {
         questionnaire.visit();
 
         for ( Question question : questionnaire.getQuestionList() ) {
-           
+
             mainPanel.add( new JLabel( question.getLabel() ) );
             mainPanel.add( visualizeQuestion( mainPanel, question, questionnaire ) );
         }
@@ -87,7 +100,7 @@ public class QLInterpretor {
         if ( behaviouralType == BehaviouralType.COMPUTED ) {
 
             return addToParent( container, new ComputedValue( mainPanel, question, questionnaire ) );
-        
+
         } else {
 
             switch ( type ) {
@@ -111,16 +124,4 @@ public class QLInterpretor {
         throw new RuntimeException( "Do not know how to diplay type: " + type );
 
     }
-
-//    JFormattedTextField getTextField( JSpinner spinner ) {
-//        JComponent editor = spinner.getEditor();
-//        if ( editor instanceof JSpinner.DefaultEditor ) {
-//            return ((JSpinner.DefaultEditor) editor).getTextField();
-//        } else {
-//            System.err.println( "Unexpected editor type: " + spinner.getEditor().getClass()
-//                    + " isn't a descendant of DefaultEditor" );
-//            return null;
-//        }
-//    }
-
 }

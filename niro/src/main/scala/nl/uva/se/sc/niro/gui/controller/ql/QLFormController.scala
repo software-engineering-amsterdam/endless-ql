@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.controller
+package nl.uva.se.sc.niro.gui.controller.ql
 
 import java.io.IOException
 

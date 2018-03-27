@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.gui.application
 
 import javafx.application.Application
 import javafx.stage.Stage
-import nl.uva.se.sc.niro.gui.controller.QLSHomeController
+import nl.uva.se.sc.niro.gui.controller.qls.QLSHomeController
 
 object QLSForms {
   def main(args: Array[String]): Unit = Application.launch(classOf[QLSForms], args: _*)

@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.controller
+package nl.uva.se.sc.niro.gui.controller.qls
 
 import java.io.{ File, IOException }
 
@@ -6,6 +6,7 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLScenes
+import nl.uva.se.sc.niro.gui.controller.ql.QLHomeController
 import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIStylesheet }
 import nl.uva.se.sc.niro.model.ql.QLForm

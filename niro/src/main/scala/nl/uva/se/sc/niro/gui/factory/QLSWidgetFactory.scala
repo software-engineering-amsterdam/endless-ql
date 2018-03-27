@@ -15,7 +15,7 @@ class QLSWidgetFactory extends QLWidgetFactory {
     case _ => super.makeBooleanWidget(question)
   }
 
-  override def makeIntegerWidget(question: GUIQuestion): QLWidget[Integer] = question match {
+  override def makeIntegerWidget(question: GUIQuestion): QLWidget[java.math.BigInteger] = question match {
     case QLSGUIQuestion(_, _, _, _, _, styling) =>
       styling.widgetStyle match {
         case Some(GUISpinBoxStyle()) => new QLSIntegerSpinField()

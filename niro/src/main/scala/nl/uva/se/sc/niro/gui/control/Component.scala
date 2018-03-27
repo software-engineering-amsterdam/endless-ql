@@ -1,5 +1,6 @@
 package nl.uva.se.sc.niro.gui.control
 
+import java.math.BigInteger
 import java.time.LocalDate
 
 import javafx.scene.control._
@@ -73,14 +74,14 @@ case class DateComponent(id: String, label: Label, control: QLWidget[LocalDate])
   }
 }
 
-case class IntegerComponent(id: String, label: Label, control: QLWidget[Integer])
-    extends Component[Int](id, label, control) {
+case class IntegerComponent(id: String, label: Label, control: QLWidget[java.math.BigInteger])
+    extends Component[BigInt](id, label, control) {
   override def getValue: Option[IntegerAnswer] = Option(control.value).map(IntegerAnswer(_))
-  override def setValue(value: Option[Int]): Unit = control.value(fromOption(value))
+  override def setValue(value: Option[BigInt]): Unit = control.value(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
     setValue(dictionary.get(id).flatMap(convert))
-  private def fromOption(value: Option[Int]): java.lang.Integer = value.map(new Integer(_)).orNull
-  def convert(answer: Answer): Option[Int] = answer match {
+  private def fromOption(value: Option[BigInt]): java.math.BigInteger = value.map(_.bigInteger).orNull
+  def convert(answer: Answer): Option[BigInt] = answer match {
     case IntegerAnswer(value) => value
   }
 }

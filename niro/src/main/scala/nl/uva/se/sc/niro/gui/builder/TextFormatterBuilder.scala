@@ -4,7 +4,7 @@ import java.util.function.UnaryOperator
 
 import javafx.scene.control.TextFormatter
 import javafx.util.StringConverter
-import javafx.util.converter.{ BigDecimalStringConverter, IntegerStringConverter }
+import javafx.util.converter.{ BigDecimalStringConverter, BigIntegerStringConverter }
 
 abstract class TextFormatterBuilder[T] {
   protected var converter: StringConverter[T] = _
@@ -27,14 +27,14 @@ abstract class TextFormatterBuilder[T] {
     new TextFormatter[T](converter, defaultValue, inputFilter)
 }
 
-class IntegerFormatterBuilder extends TextFormatterBuilder[Integer] {
-  override def buildConverter(): TextFormatterBuilder[Integer] = {
-    converter = new IntegerStringConverter()
+class IntegerFormatterBuilder extends TextFormatterBuilder[java.math.BigInteger] {
+  override def buildConverter(): TextFormatterBuilder[java.math.BigInteger] = {
+    converter = new BigIntegerStringConverter()
     this
   }
 }
 
-object IntegerFormatterBuilder{
+object IntegerFormatterBuilder {
   def apply() = new IntegerFormatterBuilder()
 }
 

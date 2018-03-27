@@ -106,18 +106,18 @@ class QLTextField() extends AbstractQLTextField[String] {
   override def value: String = getText
 }
 
-class QLIntegerField() extends AbstractQLTextField[java.lang.Integer] {
+class QLIntegerField() extends AbstractQLTextField[java.math.BigInteger] {
   val INTEGER_MASK = "\\d*"
   private val integerFormatter =
     IntegerFormatterBuilder().buildInputFilter(INTEGER_MASK).buildConverter().build()
   setTextFormatter(integerFormatter)
-  override def value(value: java.lang.Integer): Unit = integerFormatter.setValue(value)
-  override def value: java.lang.Integer = integerFormatter.getValue
+  override def value(value: java.math.BigInteger): Unit = integerFormatter.setValue(value)
+  override def value: java.math.BigInteger = integerFormatter.getValue
 }
 
 class QLSIntegerSpinField()
-    extends Spinner[java.lang.Integer](new IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0))
-    with QLWidget[java.lang.Integer] {
+    extends Spinner[Integer](new IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0))
+    with QLWidget[java.math.BigInteger] {
   setEditable(true)
   valueProperty().addListener(new ChangeListener[Integer] {
     override def changed(observable: ObservableValue[_ <: Integer], oldValue: Integer, newValue: Integer): Unit =
@@ -134,8 +134,10 @@ class QLSIntegerSpinField()
       }
     }
   })
-  override def value(newValue: Integer): Unit = if (newValue != null) getValueFactory.valueProperty().setValue(newValue)
-  override def value: Integer = getValueFactory.valueProperty().getValue
+  override def value(newValue: java.math.BigInteger): Unit =
+    if (newValue != null) getValueFactory.valueProperty().setValue(newValue.intValue())
+  override def value: java.math.BigInteger =
+    java.math.BigInteger.valueOf(getValueFactory.valueProperty().getValue.longValue())
 }
 
 class QLDecimalField() extends AbstractQLTextField[java.math.BigDecimal] {

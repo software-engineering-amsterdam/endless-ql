@@ -47,56 +47,28 @@ public class Style {
         return this.color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     public String getFont() {
         return this.font;
-    }
-
-    public void setFont(String font) {
-        this.font = font;
     }
 
     public Integer getFontSize() {
         return this.fontSize;
     }
 
-    public void setFontSize(Integer fontSize) {
-        this.fontSize = fontSize;
-    }
-
     public Integer getWidth() {
         return this.width;
-    }
-
-    public void setWidth(Integer width) {
-        this.width = width;
     }
 
     private QLWidget getWidget() {
         return this.widget;
     }
 
-    public void setWidget(QLWidget widget) {
-        this.widget = widget;
-    }
-
     public String getPage() {
         return this.page;
     }
 
-    public void setPage(String page) {
-        this.page = page;
-    }
-
     public List<String> getSection() {
         return new ArrayList<>(this.section);
-    }
-
-    public void setSection(List<String> sections) {
-        this.section = new ArrayList<>(sections);
     }
 
     @Override
@@ -114,10 +86,6 @@ public class Style {
 
     public WidgetType getWidgetType() {
         return this.widget.getWidgetType();
-    }
-
-    public void setWidgetType(WidgetType widgetType) {
-        this.widget = new QLWidget(widgetType, new ArrayList<>());
     }
 
     public void updateNode(Node node) {

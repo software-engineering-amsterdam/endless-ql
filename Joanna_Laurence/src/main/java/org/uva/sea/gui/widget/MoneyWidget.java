@@ -46,14 +46,13 @@ public class MoneyWidget extends Widget {
 
         textField.positionCaret(textField.getText().length());
 
-
         return wrapTextFieldWithCurrency(textField, this.currency);
     }
 
     private Node wrapTextFieldWithCurrency(TextField textField, String currency) {
         HBox wrapper = new HBox();
         wrapper.setAlignment(Pos.CENTER);
-        wrapper.getChildren().add(new Label(this.currency));
+        wrapper.getChildren().add(new Label(currency));
         wrapper.getChildren().add(textField);
         return wrapper;
     }

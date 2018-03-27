@@ -85,7 +85,9 @@ public class JPanelGUI extends Observer
         String[] result = calculation.split("\\.");
 
         for (String s: result) {
-            numberValues.put(s,-1.0);
+            if (!isNumeric(s)) {
+                numberValues.put(s, -1.0);
+            }
         }
     }
 
@@ -126,18 +128,6 @@ public class JPanelGUI extends Observer
         return height;
     }
 
-    public void setEnable(boolean bool, String answerName)
-    {
-
-        for (QuestionGUI q : questionGUIS)
-        {
-
-            if (q instanceof TextboxGUI && q.getVariable().equals(answerName))
-            {
-                ((TextboxGUI) q).setEnable(bool);
-            }
-        }
-    }
 
 
     @Override
@@ -198,5 +188,18 @@ public class JPanelGUI extends Observer
         ExpressionNode mathUnit = new BuildASTExpressionVisitor().visitMathUnit(parser.mathUnit());
 
         return mathUnit;
+    }
+
+    private boolean isNumeric(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 }

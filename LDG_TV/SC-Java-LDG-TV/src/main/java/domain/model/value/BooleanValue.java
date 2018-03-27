@@ -1,6 +1,6 @@
 package domain.model.value;
 
-public class BooleanValue extends Value<Boolean>{
+public class BooleanValue implements Value<Boolean>{
     private Boolean value;
 
     public BooleanValue(Boolean value){

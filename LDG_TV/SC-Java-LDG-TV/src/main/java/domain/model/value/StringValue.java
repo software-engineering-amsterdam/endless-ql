@@ -1,6 +1,6 @@
 package domain.model.value;
 
-public class StringValue extends Value<String>{
+public class StringValue implements Value<String>{
     private String value;
 
     public StringValue(String value){

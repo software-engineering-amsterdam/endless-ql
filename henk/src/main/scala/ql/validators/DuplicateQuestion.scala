@@ -1,21 +1,20 @@
 package ql.validators
 
 import ql.models.ast._
-import ql.parsers._
-import ql.visitors._
+import ql.collectors._
 
 import scala.collection.JavaConversions._
-import scala.util.{Try, Success, Failure}
 
 case class DuplicateQuestionDeclaration(label: String) extends Exception(label)
 
 class DuplicateQuestionValidator extends BaseValidator {
-  def execute(ast: ASTNode): Option[Exception] = {
-    val questions = ASTCollector.getQuestions(ast)
+  def check(ast: Statement): Option[Exception] = {
+    val questions = StatementCollector.getQuestions(ast)
 
     questions.forEach { question =>
       {
-        val duplicates = questions.filter(x => notEqualTypeDecl(x.varDecl, question.varDecl))
+        val duplicates =
+          questions.filter(x => notEqualVarDecl(x.varDecl, question.varDecl))
 
         if (!duplicates.isEmpty) {
           return Some(new DuplicateQuestionDeclaration("already exist"))
@@ -25,9 +24,9 @@ class DuplicateQuestionValidator extends BaseValidator {
     None
   }
 
-  def notEqualTypeDecl(left: ASTNode, right: ASTNode): Boolean =
+  def notEqualVarDecl(left: Statement, right: Statement): Boolean =
     (left, right) match {
-      case (ASTVarDecl(lrt, lid), ASTVarDecl(rrt, rid)) => {
+      case (VarDecl(lrt, lid), VarDecl(rrt, rid)) => {
         lrt != rrt && lid == rid
       }
       case other => false

@@ -18,10 +18,10 @@ class DuplicateQuestionSpec extends FunSpec with BeforeAndAfter {
 
   describe("when form contains no duplicate questions") {
     val filename = s"${resourceDir}/simple.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.execute(form) match {
+      validator.check(form) match {
         case None => succeed
         case Some(DuplicateQuestionDeclaration(e)) => fail(e)
         case other => fail("ConditionalValidator should not have thrown an error")
@@ -31,10 +31,10 @@ class DuplicateQuestionSpec extends FunSpec with BeforeAndAfter {
 
   describe("when form contains a duplicate question with same type") {
     val filename = s"${resourceDir}/duplicate_same_type.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.execute(form) match {
+      validator.check(form) match {
         case None => succeed
         case Some(DuplicateQuestionDeclaration(e)) => fail(e)
         case other => fail("ConditionalValidator should not have thrown an error")
@@ -44,10 +44,10 @@ class DuplicateQuestionSpec extends FunSpec with BeforeAndAfter {
 
   describe("when form contains a duplicate question with different type") {
     val filename = s"${resourceDir}/duplicate_different_type.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      validator.execute(form) match {
+      validator.check(form) match {
         case None => fail()
         case Some(DuplicateQuestionDeclaration(e)) => succeed
         case other => fail("wrong error thrown")

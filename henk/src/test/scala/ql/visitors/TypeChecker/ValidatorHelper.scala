@@ -13,103 +13,120 @@ import org.antlr.v4.runtime.tree._
 
 class ValidatorHelperSpec extends FunSpec with BeforeAndAfter {
   val validator = ValidatorHelper
+  val stubbed_ast = Root(FormHeader(Identifier("stub")), FormBody(List()))
 
   describe("matching return type") {
     describe("Logical operands") {
       val operands = List(
-        ASTLogicalCon(), ASTLogicalDis()
+        LogicalConOp(_,_), LogicalDisOp(_,_)
       )
 
       describe("should be yielding option boolean on boolean") {
-        val types = List(ASTBoolean())
+        val values = List(BooleanValue(false), BooleanValue(true))
 
         it("should all be valid") {
-          val expected = Some(ASTBoolean())
+          val expected = Some(BooleanType())
 
-          for { op <- operands; nodeType <- types }
-            yield assert(validator.matchReturnType(op, nodeType) == expected)
+          for (op <- operands; lhs <- values; rhs <- values) {
+            val evaluant = op(lhs, rhs)
+            assert(validator.infereBinary(evaluant, stubbed_ast) == expected)
+          }
         }
       }
 
-      describe("should be yielding none on string, integer and money") {
-        val types = List(ASTString(), ASTInteger(), ASTMoney())
+      describe("should be yielding None on String and Integer") {
+        val values = List(StringValue("some"), IntegerValue(1))
 
         it("should all be invalid") {
           val expected = None
 
-          for { op <- operands; nodeType <- types }
-            yield assert(validator.matchReturnType(op, nodeType) == expected)
+          for (op <- operands; lhs <- values; rhs <- values) {
+            val evaluant = op(lhs, rhs)
+            assert(validator.infereBinary(evaluant, stubbed_ast) == expected)
+          }
         }
       }
     }
 
     describe("Relational operands") {
       val operands = List(
-        ASTRelationalLT(), ASTRelationalLTE(), ASTRelationalGT(), ASTRelationalGTE()
+        RelationalLTOp(_,_),
+        RelationalLTEOp(_,_),
+        RelationalGTOp(_,_),
+        RelationalGTEOp(_,_)
       )
 
       describe("should be yielding option boolean on integer and money") {
-        val types = List(ASTInteger(), ASTMoney())
+        val values = List(IntegerValue(1))
 
         it("should all be valid") {
-          val expected = Some(ASTBoolean())
+          val expected = Some(BooleanType())
 
-          for { op <- operands; nodeType <- types }
-            yield assert(validator.matchReturnType(op, nodeType) == expected)
+          for(op <- operands; rhs <- values; lhs <- values) {
+            val evaluant = op(lhs, rhs)
+            assert(validator.infereBinary(evaluant, stubbed_ast) == expected)
+          }
         }
       }
 
       describe("should be yielding none on boolean and string") {
-        val types = List(ASTString(), ASTBoolean())
+        val values = List(StringValue("some"), BooleanValue(false), BooleanValue(true))
 
         it("should all be invalid") {
           val expected = None
 
-          for { op <- operands; nodeType <- types }
-            yield assert(validator.matchReturnType(op, nodeType) == expected)
+          for(op <- operands; rhs <- values; lhs <- values) {
+            val evaluant = op(lhs, rhs)
+            assert(validator.infereBinary(evaluant, stubbed_ast) == expected)
+          }
         }
       }
     }
 
     describe("Equality operands") {
       describe("should be yielding option boolean on boolean, string, integer and money") {
-        val types = List(ASTBoolean(), ASTString(), ASTInteger(), ASTMoney())
-        val operands = List(
-          ASTNotEqualOp(),
-          ASTEqualOp()
-        )
+        val operands = List(NotEqualOp(_,_), EqualOp(_,_))
+        val values = List(StringValue("some"), BooleanValue(false), BooleanValue(true), IntegerValue(1))
 
-        it("should all return be valid") {
-          val expected = Some(ASTBoolean())
+        it("should all return Boolean valid") {
+          val expected = Some(BooleanType())
 
-          for { nodeType <- types; op <- operands }
-            yield assert(validator.matchReturnType(op, nodeType) == expected)
+          for(op <- operands; value <- values) {
+            val evaluant = op(value, value)
+            assert(validator.infereBinary(evaluant, stubbed_ast) == expected)
+          }
         }
       }
     }
 
     describe("Arithmetic operands") {
       val operands = List(
-        ASTAdd(), ASTMin(), ASTDiv(), ASTMul()
+        AddOp(_,_), MinOp(_,_), DivOp(_,_), MulOp(_,_)
       )
 
-      describe("should be yielding option themselves on integer and money") {
-        val types = List(ASTInteger(), ASTMoney())
+      describe("should be yielding option Integer") {
+        val values = List(IntegerValue(1))
 
         it("should all be valid") {
-          for { op <- operands; nodeType <- types }
-            yield assert(validator.matchReturnType(op, nodeType) == Some(nodeType))
+          val expected = Some(IntegerType())
+
+          for(op <- operands; value <- values) {
+            val evaluant = op(value, value)
+            assert(validator.infereBinary(evaluant, stubbed_ast) == expected)
+          }
         }
       }
 
-      describe("should be yielding none on boolean and string") {
-        val types = List(ASTBoolean(), ASTString())
+      describe("should be yielding None on boolean and string") {
+        val values = List(BooleanValue(false), BooleanValue(true), StringValue("some"))
 
         it("should all be invalid") {
           val expected = None
 
-          for { op <- operands; nodeType <- types }
-            yield assert(validator.matchReturnType(op, nodeType) == expected)
+          for(op <- operands; lhs <- values; rhs <- values) {
+            val evaluant = op(lhs, rhs)
+            assert(validator.infereBinary(evaluant, stubbed_ast) == expected)
+          }
         }
       }
     }

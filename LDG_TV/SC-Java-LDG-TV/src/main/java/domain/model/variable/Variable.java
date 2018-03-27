@@ -23,7 +23,6 @@ public abstract class Variable<T> implements Consumer<T>{
     public void setValue(BooleanExpressionValue value){ };
 
     public abstract void setUiElement(UIElement uiElement);
-
     public abstract UIElement getUiElement();
 
     public abstract Node getRelatedUIElement(Visitor v);

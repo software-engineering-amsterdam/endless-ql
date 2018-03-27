@@ -22,7 +22,7 @@ public class MoneyWidget extends JSpinner {
         super( new SpinnerNumberModel( new Double( question.getValue().getText() ), null, null, 0.01 ) );
 
         JSpinner.NumberEditor editor = (JSpinner.NumberEditor) getEditor();
-        
+
         DecimalFormat format = editor.getFormat();
         format.setMaximumFractionDigits( 2 );
         format.setMinimumFractionDigits( 2 );
@@ -30,7 +30,7 @@ public class MoneyWidget extends JSpinner {
         Dimension d = getPreferredSize();
         d.width = 185;
         setPreferredSize( d );
-        
+
         addChangeListener( e -> {
 
             JSpinner s = (JSpinner) e.getSource();
@@ -38,9 +38,8 @@ public class MoneyWidget extends JSpinner {
             String c = s.getModel().getValue().toString();
 
             questionnaire.storeAnswer( question.getIdentifier(), new Value( Type.Money, c ) );
-            
+
             QLInterpretor.visualizeQuestionnaire( questionnaire, mainPanel );
         } );
     }
-
 }

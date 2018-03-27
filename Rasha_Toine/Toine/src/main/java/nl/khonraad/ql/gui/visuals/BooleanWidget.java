@@ -12,18 +12,17 @@ import nl.khonraad.ql.gui.QLInterpretor;
 @SuppressWarnings("serial")
 public class BooleanWidget extends JComboBox<String> {
 
-    public BooleanWidget( JPanel mainPanel, Question question, Questionnaire questionnaire) {
+    public BooleanWidget(JPanel mainPanel, Question question, Questionnaire questionnaire) {
 
-        super(new String[]{Value.FALSE.getText(),Value.TRUE.getText() });
-        
-        
-        setSelectedItem( question.getValue().getText());
+        super( new String[] { Value.FALSE.getText(), Value.TRUE.getText() } );
+
+        setSelectedItem( question.getValue().getText() );
 
         addActionListener( e -> {
 
             @SuppressWarnings("unchecked")
             JComboBox<String> combo = (JComboBox<String>) e.getSource();
-            
+
             String current = (String) combo.getSelectedItem();
 
             questionnaire.storeAnswer( question.getIdentifier(), new Value( Type.Boolean, current ) );

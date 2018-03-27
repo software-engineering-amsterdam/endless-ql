@@ -39,8 +39,9 @@ public final class Visitor extends QLBaseVisitor<Value> {
 
         Value value = visitChildren( ctx );
 
-        if ( !forwardReferences.isEmpty() ) { throw new RuntimeException( REFERENCES_UNDEFINED_QUESTION
-                + forwardReferences.get( 0 ) ); }
+        if ( !forwardReferences.isEmpty() ) {
+            throw new RuntimeException( REFERENCES_UNDEFINED_QUESTION + forwardReferences.get( 0 ) );
+        }
 
         return value;
 
@@ -74,8 +75,9 @@ public final class Visitor extends QLBaseVisitor<Value> {
 
         forwardReferences.remove( identifier );
 
-        if ( declaredQuestionTypes.contains( identifier ) ) { throw new RuntimeException( DUPLICATE_DECLARED
-                + identifier + " typed " + type ); }
+        if ( declaredQuestionTypes.contains( identifier ) ) {
+            throw new RuntimeException( DUPLICATE_DECLARED + identifier + " typed " + type );
+        }
         declaredQuestionTypes.add( identifier );
 
         return questionnaire.storeAnswerableQuestion( identifier, label, type );
@@ -94,8 +96,9 @@ public final class Visitor extends QLBaseVisitor<Value> {
 
         Value value = visit( ctx.expression() );
 
-        if ( !type.equals( value.getType() ) ) { throw new RuntimeException( TYPE_ERROR + identifier + " expects "
-                + type + " not " + value.getType() ); }
+        if ( !type.equals( value.getType() ) ) {
+            throw new RuntimeException( TYPE_ERROR + identifier + " expects " + type + " not " + value.getType() );
+        }
 
         return questionnaire.storeComputedQuestion( identifier, label, value );
     }

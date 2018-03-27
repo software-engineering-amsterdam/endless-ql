@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.factory
+package nl.uva.se.sc.niro.gui.factory.qls
 
 import cats.Semigroup
 import cats.instances.all._
@@ -7,7 +7,6 @@ import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import javafx.util.Callback
 import nl.uva.se.sc.niro.gui.controller.qls.QLSFormController
-import nl.uva.se.sc.niro.gui.factory.qls.QLSComponentFactory
 import nl.uva.se.sc.niro.model.gui._
 import nl.uva.se.sc.niro.model.ql._
 

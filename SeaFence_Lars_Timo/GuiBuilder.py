@@ -111,7 +111,7 @@ class GuiBuilder():
 
             render_frame = self.gui.current_page
             default_page_int, default_page_text, default_page_bool = self.getDefaultStyleWidgets(page.default_style_widgets)
-            print "Page defaults: ", default_page_int, default_page_text, default_page_bool
+
             for section in page.sections:
                 if self.showOrRemoveSection(section):
                     if section.name not in self.sections:
@@ -121,7 +121,7 @@ class GuiBuilder():
                         render_frame = self.sections[section.name]
 
                     default_section_int, default_section_text, default_section_bool = self.getDefaultStyleWidgets(section.default_style_widgets, default_page_int, default_page_text, default_page_bool)
-                    print "section1 defaults: ", default_page_int, default_page_text, default_page_bool
+
                     for question in section.questions:
                         if question.var in self.ql_frame_order:
                             self.parseQLSQuestion(question, render_frame, default_section_int, default_section_text, default_section_bool)
@@ -135,7 +135,7 @@ class GuiBuilder():
                                 nested_render_frame = self.sections[nested_section.name]    
 
                             default_section_int, default_section_text, default_section_bool = self.getDefaultStyleWidgets(nested_section.default_style_widgets, default_section_int, default_section_text, default_section_bool)
-                            print "section2 defaults: ", default_page_int, default_page_text, default_page_bool
+
                             for question in nested_section.questions:
                                 if question.var in self.ql_frame_order:
                                     self.parseQLSQuestion(question, nested_render_frame, default_section_int, default_section_text, default_section_bool)

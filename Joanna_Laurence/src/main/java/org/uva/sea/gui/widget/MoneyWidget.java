@@ -32,7 +32,6 @@ public class MoneyWidget extends Widget {
     public Node convertToGuiNode() {
 
         TextField textField = new TextField();
-        this.setStyle(textField, this.questionData.getStyle());
         textField.setText(this.widgetValue.getStringValue());
         textField.setEditable(true);
         textField.setMinWidth(BaseRenderable.TEXT_WIDTH);
@@ -55,17 +54,5 @@ public class MoneyWidget extends Widget {
         wrapper.getChildren().add(new Label(currency));
         wrapper.getChildren().add(textField);
         return wrapper;
-    }
-
-    private void setStyle(TextField textField, Style style) {
-        if (style == null)
-            return;
-
-        if (style.getWidth() != null) {
-            textField.setMinWidth(style.getWidth());
-        }
-        if ((style.getFont() != null) && (style.getFontSize() != null)) {
-            textField.setFont(new Font(style.getFont(), style.getFontSize()));
-        }
     }
 }

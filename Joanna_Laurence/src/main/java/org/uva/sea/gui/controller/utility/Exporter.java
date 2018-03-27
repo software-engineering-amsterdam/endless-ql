@@ -15,7 +15,9 @@ import java.util.Map;
 public class Exporter {
 
     public String saveAnswers(QuestionModel formModel) throws IOException, InterruptedException {
-        File exportFile = FileSelector.getFile("Choose file to save", "JSON", "*.json");
+        File exportFile = FileSelector.saveFile("Choose file to save", "JSON", "*.json");
+        if(exportFile == null)
+            return null;
         try (Writer writer = new FileWriter(exportFile.getAbsolutePath())) {
             String json = new GsonBuilder().create().toJson(this.getQuestionnaireResult(formModel));
             writer.write(json);

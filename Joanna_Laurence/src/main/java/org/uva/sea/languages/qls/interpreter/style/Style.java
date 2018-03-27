@@ -1,7 +1,8 @@
-package org.uva.sea.languages.ql.interpreter.dataObject.questionData;
+package org.uva.sea.languages.qls.interpreter.style;
 
 import javafx.scene.Node;
 import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
 
 import java.util.ArrayList;
 import java.util.List;

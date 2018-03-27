@@ -24,4 +24,6 @@ public abstract class ASTNode {
     }
 
     public abstract <T> T accept(IASTVisitor<T> visitor);
+
+    public abstract Type getType();
 }

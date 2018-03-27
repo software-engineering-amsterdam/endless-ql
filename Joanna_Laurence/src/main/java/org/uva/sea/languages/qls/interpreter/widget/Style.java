@@ -1,8 +1,6 @@
-package org.uva.sea.languages.qls.interpreter.style;
+package org.uva.sea.languages.qls.interpreter.widget;
 
 import javafx.scene.Node;
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +15,7 @@ public class Style {
     private String page = null;
     private List<String> section = null;
 
-    private QLWidget widget = new QLWidget(WidgetType.DEFAULT, new ArrayList<>());
+    private QLSWidget widget = new QLSWidget(WidgetType.DEFAULT, new ArrayList<>());
 
     public void fillNullFields(Style style) {
         if (this.color == null)
@@ -39,9 +37,8 @@ public class Style {
             this.section = new ArrayList<>(style.section);
 
         if (this.widget.getWidgetType() == WidgetType.DEFAULT)
-            this.widget = new QLWidget(style.widget.getWidgetType(), style.widget.getParameters());
+            this.widget = new QLSWidget(style.widget.getWidgetType(), style.widget.getParameters());
     }
-
 
     public String getColor() {
         return this.color;
@@ -59,16 +56,28 @@ public class Style {
         return this.width;
     }
 
-    private QLWidget getWidget() {
+    private QLSWidget getWidget() {
         return this.widget;
+    }
+
+    public void setWidget(QLSWidget widget) {
+        this.widget = widget;
     }
 
     public String getPage() {
         return this.page;
     }
 
+    public void setPage(String page) {
+        this.page = page;
+    }
+
     public List<String> getSection() {
         return new ArrayList<>(this.section);
+    }
+
+    public void setSection(List<String> section) {
+        this.section = section;
     }
 
     @Override
@@ -88,6 +97,22 @@ public class Style {
         return this.widget.getWidgetType();
     }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setFont(String font) {
+        this.font = font;
+    }
+
+    public void setFontSize(Integer fontSize) {
+        this.fontSize = fontSize;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
     public void updateNode(Node node) {
         String css = "";
 
@@ -104,5 +129,9 @@ public class Style {
             css += "-fx-width: " + this.width + ';';
 
         node.setStyle(css);
+    }
+
+    public void setWidgetType(WidgetType widgetType) {
+        this.widget = new QLSWidget(widgetType, new ArrayList<>());
     }
 }

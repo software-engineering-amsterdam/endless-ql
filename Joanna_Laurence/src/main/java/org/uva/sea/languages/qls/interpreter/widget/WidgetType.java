@@ -1,4 +1,4 @@
-package org.uva.sea.languages.ql.interpreter.dataObject;
+package org.uva.sea.languages.qls.interpreter.widget;
 
 import org.uva.sea.languages.ql.parser.NodeType;
 

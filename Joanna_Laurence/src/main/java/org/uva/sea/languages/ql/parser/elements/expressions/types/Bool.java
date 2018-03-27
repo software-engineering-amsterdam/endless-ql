@@ -19,6 +19,11 @@ public class Bool extends Expression {
     }
 
     @Override
+    public Type getType() {
+        return new Type(NodeType.BOOLEAN);
+    }
+
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }

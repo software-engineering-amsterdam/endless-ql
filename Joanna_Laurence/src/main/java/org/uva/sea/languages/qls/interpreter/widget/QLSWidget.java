@@ -1,15 +1,13 @@
-package org.uva.sea.languages.ql.interpreter.dataObject.questionData;
-
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
+package org.uva.sea.languages.qls.interpreter.widget;
 
 import java.util.List;
 
-public class QLWidget {
+public class QLSWidget {
 
     private final WidgetType widgetType;
     private final List<String> parameters;
 
-    public QLWidget(WidgetType widgetType, List<String> parameters) {
+    public QLSWidget(WidgetType widgetType, List<String> parameters) {
         this.widgetType = widgetType;
         this.parameters = parameters;
     }

@@ -14,4 +14,9 @@ public class Addition extends BinaryOperator {
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public Type getType() {
+        return this.getLeftHandSide().getType();
+    }
 }

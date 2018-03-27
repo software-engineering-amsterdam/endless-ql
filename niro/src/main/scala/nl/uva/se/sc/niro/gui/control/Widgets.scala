@@ -93,6 +93,7 @@ class QLDateField() extends DatePicker with QLWidget[LocalDate] {
   })
   private val dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)
   setConverter(new LocalDateStringConverter(dateFormatter, dateFormatter))
+  setPromptText("yyyy-mm-dd")
   override def value(value: LocalDate): Unit = setValue(value)
   override def value: LocalDate = getValue
 }

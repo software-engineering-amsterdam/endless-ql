@@ -33,7 +33,7 @@ public class Evaluator {
             new CheckDuplicateLabels.Checker(),
             new CheckIncorrectDuplicateQuestions.Checker(),
             new CircularQuestionDependencies.Checker(),
-            new Checker());
+            new CircularExpressionDependencies.Checker());
 
     public EvaluationResult evaluate(String qlFile, SymbolTable symbolTable) throws IOException {
 

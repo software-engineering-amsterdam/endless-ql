@@ -1,5 +1,6 @@
 package Nodes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class QLForm extends ASTNode {
      * @return the name of this form
      */
     public String getName() {
-        return this.name;
+        return name;
     }
 
     /**
@@ -46,7 +47,7 @@ public class QLForm extends ASTNode {
      * @return the list of Questions of this Form
      */
     public List<Question> getQuestions() {
-        return this.questions;
+        return questions;
     }
 
     /**
@@ -57,25 +58,19 @@ public class QLForm extends ASTNode {
         return conditions;
     }
 
-    public List<Question> getAllQuestions(){
-        List<Question> allQuestions = questions;
-        for (Condition condition : conditions) {
-            List<Question> subQuestions = visitCondition(condition);
-            if (subQuestions != null)
-                allQuestions.addAll(subQuestions);
+    /**
+     * Returns all Questions in a QLForm.
+     * @return the complete list of Questions.
+     */
+    public List<Question> getAllQuestions() {
+        List<Question> allQuestions = new ArrayList<>(questions);
+        List<Condition> allConditions = new ArrayList<>(conditions);
+
+        for(Condition c : allConditions) {
+            allQuestions.addAll(c.getQuestions());
+            allConditions.addAll(c.getConditions());
         }
+
         return allQuestions;
-    }
-
-    private List<Question> visitCondition(Condition condition){
-
-        List<Question> questions = condition.getQuestions();
-        List<Condition> conditions = condition.getConditions();
-        for (Condition condition1 : conditions) {
-            List<Question> subQuestions = visitCondition(condition1);
-            if (subQuestions != null)
-                questions.addAll(subQuestions);
-        }
-        return questions;
     }
 }

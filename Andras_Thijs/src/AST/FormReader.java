@@ -8,7 +8,6 @@ import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.io.IOException;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -18,23 +17,11 @@ import static java.util.stream.Collectors.toList;
  */
 public class FormReader {
     /**
-     * Reads a QL form from a text file located at the path and returns a parsed QLForm object
-     * @param path the path to the QL Form.
-     * @return A parsed QLForm object
-     * @throws IOException when the path points to a non-existing file.
-     */
-    public QLForm parseFile(String path) throws IOException {
-        CharStream charStream = CharStreams.fromFileName(path);
-
-        return parseCharstream(charStream);
-    }
-
-    /**
-     * Reads a QL form from a Charstream and returns a parsed QLForm object.
+     * Reads a QL form from a CharStream and returns a parsed QLForm object.
      * @param charStream a charStream instance.
      * @return A parsed QLForm object.
      */
-    private QLForm parseCharstream(CharStream charStream) {
+    public QLForm parseCharStream(CharStream charStream) {
         QLLexer lexer = new QLLexer(charStream);
         TokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);

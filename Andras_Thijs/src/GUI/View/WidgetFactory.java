@@ -1,7 +1,7 @@
-package GUI;
+package GUI.View;
 
-import GUI.Listeners.RefreshListener;
-import GUI.Listeners.ValueChangeListener;
+import GUI.Controller.RefreshListener;
+import GUI.Controller.ValueChangeListener;
 import Nodes.Type;
 
 import javax.swing.*;

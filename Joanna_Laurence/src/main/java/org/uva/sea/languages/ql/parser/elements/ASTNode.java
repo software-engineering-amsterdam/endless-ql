@@ -15,8 +15,6 @@ public abstract class ASTNode {
         this.token = token;
     }
 
-    public abstract Type getType();
-
     public int getLine() {
         return this.token.getLine();
     }

@@ -10,10 +10,6 @@ public class Addition extends BinaryOperator {
         super(token, leftHandSide, rightHandSide);
     }
 
-    public Type getType() {
-        return this.getLeftHandSide().getType();
-    }
-
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);

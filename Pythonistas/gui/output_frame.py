@@ -9,6 +9,7 @@ class OutputFrame(QtWidgets.QFrame):
     def __init__(self, question_ids=list(), questions=None):
         super(OutputFrame, self).__init__()
         self.frame_layout = QtWidgets.QVBoxLayout()
+        self.frame_layout.setAlignment(QtCore.Qt.AlignTop)
         self.setLayout(self.frame_layout)
         self.submit_button = None
 

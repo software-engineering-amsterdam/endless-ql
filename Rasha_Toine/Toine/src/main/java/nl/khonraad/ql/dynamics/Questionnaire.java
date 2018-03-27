@@ -39,9 +39,9 @@ public class Questionnaire {
         } );
 
         this.ast = qParser.form();
-        
+
         this.visitor = new Visitor( this );
-        
+
         this.questionRepository = new QuestionRepository();
     }
 
@@ -75,5 +75,5 @@ public class Questionnaire {
 
     public Value storeAnswer( String identifier, Value value ) {
         return findAnswerable( identifier ).setValue( value );
-   }
+    }
 }

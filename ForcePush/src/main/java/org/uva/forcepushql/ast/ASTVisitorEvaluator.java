@@ -7,7 +7,6 @@ import org.uva.forcepushql.questions.Radio;
 import org.uva.forcepushql.questions.Textbox;
 
 import javax.swing.*;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -143,7 +142,11 @@ public class ASTVisitorEvaluator implements ASTVisitor
             String[] names = calculation.split("\\.");
             ((Textbox) question).setHasCalculation(true);
 
-            variables.addAll(Arrays.asList(names));
+            for (String s: names) {
+                if(!isNumeric(s)){
+                    variables.add(s);
+                }
+            }
 
             questions.add(question);
 
@@ -337,4 +340,18 @@ public class ASTVisitorEvaluator implements ASTVisitor
 
         return string;
     }
+
+    private boolean isNumeric(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
+    }
+
 }

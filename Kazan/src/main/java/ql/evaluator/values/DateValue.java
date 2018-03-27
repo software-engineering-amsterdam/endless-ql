@@ -15,7 +15,7 @@ public class DateValue implements Value<Date> {
 
     @Override
     public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DateLiteral.DATE_FORMAT);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DateLiteral.getDateFormat());
         return dateFormat.format(getValue());
     }
 
@@ -25,7 +25,7 @@ public class DateValue implements Value<Date> {
     }
 
     @Override
-    public BooleanValue equal(Value value) {
+    public Value equal(Value value) {
         return value.equal(this);
     }
 
@@ -35,182 +35,53 @@ public class DateValue implements Value<Date> {
     }
 
     @Override
-    public BooleanValue greaterThanEqual(Value value) {
-        return null;
+    public Value greaterThanEqual(Value value) {
+        return value.greaterThanEqual(this);
     }
 
     @Override
     public BooleanValue greaterThanEqual(DateValue value) {
-        return null;
+        return new BooleanValue(value.getValue().after(getValue()) || value.getValue().equals(getValue()));
     }
 
     @Override
-    public BooleanValue greaterThan(Value value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue greaterThan(MoneyValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue greaterThan(DecimalValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue greaterThan(IntegerValue value) {
-        return null;
+    public Value greaterThan(Value value) {
+        return value.greaterThan(this);
     }
 
     @Override
     public BooleanValue greaterThan(DateValue value) {
-        return null;
+        return new BooleanValue(value.getValue().after(getValue()));
     }
 
     @Override
-    public BooleanValue lessThanEqual(Value value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue lessThanEqual(MoneyValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue lessThanEqual(DecimalValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue lessThanEqual(IntegerValue value) {
-        return null;
+    public Value lessThanEqual(Value value) {
+        return value.lessThanEqual(this);
     }
 
     @Override
     public BooleanValue lessThanEqual(DateValue value) {
-        return null;
+        return new BooleanValue(value.getValue().before(getValue()) || value.getValue().equals(getValue()));
     }
 
     @Override
-    public BooleanValue lessThan(Value value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue lessThan(MoneyValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue lessThan(DecimalValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue lessThan(IntegerValue value) {
-        return null;
+    public Value lessThan(Value value) {
+        return value.lessThan(this);
     }
 
     @Override
     public BooleanValue lessThan(DateValue value) {
-        return null;
+        return new BooleanValue(value.getValue().before(getValue()));
     }
 
     @Override
-    public Value multiply(Value value) {
-        return null;
-    }
-
-    @Override
-    public Value multiply(MoneyValue value) {
-        return null;
-    }
-
-    @Override
-    public Value multiply(DecimalValue value) {
-        return null;
-    }
-
-    @Override
-    public Value multiply(IntegerValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue notEqual(Value value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue notEqual(MoneyValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue notEqual(DecimalValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue notEqual(IntegerValue value) {
-        return null;
+    public Value notEqual(Value value) {
+        return value.notEqual(this);
     }
 
     @Override
     public BooleanValue notEqual(DateValue value) {
-        return null;
+        return new BooleanValue(!getValue().equals(value.getValue()));
     }
 
-    @Override
-    public BooleanValue notEqual(StringValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue notEqual(BooleanValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue or(Value value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue or(BooleanValue value) {
-        return null;
-    }
-
-    @Override
-    public Value subtract(Value value) {
-        return null;
-    }
-
-    @Override
-    public Value subtract(MoneyValue value) {
-        return null;
-    }
-
-    @Override
-    public Value subtract(DecimalValue value) {
-        return null;
-    }
-
-    @Override
-    public Value subtract(IntegerValue value) {
-        return null;
-    }
-
-    @Override
-    public BooleanValue negation() {
-        return null;
-    }
-
-    @Override
-    public NumericValue negative() {
-        return null;
-    }
 }

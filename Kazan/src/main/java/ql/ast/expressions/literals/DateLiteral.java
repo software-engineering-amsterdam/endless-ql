@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class DateLiteral extends Expression {
 
-    public static final String DATE_FORMAT = "dd-MM-yyyy";
+    private static final String DATE_FORMAT = "dd-MM-yyyy";
 
     private final Date value;
 
@@ -18,6 +18,10 @@ public class DateLiteral extends Expression {
         super(sourceLocation);
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         this.value = dateFormat.parse(value);
+    }
+
+    public static String getDateFormat() {
+        return DATE_FORMAT;
     }
 
     public Date getValue() {

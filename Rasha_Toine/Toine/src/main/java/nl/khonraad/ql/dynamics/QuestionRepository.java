@@ -46,8 +46,9 @@ public class QuestionRepository {
     public Question findQuestion( BehaviouralType behaviouralType, String identifier ) {
 
         for ( Question question : questions ) {
-            if ( behaviouralType == question.getBehaviouralType()
-                    && question.getIdentifier().equals( identifier ) ) { return question; }
+            if ( behaviouralType == question.getBehaviouralType() && question.getIdentifier().equals( identifier ) ) {
+                return question;
+            }
         }
         return null;
     }

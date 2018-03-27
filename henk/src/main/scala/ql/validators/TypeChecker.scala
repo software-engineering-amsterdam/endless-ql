@@ -21,9 +21,9 @@ class TypeChecker() {
     new TypeInferenceValidator()
   )
 
-  def checkValidators(node: ASTNode): Option[Exception] = {
+  def checkValidators(node: Statement): Option[Exception] = {
     validatorList.map(vc => {
-      vc.execute(node) match {
+      vc.check(node) match {
         case bv @ Some(ex: IdentifierNotDeclared) => {
           error = ex
           return bv
@@ -49,7 +49,7 @@ class TypeChecker() {
     None
   }
 
-  def validate(node: ASTNode): Boolean = {
+  def validate(node: Statement): Boolean = {
     checkValidators(node) match {
       case None => true
       case Some(_) => false

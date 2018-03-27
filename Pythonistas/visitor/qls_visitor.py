@@ -24,18 +24,6 @@ class QLSVisitor(ParseTreeVisitor):
     def defaultResult(self):
         return []
 
-    # def visitChildren(self, node, *args):
-    #     result = self.defaultResult()
-    #     n = node.getChildCount()
-    #     for i in range(n):
-    #         if not self.shouldVisitNextChild(node, result):
-    #             return
-    #         c = node.getChild(i)
-    #         # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
-    #         child_result = c.accept(self, *args)
-    #         result.extend(child_result)
-    #     return result
-
     def visitChildren(self, node):
         result = self.defaultResult()
         n = node.getChildCount()
@@ -73,7 +61,6 @@ class QLSVisitor(ParseTreeVisitor):
         if ctx.default():
             print(ctx.default().getText())
 
-        # result = self.visitChildren(ctx, ctx.default())
         result = self.visitChildren(ctx)
         for child_widget in result:
             section_layout.addWidget(child_widget)
@@ -82,7 +69,7 @@ class QLSVisitor(ParseTreeVisitor):
         return result
 
 
-    def visitQuestion(self, ctx:QLSParser.QuestionContext, default = None):
+    def visitQuestion(self, ctx:QLSParser.QuestionContext):
         if not ctx.ID().getText() in self.questions:
             self.error_message = "Error: undefined reference to QL ID"
             return None
@@ -101,6 +88,10 @@ class QLSVisitor(ParseTreeVisitor):
 
 
     def visitDefault(self, ctx:QLSParser.DefaultContext):
+        print(dir(ctx))
+        print(ctx.getText())
+        if ctx.attributes():
+            print(ctx.attributes().getText())
         return self.visitChildren(ctx)
 
 

@@ -1,5 +1,7 @@
 package qls.ast;
 
+import ql.ast.ASTNode;
+import ql.ast.SourceLocation;
 import qls.ast.components.Component;
 
 import java.util.List;

@@ -18,39 +18,41 @@ class UnOpConditionalSpec extends FunSpec with BeforeAndAfter {
 
   describe("containing invalid not money expression in unary") {
     val filename = s"${resourceDir}/not_money_unop.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      validator.execute(form) match {
-        case None => fail()
+      validator.check(form) match {
+        case None                           => fail()
         case Some(ConditionalNotBoolean(e)) => succeed
-        case other => fail("wrong error thrown")
+        case other                          => fail("wrong error thrown")
       }
     }
   }
 
   describe("containing valid not boolean expression in unary") {
     val filename = s"${resourceDir}/not_boolean_unop.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.execute(form) match {
-        case None => succeed
+      validator.check(form) match {
+        case None                           => succeed
         case Some(ConditionalNotBoolean(e)) => fail(e)
-        case other => fail("ConditionalValidator should not have thrown an error")
+        case other =>
+          fail("ConditionalValidator should not have thrown an error")
       }
     }
   }
 
   describe("containing valid binop expression in unary") {
     val filename = s"${resourceDir}/not_binop_unop.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.execute(form) match {
-        case None => succeed
+      validator.check(form) match {
+        case None                           => succeed
         case Some(ConditionalNotBoolean(e)) => fail(e)
-        case other => fail("ConditionalValidator should not have thrown an error")
+        case other =>
+          fail("ConditionalValidator should not have thrown an error")
       }
     }
   }

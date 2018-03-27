@@ -18,52 +18,55 @@ class ConditionTypeSpec extends FunSpec with BeforeAndAfter {
 
   describe("when ConditionalValidator contains a conditional with Boolean type") {
     val filename = s"${resourceDir}/simple.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.execute(form) match {
-        case None => succeed
+      validator.check(form) match {
+        case None                           => succeed
         case Some(ConditionalNotBoolean(e)) => fail(e)
-        case other => fail("ConditionalValidator should not have thrown an error")
+        case other =>
+          fail("ConditionalValidator should not have thrown an error")
       }
     }
   }
 
   describe("when ConditionalValidator contains a conditional with Money type") {
     val filename = s"${resourceDir}/money_type_conditional.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      validator.execute(form) match {
-        case None => fail()
+      validator.check(form) match {
+        case None                           => fail()
         case Some(ConditionalNotBoolean(e)) => succeed
-        case other => fail("wrong error thrown")
+        case other                          => fail("wrong error thrown")
       }
     }
   }
 
   describe("when ConditionalValidator contains a valid binOp") {
     val filename = s"${resourceDir}/binop/simple_binop.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.execute(form) match {
-        case None => succeed
+      validator.check(form) match {
+        case None                           => succeed
         case Some(ConditionalNotBoolean(e)) => fail(e)
-        case other => fail("ConditionalValidator should not have thrown an error")
+        case other =>
+          fail("ConditionalValidator should not have thrown an error")
       }
     }
   }
 
-  describe("when ConditionalValidator contains a binop consisting of money and boolean") {
+  describe(
+    "when ConditionalValidator contains a binop consisting of money and boolean") {
     val filename = s"${resourceDir}/binop/money_bool_binop.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      validator.execute(form) match {
-        case None => fail()
+      validator.check(form) match {
+        case None                           => fail()
         case Some(ConditionalNotBoolean(e)) => succeed
-        case other => fail("wrong error thrown")
+        case other                          => fail("wrong error thrown")
       }
     }
   }

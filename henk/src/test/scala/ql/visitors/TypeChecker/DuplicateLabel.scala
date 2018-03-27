@@ -18,10 +18,10 @@ class DuplicateLabelSpec extends FunSpec with BeforeAndAfter {
 
   describe("when form contains no duplicate labels") {
     val filename = s"${resourceDir}/simple.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.execute(form) match {
+      validator.check(form) match {
         case None => succeed
         case Some(DuplicateLabelDeclaration(e)) => fail(e)
         case other => fail("ConditionalValidator should not have thrown an error")
@@ -31,10 +31,10 @@ class DuplicateLabelSpec extends FunSpec with BeforeAndAfter {
 
   describe("when form contains a single source mono duplicated label") {
     val filename = s"${resourceDir}/single_duplicate_label.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("execute should return an option exception") {
-      validator.execute(form) match {
+      validator.check(form) match {
         case None => fail()
         case Some(DuplicateLabelDeclaration(e)) => succeed
         case other => fail("wrong error thrown")
@@ -58,10 +58,10 @@ class DuplicateLabelSpec extends FunSpec with BeforeAndAfter {
 
   describe("when form contains single source multiple duplicated labels") {
     val filename = s"${resourceDir}/double_duplicate_label.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      validator.execute(form) match {
+      validator.check(form) match {
         case None => fail()
         case Some(DuplicateLabelDeclaration(e)) => succeed
         case other => fail("wrong error thrown")
@@ -84,10 +84,10 @@ class DuplicateLabelSpec extends FunSpec with BeforeAndAfter {
 
   describe("when form contains multi source multiple duplicated labels") {
     val filename = s"${resourceDir}/multi_double_duplicate_label.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      validator.execute(form) match {
+      validator.check(form) match {
         case None => fail()
         case Some(DuplicateLabelDeclaration(e)) => succeed
         case other => fail("wrong error thrown")

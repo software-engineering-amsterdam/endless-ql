@@ -16,7 +16,7 @@ import nl.khonraad.ql.gui.QLInterpretor;
 public class DateWidget extends JTextField {
 
     public DateWidget(JPanel mainPanel, Question question, Questionnaire questionnaire) {
-        super( question.getValue().getText(), 10);
+        super( question.getValue().getText(), 10 );
 
         addFocusListener( new FocusListener() {
 
@@ -34,6 +34,6 @@ public class DateWidget extends JTextField {
             public void focusGained( FocusEvent e ) {
                 // YAGNI
             }
-        } );    }
-
+        } );
+    }
 }

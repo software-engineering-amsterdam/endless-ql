@@ -18,11 +18,11 @@ import nl.khonraad.ql.gui.QLInterpretor;
 public class IntegerWidget extends JSpinner {
 
     public IntegerWidget(JPanel mainPanel, Question question, Questionnaire questionnaire) {
-        
+
         super( new SpinnerNumberModel( new Integer( question.getValue().getText() ), null, null, 1 ) );
 
         JSpinner.NumberEditor editor = (JSpinner.NumberEditor) getEditor();
-        
+
         DecimalFormat format = editor.getFormat();
         format.setMaximumFractionDigits( 0 );
         format.setMinimumFractionDigits( 0 );
@@ -30,7 +30,7 @@ public class IntegerWidget extends JSpinner {
         Dimension d = getPreferredSize();
         d.width = 185;
         setPreferredSize( d );
-        
+
         addChangeListener( e -> {
 
             JSpinner s = (JSpinner) e.getSource();
@@ -40,7 +40,5 @@ public class IntegerWidget extends JSpinner {
             questionnaire.storeAnswer( question.getIdentifier(), new Value( Type.Integer, c ) );
             QLInterpretor.visualizeQuestionnaire( questionnaire, mainPanel );
         } );
-        
-            }
-
+    }
 }

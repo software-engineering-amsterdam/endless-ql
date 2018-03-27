@@ -37,5 +37,4 @@ public class StringWidget extends JTextField {
             }
         } );
     }
-
 }

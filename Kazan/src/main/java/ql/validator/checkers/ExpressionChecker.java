@@ -1,6 +1,5 @@
 package ql.validator.checkers;
 
-import issuetracker.IssueTracker;
 import ql.ast.Form;
 import ql.ast.expressions.Variable;
 import ql.ast.expressions.binary.*;
@@ -20,17 +19,13 @@ import java.util.List;
  * Checks AST for references to undefined questions, conditions of non-boolean type,
  * and invalid operand/operator type combinations
  */
-public class ExpressionChecker implements Checker, FormStatementVisitor<Void>, ExpressionVisitor<Type>, TypeVisitor<Type> {
+public class ExpressionChecker extends BaseChecker implements FormStatementVisitor<Void>, ExpressionVisitor<Type>, TypeVisitor<Type> {
 
-    private final IssueTracker issueTracker;
     private SymbolTable symbolTable;
-
-    public ExpressionChecker(IssueTracker issueTracker) {
-        this.issueTracker = issueTracker;
-    }
 
     @Override
     public boolean passesTests(Form form) {
+        issueTracker.reset();
         symbolTable = new SymbolTable(form);
         form.accept(this);
         return !issueTracker.hasErrors();
@@ -78,7 +73,7 @@ public class ExpressionChecker implements Checker, FormStatementVisitor<Void>, E
         if (actualType.isOfType(expectedType) || (expectedType.equals("numeric") && (actualType.isOfType("integer") || actualType.isOfType("decimal"))) || actualType.isOfType("error")) {
             return actualType;
         } else {
-            issueTracker.addError(actualType, String.format("Type mismatch. Actual: %s Expected: %s", actualType.toString(), expectedType));
+            issueTracker.addError(actualType, String.format("Type mismatch. Actual: %s Expected: %s", actualType.getType(), expectedType));
             return new ErrorType(actualType.getSourceLocation());
         }
     }

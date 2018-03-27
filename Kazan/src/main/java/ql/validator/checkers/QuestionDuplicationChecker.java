@@ -1,6 +1,5 @@
 package ql.validator.checkers;
 
-import issuetracker.IssueTracker;
 import ql.ast.Form;
 import ql.ast.statements.*;
 import ql.ast.types.Type;
@@ -13,21 +12,21 @@ import java.util.Set;
 /**
  * Checks AST for question duplications, giving errors for duplicate identifiers and warnings for duplicate labels
  */
-public class QuestionDuplicationChecker implements Checker, FormStatementVisitor<Void> {
+public class QuestionDuplicationChecker extends BaseChecker implements Checker, FormStatementVisitor<Void> {
 
     private final Set<String> questionLabels;
-    private final IssueTracker issueTracker;
     private final SymbolTable symbolTable;
 
 
-    public QuestionDuplicationChecker(IssueTracker issueTracker) {
-        this.issueTracker = issueTracker;
+    public QuestionDuplicationChecker() {
+        super();
         this.questionLabels = new HashSet<>();
         this.symbolTable = new SymbolTable();
     }
 
     @Override
     public boolean passesTests(Form form) {
+        issueTracker.reset();
         form.accept(this);
         return !issueTracker.hasErrors();
     }
@@ -81,7 +80,7 @@ public class QuestionDuplicationChecker implements Checker, FormStatementVisitor
     private void checkDuplication(Question question) {
         if (symbolTable.isDeclared(question.getId())) {
             Type alreadyPresent = symbolTable.lookup(question.getId());
-            if (!alreadyPresent.isOfType(question.getType().toString())) {
+            if (!alreadyPresent.isOfType(question.getType().getType())) {
                 issueTracker.addError(question, String.format("Question with identifier \"%s\" declared on multiple locations", question.getId()));
             }
         } else {

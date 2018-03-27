@@ -3,6 +3,7 @@ package ql.validator.checkers;
 import issuetracker.IssueTracker;
 import ql.ast.Form;
 import ql.ast.statements.*;
+import ql.ast.types.Type;
 import ql.ast.visitors.FormStatementVisitor;
 import ql.validator.symboltable.SymbolTable;
 
@@ -79,14 +80,15 @@ public class QuestionDuplicationChecker implements Checker, FormStatementVisitor
      */
     private void checkDuplication(Question question) {
         if (symbolTable.isDeclared(question.getId())) {
-            if (!symbolTable.lookup(question.getId()).toString().equals(question.getType().toString())) {
-                issueTracker.addError(question.getSourceLocation(), String.format("Question with identifier \"%s\" declared on multiple locations", question.getId()));
+            Type alreadyPresent = symbolTable.lookup(question.getId());
+            if (!alreadyPresent.isOfType(question.getType().toString())) {
+                issueTracker.addError(question, String.format("Question with identifier \"%s\" declared on multiple locations", question.getId()));
             }
         } else {
             symbolTable.declare(question.getId(), question.getType());
         }
         if (questionLabels.contains(question.getLabel())) {
-            issueTracker.addWarning(question.getSourceLocation(), String.format("Duplicate question label \"%s\" used on multiple locations", question.getLabel()));
+            issueTracker.addWarning(question, String.format("Duplicate question label \"%s\" used on multiple locations", question.getLabel()));
         } else {
             questionLabels.add(question.getLabel());
         }

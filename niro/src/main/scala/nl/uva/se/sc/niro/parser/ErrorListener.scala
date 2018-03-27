@@ -21,12 +21,7 @@ class ErrorListener extends Logging with ANTLRErrorListener {
       charPositionInLine: Int,
       msg: String,
       e: RecognitionException): Unit = {
-    parseErrors += SyntaxErrorInfo(
-      line,
-      charPositionInLine,
-      offendingSymbol.toString,
-      msg,
-      e)
+    parseErrors += SyntaxErrorInfo(line, charPositionInLine, offendingSymbol.toString, msg, e)
   }
 
   override def reportAmbiguity(

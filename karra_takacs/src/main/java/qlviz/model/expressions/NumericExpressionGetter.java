@@ -12,7 +12,7 @@ public class NumericExpressionGetter implements TypedExpressionVisitor<NumericEx
 
     @Override
     public NumericExpression visit(BooleanExpression expression) {
-        throw new IllegalArgumentException();
+        return null;
     }
 }
 

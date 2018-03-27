@@ -7,8 +7,10 @@ import qlviz.interpreter.linker.NumericExpressionVisitor;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
+import qlviz.model.expressions.BooleanExpressionGetter;
 import qlviz.model.expressions.Expression;
 import qlviz.model.expressions.ExpressionVisitor;
+import qlviz.model.expressions.NumericExpressionGetter;
 import qlviz.model.expressions.booleanExpressions.*;
 import qlviz.model.expressions.numericExpressions.*;
 import qlviz.model.question.*;
@@ -198,7 +200,9 @@ public class CircularReferenceChecker implements
 
         @Override
         public void visit(NumericQuestionReference numericQuestionReference) {
-            this.processingQueue.add(numericQuestionReference.getQuestion());
+            if (numericQuestionReference.getQuestion() != null) {
+                this.processingQueue.add(numericQuestionReference.getQuestion());
+            }
         }
     }
 
@@ -231,7 +235,10 @@ public class CircularReferenceChecker implements
 
         @Override
         public void visit(BooleanQuestionReference booleanQuestionReference) {
-           this.processingQueue.add(booleanQuestionReference.getQuestion());
+           if (booleanQuestionReference.getQuestion() != null)
+           {
+               this.processingQueue.add(booleanQuestionReference.getQuestion());
+           }
         }
 
         @Override

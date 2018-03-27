@@ -7,7 +7,7 @@ public class BooleanExpressionGetter implements TypedExpressionVisitor<BooleanEx
 
     @Override
     public BooleanExpression visit(NumericExpression numericExpression) {
-        throw new IllegalArgumentException();
+       return null;
     }
 
     @Override

@@ -20,7 +20,7 @@ widget: 'widget' widget_type;
 widget_type: 'checkbox'
            | 'radio("Yes", "No")'
            | 'spinbox'
-           | 'slider'
+           | 'slider(' min_value=NUMBER ', ' max_value=NUMBER ')'
            | 'text'
            | 'dropdown("Yes", "No")'
            ;

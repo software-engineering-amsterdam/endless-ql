@@ -1,8 +1,8 @@
 package QL.Analysis;
 
 
-import QL.ParseObjectsQL.Form;
-import QL.ParseObjectsQL.Question;
+import QL.AST.Form;
+import QL.AST.Question;
 
 import java.util.HashMap;
 import java.util.HashSet;

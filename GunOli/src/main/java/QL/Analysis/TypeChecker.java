@@ -1,14 +1,14 @@
 package QL.Analysis;
 
-import QL.ParseObjectsQL.Expressions.BinaryExpression;
-import QL.ParseObjectsQL.Expressions.BinaryExpressions.*;
-import QL.ParseObjectsQL.Expressions.ConstantExpression;
-import QL.ParseObjectsQL.Expressions.Expression;
-import QL.ParseObjectsQL.Expressions.ExpressionConstants.*;
-import QL.ParseObjectsQL.Expressions.UnaryExpressions.NegationExpression;
-import QL.ParseObjectsQL.Expressions.UnaryExpressions.NotExpression;
-import QL.ParseObjectsQL.Form;
-import QL.ParseObjectsQL.Question;
+import QL.AST.Expressions.BinaryExpression;
+import QL.AST.Expressions.BinaryExpressions.*;
+import QL.AST.Expressions.IdentifierExpression;
+import QL.AST.Expressions.Expression;
+import QL.AST.Expressions.ExpressionConstants.*;
+import QL.AST.Expressions.UnaryExpressions.NegationExpression;
+import QL.AST.Expressions.UnaryExpressions.NotExpression;
+import QL.AST.Form;
+import QL.AST.Question;
 import QL.QLVisitor.ExpressionTable;
 import java.util.*;
 
@@ -135,7 +135,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
     }
 
     @Override
-    public EvaluationType visit(ConstantExpression expression) {
+    public EvaluationType visit(IdentifierExpression expression) {
         return this.expressionTable.getExpression(expression.getIdentifier()).returnType();
     }
 

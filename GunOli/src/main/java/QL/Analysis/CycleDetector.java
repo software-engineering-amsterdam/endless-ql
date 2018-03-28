@@ -1,6 +1,6 @@
 package QL.Analysis;
 
-import QL.ParseObjectsQL.Form;
+import QL.AST.Form;
 
 public class CycleDetector {
     private final Form form;

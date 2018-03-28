@@ -1,9 +1,8 @@
 package GUI;
 import java.io.File;
-import java.util.ArrayList;
 
 import QL.Analysis.TypeChecker;
-import QL.ParseObjectsQL.Form;
+import QL.AST.Form;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;

@@ -1,13 +1,13 @@
 package GUI;
 
-import QL.ParseObjectsQL.Expressions.Constant;
+import QL.AST.Expressions.Constant;
 import QL.Analysis.EvaluationType;
-import QL.ParseObjectsQL.Expressions.Expression;
-import QL.ParseObjectsQL.Expressions.ExpressionConstants.*;
-import QL.ParseObjectsQL.Question;
+import QL.AST.Expressions.Expression;
+import QL.AST.Expressions.ExpressionConstants.*;
+import QL.AST.Question;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import QL.ParseObjectsQL.Form;
+import QL.AST.Form;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;

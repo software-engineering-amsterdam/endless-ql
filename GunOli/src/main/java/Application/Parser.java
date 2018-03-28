@@ -4,8 +4,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import QL.QLVisitor.ExpressionTable;
-import QL.ParseObjectsQL.Question;
-import QL.ParseObjectsQL.Form;
+import QL.AST.Question;
+import QL.AST.Form;
 import QL.QLAntlrGen.QLParser;
 import QL.QLAntlrGen.QLLexer;
 import QL.QLVisitor.FormVisitor;
@@ -14,7 +14,6 @@ import QLS.ParseObjectQLS.Widgets.Widget;
 import QLS.QLSAntlrGen.QLSLexer;
 import QLS.QLSAntlrGen.QLSParser;
 import QLS.QLSVisitor.StylesheetVisitor;
-import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 

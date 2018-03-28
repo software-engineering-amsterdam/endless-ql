@@ -15,7 +15,7 @@ object CyclicDependencyChecker extends Logging {
     val dependencyGraph: Graph = buildDependencyGraph(qLForm.symbolTable)
 
     val cyclicDependencies: Seq[Seq[Graph]] =
-      dependencyGraph.map(element => detectCycles(dependencyGraph, Seq(element)))
+      dependencyGraph.map(element => detectCycles(dependencyGraph, Seq(element))).filter(_.nonEmpty)
 
     if (cyclicDependencies.nonEmpty) {
       cyclicDependencies.map(cycle =>

@@ -9,7 +9,8 @@ import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 
 class QLSDecimalSpinField()
     extends Spinner[Double](Double.MinValue, Double.MaxValue, 0.0, 0.1)
-    with QLWidget[java.math.BigDecimal] with FormatMasks {
+    with QLWidget[java.math.BigDecimal]
+    with FormatMasks {
   setEditable(true)
   getEditor.setTextFormatter(DecimalFormatterBuilder().buildInputFilter(DECIMAL_MASK).buildConverter().build())
   valueProperty().addListener(new ChangeListener[Double] {

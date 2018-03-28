@@ -18,10 +18,12 @@ object DuplicateQuestionChecker extends Logging {
       .toList
 
     if (duplicateQuestionsWithDifferentTypes.nonEmpty) {
-        duplicateQuestionsWithDifferentTypes.map(duplicateQuestions => TypeCheckError(
-          message = s"Duplicate question declarations with different types: $duplicateQuestions")).asLeft
+      duplicateQuestionsWithDifferentTypes
+        .map(duplicateQuestions =>
+          TypeCheckError(message = s"Duplicate question declarations with different types: $duplicateQuestions"))
+        .asLeft
     } else {
-     qLForm.asRight
+      qLForm.asRight
     }
   }
 
@@ -33,11 +35,11 @@ object DuplicateQuestionChecker extends Logging {
       questions.groupBy(_.label).valuesIterator.filter(_.size > 1).toList
 
     val warnings = questionsWithDuplicateLabels
-      .map(
-        duplicates =>
-          Warning(
-            message = s"Warning: questions ${duplicates.map(_.id).mkString(", ")} have duplicate label: ${duplicates.head.label}"
-        ))
+      .map(duplicates =>
+        Warning(
+          message =
+            s"Warning: questions ${duplicates.map(_.id).mkString(", ")} have duplicate label: ${duplicates.head.label}"
+      ))
 
     qLForm.copy(warnings = warnings)
   }

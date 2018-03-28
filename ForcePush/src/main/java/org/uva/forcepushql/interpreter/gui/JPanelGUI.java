@@ -21,9 +21,9 @@ public class JPanelGUI extends Observer
 {
 
     private LinkedList<QuestionGUI> questionGUIS;
-    private HashMap<String,Boolean> booleanValues;
-    private HashMap<String,Double> numberValues;
-    private HashMap<String,String> calculations;
+    private HashMap<String, Boolean> booleanValues;
+    private HashMap<String, Double> numberValues;
+    private HashMap<String, String> calculations;
     private String condition;
     private int height = 0;
     private JPanel panel;
@@ -66,36 +66,43 @@ public class JPanelGUI extends Observer
 
     }
 
-    public void setCondition(String condition) {
+    public void setCondition(String condition)
+    {
         this.condition = condition;
         condition = allTogether(condition);
         String[] result = condition.split("\\.");
 
-        for (String s: result) {
-            booleanValues.put(s,false);
+        for (String s : result)
+        {
+            booleanValues.put(s, false);
         }
 
     }
 
-    public void addCalculation(String variable, String calculation){
-        calculations.put(variable,calculation);
+    public void addCalculation(String variable, String calculation)
+    {
+        calculations.put(variable, calculation);
         calculation = allTogether(calculation);
         String[] result = calculation.split("\\.");
 
-        for (String s: result) {
-            if (!isNumeric(s)) {
+        for (String s : result)
+        {
+            if (!isNumeric(s))
+            {
                 numberValues.put(s, -1.0);
             }
         }
     }
 
 
-    private void checkCondition(){
+    private void checkCondition()
+    {
 
         String toTest = condition;
 
-        for (Map.Entry<String, Boolean> bv: booleanValues.entrySet()) {
-            toTest = toTest.replaceAll(bv.getKey(),String.valueOf(bv.getValue()));
+        for (Map.Entry<String, Boolean> bv : booleanValues.entrySet())
+        {
+            toTest = toTest.replaceAll(bv.getKey(), String.valueOf(bv.getValue()));
         }
 
         boolean result = createAST(toTest).accept(new ASTExpressionVisitorEvaluator());
@@ -104,16 +111,20 @@ public class JPanelGUI extends Observer
 
     }
 
-    private void checkCalculation(){
+    private void checkCalculation()
+    {
 
-        for (Map.Entry<String,String> c: calculations.entrySet()) {
+        for (Map.Entry<String, String> c : calculations.entrySet())
+        {
             String toCalculate = c.getValue();
 
-            for (Map.Entry<String,Double> nv: numberValues.entrySet()) {
-                toCalculate = toCalculate.replaceAll(nv.getKey(),String.valueOf(nv.getValue()));
+            for (Map.Entry<String, Double> nv : numberValues.entrySet())
+            {
+                toCalculate = toCalculate.replaceAll(nv.getKey(), String.valueOf(nv.getValue()));
             }
 
-            if (!toCalculate.contains("-1.0")){
+            if (!toCalculate.contains("-1.0"))
+            {
                 double result = createAST(toCalculate).accept(new ASTExpressionVisitorEvaluator());
                 ((TextboxGUI) getQuestion(c.getKey())).setText(String.valueOf(result));
             }
@@ -125,7 +136,6 @@ public class JPanelGUI extends Observer
     {
         return height;
     }
-
 
 
     @Override
@@ -159,31 +169,33 @@ public class JPanelGUI extends Observer
         return panel;
     }
 
-    private String allTogether(String string){
+    private String allTogether(String string)
+    {
         return getString(string);
     }
 
     public static String getString(String string)
     {
-        string = string.replaceAll("&&",".");
-        string = string.replaceAll("\\|\\|",".");
-        string = string.replaceAll("<",".");
-        string = string.replaceAll(">",".");
-        string = string.replaceAll("<=",".");
-        string = string.replaceAll(">=",".");
-        string = string.replaceAll("!=",".");
-        string = string.replaceAll("==",".");
-        string = string.replaceAll("!","");
-        string = string.replaceAll("\\+",".");
-        string = string.replaceAll("-",".");
-        string = string.replaceAll("\\*",".");
-        string = string.replaceAll("/",".");
-        string = string.replaceAll(" ","");
+        string = string.replaceAll("&&", ".");
+        string = string.replaceAll("\\|\\|", ".");
+        string = string.replaceAll("<", ".");
+        string = string.replaceAll(">", ".");
+        string = string.replaceAll("<=", ".");
+        string = string.replaceAll(">=", ".");
+        string = string.replaceAll("!=", ".");
+        string = string.replaceAll("==", ".");
+        string = string.replaceAll("!", "");
+        string = string.replaceAll("\\+", ".");
+        string = string.replaceAll("-", ".");
+        string = string.replaceAll("\\*", ".");
+        string = string.replaceAll("/", ".");
+        string = string.replaceAll(" ", "");
 
         return string;
     }
 
-    private ExpressionNode createAST(String input){
+    private ExpressionNode createAST(String input)
+    {
         ANTLRInputStream expression = new ANTLRInputStream(input);
         GrammarLexer lexer = new GrammarLexer(expression);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -198,8 +210,7 @@ public class JPanelGUI extends Observer
         try
         {
             double d = Double.parseDouble(str);
-        }
-        catch(NumberFormatException nfe)
+        } catch (NumberFormatException nfe)
         {
             return false;
         }

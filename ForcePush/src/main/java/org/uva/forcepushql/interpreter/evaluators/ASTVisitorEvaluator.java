@@ -1,13 +1,16 @@
 package org.uva.forcepushql.interpreter.evaluators;
 
 
-import org.uva.forcepushql.parser.ast.elements.*;
-import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 import org.uva.forcepushql.interpreter.gui.JPanelGUI;
-import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 import org.uva.forcepushql.interpreter.gui.questions.Question;
 import org.uva.forcepushql.interpreter.gui.questions.Radio;
 import org.uva.forcepushql.interpreter.gui.questions.Textbox;
+import org.uva.forcepushql.parser.ast.elements.Node;
+import org.uva.forcepushql.parser.ast.elements.NumberNode;
+import org.uva.forcepushql.parser.ast.elements.QuestionAssignValueNode;
+import org.uva.forcepushql.parser.ast.elements.QuestionNode;
+import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
+import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -100,7 +103,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
                     conditions.put(s, jPanelIf.getFirst());
                 }
                 result.addAll(jPanelIf);
-            //TODO: Make this perfect (whatever that means)
+                //TODO: Make this perfect (whatever that means)
             } else
             {
                 calculateExpression(questions, variables, calculations, n);
@@ -138,6 +141,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
         return result;
     }
 
+
     private void calculateExpression(LinkedList<Question> questions, LinkedList<String> variables, HashMap<String, String> calculations, Node n)
     {
         if (n instanceof QuestionAssignValueNode)
@@ -149,14 +153,14 @@ public class ASTVisitorEvaluator implements ASTVisitor
             String[] names = calculation.split("\\.");
             ((Textbox) question).setHasCalculation(true);
 
-            for (String s: names) {
-                if(!isNumeric(s)){
+            for (String s : names)
+            {
+                if (!isNumeric(s))
+                {
                     variables.add(s);
                 }
             }
-
             questions.add(question);
-
         } else
         {
             questions.add(n.accept(this));
@@ -192,26 +196,28 @@ public class ASTVisitorEvaluator implements ASTVisitor
         return jPanelGUI;
     }
 
+    @Override
     public String visit(AdditionNode node)
     {
         return node.getLeft().accept(this) + " + " + node.getRight().accept(this);
     }
 
+    @Override
     public String visit(SubtractionNode node)
     {
         return node.getLeft().accept(this) + " - " + node.getRight().accept(this);
     }
 
+    @Override
     public String visit(MultiplicationNode node)
     {
         return node.getLeft().accept(this) + " * " + node.getRight().accept(this);
     }
 
+    @Override
     public String visit(DivisionNode node)
     {
-
         return node.getLeft().accept(this) + " / " + node.getRight().accept(this);
-
     }
 
     @Override
@@ -323,6 +329,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
         return String.valueOf(node.getValue());
     }
 
+    @Override
     public String visit(NumberNode node)
     {
         return String.valueOf(node.getValue());
@@ -338,8 +345,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
         try
         {
             double d = Double.parseDouble(str);
-        }
-        catch(NumberFormatException nfe)
+        } catch (NumberFormatException nfe)
         {
             return false;
         }

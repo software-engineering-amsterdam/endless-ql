@@ -1,4 +1,6 @@
-﻿using QlsGrammar;
+﻿using System.Linq;
+using QlsGrammar;
+using QlsTransformer.Ast.Nodes;
 using QlsTransformer.Ast.Tools;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
@@ -23,9 +25,23 @@ namespace QlsParser.AstBuilder
         {
             var definition = context.GetText();
             var styleSheetName = context.styleSheetName.Text;
+            var pages = context.page()
+                .Select(Visit)
+                .To<IPageNode>(m_domainItemLocator);
+
             return m_astFactory.CreateStyleSheet(
                 definition,
-                styleSheetName);
+                styleSheetName,
+                pages);
+        }
+
+        public override Reference<IAstNode> VisitPage(QlsGrammar.QlsParser.PageContext context)
+        {
+            var definition = context.GetText();
+            var pageNameText = context.pageName.Text;
+            return m_astFactory.CreatePage(
+                definition,
+                pageNameText);
         }
     }
 }

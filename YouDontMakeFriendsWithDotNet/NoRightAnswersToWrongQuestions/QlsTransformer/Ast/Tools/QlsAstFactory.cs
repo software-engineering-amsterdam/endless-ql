@@ -1,4 +1,5 @@
-﻿using QlsTransformer.Ast.Nodes;
+﻿using System.Collections.Generic;
+using QlsTransformer.Ast.Nodes;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -21,14 +22,28 @@ namespace QlsTransformer.Ast.Tools
 
         public Reference<IStyleSheetRootNode> CreateStyleSheet(
             string definition, 
-            string styleSheetName)
+            string styleSheetName,
+            IEnumerable<Reference<IPageNode>> pages)
         {
             var styleSheetRootNode = new StyleSheetRootNode(
                 m_ids.Next,
                 definition,
-                styleSheetName);
+                styleSheetName,
+                pages);
 
             return DomainItemRegistration<IStyleSheetRootNode>(styleSheetRootNode);
+        }
+
+        public Reference<IPageNode> CreatePage(
+            string definition,
+            string pageName)
+        {
+            var pageNode = new PageNode(
+                m_ids.Next,
+                definition,
+                pageName);
+
+            return DomainItemRegistration<IPageNode>(pageNode);
         }
 
         private Reference<T> DomainItemRegistration<T>(T node) where T : IDomainItem

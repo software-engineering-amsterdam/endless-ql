@@ -1,20 +1,16 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Form from "./form/StatefulForm";
-import { QlsParserResult } from "./modules/styling/parsing/QlsParserPipeline";
-import QlsForm from "./modules/styling/form/QlsForm";
 import PagedFormState from "./modules/styling/form/PagedFormState";
-import QlForm from "./form/QlForm";
 import PageNode from "./modules/styling/form/nodes/containers/PageNode";
-import { QlParserResult } from "./parsing/QlParserPipeline";
 import { ModuleTabNavigation } from "./rendering/components/app_module_tabs/ModuleTabNavigation";
 import { ModuleTabsContent } from "./rendering/components/app_module_tabs/ModuleTabsContent";
 import { AppFormStateOutput } from "./rendering/components/app_form_state_output/FormStateOutput";
 import { AppErrorMessage } from "./rendering/components/app_error_message/AppErrorMessage";
 import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
-import { runParserPipeline } from "./parsing/parsing_helpers";
 import constants from "./config/constants";
 import SourceInputs from "./form/source/SourceInputs";
+import { makeStatefulForm } from "./app_helpers";
 
 export interface AppComponentProps {
 }
@@ -53,18 +49,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     this.updateForm(this.state.qlInput, this.state.qlsInput, this.state.qlsEnabled);
   }
 
-  onChangeQlSource(text: string) {
-    this.updateForm(text, this.state.qlsInput, this.state.qlsEnabled);
-  }
-
-  onChangeQlsSource(text: string) {
-    this.updateForm(this.state.qlInput, text, this.state.qlsEnabled);
-  }
-
-  toggleQls(qlsEnabled: boolean) {
-    this.updateForm(this.state.qlInput, this.state.qlsInput, qlsEnabled);
-  }
-
   updateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
     const inputs = SourceInputs.makeFromStrings(qlSource, qlsSource, qlsEnabled);
 
@@ -80,25 +64,15 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   tryToUpdateForm(inputs: SourceInputs) {
+    const form = makeStatefulForm(inputs, this.getFormState());
+
     this.setState({
-      form: this.makeForm(inputs),
+      form: form,
       parserError: null,
       qlInput: inputs.getQlSource().toString(),
       qlsInput: inputs.getQlsSource().toString(),
       qlsEnabled: inputs.qlsIsEnabled()
     });
-  }
-
-  makeForm(inputs: SourceInputs): Form {
-    const parseResult: QlParserResult | QlsParserResult | any = runParserPipeline(inputs);
-
-    let form: Form = new QlForm(parseResult.node, this.getFormState());
-
-    if (inputs.qlsIsFilledAndEnabled()) {
-      form = new QlsForm(form, parseResult.styleNode);
-    }
-
-    return form;
   }
 
   getFormState() {
@@ -125,6 +99,18 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     this.setState({
       activeTab: nextTab
     });
+  }
+
+  onChangeQlSource(text: string) {
+    this.updateForm(text, this.state.qlsInput, this.state.qlsEnabled);
+  }
+
+  onChangeQlsSource(text: string) {
+    this.updateForm(this.state.qlInput, text, this.state.qlsEnabled);
+  }
+
+  toggleQls(qlsEnabled: boolean) {
+    this.updateForm(this.state.qlInput, this.state.qlsInput, qlsEnabled);
   }
 
   render() {

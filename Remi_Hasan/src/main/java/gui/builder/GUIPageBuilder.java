@@ -2,7 +2,7 @@ package gui.builder;
 
 import gui.model.GUIPage;
 import gui.model.GUIQuestion;
-import gui.model.GUISectionElement;
+import gui.model.GUIElement;
 import qls.QLSVisitor;
 import qls.model.statement.DefaultStyle;
 import qls.model.Page;
@@ -22,7 +22,7 @@ public class GUIPageBuilder extends QLSVisitor<GUIPage> {
 
     @Override
     public GUIPage visit(Page page) {
-        List<GUISectionElement> guiElements = new ArrayList<>();
+        List<GUIElement> guiElements = new ArrayList<>();
 
         // Collect defaultStyles for this page TODO: separate class?
         List<DefaultStyle> defaultStyles = new ArrayList<>();
@@ -35,9 +35,9 @@ public class GUIPageBuilder extends QLSVisitor<GUIPage> {
         });
 
         // Add all questions and sections on this page
-        GUISectionElementBuilder guiSectionElementBuilder = new GUISectionElementBuilder(guiQuestionMap, defaultStyles);
+        GUIElementBuilder guiElementBuilder = new GUIElementBuilder(guiQuestionMap, defaultStyles);
         for(Statement statement : page.getStatements()) {
-            guiElements.addAll(guiSectionElementBuilder.visit(statement));
+            guiElements.addAll(guiElementBuilder.visit(statement));
         }
 
         return new GUIPage(page.getIdentifier(), guiElements);

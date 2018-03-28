@@ -2,7 +2,7 @@ package gui.builder;
 
 import gui.model.GUIQuestion;
 import gui.model.GUISection;
-import gui.model.GUISectionElement;
+import gui.model.GUIElement;
 import qls.QLSVisitor;
 import qls.model.statement.DefaultStyle;
 import qls.model.statement.Section;
@@ -24,7 +24,7 @@ public class GUISectionBuilder extends QLSVisitor<GUISection> {
 
     @Override
     public GUISection visit(Section section) {
-        List<GUISectionElement> guiSectionElements = new ArrayList<>();
+        List<GUIElement> guiElements = new ArrayList<>();
         List<DefaultStyle> sectionDefaultStyles = defaultStyles;
 
         // Collect defaultStyles for this section
@@ -37,11 +37,11 @@ public class GUISectionBuilder extends QLSVisitor<GUISection> {
         });
 
         // Get all questions and nested sections
-        GUISectionElementBuilder guiSectionElementBuilder = new GUISectionElementBuilder(this.guiQuestionMap, sectionDefaultStyles);
+        GUIElementBuilder guiElementBuilder = new GUIElementBuilder(this.guiQuestionMap, sectionDefaultStyles);
         for (Statement statement : section.getStatements()) {
-            guiSectionElements.addAll(guiSectionElementBuilder.visit(statement));
+            guiElements.addAll(guiElementBuilder.visit(statement));
         }
 
-        return new GUISection(section.getTitle(), guiSectionElements);
+        return new GUISection(section.getTitle(), guiElements);
     }
 }

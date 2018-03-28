@@ -9,9 +9,9 @@ import java.util.List;
 public class GUIPage {
 
     private final String identifier;
-    private final List<GUISectionElement> elements;
+    private final List<GUIElement> elements;
 
-    public GUIPage(String identifier, List<GUISectionElement> elements) {
+    public GUIPage(String identifier, List<GUIElement> elements) {
         this.identifier = identifier;
         this.elements = elements;
     }
@@ -24,7 +24,7 @@ public class GUIPage {
         VBox vBox = new VBox();
 
         // Render all sections
-        for(GUISectionElement element : elements){
+        for(GUIElement element : elements){
             vBox.getChildren().add(element.render(symbolTable, allWidgetsListener));
         }
 

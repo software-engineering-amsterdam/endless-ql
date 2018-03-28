@@ -10,7 +10,7 @@ import qls.model.style.StyleAttribute;
 
 import java.util.List;
 
-public class GUIQuestionWithStyling extends GUISectionElement implements IGUIQuestion {
+public class GUIQuestionWithStyling extends GUIElement implements IGUIQuestion {
 
     private final GUIQuestion guiQuestion;
     private final List<DefaultStyle> defaultStyles;

@@ -6,7 +6,7 @@ import {QlsVisitor} from './visitors/qls-visitor';
 
 export class Section extends QlsNode {
   constructor(readonly name: string, readonly subSections: Section[], readonly questions: QlsQuestion[],
-              readonly location: Location, readonly defaultSettings?: DefaultStyling) {
+              readonly location: Location, readonly defaultStyling?: DefaultStyling) {
     super();
   }
 

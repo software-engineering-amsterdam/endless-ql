@@ -17,6 +17,7 @@ import nl.uva.se.sc.niro.util.StringUtil
   * desired behaviour.
   */
 object GUIModelFactory {
+  // TODO rename to bridge!
   def makeFrom(form: QLForm): GUIForm = {
     ql.GUIForm(StringUtil.addSpaceOnCaseChange(form.formName), make(BooleanAnswer(true), form.statements))
   }

@@ -8,19 +8,9 @@ import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
 import nl.uva.se.sc.niro.model.ql._
 
-class QLComponentFactory(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory)
-    extends ComponentFactory {
+class QLComponentFactory(widgetFactory: WidgetFactory) extends ComponentFactory {
 
-  // TODO Convert to decorators
   def make(question: GUIQuestion): Component[_] = {
-    val component = makeComponent(question)
-    component.addComponentChangedListener(componentChangeListener)
-    component.setReadOnly(question.isReadOnly)
-    question.component = Some(component)
-    component
-  }
-
-  def makeComponent(question: GUIQuestion): Component[_] = {
     question.answerType match {
       case StringType =>
         TextComponent(question.id, new Label(question.label), widgetFactory.makeStringWidget(question))
@@ -39,6 +29,10 @@ class QLComponentFactory(componentChangeListener: ComponentChangedListener, widg
 }
 
 object QLComponentFactory {
-  def apply(componentChangeListener: ComponentChangedListener) =
-    new QLComponentFactory(componentChangeListener, new QLWidgetFactory())
+  def apply(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory) =
+    new ComponentFactoryAddValueChangedListenerDecorator(
+      componentChangeListener,
+      new ComponentFactoryIsReadOnlyDecorator(
+        new ComponentFactoryBindComponentToQuestion(new QLComponentFactory(widgetFactory)))
+    )
 }

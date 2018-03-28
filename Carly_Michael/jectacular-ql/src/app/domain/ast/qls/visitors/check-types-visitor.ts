@@ -60,10 +60,6 @@ export class CheckTypesVisitor implements QlsVisitor<void> {
     if (qlsQuestion.widget.type !== WidgetType.NONE) {
       this.throwIfQlsTypeDoesNotMatchQlType(qlsQuestion.name, qlQuestion.type, qlsQuestion.widget.type);
     }
-
-    if (qlsQuestion.defaultStyling && qlsQuestion.defaultStyling.type.toString() === qlQuestion.type.toString()) {
-      this.throwIfQlsTypeDoesNotMatchQlType(qlsQuestion.name, qlQuestion.type, qlsQuestion.defaultStyling.widget.type);
-    }
   }
 
   private throwIfDefaultStylingIsIncorrect(name: string, styling: DefaultStyling): void {

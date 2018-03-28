@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.controller
+package nl.uva.se.sc.niro.gui.controller.ql
 
 import java.io.{ File, IOException }
 
@@ -34,7 +34,7 @@ class QLHomeController extends QLBaseController with Logging {
         // TODO Improve messages and handling
         errorMessages.setText(s"Oops, please contact the developers:\n\n${e.getMessage}")
         errorMessages.setVisible(true)
-        logger.error("Processing a QL/QLS file failed!", e)
+        logger.error("Processing a QL file failed!", e)
       }
     }
   }

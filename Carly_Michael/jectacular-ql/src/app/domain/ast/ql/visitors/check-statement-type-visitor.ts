@@ -7,7 +7,10 @@ import {Form} from '../form';
 import {ExpressionQuestion} from '../expression-question';
 import {CheckExpressionTypeVisitor} from './check-expression-type-visitor';
 import {locationToReadableMessage} from '../../location';
-import {DuplicateIdentifierError, ImpossibleIfConditionError, TypeError, UnknownQuestionError} from '../../../errors';
+import {
+  CircularDependencyError, DuplicateIdentifierError, ImpossibleIfConditionError, TypeError,
+  UnknownQuestionError
+} from '../../../errors';
 import * as _ from 'lodash';
 import {CollectStatementVariablesVisitor} from './collect-statement-variables-visitor';
 import {CollectExpressionVariablesVisitor} from './collect-expression-variables-visitor';
@@ -27,6 +30,12 @@ export class CheckStatementTypeVisitor implements StatementVisitor<void> {
       throw new TypeError(`Expression type ${ExpressionTypeUtil.toString(expressionType)} ` +
         `incompatible with question type ${statement.type.toString()}`
         + locationToReadableMessage(statement.location));
+    }
+
+    const variables = CollectExpressionVariablesVisitor.evaluate(statement.expression);
+    const circularDependency = _.find(variables, ['identifier', statement.name]);
+    if (circularDependency) {
+      throw new CircularDependencyError(`The expression of question ${statement.name} references to itself`);
     }
   }
 

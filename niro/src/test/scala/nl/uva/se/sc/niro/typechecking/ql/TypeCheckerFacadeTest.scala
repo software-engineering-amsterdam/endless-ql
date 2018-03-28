@@ -1,11 +1,10 @@
-package nl.uva.se.sc.niro.typechecking
+package nl.uva.se.sc.niro.typechecking.ql
 
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.model.ql._
-import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.model.ql.expressions._
-import nl.uva.se.sc.niro.typechecking.ql.TypeCheckerFacade
+import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import org.scalatest.WordSpec
 
 class TypeCheckerFacadeTest extends WordSpec {

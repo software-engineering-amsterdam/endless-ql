@@ -11,6 +11,6 @@ describe('Expression question', () => {
 
   it('should check for circular dependency', () => {
     variable.referencedQuestion = question;
-    expect(() => CheckStatementTypeVisitor.evaluate([question], question)).toThrow(jasmine.any(CircularDependencyError));
+    expect(() => CheckStatementTypeVisitor.visit([question], question)).toThrow(jasmine.any(CircularDependencyError));
   });
 });

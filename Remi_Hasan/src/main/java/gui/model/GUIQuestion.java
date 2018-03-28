@@ -7,7 +7,6 @@ import javafx.beans.InvalidationListener;
 import javafx.scene.control.Label;
 import ql.evaluation.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
-import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 

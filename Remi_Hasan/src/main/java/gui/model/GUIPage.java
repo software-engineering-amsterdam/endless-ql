@@ -1,6 +1,7 @@
 package gui.model;
 
 import javafx.beans.InvalidationListener;
+import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 import ql.evaluation.SymbolTable;
 
@@ -28,6 +29,7 @@ public class GUIPage {
             vBox.getChildren().add(element.render(symbolTable, allWidgetsListener));
         }
 
+        vBox.setPadding(new Insets(10));
         return vBox;
     }
     

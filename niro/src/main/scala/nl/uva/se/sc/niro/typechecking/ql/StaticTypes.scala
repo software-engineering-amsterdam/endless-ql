@@ -13,8 +13,7 @@ object StaticTypes extends Logging {
   def check(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
     logger.info("Phase 3 - Checking types ...")
 
-    val checkedExpressions: List[Either[TypeCheckError, AnswerType]] = qLForm
-      .symbolTable
+    val checkedExpressions: List[Either[TypeCheckError, AnswerType]] = qLForm.symbolTable
       .filter(_._2.expression.isDefined)
       .map(entry => checkSymbolTableEntry(entry, qLForm.symbolTable))
       .toList
@@ -34,7 +33,9 @@ object StaticTypes extends Logging {
     for {
       inferredAnswerType <- entry._2.expression.get.typeOf(symbolTable)
       result <- if (inferredAnswerType == entry._2.answerType) inferredAnswerType.asRight
-      else TypeCheckError(message = s"Expression of type $inferredAnswerType does not conform to expected type ${entry._2.answerType}").asLeft
+      else
+        TypeCheckError(message =
+          s"Expression of type $inferredAnswerType does not conform to expected type ${entry._2.answerType}").asLeft
     } yield result
   }
 

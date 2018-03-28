@@ -96,7 +96,7 @@ class TypeCheckFacadeTest extends WordSpec {
         val qlForm = QLForm(
           "invalidTypes",
           Seq(
-            Question("q1", "duplicate-label", IntegerType, Some(Equal(DecimalAnswer(1), IntegerAnswer(2))))
+            Question("q1", "duplicate-label", BooleanType, Some(Equal(DecimalAnswer(1), IntegerAnswer(2))))
           ))
 
         val result = TypeCheckFacade.pipeline(qlForm)
@@ -108,7 +108,7 @@ class TypeCheckFacadeTest extends WordSpec {
         val qlForm = QLForm(
           "invalidTypes",
           Seq(
-            Question("q1", "duplicate-label", IntegerType, Some(Equal(MoneyAnswer(1), IntegerAnswer(1))))
+            Question("q1", "duplicate-label", BooleanType, Some(Equal(MoneyAnswer(1), IntegerAnswer(1))))
           ))
 
         val result = TypeCheckFacade.pipeline(qlForm)
@@ -127,14 +127,15 @@ class TypeCheckFacadeTest extends WordSpec {
 
         val result = TypeCheckFacade.pipeline(qlForm)
 
-        assert(result === Left(
-          List(
-            TypeCheckError(
-              "TypeCheckError",
-              "Expression of type BooleanType does not conform to expected type IntegerType"
+        assert(
+          result === Left(
+            List(
+              TypeCheckError(
+                "TypeCheckError",
+                "Expression of type BooleanType does not conform to expected type IntegerType"
+              )
             )
-          )
-        ))
+          ))
       }
     }
 
@@ -165,7 +166,7 @@ class TypeCheckFacadeTest extends WordSpec {
         "duplicateLabel",
         Seq(
           Question("q1", "duplicate identifier", IntegerType, Some(IntegerAnswer(1))),
-          Question("q1", "duplicate identifier", BooleanType, Some(IntegerAnswer(1)))
+          Question("q1", "duplicate identifier", BooleanType, Some(BooleanAnswer(true)))
         )
       )
 

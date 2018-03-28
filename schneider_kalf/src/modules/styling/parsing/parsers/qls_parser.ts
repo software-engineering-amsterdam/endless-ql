@@ -186,7 +186,8 @@ function peg$parse(input, options) {
   const peg$c25 = "widget";
   const peg$c26 = peg$literalExpectation("widget", false);
   const peg$c27 = function(id, options) {
-      return NodeFactory.getWidgetStyleAttribute(id, options);
+      const WidgetConstructor = widgetMapping[id];
+      return new WidgetConstructor(options);
   };
   const peg$c28 = "(";
   const peg$c29 = peg$literalExpectation("(", false);
@@ -2136,6 +2137,15 @@ function peg$parse(input, options) {
     return s0;
   }
 
+
+      let widgetMapping = {
+          "spinbox" : Nodes.SpinBoxWidgetAttribute,
+          "text" : Nodes.TextWidgetAttribute,
+          "slider" : Nodes.SliderWidgetAttribute,
+          "dropdown" : Nodes.DropdownWidgetAttribute,
+          "checkbox" : Nodes.CheckboxWidgetAttribute,
+          "radio" : Nodes.RadioWidgetAttribute
+      }
 
       let NodeFactory = new Nodes.AttributeNodeFactory();
 

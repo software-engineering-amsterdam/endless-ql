@@ -4,6 +4,15 @@
  */
 
 {
+    let widgetMapping = {
+        "spinbox" : Nodes.SpinBoxWidgetAttribute,
+        "text" : Nodes.TextWidgetAttribute,
+        "slider" : Nodes.SliderWidgetAttribute,
+        "dropdown" : Nodes.DropdownWidgetAttribute,
+        "checkbox" : Nodes.CheckboxWidgetAttribute,
+        "radio" : Nodes.RadioWidgetAttribute
+    }
+
     let NodeFactory = new Nodes.AttributeNodeFactory();
 }
 
@@ -83,7 +92,8 @@ styleAttribute
 // Widget
 widget
  = _ "widget" _ id:identifier options:widgetOptions? lb* {
-    return NodeFactory.getWidgetStyleAttribute(id, options);
+    const WidgetConstructor = widgetMapping[id];
+    return new WidgetConstructor(options);
 }
 
 // WidgetOptions

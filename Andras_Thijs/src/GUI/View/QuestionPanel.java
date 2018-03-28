@@ -8,6 +8,7 @@ import QLExceptions.TypeException;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class QuestionPanel extends JPanel{
     private final Question question;
     private boolean isAvailable;

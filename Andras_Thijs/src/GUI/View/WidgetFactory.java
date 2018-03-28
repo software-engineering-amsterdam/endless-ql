@@ -57,6 +57,7 @@ class WidgetFactory {
         NumberFormatter formatter = new NumberFormatter(format);
         formatter.setValueClass(Integer.class);
         formatter.setMaximum(Integer.MAX_VALUE);
+        format.setGroupingUsed(false);
         formatter.setAllowsInvalid(true);
         return formatter;
     }

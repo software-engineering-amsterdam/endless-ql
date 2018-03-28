@@ -28,7 +28,7 @@ public class EqualOperation extends Operator {
         // This also means that Integers, Floats and Money can be equal, and Strings and Dates can be equal.
         switch(this.getValue()) {
             case "==": return new QLBoolean(left.isEqual(right));
-            case "!=": return new QLBoolean(!left.equals(right));
+            case "!=": return new QLBoolean(!left.isEqual(right));
             default: throw new SyntaxException("Invalid equal operator", this);
         }
     }

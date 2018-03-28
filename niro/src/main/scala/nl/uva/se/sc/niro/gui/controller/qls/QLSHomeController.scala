@@ -7,7 +7,7 @@ import javafx.fxml.FXML
 import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.controller.ql.QLHomeController
-import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
+import nl.uva.se.sc.niro.gui.converter.QLToGUIModelBridge
 import nl.uva.se.sc.niro.model.gui.ql.GUIForm
 import nl.uva.se.sc.niro.model.gui.qls.GUIStylesheet
 import nl.uva.se.sc.niro.model.ql.QLForm
@@ -50,8 +50,8 @@ class QLSHomeController extends QLHomeController {
   }
 
   def showQLSForm(model: QLForm, stylesheet: QLStylesheet): Unit = {
-    val guiForm: GUIForm = GUIModelFactory.makeFrom(model)
-    val guiStyle: GUIStylesheet = GUIModelFactory.makeFrom(stylesheet)
+    val guiForm: GUIForm = QLToGUIModelBridge.convertForm(model)
+    val guiStyle: GUIStylesheet = QLToGUIModelBridge.convertStylesheet(stylesheet)
     val formController = new QLSFormController(this, model, guiForm, guiStyle)
     switchToScene(QLScenes.formScene, formController)
     formController.initializeForm()

@@ -1,9 +1,10 @@
-package nl.uva.se.sc.niro.gui.control
+package nl.uva.se.sc.niro.gui.control.qls
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.collections.FXCollections
 import javafx.scene.control.ChoiceBox
 import javafx.util.StringConverter
+import nl.uva.se.sc.niro.gui.control.ql.QLWidget
 
 class QLSBooleanComboField(trueLabel: String, falseLabel: String) extends ChoiceBox[Boolean] with QLWidget[Boolean] {
   setItems(FXCollections.observableArrayList(true, false))

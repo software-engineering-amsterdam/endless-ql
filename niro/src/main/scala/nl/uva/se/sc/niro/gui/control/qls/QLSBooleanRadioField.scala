@@ -1,9 +1,10 @@
-package nl.uva.se.sc.niro.gui.control
+package nl.uva.se.sc.niro.gui.control.qls
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.geometry.Insets
 import javafx.scene.control.{ RadioButton, Toggle, ToggleGroup }
 import javafx.scene.layout.HBox
+import nl.uva.se.sc.niro.gui.control.ql.QLWidget
 
 class QLSBooleanRadioField(trueLabel: String, falseLabel: String) extends HBox with QLWidget[Boolean] {
   val group = new ToggleGroup()

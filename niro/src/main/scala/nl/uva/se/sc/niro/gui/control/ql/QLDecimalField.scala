@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.control
+package nl.uva.se.sc.niro.gui.control.ql
 
 import nl.uva.se.sc.niro.gui.builder.DecimalFormatterBuilder
 

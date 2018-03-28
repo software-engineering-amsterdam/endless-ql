@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.control
+package nl.uva.se.sc.niro.gui.control.ql
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

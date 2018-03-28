@@ -2,6 +2,7 @@ package nl.uva.se.sc.niro.gui.control
 
 import javafx.scene.control._
 import javafx.scene.layout.HBox
+import nl.uva.se.sc.niro.gui.control.ql.QLWidget
 import nl.uva.se.sc.niro.gui.listener.{ ComponentChangedListener, ValueChangedListener }
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 

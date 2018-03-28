@@ -3,6 +3,7 @@ package nl.uva.se.sc.niro.gui.control
 import java.time.LocalDate
 
 import javafx.scene.control.Label
+import nl.uva.se.sc.niro.gui.control.ql.QLWidget
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DateAnswer }
 
 import scala.collection.mutable

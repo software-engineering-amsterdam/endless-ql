@@ -22,7 +22,7 @@ class QLComponentFactory(componentChangeListener: ComponentChangedListener, widg
   def makeComponent(question: GUIQuestion): Component[_] = {
     question.answerType match {
       case StringType =>
-        StringComponent(question.id, new Label(question.label), widgetFactory.makeStringWidget(question))
+        TextComponent(question.id, new Label(question.label), widgetFactory.makeStringWidget(question))
       case BooleanType =>
         BooleanComponent(question.id, new Label(question.label), widgetFactory.makeBooleanWidget(question))
       case DateType =>

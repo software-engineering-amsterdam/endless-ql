@@ -1,10 +1,11 @@
-package nl.uva.se.sc.niro.gui.control
+package nl.uva.se.sc.niro.gui.control.qls
 
 import java.lang
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory
+import nl.uva.se.sc.niro.gui.control.ql.QLWidget
 
 class QLSIntegerSpinField()
   extends Spinner[Integer](new IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0))

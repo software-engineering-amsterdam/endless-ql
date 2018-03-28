@@ -1,6 +1,7 @@
 package nl.uva.se.sc.niro.gui.factory.qls
 
-import nl.uva.se.sc.niro.gui.control.{ QLSBooleanComboField, QLSIntegerSpinField, QLSBooleanRadioField, QLWidget }
+import nl.uva.se.sc.niro.gui.control.ql.QLWidget
+import nl.uva.se.sc.niro.gui.control.qls.{ QLSBooleanComboField, QLSBooleanRadioField, QLSIntegerSpinField }
 import nl.uva.se.sc.niro.gui.factory.ql.QLWidgetFactory
 import nl.uva.se.sc.niro.model.gui._
 

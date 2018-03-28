@@ -15,9 +15,15 @@ This application is an interpreter for QL and QLS.
 - Parsing a form with if/if-else statements, questions and expression question
 - supported data types: integer, string, date, boolean
 - boolean questions are shown as checkboxes, other questions are shown as inputs.
-- includes evaluation of expressions
-  * logical expressions for equally typed left and right sub-expressions
-  * mathematical expressions between integers and date and integer
+- includes evaluation of expressions, supported:
+
+| | Number | Boolean | String | Date |
+| --- | --- | --- | --- | --- |
+| Number | + - / * | Error | Error | Error |
+| Boolean | Error | &#124;&#124; &amp;&amp; | Error | Error |
+| String | Error | Error | + | Error |
+| Date | + - | Error | Error | Error |
+
 - outputs the submitted form as a json file
 
 ###QLS functionality:

@@ -34,20 +34,20 @@ object GUIModelFactory {
   }
 
   def makeFrom(stylesheet: QLStylesheet): GUIStylesheet = {
-    val defaultStyles = stylesheet.defaultStyles.mapValues(GUIStyle(_))
+    val defaultStyles = stylesheet.defaultStyles.mapValues(GUIStyling(_))
     qls.GUIStylesheet(StringUtil.addSpaceOnCaseChange(stylesheet.name), stylesheet.pages.map(make), defaultStyles)
   }
 
   def make(page: Page): GUIPage = {
-    val defaultStyles = page.defaultStyles.mapValues(GUIStyle(_))
+    val defaultStyles = page.defaultStyles.mapValues(GUIStyling(_))
     qls.GUIPage(StringUtil.addSpaceOnCaseChange(page.name), page.sections.map(make), defaultStyles)
   }
 
   def make(section: Section): GUISection = {
-    val defaultStyles = section.defaultStyles.mapValues(GUIStyle(_))
+    val defaultStyles = section.defaultStyles.mapValues(GUIStyling(_))
     qls.GUISection(section.name, section.questions.map(make), defaultStyles)
   }
 
   def make(question: Question): GUIStyledQuestion =
-    GUIStyledQuestion(question.name, GUIStyle(question.widgetType))
+    GUIStyledQuestion(question.name, GUIStyling(question.widgetType))
 }

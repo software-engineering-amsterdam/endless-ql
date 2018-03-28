@@ -1,7 +1,5 @@
-import ast
-import antlr4
-from parser_generator.grammar.QLListener import *
-from parser_generator.grammar.QLParser import QLParser
+from antlr4 import ParseTreeVisitor
+from antlr.generated.QLParser import QLParser
 
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore

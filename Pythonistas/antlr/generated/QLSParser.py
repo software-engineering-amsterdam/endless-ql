@@ -1,4 +1,4 @@
-# Generated from grammar/QLS.g4 by ANTLR 4.7.1
+# Generated from /Users/Dylan/PycharmProjects/endless-ql/Pythonistas/antlr/grammar/QLS.g4 by ANTLR 4.7.1
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -184,14 +184,6 @@ class QLSParser ( Parser ):
         def getRuleIndex(self):
             return QLSParser.RULE_stylesheet
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterStylesheet" ):
-                listener.enterStylesheet(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitStylesheet" ):
-                listener.exitStylesheet(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitStylesheet" ):
                 return visitor.visitStylesheet(self)
@@ -265,14 +257,6 @@ class QLSParser ( Parser ):
 
         def getRuleIndex(self):
             return QLSParser.RULE_page
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPage" ):
-                listener.enterPage(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPage" ):
-                listener.exitPage(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitPage" ):
@@ -361,14 +345,6 @@ class QLSParser ( Parser ):
 
         def getRuleIndex(self):
             return QLSParser.RULE_section
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterSection" ):
-                listener.enterSection(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitSection" ):
-                listener.exitSection(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitSection" ):
@@ -542,14 +518,6 @@ class QLSParser ( Parser ):
         def getRuleIndex(self):
             return QLSParser.RULE_question
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterQuestion" ):
-                listener.enterQuestion(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitQuestion" ):
-                listener.exitQuestion(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitQuestion" ):
                 return visitor.visitQuestion(self)
@@ -605,14 +573,6 @@ class QLSParser ( Parser ):
 
         def getRuleIndex(self):
             return QLSParser.RULE_default
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterDefault" ):
-                listener.enterDefault(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitDefault" ):
-                listener.exitDefault(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitDefault" ):
@@ -692,14 +652,6 @@ class QLSParser ( Parser ):
 
         def getRuleIndex(self):
             return QLSParser.RULE_attributes
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterAttributes" ):
-                listener.enterAttributes(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitAttributes" ):
-                listener.exitAttributes(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitAttributes" ):
@@ -820,14 +772,6 @@ class QLSParser ( Parser ):
         def getRuleIndex(self):
             return QLSParser.RULE_type
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterType" ):
-                listener.enterType(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitType" ):
-                listener.exitType(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitType" ):
                 return visitor.visitType(self)
@@ -882,14 +826,6 @@ class QLSParser ( Parser ):
 
         def getRuleIndex(self):
             return QLSParser.RULE_widget
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterWidget" ):
-                listener.enterWidget(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitWidget" ):
-                listener.exitWidget(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitWidget" ):
@@ -949,14 +885,6 @@ class QLSParser ( Parser ):
         def getRuleIndex(self):
             return QLSParser.RULE_width
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterWidth" ):
-                listener.enterWidth(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitWidth" ):
-                listener.exitWidth(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitWidth" ):
                 return visitor.visitWidth(self)
@@ -1000,14 +928,6 @@ class QLSParser ( Parser ):
 
         def getRuleIndex(self):
             return QLSParser.RULE_font
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterFont" ):
-                listener.enterFont(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitFont" ):
-                listener.exitFont(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitFont" ):
@@ -1053,14 +973,6 @@ class QLSParser ( Parser ):
         def getRuleIndex(self):
             return QLSParser.RULE_fontsize
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterFontsize" ):
-                listener.enterFontsize(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitFontsize" ):
-                listener.exitFontsize(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitFontsize" ):
                 return visitor.visitFontsize(self)
@@ -1105,14 +1017,6 @@ class QLSParser ( Parser ):
         def getRuleIndex(self):
             return QLSParser.RULE_color
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterColor" ):
-                listener.enterColor(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitColor" ):
-                listener.exitColor(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitColor" ):
                 return visitor.visitColor(self)
@@ -1153,14 +1057,6 @@ class QLSParser ( Parser ):
 
         def getRuleIndex(self):
             return QLSParser.RULE_checkbox
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCheckbox" ):
-                listener.enterCheckbox(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCheckbox" ):
-                listener.exitCheckbox(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitCheckbox" ):
@@ -1203,14 +1099,6 @@ class QLSParser ( Parser ):
         def getRuleIndex(self):
             return QLSParser.RULE_radio
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterRadio" ):
-                listener.enterRadio(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitRadio" ):
-                listener.exitRadio(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitRadio" ):
                 return visitor.visitRadio(self)
@@ -1249,14 +1137,6 @@ class QLSParser ( Parser ):
 
         def getRuleIndex(self):
             return QLSParser.RULE_spinbox
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterSpinbox" ):
-                listener.enterSpinbox(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitSpinbox" ):
-                listener.exitSpinbox(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitSpinbox" ):
@@ -1309,14 +1189,6 @@ class QLSParser ( Parser ):
 
         def getRuleIndex(self):
             return QLSParser.RULE_choices
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterChoices" ):
-                listener.enterChoices(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitChoices" ):
-                listener.exitChoices(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitChoices" ):

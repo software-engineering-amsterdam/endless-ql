@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-from commons.config import config
 
 
 def open_file(filename):
@@ -19,10 +18,13 @@ def remove_char(string, n):
     return first_part + last_part
 
 
-def run_antlr_parse_gen(grammar):
+def run_antlr_parse_gen(grammar_file_name):
     if sys.platform == 'win32':
         # todo: translate cmd for windows
         pass
     else:
-        os.system('java -jar {} -Dlanguage=Python3 grammar/{}.g4 -o {} -visitor'.format(
-            '/usr/local/lib/antlr-4.7.1-complete.jar', grammar, config['antlr']['directory']))
+        os.system(
+            f'java -jar /usr/local/lib/antlr-4.7.1-complete.jar '
+            f'-no-listener -visitor -o {os.getcwd()}/antlr/generated '
+            f'-Dlanguage=Python3 {os.getcwd()}/antlr/grammar/{grammar_file_name}.g4 '
+        )

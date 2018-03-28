@@ -1,4 +1,4 @@
-# Generated from grammar/QL.g4 by ANTLR 4.7.1
+# Generated from /Users/Dylan/PycharmProjects/endless-ql/Pythonistas/antlr/grammar/QL.g4 by ANTLR 4.7.1
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -8,40 +8,41 @@ import sys
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#")
-        buf.write("s\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b")
+        buf.write("t\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b")
         buf.write("\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\3\2\3\2")
         buf.write("\3\2\3\2\3\2\3\3\3\3\7\3\"\n\3\f\3\16\3%\13\3\3\3\3\3")
         buf.write("\7\3)\n\3\f\3\16\3,\13\3\7\3.\n\3\f\3\16\3\61\13\3\3\3")
         buf.write("\3\3\3\4\3\4\5\4\67\n\4\3\5\3\5\3\5\3\5\3\5\7\5>\n\5\f")
         buf.write("\5\16\5A\13\5\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7")
         buf.write("\3\7\5\7N\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\n\3\n")
-        buf.write("\3\n\5\n[\n\n\3\13\3\13\5\13_\n\13\3\f\3\f\3\f\3\f\3\f")
-        buf.write("\3\f\3\f\5\fh\n\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\rq\n\r")
-        buf.write("\3\r\2\2\16\2\4\6\b\n\f\16\20\22\24\26\30\2\3\4\2\6\7")
-        buf.write("\n\n\2r\2\32\3\2\2\2\4\37\3\2\2\2\6\66\3\2\2\2\b8\3\2")
-        buf.write("\2\2\nB\3\2\2\2\fM\3\2\2\2\16O\3\2\2\2\20U\3\2\2\2\22")
-        buf.write("Z\3\2\2\2\24^\3\2\2\2\26g\3\2\2\2\30p\3\2\2\2\32\33\7")
-        buf.write("\3\2\2\33\34\7\n\2\2\34\35\5\4\3\2\35\36\7\2\2\3\36\3")
-        buf.write("\3\2\2\2\37#\7\r\2\2 \"\7\"\2\2! \3\2\2\2\"%\3\2\2\2#")
-        buf.write("!\3\2\2\2#$\3\2\2\2$/\3\2\2\2%#\3\2\2\2&*\5\6\4\2\')\7")
-        buf.write("\"\2\2(\'\3\2\2\2),\3\2\2\2*(\3\2\2\2*+\3\2\2\2+.\3\2")
-        buf.write("\2\2,*\3\2\2\2-&\3\2\2\2.\61\3\2\2\2/-\3\2\2\2/\60\3\2")
-        buf.write("\2\2\60\62\3\2\2\2\61/\3\2\2\2\62\63\7\16\2\2\63\5\3\2")
-        buf.write("\2\2\64\67\5\b\5\2\65\67\5\16\b\2\66\64\3\2\2\2\66\65")
-        buf.write("\3\2\2\2\67\7\3\2\2\289\7\13\2\29:\7\n\2\2:;\7\f\2\2;")
-        buf.write("?\5\20\t\2<>\5\n\6\2=<\3\2\2\2>A\3\2\2\2?=\3\2\2\2?@\3")
-        buf.write("\2\2\2@\t\3\2\2\2A?\3\2\2\2BC\7\21\2\2CD\7\17\2\2DE\5")
-        buf.write("\22\n\2EF\7\20\2\2F\13\3\2\2\2GN\7\n\2\2HI\7\17\2\2IJ")
-        buf.write("\5\f\7\2JK\7\20\2\2KN\3\2\2\2LN\5\30\r\2MG\3\2\2\2MH\3")
-        buf.write("\2\2\2ML\3\2\2\2N\r\3\2\2\2OP\7\4\2\2PQ\7\17\2\2QR\5\f")
-        buf.write("\7\2RS\7\20\2\2ST\5\4\3\2T\17\3\2\2\2UV\t\2\2\2V\21\3")
-        buf.write("\2\2\2W[\7\t\2\2X[\7\b\2\2Y[\5\24\13\2ZW\3\2\2\2ZX\3\2")
-        buf.write("\2\2ZY\3\2\2\2[\23\3\2\2\2\\_\5\26\f\2]_\5\30\r\2^\\\3")
-        buf.write("\2\2\2^]\3\2\2\2_\25\3\2\2\2`a\7\t\2\2ab\7\25\2\2bh\7")
-        buf.write("\t\2\2cd\7\17\2\2de\5\26\f\2ef\7\20\2\2fh\3\2\2\2g`\3")
-        buf.write("\2\2\2gc\3\2\2\2h\27\3\2\2\2ij\7\t\2\2jk\7\32\2\2kq\7")
-        buf.write("\t\2\2lm\7\17\2\2mn\5\30\r\2no\7\20\2\2oq\3\2\2\2pi\3")
-        buf.write("\2\2\2pl\3\2\2\2q\31\3\2\2\2\f#*/\66?MZ^gp")
+        buf.write("\3\n\3\n\5\n\\\n\n\3\13\3\13\5\13`\n\13\3\f\3\f\3\f\3")
+        buf.write("\f\3\f\3\f\3\f\5\fi\n\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5")
+        buf.write("\rr\n\r\3\r\2\2\16\2\4\6\b\n\f\16\20\22\24\26\30\2\3\4")
+        buf.write("\2\6\7\n\n\2t\2\32\3\2\2\2\4\37\3\2\2\2\6\66\3\2\2\2\b")
+        buf.write("8\3\2\2\2\nB\3\2\2\2\fM\3\2\2\2\16O\3\2\2\2\20U\3\2\2")
+        buf.write("\2\22[\3\2\2\2\24_\3\2\2\2\26h\3\2\2\2\30q\3\2\2\2\32")
+        buf.write("\33\7\3\2\2\33\34\7\n\2\2\34\35\5\4\3\2\35\36\7\2\2\3")
+        buf.write("\36\3\3\2\2\2\37#\7\r\2\2 \"\7\"\2\2! \3\2\2\2\"%\3\2")
+        buf.write("\2\2#!\3\2\2\2#$\3\2\2\2$/\3\2\2\2%#\3\2\2\2&*\5\6\4\2")
+        buf.write("\')\7\"\2\2(\'\3\2\2\2),\3\2\2\2*(\3\2\2\2*+\3\2\2\2+")
+        buf.write(".\3\2\2\2,*\3\2\2\2-&\3\2\2\2.\61\3\2\2\2/-\3\2\2\2/\60")
+        buf.write("\3\2\2\2\60\62\3\2\2\2\61/\3\2\2\2\62\63\7\16\2\2\63\5")
+        buf.write("\3\2\2\2\64\67\5\b\5\2\65\67\5\16\b\2\66\64\3\2\2\2\66")
+        buf.write("\65\3\2\2\2\67\7\3\2\2\289\7\13\2\29:\7\n\2\2:;\7\f\2")
+        buf.write("\2;?\5\20\t\2<>\5\n\6\2=<\3\2\2\2>A\3\2\2\2?=\3\2\2\2")
+        buf.write("?@\3\2\2\2@\t\3\2\2\2A?\3\2\2\2BC\7\21\2\2CD\7\17\2\2")
+        buf.write("DE\5\22\n\2EF\7\20\2\2F\13\3\2\2\2GN\7\n\2\2HI\7\17\2")
+        buf.write("\2IJ\5\f\7\2JK\7\20\2\2KN\3\2\2\2LN\5\30\r\2MG\3\2\2\2")
+        buf.write("MH\3\2\2\2ML\3\2\2\2N\r\3\2\2\2OP\7\4\2\2PQ\7\17\2\2Q")
+        buf.write("R\5\f\7\2RS\7\20\2\2ST\5\4\3\2T\17\3\2\2\2UV\t\2\2\2V")
+        buf.write("\21\3\2\2\2W\\\7\t\2\2X\\\7\b\2\2Y\\\7\n\2\2Z\\\5\24\13")
+        buf.write("\2[W\3\2\2\2[X\3\2\2\2[Y\3\2\2\2[Z\3\2\2\2\\\23\3\2\2")
+        buf.write("\2]`\5\26\f\2^`\5\30\r\2_]\3\2\2\2_^\3\2\2\2`\25\3\2\2")
+        buf.write("\2ab\7\t\2\2bc\7\25\2\2ci\7\t\2\2de\7\17\2\2ef\5\26\f")
+        buf.write("\2fg\7\20\2\2gi\3\2\2\2ha\3\2\2\2hd\3\2\2\2i\27\3\2\2")
+        buf.write("\2jk\7\t\2\2kl\7\32\2\2lr\7\t\2\2mn\7\17\2\2no\5\30\r")
+        buf.write("\2op\7\20\2\2pr\3\2\2\2qj\3\2\2\2qm\3\2\2\2r\31\3\2\2")
+        buf.write("\2\f#*/\66?M[_hq")
         return buf.getvalue()
 
 
@@ -149,14 +150,6 @@ class QLParser ( Parser ):
         def getRuleIndex(self):
             return QLParser.RULE_form
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterForm" ):
-                listener.enterForm(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitForm" ):
-                listener.exitForm(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitForm" ):
                 return visitor.visitForm(self)
@@ -215,14 +208,6 @@ class QLParser ( Parser ):
 
         def getRuleIndex(self):
             return QLParser.RULE_block
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterBlock" ):
-                listener.enterBlock(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitBlock" ):
-                listener.exitBlock(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitBlock" ):
@@ -299,14 +284,6 @@ class QLParser ( Parser ):
         def getRuleIndex(self):
             return QLParser.RULE_stmt
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterStmt" ):
-                listener.enterStmt(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitStmt" ):
-                listener.exitStmt(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitStmt" ):
                 return visitor.visitStmt(self)
@@ -373,14 +350,6 @@ class QLParser ( Parser ):
         def getRuleIndex(self):
             return QLParser.RULE_question
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterQuestion" ):
-                listener.enterQuestion(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitQuestion" ):
-                listener.exitQuestion(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitQuestion" ):
                 return visitor.visitQuestion(self)
@@ -445,14 +414,6 @@ class QLParser ( Parser ):
         def getRuleIndex(self):
             return QLParser.RULE_declaration
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterDeclaration" ):
-                listener.enterDeclaration(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitDeclaration" ):
-                listener.exitDeclaration(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitDeclaration" ):
                 return visitor.visitDeclaration(self)
@@ -509,14 +470,6 @@ class QLParser ( Parser ):
 
         def getRuleIndex(self):
             return QLParser.RULE_expression
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpression" ):
-                listener.enterExpression(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpression" ):
-                listener.exitExpression(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitExpression" ):
@@ -592,14 +545,6 @@ class QLParser ( Parser ):
         def getRuleIndex(self):
             return QLParser.RULE_if_
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterIf_" ):
-                listener.enterIf_(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitIf_" ):
-                listener.exitIf_(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitIf_" ):
                 return visitor.visitIf_(self)
@@ -651,14 +596,6 @@ class QLParser ( Parser ):
         def getRuleIndex(self):
             return QLParser.RULE_type
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterType" ):
-                listener.enterType(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitType" ):
-                listener.exitType(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitType" ):
                 return visitor.visitType(self)
@@ -702,20 +639,15 @@ class QLParser ( Parser ):
         def BOOL(self):
             return self.getToken(QLParser.BOOL, 0)
 
+        def ID(self):
+            return self.getToken(QLParser.ID, 0)
+
         def compute(self):
             return self.getTypedRuleContext(QLParser.ComputeContext,0)
 
 
         def getRuleIndex(self):
             return QLParser.RULE_value
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterValue" ):
-                listener.enterValue(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitValue" ):
-                listener.exitValue(self)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitValue" ):
@@ -732,7 +664,7 @@ class QLParser ( Parser ):
         self.enterRule(localctx, 16, self.RULE_value)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 88
+            self.state = 89
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,6,self._ctx)
             if la_ == 1:
@@ -747,6 +679,11 @@ class QLParser ( Parser ):
 
             elif la_ == 3:
                 self.state = 87
+                self.match(QLParser.ID)
+                pass
+
+            elif la_ == 4:
+                self.state = 88
                 self.compute()
                 pass
 
@@ -776,14 +713,6 @@ class QLParser ( Parser ):
         def getRuleIndex(self):
             return QLParser.RULE_compute
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCompute" ):
-                listener.enterCompute(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCompute" ):
-                listener.exitCompute(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitCompute" ):
                 return visitor.visitCompute(self)
@@ -798,18 +727,18 @@ class QLParser ( Parser ):
         localctx = QLParser.ComputeContext(self, self._ctx, self.state)
         self.enterRule(localctx, 18, self.RULE_compute)
         try:
-            self.state = 92
+            self.state = 93
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,7,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 90
+                self.state = 91
                 self.arithmetic_()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 91
+                self.state = 92
                 self.boolean_()
                 pass
 
@@ -850,14 +779,6 @@ class QLParser ( Parser ):
         def getRuleIndex(self):
             return QLParser.RULE_arithmetic_
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArithmetic_" ):
-                listener.enterArithmetic_(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArithmetic_" ):
-                listener.exitArithmetic_(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitArithmetic_" ):
                 return visitor.visitArithmetic_(self)
@@ -872,25 +793,25 @@ class QLParser ( Parser ):
         localctx = QLParser.Arithmetic_Context(self, self._ctx, self.state)
         self.enterRule(localctx, 20, self.RULE_arithmetic_)
         try:
-            self.state = 101
+            self.state = 102
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.INT]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 94
-                self.match(QLParser.INT)
                 self.state = 95
-                self.match(QLParser.ARITHMETIC_OP)
+                self.match(QLParser.INT)
                 self.state = 96
+                self.match(QLParser.ARITHMETIC_OP)
+                self.state = 97
                 self.match(QLParser.INT)
                 pass
             elif token in [QLParser.PARL]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 97
-                self.match(QLParser.PARL)
                 self.state = 98
-                self.arithmetic_()
+                self.match(QLParser.PARL)
                 self.state = 99
+                self.arithmetic_()
+                self.state = 100
                 self.match(QLParser.PARR)
                 pass
             else:
@@ -932,14 +853,6 @@ class QLParser ( Parser ):
         def getRuleIndex(self):
             return QLParser.RULE_boolean_
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterBoolean_" ):
-                listener.enterBoolean_(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitBoolean_" ):
-                listener.exitBoolean_(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitBoolean_" ):
                 return visitor.visitBoolean_(self)
@@ -954,25 +867,25 @@ class QLParser ( Parser ):
         localctx = QLParser.Boolean_Context(self, self._ctx, self.state)
         self.enterRule(localctx, 22, self.RULE_boolean_)
         try:
-            self.state = 110
+            self.state = 111
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLParser.INT]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 103
-                self.match(QLParser.INT)
                 self.state = 104
-                self.match(QLParser.BOOLEAN_OP)
+                self.match(QLParser.INT)
                 self.state = 105
+                self.match(QLParser.BOOLEAN_OP)
+                self.state = 106
                 self.match(QLParser.INT)
                 pass
             elif token in [QLParser.PARL]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 106
-                self.match(QLParser.PARL)
                 self.state = 107
-                self.boolean_()
+                self.match(QLParser.PARL)
                 self.state = 108
+                self.boolean_()
+                self.state = 109
                 self.match(QLParser.PARR)
                 pass
             else:

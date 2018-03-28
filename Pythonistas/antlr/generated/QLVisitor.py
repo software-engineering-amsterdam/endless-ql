@@ -1,4 +1,4 @@
-# Generated from grammar/QL.g4 by ANTLR 4.7.1
+# Generated from /Users/Dylan/PycharmProjects/endless-ql/Pythonistas/antlr/grammar/QL.g4 by ANTLR 4.7.1
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .QLParser import QLParser

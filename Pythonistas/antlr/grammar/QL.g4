@@ -13,7 +13,7 @@ expression: ID | PARL expression PARR | boolean_;
 
 if_: IF_ PARL expression PARR block;
 type: (BOOLEAN | MONEY | ID);
-value: (INT | BOOL| compute);
+value: (INT | BOOL| ID | compute);
 
 compute: arithmetic_ | boolean_;
 arithmetic_: INT ARITHMETIC_OP INT | PARL arithmetic_ PARR;

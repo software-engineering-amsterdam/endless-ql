@@ -1,10 +1,9 @@
 import sys
 import os
-import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
 
-from grammar.parser import ParserInterface
+from antlr.parser import ParserInterface
 
 
 def test_all_ql_pass_forms():

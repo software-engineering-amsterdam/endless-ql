@@ -2,8 +2,8 @@ package nl.uva.se.sc.niro.gui.component
 
 import javafx.scene.control._
 import javafx.scene.layout.HBox
-import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 import nl.uva.se.sc.niro.gui.listener.{ ComponentChangedListener, ValueChangedListener }
+import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 
 import scala.collection.mutable

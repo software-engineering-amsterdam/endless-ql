@@ -4,8 +4,8 @@ import java.lang
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.Spinner
-import nl.uva.se.sc.niro.gui.widget.{ FormatMasks, IntegerFormatterBuilder }
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
+import nl.uva.se.sc.niro.gui.widget.{ FormatMasks, IntegerFormatterBuilder }
 
 class QLSIntegerSpinField()
     extends Spinner[Integer](Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 1)

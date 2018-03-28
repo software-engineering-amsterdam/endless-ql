@@ -4,8 +4,8 @@ import java.lang
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.Spinner
-import nl.uva.se.sc.niro.gui.widget.{ DecimalFormatterBuilder, FormatMasks, IntegerFormatterBuilder }
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
+import nl.uva.se.sc.niro.gui.widget.{ DecimalFormatterBuilder, FormatMasks }
 
 class QLSDecimalSpinField()
     extends Spinner[Double](Double.MinValue, Double.MaxValue, 0.0, 0.1)

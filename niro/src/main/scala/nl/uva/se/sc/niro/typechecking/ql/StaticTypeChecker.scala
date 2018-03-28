@@ -1,13 +1,13 @@
 package nl.uva.se.sc.niro.typechecking.ql
 
 import cats.implicits._
+import nl.uva.se.sc.niro.PrettyPrinter._
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.model.ql.{ IntegerType, NumericType, _ }
 import org.apache.logging.log4j.scala.Logging
-import nl.uva.se.sc.niro.PrettyPrinter._
 
 object StaticTypeChecker extends Logging {
   def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {

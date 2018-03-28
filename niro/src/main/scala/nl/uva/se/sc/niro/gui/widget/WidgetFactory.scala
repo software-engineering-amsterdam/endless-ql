@@ -3,7 +3,6 @@ package nl.uva.se.sc.niro.gui.widget
 import java.time.LocalDate
 
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
-import nl.uva.se.sc.niro.model.gui._
 import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
 
 trait WidgetFactory {

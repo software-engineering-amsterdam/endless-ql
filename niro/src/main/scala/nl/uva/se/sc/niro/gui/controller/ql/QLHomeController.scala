@@ -7,13 +7,13 @@ import javafx.fxml.FXML
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.{ Alert, ButtonType, TextArea }
 import javafx.stage.{ FileChooser, Stage }
+import nl.uva.se.sc.niro.PrettyPrinter.{ ErrorsCanPrettyPrint, WarningCanPrettyPrint }
 import nl.uva.se.sc.niro.QLFormService
 import nl.uva.se.sc.niro.errors.{ Errors, Warning }
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
 import nl.uva.se.sc.niro.model.ql.QLForm
 import org.apache.logging.log4j.scala.Logging
-import nl.uva.se.sc.niro.PrettyPrinter.{ ErrorsCanPrettyPrint, WarningCanPrettyPrint }
 
 class QLHomeController extends QLBaseController with Logging {
   @FXML

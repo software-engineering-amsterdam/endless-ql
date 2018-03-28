@@ -1,7 +1,6 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.errors.Errors
-import nl.uva.se.sc.niro.errors.Warning
+import nl.uva.se.sc.niro.errors.{ Errors, Warning }
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 

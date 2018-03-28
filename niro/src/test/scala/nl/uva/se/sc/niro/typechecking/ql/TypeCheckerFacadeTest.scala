@@ -30,7 +30,7 @@ class TypeCheckerFacadeTest extends WordSpec {
               Question("q1", "duplicate-label", IntegerType, Some(IntegerAnswer(1))),
               Question("q2", "duplicate-label", IntegerType, Some(IntegerAnswer(1)))
             ),
-            List(Warning("Warning: questions q1, q2 have duplicate label: duplicate-label"))
+            List(Warning(message = "Questions q1, q2 have duplicate label: duplicate-label"))
           )
         ))
     }

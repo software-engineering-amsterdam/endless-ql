@@ -19,11 +19,11 @@ object TypeCheckerFacade extends Logging {
   // Order of execution is important here to avoid infinite loops in subsequent phases
   def pipeline(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] =
     for {
-      _ <- checkReferences(qLForm).left.map(error => Seq(error))
-      _ <- checkCyclicDependenciesBetweenQuestions(qLForm).left.map(error => Seq(error))
+      _ <- checkReferences(qLForm)
+      _ <- checkCyclicDependenciesBetweenQuestions(qLForm)
       _ <- checkOperandsOfInvalidTypeToOperators(qLForm)
-      _ <- checkNonBooleanPredicates(qLForm).left.map(error => Seq(error))
-      _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm).left.map(error => Seq(error))
+      _ <- checkNonBooleanPredicates(qLForm)
+      _ <- checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm)
       qlFormWithPossibleWarnings = checkDuplicateLabels(qLForm)
     } yield qlFormWithPossibleWarnings
 }

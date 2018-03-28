@@ -4,7 +4,10 @@ import org.antlr.v4.runtime.RecognitionException
 
 object Errors {
 
-  trait Error
+  trait Error {
+    val key: String
+    val message: String
+  }
 
   case class UnknownError(key: String = "Unknown Error", message: String) extends Error
 

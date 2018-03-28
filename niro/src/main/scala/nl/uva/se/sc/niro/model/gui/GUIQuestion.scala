@@ -21,32 +21,3 @@ case class QLGUIQuestion(
     override val visibility: Expression
 ) extends GUIQuestion(id, answerType, label, isReadOnly, visibility, component = None)
 
-case class QLSGUIQuestion(
-    override val id: String,
-    override val answerType: AnswerType,
-    override val label: String,
-    override val isReadOnly: Boolean,
-    override val visibility: Expression,
-    styling: GUIStyling
-) extends GUIQuestion(id, answerType, label, isReadOnly, visibility, component = None)
-
-object QLSGUIQuestion {
-
-  def apply(question: GUIQuestion) =
-    new QLSGUIQuestion(
-      question.id,
-      question.answerType,
-      question.label,
-      question.isReadOnly,
-      question.visibility,
-      styling = GUIStyling())
-
-  def apply(question: GUIQuestion, styling: GUIStyling) =
-    new QLSGUIQuestion(
-      question.id,
-      question.answerType,
-      question.label,
-      question.isReadOnly,
-      question.visibility,
-      styling)
-}

@@ -13,30 +13,6 @@ import RadioWidgetAttribute from "../nodes/attributes/widget_attribtues/RadioWid
 import SpinBoxWidgetAttribute from "../nodes/attributes/widget_attribtues/SpinBoxWidgetAttribute";
 
 export default class AttributeNodeFactory {
-  public getWidgetStyleAttribute(value: string, options?: string[]): WidgetAttribute | undefined {
-
-    if (value === 'spinbox') {
-      return new SpinBoxWidgetAttribute(options);
-    }
-    if (value === 'text') {
-      return new TextWidgetAttribute(options);
-    }
-    if (value === 'slider') {
-      return new SliderWidgetAttribute(options);
-    }
-    if (value === 'dropdown') {
-      return new DropdownWidgetAttribute(options);
-    }
-    if (value === 'checkbox') {
-      return new CheckboxWidgetAttribute(options);
-    }
-    if (value === 'radio') {
-      return new RadioWidgetAttribute(options);
-    }
-
-    throw UnknownStyleAttributeNameError.make(name);
-  }
-
   public getBaseStyleAttribute(name: string, value: string): BaseAttribute {
     if (name === 'color') {
       return ColorAttribute.makeFromString(value);

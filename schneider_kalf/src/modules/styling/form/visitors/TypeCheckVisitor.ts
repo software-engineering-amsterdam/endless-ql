@@ -47,7 +47,7 @@ export default class TypeCheckVisitor implements StyleNodeVisitor {
   }
 
   visitWidgetAttribute(widgetAttribute: WidgetAttribute): any {
-    // checkWidgetAttribute(widgetAttribute);
+    widgetAttribute.validate();
   }
 
   visitBaseAttribute(baseAttribute: BaseAttribute): any {

@@ -46,8 +46,6 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         {
             node.setAfter(c.accept(this));
         }
-
-
         return node;
     }
 
@@ -65,7 +63,6 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         {
             node.setAfter(c.accept(this));
         }
-
         return node;
     }
 
@@ -133,21 +130,26 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     public Node visitNumberExpression(GrammarParser.NumberExpressionContext context)
     {
         int i = context.value.getType();
-        if (i == GrammarParser.NUM)
+        switch (i)
         {
-            NumberNode node = new NumberNode();
-            node.setValue(Integer.valueOf(context.getText()));
-            return node;
-        } else if (i == GrammarParser.VAR)
-        {
-            VariableNode node = new VariableNode();
-            node.setName(context.getText());
-            return node;
-        } else if (i == GrammarParser.DEC)
-        {
-            DecimalNode node = new DecimalNode();
-            node.setValue(Double.valueOf(context.getText()));
-            return node;
+            case GrammarParser.NUM:
+            {
+                NumberNode node = new NumberNode();
+                node.setValue(Integer.valueOf(context.getText()));
+                return node;
+            }
+            case GrammarParser.VAR:
+            {
+                VariableNode node = new VariableNode();
+                node.setName(context.getText());
+                return node;
+            }
+            case GrammarParser.DEC:
+            {
+                DecimalNode node = new DecimalNode();
+                node.setValue(Double.valueOf(context.getText()));
+                return node;
+            }
         }
         return null;
     }
@@ -164,25 +166,23 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         InfixExpressionNode node;
 
         int i = context.log.getType();
-        if (i == GrammarParser.AND)
+        switch (i)
         {
-            node = new AndNode();
-
-        } else if (i == GrammarParser.OR)
-        {
-            node = new OrNode();
-
-        } else
-        {
-            try
-            {
-                throw new Exception("Invalid Node Type");
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-            return null;
+            case GrammarParser.AND:
+                node = new AndNode();
+                break;
+            case GrammarParser.OR:
+                node = new OrNode();
+                break;
+            default:
+                try
+                {
+                    throw new Exception("Invalid Node Type");
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                return null;
         }
 
         node.setLeft((ExpressionNode) context.left.accept(this));

@@ -52,3 +52,42 @@ export class QuestionPlacedTwiceInLayoutError extends StyleError {
     return error;
   }
 }
+
+export class ExpectedArgumentsError extends StyleError {
+  static make(name: string, expectedArguments: number, receivedArguments: number) {
+    const message = `${name} expects: ${expectedArguments} ` +
+                    `argument(s) but got: ${receivedArguments}`;
+
+    const error = new ExpectedArgumentsError(message);
+    Object.setPrototypeOf(error, ExpectedArgumentsError.prototype);
+    return error;
+  }
+}
+
+export class ArgumentValueError extends StyleError {
+  static make(name: string, expectedArguments: string, receivedArguments: string) {
+    const message = `${name} options must be of type ${expectedArguments} ` +
+        `but got: ${receivedArguments}`;
+
+    const error = new ArgumentValueError(message);
+    Object.setPrototypeOf(error, ArgumentValueError.prototype);
+    return error;
+  }
+}
+
+export class SmallThenError extends StyleError {
+  static make(name: string, firstOption: number, secondOption: number) {
+    const message = `${firstOption} must be smaller than ${secondOption} `;
+
+    const error = new SmallThenError(message);
+    Object.setPrototypeOf(error, SmallThenError.prototype);
+    return error;
+  }
+}
+
+// TODO: fuck Simon I'm going to make this work #makeSexyCode
+export const makeError = (errorClass: any, message: string): StyleError => {
+  const error = new errorClass(message);
+  Object.setPrototypeOf(error, errorClass.prototype);
+  return error;
+};

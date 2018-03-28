@@ -4,41 +4,41 @@
  */
 
 {
-  // Dictionary of operators to their tsc definition
-  let operations = {
-              //"!"  : Node.Negation,
-              "&&" : Nodes.And,
-              "||" : Nodes.Or,
-              "<=" : Nodes.SmallerThanOrEqual,
-              ">=" : Nodes.LargerThanOrEqual,
-              "!=" : Nodes.NotEqual,
-              "==" : Nodes.Equals,
-              "<"  : Nodes.SmallerThan,
-              ">"  : Nodes.LargerThan,
-              "+"  : Nodes.Addition,
-              "-"  : Nodes.Subtraction,
-              "*"  : Nodes.Multiplication,
-              "/"  : Nodes.Division
-            }
-
-  // Dictionary of types to their tsc definition
-  let types = {
-                  "boolean" : FieldType.Boolean,
-                  "date" : FieldType.Date,
-                  "money" : FieldType.Money,
-                  "integer" : FieldType.Integer,
-                  "decimal" : FieldType.Decimal,
-                  "text" : FieldType.Text,
-                }
-
-  // Building an expression
-  function buildExpression(head, tail) {
-    return tail.reduce(function(left, curr) {
-      const Operation = operations[curr[1]];
-      return new Operation(left, curr[3]);
+    // Dictionary of operators to their tsc definition
+    let operations = {
+        //"!"  : Node.Negation,
+        "&&" : Nodes.And,
+        "||" : Nodes.Or,
+        "<=" : Nodes.SmallerThanOrEqual,
+        ">=" : Nodes.LargerThanOrEqual,
+        "!=" : Nodes.NotEqual,
+        "==" : Nodes.Equals,
+        "<"  : Nodes.SmallerThan,
+        ">"  : Nodes.LargerThan,
+        "+"  : Nodes.Addition,
+        "-"  : Nodes.Subtraction,
+        "*"  : Nodes.Multiplication,
+        "/"  : Nodes.Division
     }
-    , head);
-  }
+
+    // Dictionary of types to their tsc definition
+    let types = {
+        "boolean" : FieldType.Boolean,
+        "date" : FieldType.Date,
+        "money" : FieldType.Money,
+        "integer" : FieldType.Integer,
+        "decimal" : FieldType.Decimal,
+        "text" : FieldType.Text,
+    }
+
+    // Building an expression
+    function buildExpression(head, tail) {
+        return tail.reduce(function(left, curr) {
+          const Operation = operations[curr[1]];
+          return new Operation(left, curr[3]);
+        }
+        , head);
+    }
 
   // Add location to every node
   function processNode(node){

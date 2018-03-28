@@ -24,7 +24,7 @@ class QLFormTest {
 
         root.setParents();
 
-        Predicate<ASTNode> p = (q)-> q.getParent() == root;
+        Predicate<ASTNode> p = (q) -> q.getParent() == root;
 
         assert root.getQuestions().stream().allMatch(p);
         assert root.getConditions().stream().allMatch(p);

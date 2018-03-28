@@ -22,7 +22,7 @@ import {VariableToLiteralFactory} from '../../../../factories/variable-to-litera
 export class EvaluateExpressionVisitor implements ExpressionVisitor<Literal> {
   constructor(private readonly form: FormGroup) { }
 
-  static evaluate(form: FormGroup, expression: Expression): Literal {
+  static visit(form: FormGroup, expression: Expression): Literal {
     const visitor = new EvaluateExpressionVisitor(form);
     return expression.accept(visitor);
   }

@@ -34,8 +34,15 @@
       <HintPath>..\packages\Antlr4.Runtime.4.6.4\lib\net45\Antlr4.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.ZipFile">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,11 +69,29 @@
     <Compile Include="..\QlsGrammar\obj\Debug\QlsVisitor.cs">
       <Link>Generated\QlsVisitor.cs</Link>
     </Compile>
-    <Compile Include="Class1.cs" />
+    <Compile Include="AstBuilder\AstExtensions.cs" />
+    <Compile Include="AstBuilder\BuildQlsAstVisitor.cs" />
+    <Compile Include="AstBuilder\ParsingErrorListener.cs" />
+    <Compile Include="AstBuilder\QlsAstBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QlsParserModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QlsTransformer\QlsTransformer.csproj">
+      <Project>{4214F8B0-A5FA-4426-B71C-16CED6FA0A63}</Project>
+      <Name>QlsTransformer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionnaireDomain.Entities.csproj">
+      <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
+      <Name>QuestionnaireDomain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QuestionnaireInfrastructure\QuestionnaireInfrastructure.csproj">
+      <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
+      <Name>QuestionnaireInfrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

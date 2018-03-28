@@ -1,14 +1,13 @@
 import * as React from 'react';
-import QlForm from "../../../form/QlForm";
-import QlsForm from "../../../modules/styling/form/QlsForm";
 import Button from "reactstrap/lib/Button";
 import Input from "reactstrap/lib/Input";
+import Form from "../../../form/StatefulForm";
 
 export interface FormStateOutputProps {
-  form?: QlForm | QlsForm;
+  form?: Form;
 }
 
-export const FormStateOutput: React.SFC<FormStateOutputProps> = (props) => {
+export const AppFormStateOutput: React.SFC<FormStateOutputProps> = (props) => {
   if (!props.form) {
     return null;
   }

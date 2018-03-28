@@ -4,17 +4,17 @@ using System.Runtime.Serialization;
 namespace QuestionnaireDomain.Entities.Domain
 {
     [Serializable]
-    public class QlParserException : Exception
+    public class ParserException : Exception
     {
         public string ParseErrorDetails { get; set; }
 
-        protected QlParserException(
+        protected ParserException(
             SerializationInfo info,
             StreamingContext context) : base(info, context)
         {
         }
 
-        public QlParserException(string message, Exception inner)
+        public ParserException(string message, Exception inner)
             : base(message, inner)
         {
         }

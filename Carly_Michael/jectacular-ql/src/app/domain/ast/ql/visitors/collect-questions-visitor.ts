@@ -12,7 +12,7 @@ export class CollectQuestionsVisitor implements StatementVisitor<void> {
     this.questions = [];
   }
 
-  static evaluate(statement: Statement): ReadonlyArray<QlQuestion> {
+  static visit(statement: Statement): ReadonlyArray<QlQuestion> {
     const visitor = new CollectQuestionsVisitor();
     statement.accept(visitor);
     return visitor.questions;

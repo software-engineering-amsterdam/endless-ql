@@ -41,20 +41,18 @@ class DuplicateChecker {
             String name = q.getName(), label = q.getLabel();
 
             // Check the name.
-            if(names.contains(name)) {
+            if(names.contains(name))
                 throw new SyntaxException("Duplicate question name: " + name);
-            } else {
+            else
                 names.add(name);
-            }
 
             // Check the label.
             if(labels.contains(label)) {
                 // Check if the label is already marked as duplicate.
                 if(!duplicateLabels.contains(label))
                     duplicateLabels.add(label);
-            } else {
+            } else
                 labels.add(label);
-            }
         }
     }
 }

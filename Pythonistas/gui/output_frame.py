@@ -28,7 +28,7 @@ class OutputFrame(QtWidgets.QFrame):
         """ Writes answers to txt file """
         file = open(self.output_path, 'w')
         for question_id in self.question_ids:
-            file.write(self.questions[question_id].question+str(self.questions[question_id].answer)+'\n')
+            file.write(self.questions[question_id].question_string+str(self.questions[question_id].answer)+'\n')
         file.close()
 
     def add_question(self, question_frame):

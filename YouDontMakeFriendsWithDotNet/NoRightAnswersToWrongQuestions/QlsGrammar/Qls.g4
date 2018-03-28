@@ -1,18 +1,7 @@
 grammar Qls;
 
-/*
- * Parser Rules
- */
+styleSheet : 'stylesheet' styleSheetName=IDENTIFIER '{' '}';
 
-compileUnit
-	:	EOF
-	;
-
-/*
- * Lexer Rules
- */
-
+IDENTIFIER: [a-zA-Z] [a-zA-Z0-9_]* ;
 NEWLINE: '\r'? '\n' -> skip;
 WS: [ \t]+ -> skip ;
-LINECOMMENT: '//' ~[\r\n]* -> skip;
-BLOCKCOMMENT: '/*' .*? '*/' -> skip;

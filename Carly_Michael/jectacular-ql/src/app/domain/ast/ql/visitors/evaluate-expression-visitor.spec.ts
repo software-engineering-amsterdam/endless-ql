@@ -48,49 +48,49 @@ describe('Expressions', () => {
   describe('should evaluate', () => {
     const form = new FormGroup({booleanQuestion: new FormControl({value: ''})});
     it('literals', () => {
-      expect(EvaluateExpressionVisitor.evaluate(form, stringLiteral).getValue()).toBe('string');
-      expect(EvaluateExpressionVisitor.evaluate(form, dateLiteral).getValue()).toEqual(new Date('01-01-1990'));
-      expect(EvaluateExpressionVisitor.evaluate(form, booleanLiteral).getValue()).toBe(true);
-      expect(EvaluateExpressionVisitor.evaluate(form, intLiteral).getValue()).toBe(5);
+      expect(EvaluateExpressionVisitor.visit(form, stringLiteral).getValue()).toBe('string');
+      expect(EvaluateExpressionVisitor.visit(form, dateLiteral).getValue()).toEqual(new Date('01-01-1990'));
+      expect(EvaluateExpressionVisitor.visit(form, booleanLiteral).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.visit(form, intLiteral).getValue()).toBe(5);
     });
 
     it('logical expressions', () => {
-      expect(EvaluateExpressionVisitor.evaluate(form, andExpression).getValue()).toBe(true);
-      expect(EvaluateExpressionVisitor.evaluate(form, orExpression).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.visit(form, andExpression).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.visit(form, orExpression).getValue()).toBe(true);
     });
 
     it('arithmetic expressions', () => {
-      expect(EvaluateExpressionVisitor.evaluate(form, timesExpression).getValue()).toBe(40.0);
-      expect(EvaluateExpressionVisitor.evaluate(form, divideExpression).getValue()).toBe(1);
-      expect(EvaluateExpressionVisitor.evaluate(form, addExpression).getValue()).toBe(13.0);
-      expect(EvaluateExpressionVisitor.evaluate(form, subtractExpression).getValue()).toBe(0.0);
+      expect(EvaluateExpressionVisitor.visit(form, timesExpression).getValue()).toBe(40.0);
+      expect(EvaluateExpressionVisitor.visit(form, divideExpression).getValue()).toBe(1);
+      expect(EvaluateExpressionVisitor.visit(form, addExpression).getValue()).toBe(13.0);
+      expect(EvaluateExpressionVisitor.visit(form, subtractExpression).getValue()).toBe(0.0);
     });
 
     it('comparison expressions', () => {
-      expect(EvaluateExpressionVisitor.evaluate(form, lessThanExpression).getValue()).toBe(true);
-      expect(EvaluateExpressionVisitor.evaluate(form, greaterThanExpression).getValue()).toBe(false);
-      expect(EvaluateExpressionVisitor.evaluate(form, lessEqualExpression).getValue()).toBe(false);
-      expect(EvaluateExpressionVisitor.evaluate(form, greaterEqualExpression).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.visit(form, lessThanExpression).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.visit(form, greaterThanExpression).getValue()).toBe(false);
+      expect(EvaluateExpressionVisitor.visit(form, lessEqualExpression).getValue()).toBe(false);
+      expect(EvaluateExpressionVisitor.visit(form, greaterEqualExpression).getValue()).toBe(true);
     });
 
     it('equality expressions', () => {
-      expect(EvaluateExpressionVisitor.evaluate(form, equalExpression).getValue()).toBe(true);
-      expect(EvaluateExpressionVisitor.evaluate(form, unequalExpression).getValue()).toBe(false);
+      expect(EvaluateExpressionVisitor.visit(form, equalExpression).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.visit(form, unequalExpression).getValue()).toBe(false);
     });
 
     it('unary expressions', () => {
-      expect(EvaluateExpressionVisitor.evaluate(form, negativeExpression).getValue()).toBe(-5);
-      expect(EvaluateExpressionVisitor.evaluate(form, negateExpression).getValue()).toBe(false);
+      expect(EvaluateExpressionVisitor.visit(form, negativeExpression).getValue()).toBe(-5);
+      expect(EvaluateExpressionVisitor.visit(form, negateExpression).getValue()).toBe(false);
     });
 
     it('variable expressions', () => {
-      expect(EvaluateExpressionVisitor.evaluate(form, variableExpression).getValue()).toBeUndefined();
+      expect(EvaluateExpressionVisitor.visit(form, variableExpression).getValue()).toBeUndefined();
 
       form.controls['booleanQuestion'].setValue(true);
-      expect(EvaluateExpressionVisitor.evaluate(form, variableExpression).getValue()).toBe(true);
+      expect(EvaluateExpressionVisitor.visit(form, variableExpression).getValue()).toBe(true);
 
       const unknownIdentifierVariableExpression = new Variable('identifier', emptyLoc);
-      expect(() => EvaluateExpressionVisitor.evaluate(form, unknownIdentifierVariableExpression).getValue()).toThrow();
+      expect(() => EvaluateExpressionVisitor.visit(form, unknownIdentifierVariableExpression).getValue()).toThrow();
     });
   });
   describe('Should check and return type', () => {

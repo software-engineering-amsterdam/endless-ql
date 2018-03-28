@@ -8,15 +8,15 @@ import QLExceptions.*;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 class Main {
+
     public static void main (String[] args){
 
-        FormReader formReader = new FormReader();
-
         try {
+
+            FormReader formReader = new FormReader();
 
             // Read the form from a file and set the parent structure.
             QLForm form = formReader.parseCharStream(CharStreams.fromFileName(new PathChooser().getFilePath()));
@@ -53,4 +53,5 @@ class Main {
             e.printStackTrace();
         }
     }
+
 }

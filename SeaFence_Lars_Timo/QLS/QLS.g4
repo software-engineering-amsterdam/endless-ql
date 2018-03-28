@@ -19,8 +19,8 @@ section_id: STR;
 widget: 'widget' widget_type;
 widget_type: 'checkbox'
            | 'radio("Yes", "No")'
-           | 'spinbox'
-           | 'slider'
+           | 'spinbox(' NUMBER ', ' NUMBER ')'
+           | 'slider(' NUMBER ', ' NUMBER ')'
            | 'text'
            | 'dropdown("Yes", "No")'
            ;
@@ -31,7 +31,7 @@ fontsize: 'fontsize:' NUMBER;
 color: 'color:' HEX;
 
 var: NAME;
-vartype: 'money'
+vartype: 'int'
        | 'boolean';
 
 /*

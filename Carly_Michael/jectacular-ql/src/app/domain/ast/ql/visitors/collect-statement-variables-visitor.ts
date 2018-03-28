@@ -9,11 +9,12 @@ import {CollectExpressionVariablesVisitor} from './collect-expression-variables-
 
 export class CollectStatementVariablesVisitor implements StatementVisitor<void> {
   private variables: Variable[];
+
   private constructor() {
     this.variables = [];
   }
 
-  static evaluate(statement: Statement): ReadonlyArray<Variable> {
+  static visit(statement: Statement): ReadonlyArray<Variable> {
     const visitor = new CollectStatementVariablesVisitor();
     statement.accept(visitor);
     return visitor.variables;

@@ -5,8 +5,9 @@ import FormState from "../../state/FormState";
 import { canBeEvaluated, evaluate } from "../../evaluation/evaluation_functions";
 import FieldVisitor from "../visitors/FieldVisitor";
 import AbstractTreeNode from "../AbstractTreeNode";
+import StatementCollection from "../../collection/StatementCollection";
 
-export default class ComputedField extends AbstractTreeNode implements Field {
+export default class ComputedFieldNode extends AbstractTreeNode implements Field {
   readonly label: string;
   readonly identifier: string;
   readonly type: FieldType;
@@ -43,5 +44,9 @@ export default class ComputedField extends AbstractTreeNode implements Field {
     }
 
     return evaluate(this.formula, state);
+  }
+
+  addToCollection(collection: StatementCollection): void {
+    collection.addComputedField(this);
   }
 }

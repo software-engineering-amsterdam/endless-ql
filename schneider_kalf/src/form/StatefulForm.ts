@@ -2,8 +2,9 @@ import FieldNode from "./nodes/fields/FieldNode";
 import FormState from "./state/FormState";
 import FieldVisitor from "./nodes/visitors/FieldVisitor";
 import FormNode from "./nodes/FormNode";
+import { VariablesMap } from "./type_checking/VariableScopeVisitor";
 
-export default interface Form {
+export default interface StatefulForm {
   getRootNode(): FormNode;
 
   getName(): string;
@@ -14,9 +15,11 @@ export default interface Form {
 
   getState(): FormState | any;
 
-  setState(state: FormState): Form;
+  setState(state: FormState): StatefulForm;
 
-  setAnswer(identifier: string, value: any): Form;
+  getVariablesMap(): VariablesMap;
+
+  setAnswer(identifier: string, value: any): StatefulForm;
 
   getAnswer(identifier: string): any;
 

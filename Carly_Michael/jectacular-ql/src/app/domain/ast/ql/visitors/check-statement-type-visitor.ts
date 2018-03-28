@@ -19,7 +19,7 @@ import {CollectQuestionsVisitor} from './collect-questions-visitor';
 export class CheckStatementTypeVisitor implements StatementVisitor<void> {
   private constructor(readonly allQuestions: ReadonlyArray<QlQuestion>) { }
 
-  static evaluate(allQuestions: ReadonlyArray<QlQuestion>, statement: Statement): void {
+  static visit(allQuestions: ReadonlyArray<QlQuestion>, statement: Statement): void {
     const visitor = new CheckStatementTypeVisitor(allQuestions);
     statement.accept(visitor);
   }
@@ -59,7 +59,7 @@ export class CheckStatementTypeVisitor implements StatementVisitor<void> {
 
     // check if any of the referenced question(s) in the condition point to questions in the body
     const variables = CollectExpressionVariablesVisitor.evaluate(statement.condition);
-    const questions = CollectQuestionsVisitor.evaluate(statement);
+    const questions = CollectQuestionsVisitor.visit(statement);
 
     for (const variable of variables) {
       const question = questions.find(q => q.name === variable.identifier);
@@ -96,7 +96,7 @@ export class CheckStatementTypeVisitor implements StatementVisitor<void> {
   }
 
   private setVariableReferences(form: Form): void {
-    const allVariables = CollectStatementVariablesVisitor.evaluate(form);
+    const allVariables = CollectStatementVariablesVisitor.visit(form);
 
     for (const variable of allVariables) {
       const referencedQuestion = this.allQuestions.find(q => q.name === variable.identifier);

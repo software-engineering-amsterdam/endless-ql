@@ -1,9 +1,9 @@
 ﻿using Antlr4.Runtime;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace AntlrInterpretor.AstBuilder
+namespace QlsParser.AstBuilder
 {
-    internal class QlErrorListener : BaseErrorListener, IAntlrErrorListener<int>
+    internal class QlsErrorListener : BaseErrorListener, IAntlrErrorListener<int>
     {
         public override void SyntaxError(
             IRecognizer recognizer, 
@@ -15,7 +15,7 @@ namespace AntlrInterpretor.AstBuilder
         {
             const string message = @"Parse failed. See inner exception for details.";
             var detailsMessage = $@"'{offendingSymbol.Text}' was not recognized at line {line}, position {charPositionInLine}, giving the following error: {msg} ";
-            throw new QlParserException(message, e)
+            throw new ParserException(message, e)
             {
                 ParseErrorDetails = detailsMessage
             };
@@ -31,7 +31,7 @@ namespace AntlrInterpretor.AstBuilder
         {
             const string message = @"Parse failed. See inner exception for details.";
             var detailsMessage = $@"Lexing of {recognizer.InputStream} failed at line {line}, position {charPositionInLine}, giving the following error: {msg} ";
-            throw new QlParserException(message, e)
+            throw new ParserException(message, e)
             {
                 ParseErrorDetails = detailsMessage
             };

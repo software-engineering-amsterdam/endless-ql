@@ -1,6 +1,7 @@
-package nl.uva.se.sc.niro.gui.control
+package nl.uva.se.sc.niro.gui.control.qls
 
-import nl.uva.se.sc.niro.gui.control.qls.QLSWidgetFactory
+import nl.uva.se.sc.niro.gui.control.ql.QLComponentFactory
+import nl.uva.se.sc.niro.gui.control.{ Component, WidgetFactory }
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIQuestion, QLSGUIQuestion }
 

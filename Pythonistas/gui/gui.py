@@ -7,7 +7,7 @@ and the entered answers may be saved to a .txt file by pressing the "Submit" but
 from visitor.ql_visitor import visit_ql
 from visitor.qls_visitor import visit_qls
 from PyQt5 import QtWidgets, QtCore
-from grammar.parser import ParserInterface
+from antlr.parser import ParserInterface
 from gui.input_frame import InputFrame
 from gui.output_frame import OutputFrame
 

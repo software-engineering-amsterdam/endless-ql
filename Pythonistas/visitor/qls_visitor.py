@@ -1,7 +1,5 @@
-# Generated from grammar/QLS.g4 by ANTLR 4.7.1
-from antlr4 import *
-from parser_generator.grammar.QLListener import *
-from parser_generator.grammar.QLSParser import QLSParser
+from antlr4 import ParseTreeVisitor
+from antlr.generated.QLSParser import QLSParser
 from PyQt5 import QtWidgets
 
 

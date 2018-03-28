@@ -3,10 +3,10 @@ import re
 import os
 import sys
 from commons.error_handling import MyErrorListener
-from parser_generator.grammar.QLLexer import QLLexer
-from parser_generator.grammar.QLParser import QLParser
-from parser_generator.grammar.QLSLexer import QLSLexer
-from parser_generator.grammar.QLSParser import QLSParser
+from antlr.generated.QLLexer import QLLexer
+from antlr.generated.QLParser import QLParser
+from antlr.generated.QLSLexer import QLSLexer
+from antlr.generated.QLSParser import QLSParser
 from commons.utility import open_file
 
 
@@ -88,7 +88,7 @@ class ParserInterface:
     def get_token_types(self):
         """ Gets token types corrensponding with lexer grammar """
         token_types = {'-1': '<EOF>'}
-        tokens = open_file('parser_generator/grammar/{}.tokens'.format(self.grammar_name)).split('\n')
+        tokens = open_file('antlr/generated/{}.tokens'.format(self.grammar_name)).split('\n')
 
         for token in tokens:
             if token != '' and "'" not in token:
@@ -111,7 +111,7 @@ class ParserInterface:
 
     def check_grammar_exist(self):
         """ Checks if grammar input exists in grammar dir """
-        grammar_dir = f'{os.getcwd()}/grammar'
+        grammar_dir = f'{os.getcwd()}/antlr/grammar'
         if f'{self.grammar_name}.g4' not in os.listdir(grammar_dir):
             raise ValueError('Request for parsing with grammar that does not exist')
 

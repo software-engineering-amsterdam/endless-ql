@@ -12,7 +12,9 @@ class Gui():
         self.frame = None
         self.notebook = None
         self.frames = {}
+        self.widget_settings = {}
         self.values = {}
+        self.pages = {}
 
         self.notebook_set = False
         self.current_page = None
@@ -29,11 +31,12 @@ class Gui():
             self.dropdowns[name].destroy()
             del self.dropdowns[name]
 
-    def addBooleanQuestion(self, widget_var, question, text1, text2, render_frame, color="#999999", width=300, font="Times", fontsize="12"):
-        frame = tk.Frame(render_frame, height=2)
+    def addBooleanQuestion(self, widget_var, question, text1, text2, render_frame, color="#000000", width=300, font="Times", fontsize="12"):
+        frame = tk.Frame(render_frame, height=2, width=width)
         frame.pack(expand=False, fill='both')
         
-        label = tk.Label(frame, text=question, height=2)
+        font_options = font + " " + fontsize
+        label = tk.Label(frame, text=question, height=2, fg=color, font=font_options)
         label.pack(side=LEFT)
         
         var = self.values[widget_var]
@@ -44,60 +47,75 @@ class Gui():
 
         self.frames[widget_var] = frame
 
-    def addIntQuestion(self, widget_var, question, render_frame, color="#999999", width=30, font="Times", fontsize="12"):
-        frame = tk.Frame(render_frame, height=2)
+    def addIntQuestion(self, widget_var, question, render_frame, color="#000000", width=30, font="Times", fontsize="12"):
+        frame = tk.Frame(render_frame, height=2, width=width)
         frame.pack(expand=False, fill='both')
 
-        label = tk.Label(frame, text=question, height=2)
+        font_options = font + " " + fontsize
+        label = tk.Label(frame, text=question, height=2, font=font_options, fg=color)
         label.pack(side=LEFT)
 
         var = self.values[widget_var]
-        font_options = font + " " + fontsize
-        entry = tk.Entry(frame, textvariable=var, font=font_options, fg=color, width=width)
+        entry = tk.Entry(frame, textvariable=var, font=font_options, fg=color)
         entry.pack(side=LEFT)
 
         self.frames[widget_var] = frame
 
-    def addSpinBoxQuestion(self, widget_var, question, render_frame, color="#999999", width=30, font="Times", fontsize="12", min=0, max=100):
-        frame = tk.Frame(render_frame, height=2)
+    def addSpinBoxQuestion(self, widget_var, question, render_frame, color="#000000", width=30, font="Times", fontsize="12", min=0, max=100):
+        frame = tk.Frame(render_frame, height=2, width=width)
         frame.pack(expand=False, fill='both')
 
-        label = tk.Label(frame, text=question, height=2)
+        font_options = font + " " + fontsize
+        var = self.values[widget_var]
+        label = tk.Label(frame, text=question, height=2, font=font_options, fg=color)
         label.pack(side=LEFT)
 
-        var = self.values[widget_var]
-        font_options = font + " " + fontsize
-        spin_box = tk.Spinbox(frame, from_=min, to=max, font=font_options, fg=color, width=width, textvariable=var, state='readonly')
+        spin_box = tk.Spinbox(frame, from_=min, to=max, font=font_options, fg=color, textvariable=var, state='readonly')
         spin_box.pack(side=LEFT)
 
         self.frames[widget_var] = frame
 
-    def addSliderQuestion(self, widget_var, question, render_frame, color="#999999", width=30, font="Times", fontsize="12", min=0, max=100):
-        frame = tk.Frame(render_frame, height=2)
+    def addSliderQuestion(self, widget_var, question, render_frame, color="#000000", width=30, font="Times", fontsize="12", min=0, max=100):
+        frame = tk.Frame(render_frame, height=2, width=width)
         frame.pack(expand=False, fill='both')
-
-        label = tk.Label(frame, text=question, height=2)
+        
+        font_options = font + " " + fontsize
+        label = tk.Label(frame, text=question, height=2, fg=color, font=font_options)
         label.pack(side=LEFT)
 
         var = self.values[widget_var]
-        font_options = font + " " + fontsize
-        slider = tk.Scale(frame, from_=min, to=max, font=font_options, fg=color, width=width, variable=var)
+        slider = tk.Scale(frame, from_=min, to=max, font=font_options, fg=color, variable=var, orient=HORIZONTAL, width=5)
         slider.pack(side=LEFT)
 
         self.frames[widget_var] = frame
 
-    def addBooleanDropdownQuestion(self, widget_var, question, render_frame, color="#999999", width=30, font="Times", fontsize="12"):
-        frame = tk.Frame(render_frame, height=2)
+    def addBooleanDropdownQuestion(self, widget_var, question, render_frame, color="#000000", width=30, font="Times", fontsize="12"):
+        frame = tk.Frame(render_frame, height=2, width=width)
         frame.pack(expand=False, fill='both')
 
-        label = tk.Label(frame, text=question, height=2)
+        font_options = font + " " + fontsize
+        label = tk.Label(frame, text=question, height=2, font=font_options, fg=color)
         label.pack(side=LEFT)
 
         var = self.values[widget_var]
-        font_options = font + " " + fontsize
         dropdown = tk.OptionMenu(frame, var, "Yes", "No")
-        dropdown.config(font=font_options, fg=color, width=width,)
+        dropdown.config(font=font_options, fg=color)
         dropdown.pack(side=LEFT)
+
+        self.frames[widget_var] = frame
+
+    def addCheckboxQuestion(self, widget_var, question, render_frame, color="#000000", width=30, font="Times", fontsize="12"):
+        frame = tk.Frame(render_frame, height=2, width=width)
+        frame.pack(expand=False, fill='both')
+
+        font_options = font + " " + fontsize
+        label = tk.Label(frame, text=question, height=2, font=font_options, fg=color)
+        label.pack(side=LEFT)
+
+        var = self.values[widget_var]
+        checkbutton = tk.Checkbutton(frame, variable=var, text="Yes")
+        checkbutton.config(font=font_options, fg=color)
+        checkbutton.pack(side=LEFT)
 
         self.frames[widget_var] = frame
 
@@ -106,21 +124,7 @@ class Gui():
         frame.pack(expand=False, fill='both')
         self.frame = frame
         return frame
-
-    def addAssignment(self, widget_var, assignment_var, result, render_frame):
-        frame = tk.Frame(render_frame, height=2)
-        frame.pack(expand=False, fill='both')
-
-        label = tk.Label(frame, text=assignment_var, height=2)
-        label.pack(side=LEFT)
-
-        var = self.values[widget_var]
-        label = tk.Label(frame, height=2, textvariable=var)
-        label.pack(side=LEFT)
-
-        self.frames[widget_var] = frame
         
-
     def getValue(self, var_name, type):
         if type == "int":
             value = self.values[var_name].get()
@@ -157,7 +161,7 @@ class Gui():
     def addPage(self, page_name):
         if not self.notebook_set:
             master = Frame(self.window)
-            master.pack(fill=BOTH)
+            master.pack(fill="x")
             self.notebook = Notebook(master)
             self.notebook.pack(fill="x", padx=2, pady=3)
             self.notebook_set = True
@@ -165,16 +169,27 @@ class Gui():
         self.current_page = Frame(self.notebook)
         self.notebook.add(self.current_page, text=page_name)
 
-        return self.current_page
+        self.pages[page_name] = self.current_page
 
     def addSection(self, section_name, parent_frame=None):
         if not parent_frame:
             parent_frame = self.current_page
 
         labelframe = LabelFrame(parent_frame, text=section_name)
-        labelframe.pack(fill="x", expand="yes")
-        left = Label(labelframe, text=section_name)
-        left.pack()
+        labelframe.pack(fill="x", expand="no")
 
         return labelframe
 
+    def addAssignment(self, widget_var, assignment_var, result, render_frame):
+        frame = tk.Frame(render_frame, height=2)
+        frame.pack(expand=False, fill='both')
+
+        label = tk.Label(frame, text=assignment_var, height=2)
+        label.pack(side=LEFT)
+
+        var = self.values[widget_var]
+        label = tk.Label(frame, height=2, textvariable=var)
+        label.pack(side=LEFT)
+
+        self.frames[widget_var] = frame
+    

@@ -14,7 +14,7 @@ import {NumberLiteral} from '../expressions/literals/number-literal';
 import {StringLiteral} from '../expressions/literals/string-literal';
 import {DateLiteral} from '../expressions/literals/date-literal';
 import {FormGroup} from '@angular/forms';
-import {Expression, ExpressionType} from '../';
+import {Expression} from '../';
 import {UnknownQuestionError} from '../../../errors';
 import {locationToReadableMessage} from '../../location';
 import {VariableToLiteralFactory} from '../../../../factories/variable-to-literal-factory';

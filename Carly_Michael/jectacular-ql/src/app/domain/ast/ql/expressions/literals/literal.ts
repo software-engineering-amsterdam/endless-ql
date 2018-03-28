@@ -1,5 +1,4 @@
 import {Location} from '../../../location';
-import {Variable} from '../variable';
 import {Expression} from '../expression';
 import {BooleanLiteral} from './boolean-literal';
 import {NumberLiteral} from './number-literal';

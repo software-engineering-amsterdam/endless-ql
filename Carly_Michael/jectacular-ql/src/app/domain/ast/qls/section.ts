@@ -1,11 +1,7 @@
 import {QlsQuestion} from './qls-question';
 import {DefaultStyling} from './default-styling';
 import {Location} from '../location';
-import {QlsNode, QuestionWithAppliedStyles} from './qls-node';
-import {Style} from './style';
-import {WidgetType} from './widget-type';
-import {Widget} from './widget';
-import {QlQuestion as QlQuestion} from '../ql/ql-question';
+import {QlsNode} from './qls-node';
 import {QlsVisitor} from './visitors/qls-visitor';
 
 export class Section extends QlsNode {

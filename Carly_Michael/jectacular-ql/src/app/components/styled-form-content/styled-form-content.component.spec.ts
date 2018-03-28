@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StyledFormContentComponent } from './styled-form-content.component';
 import {MaterialModule} from '../../material.module';
-import {DynamicFormQuestionComponent} from '../dynamic-form-question/dynamic-form-question.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {WidgetComponent} from '../widget/widget.component';
 import {CheckboxWidgetComponent} from '../widgets/checkbox-widget/checkbox-widget.component';

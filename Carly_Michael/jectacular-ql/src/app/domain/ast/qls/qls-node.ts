@@ -1,8 +1,6 @@
 import {QlsQuestion} from './qls-question';
-import {QlQuestion} from '../ql';
 import {Style} from './style';
 import {Widget} from './widget';
-import {DefaultStyling} from './default-styling';
 import {QlsVisitor} from './visitors/qls-visitor';
 
 export abstract class QlsNode {

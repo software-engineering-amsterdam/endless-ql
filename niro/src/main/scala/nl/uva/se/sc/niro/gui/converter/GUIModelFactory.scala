@@ -48,6 +48,6 @@ object GUIModelFactory {
     qls.GUISection(section.name, section.questions.map(make), defaultStyles)
   }
 
-  def make(question: Question): GUIStyledQuestion =
-    GUIStyledQuestion(question.name, GUIStyling(question.widgetType))
+  def make(question: Question): GUIQuestionStyling =
+    GUIQuestionStyling(question.name, GUIStyling(question.widgetType))
 }

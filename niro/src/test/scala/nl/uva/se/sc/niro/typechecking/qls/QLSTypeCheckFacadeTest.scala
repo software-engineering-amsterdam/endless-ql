@@ -2,6 +2,7 @@ package nl.uva.se.sc.niro.typechecking.qls
 
 import nl.uva.se.sc.niro.model.ql.{ BooleanType, IntegerType, MoneyType }
 import nl.uva.se.sc.niro.model.qls._
+import nl.uva.se.sc.niro.model.qls.style.{ CheckBox, ComboBox, Radio, SpinBox }
 import org.scalatest.WordSpec
 
 class QLSTypeCheckFacadeTest extends WordSpec {

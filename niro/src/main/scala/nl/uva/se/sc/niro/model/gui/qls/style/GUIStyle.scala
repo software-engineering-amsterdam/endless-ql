@@ -1,6 +1,7 @@
 package nl.uva.se.sc.niro.model.gui.qls.style
 
 import nl.uva.se.sc.niro.model.qls._
+import nl.uva.se.sc.niro.model.qls.style._
 
 abstract class GUIStyle
 

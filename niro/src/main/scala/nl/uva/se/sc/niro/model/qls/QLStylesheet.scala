@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.qls
 
-import nl.uva.se.sc.niro.model.ql.{ AnswerType, BooleanType, IntegerType }
+import nl.uva.se.sc.niro.model.ql.AnswerType
 
 /**
   * QLS AST

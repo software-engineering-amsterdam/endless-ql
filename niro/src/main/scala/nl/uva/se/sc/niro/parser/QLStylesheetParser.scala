@@ -5,6 +5,7 @@ import java.util
 import nl.uva.se.sc.niro.errors.Errors.Error
 import nl.uva.se.sc.niro.model.ql.AnswerType
 import nl.uva.se.sc.niro.model.qls._
+import nl.uva.se.sc.niro.model.qls.style._
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
 import org.apache.logging.log4j.scala.Logging
 import qls.{ QLSBaseVisitor, QLSLexer, QLSParser }

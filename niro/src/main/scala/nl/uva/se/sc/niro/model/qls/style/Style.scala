@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.qls
+package nl.uva.se.sc.niro.model.qls.style
 
 import nl.uva.se.sc.niro.model.ql.{ AnswerType, BooleanType, IntegerType }
 

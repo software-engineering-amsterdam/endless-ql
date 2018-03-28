@@ -1,8 +1,8 @@
-package nl.uva.se.sc.niro.gui.control.ql
+package nl.uva.se.sc.niro.gui.widget.ql
 
 import java.time.LocalDate
 
-import nl.uva.se.sc.niro.gui.control.WidgetFactory
+import nl.uva.se.sc.niro.gui.widget.WidgetFactory
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
 class QLWidgetFactory extends WidgetFactory {

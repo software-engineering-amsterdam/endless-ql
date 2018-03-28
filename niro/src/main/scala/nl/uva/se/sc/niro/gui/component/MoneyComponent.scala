@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.gui.component
 
 import javafx.scene.control.Label
-import nl.uva.se.sc.niro.gui.control.ql.QLWidget
+import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, MoneyAnswer }
 
 import scala.collection.mutable

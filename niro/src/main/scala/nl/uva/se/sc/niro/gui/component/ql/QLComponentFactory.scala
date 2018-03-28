@@ -2,8 +2,8 @@ package nl.uva.se.sc.niro.gui.component.ql
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.gui.component._
-import nl.uva.se.sc.niro.gui.control._
-import nl.uva.se.sc.niro.gui.control.ql.QLWidgetFactory
+import nl.uva.se.sc.niro.gui.widget._
+import nl.uva.se.sc.niro.gui.widget.ql.QLWidgetFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 import nl.uva.se.sc.niro.model.ql._

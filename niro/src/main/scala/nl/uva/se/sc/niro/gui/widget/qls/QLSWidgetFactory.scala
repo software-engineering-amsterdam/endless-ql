@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.gui.control.qls
+package nl.uva.se.sc.niro.gui.widget.qls
 
-import nl.uva.se.sc.niro.gui.control.ql.{ QLWidget, QLWidgetFactory }
+import nl.uva.se.sc.niro.gui.widget.ql.{ QLWidget, QLWidgetFactory }
 import nl.uva.se.sc.niro.model.gui._
 
 class QLSWidgetFactory extends QLWidgetFactory {

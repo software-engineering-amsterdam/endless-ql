@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.control.ql
+package nl.uva.se.sc.niro.gui.widget.ql
 
 import javafx.scene.Node
 import nl.uva.se.sc.niro.gui.listener.ValueChangedListener

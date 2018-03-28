@@ -8,7 +8,7 @@ from PyQt5 import QtCore
 from gui import question_classes
 
 
-def visit(tree):
+def visit_ql(tree):
     """ Traverse the parsed tree """
     walker = QLVisitor()
     walker.visit(tree)
@@ -50,7 +50,6 @@ class QLVisitor(ParseTreeVisitor):
             c = node.getChild(i)
             # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
             child_result = c.accept(self)
-            # result = self.aggregateResult(result, childResult)
             result.extend(child_result)
 
         return result

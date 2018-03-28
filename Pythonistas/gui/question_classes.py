@@ -48,10 +48,11 @@ class Question:
         return question_label
 
     def set_attributes(self, attributes):
-        # thanks to
-        # stackoverflow.com/questions/15277307/update-a-dictionary-with-another-dictionary-but-only-non-none-values
-        self.attributes.update((k, attributes[k]) for k in self.attributes.keys() & attributes.keys())
-
+        # Sets class attributes that have not been set before
+        # if self.data_type == attributes['datatype']:
+        for key in self.attributes.keys() & attributes.keys():
+            if not self.attributes[key]:
+                self.attributes[key] = attributes[key]
 
 class BooleanQuestion(Question):
     def __init__(self, question_id, question_string, data_type='boolean', answer='undefined'):
@@ -61,7 +62,6 @@ class BooleanQuestion(Question):
         self.question_layout = None
 
     def set_radiobuttons(self, choices=('Yes', 'No')):
-        # todo: make flexible
         button_group = QtWidgets.QButtonGroup()
         button_group.setExclusive(True)
 
@@ -179,6 +179,7 @@ class MoneyQuestion(Question):
         self.question_frame.setVisible(self.visibility)
 
         self.question_layout.addWidget(self.create_label(), 0, 0)
-
+        if self.attributes['width']:
+            self.text_input_box.setFixedWidth(self.attributes['width'])
         self.question_layout.addWidget(self.text_input_box, 0, 1)
         return self.question_frame

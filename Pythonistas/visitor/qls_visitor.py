@@ -99,12 +99,14 @@ class QLSVisitor(ParseTreeVisitor):
 
     def visitDefault(self, ctx:QLSParser.DefaultContext):
         attributes = self.visitChildren(ctx)
-        result = {'defaults': attributes['attributes']} # todo: fix
+        result = {'default_{}'.format(attributes['datatype']): attributes['attributes']}
         return result
 
 
     def visitType(self, ctx:QLSParser.TypeContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)  # todo: remove, if it is redundant
+        result = {'datatype': ctx.getText()}
+        return result
 
 
     def visitAttributes(self, ctx:QLSParser.AttributesContext):

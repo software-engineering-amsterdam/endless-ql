@@ -4,7 +4,7 @@ which in turn contains a textbox for entering QL text, and a "Parse" button. Whe
 parsed and the encoded questionnaire is opened in an output_frame in the MainWindow. This questionnaire is interactive,
 and the entered answers may be saved to a .txt file by pressing the "Submit" button.
 """
-from visitor.ql_visitor import visit
+from visitor.ql_visitor import visit_ql
 from visitor.qls_visitor import visit_qls
 from PyQt5 import QtWidgets, QtCore
 from grammar.parser import ParserInterface
@@ -52,15 +52,14 @@ class MainWindow(QtWidgets.QWidget):
                     self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error))
                 return
             # Traverses QL AST
-            [question_ids, questions, error_message, warning_message] = visit(ql_data.ast)
+            [question_ids, questions, error_message, warning_message] = visit_ql(ql_data.ast)
 
             if qls_text:
-                if qls_data.qls_errors:
+                if qls_data.errors:
                     self.initiate_output_frame()
-                    for error in qls_data.qls_errors:
+                    for error in qls_data.errors:
                         self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error))
                     return
-                # todo: create listener/visiter for QLS
                 # Traverses QLS AST
                 x = visit_qls(qls_data.ast, question_ids, questions)
 
@@ -77,9 +76,3 @@ class MainWindow(QtWidgets.QWidget):
         else:
             self.initiate_output_frame()
             self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))
-
-        if qls_text:
-            pass
-            # todo: create listener/visiter for QLS
-            # listen(ql_data.qls_tree, self.output_frame)
-            # self.output_frame.add_submit_button()

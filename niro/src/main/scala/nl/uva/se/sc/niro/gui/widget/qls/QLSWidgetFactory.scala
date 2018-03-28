@@ -26,4 +26,12 @@ class QLSWidgetFactory extends QLWidgetFactory {
     case _ => super.makeIntegerWidget(question)
   }
 
+  override def makeDecimalWidget(question: GUIQuestion): QLWidget[java.math.BigDecimal] = question match {
+    case QLSGUIQuestion(_, _, _, _, _, styling) =>
+      styling.widgetStyle match {
+        case Some(GUISpinBoxStyle()) => new QLSDecimalSpinField()
+        case _                       => super.makeDecimalWidget(question)
+      }
+    case _ => super.makeDecimalWidget(question)
+  }
 }

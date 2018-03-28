@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.model.qls.style
 
-import nl.uva.se.sc.niro.model.ql.{ AnswerType, IntegerType }
+import nl.uva.se.sc.niro.model.ql.{ AnswerType, DecimalType, IntegerType }
 
 case class SpinBox() extends WidgetType {
-  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType == IntegerType
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType == IntegerType || answerType == DecimalType
 }

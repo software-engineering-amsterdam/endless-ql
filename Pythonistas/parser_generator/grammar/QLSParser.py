@@ -17,64 +17,63 @@ def serializedATN():
         buf.write("\4J\13\4\5\4L\n\4\3\4\5\4O\n\4\3\4\3\4\6\4S\n\4\r\4\16")
         buf.write("\4T\3\4\6\4X\n\4\r\4\16\4Y\3\4\3\4\7\4^\n\4\f\4\16\4a")
         buf.write("\13\4\5\4c\n\4\3\4\5\4f\n\4\3\4\3\4\5\4j\n\4\3\5\3\5\3")
-        buf.write("\5\5\5o\n\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\5\7z\n")
-        buf.write("\7\3\7\3\7\3\7\3\7\3\7\3\7\6\7\u0082\n\7\r\7\16\7\u0083")
-        buf.write("\3\7\3\7\5\7\u0088\n\7\3\b\3\b\3\t\3\t\3\t\3\t\5\t\u0090")
-        buf.write("\n\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3")
-        buf.write("\f\3\r\3\r\3\r\3\r\3\16\3\16\3\17\3\17\3\17\3\20\3\20")
-        buf.write("\3\21\3\21\3\21\7\21\u00ac\n\21\f\21\16\21\u00af\13\21")
-        buf.write("\3\21\3\21\3\21\3\21\2\2\22\2\4\6\b\n\f\16\20\22\24\26")
-        buf.write("\30\32\34\36 \2\3\4\2\20\21\23\23\2\u00bf\2\"\3\2\2\2")
-        buf.write("\4+\3\2\2\2\68\3\2\2\2\bk\3\2\2\2\np\3\2\2\2\f\u0087\3")
-        buf.write("\2\2\2\16\u0089\3\2\2\2\20\u008b\3\2\2\2\22\u0091\3\2")
-        buf.write("\2\2\24\u0095\3\2\2\2\26\u0099\3\2\2\2\30\u009d\3\2\2")
-        buf.write("\2\32\u00a1\3\2\2\2\34\u00a3\3\2\2\2\36\u00a6\3\2\2\2")
-        buf.write(" \u00a8\3\2\2\2\"#\7\7\2\2#%\7\23\2\2$&\5\4\3\2%$\3\2")
-        buf.write("\2\2&\'\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2()\3\2\2\2)*\7\2")
-        buf.write("\2\3*\3\3\2\2\2+,\7\b\2\2,-\7\23\2\2-/\7\26\2\2.\60\5")
-        buf.write("\6\4\2/.\3\2\2\2\60\61\3\2\2\2\61/\3\2\2\2\61\62\3\2\2")
-        buf.write("\2\62\64\3\2\2\2\63\65\5\n\6\2\64\63\3\2\2\2\64\65\3\2")
-        buf.write("\2\2\65\66\3\2\2\2\66\67\7\27\2\2\67\5\3\2\2\289\7\t\2")
-        buf.write("\29i\7\24\2\2:<\5\b\5\2;:\3\2\2\2<=\3\2\2\2=;\3\2\2\2")
-        buf.write("=>\3\2\2\2>L\3\2\2\2?A\5\b\5\2@?\3\2\2\2AB\3\2\2\2B@\3")
-        buf.write("\2\2\2BC\3\2\2\2CD\3\2\2\2DH\5\6\4\2EG\5\b\5\2FE\3\2\2")
-        buf.write("\2GJ\3\2\2\2HF\3\2\2\2HI\3\2\2\2IL\3\2\2\2JH\3\2\2\2K")
-        buf.write(";\3\2\2\2K@\3\2\2\2LN\3\2\2\2MO\5\n\6\2NM\3\2\2\2NO\3")
-        buf.write("\2\2\2Oj\3\2\2\2Pb\7\26\2\2QS\5\b\5\2RQ\3\2\2\2ST\3\2")
-        buf.write("\2\2TR\3\2\2\2TU\3\2\2\2Uc\3\2\2\2VX\5\b\5\2WV\3\2\2\2")
-        buf.write("XY\3\2\2\2YW\3\2\2\2YZ\3\2\2\2Z[\3\2\2\2[_\5\6\4\2\\^")
-        buf.write("\5\b\5\2]\\\3\2\2\2^a\3\2\2\2_]\3\2\2\2_`\3\2\2\2`c\3")
-        buf.write("\2\2\2a_\3\2\2\2bR\3\2\2\2bW\3\2\2\2ce\3\2\2\2df\5\n\6")
-        buf.write("\2ed\3\2\2\2ef\3\2\2\2fg\3\2\2\2gh\7\27\2\2hj\3\2\2\2")
-        buf.write("iK\3\2\2\2iP\3\2\2\2j\7\3\2\2\2kl\7\n\2\2ln\7\23\2\2m")
-        buf.write("o\5\f\7\2nm\3\2\2\2no\3\2\2\2o\t\3\2\2\2pq\7\f\2\2qr\5")
-        buf.write("\16\b\2rs\5\f\7\2s\13\3\2\2\2tz\5\22\n\2uz\5\24\13\2v")
-        buf.write("z\5\26\f\2wz\5\30\r\2xz\5\20\t\2yt\3\2\2\2yu\3\2\2\2y")
-        buf.write("v\3\2\2\2yw\3\2\2\2yx\3\2\2\2z\u0088\3\2\2\2{\u0081\7")
-        buf.write("\26\2\2|\u0082\5\22\n\2}\u0082\5\24\13\2~\u0082\5\26\f")
-        buf.write("\2\177\u0082\5\30\r\2\u0080\u0082\5\20\t\2\u0081|\3\2")
-        buf.write("\2\2\u0081}\3\2\2\2\u0081~\3\2\2\2\u0081\177\3\2\2\2\u0081")
-        buf.write("\u0080\3\2\2\2\u0082\u0083\3\2\2\2\u0083\u0081\3\2\2\2")
-        buf.write("\u0083\u0084\3\2\2\2\u0084\u0085\3\2\2\2\u0085\u0086\7")
-        buf.write("\27\2\2\u0086\u0088\3\2\2\2\u0087y\3\2\2\2\u0087{\3\2")
-        buf.write("\2\2\u0088\r\3\2\2\2\u0089\u008a\t\2\2\2\u008a\17\3\2")
-        buf.write("\2\2\u008b\u008f\7\13\2\2\u008c\u0090\5\32\16\2\u008d")
-        buf.write("\u0090\5\34\17\2\u008e\u0090\5\36\20\2\u008f\u008c\3\2")
-        buf.write("\2\2\u008f\u008d\3\2\2\2\u008f\u008e\3\2\2\2\u0090\21")
-        buf.write("\3\2\2\2\u0091\u0092\7\3\2\2\u0092\u0093\7\32\2\2\u0093")
-        buf.write("\u0094\7\22\2\2\u0094\23\3\2\2\2\u0095\u0096\7\4\2\2\u0096")
-        buf.write("\u0097\7\32\2\2\u0097\u0098\7\24\2\2\u0098\25\3\2\2\2")
-        buf.write("\u0099\u009a\7\5\2\2\u009a\u009b\7\32\2\2\u009b\u009c")
-        buf.write("\7\22\2\2\u009c\27\3\2\2\2\u009d\u009e\7\6\2\2\u009e\u009f")
-        buf.write("\7\32\2\2\u009f\u00a0\7\25\2\2\u00a0\31\3\2\2\2\u00a1")
-        buf.write("\u00a2\7\r\2\2\u00a2\33\3\2\2\2\u00a3\u00a4\7\16\2\2\u00a4")
-        buf.write("\u00a5\5 \21\2\u00a5\35\3\2\2\2\u00a6\u00a7\7\17\2\2\u00a7")
-        buf.write("\37\3\2\2\2\u00a8\u00ad\7\30\2\2\u00a9\u00aa\7\24\2\2")
-        buf.write("\u00aa\u00ac\7\33\2\2\u00ab\u00a9\3\2\2\2\u00ac\u00af")
-        buf.write("\3\2\2\2\u00ad\u00ab\3\2\2\2\u00ad\u00ae\3\2\2\2\u00ae")
-        buf.write("\u00b0\3\2\2\2\u00af\u00ad\3\2\2\2\u00b0\u00b1\7\24\2")
-        buf.write("\2\u00b1\u00b2\7\31\2\2\u00b2!\3\2\2\2\27\'\61\64=BHK")
-        buf.write("NTY_beiny\u0081\u0083\u0087\u008f\u00ad")
+        buf.write("\5\5\5o\n\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\6")
+        buf.write("\7{\n\7\r\7\16\7|\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7\u0086")
+        buf.write("\n\7\5\7\u0088\n\7\3\b\3\b\3\t\3\t\3\t\3\t\5\t\u0090\n")
+        buf.write("\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f")
+        buf.write("\3\r\3\r\3\r\3\r\3\16\3\16\3\17\3\17\3\17\3\20\3\20\3")
+        buf.write("\21\3\21\3\21\7\21\u00ac\n\21\f\21\16\21\u00af\13\21\3")
+        buf.write("\21\3\21\3\21\3\21\2\2\22\2\4\6\b\n\f\16\20\22\24\26\30")
+        buf.write("\32\34\36 \2\3\4\2\20\21\24\24\2\u00bf\2\"\3\2\2\2\4+")
+        buf.write("\3\2\2\2\68\3\2\2\2\bk\3\2\2\2\np\3\2\2\2\f\u0087\3\2")
+        buf.write("\2\2\16\u0089\3\2\2\2\20\u008b\3\2\2\2\22\u0091\3\2\2")
+        buf.write("\2\24\u0095\3\2\2\2\26\u0099\3\2\2\2\30\u009d\3\2\2\2")
+        buf.write("\32\u00a1\3\2\2\2\34\u00a3\3\2\2\2\36\u00a6\3\2\2\2 \u00a8")
+        buf.write("\3\2\2\2\"#\7\7\2\2#%\7\24\2\2$&\5\4\3\2%$\3\2\2\2&\'")
+        buf.write("\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2()\3\2\2\2)*\7\2\2\3*\3")
+        buf.write("\3\2\2\2+,\7\b\2\2,-\7\24\2\2-/\7\26\2\2.\60\5\6\4\2/")
+        buf.write(".\3\2\2\2\60\61\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\64")
+        buf.write("\3\2\2\2\63\65\5\n\6\2\64\63\3\2\2\2\64\65\3\2\2\2\65")
+        buf.write("\66\3\2\2\2\66\67\7\27\2\2\67\5\3\2\2\289\7\t\2\29i\7")
+        buf.write("\25\2\2:<\5\b\5\2;:\3\2\2\2<=\3\2\2\2=;\3\2\2\2=>\3\2")
+        buf.write("\2\2>L\3\2\2\2?A\5\b\5\2@?\3\2\2\2AB\3\2\2\2B@\3\2\2\2")
+        buf.write("BC\3\2\2\2CD\3\2\2\2DH\5\6\4\2EG\5\b\5\2FE\3\2\2\2GJ\3")
+        buf.write("\2\2\2HF\3\2\2\2HI\3\2\2\2IL\3\2\2\2JH\3\2\2\2K;\3\2\2")
+        buf.write("\2K@\3\2\2\2LN\3\2\2\2MO\5\n\6\2NM\3\2\2\2NO\3\2\2\2O")
+        buf.write("j\3\2\2\2Pb\7\26\2\2QS\5\b\5\2RQ\3\2\2\2ST\3\2\2\2TR\3")
+        buf.write("\2\2\2TU\3\2\2\2Uc\3\2\2\2VX\5\b\5\2WV\3\2\2\2XY\3\2\2")
+        buf.write("\2YW\3\2\2\2YZ\3\2\2\2Z[\3\2\2\2[_\5\6\4\2\\^\5\b\5\2")
+        buf.write("]\\\3\2\2\2^a\3\2\2\2_]\3\2\2\2_`\3\2\2\2`c\3\2\2\2a_")
+        buf.write("\3\2\2\2bR\3\2\2\2bW\3\2\2\2ce\3\2\2\2df\5\n\6\2ed\3\2")
+        buf.write("\2\2ef\3\2\2\2fg\3\2\2\2gh\7\27\2\2hj\3\2\2\2iK\3\2\2")
+        buf.write("\2iP\3\2\2\2j\7\3\2\2\2kl\7\n\2\2ln\7\24\2\2mo\5\f\7\2")
+        buf.write("nm\3\2\2\2no\3\2\2\2o\t\3\2\2\2pq\7\f\2\2qr\5\16\b\2r")
+        buf.write("s\5\f\7\2s\13\3\2\2\2tz\7\26\2\2u{\5\22\n\2v{\5\24\13")
+        buf.write("\2w{\5\26\f\2x{\5\30\r\2y{\5\20\t\2zu\3\2\2\2zv\3\2\2")
+        buf.write("\2zw\3\2\2\2zx\3\2\2\2zy\3\2\2\2{|\3\2\2\2|z\3\2\2\2|")
+        buf.write("}\3\2\2\2}~\3\2\2\2~\177\7\27\2\2\177\u0088\3\2\2\2\u0080")
+        buf.write("\u0086\5\22\n\2\u0081\u0086\5\24\13\2\u0082\u0086\5\26")
+        buf.write("\f\2\u0083\u0086\5\30\r\2\u0084\u0086\5\20\t\2\u0085\u0080")
+        buf.write("\3\2\2\2\u0085\u0081\3\2\2\2\u0085\u0082\3\2\2\2\u0085")
+        buf.write("\u0083\3\2\2\2\u0085\u0084\3\2\2\2\u0086\u0088\3\2\2\2")
+        buf.write("\u0087t\3\2\2\2\u0087\u0085\3\2\2\2\u0088\r\3\2\2\2\u0089")
+        buf.write("\u008a\t\2\2\2\u008a\17\3\2\2\2\u008b\u008f\7\13\2\2\u008c")
+        buf.write("\u0090\5\32\16\2\u008d\u0090\5\34\17\2\u008e\u0090\5\36")
+        buf.write("\20\2\u008f\u008c\3\2\2\2\u008f\u008d\3\2\2\2\u008f\u008e")
+        buf.write("\3\2\2\2\u0090\21\3\2\2\2\u0091\u0092\7\3\2\2\u0092\u0093")
+        buf.write("\7\32\2\2\u0093\u0094\7\23\2\2\u0094\23\3\2\2\2\u0095")
+        buf.write("\u0096\7\4\2\2\u0096\u0097\7\32\2\2\u0097\u0098\7\25\2")
+        buf.write("\2\u0098\25\3\2\2\2\u0099\u009a\7\5\2\2\u009a\u009b\7")
+        buf.write("\32\2\2\u009b\u009c\7\23\2\2\u009c\27\3\2\2\2\u009d\u009e")
+        buf.write("\7\6\2\2\u009e\u009f\7\32\2\2\u009f\u00a0\7\22\2\2\u00a0")
+        buf.write("\31\3\2\2\2\u00a1\u00a2\7\r\2\2\u00a2\33\3\2\2\2\u00a3")
+        buf.write("\u00a4\7\16\2\2\u00a4\u00a5\5 \21\2\u00a5\35\3\2\2\2\u00a6")
+        buf.write("\u00a7\7\17\2\2\u00a7\37\3\2\2\2\u00a8\u00ad\7\30\2\2")
+        buf.write("\u00a9\u00aa\7\25\2\2\u00aa\u00ac\7\33\2\2\u00ab\u00a9")
+        buf.write("\3\2\2\2\u00ac\u00af\3\2\2\2\u00ad\u00ab\3\2\2\2\u00ad")
+        buf.write("\u00ae\3\2\2\2\u00ae\u00b0\3\2\2\2\u00af\u00ad\3\2\2\2")
+        buf.write("\u00b0\u00b1\7\25\2\2\u00b1\u00b2\7\31\2\2\u00b2!\3\2")
+        buf.write("\2\2\27\'\61\64=BHKNTY_beinz|\u0085\u0087\u008f\u00ad")
         return buf.getvalue()
 
 
@@ -92,15 +91,14 @@ class QLSParser ( Parser ):
                      "'stylesheet'", "'page'", "'section'", "'question'", 
                      "'widget'", "'default'", "'checkbox'", "'radio'", "'spinbox'", 
                      "'boolean'", "'money'", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "<INVALID>", "'{'", "'}'", "'('", "')'", "':'", "','", 
-                     "'#'" ]
+                     "<INVALID>", "'{'", "'}'", "'('", "')'", "':'", "','" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "STYLESHEET", "PAGE", "SECTION", "QUESTION", 
                       "WIDGET", "DEFAULT", "CHECKBOX", "RADIO", "SPINBOX", 
-                      "BOOLEAN", "MONEY", "INT", "ID", "STRING", "HEX", 
-                      "BRAL", "BRAR", "PARL", "PARR", "COL", "COM", "HASH", 
-                      "SPACE", "NEWLINE" ]
+                      "BOOLEAN", "MONEY", "HEX", "INT", "ID", "STRING", 
+                      "BRAL", "BRAR", "PARL", "PARR", "COL", "COM", "SPACE", 
+                      "NEWLINE", "OTHER" ]
 
     RULE_stylesheet = 0
     RULE_page = 1
@@ -139,19 +137,19 @@ class QLSParser ( Parser ):
     SPINBOX=13
     BOOLEAN=14
     MONEY=15
-    INT=16
-    ID=17
-    STRING=18
-    HEX=19
+    HEX=16
+    INT=17
+    ID=18
+    STRING=19
     BRAL=20
     BRAR=21
     PARL=22
     PARR=23
     COL=24
     COM=25
-    HASH=26
-    SPACE=27
-    NEWLINE=28
+    SPACE=26
+    NEWLINE=27
+    OTHER=28
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -651,6 +649,12 @@ class QLSParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def BRAL(self):
+            return self.getToken(QLSParser.BRAL, 0)
+
+        def BRAR(self):
+            return self.getToken(QLSParser.BRAR, 0)
+
         def width(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(QLSParser.WidthContext)
@@ -686,12 +690,6 @@ class QLSParser ( Parser ):
                 return self.getTypedRuleContext(QLSParser.WidgetContext,i)
 
 
-        def BRAL(self):
-            return self.getToken(QLSParser.BRAL, 0)
-
-        def BRAR(self):
-            return self.getToken(QLSParser.BRAR, 0)
-
         def getRuleIndex(self):
             return QLSParser.RULE_attributes
 
@@ -721,77 +719,77 @@ class QLSParser ( Parser ):
             self.state = 133
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [QLSParser.T__0, QLSParser.T__1, QLSParser.T__2, QLSParser.T__3, QLSParser.WIDGET]:
+            if token in [QLSParser.BRAL]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 119
-                self._errHandler.sync(self)
-                token = self._input.LA(1)
-                if token in [QLSParser.T__0]:
-                    self.state = 114
-                    self.width()
-                    pass
-                elif token in [QLSParser.T__1]:
-                    self.state = 115
-                    self.font()
-                    pass
-                elif token in [QLSParser.T__2]:
-                    self.state = 116
-                    self.fontsize()
-                    pass
-                elif token in [QLSParser.T__3]:
-                    self.state = 117
-                    self.color()
-                    pass
-                elif token in [QLSParser.WIDGET]:
-                    self.state = 118
-                    self.widget()
-                    pass
-                else:
-                    raise NoViableAltException(self)
-
-                pass
-            elif token in [QLSParser.BRAL]:
-                self.enterOuterAlt(localctx, 2)
-                self.state = 121
+                self.state = 114
                 self.match(QLSParser.BRAL)
-                self.state = 127 
+                self.state = 120 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while True:
-                    self.state = 127
+                    self.state = 120
                     self._errHandler.sync(self)
                     token = self._input.LA(1)
                     if token in [QLSParser.T__0]:
-                        self.state = 122
+                        self.state = 115
                         self.width()
                         pass
                     elif token in [QLSParser.T__1]:
-                        self.state = 123
+                        self.state = 116
                         self.font()
                         pass
                     elif token in [QLSParser.T__2]:
-                        self.state = 124
+                        self.state = 117
                         self.fontsize()
                         pass
                     elif token in [QLSParser.T__3]:
-                        self.state = 125
+                        self.state = 118
                         self.color()
                         pass
                     elif token in [QLSParser.WIDGET]:
-                        self.state = 126
+                        self.state = 119
                         self.widget()
                         pass
                     else:
                         raise NoViableAltException(self)
 
-                    self.state = 129 
+                    self.state = 122 
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLSParser.T__0) | (1 << QLSParser.T__1) | (1 << QLSParser.T__2) | (1 << QLSParser.T__3) | (1 << QLSParser.WIDGET))) != 0)):
                         break
 
-                self.state = 131
+                self.state = 124
                 self.match(QLSParser.BRAR)
+                pass
+            elif token in [QLSParser.T__0, QLSParser.T__1, QLSParser.T__2, QLSParser.T__3, QLSParser.WIDGET]:
+                self.enterOuterAlt(localctx, 2)
+                self.state = 131
+                self._errHandler.sync(self)
+                token = self._input.LA(1)
+                if token in [QLSParser.T__0]:
+                    self.state = 126
+                    self.width()
+                    pass
+                elif token in [QLSParser.T__1]:
+                    self.state = 127
+                    self.font()
+                    pass
+                elif token in [QLSParser.T__2]:
+                    self.state = 128
+                    self.fontsize()
+                    pass
+                elif token in [QLSParser.T__3]:
+                    self.state = 129
+                    self.color()
+                    pass
+                elif token in [QLSParser.WIDGET]:
+                    self.state = 130
+                    self.widget()
+                    pass
+                else:
+                    raise NoViableAltException(self)
+
                 pass
             else:
                 raise NoViableAltException(self)

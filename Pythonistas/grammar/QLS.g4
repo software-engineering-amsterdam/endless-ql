@@ -8,8 +8,8 @@ section    : SECTION STRING ((question+ | question+ section question*) (default)
 question   : QUESTION ID (attributes)?;
 
 default    : DEFAULT type attributes;
-attributes : (width | font | fontsize | color | widget) |
-        BRAL (width | font | fontsize | color | widget)+ BRAR;
+attributes : BRAL (width | font | fontsize | color | widget)+ BRAR |
+                  (width | font | fontsize | color | widget);
 type       : (BOOLEAN | MONEY | ID);
 
 widget   : WIDGET (checkbox | radio | spinbox);
@@ -39,10 +39,10 @@ SPINBOX  : 'spinbox';
 BOOLEAN : 'boolean';
 MONEY   : 'money';
 
+HEX    : '#' (~('"' | '\\' | '\r' | '\n'))* {if len(self.text) > 7: self.type = self.OTHER};
 INT    : [0-9]+;
 ID     : [A-Za-z][A-Za-z0-9_]*;
 STRING : '"' (~('"' | '\\' | '\r' | '\n'))* '"';
-HEX    : HASH INT;
 
 BRAL : '{';
 BRAR : '}';
@@ -50,7 +50,7 @@ PARL : '(';
 PARR : ')';
 COL  : ':';
 COM  : ',';
-HASH : '#';
 
 SPACE   : [ \t]+ -> skip;
 NEWLINE : '\r'? '\n' -> skip;
+OTHER: .;

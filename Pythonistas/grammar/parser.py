@@ -104,7 +104,7 @@ class ParserInterface:
             self.grammar_text = open_file(parser_input)
         elif type(parser_input) == str:
             if not self.grammar_name:
-                raise ValueError('Grammar name has to be given when parser_input is a string')
+                raise ValueError('Grammar name has to be given if parser_input is a string or given path does not exist')
             self.check_grammar_exist()
         else:
             raise TypeError('Unknown input for parsing, accepted format: file_path, string')

@@ -12,7 +12,7 @@ declaration: EQUAL PARL value PARR;
 expression: ID | PARL expression PARR | boolean_;
 
 if_: IF_ PARL expression PARR block;
-type: (BOOLEAN | MONEY | ID); // | OTHER {System.out.println("first token "+$start.getText());}
+type: (BOOLEAN | MONEY | ID);
 value: (INT | BOOL| compute);
 
 compute: arithmetic_ | boolean_;

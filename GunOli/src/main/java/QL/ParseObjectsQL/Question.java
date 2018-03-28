@@ -1,6 +1,6 @@
 package QL.ParseObjectsQL;
 
-import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.Analysis.EvaluationType;
 import QL.ParseObjectsQL.Expressions.Expression;
 
 public class Question extends ASTNode {
@@ -11,55 +11,34 @@ public class Question extends ASTNode {
     private Expression condition;
     private Boolean predefined;
 
-    public Question(String id, String text, EvaluationType type, Expression answer, Expression condition, Boolean predefined, int line){
-        super(line);
-        setIdentifier(id);
-        setText(text);
-        setType(type);
-        setAnswer(answer);
-        setCondition(condition);
-        setPredefined(predefined);
+    public Question(String identifier, String text, EvaluationType type, Expression answer,
+                    Expression condition, Boolean predefined, int lineNumber){
+        super(lineNumber);
+        this.identifier = identifier;
+        this.text = text;
+        this.type = type;
+        this.answer = answer;
+        this.condition = condition;
+        this.predefined = predefined;
     }
 
     public String getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
     public String getText() {
         return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public EvaluationType getType() {
         return type;
     }
 
-    public void setType(EvaluationType type) {
-        this.type = type;
-    }
-
     public Expression getAnswer() {
         return answer;
     }
 
-    public void setAnswer(Expression answer) {
-        this.answer = answer;
-    }
-
     public Expression getCondition(){ return condition;}
-
-    public void setCondition(Expression condition){ this.condition = condition;}
-
-    private void setPredefined(Boolean predefined){
-        this.predefined = predefined;
-    }
 
     public Boolean isPredefined(){ return predefined;}
 

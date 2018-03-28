@@ -2,7 +2,7 @@ package QL.ParseObjectsQL.Expressions.UnaryExpressions;
 
 import QL.Analysis.ExpressionVisitorInterface;
 import QL.ParseObjectsQL.Expressions.Constant;
-import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.Analysis.EvaluationType;
 import QL.ParseObjectsQL.Expressions.Expression;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.BooleanConstant;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.UndefinedConstant;
@@ -21,11 +21,11 @@ public class NotExpression extends UnaryExpression {
     @Override
     public Constant evaluate(){
         if(!this.getExpression().evaluate().isLogical()){
-            return new UndefinedConstant(this.getLine());
+            return new UndefinedConstant(this.getLineNumber());
         }
 
         BooleanConstant expr = (BooleanConstant) this.getExpression().evaluate();
-        return new BooleanConstant(!expr.getValue(), this.getLine());
+        return new BooleanConstant(!expr.getValue(), this.getLineNumber());
     }
 
     @Override

@@ -2,7 +2,7 @@ package QL.ParseObjectsQL.Expressions.ExpressionConstants;
 
 import QL.Analysis.ExpressionVisitorInterface;
 import QL.ParseObjectsQL.Expressions.Constant;
-import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.Analysis.EvaluationType;
 
 public class BooleanConstant extends Constant<Boolean> {
     public BooleanConstant(Boolean value, int line) { super(value == null ? false : value, line); }
@@ -10,7 +10,6 @@ public class BooleanConstant extends Constant<Boolean> {
     public EvaluationType returnType(){
         return EvaluationType.Boolean;
     }
-
 
     @Override
     public Boolean isLogical(){

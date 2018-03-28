@@ -3,8 +3,8 @@ package QL.ParseObjectsQL.Expressions;
 public abstract class Constant<T> extends Expression {
     private T value;
 
-    public Constant(T value, int line) {
-        super(line);
+    public Constant(T value, int lineNumber) {
+        super(lineNumber);
         setValue(value);
     }
 

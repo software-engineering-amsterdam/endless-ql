@@ -2,7 +2,7 @@ package QL.ParseObjectsQL.Expressions.ExpressionConstants;
 
 import QL.Analysis.ExpressionVisitorInterface;
 import QL.ParseObjectsQL.Expressions.Constant;
-import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.Analysis.EvaluationType;
 
 public class UndefinedConstant extends Constant<Object> {
     private EvaluationType type;

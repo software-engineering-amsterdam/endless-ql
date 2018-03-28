@@ -1,7 +1,7 @@
 package GUI;
 
 import QL.ParseObjectsQL.Expressions.Constant;
-import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.Analysis.EvaluationType;
 import QL.ParseObjectsQL.Expressions.Expression;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.*;
 import QL.ParseObjectsQL.Question;
@@ -140,7 +140,7 @@ public class FormBuilder {
             if(inFocus){
                 textField.textProperty().addListener((observableText, oldValue, newValue) -> {
                     if(!textField.isDisabled() && !textField.getText().isEmpty()){
-                        Expression newAnswer = createNewAnswer(question.getType(), newValue, question.getLine());
+                        Expression newAnswer = createNewAnswer(question.getType(), newValue, question.getLineNumber());
                         form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
                     }});
             } else {
@@ -158,7 +158,7 @@ public class FormBuilder {
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if(!checkBox.isDisabled()){
-                    Expression newAnswer = new BooleanConstant(newValue, question.getLine());
+                    Expression newAnswer = new BooleanConstant(newValue, question.getLineNumber());
                     form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
                     renderForm();
                 }
@@ -173,7 +173,7 @@ public class FormBuilder {
         datePicker.setDisable(question.isPredefined());
 
         datePicker.valueProperty().addListener((observable, oldValue, newValue)->{
-            Expression newAnswer = new DateConstant(newValue, question.getLine());
+            Expression newAnswer = new DateConstant(newValue, question.getLineNumber());
             form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
             renderForm();
         });

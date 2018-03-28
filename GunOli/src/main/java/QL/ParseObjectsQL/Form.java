@@ -9,14 +9,10 @@ public class Form extends ASTNode {
     private ArrayList<Question> questions;
     private ExpressionTable expressionTable;
 
-    public Form(String name, ArrayList<Question> questions, ExpressionTable exprTable, int line){
-        super(line);
-        setName(name);
-        setQuestions(questions);
-        setExpressionTable(exprTable);
-    }
-
-    public void setExpressionTable(ExpressionTable exprTable){
+    public Form(String name, ArrayList<Question> questions, ExpressionTable exprTable, int lineNumber){
+        super(lineNumber);
+        this.name = name;
+        this.questions = questions;
         this.expressionTable = exprTable;
     }
 
@@ -28,12 +24,5 @@ public class Form extends ASTNode {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public ArrayList<Question> getQuestions() { return questions; }
-
-    public void setQuestions(ArrayList<Question> questions) { this.questions = questions;}
-
 }

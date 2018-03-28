@@ -1,6 +1,6 @@
 package QL.QLVisitor;
 
-import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.Analysis.EvaluationType;
 import QL.ParseObjectsQL.Expressions.Expression;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.*;
 import QL.ParseObjectsQL.Question;

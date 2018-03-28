@@ -1,13 +1,13 @@
 package QL.ParseObjectsQL;
 
-public class ASTNode {
-    private final int line;
+public abstract class ASTNode {
+    private final int lineNumber;
 
-    public ASTNode(int line){
-        this.line = line;
+    public ASTNode(int lineNumber){
+        this.lineNumber = lineNumber;
     }
 
-    public int getLine(){
-        return line;
+    public int getLineNumber(){
+        return lineNumber;
     }
 }

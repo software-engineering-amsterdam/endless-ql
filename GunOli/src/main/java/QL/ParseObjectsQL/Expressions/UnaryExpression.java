@@ -6,8 +6,8 @@ public abstract class UnaryExpression extends Expression{
     private Expression expr;
     private String operator;
 
-    public UnaryExpression(String operator, Expression expr, int line){
-        super(line);
+    public UnaryExpression(String operator, Expression expr, int lineNumber){
+        super(lineNumber);
         setOperator(operator);
         setExpression(expr);
     }

@@ -5,8 +5,8 @@ public abstract class BinaryExpression extends Expression {
     private Expression exprRight;
     private String operator;
 
-    public BinaryExpression(String operator, Expression exprLeft, Expression exprRight, int line){
-        super(line);
+    public BinaryExpression(String operator, Expression exprLeft, Expression exprRight, int lineNumber){
+        super(lineNumber);
         setExprRight(exprRight);
         setExprLeft(exprLeft);
         setOperator(operator);

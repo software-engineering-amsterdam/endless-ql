@@ -1,5 +1,6 @@
 package QL.ParseObjectsQL.Expressions.BinaryExpressions;
 
+import QL.Analysis.EvaluationType;
 import QL.Analysis.ExpressionVisitorInterface;
 import QL.ParseObjectsQL.Expressions.*;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.BooleanConstant;
@@ -22,12 +23,12 @@ public class AndExpression extends BinaryExpression {
         Expression leftExpr = this.getExprLeft();
 
         if(!rightExpr.evaluate().isLogical() || !leftExpr.evaluate().isLogical()){
-            return new UndefinedConstant(this.getLine());
+            return new UndefinedConstant(this.getLineNumber());
         }
 
         BooleanConstant left = (BooleanConstant) this.getExprLeft().evaluate();
         BooleanConstant right = (BooleanConstant) this.getExprRight().evaluate();
-        return new BooleanConstant(left.getValue() && right.getValue(), this.getLine());
+        return new BooleanConstant(left.getValue() && right.getValue(), this.getLineNumber());
     }
 
     @Override

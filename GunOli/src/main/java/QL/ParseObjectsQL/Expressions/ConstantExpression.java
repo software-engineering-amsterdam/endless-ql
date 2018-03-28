@@ -1,5 +1,6 @@
 package QL.ParseObjectsQL.Expressions;
 
+import QL.Analysis.EvaluationType;
 import QL.Analysis.ExpressionVisitorInterface;
 import QL.QLVisitor.ExpressionTable;
 

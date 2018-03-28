@@ -3,7 +3,7 @@ package QL.ParseObjectsQL.Expressions.BinaryExpressions;
 import QL.Analysis.ExpressionVisitorInterface;
 import QL.ParseObjectsQL.Expressions.BinaryExpression;
 import QL.ParseObjectsQL.Expressions.Constant;
-import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.Analysis.EvaluationType;
 import QL.ParseObjectsQL.Expressions.Expression;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.DecimalConstant;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.IntegerConstant;
@@ -25,7 +25,7 @@ public class SubtractExpression extends BinaryExpression {
         Expression leftExpr = this.getExprLeft();
 
             if (!rightExpr.evaluate().isArithmetic() || !leftExpr.evaluate().isArithmetic()) {
-                return new UndefinedConstant(this.getLine());
+                return new UndefinedConstant(this.getLineNumber());
             }
 
             if (leftExpr.returnType().equals(rightExpr.returnType())
@@ -33,12 +33,12 @@ public class SubtractExpression extends BinaryExpression {
                 Integer left = Integer.parseInt(leftExpr.evaluate().getValue().toString());
                 Integer right = Integer.parseInt(rightExpr.evaluate().getValue().toString());
 
-                return new IntegerConstant(left - right, this.getLine());
+                return new IntegerConstant(left - right, this.getLineNumber());
             }
             Double left = Double.parseDouble(leftExpr.evaluate().getValue().toString());
             Double right = Double.parseDouble(rightExpr.evaluate().getValue().toString());
 
-            return new DecimalConstant(left - right, this.getLine());
+            return new DecimalConstant(left - right, this.getLineNumber());
     }
 
     @Override

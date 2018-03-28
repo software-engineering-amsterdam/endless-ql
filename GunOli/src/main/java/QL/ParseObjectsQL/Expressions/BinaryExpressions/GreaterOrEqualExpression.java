@@ -3,7 +3,7 @@ package QL.ParseObjectsQL.Expressions.BinaryExpressions;
 import QL.Analysis.ExpressionVisitorInterface;
 import QL.ParseObjectsQL.Expressions.BinaryExpression;
 import QL.ParseObjectsQL.Expressions.Constant;
-import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.Analysis.EvaluationType;
 import QL.ParseObjectsQL.Expressions.Expression;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.BooleanConstant;
 import QL.ParseObjectsQL.Expressions.ExpressionConstants.UndefinedConstant;
@@ -24,12 +24,12 @@ public class GreaterOrEqualExpression extends BinaryExpression {
         Expression leftExpr = this.getExprLeft();
 
         if(!rightExpr.evaluate().isArithmetic() || !leftExpr.evaluate().isArithmetic()){
-            return new UndefinedConstant(this.getLine());
+            return new UndefinedConstant(this.getLineNumber());
         }
 
         Double left = Double.parseDouble(this.getExprLeft().evaluate().getValue().toString());
         Double right = Double.parseDouble(this.getExprRight().evaluate().getValue().toString());
-        return new BooleanConstant(left >= right, this.getLine());
+        return new BooleanConstant(left >= right, this.getLineNumber());
     }
 
     @Override

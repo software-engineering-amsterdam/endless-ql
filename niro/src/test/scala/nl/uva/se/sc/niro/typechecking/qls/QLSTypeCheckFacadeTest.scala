@@ -103,10 +103,10 @@ class QLSTypeCheckFacadeTest extends WordSpec {
       assert(actual == expected)
     }
 
-    "not be compatible with spinbox styling" in {
+    "be compatible with spinbox styling" in {
       val actual =
         QLSTypeCheckFacade.stylingIsCompatible(MoneyType, Styling(widgetType = Some(SpinBox())))
-      val expected = false
+      val expected = true
       assert(actual == expected)
     }
   }

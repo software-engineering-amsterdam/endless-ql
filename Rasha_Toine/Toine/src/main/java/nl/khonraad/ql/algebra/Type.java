@@ -18,7 +18,9 @@ public enum Type {
 
         for ( Type type : Type.values() ) {
 
-            if ( type.text.equalsIgnoreCase( text ) ) { return type; }
+            if ( type.text.equalsIgnoreCase( text ) ) {
+                return type;
+            }
         }
 
         throw new RuntimeException( "Check your grammar. Do not know how to instantiate a Type from \"" + text + "\"" );

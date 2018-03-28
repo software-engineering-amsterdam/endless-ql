@@ -1,10 +1,11 @@
 package org.uva.sea.languages.ql.interpreter.dataObject.questionData;
 
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.ErrorValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.Question;
+import org.uva.sea.languages.qls.interpreter.widget.Style;
+import org.uva.sea.languages.qls.interpreter.widget.WidgetType;
 
 public class QuestionData {
     private final String label;

@@ -1,48 +1,20 @@
 package qlviz.gui;
 
+import com.google.inject.*;
 import javafx.application.Application;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import qlviz.QLBaseVisitor;
-import qlviz.QLSBaseVisitor;
-import qlviz.gui.renderer.ErrorRenderer;
-import qlviz.gui.renderer.JavafxErrorRenderer;
-import qlviz.gui.renderer.QuestionRenderer;
-import qlviz.gui.renderer.javafx.*;
-import qlviz.gui.renderer.layout.NaiveQuestionLocator;
+import qlviz.gui.renderer.*;
 import qlviz.gui.viewModel.*;
-import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactory;
-import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactoryImpl;
-import qlviz.gui.viewModel.linker.QuestionViewModelCollectorImpl;
 import qlviz.gui.viewModel.linker.QuestionViewModelLinker;
-import qlviz.gui.viewModel.linker.QuestionViewModelLinkerImpl;
-import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
-import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactoryImpl;
 import qlviz.interpreter.*;
-import qlviz.interpreter.QuestionVisitor;
-import qlviz.interpreter.linker.QuestionLinkerImpl;
-import qlviz.interpreter.style.*;
-import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.interpreter.style.QLSParserModule;
 import qlviz.model.Form;
-import qlviz.model.QuestionBlock;
-import qlviz.model.style.DefaultWidgetDeclaration;
-import qlviz.model.style.PropertySetting;
-import qlviz.model.style.Stylesheet;
-import qlviz.model.style.Widget;
-import qlviz.typecheker.AnalysisResult;
-import qlviz.typecheker.Severity;
-import qlviz.typecheker.StaticChecker;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
 
 public class QLForm extends Application {
-	private JavafxFormRenderer renderer;
+	private FormRenderer renderer;
 	private Form model;
 	private FormViewModel viewModel;
-	private boolean containsDuplicates = false;
-
 
 
 	public static void main(String[] args) {
@@ -56,111 +28,40 @@ public class QLForm extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-		QLSBaseVisitor<PropertySetting> propertySettingVisitor = new PropertySettingVisitor(new ParameterVisitor());
-		QLSBaseVisitor<Widget> widgetVisitor = new WidgetVisitor(
-				new WidgetTypeTranslator(),
-				new ParameterVisitor());
-		QuestionTypeTranslator questionTypeTranslator = new QuestionTypeVisitor();
-		QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitor =
-				new DefaultWidgetVisitor(propertySettingVisitor, widgetVisitor, questionTypeTranslator);
-		QLSBaseVisitor<Stylesheet> stylesheetVisitor = new StylesheetVisitor(
-				new PageVisitor(
-						new SectionVisitor(
-								new qlviz.interpreter.style.QuestionVisitor(
-										new WidgetVisitor(
-												new WidgetTypeTranslator(),
-												new ParameterVisitor()
-										)
-								),
-								defaultWidgetVisitor
-						),
-						defaultWidgetVisitor)
-		);
-		StyleModelBuilder styleBuilder = new StyleModelBuilder(stylesheetVisitor);
+
+		var injector = Guice.createInjector(
+				new QLSParserModule(),
+				new ExpressionParserModule(),
+				new QLParserModule(),
+				new ViewModelFactoryModule(),
+				new ViewModelLinkerModule());
+
+		var rendererFactory = new JavafxFormRendererFactory(
+				injector.getInstance(StyleModelBuilder.class),
+				stage,
+				this.getParameters().getNamed());
 
 
-		if (this.getParameters().getRaw().size() > 1) {
-			Stylesheet stylesheet = styleBuilder.createFromMarkup(this.getParameters().getRaw().get(1));
-			WidgetFinder widgetFinder = new ChainedWidgetFinder(List.of(
-					new StylesheetWidgetFinder(new NaiveQuestionLocator(stylesheet)),
-					new DefaultWidgetProvider()
-			));
-			JavafxWidgetFactory javafxWidgetFactory = new JavafxWidgetFactory();
 
-			Function<Pane, QuestionRenderer> questionRendererFactory =
-					pane -> new StyledJavafxQuestionRenderer(pane, javafxWidgetFactory, widgetFinder);
-			this.renderer =
-					new StyledJavafxFormRenderer(
-							stage,
-							questionRendererFactory,
-							stylesheet,
-							new NaiveQuestionLocator(stylesheet),
-							pane -> new StyledJavafxSectionRenderer(questionRendererFactory, pane));
-		}
-		else {
-			this.renderer = new JavafxFormRenderer(stage, JavafxQuestionRenderer::new);
-		}
+		var modelBuilder = injector.getInstance(ModelBuilder.class);
 
-
-		NumericExpressionParser numericExpressionParser = new NumericExpressionParser(new BinaryNumericOperatorVisitor());
-		QLBaseVisitor<BooleanExpression> booleanExpressionVisitor =
-				new BooleanExpressionParser(
-					new NumericExpressionParser(
-							new BinaryNumericOperatorVisitor()
-					),
-					new BinaryBooleanOperatorVisitor(),
-					new NumericComparisonOperatorVisitor());
-		QLBaseVisitor<QuestionBlock> questionBlockVisitor =
-				new QuestionBlockVisitor(
-						new QuestionVisitor(
-								new QuestionTypeVisitor(),
-								numericExpressionParser,
-								new BooleanExpressionParser(
-										numericExpressionParser,
-										new BinaryBooleanOperatorVisitor(),
-										new NumericComparisonOperatorVisitor())
-						),
-						pQuestionBlockVisitor -> new ConditionalBlockVisitor(booleanExpressionVisitor, pQuestionBlockVisitor)
-				);
-		List<AnalysisResult> staticCheckResults = new ArrayList<>();
-		FormVisitor visitor = new FormVisitor(questionBlockVisitor);
-		ModelBuilder modelBuilder = new ModelBuilder(visitor, new QuestionLinkerImpl(new TypedQuestionWalker()));
-
-		this.model = modelBuilder.createFormFromMarkup(this.getParameters().getRaw().get(0));
-
-
-		StaticChecker staticChecker = new StaticChecker();
-		List<AnalysisResult> duplicateResults = staticChecker.checkForDuplicateLabels(this.model);
-		if (duplicateResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
-			staticCheckResults = duplicateResults;
-		}
-		else
+		try
 		{
-			modelBuilder.linkQuestions(this.model);
-            staticCheckResults = staticChecker.validate(this.model, containsDuplicates);
-		}
+	        this.model = modelBuilder.parseForm(this.getParameters().getNamed().get("form"));
+	        this.renderer = rendererFactory.create();
 
-		if (staticCheckResults.stream().anyMatch(analysisResult -> analysisResult.getSeverity() == Severity.Error)) {
-			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);
-			errorRenderer.render(staticCheckResults);
-		}
-		else
-		{
-            NumericExpressionViewModelFactory numericExpressionViewModelFactory = new NumericExpressionViewModelFactoryImpl();
-            BooleanExpressionViewModelFactory booleanExpressionFactory = new BooleanExpressionViewModelFactoryImpl(numericExpressionViewModelFactory);
-			ConditionCollector conditionCollector = new CachingConditionCollector(this.model);
-            QuestionViewModelFactoryImpl questionViewModelFactory =
-                    new QuestionViewModelFactoryImpl(
-                    		numericExpressionViewModelFactory::create,
-							booleanExpressionFactory::create,
-							conditionCollector::getConditions);
+            var viewModelFactory = injector.getInstance(FormViewModelFactory.class);
+            this.viewModel = viewModelFactory.create(this.model);
 
-            this.viewModel = new FormViewModelImpl(model, questionViewModelFactory::create);
-
-            QuestionViewModelLinker viewModelLinker = new QuestionViewModelLinkerImpl(new QuestionViewModelCollectorImpl());
+            var viewModelLinker = injector.getInstance(QuestionViewModelLinker.class);
             viewModelLinker.linkQuestionStubs(this.viewModel);
             this.renderer.render(this.viewModel);
 		}
-	}
+		catch (ParserException e) {
+			ErrorRenderer errorRenderer = new JavafxErrorRenderer(stage);
+			errorRenderer.render(e.getAnalysisResults());
+		}
 
+
+	}
 }

@@ -40,10 +40,10 @@ public class QLInterpretor {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = screenSize.height * 2 / 3;
-        
+
         Double goldenHeight = height * GOLDEN_RATIO;
         int width = goldenHeight.intValue();
-        
+
         guiFrame.setSize( new Dimension( width, height ) );
 
         // Center to screen
@@ -101,7 +101,9 @@ public class QLInterpretor {
 
             return addToParent( container, new ComputedValue( mainPanel, question, questionnaire ) );
 
-        } else {
+        }
+
+        if ( behaviouralType == BehaviouralType.ANSWERABLE ) {
 
             switch ( type ) {
 

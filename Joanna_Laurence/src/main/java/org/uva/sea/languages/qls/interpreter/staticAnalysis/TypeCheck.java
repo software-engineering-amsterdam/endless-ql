@@ -1,11 +1,11 @@
 package org.uva.sea.languages.qls.interpreter.staticAnalysis;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
+import org.uva.sea.languages.qls.interpreter.widget.WidgetType;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 import org.uva.sea.languages.qls.parser.elements.specification.Question;
 import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;

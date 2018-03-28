@@ -1,9 +1,11 @@
 package qlviz.interpreter;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.Form;
 import qlviz.model.QuestionBlock;
-import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.model.expressions.booleanExpressions.BooleanExpression;
 import qlviz.model.question.Question;
 
 import java.util.ArrayList;
@@ -14,7 +16,8 @@ public class CachingConditionCollector implements ConditionCollector {
 
     private final HashMap<String, List<BooleanExpression>> conditionCache;
 
-    public CachingConditionCollector(Form form) {
+    @Inject
+    public CachingConditionCollector(@Assisted Form form) {
         conditionCache = new HashMap<>();
         this.collect(form);
     }

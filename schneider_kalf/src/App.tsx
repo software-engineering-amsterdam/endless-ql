@@ -1,19 +1,16 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import Form from "./form/Form";
-import { QlsParserPipeline, QlsParserResult } from "./modules/styling/parsing/QlsParserPipeline";
-import QlsForm from "./modules/styling/form/QlsForm";
+import Form from "./form/StatefulForm";
 import PagedFormState from "./modules/styling/form/PagedFormState";
-import QlForm from "./form/QlForm";
 import PageNode from "./modules/styling/form/nodes/containers/PageNode";
-import { QlParserResult } from "./parsing/QlParserPipeline";
 import { ModuleTabNavigation } from "./rendering/components/app_module_tabs/ModuleTabNavigation";
 import { ModuleTabsContent } from "./rendering/components/app_module_tabs/ModuleTabsContent";
-import { FormStateOutput } from "./rendering/components/app_state_output/FormStateOutput";
+import { AppFormStateOutput } from "./rendering/components/app_form_state_output/FormStateOutput";
 import { AppErrorMessage } from "./rendering/components/app_error_message/AppErrorMessage";
 import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
-import { runParserPipeline } from "./parsing/parsing_helpers";
 import constants from "./config/constants";
+import SourceInputs from "./form/source/SourceInputs";
+import { makeStatefulForm } from "./app_form_helpers";
 
 export interface AppComponentProps {
 }
@@ -52,21 +49,11 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     this.updateForm(this.state.qlInput, this.state.qlsInput, this.state.qlsEnabled);
   }
 
-  onChangeQlSource(text: string) {
-    this.updateForm(text, this.state.qlsInput, this.state.qlsEnabled);
-  }
-
-  onChangeQlsSource(text: string) {
-    this.updateForm(this.state.qlInput, text, this.state.qlsEnabled);
-  }
-
-  toggleQls(qlsEnabled: boolean) {
-    this.updateForm(this.state.qlInput, this.state.qlsInput, qlsEnabled);
-  }
-
   updateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
+    const inputs = SourceInputs.makeFromStrings(qlSource, qlsSource, qlsEnabled);
+
     try {
-      this.tryToUpdateForm(qlSource, qlsSource, qlsEnabled);
+      this.tryToUpdateForm(inputs);
     } catch (error) {
       this.setState({
         parserError: error,
@@ -76,22 +63,15 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     }
   }
 
-  tryToUpdateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
-    const parseResult: QlParserResult | QlsParserResult | any = runParserPipeline(qlSource, qlsSource, qlsEnabled);
-
-    let form: Form = new QlForm(parseResult.node, this.getFormState());
-
-    // TODO: Maybe put both pipelines in different functions
-    if (typeof parseResult.styleNode !== 'undefined') {
-      form = new QlsForm(form, parseResult.styleNode);
-    }
+  tryToUpdateForm(inputs: SourceInputs) {
+    const form = makeStatefulForm(inputs, this.getFormState());
 
     this.setState({
       form: form,
       parserError: null,
-      qlInput: qlSource,
-      qlsInput: qlsSource,
-      qlsEnabled: qlsEnabled
+      qlInput: inputs.getQlSource().toString(),
+      qlsInput: inputs.getQlsSource().toString(),
+      qlsEnabled: inputs.qlsIsEnabled()
     });
   }
 
@@ -119,6 +99,18 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     this.setState({
       activeTab: nextTab
     });
+  }
+
+  onChangeQlSource(text: string) {
+    this.updateForm(text, this.state.qlsInput, this.state.qlsEnabled);
+  }
+
+  onChangeQlsSource(text: string) {
+    this.updateForm(this.state.qlInput, text, this.state.qlsEnabled);
+  }
+
+  toggleQls(qlsEnabled: boolean) {
+    this.updateForm(this.state.qlInput, this.state.qlsInput, qlsEnabled);
   }
 
   render() {
@@ -154,7 +146,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
                   onChangePage={this.onChangePage}
               />
               <hr/>
-              <FormStateOutput
+              <AppFormStateOutput
                   form={this.state.form}
               />
             </div>

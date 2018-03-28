@@ -1,46 +1,54 @@
-import Form from "../../../form/Form";
+import StatefulForm from "../../../form/StatefulForm";
 import PagedFormState from "./PagedFormState";
-import FieldNode from "../../../form/nodes/fields/FieldNode";
 import StyleSheetNode from "./nodes/StyleSheetNode";
 import FieldVisitor from "../../../form/nodes/visitors/FieldVisitor";
 import PageNode from "./nodes/containers/PageNode";
-import { filterNodes } from "../../../form/form_helpers";
-import StyledFieldNode from "./StyledFieldNode";
 import FormNode from "../../../form/nodes/FormNode";
 import FormState from "../../../form/state/FormState";
+import MergedFieldStyle from "./MergedFieldStyle";
+import MergeFieldStylesVisitor from "./visitors/MergeFieldStylesVisitor";
+import { VariablesMap } from "../../../form/type_checking/VariableScopeVisitor";
+import { getQuestionStyleNodes } from "./style_helpers";
+import QuestionStyle from "./nodes/children/QuestionStyle";
+import StyledField from "./StyledField";
+import FieldNode from "../../../form/nodes/fields/FieldNode";
 
-export default class QlsForm implements Form {
-  private baseForm: Form;
+export default class QlsForm implements StatefulForm {
+  private baseForm: StatefulForm;
   private stylesheetNode: StyleSheetNode;
+  private mergedStyles: MergedFieldStyle[];  // TODO: Replace this with MergedFieldStyleCollection
+  private questionStyles: QuestionStyle[]; // TODO: Replace with QuestionStyleCollection
 
-  constructor(baseForm: Form, stylesheetNode: StyleSheetNode) {
+  constructor(baseForm: StatefulForm, stylesheetNode: StyleSheetNode) {
     this.stylesheetNode = stylesheetNode;
     this.baseForm = baseForm;
+    this.mergedStyles = MergeFieldStylesVisitor.run(stylesheetNode, this.getVariablesMap());
+    this.questionStyles = getQuestionStyleNodes(stylesheetNode, true);
   }
 
   getName(): string {
     return this.baseForm.getName();
   }
 
-  getFields(): StyledFieldNode[] {
-    return filterNodes(node => node instanceof StyledFieldNode, this.baseForm.getRootNode());
+  getFields(): FieldNode[] {
+    return this.baseForm.getFields();
   }
 
   getState(): PagedFormState {
     return this.baseForm.getState();
   }
 
-  setAnswer(identifier: string, value: any): Form {
+  setAnswer(identifier: string, value: any): StatefulForm {
     const newBaseForm = this.baseForm.setAnswer(identifier, value);
     return new QlsForm(newBaseForm, this.stylesheetNode);
   }
 
-  setState(nextState: FormState): Form {
+  setState(nextState: FormState): StatefulForm {
     const newBaseForm = this.baseForm.setState(nextState);
     return new QlsForm(newBaseForm, this.stylesheetNode);
   }
 
-  setActivePage(nextPage: PageNode): Form {
+  setActivePage(nextPage: PageNode): StatefulForm {
     const nextState = this.getState().setActivePageName(nextPage.name);
     return this.setState(nextState);
   }
@@ -76,7 +84,21 @@ export default class QlsForm implements Form {
     return this.stylesheetNode.getPages();
   }
 
-  getField(identifier: string): StyledFieldNode | undefined {
+  getField(identifier: string): FieldNode | undefined {
     return this.getFields().find(field => field.identifier === identifier);
+  }
+
+  getStyledField(identifier: string): StyledField {
+    const field = this.getField(identifier);
+
+    if (!field) {
+      throw new Error(`Cannot find field ${identifier} in form.`); // TODO: Replace this with real error
+    }
+
+    return StyledField.makeFromCollections(field, this.mergedStyles, this.questionStyles);
+  }
+
+  getVariablesMap(): VariablesMap {
+    return this.baseForm.getVariablesMap();
   }
 }

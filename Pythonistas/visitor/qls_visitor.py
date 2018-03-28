@@ -24,18 +24,6 @@ class QLSVisitor(ParseTreeVisitor):
     def defaultResult(self):
         return []
 
-    # def visitChildren(self, node, *args):
-    #     result = self.defaultResult()
-    #     n = node.getChildCount()
-    #     for i in range(n):
-    #         if not self.shouldVisitNextChild(node, result):
-    #             return
-    #         c = node.getChild(i)
-    #         # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
-    #         child_result = c.accept(self, *args)
-    #         result.extend(child_result)
-    #     return result
-
     def visitChildren(self, node):
         result = self.defaultResult()
         n = node.getChildCount()
@@ -73,26 +61,28 @@ class QLSVisitor(ParseTreeVisitor):
         if ctx.default():
             print(ctx.default().getText())
 
-        # result = self.visitChildren(ctx, ctx.default())
-        result = self.visitChildren(ctx)
-        for child_widget in result:
+        children = self.visitChildren(ctx)
+        for child_widget in children:
             section_layout.addWidget(child_widget)
 
-        result.extend([section_frame])
+        result = [section_frame]
         return result
 
 
-    def visitQuestion(self, ctx:QLSParser.QuestionContext, default = None):
+    def visitQuestion(self, ctx:QLSParser.QuestionContext):
         if not ctx.ID().getText() in self.questions:
             self.error_message = "Error: undefined reference to QL ID"
-            return None
+            return None  # todo: break out of visit properly
         question = self.questions[ctx.ID().getText()]
 
         # todo: alter questions based on specifications
 
-        question_frame = question.create_frame()
-        result = self.visitChildren(ctx)
-        result.extend([question_frame])
+        attributes = self.visitChildren(ctx)
+        if attributes:
+            print(attributes)
+            question.set_attributes(attributes)
+
+        result = self.defaultResult()
         return result
 
 
@@ -101,7 +91,8 @@ class QLSVisitor(ParseTreeVisitor):
 
 
     def visitDefault(self, ctx:QLSParser.DefaultContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)
+        return result
 
 
     def visitType(self, ctx:QLSParser.TypeContext):
@@ -109,36 +100,48 @@ class QLSVisitor(ParseTreeVisitor):
 
 
     def visitAttributes(self, ctx:QLSParser.AttributesContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)
+        final_dict = {}
+        for dict in result:
+            final_dict.update(dict)
+        result = final_dict
+        print(final_dict)
+        return result
 
 
     def visitWidth(self, ctx:QLSParser.WidthContext):
-        return self.visitChildren(ctx)
-
+        result = self.visitChildren(ctx)
+        if ctx.INT():
+            result.extend([{'width':int(ctx.INT().getText())}])
+        return result
 
     def visitFont(self, ctx:QLSParser.FontContext):
-        return self.visitChildren(ctx)
-
+        result = self.visitChildren(ctx)
+        if ctx.STRING():
+            result.extend([{'font':ctx.STRING().getText()}])
+        return result
 
     def visitFontsize(self, ctx:QLSParser.FontsizeContext):
-        return self.visitChildren(ctx)
-
+        result = self.visitChildren(ctx)
+        if ctx.INT():
+            result.extend([{'fontsize':int(ctx.INT().getText())}])
+        return result
 
     def visitColor(self, ctx:QLSParser.ColorContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)
+        if ctx.HEX():
+            result.extend([{'color':ctx.HEX().getText()}])
+        return result
 
 
     def visitCheckbox(self, ctx:QLSParser.CheckboxContext):
         return self.visitChildren(ctx)
 
-
     def visitRadio(self, ctx:QLSParser.RadioContext):
         return self.visitChildren(ctx)
 
-
     def visitSpinbox(self, ctx:QLSParser.SpinboxContext):
         return self.visitChildren(ctx)
-
 
     def visitChoices(self, ctx:QLSParser.ChoicesContext):
         return self.visitChildren(ctx)

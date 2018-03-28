@@ -1,9 +1,9 @@
 package qlviz.interpreter;
 
-import qlviz.QLBaseVisitor;
+import qlviz.QLVisitor;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.QuestionBlock;
 
 public interface ConditionalBlockVisitorFactory {
-    QLBaseVisitor<ConditionalBlock> create(QLBaseVisitor<QuestionBlock> questionBlockVisitor);
+    QLVisitor<ConditionalBlock> create(QLVisitor<QuestionBlock> questionBlockVisitor);
 }

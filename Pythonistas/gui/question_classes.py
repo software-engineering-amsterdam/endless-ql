@@ -2,17 +2,16 @@ from PyQt5 import QtWidgets
 
 
 class Question:
-    def __init__(self, question_id, question, data_type, answer='undefined'):
+    def __init__(self, question_id, question_string, data_type, answer='undefined'):
         self.question_id = question_id
-        self.question = question
+        self.question_string = question_string
         self.data_type = data_type
         self.answer = answer
         self.default_answer = answer  # Used to reset
         self.hidden_answer = answer  # Saves if hidden
         self.visibility = True
         self.question_frame = None
-        self.color = None
-        self.font_size = None
+        self.attributes = {'color':None,'font_size':None,'font':None}
 
     def get_data_type(self):
         return self.data_type
@@ -40,13 +39,18 @@ class Question:
         self.answer = self.default_answer
 
     def create_label(self):
-        question_label = QtWidgets.QLabel(self.question)
+        question_label = QtWidgets.QLabel(self.question_string)
         question_label.setStyleSheet("color: {0}; font-size: {1}".format(self.color, self.font_size))
         return question_label
 
+    def set_attributes(self, attributes):
+        print(self.attributes)
+        self.attributes.update((k, attributes[k]) for k in self.attributes.keys() & attributes.keys())
+        print(self.attributes)
+
 class BooleanQuestion(Question):
-    def __init__(self, question_id, question, data_type='boolean', answer='undefined'):
-        Question.__init__(self, question_id, question, data_type, answer)
+    def __init__(self, question_id, question_string, data_type='boolean', answer='undefined'):
+        Question.__init__(self, question_id, question_string, data_type, answer)
         self.buttons = []
         self.if_questions = []
         self.question_layout = None
@@ -147,11 +151,13 @@ class BooleanQuestion(Question):
 
 
 class MoneyQuestion(Question):
-    def __init__(self, question_id, question, data_type='money', answer='undefined'):
-        Question.__init__(self, question_id, question, data_type, answer)
+    def __init__(self, question_id, question_string, data_type='money', answer='undefined'):
+        Question.__init__(self, question_id, question_string, data_type, answer)
         self.text_input_box = QtWidgets.QLineEdit()
         self.text_input_box.textEdited.connect(self.update_answer)
         self.question_layout = None
+
+        self.attributes['width'] = None
 
     def set_answer_box(self, text_box):
         self.text_input_box = text_box

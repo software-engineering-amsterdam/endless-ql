@@ -226,3 +226,15 @@ export class ValueIsInvalidDateError extends FormError {
     return error;
   }
 }
+
+export class NeedAtLeastOneFormToParseError extends FormError {
+  static make(message?: string) {
+    if (typeof message === 'undefined') {
+      message = `The given input can not be parsed since there must be at least one form in the input.`;
+    }
+
+    const error = new NeedAtLeastOneFormToParseError(message);
+    Object.setPrototypeOf(error, NeedAtLeastOneFormToParseError.prototype);
+    return error;
+  }
+}

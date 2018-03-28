@@ -14,7 +14,7 @@ public class ComputedValue extends JLabel {
     public ComputedValue(JPanel mainPanel, Question question, Questionnaire questionnaire) {
 
         super( question.getValue().getText() );
-        
+
         setFont( new Font( "Courier", Font.BOLD, 16 ) );
     }
 }

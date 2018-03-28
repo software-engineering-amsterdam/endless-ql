@@ -2,9 +2,7 @@ package org.uva.sea.gui.widget;
 
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Font;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.DecimalValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.StringValue;

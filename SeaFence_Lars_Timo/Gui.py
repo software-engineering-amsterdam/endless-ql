@@ -58,7 +58,7 @@ class Gui():
 
         self.frames[widget_var] = frame
 
-    def addSpinBoxQuestion(self, widget_var, question, render_frame, color="#999999", width=30, font="Times", fontsize="12"):
+    def addSpinBoxQuestion(self, widget_var, question, render_frame, color="#999999", width=30, font="Times", fontsize="12", min=0, max=100):
         frame = tk.Frame(render_frame, height=2)
         frame.pack(expand=False, fill='both')
 
@@ -67,12 +67,12 @@ class Gui():
 
         var = self.values[widget_var]
         font_options = font + " " + fontsize
-        spin_box = tk.Spinbox(frame, from_=0, to=10, font=font_options, fg=color, width=width, textvariable=var, state='readonly')
+        spin_box = tk.Spinbox(frame, from_=min, to=max, font=font_options, fg=color, width=width, textvariable=var, state='readonly')
         spin_box.pack(side=LEFT)
 
         self.frames[widget_var] = frame
 
-    def addSliderQuestion(self, widget_var, question, render_frame, color="#999999", width=30, font="Times", fontsize="12"):
+    def addSliderQuestion(self, widget_var, question, render_frame, color="#999999", width=30, font="Times", fontsize="12", min=0, max=100):
         frame = tk.Frame(render_frame, height=2)
         frame.pack(expand=False, fill='both')
 
@@ -81,7 +81,7 @@ class Gui():
 
         var = self.values[widget_var]
         font_options = font + " " + fontsize
-        slider = tk.Scale(frame, from_=0, to=10, font=font_options, fg=color, width=width, variable=var)
+        slider = tk.Scale(frame, from_=min, to=max, font=font_options, fg=color, width=width, variable=var)
         slider.pack(side=LEFT)
 
         self.frames[widget_var] = frame

@@ -23,7 +23,7 @@ def check_duplicate_question_strings(question_ids, questions):
 
     for question_id in question_ids:
         question = questions[question_id]
-        question_list.append(question.question)
+        question_list.append(question.question_string)
 
     duplicates = set([duplicate for duplicate in question_list if question_list.count(duplicate) > 1])
     if len(duplicates) > 0:
@@ -67,7 +67,7 @@ class QLVisitor(ParseTreeVisitor):
     def visitQuestion(self, ctx: QLParser.QuestionContext):
         # Gets necessary information from the node
         # todo: give node as input to Question?
-        question = ctx.STRING().getText()
+        question_string = ctx.STRING().getText()
         question_id = ctx.ID().getText()
         data_type = ctx.type().getText()
 
@@ -77,10 +77,10 @@ class QLVisitor(ParseTreeVisitor):
 
         # todo: remove instanceof
         if data_type == 'boolean':
-            question_object = question_classes.BooleanQuestion(question_id, question)
+            question_object = question_classes.BooleanQuestion(question_id, question_string)
 
         elif data_type == 'money':
-            question_object = question_classes.MoneyQuestion(question_id, question)
+            question_object = question_classes.MoneyQuestion(question_id, question_string)
 
         else:
             self.error_message = "Error: unknown data_type: {}".format(data_type)

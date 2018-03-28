@@ -1,8 +1,8 @@
 package org.uva.sea.languages.qls.interpreter.evaluate;
 
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.parser.NodeType;
+import org.uva.sea.languages.qls.interpreter.widget.QLSWidget;
+import org.uva.sea.languages.qls.interpreter.widget.Style;
 import org.uva.sea.languages.qls.parser.elements.Page;
 import org.uva.sea.languages.qls.parser.elements.QLSNode;
 import org.uva.sea.languages.qls.parser.elements.specification.DefaultStyle;
@@ -61,7 +61,7 @@ public class EvaluateDefaultStyle extends BaseStyleASTVisitor<Void> {
 
             @Override
             public Void visit(Widget node) {
-                defaultStyle.setWidget(new QLWidget(node.getWidgetType(), node.getParametersAsStrings()));
+                defaultStyle.setWidget(new QLSWidget(node.getWidgetType(), node.getParametersAsStrings()));
                 return null;
             }
 

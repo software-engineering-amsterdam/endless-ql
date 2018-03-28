@@ -194,12 +194,11 @@ class GuiBuilder():
             if default_style_int.widget == "text":
                 return [old_question[0], question_vartype, old_question[2], question_section, default_style_int.options.options["color"], default_style_int.options.options["width"], default_style_int.options.options["font"], default_style_int.options.options["fontsize"]], True
             elif default_style_int.widget == "slider":
-                return ["slider", question_vartype, old_question[2], question_section, default_style_int.options.options["color"], default_style_int.options.options["width"], default_style_int.options.options["font"], default_style_int.options.options["fontsize"]], True
+                return ["slider", question_vartype, old_question[2], question_section, default_style_int.options.options["color"], default_style_int.options.options["width"], default_style_int.options.options["font"], default_style_int.options.options["fontsize"], default_style_int.min_value, default_style_int.max_value], True
             elif default_style_int.widget == "spinbox":
-                return ["spinbox", question_vartype, old_question[2], question_section, default_style_int.options.options["color"], default_style_int.options.options["width"], default_style_int.options.options["font"], default_style_int.options.options["fontsize"]], True
+                return ["spinbox", question_vartype, old_question[2], question_section, default_style_int.options.options["color"], default_style_int.options.options["width"], default_style_int.options.options["font"], default_style_int.options.options["fontsize"], default_style_int.min_value, default_style_int.max_value], True
 
         return old_question, False
-
 
     def parseAssignment(self, statement):
         result = self.parseBinOpAssignment(statement.expression)
@@ -232,10 +231,10 @@ class GuiBuilder():
         self.gui.addAssignment(widget_var, widget_info[1], widget_info[2], widget_info[3])
 
     def renderSpinBoxQuestion(self, widget_var, widget_info):
-        self.gui.addSpinBoxQuestion(widget_var, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
+        self.gui.addSpinBoxQuestion(widget_var, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7], widget_info[8], widget_info[9])
 
     def renderSliderQuestion(self, widget_var, widget_info):
-        self.gui.addSliderQuestion(widget_var, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
+        self.gui.addSliderQuestion(widget_var, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7], widget_info[8], widget_info[9])
 
     def renderDropdownQuestion(self, widget_var, widget_info):
         self.gui.addBooleanDropdownQuestion(widget_var, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])

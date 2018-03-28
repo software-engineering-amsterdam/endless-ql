@@ -67,11 +67,10 @@ public class Condition extends ASTNode {
     private void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();
-            if(result.getType() == Type.BOOL) {
+            if(result.getType() == Type.BOOL)
                 this.result = (QLBoolean) result;
-            } else {
+            else
                 throw new TypeException(this, Type.BOOL, Type.getByCode(result.toString()));
-            }
         } catch(OtherException e) {
             // This is thrown when a Variable isn't set yet.
             this.result = null;

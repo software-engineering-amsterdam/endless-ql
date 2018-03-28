@@ -6,7 +6,7 @@ import org.uva.sea.gui.controller.BaseFormController;
 import org.uva.sea.gui.qls.factory.WidgetFactory;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
+import org.uva.sea.languages.qls.interpreter.widget.Style;
 
 import java.util.HashMap;
 import java.util.Map;

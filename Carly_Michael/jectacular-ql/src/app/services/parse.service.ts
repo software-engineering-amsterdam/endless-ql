@@ -19,10 +19,10 @@ export class ParseService {
     let astQls: Stylesheet;
 
     const astQl: Form = parse(qlInput, {});
-    const allQuestions = CollectQuestionsVisitor.evaluate(astQl);
+    const allQuestions = CollectQuestionsVisitor.visit(astQl);
 
     // static type checking
-    CheckStatementTypeVisitor.evaluate(allQuestions, astQl);
+    CheckStatementTypeVisitor.visit(allQuestions, astQl);
 
     // only parse qls if there is valid input
     if (qlsInput && qlsInput.trim().length > 0 ) {

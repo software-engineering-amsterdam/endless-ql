@@ -44,9 +44,10 @@ public class Question {
     }
 
     Value setValue( Value value ) {
-        
-        if ( this.getValue().getType() != value.getType() ) throw new RuntimeException( ERROR_TYPEERROR + "Question "
-                + identifier + " expects " + this.getValue().getType() + " not " + value.getType() );
+
+        if ( this.getValue().getType() != value.getType() )
+            throw new RuntimeException( ERROR_TYPEERROR + "Question " + identifier + " expects "
+                    + this.getValue().getType() + " not " + value.getType() );
         this.value = value;
         return value;
     }

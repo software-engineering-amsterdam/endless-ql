@@ -1,7 +1,7 @@
 package org.uva.sea.languages.qls.parser.elements.style;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
+import org.uva.sea.languages.qls.interpreter.widget.WidgetType;
 import org.uva.sea.languages.qls.parser.elements.Parameter;
 import org.uva.sea.languages.qls.parser.visitor.IStyleASTVisitor;
 

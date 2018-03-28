@@ -1,6 +1,8 @@
 package qlviz.interpreter.style;
 
+import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
+import qlviz.QLSVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.Parameter;
 import qlviz.model.style.Widget;
@@ -12,9 +14,10 @@ import java.util.stream.Collectors;
 public class WidgetVisitor extends QLSBaseVisitor<Widget> {
 
    private final WidgetTypeTranslator widgetTypeTranslator;
-   private final QLSBaseVisitor<Parameter> parameterVisitor;
+   private final QLSVisitor<Parameter> parameterVisitor;
 
-    public WidgetVisitor(WidgetTypeTranslator widgetTypeTranslator, QLSBaseVisitor<Parameter> parameterVisitor) {
+   @Inject
+    public WidgetVisitor(WidgetTypeTranslator widgetTypeTranslator, QLSVisitor<Parameter> parameterVisitor) {
         this.widgetTypeTranslator = widgetTypeTranslator;
         this.parameterVisitor = parameterVisitor;
     }

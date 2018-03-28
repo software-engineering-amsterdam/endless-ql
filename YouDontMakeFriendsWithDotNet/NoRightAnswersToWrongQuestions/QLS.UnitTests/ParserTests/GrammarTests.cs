@@ -93,6 +93,15 @@ namespace QLS.UnitTests.ParserTests
                 actual: m_domainItemLocator.GetAll<IPageNode>().Count());
         }
 
+        [TestCaseSource(
+            typeof(TestQlsData),
+            nameof(TestQlsData.StyleSheetWithDefaultStyle))]
+        public void GivenValidDefaultStles_Parses(
+            string validStyleSheetDefinition)
+        {
+            CreateStyleSheet(validStyleSheetDefinition);
+        }
+
         private void CreateStyleSheet(string definition)
         {
             var styleSheetCreator = m_serviceProvider

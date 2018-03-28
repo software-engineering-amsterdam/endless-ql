@@ -1,9 +1,8 @@
 package nl.uva.se.sc.niro.gui.widget.ql
 
-import nl.uva.se.sc.niro.gui.widget.IntegerFormatterBuilder
+import nl.uva.se.sc.niro.gui.widget.{ FormatMasks, IntegerFormatterBuilder }
 
-class QLIntegerField() extends AbstractQLTextField[java.math.BigInteger] {
-  val INTEGER_MASK = "\\d*"
+class QLIntegerField() extends AbstractQLTextField[java.math.BigInteger] with FormatMasks {
   private val integerFormatter =
     IntegerFormatterBuilder().buildInputFilter(INTEGER_MASK).buildConverter().build()
   setTextFormatter(integerFormatter)

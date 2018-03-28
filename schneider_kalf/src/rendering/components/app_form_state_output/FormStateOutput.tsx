@@ -8,7 +8,7 @@ export interface FormStateOutputProps {
   form?: QlForm | QlsForm;
 }
 
-export const FormStateOutput: React.SFC<FormStateOutputProps> = (props) => {
+export const AppFormStateOutput: React.SFC<FormStateOutputProps> = (props) => {
   if (!props.form) {
     return null;
   }

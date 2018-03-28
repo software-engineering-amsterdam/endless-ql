@@ -9,7 +9,7 @@ import PageNode from "./modules/styling/form/nodes/containers/PageNode";
 import { QlParserResult } from "./parsing/QlParserPipeline";
 import { ModuleTabNavigation } from "./rendering/components/app_module_tabs/ModuleTabNavigation";
 import { ModuleTabsContent } from "./rendering/components/app_module_tabs/ModuleTabsContent";
-import { FormStateOutput } from "./rendering/components/app_state_output/FormStateOutput";
+import { AppFormStateOutput } from "./rendering/components/app_form_state_output/FormStateOutput";
 import { AppErrorMessage } from "./rendering/components/app_error_message/AppErrorMessage";
 import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
 import { runParserPipeline } from "./parsing/parsing_helpers";
@@ -154,7 +154,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
                   onChangePage={this.onChangePage}
               />
               <hr/>
-              <FormStateOutput
+              <AppFormStateOutput
                   form={this.state.form}
               />
             </div>

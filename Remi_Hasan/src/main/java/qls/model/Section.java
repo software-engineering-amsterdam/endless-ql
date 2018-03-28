@@ -3,7 +3,6 @@ package qls.model;
 import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.List;
 
 public class Section extends Statement {

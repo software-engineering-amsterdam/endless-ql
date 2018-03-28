@@ -11,8 +11,9 @@ import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 
-public class GUIQuestion {
-    public final String identifier;
+public class GUIQuestion implements IGUIQuestion {
+    // TODO: private
+    private final String identifier;
     public final String label;
     public final ReturnType type;
     public final Expression condition;
@@ -26,6 +27,10 @@ public class GUIQuestion {
         this.computedAnswer = computedAnswer;
     }
 
+    public String getIdentifier() {
+        return identifier;
+    }
+
     public boolean isVisible(SymbolTable symbolTable) {
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
         return expressionEvaluator.visit(this.condition).getBooleanValue();
@@ -36,8 +41,12 @@ public class GUIQuestion {
     }
 
     public LabelWithWidget render(SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
-        Label guiLabel = new Label(this.label);
         GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type);
+        return this.render(guiWidget, symbolTable, allWidgetsListener);
+    }
+
+    LabelWithWidget render(GUIWidget guiWidget, SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
+        Label guiLabel = new Label(this.label);
 
         // Update symbol table and other fields in UI if non-computed field is edited by user
         if(!this.isComputed()) {

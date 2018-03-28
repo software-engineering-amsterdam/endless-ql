@@ -82,17 +82,17 @@ public class GUIForm extends VBox {
             // Update symbol table, as another question with the same identifier could now be visible
             if(visible) {
                 if(guiQuestion.isComputed()) {
-                    symbolTable.setExpression(guiQuestion.identifier, guiQuestion.computedAnswer);
+                    symbolTable.setExpression(guiQuestion.getIdentifier(), guiQuestion.computedAnswer);
                 } else {
-                    symbolTable.setExpression(guiQuestion.identifier, guiWidget.getExpressionValue());
+                    symbolTable.setExpression(guiQuestion.getIdentifier(), guiWidget.getExpressionValue());
                 }
 
-                visibleQuestions.add(guiQuestion.identifier);
-            } else if(!visibleQuestions.contains(guiQuestion.identifier)) {
+                visibleQuestions.add(guiQuestion.getIdentifier());
+            } else if(!visibleQuestions.contains(guiQuestion.getIdentifier())) {
                 // If question becomes invisible, set value in symbol table to undefined
                 // but only if another question with the same identifier that is visible
                 // did not update the symbol table already, which we keep track of using visibleQuestions
-                symbolTable.setExpression(guiQuestion.identifier, new ExpressionVariableUndefined(null, guiQuestion.type));
+                symbolTable.setExpression(guiQuestion.getIdentifier(), new ExpressionVariableUndefined(null, guiQuestion.type));
             }
         }
     }

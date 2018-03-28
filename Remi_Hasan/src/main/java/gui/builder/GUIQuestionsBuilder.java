@@ -9,6 +9,7 @@ import ql.model.Statement;
 import ql.model.expression.Expression;
 import ql.model.expression.binary.ExpressionLogicalAnd;
 import ql.model.expression.unary.ExpressionUnaryNot;
+import ql.model.expression.variable.ExpressionVariableBoolean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,12 @@ import java.util.List;
 public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
     private final Expression condition;
 
-    public GUIQuestionsBuilder(Expression condition) {
+    GUIQuestionsBuilder() {
+        // No previous condition, questions in this block get a simple TRUE condition
+        this.condition = new ExpressionVariableBoolean(null, true);
+    }
+
+    private GUIQuestionsBuilder(Expression condition) {
         // Condition to be set for all questions that are visited
         this.condition = condition;
     }
@@ -51,7 +57,6 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
         // Else block, so negate invert condition
         Expression elseCondition = new ExpressionLogicalAnd(null, this.condition,
                 new ExpressionUnaryNot(null, ifElseBlock.getCondition()));
-
 
         // Collect all questions inside this e;se block and give them the condition
         GUIQuestionsBuilder falseStatementVisitor = new GUIQuestionsBuilder(elseCondition);

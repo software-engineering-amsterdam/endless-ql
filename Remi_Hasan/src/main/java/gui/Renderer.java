@@ -2,6 +2,7 @@ package gui;
 
 import gui.builder.GUIFormBuilder;
 import gui.model.GUIForm;
+import gui.model.GUIFormWithStyling;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -69,13 +70,17 @@ public class Renderer extends Application {
         // Set locale to US such that DecimalFormat, such as in a spinner, always uses dots instead of commas
         Locale.setDefault(Locale.US);
 
-        GUIForm guiForm = GUIFormBuilder.buildQLForm(this.qlForm);
-//        if(this.qlsStyleSheet != null){
-//            guiForm = new GUIFormWithStyling(this.qlForm.identifier, guiForm.guiQuestions, this.qlsStyleSheet);
-//        }
+        GUIFormBuilder guiFormBuilder = new GUIFormBuilder();
+
+        GUIForm guiForm;
+        if(this.qlsStyleSheet != null){
+            guiForm = guiFormBuilder.buildQLSForm(this.qlForm, this.qlsStyleSheet);
+        } else {
+            guiForm = guiFormBuilder.buildQLForm(this.qlForm);
+        }
 
         Scene scene = new Scene(guiForm.render(this.symbolTable));
-        stage.setTitle(qlForm.identifier + " form");
+        stage.setTitle(qlForm.getIdentifier() + " form");
         stage.setScene(scene);
         stage.setWidth(640);
         stage.setHeight(480);

@@ -3,10 +3,12 @@ package gui.builder;
 import gui.model.GUIPage;
 import gui.model.GUIQuestion;
 import gui.model.GUISection;
+import gui.model.GUISectionElement;
 import qls.QLSVisitor;
 import qls.model.DefaultStyle;
 import qls.model.Page;
 import qls.model.Section;
+import qls.model.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class GUIPageBuilder extends QLSVisitor<GUIPage> {
 
     @Override
     public GUIPage visit(Page page) {
-        List<GUISection> guiSections = new ArrayList<>();
+        List<GUISectionElement> guiElements = new ArrayList<>();
 
         // Collect defaultStyles for this page TODO: separate class?
         List<DefaultStyle> defaultStyles = new ArrayList<>();
@@ -34,12 +36,12 @@ public class GUIPageBuilder extends QLSVisitor<GUIPage> {
             }
         });
 
-        // Add sections
-        GUISectionBuilder guiSectionBuilder = new GUISectionBuilder(guiQuestionMap, defaultStyles);
-        for(Section section : page.getSections()) {
-            guiSections.add(guiSectionBuilder.visit(section));
+        // Add all questions and sections on this page
+        GUISectionElementBuilder guiSectionElementBuilder = new GUISectionElementBuilder(guiQuestionMap, defaultStyles);
+        for(Statement statement : page.getStatements()) {
+            guiElements.addAll(guiSectionElementBuilder.visit(statement));
         }
 
-        return new GUIPage(page.getIdentifier(), guiSections);
+        return new GUIPage(page.getIdentifier(), guiElements);
     }
 }

@@ -16,12 +16,8 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
 
     @Override
     public T visit(Page page) {
-        for (Section section : page.getSections()) {
-            section.accept(this);
-        }
-
-        for (DefaultStyle defaultStyle : page.getDefaultStyles()) {
-            defaultStyle.accept(this);
+        for (Statement statement : page.getStatements()) {
+            statement.accept(this);
         }
         return null;
     }
@@ -36,7 +32,6 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
         for(Statement statement : section.getStatements()) {
             statement.accept(this);
         }
-
         return null;
     }
 

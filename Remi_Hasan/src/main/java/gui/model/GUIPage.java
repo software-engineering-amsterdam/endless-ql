@@ -13,11 +13,11 @@ import java.util.List;
 public class GUIPage {
 
     private final String identifier;
-    private final List<GUISection> sections;
+    private final List<GUISectionElement> elements;
 
-    public GUIPage(String identifier, List<GUISection> sections) {
+    public GUIPage(String identifier, List<GUISectionElement> elements) {
         this.identifier = identifier;
-        this.sections = sections;
+        this.elements = elements;
     }
 
     public String getIdentifier() {
@@ -28,8 +28,8 @@ public class GUIPage {
         VBox vBox = new VBox();
 
         // Render all sections
-        for(GUISection section : sections){
-            vBox.getChildren().add(section.render(symbolTable, allWidgetsListener));
+        for(GUISectionElement element : elements){
+            vBox.getChildren().add(element.render(symbolTable, allWidgetsListener));
         }
 
         return vBox;

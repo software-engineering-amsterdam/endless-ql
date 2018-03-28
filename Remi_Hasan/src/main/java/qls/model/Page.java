@@ -8,26 +8,20 @@ import java.util.List;
 public class Page extends QLSNode {
 
     private final String identifier;
-    private final List<Section> sections;
-    private final List<DefaultStyle> defaultStyles;
+    private final List<Statement> statements;
 
-    public Page(Token token, String identifier, List<Section> sections, List<DefaultStyle> defaultStyles) {
+    public Page(Token token, String identifier, List<Statement> statements) {
         super(token);
         this.identifier = identifier;
-        this.sections = sections;
-        this.defaultStyles = defaultStyles;
+        this.statements = statements;
     }
 
     public String getIdentifier() {
         return identifier;
     }
 
-    public List<DefaultStyle> getDefaultStyles() {
-        return defaultStyles;
-    }
-
-    public List<Section> getSections() {
-        return sections;
+    public List<Statement> getStatements() {
+        return statements;
     }
 
     @Override

@@ -1,7 +1,7 @@
 grammar QLS;
 
-root            : STYLESHEET identifier=IDENTIFIER ('{' page* '}' | page) EOF;
-page            : PAGE identifier=IDENTIFIER ((section | defaultStyle) | '{' (section | defaultStyle)* '}');
+root            : STYLESHEET identifier=IDENTIFIER (page | '{' page* '}') EOF;
+page            : PAGE identifier=IDENTIFIER (statement | '{' statement* '}');
 section         : SECTION title=STRING (statement | '{' statement* '}');
 question        : QUESTION identifier=IDENTIFIER widget?;
 statement       : (section | question | defaultStyle);

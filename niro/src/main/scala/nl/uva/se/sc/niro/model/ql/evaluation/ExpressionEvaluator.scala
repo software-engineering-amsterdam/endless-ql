@@ -4,7 +4,7 @@ import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator.Dictionary
 import nl.uva.se.sc.niro.model.ql.expressions.Conversions._
 import nl.uva.se.sc.niro.model.ql.expressions._
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }
 
 object ExpressionEvaluator {
   implicit class ExpressionOps(e: Expression) {
@@ -63,11 +63,22 @@ object ExpressionEvaluator {
     }
   }
 
+  implicit class AnswerCanBeZero(answer: Answer) {
+    def isZero = answer match {
+      case IntegerAnswer(value) if value == 0 => true
+      case DecimalAnswer(value) if value == 0 => true
+      case MoneyAnswer(value) if value == 0 => true
+      case _ => false
+    }
+  }
+
   implicit class DivideOps(expression: Divide) {
+
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       for {
         leftAnswer <- expression.left.evaluate(symbolTable, dictionary)
         rightAnswer <- expression.right.evaluate(symbolTable, dictionary)
+        if !rightAnswer.isZero
         widened = widen(leftAnswer, rightAnswer)
       } yield widened._1.divide(widened._2)
     }
@@ -168,6 +179,15 @@ object ExpressionEvaluator {
   }
 
   implicit class ReferenceOps(expression: Reference) {
+    /**
+      * Only expressions that are defined to be a variable (answer) will be retrieved from the dictionary if exist.
+      * This is done so values of calculated fields won't be retrieved from the dictionary
+      */
+    private def memoryLookup(questionId: String, expression: Expression, dictionary: Dictionary) = expression match {
+      case _: Answer => dictionary.getOrElse(questionId, expression)
+      case _         => expression
+    }
+
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       symbolTable
         .get(expression.questionId)
@@ -175,14 +195,5 @@ object ExpressionEvaluator {
         .orElse(dictionary.get(expression.questionId))
         .flatMap(_.evaluate(symbolTable, dictionary))
     }
-  }
-
-  /**
-    * Only expressions that are defined to be a variable (answer) will be retrieved from the dictionary if exist.
-    * This is done so values of calculated fields won't be retrieved from the dictionary
-    */
-  private def memoryLookup(questionId: String, expression: Expression, dictionary: Dictionary) = expression match {
-    case _: Answer => dictionary.getOrElse(questionId, expression)
-    case _         => expression
   }
 }

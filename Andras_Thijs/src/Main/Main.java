@@ -1,21 +1,25 @@
 package Main;
 
 import AST.FormReader;
-import GUI.FormTemplate;
+import GUI.QLGUI;
 import Nodes.Condition;
 import Nodes.QLForm;
 import QLExceptions.*;
+import org.antlr.v4.runtime.CharStreams;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 class Main {
     public static void main (String[] args){
+
         FormReader formReader = new FormReader();
 
         try {
+
             // Read the form from a file and set the parent structure.
-            QLForm form = formReader.parseFile("resources/test_grammar.txt");
+            QLForm form = formReader.parseCharStream(CharStreams.fromFileName(new PathChooser().getFilePath()));
             form.setParents();
 
             // Check for duplicate names and labels.
@@ -33,13 +37,12 @@ class Main {
             for(String label : checker.getDuplicateLabels())
                 System.out.println("WARNING: DUPLICATE LABEL " + label);
 
-            FormTemplate formGUI = new FormTemplate(form);
+            QLGUI formGUI = new QLGUI(form);
             formGUI.renderForm();
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (SyntaxException e) {
+        } catch (SyntaxException e) {
             System.out.println("There is a Syntax error at Node: " + e.getNode());
             System.out.println(e.getMessage());
             e.printStackTrace();

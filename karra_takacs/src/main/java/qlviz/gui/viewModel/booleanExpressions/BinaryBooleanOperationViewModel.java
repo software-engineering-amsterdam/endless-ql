@@ -1,10 +1,9 @@
 package qlviz.gui.viewModel.booleanExpressions;
 
 
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import qlviz.model.booleanExpressions.BinaryBooleanOperator;
+import qlviz.model.expressions.booleanExpressions.BinaryBooleanOperator;
 
 public class BinaryBooleanOperationViewModel implements BooleanExpressionViewModel {
 

@@ -4,7 +4,7 @@ import org.uva.sea.languages.ql.parser.elements.*;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
 import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
 import org.uva.sea.languages.ql.parser.nodeTypes.BinaryOperator;
-import org.uva.sea.languages.ql.parser.nodeTypes.SingleNode;
+import org.uva.sea.languages.ql.parser.nodeTypes.SingleOperator;
 
 public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
 
@@ -45,7 +45,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
     public T visit(Negative node) {
-        return this.visit((SingleNode) node);
+        return this.visit((SingleOperator) node);
     }
 
     public T visit(NotEqual node) {
@@ -53,7 +53,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
     public T visit(Not node) {
-        return this.visit((SingleNode) node);
+        return this.visit((SingleOperator) node);
     }
 
     public T visit(Or node) {
@@ -61,7 +61,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
     public T visit(Positive node) {
-        return this.visit((SingleNode) node);
+        return this.visit((SingleOperator) node);
     }
 
     public T visit(Subtraction node) {
@@ -135,7 +135,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
         return null;
     }
 
-    public T visit(SingleNode node) {
+    public T visit(SingleOperator node) {
         return node.getValue().accept(this);
     }
 }

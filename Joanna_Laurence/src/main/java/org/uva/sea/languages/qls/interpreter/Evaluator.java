@@ -10,6 +10,7 @@ import org.uva.sea.languages.qls.interpreter.evaluate.ApplyQLSStyle.Linker;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckAllQuestionsInQLQLS;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.CheckNoDuplicateQuestions;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.IQLSStaticAnalysis;
+import org.uva.sea.languages.qls.interpreter.staticAnalysis.TypeCheck;
 import org.uva.sea.languages.qls.interpreter.staticAnalysis.TypeCheck.Checker;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
@@ -25,9 +26,10 @@ public class Evaluator {
 
     private final Linker qlQlsLinker = new Linker();
 
-    private final List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(new CheckAllQuestionsInQLQLS.Checker(),
+    private final List<IQLSStaticAnalysis> staticAnalyses = Arrays.asList(
+            new CheckAllQuestionsInQLQLS.Checker(),
             new CheckNoDuplicateQuestions.Checker(),
-            new Checker());
+            new TypeCheck.Checker());
 
 
     public EvaluationResult evaluate(String qlsFile, EvaluationResult qlEvaluationResult) throws IOException {

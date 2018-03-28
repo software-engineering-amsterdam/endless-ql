@@ -7,7 +7,7 @@ import nl.uva.se.sc.niro.errors.Errors.Error
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import nl.uva.se.sc.niro.parser.QLStylesheetParser
-import nl.uva.se.sc.niro.typechecking.QLSTypeCheckFacade
+import nl.uva.se.sc.niro.typechecking.qls.QLSTypeCheckFacade
 import org.antlr.v4.runtime.CharStreams
 
 // TODO check if this is the correct name, maybe facade is better

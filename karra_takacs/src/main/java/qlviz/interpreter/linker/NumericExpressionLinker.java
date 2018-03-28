@@ -1,9 +1,8 @@
 package qlviz.interpreter.linker;
 
-import qlviz.model.booleanExpressions.NumericComparison;
-import qlviz.model.numericExpressions.BinaryNumericOperation;
-import qlviz.model.numericExpressions.NumericLiteral;
-import qlviz.model.numericExpressions.NumericNegation;
+import qlviz.model.expressions.numericExpressions.BinaryNumericOperation;
+import qlviz.model.expressions.numericExpressions.NumericLiteral;
+import qlviz.model.expressions.numericExpressions.NumericNegation;
 import qlviz.model.question.NumericQuestion;
 import qlviz.model.question.NumericQuestionReference;
 

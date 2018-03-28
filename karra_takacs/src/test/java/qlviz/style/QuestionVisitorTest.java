@@ -3,7 +3,7 @@ package qlviz.style;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.junit.Assert;
 import org.junit.Test;
-import qlviz.QLSBaseVisitor;
+import qlviz.QLSVisitor;
 import qlviz.QLSParser;
 import qlviz.interpreter.style.QuestionVisitor;
 import qlviz.model.style.Question;
@@ -26,7 +26,7 @@ public class QuestionVisitorTest {
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(identifierMock.getText()).thenReturn(name);
 
-        QLSBaseVisitor<Widget> widgetVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<Widget> widgetVisitorMock = mock(QLSVisitor.class);
 
         QuestionVisitor questionVisitor = new QuestionVisitor(widgetVisitorMock);
 
@@ -48,7 +48,7 @@ public class QuestionVisitorTest {
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(identifierMock.getText()).thenReturn(name);
 
-        QLSBaseVisitor<Widget> widgetVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<Widget> widgetVisitorMock = mock(QLSVisitor.class);
 
         QuestionVisitor questionVisitor = new QuestionVisitor(widgetVisitorMock);
 
@@ -71,7 +71,7 @@ public class QuestionVisitorTest {
         when(identifierMock.getText()).thenReturn(name);
         when(contextMock.widget()).thenReturn(widgetContextMock);
 
-        QLSBaseVisitor<Widget> widgetVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<Widget> widgetVisitorMock = mock(QLSVisitor.class);
         when(widgetVisitorMock.visitWidget(any())).thenReturn(mock(Widget.class));
 
         QuestionVisitor questionVisitor = new QuestionVisitor(widgetVisitorMock);

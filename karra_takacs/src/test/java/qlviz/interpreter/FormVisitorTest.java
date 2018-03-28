@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.junit.Assert;
 import org.junit.Test;
+import qlviz.QLVisitor;
 import qlviz.QLParser;
 import qlviz.QLVisitor;
 import qlviz.model.Form;

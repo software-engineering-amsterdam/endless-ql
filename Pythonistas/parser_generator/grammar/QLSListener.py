@@ -44,21 +44,21 @@ class QLSListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLSParser#widget.
-    def enterWidget(self, ctx:QLSParser.WidgetContext):
-        pass
-
-    # Exit a parse tree produced by QLSParser#widget.
-    def exitWidget(self, ctx:QLSParser.WidgetContext):
-        pass
-
-
     # Enter a parse tree produced by QLSParser#default.
     def enterDefault(self, ctx:QLSParser.DefaultContext):
         pass
 
     # Exit a parse tree produced by QLSParser#default.
     def exitDefault(self, ctx:QLSParser.DefaultContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#attributes.
+    def enterAttributes(self, ctx:QLSParser.AttributesContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#attributes.
+    def exitAttributes(self, ctx:QLSParser.AttributesContext):
         pass
 
 
@@ -71,12 +71,12 @@ class QLSListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLSParser#attributes.
-    def enterAttributes(self, ctx:QLSParser.AttributesContext):
+    # Enter a parse tree produced by QLSParser#widget.
+    def enterWidget(self, ctx:QLSParser.WidgetContext):
         pass
 
-    # Exit a parse tree produced by QLSParser#attributes.
-    def exitAttributes(self, ctx:QLSParser.AttributesContext):
+    # Exit a parse tree produced by QLSParser#widget.
+    def exitWidget(self, ctx:QLSParser.WidgetContext):
         pass
 
 

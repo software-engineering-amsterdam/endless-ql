@@ -29,13 +29,13 @@ class QLSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#widget.
-    def visitWidget(self, ctx:QLSParser.WidgetContext):
+    # Visit a parse tree produced by QLSParser#default.
+    def visitDefault(self, ctx:QLSParser.DefaultContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#default.
-    def visitDefault(self, ctx:QLSParser.DefaultContext):
+    # Visit a parse tree produced by QLSParser#attributes.
+    def visitAttributes(self, ctx:QLSParser.AttributesContext):
         return self.visitChildren(ctx)
 
 
@@ -44,8 +44,8 @@ class QLSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#attributes.
-    def visitAttributes(self, ctx:QLSParser.AttributesContext):
+    # Visit a parse tree produced by QLSParser#widget.
+    def visitWidget(self, ctx:QLSParser.WidgetContext):
         return self.visitChildren(ctx)
 
 

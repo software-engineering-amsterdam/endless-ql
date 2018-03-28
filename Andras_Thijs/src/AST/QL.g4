@@ -52,5 +52,4 @@ addsub        : ADDITION | SUBTRACTION;
 muldiv        : MULTIPLICATION | DIVISION;
 factor        : EXPONENT; //TODO
 
-
 term          : BOOLEAN | VARIABLE | STRING | INTEGER | DECIMAL;

@@ -13,7 +13,7 @@ import javafx.scene.control._
 import javafx.scene.layout.HBox
 import javafx.util.StringConverter
 import javafx.util.converter.LocalDateStringConverter
-import nl.uva.se.sc.niro.gui.builder.TextFormatterBuilder
+import nl.uva.se.sc.niro.gui.builder.{ DecimalFormatterBuilder, IntegerFormatterBuilder }
 import nl.uva.se.sc.niro.gui.listener.ValueChangedListener
 
 import scala.collection.mutable.ArrayBuffer
@@ -93,6 +93,7 @@ class QLDateField() extends DatePicker with QLWidget[LocalDate] {
   })
   private val dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)
   setConverter(new LocalDateStringConverter(dateFormatter, dateFormatter))
+  setPromptText("yyyy-mm-dd")
   override def value(value: LocalDate): Unit = setValue(value)
   override def value: LocalDate = getValue
 }
@@ -106,18 +107,18 @@ class QLTextField() extends AbstractQLTextField[String] {
   override def value: String = getText
 }
 
-class QLIntegerField() extends AbstractQLTextField[java.lang.Integer] {
+class QLIntegerField() extends AbstractQLTextField[java.math.BigInteger] {
   val INTEGER_MASK = "\\d*"
   private val integerFormatter =
-    TextFormatterBuilder[Integer]().buildInputFilter(INTEGER_MASK).buildIntegerConverter().build()
+    IntegerFormatterBuilder().buildInputFilter(INTEGER_MASK).buildConverter().build()
   setTextFormatter(integerFormatter)
-  override def value(value: java.lang.Integer): Unit = integerFormatter.setValue(value)
-  override def value: java.lang.Integer = integerFormatter.getValue
+  override def value(value: java.math.BigInteger): Unit = integerFormatter.setValue(value)
+  override def value: java.math.BigInteger = integerFormatter.getValue
 }
 
 class QLSIntegerSpinField()
-    extends Spinner[java.lang.Integer](new IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0))
-    with QLWidget[java.lang.Integer] {
+    extends Spinner[Integer](new IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0))
+    with QLWidget[java.math.BigInteger] {
   setEditable(true)
   valueProperty().addListener(new ChangeListener[Integer] {
     override def changed(observable: ObservableValue[_ <: Integer], oldValue: Integer, newValue: Integer): Unit =
@@ -134,14 +135,15 @@ class QLSIntegerSpinField()
       }
     }
   })
-  override def value(newValue: Integer): Unit = if (newValue != null) getValueFactory.valueProperty().setValue(newValue)
-  override def value: Integer = getValueFactory.valueProperty().getValue
+  override def value(newValue: java.math.BigInteger): Unit =
+    if (newValue != null) getValueFactory.valueProperty().setValue(newValue.intValue())
+  override def value: java.math.BigInteger =
+    java.math.BigInteger.valueOf(getValueFactory.valueProperty().getValue.longValue())
 }
 
 class QLDecimalField() extends AbstractQLTextField[java.math.BigDecimal] {
   val DECIMAL_MASK = "\\d*(\\.\\d*)?"
-  private val decimalFormatter =
-    TextFormatterBuilder[java.math.BigDecimal]().buildInputFilter(DECIMAL_MASK).buildDecimalConverter().build()
+  private val decimalFormatter = DecimalFormatterBuilder().buildInputFilter(DECIMAL_MASK).buildConverter().build()
   setTextFormatter(decimalFormatter)
   override def value(value: java.math.BigDecimal): Unit = decimalFormatter.setValue(value)
   override def value: java.math.BigDecimal = decimalFormatter.getValue
@@ -149,8 +151,7 @@ class QLDecimalField() extends AbstractQLTextField[java.math.BigDecimal] {
 
 class QLMoneyField() extends AbstractQLTextField[java.math.BigDecimal] {
   val MONEY_MASK = "\\d*(\\.\\d{0,2})?"
-  private val decimalFormatter =
-    TextFormatterBuilder[java.math.BigDecimal]().buildInputFilter(MONEY_MASK).buildDecimalConverter().build()
+  private val decimalFormatter = DecimalFormatterBuilder().buildInputFilter(MONEY_MASK).buildConverter().build()
   setTextFormatter(decimalFormatter)
   override def value(value: java.math.BigDecimal): Unit = decimalFormatter.setValue(value)
   override def value: java.math.BigDecimal = decimalFormatter.getValue

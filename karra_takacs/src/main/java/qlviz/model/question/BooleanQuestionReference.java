@@ -2,7 +2,9 @@ package qlviz.model.question;
 
 import qlviz.interpreter.linker.BooleanExpressionVisitor;
 import qlviz.interpreter.linker.TypedBooleanExpressionVisitor;
-import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.model.expressions.booleanExpressions.BooleanExpression;
+import qlviz.model.expressions.ExpressionVisitor;
+import qlviz.model.expressions.TypedExpressionVisitor;
 
 public class BooleanQuestionReference implements BooleanExpression {
 
@@ -34,6 +36,16 @@ public class BooleanQuestionReference implements BooleanExpression {
 
     public String getQuestionName() {
         return questionName;
+    }
+
+    @Override
+    public void accept(ExpressionVisitor expressionVisitor) {
+        expressionVisitor.visit(this);
+    }
+
+    @Override
+    public <T> T accept(TypedExpressionVisitor<T> typedExpressionVisitor) {
+        return typedExpressionVisitor.visit(this);
     }
 }
 

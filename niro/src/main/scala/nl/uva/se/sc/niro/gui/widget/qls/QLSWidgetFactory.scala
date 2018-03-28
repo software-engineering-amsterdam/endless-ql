@@ -2,7 +2,8 @@ package nl.uva.se.sc.niro.gui.widget.qls
 
 import nl.uva.se.sc.niro.gui.widget.ql.{ QLWidget, QLWidgetFactory }
 import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
-import nl.uva.se.sc.niro.model.gui.qls.{ GUIComboBoxStyle, GUIRadioStyle, GUISpinBoxStyle, QLSGUIQuestion }
+import nl.uva.se.sc.niro.model.gui.qls.QLSGUIQuestion
+import nl.uva.se.sc.niro.model.gui.qls.style.{ GUIComboBoxStyle, GUIRadioStyle, GUISpinBoxStyle }
 
 class QLSWidgetFactory extends QLWidgetFactory {
 

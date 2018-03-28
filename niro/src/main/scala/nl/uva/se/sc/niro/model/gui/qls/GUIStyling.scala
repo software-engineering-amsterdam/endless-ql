@@ -1,6 +1,7 @@
 package nl.uva.se.sc.niro.model.gui.qls
 
 import cats.Monoid
+import nl.uva.se.sc.niro.model.gui.qls.style._
 import nl.uva.se.sc.niro.model.qls.Styling
 
 case class GUIStyling(

@@ -11,9 +11,12 @@ class TestForm(unittest.TestCase):
         self.assertEqual(node.name, "test")
         self.assertEqual(node.statements, [])
 
+
     def testFormNodeIncorrectInput(self):
         node = FormNode("test")
         self.assertNotEqual(node.name, 4)
+        self.assertNotEqual(node.statements, ["test"])
+
 
 # Question node testing class
 class TestQuestionNode(unittest.TestCase):
@@ -23,11 +26,13 @@ class TestQuestionNode(unittest.TestCase):
         self.assertEqual(node.var, u"variable")
         self.assertEqual(node.vartype, u"boolean")
 
+
     def testQuestionNodeIncorrectQuestion(self):
         node = QuestionNode(4, u"variable", u"boolean")
         self.assertNotEqual(node.question, "5")
         self.assertNotEqual(node.var, u"boolean")
         self.assertNotEqual(node.vartype, u"variable")
+
 
 # Assignment node testing class 
 class TestAssignmentNode(unittest.TestCase):
@@ -39,6 +44,7 @@ class TestAssignmentNode(unittest.TestCase):
         self.assertEqual(node.vartype, u"integer")
         self.assertEqual(node.expression, unop)
 
+
     def testQuestionNodeIncorrectInput(self):
         unop = UnOpNode(u"variable")
         unop2 = UnOpNode(u"variable")
@@ -47,6 +53,7 @@ class TestAssignmentNode(unittest.TestCase):
         self.assertNotEqual(node.var, u"variable2")
         self.assertNotEqual(node.vartype, u"boolean")
         self.assertNotEqual(node.expression, unop2)
+
 
 # Binary operator node testing class
 class TestBinOpNode(unittest.TestCase):
@@ -59,6 +66,7 @@ class TestBinOpNode(unittest.TestCase):
         self.assertEqual(node.op, "+")
         self.assertEqual(node.negate, True)
 
+
     def testBinOpNodeIncorrectInput(self):
         left = UnOpNode(u"variable")
         right = UnOpNode(u"variable")
@@ -68,6 +76,7 @@ class TestBinOpNode(unittest.TestCase):
         self.assertNotEqual(node.op, "-")
         self.assertNotEqual(node.negate, False)
 
+
 # Unary operator node testing class
 class TestUnopNode(unittest.TestCase):
     def testUnopNodeCorrectInput(self):
@@ -75,10 +84,12 @@ class TestUnopNode(unittest.TestCase):
         self.assertEqual(node.var, u"variable")
         self.assertEqual(node.negate, True)
 
+
     def testUnopNodeIncorrectInput(self):
         node = UnOpNode(u"variable", True)
         self.assertNotEqual(node.var, u"variable2")
         self.assertNotEqual(node.negate, False)
+
 
 # If node testing class
 class TestIfNode(unittest.TestCase):
@@ -88,12 +99,14 @@ class TestIfNode(unittest.TestCase):
         self.assertEqual(node.expression, unop)
         self.assertEqual(node.statements, [])
 
+
     def testIfNodeIncorrectInput(self):
         unop = UnOpNode(u"variable")
         unop2 = UnOpNode(u"variable")        
         node = IfNode(unop)
         self.assertNotEqual(node.expression, unop2)  
         self.assertNotEqual(node.statements, ["test"])
+
 
 # If node testing class
 class TestElifNode(unittest.TestCase):
@@ -103,12 +116,14 @@ class TestElifNode(unittest.TestCase):
         self.assertEqual(node.expression, unop)
         self.assertEqual(node.statements, [])
 
+
     def testElseIfNodeIncorrectInput(self):
         unop = UnOpNode(u"variable")
         unop2 = UnOpNode(u"variable")        
         node = ElifNode(unop)
         self.assertNotEqual(node.expression, unop2)  
         self.assertNotEqual(node.statements, ["test"])
+
 
 # Else node testing class
 class TestElseNode(unittest.TestCase):
@@ -121,7 +136,6 @@ class TestElseNode(unittest.TestCase):
         node = ElseNode()
         self.assertEqual(node.statements, [])
  
-
 
 if __name__ == '__main__':
     unittest.main()

@@ -10,7 +10,6 @@ trait PrettyPrintable[T] {
 object PrettyPrinter {
   implicit class ExpressionCanPrettyPrint(expression: Expression) extends PrettyPrintable[Expression] {
     override def prettyPrint: String = expression match {
-      case r: Reference        => r.prettyPrint
       case a: Addition         => a.prettyPrint
       case s: Subtract         => s.prettyPrint
       case m: Multiply         => m.prettyPrint
@@ -25,18 +24,13 @@ object PrettyPrinter {
       case o: Or               => o.prettyPrint
       case a: And              => a.prettyPrint
       case n: Negate           => n.prettyPrint
+      case r: Reference        => r.toString
       case i: IntegerAnswer    => i.toString
       case d: DecimalAnswer    => d.toString
       case m: MoneyAnswer      => m.toString
       case b: BooleanAnswer    => b.toString
       case s: StringAnswer     => s.toString
       case d: DateAnswer       => d.toString
-    }
-  }
-
-  implicit class ReferenceCanPrettyPrint(reference: Reference) extends PrettyPrintable[Reference] {
-    override def prettyPrint: String = {
-      reference.questionId
     }
   }
 

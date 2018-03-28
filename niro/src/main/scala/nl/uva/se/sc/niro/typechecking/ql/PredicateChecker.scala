@@ -18,8 +18,9 @@ object PredicateChecker extends Logging {
 
     if (conditionalsWithNonBooleanPredicates.nonEmpty) {
       conditionalsWithNonBooleanPredicates
-        .map(nonBooleanPredicate => TypeCheckError(message = s"Non boolean predicate: ${nonBooleanPredicate.predicate.prettyPrint}"))
-      .asLeft
+        .map(nonBooleanPredicate =>
+          TypeCheckError(message = s"Non boolean predicate: ${nonBooleanPredicate.predicate.prettyPrint}"))
+        .asLeft
     } else {
       qlForm.asRight
     }

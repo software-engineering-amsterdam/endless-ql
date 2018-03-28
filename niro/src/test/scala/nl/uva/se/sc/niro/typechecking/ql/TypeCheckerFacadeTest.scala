@@ -46,8 +46,8 @@ class TypeCheckerFacadeTest extends WordSpec {
         val result = TypeCheckerFacade.pipeline(qlForm)
 
         assert(
-          result === Left(List(
-            TypeCheckError("TypeCheckError", "Not a valid expression: (StringAnswer(Foo) * StringAnswer(Bar))"))))
+          result === Left(
+            List(TypeCheckError("TypeCheckError", "Not a valid expression: (StringAnswer(Foo) * StringAnswer(Bar))"))))
       }
 
       "return error for operands of invalid type to eachother" in {
@@ -59,8 +59,9 @@ class TypeCheckerFacadeTest extends WordSpec {
 
         val result = TypeCheckerFacade.pipeline(qlForm)
 
-        assert(result === Left(
-          List(TypeCheckError("TypeCheckError", "Not a valid expression: (StringAnswer(Foo) == IntegerAnswer(0))"))))
+        assert(
+          result === Left(
+            List(TypeCheckError("TypeCheckError", "Not a valid expression: (StringAnswer(Foo) == IntegerAnswer(0))"))))
       }
 
       "return no error for operands valid types in nested operations" in {

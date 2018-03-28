@@ -56,10 +56,7 @@ class QLHomeController extends QLBaseController with Logging {
   }
 
   def showWarning(warnings: Seq[Warning]): Unit = {
-    val alert = new Alert(
-      AlertType.WARNING,
-      s"${warnings.map(_.prettyPrint).mkString("\n")}",
-      ButtonType.OK)
+    val alert = new Alert(AlertType.WARNING, s"${warnings.map(_.prettyPrint).mkString("\n")}", ButtonType.OK)
     alert.setTitle("Warning")
     alert.showAndWait()
   }

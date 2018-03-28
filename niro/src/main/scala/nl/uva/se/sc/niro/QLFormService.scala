@@ -32,8 +32,8 @@ object QLFormService {
   def saveMemoryTableToCSV(memoryTable: Map[String, Answer], file: File): Unit = {
     val table: List[List[String]] = memoryTable.mapValues(answerToString).map(tuple2ToList).toList
 
-    implicit object QuotesCSVFormat extends DefaultCSVFormat {
-      override val quoteChar: Char = '"'
+    implicit object CSVFormat extends DefaultCSVFormat {
+      override val quoting: Quoting = QUOTE_ALL
     }
 
     val headerRow = List("QuestionId", "Answer")

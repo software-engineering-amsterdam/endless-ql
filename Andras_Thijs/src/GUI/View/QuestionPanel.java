@@ -55,6 +55,10 @@ public class QuestionPanel extends JPanel{
                 default: break;
             }
         } else {
+
+            if(widget.getValue() == null)
+                return;
+
             switch(widget.getType()) {
                 case BOOL:
                     this.question.updateTerm(new TermFactory().getTerm((boolean) this.widget.getValue()));
@@ -73,7 +77,7 @@ public class QuestionPanel extends JPanel{
                     break;
                 case DATE:
                     this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));
-                    break; //TODO do something with date
+                    break;
                 default:
                     break;
             }

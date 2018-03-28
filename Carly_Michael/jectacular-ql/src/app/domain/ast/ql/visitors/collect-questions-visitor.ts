@@ -12,36 +12,33 @@ export class CollectQuestionsVisitor implements StatementVisitor<void> {
     this.questions = [];
   }
 
-  static evaluate(stmt: Statement): ReadonlyArray<QlQuestion> {
+  static evaluate(statement: Statement): ReadonlyArray<QlQuestion> {
     const visitor = new CollectQuestionsVisitor();
-    stmt.accept(visitor);
+    statement.accept(visitor);
     return visitor.questions;
   }
 
-  visitExpressionQuestion(stmt: ExpressionQuestion): void {
-    this.questions.push(stmt);
+  visitExpressionQuestion(statement: ExpressionQuestion): void {
+    this.questions.push(statement);
   }
 
-  visitForm(stmt: Form): void {
-    for (const statement of stmt.statements) {
+  visitForm(formStatement: Form): void {
+    for (const statement of formStatement.statements) {
       statement.accept(this);
     }
   }
 
-  visitIf(stmt: If): void {
-    for (const statement of stmt.statements) {
+  visitIf(ifStatement: If): void {
+    for (const statement of ifStatement.statements) {
       statement.accept(this);
     }
 
-    for (const statement of stmt.elseStatements) {
+    for (const statement of ifStatement.elseStatements) {
       statement.accept(this);
     }
   }
 
-  visitQlQuestion(stmt: QlQuestion): void {
-    this.questions.push(stmt);
+  visitQlQuestion(statement: QlQuestion): void {
+    this.questions.push(statement);
   }
-
-
-
 }

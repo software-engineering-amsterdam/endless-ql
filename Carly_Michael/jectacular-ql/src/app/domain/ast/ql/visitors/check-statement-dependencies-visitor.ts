@@ -12,32 +12,32 @@ export class CheckStatementDependenciesVisitor implements StatementVisitor<void>
   private constructor() {
   }
 
-  static evaluate(stmt: Statement): void {
+  static evaluate(statement: Statement): void {
     const visitor = new CheckStatementDependenciesVisitor();
-    stmt.accept(visitor);
+    statement.accept(visitor);
   }
 
-  visitExpressionQuestion(stmt: ExpressionQuestion): void {
-    const variables = CollectExpressionVariablesVisitor.evaluate(stmt.expression);
-    const circularDependency = _.find(variables, ['identifier', stmt.name]);
+  visitExpressionQuestion(statement: ExpressionQuestion): void {
+    const variables = CollectExpressionVariablesVisitor.evaluate(statement.expression);
+    const circularDependency = _.find(variables, ['identifier', statement.name]);
     if (circularDependency) {
-      throw new CircularDependencyError(`The expression of question ${stmt.name} references to itself`);
+      throw new CircularDependencyError(`The expression of question ${statement.name} references to itself`);
     }
   }
 
-  visitForm(stmt: Form): void {
-    for (const subStmt of stmt.statements) {
-      subStmt.accept(this);
+  visitForm(statement: Form): void {
+    for (const subStatement of statement.statements) {
+      subStatement.accept(this);
     }
   }
 
-  visitIf(stmt: If): void {
-    for (const subStmt of stmt.statements) {
-      subStmt.accept(this);
+  visitIf(statement: If): void {
+    for (const subStatement of statement.statements) {
+      subStatement.accept(this);
     }
 
-    for (const subStmt of stmt.elseStatements) {
-      subStmt.accept(this);
+    for (const subStatement of statement.elseStatements) {
+      subStatement.accept(this);
     }
   }
 

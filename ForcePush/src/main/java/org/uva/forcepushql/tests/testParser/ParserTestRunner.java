@@ -5,8 +5,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-import org.uva.forcepushql.antlr.GrammarLexer;
-import org.uva.forcepushql.antlr.GrammarParser;
+import org.uva.forcepushql.parser.antlr.GrammarLexer;
+import org.uva.forcepushql.parser.antlr.GrammarParser;
 
 public class ParserTestRunner
 {

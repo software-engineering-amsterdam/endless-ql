@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\Nodes\PageNode.cs" />
     <Compile Include="Ast\Nodes\StyleSheetRootNode.cs" />
     <Compile Include="Ast\Tools\IQlsAstBuilder.cs" />
     <Compile Include="Ast\Tools\IQlsAstFactory.cs" />

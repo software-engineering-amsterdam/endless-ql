@@ -41,27 +41,75 @@ namespace QLS.UnitTests.ParserTests
 
         [TestCaseSource(
             typeof(TestQlsData),
-            nameof(TestQlsData.GoodStyleSheetCases))]
-        public void GivenStyleSheet_ReturnsStyleSheetObject(
+            nameof(TestQlsData.EmptyStyleSheet))]
+        public void GivenStyleSheet_CreatesStyleSheetObject(
             string validStyleSheetDefinition,
             string styleSheetName)
         {
-            var styleSheetCreator = m_serviceProvider
-                .GetService<IStyleSheetCreator>();
+            CreateStyleSheet(validStyleSheetDefinition);
 
-            var domainItemId = styleSheetCreator.
-                Create(validStyleSheetDefinition);
-
-            Assert.IsNotNull(domainItemId, "should have created a stylesheet from a valid definition");
             var createdStyleSheet = m_domainItemLocator
                 .GetAll<IStyleSheetRootNode>()
                 .FirstOrDefault();
 
             Assert.IsNotNull(createdStyleSheet, "could not find a questionnaire node");
-            
+
             Assert.AreEqual(
                 expected: styleSheetName,
                 actual: createdStyleSheet.StyleSheetName);
+        }
+
+        [TestCaseSource(
+            typeof(TestQlsData),
+            nameof(TestQlsData.StyleSheetWithOnePage))]
+        public void GivenStyleSheetWithPage_CreatesPageObject(
+            string validStyleSheetDefinition,
+            string pageName)
+        {
+            CreateStyleSheet(validStyleSheetDefinition);
+
+            var createdPage = m_domainItemLocator
+                .GetAll<IPageNode>()
+                .FirstOrDefault();
+
+            Assert.IsNotNull(createdPage, "could not find a page node");
+
+            Assert.AreEqual(
+                expected: pageName,
+                actual: createdPage.Name);
+        }
+
+        [TestCaseSource(
+            typeof(TestQlsData),
+            nameof(TestQlsData.StyleSheetWithMultiplePages))]
+        public void GivenStyleSheetWithManyPages_CreatesPageObjects(
+            string validStyleSheetDefinition,
+            int pageCount)
+        {
+            CreateStyleSheet(validStyleSheetDefinition);
+
+            Assert.AreEqual(
+                expected: pageCount,
+                actual: m_domainItemLocator.GetAll<IPageNode>().Count());
+        }
+
+        [TestCaseSource(
+            typeof(TestQlsData),
+            nameof(TestQlsData.StyleSheetWithDefaultStyle))]
+        public void GivenValidDefaultStles_Parses(
+            string validStyleSheetDefinition)
+        {
+            CreateStyleSheet(validStyleSheetDefinition);
+        }
+
+        private void CreateStyleSheet(string definition)
+        {
+            var styleSheetCreator = m_serviceProvider
+                .GetService<IStyleSheetCreator>();
+
+            var domainItemId = styleSheetCreator.Create(definition);
+
+            Assert.IsNotNull(domainItemId, "should have created a stylesheet from a valid definition");
         }
     }
 }

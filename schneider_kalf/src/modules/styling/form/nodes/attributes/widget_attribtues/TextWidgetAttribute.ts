@@ -3,6 +3,10 @@ import { TextWidgetComponent } from "../../../../rendering/components/widgets/Te
 
 // text (for numbers and strings)
 export default class TextWidgetAttribute extends WidgetAttribute {
+  validate() {
+    return;
+  }
+
   getRenderComponent() {
     return TextWidgetComponent;
   }

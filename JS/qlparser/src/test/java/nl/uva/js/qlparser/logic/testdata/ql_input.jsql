@@ -14,7 +14,7 @@ form taxOfficeExample {
     "Did you enter a loan?"
     hasMaintLoan: boolean = hasBoughtHouse
 
-    if (hasSoldHouse) {
+    if (hasSoldHouse) blockSold {
         "When was the house sold?"
         sellingDate: date
 

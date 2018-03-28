@@ -186,7 +186,8 @@ function peg$parse(input, options) {
   const peg$c25 = "widget";
   const peg$c26 = peg$literalExpectation("widget", false);
   const peg$c27 = function(id, options) {
-      return NodeFactory.getWidgetStyleAttribute(id, options);
+      const WidgetConstructor = widgetMapping[id];
+      return new WidgetConstructor(options);
   };
   const peg$c28 = "(";
   const peg$c29 = peg$literalExpectation("(", false);
@@ -201,7 +202,8 @@ function peg$parse(input, options) {
   const peg$c36 = ":";
   const peg$c37 = peg$literalExpectation(":", false);
   const peg$c38 = function(id, args) {
-      return NodeFactory.getBaseStyleAttribute(id, args);
+      const BaseAttributeConstructor = baseAttributeMapping[id];
+      return new BaseAttributeConstructor(args);
   };
   const peg$c39 = /^["#"]/;
   const peg$c40 = peg$classExpectation(["\"", "#", "\""], false, false);
@@ -2137,7 +2139,21 @@ function peg$parse(input, options) {
   }
 
 
-      let NodeFactory = new Nodes.AttributeNodeFactory();
+      let widgetMapping = {
+          "spinbox" : Nodes.SpinBoxWidgetAttribute,
+          "text" : Nodes.TextWidgetAttribute,
+          "slider" : Nodes.SliderWidgetAttribute,
+          "dropdown" : Nodes.DropdownWidgetAttribute,
+          "checkbox" : Nodes.CheckboxWidgetAttribute,
+          "radio" : Nodes.RadioWidgetAttribute
+      }
+
+      let baseAttributeMapping = {
+          "color" : Nodes.ColorAttribute,
+          "width" : Nodes.WidthAttribute,
+          "fontsize" : Nodes.FontSizeAttribute,
+          "font" : Nodes.FontAttribute
+      }
 
 
   peg$result = peg$startRuleFunction();

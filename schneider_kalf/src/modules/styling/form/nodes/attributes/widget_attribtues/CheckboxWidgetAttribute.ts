@@ -2,7 +2,10 @@ import { CheckboxWidgetComponent } from "../../../../rendering/components/widget
 import BooleanWidgetAttribute from "./BooleanWidgetAttribute";
 
 // TODO should not accept options
-export default class CheckboxAttribute extends BooleanWidgetAttribute {
+export default class CheckboxWidgetAttribute extends BooleanWidgetAttribute {
+  validate() {
+    return;
+  }
   getRenderComponent() {
     return CheckboxWidgetComponent;
   }

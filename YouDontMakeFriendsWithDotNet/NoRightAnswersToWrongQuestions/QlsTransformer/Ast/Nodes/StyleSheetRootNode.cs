@@ -16,13 +16,16 @@ namespace QlsTransformer.Ast.Nodes
         public StyleSheetRootNode(
             Guid id, 
             string definition,
-            string styleSheetName) 
+            string styleSheetName,
+            IEnumerable<Reference<IPageNode>> pages) 
             : base(id, definition)
         {
             StyleSheetName = styleSheetName;
+            Pages = pages;
         }
 
         public string StyleSheetName { get; }
+        public IEnumerable<Reference<IPageNode>> Pages { get; }
     }
 
     public interface IStyleSheetRootNode : IAstNode
@@ -30,3 +33,4 @@ namespace QlsTransformer.Ast.Nodes
         string StyleSheetName { get; }
     }
 }
+    

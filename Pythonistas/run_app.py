@@ -8,11 +8,11 @@ $ python run_app.py
 import argparse
 import os
 import sys
-
 from commons.utility import run_antlr_parse_gen
 from commons.config import config
-from grammar.parser import ParserInterface
-from gui.gui import *
+from antlr.parser import ParserInterface
+from gui.gui import MainWindow
+from PyQt5 import QtWidgets
 
 
 def main():

@@ -1,0 +1,12 @@
+stylesheet taxOfficeExample
+  page Selling {
+    section "Selling" {
+      section "You sold a house" {
+        question sellingPrice
+          widget spinbox
+        }
+      }
+      question hasSoldScooter
+        widget radio("Yes", "No")
+    }
+  }

@@ -5,7 +5,7 @@ import {QlsNode} from './qls-node';
 import {QlsVisitor} from './visitors/qls-visitor';
 
 export class Page extends QlsNode {
-  constructor(readonly name: string, readonly sections: Section[], readonly location: Location, readonly defaultSettings?: DefaultStyling) {
+  constructor(readonly name: string, readonly sections: Section[], readonly location: Location, readonly defaultStyling?: DefaultStyling) {
     super();
   }
 

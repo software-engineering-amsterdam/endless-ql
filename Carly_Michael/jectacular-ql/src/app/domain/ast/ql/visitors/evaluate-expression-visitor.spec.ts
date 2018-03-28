@@ -3,7 +3,7 @@ import {ExpressionType} from '../expressions/expression-type';
 import {AndExpression, OrExpression} from '../expressions/logical-expression';
 import {AddExpression, DivideExpression, MultiplyExpression, SubtractExpression} from '../expressions/arithmetic-expression';
 import {NegateExpression, NegativeExpression} from '../expressions/unary-expression';
-import {Location} from '../../location';
+import {emptyLoc} from '../../location';
 import {
   GreaterThanEqualExpression, GreaterThanExpression, LessThanEqualExpression,
   LessThanExpression
@@ -17,44 +17,32 @@ import {CheckExpressionTypeVisitor} from './check-expression-type-visitor';
 import {QlQuestion} from '../ql-question';
 import {IntQuestionType} from '../../question-type';
 
-const location: Location = {
-  start: {
-    offset: 0,
-    line: 0,
-    column: 0
-  },
-  end: {
-    offset: 0,
-    line: 0,
-    column: 0
-  }
-};
-const stringLiteral = new StringLiteral('string', location);
-const dateLiteral = new DateLiteral(new Date('01-01-1990'), location);
-const booleanLiteral = new BooleanLiteral(true, location);
-const intLiteral = new NumberLiteral(5, location);
-const secondIntLiteral = new NumberLiteral(8, location);
+const stringLiteral = new StringLiteral('string', emptyLoc);
+const dateLiteral = new DateLiteral(new Date('01-01-1990'), emptyLoc);
+const booleanLiteral = new BooleanLiteral(true, emptyLoc);
+const intLiteral = new NumberLiteral(5, emptyLoc);
+const secondIntLiteral = new NumberLiteral(8, emptyLoc);
 
-const andExpression = new AndExpression(booleanLiteral, booleanLiteral,  location);
-const orExpression = new OrExpression(booleanLiteral, booleanLiteral,  location);
+const andExpression = new AndExpression(booleanLiteral, booleanLiteral,  emptyLoc);
+const orExpression = new OrExpression(booleanLiteral, booleanLiteral,  emptyLoc);
 
-const timesExpression = new MultiplyExpression(intLiteral, secondIntLiteral, location);
-const divideExpression = new DivideExpression(intLiteral, intLiteral, location);
-const addExpression = new AddExpression(secondIntLiteral, intLiteral, location);
-const subtractExpression = new SubtractExpression(secondIntLiteral, secondIntLiteral,  location);
-const lessThanExpression = new LessThanExpression(intLiteral, secondIntLiteral, location);
-const greaterThanExpression = new GreaterThanExpression(intLiteral, intLiteral,  location);
-const lessEqualExpression = new LessThanEqualExpression(secondIntLiteral, intLiteral,  location);
-const greaterEqualExpression = new GreaterThanEqualExpression(secondIntLiteral, secondIntLiteral, location);
+const timesExpression = new MultiplyExpression(intLiteral, secondIntLiteral, emptyLoc);
+const divideExpression = new DivideExpression(intLiteral, intLiteral, emptyLoc);
+const addExpression = new AddExpression(secondIntLiteral, intLiteral, emptyLoc);
+const subtractExpression = new SubtractExpression(secondIntLiteral, secondIntLiteral,  emptyLoc);
+const lessThanExpression = new LessThanExpression(intLiteral, secondIntLiteral, emptyLoc);
+const greaterThanExpression = new GreaterThanExpression(intLiteral, intLiteral,  emptyLoc);
+const lessEqualExpression = new LessThanEqualExpression(secondIntLiteral, intLiteral,  emptyLoc);
+const greaterEqualExpression = new GreaterThanEqualExpression(secondIntLiteral, secondIntLiteral, emptyLoc);
 
-const equalExpression = new EqualExpression(intLiteral, intLiteral, location);
-const unequalExpression = new UnequalExpression(booleanLiteral, booleanLiteral,  location);
+const equalExpression = new EqualExpression(intLiteral, intLiteral, emptyLoc);
+const unequalExpression = new UnequalExpression(booleanLiteral, booleanLiteral,  emptyLoc);
 
-const negativeExpression = new NegativeExpression(intLiteral, location);
-const negateExpression = new NegateExpression(booleanLiteral, location);
+const negativeExpression = new NegativeExpression(intLiteral, emptyLoc);
+const negateExpression = new NegateExpression(booleanLiteral, emptyLoc);
 
-const variableExpression = new Variable('booleanQuestion', location);
-variableExpression.referencedQuestion = new QlQuestion('booleanQuestion', 'label', new IntQuestionType(), location);
+const variableExpression = new Variable('booleanQuestion', emptyLoc);
+variableExpression.referencedQuestion = new QlQuestion('booleanQuestion', 'label', new IntQuestionType(), emptyLoc);
 
 describe('Expressions', () => {
   describe('should evaluate', () => {
@@ -101,41 +89,41 @@ describe('Expressions', () => {
       form.controls['booleanQuestion'].setValue(true);
       expect(EvaluateExpressionVisitor.evaluate(form, variableExpression).getValue()).toBe(true);
 
-      const unknownIdentifierVariableExpression = new Variable('identifier', location);
+      const unknownIdentifierVariableExpression = new Variable('identifier', emptyLoc);
       expect(() => EvaluateExpressionVisitor.evaluate(form, unknownIdentifierVariableExpression).getValue()).toThrow();
     });
   });
   describe('Should check and return type', () => {
     it('logical expressions', () => {
       expect(CheckExpressionTypeVisitor.evaluate(andExpression)).toBe(ExpressionType.BOOLEAN);
-      expect(() => CheckExpressionTypeVisitor.evaluate(new AndExpression(intLiteral, booleanLiteral, location)
+      expect(() => CheckExpressionTypeVisitor.evaluate(new AndExpression(intLiteral, booleanLiteral, emptyLoc)
       )).toThrowError();
     });
 
     it('arithmetic expressions', () => {
       expect(CheckExpressionTypeVisitor.evaluate(timesExpression)).toBe(ExpressionType.NUMBER);
-      expect(() => CheckExpressionTypeVisitor.evaluate(new DivideExpression(intLiteral, booleanLiteral, location)
+      expect(() => CheckExpressionTypeVisitor.evaluate(new DivideExpression(intLiteral, booleanLiteral, emptyLoc)
         )).toThrowError();
     });
 
     it('comparison expressions', () => {
       expect(CheckExpressionTypeVisitor.evaluate(lessThanExpression)).toBe(ExpressionType.BOOLEAN);
-      expect(() => CheckExpressionTypeVisitor.evaluate(new GreaterThanExpression(intLiteral, booleanLiteral, location)
+      expect(() => CheckExpressionTypeVisitor.evaluate(new GreaterThanExpression(intLiteral, booleanLiteral, emptyLoc)
         )).toThrowError();
     });
 
     it('equality expressions', () => {
       expect(CheckExpressionTypeVisitor.evaluate(equalExpression)).toBe(ExpressionType.BOOLEAN);
-      expect(() => CheckExpressionTypeVisitor.evaluate(new EqualExpression(intLiteral, booleanLiteral, location)
+      expect(() => CheckExpressionTypeVisitor.evaluate(new EqualExpression(intLiteral, booleanLiteral, emptyLoc)
         )).toThrowError();
     });
 
     it('unary expressions', () => {
       expect(CheckExpressionTypeVisitor.evaluate(negativeExpression)).toBe(ExpressionType.NUMBER);
       expect(CheckExpressionTypeVisitor.evaluate(negateExpression)).toBe(ExpressionType.BOOLEAN);
-      expect(() => CheckExpressionTypeVisitor.evaluate(new NegativeExpression(booleanLiteral,  location)
+      expect(() => CheckExpressionTypeVisitor.evaluate(new NegativeExpression(booleanLiteral,  emptyLoc)
         )).toThrowError();
-      expect(() => CheckExpressionTypeVisitor.evaluate(new NegateExpression(secondIntLiteral, location)
+      expect(() => CheckExpressionTypeVisitor.evaluate(new NegateExpression(secondIntLiteral, emptyLoc)
         )).toThrowError();
     });
 
@@ -147,11 +135,11 @@ describe('Expressions', () => {
           if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === ExpressionType.BOOLEAN &&
               CheckExpressionTypeVisitor.evaluate(literalArray[j]) === ExpressionType.BOOLEAN) {
             expect(() => {
-              CheckExpressionTypeVisitor.evaluate(new AndExpression(literalArray[i], literalArray[j], location));
+              CheckExpressionTypeVisitor.evaluate(new AndExpression(literalArray[i], literalArray[j], emptyLoc));
             }).not.toThrow();
           } else {
             expect(() => {
-              CheckExpressionTypeVisitor.evaluate(new AndExpression(literalArray[i], literalArray[j],  location));
+              CheckExpressionTypeVisitor.evaluate(new AndExpression(literalArray[i], literalArray[j],  emptyLoc));
             }).toThrow();
           }
         }
@@ -165,11 +153,11 @@ describe('Expressions', () => {
               left === ExpressionType.DATE && right === ExpressionType.NUMBER ||
               left === ExpressionType.STRING && right === ExpressionType.STRING) {
             expect(() => {
-              CheckExpressionTypeVisitor.evaluate(new AddExpression(literalArray[i], literalArray[j],  location));
+              CheckExpressionTypeVisitor.evaluate(new AddExpression(literalArray[i], literalArray[j],  emptyLoc));
             }).not.toThrow();
           } else {
             expect(() => {
-              CheckExpressionTypeVisitor.evaluate(new AddExpression(literalArray[i], literalArray[j],  location));
+              CheckExpressionTypeVisitor.evaluate(new AddExpression(literalArray[i], literalArray[j],  emptyLoc));
             }).toThrow();
           }
         }
@@ -180,11 +168,11 @@ describe('Expressions', () => {
           if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === ExpressionType.NUMBER &&
               CheckExpressionTypeVisitor.evaluate(literalArray[j]) === ExpressionType.NUMBER) {
             expect(() => {
-              CheckExpressionTypeVisitor.evaluate(new LessThanExpression(literalArray[i], literalArray[j],  location));
+              CheckExpressionTypeVisitor.evaluate(new LessThanExpression(literalArray[i], literalArray[j],  emptyLoc));
             }).not.toThrow();
           } else {
             expect(() => {
-              CheckExpressionTypeVisitor.evaluate(new LessThanExpression(literalArray[i], literalArray[j],  location));
+              CheckExpressionTypeVisitor.evaluate(new LessThanExpression(literalArray[i], literalArray[j],  emptyLoc));
             }).toThrow();
           }
         }
@@ -194,11 +182,11 @@ describe('Expressions', () => {
         for (let j = 0; j < literalArray.length; j++) {
           if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === CheckExpressionTypeVisitor.evaluate(literalArray[j])) {
             expect(() => {
-              CheckExpressionTypeVisitor.evaluate(new EqualExpression(literalArray[i], literalArray[j],  location));
+              CheckExpressionTypeVisitor.evaluate(new EqualExpression(literalArray[i], literalArray[j],  emptyLoc));
             }).not.toThrow();
           } else {
             expect(() => {
-              CheckExpressionTypeVisitor.evaluate(new EqualExpression(literalArray[i], literalArray[j], location));
+              CheckExpressionTypeVisitor.evaluate(new EqualExpression(literalArray[i], literalArray[j], emptyLoc));
             }).toThrow();
           }
         }
@@ -207,11 +195,11 @@ describe('Expressions', () => {
       for (let i = 0; i < literalArray.length; i++) {
         if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === ExpressionType.NUMBER) {
           expect(() => {
-            CheckExpressionTypeVisitor.evaluate(new NegativeExpression(literalArray[i], location));
+            CheckExpressionTypeVisitor.evaluate(new NegativeExpression(literalArray[i], emptyLoc));
           }).not.toThrow();
         } else {
           expect(() => {
-            CheckExpressionTypeVisitor.evaluate(new NegativeExpression(literalArray[i], location));
+            CheckExpressionTypeVisitor.evaluate(new NegativeExpression(literalArray[i], emptyLoc));
           }).toThrow();
         }
       }
@@ -219,11 +207,11 @@ describe('Expressions', () => {
       for (let i = 0; i < literalArray.length; i++) {
         if (CheckExpressionTypeVisitor.evaluate(literalArray[i]) === ExpressionType.BOOLEAN) {
           expect(() => {
-            CheckExpressionTypeVisitor.evaluate(new NegateExpression(literalArray[i],  location));
+            CheckExpressionTypeVisitor.evaluate(new NegateExpression(literalArray[i],  emptyLoc));
           }).not.toThrow();
         } else {
           expect(() => {
-            CheckExpressionTypeVisitor.evaluate(new NegateExpression(literalArray[i],  location));
+            CheckExpressionTypeVisitor.evaluate(new NegateExpression(literalArray[i],  emptyLoc));
           }).toThrow();
         }
       }

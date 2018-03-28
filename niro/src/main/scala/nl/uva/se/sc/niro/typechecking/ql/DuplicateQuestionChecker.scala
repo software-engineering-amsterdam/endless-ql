@@ -1,12 +1,13 @@
 package nl.uva.se.sc.niro.typechecking.ql
 
+import cats.implicits._
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.model.ql.{ QLForm, Question, Statement }
 import org.apache.logging.log4j.scala.Logging
 
 object DuplicateQuestionChecker extends Logging {
-  def checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm: QLForm): Either[TypeCheckError, QLForm] = {
+  def checkDuplicateQuestionDeclarationsWithDifferentTypes(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
     logger.info("Phase 4 - Checking duplicate question declarations with different types ...")
 
     val questions: Seq[Question] = Statement.collectAllQuestions(qLForm.statements)
@@ -17,11 +18,10 @@ object DuplicateQuestionChecker extends Logging {
       .toList
 
     if (duplicateQuestionsWithDifferentTypes.nonEmpty) {
-      Left(
-        TypeCheckError(
-          message = s"Duplicate question declarations with different types: $duplicateQuestionsWithDifferentTypes"))
+        duplicateQuestionsWithDifferentTypes.map(duplicateQuestions => TypeCheckError(
+          message = s"Duplicate question declarations with different types: $duplicateQuestions")).asLeft
     } else {
-      Right(qLForm)
+     qLForm.asRight
     }
   }
 
@@ -36,7 +36,7 @@ object DuplicateQuestionChecker extends Logging {
       .map(
         duplicates =>
           Warning(
-            s"Warning: questions ${duplicates.map(_.id).mkString(", ")} have duplicate label: ${duplicates.head.label}"
+            message = s"Warning: questions ${duplicates.map(_.id).mkString(", ")} have duplicate label: ${duplicates.head.label}"
         ))
 
     qLForm.copy(warnings = warnings)

@@ -31,12 +31,11 @@ class QLHomeController extends QLBaseController with Logging {
         case Left(errors) => handleErrors(errors)
       }
     } catch {
-      case e: IOException => {
+      case e: IOException =>
         // TODO Improve messages and handling
         errorMessages.setText(s"Oops, please contact the developers:\n\n${e.getMessage}")
         errorMessages.setVisible(true)
         logger.error("Processing a QL file failed!", e)
-      }
     }
   }
 
@@ -56,13 +55,13 @@ class QLHomeController extends QLBaseController with Logging {
   }
 
   def showWarning(warnings: Seq[Warning]): Unit = {
-    val alert = new Alert(AlertType.WARNING, s"${warnings.mkString("\n")}", ButtonType.OK)
+    val alert = new Alert(AlertType.WARNING, s"${warnings.map(warning => s"${warning.key}: ${warning.message}").mkString("\n")}", ButtonType.OK)
     alert.setTitle("Warning")
     alert.showAndWait()
   }
 
   def handleErrors(errors: Seq[Errors.Error]): Unit = {
-    errorMessages.setText(errors.toString)
+    errorMessages.setText(errors.map(error => s"${error.key}: ${error.message}").mkString("\n"))
     errorMessages.setVisible(true)
   }
 }

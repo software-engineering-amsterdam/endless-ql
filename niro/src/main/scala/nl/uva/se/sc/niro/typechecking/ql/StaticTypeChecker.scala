@@ -7,9 +7,10 @@ import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.model.ql.{ IntegerType, NumericType, _ }
 import org.apache.logging.log4j.scala.Logging
+import nl.uva.se.sc.niro.PrettyPrinter._
 
 object StaticTypeChecker extends Logging {
-  def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[List[TypeCheckError], QLForm] = {
+  def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
     logger.info("Phase 3 - Checking operands of invalid type to operators ...")
 
     val conditionals = Statement.collectAllConditionals(qLForm.statements)
@@ -31,13 +32,13 @@ object StaticTypeChecker extends Logging {
   }
 
   private def validateNumericExpression(
-      binaryExpression: BinaryExpression,
+      expression: BinaryExpression,
       symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = {
     for {
-      leftType <- binaryExpression.left.typeOf(symbolTable)
-      rightType <- binaryExpression.right.typeOf(symbolTable)
+      leftType <- expression.left.typeOf(symbolTable)
+      rightType <- expression.right.typeOf(symbolTable)
       result <- if (leftType.isCompatibleWith(rightType) && NumericType.isCompatibleWith(leftType)) NumericType.asRight
-      else TypeCheckError("TypeCheckError", s"Not a valid expression: $binaryExpression").asLeft
+      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.pprint}").asLeft
     } yield result
   }
 
@@ -48,7 +49,7 @@ object StaticTypeChecker extends Logging {
       leftType <- expression.left.typeOf(symbolTable)
       rightType <- expression.right.typeOf(symbolTable)
       result <- if (leftType.isCompatibleWith(rightType)) BooleanType.asRight
-      else TypeCheckError("TypeCheckError", s"Not a valid expression: $expression").asLeft
+      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.pprint}").asLeft
     } yield result
   }
 
@@ -60,7 +61,7 @@ object StaticTypeChecker extends Logging {
       rightType <- expression.right.typeOf(symbolTable)
       result <- if (BooleanType.isCompatibleWith(leftType) && BooleanType.isCompatibleWith(rightType))
         BooleanType.asRight
-      else TypeCheckError("TypeCheckError", s"Not a valid expression: $expression").asLeft
+      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.pprint}").asLeft
     } yield result
   }
 
@@ -161,7 +162,7 @@ object StaticTypeChecker extends Logging {
       for {
         rightType <- expression.right.typeOf(symbolTable)
         _ <- if (NumericType.isCompatibleWith(rightType)) NumericType.asRight
-        else TypeCheckError("TypeCheckError", s"Not a valid expression: $expression").asLeft
+        else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.pprint}").asLeft
       } yield NumericType
     }
   }
@@ -219,7 +220,7 @@ object StaticTypeChecker extends Logging {
       for {
         rightType <- expression.right.typeOf(symbolTable)
         result <- if (BooleanType.isCompatibleWith(rightType)) BooleanType.asRight
-        else TypeCheckError("TypeCheckError", s"Not a valid expression: $expression").asLeft
+        else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.pprint}").asLeft
       } yield result
     }
   }

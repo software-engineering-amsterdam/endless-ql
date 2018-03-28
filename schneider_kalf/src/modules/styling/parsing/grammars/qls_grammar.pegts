@@ -13,7 +13,12 @@
         "radio" : Nodes.RadioWidgetAttribute
     }
 
-    let NodeFactory = new Nodes.AttributeNodeFactory();
+    let baseAttributeMapping = {
+        "color" : Nodes.ColorAttribute,
+        "width" : Nodes.WidthAttribute,
+        "fontsize" : Nodes.FontSizeAttribute,
+        "font" : Nodes.FontAttribute
+    }
 }
 
 start = lb* stylesheet:stylesheet lb* { return stylesheet }
@@ -110,7 +115,8 @@ arguments
 // Style element
 style
  = _ id:identifier _ ":" _ args:styleValues lb*{
-    return NodeFactory.getBaseStyleAttribute(id, args);
+    const BaseAttributeConstructor = baseAttributeMapping[id];
+    return new BaseAttributeConstructor(args);
 }
 
 // Style values

@@ -202,7 +202,8 @@ function peg$parse(input, options) {
   const peg$c36 = ":";
   const peg$c37 = peg$literalExpectation(":", false);
   const peg$c38 = function(id, args) {
-      return NodeFactory.getBaseStyleAttribute(id, args);
+      const BaseAttributeConstructor = baseAttributeMapping[id];
+      return new BaseAttributeConstructor(args);
   };
   const peg$c39 = /^["#"]/;
   const peg$c40 = peg$classExpectation(["\"", "#", "\""], false, false);
@@ -2147,7 +2148,12 @@ function peg$parse(input, options) {
           "radio" : Nodes.RadioWidgetAttribute
       }
 
-      let NodeFactory = new Nodes.AttributeNodeFactory();
+      let baseAttributeMapping = {
+          "color" : Nodes.ColorAttribute,
+          "width" : Nodes.WidthAttribute,
+          "fontsize" : Nodes.FontSizeAttribute,
+          "font" : Nodes.FontAttribute
+      }
 
 
   peg$result = peg$startRuleFunction();

@@ -7,7 +7,7 @@ and the entered answers may be saved to a .txt file by pressing the "Submit" but
 from visitor.ql_visitor import visit
 from visitor.qls_visitor import visit_qls
 from PyQt5 import QtWidgets, QtCore
-from grammar.parser import Parser
+from grammar.parser import ParserInterface
 from gui.input_frame import InputFrame
 from gui.output_frame import OutputFrame
 
@@ -42,26 +42,22 @@ class MainWindow(QtWidgets.QWidget):
 
     def parse(self, ql_text, qls_text):
         """ Parse the GUI user input """
-        ql_data = Parser()
-        qls_data = Parser()
+        ql_data = ParserInterface(ql_text, 'QL')
+        qls_data = ParserInterface(qls_text, 'QLS')
 
         if ql_text:
-            ql_data.set_ql_grammar_text(ql_text)
-            ql_data.run_antlr_ql()
-            if ql_data.ql_errors:
+            if len(ql_data.errors) > 1:
                 self.initiate_output_frame()
-                for error in ql_data.ql_errors:
+                for error in ql_data.errors:
                     self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error))
                 return
             # Traverses QL AST
-            [question_ids, questions, error_message, warning_message] = visit(ql_data.ql_tree)
+            [question_ids, questions, error_message, warning_message] = visit(ql_data.ast)
 
             if qls_text:
-                qls_data.set_qls_grammar_text(qls_text)
-                qls_data.run_antlr_qls()
                 # todo: create listener/visiter for QLS
                 # Traverses QLS AST
-                x = visit_qls(qls_data.qls_tree, question_ids, questions)
+                x = visit_qls(qls_data.ast, question_ids, questions)
 
             if error_message:
                 self.initiate_output_frame()
@@ -78,8 +74,7 @@ class MainWindow(QtWidgets.QWidget):
             self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))
 
         if qls_text:
-            qls_data.set_qls_grammar_text(qls_text)
-            qls_data.run_antlr_qls()
+            pass
             # todo: create listener/visiter for QLS
             # listen(ql_data.qls_tree, self.output_frame)
             # self.output_frame.add_submit_button()

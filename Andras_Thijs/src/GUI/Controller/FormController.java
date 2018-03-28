@@ -16,12 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FormController implements RefreshListener {
-    private static QLForm form;
     private static JFrame frame;
     private final List<QuestionPanel> questionPanels = new ArrayList<>();
 
     public FormController(QLForm form, JFrame frame) throws SyntaxException, TypeException {
-        FormController.form = form;
         FormController.frame = frame;
 
         List<Question> questions = form.getAllQuestions();

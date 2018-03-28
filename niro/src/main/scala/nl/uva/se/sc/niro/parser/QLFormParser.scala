@@ -2,7 +2,6 @@ package nl.uva.se.sc.niro.parser
 
 import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
 import nl.uva.se.sc.niro.errors.Errors._
-import nl.uva.se.sc.niro.model.ql.Operators.{ Neg, Operator }
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._

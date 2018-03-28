@@ -1,7 +1,5 @@
 package nl.uva.se.sc.niro.model.ql.expressions
 
-import nl.uva.se.sc.niro.model.ql.Operators._
-
 trait Expression
 trait UnaryExpression extends Expression {
   val right: Expression

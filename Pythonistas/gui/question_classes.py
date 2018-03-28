@@ -40,13 +40,18 @@ class Question:
 
     def create_label(self):
         question_label = QtWidgets.QLabel(self.question_string)
-        question_label.setStyleSheet("color: {0}; font-size: {1}".format(self.color, self.font_size))
+        color = self.attributes['color']
+        font_size = self.attributes['font_size']
+        font = self.attributes['font']
+        question_label.setStyleSheet("color: {0}; font-size: {1}px; font-family: {2}".format(color, font_size, font))
+        # question_label.setStyleSheet("color: {0}; font-size: {1}".format('red', 'peop'))
         return question_label
 
     def set_attributes(self, attributes):
-        print(self.attributes)
+        # thanks to
+        # stackoverflow.com/questions/15277307/update-a-dictionary-with-another-dictionary-but-only-non-none-values
         self.attributes.update((k, attributes[k]) for k in self.attributes.keys() & attributes.keys())
-        print(self.attributes)
+
 
 class BooleanQuestion(Question):
     def __init__(self, question_id, question_string, data_type='boolean', answer='undefined'):

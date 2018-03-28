@@ -4,11 +4,11 @@ import cats.implicits._
 import nl.uva.se.sc.niro.PrettyPrinter.ExpressionCanPrettyPrint
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.model.ql._
-import nl.uva.se.sc.niro.typechecking.ql.StaticTypeChecker._
+import nl.uva.se.sc.niro.typechecking.ql.StaticTypes._
 import org.apache.logging.log4j.scala.Logging
 
-object PredicateChecker extends Logging {
-  def checkNonBooleanPredicates(qlForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
+object Predicates extends Logging {
+  def check(qlForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
     logger.info("Phase 3 - Checking predicates that are not of the type boolean ...")
 
     val conditionals: Seq[Conditional] = Statement.collectAllConditionals(qlForm.statements)

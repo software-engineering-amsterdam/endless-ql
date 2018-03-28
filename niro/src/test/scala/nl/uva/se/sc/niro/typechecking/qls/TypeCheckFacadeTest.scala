@@ -5,7 +5,7 @@ import nl.uva.se.sc.niro.model.qls._
 import nl.uva.se.sc.niro.model.qls.style.{ CheckBox, ComboBox, Radio, SpinBox }
 import org.scalatest.WordSpec
 
-class QLSTypeCheckFacadeTest extends WordSpec {
+class TypeCheckFacadeTest extends WordSpec {
   "integer widget" should {
     "be compatible with default (none) styling" in {
       val actual = WidgetStyles.stylingIsCompatible(IntegerType, Styling())

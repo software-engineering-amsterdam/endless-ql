@@ -8,8 +8,8 @@ import nl.uva.se.sc.niro.model.ql.{ QLForm, Symbol }
 import nl.uva.se.sc.niro.typechecking.ql.CycleDetection.{ Edge, Graph, detectCycles, graphToString }
 import org.apache.logging.log4j.scala.Logging
 
-object CyclicDependencyChecker extends Logging {
-  def checkCyclicDependenciesBetweenQuestions(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
+object CyclicDependency extends Logging {
+  def check(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
     logger.info("Phase 2 - Checking cyclic dependencies between questions ...")
 
     val dependencyGraph: Graph = buildDependencyGraph(qLForm.symbolTable)

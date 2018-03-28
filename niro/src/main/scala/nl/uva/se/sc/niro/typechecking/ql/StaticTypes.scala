@@ -9,8 +9,8 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import nl.uva.se.sc.niro.model.ql.{ IntegerType, NumericType, _ }
 import org.apache.logging.log4j.scala.Logging
 
-object StaticTypeChecker extends Logging {
-  def checkOperandsOfInvalidTypeToOperators(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
+object StaticTypes extends Logging {
+  def check(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
     logger.info("Phase 3 - Checking operands of invalid type to operators ...")
 
     val conditionals = Statement.collectAllConditionals(qLForm.statements)

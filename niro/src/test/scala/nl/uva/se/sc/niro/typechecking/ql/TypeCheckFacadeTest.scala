@@ -7,7 +7,7 @@ import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import org.scalatest.WordSpec
 
-class TypeCheckerFacadeTest extends WordSpec {
+class TypeCheckFacadeTest extends WordSpec {
 
   "TypeCheckerFacadeTest" should {
 
@@ -20,7 +20,7 @@ class TypeCheckerFacadeTest extends WordSpec {
         )
       )
 
-      val result = TypeCheckerFacade.pipeline(qlForm)
+      val result = TypeCheckFacade.pipeline(qlForm)
 
       assert(
         result === Right(
@@ -43,7 +43,7 @@ class TypeCheckerFacadeTest extends WordSpec {
             Question("q1", "duplicate-label", IntegerType, Some(Multiply(StringAnswer("Foo"), StringAnswer("Bar"))))
           ))
 
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(
           result === Left(
@@ -57,7 +57,7 @@ class TypeCheckerFacadeTest extends WordSpec {
             Question("q1", "duplicate-label", IntegerType, Some(Equal(StringAnswer("Foo"), IntegerAnswer(0))))
           ))
 
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(
           result === Left(
@@ -75,7 +75,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           )
         )
 
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(
           result === Right(
@@ -99,7 +99,7 @@ class TypeCheckerFacadeTest extends WordSpec {
             Question("q1", "duplicate-label", IntegerType, Some(Equal(DecimalAnswer(1), IntegerAnswer(2))))
           ))
 
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(result === Right(qlForm))
       }
@@ -111,7 +111,7 @@ class TypeCheckerFacadeTest extends WordSpec {
             Question("q1", "duplicate-label", IntegerType, Some(Equal(MoneyAnswer(1), IntegerAnswer(1))))
           ))
 
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(result === Right(qlForm))
       }
@@ -126,7 +126,7 @@ class TypeCheckerFacadeTest extends WordSpec {
         )
       )
 
-      val result = TypeCheckerFacade.pipeline(qLForm)
+      val result = TypeCheckFacade.pipeline(qLForm)
 
       assert(
         result === Left(
@@ -148,7 +148,7 @@ class TypeCheckerFacadeTest extends WordSpec {
         )
       )
 
-      val result = TypeCheckerFacade.pipeline(qLForm)
+      val result = TypeCheckFacade.pipeline(qLForm)
 
       assert(
         result === Left(
@@ -172,7 +172,7 @@ class TypeCheckerFacadeTest extends WordSpec {
             Question("q3", "question3", IntegerType, Some(IntegerAnswer(1)))
           )
         )
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(Right(qlForm) === result)
       }
@@ -186,7 +186,7 @@ class TypeCheckerFacadeTest extends WordSpec {
             Question("q3", "question3", IntegerType, Some(Reference("q2")))
           )
         )
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(
           result === Left(
@@ -209,7 +209,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           )
         )
 
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(
           result === Left(
@@ -233,7 +233,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           )
         )
 
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(
           result === Left(
@@ -257,7 +257,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           )
         )
 
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(
           result === Left(
@@ -282,7 +282,7 @@ class TypeCheckerFacadeTest extends WordSpec {
             Question("q3", "question3", IntegerType, Some(Reference("q2")))
           )
         )
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(result === Left(List(TypeCheckError("TypeCheckError", "Undefined reference: 1"))))
       }
@@ -301,7 +301,7 @@ class TypeCheckerFacadeTest extends WordSpec {
             Question("q3", "question3", IntegerType, Some(Reference("q2")))
           )
         )
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(result === Left(List(TypeCheckError("TypeCheckError", "Undefined reference: 1"))))
       }
@@ -314,7 +314,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           )
         )
 
-        val result = TypeCheckerFacade.pipeline(qlForm)
+        val result = TypeCheckFacade.pipeline(qlForm)
         assert(result === Left(List(TypeCheckError("TypeCheckError", "Undefined reference: a"))))
       }
     }

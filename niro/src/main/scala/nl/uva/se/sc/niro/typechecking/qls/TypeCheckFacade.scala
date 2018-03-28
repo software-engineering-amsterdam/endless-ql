@@ -5,7 +5,7 @@ import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import org.apache.logging.log4j.scala.Logging
 
-object QLSTypeCheckFacade extends Logging {
+object TypeCheckFacade extends Logging {
 
   def check(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] =
     for {

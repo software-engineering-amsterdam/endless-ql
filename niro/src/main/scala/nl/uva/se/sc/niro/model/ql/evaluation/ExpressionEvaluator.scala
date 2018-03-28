@@ -27,6 +27,7 @@ object ExpressionEvaluator {
       case n: Negate           => n.evaluate(symbolTable, dictionary)
     }
   }
+
   private def widen(left: Answer, right: Answer): (Answer, Answer) = (left, right) match {
     case (i: IntegerAnswer, _: DecimalAnswer) => (i.toDecimal, right)
     case (_: DecimalAnswer, i: IntegerAnswer) => (left, i.toDecimal)

@@ -1,4 +1,4 @@
-stylesheet taxOfficeExample
+stylesheet Box1HouseOwning {
   page Housing {
     section "Buying"
       question hasBoughtHouse
@@ -11,7 +11,7 @@ stylesheet taxOfficeExample
     section "Selling" {
       question hasSoldHouse
         widget radio("Yes", "No")
-      section "You sold a house" {
+      //section "You sold a house" {
         question sellingPrice
           widget spinbox
         question privateDebt
@@ -22,9 +22,10 @@ stylesheet taxOfficeExample
           font: "Arial"
           fontsize: 14
           color: #999999
-          widget spinbox
+          //widget spinbox
         }
-      }
+      //}
     }
     default boolean widget radio("Yes", "No")
   }
+}

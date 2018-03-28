@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.gui.widget.ql
 
-import nl.uva.se.sc.niro.gui.builder.DecimalFormatterBuilder
+import nl.uva.se.sc.niro.gui.widget.DecimalFormatterBuilder
 
 class QLDecimalField() extends AbstractQLTextField[java.math.BigDecimal] {
   val DECIMAL_MASK = "\\d*(\\.\\d*)?"

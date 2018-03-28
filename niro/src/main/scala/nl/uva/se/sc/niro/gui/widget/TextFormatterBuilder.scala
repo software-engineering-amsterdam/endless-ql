@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.builder
+package nl.uva.se.sc.niro.gui.widget
 
 import java.util.function.UnaryOperator
 

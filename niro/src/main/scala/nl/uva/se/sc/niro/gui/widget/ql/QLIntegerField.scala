@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.gui.widget.ql
 
-import nl.uva.se.sc.niro.gui.builder.IntegerFormatterBuilder
+import nl.uva.se.sc.niro.gui.widget.IntegerFormatterBuilder
 
 class QLIntegerField() extends AbstractQLTextField[java.math.BigInteger] {
   val INTEGER_MASK = "\\d*"

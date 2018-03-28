@@ -3,8 +3,7 @@ stylesheet taxOfficeExample
     section "Selling" {
         question valueResidue
           default money {
-            width: 999999
-            font: "Arial"
+            font: "#872347"
             fontsize: 14
             color: #999999
             widget spinbox

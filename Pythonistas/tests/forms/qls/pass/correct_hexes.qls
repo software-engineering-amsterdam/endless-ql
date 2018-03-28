@@ -1,0 +1,30 @@
+stylesheet taxOfficeExample
+  page Selling {
+    section "Selling" {
+      question hasSoldHouse
+        widget radio("Yes", "No")
+      section "You sold a house" {
+        question sellingPrice {
+            width: 400
+            font: "Arial"
+            fontsize: 14
+            color: #999999
+            widget spinbox
+        }
+        question privateDebt {
+            width: 400
+            font: "Arial"
+            fontsize: 14
+            color: #qwge62
+            widget spinbox
+        }
+        question valueResidue {
+            width: 400
+            font: "Arial"
+            fontsize: 14
+            color: #99e999
+            widget spinbox
+        }
+      }
+    }
+  }

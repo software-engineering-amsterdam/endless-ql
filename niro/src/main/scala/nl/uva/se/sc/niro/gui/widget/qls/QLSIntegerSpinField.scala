@@ -8,7 +8,7 @@ import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 
 class QLSIntegerSpinField()
-  extends Spinner[Integer](new IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0))
+    extends Spinner[Integer](new IntegerSpinnerValueFactory(Integer.MIN_VALUE, Integer.MAX_VALUE, 0))
     with QLWidget[java.math.BigInteger] {
   setEditable(true)
   valueProperty().addListener(new ChangeListener[Integer] {
@@ -17,9 +17,9 @@ class QLSIntegerSpinField()
   })
   focusedProperty().addListener(new ChangeListener[lang.Boolean] {
     override def changed(
-                          observable: ObservableValue[_ <: lang.Boolean],
-                          oldValue: lang.Boolean,
-                          newValue: lang.Boolean): Unit = {
+        observable: ObservableValue[_ <: lang.Boolean],
+        oldValue: lang.Boolean,
+        newValue: lang.Boolean): Unit = {
       if (!newValue) {
         increment(0)
         valueChanged()

@@ -5,11 +5,11 @@ import nl.uva.se.sc.niro.model.gui.qls.style._
 import nl.uva.se.sc.niro.model.qls.Styling
 
 case class GUIStyling(
-  widgetStyle: Option[GUIWidgetStyle] = None,
-  width: Option[GUIWidth] = None,
-  color: Option[GUIColor] = None,
-  fontType: Option[GUIFontStyle] = None,
-  fontSize: Option[GUIFontSize] = None) {
+    widgetStyle: Option[GUIWidgetStyle] = None,
+    width: Option[GUIWidth] = None,
+    color: Option[GUIColor] = None,
+    fontType: Option[GUIFontStyle] = None,
+    fontSize: Option[GUIFontSize] = None) {
 
   def ++(that: GUIStyling) =
     GUIStyling(

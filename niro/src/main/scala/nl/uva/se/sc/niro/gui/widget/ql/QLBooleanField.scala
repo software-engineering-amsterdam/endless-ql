@@ -6,9 +6,9 @@ import javafx.scene.control.CheckBox
 class QLBooleanField extends CheckBox with QLWidget[Boolean] {
   selectedProperty().addListener(new ChangeListener[java.lang.Boolean] {
     override def changed(
-                          observable: ObservableValue[_ <: java.lang.Boolean],
-                          oldValue: java.lang.Boolean,
-                          newValue: java.lang.Boolean): Unit =
+        observable: ObservableValue[_ <: java.lang.Boolean],
+        oldValue: java.lang.Boolean,
+        newValue: java.lang.Boolean): Unit =
       valueChanged()
   })
   override def value(value: Boolean): Unit = setSelected(value)

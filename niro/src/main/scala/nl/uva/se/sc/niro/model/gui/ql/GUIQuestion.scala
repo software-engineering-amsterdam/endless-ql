@@ -12,4 +12,3 @@ abstract class GUIQuestion(
     val visibility: Expression,
     var component: Option[Component[_]]
 )
-

@@ -1,4 +1,4 @@
-import Form from "./Form";
+import StatefulForm from "./StatefulForm";
 import FormNode from "./nodes/FormNode";
 import FieldNode from "./nodes/fields/FieldNode";
 import { filterNodes } from "./form_helpers";
@@ -10,7 +10,7 @@ import { UnkownDefaultValueError, UnkownFieldError } from "./form_errors";
 import FieldVisitor from "./nodes/visitors/FieldVisitor";
 import defaultValues from "./defaultValues";
 
-export default class QlForm implements Form {
+export default class QlForm implements StatefulForm {
   private node: FormNode;
   private state: FormState;
 
@@ -80,11 +80,11 @@ export default class QlForm implements Form {
     return this.state;
   }
 
-  setAnswer(identifier: string, value: any): Form {
+  setAnswer(identifier: string, value: any): StatefulForm {
     return this.setState(this.state.set(identifier, value));
   }
 
-  setState(nextState: FormState): Form {
+  setState(nextState: FormState): StatefulForm {
     return new QlForm(this.node, nextState);
   }
 

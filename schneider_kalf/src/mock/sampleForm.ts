@@ -1,4 +1,4 @@
-import Form from "../form/Form";
+import Form from "../form/StatefulForm";
 import { FieldType } from "../form/FieldType";
 import FormNode from "../form/nodes/FormNode";
 import QuestionNode from "../form/nodes/fields/QuestionNode";

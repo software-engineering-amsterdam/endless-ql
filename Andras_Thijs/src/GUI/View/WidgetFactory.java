@@ -55,7 +55,7 @@ class WidgetFactory {
     }
 
     private DateFormatter dateField(){
-        DateFormat format = new SimpleDateFormat("yyyy--MM--dd");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         DateFormatter formatter = new DateFormatter(format);
         formatter.setValueClass(Date.class);
         formatter.setAllowsInvalid(true);

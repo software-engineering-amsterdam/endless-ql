@@ -18,7 +18,7 @@ import java.util.List;
 public class FormController implements RefreshListener {
     private static QLForm form;
     private static JFrame frame;
-    private List<QuestionPanel> questionPanels = new ArrayList<>();
+    private final List<QuestionPanel> questionPanels = new ArrayList<>();
 
     public FormController(QLForm form, JFrame frame) throws SyntaxException, TypeException {
         FormController.form = form;
@@ -37,18 +37,16 @@ public class FormController implements RefreshListener {
     }
 
     public void refreshQuestions() throws SyntaxException, TypeException {
-        for (QuestionPanel questionPanel : questionPanels) {
+        for (QuestionPanel questionPanel : questionPanels)
             questionPanel.refreshPanel();
-        }
     }
 
-    public void getResults() throws SyntaxException, TypeException, IOException {
+    public void getResults() throws SyntaxException, TypeException {
 
         StringBuilder results = new StringBuilder("{");
 
-        for (QuestionPanel questionPanel : questionPanels) {
+        for (QuestionPanel questionPanel : questionPanels)
             results.append(questionPanel.getResult()).append(",");
-        }
 
         if(results.length() > 1)
             results = new StringBuilder(results.substring(0, results.length() - 1));

@@ -6,8 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Widget {
-    private Type type;
-    private Component component;
+    private final Type type;
+    private final Component component;
 
     Widget(Type type, Component component){
         this.type = type;

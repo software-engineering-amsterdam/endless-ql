@@ -9,13 +9,12 @@ import QLExceptions.TypeException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class QLGUI {
 
-    private QLForm form;
+    private final QLForm form;
 
     public QLGUI(QLForm form){
         this.form = form;
@@ -38,11 +37,8 @@ public class QLGUI {
         button.addActionListener((ActionEvent e) -> {
             try {
                 controller.getResults();
-            } catch (SyntaxException e1) {
-                e1.printStackTrace();
-            } catch (TypeException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
+            } catch (TypeException | SyntaxException e1) {
+                // This should be impossible, as type checking is done on input;
                 e1.printStackTrace();
             }
         });
@@ -59,11 +55,8 @@ public class QLGUI {
         frame.setResizable(false);
         frame.pack();
 
-
-
         controller.refreshQuestions();
 
         frame.setVisible(true);
-
     }
 }

@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class QuestionPanel extends JPanel{
-    private Question question;
+    private final Question question;
     private boolean isAvailable;
     private Widget widget;
 
@@ -40,15 +40,11 @@ public class QuestionPanel extends JPanel{
         setVisibility();
     }
 
-    private void updateTerm() throws TypeException {
+    private void updateTerm() throws SyntaxException, TypeException {
         if(question.hasExpression()) {
-            try {
-                question.getExpressionValue();
-            } catch (TypeException e) {
-                e.printStackTrace();
-            } catch (SyntaxException e) {
-                e.printStackTrace();
-            }
+            // Any errors thrown will be handled by Main.
+            question.getExpressionValue();
+
             if(question.getResult() == null)
                 return;
             switch (widget.getType()){

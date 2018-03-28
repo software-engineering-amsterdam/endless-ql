@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 public class ValueChangeListener implements ActionListener {
 
-    private RefreshListener refreshListener;
+    private final RefreshListener refreshListener;
 
     public ValueChangeListener(RefreshListener listener){
         this.refreshListener = listener;

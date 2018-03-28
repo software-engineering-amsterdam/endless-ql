@@ -12,7 +12,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class WidgetFactory {
+class WidgetFactory {
 
     public Widget getWidget(Type type, RefreshListener listener){
         switch (type){

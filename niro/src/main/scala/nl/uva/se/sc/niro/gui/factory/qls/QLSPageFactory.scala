@@ -10,7 +10,7 @@ import nl.uva.se.sc.niro.gui.controller.qls.QLSFormController
 import nl.uva.se.sc.niro.model.gui._
 import nl.uva.se.sc.niro.model.ql._
 
-class PageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet)
+class QLSPageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet)
     extends Callback[Integer, Node]() {
 
   val defaultStyles: Map[AnswerType, GUIStyling] = Map(

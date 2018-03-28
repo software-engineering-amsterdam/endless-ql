@@ -5,7 +5,7 @@ import javafx.geometry.Insets
 import javafx.scene.control.{ Label, Pagination }
 import nl.uva.se.sc.niro.gui.control.Component
 import nl.uva.se.sc.niro.gui.controller.ql.{ QLFormController, QLHomeController }
-import nl.uva.se.sc.niro.gui.factory.qls.PageFactory
+import nl.uva.se.sc.niro.gui.factory.qls.QLSPageFactory
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIStylesheet }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.util.StringUtil
@@ -31,7 +31,7 @@ class QLSFormController(homeController: QLHomeController, model: QLForm, guiForm
   override def initializeForm(): Unit = {
     pagination.setPageCount(stylesheet.pages.size)
     pagination.setPadding(new Insets(00.0, 20.0, 00.0, 20.0))
-    pagination.setPageFactory(new PageFactory(this, guiForm, stylesheet))
+    pagination.setPageFactory(new QLSPageFactory(this, guiForm, stylesheet))
 
     questionArea.setContent(pagination)
     questionArea.setFitToHeight(true)

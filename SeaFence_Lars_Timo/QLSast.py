@@ -69,6 +69,8 @@ class WidgetNode(QLSast):
         self.node_type = "widget"
         self.widget = widget
         self.options = None
+        self.min_value = 0
+        self.max_value = 0
 
     def __repr__(self):
         return "Widget: {} Options: {}".format(self.widget, self.options)

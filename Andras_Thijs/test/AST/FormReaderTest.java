@@ -51,7 +51,8 @@ class FormReaderTest {
                     case "test5": return result == 570.0;
                     default: return false;
                 }
-            } catch (TypeException e) {
+            } catch(TypeException e) {
+                // Is this happens, someone screwed up the file.
                 e.printStackTrace();
                 return false;
             }

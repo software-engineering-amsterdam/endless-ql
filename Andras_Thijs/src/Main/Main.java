@@ -16,7 +16,6 @@ class Main {
         FormReader formReader = new FormReader();
 
         try {
-
             // Read the form from a file and set the parent structure.
             QLForm form = formReader.parseCharStream(CharStreams.fromFileName(new PathChooser().getFilePath()));
             form.setParents();
@@ -39,13 +38,13 @@ class Main {
             QLGUI formGUI = new QLGUI(form);
             formGUI.renderForm();
 
-        } catch (IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
-        } catch (SyntaxException e) {
+        } catch(SyntaxException e) {
             System.out.println("There is a Syntax error at Node: " + e.getNode());
             System.out.println(e.getMessage());
             e.printStackTrace();
-        } catch (TypeException e) {
+        } catch(TypeException e) {
             System.out.println("There is a Type error at Node: " + e.getNode());
             System.out.println("Expected: " + e.getExpected());
             System.out.println("Received: " + e.getReceived());

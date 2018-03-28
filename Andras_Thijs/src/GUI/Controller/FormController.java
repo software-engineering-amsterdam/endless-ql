@@ -29,7 +29,6 @@ public class FormController implements RefreshListener {
         }
     }
 
-
     public  List<QuestionPanel> getQuestionPanels() {
         return questionPanels;
     }
@@ -58,9 +57,8 @@ public class FormController implements RefreshListener {
             out.print(results);
             out.close();
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-        } catch (IOException e){
+        } catch(IOException e) {
             e.printStackTrace();
         }
-
     }
 }

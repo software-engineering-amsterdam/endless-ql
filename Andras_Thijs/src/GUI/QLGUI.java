@@ -29,15 +29,14 @@ public class QLGUI {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0, 1));
 
-        for(QuestionPanel questionPanel : controller.getQuestionPanels()){
+        for(QuestionPanel questionPanel : controller.getQuestionPanels())
             panel.add(questionPanel);
-        }
 
         JButton button = new JButton("Submit");
         button.addActionListener((ActionEvent e) -> {
             try {
                 controller.getResults();
-            } catch (TypeException | SyntaxException e1) {
+            } catch(TypeException | SyntaxException e1) {
                 // This should be impossible, as type checking is done on input;
                 e1.printStackTrace();
             }

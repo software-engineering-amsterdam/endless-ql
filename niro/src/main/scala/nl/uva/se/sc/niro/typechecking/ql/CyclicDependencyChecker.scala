@@ -18,8 +18,9 @@ object CyclicDependencyChecker extends Logging {
       dependencyGraph.map(element => detectCycles(dependencyGraph, Seq(element))).filter(_.nonEmpty)
 
     if (cyclicDependencies.nonEmpty) {
-      cyclicDependencies.map(cycle =>
-        TypeCheckError(message = s"Found cyclic dependency: ${cycle.map(graphToString).mkString("")}")).asLeft
+      cyclicDependencies
+        .map(cycle => TypeCheckError(message = s"Found cyclic dependency: ${cycle.map(graphToString).mkString("")}"))
+        .asLeft
     } else {
       qLForm.asRight
     }

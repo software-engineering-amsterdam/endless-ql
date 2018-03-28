@@ -1,5 +1,7 @@
 package nl.uva.se.sc.niro
 
+import nl.uva.se.sc.niro.errors.Errors
+import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
 
@@ -76,7 +78,8 @@ object PrettyPrinter {
     }
   }
 
-  implicit class GreaterThenEqualCanPrettyPrint(greaterThenEqual: GreaterThenEqual) extends PrettyPrintable[GreaterThenEqual] {
+  implicit class GreaterThenEqualCanPrettyPrint(greaterThenEqual: GreaterThenEqual)
+      extends PrettyPrintable[GreaterThenEqual] {
     override def prettyPrint: String = {
       s"(${greaterThenEqual.left.prettyPrint} >= ${greaterThenEqual.right.prettyPrint})"
     }
@@ -115,6 +118,18 @@ object PrettyPrinter {
   implicit class NegateCanPrettyPrint(negate: Negate) extends PrettyPrintable[Negate] {
     override def prettyPrint: String = {
       s"!${negate.right.prettyPrint})"
+    }
+  }
+
+  implicit class ErrorsCanPrettyPrint(error: Errors.Error) extends PrettyPrintable[Errors.Error] {
+    override def prettyPrint: String = {
+      s"${error.key}, ${error.message}"
+    }
+  }
+
+  implicit class WarningCanPrettyPrint(warning: Warning) extends PrettyPrintable[Warning] {
+    override def prettyPrint: String = {
+      s"${warning.key}, ${warning.message}"
     }
   }
 }

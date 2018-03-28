@@ -17,8 +17,9 @@ object ReferenceChecker extends Logging {
     val undefinedReferences: Seq[String] = references.map(_.questionId).filterNot(qLForm.symbolTable.contains)
 
     if (undefinedReferences.nonEmpty) {
-      undefinedReferences.map(undefinedReference =>
-        TypeCheckError(message = s"Undefined reference: $undefinedReference")).asLeft
+      undefinedReferences
+        .map(undefinedReference => TypeCheckError(message = s"Undefined reference: $undefinedReference"))
+        .asLeft
     } else {
       qLForm.asRight
     }

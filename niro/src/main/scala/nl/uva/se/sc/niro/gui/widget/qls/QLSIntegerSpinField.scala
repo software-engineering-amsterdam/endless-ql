@@ -9,7 +9,8 @@ import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 
 class QLSIntegerSpinField()
     extends Spinner[Integer](Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 1)
-    with QLWidget[java.math.BigInteger] with FormatMasks {
+    with QLWidget[java.math.BigInteger]
+    with FormatMasks {
 
   setEditable(true)
   getEditor.setTextFormatter(IntegerFormatterBuilder().buildInputFilter(INTEGER_MASK).buildConverter().build())

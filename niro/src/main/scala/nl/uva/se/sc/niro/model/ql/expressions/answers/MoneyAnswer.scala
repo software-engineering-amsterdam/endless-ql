@@ -1,10 +1,9 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import nl.uva.se.sc.niro.model.ql._
-import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.MoneyAnswerCanDoOrderings._
 import nl.uva.se.sc.niro.model.ql.evaluation.MoneyArithmetics.MoneyCanDoArithmetics._
+import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.MoneyAnswerCanDoOrderings._
 
-final case class MoneyAnswer(possibleValue: Option[BigDecimal]) extends Answer {
+final case class MoneyAnswer(value: BigDecimal) extends Answer {
 
   type T = BigDecimal
 
@@ -22,7 +21,5 @@ final case class MoneyAnswer(possibleValue: Option[BigDecimal]) extends Answer {
 }
 
 object MoneyAnswer {
-  def apply() = new MoneyAnswer(None)
-  def apply(value: BigDecimal) = new MoneyAnswer(Option(value))
-  def apply(value: java.math.BigDecimal) = new MoneyAnswer(Option(value).map(BigDecimal(_)))
+  def apply(value: java.math.BigDecimal) = new MoneyAnswer(BigDecimal(value))
 }

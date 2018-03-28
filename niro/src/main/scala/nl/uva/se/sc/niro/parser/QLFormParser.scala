@@ -66,9 +66,9 @@ object QLFormParser extends Logging {
       Seq(Question(questionId, questionLabel, answerType, expression))
     }
 
-    def answerTypeConversion(expression: Expression, answerType: AnswerType) = {
+    def answerTypeConversion(expression: Expression, answerType: AnswerType): Expression = {
       (expression, answerType) match {
-        case (IntegerAnswer(value), MoneyType) => MoneyAnswer(value.map(BigDecimal(_)))
+        case (IntegerAnswer(value), MoneyType) => MoneyAnswer(BigDecimal(value))
         case (DecimalAnswer(value), MoneyType) => MoneyAnswer(value)
         case _                                 => expression
       }

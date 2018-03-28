@@ -9,7 +9,7 @@ import org.scalatest.WordSpec
 
 class TypeCheckerFacadeTest extends WordSpec {
 
-  "TypeCheckerTest" should {
+  "TypeCheckerFacadeTest" should {
 
     "checkDuplicateLabels" in {
       val qlForm = QLForm(
@@ -46,10 +46,8 @@ class TypeCheckerFacadeTest extends WordSpec {
         val result = TypeCheckerFacade.pipeline(qlForm)
 
         assert(
-          result === Left(
-            List(TypeCheckError(
-              "TypeCheckError",
-              "Not a valid expression: Multiply(StringAnswer(Some(Foo)),StringAnswer(Some(Bar)))"))))
+          result === Left(List(
+            TypeCheckError("TypeCheckError", "Not a valid expression: Multiply(StringAnswer(Foo),StringAnswer(Bar))"))))
       }
 
       "return error for operands of invalid type to eachother" in {
@@ -61,11 +59,8 @@ class TypeCheckerFacadeTest extends WordSpec {
 
         val result = TypeCheckerFacade.pipeline(qlForm)
 
-        assert(
-          result === Left(
-            List(TypeCheckError(
-              "TypeCheckError",
-              "Not a valid expression: Equal(StringAnswer(Some(Foo)),IntegerAnswer(Some(0)))"))))
+        assert(result === Left(
+          List(TypeCheckError("TypeCheckError", "Not a valid expression: Equal(StringAnswer(Foo),IntegerAnswer(0))"))))
       }
 
       "return no error for operands valid types in nested operations" in {
@@ -137,7 +132,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           List(
             TypeCheckError(
               "TypeCheckError",
-              "Non boolean predicate: List(Conditional(Multiply(IntegerAnswer(Some(5)),IntegerAnswer(Some(1))),List()))"
+              "Non boolean predicate: List(Conditional(Multiply(IntegerAnswer(5),IntegerAnswer(1)),List()))"
             )
           )
         ))
@@ -159,7 +154,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           List(
             TypeCheckError(
               "TypeCheckError",
-              "Duplicate question declarations with different types: List(List(Question(q1,duplicate identifier,IntegerType,Some(IntegerAnswer(Some(1)))), Question(q1,duplicate identifier,BooleanType,Some(IntegerAnswer(Some(1))))))"
+              "Duplicate question declarations with different types: List(List(Question(q1,duplicate identifier,IntegerType,Some(IntegerAnswer(1))), Question(q1,duplicate identifier,BooleanType,Some(IntegerAnswer(1)))))"
             )
           )
         )

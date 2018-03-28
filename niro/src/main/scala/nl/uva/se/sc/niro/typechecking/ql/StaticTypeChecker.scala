@@ -38,7 +38,7 @@ object StaticTypeChecker extends Logging {
       leftType <- expression.left.typeOf(symbolTable)
       rightType <- expression.right.typeOf(symbolTable)
       result <- if (leftType.isCompatibleWith(rightType) && NumericType.isCompatibleWith(leftType)) NumericType.asRight
-      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.pprint}").asLeft
+      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.prettyPrint}").asLeft
     } yield result
   }
 
@@ -49,7 +49,7 @@ object StaticTypeChecker extends Logging {
       leftType <- expression.left.typeOf(symbolTable)
       rightType <- expression.right.typeOf(symbolTable)
       result <- if (leftType.isCompatibleWith(rightType)) BooleanType.asRight
-      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.pprint}").asLeft
+      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.prettyPrint}").asLeft
     } yield result
   }
 
@@ -61,7 +61,7 @@ object StaticTypeChecker extends Logging {
       rightType <- expression.right.typeOf(symbolTable)
       result <- if (BooleanType.isCompatibleWith(leftType) && BooleanType.isCompatibleWith(rightType))
         BooleanType.asRight
-      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.pprint}").asLeft
+      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.prettyPrint}").asLeft
     } yield result
   }
 
@@ -162,7 +162,7 @@ object StaticTypeChecker extends Logging {
       for {
         rightType <- expression.right.typeOf(symbolTable)
         _ <- if (NumericType.isCompatibleWith(rightType)) NumericType.asRight
-        else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.pprint}").asLeft
+        else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.prettyPrint}").asLeft
       } yield NumericType
     }
   }
@@ -220,7 +220,7 @@ object StaticTypeChecker extends Logging {
       for {
         rightType <- expression.right.typeOf(symbolTable)
         result <- if (BooleanType.isCompatibleWith(rightType)) BooleanType.asRight
-        else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.pprint}").asLeft
+        else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.prettyPrint}").asLeft
       } yield result
     }
   }

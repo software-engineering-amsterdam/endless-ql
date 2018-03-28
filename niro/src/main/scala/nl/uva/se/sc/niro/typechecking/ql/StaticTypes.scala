@@ -11,17 +11,16 @@ import org.apache.logging.log4j.scala.Logging
 
 object StaticTypes extends Logging {
   def check(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
-    logger.info("Phase 3 - Checking operands of invalid type to operators ...")
+    logger.info("Phase 3 - Checking types ...")
 
-    val conditionals = Statement.collectAllConditionals(qLForm.statements)
-    val predicates = conditionals.map(_.predicate)
-
-    val expressions: Iterable[Expression] = qLForm.symbolTable.values.flatMap(_.expression)
-
-    (expressions ++ predicates)
-      .map(expression => expression.typeOf(qLForm.symbolTable))
-      .map(either => either.toValidatedNel)
+    val checkedExpressions: List[Either[TypeCheckError, AnswerType]] = qLForm
+      .symbolTable
+      .filter(_._2.expression.isDefined)
+      .map(entry => checkSymbolTableEntry(entry, qLForm.symbolTable))
       .toList
+
+    checkedExpressions
+      .map(either => either.toValidatedNel)
       .sequenceU_
       .as(AnswerType)
       .toEither
@@ -31,6 +30,14 @@ object StaticTypes extends Logging {
       .map(_ => qLForm)
   }
 
+  def checkSymbolTableEntry(entry: (String, Symbol), symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = {
+    for {
+      inferredAnswerType <- entry._2.expression.get.typeOf(symbolTable)
+      result <- if (inferredAnswerType == entry._2.answerType) inferredAnswerType.asRight
+      else TypeCheckError(message = s"Expression of type $inferredAnswerType does not conform to expected type ${entry._2.answerType}").asLeft
+    } yield result
+  }
+
   private def validateNumericExpression(
       expression: BinaryExpression,
       symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = {
@@ -38,7 +45,7 @@ object StaticTypes extends Logging {
       leftType <- expression.left.typeOf(symbolTable)
       rightType <- expression.right.typeOf(symbolTable)
       result <- if (leftType.isCompatibleWith(rightType) && NumericType.isCompatibleWith(leftType)) NumericType.asRight
-      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.prettyPrint}").asLeft
+      else TypeCheckError(message = s"Not a valid expression: ${expression.prettyPrint}").asLeft
     } yield result
   }
 
@@ -49,7 +56,7 @@ object StaticTypes extends Logging {
       leftType <- expression.left.typeOf(symbolTable)
       rightType <- expression.right.typeOf(symbolTable)
       result <- if (leftType.isCompatibleWith(rightType)) BooleanType.asRight
-      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.prettyPrint}").asLeft
+      else TypeCheckError(message = s"Not a valid expression: ${expression.prettyPrint}").asLeft
     } yield result
   }
 
@@ -61,7 +68,7 @@ object StaticTypes extends Logging {
       rightType <- expression.right.typeOf(symbolTable)
       result <- if (BooleanType.isCompatibleWith(leftType) && BooleanType.isCompatibleWith(rightType))
         BooleanType.asRight
-      else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.prettyPrint}").asLeft
+      else TypeCheckError(message = s"Not a valid expression: ${expression.prettyPrint}").asLeft
     } yield result
   }
 
@@ -162,7 +169,7 @@ object StaticTypes extends Logging {
       for {
         rightType <- expression.right.typeOf(symbolTable)
         _ <- if (NumericType.isCompatibleWith(rightType)) NumericType.asRight
-        else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.prettyPrint}").asLeft
+        else TypeCheckError(message = s"Not a valid expression: ${expression.prettyPrint}").asLeft
       } yield NumericType
     }
   }
@@ -220,7 +227,7 @@ object StaticTypes extends Logging {
       for {
         rightType <- expression.right.typeOf(symbolTable)
         result <- if (BooleanType.isCompatibleWith(rightType)) BooleanType.asRight
-        else TypeCheckError("TypeCheckError", s"Not a valid expression: ${expression.prettyPrint}").asLeft
+        else TypeCheckError(message = s"Not a valid expression: ${expression.prettyPrint}").asLeft
       } yield result
     }
   }

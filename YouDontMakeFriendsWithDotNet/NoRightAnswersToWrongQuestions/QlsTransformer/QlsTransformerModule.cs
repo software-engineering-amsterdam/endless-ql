@@ -9,6 +9,7 @@ namespace QlsTransformer
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
             appRegistration.AddSingleton(typeof(IStyleSheetCreator), typeof(StyleSheetCreator));
+            appRegistration.AddSingleton(typeof(IQlsAstFactory), typeof(QlsAstFactory));
         }
     }
 }

@@ -1,7 +1,7 @@
 import FormNode from "../../form/nodes/FormNode";
 import QuestionNode from "../../form/nodes/fields/QuestionNode";
 import { FieldType } from "../../form/FieldType";
-import ComputedField from "../../form/nodes/fields/ComputedField";
+import ComputedField from "../../form/nodes/fields/ComputedFieldNode";
 import Addition from "../../form/nodes/expressions/arithmetic/Addition";
 import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier";
 import QlForm from "../../form/QlForm";

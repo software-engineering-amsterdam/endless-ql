@@ -8,7 +8,7 @@ import sys
 def serializedATN():
     with StringIO() as buf:
         buf.write(u"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3")
-        buf.write(u"\36\u0099\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7")
+        buf.write(u"\36\u009d\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7")
         buf.write(u"\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t")
         buf.write(u"\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22")
         buf.write(u"\3\2\3\2\3\2\3\2\7\2)\n\2\f\2\16\2,\13\2\3\2\3\2\3\2")
@@ -19,47 +19,49 @@ def serializedATN():
         buf.write(u"\6\3\6\3\6\7\6c\n\6\f\6\16\6f\13\6\3\6\3\6\3\6\3\6\5")
         buf.write(u"\6l\n\6\3\7\3\7\3\7\3\7\5\7r\n\7\3\b\3\b\3\t\3\t\3\n")
         buf.write(u"\3\n\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3")
-        buf.write(u"\f\3\f\5\f\u0087\n\f\3\r\3\r\3\r\3\16\3\16\3\16\3\17")
-        buf.write(u"\3\17\3\17\3\20\3\20\3\20\3\21\3\21\3\22\3\22\3\22\2")
-        buf.write(u"\2\23\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"\2\3\3")
-        buf.write(u"\2\27\30\2\u009c\2$\3\2\2\2\4\60\3\2\2\2\6A\3\2\2\2\b")
-        buf.write(u"W\3\2\2\2\n^\3\2\2\2\fq\3\2\2\2\16s\3\2\2\2\20u\3\2\2")
-        buf.write(u"\2\22w\3\2\2\2\24y\3\2\2\2\26\u0086\3\2\2\2\30\u0088")
-        buf.write(u"\3\2\2\2\32\u008b\3\2\2\2\34\u008e\3\2\2\2\36\u0091\3")
-        buf.write(u"\2\2\2 \u0094\3\2\2\2\"\u0096\3\2\2\2$%\7\3\2\2%&\5\16")
-        buf.write(u"\b\2&*\7\4\2\2\')\5\4\3\2(\'\3\2\2\2),\3\2\2\2*(\3\2")
-        buf.write(u"\2\2*+\3\2\2\2+-\3\2\2\2,*\3\2\2\2-.\7\5\2\2./\7\2\2")
-        buf.write(u"\3/\3\3\2\2\2\60\61\7\6\2\2\61\62\5\20\t\2\62\66\7\4")
-        buf.write(u"\2\2\63\65\5\6\4\2\64\63\3\2\2\2\658\3\2\2\2\66\64\3")
-        buf.write(u"\2\2\2\66\67\3\2\2\2\67<\3\2\2\28\66\3\2\2\29;\5\n\6")
-        buf.write(u"\2:9\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=?\3\2\2\2")
-        buf.write(u"><\3\2\2\2?@\7\5\2\2@\5\3\2\2\2AB\7\7\2\2BU\5\22\n\2")
-        buf.write(u"CI\7\4\2\2DH\5\b\5\2EH\5\6\4\2FH\5\n\6\2GD\3\2\2\2GE")
-        buf.write(u"\3\2\2\2GF\3\2\2\2HK\3\2\2\2IG\3\2\2\2IJ\3\2\2\2JL\3")
-        buf.write(u"\2\2\2KI\3\2\2\2LV\7\5\2\2MQ\5\b\5\2NQ\5\6\4\2OQ\5\n")
-        buf.write(u"\6\2PM\3\2\2\2PN\3\2\2\2PO\3\2\2\2QT\3\2\2\2RP\3\2\2")
-        buf.write(u"\2RS\3\2\2\2SV\3\2\2\2TR\3\2\2\2UC\3\2\2\2UR\3\2\2\2")
-        buf.write(u"V\7\3\2\2\2W\\\7\b\2\2X]\5 \21\2YZ\5 \21\2Z[\5\24\13")
-        buf.write(u"\2[]\3\2\2\2\\X\3\2\2\2\\Y\3\2\2\2]\t\3\2\2\2^_\7\t\2")
-        buf.write(u"\2_k\5\"\22\2`d\7\4\2\2ac\5\f\7\2ba\3\2\2\2cf\3\2\2\2")
-        buf.write(u"db\3\2\2\2de\3\2\2\2eg\3\2\2\2fd\3\2\2\2gh\5\24\13\2")
-        buf.write(u"hi\7\5\2\2il\3\2\2\2jl\5\24\13\2k`\3\2\2\2kj\3\2\2\2")
-        buf.write(u"l\13\3\2\2\2mr\5\30\r\2nr\5\32\16\2or\5\34\17\2pr\5\36")
-        buf.write(u"\20\2qm\3\2\2\2qn\3\2\2\2qo\3\2\2\2qp\3\2\2\2r\r\3\2")
-        buf.write(u"\2\2st\7\36\2\2t\17\3\2\2\2uv\7\36\2\2v\21\3\2\2\2wx")
-        buf.write(u"\7\35\2\2x\23\3\2\2\2yz\7\n\2\2z{\5\26\f\2{\25\3\2\2")
-        buf.write(u"\2|\u0087\7\13\2\2}\u0087\7\f\2\2~\u0087\7\r\2\2\177")
-        buf.write(u"\u0080\7\16\2\2\u0080\u0081\7\34\2\2\u0081\u0082\7\17")
-        buf.write(u"\2\2\u0082\u0083\7\34\2\2\u0083\u0087\7\20\2\2\u0084")
-        buf.write(u"\u0087\7\21\2\2\u0085\u0087\7\22\2\2\u0086|\3\2\2\2\u0086")
-        buf.write(u"}\3\2\2\2\u0086~\3\2\2\2\u0086\177\3\2\2\2\u0086\u0084")
-        buf.write(u"\3\2\2\2\u0086\u0085\3\2\2\2\u0087\27\3\2\2\2\u0088\u0089")
-        buf.write(u"\7\23\2\2\u0089\u008a\7\34\2\2\u008a\31\3\2\2\2\u008b")
-        buf.write(u"\u008c\7\24\2\2\u008c\u008d\7\35\2\2\u008d\33\3\2\2\2")
-        buf.write(u"\u008e\u008f\7\25\2\2\u008f\u0090\7\34\2\2\u0090\35\3")
-        buf.write(u"\2\2\2\u0091\u0092\7\26\2\2\u0092\u0093\7\33\2\2\u0093")
-        buf.write(u"\37\3\2\2\2\u0094\u0095\7\36\2\2\u0095!\3\2\2\2\u0096")
-        buf.write(u"\u0097\t\2\2\2\u0097#\3\2\2\2\17*\66<GIPRU\\dkq\u0086")
+        buf.write(u"\f\3\f\3\f\3\f\3\f\3\f\5\f\u008b\n\f\3\r\3\r\3\r\3\16")
+        buf.write(u"\3\16\3\16\3\17\3\17\3\17\3\20\3\20\3\20\3\21\3\21\3")
+        buf.write(u"\22\3\22\3\22\2\2\23\2\4\6\b\n\f\16\20\22\24\26\30\32")
+        buf.write(u"\34\36 \"\2\3\3\2\27\30\2\u00a0\2$\3\2\2\2\4\60\3\2\2")
+        buf.write(u"\2\6A\3\2\2\2\bW\3\2\2\2\n^\3\2\2\2\fq\3\2\2\2\16s\3")
+        buf.write(u"\2\2\2\20u\3\2\2\2\22w\3\2\2\2\24y\3\2\2\2\26\u008a\3")
+        buf.write(u"\2\2\2\30\u008c\3\2\2\2\32\u008f\3\2\2\2\34\u0092\3\2")
+        buf.write(u"\2\2\36\u0095\3\2\2\2 \u0098\3\2\2\2\"\u009a\3\2\2\2")
+        buf.write(u"$%\7\3\2\2%&\5\16\b\2&*\7\4\2\2\')\5\4\3\2(\'\3\2\2\2")
+        buf.write(u"),\3\2\2\2*(\3\2\2\2*+\3\2\2\2+-\3\2\2\2,*\3\2\2\2-.")
+        buf.write(u"\7\5\2\2./\7\2\2\3/\3\3\2\2\2\60\61\7\6\2\2\61\62\5\20")
+        buf.write(u"\t\2\62\66\7\4\2\2\63\65\5\6\4\2\64\63\3\2\2\2\658\3")
+        buf.write(u"\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2\67<\3\2\2\28\66\3")
+        buf.write(u"\2\2\29;\5\n\6\2:9\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2")
+        buf.write(u"\2\2=?\3\2\2\2><\3\2\2\2?@\7\5\2\2@\5\3\2\2\2AB\7\7\2")
+        buf.write(u"\2BU\5\22\n\2CI\7\4\2\2DH\5\b\5\2EH\5\6\4\2FH\5\n\6\2")
+        buf.write(u"GD\3\2\2\2GE\3\2\2\2GF\3\2\2\2HK\3\2\2\2IG\3\2\2\2IJ")
+        buf.write(u"\3\2\2\2JL\3\2\2\2KI\3\2\2\2LV\7\5\2\2MQ\5\b\5\2NQ\5")
+        buf.write(u"\6\4\2OQ\5\n\6\2PM\3\2\2\2PN\3\2\2\2PO\3\2\2\2QT\3\2")
+        buf.write(u"\2\2RP\3\2\2\2RS\3\2\2\2SV\3\2\2\2TR\3\2\2\2UC\3\2\2")
+        buf.write(u"\2UR\3\2\2\2V\7\3\2\2\2W\\\7\b\2\2X]\5 \21\2YZ\5 \21")
+        buf.write(u"\2Z[\5\24\13\2[]\3\2\2\2\\X\3\2\2\2\\Y\3\2\2\2]\t\3\2")
+        buf.write(u"\2\2^_\7\t\2\2_k\5\"\22\2`d\7\4\2\2ac\5\f\7\2ba\3\2\2")
+        buf.write(u"\2cf\3\2\2\2db\3\2\2\2de\3\2\2\2eg\3\2\2\2fd\3\2\2\2")
+        buf.write(u"gh\5\24\13\2hi\7\5\2\2il\3\2\2\2jl\5\24\13\2k`\3\2\2")
+        buf.write(u"\2kj\3\2\2\2l\13\3\2\2\2mr\5\30\r\2nr\5\32\16\2or\5\34")
+        buf.write(u"\17\2pr\5\36\20\2qm\3\2\2\2qn\3\2\2\2qo\3\2\2\2qp\3\2")
+        buf.write(u"\2\2r\r\3\2\2\2st\7\36\2\2t\17\3\2\2\2uv\7\36\2\2v\21")
+        buf.write(u"\3\2\2\2wx\7\35\2\2x\23\3\2\2\2yz\7\n\2\2z{\5\26\f\2")
+        buf.write(u"{\25\3\2\2\2|\u008b\7\13\2\2}\u008b\7\f\2\2~\177\7\r")
+        buf.write(u"\2\2\177\u0080\7\34\2\2\u0080\u0081\7\16\2\2\u0081\u0082")
+        buf.write(u"\7\34\2\2\u0082\u008b\7\17\2\2\u0083\u0084\7\20\2\2\u0084")
+        buf.write(u"\u0085\7\34\2\2\u0085\u0086\7\16\2\2\u0086\u0087\7\34")
+        buf.write(u"\2\2\u0087\u008b\7\17\2\2\u0088\u008b\7\21\2\2\u0089")
+        buf.write(u"\u008b\7\22\2\2\u008a|\3\2\2\2\u008a}\3\2\2\2\u008a~")
+        buf.write(u"\3\2\2\2\u008a\u0083\3\2\2\2\u008a\u0088\3\2\2\2\u008a")
+        buf.write(u"\u0089\3\2\2\2\u008b\27\3\2\2\2\u008c\u008d\7\23\2\2")
+        buf.write(u"\u008d\u008e\7\34\2\2\u008e\31\3\2\2\2\u008f\u0090\7")
+        buf.write(u"\24\2\2\u0090\u0091\7\35\2\2\u0091\33\3\2\2\2\u0092\u0093")
+        buf.write(u"\7\25\2\2\u0093\u0094\7\34\2\2\u0094\35\3\2\2\2\u0095")
+        buf.write(u"\u0096\7\26\2\2\u0096\u0097\7\33\2\2\u0097\37\3\2\2\2")
+        buf.write(u"\u0098\u0099\7\36\2\2\u0099!\3\2\2\2\u009a\u009b\t\2")
+        buf.write(u"\2\2\u009b#\3\2\2\2\17*\66<GIPRU\\dkq\u008a")
         return buf.getvalue()
 
 
@@ -75,10 +77,10 @@ class QLSParser ( Parser ):
 
     literalNames = [ u"<INVALID>", u"'stylesheet'", u"'{'", u"'}'", u"'page'", 
                      u"'section'", u"'question'", u"'default'", u"'widget'", 
-                     u"'checkbox'", u"'radio(\"Yes\", \"No\")'", u"'spinbox'", 
-                     u"'slider('", u"', '", u"')'", u"'text'", u"'dropdown(\"Yes\", \"No\")'", 
+                     u"'checkbox'", u"'radio(\"Yes\", \"No\")'", u"'spinbox('", 
+                     u"','", u"')'", u"'slider('", u"'text'", u"'dropdown(\"Yes\", \"No\")'", 
                      u"'width:'", u"'font:'", u"'fontsize:'", u"'color:'", 
-                     u"'money'", u"'boolean'" ]
+                     u"'int'", u"'boolean'" ]
 
     symbolicNames = [ u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
                       u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
@@ -788,8 +790,6 @@ class QLSParser ( Parser ):
         def __init__(self, parser, parent=None, invokingState=-1):
             super(QLSParser.Widget_typeContext, self).__init__(parent, invokingState)
             self.parser = parser
-            self.min_value = None # Token
-            self.max_value = None # Token
 
         def NUMBER(self, i=None):
             if i is None:
@@ -814,7 +814,7 @@ class QLSParser ( Parser ):
         localctx = QLSParser.Widget_typeContext(self, self._ctx, self.state)
         self.enterRule(localctx, 20, self.RULE_widget_type)
         try:
-            self.state = 132
+            self.state = 136
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [QLSParser.T__8]:
@@ -831,28 +831,36 @@ class QLSParser ( Parser ):
                 self.enterOuterAlt(localctx, 3)
                 self.state = 124
                 self.match(QLSParser.T__10)
-                pass
-            elif token in [QLSParser.T__11]:
-                self.enterOuterAlt(localctx, 4)
                 self.state = 125
-                self.match(QLSParser.T__11)
+                self.match(QLSParser.NUMBER)
                 self.state = 126
-                localctx.min_value = self.match(QLSParser.NUMBER)
+                self.match(QLSParser.T__11)
                 self.state = 127
-                self.match(QLSParser.T__12)
+                self.match(QLSParser.NUMBER)
                 self.state = 128
-                localctx.max_value = self.match(QLSParser.NUMBER)
+                self.match(QLSParser.T__12)
+                pass
+            elif token in [QLSParser.T__13]:
+                self.enterOuterAlt(localctx, 4)
                 self.state = 129
                 self.match(QLSParser.T__13)
+                self.state = 130
+                self.match(QLSParser.NUMBER)
+                self.state = 131
+                self.match(QLSParser.T__11)
+                self.state = 132
+                self.match(QLSParser.NUMBER)
+                self.state = 133
+                self.match(QLSParser.T__12)
                 pass
             elif token in [QLSParser.T__14]:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 130
+                self.state = 134
                 self.match(QLSParser.T__14)
                 pass
             elif token in [QLSParser.T__15]:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 131
+                self.state = 135
                 self.match(QLSParser.T__15)
                 pass
             else:
@@ -893,9 +901,9 @@ class QLSParser ( Parser ):
         self.enterRule(localctx, 22, self.RULE_width)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 134
+            self.state = 138
             self.match(QLSParser.T__16)
-            self.state = 135
+            self.state = 139
             self.match(QLSParser.NUMBER)
         except RecognitionException as re:
             localctx.exception = re
@@ -932,9 +940,9 @@ class QLSParser ( Parser ):
         self.enterRule(localctx, 24, self.RULE_font)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 137
+            self.state = 141
             self.match(QLSParser.T__17)
-            self.state = 138
+            self.state = 142
             self.match(QLSParser.STR)
         except RecognitionException as re:
             localctx.exception = re
@@ -971,9 +979,9 @@ class QLSParser ( Parser ):
         self.enterRule(localctx, 26, self.RULE_fontsize)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 140
+            self.state = 144
             self.match(QLSParser.T__18)
-            self.state = 141
+            self.state = 145
             self.match(QLSParser.NUMBER)
         except RecognitionException as re:
             localctx.exception = re
@@ -1010,9 +1018,9 @@ class QLSParser ( Parser ):
         self.enterRule(localctx, 28, self.RULE_color)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 143
+            self.state = 147
             self.match(QLSParser.T__19)
-            self.state = 144
+            self.state = 148
             self.match(QLSParser.HEX)
         except RecognitionException as re:
             localctx.exception = re
@@ -1049,7 +1057,7 @@ class QLSParser ( Parser ):
         self.enterRule(localctx, 30, self.RULE_var)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 146
+            self.state = 150
             self.match(QLSParser.NAME)
         except RecognitionException as re:
             localctx.exception = re
@@ -1085,7 +1093,7 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 148
+            self.state = 152
             _la = self._input.LA(1)
             if not(_la==QLSParser.T__20 or _la==QLSParser.T__21):
                 self._errHandler.recoverInline(self)

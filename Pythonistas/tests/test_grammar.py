@@ -4,8 +4,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
 
-from grammar.parser import Parser
-from commons.utility import open_file
+from grammar.parser import ParserInterface
 
 
 def test_all_ql_pass_forms():
@@ -15,12 +14,9 @@ def test_all_ql_pass_forms():
     for form in os.listdir(path):
         if form.endswith(".ql"):
             print(form)
-            file = open_file(path + form)
-            parser = Parser()
-            parser.set_ql_grammar_text(file)
-            parser.run_antlr_ql()
-            if parser.ql_errors:
-                print(parser.ql_errors)
+            parser = ParserInterface(path + form)
+            if parser.errors:
+                print(parser.errors)
                 assert False
         else:
             assert True
@@ -33,12 +29,9 @@ def test_all_ql_fail_forms():
     for form in os.listdir(path):
         if form.endswith(".ql"):
             print(form)
-            file = open_file(path + form)
-            parser = Parser()
-            parser.set_ql_grammar_text(file)
-            parser.run_antlr_ql()
-            if not parser.ql_errors:
-                print(parser.ql_errors)
+            parser = ParserInterface(path + form)
+            if not parser.errors:
+                print(parser.errors)
                 assert False
         else:
             assert True
@@ -51,12 +44,9 @@ def test_all_qls_pass_forms():
     for form in os.listdir(path):
         if form.endswith(".qls"):
             print(form)
-            file = open_file(path + form)
-            parser = Parser()
-            parser.set_qls_grammar_text(file)
-            parser.run_antlr_qls()
-            if parser.qls_errors:
-                print(parser.qls_errors)
+            parser = ParserInterface(path + form)
+            if parser.errors:
+                print(parser.errors)
                 assert False
         else:
             assert True
@@ -69,12 +59,9 @@ def test_all_qls_fail_forms():
     for form in os.listdir(path):
         if form.endswith(".qls"):
             print(form)
-            file = open_file(path + form)
-            parser = Parser()
-            parser.set_qls_grammar_text(file)
-            parser.run_antlr_qls()
-            if not parser.qls_errors:
-                print(parser.qls_errors)
+            parser = ParserInterface(path + form)
+            if not parser.errors:
+                print(parser.errors)
                 assert False
         else:
             assert True

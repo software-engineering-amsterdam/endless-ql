@@ -3,6 +3,7 @@ import Field from "./FieldNode";
 import FormState from "../../state/FormState";
 import FieldVisitor from "../visitors/FieldVisitor";
 import AbstractTreeNode from "../AbstractTreeNode";
+import StatementCollection from "../../collection/StatementCollection";
 
 export default class QuestionNode extends AbstractTreeNode implements Field {
   readonly label: string;
@@ -33,5 +34,9 @@ export default class QuestionNode extends AbstractTreeNode implements Field {
 
   computeAnswer(state: FormState) {
     return state.get(this.identifier);
+  }
+
+  addToCollection(collection: StatementCollection): void {
+    collection.addQuestion(this);
   }
 }

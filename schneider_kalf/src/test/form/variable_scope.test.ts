@@ -6,8 +6,7 @@ import {
 import { FieldAlreadyDeclaredError, VariableNotInScopeError } from "../../form/form_errors";
 
 it('does not create an error for the variable scopes of a correct form', () => {
-  const visitor: VariableScopeVisitor = new VariableScopeVisitor();
-  const result: VariableScopeResult = visitor.run(nestedForm);
+  const result: VariableScopeResult = VariableScopeVisitor.run(nestedForm);
 
   const identifiers = Array.from(result.variables.keys()).sort();
 

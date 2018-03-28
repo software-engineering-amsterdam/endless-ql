@@ -15,7 +15,7 @@ namespace QlsTransformer.Ast.Tools
 
         public Reference<IStyleSheetRootNode> Create(string definition)
         {
-            return new Reference<IStyleSheetRootNode>(Guid.NewGuid());
+            return m_astBuilder.BuildStyleSheet(definition);
         }
     }
 }

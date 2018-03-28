@@ -105,10 +105,7 @@ public class FormPanel extends JPanel {
             pageComponents.add(buildSectionHeader(section.getName()));
             for (QuestionReference reference : section.getQuestions()) {
                 Component component = qlComponentsByName.get(reference.getName());
-                // TODO: Invisible components due to unmet ifblock condition are null, causing all sorts of trouble
-                if(null != component) {
                     pageComponents.add(component);
-                }
             }
         }
         return pageComponents;

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.uva.js.qlparser.exceptions.ParseException;
 import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.logic.FormBuilder;
+import nl.uva.js.qlparser.logic.QLSChecker;
 import nl.uva.js.qlparser.logic.StylesheetBuilder;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
@@ -23,6 +24,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GUIBuilder {
@@ -49,8 +51,12 @@ public class GUIBuilder {
 
     private static Form globalForm;
 
+    private static QLSChecker qlsChecker;
+
     public static Frame getGUI(Form form) {
         globalForm = form;
+
+        qlsChecker = new QLSChecker();
 
         qlPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
         qlPanel.setText(loadDefaultFile("ql.file"));
@@ -180,9 +186,13 @@ public class GUIBuilder {
         qlsProcessButton.addActionListener(e -> {
             try {
                 Stylesheet stylesheet = StylesheetBuilder.parseStylesheetFromString(qlsPanel.getText());
-                // CHECKER HERE //
-                formPanel.apply(stylesheet);
-                setPageButtons(stylesheet.getPages());
+
+                ArrayList<String> errors = qlsChecker.checkForErrors(globalForm, stylesheet);
+                if (errors.size() == 0) {
+                    formPanel.apply(stylesheet);
+                    setPageButtons(stylesheet.getPages());
+                }
+                errors.forEach(GUIBuilder::log);
             } catch (ParseException exception) {
                 log(exception.getMessage());
             }

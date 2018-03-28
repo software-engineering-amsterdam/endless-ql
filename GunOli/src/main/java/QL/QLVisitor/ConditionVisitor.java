@@ -1,9 +1,9 @@
 package QL.QLVisitor;
 
-import QL.ParseObjectsQL.Expressions.BinaryExpressions.AndExpression;
-import QL.ParseObjectsQL.Expressions.Expression;
-import QL.ParseObjectsQL.Expressions.UnaryExpressions.NotExpression;
-import QL.ParseObjectsQL.Question;
+import QL.AST.Expressions.BinaryExpressions.AndExpression;
+import QL.AST.Expressions.Expression;
+import QL.AST.Expressions.UnaryExpressions.NotExpression;
+import QL.AST.Question;
 import QL.QLAntlrGen.QLBaseVisitor;
 import QL.QLAntlrGen.QLParser;
 

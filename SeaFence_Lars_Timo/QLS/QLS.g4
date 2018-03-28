@@ -19,8 +19,8 @@ section_id: STR;
 widget: 'widget' widget_type;
 widget_type: 'checkbox'
            | 'radio("Yes", "No")'
-           | 'spinbox(' NUMBER ', ' NUMBER ')'
-           | 'slider(' NUMBER ', ' NUMBER ')'
+           | 'spinbox(' NUMBER ',' NUMBER ')'
+           | 'slider(' NUMBER ',' NUMBER ')'
            | 'text'
            | 'dropdown("Yes", "No")'
            ;

@@ -15,7 +15,6 @@ class QLSVisitorHelper(QLSVisitor):
             page_node = self.visit(page)
             stylesheet.pages.append(page_node)
 
-        # print stylesheet
         return stylesheet
 
 
@@ -72,7 +71,6 @@ class QLSVisitorHelper(QLSVisitor):
         widget_node = self.visit(ctx.widget())
         options = {}
 
-        # todo: Make generic?
         if ctx.default_options():
             for option in ctx.default_options():
                 if option.width():

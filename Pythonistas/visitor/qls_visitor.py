@@ -22,7 +22,7 @@ class QLSVisitor(ParseTreeVisitor):
         self.questions = questions
 
     def defaultResult(self):
-        return []
+        return {}
 
     def visitChildren(self, node):
         result = self.defaultResult()
@@ -33,7 +33,11 @@ class QLSVisitor(ParseTreeVisitor):
             c = node.getChild(i)
             # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
             child_result = c.accept(self)
-            result.extend(child_result)
+            for key in child_result:
+                if key in result:
+                    result[key].extend(child_result[key])
+                else:
+                    result[key] = child_result[key]
         return result
 
 
@@ -42,47 +46,50 @@ class QLSVisitor(ParseTreeVisitor):
 
 
     def visitPage(self, ctx:QLSParser.PageContext):
-        page_frame = QtWidgets.QFrame()
-        page_layout = QtWidgets.QVBoxLayout()
-        page_frame.setLayout(page_layout)
         result = self.visitChildren(ctx)
+        if 'questions' in result:
+            question_ids = result['questions']
+            if 'defaults' in result:
+                default_attributes = result['defaults']
 
-        for section_widget in result:
-            page_layout.addWidget(section_widget)
+                for id in question_ids:
+                    question = self.questions[id]
+                    question.set_attributes(default_attributes)
 
-        result.extend([page_frame])
+            result = {'questions': question_ids}
+        else:
+            result = self.defaultResult()
         return result
 
 
     def visitSection(self, ctx:QLSParser.SectionContext):
-        section_frame = QtWidgets.QFrame()
-        section_layout = QtWidgets.QVBoxLayout()
-        section_frame.setLayout(section_layout)
-        if ctx.default():
-            print(ctx.default().getText())
+        result = self.visitChildren(ctx)
+        if 'questions' in result:
+            question_ids = result['questions']
+            if 'defaults' in result:
+                default_attributes = result['defaults']
 
-        children = self.visitChildren(ctx)
-        for child_widget in children:
-            section_layout.addWidget(child_widget)
+                for id in question_ids:
+                    question = self.questions[id]
+                    question.set_attributes(default_attributes)
 
-        result = [section_frame]
+            result = {'questions': question_ids}
+        else:
+            result = self.defaultResult()
         return result
 
 
     def visitQuestion(self, ctx:QLSParser.QuestionContext):
         if not ctx.ID().getText() in self.questions:
             self.error_message = "Error: undefined reference to QL ID"
-            return None  # todo: break out of visit properly
+            return {}  # todo: break out of visit properly
+        question_id = ctx.ID().getText()
         question = self.questions[ctx.ID().getText()]
 
-        # todo: alter questions based on specifications
-
         attributes = self.visitChildren(ctx)
-        if attributes:
-            print(attributes)
-            question.set_attributes(attributes)
+        question.set_attributes(attributes['attributes'])
 
-        result = self.defaultResult()
+        result = {'questions': [question_id]}
         return result
 
 
@@ -91,46 +98,45 @@ class QLSVisitor(ParseTreeVisitor):
 
 
     def visitDefault(self, ctx:QLSParser.DefaultContext):
-        result = self.visitChildren(ctx)
+        attributes = self.visitChildren(ctx)
+        result = {'default_{}'.format(attributes['datatype']): attributes['attributes']}
         return result
 
 
     def visitType(self, ctx:QLSParser.TypeContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)  # todo: remove, if it is redundant
+        result = {'datatype': ctx.getText()}
+        return result
 
 
     def visitAttributes(self, ctx:QLSParser.AttributesContext):
-        result = self.visitChildren(ctx)
-        final_dict = {}
-        for dict in result:
-            final_dict.update(dict)
-        result = final_dict
-        print(final_dict)
+        attributes = self.visitChildren(ctx)
+        result = {'attributes': attributes}
         return result
 
 
     def visitWidth(self, ctx:QLSParser.WidthContext):
         result = self.visitChildren(ctx)
         if ctx.INT():
-            result.extend([{'width':int(ctx.INT().getText())}])
+            result.update({'width':int(ctx.INT().getText())})
         return result
 
     def visitFont(self, ctx:QLSParser.FontContext):
         result = self.visitChildren(ctx)
         if ctx.STRING():
-            result.extend([{'font':ctx.STRING().getText()}])
+            result.update({'font':ctx.STRING().getText()})
         return result
 
     def visitFontsize(self, ctx:QLSParser.FontsizeContext):
         result = self.visitChildren(ctx)
         if ctx.INT():
-            result.extend([{'fontsize':int(ctx.INT().getText())}])
+            result.update({'font_size':int(ctx.INT().getText())})
         return result
 
     def visitColor(self, ctx:QLSParser.ColorContext):
         result = self.visitChildren(ctx)
         if ctx.HEX():
-            result.extend([{'color':ctx.HEX().getText()}])
+            result.update({'color':ctx.HEX().getText()})
         return result
 
 

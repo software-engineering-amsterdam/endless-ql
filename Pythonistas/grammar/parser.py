@@ -111,7 +111,7 @@ class ParserInterface:
 
     def check_grammar_exist(self):
         """ Checks if grammar input exists in grammar dir """
-        grammar_dir = f'{os.getcwd()}/antlr/grammar'
+        grammar_dir = f'{os.getcwd()}/grammar'
         if f'{self.grammar_name}.g4' not in os.listdir(grammar_dir):
             raise ValueError('Request for parsing with grammar that does not exist')
 

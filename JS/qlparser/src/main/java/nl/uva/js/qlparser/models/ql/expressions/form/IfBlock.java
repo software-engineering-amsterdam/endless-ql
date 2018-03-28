@@ -18,6 +18,7 @@ import java.util.List;
 @Data
 @Builder
 public class IfBlock implements FormExpression {
+    @NonNull private String name;
     @NonNull private DataExpression condition;
     private LinkedList<FormExpression> expressions;
 
@@ -26,6 +27,7 @@ public class IfBlock implements FormExpression {
         JPanel panel = new JPanel();
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.setName(name);
 
 //        A value can either be true, false or null. As null does not represent false in Java, this has to be checked.
         panel.setVisible(Boolean.TRUE.equals(condition.value()));

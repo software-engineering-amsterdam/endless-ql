@@ -1,16 +1,16 @@
 package QL.Analysis;
 
-import QL.ParseObjectsQL.Expressions.BinaryExpression;
-import QL.ParseObjectsQL.Expressions.BinaryExpressions.*;
-import QL.ParseObjectsQL.Expressions.ConstantExpression;
-import QL.ParseObjectsQL.Expressions.EvaluationType;
-import QL.ParseObjectsQL.Expressions.Expression;
-import QL.ParseObjectsQL.Expressions.ExpressionConstants.*;
-import QL.ParseObjectsQL.Expressions.UnaryExpressions.NegationExpression;
-import QL.ParseObjectsQL.Expressions.UnaryExpressions.NotExpression;
-import QL.ParseObjectsQL.Form;
-import QL.ParseObjectsQL.Question;
+import QL.AST.Expressions.BinaryExpression;
+import QL.AST.Expressions.BinaryExpressions.*;
+import QL.AST.Expressions.IdentifierExpression;
+import QL.AST.Expressions.Expression;
+import QL.AST.Expressions.ExpressionConstants.*;
+import QL.AST.Expressions.UnaryExpressions.NegationExpression;
+import QL.AST.Expressions.UnaryExpressions.NotExpression;
+import QL.AST.Form;
+import QL.AST.Question;
 import QL.QLVisitor.ExpressionTable;
+import java.util.*;
 
 public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
 
@@ -37,7 +37,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
         boolean validType = expression.getExprLeft().evaluate().isArithmetic() && expression.getExprRight().evaluate().isArithmetic();
 
         if(validType){ return expression.returnType();}
-        else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-numeric argument passed at line: "  + expression.getLine());}
+        else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-numeric argument passed at line: "  + expression.getLineNumber());}
     }
 
     private EvaluationType checkLogicalExpression(BinaryExpression expression, String operator){
@@ -45,7 +45,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
         boolean validType = expression.getExprLeft().evaluate().isLogical() && expression.getExprRight().evaluate().isLogical();
 
         if(validType){ return EvaluationType.Boolean;}
-        else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-boolean argument passed at line: " + expression.getLine());}
+        else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-boolean argument passed at line: " + expression.getLineNumber());}
     }
 
     @Override
@@ -71,7 +71,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
         boolean validType = expression.getExprLeft().accept(this) == expression.getExprRight().accept(this);
 
         if(validType){ return expression.accept(this);}
-        else { throw new IllegalArgumentException("Invalid '==' expression: incompatible types." + expression.getLine());}
+        else { throw new IllegalArgumentException("Invalid '==' expression: incompatible types." + expression.getLineNumber());}
     }
 
     @Override
@@ -79,7 +79,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
         boolean validType = expression.getExprLeft().accept(this) == expression.getExprRight().accept(this);
 
         if(validType){ return expression.accept(this);}
-        else { throw new IllegalArgumentException("Invalid '!=' expression: incompatible types." + expression.getLine());}
+        else { throw new IllegalArgumentException("Invalid '!=' expression: incompatible types." + expression.getLineNumber());}
     }
 
     @Override
@@ -123,7 +123,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
         boolean validType = expression.evaluate().isArithmetic();
 
         if(validType) { return expression.accept(this);}
-        else { throw new IllegalArgumentException("Invalid Negation ('-' <Number>) expression: non-numeric argument passed. at:" + expression.getLine());}
+        else { throw new IllegalArgumentException("Invalid Negation ('-' <Number>) expression: non-numeric argument passed. at:" + expression.getLineNumber());}
     }
 
     @Override
@@ -131,11 +131,11 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
         boolean validType = expression.accept(this) == EvaluationType.Boolean;
 
         if(validType) { return expression.accept(this);}
-        else { throw new IllegalArgumentException("Invalid Not ('!' <Boolean>) expression: non-boolean argument passed. at:" + expression.getLine());}
+        else { throw new IllegalArgumentException("Invalid Not ('!' <Boolean>) expression: non-boolean argument passed. at:" + expression.getLineNumber());}
     }
 
     @Override
-    public EvaluationType visit(ConstantExpression expression) {
+    public EvaluationType visit(IdentifierExpression expression) {
         return this.expressionTable.getExpression(expression.getIdentifier()).returnType();
     }
 
@@ -172,5 +172,34 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
     @Override
     public EvaluationType visit(UndefinedConstant expression) {
         return EvaluationType.Undefined;
+    }
+
+    public void detectLabelDuplication(){
+        LabelDuplicationDetector duplicationDetector = new LabelDuplicationDetector(form);
+        Map<String, Set<Question>> labelMap = duplicationDetector.detectDuplicateLabels();
+
+        ArrayList<String> warnings = issueWarnings(labelMap);
+
+        if(!warnings.isEmpty()){
+            for(String message : warnings) {
+                System.out.println(message);
+            }
+        }
+    }
+
+    private ArrayList<String> issueWarnings(Map<String, Set<Question>> labelMap){
+        ArrayList<String> warnings = new ArrayList<>();
+
+        for(Map.Entry<String, Set<Question>> entry : labelMap.entrySet()){
+            if(entry.getValue().size() > 1){
+                String referencedIdentifiers = "";
+                for(Question question : entry.getValue()){
+                    referencedIdentifiers += "\t" + question.getIdentifier() + "\n";
+                }
+                warnings.add("Label: " + entry.getKey() + " mapped to multiple questions:\n" + referencedIdentifiers);
+            }
+        }
+
+        return warnings;
     }
 }

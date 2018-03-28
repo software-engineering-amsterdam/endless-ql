@@ -16,13 +16,13 @@ import javax.swing.UIManager;
 import ql.ast.statement.Question;
 import ql.gui.widget.FieldOption;
 import ql.gui.widget.FieldOptions;
-import ql.gui.widget.Widget;
+import ql.gui.widget.QLWidget;
 import ql.gui.widget.WidgetConfiguration;
 import ql.visiting.EvaluationContext;
 import ql.visiting.value.Value;
 
 
-public class Slider extends Widget {
+public class Slider extends QLWidget {
 	private JPanel panel;
 	private JSlider slider;
 	private Hashtable<Integer, JLabel> labels; // labels to be rendered

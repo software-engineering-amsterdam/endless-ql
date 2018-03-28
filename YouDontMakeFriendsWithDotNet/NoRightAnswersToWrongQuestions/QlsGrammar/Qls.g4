@@ -1,18 +1,26 @@
 grammar Qls;
 
-/*
- * Parser Rules
- */
+styleSheet : 'stylesheet' styleSheetName=IDENTIFIER BEGINSCOPE page* defaultStyle* ENDSCOPE;
 
-compileUnit
-	:	EOF
-	;
+page : 'page' pageName=IDENTIFIER BEGINSCOPE ENDSCOPE;
 
-/*
- * Lexer Rules
- */
+defaultStyle : 'default' 'boolean' widget;
 
+widget : 'widget' 'checkbox'
+       | 'widget' 'radio' trueFalseText?
+       | 'widget' 'dropdown' trueFalseText?
+       ;
+
+trueFalseText: BEGINCOLLECTION trueText=TEXT ',' falseText=TEXT ENDCOLLECTION;
+
+
+BEGINSCOPE: '{';
+ENDSCOPE: '}';			
+BEGINCOLLECTION: '(';
+ENDCOLLECTION: ')';
+
+
+TEXT: '"' (~'"')* '"';
+IDENTIFIER: [a-zA-Z] [a-zA-Z0-9_]* ;
 NEWLINE: '\r'? '\n' -> skip;
 WS: [ \t]+ -> skip ;
-LINECOMMENT: '//' ~[\r\n]* -> skip;
-BLOCKCOMMENT: '/*' .*? '*/' -> skip;

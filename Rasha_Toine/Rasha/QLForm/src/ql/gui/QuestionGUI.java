@@ -13,14 +13,14 @@ import ql.visiting.EvaluationVisitor;
 import ql.visiting.value.BooleanValue;
 import ql.ast.expression.Expression;
 import ql.ast.statement.Question;
-import ql.gui.widget.WidgetInterface;
+import ql.gui.widget.Widget;
 
 
 public class QuestionGUI implements ContextListener {
 	
 	private JPanel panel;
-	private WidgetInterface label;
-	private WidgetInterface value;
+	private Widget label;
+	private Widget value;
 	
 	private Question question;
 	private Expression enableExpression;
@@ -30,8 +30,8 @@ public class QuestionGUI implements ContextListener {
 	public QuestionGUI(
 					EvaluationContext ctx,
 					Question question,
-					WidgetInterface label,
-					WidgetInterface value,
+					Widget label,
+					Widget value,
 					Expression enableExpression,
 					Expression computableExpression) {
 		

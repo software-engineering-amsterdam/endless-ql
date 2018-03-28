@@ -1,11 +1,11 @@
 package QL.Analysis;
 
-import QL.ParseObjectsQL.Expressions.BinaryExpressions.*;
-import QL.ParseObjectsQL.Expressions.ConstantExpression;
-import QL.ParseObjectsQL.Expressions.Expression;
-import QL.ParseObjectsQL.Expressions.ExpressionConstants.*;
-import QL.ParseObjectsQL.Expressions.UnaryExpressions.NegationExpression;
-import QL.ParseObjectsQL.Expressions.UnaryExpressions.NotExpression;
+import QL.AST.Expressions.BinaryExpressions.*;
+import QL.AST.Expressions.IdentifierExpression;
+import QL.AST.Expressions.Expression;
+import QL.AST.Expressions.ExpressionConstants.*;
+import QL.AST.Expressions.UnaryExpressions.NegationExpression;
+import QL.AST.Expressions.UnaryExpressions.NotExpression;
 
 public interface ExpressionVisitorInterface<T> {
     T visit(Expression expression);
@@ -29,7 +29,7 @@ public interface ExpressionVisitorInterface<T> {
     T visit(NotExpression expression);
 
     // expression identifier
-    T visit(ConstantExpression expression);
+    T visit(IdentifierExpression expression);
 
     // expression constants
     T visit(BooleanConstant expression);

@@ -72,7 +72,6 @@ class QLSVisitorHelper(QLSVisitor):
         widget_node = self.visit(ctx.widget())
         options = {}
 
-        # todo: Make generic?
         if ctx.default_options():
             for option in ctx.default_options():
                 if option.width():

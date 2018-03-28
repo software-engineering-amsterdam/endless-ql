@@ -1,5 +1,5 @@
 import { getFirstStatement } from "./parsing_test_helpers";
-import ComputedField from "../../form/nodes/fields/ComputedField";
+import ComputedField from "../../form/nodes/fields/ComputedFieldNode";
 import DateLiteral from "../../form/nodes/literals/DateLiteral";
 import * as moment from "moment";
 import { ValueIsInvalidDateError } from "../../form/form_errors";

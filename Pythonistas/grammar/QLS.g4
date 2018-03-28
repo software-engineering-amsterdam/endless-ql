@@ -7,8 +7,9 @@ section    : SECTION STRING ((question+ | question+ section question*) (default)
                         BRAL (question+ | question+ section question*) (default)? BRAR);
 question   : QUESTION ID (attributes)?;
 
-default    : DEFAULT type (attributes | (BRAL attributes BRAR));
-attributes : (width | font | fontsize | color | widget)+;
+default    : DEFAULT type attributes;
+attributes : (width | font | fontsize | color | widget) |
+        BRAL (width | font | fontsize | color | widget)+ BRAR;
 type       : (BOOLEAN | MONEY | ID);
 
 widget   : WIDGET (checkbox | radio | spinbox);

@@ -111,6 +111,7 @@ public class FormReader {
             QLParser.AddsubContext addsubContext = ctx.addsub();
             QLParser.OperatorContext operatorContext = ctx.operator();
 
+            // This is an Expression which only catches brackets
             if(expressions.size() == 1 && notNode == null)
                 return expressionVisitor.visitExpression(expressions.get(0));
 
@@ -132,7 +133,7 @@ public class FormReader {
             if(operatorContext != null)
                 return new Expression(expressionVisitor.visitExpression(expressions.get(0)), expressionVisitor.visitExpression(expressions.get(1)), operatorVisitor.visitOperator(operatorContext));
 
-            return null; //TODO throw exception
+            return null;
         }
     }
 
@@ -161,8 +162,6 @@ public class FormReader {
             if(decimal != null)
                 return new QLFloat((Float.parseFloat(decimal.toString())));
 
-            // TODO throw error
-
             return null;
         }
     }
@@ -189,20 +188,16 @@ public class FormReader {
             QLParser.EqualoperatorContext equaloperatorContext = ctx.equaloperator();
             QLParser.ComparisonContext comparisonContext = ctx.comparison();
 
-            if(booloperatorContext != null){
+            if(booloperatorContext != null)
                 return new BooleanOperation(booloperatorContext.getText());
-            }
 
-            if(equaloperatorContext != null){
+            if(equaloperatorContext != null)
                 return new EqualOperation(equaloperatorContext.getText());
-            }
 
-            if(comparisonContext != null){
+            if(comparisonContext != null)
                 return new ComparisonOperation(comparisonContext.getText());
-            }
 
-            // TODO throw exception
-            return null; //TODO return fitting operator
+            return null;
         }
     }
 }

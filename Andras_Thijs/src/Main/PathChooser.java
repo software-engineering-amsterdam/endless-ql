@@ -5,7 +5,6 @@ import javax.swing.filechooser.FileSystemView;
 
 public class PathChooser {
 
-
     public String getFilePath() {
 
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -23,11 +22,9 @@ public class PathChooser {
 
         int returnValue = jfc.showOpenDialog(null);
 
-        if (returnValue == JFileChooser.APPROVE_OPTION)
+        if(returnValue == JFileChooser.APPROVE_OPTION)
             return jfc.getSelectedFile().getAbsolutePath();
         else
             return "";
     }
-
-
 }

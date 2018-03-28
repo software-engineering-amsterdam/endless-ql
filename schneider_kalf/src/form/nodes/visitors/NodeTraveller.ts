@@ -1,6 +1,6 @@
 import NodeVisitor from "./NodeVisitor";
 import QuestionNode from "../fields/QuestionNode";
-import ComputedField from "../fields/ComputedField";
+import ComputedField from "../fields/ComputedFieldNode";
 import IfCondition from "../conditions/IfCondition";
 import FormNode from "../FormNode";
 import Addition from "../expressions/arithmetic/Addition";

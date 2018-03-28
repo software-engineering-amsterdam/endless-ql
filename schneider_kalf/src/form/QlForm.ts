@@ -1,16 +1,17 @@
-import Form from "./Form";
+import StatefulForm from "./StatefulForm";
 import FormNode from "./nodes/FormNode";
 import FieldNode from "./nodes/fields/FieldNode";
 import { filterNodes } from "./form_helpers";
 import FormState from "./state/FormState";
-import ComputedField from "./nodes/fields/ComputedField";
+import ComputedField from "./nodes/fields/ComputedFieldNode";
 import QuestionNode from "./nodes/fields/QuestionNode";
 import Maybe = jest.Maybe;
 import { UnkownDefaultValueError, UnkownFieldError } from "./form_errors";
 import FieldVisitor from "./nodes/visitors/FieldVisitor";
 import defaultValues from "./defaultValues";
+import { VariableScopeVisitor, VariablesMap } from "./type_checking/VariableScopeVisitor";
 
-export default class QlForm implements Form {
+export default class QlForm implements StatefulForm {
   private node: FormNode;
   private state: FormState;
 
@@ -80,11 +81,11 @@ export default class QlForm implements Form {
     return this.state;
   }
 
-  setAnswer(identifier: string, value: any): Form {
+  setAnswer(identifier: string, value: any): StatefulForm {
     return this.setState(this.state.set(identifier, value));
   }
 
-  setState(nextState: FormState): Form {
+  setState(nextState: FormState): StatefulForm {
     return new QlForm(this.node, nextState);
   }
 
@@ -104,5 +105,9 @@ export default class QlForm implements Form {
 
   accept(visitor: FieldVisitor) {
     return this.node.accept(visitor);
+  }
+
+  getVariablesMap(): VariablesMap {
+    return VariableScopeVisitor.run(this.node).variables;
   }
 }

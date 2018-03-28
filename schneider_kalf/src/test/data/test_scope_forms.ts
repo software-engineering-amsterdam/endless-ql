@@ -4,7 +4,7 @@ import BooleanLiteral from "../../form/nodes/literals/BooleanLiteral";
 import QuestionNode from "../../form/nodes/fields/QuestionNode";
 import { FieldType } from "../../form/FieldType";
 import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier";
-import ComputedField from "../../form/nodes/fields/ComputedField";
+import ComputedField from "../../form/nodes/fields/ComputedFieldNode";
 
 export const nestedForm = new FormNode("nestedForm", [
   new IfCondition(new BooleanLiteral(true), [

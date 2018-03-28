@@ -21,7 +21,7 @@ public enum Type {
     static final Map<String, Type> map = new HashMap<>();
 
     static {
-        for (Type type : Type.values()) {
+        for(Type type : Type.values()) {
             map.put(type.value, type);
         }
     }

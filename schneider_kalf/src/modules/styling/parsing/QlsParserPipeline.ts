@@ -1,14 +1,12 @@
 import { getQlsParser } from "./parsing_helpers";
 import StyleSheet from "../form/nodes/StyleSheetNode";
 import SetParentsVisitor from "../form/visitors/SetParentsVisitor";
-import QuestionStylesVisitor from "../form/visitors/MergeFieldStylesVisitor";
+import MergeFieldStylesVisitor from "../form/visitors/MergeFieldStylesVisitor";
 import MergedFieldStyle from "../form/MergedFieldStyle";
 import { QlParserPipeline, QlParserResult } from "../../../parsing/QlParserPipeline";
-import SetStyledFieldVisitor from "../form/visitors/SetStyledFieldVisitor";
-import { VariableInformation } from "../../../form/VariableIntformation";
 import TypeCheckVisitor from "../form/visitors/TypeCheckVisitor";
 import { VariablesMap } from "../../../form/type_checking/VariableScopeVisitor";
-import FormNode from "../../../form/nodes/FormNode";
+import SourceText from "../../../form/source/SourceText";
 
 export interface QlsParserResult extends QlParserResult {
   styleNode: StyleSheet;
@@ -16,10 +14,10 @@ export interface QlsParserResult extends QlParserResult {
 }
 
 export class QlsParserPipeline {
-  private readonly qlsInput: string;
-  private readonly qlInput: string;
+  private readonly qlsInput: SourceText;
+  private readonly qlInput: SourceText;
 
-  constructor(qlInput: string, qlsInput: string) {
+  constructor(qlInput: SourceText, qlsInput: SourceText) {
     this.qlInput = qlInput;
     this.qlsInput = qlsInput;
   }
@@ -33,7 +31,6 @@ export class QlsParserPipeline {
     this.checkTypes(styleSheetNode, variablesMap);
     this.setNodeParents(styleSheetNode);
     const styles: MergedFieldStyle[] = this.getQuestionStyles(styleSheetNode, variablesMap);
-    this.addStyleToQlFieldNodes(styles, styleSheetNode, qlParserResult.node);
 
     return {
       node: qlParserResult.node,
@@ -43,15 +40,8 @@ export class QlsParserPipeline {
     };
   }
 
-  private addStyleToQlFieldNodes(styles: MergedFieldStyle[], styleSheetNode: StyleSheet, qlFormNode: FormNode) {
-    const setStyledField = new SetStyledFieldVisitor(styles, styleSheetNode);
-    qlFormNode.accept(setStyledField);
-  }
-
   private getQuestionStyles(node: StyleSheet, qlVariables: VariablesMap) {
-    const styleVisitor = new QuestionStylesVisitor(qlVariables);
-    node.accept(styleVisitor);
-    return styleVisitor.getMergedStyles();
+    return MergeFieldStylesVisitor.run(node, qlVariables);
   }
 
   private setNodeParents(node: StyleSheet): void {
@@ -64,12 +54,12 @@ export class QlsParserPipeline {
     node.accept(typeCheckQlsVisitor);
   }
 
-  private parseQl(qlInput: string): QlParserResult {
+  private parseQl(qlInput: SourceText): QlParserResult {
     const qlPipeline = new QlParserPipeline(qlInput);
-    return qlPipeline.run()[0];
+    return qlPipeline.runFirst();
   }
 
-  private parseQls(qlsInput: string): StyleSheet {
-    return getQlsParser().parse(qlsInput);
+  private parseQls(qlsInput: SourceText): StyleSheet {
+    return getQlsParser().parse(qlsInput.toString());
   }
 }

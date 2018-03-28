@@ -14,7 +14,6 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
   "The Expression evaluator" can {
     "do basic arithmetic operations" should {
       "on integers" in {
-        // TODO deal with div by zero error
         val table = Table(
           ("Expression", "Expected Answer"),
           (Addition(IntegerAnswer(5), IntegerAnswer(3)), IntegerAnswer(8)),
@@ -29,7 +28,6 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
       }
 
       "on decimals" in {
-        // TODO deal with div by zero error
         val table = Table(
           ("Expression", "Expected Answer"),
           (Addition(DecimalAnswer(5), DecimalAnswer(3)), DecimalAnswer(8)),
@@ -78,6 +76,19 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (expression, expectedAnswer) =>
           expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
+        }
+      }
+
+      "gracefully handle divide by zero errors" in {
+        val table = Table(
+          ("Expression", "Expected Answer"),
+          (Divide(IntegerAnswer(5), IntegerAnswer(0)), None),
+          (Divide(DecimalAnswer(5), DecimalAnswer(0)), None),
+          (Divide(MoneyAnswer(5), MoneyAnswer(0)), None)
+        )
+
+        forAll(table) { (expression, expectedAnswer) =>
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
     }

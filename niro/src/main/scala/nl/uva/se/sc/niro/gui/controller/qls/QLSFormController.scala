@@ -3,8 +3,8 @@ package nl.uva.se.sc.niro.gui.controller.qls
 import javafx.fxml.FXML
 import javafx.geometry.Insets
 import javafx.scene.control.{ Label, Pagination }
-import nl.uva.se.sc.niro.gui.control.Component
-import nl.uva.se.sc.niro.gui.control.qls.QLSPageFactory
+import nl.uva.se.sc.niro.gui.component.Component
+import nl.uva.se.sc.niro.gui.component.qls.QLSPageFactory
 import nl.uva.se.sc.niro.gui.controller.ql.{ QLFormController, QLHomeController }
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIStylesheet }
 import nl.uva.se.sc.niro.model.ql.QLForm

@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.control
+package nl.uva.se.sc.niro.gui.component
 
 import java.time.LocalDate
 

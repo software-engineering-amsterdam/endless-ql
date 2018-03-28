@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.control
+package nl.uva.se.sc.niro.gui.component
 
 import javafx.scene.control._
 import javafx.scene.layout.HBox

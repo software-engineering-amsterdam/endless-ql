@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.gui.control.ql
 
 import java.time.LocalDate
 
-import nl.uva.se.sc.niro.gui.factory.WidgetFactory
+import nl.uva.se.sc.niro.gui.control.WidgetFactory
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
 class QLWidgetFactory extends WidgetFactory {

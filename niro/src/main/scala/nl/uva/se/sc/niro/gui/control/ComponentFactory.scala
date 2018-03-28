@@ -1,6 +1,5 @@
-package nl.uva.se.sc.niro.gui.factory
+package nl.uva.se.sc.niro.gui.control
 
-import nl.uva.se.sc.niro.gui.control._
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 
 trait ComponentFactory {

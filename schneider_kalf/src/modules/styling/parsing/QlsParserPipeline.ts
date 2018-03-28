@@ -9,6 +9,7 @@ import { VariableInformation } from "../../../form/VariableIntformation";
 import TypeCheckVisitor from "../form/visitors/TypeCheckVisitor";
 import { VariablesMap } from "../../../form/type_checking/VariableScopeVisitor";
 import FormNode from "../../../form/nodes/FormNode";
+import SourceText from "../../../form/source/SourceText";
 
 export interface QlsParserResult extends QlParserResult {
   styleNode: StyleSheet;
@@ -16,10 +17,10 @@ export interface QlsParserResult extends QlParserResult {
 }
 
 export class QlsParserPipeline {
-  private readonly qlsInput: string;
-  private readonly qlInput: string;
+  private readonly qlsInput: SourceText;
+  private readonly qlInput: SourceText;
 
-  constructor(qlInput: string, qlsInput: string) {
+  constructor(qlInput: SourceText, qlsInput: SourceText) {
     this.qlInput = qlInput;
     this.qlsInput = qlsInput;
   }
@@ -64,12 +65,12 @@ export class QlsParserPipeline {
     node.accept(typeCheckQlsVisitor);
   }
 
-  private parseQl(qlInput: string): QlParserResult {
+  private parseQl(qlInput: SourceText): QlParserResult {
     const qlPipeline = new QlParserPipeline(qlInput);
-    return qlPipeline.run()[0];
+    return qlPipeline.runFirst();
   }
 
-  private parseQls(qlsInput: string): StyleSheet {
-    return getQlsParser().parse(qlsInput);
+  private parseQls(qlsInput: SourceText): StyleSheet {
+    return getQlsParser().parse(qlsInput.toString());
   }
 }

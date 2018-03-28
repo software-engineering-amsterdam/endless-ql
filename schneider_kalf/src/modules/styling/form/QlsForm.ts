@@ -1,6 +1,5 @@
-import Form from "../../../form/Form";
+import StatefulForm from "../../../form/StatefulForm";
 import PagedFormState from "./PagedFormState";
-import FieldNode from "../../../form/nodes/fields/FieldNode";
 import StyleSheetNode from "./nodes/StyleSheetNode";
 import FieldVisitor from "../../../form/nodes/visitors/FieldVisitor";
 import PageNode from "./nodes/containers/PageNode";
@@ -9,11 +8,11 @@ import StyledFieldNode from "./StyledFieldNode";
 import FormNode from "../../../form/nodes/FormNode";
 import FormState from "../../../form/state/FormState";
 
-export default class QlsForm implements Form {
-  private baseForm: Form;
+export default class QlsForm implements StatefulForm {
+  private baseForm: StatefulForm;
   private stylesheetNode: StyleSheetNode;
 
-  constructor(baseForm: Form, stylesheetNode: StyleSheetNode) {
+  constructor(baseForm: StatefulForm, stylesheetNode: StyleSheetNode) {
     this.stylesheetNode = stylesheetNode;
     this.baseForm = baseForm;
   }
@@ -30,17 +29,17 @@ export default class QlsForm implements Form {
     return this.baseForm.getState();
   }
 
-  setAnswer(identifier: string, value: any): Form {
+  setAnswer(identifier: string, value: any): StatefulForm {
     const newBaseForm = this.baseForm.setAnswer(identifier, value);
     return new QlsForm(newBaseForm, this.stylesheetNode);
   }
 
-  setState(nextState: FormState): Form {
+  setState(nextState: FormState): StatefulForm {
     const newBaseForm = this.baseForm.setState(nextState);
     return new QlsForm(newBaseForm, this.stylesheetNode);
   }
 
-  setActivePage(nextPage: PageNode): Form {
+  setActivePage(nextPage: PageNode): StatefulForm {
     const nextState = this.getState().setActivePageName(nextPage.name);
     return this.setState(nextState);
   }

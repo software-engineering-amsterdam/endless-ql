@@ -3,7 +3,7 @@ import FormState from "./state/FormState";
 import FieldVisitor from "./nodes/visitors/FieldVisitor";
 import FormNode from "./nodes/FormNode";
 
-export default interface Form {
+export default interface StatefulForm {
   getRootNode(): FormNode;
 
   getName(): string;
@@ -14,9 +14,9 @@ export default interface Form {
 
   getState(): FormState | any;
 
-  setState(state: FormState): Form;
+  setState(state: FormState): StatefulForm;
 
-  setAnswer(identifier: string, value: any): Form;
+  setAnswer(identifier: string, value: any): StatefulForm;
 
   getAnswer(identifier: string): any;
 

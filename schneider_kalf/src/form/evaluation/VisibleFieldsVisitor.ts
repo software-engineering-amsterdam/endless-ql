@@ -4,7 +4,7 @@ import ComputedField from "../nodes/fields/ComputedField";
 import QuestionNode from "../nodes/fields/QuestionNode";
 import FormState from "../state/FormState";
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
-import Form from "../Form";
+import Form from "../StatefulForm";
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
 export default class VisibleFieldsVisitor implements FieldVisitor {

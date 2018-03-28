@@ -1,7 +1,7 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import Form from "./form/Form";
-import { QlsParserPipeline, QlsParserResult } from "./modules/styling/parsing/QlsParserPipeline";
+import Form from "./form/StatefulForm";
+import { QlsParserResult } from "./modules/styling/parsing/QlsParserPipeline";
 import QlsForm from "./modules/styling/form/QlsForm";
 import PagedFormState from "./modules/styling/form/PagedFormState";
 import QlForm from "./form/QlForm";
@@ -14,6 +14,7 @@ import { AppErrorMessage } from "./rendering/components/app_error_message/AppErr
 import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
 import { runParserPipeline } from "./parsing/parsing_helpers";
 import constants from "./config/constants";
+import SourceInputs from "./form/source/SourceInputs";
 
 export interface AppComponentProps {
 }
@@ -65,8 +66,10 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   updateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
+    const inputs = SourceInputs.makeFromStrings(qlSource, qlsSource, qlsEnabled);
+
     try {
-      this.tryToUpdateForm(qlSource, qlsSource, qlsEnabled);
+      this.tryToUpdateForm(inputs);
     } catch (error) {
       this.setState({
         parserError: error,
@@ -76,23 +79,26 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     }
   }
 
-  tryToUpdateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
-    const parseResult: QlParserResult | QlsParserResult | any = runParserPipeline(qlSource, qlsSource, qlsEnabled);
+  tryToUpdateForm(inputs: SourceInputs) {
+    this.setState({
+      form: this.makeForm(inputs),
+      parserError: null,
+      qlInput: inputs.getQlSource().toString(),
+      qlsInput: inputs.getQlsSource().toString(),
+      qlsEnabled: inputs.qlsIsEnabled()
+    });
+  }
+
+  makeForm(inputs: SourceInputs): Form {
+    const parseResult: QlParserResult | QlsParserResult | any = runParserPipeline(inputs);
 
     let form: Form = new QlForm(parseResult.node, this.getFormState());
 
-    // TODO: Maybe put both pipelines in different functions
-    if (typeof parseResult.styleNode !== 'undefined') {
+    if (inputs.qlsIsFilledAndEnabled()) {
       form = new QlsForm(form, parseResult.styleNode);
     }
 
-    this.setState({
-      form: form,
-      parserError: null,
-      qlInput: qlSource,
-      qlsInput: qlsSource,
-      qlsEnabled: qlsEnabled
-    });
+    return form;
   }
 
   getFormState() {

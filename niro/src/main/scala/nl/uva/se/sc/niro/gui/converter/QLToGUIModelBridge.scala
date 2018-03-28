@@ -35,7 +35,10 @@ object QLToGUIModelBridge {
 
   def convertStylesheet(stylesheet: QLStylesheet): GUIStylesheet = {
     val defaultStyles = stylesheet.defaultStyles.mapValues(GUIStyling(_))
-    qls.GUIStylesheet(StringUtil.addSpaceOnCaseChange(stylesheet.name), stylesheet.pages.map(convertPage), defaultStyles)
+    qls.GUIStylesheet(
+      StringUtil.addSpaceOnCaseChange(stylesheet.name),
+      stylesheet.pages.map(convertPage),
+      defaultStyles)
   }
 
   def convertPage(page: Page): GUIPage = {

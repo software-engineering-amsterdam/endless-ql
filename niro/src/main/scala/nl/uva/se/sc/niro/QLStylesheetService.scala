@@ -17,7 +17,7 @@ object QLStylesheetService {
       val stylesheet: QLStylesheet = QLStylesheetParser.parse(CharStreams.fromFileName(qlsFile.getAbsolutePath))
       val parseErrors: Seq[Error] = QLStylesheetParser.getParseErrors.toList
       if (parseErrors.isEmpty) {
-        QLSTypeCheckFacade.performChecks(form, stylesheet).right.map(stylesheet => Some(stylesheet))
+        QLSTypeCheckFacade.check(form, stylesheet).right.map(stylesheet => Some(stylesheet))
       } else {
         Left(parseErrors)
       }

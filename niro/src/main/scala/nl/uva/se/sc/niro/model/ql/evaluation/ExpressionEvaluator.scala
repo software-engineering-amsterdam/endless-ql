@@ -67,8 +67,8 @@ object ExpressionEvaluator {
     def isZero = answer match {
       case IntegerAnswer(value) if value == 0 => true
       case DecimalAnswer(value) if value == 0 => true
-      case MoneyAnswer(value) if value == 0 => true
-      case _ => false
+      case MoneyAnswer(value) if value == 0   => true
+      case _                                  => false
     }
   }
 
@@ -179,6 +179,7 @@ object ExpressionEvaluator {
   }
 
   implicit class ReferenceOps(expression: Reference) {
+
     /**
       * Only expressions that are defined to be a variable (answer) will be retrieved from the dictionary if exist.
       * This is done so values of calculated fields won't be retrieved from the dictionary

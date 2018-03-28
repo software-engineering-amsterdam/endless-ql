@@ -6,6 +6,14 @@ import StatefulForm from "./form/StatefulForm";
 import QlForm from "./form/QlForm";
 import QlsForm from "./modules/styling/form/QlsForm";
 
+export const runParserPipeline = (inputs: SourceInputs): QlParserResult | QlsParserResult => {
+  if (inputs.qlsIsFilledAndEnabled()) {
+    return (new QlsParserPipeline(inputs.getQlSource(), inputs.getQlsSource())).run();
+  }
+
+  return (new QlParserPipeline(inputs.getQlSource())).runFirst();
+};
+
 export const makeStatefulForm = (inputs: SourceInputs, existingState: FormState): StatefulForm => {
   const parseResult: QlParserResult | QlsParserResult | any = runParserPipeline(inputs);
 
@@ -16,12 +24,4 @@ export const makeStatefulForm = (inputs: SourceInputs, existingState: FormState)
   }
 
   return form;
-};
-
-export const runParserPipeline = (inputs: SourceInputs): QlParserResult | QlsParserResult => {
-  if (inputs.qlsIsFilledAndEnabled()) {
-    return (new QlsParserPipeline(inputs.getQlSource(), inputs.getQlsSource())).run();
-  }
-
-  return (new QlParserPipeline(inputs.getQlSource())).runFirst();
 };

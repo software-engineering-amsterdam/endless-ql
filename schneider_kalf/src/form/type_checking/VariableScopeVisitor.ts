@@ -1,5 +1,5 @@
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
-import ComputedField from "../nodes/fields/ComputedField";
+import ComputedField from "../nodes/fields/ComputedFieldNode";
 import QuestionNode from "../nodes/fields/QuestionNode";
 import IfCondition from "../nodes/conditions/IfCondition";
 import FormNode from "../nodes/FormNode";
@@ -52,11 +52,16 @@ export class VariableScopeVisitor implements FieldVisitor {
     this._stack.moveUp();
   }
 
-  run(form: FormNode): VariableScopeResult {
-    this.visitForm(form);
+  public getDeclaredVariables(): VariablesMap {
+    return this._stack.getDeclaredVariables();
+  }
+
+  static run(form: FormNode): VariableScopeResult {
+    const visitor = new VariableScopeVisitor();
+    visitor.visitForm(form);
 
     return {
-      variables: this._stack.getDeclaredVariables()
+      variables: visitor.getDeclaredVariables()
     };
   }
 

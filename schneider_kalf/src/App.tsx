@@ -10,7 +10,7 @@ import { AppErrorMessage } from "./rendering/components/app_error_message/AppErr
 import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
 import constants from "./config/constants";
 import SourceInputs from "./form/source/SourceInputs";
-import { makeStatefulForm } from "./app_helpers";
+import { makeStatefulForm } from "./app_form_helpers";
 
 export interface AppComponentProps {
 }

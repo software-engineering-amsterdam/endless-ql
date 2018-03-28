@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using QlsParser;
 using QlsTransformer;
+using QlsTransformer.Ast.Nodes;
 using QlsTransformer.Ast.Tools;
 using QuestionnaireDomain.Entities;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -32,22 +34,34 @@ namespace QLS.UnitTests.ParserTests
         [TearDown]
         public void Cleanup()
         {
-            //To Do: this is a hack, should fix lifetime of service (possibly)
+            //ToDo: this is a hack, should fix lifetime of service (possibly)
             var registry = m_serviceProvider.GetService<IDomainItemRegistry>();
             registry.Nuke();
         }
-        
-        [Test]
-        public void GivenStyleSheet_ReturnsStyleSheetObject()
+
+        [TestCaseSource(
+            typeof(TestQlsData),
+            nameof(TestQlsData.GoodStyleSheetCases))]
+        public void GivenStyleSheet_ReturnsStyleSheetObject(
+            string validStyleSheetDefinition,
+            string styleSheetName)
         {
             var styleSheetCreator = m_serviceProvider
                 .GetService<IStyleSheetCreator>();
 
-            var styleSheetDefinition = @"stylesheet ss1 { }";
             var domainItemId = styleSheetCreator.
-                Create(styleSheetDefinition);
+                Create(validStyleSheetDefinition);
 
             Assert.IsNotNull(domainItemId, "should have created a stylesheet from a valid definition");
+            var createdStyleSheet = m_domainItemLocator
+                .GetAll<IStyleSheetRootNode>()
+                .FirstOrDefault();
+
+            Assert.IsNotNull(createdStyleSheet, "could not find a questionnaire node");
+            
+            Assert.AreEqual(
+                expected: styleSheetName,
+                actual: createdStyleSheet.StyleSheetName);
         }
     }
 }

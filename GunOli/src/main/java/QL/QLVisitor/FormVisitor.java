@@ -1,6 +1,6 @@
 package QL.QLVisitor;
 
-import QL.ParseObjectsQL.*;
+import QL.AST.*;
 import QL.QLAntlrGen.QLBaseVisitor;
 import QL.QLAntlrGen.QLParser;
 

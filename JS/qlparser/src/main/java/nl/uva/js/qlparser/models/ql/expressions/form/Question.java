@@ -56,4 +56,9 @@ public class Question implements FormExpression {
 
         return Collections.singletonList(jsonInformation);
     }
+
+    @Override
+    public String getName() {
+        return variable.getName();
+    }
 }

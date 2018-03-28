@@ -4,10 +4,11 @@ import java.io.{ File, IOException }
 
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.TextArea
+import javafx.scene.control.Alert.AlertType
+import javafx.scene.control.{ Alert, ButtonType, TextArea }
 import javafx.stage.{ FileChooser, Stage }
 import nl.uva.se.sc.niro.QLFormService
-import nl.uva.se.sc.niro.errors.Errors
+import nl.uva.se.sc.niro.errors.{ Errors, Warning }
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
 import nl.uva.se.sc.niro.model.ql.QLForm
@@ -48,8 +49,16 @@ class QLHomeController extends QLBaseController with Logging {
 
   def showQLForm(form: QLForm): Unit = {
     val controller = new QLFormController(this, form, GUIModelFactory.makeFrom(form))
+    if (form.warnings.nonEmpty) showWarning(form.warnings)
     switchToScene(QLScenes.formScene, controller)
+
     controller.initializeForm()
+  }
+
+  def showWarning(warnings: Seq[Warning]): Unit = {
+    val alert = new Alert(AlertType.WARNING, s"${warnings.mkString("\n")}", ButtonType.OK)
+    alert.setTitle("Warning")
+    alert.showAndWait()
   }
 
   def handleErrors(errors: Seq[Errors.Error]): Unit = {

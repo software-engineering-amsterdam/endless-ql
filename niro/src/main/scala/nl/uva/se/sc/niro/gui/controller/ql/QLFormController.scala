@@ -11,8 +11,7 @@ import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
 import nl.uva.se.sc.niro.QLFormService
 import nl.uva.se.sc.niro.gui.application.QLScenes
-import nl.uva.se.sc.niro.gui.control.Component
-import nl.uva.se.sc.niro.gui.factory.ql.QLComponentFactory
+import nl.uva.se.sc.niro.gui.control.{ Component, QLComponentFactory }
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm

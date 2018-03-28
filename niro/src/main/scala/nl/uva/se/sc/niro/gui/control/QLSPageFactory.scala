@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.factory.qls
+package nl.uva.se.sc.niro.gui.control
 
 import cats.Semigroup
 import cats.instances.all._

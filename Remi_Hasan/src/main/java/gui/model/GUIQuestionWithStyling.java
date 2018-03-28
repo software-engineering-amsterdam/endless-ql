@@ -24,12 +24,12 @@ public class GUIQuestionWithStyling extends GUISectionElement implements IGUIQue
 
     @Override
     public LabelWithWidget render(SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
-        GUIWidget guiWidget = WidgetFactory.getDefaultWidget(guiQuestion.type);
+        GUIWidget guiWidget = WidgetFactory.getDefaultWidget(guiQuestion.getType());
         LabelWithWidget parent = guiQuestion.render(guiWidget, symbolTable, allWidgetsListener);
 
         // Apply styles to this widget where applicable
         for (DefaultStyle defaultStyle : defaultStyles) {
-            if (defaultStyle.getType() == guiQuestion.type) {
+            if (defaultStyle.getType() == guiQuestion.getType()) {
                 for (StyleAttribute styleAttribute : defaultStyle.getStyleAttributes()) {
                     parent.apply(styleAttribute);
                 }

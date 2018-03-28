@@ -12,12 +12,11 @@ import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 
 public class GUIQuestion implements IGUIQuestion {
-    // TODO: private
     private final String identifier;
-    public final String label;
-    public final ReturnType type;
-    public final Expression condition;
-    public final Expression computedAnswer;
+    private final String label;
+    private final ReturnType type;
+    private final Expression condition;
+    private final Expression computedAnswer;
 
     public GUIQuestion(String identifier, String label, ReturnType type, Expression condition, Expression computedAnswer) {
         this.identifier = identifier;
@@ -29,6 +28,14 @@ public class GUIQuestion implements IGUIQuestion {
 
     public String getIdentifier() {
         return identifier;
+    }
+
+    public ReturnType getType() {
+        return type;
+    }
+
+    public Expression getComputedAnswer() {
+        return computedAnswer;
     }
 
     public boolean isVisible(SymbolTable symbolTable) {

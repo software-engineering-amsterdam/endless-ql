@@ -15,15 +15,6 @@ case class QLSGUIQuestion(
 
 object QLSGUIQuestion {
 
-  def apply(question: GUIQuestion) =
-    new QLSGUIQuestion(
-      question.id,
-      question.answerType,
-      question.label,
-      question.isReadOnly,
-      question.visibility,
-      styling = GUIStyling())
-
   def apply(question: GUIQuestion, styling: GUIStyling) =
     new QLSGUIQuestion(
       question.id,

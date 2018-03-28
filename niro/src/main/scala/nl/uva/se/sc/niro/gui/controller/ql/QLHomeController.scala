@@ -13,6 +13,7 @@ import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
 import nl.uva.se.sc.niro.model.ql.QLForm
 import org.apache.logging.log4j.scala.Logging
+import nl.uva.se.sc.niro.PrettyPrinter.{ ErrorsCanPrettyPrint, WarningCanPrettyPrint }
 
 class QLHomeController extends QLBaseController with Logging {
   @FXML
@@ -57,14 +58,14 @@ class QLHomeController extends QLBaseController with Logging {
   def showWarning(warnings: Seq[Warning]): Unit = {
     val alert = new Alert(
       AlertType.WARNING,
-      s"${warnings.map(warning => s"${warning.key}: ${warning.message}").mkString("\n")}",
+      s"${warnings.map(_.prettyPrint).mkString("\n")}",
       ButtonType.OK)
     alert.setTitle("Warning")
     alert.showAndWait()
   }
 
   def handleErrors(errors: Seq[Errors.Error]): Unit = {
-    errorMessages.setText(errors.map(error => s"${error.key}: ${error.message}").mkString("\n"))
+    errorMessages.setText(errors.map(_.prettyPrint).mkString("\n"))
     errorMessages.setVisible(true)
   }
 }

@@ -5,6 +5,7 @@ import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.typechecking.ql.StaticTypeChecker._
 import org.apache.logging.log4j.scala.Logging
+import nl.uva.se.sc.niro.PrettyPrinter.ExpressionCanPrettyPrint
 
 object PredicateChecker extends Logging {
   def checkNonBooleanPredicates(qlForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
@@ -17,8 +18,8 @@ object PredicateChecker extends Logging {
 
     if (conditionalsWithNonBooleanPredicates.nonEmpty) {
       conditionalsWithNonBooleanPredicates
-        .map(nonBooleanPredicate => TypeCheckError(message = s"Non boolean predicate: $nonBooleanPredicate"))
-        .asLeft
+        .map(nonBooleanPredicate => TypeCheckError(message = s"Non boolean predicate: ${nonBooleanPredicate.predicate.prettyPrint}"))
+      .asLeft
     } else {
       qlForm.asRight
     }

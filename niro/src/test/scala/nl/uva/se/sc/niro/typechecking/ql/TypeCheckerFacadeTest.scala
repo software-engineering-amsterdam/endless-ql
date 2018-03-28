@@ -47,7 +47,7 @@ class TypeCheckerFacadeTest extends WordSpec {
 
         assert(
           result === Left(List(
-            TypeCheckError("TypeCheckError", "Not a valid expression: Multiply(StringAnswer(Foo),StringAnswer(Bar))"))))
+            TypeCheckError("TypeCheckError", "Not a valid expression: (StringAnswer(Foo) * StringAnswer(Bar))"))))
       }
 
       "return error for operands of invalid type to eachother" in {
@@ -60,7 +60,7 @@ class TypeCheckerFacadeTest extends WordSpec {
         val result = TypeCheckerFacade.pipeline(qlForm)
 
         assert(result === Left(
-          List(TypeCheckError("TypeCheckError", "Not a valid expression: Equal(StringAnswer(Foo),IntegerAnswer(0))"))))
+          List(TypeCheckError("TypeCheckError", "Not a valid expression: (StringAnswer(Foo) == IntegerAnswer(0))"))))
       }
 
       "return no error for operands valid types in nested operations" in {
@@ -132,7 +132,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           List(
             TypeCheckError(
               "TypeCheckError",
-              "Non boolean predicate: List(Conditional(Multiply(IntegerAnswer(5),IntegerAnswer(1)),List()))"
+              "Non boolean predicate: (IntegerAnswer(5) * IntegerAnswer(1))"
             )
           )
         ))
@@ -154,7 +154,7 @@ class TypeCheckerFacadeTest extends WordSpec {
           List(
             TypeCheckError(
               "TypeCheckError",
-              "Duplicate question declarations with different types: List(List(Question(q1,duplicate identifier,IntegerType,Some(IntegerAnswer(1))), Question(q1,duplicate identifier,BooleanType,Some(IntegerAnswer(1)))))"
+              "Duplicate question declarations with different types: q1 -> IntegerType, q1 -> BooleanType"
             )
           )
         )
@@ -186,11 +186,16 @@ class TypeCheckerFacadeTest extends WordSpec {
           )
         )
         val result = TypeCheckerFacade.pipeline(qlForm)
+
         assert(
           result === Left(
-            List(TypeCheckError(
-              "TypeCheckError",
-              "Found cyclic dependencies: List(q1 -> q3 -> q2 -> q1, q2 -> q1 -> q3 -> q2, q3 -> q2 -> q1 -> q3)"))))
+            List(
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q1 -> q3 -> q2 -> q1"),
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q2 -> q1 -> q3 -> q2"),
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q3 -> q2 -> q1 -> q3")
+            )
+          )
+        )
       }
 
       "and return an error when cyclic references are found inside expressions" in {
@@ -204,11 +209,16 @@ class TypeCheckerFacadeTest extends WordSpec {
         )
 
         val result = TypeCheckerFacade.pipeline(qlForm)
+
         assert(
           result === Left(
-            List(TypeCheckError(
-              "TypeCheckError",
-              "Found cyclic dependencies: List(q1 -> q3 -> q2 -> q1, q2 -> q1 -> q3 -> q2, q3 -> q2 -> q1 -> q3)"))))
+            List(
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q1 -> q3 -> q2 -> q1"),
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q2 -> q1 -> q3 -> q2"),
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q3 -> q2 -> q1 -> q3")
+            )
+          )
+        )
       }
 
       "and return an error when cyclic references are found inside expressions with multiple paths" in {
@@ -223,9 +233,15 @@ class TypeCheckerFacadeTest extends WordSpec {
         )
 
         val result = TypeCheckerFacade.pipeline(qlForm)
+
         assert(
           result === Left(
-            List(TypeCheckError("TypeCheckError", "Found cyclic dependencies: List(q1 -> q2 -> q1, q2 -> q1 -> q2)"))))
+            List(
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q1 -> q2 -> q1"),
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q2 -> q1 -> q2")
+            )
+          )
+        )
       }
 
       "and return an error when multiple cyclic references are found" in {
@@ -241,11 +257,17 @@ class TypeCheckerFacadeTest extends WordSpec {
         )
 
         val result = TypeCheckerFacade.pipeline(qlForm)
+
         assert(
           result === Left(
-            List(TypeCheckError(
-              "TypeCheckError",
-              "Found cyclic dependencies: List(q5 -> q4 -> q5, q4 -> q5 -> q4, q3 -> q2 -> q3, q2 -> q3 -> q2)"))))
+            List(
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q5 -> q4 -> q5"),
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q4 -> q5 -> q4"),
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q3 -> q2 -> q3"),
+              TypeCheckError("TypeCheckError", "Found cyclic dependency: q2 -> q3 -> q2")
+            )
+          )
+        )
       }
     }
 
@@ -260,7 +282,8 @@ class TypeCheckerFacadeTest extends WordSpec {
           )
         )
         val result = TypeCheckerFacade.pipeline(qlForm)
-        assert(result === Left(List(TypeCheckError("TypeCheckError", "Undefined references: List(1)"))))
+
+        assert(result === Left(List(TypeCheckError("TypeCheckError", "Undefined reference: 1"))))
       }
 
       "and return an error when a reference to a non defined question is encountered somewhere in an expression" in {
@@ -278,7 +301,8 @@ class TypeCheckerFacadeTest extends WordSpec {
           )
         )
         val result = TypeCheckerFacade.pipeline(qlForm)
-        assert(result === Left(List(TypeCheckError("TypeCheckError", "Undefined references: List(1)"))))
+
+        assert(result === Left(List(TypeCheckError("TypeCheckError", "Undefined reference: 1"))))
       }
 
       "and return an error when a reference to a non defined question is encountered within an if statement" in {
@@ -289,9 +313,8 @@ class TypeCheckerFacadeTest extends WordSpec {
           )
         )
 
-        pprint.pprintln(qlForm.symbolTable)
         val result = TypeCheckerFacade.pipeline(qlForm)
-        assert(result === Left(List(TypeCheckError("TypeCheckError", "Undefined references: List(a)"))))
+        assert(result === Left(List(TypeCheckError("TypeCheckError", "Undefined reference: a"))))
       }
     }
   }

@@ -31,9 +31,7 @@ public class QuestionPanel extends JPanel{
         this.widget = widget;
         component.setEnabled(!question.hasExpression());
         this.add(component);
-
     }
-
 
     public void refreshPanel() throws SyntaxException, TypeException {
         updateTerm();
@@ -47,44 +45,39 @@ public class QuestionPanel extends JPanel{
 
             if(question.getResult() == null)
                 return;
-            switch (widget.getType()){
-                case BOOL: ((JCheckBox)widget.getComponent()).setSelected(question.getResult().getBoolean());break;
-                case STRING: ((JTextField)widget.getComponent()).setText(question.getResult().getString());break;
-                case MONEY: ((JTextField)widget.getComponent()).setText(String.valueOf(question.getResult().getFloat()));break;
-                case INT: ((JTextField)widget.getComponent()).setText(String.valueOf(question.getResult().getFloat()));break;
-                case DECIMAL: ((JTextField)widget.getComponent()).setText(String.valueOf(question.getResult().getFloat()));break;
-                case DATE: ((JTextField)widget.getComponent()).setText(question.getResult().getString());break; //TODO do something with date
+            switch(widget.getType()){
+                case BOOL: ((JCheckBox) widget.getComponent()).setSelected(question.getResult().getBoolean()); break;
+                case STRING: ((JTextField) widget.getComponent()).setText(question.getResult().getString()); break;
+                case MONEY: ((JTextField) widget.getComponent()).setText(String.valueOf(question.getResult().getFloat())); break;
+                case INT: ((JTextField) widget.getComponent()).setText(String.valueOf(question.getResult().getFloat())); break;
+                case DECIMAL: ((JTextField) widget.getComponent()).setText(String.valueOf(question.getResult().getFloat())); break;
+                case DATE: ((JTextField) widget.getComponent()).setText(question.getResult().getString()); break; //TODO do something with date
                 default: break;
             }
         } else {
-            try {
-                switch (widget.getType()) {
-                    case BOOL:
-                        this.question.updateTerm(new TermFactory().getTerm((boolean) this.widget.getValue()));
-                        break;
-                    case STRING:
-                        this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));
-                        break;
-                    case MONEY:
-                        this.question.updateTerm(new TermFactory().getTerm((float) this.widget.getValue()));
-                        break;
-                    case INT:
-                        this.question.updateTerm(new TermFactory().getTerm((float) this.widget.getValue()));
-                        break;
-                    case DECIMAL:
-                        this.question.updateTerm(new TermFactory().getTerm((float) this.widget.getValue()));
-                        break;
-                    case DATE:
-                        this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));
-                        break; //TODO do something with date
-                    default:
-                        break;
-                }
-            } catch (Exception e){
-                return;
+            switch(widget.getType()) {
+                case BOOL:
+                    this.question.updateTerm(new TermFactory().getTerm((boolean) this.widget.getValue()));
+                    break;
+                case STRING:
+                    this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));
+                    break;
+                case MONEY:
+                    this.question.updateTerm(new TermFactory().getTerm((float) this.widget.getValue()));
+                    break;
+                case INT:
+                    this.question.updateTerm(new TermFactory().getTerm((float) this.widget.getValue()));
+                    break;
+                case DECIMAL:
+                    this.question.updateTerm(new TermFactory().getTerm((float) this.widget.getValue()));
+                    break;
+                case DATE:
+                    this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));
+                    break; //TODO do something with date
+                default:
+                    break;
             }
         }
-
     }
 
     private void setVisibility() throws SyntaxException, TypeException {
@@ -100,6 +93,4 @@ public class QuestionPanel extends JPanel{
             result += "undefined" + "\"";
         return result;
     }
-
-
 }

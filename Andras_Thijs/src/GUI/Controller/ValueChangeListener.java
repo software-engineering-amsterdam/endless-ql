@@ -16,10 +16,10 @@ public class ValueChangeListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (refreshListener != null) {
+        if(refreshListener != null) {
             try {
                 refreshListener.refreshQuestions();
-            } catch (SyntaxException | TypeException e1) {
+            } catch(SyntaxException | TypeException e1) {
                 e1.printStackTrace();
             }
         }

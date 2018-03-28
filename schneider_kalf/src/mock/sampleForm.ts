@@ -4,7 +4,7 @@ import FormNode from "../form/nodes/FormNode";
 import QuestionNode from "../form/nodes/fields/QuestionNode";
 import IfCondition from "../form/nodes/conditions/IfCondition";
 import VariableIdentifier from "../form/nodes/expressions/VariableIdentifier";
-import ComputedField from "../form/nodes/fields/ComputedField";
+import ComputedField from "../form/nodes/fields/ComputedFieldNode";
 import Subtraction from "../form/nodes/expressions/arithmetic/Subtraction";
 import QlForm from "../form/QlForm";
 import FormState from "../form/state/FormState";

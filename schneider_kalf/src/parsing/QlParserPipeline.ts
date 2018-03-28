@@ -1,6 +1,5 @@
 import FormNode from "../form/nodes/FormNode";
 import { VariableScopeResult, VariableScopeVisitor, VariablesMap } from "../form/type_checking/VariableScopeVisitor";
-import { VariableInformation } from "../form/VariableIntformation";
 import { TypeCheckVisitor } from "../form/type_checking/TypeCheckVisitor";
 import { getQlParser } from "./parsing_helpers";
 import SourceText from "../form/source/SourceText";
@@ -8,7 +7,7 @@ import { NeedAtLeastOneFormToParseError } from "../form/form_errors";
 
 export interface QlParserResult {
   node: FormNode;
-  variables: Map<string, VariableInformation>;
+  variables: VariablesMap;
 }
 
 export class QlParserPipeline {
@@ -47,8 +46,7 @@ export class QlParserPipeline {
   }
 
   private checkScope(node: FormNode): VariableScopeResult {
-    const scopeVisitor: VariableScopeVisitor = new VariableScopeVisitor();
-    return scopeVisitor.run(node);
+    return VariableScopeVisitor.run(node);
   }
 
   private checkTypes(node: FormNode, variables: VariablesMap): void {

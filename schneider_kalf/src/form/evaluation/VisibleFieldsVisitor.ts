@@ -1,6 +1,6 @@
 import IfCondition from "../nodes/conditions/IfCondition";
 import FormNode from "../nodes/FormNode";
-import ComputedField from "../nodes/fields/ComputedField";
+import ComputedField from "../nodes/fields/ComputedFieldNode";
 import QuestionNode from "../nodes/fields/QuestionNode";
 import FormState from "../state/FormState";
 import FieldVisitor from "../nodes/visitors/FieldVisitor";

@@ -20,14 +20,14 @@ export const SpinboxWidgetComponent: React.SFC<SpinboxWidgetComponentProps> = (p
 
   const renderSpinboxInputs = () => {
     return (
-        <InputGroupAddon className="input-group-append">
+        <div className="input-group-append">
           <Button disabled={disabled} color="outline-secondary" onClick={() => props.onChange(value.increment())}>
             +
           </Button>
           <Button disabled={disabled} color="outline-secondary" onClick={() => props.onChange(value.decrement())}>
             -
           </Button>
-        </InputGroupAddon>
+        </div>
     );
   };
 

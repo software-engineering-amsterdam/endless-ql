@@ -3,6 +3,7 @@ import SectionChild from "./SectionChild";
 import StyleAttribute from "../StyleAttribute";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
 import SectionNode from "../containers/SectionNode";
+import FieldNode from "../../../../../form/nodes/fields/FieldNode";
 
 export default class QuestionStyle extends AbstractStyleNode implements SectionChild {
   readonly identifier: string;
@@ -28,5 +29,9 @@ export default class QuestionStyle extends AbstractStyleNode implements SectionC
 
   isQuestionStyle(): this is QuestionStyle {
     return true;
+  }
+
+  appliesToField(field: FieldNode) {
+    return field.identifier === this.identifier;
   }
 }

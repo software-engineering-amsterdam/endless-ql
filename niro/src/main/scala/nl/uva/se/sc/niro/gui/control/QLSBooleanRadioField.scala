@@ -5,7 +5,7 @@ import javafx.geometry.Insets
 import javafx.scene.control.{ RadioButton, Toggle, ToggleGroup }
 import javafx.scene.layout.HBox
 
-class QLSRadioBooleanField(trueLabel: String, falseLabel: String) extends HBox with QLWidget[Boolean] {
+class QLSBooleanRadioField(trueLabel: String, falseLabel: String) extends HBox with QLWidget[Boolean] {
   val group = new ToggleGroup()
   val trueChoice = new RadioButton(trueLabel)
   val falseChoice = new RadioButton(falseLabel)

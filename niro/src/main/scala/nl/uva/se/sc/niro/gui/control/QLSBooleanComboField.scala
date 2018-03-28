@@ -5,7 +5,7 @@ import javafx.collections.FXCollections
 import javafx.scene.control.ChoiceBox
 import javafx.util.StringConverter
 
-class QLSComboBooleanField(trueLabel: String, falseLabel: String) extends ChoiceBox[Boolean] with QLWidget[Boolean] {
+class QLSBooleanComboField(trueLabel: String, falseLabel: String) extends ChoiceBox[Boolean] with QLWidget[Boolean] {
   setItems(FXCollections.observableArrayList(true, false))
   setConverter(new StringConverter[Boolean]() {
     override def toString(value: Boolean): String = if (value) trueLabel else falseLabel

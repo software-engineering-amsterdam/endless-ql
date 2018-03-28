@@ -7,7 +7,6 @@ trait PrettyPrintable[T] {
   def pprint: String
 }
 
-
 object PrettyPrinter {
   implicit class ExpressionCanPrettyPrint(expression: Expression) extends PrettyPrintable[Expression] {
     override def pprint: String = expression match {
@@ -83,7 +82,8 @@ object PrettyPrinter {
     }
   }
 
-  implicit class GreaterThenEqualCanPrettyPrint(greaterThenEqual: GreaterThenEqual) extends PrettyPrintable[GreaterThenEqual] {
+  implicit class GreaterThenEqualCanPrettyPrint(greaterThenEqual: GreaterThenEqual)
+      extends PrettyPrintable[GreaterThenEqual] {
     override def pprint: String = {
       s"(${greaterThenEqual.left.pprint} >= ${greaterThenEqual.right.pprint})"
     }

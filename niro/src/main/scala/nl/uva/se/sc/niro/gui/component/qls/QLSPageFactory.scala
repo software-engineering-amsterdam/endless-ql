@@ -7,7 +7,8 @@ import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import javafx.util.Callback
 import nl.uva.se.sc.niro.gui.controller.qls.QLSFormController
-import nl.uva.se.sc.niro.model.gui._
+import nl.uva.se.sc.niro.model.gui.ql.GUIForm
+import nl.uva.se.sc.niro.model.gui.qls._
 import nl.uva.se.sc.niro.model.ql._
 
 class QLSPageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet)

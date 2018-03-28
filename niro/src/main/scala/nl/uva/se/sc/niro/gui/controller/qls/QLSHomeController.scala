@@ -8,7 +8,8 @@ import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.controller.ql.QLHomeController
 import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
-import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIStylesheet }
+import nl.uva.se.sc.niro.model.gui.ql.GUIForm
+import nl.uva.se.sc.niro.model.gui.qls.GUIStylesheet
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import nl.uva.se.sc.niro.{ QLFormService, QLStylesheetService }

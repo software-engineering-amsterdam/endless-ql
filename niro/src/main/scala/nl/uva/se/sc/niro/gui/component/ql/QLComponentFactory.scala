@@ -5,7 +5,7 @@ import nl.uva.se.sc.niro.gui.component._
 import nl.uva.se.sc.niro.gui.widget._
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidgetFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
-import nl.uva.se.sc.niro.model.gui.GUIQuestion
+import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
 import nl.uva.se.sc.niro.model.ql._
 
 class QLComponentFactory(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory)

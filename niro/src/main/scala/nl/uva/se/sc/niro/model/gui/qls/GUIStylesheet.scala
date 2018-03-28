@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.gui
+package nl.uva.se.sc.niro.model.gui.qls
 
 /**
   * Model used by the frontend

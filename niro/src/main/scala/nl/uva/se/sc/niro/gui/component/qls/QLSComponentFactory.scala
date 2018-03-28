@@ -5,7 +5,8 @@ import nl.uva.se.sc.niro.gui.component.ql.QLComponentFactory
 import nl.uva.se.sc.niro.gui.widget.qls.QLSWidgetFactory
 import nl.uva.se.sc.niro.gui.widget.WidgetFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
-import nl.uva.se.sc.niro.model.gui.{ GUIQuestion, QLSGUIQuestion }
+import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
+import nl.uva.se.sc.niro.model.gui.qls.QLSGUIQuestion
 
 import scala.collection.JavaConverters
 

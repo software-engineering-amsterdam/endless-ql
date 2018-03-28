@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.model.qls.gui
 
 import cats.Semigroup
 import cats.instances.all._
-import nl.uva.se.sc.niro.model.gui.{ GUIColor, GUIFontSize, GUIStyling, GUIWidth }
+import nl.uva.se.sc.niro.model.gui.qls.{ GUIColor, GUIFontSize, GUIStyling, GUIWidth }
 import nl.uva.se.sc.niro.model.ql.{ AnswerType, BooleanType, IntegerType, StringType }
 import org.scalatest.WordSpec
 

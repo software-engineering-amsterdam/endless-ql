@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.gui
+package nl.uva.se.sc.niro.model.gui.ql
 
 import nl.uva.se.sc.niro.gui.component.Component
 import nl.uva.se.sc.niro.model.ql.AnswerType

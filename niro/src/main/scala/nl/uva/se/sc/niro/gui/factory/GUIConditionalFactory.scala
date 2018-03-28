@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.gui.factory
 
 import nl.uva.se.sc.niro.gui.converter.GUIModelFactory
-import nl.uva.se.sc.niro.model.gui.GUIQuestion
+import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
 import nl.uva.se.sc.niro.model.ql.Conditional
 import nl.uva.se.sc.niro.model.ql.expressions.{ And, Expression }
 

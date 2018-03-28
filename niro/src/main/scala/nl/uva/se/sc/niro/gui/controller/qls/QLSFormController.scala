@@ -6,7 +6,8 @@ import javafx.scene.control.{ Label, Pagination }
 import nl.uva.se.sc.niro.gui.component.Component
 import nl.uva.se.sc.niro.gui.component.qls.QLSPageFactory
 import nl.uva.se.sc.niro.gui.controller.ql.{ QLFormController, QLHomeController }
-import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIStylesheet }
+import nl.uva.se.sc.niro.model.gui.ql.GUIForm
+import nl.uva.se.sc.niro.model.gui.qls.GUIStylesheet
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.util.StringUtil
 

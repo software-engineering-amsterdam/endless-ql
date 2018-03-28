@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.gui.widget.ql
 import java.time.LocalDate
 
 import nl.uva.se.sc.niro.gui.widget.WidgetFactory
-import nl.uva.se.sc.niro.model.gui.GUIQuestion
+import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
 
 class QLWidgetFactory extends WidgetFactory {
   override def makeBooleanWidget(question: GUIQuestion): QLWidget[Boolean] = new QLBooleanField()

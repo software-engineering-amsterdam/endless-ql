@@ -14,7 +14,7 @@ import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.component.Component
 import nl.uva.se.sc.niro.gui.component.ql.QLComponentFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
-import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
+import nl.uva.se.sc.niro.model.gui.ql.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator

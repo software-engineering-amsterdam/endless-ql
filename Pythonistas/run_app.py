@@ -11,7 +11,7 @@ import sys
 
 from commons.utility import run_antlr_parse_gen
 from commons.config import config
-from grammar.parser import Parser
+from grammar.parser import ParserInterface
 from gui.gui import *
 
 
@@ -46,8 +46,8 @@ def main():
 
     # Debug grammar
     if args.grammar:
-        g_debug = Parser()
-        g_debug.debug_grammar(args.grammar)
+        g_debug = ParserInterface(args.grammar)
+        g_debug.print_structure()
         sys.exit(0)
 
     # Generate antlr parser

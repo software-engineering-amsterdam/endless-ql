@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.typechecking
+package nl.uva.se.sc.niro.typechecking.qls
 
 import nl.uva.se.sc.niro.model.ql.{ BooleanType, IntegerType, MoneyType }
 import nl.uva.se.sc.niro.model.qls._

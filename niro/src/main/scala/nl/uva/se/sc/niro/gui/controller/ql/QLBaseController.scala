@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.gui.controller
+package nl.uva.se.sc.niro.gui.controller.ql
 
 import javafx.event.ActionEvent
 import javafx.fxml.{ FXML, FXMLLoader }

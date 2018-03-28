@@ -1,12 +1,11 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.evaluation.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.IntAnswerCanDoOrderings._
 
-final case class IntegerAnswer(possibleValue: Option[Int]) extends Answer {
+final case class IntegerAnswer(possibleValue: Option[BigInt]) extends Answer {
 
-  type T = Int
+  type T = BigInt
 
   override def plus(right: Answer): Answer = this + right
   override def subtract(right: Answer): Answer = this - right
@@ -23,6 +22,6 @@ final case class IntegerAnswer(possibleValue: Option[Int]) extends Answer {
 
 object IntegerAnswer {
   def apply() = new IntegerAnswer(None)
-  def apply(value: Int) = new IntegerAnswer(Option(value))
-  def apply(value: java.lang.Integer) = new IntegerAnswer(Option(value).map(_.toInt))
+  def apply(value: BigInt) = new IntegerAnswer(Option(value))
+  def apply(value: java.math.BigInteger) = new IntegerAnswer(Option(value))
 }

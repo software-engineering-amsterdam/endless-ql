@@ -1,9 +1,7 @@
-package nl.uva.se.sc.niro.gui.factory.ql
+package nl.uva.se.sc.niro.gui.control.ql
 
 import java.time.LocalDate
 
-import nl.uva.se.sc.niro.gui.control._
-import nl.uva.se.sc.niro.gui.control.ql._
 import nl.uva.se.sc.niro.gui.factory.WidgetFactory
 import nl.uva.se.sc.niro.model.gui.GUIQuestion
 

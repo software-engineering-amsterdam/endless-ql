@@ -2,6 +2,7 @@ package nl.uva.se.sc.niro.gui.factory.ql
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.gui.control._
+import nl.uva.se.sc.niro.gui.control.ql.QLWidgetFactory
 import nl.uva.se.sc.niro.gui.factory.{ ComponentFactory, WidgetFactory }
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.model.gui.GUIQuestion

@@ -3,15 +3,15 @@ grammar QLS;
 // Parser
 stylesheet : STYLESHEET ID page+ EOF;
 page       : PAGE ID BRAL section+ (default)? BRAR;
-section    : SECTION STRING ((question+ | question+ section) (default)? |
-                        BRAL (question+ | question+ section) (default)? BRAR);
-question   : QUESTION ID (widget)?;
+section    : SECTION STRING ((question+ | question+ section question*) (default)? |
+                        BRAL (question+ | question+ section question*) (default)? BRAR);
+question   : QUESTION ID (attributes)?;
 
-widget     : WIDGET (checkbox | radio | spinbox);
-default    : DEFAULT type ((BRAL attributes BRAR) | widget);
+default    : DEFAULT type (attributes | (BRAL attributes BRAR));
+attributes : (width | font | fontsize | color | widget)+;
 type       : (BOOLEAN | MONEY | ID);
-attributes : width font fontsize color widget;
 
+widget   : WIDGET (checkbox | radio | spinbox);
 width    : 'width' COL INT;
 font     : 'font' COL STRING;
 fontsize : 'fontsize' COL INT;

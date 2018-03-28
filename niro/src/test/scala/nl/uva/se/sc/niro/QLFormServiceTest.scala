@@ -23,7 +23,7 @@ class QLFormServiceTest extends WordSpec {
       QLFormService.saveMemoryTableToCSV(memoryTable, file)
 
       val actualFile = Source.fromFile(file).getLines().mkString
-      val expectedFile = Source.fromResource("savedfile/expected.csv").getLines().mkString
+      val expectedFile = Source.fromResource("save-file/expected.csv").getLines().mkString
 
       assert(expectedFile == actualFile)
     }

@@ -57,14 +57,31 @@ public class QuestionPanel extends JPanel{
                 default: break;
             }
         } else {
-            switch (widget.getType()){
-                case BOOL: this.question.updateTerm(new TermFactory().getTerm((boolean)this.widget.getValue()));break;
-                case STRING: this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));break;
-                case MONEY: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
-                case INT: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
-                case DECIMAL: this.question.updateTerm(new TermFactory().getTerm((float)this.widget.getValue()));break;
-                case DATE: this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));break; //TODO do something with date
-                default: break;
+            try {
+                switch (widget.getType()) {
+                    case BOOL:
+                        this.question.updateTerm(new TermFactory().getTerm((boolean) this.widget.getValue()));
+                        break;
+                    case STRING:
+                        this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));
+                        break;
+                    case MONEY:
+                        this.question.updateTerm(new TermFactory().getTerm((float) this.widget.getValue()));
+                        break;
+                    case INT:
+                        this.question.updateTerm(new TermFactory().getTerm((float) this.widget.getValue()));
+                        break;
+                    case DECIMAL:
+                        this.question.updateTerm(new TermFactory().getTerm((float) this.widget.getValue()));
+                        break;
+                    case DATE:
+                        this.question.updateTerm(new TermFactory().getTerm(this.widget.getValue()));
+                        break; //TODO do something with date
+                    default:
+                        break;
+                }
+            } catch (Exception e){
+                return;
             }
         }
 
@@ -78,7 +95,7 @@ public class QuestionPanel extends JPanel{
     public String getResult() throws SyntaxException, TypeException {
         String result = "\"" + question.getName() + "\"" + ":\"";
         if(question.isAvailable())
-            result += widget.getValue() + "\"";
+            result += (widget.getValue() == null ? "undefined" : widget.getValue()) + "\"";
         else
             result += "undefined" + "\"";
         return result;

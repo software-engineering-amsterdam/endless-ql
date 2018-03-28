@@ -27,22 +27,7 @@ public class Widget {
                 default: return  null;
             }
         } catch (Exception e){
-            switch (this.type) {
-                case BOOL:
-                    return (T) new Boolean(false);
-                case STRING:
-                    return (T) "";
-                case MONEY:
-                    return (T) new Float(0.0);
-                case INT:
-                    return (T) new Float(0.0);
-                case DECIMAL:
-                    return (T) new Float(0.0);
-                case DATE:
-                    return (T) "";
-                default:
-                    return null;
-            }
+            return null;
         }
 
     }

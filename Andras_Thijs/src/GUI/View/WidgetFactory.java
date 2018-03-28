@@ -50,15 +50,15 @@ class WidgetFactory {
         NumberFormatter formatter = new NumberFormatter(format);
         formatter.setValueClass(Integer.class);
         formatter.setMaximum(Integer.MAX_VALUE);
-        formatter.setAllowsInvalid(false);
+        formatter.setAllowsInvalid(true);
         return formatter;
     }
 
     private DateFormatter dateField(){
-        DateFormat format = new SimpleDateFormat("yyyy--MMMM--dd");
+        DateFormat format = new SimpleDateFormat("yyyy--MM--dd");
         DateFormatter formatter = new DateFormatter(format);
         formatter.setValueClass(Date.class);
-        formatter.setAllowsInvalid(false);
+        formatter.setAllowsInvalid(true);
         return formatter;
     }
 
@@ -68,7 +68,7 @@ class WidgetFactory {
         NumberFormatter formatter = new NumberFormatter(format);
         formatter.setValueClass(Double.class);
         formatter.setMaximum(Double.MAX_VALUE);
-        formatter.setAllowsInvalid(false);
+        formatter.setAllowsInvalid(true);
         return formatter;
     }
 

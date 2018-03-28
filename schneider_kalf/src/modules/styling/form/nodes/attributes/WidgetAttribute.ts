@@ -30,5 +30,7 @@ export default abstract class WidgetAttribute extends AbstractStyleNode implemen
     return "";
   }
 
+  abstract validate();
+
   abstract getRenderComponent();
 }

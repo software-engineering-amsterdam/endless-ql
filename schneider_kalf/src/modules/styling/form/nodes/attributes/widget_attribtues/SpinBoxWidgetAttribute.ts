@@ -3,6 +3,10 @@ import { SpinboxWidgetComponent } from "../../../../rendering/components/widgets
 
 // spinbox (for numbers)
 export default class SpinBoxWidgetAttribute extends WidgetAttribute {
+  validate() {
+    return;
+  }
+
   getRenderComponent() {
     return SpinboxWidgetComponent;
   }

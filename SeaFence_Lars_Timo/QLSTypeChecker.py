@@ -36,7 +36,7 @@ class QLSTypeChecker(object):
     def checkWidgetQuestionCompatibility(self, ql_variables, qls_variables):
     	for key, value in ql_variables.iteritems():
             if qls_variables[key] != None:
-                if value == "boolean" and (qls_variables[key].widget == 'radio("Yes", "No")' or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == 'dropdown("Yes", "No")'):
+                if value == "boolean" and (qls_variables[key].widget == "radio" or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == "dropdown"):
                     pass
 
                 elif value == "int" and (qls_variables[key].widget == "slider" or qls_variables[key].widget == "spinbox" or qls_variables[key].widget == "text"):

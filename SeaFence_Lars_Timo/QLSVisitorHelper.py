@@ -99,8 +99,14 @@ class QLSVisitorHelper(QLSVisitor):
 
     # Visit a parse tree produced by QLSParser#widget.
     def visitWidget(self, ctx):
-        widget = ctx.widget_type().getText()
+        widget = ctx.widget_type().getText().split('(')[0]
+
         widget_node = WidgetNode(widget)
+
+        if widget == "slider" or widget == "spinbox":
+            widget_node.min_value = ctx.widget_type().NUMBER()[0]
+            widget_node.max_value = ctx.widget_type().NUMBER()[1]
+
         return widget_node
 
 

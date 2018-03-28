@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -24,7 +25,7 @@ namespace QlsTransformer.Ast.Nodes
         public string StyleSheetName { get; }
     }
 
-    public interface IStyleSheetRootNode : IDomainItem
+    public interface IStyleSheetRootNode : IAstNode
     {
         string StyleSheetName { get; }
     }

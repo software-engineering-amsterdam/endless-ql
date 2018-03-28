@@ -23,7 +23,7 @@ public class SliderMoneyWidget extends SliderWidget {
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableMoney(null, String.valueOf(this.slider.getValue()));
+        return new ExpressionVariableMoney(String.valueOf(this.slider.getValue()));
     }
 
     @Override

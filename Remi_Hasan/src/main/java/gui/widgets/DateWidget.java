@@ -21,10 +21,10 @@ public class DateWidget extends DatePicker implements GUIWidget {
     @Override
     public Expression getExpressionValue() {
         if(this.getValue() == null) {
-            return new ExpressionVariableUndefined(null, ReturnType.DATE);
+            return new ExpressionVariableUndefined(ReturnType.DATE);
         }
 
-        return new ExpressionVariableDate(null, this.getValue());
+        return new ExpressionVariableDate(this.getValue());
     }
 
     @Override

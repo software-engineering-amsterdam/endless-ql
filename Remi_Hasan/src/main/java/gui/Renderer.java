@@ -3,6 +3,8 @@ package gui;
 import gui.builder.GUIFormBuilder;
 import gui.model.GUIForm;
 import gui.model.GUIFormWithStyling;
+import gui.model.GUIPage;
+import gui.model.GUISection;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;

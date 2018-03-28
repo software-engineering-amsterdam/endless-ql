@@ -7,6 +7,10 @@ import org.antlr.v4.runtime.Token;
 
 public class ExpressionVariableUndefined extends ExpressionVariable<ReturnType> {
 
+    public ExpressionVariableUndefined(ReturnType value) {
+        super(value);
+    }
+
     public ExpressionVariableUndefined(Token start, ReturnType value) {
         super(start, value);
     }

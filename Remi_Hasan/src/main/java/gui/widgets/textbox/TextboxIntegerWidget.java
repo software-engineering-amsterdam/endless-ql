@@ -16,10 +16,10 @@ public class TextboxIntegerWidget extends TextboxWidget {
     @Override
     public Expression getExpressionValue() {
         if (this.getText().isEmpty()) {
-            return new ExpressionVariableUndefined(null, ReturnType.INTEGER);
+            return new ExpressionVariableUndefined(ReturnType.INTEGER);
         }
 
-        return new ExpressionVariableInteger(null, Integer.parseInt(this.getText()));
+        return new ExpressionVariableInteger(Integer.parseInt(this.getText()));
     }
 
     @Override

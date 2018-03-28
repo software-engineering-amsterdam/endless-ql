@@ -20,7 +20,7 @@ public class SpinnerDecimalWidget extends SpinnerWidget<Double> {
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableDecimal(null, this.getValue());
+        return new ExpressionVariableDecimal(this.getValue());
     }
 
     @Override

@@ -92,7 +92,7 @@ public class GUIForm extends VBox {
                 // If question becomes invisible, set value in symbol table to undefined
                 // but only if another question with the same identifier that is visible
                 // did not update the symbol table already, which we keep track of using visibleQuestions
-                symbolTable.setExpression(guiQuestion.getIdentifier(), new ExpressionVariableUndefined(null, guiQuestion.getType()));
+                symbolTable.setExpression(guiQuestion.getIdentifier(), new ExpressionVariableUndefined(guiQuestion.getType()));
             }
         }
     }

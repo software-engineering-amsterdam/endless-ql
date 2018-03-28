@@ -14,7 +14,7 @@ public class TextboxWidget extends TextField implements GUIWidget {
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableString(null, this.getText());
+        return new ExpressionVariableString(this.getText());
     }
 
     @Override

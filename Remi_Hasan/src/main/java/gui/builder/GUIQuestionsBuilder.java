@@ -19,7 +19,7 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
 
     GUIQuestionsBuilder() {
         // No previous condition, questions in this block get a simple TRUE condition
-        this.condition = new ExpressionVariableBoolean(null, true);
+        this.condition = new ExpressionVariableBoolean(true);
     }
 
     private GUIQuestionsBuilder(Expression condition) {
@@ -37,7 +37,7 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
         List<GUIQuestion> guiQuestions = new ArrayList<>();
 
         // If blocks can be nested, so chain conditions
-        Expression ifCondition = new ExpressionLogicalAnd(null, this.condition, ifBlock.getCondition());
+        Expression ifCondition = new ExpressionLogicalAnd(this.condition, ifBlock.getCondition());
 
         // Collect all questions inside this if block and give them the condition
         GUIQuestionsBuilder trueStatementVisitor = new GUIQuestionsBuilder(ifCondition);
@@ -55,8 +55,8 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
         List<GUIQuestion> guiQuestions = this.visit((IfBlock) ifElseBlock);
 
         // Else block, so negate invert condition
-        Expression elseCondition = new ExpressionLogicalAnd(null, this.condition,
-                new ExpressionUnaryNot(null, ifElseBlock.getCondition()));
+        Expression elseCondition = new ExpressionLogicalAnd(this.condition,
+                new ExpressionUnaryNot(ifElseBlock.getCondition()));
 
         // Collect all questions inside this e;se block and give them the condition
         GUIQuestionsBuilder falseStatementVisitor = new GUIQuestionsBuilder(elseCondition);

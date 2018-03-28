@@ -8,6 +8,10 @@ import java.time.LocalDate;
 
 public class ExpressionVariableDate extends ExpressionVariable<LocalDate> {
 
+    public ExpressionVariableDate(LocalDate value) {
+        super(value);
+    }
+
     public ExpressionVariableDate(Token start, LocalDate value) {
         super(start, value);
     }

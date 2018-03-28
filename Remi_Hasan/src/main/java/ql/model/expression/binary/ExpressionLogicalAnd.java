@@ -7,6 +7,11 @@ import org.antlr.v4.runtime.Token;
 
 public class ExpressionLogicalAnd extends ExpressionBinary {
 
+    public ExpressionLogicalAnd(Expression left, Expression right) {
+        // TODO: remove token from constructor and use setter instead?
+        super(null, left, right);
+    }
+
     public ExpressionLogicalAnd(Token start, Expression left, Expression right) {
         super(start, left, right);
     }

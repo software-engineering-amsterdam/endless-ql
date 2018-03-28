@@ -16,10 +16,10 @@ public class TextboxDecimalWidget extends TextboxWidget {
     @Override
     public Expression getExpressionValue() {
         if (this.getText().isEmpty()) {
-            return new ExpressionVariableUndefined(null, ReturnType.INTEGER);
+            return new ExpressionVariableUndefined(ReturnType.INTEGER);
         }
 
-        return new ExpressionVariableDecimal(null, Double.parseDouble(this.getText()));
+        return new ExpressionVariableDecimal(Double.parseDouble(this.getText()));
     }
 
     @Override

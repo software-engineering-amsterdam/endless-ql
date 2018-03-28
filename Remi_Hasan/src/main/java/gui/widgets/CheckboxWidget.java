@@ -16,7 +16,7 @@ public class CheckboxWidget extends CheckBox implements GUIWidget {
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableBoolean(null, this.isSelected());
+        return new ExpressionVariableBoolean(this.isSelected());
     }
 
     @Override

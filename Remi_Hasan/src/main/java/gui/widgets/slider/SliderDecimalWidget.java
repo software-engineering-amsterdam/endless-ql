@@ -14,7 +14,7 @@ public class SliderDecimalWidget extends SliderWidget {
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableDecimal(null, this.slider.getValue());
+        return new ExpressionVariableDecimal(this.slider.getValue());
     }
 
     @Override

@@ -15,6 +15,10 @@ public abstract class QLNode {
     }
 
     public String getLocation() {
+        if (token == null) {
+            return "";
+        }
+
         return "(" + token.getLine() + ":" + token.getCharPositionInLine() + ")";
     }
 

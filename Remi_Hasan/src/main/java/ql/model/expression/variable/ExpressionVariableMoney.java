@@ -8,6 +8,10 @@ import java.math.BigDecimal;
 
 public class ExpressionVariableMoney extends ExpressionVariable<BigDecimal> {
 
+    public ExpressionVariableMoney(String value) {
+        super(new BigDecimal(value));
+    }
+
     public ExpressionVariableMoney(Token start, String value) {
         super(start, new BigDecimal(value));
     }

@@ -22,7 +22,7 @@ public class SliderIntegerWidget extends SliderWidget {
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableInteger(null, (int) this.slider.getValue());
+        return new ExpressionVariableInteger((int) this.slider.getValue());
     }
 
     @Override

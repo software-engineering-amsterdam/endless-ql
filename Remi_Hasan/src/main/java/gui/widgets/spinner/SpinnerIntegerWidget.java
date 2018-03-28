@@ -19,7 +19,7 @@ public class SpinnerIntegerWidget extends SpinnerWidget<Integer> {
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableInteger(null, this.getValue());
+        return new ExpressionVariableInteger(this.getValue());
     }
 
     @Override

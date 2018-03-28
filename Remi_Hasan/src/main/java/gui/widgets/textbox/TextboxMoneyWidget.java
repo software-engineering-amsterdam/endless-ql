@@ -17,10 +17,10 @@ public class TextboxMoneyWidget extends TextboxWidget implements GUIWidget {
     @Override
     public Expression getExpressionValue() {
         if (this.getText().isEmpty()) {
-            return new ExpressionVariableUndefined(null, ReturnType.MONEY);
+            return new ExpressionVariableUndefined(ReturnType.MONEY);
         }
 
-        return new ExpressionVariableMoney(null, this.getText());
+        return new ExpressionVariableMoney(this.getText());
     }
 
     @Override

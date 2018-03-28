@@ -14,7 +14,7 @@ public class SpinnerMoneyWidget extends SpinnerDecimalWidget {
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableMoney(null, this.getValue().toString());
+        return new ExpressionVariableMoney(this.getValue().toString());
     }
 
     @Override

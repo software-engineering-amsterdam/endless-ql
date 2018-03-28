@@ -37,7 +37,7 @@ public class RadioWidget extends HBox implements GUIWidget {
 
     @Override
     public Expression getExpressionValue() {
-        return new ExpressionVariableBoolean(null, trueButton.isSelected());
+        return new ExpressionVariableBoolean(trueButton.isSelected());
     }
 
     @Override

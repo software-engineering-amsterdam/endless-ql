@@ -41,7 +41,7 @@ public class DropdownWidget extends ComboBox<String> implements GUIWidget {
     public Expression getExpressionValue() {
         // Item at index 1 is always the true option, so check if that one is selected
         boolean isTrue = this.getSelectionModel().getSelectedIndex() == 1;
-        return new ExpressionVariableBoolean(null, isTrue);
+        return new ExpressionVariableBoolean(isTrue);
     }
 
     @Override

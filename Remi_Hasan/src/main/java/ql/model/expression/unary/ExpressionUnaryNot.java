@@ -7,6 +7,10 @@ import org.antlr.v4.runtime.Token;
 
 public class ExpressionUnaryNot extends ExpressionUnary {
 
+    public ExpressionUnaryNot(Expression expression) {
+        super(null, expression);
+    }
+
     public ExpressionUnaryNot(Token start, Expression expression) {
         super(start, expression);
     }

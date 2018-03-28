@@ -6,6 +6,6 @@ import scala.language.implicitConversions
 
 object Conversions {
   implicit class IntAnswerToDecAnswer(integerAnswer: IntegerAnswer) {
-    def toDecimal = DecimalAnswer(integerAnswer.possibleValue.map(BigDecimal(_)))
+    def toDecimal = DecimalAnswer(BigDecimal(integerAnswer.value))
   }
 }

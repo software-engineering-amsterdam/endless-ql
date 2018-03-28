@@ -6,7 +6,7 @@ abstract class Answer extends Expression {
 
   type T
 
-  val possibleValue: Option[T]
+  val value: T
 
   def isTrue: Boolean = false
 
@@ -29,9 +29,4 @@ abstract class Answer extends Expression {
   def or(right: Answer): Answer = throw new UnsupportedOperationException(s"Operation not supported on $this")
   def negate: Answer = throw new UnsupportedOperationException(s"Operation not supported on $this")
 
-  def combine[R](that: Answer)(f: (T, that.T) => R): Option[R] =
-    for {
-      thisValue <- possibleValue
-      thatValue <- that.possibleValue
-    } yield f(thisValue, thatValue)
 }

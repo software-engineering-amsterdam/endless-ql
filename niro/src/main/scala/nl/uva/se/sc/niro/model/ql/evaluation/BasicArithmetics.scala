@@ -4,52 +4,50 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, I
 
 import scala.language.implicitConversions
 
-// format: off
 object BasicArithmetics {
   trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntegerAnswer] {
     def plus(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.combine(i)(_ + _))
-      case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
+      case i: IntegerAnswer => IntegerAnswer(x.value + i.value)
+      case _                => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
     }
     def minus(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.combine(i)(_ - _))
-      case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
+      case i: IntegerAnswer => IntegerAnswer(x.value - i.value)
+      case _                => throw new IllegalArgumentException(s"Can't perform operation $x - $y")
     }
     def times(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.combine(i)(_ * _))
-      case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
+      case i: IntegerAnswer => IntegerAnswer(x.value * i.value)
+      case _                => throw new IllegalArgumentException(s"Can't perform operation $x * $y")
     }
     def div(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.combine(i)(_ / _))
-      case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
+      case i: IntegerAnswer => IntegerAnswer(x.value / i.value)
+      case _                => throw new IllegalArgumentException(s"Can't perform operation $x / $y")
     }
-    def negate(x: IntegerAnswer): Answer = IntegerAnswer(x.possibleValue.map(-_))
+    def negate(x: IntegerAnswer): Answer = IntegerAnswer(-x.value)
   }
   implicit object IntAnswerCanDoBasicArithmetics extends IntAnswerCanDoBasicArithmetics
 
   trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecimalAnswer] {
     def plus(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ + _))
-      case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
+      case d: DecimalAnswer => DecimalAnswer(x.value + d.value)
+      case _                => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
     }
     def minus(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ - _))
-      case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
+      case d: DecimalAnswer => DecimalAnswer(x.value - d.value)
+      case _                => throw new IllegalArgumentException(s"Can't perform operation $x - $y")
     }
     def times(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ * _))
-      case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
+      case d: DecimalAnswer => DecimalAnswer(x.value * d.value)
+      case _                => throw new IllegalArgumentException(s"Can't perform operation $x * $y")
     }
     def div(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.combine(d)(_ / _))
-      case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
+      case d: DecimalAnswer => DecimalAnswer(x.value / d.value)
+      case _                => throw new IllegalArgumentException(s"Can't perform operation $x / $y")
     }
-    def negate(x: DecimalAnswer): Answer = DecimalAnswer(x.possibleValue.map(-_))
+    def negate(x: DecimalAnswer): Answer = DecimalAnswer(-x.value)
   }
 
   implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics
 }
-// format: on
 
 trait BasicArithmetics[SubType <: Answer] {
   def plus(x: SubType, y: Answer): Answer

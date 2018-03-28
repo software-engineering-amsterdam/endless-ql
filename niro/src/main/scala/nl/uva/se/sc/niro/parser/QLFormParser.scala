@@ -2,7 +2,6 @@ package nl.uva.se.sc.niro.parser
 
 import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
 import nl.uva.se.sc.niro.errors.Errors._
-import nl.uva.se.sc.niro.model.ql.Operators.{ Neg, Operator }
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
@@ -66,9 +65,9 @@ object QLFormParser extends Logging {
       Seq(Question(questionId, questionLabel, answerType, expression))
     }
 
-    def answerTypeConversion(expression: Expression, answerType: AnswerType) = {
+    def answerTypeConversion(expression: Expression, answerType: AnswerType): Expression = {
       (expression, answerType) match {
-        case (IntegerAnswer(value), MoneyType) => MoneyAnswer(value.map(BigDecimal(_)))
+        case (IntegerAnswer(value), MoneyType) => MoneyAnswer(BigDecimal(value))
         case (DecimalAnswer(value), MoneyType) => MoneyAnswer(value)
         case _                                 => expression
       }

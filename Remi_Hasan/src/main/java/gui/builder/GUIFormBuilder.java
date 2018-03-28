@@ -5,7 +5,7 @@ import gui.model.GUIFormWithStyling;
 import gui.model.GUIPage;
 import gui.model.GUIQuestion;
 import ql.model.Form;
-import ql.model.Statement;
+import ql.model.statement.Statement;
 import qls.model.Page;
 import qls.model.StyleSheet;
 

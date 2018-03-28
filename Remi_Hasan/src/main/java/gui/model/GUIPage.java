@@ -1,13 +1,9 @@
 package gui.model;
 
 import javafx.beans.InvalidationListener;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ql.evaluation.SymbolTable;
-import qls.model.DefaultStyle;
-import qls.model.Section;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GUIPage {

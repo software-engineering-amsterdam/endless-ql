@@ -2,7 +2,7 @@ package ql.visitor;
 
 import ql.antlr.QLBaseVisitor;
 import ql.antlr.QLParser;
-import ql.model.Question;
+import ql.model.statement.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 

@@ -1,7 +1,7 @@
 package qls.visitor;
 
 import ql.model.expression.ReturnType;
-import qls.model.DefaultStyle;
+import qls.model.statement.DefaultStyle;
 import qls.model.style.StyleAttribute;
 import qls.model.widget.Widget;
 import qls.antlr.QLSBaseVisitor;

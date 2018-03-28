@@ -2,12 +2,10 @@ package gui.model;
 
 import gui.elements.LabelWithWidget;
 import gui.widgets.GUIWidget;
-import gui.widgets.RadioWidget;
 import gui.widgets.WidgetFactory;
 import javafx.beans.InvalidationListener;
 import ql.evaluation.SymbolTable;
-import ql.model.expression.ReturnType;
-import qls.model.DefaultStyle;
+import qls.model.statement.DefaultStyle;
 import qls.model.style.StyleAttribute;
 
 import java.util.List;

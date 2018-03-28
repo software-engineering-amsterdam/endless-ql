@@ -6,6 +6,7 @@ import qls.IQLSVisitor;
 import java.util.List;
 
 public class StyleSheet extends QLSNode {
+
     private final String identifier;
     private final List<Page> pages;
 

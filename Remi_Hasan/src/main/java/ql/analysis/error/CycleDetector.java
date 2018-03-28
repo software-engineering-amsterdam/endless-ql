@@ -4,12 +4,11 @@ import ql.QLBaseVisitor;
 import ql.analysis.IdentifiersCollector;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
-import ql.model.Question;
+import ql.model.statement.Question;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
-import java.util.List;
 import java.util.Set;
 
 public class CycleDetector implements IQLErrorAnalysis {

@@ -7,6 +7,10 @@ import ql.model.expression.binary.*;
 import ql.model.expression.unary.ExpressionUnaryNeg;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.*;
+import ql.model.statement.IfBlock;
+import ql.model.statement.IfElseBlock;
+import ql.model.statement.Question;
+import ql.model.statement.Statement;
 
 public interface IQLVisitor<T> {
     T visit(Form form);

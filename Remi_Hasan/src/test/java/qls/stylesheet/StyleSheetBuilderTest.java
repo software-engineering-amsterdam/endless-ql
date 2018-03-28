@@ -1,14 +1,9 @@
 package qls.stylesheet;
 
 import org.junit.Test;
-import ql.model.expression.ReturnType;
 import qls.QLSTestUtilities;
 import qls.model.Page;
-import qls.model.Section;
 import qls.model.StyleSheet;
-import qls.model.style.StyleAttributeWidth;
-import qls.model.widget.WidgetRadio;
-import qls.model.widget.WidgetType;
 
 import static junit.framework.TestCase.assertEquals;
 

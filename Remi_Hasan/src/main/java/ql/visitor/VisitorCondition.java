@@ -2,9 +2,9 @@ package ql.visitor;
 
 import ql.antlr.QLBaseVisitor;
 import ql.antlr.QLParser;
-import ql.model.IfBlock;
-import ql.model.IfElseBlock;
-import ql.model.Statement;
+import ql.model.statement.IfBlock;
+import ql.model.statement.IfElseBlock;
+import ql.model.statement.Statement;
 import ql.model.expression.Expression;
 
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package ql.analysis.warning;
 import ql.QLBaseVisitor;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
-import ql.model.Question;
+import ql.model.statement.Question;
 
 import java.util.HashMap;
 import java.util.HashSet;

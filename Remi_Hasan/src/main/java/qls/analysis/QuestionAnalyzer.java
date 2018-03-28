@@ -3,7 +3,7 @@ package qls.analysis;
 import ql.analysis.IdentifiersCollector;
 import ql.model.Form;
 import qls.QLSVisitor;
-import qls.model.QuestionReference;
+import qls.model.statement.QuestionReference;
 import qls.model.StyleSheet;
 
 import java.util.ArrayList;

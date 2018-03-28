@@ -9,6 +9,10 @@ import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import qls.IQLSVisitor;
 import qls.model.*;
+import qls.model.statement.DefaultStyle;
+import qls.model.statement.QuestionReference;
+import qls.model.statement.Section;
+import qls.model.statement.Statement;
 import qls.model.style.*;
 import qls.model.widget.*;
 

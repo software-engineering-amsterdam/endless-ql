@@ -2,10 +2,10 @@ package gui.builder;
 
 import gui.model.GUIQuestion;
 import ql.QLBaseVisitor;
-import ql.model.IfBlock;
-import ql.model.IfElseBlock;
-import ql.model.Question;
-import ql.model.Statement;
+import ql.model.statement.IfBlock;
+import ql.model.statement.IfElseBlock;
+import ql.model.statement.Question;
+import ql.model.statement.Statement;
 import ql.model.expression.Expression;
 import ql.model.expression.binary.ExpressionLogicalAnd;
 import ql.model.expression.unary.ExpressionUnaryNot;

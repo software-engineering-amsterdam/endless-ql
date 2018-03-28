@@ -2,13 +2,11 @@ package ql.analysis;
 
 import ql.QLBaseVisitor;
 import ql.model.Form;
-import ql.model.Question;
+import ql.model.statement.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionIdentifier;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class IdentifiersCollector {

@@ -6,7 +6,7 @@ import ql.QLFormBuilder;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.Form;
-import ql.model.Question;
+import ql.model.statement.Question;
 import ql.model.expression.ReturnType;
 
 import java.util.ArrayList;

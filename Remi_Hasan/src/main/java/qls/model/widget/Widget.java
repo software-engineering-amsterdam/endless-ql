@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 import qls.model.QLSNode;
 
 public abstract class Widget extends QLSNode {
-
+// TODO: not abstract, remove subclasses, just use enum
     private final WidgetType type;
 
     Widget(Token start, WidgetType type) {

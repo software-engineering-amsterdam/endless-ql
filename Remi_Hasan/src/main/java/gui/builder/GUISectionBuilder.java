@@ -4,9 +4,9 @@ import gui.model.GUIQuestion;
 import gui.model.GUISection;
 import gui.model.GUISectionElement;
 import qls.QLSVisitor;
-import qls.model.DefaultStyle;
-import qls.model.Section;
-import qls.model.Statement;
+import qls.model.statement.DefaultStyle;
+import qls.model.statement.Section;
+import qls.model.statement.Statement;
 
 import java.util.ArrayList;
 import java.util.List;

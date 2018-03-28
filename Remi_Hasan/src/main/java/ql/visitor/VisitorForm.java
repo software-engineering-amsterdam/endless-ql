@@ -3,8 +3,7 @@ package ql.visitor;
 import ql.antlr.QLBaseVisitor;
 import ql.antlr.QLParser;
 import ql.model.Form;
-import ql.model.Question;
-import ql.model.Statement;
+import ql.model.statement.Statement;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,9 +3,10 @@ package qls.analysis;
 import ql.QLBaseVisitor;
 import ql.model.Form;
 import ql.model.expression.ReturnType;
+import ql.model.statement.Question;
 import qls.QLSVisitor;
-import qls.model.DefaultStyle;
-import qls.model.QuestionReference;
+import qls.model.statement.DefaultStyle;
+import qls.model.statement.QuestionReference;
 import qls.model.StyleSheet;
 import qls.model.widget.WidgetType;
 
@@ -65,7 +66,7 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
         // Visit questions and add their return type to the map
         form.accept(new QLBaseVisitor<Void>() {
             @Override
-            public Void visit(ql.model.Question question) {
+            public Void visit(Question question) {
                 questionTypes.put(question.getIdentifier(), question.getType());
                 return super.visit(question);
             }

@@ -2,7 +2,7 @@ package ql.visitor;
 
 import ql.antlr.QLBaseVisitor;
 import ql.antlr.QLParser;
-import ql.model.Statement;
+import ql.model.statement.Statement;
 
 public class VisitorStatement extends QLBaseVisitor<Statement> {
 

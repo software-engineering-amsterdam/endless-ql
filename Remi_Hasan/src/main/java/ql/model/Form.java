@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.antlr.v4.runtime.Token;
 import ql.IQLVisitor;
+import ql.model.statement.Statement;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package qls.visitor;
 
-import qls.model.QuestionReference;
+import qls.model.statement.QuestionReference;
 import qls.model.widget.Widget;
 import qls.antlr.QLSBaseVisitor;
 import qls.antlr.QLSParser;

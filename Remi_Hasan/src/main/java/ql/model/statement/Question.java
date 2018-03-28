@@ -1,4 +1,4 @@
-package ql.model;
+package ql.model.statement;
 
 import org.antlr.v4.runtime.Token;
 import ql.IQLVisitor;

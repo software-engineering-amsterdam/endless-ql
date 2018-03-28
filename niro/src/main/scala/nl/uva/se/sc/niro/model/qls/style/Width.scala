@@ -1,3 +1,3 @@
 package nl.uva.se.sc.niro.model.qls.style
 
-abstract class Style
+case class Width(width: Int) extends Style

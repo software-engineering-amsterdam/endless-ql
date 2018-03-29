@@ -72,9 +72,9 @@ public class QLSVisitor extends QLSBaseVisitor{
 
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
-        LinkedList<QuestionReference> questions = ctx.question()
+        LinkedList<QuestionReference> questions = ctx.expression()
                 .stream()
-                .map(this::visitQuestion)
+                .map(this::visitExpression)
                 .collect(Collectors.toCollection(LinkedList::new));
 
         return Section.builder()
@@ -84,7 +84,7 @@ public class QLSVisitor extends QLSBaseVisitor{
     }
 
     @Override
-    public QuestionReference visitQuestion(QLSParser.QuestionContext ctx) {
+    public QuestionReference visitExpression(QLSParser.ExpressionContext ctx) {
         return QuestionReference.builder()
                 .name(ctx.NAME().getText())
                 .widgetType((WidgetType) getOptional(ctx.widgetType()))

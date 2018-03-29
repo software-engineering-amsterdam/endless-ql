@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 import java.util.HashSet;
@@ -10,10 +11,11 @@ public class LineElement extends FormElement {
     private Label label;
     private Question question;
     private TypeExpression typeExpression;
+    private Boolean visible;
 
-    public LineElement(Label label, Question question, TypeExpression typeExpression, Integer
-            lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public LineElement(Label label, Question question, TypeExpression typeExpression,
+                       SourceFilePosition filePosition) {
+        super(filePosition);
 
         this.label = label;
         this.question = question;
@@ -32,16 +34,23 @@ public class LineElement extends FormElement {
         return question;
     }
 
+    public LineElement setVisible(Boolean visible) {
+
+        this.visible = visible;
+
+        return this;
+    }
+
+    public Boolean isVisible() {
+        return this.visible;
+    }
+
     public void setQuestion(Question question) {
         this.question = question;
     }
 
     public TypeExpression getTypeExpression() {
         return typeExpression;
-    }
-
-    public void setTypeExpression(TypeExpression typeExpression) {
-        this.typeExpression = typeExpression;
     }
 
     @Override

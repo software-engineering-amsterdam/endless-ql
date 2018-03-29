@@ -1,5 +1,5 @@
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
-import ComputedField from "../nodes/fields/ComputedField";
+import ComputedField from "../nodes/fields/ComputedFieldNode";
 import QuestionNode from "../nodes/fields/QuestionNode";
 import IfCondition from "../nodes/conditions/IfCondition";
 import FormNode from "../nodes/FormNode";
@@ -12,8 +12,10 @@ import { getVariableInformation, VariableInformation } from "../VariableIntforma
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
 export interface VariableScopeResult {
-  variables: Map<string, VariableInformation>;
+  variables: VariablesMap;
 }
+
+export type VariablesMap = Map<string, VariableInformation>;
 
 export class VariableScopeVisitor implements FieldVisitor {
   private _stack: VariableScopeStack;
@@ -50,11 +52,16 @@ export class VariableScopeVisitor implements FieldVisitor {
     this._stack.moveUp();
   }
 
-  run(form: FormNode): VariableScopeResult {
-    this.visitForm(form);
+  public getDeclaredVariables(): VariablesMap {
+    return this._stack.getDeclaredVariables();
+  }
+
+  static run(form: FormNode): VariableScopeResult {
+    const visitor = new VariableScopeVisitor();
+    visitor.visitForm(form);
 
     return {
-      variables: this._stack.getDeclaredVariables()
+      variables: visitor.getDeclaredVariables()
     };
   }
 

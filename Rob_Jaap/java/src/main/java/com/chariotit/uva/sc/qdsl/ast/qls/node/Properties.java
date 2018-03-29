@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.qls.node;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.qls.visitor.NodeVisitor;
 
 import java.util.ArrayList;
@@ -9,13 +10,13 @@ public class Properties extends AstNode {
 
     List<Property> properties = new ArrayList<>();
 
-    public Properties(List<Property> properties, Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public Properties(List<Property> properties, SourceFilePosition filePosition) {
+        super(filePosition);
         this.properties = properties;
     }
 
-    public Properties(Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public Properties(SourceFilePosition filePosition) {
+        super(filePosition);
     }
 
     public List<Property> getProperties() {

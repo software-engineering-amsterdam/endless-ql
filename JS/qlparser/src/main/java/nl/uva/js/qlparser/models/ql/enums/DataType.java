@@ -15,14 +15,15 @@ import java.util.function.Function;
 
 @RequiredArgsConstructor
 public enum DataType {
-    DATE(LocalDate::parse, ComponentBuilder::buildDateField),
-//    To be improved at a later stage, but needed for type checking
-    MONEY(CalculatableMoney::new, ComponentBuilder::buildMoneyField),
-    STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), ComponentBuilder::buildTextField),
-    DECIMAL(CalculatableDouble::new, ComponentBuilder::buildTextField),
-    BOOLEAN(Boolean::parseBoolean, ComponentBuilder::buildCheckBox),
-    INTEGER(CalculatableInteger::new, ComponentBuilder::buildTextField);
+    DATE(LocalDate::parse, "2000-01-01", ComponentBuilder::buildDateField),
+    MONEY(CalculatableMoney::new, "EUR 0", ComponentBuilder::buildMoneyField),
+//    Remove the starting and trailing quotes, doing it here enables the visitor to handle all values
+    STRING(value -> String.valueOf(value).replaceAll("^\"|\"$", ""), "", ComponentBuilder::buildTextField),
+    DECIMAL(CalculatableDouble::new, "0.0", ComponentBuilder::buildTextField),
+    BOOLEAN(Boolean::parseBoolean, "false", ComponentBuilder::buildCheckBox),
+    INTEGER(CalculatableInteger::new, "0", ComponentBuilder::buildTextField);
 
     @NonNull @Getter private Function<String, ?> valueOf;
+    @NonNull @Getter private String emptyValue;
     @NonNull @Getter private Function<Variable, ? extends JComponent> component;
 }

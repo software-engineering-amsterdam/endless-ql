@@ -14,6 +14,7 @@ public class Question extends Statement {
         this.type = type;
     }
 
+    @Override
     public String getId() {
         return this.id;
     }

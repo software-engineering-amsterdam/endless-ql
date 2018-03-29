@@ -8,10 +8,10 @@ import BaseAttribute from "../nodes/attributes/BaseAttribute";
 import StyleSheetNode from "../nodes/StyleSheetNode";
 import MergedFieldStyle from "../MergedFieldStyle";
 import { VariableInformation } from "../../../../form/VariableIntformation";
-import { type } from "os";
 import StyleTreeNode from "../nodes/StyleTreeNode";
 import { getDefaultStyleNodes } from "../style_helpers";
 import { UnkownQuestionUsedInLayoutError } from "../style_errors";
+import { VariablesMap } from "../../../../form/type_checking/VariableScopeVisitor";
 
 export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
   private questionStyles: MergedFieldStyle[];
@@ -22,7 +22,7 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     this.questionStyles = [];
   }
 
-  getStyles() {
+  getMergedStyles() {
     return this.questionStyles;
   }
 
@@ -68,5 +68,11 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
 
   visitStyleSheet(stylesheet: StyleSheetNode): any {
     return stylesheet.children.forEach(child => child.accept(this));
+  }
+
+  static run(stylesheet: StyleSheetNode, qlVariables: VariablesMap): MergedFieldStyle[] {
+    const styleVisitor = new MergeFieldStylesVisitor(qlVariables);
+    stylesheet.accept(styleVisitor);
+    return styleVisitor.getMergedStyles();
   }
 }

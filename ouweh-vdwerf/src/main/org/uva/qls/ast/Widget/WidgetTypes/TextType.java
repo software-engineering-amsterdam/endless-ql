@@ -1,8 +1,8 @@
 package org.uva.qls.ast.Widget.WidgetTypes;
 
 
-import org.uva.ql.ast.type.StringType;
 import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.ast.type.StringType;
 import org.uva.ql.ast.type.Type;
 import org.uva.qls.visitor.WidgetTypeVisitor;
 

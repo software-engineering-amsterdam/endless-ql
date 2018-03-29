@@ -2,6 +2,7 @@ package QLS.parsing.visitors;
 
 import QLS.classes.blocks.Block;
 import QLS.classes.Page;
+import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Question;
 import QLS.classes.blocks.Section;
 import QLS.classes.Stylesheet;
@@ -15,10 +16,18 @@ import java.util.List;
 
 public class StylesheetVisitor extends QLSBaseVisitor {
     private BlockVisitor blockVisitor;
+    private LinkedHashMap<String, Page> pages;
+    private LinkedHashMap<String, Section> sections;
+    private LinkedHashMap<String, Question> questions;
+    private LinkedHashMap<String, Element> parents;
 
 
     public StylesheetVisitor(){
         this.blockVisitor = new QLS.parsing.visitors.BlockVisitor();
+        this.parents = new LinkedHashMap<>();
+        this.pages = new LinkedHashMap<>();
+        this.sections = new LinkedHashMap<>();
+        this.questions = new LinkedHashMap<>();
     }
 
     // Node visitor
@@ -29,18 +38,43 @@ public class StylesheetVisitor extends QLSBaseVisitor {
         for (QLSParser.PageContext c : ctx.page()) {
             pages.add(visitPage(c));
         }
+        setLists();
         return new Stylesheet(id, pages);
+    }
+
+    private void setLists() {
+        sections = blockVisitor.getSections();
+        questions = blockVisitor.getQuestions();
+        parents = blockVisitor.getParents();
     }
 
     // Page visitor
     @Override
     public Page visitPage(QLSParser.PageContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        List<Block> blocks = new ArrayList<>();
+        List<Section> sections = new ArrayList<>();
 
-        for (QLSParser.BlockContext c : ctx.block()) {
-            blocks.add(blockVisitor.visitBlock(c));
+        for (QLSParser.SectionContext c : ctx.section()) {
+            sections.add(blockVisitor.visitSection(c));
         }
-        return new Page(id, blocks);
+        Page page = new Page(id, sections);
+        pages.put(id, page);
+        return page;
+    }
+
+    public LinkedHashMap<String,Section> getSections() {
+        return sections;
+    }
+
+    public LinkedHashMap<String,Page> getPages() {
+        return pages;
+    }
+
+    public LinkedHashMap<String,Question> getQuestions() {
+        return questions;
+    }
+
+    public LinkedHashMap<String,Element> getParents() {
+        return parents;
     }
 }

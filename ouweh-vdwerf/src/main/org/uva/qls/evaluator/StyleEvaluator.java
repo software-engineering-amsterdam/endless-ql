@@ -26,13 +26,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Arrays;
 
 public class StyleEvaluator {
 
-    private Stylesheet stylesheet;
     private final StylesheetContext context;
-
+    private Stylesheet stylesheet;
     private Map<String, WidgetType> defaultTypes = new HashMap<>();
 
     private Map<String, JPanel> sections = new HashMap<>();
@@ -88,7 +86,7 @@ public class StyleEvaluator {
 
         List<Page> pages = context.getPages();
 
-        if(pages.size() > 0) {
+        if (pages.size() > 0) {
             this.tabbedPane = new JTabbedPane();
             for (Page page : pages) {
                 if (visibleSections.contains(page.getId())) {
@@ -97,8 +95,8 @@ public class StyleEvaluator {
             }
         } else {
             JPanel mainPanel = new JPanel();
-            mainPanel.setLayout(new GridLayout(0,1));
-            for(String section : visibleSections){
+            mainPanel.setLayout(new GridLayout(0, 1));
+            for (String section : visibleSections) {
                 mainPanel.add(sections.get(section));
             }
             return mainPanel;
@@ -106,8 +104,8 @@ public class StyleEvaluator {
         return tabbedPane;
     }
 
-    public void setFocus(Question question){
-        if(tabbedPane != null) {
+    public void setFocus(Question question) {
+        if (tabbedPane != null) {
             this.tabbedPane.setSelectedComponent(this.getPage(question));
         }
     }
@@ -121,9 +119,9 @@ public class StyleEvaluator {
     }
 
     public Style getStyle(Question question) {
-        for (Segment segment: this.context.getAllParents(question.getId())){
-            for(DefaultStyleStatement defaultStyleStatement: segment.getDefaultStyleStatements()){
-                if (defaultStyleStatement.getType().getClass().equals(question.getType().getClass())){
+        for (Segment segment : this.context.getAllParents(question.getId())) {
+            for (DefaultStyleStatement defaultStyleStatement : segment.getDefaultStyleStatements()) {
+                if (defaultStyleStatement.getType().getClass().equals(question.getType().getClass())) {
                     return defaultStyleStatement.getStyle();
                 }
             }
@@ -137,9 +135,9 @@ public class StyleEvaluator {
             return questionReference.getWidget().getType();
         }
 
-        for(Segment segment: this.context.getAllParents(question.getId())) {
+        for (Segment segment : this.context.getAllParents(question.getId())) {
             for (DefaultWidgetStatement defaultWidgetStatement : segment.getDefaultWidgetStatements()) {
-                if (defaultWidgetStatement.getType().getClass().equals(question.getType().getClass())){
+                if (defaultWidgetStatement.getType().getClass().equals(question.getType().getClass())) {
                     return defaultWidgetStatement.getWidget().getType();
                 }
             }
@@ -181,7 +179,7 @@ public class StyleEvaluator {
 
     private void setDefaultStyle() {
         List<StyleProperty> properties = new ArrayList<>();
-        properties.add(new ColorProperty(new ColorValue("#effeee")));
+        properties.add(new ColorProperty(new ColorValue("#eeeeee")));
         properties.add(new FontProperty(new StringValue("Times New Roman")));
         properties.add(new FontSizeProperty(new NumberValue("25")));
         properties.add(new WidthProperty(new NumberValue("100")));

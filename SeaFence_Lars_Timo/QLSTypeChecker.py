@@ -2,17 +2,15 @@ from QLSast import *
 import sys
 
 class QLSTypeChecker(object):
-	
-    def __init__(self, ql_ast, qls_ast):
-    	self.ql_ast = ql_ast
-    	self.qls_ast = qls_ast
+    
+    def __init__(self):
         self.ql_variables = {}
         self.qls_variables = {}
 
 
-    def startQLSTypeCheck(self):
-        self.retrieveVariables(self.ql_ast.statements, self.ql_variables, "ql")
-        self.retrieveVariables(self.qls_ast.pages, self.qls_variables, "qls")
+    def startQLSTypeCheck(self, statements, pages):
+        self.retrieveVariables(statements, self.ql_variables, "ql")
+        self.retrieveVariables(pages, self.qls_variables, "qls")
 
         self.checkReferencesOfVariables(self.ql_variables, self.qls_variables, "ql")
         self.checkReferencesOfVariables(self.qls_variables, self.ql_variables, "qls")
@@ -34,9 +32,9 @@ class QLSTypeChecker(object):
 
     # Checks whether the types of the questions are compatible with the assigned widgets.
     def checkWidgetQuestionCompatibility(self, ql_variables, qls_variables):
-    	for key, value in ql_variables.iteritems():
+        for key, value in ql_variables.iteritems():
             if qls_variables[key] != None:
-                if value == "boolean" and (qls_variables[key].widget == 'radio("Yes", "No")' or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == 'dropdown("Yes", "No")'):
+                if value == "boolean" and (qls_variables[key].widget == "radio" or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == "dropdown"):
                     pass
 
                 elif value == "int" and (qls_variables[key].widget == "slider" or qls_variables[key].widget == "spinbox" or qls_variables[key].widget == "text"):
@@ -48,7 +46,7 @@ class QLSTypeChecker(object):
 
     # Check if every question is only placed once in the qls ast.
     def checkQuestionUniqueness(self, variable_name):
-    	if variable_name in self.qls_variables:
+        if variable_name in self.qls_variables:
             exitProgram("Question {} is getting placed twice by QLS.".format(variable_name))
 
 

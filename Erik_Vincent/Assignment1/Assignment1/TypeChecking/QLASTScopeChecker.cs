@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assignment1.Model.QL.AST;
 using Assignment1.Model.QL.AST.Expression;
 
@@ -7,32 +8,22 @@ namespace Assignment1.TypeChecking
 {
     public class QLASTScopeChecker : QLASTBaseVisitor
     {
-        public static void CheckReferenceScopes(QuestionForm questionForm)
+        private readonly MessageContainer _messages = new MessageContainer();
+
+        public static (IEnumerable<string> errors, IEnumerable<string> warnings) CheckReferenceScopes(QuestionForm questionForm)
         {
             var checker = new QLASTScopeChecker();
             checker.Visit(questionForm);
+            return checker._messages.ToTuple();
         }
 
         private QLASTScopeChecker() { }
 
-        private static void ReportError(string error)
-        {
-            Console.WriteLine(error);
-        }
-
         public override void Visit(Reference expression)
         {
-            try
+            if (!QuestionsInScope.Contains(expression.QuestionId))
             {
-                base.Visit(expression);
-            }
-            catch (UndeclaredQuestionException)
-            {
-                ReportError(expression.QuestionId + " not declared in this scope.");
-            }
-            catch (InvalidExpressionException)
-            {
-                ReportError(expression.QuestionId + " contains an invalid reference.");
+                _messages.AddError(expression.QuestionId + " not declared in this scope.");
             }
         }
     }

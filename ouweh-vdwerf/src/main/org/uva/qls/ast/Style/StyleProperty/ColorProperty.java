@@ -18,8 +18,7 @@ public class ColorProperty extends StyleProperty {
         Color color = Color.LIGHT_GRAY;
         try {
             color = Color.decode(colorValue.getValue());
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
 
         }
         widget.setColor(color);

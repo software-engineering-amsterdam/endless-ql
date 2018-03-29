@@ -44,7 +44,7 @@ public class ASTExpressionEvaluatorTest {
 //
 //        for (QuestionModel formQuestion : this.questionModels) {
 //            if (formQuestion.getAssignedExpression() != null) {
-//                formQuestion.setValue(formQuestion.getAssignedExpression().accept(evaluator));
+//                formQuestion.setQlTypedValue(formQuestion.getAssignedExpression().accept(evaluator));
 //            }
 //            if (formQuestion.getVisibilityCondition() != null) {
 //                formQuestion.setVisibility(formQuestion.getVisibilityCondition().accept(evaluator));

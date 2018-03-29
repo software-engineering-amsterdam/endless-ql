@@ -19,7 +19,7 @@ stylesheet taxOfficeExample
     section "Buying"
     {
       question hasBoughtHouse
-        widget radio("Yes", "No")
+        widget checkbox("Yes", "No")
     }
     section "Loaning"
     {
@@ -57,14 +57,5 @@ stylesheet taxOfficeExample
       }
     }
     default boolean widget radio("Yes", "No")
-  }
-
-  page EmptyPage
-  {
-         section "EmptySection"
-         {
-           question sellingPrice
-             widget spinbox
-         }
   }
 }

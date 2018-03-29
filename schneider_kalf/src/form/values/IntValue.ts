@@ -25,6 +25,14 @@ export default class IntValue extends AbstractNumberValue implements NumberValue
     return new IntValue(Math.floor(this.getValue() / other.getValue()));
   }
 
+  increment(): NumberValue {
+    return new IntValue(this.getValue() + 1);
+  }
+
+  decrement(): NumberValue {
+    return new IntValue(this.getValue() - 1);
+  }
+
   getValue(): number {
     return this.value;
   }
@@ -51,5 +59,9 @@ export default class IntValue extends AbstractNumberValue implements NumberValue
 
   toString(): string {
     return this.getValue().toString();
+  }
+
+  toNumber(): number {
+    return this.getValue();
   }
 }

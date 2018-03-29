@@ -80,7 +80,6 @@ class QLVisitorHelper(QLVisitor):
             return bin_op_node
 
         elif (ctx.expression()):
-            # todo: What to do with more --> list?
             if (len(ctx.expression()) == 1):
                 node = self.visit(ctx.expression()[0])
             node.negate = negate
@@ -90,11 +89,20 @@ class QLVisitorHelper(QLVisitor):
             var = ctx.var().getText()
             return UnOpNode(var)
 
-        # todo: fix vartype declaration
-        elif(ctx.INT()):
+        elif (ctx.INT()):
             var = ctx.INT().getText()
-            vartype = u'int'
+            vartype = u"int"
             return LiteralNode(var, vartype)
+
+        elif (ctx.BOOL()):
+            var = ctx.BOOL().getText()
+            vartype = u"boolean"
+            return LiteralNode(var, vartype)
+
+        # elif (ctx.STR()):
+        #     var = ctx.STR().getText()
+        #     vartype = u"string"
+        #     return LiteralNode(var, vartype)
 
         return
 

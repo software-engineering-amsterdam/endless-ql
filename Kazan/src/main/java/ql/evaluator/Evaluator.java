@@ -1,34 +1,33 @@
 package ql.evaluator;
 
-import ql.ast.ASTNode;
+import issuetracker.IssueTracker;
 import ql.ast.Form;
-import ql.ast.expressions.Expression;
 import ql.ast.expressions.Variable;
 import ql.ast.expressions.binary.*;
 import ql.ast.expressions.literals.*;
-import ql.ast.expressions.unary.ArithmeticNegation;
-import ql.ast.expressions.unary.LogicalNegation;
+import ql.ast.expressions.unary.Negation;
+import ql.ast.expressions.unary.Negative;
 import ql.ast.statements.*;
 import ql.ast.visitors.ExpressionVisitor;
-import ql.ast.visitors.FormVisitor;
-import ql.ast.visitors.StatementVisitor;
+import ql.ast.visitors.FormStatementVisitor;
 import ql.evaluator.values.*;
-import issuetracker.IssueTracker;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
-public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Evaluatable>, FormEvaluator {
+public class Evaluator implements FormStatementVisitor<Void>, ExpressionVisitor<Value>, FormEvaluator {
 
-    private HashMap<ASTNode, Evaluatable> questionValues;
-    private HashMap<String, Question> idLookup;
+    private final Map<String, Value> questionValues;
+    private final IssueTracker issueTracker;
     private Form form;
-    private IssueTracker issueTracker;
+    private QuestionCollector questionCollector;
 
     public Evaluator() {
-        issueTracker = IssueTracker.getIssueTracker();
+        issueTracker = new IssueTracker();
         questionValues = new HashMap<>();
-        idLookup = new HashMap<>();
+        questionCollector = new QuestionCollector();
     }
 
     @Override
@@ -38,78 +37,46 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
     }
 
     @Override
-    public void setEvaluatable(String questionId, Evaluatable value) {
-        Question node = idLookup.get(questionId);
-        questionValues.put(node, value);
+    public void setValue(String questionId, Value value) {
+        questionValues.put(questionId, value);
     }
 
     @Override
     public void evaluate() {
-        try {
-            visit(form);
-        } catch (ArithmeticException e) {
-            issueTracker.addError(null, "Attempted to divide by zero.");
-        }
+        visit(form);
     }
 
     @Override
     public List<Question> getQuestions() {
-        return new LinkedList(idLookup.values());
+        return questionCollector.getQuestions(form);
     }
 
     @Override
-    public Evaluatable getQuestionValue(String questionId) {
-        Question node = idLookup.get(questionId);
-        return questionValues.get(node);
-    }
-
-    public boolean isCalculated(ASTNode node) {
-        return questionValues.containsKey(node);
-    }
-
-    private boolean isCalculated(Evaluatable leftEvaluatable, Evaluatable rightEvaluatable) {
-        return isCalculated(leftEvaluatable) && isCalculated(rightEvaluatable);
-    }
-
-    private boolean isCalculated(Evaluatable evaluatable) {
-        return evaluatable != null;
+    public Value getQuestionValue(String questionId) {
+        return questionValues.get(questionId);
     }
 
     @Override
     public Void visit(Question node) {
-        String varName = node.getId();
-        idLookup.put(varName, node);
         return null;
     }
 
     @Override
     public Void visit(ComputedQuestion node) {
-        String varName = node.getId();
-        idLookup.put(varName, node);
-
-        Expression expression = node.getExpression();
-        Evaluatable value = expression.accept(this);
-        if (isCalculated(value)) {
-            questionValues.put(node, value);
-        }
+        questionValues.put(node.getId(), node.getExpression().accept(this));
         return null;
     }
 
     @Override
     public Void visit(IfStatement node) {
-        Expression expression = node.getCondition();
-        Evaluatable value = expression.accept(this);
-
-        if (isCalculated(value)) {
-            if (value.getBooleanValue()) {
-                visit(node.getIfStatements());
-            }
+        if (((BooleanValue) node.getCondition().accept(this)).getValue()) {
+            visit(node.getIfStatements());
         }
 
         return null;
     }
 
-    void visit(List<Statement> statements) {
+    private void visit(List<Statement> statements) {
         for (Statement statement : statements) {
             statement.accept(this);
         }
@@ -117,230 +84,138 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
 
     @Override
     public Void visit(IfElseStatement node) {
-        Expression expression = node.getCondition();
-        Evaluatable value = expression.accept(this);
         List<Statement> statements;
-        if (isCalculated(expression)) {
-            if (value.getBooleanValue()) {
-                statements = node.getIfStatements();
-            } else {
-                statements = node.getElseStatements();
-            }
-            visit(statements);
+        if (((BooleanValue) node.getCondition().accept(this)).getValue()) {
+            statements = node.getIfStatements();
+        } else {
+            statements = node.getElseStatements();
         }
-
+        visit(statements);
         return null;
     }
 
-    private Evaluatable visitLeft(BinaryOperation node) {
+    //TODO: remove, place accept directly in visits
+    private Value getLeftValue(BinaryOperation node) {
         return node.getLeft().accept(this);
     }
 
-    private Evaluatable visitRight(BinaryOperation node) {
+    private Value getRightValue(BinaryOperation node) {
         return node.getRight().accept(this);
     }
 
     @Override
-    public Evaluatable visit(Addition node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        Evaluatable result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.add(rightEvaluatable);
+    public Value visit(Addition node) {
+        return getLeftValue(node).add(getRightValue(node));
+    }
+
+    @Override
+    public Value visit(And node) {
+        return getLeftValue(node).and(getRightValue(node));
+    }
+
+    @Override
+    public Value visit(Division node) {
+        try {
+            return getLeftValue(node).divide(getRightValue(node));
+        } catch (ArithmeticException e) {
+            issueTracker.addError(node.getRight(), "Attempted to divide by zero.");
         }
-        return result;
+        return null;
     }
 
     @Override
-    public Evaluatable visit(And node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        EvaluatableBoolean result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.and(rightEvaluatable);
-        }
-        return result;
+    public Value visit(Equal node) {
+        return getLeftValue(node).equal(getRightValue(node));
     }
 
     @Override
-    public Evaluatable visit(Division node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        Evaluatable result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.divide(rightEvaluatable);
-        }
-        return result;
+    public Value visit(GreaterThanEqual node) {
+        return getLeftValue(node).greaterThanEqual(getRightValue(node));
     }
 
     @Override
-    public Evaluatable visit(Equal node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        EvaluatableBoolean result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.equal(rightEvaluatable);
-        }
-        return result;
+    public Value visit(GreaterThan node) {
+        return getLeftValue(node).greaterThan(getRightValue(node));
     }
 
     @Override
-    public Evaluatable visit(GreaterThanEqual node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        EvaluatableBoolean result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.greaterThanEqual(rightEvaluatable);
-        }
-        return result;
+    public Value visit(LessThanEqual node) {
+        return getLeftValue(node).lessThanEqual(getRightValue(node));
     }
 
     @Override
-    public Evaluatable visit(GreaterThan node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        EvaluatableBoolean result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.greaterThan(rightEvaluatable);
-        }
-        return result;
+    public Value visit(LessThan node) {
+        return getLeftValue(node).lessThan(getRightValue(node));
     }
 
     @Override
-    public Evaluatable visit(LessThanEqual node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        EvaluatableBoolean result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.lessThanEqual(rightEvaluatable);
-        }
-        return result;
+    public Value visit(Multiplication node) {
+        return getLeftValue(node).multiply(getRightValue(node));
     }
 
     @Override
-    public Evaluatable visit(LessThan node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        EvaluatableBoolean result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.lessThan(rightEvaluatable);
-        }
-        return result;
+    public Value visit(NotEqual node) {
+        return getLeftValue(node).notEqual(getRightValue(node));
     }
 
     @Override
-    public Evaluatable visit(Multiplication node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        Evaluatable result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.multiply(rightEvaluatable);
-        }
-        return result;
+    public Value visit(Or node) {
+        return getLeftValue(node).or(getRightValue(node));
     }
 
     @Override
-    public Evaluatable visit(NotEqual node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        EvaluatableBoolean result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.notEqual(rightEvaluatable);
-        }
-        return result;
+    public Value visit(Subtraction node) {
+        return getLeftValue(node).subtract(getRightValue(node));
     }
 
     @Override
-    public Evaluatable visit(Or node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        EvaluatableBoolean result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.or(rightEvaluatable);
-        }
-        return result;
+    public Value visit(Negation node) {
+        return node.getExpression().accept(this).negation();
     }
 
     @Override
-    public Evaluatable visit(Subtraction node) {
-        Evaluatable leftEvaluatable = visitLeft(node);
-        Evaluatable rightEvaluatable = visitRight(node);
-        Evaluatable result = null;
-        if (isCalculated(leftEvaluatable, rightEvaluatable)) {
-            result = leftEvaluatable.subtract(rightEvaluatable);
-        }
-        return result;
+    public Value visit(Negative node) {
+        return node.getExpression().accept(this).negative();
     }
 
     @Override
-    public Evaluatable visit(LogicalNegation node) {
-        Evaluatable evaluatable = node.getExpression().accept(this);
-        EvaluatableBoolean result = null;
-        if (isCalculated(evaluatable)) {
-            result = evaluatable.logicalNegate();
-        }
-        return result;
+    public Value visit(StringLiteral node) {
+        return new StringValue(node.getValue());
     }
 
     @Override
-    public Evaluatable visit(ArithmeticNegation node) {
-        Evaluatable evaluatable = node.getExpression().accept(this);
-        Evaluatable result = null;
-        if (isCalculated(evaluatable)) {
-            result = evaluatable.arithmeticNegate();
-        }
-        return result;
+    public Value visit(IntegerLiteral node) {
+        return new IntegerValue(node.getValue());
     }
 
     @Override
-    public Evaluatable visit(StringLiteral node) {
-        return new EvaluatableString(node.getValue());
+    public Value visit(BooleanLiteral node) {
+        return new BooleanValue(node.getValue());
     }
 
     @Override
-    public Evaluatable visit(IntegerLiteral node) {
-        return new EvaluatableInteger(node.getValue());
+    public Value visit(DateLiteral node) {
+        return new DateValue(node.getValue());
     }
 
     @Override
-    public Evaluatable visit(BooleanLiteral node) {
-        return new EvaluatableBoolean(node.getValue());
+    public Value visit(DecimalLiteral node) {
+        return new DecimalValue(node.getValue());
     }
 
     @Override
-    public Evaluatable visit(DateLiteral node) {
-        return new EvaluatableDate(node.getValue());
+    public Value visit(MoneyLiteral node) {
+        return new MoneyValue(node.getValue());
     }
 
     @Override
-    public Evaluatable visit(DecimalLiteral node) {
-        return new EvaluatableDecimal(node.getValue());
-    }
-
-    @Override
-    public Evaluatable visit(MoneyLiteral node) {
-        return new EvaluatableMoney(node.getValue());
-    }
-
-    @Override
-    public Evaluatable visit(Variable variable) {
-        String varName = variable.toString();
-        Question declarationNode = findDeclarationNode(varName);
-        Evaluatable value = null;
-        if (isCalculated(declarationNode)) {
-            value = questionValues.get(declarationNode);
-        }
-        return value;
-    }
-
-    private Question findDeclarationNode(String varName) {
-        return idLookup.get(varName);
+    public Value visit(Variable variable) {
+        return questionValues.get(variable.getName());
     }
 
     @Override
     public Void visit(Form form) {
-        List<Statement> statements = form.getStatements();
-        visit(statements);
+        visit(form.getStatements());
         return null;
     }
 

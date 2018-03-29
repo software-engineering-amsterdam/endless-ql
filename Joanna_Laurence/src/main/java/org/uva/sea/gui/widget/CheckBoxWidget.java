@@ -1,46 +1,30 @@
 package org.uva.sea.gui.widget;
 
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
-import javafx.scene.text.Font;
-import org.uva.sea.gui.FormController;
-import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
-public class CheckBoxWidget implements Widget {
+public class CheckBoxWidget extends Widget {
 
-    @Override
-    public Control draw(BaseQuestionModel questionModel, FormController controller) {
-        CheckBox checkBox = new CheckBox();
-        checkBox = this.createCheckBox(checkBox, questionModel.getStyleQLS());
+    private BooleanValue widgetValue = new BooleanValue(false);
 
-        if (questionModel.getValue() != null) {
-            System.out.println("Computed boolean value " + questionModel.displayValue());
-            checkBox.setSelected(new BooleanValue(questionModel.displayValue()).getBooleanValue());
-        }
-
-        checkBox.selectedProperty()
-                .addListener((observable, oldIsFocused, newIsFocused) ->
-                {
-                    controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newIsFocused));
-                });
-        return checkBox;
+    public CheckBoxWidget(QuestionData questionData) {
+        super(questionData);
     }
 
-    private CheckBox createCheckBox(CheckBox checkBox, Style style) {
-        //TODO: set color
-        //TODO: consider what to do with pages and sections
-        if (style != null) {
-            if ((style.getFont() != null) && (style.getFontSize() != null)) {
-                checkBox.setFont(new Font(style.getFont(), style.getFontSize()));
-            }
-            if (style.getWidth() != null) {
-                checkBox.setMinWidth(style.getWidth());
-            }
-        } else {
-            System.out.println("Style is null");
-        }
+    @Override
+    public boolean updateValue(BooleanValue booleanValue) {
+        this.widgetValue = booleanValue;
+        return true;
+    }
+
+    @Override
+    public Node convertToGuiNode() {
+        CheckBox checkBox = new CheckBox();
+        checkBox.setSelected((this.widgetValue != null) && this.widgetValue.getBooleanValue());
+        checkBox.selectedProperty().addListener((observable, oldIsFocused, newIsFocused) ->
+                this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newIsFocused)));
 
         return checkBox;
     }

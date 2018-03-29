@@ -70,6 +70,6 @@ public class IntegerFieldWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.field.setValue(this.getQuestionModel().getValue().getIntegerValue());
+        this.field.setValue(this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 }

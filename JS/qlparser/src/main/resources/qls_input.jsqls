@@ -3,39 +3,31 @@ stylesheet taxOfficeExample {
 
     page Personalia {
         section "Personalia" {
-            question name
-            question age
-            question grade
+            expression name
+            expression age
+            expression grade
         }
     }
 
     page Housing {
         section "Buying" {
-            question hasBoughtHouse
+            expression hasBoughtHouse
             widget checkbox
         }
 
         section "Loaning" {
-            question hasMaintLoan
+            expression hasMaintLoan
         }
     }
 
     page Selling {
         section "Selling" {
-            question hasSoldHouse
+            expression hasSoldHouse
             widget dropdown
         }
 
         section "You sold a house" {
-            question sellingDate
-            question sellingPrice
-            question privateDebt
-            question valueResidue style {
-                fonttype: "monospaced"
-                fontstyle: "italic"
-                fontcolor: "#669999"
-                widgetcolor: "#9933ff"
-            }
+            expression blockSold
         }
     }
 }

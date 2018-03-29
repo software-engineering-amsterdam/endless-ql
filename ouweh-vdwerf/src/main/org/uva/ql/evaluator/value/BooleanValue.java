@@ -28,13 +28,8 @@ public class BooleanValue implements Value {
     }
 
     @Override
-    public Value notEqualTo(BooleanValue value) {
-        return new BooleanValue(this.value != value.getValue());
-    }
-
-    @Override
     public Value notEqualTo(Value value) {
-        return value.notEqualTo(this);
+        return new BooleanValue(!value.getValue().equals(this.value));
     }
 
     @Override

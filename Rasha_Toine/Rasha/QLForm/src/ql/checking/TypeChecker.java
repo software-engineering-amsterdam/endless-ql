@@ -61,7 +61,7 @@ public class TypeChecker {
                  }
 
                  @Override
-                 public Void visit(NormalQuestion question, Void ctx) {
+                 public Void visit(AnswerableQuestion question, Void ctx) {
                 	 addQuestionToMaps(question);
                 	 return null;
                  }

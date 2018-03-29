@@ -46,7 +46,7 @@ public class BooleanRadioWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.yesButton.setSelected(this.getQuestionModel().getValue().getBooleanValue());
-        this.noButton.setSelected(!this.getQuestionModel().getValue().getBooleanValue());
+        this.yesButton.setSelected((Boolean) this.getQuestionModel().getQLDataTypeValue().getValue());
+        this.noButton.setSelected(!(Boolean) this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 }

@@ -1,10 +1,11 @@
 import StyleAttribute from "./nodes/StyleAttribute";
-import styleConstants from "../config/styleConstants";
 import { FieldType } from "../../../form/FieldType";
 import DefaultStyleNode from "./nodes/children/DefaultStyleNode";
+import WidgetAttribute from "./nodes/attributes/WidgetAttribute";
+import FieldNode from "../../../form/nodes/fields/FieldNode";
 
 export default class MergedFieldStyle {
-  private styles: Map<string, StyleAttribute>;
+  private styles: Map<string, StyleAttribute | any>;
   private identifier: string;
   private type: FieldType;
 
@@ -42,15 +43,25 @@ export default class MergedFieldStyle {
     const cssStyles = {};
 
     this.styles.forEach((attribute: StyleAttribute, key: string) => {
-      const cssAttributeName = styleConstants.CSS_STYLE_MAPPING[key];
-
-      if (typeof cssAttributeName === 'undefined') {
-        return;
-      }
-
-      cssStyles[cssAttributeName] = attribute.getStringValue();
+      Object.assign(cssStyles, attribute.getCssValues());
     });
 
     return cssStyles;
+  }
+
+  getWidgetAttribute(): WidgetAttribute | null {
+    if (typeof this.styles.get('widget') === 'undefined') {
+      return null;
+    }
+
+    return this.styles.get('widget');
+  }
+
+  appliesToField(field: FieldNode) {
+    return this.identifier === field.identifier;
+  }
+
+  static makeEmpty(field: FieldNode) {
+    return new MergedFieldStyle(field.identifier, field.type);
   }
 }

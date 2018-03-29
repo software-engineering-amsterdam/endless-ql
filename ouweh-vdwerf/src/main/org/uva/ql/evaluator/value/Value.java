@@ -46,18 +46,6 @@ public interface Value {
         throw new UnsupportedOperationException(value.toString());
     }
 
-    default Value notEqualTo(IntegerValue value) {
-        throw new UnsupportedOperationException(value.toString());
-    }
-
-    default Value notEqualTo(StringValue value) {
-        throw new UnsupportedOperationException(value.toString());
-    }
-
-    default Value notEqualTo(BooleanValue value) {
-        throw new UnsupportedOperationException(value.toString());
-    }
-
     default Value greaterThan(Value value) {
         throw new UnsupportedOperationException(value.toString());
     }

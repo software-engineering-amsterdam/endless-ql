@@ -3,54 +3,30 @@ package org.uva.sea.languages.ql.interpreter.staticAnalysis;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
 import org.uva.sea.languages.ql.parser.elements.*;
-import org.uva.sea.languages.ql.parser.elements.types.Variable;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.Variable;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Iterates over the AST and add links between variables and questions
- * Checks if variables are not used before declared
- * Determine if variables are not double defined. Only in if and else can be the same questionData.
- */
 public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStaticAnalysis {
 
-    /**
-     * Contain what questions is related to what variable
-     */
-    private Map<String, Question> variableMap = new HashMap<>();
 
-    /**
-     * Contains variables that are used in the program. They are linked to questions
-     * at the send of the evaluation
-     */
     private final Collection<Variable> usedVariables = new ArrayList<>();
 
-    /**
-     *
-     */
     private final Messages messages = new Messages();
 
-    /**
-     * Hide constructor
-     */
+    private Map<String, Question> variableMap = new HashMap<>();
+
     private LinkAndCheckVariableUsage() {
     }
 
-    /**
-     * @param error Error that occur
-     * @param node  The node that caused the error
-     */
     private void error(String error, ASTNode node) {
         this.messages.addMessage(error + " on line:  " + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
-    /**
-     * Checks correct variable usage and links variables to questions
-     *
-     * @param node The root node of the AST that needs to be checked
-     * @return If an error occurred
-     */
     public Messages doCheck(Form node) {
         node.accept(this);
 
@@ -59,10 +35,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         return this.messages;
     }
 
-    /**
-     * Link all variables to the correct questionData
-     * Add error when it is not defined
-     */
     private void linkVariableInformation() {
         for (Variable variable : this.usedVariables) {
             String variableName = variable.getVariableName();
@@ -75,11 +47,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         }
     }
 
-    /**
-     * Variables have to be defined before used
-     *
-     * @param node The var node in the AST that is traversed
-     */
     @Override
     public Void visit(Variable node) {
         super.visit(node);
@@ -87,11 +54,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         return null;
     }
 
-    /**
-     * Questions should not be defined yet. Map the questionData by its name
-     *
-     * @param node The questionData node in the AST that is traversed
-     */
     @Override
     public Void visit(Question node) {
         String variableName = node.getVariable().getVariableName();
@@ -116,8 +78,8 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         HashMap<String, Question> baseMap = new HashMap<>(this.variableMap);
 
         //It is allowed to have duplicate elements in the then and else. So run both with the base map
-        HashMap<String, Question> thenMap = this.visitStatementsWithVariableMap(baseMap, node.getThen());
-        HashMap<String, Question> elseMap = this.visitStatementsWithVariableMap(baseMap, node.getOtherwise());
+        HashMap<String, Question> thenMap = this.visitStatementsWithVariableMap(baseMap, node.getThenBlock());
+        HashMap<String, Question> elseMap = this.visitStatementsWithVariableMap(baseMap, node.getOtherwiseBlock());
 
         this.variableMap = this.combineVariableMap(baseMap, thenMap, elseMap);
 
@@ -125,14 +87,7 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
 
     }
 
-    /**
-     * Visits statements with a base map
-     *
-     * @param baseMap           The base map
-     * @param statementsToCheck Statements to check
-     * @return A new HashSet that contains all the mappings from base and statements
-     */
-    private HashMap<String, Question> visitStatementsWithVariableMap(final HashMap<String, Question> baseMap, Statements statementsToCheck) {
+    private HashMap<String, Question> visitStatementsWithVariableMap(HashMap<String, Question> baseMap, Statements statementsToCheck) {
 
         HashMap<String, Question> result = new HashMap<>();
         if (statementsToCheck == null)
@@ -144,12 +99,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         return result;
     }
 
-    /**
-     * Combines variable map
-     *
-     * @param maps Variable maps
-     * @return New map with all elements combined
-     */
     private Map<String, Question> combineVariableMap(Map<String, Question>... maps) {
         if (maps.length == 0)
             return new HashMap<>();
@@ -162,9 +111,6 @@ public class LinkAndCheckVariableUsage extends BaseASTVisitor implements IQLStat
         return result;
     }
 
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
     public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {

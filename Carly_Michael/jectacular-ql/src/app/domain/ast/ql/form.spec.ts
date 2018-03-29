@@ -1,4 +1,4 @@
-import {Form, QlQuestion, QuestionType} from './index';
+import {Form, QlQuestion} from './index';
 import {BooleanQuestion} from '../../angular-questions/boolean-question';
 import {InputQuestion} from '../../angular-questions/input-question';
 import {Statement} from './index';
@@ -35,7 +35,7 @@ describe('Form', () => {
   ];
 
   it('should return the proper QuestionBase questions', () => {
-    const formQuestions = ConvertToFormQuestionsVisitor.evaluate(new Form('test', questions, astMock.emptyLoc));
+    const formQuestions = ConvertToFormQuestionsVisitor.visit(new Form('test', questions, astMock.emptyLoc));
     expect(formQuestions.length).toBe(5);
     expect(formQuestions[0].key).toBe('intQuestion');
     expect(formQuestions[0].label).toBe('intQuestion?');
@@ -50,9 +50,9 @@ describe('Form', () => {
 
   it('should check condition of both ifs when nested', () => {
     const form = new Form('test', questions.concat(ifs), astMock.emptyLoc);
-    const allQuestions = CollectQuestionsVisitor.evaluate(form);
-    CheckStatementTypeVisitor.evaluate(allQuestions, form);
-    const formQuestions = ConvertToFormQuestionsVisitor.evaluate(form);
+    const allQuestions = CollectQuestionsVisitor.visit(form);
+    CheckStatementTypeVisitor.visit(allQuestions, form);
+    const formQuestions = ConvertToFormQuestionsVisitor.visit(form);
 
     expect(formQuestions.length).toBe(6);
 

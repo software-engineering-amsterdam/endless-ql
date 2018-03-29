@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.uva.sea.languages.BaseEvaluator;
 import org.uva.sea.languages.QlEvaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
@@ -37,11 +38,6 @@ public class QLParserTest extends TestCase {
         return testFiles;
     }
 
-    /**
-     * @param folderLocation Location of the ql files
-     * @param shouldCompile  Should the file be interpretable?
-     * @return Map of test files and if they should be interpretable
-     */
     private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
         Collection<Object[]> testFiles = new ArrayList<>();
 
@@ -53,16 +49,11 @@ public class QLParserTest extends TestCase {
         return testFiles;
     }
 
-    /**
-     * Compiles the file and checks result
-     *
-     * @param fileName The location of the ql file
-     * @return If the script is interpretable
-     */
+
     private boolean doesInterpreter(String fileName) {
         try {
-            QlEvaluator qlEvaluator = new QlEvaluator(fileName);
-            EvaluationResult evaluationResult = qlEvaluator.getQuestions();
+            BaseEvaluator qlEvaluator = new QlEvaluator(fileName);
+            EvaluationResult evaluationResult = qlEvaluator.evaluate();
             return !evaluationResult.getMessages().hasMessagePresent(MessageTypes.ERROR);
         } catch (InterruptedException | IOException ignored) {
             return false;

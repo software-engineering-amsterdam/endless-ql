@@ -9,8 +9,6 @@ import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class CheckboxWidget extends QuestionWidget {
 

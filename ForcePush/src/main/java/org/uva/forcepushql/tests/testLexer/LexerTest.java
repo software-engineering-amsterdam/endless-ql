@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.Token;
 import org.junit.Assert;
 import org.junit.Test;
-import org.uva.forcepushql.antlr.GrammarLexer;
+import org.uva.forcepushql.parser.antlr.GrammarLexer;
 
 import java.io.*;
 import java.util.LinkedList;

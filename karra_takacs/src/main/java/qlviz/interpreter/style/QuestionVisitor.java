@@ -1,15 +1,18 @@
 package qlviz.interpreter.style;
 
+import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
+import qlviz.QLSVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.Question;
 import qlviz.model.style.Widget;
 
 public class QuestionVisitor extends QLSBaseVisitor<Question> {
 
-    private final QLSBaseVisitor<Widget> widgetTypeVisitor;
+    private final QLSVisitor<Widget> widgetTypeVisitor;
 
-    public QuestionVisitor(QLSBaseVisitor<Widget> widgetTypeVisitor) {
+    @Inject
+    public QuestionVisitor(QLSVisitor<Widget> widgetTypeVisitor) {
         this.widgetTypeVisitor = widgetTypeVisitor;
     }
 

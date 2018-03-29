@@ -38,6 +38,11 @@ public class Conditional extends Statement {
     }
 
     @Override
+    public String getId() {
+        return this.toString();
+    }
+
+    @Override
     public <T, C> T accept(StatementVisitor<T, C> visitor, C context) {
         return visitor.visit(this, context);
     }

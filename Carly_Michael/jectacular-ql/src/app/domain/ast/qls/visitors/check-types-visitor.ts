@@ -31,8 +31,8 @@ export class CheckTypesVisitor implements QlsVisitor<void> {
       section.accept(this);
     }
 
-    if (page.defaultSettings) {
-      this.throwIfDefaultStylingIsIncorrect(page.name, page.defaultSettings);
+    if (page.defaultStyling) {
+      this.throwIfDefaultStylingIsIncorrect(page.name, page.defaultStyling);
     }
   }
 
@@ -45,8 +45,8 @@ export class CheckTypesVisitor implements QlsVisitor<void> {
       subsection.accept(this);
     }
 
-    if (section.defaultSettings) {
-      this.throwIfDefaultStylingIsIncorrect(section.name, section.defaultSettings);
+    if (section.defaultStyling) {
+      this.throwIfDefaultStylingIsIncorrect(section.name, section.defaultStyling);
     }
   }
 
@@ -59,10 +59,6 @@ export class CheckTypesVisitor implements QlsVisitor<void> {
 
     if (qlsQuestion.widget.type !== WidgetType.NONE) {
       this.throwIfQlsTypeDoesNotMatchQlType(qlsQuestion.name, qlQuestion.type, qlsQuestion.widget.type);
-    }
-
-    if (qlsQuestion.defaultSettings && qlsQuestion.defaultSettings.type.toString() === qlQuestion.type.toString()) {
-      this.throwIfQlsTypeDoesNotMatchQlType(qlsQuestion.name, qlQuestion.type, qlsQuestion.defaultSettings.widget.type);
     }
   }
 

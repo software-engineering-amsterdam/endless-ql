@@ -1,6 +1,5 @@
 from antlr4 import ParseTreeVisitor
 from antlr.generated.QLSParser import QLSParser
-from PyQt5 import QtWidgets
 import re
 
 
@@ -31,10 +30,13 @@ class QLSVisitor(ParseTreeVisitor):
             if not self.shouldVisitNextChild(node, result):
                 return
             c = node.getChild(i)
+
             # child.accept() calls the visitType function from the QLSVisitor class; form.accept() returns visitForm()
             child_result = c.accept(self)
+
             if self.error_message:
                 return
+
             for key in child_result:
                 if key in result:
                     result[key].extend(child_result[key])

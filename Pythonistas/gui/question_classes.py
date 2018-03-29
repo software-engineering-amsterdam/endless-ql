@@ -1,3 +1,8 @@
+"""
+This file contains classes that reflect questions as taken from a Questionnaire Language (QL) AST, and corresponding GUI
+elements. Instances of these classes are created in the visitor of this AST. If also a corresponding QLS AST is visited,
+these objects are assigned attributes as defined in the QLS text.
+"""
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 

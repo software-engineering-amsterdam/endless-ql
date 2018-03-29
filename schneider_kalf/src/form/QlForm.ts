@@ -10,15 +10,18 @@ import defaultValues from "./defaultValues";
 import { VariableScopeVisitor, VariablesMap } from "./type_checking/VariableScopeVisitor";
 import FormTraversingVisitor from "./nodes/visitors/FormNodeTraversingVisitor";
 import { Maybe } from "../helpers/type_helper";
+import StatementCollection from "./collection/StatementCollection";
 
 export default class QlForm implements StatefulForm {
   private node: FormNode;
   private state: FormState;
+  private statements: StatementCollection;
 
   constructor(formNode: FormNode, state: FormState) {
     this.node = formNode;
     this.state = state;
 
+    this.statements = FormTraversingVisitor.collectStatements(this.node);
     this.fillDefaultValues();
     this.computeFields();
   }
@@ -75,7 +78,7 @@ export default class QlForm implements StatefulForm {
    * @returns {FieldNode[]}
    */
   getFields(): FieldNode[] {
-    return FormTraversingVisitor.collectStatements(this.node).getFieldsArray();
+    return this.getStatements().getFieldsArray();
   }
 
   /**
@@ -83,7 +86,7 @@ export default class QlForm implements StatefulForm {
    * @returns {ComputedFieldNode[]}
    */
   getComputedFields(): ComputedFieldNode[] {
-    return FormTraversingVisitor.collectStatements(this.node).getComputedFieldsArray();
+    return this.getStatements().getComputedFieldsArray();
   }
 
   /**
@@ -91,7 +94,7 @@ export default class QlForm implements StatefulForm {
    * @returns {QuestionNode[]}
    */
   getQuestions(): QuestionNode[] {
-    return FormTraversingVisitor.collectStatements(this.node).getQuestionsArray();
+    return this.getStatements().getQuestionsArray();
   }
 
   getName(): string {
@@ -130,5 +133,13 @@ export default class QlForm implements StatefulForm {
 
   getVariablesMap(): VariablesMap {
     return VariableScopeVisitor.run(this.node).variables;
+  }
+
+  getStatements(): StatementCollection {
+    if (!this.statements) {
+      this.statements = FormTraversingVisitor.collectStatements(this.node);
+    }
+
+    return this.statements;
   }
 }

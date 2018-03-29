@@ -13,6 +13,7 @@ import QuestionStyle from "./nodes/children/QuestionStyle";
 import StyledField from "./StyledField";
 import FieldNode from "../../../form/nodes/fields/FieldNode";
 import { Maybe } from "../../../helpers/type_helper";
+import { UnkownFieldError } from "../../../form/form_errors";
 
 export default class QlsForm implements StatefulForm {
   private baseForm: StatefulForm;
@@ -92,7 +93,7 @@ export default class QlsForm implements StatefulForm {
     const field = this.getField(identifier);
 
     if (!field) {
-      throw new Error(`Cannot find field ${identifier} in form.`); // TODO: Replace this with real error
+      throw UnkownFieldError.make(identifier);
     }
 
     return StyledField.makeFromCollections(field, this.mergedStyles, this.questionStyles);

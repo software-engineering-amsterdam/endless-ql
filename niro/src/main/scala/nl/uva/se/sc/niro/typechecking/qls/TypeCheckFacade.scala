@@ -14,6 +14,7 @@ object TypeCheckFacade extends Logging {
       _ <- WidgetStyles.check(form, stylesheet)
       _ <- QuestionSinglePlacing.check(form, stylesheet)
       _ <- SliderRange.check(form, stylesheet)
+      _ <- SpinRange.check(form, stylesheet)
     } yield stylesheet
 
 }

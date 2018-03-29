@@ -1,4 +1,4 @@
-package doge.visitor.duplication
+package doge.typechecker.duplication
 
 import doge.ast.location.Identifier
 import doge.ast.node.Block

@@ -1,7 +1,7 @@
-package doge.visitor.duplication
+package doge.typechecker.duplication
 
 import doge.ast.location.SourceLocation
-import doge.visitor.error.ErrorContext
+import doge.typechecker.ErrorContext
 
 data class DuplicationError(val text: String, val original: SourceLocation, val redefinition: SourceLocation)
 

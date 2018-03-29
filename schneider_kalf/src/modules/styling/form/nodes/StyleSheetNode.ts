@@ -27,7 +27,7 @@ export default class StyleSheetNode extends AbstractStyleNode {
   }
 
   getPages(): Page[] | any {
-    return this.children.filter(child => child instanceof Page);
+    return this.children.filter(child => child.isPage());
   }
 
   getFirstPage() {

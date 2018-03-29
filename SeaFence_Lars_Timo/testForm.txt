@@ -16,6 +16,11 @@ form taxOfficeExample
             sellingPrice: int
          "Value residue:" valueResidue: int = privateDebt + privateDebt
 
+      if (hasBoughtHouse) 
+       {
+        "Value account:" valueResidue: int = privateDebt * privateDebt
+       }
+
     }
   /*
 

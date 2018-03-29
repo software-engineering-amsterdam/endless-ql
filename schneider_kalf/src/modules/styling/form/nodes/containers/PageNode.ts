@@ -25,4 +25,8 @@ export default class PageNode extends AbstractStyleNode implements FormChild {
   isEqual(otherPage: PageNode) {
     return this.name === otherPage.name;
   }
+
+  isPage(): this is PageNode {
+    return true;
+  }
 }

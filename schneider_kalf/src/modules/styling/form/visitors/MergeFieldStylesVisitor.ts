@@ -12,6 +12,7 @@ import StyleTreeNode from "../nodes/StyleTreeNode";
 import { getDefaultStyleNodes } from "../style_helpers";
 import { UnkownQuestionUsedInLayoutError } from "../style_errors";
 import { VariablesMap } from "../../../../form/type_checking/VariableScopeVisitor";
+import { Maybe } from "../../../../helpers/type_helper";
 
 export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
   private questionStyles: MergedFieldStyle[];
@@ -31,20 +32,13 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
   }
 
   visitQuestionStyle(question: QuestionStyle): any {
-    const variableInformation: VariableInformation | undefined = this.qlVariables.get(question.identifier);
+    const variableInformation: Maybe<VariableInformation> = this.qlVariables.get(question.identifier);
 
-    if (typeof variableInformation === 'undefined') {
+    if (!variableInformation) {
       throw UnkownQuestionUsedInLayoutError.make(question.identifier);
     }
 
-    let mergedStyle = new MergedFieldStyle(question.identifier, variableInformation.type);
-    let parents: StyleTreeNode[] = question.getParents();
-
-    for (let parent of parents.reverse()) {
-      mergedStyle.applyDefaults(getDefaultStyleNodes(parent));
-    }
-
-    mergedStyle.applyStyle(question.children);
+    const mergedStyle: MergedFieldStyle = this.getMergedStyleForQuestion(question, variableInformation);
 
     this.questionStyles.push(mergedStyle);
     return mergedStyle;
@@ -58,14 +52,6 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     return page.body.forEach(child => child.accept(this));
   }
 
-  visitWidgetAttribute(widgetAttribute: WidgetAttribute): any {
-    return;
-  }
-
-  visitBaseAttribute(baseAttribute: BaseAttribute): any {
-    return;
-  }
-
   visitStyleSheet(stylesheet: StyleSheetNode): any {
     return stylesheet.children.forEach(child => child.accept(this));
   }
@@ -75,4 +61,25 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     stylesheet.accept(styleVisitor);
     return styleVisitor.getMergedStyles();
   }
+
+  visitWidgetAttribute(widgetAttribute: WidgetAttribute): any {
+    return;
+  }
+
+  visitBaseAttribute(baseAttribute: BaseAttribute): any {
+    return;
+  }
+
+  private getMergedStyleForQuestion(question: QuestionStyle, variableInformation: VariableInformation) {
+    let mergedStyle = new MergedFieldStyle(question.identifier, variableInformation.type);
+    let parents: StyleTreeNode[] = question.getParents();
+
+    for (let parent of parents.reverse()) {
+      mergedStyle.applyDefaults(getDefaultStyleNodes(parent));
+    }
+
+    mergedStyle.applyStyle(question.children);
+    return mergedStyle;
+  }
+
 }

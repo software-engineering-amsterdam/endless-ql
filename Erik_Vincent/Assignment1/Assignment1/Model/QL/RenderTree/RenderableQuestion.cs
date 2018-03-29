@@ -20,7 +20,7 @@ namespace Assignment1.Model.QL.RenderTree
         //    Label = label;
         //}
 
-        protected RenderableQuestion(string id, string label, Type type, bool computed) : this(id, label, type, new Undefined(), computed) { }
+        //protected RenderableQuestion(string id, string label, Type type, bool computed) : this(id, label, type, new Undefined(), computed) { }
 
         protected RenderableQuestion(string id, string label, Type type, IExpression computation, bool computed)
         {

@@ -61,7 +61,7 @@ class MainWindow(QtWidgets.QWidget):
                         self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error))
                     return
                 # Traverses QLS AST
-                x = visit_qls(qls_data.ast, question_ids, questions)
+                error_message = visit_qls(qls_data.ast, question_ids, questions)
 
             if error_message:
                 self.initiate_output_frame()

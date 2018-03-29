@@ -27,7 +27,6 @@ class GuiBuilder(object):
         self.rendered_frame_order = self.frame_order
         self.frame_order = []
 
-    # Update the form if a value in the form has changed
     def updateForm(self, name='', index='', mode=''):
         if not self.rendering:
             self.frame_counter = 0
@@ -196,7 +195,7 @@ class GuiBuilder(object):
             return True
 
         return False
-        
+
     def removeExcessWidgets(self):
         if self.frame_counter < len(self.rendered_frame_order):
             self.gui.removeFrames(self.rendered_frame_order[self.frame_counter:])

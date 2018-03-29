@@ -1,32 +1,40 @@
 package doge.typechecker
 
-import doge.data.symbol.SymbolTable
-import doge.node.Node
-import doge.typechecker.pass.CircularDependencyPass
-import doge.typechecker.pass.DuplicatePass
-import doge.typechecker.pass.ScopePass
-import doge.typechecker.pass.TypePass
+import doge.ast.node.QLNode
+import doge.visitor.duplication.DuplicateQuestionVisitor
+import doge.visitor.duplication.DuplicationErrorContext
 
-class TypeChecker(val symbolTable: SymbolTable) {
+class TypeChecker(private val fileName: String, private val root: QLNode) {
 
-    fun check(tree: Node): TypeCheckResult {
-        val result = TypeCheckResult()
+    fun check() {
+        val duplicationErrorContext = checkDuplicates()
 
-        DuplicatePass(result).visit(tree)
+        if (duplicationErrorContext.hasErrors()) {
+            val errors = duplicationErrorContext.collect()
+            val formattedErrors = collectFormattedErrors(errors)
 
-        CircularDependencyPass(result, symbolTable).visit(tree)
-        if (result.hasErrors()) {
-            return result
+            formattedErrors.forEach { println(it) }
         }
-
-        ScopePass(result, symbolTable).visit(tree)
-        if (result.hasErrors()) {
-            return result
-        }
-
-        TypePass(result, symbolTable).visit(tree)
-
-        return result
     }
+
+    private fun checkDuplicates(): DuplicationErrorContext {
+        val duplicationErrorContext = DuplicationErrorContext()
+
+        DuplicateQuestionVisitor(duplicationErrorContext).visit(root)
+
+        return duplicationErrorContext
+    }
+
+    private fun collectFormattedErrors(errors: List<String>): List<String> {
+        val indexTextLength = errors.size.toString().length
+
+        val errorFormat = "Error [%${indexTextLength}d/%${indexTextLength}d]: %s"
+
+        return errors.mapIndexed { index, error ->
+            errorFormat.format(index + 1, errors.size, error)
+        }
+    }
+
+    private fun fileStream() = javaClass.getResource(fileName).openStream()
 
 }

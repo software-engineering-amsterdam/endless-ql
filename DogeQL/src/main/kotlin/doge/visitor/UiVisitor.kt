@@ -1,10 +1,14 @@
 package doge.visitor
 
+import doge.ast.location.SourceLocation
 import doge.ast.node.Block
 import doge.ast.node.Form
 import doge.ast.node.IfStatement
 import doge.ast.node.QuestionStatement
-import doge.ast.node.expression.*
+import doge.ast.node.expression.BinaryExpression
+import doge.ast.node.expression.LiteralExpression
+import doge.ast.node.expression.ReferenceExpression
+import doge.ast.node.expression.UnaryExpression
 import doge.data.question.Question
 
 class UiVisitor : QuestionnaireASTBaseVisitor<List<Question>> {
@@ -30,7 +34,7 @@ class UiVisitor : QuestionnaireASTBaseVisitor<List<Question>> {
 
         val location = SourceLocation(0, 0, 0, 0)
 
-        return listOf(Question(name, label, type.getDefaultInstance(), location, location, false))
+        return listOf(Question(name.text, label.text, type.type.getDefaultInstance(), location, location, false))
     }
 
     override fun visit(binaryExpression: BinaryExpression): List<Question> {

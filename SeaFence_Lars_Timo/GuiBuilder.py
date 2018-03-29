@@ -68,7 +68,7 @@ class GuiBuilder(object):
 
     def parseQLQuestion(self, statement):
         if statement.variable not in self.gui.values: 
-            self.gui.createTKTraceVariable(statement.variable, statement.variabletype, self.updateForm) 
+            self.gui.createTKTraceVariable(statement.variable, statement.variable_type, self.updateForm) 
            
         self.gui.widget_settings[statement.variable] = ["question", statement.variable_type, statement.question, self.gui.window]
         self.frame_order.append(statement.variable)

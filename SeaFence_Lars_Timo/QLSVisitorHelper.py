@@ -55,7 +55,7 @@ class QLSVisitorHelper(QLSVisitor):
 
     # Visit a parse tree produced by QLSParser#question.
     def visitQuestion(self, ctx):
-        variable = ctx.var().getText()
+        variable = ctx.variable().getText()
 
         question_node = QuestionNode(variable)
 

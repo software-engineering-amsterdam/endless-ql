@@ -1,5 +1,6 @@
 # Lars Lokhoff, Timo Dobber
 # This class changes the render order according to QLS form, adds QLS style options
+
 class QLSGuiBuilder(object):
     def __init__(self, gui, qls_ast):
         self.gui = gui

@@ -1,3 +1,6 @@
+# Lars Lokhoff, Timo Dobber
+# This class defines a complete generic visitor for a parse tree produced by QLParser.
+
 from QLast import *
 import sys
 
@@ -27,7 +30,6 @@ class QLTypeChecker(object):
             elif node_type == "assignment":
                 self.checkAssignmentNodes(statement)
 
-        # print self.questions
         return
         
 
@@ -36,18 +38,17 @@ class QLTypeChecker(object):
     def checkQuestionNodes(self, statement):
         self.checkDuplicateVariables(statement)
         statement.question = self.checkDuplicateQuestions(statement.question)
-        self.questions[statement.question] = [statement.var, statement.vartype]
+        self.questions[statement.question] = [statement.variable, statement.variable_type]
         return
 
 
     # Do the type check for conditional nodes that depend on an expression and if everything
     # is okay append the conditional to the dictionary and loop through the statements.
     def checkConditionalWithExpressionNodes(self, statement):
-        # todo: implement 1 and 0 for boolean?
         node_type = statement.expression.getNodeType()
         if node_type == "literal":
             print statement.expression
-            if statement.expression.vartype != INTEGER_UNICODE and statement.expression.vartype != BOOLEAN_UNICODE:
+            if statement.expression.variable_type != INTEGER_UNICODE and statement.expression.variable_type != BOOLEAN_UNICODE:
                 exitProgram("Condition {} is not of type boolean.".format(statement.expression))
 
         elif node_type == "unop":
@@ -79,17 +80,17 @@ class QLTypeChecker(object):
             assignment_type = self.getVariableTypes(statement.expression)
 
         elif node_type == "literal":
-            assignment_type = statement.expression.vartype
+            assignment_type = statement.expression.variable_type
 
         elif node_type is "binop":
             assignment_type = self.checkInvalidOperations(statement.expression)
 
-        if assignment_type != statement.vartype:
+        if assignment_type != statement.variable_type:
             exitProgram("Assignment expression type does not match variable type at {}".format(statement))
 
         statement.name = self.checkDuplicateQuestions(statement.name)
         
-        self.questions[statement.name] = [statement.var, statement.vartype, statement.expression]
+        self.questions[statement.name] = [statement.variable, statement.variable_type, statement.expression]
  
         return
 
@@ -98,13 +99,13 @@ class QLTypeChecker(object):
     def checkUndefinedVariables(self, statement):
         variable_exists = False
         for key, value in self.questions.iteritems():
-            if statement.var in value:
+            if statement.variable in value:
                 variable_exists = True
                 
             if variable_exists:
                 return
 
-        exitProgram("Variable {} is referenced, but does not exist.".format(statement.var))
+        exitProgram("Variable {} is referenced, but does not exist.".format(statement.variable))
         return
 
 
@@ -120,13 +121,12 @@ class QLTypeChecker(object):
     # Check for conditional that is not of the type boolean.
     def checkConditional(self, statement):
         for key, value in self.questions.iteritems():
-            if statement.expression.var in value and (value[1] != BOOLEAN_UNICODE and value[1] != INTEGER_UNICODE):
-                exitProgram("Condition {} is not of type boolean or integer.".format(statement.expression.var))
+            if statement.expression.variable in value and (value[1] != BOOLEAN_UNICODE and value[1] != INTEGER_UNICODE):
+                exitProgram("Condition {} is not of type boolean or integer.".format(statement.expression.variable))
                 
         return
 
 
-    # Check for operands of invalid type with regard to operators.
     def checkInvalidOperations(self, statement):
         operator = statement.op
 
@@ -158,24 +158,22 @@ class QLTypeChecker(object):
         return statement_type
 
 
-    # Check if negation on a given node is allowed.
     def checkNegation(self, statement, variable_type):
         if statement.negate and variable_type == INTEGER_UNICODE:
             exitProgram("Negation on {} is not allowed.".format(statement))
         return
 
 
-    # Check for duplicate labels.
     def checkDuplicateVariables(self, statement):
         for value in self.questions.values():
-            if statement.var == value[0]:
-                exitProgram("Variable {} is already declared.".format(statement.var))
+            if statement.variable == value[0]:
+                exitProgram("Variable {} is already declared.".format(statement.variable))
         return
 
 
     def getVariableTypes(self, statement):
         for key, value in self.questions.iteritems():
-            if statement.var in value:
+            if statement.variable in value:
                 variable_type = value[1]
 
         return variable_type

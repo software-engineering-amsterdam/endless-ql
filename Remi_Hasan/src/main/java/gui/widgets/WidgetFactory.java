@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import gui.widgets.chooser.CheckboxWidget;
 import gui.widgets.textbox.TextboxDecimalWidget;
 import gui.widgets.textbox.TextboxIntegerWidget;
 import gui.widgets.textbox.TextboxMoneyWidget;

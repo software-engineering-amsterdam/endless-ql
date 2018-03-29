@@ -1,5 +1,6 @@
-package gui.widgets;
+package gui.widgets.chooser;
 
+import gui.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;

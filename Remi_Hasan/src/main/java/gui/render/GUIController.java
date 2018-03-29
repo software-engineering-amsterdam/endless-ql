@@ -43,25 +43,26 @@ public class GUIController {
 
         for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : this.guiQuestionWidgets.entrySet()) {
             GUIQuestion guiQuestion = mapEntry.getKey();
-            LabelWithWidget guiWidget = mapEntry.getValue();
+            LabelWithWidget labelWithWidget = mapEntry.getValue();
 
             boolean visible = guiQuestion.isVisible(this.symbolTable);
-            guiWidget.setVisibility(visible);
+            labelWithWidget.setVisibility(visible);
 
             // Update symbol table, as another question with the same identifier could now be visible
             if(visible) {
                 if(guiQuestion.isComputed()) {
                     this.symbolTable.setExpression(guiQuestion.getIdentifier(), guiQuestion.getComputedAnswer());
                 } else {
-                    this.symbolTable.setExpression(guiQuestion.getIdentifier(), guiWidget.getExpressionValue());
+                    this.symbolTable.setExpression(guiQuestion.getIdentifier(), labelWithWidget.getExpressionValue());
                 }
 
                 visibleQuestions.add(guiQuestion.getIdentifier());
             } else if(!visibleQuestions.contains(guiQuestion.getIdentifier())) {
                 // If question becomes invisible, set value in symbol table to undefined
-                // but only if another question with the same identifier that is visible
-                // did not update the symbol table already, which we keep track of using visibleQuestions
-                this.symbolTable.setExpression(guiQuestion.getIdentifier(), new ExpressionVariableUndefined(guiQuestion.getType()));
+                // but only if another question with the same identifier was made visible already,
+                // which we keep track of using visibleQuestions
+                this.symbolTable.setExpression(guiQuestion.getIdentifier(),
+                        new ExpressionVariableUndefined(guiQuestion.getType()));
             }
         }
     }
@@ -71,11 +72,11 @@ public class GUIController {
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this.symbolTable);
         for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : this.guiQuestionWidgets.entrySet()) {
             GUIQuestion guiQuestion = mapEntry.getKey();
-            LabelWithWidget guiWidget = mapEntry.getValue();
+            LabelWithWidget labelWithWidget = mapEntry.getValue();
 
             if(guiQuestion.isComputed()) {
                 Value result = expressionEvaluator.visit(guiQuestion.getComputedAnswer());
-                guiWidget.setValue(result);
+                labelWithWidget.setValue(result);
             }
         }
     }

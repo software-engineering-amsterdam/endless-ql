@@ -23,11 +23,11 @@ public class GUIQuestionWithStyling extends GUIElement implements IGUIQuestion {
     @Override
     public LabelWithWidget render(GUIController guiController) {
         GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.guiQuestion.getType());
-        LabelWithWidget parent = this.guiQuestion.render(guiWidget, guiController);
+        LabelWithWidget labelWithWidget = this.guiQuestion.render(guiWidget, guiController);
 
         WidgetStyleApplier widgetStyleApplier = new WidgetStyleApplier();
-        widgetStyleApplier.applyStyles(this.guiQuestion.getType(), parent, this.defaultStyles);
+        widgetStyleApplier.applyStyles(this.guiQuestion.getType(), labelWithWidget, this.defaultStyles);
 
-        return parent;
+        return labelWithWidget;
     }
 }

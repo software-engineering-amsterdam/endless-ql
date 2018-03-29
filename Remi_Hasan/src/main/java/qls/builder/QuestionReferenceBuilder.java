@@ -8,7 +8,7 @@ import qls.model.widget.Widget;
 public class QuestionReferenceBuilder extends QLSBaseVisitor<QuestionReference> {
 
     @Override
-    public QuestionReference visitQuestion(QLSParser.QuestionContext ctx) {
+    public QuestionReference visitQuestionReference(QLSParser.QuestionReferenceContext ctx) {
         WidgetBuilder visitorWidget = new WidgetBuilder();
 
         Widget widget = null;

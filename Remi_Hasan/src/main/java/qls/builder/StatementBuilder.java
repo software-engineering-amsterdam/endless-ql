@@ -13,9 +13,9 @@ public class StatementBuilder extends QLSBaseVisitor<Statement> {
     }
 
     @Override
-    public Statement visitQuestion(QLSParser.QuestionContext ctx) {
+    public Statement visitQuestionReference(QLSParser.QuestionReferenceContext ctx) {
         QuestionReferenceBuilder questionReferenceBuilder = new QuestionReferenceBuilder();
-        return questionReferenceBuilder.visitQuestion(ctx);
+        return questionReferenceBuilder.visitQuestionReference(ctx);
     }
 
     @Override

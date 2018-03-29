@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 
 class Question:
@@ -39,6 +39,7 @@ class Question:
         self.answer = self.default_answer
 
     def create_label(self):
+        # Creates a label as specified by the question's attributes
         question_label = QtWidgets.QLabel(self.question_string)
         color = self.attributes['color']
         font_size = self.attributes['font_size']
@@ -60,7 +61,6 @@ class BooleanQuestion(Question):
         Question.__init__(self, question_id, question_string, data_type, answer)
         self.buttons = []
         self.if_questions = []
-        self.question_layout = None
         self.attributes['choices'] = None
 
     def set_radiobuttons(self, choices=('True', 'False')):
@@ -140,23 +140,25 @@ class BooleanQuestion(Question):
     def create_frame(self):
         """ Creates output frame """
         self.question_frame = QtWidgets.QFrame()
-        self.question_layout = QtWidgets.QGridLayout()
-        self.question_frame.setLayout(self.question_layout)
+        question_layout = QtWidgets.QGridLayout()
+        self.question_frame.setLayout(question_layout)
         self.question_frame.setVisible(self.visibility)
 
-        self.question_layout.addWidget(self.create_label(), 0, 0)
+        question_layout.addWidget(self.create_label(), 0, 0)
 
         if self.attributes['widget'] == 'radio':
             if self.attributes['choices']:
                 self.set_radiobuttons(self.attributes['choices'])
         elif self.attributes['widget'] == 'checkbox':
             self.set_checkbox()
-        else:
+        elif not self.attributes['widget']:
             self.set_radiobuttons()
+        else:
+            return QtWidgets.QLabel("Error: undefined widget for boolean question type")
 
         column = 1
         for button in self.buttons:
-            self.question_layout.addWidget(button, 0, column)
+            question_layout.addWidget(button, 0, column)
             column += 1
 
         return self.question_frame
@@ -166,23 +168,22 @@ class MoneyQuestion(Question):
     def __init__(self, question_id, question_string, data_type='money', answer='undefined'):
         Question.__init__(self, question_id, question_string, data_type, answer)
         self.text_input_box = None
-        self.question_layout = None
-
         self.attributes['width'] = None
 
     def set_line_edit(self):
         self.text_input_box = QtWidgets.QLineEdit()
+        # Allows only numerical input
+        reg_ex = QtCore.QRegExp("[0-9]*")
+        input_validator = QtGui.QRegExpValidator(reg_ex, self.text_input_box)
+        self.text_input_box.setValidator(input_validator)
+
         self.text_input_box.textEdited.connect(self.update_answer)
 
     def set_spinbox(self):
         self.text_input_box = QtWidgets.QDoubleSpinBox()
-        self.text_input_box.setMaximum(9 * 10**15)
+        self.text_input_box.setMaximum(9 * 10**15)  # If set much higher, gives unexpected behaviour
         self.text_input_box.setDecimals(0)
         self.text_input_box.valueChanged.connect(self.update_answer)
-
-    # def set_answer_box(self, text_box):
-    #     self.text_input_box = text_box
-    #     self.text_input_box.textEdited.connect(self.update_answer)
 
     def update_answer(self):
         self.answer = self.text_input_box.text()
@@ -190,21 +191,23 @@ class MoneyQuestion(Question):
     def create_frame(self):
         """ Creates output frame """
         self.question_frame = QtWidgets.QFrame()
-        self.question_layout = QtWidgets.QGridLayout()
-        self.question_frame.setLayout(self.question_layout)
+        question_layout = QtWidgets.QGridLayout()
+        self.question_frame.setLayout(question_layout)
         self.question_frame.setVisible(self.visibility)
 
-        self.question_layout.addWidget(self.create_label(), 0, 0)
+        question_layout.addWidget(self.create_label(), 0, 0)
 
         if self.attributes['widget'] == 'spinbox':
             self.set_spinbox()
+        elif not self.attributes['widget']:
+            self.set_line_edit()
         # elif self.attributes['widget'] == 'textbox':
         #     self.set_line_edit()
         else:
-            self.set_line_edit()
+            return QtWidgets.QLabel("Error: undefined widget for money question type")
 
         if self.attributes['width']:
             self.text_input_box.setFixedWidth(self.attributes['width'])
 
-        self.question_layout.addWidget(self.text_input_box, 0, 1)
+        question_layout.addWidget(self.text_input_box, 0, 1)
         return self.question_frame

@@ -20,10 +20,9 @@ def test_output_frame(qtbot):
     app = QtWidgets.QApplication(sys.argv)
     screen = output_frame.OutputFrame()
     screen.show()
-    screen.add_submit_button()
-    screen.output_path = "tests/QL_output.txt"
 
-    qtbot.mouseClick(screen.submit_button, QtCore.Qt.LeftButton)
+    screen.output_path = "tests/QL_output.txt"
+    screen.write_to_txt()
 
     exists = os.path.exists("tests/QL_output.txt")
     assert exists

@@ -1,0 +1,35 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Buying"
+    {
+      question hasBoughtHouse
+        widget checkbox
+    }
+    section "Loaning"
+  }
+  page Selling
+  {
+    section "Selling"
+    {
+      question hasSoldHouse
+        default boolean
+        {
+          width: 400
+          font: "Comic Sans MS"
+          fontsize: 20
+          color: #FF0C0C
+          widget checkbox
+        }
+    }
+    default boolean
+      {
+        width: 400
+        font: "Comic Sans MS"
+        fontsize: 20
+        color: #FF0C0C
+        widget checkbox
+      }
+  }
+}

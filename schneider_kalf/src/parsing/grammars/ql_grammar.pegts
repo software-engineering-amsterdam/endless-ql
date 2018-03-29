@@ -6,7 +6,6 @@
 {
     // Mapping of operators to their TypeScript class
     let operationMapping = {
-        "!"  : Node.Negation,
         "&&" : Nodes.And,
         "||" : Nodes.Or,
         "<=" : Nodes.SmallerThanOrEqual,
@@ -157,19 +156,19 @@ AdditiveExpression
   / MultiplicativeExpression
 
 MultiplicativeExpression
-  = head:Primary _ tail:(_ MultOps _ Primary)+ _{
+  = head:ExpressionElement _ tail:(_ MultOps _ ExpressionElement)+ _{
     let multiplicativeExpressionNode = buildExpression(head, tail);
     return addLocation(multiplicativeExpressionNode);
   }
-  / Primary
+  / ExpressionElement
 
-Primary
+ExpressionElement
   = Value
   / ExpressionWithBrackets
   / UnaryExpression
 
 UnaryExpression
- = UnaryOps value:Primary _ {
+ = UnaryOps value:ExpressionElement _ {
     let unaryExpressionNode = new Nodes.Negation(value);
     return addLocation(unaryExpressionNode);
 }

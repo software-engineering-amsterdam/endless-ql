@@ -5,22 +5,24 @@ import { InvalidColorError } from "../../../style_errors";
 export default class ColorAttribute extends BaseAttribute {
   private color: ColorValue;
 
-  static makeFromString(value: string) {
+  constructor(color: string) {
+    super();
+    this.color = this.parseColor(color);
+  }
+
+  parseColor(value: string): ColorValue {
     const color = new ColorValue(value);
+
     if (!color.isValid()) {
       throw InvalidColorError.make(value);
     }
-    return new ColorAttribute(color);
-  }
 
-  constructor(color: ColorValue) {
-    super();
-    this.color = color;
+    return color;
   }
 
   getCssValues(): object {
     return {
-      [this.getName()] : this.getStringValue(),
+      [this.getName()]: this.getStringValue(),
     };
   }
 

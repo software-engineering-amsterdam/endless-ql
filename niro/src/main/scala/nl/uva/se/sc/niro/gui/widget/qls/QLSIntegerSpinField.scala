@@ -5,8 +5,8 @@ import javafx.scene.control.Spinner
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 import nl.uva.se.sc.niro.gui.widget.{ FormatMasks, IntegerFormatterBuilder }
 
-class QLSIntegerSpinField()
-    extends Spinner[Integer](Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 1)
+class QLSIntegerSpinField(minimum: Integer, maximum: Integer, stepSize: Integer)
+    extends Spinner[Integer](minimum, maximum, (maximum - minimum) / 2, stepSize)
     with QLWidget[java.math.BigInteger]
     with FormatMasks {
 

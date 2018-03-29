@@ -71,9 +71,11 @@ style         : WIDGET widgetType                           # WidgetStyling
               | FONT DOUBLE_COLON fontType=Text             # FontTypeStyling
               | FONTSIZE DOUBLE_COLON fontSize=IntegerValue # FontSizeStyling;
 
-widgetType    : CHECKBOX                                                                # CheckBox
-              | SPINBOX                                                                 # SpinBox
+widgetType    : CHECKBOX                                                                  # CheckBox
+              | SPINBOX BRACKET_LEFT minimum=(DecimalValue | IntegerValue)
+                               COMMA maximum=(DecimalValue | IntegerValue)
+                               COMMA stepSize=(DecimalValue | IntegerValue) BRACKET_RIGHT # SpinBox
               | SLIDER BRACKET_LEFT minimum=(DecimalValue | IntegerValue)
-                              COMMA maximum=(DecimalValue | IntegerValue) BRACKET_RIGHT # Slider
-              | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT   # ComboBox
-              | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT   # RadioButtons;
+                              COMMA maximum=(DecimalValue | IntegerValue) BRACKET_RIGHT   # Slider
+              | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT     # ComboBox
+              | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT     # RadioButtons;

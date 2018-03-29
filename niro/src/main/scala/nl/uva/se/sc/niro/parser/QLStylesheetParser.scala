@@ -92,7 +92,12 @@ object QLStylesheetParser extends Logging {
   object WidgetTypeVisitor extends QLSBaseVisitor[Option[WidgetType]] {
     override def defaultResult(): Option[WidgetType] = None
     override def visitCheckBox(ctx: QLSParser.CheckBoxContext): Option[WidgetType] = Some(CheckBox())
-    override def visitSpinBox(ctx: QLSParser.SpinBoxContext): Option[WidgetType] = Some(SpinBox())
+    override def visitSpinBox(ctx: QLSParser.SpinBoxContext): Option[WidgetType] = {
+      val minimum = if (ctx.minimum == null) 0 else ctx.minimum.getText.toDouble
+      val maximum = if (ctx.maximum == null) 0 else ctx.maximum.getText.toDouble
+      val stepSize = if (ctx.stepSize == null) 0 else ctx.stepSize.getText.toDouble
+      Some(SpinBox(minimum, maximum, stepSize))
+    }
     override def visitSlider(ctx: QLSParser.SliderContext): Option[WidgetType] = {
       val minimum = if (ctx.minimum == null) 0 else ctx.minimum.getText.toDouble
       val maximum = if (ctx.maximum == null) 0 else ctx.maximum.getText.toDouble

@@ -2,8 +2,8 @@ package gui.model;
 
 import gui.render.GUIController;
 import gui.elements.LabelWithWidget;
-import gui.widgets.GUIWidget;
-import gui.widgets.WidgetFactory;
+import gui.elements.widgets.GUIWidget;
+import gui.elements.widgets.WidgetFactory;
 import javafx.scene.control.Label;
 import ql.evaluation.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;

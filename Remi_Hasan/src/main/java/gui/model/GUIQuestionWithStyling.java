@@ -3,8 +3,8 @@ package gui.model;
 import gui.elements.LabelWithWidget;
 import gui.render.GUIController;
 import gui.render.WidgetStyleApplier;
-import gui.widgets.GUIWidget;
-import gui.widgets.WidgetFactory;
+import gui.elements.widgets.GUIWidget;
+import gui.elements.widgets.WidgetFactory;
 import qls.model.statement.DefaultStyle;
 import qls.model.widget.Widget;
 import qls.model.widget.WidgetType;
@@ -29,7 +29,7 @@ public class GUIQuestionWithStyling extends GUIElement implements IGUIQuestion {
         LabelWithWidget parent = this.guiQuestion.render(guiWidget, guiController);
 
         WidgetStyleApplier widgetStyleApplier = new WidgetStyleApplier();
-        widgetStyleApplier.applyStyles(this.guiQuestion.getType(), parent, this.defaultStyles);
+        widgetStyleApplier.applyStyles(parent, this.defaultStyles, this.guiQuestion.getType());
 
         return parent;
     }

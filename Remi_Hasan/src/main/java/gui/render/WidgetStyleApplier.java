@@ -12,11 +12,11 @@ public class WidgetStyleApplier extends QLSVisitor<Void> {
 
     private LabelWithWidget labelWithWidget;
 
-    public void applyStyles(ReturnType questionType, LabelWithWidget labelWithWidget, List<DefaultStyle> defaultStyles) {
+    public void applyStyles(LabelWithWidget labelWithWidget, List<DefaultStyle> defaultStyles, ReturnType questionType) {
         this.labelWithWidget = labelWithWidget;
 
         for (DefaultStyle defaultStyle : defaultStyles) {
-            // Apply style if applicable to this data type
+            // Apply style if applicable to this question type
             if (defaultStyle.getType() == questionType) {
                 for (StyleAttribute styleAttribute : defaultStyle.getStyleAttributes()) {
                     styleAttribute.accept(this);

@@ -24,7 +24,8 @@ public class GUIFormBuilder {
         // Translate all form Questions to GUIQuestions
         List<GUIQuestion> guiQuestions = getGUIQuestions(form);
 
-        // Map all questions with the same identifier
+        // Map all questions with the same identifier, which can be used by the QLS GUI elements
+        // to retrieve the placed questions by identifier
         Map<String, List<GUIQuestion>> guiQuestionMap = this.mapGUIQuestionsByIdentifier(guiQuestions);
 
         // Build GUIPage objects

@@ -1,4 +1,4 @@
-package gui.widgets;
+package gui.elements.widgets;
 
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;

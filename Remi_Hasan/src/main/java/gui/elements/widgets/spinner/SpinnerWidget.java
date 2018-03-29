@@ -1,35 +1,19 @@
-package gui.widgets;
+package gui.elements.widgets.spinner;
 
+import gui.elements.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import ql.evaluation.value.Value;
-import ql.model.expression.Expression;
-import ql.model.expression.ReturnType;
-import ql.model.expression.variable.ExpressionVariableDate;
-import ql.model.expression.variable.ExpressionVariableUndefined;
 
-public class DateWidget extends DatePicker implements GUIWidget {
+import java.util.Locale;
 
-    public DateWidget() {
-        // Do not allow typing, only date selecting using UI element
-        this.getEditor().setDisable(true);
-    }
+public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
 
-    @Override
-    public Expression getExpressionValue() {
-        if(this.getValue() == null) {
-            return new ExpressionVariableUndefined(ReturnType.DATE);
-        }
-
-        return new ExpressionVariableDate(this.getValue());
-    }
-
-    @Override
-    public void setValue(Value value) {
-        this.setValue(value.getDateValue());
+    public SpinnerWidget() {
+        this.setEditable(true);
     }
 
     @Override
@@ -40,6 +24,11 @@ public class DateWidget extends DatePicker implements GUIWidget {
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
         this.valueProperty().addListener(invalidationListener);
+//        this.getEditor().textProperty().addListener(invalidationListener);
+//        final Spinner spinner = this;
+//        this.getEditor().setOnAction(e->{
+//            invalidationListener.invalidated(spinner.valueProperty());
+//        });
     }
 
     @Override
@@ -64,3 +53,4 @@ public class DateWidget extends DatePicker implements GUIWidget {
         this.setPrefWidth(width);
     }
 }
+

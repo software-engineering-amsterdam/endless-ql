@@ -37,19 +37,28 @@ public class GUIElementBuilder extends QLSVisitor<List<GUIElement>> {
 
         // Add all QL questions with this identifier here, inside decorator for the styling
         for (GUIQuestion guiQuestion : guiQuestionMap.get(questionReference.getIdentifier())) {
+            // Get widget defined for question itself, or from page/section default styles
             Widget widget;
             if (questionReference.getWidget() != null) {
                 widget = questionReference.getWidget();
             } else {
-                widget = this.getWidget(defaultStyles, guiQuestion.getType());
+                widget = this.getWidgetFromStyles(defaultStyles, guiQuestion.getType());
             }
+
             guiElements.add(new GUIQuestionWithStyling(guiQuestion, this.defaultStyles, widget));
         }
 
         return guiElements;
     }
 
-    private Widget getWidget(List<DefaultStyle> defaultStyles, ReturnType questionType) {
+    @Override
+    public List<GUIElement> visit(DefaultStyle defaultStyle) {
+        // We do not render this, instead we already collected them and pass them through to the questions
+        // to be rendered
+        return new ArrayList<>();
+    }
+
+    private Widget getWidgetFromStyles(List<DefaultStyle> defaultStyles, ReturnType questionType) {
         Widget widget = new WidgetDefault();
 
         // Go through default styles and find if a widget type has been set for this question type
@@ -60,12 +69,5 @@ public class GUIElementBuilder extends QLSVisitor<List<GUIElement>> {
         }
 
         return widget;
-    }
-
-    @Override
-    public List<GUIElement> visit(DefaultStyle defaultStyle) {
-        // We do not render this, instead we already collected them and pass them through to the questions
-        // to be rendered
-        return new ArrayList<>();
     }
 }

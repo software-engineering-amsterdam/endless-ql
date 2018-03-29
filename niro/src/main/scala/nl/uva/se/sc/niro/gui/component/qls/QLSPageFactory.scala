@@ -39,7 +39,6 @@ class QLSPageFactory(formController: QLSFormController, form: GUIForm, styleshee
     })
 
     formController.setQuestionControls(components)
-    formController.updateView()
 
     page
   }

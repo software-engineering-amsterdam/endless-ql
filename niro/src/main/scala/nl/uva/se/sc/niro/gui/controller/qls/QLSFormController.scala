@@ -32,7 +32,7 @@ class QLSFormController(homeController: QLHomeController, model: QLForm, guiForm
   override def initializeForm(): Unit = {
     pagination.setPageCount(stylesheet.pages.size)
     pagination.setPadding(new Insets(00.0, 20.0, 00.0, 20.0))
-    pagination.setPageFactory(new QLSPageFactory(this, guiForm, stylesheet))
+    pagination.setPageFactory(new QLSPageFactoryBuilder(this, guiForm, stylesheet).build)
 
     questionArea.setContent(pagination)
     questionArea.setFitToHeight(true)

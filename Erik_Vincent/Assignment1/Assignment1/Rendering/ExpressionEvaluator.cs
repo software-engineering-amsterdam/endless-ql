@@ -60,11 +60,11 @@ namespace Assignment1.Rendering
             _valueAsString = value.Value.ToString();
         }
 
-        public void Visit(Undefined undefined)
-        {
-            _currentValue = undefined;
-            _valueAsString = "false";
-        }
+        //public void Visit(Undefined undefined)
+        //{
+        //    _currentValue = undefined;
+        //    _valueAsString = "false";
+        //}
 
         public void Visit(QLString value)
         {

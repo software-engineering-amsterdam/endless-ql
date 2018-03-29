@@ -6,12 +6,12 @@ namespace Assignment1.Model.QL.AST.Value
     {
         public bool Value { get; }
 
-        public QLBoolean(bool value)
-        {
-            Value = value;
-        }
+        public QLBoolean() : this(false) { }
+
+        public QLBoolean(bool value) => Value = value;
 
         public void Accept(IExpressionVisitor visitor) => visitor.Visit(this);
         public void Accept(IValueVisitor visitor) => visitor.Visit(this);
+        public bool IsUndefined() => false;
     }
 }

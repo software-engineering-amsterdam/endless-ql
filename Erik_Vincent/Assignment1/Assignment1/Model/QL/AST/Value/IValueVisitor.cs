@@ -4,7 +4,6 @@
     {
         void Visit(QLBoolean value);
         void Visit(QLInteger value);
-        void Visit(Undefined undefined);
         void Visit(QLString value);
         void Visit(QLDate value);
         void Visit(QLDecimal value);

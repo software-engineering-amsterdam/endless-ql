@@ -1,6 +1,6 @@
 package gui.elements;
 
-import gui.widgets.GUIWidget;
+import gui.elements.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.Label;

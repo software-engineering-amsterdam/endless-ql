@@ -1,18 +1,18 @@
-package gui.widgets;
+package gui.elements.widgets;
 
-import gui.widgets.chooser.CheckboxWidget;
-import gui.widgets.chooser.DropdownWidget;
-import gui.widgets.chooser.RadioWidget;
-import gui.widgets.slider.SliderDecimalWidget;
-import gui.widgets.slider.SliderIntegerWidget;
-import gui.widgets.slider.SliderMoneyWidget;
-import gui.widgets.spinner.SpinnerDecimalWidget;
-import gui.widgets.spinner.SpinnerIntegerWidget;
-import gui.widgets.spinner.SpinnerMoneyWidget;
-import gui.widgets.textbox.TextboxDecimalWidget;
-import gui.widgets.textbox.TextboxIntegerWidget;
-import gui.widgets.textbox.TextboxMoneyWidget;
-import gui.widgets.textbox.TextboxWidget;
+import gui.elements.widgets.chooser.CheckboxWidget;
+import gui.elements.widgets.chooser.DropdownWidget;
+import gui.elements.widgets.chooser.RadioWidget;
+import gui.elements.widgets.slider.SliderDecimalWidget;
+import gui.elements.widgets.slider.SliderIntegerWidget;
+import gui.elements.widgets.slider.SliderMoneyWidget;
+import gui.elements.widgets.spinner.SpinnerDecimalWidget;
+import gui.elements.widgets.spinner.SpinnerIntegerWidget;
+import gui.elements.widgets.spinner.SpinnerMoneyWidget;
+import gui.elements.widgets.textbox.TextboxDecimalWidget;
+import gui.elements.widgets.textbox.TextboxIntegerWidget;
+import gui.elements.widgets.textbox.TextboxMoneyWidget;
+import gui.elements.widgets.textbox.TextboxWidget;
 import ql.model.expression.ReturnType;
 import qls.model.widget.*;
 

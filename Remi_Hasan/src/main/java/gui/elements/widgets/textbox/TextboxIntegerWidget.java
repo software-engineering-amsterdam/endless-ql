@@ -1,6 +1,6 @@
-package gui.widgets.textbox;
+package gui.elements.widgets.textbox;
 
-import gui.widgets.WidgetUtils;
+import gui.elements.widgets.WidgetUtils;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;

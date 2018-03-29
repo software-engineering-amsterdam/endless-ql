@@ -4,6 +4,7 @@ import qls.model.statement.QuestionReference;
 import qls.model.widget.Widget;
 import qls.antlr.QLSBaseVisitor;
 import qls.antlr.QLSParser;
+import qls.model.widget.WidgetDefault;
 
 public class VisitorQuestion extends QLSBaseVisitor<QuestionReference> {
 

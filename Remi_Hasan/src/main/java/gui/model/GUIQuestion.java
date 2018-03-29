@@ -9,6 +9,8 @@ import ql.evaluation.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
+import qls.model.widget.Widget;
+import qls.model.widget.WidgetDefault;
 import qls.model.widget.WidgetType;
 
 public class GUIQuestion implements IGUIQuestion {
@@ -34,10 +36,6 @@ public class GUIQuestion implements IGUIQuestion {
         return type;
     }
 
-    public WidgetType getWidgetType() {
-        return WidgetType.DEFAULT;
-    }
-
     public Expression getComputedAnswer() {
         return computedAnswer;
     }
@@ -52,7 +50,7 @@ public class GUIQuestion implements IGUIQuestion {
     }
 
     public LabelWithWidget render(GUIController guiController) {
-        GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type, WidgetType.DEFAULT);
+        GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type);
         return this.render(guiWidget, guiController);
     }
 

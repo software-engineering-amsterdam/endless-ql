@@ -3,6 +3,9 @@ package gui.widgets;
 import gui.widgets.chooser.CheckboxWidget;
 import gui.widgets.chooser.DropdownWidget;
 import gui.widgets.chooser.RadioWidget;
+import gui.widgets.slider.SliderDecimalWidget;
+import gui.widgets.slider.SliderIntegerWidget;
+import gui.widgets.slider.SliderMoneyWidget;
 import gui.widgets.spinner.SpinnerDecimalWidget;
 import gui.widgets.spinner.SpinnerIntegerWidget;
 import gui.widgets.spinner.SpinnerMoneyWidget;
@@ -11,80 +14,107 @@ import gui.widgets.textbox.TextboxIntegerWidget;
 import gui.widgets.textbox.TextboxMoneyWidget;
 import gui.widgets.textbox.TextboxWidget;
 import ql.model.expression.ReturnType;
-import qls.model.widget.WidgetType;
+import qls.model.widget.*;
 
 public class WidgetFactory {
-    // TODO: implement interface that can be overridden by QLS
-    public static GUIWidget getDefaultWidget(ReturnType questionType, WidgetType widgetType) {
+
+    public static GUIWidget getDefaultWidget(ReturnType questionType) {
         switch (questionType) {
             case STRING:
-                return WidgetFactory.getDefaultWidgetString(widgetType);
+                return new TextboxWidget();
             case INTEGER:
-                return WidgetFactory.getDefaultWidgetInteger(widgetType);
+                return new TextboxIntegerWidget();
             case DECIMAL:
-                return WidgetFactory.getDefaultWidgetDecimal(widgetType);
+                return new TextboxDecimalWidget();
             case MONEY:
-                return WidgetFactory.getDefaultWidgetMoney(widgetType);
+                return new TextboxMoneyWidget();
             case DATE:
-                return WidgetFactory.getDefaultWidgetDate(widgetType);
+                return new DateWidget();
             case BOOLEAN:
-                return WidgetFactory.getDefaultWidgetBoolean(widgetType);
+                return new CheckboxWidget();
             default:
                 throw new UnsupportedOperationException("Question type not implemented to render in GUI");
         }
     }
 
-    private static GUIWidget getDefaultWidgetString(WidgetType widgetType) {
-        switch (widgetType) {
+    public static GUIWidget getWidget(ReturnType questionType, Widget widget) {
+        switch (questionType) {
+            case STRING:
+                return WidgetFactory.getWidgetString(widget);
+            case INTEGER:
+                return WidgetFactory.getWidgetInteger(widget);
+            case DECIMAL:
+                return WidgetFactory.getWidgetDecimal(widget);
+            case MONEY:
+                return WidgetFactory.getWidgetMoney(widget);
+            case DATE:
+                return WidgetFactory.getWidgetDate(widget);
+            case BOOLEAN:
+                return WidgetFactory.getWidgetBoolean(widget);
+            default:
+                throw new UnsupportedOperationException("Question type not implemented to render in GUI");
+        }
+    }
+
+    private static GUIWidget getWidgetString(Widget widget) {
+        switch (widget.getType()) {
             case TEXTBOX:
             default:
                 return new TextboxWidget();
         }
     }
 
-    private static GUIWidget getDefaultWidgetInteger(WidgetType widgetType) {
-        switch (widgetType) {
+    private static GUIWidget getWidgetInteger(Widget widget) {
+        switch (widget.getType()) {
             case SPINBOX:
                 return new SpinnerIntegerWidget();
+            case SLIDER:
+                WidgetSlider widgetSlider = (WidgetSlider) widget;
+                return new SliderIntegerWidget((int) widgetSlider.getMinValue(), (int) widgetSlider.getMaxValue());
             case TEXTBOX:
             default:
                 return new TextboxIntegerWidget();
         }
     }
 
-    private static GUIWidget getDefaultWidgetDecimal(WidgetType widgetType) {
-        switch (widgetType) {
+    private static GUIWidget getWidgetDecimal(Widget widget) {
+        switch (widget.getType()) {
             case SPINBOX:
                 return new SpinnerDecimalWidget();
+            case SLIDER:
+                WidgetSlider widgetSlider = (WidgetSlider) widget;
+                return new SliderDecimalWidget(widgetSlider.getMinValue(), widgetSlider.getMaxValue());
             case TEXTBOX:
             default:
                 return new TextboxDecimalWidget();
         }
     }
 
-    private static GUIWidget getDefaultWidgetMoney(WidgetType widgetType) {
-        switch (widgetType) {
+    private static GUIWidget getWidgetMoney(Widget widget) {
+        switch (widget.getType()) {
             case SPINBOX:
                 return new SpinnerMoneyWidget();
+            case SLIDER:
+                WidgetSlider widgetSlider = (WidgetSlider) widget;
+                return new SliderMoneyWidget(widgetSlider.getMinValue(), widgetSlider.getMaxValue());
             case TEXTBOX:
             default:
                 return new TextboxMoneyWidget();
         }
     }
 
-    private static GUIWidget getDefaultWidgetDate(WidgetType widgetType) {
+    private static GUIWidget getWidgetDate(Widget widget) {
         return new DateWidget();
     }
 
-
-    private static GUIWidget getDefaultWidgetBoolean(WidgetType widgetType) {
-        switch (widgetType) {
+    private static GUIWidget getWidgetBoolean(Widget widget) {
+        switch (widget.getType()) {
             case RADIO:
-                // TODO
-                return new RadioWidget("false", "true");
+                WidgetRadio widgetRadio = (WidgetRadio) widget;
+                return new RadioWidget(widgetRadio.getFalseLabel(), widgetRadio.getTrueLabel());
             case DROPDOWN:
-                // TODO
-                return new DropdownWidget("false", "true");
+                WidgetDropdown widgetDropdown = (WidgetDropdown) widget;
+                return new DropdownWidget(widgetDropdown.getFalseLabel(), widgetDropdown.getTrueLabel());
             case CHECKBOX:
             default:
                 return new CheckboxWidget();

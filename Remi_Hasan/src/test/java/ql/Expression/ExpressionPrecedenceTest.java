@@ -1,8 +1,8 @@
 package ql.expression;
 
+import org.junit.Test;
 import ql.QLTestUtilities;
 import ql.evaluation.value.Value;
-import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 

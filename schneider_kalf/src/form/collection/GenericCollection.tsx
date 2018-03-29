@@ -1,21 +1,27 @@
-export default class GenericCollection<E> {
-  private list: E[] = [];
+import { cloneArray } from "../../helpers/array_helpers";
 
-  constructor(elements: E[]) {
+export default class GenericCollection<E> {
+  private list: Set<E> = new Set();
+
+  constructor(elements: E[] = []) {
     this.add = this.add.bind(this);
 
     this.addMany(elements);
   }
 
   add(element: E) {
-    this.list.push(element);
+    this.list.add(element);
   }
 
   addMany(elements: E[]) {
     elements.forEach(this.add);
   }
 
-  toArray() {
-    return this.list;
+  forEach(callback: (element: E) => void): void {
+    this.list.forEach(element => callback(element));
+  }
+
+  toArray(): E[] {
+    return cloneArray(Array.from(this.list));
   }
 }

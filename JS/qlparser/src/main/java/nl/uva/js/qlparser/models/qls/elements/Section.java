@@ -9,5 +9,5 @@ import java.util.LinkedList;
 @Data
 public class Section {
     String name;
-    LinkedList<QuestionReference> questions;
+    LinkedList<ExpressionReference> expressionReferences;
 }

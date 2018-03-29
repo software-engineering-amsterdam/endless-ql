@@ -12,6 +12,7 @@ namespace Assignment1.Model.QL.AST.Value
         public QLInteger(int value)
         {
             Value = value;
+            _undefined = false;
         }
 
         public void Accept(IExpressionVisitor visitor) => visitor.Visit(this);

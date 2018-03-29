@@ -154,6 +154,7 @@
     <Compile Include="Parser\QLSParser.cs" />
     <Compile Include="Rendering\ExpressionEvaluator.cs" />
     <Compile Include="Rendering\QLRenderer.cs" />
+    <Compile Include="Rendering\Widget\DatePicker.cs" />
     <Compile Include="Rendering\Widget\QLWidgetFactory.cs" />
     <Compile Include="Rendering\QuestionFormWithStyleRenderer.cs" />
     <Compile Include="Model\QL\AST\Statement.cs" />
@@ -161,6 +162,8 @@
     <Compile Include="Rendering\SymbolTable.cs" />
     <Compile Include="Rendering\Widget\CheckBox.cs" />
     <Compile Include="Rendering\Widget\IWidget.cs" />
+    <Compile Include="Rendering\Widget\SpinBox.cs" />
+    <Compile Include="Rendering\Widget\TextBox.cs" />
     <Compile Include="TypeChecking\MessageContainer.cs" />
     <Compile Include="TypeChecking\QLASTCyclicDependencyChecker.cs" />
     <Compile Include="Model\QL\AST\QLASTBaseVisitor.cs" />

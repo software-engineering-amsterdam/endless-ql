@@ -9,7 +9,7 @@ export default class FontAttribute extends BaseAttribute {
   }
 
   getCssValues(): object {
-    return {[this.getName()]: this.getStringValue() };
+    return {fontFamily: this.getStringValue()};
   }
 
   getName(): string {

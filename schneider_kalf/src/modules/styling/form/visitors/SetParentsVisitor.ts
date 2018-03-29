@@ -1,6 +1,6 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
 import DefaultStyle from "../nodes/children/DefaultStyleNode";
-import QuestionStyle from "../nodes/children/QuestionStyle";
+import QuestionStyleNode from "../nodes/children/QuestionStyleNode";
 import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
@@ -23,7 +23,7 @@ export default class SetParentsVisitor implements StyleNodeVisitor {
     this.setParent(defaultStyle, []);
   }
 
-  visitQuestionStyle(question: QuestionStyle): any {
+  visitQuestionStyle(question: QuestionStyleNode): any {
     this.setParent(question, []);
   }
 

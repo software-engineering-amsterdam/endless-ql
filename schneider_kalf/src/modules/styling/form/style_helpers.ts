@@ -1,8 +1,7 @@
 import StyleTreeNode from "./nodes/StyleTreeNode";
 import DefaultStyle from "./nodes/children/DefaultStyleNode";
 import StyleFilterVisitor from "./visitors/StyleFilterVisitor";
-import WidgetAttribute from "./nodes/attributes/WidgetAttribute";
-import QuestionStyle from "./nodes/children/QuestionStyle";
+import QuestionStyleNode from "./nodes/children/QuestionStyleNode";
 
 export const getDefaultStyleNodes = (container: StyleTreeNode): DefaultStyle[] => {
   const visitor = new StyleFilterVisitor({
@@ -14,7 +13,7 @@ export const getDefaultStyleNodes = (container: StyleTreeNode): DefaultStyle[] =
   return container.accept(visitor);
 };
 
-export const getQuestionStyleNodes = (container: StyleTreeNode, recursive: boolean = false): QuestionStyle[] => {
+export const getQuestionStyleNodes = (container: StyleTreeNode, recursive: boolean = false): QuestionStyleNode[] => {
   const visitor = new StyleFilterVisitor({
     includeQuestions: true,
     includeDefaults: false,

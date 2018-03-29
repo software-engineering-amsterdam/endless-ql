@@ -45,13 +45,13 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#var.
-    def visitVar(self, ctx):
+    # Visit a parse tree produced by QLParser#variable.
+    def visitVariable(self, ctx):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#vartype.
-    def visitVartype(self, ctx):
+    # Visit a parse tree produced by QLParser#variable_type.
+    def visitVariable_type(self, ctx):
         return self.visitChildren(ctx)
 
 

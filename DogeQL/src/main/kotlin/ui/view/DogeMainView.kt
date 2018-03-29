@@ -54,34 +54,7 @@ class DogeMainView : View() {
 
 
     private fun temp(): StyleSheet {
-        return StyleSheet(
-                listOf(
-                        Page(
-                                listOf(
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 1"),
-                                        Section("section 2")
-                                ),
-                                "Page 1"
-                        ),
-                        Page(
-                                listOf(
-                                        Section("section 3")
-                                ),
-                                "Page 2"
-                        )
-                )
-        )
+        return TODO()
     }
 }
 

@@ -29,4 +29,8 @@ public class TextPanel extends JPanel{
     public String getText() {
         return textArea.getText();
     }
+
+    public void setTextColor(Color color) {
+        textArea.setForeground(color);
+    }
 }

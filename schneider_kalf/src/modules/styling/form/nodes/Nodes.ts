@@ -3,7 +3,7 @@ import BaseAttribute from "./attributes/BaseAttribute";
 import Page from "./containers/PageNode";
 import Section from "./containers/SectionNode";
 import WidgetAttribute from "./attributes/WidgetAttribute";
-import QuestionStyle from "./children/QuestionStyle";
+import QuestionStyleNode from "./children/QuestionStyleNode";
 import DefaultStyle from "./children/DefaultStyleNode";
 import DropdownWidgetAttribute from "./attributes/widget_attribtues/DropdownWidgetAttribute";
 import SliderWidgetAttribute from "./attributes/widget_attribtues/SliderWidgetAttribute";
@@ -28,7 +28,7 @@ export default {
   WidgetAttribute,
   Page,
   Section,
-  QuestionStyle,
+  QuestionStyle: QuestionStyleNode,
   DefaultStyle,
   DropdownWidgetAttribute,
   CheckboxWidgetAttribute,

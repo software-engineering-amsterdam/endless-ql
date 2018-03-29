@@ -41,8 +41,4 @@ public class Question extends ASTNode {
     public Expression getCondition(){ return condition;}
 
     public Boolean isPredefined(){ return predefined;}
-
-    public Boolean isEnabled(){
-        return condition.evaluate().getValue().equals(true);
-    }
 }

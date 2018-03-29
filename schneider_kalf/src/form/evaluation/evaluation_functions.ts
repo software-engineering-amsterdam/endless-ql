@@ -1,7 +1,7 @@
 import Expression from "../nodes/expressions/Expression";
 import FormState from "../state/FormState";
 import EvaluationVisitor from "./EvaluationVisitor";
-import { getUsedVariables } from "../form_helpers";
+import { getUsedVariableIdentifiers } from "../../helpers/form_helpers";
 
 /**
  * Alias to evaluate a form using the EvaluationVisitor
@@ -25,7 +25,7 @@ export const evaluate = (expression: Expression, state?: FormState): any => {
  * @returns {boolean}
  */
 export const canBeEvaluated = (expression: Expression, state: FormState) => {
-  const variables = getUsedVariables(expression);
+  const variables = getUsedVariableIdentifiers(expression);
   const missingVariables = variables.filter(variableName => !state.hasValueFor(variableName));
 
   return missingVariables.length === 0;

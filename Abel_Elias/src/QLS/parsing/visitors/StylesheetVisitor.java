@@ -1,11 +1,12 @@
 package QLS.parsing.visitors;
 
+import QL.classes.Question;
 import QLS.classes.blocks.Block;
 import QLS.classes.Page;
 import QLS.classes.blocks.Element;
-import QLS.classes.blocks.Question;
 import QLS.classes.blocks.Section;
 import QLS.classes.Stylesheet;
+import QLS.classes.blocks.StyledQuestion;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
 
@@ -18,12 +19,12 @@ public class StylesheetVisitor extends QLSBaseVisitor {
     private BlockVisitor blockVisitor;
     private LinkedHashMap<String, Page> pages;
     private LinkedHashMap<String, Section> sections;
-    private LinkedHashMap<String, Question> questions;
+    private LinkedHashMap<String, StyledQuestion> questions;
     private LinkedHashMap<String, Element> parents;
 
 
-    public StylesheetVisitor(){
-        this.blockVisitor = new QLS.parsing.visitors.BlockVisitor();
+    public StylesheetVisitor(LinkedHashMap<String, Question> questions){
+        this.blockVisitor = new BlockVisitor(questions);
         this.parents = new LinkedHashMap<>();
         this.pages = new LinkedHashMap<>();
         this.sections = new LinkedHashMap<>();
@@ -70,7 +71,7 @@ public class StylesheetVisitor extends QLSBaseVisitor {
         return pages;
     }
 
-    public LinkedHashMap<String,Question> getQuestions() {
+    public LinkedHashMap<String,StyledQuestion> getQuestions() {
         return questions;
     }
 

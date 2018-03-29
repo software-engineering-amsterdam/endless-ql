@@ -15,26 +15,6 @@ public class NegationExpression extends UnaryExpression {
     }
 
     @Override
-    public EvaluationType returnType(){
-        return EvaluationType.Decimal;
-    }
-
-    @Override
-    public Constant evaluate(){
-        if(!this.getExpression().evaluate().isArithmetic()){
-            return new UndefinedConstant(this.getLineNumber());
-        }
-
-        if(this.getExpression().returnType() == EvaluationType.Integer){
-            Integer exprValue = Integer.parseInt(this.getExpression().evaluate().getValue().toString());
-            return new IntegerConstant(exprValue * -1, this.getLineNumber());
-        }
-
-        Double exprValue = Double.parseDouble(this.getExpression().evaluate().getValue().toString());
-        return new DecimalConstant(exprValue * -1, this.getLineNumber());
-    }
-
-    @Override
     public <T> T accept(ExpressionVisitorInterface<T> visitor){
         return visitor.visit(this);
     }

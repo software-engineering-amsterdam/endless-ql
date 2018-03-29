@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,14 +26,23 @@ public class Form implements FormExpression {
     @JsonIgnore @NonNull private String name;
     @JsonIgnore private LinkedList<FormExpression> formExpressions;
 
+    @JsonIgnore private HashMap<String, FormExpression> expressionsByName;
+
     @Override
     @JsonIgnore
     public LinkedList<Component> getComponents() {
+        expressionsByName = new HashMap<>();
+
         LinkedList<Component> components = new LinkedList<>();
 
-        NonNullRun.consumer(formExpressions, fe -> fe.stream()
-                .map(FormExpression::getComponents)
-                .forEach(components::addAll));
+        NonNullRun.consumer(formExpressions, fe -> {
+            for (FormExpression formExpression : fe) {
+                List<Component> formExpressionComponents = formExpression.getComponents();
+                components.addAll(formExpressionComponents);
+
+                expressionsByName.put(formExpression.getName(), formExpression);
+            }
+        });
 
         return components;
     }
@@ -51,7 +61,7 @@ public class Form implements FormExpression {
                         .collect(Collectors.joining(" ")));
     }
 
-    @JsonProperty("questions")
+    @JsonProperty("expressionReferences")
     public List<Object> getJsonRepresentation() {
         return JsonRepresentationHelper.visualInformation(formExpressions);
     }

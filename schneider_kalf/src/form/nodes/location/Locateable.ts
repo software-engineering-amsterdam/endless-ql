@@ -1,7 +1,8 @@
 import NodeLocation from "./NodeLocation";
 
 interface Locateable {
-  setLocation(location: NodeLocation): void;
+  setLocation(location: NodeLocation): Locateable;
+
   getLocation(): NodeLocation;
 }
 

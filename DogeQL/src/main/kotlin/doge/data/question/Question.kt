@@ -1,6 +1,6 @@
 package doge.data.question
 
-import doge.ast.node.expression.SourceLocation
+import doge.ast.location.SourceLocation
 import doge.data.symbol.SymbolTable
 import doge.data.value.BaseSymbolValue
 

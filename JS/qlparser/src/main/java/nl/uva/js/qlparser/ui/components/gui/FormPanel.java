@@ -2,11 +2,16 @@ package nl.uva.js.qlparser.ui.components.gui;
 
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
+import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
+import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.Page;
-import nl.uva.js.qlparser.models.qls.elements.QuestionReference;
+import nl.uva.js.qlparser.models.qls.elements.ExpressionReference;
 import nl.uva.js.qlparser.models.qls.elements.Section;
+import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
+import nl.uva.js.qlparser.models.qls.style.WidgetStyle;
+import nl.uva.js.qlparser.ui.components.form.ComponentBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,9 +25,11 @@ public class FormPanel extends JPanel {
 
     private final JPanel formContent;
 
+    private Form form;
+
     private LinkedHashMap<String, Component> qlComponentsByName;
 
-    public LinkedHashMap<String, LinkedList<Component>> pages;
+    private LinkedHashMap<String, LinkedList<Component>> pages;
     private HashMap<DataType, DefaultStyle> defaultStyles;
 
     public FormPanel(Form form, int viewHeight, int formWidth, int formHeight){
@@ -50,6 +57,7 @@ public class FormPanel extends JPanel {
      * Gets components for form, saves them by name and adds them to the content panel
      */
     private void loadComponents(Form form) {
+        this.form = form;
         qlComponentsByName = new LinkedHashMap<>();
 
         for (Component component : form.getComponents()) {
@@ -78,8 +86,6 @@ public class FormPanel extends JPanel {
         pages         = new LinkedHashMap<>();
         defaultStyles = new HashMap<>();
 
-        LinkedList<Component> styledComponents;
-
         stylesheet.getDefaultStyles().forEach(style -> defaultStyles.put(style.getDataType(), style));
 
         for (Page page : stylesheet.getPages()) {
@@ -103,11 +109,52 @@ public class FormPanel extends JPanel {
         LinkedList<Component> pageComponents = new LinkedList<>();
         for(Section section : page.getSections()) {
             pageComponents.add(buildSectionHeader(section.getName()));
-            for (QuestionReference reference : section.getQuestions()) {
+            for (ExpressionReference reference : section.getExpressionReferences()) {
                 Component component = qlComponentsByName.get(reference.getName());
-                    pageComponents.add(component);
+                updateWidget(component, reference.getWidgetType(), reference.getWidgetStyle());
+                pageComponents.add(component);
             }
         }
         return pageComponents;
+    }
+
+    //TODO: WIP
+    private void updateWidget(Component component, WidgetType widgetType, WidgetStyle widgetStyle) {
+        FormExpression expression = form.getExpressionsByName().get(component.getName());
+        Variable variable = expression.getVariable();
+        if (variable == null) {
+            return;
+        }
+
+        Panel formComponent = (Panel) component;
+        Component input  = formComponent.getComponent(1);
+
+        DataType dataType = expression.getType();
+
+        if (needToReplaceWidget(widgetType, dataType)) {
+            formComponent.remove(input);
+
+            if (defaultStyles.containsKey(dataType)) {
+                DefaultStyle defaultStyle = defaultStyles.get(dataType);
+
+                switch (defaultStyle.getWidgetType()) {
+                    case CHECKBOX:
+                        formComponent.add(ComponentBuilder.buildCheckBox(variable));
+                        break;
+                    case DROPDOWN:
+                        formComponent.add(ComponentBuilder.buildDropdown(variable));
+                        break;
+                    case RADIO:
+                        formComponent.add(ComponentBuilder.buildRadioButtons(variable));
+                }
+            }
+        }
+
+        component.revalidate();
+        component.repaint();
+    }
+
+    private boolean needToReplaceWidget(WidgetType widgetType, DataType dataType) {
+        return defaultStyles.containsKey(dataType) || widgetType != null;
     }
 }

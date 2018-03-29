@@ -1,14 +1,13 @@
 # Lars Lokhoff, Timo Dobber
 # Gui class that holds all gui related functions to add widgets to the windows
+
 import Tkinter as tk
 from Tkinter import *
 from ttk import *
 class Gui():
     def __init__(self):
         self.window = tk.Tk()
-        # self.window.geometry('%sx%s' % (self.window.winfo_screenwidth()/3, self.window.winfo_screenheight()))
-        # self.window.maxsize(self.window.winfo_screenwidth()/3, self.window.winfo_screenheight())
-   
+        
         self.frame = None
         self.notebook = None
         self.frames = {}
@@ -19,18 +18,6 @@ class Gui():
         self.notebook_set = False
         self.current_page = None
 
-    def addDropdown(self, name, items):
-        variable = tk.StringVar(self.window)
-        var.set(items[0])
-        dropdown = apply(tk.OptionMenu, (self.window, var) + tuple(items))
-        self.dropdowns[name] = dropDown
-        dropDown.pack()
-
-    def removeDropdown(self, name):
-        if name in self.dropDowns:
-            self.dropdowns[name].destroy()
-            del self.dropdowns[name]
-
     def addBooleanQuestion(self, widget_variable, question, text1, text2, render_frame, color="#000000", width=300, font="Times", fontsize="12"):
         frame = tk.Frame(render_frame, height=2, width=width)
         frame.pack(expand=False, fill='both')
@@ -40,8 +27,8 @@ class Gui():
         label.pack(side=LEFT)
         
         variable = self.values[widget_variable]
-        radioButton1 = tk.Radiobutton(frame, text=text1, variable=variable, value=0, height=2)
-        radioButton2 = tk.Radiobutton(frame, text=text2, variable=variable, value=1, height=2)
+        radioButton1 = tk.Radiobutton(frame, text=text2, variable=variable, value=0, height=2)
+        radioButton2 = tk.Radiobutton(frame, text=text1, variable=variable, value=1, height=2)
         radioButton1.pack(side=LEFT)
         radioButton2.pack(side=LEFT)
 
@@ -111,7 +98,7 @@ class Gui():
         label.pack(side=LEFT)
 
         variable = self.values[widget_variable]
-        dropdown = tk.OptionMenu(frame, var, "Yes", "No")
+        dropdown = tk.OptionMenu(frame, var, "No", "Yes")
         dropdown.config(font=font_options, fg=color)
         dropdown.pack(side=LEFT)
 
@@ -135,7 +122,7 @@ class Gui():
     def getValue(self, variable_name, type):
         if type == "int":
             value = self.values[variable_name].get()
-            if value == '':
+            if value == "":
                 return 0
             else:
                 return int(value) 
@@ -151,19 +138,20 @@ class Gui():
 
     def createTKNoTraceVariable(self, variable_key, value):
         variable = tk.StringVar()
-        var.set(str(value))
-        self.values[variable_key] = var
+        variable.set(str(value))
+        self.values[variable_key] = variable
 
-    def createTKTraceVariable(self, variable_key, var_type, update_function):
-        if var_type is not "boolean":
+    def createTKTraceVariable(self, variable_key, variable_type, update_function):
+        if variable_type is not "boolean":
             variable = tk.StringVar()
-            var.trace('w', lambda nm, idx, mode, var=variable: self.validateForm(update_function))
+            variable.trace('w', lambda nm, idx, mode, var=variable: self.validateForm(update_function))
 
         else:
             variable = tk.IntVar()
-            var.trace("w", update_function)
+            variable.set("0")
+            variable.trace("w", update_function)
 
-        self.values[variable_key] = var
+        self.values[variable_key] = variable
 
     def addPage(self, page_name):
         if not self.notebook_set:
@@ -187,12 +175,11 @@ class Gui():
 
         return labelframe
 
-    def removeFrame(self, var_frame):
-        if var_frame in self.gui.frames:
-            self.frames[var_frame].destroy()
+    def removeFrame(self, variable_frame):
+        if variable_frame in self.frames:
+            self.frames[variable_frame].destroy()
 
     def removeFrames(self, frame_list):
-        print "Removing frames: ", frame_list
-        for var_frame in frame_list:
-            self.removeFrame(var_frame)
+        for variable_frame in frame_list:
+            self.removeFrame(variable_frame)
     

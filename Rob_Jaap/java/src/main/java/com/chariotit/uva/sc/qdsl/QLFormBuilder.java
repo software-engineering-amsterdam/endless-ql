@@ -52,6 +52,7 @@ public class QLFormBuilder extends JPanel {
 
         this.formSymbolTable = root.getFormSymbolTable();
 
+
         builder = new DefaultFormBuilder(new FormLayout(""));
 //        builder.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -89,6 +90,8 @@ public class QLFormBuilder extends JPanel {
     }
 
     private void renderForm(Form form){
+        evaluateAst();
+
         renderElements(form.getFormElements());
     }
 
@@ -127,6 +130,10 @@ public class QLFormBuilder extends JPanel {
         System.out.println(block.getIfElements());
     }
 
+    private static void evaluateAst() {
+        EvaluateVisitor evaluateVisitor = new EvaluateVisitor(astRoot.getQuestionSymbolTable());
+        astRoot.acceptVisitor(evaluateVisitor);
+    }
 
     // when a value is updated
     private void updateForm() {
@@ -218,6 +225,9 @@ public class QLFormBuilder extends JPanel {
                 System.out.println(checkbox.isSelected());
 
 //                SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
+
+                System.out.println(((BooleanExpressionValue)symbol.getExpressionValue()).getValue
+                        ());
 
 //                symbol.setExpressionValue();
 //                ((BooleanExpressionValue)symbol.getExpressionValue()).setValue(checkbox.isSelected());
@@ -321,7 +331,6 @@ public class QLFormBuilder extends JPanel {
     public void addQuestion(LineElement element){
 
         JComponent questionComponent = componentForElement(element);
-
         builder.append(element.getQuestion().getQuestion(), questionComponent);
         builder.nextLine();
     }

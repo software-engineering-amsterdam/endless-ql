@@ -1,3 +1,5 @@
 package doge.ast.node
 
-interface Statement : QLNode
+import doge.ast.location.SourceLocation
+
+abstract class Statement(location: SourceLocation) : QLNode(location)

@@ -60,7 +60,7 @@ public class Parser {
 
     //debugging prints, remove after completion
 
-    public void printQLForm(Form form){
+    /*public void printQLForm(Form form){
         for(Question question : form.getQuestions()){
             String questionName = question.getIdentifier();
             ExpressionTable expressionTable = form.getExpressionTable();
@@ -70,7 +70,7 @@ public class Parser {
                                 //question.isEnabled()+" : "+
                                 expressionTable.getExpression(questionName).evaluate().getValue());
         }
-    }
+    }*/
 
     public void printQLSStyleSheet(Stylesheet ss){
         for(Page page : ss.getPages()){

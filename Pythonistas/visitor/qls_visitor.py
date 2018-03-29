@@ -1,14 +1,15 @@
 from antlr4 import ParseTreeVisitor
 from antlr.generated.QLSParser import QLSParser
 from PyQt5 import QtWidgets
+import re
 
 
 # This class defines a complete generic visitor for a parse tree produced by QLSParser.
 def visit_qls(tree, question_ids, questions):
     """ Traverse the parsed tree """
     walker = QLSVisitor(question_ids, questions)
-    page_frames = walker.visit(tree)
-    return [walker.error_message, page_frames]
+    walker.visit(tree)
+    return walker.error_message
     # warning_message = check_duplicate_question_strings(walker.question_ids, walker.questions)
     # return [walker.question_ids, walker.questions, walker.error_message, warning_message]
 
@@ -29,9 +30,10 @@ class QLSVisitor(ParseTreeVisitor):
             if not self.shouldVisitNextChild(node, result):
                 return
             c = node.getChild(i)
-            # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
+            # child.accept() calls the visitType function from the QLSVisitor class; form.accept() returns visitForm()
             child_result = c.accept(self)
             for key in child_result:
+                # I
                 if key in result:
                     result[key].extend(child_result[key])
                 else:
@@ -44,23 +46,12 @@ class QLSVisitor(ParseTreeVisitor):
 
 
     def visitPage(self, ctx:QLSParser.PageContext):
-        result = self.visitChildren(ctx)
-        if 'questions' in result:
-            question_ids = result['questions']
-            if 'defaults' in result:
-                default_attributes = result['defaults']
-
-                for id in question_ids:
-                    question = self.questions[id]
-                    question.set_attributes(default_attributes)
-
-            result = {'questions': question_ids}
-        else:
-            result = self.defaultResult()
-        return result
-
+        return self.assign_question_attributes(ctx)
 
     def visitSection(self, ctx:QLSParser.SectionContext):
+        return self.assign_question_attributes(ctx)
+
+    def assign_question_attributes(self,ctx):
         result = self.visitChildren(ctx)
         if 'questions' in result:
             question_ids = result['questions']
@@ -96,14 +87,14 @@ class QLSVisitor(ParseTreeVisitor):
 
 
     def visitDefault(self, ctx:QLSParser.DefaultContext):
-        attributes = self.visitChildren(ctx)
-        result = {'default_{}'.format(attributes['datatype']): attributes['attributes']}
+        children = self.visitChildren(ctx)
+        result = {'defaults':{children['data_type']: children['attributes']}}
         return result
 
 
     def visitType(self, ctx:QLSParser.TypeContext):
         result = self.visitChildren(ctx)  # todo: remove, if it is redundant
-        result = {'datatype': ctx.getText()}
+        result = {'data_type': ctx.getText()}
         return result
 
 
@@ -115,37 +106,41 @@ class QLSVisitor(ParseTreeVisitor):
 
     def visitWidth(self, ctx:QLSParser.WidthContext):
         result = self.visitChildren(ctx)
-        if ctx.INT():
-            result.update({'width':int(ctx.INT().getText())})
+        result.update({'width': int(ctx.INT().getText())})
         return result
 
     def visitFont(self, ctx:QLSParser.FontContext):
         result = self.visitChildren(ctx)
-        if ctx.STRING():
-            result.update({'font':ctx.STRING().getText()})
+        result.update({'font': ctx.STRING().getText()})
         return result
 
     def visitFontsize(self, ctx:QLSParser.FontsizeContext):
         result = self.visitChildren(ctx)
-        if ctx.INT():
-            result.update({'font_size':int(ctx.INT().getText())})
+        result.update({'font_size': int(ctx.INT().getText())})
         return result
 
     def visitColor(self, ctx:QLSParser.ColorContext):
         result = self.visitChildren(ctx)
-        if ctx.HEX():
-            result.update({'color':ctx.HEX().getText()})
+        result.update({'color': ctx.HEX().getText()})
         return result
 
 
     def visitCheckbox(self, ctx:QLSParser.CheckboxContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)
+        result.update({'widget': 'checkbox'})
+        return result
 
     def visitRadio(self, ctx:QLSParser.RadioContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)
+        result.update({'widget': 'radio'})
+        return result
 
     def visitSpinbox(self, ctx:QLSParser.SpinboxContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)
+        result.update({'widget': 'spinbox'})
+        return result
 
     def visitChoices(self, ctx:QLSParser.ChoicesContext):
-        return self.visitChildren(ctx)
+        result = self.visitChildren(ctx)
+        result.update({'choices': ( re.split('\W+', ctx.getText()) )[1:3]})
+        return result

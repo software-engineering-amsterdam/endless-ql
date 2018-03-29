@@ -60,7 +60,7 @@ PageBodyStatements = Section / Default
 SectionBodyStatements = Question / Section / Default
 
 Stylesheet
- = StylesheetToken _ identifier:Word __ "{" __ page:Page* __ "}" __ {
+ = StylesheetToken _ identifier:Word __ "{" __ page:Page+ __ "}" __ {
     return new Nodes.Stylesheet( identifier, page );
 }
 

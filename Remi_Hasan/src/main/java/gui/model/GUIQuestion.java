@@ -55,8 +55,7 @@ public class GUIQuestion implements IGUIQuestion {
     }
 
     public LabelWithWidget render(GUIController guiController) {
-        // TODO: remove second argument
-        GUIWidget guiWidget = WidgetFactory.getWidget(this.type, this.getWidget());
+        GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type);
         return this.render(guiWidget, guiController);
     }
 

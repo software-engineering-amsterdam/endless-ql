@@ -3,6 +3,9 @@ package gui.widgets;
 import gui.widgets.chooser.CheckboxWidget;
 import gui.widgets.chooser.DropdownWidget;
 import gui.widgets.chooser.RadioWidget;
+import gui.widgets.slider.SliderDecimalWidget;
+import gui.widgets.slider.SliderIntegerWidget;
+import gui.widgets.slider.SliderMoneyWidget;
 import gui.widgets.spinner.SpinnerDecimalWidget;
 import gui.widgets.spinner.SpinnerIntegerWidget;
 import gui.widgets.spinner.SpinnerMoneyWidget;
@@ -11,13 +14,29 @@ import gui.widgets.textbox.TextboxIntegerWidget;
 import gui.widgets.textbox.TextboxMoneyWidget;
 import gui.widgets.textbox.TextboxWidget;
 import ql.model.expression.ReturnType;
-import qls.model.widget.Widget;
-import qls.model.widget.WidgetDropdown;
-import qls.model.widget.WidgetRadio;
-import qls.model.widget.WidgetType;
+import qls.model.widget.*;
 
 public class WidgetFactory {
-    // TODO: implement interface that can be overridden by QLS
+    // TODO: implement interface that can be overridden by QLS?
+
+    public static GUIWidget getDefaultWidget(ReturnType questionType) {
+        switch (questionType) {
+            case STRING:
+                return new TextboxWidget();
+            case INTEGER:
+                return new TextboxIntegerWidget();
+            case DECIMAL:
+                return new TextboxDecimalWidget();
+            case MONEY:
+                return new TextboxMoneyWidget();
+            case DATE:
+                return new DateWidget();
+            case BOOLEAN:
+                return new CheckboxWidget();
+            default:
+                throw new UnsupportedOperationException("Question type not implemented to render in GUI");
+        }
+    }
 
     public static GUIWidget getWidget(ReturnType questionType, Widget widget) {
         switch (questionType) {
@@ -50,6 +69,9 @@ public class WidgetFactory {
         switch (widget.getType()) {
             case SPINBOX:
                 return new SpinnerIntegerWidget();
+            case SLIDER:
+                WidgetSlider widgetSlider = (WidgetSlider) widget;
+                return new SliderIntegerWidget((int) widgetSlider.getMinValue(), (int) widgetSlider.getMaxValue());
             case TEXTBOX:
             default:
                 return new TextboxIntegerWidget();
@@ -60,6 +82,9 @@ public class WidgetFactory {
         switch (widget.getType()) {
             case SPINBOX:
                 return new SpinnerDecimalWidget();
+            case SLIDER:
+                WidgetSlider widgetSlider = (WidgetSlider) widget;
+                return new SliderDecimalWidget(widgetSlider.getMinValue(), widgetSlider.getMaxValue());
             case TEXTBOX:
             default:
                 return new TextboxDecimalWidget();
@@ -70,6 +95,9 @@ public class WidgetFactory {
         switch (widget.getType()) {
             case SPINBOX:
                 return new SpinnerMoneyWidget();
+            case SLIDER:
+                WidgetSlider widgetSlider = (WidgetSlider) widget;
+                return new SliderMoneyWidget(widgetSlider.getMinValue(), widgetSlider.getMaxValue());
             case TEXTBOX:
             default:
                 return new TextboxMoneyWidget();
@@ -79,7 +107,6 @@ public class WidgetFactory {
     private static GUIWidget getWidgetDate(Widget widget) {
         return new DateWidget();
     }
-
 
     private static GUIWidget getWidgetBoolean(Widget widget) {
         switch (widget.getType()) {

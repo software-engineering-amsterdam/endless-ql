@@ -60,8 +60,8 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
           ("Expression", "Expected Answer"),
           (Multiply(MoneyAnswer(5), IntegerAnswer(3)), MoneyAnswer(15)),
           (Multiply(MoneyAnswer(5), DecimalAnswer(3)), MoneyAnswer(15)),
-//          (Multiply(IntegerAnswer(3), MoneyAnswer(5)), MoneyAnswer(15)),
-//          (Multiply(DecimalAnswer(3), MoneyAnswer(5)), MoneyAnswer(15)),
+          (Multiply(IntegerAnswer(3), MoneyAnswer(5)), MoneyAnswer(15)),
+          (Multiply(DecimalAnswer(3), MoneyAnswer(5)), MoneyAnswer(15)),
           (Divide(MoneyAnswer(10), IntegerAnswer(5)), MoneyAnswer(2)),
           (Divide(MoneyAnswer(10), DecimalAnswer(5)), MoneyAnswer(2)),
           (Addition(IntegerAnswer(10), DecimalAnswer(5)), DecimalAnswer(15)),
@@ -272,10 +272,26 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         assertThrows[UnsupportedOperationException](expression.evaluate(Map.empty, Map.empty))
       }
-      "throw an error when evaluating mixed answertypes" in {
+      "throw an error when evaluating incompatible answertypes" in {
         val expression = Equal(BooleanAnswer(true), IntegerAnswer(5))
 
         assertThrows[MatchError](expression.evaluate(Map.empty, Map.empty))
+      }
+      "throw an error when evaluating invalid money arithmetics" in {
+        val table = Table(
+          "Operation",
+          Addition(MoneyAnswer(5), IntegerAnswer(4)),
+          Addition(IntegerAnswer(5), MoneyAnswer(4)),
+          Addition(MoneyAnswer(5), DecimalAnswer(4)),
+          Addition(DecimalAnswer(5), MoneyAnswer(4)),
+          Subtract(MoneyAnswer(5), IntegerAnswer(4)),
+          Subtract(MoneyAnswer(5), IntegerAnswer(4)),
+          Multiply(MoneyAnswer(5), MoneyAnswer(4))
+        )
+
+        forAll(table) { expression =>
+          assertThrows[UnsupportedOperationException](expression.evaluate(Map.empty, Map.empty))
+        }
       }
     }
   }

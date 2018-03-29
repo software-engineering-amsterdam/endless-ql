@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.ql.evaluation
 
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }
 
 import scala.language.implicitConversions
 
@@ -8,19 +8,20 @@ object BasicArithmetics {
   trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntegerAnswer] {
     def plus(x: IntegerAnswer, y: Answer): Answer = y match {
       case i: IntegerAnswer => IntegerAnswer(x.value + i.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
+      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x + $y")
     }
     def subtract(x: IntegerAnswer, y: Answer): Answer = y match {
       case i: IntegerAnswer => IntegerAnswer(x.value - i.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x - $y")
+      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x - $y")
     }
     def multiply(x: IntegerAnswer, y: Answer): Answer = y match {
       case i: IntegerAnswer => IntegerAnswer(x.value * i.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x * $y")
+      case m: MoneyAnswer => MoneyAnswer(BigDecimal(x.value) * m.value)
+      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x * $y")
     }
     def div(x: IntegerAnswer, y: Answer): Answer = y match {
       case i: IntegerAnswer => IntegerAnswer(x.value / i.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x / $y")
+      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x / $y")
     }
     def minus(x: IntegerAnswer): Answer = IntegerAnswer(-x.value)
   }
@@ -29,19 +30,20 @@ object BasicArithmetics {
   trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecimalAnswer] {
     def plus(x: DecimalAnswer, y: Answer): Answer = y match {
       case d: DecimalAnswer => DecimalAnswer(x.value + d.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
+      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x + $y")
     }
     def subtract(x: DecimalAnswer, y: Answer): Answer = y match {
       case d: DecimalAnswer => DecimalAnswer(x.value - d.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x - $y")
+      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x - $y")
     }
     def multiply(x: DecimalAnswer, y: Answer): Answer = y match {
       case d: DecimalAnswer => DecimalAnswer(x.value * d.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x * $y")
+      case m: MoneyAnswer => MoneyAnswer(x.value * m.value)
+      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x * $y")
     }
     def div(x: DecimalAnswer, y: Answer): Answer = y match {
       case d: DecimalAnswer => DecimalAnswer(x.value / d.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x / $y")
+      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x / $y")
     }
     def minus(x: DecimalAnswer): Answer = DecimalAnswer(-x.value)
   }

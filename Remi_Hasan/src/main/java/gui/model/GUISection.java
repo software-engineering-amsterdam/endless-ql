@@ -27,26 +27,26 @@ public class GUISection extends GUIElement {
         Label pageLabel = new Label(title);
         pageLabel.setFont(new Font(16));
 
-        VBox vBox = new VBox();
-        vBox.getChildren().add(pageLabel);
+        VBox sectionBox = new VBox();
+        sectionBox.getChildren().add(pageLabel);
 
         // Render all section elements, keep track of their visibility properties to bind to the section visibility
         ObservableList<BooleanProperty> visibleProperties = FXCollections.observableArrayList();
         for (GUIElement sectionElement : this.sectionElements) {
             Parent renderedElement = sectionElement.render(guiController);
-            vBox.getChildren().add(renderedElement);
+            sectionBox.getChildren().add(renderedElement);
             visibleProperties.add(renderedElement.visibleProperty());
         }
 
         if (visibleProperties.size() > 0) {
             // Bind section visibility to question visibility
-            vBox.visibleProperty().bind(this.bindingOrConjunction(visibleProperties));
+            sectionBox.visibleProperty().bind(this.bindingOrConjunction(visibleProperties));
         } else {
             // Empty section, so hide it
-            vBox.setVisible(false);
+            sectionBox.setVisible(false);
         }
 
-        return vBox;
+        return sectionBox;
     }
 
     // Source: https://stackoverflow.com/a/14707660

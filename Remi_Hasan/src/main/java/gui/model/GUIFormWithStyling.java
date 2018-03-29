@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-public class GUIFormWithStyling extends GUIForm {
+public class GUIFormWithStyling extends GUIForm implements IRenderable {
 
     private List<GUIPage> pages;
 

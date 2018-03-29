@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-public class GUIForm extends VBox {
+public class GUIForm extends VBox implements IRenderable {
     public final String identifier;
     private final List<GUIQuestion> guiQuestions;
 

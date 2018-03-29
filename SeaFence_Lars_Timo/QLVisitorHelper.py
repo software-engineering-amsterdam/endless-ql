@@ -26,7 +26,7 @@ class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#assignment.
     def visitAssignment(self, ctx):
-        name = ctx.STR().getText()
+        name = ctx.STR().getText().strip('"')
         variable = ctx.variable().getText()
         variable_type = ctx.variable_type().getText()
         expression = self.visit(ctx.expression())
@@ -37,7 +37,7 @@ class QLVisitorHelper(QLVisitor):
 
     # Visit a parse tree produced by QLParser#question.
     def visitQuestion(self, ctx):
-        question = ctx.STR().getText()
+        question = ctx.STR().getText().strip('"')
         variable = ctx.variable().getText()
         variable_type = ctx.variable_type().getText()
         node = QuestionNode(question, variable, variable_type)

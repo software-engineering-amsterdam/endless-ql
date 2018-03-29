@@ -53,7 +53,7 @@ def getLexerFromStringQLS(inputText):
     parser = QLSGrammarParser(token_stream)
     parser._listeners = [MyErrorListener()]
 
-    tree = parser.form()
+    tree = parser.stylesheet()
     tree_str = tree.toStringTree(recog=parser)
     return str(tree_str)
 

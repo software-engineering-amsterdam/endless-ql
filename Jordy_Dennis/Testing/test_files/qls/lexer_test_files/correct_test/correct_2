@@ -7,3 +7,5 @@ stylesheet taxOfficeExample
   {
   }
 }
+---
+(stylesheet stylesheet taxOfficeExample { (page page Housing { }) (page page Selling { }) } <EOF>)

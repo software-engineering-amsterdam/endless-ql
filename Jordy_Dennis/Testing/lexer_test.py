@@ -23,12 +23,12 @@ class QLLexerTest(unittest.TestCase):
 
 class QLSLexerTest(unittest.TestCase):
     def testGoodFilesQLSLexer(self):
+        # Testing / test_files / qls / lexer_test_files / correct_test / correct_1
         path = 'Testing/test_files/qls/lexer_test_files/correct_test'
         for filename in os.listdir(path):
             inputText, outputText = getInputOutput(path, filename)
-            blockPrint()
             lexer_str = getLexerFromStringQLS(inputText)
-            enablePrint()
+
             self.assertEqual(lexer_str, outputText, filename)
 
     def testErrorFilesQLSLexer(self):

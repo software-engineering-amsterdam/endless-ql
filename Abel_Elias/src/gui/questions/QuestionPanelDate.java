@@ -2,7 +2,8 @@ package gui.questions;
 
 import QL.classes.Question;
 import QL.classes.values.Value;
-import gui.FormBuilder;
+import gui.GUIBuilder;
+import gui.QuestionChangeListener;
 import org.jdatepicker.*;
 
 import javax.swing.*;
@@ -41,9 +42,8 @@ public class QuestionPanelDate extends QuestionPanel {
     }
 
     @Override
-    public void setListener(EventListener listener) {
-        FormBuilder.DateActionListener dateActionListener = (FormBuilder.DateActionListener) listener;
-        picker.addActionListener(dateActionListener);
+    public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
+        picker.addActionListener(questionChangeListener.new DateActionListener(super.getQuestion().getId(), picker));
     }
 
     @Override

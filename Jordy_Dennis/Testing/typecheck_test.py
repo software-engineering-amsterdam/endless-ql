@@ -35,9 +35,10 @@ class QLSTypeCheckTest(unittest.TestCase):
             qlAst = getAstFromString(qlText)
             qlAst.linkVars()
             qlAst.checkTypes()
-            
+
             qlsAst = getQLSAstFromString(qlsText)
             qlsAst.prepareAndCheckAst(qlAst.getVarDict())
+
             self.assertEqual(str(qlsAst), outputText, filename)
 
     def testErrorFilesQLSTypecheck(self):

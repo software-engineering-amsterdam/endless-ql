@@ -5,6 +5,7 @@ import Expression from "./nodes/expressions/Expression";
 import NodeLocation from "./nodes/location/NodeLocation";
 import VariableIdentifier from "./nodes/expressions/VariableIdentifier";
 import { Maybe } from "../helpers/type_helper";
+import TreeNode from "./nodes/TreeNode";
 
 export class FormError extends Error {
   constructor(m: string) {
@@ -22,9 +23,10 @@ export const makeError = <T extends Error>(errorClass: { new(name: string): T; }
 export class TypeCheckError extends FormError {
   expectedType: string;
   receivedType: string;
+  node: Maybe<TreeNode>;
   location: Maybe<NodeLocation>;
 
-  static make(expectedType: string, receivedType: string, location?: NodeLocation, message?: string) {
+  static make(expectedType: string, receivedType: string, node?: TreeNode, message?: string) {
     if (!message) {
       message = `Type check failed. Expected "${expectedType}" but received "${receivedType}".`;
     }
@@ -32,7 +34,8 @@ export class TypeCheckError extends FormError {
     const error = makeError(TypeCheckError, message);
     error.expectedType = expectedType;
     error.receivedType = receivedType;
-    error.location = location;
+    error.node = node;
+
     return error;
   }
 }
@@ -40,8 +43,10 @@ export class TypeCheckError extends FormError {
 export class ValuesNotComparableError extends FormError {
   left: any;
   right: any;
+  node: Maybe<TreeNode>;
+  location: NodeLocation;
 
-  static make(left: string, right: string, message?: string) {
+  static make(left: string, right: string, node?: TreeNode, message?: string) {
     if (!message) {
       message = `Cannot compare ${left} [${getTypeString(left)}] to  ${right} [${getTypeString(right)}].`;
     }
@@ -49,6 +54,7 @@ export class ValuesNotComparableError extends FormError {
     const error = makeError(ValuesNotComparableError, message);
     error.left = left;
     error.right = right;
+    error.node = node;
 
     return error;
   }
@@ -57,8 +63,9 @@ export class ValuesNotComparableError extends FormError {
 export class TypesNotComparableError extends FormError {
   left: FieldType;
   right: FieldType;
+  node: Maybe<TreeNode>;
 
-  static make(left: FieldType, right: FieldType, message?: string) {
+  static make(left: FieldType, right: FieldType, node?: TreeNode, message?: string) {
     if (!message) {
       message = `Cannot compare type ${left} to  ${right}.`;
     }
@@ -66,6 +73,7 @@ export class TypesNotComparableError extends FormError {
     const error = makeError(TypesNotComparableError, message);
     error.left = left;
     error.right = right;
+    error.node = node;
 
     return error;
   }
@@ -107,8 +115,7 @@ export class UnkownFieldError extends FormError {
 }
 
 export class UnkownVariableIdentifierError extends FormError {
-  variableIdentifier: VariableIdentifier;
-  location: NodeLocation;
+  node: VariableIdentifier;
 
   static make(identifier: VariableIdentifier, message?: string) {
     if (!message) {
@@ -116,8 +123,7 @@ export class UnkownVariableIdentifierError extends FormError {
     }
 
     const error = makeError(UnkownVariableIdentifierError, message);
-    error.variableIdentifier = identifier;
-    error.location = identifier.getLocation();
+    error.node = identifier;
     return error;
   }
 }
@@ -165,9 +171,8 @@ export class FieldAlreadyDeclaredError extends FormError {
 }
 
 export class VariableNotInScopeError extends FormError {
-  location: NodeLocation;
-  expression: Expression;
   identifier: string;
+  node: Expression;
 
   static make(expression: Expression, identifier: string, message?: string) {
     if (!message) {
@@ -176,8 +181,7 @@ export class VariableNotInScopeError extends FormError {
 
     const error = makeError(VariableNotInScopeError, message);
     error.identifier = identifier;
-    error.expression = expression;
-    error.location = expression.getLocation();
+    error.node = expression;
     return error;
   }
 }

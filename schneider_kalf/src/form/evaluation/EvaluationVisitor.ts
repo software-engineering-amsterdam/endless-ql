@@ -242,8 +242,8 @@ export default class EvaluationVisitor implements ExpressionVisitor {
     const leftValue: any = operator.left.accept(this);
     const rightValue: any = operator.right.accept(this);
 
-    assertSameType(leftValue, rightValue);
-    assertComparable(leftValue);
+    assertSameType(leftValue, rightValue, operator);
+    assertComparable(leftValue, operator);
     return {leftValue, rightValue};
   }
 }

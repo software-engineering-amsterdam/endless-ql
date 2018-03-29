@@ -8,7 +8,7 @@ import IntValue from "../values/IntValue";
 import NumericOperation from "../values/NumericOperation";
 import { isNumberValue } from "../values/values_helpers";
 import constants from "../../config/constants";
-import NodeLocation from "../nodes/location/NodeLocation";
+import TreeNode from "../nodes/TreeNode";
 
 /**
  * Returns the type of a given value including the classname if it is
@@ -60,11 +60,12 @@ export const assertType = (value: any, expectedType: string) => {
  *
  * @param {FieldType} actualType
  * @param {FieldType} expectedType
+ * @param {TreeNode} node
  * @returns {FieldType}
  */
-export const assertFieldType = (actualType: FieldType, expectedType: FieldType, location?: NodeLocation): FieldType => {
+export const assertFieldType = (actualType: FieldType, expectedType: FieldType, node?: TreeNode): FieldType => {
   if (actualType !== expectedType) {
-    throw TypeCheckError.make(expectedType, actualType, location);
+    throw TypeCheckError.make(expectedType, actualType, node);
   }
 
   return expectedType;
@@ -75,11 +76,12 @@ export const assertFieldType = (actualType: FieldType, expectedType: FieldType, 
  *
  * @param {FieldType} actualType
  * @param {FieldType[]} allowedTypes
+ * @param node
  * @returns {FieldType}
  */
-export const assertAnyFieldType = (actualType: FieldType, allowedTypes: FieldType[]): FieldType => {
+export const assertAnyFieldType = (actualType: FieldType, allowedTypes: FieldType[], node?: TreeNode): FieldType => {
   if (allowedTypes.indexOf(actualType) === -1) {
-    throw TypeCheckError.make(allowedTypes.join(' or '), actualType);
+    throw TypeCheckError.make(allowedTypes.join(' or '), actualType, node);
   }
 
   return actualType;
@@ -133,25 +135,27 @@ export const assertNumberValue = (value: any): NumberValue => {
  * Assert that the given type of field allows numeric values.
  *
  * @param {FieldType} fieldType
+ * @param node
  * @returns {FieldType}
  */
-export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
-  return assertAnyFieldType(fieldType, numericFieldTypes);
+export const assertNumericFieldType = (fieldType: FieldType, node?: TreeNode): FieldType => {
+  return assertAnyFieldType(fieldType, numericFieldTypes, node);
 };
 
 /**
  * Assert that the value given is comparable to other values of the same type.
  *
  * @param value
+ * @param node
  * @returns {any}
  */
-export const assertComparable = (value: any) => {
+export const assertComparable = (value: any, node?: TreeNode) => {
   if (isNumberValue(value)) {
     return value;
   }
 
   if (constants.COMPARABLE_TYPES.indexOf(getTypeString(value)) === -1) {
-    throw TypeCheckError.make("comparable", getTypeString(value));
+    throw TypeCheckError.make("comparable", getTypeString(value), node);
   }
 
   return value;
@@ -181,16 +185,17 @@ export const assertValidDivision = (dividend: NumberValue, divisor: NumberValue)
  *
  * @param left
  * @param right
+ * @param node
  * @returns {{left: any; right: any}}
  */
-export const assertSameType = (left: any, right: any) => {
+export const assertSameType = (left: any, right: any, node?: TreeNode) => {
   if (typeof left !== typeof right) {
     throw ValuesNotComparableError.make(left, right);
   }
 
   if (isNumberValue(left) && !isNumberValue(right) ||
       !isNumberValue(left) && isNumberValue(right)) {
-    throw ValuesNotComparableError.make(left, right);
+    throw ValuesNotComparableError.make(left, right, node);
   }
 
   return {left, right};

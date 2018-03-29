@@ -1,40 +1,41 @@
 package gui.elements.widgets;
 
-import gui.elements.widgets.chooser.CheckboxWidget;
-import gui.elements.widgets.chooser.DropdownWidget;
-import gui.elements.widgets.chooser.RadioWidget;
-import gui.elements.widgets.slider.SliderDecimalWidget;
-import gui.elements.widgets.slider.SliderIntegerWidget;
-import gui.elements.widgets.slider.SliderMoneyWidget;
-import gui.elements.widgets.spinner.SpinnerDecimalWidget;
-import gui.elements.widgets.spinner.SpinnerIntegerWidget;
-import gui.elements.widgets.spinner.SpinnerMoneyWidget;
-import gui.elements.widgets.textbox.TextboxDecimalWidget;
-import gui.elements.widgets.textbox.TextboxIntegerWidget;
-import gui.elements.widgets.textbox.TextboxMoneyWidget;
-import gui.elements.widgets.textbox.TextboxWidget;
+import gui.elements.widgets.chooser.CheckBox;
+import gui.elements.widgets.chooser.DropDown;
+import gui.elements.widgets.chooser.RadioButtons;
+import gui.elements.widgets.date.DateChooser;
+import gui.elements.widgets.slider.DecimalSlider;
+import gui.elements.widgets.slider.IntegerSlider;
+import gui.elements.widgets.slider.MoneySlider;
+import gui.elements.widgets.spinner.DecimalSpinner;
+import gui.elements.widgets.spinner.IntegerSpinner;
+import gui.elements.widgets.spinner.MoneySpinner;
+import gui.elements.widgets.textbox.DecimalTextBox;
+import gui.elements.widgets.textbox.IntegerTextBox;
+import gui.elements.widgets.textbox.MoneyTextBox;
+import gui.elements.widgets.textbox.TextBox;
 import ql.model.expression.ReturnType;
+import qls.model.widget.DropDownWidget;
+import qls.model.widget.RadioWidget;
+import qls.model.widget.SliderWidget;
 import qls.model.widget.Widget;
-import qls.model.widget.WidgetDropdown;
-import qls.model.widget.WidgetRadio;
-import qls.model.widget.WidgetSlider;
 
 public class WidgetFactory {
 
     public static GUIWidget getDefaultWidget(ReturnType questionType) {
         switch (questionType) {
             case STRING:
-                return new TextboxWidget();
+                return new TextBox();
             case INTEGER:
-                return new TextboxIntegerWidget();
+                return new IntegerTextBox();
             case DECIMAL:
-                return new TextboxDecimalWidget();
+                return new DecimalTextBox();
             case MONEY:
-                return new TextboxMoneyWidget();
+                return new MoneyTextBox();
             case DATE:
-                return new DateWidget();
+                return new DateChooser();
             case BOOLEAN:
-                return new CheckboxWidget();
+                return new CheckBox();
             default:
                 throw new UnsupportedOperationException("Question type not implemented to render in GUI");
         }
@@ -43,84 +44,84 @@ public class WidgetFactory {
     public static GUIWidget getWidget(ReturnType questionType, Widget widget) {
         switch (questionType) {
             case STRING:
-                return WidgetFactory.getWidgetString(widget);
+                return WidgetFactory.getStringWidget(widget);
             case INTEGER:
-                return WidgetFactory.getWidgetInteger(widget);
+                return WidgetFactory.getIntegerWidget(widget);
             case DECIMAL:
-                return WidgetFactory.getWidgetDecimal(widget);
+                return WidgetFactory.getDecimalWidget(widget);
             case MONEY:
-                return WidgetFactory.getWidgetMoney(widget);
+                return WidgetFactory.getMoneyWidget(widget);
             case DATE:
-                return WidgetFactory.getWidgetDate(widget);
+                return WidgetFactory.getDateWidget(widget);
             case BOOLEAN:
-                return WidgetFactory.getWidgetBoolean(widget);
+                return WidgetFactory.getBooleanWidget(widget);
             default:
                 throw new UnsupportedOperationException("Question type not implemented to render in GUI");
         }
     }
 
-    private static GUIWidget getWidgetString(Widget widget) {
+    private static GUIWidget getStringWidget(Widget widget) {
         switch (widget.getType()) {
             case TEXTBOX:
             default:
-                return new TextboxWidget();
+                return new TextBox();
         }
     }
 
-    private static GUIWidget getWidgetInteger(Widget widget) {
-        switch (widget.getType()) {
-            case SPINBOX:
-                return new SpinnerIntegerWidget();
-            case SLIDER:
-                WidgetSlider widgetSlider = (WidgetSlider) widget;
-                return new SliderIntegerWidget((int) widgetSlider.getMinValue(), (int) widgetSlider.getMaxValue());
-            case TEXTBOX:
-            default:
-                return new TextboxIntegerWidget();
-        }
-    }
-
-    private static GUIWidget getWidgetDecimal(Widget widget) {
+    private static GUIWidget getIntegerWidget(Widget widget) {
         switch (widget.getType()) {
             case SPINBOX:
-                return new SpinnerDecimalWidget();
+                return new IntegerSpinner();
             case SLIDER:
-                WidgetSlider widgetSlider = (WidgetSlider) widget;
-                return new SliderDecimalWidget(widgetSlider.getMinValue(), widgetSlider.getMaxValue());
+                SliderWidget sliderWidget = (SliderWidget) widget;
+                return new IntegerSlider((int) sliderWidget.getMinValue(), (int) sliderWidget.getMaxValue());
             case TEXTBOX:
             default:
-                return new TextboxDecimalWidget();
+                return new IntegerTextBox();
         }
     }
 
-    private static GUIWidget getWidgetMoney(Widget widget) {
+    private static GUIWidget getDecimalWidget(Widget widget) {
         switch (widget.getType()) {
             case SPINBOX:
-                return new SpinnerMoneyWidget();
+                return new DecimalSpinner();
             case SLIDER:
-                WidgetSlider widgetSlider = (WidgetSlider) widget;
-                return new SliderMoneyWidget(widgetSlider.getMinValue(), widgetSlider.getMaxValue());
+                SliderWidget sliderWidget = (SliderWidget) widget;
+                return new DecimalSlider(sliderWidget.getMinValue(), sliderWidget.getMaxValue());
             case TEXTBOX:
             default:
-                return new TextboxMoneyWidget();
+                return new DecimalTextBox();
         }
     }
 
-    private static GUIWidget getWidgetDate(Widget widget) {
-        return new DateWidget();
+    private static GUIWidget getMoneyWidget(Widget widget) {
+        switch (widget.getType()) {
+            case SPINBOX:
+                return new MoneySpinner();
+            case SLIDER:
+                SliderWidget sliderWidget = (SliderWidget) widget;
+                return new MoneySlider(sliderWidget.getMinValue(), sliderWidget.getMaxValue());
+            case TEXTBOX:
+            default:
+                return new MoneyTextBox();
+        }
     }
 
-    private static GUIWidget getWidgetBoolean(Widget widget) {
+    private static GUIWidget getDateWidget(Widget widget) {
+        return new DateChooser();
+    }
+
+    private static GUIWidget getBooleanWidget(Widget widget) {
         switch (widget.getType()) {
             case RADIO:
-                WidgetRadio widgetRadio = (WidgetRadio) widget;
-                return new RadioWidget(widgetRadio.getFalseLabel(), widgetRadio.getTrueLabel());
+                RadioWidget radioWidget = (RadioWidget) widget;
+                return new RadioButtons(radioWidget.getFalseLabel(), radioWidget.getTrueLabel());
             case DROPDOWN:
-                WidgetDropdown widgetDropdown = (WidgetDropdown) widget;
-                return new DropdownWidget(widgetDropdown.getFalseLabel(), widgetDropdown.getTrueLabel());
+                DropDownWidget dropDownWidget = (DropDownWidget) widget;
+                return new DropDown(dropDownWidget.getFalseLabel(), dropDownWidget.getTrueLabel());
             case CHECKBOX:
             default:
-                return new CheckboxWidget();
+                return new CheckBox();
         }
     }
 }

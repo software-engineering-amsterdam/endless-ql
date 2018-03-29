@@ -3,11 +3,11 @@ package ql.analysis.error;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
-import ql.QLVisitor;
 import ql.analysis.IdentifiersCollector;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.model.statement.Question;
+import ql.visitor.QLVisitor;
 
 import java.util.Set;
 

@@ -1,14 +1,14 @@
 package qls.analysis;
 
-import ql.QLVisitor;
 import ql.model.Form;
 import ql.model.expression.ReturnType;
 import ql.model.statement.Question;
-import qls.QLSVisitor;
+import ql.visitor.QLVisitor;
 import qls.model.StyleSheet;
 import qls.model.statement.DefaultStyle;
 import qls.model.statement.QuestionReference;
 import qls.model.widget.WidgetType;
+import qls.visitor.QLSVisitor;
 
 import java.util.HashMap;
 import java.util.Map;

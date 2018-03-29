@@ -1,7 +1,7 @@
 package ql.model.statement;
 
-import ql.IQLVisitor;
 import ql.model.expression.Expression;
+import ql.visitor.IQLVisitor;
 
 import java.util.List;
 

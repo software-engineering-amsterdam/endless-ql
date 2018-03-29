@@ -2,8 +2,8 @@ package ql.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ql.IQLVisitor;
 import ql.model.statement.Statement;
+import ql.visitor.IQLVisitor;
 
 import java.util.List;
 

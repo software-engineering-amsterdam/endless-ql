@@ -1,7 +1,7 @@
 package ql.model.expression;
 
-import ql.IQLVisitor;
 import ql.model.QLNode;
+import ql.visitor.IQLVisitor;
 
 public abstract class Expression extends QLNode {
 

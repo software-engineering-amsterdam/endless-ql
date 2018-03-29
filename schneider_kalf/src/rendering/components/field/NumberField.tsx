@@ -42,6 +42,10 @@ export class NumberField extends React.Component<NumberFieldProps, NumberFieldSt
   }
 
   getStringValue() {
+    if (!this.props.value) {
+      return "";
+    }
+
     if (this.props.field.isReadOnly() || this.state.temporaryStringValue.length === 0) {
       return (this.props.value) ? this.props.value.toString() : '';
     }

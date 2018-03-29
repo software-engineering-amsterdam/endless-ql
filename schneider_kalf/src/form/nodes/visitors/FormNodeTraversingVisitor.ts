@@ -27,11 +27,14 @@ import Statement from "../Statement";
 import DateLiteral from "../literals/DateLiteral";
 import FieldNodeDecorator from "../fields/FieldNodeDecorator";
 import StatementCollection from "../../collection/StatementCollection";
+import GenericCollection from "../../collection/GenericCollection";
+import VariableIdentifierCollection from "../../../modules/styling/form/collections/IdentifierNodeCollection";
 
 export default class FormTraversingVisitor implements NodeVisitor {
   private post: VisitorCallback;
   private pre: VisitorCallback;
   private statements: StatementCollection = new StatementCollection();
+  private variableIdentifiers: VariableIdentifierCollection = new VariableIdentifierCollection();
 
   constructor(pre?: VisitorCallback, post?: VisitorCallback) {
     if (!pre) {
@@ -49,6 +52,10 @@ export default class FormTraversingVisitor implements NodeVisitor {
 
   getStatements(): StatementCollection {
     return this.statements;
+  }
+
+  getUsedVariables(): VariableIdentifierCollection {
+    return this.variableIdentifiers;
   }
 
   visitBinaryOperator(operator: BinaryOperator): any {
@@ -114,6 +121,7 @@ export default class FormTraversingVisitor implements NodeVisitor {
   }
 
   visitVariableIdentifier(variable: VariableIdentifier): any {
+    this.variableIdentifiers.add(variable);
     return this.visitPreAndPost(variable);
   }
 
@@ -167,11 +175,18 @@ export default class FormTraversingVisitor implements NodeVisitor {
     this.post(fieldDecorator);
   }
 
-  public static collectStatements(node: FormNode) {
+  public static collectStatements(node: TreeNode): StatementCollection {
     const traveller = new FormTraversingVisitor();
     node.accept(traveller);
 
     return traveller.getStatements();
+  }
+
+  public static collectUsedVariables(node: TreeNode): VariableIdentifierCollection {
+    const traveller = new FormTraversingVisitor();
+    node.accept(traveller);
+
+    return traveller.getUsedVariables();
   }
 
   private acceptStatement(statement: Statement) {

@@ -6,7 +6,7 @@ import FormNode from "../nodes/FormNode";
 import { VariableScopeStack } from "./VariableScopeStack";
 import FieldNode from "../nodes/fields/FieldNode";
 import { FieldAlreadyDeclaredError, VariableNotInScopeError } from "../form_errors";
-import { getUsedVariables } from "../form_helpers";
+import { getUsedVariableIdentifiers } from "../../helpers/form_helpers";
 import Expression from "../nodes/expressions/Expression";
 import { getVariableInformation, VariableInformation } from "../VariableIntformation";
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
@@ -66,7 +66,7 @@ export class VariableScopeVisitor implements FieldVisitor {
   }
 
   private containsAllVariablesOrFail(expression: Expression) {
-    const variables = getUsedVariables(expression);
+    const variables = getUsedVariableIdentifiers(expression);
 
     variables.forEach(identifier => {
       if (!this._stack.contains(identifier)) {

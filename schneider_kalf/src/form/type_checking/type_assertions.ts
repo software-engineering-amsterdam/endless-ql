@@ -121,7 +121,7 @@ export const assertDate = (value: any) => {
  * @returns {any}
  */
 export const assertNumberValue = (value: any): NumberValue => {
-  if (isNumberValue(value)) {
+  if (!isNumberValue(value)) {
     throw TypeCheckError.make("NumberValue", getTypeString(value));
   }
 

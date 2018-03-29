@@ -43,6 +43,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     this.onChangeQlSource = this.onChangeQlSource.bind(this);
     this.onChangeQlsSource = this.onChangeQlsSource.bind(this);
     this.toggleQls = this.toggleQls.bind(this);
+    this.onResetFormState = this.onResetFormState.bind(this);
   }
 
   componentDidMount() {
@@ -109,6 +110,14 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     this.updateForm(this.state.qlInput, text, this.state.qlsEnabled);
   }
 
+  onResetFormState() {
+    const newState = this.getFormState().instantiate(new Map());
+
+    this.setState({
+      form: this.state.form.setState(newState)
+    });
+  }
+
   toggleQls(qlsEnabled: boolean) {
     this.updateForm(this.state.qlInput, this.state.qlsInput, qlsEnabled);
   }
@@ -148,6 +157,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
               <hr/>
               <AppFormStateOutput
                   form={this.state.form}
+                  onReset={this.onResetFormState}
               />
             </div>
           </div>

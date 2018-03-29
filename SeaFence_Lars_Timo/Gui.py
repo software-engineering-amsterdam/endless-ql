@@ -1,5 +1,6 @@
 # Lars Lokhoff, Timo Dobber
 # Gui class that holds all gui related functions to add widgets to the windows
+
 import Tkinter as tk
 from Tkinter import *
 from ttk import *
@@ -97,7 +98,7 @@ class Gui():
         label.pack(side=LEFT)
 
         variable = self.values[widget_variable]
-        dropdown = tk.OptionMenu(frame, var, "Yes", "No")
+        dropdown = tk.OptionMenu(frame, variable, "Yes", "No")
         dropdown.config(font=font_options, fg=color)
         dropdown.pack(side=LEFT)
 

@@ -1,18 +1,16 @@
 package ql.model.expression.unary;
 
-import ql.evaluation.IExpressionVisitor;
+import ql.IQLVisitor;
 import ql.model.expression.Expression;
-import ql.model.expression.ExpressionUnary;
-import org.antlr.v4.runtime.Token;
 
-public class ExpressionUnaryNot extends ExpressionUnary<Boolean> {
+public class ExpressionUnaryNot extends ExpressionUnary {
 
-    public ExpressionUnaryNot(Token start, Expression expression) {
-        super(start, expression);
+    public ExpressionUnaryNot(Expression expression) {
+        super(expression);
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
+    public <T> T accept(IQLVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

@@ -1,33 +1,30 @@
 package qls.model;
 
-import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
+import qls.model.statement.Statement;
 
 import java.util.List;
 
 public class Page extends QLSNode {
 
-    public final String identifier;
-    private final List<DefaultStyle> defaultStyles;
-    private final List<Section> sections;
+    private final String identifier;
+    private final List<Statement> statements;
 
-    public Page(Token token, String identifier, List<DefaultStyle> defaultStyles, List<Section> sections) {
-        super(token);
+    public Page(String identifier, List<Statement> statements) {
         this.identifier = identifier;
-        this.defaultStyles = defaultStyles;
-        this.sections = sections;
+        this.statements = statements;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public List<Statement> getStatements() {
+        return statements;
     }
 
     @Override
     public <T> T accept(IQLSVisitor<T> visitor) {
         return visitor.visit(this);
-    }
-
-    public List<DefaultStyle> getDefaultStyles() {
-        return defaultStyles;
-    }
-
-    public List<Section> getSections() {
-        return sections;
     }
 }

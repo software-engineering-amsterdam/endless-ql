@@ -11,6 +11,6 @@ stylesheet simpleForm
       question someMoney
       question someString
     }
-    default string widget slider
+    default string widget slider(0,1)
   }
 }

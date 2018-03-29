@@ -21,7 +21,7 @@ class QLSVisitorHelper(QLSVisitor):
 
     # Visit a parse tree produced by QLSParser#page.
     def visitPage(self, ctx):
-        page_node = PageNode(ctx.page_id().getText())
+        page_node = PageNode(ctx.page_id().getText().strip('"'))
 
         for section in ctx.section():
             section_node = self.visit(section)
@@ -34,7 +34,7 @@ class QLSVisitorHelper(QLSVisitor):
 
     # Visit a parse tree produced by QLSParser#section.
     def visitSection(self, ctx):
-        section_node = SectionNode(ctx.section_id().getText())
+        section_node = SectionNode(ctx.section_id().getText().strip('"'))
 
         if ctx.section():
             for section in ctx.section():
@@ -55,7 +55,7 @@ class QLSVisitorHelper(QLSVisitor):
 
     # Visit a parse tree produced by QLSParser#question.
     def visitQuestion(self, ctx):
-        variable = ctx.variable().getText()
+        variable = ctx.variable().getText().strip('"')
 
         question_node = QuestionNode(variable)
 

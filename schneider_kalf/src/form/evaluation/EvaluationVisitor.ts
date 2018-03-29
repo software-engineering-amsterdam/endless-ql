@@ -27,7 +27,8 @@ import FormState from "../state/FormState";
 import Decimal from "decimal.js/decimal";
 import NumberValue from "../values/NumberValue";
 import NumericOperation from "../values/NumericOperation";
-import { isNumericValue } from "../values/values_helpers";
+import { isNumberValue } from "../values/values_helpers";
+import { Maybe } from "../../helpers/type_helper";
 
 /**
  * The evaluation visitor travels through an expression and calculates
@@ -36,7 +37,7 @@ import { isNumericValue } from "../values/values_helpers";
  *
  */
 export default class EvaluationVisitor implements ExpressionVisitor {
-  private state: FormState | undefined;
+  private state: Maybe<FormState>;
 
   constructor(state?: FormState) {
     this.state = state;
@@ -146,7 +147,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
   visitEquals(equals: Equals) {
     const {leftValue, rightValue} = this.assertSidesAreComparable(equals);
 
-    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
       return NumericOperation.make(leftValue, rightValue).equals();
     }
 
@@ -156,7 +157,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
   visitLargerThan(largerThan: LargerThan): any {
     const {leftValue, rightValue} = this.assertSidesAreComparable(largerThan);
 
-    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
       return NumericOperation.make(leftValue, rightValue).largerThan();
     }
 
@@ -166,7 +167,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
   visitLargerThanOrEqual(largerThanOrEqual: LargerThanOrEqual): any {
     const {leftValue, rightValue} = this.assertSidesAreComparable(largerThanOrEqual);
 
-    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
       return NumericOperation.make(leftValue, rightValue).largerThanOrEqual();
     }
 
@@ -176,7 +177,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
   visitSmallerThan(smallerThan: SmallerThan): any {
     const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThan);
 
-    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
       return NumericOperation.make(leftValue, rightValue).smallerThan();
     }
 
@@ -186,7 +187,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
   visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any {
     const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThanOrEqual);
 
-    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
       return NumericOperation.make(leftValue, rightValue).smallerThanOrEqual();
     }
 
@@ -196,7 +197,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
   visitNotEqual(notEquals: NotEquals): any {
     const {leftValue, rightValue} = this.assertSidesAreComparable(notEquals);
 
-    if (isNumericValue(leftValue) && isNumericValue(rightValue)) {
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
       return NumericOperation.make(leftValue, rightValue).notEqual();
     }
 

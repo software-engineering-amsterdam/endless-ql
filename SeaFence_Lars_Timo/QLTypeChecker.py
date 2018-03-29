@@ -47,7 +47,6 @@ class QLTypeChecker(object):
     def checkConditionalWithExpressionNodes(self, statement):
         node_type = statement.expression.getNodeType()
         if node_type == "literal":
-            print statement.expression
             if statement.expression.variable_type != INTEGER_UNICODE and statement.expression.variable_type != BOOLEAN_UNICODE:
                 exitProgram("Condition {} is not of type boolean.".format(statement.expression))
 

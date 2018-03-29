@@ -35,7 +35,7 @@ class TypeCheckFacadeTest extends WordSpec {
         ))
     }
 
-    "checkOperandsOfInvalidTypeToOperators" can {
+    "Static type check" can {
       "return error for operands of invalid type to operator" in {
         val qlForm = QLForm(
           "invalidTypes",
@@ -96,7 +96,7 @@ class TypeCheckFacadeTest extends WordSpec {
         val qlForm = QLForm(
           "invalidTypes",
           Seq(
-            Question("q1", "duplicate-label", IntegerType, Some(Equal(DecimalAnswer(1), IntegerAnswer(2))))
+            Question("q1", "duplicate-label", BooleanType, Some(Equal(DecimalAnswer(1), IntegerAnswer(2))))
           ))
 
         val result = TypeCheckFacade.pipeline(qlForm)
@@ -108,17 +108,39 @@ class TypeCheckFacadeTest extends WordSpec {
         val qlForm = QLForm(
           "invalidTypes",
           Seq(
-            Question("q1", "duplicate-label", IntegerType, Some(Equal(MoneyAnswer(1), IntegerAnswer(1))))
+            Question("q1", "duplicate-label", BooleanType, Some(Equal(MoneyAnswer(1), IntegerAnswer(1))))
           ))
 
         val result = TypeCheckFacade.pipeline(qlForm)
 
         assert(result === Right(qlForm))
       }
+
+      "return errors for questions with an incorrect type declaration" in {
+        val qlForm = QLForm(
+          "WrongTypeDeclaration",
+          List(
+            Question("q1", "Question1", BooleanType, Some(BooleanAnswer(true))),
+            Question("q2", "Question2", IntegerType, Some(Reference("q1")))
+          )
+        )
+
+        val result = TypeCheckFacade.pipeline(qlForm)
+
+        assert(
+          result === Left(
+            List(
+              TypeCheckError(
+                "TypeCheckError",
+                "Expression of type BooleanType does not conform to expected type IntegerType"
+              )
+            )
+          ))
+      }
     }
 
     "checkNonBooleanPredicates" in {
-      val qLForm = QLForm(
+      val qlForm = QLForm(
         "duplicateLabel",
         Seq(
           Conditional(And(BooleanAnswer(true), BooleanAnswer(false)), Seq.empty),
@@ -126,7 +148,7 @@ class TypeCheckFacadeTest extends WordSpec {
         )
       )
 
-      val result = TypeCheckFacade.pipeline(qLForm)
+      val result = TypeCheckFacade.pipeline(qlForm)
 
       assert(
         result === Left(
@@ -140,15 +162,15 @@ class TypeCheckFacadeTest extends WordSpec {
     }
 
     "checkDuplicateQuestionDeclarationsWithDifferentTypes" in {
-      val qLForm = QLForm(
+      val qlForm = QLForm(
         "duplicateLabel",
         Seq(
           Question("q1", "duplicate identifier", IntegerType, Some(IntegerAnswer(1))),
-          Question("q1", "duplicate identifier", BooleanType, Some(IntegerAnswer(1)))
+          Question("q1", "duplicate identifier", BooleanType, Some(BooleanAnswer(true)))
         )
       )
 
-      val result = TypeCheckFacade.pipeline(qLForm)
+      val result = TypeCheckFacade.pipeline(qlForm)
 
       assert(
         result === Left(

@@ -27,6 +27,7 @@ object ExpressionEvaluator {
       case n: Negate           => n.evaluate(symbolTable, dictionary)
     }
   }
+
   private def widen(left: Answer, right: Answer): (Answer, Answer) = (left, right) match {
     case (i: IntegerAnswer, _: DecimalAnswer) => (i.toDecimal, right)
     case (_: DecimalAnswer, i: IntegerAnswer) => (left, i.toDecimal)
@@ -64,7 +65,7 @@ object ExpressionEvaluator {
   }
 
   implicit class AnswerCanBeZero(answer: Answer) {
-    def isZero = answer match {
+    def isZero: Boolean = answer match {
       case IntegerAnswer(value) if value == 0 => true
       case DecimalAnswer(value) if value == 0 => true
       case MoneyAnswer(value) if value == 0   => true
@@ -179,16 +180,6 @@ object ExpressionEvaluator {
   }
 
   implicit class ReferenceOps(expression: Reference) {
-
-    /**
-      * Only expressions that are defined to be a variable (answer) will be retrieved from the dictionary if exist.
-      * This is done so values of calculated fields won't be retrieved from the dictionary
-      */
-    private def memoryLookup(questionId: String, expression: Expression, dictionary: Dictionary) = expression match {
-      case _: Answer => dictionary.getOrElse(questionId, expression)
-      case _         => expression
-    }
-
     def evaluate(symbolTable: SymbolTable, dictionary: Dictionary): Option[Answer] = {
       symbolTable
         .get(expression.questionId)

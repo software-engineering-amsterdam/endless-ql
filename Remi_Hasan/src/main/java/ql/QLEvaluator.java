@@ -14,6 +14,7 @@ import ql.model.Form;
 import ql.model.expression.Expression;
 import ql.visitor.VisitorForm;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
@@ -61,7 +62,6 @@ public class QLEvaluator {
     }
 
     public Value evaluateExpression(Expression expression) {
-        // TODO: just getanswer(), remove this?
         return this.expressionEvaluator.visit(expression);
     }
 
@@ -82,8 +82,7 @@ public class QLEvaluator {
         return form.getIdentifier();
     }
 
-    public void exportResults() {
-        SymbolTableExporter.export(this);
+    public void exportResults(File exportFile) throws IOException {
+        QLExporter.export(this, exportFile);
     }
-
 }

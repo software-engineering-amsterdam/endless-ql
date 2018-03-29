@@ -4,9 +4,16 @@ import gui.builder.GUIFormBuilder;
 import gui.model.GUIForm;
 import gui.render.GUIController;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import ql.QLEvaluator;
@@ -39,8 +46,6 @@ public class Renderer extends Application {
 
         try {
             this.qlEvaluator = new QLEvaluator(new FileInputStream(qlFile));
-
-            this.qlEvaluator.exportResults();
 
             // Check for warning messages
             Set<String> warnings = qlEvaluator.getWarnings();
@@ -77,7 +82,7 @@ public class Renderer extends Application {
         primaryStage.show();
     }
 
-    public void buildQuestions(Stage stage) {
+    public void buildQuestions(Stage primaryStage) {
         // Set locale to US such that DecimalFormat, such as in a spinner, always uses dots instead of commas
         Locale.setDefault(Locale.US);
 
@@ -92,12 +97,45 @@ public class Renderer extends Application {
 
         GUIController guiController = new GUIController(qlEvaluator);
 
-        Scene scene = new Scene(guiForm.render(guiController));
-        stage.setTitle(qlEvaluator.getIdentifier());
-        stage.setScene(scene);
-        stage.setWidth(640);
-        stage.setHeight(480);
-        stage.show();
+        VBox vBox = new VBox();
+
+        // File open/save menu
+        Menu fileMenu = new Menu("File");
+        MenuItem loadQlFile = new MenuItem("Load QL file");
+        MenuItem loadQlsFile = new MenuItem("Load QLS file");
+        MenuItem exportResults = new MenuItem("Export results");
+
+        exportResults.setOnAction(event -> {
+            this.saveClicked(primaryStage);
+        });
+
+        fileMenu.getItems().addAll(loadQlFile, loadQlsFile, exportResults);
+
+        vBox.getChildren().add(new MenuBar(fileMenu));
+        vBox.getChildren().add(guiForm.render(guiController));
+
+        Scene scene = new Scene(vBox);
+        primaryStage.setTitle(qlEvaluator.getIdentifier());
+        primaryStage.setScene(scene);
+        primaryStage.setWidth(640);
+        primaryStage.setHeight(480);
+        primaryStage.show();
+    }
+
+    private void saveClicked(Stage primaryStage) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT Files (*.txt)", "*.txt"));
+        File exportFile = fileChooser.showSaveDialog(primaryStage);
+
+        if(exportFile == null) {
+            return;
+        }
+
+        try {
+            qlEvaluator.exportResults(exportFile);
+        } catch (IOException e) {
+            this.showErrorAlert(e, "Unable to export results to selected file location");
+        }
     }
 
     private void showErrorAlert(Exception e, String message) {

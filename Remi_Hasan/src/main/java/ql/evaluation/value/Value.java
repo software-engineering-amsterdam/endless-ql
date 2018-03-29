@@ -11,7 +11,7 @@ public abstract class Value<T> {
     }
 
     public T getValue() {
-        if (isUndefined()) {
+        if (this.isUndefined()) {
             return null;
         } else {
             return value;

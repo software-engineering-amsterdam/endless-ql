@@ -30,7 +30,6 @@ public class Main extends Application {
     private QLForm qlForm;
     private StyleSheet qlsStyleSheet;
 
-    private File resourceFolder;
     private File qlFile;
     private File qlsFile;
 
@@ -41,10 +40,6 @@ public class Main extends Application {
 
         // Set locale to US such that DecimalFormat, such as in a spinner, always uses dots instead of commas
         Locale.setDefault(Locale.US);
-
-        // Open file selector in java folder for easier testing
-        ClassLoader classLoader = getClass().getClassLoader();
-        resourceFolder = new File(classLoader.getResource("java/").getFile());
     }
 
     @Override
@@ -142,23 +137,19 @@ public class Main extends Application {
     }
 
     private void loadQLClicked(Stage primaryStage) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(this.resourceFolder);
+        FileChooser fileChooser = this.getFileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("QL File (*.ql)", "*.ql"));
         this.qlFile = fileChooser.showOpenDialog(primaryStage);
     }
 
     private void loadQLSClicked(Stage primaryStage) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(this.resourceFolder);
+        FileChooser fileChooser = this.getFileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("QLS File (*.qls)", "*.qls"));
         this.qlsFile = fileChooser.showOpenDialog(primaryStage);
     }
 
     private void saveClicked(Stage primaryStage) {
-        FileChooser fileChooser = new FileChooser();
-        String homeDirectory = System.getProperty("user.home") + "/Desktop";
-        fileChooser.setInitialDirectory(new File(homeDirectory));
+        FileChooser fileChooser = this.getFileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT Files (*.txt)", "*.txt"));
         File exportFile = fileChooser.showSaveDialog(primaryStage);
 
@@ -171,6 +162,14 @@ public class Main extends Application {
         } catch (IOException e) {
             this.showErrorAlert(e, "Unable to export results to selected file location");
         }
+    }
+
+    private FileChooser getFileChooser() {
+        // Open file chooser on user's Desktop folder
+        FileChooser fileChooser = new FileChooser();
+        String homeDirectory = System.getProperty("user.home") + "/Desktop";
+        fileChooser.setInitialDirectory(new File(homeDirectory));
+        return fileChooser;
     }
 
     private void showErrorAlert(Exception e, String message) {

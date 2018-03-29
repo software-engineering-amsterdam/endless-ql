@@ -18,7 +18,7 @@ object Errors {
       extends Error {
 
     val key = "Syntax Error"
-    val message =  s"At line $line, column $column the following error occurred : $errorMessage"
+    val message = s"At line $line, column $column the following error occurred : $errorMessage"
   }
 
   case class TypeCheckError(key: String = "TypeCheckError", message: String) extends Error

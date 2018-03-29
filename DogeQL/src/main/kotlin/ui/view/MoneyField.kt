@@ -1,6 +1,6 @@
-package doge.ui.view
+package ui.view
 
-import doge.ui.model.MoneyViewModel
+import ui.model.MoneyViewModel
 import tornadofx.bind
 
 class MoneyField(question: MoneyViewModel) : QuestionTextField(question) {

@@ -1,6 +1,6 @@
-package doge.ui.view
+package ui.view
 
-import doge.ui.model.BooleanViewModel
+import ui.model.BooleanViewModel
 import javafx.scene.control.CheckBox
 import tornadofx.bind
 

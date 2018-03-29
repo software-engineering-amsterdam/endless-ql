@@ -1,6 +1,6 @@
-package doge.ui
+package ui
 
-import doge.ui.view.DogeMainView
+import ui.view.DogeMainView
 import tornadofx.App
 
 class DogeApp: App(DogeMainView::class)

@@ -1,6 +1,6 @@
-package doge.ui.view
+package ui.view
 
-import doge.ui.model.IntegerViewModel
+import ui.model.IntegerViewModel
 import javafx.scene.control.TextInputControl
 import tornadofx.bind
 import tornadofx.mutateOnChange

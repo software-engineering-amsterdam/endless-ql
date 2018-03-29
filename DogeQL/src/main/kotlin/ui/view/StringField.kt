@@ -1,6 +1,6 @@
-package doge.ui.view
+package ui.view
 
-import doge.ui.model.StringViewModel
+import ui.model.StringViewModel
 import tornadofx.bind
 import tornadofx.stripWhitespace
 

@@ -1,6 +1,6 @@
-package doge.ui.view
+package ui.view
 
-import doge.ui.model.DecimalViewModel
+import ui.model.DecimalViewModel
 import tornadofx.bind
 
 class DecimalField(question: DecimalViewModel) : QuestionTextField(question) {

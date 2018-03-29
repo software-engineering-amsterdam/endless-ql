@@ -1,13 +1,11 @@
 package qls.model.style;
 
-import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public class StyleAttributeFontSize extends StyleAttribute {
     private final int fontSize;
 
-    public StyleAttributeFontSize(Token start, int fontSize) {
-        super(start);
+    public StyleAttributeFontSize(int fontSize) {
         this.fontSize = fontSize;
     }
 

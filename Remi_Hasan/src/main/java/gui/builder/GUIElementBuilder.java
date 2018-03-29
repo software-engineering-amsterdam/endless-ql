@@ -50,7 +50,7 @@ public class GUIElementBuilder extends QLSVisitor<List<GUIElement>> {
     }
 
     private Widget getWidget(List<DefaultStyle> defaultStyles, ReturnType questionType) {
-        Widget widget = new WidgetDefault(null);
+        Widget widget = new WidgetDefault();
 
         // Go through default styles and find if a widget type has been set for this question type
         for (DefaultStyle defaultStyle : defaultStyles) {

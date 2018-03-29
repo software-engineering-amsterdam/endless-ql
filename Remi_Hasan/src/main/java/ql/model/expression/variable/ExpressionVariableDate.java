@@ -12,10 +12,6 @@ public class ExpressionVariableDate extends ExpressionVariable<LocalDate> {
         super(value);
     }
 
-    public ExpressionVariableDate(Token start, LocalDate value) {
-        super(start, value);
-    }
-
     @Override
     public <T> T accept(IQLVisitor<T> visitor) {
         return visitor.visit(this);

@@ -6,8 +6,8 @@ import qls.IQLSVisitor;
 public abstract class QLSNode {
     private transient Token token;
 
-    protected QLSNode(Token start) {
-        this.token = start;
+    public void setToken(Token token){
+        this.token = token;
     }
 
     public Token getToken() {

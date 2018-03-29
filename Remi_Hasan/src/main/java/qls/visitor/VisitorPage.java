@@ -19,6 +19,8 @@ public class VisitorPage extends QLSBaseVisitor<Page> {
             statements.add(visitorStatement.visit(statementContext));
         }
 
-        return new Page(ctx.getStart(), ctx.identifier.getText(), statements);
+        Page page = new Page(ctx.identifier.getText(), statements);
+        page.setToken(ctx.getStart());
+        return page;
     }
 }

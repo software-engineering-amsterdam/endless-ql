@@ -1,11 +1,10 @@
 package qls.model.widget;
 
-import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public class WidgetTextBox extends Widget {
-    public WidgetTextBox(Token start) {
-        super(start, WidgetType.TEXTBOX);
+    public WidgetTextBox() {
+        super(WidgetType.TEXTBOX);
     }
 
     @Override

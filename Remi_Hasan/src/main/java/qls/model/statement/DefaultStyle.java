@@ -1,6 +1,5 @@
 package qls.model.statement;
 
-import org.antlr.v4.runtime.Token;
 import ql.model.expression.ReturnType;
 import qls.IQLSVisitor;
 import qls.model.style.StyleAttribute;
@@ -14,8 +13,7 @@ public class DefaultStyle extends Statement {
     private final List<StyleAttribute> styleAttributes;
     private final Widget widget;
 
-    public DefaultStyle(Token token, ReturnType type, List<StyleAttribute> styleAttributes, Widget widget) {
-        super(token);
+    public DefaultStyle(ReturnType type, List<StyleAttribute> styleAttributes, Widget widget) {
         this.type = type;
         this.styleAttributes = styleAttributes;
         this.widget = widget;

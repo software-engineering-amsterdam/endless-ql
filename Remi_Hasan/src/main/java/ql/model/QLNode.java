@@ -6,8 +6,8 @@ import ql.IQLVisitor;
 public abstract class QLNode {
     private transient Token token;
 
-    public QLNode(Token start) {
-        this.token = start;
+    public void setToken(Token token){
+        this.token = token;
     }
 
     public Token getToken() {

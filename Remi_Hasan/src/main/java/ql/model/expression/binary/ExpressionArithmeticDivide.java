@@ -6,8 +6,8 @@ import org.antlr.v4.runtime.Token;
 
 public class ExpressionArithmeticDivide extends ExpressionBinary {
 
-    public ExpressionArithmeticDivide(Token start, Expression left, Expression right) {
-        super(start, left, right);
+    public ExpressionArithmeticDivide(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

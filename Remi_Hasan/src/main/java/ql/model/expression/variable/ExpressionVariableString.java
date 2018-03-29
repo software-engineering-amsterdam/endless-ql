@@ -10,10 +10,6 @@ public class ExpressionVariableString extends ExpressionVariable<String> {
         super(value);
     }
 
-    public ExpressionVariableString(Token start, String value) {
-        super(start, value);
-    }
-
     @Override
     public <T> T accept(IQLVisitor<T> visitor) {
         return visitor.visit(this);

@@ -5,7 +5,4 @@ import qls.model.QLSNode;
 
 public abstract class Statement extends QLSNode {
 
-    protected Statement(Token start) {
-        super(start);
-    }
 }

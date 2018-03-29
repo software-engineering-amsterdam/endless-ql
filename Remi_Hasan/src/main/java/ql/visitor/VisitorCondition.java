@@ -7,6 +7,7 @@ import ql.model.statement.IfElseBlock;
 import ql.model.statement.Statement;
 import ql.model.expression.Expression;
 
+import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,9 @@ public class VisitorCondition extends QLBaseVisitor<Statement> {
         }
 
         if (ctx.conditionFalseBlock == null) {
-            return new IfBlock(ctx.getStart(), condition, trueStatements);
+            Statement block = new IfBlock(condition, trueStatements);
+            block.setToken(ctx.getStart());
+            return block;
         }
 
         // Get all statements in the false block
@@ -36,7 +39,9 @@ public class VisitorCondition extends QLBaseVisitor<Statement> {
             falseStatements.add(visitorStatement.visit(statementContext));
         }
 
-        return new IfElseBlock(ctx.getStart(), condition, trueStatements, falseStatements);
+        Statement block = new IfElseBlock(condition, trueStatements, falseStatements);
+        block.setToken(ctx.getStart());
+        return block;
     }
 
 }

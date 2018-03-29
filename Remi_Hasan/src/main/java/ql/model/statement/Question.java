@@ -1,6 +1,5 @@
 package ql.model.statement;
 
-import org.antlr.v4.runtime.Token;
 import ql.IQLVisitor;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
@@ -12,16 +11,14 @@ public class Question extends Statement {
     private final String label;
     private final Expression computedAnswer;
 
-    public Question(Token start, ReturnType type, String identifier, String label) {
-        super(start);
+    public Question(ReturnType type, String identifier, String label) {
         this.type = type;
         this.identifier = identifier;
         this.label = label;
         this.computedAnswer = null;
     }
 
-    public Question(Token start, ReturnType type, String identifier, String label, Expression defaultAnswer) {
-        super(start);
+    public Question(ReturnType type, String identifier, String label, Expression defaultAnswer) {
         this.type = type;
         this.identifier = identifier;
         this.label = label;

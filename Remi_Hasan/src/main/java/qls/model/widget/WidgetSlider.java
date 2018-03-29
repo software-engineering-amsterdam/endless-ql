@@ -1,6 +1,5 @@
 package qls.model.widget;
 
-import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public class WidgetSlider extends Widget {
@@ -8,8 +7,8 @@ public class WidgetSlider extends Widget {
     private final double minValue;
     private final double maxValue;
 
-    public WidgetSlider(Token start, double min, double max) {
-        super(start, WidgetType.SLIDER);
+    public WidgetSlider(double min, double max) {
+        super(WidgetType.SLIDER);
         this.minValue = min;
         this.maxValue = max;
     }

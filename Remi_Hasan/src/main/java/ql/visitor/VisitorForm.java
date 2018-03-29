@@ -21,7 +21,9 @@ public class VisitorForm extends QLBaseVisitor<Form> {
             statements.add(statement);
         }
 
-        return new Form(ctx.getStart(), ctx.identifier.getText(), statements);
+        Form form = new Form(ctx.identifier.getText(), statements);
+        form.setToken(ctx.getStart());
+        return form;
     }
 
 }

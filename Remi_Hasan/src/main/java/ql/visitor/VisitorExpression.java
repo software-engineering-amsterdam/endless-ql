@@ -6,6 +6,7 @@ import ql.antlr.QLParser;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionIdentifier;
 import ql.model.expression.binary.*;
+import ql.model.expression.unary.ExpressionUnary;
 import ql.model.expression.unary.ExpressionUnaryNeg;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.*;
@@ -21,7 +22,9 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
     @Override
     public Expression visitNotExpr(QLParser.NotExprContext ctx) {
         Expression value = visit(ctx.expr);
-        return new ExpressionUnaryNot(ctx.getStart(), value);
+        ExpressionUnaryNot expressionUnaryNot = new ExpressionUnaryNot(value);
+        expressionUnaryNot.setToken(ctx.getStart());
+        return expressionUnaryNot;
     }
 
     @Override
@@ -30,25 +33,34 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+        ExpressionBinary expressionBinary;
         int op = ctx.op.getType();
         switch (op) {
             case QLLexer.PLUS:
-                return new ExpressionArithmeticSum(ctx.getStart(), left, right);
+                expressionBinary = new ExpressionArithmeticSum(left, right);
+                break;
             case QLLexer.MINUS:
-                return new ExpressionArithmeticSubtract(ctx.getStart(), left, right);
+                expressionBinary = new ExpressionArithmeticSubtract(left, right);
+                break;
             case QLLexer.MUL:
-                return new ExpressionArithmeticMultiply(ctx.getStart(), left, right);
+                expressionBinary = new ExpressionArithmeticMultiply(left, right);
+                break;
             case QLLexer.DIV:
-                return new ExpressionArithmeticDivide(ctx.getStart(), left, right);
+                expressionBinary = new ExpressionArithmeticDivide(left, right);
+                break;
             default:
                 throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.op.toString() + "'");
         }
+        expressionBinary.setToken(ctx.getStart());
+        return expressionBinary;
     }
 
     @Override
     public Expression visitNegExpr(QLParser.NegExprContext ctx) {
         Expression value = visit(ctx.expr);
-        return new ExpressionUnaryNeg(ctx.getStart(), value);
+        ExpressionUnaryNeg expressionUnaryNeg = new ExpressionUnaryNeg(value);
+        expressionUnaryNeg.setToken(ctx.getStart());
+        return expressionUnaryNeg;
     }
 
     @Override
@@ -56,15 +68,20 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+        Expression expression;
         int op = ctx.op.getType();
         switch (op) {
             case QLLexer.EQ:
-                return new ExpressionComparisonEq(ctx.getStart(), left, right);
+                expression = new ExpressionComparisonEq(left, right);
+                break;
             case QLLexer.NE:
-                return new ExpressionUnaryNot(ctx.getStart(), new ExpressionComparisonEq(ctx.getStart(), left, right));
+                expression = new ExpressionUnaryNot(new ExpressionComparisonEq(left, right));
+                break;
             default:
                 throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.op.toString() + "'");
         }
+        expression.setToken(ctx.getStart());
+        return expression;
     }
 
     @Override
@@ -72,15 +89,20 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+        Expression expresionBinary;
         int op = ctx.op.getType();
         switch (op) {
             case QLLexer.AND:
-                return new ExpressionLogicalAnd(ctx.getStart(), left, right);
+                expresionBinary = new ExpressionLogicalAnd(left, right);
+                break;
             case QLLexer.OR:
-                return new ExpressionLogicalOr(ctx.getStart(), left, right);
+                expresionBinary = new ExpressionLogicalOr(left, right);
+                break;
             default:
                 throw new IllegalArgumentException("Unknown operator " + op);
         }
+        expresionBinary.setToken(ctx.getStart());
+        return expresionBinary;
     }
 
     @Override
@@ -88,19 +110,26 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
+        ExpressionBinary expressionBinary;
         int op = ctx.op.getType();
         switch (op) {
             case QLLexer.GT:
-                return new ExpressionComparisonGT(ctx.getStart(), left, right);
+                expressionBinary = new ExpressionComparisonGT(left, right);
+                break;
             case QLLexer.GE:
-                return new ExpressionComparisonGE(ctx.getStart(), left, right);
+                expressionBinary = new ExpressionComparisonGE(left, right);
+                break;
             case QLLexer.LT:
-                return new ExpressionComparisonLT(ctx.getStart(), left, right);
+                expressionBinary = new ExpressionComparisonLT(left, right);
+                break;
             case QLLexer.LE:
-                return new ExpressionComparisonLE(ctx.getStart(), left, right);
+                expressionBinary = new ExpressionComparisonLE(left, right);
+                break;
             default:
                 throw new IllegalArgumentException("Unknown operator " + op);
         }
+        expressionBinary.setToken(ctx.getStart());
+        return expressionBinary;
     }
 
     @Override
@@ -110,22 +139,30 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitBooleanConstant(QLParser.BooleanConstantContext ctx) {
-        return new ExpressionVariableBoolean(ctx.getStart(), Boolean.parseBoolean(ctx.getText()));
+        ExpressionVariableBoolean expressionVariableBoolean = new ExpressionVariableBoolean(Boolean.parseBoolean(ctx.getText()));
+        expressionVariableBoolean.setToken(ctx.getStart());
+        return expressionVariableBoolean;
     }
 
     @Override
     public Expression visitIntegerConstant(QLParser.IntegerConstantContext ctx) {
-        return new ExpressionVariableInteger(ctx.getStart(), Integer.parseInt(ctx.getText()));
+        ExpressionVariableInteger expressionVariableInteger = new ExpressionVariableInteger(Integer.parseInt(ctx.getText()));
+        expressionVariableInteger.setToken(ctx.getStart());
+        return expressionVariableInteger;
     }
 
     @Override
     public Expression visitDecimalConstant(QLParser.DecimalConstantContext ctx) {
-        return new ExpressionVariableDecimal(ctx.getStart(), Double.parseDouble(ctx.getText()));
+        ExpressionVariableDecimal expressionVariableDecimal = new ExpressionVariableDecimal(Double.parseDouble(ctx.getText()));
+        expressionVariableDecimal.setToken(ctx.getStart());
+        return expressionVariableDecimal;
     }
 
     @Override
     public Expression visitMoneyConstant(QLParser.MoneyConstantContext ctx) {
-        return new ExpressionVariableMoney(ctx.getStart(), ctx.getText());
+        ExpressionVariableMoney expressionVariableMoney = new ExpressionVariableMoney(ctx.getText());
+        expressionVariableMoney.setToken(ctx.getStart());
+        return expressionVariableMoney;
     }
 
     @Override
@@ -135,11 +172,15 @@ public class VisitorExpression extends QLBaseVisitor<Expression> {
         // remove quotes surrounding the string
         text = text.substring(1, text.length() - 1);
 
-        return new ExpressionVariableString(ctx.getStart(), text);
+        ExpressionVariableString expressionVariableString = new ExpressionVariableString(text);
+        expressionVariableString.setToken(ctx.getStart());
+        return expressionVariableString;
     }
 
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx) {
-        return new ExpressionIdentifier(ctx.getStart(), ctx.getText());
+        ExpressionIdentifier expressionIdentifier = new ExpressionIdentifier(ctx.getText());
+        expressionIdentifier.setToken(ctx.getStart());
+        return expressionIdentifier;
     }
 }

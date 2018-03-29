@@ -1,11 +1,10 @@
 package qls.model.widget;
 
-import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public class WidgetDefault extends Widget {
-    public WidgetDefault(Token start) {
-        super(start, WidgetType.DEFAULT);
+    public WidgetDefault() {
+        super(WidgetType.DEFAULT);
     }
 
     @Override

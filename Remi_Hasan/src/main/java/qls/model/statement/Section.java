@@ -9,8 +9,7 @@ public class Section extends Statement {
     private final String title;
     private final List<Statement> statements;
 
-    public Section(Token token, String title, List<Statement> statement) {
-        super(token);
+    public Section(String title, List<Statement> statement) {
         this.title = title;
         this.statements = statement;
     }

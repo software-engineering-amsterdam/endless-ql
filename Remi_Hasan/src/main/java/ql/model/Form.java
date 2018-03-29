@@ -2,7 +2,6 @@ package ql.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.antlr.v4.runtime.Token;
 import ql.IQLVisitor;
 import ql.model.statement.Statement;
 
@@ -13,8 +12,7 @@ public class Form extends QLNode {
     private final String identifier;
     private final List<Statement> statements;
 
-    public Form(Token token, String identifier, List<Statement> statements) {
-        super(token);
+    public Form(String identifier, List<Statement> statements) {
         this.identifier = identifier;
         this.statements = statements;
     }

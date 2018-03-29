@@ -1,14 +1,12 @@
 package ql.model.expression;
 
-import org.antlr.v4.runtime.Token;
 import ql.IQLVisitor;
 
 public class ExpressionIdentifier extends Expression {
 
     private final String identifier;
 
-    public ExpressionIdentifier(Token start, String identifier) {
-        super(start);
+    public ExpressionIdentifier(String identifier) {
         this.identifier = identifier;
     }
 

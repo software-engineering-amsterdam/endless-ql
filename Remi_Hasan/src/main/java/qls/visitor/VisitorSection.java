@@ -24,6 +24,8 @@ public class VisitorSection extends QLSBaseVisitor<Section> {
             statements.add(visitorStatement.visit(statementContext));
         }
 
-        return new Section(ctx.getStart(), identifier, statements);
+        Section section = new Section(identifier, statements);
+        section.setToken(ctx.getStart());
+        return section;
     }
 }

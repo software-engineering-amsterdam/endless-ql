@@ -1,18 +1,12 @@
 package ql.model.expression.unary;
 
 import ql.IQLVisitor;
-
 import ql.model.expression.Expression;
-import org.antlr.v4.runtime.Token;
 
 public class ExpressionUnaryNot extends ExpressionUnary {
 
     public ExpressionUnaryNot(Expression expression) {
-        super(null, expression);
-    }
-
-    public ExpressionUnaryNot(Token start, Expression expression) {
-        super(start, expression);
+        super(expression);
     }
 
     @Override

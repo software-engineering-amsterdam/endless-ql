@@ -7,8 +7,8 @@ import org.antlr.v4.runtime.Token;
 
 public class ExpressionComparisonLT extends ExpressionBinary {
 
-    public ExpressionComparisonLT(Token start, Expression left, Expression right) {
-        super(start, left, right);
+    public ExpressionComparisonLT(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

@@ -1,10 +1,10 @@
 package gui.render;
 
-import gui.elements.LabelWithWidget;
+import gui.components.LabelWithWidget;
 import ql.model.expression.ReturnType;
-import qls.QLSVisitor;
 import qls.model.statement.DefaultStyle;
 import qls.model.style.*;
+import qls.visitor.QLSVisitor;
 
 import java.util.List;
 
@@ -31,25 +31,25 @@ public class WidgetStyleApplier extends QLSVisitor<Void> {
     }
 
     @Override
-    public Void visit(StyleAttributeColor style) {
+    public Void visit(ColorAttribute style) {
         labelWithWidget.setColor(style.getColor());
         return super.visit(style);
     }
 
     @Override
-    public Void visit(StyleAttributeFont style) {
+    public Void visit(FontStyleAttribute style) {
         labelWithWidget.setFont(style.getFontFamily());
         return super.visit(style);
     }
 
     @Override
-    public Void visit(StyleAttributeFontSize style) {
+    public Void visit(FontSizeAttribute style) {
         labelWithWidget.setFontSize(style.getFontSize());
         return super.visit(style);
     }
 
     @Override
-    public Void visit(StyleAttributeWidth style) {
+    public Void visit(WidthAttribute style) {
         labelWithWidget.setWidth(style.getWidth());
         return super.visit(style);
     }

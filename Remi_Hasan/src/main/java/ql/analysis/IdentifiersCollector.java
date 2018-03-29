@@ -1,10 +1,10 @@
 package ql.analysis;
 
-import ql.QLBaseVisitor;
 import ql.model.Form;
 import ql.model.expression.Expression;
-import ql.model.expression.ExpressionIdentifier;
+import ql.model.expression.Identifier;
 import ql.model.statement.Question;
+import ql.visitor.QLVisitor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +15,7 @@ public class IdentifiersCollector {
     public static Set<String> collectQuestionIdentifiers(Form form) {
         Set<String> questionIdentifiers = new HashSet<>();
 
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 questionIdentifiers.add(question.getIdentifier());
@@ -30,9 +30,9 @@ public class IdentifiersCollector {
     public static Set<String> collectReferencedIdentifiers(Form form) {
         Set<String> referencedIdentifiers = new HashSet<>();
 
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
-            public Void visit(ExpressionIdentifier expression) {
+            public Void visit(Identifier expression) {
                 referencedIdentifiers.add(expression.getIdentifier());
                 return super.visit(expression);
             }
@@ -45,9 +45,9 @@ public class IdentifiersCollector {
     public static Set<String> collectReferencedIdentifiers(Expression expression) {
         Set<String> referencedIdentifiers = new HashSet<>();
 
-        expression.accept(new QLBaseVisitor<Void>() {
+        expression.accept(new QLVisitor<Void>() {
             @Override
-            public Void visit(ExpressionIdentifier expression) {
+            public Void visit(Identifier expression) {
                 referencedIdentifiers.add(expression.getIdentifier());
                 return super.visit(expression);
             }

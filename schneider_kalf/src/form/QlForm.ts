@@ -12,16 +12,19 @@ import FormTraversingVisitor from "./nodes/visitors/FormNodeTraversingVisitor";
 import { Maybe } from "../helpers/type_helper";
 import StatementCollection from "./collection/StatementCollection";
 
+/**
+ * QL Form that combines the AST with a persistent state container.
+ */
 export default class QlForm implements StatefulForm {
-  private node: FormNode;
+  private rootNode: FormNode;
   private state: FormState;
   private statements: StatementCollection;
 
-  constructor(formNode: FormNode, state: FormState) {
-    this.node = formNode;
+  constructor(rootNode: FormNode, state: FormState) {
+    this.rootNode = rootNode;
     this.state = state;
 
-    this.statements = FormTraversingVisitor.collectStatements(this.node);
+    this.statements = FormTraversingVisitor.collectStatements(this.rootNode);
     this.fillDefaultValues();
     this.computeFields();
   }
@@ -98,7 +101,7 @@ export default class QlForm implements StatefulForm {
   }
 
   getName(): string {
-    return this.node.name;
+    return this.rootNode.name;
   }
 
   getState(): FormState | any {
@@ -110,11 +113,11 @@ export default class QlForm implements StatefulForm {
   }
 
   setState(nextState: FormState): StatefulForm {
-    return new QlForm(this.node, nextState);
+    return new QlForm(this.rootNode, nextState);
   }
 
   getRootNode(): FormNode {
-    return this.node;
+    return this.rootNode;
   }
 
   getAnswer(identifier: string) {
@@ -128,16 +131,16 @@ export default class QlForm implements StatefulForm {
   }
 
   accept(visitor: FieldVisitor) {
-    return this.node.accept(visitor);
+    return this.rootNode.accept(visitor);
   }
 
   getVariablesMap(): VariablesMap {
-    return VariableScopeVisitor.run(this.node).variables;
+    return VariableScopeVisitor.run(this.rootNode).variables;
   }
 
   getStatements(): StatementCollection {
     if (!this.statements) {
-      this.statements = FormTraversingVisitor.collectStatements(this.node);
+      this.statements = FormTraversingVisitor.collectStatements(this.rootNode);
     }
 
     return this.statements;

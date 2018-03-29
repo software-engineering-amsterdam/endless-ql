@@ -1,8 +1,8 @@
 package ql.form;
 
 import org.junit.Test;
-import ql.QLBaseVisitor;
-import ql.QLEvaluator;
+import ql.visitor.QLVisitor;
+import ql.QLForm;
 import ql.QLTestUtilities;
 import ql.evaluation.value.Value;
 import ql.model.Form;
@@ -19,7 +19,7 @@ public class FormBuilderTest {
     private List<Question> getQuestions(Form form) {
         List<Question> questions = new ArrayList<>();
 
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 questions.add(question);
@@ -54,18 +54,18 @@ public class FormBuilderTest {
 
     @Test
     public void computedForm() throws Exception {
-        QLEvaluator qlEvaluator = new QLEvaluator(FormBuilderTest.class
+        QLForm qlForm = new QLForm(FormBuilderTest.class
                 .getResourceAsStream("/ql/ValidForms/ComputedForm.ql"));
 
-        Form form = qlEvaluator.getForm();
+        Form form = qlForm.getForm();
 
         List<Question> questions = this.getQuestions(form);
 
         // Test whether computed field is computed correctly based on another field value
-        Value staticResult = qlEvaluator.evaluateExpression(questions.get(0).getComputedAnswer());
+        Value staticResult = qlForm.evaluateExpression(questions.get(0).getComputedAnswer());
         assertEquals(staticResult.getIntValue(), Integer.valueOf(2));
 
-        Value calculationResult = qlEvaluator.evaluateExpression(questions.get(1).getComputedAnswer());
+        Value calculationResult = qlForm.evaluateExpression(questions.get(1).getComputedAnswer());
         assertEquals(calculationResult.getIntValue(), Integer.valueOf(5));
     }
 

@@ -61,7 +61,7 @@ class ScopePass(result: TypeCheckResult, val symbolTable: SymbolTable) : NodePas
         } else if (symbol.expression != null) {
             val references = symbol.expression.allReferences()
 
-            references.forEach { r -> findAllUndefinedReferences(r.name, r.location) }
+            references.forEach { r -> findAllUndefinedReferences(r.name.text, r.location) }
         }
     }
 

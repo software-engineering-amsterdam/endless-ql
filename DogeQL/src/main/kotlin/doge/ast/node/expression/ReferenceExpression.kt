@@ -1,5 +1,6 @@
 package doge.ast.node.expression
 
+import doge.ast.location.Identifier
 import doge.ast.location.SourceLocation
 import doge.ast.node.expression.visitor.evaluation.EvaluationVisitor
 import doge.ast.node.expression.visitor.evaluation.TypeVisitor
@@ -9,7 +10,7 @@ import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
 import doge.visitor.QuestionnaireASTBaseVisitor
 
-class ReferenceExpression(val name: String, sourceLocation: SourceLocation)
+class ReferenceExpression(val name: Identifier, sourceLocation: SourceLocation)
     : Expression(sourceLocation) {
 
     override fun <T> accept(visitor: QuestionnaireASTBaseVisitor<T>): T {

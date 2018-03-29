@@ -9,15 +9,15 @@ import ql.evaluation.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.expression.Expression;
-import ql.visitor.VisitorExpression;
+import ql.builder.ExpressionBuilder;
 
 import java.io.InputStream;
 
 public class QLTestUtilities {
 
     public static Form buildForm(InputStream inputStream) throws Exception {
-        QLEvaluator qlEvaluator = new QLEvaluator(inputStream);
-        return qlEvaluator.getForm();
+        QLForm qlForm = new QLForm(inputStream);
+        return qlForm.getForm();
     }
 
     public static Expression expressionFromString(String input) {
@@ -27,9 +27,9 @@ public class QLTestUtilities {
         QLParser parser = new QLParser(tokens);
 
         // Walk it and attach our listener
-        VisitorExpression visitorExpression = new VisitorExpression();
+        ExpressionBuilder expressionBuilder = new ExpressionBuilder();
 
-        return visitorExpression.visit(parser.expression());
+        return expressionBuilder.visit(parser.expression());
     }
 
     public static Value evaluateExpression(String input) {

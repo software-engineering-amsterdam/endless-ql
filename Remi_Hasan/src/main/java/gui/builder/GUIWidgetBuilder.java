@@ -1,8 +1,8 @@
 package gui.builder;
 
-import qls.QLSVisitor;
 import qls.model.statement.DefaultStyle;
 import qls.model.widget.*;
+import qls.visitor.QLSVisitor;
 
 public class GUIWidgetBuilder extends QLSVisitor<WidgetType> {
 
@@ -12,37 +12,37 @@ public class GUIWidgetBuilder extends QLSVisitor<WidgetType> {
     }
 
     @Override
-    public WidgetType visit(WidgetDefault widget) {
+    public WidgetType visit(DefaultWidget widget) {
         return WidgetType.DEFAULT;
     }
 
     @Override
-    public WidgetType visit(WidgetDatePicker widget) {
+    public WidgetType visit(DatePickerWidget widget) {
         return WidgetType.DATE;
     }
 
     @Override
-    public WidgetType visit(WidgetDropdown widget) {
+    public WidgetType visit(DropDownWidget widget) {
         return WidgetType.DROPDOWN;
     }
 
     @Override
-    public WidgetType visit(WidgetRadio widget) {
+    public WidgetType visit(RadioWidget widget) {
         return WidgetType.RADIO;
     }
 
     @Override
-    public WidgetType visit(WidgetSlider widget) {
+    public WidgetType visit(SliderWidget widget) {
         return WidgetType.SLIDER;
     }
 
     @Override
-    public WidgetType visit(WidgetSpinBox widget) {
+    public WidgetType visit(SpinBoxWidget widget) {
         return WidgetType.SPINBOX;
     }
 
     @Override
-    public WidgetType visit(WidgetTextBox widget) {
+    public WidgetType visit(TextBoxWidget widget) {
         return WidgetType.TEXTBOX;
     }
 }

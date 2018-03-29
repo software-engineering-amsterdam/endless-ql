@@ -1,27 +1,27 @@
 package gui.builder;
 
 import gui.model.GUIQuestion;
-import ql.QLBaseVisitor;
 import ql.model.expression.Expression;
-import ql.model.expression.binary.ExpressionLogicalAnd;
-import ql.model.expression.unary.ExpressionUnaryNot;
-import ql.model.expression.variable.ExpressionVariableBoolean;
+import ql.model.expression.binary.AndExpression;
+import ql.model.expression.constant.BooleanConstant;
+import ql.model.expression.unary.NotExpression;
 import ql.model.statement.IfBlock;
 import ql.model.statement.IfElseBlock;
 import ql.model.statement.Question;
 import ql.model.statement.Statement;
+import ql.visitor.QLVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // Translate QL Question objects to GUIQuestion objects, by chaining the conditions
 // and storing the conditions inside the GUIQuestion
-public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
+public class GUIQuestionsBuilder extends QLVisitor<List<GUIQuestion>> {
     private final Expression condition;
 
     GUIQuestionsBuilder() {
         // No previous condition, questions in this block get a simple TRUE condition
-        this.condition = new ExpressionVariableBoolean(true);
+        this.condition = new BooleanConstant(true);
     }
 
     private GUIQuestionsBuilder(Expression condition) {
@@ -39,7 +39,7 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
         List<GUIQuestion> guiQuestions = new ArrayList<>();
 
         // If blocks can be nested, so chain conditions
-        Expression ifCondition = new ExpressionLogicalAnd(this.condition, ifBlock.getCondition());
+        Expression ifCondition = new AndExpression(this.condition, ifBlock.getCondition());
 
         // Collect all questions inside this if block and give them the condition
         GUIQuestionsBuilder trueStatementVisitor = new GUIQuestionsBuilder(ifCondition);
@@ -57,8 +57,8 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
         List<GUIQuestion> guiQuestions = this.visit((IfBlock) ifElseBlock);
 
         // Else block, so negate invert condition
-        Expression elseCondition = new ExpressionLogicalAnd(this.condition,
-                new ExpressionUnaryNot(ifElseBlock.getCondition()));
+        Expression elseCondition = new AndExpression(this.condition,
+                new NotExpression(ifElseBlock.getCondition()));
 
         // Collect all questions inside this e;se block and give them the condition
         GUIQuestionsBuilder falseStatementVisitor = new GUIQuestionsBuilder(elseCondition);

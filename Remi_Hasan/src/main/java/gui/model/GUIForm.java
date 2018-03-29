@@ -1,6 +1,6 @@
 package gui.model;
 
-import gui.elements.LabelWithWidget;
+import gui.components.LabelWithWidget;
 import gui.render.GUIController;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;

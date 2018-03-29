@@ -1,6 +1,6 @@
 import FieldNode from "../../../form/nodes/fields/FieldNode";
 import MergedFieldStyle from "./MergedFieldStyle";
-import QuestionStyle from "./nodes/children/QuestionStyle";
+import QuestionStyleNode from "./nodes/children/QuestionStyleNode";
 import Page, { default as PageNode } from "./nodes/containers/PageNode";
 import { FieldType } from "../../../form/FieldType";
 import { Maybe } from "../../../helpers/type_helper";
@@ -8,9 +8,9 @@ import { Maybe } from "../../../helpers/type_helper";
 export default class StyledField {
   private fieldNode: FieldNode;
   private mergedStyle: MergedFieldStyle;
-  private styleNode: Maybe<QuestionStyle>;
+  private styleNode: Maybe<QuestionStyleNode>;
 
-  constructor(field: FieldNode, mergedStyle: MergedFieldStyle, questionStyleNode?: QuestionStyle) {
+  constructor(field: FieldNode, mergedStyle: MergedFieldStyle, questionStyleNode?: QuestionStyleNode) {
     this.fieldNode = field;
     this.mergedStyle = mergedStyle;
     this.styleNode = questionStyleNode;
@@ -50,7 +50,7 @@ export default class StyledField {
     return page.isEqual(otherPage);
   }
 
-  static makeFromCollections(fieldNode: FieldNode, merged: MergedFieldStyle[], questions: QuestionStyle[]) {
+  static makeFromCollections(fieldNode: FieldNode, merged: MergedFieldStyle[], questions: QuestionStyleNode[]) {
     let mergedFieldStyle = merged.find(style => style.appliesToField(fieldNode));
     const questionStyle = questions.find(style => style.appliesToField(fieldNode));
 

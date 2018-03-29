@@ -60,12 +60,12 @@ PageBodyStatements = Section / Default
 SectionBodyStatements = Question / Section / Default
 
 Stylesheet
- = StylesheetToken _ identifier:Word __ "{" __ page:Page* __ "}" __ {
+ = StylesheetToken _ identifier:Identifier __ "{" __ page:Page+ __ "}" __ {
     return new Nodes.Stylesheet( identifier, page );
 }
 
 Page
- = PageToken _ identifier:Word __ block:PageBlock __ {
+ = PageToken _ identifier:Identifier __ block:PageBlock __ {
     return new Nodes.Page( identifier, block );
 }
 
@@ -85,7 +85,7 @@ SectionBlock
 }
 
 Question
- = QuestionToken _ identifier:Word __ body:StyleBlock? __ {
+ = QuestionToken _ identifier:Identifier __ body:StyleBlock? __ {
     body = body ? body : [];
     return new Nodes.QuestionStyle( identifier, body );
 }
@@ -100,8 +100,8 @@ StyleBlock
  / StyleBlockBrackets
 
 StyleBlockBrackets
- = "{" __ args:StyleAttribute+ __ "}" {
-    return args;
+ = "{" __ body:StyleBlockNoBrackets __ "}" {
+    return body;
 }
 
 StyleBlockNoBrackets
@@ -146,8 +146,8 @@ ColorLiteral "Color literal"
     return text();
 }
 
-Word "Word"
- = [a-zA-Z]+ {
+Identifier
+  = Alphabet AlphabetOrNumbers+ {
     return text();
 }
 
@@ -181,6 +181,16 @@ EscapeSequence
   / "r"  { return "\r";   }
   / "t"  { return "\t";   }
   / "v"  { return "\x0B"; }
+
+Alphabet
+  = [a-zA-Z]
+
+Numbers
+  = [0-9]
+
+AlphabetOrNumbers
+  = Alphabet
+  / Numbers
 
 SourceCharacter = .
 

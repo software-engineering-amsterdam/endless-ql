@@ -4,14 +4,14 @@ stylesheet taxOfficeExample
   {
     section "User input"
     {
-      question priceFishOne
-      question priceFishTwo
-      question priceFishThree
+      question weightFishOne
+      question weightFishTwo
+      question weightFishThree
     }
     section "Complex fish calculations"
     {
-       question priceFishOneAndTwo
-       question priceAllFishes
+       question weightFishOneAndTwo
+       question weightAllFishes
     }
   }
   page Housing
@@ -39,8 +39,12 @@ stylesheet taxOfficeExample
         question sellingPrice
           widget spinbox
         question privateDebt
-          widget spinbox
+        {
+          widget text
+          font: "Comic Sans Ms"
+          color: "red"
           width: 300
+        }
         question valueResidue
         default money
         {

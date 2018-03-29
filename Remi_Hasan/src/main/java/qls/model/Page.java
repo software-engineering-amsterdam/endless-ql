@@ -1,7 +1,7 @@
 package qls.model;
 
-import qls.IQLSVisitor;
 import qls.model.statement.Statement;
+import qls.visitor.IQLSVisitor;
 
 import java.util.List;
 

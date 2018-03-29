@@ -5,11 +5,11 @@ import com.google.gson.GsonBuilder;
 import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.statement.Question;
+import ql.visitor.QLVisitor;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -17,15 +17,15 @@ public class QLExporter {
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 
-    public static void export(QLEvaluator qlEvaluator, File exportFile) throws IOException {
-        Form form = qlEvaluator.getForm();
+    public static void export(QLForm qlForm, File exportFile) throws IOException {
+        Form form = qlForm.getForm();
 
         // Evaluate all questions in order
         Map<String, Object> evaluatedQuestions = new LinkedHashMap<>();
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
-                Value answer = qlEvaluator.getAnswer(question.getIdentifier());
+                Value answer = qlForm.getAnswer(question.getIdentifier());
                 evaluatedQuestions.put(question.getIdentifier(), answer.getValue());
                 return super.visit(question);
             }

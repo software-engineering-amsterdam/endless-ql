@@ -145,3 +145,7 @@ Result will be written into the `/build` folder
 - [x] Add AST classes for the provided expression categories, and for you syntactic extensions. Make sure the parser creates objects of the appropriate type.
 - [ ] It is unacceptable that there are remnants of dead code, commented out sections, or debugging print statements etc. in the code that you will present for grading.
 - [x] Some way of shipping the answers, exporting the result (although I couldn't find it in the assignment)
+
+## Presentation
+Show no else, no instanceof and no switch
+Error messages with line numbers (rename weightFishOneA to weightFishOne1)

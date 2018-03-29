@@ -2,6 +2,8 @@ import { getTypeString } from "./type_checking/type_assertions";
 import { FieldType } from "./FieldType";
 import FieldNode from "./nodes/fields/FieldNode";
 import Expression from "./nodes/expressions/Expression";
+import NodeLocation from "./nodes/location/NodeLocation";
+import VariableIdentifier from "./nodes/expressions/VariableIdentifier";
 
 export class FormError extends Error {
   constructor(m: string) {
@@ -10,7 +12,7 @@ export class FormError extends Error {
   }
 }
 
-export const makeError = <T extends Error>(errorClass: { new(name: string): T ; }, message: string): T => {
+export const makeError = <T extends Error>(errorClass: { new(name: string): T; }, message: string): T => {
   const error = new errorClass(message);
   Object.setPrototypeOf(error, errorClass.prototype);
   return error;
@@ -21,7 +23,7 @@ export class TypeCheckError extends FormError {
   receivedType: string;
 
   static make(expectedType: string, receivedType: string, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Type check failed. Expected "${expectedType}" but received "${receivedType}".`;
     }
 
@@ -37,7 +39,7 @@ export class ValuesNotComparableError extends FormError {
   right: any;
 
   static make(left: string, right: string, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Cannot compare ${left} [${getTypeString(left)}] to  ${right} [${getTypeString(right)}].`;
     }
 
@@ -54,7 +56,7 @@ export class TypesNotComparableError extends FormError {
   right: FieldType;
 
   static make(left: FieldType, right: FieldType, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Cannot compare type ${left} to  ${right}.`;
     }
 
@@ -68,7 +70,7 @@ export class TypesNotComparableError extends FormError {
 
 export class DivisionByZeroError extends FormError {
   static make(message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Division by zero is not possible. `;
     }
 
@@ -79,7 +81,7 @@ export class DivisionByZeroError extends FormError {
 // TODO: Should be removed when not called #NoDeadCode
 export class NotImplementedYetError extends Error {
   static make(feature: string, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Feature not implemented yet: "${feature}".`;
     }
 
@@ -91,7 +93,7 @@ export class UnkownFieldError extends FormError {
   fieldIdentifier: string;
 
   static make(identifier: string, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Unkown field ${identifier}.`;
     }
 
@@ -102,15 +104,17 @@ export class UnkownFieldError extends FormError {
 }
 
 export class UnkownVariableIdentifierError extends FormError {
-  variableIdentifier: string;
+  variableIdentifier: VariableIdentifier;
+  location: NodeLocation;
 
-  static make(identifier: string, message?: string) {
-    if (typeof message === 'undefined') {
+  static make(identifier: VariableIdentifier, message?: string) {
+    if (!message) {
       message = `Unkown variable identifier: "${identifier}"`;
     }
 
     const error = makeError(UnkownVariableIdentifierError, message);
     error.variableIdentifier = identifier;
+    error.location = identifier.getLocation();
     return error;
   }
 }
@@ -119,7 +123,7 @@ export class UnkownDefaultValueError extends FormError {
   fieldType: string;
 
   static make(type: FieldType, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `No default value for type: "${type}"`;
     }
 
@@ -133,7 +137,7 @@ export class EmptyVariableScopeStackError extends FormError {
   identifier: string;
 
   static make(identifier: string, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Cannot add variable ${identifier} to empty stack.`;
     }
 
@@ -147,7 +151,7 @@ export class FieldAlreadyDeclaredError extends FormError {
   field: FieldNode;
 
   static make(field: FieldNode, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Field "${field.identifier}" was already declared before. Please use another name.`;
     }
 
@@ -158,17 +162,19 @@ export class FieldAlreadyDeclaredError extends FormError {
 }
 
 export class VariableNotInScopeError extends FormError {
+  location: NodeLocation;
   expression: Expression;
   identifier: string;
 
   static make(expression: Expression, identifier: string, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Unknown identifier "${identifier}" used in expression.`;
     }
 
     const error = makeError(VariableNotInScopeError, message);
     error.identifier = identifier;
     error.expression = expression;
+    error.location = expression.getLocation();
     return error;
   }
 }
@@ -177,7 +183,7 @@ export class ValueIsNaNError extends FormError {
   value: any;
 
   static make(value: any, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Value cannot be parsed as a number: ${value}.`;
     }
     const error = makeError(ValueIsNaNError, message);
@@ -191,7 +197,7 @@ export class CannotFindCommonFieldTypeError extends FormError {
   right: FieldType;
 
   static make(left: FieldType, right: FieldType, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Cannot find common field type for ${left} and ${right}.`;
     }
 
@@ -206,7 +212,7 @@ export class ValueIsInvalidDateError extends FormError {
   value: string;
 
   static make(value: string, message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `Cannot parse date since it is invalid ${value}.`;
     }
 
@@ -218,7 +224,7 @@ export class ValueIsInvalidDateError extends FormError {
 
 export class NeedAtLeastOneFormToParseError extends FormError {
   static make(message?: string) {
-    if (typeof message === 'undefined') {
+    if (!message) {
       message = `The given input can not be parsed since there must be at least one form in the input.`;
     }
 

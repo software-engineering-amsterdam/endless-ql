@@ -1,19 +1,19 @@
 package ql.analysis.error;
 
-import ql.QLBaseVisitor;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
-import ql.model.expression.ExpressionIdentifier;
+import ql.model.expression.Identifier;
 import ql.model.expression.ReturnType;
 import ql.model.expression.binary.*;
-import ql.model.expression.unary.ExpressionUnaryNeg;
-import ql.model.expression.unary.ExpressionUnaryNot;
-import ql.model.expression.variable.*;
+import ql.model.expression.constant.*;
+import ql.model.expression.unary.NegationExpression;
+import ql.model.expression.unary.NotExpression;
 import ql.model.statement.IfBlock;
 import ql.model.statement.IfElseBlock;
 import ql.model.statement.Question;
+import ql.visitor.QLVisitor;
 
-public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAnalysis {
+public class TypeChecker extends QLVisitor<ReturnType> implements IQLErrorAnalysis {
 
     private SymbolTable symbolTable;
 
@@ -31,7 +31,7 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
         }
     }
 
-    private ReturnType checkBinaryArithmetic(ExpressionBinary expression, String operation) {
+    private ReturnType checkBinaryArithmetic(BinaryExpression expression, String operation) {
         ReturnType leftType = expression.getLeft().accept(this);
         ReturnType rightType = expression.getRight().accept(this);
 
@@ -45,7 +45,7 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
         return leftType.getStrongestNumber(rightType);
     }
 
-    private ReturnType checkBinaryComparison(ExpressionBinary expression, String operation) {
+    private ReturnType checkBinaryComparison(BinaryExpression expression, String operation) {
         ReturnType leftType = expression.getLeft().accept(this);
         ReturnType rightType = expression.getRight().accept(this);
 
@@ -57,7 +57,7 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
         return ReturnType.BOOLEAN;
     }
 
-    private ReturnType checkBinaryBoolean(ExpressionBinary expression, String operation) {
+    private ReturnType checkBinaryBoolean(BinaryExpression expression, String operation) {
         ReturnType leftType = expression.getLeft().accept(this);
         ReturnType rightType = expression.getRight().accept(this);
 
@@ -104,27 +104,27 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
     }
 
     @Override
-    public ReturnType visit(ExpressionArithmeticDivide expression) {
+    public ReturnType visit(DivisionExpression expression) {
         return checkBinaryArithmetic(expression, "division");
     }
 
     @Override
-    public ReturnType visit(ExpressionArithmeticMultiply expression) {
+    public ReturnType visit(MultiplicationExpression expression) {
         return checkBinaryArithmetic(expression, "multiplication");
     }
 
     @Override
-    public ReturnType visit(ExpressionArithmeticSubtract expression) {
+    public ReturnType visit(SubtractionExpression expression) {
         return checkBinaryArithmetic(expression, "subtraction");
     }
 
     @Override
-    public ReturnType visit(ExpressionArithmeticSum expression) {
+    public ReturnType visit(SumExpression expression) {
         return checkBinaryArithmetic(expression, "addition");
     }
 
     @Override
-    public ReturnType visit(ExpressionComparisonEq expression) {
+    public ReturnType visit(EqualExpression expression) {
         ReturnType leftType = expression.getLeft().accept(this);
         ReturnType rightType = expression.getRight().accept(this);
 
@@ -137,37 +137,37 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
     }
 
     @Override
-    public ReturnType visit(ExpressionComparisonGE expression) {
+    public ReturnType visit(GreaterEqualExpression expression) {
         return checkBinaryComparison(expression, "GE");
     }
 
     @Override
-    public ReturnType visit(ExpressionComparisonGT expression) {
+    public ReturnType visit(GreaterThanExpression expression) {
         return checkBinaryComparison(expression, "GT");
     }
 
     @Override
-    public ReturnType visit(ExpressionComparisonLE expression) {
+    public ReturnType visit(LessEqualExpression expression) {
         return checkBinaryComparison(expression, "LE");
     }
 
     @Override
-    public ReturnType visit(ExpressionComparisonLT expression) {
+    public ReturnType visit(LessThanExpression expression) {
         return checkBinaryComparison(expression, "LT");
     }
 
     @Override
-    public ReturnType visit(ExpressionLogicalAnd expression) {
+    public ReturnType visit(AndExpression expression) {
         return checkBinaryBoolean(expression, "AND");
     }
 
     @Override
-    public ReturnType visit(ExpressionLogicalOr expression) {
+    public ReturnType visit(OrExpression expression) {
         return checkBinaryBoolean(expression, "OR");
     }
 
     @Override
-    public ReturnType visit(ExpressionUnaryNot expression) {
+    public ReturnType visit(NotExpression expression) {
         ReturnType expressionType = expression.getOperand().accept(this);
 
         if (expressionType != ReturnType.BOOLEAN) {
@@ -178,7 +178,7 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
     }
 
     @Override
-    public ReturnType visit(ExpressionUnaryNeg expression) {
+    public ReturnType visit(NegationExpression expression) {
         ReturnType expressionType = expression.getOperand().accept(this);
 
         if (!expressionType.isNumber()) {
@@ -189,42 +189,42 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
     }
 
     @Override
-    public ReturnType visit(ExpressionVariableBoolean expression) {
+    public ReturnType visit(BooleanConstant constant) {
         return ReturnType.BOOLEAN;
     }
 
     @Override
-    public ReturnType visit(ExpressionVariableDate expression) {
+    public ReturnType visit(DateConstant constant) {
         return ReturnType.DATE;
     }
 
     @Override
-    public ReturnType visit(ExpressionVariableInteger expression) {
+    public ReturnType visit(IntegerConstant constant) {
         return ReturnType.INTEGER;
     }
 
     @Override
-    public ReturnType visit(ExpressionVariableDecimal expression) {
+    public ReturnType visit(DecimalConstant constant) {
         return ReturnType.DECIMAL;
     }
 
     @Override
-    public ReturnType visit(ExpressionVariableMoney expression) {
+    public ReturnType visit(MoneyConstant constant) {
         return ReturnType.MONEY;
     }
 
     @Override
-    public ReturnType visit(ExpressionVariableString expression) {
+    public ReturnType visit(StringConstant constant) {
         return ReturnType.STRING;
     }
 
     @Override
-    public ReturnType visit(ExpressionVariableUndefined expression) {
-        return expression.getReturnType();
+    public ReturnType visit(UndefinedConstant constant) {
+        return constant.getReturnType();
     }
 
     @Override
-    public ReturnType visit(ExpressionIdentifier expression) {
-        return this.symbolTable.getExpression(expression.getIdentifier()).accept(this);
+    public ReturnType visit(Identifier identifier) {
+        return this.symbolTable.getExpression(identifier.getIdentifier()).accept(this);
     }
 }

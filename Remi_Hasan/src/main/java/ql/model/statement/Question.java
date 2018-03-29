@@ -1,8 +1,8 @@
 package ql.model.statement;
 
-import ql.IQLVisitor;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
+import ql.visitor.IQLVisitor;
 
 public class Question extends Statement {
 

@@ -1,0 +1,26 @@
+form taxOfficeExample
+{
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+  "Did you buy a house in 2010?"
+    hasBoughtHouse: boolean
+  "Did you enter a loan?"
+    hasMaintLoan: boolean
+
+  if (hasSoldHouse)
+  {
+    "What was the selling price?"
+      sellingPrice: float
+    "Private debts for the sold house:"
+      privateDebt: money
+    "Value residue:"
+      valueResidue: money =
+        (sellingPrice - privateDebt)
+  }
+  else{
+    "What was the selling price?ELSEEE"
+    sellingPrice2: money
+  }
+}
+---
+FORM: Form: taxOfficeExample, block: [Question: Did you sell a house in 2010?, hasSoldHouse:<class 'bool'>, Question: Did you buy a house in 2010?, hasBoughtHouse:<class 'bool'>, Question: Did you enter a loan?, hasMaintLoan:<class 'bool'>, Conditional: if: (VarNode: hasSoldHouse None None) [Question: What was the selling price?, sellingPrice:<class 'float'>, Question: Private debts for the sold house:, privateDebt:<class 'float'>, Assigment: "Value residue:" valueResidue:<class 'float'> = Binop: VarNode: sellingPrice None None - VarNode: privateDebt None None] elif: [] else: [Question: What was the selling price?ELSEEE, sellingPrice2:<class 'float'>]]

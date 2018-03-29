@@ -1,4 +1,4 @@
-package com.chariotit.uva.sc.qdsl.formbuilder;
+package com.chariotit.uva.sc.qdsl.ast.ql.visitor;
 
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.BooleanConstant;
@@ -10,32 +10,35 @@ import com.chariotit.uva.sc.qdsl.ast.ql.node.type.BooleanTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.IntegerTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.MoneyTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.StringTypeNode;
-import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 
-public class FormBuilder extends NodeVisitor {
+public class EvaluateVisitor extends NodeVisitor {
 
-    public void buildForm(QLAstRoot astRoot) {
-        astRoot.acceptVisitor(this);
+    private SymbolTable symbolTable;
+
+    public EvaluateVisitor(SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
     }
 
     @Override
     public void visitBooleanConstant(BooleanConstant booleanConstant) {
-
+        booleanConstant.evaluate(symbolTable);
     }
 
     @Override
     public void visitIntegerConstant(IntegerConstant integerConstant) {
-
+        integerConstant.evaluate(symbolTable);
     }
 
     @Override
     public void visitMoneyConstant(MoneyConstant moneyConstant) {
+        moneyConstant.evaluate(symbolTable);
 
     }
 
     @Override
     public void visitStringConstant(StringConstant stringConstant) {
-
+        stringConstant.evaluate(symbolTable);
     }
 
     @Override
@@ -125,19 +128,22 @@ public class FormBuilder extends NodeVisitor {
 
     @Override
     public void visitAstRoot(QLAstRoot astRoot) {
+
     }
 
     @Override
     public void visitForm(Form form) {
+
     }
 
     @Override
     public void visitConstBinOpExpression(ConstBinOpExpression constBinOpExpression) {
-
+        constBinOpExpression.evaluate(symbolTable);
     }
 
     @Override
     public void visitIfBlock(IfBlock ifBlock) {
+
     }
 
     @Override
@@ -147,12 +153,12 @@ public class FormBuilder extends NodeVisitor {
 
     @Override
     public void visitLabelBinOpExpression(LabelBinOpExpression labelBinOpExpression) {
-
+        labelBinOpExpression.evaluate(symbolTable);
     }
 
     @Override
     public void visitLabelExpression(LabelExpression labelExpression) {
-
+        labelExpression.evaluate(symbolTable);
     }
 
     @Override
@@ -172,6 +178,6 @@ public class FormBuilder extends NodeVisitor {
 
     @Override
     public void visitUnOpExpression(UnOpExpression unOpExpression) {
-
+        unOpExpression.evaluate(symbolTable);
     }
 }

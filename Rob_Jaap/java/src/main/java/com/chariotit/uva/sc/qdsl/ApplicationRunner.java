@@ -5,7 +5,6 @@ import com.chariotit.uva.sc.qdsl.ast.ql.node.QLAstRoot;
 import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.qls.Validator;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
-import com.chariotit.uva.sc.qdsl.formbuilder.FormBuilder;
 import com.chariotit.uva.sc.qdsl.grammar.QLSLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.QLSVisitor;
@@ -64,7 +63,6 @@ public class ApplicationRunner implements CommandLineRunner {
 
     private void runProgram(ApplicationParameters parameters) throws IOException {
         QLAstRoot astRoot = getQLFromFilename(parameters.getQlFilename());
-
 
         // Run Typechecker
         TypeChecker typeChecker = new TypeChecker();

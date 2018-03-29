@@ -5,8 +5,8 @@ import javafx.scene.control.Spinner
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 import nl.uva.se.sc.niro.gui.widget.{ DecimalFormatterBuilder, FormatMasks }
 
-class QLSDecimalSpinField()
-    extends Spinner[Double](Double.MinValue, Double.MaxValue, 0.0, 0.1)
+class QLSDecimalSpinField(minimum: Double, maximum: Double, stepSize: Double)
+    extends Spinner[Double](minimum, maximum, (maximum - minimum) / 2, stepSize)
     with QLWidget[java.math.BigDecimal]
     with FormatMasks {
 

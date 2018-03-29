@@ -22,7 +22,9 @@ class QLSWidgetFactory extends QLWidgetFactory {
   override def makeIntegerWidget(question: GUIQuestion): QLWidget[java.math.BigInteger] = question match {
     case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
-        case Some(GUISpinBoxStyle()) => if (isReadOnly) super.makeIntegerWidget(question) else new QLSIntegerSpinField()
+        case Some(GUISpinBoxStyle(minimum, maximum, stepSize)) =>
+          if (isReadOnly) super.makeIntegerWidget(question)
+          else new QLSIntegerSpinField(minimum.toInt, maximum.toInt, stepSize.toInt)
         case Some(GUISliderStyle(minimum, maximum)) =>
           if (isReadOnly) super.makeIntegerWidget(question) else new QLSIntegerSliderField(minimum, maximum)
         case _ => super.makeIntegerWidget(question)
@@ -33,7 +35,8 @@ class QLSWidgetFactory extends QLWidgetFactory {
   override def makeDecimalWidget(question: GUIQuestion): QLWidget[java.math.BigDecimal] = question match {
     case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
-        case Some(GUISpinBoxStyle()) => if (isReadOnly) super.makeDecimalWidget(question) else new QLSDecimalSpinField()
+        case Some(GUISpinBoxStyle(minimum, maximum, stepSize)) =>
+          if (isReadOnly) super.makeDecimalWidget(question) else new QLSDecimalSpinField(minimum, maximum, stepSize)
         case Some(GUISliderStyle(minimum, maximum)) =>
           if (isReadOnly) super.makeDecimalWidget(question) else new QLSDecimalSliderField(minimum, maximum)
         case _ => super.makeDecimalWidget(question)
@@ -44,7 +47,8 @@ class QLSWidgetFactory extends QLWidgetFactory {
   override def makeMoneyWidget(question: GUIQuestion): QLWidget[java.math.BigDecimal] = question match {
     case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
-        case Some(GUISpinBoxStyle()) => if (isReadOnly) super.makeMoneyWidget(question) else new QLSMoneySpinField()
+        case Some(GUISpinBoxStyle(minimum, maximum, stepSize)) =>
+          if (isReadOnly) super.makeMoneyWidget(question) else new QLSMoneySpinField(minimum, maximum, stepSize)
         case Some(GUISliderStyle(minimum, maximum)) =>
           if (isReadOnly) super.makeMoneyWidget(question) else new QLSMoneySliderField(minimum, maximum)
         case _ => super.makeMoneyWidget(question)

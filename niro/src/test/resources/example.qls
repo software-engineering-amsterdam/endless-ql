@@ -20,9 +20,9 @@ stylesheet taxOfficeExample
 //      section "You sold a house"
   //    {
         question sellingPrice
-          widget slider (-1.9, 2.3, 0.3)
+          widget spinbox (-1.9, 2.3, 0.3)
         question privateDebt
-          widget spinbox 
+          widget spinbox (100, 3000, 15)
         question valueResidue
         default money
         {
@@ -30,7 +30,7 @@ stylesheet taxOfficeExample
           font: "Arial" 
           fontsize: 14
           color: #999999
-          widget spinbox
+          widget spinbox (-200, 200, 4)
         }        
     //  }
     }

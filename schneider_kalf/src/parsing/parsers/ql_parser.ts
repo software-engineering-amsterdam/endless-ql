@@ -1444,7 +1444,7 @@ function peg$parse(input, options) {
     let s0, s1, s2, s3, s4, s5, s6, s7, s8;
 
     s0 = peg$currPos;
-    s1 = peg$parsePrimary();
+    s1 = peg$parseExpressionElement();
     if (s1 !== peg$FAILED) {
       s2 = peg$parse_();
       if (s2 !== peg$FAILED) {
@@ -1456,7 +1456,7 @@ function peg$parse(input, options) {
           if (s6 !== peg$FAILED) {
             s7 = peg$parse_();
             if (s7 !== peg$FAILED) {
-              s8 = peg$parsePrimary();
+              s8 = peg$parseExpressionElement();
               if (s8 !== peg$FAILED) {
                 s5 = [s5, s6, s7, s8];
                 s4 = s5;
@@ -1486,7 +1486,7 @@ function peg$parse(input, options) {
               if (s6 !== peg$FAILED) {
                 s7 = peg$parse_();
                 if (s7 !== peg$FAILED) {
-                  s8 = peg$parsePrimary();
+                  s8 = peg$parseExpressionElement();
                   if (s8 !== peg$FAILED) {
                     s5 = [s5, s6, s7, s8];
                     s4 = s5;
@@ -1533,13 +1533,13 @@ function peg$parse(input, options) {
       s0 = peg$FAILED;
     }
     if (s0 === peg$FAILED) {
-      s0 = peg$parsePrimary();
+      s0 = peg$parseExpressionElement();
     }
 
     return s0;
   }
 
-  function peg$parsePrimary() {
+  function peg$parseExpressionElement() {
     let s0;
 
     s0 = peg$parseValue();
@@ -1559,7 +1559,7 @@ function peg$parse(input, options) {
     s0 = peg$currPos;
     s1 = peg$parseUnaryOps();
     if (s1 !== peg$FAILED) {
-      s2 = peg$parsePrimary();
+      s2 = peg$parseExpressionElement();
       if (s2 !== peg$FAILED) {
         s3 = peg$parse_();
         if (s3 !== peg$FAILED) {
@@ -2853,7 +2853,6 @@ function peg$parse(input, options) {
 
       // Mapping of operators to their TypeScript class
       let operationMapping = {
-          "!"  : Node.Negation,
           "&&" : Nodes.And,
           "||" : Nodes.Or,
           "<=" : Nodes.SmallerThanOrEqual,

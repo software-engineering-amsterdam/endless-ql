@@ -28,6 +28,7 @@ import Decimal from "decimal.js/decimal";
 import NumberValue from "../values/NumberValue";
 import NumericOperation from "../values/NumericOperation";
 import { isNumericValue } from "../values/values_helpers";
+import { Maybe } from "../../helpers/type_helper";
 
 /**
  * The evaluation visitor travels through an expression and calculates
@@ -36,7 +37,7 @@ import { isNumericValue } from "../values/values_helpers";
  *
  */
 export default class EvaluationVisitor implements ExpressionVisitor {
-  private state: FormState | undefined;
+  private state: Maybe<FormState>;
 
   constructor(state?: FormState) {
     this.state = state;

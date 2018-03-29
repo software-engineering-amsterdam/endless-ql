@@ -12,6 +12,7 @@ import { getQuestionStyleNodes } from "./style_helpers";
 import QuestionStyle from "./nodes/children/QuestionStyle";
 import StyledField from "./StyledField";
 import FieldNode from "../../../form/nodes/fields/FieldNode";
+import { Maybe } from "../../../helpers/type_helper";
 
 export default class QlsForm implements StatefulForm {
   private baseForm: StatefulForm;
@@ -65,16 +66,15 @@ export default class QlsForm implements StatefulForm {
     return this.baseForm.accept(visitor);
   }
 
-  getActivePage(): PageNode | undefined {
+  getActivePage(): Maybe<PageNode> {
     const activePageName = this.getState().getActivePageName();
 
-    const activePage: PageNode | undefined = this.getPages().find(
+    const activePage: Maybe<PageNode> = this.getPages().find(
         page => typeof activePageName !== 'undefined' && page.name === activePageName
     );
 
-    // TODO: Assert that style has at least one page
     if (!activePageName) {
-      return this.getPages()[0];
+      return this.stylesheetNode.getFirstPage();
     }
 
     return activePage;

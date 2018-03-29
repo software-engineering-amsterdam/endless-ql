@@ -1,15 +1,15 @@
 import StatefulForm from "./StatefulForm";
 import FormNode from "./nodes/FormNode";
 import FieldNode from "./nodes/fields/FieldNode";
-import { filterNodes } from "./form_helpers";
 import FormState from "./state/FormState";
-import ComputedField from "./nodes/fields/ComputedFieldNode";
+import ComputedFieldNode from "./nodes/fields/ComputedFieldNode";
 import QuestionNode from "./nodes/fields/QuestionNode";
-import Maybe = jest.Maybe;
 import { UnkownDefaultValueError, UnkownFieldError } from "./form_errors";
 import FieldVisitor from "./nodes/visitors/FieldVisitor";
 import defaultValues from "./defaultValues";
 import { VariableScopeVisitor, VariablesMap } from "./type_checking/VariableScopeVisitor";
+import FormTraversingVisitor from "./nodes/visitors/FormNodeTraversingVisitor";
+import { Maybe } from "../helpers/type_helper";
 
 export default class QlForm implements StatefulForm {
   private node: FormNode;
@@ -23,16 +23,24 @@ export default class QlForm implements StatefulForm {
     this.computeFields();
   }
 
+  /**
+   * Compute all readonly fields based on the values that are currently in the state and
+   * use previous results to allow references form computed field to computed field.
+   */
   computeFields() {
     let state: FormState = this.state;
 
-    this.getComputedFields().forEach((field: ComputedField) => {
+    this.getComputedFields().forEach((field: ComputedFieldNode) => {
       state = state.set(field.identifier, field.computeAnswer(state));
     });
 
     this.state = state;
   }
 
+  /**
+   * Fill all questions (fields that are not read only) with default values that were defined
+   * for the respective field type.
+   */
   fillDefaultValues() {
     let state: FormState = this.state;
 
@@ -51,26 +59,39 @@ export default class QlForm implements StatefulForm {
     this.state = state;
   }
 
-  getField(identifier: string): FieldNode | undefined | any {
+  /**
+   * Get a field by the string identifier. Returns undefined if no field with the identifier exists.
+   *
+   * @param {string} identifier
+   * @returns {FieldNode | any}
+   */
+  getField(identifier: string): Maybe<FieldNode> | any {
     return this.getFields().find(field => field.identifier === identifier);
   }
 
+  /**
+   * Return all fields (computed fields + questions)
+   *
+   * @returns {FieldNode[]}
+   */
   getFields(): FieldNode[] {
-    return filterNodes((node) => node instanceof ComputedField || node instanceof QuestionNode, this.node);
+    return FormTraversingVisitor.collectStatements(this.node).getFieldsArray();
   }
 
-  getComputedFields(): ComputedField[] {
-    return filterNodes((node) => node instanceof ComputedField, this.node);
+  /**
+   * Returns all computed fields inside the form (including the inactive / hidden ones)
+   * @returns {ComputedFieldNode[]}
+   */
+  getComputedFields(): ComputedFieldNode[] {
+    return FormTraversingVisitor.collectStatements(this.node).getComputedFieldsArray();
   }
 
+  /**
+   * Returns all questions inside the form (including the inactive / hidden ones)
+   * @returns {QuestionNode[]}
+   */
   getQuestions(): QuestionNode[] {
-    return filterNodes((node) => node instanceof QuestionNode, this.node);
-  }
-
-  findField(identifier: string): Maybe<FieldNode> {
-    return this.getFields().find((field: FieldNode) => {
-      return field.identifier === identifier;
-    });
+    return FormTraversingVisitor.collectStatements(this.node).getQuestionsArray();
   }
 
   getName(): string {
@@ -94,7 +115,7 @@ export default class QlForm implements StatefulForm {
   }
 
   getAnswer(identifier: string) {
-    const field = this.findField(identifier);
+    const field = this.getField(identifier);
 
     if (!field) {
       throw UnkownFieldError.make(identifier);

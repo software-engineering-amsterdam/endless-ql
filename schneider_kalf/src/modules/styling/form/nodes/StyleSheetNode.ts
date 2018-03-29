@@ -2,6 +2,7 @@ import AbstractStyleNode from "./AbstractStyleNode";
 import StyleSheetChild from "./children/StyleSheetChild";
 import StyleNodeVisitor from "../visitors/StyleNodeVisitor";
 import Page from "./containers/PageNode";
+import { StyleSheetNeedsAtLeasOnePageError } from "../style_errors";
 
 export default class StyleSheetNode extends AbstractStyleNode {
   readonly name: string;
@@ -11,6 +12,14 @@ export default class StyleSheetNode extends AbstractStyleNode {
     super();
     this.name = name;
     this.children = children;
+
+    this.validate();
+  }
+
+  validate() {
+    if (this.getPages().length === 0) {
+      throw StyleSheetNeedsAtLeasOnePageError.make(this);
+    }
   }
 
   accept(visitor: StyleNodeVisitor): any {
@@ -19,5 +28,9 @@ export default class StyleSheetNode extends AbstractStyleNode {
 
   getPages(): Page[] | any {
     return this.children.filter(child => child instanceof Page);
+  }
+
+  getFirstPage() {
+    return this.getPages()[0];
   }
 }

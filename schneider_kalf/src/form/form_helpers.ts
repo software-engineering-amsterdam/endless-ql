@@ -1,9 +1,10 @@
 import TreeNode from "./nodes/TreeNode";
-import NodeTraveller from "./nodes/visitors/NodeTraveller";
+import NodeTraveller from "./nodes/visitors/FormNodeTraversingVisitor";
 import VariableIdentifier from "./nodes/expressions/VariableIdentifier";
 import FieldNode from "./nodes/fields/FieldNode";
 import ComputedField from "./nodes/fields/ComputedFieldNode";
 import QuestionNode from "./nodes/fields/QuestionNode";
+import StatementCollection from "./collection/StatementCollection";
 
 export const filterNodes = (predicate: (node: TreeNode) => boolean, start: TreeNode): any[] => {
   let nodes: TreeNode[] = [];

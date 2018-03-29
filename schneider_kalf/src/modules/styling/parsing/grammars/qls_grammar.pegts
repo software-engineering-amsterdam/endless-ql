@@ -34,6 +34,20 @@ Types
   / "decimal"
   / "text"
 
+Widgets "Widget"
+  = "spinbox"
+  / "text"
+  / "slider"
+  / "dropdown"
+  / "checkbox"
+  / "radio"
+
+BaseAttributes "Base style attribute"
+  = "color"
+  / "width"
+  / "fontsize"
+  / "font"
+
 StylesheetToken = "stylesheet"
 PageToken = "page"
 SectionToken = "section"
@@ -46,12 +60,12 @@ PageBodyStatements = Section / Default
 SectionBodyStatements = Question / Section / Default
 
 Stylesheet
- = StylesheetToken _ identifier:Identifier __ "{" __ page:Page* __ "}" __ {
+ = StylesheetToken _ identifier:Word __ "{" __ page:Page* __ "}" __ {
     return new Nodes.Stylesheet( identifier, page );
 }
 
 Page
- = PageToken _ identifier:Identifier __ block:PageBlock __ {
+ = PageToken _ identifier:Word __ block:PageBlock __ {
     return new Nodes.Page( identifier, block );
 }
 
@@ -71,7 +85,7 @@ SectionBlock
 }
 
 Question
- = QuestionToken _ identifier:Identifier __ body:StyleBlock? __ {
+ = QuestionToken _ identifier:Word __ body:StyleBlock? __ {
     body = body ? body : [];
     return new Nodes.QuestionStyle( identifier, body );
 }
@@ -99,9 +113,9 @@ StyleAttribute
  = WidgetAttribute
  / BaseAttribute
 
-WidgetAttribute
- = WidgetToken _ id:Identifier options:WidgetOptions? __ {
-    const WidgetAttributeConstructor = widgetMapping[id];
+WidgetAttribute "Widget attribute"
+ = WidgetToken _ identifier:Widgets options:WidgetOptions? __ {
+    const WidgetAttributeConstructor = widgetMapping[identifier];
     return new WidgetAttributeConstructor( options );
 }
 
@@ -115,8 +129,8 @@ Options
     return next != null ? [head].concat(next) : [head];
 }
 
-BaseAttribute
- = _ identifier:Identifier _ ":" _ args:BaseAttributeValues __{
+BaseAttribute "Base attribute"
+ = identifier:BaseAttributes _ ":" _ args:BaseAttributeValues __ {
     const BaseAttributeConstructor = baseAttributeMapping[identifier];
     return new BaseAttributeConstructor( args );
 }
@@ -127,33 +141,33 @@ BaseAttributeValues
  / ColorLiteral
  / BooleanLiteral
 
-ColorLiteral
+ColorLiteral "Color literal"
   = ["#"][0-9]+ {
     return text();
 }
 
-Identifier
+Word "Word"
  = [a-zA-Z]+ {
     return text();
 }
 
-BooleanLiteral
+BooleanLiteral "Boolean literal"
   = BooleanToken {
     return text() == "true"
 }
 
-NumberLiteral
+NumberLiteral "Number literal"
   = [-]?[0-9]+ {
     return parseInt(text(), 10)
 }
 
 // String Literal, Currently only support double quoted Strings
-StringLiteral
- = '"' chars:DoubleString* '"'{
+StringLiteral "String literal"
+ = '"' chars:DoubleQuotedStringCharacters* '"'{
     return chars.join('');
 }
 
-DoubleString
+DoubleQuotedStringCharacters
   = !('"' / "\\") char:. { return char; }
   / "\\" sequence:EscapeSequence { return sequence; }
 
@@ -170,7 +184,7 @@ EscapeSequence
 
 SourceCharacter = .
 
-WhiteSpace
+WhiteSpace "Whitespace"
   = "\t"
   / "\v"
   / "\f"
@@ -181,7 +195,7 @@ WhiteSpace
 _ = (WhiteSpace / MultiLineCommentNoLineTerminator)*
 __ = (WhiteSpace / LineTerminatorSequence / Comment)*
 
-LineTerminatorSequence
+LineTerminatorSequence "End of line"
   = "\n"
   / "\r\n"
   / "\r"
@@ -191,7 +205,7 @@ LineTerminatorSequence
 LineTerminator
     = [\n\r\u2028\u2029]
 
-Comment
+Comment "Comment"
   = MultiLineComment
   / SingleLineComment
 

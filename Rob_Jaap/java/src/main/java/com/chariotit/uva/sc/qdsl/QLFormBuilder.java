@@ -108,7 +108,8 @@ public class QLFormBuilder extends JPanel {
 
     private void renderIfBlock(IfBlock block) {
 
-        if (((BooleanExpressionValue)block.getExpression().getExpressionValue()).getValue()){
+        if (((BooleanExpressionValue)block.getExpression().getExpressionValue()).getValue() &&
+                block.getIfElements() != null){
             renderElements(block.getIfElements());
         } else if (block.getElseElements() != null){
             renderElements(block.getElseElements());
@@ -300,7 +301,6 @@ public class QLFormBuilder extends JPanel {
     public static void addQuestion(LineElement element){
 
         JComponent questionComponent = componentForElement(element);
-
         builder.append(element.getQuestion().getQuestion(), questionComponent);
         builder.nextLine();
     }

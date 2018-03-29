@@ -22,7 +22,7 @@ class GuiBuilder(object):
             self.QLSBuilder = QLSGuiBuilder(self.gui, qls_ast)
             self.frame_order = self.QLSBuilder.parseQLSAST(self.frame_order)
 
-        self.renderQLWidgets()
+        self.renderWidgets()
         self.rendered_frame_order = self.frame_order
         self.frame_order = []
 
@@ -35,39 +35,10 @@ class GuiBuilder(object):
             if self.qls_ast:
                 self.frame_order = self.QLSBuilder.parseQLSAST(self.frame_order)
 
-            self.renderQLWidgets()
+            self.renderWidgets()
             self.rendered_frame_order = self.frame_order
             self.frame_order = []
             self.rendering = False
-
-    def renderQLWidgets(self):
-        self.rendering = True
-
-        for widget_variable in self.frame_order:
-            widget_info = self.gui.widget_settings[widget_variable]
-            widget_type = widget_info[0]
-
-            if (widget_type == "question" or widget_type == "radio") and self.checkRenderWidget(widget_variable):
-                self.renderQuestion(widget_variable, widget_info)
-            if widget_type == "checkbox" and self.checkRenderWidget(widget_variable):
-                self.renderCheckboxQuestion(widget_variable, widget_info)
-            elif widget_type == "assignment" and self.checkRenderWidget(widget_variable):   
-                self.renderAssignment(widget_variable, widget_info)
-            elif widget_type == "spinbox" and self.checkRenderWidget(widget_variable):
-                self.renderSpinBoxQuestion(widget_variable, widget_info)
-            elif widget_type == "slider" and self.checkRenderWidget(widget_variable):
-                self.renderSliderQuestion(widget_variable, widget_info)
-            elif widget_type == "dropdown" and self.checkRenderWidget(widget_variable):
-                self.renderDropdownQuestion(widget_variable, widget_info)
-
-            self.frame_counter += 1
-
-        self.removeExcessQuestions()
-        self.rendering = False
-    
-    def removeExcessQuestions(self):
-        if self.frame_counter < len(self.rendered_frame_order):
-            self.gui.removeFrames(self.rendered_frame_order[self.frame_counter:])
 
     def parseQLAST(self, ast):
         for node in ast.statements:
@@ -95,16 +66,6 @@ class GuiBuilder(object):
             elif node_type is "else" and not condional_shown:
                 self.parseQLAST(node)
 
-    def checkRenderWidget(self, var):
-        if len(self.rendered_frame_order) > 0 and len(self.rendered_frame_order) > self.frame_counter  and self.rendered_frame_order[self.frame_counter] is not var:
-            self.gui.removeFrames(self.rendered_frame_order[self.frame_counter:])
-            self.rendered_frame_order = self.rendered_frame_order[:self.frame_counter]
-            return True
-        elif len(self.rendered_frame_order) <= self.frame_counter:
-            return True
-
-        return False
-
     def parseQLQuestion(self, statement):
         if statement.variable not in self.gui.values: 
             self.gui.createTKTraceVariable(statement.variable, statement.variabletype, self.updateForm) 
@@ -122,47 +83,6 @@ class GuiBuilder(object):
 
         self.gui.widget_settings[statement.variable] = ["assignment", statement.name, result, self.gui.window]
         self.frame_order.append(statement.variable)
-
-    def renderQuestion(self, widget_variable, widget_info):
-        if widget_info[1] == "boolean":
-            if len(widget_info) > 4:
-                self.gui.addBooleanQuestion(widget_variable, widget_info[2], "Yes", "No", widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
-            else:
-                self.gui.addBooleanQuestion(widget_variable, widget_info[2], "Yes", "No", widget_info[3])
-        
-        elif widget_info[1] == "int" or widget_info[1] == "money":
-            if len(widget_info) > 4:
-                self.gui.addIntQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
-            else:
-                self.gui.addIntQuestion(widget_variable, widget_info[2], widget_info[3])
-
-    def renderAssignment(self, widget_variable, widget_info):
-        self.gui.addAssignment(widget_variable, widget_info[1], widget_info[2], widget_info[3])
-
-    def renderSpinBoxQuestion(self, widget_variable, widget_info):
-        self.gui.addSpinBoxQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7], widget_info[8], widget_info[9])
-
-    def renderSliderQuestion(self, widget_variable, widget_info):
-        self.gui.addSliderQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7], widget_info[8], widget_info[9])
-
-    def renderDropdownQuestion(self, widget_variable, widget_info):
-        self.gui.addBooleanDropdownQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
-
-    def renderCheckboxQuestion(self, widget_variable, widget_info):
-        self.gui.addCheckboxQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
-
-    # render an assignment and return its value
-    def parseBinOpAssignment(self, statement):
-        if type(statement) is BinOpNode:
-            left = self.parseBinOpAssignment(statement.left)
-            right = self.parseBinOpAssignment(statement.right)
-            return self.getOperator(statement.op)(left, right)
-
-        if type(statement) is UnOpNode:
-            return self.gui.getValue(statement.variable, "int")
-
-        if type(statement) is LiteralNode:
-            return int(statement.literal)
 
     def checkExpressionValues(self, expression):
         if type(expression) is BinOpNode:
@@ -200,6 +120,85 @@ class GuiBuilder(object):
                     return True
 
         return False
+
+    def parseBinOpAssignment(self, statement):
+        if type(statement) is BinOpNode:
+            left = self.parseBinOpAssignment(statement.left)
+            right = self.parseBinOpAssignment(statement.right)
+            return self.getOperator(statement.op)(left, right)
+
+        if type(statement) is UnOpNode:
+            return self.gui.getValue(statement.variable, "int")
+
+        if type(statement) is LiteralNode:
+            return int(statement.literal)
+
+    def renderWidgets(self):
+        self.rendering = True
+
+        for widget_variable in self.frame_order:
+            widget_info = self.gui.widget_settings[widget_variable]
+            widget_type = widget_info[0]
+
+            if (widget_type == "question" or widget_type == "radio") and self.checkRenderWidget(widget_variable):
+                self.renderQuestion(widget_variable, widget_info)
+            if widget_type == "checkbox" and self.checkRenderWidget(widget_variable):
+                self.renderCheckboxQuestion(widget_variable, widget_info)
+            elif widget_type == "assignment" and self.checkRenderWidget(widget_variable):   
+                self.renderAssignment(widget_variable, widget_info)
+            elif widget_type == "spinbox" and self.checkRenderWidget(widget_variable):
+                self.renderSpinBoxQuestion(widget_variable, widget_info)
+            elif widget_type == "slider" and self.checkRenderWidget(widget_variable):
+                self.renderSliderQuestion(widget_variable, widget_info)
+            elif widget_type == "dropdown" and self.checkRenderWidget(widget_variable):
+                self.renderDropdownQuestion(widget_variable, widget_info)
+
+            self.frame_counter += 1
+
+        self.removeExcessWidgets()
+        self.rendering = False
+
+    def renderQuestion(self, widget_variable, widget_info):
+        if widget_info[1] == "boolean":
+            if len(widget_info) > 4:
+                self.gui.addBooleanQuestion(widget_variable, widget_info[2], "Yes", "No", widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
+            else:
+                self.gui.addBooleanQuestion(widget_variable, widget_info[2], "Yes", "No", widget_info[3])
+        
+        elif widget_info[1] == "int" or widget_info[1] == "money":
+            if len(widget_info) > 4:
+                self.gui.addIntQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
+            else:
+                self.gui.addIntQuestion(widget_variable, widget_info[2], widget_info[3])
+
+    def renderAssignment(self, widget_variable, widget_info):
+        self.gui.addAssignment(widget_variable, widget_info[1], widget_info[2], widget_info[3])
+
+    def renderSpinBoxQuestion(self, widget_variable, widget_info):
+        self.gui.addSpinBoxQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7], widget_info[8], widget_info[9])
+
+    def renderSliderQuestion(self, widget_variable, widget_info):
+        self.gui.addSliderQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7], widget_info[8], widget_info[9])
+
+    def renderDropdownQuestion(self, widget_variable, widget_info):
+        self.gui.addBooleanDropdownQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
+
+    def renderCheckboxQuestion(self, widget_variable, widget_info):
+        self.gui.addCheckboxQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
+    
+    def checkRenderWidget(self, var):
+        if len(self.rendered_frame_order) > 0 and len(self.rendered_frame_order) > self.frame_counter  and self.rendered_frame_order[self.frame_counter] is not var:
+            self.gui.removeFrames(self.rendered_frame_order[self.frame_counter:])
+            self.rendered_frame_order = self.rendered_frame_order[:self.frame_counter]
+            return True
+        elif len(self.rendered_frame_order) <= self.frame_counter:
+            return True
+
+        return False
+        
+    def removeExcessWidgets(self):
+        if self.frame_counter < len(self.rendered_frame_order):
+            self.gui.removeFrames(self.rendered_frame_order[self.frame_counter:])
 
     def getOperator(self, operator):
         return {

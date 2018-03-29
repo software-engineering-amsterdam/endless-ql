@@ -41,6 +41,7 @@ stylesheet taxOfficeExample
         question privateDebt
         {
           widget text
+          font: "Comic Sans Ms"
           color: "red"
           width: 300
         }

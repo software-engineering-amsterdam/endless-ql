@@ -19,10 +19,10 @@ style : stylePart
       ;
 
 stylePart : control
-          | WIDTHPROPERTY KEYVALUESEPARATOR size=INTEGER 
-          | FONTPROPERTY KEYVALUESEPARATOR fontName=TEXT
-          | FONTSIZEPROPERTY KEYVALUESEPARATOR fontSize=DECIMAL
-          | COLORPROPERTY KEYVALUESEPARATOR color=HEXIDECIMAL
+          | WIDTHPROPERTY KEYVALUESEPARATOR INTEGER 
+          | FONTPROPERTY KEYVALUESEPARATOR TEXT
+          | FONTSIZEPROPERTY KEYVALUESEPARATOR (DECIMAL | INTEGER)
+          | COLORPROPERTY KEYVALUESEPARATOR HEXIDECIMAL
           ;
 
 control : WIDGETKEYWORD controlType;
@@ -79,12 +79,12 @@ NUMERICUPDOWN: 'spinbox';
 TEXT: '"' (~'"')* '"';
 IDENTIFIER: [a-zA-Z] [a-zA-Z0-9_]* ;
 
-fragment:
-HEXDIGIT: ([0-9]|[A-F]) ([0-9]|[A-F]);
+fragment DIGIT: [0-9];
+fragment HEXDIGIT: (DIGIT|[A-F]) (DIGIT|[A-F]);
 
 HEXIDECIMAL: '#' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
 
-DECIMAL: '-'?[0-9]+ '.' [0-9]+;
-INTEGER: '-'?[0-9]+;
+DECIMAL: '-'?DIGIT+ '.' DIGIT+;
+INTEGER: '-'?DIGIT+;
 NEWLINE: '\r'? '\n' -> skip;
 WS: [ \t]+ -> skip ;

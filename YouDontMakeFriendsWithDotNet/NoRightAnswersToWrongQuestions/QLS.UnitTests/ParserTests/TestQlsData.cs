@@ -96,6 +96,9 @@ namespace QLS.UnitTests.ParserTests
                 yield return new TestCaseData(
                     @"stylesheet ss1 { page p1 { } default decimal { fontsize: 9.2 widget textbox width: 120 font : ""ComicSans"" color: #FFFFFFFF } }");
 
+                yield return new TestCaseData(
+                    @"stylesheet ss1 { page p1 { } default decimal { fontsize: 5 widget textbox color: #12345678 } }");
+
             }
         }
     }

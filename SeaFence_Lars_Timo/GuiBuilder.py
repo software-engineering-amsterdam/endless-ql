@@ -50,7 +50,6 @@ class GuiBuilder(object):
                 self.parseAssignment(node)
 
             elif node_type is "if":
-                print node.expression
                 if self.checkExpressionValues(node.expression):
                     condional_shown = True
                     self.parseQLAST(node)
@@ -88,7 +87,6 @@ class GuiBuilder(object):
     def checkExpressionValues(self, expression):
         if type(expression) is BinOpNode:
             if expression.op == "&&":
-                print self.checkExpressionValues(expression.left)
                 if self.checkExpressionValues(expression.left) and self.checkExpressionValues(expression.right):
                     return True
 
@@ -112,7 +110,6 @@ class GuiBuilder(object):
                 return True
             elif expression.negate and (self.gui.values[expression.variable].get() == "0" or self.gui.values[expression.variable].get() == "No"):
                 return True
-            print self.gui.values[expression.variable].get()
         if type(expression) is LiteralNode and expression.variable in self.gui.values:
             if expression.variable_type == u"int":
                 if not expression.negate and int(expression.literal) == 1:

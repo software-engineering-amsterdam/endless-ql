@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
+using Assignment1.Model.QL.AST;
 using Assignment1.Model.QL.AST.Expression;
 using Assignment1.Model.QL.AST.Value;
 using Microsoft.CSharp.RuntimeBinder;
@@ -21,8 +21,7 @@ namespace Assignment1.Execution
             }
             catch (RuntimeBinderException)
             {
-                Debug.Fail("There is a mismatch between the type checker and this evaluator.");
-                evaluator._result = new Undefined();
+                throw new InvalidExpressionException(expression);
             }
             return evaluator._result;
         }
@@ -45,11 +44,6 @@ namespace Assignment1.Execution
         public void Visit(QLInteger value)
         {
             _result = value;
-        }
-
-        public void Visit(Undefined undefined)
-        {
-            _result = undefined;
         }
 
         public void Visit(QLString value)
@@ -95,6 +89,8 @@ namespace Assignment1.Execution
         private IValue VisitConditional(Binary expression, Func<dynamic, dynamic, bool> condition)
         {
             (var left, var right) = VisitBinary(expression);
+            if (left.IsUndefined() || right.IsUndefined())
+                return new QLBoolean();
             return new QLBoolean(condition(left, right));
         }
 
@@ -115,8 +111,6 @@ namespace Assignment1.Execution
             _result = VisitConditional(expression, (a, b) => LessThan(a, b));
         }
 
-        private static bool LessThan(Undefined a, object b) => false;
-        private static bool LessThan(object a, Undefined b) => false;
         private static bool LessThan(QLInteger a, QLInteger b) => a.Value < b.Value;
         private static bool LessThan(QLDecimal a, QLDecimal b) => a.Value < b.Value;
         private static bool LessThan(QLDate a, QLDate b) => a.Value < b.Value;
@@ -127,8 +121,6 @@ namespace Assignment1.Execution
             _result = VisitConditional(expression, (a, b) => GreaterThan(a, b));
         }
 
-        private static bool GreaterThan(Undefined a, object b) => false;
-        private static bool GreaterThan(object a, Undefined b) => false;
         private static bool GreaterThan(QLInteger a, QLInteger b) => a.Value > b.Value;
         private static bool GreaterThan(QLDecimal a, QLDecimal b) => a.Value > b.Value;
         private static bool GreaterThan(QLDate a, QLDate b) => a.Value > b.Value;
@@ -160,8 +152,6 @@ namespace Assignment1.Execution
             _result = VisitConditional(expression, (a, b) => Equal(a, b));
         }
 
-        private static bool Equal(Undefined a, object b) => false;
-        private static bool Equal(object a, Undefined b) => false;
         private static bool Equal(QLInteger a, QLInteger b) => a.Value == b.Value;
         private static bool Equal(QLDecimal a, QLDecimal b) => a.Value == b.Value;
         private static bool Equal(QLDate a, QLDate b) => a.Value == b.Value;
@@ -174,8 +164,6 @@ namespace Assignment1.Execution
             _result = Add(left, right);
         }
 
-        private static Undefined Add(Undefined a, object b) => a;
-        private static Undefined Add(object a, Undefined b) => Add(b, a);
         private static QLInteger Add(QLInteger a, QLInteger b) => new QLInteger(a.Value + b.Value);
         private static QLDecimal Add(QLDecimal a, QLDecimal b) => new QLDecimal(a.Value + b.Value);
         private static QLMoney Add(QLMoney a, QLMoney b) => new QLMoney(a.Value + b.Value);
@@ -187,8 +175,6 @@ namespace Assignment1.Execution
             _result = Subtract(left, right);
         }
 
-        private static Undefined Subtract(Undefined a, object b) => a;
-        private static Undefined Subtract(object a, Undefined b) => Subtract(b, a);
         private static QLInteger Subtract(QLInteger a, QLInteger b) => new QLInteger(a.Value - b.Value);
         private static QLDecimal Subtract(QLDecimal a, QLDecimal b) => new QLDecimal(a.Value - b.Value);
         private static QLMoney Subtract(QLMoney a, QLMoney b) => new QLMoney(a.Value - b.Value);
@@ -200,8 +186,6 @@ namespace Assignment1.Execution
             _result = Multiply(left, right);
         }
 
-        private static Undefined Multiply(Undefined a, object b) => a;
-        private static Undefined Multiply(object a, Undefined b) => Multiply(b, a);
         private static QLInteger Multiply(QLInteger a, QLInteger b) => new QLInteger(a.Value * b.Value);
         private static QLDecimal Multiply(QLDecimal a, QLDecimal b) => new QLDecimal(a.Value * b.Value);
         private static QLMoney Multiply(QLInteger a, QLMoney b) => new QLMoney(a.Value * b.Value);
@@ -219,8 +203,6 @@ namespace Assignment1.Execution
             _result = Divide(left, right);
         }
 
-        private static Undefined Divide(Undefined a, object b) => a;
-        private static Undefined Divide(object a, Undefined b) => Divide(b, a);
         private static QLInteger Divide(QLInteger a, QLInteger b) => new QLInteger(a.Value / b.Value);
         private static QLDecimal Divide(QLDecimal a, QLDecimal b) => new QLDecimal(a.Value / b.Value);
         private static QLMoney Divide(QLMoney a, QLInteger b) => new QLMoney(a.Value / b.Value);

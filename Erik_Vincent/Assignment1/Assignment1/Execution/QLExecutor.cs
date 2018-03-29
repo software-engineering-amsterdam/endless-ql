@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assignment1.Model.QL.AST;
 using Assignment1.Model.QL.AST.Expression;
 using Assignment1.Model.QL.AST.Value;
@@ -31,7 +32,7 @@ namespace Assignment1.Execution
 
         public bool IsReadOnly(string questionId) => _readOnlyQuestions.Contains(questionId);
 
-        public IValue GetAnswer(string questionId) => _answers.ContainsKey(questionId) ? _answers[questionId] : new Undefined();
+        public IValue GetAnswer(string questionId) => _answers[questionId];
 
         private void AddQuestion(Question question, bool readOnly)
         {

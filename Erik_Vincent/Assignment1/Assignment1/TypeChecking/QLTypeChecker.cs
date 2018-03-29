@@ -136,11 +136,6 @@ namespace Assignment1.TypeChecking
             _currentType = Type.Integer;
         }
 
-        public void Visit(Undefined undefined)
-        {
-            _currentType = Type.Undefined;
-        }
-
         public void Visit(QLString value)
         {
             _currentType = Type.String;

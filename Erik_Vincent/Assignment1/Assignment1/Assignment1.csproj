@@ -111,7 +111,6 @@
     <Compile Include="Model\QL\AST\Value\QLInteger.cs" />
     <Compile Include="Model\QL\AST\Value\QLMoney.cs" />
     <Compile Include="Model\QL\AST\Value\QLString.cs" />
-    <Compile Include="Model\QL\AST\Value\Undefined.cs" />
     <Compile Include="Model\QL\AST\Value\IValue.cs" />
     <Compile Include="Model\QL\RenderTree\IRenderable.cs" />
     <Compile Include="Model\QL\RenderTree\Value\AnswerValue.cs" />

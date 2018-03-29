@@ -6,14 +6,14 @@ import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import javafx.util.Callback
-import nl.uva.se.sc.niro.gui.component.Component
+import nl.uva.se.sc.niro.gui.component.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.gui.controller.qls.QLSFormController
 import nl.uva.se.sc.niro.gui.widget.qls.QLSWidgetFactory
 import nl.uva.se.sc.niro.model.gui.ql.GUIForm
 import nl.uva.se.sc.niro.model.gui.qls.{ GUIStyling, _ }
 import nl.uva.se.sc.niro.model.ql._
 
-class QLSPageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet)
+class QLSPageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet, componentFactory: ComponentFactory)
     extends Callback[Integer, Node]() {
 
   val defaultStyles: Map[AnswerType, GUIStyling] = Map(
@@ -32,7 +32,7 @@ class QLSPageFactory(formController: QLSFormController, form: GUIForm, styleshee
     makePage(page, pageToShow)
   }
 
-  private def makePage(page: VBox, pageToShow: GUIPage): VBox = {
+  def makePage(page: VBox, pageToShow: GUIPage): VBox = {
     val defaultPageStyles = mergeStyles(mergeStyles(defaultStyles, stylesheet.defaultStyles), pageToShow.defaultStyles)
 
     val components = pageToShow.sections.flatMap(section => {
@@ -44,9 +44,7 @@ class QLSPageFactory(formController: QLSFormController, form: GUIForm, styleshee
     page
   }
 
-  private def makeSection(page: VBox, section: GUISection, defaultStyles: Map[AnswerType, GUIStyling]): Seq[Component[_]] = {
-    // TODO is this the correct locaion for the factory??
-    val componentFactory = QLSComponentFactory(formController, new QLSWidgetFactory())
+  def makeSection(page: VBox, section: GUISection, defaultStyles: Map[AnswerType, GUIStyling]): Seq[Component[_]] = {
     val defaultSectionStyles = mergeStyles(defaultStyles, section.defaultStyles)
 
     addSectionHeader(page, section)
@@ -64,11 +62,11 @@ class QLSPageFactory(formController: QLSFormController, form: GUIForm, styleshee
     })
   }
 
-  private def addSectionHeader(questionsOnPage: VBox, section: GUISection): Boolean = {
+  def addSectionHeader(questionsOnPage: VBox, section: GUISection): Boolean = {
     questionsOnPage.getChildren.add(new Label(s"  -- ${section.name} --  "))
   }
 
-  private def mergeStyles(
+  def mergeStyles(
       left: Map[AnswerType, GUIStyling],
       right: Map[AnswerType, GUIStyling]): Map[AnswerType, GUIStyling] =
     Semigroup[Map[AnswerType, GUIStyling]].combine(left, right)

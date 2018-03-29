@@ -5,6 +5,7 @@ import gui.render.GUIController;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -33,6 +34,10 @@ public class GUIForm extends VBox {
         // Wrap form in scroll pane, so questions will always be reachable
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(vBox);
+
+        // Bind scrollPane height to window height
+        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+
         return scrollPane;
     }
 }

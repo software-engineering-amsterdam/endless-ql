@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -89,11 +90,11 @@ public class Renderer extends Application {
         GUIFormBuilder guiFormBuilder = new GUIFormBuilder();
 
         GUIForm guiForm;
-        if (this.qlsStyleSheet != null) {
-            guiForm = guiFormBuilder.buildQLSForm(qlEvaluator.getForm(), this.qlsStyleSheet);
-        } else {
+//        if (this.qlsStyleSheet != null) {
+//            guiForm = guiFormBuilder.buildQLSForm(qlEvaluator.getForm(), this.qlsStyleSheet);
+//        } else {
             guiForm = guiFormBuilder.buildQLForm(qlEvaluator.getForm());
-        }
+//        }
 
         GUIController guiController = new GUIController(qlEvaluator);
 

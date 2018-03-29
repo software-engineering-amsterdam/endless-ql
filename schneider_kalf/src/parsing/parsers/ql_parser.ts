@@ -254,11 +254,8 @@ function peg$parse(input, options) {
   const peg$c68 = peg$classExpectation(["-"], false, false);
   const peg$c69 = /^[0-9.]/;
   const peg$c70 = peg$classExpectation([["0", "9"], "."], false, false);
-  const peg$c71 = function(minus, digits) {
-      let amount = digits.join("");
-      if (minus)
-          amount = minus.concat(amount);
-      let numberLiteralNode = Nodes.NumberLiteral.fromString(amount);
+  const peg$c71 = function() {
+      let numberLiteralNode = Nodes.NumberLiteral.fromString(text());
       return addLocation(numberLiteralNode);
   };
   const peg$c72 = /^[0-9]/;
@@ -1696,7 +1693,7 @@ function peg$parse(input, options) {
       }
       if (s2 !== peg$FAILED) {
         peg$savedPos = s0;
-        s1 = peg$c71(s1, s2);
+        s1 = peg$c71();
         s0 = s1;
       } else {
         peg$currPos = s0;

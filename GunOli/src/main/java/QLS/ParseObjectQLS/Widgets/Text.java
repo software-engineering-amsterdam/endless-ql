@@ -1,13 +1,12 @@
 package QLS.ParseObjectQLS.Widgets;
 
 import QLS.Analysis.WidgetVisitorInterface;
-import QLS.QLSVisitor.WidgetVisitor;
 
-public class CheckBox extends Widget {
-
-    public CheckBox(int line) {
-        super( WidgetType.CheckBox, line);
+public class Text extends Widget {
+    Text(int line) {
+        super(WidgetType.Text, line);
     }
+
 
 
     @Override

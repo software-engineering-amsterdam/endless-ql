@@ -14,6 +14,7 @@ import QLS.ParseObjectQLS.Widgets.Widget;
 import QLS.QLSAntlrGen.QLSLexer;
 import QLS.QLSAntlrGen.QLSParser;
 import QLS.QLSVisitor.StylesheetVisitor;
+import QLS.QLSVisitor.WidgetTable;
 import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -49,8 +50,9 @@ public class Parser {
 
             //Trees.inspect(parser.head(), parser); //Debug QLS parse tree, change later
             //parser.reset();
+            WidgetTable widgetTable = new WidgetTable();
 
-            StylesheetVisitor visitor = new StylesheetVisitor();
+            StylesheetVisitor visitor = new StylesheetVisitor(widgetTable);
             return visitor.visit(parser.head());
         }catch(Exception e){
             System.out.println("Unable to Parse Selected QLS File");

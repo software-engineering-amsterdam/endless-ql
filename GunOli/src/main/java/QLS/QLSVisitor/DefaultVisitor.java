@@ -27,7 +27,7 @@ public class DefaultVisitor extends QLSBaseVisitor<Default> {
             widgets.add(widget);
         }
 
-        return new Default(typeValue, widgets);
+        return new Default(typeValue, widgets, ctx.getStart().getLine());
 
     }
 }

@@ -1,12 +1,11 @@
 package QLS.ParseObjectQLS.Widgets;
 
 import QLS.Analysis.WidgetVisitorInterface;
-import QLS.QLSVisitor.WidgetVisitor;
 
-public class CheckBox extends Widget {
+public class DropDown extends Widget {
 
-    public CheckBox(int line) {
-        super( WidgetType.CheckBox, line);
+    DropDown(int line) {
+        super(WidgetType.Dropdown, line);
     }
 
 

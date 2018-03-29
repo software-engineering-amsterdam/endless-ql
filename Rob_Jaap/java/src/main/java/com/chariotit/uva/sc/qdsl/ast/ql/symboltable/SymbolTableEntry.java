@@ -28,7 +28,7 @@ public class SymbolTableEntry {
                 expressionValue = new IntegerExpressionValue(0);
                 break;
             case MONEY:
-                expressionValue = new MoneyExpressionValue(new Float(0));
+                expressionValue = new MoneyExpressionValue(new Float(0.0));
                 break;
             case STRING:
                 expressionValue = new StringExpressionValue("");

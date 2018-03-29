@@ -10,8 +10,14 @@ import com.chariotit.uva.sc.qdsl.grammar.QLSLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.QLSVisitor;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
+import com.chariotit.uva.sc.qdsl.QLFrame;
+
+import sun.tools.jar.CommandLine;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import org.apache.commons.cli.*;
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -70,10 +76,6 @@ public class ApplicationRunner implements CommandLineRunner {
             System.exit(1);
         }
 
-        FormBuilder builder = new FormBuilder();
-        builder.buildForm(astRoot);
-
-
         if (parameters.getQlsFilename() != null) {
             Stylesheet stylesheet = getQLSFromFilename(parameters.getQlsFilename());
 
@@ -87,10 +89,7 @@ public class ApplicationRunner implements CommandLineRunner {
             }
         }
 
-//        QLFormBuilder builder = new QLFormBuilder();
-//
-//        builder.showForm();
-
+        QLFormBuilder builder = new QLFormBuilder(astRoot);
     }
 
     @Override

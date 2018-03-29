@@ -1,0 +1,34 @@
+form taxOfficeExample
+{
+  "Int a"
+    a: int
+
+  if(a){
+  	"Bool b"
+  		b: bool
+
+  }
+}
+---
+stylesheet taxOfficeExample
+{
+  page Page1
+  {
+    section "Section 1"
+    {
+   	  question a
+        widget spinbox(0, 100)
+      question b
+        widget radio("yes", "no")
+    }
+  default money
+  {
+    width: 400
+    font: "Arial" 
+    fontsize: 14
+    color: #999999
+    widget spinbox(0, 1)
+    widget spinbox(0, 1)
+  } 
+  }
+}

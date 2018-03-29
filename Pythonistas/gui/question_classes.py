@@ -11,7 +11,7 @@ class Question:
         self.hidden_answer = answer  # Saves if hidden
         self.visibility = True
         self.question_frame = None
-        self.attributes = {'color':None,'font_size':None,'font':None}
+        self.attributes = {'color': None, 'font_size': None, 'font': None, 'widget': None}
 
     def get_data_type(self):
         return self.data_type
@@ -44,15 +44,16 @@ class Question:
         font_size = self.attributes['font_size']
         font = self.attributes['font']
         question_label.setStyleSheet("color: {0}; font-size: {1}px; font-family: {2}".format(color, font_size, font))
-        # question_label.setStyleSheet("color: {0}; font-size: {1}".format('red', 'peop'))
         return question_label
 
     def set_attributes(self, attributes):
         # Sets class attributes that have not been set before
-        # if self.data_type == attributes['datatype']:
-        for key in self.attributes.keys() & attributes.keys():
-            if not self.attributes[key]:
-                self.attributes[key] = attributes[key]
+        if self.data_type in attributes.keys():
+            attributes = attributes[self.data_type]
+            for key in self.attributes.keys() & attributes.keys():
+                if not self.attributes[key]:
+                    self.attributes[key] = attributes[key]
+
 
 class BooleanQuestion(Question):
     def __init__(self, question_id, question_string, data_type='boolean', answer='undefined'):
@@ -60,8 +61,9 @@ class BooleanQuestion(Question):
         self.buttons = []
         self.if_questions = []
         self.question_layout = None
+        self.attributes['choices'] = None
 
-    def set_radiobuttons(self, choices=('Yes', 'No')):
+    def set_radiobuttons(self, choices=('True', 'False')):
         button_group = QtWidgets.QButtonGroup()
         button_group.setExclusive(True)
 
@@ -144,9 +146,14 @@ class BooleanQuestion(Question):
 
         self.question_layout.addWidget(self.create_label(), 0, 0)
 
-        if not self.buttons:
-            # self.set_checkbox()
+        if self.attributes['widget'] == 'radio':
+            if self.attributes['choices']:
+                self.set_radiobuttons(self.attributes['choices'])
+        elif self.attributes['widget'] == 'checkbox':
+            self.set_checkbox()
+        else:
             self.set_radiobuttons()
+
         column = 1
         for button in self.buttons:
             self.question_layout.addWidget(button, 0, column)
@@ -158,15 +165,24 @@ class BooleanQuestion(Question):
 class MoneyQuestion(Question):
     def __init__(self, question_id, question_string, data_type='money', answer='undefined'):
         Question.__init__(self, question_id, question_string, data_type, answer)
-        self.text_input_box = QtWidgets.QLineEdit()
-        self.text_input_box.textEdited.connect(self.update_answer)
+        self.text_input_box = None
         self.question_layout = None
 
         self.attributes['width'] = None
 
-    def set_answer_box(self, text_box):
-        self.text_input_box = text_box
+    def set_line_edit(self):
+        self.text_input_box = QtWidgets.QLineEdit()
         self.text_input_box.textEdited.connect(self.update_answer)
+
+    def set_spinbox(self):
+        self.text_input_box = QtWidgets.QDoubleSpinBox()
+        self.text_input_box.setMaximum(9 * 10**15)
+        self.text_input_box.setDecimals(0)
+        self.text_input_box.valueChanged.connect(self.update_answer)
+
+    # def set_answer_box(self, text_box):
+    #     self.text_input_box = text_box
+    #     self.text_input_box.textEdited.connect(self.update_answer)
 
     def update_answer(self):
         self.answer = self.text_input_box.text()
@@ -179,7 +195,16 @@ class MoneyQuestion(Question):
         self.question_frame.setVisible(self.visibility)
 
         self.question_layout.addWidget(self.create_label(), 0, 0)
+
+        if self.attributes['widget'] == 'spinbox':
+            self.set_spinbox()
+        # elif self.attributes['widget'] == 'textbox':
+        #     self.set_line_edit()
+        else:
+            self.set_line_edit()
+
         if self.attributes['width']:
             self.text_input_box.setFixedWidth(self.attributes['width'])
+
         self.question_layout.addWidget(self.text_input_box, 0, 1)
         return self.question_frame

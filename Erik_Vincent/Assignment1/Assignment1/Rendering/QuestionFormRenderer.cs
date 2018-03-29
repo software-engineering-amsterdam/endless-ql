@@ -116,7 +116,7 @@ namespace Assignment1.Rendering
         {
             if (!question.IsVisible(_evaluator)) return null;
             IValue value = _evaluator.EvaluateExpression(_table.GetExpression(question.Id));
-            string stringValue = value.Type == Model.QL.AST.Type.Undefined ? "0" : _evaluator.GetValueAsString(value);
+            string stringValue = "0";//value.Type == Model.QL.AST.Type.Undefined ? "0" : _evaluator.GetValueAsString(value);
             var numericUpDown = new NumericUpDown
             {
                 Minimum = int.MinValue,
@@ -140,7 +140,7 @@ namespace Assignment1.Rendering
         {
             if (!question.IsVisible(_evaluator)) return null;
             IValue value = _evaluator.EvaluateExpression(_table.GetExpression(question.Id));
-            string stringValue = value.Type == Model.QL.AST.Type.Undefined ? "" : _evaluator.GetValueAsString(value);
+            string stringValue = "1-1-1";//value.Type == Model.QL.AST.Type.Undefined ? "" : _evaluator.GetValueAsString(value);
             var dateTimePicker = new DateTimePicker
             {
                 MinDate = DateTime.MinValue,
@@ -164,7 +164,7 @@ namespace Assignment1.Rendering
         {
             if (!question.IsVisible(_evaluator)) return null;
             IValue value = _evaluator.EvaluateExpression(_table.GetExpression(question.Id));
-            string stringValue = value.Type == Model.QL.AST.Type.Undefined ? "0" : _evaluator.GetValueAsString(value);
+            string stringValue = "0";//value.Type == Model.QL.AST.Type.Undefined ? "0" : _evaluator.GetValueAsString(value);
             var numericUpDown = new NumericUpDown
             {
                 Minimum = decimal.MinValue,
@@ -189,7 +189,7 @@ namespace Assignment1.Rendering
         {
             if (!question.IsVisible(_evaluator)) return null;
             IValue value = _evaluator.EvaluateExpression(_table.GetExpression(question.Id));
-            string stringValue = value.Type == Model.QL.AST.Type.Undefined ? "0" : _evaluator.GetValueAsString(value);
+            string stringValue = "0";//value.Type == Model.QL.AST.Type.Undefined ? "0" : _evaluator.GetValueAsString(value);
             var numericUpDown = new NumericUpDown
             {
                 Minimum = decimal.MinValue,
@@ -214,7 +214,7 @@ namespace Assignment1.Rendering
         {
             if (!question.IsVisible(_evaluator)) return null;
             IValue value = _evaluator.EvaluateExpression(_table.GetExpression(question.Id));
-            string stringValue = value.Type == Model.QL.AST.Type.Undefined ? "" : _evaluator.GetValueAsString(value);
+            string stringValue = "";//value.Type == Model.QL.AST.Type.Undefined ? "" : _evaluator.GetValueAsString(value);
             var textBox = new TextBox
             {
                 Text = stringValue,

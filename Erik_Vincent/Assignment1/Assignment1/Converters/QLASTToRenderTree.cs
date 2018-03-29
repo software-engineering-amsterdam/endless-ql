@@ -73,26 +73,26 @@ namespace Assignment1.Converters
 
         private Model.QL.RenderTree.RenderableQuestion QLASTQuestionToQuestion(Question question)
         {
-            Model.QL.RenderTree.RenderableQuestion result;
+            Model.QL.RenderTree.RenderableQuestion result = null;
             switch (question.Type)
             {
                 case Type.Boolean:
-                    result = new RenderableQuestionBool(question.Id, question.Label, _isComputed);
+                    //result = new RenderableQuestionBool(question.Id, question.Label, _isComputed);
                     break;
                 case Type.Integer:
-                    result = new RenderableQuestionInt(question.Id, question.Label, _isComputed);
+                    //result = new RenderableQuestionInt(question.Id, question.Label, _isComputed);
                     break;
                 case Type.String:
-                    result = new RenderableQuestionString(question.Id, question.Label, _isComputed);
+                    //result = new RenderableQuestionString(question.Id, question.Label, _isComputed);
                     break;
                 case Type.Date:
-                    result = new RenderableQuestionDate(question.Id, question.Label, _isComputed);
+                    //result = new RenderableQuestionDate(question.Id, question.Label, _isComputed);
                     break;
                 case Type.Decimal:
-                    result = new RenderableQuestionDecimal(question.Id, question.Label, _isComputed);
+                    //result = new RenderableQuestionDecimal(question.Id, question.Label, _isComputed);
                     break;
                 case Type.Money:
-                    result = new RenderableQuestionMoney(question.Id, question.Label, _isComputed);
+                    //result = new RenderableQuestionMoney(question.Id, question.Label, _isComputed);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

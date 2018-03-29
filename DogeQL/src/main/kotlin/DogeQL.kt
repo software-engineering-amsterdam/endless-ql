@@ -1,4 +1,4 @@
-import form.ui.DogeApp
+import doge.ui.DogeApp
 import javafx.application.Application
 
 class DogeQL {

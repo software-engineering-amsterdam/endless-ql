@@ -2,6 +2,8 @@ package doge.ast
 
 import QuestionnaireLanguageGrammarBaseVisitor
 import QuestionnaireLanguageGrammarParser
+import doge.ast.location.Identifier
+import doge.ast.location.Type
 import doge.ast.node.*
 import doge.ast.node.expression.*
 import doge.ast.node.expression.operation.BinaryOperation
@@ -16,10 +18,9 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
         val context = ctx!!
 
         val identifier = Identifier(context.NAME().text, context.NAME().location())
-
         val block = visit(context.block()) as Block
 
-        return Form(identifier, block, context.FORM().location())
+        return Form(identifier, block, context.location())
     }
 
     override fun visitBlock(ctx: QuestionnaireLanguageGrammarParser.BlockContext?): QLNode {
@@ -27,19 +28,19 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
 
         val statements = context.statement().map { visit(it) as Statement }
 
-        return Block(statements)
+        return Block(statements, context.location())
     }
 
     override fun visitQuestionStatement(ctx: QuestionnaireLanguageGrammarParser.QuestionStatementContext?): QLNode {
         val context = ctx!!
 
-        val label = context.LIT_STRING().text
-        val name = context.NAME().text
-        val type = SymbolType.valueOf(context.TYPE().text.toUpperCase())
+        val label = Identifier(context.LIT_STRING().text, context.LIT_STRING().location())
+        val name = Identifier(context.NAME().text, context.NAME().location())
+        val type = Type(SymbolType.valueOf(context.TYPE().text.toUpperCase()), context.TYPE().location())
 
         val expression = context.expression()?.let { visit(it) } as Expression?
 
-        return QuestionStatement(label, name, type, expression)
+        return QuestionStatement(label, name, type, expression, context.location())
     }
 
     override fun visitIfStatement(ctx: QuestionnaireLanguageGrammarParser.IfStatementContext?): QLNode {
@@ -48,7 +49,7 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
         val expression = visit(context.expression()) as Expression
         val block = visit(context.block()) as Block
 
-        return IfStatement(expression, block)
+        return IfStatement(expression, block, context.location())
     }
 
     override fun visitBinaryExpression(ctx: QuestionnaireLanguageGrammarParser.BinaryExpressionContext?): QLNode {
@@ -58,7 +59,7 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
         val right = visit(context.right) as Expression
         val operator = BinaryOperation.fromString(context.operator.text)
 
-        return BinaryExpression(left, right, operator, context.operator.location())
+        return BinaryExpression(left, right, operator, context.location())
     }
 
     override fun visitParenthesisExpresion(ctx: QuestionnaireLanguageGrammarParser.ParenthesisExpresionContext?): QLNode {
@@ -70,7 +71,7 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
     override fun visitReferenceExpression(ctx: QuestionnaireLanguageGrammarParser.ReferenceExpressionContext?): QLNode {
         val context = ctx!!
 
-        return ReferenceExpression(context.reference.text, context.reference.location())
+        return ReferenceExpression(context.reference.text, context.location())
     }
 
     override fun visitUnaryExpression(ctx: QuestionnaireLanguageGrammarParser.UnaryExpressionContext?): QLNode {
@@ -79,7 +80,7 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
         val expression = visit(context.expression()) as Expression
         val operator = UnaryOperation.fromString(context.operator.text)
 
-        return UnaryExpression(expression, operator, context.operator.location())
+        return UnaryExpression(expression, operator, context.location())
     }
 
     override fun visitLiteral(ctx: QuestionnaireLanguageGrammarParser.LiteralContext?): QLNode {

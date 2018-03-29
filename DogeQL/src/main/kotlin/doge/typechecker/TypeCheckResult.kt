@@ -1,6 +1,6 @@
 package doge.typechecker
 
-import doge.ast.node.expression.SourceLocation
+import doge.ast.location.SourceLocation
 import doge.common.Name
 import doge.data.question.SymbolType
 

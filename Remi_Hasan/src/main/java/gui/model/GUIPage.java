@@ -22,11 +22,11 @@ public class GUIPage {
         return identifier;
     }
 
-    public Parent render(GUIController guiController){
+    public Parent render(GUIController guiController) {
         VBox vBox = new VBox();
 
         // Render all sections
-        for(GUIElement element : elements){
+        for (GUIElement element : elements) {
             vBox.getChildren().add(element.render(guiController));
         }
 
@@ -37,5 +37,5 @@ public class GUIPage {
         scrollPane.setContent(vBox);
         return scrollPane;
     }
-    
+
 }

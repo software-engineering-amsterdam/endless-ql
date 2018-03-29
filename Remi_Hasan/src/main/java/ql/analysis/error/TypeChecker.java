@@ -3,16 +3,15 @@ package ql.analysis.error;
 import ql.QLBaseVisitor;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
-import ql.model.statement.IfBlock;
-import ql.model.statement.IfElseBlock;
-import ql.model.statement.Question;
-import ql.model.expression.binary.ExpressionBinary;
 import ql.model.expression.ExpressionIdentifier;
 import ql.model.expression.ReturnType;
 import ql.model.expression.binary.*;
 import ql.model.expression.unary.ExpressionUnaryNeg;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.*;
+import ql.model.statement.IfBlock;
+import ql.model.statement.IfElseBlock;
+import ql.model.statement.Question;
 
 public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAnalysis {
 
@@ -74,21 +73,6 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
     }
 
     @Override
-    public ReturnType visit(Question question) {
-        // Check type of computed answer is same as the question type
-        if (question.isComputed()) {
-            ReturnType computedAnswerType = this.visit(question.getComputedAnswer());
-
-            if (!computedAnswerType.canBeAssignedTo(question.getType())) {
-                throw new IllegalArgumentException("Invalid assignment: cannot assign " + computedAnswerType
-                        + " to " + question.getType() + question.getLocation());
-            }
-        }
-
-        return question.getType();
-    }
-
-    @Override
     public ReturnType visit(IfBlock ifBlock) {
         this.checkIfCondition(ifBlock);
 
@@ -102,6 +86,21 @@ public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAn
 
         // Visit if/else statements using the base visitor
         return super.visit(ifElseBlock);
+    }
+
+    @Override
+    public ReturnType visit(Question question) {
+        // Check type of computed answer is same as the question type
+        if (question.isComputed()) {
+            ReturnType computedAnswerType = this.visit(question.getComputedAnswer());
+
+            if (!computedAnswerType.canBeAssignedTo(question.getType())) {
+                throw new IllegalArgumentException("Invalid assignment: cannot assign " + computedAnswerType
+                        + " to " + question.getType() + question.getLocation());
+            }
+        }
+
+        return question.getType();
     }
 
     @Override

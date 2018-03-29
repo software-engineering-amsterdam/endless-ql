@@ -2,12 +2,11 @@ package ql.visitor;
 
 import ql.antlr.QLBaseVisitor;
 import ql.antlr.QLParser;
+import ql.model.expression.Expression;
 import ql.model.statement.IfBlock;
 import ql.model.statement.IfElseBlock;
 import ql.model.statement.Statement;
-import ql.model.expression.Expression;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class VisitorCondition extends QLBaseVisitor<Statement> {
 
         // Get all statements in the true block
         List<Statement> trueStatements = new ArrayList<>();
-        for(QLParser.StatementContext statementContext : ctx.conditionTrueBlock.statement()) {
+        for (QLParser.StatementContext statementContext : ctx.conditionTrueBlock.statement()) {
             trueStatements.add(visitorStatement.visit(statementContext));
         }
 
@@ -35,7 +34,7 @@ public class VisitorCondition extends QLBaseVisitor<Statement> {
 
         // Get all statements in the false block
         List<Statement> falseStatements = new ArrayList<>();
-        for(QLParser.StatementContext statementContext : ctx.conditionFalseBlock.statement()) {
+        for (QLParser.StatementContext statementContext : ctx.conditionFalseBlock.statement()) {
             falseStatements.add(visitorStatement.visit(statementContext));
         }
 

@@ -15,7 +15,7 @@ public enum ReturnType {
     // Returns the strongest number type, such that we can determine the type of an arithmetic expression
     // e.g. 3 + 5.0 becomes decimal, 5.0 + 3.25 becomes money
     public ReturnType getStrongestNumber(ReturnType other) {
-        if(numberPriorities.indexOf(this) > numberPriorities.indexOf(other)) {
+        if (numberPriorities.indexOf(this) > numberPriorities.indexOf(other)) {
             return this;
         }
         return other;
@@ -23,7 +23,7 @@ public enum ReturnType {
 
     // Check if THIS can be assigned to variable of OTHER
     public Boolean canBeAssignedTo(ReturnType questionType) {
-        if(this.isNumber() && questionType.isNumber()) {
+        if (this.isNumber() && questionType.isNumber()) {
             // If assigned type is weaker than question type, types are compatible
             return questionType.getStrongestNumber(this) == questionType;
         }

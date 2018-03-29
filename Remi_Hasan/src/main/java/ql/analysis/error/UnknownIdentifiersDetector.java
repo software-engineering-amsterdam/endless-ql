@@ -4,7 +4,6 @@ import ql.analysis.IdentifiersCollector;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 
-import java.util.List;
 import java.util.Set;
 
 public class UnknownIdentifiersDetector implements IQLErrorAnalysis {

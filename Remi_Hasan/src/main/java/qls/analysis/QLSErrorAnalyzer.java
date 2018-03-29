@@ -3,7 +3,6 @@ package qls.analysis;
 import ql.model.Form;
 import qls.model.StyleSheet;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class QLSErrorAnalyzer implements IQLSAnalysis {

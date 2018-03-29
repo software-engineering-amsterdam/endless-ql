@@ -10,7 +10,6 @@ import qls.model.statement.QuestionReference;
 import qls.model.statement.Section;
 import qls.model.widget.Widget;
 import qls.model.widget.WidgetDefault;
-import qls.model.widget.WidgetType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,7 @@ public class GUIElementBuilder extends QLSVisitor<List<GUIElement>> {
 
         // Go through default styles and find if a widget type has been set for this question type
         for (DefaultStyle defaultStyle : defaultStyles) {
-            if(defaultStyle.getType() == questionType && defaultStyle.getWidget() != null) {
+            if (defaultStyle.getType() == questionType && defaultStyle.getWidget() != null) {
                 widget = defaultStyle.getWidget();
             }
         }

@@ -27,6 +27,11 @@ public class LabelWithWidget extends VBox implements ILabelWithWidget {
     }
 
     @Override
+    public Node getNode() {
+        return this;
+    }
+
+    @Override
     public Expression getExpressionValue() {
         return guiWidget.getExpressionValue();
     }
@@ -34,11 +39,6 @@ public class LabelWithWidget extends VBox implements ILabelWithWidget {
     @Override
     public void setValue(Value value) {
         guiWidget.setValue(value);
-    }
-
-    @Override
-    public Node getNode() {
-        return this;
     }
 
     @Override

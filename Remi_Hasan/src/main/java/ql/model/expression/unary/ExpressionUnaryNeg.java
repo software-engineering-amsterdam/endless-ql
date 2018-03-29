@@ -6,7 +6,7 @@ import ql.model.expression.Expression;
 public class ExpressionUnaryNeg extends ExpressionUnary {
 
     public ExpressionUnaryNeg(Expression expression) {
-        super( expression);
+        super(expression);
     }
 
     @Override

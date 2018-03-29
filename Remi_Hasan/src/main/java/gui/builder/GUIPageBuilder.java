@@ -1,11 +1,11 @@
 package gui.builder;
 
+import gui.model.GUIElement;
 import gui.model.GUIPage;
 import gui.model.GUIQuestion;
-import gui.model.GUIElement;
 import qls.QLSVisitor;
-import qls.model.statement.DefaultStyle;
 import qls.model.Page;
+import qls.model.statement.DefaultStyle;
 import qls.model.statement.Statement;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class GUIPageBuilder extends QLSVisitor<GUIPage> {
 
         // Add all questions and sections on this page
         GUIElementBuilder guiElementBuilder = new GUIElementBuilder(this.guiQuestionMap, defaultStyles);
-        for(Statement statement : page.getStatements()) {
+        for (Statement statement : page.getStatements()) {
             guiElements.addAll(guiElementBuilder.visit(statement));
         }
 

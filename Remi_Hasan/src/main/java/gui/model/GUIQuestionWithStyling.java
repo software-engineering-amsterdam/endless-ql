@@ -1,13 +1,12 @@
 package gui.model;
 
 import gui.elements.LabelWithWidget;
-import gui.render.GUIController;
-import gui.render.WidgetStyleApplier;
 import gui.elements.widgets.GUIWidget;
 import gui.elements.widgets.WidgetFactory;
+import gui.render.GUIController;
+import gui.render.WidgetStyleApplier;
 import qls.model.statement.DefaultStyle;
 import qls.model.widget.Widget;
-import qls.model.widget.WidgetType;
 
 import java.util.List;
 

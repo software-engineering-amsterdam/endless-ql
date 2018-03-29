@@ -7,10 +7,15 @@ import qls.model.widget.*;
 public class VisitorWidget extends QLSBaseVisitor<Widget> {
 
     @Override
-    public Widget visitCheckBoxWidget(QLSParser.CheckBoxWidgetContext ctx) {
-        WidgetCheckBox widgetCheckBox = new WidgetCheckBox();
-        widgetCheckBox.setToken(ctx.getStart());
-        return widgetCheckBox;
+    public Widget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
+        String trueLabel = ctx.trueLabel.getText();
+        String falseLabel = ctx.falseLabel.getText();
+
+        // Strip quotes
+        trueLabel = trueLabel.substring(1, trueLabel.length() - 1);
+        falseLabel = falseLabel.substring(1, falseLabel.length() - 1);
+
+        return new WidgetRadio(ctx.getStart(), trueLabel, falseLabel);
     }
 
     @Override
@@ -28,24 +33,10 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
     }
 
     @Override
-    public Widget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
-        String trueLabel = ctx.trueLabel.getText();
-        String falseLabel = ctx.falseLabel.getText();
-
-        // Strip quotes
-        trueLabel = trueLabel.substring(1, trueLabel.length() - 1);
-        falseLabel = falseLabel.substring(1, falseLabel.length() - 1);
-
-        return new WidgetRadio(ctx.getStart(), trueLabel, falseLabel);
-    }
-
-    @Override
-    public Widget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
-        double min = Double.parseDouble(ctx.min.getText());
-        double max = Double.parseDouble(ctx.max.getText());
-        WidgetSlider widgetSlider = new WidgetSlider(min, max);
-        widgetSlider.setToken(ctx.getStart());
-        return widgetSlider;
+    public Widget visitCheckBoxWidget(QLSParser.CheckBoxWidgetContext ctx) {
+        WidgetCheckBox widgetCheckBox = new WidgetCheckBox();
+        widgetCheckBox.setToken(ctx.getStart());
+        return widgetCheckBox;
     }
 
     @Override
@@ -60,6 +51,15 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
         WidgetTextBox widgetTextBox = new WidgetTextBox();
         widgetTextBox.setToken(ctx.getStart());
         return widgetTextBox;
+    }
+
+    @Override
+    public Widget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
+        double min = Double.parseDouble(ctx.min.getText());
+        double max = Double.parseDouble(ctx.max.getText());
+        WidgetSlider widgetSlider = new WidgetSlider(min, max);
+        widgetSlider.setToken(ctx.getStart());
+        return widgetSlider;
     }
 
 

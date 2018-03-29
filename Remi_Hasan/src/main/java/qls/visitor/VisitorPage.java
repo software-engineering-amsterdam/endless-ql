@@ -1,8 +1,8 @@
 package qls.visitor;
 
 import qls.antlr.QLSBaseVisitor;
-import qls.model.Page;
 import qls.antlr.QLSParser;
+import qls.model.Page;
 import qls.model.statement.Statement;
 
 import java.util.ArrayList;

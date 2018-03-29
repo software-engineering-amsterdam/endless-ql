@@ -2,17 +2,11 @@ package ql.evaluation.value;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class UndefinedValue extends Value<Boolean> {
 
     public UndefinedValue() {
         super(false);
-    }
-
-    @Override
-    public boolean isUndefined() {
-        return true;
     }
 
     @Override
@@ -108,5 +102,10 @@ public class UndefinedValue extends Value<Boolean> {
     @Override
     public Value neg() {
         return new UndefinedValue();
+    }
+
+    @Override
+    public boolean isUndefined() {
+        return true;
     }
 }

@@ -1,13 +1,13 @@
 package ql.analysis.error;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
 import ql.QLBaseVisitor;
 import ql.analysis.IdentifiersCollector;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.model.statement.Question;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
 
 import java.util.Set;
 
@@ -25,7 +25,7 @@ public class CycleDetector implements IQLErrorAnalysis {
                 = new org.jgrapht.alg.CycleDetector<>(referenceGraph);
 
         Set<String> cycleVariables = jGraphTCycleDetector.findCycles();
-        if(!cycleVariables.isEmpty()) {
+        if (!cycleVariables.isEmpty()) {
             throw new IllegalArgumentException("Cycles detected in the following variables: " + cycleVariables);
         }
     }

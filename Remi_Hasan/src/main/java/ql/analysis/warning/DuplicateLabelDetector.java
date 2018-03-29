@@ -18,8 +18,8 @@ public class DuplicateLabelDetector implements IQLWarningAnalysis {
 
         // Find and add warning for all labels that are used for more than one question
         Set<String> warnings = new HashSet<>();
-        for(Map.Entry<String, Set<String>> entry : questionsPerLabel.entrySet()) {
-            if(entry.getValue().size() > 1) {
+        for (Map.Entry<String, Set<String>> entry : questionsPerLabel.entrySet()) {
+            if (entry.getValue().size() > 1) {
                 warnings.add("Label '" + entry.getKey() + "' used for multiple questions: " + entry.getValue());
             }
         }
@@ -36,7 +36,7 @@ public class DuplicateLabelDetector implements IQLWarningAnalysis {
             public Void visit(Question question) {
                 // New set or existing set
                 Set<String> questionIdentifiers = new HashSet<>();
-                if(questionsPerLabel.containsKey(question.getLabel())) {
+                if (questionsPerLabel.containsKey(question.getLabel())) {
                     questionIdentifiers = questionsPerLabel.get(question.getLabel());
                 }
 

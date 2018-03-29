@@ -5,9 +5,9 @@ import ql.model.Form;
 import ql.model.expression.ReturnType;
 import ql.model.statement.Question;
 import qls.QLSVisitor;
+import qls.model.StyleSheet;
 import qls.model.statement.DefaultStyle;
 import qls.model.statement.QuestionReference;
-import qls.model.StyleSheet;
 import qls.model.widget.WidgetType;
 
 import java.util.HashMap;
@@ -28,14 +28,14 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
 
     @Override
     public Void visit(QuestionReference questionReference) {
-        if(questionReference.getWidget() == null) {
+        if (questionReference.getWidget() == null) {
             return super.visit(questionReference);
         }
 
         // Check if QLS widget is compatible with question type
         WidgetType widgetType = questionReference.getWidget().getType();
         ReturnType questionType = this.formQuestionTypes.get(questionReference.getIdentifier());
-        if(!widgetType.isCompatible(questionType)) {
+        if (!widgetType.isCompatible(questionType)) {
             throw new IllegalArgumentException("Incompatible widget type " + widgetType
                     + " for question of type " + questionType + " " + questionReference.getWidget().getLocation());
         }
@@ -45,14 +45,14 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
 
     @Override
     public Void visit(DefaultStyle defaultStyle) {
-        if(defaultStyle.getWidget() == null) {
+        if (defaultStyle.getWidget() == null) {
             return super.visit(defaultStyle);
         }
 
         // Check if widget type defined in the default style is compatible with the
         // question type that is being styled
         WidgetType widgetType = defaultStyle.getWidget().getType();
-        if(!widgetType.isCompatible(defaultStyle.getType())) {
+        if (!widgetType.isCompatible(defaultStyle.getType())) {
             throw new IllegalArgumentException("Incompatible widget type " + widgetType
                     + " for question of type " + defaultStyle.getType() + " " + defaultStyle.getWidget().getLocation());
         }

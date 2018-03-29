@@ -1,10 +1,9 @@
 package qls.visitor;
 
-import qls.model.statement.QuestionReference;
-import qls.model.widget.Widget;
 import qls.antlr.QLSBaseVisitor;
 import qls.antlr.QLSParser;
-import qls.model.widget.WidgetDefault;
+import qls.model.statement.QuestionReference;
+import qls.model.widget.Widget;
 
 public class VisitorQuestion extends QLSBaseVisitor<QuestionReference> {
 

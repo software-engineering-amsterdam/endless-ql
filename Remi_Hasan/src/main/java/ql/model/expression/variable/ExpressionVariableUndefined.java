@@ -1,9 +1,7 @@
 package ql.model.expression.variable;
 
 import ql.IQLVisitor;
-
 import ql.model.expression.ReturnType;
-import org.antlr.v4.runtime.Token;
 
 public class ExpressionVariableUndefined extends ExpressionVariable<ReturnType> {
 

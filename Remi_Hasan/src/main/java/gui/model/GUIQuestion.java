@@ -1,17 +1,12 @@
 package gui.model;
 
-import gui.render.GUIController;
 import gui.elements.LabelWithWidget;
 import gui.elements.widgets.GUIWidget;
 import gui.elements.widgets.WidgetFactory;
+import gui.render.GUIController;
 import javafx.scene.control.Label;
-import ql.evaluation.SymbolTable;
-import ql.evaluation.ExpressionEvaluator;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
-import qls.model.widget.Widget;
-import qls.model.widget.WidgetDefault;
-import qls.model.widget.WidgetType;
 
 public class GUIQuestion implements IGUIQuestion {
     private final String identifier;
@@ -57,7 +52,7 @@ public class GUIQuestion implements IGUIQuestion {
         Label guiLabel = new Label(this.label);
 
         // Notify controller if non-computed field is updated by the user
-        if(!this.isComputed()) {
+        if (!this.isComputed()) {
             guiWidget.setChangeListener(observable -> {
                 guiController.update(this, guiWidget.getExpressionValue());
             });

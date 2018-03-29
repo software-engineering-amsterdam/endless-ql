@@ -2,9 +2,9 @@ package ql.analysis;
 
 import ql.QLBaseVisitor;
 import ql.model.Form;
-import ql.model.statement.Question;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionIdentifier;
+import ql.model.statement.Question;
 
 import java.util.HashSet;
 import java.util.Set;

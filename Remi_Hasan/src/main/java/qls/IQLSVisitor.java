@@ -1,13 +1,15 @@
 package qls;
 
-import qls.model.*;
+import qls.model.Page;
+import qls.model.StyleSheet;
 import qls.model.statement.DefaultStyle;
 import qls.model.statement.QuestionReference;
 import qls.model.statement.Section;
 import qls.model.statement.Statement;
-import qls.model.style.*;
 import qls.model.style.StyleAttributeColor;
 import qls.model.style.StyleAttributeFont;
+import qls.model.style.StyleAttributeFontSize;
+import qls.model.style.StyleAttributeWidth;
 import qls.model.widget.*;
 
 public interface IQLSVisitor<T> {

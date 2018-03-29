@@ -11,11 +11,6 @@ import ql.model.expression.variable.ExpressionVariableBoolean;
 public class CheckboxWidget extends CheckBox implements GUIWidget {
 
     @Override
-    public void setChangeListener(InvalidationListener invalidationListener) {
-        this.selectedProperty().addListener(invalidationListener);
-    }
-
-    @Override
     public Expression getExpressionValue() {
         return new ExpressionVariableBoolean(this.isSelected());
     }
@@ -28,6 +23,11 @@ public class CheckboxWidget extends CheckBox implements GUIWidget {
     @Override
     public Node getNode() {
         return this;
+    }
+
+    @Override
+    public void setChangeListener(InvalidationListener invalidationListener) {
+        this.selectedProperty().addListener(invalidationListener);
     }
 
     @Override

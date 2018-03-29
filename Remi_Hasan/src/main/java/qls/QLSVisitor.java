@@ -1,6 +1,7 @@
 package qls;
 
-import qls.model.*;
+import qls.model.Page;
+import qls.model.StyleSheet;
 import qls.model.statement.DefaultStyle;
 import qls.model.statement.QuestionReference;
 import qls.model.statement.Section;
@@ -33,7 +34,7 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
 
     @Override
     public T visit(Section section) {
-        for(Statement statement : section.getStatements()) {
+        for (Statement statement : section.getStatements()) {
             statement.accept(this);
         }
         return null;

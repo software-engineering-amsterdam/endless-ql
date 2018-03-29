@@ -32,11 +32,6 @@ public class RadioWidget extends HBox implements GUIWidget {
     }
 
     @Override
-    public void setChangeListener(InvalidationListener invalidationListener) {
-        group.selectedToggleProperty().addListener(invalidationListener);
-    }
-
-    @Override
     public Expression getExpressionValue() {
         return new ExpressionVariableBoolean(trueButton.isSelected());
     }
@@ -49,6 +44,11 @@ public class RadioWidget extends HBox implements GUIWidget {
     @Override
     public Node getNode() {
         return this;
+    }
+
+    @Override
+    public void setChangeListener(InvalidationListener invalidationListener) {
+        group.selectedToggleProperty().addListener(invalidationListener);
     }
 
     @Override

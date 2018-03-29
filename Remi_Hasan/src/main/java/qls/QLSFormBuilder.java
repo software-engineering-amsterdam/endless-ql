@@ -4,15 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import ql.evaluation.SymbolTable;
-import ql.model.Form;
 import ql.antlr.ParseErrorListener;
+import ql.model.Form;
 import qls.analysis.QLSErrorAnalyzer;
-import qls.analysis.QuestionAnalyzer;
-import qls.analysis.TypeChecker;
-import qls.model.StyleSheet;
 import qls.antlr.QLSLexer;
 import qls.antlr.QLSParser;
+import qls.model.StyleSheet;
 import qls.visitor.VisitorStyleSheet;
 
 import java.io.IOException;

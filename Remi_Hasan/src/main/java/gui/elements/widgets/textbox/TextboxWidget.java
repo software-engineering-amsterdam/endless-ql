@@ -28,6 +28,11 @@ public class TextboxWidget extends TextField implements GUIWidget {
     }
 
     @Override
+    public void setChangeListener(InvalidationListener invalidationListener) {
+        this.textProperty().addListener(invalidationListener);
+    }
+
+    @Override
     public void setColor(String color) {
         this.setStyle("-fx-text-inner-color: " + color + ";");
     }
@@ -49,10 +54,5 @@ public class TextboxWidget extends TextField implements GUIWidget {
         // setPrefWidth does not work, so set min and max to requested width
         this.setMinWidth(width);
         this.setMaxWidth(width);
-    }
-
-    @Override
-    public void setChangeListener(InvalidationListener invalidationListener) {
-        this.textProperty().addListener(invalidationListener);
     }
 }

@@ -2,16 +2,15 @@ package ql;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import ql.evaluation.SymbolTable;
+import ql.antlr.QLLexer;
+import ql.antlr.QLParser;
 import ql.evaluation.ExpressionEvaluator;
+import ql.evaluation.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.expression.Expression;
-import ql.antlr.QLLexer;
-import ql.antlr.QLParser;
 import ql.visitor.VisitorExpression;
 
-import java.io.File;
 import java.io.InputStream;
 
 public class QLTestUtilities {

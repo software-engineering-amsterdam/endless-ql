@@ -3,8 +3,8 @@ package ql.analysis.error;
 import ql.QLBaseVisitor;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
-import ql.model.statement.Question;
 import ql.model.expression.ReturnType;
+import ql.model.statement.Question;
 
 import java.util.HashMap;
 import java.util.HashSet;

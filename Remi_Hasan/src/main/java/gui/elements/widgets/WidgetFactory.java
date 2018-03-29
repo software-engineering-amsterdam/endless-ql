@@ -14,7 +14,10 @@ import gui.elements.widgets.textbox.TextboxIntegerWidget;
 import gui.elements.widgets.textbox.TextboxMoneyWidget;
 import gui.elements.widgets.textbox.TextboxWidget;
 import ql.model.expression.ReturnType;
-import qls.model.widget.*;
+import qls.model.widget.Widget;
+import qls.model.widget.WidgetDropdown;
+import qls.model.widget.WidgetRadio;
+import qls.model.widget.WidgetSlider;
 
 public class WidgetFactory {
 

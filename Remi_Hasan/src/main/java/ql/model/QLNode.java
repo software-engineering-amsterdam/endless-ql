@@ -6,12 +6,12 @@ import ql.IQLVisitor;
 public abstract class QLNode {
     private transient Token token;
 
-    public void setToken(Token token){
-        this.token = token;
-    }
-
     public Token getToken() {
         return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
     }
 
     public String getLocation() {

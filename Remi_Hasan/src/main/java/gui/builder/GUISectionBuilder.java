@@ -1,8 +1,8 @@
 package gui.builder;
 
+import gui.model.GUIElement;
 import gui.model.GUIQuestion;
 import gui.model.GUISection;
-import gui.model.GUIElement;
 import qls.QLSVisitor;
 import qls.model.statement.DefaultStyle;
 import qls.model.statement.Section;

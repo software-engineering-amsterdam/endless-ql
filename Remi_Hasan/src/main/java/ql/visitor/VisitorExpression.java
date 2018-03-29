@@ -6,16 +6,9 @@ import ql.antlr.QLParser;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionIdentifier;
 import ql.model.expression.binary.*;
-import ql.model.expression.unary.ExpressionUnary;
 import ql.model.expression.unary.ExpressionUnaryNeg;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class VisitorExpression extends QLBaseVisitor<Expression> {
 

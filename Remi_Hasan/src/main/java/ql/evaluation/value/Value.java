@@ -2,7 +2,6 @@ package ql.evaluation.value;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 public abstract class Value<T> {
     public final T value;
@@ -11,8 +10,8 @@ public abstract class Value<T> {
         this.value = value;
     }
 
-    public T getValue(){
-        if(isUndefined()){
+    public T getValue() {
+        if (isUndefined()) {
             return null;
         } else {
             return value;
@@ -62,7 +61,7 @@ public abstract class Value<T> {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.value.toString();
     }
 }

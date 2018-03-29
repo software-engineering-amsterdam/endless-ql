@@ -1,8 +1,8 @@
 package qls.visitor;
 
-import qls.model.style.*;
 import qls.antlr.QLSBaseVisitor;
 import qls.antlr.QLSParser;
+import qls.model.style.*;
 
 public class VisitorStyleAttribute extends QLSBaseVisitor<StyleAttribute> {
 

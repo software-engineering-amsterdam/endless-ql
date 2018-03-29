@@ -2,8 +2,6 @@ package ql.model.expression.variable;
 
 import ql.IQLVisitor;
 
-import org.antlr.v4.runtime.Token;
-
 import java.time.LocalDate;
 
 public class ExpressionVariableDate extends ExpressionVariable<LocalDate> {

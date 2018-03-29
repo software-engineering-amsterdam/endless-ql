@@ -4,11 +4,8 @@ import gui.elements.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
-import java.util.Locale;
 
 public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
 

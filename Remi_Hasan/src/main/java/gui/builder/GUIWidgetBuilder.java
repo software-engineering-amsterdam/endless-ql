@@ -12,6 +12,21 @@ public class GUIWidgetBuilder extends QLSVisitor<WidgetType> {
     }
 
     @Override
+    public WidgetType visit(WidgetDefault widget) {
+        return WidgetType.DEFAULT;
+    }
+
+    @Override
+    public WidgetType visit(WidgetDatePicker widget) {
+        return WidgetType.DATE;
+    }
+
+    @Override
+    public WidgetType visit(WidgetDropdown widget) {
+        return WidgetType.DROPDOWN;
+    }
+
+    @Override
     public WidgetType visit(WidgetRadio widget) {
         return WidgetType.RADIO;
     }
@@ -27,22 +42,7 @@ public class GUIWidgetBuilder extends QLSVisitor<WidgetType> {
     }
 
     @Override
-    public WidgetType visit(WidgetDefault widget) {
-        return WidgetType.DEFAULT;
-    }
-
-    @Override
     public WidgetType visit(WidgetTextBox widget) {
         return WidgetType.TEXTBOX;
-    }
-
-    @Override
-    public WidgetType visit(WidgetDropdown widget) {
-        return WidgetType.DROPDOWN;
-    }
-
-    @Override
-    public WidgetType visit(WidgetDatePicker widget) {
-        return WidgetType.DATE;
     }
 }

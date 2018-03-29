@@ -20,7 +20,7 @@ public class GUIFormWithStyling extends GUIForm {
     public Parent render(GUIController guiController) {
         TabPane tabPane = new TabPane();
 
-        for(GUIPage page : pages) {
+        for (GUIPage page : pages) {
             Tab tab = new Tab();
             tab.setText(page.getIdentifier());
             tab.setClosable(false);

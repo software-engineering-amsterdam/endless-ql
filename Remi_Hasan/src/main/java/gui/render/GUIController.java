@@ -48,15 +48,15 @@ public class GUIController {
             labelWithWidget.setVisibility(visible);
 
             // Update symbol table, as another question with the same identifier could now be visible
-            if(visible) {
-                if(guiQuestion.isComputed()) {
+            if (visible) {
+                if (guiQuestion.isComputed()) {
                     this.qlEvaluator.updateSymbolTable(guiQuestion.getIdentifier(), guiQuestion.getComputedAnswer());
                 } else {
                     this.qlEvaluator.updateSymbolTable(guiQuestion.getIdentifier(), labelWithWidget.getExpressionValue());
                 }
 
                 visibleQuestions.add(guiQuestion.getIdentifier());
-            } else if(!visibleQuestions.contains(guiQuestion.getIdentifier())) {
+            } else if (!visibleQuestions.contains(guiQuestion.getIdentifier())) {
                 // If question becomes invisible, set value in symbol table to undefined
                 // but only if another question with the same identifier was made visible already,
                 // which we keep track of using visibleQuestions
@@ -72,7 +72,7 @@ public class GUIController {
             GUIQuestion guiQuestion = mapEntry.getKey();
             LabelWithWidget labelWithWidget = mapEntry.getValue();
 
-            if(guiQuestion.isComputed()) {
+            if (guiQuestion.isComputed()) {
                 Value result = this.qlEvaluator.evaluateExpression(guiQuestion.getComputedAnswer());
                 labelWithWidget.setValue(result);
             }

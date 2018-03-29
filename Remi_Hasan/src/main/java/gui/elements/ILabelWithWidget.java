@@ -12,13 +12,19 @@ public interface ILabelWithWidget {
 
     // Functions to delegate to the internal GUIWidget
     Expression getExpressionValue();
+
     void setValue(Value value);
+
     void setChangeListener(InvalidationListener invalidationListener);
+
     void setVisibility(boolean visible);
 
     // StyleAttribute
     void setColor(String color);
+
     void setFont(String font);
+
     void setFontSize(int fontSize);
+
     void setWidth(int width);
 }

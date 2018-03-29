@@ -34,11 +34,6 @@ public class DropdownWidget extends ComboBox<String> implements GUIWidget {
     }
 
     @Override
-    public void setChangeListener(InvalidationListener invalidationListener) {
-        this.valueProperty().addListener(invalidationListener);
-    }
-
-    @Override
     public Expression getExpressionValue() {
         // Item at index 1 is always the true option, so check if that one is selected
         boolean isTrue = this.getSelectionModel().getSelectedIndex() == 1;
@@ -54,6 +49,11 @@ public class DropdownWidget extends ComboBox<String> implements GUIWidget {
     @Override
     public Node getNode() {
         return this;
+    }
+
+    @Override
+    public void setChangeListener(InvalidationListener invalidationListener) {
+        this.valueProperty().addListener(invalidationListener);
     }
 
     @Override

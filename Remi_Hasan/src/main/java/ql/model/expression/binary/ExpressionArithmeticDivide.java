@@ -2,7 +2,6 @@ package ql.model.expression.binary;
 
 import ql.IQLVisitor;
 import ql.model.expression.Expression;
-import org.antlr.v4.runtime.Token;
 
 public class ExpressionArithmeticDivide extends ExpressionBinary {
 

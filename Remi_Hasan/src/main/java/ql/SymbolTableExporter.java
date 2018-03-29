@@ -2,17 +2,9 @@ package ql;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ql.evaluation.ExpressionEvaluator;
-import ql.evaluation.SymbolTable;
-import ql.evaluation.value.Value;
 import ql.model.Form;
-import ql.model.expression.Expression;
 import ql.model.statement.Question;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

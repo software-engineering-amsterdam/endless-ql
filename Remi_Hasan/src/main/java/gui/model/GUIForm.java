@@ -1,13 +1,13 @@
 package gui.model;
 
-import gui.render.GUIController;
 import gui.elements.LabelWithWidget;
+import gui.render.GUIController;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
-import java.util.*;
+import java.util.List;
 
 public class GUIForm extends VBox {
     public final String identifier;

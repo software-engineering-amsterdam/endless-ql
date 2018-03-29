@@ -23,7 +23,7 @@ export const AppFormContainer: React.SFC<AppFormContainerProps> = (props) => {
 
     const visibleFields: Set<string> = VisibleFieldsVisitor.run(props.form);
 
-    if (props.qlsEnabled && props.form instanceof QlsForm) {
+    if (props.qlsEnabled) {
       return (
           <QlsFormComponent
               onChange={props.onChangeAnswer}

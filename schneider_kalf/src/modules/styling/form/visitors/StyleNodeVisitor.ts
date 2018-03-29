@@ -4,12 +4,12 @@ import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
 import Stylesheet from "../nodes/StyleSheetNode";
-import QuestionStyle from "../nodes/children/QuestionStyle";
+import QuestionStyleNode from "../nodes/children/QuestionStyleNode";
 
 export default interface StyleNodeVisitor {
   visitDefaultStyle(defaultStyle: DefaultStyle): any;
 
-  visitQuestionStyle(question: QuestionStyle): any;
+  visitQuestionStyle(question: QuestionStyleNode): any;
 
   visitSection(section: Section): any;
 

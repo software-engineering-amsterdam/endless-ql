@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.operator;
 
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
@@ -22,7 +23,7 @@ public class NeqOp extends Operator implements BinaryOperator {
     }
 
     @Override
-    public ExpressionValue evaluate(Expression leftExpression, Expression rightExpression) {
+    public ExpressionValue evaluate(SymbolTable symbolTable, Expression leftExpression, Expression rightExpression) {
         return leftExpression.getExpressionValue().notEqualTo(rightExpression.getExpressionValue());
     }
 

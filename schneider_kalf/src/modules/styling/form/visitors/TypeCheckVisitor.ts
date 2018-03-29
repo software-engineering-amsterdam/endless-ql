@@ -1,16 +1,17 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
 import DefaultStyle from "../nodes/children/DefaultStyleNode";
-import QuestionStyle from "../nodes/children/QuestionStyle";
+import QuestionStyleNode from "../nodes/children/QuestionStyleNode";
 import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
 import Stylesheet from "../nodes/StyleSheetNode";
 import { QuestionPlacedTwiceInLayoutError, UnkownQuestionUsedInLayoutError } from "../style_errors";
+import { Maybe } from "../../../../helpers/type_helper";
 
 export default class TypeCheckVisitor implements StyleNodeVisitor {
   private qlVariables: Map<string, any>;
-  private allQuestions: Map<string, QuestionStyle>;
+  private allQuestions: Map<string, QuestionStyleNode>;
 
   constructor(qlVariables: Map<string, any>) {
     this.qlVariables = qlVariables;
@@ -18,12 +19,11 @@ export default class TypeCheckVisitor implements StyleNodeVisitor {
   }
 
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
-    // TODO: ASK: Added extends StyleTreeNode to StyleAttribute
     defaultStyle.children.forEach(child => child.accept(this));
   }
 
-  visitQuestionStyle(question: QuestionStyle): any {
-    const duplicateQuestion: QuestionStyle | undefined = this.allQuestions.get(question.identifier);
+  visitQuestionStyle(question: QuestionStyleNode): any {
+    const duplicateQuestion: Maybe<QuestionStyleNode> = this.allQuestions.get(question.identifier);
 
     if (typeof duplicateQuestion !== 'undefined') {
       throw QuestionPlacedTwiceInLayoutError.make(question, duplicateQuestion);
@@ -47,11 +47,11 @@ export default class TypeCheckVisitor implements StyleNodeVisitor {
   }
 
   visitWidgetAttribute(widgetAttribute: WidgetAttribute): any {
-    // checkWidgetAttribute(widgetAttribute);
+    widgetAttribute.validate();
   }
 
   visitBaseAttribute(baseAttribute: BaseAttribute): any {
-    // checkBaseAttribute(baseAttribute.getName(), baseAttribute.getStringValue());
+    return;
   }
 
   visitStyleSheet(stylesheet: Stylesheet): any {

@@ -1,0 +1,23 @@
+form taxOfficeExample
+{
+  "Int a"
+    a: int
+
+  if(a){
+  	"Bool b"
+  		b: bool
+
+  }
+}
+---
+stylesheet taxOfficeExample
+{
+  page Page1
+  {
+    section "Section 1"
+    {
+      question b
+        widget radio("yes", "no")
+    }
+  }
+}

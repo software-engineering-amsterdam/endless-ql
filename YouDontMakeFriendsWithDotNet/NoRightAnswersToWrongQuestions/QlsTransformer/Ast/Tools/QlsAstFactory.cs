@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using QlsTransformer.Ast.Nodes;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
@@ -36,15 +37,44 @@ namespace QlsTransformer.Ast.Tools
 
         public Reference<IPageNode> CreatePage(
             string definition,
-            string pageName)
+            string pageName,
+            IEnumerable<Reference<ISectionNode>> sections)
         {
             var pageNode = new PageNode(
                 m_ids.Next,
                 definition,
-                pageName);
+                pageName,
+                sections);
 
             return DomainItemRegistration<IPageNode>(pageNode);
         }
+
+        public Reference<ISectionNode> CreateSection(
+            string definition,
+            string sectionName,
+            IEnumerable<Reference<IQlsQuestionNode>> questions)
+        {
+            var sectionNode = new SectionNode(
+                m_ids.Next,
+                definition,
+                sectionName,
+                questions);
+
+            return DomainItemRegistration<ISectionNode>(sectionNode);
+        }
+
+        public Reference<IQlsQuestionNode> CreateQuestion(
+            string definition, 
+            string questionName)
+        {
+            var questionNode = new QlsQuestionNode(
+                m_ids.Next,
+                definition,
+                questionName);
+
+            return DomainItemRegistration<IQlsQuestionNode>(questionNode);
+        }
+
 
         private Reference<T> DomainItemRegistration<T>(T node) where T : IDomainItem
         {

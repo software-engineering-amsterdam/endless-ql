@@ -5,7 +5,7 @@ import FormChild from "./StyleSheetChild";
 import StyleAttribute from "../StyleAttribute";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
 import SectionNode from "../containers/SectionNode";
-import QuestionStyle from "./QuestionStyle";
+import QuestionStyleNode from "./QuestionStyleNode";
 
 export default class DefaultStyleNode extends AbstractStyleNode implements SectionChild, PageChild, FormChild {
   readonly type: string;
@@ -29,7 +29,7 @@ export default class DefaultStyleNode extends AbstractStyleNode implements Secti
     return false;
   }
 
-  isQuestionStyle(): this is QuestionStyle {
+  isQuestionStyle(): this is QuestionStyleNode {
     return false;
   }
 }

@@ -3,6 +3,7 @@ import FormState from "./state/FormState";
 import FieldVisitor from "./nodes/visitors/FieldVisitor";
 import FormNode from "./nodes/FormNode";
 import { VariablesMap } from "./type_checking/VariableScopeVisitor";
+import { Maybe } from "../helpers/type_helper";
 
 export default interface StatefulForm {
   getRootNode(): FormNode;
@@ -11,7 +12,7 @@ export default interface StatefulForm {
 
   getFields(): FieldNode[];
 
-  getField(identifier: string): FieldNode | undefined | any;
+  getField(identifier: string): Maybe<FieldNode> | any;
 
   getState(): FormState | any;
 

@@ -21,7 +21,7 @@ stylesheet taxOfficeExample
       section "You sold a house"
       {
         question sellingPrice
-          widget slider (0, 10)
+          widget slider (0, 1000)
         question privateDebt
           widget spinbox (0, 10000)
         question valueResidue

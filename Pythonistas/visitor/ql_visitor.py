@@ -1,19 +1,17 @@
-import ast
-import antlr4
-from parser_generator.grammar.QLListener import *
-from parser_generator.grammar.QLParser import QLParser
+from antlr4 import ParseTreeVisitor
+from antlr.generated.QLParser import QLParser
 
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from gui import question_classes
 
 
-def visit(tree):
+def visit_ql(tree):
     """ Traverse the parsed tree """
     walker = QLVisitor()
     walker.visit(tree)
     warning_message = check_duplicate_question_strings(walker.question_ids, walker.questions)
-    return [walker.question_ids, walker.questions, walker.error_message, warning_message]
+    return [walker.question_ids, walker.questions, [walker.error_message], warning_message]
 
 
 def check_duplicate_question_strings(question_ids, questions):
@@ -27,7 +25,7 @@ def check_duplicate_question_strings(question_ids, questions):
 
     duplicates = set([duplicate for duplicate in question_list if question_list.count(duplicate) > 1])
     if len(duplicates) > 0:
-        warning_string = "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
+        warning_string = "Warning: duplicate question strings:{}".format(str(duplicates)[1:-1])
     return warning_string
 
 
@@ -50,7 +48,8 @@ class QLVisitor(ParseTreeVisitor):
             c = node.getChild(i)
             # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
             child_result = c.accept(self)
-            # result = self.aggregateResult(result, childResult)
+            if self.error_message:
+                return
             result.extend(child_result)
 
         return result
@@ -92,6 +91,7 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
     def visitDeclaration(self, ctx: QLParser.DeclarationContext):
+        # todo: make viable for setting boolean question answers
         result = self.visitChildren(ctx)
         declared_value = QtWidgets.QLabel(str(result.pop()))
         self.questions[ctx.parentCtx.ID().getText()].text_input_box = declared_value

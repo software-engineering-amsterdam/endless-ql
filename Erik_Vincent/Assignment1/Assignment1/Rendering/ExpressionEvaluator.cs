@@ -18,7 +18,7 @@ namespace Assignment1.Rendering
         public string GetValueAsString(IExpression expression)
         {
             IValue evaluated = EvaluateExpression(expression);
-            switch (evaluated.Type)
+            switch (Type.Undefined)//(evaluated.Type)
             {
                 case Type.Boolean:
                     Visit((QLBoolean)evaluated);
@@ -94,7 +94,7 @@ namespace Assignment1.Rendering
         {
             expression.Accept(this);
             IValue value = (IValue)_currentValue;
-            _currentValue = value.Not();
+            //_currentValue = value.Not();
         }
 
         public void Visit(Reference expression)
@@ -108,7 +108,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.And(rightValue);
+            //_currentValue = leftValue.And(rightValue);
         }
 
         public void Visit(Or expression)
@@ -117,7 +117,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.Or(rightValue);
+            //_currentValue = leftValue.Or(rightValue);
         }
 
         public void Visit(LessThan expression)
@@ -126,7 +126,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.LessThan(rightValue);
+            //_currentValue = leftValue.LessThan(rightValue);
         }
 
         public void Visit(GreaterThan expression)
@@ -135,7 +135,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.GreaterThan(rightValue);
+            //_currentValue = leftValue.GreaterThan(rightValue);
         }
 
         public void Visit(GreaterThanOrEqual expression)
@@ -144,7 +144,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.GreaterThanOrEqual(rightValue);
+            //_currentValue = leftValue.GreaterThanOrEqual(rightValue);
         }
 
         public void Visit(LessThanOrEqual expression)
@@ -153,7 +153,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.LessThanOrEqual(rightValue);
+            //_currentValue = leftValue.LessThanOrEqual(rightValue);
         }
 
         public void Visit(NotEqual expression)
@@ -162,7 +162,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.NotEqual(rightValue);
+            //_currentValue = leftValue.NotEqual(rightValue);
         }
 
         public void Visit(Equal expression)
@@ -171,7 +171,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.Equal(rightValue);
+            //_currentValue = leftValue.Equal(rightValue);
         }
 
         public void Visit(Add expression)
@@ -180,7 +180,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.Add(rightValue);
+            //_currentValue = leftValue.Add(rightValue);
         }
 
         public void Visit(Subtract expression)
@@ -189,7 +189,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.Subtract(rightValue);
+            //_currentValue = leftValue.Subtract(rightValue);
         }
 
         public void Visit(Multiply expression)
@@ -198,7 +198,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.Multiply(rightValue);
+            //_currentValue = leftValue.Multiply(rightValue);
         }
 
         public void Visit(Divide expression)
@@ -207,7 +207,7 @@ namespace Assignment1.Rendering
             IValue leftValue = (IValue)_currentValue;
             expression.Left.Accept(this);
             IValue rightValue = (IValue)_currentValue;
-            _currentValue = leftValue.Divide(rightValue);
+            //_currentValue = leftValue.Divide(rightValue);
         }
     }
 }

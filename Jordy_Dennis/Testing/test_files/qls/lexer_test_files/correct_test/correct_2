@@ -1,0 +1,9 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+  }
+  page Selling
+  {
+  }
+}

@@ -44,18 +44,18 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        VBox vBox = new VBox();
+        VBox mainWindowBox = new VBox();
 
         // File open/save menu
         MenuBar menuBar = createMenuBar(primaryStage);
 
-        vBox.getChildren().add(menuBar);
-        vBox.getChildren().add(this.formArea);
+        mainWindowBox.getChildren().add(menuBar);
+        mainWindowBox.getChildren().add(this.formArea);
 
         // Make the form area grow with the size of the window
         VBox.setVgrow(this.formArea, Priority.ALWAYS);
 
-        Scene scene = new Scene(vBox);
+        Scene scene = new Scene(mainWindowBox);
         primaryStage.setTitle("Form Renderer");
         primaryStage.setScene(scene);
         primaryStage.setWidth(640);

@@ -23,18 +23,18 @@ public class GUIPage {
     }
 
     public Parent render(GUIController guiController) {
-        VBox vBox = new VBox();
+        VBox pageBox = new VBox();
 
         // Render all sections
         for (GUIElement element : elements) {
-            vBox.getChildren().add(element.render(guiController));
+            pageBox.getChildren().add(element.render(guiController));
         }
 
-        vBox.setPadding(new Insets(10));
+        pageBox.setPadding(new Insets(10));
 
         // Wrap page in scroll pane, so questions will always be reachable
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(vBox);
+        scrollPane.setContent(pageBox);
         return scrollPane;
     }
 

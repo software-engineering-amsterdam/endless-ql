@@ -111,7 +111,7 @@ Form
 }
 
 IfCondition
- = IfToken _ predicate:Expression _ block:Block _ elseBlock:ElseStatement? __ {
+ = IfToken _ predicate:ExpressionWithBrackets _ block:Block _ elseBlock:ElseStatement? __ {
      let IfConditionNode = new Nodes.IfCondition(predicate, block, elseBlock);
      return processNode(IfConditionNode);
 }
@@ -124,6 +124,11 @@ ElseStatement
 Expression
  = expression:BooleanExpression {
     return expression;
+}
+
+ExpressionWithBrackets
+ = "("_ expr:BooleanExpression _ ")" {
+    return expr;
 }
 
 BooleanExpression
@@ -156,7 +161,7 @@ MultiplicativeExpression
 
 Primary
   = Value
-  / "("_ expr:BooleanExpression _ ")" { return expr; }
+  / ExpressionWithBrackets
   / UnaryExpression
 
 UnaryExpression

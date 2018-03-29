@@ -218,7 +218,8 @@ function peg$parse(input, options) {
   const peg$c56 = ")";
   const peg$c57 = peg$literalExpectation(")", false);
   const peg$c58 = function(expr) {
-      return expr; };
+      return expr;
+  };
   const peg$c59 = function(head, tail) {
       let boolExpressionNode = buildExpression(head, tail);
       return processNode(boolExpressionNode);

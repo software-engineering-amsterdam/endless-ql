@@ -40,7 +40,7 @@ class TypeCheckFacadeTest extends WordSpec {
         val qlForm = QLForm(
           "invalidTypes",
           Seq(
-            Question("q1", "duplicate-label", IntegerType, Some(Multiply(StringAnswer("Foo"), StringAnswer("Bar"))))
+            Question("q1", "duplicate-label", StringType, Some(Multiply(StringAnswer("Foo"), StringAnswer("Bar"))))
           ))
 
         val result = TypeCheckFacade.pipeline(qlForm)

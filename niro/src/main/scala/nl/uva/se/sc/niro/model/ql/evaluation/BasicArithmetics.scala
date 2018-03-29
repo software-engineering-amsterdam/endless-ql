@@ -1,60 +1,46 @@
 package nl.uva.se.sc.niro.model.ql.evaluation
 
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }
 
 import scala.language.implicitConversions
 
+// format: off
 object BasicArithmetics {
   trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntegerAnswer] {
-    def plus(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.value + i.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
-    }
-    def subtract(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.value - i.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x - $y")
-    }
-    def multiply(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.value * i.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x * $y")
-    }
-    def div(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.value / i.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x / $y")
-    }
-    def minus(x: IntegerAnswer): Answer = IntegerAnswer(-x.value)
+    def plus(left: IntegerAnswer, right: Answer): Answer = right match { case i: IntegerAnswer => IntegerAnswer(left.value + i.value) }
+    def subtract(left: IntegerAnswer, right: Answer): Answer = right match { case i: IntegerAnswer => IntegerAnswer(left.value - i.value) }
+    def multiply(left: IntegerAnswer, right: Answer): Answer = right match { case i: IntegerAnswer => IntegerAnswer(left.value * i.value) }
+    def div(left: IntegerAnswer, right: Answer): Answer = right match { case i: IntegerAnswer => IntegerAnswer(left.value / i.value) }
+    def minus(left: IntegerAnswer): Answer = IntegerAnswer(-left.value)
   }
   implicit object IntAnswerCanDoBasicArithmetics extends IntAnswerCanDoBasicArithmetics
 
   trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecimalAnswer] {
-    def plus(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.value + d.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
-    }
-    def subtract(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.value - d.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x - $y")
-    }
-    def multiply(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.value * d.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x * $y")
-    }
-    def div(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.value / d.value)
-      case _                => throw new IllegalArgumentException(s"Can't perform operation $x / $y")
-    }
-    def minus(x: DecimalAnswer): Answer = DecimalAnswer(-x.value)
+    def plus(left: DecimalAnswer, right: Answer): Answer = right match { case d: DecimalAnswer => DecimalAnswer(left.value + d.value) }
+    def subtract(left: DecimalAnswer, right: Answer): Answer = right match { case d: DecimalAnswer => DecimalAnswer(left.value - d.value) }
+    def multiply(left: DecimalAnswer, right: Answer): Answer = right match { case d: DecimalAnswer => DecimalAnswer(left.value * d.value) }
+    def div(left: DecimalAnswer, right: Answer): Answer = right match { case d: DecimalAnswer => DecimalAnswer(left.value / d.value) }
+    def minus(left: DecimalAnswer): Answer = DecimalAnswer(-left.value)
   }
-
   implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics
+
+  trait MoneyAnswerCanDoBasicArithmetics extends BasicArithmetics[MoneyAnswer] {
+    def plus(left: MoneyAnswer, right: Answer): Answer = right match { case d: MoneyAnswer => MoneyAnswer(left.value + d.value) }
+    def subtract(left: MoneyAnswer, right: Answer): Answer = right match { case d: MoneyAnswer => MoneyAnswer(left.value - d.value) }
+    def multiply(left: MoneyAnswer, right: Answer): Answer = right match { case d: MoneyAnswer => MoneyAnswer(left.value * d.value) }
+    def div(left: MoneyAnswer, right: Answer): Answer = right match { case d: MoneyAnswer => MoneyAnswer(left.value / d.value) }
+    def minus(left: MoneyAnswer): Answer = MoneyAnswer(-left.value)
+  }
+  implicit object MoneyAnswerCanDoBasicArithmetics extends MoneyAnswerCanDoBasicArithmetics
 }
+// format: on
 
 trait BasicArithmetics[SubType <: Answer] {
-  def plus(x: SubType, y: Answer): Answer
-  def subtract(x: SubType, y: Answer): Answer
-  def multiply(x: SubType, y: Answer): Answer
-  def div(x: SubType, y: Answer): Answer
-  def minus(x: SubType): Answer
+  def plus(left: SubType, right: Answer): Answer
+  def subtract(left: SubType, right: Answer): Answer
+  def multiply(left: SubType, right: Answer): Answer
+  def div(left: SubType, right: Answer): Answer
+  def minus(left: SubType): Answer
 
   class Ops(left: SubType) {
     def +(right: Answer): Answer = plus(left, right)

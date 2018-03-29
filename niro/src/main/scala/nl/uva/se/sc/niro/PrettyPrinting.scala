@@ -3,6 +3,7 @@ package nl.uva.se.sc.niro
 import nl.uva.se.sc.niro.errors.{ Errors, Warning }
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
+import nl.uva.se.sc.niro.typechecking.ql.CycleDetection.Graph
 
 trait PrettyPrintable[T] {
   def prettyPrint: String
@@ -129,6 +130,12 @@ object PrettyPrinter {
   implicit class WarningCanPrettyPrint(warning: Warning) extends PrettyPrintable[Warning] {
     override def prettyPrint: String = {
       s"${warning.key}, ${warning.message}"
+    }
+  }
+
+  implicit class GraphCanPrettyPrint(graph: Graph) extends PrettyPrintable[Graph] {
+    override def prettyPrint: String = {
+      (graph.init.map(_.from) :+ graph.last.from :+ graph.last.to).mkString(" -> ")
     }
   }
 }

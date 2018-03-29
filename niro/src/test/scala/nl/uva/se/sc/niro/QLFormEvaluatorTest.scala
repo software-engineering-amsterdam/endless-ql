@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro
 
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator
-import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator.Dictionary
+import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator.ValueStore
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DateAnswer, DecimalAnswer, IntegerAnswer }
 import org.scalatest.WordSpec
@@ -86,14 +86,14 @@ class QLFormEvaluatorTest extends WordSpec {
         )
       )
 
-      val inputs: Dictionary = Map(
+      val inputs: ValueStore = Map(
         "booleanVariable" -> BooleanAnswer(false),
         "integerVariable" -> IntegerAnswer(12),
         "decimalConstant" -> DecimalAnswer(42.4)
       )
 
       val result = QLFormEvaluator.evaluate(qlForm, inputs)
-      val expected: Dictionary =
+      val expected: ValueStore =
         Map(
           "integerConstant" -> IntegerAnswer(42),
           "booleanVariable" -> BooleanAnswer(false),
@@ -132,13 +132,13 @@ class QLFormEvaluatorTest extends WordSpec {
         )
       )
 
-      val inputs: Dictionary = Map(
+      val inputs: ValueStore = Map(
         "dateConstant" -> DateAnswer("1970-01-01"),
         "integerVariable" -> IntegerAnswer(123),
         "integerConstant" -> IntegerAnswer(42))
 
       val result = QLFormEvaluator.evaluate(qlForm, inputs)
-      val expected: Dictionary =
+      val expected: ValueStore =
         Map(
           "dateConstant" -> DateAnswer("1970-01-01"),
           "integerVariable" -> IntegerAnswer(123),
@@ -148,7 +148,7 @@ class QLFormEvaluatorTest extends WordSpec {
 
       assert(result == expected, "First pass")
 
-      val alteredInput: Dictionary =
+      val alteredInput: ValueStore =
         Map(
           "dateConstant" -> DateAnswer("1970-01-01"),
           "integerVariable" -> IntegerAnswer(456),
@@ -157,7 +157,7 @@ class QLFormEvaluatorTest extends WordSpec {
         )
 
       val alteredResult = QLFormEvaluator.evaluate(qlForm, alteredInput)
-      val alteredExpected: Dictionary =
+      val alteredExpected: ValueStore =
         Map(
           "dateConstant" -> DateAnswer("1970-01-01"),
           "integerConstant" -> IntegerAnswer(42),
@@ -178,12 +178,12 @@ class QLFormEvaluatorTest extends WordSpec {
         )
       )
 
-      val inputs: Dictionary = Map(
+      val inputs: ValueStore = Map(
         "a" -> IntegerAnswer(1)
       )
 
       val result = QLFormEvaluator.evaluate(qlForm, inputs)
-      val expected: Dictionary =
+      val expected: ValueStore =
         Map(
           "a" -> IntegerAnswer(1),
           "b" -> IntegerAnswer(1),
@@ -192,14 +192,14 @@ class QLFormEvaluatorTest extends WordSpec {
 
       assert(result == expected, "First pass")
 
-      val alteredInput: Dictionary =
+      val alteredInput: ValueStore =
         Map(
           "b" -> IntegerAnswer(1),
           "c" -> IntegerAnswer(1)
         )
 
       val alteredResult = QLFormEvaluator.evaluate(qlForm, alteredInput)
-      val alteredExpected: Dictionary =
+      val alteredExpected: ValueStore =
         Map()
 
       assert(alteredResult == alteredExpected, "Second pass")

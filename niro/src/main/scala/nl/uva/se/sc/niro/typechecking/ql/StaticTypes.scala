@@ -5,8 +5,8 @@ import nl.uva.se.sc.niro.PrettyPrinter._
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql.expressions._
-import nl.uva.se.sc.niro.model.ql.expressions.answers._
-import nl.uva.se.sc.niro.model.ql.{ IntegerType, NumericType, _ }
+import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DecimalAnswer, _ }
+import nl.uva.se.sc.niro.model.ql.{ IntegerType, _ }
 import org.apache.logging.log4j.scala.Logging
 
 object StaticTypes extends Logging {
@@ -45,7 +45,8 @@ object StaticTypes extends Logging {
     for {
       leftType <- expression.left.typeOf(symbolTable)
       rightType <- expression.right.typeOf(symbolTable)
-      result <- if (leftType.isCompatibleWith(rightType) && NumericType.isCompatibleWith(leftType)) NumericType.asRight
+      resultingType = leftType.getWidest(rightType)
+      result <- if (leftType.isNumber && rightType.isNumber && resultingType.isDefined) resultingType.get.asRight
       else TypeCheckError(message = s"Not a valid expression: ${expression.prettyPrint}").asLeft
     } yield result
   }
@@ -56,7 +57,8 @@ object StaticTypes extends Logging {
     for {
       leftType <- expression.left.typeOf(symbolTable)
       rightType <- expression.right.typeOf(symbolTable)
-      result <- if (leftType.isCompatibleWith(rightType)) BooleanType.asRight
+      resultingType = leftType.getWidest(rightType)
+      result <- if (resultingType.isDefined) BooleanType.asRight
       else TypeCheckError(message = s"Not a valid expression: ${expression.prettyPrint}").asLeft
     } yield result
   }
@@ -67,8 +69,8 @@ object StaticTypes extends Logging {
     for {
       leftType <- expression.left.typeOf(symbolTable)
       rightType <- expression.right.typeOf(symbolTable)
-      result <- if (BooleanType.isCompatibleWith(leftType) && BooleanType.isCompatibleWith(rightType))
-        BooleanType.asRight
+      resultingType = leftType.getWidest(rightType)
+      result <- if (resultingType.isDefined) BooleanType.asRight
       else TypeCheckError(message = s"Not a valid expression: ${expression.prettyPrint}").asLeft
     } yield result
   }
@@ -96,6 +98,17 @@ object StaticTypes extends Logging {
       case b: BooleanAnswer    => b.typeOf.asRight
       case s: StringAnswer     => s.typeOf.asRight
       case d: DateAnswer       => d.typeOf.asRight
+    }
+  }
+
+  implicit class AnswerTypesCanTypeCheck(answerType: AnswerType) {
+    def isNumber: Boolean = answerType match {
+      case IntegerType => true
+      case DecimalType => true
+      case MoneyType   => true
+      case BooleanType => false
+      case StringType  => false
+      case DateType    => false
     }
   }
 
@@ -169,9 +182,10 @@ object StaticTypes extends Logging {
     def typeOf(symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = {
       for {
         rightType <- expression.right.typeOf(symbolTable)
-        _ <- if (NumericType.isCompatibleWith(rightType)) NumericType.asRight
+        resultingType = IntegerType.getWidest(rightType)
+        result <- if (rightType.isNumber && resultingType.isDefined) resultingType.get.asRight
         else TypeCheckError(message = s"Not a valid expression: ${expression.prettyPrint}").asLeft
-      } yield NumericType
+      } yield result
     }
   }
 
@@ -227,7 +241,8 @@ object StaticTypes extends Logging {
     def typeOf(symbolTable: SymbolTable): Either[TypeCheckError, AnswerType] = {
       for {
         rightType <- expression.right.typeOf(symbolTable)
-        result <- if (BooleanType.isCompatibleWith(rightType)) BooleanType.asRight
+        resultingType = BooleanType.getWidest(rightType)
+        result <- if (resultingType.isDefined) BooleanType.asRight
         else TypeCheckError(message = s"Not a valid expression: ${expression.prettyPrint}").asLeft
       } yield result
     }

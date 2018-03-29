@@ -46,7 +46,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
           ("Expression", "Expected Answer"),
           (Addition(MoneyAnswer(5), MoneyAnswer(3)), MoneyAnswer(8)),
           (Subtract(MoneyAnswer(5), MoneyAnswer(3)), MoneyAnswer(2)),
-          (Divide(MoneyAnswer(10), MoneyAnswer(5)), DecimalAnswer(2))
+          (Divide(MoneyAnswer(10), MoneyAnswer(5)), MoneyAnswer(2))
         )
 
         forAll(table) { (expression, expectedAnswer) =>
@@ -54,14 +54,13 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
         }
       }
 
-      // TODO fix money arithmetics (see commented lines)
       "on different types" in {
         val table = Table(
           ("Expression", "Expected Answer"),
           (Multiply(MoneyAnswer(5), IntegerAnswer(3)), MoneyAnswer(15)),
           (Multiply(MoneyAnswer(5), DecimalAnswer(3)), MoneyAnswer(15)),
-//          (Multiply(IntegerAnswer(3), MoneyAnswer(5)), MoneyAnswer(15)),
-//          (Multiply(DecimalAnswer(3), MoneyAnswer(5)), MoneyAnswer(15)),
+          (Multiply(IntegerAnswer(3), MoneyAnswer(5)), MoneyAnswer(15)),
+          (Multiply(DecimalAnswer(3), MoneyAnswer(5)), MoneyAnswer(15)),
           (Divide(MoneyAnswer(10), IntegerAnswer(5)), MoneyAnswer(2)),
           (Divide(MoneyAnswer(10), DecimalAnswer(5)), MoneyAnswer(2)),
           (Addition(IntegerAnswer(10), DecimalAnswer(5)), DecimalAnswer(15)),
@@ -272,7 +271,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         assertThrows[UnsupportedOperationException](expression.evaluate(Map.empty, Map.empty))
       }
-      "throw an error when evaluating mixed answertypes" in {
+      "throw an error when evaluating incompatible answertypes" in {
         val expression = Equal(BooleanAnswer(true), IntegerAnswer(5))
 
         assertThrows[MatchError](expression.evaluate(Map.empty, Map.empty))

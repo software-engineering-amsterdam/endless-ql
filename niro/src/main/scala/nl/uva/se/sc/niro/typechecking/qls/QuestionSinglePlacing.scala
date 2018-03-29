@@ -18,7 +18,7 @@ object QuestionSinglePlacing {
             questionName =>
               TypeCheckError(
                 "QuestionPlacingError",
-                s"Question '${questionName}' appeared more then once in the QLS file."
+                s"Question '$questionName' appeared more then once in the QLS file."
             ))
           .toSeq)
     }

@@ -5,8 +5,9 @@ import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
 import nl.uva.se.sc.niro.model.ql.{ QLForm, Symbol }
-import nl.uva.se.sc.niro.typechecking.ql.CycleDetection.{ Edge, Graph, detectCycles, graphToString }
+import nl.uva.se.sc.niro.typechecking.ql.CycleDetection.{ Edge, Graph, detectCycles }
 import org.apache.logging.log4j.scala.Logging
+import nl.uva.se.sc.niro.PrettyPrinter.GraphCanPrettyPrint
 
 object CyclicDependency extends Logging {
   def check(qLForm: QLForm): Either[Seq[TypeCheckError], QLForm] = {
@@ -19,7 +20,7 @@ object CyclicDependency extends Logging {
 
     if (cyclicDependencies.nonEmpty) {
       cyclicDependencies
-        .map(cycle => TypeCheckError(message = s"Found cyclic dependency: ${cycle.map(graphToString).mkString("")}"))
+        .map(cycle => TypeCheckError(message = s"Found cyclic dependency: ${cycle.map(_.prettyPrint).mkString("")}"))
         .asLeft
     } else {
       qLForm.asRight

@@ -17,7 +17,7 @@ import org.apache.logging.log4j.scala.Logging
 
 class QLHomeController extends QLBaseController with Logging {
   @FXML
-  var errorMessages: TextArea = _
+  val errorMessages: TextArea = _
 
   override def applicationName(): String = "QL Forms"
 

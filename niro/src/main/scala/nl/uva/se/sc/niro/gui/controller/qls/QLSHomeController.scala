@@ -25,7 +25,7 @@ class QLSHomeController extends QLHomeController {
     if (selectedFile != null) try {
       val formOrErrors: Either[Seq[Errors.Error], QLForm] = QLFormService.importQLSpecification(selectedFile)
       formOrErrors match {
-        case Right(form) => {
+        case Right(form) =>
           val stylesheetOrErrors: Either[Seq[Errors.Error], Option[QLStylesheet]] =
             QLStylesheetService.importQLStylesheetSpecification(form, new File(selectedFile.toString + "s"))
           stylesheetOrErrors match {
@@ -36,16 +36,14 @@ class QLSHomeController extends QLHomeController {
               }
             case Left(errors) => handleErrors(errors)
           }
-        }
         case Left(errors) => handleErrors(errors)
       }
     } catch {
-      case e: IOException => {
+      case e: IOException =>
         // TODO Improve messages and handling
         errorMessages.setText(s"Oops, please contact the developers:\n\n${e.getMessage}")
         errorMessages.setVisible(true)
         logger.error("Processing a QL/QLS file failed!", e)
-      }
     }
   }
 

@@ -23,7 +23,9 @@ class QLSWidgetFactory extends QLWidgetFactory {
     case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
         case Some(GUISpinBoxStyle()) => if (isReadOnly) super.makeIntegerWidget(question) else new QLSIntegerSpinField()
-        case _                       => super.makeIntegerWidget(question)
+        case Some(GUISliderStyle(minimum, maximum)) =>
+          if (isReadOnly) super.makeIntegerWidget(question) else new QLSIntegerSliderField(minimum, maximum)
+        case _ => super.makeIntegerWidget(question)
       }
     case _ => super.makeIntegerWidget(question)
   }
@@ -34,7 +36,7 @@ class QLSWidgetFactory extends QLWidgetFactory {
         case Some(GUISpinBoxStyle()) => if (isReadOnly) super.makeDecimalWidget(question) else new QLSDecimalSpinField()
         case Some(GUISliderStyle(minimum, maximum)) =>
           if (isReadOnly) super.makeDecimalWidget(question) else new QLSDecimalSliderField(minimum, maximum)
-        case _                       => super.makeDecimalWidget(question)
+        case _ => super.makeDecimalWidget(question)
       }
     case _ => super.makeDecimalWidget(question)
   }

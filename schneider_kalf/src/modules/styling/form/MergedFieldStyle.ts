@@ -3,6 +3,7 @@ import { FieldType } from "../../../form/FieldType";
 import DefaultStyleNode from "./nodes/children/DefaultStyleNode";
 import WidgetAttribute from "./nodes/attributes/WidgetAttribute";
 import FieldNode from "../../../form/nodes/fields/FieldNode";
+import { Maybe } from "../../../helpers/type_helper";
 
 export default class MergedFieldStyle {
   private styles: Map<string, StyleAttribute | any>;
@@ -49,11 +50,7 @@ export default class MergedFieldStyle {
     return cssStyles;
   }
 
-  getWidgetAttribute(): WidgetAttribute | null {
-    if (typeof this.styles.get('widget') === 'undefined') {
-      return null;
-    }
-
+  getWidgetAttribute(): Maybe<WidgetAttribute> {
     return this.styles.get('widget');
   }
 

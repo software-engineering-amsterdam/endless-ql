@@ -106,15 +106,15 @@ public class Main extends Application {
 
         GUIForm guiForm;
         if (this.qlsStyleSheet != null) {
-            guiForm = guiFormBuilder.buildQLSForm(qlForm.getForm(), this.qlsStyleSheet);
+            guiForm = guiFormBuilder.buildQLSForm(this.qlForm.getForm(), this.qlsStyleSheet);
         } else {
-            guiForm = guiFormBuilder.buildQLForm(qlForm.getForm());
+            guiForm = guiFormBuilder.buildQLForm(this.qlForm.getForm());
         }
 
-        GUIController guiController = new GUIController(qlForm);
+        GUIController guiController = new GUIController(this.qlForm);
 
-        formArea.getChildren().clear();
-        formArea.getChildren().add(guiForm.render(guiController));
+        this.formArea.getChildren().clear();
+        this.formArea.getChildren().add(guiForm.render(guiController));
     }
 
     private MenuBar createMenuBar(Stage primaryStage) {
@@ -174,7 +174,6 @@ public class Main extends Application {
     }
 
     private void showErrorAlert(Exception e, String message) {
-        e.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
         alert.setContentText(e.getMessage());
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

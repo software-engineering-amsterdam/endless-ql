@@ -26,10 +26,12 @@ import TreeNode from "../TreeNode";
 import Statement from "../Statement";
 import DateLiteral from "../literals/DateLiteral";
 import FieldNodeDecorator from "../fields/FieldNodeDecorator";
+import StatementCollection from "../../collection/StatementCollection";
 
-export default class NodeTraveller implements NodeVisitor {
+export default class FormTraversingVisitor implements NodeVisitor {
   private post: VisitorCallback;
   private pre: VisitorCallback;
+  private statements: StatementCollection = new StatementCollection();
 
   constructor(pre?: VisitorCallback, post?: VisitorCallback) {
     if (!pre) {
@@ -42,6 +44,11 @@ export default class NodeTraveller implements NodeVisitor {
 
     this.pre = pre;
     this.post = post;
+    this.acceptStatement = this.acceptStatement.bind(this);
+  }
+
+  getStatements(): StatementCollection {
+    return this.statements;
   }
 
   visitBinaryOperator(operator: BinaryOperator): any {
@@ -67,21 +74,15 @@ export default class NodeTraveller implements NodeVisitor {
   visitIfCondition(ifCondition: IfCondition): any {
     this.pre(ifCondition);
     ifCondition.predicate.accept(this);
-    ifCondition.then.forEach((statement: Statement) => {
-      statement.accept(this);
-    });
-    ifCondition.otherwise.forEach((statement: Statement) => {
-      statement.accept(this);
-    });
+    ifCondition.then.forEach(this.acceptStatement);
+    ifCondition.otherwise.forEach(this.acceptStatement);
     this.post(ifCondition);
   }
 
   visitForm(form: FormNode): any {
     this.pre(form);
 
-    form.statements.forEach((statement: Statement) => {
-      statement.accept(this);
-    });
+    form.statements.forEach(this.acceptStatement);
 
     this.post(form);
   }
@@ -164,5 +165,17 @@ export default class NodeTraveller implements NodeVisitor {
     this.pre(fieldDecorator);
     fieldDecorator.getBaseField().accept(this);
     this.post(fieldDecorator);
+  }
+
+  public static collectStatements(node: FormNode) {
+    const traveller = new FormTraversingVisitor();
+    node.accept(traveller);
+
+    return traveller.getStatements();
+  }
+
+  private acceptStatement(statement: Statement) {
+    statement.addToCollection(this.statements);
+    statement.accept(this);
   }
 }

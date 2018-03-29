@@ -1,3 +1,5 @@
+import { cloneArray } from "../../helpers/array_helpers";
+
 export default class GenericCollection<E> {
   private list: E[] = [];
 
@@ -16,6 +18,6 @@ export default class GenericCollection<E> {
   }
 
   toArray() {
-    return this.list;
+    return cloneArray(this.list);
   }
 }

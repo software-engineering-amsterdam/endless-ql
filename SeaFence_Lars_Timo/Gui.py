@@ -26,8 +26,8 @@ class Gui():
         label.pack(side=LEFT)
         
         variable = self.values[widget_variable]
-        radioButton1 = tk.Radiobutton(frame, text=text1, variable=variable, value=0, height=2)
-        radioButton2 = tk.Radiobutton(frame, text=text2, variable=variable, value=1, height=2)
+        radioButton1 = tk.Radiobutton(frame, text=text2, variable=variable, value=0, height=2)
+        radioButton2 = tk.Radiobutton(frame, text=text1, variable=variable, value=1, height=2)
         radioButton1.pack(side=LEFT)
         radioButton2.pack(side=LEFT)
 
@@ -97,7 +97,7 @@ class Gui():
         label.pack(side=LEFT)
 
         variable = self.values[widget_variable]
-        dropdown = tk.OptionMenu(frame, var, "Yes", "No")
+        dropdown = tk.OptionMenu(frame, var, "No", "Yes")
         dropdown.config(font=font_options, fg=color)
         dropdown.pack(side=LEFT)
 
@@ -121,7 +121,7 @@ class Gui():
     def getValue(self, variable_name, type):
         if type == "int":
             value = self.values[variable_name].get()
-            if value == '':
+            if value == "":
                 return 0
             else:
                 return int(value) 
@@ -147,6 +147,7 @@ class Gui():
 
         else:
             variable = tk.IntVar()
+            variable.set("0")
             variable.trace("w", update_function)
 
         self.values[variable_key] = variable

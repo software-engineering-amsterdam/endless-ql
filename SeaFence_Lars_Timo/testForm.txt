@@ -12,19 +12,14 @@ form taxOfficeExample
   	{
 		"val1" val1: int
     		"val2" val2: int
-    		"Value residue = val1+ val2:" valueResidue: int = val1 + val2
-
-		/*
-		if(valueResidue > 4)
-		{
-			"Value residue 2 = val1 * val2" valueResidue2: int = val1 * val2
-		}
-		*/
-
+    		"Value residue = val1 + val2:" valueResidue: int = val1 + val2
   	}
 
 	if(hasBoughtHouse && hasMaintLoan)
 	{
-		"Value residue 3 = val1 - val2" valueResidue2: int = val1 - val2
+		"Value residue 2 = val1 - val2" valueResidue2: int = val1 - val2
 	}
+
+	"Question after if statements?"
+		afterStatements: boolean
 }

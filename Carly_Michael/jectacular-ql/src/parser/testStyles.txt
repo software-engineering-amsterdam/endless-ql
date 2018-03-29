@@ -85,10 +85,12 @@ stylesheet "Styles" {
   page "Page" {
     section "Section" {
       question question1
-      default date {
+      question question2 widget spinbox
+      question question3
+
+      default boolean {
         color: #00FF00
-        width: 400
-        widget text
+        widget radio("yes", "no")
       }
     }
   }

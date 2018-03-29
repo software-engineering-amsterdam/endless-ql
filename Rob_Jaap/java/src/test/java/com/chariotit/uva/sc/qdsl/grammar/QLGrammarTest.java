@@ -122,6 +122,10 @@ public class QLGrammarTest {
                 .getExpression()).getOperator() instanceof LtOp);
         assertTrue(((LabelBinOpExpression)((LineElement)elements.get(9)).getTypeExpression()
                 .getExpression()).getOperator() instanceof LteOp);
+        assertTrue(((LabelBinOpExpression)((LineElement)elements.get(10)).getTypeExpression()
+                .getExpression()).getOperator() instanceof AndOp);
+        assertTrue(((LabelBinOpExpression)((LineElement)elements.get(11)).getTypeExpression()
+                .getExpression()).getOperator() instanceof OrOp);
     }
 
     @Test

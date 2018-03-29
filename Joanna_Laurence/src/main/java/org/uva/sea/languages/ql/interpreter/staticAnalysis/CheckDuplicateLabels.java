@@ -14,44 +14,21 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLSta
 
     private final Messages messages = new Messages();
 
-    /**
-     * Labels that are associated with variables
-     */
     private final Map<String, String> labels = new HashMap<>();
 
-    /**
-     * Hide constructor
-     */
     private CheckDuplicateLabels() {
 
     }
 
-    /**
-     * Report warning
-     *
-     * @param node The node that caused the warning
-     */
     private void error(Question node) {
         this.messages.addMessage("Label:" + node.getLabel() + " is already linked to another variable on line: " + node.getLine() + " column: " + node.getColumn(), MessageTypes.WARNING);
     }
 
-    /**
-     * Perform the check
-     *
-     * @param node The form node
-     * @return Warnings
-     */
     public Messages doCheck(Form node) {
         node.accept(this);
         return this.messages;
     }
 
-    /**
-     * Check the questions
-     *
-     * @param node
-     * @return
-     */
     public Void visit(Question node) {
         super.visit(node);
 
@@ -67,18 +44,10 @@ public class CheckDuplicateLabels extends BaseASTVisitor<Void> implements IQLSta
         return null;
     }
 
-    /**
-     * Link label to variable
-     *
-     * @param node
-     */
     private void linkQuestionVariableToLabel(Question node) {
         this.labels.put(node.getLabel(), node.getVariable().getVariableName());
     }
 
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
     public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {

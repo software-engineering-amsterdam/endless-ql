@@ -10,14 +10,14 @@ namespace Assignment1.Converters
     public class QLASTExpressionToRenderExpression : IExpressionVisitor
     {
         private Expression _result;
-        private Dictionary<string, Question> _questions;
+        private Dictionary<string, RenderableQuestion> _questions;
 
-        private QLASTExpressionToRenderExpression(Dictionary<string, Question> questions)
+        private QLASTExpressionToRenderExpression(Dictionary<string, RenderableQuestion> questions)
         {
             _questions = questions;
         }
 
-        public static Expression Convert(IExpression expression, Dictionary<string, Question> questions)
+        public static Expression Convert(IExpression expression, Dictionary<string, RenderableQuestion> questions)
         {
             var converter = new QLASTExpressionToRenderExpression(questions);
             expression.Accept(converter);
@@ -30,7 +30,7 @@ namespace Assignment1.Converters
 
         public void Visit(QLInteger value) => _result = new ExpressionValue(value.Value);
 
-        public void Visit(Undefined undefined) => _result = null; //TODO: Implement
+        //public void Visit(Undefined undefined) => _result = null; //TODO: Implement
 
         public void Visit(QLString value) => _result = new ExpressionValue(value.Value);
 

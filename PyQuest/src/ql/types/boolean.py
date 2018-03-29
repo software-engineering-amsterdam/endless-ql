@@ -1,6 +1,6 @@
-from ql.types.type import QLType
-from ql.ast.expressions.literals.boolean_node import BooleanNode
 from gui.widgets.checkbox import CheckBox
+from ql.ast.nodes.expressions.literals.boolean_node import BooleanNode
+from ql.types.type import QLType
 
 
 class QLBoolean(QLType):
@@ -24,12 +24,13 @@ class QLBoolean(QLType):
         return str(self.value)
 
     def __eq__(self, other):
-        if type(other) == QLBoolean:
-            return QLBoolean(self.value == other.value)
-        return False
+        return QLBoolean(self.value == other.value)
 
     def __ne__(self, other):
         return QLBoolean(self.value != other.value)
+
+    def get_json_value(self):
+        return self.value
 
     @property
     def value(self):

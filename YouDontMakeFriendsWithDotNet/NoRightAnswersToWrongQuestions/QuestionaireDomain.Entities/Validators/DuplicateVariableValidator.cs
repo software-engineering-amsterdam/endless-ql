@@ -26,14 +26,14 @@ namespace QuestionnaireDomain.Entities.Validators
                 .ToList();
 
             var questionNameAndTypes = questionNodes
-                .Select(x => new { x.QuestionName, x.QuestionType})
+                .Select(x => new { x.QuestionName, x.QuestionType })
                 .ToList();
 
             foreach (var questionNode in questionNodes)
             {
                 var mismatchCount = questionNameAndTypes
-                    .Count(x => 
-                        x.QuestionName == questionNode.QuestionName 
+                    .Count(x =>
+                        x.QuestionName == questionNode.QuestionName
                         && x.QuestionType != questionNode.QuestionType);
 
                 if (mismatchCount > 1)

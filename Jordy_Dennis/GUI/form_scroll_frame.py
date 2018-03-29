@@ -29,8 +29,8 @@ class ScrollFrameGui:
         Create the canvas, together with the frame that will contain the contents
     """
     def createScrollCanvas(self, parent):
-        canvas = Canvas(parent, background="pink")
-        contentsFrame = create_frame(canvas, "blue")
+        canvas = Canvas(parent, background="white")
+        contentsFrame = create_frame(canvas, "white")
 
         scrollbar = Scrollbar(parent, command=canvas.yview)
         scrollbar.pack(side=RIGHT, fill='both')

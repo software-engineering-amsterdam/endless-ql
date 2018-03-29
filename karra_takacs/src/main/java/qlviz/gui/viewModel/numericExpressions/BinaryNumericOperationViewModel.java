@@ -4,8 +4,7 @@ import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import qlviz.gui.viewModel.linker.NumericExpressionViewModelVisitor;
-import qlviz.interpreter.linker.NumericExpressionVisitor;
-import qlviz.model.numericExpressions.BinaryNumericOperator;
+import qlviz.model.expressions.numericExpressions.BinaryNumericOperator;
 
 import java.math.BigDecimal;
 import java.util.function.BiFunction;

@@ -1,6 +1,6 @@
 from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
-from ql.ast.expressions.literals.string_node import StringNode
+from ql.ast.nodes.expressions.literals.string_node import StringNode
 from gui.widgets.line_edit import LineEdit
 
 
@@ -19,9 +19,7 @@ class QLString(QLType):
         return str(self.value)
 
     def __eq__(self, other):
-        if type(other) == QLString:
-            return QLBoolean(self.value == other.value)
-        return False
+        return QLBoolean(self.value == other.value)
 
     def __ne__(self, other):
         return QLBoolean(self.value != other.value)
@@ -40,6 +38,9 @@ class QLString(QLType):
 
     def __add__(self, other):
         return QLString(self.value + other.value)
+
+    def get_json_value(self):
+        return self.value
 
     @property
     def value(self):

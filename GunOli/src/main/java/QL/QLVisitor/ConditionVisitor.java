@@ -1,10 +1,9 @@
 package QL.QLVisitor;
 
-import QL.ParseObjectsQL.Block;
-import QL.ParseObjectsQL.Expressions.BinaryExpressions.AndExpression;
-import QL.ParseObjectsQL.Expressions.Expression;
-import QL.ParseObjectsQL.Expressions.UnaryExpressions.NotExpression;
-import QL.ParseObjectsQL.Question;
+import QL.AST.Expressions.BinaryExpressions.AndExpression;
+import QL.AST.Expressions.Expression;
+import QL.AST.Expressions.UnaryExpressions.NotExpression;
+import QL.AST.Question;
 import QL.QLAntlrGen.QLBaseVisitor;
 import QL.QLAntlrGen.QLParser;
 
@@ -21,6 +20,7 @@ public class ConditionVisitor extends QLBaseVisitor{
 
     @Override
     public ArrayList<Question> visitCondition(QLParser.ConditionContext ctx){
+        int line = ctx.getStart().getLine();
         ArrayList<Question> questions = new ArrayList<>();
         ExpressionVisitor expressionVisitor = new ExpressionVisitor(expressionTable);
         QLParser.ExpressionContext expressionCtx = ctx.expression();
@@ -30,17 +30,17 @@ public class ConditionVisitor extends QLBaseVisitor{
 
         if(ctx.falseBlock != null){
             QLParser.BlockContext falseBlockCtx = ctx.falseBlock;
-            Expression negatedCondition = new NotExpression(condition);
-            Expression conditionChain = new AndExpression(negatedCondition, this.condition);
+            Expression negatedCondition = new NotExpression(condition, line);
+            Expression conditionChain = new AndExpression(negatedCondition, this.condition, line);
             BlockVisitor falseBlockVisitor = new BlockVisitor(expressionTable, conditionChain);
-            Block falseBlock = falseBlockVisitor.visitBlock(falseBlockCtx);
-            questions.addAll(falseBlock.getQuestions());
+            ArrayList<Question> falseBlockQuestions = falseBlockVisitor.visitBlock(falseBlockCtx);
+            questions.addAll(falseBlockQuestions);
         }
 
-        Expression conditionChain = new AndExpression(condition, this.condition);
+        Expression conditionChain = new AndExpression(condition, this.condition, line);
         BlockVisitor trueBlockVisitor = new BlockVisitor(expressionTable, conditionChain);
-        Block block = trueBlockVisitor.visitBlock(blockCtx);
-        questions.addAll(block.getQuestions());
+        ArrayList<Question> blockQuestions = trueBlockVisitor.visitBlock(blockCtx);
+        questions.addAll(blockQuestions);
         return questions;
     }
 }

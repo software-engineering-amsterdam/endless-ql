@@ -1,36 +1,60 @@
 package nl.uva.se.sc.niro.model.qls
 
-case class QLStylesheet(name: String, pages: Seq[Page]) {
+import nl.uva.se.sc.niro.model.ql.{ AnswerType, BooleanType, IntegerType }
 
-  def collectStylesForQuesiotn(id: String): Seq[QLSWidgetType] = {
-    pages.flatMap(_.sections.flatMap(_.questions.filter(_.name == id).map(_.widgetType.orNull)))
-  }
-
-  def collectPageNamesWithQuestion(questionId: String): Seq[String] =
-    pages.filter(containsSectionWithQuestion(_, questionId)).map(_.name)
+/**
+  * QLS AST
+  */
+case class QLStylesheet(name: String, pages: Seq[Page], defaultStyles: Map[AnswerType, Styling]) {
 
   def collectAllQuestions(): Seq[Question] = pages.flatMap(_.sections.flatMap(_.questions))
 
   def collectQuestionsForPage(pageName: String): Seq[Question] =
     pages.filter(_.name == pageName).flatMap(_.sections.flatMap(_.questions))
-
-  private def containsSectionWithQuestion(page: Page, questionId: String): Boolean = {
-    page.sections.exists(containsQuestion(_, questionId))
-  }
-
-  private def containsQuestion(section: Section, questionId: String): Boolean = {
-    section.questions.exists(_.name == questionId)
-  }
 }
 
-case class Page(name: String, sections: Seq[Section])
+case class Page(name: String, sections: Seq[Section], defaultStyles: Map[AnswerType, Styling])
 
-case class Section(name: String, questions: Seq[Question])
+case class Section(name: String, questions: Seq[Question], defaultStyles: Map[AnswerType, Styling])
 
-case class Question(name: String, widgetType: Option[QLSWidgetType])
+case class Question(name: String, widgetType: Styling)
 
-abstract class QLSWidgetType
-case class QLSSpinBox() extends QLSWidgetType
-case class QLSCheckBox() extends QLSWidgetType
-case class QLSRadio(trueValue: String, falseValue: String) extends QLSWidgetType
-case class QLSComboBox(trueValue: String, falseValue: String) extends QLSWidgetType
+abstract class Style
+
+abstract class WidgetType extends Style {
+  def isCompatibleWith(answerType: AnswerType): Boolean
+}
+case class SpinBox() extends WidgetType {
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType == IntegerType
+}
+case class CheckBox() extends WidgetType {
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType == BooleanType
+}
+case class Radio(trueValue: String, falseValue: String) extends WidgetType {
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType == BooleanType
+}
+case class ComboBox(trueValue: String, falseValue: String) extends WidgetType {
+  override def isCompatibleWith(answerType: AnswerType): Boolean = answerType == BooleanType
+}
+
+case class FontType(name: String) extends Style
+case class FontSize(size: Int) extends Style
+case class Color(color: String) extends Style
+case class Width(width: Int) extends Style
+
+case class Styling(
+    widgetType: Option[WidgetType] = None,
+    width: Option[Width] = None,
+    color: Option[Color] = None,
+    fontType: Option[FontType] = None,
+    fontSize: Option[FontSize] = None) {
+
+  def ++(that: Styling): Styling = {
+    Styling(
+      that.widgetType.orElse(widgetType),
+      that.width.orElse(width),
+      that.color.orElse(color),
+      that.fontType.orElse(fontType),
+      that.fontSize.orElse(fontSize))
+  }
+}

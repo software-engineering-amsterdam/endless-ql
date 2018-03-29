@@ -14,6 +14,7 @@ public class Question extends Statement {
         this.type = type;
     }
 
+    @Override
     public String getId() {
         return this.id;
     }
@@ -33,6 +34,6 @@ public class Question extends Statement {
 
     @Override
     public String toString() {
-        return String.format("%s\t%s:%s", this.content, this.id, this.type);
+        return String.format("\"%s\"\t%s:%s", this.content, this.id, this.type);
     }
 }

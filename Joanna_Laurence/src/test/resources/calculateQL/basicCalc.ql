@@ -1,4 +1,4 @@
-//Q=3
+//AssertDisplayedQuestions=3
 //otherPrice:=IntValue 1
 form taxOfficeExample {
   "What was the selling price?"

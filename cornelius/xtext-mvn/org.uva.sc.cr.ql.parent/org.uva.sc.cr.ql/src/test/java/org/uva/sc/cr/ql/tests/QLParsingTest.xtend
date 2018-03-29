@@ -35,7 +35,7 @@ class QLParsingTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertNoErrors(result)
 	}
@@ -53,7 +53,7 @@ class QLParsingTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertNoErrors(result)
 	}
@@ -92,7 +92,7 @@ class QLParsingTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertNoErrors(result)
 	}

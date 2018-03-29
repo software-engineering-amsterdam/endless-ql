@@ -1,5 +1,6 @@
 package qlviz.gui.renderer.javafx;
 
+import com.google.inject.Inject;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -18,9 +19,10 @@ import java.util.function.Function;
 public class JavafxFormRenderer implements FormRenderer {
 
     protected final Stage stage;
-    protected final Function<Pane, QuestionRenderer> questionRendererFactory;
+    protected final QuestionRendererFactory questionRendererFactory;
 
-    public JavafxFormRenderer(Stage stage, Function<Pane, QuestionRenderer> questionRendererFactory) {
+    @Inject
+    public JavafxFormRenderer(Stage stage, QuestionRendererFactory questionRendererFactory) {
         this.stage = stage;
         this.questionRendererFactory = questionRendererFactory;
     }
@@ -31,7 +33,7 @@ public class JavafxFormRenderer implements FormRenderer {
 
         VBox formFieldsContainer = new VBox();
 
-        QuestionRenderer questionRenderer = questionRendererFactory.apply(formFieldsContainer);
+        QuestionRenderer questionRenderer = questionRendererFactory.create(formFieldsContainer);
         for (QuestionViewModel question : form.getQuestions()) {
             questionRenderer.render(question);
         }

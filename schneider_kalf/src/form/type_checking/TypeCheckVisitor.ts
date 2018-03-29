@@ -23,10 +23,11 @@ import BinaryOperator from "../nodes/expressions/BinaryOperator";
 import NodeVisitor from "../nodes/visitors/NodeVisitor";
 import FormNode from "../nodes/FormNode";
 import IfCondition from "../nodes/conditions/IfCondition";
-import ComputedField from "../nodes/fields/ComputedField";
+import ComputedField from "../nodes/fields/ComputedFieldNode";
 import QuestionNode from "../nodes/fields/QuestionNode";
 import DateLiteral from "../nodes/literals/DateLiteral";
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
+import { Maybe } from "../../helpers/type_helper";
 
 export class TypeCheckVisitor implements NodeVisitor {
   private _variables: VariablesInformation;
@@ -45,6 +46,9 @@ export class TypeCheckVisitor implements NodeVisitor {
 
   visitIfCondition(ifCondition: IfCondition) {
     const predicateType = ifCondition.predicate.accept(this);
+
+    ifCondition.getAllStatements().forEach(statement => statement.accept(this));
+
     return assertFieldType(predicateType, FieldType.Boolean);
   }
 
@@ -82,7 +86,7 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitVariableIdentifier(variable: VariableIdentifier): any {
-    const variableInformation: VariableInformation | undefined = this._variables.get(variable.identifier);
+    const variableInformation: Maybe<VariableInformation> = this._variables.get(variable.identifier);
 
     if (!variableInformation) {
       throw UnkownFieldError.make(variable.identifier);

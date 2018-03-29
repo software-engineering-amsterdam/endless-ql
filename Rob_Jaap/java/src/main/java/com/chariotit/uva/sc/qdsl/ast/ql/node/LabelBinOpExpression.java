@@ -1,9 +1,12 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.BinaryOperator;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.Operator;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
+
+import java.util.Set;
 
 public class LabelBinOpExpression extends Expression {
 
@@ -11,9 +14,11 @@ public class LabelBinOpExpression extends Expression {
     private Operator operator;
     private Expression expression;
 
-    public LabelBinOpExpression(LabelExpression labelExpression, Operator operator, Expression expression,
-                                Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public LabelBinOpExpression(LabelExpression labelExpression,
+                                Operator operator,
+                                Expression expression,
+                                SourceFilePosition filePosition) {
+        super(filePosition);
         this.labelExpression = labelExpression;
         this.operator = operator;
         this.expression = expression;
@@ -21,10 +26,6 @@ public class LabelBinOpExpression extends Expression {
 
     public LabelExpression getLabelExpression() {
         return labelExpression;
-    }
-
-    public void setLabelExpression(LabelExpression labelExpression) {
-        this.labelExpression = labelExpression;
     }
 
     public Operator getOperator() {
@@ -48,11 +49,16 @@ public class LabelBinOpExpression extends Expression {
         labelExpression.evaluate(symbolTable);
         expression.evaluate(symbolTable);
 
-        if (!(operator instanceof BinaryOperator)) {
-            throw new RuntimeException("Incompatible operator type");
-        }
+        setExpressionValue(((BinaryOperator)operator).evaluate(symbolTable, labelExpression,
+                expression));
+    }
 
-        setExpressionValue(((BinaryOperator)operator).evaluate(labelExpression, expression));
+    @Override
+    public Set<String> getPrerequisites() {
+        Set<String> set1 = expression.getPrerequisites();
+        Set<String> set2 = labelExpression.getPrerequisites();
+        set1.addAll(set2);
+        return set1;
     }
 
     @Override

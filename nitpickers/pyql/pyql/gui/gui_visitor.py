@@ -58,28 +58,28 @@ class GUIVisitor:
     @multimethod(ComputedQuestion)
     def visit(self, computed_question):
         try:
-            expression_evaluated_value = computed_question.expression.accept(self._expression_visitor)
+            expression_evaluated_value = computed_question.expression.accept(self._expression_visitor).value
         except KeyError:
             return False
 
         if expression_evaluated_value:
             identifier = computed_question.identifier.accept(self)
-            type = computed_question.question_type.accept(self)
+            question_type = computed_question.question_type.accept(self)
 
-            self._window.add_computed_question(identifier, computed_question.text, WidgetFactory.widget(type),
+            self._window.add_computed_question(identifier, computed_question.text, WidgetFactory.widget(question_type),
                                                expression_evaluated_value)
 
     @multimethod(Question)
     def visit(self, question):
         identifier = question.identifier.accept(self)
-        type = question.question_type.accept(self)
+        question_type = question.question_type.accept(self)
 
         try:
-            value = self._symbol_table.get(identifier)
+            value = self._symbol_table.get(identifier).value
         except KeyError:
             value = ""
 
-        self._window.add_question(identifier, question.text, WidgetFactory.widget(type), value)
+        self._window.add_question(identifier, question.text, WidgetFactory.widget(question_type), value)
 
     @multimethod(IfElse)
     def visit(self, if_else_statement):

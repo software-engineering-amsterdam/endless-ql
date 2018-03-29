@@ -2,8 +2,6 @@ package org.uva.gui.widgets;
 
 import org.uva.gui.QuestionChangeListener;
 import org.uva.ql.ast.Question;
-import org.uva.qls.ast.Style.Style;
-import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +28,7 @@ public abstract class QuestionWidget extends JPanel {
     }
 
     public void setFontSize(int fontSize) {
-        Font newFont = questionLabel.getFont().deriveFont((float)fontSize);
+        Font newFont = questionLabel.getFont().deriveFont((float) fontSize);
         questionLabel.setFont(newFont);
     }
 

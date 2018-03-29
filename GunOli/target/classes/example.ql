@@ -3,9 +3,10 @@ form testForm {
     if(q1){
         qq: "Are you sure?" boolean
         if(qq){
-            qqq: "Do you want to give your birtdate?" boolean
+            qqq: "Do you want to give your birthdate?" boolean
             if(q1 && qq){
                 q2: "What is your name?" string = "Mr. Sugarnips"
+                qw: "What is your name?" string
                 q3: "What is your favorite number?" integer
                 q5: "Favorite decimal (really..)?" decimal
                 q6: "How much money do you have?" money

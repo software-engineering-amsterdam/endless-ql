@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StyledFormContentComponent } from './styled-form-content.component';
 import {MaterialModule} from '../../material.module';
-import {DynamicFormQuestionComponent} from '../dynamic-form-question/dynamic-form-question.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {WidgetComponent} from '../widget/widget.component';
 import {CheckboxWidgetComponent} from '../widgets/checkbox-widget/checkbox-widget.component';
@@ -11,6 +10,7 @@ import {SpinboxWidgetComponent} from '../widgets/spinbox-widget/spinbox-widget.c
 import {SelectWidgetComponent} from '../widgets/select-widget/select-widget.component';
 import {SliderWidgetComponent} from '../widgets/slider-widget/slider-widget.component';
 import {TextWidgetComponent} from '../widgets/text-widget/text-widget.component';
+import {StyledFormSectionComponent} from '../styled-form-section/styled-form-section.component';
 
 describe('StyledFormContentComponent', () => {
   let component: StyledFormContentComponent;
@@ -20,6 +20,7 @@ describe('StyledFormContentComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         StyledFormContentComponent,
+        StyledFormSectionComponent,
         WidgetComponent,
         CheckboxWidgetComponent,
         RadioWidgetComponent,

@@ -25,4 +25,8 @@ public class QuestionValue extends Value {
     public NodeType getType() {
         return NodeType.UNKNOWN;
     }
+
+    public QuestionValue clone() throws CloneNotSupportedException {
+        return (QuestionValue) super.clone();
+    }
 }

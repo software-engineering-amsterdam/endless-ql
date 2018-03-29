@@ -109,5 +109,5 @@ question
     ;
 
 ifBlock
-    : IF LP expression RP formBlock
+    : IF LP expression RP NAME formBlock
     ;

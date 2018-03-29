@@ -1,14 +1,60 @@
 package ql.evaluator;
 
+import ql.ast.Form;
 import ql.ast.expressions.binary.*;
-import ql.ast.expressions.literals.Identifier;
+import ql.ast.expressions.Identifier;
+import ql.ast.expressions.literals.BooleanLiteral;
+import ql.ast.expressions.literals.IntegerLiteral;
 import ql.ast.expressions.literals.StringLiteral;
-import ql.values.StringValue;
-import ql.values.Value;
+import ql.ast.statements.*;
+import ql.values.*;
 import ql.visitors.ExpressionVisitor;
+import ql.visitors.FormVisitor;
+import ql.visitors.StatementVisitor;
 
-public class Evaluator implements ExpressionVisitor<Value> {
+import java.util.ArrayList;
+import java.util.List;
 
+public class Evaluator implements FormVisitor, StatementVisitor<Void>, ExpressionVisitor<Value> {
+    private final ValueTable valueTable = new ValueTable();
+    private List<Question> questions = new ArrayList<>();
+
+    //<editor-fold desc="FormVisitor">
+    @Override
+    public void visit(Form form) {
+        for (Statement statement : form.getStatements()) {
+            statement.accept(this);
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="StatementVisitor">
+    @Override
+    public Void visit(CalculableQuestion calculableQuestion) {
+        return null;
+    }
+
+    @Override
+    public Void visit(IfThen ifThen) {
+        return null;
+    }
+
+    @Override
+    public Void visit(IfThenElse ifThenElse) {
+        return null;
+    }
+
+    @Override
+    public Void visit(Question question) {
+        if (!valueTable.exists(question.getIdentifier())) {
+            valueTable.add(question.getIdentifier(), new Undefined());
+        }
+        questions.add(question);
+        return null;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="ExpressionVisitor">
     public Value visit(Addition addition) {
         Value leftOperand = addition.getLeftExpression().accept(this);
         Value rightOperand = addition.getRightExpression().accept(this);
@@ -83,13 +129,29 @@ public class Evaluator implements ExpressionVisitor<Value> {
         return leftOperand.subtract(rightOperand);
     }
 
-    // TODO implement this method
     public Value visit(Identifier identifier) {
-        return null;
+        return valueTable.find(identifier);
     }
 
-    // TODO implement this method
+    @Override
+    public Value visit(BooleanLiteral booleanLiteral) {
+        return new BooleanValue(booleanLiteral.getValue());
+    }
+
+    @Override
+    public Value visit(IntegerLiteral integerLiteral) {
+        return new IntegerValue(integerLiteral.getValue());
+    }
+
     public Value visit(StringLiteral stringLiteral) {
         return new StringValue(stringLiteral.getValue());
+    }
+    //</editor-fold>
+
+    public List<Question> questions() {
+        return questions;
+    }
+    public ValueTable valueTable() {
+        return valueTable;
     }
 }

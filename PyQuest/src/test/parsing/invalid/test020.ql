@@ -1,5 +1,5 @@
 form label {
-    if (0 - 0) {
+    if (1 + 2) {
         "Question?"
         id : boolean
     }

@@ -1,52 +1,55 @@
+# Lars Lokhoff, Timo Dobber
+# This class defines the structure of the QL AST.
+
 class QLast(object):
-    pass
+    
+    def getNodeType(self):
+        return self.node_type
+
 
 class FormNode(QLast):
     def __init__(self, name):
+        self.node_type = "form"
         self.name = name
         self.statements = []
 
     def __repr__(self):
         return "Form: {}, statements: {}".format(self.name, self.statements)
 
+
 class QuestionNode(QLast):
-    def __init__(self, question, var, vartype):
+    def __init__(self, question, variable, variable_type):
         self.node_type = "question"
         self.question = question
-        self.var = var
-        self.vartype = vartype
+        self.variable = variable
+        self.variable_type = variable_type
 
     def __repr__(self):
-        return "Question({}, {}, {})".format(self.question, self.var, self.vartype)
-
-    def getNodeType(self):
-        return self.node_type
+        return "Question({}, {}, {})".format(self.question, self.variable, self.variable_type)
 
     def getVariableName(self):
-        return self.var
+        return self.variable
 
     def getVariableType(self):
-        return self.vartype
+        return self.variable_type
+
 
 class AssignmentNode(QLast):
-    def __init__(self, name, var, vartype, expression):
+    def __init__(self, name, variable, variable_type, expression):
         self.node_type = "assignment"
         self.name = name
-        self.var = var
-        self.vartype = vartype
+        self.variable = variable
+        self.variable_type = variable_type
         self.expression = expression
 
     def __repr__(self):
-        return "Assignment: {} {} {} = {}".format(self.name, self.vartype, self.var, self.expression)
-
-    def getNodeType(self):
-        return self.node_type
+        return "Assignment: {} {} {} = {}".format(self.name, self.variable_type, self.variable, self.expression)
 
     def getVariableName(self):
-        return self.var
+        return self.variable
 
     def getVariableType(self):
-        return self.vartype
+        return self.variable_type
 
 
 class BinOpNode(QLast):
@@ -60,20 +63,16 @@ class BinOpNode(QLast):
     def __repr__(self):
         return "binop: negate:{} {} {} {}".format(self.negate, self.left, self.op, self.right)
 
-    def getNodeType(self):
-        return self.node_type
 
 class UnOpNode(QLast):
-    def __init__(self, var, negate=False):
+    def __init__(self, variable, negate=False):
         self.node_type = "unop"
-        self.var = var
+        self.variable = variable
         self.negate = negate
 
     def __repr__(self):
-        return "unop: negate:{} {}".format(self.negate, self.var)
+        return "unop: negate:{} {}".format(self.negate, self.variable)
 
-    def getNodeType(self):
-        return self.nodeType
 
 class IfNode(QLast):
     def __init__(self, expression):
@@ -84,8 +83,6 @@ class IfNode(QLast):
     def __repr__(self):
         return "If expression: {}, statements: {}".format(self.expression, self.statements)
 
-    def getNodeType(self):
-        return self.node_type
 
 class ElifNode(QLast):
     def __init__(self, expression):
@@ -96,8 +93,6 @@ class ElifNode(QLast):
     def __repr__(self):
         return "Elif expression: {}, statements: {}".format(self.expression, self.statements)
 
-    def getNodeType(self):
-        return self.node_type
 
 class ElseNode(QLast):
     def __init__(self):
@@ -107,17 +102,13 @@ class ElseNode(QLast):
     def __repr__(self):
         return "Else statements: {}".format(self.statements)
 
-    def getNodeType(self):
-        return self.node_type
 
 class LiteralNode(QLast):
-    def __init__(self, literal, negate=False):
+    def __init__(self, literal, variable_type, negate=False):
         self.node_type = "literal"
         self.literal = literal
+        self.variable_type = variable_type
         self.negate = negate
 
     def __repr__(self):
         return "Litaral negate: {} {}".format(self.negate, self.literal)
-
-    def getNodeType(self):
-        return self.node_type

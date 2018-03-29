@@ -1,6 +1,6 @@
 from tkinter import ttk
-from pyql.ast.expression.literals import *
 from decimal import Decimal, InvalidOperation
+from pyql.util.values import *
 
 
 class ValidatingEntry(ttk.Entry):
@@ -20,7 +20,7 @@ class IntegerWidget(ValidatingEntry):
 
     def get(self):
         try:
-            return IntegerLiteral("", super().get())
+            return IntegerValue(super().get())
         except ValueError:
             return None
 
@@ -43,11 +43,12 @@ class DecimalWidget(ValidatingEntry):
 
     def __init__(self, parent, identifier, value=""):
         super().__init__(parent, width=20, name=identifier)
+        print("widgetValue", value)
         super().insert(0, value)
 
     def get(self):
         try:
-            return DecimalLiteral("", super().get())
+            return DecimalValue(super().get())
         except (ValueError, InvalidOperation):
             return None
 
@@ -73,7 +74,7 @@ class MoneyWidget(ValidatingEntry):
 
     def get(self):
         try:
-            return MoneyLiteral("", super().get())
+            return MoneyValue(super().get())
         except (ValueError, InvalidOperation):
             return None
 
@@ -101,7 +102,7 @@ class StringWidget(ttk.Entry):
 
     def get(self):
         try:
-            return StringLiteral("", super().get())
+            return StringValue(super().get())
         except ValueError:
             return None
 
@@ -112,18 +113,24 @@ class StringWidget(ttk.Entry):
 class BooleanWidget(ttk.Checkbutton):
 
     def __init__(self, parent, identifier, value=False):
-        super().__init__(parent, width=20, name=identifier, command=(parent.register(self.onchange)))
+        self._value = tk.IntVar()
+
         if value:
-            super().state(['selected'])
+            self._value.set(1)
+        else:
+            self._value.set(0)
+        super().__init__(parent, width=20, name=identifier, command=(parent.register(self.onchange)),
+                         variable=self._value)
+        self.onchange()
 
     def get(self):
         try:
-            return BooleanLiteral("", super().instate(['selected']))
+            return BooleanValue(self._value.get())
         except ValueError:
             return None
 
     def onchange(self):
-        selected = super().instate(['selected'])
+        selected = self._value.get()
         if selected:
             self.config(text="yes")
         else:
@@ -131,3 +138,31 @@ class BooleanWidget(ttk.Checkbutton):
 
     def __repr__(self):
         return "BooleanWidget"
+
+
+class RadioWidget(ttk.Frame):
+
+    def __init__(self, parent, identifier, state=False):
+        super().__init__(parent, name=identifier)
+        print("radio", state, type(state))
+        self.root = parent
+
+        self._state = tk.BooleanVar()
+        if state:
+            self._state.set(True)
+
+        self._radio_yes = tk.Radiobutton(self, text="yes", variable=self._state, value=True)
+        self._radio_no = tk.Radiobutton(self, text="no", variable=self._state, value=False)
+
+        self._radio_yes.grid(column=0, row=0, padx=5)
+        self._radio_no.grid(column=1, row=0, padx=5)
+
+    def get(self):
+        print("self._state", self._state.get())
+        try:
+            return BooleanValue(self._state.get())
+        except ValueError:
+            return None
+
+    def __repr__(self):
+        return "RadioWidget"

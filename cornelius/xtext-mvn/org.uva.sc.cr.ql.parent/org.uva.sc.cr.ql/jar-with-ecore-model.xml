@@ -15,5 +15,13 @@
 			<outputDirectory>model/generated</outputDirectory>
 			<directory>model/generated</directory>
 		</fileSet>
+		<fileSet>
+			<outputDirectory>/</outputDirectory>
+			<directory>src/main/java</directory>
+			<excludes>
+				<exclude>**/*.xtend</exclude>
+				<exclude>**/*.java</exclude>
+			</excludes>
+		</fileSet>
 	</fileSets>
 </assembly>

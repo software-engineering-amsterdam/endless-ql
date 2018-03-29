@@ -5,11 +5,6 @@ import qlviz.gui.viewModel.numericExpressions.NumericLiteralViewModel;
 import qlviz.gui.viewModel.numericExpressions.NumericNegationViewModel;
 import qlviz.gui.viewModel.numericExpressions.NumericQuestionReferenceViewModel;
 import qlviz.gui.viewModel.question.NumericQuestionViewModel;
-import qlviz.model.numericExpressions.BinaryNumericOperation;
-import qlviz.model.numericExpressions.NumericLiteral;
-import qlviz.model.numericExpressions.NumericNegation;
-import qlviz.model.question.NumericQuestion;
-import qlviz.model.question.NumericQuestionReference;
 
 import java.util.Map;
 

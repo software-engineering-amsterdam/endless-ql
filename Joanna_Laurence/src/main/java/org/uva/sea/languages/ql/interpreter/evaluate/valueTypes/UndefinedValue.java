@@ -377,4 +377,8 @@ public class UndefinedValue extends Value {
     public NodeType getType() {
         return NodeType.UNKNOWN;
     }
+
+    public UndefinedValue clone() throws CloneNotSupportedException {
+        return (UndefinedValue) super.clone();
+    }
 }

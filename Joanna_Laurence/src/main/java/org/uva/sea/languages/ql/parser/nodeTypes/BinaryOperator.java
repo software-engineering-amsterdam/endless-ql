@@ -2,13 +2,14 @@ package org.uva.sea.languages.ql.parser.nodeTypes;
 
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.languages.ql.parser.elements.ASTNode;
+import org.uva.sea.languages.ql.parser.elements.expressions.Expression;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
-public abstract class BinaryOperator extends ASTNode {
-    private final ASTNode leftHandSide;
-    private final ASTNode rightHandSide;
+public abstract class BinaryOperator extends Expression {
+    private final Expression leftHandSide;
+    private final Expression rightHandSide;
 
-    public BinaryOperator(Token token, ASTNode leftHandSide, ASTNode rightHandSide) {
+    protected BinaryOperator(Token token, Expression leftHandSide, Expression rightHandSide) {
         super(token);
         this.leftHandSide = leftHandSide;
         this.rightHandSide = rightHandSide;

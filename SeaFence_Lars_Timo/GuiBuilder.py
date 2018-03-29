@@ -1,136 +1,97 @@
 # Lars Lokhoff, Timo Dobber
-# This class holds all functions related to building the gui according to the AST
+# This class holds all functions related to building the gui according to the QL AST
+
 from Gui import Gui
 from QLast import *
 import operator as op
 from Tkinter import *
+from QLSGuiBuilder import QLSGuiBuilder
 
-class GuiBuilder():
-    def __init__(self, ast):
+class GuiBuilder(object):
+    def __init__(self, ql_ast, qls_ast=None):
         self.gui = Gui()
-        self.ast = ast
-        self.form_name = ast.name
-
-        self.values = []
-        self.frames = {}
+        self.ql_ast = ql_ast
+        self.qls_ast = qls_ast
         self.frame_order = []
+        self.rendered_frame_order = []
         self.frame_counter = 0
+        self.done_rendering = False
 
-        self.parseStatements(ast)
+        self.parseQLAST(ql_ast)
 
-    # Update the form if a value in the form has changed
+        if qls_ast:
+            self.QLSBuilder = QLSGuiBuilder(self.gui, qls_ast)
+            self.frame_order = self.QLSBuilder.parseQLSAST(self.frame_order)
+
+        self.renderWidgets()
+        self.rendered_frame_order = self.frame_order
+        self.frame_order = []
+
     def updateForm(self, name='', index='', mode=''):
-        self.frame_counter = 0
-        self.parseStatements(self.ast)
+        if not self.rendering:
+            self.frame_counter = 0
+            self.parseQLAST(self.ql_ast)
+        
+            if self.qls_ast:
+                self.frame_order = self.QLSBuilder.parseQLSAST(self.frame_order)
 
-    # Walk the AST and render gui items
-    def parseStatements(self, form):  
-        for statement in form.statements:
-            getType = statement.returnNodeType()
-            print nodeType
-            if type(statement) is QuestionNode:
-                self.checkWidgetPosition(statement.var)
-                self.parseQuestion(statement)
+            self.renderWidgets()
+            self.rendered_frame_order = self.frame_order
+            self.frame_order = []
+            self.rendering = False
 
-            elif type(statement) is AssignmentNode:
-                self.checkWidgetPosition(statement.var)
-                self.parseAssignment(statement)
+    def parseQLAST(self, ast):
+        for node in ast.statements:
+            node_type = node.getNodeType()
+            if node_type is "question":
+                self.parseQLQuestion(node)
 
-            elif type(statement) is IfNode:
-                if self.checkExpressionvalues(statement.expression):
+            elif node_type is "assignment":
+                self.parseAssignment(node)
+
+            elif node_type is "if":
+                if self.checkExpressionValues(node.expression):
                     condional_shown = True
-                    self.parseStatements(statement)
+                    self.parseQLAST(node)
                 else:
                     condional_shown = False
 
-            elif type(statement) is ElifNode and not condional_shown:
-                if self.checkExpressionvalues(statement.expression):
+            elif node_type is "elif" and not condional_shown:
+                if self.checkExpressionValues(node.expression):
                     condional_shown = True
-                    self.parseStatements(statement)
+                    self.parseQLAST(node)
                 else:
                     condional_shown = False
 
-            elif type(statement) is ElseNode and not condional_shown:
-                self.parseStatements(statement)
+            elif node_type is "else" and not condional_shown:
+                self.parseQLAST(node)
 
-    def checkWidgetPosition(self, var):
-        if len(self.frame_order) > 0  and self.frame_counter < len(self.frame_order) and self.frame_order[self.frame_counter] is not var:
-            self.removeFrames(self.frame_order[self.frame_counter:])
-            self.frame_order = self.frame_order[:self.frame_counter]
-
-    # Parse a question statement and render it
-    def parseQuestion(self, statement):
-        if statement.var not in self.frames:
-            if statement.vartype == "boolean":
-                if statement.var not in self.values:        
-                    self.frames[statement.var] = self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes", self.updateForm)
-                    self.values.append(statement.var)
-                else:
-                    self.frames[statement.var] = self.gui.addBooleanQuestion(statement.var, statement.question, "No", "Yes", self.updateForm, self.gui.values[statement.var])
-
-                self.frame_order.append(statement.var)
-
-            elif statement.vartype == "int":
-                if statement.var not in self.values:        
-                    self.frames[statement.var] = self.gui.addIntQuestion(statement.var, statement.question, self.updateForm)
-                    self.values.append(statement.var)
-                else:
-                    self.frames[statement.var] = self.gui.addIntQuestion(statement.var, statement.question, self.updateForm, self.gui.values[statement.var])
-                
-                self.frame_order.append(statement.var)
-
-        self.frame_counter += 1
-
-    # Parse an assignment and render it according to filled in values
+    def parseQLQuestion(self, statement):
+        if statement.variable not in self.gui.values: 
+            self.gui.createTKTraceVariable(statement.variable, statement.variable_type, self.updateForm) 
+           
+        self.gui.widget_settings[statement.variable] = ["question", statement.variable_type, statement.question, self.gui.window]
+        self.frame_order.append(statement.variable)
+    
     def parseAssignment(self, statement):
         result = self.parseBinOpAssignment(statement.expression)
-        if statement.var not in self.frames:
-            if statement.var not in self.values:
-                self.values.append(statement.var)
-                self.frames[statement.var] = self.gui.addAssignment(statement.var, statement.name, result)
-            else:
-                self.frames[statement.var] = self.gui.addAssignment(statement.var, statement.name, result, self.gui.values[statement.var])
-            
-            self.frame_order.append(statement.var)
+
+        if statement.variable not in self.gui.values:
+            self.gui.createTKNoTraceVariable(statement.variable, statement.variable_type)
         else:
-            self.gui.updateValue(statement.var, result)
+            self.gui.updateValue(statement.variable, result) 
 
-        self.frame_counter += 1
+        self.gui.widget_settings[statement.variable] = ["assignment", statement.name, result, self.gui.window]
+        self.frame_order.append(statement.variable)
 
-    # Parse an assignment and return its value
-    def parseBinOpAssignment(self, statement):
-        if type(statement) is BinOpNode:
-            left = self.parseBinOpAssignment(statement.left)
-            right = self.parseBinOpAssignment(statement.right)
-            return self.getOperator(statement.op)(left, right)
-
-        if type(statement) is UnOpNode:
-            return self.gui.getValue(statement.var, "int")
-
-        if type(statement) is LiteralNode:
-            return int(statement.literal)
-
-    # Remove a frame and its content
-    def removeFrame(self, var_frame):
-        if var_frame in self.frames:
-            self.frames[var_frame].destroy()
-            del self.frames[var_frame]
-
-    # Remove a list of frames
-    def removeFrames(self, frame_list):
-        print "Removing frames: ", frame_list
-        for var_frame in frame_list:
-            self.removeFrame(var_frame)
-
-    # Function that checks if the expression variables match the needed values to show the block
-    def checkExpressionvalues(self, expression):
+    def checkExpressionValues(self, expression):
         if type(expression) is BinOpNode:
             if expression.op == "&&":
-                if self.checkExpressionvalues(expression.left) and self.checkExpressionvalues(expression.right):
+                if self.checkExpressionValues(expression.left) and self.checkExpressionValues(expression.right):
                     return True
 
             if expression.op == "||":
-                if self.checkExpressionvalues(expression.left) or self.checkExpressionvalues(expression.right):
+                if self.checkExpressionValues(expression.left) or self.checkExpressionValues(expression.right):
                     return True
 
             else:
@@ -139,16 +100,106 @@ class GuiBuilder():
                 result = self.getOperator(expression.op)(left, right)
                 return result
 
-
         if type(expression) is UnOpNode:
-            if not expression.negate and self.gui.values[expression.var].get() == 1:
+            if expression.negate == False and (self.gui.values[expression.variable].get() == "0" or self.gui.values[expression.variable].get() == "Yes"):
                 return True
-            elif expression.negate and self.gui.values[expression.var].get() == 0:
+            elif expression.negate and (self.gui.values[expression.variable].get() == "1" or self.gui.values[expression.variable].get() == "No"):
                 return True
+
+        if type(expression) is LiteralNode:
+            if expression.variable_type == u"int":
+                if not expression.negate and int(expression.literal) == 1:
+                    return True
+                elif expression.negate and int(expression.literal) == 0:
+                    return True
+
+            elif expression.variable_type == u"boolean":
+                if not expression.negate and expression.literal == "true":
+                    return True
+                elif expression.negate and expression.literal == "false":
+                    return True
 
         return False
 
-    # Function to operate on expressions
+    def parseBinOpAssignment(self, statement):
+        if type(statement) is BinOpNode:
+            left = self.parseBinOpAssignment(statement.left)
+            right = self.parseBinOpAssignment(statement.right)
+            return self.getOperator(statement.op)(left, right)
+
+        if type(statement) is UnOpNode:
+            return self.gui.getValue(statement.variable, "int")
+
+        if type(statement) is LiteralNode:
+            return int(statement.literal)
+
+    def renderWidgets(self):
+        self.rendering = True
+
+        for widget_variable in self.frame_order:
+            widget_info = self.gui.widget_settings[widget_variable]
+            widget_type = widget_info[0]
+
+            if (widget_type == "question" or widget_type == "radio") and self.checkRenderWidget(widget_variable):
+                self.renderQuestion(widget_variable, widget_info)
+            if widget_type == "checkbox" and self.checkRenderWidget(widget_variable):
+                self.renderCheckboxQuestion(widget_variable, widget_info)
+            elif widget_type == "assignment" and self.checkRenderWidget(widget_variable):   
+                self.renderAssignment(widget_variable, widget_info)
+            elif widget_type == "spinbox" and self.checkRenderWidget(widget_variable):
+                self.renderSpinBoxQuestion(widget_variable, widget_info)
+            elif widget_type == "slider" and self.checkRenderWidget(widget_variable):
+                self.renderSliderQuestion(widget_variable, widget_info)
+            elif widget_type == "dropdown" and self.checkRenderWidget(widget_variable):
+                self.renderDropdownQuestion(widget_variable, widget_info)
+
+            self.frame_counter += 1
+
+        self.removeExcessWidgets()
+        self.rendering = False
+
+    def renderQuestion(self, widget_variable, widget_info):
+        if widget_info[1] == "boolean":
+            if len(widget_info) > 4:
+                self.gui.addBooleanQuestion(widget_variable, widget_info[2], "Yes", "No", widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
+            else:
+                self.gui.addBooleanQuestion(widget_variable, widget_info[2], "Yes", "No", widget_info[3])
+        
+        elif widget_info[1] == "int" or widget_info[1] == "money":
+            if len(widget_info) > 4:
+                self.gui.addIntQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
+            else:
+                self.gui.addIntQuestion(widget_variable, widget_info[2], widget_info[3])
+
+    def renderAssignment(self, widget_variable, widget_info):
+        self.gui.addAssignment(widget_variable, widget_info[1], widget_info[2], widget_info[3])
+
+    def renderSpinBoxQuestion(self, widget_variable, widget_info):
+        self.gui.addSpinBoxQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7], widget_info[8], widget_info[9])
+
+    def renderSliderQuestion(self, widget_variable, widget_info):
+        self.gui.addSliderQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7], widget_info[8], widget_info[9])
+
+    def renderDropdownQuestion(self, widget_variable, widget_info):
+        self.gui.addBooleanDropdownQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
+
+    def renderCheckboxQuestion(self, widget_variable, widget_info):
+        self.gui.addCheckboxQuestion(widget_variable, widget_info[2], widget_info[3], widget_info[4], widget_info[5], widget_info[6], widget_info[7])
+    
+    def checkRenderWidget(self, var):
+        if len(self.rendered_frame_order) > 0 and len(self.rendered_frame_order) > self.frame_counter  and self.rendered_frame_order[self.frame_counter] is not var:
+            self.gui.removeFrames(self.rendered_frame_order[self.frame_counter:])
+            self.rendered_frame_order = self.rendered_frame_order[:self.frame_counter]
+            return True
+        elif len(self.rendered_frame_order) <= self.frame_counter:
+            return True
+
+        return False
+
+    def removeExcessWidgets(self):
+        if self.frame_counter < len(self.rendered_frame_order):
+            self.gui.removeFrames(self.rendered_frame_order[self.frame_counter:])
+
     def getOperator(self, operator):
         return {
             '+' : op.add,

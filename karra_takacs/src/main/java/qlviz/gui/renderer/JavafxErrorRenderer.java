@@ -6,9 +6,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import qlviz.typecheker.AnalysisResult;
+import qlviz.analyzer.AnalysisResult;
 
 import java.util.List;
 

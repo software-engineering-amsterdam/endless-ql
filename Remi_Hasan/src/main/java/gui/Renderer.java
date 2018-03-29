@@ -90,11 +90,11 @@ public class Renderer extends Application {
         GUIFormBuilder guiFormBuilder = new GUIFormBuilder();
 
         GUIForm guiForm;
-//        if (this.qlsStyleSheet != null) {
-//            guiForm = guiFormBuilder.buildQLSForm(qlEvaluator.getForm(), this.qlsStyleSheet);
-//        } else {
+        if (this.qlsStyleSheet != null) {
+            guiForm = guiFormBuilder.buildQLSForm(qlEvaluator.getForm(), this.qlsStyleSheet);
+        } else {
             guiForm = guiFormBuilder.buildQLForm(qlEvaluator.getForm());
-//        }
+        }
 
         GUIController guiController = new GUIController(qlEvaluator);
 

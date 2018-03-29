@@ -1,33 +1,20 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public abstract class AstNode {
 
-    private Integer lineNumber;
-    private Integer columnNumber;
+    private SourceFilePosition sourceFilePosition;
 
-    public AstNode(Integer lineNumber, Integer columnNumber) {
-        this.lineNumber = lineNumber;
-        this.columnNumber = columnNumber;
-    }
-
-    public Integer getLineNumber() {
-        return lineNumber;
-    }
-
-    public void setLineNumber(Integer lineNumber) {
-        this.lineNumber = lineNumber;
-    }
-
-    public Integer getColumnNumber() {
-        return columnNumber;
-    }
-
-    public void setColumnNumber(Integer columnNumber) {
-        this.columnNumber = columnNumber;
+    public AstNode(SourceFilePosition sourceFilePosition) {
+        this.sourceFilePosition = sourceFilePosition;
     }
 
     public abstract void acceptVisitor(NodeVisitor visitor);
+
+    public SourceFilePosition getSourceFilePosition() {
+        return sourceFilePosition;
+    }
 }
 

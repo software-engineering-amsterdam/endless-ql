@@ -1,46 +1,18 @@
 package ql.gui.widget;
 
-import javax.swing.SwingUtilities;
+import javax.swing.JComponent;
 
 import ql.visiting.value.Value;
-import ql.visiting.EvaluationContext;
 
 
-public abstract class Widget implements WidgetInterface {
-	
-	private String variable;
-	private Value defaultValue;
-	private EvaluationContext ctx;
-	
-	//preparation for interactive gui & qls
-	public abstract Value getValueFromUI();
-	public abstract void setValueToUI(Value value);
+public interface Widget {
 
-	// constructor
-	public Widget(String variable, Value defaultValue, EvaluationContext ctx) {
-		this.variable = variable;
-		this.defaultValue = defaultValue;
-		ctx.setValue(this.variable, this.defaultValue);
-		this.ctx = ctx;
-	}
+	public JComponent getJComponent();
+	public WidgetConfiguration getConfiguration();
+	public void setConfiguration(WidgetConfiguration style);
+	public Value getValue();
+	public void setValue(Value value);
 
-	public Value getDefaultValue() {
-		return defaultValue;
-	}
-	
-	@Override
-	public Value getValue() {
-		return getValueFromUI();
-	}
-	
-	@Override
-	public void setValue(Value value) {
-		ctx.setValue(variable, value);
-		// threading, value changed
-		SwingUtilities.invokeLater(() -> {
-			if (!getValueFromUI().equals(value)){
-				setValueToUI(value);
-			}
-		});
-	}
+	public void setEditability(boolean editable);
+	public void setVisibility(boolean visible);
 }

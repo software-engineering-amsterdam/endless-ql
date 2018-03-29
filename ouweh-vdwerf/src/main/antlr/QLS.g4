@@ -18,9 +18,12 @@ segment: question
        | section
        ;
 
-defaultStatement: 'default' type widget
-                | 'default' type style
+defaultStatement: defaultStyleStatement
+                | defaultWidgetStatement
                 ;
+
+defaultWidgetStatement: 'default' type widget ;
+defaultStyleStatement: 'default' type style ;
 
 question: 'question' id=ID widget?
         | 'question' id=ID style?

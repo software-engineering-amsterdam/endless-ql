@@ -1,7 +1,8 @@
 package GUI;
 import java.io.File;
 
-import QL.ParseObjectsQL.Form;
+import QL.Analysis.TypeChecker;
+import QL.AST.Form;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -37,6 +38,9 @@ public class QLUserInterface {
 
             Form form = parser.parseInputToForm(formFile.getPath());
 
+            performAnalysis(form);
+
+            //todo: static analysis typechecker
             Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
 
             //parser.printQLForm(form); //debug print the form questions in console
@@ -47,6 +51,12 @@ public class QLUserInterface {
         });
 
         layout.getChildren().add(debugBtn);
+    }
+
+    public void performAnalysis(Form form){
+        TypeChecker typechecker = new TypeChecker(form, form.getExpressionTable());
+        typechecker.typeCheck();
+        typechecker.detectLabelDuplication();
     }
 
     private void createBrowseButton(Stage stage, HBox layout){

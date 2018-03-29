@@ -4,7 +4,7 @@ using NUnit.Framework;
 using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
-namespace UnitTests.UI.UnitTests
+namespace QL.UnitTests.UI.UnitTests
 {
     [TestFixture]
     public class ChangeNotificationCollectionTests

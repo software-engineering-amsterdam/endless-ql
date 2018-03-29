@@ -1,58 +1,33 @@
 package ui.model
 
-import data.question.Question
-import data.question.SymbolType
-import javafx.beans.property.SimpleBooleanProperty
-import javafx.beans.property.SimpleIntegerProperty
-import javafx.beans.property.SimpleObjectProperty
-import javafx.beans.property.SimpleStringProperty
-import tornadofx.ItemViewModel
+import doge.data.question.Question
 import ui.controller.DogeController
-import java.math.BigDecimal
+import tornadofx.ItemViewModel
 
-class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
+abstract class QuestionModel(question: Question) : ItemViewModel<Question>(question) {
 
-    var integerValue = SimpleIntegerProperty()
-    var booleanValue = SimpleBooleanProperty()
-    var stringValue = SimpleStringProperty()
-    var decimalValue = SimpleObjectProperty<BigDecimal>()
-    var moneyValue = SimpleObjectProperty<BigDecimal>()
+    var readOnly = question.readOnly
 
     private val dogeController: DogeController by inject()
     private val questionFormModel: QuestionFormModel by inject()
-
-    init {
-        when (item.value.type) {
-            SymbolType.INTEGER -> integerValue = bind { SimpleIntegerProperty(item.value.integerValue.value) }
-            SymbolType.BOOLEAN -> booleanValue = bind { SimpleBooleanProperty(item.value.booleanValue.value) }
-            SymbolType.STRING -> stringValue = bind { SimpleStringProperty(item.value.stringValue.value) }
-            SymbolType.DECIMAL -> decimalValue = bind { SimpleObjectProperty<BigDecimal>(item.value.decimalValue.value) }
-            SymbolType.MONEY -> moneyValue = bind { SimpleObjectProperty<BigDecimal>(item.value.moneyValue.value) }
-            else -> throw IllegalArgumentException("${item.value.type} unsupported type")
-        }
-    }
 
     override fun onCommit() {
         synchronizeDataModel()
     }
 
-    fun update(){
+    fun update() {
         // Only update if there are changes
-        if (dirtyProperties.size > 0) {
+        // Added this check to remove unnecessary updates
+        if (dirtyProperties.size > 0 && dirtyProperties.first() != null) {
             synchronizeDataModel()
             dogeController.updateQuestion(item)
             questionFormModel.load()
         }
     }
 
-    private fun synchronizeDataModel() = when (item.value.type) {
-        SymbolType.STRING -> item.value.stringValue.value = stringValue.value
-        SymbolType.BOOLEAN -> item.value.booleanValue.value = booleanValue.value
-        SymbolType.INTEGER -> item.value.integerValue.value = integerValue.value
-        SymbolType.DECIMAL -> item.value.decimalValue.value = decimalValue.value
-        SymbolType.MONEY -> item.value.moneyValue.value = moneyValue.value
-        else -> throw IllegalArgumentException("${item.value.type} unsupported type")
-    }
+    abstract fun setViewModelValue(question: Question)
+
+    abstract fun synchronizeDataModel()
 }
 
 

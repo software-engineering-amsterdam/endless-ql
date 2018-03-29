@@ -80,15 +80,15 @@ class QLParser ( Parser ):
     RULE_conditional = 5
     RULE_expression = 6
     RULE_form_id = 7
-    RULE_var = 8
-    RULE_vartype = 9
+    RULE_variable = 8
+    RULE_variable_type = 9
     RULE_if_cond = 10
     RULE_elif_cond = 11
     RULE_else_cond = 12
 
     ruleNames =  [ u"form", u"block", u"statement", u"assignment", u"question", 
-                   u"conditional", u"expression", u"form_id", u"var", u"vartype", 
-                   u"if_cond", u"elif_cond", u"else_cond" ]
+                   u"conditional", u"expression", u"form_id", u"variable", 
+                   u"variable_type", u"if_cond", u"elif_cond", u"else_cond" ]
 
     EOF = Token.EOF
     T__0=1
@@ -310,12 +310,12 @@ class QLParser ( Parser ):
         def STR(self):
             return self.getToken(QLParser.STR, 0)
 
-        def var(self):
-            return self.getTypedRuleContext(QLParser.VarContext,0)
+        def variable(self):
+            return self.getTypedRuleContext(QLParser.VariableContext,0)
 
 
-        def vartype(self):
-            return self.getTypedRuleContext(QLParser.VartypeContext,0)
+        def variable_type(self):
+            return self.getTypedRuleContext(QLParser.Variable_typeContext,0)
 
 
         def expression(self):
@@ -343,11 +343,11 @@ class QLParser ( Parser ):
             self.state = 45
             self.match(QLParser.STR)
             self.state = 46
-            self.var()
+            self.variable()
             self.state = 47
             self.match(QLParser.T__3)
             self.state = 48
-            self.vartype()
+            self.variable_type()
             self.state = 49
             self.match(QLParser.T__4)
             self.state = 50
@@ -369,12 +369,12 @@ class QLParser ( Parser ):
         def STR(self):
             return self.getToken(QLParser.STR, 0)
 
-        def var(self):
-            return self.getTypedRuleContext(QLParser.VarContext,0)
+        def variable(self):
+            return self.getTypedRuleContext(QLParser.VariableContext,0)
 
 
-        def vartype(self):
-            return self.getTypedRuleContext(QLParser.VartypeContext,0)
+        def variable_type(self):
+            return self.getTypedRuleContext(QLParser.Variable_typeContext,0)
 
 
         def getRuleIndex(self):
@@ -398,11 +398,11 @@ class QLParser ( Parser ):
             self.state = 52
             self.match(QLParser.STR)
             self.state = 53
-            self.var()
+            self.variable()
             self.state = 54
             self.match(QLParser.T__3)
             self.state = 55
-            self.vartype()
+            self.variable_type()
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -496,8 +496,8 @@ class QLParser ( Parser ):
         def INT(self):
             return self.getToken(QLParser.INT, 0)
 
-        def var(self):
-            return self.getTypedRuleContext(QLParser.VarContext,0)
+        def variable(self):
+            return self.getTypedRuleContext(QLParser.VariableContext,0)
 
 
         def expression(self, i=None):
@@ -562,7 +562,7 @@ class QLParser ( Parser ):
                 pass
             elif token in [QLParser.NAME]:
                 self.state = 71
-                self.var()
+                self.variable()
                 pass
             elif token in [QLParser.T__5]:
                 self.state = 72
@@ -713,31 +713,31 @@ class QLParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class VarContext(ParserRuleContext):
+    class VariableContext(ParserRuleContext):
 
         def __init__(self, parser, parent=None, invokingState=-1):
-            super(QLParser.VarContext, self).__init__(parent, invokingState)
+            super(QLParser.VariableContext, self).__init__(parent, invokingState)
             self.parser = parser
 
         def NAME(self):
             return self.getToken(QLParser.NAME, 0)
 
         def getRuleIndex(self):
-            return QLParser.RULE_var
+            return QLParser.RULE_variable
 
         def accept(self, visitor):
-            if hasattr(visitor, "visitVar"):
-                return visitor.visitVar(self)
+            if hasattr(visitor, "visitVariable"):
+                return visitor.visitVariable(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def var(self):
+    def variable(self):
 
-        localctx = QLParser.VarContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 16, self.RULE_var)
+        localctx = QLParser.VariableContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 16, self.RULE_variable)
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 102
@@ -750,29 +750,29 @@ class QLParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class VartypeContext(ParserRuleContext):
+    class Variable_typeContext(ParserRuleContext):
 
         def __init__(self, parser, parent=None, invokingState=-1):
-            super(QLParser.VartypeContext, self).__init__(parent, invokingState)
+            super(QLParser.Variable_typeContext, self).__init__(parent, invokingState)
             self.parser = parser
 
 
         def getRuleIndex(self):
-            return QLParser.RULE_vartype
+            return QLParser.RULE_variable_type
 
         def accept(self, visitor):
-            if hasattr(visitor, "visitVartype"):
-                return visitor.visitVartype(self)
+            if hasattr(visitor, "visitVariable_type"):
+                return visitor.visitVariable_type(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def vartype(self):
+    def variable_type(self):
 
-        localctx = QLParser.VartypeContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 18, self.RULE_vartype)
+        localctx = QLParser.Variable_typeContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 18, self.RULE_variable_type)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)

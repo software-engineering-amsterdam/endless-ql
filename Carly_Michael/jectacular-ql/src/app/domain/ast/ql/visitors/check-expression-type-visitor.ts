@@ -16,9 +16,9 @@ import {Expression} from '../index';
 export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionType> {
   private constructor() { }
 
-  static evaluate(expr: Expression): ExpressionType {
+  static evaluate(expression: Expression): ExpressionType {
     const visitor = new CheckExpressionTypeVisitor();
-    return expr.accept(visitor);
+    return expression.accept(visitor);
   }
 
   visitBooleanLiteral(literal: BooleanLiteral): ExpressionType {
@@ -37,167 +37,170 @@ export class CheckExpressionTypeVisitor implements ExpressionVisitor<ExpressionT
     return literal.getType();
   }
 
-  visitMultiplyExpression(expr: MultiplyExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitMultiplyExpression(expression: MultiplyExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
       return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
-    }, typeLeft, typeRight, expr.location);
+    }, typeLeft, typeRight, expression.location);
 
     return typeLeft;
   }
 
-  visitDivideExpression(expr: DivideExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitDivideExpression(expression: DivideExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
       return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
-    }, typeLeft, typeRight, expr.location);
+    }, typeLeft, typeRight, expression.location);
 
     return typeLeft;
   }
 
-  visitAddExpression(expr: AddExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitAddExpression(expression: AddExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
-      return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
-    }, typeLeft, typeRight, expr.location);
+      return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER ||
+        typeLeft === ExpressionType.DATE && typeRight === ExpressionType.NUMBER ||
+        typeLeft === typeRight && typeLeft === ExpressionType.STRING;
+    }, typeLeft, typeRight, expression.location);
 
     return typeLeft;
   }
 
-  visitSubtractExpression(expr: SubtractExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitSubtractExpression(expression: SubtractExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
-      return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
-    }, typeLeft, typeRight, expr.location);
+      return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER ||
+        typeLeft === ExpressionType.DATE && typeRight === ExpressionType.NUMBER;
+    }, typeLeft, typeRight, expression.location);
 
     return typeLeft;
   }
 
-  visitGreaterThanExpression(expr: GreaterThanExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitGreaterThanExpression(expression: GreaterThanExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
       return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
-    }, typeLeft, typeRight, expr.location);
+    }, typeLeft, typeRight, expression.location);
 
     return ExpressionType.BOOLEAN;
   }
 
-  visitGreaterThanEqualExpression(expr: GreaterThanEqualExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitGreaterThanEqualExpression(expression: GreaterThanEqualExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
       return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
-    }, typeLeft, typeRight, expr.location);
+    }, typeLeft, typeRight, expression.location);
 
     return ExpressionType.BOOLEAN;
   }
 
-  visitLessThanExpression(expr: LessThanExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitLessThanExpression(expression: LessThanExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
       return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
-    }, typeLeft, typeRight, expr.location);
+    }, typeLeft, typeRight, expression.location);
 
     return ExpressionType.BOOLEAN;
   }
 
-  visitLessThanEqualExpression(expr: LessThanEqualExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitLessThanEqualExpression(expression: LessThanEqualExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
       return typeLeft === typeRight && typeLeft === ExpressionType.NUMBER;
-    }, typeLeft, typeRight, expr.location);
+    }, typeLeft, typeRight, expression.location);
 
     return ExpressionType.BOOLEAN;
   }
 
-  visitEqualExpression(expr: EqualExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitEqualExpression(expression: EqualExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
       return typeLeft === typeRight;
-    }, typeLeft, typeRight, expr.location);
+    }, typeLeft, typeRight, expression.location);
 
     return ExpressionType.BOOLEAN;
   }
 
-  visitUnequalExpression(expr: UnequalExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitUnequalExpression(expression: UnequalExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
       return typeLeft === typeRight;
-    }, typeLeft, typeRight, expr.location);
+    }, typeLeft, typeRight, expression.location);
 
     return ExpressionType.BOOLEAN;
   }
 
-  visitAndExpression(expr: AndExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitAndExpression(expression: AndExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
       return typeLeft === typeRight && typeLeft === ExpressionType.BOOLEAN;
-    }, typeLeft, typeRight, expr.location);
+    }, typeLeft, typeRight, expression.location);
 
     return typeLeft;
   }
 
-  visitOrExpression(expr: OrExpression): ExpressionType {
-    const typeLeft = expr.left.accept(this);
-    const typeRight = expr.right.accept(this);
+  visitOrExpression(expression: OrExpression): ExpressionType {
+    const typeLeft = expression.left.accept(this);
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowBinary(() => {
       return typeLeft === typeRight && typeLeft === ExpressionType.BOOLEAN;
-    }, typeLeft, typeRight, expr.location);
+    }, typeLeft, typeRight, expression.location);
 
     return typeLeft;
   }
 
-  visitNegativeExpression(expr: NegativeExpression): ExpressionType {
-    const typeRight = expr.right.accept(this);
+  visitNegativeExpression(expression: NegativeExpression): ExpressionType {
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowUnary(() => {
       return typeRight === ExpressionType.NUMBER;
-    }, typeRight, expr.location);
+    }, typeRight, expression.location);
 
     return typeRight;
   }
 
-  visitNegateExpression(expr: NegateExpression): ExpressionType {
-    const typeRight = expr.right.accept(this);
+  visitNegateExpression(expression: NegateExpression): ExpressionType {
+    const typeRight = expression.right.accept(this);
 
     this.checkConditionOrThrowUnary(() => {
       return typeRight === ExpressionType.BOOLEAN;
-    }, typeRight, expr.location);
+    }, typeRight, expression.location);
 
     return typeRight;
   }
 
-  visitVariable(expr: Variable): ExpressionType {
-    return expr.referencedQuestion.getExpressionType();
+  visitVariable(expression: Variable): ExpressionType {
+    return expression.getExpressionType();
   }
 
   private checkConditionOrThrowBinary(condition: () => boolean, typeLeft: ExpressionType, typeRight: ExpressionType, location: Location) {
     if (!condition()) {
       throw new TypeError(
-        `Type of expression left(${ExpressionTypeUtil.toString(typeLeft)}) is` +
-        `different from type of expression right (${ExpressionTypeUtil.toString(typeRight)})`
+        `Type of expressionession left(${ExpressionTypeUtil.toString(typeLeft)}) is ` +
+        `different from type of expressionession right (${ExpressionTypeUtil.toString(typeRight)})`
         + locationToReadableMessage(location)
       );
     }

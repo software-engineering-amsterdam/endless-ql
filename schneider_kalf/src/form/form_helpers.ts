@@ -1,9 +1,10 @@
 import TreeNode from "./nodes/TreeNode";
-import NodeTraveller from "./nodes/visitors/NodeTraveller";
+import NodeTraveller from "./nodes/visitors/FormNodeTraversingVisitor";
 import VariableIdentifier from "./nodes/expressions/VariableIdentifier";
 import FieldNode from "./nodes/fields/FieldNode";
-import ComputedField from "./nodes/fields/ComputedField";
+import ComputedField from "./nodes/fields/ComputedFieldNode";
 import QuestionNode from "./nodes/fields/QuestionNode";
+import StatementCollection from "./collection/StatementCollection";
 
 export const filterNodes = (predicate: (node: TreeNode) => boolean, start: TreeNode): any[] => {
   let nodes: TreeNode[] = [];
@@ -16,16 +17,6 @@ export const filterNodes = (predicate: (node: TreeNode) => boolean, start: TreeN
 
   start.accept(traveller);
   return nodes;
-};
-
-export const findNode = (predicate: (node: TreeNode) => boolean, start: TreeNode): (TreeNode | null) => {
-  const found = filterNodes(predicate, start);
-
-  if (found.length === 0) {
-    return null;
-  }
-
-  return found[0];
 };
 
 export const getUsedVariables = (start: TreeNode) => {

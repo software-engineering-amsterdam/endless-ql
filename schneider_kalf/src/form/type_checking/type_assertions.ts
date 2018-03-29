@@ -9,6 +9,7 @@ import IntValue from "../values/IntValue";
 import { DecimalValue } from "../values/DecimalValue";
 import NumericOperation from "../values/NumericOperation";
 import { isNumericValue } from "../values/values_helpers";
+import constants from "../../config/constants";
 
 /**
  * Returns the type of a given value including the classname if it is
@@ -140,7 +141,6 @@ export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
 
 /**
  * Assert that the value given is comparable to other values of the same type.
- * TODO: Make list configurable.
  *
  * @param value
  * @returns {any}
@@ -150,7 +150,7 @@ export const assertComparable = (value: any) => {
     return value;
   }
 
-  if (["string", "number", "boolean", "Date"].indexOf(getTypeString(value)) === -1) {
+  if (constants.COMPARABLE_TYPES.indexOf(getTypeString(value)) === -1) {
     throw TypeCheckError.make("comparable", getTypeString(value));
   }
 

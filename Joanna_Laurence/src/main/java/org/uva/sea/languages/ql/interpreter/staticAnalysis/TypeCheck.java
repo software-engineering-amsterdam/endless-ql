@@ -9,7 +9,7 @@ import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.elements.Question;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 import java.util.Map;
@@ -21,42 +21,22 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnal
 
     private final Map<SpecificationKey, NodeType> typeCheckSpecification;
 
-    /**
-     * Hide constructor
-     */
+
     private TypeCheck() {
         TypeCheckSpecification typeCheckSpecification = new TypeCheckSpecification();
         this.typeCheckSpecification = typeCheckSpecification.getSpecification();
     }
 
-    /**
-     * -     * Logs when an error occurred
-     * -     * @param node The node that caused an error
-     * -
-     */
+
     private void error(ASTNode node) {
         this.errors.addMessage("Incorrect type on line:" + node.getLine() + " column: " + node.getColumn(), MessageTypes.ERROR);
     }
 
-    /**
-     * Check types and exit program when errors are found
-     * Log will be written to std err
-     *
-     * @param node Do the type check for the node
-     */
     public Messages doCheck(Form node) {
         node.accept(this);
         return this.errors;
     }
 
-    /**
-     * Determine new type, and return error when the operation cannot be done
-     *
-     * @param node              The node that is checked
-     * @param leftHandSideType  Left hand side type, or the first type
-     * @param rightHandSideType Right hand side type, or NodeType.UNKNOWN when only one type is needed
-     * @return The new type
-     */
     private NodeType getNodeTypeAndReportErrors(ASTNode node, NodeType leftHandSideType, NodeType rightHandSideType) {
         if ((leftHandSideType == NodeType.INVALID) || (rightHandSideType == NodeType.INVALID))
             return NodeType.INVALID;
@@ -227,9 +207,7 @@ public class TypeCheck extends BaseASTVisitor<NodeType> implements IQLStaticAnal
         return questionType;
     }
 
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
+
     public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {

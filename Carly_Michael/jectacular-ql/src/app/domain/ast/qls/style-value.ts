@@ -2,7 +2,7 @@ export interface StyleValue {
   getValueAsString(): string;
 }
 
-export class RgbValue implements StyleValue {
+export class HexValue implements StyleValue {
   constructor(readonly value: string) { }
   getValueAsString(): string {
     return this.value;

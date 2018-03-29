@@ -6,7 +6,9 @@ import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 import java.security.InvalidParameterException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class DateValue extends Value {
 
@@ -27,7 +29,7 @@ public class DateValue extends Value {
         this.dateValue = dateValue;
     }
 
-    public Calendar getDateValue() {
+    private Calendar getDateValue() {
         return this.dateValue;
     }
 
@@ -38,51 +40,51 @@ public class DateValue extends Value {
 
     @Override
     public Value isEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue(compare == 0);
     }
 
     @Override
     public Value isGreaterOrEqual(Value value) throws EvaluationException {
-        return value.isLessThan(this);
+        return value.isGreaterOrEqual(this);
     }
 
     @Override
     public Value isGreaterOrEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue((compare == 0) || (compare > 0));
     }
 
     @Override
     public Value isGreaterThan(Value value) throws EvaluationException {
-        return value.isLessOrEqual(this);
+        return value.isGreaterThan(this);
     }
 
     @Override
     public Value isGreaterThan(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue((compare > 0));
     }
 
     @Override
     public Value isLessOrEqual(Value value) throws EvaluationException {
-        return value.isGreaterThan(this);
+        return value.isLessOrEqual(this);
     }
 
     @Override
     public Value isLessOrEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue((compare == 0) || (compare < 0));
     }
 
     @Override
     public Value isLessThan(Value value) throws EvaluationException {
-        return value.isGreaterOrEqual(this);
+        return value.isLessThan(this);
     }
 
     @Override
     public Value isLessThan(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue(compare < 0);
     }
 
@@ -93,7 +95,7 @@ public class DateValue extends Value {
 
     @Override
     public Value isNotEqual(DateValue value) {
-        int compare = this.dateValue.compareTo(value.getDateValue());
+        int compare = this.dateValue.compareTo(value.dateValue);
         return new BooleanValue(compare != 0);
 
     }
@@ -106,5 +108,18 @@ public class DateValue extends Value {
     @Override
     public NodeType getType() {
         return NodeType.DATE;
+    }
+
+    @Override
+    public String toString() {
+        if (this.dateValue == null)
+            return "";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY", Locale.ENGLISH);
+        return formatter.format(this.dateValue.getTime());
+    }
+
+    public DateValue clone() throws CloneNotSupportedException {
+        return (DateValue) super.clone();
     }
 }

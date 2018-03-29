@@ -80,13 +80,13 @@ class QLSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#var.
-    def visitVar(self, ctx):
+    # Visit a parse tree produced by QLSParser#variable.
+    def visitVariable(self, ctx):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#vartype.
-    def visitVartype(self, ctx):
+    # Visit a parse tree produced by QLSParser#variable_type.
+    def visitVariable_type(self, ctx):
         return self.visitChildren(ctx)
 
 

@@ -1,3 +1,6 @@
+# Lars Lokhoff, Timo Dobber
+# This class defines the structure of the QLS AST.
+
 class QLSast(object):
 
     def getNodeType(self):
@@ -42,16 +45,16 @@ class SectionNode(QLSast):
 
 class QuestionNode(QLSast):
 
-    def __init__(self, var):
+    def __init__(self, variable):
         self.node_type = "question"
-        self.var = var
+        self.variable = variable
         self.widget = None
 
     def __repr__(self):
-        return "Question: {} Widget: {}".format(self.var, self.widget)
+        return "Question: {} Widget: {}".format(self.variable, self.widget)
 
     def getVariableName(self):
-        return self.var
+        return self.variable
 
     def getWidget(self):
         return self.widget
@@ -74,19 +77,11 @@ class WidgetNode(QLSast):
 
 
 class StyleOptionsNode(QLSast):
-    
-    # def __init__(self, vartype, width=100, font="Arial", fontsize=11, color=0x000000):
-        # self.vartype = vartype
-        # self.width = width
-        # self.font = font
-        # self.fontsize = fontsize
-        # self.color = color
 
-    # todo: vartype in widget?
-    def __init__(self, vartype):
+    def __init__(self, variable_type):
         self.node_type = "options"
-        self.vartype = vartype
+        self.variable_type = variable_type
         self.options = None
 
     def __repr__(self):
-        return "Style vartype: {} Options: {}".format(self.vartype, self.options)
+        return "Style variable type: {} Options: {}".format(self.variable_type, self.options)

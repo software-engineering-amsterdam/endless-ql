@@ -53,7 +53,7 @@ public class ConstBinOpExpression extends Expression {
         constant.evaluate(symbolTable);
         expression.evaluate(symbolTable);
 
-        setExpressionValue(((BinaryOperator)operator).evaluate(constant, expression));
+        setExpressionValue(((BinaryOperator)operator).evaluate(symbolTable, constant, expression));
     }
 
     @Override

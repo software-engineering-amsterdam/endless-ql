@@ -1,3 +1,6 @@
+# Lars Lokhoff, Timo Dobber
+# This class defines the structure of the QL AST.
+
 class QLast(object):
     
     def getNodeType(self):
@@ -15,38 +18,38 @@ class FormNode(QLast):
 
 
 class QuestionNode(QLast):
-    def __init__(self, question, var, vartype):
+    def __init__(self, question, variable, variable_type):
         self.node_type = "question"
         self.question = question
-        self.var = var
-        self.vartype = vartype
+        self.variable = variable
+        self.variable_type = variable_type
 
     def __repr__(self):
-        return "Question({}, {}, {})".format(self.question, self.var, self.vartype)
+        return "Question({}, {}, {})".format(self.question, self.variable, self.variable_type)
 
     def getVariableName(self):
-        return self.var
+        return self.variable
 
     def getVariableType(self):
-        return self.vartype
+        return self.variable_type
 
 
 class AssignmentNode(QLast):
-    def __init__(self, name, var, vartype, expression):
+    def __init__(self, name, variable, variable_type, expression):
         self.node_type = "assignment"
         self.name = name
-        self.var = var
-        self.vartype = vartype
+        self.variable = variable
+        self.variable_type = variable_type
         self.expression = expression
 
     def __repr__(self):
-        return "Assignment: {} {} {} = {}".format(self.name, self.vartype, self.var, self.expression)
+        return "Assignment: {} {} {} = {}".format(self.name, self.variable_type, self.variable, self.expression)
 
     def getVariableName(self):
-        return self.var
+        return self.variable
 
     def getVariableType(self):
-        return self.vartype
+        return self.variable_type
 
 
 class BinOpNode(QLast):
@@ -62,13 +65,13 @@ class BinOpNode(QLast):
 
 
 class UnOpNode(QLast):
-    def __init__(self, var, negate=False):
+    def __init__(self, variable, negate=False):
         self.node_type = "unop"
-        self.var = var
+        self.variable = variable
         self.negate = negate
 
     def __repr__(self):
-        return "unop: negate:{} {}".format(self.negate, self.var)
+        return "unop: negate:{} {}".format(self.negate, self.variable)
 
 
 class IfNode(QLast):
@@ -101,10 +104,10 @@ class ElseNode(QLast):
 
 
 class LiteralNode(QLast):
-    def __init__(self, literal, vartype, negate=False):
+    def __init__(self, literal, variable_type, negate=False):
         self.node_type = "literal"
         self.literal = literal
-        self.vartype = vartype
+        self.variable_type = variable_type
         self.negate = negate
 
     def __repr__(self):

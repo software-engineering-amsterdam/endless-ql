@@ -20,7 +20,7 @@ stylesheet taxOfficeExample
 //      section "You sold a house"
   //    {
         question sellingPrice
-          widget spinbox
+          widget slider (-1.9, 2.3, 0.3)
         question privateDebt
           widget spinbox 
         question valueResidue

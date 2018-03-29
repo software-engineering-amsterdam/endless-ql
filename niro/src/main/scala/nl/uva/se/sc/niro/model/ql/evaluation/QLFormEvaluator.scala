@@ -7,9 +7,9 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
 
 object QLFormEvaluator {
 
-  type Dictionary = Map[String, Answer]
+  type ValueStore = Map[String, Answer]
 
-  def evaluate(qLForm: QLForm, dictionary: Dictionary): Dictionary = {
+  def evaluate(qLForm: QLForm, dictionary: ValueStore): ValueStore = {
     qLForm.symbolTable
       .map {
         case (questionId, symbol) =>

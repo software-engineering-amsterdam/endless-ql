@@ -19,7 +19,7 @@ class Gui():
 
     def addDropdown(self, name, items):
         variable = tk.StringVar(self.window)
-        var.set(items[0])
+        variable.set(items[0])
         dropdown = apply(tk.OptionMenu, (self.window, var) + tuple(items))
         self.dropdowns[name] = dropDown
         dropDown.pack()
@@ -149,17 +149,17 @@ class Gui():
 
     def createTKNoTraceVariable(self, variable_key, value):
         variable = tk.StringVar()
-        var.set(str(value))
+        variable.set(str(value))
         self.values[variable_key] = var
 
     def createTKTraceVariable(self, variable_key, var_type, update_function):
         if var_type is not "boolean":
             variable = tk.StringVar()
-            var.trace('w', lambda nm, idx, mode, var=variable: self.validateForm(update_function))
+            variable.trace('w', lambda nm, idx, mode, var=variable: self.validateForm(update_function))
 
         else:
             variable = tk.IntVar()
-            var.trace("w", update_function)
+            variable.trace("w", update_function)
 
         self.values[variable_key] = var
 

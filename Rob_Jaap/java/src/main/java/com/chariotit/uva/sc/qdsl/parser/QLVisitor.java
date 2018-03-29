@@ -139,7 +139,6 @@ public class QLVisitor<T> extends QLBaseVisitor<AstNode> {
 
     @Override
     public UnOpExpression visitUnop_expr(QLParser.Unop_exprContext ctx) {
-        System.out.println(visitExpr(ctx.expr()));
         return new UnOpExpression(visitUnop(ctx.unop()), visitExpr(ctx.expr()), getSourceFilePosition(ctx));
     }
 

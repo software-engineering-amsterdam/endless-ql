@@ -25,11 +25,8 @@ public class NotOp extends Operator implements UnaryOperator {
 
     @Override
     public ExpressionValue evaluate(SymbolTable symbolTable, Expression expression) {
-        System.out.println("In NotOp eval");
-        System.out.println(expression);
         expression.evaluate(symbolTable);
 
-        System.out.println(expression.getExpressionValue());
         return ((BooleanExpressionValue)expression.getExpressionValue()).not();
     }
 

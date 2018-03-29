@@ -1,10 +1,13 @@
 class QLSast(object):
-    pass
+
+    def getNodeType(self):
+        return self.node_type
 
 
 class StylesheetNode(QLSast):
 
     def __init__(self, name):
+        node_type = "stylesheet"
         self.name = name
         self.pages = []
 
@@ -23,9 +26,6 @@ class PageNode(QLSast):
     def __repr__(self):
         return "Page: {} Sections: {} Styles: {}".format(self.name, self.sections, self.default_style_widgets)
 
-    def getNodeType(self):
-        return self.node_type
-
 
 class SectionNode(QLSast):
     
@@ -39,9 +39,6 @@ class SectionNode(QLSast):
     def __repr__(self):
         return "Section: {} Sections: {} Questions: {} Styles: {}".format(self.name, self.sections, self.questions, self.default_style_widgets)
 
-    def getNodeType(self):
-        return self.node_type
-
 
 class QuestionNode(QLSast):
 
@@ -52,9 +49,6 @@ class QuestionNode(QLSast):
 
     def __repr__(self):
         return "Question: {} Widget: {}".format(self.var, self.widget)
-
-    def getNodeType(self):
-        return self.node_type
 
     def getVariableName(self):
         return self.var
@@ -69,12 +63,11 @@ class WidgetNode(QLSast):
         self.node_type = "widget"
         self.widget = widget
         self.options = None
+        self.min_value = 0
+        self.max_value = 100
 
     def __repr__(self):
-        return "Widget: {} Options: {}".format(self.widget, self.options)
-
-    def getNodeType(self):
-        return self.node_type
+        return "Widget: {} Options: {} Min: {} Max: {}".format(self.widget, self.options, self.min_value, self.max_value)
 
     def getWidget(self):
         return self.widget
@@ -97,6 +90,3 @@ class StyleOptionsNode(QLSast):
 
     def __repr__(self):
         return "Style vartype: {} Options: {}".format(self.vartype, self.options)
-
-    def getNodeType(self):
-        return self.node_type

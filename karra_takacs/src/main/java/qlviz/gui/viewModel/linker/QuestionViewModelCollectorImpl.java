@@ -1,5 +1,6 @@
 package qlviz.gui.viewModel.linker;
 
+import com.google.inject.Inject;
 import qlviz.gui.viewModel.FormViewModel;
 import qlviz.gui.viewModel.question.*;
 import qlviz.model.Form;
@@ -9,6 +10,10 @@ import java.util.List;
 
 public class QuestionViewModelCollectorImpl implements QuestionViewModelCollector, QuestionViewModelVisitor {
 
+    @Inject
+    public QuestionViewModelCollectorImpl() {
+
+    }
 
     private List<BooleanQuestionViewModel> booleanAccumulator;
     private List<NumericQuestionViewModel> numericAccumulator;

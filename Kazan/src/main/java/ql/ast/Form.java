@@ -1,14 +1,15 @@
 package ql.ast;
 
 import ql.ast.statements.Statement;
-import ql.ast.visitors.FormVisitor;
+import ql.ast.visitors.FormStatementVisitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Form extends ASTNode {
 
-    private String formId;
-    private List<Statement> statements;
+    private final String formId;
+    private final List<Statement> statements;
 
     public Form(String formId, List<Statement> statements, SourceLocation sourceLocation) {
         super(sourceLocation);
@@ -21,10 +22,10 @@ public class Form extends ASTNode {
     }
 
     public List<Statement> getStatements() {
-        return statements;
+        return new ArrayList<>(statements);
     }
 
-    public <T> T accept(FormVisitor<T> visitor) {
+    public <T> T accept(FormStatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

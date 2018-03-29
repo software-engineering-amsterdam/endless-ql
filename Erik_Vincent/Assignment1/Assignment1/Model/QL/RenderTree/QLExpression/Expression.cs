@@ -32,7 +32,7 @@
         {
             Question = question;
         }
-        public override dynamic Evaluate() => Question.Value; // TODO: Fix return of null
+        public override dynamic Evaluate() => null; // TODO: Fix return of null
     }
 
     public abstract class ExpressionOperatorB : Expression

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using NUnit.Framework;
 
-namespace UnitTests.Domain.UnitTests.Data
+namespace QL.UnitTests.Domain.UnitTests.Data
 {
     public static class TestValidationData
     {
@@ -179,6 +178,35 @@ namespace UnitTests.Domain.UnitTests.Data
                 
                 yield return new TestCaseData(
                     @"form John { q1: ""first?"" integer=(q4) q2: ""second?"" integer=(q3) q3: ""third?"" integer=(99) q4: ""fourth?"" integer=(q3) }");
+
+                yield return new TestCaseData(
+                    @"
+form ComplexNonCyclic1 {
+  a: ""a"" integer=(b+c)
+  b: ""b"" integer=(d+e)
+  c: ""c"" integer=(f+g)
+  d: ""d"" integer=(f+g+c)
+  e: ""e"" integer=(y)
+  f: ""f"" integer=(x+y)
+  g: ""g"" integer=(e+x+x+10)
+  x: ""x"" integer=(10)
+  y: ""y"" integer
+}");
+                yield return new TestCaseData(
+                    @"
+form ComplexNonCyclic2 {
+  d: ""d"" integer=(f+g+c)
+  c: ""c"" integer=(f+g)
+  y: ""y"" integer
+  f: ""f"" integer=(x+y)
+  g: ""g"" integer=(e+x+x+10)
+  a: ""a"" integer=(b+c)
+  x: ""x"" integer=(10)
+  e: ""e"" integer=(y)
+  b: ""b"" integer=(d+e)
+}");
+
+
             }
         }
 
@@ -202,9 +230,25 @@ namespace UnitTests.Domain.UnitTests.Data
                     @"form John { q1: ""first?"" integer=(q2) q2: ""second?"" integer=(q1)}",
                     @"a cirular dependency was found");
 
-                //yield return new TestCaseData(
-                //    @"form John { q1: ""first?"" integer=(q2) q2: ""second?"" integer=(q3) q3: ""third?"" integer=(q1)}",
-                //    @"a cirular dependency was found");
+                yield return new TestCaseData(
+                    @"form John { q1: ""first?"" integer=(q2) q2: ""second?"" integer=(q3) q3: ""third?"" integer=(q1)}",
+                    @"a cirular dependency was found");
+
+
+                yield return new TestCaseData(
+                    @"
+form ComplexCyclic1 {
+  a: ""a"" integer=(b+c)
+  b: ""b"" integer=(d+e)
+  c: ""c"" integer=(f+g)
+  d: ""d"" integer=(f+g+c)
+  e: ""e"" integer=(y)
+  f: ""f"" integer=(x+y)
+  g: ""g"" integer=(e+x+x+10)
+  x: ""x"" integer=(10)
+  y: ""y"" integer=(a)
+}"
+                    , @"a cirular dependency was found");
             }
         }
 

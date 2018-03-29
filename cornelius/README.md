@@ -6,9 +6,12 @@
 ## Project Technologies
 * Maven as build system
 * XText IDE for Language Development
+  * Antlr
+  * Xtend & Java
+  * Google Guice
 * JavaFX for the UI part
 * Joda-Money to implement the Money Pattern (http://www.joda.org/joda-money/)
-* ControlsFX for the Wizard to implement Paged style (http://fxexperience.com/controlsfx/)
+* ControlsFX for the Wizard to implement paged style (http://fxexperience.com/controlsfx/)
  
 
 ## Layout & Design
@@ -18,7 +21,7 @@
 
 ## How to run QL Interpreter
 
-The interpreter expects you to load a .ql file as argument. A sample .ql file is provided in the resources folder.
+The interpreter expects you to load a .ql file as argument. A sample .ql file is provided in the src/main/resources folder.
 
 It can be run via maven and/or eclipse:
 
@@ -38,9 +41,9 @@ It can be run via maven and/or eclipse:
 
 ## How to run QSL Interpreter
 
-The interpreter expects you to load a .qsl file. A sample .qsl file is provided in the resources folder.
+The interpreter expects you to load a .qsl file. A sample .qsl file is provided in the src/main/resources folder.
 
-It can be run via and/or eclipse:
+It can be run via maven and/or eclipse:
 
 ### Maven 
 

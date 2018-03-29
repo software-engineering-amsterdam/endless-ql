@@ -4,18 +4,30 @@
  */
 
 {
-    let NodeFactory = new Nodes.AttributeNodeFactory();
+    let widgetMapping = {
+        "spinbox" : Nodes.SpinBoxWidgetAttribute,
+        "text" : Nodes.TextWidgetAttribute,
+        "slider" : Nodes.SliderWidgetAttribute,
+        "dropdown" : Nodes.DropdownWidgetAttribute,
+        "checkbox" : Nodes.CheckboxWidgetAttribute,
+        "radio" : Nodes.RadioWidgetAttribute
+    }
+
+    let baseAttributeMapping = {
+        "color" : Nodes.ColorAttribute,
+        "width" : Nodes.WidthAttribute,
+        "fontsize" : Nodes.FontSizeAttribute,
+        "font" : Nodes.FontAttribute
+    }
 }
 
 start = lb* stylesheet:stylesheet lb* { return stylesheet }
 
-// Stylesheet
 stylesheet
  = _ "stylesheet" _ id:identifier lb* "{" lb* page:page* lb* "}" lb*{
     return new Nodes.Stylesheet( id, page);
 }
 
-// Page
 page
  = _ "page" _ id:identifier lb* block:pageBlock lb* {
     return new Nodes.Page( id, block );
@@ -26,7 +38,6 @@ pageBlock
     return body;
 }
 
-// Section
 section
  = _ "section" _ name:stringLiteral lb* block:sectionBlock {
     return new Nodes.Section( name, block );
@@ -50,20 +61,17 @@ sectionAttribute
    return attr
 }
 
-// Question
 question
  = _ "question" _ id:identifier lb* body:styleBlock? lb*{
     body = body ? body : [];
     return new Nodes.QuestionStyle( id, body);
 }
 
-// Default
 default
  = _ "default" _ type:type lb* args:styleBlock {
     return new Nodes.DefaultStyle(type, args);
  }
 
-// Block with style attributes
 styleBlock
  = styleBlockNoBrackets / styleBlockBrackets
 
@@ -80,52 +88,46 @@ styleBlockNoBrackets
 styleAttribute
  = (widget / style)
 
-// Widget
 widget
  = _ "widget" _ id:identifier options:widgetOptions? lb* {
-    return NodeFactory.getWidgetStyleAttribute(id, options);
+    const WidgetConstructor = widgetMapping[id];
+    return new WidgetConstructor(options);
 }
 
-// WidgetOptions
 widgetOptions
  = "(" _ args:arguments _ ")" lb* {
     return args;
 }
-// Arguments, komma separated list
+
 arguments
   = head:stringLiteral rest:(_ "," _ r:arguments{ return r; })? {
     return rest != null ? [head].concat(rest) : [head];
 }
 
-// Style element
 style
  = _ id:identifier _ ":" _ args:styleValues lb*{
-    return NodeFactory.getBaseStyleAttribute(id, args);
+    const BaseAttributeConstructor = baseAttributeMapping[id];
+    return new BaseAttributeConstructor(args);
 }
 
-// Style values
 styleValues
  = numberLiteral / stringLiteral / colorLiteral / booleanLiteral
 
-// Preliminary color code
 colorLiteral
  = _ code:(["#"][0-9]+){
     return "#".concat(code[1].join(""))
 }
 
-// Identifier?
 identifier
  = chars:([a-zA-Z]+) {
     return chars.join("");
 }
 
-// Boolean Literal
 booleanLiteral
   = Literal:("true" / "false") {
     return Literal == "true"
 }
 
-// number
 numberLiteral
   = minus:[-]? digits:([0-9]+) {
     let amount = digits.join("");
@@ -134,13 +136,12 @@ numberLiteral
     return parseInt(digits.join(""), 10)
 }
 
-// String Literal, Currently only support double quoted String
+// String Literal, Currently only support double quoted Strings
 stringLiteral
  = '"' chars:doubleString* '"'{
     return chars.join('');
 }
 
-// String denoted with double quoted
 doubleString
   = !('"' / "\\") char:. { return char; }
   / "\\" sequence:escapeSequence { return sequence; }
@@ -156,13 +157,10 @@ escapeSequence
   / "t"  { return "\t";   }
   / "v"  { return "\x0B"; }
 
-// Supported types
 type = "boolean" / "money" / "date" / "integer" / "float" / "text"
 
-// Single line comments
 comment = "//" (![\n] .)*
 
-// White spaces and new lines
 ws = [ \t]
 _ = (ws / comment)*
 lb = [ \t\r\n] / comment

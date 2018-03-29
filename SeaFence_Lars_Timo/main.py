@@ -27,17 +27,6 @@ def main(argv):
 
     ql_checker = QLTypeChecker()
     ql_checker.startQLTypeCheck(ql_ast.statements)
-
-    input = FileStream(argv[2])
-    qls_lexer = QLSLexer(input)
-    qls_stream = CommonTokenStream(qls_lexer)
-    qls_parser = QLSParser(qls_stream)
-
-    qls_tree = qls_parser.stylesheet()
-
-    qls_visitor = QLSVisitorHelper()
-    qls_ast = qls_visitor.visit(qls_tree)
-    print qls_ast
     
     if len(argv) == 3:
         input = FileStream(argv[2])
@@ -53,7 +42,9 @@ def main(argv):
         qls_checker = QLSTypeChecker()
         qls_checker.startQLSTypeCheck(ql_ast.statements, qls_ast.pages)
 
-    builder = GuiBuilder(ql_ast, qls_ast)
+        # print qls_ast
+
+    builder = GuiBuilder(ql_ast)
     builder.gui.window.mainloop()
 
 if __name__ == '__main__':

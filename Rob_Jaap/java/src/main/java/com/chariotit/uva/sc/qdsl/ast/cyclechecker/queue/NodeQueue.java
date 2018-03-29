@@ -5,7 +5,7 @@ import java.util.List;
 
 public class NodeQueue {
 
-    List<QueuedNode> nodes;
+    private List<QueuedNode> nodes;
 
     public NodeQueue() {
         nodes = new ArrayList<>();

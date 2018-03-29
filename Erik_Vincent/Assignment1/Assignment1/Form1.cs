@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using Antlr4.Runtime.Misc;
 
 namespace Assignment1
 {
@@ -22,26 +24,25 @@ namespace Assignment1
             _questionFormPanel.Controls.Add(control);
         }
 
-        private void SetMessages(string title, List<string> messages, Control titleControlTemplate, Control messageControlTemplate)
+        private void SetMessages(string title, IEnumerable<string> messages, Control titleControlTemplate, Control messageControlTemplate)
         {
-            if (messages == null || messages.Count == 0)
-                return;
+            if (!messages.Any()) return;
             titleControlTemplate.Text = title;
             _messagePanel.Controls.Add(titleControlTemplate);
-            foreach (string message in messages)
+            foreach (var message in messages)
             {
-                Label messageControl = new Label
+                var messageControl = new Label
                 {
                     Font = messageControlTemplate.Font,
                     ForeColor = messageControlTemplate.ForeColor,
-                    AutoSize = true
+                    AutoSize = true,
+                    Text = message
                 };
-                messageControl.Text = message;
                 _messagePanel.Controls.Add(messageControl);
             }
         }
 
-        public void SetErrors(List<string> errors)
+        public void SetErrors(IEnumerable<string> errors)
         {
             var header = new Label
             {
@@ -58,8 +59,8 @@ namespace Assignment1
             };
             SetMessages("Provided form is invalid!", errors, header, label);
         }
-        
-        public void SetWarnings(List<string> warnings)
+
+        public void SetWarnings(IEnumerable<string> warnings)
         {
             var header = new Label
             {

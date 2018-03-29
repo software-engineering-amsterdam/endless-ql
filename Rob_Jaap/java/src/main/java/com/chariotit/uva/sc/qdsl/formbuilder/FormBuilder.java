@@ -94,6 +94,16 @@ public class FormBuilder extends NodeVisitor {
     }
 
     @Override
+    public void visitOrOp(OrOp orOp) {
+
+    }
+
+    @Override
+    public void visitAndOp(AndOp andOp) {
+
+    }
+
+    @Override
     public void visitBooleanType(BooleanTypeNode booleanType) {
 
     }

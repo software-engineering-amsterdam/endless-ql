@@ -7,9 +7,14 @@ using Assignment1.Model.QL.AST.Value;
 
 namespace Assignment1.Model.QL.AST
 {
+    /// <summary>
+    /// The visitor will by default not follow references.
+    /// To visit references override the Visit(Reference expression) method and call
+    /// FollowReference(expression) but be aware that doing this with an invalid form can cause exceptions.
+    /// </summary>
     public abstract class QLASTBaseVisitor : IQLASTVisitor, IExpressionVisitor
     {
-        private ILookup<string, Question> QuestionsInScope => _scopes.SelectMany(scope => scope).ToLookup(question => question.Id, question => question);
+        protected ILookup<string, Question> QuestionsInScope => _scopes.SelectMany(scope => scope).ToLookup(question => question.Id, question => question);
         private readonly Stack<IEnumerable<Question>> _scopes = new Stack<IEnumerable<Question>>();
 
         public virtual void Visit(QuestionForm questionForm)
@@ -30,23 +35,13 @@ namespace Assignment1.Model.QL.AST
             _scopes.Pop();
         }
 
-        private void CheckDuplicateQuestion(Question question)
-        {
-            if (QuestionsInScope[question.Id].Count() > 1)
-            {
-                throw new DuplicateQuestionException(question);
-            }
-        }
-
         public virtual void Visit(NormalQuestion question)
         {
-            CheckDuplicateQuestion(question);
             question.Answer.Accept(this);
         }
 
         public virtual void Visit(ComputedQuestion question)
         {
-            CheckDuplicateQuestion(question);
             question.Computation.Accept(this);
         }
 
@@ -76,11 +71,17 @@ namespace Assignment1.Model.QL.AST
             expression.Expression.Accept(this);
         }
 
-        public virtual void Visit(Reference expression)
+        /// <summary>
+        /// Will visit the referenced question.
+        /// Will throw an UndeclaredQuestionException, InvalidExpressionException or DuplicateQuestionException
+        /// if the reference can not be folllowed.
+        /// </summary>
+        /// <param name="expression"></param>
+        protected void FollowReference(Reference expression)
         {
             try
             {
-                QuestionsInScope[expression.QuestionId].First().Accept(this);
+                QuestionsInScope[expression?.QuestionId].Single().Accept(this);
             }
             catch (KeyNotFoundException)
             {
@@ -90,7 +91,13 @@ namespace Assignment1.Model.QL.AST
             {
                 throw new InvalidExpressionException(expression);
             }
+            catch (InvalidOperationException)
+            {
+                throw new DuplicateQuestionException(expression?.QuestionId);
+            }
         }
+
+        public virtual void Visit(Reference expression) { }
 
         private void VisitBinaryChildren(Binary expression)
         {

@@ -6,7 +6,7 @@ using QuestionnaireUI.Models;
 using SimpleWPFApp;
 using SimpleWPFApp.DataProvider;
 
-namespace UnitTests.AppTests.SimpleWPFAppUnitTests
+namespace QL.UnitTests.AppTests.SimpleWPFAppUnitTests
 {
     [TestFixture]
     public class MainViewModelTests

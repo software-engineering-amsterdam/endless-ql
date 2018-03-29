@@ -7,7 +7,7 @@ import org.uva.sc.cr.ql.qL.QuestionType
 
 class OperationQuestionTypeMapping {
 
-	private static val Map<QuestionType, List<Operation>> ALLOWED_OPERATIONS_FOR_TYPES = #{
+	static val Map<QuestionType, List<Operation>> ALLOWED_OPERATIONS_FOR_TYPES = #{
 		QuestionType.TYPE_BOOLEAN -> #[Operation.AND, Operation.OR, Operation.NOT],
 		QuestionType.TYPE_STRING -> #[Operation.PLUS, Operation.EQUALS, Operation.NOT_EQUALS],
 		QuestionType.TYPE_INTEGER ->

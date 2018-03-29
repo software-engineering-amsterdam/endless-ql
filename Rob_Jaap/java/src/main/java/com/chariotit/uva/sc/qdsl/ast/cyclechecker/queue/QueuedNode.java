@@ -18,12 +18,8 @@ public class QueuedNode {
         return node;
     }
 
-    public List<Node> getRecursiveStack() {
-        return recursiveStack;
-    }
-
-    public QueuedNode createExtended(Node node) {
-        List<Node> extendedStack = new ArrayList<>(recursiveStack);
+    public static QueuedNode createExtended(QueuedNode queuedNode, Node node) {
+        List<Node> extendedStack = new ArrayList<>(queuedNode.recursiveStack);
         extendedStack.add(node);
         return new QueuedNode(node, extendedStack);
     }

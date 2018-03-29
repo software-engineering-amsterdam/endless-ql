@@ -3,7 +3,8 @@ package ql.validators
 import ql.models.ast._
 
 trait BaseValidator {
-  def execute(ast: ASTNode): Option[Exception]
+  def check(ast: Statement): Option[Exception]
+
   def getError(): Option[Exception] = {
     None
   }

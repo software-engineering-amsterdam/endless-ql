@@ -1,4 +1,4 @@
-//Q=1
+//AssertDisplayedQuestions=1
 form taxOfficeExample {
     if(true) {
       "Did you sell a house in 2010?"

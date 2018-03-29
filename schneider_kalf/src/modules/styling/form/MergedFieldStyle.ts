@@ -2,6 +2,7 @@ import StyleAttribute from "./nodes/StyleAttribute";
 import { FieldType } from "../../../form/FieldType";
 import DefaultStyleNode from "./nodes/children/DefaultStyleNode";
 import WidgetAttribute from "./nodes/attributes/WidgetAttribute";
+import FieldNode from "../../../form/nodes/fields/FieldNode";
 
 export default class MergedFieldStyle {
   private styles: Map<string, StyleAttribute | any>;
@@ -54,5 +55,13 @@ export default class MergedFieldStyle {
     }
 
     return this.styles.get('widget');
+  }
+
+  appliesToField(field: FieldNode) {
+    return this.identifier === field.identifier;
+  }
+
+  static makeEmpty(field: FieldNode) {
+    return new MergedFieldStyle(field.identifier, field.type);
   }
 }

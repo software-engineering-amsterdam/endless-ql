@@ -1,6 +1,6 @@
 from ql.types.type import QLType
 from ql.types.boolean import QLBoolean
-from ql.ast.expressions.literals.string_node import StringNode
+from ql.ast.nodes.expressions.literals.string_node import StringNode
 from gui.widgets.line_edit import LineEdit
 
 

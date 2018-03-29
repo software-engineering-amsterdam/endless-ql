@@ -8,7 +8,7 @@ import ql.antlr.QLParser;
 import ql.antlr.QLVisitor;
 import ql.ast.Form;
 import ql.ast.Node;
-import ql.ast.expressions.literals.Identifier;
+import ql.ast.expressions.Identifier;
 import ql.ast.expressions.literals.StringLiteral;
 import ql.ast.statements.Question;
 import ql.ast.statements.Statement;

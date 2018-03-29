@@ -1,7 +1,7 @@
 import * as React from 'react';
-import SliderAttribute from "../../../form/nodes/attributes/widget_attribtues/SliderAttribute";
+import SliderAttribute from "../../../form/nodes/attributes/widget_attribtues/SliderWidgetAttribute";
 import FieldNode from "../../../../../form/nodes/fields/FieldNode";
-import DropdownAttribute from "../../../form/nodes/attributes/widget_attribtues/DropdownAttribute";
+import DropdownAttribute from "../../../form/nodes/attributes/widget_attribtues/DropdownWidgetAttribute";
 import Label from "reactstrap/lib/Label";
 import NumberValue from "../../../../../form/values/NumberValue";
 import { makeNumberValue } from "../../../../../form/values/values_helpers";

@@ -9,6 +9,10 @@ export default interface NumberValue {
 
   divide(other: NumberValue): NumberValue;
 
+  increment(): NumberValue;
+
+  decrement(): NumberValue;
+
   equals(other: NumberValue): boolean;
 
   smallerThan(other: NumberValue): boolean;

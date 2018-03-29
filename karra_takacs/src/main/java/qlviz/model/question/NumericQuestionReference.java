@@ -2,9 +2,9 @@ package qlviz.model.question;
 
 import qlviz.interpreter.linker.NumericExpressionVisitor;
 import qlviz.interpreter.linker.TypedNumericExpressionVisitor;
-import qlviz.model.numericExpressions.NumericExpression;
-
-import java.math.BigDecimal;
+import qlviz.model.expressions.ExpressionVisitor;
+import qlviz.model.expressions.TypedExpressionVisitor;
+import qlviz.model.expressions.numericExpressions.NumericExpression;
 
 public class NumericQuestionReference implements NumericExpression {
 
@@ -35,5 +35,15 @@ public class NumericQuestionReference implements NumericExpression {
     @Override
     public <T> T accept(TypedNumericExpressionVisitor<T> numericExpressionVisitor) {
         return numericExpressionVisitor.visit(this);
+    }
+
+    @Override
+    public void accept(ExpressionVisitor expressionVisitor) {
+        expressionVisitor.visit(this);
+    }
+
+    @Override
+    public <T> T accept(TypedExpressionVisitor<T> typedExpressionVisitor) {
+        return typedExpressionVisitor.visit(this);
     }
 }

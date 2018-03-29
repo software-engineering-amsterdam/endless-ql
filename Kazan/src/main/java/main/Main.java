@@ -1,10 +1,8 @@
 package main;
 
-import gui.FormViewer;
-import issuetracker.IssueTracker;
+import gui.FormUI;
+import gui.FormUIFactory;
 import ql.ast.Form;
-import ql.evaluator.Evaluator;
-import ql.evaluator.FormEvaluator;
 import ql.parser.FormBuilder;
 import ql.validator.Validator;
 import qls.ast.Stylesheet;
@@ -17,35 +15,28 @@ public class Main {
 
     public static void main(String[] args) {
 
-        IssueTracker issueTracker = IssueTracker.getIssueTracker();
+        //TODO: pass file (non-string) instead of filecontents to formbuilder
 
-        String qlFileName = "src/input/ql/correct/if.ql";
+        String qlFileName = "src/input/ql/correct/gui/allComputedQuestionTypes.ql";
         String qlFile = new FileScanner().loadFile(qlFileName);
 
         FormBuilder formBuilder = new FormBuilder();
-        Form form = formBuilder.buildASTFromString(qlFile);
+        Form form = formBuilder.createForm(qlFile);
 
-        String qlsFileName = "src/input/qls/correct/form1.qls";
+        String qlsFileName = "src/input/ql/correct/if.ql";
         String qlsFile = new FileScanner().loadFile(qlsFileName);
 
         StylesheetBuilder stylesheetBuilder = new StylesheetBuilder();
-        // Stylesheet stylesheet = stylesheetBuilder.buildASTFromString(qlFile);
+        // Stylesheet stylesheet = stylesheetBuilder.createForm(qlFile);
         Stylesheet stylesheet = null;
 
-        Validator validator = new Validator();
-        if (!validator.passesTypeChecks(form)) {
+        if (Validator.passesTypeChecks(form)) {
+            System.out.println("Successfully passed all checks");
+            FormUI formUI = new FormUIFactory().getFormUI(form);
+            formUI.display();
+        } else {
             System.err.println("Form not passing validation");
             System.exit(1);
-        } else {
-            System.out.println("Successfully passed all checks");
-        }
-
-        FormEvaluator evaluator = new Evaluator();
-        evaluator.start(form);
-
-        if(!issueTracker.hasErrors()) {
-            FormViewer formViewer = new FormViewer(evaluator);
-            formViewer.start(form, stylesheet);
         }
     }
 

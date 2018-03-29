@@ -1,6 +1,5 @@
 package ql.validator;
 
-import issuetracker.IssueTracker;
 import ql.ast.Form;
 import ql.validator.checkers.Checker;
 import ql.validator.checkers.CyclicDependencyChecker;
@@ -13,42 +12,41 @@ import ql.validator.checkers.QuestionDuplicationChecker;
  */
 public class Validator {
 
+    private static final Checker questionDuplicationChecker = new QuestionDuplicationChecker();
+    private static final Checker expressionChecker = new ExpressionChecker();
+    private static final Checker cyclicDependencyChecker = new CyclicDependencyChecker();
 
-    private final IssueTracker issueTracker;
-    private final Checker questionDuplicationChecker;
-    private final Checker expressionChecker;
-    private final Checker cyclicDependencyChecker;
+    public static boolean passesTypeChecks(Form form) {
 
-    public Validator() {
-        issueTracker = IssueTracker.getIssueTracker();
-        questionDuplicationChecker = new QuestionDuplicationChecker(issueTracker);
-        expressionChecker = new ExpressionChecker(issueTracker);
-        cyclicDependencyChecker = new CyclicDependencyChecker(issueTracker);
-    }
-
-    public boolean passesTypeChecks(Form form) {
+        //TODO: passesTests return issuetracker. No global tracker, no singleton
 
         //Check for duplicate question identifiers and labels
         if (!questionDuplicationChecker.passesTests(form)) {
-            issueTracker.logErrors();
+            questionDuplicationChecker.logErrors();
             return false;
         }
 
         //Check for reference to undefined questions, non-boolean conditionals, and invalid operand types
         if (!expressionChecker.passesTests(form)) {
-            issueTracker.logErrors();
+            expressionChecker.logErrors();
             return false;
         }
 
         //Check cyclic dependencies between questions
         if (!cyclicDependencyChecker.passesTests(form)) {
-            issueTracker.logErrors();
+            cyclicDependencyChecker.logErrors();
             return false;
         }
 
-        issueTracker.logWarnings();
+        logWarnings();
 
         return true;
+    }
+
+    private static void logWarnings() {
+        questionDuplicationChecker.logWarnings();
+        expressionChecker.logWarnings();
+        cyclicDependencyChecker.logWarnings();
     }
 
 }

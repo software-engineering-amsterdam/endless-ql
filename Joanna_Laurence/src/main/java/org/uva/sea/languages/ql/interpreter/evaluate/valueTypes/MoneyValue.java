@@ -28,8 +28,13 @@ public class MoneyValue extends Value {
         this.amount = amount;
     }
 
+    public MoneyValue(MoneyType moneyType, BigDecimal amount) {
+        this.currency = moneyType.toString();
+        this.amount = amount;
+    }
+
     private void validateCurrency(MoneyValue value) throws EvaluationException {
-        if (!this.getCurrency().equals(value.getCurrency()))
+        if (!this.currency.equals(value.currency))
             throw new EvaluationException("Currencies mismatch");
     }
 
@@ -53,9 +58,9 @@ public class MoneyValue extends Value {
 
     @Override
     public Value add(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
+        this.validateCurrency(value);
 
-        return new MoneyValue(this.currency, this.amount.add(value.getAmount()));
+        return new MoneyValue(this.currency, this.amount.add(value.amount));
     }
 
     @Override
@@ -65,31 +70,31 @@ public class MoneyValue extends Value {
 
     @Override
     public Value divide(Value value) throws EvaluationException {
-        return value.reverseDivide(this);
+        return value.divide(this);
     }
 
     @Override
     public Value divide(IntValue value) throws EvaluationException {
         if (value.getIntValue() == 0)
-            throw new EvaluationException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 displayError");
 
         return new MoneyValue(this.currency, this.amount.divide(new BigDecimal(value.getIntValue()), RoundingMode.UNNECESSARY));
     }
 
     @Override
     public Value divide(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
+        this.validateCurrency(value);
 
-        if (value.getAmount().doubleValue() == 0.0)
-            throw new EvaluationException("Divide by 0 error");
+        if (value.amount.doubleValue() == 0.0)
+            throw new EvaluationException("Divide by 0 displayError");
 
-        return new DecimalValue(this.amount.divide(value.getAmount(), RoundingMode.UNNECESSARY).doubleValue());
+        return new DecimalValue(this.amount.divide(value.amount, RoundingMode.UNNECESSARY).doubleValue());
     }
 
     @Override
     public Value divide(DecimalValue value) throws EvaluationException {
         if (value.getDecimalValue() == 0)
-            throw new EvaluationException("Divide by 0 error");
+            throw new EvaluationException("Divide by 0 displayError");
 
         return new MoneyValue(this.currency, this.amount.divide(BigDecimal.valueOf(value.getDecimalValue()), RoundingMode.UNNECESSARY));
     }
@@ -101,59 +106,58 @@ public class MoneyValue extends Value {
 
     @Override
     public Value isEqual(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
+        this.validateCurrency(value);
 
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) == 0);
+        return new BooleanValue(this.amount.compareTo(value.amount) == 0);
     }
-
 
 
     @Override
     public Value isGreaterOrEqual(Value value) throws EvaluationException {
-        return value.isLessThan(this);
-    }
-
-    @Override
-    public Value isGreaterOrEqual(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
-
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) >= 0);
-    }
-
-    @Override
-    public Value isGreaterThan(Value value) throws EvaluationException {
-        return value.isLessOrEqual(this);
-    }
-
-    @Override
-    public Value isGreaterThan(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
-
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) > 0);
-    }
-
-    @Override
-    public Value isLessOrEqual(Value value) throws EvaluationException {
-        return value.isGreaterThan(this);
-    }
-
-    @Override
-    public Value isLessOrEqual(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
-
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) <= 0);
-    }
-
-    @Override
-    public Value isLessThan(Value value) throws EvaluationException {
         return value.isGreaterOrEqual(this);
     }
 
     @Override
-    public Value isLessThan(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
+    public Value isGreaterOrEqual(MoneyValue value) throws EvaluationException {
+        this.validateCurrency(value);
 
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) < 0);
+        return new BooleanValue(this.amount.compareTo(value.amount) >= 0);
+    }
+
+    @Override
+    public Value isGreaterThan(Value value) throws EvaluationException {
+        return value.isGreaterThan(this);
+    }
+
+    @Override
+    public Value isGreaterThan(MoneyValue value) throws EvaluationException {
+        this.validateCurrency(value);
+
+        return new BooleanValue(this.amount.compareTo(value.amount) > 0);
+    }
+
+    @Override
+    public Value isLessOrEqual(Value value) throws EvaluationException {
+        return value.isLessOrEqual(this);
+    }
+
+    @Override
+    public Value isLessOrEqual(MoneyValue value) throws EvaluationException {
+        this.validateCurrency(value);
+
+        return new BooleanValue(this.amount.compareTo(value.amount) <= 0);
+    }
+
+    @Override
+    public Value isLessThan(Value value) throws EvaluationException {
+        return value.isLessThan(this);
+    }
+
+    @Override
+    public Value isLessThan(MoneyValue value) throws EvaluationException {
+        this.validateCurrency(value);
+
+        return new BooleanValue(this.amount.compareTo(value.amount) < 0);
     }
 
     @Override
@@ -168,9 +172,9 @@ public class MoneyValue extends Value {
 
     @Override
     public Value multiply(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
+        this.validateCurrency(value);
 
-        return new MoneyValue(this.currency, this.amount.multiply(value.getAmount()));
+        return new MoneyValue(this.currency, this.amount.multiply(value.amount));
     }
 
     @Override
@@ -185,14 +189,9 @@ public class MoneyValue extends Value {
 
     @Override
     public Value isNotEqual(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
+        this.validateCurrency(value);
 
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) != 0);
-    }
-
-    @Override
-    public Value subtract(Value value) throws EvaluationException {
-        return value.reverseSubtract(this);
+        return new BooleanValue(this.amount.compareTo(value.amount) != 0);
     }
 
     @Override
@@ -202,48 +201,14 @@ public class MoneyValue extends Value {
 
     @Override
     public Value subtract(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
+        this.validateCurrency(value);
 
-        return new MoneyValue(this.currency, this.amount.subtract(value.getAmount()));
+        return new MoneyValue(this.currency, this.amount.subtract(value.amount));
     }
 
     @Override
     public Value subtract(DecimalValue value) {
         return new MoneyValue(this.currency, this.amount.subtract(BigDecimal.valueOf(value.getDecimalValue())));
-    }
-
-    @Override
-    public Value reverseSubtract(DecimalValue value) throws EvaluationException {
-        return value.subtract(this);
-    }
-
-    @Override
-    public Value reverseSubtract(IntValue value) throws EvaluationException {
-        return value.subtract(this);
-    }
-
-    @Override
-    public Value reverseSubtract(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
-
-        return value.subtract(this);
-    }
-
-    @Override
-    public Value reverseDivide(DecimalValue value) throws EvaluationException {
-        return value.divide(this);
-    }
-
-    @Override
-    public Value reverseDivide(IntValue value) throws EvaluationException {
-        return value.divide(this);
-    }
-
-    @Override
-    public Value reverseDivide(MoneyValue value) throws EvaluationException {
-        validateCurrency(value);
-
-        return value.divide(this);
     }
 
     @Override
@@ -269,5 +234,14 @@ public class MoneyValue extends Value {
             return NodeType.MONEY_DOLLAR;
 
         throw new NotImplementedException();
+    }
+
+    @Override
+    public String toString() {
+        return (this.amount != null) ? (this.currency + this.amount) : "No value";
+    }
+
+    public MoneyValue clone() throws CloneNotSupportedException {
+        return (MoneyValue) super.clone();
     }
 }

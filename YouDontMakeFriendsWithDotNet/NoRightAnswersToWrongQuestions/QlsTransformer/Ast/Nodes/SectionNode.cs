@@ -5,21 +5,20 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QlsTransformer.Ast.Nodes
 {
-    internal class StyleSheetRootNode : AstNodeBase, IStyleSheetRootNode
+    internal class SectionNode : AstNodeBase, ISectionNode
     {
-        public StyleSheetRootNode(
+
+        public SectionNode(
             Guid id, 
             string definition,
-            string styleSheetName,
-            IEnumerable<Reference<IPageNode>> pages) 
+            string name,
+            IEnumerable<Reference<IQlsQuestionNode>> questions) 
             : base(id, definition)
         {
-            Name = styleSheetName;
-            Pages = pages;
+            Name = name;
+            Questions = questions;
         }
-
         public string Name { get; }
-        public IEnumerable<Reference<IPageNode>> Pages { get; }
+        public IEnumerable<Reference<IQlsQuestionNode>> Questions { get; }
     }
 }
-    

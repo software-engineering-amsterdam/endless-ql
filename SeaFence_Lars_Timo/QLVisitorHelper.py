@@ -27,10 +27,10 @@ class QLVisitorHelper(QLVisitor):
     # Visit a parse tree produced by QLParser#assignment.
     def visitAssignment(self, ctx):
         name = ctx.STR().getText()
-        var = ctx.var().getText()
-        vartype = ctx.vartype().getText()
+        variable = ctx.variable().getText()
+        variable_type = ctx.variable_type().getText()
         expression = self.visit(ctx.expression())
-        node = AssignmentNode(name, var, vartype, expression)
+        node = AssignmentNode(name, variable, variable_type, expression)
 
         return node
 
@@ -38,9 +38,9 @@ class QLVisitorHelper(QLVisitor):
     # Visit a parse tree produced by QLParser#question.
     def visitQuestion(self, ctx):
         question = ctx.STR().getText()
-        var = ctx.var().getText()
-        vartype = ctx.vartype().getText()
-        node = QuestionNode(question, var, vartype)
+        variable = ctx.variable().getText()
+        variable_type = ctx.variable_type().getText()
+        node = QuestionNode(question, variable, variable_type)
 
         return node
 
@@ -85,26 +85,22 @@ class QLVisitorHelper(QLVisitor):
             node.negate = negate
             return node
 
-        elif (ctx.var()):
-            var = ctx.var().getText()
-            return UnOpNode(var)
+        elif (ctx.variable()):
+            variable = ctx.variable().getText()
+            return UnOpNode(variable)
 
         elif (ctx.INT()):
-            var = ctx.INT().getText()
-            vartype = u"int"
-            return LiteralNode(var, vartype)
+            variable = ctx.INT().getText()
+            variable_type = u"int"
+            return LiteralNode(variable, varirable_type)
 
         elif (ctx.BOOL()):
-            var = ctx.BOOL().getText()
-            vartype = u"boolean"
-            return LiteralNode(var, vartype)
-
-        # elif (ctx.STR()):
-        #     var = ctx.STR().getText()
-        #     vartype = u"string"
-        #     return LiteralNode(var, vartype)
+            variable = ctx.BOOL().getText()
+            variable_type = u"boolean"
+            return LiteralNode(variable, variable_type)
 
         return
+
 
     # Visit a parse tree produced by QLParser#if_cond.
     def visitIf_cond(self, ctx):

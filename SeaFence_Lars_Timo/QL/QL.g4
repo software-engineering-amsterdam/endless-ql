@@ -13,13 +13,13 @@ statement: question
          | assignment
          ;
 
-assignment: STR var ':' vartype '=' expression;
-question: STR var ':' vartype;
+assignment: STR variable ':' variable_type '=' expression;
+question: STR variable ':' variable_type;
 conditional: if_cond elif_cond* else_cond?;
 expression: BOOL 
           | STR
           | INT
-          | var
+          | variable
           | '(' expression ')'
           | NOT expression
           | left=expression COMPARER right=expression
@@ -30,8 +30,8 @@ expression: BOOL
           ;
 
 form_id: NAME;
-var: NAME;
-vartype: 'int'
+variable: NAME;
+variable_type: 'int'
        | 'boolean';
 
 if_cond: 'if' '(' expression ')' block;

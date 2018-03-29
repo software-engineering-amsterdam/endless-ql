@@ -1,49 +1,37 @@
 package nl.uva.se.sc.niro.model.ql
 
 sealed trait AnswerType {
-  def isCompatibleWith(that: AnswerType): Boolean = {
-    this == that
+  def getWidest(that: AnswerType): Option[AnswerType] = {
+    if (this == that) Some(this) else None
   }
 }
 
 case object BooleanType extends AnswerType
 case object DateType extends AnswerType
-case object NumericType extends AnswerType {
-  override def isCompatibleWith(that: AnswerType): Boolean = that match {
-    case NumericType => true
-    case IntegerType => true
-    case DecimalType => true
-    case MoneyType   => true
-    case _           => false
-  }
-}
 case object DecimalType extends AnswerType {
-  override def isCompatibleWith(that: AnswerType): Boolean = that match {
-    case NumericType => true
-    case IntegerType => true
-    case DecimalType => true
-    case MoneyType   => true
-    case _           => false
+  override def getWidest(that: AnswerType): Option[AnswerType] = that match {
+    case IntegerType => Some(DecimalType)
+    case DecimalType => Some(DecimalType)
+    case MoneyType   => Some(MoneyType)
+    case _           => None
   }
 }
 
 case object IntegerType extends AnswerType {
-  override def isCompatibleWith(that: AnswerType): Boolean = that match {
-    case NumericType => true
-    case IntegerType => true
-    case DecimalType => true
-    case MoneyType   => true
-    case _           => false
+  override def getWidest(that: AnswerType): Option[AnswerType] = that match {
+    case IntegerType => Some(IntegerType)
+    case DecimalType => Some(DecimalType)
+    case MoneyType   => Some(MoneyType)
+    case _           => None
   }
 }
 
 case object MoneyType extends AnswerType {
-  override def isCompatibleWith(that: AnswerType): Boolean = that match {
-    case NumericType => true
-    case IntegerType => true
-    case DecimalType => true
-    case MoneyType   => true
-    case _           => false
+  override def getWidest(that: AnswerType): Option[AnswerType] = that match {
+    case IntegerType => Some(MoneyType)
+    case DecimalType => Some(MoneyType)
+    case MoneyType   => Some(MoneyType)
+    case _           => None
   }
 }
 

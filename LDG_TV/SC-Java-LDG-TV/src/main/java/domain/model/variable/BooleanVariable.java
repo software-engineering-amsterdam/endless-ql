@@ -38,8 +38,6 @@ public class BooleanVariable extends Variable {
         this.uiElement = uiElement;
     }
 
-    ;
-
     @Override
     public void setValue(BooleanExpressionValue value) {
         this.value = value;

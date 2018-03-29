@@ -58,8 +58,6 @@ public class ASTTest {
         leftHandOperandValue = new MoneyValue(1000);
         rightHandOperandValue = new MoneyValue(500);
 
-//        leftHandOperand.setValue(leftHandOperandValue);
-//        rightHandOperand.setValue(rightHandOperandValue);
 
         arithmeticExpressionValue = new ArithmeticExpressionValue(leftHandOperand, rightHandOperand, operator);
         arithmeticExpressionVariable.setValue(arithmeticExpressionValue);

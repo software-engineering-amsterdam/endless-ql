@@ -40,6 +40,24 @@ class QLSTypeCheckTest(unittest.TestCase):
             qlsAst.prepareAndCheckAst(qlAst.getVarDict())
             self.assertEqual(str(qlsAst), outputText, filename)
 
+    def testErrorFilesQLSTypecheck(self):
+        path = 'Testing/test_files/qls/typechecker/fail_test'
+        for filename in os.listdir(path):
+            qlText, qlsText = getInputOutput(path, filename)
+            qlAst = getAstFromString(qlText)
+            qlAst.linkVars()
+            qlAst.checkTypes()
+
+            qlsAst = getQLSAstFromString(qlsText)
+            blockPrint()
+            with self.assertRaises(SystemExit) as cm:
+                qlsAst.prepareAndCheckAst(qlAst.getVarDict())
+            self.assertEqual(cm.exception.code, 1)
+            enablePrint()
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

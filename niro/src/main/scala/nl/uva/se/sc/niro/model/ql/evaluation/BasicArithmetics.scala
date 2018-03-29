@@ -16,7 +16,6 @@ object BasicArithmetics {
     }
     def multiply(x: IntegerAnswer, y: Answer): Answer = y match {
       case i: IntegerAnswer => IntegerAnswer(x.value * i.value)
-      case m: MoneyAnswer => MoneyAnswer(BigDecimal(x.value) * m.value)
       case _                => throw new UnsupportedOperationException(s"Can't perform operation $x * $y")
     }
     def div(x: IntegerAnswer, y: Answer): Answer = y match {
@@ -38,7 +37,6 @@ object BasicArithmetics {
     }
     def multiply(x: DecimalAnswer, y: Answer): Answer = y match {
       case d: DecimalAnswer => DecimalAnswer(x.value * d.value)
-      case m: MoneyAnswer => MoneyAnswer(x.value * m.value)
       case _                => throw new UnsupportedOperationException(s"Can't perform operation $x * $y")
     }
     def div(x: DecimalAnswer, y: Answer): Answer = y match {
@@ -49,6 +47,28 @@ object BasicArithmetics {
   }
 
   implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics
+
+  trait MoneyAnswerCanDoBasicArithmetics extends BasicArithmetics[MoneyAnswer] {
+    def plus(x: MoneyAnswer, y: Answer): Answer = y match {
+      case d: MoneyAnswer => MoneyAnswer(x.value + d.value)
+      case _              => throw new UnsupportedOperationException(s"Can't perform operation $x + $y")
+    }
+    def subtract(x: MoneyAnswer, y: Answer): Answer = y match {
+      case d: MoneyAnswer => MoneyAnswer(x.value - d.value)
+      case _              => throw new UnsupportedOperationException(s"Can't perform operation $x - $y")
+    }
+    def multiply(x: MoneyAnswer, y: Answer): Answer = y match {
+      case d: MoneyAnswer => MoneyAnswer(x.value * d.value)
+      case _              => throw new UnsupportedOperationException(s"Can't perform operation $x * $y")
+    }
+    def div(x: MoneyAnswer, y: Answer): Answer = y match {
+      case d: MoneyAnswer => MoneyAnswer(x.value / d.value)
+      case _              => throw new UnsupportedOperationException(s"Can't perform operation $x / $y")
+    }
+    def minus(x: MoneyAnswer): Answer = MoneyAnswer(-x.value)
+  }
+
+  implicit object MoneyAnswerCanDoBasicArithmetics extends MoneyAnswerCanDoBasicArithmetics
 }
 
 trait BasicArithmetics[SubType <: Answer] {

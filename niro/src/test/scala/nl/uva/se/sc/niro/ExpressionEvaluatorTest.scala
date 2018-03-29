@@ -46,7 +46,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
           ("Expression", "Expected Answer"),
           (Addition(MoneyAnswer(5), MoneyAnswer(3)), MoneyAnswer(8)),
           (Subtract(MoneyAnswer(5), MoneyAnswer(3)), MoneyAnswer(2)),
-          (Divide(MoneyAnswer(10), MoneyAnswer(5)), DecimalAnswer(2))
+          (Divide(MoneyAnswer(10), MoneyAnswer(5)), MoneyAnswer(2))
         )
 
         forAll(table) { (expression, expectedAnswer) =>
@@ -54,7 +54,6 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
         }
       }
 
-      // TODO fix money arithmetics (see commented lines)
       "on different types" in {
         val table = Table(
           ("Expression", "Expected Answer"),
@@ -276,22 +275,6 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
         val expression = Equal(BooleanAnswer(true), IntegerAnswer(5))
 
         assertThrows[MatchError](expression.evaluate(Map.empty, Map.empty))
-      }
-      "throw an error when evaluating invalid money arithmetics" in {
-        val table = Table(
-          "Operation",
-          Addition(MoneyAnswer(5), IntegerAnswer(4)),
-          Addition(IntegerAnswer(5), MoneyAnswer(4)),
-          Addition(MoneyAnswer(5), DecimalAnswer(4)),
-          Addition(DecimalAnswer(5), MoneyAnswer(4)),
-          Subtract(MoneyAnswer(5), IntegerAnswer(4)),
-          Subtract(MoneyAnswer(5), IntegerAnswer(4)),
-          Multiply(MoneyAnswer(5), MoneyAnswer(4))
-        )
-
-        forAll(table) { expression =>
-          assertThrows[UnsupportedOperationException](expression.evaluate(Map.empty, Map.empty))
-        }
       }
     }
   }

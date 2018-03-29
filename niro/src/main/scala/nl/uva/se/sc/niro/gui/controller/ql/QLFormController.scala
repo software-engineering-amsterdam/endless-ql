@@ -27,6 +27,7 @@ import scala.collection.{ JavaConverters, mutable }
 class QLFormController(homeController: QLHomeController, model: QLForm, guiForm: GUIForm)
     extends QLBaseController
     with ComponentChangedListener
+    with ViewUpdater
     with Logging {
 
   // TODO align naming!

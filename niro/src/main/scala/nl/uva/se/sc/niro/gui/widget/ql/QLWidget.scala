@@ -12,6 +12,6 @@ trait QLWidget[T] extends Node {
   def setPrefWidth(width: Double): Unit
   def addValueChangedListener(valueChangedListener: ValueChangedListener): Unit =
     valueChangedListeners.append(valueChangedListener)
-  protected def valueChanged(): Unit =
+  def valueChanged(): Unit =
     valueChangedListeners.foreach(_.valueChanged(this))
 }

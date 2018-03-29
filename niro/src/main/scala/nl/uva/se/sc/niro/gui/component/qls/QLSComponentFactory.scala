@@ -4,6 +4,7 @@ import nl.uva.se.sc.niro.gui.component.ql.QLComponentFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.gui.widget.WidgetFactory
 
+// TODO convert to builder
 object QLSComponentFactory {
   def apply(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory) =
     new ComponentFactoryFontSizeDecorator(

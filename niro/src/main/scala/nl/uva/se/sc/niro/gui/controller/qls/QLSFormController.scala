@@ -4,8 +4,9 @@ import javafx.fxml.FXML
 import javafx.geometry.Insets
 import javafx.scene.control.{ Label, Pagination }
 import nl.uva.se.sc.niro.gui.component.Component
-import nl.uva.se.sc.niro.gui.component.qls.QLSPageFactory
+import nl.uva.se.sc.niro.gui.component.qls.QLSComponentFactory
 import nl.uva.se.sc.niro.gui.controller.ql.{ QLFormController, QLHomeController }
+import nl.uva.se.sc.niro.gui.widget.qls.QLSWidgetFactory
 import nl.uva.se.sc.niro.model.gui.ql.GUIForm
 import nl.uva.se.sc.niro.model.gui.qls.GUIStylesheet
 import nl.uva.se.sc.niro.model.ql.QLForm
@@ -32,7 +33,13 @@ class QLSFormController(homeController: QLHomeController, model: QLForm, guiForm
   override def initializeForm(): Unit = {
     pagination.setPageCount(stylesheet.pages.size)
     pagination.setPadding(new Insets(00.0, 20.0, 00.0, 20.0))
-    pagination.setPageFactory(new QLSPageFactory(this, guiForm, stylesheet))
+    pagination.setPageFactory(
+      new QLSPageFactoryBuilder()
+        .buildWith(this)
+        .buildWith(guiForm)
+        .buildWith(stylesheet)
+        .buildWith(QLSComponentFactory(this, new QLSWidgetFactory()))
+        .build)
 
     questionArea.setContent(pagination)
     questionArea.setFitToHeight(true)

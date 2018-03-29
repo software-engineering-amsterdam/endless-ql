@@ -14,7 +14,7 @@ class TypeCheckFacadeTest extends WordSpec {
     }
 
     "be compatible with default spinbox styling" in {
-      val actual = WidgetStyles.stylingIsCompatible(IntegerType, Styling(widgetType = Some(SpinBox())))
+      val actual = WidgetStyles.stylingIsCompatible(IntegerType, Styling(widgetType = Some(SpinBox(0, 2, 1))))
       val expected = true
       assert(actual == expected)
     }
@@ -70,7 +70,7 @@ class TypeCheckFacadeTest extends WordSpec {
 
     "not be compatible with spinbox styling" in {
       val actual =
-        WidgetStyles.stylingIsCompatible(BooleanType, Styling(widgetType = Some(SpinBox())))
+        WidgetStyles.stylingIsCompatible(BooleanType, Styling(widgetType = Some(SpinBox(0, 2, 1))))
       val expected = false
       assert(actual == expected)
     }
@@ -105,7 +105,7 @@ class TypeCheckFacadeTest extends WordSpec {
 
     "be compatible with spinbox styling" in {
       val actual =
-        WidgetStyles.stylingIsCompatible(MoneyType, Styling(widgetType = Some(SpinBox())))
+        WidgetStyles.stylingIsCompatible(MoneyType, Styling(widgetType = Some(SpinBox(0, 2, 1))))
       val expected = true
       assert(actual == expected)
     }

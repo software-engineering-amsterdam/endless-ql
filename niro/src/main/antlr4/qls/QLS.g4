@@ -16,6 +16,7 @@ WIDGET       : 'widget' ;
 DEFAULT      : 'default' ;
 CHECKBOX     : 'checkbox' ;
 SPINBOX      : 'spinbox' ;
+SLIDER       : 'slider' ;
 RADIO        : 'radio' ;
 COMBO        : 'combo' ;
 
@@ -23,6 +24,7 @@ FONT         : 'font' ;
 FONTSIZE     : 'fontsize' ;
 COLOR        : 'color' ;
 WIDTH        : 'width' ;
+MIN          : '-' ;
 
 CURLY_LEFT   : '{' ;
 CURLY_RIGHT  : '}' ;
@@ -32,8 +34,10 @@ BRACKET_RIGHT : ')' ;
 
 DOUBLE_COLON  : ':' ;
 COMMA         : ',' ;
+PERIOD        : '.' ;
 
-IntegerValue : [1-9][0-9]* ;
+DecimalValue : MIN? [0-9]+ PERIOD [0-9]+ ;
+IntegerValue : MIN? [1-9][0-9]* ;
 HEXDIGIT     : [0-9]|[A-F] ;
 HexValue     : '#' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
 Identifier   : [a-zA-Z0-9_]+ ;
@@ -67,7 +71,11 @@ style         : WIDGET widgetType                           # WidgetStyling
               | FONT DOUBLE_COLON fontType=Text             # FontTypeStyling
               | FONTSIZE DOUBLE_COLON fontSize=IntegerValue # FontSizeStyling;
 
-widgetType    : CHECKBOX                                                              # CheckBox
-              | SPINBOX                                                               # SpinBox
-              | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # ComboBox
-              | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # RadioButtons;
+widgetType    : CHECKBOX                                                                  # CheckBox
+              | SPINBOX BRACKET_LEFT minimum=(DecimalValue | IntegerValue)
+                               COMMA maximum=(DecimalValue | IntegerValue)
+                               COMMA stepSize=(DecimalValue | IntegerValue) BRACKET_RIGHT # SpinBox
+              | SLIDER BRACKET_LEFT minimum=(DecimalValue | IntegerValue)
+                              COMMA maximum=(DecimalValue | IntegerValue) BRACKET_RIGHT   # Slider
+              | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT     # ComboBox
+              | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT     # RadioButtons;

@@ -6,7 +6,7 @@ import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
 
 trait WidgetFactory {
-  def makeBooleanWidget(question: GUIQuestion): QLWidget[Boolean]
+  def makeBooleanWidget(question: GUIQuestion): QLWidget[java.lang.Boolean]
   def makeDateWidget(question: GUIQuestion): QLWidget[LocalDate]
   def makeStringWidget(question: GUIQuestion): QLWidget[String]
   def makeIntegerWidget(question: GUIQuestion): QLWidget[java.math.BigInteger]

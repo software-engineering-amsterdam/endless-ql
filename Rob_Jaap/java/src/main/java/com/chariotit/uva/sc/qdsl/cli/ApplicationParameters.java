@@ -1,4 +1,4 @@
-package com.chariotit.uva.sc.qdsl;
+package com.chariotit.uva.sc.qdsl.cli;
 
 import org.apache.commons.cli.*;
 

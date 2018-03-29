@@ -5,18 +5,16 @@ import com.chariotit.uva.sc.qdsl.ast.ql.node.QLAstRoot;
 import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.qls.Validator;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
+import com.chariotit.uva.sc.qdsl.cli.ApplicationParameters;
+import com.chariotit.uva.sc.qdsl.cli.InvalidParametersException;
 import com.chariotit.uva.sc.qdsl.grammar.QLSLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.QLSVisitor;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
-import com.chariotit.uva.sc.qdsl.QLFrame;
-
-import sun.tools.jar.CommandLine;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import org.apache.commons.cli.*;
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -30,12 +28,6 @@ import java.util.List;
 
 @Component
 public class ApplicationRunner implements CommandLineRunner {
-//
-//    /**
-//     * Pull in the JFrame to be displayed.
-//     */
-//    @Autowired
-//    private QLFrame frame;
 
     private QLAstRoot getQLFromFilename(String filename) throws IOException {
 

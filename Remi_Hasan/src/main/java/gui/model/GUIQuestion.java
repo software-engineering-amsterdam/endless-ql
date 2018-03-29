@@ -1,29 +1,26 @@
 package gui.model;
 
+import gui.render.GUIController;
 import gui.elements.LabelWithWidget;
 import gui.widgets.GUIWidget;
 import gui.widgets.WidgetFactory;
-import javafx.beans.InvalidationListener;
 import javafx.scene.control.Label;
 import ql.evaluation.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
-import qls.model.widget.WidgetType;
 
 public class GUIQuestion implements IGUIQuestion {
     private final String identifier;
     private final String label;
     private final ReturnType type;
-    private final WidgetType widgetType;
     private final Expression condition;
     private final Expression computedAnswer;
 
-    public GUIQuestion(String identifier, String label, ReturnType type, WidgetType widgetType, Expression condition, Expression computedAnswer) {
+    public GUIQuestion(String identifier, String label, ReturnType type, Expression condition, Expression computedAnswer) {
         this.identifier = identifier;
         this.label = label;
         this.type = type;
-        this.widgetType = widgetType;
         this.condition = condition;
         this.computedAnswer = computedAnswer;
     }
@@ -34,9 +31,6 @@ public class GUIQuestion implements IGUIQuestion {
 
     public ReturnType getType() {
         return type;
-    }
-    public WidgetType getWidgetType() {
-        return widgetType;
     }
 
     public Expression getComputedAnswer() {
@@ -52,29 +46,25 @@ public class GUIQuestion implements IGUIQuestion {
         return this.computedAnswer != null;
     }
 
-    public LabelWithWidget render(SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
-        GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type, this.widgetType);
-        return this.render(guiWidget, symbolTable, allWidgetsListener);
+    public LabelWithWidget render(GUIController guiController) {
+        GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type);
+        return this.render(guiWidget, guiController);
     }
 
-    LabelWithWidget render(GUIWidget guiWidget, SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
+    LabelWithWidget render(GUIWidget guiWidget, GUIController guiController) {
         Label guiLabel = new Label(this.label);
 
-        // Update symbol table and other fields in UI if non-computed field is edited by user
+        // Notify controller if non-computed field is updated by the user
         if(!this.isComputed()) {
             guiWidget.setChangeListener(observable -> {
-                symbolTable.setExpression(this.identifier, guiWidget.getExpressionValue());
-
-                // Notify GUIForm that an input value has changed, so it can update all fields
-                allWidgetsListener.invalidated(observable);
+                guiController.update(this, guiWidget.getExpressionValue());
             });
         }
 
         LabelWithWidget labelWithWidget = new LabelWithWidget(guiLabel, guiWidget);
         labelWithWidget.setDisable(this.isComputed());
 
-        // TODO: temporary hack, improve this
-        GUIFormWithStyling.guiWidgetsMap.put(this, labelWithWidget);
+        guiController.register(this, labelWithWidget);
 
         return labelWithWidget;
     }

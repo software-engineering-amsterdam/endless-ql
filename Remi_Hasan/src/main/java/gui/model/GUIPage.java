@@ -1,9 +1,8 @@
 package gui.model;
 
-import javafx.beans.InvalidationListener;
+import gui.render.GUIController;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
-import ql.evaluation.SymbolTable;
 
 import java.util.List;
 
@@ -21,12 +20,12 @@ public class GUIPage {
         return identifier;
     }
 
-    public VBox render(SymbolTable symbolTable, InvalidationListener allWidgetsListener){
+    public VBox render(GUIController guiController){
         VBox vBox = new VBox();
 
         // Render all sections
         for(GUIElement element : elements){
-            vBox.getChildren().add(element.render(symbolTable, allWidgetsListener));
+            vBox.getChildren().add(element.render(guiController));
         }
 
         vBox.setPadding(new Insets(10));

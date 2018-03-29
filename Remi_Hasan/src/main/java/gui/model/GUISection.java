@@ -1,6 +1,6 @@
 package gui.model;
 
-import javafx.beans.InvalidationListener;
+import gui.render.GUIController;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import ql.evaluation.SymbolTable;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class GUISection extends GUIElement {
         this.sectionElements = sectionElements;
     }
 
-    public Parent render(SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
+    public Parent render(GUIController guiController) {
         Label pageLabel = new Label(title);
         pageLabel.setFont(new Font(16));
 
@@ -34,7 +33,7 @@ public class GUISection extends GUIElement {
         // Render all section elements, keep track of their visibility properties to bind to the section visibility
         ObservableList<BooleanProperty> visibleProperties = FXCollections.observableArrayList();
         for (GUIElement sectionElement : this.sectionElements) {
-            Parent renderedElement = sectionElement.render(symbolTable, allWidgetsListener);
+            Parent renderedElement = sectionElement.render(guiController);
             vBox.getChildren().add(renderedElement);
             visibleProperties.add(renderedElement.visibleProperty());
         }

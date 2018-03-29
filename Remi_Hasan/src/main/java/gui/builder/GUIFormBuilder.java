@@ -25,7 +25,7 @@ public class GUIFormBuilder {
         List<GUIQuestion> guiQuestions = getGUIQuestions(form);
 
         // Map all questions with the same identifier
-        Map<String, List<GUIQuestion>> guiQuestionMap = this.getGUIQuestionsByIdentifier(guiQuestions);
+        Map<String, List<GUIQuestion>> guiQuestionMap = this.mapGUIQuestionsByIdentifier(guiQuestions);
 
         // Build GUIPage objects
         List<GUIPage> pages = new ArrayList<>();
@@ -55,7 +55,7 @@ public class GUIFormBuilder {
         return guiQuestions;
     }
 
-    private Map<String, List<GUIQuestion>> getGUIQuestionsByIdentifier(List<GUIQuestion> guiQuestions) {
+    private Map<String, List<GUIQuestion>> mapGUIQuestionsByIdentifier(List<GUIQuestion> guiQuestions) {
         // Map all questions with the same identifier
         Map<String, List<GUIQuestion>> guiQuestionMap = new HashMap<>();
         for (GUIQuestion guiQuestion : guiQuestions) {

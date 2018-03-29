@@ -2,9 +2,7 @@ package gui;
 
 import gui.builder.GUIFormBuilder;
 import gui.model.GUIForm;
-import gui.model.GUIFormWithStyling;
-import gui.model.GUIPage;
-import gui.model.GUISection;
+import gui.render.GUIController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -81,7 +79,9 @@ public class Renderer extends Application {
             guiForm = guiFormBuilder.buildQLForm(this.qlForm);
         }
 
-        Scene scene = new Scene(guiForm.render(this.symbolTable));
+        GUIController guiController = new GUIController(this.symbolTable);
+
+        Scene scene = new Scene(guiForm.render(guiController));
         stage.setTitle(qlForm.getIdentifier() + " form");
         stage.setScene(scene);
         stage.setWidth(640);

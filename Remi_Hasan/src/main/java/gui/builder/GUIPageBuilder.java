@@ -35,7 +35,7 @@ public class GUIPageBuilder extends QLSVisitor<GUIPage> {
         });
 
         // Add all questions and sections on this page
-        GUIElementBuilder guiElementBuilder = new GUIElementBuilder(guiQuestionMap, defaultStyles);
+        GUIElementBuilder guiElementBuilder = new GUIElementBuilder(this.guiQuestionMap, defaultStyles);
         for(Statement statement : page.getStatements()) {
             guiElements.addAll(guiElementBuilder.visit(statement));
         }

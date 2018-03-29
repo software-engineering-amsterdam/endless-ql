@@ -1,9 +1,8 @@
 package gui.model;
 
-import javafx.beans.InvalidationListener;
+import gui.render.GUIController;
 import javafx.scene.Parent;
-import ql.evaluation.SymbolTable;
 
 public abstract class GUIElement {
-    public abstract Parent render(SymbolTable symbolTable, InvalidationListener allWidgetsListener);
+    public abstract Parent render(GUIController guiController);
 }

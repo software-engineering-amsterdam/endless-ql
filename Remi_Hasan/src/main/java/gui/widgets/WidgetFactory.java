@@ -17,7 +17,6 @@ import ql.model.expression.ReturnType;
 import qls.model.widget.*;
 
 public class WidgetFactory {
-    // TODO: implement interface that can be overridden by QLS?
 
     public static GUIWidget getDefaultWidget(ReturnType questionType) {
         switch (questionType) {

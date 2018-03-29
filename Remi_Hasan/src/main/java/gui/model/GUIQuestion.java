@@ -36,11 +36,6 @@ public class GUIQuestion implements IGUIQuestion {
         return type;
     }
 
-    public Widget getWidget() {
-        // TODO: better
-        return new WidgetDefault(null, WidgetType.DEFAULT);
-    }
-
     public Expression getComputedAnswer() {
         return computedAnswer;
     }

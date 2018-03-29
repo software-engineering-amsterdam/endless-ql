@@ -34,33 +34,31 @@ public class GUIElementBuilder extends QLSVisitor<List<GUIElement>> {
     @Override
     public List<GUIElement> visit(QuestionReference questionReference) {
         List<GUIElement> guiElements = new ArrayList<>();
+
         // Add all QL questions with this identifier here, inside decorator for the styling
         for (GUIQuestion guiQuestion : guiQuestionMap.get(questionReference.getIdentifier())) {
             Widget widget;
-            // TODO: default instead of null??
             if (questionReference.getWidget() != null) {
                 widget = questionReference.getWidget();
             } else {
-                widget = this.getWidget(defaultStyles, guiQuestion);
+                widget = this.getWidget(defaultStyles, guiQuestion.getType());
             }
             guiElements.add(new GUIQuestionWithStyling(guiQuestion, this.defaultStyles, widget));
         }
+
         return guiElements;
     }
 
-    private Widget getWidget(List<DefaultStyle> defaultStyles, GUIQuestion guiQuestion) {
-        // If a question has a widget type, don't use other widget types of the default styles
-        if (guiQuestion.getWidget().getType() != WidgetType.DEFAULT) {
-            return guiQuestion.getWidget();
-        }
+    private Widget getWidget(List<DefaultStyle> defaultStyles, ReturnType questionType) {
+        Widget widget = new WidgetDefault(null);
 
-        // TODO: better
-        Widget widget = new WidgetDefault(null, WidgetType.DEFAULT);
+        // Go through default styles and find if a widget type has been set for this question type
         for (DefaultStyle defaultStyle : defaultStyles) {
-            if(defaultStyle.getType() == guiQuestion.getType()) {
+            if(defaultStyle.getType() == questionType && defaultStyle.getWidget() != null) {
                 widget = defaultStyle.getWidget();
             }
         }
+
         return widget;
     }
 

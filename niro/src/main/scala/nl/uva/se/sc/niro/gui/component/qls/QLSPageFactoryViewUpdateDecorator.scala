@@ -10,7 +10,7 @@ class QLSPageFactoryViewUpdateDecorator(viewUpdater: ViewUpdater, pageFactory: C
     try {
       pageFactory.call(pageNumber)
     } finally {
-      viewUpdater.updateView
+      viewUpdater.updateView()
     }
   }
 }

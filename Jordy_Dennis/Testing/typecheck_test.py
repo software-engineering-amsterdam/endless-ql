@@ -27,6 +27,18 @@ class QLTypeCheckTest(unittest.TestCase):
             self.assertEqual(cm.exception.code, 1)
             enablePrint()
 
+class QLSTypeCheckTest(unittest.TestCase):
+    def testGoodFilesQLSTypecheck(self):
+        path = 'Testing/test_files/qls/typechecker/correct_test'
+        for filename in os.listdir(path):
+            qlText, qlsText, outputText, = getInputOutputQLS(path, filename)
+            qlAst = getAstFromString(qlText)
+            qlAst.linkVars()
+            qlAst.checkTypes()
+            
+            qlsAst = getQLSAstFromString(qlsText)
+            qlsAst.prepareAndCheckAst(qlAst.getVarDict())
+            self.assertEqual(str(qlsAst), outputText, filename)
 
 
 if __name__ == '__main__':

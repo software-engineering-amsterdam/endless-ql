@@ -56,7 +56,7 @@ namespace QLS.UnitTests.ParserTests
 
             Assert.AreEqual(
                 expected: styleSheetName,
-                actual: createdStyleSheet.StyleSheetName);
+                actual: createdStyleSheet.Name);
         }
 
         [TestCaseSource(
@@ -91,6 +91,74 @@ namespace QLS.UnitTests.ParserTests
             Assert.AreEqual(
                 expected: pageCount,
                 actual: m_domainItemLocator.GetAll<IPageNode>().Count());
+        }
+
+        [TestCaseSource(
+            typeof(TestQlsData),
+            nameof(TestQlsData.StyleSheetSection))]
+        public void GivenStyleSheetWithSections_CreatesSectionObject(
+            string validStyleSheetDefinition,
+            string sectionName)
+        {
+            CreateStyleSheet(validStyleSheetDefinition);
+
+            var createdSection = m_domainItemLocator
+                .GetAll<ISectionNode>()
+                .FirstOrDefault();
+
+            Assert.IsNotNull(createdSection, "could not find a section node");
+
+            Assert.AreEqual(
+                expected: sectionName,
+                actual: createdSection.Name);
+        }
+
+        [TestCaseSource(
+            typeof(TestQlsData),
+            nameof(TestQlsData.MultipleStyleSheetSection))]
+        public void GivenStyleSheetWithManySections_CreatesSectionObjects(
+            string validStyleSheetDefinition,
+            int sectionCount)
+        {
+            CreateStyleSheet(validStyleSheetDefinition);
+
+            Assert.AreEqual(
+                expected: sectionCount,
+                actual: m_domainItemLocator.GetAll<ISectionNode>().Count());
+        }
+
+        [TestCaseSource(
+            typeof(TestQlsData),
+            nameof(TestQlsData.WithAQuestion))]
+        public void GivenStyleSheetWithAQuestion_CreatesAQuestionObjects(
+            string validStyleSheetDefinition,
+            string questionName)
+        {
+            CreateStyleSheet(validStyleSheetDefinition);
+
+            var createdQuestion = m_domainItemLocator
+                .GetAll<IQlsQuestionNode>()
+                .FirstOrDefault();
+
+            Assert.IsNotNull(createdQuestion, "could not find a question node");
+
+            Assert.AreEqual(
+                expected: questionName,
+                actual: createdQuestion.Name);
+        }
+
+        [TestCaseSource(
+            typeof(TestQlsData),
+            nameof(TestQlsData.WithMultipleQuestions))]
+        public void GivenStyleSheetWithManyQuestions_CreatesQuestionObjects(
+            string validStyleSheetDefinition,
+            int questionCount)
+        {
+            CreateStyleSheet(validStyleSheetDefinition);
+
+            Assert.AreEqual(
+                expected: questionCount,
+                actual: m_domainItemLocator.GetAll<IQlsQuestionNode>().Count());
         }
 
         [TestCaseSource(

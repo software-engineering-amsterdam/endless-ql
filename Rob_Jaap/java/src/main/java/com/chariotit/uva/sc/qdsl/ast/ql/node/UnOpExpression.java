@@ -39,7 +39,7 @@ public class UnOpExpression extends Expression {
     public void evaluate(SymbolTable symbolTable) {
         expression.evaluate(symbolTable);
 
-        setExpressionValue(((UnaryOperator)operator).evaluate(expression));
+        setExpressionValue(((UnaryOperator)operator).evaluate(symbolTable, expression));
     }
 
     @Override

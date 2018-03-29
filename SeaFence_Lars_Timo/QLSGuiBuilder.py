@@ -1,3 +1,5 @@
+# Lars Lokhoff, Timo Dobber
+# This class changes the render order according to QLS form, adds QLS style options
 class QLSGuiBuilder(object):
     def __init__(self, gui, qls_ast):
         self.gui = gui
@@ -26,11 +28,9 @@ class QLSGuiBuilder(object):
     def parseQLSSection(self, section_holder, default_int_style, default_text_style, default_bool_style, parent_section=None):
         for section in section_holder.sections:
             if self.showOrRemoveSection(section):
-                print section.name
                 if section.name not in self.rendered_sections:
                     render_frame = self.gui.addSection(section.name, parent_section)
                     self.rendered_sections[section.name] = render_frame
-                    print self.rendered_sections
                 else:
                     render_frame = self.rendered_sections[section.name]
 
@@ -43,24 +43,14 @@ class QLSGuiBuilder(object):
                 if section.sections != []:
                     self.parseQLSSection(section, default_int_style, default_text_style, default_bool_style, render_frame)
 
-    def showOrRemoveSection(self, section):
-        for question in section.questions:
-            if question.var in self.ql_frame_order:
-                return True
-        if section.name in self.rendered_sections:
-            self.rendered_sections[section.name].destroy()
-            del self.rendered_sections[section.name]
-
-        return False
-
     def parseQLSQuestion(self, question, question_section, default_style_int, default_style_text, default_style_bool):
         old_question = self.gui.widget_settings[question.var]
-        if not question.widget:
-            widget, change_needed = self.checkForDefaultWidget(old_question, question_section, default_style_int, default_style_text, default_style_bool)
-        else:
+        if question.widget:
             options = self.extractWidgetOptions(question.widget.options)
             widget = [question.widget.widget, old_question[1], old_question[2], question_section, options[0], options[1], options[2], options[3], question.widget.min_value, question.widget.max_value]
             change_needed = True
+        else:
+            widget, change_needed = self.checkForDefaultWidget(old_question, question_section, default_style_int, default_style_text, default_style_bool)
 
         if change_needed:
             self.gui.widget_settings[question.var] = widget
@@ -68,24 +58,6 @@ class QLSGuiBuilder(object):
         else:
             self.gui.widget_settings[question.var][3] = question_section
             self.qls_frame_order.append(question.var)
-
-    def extractWidgetOptions(self, default_style_options):
-        options = ["#000000", 30, "Times", "12"]
-
-        if default_style_options:
-            if "color" in  default_style_options:
-                options[0] = default_style_options["color"]
-
-            if "width" in default_style_options:
-                options[1] = default_style_options["width"]
-
-            if "font" in default_style_options:
-                options[2] = default_style_options["font"]
-
-            if "fontsize" in default_style_options:
-                options[3] = default_style_options["fontsize"]
-
-        return options
 
     def checkForDefaultWidget(self, old_question, question_section, default_style_int, default_style_text, default_style_bool):
         question_vartype = old_question[1]
@@ -108,6 +80,27 @@ class QLSGuiBuilder(object):
 
         return old_question, False
 
+    def extractWidgetOptions(self, default_style_options):
+        options = ["#000000", 30, "Times", "12"]
+
+        if default_style_options:
+            if default_style_options.options and default_style_options.options.options:
+                default_style_options = default_style_options.options.options   
+        
+            if "color" in  default_style_options:
+                options[0] = default_style_options["color"]
+
+            if "width" in default_style_options:
+                options[1] = default_style_options["width"]
+
+            if "font" in default_style_options:
+                options[2] = default_style_options["font"]
+
+            if "fontsize" in default_style_options:
+                options[3] = default_style_options["fontsize"]
+
+        return options
+
     def getDefaultStyleWidgets(self, default_style_widgets, old_default_int=None, old_default_text=None, old_default_bool=None):
         default_int = old_default_int
         default_text = old_default_text
@@ -122,3 +115,13 @@ class QLSGuiBuilder(object):
                 default_bool = default_style
 
         return default_int, default_text, default_bool
+
+    def showOrRemoveSection(self, section):
+        for question in section.questions:
+            if question.var in self.ql_frame_order:
+                return True
+        if section.name in self.rendered_sections:
+            self.rendered_sections[section.name].destroy()
+            del self.rendered_sections[section.name]
+
+        return False

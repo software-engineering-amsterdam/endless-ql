@@ -151,19 +151,19 @@ class Gui():
 
     def createTKNoTraceVariable(self, variable_key, value):
         variable = tk.StringVar()
-        var.set(str(value))
-        self.values[variable_key] = var
+        variable.set(str(value))
+        self.values[variable_key] = variable
 
-    def createTKTraceVariable(self, variable_key, var_type, update_function):
-        if var_type is not "boolean":
+    def createTKTraceVariable(self, variable_key, variable_type, update_function):
+        if variable_type is not "boolean":
             variable = tk.StringVar()
-            var.trace('w', lambda nm, idx, mode, var=variable: self.validateForm(update_function))
+            variable.trace('w', lambda nm, idx, mode, var=variable: self.validateForm(update_function))
 
         else:
             variable = tk.IntVar()
-            var.trace("w", update_function)
+            variable.trace("w", update_function)
 
-        self.values[variable_key] = var
+        self.values[variable_key] = variable
 
     def addPage(self, page_name):
         if not self.notebook_set:
@@ -187,12 +187,12 @@ class Gui():
 
         return labelframe
 
-    def removeFrame(self, var_frame):
-        if var_frame in self.gui.frames:
-            self.frames[var_frame].destroy()
+    def removeFrame(self, variable_frame):
+        if variable_frame in self.gui.frames:
+            self.frames[variable_frame].destroy()
 
     def removeFrames(self, frame_list):
         print "Removing frames: ", frame_list
-        for var_frame in frame_list:
-            self.removeFrame(var_frame)
+        for variable_frame in frame_list:
+            self.removeFrame(variable_frame)
     

@@ -48,9 +48,9 @@ class QLSTypeCheckTest(unittest.TestCase):
             qlAst.linkVars()
             qlAst.checkTypes()
 
-            qlsAst = getQLSAstFromString(qlsText)
             blockPrint()
             with self.assertRaises(SystemExit) as cm:
+                qlsAst = getQLSAstFromString(qlsText)
                 qlsAst.prepareAndCheckAst(qlAst.getVarDict())
             self.assertEqual(cm.exception.code, 1)
             enablePrint()

@@ -1,9 +1,9 @@
 package tool;
 
-import domain.model.ast.ConditionNode;
-import domain.model.ast.FormNode;
 import domain.Utilities;
 import domain.model.ast.ASTNode;
+import domain.model.ast.ConditionNode;
+import domain.model.ast.FormNode;
 import domain.model.ast.QuestionNode;
 import domain.model.stylesheet.Page;
 import domain.model.stylesheet.Section;
@@ -17,19 +17,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.LoaderErrorListener;
 import loader.QL.QLBuilder;
 
-import java.io.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ToolController implements Consumer, LoaderErrorListener {
@@ -53,6 +53,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
 
     /**
      * Invoked by the 'build' button action, to generate the questionnaire based on the written QL
+     *
      * @param event that kicked of the invocation
      */
     public void generateQuestionnaire(ActionEvent event) {
@@ -88,6 +89,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
 
     /**
      * Invoked by the 'Import' button action, import .QL or .QLS file
+     *
      * @param event that kicked of the invocation
      */
     public void importQLFile(ActionEvent event) {
@@ -111,30 +113,32 @@ public class ToolController implements Consumer, LoaderErrorListener {
         );
     }
 
-    private void buildQL(){
+    private void buildQL() {
         ListView lvQuestionnaire = new ListView();
         lvQuestionnaire.getItems().clear();
         List<ASTNode> astNodes = this.formNode.getASTNodes();
         List<QuestionNode> questions = getAllQuestions(astNodes);
-        drawQuestions(questions,lvQuestionnaire, true);
+        drawQuestions(questions, lvQuestionnaire, true);
         listViews.add(lvQuestionnaire);
         Tab t = new Tab("QL Form");
         t.setContent(lvQuestionnaire);
         this.tpPages.getTabs().add(t);
     }
-    private void buildQLS(){
+
+    private void buildQLS() {
         Stylesheet styleSheet = formNode.getStylesheet();
 
-        for (Page p : styleSheet.getPages()){
+        for (Page p : styleSheet.getPages()) {
             Tab tab = new Tab(p.getLabel());
             this.tpPages.getTabs().add(tab);
             drawPage(tab, p);
         }
     }
-    private void drawPage(Tab tab, Page p){
+
+    private void drawPage(Tab tab, Page p) {
         HBox hbox = new HBox();
         ListView<Row> lv = new ListView<>();
-        for (Section s : p.getSections()){
+        for (Section s : p.getSections()) {
             drawSection(s, lv);
         }
         listViews.add(lv);
@@ -142,25 +146,27 @@ public class ToolController implements Consumer, LoaderErrorListener {
         hbox.getChildren().add(lv);
         tab.setContent(hbox);
     }
-    private void drawSection(Section s, ListView<Row> lView){
+
+    private void drawSection(Section s, ListView<Row> lView) {
         Row r = new SectionRow(s.getLabel());
         lView.getItems().add(r);
         List<QuestionNode> temp = new ArrayList<>();
-        for (Variable v : s.getVariables()){
+        for (Variable v : s.getVariables()) {
             temp.add(this.formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
         }
         drawQuestions(temp, lView, false);
 
     }
-    private void drawQuestions(List<QuestionNode> questionNodes, ListView lView, boolean clearView){
+
+    private void drawQuestions(List<QuestionNode> questionNodes, ListView lView, boolean clearView) {
         Visitor uiVisitor = new UIVisitor();
-        if(clearView){
+        if (clearView) {
             lView.getItems().clear();
         }
 
         this.formNode.evaluateIfs();
 
-        for(QuestionNode qn : questionNodes){
+        for (QuestionNode qn : questionNodes) {
             String questionText = qn.getText();
             Variable qv = qn.getVariable();
 
@@ -169,7 +175,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
             JavaFxObservable.actionEventsOf(n)
                     .subscribe(this::accept);
 
-            if(n instanceof TextField){
+            if (n instanceof TextField) {
                 TextField tf = (TextField) n;
 
                 JavaFxObservable.changesOf(tf.focusedProperty())
@@ -183,11 +189,12 @@ public class ToolController implements Consumer, LoaderErrorListener {
             lView.getItems().add(r);
         }
     }
-    private List<QuestionNode> getAllQuestions(List<ASTNode> nodes){
-        List<QuestionNode> visibleQuestions = new ArrayList<>();
-        for(ASTNode n : nodes){
 
-            if(n instanceof QuestionNode){
+    private List<QuestionNode> getAllQuestions(List<ASTNode> nodes) {
+        List<QuestionNode> visibleQuestions = new ArrayList<>();
+        for (ASTNode n : nodes) {
+
+            if (n instanceof QuestionNode) {
                 visibleQuestions.add((QuestionNode) n);
                 continue;
             }
@@ -200,19 +207,22 @@ public class ToolController implements Consumer, LoaderErrorListener {
 
         return visibleQuestions;
     }
-    private void showAlertBox(String errorMessage){
+
+    private void showAlertBox(String errorMessage) {
         Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage);
 
         alert.showAndWait();
     }
-    private void printInfoMessage(String message){
+
+    private void printInfoMessage(String message) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
         lblErrorField.setTooltip(new Tooltip(sdf.format(cal.getTime())));
         lblErrorField.setText(message);
     }
-    private FileChooser getFileChooser(){
+
+    private FileChooser getFileChooser() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open QL File");
         fileChooser.getExtensionFilters().addAll(
@@ -223,12 +233,13 @@ public class ToolController implements Consumer, LoaderErrorListener {
 
         return fileChooser;
     }
-    private void redrawAll(){
+
+    private void redrawAll() {
         List<QuestionNode> questions = getAllQuestions(this.formNode.getASTNodes());
-        if (!qlsEnabled){
+        if (!qlsEnabled) {
             drawQuestions(questions, this.listViews.get(0), true);
-        }else{
-            for (int i = 0; i < this.tpPages.getTabs().size(); i ++){
+        } else {
+            for (int i = 0; i < this.tpPages.getTabs().size(); i++) {
                 Tab tab = this.tpPages.getTabs().get(i);
                 Page page = this.formNode.getStylesheet().getPages().get(i);
                 drawPage(tab, page);

@@ -2,13 +2,13 @@ package domain.model.value;
 
 import domain.model.variable.Variable;
 
-public class BooleanExpressionValue extends BooleanValue{
+public class BooleanExpressionValue extends BooleanValue {
 
     private Variable leftHandOperand;
     private Variable rightHandOperand;
     private String operator;
 
-    public BooleanExpressionValue(Variable leftHandOperand, Variable rightHandOperand, String operator){
+    public BooleanExpressionValue(Variable leftHandOperand, Variable rightHandOperand, String operator) {
         super(false);
         this.leftHandOperand = leftHandOperand;
         this.rightHandOperand = rightHandOperand;
@@ -21,11 +21,11 @@ public class BooleanExpressionValue extends BooleanValue{
             case "==":
                 return leftHandOperand.getComputedValue().equals(rightHandOperand.getComputedValue());
             case "!=":
-                return leftHandOperand.getComputedValue() !=  rightHandOperand.getComputedValue();
+                return leftHandOperand.getComputedValue() != rightHandOperand.getComputedValue();
             case ">":
-                return (Integer) leftHandOperand.getComputedValue() >  (Integer) rightHandOperand.getComputedValue();
+                return (Integer) leftHandOperand.getComputedValue() > (Integer) rightHandOperand.getComputedValue();
             case "<":
-                return (Integer) leftHandOperand.getComputedValue() <  (Integer) rightHandOperand.getComputedValue();
+                return (Integer) leftHandOperand.getComputedValue() < (Integer) rightHandOperand.getComputedValue();
             case ">=":
                 return (Integer) leftHandOperand.getComputedValue() >= (Integer) rightHandOperand.getComputedValue();
             case "<=":

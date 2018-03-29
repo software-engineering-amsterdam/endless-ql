@@ -12,8 +12,10 @@ public class Stylesheet {
     public Stylesheet() {
         pages = new ArrayList<>();
     }
+
     /**
      * Adds a Page to the pages list.
+     *
      * @param p Page to add
      */
     public void addPage(Page p) {
@@ -22,12 +24,13 @@ public class Stylesheet {
 
     /**
      * Get all questionASTNodes which are in the pages and sections.
+     *
      * @return List of QuestionASTNodes in pages and sections.
      */
-    public List<Variable> getAllVariables(){
+    public List<Variable> getAllVariables() {
         List<Variable> temp = new ArrayList<>();
-        for (Page p : getPages()){
-            for (Section s : p.getSections()){
+        for (Page p : getPages()) {
+            for (Section s : p.getSections()) {
                 temp.addAll(s.getVariables());
             }
         }

@@ -9,19 +9,21 @@ import javafx.scene.Node;
 public class StringVariable extends Variable {
     private Value<String> value;
     private UIElement uiElement;
+    private String identifier;
 
     public StringVariable(String identifier, String value) {
-        super(identifier);
+        this.identifier = identifier;
         this.value = new StringValue(value);
     }
+
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
+    }
+
     @Override
     public String getComputedValue() {
         return value.getValue();
-    }
-
-    @Override
-    public void setUiElement(UIElement uiElement) {
-        this.uiElement = uiElement;
     }
 
     @Override
@@ -30,7 +32,12 @@ public class StringVariable extends Variable {
     }
 
     @Override
-    public Node getRelatedUIElement(Visitor v){
+    public void setUiElement(UIElement uiElement) {
+        this.uiElement = uiElement;
+    }
+
+    @Override
+    public Node getRelatedUIElement(Visitor v) {
         return v.visit(this);
     }
 

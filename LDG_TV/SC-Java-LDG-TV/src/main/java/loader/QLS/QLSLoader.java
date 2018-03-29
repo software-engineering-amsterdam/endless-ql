@@ -27,70 +27,78 @@ public class QLSLoader extends StylesheetBaseListener {
     }
 
     @Override
-    public void enterStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx){
+    public void enterStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx) {
         this.styleSheet.setLabel(ctx.identifier().getText());
     }
+
     @Override
-    public void exitStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx){
+    public void exitStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx) {
         this.qlsChecker = new QLSChecker();
         qlsChecker.verifyStylesheetStructure(styleSheet, this.formNode);
     }
+
     @Override
     public void enterPageNodeStructure(StylesheetParser.PageNodeStructureContext ctx) {
         p = new Page(ctx.identifier().getText());
         styleSheet.addPage(p);
     }
+
     @Override
     public void exitPageNodeStructure(StylesheetParser.PageNodeStructureContext ctx) {
         p = null;
     }
+
     @Override
     public void enterSectionNodeStructure(StylesheetParser.SectionNodeStructureContext ctx) {
         s = new Section(ctx.label().getText());
         s.setLabel(s.getLabel().replaceAll("\"", ""));
         p.addSection(s);
     }
+
     @Override
     public void exitSectionNodeStructure(StylesheetParser.SectionNodeStructureContext ctx) {
         s = null;
     }
+
     @Override
     public void enterQuestionStructure(StylesheetParser.QuestionStructureContext ctx) {
         v = formNode.getVariableFromList(ctx.identifier().getText());
     }
+
     @Override
     public void exitQuestionStructure(StylesheetParser.QuestionStructureContext ctx) {
         s.addVariable(v);
         v = null;
     }
+
     @Override
     public void enterUiElement(StylesheetParser.UiElementContext ctx) {
         UIElement uiElement = null;
         Map<String, String> options;
-        if (ctx.uiType().checkbox() instanceof StylesheetParser.CheckboxContext){
+        if (ctx.uiType().checkbox() instanceof StylesheetParser.CheckboxContext) {
             options = null;
             uiElement = new UIElement(ctx.uiIdentifier().getText(), "checkbox", options);
         }
-        if (ctx.uiType().spinbox() instanceof StylesheetParser.SpinboxContext){
+        if (ctx.uiType().spinbox() instanceof StylesheetParser.SpinboxContext) {
             options = null;
             uiElement = new UIElement(ctx.uiIdentifier().getText(), "spinbox", options);
         }
-        if (ctx.uiType().radio() instanceof StylesheetParser.RadioContext){
+        if (ctx.uiType().radio() instanceof StylesheetParser.RadioContext) {
             options = new HashMap<>();
-            for (int i = 0; i < ctx.uiType().radio().radioOptions().size() ; i++){
+            for (int i = 0; i < ctx.uiType().radio().radioOptions().size(); i++) {
                 String option = ctx.uiType().radio().radioOptions().get(i).getText();
                 options.put("option" + i, option);
             }
             uiElement = new UIElement(ctx.uiIdentifier().getText(), "radio", options);
         }
-        if (ctx.uiType().money() instanceof StylesheetParser.MoneyContext){
+        if (ctx.uiType().money() instanceof StylesheetParser.MoneyContext) {
             options = new HashMap<>();
-            for (StylesheetParser.OptionContext octx : ctx.uiType().money().option()){
+            for (StylesheetParser.OptionContext octx : ctx.uiType().money().option()) {
                 options.put(octx.identifier().getText(), octx.value().getText());
             }
             uiElement = new UIElement(ctx.uiIdentifier().getText(), "default", options);
         }
-            v.setUiElement(uiElement);
+        v.setUiElement(uiElement);
 
     }
 

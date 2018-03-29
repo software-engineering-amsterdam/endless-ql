@@ -23,13 +23,13 @@ public class QLBuilder {
         this.loaderErrorListener = loaderErrorListener;
     }
 
-    public FormNode toFormNode(String qlSource){
+    public FormNode toFormNode(String qlSource) {
         // Parse input field and create AST
         CharStream stream = CharStreams.fromString(qlSource);
         FormLexer lexer = new FormLexer(stream);
 
         FormParser parser = new FormParser(new CommonTokenStream(lexer));
-        
+
         parser.addErrorListener(errorListener);
 
         FormParser.FormBuilderContext tree = parser.formBuilder();
@@ -41,7 +41,7 @@ public class QLBuilder {
         return loader.getFormNode();
     }
 
-    public Stylesheet toStylesheet(String qlsSource, FormNode formNode){
+    public Stylesheet toStylesheet(String qlsSource, FormNode formNode) {
         CharStream qlsStream = CharStreams.fromString(qlsSource);
         StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
 
@@ -49,7 +49,7 @@ public class QLBuilder {
 
         qlsParser.addErrorListener(errorListener);
 
-        StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
+        StylesheetParser.StylesheetBuilderContext stylesheetTree = qlsParser.stylesheetBuilder();
         QLSLoader qlsLoader = new QLSLoader(formNode);
         ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
 

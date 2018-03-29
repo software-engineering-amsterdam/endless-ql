@@ -3,7 +3,7 @@ package tool;
 import javafx.scene.control.Alert;
 import loader.QL.LoaderErrorListener;
 
-public class DialogErrorListener implements LoaderErrorListener{
+public class DialogErrorListener implements LoaderErrorListener {
     @Override
     public void onError(String message) {
         System.out.println("error " + message);

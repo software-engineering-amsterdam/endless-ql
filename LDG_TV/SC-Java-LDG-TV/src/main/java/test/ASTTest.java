@@ -1,7 +1,7 @@
 package test;
 
-import domain.model.ast.FormNode;
 import domain.model.ast.ConditionNode;
+import domain.model.ast.FormNode;
 import domain.model.ast.QuestionNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.MoneyValue;
@@ -38,8 +38,9 @@ public class ASTTest {
 
     ArithmeticExpressionValue arithmeticExpressionValue;
     QLChecker qlChecker;
+
     @Before
-    public void init(){
+    public void init() {
         formNode = new FormNode();
         qlChecker = new QLChecker(formNode);
         stringVariable = new StringVariable("testStringVariable", "testValue");
@@ -65,14 +66,16 @@ public class ASTTest {
         qan2 = new QuestionNode("testQAN2", arithmeticExpressionVariable, false);
 
     }
+
     @Test
-    public void StringVariableTest(){
+    public void StringVariableTest() {
         TestCase.assertEquals("Test initialization for string variable", stringVariable.getIdentifier(), "testStringVariable");
         TestCase.assertEquals("Test initialization for string value", stringValue.getValue(), "testStringValue");
         TestCase.assertEquals("Test set value for string value", stringVariable.getComputedValue(), stringValue);
     }
+
     @Test
-    public void ArithmeticExpressionVariableTest(){
+    public void ArithmeticExpressionVariableTest() {
         TestCase.assertEquals("Test set value for arithmetic expression value", arithmeticExpressionVariable.getComputedValue(), arithmeticExpressionValue);
         TestCase.assertEquals("Test compute value for arithmetic expressions", (Integer) arithmeticExpressionValue.getValue(), (Integer) 500);
     }
@@ -82,6 +85,7 @@ public class ASTTest {
         arithmeticExpressionValue = new ArithmeticExpressionValue(stringVariable, rightHandOperand, operator);
         arithmeticExpressionValue.getValue();
     }
+
     @Test(expected = DuplicateQuestionDeclarationException.class)
     public void TestDuplicateQuestionDeclarationException() throws DuplicateQuestionDeclarationException {
         formNode.addQuestion(qan1);
@@ -90,19 +94,19 @@ public class ASTTest {
     }
 
     @Test(expected = ReferenceUndefinedVariableException.class)
-    public void TestReferenceUndefinedVariableException() throws ReferenceUndefinedVariableException{
+    public void TestReferenceUndefinedVariableException() throws ReferenceUndefinedVariableException {
         Variable undefinedVariable = formNode.getVariableFromList("undefined");
         formNode.getReferencedVariables().add(undefinedVariable);
         qlChecker.checkReferenceUndefinedVariable();
     }
 
     @Test
-    public void QuestionASTNodeTest(){
+    public void QuestionASTNodeTest() {
         TestCase.assertEquals("Check if question ast node is correctly initialized", qan1.getText(), "testQAN1");
     }
 
     @Test
-    public void IfASTNodeTest(){
+    public void IfASTNodeTest() {
         conditionNode.addQuestion(qan2);
         TestCase.assertEquals("Test if question is correctly added to if ast node list", conditionNode.getQuestionNodes().get(0), qan2);
     }

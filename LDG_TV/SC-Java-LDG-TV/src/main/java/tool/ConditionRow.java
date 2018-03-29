@@ -29,7 +29,7 @@ public class ConditionRow extends Row {
     }
 
     public void setHideQuestions(boolean hide) {
-        for (Row r : body){
+        for (Row r : body) {
             r.setHide(hide);
         }
     }

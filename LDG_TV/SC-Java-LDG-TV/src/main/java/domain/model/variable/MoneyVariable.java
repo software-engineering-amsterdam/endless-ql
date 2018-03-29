@@ -10,18 +10,21 @@ import javafx.scene.Node;
 public class MoneyVariable extends Variable {
     private Value<Integer> value;
     private UIElement uiElement;
+    private String identifier;
+
     public MoneyVariable(String identifier, int value) {
-        super(identifier);
+        this.identifier = identifier;
         this.value = new MoneyValue(value);
-    }
-    @Override
-    public Integer getComputedValue() {
-        return value.getValue();
     }
 
     @Override
-    public void setUiElement(UIElement uiElement) {
-        this.uiElement = uiElement;
+    public String getIdentifier() {
+        return this.identifier;
+    }
+
+    @Override
+    public Integer getComputedValue() {
+        return value.getValue();
     }
 
     @Override
@@ -30,12 +33,17 @@ public class MoneyVariable extends Variable {
     }
 
     @Override
-    public void setValue(ArithmeticExpressionValue e){
+    public void setUiElement(UIElement uiElement) {
+        this.uiElement = uiElement;
+    }
+
+    @Override
+    public void setValue(ArithmeticExpressionValue e) {
         this.value = e;
     }
 
     @Override
-    public Node getRelatedUIElement(Visitor v){
+    public Node getRelatedUIElement(Visitor v) {
         return v.visit(this);
     }
 

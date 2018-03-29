@@ -1,9 +1,9 @@
 package domain.model.value;
 
-public class BooleanValue implements Value<Boolean>{
+public class BooleanValue implements Value<Boolean> {
     private Boolean value;
 
-    public BooleanValue(Boolean value){
+    public BooleanValue(Boolean value) {
         this.value = value;
     }
 

@@ -15,6 +15,7 @@ public class Page {
 
     /**
      * Adds a Section to sections list.
+     *
      * @param s section to add.
      */
     public void addSection(Section s) {

@@ -2,6 +2,7 @@ package domain.model.value;
 
 
 public interface Value<T> {
-    public T getValue();
-    public T setValue(T o);
+    T getValue();
+
+    T setValue(T o);
 }

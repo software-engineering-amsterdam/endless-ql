@@ -1,9 +1,9 @@
 package domain.model.value;
 
-public class StringValue implements Value<String>{
+public class StringValue implements Value<String> {
     private String value;
 
-    public StringValue(String value){
+    public StringValue(String value) {
         this.value = value;
     }
 

@@ -15,6 +15,8 @@ import qls.model.widget.WidgetType;
 import java.util.ArrayList;
 import java.util.List;
 
+// Translate QL Question objects to GUIQuestion objects, by chaining the conditions
+// and storing the conditions inside the GUIQuestion
 public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
     private final Expression condition;
 

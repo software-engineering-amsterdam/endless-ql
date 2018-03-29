@@ -1,6 +1,6 @@
 package ql.analysis.error;
 
-import ql.QLBaseVisitor;
+import ql.QLVisitor;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.model.expression.ExpressionIdentifier;
@@ -13,7 +13,7 @@ import ql.model.statement.IfBlock;
 import ql.model.statement.IfElseBlock;
 import ql.model.statement.Question;
 
-public class TypeChecker extends QLBaseVisitor<ReturnType> implements IQLErrorAnalysis {
+public class TypeChecker extends QLVisitor<ReturnType> implements IQLErrorAnalysis {
 
     private SymbolTable symbolTable;
 

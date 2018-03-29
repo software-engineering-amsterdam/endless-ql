@@ -1,7 +1,7 @@
 package gui.builder;
 
 import gui.model.GUIQuestion;
-import ql.QLBaseVisitor;
+import ql.QLVisitor;
 import ql.model.expression.Expression;
 import ql.model.expression.binary.ExpressionLogicalAnd;
 import ql.model.expression.unary.ExpressionUnaryNot;
@@ -16,7 +16,7 @@ import java.util.List;
 
 // Translate QL Question objects to GUIQuestion objects, by chaining the conditions
 // and storing the conditions inside the GUIQuestion
-public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
+public class GUIQuestionsBuilder extends QLVisitor<List<GUIQuestion>> {
     private final Expression condition;
 
     GUIQuestionsBuilder() {

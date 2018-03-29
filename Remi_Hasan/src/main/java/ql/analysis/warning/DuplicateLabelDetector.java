@@ -1,6 +1,6 @@
 package ql.analysis.warning;
 
-import ql.QLBaseVisitor;
+import ql.QLVisitor;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.model.statement.Question;
@@ -31,7 +31,7 @@ public class DuplicateLabelDetector implements IQLWarningAnalysis {
     private Map<String, Set<String>> getQuestionsPerLabel(Form form) {
         Map<String, Set<String>> questionsPerLabel = new HashMap<>();
 
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 // New set or existing set

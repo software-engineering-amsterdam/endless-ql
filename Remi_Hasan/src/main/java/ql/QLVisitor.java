@@ -12,7 +12,7 @@ import ql.model.statement.IfElseBlock;
 import ql.model.statement.Question;
 import ql.model.statement.Statement;
 
-public class QLBaseVisitor<T> implements IQLVisitor<T> {
+public class QLVisitor<T> implements IQLVisitor<T> {
 
     private T visitBinaryExpression(ExpressionBinary expression) {
         expression.getLeft().accept(this);

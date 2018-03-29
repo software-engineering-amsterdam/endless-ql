@@ -1,6 +1,6 @@
 package ql.analysis.error;
 
-import ql.QLBaseVisitor;
+import ql.QLVisitor;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.model.expression.ReturnType;
@@ -19,7 +19,7 @@ public class InvalidDuplicateQuestionDetector implements IQLErrorAnalysis {
         Set<String> invalidQuestions = new HashSet<>();
 
         // Visit all questions and check if there are questions with the same identifier but different types
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 // If already saw identifier with different type, add this one to the invalid questions

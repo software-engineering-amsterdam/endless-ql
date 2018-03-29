@@ -3,7 +3,7 @@ package ql.analysis.error;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
-import ql.QLBaseVisitor;
+import ql.QLVisitor;
 import ql.analysis.IdentifiersCollector;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
@@ -34,7 +34,7 @@ public class CycleDetector implements IQLErrorAnalysis {
         Graph<String, DefaultEdge> graph = new DefaultDirectedGraph<>(DefaultEdge.class);
 
         // Visit all questions and add their identifier as a vertex to the graph
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 graph.addVertex(question.getIdentifier());
@@ -46,7 +46,7 @@ public class CycleDetector implements IQLErrorAnalysis {
     }
 
     private void addReferenceEdges(Form form, Graph<String, DefaultEdge> graph) {
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 // Only need to check expression when it is computed

@@ -1,6 +1,6 @@
 package ql.evaluation;
 
-import ql.QLBaseVisitor;
+import ql.QLVisitor;
 import ql.evaluation.value.*;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionIdentifier;
@@ -9,7 +9,7 @@ import ql.model.expression.unary.ExpressionUnaryNeg;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.*;
 
-public class ExpressionEvaluator extends QLBaseVisitor<Value> {
+public class ExpressionEvaluator extends QLVisitor<Value> {
 
     private SymbolTable symbolTable;
 

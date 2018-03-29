@@ -1,6 +1,6 @@
 package qls.analysis;
 
-import ql.QLBaseVisitor;
+import ql.QLVisitor;
 import ql.model.Form;
 import ql.model.expression.ReturnType;
 import ql.model.statement.Question;
@@ -64,7 +64,7 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
         Map<String, ReturnType> questionTypes = new HashMap<>();
 
         // Visit questions and add their return type to the map
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 questionTypes.put(question.getIdentifier(), question.getType());

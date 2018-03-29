@@ -1,7 +1,7 @@
 package ql.form;
 
 import org.junit.Test;
-import ql.QLBaseVisitor;
+import ql.QLVisitor;
 import ql.QLEvaluator;
 import ql.QLTestUtilities;
 import ql.evaluation.value.Value;
@@ -19,7 +19,7 @@ public class FormBuilderTest {
     private List<Question> getQuestions(Form form) {
         List<Question> questions = new ArrayList<>();
 
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 questions.add(question);

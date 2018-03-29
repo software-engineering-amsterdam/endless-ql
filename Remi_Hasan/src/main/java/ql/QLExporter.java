@@ -9,7 +9,6 @@ import ql.model.statement.Question;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,7 +21,7 @@ public class QLExporter {
 
         // Evaluate all questions in order
         Map<String, Object> evaluatedQuestions = new LinkedHashMap<>();
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 Value answer = qlEvaluator.getAnswer(question.getIdentifier());

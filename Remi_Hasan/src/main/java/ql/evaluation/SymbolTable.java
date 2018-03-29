@@ -1,7 +1,6 @@
 package ql.evaluation;
 
-import ql.QLBaseVisitor;
-import ql.evaluation.value.Value;
+import ql.QLVisitor;
 import ql.model.Form;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
@@ -20,7 +19,7 @@ public class SymbolTable {
     }
 
     public void buildTable(Form form) {
-        form.accept(new QLBaseVisitor<Void>() {
+        form.accept(new QLVisitor<Void>() {
             @Override
             public Void visit(Question question) {
                 // Add form question to the symbol table

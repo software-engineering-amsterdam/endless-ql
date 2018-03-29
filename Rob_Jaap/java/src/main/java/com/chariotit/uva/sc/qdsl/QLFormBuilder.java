@@ -14,10 +14,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Document;
 import javax.swing.text.NumberFormatter;
 
+import com.chariotit.uva.sc.qdsl.ast.ql.type.BooleanExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTableEntry;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.StringExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.*;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.builder.PanelBuilder;
@@ -63,13 +65,6 @@ public class QLFormBuilder extends JPanel {
             renderForm(form);
         }
 
-        // get form entries?
-        Set<Map.Entry<String, SymbolTableEntry>> entries = formSymbolTable.getEntries();
-
-        System.out.println("entries...");
-
-        System.out.println(entries);
-
         panel = builder.getPanel();
 
         add(panel);
@@ -84,18 +79,13 @@ public class QLFormBuilder extends JPanel {
     }
 
     private void renderForm(Form form){
+        renderElements(form.getFormElements());
+    }
 
-        System.out.println("-----------Rendering form------------");
-
-        for(FormElement element: form.getFormElements()){
-
-            //test
-            System.out.println(element.getClass());
-
+    private void renderElements(List<FormElement> elements){
+        for(FormElement element: elements){
             renderElement(element);
         }
-
-        System.out.println("-----------Rendering form------------");
     }
 
     private void renderElement(FormElement element){
@@ -114,6 +104,14 @@ public class QLFormBuilder extends JPanel {
     }
 
     private void renderIfBlock(IfBlock block) {
+
+        if (((BooleanExpressionValue)block.getExpression().getExpressionValue()).getValue()){
+            renderElements(block.getIfElements());
+        } else{
+            renderElements(block.getElseElements());
+        }
+
+
         System.out.println("Rendering if block..");
         System.out.println(block.getExpression().getExpressionType());
         System.out.println(block.getIfElements());
@@ -158,6 +156,11 @@ public class QLFormBuilder extends JPanel {
             }
 
             public void update() {
+
+                SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
+
+                ((StringExpressionValue)symbol.getExpressionValue()).setValue(textField.getText());
+
                 System.out.println("Generic text field updated");
                 updateForm();
             }
@@ -183,7 +186,7 @@ public class QLFormBuilder extends JPanel {
 
                 SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
 
-//                symbol.setExpressionValue();
+//                ((BooleanExpressionValue)symbol.getExpressionValue()).setValue(checkbox.isSelected());
 
                 System.out.println(symbol.getExpressionValue());
                 updateForm();
@@ -224,6 +227,11 @@ public class QLFormBuilder extends JPanel {
             }
 
             public void update() {
+
+                SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
+
+                ((StringExpressionValue)symbol.getExpressionValue()).setValue(textField.getText());
+
                 System.out.println("Currency text field updated");
                 updateForm();
             }
@@ -261,8 +269,13 @@ public class QLFormBuilder extends JPanel {
             public void insertUpdate(DocumentEvent e) {
                 update();
             }
+
             public void update() {
-                System.out.println("Numeric text field updated");
+
+                SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
+
+                ((StringExpressionValue)symbol.getExpressionValue()).setValue(textField.getText());
+
                 updateForm();
             }
         });

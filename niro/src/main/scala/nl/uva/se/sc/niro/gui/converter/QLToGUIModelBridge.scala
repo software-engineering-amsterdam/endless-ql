@@ -1,13 +1,11 @@
 package nl.uva.se.sc.niro.gui.converter
 
 import nl.uva.se.sc.niro.gui.factory.{ GUIConditionalFactory, GUIQuestionFactory }
+import nl.uva.se.sc.niro.model.gui.ql
 import nl.uva.se.sc.niro.model.gui.ql.{ GUIForm, GUIQuestion }
-import nl.uva.se.sc.niro.model.gui.qls._
-import nl.uva.se.sc.niro.model.gui.{ ql, qls }
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
 import nl.uva.se.sc.niro.model.ql.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.model.ql.{ Conditional, QLForm, Statement }
-import nl.uva.se.sc.niro.model.qls._
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**

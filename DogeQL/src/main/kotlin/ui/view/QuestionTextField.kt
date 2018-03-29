@@ -1,6 +1,6 @@
-package doge.ui.view
+package ui.view
 
-import doge.ui.model.QuestionModel
+import ui.model.QuestionModel
 import javafx.scene.control.TextField
 import javafx.scene.control.TextInputControl
 import tornadofx.mutateOnChange

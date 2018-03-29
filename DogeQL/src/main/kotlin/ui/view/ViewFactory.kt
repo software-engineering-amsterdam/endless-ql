@@ -1,6 +1,6 @@
-package doge.ui.view
+package ui.view
 
-import doge.ui.model.*
+import ui.model.*
 
 class ViewFactory() {
 

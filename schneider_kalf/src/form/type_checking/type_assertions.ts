@@ -8,6 +8,7 @@ import IntValue from "../values/IntValue";
 import NumericOperation from "../values/NumericOperation";
 import { isNumberValue } from "../values/values_helpers";
 import constants from "../../config/constants";
+import NodeLocation from "../nodes/location/NodeLocation";
 
 /**
  * Returns the type of a given value including the classname if it is
@@ -61,9 +62,9 @@ export const assertType = (value: any, expectedType: string) => {
  * @param {FieldType} expectedType
  * @returns {FieldType}
  */
-export const assertFieldType = (actualType: FieldType, expectedType: FieldType): FieldType => {
+export const assertFieldType = (actualType: FieldType, expectedType: FieldType, location?: NodeLocation): FieldType => {
   if (actualType !== expectedType) {
-    throw TypeCheckError.make(expectedType, actualType);
+    throw TypeCheckError.make(expectedType, actualType, location);
   }
 
   return expectedType;

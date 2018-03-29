@@ -4,6 +4,7 @@ import FieldNode from "./nodes/fields/FieldNode";
 import Expression from "./nodes/expressions/Expression";
 import NodeLocation from "./nodes/location/NodeLocation";
 import VariableIdentifier from "./nodes/expressions/VariableIdentifier";
+import { Maybe } from "../helpers/type_helper";
 
 export class FormError extends Error {
   constructor(m: string) {
@@ -21,8 +22,9 @@ export const makeError = <T extends Error>(errorClass: { new(name: string): T; }
 export class TypeCheckError extends FormError {
   expectedType: string;
   receivedType: string;
+  location: Maybe<NodeLocation>;
 
-  static make(expectedType: string, receivedType: string, message?: string) {
+  static make(expectedType: string, receivedType: string, location?: NodeLocation, message?: string) {
     if (!message) {
       message = `Type check failed. Expected "${expectedType}" but received "${receivedType}".`;
     }
@@ -30,6 +32,7 @@ export class TypeCheckError extends FormError {
     const error = makeError(TypeCheckError, message);
     error.expectedType = expectedType;
     error.receivedType = receivedType;
+    error.location = location;
     return error;
   }
 }

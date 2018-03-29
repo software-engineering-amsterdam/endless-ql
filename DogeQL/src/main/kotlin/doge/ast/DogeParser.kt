@@ -2,11 +2,8 @@ package doge.ast
 
 import QuestionnaireLanguageGrammarLexer
 import QuestionnaireLanguageGrammarParser
-import doge.ast.node.QLNode
 import doge.data.question.Question
-import doge.node.Node
-import doge.visitor.CircularDependencyVisitor
-import doge.visitor.DuplicateQuestionVisitor
+import doge.typechecker.TypeChecker
 import doge.visitor.UiVisitor
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
@@ -15,7 +12,8 @@ import org.antlr.v4.runtime.CommonTokenStream
 class DogeParser {
 
     fun parse(): List<Question> {
-        val fileStream = javaClass.getResource("/sample/TestQuestionare.doge").openStream()
+        val fileName = "/sample/TestQuestionare.doge"
+        val fileStream = javaClass.getResource(fileName).openStream()
 
         val stream = ANTLRInputStream(fileStream)
         val lexer = QuestionnaireLanguageGrammarLexer(stream)
@@ -25,8 +23,13 @@ class DogeParser {
         val visitor = QuestionnaireLanguageVisitor()
 
         val ast = visitor.visit(parser.form())
+
+        fileStream.close()
+
+        TypeChecker(fileName, ast).check()
+
         val questions = UiVisitor().visit(ast)
-//        DuplicateQuestionVisitor().visit(ast)
+
 //
 //        CircularDependencyVisitor().visit(ast)
 

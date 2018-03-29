@@ -13,6 +13,16 @@ namespace QlsTransformer.Ast.Tools
 
         Reference<IPageNode> CreatePage(
             string definition,
-            string pageName);
+            string pageName,
+            IEnumerable<Reference<ISectionNode>> pages);
+
+        Reference<ISectionNode> CreateSection(
+            string definition,
+            string sectionName,
+            IEnumerable<Reference<IQlsQuestionNode>> questions);
+        
+        Reference<IQlsQuestionNode> CreateQuestion(
+            string definition,
+            string questionName);
     }
 }

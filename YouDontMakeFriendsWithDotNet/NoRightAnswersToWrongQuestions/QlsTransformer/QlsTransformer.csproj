@@ -52,7 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\Nodes\IPageNode.cs" />
+    <Compile Include="Ast\Nodes\ISectionNode.cs" />
+    <Compile Include="Ast\Nodes\IStyleSheetRootNode.cs" />
     <Compile Include="Ast\Nodes\PageNode.cs" />
+    <Compile Include="Ast\Nodes\QlsQuestionNode.cs" />
+    <Compile Include="Ast\Nodes\SectionNode.cs" />
     <Compile Include="Ast\Nodes\StyleSheetRootNode.cs" />
     <Compile Include="Ast\Tools\IQlsAstBuilder.cs" />
     <Compile Include="Ast\Tools\IQlsAstFactory.cs" />

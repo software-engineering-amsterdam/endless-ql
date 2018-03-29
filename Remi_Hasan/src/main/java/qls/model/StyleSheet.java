@@ -1,6 +1,5 @@
 package qls.model;
 
-import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 import java.util.List;
@@ -10,8 +9,7 @@ public class StyleSheet extends QLSNode {
     private final String identifier;
     private final List<Page> pages;
 
-    public StyleSheet(Token token, String identifier, List<Page> pages) {
-        super(token);
+    public StyleSheet(String identifier, List<Page> pages) {
         this.identifier = identifier;
         this.pages = pages;
     }

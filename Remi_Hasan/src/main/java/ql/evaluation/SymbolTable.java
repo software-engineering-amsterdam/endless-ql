@@ -26,7 +26,9 @@ public class SymbolTable {
                     table.put(question.getIdentifier(), question.getComputedAnswer());
                 } else {
                     // Not a computed question, so it is undefined until it is set by the user
-                    table.put(question.getIdentifier(), new ExpressionVariableUndefined(question.getToken(), question.getType()));
+                    Expression expression = new ExpressionVariableUndefined(question.getType());
+                    expression.setToken(question.getToken());
+                    table.put(question.getIdentifier(), expression);
                 }
                 return super.visit(question);
             }

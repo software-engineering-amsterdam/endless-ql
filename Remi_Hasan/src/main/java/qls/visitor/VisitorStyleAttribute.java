@@ -9,7 +9,9 @@ public class VisitorStyleAttribute extends QLSBaseVisitor<StyleAttribute> {
     @Override
     public StyleAttribute visitWidgetWidth(QLSParser.WidgetWidthContext ctx) {
         int width = Integer.parseInt(ctx.value.getText());
-        return new StyleAttributeWidth(ctx.getStart(), width);
+        StyleAttributeWidth styleAttributeWidth = new StyleAttributeWidth(width);
+        styleAttributeWidth.setToken(ctx.getStart());
+        return styleAttributeWidth;
     }
 
     @Override
@@ -17,18 +19,24 @@ public class VisitorStyleAttribute extends QLSBaseVisitor<StyleAttribute> {
         String fontFamily = ctx.value.getText();
         // Strip quotes
         fontFamily = fontFamily.substring(1, fontFamily.length() - 1);
-        return new StyleAttributeFont(ctx.getStart(), fontFamily);
+        StyleAttributeFont styleAttributeFont = new StyleAttributeFont(fontFamily);
+        styleAttributeFont.setToken(ctx.getStart());
+        return styleAttributeFont;
     }
 
     @Override
     public StyleAttribute visitWidgetFontSize(QLSParser.WidgetFontSizeContext ctx) {
         int fontSize = Integer.parseInt(ctx.value.getText());
-        return new StyleAttributeFontSize(ctx.getStart(), fontSize);
+        StyleAttributeFontSize styleAttributeFontSize = new StyleAttributeFontSize(fontSize);
+        styleAttributeFontSize.setToken(ctx.getStart());
+        return styleAttributeFontSize;
     }
 
     @Override
     public StyleAttribute visitWidgetColor(QLSParser.WidgetColorContext ctx) {
         String hexColor = ctx.value.getText();
-        return new StyleAttributeColor(ctx.getStart(), hexColor);
+        StyleAttributeColor styleAttributeColor = new StyleAttributeColor(hexColor);
+        styleAttributeColor.setToken(ctx.getStart());
+        return styleAttributeColor;
     }
 }

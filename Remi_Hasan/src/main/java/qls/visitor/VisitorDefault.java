@@ -26,7 +26,9 @@ public class VisitorDefault extends QLSBaseVisitor<DefaultStyle> {
             widget = visitorWidget.visit(ctx.widget());
         }
 
-        return new DefaultStyle(ctx.getStart(), returnType, styleAttributes, widget);
+        DefaultStyle defaultStyle = new DefaultStyle(returnType, styleAttributes, widget);
+        defaultStyle.setToken(ctx.getStart());
+        return defaultStyle;
     }
 
     private List<StyleAttribute> getStyles(List<QLSParser.StyleAttributeContext> styleAttributeContexts) {

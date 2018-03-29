@@ -1,14 +1,12 @@
 package ql.model.expression.binary;
 
 import ql.IQLVisitor;
-
 import ql.model.expression.Expression;
-import org.antlr.v4.runtime.Token;
 
 public class ExpressionArithmeticSubtract extends ExpressionBinary {
 
-    public ExpressionArithmeticSubtract(Token start, Expression left, Expression right) {
-        super(start, left, right);
+    public ExpressionArithmeticSubtract(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

@@ -21,10 +21,14 @@ public class VisitorQuestion extends QLBaseVisitor<Question> {
         // Check whether answer can be filled in by user, or is computed
         if (ctx.expression() != null) {
             Expression defaultAnswer = getDefaultAnswer(ctx.expression());
-            return new Question(ctx.getStart(), questionType, questionName, questionText, defaultAnswer);
+            Question question = new Question(questionType, questionName, questionText, defaultAnswer);
+            question.setToken(ctx.getStart());
+            return question;
         }
 
-        return new Question(ctx.getStart(), questionType, questionName, questionText);
+        Question question = new Question(questionType, questionName, questionText);
+        question.setToken(ctx.getStart());
+        return question;
     }
 
     private Expression getDefaultAnswer(QLParser.ExpressionContext expressionContext) {

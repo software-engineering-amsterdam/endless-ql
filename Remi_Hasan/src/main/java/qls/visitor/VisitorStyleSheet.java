@@ -20,6 +20,8 @@ public class VisitorStyleSheet extends QLSBaseVisitor<StyleSheet> {
             pages.add(page);
         }
 
-        return new StyleSheet(ctx.getStart(), ctx.identifier.getText(), pages);
+        StyleSheet styleSheet = new StyleSheet(ctx.identifier.getText(), pages);
+        styleSheet.setToken(ctx.getStart());
+        return styleSheet;
     }
 }

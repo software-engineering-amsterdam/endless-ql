@@ -1,13 +1,11 @@
 package qls.model.style;
 
-import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public class StyleAttributeColor extends StyleAttribute {
     private final String color;
 
-    public StyleAttributeColor(Token start, String color) {
-        super(start);
+    public StyleAttributeColor(String color) {
         this.color = color;
     }
 

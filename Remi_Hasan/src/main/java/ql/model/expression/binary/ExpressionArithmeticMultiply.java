@@ -7,8 +7,8 @@ import org.antlr.v4.runtime.Token;
 
 public class ExpressionArithmeticMultiply extends ExpressionBinary {
 
-    public ExpressionArithmeticMultiply(Token start, Expression left, Expression right) {
-        super(start, left, right);
+    public ExpressionArithmeticMultiply(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package qls.model;
 
-import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 import qls.model.statement.Statement;
 
@@ -11,8 +10,7 @@ public class Page extends QLSNode {
     private final String identifier;
     private final List<Statement> statements;
 
-    public Page(Token token, String identifier, List<Statement> statements) {
-        super(token);
+    public Page(String identifier, List<Statement> statements) {
         this.identifier = identifier;
         this.statements = statements;
     }

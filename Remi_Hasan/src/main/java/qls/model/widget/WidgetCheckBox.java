@@ -1,12 +1,11 @@
 package qls.model.widget;
 
-import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public class WidgetCheckBox extends Widget {
 
-    public WidgetCheckBox(Token start) {
-        super(start, WidgetType.CHECKBOX);
+    public WidgetCheckBox() {
+        super(WidgetType.CHECKBOX);
     }
 
     @Override

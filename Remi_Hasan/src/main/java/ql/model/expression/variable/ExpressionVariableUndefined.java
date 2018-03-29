@@ -11,10 +11,6 @@ public class ExpressionVariableUndefined extends ExpressionVariable<ReturnType> 
         super(value);
     }
 
-    public ExpressionVariableUndefined(Token start, ReturnType value) {
-        super(start, value);
-    }
-
     public ReturnType getReturnType() {
         return this.value;
     }

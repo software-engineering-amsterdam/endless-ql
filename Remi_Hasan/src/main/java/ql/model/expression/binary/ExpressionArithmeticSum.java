@@ -7,8 +7,8 @@ import org.antlr.v4.runtime.Token;
 
 public class ExpressionArithmeticSum extends ExpressionBinary {
 
-    public ExpressionArithmeticSum(Token start, Expression left, Expression right) {
-        super(start, left, right);
+    public ExpressionArithmeticSum(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override

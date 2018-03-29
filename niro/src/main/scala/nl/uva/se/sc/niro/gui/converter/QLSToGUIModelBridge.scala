@@ -31,5 +31,5 @@ object QLSToGUIModelBridge {
   }
 
   def convertQuestion(question: Question): GUIQuestionStyling =
-    GUIQuestionStyling(question.name, GUIStyling(question.widgetType))
+    GUIQuestionStyling(question.name, GUIStyling(question.styling))
 }

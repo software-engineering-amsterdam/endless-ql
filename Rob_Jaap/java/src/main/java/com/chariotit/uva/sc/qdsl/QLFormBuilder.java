@@ -25,6 +25,7 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public class QLFormBuilder extends JPanel {
 
@@ -47,6 +48,7 @@ public class QLFormBuilder extends JPanel {
 
         this.formSymbolTable = root.getFormSymbolTable();
 
+
         builder = new DefaultFormBuilder(new FormLayout(""));
 //        builder.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -61,7 +63,6 @@ public class QLFormBuilder extends JPanel {
         List<Form> forms = root.getForms();
 
         for (Form form: forms) {
-            System.out.println(form.getClass());
             renderForm(form);
         }
 
@@ -79,6 +80,8 @@ public class QLFormBuilder extends JPanel {
     }
 
     private void renderForm(Form form){
+        evaluateAst();
+
         renderElements(form.getFormElements());
     }
 
@@ -107,7 +110,7 @@ public class QLFormBuilder extends JPanel {
 
         if (((BooleanExpressionValue)block.getExpression().getExpressionValue()).getValue()){
             renderElements(block.getIfElements());
-        } else{
+        } else if (block.getElseElements() != null){
             renderElements(block.getElseElements());
         }
 
@@ -117,12 +120,14 @@ public class QLFormBuilder extends JPanel {
         System.out.println(block.getIfElements());
     }
 
+    private static void evaluateAst() {
+        EvaluateVisitor evaluateVisitor = new EvaluateVisitor(astRoot.getQuestionSymbolTable());
+        astRoot.acceptVisitor(evaluateVisitor);
+    }
 
     // when a value is updated
     private static void updateForm() {
-        EvaluateVisitor evaluateVisitor = new EvaluateVisitor(astRoot.getQuestionSymbolTable());
-        astRoot.acceptVisitor(evaluateVisitor);
-        ////
+        evaluateAst();
 
         panel.revalidate();
         panel.repaint();
@@ -188,8 +193,13 @@ public class QLFormBuilder extends JPanel {
 
                 SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
 
+                System.out.println(((BooleanExpressionValue)symbol.getExpressionValue()).getValue
+                        ());
+
 //                symbol.setExpressionValue();
                 ((BooleanExpressionValue)symbol.getExpressionValue()).setValue(checkbox.isSelected());
+                System.out.println(((BooleanExpressionValue)symbol.getExpressionValue()).getValue
+                        ());
 
                 System.out.println(symbol.getExpressionValue());
                 updateForm();

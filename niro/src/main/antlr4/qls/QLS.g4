@@ -37,7 +37,7 @@ COMMA         : ',' ;
 PERIOD        : '.' ;
 
 DecimalValue : MIN? [0-9]+ PERIOD [0-9]+ ;
-IntegerValue : [1-9][0-9]* ;
+IntegerValue : MIN? [1-9][0-9]* ;
 HEXDIGIT     : [0-9]|[A-F] ;
 HexValue     : '#' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
 Identifier   : [a-zA-Z0-9_]+ ;
@@ -71,9 +71,9 @@ style         : WIDGET widgetType                           # WidgetStyling
               | FONT DOUBLE_COLON fontType=Text             # FontTypeStyling
               | FONTSIZE DOUBLE_COLON fontSize=IntegerValue # FontSizeStyling;
 
-widgetType    : CHECKBOX                                                              # CheckBox
-              | SPINBOX                                                               # SpinBox
-              | SLIDER BRACKET_LEFT minimum=DecimalValue
-                              COMMA maximum=DecimalValue BRACKET_RIGHT                # Slider
-              | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # ComboBox
-              | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # RadioButtons;
+widgetType    : CHECKBOX                                                                # CheckBox
+              | SPINBOX                                                                 # SpinBox
+              | SLIDER BRACKET_LEFT minimum=(DecimalValue | IntegerValue)
+                              COMMA maximum=(DecimalValue | IntegerValue) BRACKET_RIGHT # Slider
+              | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT   # ComboBox
+              | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT   # RadioButtons;

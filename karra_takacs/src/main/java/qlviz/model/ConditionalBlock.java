@@ -1,7 +1,7 @@
 package qlviz.model;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.model.expressions.booleanExpressions.BooleanExpression;
 
 import java.util.List;
 

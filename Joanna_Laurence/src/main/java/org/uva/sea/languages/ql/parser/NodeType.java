@@ -11,13 +11,13 @@ public enum NodeType {
     DATE,
     DECIMAL;
 
-    public boolean isBasicNumber() {
-        return (this == INTEGER) || (this == DECIMAL);
+    private boolean isBasicNumber() {
+        return (this == NodeType.INTEGER) || (this == NodeType.DECIMAL);
     }
 
     public boolean isTypeCompatible(NodeType type) {
         boolean exactlyTheSame = this == type;
-        boolean compatibleTypes = (this == DECIMAL) && type.isBasicNumber();
+        boolean compatibleTypes = (this == NodeType.DECIMAL) && type.isBasicNumber();
         return (exactlyTheSame || compatibleTypes);
     }
 }

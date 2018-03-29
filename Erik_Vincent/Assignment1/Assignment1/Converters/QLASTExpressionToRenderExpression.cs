@@ -30,7 +30,7 @@ namespace Assignment1.Converters
 
         public void Visit(QLInteger value) => _result = new ExpressionValue(value.Value);
 
-        public void Visit(Undefined undefined) => _result = null; //TODO: Implement
+        //public void Visit(Undefined undefined) => _result = null; //TODO: Implement
 
         public void Visit(QLString value) => _result = new ExpressionValue(value.Value);
 

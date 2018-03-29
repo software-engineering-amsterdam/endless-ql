@@ -1,18 +1,16 @@
 package qlviz.model.question;
 
 import qlviz.QLParser;
-import qlviz.model.numericExpressions.NumericExpression;
-
-import java.math.BigDecimal;
+import qlviz.model.expressions.Expression;
 
 public abstract class NumericQuestion extends Question {
 
-    protected final NumericExpression valueExpression;
-    public NumericExpression getValueExpression() {
+    protected final Expression valueExpression;
+    public Expression getValueExpression() {
         return valueExpression;
     }
 
-    public NumericQuestion(String name, String text, QuestionType type, NumericExpression valueExpression, QLParser.QuestionContext context) {
+    public NumericQuestion(String name, String text, QuestionType type, Expression valueExpression, QLParser.QuestionContext context) {
         super(name, text, type, context);
         this.valueExpression = valueExpression;
     }

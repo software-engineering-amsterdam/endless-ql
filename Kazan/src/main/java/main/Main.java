@@ -2,7 +2,6 @@ package main;
 
 import gui.FormUI;
 import gui.FormUIFactory;
-import issuetracker.IssueTracker;
 import ql.ast.Form;
 import ql.parser.FormBuilder;
 import ql.validator.Validator;
@@ -15,8 +14,6 @@ import qls.parser.StylesheetBuilder;
 public class Main {
 
     public static void main(String[] args) {
-
-        IssueTracker issueTracker = IssueTracker.getIssueTracker();
 
         //TODO: pass file (non-string) instead of filecontents to formbuilder
 
@@ -33,7 +30,7 @@ public class Main {
         // Stylesheet stylesheet = stylesheetBuilder.createForm(qlFile);
         Stylesheet stylesheet = null;
 
-        if (new Validator().passesTypeChecks(form)) {
+        if (Validator.passesTypeChecks(form)) {
             System.out.println("Successfully passed all checks");
             FormUI formUI = new FormUIFactory().getFormUI(form);
             formUI.display();
@@ -41,13 +38,6 @@ public class Main {
             System.err.println("Form not passing validation");
             System.exit(1);
         }
-
-        // if (!issueTracker.hasErrors()) {
-        //     FormEvaluator evaluator = new Evaluator();
-        //     evaluator.start(form);
-        //     FormViewer formViewer = new FormViewer(evaluator);
-        //     formViewer.start(form, stylesheet);
-        // }
     }
 
 }

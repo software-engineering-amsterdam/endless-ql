@@ -2,7 +2,7 @@ package QLS.ParseObjectQLS;
 
 import QLS.Analysis.WidgetVisitorInterface;
 import QLS.ParseObjectQLS.Widgets.Widget;
-import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.Analysis.EvaluationType;
 
 import java.util.ArrayList;
 

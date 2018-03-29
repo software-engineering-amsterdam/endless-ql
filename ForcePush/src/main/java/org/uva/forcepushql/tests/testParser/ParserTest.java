@@ -5,8 +5,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 import org.junit.Assert;
 import org.junit.Test;
-import org.uva.forcepushql.antlr.GrammarLexer;
-import org.uva.forcepushql.antlr.GrammarParser;
+import org.uva.forcepushql.parser.antlr.GrammarLexer;
+import org.uva.forcepushql.parser.antlr.GrammarParser;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,15 +45,16 @@ public class ParserTest
     @Test
     public void parseQuestionAssignment() throws IOException
     {
+        String expectedOutput = "\"QuestionFormat\" +\n" +
+                "                        \"   variable\" +\n" +
+                "                        \"       T[hasSoldHouse]\" +\n" +
+                "                        \"   T[\\\"Did you sell a house in 2010 ?\\\"]\" +\n" +
+                "                        \"   T[:]\" +\n" +
+                "                        \"   type\" +\n" +
+                "                        \"       T[boolean]\" ";
+
         RepresentationOfAST test = new RepresentationOfAST();
-        Assert.assertEquals(
-                "QuestionFormat" +
-                        "   variable" +
-                        "       T[hasSoldHouse]" +
-                        "   T[\"Did you sell a house in 2010 ?\"]" +
-                        "   T[:]" +
-                        "   type" +
-                        "       T[boolean]", test.toParseTree(parseResource("question_assignment.txt")));
+        Assert.assertEquals(expectedOutput, test.toParseTree(parseResource("question_assignment.txt")));
 
     }
 

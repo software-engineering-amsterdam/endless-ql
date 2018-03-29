@@ -10,13 +10,16 @@ import org.uva.sea.languages.ql.interpreter.Evaluator;
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
 import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.ErrorValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
-import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Matcher;
@@ -32,12 +35,6 @@ public class QLEvaluatorTest extends TestCase {
     private final boolean hasRuntimeError;
     private final boolean hasWarnings;
 
-    /**
-     * Constructor for every test
-     *
-     * @param testFile
-     * @param correctQuestions
-     */
     public QLEvaluatorTest(String testFile, int correctQuestions, boolean hasRuntimeError, boolean hasWarnings) {
         this.testFile = testFile;
         this.correctQuestions = correctQuestions;
@@ -45,11 +42,6 @@ public class QLEvaluatorTest extends TestCase {
         this.hasWarnings = hasWarnings;
     }
 
-    /**
-     * Test generator
-     *
-     * @return Test parameters
-     */
     @Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> testFiles = new ArrayList<>();
@@ -61,10 +53,6 @@ public class QLEvaluatorTest extends TestCase {
 
     }
 
-    /**
-     * @param folderLocation Location of the ql files
-     * @return Map of test files and if they should be interpretable
-     */
     private static Collection<Object[]> getTestFiles(String folderLocation, boolean hasRuntimeError, boolean hasWarnings) {
         Collection<Object[]> testFiles = new ArrayList<>();
 
@@ -76,12 +64,6 @@ public class QLEvaluatorTest extends TestCase {
         return testFiles;
     }
 
-    /**
-     * Extract correct tests from file
-     *
-     * @param location
-     * @return
-     */
     private static int determineExpectedTests(String location) {
         try (FileInputStream inputStream = new FileInputStream(location)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -100,12 +82,6 @@ public class QLEvaluatorTest extends TestCase {
         return 0;
     }
 
-    /**
-     * Extracts the symbol table from the test file
-     *
-     * @param location Location of the test file
-     * @return The Symbol table
-     */
     private SymbolTable getSymbolTableForTest(String location) throws ReflectiveOperationException, IOException {
 
         SymbolTable symbolTable = new SymbolTable();
@@ -132,13 +108,6 @@ public class QLEvaluatorTest extends TestCase {
         return symbolTable;
     }
 
-
-    /**
-     * Compiles the file and checks result
-     *
-     * @param fileName The location of the ql file
-     * @return If the script is interpretable
-     */
     private EvaluationResult getDisplayedQuestions(String fileName) throws IOException, EvaluationException, ReflectiveOperationException {
 
         SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
@@ -152,19 +121,13 @@ public class QLEvaluatorTest extends TestCase {
         return questions;
     }
 
-    /**
-     * Check if there was an displayError
-     *
-     * @param questions All the questions
-     * @return
-     */
     private boolean checkForRuntimeErrors(Iterable<QuestionData> questions) {
         for (QuestionData question : questions) {
             if (question.getValue() == null)
                 continue;
 
             Boolean error = question.getValue().accept(new BaseValueVisitor<Boolean>() {
-                public Boolean visit(final ErrorValue node) {
+                public Boolean visit(ErrorValue node) {
                     return true;
                 }
             });

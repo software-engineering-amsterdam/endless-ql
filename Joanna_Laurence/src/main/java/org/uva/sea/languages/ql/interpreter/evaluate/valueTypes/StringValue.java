@@ -23,7 +23,7 @@ public class StringValue extends Value {
 
     @Override
     public Value isEqual(StringValue value) {
-        return new BooleanValue(this.stringValue.equals(value.getStringValue()));
+        return new BooleanValue(this.stringValue.equals(value.stringValue));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class StringValue extends Value {
 
     @Override
     public Value isNotEqual(StringValue value) {
-        return new BooleanValue(!this.stringValue.equals(value.getStringValue()));
+        return new BooleanValue(!this.stringValue.equals(value.stringValue));
     }
 
     @Override

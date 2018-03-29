@@ -5,9 +5,9 @@ import org.uva.sea.gui.model.factory.PrimaryTypeWidgetFactory;
 import org.uva.sea.gui.model.factory.WidgetNotFoundException;
 import org.uva.sea.gui.qls.widget.*;
 import org.uva.sea.gui.widget.BaseWidget;
-import org.uva.sea.languages.ql.interpreter.dataObject.WidgetType;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.parser.NodeType;
+import org.uva.sea.languages.qls.interpreter.widget.WidgetType;
 
 import java.util.HashMap;
 import java.util.Map;

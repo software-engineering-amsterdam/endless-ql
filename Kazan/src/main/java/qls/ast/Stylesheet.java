@@ -1,5 +1,8 @@
 package qls.ast;
 
+import ql.ast.ASTNode;
+import ql.ast.SourceLocation;
+
 import java.util.ArrayList;
 import java.util.List;
 

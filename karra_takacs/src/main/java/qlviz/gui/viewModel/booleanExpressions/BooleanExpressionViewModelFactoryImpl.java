@@ -1,8 +1,9 @@
 package qlviz.gui.viewModel.booleanExpressions;
 
+import com.google.inject.Inject;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.interpreter.linker.TypedBooleanExpressionVisitor;
-import qlviz.model.booleanExpressions.*;
+import qlviz.model.expressions.booleanExpressions.*;
 import qlviz.model.question.BooleanQuestionReference;
 
 public class BooleanExpressionViewModelFactoryImpl implements BooleanExpressionViewModelFactory,
@@ -10,6 +11,7 @@ public class BooleanExpressionViewModelFactoryImpl implements BooleanExpressionV
 
     private final NumericExpressionViewModelFactory numericExpressionViewModelFactory;
 
+    @Inject
     public BooleanExpressionViewModelFactoryImpl(NumericExpressionViewModelFactory numericExpressionViewModelFactory) {
         this.numericExpressionViewModelFactory = numericExpressionViewModelFactory;
     }
@@ -30,7 +32,7 @@ public class BooleanExpressionViewModelFactoryImpl implements BooleanExpressionV
 
     @Override
     public BooleanExpressionViewModel visit(BooleanLiteral literal) {
-        return new BooleanLiteralViewModel(literal.evaluate());
+        return new BooleanLiteralViewModel(literal.getValue());
     }
 
     @Override

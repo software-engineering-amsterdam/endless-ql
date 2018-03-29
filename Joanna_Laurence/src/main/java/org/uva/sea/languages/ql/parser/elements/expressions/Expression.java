@@ -4,10 +4,10 @@ import org.antlr.v4.runtime.Token;
 import org.uva.sea.languages.ql.parser.elements.ASTNode;
 
 public abstract class Expression extends ASTNode {
-    public Expression() {
+    protected Expression() {
     }
 
-    public Expression(Token token) {
+    protected Expression(Token token) {
         super(token);
     }
 }

@@ -27,5 +27,8 @@ stylesheet taxOfficeExample
         }
       }
     }
-    default boolean widget radio("Yes", "No")
+    default boolean {
+      widget radio("Yes", "No")
+      color: #199999
+    }
   }

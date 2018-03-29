@@ -3,7 +3,7 @@ package org.uva.sea.gui.controller.utility;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
-public final class AlertPopup {
+public class AlertPopup {
 
     public static void displayError(String contentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR, contentText);

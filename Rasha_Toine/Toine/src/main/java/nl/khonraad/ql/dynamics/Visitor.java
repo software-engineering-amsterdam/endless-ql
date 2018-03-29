@@ -3,14 +3,13 @@ package nl.khonraad.ql.dynamics;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.khonraad.ql.QBaseVisitor;
-import nl.khonraad.ql.QParser;
+import nl.khonraad.ql.QLBaseVisitor;
+import nl.khonraad.ql.QLParser;
 import nl.khonraad.ql.algebra.PartialFunction;
-import nl.khonraad.ql.algebra.Question;
 import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
 
-public final class Visitor extends QBaseVisitor<Value> {
+public final class Visitor extends QLBaseVisitor<Value> {
 
     private Questionnaire questionnaire;
 
@@ -32,7 +31,7 @@ public final class Visitor extends QBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitForm( QParser.FormContext ctx ) {
+    public Value visitForm( QLParser.FormContext ctx ) {
 
         declaredQuestionTypes = new ArrayList<>();
 
@@ -40,15 +39,16 @@ public final class Visitor extends QBaseVisitor<Value> {
 
         Value value = visitChildren( ctx );
 
-        if ( !forwardReferences.isEmpty() ) { throw new RuntimeException( REFERENCES_UNDEFINED_QUESTION
-                + forwardReferences.get( 0 ) ); }
+        if ( !forwardReferences.isEmpty() ) {
+            throw new RuntimeException( REFERENCES_UNDEFINED_QUESTION + forwardReferences.get( 0 ) );
+        }
 
         return value;
 
     }
 
     @Override
-    public Value visitIdentifier( QParser.IdentifierContext ctx ) {
+    public Value visitIdentifier( QLParser.IdentifierContext ctx ) {
 
         String identifier = ctx.Identifier().getText();
 
@@ -66,7 +66,7 @@ public final class Visitor extends QBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitPartAnswerableQuestion( QParser.PartAnswerableQuestionContext ctx ) {
+    public Value visitPartAnswerableQuestion( QLParser.PartAnswerableQuestionContext ctx ) {
 
         String identifier = ctx.Identifier().getText();
         String label = removeQuotes( ctx.QuotedString().getText() );
@@ -75,8 +75,9 @@ public final class Visitor extends QBaseVisitor<Value> {
 
         forwardReferences.remove( identifier );
 
-        if ( declaredQuestionTypes.contains( identifier ) ) { throw new RuntimeException( DUPLICATE_DECLARED
-                + identifier + " typed " + type ); }
+        if ( declaredQuestionTypes.contains( identifier ) ) {
+            throw new RuntimeException( DUPLICATE_DECLARED + identifier + " typed " + type );
+        }
         declaredQuestionTypes.add( identifier );
 
         return questionnaire.storeAnswerableQuestion( identifier, label, type );
@@ -84,7 +85,7 @@ public final class Visitor extends QBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitPartComputedQuestion( QParser.PartComputedQuestionContext ctx ) {
+    public Value visitPartComputedQuestion( QLParser.PartComputedQuestionContext ctx ) {
 
         String identifier = ctx.Identifier().getText();
         String label = removeQuotes( ctx.QuotedString().getText() );
@@ -95,14 +96,15 @@ public final class Visitor extends QBaseVisitor<Value> {
 
         Value value = visit( ctx.expression() );
 
-        if ( !type.equals( value.getType() ) ) { throw new RuntimeException( TYPE_ERROR + identifier + " expects "
-                + type + " not " + value.getType() ); }
+        if ( !type.equals( value.getType() ) ) {
+            throw new RuntimeException( TYPE_ERROR + identifier + " expects " + type + " not " + value.getType() );
+        }
 
         return questionnaire.storeComputedQuestion( identifier, label, value );
     }
 
     @Override
-    public Value visitUnaryOperator_Expression( QParser.UnaryOperator_ExpressionContext ctx ) {
+    public Value visitUnaryOperator_Expression( QLParser.UnaryOperator_ExpressionContext ctx ) {
 
         Value expression = visit( ctx.expression() );
         String operator = ctx.unaryOperator().getText();
@@ -115,14 +117,14 @@ public final class Visitor extends QBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExpressionQuotedString( QParser.ExpressionQuotedStringContext ctx ) {
+    public Value visitExpressionQuotedString( QLParser.ExpressionQuotedStringContext ctx ) {
 
         return new Value( Type.String, removeQuotes( ctx.QuotedString().getText() ) );
     }
 
     @Override
     public Value visitExpression_MultiplicationOperator_Expression(
-            QParser.Expression_MultiplicationOperator_ExpressionContext ctx ) {
+            QLParser.Expression_MultiplicationOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
@@ -141,7 +143,7 @@ public final class Visitor extends QBaseVisitor<Value> {
 
     @Override
     public Value visitExpression_AdditionOperator_Expression(
-            QParser.Expression_AdditionOperator_ExpressionContext ctx ) {
+            QLParser.Expression_AdditionOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
@@ -157,7 +159,7 @@ public final class Visitor extends QBaseVisitor<Value> {
 
     @Override
     public Value visitExpression_EqualityOperator_Expression(
-            QParser.Expression_EqualityOperator_ExpressionContext ctx ) {
+            QLParser.Expression_EqualityOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
@@ -173,7 +175,7 @@ public final class Visitor extends QBaseVisitor<Value> {
 
     @Override
     public Value visitExpression_LogicalOperator_Expression(
-            QParser.Expression_LogicalOperator_ExpressionContext ctx ) {
+            QLParser.Expression_LogicalOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
@@ -189,7 +191,7 @@ public final class Visitor extends QBaseVisitor<Value> {
 
     @Override
     public Value visitExpression_OrderingOperator_Expression(
-            QParser.Expression_OrderingOperator_ExpressionContext ctx ) {
+            QLParser.Expression_OrderingOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
@@ -204,32 +206,32 @@ public final class Visitor extends QBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExpressionMoneyConstant( QParser.ExpressionMoneyConstantContext ctx ) {
+    public Value visitExpressionMoneyConstant( QLParser.ExpressionMoneyConstantContext ctx ) {
         return new Value( Type.Money, ctx.MoneyConstant().getText() );
     }
 
     @Override
-    public Value visitExpressionDateConstant( QParser.ExpressionDateConstantContext ctx ) {
+    public Value visitExpressionDateConstant( QLParser.ExpressionDateConstantContext ctx ) {
         return new Value( Type.Date, ctx.DateConstant().getText() );
     }
 
     @Override
-    public Value visitExpressionIntegerConstant( QParser.ExpressionIntegerConstantContext ctx ) {
+    public Value visitExpressionIntegerConstant( QLParser.ExpressionIntegerConstantContext ctx ) {
         return new Value( Type.Integer, ctx.IntegerConstant().getText() );
     }
 
     @Override
-    public Value visitExpressionBooleanConstant( QParser.ExpressionBooleanConstantContext ctx ) {
+    public Value visitExpressionBooleanConstant( QLParser.ExpressionBooleanConstantContext ctx ) {
         return new Value( Type.Boolean, ctx.BooleanConstant().getText() );
     }
 
     @Override
-    public Value visitExpressionParenthesized( QParser.ExpressionParenthesizedContext ctx ) {
+    public Value visitExpressionParenthesized( QLParser.ExpressionParenthesizedContext ctx ) {
         return visit( ctx.expression() );
     }
 
     @Override
-    public Value visitPartConditionalBlock( QParser.PartConditionalBlockContext ctx ) {
+    public Value visitPartConditionalBlock( QLParser.PartConditionalBlockContext ctx ) {
 
         Value value = visit( ctx.expression() );
 

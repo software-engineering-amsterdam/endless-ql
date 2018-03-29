@@ -138,6 +138,7 @@ class QLVisitor extends QLBaseVisitor {
     @Override
     public IfBlock visitIfBlock(QLParser.IfBlockContext ctx) {
         return IfBlock.builder()
+                .name(ctx.NAME().getText())
                 .condition(ctx.expression().<DataExpression>accept(this))
                 .expressions(ctx.formBlock().<LinkedList<FormExpression>>accept(this))
                 .build();

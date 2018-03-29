@@ -1,5 +1,5 @@
 import { getTypeString } from "../type_checking/type_assertions";
-import { isNumericValue } from "../values/values_helpers";
+import { isNumberValue } from "../values/values_helpers";
 
 export default class FormState {
   store: Map<string, any>;
@@ -49,7 +49,7 @@ export default class FormState {
     const valueMap = {};
 
     this.store.forEach((value: any, key: string) => {
-      if (isNumericValue(value)) {
+      if (isNumberValue(value)) {
         valueMap[key] = value.toNumber();
         return;
       }
@@ -60,7 +60,7 @@ export default class FormState {
     return JSON.stringify(valueMap, null, 2);
   }
 
-  protected instantiate(newStore?: Map<string, any>): FormState {
+  public instantiate(newStore?: Map<string, any>): FormState {
     return new FormState(newStore);
   }
 }

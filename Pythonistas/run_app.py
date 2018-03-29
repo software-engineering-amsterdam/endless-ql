@@ -8,11 +8,11 @@ $ python run_app.py
 import argparse
 import os
 import sys
-
 from commons.utility import run_antlr_parse_gen
 from commons.config import config
-from grammar.parser import Parser
-from gui.gui import *
+from antlr.parser import ParserInterface
+from gui import main_window
+from PyQt5 import QtWidgets
 
 
 def main():
@@ -46,8 +46,8 @@ def main():
 
     # Debug grammar
     if args.grammar:
-        g_debug = Parser()
-        g_debug.debug_grammar(args.grammar)
+        g_debug = ParserInterface(args.grammar)
+        g_debug.print_structure()
         sys.exit(0)
 
     # Generate antlr parser
@@ -57,7 +57,7 @@ def main():
 
     # GUI
     app = QtWidgets.QApplication(sys.argv)
-    screen = MainWindow()
+    screen = main_window.MainWindow()
     screen.show()
 
     sys.exit(app.exec_())

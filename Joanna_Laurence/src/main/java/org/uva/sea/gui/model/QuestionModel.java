@@ -45,7 +45,7 @@ public class QuestionModel {
         if (this.baseEvaluator == null)
             return null;
 
-        return this.baseEvaluator.getQuestions();
+        return this.baseEvaluator.evaluate();
     }
 
     private BaseWidget createWidget(QuestionData questionData) throws WidgetNotFoundException {

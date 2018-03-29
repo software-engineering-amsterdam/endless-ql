@@ -3,11 +3,10 @@ package nl.uva.js.qlparser.logic;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
-import nl.uva.js.qlparser.models.ql.expressions.form.IfBlock;
 import nl.uva.js.qlparser.models.ql.expressions.form.Question;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.Page;
-import nl.uva.js.qlparser.models.qls.elements.QuestionReference;
+import nl.uva.js.qlparser.models.qls.elements.ExpressionReference;
 import nl.uva.js.qlparser.models.qls.elements.Section;
 import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
@@ -15,30 +14,30 @@ import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 import java.util.*;
 
 public class QLSChecker {
-    public static final String UNPLACED_QL_QUESTION = "Unplaced QL question: ";
-    public static final String QUESTION_DOES_NOT_EXIST = "Question does not exist: ";
-    public static final String DUPLICATE_REFERENCE_TO_QUESTION = "Duplicate reference to question: ";
+    private static final String UNPLACED_FORM_EXPRESSION = "Unplaced form expression: ";
+    private static final String INVALID_FORM_EXPRESSION = "Invalid form expression: ";
+    private static final String DUPLICATE_REFERENCE_TO_FORM_EXPRESSION = "Duplicate reference to form expression: ";
 
     private ArrayList<String> errors;
 
     public ArrayList<String> checkForErrors(Form form, Stylesheet stylesheet) {
         errors = new ArrayList<>();
 
-        HashMap<String, Question> questionsByName              = getQuestions(form.getFormExpressions());
-        HashMap<String, QuestionReference> questionRefsByName  = getQuestionReferences(stylesheet);
+        HashMap<String, FormExpression> expressionsByName        = form.getExpressionsByName();
+        HashMap<String, ExpressionReference> expressionRefsByName  = getExpressionReferencesByName(stylesheet);
 
-        checkDuplicateReferences(questionRefsByName.values());
+        checkDuplicateReferences(expressionRefsByName.values());
 
-        checkQuestionsExist(questionsByName.keySet(), questionRefsByName.keySet());
+        checkQuestionsExist(expressionsByName.keySet(), expressionRefsByName.keySet());
 
-        checkWidgetAssignments(questionsByName, questionRefsByName, stylesheet.getDefaultStyles());
+        checkWidgetAssignments(expressionsByName, expressionRefsByName, stylesheet.getDefaultStyles());
 
         return errors;
     }
 
     private void checkQuestionsExist(Set<String> questionNames, Set<String> questionRefNames) {
-        compareLeftToRight(questionNames, questionRefNames, UNPLACED_QL_QUESTION);
-        compareLeftToRight(questionRefNames, questionNames, QUESTION_DOES_NOT_EXIST);
+        compareLeftToRight(questionNames, questionRefNames, UNPLACED_FORM_EXPRESSION);
+        compareLeftToRight(questionRefNames, questionNames, INVALID_FORM_EXPRESSION);
     }
 
     private void compareLeftToRight(Set<String> left, Set<String> right, String errorMessage) {
@@ -50,17 +49,17 @@ public class QLSChecker {
         }
     }
 
-    private void checkDuplicateReferences(Collection<QuestionReference> questionReferences) {
+    private void checkDuplicateReferences(Collection<ExpressionReference> expressionReferences) {
         HashSet<String> uniques = new HashSet<>();
-        for(QuestionReference ref : questionReferences) {
+        for(ExpressionReference ref : expressionReferences) {
             if(!uniques.add(ref.getName())) {
-                errors.add(DUPLICATE_REFERENCE_TO_QUESTION + ref.getName());
+                errors.add(DUPLICATE_REFERENCE_TO_FORM_EXPRESSION + ref.getName());
             }
         }
     }
 
-    private HashMap<String, QuestionReference> getQuestionReferences(Stylesheet stylesheet) {
-        HashMap<String, QuestionReference> questionReferences = new HashMap<>();
+    private HashMap<String, ExpressionReference> getExpressionReferencesByName(Stylesheet stylesheet) {
+        HashMap<String, ExpressionReference> expressionReferencesByName = new HashMap<>();
 
         LinkedList<Page> pages = stylesheet.getPages();
         if (null != pages) {
@@ -68,34 +67,25 @@ public class QLSChecker {
             pages.stream().map(Page::getSections).forEach(sections::addAll);
 
             for (Section section : sections) {
-                LinkedList<QuestionReference> refs = section.getQuestions();
-                refs.forEach(ref -> questionReferences.put(ref.getName(), ref));
+                LinkedList<ExpressionReference> refs = section.getExpressionReferences();
+                refs.forEach(ref -> expressionReferencesByName.put(ref.getName(), ref));
             }
         }
-        return questionReferences;
-    }
-
-    private HashMap<String, Question> getQuestions(LinkedList<FormExpression> formExpressions) {
-        HashMap<String, Question> questions = new HashMap<>();
-
-        for(FormExpression formExpression : formExpressions) {
-            if (formExpression instanceof Question) {
-                questions.put(((Question) formExpression).getVariable().getName(), (Question) formExpression);
-            } else if (formExpression instanceof IfBlock) {
-                HashMap<String, Question> ifQuestions = getQuestions(((IfBlock) formExpression).getExpressions());
-                questions.putAll(ifQuestions);
-            }
-        }
-        return questions;
+        return expressionReferencesByName;
     }
 
     private void checkWidgetAssignments(
-            HashMap<String, Question> questions,
-            HashMap<String, QuestionReference> questionRefs,
+            HashMap<String, FormExpression> questions,
+            HashMap<String, ExpressionReference> questionRefs,
             LinkedList<DefaultStyle> defaultStyles
     ) {
-        for (QuestionReference ref : questionRefs.values()) {
-            DataType dataType = questions.get(ref.getName()).getDataType();
+        for (ExpressionReference ref : questionRefs.values()) {
+            FormExpression formExpression = questions.get(ref.getName());
+            if (!(formExpression instanceof Question)) {
+                continue;
+            }
+
+            DataType dataType = ((Question) formExpression).getDataType();
             WidgetType widgetType = ref.getWidgetType();
 
             if (null != widgetType && !WidgetType.mapDataTypeToWidget.get(dataType).contains(widgetType)) {

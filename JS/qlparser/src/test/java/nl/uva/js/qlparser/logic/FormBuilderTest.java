@@ -49,7 +49,7 @@
 //                .dataType(DataType.BOOLEAN)
 //                .build();
 //
-//        // Conditional questions
+//        // Conditional expressionReferences
 //        Question sellingPrice = Question.builder()
 //                .name("sellingPrice")
 //                .question("What was the selling price?")

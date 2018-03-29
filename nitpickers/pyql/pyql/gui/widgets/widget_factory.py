@@ -27,3 +27,4 @@ class WidgetFactory:
     @multimethod(Boolean)
     def widget(self):
         return BooleanWidget
+

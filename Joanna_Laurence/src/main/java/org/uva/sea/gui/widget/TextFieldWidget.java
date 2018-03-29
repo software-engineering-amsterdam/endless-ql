@@ -2,9 +2,7 @@ package org.uva.sea.gui.widget;
 
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Font;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.DecimalValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.StringValue;
@@ -42,7 +40,6 @@ public class TextFieldWidget extends Widget {
     public Node convertToGuiNode() {
 
         TextField textField = new TextField();
-        this.setStyle(textField, this.questionData.getStyle());
         textField.setText(this.widgetValue.toString());
         textField.setEditable(true);
         textField.setMinWidth(BaseRenderable.TEXT_WIDTH);
@@ -65,15 +62,4 @@ public class TextFieldWidget extends Widget {
         return textField;
     }
 
-    private void setStyle(TextField textField, Style style) {
-        if (style == null)
-            return;
-
-        if (style.getWidth() != null) {
-            textField.setMinWidth(style.getWidth());
-        }
-        if ((style.getFont() != null) && (style.getFontSize() != null)) {
-            textField.setFont(new Font(style.getFont(), style.getFontSize()));
-        }
-    }
 }

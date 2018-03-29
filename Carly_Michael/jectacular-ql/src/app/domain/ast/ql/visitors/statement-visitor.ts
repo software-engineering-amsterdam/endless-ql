@@ -4,11 +4,11 @@ import {If} from '../if';
 import {QlQuestion} from '../ql-question';
 
 export interface StatementVisitor<T> {
-  visitExpressionQuestion(stmt: ExpressionQuestion): T;
+  visitExpressionQuestion(statement: ExpressionQuestion): T;
 
-  visitForm(stmt: Form): T;
+  visitForm(statement: Form): T;
 
-  visitIf(stmt: If): T;
+  visitIf(statement: If): T;
 
-  visitQlQuestion(stmt: QlQuestion): T;
+  visitQlQuestion(statement: QlQuestion): T;
 }

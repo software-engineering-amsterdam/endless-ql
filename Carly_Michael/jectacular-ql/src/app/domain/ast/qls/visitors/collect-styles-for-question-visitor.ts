@@ -100,8 +100,8 @@ export class CollectStylesForQuestionVisitor implements QlsVisitor<StylesForQlQu
   }
 
   private collectDefaultStylesForQuestion(defaultStyleable: Section | Page): StylesForQlQuestion {
-    if ( defaultStyleable.defaultSettings && this.type === defaultStyleable.defaultSettings.type.toHtmlInputType()) {
-      return new StylesForQlQuestion(defaultStyleable.defaultSettings.styles, defaultStyleable.defaultSettings.widget);
+    if ( defaultStyleable.defaultStyling && this.type === defaultStyleable.defaultStyling.type.toHtmlInputType()) {
+      return new StylesForQlQuestion(defaultStyleable.defaultStyling.styles, defaultStyleable.defaultStyling.widget);
     }
     return undefined;
   }

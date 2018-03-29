@@ -10,29 +10,16 @@ form taxOfficeExample
 	
 	if (hasSoldHouse)
   	{
-		"assign"
-			privateDebt: int
-    		"ifV"
-      			sellingPrice: int
-    		 "Value residue:" valueResidue: int = privateDebt + privateDebt
-
+		"val1" val1: int
+    		"val2" val2: int
+    		"Value residue = val1 + val2:" valueResidue: int = val1 + val2
   	}
-	
-	/*
 
- 	if (ifV4 > 3)
-  	{
-    		"if2"
-      			ifV2: int
- 	}
-	else 
+	if(hasBoughtHouse && hasMaintLoan)
 	{
-		"else2"
-			elseV2: int
+		"Value residue 2 = val1 - val2" valueResidue2: int = val1 - val2
 	}
 
-	"Did you enter a loan?"
-    		hasMaint2Loan: boolean
-
-*/
+	"Question after if statements?"
+		afterStatements: boolean
 }

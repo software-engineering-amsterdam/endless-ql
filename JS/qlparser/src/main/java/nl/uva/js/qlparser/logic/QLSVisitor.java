@@ -5,7 +5,7 @@ import nl.uva.js.qlparser.antlr.QLSParser;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.Page;
-import nl.uva.js.qlparser.models.qls.elements.QuestionReference;
+import nl.uva.js.qlparser.models.qls.elements.ExpressionReference;
 import nl.uva.js.qlparser.models.qls.elements.Section;
 import nl.uva.js.qlparser.models.qls.enums.Property;
 import nl.uva.js.qlparser.models.qls.enums.WidgetType;
@@ -72,20 +72,20 @@ public class QLSVisitor extends QLSBaseVisitor{
 
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
-        LinkedList<QuestionReference> questions = ctx.question()
+        LinkedList<ExpressionReference> expressionReferences = ctx.expression()
                 .stream()
-                .map(this::visitQuestion)
+                .map(this::visitExpression)
                 .collect(Collectors.toCollection(LinkedList::new));
 
         return Section.builder()
                 .name((String) DataType.STRING.getValueOf().apply(ctx.STRVAL().getText()))
-                .questions(questions)
+                .expressionReferences(expressionReferences)
                 .build();
     }
 
     @Override
-    public QuestionReference visitQuestion(QLSParser.QuestionContext ctx) {
-        return QuestionReference.builder()
+    public ExpressionReference visitExpression(QLSParser.ExpressionContext ctx) {
+        return ExpressionReference.builder()
                 .name(ctx.NAME().getText())
                 .widgetType((WidgetType) getOptional(ctx.widgetType()))
                 .widgetStyle((WidgetStyle) getOptional(ctx.widgetStyle()))

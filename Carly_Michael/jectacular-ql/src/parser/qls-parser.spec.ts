@@ -9,7 +9,7 @@ describe('The QLS parser', () => {
     expect(parsedInput.name).toBe('taxOfficeExample');
     expect(parsedInput.pages.length).toBe(2);
     expect(parsedInput.pages[0].sections.length).toBe(2);
-    expect(parsedInput.pages[1].defaultSettings.widget).toEqual(new Widget(WidgetType.RADIO, labels));
+    expect(parsedInput.pages[1].defaultStyling.widget).toEqual(new Widget(WidgetType.RADIO, labels));
   });
 
   it('should parse widgets correctly', () => {

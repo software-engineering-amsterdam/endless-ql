@@ -49,16 +49,6 @@ public class CircularExpressionDependencies extends BaseASTVisitor<Void> impleme
             node.getValue().accept(this);
     }
 
-    /**
-     * @param question Null for none.
-     */
-    private void setRelationQuestion(String question) {
-        this.question = question;
-    }
-
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
     public static class Checker implements IQLStaticAnalysis {
         @Override
         public Messages doCheck(Form node) {

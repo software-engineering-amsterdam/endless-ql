@@ -30,7 +30,6 @@ public class Variable extends Expression {
 
     public Type getType() {
         if (this.linkedQuestion == null) {
-            System.out.println("Variable information should be set before requesting type information");
             return new Type(NodeType.UNKNOWN);
         }
 

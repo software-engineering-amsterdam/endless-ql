@@ -152,7 +152,7 @@
     <Compile Include="Ast\Nodes\Boolean\NegateNode.cs" />
     <Compile Include="Ast\Nodes\Calculation\NumberNode.cs" />
     <Compile Include="Ast\Nodes\Calculation\CalculationVariableNode.cs" />
-    <Compile Include="Domain\QlParserException.cs" />
+    <Compile Include="Domain\ParserException.cs" />
     <Compile Include="Ast\Nodes\Common\AstNodeBase.cs" />
     <Compile Include="Ast\Nodes\Relational\TextVariableNode.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\ConditionalNode.cs" />

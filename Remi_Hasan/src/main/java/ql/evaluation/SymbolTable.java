@@ -49,16 +49,5 @@ public class SymbolTable {
 
     public void setExpression(String identifier, Expression value) {
         this.table.put(identifier, value);
-
-        // TODO remove debugging info below
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this);
-        for (Map.Entry<String, Expression> entry : table.entrySet()) {
-            Value evaluatedValue = expressionEvaluator.visit(entry.getValue());
-            System.out.println(entry.getKey() + " " + evaluatedValue.toString());
-        }
-    }
-
-    public Map<String, Expression> getTable() {
-        return table;
     }
 }

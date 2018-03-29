@@ -3,10 +3,13 @@ package gui.builder;
 import gui.model.GUIQuestion;
 import gui.model.GUIQuestionWithStyling;
 import gui.model.GUIElement;
+import ql.model.expression.ReturnType;
 import qls.QLSVisitor;
 import qls.model.statement.DefaultStyle;
 import qls.model.statement.QuestionReference;
 import qls.model.statement.Section;
+import qls.model.widget.Widget;
+import qls.model.widget.WidgetType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +35,31 @@ public class GUIElementBuilder extends QLSVisitor<List<GUIElement>> {
         List<GUIElement> guiElements = new ArrayList<>();
         // Add all QL questions with this identifier here, inside decorator for the styling
         for(GUIQuestion guiQuestion : guiQuestionMap.get(questionReference.getIdentifier())) {
-            guiElements.add(new GUIQuestionWithStyling(guiQuestion, this.defaultStyles));
+            WidgetType widgetType = getWidgetType(defaultStyles, guiQuestion);
+            guiElements.add(new GUIQuestionWithStyling(guiQuestion, this.defaultStyles, widgetType));
         }
         return guiElements;
+    }
+
+
+
+    private WidgetType getWidgetType(List<DefaultStyle> defaultStyles, GUIQuestion guiQuestion){
+        // If a question has a widget type, don't use other widget types of the default styles
+        if(guiQuestion.getWidgetType() != WidgetType.DEFAULT){
+            return guiQuestion.getWidgetType();
+        }
+
+        WidgetType widgetType = WidgetType.DEFAULT;
+        for(DefaultStyle defaultStyle : defaultStyles){
+            ReturnType defaultStyleType = defaultStyle.getType();
+            ReturnType questionType = guiQuestion.getType();
+            Widget widget = defaultStyle.getWidget();
+            WidgetType defaultStyleWidgetType = widget.getType();
+            if(defaultStyleType.equals(questionType) && defaultStyleWidgetType != WidgetType.DEFAULT){
+                widgetType = defaultStyleWidgetType;
+            }
+        }
+        return widgetType;
     }
 
     @Override

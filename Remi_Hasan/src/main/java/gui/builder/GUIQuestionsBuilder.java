@@ -10,6 +10,7 @@ import ql.model.expression.Expression;
 import ql.model.expression.binary.ExpressionLogicalAnd;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.ExpressionVariableBoolean;
+import qls.model.widget.WidgetType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,7 @@ public class GUIQuestionsBuilder extends QLBaseVisitor<List<GUIQuestion>> {
     @Override
     public List<GUIQuestion> visit(Question question) {
         List<GUIQuestion> guiQuestions = new ArrayList<>();
-        GUIQuestion guiQuestion = new GUIQuestion(question.getIdentifier(), question.getLabel(), question.getType(),
+        GUIQuestion guiQuestion = new GUIQuestion(question.getIdentifier(), question.getLabel(), question.getType(), WidgetType.DEFAULT,
                 this.condition, question.getComputedAnswer());
         guiQuestions.add(guiQuestion);
 

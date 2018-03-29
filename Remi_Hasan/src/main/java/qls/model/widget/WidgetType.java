@@ -13,7 +13,8 @@ public enum WidgetType {
     DECIMAL,
     MONEY,
     STRING,
-    DATE;
+    DATE,
+    DEFAULT;
 
     public boolean isCompatible(ReturnType returnType) {
         switch (returnType) {

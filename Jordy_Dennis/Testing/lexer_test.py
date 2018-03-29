@@ -1,7 +1,7 @@
 from test_methods import *
 
 
-class LexerTest(unittest.TestCase):
+class QLLexerTest(unittest.TestCase):
     def testGoodFilesLexer(self):
         path = 'Testing/test_files/ql/lexer_test_files/correct_test'
         for filename in os.listdir(path):

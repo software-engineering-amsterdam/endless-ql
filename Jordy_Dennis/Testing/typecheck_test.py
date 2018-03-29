@@ -1,7 +1,7 @@
 
 from test_methods import *
 
-class TypeCheckTest(unittest.TestCase):
+class QLTypeCheckTest(unittest.TestCase):
     def testGoodFilesTypecheck(self):
         path = 'Testing/test_files/ql/typecheck_test_files/correct_test'
         for filename in os.listdir(path):

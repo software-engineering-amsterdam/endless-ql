@@ -2,7 +2,7 @@ from test_methods import *
 import unittest
 
 
-class AstTest(unittest.TestCase):
+class QLAstTest(unittest.TestCase):
     def testGoodFilesAst(self):
         path = 'Testing/test_files/ql/ast_test_files/correct_test'
         for filename in os.listdir(path):
@@ -18,6 +18,10 @@ class AstTest(unittest.TestCase):
 
             self.assertRaises(Exception, getLexerFromString, inputText, filename)
             file_object.close()
+
+
+class QLSAstTest(unittest.TestCase):
+    pass
 
 
 if __name__ == '__main__':

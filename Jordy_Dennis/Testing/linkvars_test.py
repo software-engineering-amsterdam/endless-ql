@@ -1,7 +1,7 @@
 from test_methods import *
 
 
-class LinkVarsTest(unittest.TestCase):
+class QLLinkVarsTest(unittest.TestCase):
     def testGoodFilesLinkvars(self):
         path = 'Testing/test_files/ql/linkvars_test_files/correct_test'
         for filename in os.listdir(path):

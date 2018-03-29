@@ -36,13 +36,12 @@ public class GUIQuestion implements IGUIQuestion {
         return type;
     }
 
-    public Expression getComputedAnswer() {
-        return computedAnswer;
+    public Expression getCondition() {
+        return condition;
     }
 
-    public boolean isVisible(SymbolTable symbolTable) {
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
-        return expressionEvaluator.visit(this.condition).getBooleanValue();
+    public Expression getComputedAnswer() {
+        return computedAnswer;
     }
 
     public boolean isComputed() {

@@ -21,11 +21,9 @@ import java.io.InputStream;
 public class QLSFormBuilder {
 
     private Form qlForm;
-    private SymbolTable symbolTable;
 
-    public QLSFormBuilder(Form qlForm, SymbolTable symbolTable) {
+    public QLSFormBuilder(Form qlForm) {
         this.qlForm = qlForm;
-        this.symbolTable = symbolTable;
     }
 
     public StyleSheet parseStyleSheet(InputStream stream) throws IllegalArgumentException, UnsupportedOperationException, IOException {

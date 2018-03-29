@@ -2,12 +2,12 @@ package ql.form;
 
 import org.junit.Test;
 import ql.QLBaseVisitor;
-import ql.QLFormBuilder;
-import ql.evaluation.ExpressionEvaluator;
+import ql.QLEvaluator;
+import ql.QLTestUtilities;
 import ql.evaluation.value.Value;
 import ql.model.Form;
-import ql.model.statement.Question;
 import ql.model.expression.ReturnType;
+import ql.model.statement.Question;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +32,9 @@ public class FormBuilderTest {
 
     @Test
     public void simpleForm() throws Exception {
-        QLFormBuilder formBuilder = new QLFormBuilder();
-        Form form = formBuilder.buildForm(FormBuilderTest.class
+        Form form = QLTestUtilities.buildForm(FormBuilderTest.class
                 .getResourceAsStream("/ql/ValidForms/SimpleForm.ql"));
+
         List<Question> questions = this.getQuestions(form);
 
         assertEquals(form.getIdentifier(), "simpleForm");
@@ -46,8 +46,7 @@ public class FormBuilderTest {
 
     @Test
     public void conditionFalseForm() throws Exception {
-        QLFormBuilder formBuilder = new QLFormBuilder();
-        Form form = formBuilder.buildForm(FormBuilderTest.class
+        Form form = QLTestUtilities.buildForm(FormBuilderTest.class
                 .getResourceAsStream("/ql/ValidForms/ConditionFormFalse.ql"));
         List<Question> questions = this.getQuestions(form);
         assertEquals(questions.size(), 3);
@@ -55,18 +54,18 @@ public class FormBuilderTest {
 
     @Test
     public void computedForm() throws Exception {
-        QLFormBuilder formBuilder = new QLFormBuilder();
-        Form form = formBuilder.buildForm(FormBuilderTest.class.
-                getResourceAsStream("/ql/ValidForms/ComputedForm.ql"));
+        QLEvaluator qlEvaluator = new QLEvaluator(FormBuilderTest.class
+                .getResourceAsStream("/ql/ValidForms/ComputedForm.ql"));
+
+        Form form = qlEvaluator.getForm();
+
         List<Question> questions = this.getQuestions(form);
 
         // Test whether computed field is computed correctly based on another field value
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(formBuilder.getSymbolTable());
-
-        Value staticResult = expressionEvaluator.visit(questions.get(0).getComputedAnswer());
+        Value staticResult = qlEvaluator.evaluateExpression(questions.get(0).getComputedAnswer());
         assertEquals(staticResult.getIntValue(), Integer.valueOf(2));
 
-        Value calculationResult = expressionEvaluator.visit(questions.get(1).getComputedAnswer());
+        Value calculationResult = qlEvaluator.evaluateExpression(questions.get(1).getComputedAnswer());
         assertEquals(calculationResult.getIntValue(), Integer.valueOf(5));
     }
 

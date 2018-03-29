@@ -2,8 +2,7 @@ package gui.render;
 
 import gui.elements.LabelWithWidget;
 import gui.model.GUIQuestion;
-import ql.evaluation.ExpressionEvaluator;
-import ql.evaluation.SymbolTable;
+import ql.QLEvaluator;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.variable.ExpressionVariableUndefined;
@@ -14,11 +13,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class GUIController {
-    private final SymbolTable symbolTable;
+    private final QLEvaluator qlEvaluator;
     private final Map<GUIQuestion, LabelWithWidget> guiQuestionWidgets = new HashMap<>();
 
-    public GUIController(SymbolTable symbolTable) {
-        this.symbolTable = symbolTable;
+    public GUIController(QLEvaluator QLEvaluator) {
+        this.qlEvaluator = QLEvaluator;
     }
 
     // Keep track of all rendered questions and their corresponding GUI widgets
@@ -28,7 +27,7 @@ public class GUIController {
 
     // Handle a changed question field
     public void update(GUIQuestion guiQuestion, Expression expression) {
-        symbolTable.setExpression(guiQuestion.getIdentifier(), expression);
+        qlEvaluator.updateSymbolTable(guiQuestion.getIdentifier(), expression);
         this.updateQuestionWidgets();
     }
 
@@ -45,15 +44,15 @@ public class GUIController {
             GUIQuestion guiQuestion = mapEntry.getKey();
             LabelWithWidget labelWithWidget = mapEntry.getValue();
 
-            boolean visible = guiQuestion.isVisible(this.symbolTable);
+            boolean visible = this.qlEvaluator.evaluateExpression(guiQuestion.getCondition()).getBooleanValue();
             labelWithWidget.setVisibility(visible);
 
             // Update symbol table, as another question with the same identifier could now be visible
             if(visible) {
                 if(guiQuestion.isComputed()) {
-                    this.symbolTable.setExpression(guiQuestion.getIdentifier(), guiQuestion.getComputedAnswer());
+                    this.qlEvaluator.updateSymbolTable(guiQuestion.getIdentifier(), guiQuestion.getComputedAnswer());
                 } else {
-                    this.symbolTable.setExpression(guiQuestion.getIdentifier(), labelWithWidget.getExpressionValue());
+                    this.qlEvaluator.updateSymbolTable(guiQuestion.getIdentifier(), labelWithWidget.getExpressionValue());
                 }
 
                 visibleQuestions.add(guiQuestion.getIdentifier());
@@ -61,7 +60,7 @@ public class GUIController {
                 // If question becomes invisible, set value in symbol table to undefined
                 // but only if another question with the same identifier was made visible already,
                 // which we keep track of using visibleQuestions
-                this.symbolTable.setExpression(guiQuestion.getIdentifier(),
+                this.qlEvaluator.updateSymbolTable(guiQuestion.getIdentifier(),
                         new ExpressionVariableUndefined(guiQuestion.getType()));
             }
         }
@@ -69,13 +68,12 @@ public class GUIController {
 
     // Update all rendered values of the computed questions
     private void updateComputedQuestions() {
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this.symbolTable);
         for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : this.guiQuestionWidgets.entrySet()) {
             GUIQuestion guiQuestion = mapEntry.getKey();
             LabelWithWidget labelWithWidget = mapEntry.getValue();
 
             if(guiQuestion.isComputed()) {
-                Value result = expressionEvaluator.visit(guiQuestion.getComputedAnswer());
+                Value result = this.qlEvaluator.evaluateExpression(guiQuestion.getComputedAnswer());
                 labelWithWidget.setValue(result);
             }
         }

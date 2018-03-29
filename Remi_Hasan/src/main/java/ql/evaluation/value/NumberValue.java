@@ -52,7 +52,8 @@ public class NumberValue extends Value<BigDecimal> {
 
     @Override
     public Value divide(Value right) {
-        if (right.isUndefined() || right.getIntValue() == 0)
+        // Prevent division by zero
+        if (right.isUndefined() || right.getDecimalValue() == 0.0)
             return new UndefinedValue();
 
         NumberValue rightValue = (NumberValue) right;

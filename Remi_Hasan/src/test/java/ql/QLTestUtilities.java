@@ -11,13 +11,14 @@ import ql.antlr.QLLexer;
 import ql.antlr.QLParser;
 import ql.visitor.VisitorExpression;
 
+import java.io.File;
 import java.io.InputStream;
 
 public class QLTestUtilities {
 
-    public static Form buildForm(InputStream stream) throws Exception {
-        QLFormBuilder qlFormBuilder = new QLFormBuilder();
-        return qlFormBuilder.buildForm(stream);
+    public static Form buildForm(InputStream inputStream) throws Exception {
+        QLEvaluator qlEvaluator = new QLEvaluator(inputStream);
+        return qlEvaluator.getForm();
     }
 
     public static Expression expressionFromString(String input) {

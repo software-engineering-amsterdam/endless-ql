@@ -9,11 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
-import ql.QLFormBuilder;
-import ql.SymbolTableExporter;
-import ql.analysis.warning.QLWarningAnalyzer;
-import ql.evaluation.SymbolTable;
-import ql.model.Form;
+import ql.QLEvaluator;
 import qls.QLSFormBuilder;
 import qls.model.StyleSheet;
 
@@ -25,9 +21,8 @@ import java.util.Locale;
 import java.util.Set;
 
 public class Renderer extends Application {
+    private QLEvaluator qlEvaluator;
     private StyleSheet qlsStyleSheet;
-    private Form qlForm;
-    private SymbolTable symbolTable;
 
     @Override
     public void start(Stage primaryStage) {
@@ -43,18 +38,17 @@ public class Renderer extends Application {
         }
 
         try {
-            QLFormBuilder qlFormBuilder = new QLFormBuilder();
-            this.qlForm = qlFormBuilder.buildForm(new FileInputStream(qlFile));
-            this.symbolTable = qlFormBuilder.getSymbolTable();
+            this.qlEvaluator = new QLEvaluator(new FileInputStream(qlFile));
+
+            this.qlEvaluator.exportResults();
 
             // Check for warning messages
-            QLWarningAnalyzer qlWarningAnalyzer = new QLWarningAnalyzer();
-            Set<String> warnings = qlWarningAnalyzer.analyze(this.qlForm, this.symbolTable);
+            Set<String> warnings = qlEvaluator.getWarnings();
             if (!warnings.isEmpty()) {
                 showWarningAlert(String.join("\n", warnings));
             }
 
-            QLSFormBuilder qlsFormBuilder = new QLSFormBuilder(this.qlForm, this.symbolTable);
+            QLSFormBuilder qlsFormBuilder = new QLSFormBuilder(qlEvaluator.getForm());
             this.qlsStyleSheet = qlsFormBuilder.parseStyleSheet(new FileInputStream(qlsFile));
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
@@ -73,12 +67,12 @@ public class Renderer extends Application {
         buildQuestions(primaryStage);
 
         // TODO move to a better place
-        try {
-            System.out.println("exporting1");
-            SymbolTableExporter.export(symbolTable, formExportFile);
-        } catch (FileNotFoundException e) {
-            showErrorAlert(e, "Could not write to export file, check file permissions.");
-        }
+//        try {
+//            System.out.println("exporting1");
+//            SymbolTableExporter.export(symbolTable, formExportFile);
+//        } catch (FileNotFoundException e) {
+//            showErrorAlert(e, "Could not write to export file, check file permissions.");
+//        }
 
         primaryStage.show();
     }
@@ -90,16 +84,16 @@ public class Renderer extends Application {
         GUIFormBuilder guiFormBuilder = new GUIFormBuilder();
 
         GUIForm guiForm;
-        if(this.qlsStyleSheet != null){
-            guiForm = guiFormBuilder.buildQLSForm(this.qlForm, this.qlsStyleSheet);
+        if (this.qlsStyleSheet != null) {
+            guiForm = guiFormBuilder.buildQLSForm(qlEvaluator.getForm(), this.qlsStyleSheet);
         } else {
-            guiForm = guiFormBuilder.buildQLForm(this.qlForm);
+            guiForm = guiFormBuilder.buildQLForm(qlEvaluator.getForm());
         }
 
-        GUIController guiController = new GUIController(this.symbolTable);
+        GUIController guiController = new GUIController(qlEvaluator);
 
         Scene scene = new Scene(guiForm.render(guiController));
-        stage.setTitle(qlForm.getIdentifier() + " form");
+        stage.setTitle(qlEvaluator.getIdentifier());
         stage.setScene(scene);
         stage.setWidth(640);
         stage.setHeight(480);

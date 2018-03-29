@@ -41,6 +41,6 @@ public class MoneyVariable extends Variable {
 
     @Override
     public void accept(Object o) {
-        this.value.setValue(o);
+        this.value.setValue((Integer) o);
     }
 }

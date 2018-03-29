@@ -28,9 +28,7 @@ public class BooleanVariable extends Variable {
     @Override
     public UIElement getUiElement() {
         return uiElement;
-    }
-
-    ;
+    };
 
     @Override
     public Node getRelatedUIElement(Visitor v){
@@ -39,6 +37,6 @@ public class BooleanVariable extends Variable {
 
     @Override
     public void accept(Object o) {
-        this.value.setValue(o);
+        this.value.setValue((Boolean) o);
     }
 }

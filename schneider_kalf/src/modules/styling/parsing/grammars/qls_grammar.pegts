@@ -21,114 +21,126 @@
     }
 }
 
-start = lb* stylesheet:stylesheet lb* { return stylesheet }
+root
+  = __ stylesheet:Stylesheet __ {
+    return stylesheet
+}
 
-stylesheet
- = _ "stylesheet" _ id:identifier lb* "{" lb* page:page* lb* "}" lb*{
+StylesheetToken = "stylesheet"
+PageToken = "page"
+SectionToken = "section"
+QuestionToken = "question"
+DefaultToken =  "default"
+WidgetToken = "widget"
+BooleanToken = "true" / "false"
+
+Stylesheet
+ = StylesheetToken _ id:Identifier __ "{" __ page:Page* __ "}" __{
     return new Nodes.Stylesheet( id, page);
 }
 
-page
- = _ "page" _ id:identifier lb* block:pageBlock lb* {
+Page
+ = _ PageToken _ id:Identifier __ block:PageBlock __ {
     return new Nodes.Page( id, block );
 }
 
-pageBlock
- = "{" lb* body:(section / default)+ lb* "}" {
+PageBlock
+ = "{" __ body:(Section / Default)+ __ "}" {
     return body;
 }
 
-section
- = _ "section" _ name:stringLiteral lb* block:sectionBlock {
+Section
+ = _ SectionToken _ name:StringLiteral __ block:SectionBlock {
     return new Nodes.Section( name, block );
 }
 
-sectionBlock
- = sectionBlockBrackets / sectionBlockNoBrackets
+SectionBlock
+ = SectionBlockBrackets
+ / SectionBlockNoBrackets
 
-sectionBlockBrackets
- = _ "{" lb* body:sectionBlockNoBrackets "}" lb* {
+SectionBlockBrackets
+ = _ "{" __ body:SectionBlockNoBrackets "}" __ {
     return body
 }
 
-sectionBlockNoBrackets
- = _ block:sectionAttribute+ lb* {
+SectionBlockNoBrackets
+ = _ block:SectionAttribute+ __ {
     return block
 }
 
-sectionAttribute
- = _ attr:(question / section / default) lb* {
+SectionAttribute
+ = _ attr:(Question / Section / Default) __ {
    return attr
 }
 
-question
- = _ "question" _ id:identifier lb* body:styleBlock? lb*{
+Question
+ = _ QuestionToken _ id:Identifier __ body:StyleBlock? __{
     body = body ? body : [];
     return new Nodes.QuestionStyle( id, body);
 }
 
-default
- = _ "default" _ type:type lb* args:styleBlock {
+Default
+ = _ DefaultToken _ type:Types __ args:StyleBlock {
     return new Nodes.DefaultStyle(type, args);
  }
 
-styleBlock
- = styleBlockNoBrackets / styleBlockBrackets
+StyleBlock
+ = StyleBlockNoBrackets / StyleBlockBrackets
 
-styleBlockBrackets
- = "{" lb* args:styleAttribute+ lb* "}" lb* {
+StyleBlockBrackets
+ = "{" __ args:StyleAttribute+ __ "}" __ {
     return args;
 }
 
-styleBlockNoBrackets
- = lb* args:styleAttribute+ lb* {
+StyleBlockNoBrackets
+ = __ args:StyleAttribute+ __ {
     return args;
 }
 
-styleAttribute
- = (widget / style)
+StyleAttribute
+ = (Widget / Style)
 
-widget
- = _ "widget" _ id:identifier options:widgetOptions? lb* {
+Widget
+ = _ WidgetToken _ id:Identifier options:WidgetOptions? __ {
     const WidgetConstructor = widgetMapping[id];
     return new WidgetConstructor(options);
 }
 
-widgetOptions
- = "(" _ args:arguments _ ")" lb* {
+WidgetOptions
+ = "(" _ args:Arguments _ ")" __ {
     return args;
 }
 
-arguments
-  = head:stringLiteral rest:(_ "," _ r:arguments{ return r; })? {
+Arguments
+  = head:StringLiteral rest:(_ "," _ r:Arguments { return r; })? {
     return rest != null ? [head].concat(rest) : [head];
 }
 
-style
- = _ id:identifier _ ":" _ args:styleValues lb*{
+Style
+ = _ id:Identifier _ ":" _ args:StyleValues __{
     const BaseAttributeConstructor = baseAttributeMapping[id];
     return new BaseAttributeConstructor(args);
 }
 
-styleValues
- = numberLiteral / stringLiteral / colorLiteral / booleanLiteral
+StyleValues
+ = NumberLiteral / StringLiteral / ColorLiteral / BooleanLiteral
 
-colorLiteral
+ColorLiteral
  = _ code:(["#"][0-9]+){
     return "#".concat(code[1].join(""))
 }
 
-identifier
- = chars:([a-zA-Z]+) {
-    return chars.join("");
+Identifier
+ = [a-zA-Z]+ {
+    return text();
 }
 
-booleanLiteral
-  = Literal:("true" / "false") {
-    return Literal == "true"
+BooleanLiteral
+  = BooleanToken {
+    return text() == "true"
 }
 
-numberLiteral
+NumberLiteral
   = minus:[-]? digits:([0-9]+) {
     let amount = digits.join("");
     if (minus)
@@ -137,16 +149,16 @@ numberLiteral
 }
 
 // String Literal, Currently only support double quoted Strings
-stringLiteral
- = '"' chars:doubleString* '"'{
+StringLiteral
+ = '"' chars:DoubleString* '"'{
     return chars.join('');
 }
 
-doubleString
+DoubleString
   = !('"' / "\\") char:. { return char; }
-  / "\\" sequence:escapeSequence { return sequence; }
+  / "\\" sequence:EscapeSequence { return sequence; }
 
-escapeSequence
+EscapeSequence
   = "'"
   / '"'
   / "\\"
@@ -157,10 +169,46 @@ escapeSequence
   / "t"  { return "\t";   }
   / "v"  { return "\x0B"; }
 
-type = "boolean" / "money" / "date" / "integer" / "float" / "text"
+Types
+  = "boolean"
+  / "money"
+  / "date"
+  / "integer"
+  / "float"
+  / "text"
 
-comment = "//" (![\n] .)*
+WhiteSpace
+  = "\t"
+  / "\v"
+  / "\f"
+  / " "
+  / "\u00A0"
+  / "\uFEFF"
 
-ws = [ \t]
-_ = (ws / comment)*
-lb = [ \t\r\n] / comment
+_ = (WhiteSpace / MultiLineCommentNoLineTerminator)*
+__ = (WhiteSpace / LineTerminatorSequence / Comment)*
+
+LineTerminatorSequence
+  = "\n"
+  / "\r\n"
+  / "\r"
+  / "\u2028"
+  / "\u2029"
+
+SourceCharacter = .
+
+Comment
+  = MultiLineComment
+  / SingleLineComment
+
+SingleLineComment
+  = "//" (!LineTerminator SourceCharacter)*
+
+MultiLineComment
+  = "/*" (!"*/" SourceCharacter)* "*/"
+
+MultiLineCommentNoLineTerminator
+  = "/*" (!("*/" / LineTerminator) SourceCharacter)* "*/"
+
+LineTerminator
+    = [\n\r\u2028\u2029]

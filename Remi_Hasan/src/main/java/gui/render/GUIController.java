@@ -1,6 +1,6 @@
 package gui.render;
 
-import gui.elements.LabelWithWidget;
+import gui.components.LabelWithWidget;
 import gui.model.GUIQuestion;
 import ql.QLForm;
 import ql.evaluation.value.Value;

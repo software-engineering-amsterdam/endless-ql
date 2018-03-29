@@ -1,4 +1,4 @@
-package doge.typechecker.circular
+package doge.typechecker.scope
 
 import doge.ast.location.Identifier
 import doge.ast.node.Block
@@ -12,26 +12,44 @@ import doge.ast.node.expression.UnaryExpression
 import doge.visitor.QuestionnaireASTBaseVisitor
 import java.util.*
 
-class CircularDependencyVisitor(
-        private val context: CircularDependencyErrorContext,
-        private val requestQuestion: (reference: String) -> QuestionStatement?
-) : QuestionnaireASTBaseVisitor<Unit> {
-    private val visitedReferences = ArrayDeque<Identifier>()
+class ScopeVisitor(val context: ScopeErrorContext) : QuestionnaireASTBaseVisitor<Unit> {
+
+    private val definitions = ArrayDeque<Identifier>()
+    private val references = ArrayDeque<Identifier>()
 
     override fun visit(form: Form) {
         visit(form.block)
     }
 
     override fun visit(block: Block) {
+        val numDefinitions = definitions.size
+        val numReferences = references.size
+
         block.statements.forEach { visit(it) }
+
+        context.errors += references.filter { reference ->
+            definitions.find { definition ->
+                definition.text == reference.text
+            } == null
+        }
+
+        while (definitions.size > numDefinitions) {
+            definitions.pop()
+        }
+
+        while (references.size > numReferences) {
+            references.pop()
+        }
     }
 
     override fun visit(ifStatement: IfStatement) {
-        visit(ifStatement.expression)
         visit(ifStatement.block)
+        visit(ifStatement.expression)
     }
 
     override fun visit(questionStatement: QuestionStatement) {
+        definitions.push(questionStatement.name)
+
         questionStatement.expression?.let {
             visit(it)
         }
@@ -47,27 +65,10 @@ class CircularDependencyVisitor(
     }
 
     override fun visit(referenceExpression: ReferenceExpression) {
-        val reference = referenceExpression.name
-
-        visitedReferences.find { it.text == reference.text }?.let {
-            val chain = visitedReferences.clone().apply { push(reference) }.reversed()
-            val first = chain.first()
-            val error = CircularDependencyError(first, chain.drop(1))
-            context.errors += error
-            return
-        }
-
-        visitedReferences.push(referenceExpression.name)
-
-        requestQuestion(reference.text)?.let {
-            visit(it)
-        }
-
-        visitedReferences.pop()
+        references.push(referenceExpression.name)
     }
 
     override fun visit(literalExpression: LiteralExpression) {
 
     }
 }
-

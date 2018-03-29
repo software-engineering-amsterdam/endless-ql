@@ -1,6 +1,6 @@
 package gui.render;
 
-import gui.elements.LabelWithWidget;
+import gui.components.LabelWithWidget;
 import ql.model.expression.ReturnType;
 import qls.model.statement.DefaultStyle;
 import qls.model.style.*;

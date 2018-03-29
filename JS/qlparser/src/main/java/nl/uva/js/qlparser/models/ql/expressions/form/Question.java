@@ -61,4 +61,14 @@ public class Question implements FormExpression {
     public String getName() {
         return variable.getName();
     }
+
+    @Override
+    public DataType getType() {
+        return dataType;
+    }
+
+    @Override
+    public Variable getVariable() {
+        return variable;
+    }
 }

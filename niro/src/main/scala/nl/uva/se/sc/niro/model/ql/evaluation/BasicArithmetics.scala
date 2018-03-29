@@ -4,72 +4,36 @@ import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, I
 
 import scala.language.implicitConversions
 
+// format: off
 object BasicArithmetics {
   trait IntAnswerCanDoBasicArithmetics extends BasicArithmetics[IntegerAnswer] {
-    def plus(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.value + i.value)
-      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x + $y")
-    }
-    def subtract(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.value - i.value)
-      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x - $y")
-    }
-    def multiply(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.value * i.value)
-      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x * $y")
-    }
-    def div(x: IntegerAnswer, y: Answer): Answer = y match {
-      case i: IntegerAnswer => IntegerAnswer(x.value / i.value)
-      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x / $y")
-    }
+    def plus(x: IntegerAnswer, y: Answer): Answer = y match { case i: IntegerAnswer => IntegerAnswer(x.value + i.value) }
+    def subtract(x: IntegerAnswer, y: Answer): Answer = y match { case i: IntegerAnswer => IntegerAnswer(x.value - i.value) }
+    def multiply(x: IntegerAnswer, y: Answer): Answer = y match { case i: IntegerAnswer => IntegerAnswer(x.value * i.value) }
+    def div(x: IntegerAnswer, y: Answer): Answer = y match { case i: IntegerAnswer => IntegerAnswer(x.value / i.value) }
     def minus(x: IntegerAnswer): Answer = IntegerAnswer(-x.value)
   }
   implicit object IntAnswerCanDoBasicArithmetics extends IntAnswerCanDoBasicArithmetics
 
   trait DecAnswerCanDoBasicArithmetics extends BasicArithmetics[DecimalAnswer] {
-    def plus(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.value + d.value)
-      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x + $y")
-    }
-    def subtract(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.value - d.value)
-      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x - $y")
-    }
-    def multiply(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.value * d.value)
-      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x * $y")
-    }
-    def div(x: DecimalAnswer, y: Answer): Answer = y match {
-      case d: DecimalAnswer => DecimalAnswer(x.value / d.value)
-      case _                => throw new UnsupportedOperationException(s"Can't perform operation $x / $y")
-    }
+    def plus(x: DecimalAnswer, y: Answer): Answer = y match { case d: DecimalAnswer => DecimalAnswer(x.value + d.value) }
+    def subtract(x: DecimalAnswer, y: Answer): Answer = y match { case d: DecimalAnswer => DecimalAnswer(x.value - d.value) }
+    def multiply(x: DecimalAnswer, y: Answer): Answer = y match { case d: DecimalAnswer => DecimalAnswer(x.value * d.value) }
+    def div(x: DecimalAnswer, y: Answer): Answer = y match { case d: DecimalAnswer => DecimalAnswer(x.value / d.value) }
     def minus(x: DecimalAnswer): Answer = DecimalAnswer(-x.value)
   }
-
   implicit object DecAnswerCanDoBasicArithmetics extends DecAnswerCanDoBasicArithmetics
 
   trait MoneyAnswerCanDoBasicArithmetics extends BasicArithmetics[MoneyAnswer] {
-    def plus(x: MoneyAnswer, y: Answer): Answer = y match {
-      case d: MoneyAnswer => MoneyAnswer(x.value + d.value)
-      case _              => throw new UnsupportedOperationException(s"Can't perform operation $x + $y")
-    }
-    def subtract(x: MoneyAnswer, y: Answer): Answer = y match {
-      case d: MoneyAnswer => MoneyAnswer(x.value - d.value)
-      case _              => throw new UnsupportedOperationException(s"Can't perform operation $x - $y")
-    }
-    def multiply(x: MoneyAnswer, y: Answer): Answer = y match {
-      case d: MoneyAnswer => MoneyAnswer(x.value * d.value)
-      case _              => throw new UnsupportedOperationException(s"Can't perform operation $x * $y")
-    }
-    def div(x: MoneyAnswer, y: Answer): Answer = y match {
-      case d: MoneyAnswer => MoneyAnswer(x.value / d.value)
-      case _              => throw new UnsupportedOperationException(s"Can't perform operation $x / $y")
-    }
+    def plus(x: MoneyAnswer, y: Answer): Answer = y match { case d: MoneyAnswer => MoneyAnswer(x.value + d.value) }
+    def subtract(x: MoneyAnswer, y: Answer): Answer = y match { case d: MoneyAnswer => MoneyAnswer(x.value - d.value) }
+    def multiply(x: MoneyAnswer, y: Answer): Answer = y match { case d: MoneyAnswer => MoneyAnswer(x.value * d.value) }
+    def div(x: MoneyAnswer, y: Answer): Answer = y match { case d: MoneyAnswer => MoneyAnswer(x.value / d.value) }
     def minus(x: MoneyAnswer): Answer = MoneyAnswer(-x.value)
   }
-
   implicit object MoneyAnswerCanDoBasicArithmetics extends MoneyAnswerCanDoBasicArithmetics
 }
+// format: on
 
 trait BasicArithmetics[SubType <: Answer] {
   def plus(x: SubType, y: Answer): Answer

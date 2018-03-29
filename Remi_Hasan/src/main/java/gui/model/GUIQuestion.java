@@ -1,10 +1,9 @@
 package gui.model;
 
-import gui.GUIController;
+import gui.render.GUIController;
 import gui.elements.LabelWithWidget;
 import gui.widgets.GUIWidget;
 import gui.widgets.WidgetFactory;
-import javafx.beans.InvalidationListener;
 import javafx.scene.control.Label;
 import ql.evaluation.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
@@ -55,7 +54,7 @@ public class GUIQuestion implements IGUIQuestion {
     LabelWithWidget render(GUIWidget guiWidget, GUIController guiController) {
         Label guiLabel = new Label(this.label);
 
-        // Update symbol table and other fields in UI if non-computed field is edited by user
+        // Notify controller if non-computed field is updated by the user
         if(!this.isComputed()) {
             guiWidget.setChangeListener(observable -> {
                 guiController.update(this, guiWidget.getExpressionValue());

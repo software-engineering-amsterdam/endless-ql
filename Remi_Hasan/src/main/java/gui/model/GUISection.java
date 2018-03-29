@@ -1,7 +1,6 @@
 package gui.model;
 
-import gui.GUIController;
-import javafx.beans.InvalidationListener;
+import gui.render.GUIController;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -11,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import ql.evaluation.SymbolTable;
 
 import java.util.List;
 

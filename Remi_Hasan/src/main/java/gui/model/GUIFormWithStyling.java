@@ -1,19 +1,11 @@
 package gui.model;
 
-import gui.GUIController;
-import gui.elements.LabelWithWidget;
-import javafx.beans.InvalidationListener;
+import gui.render.GUIController;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.VBox;
-import ql.evaluation.SymbolTable;
-import qls.model.Page;
-import qls.model.StyleSheet;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GUIFormWithStyling extends GUIForm {
 

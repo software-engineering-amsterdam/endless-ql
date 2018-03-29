@@ -1,17 +1,11 @@
 package gui.model;
 
-import gui.GUIController;
+import gui.render.GUIController;
 import gui.elements.LabelWithWidget;
-import javafx.beans.InvalidationListener;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import ql.evaluation.SymbolTable;
-import ql.evaluation.ExpressionEvaluator;
-import ql.evaluation.value.Value;
-import ql.model.expression.variable.ExpressionVariableUndefined;
 
 import java.util.*;
 

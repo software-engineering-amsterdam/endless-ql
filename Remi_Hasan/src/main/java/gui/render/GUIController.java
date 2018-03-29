@@ -1,4 +1,4 @@
-package gui;
+package gui.render;
 
 import gui.elements.LabelWithWidget;
 import gui.model.GUIQuestion;
@@ -15,16 +15,18 @@ import java.util.Set;
 
 public class GUIController {
     private final SymbolTable symbolTable;
-    private Map<GUIQuestion, LabelWithWidget> guiQuestionWidgets = new HashMap<>();
+    private final Map<GUIQuestion, LabelWithWidget> guiQuestionWidgets = new HashMap<>();
 
     public GUIController(SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
     }
 
+    // Keep track of all rendered questions and their corresponding GUI widgets
     public void register(GUIQuestion guiQuestion, LabelWithWidget labelWithWidget) {
         guiQuestionWidgets.put(guiQuestion, labelWithWidget);
     }
 
+    // Handle a changed question field
     public void update(GUIQuestion guiQuestion, Expression expression) {
         symbolTable.setExpression(guiQuestion.getIdentifier(), expression);
         this.updateQuestionWidgets();
@@ -35,9 +37,8 @@ public class GUIController {
         this.updateComputedQuestions();
     }
 
-
+    // Update visibility and symbol table value for every question
     private void updateDisplayedQuestions() {
-        // Update visibility and symbol table value for every question
         Set<String> visibleQuestions = new HashSet<>();
 
         for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : this.guiQuestionWidgets.entrySet()) {
@@ -65,8 +66,8 @@ public class GUIController {
         }
     }
 
+    // Update all rendered values of the computed questions
     private void updateComputedQuestions() {
-        // Update all rendered values of the computed questions
         ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(this.symbolTable);
         for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : this.guiQuestionWidgets.entrySet()) {
             GUIQuestion guiQuestion = mapEntry.getKey();

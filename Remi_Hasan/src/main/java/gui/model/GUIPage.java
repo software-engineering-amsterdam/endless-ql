@@ -1,10 +1,8 @@
 package gui.model;
 
-import gui.GUIController;
-import javafx.beans.InvalidationListener;
+import gui.render.GUIController;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
-import ql.evaluation.SymbolTable;
 
 import java.util.List;
 

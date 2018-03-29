@@ -1,11 +1,10 @@
 package gui.model;
 
-import gui.GUIController;
+import gui.render.GUIController;
 import gui.elements.LabelWithWidget;
+import gui.render.WidgetStyleApplier;
 import gui.widgets.GUIWidget;
 import gui.widgets.WidgetFactory;
-import javafx.beans.InvalidationListener;
-import ql.evaluation.SymbolTable;
 import qls.model.statement.DefaultStyle;
 import qls.model.style.StyleAttribute;
 
@@ -23,17 +22,11 @@ public class GUIQuestionWithStyling extends GUIElement implements IGUIQuestion {
 
     @Override
     public LabelWithWidget render(GUIController guiController) {
-        GUIWidget guiWidget = WidgetFactory.getDefaultWidget(guiQuestion.getType());
-        LabelWithWidget parent = guiQuestion.render(guiWidget, guiController);
+        GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.guiQuestion.getType());
+        LabelWithWidget parent = this.guiQuestion.render(guiWidget, guiController);
 
-        // Apply styles to this widget where applicable
-        for (DefaultStyle defaultStyle : defaultStyles) {
-            if (defaultStyle.getType() == guiQuestion.getType()) {
-                for (StyleAttribute styleAttribute : defaultStyle.getStyleAttributes()) {
-                    parent.apply(styleAttribute);
-                }
-            }
-        }
+        WidgetStyleApplier widgetStyleApplier = new WidgetStyleApplier();
+        widgetStyleApplier.applyStyles(this.guiQuestion.getType(), parent, this.defaultStyles);
 
         return parent;
     }

@@ -10,6 +10,7 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import ql.QLFormBuilder;
+import ql.SymbolTableExporter;
 import ql.analysis.warning.QLWarningAnalyzer;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
@@ -30,8 +31,16 @@ public class Renderer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        File qlFile = new File(getClass().getResource("../java/example.ql").getFile());
-        File qlsFile = new File(getClass().getResource("../java/example.qls").getFile());
+        ClassLoader classLoader = getClass().getClassLoader();
+        File resourceFolder = new File(classLoader.getResource("java/").getFile());
+        File qlFile = new File(resourceFolder.getAbsolutePath() + "/example.ql");
+        File qlsFile = new File(resourceFolder.getAbsolutePath() + "/example.qls");
+        File formExportFile = new File(resourceFolder.getAbsolutePath() + "/export.json");
+        try {
+            formExportFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             QLFormBuilder qlFormBuilder = new QLFormBuilder();
@@ -62,6 +71,14 @@ public class Renderer extends Application {
         }
 
         buildQuestions(primaryStage);
+
+        // TODO move to a better place
+        try {
+            System.out.println("exporting1");
+            SymbolTableExporter.export(symbolTable, formExportFile);
+        } catch (FileNotFoundException e) {
+            showErrorAlert(e, "Could not write to export file, check file permissions.");
+        }
 
         primaryStage.show();
     }

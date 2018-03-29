@@ -51,4 +51,8 @@ public class SymbolTable {
             System.out.println(entry.getKey() + " " + evaluatedValue.toString());
         }
     }
+
+    public Map<String, Expression> getTable() {
+        return table;
+    }
 }

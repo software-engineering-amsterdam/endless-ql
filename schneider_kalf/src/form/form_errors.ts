@@ -59,7 +59,7 @@ export class TypesNotComparableError extends FormError {
       message = `Cannot compare type ${left} to  ${right}.`;
     }
 
-    const error = makeError(TypesNotComparableError, message)
+    const error = makeError(TypesNotComparableError, message);
     error.left = left;
     error.right = right;
 

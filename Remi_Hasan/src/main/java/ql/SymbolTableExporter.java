@@ -28,7 +28,7 @@ public class SymbolTableExporter {
         form.accept(new QLBaseVisitor<Void>() {
             @Override
             public Void visit(Question question) {
-                evaluatedQuestions.put(question.getIdentifier(), qlEvaluator.getAnswer(question.getIdentifier()).toString());
+                evaluatedQuestions.put(question.getIdentifier(), qlEvaluator.getAnswer(question.getIdentifier()).getValue());
                 return super.visit(question);
             }
         });

@@ -3,9 +3,11 @@ package ql.evaluation;
 import ql.QLBaseVisitor;
 import ql.evaluation.value.Value;
 import ql.model.Form;
-import ql.model.statement.Question;
 import ql.model.expression.Expression;
+import ql.model.expression.ReturnType;
+import ql.model.expression.variable.ExpressionVariableBoolean;
 import ql.model.expression.variable.ExpressionVariableUndefined;
+import ql.model.statement.Question;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,8 @@ public class SymbolTable {
                 // Add form question to the symbol table
                 if (question.isComputed()) {
                     table.put(question.getIdentifier(), question.getComputedAnswer());
+                } else if (question.getType().equals(ReturnType.BOOLEAN)) {
+                    table.put(question.getIdentifier(), new ExpressionVariableBoolean(false));
                 } else {
                     // Not a computed question, so it is undefined until it is set by the user
                     Expression expression = new ExpressionVariableUndefined(question.getType());

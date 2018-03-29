@@ -41,8 +41,8 @@ class QLSWidgetFactory extends QLWidgetFactory {
     case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
         case Some(GUISpinBoxStyle()) => if (isReadOnly) super.makeMoneyWidget(question) else new QLSMoneySpinField()
-        case Some(GUISliderStyle(minimum, maximum, stepSize)) =>
-          if (isReadOnly) super.makeMoneyWidget(question) else new QLSMoneySliderField(minimum, maximum, stepSize)
+        case Some(GUISliderStyle(minimum, maximum)) =>
+          if (isReadOnly) super.makeMoneyWidget(question) else new QLSMoneySliderField(minimum, maximum)
         case _ => super.makeMoneyWidget(question)
       }
     case _ => super.makeMoneyWidget(question)

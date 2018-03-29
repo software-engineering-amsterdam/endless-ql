@@ -74,7 +74,6 @@ style         : WIDGET widgetType                           # WidgetStyling
 widgetType    : CHECKBOX                                                              # CheckBox
               | SPINBOX                                                               # SpinBox
               | SLIDER BRACKET_LEFT minimum=DecimalValue
-                              COMMA maximum=DecimalValue
-                              COMMA stepSize=DecimalValue BRACKET_RIGHT               # Slider
+                              COMMA maximum=DecimalValue BRACKET_RIGHT                # Slider
               | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # ComboBox
               | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # RadioButtons;

@@ -5,14 +5,13 @@ import javafx.scene.control.Slider
 import nl.uva.se.sc.niro.gui.widget.FormatMasks
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 
-class QLSMoneySliderField(minimum: Double, maximum: Double, stepSize: Double)
+class QLSMoneySliderField(minimum: Double, maximum: Double)
     extends Slider()
     with QLWidget[java.math.BigDecimal]
     with FormatMasks {
 
   setMin(minimum)
   setMax(maximum)
-  setMajorTickUnit(stepSize)
 
   setShowTickLabels(true)
   setShowTickMarks(true)

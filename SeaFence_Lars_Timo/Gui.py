@@ -6,9 +6,7 @@ from ttk import *
 class Gui():
     def __init__(self):
         self.window = tk.Tk()
-        # self.window.geometry('%sx%s' % (self.window.winfo_screenwidth()/3, self.window.winfo_screenheight()))
-        # self.window.maxsize(self.window.winfo_screenwidth()/3, self.window.winfo_screenheight())
-   
+        
         self.frame = None
         self.notebook = None
         self.frames = {}

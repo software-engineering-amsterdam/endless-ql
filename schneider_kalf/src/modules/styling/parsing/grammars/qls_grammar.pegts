@@ -60,7 +60,7 @@ PageBodyStatements = Section / Default
 SectionBodyStatements = Question / Section / Default
 
 Stylesheet
- = StylesheetToken _ identifier:Word __ "{" __ page:Page* __ "}" __ {
+ = StylesheetToken _ identifier:Word __ "{" __ page:Page+ __ "}" __ {
     return new Nodes.Stylesheet( identifier, page );
 }
 
@@ -100,8 +100,8 @@ StyleBlock
  / StyleBlockBrackets
 
 StyleBlockBrackets
- = "{" __ args:StyleAttribute+ __ "}" {
-    return args;
+ = "{" __ body:StyleBlockNoBrackets __ "}" {
+    return body;
 }
 
 StyleBlockNoBrackets
@@ -120,7 +120,7 @@ WidgetAttribute "Widget attribute"
 }
 
 WidgetOptions
- = "(" _ options:Options _ ")" __ {
+ = "(" _ options:Options+ _ ")" __ {
     return options;
 }
 

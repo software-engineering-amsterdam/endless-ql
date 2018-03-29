@@ -1,41 +1,31 @@
 package qls.visitor;
 
-import qls.model.DefaultStyle;
-import qls.model.Question;
-import qls.model.Section;
-import qls.parser.QLSParser;
+import qls.antlr.QLSBaseVisitor;
+import qls.antlr.QLSParser;
+import qls.model.statement.Section;
+import qls.model.statement.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisitorSection extends VisitorBlock<Section> {
+public class VisitorSection extends QLSBaseVisitor<Section> {
 
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
-        String identifier = ctx.STRING().getText();
+        String identifier = ctx.title.getText();
 
         // Strip quotes surrounding string
         identifier = identifier.substring(1, identifier.length() - 1);
 
-        List<Section> sections = this.getSections(ctx.section());
-        List<Question> questions = getQuestions(ctx.question());
-        List<DefaultStyle> defaultStyles = getDefaults(ctx.defaultStyle());
-
-        return new Section(ctx.getStart(), identifier, sections, questions, defaultStyles);
-    }
-
-    private List<Question> getQuestions(List<QLSParser.QuestionContext> questionContexts) {
-        List<Question> questions = new ArrayList<>();
-        if (questionContexts == null) {
-            return questions;
+        // Get all statements inside this section
+        List<Statement> statements = new ArrayList<>();
+        VisitorStatement visitorStatement = new VisitorStatement();
+        for (QLSParser.StatementContext statementContext : ctx.statement()) {
+            statements.add(visitorStatement.visit(statementContext));
         }
 
-        VisitorQuestion visitorQuestion = new VisitorQuestion();
-        for (QLSParser.QuestionContext questionContext : questionContexts) {
-            Question question = visitorQuestion.visitQuestion(questionContext);
-            questions.add(question);
-        }
-
-        return questions;
+        Section section = new Section(identifier, statements);
+        section.setToken(ctx.getStart());
+        return section;
     }
 }

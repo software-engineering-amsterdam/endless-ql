@@ -1,24 +1,20 @@
 package qls.model.style;
 
-import gui.widgets.WidgetInterface;
-import org.antlr.v4.runtime.Token;
 import qls.IQLSVisitor;
 
 public class StyleAttributeFont extends StyleAttribute {
     private final String fontFamily;
 
-    public StyleAttributeFont(Token start, String fontFamily) {
-        super(start);
+    public StyleAttributeFont(String fontFamily) {
         this.fontFamily = fontFamily;
+    }
+
+    public String getFontFamily() {
+        return fontFamily;
     }
 
     @Override
     public <T> T accept(IQLSVisitor<T> visitor) {
         return visitor.visit(this);
-    }
-
-    @Override
-    public void apply(WidgetInterface widget) {
-        widget.setFont(fontFamily);
     }
 }

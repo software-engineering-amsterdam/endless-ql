@@ -5,8 +5,8 @@ import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import ql.QLTestUtilities;
-import ql.analysis.SymbolTable;
 import ql.evaluation.ExpressionEvaluator;
+import ql.evaluation.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
@@ -136,8 +136,8 @@ public class ExpressionEvaluationTest {
         Expression expression = QLTestUtilities.expressionFromString("2 + someInteger + 3");
 
         SymbolTable symbolTable = new SymbolTable();
-        symbolTable.setExpression("someInteger", new ExpressionVariableInteger(null, 4));
-        
+        symbolTable.setExpression("someInteger", new ExpressionVariableInteger(4));
+
         ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
         assertEquals(Integer.valueOf(9), interpreterVisitor.visit(expression).getIntValue());
     }
@@ -147,7 +147,7 @@ public class ExpressionEvaluationTest {
         Expression expression = QLTestUtilities.expressionFromString("2 + someInteger");
 
         SymbolTable symbolTable = new SymbolTable();
-        symbolTable.setExpression("someInteger", new ExpressionVariableUndefined(null, ReturnType.INTEGER));
+        symbolTable.setExpression("someInteger", new ExpressionVariableUndefined(ReturnType.INTEGER));
 
         ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
         assertEquals(true, interpreterVisitor.visit(expression).isUndefined());

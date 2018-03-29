@@ -1,18 +1,16 @@
 package ql.model.expression.binary;
 
-import ql.evaluation.IExpressionVisitor;
+import ql.IQLVisitor;
 import ql.model.expression.Expression;
-import ql.model.expression.ExpressionBinary;
-import org.antlr.v4.runtime.Token;
 
-public class ExpressionArithmeticDivide extends ExpressionBinary<Number> {
+public class ExpressionArithmeticDivide extends ExpressionBinary {
 
-    public ExpressionArithmeticDivide(Token start, Expression left, Expression right) {
-        super(start, left, right);
+    public ExpressionArithmeticDivide(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
+    public <T> T accept(IQLVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

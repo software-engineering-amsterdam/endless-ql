@@ -1,14 +1,23 @@
 package qls.visitor;
 
+import qls.antlr.QLSBaseVisitor;
+import qls.antlr.QLSParser;
 import qls.model.widget.*;
-import qls.parser.QLSBaseVisitor;
-import qls.parser.QLSParser;
 
 public class VisitorWidget extends QLSBaseVisitor<Widget> {
 
     @Override
-    public Widget visitCheckBoxWidget(QLSParser.CheckBoxWidgetContext ctx) {
-        return new WidgetCheckBox(ctx.getStart());
+    public Widget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
+        String trueLabel = ctx.trueLabel.getText();
+        String falseLabel = ctx.falseLabel.getText();
+
+        // Strip quotes
+        trueLabel = trueLabel.substring(1, trueLabel.length() - 1);
+        falseLabel = falseLabel.substring(1, falseLabel.length() - 1);
+
+        WidgetRadio widgetRadio = new WidgetRadio(trueLabel, falseLabel);
+        widgetRadio.setToken(ctx.getStart());
+        return widgetRadio;
     }
 
     @Override
@@ -20,37 +29,39 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
         trueLabel = trueLabel.substring(1, trueLabel.length() - 1);
         falseLabel = falseLabel.substring(1, falseLabel.length() - 1);
 
-        return new WidgetDropdown(ctx.getStart(), trueLabel, falseLabel);
+        WidgetDropdown widgetDropdown = new WidgetDropdown(trueLabel, falseLabel);
+        widgetDropdown.setToken(ctx.getStart());
+        return widgetDropdown;
     }
 
     @Override
-    public Widget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
-        String trueLabel = ctx.trueLabel.getText();
-        String falseLabel = ctx.falseLabel.getText();
+    public Widget visitCheckBoxWidget(QLSParser.CheckBoxWidgetContext ctx) {
+        WidgetCheckBox widgetCheckBox = new WidgetCheckBox();
+        widgetCheckBox.setToken(ctx.getStart());
+        return widgetCheckBox;
+    }
 
-        // Strip quotes
-        trueLabel = trueLabel.substring(1, trueLabel.length() - 1);
-        falseLabel = falseLabel.substring(1, falseLabel.length() - 1);
+    @Override
+    public Widget visitSpinBoxWidget(QLSParser.SpinBoxWidgetContext ctx) {
+        WidgetSpinBox widgetSpinBox = new WidgetSpinBox();
+        widgetSpinBox.setToken(ctx.getStart());
+        return widgetSpinBox;
+    }
 
-        return new WidgetRadio(ctx.getStart(), trueLabel, falseLabel);
+    @Override
+    public Widget visitTextBoxWidget(QLSParser.TextBoxWidgetContext ctx) {
+        WidgetTextBox widgetTextBox = new WidgetTextBox();
+        widgetTextBox.setToken(ctx.getStart());
+        return widgetTextBox;
     }
 
     @Override
     public Widget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
         double min = Double.parseDouble(ctx.min.getText());
         double max = Double.parseDouble(ctx.max.getText());
-        double step = Double.parseDouble(ctx.step.getText());
-        return new WidgetSlider(ctx.getStart(), min, max, step);
-    }
-
-    @Override
-    public Widget visitSpinBoxWidget(QLSParser.SpinBoxWidgetContext ctx) {
-        return new WidgetSpinBox(ctx.getStart());
-    }
-
-    @Override
-    public Widget visitTextBoxWidget(QLSParser.TextBoxWidgetContext ctx) {
-        return new WidgetTextBox(ctx.getStart());
+        WidgetSlider widgetSlider = new WidgetSlider(min, max);
+        widgetSlider.setToken(ctx.getStart());
+        return widgetSlider;
     }
 
 

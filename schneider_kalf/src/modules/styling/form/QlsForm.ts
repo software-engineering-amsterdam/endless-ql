@@ -15,6 +15,10 @@ import FieldNode from "../../../form/nodes/fields/FieldNode";
 import { Maybe } from "../../../helpers/type_helper";
 import { UnkownFieldError } from "../../../form/form_errors";
 
+/**
+ * QLS Form that combines a basic QL form with styling and layout information
+ * retrieved from the QLS source.
+ */
 export default class QlsForm implements StatefulForm {
   private baseForm: StatefulForm;
   private stylesheetNode: StyleSheetNode;

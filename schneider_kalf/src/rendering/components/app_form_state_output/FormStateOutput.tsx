@@ -2,9 +2,11 @@ import * as React from 'react';
 import Button from "reactstrap/lib/Button";
 import Input from "reactstrap/lib/Input";
 import Form from "../../../form/StatefulForm";
+import ButtonGroup from "reactstrap/lib/ButtonGroup";
 
 export interface FormStateOutputProps {
   form?: Form;
+  onReset: () => void;
 }
 
 export const AppFormStateOutput: React.SFC<FormStateOutputProps> = (props) => {
@@ -30,7 +32,10 @@ export const AppFormStateOutput: React.SFC<FormStateOutputProps> = (props) => {
             <h2>State</h2>
           </div>
           <div className="col-md-4">
-            <Button disabled={props.form !== null} onClick={() => onExportState()}>Export state</Button>
+            <ButtonGroup>
+              <Button color="secondary" onClick={() => props.onReset()}>Reset</Button>
+              <Button color="primary" onClick={() => onExportState()}>Export</Button>
+            </ButtonGroup>
           </div>
         </div>
         <Input

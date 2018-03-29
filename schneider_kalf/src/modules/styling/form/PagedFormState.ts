@@ -9,15 +9,15 @@ export default class PagedFormState extends FormState {
     this.activePageName = activePage;
   }
 
-  protected instantiate(newStore?: Map<string, any>): FormState {
-    return new PagedFormState(newStore, this.activePageName);
-  }
-
   public getActivePageName(): Maybe<string> {
     return this.activePageName;
   }
 
   public setActivePageName(pageName: string): PagedFormState {
     return new PagedFormState(this.store, pageName);
+  }
+
+  public instantiate(newStore?: Map<string, any>): FormState {
+    return new PagedFormState(newStore, this.activePageName);
   }
 }

@@ -1,0 +1,27 @@
+form taxOfficeExample
+{
+  "Int a"
+    a: int
+
+  if(a){
+  	"Bool b"
+  		b: bool
+
+  }
+}
+---
+stylesheet taxOfficeExample
+{
+  page Page1
+  {
+    section "Section 1"
+    {
+      question a
+        widget spinbox(0, 100)
+      question b
+        widget radio("yes", "no")
+    }
+  }
+}
+---
+Stylesheet taxOfficeExample: pages:OrderedDict([('Page1', Page Page1: sections: [Section Section 1: questions: [Question a: widget: SpinBoxWidget: 0,100, Question b: widget: RadioWidget: T:yes F:no] sections:[] defaults: []] defaults: [])])

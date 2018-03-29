@@ -98,11 +98,7 @@ class Gui():
         label.pack(side=LEFT)
 
         variable = self.values[widget_variable]
-<<<<<<< HEAD
         dropdown = tk.OptionMenu(frame, var, "No", "Yes")
-=======
-        dropdown = tk.OptionMenu(frame, variable, "Yes", "No")
->>>>>>> 1e3cc7da1ebd3c1bb0f288c35f9e3dcb28bea7d5
         dropdown.config(font=font_options, fg=color)
         dropdown.pack(side=LEFT)
 

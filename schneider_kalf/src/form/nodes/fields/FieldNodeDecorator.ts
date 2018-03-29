@@ -39,8 +39,9 @@ export default class FieldNodeDecorator implements FieldNode {
     return this.fieldToBeDecorated.computeAnswer(state);
   }
 
-  setLocation(location: NodeLocation): void {
+  setLocation(location: NodeLocation): FieldNodeDecorator {
     this.fieldToBeDecorated.setLocation(location);
+    return this;
   }
 
   getLocation(): NodeLocation {

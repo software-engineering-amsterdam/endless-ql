@@ -76,10 +76,6 @@ public class ApplicationRunner implements CommandLineRunner {
             System.exit(1);
         }
 
-        FormBuilder builder = new FormBuilder();
-        builder.buildForm(astRoot);
-
-
         if (parameters.getQlsFilename() != null) {
             Stylesheet stylesheet = getQLSFromFilename(parameters.getQlsFilename());
 
@@ -94,8 +90,6 @@ public class ApplicationRunner implements CommandLineRunner {
         }
 
         QLFormBuilder builder = new QLFormBuilder(astRoot);
-
-
     }
 
     @Override

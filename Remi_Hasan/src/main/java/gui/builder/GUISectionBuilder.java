@@ -1,5 +1,6 @@
 package gui.builder;
 
+import gui.builder.helper.DefaultStylesCollector;
 import gui.model.GUIElement;
 import gui.model.GUIQuestion;
 import gui.model.GUISection;
@@ -25,16 +26,7 @@ public class GUISectionBuilder extends QLSVisitor<GUISection> {
     @Override
     public GUISection visit(Section section) {
         List<GUIElement> guiElements = new ArrayList<>();
-        List<DefaultStyle> sectionDefaultStyles = defaultStyles;
-
-        // Collect defaultStyles for this section
-        section.accept(new QLSVisitor<Void>() {
-            @Override
-            public Void visit(DefaultStyle defaultStyle) {
-                sectionDefaultStyles.add(defaultStyle);
-                return null;
-            }
-        });
+        List<DefaultStyle> sectionDefaultStyles = DefaultStylesCollector.collect(section, this.defaultStyles);
 
         // Get all questions and nested sections
         GUIElementBuilder guiElementBuilder = new GUIElementBuilder(this.guiQuestionMap, sectionDefaultStyles);

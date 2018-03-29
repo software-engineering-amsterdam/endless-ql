@@ -1,5 +1,6 @@
 package gui.builder;
 
+import gui.builder.helper.DefaultStylesCollector;
 import gui.model.GUIElement;
 import gui.model.GUIPage;
 import gui.model.GUIQuestion;
@@ -23,16 +24,7 @@ public class GUIPageBuilder extends QLSVisitor<GUIPage> {
     @Override
     public GUIPage visit(Page page) {
         List<GUIElement> guiElements = new ArrayList<>();
-
-        // Collect defaultStyles for this page TODO: separate class?
-        List<DefaultStyle> defaultStyles = new ArrayList<>();
-        page.accept(new QLSVisitor<Void>() {
-            @Override
-            public Void visit(DefaultStyle defaultStyle) {
-                defaultStyles.add(defaultStyle);
-                return null;
-            }
-        });
+        List<DefaultStyle> defaultStyles = DefaultStylesCollector.collect(page, new ArrayList<>());
 
         // Add all questions and sections on this page
         GUIElementBuilder guiElementBuilder = new GUIElementBuilder(this.guiQuestionMap, defaultStyles);

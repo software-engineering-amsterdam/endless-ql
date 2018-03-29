@@ -15,7 +15,6 @@ import java.io.InputStream;
 
 public class QLSBuilder {
 
-    // TODO: rename to QLSBuilder
     private Form qlForm;
 
     public QLSBuilder(Form qlForm) {

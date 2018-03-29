@@ -37,14 +37,14 @@ class QLSGuiBuilder(object):
                 default_int_style, default_text_style, default_bool_style = self.getDefaultStyleWidgets(section.default_style_widgets, default_int_style, default_text_style, default_bool_style)
 
                 for question in section.questions:
-                    if question.var in self.ql_frame_order:
+                    if question.variable in self.ql_frame_order:
                         self.parseQLSQuestion(question, render_frame, default_int_style, default_text_style, default_bool_style)
 
                 if section.sections != []:
                     self.parseQLSSection(section, default_int_style, default_text_style, default_bool_style, render_frame)
 
     def parseQLSQuestion(self, question, question_section, default_style_int, default_style_text, default_style_bool):
-        old_question = self.gui.widget_settings[question.var]
+        old_question = self.gui.widget_settings[question.variable]
         if question.widget:
             options = self.extractWidgetOptions(question.widget.options)
             widget = [question.widget.widget, old_question[1], old_question[2], question_section, options[0], options[1], options[2], options[3], question.widget.min_value, question.widget.max_value]
@@ -53,30 +53,30 @@ class QLSGuiBuilder(object):
             widget, change_needed = self.checkForDefaultWidget(old_question, question_section, default_style_int, default_style_text, default_style_bool)
 
         if change_needed:
-            self.gui.widget_settings[question.var] = widget
-            self.qls_frame_order.append(question.var)
+            self.gui.widget_settings[question.variable] = widget
+            self.qls_frame_order.append(question.variable)
         else:
-            self.gui.widget_settings[question.var][3] = question_section
-            self.qls_frame_order.append(question.var)
+            self.gui.widget_settings[question.variable][3] = question_section
+            self.qls_frame_order.append(question.variable)
 
     def checkForDefaultWidget(self, old_question, question_section, default_style_int, default_style_text, default_style_bool):
-        question_vartype = old_question[1]
+        question_variable_type = old_question[1]
 
-        if question_vartype == "boolean" and default_style_bool:
+        if question_variable_type == "boolean" and default_style_bool:
             options = self.extractWidgetOptions(default_style_bool)
             if "radio" in default_style_bool.widget:
-                return [old_question[0], question_vartype, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
+                return [old_question[0], question_variable_type, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
             elif "dropdown" in default_style_bool.widget:
-                return ["dropdown", question_vartype, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
+                return ["dropdown", question_variable_type, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
 
-        elif question_vartype == "int" and old_question[0] != "assignment" and default_style_int:
+        elif question_variable_type == "int" and old_question[0] != "assignment" and default_style_int:
             options = self.extractWidgetOptions(default_style_int)
             if default_style_int.widget == "text":
-                return [old_question[0], question_vartype, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
+                return [old_question[0], question_variable_type, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
             elif default_style_int.widget == "slider":
-                return ["slider", question_vartype, old_question[2], question_section, options[0], options[1], options[2], options[3], default_style_int.min_value, default_style_int.max_value], True
+                return ["slider", question_variable_type, old_question[2], question_section, options[0], options[1], options[2], options[3], default_style_int.min_value, default_style_int.max_value], True
             elif default_style_int.widget == "spinbox":
-                return ["spinbox", question_vartype, old_question[2], question_section, options[0], options[1], options[2], options[3], default_style_int.min_value, default_style_int.max_value], True
+                return ["spinbox", question_variable_type, old_question[2], question_section, options[0], options[1], options[2], options[3], default_style_int.min_value, default_style_int.max_value], True
 
         return old_question, False
 
@@ -107,18 +107,18 @@ class QLSGuiBuilder(object):
         default_bool = old_default_bool
 
         for default_style in default_style_widgets:
-            if default_style.options.vartype == "int":
+            if default_style.options.variable_type == "int":
                 default_int = default_style
-            elif default_style.options.vartype == "text":
+            elif default_style.options.variable_type == "text":
                 default_text = default_style
-            elif default_style.options.vartype == "boolean":
+            elif default_style.options.variable_type == "boolean":
                 default_bool = default_style
 
         return default_int, default_text, default_bool
 
     def showOrRemoveSection(self, section):
         for question in section.questions:
-            if question.var in self.ql_frame_order:
+            if question.variable in self.ql_frame_order:
                 return True
         if section.name in self.rendered_sections:
             self.rendered_sections[section.name].destroy()

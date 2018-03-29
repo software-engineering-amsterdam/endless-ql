@@ -73,7 +73,7 @@ namespace Assignment1.Execution
 
         public void Visit(ComputedQuestion question)
         {
-            _answers.Add(question.Id, QLExpressionEvaluator.Evaluate(question.Computation, GetAnswer));
+            _answers[question.Id] = QLExpressionEvaluator.Evaluate(question.Computation, GetAnswer);
             AddQuestion(question, true);
         }
 

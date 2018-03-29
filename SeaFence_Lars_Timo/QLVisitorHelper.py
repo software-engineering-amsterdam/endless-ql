@@ -92,7 +92,7 @@ class QLVisitorHelper(QLVisitor):
         elif (ctx.INT()):
             variable = ctx.INT().getText()
             variable_type = u"int"
-            return LiteralNode(variable, varirable_type)
+            return LiteralNode(variable, variable_type)
 
         elif (ctx.BOOL()):
             variable = ctx.BOOL().getText()

@@ -71,7 +71,9 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
     override fun visitReferenceExpression(ctx: QuestionnaireLanguageGrammarParser.ReferenceExpressionContext?): QLNode {
         val context = ctx!!
 
-        return ReferenceExpression(context.reference.text, context.location())
+        val identifier = Identifier(context.reference.text, context.reference.location())
+
+        return ReferenceExpression(identifier, context.location())
     }
 
     override fun visitUnaryExpression(ctx: QuestionnaireLanguageGrammarParser.UnaryExpressionContext?): QLNode {

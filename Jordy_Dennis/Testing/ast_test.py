@@ -32,21 +32,6 @@ class QLSAstTest(unittest.TestCase):
             qlsAst = getQLSAstFromString(qlsText)
             self.assertEqual(str(qlsAst), outputText, filename)
 
-    def testErrorFilesQLSAst(self):
-        path = 'Testing/test_files/qls/ast_test_files/fail_test'
-        for filename in os.listdir(path):
-            qlText, qlsText, outputText, = getInputOutputQLS(path, filename)
-            qlAst = getAstFromString(qlText)
-            qlAst.linkVars()
-            qlAst.checkTypes()
-
-            blockPrint()
-            with self.assertRaises(SystemExit) as cm:
-                qlsAst = getQLSAstFromString(qlsText)
-                qlsAst.prepareAndCheckAst(qlAst.getVarDict())
-            self.assertEqual(cm.exception.code, 1)
-            enablePrint()
-
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
-import GenericCollection from "../../../../form/collection/GenericCollection";
-import VariableIdentifier from "../../../../form/nodes/expressions/VariableIdentifier";
+import GenericCollection from "./GenericCollection";
+import VariableIdentifier from "../nodes/expressions/VariableIdentifier";
 
 export default class IdentifierNodeCollection extends GenericCollection<VariableIdentifier> {
   getIdentifierNames(): string[] {

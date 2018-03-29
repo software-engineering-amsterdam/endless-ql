@@ -1,4 +1,4 @@
-import QuestionStyle from "./nodes/children/QuestionStyle";
+import QuestionStyleNode from "./nodes/children/QuestionStyleNode";
 import { makeError } from "../../../form/form_errors";
 import StyleSheetNode from "./nodes/StyleSheetNode";
 
@@ -33,10 +33,10 @@ export class UnkownQuestionUsedInLayoutError extends StyleError {
 }
 
 export class QuestionPlacedTwiceInLayoutError extends StyleError {
-  public questionStyle: QuestionStyle;
-  public duplicateQuestionStyle: QuestionStyle;
+  public questionStyle: QuestionStyleNode;
+  public duplicateQuestionStyle: QuestionStyleNode;
 
-  static make(questionStyle: QuestionStyle, duplicateQuestionStyle: QuestionStyle) {
+  static make(questionStyle: QuestionStyleNode, duplicateQuestionStyle: QuestionStyleNode) {
     const message = `Question ${questionStyle.identifier} was placed twice.`;
 
     const error = makeError(QuestionPlacedTwiceInLayoutError, message);

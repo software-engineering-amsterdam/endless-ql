@@ -11,6 +11,8 @@ import { AppFormContainer } from './rendering/components/app_form_container/AppF
 import constants from "./config/constants";
 import SourceInputs from "./form/source/SourceInputs";
 import { makeStatefulForm } from "./app_form_helpers";
+import QlForm from "./form/QlForm";
+import QlsForm from "./modules/styling/form/QlsForm";
 
 export interface AppComponentProps {
 }
@@ -18,7 +20,7 @@ export interface AppComponentProps {
 export interface AppComponentState {
   qlInput: string;
   qlsInput: string;
-  form: Form | any | null;
+  form: QlsForm | QlForm | Form | any;
   parserError: Error | null;
   qlsEnabled: boolean;
   activeTab: string;
@@ -112,7 +114,6 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
   onResetFormState() {
     const newState = this.getFormState().instantiate(new Map());
-
     this.setState({
       form: this.state.form.setState(newState)
     });

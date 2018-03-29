@@ -1,6 +1,6 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
 import DefaultStyle from "../nodes/children/DefaultStyleNode";
-import QuestionStyle from "../nodes/children/QuestionStyle";
+import QuestionStyleNode from "../nodes/children/QuestionStyleNode";
 import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
@@ -31,7 +31,7 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     return;
   }
 
-  visitQuestionStyle(question: QuestionStyle): any {
+  visitQuestionStyle(question: QuestionStyleNode): any {
     const variableInformation: Maybe<VariableInformation> = this.qlVariables.get(question.identifier);
 
     if (!variableInformation) {
@@ -70,7 +70,7 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     return;
   }
 
-  private getMergedStyleForQuestion(question: QuestionStyle, variableInformation: VariableInformation) {
+  private getMergedStyleForQuestion(question: QuestionStyleNode, variableInformation: VariableInformation) {
     let mergedStyle = new MergedFieldStyle(question.identifier, variableInformation.type);
     let parents: StyleTreeNode[] = question.getParents();
 

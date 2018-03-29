@@ -5,7 +5,7 @@ import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
 import SectionNode from "../containers/SectionNode";
 import FieldNode from "../../../../../form/nodes/fields/FieldNode";
 
-export default class QuestionStyle extends AbstractStyleNode implements SectionChild {
+export default class QuestionStyleNode extends AbstractStyleNode implements SectionChild {
   readonly identifier: string;
   readonly children: StyleAttribute[];
 
@@ -27,7 +27,7 @@ export default class QuestionStyle extends AbstractStyleNode implements SectionC
     return true;
   }
 
-  isQuestionStyle(): this is QuestionStyle {
+  isQuestionStyle(): this is QuestionStyleNode {
     return true;
   }
 

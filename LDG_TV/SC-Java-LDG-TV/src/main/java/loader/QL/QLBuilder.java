@@ -41,18 +41,5 @@ public class QLBuilder {
         return loader.getFormNode();
     }
 
-    public Stylesheet toStylesheet(String qlsSource, FormNode formNode) {
-        CharStream qlsStream = CharStreams.fromString(qlsSource);
-        StylesheetLexer qlsLexer = new StylesheetLexer(qlsStream);
 
-        StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
-
-        qlsParser.addErrorListener(errorListener);
-
-        StylesheetParser.StylesheetBuilderContext stylesheetTree = qlsParser.stylesheetBuilder();
-        QLSLoader qlsLoader = new QLSLoader(formNode);
-        ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
-
-        return qlsLoader.getStyleSheet();
-    }
 }

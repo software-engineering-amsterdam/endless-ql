@@ -23,6 +23,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.LoaderErrorListener;
 import loader.QL.QLBuilder;
+import loader.QLS.QLSBuilder;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -69,11 +70,11 @@ public class ToolController implements Consumer, LoaderErrorListener {
                         qlText -> this.formNode = qlBuilder.toFormNode(qlText),
                         () -> showAlertBox("Please import or add QL code")
                 );
-
+        QLSBuilder qlsBuilder = new QLSBuilder(tbErrorListener, dialogErrorListener);
         Utilities.ofEmptyString(taSourceCodeQLS.getText())
                 .ifPresentOrElse(
                         qlsText -> {
-                            Stylesheet ss = qlBuilder.toStylesheet(qlsText, this.formNode);
+                            Stylesheet ss = qlsBuilder.toStylesheet(qlsText, this.formNode);
                             this.formNode.setStylesheet(ss);
                             this.qlsEnabled = true;
                             buildQLS();

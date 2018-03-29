@@ -16,14 +16,14 @@ public abstract class Variable<T> implements Consumer<T> {
 
     public abstract UIElement getUiElement();
 
-    public void setUiElement(UIElement uiElement) {
-    }
-
     public abstract Node getRelatedUIElement(Visitor v);
 
     public void setValue(ArithmeticExpressionValue value) {
     }
 
     public void setValue(BooleanExpressionValue value) {
+    }
+
+    public void setUiElement(UIElement uiElement) {
     }
 }

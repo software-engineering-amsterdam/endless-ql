@@ -59,14 +59,42 @@ namespace QLS.UnitTests.ParserTests
             {
                 yield return new TestCaseData(
                     @"stylesheet ss1 { page p1 { } default boolean widget checkbox}");
+
                 yield return new TestCaseData(
                     @"stylesheet ss1 { page p1 { } default boolean widget radio}");
+
                 yield return new TestCaseData(
                     @"stylesheet ss1 { page p1 { } default boolean widget radio(""Ay"", ""Nee"") }");
+
                 yield return new TestCaseData(
                     @"stylesheet ss1 { page p1 { } default boolean widget dropdown}");
+
                 yield return new TestCaseData(
                     @"stylesheet ss1 { page p1 { } default boolean widget dropdown(""darntootin"", ""nonononono"") }");
+
+                yield return new TestCaseData(
+                    @"stylesheet ss1 { page p1 { } default string widget textbox }");
+
+                yield return new TestCaseData(
+                    @"stylesheet ss1 { page p1 { } default integer widget slider(50, 100, 2)}");
+
+                yield return new TestCaseData(
+                    @"stylesheet ss1 { page p1 { } default integer widget spinbox}");
+
+                yield return new TestCaseData(
+                    @"stylesheet ss1 { page p1 { } default decimal widget textbox }");
+
+                yield return new TestCaseData(
+                    @"stylesheet ss1 { page p1 { } default decimal { widget textbox } }");
+
+                yield return new TestCaseData(
+                    @"stylesheet ss1 { page p1 { } default decimal { widget textbox width: 200 } }");
+
+                yield return new TestCaseData(
+                    @"stylesheet ss1 { page p1 { } default decimal { font : ""Arial"" fontsize: 12.5 color: #00FF19BF } }");
+
+                yield return new TestCaseData(
+                    @"stylesheet ss1 { page p1 { } default decimal { fontsize: 9.2 widget textbox width: 120 font : ""ComicSans"" color: #FFFFFFFF } }");
 
             }
         }

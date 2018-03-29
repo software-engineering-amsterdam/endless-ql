@@ -7,6 +7,7 @@ public class LineElement extends FormElement {
     private Label label;
     private Question question;
     private TypeExpression typeExpression;
+    private Boolean visible;
 
     public LineElement(Label label, Question question, TypeExpression typeExpression, Integer
             lineNumber, Integer columnNumber) {
@@ -27,6 +28,17 @@ public class LineElement extends FormElement {
 
     public Question getQuestion() {
         return question;
+    }
+
+    public LineElement setVisible(Boolean visible) {
+
+        this.visible = visible;
+
+        return this;
+    }
+
+    public Boolean isVisible() {
+        return this.visible;
     }
 
     public void setQuestion(Question question) {

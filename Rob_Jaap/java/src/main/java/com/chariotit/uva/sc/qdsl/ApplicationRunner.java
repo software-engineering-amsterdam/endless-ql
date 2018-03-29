@@ -179,10 +179,7 @@ public class ApplicationRunner implements CommandLineRunner {
         // com.chariotit.uva.sc.qdsl.ast.visitor)
         // Keep variable values in in SymbolTable (in AstRoot)
         // SymbolTable is initialised in TypeChecker
-
-//        QLFormBuilder builder = new QLFormBuilder();
-//
-//        builder.showForm();
+        QLFormBuilder builder = new QLFormBuilder(astRoot);
 
         System.out.println("finished");
         System.out.println(astRoot);

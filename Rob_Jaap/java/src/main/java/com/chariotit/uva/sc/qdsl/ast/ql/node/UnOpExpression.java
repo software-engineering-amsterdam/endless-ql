@@ -16,6 +16,8 @@ public class UnOpExpression extends Expression {
     public UnOpExpression(Operator operator, Expression expression, SourceFilePosition filePosition) {
         super(filePosition);
         this.operator = operator;
+        System.out.println("Unop constr");
+        System.out.println(expression);
         this.expression = expression;
     }
 
@@ -37,9 +39,12 @@ public class UnOpExpression extends Expression {
 
     @Override
     public void evaluate(SymbolTable symbolTable) {
+        System.out.println("In unop eval");
         expression.evaluate(symbolTable);
 
-        setExpressionValue(((UnaryOperator)operator).evaluate(expression));
+        System.out.println(expression);
+        System.out.println(((UnaryOperator)operator).evaluate(symbolTable, expression));
+        setExpressionValue(((UnaryOperator)operator).evaluate(symbolTable, expression));
     }
 
     @Override

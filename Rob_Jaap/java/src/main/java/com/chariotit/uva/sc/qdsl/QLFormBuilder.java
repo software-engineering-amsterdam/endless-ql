@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Document;
 import javax.swing.text.NumberFormatter;
 
+import com.chariotit.uva.sc.qdsl.ast.ql.type.BooleanExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
@@ -122,6 +123,8 @@ public class QLFormBuilder extends JPanel {
 
     // when a value is updated
     private static void updateForm() {
+        EvaluateVisitor evaluateVisitor = new EvaluateVisitor(astRoot.getQuestionSymbolTable());
+        astRoot.acceptVisitor(evaluateVisitor);
         ////
 
         panel.revalidate();
@@ -184,6 +187,7 @@ public class QLFormBuilder extends JPanel {
                 SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
 
 //                symbol.setExpressionValue();
+                ((BooleanExpressionValue)symbol.getExpressionValue()).setValue(checkbox.isSelected());
 
                 System.out.println(symbol.getExpressionValue());
                 updateForm();

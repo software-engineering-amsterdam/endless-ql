@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.operator;
 
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.BooleanExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionValue;
@@ -24,7 +25,7 @@ public class MinusOp extends Operator implements BinaryOperator, UnaryOperator {
     }
 
     @Override
-    public ExpressionValue evaluate(Expression leftExpression, Expression rightExpression) {
+    public ExpressionValue evaluate(SymbolTable symbolTable, Expression leftExpression, Expression rightExpression) {
 
         return ((NumberExpressionValue) leftExpression.getExpressionValue())
                 .subtract(
@@ -32,7 +33,7 @@ public class MinusOp extends Operator implements BinaryOperator, UnaryOperator {
     }
 
     @Override
-    public ExpressionValue evaluate(Expression expression) {
+    public ExpressionValue evaluate(SymbolTable symbolTable, Expression expression) {
 
         return ((BooleanExpressionValue)expression.getExpressionValue()).not();
     }

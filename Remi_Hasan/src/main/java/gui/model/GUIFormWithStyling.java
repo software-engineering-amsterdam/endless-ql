@@ -1,5 +1,6 @@
 package gui.model;
 
+import gui.GUIController;
 import gui.elements.LabelWithWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Parent;
@@ -18,33 +19,25 @@ public class GUIFormWithStyling extends GUIForm {
 
     private List<GUIPage> pages;
 
-    // TODO: improve this
-    public static Map<GUIQuestion, LabelWithWidget> guiWidgetsMap = new HashMap<>();
-
     public GUIFormWithStyling(String identifier, List<GUIPage> pages) {
         super(identifier, null);
         this.pages = pages;
     }
 
     @Override
-    public Parent render(SymbolTable symbolTable) {
+    public Parent render(GUIController guiController) {
         TabPane tabPane = new TabPane();
-
-        // Listener that is notified by UI widget input event
-        InvalidationListener allWidgetsListener = observable -> {
-            this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
-        };
 
         for(GUIPage page : pages) {
             Tab tab = new Tab();
             tab.setText(page.getIdentifier());
             tab.setClosable(false);
-            tab.setContent(page.render(symbolTable, allWidgetsListener));
+            tab.setContent(page.render(guiController));
             tabPane.getTabs().add(tab);
         }
 
-        // Update question values/visibility for the first time
-        this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
+        // Update all widgets to set them to their initial values
+        guiController.updateQuestionWidgets();
 
         return tabPane;
     }

@@ -81,7 +81,9 @@ public class Renderer extends Application {
             guiForm = guiFormBuilder.buildQLForm(this.qlForm);
         }
 
-        Scene scene = new Scene(guiForm.render(this.symbolTable));
+        GUIController guiController = new GUIController(this.symbolTable);
+
+        Scene scene = new Scene(guiForm.render(guiController));
         stage.setTitle(qlForm.getIdentifier() + " form");
         stage.setScene(scene);
         stage.setWidth(640);

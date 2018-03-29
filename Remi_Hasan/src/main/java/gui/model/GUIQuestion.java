@@ -1,5 +1,6 @@
 package gui.model;
 
+import gui.GUIController;
 import gui.elements.LabelWithWidget;
 import gui.widgets.GUIWidget;
 import gui.widgets.WidgetFactory;
@@ -46,29 +47,25 @@ public class GUIQuestion implements IGUIQuestion {
         return this.computedAnswer != null;
     }
 
-    public LabelWithWidget render(SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
+    public LabelWithWidget render(GUIController guiController) {
         GUIWidget guiWidget = WidgetFactory.getDefaultWidget(this.type);
-        return this.render(guiWidget, symbolTable, allWidgetsListener);
+        return this.render(guiWidget, guiController);
     }
 
-    LabelWithWidget render(GUIWidget guiWidget, SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
+    LabelWithWidget render(GUIWidget guiWidget, GUIController guiController) {
         Label guiLabel = new Label(this.label);
 
         // Update symbol table and other fields in UI if non-computed field is edited by user
         if(!this.isComputed()) {
             guiWidget.setChangeListener(observable -> {
-                symbolTable.setExpression(this.identifier, guiWidget.getExpressionValue());
-
-                // Notify GUIForm that an input value has changed, so it can update all fields
-                allWidgetsListener.invalidated(observable);
+                guiController.update(this, guiWidget.getExpressionValue());
             });
         }
 
         LabelWithWidget labelWithWidget = new LabelWithWidget(guiLabel, guiWidget);
         labelWithWidget.setDisable(this.isComputed());
 
-        // TODO: temporary hack, improve this
-        GUIFormWithStyling.guiWidgetsMap.put(this, labelWithWidget);
+        guiController.register(this, labelWithWidget);
 
         return labelWithWidget;
     }

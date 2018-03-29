@@ -1,5 +1,6 @@
 package gui.model;
 
+import gui.GUIController;
 import gui.elements.LabelWithWidget;
 import javafx.beans.InvalidationListener;
 import javafx.geometry.Insets;
@@ -23,92 +24,21 @@ public class GUIForm extends VBox {
         this.guiQuestions = guiQuestions;
     }
 
-    public Parent render(SymbolTable symbolTable) {
+    public Parent render(GUIController guiController) {
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10, 10, 10, 10));
 
-        // Render all questions, save as map so a rendered question can be updated using the corresponding GUIQuestion
-        Map<GUIQuestion, LabelWithWidget> guiWidgetsMap = this.getRenderedQuestions(symbolTable);
+        // Render all QL questions in order
+        for (GUIQuestion guiQuestion : this.guiQuestions) {
+            LabelWithWidget labelWithWidget = guiQuestion.render(guiController);
+            vBox.getChildren().add(labelWithWidget);
+        }
 
-        // Add questions to rendered form
-        vBox.getChildren().addAll(guiWidgetsMap.values());
-
-        // Update question values/visibility for the first time
-        this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
+        guiController.updateQuestionWidgets();
 
         // Wrap form in scroll pane, so questions will always be reachable
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(vBox);
         return scrollPane;
-    }
-
-    private Map<GUIQuestion, LabelWithWidget> getRenderedQuestions(SymbolTable symbolTable) {
-        // LinkedHashMap, as for QL we want to render the questions in order
-        Map<GUIQuestion, LabelWithWidget> guiWidgetsMap = new LinkedHashMap<>();
-
-        // Listener that is notified by UI widget input event
-        InvalidationListener allWidgetsListener = observable -> {
-            this.updateRenderedQuestions(guiWidgetsMap, symbolTable);
-        };
-
-        // Render all QL questions in order
-        for (GUIQuestion guiQuestion : this.guiQuestions) {
-            LabelWithWidget labelWithWidget = guiQuestion.render(symbolTable, allWidgetsListener);
-            guiWidgetsMap.put(guiQuestion, labelWithWidget);
-        }
-
-        return guiWidgetsMap;
-    }
-
-    void updateRenderedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
-        // First show/hide questions and update symbol table
-        // Do this before updating calculated values, so we are not relying on the order of the questions
-        this.updateDisplayedQuestions(guiWidgets, symbolTable);
-
-        // Then update the calculated question widget values using symbol table
-        this.updateComputedQuestions(guiWidgets, symbolTable);
-    }
-
-    private void updateDisplayedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
-        // Update visibility and symbol table value for every question
-        Set<String> visibleQuestions = new HashSet<>();
-
-        for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : guiWidgets.entrySet()) {
-            GUIQuestion guiQuestion = mapEntry.getKey();
-            LabelWithWidget guiWidget = mapEntry.getValue();
-
-            boolean visible = guiQuestion.isVisible(symbolTable);
-            guiWidget.setVisibility(visible);
-
-            // Update symbol table, as another question with the same identifier could now be visible
-            if(visible) {
-                if(guiQuestion.isComputed()) {
-                    symbolTable.setExpression(guiQuestion.getIdentifier(), guiQuestion.getComputedAnswer());
-                } else {
-                    symbolTable.setExpression(guiQuestion.getIdentifier(), guiWidget.getExpressionValue());
-                }
-
-                visibleQuestions.add(guiQuestion.getIdentifier());
-            } else if(!visibleQuestions.contains(guiQuestion.getIdentifier())) {
-                // If question becomes invisible, set value in symbol table to undefined
-                // but only if another question with the same identifier that is visible
-                // did not update the symbol table already, which we keep track of using visibleQuestions
-                symbolTable.setExpression(guiQuestion.getIdentifier(), new ExpressionVariableUndefined(guiQuestion.getType()));
-            }
-        }
-    }
-
-    private void updateComputedQuestions(Map<GUIQuestion, LabelWithWidget> guiWidgets, SymbolTable symbolTable) {
-        // Update all rendered values of the computed questions
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable);
-        for (Map.Entry<GUIQuestion, LabelWithWidget> mapEntry : guiWidgets.entrySet()) {
-            GUIQuestion guiQuestion = mapEntry.getKey();
-            LabelWithWidget guiWidget = mapEntry.getValue();
-
-            if(guiQuestion.isComputed()) {
-                Value result = expressionEvaluator.visit(guiQuestion.getComputedAnswer());
-                guiWidget.setValue(result);
-            }
-        }
     }
 }

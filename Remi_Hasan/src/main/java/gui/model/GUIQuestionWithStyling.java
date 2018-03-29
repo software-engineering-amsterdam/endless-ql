@@ -1,5 +1,6 @@
 package gui.model;
 
+import gui.GUIController;
 import gui.elements.LabelWithWidget;
 import gui.widgets.GUIWidget;
 import gui.widgets.WidgetFactory;
@@ -21,9 +22,9 @@ public class GUIQuestionWithStyling extends GUIElement implements IGUIQuestion {
     }
 
     @Override
-    public LabelWithWidget render(SymbolTable symbolTable, InvalidationListener allWidgetsListener) {
+    public LabelWithWidget render(GUIController guiController) {
         GUIWidget guiWidget = WidgetFactory.getDefaultWidget(guiQuestion.getType());
-        LabelWithWidget parent = guiQuestion.render(guiWidget, symbolTable, allWidgetsListener);
+        LabelWithWidget parent = guiQuestion.render(guiWidget, guiController);
 
         // Apply styles to this widget where applicable
         for (DefaultStyle defaultStyle : defaultStyles) {

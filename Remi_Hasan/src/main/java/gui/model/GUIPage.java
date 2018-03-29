@@ -1,5 +1,6 @@
 package gui.model;
 
+import gui.GUIController;
 import javafx.beans.InvalidationListener;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
@@ -21,12 +22,12 @@ public class GUIPage {
         return identifier;
     }
 
-    public VBox render(SymbolTable symbolTable, InvalidationListener allWidgetsListener){
+    public VBox render(GUIController guiController){
         VBox vBox = new VBox();
 
         // Render all sections
         for(GUIElement element : elements){
-            vBox.getChildren().add(element.render(symbolTable, allWidgetsListener));
+            vBox.getChildren().add(element.render(guiController));
         }
 
         vBox.setPadding(new Insets(10));

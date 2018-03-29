@@ -9,8 +9,8 @@ import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
 import doge.visitor.QuestionnaireASTBaseVisitor
 
-class UnaryExpression(val next: Expression, val operation: UnaryOperation)
-    : Expression() {
+class UnaryExpression(val next: Expression, val operation: UnaryOperation, sourceLocation: SourceLocation)
+    : Expression(sourceLocation) {
 
     override fun <T> accept(visitor: QuestionnaireASTBaseVisitor<T>): T {
         return visitor.visit(this)

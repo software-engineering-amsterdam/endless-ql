@@ -10,16 +10,19 @@ class DogeMainView : View() {
 
     override val root = scrollpane()
 
+    private val minHeight = 400.0
+    private val minWidth = 400.0
+
     init {
-        root.minHeight = 400.0
-        root.minWidth = 400.0
+        root.minHeight = minHeight
+        root.minWidth = minWidth
 
         with(root) {
             form {
                 fieldset {
                     children.bind(model.questions) {
                         field(it.item.label) {
-                            add(QuestionField(it))
+                            add(ViewFactory().createQuestionField(it))
                         }
                     }
                 }

@@ -9,10 +9,7 @@ import doge.ast.node.expression.LiteralExpression
 import doge.ast.node.expression.ReferenceExpression
 import doge.ast.node.expression.UnaryExpression
 
-class DuplicateQuestionVisitor : QuestionnaireASTBaseVisitor<Unit> {
-
-    private val labels = HashSet<String>()
-    private val names = HashSet<String>()
+class CircularDependencyVisitor : QuestionnaireASTBaseVisitor<Unit> {
 
     override fun visit(form: Form) {
         visit(form.block)
@@ -27,31 +24,23 @@ class DuplicateQuestionVisitor : QuestionnaireASTBaseVisitor<Unit> {
     }
 
     override fun visit(questionStatement: QuestionStatement) {
-        val label = questionStatement.label
-        if (!labels.add(label)) {
-            // TODO()
-        }
-
-        val name = questionStatement.name
-        if (!names.add(name)) {
-            // TODO()
-        }
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun visit(binaryExpression: BinaryExpression) {
-
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun visit(unaryExpression: UnaryExpression) {
-
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun visit(referenceExpression: ReferenceExpression) {
-
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun visit(literalExpression: LiteralExpression) {
-
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

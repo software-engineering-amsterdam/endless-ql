@@ -19,7 +19,7 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
 
         val block = visit(context.block()) as Block
 
-        return Form(identifier, block, location)
+        return Form(identifier, block, context.FORM().location())
     }
 
     override fun visitBlock(ctx: QuestionnaireLanguageGrammarParser.BlockContext?): QLNode {
@@ -58,7 +58,7 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
         val right = visit(context.right) as Expression
         val operator = BinaryOperation.fromString(context.operator.text)
 
-        return BinaryExpression(left, right, operator)
+        return BinaryExpression(left, right, operator, context.operator.location())
     }
 
     override fun visitParenthesisExpresion(ctx: QuestionnaireLanguageGrammarParser.ParenthesisExpresionContext?): QLNode {
@@ -70,7 +70,7 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
     override fun visitReferenceExpression(ctx: QuestionnaireLanguageGrammarParser.ReferenceExpressionContext?): QLNode {
         val context = ctx!!
 
-        return ReferenceExpression(context.reference.text)
+        return ReferenceExpression(context.reference.text, context.reference.location())
     }
 
     override fun visitUnaryExpression(ctx: QuestionnaireLanguageGrammarParser.UnaryExpressionContext?): QLNode {
@@ -79,30 +79,30 @@ class QuestionnaireLanguageVisitor : QuestionnaireLanguageGrammarBaseVisitor<QLN
         val expression = visit(context.expression()) as Expression
         val operator = UnaryOperation.fromString(context.operator.text)
 
-        return UnaryExpression(expression, operator)
+        return UnaryExpression(expression, operator, context.operator.location())
     }
 
     override fun visitLiteral(ctx: QuestionnaireLanguageGrammarParser.LiteralContext?): QLNode {
         val context = ctx!!
 
         context.LIT_BOOLEAN()?.let {
-            return LiteralExpression(BooleanValue(it.text))
+            return LiteralExpression(BooleanValue(it.text), it.location())
         }
 
         context.LIT_INTEGER()?.let {
-            return LiteralExpression(IntegerValue(it.text))
+            return LiteralExpression(IntegerValue(it.text), it.location())
         }
 
         context.LIT_DECIMAL()?.let {
-            return LiteralExpression(DecimalValue(it.text))
+            return LiteralExpression(DecimalValue(it.text), it.location())
         }
 
         context.LIT_STRING()?.let {
-            return LiteralExpression(StringValue(it.text))
+            return LiteralExpression(StringValue(it.text), it.location())
         }
 
         context.LIT_COLOR()?.let {
-            return LiteralExpression(ColorValue(it.text))
+            return LiteralExpression(ColorValue(it.text), it.location())
         }
 
         throw IllegalStateException("Undefined literal type ${context.text}")

@@ -8,8 +8,8 @@ import doge.data.question.SymbolType
 import doge.data.value.BaseSymbolValue
 import doge.visitor.QuestionnaireASTBaseVisitor
 
-class ReferenceExpression(val name: String)
-    : Expression() {
+class ReferenceExpression(val name: String, sourceLocation: SourceLocation)
+    : Expression(sourceLocation) {
 
     override fun <T> accept(visitor: QuestionnaireASTBaseVisitor<T>): T {
         return visitor.visit(this)

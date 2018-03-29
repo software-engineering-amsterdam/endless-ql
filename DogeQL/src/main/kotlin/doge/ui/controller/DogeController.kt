@@ -9,11 +9,9 @@ class DogeController: Controller() {
     private val tree = DogeParser().parse()
 
     fun getQuestions(): List<Question> {
-        tree.symbolTable.evaluateTable()
-        return tree.getEnabledQuestions()
+        return tree
     }
 
     fun updateQuestion(question: Question){
-        tree.updateQuestion(question)
     }
 }

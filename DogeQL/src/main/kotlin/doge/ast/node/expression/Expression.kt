@@ -9,9 +9,7 @@ import doge.data.question.SymbolType
 import doge.data.symbol.SymbolTable
 import doge.data.value.BaseSymbolValue
 
-abstract class Expression : QLNode {
-
-    val sourceLocation = SourceLocation(0, 0)
+abstract class Expression(val sourceLocation: SourceLocation) : QLNode {
 
     abstract fun accept(visitor: EvaluationVisitor): BaseSymbolValue
 

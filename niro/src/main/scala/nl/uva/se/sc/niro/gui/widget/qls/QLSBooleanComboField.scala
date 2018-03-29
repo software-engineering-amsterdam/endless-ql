@@ -6,16 +6,21 @@ import javafx.scene.control.ChoiceBox
 import javafx.util.StringConverter
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 
-class QLSBooleanComboField(trueLabel: String, falseLabel: String) extends ChoiceBox[Boolean] with QLWidget[Boolean] {
-  setItems(FXCollections.observableArrayList(true, false))
-  setConverter(new StringConverter[Boolean]() {
-    override def toString(value: Boolean): String = if (value) trueLabel else falseLabel
-    override def fromString(value: String): Boolean = value == trueLabel
+class QLSBooleanComboField(trueLabel: String, falseLabel: String)
+    extends ChoiceBox[java.lang.Boolean]
+    with QLWidget[java.lang.Boolean] {
+  setItems(FXCollections.observableArrayList(java.lang.Boolean.TRUE, java.lang.Boolean.FALSE))
+  setConverter(new StringConverter[java.lang.Boolean]() {
+    override def toString(value: java.lang.Boolean): String = if (value) trueLabel else falseLabel
+    override def fromString(value: String): java.lang.Boolean = value == trueLabel
   })
-  valueProperty().addListener(new ChangeListener[Boolean] {
-    override def changed(observable: ObservableValue[_ <: Boolean], oldValue: Boolean, newValue: Boolean): Unit =
+  valueProperty().addListener(new ChangeListener[java.lang.Boolean] {
+    override def changed(
+        observable: ObservableValue[_ <: java.lang.Boolean],
+        oldValue: java.lang.Boolean,
+        newValue: java.lang.Boolean): Unit =
       valueChanged()
   })
-  override def value(newValue: Boolean): Unit = setValue(newValue)
-  override def value: Boolean = getValue
+  override def value(newValue: java.lang.Boolean): Unit = setValue(newValue)
+  override def value: java.lang.Boolean = getValue
 }

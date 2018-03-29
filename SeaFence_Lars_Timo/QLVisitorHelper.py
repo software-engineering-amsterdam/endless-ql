@@ -112,7 +112,10 @@ class QLVisitorHelper(QLVisitor):
 
         for statement in statements:
             node = self.visit(statement)
-            if (node != None):
+            if (statement.conditional()):
+                if_node.statements.extend(node)
+
+            elif (node != None):
                 if_node.statements.append(node)
 
         return if_node

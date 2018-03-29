@@ -1,16 +1,19 @@
 package QLS.classes.blocks;
 
+import QL.classes.Question;
 import QLS.classes.widgets.Widget;
 
-public class Question extends Element {
+public class StyledQuestion extends Element {
 
     private String name;
     private Widget widget;
+    private Question question;
 
-    public Question(String name, Widget widget) {
+    public StyledQuestion(String name, Widget widget, Question question) {
         super();
         this.name = name;
         this.widget = widget;
+        this.question = question;
     }
 
     @Override
@@ -20,5 +23,9 @@ public class Question extends Element {
 
     public Widget getWidget() {
         return this.widget;
+    }
+
+    public Question getQuestion() {
+        return this.question;
     }
 }

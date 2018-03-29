@@ -120,7 +120,7 @@ WidgetAttribute "Widget attribute"
 }
 
 WidgetOptions
- = "(" _ options:Options+ _ ")" __ {
+ = "(" _ options:Options _ ")" __ {
     return options;
 }
 

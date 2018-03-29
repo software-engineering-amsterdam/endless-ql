@@ -26,18 +26,18 @@ public class FormVisitorTest {
         formVisitor = new FormVisitor();
     }
 
-    @Test
-    public void visitForm() throws IOException {
-        LinkedHashMap<String, Question> expectationList = new LinkedHashMap<String, Question>();
-        expectationList.put("hasSoldHouse", new Question("Did you sell a house in 2010?", new BooleanValue(), false, true));
-        expectationList.put("hasBoughtHouse", new Question("Did you buy a house in 2010?", new BooleanValue(), false, true));
-        expectationList.put("hasMaintLoan", new Question("Did you enter a loan for maintenance/reconstruction?", new BooleanValue(), false, true));
-        expectationList.put("sellingPrice", new Question("Price the house was sold for:", new MoneyValue(), false, false));
-        expectationList.put("privateDebt", new Question("Private debts for the sold house:", new MoneyValue(), false, false));
-        expectationList.put("ValueResidue", new Question("Value residue:", new MoneyValue(), true, false));
-        LinkedHashMap<String, Question> actualList = (LinkedHashMap<String, Question>) formVisitor.visitForm(new TreeBuilder().build(new FileInputStream("resources/QL/exampleForm")));
-        assertEquals(expectationList, actualList);
-    }
+//    @Test
+//    public void visitForm() throws IOException {
+//        LinkedHashMap<String, Question> expectationList = new LinkedHashMap<String, Question>();
+//        expectationList.put("hasSoldHouse", new Question("Did you sell a house in 2010?", new BooleanValue(), false, true));
+//        expectationList.put("hasBoughtHouse", new Question("Did you buy a house in 2010?", new BooleanValue(), false, true));
+//        expectationList.put("hasMaintLoan", new Question("Did you enter a loan for maintenance/reconstruction?", new BooleanValue(), false, true));
+//        expectationList.put("sellingPrice", new Question("Price the house was sold for:", new MoneyValue(), false, false));
+//        expectationList.put("privateDebt", new Question("Private debts for the sold house:", new MoneyValue(), false, false));
+//        expectationList.put("ValueResidue", new Question("Value residue:", new MoneyValue(), true, false));
+//        LinkedHashMap<String, Question> actualList = (LinkedHashMap<String, Question>) formVisitor.visitForm(new TreeBuilder().build(new FileInputStream("resources/QL/exampleForm")));
+//        assertEquals(expectationList, actualList);
+//    }
 
     @Test
     public void visitBoolIdentifier() {

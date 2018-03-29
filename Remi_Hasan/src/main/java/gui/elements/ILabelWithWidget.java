@@ -5,7 +5,9 @@ import javafx.scene.Node;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 
-public interface GUIQuestionElement {
+// Interface, so we can for example create an ILabelWithWidget based on VBox or based on HBox
+// and talk to the interface
+public interface ILabelWithWidget {
     Node getNode();
 
     // Functions to delegate to the internal GUIWidget

@@ -46,7 +46,9 @@ public class TextboxWidget extends TextField implements GUIWidget {
 
     @Override
     public void setWidth(int width) {
-        this.setPrefWidth(width);
+        // setPrefWidth does not work, so set min and max to requested width
+        this.setMinWidth(width);
+        this.setMaxWidth(width);
     }
 
     @Override

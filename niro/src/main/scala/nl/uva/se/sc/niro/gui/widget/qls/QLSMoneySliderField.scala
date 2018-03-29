@@ -5,17 +5,18 @@ import javafx.scene.control.Slider
 import nl.uva.se.sc.niro.gui.widget.FormatMasks
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
 
-class QLSMoneySliderField()
+class QLSMoneySliderField(minimum: Double, maximum: Double, stepSize: Double)
     extends Slider()
     with QLWidget[java.math.BigDecimal]
     with FormatMasks {
 
-  setMin(-10)
-  setMax(10)
-  setBlockIncrement(1)
-  setMajorTickUnit(1)
+  setMin(minimum)
+  setMax(maximum)
+  setMajorTickUnit(stepSize)
+
   setShowTickLabels(true)
   setShowTickMarks(true)
+
   valueProperty().addListener(new ChangeListener[Number] {
     override def changed(observable: ObservableValue[_ <: Number], oldValue: Number, newValue: Number): Unit =
       valueChanged()

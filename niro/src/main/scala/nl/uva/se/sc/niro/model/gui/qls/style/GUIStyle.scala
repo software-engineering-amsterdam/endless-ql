@@ -9,11 +9,11 @@ object GUIStyle {
   def apply(widgetType: Option[WidgetType]): GUIWidgetStyle = widgetType.map(GUIStyle(_)).getOrElse(GUIDefaultWidget())
 
   def apply(widgetType: WidgetType): GUIWidgetStyle = widgetType match {
-    case SpinBox()                       => GUISpinBoxStyle()
-    case Slider()                        => GUISliderStyle()
-    case ComboBox(trueValue, falseValue) => GUIComboBoxStyle(trueValue, falseValue)
-    case Radio(trueValue, falseValue)    => GUIRadioStyle(trueValue, falseValue)
-    case CheckBox()                      => GUIDefaultWidget()
+    case SpinBox()                          => GUISpinBoxStyle()
+    case Slider(minimum, maximum, stepSize) => GUISliderStyle(minimum, maximum, stepSize)
+    case ComboBox(trueValue, falseValue)    => GUIComboBoxStyle(trueValue, falseValue)
+    case Radio(trueValue, falseValue)       => GUIRadioStyle(trueValue, falseValue)
+    case CheckBox()                         => GUIDefaultWidget()
   }
 
   def apply(font: FontType): GUIFontStyle = GUIFontStyle(font.name)

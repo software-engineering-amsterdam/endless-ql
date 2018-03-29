@@ -24,6 +24,7 @@ FONT         : 'font' ;
 FONTSIZE     : 'fontsize' ;
 COLOR        : 'color' ;
 WIDTH        : 'width' ;
+MIN          : '-' ;
 
 CURLY_LEFT   : '{' ;
 CURLY_RIGHT  : '}' ;
@@ -33,7 +34,9 @@ BRACKET_RIGHT : ')' ;
 
 DOUBLE_COLON  : ':' ;
 COMMA         : ',' ;
+PERIOD        : '.' ;
 
+DecimalValue : MIN? [0-9]+ PERIOD [0-9]+ ;
 IntegerValue : [1-9][0-9]* ;
 HEXDIGIT     : [0-9]|[A-F] ;
 HexValue     : '#' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
@@ -70,6 +73,8 @@ style         : WIDGET widgetType                           # WidgetStyling
 
 widgetType    : CHECKBOX                                                              # CheckBox
               | SPINBOX                                                               # SpinBox
-              | SLIDER                                                                # Slider
+              | SLIDER BRACKET_LEFT minimum=DecimalValue
+                              COMMA maximum=DecimalValue
+                              COMMA stepSize=DecimalValue BRACKET_RIGHT               # Slider
               | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # ComboBox
               | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # RadioButtons;

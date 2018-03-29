@@ -1,4 +1,4 @@
-package doge.ui.model
+package ui.model
 
 import doge.data.question.Question
 import javafx.beans.property.SimpleIntegerProperty

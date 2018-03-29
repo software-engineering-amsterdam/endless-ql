@@ -1,4 +1,4 @@
-package doge.ui.view
+package ui.view
 
 import tornadofx.View
 

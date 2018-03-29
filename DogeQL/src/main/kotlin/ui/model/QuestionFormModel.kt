@@ -1,7 +1,7 @@
-package doge.ui.model
+package ui.model
 
 import doge.data.question.Question
-import doge.ui.controller.DogeController
+import ui.controller.DogeController
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import tornadofx.ItemViewModel

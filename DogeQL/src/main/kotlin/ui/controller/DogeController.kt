@@ -1,4 +1,4 @@
-package doge.ui.controller
+package ui.controller
 
 import doge.ast.DogeParser
 import doge.data.question.Question

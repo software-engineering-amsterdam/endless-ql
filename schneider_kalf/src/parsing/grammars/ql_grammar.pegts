@@ -191,11 +191,8 @@ BooleanLiteral
 }
 
 NumberLiteral
- = minus:[-]? digits:([0-9\.]+) {
-    let amount = digits.join("");
-    if (minus)
-        amount = minus.concat(amount);
-    let numberLiteralNode = Nodes.NumberLiteral.fromString(amount);
+ = [-]?[0-9\.]+ {
+    let numberLiteralNode = Nodes.NumberLiteral.fromString(text());
     return addLocation(numberLiteralNode);
 }
 
@@ -208,9 +205,9 @@ DateLiteral
 dateSeparator
  = [\.]
 
-// String Literal, Currently only support double quoted Strings
+// String Literal, only support double quoted Strings
 StringLiteral "String literal"
- = '"' chars:DoubleQuotedStringCharacters* '"'{
+ = '"' chars:DoubleQuotedStringCharacters* '"' {
     let stringLiteralNode = new Nodes.StringLiteral(chars.join(''));
     return addLocation(stringLiteralNode);
 }

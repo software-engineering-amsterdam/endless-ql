@@ -20,24 +20,22 @@ class MainWindow(QtWidgets.QWidget):
         self.setLayout(self.main_layout)
         self.setWindowTitle('QL parser')
         self.setGeometry(200, 200, 1000, 500)
-        self.tree = None
-        self.parser = None
 
         # Initiates inner frames
-        self.input_frame = InputFrame()
+        input_frame = InputFrame()
         self.output_frame = OutputFrame()
-        self.main_layout.addWidget(self.input_frame)
-        self.main_layout.addWidget(self.output_frame)
+        self.main_layout.addWidget(input_frame, alignment=QtCore.Qt.AlignLeft)
+        self.main_layout.addWidget(self.output_frame, alignment=QtCore.Qt.AlignRight)
 
         # Connect btn with parsing
-        self.input_frame.parse_is_pressed.connect(self.parse)
+        input_frame.parse_is_pressed.connect(self.parse)
 
-    def initiate_output_frame(self, question_ids=list(), questions=None):
+    def initiate_output_frame(self, question_ids=list(), questions=None, warning=None, errors=None):
         """ Reinitialize output frame """
         self.output_frame.setParent(None)
         self.output_frame.destroy()
 
-        self.output_frame = OutputFrame(question_ids, questions)
+        self.output_frame = OutputFrame(question_ids, questions, warning, errors)
         self.main_layout.addWidget(self.output_frame, alignment=QtCore.Qt.AlignRight)
 
     def parse(self, ql_text, qls_text):
@@ -46,33 +44,25 @@ class MainWindow(QtWidgets.QWidget):
         qls_data = ParserInterface(qls_text, 'QLS')
 
         if ql_text:
-            if len(ql_data.errors) > 1:
-                self.initiate_output_frame()
-                for error in ql_data.errors:
-                    self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error))
+
+            if ql_data.errors:
+                self.initiate_output_frame(errors=ql_data.errors)
                 return
+
             # Traverses QL AST
             [question_ids, questions, error_message, warning_message] = visit_ql(ql_data.ast)
 
             if qls_text:
+
                 if qls_data.errors:
-                    self.initiate_output_frame()
-                    for error in qls_data.errors:
-                        self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error))
+                    self.initiate_output_frame(errors=qls_data.errors)
                     return
+
                 # Traverses QLS AST
                 error_message = visit_qls(qls_data.ast, question_ids, questions)
 
-            if error_message:
-                self.initiate_output_frame()
-                self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(error_message))
-                return
             # The output_frame is initialized and appropriately filled with questions and their answering tools.
-            self.initiate_output_frame(question_ids, questions)
-            self.output_frame.add_submit_button()
+            self.initiate_output_frame(question_ids, questions, warning_message, error_message)
 
-            if warning_message:
-                self.output_frame.frame_layout.addWidget(QtWidgets.QLabel(warning_message))
         else:
-            self.initiate_output_frame()
-            self.output_frame.frame_layout.addWidget(QtWidgets.QLabel("QL input missing"))
+            self.initiate_output_frame(errors="Error: QL input missing")

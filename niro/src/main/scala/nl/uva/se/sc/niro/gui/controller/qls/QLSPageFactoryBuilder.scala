@@ -24,7 +24,7 @@ class QLSPageFactoryBuilder() {
   }
 
   def buildWith(stylesheet: GUIStylesheet): QLSPageFactoryBuilder = {
-    this.stylesheet =stylesheet
+    this.stylesheet = stylesheet
     this
   }
 
@@ -34,6 +34,8 @@ class QLSPageFactoryBuilder() {
   }
 
   def build: Callback[Integer, Node] = {
-    new QLSPageFactoryViewUpdateDecorator(controller, new QLSPageFactory(controller, guiForm, stylesheet, componentFactory))
+    new QLSPageFactoryViewUpdateDecorator(
+      controller,
+      new QLSPageFactory(controller, guiForm, stylesheet, componentFactory))
   }
 }

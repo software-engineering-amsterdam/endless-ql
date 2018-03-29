@@ -2,7 +2,6 @@ package nl.uva.se.sc.niro.typechecking.ql
 
 import cats.implicits._
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.model.ql.{ QLForm, Question, Statement }
 import org.apache.logging.log4j.scala.Logging
 

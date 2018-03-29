@@ -8,12 +8,15 @@ import javafx.scene.layout.VBox
 import javafx.util.Callback
 import nl.uva.se.sc.niro.gui.component.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.gui.controller.qls.QLSFormController
-import nl.uva.se.sc.niro.gui.widget.qls.QLSWidgetFactory
 import nl.uva.se.sc.niro.model.gui.ql.GUIForm
 import nl.uva.se.sc.niro.model.gui.qls.{ GUIStyling, _ }
 import nl.uva.se.sc.niro.model.ql._
 
-class QLSPageFactory(formController: QLSFormController, form: GUIForm, stylesheet: GUIStylesheet, componentFactory: ComponentFactory)
+class QLSPageFactory(
+    formController: QLSFormController,
+    form: GUIForm,
+    stylesheet: GUIStylesheet,
+    componentFactory: ComponentFactory)
     extends Callback[Integer, Node]() {
 
   val defaultStyles: Map[AnswerType, GUIStyling] = Map(
@@ -66,9 +69,7 @@ class QLSPageFactory(formController: QLSFormController, form: GUIForm, styleshee
     questionsOnPage.getChildren.add(new Label(s"  -- ${section.name} --  "))
   }
 
-  def mergeStyles(
-      left: Map[AnswerType, GUIStyling],
-      right: Map[AnswerType, GUIStyling]): Map[AnswerType, GUIStyling] =
+  def mergeStyles(left: Map[AnswerType, GUIStyling], right: Map[AnswerType, GUIStyling]): Map[AnswerType, GUIStyling] =
     Semigroup[Map[AnswerType, GUIStyling]].combine(left, right)
 
 }

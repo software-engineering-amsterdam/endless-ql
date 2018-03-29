@@ -69,7 +69,7 @@ public class Main extends Application {
 
         this.buildForm();
 
-        if(this.qlForm == null) {
+        if (this.qlForm == null) {
             return;
         }
 
@@ -175,7 +175,7 @@ public class Main extends Application {
     }
 
     private void saveClicked(Stage primaryStage) {
-        if(this.qlForm == null) {
+        if (this.qlForm == null) {
             this.showWarningAlert("Cannot export results as no form is loaded");
             return;
         }

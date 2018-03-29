@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 
-public class GUIQuestion implements IGUIQuestion {
+public class GUIQuestion implements IRenderable {
     private final String identifier;
     private final String label;
     private final ReturnType type;

@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-public class GUIPage {
+public class GUIPage implements IRenderable {
 
     private final String identifier;
     private final List<GUIElement> elements;

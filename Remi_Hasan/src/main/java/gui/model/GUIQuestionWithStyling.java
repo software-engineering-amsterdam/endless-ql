@@ -10,7 +10,7 @@ import qls.model.widget.Widget;
 
 import java.util.List;
 
-public class GUIQuestionWithStyling extends GUIElement implements IGUIQuestion {
+public class GUIQuestionWithStyling extends GUIElement {
 
     private final GUIQuestion guiQuestion;
     private final List<DefaultStyle> defaultStyles;

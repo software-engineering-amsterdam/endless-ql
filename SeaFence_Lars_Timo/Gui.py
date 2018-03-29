@@ -1,5 +1,6 @@
 # Lars Lokhoff, Timo Dobber
 # Gui class that holds all gui related functions to add widgets to the windows
+
 import Tkinter as tk
 from Tkinter import *
 from ttk import *
@@ -16,18 +17,6 @@ class Gui():
 
         self.notebook_set = False
         self.current_page = None
-
-    def addDropdown(self, name, items):
-        variable = tk.StringVar(self.window)
-        variable.set(items[0])
-        dropdown = apply(tk.OptionMenu, (self.window, var) + tuple(items))
-        self.dropdowns[name] = dropDown
-        dropDown.pack()
-
-    def removeDropdown(self, name):
-        if name in self.dropDowns:
-            self.dropdowns[name].destroy()
-            del self.dropdowns[name]
 
     def addBooleanQuestion(self, widget_variable, question, text1, text2, render_frame, color="#000000", width=300, font="Times", fontsize="12"):
         frame = tk.Frame(render_frame, height=2, width=width)
@@ -109,7 +98,7 @@ class Gui():
         label.pack(side=LEFT)
 
         variable = self.values[widget_variable]
-        dropdown = tk.OptionMenu(frame, var, "Yes", "No")
+        dropdown = tk.OptionMenu(frame, variable, "Yes", "No")
         dropdown.config(font=font_options, fg=color)
         dropdown.pack(side=LEFT)
 
@@ -186,11 +175,10 @@ class Gui():
         return labelframe
 
     def removeFrame(self, variable_frame):
-        if variable_frame in self.gui.frames:
+        if variable_frame in self.frames:
             self.frames[variable_frame].destroy()
 
     def removeFrames(self, frame_list):
-        print "Removing frames: ", frame_list
         for variable_frame in frame_list:
             self.removeFrame(variable_frame)
     

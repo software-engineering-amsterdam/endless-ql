@@ -127,7 +127,7 @@ public class GUIBuilder {
 
         JPanel menuButtons = getBottomButtons();
         console = new TextPanel(FULL_WIDTH, LOG_HEIGHT, Color.black, false);
-
+        console.setTextColor(new Color(225, 110, 110));
 
         bottomPanel.setLayout(new BorderLayout());
         bottomPanel.add(menuButtons, BorderLayout.PAGE_START);

@@ -61,23 +61,23 @@ class QLSGuiBuilder(object):
             self.qls_frame_order.append(question.variable)
 
     def checkForDefaultWidget(self, old_question, question_section, default_style_int, default_style_text, default_style_bool):
-        question_vartype = old_question[1]
+        question_variable_type = old_question[1]
 
-        if question_vartype == "boolean" and default_style_bool:
+        if question_variable_type == "boolean" and default_style_bool:
             options = self.extractWidgetOptions(default_style_bool)
             if "radio" in default_style_bool.widget:
-                return [old_question[0], question_vartype, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
+                return [old_question[0], question_variable_type, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
             elif "dropdown" in default_style_bool.widget:
-                return ["dropdown", question_vartype, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
+                return ["dropdown", question_variable_type, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
 
-        elif question_vartype == "int" and old_question[0] != "assignment" and default_style_int:
+        elif question_variable_type == "int" and old_question[0] != "assignment" and default_style_int:
             options = self.extractWidgetOptions(default_style_int)
             if default_style_int.widget == "text":
-                return [old_question[0], question_vartype, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
+                return [old_question[0], question_variable_type, old_question[2], question_section, options[0], options[1], options[2], options[3]], True
             elif default_style_int.widget == "slider":
-                return ["slider", question_vartype, old_question[2], question_section, options[0], options[1], options[2], options[3], default_style_int.min_value, default_style_int.max_value], True
+                return ["slider", question_variable_type, old_question[2], question_section, options[0], options[1], options[2], options[3], default_style_int.min_value, default_style_int.max_value], True
             elif default_style_int.widget == "spinbox":
-                return ["spinbox", question_vartype, old_question[2], question_section, options[0], options[1], options[2], options[3], default_style_int.min_value, default_style_int.max_value], True
+                return ["spinbox", question_variable_type, old_question[2], question_section, options[0], options[1], options[2], options[3], default_style_int.min_value, default_style_int.max_value], True
 
         return old_question, False
 

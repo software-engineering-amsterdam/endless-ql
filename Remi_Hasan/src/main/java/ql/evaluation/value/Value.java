@@ -2,13 +2,20 @@ package ql.evaluation.value;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 public abstract class Value<T> {
     public final T value;
 
     Value(T value) {
         this.value = value;
+    }
+
+    public T getValue() {
+        if (this.isUndefined()) {
+            return null;
+        } else {
+            return value;
+        }
     }
 
     public abstract Boolean getBooleanValue();
@@ -54,7 +61,7 @@ public abstract class Value<T> {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.value.toString();
     }
 }

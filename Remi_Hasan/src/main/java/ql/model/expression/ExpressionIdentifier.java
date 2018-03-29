@@ -1,15 +1,17 @@
 package ql.model.expression;
 
-import ql.evaluation.IExpressionVisitor;
-import org.antlr.v4.runtime.Token;
+import ql.IQLVisitor;
 
 public class ExpressionIdentifier extends Expression {
 
-    public final String identifier;
+    private final String identifier;
 
-    public ExpressionIdentifier(Token start, String identifier) {
-        super(start);
+    public ExpressionIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public String getIdentifier() {
+        return identifier;
     }
 
     @Override
@@ -18,7 +20,7 @@ public class ExpressionIdentifier extends Expression {
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
+    public <T> T accept(IQLVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

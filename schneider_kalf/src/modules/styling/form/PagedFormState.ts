@@ -1,7 +1,8 @@
 import FormState from "../../../form/state/FormState";
+import { Maybe } from "../../../helpers/type_helper";
 
 export default class PagedFormState extends FormState {
-  private activePageName: string | undefined;
+  private activePageName: Maybe<string>;
 
   constructor(store?: Map<string, any>, activePage?: string) {
     super(store);
@@ -12,7 +13,7 @@ export default class PagedFormState extends FormState {
     return new PagedFormState(newStore, this.activePageName);
   }
 
-  public getActivePageName(): string | undefined {
+  public getActivePageName(): Maybe<string> {
     return this.activePageName;
   }
 

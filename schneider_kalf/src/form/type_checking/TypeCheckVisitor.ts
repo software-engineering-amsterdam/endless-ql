@@ -27,6 +27,7 @@ import ComputedField from "../nodes/fields/ComputedFieldNode";
 import QuestionNode from "../nodes/fields/QuestionNode";
 import DateLiteral from "../nodes/literals/DateLiteral";
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
+import { Maybe } from "../../helpers/type_helper";
 
 export class TypeCheckVisitor implements NodeVisitor {
   private _variables: VariablesInformation;
@@ -85,7 +86,7 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitVariableIdentifier(variable: VariableIdentifier): any {
-    const variableInformation: VariableInformation | undefined = this._variables.get(variable.identifier);
+    const variableInformation: Maybe<VariableInformation> = this._variables.get(variable.identifier);
 
     if (!variableInformation) {
       throw UnkownFieldError.make(variable.identifier);

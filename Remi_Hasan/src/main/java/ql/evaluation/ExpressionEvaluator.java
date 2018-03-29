@@ -1,6 +1,6 @@
 package ql.evaluation;
 
-import ql.analysis.SymbolTable;
+import ql.QLBaseVisitor;
 import ql.evaluation.value.*;
 import ql.model.expression.Expression;
 import ql.model.expression.ExpressionIdentifier;
@@ -9,7 +9,7 @@ import ql.model.expression.unary.ExpressionUnaryNeg;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.*;
 
-public class ExpressionEvaluator implements IExpressionVisitor<Value> {
+public class ExpressionEvaluator extends QLBaseVisitor<Value> {
 
     private SymbolTable symbolTable;
 
@@ -24,90 +24,90 @@ public class ExpressionEvaluator implements IExpressionVisitor<Value> {
 
     @Override
     public Value visit(ExpressionArithmeticDivide expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.divide(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionArithmeticMultiply expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.multiply(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionArithmeticSubtract expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.subtract(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionArithmeticSum expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.sum(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionComparisonEq expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.eq(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionComparisonGE expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.ge(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionComparisonGT expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.gt(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionComparisonLE expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.le(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionComparisonLT expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.lt(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionLogicalAnd expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.and(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionLogicalOr expression) {
-        Value leftInterpreted = expression.left.accept(this);
-        Value rightInterpreted = expression.right.accept(this);
+        Value leftInterpreted = expression.getLeft().accept(this);
+        Value rightInterpreted = expression.getRight().accept(this);
         return leftInterpreted.or(rightInterpreted);
     }
 
     @Override
     public Value visit(ExpressionUnaryNot expression) {
-        Value valueInterpreted = expression.value.accept(this);
+        Value valueInterpreted = expression.getOperand().accept(this);
         return valueInterpreted.not();
     }
 
     @Override
     public Value visit(ExpressionUnaryNeg expression) {
-        Value valueInterpreted = expression.value.accept(this);
+        Value valueInterpreted = expression.getOperand().accept(this);
         return valueInterpreted.neg();
     }
 
@@ -148,6 +148,6 @@ public class ExpressionEvaluator implements IExpressionVisitor<Value> {
 
     @Override
     public Value visit(ExpressionIdentifier expression) {
-        return this.symbolTable.getExpression(expression.identifier).accept(this);
+        return this.symbolTable.getExpression(expression.getIdentifier()).accept(this);
     }
 }

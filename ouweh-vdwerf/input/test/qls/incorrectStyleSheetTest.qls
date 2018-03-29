@@ -16,6 +16,8 @@ stylesheet taxOfficeExample
   {
     section "Selling"
     {
+      question houseIsForSell
+
       question hasSoldHouse
         widget radio("Yes", "No")
       section "You sold a house"
@@ -24,9 +26,9 @@ stylesheet taxOfficeExample
           widget spinbox
 
         question privateDebt
-          widget slider(50000, 500000, 1000)
+          widget radio("Yes", "No")
 
-        question valueResidue
+        question sellingPrice
 
         default money
         {
@@ -34,10 +36,10 @@ stylesheet taxOfficeExample
           font: "Arial"
           fontsize: 14
           color: #999999
-          widget spinbox
+          widget radio("Yes", "No")
         }
       }
     }
-    default boolean widget radio("Yes", "No")
+    default money widget radio("Yes", "No")
   }
 }

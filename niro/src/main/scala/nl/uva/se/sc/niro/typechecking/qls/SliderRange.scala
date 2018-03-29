@@ -26,8 +26,8 @@ object SliderRange {
           val sliderErrors: Seq[Option[TypeCheckError]] = rangeError ++ Seq(
             checkIntegerValue(minimum, "minimum"),
             checkIntegerValue(maximum, "maximum"))
-          sliderErrors.map(_.orNull)
-        } else rangeError.map(_.orNull)
+          sliderErrors.flatten
+        } else rangeError.flatten
       }
       case _ => Seq.empty
     }

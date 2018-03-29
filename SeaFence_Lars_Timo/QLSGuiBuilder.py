@@ -74,7 +74,6 @@ class QLSGuiBuilder(object):
             if default_style_options.options and default_style_options.options.options:
                 default_style_options = default_style_options.options.options   
         
-            print "OPTIONS: ", default_style_options
             if "color" in  default_style_options:
                 options[0] = default_style_options["color"]
 

@@ -1,5 +1,6 @@
 package doge.ast.node.expression
 
+import doge.ast.location.SourceLocation
 import doge.ast.node.QLNode
 import doge.ast.node.expression.visitor.evaluation.EvaluationVisitor
 import doge.ast.node.expression.visitor.evaluation.TypeVisitor
@@ -9,7 +10,7 @@ import doge.data.question.SymbolType
 import doge.data.symbol.SymbolTable
 import doge.data.value.BaseSymbolValue
 
-abstract class Expression(val sourceLocation: SourceLocation) : QLNode {
+abstract class Expression(location: SourceLocation) : QLNode(location) {
 
     abstract fun accept(visitor: EvaluationVisitor): BaseSymbolValue
 

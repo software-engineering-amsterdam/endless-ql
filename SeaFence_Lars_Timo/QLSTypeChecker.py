@@ -1,3 +1,6 @@
+# Lars Lokhoff, Timo Dobber
+# This class holds all functions related to the QLS typechecker.
+
 from QLSast import *
 import sys
 

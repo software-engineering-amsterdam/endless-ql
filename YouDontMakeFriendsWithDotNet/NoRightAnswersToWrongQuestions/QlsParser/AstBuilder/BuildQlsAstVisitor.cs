@@ -39,9 +39,38 @@ namespace QlsParser.AstBuilder
         {
             var definition = context.GetText();
             var pageNameText = context.pageName.Text;
+            var sections = context.section()
+                .Select(Visit)
+                .To<ISectionNode>(m_domainItemLocator);
+            
             return m_astFactory.CreatePage(
                 definition,
-                pageNameText);
+                pageNameText,
+                sections);
+        }
+
+        public override Reference<IAstNode> VisitSection(QlsGrammar.QlsParser.SectionContext context)
+        {
+            var definition = context.GetText();
+            var sectionNameText = context.sectionName.Text;
+            var questions = context.question()
+                .Select(Visit)
+                .To<IQlsQuestionNode>(m_domainItemLocator);
+
+            return m_astFactory.CreateSection(
+                definition,
+                sectionNameText,
+                questions);
+        }
+
+        public override Reference<IAstNode> VisitQuestion(QlsGrammar.QlsParser.QuestionContext context)
+        {
+            var definition = context.GetText();
+            var questionNameText = context.questionName.Text;
+
+            return m_astFactory.CreateQuestion(
+                definition,
+                questionNameText);
         }
     }
 }

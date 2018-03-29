@@ -11,8 +11,6 @@ from QLSVisitorHelper import QLSVisitorHelper
 from GuiBuilder import GuiBuilder
 from QLTypeChecker import QLTypeChecker
 from QLSTypeChecker import QLSTypeChecker
-from Tkinter import *
-from ttk import *
 
 def main(argv):
     input = FileStream(argv[1])
@@ -42,9 +40,11 @@ def main(argv):
         qls_checker = QLSTypeChecker()
         qls_checker.startQLSTypeCheck(ql_ast.statements, qls_ast.pages)
 
-        # print qls_ast
+        builder = GuiBuilder(ql_ast, qls_ast)
+    else:
+        builder- GuiBuilder(qls_ast)
 
-    builder = GuiBuilder(ql_ast)
+    
     builder.gui.window.mainloop()
 
 if __name__ == '__main__':

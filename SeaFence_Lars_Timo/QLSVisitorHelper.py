@@ -1,8 +1,9 @@
+# Lars Lokhoff, Timo Dobber
+# This class defines a complete generic visitor for a parse tree produced by QLSParser.
+
 from QLS.QLSVisitor import QLSVisitor
 from antlr4 import *
 from QLSast import *
-
-# This class defines a complete generic visitor for a parse tree produced by QLSParser.
 
 class QLSVisitorHelper(QLSVisitor):
 
@@ -54,9 +55,9 @@ class QLSVisitorHelper(QLSVisitor):
 
     # Visit a parse tree produced by QLSParser#question.
     def visitQuestion(self, ctx):
-        var = ctx.var().getText()
+        variable = ctx.variable().getText()
 
-        question_node = QuestionNode(var)
+        question_node = QuestionNode(variable)
 
         if ctx.widget():
             widget_node = self.visit(ctx.widget())
@@ -67,7 +68,7 @@ class QLSVisitorHelper(QLSVisitor):
 
     # Visit a parse tree produced by QLSParser#default_style.
     def visitDefault_style(self, ctx):
-        vartype = ctx.vartype().getText()
+        variable_type = ctx.variable_type().getText()
         widget_node = self.visit(ctx.widget())
         options = {}
 
@@ -87,7 +88,7 @@ class QLSVisitorHelper(QLSVisitor):
 
                 options[name] = value
 
-        style_options_node = StyleOptionsNode(vartype)
+        style_options_node = StyleOptionsNode(variable_type)
         style_options_node.options = options
         widget_node.options = style_options_node
 

@@ -1,9 +1,10 @@
 package doge.ast.node
 
+import doge.ast.location.SourceLocation
 import doge.visitor.QuestionnaireASTBaseVisitor
 
-interface QLNode {
+abstract class QLNode(val location: SourceLocation) {
 
-    fun <T> accept(visitor: QuestionnaireASTBaseVisitor<T>): T
+    abstract fun <T> accept(visitor: QuestionnaireASTBaseVisitor<T>): T
 
 }

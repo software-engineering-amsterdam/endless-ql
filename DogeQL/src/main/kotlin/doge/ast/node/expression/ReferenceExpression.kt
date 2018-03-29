@@ -1,5 +1,6 @@
 package doge.ast.node.expression
 
+import doge.ast.location.SourceLocation
 import doge.ast.node.expression.visitor.evaluation.EvaluationVisitor
 import doge.ast.node.expression.visitor.evaluation.TypeVisitor
 import doge.ast.node.expression.visitor.reference.ReferenceCollector

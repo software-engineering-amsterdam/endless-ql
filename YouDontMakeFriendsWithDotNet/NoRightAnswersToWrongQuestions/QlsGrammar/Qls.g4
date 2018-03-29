@@ -3,7 +3,13 @@ grammar Qls;
 styleSheet : STYLESHEETKEYWORD styleSheetName=IDENTIFIER 
              BEGINSCOPE page* defaultStyle* ENDSCOPE;
 
-page : PAGEKEYWORD pageName=IDENTIFIER BEGINSCOPE ENDSCOPE;
+page : PAGEKEYWORD pageName=IDENTIFIER 
+       BEGINSCOPE  section* defaultStyle* ENDSCOPE;
+
+section: SECTIONKEYWORD sectionName=IDENTIFIER
+         BEGINSCOPE question* defaultStyle* ENDSCOPE;
+
+question: QUESTIONKEYWORD questionName=IDENTIFIER style*;
 
 defaultStyle : DEFAULTKEYWORD type style;
 
@@ -57,6 +63,8 @@ WIDGETKEYWORD: 'widget';
 DEFAULTKEYWORD: 'default';
 PAGEKEYWORD: 'page';
 STYLESHEETKEYWORD: 'stylesheet';
+SECTIONKEYWORD: 'section';
+QUESTIONKEYWORD: 'question';
 
 BOOLEANTYPE: 'boolean';
 INTEGERTYPE: 'integer';

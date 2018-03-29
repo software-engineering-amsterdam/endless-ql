@@ -2,6 +2,8 @@ import { getTypeString } from "./type_checking/type_assertions";
 import { FieldType } from "./FieldType";
 import FieldNode from "./nodes/fields/FieldNode";
 import Expression from "./nodes/expressions/Expression";
+import NodeLocation from "./nodes/location/NodeLocation";
+import VariableIdentifier from "./nodes/expressions/VariableIdentifier";
 
 export class FormError extends Error {
   constructor(m: string) {
@@ -102,15 +104,17 @@ export class UnkownFieldError extends FormError {
 }
 
 export class UnkownVariableIdentifierError extends FormError {
-  variableIdentifier: string;
+  variableIdentifier: VariableIdentifier;
+  location: NodeLocation;
 
-  static make(identifier: string, message?: string) {
+  static make(identifier: VariableIdentifier, message?: string) {
     if (!message) {
       message = `Unkown variable identifier: "${identifier}"`;
     }
 
     const error = makeError(UnkownVariableIdentifierError, message);
     error.variableIdentifier = identifier;
+    error.location = identifier.getLocation();
     return error;
   }
 }
@@ -158,6 +162,7 @@ export class FieldAlreadyDeclaredError extends FormError {
 }
 
 export class VariableNotInScopeError extends FormError {
+  location: NodeLocation;
   expression: Expression;
   identifier: string;
 
@@ -169,6 +174,7 @@ export class VariableNotInScopeError extends FormError {
     const error = makeError(VariableNotInScopeError, message);
     error.identifier = identifier;
     error.expression = expression;
+    error.location = expression.getLocation();
     return error;
   }
 }

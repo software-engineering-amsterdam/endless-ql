@@ -148,3 +148,4 @@ Result will be written into the `/build` folder
 
 ## Presentation
 Show no else, no instanceof and no switch
+Error messages with line numbers (rename weightFishOneA to weightFishOne1)

@@ -93,6 +93,7 @@ object QLStylesheetParser extends Logging {
     override def defaultResult(): Option[WidgetType] = None
     override def visitCheckBox(ctx: QLSParser.CheckBoxContext): Option[WidgetType] = Some(CheckBox())
     override def visitSpinBox(ctx: QLSParser.SpinBoxContext): Option[WidgetType] = Some(SpinBox())
+    override def visitSlider(ctx: QLSParser.SliderContext): Option[WidgetType] = Some(Slider())
     override def visitRadioButtons(ctx: QLSParser.RadioButtonsContext): Option[WidgetType] =
       Some(Radio(ctx.trueValue.getText, ctx.falseValue.getText))
     override def visitComboBox(ctx: QLSParser.ComboBoxContext): Option[WidgetType] =

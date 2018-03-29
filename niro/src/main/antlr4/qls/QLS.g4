@@ -16,6 +16,7 @@ WIDGET       : 'widget' ;
 DEFAULT      : 'default' ;
 CHECKBOX     : 'checkbox' ;
 SPINBOX      : 'spinbox' ;
+SLIDER       : 'slider' ;
 RADIO        : 'radio' ;
 COMBO        : 'combo' ;
 
@@ -69,5 +70,6 @@ style         : WIDGET widgetType                           # WidgetStyling
 
 widgetType    : CHECKBOX                                                              # CheckBox
               | SPINBOX                                                               # SpinBox
+              | SLIDER                                                                # Slider
               | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # ComboBox
               | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT # RadioButtons;

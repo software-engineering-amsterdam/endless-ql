@@ -10,6 +10,7 @@ object GUIStyle {
 
   def apply(widgetType: WidgetType): GUIWidgetStyle = widgetType match {
     case SpinBox()                       => GUISpinBoxStyle()
+    case Slider()                        => GUISliderStyle()
     case ComboBox(trueValue, falseValue) => GUIComboBoxStyle(trueValue, falseValue)
     case Radio(trueValue, falseValue)    => GUIRadioStyle(trueValue, falseValue)
     case CheckBox()                      => GUIDefaultWidget()

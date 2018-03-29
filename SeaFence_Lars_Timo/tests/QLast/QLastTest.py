@@ -23,15 +23,15 @@ class TestQuestionNode(unittest.TestCase):
     def testQuestionNodeCorrectInput(self):
         node = QuestionNode("question?", u"variable", u"boolean")
         self.assertEqual(node.question, "question?")
-        self.assertEqual(node.var, u"variable")
-        self.assertEqual(node.vartype, u"boolean")
+        self.assertEqual(node.variable, u"variable")
+        self.assertEqual(node.variable_type, u"boolean")
 
 
     def testQuestionNodeIncorrectQuestion(self):
         node = QuestionNode(4, u"variable", u"boolean")
         self.assertNotEqual(node.question, "5")
-        self.assertNotEqual(node.var, u"boolean")
-        self.assertNotEqual(node.vartype, u"variable")
+        self.assertNotEqual(node.variable, u"boolean")
+        self.assertNotEqual(node.variable_type, u"variable")
 
 
 # Assignment node testing class 
@@ -40,8 +40,8 @@ class TestAssignmentNode(unittest.TestCase):
         unop = UnOpNode(u"variable")
         node = AssignmentNode("name", u"variable", u"integer", unop)
         self.assertEqual(node.name, "name")
-        self.assertEqual(node.var, u"variable")
-        self.assertEqual(node.vartype, u"integer")
+        self.assertEqual(node.variable, u"variable")
+        self.assertEqual(node.variable_type, u"integer")
         self.assertEqual(node.expression, unop)
 
 
@@ -50,8 +50,8 @@ class TestAssignmentNode(unittest.TestCase):
         unop2 = UnOpNode(u"variable")
         node = AssignmentNode("name", u"variable", u"integer", unop)
         self.assertNotEqual(node.name, "name2")
-        self.assertNotEqual(node.var, u"variable2")
-        self.assertNotEqual(node.vartype, u"boolean")
+        self.assertNotEqual(node.variable, u"variable2")
+        self.assertNotEqual(node.variable_type, u"boolean")
         self.assertNotEqual(node.expression, unop2)
 
 
@@ -81,13 +81,13 @@ class TestBinOpNode(unittest.TestCase):
 class TestUnopNode(unittest.TestCase):
     def testUnopNodeCorrectInput(self):
         node = UnOpNode(u"variable", True)
-        self.assertEqual(node.var, u"variable")
+        self.assertEqual(node.variable, u"variable")
         self.assertEqual(node.negate, True)
 
 
     def testUnopNodeIncorrectInput(self):
         node = UnOpNode(u"variable", True)
-        self.assertNotEqual(node.var, u"variable2")
+        self.assertNotEqual(node.variable, u"variable2")
         self.assertNotEqual(node.negate, False)
 
 

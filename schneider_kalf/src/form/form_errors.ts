@@ -2,7 +2,6 @@ import { getTypeString } from "./type_checking/type_assertions";
 import { FieldType } from "./FieldType";
 import FieldNode from "./nodes/fields/FieldNode";
 import Expression from "./nodes/expressions/Expression";
-import { StyleError } from "../modules/styling/form/style_errors";
 
 export class FormError extends Error {
   constructor(m: string) {
@@ -11,7 +10,7 @@ export class FormError extends Error {
   }
 }
 
-export const makeError = <T extends FormError>(errorClass: { new(name: string): T ; }, message: string): T => {
+export const makeError = <T extends Error>(errorClass: { new(name: string): T ; }, message: string): T => {
   const error = new errorClass(message);
   Object.setPrototypeOf(error, errorClass.prototype);
   return error;

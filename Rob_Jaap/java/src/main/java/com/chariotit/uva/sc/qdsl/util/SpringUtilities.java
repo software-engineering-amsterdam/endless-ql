@@ -1,4 +1,4 @@
-package com.chariotit.uva.sc.qdsl;
+package com.chariotit.uva.sc.qdsl.util;
 /*
  * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *

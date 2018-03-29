@@ -3,17 +3,16 @@ import {
   TypeCheckError
 } from "../form_errors";
 import { FieldType, numericFieldTypes } from "../FieldType";
-import Decimal from "decimal.js/decimal";
 import NumberValue from "../values/NumberValue";
 import IntValue from "../values/IntValue";
-import { DecimalValue } from "../values/DecimalValue";
 import NumericOperation from "../values/NumericOperation";
-import { isNumericValue } from "../values/values_helpers";
+import { isNumberValue } from "../values/values_helpers";
 import constants from "../../config/constants";
 
 /**
  * Returns the type of a given value including the classname if it is
- * a class instance.
+ * a class instance. Often useful to output the type of an object in an error
+ * message.
  *
  * @param value
  * @returns string
@@ -55,6 +54,13 @@ export const assertType = (value: any, expectedType: string) => {
   return value;
 };
 
+/**
+ * Assert that the field type fits with the expected type.
+ *
+ * @param {FieldType} actualType
+ * @param {FieldType} expectedType
+ * @returns {FieldType}
+ */
 export const assertFieldType = (actualType: FieldType, expectedType: FieldType): FieldType => {
   if (actualType !== expectedType) {
     throw TypeCheckError.make(expectedType, actualType);
@@ -63,6 +69,13 @@ export const assertFieldType = (actualType: FieldType, expectedType: FieldType):
   return expectedType;
 };
 
+/**
+ * Assert that the given type fits at least with one of the given types that are allowed.
+ *
+ * @param {FieldType} actualType
+ * @param {FieldType[]} allowedTypes
+ * @returns {FieldType}
+ */
 export const assertAnyFieldType = (actualType: FieldType, allowedTypes: FieldType[]): FieldType => {
   if (allowedTypes.indexOf(actualType) === -1) {
     throw TypeCheckError.make(allowedTypes.join(' or '), actualType);
@@ -102,39 +115,25 @@ export const assertDate = (value: any) => {
 };
 
 /**
- * Assert that the types of the value is "number" or fail otherwise.
- *
- * @param value
- * @returns {any}
- */
-export const assertNumeric = (value: any) => {
-  return assertType(value, "number");
-};
-
-/**
- * Assert that the types of the value is "Decimal" or fail otherwise.
- *
- * @param value
- * @returns {any}
- */
-export const assertDecimal = (value: any): Decimal => {
-  return assertType(value, "Decimal");
-};
-
-/**
  * Assert that the types of the value is "Decimal" or fail otherwise.
  *
  * @param value
  * @returns {any}
  */
 export const assertNumberValue = (value: any): NumberValue => {
-  if (value instanceof IntValue === false && value instanceof DecimalValue === false) {
+  if (isNumberValue(value)) {
     throw TypeCheckError.make("NumberValue", getTypeString(value));
   }
 
   return value;
 };
 
+/**
+ * Assert that the given type of field allows numeric values.
+ *
+ * @param {FieldType} fieldType
+ * @returns {FieldType}
+ */
 export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
   return assertAnyFieldType(fieldType, numericFieldTypes);
 };
@@ -146,7 +145,7 @@ export const assertNumericFieldType = (fieldType: FieldType): FieldType => {
  * @returns {any}
  */
 export const assertComparable = (value: any) => {
-  if (isNumericValue(value)) {
+  if (isNumberValue(value)) {
     return value;
   }
 
@@ -163,7 +162,7 @@ export const assertComparable = (value: any) => {
  *
  * @param dividend
  * @param divisor
- * @returns {{dividend: NumberValue; divisor: NumberValue}}
+ * @returns {{dividend: Numeric; divisor: NumberValue}}
  */
 export const assertValidDivision = (dividend: NumberValue, divisor: NumberValue) => {
   dividend = assertNumberValue(dividend);
@@ -176,13 +175,20 @@ export const assertValidDivision = (dividend: NumberValue, divisor: NumberValue)
   return {dividend, divisor};
 };
 
+/**
+ * Assert that the left and the right sight have the same type.
+ *
+ * @param left
+ * @param right
+ * @returns {{left: any; right: any}}
+ */
 export const assertSameType = (left: any, right: any) => {
   if (typeof left !== typeof right) {
     throw ValuesNotComparableError.make(left, right);
   }
 
-  if (isNumericValue(left) && !isNumericValue(right) ||
-      !isNumericValue(left) && isNumericValue(right)) {
+  if (isNumberValue(left) && !isNumberValue(right) ||
+      !isNumberValue(left) && isNumberValue(right)) {
     throw ValuesNotComparableError.make(left, right);
   }
 

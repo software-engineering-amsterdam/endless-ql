@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common;
-using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Domain;
 
 namespace QlsTransformer.Ast.Nodes
 {
@@ -13,16 +10,14 @@ namespace QlsTransformer.Ast.Nodes
         public PageNode(
             Guid id, 
             string definition,
-            string name) : base(id, definition)
+            string name,
+            IEnumerable<Reference<ISectionNode>> sections) : base(id, definition)
         {
             Name = name;
+            Sections = sections;
         }
 
         public string Name { get; }
-    }
-
-    public interface IPageNode : IAstNode
-    {
-        string Name { get; }
+        public IEnumerable<Reference<ISectionNode>> Sections { get; }
     }
 }

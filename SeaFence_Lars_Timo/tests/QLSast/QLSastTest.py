@@ -55,14 +55,14 @@ class TestSectionNode(unittest.TestCase):
 # Question node testing class
 class TestQuestionNode(unittest.TestCase):
     def testQuestionNodeCorrectInput(self):
-        node = QuestionNode("var")
-        self.assertEqual(node.var, "var")
+        node = QuestionNode("variable")
+        self.assertEqual(node.variable, "variable")
         self.assertEqual(node.widget, None)
 
 
     def testQuestionNodeIncorrectInput(self):
-        node = QuestionNode("var")
-        self.assertNotEqual(node.var, 5)
+        node = QuestionNode("variable")
+        self.assertNotEqual(node.variable, 5)
         self.assertNotEqual(node.widget, "slider")
 
 
@@ -88,13 +88,13 @@ class TestWidgetNode(unittest.TestCase):
 class TestStyleOptionsNode(unittest.TestCase):
     def testStyleOptionsNodeCorrectInput(self):
         node = StyleOptionsNode("variable_type")
-        self.assertEqual(node.vartype, "variable_type")
+        self.assertEqual(node.variable_type, "variable_type")
         self.assertEqual(node.options, None)
 
 
     def testStyleOptionsNodeIncorrectInput(self):
         node = StyleOptionsNode("variable_type")
-        self.assertNotEqual(node.vartype, None)
+        self.assertNotEqual(node.variable_type, None)
         self.assertNotEqual(node.options, "None")
 
 

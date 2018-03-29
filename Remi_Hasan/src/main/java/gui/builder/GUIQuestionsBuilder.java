@@ -10,6 +10,7 @@ import ql.model.expression.Expression;
 import ql.model.expression.binary.ExpressionLogicalAnd;
 import ql.model.expression.unary.ExpressionUnaryNot;
 import ql.model.expression.variable.ExpressionVariableBoolean;
+import qls.model.widget.WidgetType;
 
 import java.util.ArrayList;
 import java.util.List;

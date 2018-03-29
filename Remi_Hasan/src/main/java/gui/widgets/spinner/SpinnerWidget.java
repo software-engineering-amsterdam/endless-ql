@@ -24,6 +24,11 @@ public abstract class SpinnerWidget<T> extends Spinner<T> implements GUIWidget {
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
         this.valueProperty().addListener(invalidationListener);
+//        this.getEditor().textProperty().addListener(invalidationListener);
+//        final Spinner spinner = this;
+//        this.getEditor().setOnAction(e->{
+//            invalidationListener.invalidated(spinner.valueProperty());
+//        });
     }
 
     @Override

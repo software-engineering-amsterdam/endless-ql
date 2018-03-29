@@ -12,7 +12,7 @@ public class MoneyValue implements Value<Integer> {
         return value;
     }
     @Override
-    public Integer setValue(Object o) {
-        return this.value = (Integer) o;
+    public Integer setValue(Integer value) {
+        return this.value = value;
     }
 }

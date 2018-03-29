@@ -13,7 +13,7 @@ public class BooleanValue implements Value<Boolean>{
     }
 
     @Override
-    public Boolean setValue(Object o) {
-        return this.value = (Boolean) o;
+    public Boolean setValue(Boolean value) {
+        return this.value = value;
     }
 }

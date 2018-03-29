@@ -13,7 +13,7 @@ public class StringValue implements Value<String>{
     }
 
     @Override
-    public String setValue(Object o) {
-        return value = (String) o;
+    public String setValue(String value) {
+        return value = value;
     }
 }

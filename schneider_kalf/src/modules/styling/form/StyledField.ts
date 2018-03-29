@@ -3,11 +3,12 @@ import MergedFieldStyle from "./MergedFieldStyle";
 import QuestionStyle from "./nodes/children/QuestionStyle";
 import Page, { default as PageNode } from "./nodes/containers/PageNode";
 import { FieldType } from "../../../form/FieldType";
+import { Maybe } from "../../../helpers/type_helper";
 
 export default class StyledField {
-  private mergedStyle: MergedFieldStyle;
-  private styleNode: QuestionStyle | undefined;
   private fieldNode: FieldNode;
+  private mergedStyle: MergedFieldStyle;
+  private styleNode: Maybe<QuestionStyle>;
 
   constructor(field: FieldNode, mergedStyle: MergedFieldStyle, questionStyleNode?: QuestionStyle) {
     this.fieldNode = field;
@@ -31,12 +32,12 @@ export default class StyledField {
     return this.mergedStyle;
   }
 
-  public getPage(): Page | undefined {
+  public getPage(): Maybe<Page> {
     if (!this.styleNode) {
       return undefined;
     }
 
-    return this.styleNode.getNearestParent(parent => parent instanceof Page);
+    return this.styleNode.getNearestParent(parent => parent.isPage());
   }
 
   public isOnPage(otherPage?: PageNode): boolean {

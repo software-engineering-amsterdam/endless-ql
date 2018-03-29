@@ -39,14 +39,6 @@ public class QLSFormBuilder {
         VisitorStyleSheet visitor = new VisitorStyleSheet();
         StyleSheet styleSheet = visitor.visit(parser.root());
 
-        // TODO: remove debugging tree
-        //parser.reset();
-        //Trees.inspect(parser.root(), parser);
-
-        // Debug: print object
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(styleSheet));
-
         // Analysis
         QLSErrorAnalyzer qlsErrorAnalyzer = new QLSErrorAnalyzer();
         qlsErrorAnalyzer.analyze(this.qlForm, styleSheet);

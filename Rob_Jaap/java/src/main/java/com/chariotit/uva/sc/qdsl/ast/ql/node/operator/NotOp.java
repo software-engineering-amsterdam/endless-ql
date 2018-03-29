@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.operator;
 
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.BooleanExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionValue;
@@ -23,7 +24,8 @@ public class NotOp extends Operator implements UnaryOperator {
     }
 
     @Override
-    public ExpressionValue evaluate(Expression expression) {
+    public ExpressionValue evaluate(SymbolTable symbolTable, Expression expression) {
+        expression.evaluate(symbolTable);
 
         return ((BooleanExpressionValue)expression.getExpressionValue()).not();
     }

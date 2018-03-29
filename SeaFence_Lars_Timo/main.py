@@ -44,7 +44,7 @@ def main(argv):
 
         # print qls_ast
 
-    builder = GuiBuilder(ql_ast)
+    builder = GuiBuilder(ql_ast, qls_ast)
     builder.gui.window.mainloop()
 
 if __name__ == '__main__':

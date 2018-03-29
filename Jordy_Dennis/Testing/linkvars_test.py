@@ -1,9 +1,9 @@
 from test_methods import *
 
 
-class LinkVarsTest(unittest.TestCase):
+class QLLinkVarsTest(unittest.TestCase):
     def testGoodFilesLinkvars(self):
-        path = 'Testing/test_files/linkvars_test_files/correct_test'
+        path = 'Testing/test_files/ql/linkvars_test_files/correct_test'
         for filename in os.listdir(path):
             inputText, outputText = getInputOutput(path, filename)
             blockPrint()
@@ -14,7 +14,7 @@ class LinkVarsTest(unittest.TestCase):
             self.assertEqual(str(varDict), outputText, filename)
 
     def testErrorFilesLinkvars(self):
-        path = 'Testing/test_files/linkvars_test_files/fail_test'
+        path = 'Testing/test_files/ql/linkvars_test_files/fail_test'
         for filename in os.listdir(path):
             file_object = open(path + "/" + filename, "r")
             inputText = file_object.read()

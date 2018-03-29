@@ -56,8 +56,6 @@ namespace Assignment1.Model.QL.AST
 
         public virtual void Visit(QLInteger value) { }
 
-        public virtual void Visit(Undefined undefined) { }
-
         public virtual void Visit(QLString value) { }
 
         public virtual void Visit(QLDate value) { }

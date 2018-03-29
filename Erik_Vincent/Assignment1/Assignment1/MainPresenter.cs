@@ -52,10 +52,7 @@ namespace Assignment1
                     messages.Add(QLASTCyclicDependencyChecker.CheckForCycles(astForm));
                     QLTypeChecker typechecker = new QLTypeChecker();
                     typechecker.TypeCheckQuestionForm(astForm);
-                    var renderForm = QLASTToRenderTree.Convert(astForm);
-                    var symbolTable = new SymbolTable();
-                    symbolTable.RegisterQuestions(renderForm.Questions);
-                    IQuestionFormRenderer renderer = new QuestionFormRenderer(renderForm, symbolTable);
+                    var renderer = new QLRenderer(astForm);
                     _view.SetFormControl(renderer.Render());
                 }
                 _view.SetWarnings(messages.Warnings);

@@ -4,8 +4,6 @@ import gui.builder.GUIFormBuilder;
 import gui.model.GUIForm;
 import gui.render.GUIController;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
@@ -32,30 +30,62 @@ public class Renderer extends Application {
     private QLEvaluator qlEvaluator;
     private StyleSheet qlsStyleSheet;
 
+    private File resourceFolder;
+    private File qlFile;
+    private File qlsFile;
+
+    private VBox formArea = new VBox();
+
+    public Renderer() {
+        super();
+
+        // Set locale to US such that DecimalFormat, such as in a spinner, always uses dots instead of commas
+        Locale.setDefault(Locale.US);
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        resourceFolder = new File(classLoader.getResource("java/").getFile());
+    }
+
     @Override
     public void start(Stage primaryStage) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File resourceFolder = new File(classLoader.getResource("java/").getFile());
-        File qlFile = new File(resourceFolder.getAbsolutePath() + "/example.ql");
-        File qlsFile = new File(resourceFolder.getAbsolutePath() + "/example.qls");
-        File formExportFile = new File(resourceFolder.getAbsolutePath() + "/export.json");
-        try {
-            formExportFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        VBox vBox = new VBox();
 
-        try {
-            this.qlEvaluator = new QLEvaluator(new FileInputStream(qlFile));
+        // File open/save menu
+        MenuBar menuBar = createMenuBar(primaryStage);
 
-            // Check for warning messages
-            Set<String> warnings = qlEvaluator.getWarnings();
-            if (!warnings.isEmpty()) {
-                showWarningAlert(String.join("\n", warnings));
+        vBox.getChildren().add(menuBar);
+        vBox.getChildren().add(formArea);
+
+        // Make the form area grow with the size of the window
+        VBox.setVgrow(formArea, Priority.ALWAYS);
+
+        Scene scene = new Scene(vBox);
+        primaryStage.setTitle("Form");
+        primaryStage.setScene(scene);
+        primaryStage.setWidth(640);
+        primaryStage.setHeight(480);
+        primaryStage.show();
+    }
+
+    private void render(Stage primaryStage) {
+        try {
+            if(this.qlFile != null){
+                this.qlEvaluator = new QLEvaluator(new FileInputStream(this.qlFile));
+
+                // Check for warning messages
+                Set<String> warnings = qlEvaluator.getWarnings();
+                if (!warnings.isEmpty()) {
+                    showWarningAlert(String.join("\n", warnings));
+                }
+
+                if(this.qlsFile != null){
+                    QLSFormBuilder qlsFormBuilder = new QLSFormBuilder(qlEvaluator.getForm());
+                    this.qlsStyleSheet = qlsFormBuilder.parseStyleSheet(new FileInputStream(qlsFile));
+                }
+
+                buildQuestions(primaryStage);
+                primaryStage.show();
             }
-
-            QLSFormBuilder qlsFormBuilder = new QLSFormBuilder(qlEvaluator.getForm());
-            this.qlsStyleSheet = qlsFormBuilder.parseStyleSheet(new FileInputStream(qlsFile));
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
             return;
@@ -69,24 +99,9 @@ public class Renderer extends Application {
             showErrorAlert(e, "Error while parsing form file");
             return;
         }
-
-        buildQuestions(primaryStage);
-
-        // TODO move to a better place
-//        try {
-//            System.out.println("exporting1");
-//            SymbolTableExporter.export(symbolTable, formExportFile);
-//        } catch (FileNotFoundException e) {
-//            showErrorAlert(e, "Could not write to export file, check file permissions.");
-//        }
-
-        primaryStage.show();
     }
 
     public void buildQuestions(Stage primaryStage) {
-        // Set locale to US such that DecimalFormat, such as in a spinner, always uses dots instead of commas
-        Locale.setDefault(Locale.US);
-
         GUIFormBuilder guiFormBuilder = new GUIFormBuilder();
 
         GUIForm guiForm;
@@ -98,33 +113,52 @@ public class Renderer extends Application {
 
         GUIController guiController = new GUIController(qlEvaluator);
 
-        VBox vBox = new VBox();
+        formArea.getChildren().clear();
+        formArea.getChildren().add(guiForm.render(guiController));
+    }
 
-        // File open/save menu
+    private MenuBar createMenuBar(Stage primaryStage){
         Menu fileMenu = new Menu("File");
         MenuItem loadQlFile = new MenuItem("Load QL file");
         MenuItem loadQlsFile = new MenuItem("Load QLS file");
         MenuItem exportResults = new MenuItem("Export results");
+
+        loadQlFile.setOnAction(e -> {
+            loadQLClicked(primaryStage);
+            render(primaryStage);
+        });
+
+        loadQlsFile.setOnAction(e -> {
+            loadQLSClicked(primaryStage);
+            render(primaryStage);
+        });
 
         exportResults.setOnAction(event -> {
             this.saveClicked(primaryStage);
         });
 
         fileMenu.getItems().addAll(loadQlFile, loadQlsFile, exportResults);
+        return new MenuBar(fileMenu);
+    }
 
-        vBox.getChildren().add(new MenuBar(fileMenu));
-        vBox.getChildren().add(guiForm.render(guiController));
+    private void loadQLClicked(Stage primaryStage){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(resourceFolder);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("QL File (*.ql)", "*.ql"));
+        this.qlFile = fileChooser.showOpenDialog(primaryStage);
+    }
 
-        Scene scene = new Scene(vBox);
-        primaryStage.setTitle(qlEvaluator.getIdentifier());
-        primaryStage.setScene(scene);
-        primaryStage.setWidth(640);
-        primaryStage.setHeight(480);
-        primaryStage.show();
+    private void loadQLSClicked(Stage primaryStage){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(resourceFolder);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("QLS File (*.qls)", "*.qls"));
+        this.qlsFile = fileChooser.showOpenDialog(primaryStage);
     }
 
     private void saveClicked(Stage primaryStage) {
         FileChooser fileChooser = new FileChooser();
+        String homeDirectory = System.getProperty("user.home") + "/Desktop";
+        fileChooser.setInitialDirectory(new File(homeDirectory));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT Files (*.txt)", "*.txt"));
         File exportFile = fileChooser.showSaveDialog(primaryStage);
 

@@ -1,6 +1,6 @@
-package gui.elements.widgets.textbox;
+package gui.components.widgets.textbox;
 
-import gui.elements.widgets.GUIWidget;
+import gui.components.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;

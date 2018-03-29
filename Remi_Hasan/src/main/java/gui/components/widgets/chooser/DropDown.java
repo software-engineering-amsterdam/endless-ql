@@ -1,6 +1,6 @@
-package gui.elements.widgets.chooser;
+package gui.components.widgets.chooser;
 
-import gui.elements.widgets.GUIWidget;
+import gui.components.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;

@@ -1,15 +1,36 @@
-package gui.elements.widgets.spinner;
+package gui.components.widgets.date;
 
-import gui.elements.widgets.GUIWidget;
+import gui.components.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
+import javafx.scene.control.DatePicker;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import ql.evaluation.value.Value;
+import ql.model.expression.Expression;
+import ql.model.expression.ReturnType;
+import ql.model.expression.constant.DateConstant;
+import ql.model.expression.constant.UndefinedConstant;
 
-public abstract class Spinner<T> extends javafx.scene.control.Spinner<T> implements GUIWidget {
+public class DateChooser extends DatePicker implements GUIWidget {
 
-    public Spinner() {
-        this.setEditable(true);
+    public DateChooser() {
+        // Do not allow typing, only date selecting using UI element
+        this.getEditor().setDisable(true);
+    }
+
+    @Override
+    public Expression getExpressionValue() {
+        if (this.getValue() == null) {
+            return new UndefinedConstant(ReturnType.DATE);
+        }
+
+        return new DateConstant(this.getValue());
+    }
+
+    @Override
+    public void setValue(Value value) {
+        this.setValue(value.getDateValue());
     }
 
     @Override
@@ -20,11 +41,6 @@ public abstract class Spinner<T> extends javafx.scene.control.Spinner<T> impleme
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
         this.valueProperty().addListener(invalidationListener);
-//        this.getEditor().textProperty().addListener(invalidationListener);
-//        final Spinner spinner = this;
-//        this.getEditor().setOnAction(e->{
-//            invalidationListener.invalidated(spinner.valueProperty());
-//        });
     }
 
     @Override
@@ -49,4 +65,3 @@ public abstract class Spinner<T> extends javafx.scene.control.Spinner<T> impleme
         this.setPrefWidth(width);
     }
 }
-

@@ -1,6 +1,6 @@
-package gui.elements.widgets.slider;
+package gui.components.widgets.slider;
 
-import gui.elements.widgets.GUIWidget;
+import gui.components.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.geometry.Insets;
 import javafx.scene.Node;

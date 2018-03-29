@@ -1,4 +1,4 @@
-package gui.elements.widgets;
+package gui.components.widgets;
 
 import javafx.scene.control.TextFormatter;
 

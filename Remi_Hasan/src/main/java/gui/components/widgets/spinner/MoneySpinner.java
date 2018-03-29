@@ -1,6 +1,6 @@
-package gui.elements.widgets.spinner;
+package gui.components.widgets.spinner;
 
-import gui.elements.widgets.WidgetUtils;
+import gui.components.widgets.WidgetUtils;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.constant.MoneyConstant;

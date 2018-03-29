@@ -1,4 +1,4 @@
-package gui.elements.widgets.slider;
+package gui.components.widgets.slider;
 
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;

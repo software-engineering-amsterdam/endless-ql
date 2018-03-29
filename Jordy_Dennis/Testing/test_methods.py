@@ -45,6 +45,18 @@ def getQLSAstFromString(inputText):
     qlsAST = qlsVisitor.stylesheet
     return qlsAST
 
+# apply the lexer to a string, in order to test the lexer
+def getLexerFromStringQLS(inputText):
+    input_stream = InputStream(inputText)
+    lexer = QLSGrammarLexer(input_stream)
+    token_stream = CommonTokenStream(lexer)
+    parser = QLSGrammarParser(token_stream)
+    parser._listeners = [MyErrorListener()]
+
+    tree = parser.form()
+    tree_str = tree.toStringTree(recog=parser)
+    return str(tree_str)
+
 
 
 # apply the lexer to a string, in order to test the lexer

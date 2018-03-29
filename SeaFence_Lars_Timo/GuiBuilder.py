@@ -90,23 +90,28 @@ class GuiBuilder(object):
                 if self.checkExpressionValues(expression.left) and self.checkExpressionValues(expression.right):
                     return True
 
-            if expression.op == "||":
+            elif expression.op == "||":
                 if self.checkExpressionValues(expression.left) or self.checkExpressionValues(expression.right):
                     return True
 
             else:
                 left = self.parseBinOpAssignment(expression.left)
                 right = self.parseBinOpAssignment(expression.right)
-                result = self.getOperator(expression.op)(left, right)
+
+                if expression.op != "/" or (expression.op == "/" and right != 0):
+                    result = self.getOperator(expression.op)(left, right)
+                else:
+                    result = 0
+
                 return result
 
-        if type(expression) is UnOpNode:
+        if type(expression) is UnOpNode and expression.variable in self.gui.values:
             if expression.negate == False and (self.gui.values[expression.variable].get() == "0" or self.gui.values[expression.variable].get() == "Yes"):
                 return True
             elif expression.negate and (self.gui.values[expression.variable].get() == "1" or self.gui.values[expression.variable].get() == "No"):
                 return True
 
-        if type(expression) is LiteralNode:
+        if type(expression) is LiteralNode and expression.variable in self.gui.values:
             if expression.variable_type == u"int":
                 if not expression.negate and int(expression.literal) == 1:
                     return True
@@ -127,11 +132,13 @@ class GuiBuilder(object):
             right = self.parseBinOpAssignment(statement.right)
             return self.getOperator(statement.op)(left, right)
 
-        if type(statement) is UnOpNode:
+        if type(statement) is UnOpNode and statement.variable in self.gui.values:
             return self.gui.getValue(statement.variable, "int")
 
         if type(statement) is LiteralNode:
             return int(statement.literal)
+
+        return 0
 
     def renderWidgets(self):
         self.rendering = True

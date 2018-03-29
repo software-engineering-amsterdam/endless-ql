@@ -42,7 +42,7 @@ def main(argv):
 
         builder = GuiBuilder(ql_ast, qls_ast)
     else:
-        builder- GuiBuilder(qls_ast)
+        builder = GuiBuilder(ql_ast)
 
     
     builder.gui.window.mainloop()

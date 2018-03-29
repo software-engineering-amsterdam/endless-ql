@@ -1,10 +1,10 @@
 package ql.analysis;
 
-import ql.QLVisitor;
 import ql.model.Form;
 import ql.model.expression.Expression;
-import ql.model.expression.ExpressionIdentifier;
+import ql.model.expression.Identifier;
 import ql.model.statement.Question;
+import ql.visitor.QLVisitor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +32,7 @@ public class IdentifiersCollector {
 
         form.accept(new QLVisitor<Void>() {
             @Override
-            public Void visit(ExpressionIdentifier expression) {
+            public Void visit(Identifier expression) {
                 referencedIdentifiers.add(expression.getIdentifier());
                 return super.visit(expression);
             }
@@ -47,7 +47,7 @@ public class IdentifiersCollector {
 
         expression.accept(new QLVisitor<Void>() {
             @Override
-            public Void visit(ExpressionIdentifier expression) {
+            public Void visit(Identifier expression) {
                 referencedIdentifiers.add(expression.getIdentifier());
                 return super.visit(expression);
             }

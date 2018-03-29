@@ -3,10 +3,10 @@ package gui.builder;
 import gui.model.GUIElement;
 import gui.model.GUIQuestion;
 import gui.model.GUISection;
-import qls.QLSVisitor;
 import qls.model.statement.DefaultStyle;
 import qls.model.statement.Section;
 import qls.model.statement.Statement;
+import qls.visitor.QLSVisitor;
 
 import java.util.ArrayList;
 import java.util.List;

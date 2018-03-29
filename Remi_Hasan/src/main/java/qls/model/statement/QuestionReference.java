@@ -1,7 +1,7 @@
 package qls.model.statement;
 
-import qls.IQLSVisitor;
 import qls.model.widget.Widget;
+import qls.visitor.IQLSVisitor;
 
 public class QuestionReference extends Statement {
 

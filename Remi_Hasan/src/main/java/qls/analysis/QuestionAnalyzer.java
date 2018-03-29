@@ -2,9 +2,9 @@ package qls.analysis;
 
 import ql.analysis.IdentifiersCollector;
 import ql.model.Form;
-import qls.QLSVisitor;
 import qls.model.StyleSheet;
 import qls.model.statement.QuestionReference;
+import qls.visitor.QLSVisitor;
 
 import java.util.ArrayList;
 import java.util.HashSet;

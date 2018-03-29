@@ -1,12 +1,12 @@
 package ql.evaluation;
 
-import ql.QLVisitor;
 import ql.model.Form;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
-import ql.model.expression.variable.ExpressionVariableBoolean;
-import ql.model.expression.variable.ExpressionVariableUndefined;
+import ql.model.expression.constant.BooleanConstant;
+import ql.model.expression.constant.UndefinedConstant;
 import ql.model.statement.Question;
+import ql.visitor.QLVisitor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,10 +26,10 @@ public class SymbolTable {
                 if (question.isComputed()) {
                     table.put(question.getIdentifier(), question.getComputedAnswer());
                 } else if (question.getType().equals(ReturnType.BOOLEAN)) {
-                    table.put(question.getIdentifier(), new ExpressionVariableBoolean(false));
+                    table.put(question.getIdentifier(), new BooleanConstant(false));
                 } else {
                     // Not a computed question, so it is undefined until it is set by the user
-                    Expression expression = new ExpressionVariableUndefined(question.getType());
+                    Expression expression = new UndefinedConstant(question.getType());
                     expression.setToken(question.getToken());
                     table.put(question.getIdentifier(), expression);
                 }

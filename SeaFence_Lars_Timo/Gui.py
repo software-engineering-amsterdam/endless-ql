@@ -70,7 +70,7 @@ class Gui():
         label = tk.Label(frame, text=question, height=2, font=font_options, fg=color)
         label.pack(side=LEFT)
 
-        spin_box = tk.Spinbox(frame, from_=min, to=max, font=font_options, fg=color, textvariable=var, state='readonly')
+        spin_box = tk.Spinbox(frame, from_=min, to=max, font=font_options, fg=color, textvariable=var)
         spin_box.pack(side=LEFT)
 
         self.frames[widget_var] = frame

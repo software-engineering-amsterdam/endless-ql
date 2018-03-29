@@ -17,7 +17,7 @@ form taxOfficeExample
     		 "Value residue:" valueResidue: int = privateDebt + privateDebt
 
   	}
-	
+	/*
 
  	if (hasBoughtHouse)
   	{
@@ -32,5 +32,6 @@ form taxOfficeExample
 
 	"Did you enter a loan?"
     		hasMaint2Loan: boolean
+*/
 
 }

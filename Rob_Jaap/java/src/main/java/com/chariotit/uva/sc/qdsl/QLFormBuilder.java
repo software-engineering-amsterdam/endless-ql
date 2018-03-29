@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Document;
 import javax.swing.text.NumberFormatter;
 
-import com.chariotit.uva.sc.qdsl.ast.ExpressionType;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTableEntry;

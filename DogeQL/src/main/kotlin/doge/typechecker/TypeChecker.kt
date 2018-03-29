@@ -6,27 +6,19 @@ import doge.typechecker.circular.CircularDependencyVisitor
 import doge.typechecker.circular.QuestionLookupVisitor
 import doge.typechecker.duplication.DuplicateQuestionVisitor
 import doge.typechecker.duplication.DuplicationErrorContext
+import doge.typechecker.scope.ScopeErrorContext
+import doge.typechecker.scope.ScopeVisitor
 
 class TypeChecker(private val fileName: String, private val root: QLNode) {
 
     fun check() {
-        checkDuplicates().takeIf { it.hasErrors() }?.apply {
-            val errors = collect()
-            val formattedErrors = collectFormattedErrors(errors)
+        val duplicateErrors = checkDuplicates().collect()
+        val circularErrors = checkCircularDependencies().collect()
+        val undefinedErrors = checkUndefinedReferences().collect()
+        val allErrors = duplicateErrors + circularErrors + undefinedErrors
+        val formattedErrors = collectFormattedErrors(allErrors)
 
-            formattedErrors.forEach { println(it) }
-
-            return
-        }
-
-        checkCircularDependencies().takeIf { it.hasErrors() }?.apply {
-            val errors = collect()
-            val formattedErrors = collectFormattedErrors(errors)
-
-            formattedErrors.forEach { println(it) }
-
-            return
-        }
+        formattedErrors.forEach { println(it) }
     }
 
     private fun checkDuplicates(): DuplicationErrorContext {
@@ -43,6 +35,12 @@ class TypeChecker(private val fileName: String, private val root: QLNode) {
         }
     }
 
+    private fun checkUndefinedReferences(): ScopeErrorContext {
+        return ScopeErrorContext().apply {
+            ScopeVisitor(this).visit(root)
+        }
+    }
+
     private fun collectFormattedErrors(errors: List<String>): List<String> {
         val indexTextLength = errors.size.toString().length
 
@@ -52,7 +50,5 @@ class TypeChecker(private val fileName: String, private val root: QLNode) {
             errorFormat.format(index + 1, errors.size, error)
         }
     }
-
-    private fun fileStream() = javaClass.getResource(fileName).openStream()
 
 }

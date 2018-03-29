@@ -15,10 +15,6 @@ class AssignmentNode:
         self.line = line
         self.nodeType = "Assignment"
 
-    # TODO, check if this can be removed?
-    def changeValue(self, value):
-        pass
-
     """
         Check the types of the expression, and check if the expression has the same type as the assignment.
         This only works if both types are the same, OR if the expression is of type integer and the varNode is of type float.

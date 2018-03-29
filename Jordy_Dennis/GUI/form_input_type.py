@@ -1,5 +1,5 @@
 """
-Class that controls the widgets as well as the tracing of the widgets.
+Class that controls the widgets as well as the tracing of the variables in the widgets.
 It returns the widget based on the requested type, and checks these widgets for correct input
 """
 
@@ -96,6 +96,7 @@ class InputTypeMap:
 
     """
         Return float textbox widget (same as string but a different validation method)
+        in case of spinbox and slider, kwargs must contain: minVal, maxVal
     """
     def returnFloat(self, widgetType, **kwargs):
         var = None
@@ -113,8 +114,8 @@ class InputTypeMap:
         elif widgetType == "slider":
             var = DoubleVar()
             var.trace('w', lambda nm, idx, mode, var=var: self.validateSpinbox(var))
-            w = Scale(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'], \
-                variable=var, orient=HORIZONTAL, digits = 4, resolution = 0.2)
+            w = Scale(self.parent, from_=kwargs['minVal'], to=kwargs['maxVal'],
+                      variable=var, orient=HORIZONTAL, digits = 4, resolution = 0.2)
         else:
             throwError("Unknown widget type: " + widgetType)
         w.pack(fill='x')
@@ -130,7 +131,6 @@ class InputTypeMap:
         newVal = var.get()
         if type(newVal) != bool:
             newVal = bool(newVal)
-        print(newVal)
         # save value in vardict
         varNode = self.varDict[self.varName]['node']
         varNode.setVar(newVal)
@@ -166,10 +166,10 @@ class InputTypeMap:
         varNode.setVar(newVal)
         self.setNodeValue(newVal)
         # update_questions
-        if(self.init == False):
+        if self.init == False:
             self.questionGenerator.updateQuestions()
         else:
-            self.init = True
+            self.init = False
 
     """
         Update the Int value in the AST, and update the questions, also validate if the
@@ -180,9 +180,9 @@ class InputTypeMap:
         newVal = var.get()
         try:
             newVal == '' or newVal == '-' or int(newVal)
-            if (newVal == '-'):
+            if newVal == '-':
                 newVal = -0.0
-            if (newVal == ''):
+            if newVal == '':
                 newVal = 0
             newVal = int(newVal)
             # save value in vardict
@@ -203,12 +203,11 @@ class InputTypeMap:
 
     def validateFloat(self, var):
         newVal = var.get()
-        print(newVal)
         try:
             newVal == '' or newVal == '-' or float(newVal)
-            if (newVal == '-'):
+            if newVal == '-':
                 newVal = -0.0
-            elif (newVal == ''):
+            elif newVal == '':
                 newVal = 0
             newVal = float(newVal)
             # save value in vardict

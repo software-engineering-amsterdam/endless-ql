@@ -1,5 +1,6 @@
 package nl.uva.se.sc.niro.gui.control
 
+import java.math.BigInteger
 import java.time.LocalDate
 
 import javafx.scene.control._
@@ -42,54 +43,69 @@ abstract class Component[T](id: String, label: Label, control: QLWidget[_]) exte
 
 case class StringComponent(id: String, label: Label, control: QLWidget[String])
     extends Component[String](id, label, control) {
-  override def getValue: Option[StringAnswer] = Option(control.getValue).map(StringAnswer)
-  override def setValue(value: Option[String]): Unit = control.setValue(fromOption(value))
+  override def getValue: Option[StringAnswer] = Option(control.value).map(StringAnswer(_))
+  override def setValue(value: Option[String]): Unit = control.value(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).flatMap(answer => Option(answer).map(_.value.toString).filter(_.nonEmpty)))
+    setValue(dictionary.get(id).flatMap(_.possibleValue.map(_.toString).filter(_.nonEmpty)))
   private def fromOption(value: Option[String]): String = value.orNull
 }
 
 case class BooleanComponent(id: String, label: Label, control: QLWidget[Boolean])
     extends Component[Boolean](id, label, control) {
-  override def getValue: Option[BooleanAnswer] = Option(control.getValue).map(BooleanAnswer)
-  override def setValue(value: Option[Boolean]): Unit = control.setValue(fromOption(value))
+  override def getValue: Option[BooleanAnswer] = Option(control.value).map(BooleanAnswer(_))
+  override def setValue(value: Option[Boolean]): Unit = control.value(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).map(_.value.asInstanceOf[Boolean]))
+    setValue(dictionary.get(id).flatMap(convert))
   private def fromOption(value: Option[Boolean]): Boolean = value.getOrElse(false)
+  def convert(answer: Answer): Option[Boolean] = answer match {
+    case BooleanAnswer(value) => value
+  }
 }
 
 case class DateComponent(id: String, label: Label, control: QLWidget[LocalDate])
     extends Component[LocalDate](id, label, control) {
-  override def getValue: Option[DateAnswer] = Option(control.getValue).map(DateAnswer(_))
-  override def setValue(value: Option[LocalDate]): Unit = control.setValue(fromOption(value))
+  override def getValue: Option[DateAnswer] = Option(control.value).map(DateAnswer(_))
+  override def setValue(value: Option[LocalDate]): Unit = control.value(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).map(_.value.asInstanceOf[LocalDate]))
+    setValue(dictionary.get(id).flatMap(convert))
   private def fromOption(value: Option[LocalDate]): LocalDate = value.orNull
+  def convert(answer: Answer): Option[LocalDate] = answer match {
+    case DateAnswer(value) => value
+  }
 }
 
-case class IntegerComponent(id: String, label: Label, control: QLWidget[Integer])
-    extends Component[Int](id, label, control) {
-  override def getValue: Option[IntegerAnswer] = Option(control.getValue).map(IntegerAnswer(_))
-  override def setValue(value: Option[Int]): Unit = control.setValue(fromOption(value))
+case class IntegerComponent(id: String, label: Label, control: QLWidget[java.math.BigInteger])
+    extends Component[BigInt](id, label, control) {
+  override def getValue: Option[IntegerAnswer] = Option(control.value).map(IntegerAnswer(_))
+  override def setValue(value: Option[BigInt]): Unit = control.value(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).map(_.value.asInstanceOf[Int]))
-  private def fromOption(value: Option[Int]): java.lang.Integer = value.map(new Integer(_)).orNull
+    setValue(dictionary.get(id).flatMap(convert))
+  private def fromOption(value: Option[BigInt]): java.math.BigInteger = value.map(_.bigInteger).orNull
+  def convert(answer: Answer): Option[BigInt] = answer match {
+    case IntegerAnswer(value) => value
+  }
 }
 
 case class DecimalComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
     extends Component[BigDecimal](id, label, control) {
-  override def getValue: Option[DecimalAnswer] = Option(control.getValue).map(DecimalAnswer(_))
-  override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
+  override def getValue: Option[DecimalAnswer] = Option(control.value).map(DecimalAnswer(_))
+  override def setValue(value: Option[BigDecimal]): Unit = control.value(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).map(_.value.asInstanceOf[BigDecimal]))
+    setValue(dictionary.get(id).flatMap(convert))
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal = value.map(_.bigDecimal).orNull
+  def convert(answer: Answer): Option[BigDecimal] = answer match {
+    case DecimalAnswer(value) => value
+  }
 }
 
 case class MoneyComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
     extends Component[BigDecimal](id, label, control) {
-  override def getValue: Option[MoneyAnswer] = Option(control.getValue).map(MoneyAnswer(_))
-  override def setValue(value: Option[BigDecimal]): Unit = control.setValue(fromOption(value))
+  override def getValue: Option[MoneyAnswer] = Option(control.value).map(MoneyAnswer(_))
+  override def setValue(value: Option[BigDecimal]): Unit = control.value(fromOption(value))
   override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).map(_.value.asInstanceOf[BigDecimal]))
+    setValue(dictionary.get(id).flatMap(convert))
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal = value.map(_.bigDecimal).orNull
+  def convert(answer: Answer): Option[BigDecimal] = answer match {
+    case MoneyAnswer(value) => value
+  }
 }

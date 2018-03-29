@@ -4,10 +4,10 @@ import java.util.function.UnaryOperator
 
 import javafx.scene.control.TextFormatter
 import javafx.util.StringConverter
-import javafx.util.converter.{ BigDecimalStringConverter, IntegerStringConverter }
+import javafx.util.converter.{ BigDecimalStringConverter, BigIntegerStringConverter }
 
-class TextFormatterBuilder[T] {
-  private var converter: StringConverter[_] = _
+abstract class TextFormatterBuilder[T] {
+  protected var converter: StringConverter[T] = _
   private var inputFilter: UnaryOperator[TextFormatter.Change] = _
   private var defaultValue: T = _
 
@@ -16,25 +16,35 @@ class TextFormatterBuilder[T] {
     this
   }
 
-  def buildIntegerConverter(): TextFormatterBuilder[T] = {
-    converter = new IntegerStringConverter()
-    this
-  }
-
-  def buildDecimalConverter(): TextFormatterBuilder[T] = {
-    converter = new BigDecimalStringConverter()
-    this
-  }
-
   def buildDefaultValue(defaultValue: T): TextFormatterBuilder[T] = {
     this.defaultValue = defaultValue
     this
   }
 
+  def buildConverter(): TextFormatterBuilder[T]
+
   def build(): TextFormatter[T] =
-    new TextFormatter[T](converter.asInstanceOf[StringConverter[T]], defaultValue, inputFilter)
+    new TextFormatter[T](converter, defaultValue, inputFilter)
 }
 
-object TextFormatterBuilder {
-  def apply[T]() = new TextFormatterBuilder[T]()
+class IntegerFormatterBuilder extends TextFormatterBuilder[java.math.BigInteger] {
+  override def buildConverter(): TextFormatterBuilder[java.math.BigInteger] = {
+    converter = new BigIntegerStringConverter()
+    this
+  }
+}
+
+object IntegerFormatterBuilder {
+  def apply() = new IntegerFormatterBuilder()
+}
+
+class DecimalFormatterBuilder extends TextFormatterBuilder[java.math.BigDecimal] {
+  override def buildConverter(): TextFormatterBuilder[java.math.BigDecimal] = {
+    converter = new BigDecimalStringConverter()
+    this
+  }
+}
+
+object DecimalFormatterBuilder {
+  def apply() = new DecimalFormatterBuilder()
 }

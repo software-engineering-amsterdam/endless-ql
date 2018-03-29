@@ -21,37 +21,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Main {
-
-    // Temp method to create questions
-    private HashMap<String, Question> getQuestionTemp() {
-        LinkedHashMap<String, Question> questionHashMap = new LinkedHashMap<String, Question>();
-        questionHashMap.put("1", new Question("Is this a question?", new BooleanValue(), false, true));
-        questionHashMap.put("2", new Question("Is this a question?", new StringValue(), false, true));
-        questionHashMap.put("3", new Question("Is this a question?", new IntegerValue(), false, true));
-        questionHashMap.put("4", new Question("Is this a question?", new DateValue(), false, true));
-        return questionHashMap;
-    }
-
-    private void printQuestionMap(HashMap<String, Question> memory){
-        //Test output
-        for (Map.Entry e : memory.entrySet()) {
-            Question q = (Question) e.getValue();
-            String id = (String) e.getKey();
-            System.out.println(id + ":\t" + q) ;
-        }
-    }
-
+    
     /**
      * parseAndBuildQL() method
+     *
      * @param inputStream fileInput (Ql)
      */
-    private void parseAndBuildQL(InputStream inputStream){
-        try{
+    private void parseAndBuildQL(InputStream inputStream) {
+        try {
             QLParser.FormContext form = new TreeBuilder().build(inputStream);
             Checks.checkForm(form);
             FormVisitor coreVisitor = new FormVisitor(form);
             //Pass the relevant questions to the UI builder
-            printQuestionMap(coreVisitor.questionMap);
             FormBuilder formBuilder = new FormBuilder(coreVisitor);
             formBuilder.initComponents();
         } catch (IOException e) {
@@ -61,17 +42,28 @@ public class Main {
 
     /**
      * parseAndBuildQLS() method
-     * @param inputStream fileInput (Qls)
-     */
-    private void parseAndBuildQLS(InputStream inputStream) {
-        try{
-            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(inputStream);
+     *
+     * */
+    private void parseAndBuildQLS() {
+        try {
+            // QL
+            FileInputStream qlInputStream = new FileInputStream("/home/ajm/Desktop/newEndless/endless-ql/Abel_Elias/resources/QL/exampleForm4.ql");
+            QLParser.FormContext form = new TreeBuilder().build(qlInputStream);
+            Checks.checkForm(form);
+            FormVisitor coreVisitor = new FormVisitor(form);
+
+            // QLS
+            FileInputStream qlsInputStream = new FileInputStream("/home/ajm/Desktop/newEndless/endless-ql/Abel_Elias/resources/QLS/exampleForm5.qls");
+            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor();
-            Stylesheet stylesheet = stylesheetVisitor.visitStylesheet(stylesheetContext);
+            stylesheetVisitor.visitStylesheet(stylesheetContext);
 
-            //StylesheetEvaluator evaluator = new StylesheetEvaluator(stylesheet);
+            //Evaluate
+//            TestPrinter testprinter = new TestPrinter();
+//            testprinter.printQLSStyleSheet(stylesheet);
 
-            System.out.println("Stylesheet constructed");
+            FormBuilder formBuilder = new FormBuilder(coreVisitor, stylesheetVisitor);
+            formBuilder.initComponents();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,37 +74,28 @@ public class Main {
         int i = fileName.lastIndexOf('.');
         int p = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
         if (i > p) {
-            return fileName.substring(i+1);
-        } else
-        {
+            return fileName.substring(i + 1);
+        } else {
             return "";
         }
     }
 
     /**
      * Main method
+     *
      * @param args given arguments
      */
     public static void main(String[] args) {
-        try{
-            if(args.length == 0){
-                new Main().parseAndBuildQL(System.in);
+        try {
+            if (args.length == 0) {
+                new Main().parseAndBuildQLS();
             } else if (args.length == 1) {
-                FileInputStream fileInputStream = new FileInputStream(args[0]);
-                if(getFileExtension(args[0]).equals("ql")) {
+                    FileInputStream fileInputStream = new FileInputStream(args[0]);
                     new Main().parseAndBuildQL(fileInputStream);
-                } else if (getFileExtension(args[0]).equals("qls")) {
-                    new Main().parseAndBuildQLS(fileInputStream);
-                } else {
-                    System.out.println("Invalid file type");
-                }
-            } else {
-                System.out.println("Invalid arguments were given");
             }
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
         }
-
     }
 
 }

@@ -112,7 +112,7 @@ lineTerminator  = "\n" / "\r\n" / "\r" / "\u2028" / "\u2029"
 
 number          = val:([0-9]+) {return new astQls.NumberValue(parseInt(text(), 10));}
 hex             = "#" [0-9A-F][0-9A-F] [0-9A-F][0-9A-F] [0-9A-F][0-9A-F] {
-                    return new astQls.RgbValue(text());
+                    return new astQls.HexValue(text());
                   }
 word            = [a-zA-Z0-9\:\?\\\/\.\,\;\!]+ {return text();}
 ascii           = [a-zA-Z]+ {return new astQls.StringValue(text());}
@@ -125,13 +125,15 @@ dateType        = "date" { return new DateQuestionType(); }
 
 //widgets
 radioWidget     = "radio" whitespace "(\"" yesValue:identifier "\"," whitespace "\"" noValue:identifier "\")" {
-                    return new astQls.Widget(astQls.WidgetType.RADIO, [yesValue, noValue]);
+                    return new astQls.Widget(astQls.WidgetType.RADIO,
+                    [new astQls.Label(yesValue, true), new astQls.Label(noValue, false)]);
                   }
 textWidget      = "text" { return new astQls.Widget(astQls.WidgetType.TEXT); }
 checkboxWidget  = "checkbox" { return new astQls.Widget(astQls.WidgetType.CHECKBOX); }
 spinboxWidget   = "spinbox" { return new astQls.Widget(astQls.WidgetType.SPINBOX); }
 dropdownWidget  = "dropdown" whitespace "(\"" yesValue:identifier "\"," whitespace "\"" noValue:identifier "\")" {
-                    return new astQls.Widget(astQls.WidgetType.DROPDOWN, [yesValue, noValue]);
+                    return new astQls.Widget(astQls.WidgetType.DROPDOWN,
+                    [new astQls.Label(yesValue, true), new astQls.Label(noValue, false)]);
                   }
 sliderWidget    = "slider" { return new astQls.Widget(astQls.WidgetType.SLIDER); }
 

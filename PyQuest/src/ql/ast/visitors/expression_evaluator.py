@@ -1,7 +1,7 @@
-from ql.ast.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
-from ql.ast.expressions.unary_operators.unary_operator import UnaryOperatorNode
-from ql.ast.expressions.literals.literal_node import LiteralNode
-from ql.ast.expressions.variable_node import VariableNode
+from ql.ast.nodes.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
+from ql.ast.nodes.expressions.unary_operators.unary_operator_node import UnaryOperatorNode
+from ql.ast.nodes.expressions.literals.literal_node import LiteralNode
+from ql.ast.nodes.expressions.variable_node import VariableNode
 from multimethods import multimethod
 
 
@@ -32,3 +32,4 @@ class ExpressionEvaluator:
         for question in self.form.block:
             if node.identifier == question.identifier:
                 node.value = question.answer.value
+                self.result = node.value

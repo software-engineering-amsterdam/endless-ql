@@ -6,12 +6,12 @@ import org.uva.sc.cr.ql.qL.Question
 
 class ControlWrapperText extends ControlWrapper {
 
-	private var TextField control
+	var TextField control
 
 	new(Question question, StringBinding binding) {
 		super(question, binding)
 		if (question.expression !== null) {
-			control.textProperty.bind(binding)
+			control.textProperty().bind(binding)
 		}
 	}
 
@@ -24,7 +24,7 @@ class ControlWrapperText extends ControlWrapper {
 	}
 
 	override protected buildControl() {
-		control = new TextField
+		control = new TextField()
 	}
 
 }

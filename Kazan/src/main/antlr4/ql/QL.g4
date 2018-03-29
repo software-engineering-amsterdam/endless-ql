@@ -27,7 +27,7 @@ elseBlock           : 'else' block;
 
 expression          : LEFTPARENTHESES expression RIGHTPARENTHESES           #nestedExpression
                     | unaryOperator expression                              #unaryExpression
-                    | left=expression arithmeticOperator right=expression   #arithMeticBinary
+                    | left=expression arithmeticOperator right=expression   #arithmeticBinary
                     | left=expression relationalOperator right=expression   #relationalBinary
                     | left=expression logicalOperator right=expression      #logicalBinary
                     | value                                                 #expressionValue
@@ -57,21 +57,21 @@ logicalOperator     : AND
                     | OR
                     ;
 
-value               : BOOLEANLITERAL                                #booleanLiteral
-                    | INTEGERLITERAL                                #integerLiteral
-                    | STRINGLITERAL                                 #stringLiteral
-                    | MONEYLITERAL                                  #moneyLiteral
-                    | DECIMALLITERAL                                #decimalLiteral
-                    | DATELITERAL                                   #dateLiteral
-                    | IDENTIFIER                                    #variable
+value               : BOOLEANLITERAL                                        #booleanLiteral
+                    | INTEGERLITERAL                                        #integerLiteral
+                    | STRINGLITERAL                                         #stringLiteral
+                    | MONEYLITERAL                                          #moneyLiteral
+                    | DECIMALLITERAL                                        #decimalLiteral
+                    | DATELITERAL                                           #dateLiteral
+                    | IDENTIFIER                                            #variable
                     ;
 
-type                : 'boolean'                                     #booleanType
-                    | 'integer'                                     #integerType
-                    | 'string'                                      #stringType
-                    | 'money'                                       #moneyType
-                    | 'decimal'                                     #decimalType
-                    | 'date'                                        #dateType
+type                : 'boolean'                                             #booleanType
+                    | 'integer'                                             #integerType
+                    | 'string'                                              #stringType
+                    | 'money'                                               #moneyType
+                    | 'decimal'                                             #decimalType
+                    | 'date'                                                #dateType
                     ;
 
 
@@ -89,7 +89,6 @@ DIGIT               : [0-9];
 
 
 //Operators
-
 //Relational
 LESSTHAN            : '<';
 LESSTHANOREQUAL     : '<=';

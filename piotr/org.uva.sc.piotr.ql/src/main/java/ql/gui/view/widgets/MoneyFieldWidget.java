@@ -19,8 +19,9 @@ public class MoneyFieldWidget extends Widget {
         super(questionModel);
         NumberFormat format = DecimalFormat.getInstance();
         format.setGroupingUsed(false);
+        format.setMinimumFractionDigits(0);
+        format.setMaximumFractionDigits(2);
         NumberFormatter formatter = new NumberFormatter(format);
-        // If you want the value to be committed on each keystroke instead of focus lost
         formatter.setCommitsOnValidEdit(true);
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
@@ -34,9 +35,7 @@ public class MoneyFieldWidget extends Widget {
                 warn();
             }
 
-            public void removeUpdate(DocumentEvent e) {
-                //warn();
-            }
+            public void removeUpdate(DocumentEvent e) { }
 
             public void insertUpdate(DocumentEvent e) {
                 warn();
@@ -70,7 +69,7 @@ public class MoneyFieldWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.field.setValue(this.getQuestionModel().getValue().getDecimalValue());
+        this.field.setValue(this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 
 }

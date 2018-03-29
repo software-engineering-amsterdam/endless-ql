@@ -1,31 +1,17 @@
-import grammar._
-
 import ql.models.ast._
-import ql.visitors._
-import ql.parsers._
-
-import scala.io.Source
+import ql.spec.helpers._
 
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
-import org.scalatest.BeforeAndAfter
 
-import org.antlr.v4.runtime._
-import org.antlr.v4.runtime.tree._
-
-class ParserTypeStringSpec extends FunSpec with BeforeAndAfter {
-  // maybe extract method to general helper class
-  private def getFlattenedForm(location: String): List[ASTNode] = {
-    val form = QlFormParser.parseFromURL(getClass.getResource(location))
-    ASTCollector.flattenNT(form)
-  }
-
+class ParserTypeStringSpec extends FunSpec {
   describe("parsing a form containg a string literal") {
     it("should contain an ASTStringValue") {
-      val result = getFlattenedForm("ql/parser/types/string.ql")
-      val expected = ASTValAssign(ASTStringValue("Amsterdam"))
+      val expressions =
+        FormHelper.getExpressions(getClass.getResource("ql/parser/types/string.ql"))
+      val expected = StringValue("Amsterdam")
 
-      assert(result.filter(x => x == expected).size == 1)
+      expressions should contain(expected)
     }
   }
 }

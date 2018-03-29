@@ -1,12 +1,12 @@
-import Form from "../form/Form";
+import Form from "../form/StatefulForm";
 import { FieldType } from "../form/FieldType";
 import FormNode from "../form/nodes/FormNode";
 import QuestionNode from "../form/nodes/fields/QuestionNode";
 import IfCondition from "../form/nodes/conditions/IfCondition";
 import VariableIdentifier from "../form/nodes/expressions/VariableIdentifier";
-import ComputedField from "../form/nodes/fields/ComputedField";
+import ComputedField from "../form/nodes/fields/ComputedFieldNode";
 import Subtraction from "../form/nodes/expressions/arithmetic/Subtraction";
-import QuestionForm from "../form/QuestionForm";
+import QlForm from "../form/QlForm";
 import FormState from "../form/state/FormState";
 
 /*
@@ -41,4 +41,4 @@ const formNode: FormNode = new FormNode("Box1HouseOwning", [
   ]),
 ]);
 
-export const sampleForm: Form = new QuestionForm(formNode, new FormState(new Map()));
+export const sampleForm: Form = new QlForm(formNode, new FormState(new Map()));

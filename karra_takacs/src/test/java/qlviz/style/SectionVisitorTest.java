@@ -3,7 +3,7 @@ package qlviz.style;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.junit.Assert;
 import org.junit.Test;
-import qlviz.QLSBaseVisitor;
+import qlviz.QLSVisitor;
 import qlviz.QLSParser;
 import qlviz.interpreter.style.SectionVisitor;
 import qlviz.model.style.DefaultWidgetDeclaration;
@@ -24,7 +24,7 @@ public class SectionVisitorTest {
     @Test
     public void testName() {
         // Arrange
-        final String name = "test_name";
+        final String name = "\"test_name\"";
         QLSParser.SectionContext contextMock = mock(QLSParser.SectionContext.class);
         TerminalNode stringMock = mock(TerminalNode.class);
         when(contextMock.question()).thenReturn(new ArrayList<>());
@@ -34,8 +34,8 @@ public class SectionVisitorTest {
         Question questionMock = mock(Question.class);
         DefaultWidgetDeclaration widgetMock = mock(DefaultWidgetDeclaration.class);
 
-        QLSBaseVisitor<Question> questionVisitorMock = mock(QLSBaseVisitor.class);
-        QLSBaseVisitor<DefaultWidgetDeclaration> widgetVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<Question> questionVisitorMock = mock(QLSVisitor.class);
+        QLSVisitor<DefaultWidgetDeclaration> widgetVisitorMock = mock(QLSVisitor.class);
         when(questionVisitorMock.visitQuestion(any())).thenReturn(questionMock);
         when(widgetVisitorMock.visitDefaultWidgetDeclaration(any())).thenReturn(widgetMock);
 
@@ -45,7 +45,7 @@ public class SectionVisitorTest {
         Section result = sectionVisitor.visitSection(contextMock);
 
         // Assert
-        Assert.assertEquals(name, result.getName());
+        Assert.assertEquals("test_name", result.getName());
     }
 
     @Test
@@ -62,8 +62,8 @@ public class SectionVisitorTest {
         Question questionMock = mock(Question.class);
         DefaultWidgetDeclaration widgetMock = mock(DefaultWidgetDeclaration.class);
 
-        QLSBaseVisitor<Question> questionVisitorMock = mock(QLSBaseVisitor.class);
-        QLSBaseVisitor<DefaultWidgetDeclaration> widgetVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<Question> questionVisitorMock = mock(QLSVisitor.class);
+        QLSVisitor<DefaultWidgetDeclaration> widgetVisitorMock = mock(QLSVisitor.class);
         when(questionVisitorMock.visitQuestion(any())).thenReturn(questionMock);
         when(widgetVisitorMock.visitDefaultWidgetDeclaration(any())).thenReturn(widgetMock);
 
@@ -91,8 +91,8 @@ public class SectionVisitorTest {
         Question questionMock = mock(Question.class);
         DefaultWidgetDeclaration widgetMock = mock(DefaultWidgetDeclaration.class);
 
-        QLSBaseVisitor<Question> questionVisitorMock = mock(QLSBaseVisitor.class);
-        QLSBaseVisitor<DefaultWidgetDeclaration> widgetVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<Question> questionVisitorMock = mock(QLSVisitor.class);
+        QLSVisitor<DefaultWidgetDeclaration> widgetVisitorMock = mock(QLSVisitor.class);
         when(questionVisitorMock.visitQuestion(any())).thenReturn(questionMock);
         when(widgetVisitorMock.visitDefaultWidgetDeclaration(any())).thenReturn(widgetMock);
 

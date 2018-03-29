@@ -4,41 +4,41 @@
  */
 
 {
-  // Dictionary of operators to their tsc definition
-  let operations = {
-              //"!"  : Node.Negation,
-              "&&" : Nodes.And,
-              "||" : Nodes.Or,
-              "<=" : Nodes.SmallerThanOrEqual,
-              ">=" : Nodes.LargerThanOrEqual,
-              "!=" : Nodes.NotEqual,
-              "==" : Nodes.Equals,
-              "<"  : Nodes.SmallerThan,
-              ">"  : Nodes.LargerThan,
-              "+"  : Nodes.Addition,
-              "-"  : Nodes.Subtraction,
-              "*"  : Nodes.Multiplication,
-              "/"  : Nodes.Division
-            }
-
-  // Dictionary of types to their tsc definition
-  let types = {
-                  "boolean" : FieldType.Boolean,
-                  "date" : FieldType.Date,
-                  "money" : FieldType.Money,
-                  "integer" : FieldType.Integer,
-                  "decimal" : FieldType.Decimal,
-                  "text" : FieldType.Text,
-                }
-
-  // Building an expression
-  function buildExpression(head, tail) {
-    return tail.reduce(function(left, curr) {
-      const Operation = operations[curr[1]];
-      return new Operation(left, curr[3]);
+    // Dictionary of operators to their tsc definition
+    let operations = {
+        //"!"  : Node.Negation,
+        "&&" : Nodes.And,
+        "||" : Nodes.Or,
+        "<=" : Nodes.SmallerThanOrEqual,
+        ">=" : Nodes.LargerThanOrEqual,
+        "!=" : Nodes.NotEqual,
+        "==" : Nodes.Equals,
+        "<"  : Nodes.SmallerThan,
+        ">"  : Nodes.LargerThan,
+        "+"  : Nodes.Addition,
+        "-"  : Nodes.Subtraction,
+        "*"  : Nodes.Multiplication,
+        "/"  : Nodes.Division
     }
-    , head);
-  }
+
+    // Dictionary of types to their tsc definition
+    let types = {
+        "boolean" : FieldType.Boolean,
+        "date" : FieldType.Date,
+        "money" : FieldType.Money,
+        "integer" : FieldType.Integer,
+        "decimal" : FieldType.Decimal,
+        "text" : FieldType.Text,
+    }
+
+    // Building an expression
+    function buildExpression(head, tail) {
+        return tail.reduce(function(left, curr) {
+          const Operation = operations[curr[1]];
+          return new Operation(left, curr[3]);
+        }
+        , head);
+    }
 
   // Add location to every node
   function processNode(node){
@@ -96,23 +96,28 @@ field
 
 // Returns a list of fields and/or if statements
 block
- = "{" lb* e:(field / if)+ lb* "}" {
-     return e;
+ = "{" lb* body:(field / if)+ lb* "}" lb* {
+     return body;
 }
 
 // Returns a tsc FormNode object
 form
- = formToken _ id:identifier _ block:block lb*{
+ = formToken _ id:identifier _ block:block {
      let formNode = new Nodes.FormNode(id.identifier, block);
      return processNode(formNode);
 }
 
 // Returns a tsc IfCondition object
 if
- = _ ifToken _ predicate:expression _ block:block lb* {
-     let ifNode = new Nodes.IfCondition(predicate, block);
+ = _ ifToken _ predicate:expression _ block:block _ elseBlock:else? lb* {
+     let ifNode = new Nodes.IfCondition(predicate, block, elseBlock);
      return processNode(ifNode);
 }
+
+else
+ = _ elseToken _ block:block lb* {
+    return block
+ }
 
 // Initiates an expression
 expression
@@ -240,7 +245,7 @@ booleanToken
  / "false" !alphabet
 
 ifToken = "if" !alphabet
-
+elseToken = "else" !alphabet
 formToken = "form" !alphabet
 
 keywords = booleanToken

@@ -57,7 +57,7 @@ class QSLValidationTest {
 			  }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.questionReference,
 			QSLValidator.STYLESHEET_QUESTION_MULTIPLE_REFERENCES)
@@ -102,7 +102,7 @@ class QSLValidationTest {
 			  }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.section,
 			QSLValidator.DEFAULT_STYLE_EXISTS_FOR_WIDGET)
@@ -146,7 +146,7 @@ class QSLValidationTest {
 				 }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QSLPackage.eINSTANCE.page,
 			QSLValidator.DEFAULT_STYLE_EXISTS_FOR_WIDGET)
@@ -181,7 +181,7 @@ class QSLValidationTest {
 			  }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		validationTestHelper.assertError(result, QLPackage.eINSTANCE.question, QSLValidator.STYLESHEET_MISSING_QUESTION)
 	}

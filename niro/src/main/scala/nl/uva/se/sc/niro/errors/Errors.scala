@@ -20,7 +20,6 @@ object Errors {
       column: Int,
       offendingSymbol: String,
       errorMessage: String,
-      rules: List[String],
       cause: RecognitionException)
       extends Error {
 

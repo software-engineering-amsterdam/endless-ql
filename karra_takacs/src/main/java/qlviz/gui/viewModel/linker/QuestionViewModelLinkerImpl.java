@@ -1,5 +1,6 @@
 package qlviz.gui.viewModel.linker;
 
+import com.google.inject.Inject;
 import qlviz.gui.viewModel.FormViewModel;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.gui.viewModel.question.BooleanQuestionViewModel;
@@ -15,7 +16,7 @@ public class QuestionViewModelLinkerImpl implements QuestionViewModelLinker {
 
     private final QuestionViewModelCollector typedQuestionCollector;
 
-
+    @Inject
     public QuestionViewModelLinkerImpl(QuestionViewModelCollector typedQuestionCollector) {
         this.typedQuestionCollector = typedQuestionCollector;
     }

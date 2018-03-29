@@ -32,10 +32,10 @@ public class TypeChecker implements IExpressionVisitor<ReturnType> {
         Set<String> duplicates = new HashSet<>();
 
         for (Question question : form.questions) {
-            if (types.containsKey(question.identifier) && types.get(question.identifier) != question.type) {
-                duplicates.add(question.identifier + " " + question.getLocation());
+            if (types.containsKey(question.name) && types.get(question.name) != question.type) {
+                duplicates.add(question.name + " " + question.getLocation());
             } else {
-                types.put(question.identifier, question.type);
+                types.put(question.name, question.type);
             }
         }
 

@@ -7,65 +7,75 @@ import {Form} from '../form';
 import {ExpressionQuestion} from '../expression-question';
 import {CheckExpressionTypeVisitor} from './check-expression-type-visitor';
 import {locationToReadableMessage} from '../../location';
-import {DuplicateIdentifierError, ImpossibleIfConditionError, TypeError, UnknownQuestionError} from '../../../errors';
+import {
+  CircularDependencyError, DuplicateIdentifierError, ImpossibleIfConditionError, TypeError,
+  UnknownQuestionError
+} from '../../../errors';
 import * as _ from 'lodash';
-import {GetStatementVariablesVisitor} from './get-statement-variables-visitor';
-import {GetExpressionVariablesVisitor} from './get-expression-variables-visitor';
+import {CollectStatementVariablesVisitor} from './collect-statement-variables-visitor';
+import {CollectExpressionVariablesVisitor} from './collect-expression-variables-visitor';
+import {CollectQuestionsVisitor} from './collect-questions-visitor';
 
 export class CheckStatementTypeVisitor implements StatementVisitor<void> {
-  private constructor(readonly allQuestions: QlQuestion[]) { }
+  private constructor(readonly allQuestions: ReadonlyArray<QlQuestion>) { }
 
-  static evaluate(allQuestions: QlQuestion[], stmt: Statement): void {
+  static visit(allQuestions: ReadonlyArray<QlQuestion>, statement: Statement): void {
     const visitor = new CheckStatementTypeVisitor(allQuestions);
-    stmt.accept(visitor);
+    statement.accept(visitor);
   }
 
-  visitExpressionQuestion(stmt: ExpressionQuestion): void {
-    const expressionType = CheckExpressionTypeVisitor.evaluate(stmt.expression);
-    if (! stmt.expressionTypeValidForQuestion(expressionType)) {
+  visitExpressionQuestion(statement: ExpressionQuestion): void {
+    const expressionType = CheckExpressionTypeVisitor.evaluate(statement.expression);
+    if (! statement.expressionTypeValidForQuestion(expressionType)) {
       throw new TypeError(`Expression type ${ExpressionTypeUtil.toString(expressionType)} ` +
-        `incompatible with question type ${stmt.type.toString()}`
-        + locationToReadableMessage(stmt.location));
+        `incompatible with question type ${statement.type.toString()}`
+        + locationToReadableMessage(statement.location));
+    }
+
+    const variables = CollectExpressionVariablesVisitor.evaluate(statement.expression);
+    const circularDependency = _.find(variables, ['identifier', statement.name]);
+    if (circularDependency) {
+      throw new CircularDependencyError(`The expression of question ${statement.name} references to itself`);
     }
   }
 
-  visitForm(stmt: Form): void {
-    this.checkDuplicateIdentifiers(this.allQuestions);
-    this.setVariableReferences(this.allQuestions, stmt);
+  visitForm(statement: Form): void {
+    this.checkDuplicateIdentifiers();
+    this.setVariableReferences(statement);
 
-    for (const subStmt of stmt.statements) {
-      subStmt.accept(this);
+    for (const subStatement of statement.statements) {
+      subStatement.accept(this);
     }
   }
 
-  visitIf(stmt: If): void {
-    const expressionType = CheckExpressionTypeVisitor.evaluate(stmt.condition);
+  visitIf(statement: If): void {
+    const expressionType = CheckExpressionTypeVisitor.evaluate(statement.condition);
 
     // throw errors if it is not available or if the type is wrong
     if (expressionType !== ExpressionType.BOOLEAN) {
       throw new TypeError(`Expected type boolean for ${ExpressionTypeUtil.toString(expressionType)} for usage in if statement `
-        + locationToReadableMessage(stmt.location));
+        + locationToReadableMessage(statement.location));
     }
 
     // check if any of the referenced question(s) in the condition point to questions in the body
-    const variables = GetExpressionVariablesVisitor.evaluate(stmt.condition);
-    const questions = stmt.getQuestions();
+    const variables = CollectExpressionVariablesVisitor.evaluate(statement.condition);
+    const questions = CollectQuestionsVisitor.visit(statement);
 
     for (const variable of variables) {
       const question = questions.find(q => q.name === variable.identifier);
 
       if (question) {
-        throw new ImpossibleIfConditionError(`if statement ${locationToReadableMessage(stmt.location)}` +
+        throw new ImpossibleIfConditionError(`if statement ${locationToReadableMessage(statement.location)}` +
           `has question '${question.name}' both in condition and in body`);
       }
     }
 
-    for (const subStmt of stmt.statements) {
-      subStmt.accept(this);
+    for (const subStatement of statement.statements) {
+      subStatement.accept(this);
     }
 
-    for (const subStmt of stmt.elseStatements) {
-      subStmt.accept(this);
+    for (const subStatement of statement.elseStatements) {
+      subStatement.accept(this);
     }
   }
 
@@ -73,9 +83,9 @@ export class CheckStatementTypeVisitor implements StatementVisitor<void> {
     // nothing to check
   }
 
-  private checkDuplicateIdentifiers(allQuestions: QlQuestion[]): void {
-    if (_.uniqBy(allQuestions, 'name').length < allQuestions.length) {
-      const groupedQuestions = _.groupBy(allQuestions, 'name');
+  private checkDuplicateIdentifiers(): void {
+    if (_.uniqBy(this.allQuestions, 'name').length < this.allQuestions.length) {
+      const groupedQuestions = _.groupBy(this.allQuestions, 'name');
 
       _.forEach(groupedQuestions, (value: QlQuestion[], key: string) => {
         if (value.length > 1) {
@@ -85,11 +95,11 @@ export class CheckStatementTypeVisitor implements StatementVisitor<void> {
     }
   }
 
-  private setVariableReferences(allQuestions: QlQuestion[], form: Form): void {
-    const allVariables = GetStatementVariablesVisitor.evaluate(form);
+  private setVariableReferences(form: Form): void {
+    const allVariables = CollectStatementVariablesVisitor.visit(form);
 
     for (const variable of allVariables) {
-      const referencedQuestion = allQuestions.find(q => q.name === variable.identifier);
+      const referencedQuestion = this.allQuestions.find(q => q.name === variable.identifier);
       if (referencedQuestion) {
         variable.referencedQuestion = referencedQuestion;
       } else {

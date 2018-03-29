@@ -6,12 +6,12 @@ import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 public class ErrorValue extends Value {
     private final String error;
     private final int line;
-    private final int colomn;
+    private final int column;
 
-    public ErrorValue(String error, int line, int colomn) {
+    public ErrorValue(String error, int line, int column) {
         this.error = error;
         this.line = line;
-        this.colomn = colomn;
+        this.column = column;
     }
 
     public String getError() {
@@ -41,5 +41,14 @@ public class ErrorValue extends Value {
     @Override
     public NodeType getType() {
         return NodeType.UNKNOWN;
+    }
+
+    @Override
+    public String toString() {
+        return (this.error != null) ? this.error : "No value";
+    }
+
+    public ErrorValue clone() throws CloneNotSupportedException {
+        return (ErrorValue) super.clone();
     }
 }

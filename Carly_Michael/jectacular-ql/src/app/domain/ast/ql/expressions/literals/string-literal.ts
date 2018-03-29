@@ -1,21 +1,16 @@
 import {Location} from '../../../location';
-import {QlQuestion} from '../../ql-question';
 import {ExpressionType} from '../expression-type';
 import {ExpressionVisitor} from '../../visitors/expression-visitor';
 import {Literal} from './literal';
 import {BooleanLiteral} from './boolean-literal';
 
 export class StringLiteral extends Literal {
-  constructor(public value: string, location: Location) {
+  constructor(public readonly value: string, readonly location: Location) {
     super(location);
   }
 
   getValue(): any {
     return this.value;
-  }
-
-  checkType(allQuestions: QlQuestion[]): ExpressionType {
-    return ExpressionType.STRING;
   }
 
   getType(): ExpressionType {

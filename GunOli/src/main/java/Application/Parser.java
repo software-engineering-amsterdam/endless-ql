@@ -4,8 +4,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import QL.QLVisitor.ExpressionTable;
-import QL.ParseObjectsQL.Question;
-import QL.ParseObjectsQL.Form;
+import QL.AST.Question;
+import QL.AST.Form;
 import QL.QLAntlrGen.QLParser;
 import QL.QLAntlrGen.QLLexer;
 import QL.QLVisitor.FormVisitor;
@@ -34,7 +34,7 @@ public class Parser {
             FormVisitor visitor = new FormVisitor(expressionTable);
             return visitor.visit(parser.head());
         }catch(Exception e){
-            System.out.println("Unable to Parse Selected File");
+            System.out.println("Unable to Parse Selected QL File");
             throw new UnsupportedOperationException(e.getMessage());
         }
     }
@@ -52,7 +52,7 @@ public class Parser {
             StylesheetVisitor visitor = new StylesheetVisitor();
             return visitor.visit(parser.head());
         }catch(Exception e){
-            System.out.println("Unable to Parse Selected File");
+            System.out.println("Unable to Parse Selected QLS File");
             throw new UnsupportedOperationException(e.getMessage());
         }
     }
@@ -61,7 +61,7 @@ public class Parser {
     //debugging prints, remove after completion
 
     public void printQLForm(Form form){
-        for(Question question : form.getBlock().getQuestions()){
+        for(Question question : form.getQuestions()){
             String questionName = question.getIdentifier();
             ExpressionTable expressionTable = form.getExpressionTable();
             System.out.println( question.getIdentifier() + " : " +

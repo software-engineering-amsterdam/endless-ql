@@ -4,7 +4,7 @@ import Nodes.Type;
 import QLExceptions.TypeException;
 
 public class QLBoolean extends Term {
-    private boolean value;
+    private final boolean value;
 
     public QLBoolean(boolean value) {
         this.value = value;

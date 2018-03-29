@@ -5,10 +5,7 @@ import antlr.generated.QLParser;
 import org.uva.ql.ast.*;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.binary.*;
-import org.uva.ql.ast.expression.unary.BooleanLiteral;
-import org.uva.ql.ast.expression.unary.IntegerLiteral;
-import org.uva.ql.ast.expression.unary.Parameter;
-import org.uva.ql.ast.expression.unary.StringLiteral;
+import org.uva.ql.ast.expression.unary.*;
 import org.uva.ql.ast.type.*;
 
 import java.util.ArrayList;
@@ -92,6 +89,11 @@ public class ParseTreeVisitor extends QLBaseVisitor {
         } else {
             return new Division(left, right);
         }
+    }
+
+    @Override
+    public TreeNode visitNegation(QLParser.NegationContext context) {
+        return new Negation((Expression) visit(context.expression()));
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.uva.js.qlparser.exceptions.ParseException;
 import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.logic.FormBuilder;
+import nl.uva.js.qlparser.logic.QLSChecker;
 import nl.uva.js.qlparser.logic.StylesheetBuilder;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
@@ -23,6 +24,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GUIBuilder {
@@ -49,14 +51,18 @@ public class GUIBuilder {
 
     private static Form globalForm;
 
+    private static QLSChecker qlsChecker;
+
     public static Frame getGUI(Form form) {
         globalForm = form;
 
+        qlsChecker = new QLSChecker();
+
         qlPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
-        qlPanel.setText(loadDefaultFileContent());
+        qlPanel.setText(loadDefaultFile("ql.file"));
 
         qlsPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
-//        qlsPanel.setText(loadDefaultFileContent()); //TODO
+        qlsPanel.setText(loadDefaultFile("qls.file"));
 
         formPanel = new FormPanel(form, FORM_VIEW_HEIGHT, FORM_WIDTH, FORM_HEIGHT);
 
@@ -85,9 +91,9 @@ public class GUIBuilder {
         return mainFrame;
     }
 
-    private static String loadDefaultFileContent() {
+    private static String loadDefaultFile(String property) {
         try {
-            return NonNullRun.function(System.getProperty("ql.file"), qlfile -> {
+            return NonNullRun.function(System.getProperty(property), qlfile -> {
                 try {
                     return new String(Files.readAllBytes(Paths.get(GUIBuilder.class.getClassLoader().getResource(qlfile).getFile())));
                 } catch (IOException e) {
@@ -132,21 +138,20 @@ public class GUIBuilder {
     }
 
     private static JPanel getTopPanel(LinkedList<Page> pages) {
-        ButtonBar buttonBar = new ButtonBar();
+        ButtonBar topPanel = new ButtonBar();
 
-        // TODO
-        int numberOfPages = pages != null ? pages.size() : 3;
+        if (null != pages) {
+            for (Page page : pages) {
+                JButton pageButton = getButton(page.getName(), 80);
+                pageButton.addActionListener(e -> {
+                    formPanel.setPage(page.getName());
+                });
 
-        for (int i = 1; i <= numberOfPages; i++) {
-            int pageNumber = i;
-            JButton pageButton = getButton(String.valueOf (pageNumber),50);
-            pageButton.addActionListener(e -> {
-                System.out.println(pageNumber);
-            });
-            buttonBar.centerPanel.add(pageButton);
+                topPanel.centerPanel.add(pageButton);
+            }
         }
 
-        return buttonBar;
+        return topPanel;
     }
 
     //TODO refactor
@@ -164,6 +169,7 @@ public class GUIBuilder {
             try {
                 globalForm = FormBuilder.parseFormFromString(qlPanel.getText());
                 formPanel.apply(globalForm);
+                setPageButtons(null);
                 mainFrame.setTitle(globalForm.getHumanizedName());
             } catch (ParseException exception) {
                 log(exception.getMessage());
@@ -180,7 +186,13 @@ public class GUIBuilder {
         qlsProcessButton.addActionListener(e -> {
             try {
                 Stylesheet stylesheet = StylesheetBuilder.parseStylesheetFromString(qlsPanel.getText());
-                formPanel.apply(stylesheet);
+
+                ArrayList<String> errors = qlsChecker.checkForErrors(globalForm, stylesheet);
+                if (errors.size() == 0) {
+                    formPanel.apply(stylesheet);
+                    setPageButtons(stylesheet.getPages());
+                }
+                errors.forEach(GUIBuilder::log);
             } catch (ParseException exception) {
                 log(exception.getMessage());
             }
@@ -210,6 +222,13 @@ public class GUIBuilder {
         buttonBar.rightPanel.add(qlsProcessButton);
 
         return buttonBar;
+    }
+
+    private static void setPageButtons(LinkedList<Page> pages) {
+        topPanel.removeAll();
+        topPanel.add(getTopPanel(pages));
+        topPanel.revalidate();
+        topPanel.repaint();
     }
 
     public static JButton getButton(String text, int width) {

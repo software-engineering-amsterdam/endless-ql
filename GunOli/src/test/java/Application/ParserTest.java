@@ -1,7 +1,7 @@
 package Application;
 
-import QL.ParseObjectsQL.Form;
-import QL.ParseObjectsQL.Question;
+import QL.AST.Form;
+import QL.AST.Question;
 import org.junit.Test;
 
 import java.io.File;
@@ -45,7 +45,7 @@ public class ParserTest {
             expectedTypes.add(types[i]);
         }
 
-        String[] text = {"\"Did you sell a house in 2010?\"", "\"Did you buy a house in 2010?\"", "\"Did you enter a loan for maintenance/reconstruction?\"", "\"Price the house was sold for:\"", "\"Private debts for the sold house:\"", "\"Value residue:\""};
+        String[] text = {"\"Did you sell a house in 2010?\"", "\"Did you buy a house in 2010?\"", "\"Did you enter a loan for maintenance/reconstruction?\"", "\"Price the house was sold for:\"", "\"Private debts for the sold house:\"", "\"DataType residue:\""};
 
         for(int i = 0; i < text.length; i++){
             expectedText.add(text[i]);
@@ -70,7 +70,7 @@ public class ParserTest {
 
         Form form = parser.parseInputToForm(formFile.getPath());
 
-        for(Question question : form.getBlock().getQuestions()){
+        for(Question question : form.getQuestions()){
             ActualIdentifier.add(question.getIdentifier());
             ActualText.add(question.getText());
             ActualType.add(question.getType().toString());

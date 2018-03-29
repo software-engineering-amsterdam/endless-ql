@@ -74,7 +74,7 @@ statement returns [Statement result]
 
 question  returns [Question result]
   : identifier ':' STRING questionType  // question to be answered
-    {$result = addCodeReference($ctx, new NormalQuestion($identifier.result, $STRING.text, $questionType.result));}
+    {$result = addCodeReference($ctx, new AnswerableQuestion($identifier.result, $STRING.text, $questionType.result));}
   | identifier ':' STRING questionType '(' expr ')' // question to be computed
     {$result = addCodeReference($ctx, new ComputedQuestion($identifier.result, $STRING.text, $questionType.result, $expr.result));}
  ;

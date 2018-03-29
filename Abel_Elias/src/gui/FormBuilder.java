@@ -6,7 +6,9 @@ import QL.classes.values.IntegerValue;
 import QL.classes.values.StringValue;
 import QL.classes.values.UndefinedValue;
 import QL.classes.values.Value;
+import QLS.classes.Page;
 import QLS.classes.Stylesheet;
+import QLS.parsing.visitors.StylesheetVisitor;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionPanelCheckBox;
 import gui.questions.QuestionPanelDate;
@@ -36,6 +38,7 @@ public class FormBuilder {
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor; // The visitor
+    private StylesheetEvaluator stylesheetEvaluator;
     private int frameHeight = 800; //The height of the GUI
     private int frameWidth = 800; //The width of the GUI
 
@@ -51,21 +54,25 @@ public class FormBuilder {
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
     }
 
-    public FormBuilder(FormVisitor coreVisitor, Stylesheet stylesheet) {
+    public FormBuilder(FormVisitor coreVisitor, StylesheetVisitor stylesheetVisitor) {
         this.coreVisitor = coreVisitor;
         this.questionHashMap = coreVisitor.getQuestions();
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
+        initComponents(stylesheetVisitor);
     }
-
 
     /**
      * initComponents() method
-     * initializes the building process for all widgets
+     * initializes the building process for the frame
      */
-    public void initComponents() {
+    public void initFrame() {
         //Build the frame and panels of the form (the base)
         buildFrame();
         buildMainPanel();
+    }
+
+    public void initComponents() {
+        initFrame();
         buildListPanel();
 
         //Add a scroll pane to the form
@@ -81,6 +88,31 @@ public class FormBuilder {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
+
+    public void initComponents(StylesheetVisitor stylesheetVisitor) {
+        //initStyleSheet(stylesheetVisitor);
+        initFrame();
+        //buildListPanel();
+        mainPanel.add(new JScrollPane(mainListPanel));
+
+        stylesheetEvaluator = new StylesheetEvaluator(stylesheetVisitor);
+        mainPanel.add(stylesheetEvaluator.buildStyleSheet());
+
+        //initQuestionPanels();
+
+        //mainFrame.add(stylesheetEvaluator.getLayout());
+        mainFrame.add(mainPanel);
+        mainFrame.setVisible(true);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+
+    }
+
+    private void initStyleSheet(StylesheetVisitor stylesheetVisitor) {
+        stylesheetEvaluator = new StylesheetEvaluator(stylesheetVisitor);
+        //stylesheetEvaluator.buildStyleSheet();
+    }
+
 
     /**
      * initQuestionPanels() method
@@ -100,6 +132,11 @@ public class FormBuilder {
             }
         }
     }
+
+    private void buildPages(LinkedHashMap pages) {
+
+    }
+
 
     /**
      * buildQuestionPanel() method

@@ -36,7 +36,7 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
 
     @Override
     public QuestionWidget visit(RadioType radioType, Question question, Value value, Boolean readOnly) {
-        return new RadioWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), radioType.getTrueLabel(),radioType.getFalseLabel());
+        return new RadioWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), radioType.getTrueLabel(), radioType.getFalseLabel());
     }
 
     @Override
@@ -51,6 +51,6 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
 
     @Override
     public QuestionWidget visit(TextType textType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
+        return new TextWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 }

@@ -2,7 +2,7 @@ package com.chariotit.uva.sc.qdsl.ast.qls.visitor;
 
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTableEntry;
-import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckError;
+import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.*;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.property.*;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.type.BooleanTypeNode;
@@ -143,7 +143,7 @@ public class TypeCheckVisitor extends NodeVisitor {
     }
 
     private void addError(AstNode node, String message) {
-        errors.add(new TypeCheckError(message, node.getLineNumber(), node.getColumnNumber()));
+        errors.add(new TypeCheckError(message, node.getSourceFilePosition()));
     }
 
     public List<TypeCheckError> getErrors() {

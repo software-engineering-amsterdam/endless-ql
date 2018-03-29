@@ -61,7 +61,7 @@ class QSLStyleAttributeValidator extends AbstractQSLValidator {
 
 	@Check
 	def checkStyleAttributeColor(StyleAttributeColor styleAttributeColor) {
-		if (styleAttributeColor.value.length != STYLE_ATTRIBUTE_COLOR_EXACT_LENGTH) {
+		if (styleAttributeColor.value.length() != STYLE_ATTRIBUTE_COLOR_EXACT_LENGTH) {
 			error(STYLE_ATTRIBUTE_COLOR_LENGTH_MESSAGE, QSLPackage.Literals.STYLE_ATTRIBUTE_COLOR__VALUE,
 				STYLE_ATTRIBUTE_COLOR_LENGTH)
 		}

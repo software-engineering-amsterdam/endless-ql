@@ -2,10 +2,10 @@
 {
     interface IAnswerLogical
     {
-        IAnswerValuable<bool> And<U>(IAnswerValuable<U> right);
+        AnswerValue<bool> And<U>(AnswerValue<U> right);
 
-        IAnswerValuable<bool> Or<U>(IAnswerValuable<U> right);
+        AnswerValue<bool> Or<U>(AnswerValue<U> right);
 
-        IAnswerValuable<bool> Not();
+        AnswerValue<bool> Not();
     }
 }

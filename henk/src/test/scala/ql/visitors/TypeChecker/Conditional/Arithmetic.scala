@@ -18,10 +18,10 @@ class ArithmeticOpSpec extends FunSpec with BeforeAndAfter {
 
   describe("containing valid not boolean expression in unary") {
     val filename = s"${resourceDir}/simple.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.execute(form) match {
+      validator.check(form) match {
         case None => succeed
         case Some(ConditionalNotBoolean(e)) => fail(e)
         case other => fail("ConditionalValidator should not have thrown an error")

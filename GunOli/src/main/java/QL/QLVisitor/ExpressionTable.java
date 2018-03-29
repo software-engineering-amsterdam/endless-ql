@@ -1,6 +1,6 @@
 package QL.QLVisitor;
 
-import QL.ParseObjectsQL.Expressions.Expression;
+import QL.AST.Expressions.Expression;
 import java.util.HashMap;
 import java.util.Map;
 

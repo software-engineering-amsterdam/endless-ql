@@ -25,14 +25,15 @@ class FormGui:
         will be created
     """
 
-    def __init__(self, parent, questionGenerator, header="No Header Text", color="orange", qls=False):
+    def __init__(self, parent, questionGenerator, header="No Header Text", color="white", qls=False):
         self.frame = create_frame(parent, color)
         self.frame.pack(expand=True, fill='both')
         self.headerFrame = None
+        self.header = header
         self.createHeader(header, parent=self.frame)
 
         self.pages = collections.OrderedDict()
-        self.buttonFrame = create_frame(self.frame, background='blue')
+        self.buttonFrame = create_frame(self.frame, background='white')
 
         if qls:
             self.buttonFrame.pack(side="top", fill="x", expand=False)
@@ -44,7 +45,7 @@ class FormGui:
         self.name = header
         self.questionGenerator = questionGenerator
 
-        if qls == False:
+        if not qls:
             self.addPage()
             self.pages['default'].createSection()
 
@@ -109,9 +110,9 @@ class FormGui:
         page.deleteInvalidQuestions(questions, sectionName)
 
     def insertQuestion(self, varName, questionText, questionType, value, sectionName='default', pageName='default',
-                       insertAfterVarName="", defaults=None, widgetType='default'):
+                       insertAfterVarName="", defaults=None, widgetType='default', **kwargs):
         page = self.pages[pageName]
-        page.addQuestionToSection(sectionName, varName, questionText, questionType, value, insertAfterVarName, defaults, widgetType)
+        page.addQuestionToSection(sectionName, varName, questionText, questionType, value, insertAfterVarName, defaults, widgetType, **kwargs)
 
     def removeQuestionFromSection(self, varName, sectionName='default', pageName='default'):
         page = self.pages[pageName]
@@ -140,7 +141,7 @@ class FormGui:
         varDict = self.questionGenerator.getVarDict()
         for varName in varDict:
             answers[varName] = varDict[varName]['node'].evaluate()
-        return answers
+        return answers, self.header
 
     """
         Usefull getter and setter functions

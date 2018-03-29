@@ -1,6 +1,6 @@
 import NodeVisitor from "./NodeVisitor";
 import QuestionNode from "../fields/QuestionNode";
-import ComputedField from "../fields/ComputedField";
+import ComputedField from "../fields/ComputedFieldNode";
 import IfCondition from "../conditions/IfCondition";
 import FormNode from "../FormNode";
 import Addition from "../expressions/arithmetic/Addition";
@@ -68,6 +68,9 @@ export default class NodeTraveller implements NodeVisitor {
     this.pre(ifCondition);
     ifCondition.predicate.accept(this);
     ifCondition.then.forEach((statement: Statement) => {
+      statement.accept(this);
+    });
+    ifCondition.otherwise.forEach((statement: Statement) => {
       statement.accept(this);
     });
     this.post(ifCondition);

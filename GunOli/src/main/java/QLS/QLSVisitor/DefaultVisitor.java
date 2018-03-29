@@ -2,7 +2,7 @@ package QLS.QLSVisitor;
 
 import QLS.ParseObjectQLS.Default;
 import QLS.ParseObjectQLS.Widgets.Widget;
-import QL.ParseObjectsQL.Expressions.EvaluationType;
+import QL.Analysis.EvaluationType;
 import QLS.QLSAntlrGen.QLSBaseVisitor;
 import QLS.QLSAntlrGen.QLSParser;
 

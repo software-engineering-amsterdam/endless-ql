@@ -1,8 +1,13 @@
 ﻿namespace Assignment1.Model.QL.AST.Expression
 {
-    public class Not : QLNode, IExpression
+    public class Not : ASTNode, IExpression
     {
         public IExpression Expression { get; }
+
+        public Not(IExpression expression)
+        {
+            Expression = expression;
+        }
 
         public Not(int lineNumber, IExpression expression)
         {

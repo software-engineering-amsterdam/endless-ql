@@ -10,8 +10,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
-import qlviz.QLBaseVisitor;
-import qlviz.QLSBaseVisitor;
+import qlviz.QLVisitor;
+import qlviz.QLSVisitor;
 import qlviz.QLSParser;
 import qlviz.interpreter.style.WidgetTypeTranslator;
 import qlviz.interpreter.style.WidgetVisitor;
@@ -34,7 +34,7 @@ public class WidgetVisitorTest {
     private WidgetTypeTranslator translatorMock;
 
     @Mock
-    private QLSBaseVisitor<Parameter> parameterVisitorMock;
+    private QLSVisitor<Parameter> parameterVisitorMock;
 
     @Mock
     private Parameter parameterMock;

@@ -1,0 +1,14 @@
+form wrongForm5 {
+  "What is your name?"
+    name: string
+  "What is your age?"
+    age: integer
+  "What is your monthly income?"
+    income: decimal
+  "Do you have debts?"
+    debts: boolean
+  if (name + age == 55) {
+    "Test"
+      test: string
+  }
+}

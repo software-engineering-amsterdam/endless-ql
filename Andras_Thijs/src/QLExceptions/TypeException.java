@@ -17,20 +17,10 @@ public class TypeException extends Exception {
         this.node = node;
     }
 
-    public TypeException(Type expected, Type received) {
-        this.expected = expected;
-        this.received = received;
-    }
-
     public TypeException(ASTNode node, Type expected, Type received) {
         this.node = node;
         this.expected = expected;
         this.received = received;
-    }
-
-    @Override
-    public String getMessage() {
-        return "Types don't match";
     }
 
     public ASTNode getNode() {

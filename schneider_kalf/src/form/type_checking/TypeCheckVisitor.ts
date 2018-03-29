@@ -23,7 +23,7 @@ import BinaryOperator from "../nodes/expressions/BinaryOperator";
 import NodeVisitor from "../nodes/visitors/NodeVisitor";
 import FormNode from "../nodes/FormNode";
 import IfCondition from "../nodes/conditions/IfCondition";
-import ComputedField from "../nodes/fields/ComputedField";
+import ComputedField from "../nodes/fields/ComputedFieldNode";
 import QuestionNode from "../nodes/fields/QuestionNode";
 import DateLiteral from "../nodes/literals/DateLiteral";
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
@@ -45,6 +45,9 @@ export class TypeCheckVisitor implements NodeVisitor {
 
   visitIfCondition(ifCondition: IfCondition) {
     const predicateType = ifCondition.predicate.accept(this);
+
+    ifCondition.getAllStatements().forEach(statement => statement.accept(this));
+
     return assertFieldType(predicateType, FieldType.Boolean);
   }
 

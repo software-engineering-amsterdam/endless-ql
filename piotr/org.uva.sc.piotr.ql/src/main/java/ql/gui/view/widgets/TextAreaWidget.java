@@ -52,7 +52,7 @@ public class TextAreaWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.textArea.setText(this.getQuestionModel().getValue().getStringValue());
+        this.textArea.setText((String) this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 
 }

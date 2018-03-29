@@ -10,32 +10,16 @@ import java.util.Map;
 
 public class TypeCheckSpecification {
 
-    private HashMap<SpecificationKey, NodeType> specification;
+    private Map<SpecificationKey, NodeType> specification;
 
     public TypeCheckSpecification() {
         this.fillSpecification();
     }
 
-    /**
-     * Get the type specification
-     *
-     * @return The specification
-     */
     public Map<SpecificationKey, NodeType> getSpecification() {
         return this.specification;
     }
 
-    /**
-     * Read specification from file. The header contains the type order.
-     * Every line start with operator and to which type it converts.
-     * For example:
-     * <p>
-     * MoneyValue; 	DecimalValue;
-     * Addition;	MoneyValue;	    DecimalValue;
-     * And;			ErrorValue;	    ErrorValue;
-     *
-     * @return Lookup table
-     */
     private void fillSpecification() {
 
         this.specification = new HashMap<>();
@@ -74,25 +58,11 @@ public class TypeCheckSpecification {
         this.add(this.operators(Addition.class, Subtraction.class), NodeType.MONEY_EURO, NodeType.MONEY_EURO, NodeType.MONEY_EURO);
     }
 
-    /**
-     * Add element to the specification table
-     *
-     * @param operatorTypes Operators
-     * @param left          Left side type
-     * @param right         Right side type
-     * @param returns       Returns new type
-     */
     private void add(Iterable<Class<?>> operatorTypes, NodeType left, NodeType right, NodeType returns) {
         for (Class operatorType : operatorTypes)
             this.specification.put(new SpecificationKey(operatorType, left, right), returns);
     }
 
-    /**
-     * Convert var args to list
-     *
-     * @param operatorTypes Operator args
-     * @return The list of operators
-     */
     private Iterable<Class<?>> operators(Class<?>... operatorTypes) {
         return Arrays.asList(operatorTypes);
     }

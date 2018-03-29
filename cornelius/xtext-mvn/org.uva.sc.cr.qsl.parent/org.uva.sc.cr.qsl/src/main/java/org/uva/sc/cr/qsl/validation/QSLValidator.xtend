@@ -27,7 +27,7 @@ class QSLValidator extends AbstractQSLValidator {
 
 		val stylesheet = getStylesheet(question)
 
-		val questionIsPlaced = stylesheet.eAllContents.filter[it instanceof QuestionReference].exists [
+		val questionIsPlaced = stylesheet.eAllContents().filter[it instanceof QuestionReference].exists [
 			val questionReference = it as QuestionReference
 			questionReference.question == question
 		]
@@ -42,7 +42,7 @@ class QSLValidator extends AbstractQSLValidator {
 
 		val stylesheet = getStylesheet(questionReference)
 
-		val otherReferences = stylesheet.eAllContents.
+		val otherReferences = stylesheet.eAllContents().
 			filter[it instanceof QuestionReference && it != questionReference].filter [
 				val otherQuestionReference = it as QuestionReference
 				questionReference.question == otherQuestionReference.question
@@ -93,7 +93,7 @@ class QSLValidator extends AbstractQSLValidator {
 	}
 
 	def dispatch Stylesheet getStylesheet(EObject obj) {
-		val parent = obj.eContainer
+		val parent = obj.eContainer()
 		return getStylesheet(parent)
 	}
 

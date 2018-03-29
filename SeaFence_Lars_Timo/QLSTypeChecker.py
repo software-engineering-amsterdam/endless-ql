@@ -2,35 +2,51 @@ from QLSast import *
 import sys
 
 class QLSTypeChecker(object):
-	
-    def __init__(self, ql_ast, qls_ast):
-    	self.ql_ast = ql_ast
-    	self.qls_ast = qls_ast
+    
+    def __init__(self):
         self.ql_variables = {}
         self.qls_variables = {}
 
 
-    def startQLSTypeCheck(self):
-        self.retrieveVariables(self.ql_ast.statements, self.ql_variables, "ql")
-        self.retrieveVariables(self.qls_ast.pages, self.qls_variables, "qls")
+    def startQLSTypeCheck(self, statements, pages):
+        self.retrieveVariables(statements, self.ql_variables, "ql")
+        self.retrieveVariables(pages, self.qls_variables, "qls")
 
-        self.checkReferencesToQL(self.ql_variables, self.qls_variables)
+        self.checkReferencesOfVariables(self.ql_variables, self.qls_variables, "ql")
+        self.checkReferencesOfVariables(self.qls_variables, self.ql_variables, "qls")
 
-    # Checks if every question in QL is referenced in QLS.
-    def checkReferencesToQL(self, ql_variables, qls_variables):
-        for key, value in ql_variables.iteritems():
-            if key not in qls_variables:
-                exitProgram("Variable {} is not referenced in QLS, but should be.".format(key))
+        self.checkWidgetQuestionCompatibility(self.ql_variables, self.qls_variables)
+
+
+    # Checks if all references of QL or QLS are referenced in the other. Exit when a QL variable is not
+    # referenced in QLS and give a warning if it's the other way around
+    def checkReferencesOfVariables(self, references, variables, flag):
+        for key, value in references.iteritems():
+            if key not in variables:
+                if flag == "ql":
+                    exitProgram("Variable {} is not referenced in QLS, but should be.".format(key))
+
+                elif flag == "qls":
+                    print "Warning: Variable {} is not referenced in QL, but should be.".format(key)
 
 
     # Checks whether the types of the questions are compatible with the assigned widgets.
-    def checkWidgetQuestionCompatibility(self):
-    	pass
+    def checkWidgetQuestionCompatibility(self, ql_variables, qls_variables):
+        for key, value in ql_variables.iteritems():
+            if qls_variables[key] != None:
+                if value == "boolean" and (qls_variables[key].widget == "radio" or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == "dropdown"):
+                    pass
+
+                elif value == "int" and (qls_variables[key].widget == "slider" or qls_variables[key].widget == "spinbox" or qls_variables[key].widget == "text"):
+                    pass
+
+                else:
+                    exitProgram("Widget {} is incompatible with type {}".format(qls_variables[key].widget, value))
 
 
     # Check if every question is only placed once in the qls ast.
     def checkQuestionUniqueness(self, variable_name):
-    	if variable_name in self.qls_variables:
+        if variable_name in self.qls_variables:
             exitProgram("Question {} is getting placed twice by QLS.".format(variable_name))
 
 

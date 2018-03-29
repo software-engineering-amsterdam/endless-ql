@@ -1,0 +1,12 @@
+stylesheet taxOfficeExample
+  page Selling {
+    section "Selling" {
+        question valueResidue
+          default money {
+            font: "#872347"
+            fontsize: 14
+            color: #999999
+            widget spinbox
+          }
+    }
+  }

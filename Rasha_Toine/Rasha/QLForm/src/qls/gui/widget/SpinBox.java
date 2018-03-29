@@ -17,13 +17,13 @@ import javax.swing.SpinnerListModel;
 import ql.ast.statement.Question;
 import ql.gui.widget.FieldOption;
 import ql.gui.widget.FieldOptions;
-import ql.gui.widget.Widget;
+import ql.gui.widget.QLWidget;
 import ql.gui.widget.WidgetConfiguration;
 import ql.visiting.EvaluationContext;
 import ql.visiting.value.Value;
 
 
-public class SpinBox extends Widget {
+public class SpinBox extends QLWidget {
 	private JPanel panel;
 	private JSpinner spinbox;
 	private FieldOptions options;

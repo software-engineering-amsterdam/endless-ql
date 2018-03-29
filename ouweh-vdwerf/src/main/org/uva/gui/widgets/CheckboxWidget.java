@@ -9,8 +9,6 @@ import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class CheckboxWidget extends QuestionWidget {
 
@@ -34,12 +32,7 @@ public class CheckboxWidget extends QuestionWidget {
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        checkBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                questionChangeListener.onQuestionChanged(question, new BooleanValue(checkBox.isSelected()));
-            }
-        });
+        checkBox.addItemListener(e -> questionChangeListener.onQuestionChanged(question, new BooleanValue(checkBox.isSelected())));
     }
 
     @Override

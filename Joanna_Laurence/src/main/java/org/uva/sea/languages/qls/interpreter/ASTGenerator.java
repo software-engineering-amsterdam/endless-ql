@@ -11,7 +11,7 @@ import org.uva.sea.languages.qls.parser.antlr.QLSParser;
 import org.uva.sea.languages.qls.parser.antlr.QLSParser.StylesheetContext;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
-public class ASTGenerator {
+class ASTGenerator {
 
 
     public ParseResult<Stylesheet> createAST(CharStream source) {

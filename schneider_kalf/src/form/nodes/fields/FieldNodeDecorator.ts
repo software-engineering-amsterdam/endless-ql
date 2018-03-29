@@ -3,12 +3,13 @@ import { FieldType } from "../../FieldType";
 import NodeVisitor from "../visitors/NodeVisitor";
 import FormState from "../../state/FormState";
 import NodeLocation from "../location/NodeLocation";
+import StatementCollection from "../../collection/StatementCollection";
 
 /**
  * Decorator for Fields that makes the Field "decoratable" for future usage.
  */
 export default class FieldNodeDecorator implements FieldNode {
-  protected fieldToBeDecorated: FieldNode;
+  private fieldToBeDecorated: FieldNode;
 
   get identifier(): string {
     return this.fieldToBeDecorated.identifier;
@@ -48,5 +49,9 @@ export default class FieldNodeDecorator implements FieldNode {
 
   getBaseField(): FieldNode {
     return this.fieldToBeDecorated;
+  }
+
+  addToCollection(collection: StatementCollection): void {
+    this.fieldToBeDecorated.addToCollection(collection);
   }
 }

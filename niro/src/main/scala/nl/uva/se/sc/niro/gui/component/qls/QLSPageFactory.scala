@@ -6,6 +6,7 @@ import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import javafx.util.Callback
+import nl.uva.se.sc.niro.gui.component.Component
 import nl.uva.se.sc.niro.gui.controller.qls.QLSFormController
 import nl.uva.se.sc.niro.gui.widget.qls.QLSWidgetFactory
 import nl.uva.se.sc.niro.model.gui.ql.GUIForm
@@ -31,7 +32,7 @@ class QLSPageFactory(formController: QLSFormController, form: GUIForm, styleshee
     makePage(page, pageToShow)
   }
 
-  private def makePage(page: VBox, pageToShow: GUIPage) = {
+  private def makePage(page: VBox, pageToShow: GUIPage): VBox = {
     val defaultPageStyles = mergeStyles(mergeStyles(defaultStyles, stylesheet.defaultStyles), pageToShow.defaultStyles)
 
     val components = pageToShow.sections.flatMap(section => {
@@ -43,7 +44,7 @@ class QLSPageFactory(formController: QLSFormController, form: GUIForm, styleshee
     page
   }
 
-  private def makeSection(page: VBox, section: GUISection, defaultStyles: Map[AnswerType, GUIStyling]) = {
+  private def makeSection(page: VBox, section: GUISection, defaultStyles: Map[AnswerType, GUIStyling]): Seq[Component[_]] = {
     // TODO is this the correct locaion for the factory??
     val componentFactory = QLSComponentFactory(formController, new QLSWidgetFactory())
     val defaultSectionStyles = mergeStyles(defaultStyles, section.defaultStyles)
@@ -63,7 +64,7 @@ class QLSPageFactory(formController: QLSFormController, form: GUIForm, styleshee
     })
   }
 
-  private def addSectionHeader(questionsOnPage: VBox, section: GUISection) = {
+  private def addSectionHeader(questionsOnPage: VBox, section: GUISection): Boolean = {
     questionsOnPage.getChildren.add(new Label(s"  -- ${section.name} --  "))
   }
 

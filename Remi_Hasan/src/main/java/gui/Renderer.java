@@ -54,7 +54,7 @@ public class Renderer extends Application {
         MenuBar menuBar = createMenuBar(primaryStage);
 
         vBox.getChildren().add(menuBar);
-        vBox.getChildren().add(formArea);
+        vBox.getChildren().add(this.formArea);
 
         // Make the form area grow with the size of the window
         VBox.setVgrow(formArea, Priority.ALWAYS);
@@ -83,25 +83,21 @@ public class Renderer extends Application {
                     this.qlsStyleSheet = qlsFormBuilder.parseStyleSheet(new FileInputStream(qlsFile));
                 }
 
-                buildQuestions(primaryStage);
+                this.buildForm();
                 primaryStage.show();
             }
         } catch (FileNotFoundException e) {
             showErrorAlert(e, "Form file not found");
-            return;
         } catch (UnsupportedOperationException | IllegalArgumentException e) {
             showErrorAlert(e, "Form invalid");
-            return;
         } catch (IOException e) {
             showErrorAlert(e, "IO exception while lexing form file");
-            return;
         } catch (ParseCancellationException e) {
             showErrorAlert(e, "Error while parsing form file");
-            return;
         }
     }
 
-    public void buildQuestions(Stage primaryStage) {
+    private void buildForm() {
         GUIFormBuilder guiFormBuilder = new GUIFormBuilder();
 
         GUIForm guiForm;
@@ -124,13 +120,13 @@ public class Renderer extends Application {
         MenuItem exportResults = new MenuItem("Export results");
 
         loadQlFile.setOnAction(e -> {
-            loadQLClicked(primaryStage);
-            render(primaryStage);
+            this.loadQLClicked(primaryStage);
+            this.render(primaryStage);
         });
 
         loadQlsFile.setOnAction(e -> {
-            loadQLSClicked(primaryStage);
-            render(primaryStage);
+            this.loadQLSClicked(primaryStage);
+            this.render(primaryStage);
         });
 
         exportResults.setOnAction(event -> {
@@ -143,14 +139,14 @@ public class Renderer extends Application {
 
     private void loadQLClicked(Stage primaryStage){
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(resourceFolder);
+        fileChooser.setInitialDirectory(this.resourceFolder);
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("QL File (*.ql)", "*.ql"));
         this.qlFile = fileChooser.showOpenDialog(primaryStage);
     }
 
     private void loadQLSClicked(Stage primaryStage){
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(resourceFolder);
+        fileChooser.setInitialDirectory(this.resourceFolder);
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("QLS File (*.qls)", "*.qls"));
         this.qlsFile = fileChooser.showOpenDialog(primaryStage);
     }
@@ -167,7 +163,7 @@ public class Renderer extends Application {
         }
 
         try {
-            qlEvaluator.exportResults(exportFile);
+            this.qlEvaluator.exportResults(exportFile);
         } catch (IOException e) {
             this.showErrorAlert(e, "Unable to export results to selected file location");
         }

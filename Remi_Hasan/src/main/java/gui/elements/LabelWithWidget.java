@@ -5,6 +5,8 @@ import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 
@@ -51,17 +53,19 @@ public class LabelWithWidget extends VBox implements ILabelWithWidget {
 
     @Override
     public void setColor(String color) {
-        // TODO: label as well?
+        label.setTextFill(Color.web(color));
         guiWidget.setColor(color);
     }
 
     @Override
-    public void setFont(String font) {
-        guiWidget.setFont(font);
+    public void setFont(String fontFamily) {
+        label.setFont(Font.font(fontFamily, label.getFont().getSize()));
+        guiWidget.setFont(fontFamily);
     }
 
     @Override
     public void setFontSize(int fontSize) {
+        label.setFont(new Font(label.getFont().getFamily(), fontSize));
         guiWidget.setFontSize(fontSize);
     }
 

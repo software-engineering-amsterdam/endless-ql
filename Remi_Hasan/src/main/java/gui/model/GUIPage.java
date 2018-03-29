@@ -2,6 +2,8 @@ package gui.model;
 
 import gui.render.GUIController;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class GUIPage {
         return identifier;
     }
 
-    public VBox render(GUIController guiController){
+    public Parent render(GUIController guiController){
         VBox vBox = new VBox();
 
         // Render all sections
@@ -29,7 +31,11 @@ public class GUIPage {
         }
 
         vBox.setPadding(new Insets(10));
-        return vBox;
+
+        // Wrap page in scroll pane, so questions will always be reachable
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(vBox);
+        return scrollPane;
     }
     
 }

@@ -29,7 +29,7 @@ public class GUIQuestionWithStyling extends GUIElement implements IGUIQuestion {
         LabelWithWidget parent = this.guiQuestion.render(guiWidget, guiController);
 
         WidgetStyleApplier widgetStyleApplier = new WidgetStyleApplier();
-        widgetStyleApplier.applyStyles(this.guiQuestion.getType(), parent, this.defaultStyles);
+        widgetStyleApplier.applyStyles(parent, this.defaultStyles, this.guiQuestion.getType());
 
         return parent;
     }

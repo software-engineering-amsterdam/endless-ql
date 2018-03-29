@@ -1,18 +1,26 @@
 package qls.visitor;
 
-import qls.model.DefaultStyle;
+import qls.antlr.QLSBaseVisitor;
+import qls.antlr.QLSParser;
 import qls.model.Page;
-import qls.model.Section;
-import qls.parser.QLSParser;
+import qls.model.statement.Statement;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class VisitorPage extends VisitorBlock<Page> {
+public class VisitorPage extends QLSBaseVisitor<Page> {
 
     @Override
     public Page visitPage(QLSParser.PageContext ctx) {
-        List<DefaultStyle> defaultStyles = this.getDefaults(ctx.defaultStyle());
-        List<Section> sections = this.getSections(ctx.section());
-        return new Page(ctx.getStart(), ctx.IDENTIFIER().getText(), defaultStyles, sections);
+        // Get all statements inside this page
+        List<Statement> statements = new ArrayList<>();
+        VisitorStatement visitorStatement = new VisitorStatement();
+        for (QLSParser.StatementContext statementContext : ctx.statement()) {
+            statements.add(visitorStatement.visit(statementContext));
+        }
+
+        Page page = new Page(ctx.identifier.getText(), statements);
+        page.setToken(ctx.getStart());
+        return page;
     }
 }

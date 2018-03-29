@@ -1,6 +1,11 @@
 package qls;
 
-import qls.model.*;
+import qls.model.Page;
+import qls.model.StyleSheet;
+import qls.model.statement.DefaultStyle;
+import qls.model.statement.QuestionReference;
+import qls.model.statement.Section;
+import qls.model.statement.Statement;
 import qls.model.style.*;
 import qls.model.widget.*;
 
@@ -16,37 +21,29 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
 
     @Override
     public T visit(Page page) {
-        for (DefaultStyle defaultStyle : page.getDefaultStyles()) {
-            defaultStyle.accept(this);
-        }
-
-        for (Section section : page.getSections()) {
-            section.accept(this);
+        for (Statement statement : page.getStatements()) {
+            statement.accept(this);
         }
         return null;
+    }
+
+    @Override
+    public T visit(Statement statement) {
+        return statement.accept(this);
     }
 
     @Override
     public T visit(Section section) {
-        for (Question question : section.getQuestions()) {
-            question.accept(this);
+        for (Statement statement : section.getStatements()) {
+            statement.accept(this);
         }
-
-        for (Section subSection : section.getSections()) {
-            subSection.accept(this);
-        }
-
-        for (DefaultStyle defaultStyle : section.getDefaultStyles()) {
-            defaultStyle.accept(this);
-        }
-
         return null;
     }
 
     @Override
-    public T visit(Question question) {
-        if (question.getWidget() != null) {
-            question.getWidget().accept(this);
+    public T visit(QuestionReference questionReference) {
+        if (questionReference.getWidget() != null) {
+            questionReference.getWidget().accept(this);
         }
         return null;
     }
@@ -65,6 +62,11 @@ public class QLSVisitor<T> implements IQLSVisitor<T> {
 
     @Override
     public T visit(WidgetDefault widget) {
+        return null;
+    }
+
+    @Override
+    public T visit(WidgetDatePicker widget) {
         return null;
     }
 

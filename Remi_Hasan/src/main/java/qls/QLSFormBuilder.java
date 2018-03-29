@@ -4,14 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import ql.analysis.SymbolTable;
+import ql.antlr.ParseErrorListener;
 import ql.model.Form;
-import ql.parser.ParseErrorListener;
-import qls.analysis.QuestionAnalyzer;
-import qls.analysis.TypeChecker;
+import qls.analysis.QLSErrorAnalyzer;
+import qls.antlr.QLSLexer;
+import qls.antlr.QLSParser;
 import qls.model.StyleSheet;
-import qls.parser.QLSLexer;
-import qls.parser.QLSParser;
 import qls.visitor.VisitorStyleSheet;
 
 import java.io.IOException;
@@ -19,12 +17,11 @@ import java.io.InputStream;
 
 public class QLSFormBuilder {
 
+    // TODO: rename to QLSBuilder
     private Form qlForm;
-    private SymbolTable symbolTable;
 
-    public QLSFormBuilder(Form qlForm, SymbolTable symbolTable) {
+    public QLSFormBuilder(Form qlForm) {
         this.qlForm = qlForm;
-        this.symbolTable = symbolTable;
     }
 
     public StyleSheet parseStyleSheet(InputStream stream) throws IllegalArgumentException, UnsupportedOperationException, IOException {
@@ -42,22 +39,9 @@ public class QLSFormBuilder {
         VisitorStyleSheet visitor = new VisitorStyleSheet();
         StyleSheet styleSheet = visitor.visit(parser.root());
 
-        // TODO: remove debugging tree
-        //parser.reset();
-        //Trees.inspect(parser.root(), parser);
-
-        // Debug: print object
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(styleSheet));
-
         // Analysis
-        QuestionAnalyzer questionAnalyzer = new QuestionAnalyzer(this.qlForm, styleSheet);
-        questionAnalyzer.detectDuplicateQuestions();
-        questionAnalyzer.detectUnknownQuestions();
-        questionAnalyzer.detectUnplacedQuestions();
-
-        TypeChecker typeChecker = new TypeChecker(this.qlForm, styleSheet);
-        typeChecker.typeCheck();
+        QLSErrorAnalyzer qlsErrorAnalyzer = new QLSErrorAnalyzer();
+        qlsErrorAnalyzer.analyze(this.qlForm, styleSheet);
 
         return styleSheet;
     }

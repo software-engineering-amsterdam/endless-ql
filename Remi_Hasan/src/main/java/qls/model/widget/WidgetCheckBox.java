@@ -1,19 +1,11 @@
 package qls.model.widget;
 
-import gui.WidgetVisitor;
-import javafx.scene.Node;
-import org.antlr.v4.runtime.Token;
-import ql.analysis.SymbolTable;
-import ql.model.Question;
 import qls.IQLSVisitor;
-import qls.model.DefaultStyle;
-
-import java.util.List;
 
 public class WidgetCheckBox extends Widget {
 
-    public WidgetCheckBox(Token start) {
-        super(start, WidgetType.CHECKBOX);
+    public WidgetCheckBox() {
+        super(WidgetType.CHECKBOX);
     }
 
     @Override
@@ -21,8 +13,4 @@ public class WidgetCheckBox extends Widget {
         return visitor.visit(this);
     }
 
-    @Override
-    public Node createWidget(WidgetVisitor<?> visitor, SymbolTable symbolTable, Question question, qls.model.Question qlsQuestion, List<DefaultStyle> defaultStyles) {
-        return type.createWidget(visitor, symbolTable, question, qlsQuestion, defaultStyles);
-    }
 }

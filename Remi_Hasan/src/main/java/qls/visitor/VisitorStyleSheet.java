@@ -1,9 +1,9 @@
 package qls.visitor;
 
+import qls.antlr.QLSBaseVisitor;
+import qls.antlr.QLSParser;
 import qls.model.Page;
 import qls.model.StyleSheet;
-import qls.parser.QLSBaseVisitor;
-import qls.parser.QLSParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,8 @@ public class VisitorStyleSheet extends QLSBaseVisitor<StyleSheet> {
             pages.add(page);
         }
 
-        return new StyleSheet(ctx.getStart(), ctx.IDENTIFIER().getText(), pages);
+        StyleSheet styleSheet = new StyleSheet(ctx.identifier.getText(), pages);
+        styleSheet.setToken(ctx.getStart());
+        return styleSheet;
     }
 }

@@ -1,42 +1,21 @@
 package ql.visitor;
 
-import ql.parser.QLBaseVisitor;
-import ql.parser.QLParser;
-import ql.model.expression.Expression;
-import ql.model.expression.variable.ExpressionVariableBoolean;
-import ql.model.Question;
-import org.antlr.v4.runtime.Token;
+import ql.antlr.QLBaseVisitor;
+import ql.antlr.QLParser;
+import ql.model.statement.Statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class VisitorStatement extends QLBaseVisitor<List<Question>> {
-
-    private final Expression condition;
-
-    VisitorStatement(Token start) {
-        this.condition = new ExpressionVariableBoolean(start,true);
-    }
-
-    VisitorStatement(Expression condition) {
-        this.condition = condition;
-    }
+public class VisitorStatement extends QLBaseVisitor<Statement> {
 
     @Override
-    public List<Question> visitCondition(QLParser.ConditionContext ctx) {
-        VisitorCondition visitorCondition = new VisitorCondition(this.condition);
+    public Statement visitCondition(QLParser.ConditionContext ctx) {
+        VisitorCondition visitorCondition = new VisitorCondition();
         return visitorCondition.visitCondition(ctx);
     }
 
     @Override
-    public List<Question> visitQuestion(QLParser.QuestionContext ctx) {
-        VisitorQuestion visitorQuestion = new VisitorQuestion(this.condition);
-        Question question = visitorQuestion.visitQuestion(ctx);
-
-        List<Question> questions = new ArrayList<>();
-        questions.add(question);
-
-        return questions;
+    public Statement visitQuestion(QLParser.QuestionContext ctx) {
+        VisitorQuestion visitorQuestion = new VisitorQuestion();
+        return visitorQuestion.visitQuestion(ctx);
     }
 
 }

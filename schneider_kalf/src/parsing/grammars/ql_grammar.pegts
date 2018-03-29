@@ -6,7 +6,7 @@
 {
     // Mapping of operators to their TypeScript class
     let operationMapping = {
-        //"!"  : Node.Negation,
+        "!"  : Node.Negation,
         "&&" : Nodes.And,
         "||" : Nodes.Or,
         "<=" : Nodes.SmallerThanOrEqual,
@@ -97,10 +97,9 @@ FieldType
 
 Field
  = label:StringLiteral __ identifier:Identifier _ ":" _ type:FieldType __ expression:("=" __ Expression)? __ {
-    var name = identifier.identifier;
     if (expression)
-        return new Nodes.ComputedField(name, label.value, type, expression[2]);
-    let fieldNode = new Nodes.Question(name, label.value, type);
+        return new Nodes.ComputedField(identifier, label.value, type, expression[2]);
+    let fieldNode = new Nodes.Question(identifier, label.value, type);
     return addLocation(fieldNode);
 }
 
@@ -111,7 +110,7 @@ Block
 
 Form
  = FormToken _ identifier:Identifier _ block:Block {
-     let formNode = new Nodes.FormNode(identifier.identifier, block);
+     let formNode = new Nodes.FormNode(identifier, block);
      return addLocation(formNode);
 }
 
@@ -175,10 +174,15 @@ UnaryExpression
     return addLocation(unaryExpressionNode);
 }
 
-Identifier
-  = !Keywords Alphabet AlphabetOrNumbers+ {
+ExpressionVariableIdentifier
+  = Identifier {
     let identifierNode = new Nodes.VariableIdentifier(text());
     return addLocation(identifierNode);
+}
+
+Identifier
+  = !Keywords Alphabet AlphabetOrNumbers+ {
+    return text();
 }
 
 BooleanLiteral
@@ -228,7 +232,7 @@ EscapeSequence
   / "v"  { return "\x0B"; }
 
 Value
- = Identifier
+ = ExpressionVariableIdentifier
  / DateLiteral
  / NumberLiteral
  / StringLiteral

@@ -9,6 +9,7 @@ import qls.model.statement.DefaultStyle;
 import qls.model.statement.QuestionReference;
 import qls.model.statement.Section;
 import qls.model.widget.Widget;
+import qls.model.widget.WidgetDefault;
 import qls.model.widget.WidgetType;
 
 import java.util.ArrayList;
@@ -35,35 +36,32 @@ public class GUIElementBuilder extends QLSVisitor<List<GUIElement>> {
         List<GUIElement> guiElements = new ArrayList<>();
         // Add all QL questions with this identifier here, inside decorator for the styling
         for (GUIQuestion guiQuestion : guiQuestionMap.get(questionReference.getIdentifier())) {
-            WidgetType widgetType;
+            Widget widget;
             // TODO: default instead of null??
             if (questionReference.getWidget() != null) {
-                widgetType = questionReference.getWidget().getType();
+                widget = questionReference.getWidget();
             } else {
-                widgetType = getWidgetType(defaultStyles, guiQuestion);
+                widget = this.getWidget(defaultStyles, guiQuestion);
             }
-            guiElements.add(new GUIQuestionWithStyling(guiQuestion, this.defaultStyles, widgetType));
+            guiElements.add(new GUIQuestionWithStyling(guiQuestion, this.defaultStyles, widget));
         }
         return guiElements;
     }
 
-    private WidgetType getWidgetType(List<DefaultStyle> defaultStyles, GUIQuestion guiQuestion) {
+    private Widget getWidget(List<DefaultStyle> defaultStyles, GUIQuestion guiQuestion) {
         // If a question has a widget type, don't use other widget types of the default styles
-        if (guiQuestion.getWidgetType() != WidgetType.DEFAULT) {
-            return guiQuestion.getWidgetType();
+        if (guiQuestion.getWidget().getType() != WidgetType.DEFAULT) {
+            return guiQuestion.getWidget();
         }
 
-        WidgetType widgetType = WidgetType.DEFAULT;
+        // TODO: better
+        Widget widget = new WidgetDefault(null, WidgetType.DEFAULT);
         for (DefaultStyle defaultStyle : defaultStyles) {
-            ReturnType defaultStyleType = defaultStyle.getType();
-            ReturnType questionType = guiQuestion.getType();
-            Widget widget = defaultStyle.getWidget();
-            WidgetType defaultStyleWidgetType = widget.getType();
-            if (defaultStyleType.equals(questionType) && defaultStyleWidgetType != WidgetType.DEFAULT) {
-                widgetType = defaultStyleWidgetType;
+            if(defaultStyle.getType() == guiQuestion.getType()) {
+                widget = defaultStyle.getWidget();
             }
         }
-        return widgetType;
+        return widget;
     }
 
     @Override

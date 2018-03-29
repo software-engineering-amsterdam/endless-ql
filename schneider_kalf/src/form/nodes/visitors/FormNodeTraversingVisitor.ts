@@ -28,7 +28,7 @@ import DateLiteral from "../literals/DateLiteral";
 import FieldNodeDecorator from "../fields/FieldNodeDecorator";
 import StatementCollection from "../../collection/StatementCollection";
 import GenericCollection from "../../collection/GenericCollection";
-import VariableIdentifierCollection from "../../../modules/styling/form/collections/IdentifierNodeCollection";
+import VariableIdentifierCollection from "../../collection/IdentifierNodeCollection";
 
 export default class FormTraversingVisitor implements NodeVisitor {
   private post: VisitorCallback;

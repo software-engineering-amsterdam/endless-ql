@@ -2,7 +2,7 @@ import AbstractStyleNode from "../AbstractStyleNode";
 import PageChild from "../children/PageChild";
 import SectionChild from "../children/SectionChild";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
-import QuestionStyle from "../children/QuestionStyle";
+import QuestionStyleNode from "../children/QuestionStyleNode";
 
 export default class SectionNode extends AbstractStyleNode implements PageChild, SectionChild {
   readonly body: SectionChild[];
@@ -26,7 +26,7 @@ export default class SectionNode extends AbstractStyleNode implements PageChild,
     return true;
   }
 
-  isQuestionStyle(): this is QuestionStyle {
+  isQuestionStyle(): this is QuestionStyleNode {
     return false;
   }
 }

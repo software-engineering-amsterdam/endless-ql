@@ -58,16 +58,16 @@ class CircularDependencyPass(result: TypeCheckResult, val symbolTable: SymbolTab
             val allReferences = symbol.expression.allReferences()
 
             for (internalReference in allReferences) {
-                val unique = seenReferences.add(internalReference.name)
+                val unique = seenReferences.add(internalReference.name.text)
 
                 if (!unique) {
-                    return CircularDependency(internalReference.name, symbolTable.findSymbol(internalReference.name))
+                    return CircularDependency(internalReference.name.text, symbolTable.findSymbol(internalReference.name.text))
                 }
 
-                val clash = findFirstCircularDependencies(internalReference.name, seenReferences)
+                val clash = findFirstCircularDependencies(internalReference.name.text, seenReferences)
 
                 if (clash != null) {
-                    return CircularDependency(internalReference.name, clash.symbol)
+                    return CircularDependency(internalReference.name.text, clash.symbol)
                 }
             }
 

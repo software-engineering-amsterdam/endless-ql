@@ -1,7 +1,7 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
 import DefaultStyle from "../nodes/children/DefaultStyleNode";
 import Page from "../nodes/containers/PageNode";
-import QuestionStyle from "../nodes/children/QuestionStyle";
+import QuestionStyleNode from "../nodes/children/QuestionStyleNode";
 import Section from "../nodes/containers/SectionNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
@@ -32,7 +32,7 @@ export default class StyleFilterVisitor implements StyleNodeVisitor {
     return (this.options.includeDefaults) ? [defaultStyle] : [];
   }
 
-  visitQuestionStyle(question: QuestionStyle): any {
+  visitQuestionStyle(question: QuestionStyleNode): any {
     return (this.options.includeQuestions) ? [question] : [];
   }
 

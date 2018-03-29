@@ -26,27 +26,32 @@ namespace Assignment1.Rendering.Widget
 
         public void Visit(QLBoolean value)
         {
-            _result = new CheckBox(_label, value.Value, _readOnly, _valueChangedHandler);
+            _result = new CheckBox(_label, value, _readOnly, _valueChangedHandler);
         }
 
         public void Visit(QLInteger value)
         {
+            _result = new SpinBox(_label, value, _readOnly, _valueChangedHandler);
         }
 
         public void Visit(QLString value)
         {
+            _result = new TextBox(_label, value, _readOnly, _valueChangedHandler);
         }
 
         public void Visit(QLDate value)
         {
+            _result = new DatePicker(_label, value, _readOnly, _valueChangedHandler);
         }
 
         public void Visit(QLDecimal value)
         {
+            _result = new SpinBox(_label, value, _readOnly, _valueChangedHandler);
         }
 
         public void Visit(QLMoney value)
         {
+            _result = new SpinBox(_label, value, _readOnly, _valueChangedHandler);
         }
     }
 }

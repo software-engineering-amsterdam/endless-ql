@@ -1,4 +1,4 @@
-package doge.visitor.error
+package doge.typechecker
 
 interface ErrorContext {
 

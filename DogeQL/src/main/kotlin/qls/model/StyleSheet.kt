@@ -1,3 +1,5 @@
 package qls.model
 
-data class StyleSheet(val pages : List<Page>)
+import qls.ast.node.QlsNode
+
+data class StyleSheet(val pages : List<Page>, val name : String) : QlsNode

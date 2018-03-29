@@ -6,7 +6,7 @@
 {
     // Mapping of operators to their TypeScript class
     let operationMapping = {
-        //"!"  : Node.Negation,
+        "!"  : Node.Negation,
         "&&" : Nodes.And,
         "||" : Nodes.Or,
         "<=" : Nodes.SmallerThanOrEqual,
@@ -31,17 +31,19 @@
         "text" : FieldType.Text,
     }
 
+    function makeOperationNode(left, head) {
+        const Operation = operationMapping[head[1]];
+        return new Operation(left, head[3]);
+    }
+
     // Create correct expression hierarchy
     function buildExpression(head, tail) {
-        return tail.reduce(function(left, curr) {
-          const Operation = operationMapping[curr[1]];
-          return new Operation(left, curr[3]);
-        }
-        , head);
+        let expressionNode = tail.reduce(makeOperationNode, head);
+        return addLocation(expressionNode);
     }
 
   // Add location to every node
-  function processNode(node){
+  function addLocation(node){
     node.setLocation(location());
     return node;
   }
@@ -49,7 +51,9 @@
 
 Root = __ forms:Form+ __ { return forms }
 
-UnaryOps = "!"
+UnaryOps
+  = "!"
+
 BoolOps
   = "&&"
   / "||"
@@ -65,9 +69,11 @@ CompOps
 AddOps
   = "+"
   / "-"
+
 MultOps
   = "*"
   / "/"
+
 AritmicOps
   = MultOps
   / AddOps
@@ -80,7 +86,6 @@ Types
   / "decimal"
   / "text"
 
-
 BlockBody
   = Field
   / IfCondition
@@ -92,11 +97,10 @@ FieldType
 
 Field
  = label:StringLiteral __ identifier:Identifier _ ":" _ type:FieldType __ expression:("=" __ Expression)? __ {
-    var name = identifier.identifier;
     if (expression)
-        return new Nodes.ComputedField(name, label.value, type, expression[2]);
-    let fieldNode = new Nodes.Question(name, label.value, type);
-    return processNode(fieldNode);
+        return new Nodes.ComputedField(identifier, label.value, type, expression[2]);
+    let fieldNode = new Nodes.Question(identifier, label.value, type);
+    return addLocation(fieldNode);
 }
 
 Block
@@ -106,14 +110,14 @@ Block
 
 Form
  = FormToken _ identifier:Identifier _ block:Block {
-     let formNode = new Nodes.FormNode(identifier.identifier, block);
-     return processNode(formNode);
+     let formNode = new Nodes.FormNode(identifier, block);
+     return addLocation(formNode);
 }
 
 IfCondition
  = IfToken _ predicate:ExpressionWithBrackets _ block:Block _ elseBlock:ElseStatement? __ {
      let IfConditionNode = new Nodes.IfCondition(predicate, block, elseBlock);
-     return processNode(IfConditionNode);
+     return addLocation(IfConditionNode);
 }
 
 ElseStatement
@@ -127,35 +131,35 @@ Expression
 }
 
 ExpressionWithBrackets
- = "("_ expr:BooleanExpression _ ")" {
+ = "("_ expr:Expression _ ")" {
     return expr;
 }
 
 BooleanExpression
   = head:ComparisonExpression _ tail:(_ BoolOps _ ComparisonExpression)+ _ {
     let boolExpressionNode = buildExpression(head, tail);
-    return processNode(boolExpressionNode);
+    return addLocation(boolExpressionNode);
   }
   / ComparisonExpression
 
 ComparisonExpression
   = head:AdditiveExpression _ tail:(_ CompOps _ AdditiveExpression)+ _ {
     let comparisonExpressionNode = buildExpression(head, tail);
-    return processNode(comparisonExpressionNode);
+    return addLocation(comparisonExpressionNode);
   }
   / AdditiveExpression
 
 AdditiveExpression
   = head:MultiplicativeExpression _ tail:(_ AddOps _ MultiplicativeExpression)+ _{
     let additiveExpressionNode = buildExpression(head, tail);
-    return processNode(additiveExpressionNode);
+    return addLocation(additiveExpressionNode);
   }
   / MultiplicativeExpression
 
 MultiplicativeExpression
   = head:Primary _ tail:(_ MultOps _ Primary)+ _{
     let multiplicativeExpressionNode = buildExpression(head, tail);
-    return processNode(multiplicativeExpressionNode);
+    return addLocation(multiplicativeExpressionNode);
   }
   / Primary
 
@@ -165,25 +169,27 @@ Primary
   / UnaryExpression
 
 UnaryExpression
- = op:UnaryOps value:Primary _ {
+ = UnaryOps value:Primary _ {
     let unaryExpressionNode = new Nodes.Negation(value);
-    return processNode(unaryExpressionNode);
+    return addLocation(unaryExpressionNode);
+}
+
+ExpressionVariableIdentifier
+  = Identifier {
+    let identifierNode = new Nodes.VariableIdentifier(text());
+    return addLocation(identifierNode);
 }
 
 Identifier
- = !Keywords Alphabet {
-    let identifierNode = new Nodes.VariableIdentifier(text());
-    return processNode(identifierNode);
+  = !Keywords Alphabet AlphabetOrNumbers+ {
+    return text();
 }
 
 BooleanLiteral
  = BooleanToken {
     let booleanLiteralNode = new Nodes.BooleanLiteral(text() == "true");
-    return processNode(booleanLiteralNode);
+    return addLocation(booleanLiteralNode);
 }
-
-Alphabet
- = [a-zA-Z]+
 
 NumberLiteral
  = minus:[-]? digits:([0-9\.]+) {
@@ -191,13 +197,13 @@ NumberLiteral
     if (minus)
         amount = minus.concat(amount);
     let numberLiteralNode = Nodes.NumberLiteral.fromString(amount);
-    return processNode(numberLiteralNode);
+    return addLocation(numberLiteralNode);
 }
 
 DateLiteral
  = [0-9][0-9] dateSeparator [0-9][0-9] dateSeparator [0-9][0-9][0-9][0-9]{
     let dateLiteralNode = Nodes.DateLiteral.fromString(text());
-    return processNode(dateLiteralNode);
+    return addLocation(dateLiteralNode);
 }
 
 dateSeparator
@@ -207,7 +213,7 @@ dateSeparator
 StringLiteral "String literal"
  = '"' chars:DoubleQuotedStringCharacters* '"'{
     let stringLiteralNode = new Nodes.StringLiteral(chars.join(''));
-    return processNode(stringLiteralNode);
+    return addLocation(stringLiteralNode);
 }
 
 DoubleQuotedStringCharacters
@@ -226,7 +232,7 @@ EscapeSequence
   / "v"  { return "\x0B"; }
 
 Value
- = Identifier
+ = ExpressionVariableIdentifier
  / DateLiteral
  / NumberLiteral
  / StringLiteral
@@ -244,6 +250,17 @@ ElseToken = "else" !Alphabet
 FormToken = "form" !Alphabet
 
 Keywords = BooleanToken
+
+
+Alphabet
+  = [a-zA-Z]
+
+Numbers
+  = [0-9]
+
+AlphabetOrNumbers
+  = Alphabet
+  / Numbers
 
 SourceCharacter = .
 

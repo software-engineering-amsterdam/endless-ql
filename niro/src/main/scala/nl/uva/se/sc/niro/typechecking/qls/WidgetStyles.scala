@@ -13,8 +13,8 @@ object WidgetStyles {
         stylesheet.pages.flatMap(_.sections.flatMap(_.defaultStyles.toSeq)) ++
         stylesheet
           .collectAllQuestions()
-          .filter(_.widgetType.widgetType.isDefined)
-          .map(q => (form.symbolTable(q.name).answerType, q.widgetType))
+          .filter(_.styling.widgetType.isDefined)
+          .map(q => (form.symbolTable(q.name).answerType, q.styling))
 
     val incompatibleWidgetStyles = allWidgetStyles.filterNot(stylingIsCompatible)
 

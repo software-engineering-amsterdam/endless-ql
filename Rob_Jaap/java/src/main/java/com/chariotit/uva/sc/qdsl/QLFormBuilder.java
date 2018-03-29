@@ -120,6 +120,8 @@ public class QLFormBuilder extends JPanel {
 
     // when a value is updated
     private static void updateForm() {
+        EvaluateVisitor evaluateVisitor = new EvaluateVisitor(astRoot.getQuestionSymbolTable());
+        astRoot.acceptVisitor(evaluateVisitor);
         ////
 
         panel.revalidate();
@@ -186,7 +188,8 @@ public class QLFormBuilder extends JPanel {
 
                 SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
 
-//                ((BooleanExpressionValue)symbol.getExpressionValue()).setValue(checkbox.isSelected());
+//                symbol.setExpressionValue();
+                ((BooleanExpressionValue)symbol.getExpressionValue()).setValue(checkbox.isSelected());
 
                 System.out.println(symbol.getExpressionValue());
                 updateForm();

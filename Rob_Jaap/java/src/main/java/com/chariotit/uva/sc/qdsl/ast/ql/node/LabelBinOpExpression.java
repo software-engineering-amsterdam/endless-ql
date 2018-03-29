@@ -49,7 +49,8 @@ public class LabelBinOpExpression extends Expression {
         labelExpression.evaluate(symbolTable);
         expression.evaluate(symbolTable);
 
-        setExpressionValue(((BinaryOperator)operator).evaluate(labelExpression, expression));
+        setExpressionValue(((BinaryOperator)operator).evaluate(symbolTable, labelExpression,
+                expression));
     }
 
     @Override

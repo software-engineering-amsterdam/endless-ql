@@ -151,7 +151,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
               />
               <AppFormContainer
                   form={this.state.form}
-                  qlsEnabled={this.state.qlsEnabled}
+                  qlsEnabled={this.state.qlsEnabled && this.state.qlsInput.trim().length > 0}
                   onChangeAnswer={this.onChangeAnswer}
                   onChangePage={this.onChangePage}
               />

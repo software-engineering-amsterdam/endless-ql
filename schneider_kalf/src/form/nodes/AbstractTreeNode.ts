@@ -11,7 +11,7 @@ export default abstract class AbstractTreeNode implements TreeNode, Locateable {
   }
 
   getLocation(): NodeLocation {
-    throw new Error("Method not implemented.");
+    return this.location;
   }
 
   abstract accept(visitor: NodeVisitor);

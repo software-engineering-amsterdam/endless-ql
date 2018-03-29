@@ -9,7 +9,7 @@ import {
   assertBoolean, assertComparable, assertSameType, assertString,
   assertValidDivision, assertNumberValue, assertDate,
 } from "../type_checking/type_assertions";
-import Variable from "../nodes/expressions/VariableIdentifier";
+import VariableIdentifier from "../nodes/expressions/VariableIdentifier";
 import { UnkownVariableIdentifierError } from "../form_errors";
 import BooleanLiteral from "../nodes/literals/BooleanLiteral";
 import Division from "../nodes/expressions/arithmetic/Division";
@@ -49,9 +49,9 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @todo Construct evaluation visitor with store for variable values to evaluate identifiers.
    * @param {VariableIdentifier} variable
    */
-  visitVariableIdentifier(variable: Variable) {
+  visitVariableIdentifier(variable: VariableIdentifier) {
     if (!this.state || !this.state.has(variable.identifier)) {
-      throw UnkownVariableIdentifierError.make(variable.identifier);
+      throw UnkownVariableIdentifierError.make(variable);
     }
 
     return this.state.get(variable.identifier);

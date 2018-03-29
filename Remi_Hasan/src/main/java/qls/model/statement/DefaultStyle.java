@@ -1,9 +1,9 @@
 package qls.model.statement;
 
 import ql.model.expression.ReturnType;
-import qls.IQLSVisitor;
 import qls.model.style.StyleAttribute;
 import qls.model.widget.Widget;
+import qls.visitor.IQLSVisitor;
 
 import java.util.List;
 

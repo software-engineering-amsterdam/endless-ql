@@ -4,12 +4,12 @@ import gui.model.GUIElement;
 import gui.model.GUIQuestion;
 import gui.model.GUIQuestionWithStyling;
 import ql.model.expression.ReturnType;
-import qls.QLSVisitor;
 import qls.model.statement.DefaultStyle;
 import qls.model.statement.QuestionReference;
 import qls.model.statement.Section;
+import qls.model.widget.DefaultWidget;
 import qls.model.widget.Widget;
-import qls.model.widget.WidgetDefault;
+import qls.visitor.QLSVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class GUIElementBuilder extends QLSVisitor<List<GUIElement>> {
     }
 
     private Widget getWidgetFromStyles(List<DefaultStyle> defaultStyles, ReturnType questionType) {
-        Widget widget = new WidgetDefault();
+        Widget widget = new DefaultWidget();
 
         // Go through default styles and find if a widget type has been set for this question type
         for (DefaultStyle defaultStyle : defaultStyles) {

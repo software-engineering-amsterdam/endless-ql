@@ -1,9 +1,9 @@
 package ql.analysis.warning;
 
-import ql.QLVisitor;
 import ql.evaluation.SymbolTable;
 import ql.model.Form;
 import ql.model.statement.Question;
+import ql.visitor.QLVisitor;
 
 import java.util.HashMap;
 import java.util.HashSet;

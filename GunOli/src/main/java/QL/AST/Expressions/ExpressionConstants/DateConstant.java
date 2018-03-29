@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public class DateConstant extends Constant<LocalDate> {
     public DateConstant(LocalDate value, int line){
-        super(value, line);
+        super(value == null ? LocalDate.now(): value, line);
     }
 
     public EvaluationType returnType(){

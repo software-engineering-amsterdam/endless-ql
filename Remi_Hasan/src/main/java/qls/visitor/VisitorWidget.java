@@ -15,7 +15,9 @@ public class VisitorWidget extends QLSBaseVisitor<Widget> {
         trueLabel = trueLabel.substring(1, trueLabel.length() - 1);
         falseLabel = falseLabel.substring(1, falseLabel.length() - 1);
 
-        return new WidgetRadio(ctx.getStart(), trueLabel, falseLabel);
+        WidgetRadio widgetRadio = new WidgetRadio(trueLabel, falseLabel);
+        widgetRadio.setToken(ctx.getStart());
+        return widgetRadio;
     }
 
     @Override

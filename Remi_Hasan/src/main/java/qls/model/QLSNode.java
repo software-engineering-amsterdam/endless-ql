@@ -15,6 +15,9 @@ public abstract class QLSNode {
     }
 
     public String getLocation() {
+        if (this.token == null) {
+            return "";
+        }
         return "(" + token.getLine() + ":" + token.getCharPositionInLine() + ")";
     }
 

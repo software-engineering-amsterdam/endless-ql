@@ -24,7 +24,7 @@ class QlsGrammerParserSpec extends FunSpec with BeforeAndAfter {
       source.close
 
       listener = new CountNodesListener()
-      val parser = Main.getQlsParser(sourcedLines)
+      val parser = Main.getQLSParser(sourcedLines)
       val tree = parser.root()
 
       val paul = new ParseTreeWalker()

@@ -1,3 +1,19 @@
+h1.title img {
+    height: 45px;
+}
+
+h1.title {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #f7b731;
+    background: #fed330;
+    padding: 10px;
+}
+
+.app {
+    padding: 20px 0;
+}
+
 .ql-sample-output textarea[name=ql_input] {
     height: calc(100vh - 50px);
     min-height: 500px;

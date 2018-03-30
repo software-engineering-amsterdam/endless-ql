@@ -80,7 +80,6 @@ public class ApplicationRunner implements CommandLineRunner {
             }
         }
 
-//        QLFormBuilder builder = new QLFormBuilder(astRoot);
         QLFormBuilder builder = new QLFormBuilder(astRoot);
     }
 

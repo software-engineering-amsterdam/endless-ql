@@ -62,12 +62,10 @@ public class QLFormBuilder {
         Integer currentLine = 0;
 
         for (Map.Entry<LineElement, FormQuestion> entry : questions.entrySet()) {
-            System.out.println(entry.getValue().getVisible());
             FormQuestion question = entry.getValue();
 
             if (question.getVisible()) {
 
-                // x y width height
                 question.getLabel().setBounds(0, currentLine * lineHeight,
                         labelWidth, lineHeight);
                 question.getComponent().setBounds(labelWidth, lineHeight * currentLine,
@@ -90,8 +88,6 @@ public class QLFormBuilder {
     }
 
     protected JComponent componentForElement(LineElement element) {
-
-        // TODO refactor this!!
         ExpressionType type = element.getTypeExpression().getTypeNode().getType();
 
         switch (type) {

@@ -10,8 +10,6 @@ namespace Assignment1.Parser
     {
         private readonly List<string> _errors = new List<string>();
 
-        public IEnumerable<string> Errors => _errors;
-
         public bool HasErrors => _errors.Count > 0;
 
         public void AddError(int lineNumber, string message)

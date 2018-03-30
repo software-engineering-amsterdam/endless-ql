@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using Assignment1;
 using Assignment1.Converters;
-using Assignment1.Model.QL.RenderTree;
-using Assignment1.Model.QL.RenderTree.QLExpression;
 using Assignment1.Parser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -78,7 +73,12 @@ namespace Assignment1Tests
         [TestMethod]
         public void TestWarnings()
         {
-
+            var presenter = new MainPresenter(_form);
+            string duplicateLabelFormLocation = _pathToValidForms + "DuplicateLabel.txt";
+            string formContent = File.ReadAllText(duplicateLabelFormLocation);
+            var astForm = TextToQLAST.ParseString(formContent);
+            var messages = presenter.ValidateForm(astForm);
+            Assert.IsTrue(messages.Warnings.Any());
         }
     }
 }

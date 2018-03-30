@@ -5,10 +5,10 @@ import ql.ast.literal.Literal;
 
 public class LiteralExpression extends Expression {
 
-	private Literal literal;
+	private final Literal literal;
 	
 	public LiteralExpression(Literal literal) {
-		this.setLiteral(literal);
+		this.literal = literal;
 	}
 
 	@Override
@@ -18,9 +18,5 @@ public class LiteralExpression extends Expression {
 
 	public Literal getLiteral() {
 		return literal;
-	}
-
-	public void setLiteral(Literal literal) {
-		this.literal = literal;
 	}
 }

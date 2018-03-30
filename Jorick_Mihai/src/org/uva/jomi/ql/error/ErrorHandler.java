@@ -179,7 +179,7 @@ public class ErrorHandler extends ErrorReporter<String> {
 	}
 
 	public void clearErrors() {
-		this.clearAllReports();
+		this.clear();
 	}
 
 	public String getErrorAtIndex(int index) {

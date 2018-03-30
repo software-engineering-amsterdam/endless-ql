@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SymbolTable {
-    private Map<String, Expression> table;
+    private final Map<String, Expression> table;
 
     public SymbolTable() {
         this.table = new HashMap<>();
@@ -26,6 +26,7 @@ public class SymbolTable {
                 if (question.isComputed()) {
                     table.put(question.getIdentifier(), question.getComputedAnswer());
                 } else if (question.getType().equals(ReturnType.BOOLEAN)) {
+                    // Undefined boolean value defaults to false
                     table.put(question.getIdentifier(), new BooleanConstant(false));
                 } else {
                     // Not a computed question, so it is undefined until it is set by the user
@@ -39,11 +40,10 @@ public class SymbolTable {
     }
 
     public Expression getExpression(String identifier) {
-        if (this.table.containsKey(identifier)) {
-            return this.table.get(identifier);
-        } else {
+        if (!this.table.containsKey(identifier)) {
             throw new IllegalArgumentException("Cannot get value for unknown field '" + identifier + "'.");
         }
+        return this.table.get(identifier);
     }
 
     public void setExpression(String identifier, Expression value) {

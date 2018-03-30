@@ -118,19 +118,16 @@ public class QLFormBuilder extends JPanel {
 
     private void renderIfBlock(IfBlock block) {
 
-//        if (((BooleanExpressionValue)block.getExpression().getExpressionValue()).getValue()){
+        if (((BooleanExpressionValue)block.getExpression().getExpressionValue()).getValue() &&
+                block.getIfElements() != null){
             renderElements(block.getIfElements());
-//        } else{
-//            renderElements(block.getElseElements());
-//        }
+        } else if (block.getElseElements() != null){
+            renderElements(block.getElseElements());
+        }
 
-
-        System.out.println("Rendering if block..");
-        System.out.println(block.getExpression().getExpressionType());
-        System.out.println(block.getIfElements());
     }
 
-    private static void evaluateAst() {
+    private void evaluateAst() {
         EvaluateVisitor evaluateVisitor = new EvaluateVisitor(astRoot.getQuestionSymbolTable());
         astRoot.acceptVisitor(evaluateVisitor);
     }
@@ -140,7 +137,7 @@ public class QLFormBuilder extends JPanel {
 //        EvaluateVisitor evaluateVisitor = new EvaluateVisitor(astRoot.getQuestionSymbolTable());
 //        astRoot.acceptVisitor(evaluateVisitor);
         ////
-
+        evaluateAst();
         // remove all components
         panel.removeAll();
 
@@ -216,7 +213,8 @@ public class QLFormBuilder extends JPanel {
 
         JCheckBox checkbox = new JCheckBox();
 
-        checkbox.setSelected(((BooleanExpressionValue)symbol.getExpressionValue()).setValue(checkbox.isSelected()));
+        checkbox.setSelected(((BooleanExpressionValue)symbol.getExpressionValue()).getValue
+                ());
 
         checkbox.addActionListener(new ActionListener() {
             @Override
@@ -230,7 +228,7 @@ public class QLFormBuilder extends JPanel {
                         ());
 
 //                symbol.setExpressionValue();
-//                ((BooleanExpressionValue)symbol.getExpressionValue()).setValue(checkbox.isSelected());
+                ((BooleanExpressionValue)symbol.getExpressionValue()).setValue(checkbox.isSelected());
 
 //                System.out.println(symbol.getExpressionValue());
                 updateForm();

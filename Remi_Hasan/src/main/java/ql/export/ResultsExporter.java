@@ -1,7 +1,8 @@
-package ql;
+package ql.export;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import ql.QLForm;
 import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.statement.Question;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class QLExporter {
+public class ResultsExporter {
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 

@@ -60,17 +60,17 @@ public class QLForm {
 		ElementBuilder builder = new ElementBuilder();
 		return builder.build(this.ast);
 	}
-	
+
 	private Panel errorPanels() {
 		PanelElement panel = new PanelElement();
-	
+
 		if(this.hasErrors()) {
 			panel.addElement(new ErrorPanel(this.getErrors()));
 		}
-		
+
 		return panel.build();
 	}
-	
+
 	private List<String> getErrors() {
 		List<String> errors = new ArrayList<String>();
 		errors.addAll(this.errorsOfCyclicDependency());
@@ -86,29 +86,29 @@ public class QLForm {
 				(this.numberOfIdentifierErrors() > 0) ||
 				(this.numberOfTypeResolverErrors() > 0);
 	}
-	
+
 	private int numberOfSyntaxErrors() {
 		return parser.getNumberOfSyntaxErrors();
 	}
-	
-	
+
+
 	private List<String> errorsOfCyclicDependency() {
 		// Check for cyclic references between questions.
 		CyclicDependencyChecker cyclicChecker = new CyclicDependencyChecker();
 
-		// Build an identifier map instance that will be used to generate a mapping bewteen questions.
+		// Build an identifier map instance that will be used to generate a mapping between questions.
 		IdentifierMapBuilder identifierMap = new IdentifierMapBuilder();
 
 		// Build the identifier map and check for cycles.
 		cyclicChecker.check(identifierMap.buildMap(this.ast));
-		
+
 		return cyclicChecker.getErrors();
 	}
 
 	private int numberOfCyclicErrors() {
 		return this.errorsOfCyclicDependency().size();
 	}
-	
+
 	private List<String> errorsOfIdentifier() {
 		IdentifierResolver identifierResolver = new IdentifierResolver();
 		identifierResolver.resolve(this.ast);
@@ -118,7 +118,7 @@ public class QLForm {
 	private int numberOfIdentifierErrors() {
 		return this.errorsOfIdentifier().size();
 	}
-	
+
 	private List<String> errorsOfTypeResolver() {
 		TypeResolver typeResolver = new TypeResolver();
 		typeResolver.resolve(this.ast);
@@ -128,11 +128,11 @@ public class QLForm {
 	private int numberOfTypeResolverErrors() {
 		return this.errorsOfTypeResolver().size();
 	}
-	
+
 	private List<String> errorsOfDuplicatedLabel() {
 		DuplicatedLabelChecker labelChecker = new DuplicatedLabelChecker();
 		labelChecker.check(this.ast);
-		return labelChecker.getErrors();
+		return labelChecker.getWarnings();
 	}
 
 	private int numberOfDuplicatedLabelErrors() {

@@ -97,9 +97,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             {
                 var question = m_outputItemFactory.CreateQuestionOutputItem(
                     new DomainId<IQuestionNode>(questionNode.Id), 
-                    astNode.QuestionText,
                     GetValue(astNode),
-                    astNode.QuestionType,
                     m_questionsCurrentlyVisible.Peek(),
                     false);
 
@@ -123,9 +121,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             {
                 var question = m_outputItemFactory.CreateQuestionOutputItem(
                     new DomainId<IQuestionNode>(questionNode.Id),
-                    astNode.QuestionText,
                     GetValue(astNode),
-                    astNode.QuestionType,
                     m_questionsCurrentlyVisible.Peek(),
                     true);
 

@@ -14,13 +14,16 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     {
         private readonly IIdMaker m_ids;
         private readonly IDomainItemRegistry m_registry;
+        private readonly IDomainItemLocator m_domainItemLocator;
 
         public OutputItemFactory(
             IIdMaker ids, 
-            IDomainItemRegistry registry)
+            IDomainItemRegistry registry,
+            IDomainItemLocator domainItemLocator)
         {
             m_ids = ids;
             m_registry = registry;
+            m_domainItemLocator = domainItemLocator;
         }
 
         public DomainId<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
@@ -39,17 +42,19 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 
         public DomainId<IQuestionOutputItem> CreateQuestionOutputItem(
             DomainId<IQuestionNode> variable,
-            string text, 
             string value,
-            Type type,
             bool isVisible, 
             bool isReadonly)
         {
+            var question = m_domainItemLocator
+                .Get<IQuestionNode>(variable.Id);
+            
             var questionOutputItem = new QuestionOutputItem(
                 m_ids.Next,
                 variable,
-                text,
-                type,
+                question.QuestionName,
+                question.QuestionText,
+                question.QuestionType,
                 value,
                 isVisible,
                 isReadonly);

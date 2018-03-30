@@ -317,5 +317,75 @@ namespace QLS.UnitTests.ParserTests
                     @"#FEDCBA98");
             }
         }
+
+        public static IEnumerable DefaultPropertyCounts
+        {
+            get
+            {
+                yield return new TestCaseData(
+                    @"
+stylesheet ss1 
+{
+    page p1 
+    {
+    }
+    default integer { widget spinbox width: 200 font: ""ComicSans"" fontsize: 12.3 color: #00000000 }
+    default boolean { widget radio(""Rick"",""Morty"") }
+    default date { widget textbox width: 99 font: ""ComicSans"" } 
+    default string { color: #FA57B055 }
+    default decimal { widget slider(150,200,5) } 
+}",
+                    5);
+
+                yield return new TestCaseData(
+                    @"
+stylesheet ss1 
+{
+    page p1 
+    {
+        default integer { widget spinbox width: 200 font: ""ComicSans"" fontsize: 12.3 color: #00000000 }
+        default boolean { widget radio(""Rick"",""Morty"") }
+        default date { widget textbox width: 99 font: ""ComicSans"" } 
+    }
+    default integer { widget spinbox width: 200 font: ""ComicSans"" fontsize: 12.3 color: #00000000 }
+    default boolean { widget radio(""Rick"",""Morty"") }
+    default date { widget textbox width: 99 font: ""ComicSans"" } 
+    default string { color: #FA57B055 }
+    default decimal { widget slider(150,200,5) } 
+}",
+                    8);
+
+                yield return new TestCaseData(
+                    @"
+stylesheet ss1 
+{
+    page p1 
+    {
+        section s1 
+        {
+            default integer { widget spinbox width: 200 font: ""ComicSans"" fontsize: 12.3 color: #00000000 }
+            default boolean { widget radio(""Rick"",""Morty"") }
+        }
+        default date { widget textbox width: 99 font: ""ComicSans"" } 
+        default integer { widget spinbox width: 200 font: ""ComicSans"" fontsize: 12.3 color: #00000000 }
+    }
+
+    page p2 
+    {
+        section s2 
+        {
+            default integer { widget spinbox width: 200 font: ""ComicSans"" fontsize: 12.3 color: #00000000 }
+        }
+        default date { widget textbox width: 99 font: ""ComicSans"" } 
+        default integer { widget spinbox width: 200 font: ""ComicSans"" fontsize: 12.3 color: #00000000 }
+        default boolean { widget radio(""Rick"",""Morty"") }
+    }
+
+    default boolean { widget radio(""Rick"",""Morty"") }
+    default decimal { widget slider(150,200,5) } 
+}",
+                    10);
+            }
+        }
     }
 }

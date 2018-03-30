@@ -6,10 +6,7 @@ import org.uva.forcepushql.interpreter.gui.JPanelGUI;
 import org.uva.forcepushql.interpreter.gui.questions.Question;
 import org.uva.forcepushql.interpreter.gui.questions.Radio;
 import org.uva.forcepushql.interpreter.gui.questions.Textbox;
-import org.uva.forcepushql.parser.ast.elements.Node;
-import org.uva.forcepushql.parser.ast.elements.NumberNode;
-import org.uva.forcepushql.parser.ast.elements.QuestionAssignValueNode;
-import org.uva.forcepushql.parser.ast.elements.QuestionNode;
+import org.uva.forcepushql.parser.ast.elements.*;
 import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 
@@ -28,26 +25,13 @@ public class ASTVisitorEvaluator implements ASTVisitor
     {
         JPanelGUI jPanelGUI = new JPanelGUI();
         LinkedList<JPanel> result = new LinkedList<>();
+        LinkedList<JPanelGUI> jPanelGUIS = new LinkedList<>();
         LinkedList<Question> questions = new LinkedList<>();
 
-        for (Node n : node.getQuestions())
-        {
-            if (n instanceof ConditionalIfNode) {
-                LinkedList<JPanelGUI> jPanelIf = n.accept(this);
+        makeQuestionsList(node.getQuestions(),jPanelGUIS, jPanelGUI, questions);
 
-                for (JPanelGUI jpg : jPanelIf) {
-                    result.add(jpg.getPanel());
-                }
-            } else if(n instanceof QuestionAssignValueNode){
-                Question question = ((QuestionAssignValueNode) n).accept(this);
-                eventChecker.addCalculationPanel(question.answerNameValue(),jPanelGUI);
-                questions.add(question);
-
-            }
-            else {
-                questions.add(n.accept(this));
-            }
-
+        for (JPanelGUI jpg : jPanelGUIS) {
+            result.add(jpg.getPanel());
         }
 
         jPanelGUI.createPanel(questions, 0);
@@ -59,7 +43,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
     }
 
     @Override
-    public LinkedList<JPanelGUI> visit(ConditionalIfNode node)
+    public LinkedList<JPanelGUI> visit(ConditionalNode node)
     {
         JPanelGUI jPanelGUI = new JPanelGUI();
 
@@ -83,24 +67,8 @@ public class ASTVisitorEvaluator implements ASTVisitor
         LinkedList<JPanelGUI> result = new LinkedList<>();
         LinkedList<Question> questions = new LinkedList<Question>();
 
-        for (Node n : node.getQuestions())
-        {
-            if (n instanceof ConditionalIfNode)
-            {
-                LinkedList<JPanelGUI> jPanelIf = n.accept(this);
-                result.addAll(jPanelIf);
+        makeQuestionsList(node.getQuestions(),result, jPanelGUI, questions);
 
-            } else if(n instanceof QuestionAssignValueNode){
-                Question question = ((QuestionAssignValueNode) n).accept(this);
-                eventChecker.addCalculationPanel(question.answerNameValue(),jPanelGUI);
-                questions.add(question);
-            }
-
-            else {
-                questions.add(n.accept(this));
-            }
-
-        }
 
         if (node.getAfter() != null)
         {
@@ -269,4 +237,25 @@ public class ASTVisitorEvaluator implements ASTVisitor
     }
 
 
+    private void makeQuestionsList(LinkedList<Node> listToTurn, LinkedList<JPanelGUI> result,
+                                   JPanelGUI jPanelGUI, LinkedList<Question> questions){
+        for (Node n : listToTurn)
+        {
+            if (n instanceof ConditionalNode)
+            {
+                LinkedList<JPanelGUI> jPanelIf = n.accept(this);
+                result.addAll(jPanelIf);
+
+            } else if(n instanceof QuestionAssignValueNode){
+                Question question = ((QuestionAssignValueNode) n).accept(this);
+                eventChecker.addCalculationPanel(question.answerNameValue(),jPanelGUI);
+                questions.add(question);
+            }
+
+            else {
+                questions.add(n.accept(this));
+            }
+
+        }
+    }
 }

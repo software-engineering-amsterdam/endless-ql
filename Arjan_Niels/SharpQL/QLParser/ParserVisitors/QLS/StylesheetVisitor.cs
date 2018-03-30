@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime.Misc;
+using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace QLParser.ParserVisitors.QLS
         public override QLSNode VisitStylesheet([NotNull] StylesheetContext context)
         {
             string id = context.ID().GetText();
-            var qlsNode = new QLSStructuralNode(QLSNodeType.Stylesheet, id);
+            var styles = VisitDefaults(context.defaults());
+            var qlsNode = new QLSStructuralNode(QLSNodeType.Stylesheet, id, styles);
 
             foreach (PageContext pageContext in context.page())
                 qlsNode.AddNode(VisitPage(pageContext));
@@ -34,7 +36,8 @@ namespace QLParser.ParserVisitors.QLS
         public override QLSNode VisitSection([NotNull] SectionContext context)
         {
             string id = Util.RemoveQuotes(context.TEXT().GetText());
-            var qlsNode = new QLSStructuralNode(QLSNodeType.Section, id);
+            var styles = VisitDefaults(context.defaults());
+            var qlsNode = new QLSStructuralNode(QLSNodeType.Section, id, styles);
 
             foreach (SectionContext sectionContext in context.section())
                 qlsNode.AddNode(VisitSection(sectionContext));
@@ -54,7 +57,7 @@ namespace QLParser.ParserVisitors.QLS
                 var widgetSpecificaitonVisitor = new WidgetSpecificationVisitor();
                 var specification = widgetSpecificaitonVisitor.VisitWidgetspecification(context.widgetspecification());
 
-                var qlsNode = new QLSQuestionNode(id, new List<QLSStyle>() { new QLSStyle(specification) });
+                var qlsNode = new QLSQuestionNode(id, new List<QLSStyle>() { new QLSStyle(QValueType.UNKNOWN, specification) });
                 return qlsNode;
             }
             else

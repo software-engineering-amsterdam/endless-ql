@@ -3,9 +3,9 @@
 /*
  * Parser rules
 */
-stylesheet			: STYLESHEET ID LCURLY page* defaults* RCURLY;
-page				: PAGE TEXT LCURLY section* defaults* RCURLY;
-section				: SECTION TEXT LCURLY (section |question)* defaults* RCURLY;
+stylesheet			: STYLESHEET ID LCURLY (page|defaults)* RCURLY;
+page				: PAGE TEXT LCURLY (section|defaults)* RCURLY;
+section				: SECTION TEXT LCURLY (section |question|defaults)* RCURLY;
 question			: QUESTION ID widgetspecification
 					| QUESTION ID;
 defaults			: DEFAULT QTYPE LCURLY stylevalue* widgetspecification? RCURLY;

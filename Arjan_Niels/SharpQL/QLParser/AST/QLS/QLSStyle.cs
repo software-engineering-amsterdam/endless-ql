@@ -1,19 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using QLParser.AST.QL;
+using System.Collections.Generic;
 
 namespace QLParser.AST.QLS
 {
     public class QLSStyle : IQLSElement
     {
-        public IList<QLSValue> StylingValues { get; set; }
+        public QValueType QValueType { get; private set; }
+        public IList<QLSValue> StylingValues { get; private set; }
         public QLSWidgetSpecification WidgetSpecification { get; private set; }
 
         public QLSStyle()
         {
+            this.QValueType = QValueType.UNKNOWN;
             this.StylingValues = new List<QLSValue>();
             this.WidgetSpecification = new QLSWidgetSpecification();
         }
 
-        public QLSStyle(QLSWidgetSpecification specification) : this()
+        public QLSStyle(QValueType type) : this()
+        {
+            this.QValueType = type;
+        }
+
+        public QLSStyle(QValueType type, QLSWidgetSpecification specification) : this(type)
         {
             this.WidgetSpecification = specification;
         }

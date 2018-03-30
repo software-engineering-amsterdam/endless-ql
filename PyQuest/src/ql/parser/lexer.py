@@ -100,7 +100,7 @@ class QLLexer:
             token.value = QLDate(numbers)
             return token
         except SyntaxError:
-            Debug(pyqt5=False).error([token.lineno], 'Invalid date.')
+            self.errors.append('Invalid date.')
 
     @staticmethod
     def t_DECIMAL_LITERAL(token):
@@ -138,3 +138,4 @@ class QLLexer:
     # Class constructor
     def __init__(self):
         self.lexer = lex(module=self)
+        self.error = []

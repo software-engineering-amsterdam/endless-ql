@@ -22,12 +22,14 @@ namespace QlsParser.AstBuilder
             m_domainItemLocator = domainItemLocator;
         }
 
-        public override DomainId<IAstNode> VisitStyleSheet(QlsGrammar.QlsParser.StyleSheetContext context)
+        public override DomainId<IAstNode> VisitStyleSheet(
+            QlsGrammar.QlsParser.StyleSheetContext context)
         {
             var definition = context.GetText();
             var styleSheetName = context.styleSheetName.Text;
             var defaultStyles = context.defaultStyle()
-                .Select(CreateDefaultStyle);
+                .Select(CreateDefaultStyle)
+                .ToList();
 
             var pages = context.page()
                 .Select(Visit)
@@ -40,7 +42,8 @@ namespace QlsParser.AstBuilder
                 pages);
         }
 
-        private IDefaultStyle CreateDefaultStyle(QlsGrammar.QlsParser.DefaultStyleContext defaultStyleContext)
+        private IDefaultStyle CreateDefaultStyle(
+            QlsGrammar.QlsParser.DefaultStyleContext defaultStyleContext)
         {
             var style = VisitStyle(defaultStyleContext.style()).To<IStyleNode>(m_domainItemLocator);
             var type = GetAstType(defaultStyleContext.type().GetText());
@@ -60,7 +63,8 @@ namespace QlsParser.AstBuilder
             }
         }
         
-        public override DomainId<IAstNode> VisitStyle(QlsGrammar.QlsParser.StyleContext context)
+        public override DomainId<IAstNode> VisitStyle(
+            QlsGrammar.QlsParser.StyleContext context)
         {
             var definition = context.GetText();
 
@@ -195,12 +199,14 @@ namespace QlsParser.AstBuilder
             return null;
         }
 
-        public override DomainId<IAstNode> VisitPage(QlsGrammar.QlsParser.PageContext context)
+        public override DomainId<IAstNode> VisitPage(
+            QlsGrammar.QlsParser.PageContext context)
         {
             var definition = context.GetText();
             var pageNameText = context.pageName.Text;
             var defaultStyles = context.defaultStyle()
-                .Select(CreateDefaultStyle);
+                .Select(CreateDefaultStyle)
+                .ToList();
 
             var sections = context.section()
                 .Select(Visit)
@@ -218,7 +224,8 @@ namespace QlsParser.AstBuilder
             var definition = context.GetText();
             var sectionNameText = context.sectionName.Text;
             var defaultStyles = context.defaultStyle()
-                .Select(CreateDefaultStyle);
+                .Select(CreateDefaultStyle)
+                .ToList();
 
             var questions = context.question()
                 .Select(Visit)

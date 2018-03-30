@@ -34,7 +34,7 @@ object QLFormParser extends Logging {
     }
 
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
-      val formName = ctx.Identifier().getText
+      val formName = ctx.IDENTIFIER().getText
       val statements: Seq[Statement] =
         JavaConverters.asScalaBuffer(ctx.statement).toList.flatMap(StatementVisitor.visit)
 
@@ -55,7 +55,7 @@ object QLFormParser extends Logging {
     }
 
     override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {
-      val questionId = ctx.Identifier().getText
+      val questionId = ctx.IDENTIFIER().getText
       val questionLabel = ctx.label.getText
       val definedAnswerType = ctx.answerType().getText
       val answerType = AnswerType(definedAnswerType)
@@ -121,22 +121,22 @@ object QLFormParser extends Logging {
       Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitIntegerConstant(ctx: QLParser.IntegerConstantContext): Expression = {
-      IntegerAnswer(ctx.IntegerValue().getText.toInt)
+      IntegerAnswer(ctx.INTEGER_VALUE().getText.toInt)
     }
     override def visitDecimalConstant(ctx: QLParser.DecimalConstantContext): Expression = {
-      DecimalAnswer(BigDecimal(ctx.DecimalValue().getText))
+      DecimalAnswer(BigDecimal(ctx.DECIMAL_VALUE().getText))
     }
     override def visitBooleanConstant(ctx: QLParser.BooleanConstantContext): Expression = {
       BooleanAnswer(ctx.getText.toBoolean)
     }
     override def visitDateConstant(ctx: QLParser.DateConstantContext): Expression = {
-      DateAnswer(ctx.DateValue().getText)
+      DateAnswer(ctx.DATE_VALUE().getText)
     }
     override def visitStringConstant(ctx: QLParser.StringConstantContext): Expression = {
-      StringAnswer(ctx.Text().getText)
+      StringAnswer(ctx.TEXT().getText)
     }
     override def visitVariableName(ctx: QLParser.VariableNameContext): Expression = {
-      Reference(ctx.Identifier().getText)
+      Reference(ctx.IDENTIFIER().getText)
     }
   }
 

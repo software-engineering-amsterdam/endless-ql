@@ -1,5 +1,39 @@
 grammar QLS;
 
+stylesheet    : STYLESHEET name=IDENTIFIER CURLY_LEFT page+ defaultStyle* CURLY_RIGHT EOF ;
+
+page          : PAGE name=IDENTIFIER CURLY_LEFT sections+=section+ defaultStyle* CURLY_RIGHT ;
+
+section       : SECTION name=TEXT CURLY_LEFT statements+=statement+ defaultStyle* CURLY_RIGHT # MultiStatementSection
+              | SECTION name=TEXT statement                                                   # SingleStatementSection ;
+
+statement     : section  # SectionStatement
+              | question # QuestionStatement ;
+
+question      : QUESTION name=IDENTIFIER styling? ;
+
+defaultStyle  : DEFAULT questionType styling ;
+
+questionType  : BOOLEAN | STRING | DATE | INTEGER | DECIMAL | MONEY ;
+
+styling       : style
+              | CURLY_LEFT style+ CURLY_RIGHT ;
+
+style         : WIDGET widgetType                            # WidgetStyling
+              | WIDTH DOUBLE_COLON widthValue=INTEGER_VALUE  # WidthStyling
+              | COLOR DOUBLE_COLON colorValue=HEX_VALUE      # ColorStyling
+              | FONT DOUBLE_COLON fontType=TEXT              # FontTypeStyling
+              | FONTSIZE DOUBLE_COLON fontSize=INTEGER_VALUE # FontSizeStyling;
+
+widgetType    : CHECKBOX                                                                    # CheckBox
+              | SPINBOX BRACKET_LEFT minimum=(DECIMAL_VALUE | INTEGER_VALUE)
+                               COMMA maximum=(DECIMAL_VALUE | INTEGER_VALUE)
+                               COMMA stepSize=(DECIMAL_VALUE | INTEGER_VALUE) BRACKET_RIGHT # SpinBox
+              | SLIDER BRACKET_LEFT minimum=(DECIMAL_VALUE | INTEGER_VALUE)
+                              COMMA maximum=(DECIMAL_VALUE | INTEGER_VALUE) BRACKET_RIGHT   # Slider
+              | COMBO BRACKET_LEFT trueValue=TEXT COMMA falseValue=TEXT BRACKET_RIGHT       # ComboBox
+              | RADIO BRACKET_LEFT trueValue=TEXT COMMA falseValue=TEXT BRACKET_RIGHT       # RadioButtons;
+
 STYLESHEET : 'stylesheet' ;
 PAGE       : 'page' ;
 SECTION    : 'section' ;
@@ -46,37 +80,3 @@ TEXT          : '"' .*? '"' { setText(getText().substring(1, getText().length() 
 
 WHITESPACE    : [ \t\r\n]+ -> skip ;
 COMMENT       : '//' .*? '\n' -> skip ;
-
-stylesheet    : STYLESHEET name=IDENTIFIER CURLY_LEFT page+ defaultStyle* CURLY_RIGHT EOF ;
-
-page          : PAGE name=IDENTIFIER CURLY_LEFT sections+=section+ defaultStyle* CURLY_RIGHT ;
-
-section       : SECTION name=TEXT CURLY_LEFT statements+=statement+ defaultStyle* CURLY_RIGHT # MultiStatementSection
-              | SECTION name=TEXT statement                                                   # SingleStatementSection ;
-
-statement     : section  # SectionStatement
-              | question # QuestionStatement ;
-
-question      : QUESTION name=IDENTIFIER styling? ;
-
-defaultStyle  : DEFAULT questionType styling ;
-
-questionType  : BOOLEAN | STRING | DATE | INTEGER | DECIMAL | MONEY ;
-
-styling       : style
-              | CURLY_LEFT style+ CURLY_RIGHT ;
-
-style         : WIDGET widgetType                            # WidgetStyling
-              | WIDTH DOUBLE_COLON widthValue=INTEGER_VALUE  # WidthStyling
-              | COLOR DOUBLE_COLON colorValue=HEX_VALUE      # ColorStyling
-              | FONT DOUBLE_COLON fontType=TEXT              # FontTypeStyling
-              | FONTSIZE DOUBLE_COLON fontSize=INTEGER_VALUE # FontSizeStyling;
-
-widgetType    : CHECKBOX                                                                    # CheckBox
-              | SPINBOX BRACKET_LEFT minimum=(DECIMAL_VALUE | INTEGER_VALUE)
-                               COMMA maximum=(DECIMAL_VALUE | INTEGER_VALUE)
-                               COMMA stepSize=(DECIMAL_VALUE | INTEGER_VALUE) BRACKET_RIGHT # SpinBox
-              | SLIDER BRACKET_LEFT minimum=(DECIMAL_VALUE | INTEGER_VALUE)
-                              COMMA maximum=(DECIMAL_VALUE | INTEGER_VALUE) BRACKET_RIGHT   # Slider
-              | COMBO BRACKET_LEFT trueValue=TEXT COMMA falseValue=TEXT BRACKET_RIGHT       # ComboBox
-              | RADIO BRACKET_LEFT trueValue=TEXT COMMA falseValue=TEXT BRACKET_RIGHT       # RadioButtons;

@@ -1,5 +1,6 @@
-package gui.components.widgets;
+package gui.render;
 
+import gui.components.widgets.GUIWidget;
 import gui.components.widgets.chooser.CheckBox;
 import gui.components.widgets.chooser.DropDown;
 import gui.components.widgets.chooser.RadioButtons;
@@ -15,10 +16,8 @@ import gui.components.widgets.textbox.IntegerTextBox;
 import gui.components.widgets.textbox.MoneyTextBox;
 import gui.components.widgets.textbox.TextBox;
 import ql.model.expression.ReturnType;
-import qls.model.widget.DropDownWidget;
-import qls.model.widget.RadioWidget;
-import qls.model.widget.SliderWidget;
-import qls.model.widget.Widget;
+import qls.model.widget.*;
+import qls.visitor.QLSVisitor;
 
 public class WidgetFactory {
 
@@ -61,50 +60,85 @@ public class WidgetFactory {
     }
 
     private static GUIWidget getStringWidget(Widget widget) {
-        switch (widget.getType()) {
-            case TEXTBOX:
-            default:
-                return new TextBox();
-        }
+        return new TextBox();
     }
 
     private static GUIWidget getIntegerWidget(Widget widget) {
-        switch (widget.getType()) {
-            case SPINBOX:
+        GUIWidget guiWidget = widget.accept(new QLSVisitor<GUIWidget>() {
+            @Override
+            public GUIWidget visit(SpinBoxWidget widget) {
                 return new IntegerSpinner();
-            case SLIDER:
-                SliderWidget sliderWidget = (SliderWidget) widget;
-                return new IntegerSlider((int) sliderWidget.getMinValue(), (int) sliderWidget.getMaxValue());
-            case TEXTBOX:
-            default:
+            }
+
+            @Override
+            public GUIWidget visit(SliderWidget widget) {
+                return new IntegerSlider((int) widget.getMinValue(), (int) widget.getMaxValue());
+            }
+
+            @Override
+            public GUIWidget visit(TextBoxWidget widget) {
                 return new IntegerTextBox();
+            }
+        });
+
+        // Fall back on default widget
+        if (guiWidget == null) {
+            guiWidget = new IntegerTextBox();
         }
+
+        return guiWidget;
     }
 
     private static GUIWidget getDecimalWidget(Widget widget) {
-        switch (widget.getType()) {
-            case SPINBOX:
+        GUIWidget guiWidget = widget.accept(new QLSVisitor<GUIWidget>() {
+            @Override
+            public GUIWidget visit(SpinBoxWidget widget) {
                 return new DecimalSpinner();
-            case SLIDER:
-                SliderWidget sliderWidget = (SliderWidget) widget;
-                return new DecimalSlider(sliderWidget.getMinValue(), sliderWidget.getMaxValue());
-            case TEXTBOX:
-            default:
+            }
+
+            @Override
+            public GUIWidget visit(SliderWidget widget) {
+                return new DecimalSlider(widget.getMinValue(), widget.getMaxValue());
+            }
+
+            @Override
+            public GUIWidget visit(TextBoxWidget widget) {
                 return new DecimalTextBox();
+            }
+        });
+
+        // Fall back on default widget
+        if (guiWidget == null) {
+            guiWidget = new DecimalTextBox();
         }
+
+        return guiWidget;
     }
 
     private static GUIWidget getMoneyWidget(Widget widget) {
-        switch (widget.getType()) {
-            case SPINBOX:
+        GUIWidget guiWidget = widget.accept(new QLSVisitor<GUIWidget>() {
+            @Override
+            public GUIWidget visit(SpinBoxWidget widget) {
                 return new MoneySpinner();
-            case SLIDER:
-                SliderWidget sliderWidget = (SliderWidget) widget;
-                return new MoneySlider(sliderWidget.getMinValue(), sliderWidget.getMaxValue());
-            case TEXTBOX:
-            default:
+            }
+
+            @Override
+            public GUIWidget visit(SliderWidget widget) {
+                return new MoneySlider(widget.getMinValue(), widget.getMaxValue());
+            }
+
+            @Override
+            public GUIWidget visit(TextBoxWidget widget) {
                 return new MoneyTextBox();
+            }
+        });
+
+        // Fall back on default widget
+        if (guiWidget == null) {
+            guiWidget = new MoneyTextBox();
         }
+
+        return guiWidget;
     }
 
     private static GUIWidget getDateWidget(Widget widget) {
@@ -112,16 +146,28 @@ public class WidgetFactory {
     }
 
     private static GUIWidget getBooleanWidget(Widget widget) {
-        switch (widget.getType()) {
-            case RADIO:
-                RadioWidget radioWidget = (RadioWidget) widget;
-                return new RadioButtons(radioWidget.getFalseLabel(), radioWidget.getTrueLabel());
-            case DROPDOWN:
-                DropDownWidget dropDownWidget = (DropDownWidget) widget;
-                return new DropDown(dropDownWidget.getFalseLabel(), dropDownWidget.getTrueLabel());
-            case CHECKBOX:
-            default:
+        GUIWidget guiWidget = widget.accept(new QLSVisitor<GUIWidget>() {
+            @Override
+            public GUIWidget visit(RadioWidget widget) {
+                return new RadioButtons(widget.getFalseLabel(), widget.getTrueLabel());
+            }
+
+            @Override
+            public GUIWidget visit(DropDownWidget widget) {
+                return new DropDown(widget.getFalseLabel(), widget.getTrueLabel());
+            }
+
+            @Override
+            public GUIWidget visit(CheckBoxWidget widget) {
                 return new CheckBox();
+            }
+        });
+
+        // Fall back on default widget
+        if (guiWidget == null) {
+            guiWidget = new CheckBox();
         }
+
+        return guiWidget;
     }
 }

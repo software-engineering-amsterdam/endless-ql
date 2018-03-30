@@ -57,12 +57,10 @@ public class WidgetBuilder extends QLSBaseVisitor<Widget> {
 
     @Override
     public Widget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
-        double min = Double.parseDouble(ctx.min.getText());
-        double max = Double.parseDouble(ctx.max.getText());
+        int min = Integer.parseInt(ctx.min.getText());
+        int max = Integer.parseInt(ctx.max.getText());
         SliderWidget sliderWidget = new SliderWidget(min, max);
         sliderWidget.setToken(ctx.getStart());
         return sliderWidget;
     }
-
-
 }

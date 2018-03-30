@@ -17,7 +17,7 @@ public class IntegerSlider extends Slider {
         });
 
         // Integer widget, so show initial value as integer as well
-        this.valueLabel.setText("0");
+        this.valueLabel.setText(String.valueOf(min));
     }
 
     @Override

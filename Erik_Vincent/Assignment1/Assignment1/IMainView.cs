@@ -9,6 +9,7 @@ namespace Assignment1
         event EventHandler SelectQLFile;
         event EventHandler ExportAnswers;
 
+        void ClearUI();
         void Show();
         void SetFormControl(Control control);
         void SetErrors(IEnumerable<string> errors);

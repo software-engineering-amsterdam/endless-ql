@@ -9,7 +9,7 @@ page : PAGEKEYWORD pageName=IDENTIFIER
 section: SECTIONKEYWORD sectionName=IDENTIFIER
          BEGINSCOPE question* defaultStyle* ENDSCOPE;
 
-question: QUESTIONKEYWORD questionName=IDENTIFIER style*;
+question: QUESTIONKEYWORD questionName=IDENTIFIER style?;
 
 defaultStyle : DEFAULTKEYWORD type style;
 
@@ -24,21 +24,21 @@ style : stylePart
       | BEGINSCOPE stylePart+ ENDSCOPE
       ;
 
-stylePart : control
-          | WIDTHPROPERTY KEYVALUESEPARATOR INTEGER 
-          | FONTPROPERTY KEYVALUESEPARATOR TEXT
-          | FONTSIZEPROPERTY KEYVALUESEPARATOR (DECIMAL | INTEGER)
-          | COLORPROPERTY KEYVALUESEPARATOR HEXIDECIMAL
+stylePart : widget=control
+          | WIDTHPROPERTY KEYVALUESEPARATOR width=INTEGER 
+          | FONTPROPERTY KEYVALUESEPARATOR fontname=TEXT
+          | FONTSIZEPROPERTY KEYVALUESEPARATOR fontsize=(DECIMAL | INTEGER)
+          | COLORPROPERTY KEYVALUESEPARATOR color=HEXIDECIMAL
           ;
 
 control : WIDGETKEYWORD controlType;
 
-controlType : CHECKBOX
+controlType : chosenType=(CHECKBOX
             | RADIOBUTTON trueFalseText?
             | COMBOBOX trueFalseText?
             | TEXTBOX
             | TRACKBAR sliderRange?
-            | NUMERICUPDOWN
+            | NUMERICUPDOWN)
             ;
 
 trueFalseText: BEGINCOLLECTION 

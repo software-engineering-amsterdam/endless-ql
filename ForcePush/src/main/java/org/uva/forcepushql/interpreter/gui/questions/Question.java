@@ -1,5 +1,9 @@
 package org.uva.forcepushql.interpreter.gui.questions;
 
+import org.uva.forcepushql.interpreter.gui.Observer;
+
+import java.util.LinkedList;
+
 public abstract class Question
 {
 
@@ -7,6 +11,8 @@ public abstract class Question
     private String question;
     private String answerType;
     private String answerName;
+    private LinkedList<Observer> observers;
+
 
     public Question(String question, String answerType, String answerName)
     {
@@ -14,6 +20,8 @@ public abstract class Question
         this.question = question;
         this.answerType = answerType;
         this.answerName = answerName;
+        observers = new LinkedList<Observer>();
+
     }
 
     public void mandatory()
@@ -47,6 +55,17 @@ public abstract class Question
     {
         return answerName;
     }
+
+    public void attachObserver(Observer observer)
+    {
+        observers.add(observer);
+    }
+
+    public LinkedList<Observer> getObservers() {
+        return observers;
+    }
+
+    abstract public void notifyAllObservers();
 
 
 }

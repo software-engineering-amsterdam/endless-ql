@@ -4,7 +4,7 @@ import doge.data.question.Question
 import javafx.beans.property.SimpleObjectProperty
 import java.math.BigDecimal
 
-class DecimalViewModel(question: Question) : QuestionModel(question){
+class DecimalViewModel(question: Question) : QuestionViewModel(question){
 
     var decimalProperty = bind { SimpleObjectProperty<BigDecimal>(item.value.decimalValue.value) }
 

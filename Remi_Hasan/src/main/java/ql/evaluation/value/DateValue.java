@@ -14,7 +14,7 @@ public class DateValue extends Value<LocalDate> {
     }
 
     @Override
-    public Integer getIntValue() {
+    public Integer getIntegerValue() {
         throw new UnsupportedOperationException("Cannot cast date to integer.");
     }
 

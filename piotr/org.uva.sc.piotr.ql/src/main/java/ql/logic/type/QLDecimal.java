@@ -92,6 +92,6 @@ public class QLDecimal extends QLNumeric<BigDecimal> {
         } else if (value instanceof BigDecimal) {
             return (BigDecimal) value;
         }
-        return null;
+        throw new RuntimeException("Unable to cast " + value.getClass().getSimpleName() + " to " + BigDecimal.class.getSimpleName());
     }
 }

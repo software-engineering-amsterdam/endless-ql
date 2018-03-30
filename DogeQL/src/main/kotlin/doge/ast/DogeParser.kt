@@ -2,16 +2,15 @@ package doge.ast
 
 import QuestionnaireLanguageGrammarLexer
 import QuestionnaireLanguageGrammarParser
-import doge.data.question.Question
+import doge.ast.node.QLNode
 import doge.typechecker.TypeChecker
-import doge.visitor.UiVisitor
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 
 
 class DogeParser {
 
-    fun parse(): List<Question> {
+    fun parse(): QLNode {
         val fileName = "/sample/TestQuestionare.doge"
         val fileStream = javaClass.getResource(fileName).openStream()
 
@@ -28,7 +27,6 @@ class DogeParser {
 
         TypeChecker(fileName, ast).check()
 
-        val questions = UiVisitor().visit(ast)
 
 //
 //        CircularDependencyVisitor().visit(ast)
@@ -47,7 +45,7 @@ class DogeParser {
 //            throw Exception() // TODO: fix this flow
 //        }
 
-        return questions
+        return ast
     }
 
 }

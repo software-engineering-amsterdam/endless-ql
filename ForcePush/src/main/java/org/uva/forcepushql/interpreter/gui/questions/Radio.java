@@ -1,6 +1,8 @@
 package org.uva.forcepushql.interpreter.gui.questions;
 
 
+import org.uva.forcepushql.interpreter.gui.Observer;
+
 public class Radio extends Question
 {
 
@@ -12,9 +14,19 @@ public class Radio extends Question
         answer = false;
     }
 
+    @Override
+    public void notifyAllObservers() {
+        for (Observer obs : getObservers())
+        {
+            obs.updateRadio(this);
+        }
+
+    }
+
     public void givenAnswer(boolean answer)
     {
         this.answer = answer;
+        notifyAllObservers();
     }
 
     public boolean answerValue()

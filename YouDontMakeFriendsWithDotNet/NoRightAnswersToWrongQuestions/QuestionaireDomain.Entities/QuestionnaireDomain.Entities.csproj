@@ -163,7 +163,7 @@
     <Compile Include="Ast\Nodes\Relational\TextNode.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\UserInputQuestionNode.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\QuestionnaireRootNode.cs" />
-    <Compile Include="Domain\Reference.cs" />
+    <Compile Include="Domain\DomainId.cs" />
     <Compile Include="Ast\Nodes\Common\VariableNodeBase.cs" />
     <Compile Include="EntitiesModule.cs" />
     <Compile Include="Domain\Interfaces\ISymbolTable.cs" />

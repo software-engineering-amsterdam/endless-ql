@@ -13,6 +13,11 @@ private Map<String,Boolean> answers;
 		answers = new HashMap<String,Boolean>();
 	}
 
+	@Override
+	public void notifyAllObservers() {
+
+	}
+
 	public void addAnswerOption(String option)
 	{
 		answers.put(option,false);

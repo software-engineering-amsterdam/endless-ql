@@ -7,8 +7,8 @@ public class Error {
         WARNING
     }
 
-    private Level level;
-    private String message;
+    private final Level level;
+    private final String message;
 
     public Error(Level level, String message) {
         this.level = level;

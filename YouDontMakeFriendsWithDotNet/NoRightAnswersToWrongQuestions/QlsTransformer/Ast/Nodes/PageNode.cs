@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 using QuestionnaireDomain.Entities.Domain;
 
 namespace QlsTransformer.Ast.Nodes
 {
-    internal class PageNode : AstNodeBase, IPageNode
+    internal class PageNode : StyleSheetCompartmentBase, IPageNode
     {
         public PageNode(
             Guid id, 
             string definition,
             string name,
-            IEnumerable<Reference<ISectionNode>> sections) : base(id, definition)
+            IEnumerable<IDefaultStyle> defaultStyles,
+            IEnumerable<DomainId<ISectionNode>> sections) 
+            : base(id, definition, name, defaultStyles)
         {
-            Name = name;
             Sections = sections;
         }
 
-        public string Name { get; }
-        public IEnumerable<Reference<ISectionNode>> Sections { get; }
+        public IEnumerable<DomainId<ISectionNode>> Sections { get; }
     }
 }

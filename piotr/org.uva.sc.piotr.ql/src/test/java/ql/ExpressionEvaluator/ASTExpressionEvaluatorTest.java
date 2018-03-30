@@ -16,7 +16,7 @@ public class ASTExpressionEvaluatorTest {
     private List<QuestionModel> questionModels;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 //        CharStream charStream = CharStreams.fromFileName("../src/main/ql/resources/example-ql/form0.qlform");
 //        QLLexer qlLexer = new QLLexer(charStream);
 //        CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);

@@ -74,7 +74,7 @@ public class Main extends Application {
         }
 
         // Check for warning messages
-        Set<String> warnings = qlForm.getWarnings();
+        Set<String> warnings = this.qlForm.getWarnings();
         if (!warnings.isEmpty()) {
             showWarningAlert(String.join("\n", warnings));
         }

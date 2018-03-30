@@ -1,13 +1,14 @@
 package qls.ast
 
-import org.antlr.v4.runtime.ANTLRInputStream
 import QuestionnaireLanguageStyleGrammarLexer
-import org.antlr.v4.runtime.CommonTokenStream
 import QuestionnaireLanguageStyleGrammarParser
+import org.antlr.v4.runtime.ANTLRInputStream
+import org.antlr.v4.runtime.CommonTokenStream
+import qls.model.StyleSheet
 
 
-class QlsParser(){
-    fun parse() {
+class QlsParser {
+    fun parse(): StyleSheet {
         val fileStream = javaClass.getResource("/sample/Style.shiba").openStream()
 
         val stream = ANTLRInputStream(fileStream)
@@ -19,7 +20,9 @@ class QlsParser(){
 
         val ast = visitor.visit(parser.stylesheet())
 
-        return TODO()
+        // TODO add checks
+
+        return ast as StyleSheet
     }
 
 }

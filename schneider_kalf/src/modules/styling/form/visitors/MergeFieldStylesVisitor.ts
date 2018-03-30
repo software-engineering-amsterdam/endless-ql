@@ -9,7 +9,7 @@ import StyleSheetNode from "../nodes/StyleSheetNode";
 import MergedFieldStyle from "../MergedFieldStyle";
 import { VariableInformation } from "../../../../form/VariableIntformation";
 import StyleTreeNode from "../nodes/StyleTreeNode";
-import { getDefaultStyleNodes } from "../style_helpers";
+import { getDefaultStyleNodes } from "../../helpers/style_helpers";
 import { UnkownQuestionUsedInLayoutError } from "../style_errors";
 import { VariablesMap } from "../../../../form/type_checking/VariableScopeVisitor";
 import { Maybe } from "../../../../helpers/type_helper";

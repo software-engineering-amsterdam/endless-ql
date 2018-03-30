@@ -10,7 +10,7 @@ namespace QuestionnaireDomain.Entities.Validators.MetaData
             Severity = severity;
         }
 
-        public Reference<IAstNode> Source { get; set; }
+        public DomainId<IAstNode> Source { get; set; }
         public string Message { get; set; }
         public Severity Severity { get; }
     }

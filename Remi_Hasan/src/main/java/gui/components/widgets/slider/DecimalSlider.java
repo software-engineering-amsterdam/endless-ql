@@ -19,6 +19,6 @@ public class DecimalSlider extends Slider {
 
     @Override
     public void setValue(Value value) {
-        this.slider.setValue(value.getDecimalValue());
+        this.slider.setValue(value.isUndefined() ? this.slider.getMin() : value.getDecimalValue());
     }
 }

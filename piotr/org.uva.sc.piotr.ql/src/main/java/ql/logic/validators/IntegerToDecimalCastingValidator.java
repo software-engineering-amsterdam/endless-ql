@@ -29,17 +29,17 @@ public final class IntegerToDecimalCastingValidator extends Validator {
 
                 Question refQuestion = QuestionRepository
                         .findQuestionByVariableName(reference.getName(), this.questions);
-                if (
+                if (refQuestion != null &&
                         entry
                                 .getKey()
                                 .getVariableType()
                                 .toDataType()
                                 .equals(Expression.DataType.INTEGER)
-                                &&
-                                refQuestion
-                                        .getVariableType()
-                                        .toDataType()
-                                        .equals(Expression.DataType.DECIMAL)
+                        &&
+                        refQuestion
+                                .getVariableType()
+                                .toDataType()
+                                .equals(Expression.DataType.DECIMAL)
                         ) {
                     String message = "Illegal assignment: Assignment to variable \"" + entry.getKey().getVariableName() + "\" of type " + entry.getKey().getVariableType().toDataType() + " in line " + entry.getKey().getMetaInformation().getStartLine() + " can not take as argument variable \"" + refQuestion.getVariableName() + "\" of type " + refQuestion.getVariableType().toDataType() + ".";
                     this.setError(new Error(Error.Level.CRITICAL, message));

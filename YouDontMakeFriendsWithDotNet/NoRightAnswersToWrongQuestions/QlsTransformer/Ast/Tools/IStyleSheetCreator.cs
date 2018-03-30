@@ -6,6 +6,6 @@ namespace QlsTransformer.Ast.Tools
 {
     public interface IStyleSheetCreator
     {
-        Reference<IStyleSheetRootNode> Create(string definition);
+        DomainId<IStyleSheetRootNode> Create(string definition);
     }
 }

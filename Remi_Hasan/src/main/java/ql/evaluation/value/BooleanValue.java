@@ -14,7 +14,7 @@ public class BooleanValue extends Value<Boolean> {
     }
 
     @Override
-    public Integer getIntValue() {
+    public Integer getIntegerValue() {
         throw new UnsupportedOperationException("Cannot cast boolean to integer");
     }
 

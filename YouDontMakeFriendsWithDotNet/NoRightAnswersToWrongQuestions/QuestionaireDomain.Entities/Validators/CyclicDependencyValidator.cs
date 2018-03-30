@@ -24,7 +24,7 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            Reference<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> questionnaireRootNode)
         {
             var questionNodes = m_domainItemLocator
                 .GetAll<ICalculatedQuestionNode>()

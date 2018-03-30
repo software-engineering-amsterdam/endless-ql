@@ -22,12 +22,12 @@ namespace AntlrInterpretor.AstBuilder
             m_domainItemLocator = domainItemLocator;
         }
         
-        public Reference<IQuestionnaireRootNode> BuildForm(string definition)
+        public DomainId<IQuestionnaireRootNode> BuildForm(string definition)
         {
             return BuildAstTree<IQuestionnaireRootNode>(definition);
         }
         
-        private Reference<T> BuildAstTree<T>(string definition) where T : IAstNode
+        private DomainId<T> BuildAstTree<T>(string definition) where T : IAstNode
         {
             var stream = new AntlrInputStream(definition);
             var lexer = new QlLexer(stream);

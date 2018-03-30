@@ -31,7 +31,7 @@ public class CyclicDependencyTests {
 
 	String test2 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean q1\n"
+			+ "\"question1\" q1: boolean = q1\n"
 			+ "}";
 
 	@Test
@@ -46,8 +46,8 @@ public class CyclicDependencyTests {
 
 	String test3 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean q2\n"
-			+ "\"question2\" q2: boolean q1\n"
+			+ "\"question1\" q1: boolean = q2\n"
+			+ "\"question2\" q2: boolean = q1\n"
 			+ "}";
 
 	@Test

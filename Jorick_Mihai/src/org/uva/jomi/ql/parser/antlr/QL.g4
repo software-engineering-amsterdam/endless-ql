@@ -19,7 +19,7 @@ command: questionStatement
 	   | ifElseStatement
 	   ;
 
-questionStatement: LABEL IDENTIFIER ':' TYPE (expression)? ;
+questionStatement: LABEL IDENTIFIER ':' TYPE ('=' expression)? ;
 ifStatement: 'if' '(' expression ')' blockStatement ;
 ifElseStatement: 'if' '(' expression ')' ifBlock=blockStatement 'else' elseBlock=blockStatement;
 

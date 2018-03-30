@@ -28,8 +28,12 @@ public class TestUtilities {
 
 		ParseContext cst = parser.parse();
 
-		AstBuilder astBuilder = new AstBuilder(false);
-		return astBuilder.visit(cst);
+		if (parser.getNumberOfSyntaxErrors() == 0) {
+			AstBuilder astBuilder = new AstBuilder(false);
+			return astBuilder.visit(cst);
+		}
+
+		return null;
 	}
 
 }

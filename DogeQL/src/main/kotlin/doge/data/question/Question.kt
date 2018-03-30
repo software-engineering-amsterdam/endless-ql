@@ -1,7 +1,6 @@
 package doge.data.question
 
 import doge.ast.location.SourceLocation
-import doge.data.symbol.SymbolTable
 import doge.data.value.BaseSymbolValue
 
 data class Question(
@@ -11,12 +10,4 @@ data class Question(
         val nameLocation: SourceLocation,
         val labelLocation: SourceLocation,
         val readOnly: Boolean
-) {
-    fun update(symbolTable: SymbolTable) {
-        symbolTable.findSymbol(name)?.let {
-            value = it.value
-        } ?: run {
-            throw IllegalStateException("TODO")
-        }
-    }
-}
+)

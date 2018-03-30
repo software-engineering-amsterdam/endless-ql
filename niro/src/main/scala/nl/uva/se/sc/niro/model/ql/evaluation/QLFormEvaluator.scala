@@ -1,15 +1,15 @@
 package nl.uva.se.sc.niro.model.ql.evaluation
 
-import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
 
 object QLFormEvaluator {
 
-  type Dictionary = Map[String, Answer]
+  type ValueStore = Map[String, Answer]
 
-  def evaluate(qLForm: QLForm, dictionary: Dictionary): Dictionary = {
+  def evaluate(qLForm: QLForm, dictionary: ValueStore): ValueStore = {
     qLForm.symbolTable
       .map {
         case (questionId, symbol) =>

@@ -21,7 +21,8 @@ public class QLFrame extends JFrame {
 
         // this hack is needed to ensure that the panel is readable on high resolution displays
         // TODO Check if there is another way to fix this in a more elegant way.
-        setDefaultSize(36);
+
+//        setDefaultSize(36);
 
     }
 
@@ -29,7 +30,7 @@ public class QLFrame extends JFrame {
     /*
      * Helper method to scale the application.
      */
-    public static void setDefaultSize(int size) {
+    public void setDefaultSize(int size) {
 
         Set<Object> keySet = UIManager.getLookAndFeelDefaults().keySet();
         Object[] keys = keySet.toArray(new Object[keySet.size()]);

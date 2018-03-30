@@ -4,6 +4,8 @@ namespace Assignment1.Model.QL.AST.Value
 {
     public class QLBoolean : IValue
     {
+        public static QLBoolean Default => new QLBoolean(false);
+
         public bool Value { get; }
 
         public QLBoolean() : this(false) { }

@@ -19,19 +19,19 @@ object References {
       val unreferencedQuestionOnForm = uniqueQuestionNamesOnForm -- uniqueQuestionNamesInStylesheet
       val unreferencedQuestionInStylesheet = uniqueQuestionNamesInStylesheet -- uniqueQuestionNamesOnForm
 
-      Left(unreferencedQuestionOnForm
-        .map(name =>
-          TypeCheckError(
-            "ReferenceCheck",
-            s"Question '${name}' is defined in QL but not used in the QLS file."))
-        .toSeq ++
-        unreferencedQuestionInStylesheet
+      Left(
+        unreferencedQuestionOnForm
           .map(name =>
-            TypeCheckError(
-              "ReferenceCheck",
-              s"Question '${name}' is referenced in the QLS file but have not been defined in the QL file."
-          ))
-          .toSeq)
+            TypeCheckError("ReferenceCheck", s"Question '${name}' is defined in QL but not used in the QLS file."))
+          .toSeq ++
+          unreferencedQuestionInStylesheet
+            .map(
+              name =>
+                TypeCheckError(
+                  "ReferenceCheck",
+                  s"Question '${name}' is referenced in the QLS file but have not been defined in the QL file."
+              ))
+            .toSeq)
 
     }
   }

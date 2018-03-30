@@ -1,6 +1,6 @@
 ﻿form TestForm {
 	"Did you sell a house in 2010?"
-		soldHouseIn2010: boolean
+		soldHouse-In2010: boolean
 
 	if(soldHouseIn2010 < 10.0) {
 		"Have you bought a house in 2010?"

@@ -3,9 +3,9 @@
 /*
  * Parser rules
 */
-stylesheet			: STYLESHEET ID LCURLY page* RCURLY;
+stylesheet			: STYLESHEET ID LCURLY page* defaults* RCURLY;
 page				: PAGE TEXT LCURLY section* defaults* RCURLY;
-section				: SECTION TEXT LCURLY (section |question)* RCURLY;
+section				: SECTION TEXT LCURLY (section |question)* defaults* RCURLY;
 question			: QUESTION ID widgetspecification
 					| QUESTION ID;
 defaults			: DEFAULT QTYPE LCURLY stylevalue* widgetspecification? RCURLY;
@@ -40,7 +40,7 @@ HASHTAG				: '#';
 QTYPE				: 'boolean' | 'money' | 'text' | 'integer' | 'double' | 'hex';
 WIDGETTYPE			: 'checkbox' | 'spinner' | 'radio' | 'textfield';
 
-ID					: [a-zA-Z][a-zA-Z0-9]+;
+ID					: [a-zA-Z][a-zA-Z0-9\-B]+;
 TEXT				: '"' .*? '"' ;
 INT					: [0-9]+;		
 PT					: '.';

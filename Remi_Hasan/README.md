@@ -14,7 +14,7 @@
 - Click on File->Load QL file
 - Select a *.ql file that contains a QL form
 
-## How to use a QLS stylesheet
+## How to load a QLS stylesheet
 **Preconditions:** steps mentioned in section [How to load a QL form](#how-to-load-a-ql-form)
 - Click on File->Load QLS file
 - Select a *.qls file that contains a QLS stylesheet

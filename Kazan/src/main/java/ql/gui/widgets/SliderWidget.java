@@ -1,8 +1,9 @@
-package gui.widgets;
+package ql.gui.widgets;
 
-import gui.WidgetListener;
+import ql.gui.WidgetListener;
 import ql.ast.statements.Question;
 import ql.evaluator.FormEvaluator;
+import ql.evaluator.values.DecimalValue;
 import ql.evaluator.values.Value;
 
 import javax.swing.*;
@@ -12,8 +13,8 @@ public class SliderWidget extends BaseWidget {
 
     private final JSlider slider;
 
-    public SliderWidget(FormEvaluator evaluator, Question question) {
-        super(evaluator, question);
+    public SliderWidget(FormEvaluator evaluator, Question question, boolean isEditable) {
+        super(evaluator, question, isEditable);
 
         Value value = evaluator.getQuestionValue(question.getId());
         Number number = value != null ? (Number) value.getValue() : 0;
@@ -43,7 +44,12 @@ public class SliderWidget extends BaseWidget {
 
     @Override
     public void registerChangeListener(WidgetListener widgetListener) {
-        //TODO
+        slider.addChangeListener(e -> {
+            //wait until user has released slider before updating
+            if (!slider.getValueIsAdjusting()) {
+                widgetListener.onQuestionUpdated(question, new DecimalValue(slider.getValue()));
+            }
+        });
     }
 
     @Override

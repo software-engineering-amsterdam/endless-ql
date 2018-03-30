@@ -1,6 +1,6 @@
-package gui.widgets;
+package ql.gui.widgets;
 
-import gui.WidgetListener;
+import ql.gui.WidgetListener;
 import ql.ast.statements.Question;
 import ql.evaluator.FormEvaluator;
 import ql.evaluator.values.BooleanValue;
@@ -16,8 +16,8 @@ public class RadioWidget extends BaseWidget {
     private final JPanel panel;
     private final ButtonGroup buttonGroup;
 
-    public RadioWidget(FormEvaluator evaluator, Question question) {
-        super(evaluator, question);
+    public RadioWidget(FormEvaluator evaluator, Question question, boolean isEditable) {
+        super(evaluator, question, isEditable);
 
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(200, 50));
@@ -62,7 +62,7 @@ public class RadioWidget extends BaseWidget {
         for (JRadioButton button : choiceButtonMap.values()) {
             button.addActionListener(e -> {
                 if (button.isSelected()) {
-                    widgetListener.updateEnvironment(question, new BooleanValue(Boolean.parseBoolean(button.getText())));
+                    widgetListener.onQuestionUpdated(question, new BooleanValue(Boolean.parseBoolean(button.getText())));
                 }
             });
 

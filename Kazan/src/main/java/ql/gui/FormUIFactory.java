@@ -1,4 +1,4 @@
-package gui;
+package ql.gui;
 
 import ql.ast.Form;
 import ql.ast.statements.Question;
@@ -12,13 +12,18 @@ public class FormUIFactory {
 
     public FormUI getFormUI(Form form) {
         //TODO: optionally move form to evaluator constructor
-        FormEvaluator evaluator = new Evaluator();
-        evaluator.start(form);
+        FormEvaluator evaluator = new Evaluator(form);
+        evaluator.evaluate();
 
         List<QuestionUI> questions = new ArrayList<>();
         for (Question question : evaluator.getQuestions()) {
-            questions.add(new QuestionUI(evaluator, question));
+            questions.add(getQuestionUI(evaluator, question));
         }
         return new FormUI(questions);
     }
+
+    public QuestionUI getQuestionUI(FormEvaluator evaluator, Question question) {
+        return new QuestionUI(evaluator, question);
+    }
+
 }

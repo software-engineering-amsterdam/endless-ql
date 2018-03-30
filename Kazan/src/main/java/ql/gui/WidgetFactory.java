@@ -1,6 +1,6 @@
-package gui;
+package ql.gui;
 
-import gui.widgets.*;
+import ql.gui.widgets.*;
 import ql.ast.statements.Question;
 import ql.ast.types.*;
 import ql.ast.visitors.TypeVisitor;
@@ -10,8 +10,10 @@ public class WidgetFactory implements TypeVisitor<Widget> {
 
     private FormEvaluator evaluator;
     private Question question;
+    private boolean isEditable;
 
     public Widget createWidget(Question question, FormEvaluator evaluator) {
+        isEditable = evaluator.questionIsComputed(question.getId());
         this.evaluator = evaluator;
         this.question = question;
         return question.getType().accept(this);
@@ -19,32 +21,32 @@ public class WidgetFactory implements TypeVisitor<Widget> {
 
     @Override
     public Widget visit(BooleanType booleanType) {
-        return new RadioWidget(evaluator, question);
+        return new RadioWidget(evaluator, question, isEditable);
     }
 
     @Override
     public Widget visit(DecimalType decimalType) {
-        return new SliderWidget(evaluator, question);
+        return new SliderWidget(evaluator, question, isEditable);
     }
 
     @Override
     public Widget visit(IntegerType integerType) {
-        return new SpinboxWidget(evaluator, question);
+        return new SpinboxWidget(evaluator, question, isEditable);
     }
 
     @Override
     public Widget visit(MoneyType moneyType) {
-        return new TextFieldWidget(evaluator, question);
+        return new TextFieldWidget(evaluator, question, isEditable);
     }
 
     @Override
     public Widget visit(StringType stringType) {
-        return new TextFieldWidget(evaluator, question);
+        return new TextFieldWidget(evaluator, question, isEditable);
     }
 
     @Override
     public Widget visit(DateType dateType) {
-        return new TextFieldWidget(evaluator, question);
+        return new TextFieldWidget(evaluator, question, isEditable);
     }
 
     @Override

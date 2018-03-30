@@ -1,6 +1,5 @@
 package ql.gui.controller;
 
-import com.google.gson.Gson;
 import org.antlr.v4.runtime.*;
 import ql.ast.ASTBuilder;
 import ql.ast.model.Form;
@@ -10,8 +9,12 @@ import ql.ast.model.statements.Question;
 import ql.error.Error;
 import ql.grammar.QLLexer;
 import ql.grammar.QLParser;
+import ql.gui.model.FormModel;
 import ql.gui.model.QuestionModel;
-import ql.gui.view.QuestionPanel;
+import ql.gui.view.FormView;
+import ql.gui.view.QuestionView;
+import ql.gui.view.WindowView;
+import ql.gui.view.panels.FormPanel;
 import ql.logic.collectors.CollectConditionsVisitor;
 import ql.logic.collectors.CollectQuestionModelsVisitor;
 import ql.logic.collectors.CollectQuestionsVisitor;
@@ -20,28 +23,26 @@ import ql.logic.evaluators.FormModelExpressionEvaluator;
 import ql.logic.validators.*;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-public class FileOpenActionEvent implements ActionListener {
+public class OpenFileController implements ActionListener {
 
-    private JFrame frame;
+    WindowView windowView;
     private boolean validated;
 
-    public FileOpenActionEvent(JFrame frame) {
-        this.frame = frame;
+    public OpenFileController(WindowView windowView) {
+        this.windowView = windowView;
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
+
+        JFrame frame = this.windowView.getFrame();
 
         this.validated = true;
 
@@ -142,73 +143,32 @@ public class FileOpenActionEvent implements ActionListener {
             }
 
             // hide the initial frame
-            this.frame.setVisible(false);
+            this.windowView.hide();
 
             // proceed with actual form modelling and rendering
 
-            // start: ONE LIST TO RULE THEM ALL
+            // start: FORM MODEL
             CollectQuestionModelsVisitor collectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
-            List<QuestionModel> questionModels = collectQuestionModelsVisitor.getQuestionModels(form);
-            // end: ONE LIST TO RULE THEM ALL
+            FormModel formModel = new FormModel(collectQuestionModelsVisitor.getQuestionModels(form));
+            // end: FORM MODEL
 
-            FormModelExpressionEvaluator evaluator = new FormModelExpressionEvaluator(questionModels);
 
             // GUI
 
-            JPanel panel = new JPanel(new GridBagLayout());
+            FormView formView = new FormView();
 
-            TitledBorder titled = new TitledBorder(form.getName());
-            panel.setBorder(titled);
-
-            JScrollPane scrollFrame = new JScrollPane(panel);
-            panel.setAutoscrolls(true);
-            scrollFrame.setPreferredSize(new Dimension(600, 800));
-
-            GridBagConstraints gridBagConstraints = new GridBagConstraints();
-            gridBagConstraints.anchor = GridBagConstraints.WEST;
-
-            // form controller setup
-            FormController formController = new FormController(questionModels, evaluator);
-
-            // render form questions panels
-            int i = 0;
-            for (QuestionModel questionModel : questionModels) {
-                gridBagConstraints.gridy = i;
-                panel.add(new QuestionPanel(questionModel), gridBagConstraints);
-                i++;
+            for (QuestionModel questionModel : formModel.getQuestionModels()) {
+                formView.addQuestionView(new QuestionView(questionModel));
             }
 
-            // Form submit
-            JButton submit = new JButton("Submit form");
-            submit.addActionListener(submitEvent -> {
+            FormModelExpressionEvaluator evaluator = new FormModelExpressionEvaluator(formModel);
+            FormController formController = new FormController(formModel, evaluator);
+            formModel.registerController(formController);
 
-                Gson gson = new Gson();
-                String jsonResults = gson.toJson(formController.prepareResults());
+            JPanel formPanel = new FormPanel(form.getName(), formModel, formView);
 
-                fileChooser.setSelectedFile(new File(form.getName() + "-result.json"));
-                int returnVal = fileChooser.showSaveDialog(null);
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    File file = fileChooser.getSelectedFile();
-                    try {
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                        writer.write(jsonResults);
-                        writer.close();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            });
-
-            gridBagConstraints.gridy = i;
-            panel.add(submit, gridBagConstraints);
-
-            // frame rendering
-            this.frame.getContentPane().removeAll();
-            this.frame.getContentPane().add(scrollFrame);
-            this.frame.pack();
-            this.frame.setLocationRelativeTo(null);
-            this.frame.setVisible(true);
-            this.frame.setResizable(false);
+            this.windowView.setMainPanel(formPanel);
+            this.windowView.formatAndShow();
 
         }
     }

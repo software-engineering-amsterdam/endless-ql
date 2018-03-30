@@ -1,25 +1,25 @@
 package ql.gui.controller;
 
 import ql.ast.model.expressions.values.VariableReference;
+import ql.gui.model.FormModel;
 import ql.gui.model.QuestionModel;
 import ql.logic.collectors.CollectReferencesVisitor;
 import ql.logic.evaluators.FormModelExpressionEvaluator;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class FormController {
 
-    private final List<QuestionModel> questionModels;
+    private final FormModel formModel;
     private final FormModelExpressionEvaluator evaluator;
     private final CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
 
-    public FormController(List<QuestionModel> questionModels, FormModelExpressionEvaluator evaluator) {
+    FormController(FormModel formModel, FormModelExpressionEvaluator evaluator) {
         this.evaluator = evaluator;
-
+        this.formModel = formModel;
         // initial evaluation
-        for (QuestionModel questionModel : questionModels) {
+        for (QuestionModel questionModel : formModel.getQuestionModels()) {
             if (questionModel.getAssignedExpression() != null) {
                 questionModel.setQlTypedValue(questionModel.getAssignedExpression().accept(evaluator));
             }
@@ -29,19 +29,13 @@ public class FormController {
                 questionModel.setVisibility(true);
             }
         }
-
-        this.questionModels = questionModels;
-
-        for (QuestionModel questionModel : questionModels) {
-            questionModel.registerController(this);
-        }
     }
 
     private List<QuestionModel> extractQuestionModelsWithAssignedExpressionDirectlyReferencingTo(QuestionModel questionModel) {
 
         List<QuestionModel> result = new ArrayList<>();
 
-        for (QuestionModel questionModel1 : this.questionModels) {
+        for (QuestionModel questionModel1 : this.formModel.getQuestionModels()) {
             if (questionModel1.getAssignedExpression() != null) {
 
                 List<VariableReference> variableReferences = this.collectReferencesVisitor.getVariableReferences(questionModel1.getAssignedExpression());
@@ -61,7 +55,7 @@ public class FormController {
 
         List<QuestionModel> result = new ArrayList<>();
 
-        for (QuestionModel questionModel1 : this.questionModels) {
+        for (QuestionModel questionModel1 : this.formModel.getQuestionModels()) {
             if (questionModel1.getVisibilityCondition() != null) {
                 List<VariableReference> variableReferences = this.collectReferencesVisitor.getVariableReferences(questionModel1.getVisibilityCondition());
                 for (VariableReference variableReference : variableReferences) {
@@ -80,9 +74,8 @@ public class FormController {
         List<QuestionModel> questionsToUpdateValueModel = this.extractQuestionModelsWithAssignedExpressionDirectlyReferencingTo(questionModel);
         if (!questionsToUpdateValueModel.isEmpty()) {
             for (QuestionModel questionModel1 : questionsToUpdateValueModel) {
-                // they must (per definition) have assigned expression
                 questionModel1.setQlTypedValue(questionModel1.getAssignedExpression().accept(evaluator));
-                questionModel1.getPanel().refreshValue();
+                questionModel1.getQuestionView().refreshValue();
                 this.processQuestionModelChange(questionModel1);
             }
         }
@@ -90,22 +83,12 @@ public class FormController {
         List<QuestionModel> questionsToUpdateVisibilityModel = this.extractQuestionModelsWithVisibilityDirectlyReferencingTo(questionModel);
         if (!questionsToUpdateVisibilityModel.isEmpty()) {
             for (QuestionModel questionModel1 : questionsToUpdateVisibilityModel) {
-                // they must (per definition) have visibility conditions
                 questionModel1.setVisibility((Boolean) questionModel1.getVisibilityCondition().accept(evaluator).getValue());
-                questionModel1.getPanel().refreshVisibility();
+                questionModel1.getQuestionView().refreshVisibility();
                 this.processQuestionModelChange(questionModel1);
             }
         }
     }
 
-    public LinkedHashMap<String, Object> prepareResults() {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        for (QuestionModel questionModel : this.questionModels) {
-            if (questionModel.getVisibility()) {
-                result.put(questionModel.getVariableName(), questionModel.getJavaTypedValue());
-            }
-        }
-        return result;
-    }
 
 }

@@ -43,11 +43,8 @@ public class CollectQuestionModelsVisitor extends AbstractASTTraverse {
 
         // strips question and flattens visibility condition (for ql.gui rendering ease)
         QuestionModel questionModel = new QuestionModel(
-                question.getLabel(),
-                question.getVariableName(),
-                question.getVariableType(),
-                aggregatedVisibilityCondition,
-                question.getAssignedExpression()
+                question,
+                aggregatedVisibilityCondition
         );
 
         this.questionModels.add(questionModel);

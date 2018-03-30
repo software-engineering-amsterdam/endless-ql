@@ -2,12 +2,10 @@ package ui.controller
 
 import doge.ast.DogeParser
 import doge.ast.location.SourceLocation
-import doge.ast.node.QLNode
 import doge.data.question.Question
 import doge.data.value.StringValue
 import doge.visitor.UiVisitor
-import qls.ast.QlsParser
-import qls.ast.node.QlsNode
+import qls.model.StyleSheet
 import tornadofx.Controller
 import tornadofx.observable
 
@@ -16,28 +14,15 @@ class DogeController : Controller() {
     var questions = mutableListOf<Question>().observable()
 
     fun load(){
-        questions.addAll(getQuestions(DogeParser().parse()).observable())
+        val ast = DogeParser().parse()
+        val enabledQuestions = UiVisitor().visit(ast)
+
+        questions.addAll(enabledQuestions)
     }
 
-    init {
-        val qlAST = DogeParser().parse()
-        val qlsAST = QlsParser().parse()
-
-        //Build UI model
-        var questions = getQuestions(DogeParser().parse())
-        var style = getStyle(qlsAST)
-
-        // Render view
-//        Renderer().render(questions, style)
-    }
-
-    fun getQuestions(ast : QLNode): List<Question> {
-       return UiVisitor().visit(ast)
-
-    }
-
-    fun getStyle(ast : QlsNode){
-//        val style = StyleVisitor().visit(ast)
+    fun getStyle(): StyleSheet {
+        val ast = DogeParser().parse() as StyleSheet
+        return ast
     }
 
     fun test(){

@@ -3,9 +3,7 @@ package doge.ast
 import QuestionnaireLanguageGrammarLexer
 import QuestionnaireLanguageGrammarParser
 import doge.ast.node.QLNode
-import doge.data.question.Question
 import doge.typechecker.TypeChecker
-import doge.visitor.UiVisitor
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 

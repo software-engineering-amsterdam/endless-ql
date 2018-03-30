@@ -2,7 +2,7 @@ package ui.view
 
 import ui.model.*
 
-class ViewFactory() {
+class QuestionFieldFactory {
 
     fun createQuestionField(question : QuestionViewModel) : QuestionField {
         return when(question){

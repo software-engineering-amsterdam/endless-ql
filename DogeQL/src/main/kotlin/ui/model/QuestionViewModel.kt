@@ -25,6 +25,10 @@ abstract class QuestionViewModel(question: Question) : ItemViewModel<Question>(q
         dogeController.load()
     }
 
+    fun loadStyle() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     abstract fun setViewModelValue(question: Question)
 
     abstract fun synchronizeDataModel()

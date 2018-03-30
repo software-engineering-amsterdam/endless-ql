@@ -64,12 +64,12 @@ public class EvaluationVisitor implements ExpressionVisitor<Value, EvaluationCon
 	}
 
 	@Override
-	public Value visit(And node, EvaluationContext ctx) {
+	public BooleanValue visit(And node, EvaluationContext ctx) {
 		return node.getLeft().accept(this, ctx).and(node.getRight().accept(this, ctx));
 	}
 
 	@Override
-	public Value visit(Or node, EvaluationContext ctx) {
+	public BooleanValue visit(Or node, EvaluationContext ctx) {
 		return node.getLeft().accept(this, ctx).or(node.getRight().accept(this, ctx));
 	}
 
@@ -79,12 +79,12 @@ public class EvaluationVisitor implements ExpressionVisitor<Value, EvaluationCon
 	}
 	
 	@Override
-	public Value visit(GT node, EvaluationContext ctx) {
+	public BooleanValue visit(GT node, EvaluationContext ctx) {
 		return node.getLeft().accept(this, ctx).gt(node.getRight().accept(this, ctx));
 	}
 
 	@Override
-	public Value visit(GEq node, EvaluationContext ctx) {
+	public BooleanValue visit(GEq node, EvaluationContext ctx) {
 		return node.getLeft().accept(this,ctx).gEq(node.getRight().accept(this, ctx));
 	}
 
@@ -100,12 +100,12 @@ public class EvaluationVisitor implements ExpressionVisitor<Value, EvaluationCon
 
 	
 	@Override
-	public Value visit(Eq node, EvaluationContext ctx) {
+	public BooleanValue visit(Eq node, EvaluationContext ctx) {
 		return node.getLeft().accept(this, ctx).eq(node.getRight().accept(this, ctx));
 	}
 
 	@Override
-	public Value visit(NEq node, EvaluationContext ctx) {
+	public BooleanValue visit(NEq node, EvaluationContext ctx) {
 		return node.getLeft().accept(this, ctx).eq(node.getRight().accept(this, ctx)).not();
 	}
 

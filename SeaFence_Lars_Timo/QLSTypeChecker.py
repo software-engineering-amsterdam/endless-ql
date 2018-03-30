@@ -1,66 +1,84 @@
+# Lars Lokhoff, Timo Dobber
+# This class holds all functions related to the QLS typechecker.
+
 from QLSast import *
 import sys
 
 class QLSTypeChecker(object):
-	
-    def __init__(self, ql_ast, qls_ast):
-    	self.ql_ast = ql_ast
-    	self.qls_ast = qls_ast
-        self.ql_question_variables = {}
-        self.qls_question_variables = {}
+    
+    def __init__(self):
+        self.ql_variables = {}
+        self.qls_variables = {}
 
 
-    def startQLSTypeCheck(self):
-        self.retrieveVariables(self.ql_ast.statements, self.ql_question_variables, "ql")
-        self.retrieveVariables(self.qls_ast.pages, self.qls_question_variables, "qls")
+    def startQLSTypeCheck(self, statements, pages):
+        self.retrieveVariables(statements, self.ql_variables, "ql")
+        self.retrieveVariables(pages, self.qls_variables, "qls")
 
-        print self.ql_question_variables
-        print self.qls_question_variables
+        self.checkReferencesOfVariables(self.ql_variables, self.qls_variables, "ql")
+        self.checkReferencesOfVariables(self.qls_variables, self.ql_variables, "qls")
+
+        self.checkWidgetQuestionCompatibility(self.ql_variables, self.qls_variables)
 
 
-    # Checks if every question in QL is referenced in QLS.
-    def checkReferencesToQL(self):
-    	pass
+    # Checks if all references of QL or QLS are referenced in the other. Exit when a QL variable is not
+    # referenced in QLS and give a warning if it's the other way around
+    def checkReferencesOfVariables(self, references, variables, flag):
+        for key, value in references.iteritems():
+            if key not in variables:
+                if flag == "ql":
+                    exitProgram("Variable {} is not referenced in QLS, but should be.".format(key))
+
+                elif flag == "qls":
+                    print "Warning: Variable {} is not referenced in QL, but should be.".format(key)
 
 
     # Checks whether the types of the questions are compatible with the assigned widgets.
-    def checkWidgetQuestionCompatibility(self):
-    	pass
+    def checkWidgetQuestionCompatibility(self, ql_variables, qls_variables):
+        for key, value in ql_variables.iteritems():
+            if qls_variables[key] != None:
+                if value == "boolean" and (qls_variables[key].widget == "radio" or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == "dropdown"):
+                    pass
+
+                elif value == "int" and (qls_variables[key].widget == "slider" or qls_variables[key].widget == "spinbox" or qls_variables[key].widget == "text"):
+                    pass
+
+                else:
+                    exitProgram("Widget {} is incompatible with type {}".format(qls_variables[key].widget, value))
 
 
     # Check if every question is only placed once in the qls ast.
-    def checkQuestionUniqueness(self):
-    	pass
+    def checkQuestionUniqueness(self, variable_name):
+        if variable_name in self.qls_variables:
+            exitProgram("Question {} is getting placed twice by QLS.".format(variable_name))
 
 
-    def retrieveVariables(self, elements, question_variables, flag):
+    def retrieveVariables(self, elements, variables, flag):
         for element in elements:
-            nodetype = element.getNodeType()
-            if nodetype == "question" or nodetype == "assignment":
+            node_type = element.getNodeType()
+            if node_type == "question" or node_type == "assignment":
                 variable_name = element.getVariableName()
+
                 if flag == "ql":
                     variable_type = element.getVariableType()
-                    question_variables[variable_name] = variable_type
+                    variables[variable_name] = variable_type
                 elif flag == "qls":
+                    self.checkQuestionUniqueness(variable_name)
                     variable_widget = element.getWidget()
-                    question_variables[variable_name] = variable_widget
+                    variables[variable_name] = variable_widget
 
-            elif nodetype == "if" or nodetype == "elif" or nodetype == "else":
-                self.retrieveVariables(element.statements, question_variables, flag)
+            elif node_type == "if" or node_type == "elif" or node_type == "else":
+                self.retrieveVariables(element.statements, variables, flag)
 
-            elif nodetype == "section":
-                self.retrieveVariables(element.sections, question_variables, flag)
+            elif node_type == "page":
+                self.retrieveVariables(element.sections, variables, flag)
+
+            elif node_type == "section":
+                self.retrieveVariables(element.sections, variables, flag)
+                self.retrieveVariables(element.questions, variables, flag)
 
         return
 
-
-    # def retrieveVariablesQLSast(self, iterable):
-    #     for element in iterable:
-    #         nodetype = element.returnNodeType()
-    #         if nodetype == "question":
-    #             variable_name = statement.getVariableName()
-    #             variable_type = statement.getVariableType()
-    #             self.question_variables[variable_name] = variable_type
-
-    #         elif nodetype == "page" or nodetype == "section":
-    #             self.retrieveVariablesQLSast()
+def exitProgram(message):
+    print message
+    sys.exit()

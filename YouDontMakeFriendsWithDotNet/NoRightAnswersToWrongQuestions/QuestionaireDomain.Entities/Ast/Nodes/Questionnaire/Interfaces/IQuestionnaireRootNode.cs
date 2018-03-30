@@ -6,6 +6,6 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
     public interface IQuestionnaireRootNode : INonTerminal
     {
         string QuestionnaireName { get; }
-        IEnumerable<Reference<IStatementNode>> Statements { get; }
+        IEnumerable<DomainId<IStatementNode>> Statements { get; }
     }
 }

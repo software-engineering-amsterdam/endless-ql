@@ -17,7 +17,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
 
   describe("when TypeChecker validates a valid form") {
     val filename = s"${resourceDir}/simple.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
     it("should return true") {
@@ -31,7 +31,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
 
   describe("when TypeChecker validates a form containing an undeclared var") {
     val filename = s"${resourceDir}/single_undeclared_identifier.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
     it("should return false") {
@@ -48,7 +48,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
 
   describe("when TypeChecker validates a form containing invalid conditional") {
     val filename = s"${resourceDir}/conditions/binop/money_bool_binop.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
     it("should return false") {
@@ -65,7 +65,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
 
   describe("when TypeChecker validates a form containing a duplicate question") {
     val filename = s"${resourceDir}/duplicate_question/duplicate_different_type.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
     it("should return false") {
@@ -82,7 +82,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
 
   describe("when TypeChecker validates a form containing a duplicate label") {
     val filename = s"${resourceDir}/duplicate_label/single_duplicate_label.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
     it("should return true") {
@@ -112,7 +112,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
 
   describe("when TypeChecker validates a form containing an invalid type inference") {
     val filename = s"${resourceDir}/type_inference/invalid_simple.ql"
-    val form = FormHelper.getForm(getClass.getResource(filename))
+    val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
     it("should return false") {

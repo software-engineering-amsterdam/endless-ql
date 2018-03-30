@@ -1,7 +1,7 @@
 package org.uva.sea.languages.ql.parser.elements;
 
 import org.uva.sea.languages.ql.parser.NodeType;
-import org.uva.sea.languages.ql.parser.elements.types.Type;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.Type;
 import org.uva.sea.languages.ql.parser.visitor.IASTVisitor;
 
 import java.util.ArrayList;
@@ -9,17 +9,17 @@ import java.util.List;
 
 public class Statements extends ASTNode {
 
-    private final List<ASTNode> statementList;
+    private final List<Statement> statementList;
 
     public Statements() {
         this.statementList = new ArrayList<>();
     }
 
-    public Iterable<ASTNode> getStatementList() {
+    public Iterable<Statement> getStatementList() {
         return this.statementList;
     }
 
-    public void addStatement(ASTNode item) {
+    public void addStatement(Statement item) {
         this.statementList.add(item);
     }
 

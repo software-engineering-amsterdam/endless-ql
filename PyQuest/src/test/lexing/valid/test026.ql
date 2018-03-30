@@ -1,0 +1,2 @@
+// Identifier token (camelcase)
+testIdentifier

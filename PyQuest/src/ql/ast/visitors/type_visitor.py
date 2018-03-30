@@ -1,31 +1,38 @@
-from ql.ast.statements.form_node import FormNode
-from ql.ast.statements.if_node import IfNode
-from ql.ast.statements.question_node import QuestionNode
-from ql.ast.expressions.variable_node import VariableNode
-from ql.ast.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
-from ql.ast.expressions.unary_operators.unary_operator import UnaryOperatorNode
-from ql.ast.expressions.literals.literal_node import LiteralNode
+from ql.ast.nodes.statements.form_node import FormNode
+from ql.ast.nodes.statements.if_node import IfNode
+from ql.ast.nodes.statements.question_node import QuestionNode
+from ql.ast.nodes.expressions.variable_node import VariableNode
+from ql.ast.nodes.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
+from ql.ast.nodes.expressions.unary_operators.unary_operator_node import UnaryOperatorNode
+from ql.ast.nodes.expressions.literals.literal_node import LiteralNode
+from ql.types.boolean import QLBoolean
 from ql.types.undefined import QLUndefined
 from multimethods import multimethod
 
 
 class TypeVisitor:
 
-    def __init__(self, symbol_table, debug):
+    def __init__(self, symbol_table):
         self.__symbol_table = symbol_table
-        self.__debug = debug
-        self.__errors = False
+        self.__errors = []
+
+    @property
+    def errors(self):
+        return self.__errors
 
     @multimethod(FormNode)
     def visit(self, node):
         for child in node.block:
             child.accept(self)
 
-        return self.__errors
-
     @multimethod(IfNode)
     def visit(self, node):
         node.condition.accept(self)
+
+        if node.condition.expression_type != QLBoolean:
+            self.__errors.append('Condition does not evaluate to boolean on line {}.'
+                                 .format(node.position.line))
+
         for child in node.block:
             child.accept(self)
 
@@ -37,8 +44,8 @@ class TypeVisitor:
             result_type = node.answer.expression_type
 
             if node.answer_type != result_type:
-                self.__debug.error([node.answer.position.line], 'Expression not of type {}'.format(node.answer_type))
-                self.__errors = True
+                self.__errors.append('Expression not of type {} on line {}'
+                                     .format(node.answer_type, node.answer.position.line))
 
     @multimethod(BinaryOperatorNode)
     def visit(self, node):
@@ -48,8 +55,10 @@ class TypeVisitor:
         result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
 
         if result_type == QLUndefined:
-            self.__debug.error([node.position.line], 'Invalid operand(s)')
-            self.__errors = True
+            self.__errors.append('Invalid operands: {} and {} not supported for binary operation on line {}'
+                                 .format(node.left_expression.expression_type,
+                                         node.right_expression.expression_type,
+                                         node.position.line))
 
         node.set_expression_type(result_type)
 
@@ -60,8 +69,8 @@ class TypeVisitor:
         result_type = node.get_result_type(node.expression.expression_type)
 
         if result_type == QLUndefined:
-            self.__debug.error([node.position.line], 'Invalid operand(s)')
-            self.__errors = True
+            self.__errors.append('Invalid operand: {} not supported for unary operation on line {}'
+                                 .format(node.set_expression_type, node.position.line))
 
         node.set_expression_type(result_type)
 

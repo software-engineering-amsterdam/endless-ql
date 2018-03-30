@@ -11,7 +11,7 @@ using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace AntlrInterpretor.AstBuilder
 {
-    public class BuildAstVisitor : QlBaseVisitor<Reference<IAstNode>>
+    public class BuildAstVisitor : QlBaseVisitor<DomainId<IAstNode>>
     {
         private readonly IAstFactory m_astFactory;
 
@@ -25,7 +25,7 @@ namespace AntlrInterpretor.AstBuilder
             m_domainItemLocator = domainItemLocator;
         }
 
-        public override Reference<IAstNode> VisitQuestionnaire(
+        public override DomainId<IAstNode> VisitQuestionnaire(
             QlParser.QuestionnaireContext context)
         {
             var questionnaireName = context.IDENTIFIER().GetText();
@@ -40,7 +40,7 @@ namespace AntlrInterpretor.AstBuilder
                 statements);
         }
 
-        public override Reference<IAstNode> VisitCalculatedQuestion(
+        public override DomainId<IAstNode> VisitCalculatedQuestion(
             QlParser.CalculatedQuestionContext context)
         {
             var questionName = context.question().IDENTIFIER().GetText();
@@ -57,7 +57,7 @@ namespace AntlrInterpretor.AstBuilder
                 calculation);
         }
 
-        public override Reference<IAstNode> VisitInputQuestion(
+        public override DomainId<IAstNode> VisitInputQuestion(
             QlParser.InputQuestionContext context)
         {
             var questionName = context.question().IDENTIFIER().GetText();
@@ -66,6 +66,7 @@ namespace AntlrInterpretor.AstBuilder
                 .TEXT()
                 .GetText()
                 .Replace("\"","");
+
             var questionType = GetQuestionType(context.question());
 
             return m_astFactory.CreateUserInputQuestion(
@@ -75,7 +76,7 @@ namespace AntlrInterpretor.AstBuilder
                 questionType);
         }
 
-        public override Reference<IAstNode> VisitTypeCheckExpression(QlParser.TypeCheckExpressionContext context)
+        public override DomainId<IAstNode> VisitTypeCheckExpression(QlParser.TypeCheckExpressionContext context)
         {
             var leftExpression = m_astFactory.CreateUntypedVariableName(context.leftIdentifier.Text);
             var rightExpression = m_astFactory.CreateUntypedVariableName(context.rightIdentifier.Text);
@@ -88,7 +89,7 @@ namespace AntlrInterpretor.AstBuilder
                 context.relationalOperator().chosenOperator.Text);
         }
         
-        public override Reference<IAstNode> VisitIfElseStatement(
+        public override DomainId<IAstNode> VisitIfElseStatement(
             QlParser.IfElseStatementContext context)
         {
             var questionName = context.conditionalStatement().expression().GetText();
@@ -117,7 +118,7 @@ namespace AntlrInterpretor.AstBuilder
                 alternative); 
         }
 
-        public override Reference<IAstNode> VisitMathComparison(QlParser.MathComparisonContext context)
+        public override DomainId<IAstNode> VisitMathComparison(QlParser.MathComparisonContext context)
         {
             var leftExpression = Visit(context.leftExpression);
             var rightExpression = Visit(context.rightExpression);
@@ -130,23 +131,23 @@ namespace AntlrInterpretor.AstBuilder
                 context.@operator.chosenOperator.Text);
         }
 
-        public override Reference<IAstNode> VisitBooleanQuestionIdentifier(
+        public override DomainId<IAstNode> VisitBooleanQuestionIdentifier(
             QlParser.BooleanQuestionIdentifierContext context)
         {
             return m_astFactory.CreateBooleanVariableName(context.GetText());
         }
 
-        public override Reference<IAstNode> VisitBooleanExpressionGroup(QlParser.BooleanExpressionGroupContext context)
+        public override DomainId<IAstNode> VisitBooleanExpressionGroup(QlParser.BooleanExpressionGroupContext context)
         {
             return Visit(context.booleanExpression());
         }
 
-        public override Reference<IAstNode> VisitBooleanLiteral(QlParser.BooleanLiteralContext context)
+        public override DomainId<IAstNode> VisitBooleanLiteral(QlParser.BooleanLiteralContext context)
         {
             return m_astFactory.CreateBooleanLiteral(context.GetText());
         }
 
-        public override Reference<IAstNode> VisitAndOrStatement(QlParser.AndOrStatementContext context)
+        public override DomainId<IAstNode> VisitAndOrStatement(QlParser.AndOrStatementContext context)
         {
             var leftExpression = Visit(context.leftExpression).To<IBooleanLogicNode>(m_domainItemLocator);
             var rightExpression = Visit(context.rightExpression).To<IBooleanLogicNode>(m_domainItemLocator);
@@ -164,7 +165,7 @@ namespace AntlrInterpretor.AstBuilder
                         leftExpression, 
                         rightExpression);
                 default:
-                    throw new QlParserException(
+                    throw new ParserException(
                         $@"Boolean Type '{context.booleanOperator().chosenOperator.Type}' handled in the parse tree but not by the AST",
                         null);
             }
@@ -180,25 +181,25 @@ namespace AntlrInterpretor.AstBuilder
                 case QlParser.DATETYPE: return typeof(DateTime);
                 case QlParser.DECIMALTYPE: return typeof(decimal);
                 default:
-                    throw new QlParserException(
+                    throw new ParserException(
                         $@"QuestionType '{question.questionType().chosenType.Type}' handled in the parse tree but not by the AST",
                         null);
             }
         }
         
-        public override Reference<IAstNode> VisitNumberVariableName(
+        public override DomainId<IAstNode> VisitNumberVariableName(
             QlParser.NumberVariableNameContext context)
         {
             return m_astFactory.CreateNumberVariableName(context.GetText());
         }
 
-        public override Reference<IAstNode> VisitCalculatedValue(
+        public override DomainId<IAstNode> VisitCalculatedValue(
             QlParser.CalculatedValueContext context)
         {
             return Visit(context.mathExpression());
         }
 
-        public override Reference<IAstNode> VisitAddSubtractExpression(QlParser.AddSubtractExpressionContext context)
+        public override DomainId<IAstNode> VisitAddSubtractExpression(QlParser.AddSubtractExpressionContext context)
         {
             var leftExpression = Visit(context.leftExpression)
                 .To<ICalculationNode>(m_domainItemLocator);
@@ -220,20 +221,19 @@ namespace AntlrInterpretor.AstBuilder
                         leftExpression,
                         rightExpression);
                 default:
-                    throw new QlParserException(
+                    throw new ParserException(
                         $"The provided operator '{context.@operator.Text}' is not handled within add or subtract in the statement {context.GetText()}.",
                         null);
             }
         }
 
-        public override Reference<IAstNode> VisitMultiplyDivideExpression(QlParser.MultiplyDivideExpressionContext context)
+        public override DomainId<IAstNode> VisitMultiplyDivideExpression(QlParser.MultiplyDivideExpressionContext context)
         {
             var leftExpression = Visit(context.leftExpression)
                 .To<ICalculationNode>(m_domainItemLocator);
 
             var rightExpression = Visit(context.rightExpression)
                 .To<ICalculationNode>(m_domainItemLocator);
-
 
             var multiplyDivideOperator = context.@operator.Type;
             switch (multiplyDivideOperator)
@@ -249,25 +249,24 @@ namespace AntlrInterpretor.AstBuilder
                         leftExpression,
                         rightExpression);
                 default:
-                    throw new QlParserException(
+                    throw new ParserException(
                         $"The provided operator '{context.@operator.Text}' is not handled within multiply or divide in the statement {context.GetText()}.", 
                         null);
             }
         }
 
-        public override Reference<IAstNode> VisitMathExpressionGroup(QlParser.MathExpressionGroupContext context)
+        public override DomainId<IAstNode> VisitMathExpressionGroup(QlParser.MathExpressionGroupContext context)
         {
             return Visit(context.mathExpression());
         }
-        //booleanComparison
-        
-        public override Reference<IAstNode> VisitNumberLiteral(
+
+        public override DomainId<IAstNode> VisitNumberLiteral(
             QlParser.NumberLiteralContext context)
         {
             return m_astFactory.CreateNumber(context.GetText());
         }
 
-        public override Reference<IAstNode> VisitNegationExpression(QlParser.NegationExpressionContext context)
+        public override DomainId<IAstNode> VisitNegationExpression(QlParser.NegationExpressionContext context)
         {
             var childExpression = Visit(context.booleanExpression())
                 .To<IBooleanLogicNode>(m_domainItemLocator);
@@ -277,7 +276,7 @@ namespace AntlrInterpretor.AstBuilder
                 childExpression);
         }
 
-        public override Reference<IAstNode> VisitDateComparison(QlParser.DateComparisonContext context)
+        public override DomainId<IAstNode> VisitDateComparison(QlParser.DateComparisonContext context)
         {
             var leftDate = context.leftDate.Type == QlParser.DATE
                 ? m_astFactory.CreateDate(context.leftDate.Text)
@@ -295,8 +294,7 @@ namespace AntlrInterpretor.AstBuilder
                 context.@operator.chosenOperator.Text);
         }
 
-
-        public override Reference<IAstNode> VisitTextComparison(QlParser.TextComparisonContext context)
+        public override DomainId<IAstNode> VisitTextComparison(QlParser.TextComparisonContext context)
         {
             var leftDate = context.leftText.Type == QlParser.TEXT
                 ? m_astFactory.CreateText(context.leftText.Text)
@@ -314,8 +312,7 @@ namespace AntlrInterpretor.AstBuilder
                 context.@operator.chosenOperator.Text);
         }
 
-
-        public override Reference<IAstNode> VisitBooleanComparison(QlParser.BooleanComparisonContext context)
+        public override DomainId<IAstNode> VisitBooleanComparison(QlParser.BooleanComparisonContext context)
         {
             var leftExpression = Visit(context.leftExpression)
                 .To<IAstNode>(m_domainItemLocator);
@@ -334,11 +331,11 @@ namespace AntlrInterpretor.AstBuilder
                 operatorText);
         }
 
-        private Reference<IAstNode> CreateRelationalOperation(
+        private DomainId<IAstNode> CreateRelationalOperation(
             int relationalOperator,
             string definition,
-            Reference<IAstNode> leftExpression,
-            Reference<IAstNode> rightExpression,
+            DomainId<IAstNode> leftExpression,
+            DomainId<IAstNode> rightExpression,
             string operatorText)
         {
             switch (relationalOperator)
@@ -374,15 +371,15 @@ namespace AntlrInterpretor.AstBuilder
                         leftExpression,
                         rightExpression);
                 default:
-                    throw new QlParserException($"The relative operator '{operatorText}' is not recognized.", null);
+                    throw new ParserException($"The relative operator '{operatorText}' is not recognized.", null);
             }
         }
 
-        private Reference<IAstNode> CreateEqualityOperation(
+        private DomainId<IAstNode> CreateEqualityOperation(
             int relationalOperator,
             string definition,
-            Reference<IAstNode> leftExpression,
-            Reference<IAstNode> rightExpression,
+            DomainId<IAstNode> leftExpression,
+            DomainId<IAstNode> rightExpression,
             string operatorText)
         {
             switch (relationalOperator)
@@ -398,7 +395,7 @@ namespace AntlrInterpretor.AstBuilder
                         leftExpression,
                         rightExpression);
                 default:
-                    throw new QlParserException($"The equality operator '{operatorText}' is not recognized.", null);
+                    throw new ParserException($"The equality operator '{operatorText}' is not recognized.", null);
             }
         }
     }

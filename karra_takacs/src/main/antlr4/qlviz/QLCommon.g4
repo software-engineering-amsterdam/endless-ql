@@ -22,8 +22,8 @@ FORM_HEADER :  'form';
 
 
 //literals
-IDENTIFIER	: [a-zA-Z0-1_]+;
-NUMBER		: [0-9]+(.[0-9]+)?;
+NUMBER		: [0-9]+('.'[0-9]+)?;
 BOOLEAN		: 'true' | 'false';
+IDENTIFIER	: [a-zA-Z0-9_]+;
 STRING		: '"' .*? '"';
 

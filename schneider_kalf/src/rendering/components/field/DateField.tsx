@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormGroup, Label, InputGroup, Input } from 'reactstrap';
-import Field from "../../../form/nodes/fields/FieldNode";
+import FieldNode from "../../../form/nodes/fields/FieldNode";
 import DatePicker from 'react-datepicker';
 import { Moment } from 'moment';
 
@@ -8,7 +8,7 @@ const moment = require("moment");
 
 export interface MoneyFieldProps {
   value: Date;
-  field: Field;
+  field: FieldNode;
   onChange: (value: any) => void;
 }
 

@@ -6,17 +6,17 @@ import ql.ast.visitors.TypeVisitor;
 
 public abstract class Type extends ASTNode {
 
-    public Type(SourceLocation sourceLocation) {
+    protected Type(SourceLocation sourceLocation) {
         super(sourceLocation);
     }
 
-    public abstract String toString();
+    public abstract String getType();
 
     public boolean isOfType(String type) {
-        return toString().equals(type);
+        return getType().equals(type);
     }
 
-    public boolean isNumeric() {
+    protected boolean isNumeric() {
         return false;
     }
 
@@ -24,7 +24,7 @@ public abstract class Type extends ASTNode {
         if (otherType.isNumeric()) {
             return this.isNumeric();
         } else {
-            return this.toString().equals(otherType.toString());
+            return this.getType().equals(otherType.getType());
         }
     }
 

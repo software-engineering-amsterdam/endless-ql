@@ -4,6 +4,7 @@ import ql.gui.model.QuestionModel;
 import ql.gui.view.Widget;
 
 import javax.swing.*;
+import java.math.BigInteger;
 
 public class IntegerSpinnerWidget extends Widget {
 
@@ -21,18 +22,22 @@ public class IntegerSpinnerWidget extends Widget {
 
         JSpinner spinner = new JSpinner(spinnerModel);
 
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spinner);
+        editor.getFormat().setGroupingUsed(false);
+        spinner.setEditor(editor);
+
         if (questionModel.getAssignedExpression() != null) {
             spinner.setEnabled(false);
         }
 
-        spinner.addChangeListener(e -> questionModel.changeValue((Integer) spinner.getValue()));
+        spinner.addChangeListener(e -> questionModel.changeValue(new BigInteger(spinner.getValue().toString())));
 
         this.spinner = spinner;
     }
 
     @Override
     public void updateValue() {
-        this.spinner.setValue(this.getQuestionModel().getValue().getIntegerValue());
+        this.spinner.setValue(this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 
     @Override

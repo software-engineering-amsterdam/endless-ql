@@ -5,6 +5,6 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
 {
     public interface ICalculatedQuestionNode : IQuestionNode
     {
-        Reference<ICalculationNode> CalculatedValue { get; }
+        DomainId<ICalculationNode> CalculatedValue { get; }
     }
 }

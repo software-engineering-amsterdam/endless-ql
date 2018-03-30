@@ -4,13 +4,17 @@ using System.Diagnostics;
 using System.Linq;
 using Assignment1.Model.QL.AST.Expression;
 using Assignment1.Model.QL.AST.Value;
-using Assignment1.TypeChecking;
 
 namespace Assignment1.Model.QL.AST
 {
+    /// <summary>
+    /// The visitor will by default not follow references.
+    /// To visit references override the Visit(Reference expression) method and call
+    /// FollowReference(expression) but be aware that doing this with an invalid form can cause exceptions.
+    /// </summary>
     public abstract class QLASTBaseVisitor : IQLASTVisitor, IExpressionVisitor
     {
-        private IDictionary<string, Question> QuestionsInScope => _scopes.SelectMany(scope => scope).ToDictionary(question => question.Id, question => question);
+        protected ILookup<string, Question> QuestionsInScope => _scopes.SelectMany(scope => scope).ToLookup(question => question.Id, question => question);
         private readonly Stack<IEnumerable<Question>> _scopes = new Stack<IEnumerable<Question>>();
 
         public virtual void Visit(QuestionForm questionForm)
@@ -18,10 +22,10 @@ namespace Assignment1.Model.QL.AST
             VisitStatements(questionForm.Statements);
         }
 
-        private void VisitStatements(IEnumerable<Statement> statements)
+        protected void VisitStatements(IEnumerable<Statement> statements)
         {
             statements = statements.ToArray();
-            var questions = statements.OfType<Question>();
+            var questions = statements.OfType<Question>().ToArray();
             _scopes.Push(questions);
             foreach (var statement in statements)
             {
@@ -43,55 +47,39 @@ namespace Assignment1.Model.QL.AST
 
         public virtual void Visit(IfStatement ifStatement)
         {
+            ifStatement.Condition.Accept(this);
             VisitStatements(ifStatement.ThenStatements);
             VisitStatements(ifStatement.ElseStatements);
         }
 
-        public virtual void Visit(QLBoolean value)
-        {
-            value.Accept(this);
-        }
+        public virtual void Visit(QLBoolean value) { }
 
-        public virtual void Visit(QLInteger value)
-        {
-            value.Accept(this);
-        }
+        public virtual void Visit(QLInteger value) { }
 
-        public virtual void Visit(Undefined undefined)
-        {
-            undefined.Accept(this);
-        }
+        public virtual void Visit(QLString value) { }
 
-        public virtual void Visit(QLString value)
-        {
-            value.Accept(this);
-        }
+        public virtual void Visit(QLDate value) { }
 
-        public virtual void Visit(QLDate value)
-        {
-            value.Accept(this);
-        }
+        public virtual void Visit(QLDecimal value) { }
 
-        public virtual void Visit(QLDecimal value)
-        {
-            value.Accept(this);
-        }
-
-        public virtual void Visit(QLMoney value)
-        {
-            value.Accept(this);
-        }
+        public virtual void Visit(QLMoney value) { }
 
         public virtual void Visit(Not expression)
         {
             expression.Expression.Accept(this);
         }
 
-        public virtual void Visit(Reference expression)
+        /// <summary>
+        /// Will visit the referenced question.
+        /// Will throw an UndeclaredQuestionException, InvalidExpressionException or DuplicateQuestionException
+        /// if the reference can not be folllowed.
+        /// </summary>
+        /// <param name="expression"></param>
+        protected void FollowReference(Reference expression)
         {
             try
             {
-                QuestionsInScope[expression.QuestionId].Accept(this);
+                QuestionsInScope[expression?.QuestionId].Single().Accept(this);
             }
             catch (KeyNotFoundException)
             {
@@ -101,7 +89,13 @@ namespace Assignment1.Model.QL.AST
             {
                 throw new InvalidExpressionException(expression);
             }
+            catch (InvalidOperationException)
+            {
+                throw new DuplicateQuestionException(expression?.QuestionId);
+            }
         }
+
+        public virtual void Visit(Reference expression) { }
 
         private void VisitBinaryChildren(Binary expression)
         {

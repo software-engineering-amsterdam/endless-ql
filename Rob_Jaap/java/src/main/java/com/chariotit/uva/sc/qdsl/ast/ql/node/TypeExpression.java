@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 public class TypeExpression extends AstNode {
@@ -7,8 +8,8 @@ public class TypeExpression extends AstNode {
     private TypeNode typeNode;
     private Expression expression;
 
-    public TypeExpression(TypeNode typeNode, Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public TypeExpression(TypeNode typeNode, SourceFilePosition filePosition) {
+        super(filePosition);
         this.typeNode = typeNode;
     }
 

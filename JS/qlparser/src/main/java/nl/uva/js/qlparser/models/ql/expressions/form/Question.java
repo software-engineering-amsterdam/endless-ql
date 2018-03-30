@@ -1,43 +1,42 @@
 package nl.uva.js.qlparser.models.ql.expressions.form;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
+import nl.uva.js.qlparser.ui.components.form.ComponentBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
 public class Question implements FormExpression {
     @NonNull private String question;
-    @JsonIgnore @NonNull private DataType dataType;
     @NonNull private Variable variable;
 
     @Override
-    @JsonIgnore
     public List<Component> getComponents() {
-        Panel panel = new Panel();
+        Panel panel = ComponentBuilder.buildComponentPanel();
+
         GridLayout layout = new GridLayout(1,2);
 
         layout.setHgap(10);
         panel.setLayout(layout);
 
-        JComponent component = dataType.getComponent().apply(variable);
+        JComponent component = variable.getDataType().getComponent().apply(variable);
 
         JLabel label = new JLabel(question, JLabel.LEFT);
 
         panel.add(label);
         panel.add(component);
-        panel.setSize(new Dimension(600, 40));
-        panel.setPreferredSize(new Dimension(600, 40));
-        panel.setMaximumSize(new Dimension(600, 40));
-        panel.setMinimumSize(new Dimension(600, 40));
+        panel.setName(variable.getName());
 
         return Collections.singletonList(panel);
     }
@@ -45,5 +44,30 @@ public class Question implements FormExpression {
     @Override
     public void checkType() {
         variable.returnCheckedType();
+    }
+
+    @Override
+    @JsonValue
+    public List<Map<String, Object>> getJsonRepresentation() {
+        Map<String, Object> jsonInformation = new HashMap<>();
+        jsonInformation.put("question", question);
+        jsonInformation.put("answer", variable);
+
+        return Collections.singletonList(jsonInformation);
+    }
+
+    @Override
+    public String getName() {
+        return variable.getName();
+    }
+
+    @Override
+    public DataType getType() {
+        return variable.getDataType();
+    }
+
+    @Override
+    public Variable getVariable() {
+        return variable;
     }
 }

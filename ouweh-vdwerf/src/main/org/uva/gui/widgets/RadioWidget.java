@@ -9,8 +9,6 @@ import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class RadioWidget extends QuestionWidget {
 
@@ -21,23 +19,29 @@ public class RadioWidget extends QuestionWidget {
     public RadioWidget(Question question, Value value, boolean readOnly, Style style, String trueLabel, String falseLabel) {
         super(question);
 
-        trueButton = new JRadioButton(trueLabel);
-        falseButton = new JRadioButton(falseLabel);
+        this.trueButton = new JRadioButton(trueLabel);
+        this.falseButton = new JRadioButton(falseLabel);
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(trueButton);
-        buttonGroup.add(falseButton);
+        buttonGroup.add(this.trueButton);
+        buttonGroup.add(this.falseButton);
 
-        buttonGroup.setSelected(falseButton.getModel(), true);
-        if((boolean)value.getValue()){
-            buttonGroup.setSelected(trueButton.getModel(), true);
+        buttonGroup.setSelected(this.falseButton.getModel(), true);
+        if ((boolean) value.getValue()) {
+            buttonGroup.setSelected(this.trueButton.getModel(), true);
         }
 
-        falseButton.setEnabled(readOnly);
-        trueButton.setEnabled(readOnly);
+        this.falseButton.setEnabled(readOnly);
+        this.trueButton.setEnabled(readOnly);
 
-        this.add(falseButton, 1);
-        this.add(trueButton, 1);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(1,2));
+
+        buttonPanel.add(this.trueButton,0);
+        buttonPanel.add(this.falseButton,1);
+
+
+        this.add(buttonPanel, 1);
 
         for (StyleProperty property : style.getStyleProperties()) {
             property.apply(this);
@@ -46,13 +50,28 @@ public class RadioWidget extends QuestionWidget {
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        trueButton.addItemListener(e -> questionChangeListener.onQuestionChanged(question, new BooleanValue(trueButton.isSelected())));
+        this.trueButton.addItemListener(e -> questionChangeListener.onQuestionChanged(question, new BooleanValue(trueButton.isSelected())));
     }
 
     @Override
     public void setColor(Color color) {
         super.setColor(color);
-        falseButton.setBackground(color);
-        trueButton.setBackground(color);
+        this.falseButton.setBackground(color);
+        this.trueButton.setBackground(color);
+    }
+
+    @Override
+    public void setFontSize(int fontSize) {
+        super.setFontSize(fontSize);
+        Font newFont = questionLabel.getFont().deriveFont((float) fontSize);
+        this.trueButton.setFont(newFont);
+        this.falseButton.setFont(newFont);
+    }
+
+    @Override
+    public void setFont(String font) {
+        super.setFont(font);
+        this.trueButton.setFont(this.questionLabel.getFont());
+        this.falseButton.setFont(this.questionLabel.getFont());
     }
 }

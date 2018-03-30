@@ -168,7 +168,7 @@ class Not(UnaryExpression):
 
 class Literal(Expression):
 
-    def __init__(self, location, type, value):
+    def __init__(self, location, value):
         super().__init__(location)
         self._value = value
         self._type = type
@@ -177,19 +177,11 @@ class Literal(Expression):
     def value(self):
         return self._value
 
-    @value.setter
-    def value(self, value):
-        self._value = value
-
-    @property
-    def type(self):
-        return self._type
-
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        return str(self._value)
+        return str(self.value.value)
 
     def __add__(self, other):
         pass

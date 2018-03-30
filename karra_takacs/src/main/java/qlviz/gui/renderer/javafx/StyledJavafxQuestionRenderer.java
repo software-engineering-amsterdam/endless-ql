@@ -1,5 +1,7 @@
 package qlviz.gui.renderer.javafx;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -19,7 +21,11 @@ public class StyledJavafxQuestionRenderer implements QuestionRenderer {
     private final JavafxWidgetFactory javafxWidgetFactory;
     private final WidgetFinder widgetFinder;
 
-    public StyledJavafxQuestionRenderer(Pane target, JavafxWidgetFactory javafxWidgetFactory, WidgetFinder widgetFinder) {
+    @Inject
+    public StyledJavafxQuestionRenderer(
+            @Assisted Pane target,
+            JavafxWidgetFactory javafxWidgetFactory,
+            WidgetFinder widgetFinder) {
         this.target = target;
         this.javafxWidgetFactory = javafxWidgetFactory;
         this.widgetFinder = widgetFinder;

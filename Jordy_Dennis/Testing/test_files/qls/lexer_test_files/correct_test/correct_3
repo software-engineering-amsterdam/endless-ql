@@ -1,0 +1,40 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Buying"
+    {
+      question hasBoughtHouse
+        widget checkbox
+    }
+    section "Loaning"
+    {
+    }
+
+  }
+  page Selling
+  {
+    section "Selling"
+    {
+      question hasSoldHouse
+        default boolean
+        {
+          width: 400
+          font: "Comic Sans MS"
+          fontsize: 20
+          color: #FF0C0C
+          widget checkbox
+        }
+    }
+    default boolean
+      {
+        width: 400
+        font: "Comic Sans MS"
+        fontsize: 20
+        color: #FF0C0C
+        widget checkbox
+      }
+  }
+}
+---
+(stylesheet stylesheet taxOfficeExample { (page page Housing { (section section "Buying" { (question question hasBoughtHouse (widget widget checkbox)) }) (section section "Loaning" { }) }) (page page Selling { (section section "Selling" { (question question hasSoldHouse (default_style default (types boolean) { (widget width : 400) (widget font : "Comic Sans MS") (widget fontsize : 20) (widget color : #FF0C0C) (widget widget checkbox) })) }) (default_style default (types boolean) { (widget width : 400) (widget font : "Comic Sans MS") (widget fontsize : 20) (widget color : #FF0C0C) (widget widget checkbox) }) }) } <EOF>)

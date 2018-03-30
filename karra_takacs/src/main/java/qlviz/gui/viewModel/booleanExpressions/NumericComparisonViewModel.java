@@ -3,9 +3,7 @@ package qlviz.gui.viewModel.booleanExpressions;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.*;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModel;
-import qlviz.interpreter.linker.BooleanExpressionVisitor;
-import qlviz.model.booleanExpressions.NumericComparisonOperator;
-import qlviz.model.numericExpressions.NumericExpression;
+import qlviz.model.expressions.booleanExpressions.NumericComparisonOperator;
 
 import java.math.BigDecimal;
 import java.util.function.BiFunction;

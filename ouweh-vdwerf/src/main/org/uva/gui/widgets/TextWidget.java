@@ -7,21 +7,21 @@ import org.uva.ql.evaluator.value.Value;
 import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
-import java.awt.Font;
-
 import javax.swing.*;
+import java.awt.*;
 
 public class TextWidget extends QuestionWidget {
 
     private JTextField textField = new JTextField();
 
+    //todo test
     public TextWidget(Question question, Value value, boolean readOnly, Style style) {
         super(question);
 
-        textField.setText(value.getValue().toString());
-        textField.setHorizontalAlignment(JTextField.CENTER);
-        textField.setEnabled(readOnly);
-        this.add(textField, 1);
+        this.textField.setText(value.getValue().toString());
+        this.textField.setHorizontalAlignment(JTextField.CENTER);
+        this.textField.setEnabled(readOnly);
+        this.add(this.textField, 1);
 
         for (StyleProperty property : style.getStyleProperties()) {
             property.apply(this);
@@ -30,11 +30,19 @@ public class TextWidget extends QuestionWidget {
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question, new StringValue(textField.getText())));
+        this.textField.addActionListener(e -> questionChangeListener.onQuestionChanged(question, new StringValue(textField.getText())));
     }
 
     @Override
     public void setFont(String font) {
         super.setFont(font);
+        this.textField.setFont(this.questionLabel.getFont());
+    }
+
+    @Override
+    public void setFontSize(int fontSize) {
+        super.setFontSize(fontSize);
+        Font newFont = questionLabel.getFont().deriveFont((float) fontSize);
+        this.textField.setFont(newFont);
     }
 }

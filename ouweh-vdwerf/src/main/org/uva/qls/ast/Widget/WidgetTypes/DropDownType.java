@@ -1,5 +1,7 @@
 package org.uva.qls.ast.Widget.WidgetTypes;
 
+import org.uva.ql.ast.type.BooleanType;
+import org.uva.ql.ast.type.Type;
 import org.uva.qls.visitor.WidgetTypeVisitor;
 
 import java.util.Arrays;
@@ -24,8 +26,8 @@ public class DropDownType extends WidgetType {
     }
 
     @Override
-    public List<String> getCompatibleTypes() {
-        return Arrays.asList("BooleanType");
+    public List<Class<? extends Type>> getCompatibleTypes() {
+        return Arrays.asList(BooleanType.class);
     }
 
     @Override
@@ -33,4 +35,8 @@ public class DropDownType extends WidgetType {
         return visitor.visit(this, question, value, readOnly);
     }
 
+    @Override
+    public String toString() {
+        return "DropdownType";
+    }
 }

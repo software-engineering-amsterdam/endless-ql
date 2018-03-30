@@ -11,109 +11,112 @@ import ql.ast.model.expressions.unary.arithmetics.Minus;
 import ql.ast.model.expressions.unary.logical.Negation;
 import ql.ast.model.expressions.values.Literal;
 import ql.ast.visitors.AbstractASTTraverse;
-import ql.logic.type.MixedValue;
+import ql.logic.type.QLBoolean;
+import ql.logic.type.QLDataTypeWrapper;
+import ql.logic.type.QLNumeric;
+import ql.logic.type.QLSummable;
 
-public abstract class AbstractExpressionEvaluator extends AbstractASTTraverse<MixedValue> {
+public abstract class AbstractExpressionEvaluator extends AbstractASTTraverse<QLDataTypeWrapper> {
 
     @Override
-    public MixedValue visit(Negation negation) {
-        MixedValue result = negation.getExpression().accept(this);
+    public QLBoolean visit(Negation negation) {
+        QLBoolean result = (QLBoolean) negation.getExpression().accept(this);
         return result.negate();
     }
 
     @Override
-    public MixedValue visit(Minus minus) {
-        MixedValue result = minus.getExpression().accept(this);
+    public QLNumeric visit(Minus minus) {
+        QLNumeric result = (QLNumeric) minus.getExpression().accept(this);
         return result.negate();
     }
 
     @Override
-    public MixedValue visit(Addition addition) {
-        MixedValue lhs = addition.getLeftSide().accept(this);
-        MixedValue rhs = addition.getRightSide().accept(this);
+    public QLSummable visit(Addition addition) {
+        QLSummable lhs = (QLSummable) addition.getLeftSide().accept(this);
+        QLSummable rhs = (QLSummable) addition.getRightSide().accept(this);
         return lhs.add(rhs);
     }
 
     @Override
-    public MixedValue visit(Subtraction subtraction) {
-        MixedValue lhs = subtraction.getLeftSide().accept(this);
-        MixedValue rhs = subtraction.getRightSide().accept(this);
+    public QLNumeric visit(Subtraction subtraction) {
+        QLNumeric lhs = (QLNumeric) subtraction.getLeftSide().accept(this);
+        QLNumeric rhs = (QLNumeric) subtraction.getRightSide().accept(this);
         return lhs.subtract(rhs);
     }
 
     @Override
-    public MixedValue visit(Division division) {
-        MixedValue lhs = division.getLeftSide().accept(this);
-        MixedValue rhs = division.getRightSide().accept(this);
+    public QLNumeric visit(Division division) {
+        QLNumeric lhs = (QLNumeric) division.getLeftSide().accept(this);
+        QLNumeric rhs = (QLNumeric) division.getRightSide().accept(this);
         return lhs.divide(rhs);
     }
 
     @Override
-    public MixedValue visit(Multiplication multiplication) {
-        MixedValue lhs = multiplication.getLeftSide().accept(this);
-        MixedValue rhs = multiplication.getRightSide().accept(this);
+    public QLNumeric visit(Multiplication multiplication) {
+        QLNumeric lhs = (QLNumeric) multiplication.getLeftSide().accept(this);
+        QLNumeric rhs = (QLNumeric) multiplication.getRightSide().accept(this);
         return lhs.multiply(rhs);
     }
 
     @Override
-    public MixedValue visit(Equal equal) {
-        MixedValue lhs = equal.getLeftSide().accept(this);
-        MixedValue rhs = equal.getRightSide().accept(this);
+    public QLDataTypeWrapper visit(Equal equal) {
+        QLDataTypeWrapper lhs = equal.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = equal.getRightSide().accept(this);
         return lhs.equals(rhs);
     }
 
     @Override
-    public MixedValue visit(GreaterEqual greaterEqual) {
-        MixedValue lhs = greaterEqual.getLeftSide().accept(this);
-        MixedValue rhs = greaterEqual.getRightSide().accept(this);
+    public QLBoolean visit(GreaterEqual greaterEqual) {
+        QLNumeric lhs = (QLNumeric) greaterEqual.getLeftSide().accept(this);
+        QLNumeric rhs = (QLNumeric) greaterEqual.getRightSide().accept(this);
         return lhs.greaterEqual(rhs);
     }
 
     @Override
-    public MixedValue visit(GreaterThan greaterThan) {
-        MixedValue lhs = greaterThan.getLeftSide().accept(this);
-        MixedValue rhs = greaterThan.getRightSide().accept(this);
+    public QLBoolean visit(GreaterThan greaterThan) {
+        QLNumeric lhs = (QLNumeric) greaterThan.getLeftSide().accept(this);
+        QLNumeric rhs = (QLNumeric) greaterThan.getRightSide().accept(this);
         return lhs.greaterThan(rhs);
     }
 
     @Override
-    public MixedValue visit(LessEqual lessEqual) {
-        MixedValue lhs = lessEqual.getLeftSide().accept(this);
-        MixedValue rhs = lessEqual.getRightSide().accept(this);
+    public QLBoolean visit(LessEqual lessEqual) {
+        QLNumeric lhs = (QLNumeric) lessEqual.getLeftSide().accept(this);
+        QLNumeric rhs = (QLNumeric) lessEqual.getRightSide().accept(this);
         return lhs.lessEqual(rhs);
     }
 
     @Override
-    public MixedValue visit(LessThan lessThan) {
-        MixedValue lhs = lessThan.getLeftSide().accept(this);
-        MixedValue rhs = lessThan.getRightSide().accept(this);
+    public QLBoolean visit(LessThan lessThan) {
+        QLNumeric lhs = (QLNumeric) lessThan.getLeftSide().accept(this);
+        QLNumeric rhs = (QLNumeric) lessThan.getRightSide().accept(this);
         return lhs.lessThan(rhs);
     }
 
     @Override
-    public MixedValue visit(NotEqual notEqual) {
-        MixedValue lhs = notEqual.getLeftSide().accept(this);
-        MixedValue rhs = notEqual.getRightSide().accept(this);
+    public QLBoolean visit(NotEqual notEqual) {
+        QLDataTypeWrapper lhs = notEqual.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = notEqual.getRightSide().accept(this);
         return lhs.notEquals(rhs);
     }
 
     @Override
-    public MixedValue visit(LogicalAnd logicalAnd) {
-        MixedValue lhs = logicalAnd.getLeftSide().accept(this);
-        MixedValue rhs = logicalAnd.getRightSide().accept(this);
+    public QLBoolean visit(LogicalAnd logicalAnd) {
+        QLBoolean lhs = (QLBoolean) logicalAnd.getLeftSide().accept(this);
+        QLBoolean rhs = (QLBoolean) logicalAnd.getRightSide().accept(this);
         return lhs.and(rhs);
     }
 
     @Override
-    public MixedValue visit(LogicalOr logicalOr) {
-        MixedValue lhs = logicalOr.getLeftSide().accept(this);
-        MixedValue rhs = logicalOr.getRightSide().accept(this);
+    public QLBoolean visit(LogicalOr logicalOr) {
+        QLBoolean lhs = (QLBoolean) logicalOr.getLeftSide().accept(this);
+        QLBoolean rhs = (QLBoolean) logicalOr.getRightSide().accept(this);
         return lhs.or(rhs);
     }
 
     @Override
-    public MixedValue visit(Literal literal) {
-        return MixedValue.createValue(literal.getType(), literal.getValue());
+    public QLDataTypeWrapper visit(Literal literal) {
+        return QLDataTypeWrapper.createValue(literal.getType(), literal.getValue());
     }
 
 }

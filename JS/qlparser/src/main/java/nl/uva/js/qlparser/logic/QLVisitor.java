@@ -35,7 +35,7 @@ class QLVisitor extends QLBaseVisitor {
 //                Match datatype of the value with any of the defined datatypes.
 //                Should antlr decide to make up value types that are not available as enum (which it should not,
 //                as the value types are defined in the grammar), the Java Optional class with throw an exception.
-                .filter(dataType -> dataType.toString().startsWith(getTokenType(((TerminalNode) ctx.getChild(0)).getSymbol()).substring(0, 3)))
+                .filter(dataType -> dataType.toString().startsWith(this.getTokenType(((TerminalNode) ctx.getChild(0)).getSymbol()).substring(0, 3)))
                 .findFirst()
                 .get();
 
@@ -126,7 +126,6 @@ class QLVisitor extends QLBaseVisitor {
 
         Question question = Question.builder()
                 .question((String) DataType.STRING.getValueOf().apply(ctx.STRVAL().getText()))
-                .dataType(variable.getDataType())
                 .variable(variable)
                 .build();
 
@@ -138,6 +137,7 @@ class QLVisitor extends QLBaseVisitor {
     @Override
     public IfBlock visitIfBlock(QLParser.IfBlockContext ctx) {
         return IfBlock.builder()
+                .name(ctx.NAME().getText())
                 .condition(ctx.expression().<DataExpression>accept(this))
                 .expressions(ctx.formBlock().<LinkedList<FormExpression>>accept(this))
                 .build();

@@ -4,7 +4,7 @@ import Nodes.Type;
 import QLExceptions.TypeException;
 
 public class QLString extends Term {
-    private String value;
+    private final String value;
 
     public QLString(String value) {
         this.value = value;

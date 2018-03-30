@@ -2,15 +2,8 @@
 
 namespace Assignment1.Model.QL.AST.Expression
 {
-    public interface IExpressionVisitor
+    public interface IExpressionVisitor : IValueVisitor
     {
-        void Visit(QLBoolean value);
-        void Visit(QLInteger value);
-        void Visit(Undefined undefined);
-        void Visit(QLString value);
-        void Visit(QLDate value);
-        void Visit(QLDecimal value);
-        void Visit(QLMoney value);
         void Visit(Not expression);
         void Visit(Reference expression);
         void Visit(And expression);

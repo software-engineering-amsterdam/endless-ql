@@ -24,7 +24,7 @@ stylesheet taxOfficeExample
           widget spinbox
 
         question privateDebt
-          widget slider(50000, 500000, 1000)
+          widget slider(50000, 250000, 10000)
 
         question valueResidue
 

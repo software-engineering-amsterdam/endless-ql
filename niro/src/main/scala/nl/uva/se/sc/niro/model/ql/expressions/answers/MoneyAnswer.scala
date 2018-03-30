@@ -1,45 +1,23 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
-import nl.uva.se.sc.niro.model.ql._
-import nl.uva.se.sc.niro.model.ql.expressions.MoneyArithmetics.MoneyCanDoArithmetics._
-import nl.uva.se.sc.niro.model.ql.expressions.Orderings.MoneyAnswerCanDoOrderings._
+
+import nl.uva.se.sc.niro.model.ql.evaluation.BasicArithmetics.MoneyAnswerCanDoBasicArithmetics._
+import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.MoneyAnswerCanDoOrderings._
 
 final case class MoneyAnswer(value: BigDecimal) extends Answer {
 
   type T = BigDecimal
 
-  def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
-    case that: MoneyAnswer =>
-      operator match {
-        case Add => plus(this, that)
-        case Sub => minus(this, that)
-        case Div => div(this, that)
-        case Lt  => this < that
-        case Lte => this <= that
-        case Gte => this >= that
-        case Gt  => this > that
-        case Ne  => this !== that
-        case Eq  => this === that
-        case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
-      }
-    case that: IntegerAnswer =>
-      operator match {
-        case Mul => times(this, that)
-        case Div => div(this, that)
-        case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
-      }
-    case that: DecimalAnswer =>
-      operator match {
-        case Mul => times(this, that)
-        case Div => div(this, that)
-        case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
-      }
-    case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
-  }
+  override def plus(right: Answer): Answer = this + right
+  override def subtract(right: Answer): Answer = this - right
+  override def multiply(right: Answer): Answer = this * right
+  override def divide(right: Answer): Answer = this / right
 
-  def applyUnaryOperator(operator: Operator): Answer = operator match {
-    case Sub => MoneyAnswer(-value)
-    case _   => throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
-  }
+  override def lessThan(right: Answer): Answer = this < right
+  override def lessThanEquals(right: Answer): Answer = this <= right
+  override def greaterThenEquals(right: Answer): Answer = this >= right
+  override def greaterThen(right: Answer): Answer = this > right
+  override def notEquals(right: Answer): Answer = this !== right
+  override def equals(right: Answer): Answer = this === right
 }
 
 object MoneyAnswer {

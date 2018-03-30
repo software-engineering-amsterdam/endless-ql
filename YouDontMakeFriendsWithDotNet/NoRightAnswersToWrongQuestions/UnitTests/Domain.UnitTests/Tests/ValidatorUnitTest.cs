@@ -4,6 +4,7 @@ using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using QL.UnitTests.Domain.UnitTests.Data;
 using QuestionnaireDomain.Entities;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
@@ -13,9 +14,8 @@ using QuestionnaireDomain.Entities.Validators.Interfaces;
 using QuestionnaireDomain.Entities.Validators.MetaData;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
-using UnitTests.Domain.UnitTests.Data;
 
-namespace UnitTests.Domain.UnitTests.Tests
+namespace QL.UnitTests.Domain.UnitTests.Tests
 {
     [TestFixture]
     public class ValidatorUnitTest
@@ -157,8 +157,7 @@ namespace UnitTests.Domain.UnitTests.Tests
                 invalidDescription,
                 errorMessage);
         }
-
-
+        
         [TestCaseSource(
             typeof(TestValidationData),
             nameof(TestValidationData.RepeatedText))]
@@ -168,8 +167,36 @@ namespace UnitTests.Domain.UnitTests.Tests
         {
             CreateAndValidateForm(invalidDescription);
             var results = ResultsFor<DuplicateTextValidationMetaData>();
-            
+
             AssertThatSeverityLevelIsWarning(results);
+            Assert.IsTrue(results.Any());
+            AssertThatErrorMessagesMatch(errorMessage, results);
+        }
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.NoCyclicDependency))]
+        public void WhenGivenNoCyclicalDependecies_ProducesNoMetaDatas(
+            string validDescription)
+        {
+            CreateAndValidateForm(validDescription);
+            var results = ResultsFor<CyclicDependencyValidationMetaData>();
+            
+            Assert.IsTrue(!results.Any());
+        }
+
+
+        [TestCaseSource(
+            typeof(TestValidationData),
+            nameof(TestValidationData.CyclicDependency))]
+        public void WhenGivenQuestionsWithCyclicalDependecies_ProducesTheCorrectMetaDatas(
+            string invalidDescription,
+            string errorMessage)
+        {
+            CreateAndValidateForm(invalidDescription);
+            var results = ResultsFor<CyclicDependencyValidationMetaData>();
+
+            AssertThatSeverityLevelIsError(results);
+            Assert.IsTrue(results.Any());
             AssertThatErrorMessagesMatch(errorMessage, results);
         }
 

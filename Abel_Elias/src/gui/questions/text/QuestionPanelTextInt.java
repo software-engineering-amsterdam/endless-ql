@@ -2,7 +2,8 @@ package gui.questions.text;
 
 import QL.classes.Question;
 import QL.classes.values.Value;
-import gui.FormBuilder;
+import gui.GUIBuilder;
+import gui.QuestionChangeListener;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
@@ -16,10 +17,9 @@ public class QuestionPanelTextInt extends QuestionPanelText{
     }
 
     @Override
-    public void setListener(EventListener listener) {
-        FormBuilder.IntegerDocumentListener intListener = (FormBuilder.IntegerDocumentListener) listener;
-        JTextField textField = (JTextField) getComponent();
-        textField.getDocument().addDocumentListener(intListener);
+    public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
+        JTextField textField = (JTextField) super.getComponent();
+        textField.getDocument().addDocumentListener(questionChangeListener.new IntegerDocumentListener(super.getQuestion().getId(), textField));
     }
 
 }

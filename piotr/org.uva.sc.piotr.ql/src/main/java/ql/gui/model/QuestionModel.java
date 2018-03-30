@@ -2,50 +2,42 @@ package ql.gui.model;
 
 import ql.ast.model.declarations.TypeDeclaration;
 import ql.ast.model.expressions.Expression;
+import ql.ast.model.statements.Question;
 import ql.gui.controller.FormController;
-import ql.gui.view.QuestionPanel;
-import ql.logic.type.MixedValue;
-
-import java.math.BigDecimal;
+import ql.gui.view.QuestionView;
+import ql.logic.type.QLDataTypeWrapper;
 
 public class QuestionModel {
 
-    private final String label;
-    private final String variableName;
-    private final TypeDeclaration originalDataTypeDeclaration;
+    private final Question question;
 
     private final Expression visibilityCondition;
-    private final Expression assignedExpression;
 
     private Boolean visibility;
-    private MixedValue value;
+    private QLDataTypeWrapper qlDataTypeWrapperValue;
 
+    private QuestionView questionView;
     private FormController formController;
-    private QuestionPanel panel;
 
-    public QuestionModel(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
+    public QuestionModel(Question question, Expression visibilityCondition) {
 
-        this.label = label;
-        this.variableName = variableName;
-        this.originalDataTypeDeclaration = originalDataTypeDeclaration;
-
+        this.question = question;
         this.visibilityCondition = visibilityCondition;
         this.visibility = true;
 
-        this.assignedExpression = assignedExpression;
-        this.value = MixedValue.createValue(this.originalDataTypeDeclaration.toDataType(), "");
+        this.qlDataTypeWrapperValue = QLDataTypeWrapper.createValue(this.question.getVariableType().toDataType(), "");
     }
 
-    public String getLabel() {
-        return label;
+    public String getQuestionLabel() {
+        return this.question.getLabel();
     }
 
     public String getVariableName() {
-        return variableName;
+        return this.question.getVariableName();
     }
 
     public TypeDeclaration getOriginalDataTypeDeclaration() {
-        return originalDataTypeDeclaration;
+        return this.question.getVariableType();
     }
 
     public Expression getVisibilityCondition() {
@@ -53,7 +45,7 @@ public class QuestionModel {
     }
 
     public Expression getAssignedExpression() {
-        return assignedExpression;
+        return question.getAssignedExpression();
     }
 
     public Boolean getVisibility() {
@@ -64,71 +56,33 @@ public class QuestionModel {
         this.visibility = visibility;
     }
 
-    public MixedValue getValue() {
-        return value;
+    public QLDataTypeWrapper getQLDataTypeValue() {
+        return qlDataTypeWrapperValue;
     }
 
     public Object getJavaTypedValue() {
-        switch (this.value.getType()) {
-            case INTEGER:
-                return this.value.getIntegerValue();
-            case DECIMAL:
-                return this.value.getDecimalValue();
-            case BOOLEAN:
-                return this.value.getBooleanValue();
-            case STRING:
-                return this.value.getStringValue();
-            default:
-                return null;
-        }
+        return this.qlDataTypeWrapperValue.getValue();
     }
 
-    public void setValue(MixedValue value) {
-        this.value = value;
+    public void setQlTypedValue(QLDataTypeWrapper value) {
+        this.qlDataTypeWrapperValue = value;
     }
 
-    public void changeValue(Boolean value) {
-        this.value.setBooleanValue(value);
+    public void changeValue(Object value) {
+        this.qlDataTypeWrapperValue.setValue(value); // TODO: ???
+        // someone has to be informed
         this.formController.processQuestionModelChange(this);
     }
 
-    public void changeValue(BigDecimal value) {
-        this.value.setDecimalValue(value);
-        this.formController.processQuestionModelChange(this);
+    public void setQuestionView(QuestionView questionView) {
+        this.questionView = questionView;
     }
 
-    public void changeValue(Integer value) {
-        this.value.setIntegerValue(value);
-        this.formController.processQuestionModelChange(this);
-    }
-
-    public void changeValue(String value) {
-        this.value.setStringValue(value);
-        this.formController.processQuestionModelChange(this);
-    }
-
-    @Override
-    public String toString() {
-        return "QuestionModel{" +
-                "label='" + label + '\'' +
-                ", variableName='" + variableName + '\'' +
-                ", originalDataTypeDeclaration=" + originalDataTypeDeclaration +
-                ", visibilityCondition=" + visibilityCondition +
-                ", assignedExpression=" + assignedExpression +
-                ", visibility=" + visibility +
-                ", value=" + value +
-                '}';
+    public QuestionView getQuestionView() {
+        return questionView;
     }
 
     public void registerController(FormController formController) {
         this.formController = formController;
-    }
-
-    public void setPanel(QuestionPanel panel) {
-        this.panel = panel;
-    }
-
-    public QuestionPanel getPanel() {
-        return panel;
     }
 }

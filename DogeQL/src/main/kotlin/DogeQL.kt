@@ -1,14 +1,12 @@
-import ast.DogeParser
-import javafx.application.Application
-import ui.DogeApp
+import doge.ast.DogeParser
 
 class DogeQL {
 
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-//            DogeParser().parse().getEnabledQuestions()
-            Application.launch(DogeApp::class.java, *args)
+            DogeParser().parse()
+//            Application.launch(DogeApp::class.java, *args)
         }
     }
 

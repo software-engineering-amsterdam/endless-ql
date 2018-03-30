@@ -2,11 +2,19 @@ import BaseAttribute from "../BaseAttribute";
 import UnitValue  from "../../../values/UnitValue";
 
 export default class WidthAttribute extends BaseAttribute {
-  private value: UnitValue;
+  private unitValue: UnitValue;
 
-  constructor(value: UnitValue) {
+  constructor(unitValue: string) {
     super();
-    this.value = value;
+    this.unitValue = this.makePixelUnitValue(parseInt(unitValue, 10));
+  }
+
+  makePixelUnitValue(value: number) {
+    return new UnitValue(value, 'px');
+  }
+
+  getCssValues(): object {
+    return {[this.getName()]: this.getStringValue() };
   }
 
   getName(): string {
@@ -14,6 +22,6 @@ export default class WidthAttribute extends BaseAttribute {
   }
 
   getStringValue(): string {
-    return this.value.toString();
+    return this.unitValue.toString();
   }
 }

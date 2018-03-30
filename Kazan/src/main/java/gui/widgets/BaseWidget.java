@@ -1,30 +1,29 @@
 package gui.widgets;
 
+import ql.ast.statements.Question;
 import ql.evaluator.FormEvaluator;
-import ql.evaluator.values.Evaluatable;
+import ql.evaluator.values.Value;
 
 import javax.swing.*;
 
 public abstract class BaseWidget implements Widget {
 
-    private final FormEvaluator evaluator;
-    private final Evaluatable value;
-    private final String identifier;
+    protected final FormEvaluator evaluator;
+    protected final Question question;
 
-    public BaseWidget(FormEvaluator evaluator, Evaluatable value, String identifier) {
+    protected BaseWidget(FormEvaluator evaluator, Question question) {
         this.evaluator = evaluator;
-        this.value = value;
-        this.identifier = identifier;
+        this.question = question;
     }
 
     @Override
-    public Evaluatable getValue() {
+    public Value getValue() {
         return null;
     }
 
     @Override
-    public void setEditable(boolean editable) {
-
+    public JComponent getComponent() {
+        return null;
     }
 
     @Override
@@ -32,8 +31,4 @@ public abstract class BaseWidget implements Widget {
 
     }
 
-    @Override
-    public JComponent getComponent() {
-        return null;
-    }
 }

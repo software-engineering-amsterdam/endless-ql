@@ -5,15 +5,15 @@ import java.io.File
 import com.github.tototoshi.csv._
 import nl.uva.se.sc.niro.errors.Errors._
 import nl.uva.se.sc.niro.model.ql.QLForm
+import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator.ValueStore
 import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
 import nl.uva.se.sc.niro.parser.QLFormParser
-import nl.uva.se.sc.niro.typechecking.TypeChecker
+import nl.uva.se.sc.niro.typechecking.ql.TypeCheckFacade
 import org.antlr.v4.runtime.CharStreams
 
 import scala.io.Source
 
 object QLFormService {
-
   def importQLSpecification(file: File): Either[Seq[Error], QLForm] = {
     importQLSpecification(Source.fromFile(file).mkString)
   }
@@ -23,21 +23,22 @@ object QLFormService {
     val parseErrors: Seq[Error] = QLFormParser.getParseErrors.toList
 
     if (parseErrors.isEmpty) {
-      TypeChecker.pipeline(qlFormAst)
+      TypeCheckFacade.pipeline(qlFormAst)
     } else {
       Left(parseErrors)
     }
   }
 
-  def saveMemoryTableToCSV(memoryTable: Map[String, Answer], file: File): Unit = {
-    val table: Seq[List[String]] = memoryTable.mapValues(answerToString).map(tuple2ToList).toList
+  def saveMemoryTableToCSV(valueStore: ValueStore, file: File): Unit = {
+    val table: List[List[String]] = valueStore.mapValues(answerToString).map(tuple2ToList).toList
 
-    implicit object QuotesCSVFormat extends DefaultCSVFormat {
-      override val quoteChar: Char = '"'
+    implicit object CSVFormat extends DefaultCSVFormat {
+      override val quoting: Quoting = QUOTE_ALL
     }
 
+    val headerRow = List("QuestionId", "Answer")
     val writer = CSVWriter.open(file)
-    writer.writeAll(table)
+    writer.writeAll(headerRow :: table)
     writer.close()
   }
 

@@ -18,6 +18,7 @@ import org.uva.ql.evaluator.value.Value;
 import org.uva.ql.visitor.StatementVisitor;
 import org.uva.ql.visitor.TypeVisitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisitor<Void, String> {
@@ -25,11 +26,13 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     private final ExpressionTable expressionTable;
     private final StatementTable statementTable;
     private final ValueTable valueTable;
+    private final Form form;
 
     public FormEvaluator(ExpressionTable expressionTable, StatementTable statementTable, ValueTable valueTable, Form form) {
         this.expressionTable = expressionTable;
         this.statementTable = statementTable;
         this.valueTable = valueTable;
+        this.form = form;
 
         for (Statement statement : form.getStatements()) {
             statement.accept(this, null);
@@ -43,27 +46,32 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
             jsonObject.put(question.getContent(), valueTable.getValueByID(question.getId()));
         }
 
-        new IOHandler().writeOutput("input/test/test.json", jsonObject);
+        new IOHandler().writeOutput("input/" + form.getId() + ".json", jsonObject);
     }
 
-    public List<Question> getQuestionsAsList() {
-        return this.statementTable.getQuestionsAsList();
-    }
-
-    public ValueTable getValueTable() {
-        return valueTable;
+    public List<Question> getVisibleQuestions(ExpressionEvaluator expressionEvaluator) {
+        List<Question> visibleQuestions = new ArrayList<>();
+        for(Question question : this.statementTable.getQuestionsAsList()) {
+            if (this.questionIsVisible(question, expressionEvaluator)) {
+                visibleQuestions.add(question);
+            }
+        }
+        return visibleQuestions;
     }
 
     public void addOrUpdateValue(String id, Value value) {
         this.valueTable.addOrUpdateValue(id, value);
     }
 
-    public Expression getConditionById(String id) {
+    private Expression getConditionById(String id) {
         return this.statementTable.getConditionByQuestionID(id);
     }
 
-    public boolean questionHasCondition(Question question) {
-        return this.statementTable.questionIsConditional(question.toString());
+    private boolean questionIsVisible(Question question, ExpressionEvaluator expressionEvaluator) {
+        if (this.statementTable.questionIsConditional(question.getId())) {
+            return expressionEvaluator.evaluateCondition(getConditionById(question.getId()), this.valueTable);
+        }
+        return true;
     }
 
     public boolean questionIsCalculated(Question question) {
@@ -75,7 +83,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     }
 
     public void evaluateAllExpressions(ExpressionEvaluator expressionEvaluator) {
-        for (Question question : this.getQuestionsAsList()) {
+        for (Question question : this.statementTable.getQuestionsAsList()) {
             if (this.expressionTable.questionHasExpression(question.getId())) {
                 Value value = expressionEvaluator.evaluateExpression(question.getId(), this.expressionTable.getExpressionByName(question.getId()), this.valueTable);
                 this.valueTable.addOrUpdateValue(question.getId(), value);
@@ -85,19 +93,19 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     @Override
     public Void visit(Question question, String context) {
-        this.statementTable.addQuestion(question.getId(), question);
+        this.statementTable.addQuestion(question);
         question.getType().accept(this, question.getId());
         return null;
     }
 
     @Override
     public Void visit(Conditional conditional, String context) {
-        for (Statement statement : conditional.getIfSide()) {
-            this.statementTable.addConditional(statement.toString(), conditional.getCondition());
+        for (Statement statement : conditional.getIfBlock()) {
+            this.statementTable.addConditional(statement.getId(), conditional.getCondition());
             statement.accept(this, context);
         }
-        for (Statement statement : conditional.getElseSide()) {
-            this.statementTable.addConditional(statement.toString(), conditional.getCondition());
+        for (Statement statement : conditional.getElseBlock()) {
+            this.statementTable.addConditional(statement.getId(), conditional.getCondition());
             statement.accept(this, context);
         }
         return null;
@@ -105,7 +113,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     @Override
     public Void visit(CalculatedQuestion question, String context) {
-        this.statementTable.addQuestion(question.getId(), question);
+        this.statementTable.addQuestion(question);
         this.expressionTable.addExpression(question.getId(), question.getExpression());
         question.getType().accept(this, question.getId());
         return null;

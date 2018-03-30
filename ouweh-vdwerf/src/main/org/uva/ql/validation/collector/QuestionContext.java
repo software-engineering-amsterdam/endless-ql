@@ -25,11 +25,11 @@ public class QuestionContext implements StatementVisitor<Void, String> {
 
     @Override
     public Void visit(Conditional conditional, String context) {
-        for (Statement statement : conditional.getIfSide()) {
+        for (Statement statement : conditional.getIfBlock()) {
             statement.accept(this, null);
         }
 
-        for (Statement statement : conditional.getElseSide()) {
+        for (Statement statement : conditional.getElseBlock()) {
             statement.accept(this, null);
         }
         return null;

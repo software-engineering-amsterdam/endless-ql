@@ -7,17 +7,17 @@ import ql.visiting.StatementVisitor;
 
 public class IfThenStatement extends Statement {
 
-	private final Expression expression; // condition
+	private final Expression condition;
 	private final Block ifBody;
 
-	public IfThenStatement(Expression expression, Block ifBody, CodeReference location) {
+	public IfThenStatement(Expression condition, Block ifBody, CodeReference location) {
 		super(location);
-		this.expression = expression;
+		this.condition = condition;
 		this.ifBody = ifBody;
 	}
 
-	public Expression getExpression() {
-		return expression;
+	public Expression getCondition() {
+		return condition;
 	}
 
 	public Block getIfBody() {

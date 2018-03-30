@@ -1,7 +1,9 @@
 from PyQt5 import QtWidgets, QtCore
-import os, sys, os.path
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
-from gui import gui, input_frame, output_frame
+from gui import main_window, input_frame, output_frame
+import os
+import sys
+from commons import utility
+# sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from pytestqt import qtbot
 
 
@@ -12,25 +14,24 @@ def test_input_frame(qtbot):
 
     qtbot.mouseClick(screen.parse_button, QtCore.Qt.LeftButton)
     qtbot.mouseClick(screen.quit_button, QtCore.Qt.LeftButton)
-    assert screen.isVisible() == False
+    assert screen.isVisible() is False
+
 
 def test_output_frame(qtbot):
     app = QtWidgets.QApplication(sys.argv)
     screen = output_frame.OutputFrame()
     screen.show()
-    screen.add_submit_button()
-    screen.set_output_path("tests/QL_output.txt")
 
-    qtbot.mouseClick(screen.submit_button, QtCore.Qt.LeftButton)
+    screen.output_path = "tests/output_frame_test.txt"
+    screen.write_to_txt()
 
-    exists = os.path.exists("tests/QL_output.txt")
-    os.remove("tests/QL_output.txt")
+    exists = os.path.exists("tests/output_frame_test.txt")
     assert exists
 
+
 def test_main_window(qtbot):
-    # todo: verify usefulness of this test
     app = QtWidgets.QApplication(sys.argv)
-    screen = gui.MainWindow()
+    screen = main_window.MainWindow()
     screen.show()
 
     screen.initiate_output_frame()
@@ -39,96 +40,34 @@ def test_main_window(qtbot):
     assert True
 
 
+def test_gui(qtbot):
+    app = QtWidgets.QApplication(sys.argv)
+    screen = main_window.MainWindow()
+    screen.show()
+    ql_text = """form Box1HouseOwning {
+    "Did you sell a house in 2010?" hasSoldHouse: boolean
+    "Did you by a house in 2010?" hasBoughtHouse: boolean
+    "Did you enter a loan for maintenance/reconstruction?" hasMaintLoan: boolean
+}"""
+    screen.parse(ql_text,"")
+    question_ids = screen.output_frame.question_ids
+    questions = screen.output_frame.questions
+    questions[question_ids[0]].set_answer_true()
+    questions[question_ids[1]].set_answer_false()
+    screen.output_frame.output_path = "tests/gui_test.txt"
 
-# def test_gui(qtbot):
+    screen.output_frame.write_to_txt()
+    expected_answer = """"Did you sell a house in 2010?"True
+"Did you by a house in 2010?"False
+"Did you enter a loan for maintenance/reconstruction?"undefined
+"""
+    actual_answer = utility.open_file("tests/gui_test.txt")
+    assert expected_answer == actual_answer
+
+
+# def test_manual_debug():
 #     app = QtWidgets.QApplication(sys.argv)
 #     screen = gui.MainWindow()
 #     screen.show()
 #
-#     file = open("QL_output.txt","w")
-#     file.write("hi")
-#     file.close()
-#
-#     screen.ql_input.setText('form Box1HouseOwning {\
-#     "Did you sell a house in 2010?" hasSoldHouse: boolean\
-#     "Did you by a house in 2010?" hasBoughtHouse: boolean\
-#     "Did you enter a loan for maintenance/reconstruction?" hasMaintLoan: boolean\
-# }')
-#     qtbot.mouseClick(screen.parse_button, QtCore.Qt.LeftButton)
-#     qtbot.mouseClick(screen.submit_button, QtCore.Qt.LeftButton)
-#     qtbot.mouseClick(screen.quit_button, QtCore.Qt.LeftButton)
-#
-#     file = open("QL_output.txt")
-#     testtext = file.read()
-#     file.close()
-#     # os.remove("QL_output.txt")
-#
-#     assert testtext == 'Did you sell a house in 2010?undefined\nDid you by a house in 2010?undefined\nDid you enter a loan for maintenance/reconstruction?undefined\n'
-#
-
-# -*- coding: utf-8 -*-
-# """
-# Documentation goes here:
-#
-# to run:
-# $ python run_app.py
-# """
-# import argparse
-# import os
-# import sys
-#
-# from grammar.run_antlr import run_antlr_parse_gen
-# from commons.config import config
-# from grammar.debug_grammar import GrammarDebugger
-# from gui.gui import *
-#
-#
-# def test():
-#     """
-#     Main program
-#     """
-#     # CLI
-#     parser = argparse.ArgumentParser(description='Python Questionnaire Language')
-#     parser.add_argument('-v', '--version', action='store_true',
-#                         help="Prints the program version.")
-#     parser.add_argument('-t', '--test', action='store_true',
-#                         help="Runs the testsuite.")
-#     parser.add_argument('-g', '--grammar', action='store_true',
-#                         help='Debug grammar.')
-#     parser.add_argument('-p', '--parser', action='store', type=str, choices=['ql', 'QL', 'qls', 'QLS'],
-#                         help='Generate parser.')
-#
-#     args = parser.parse_args()
-#
-#     # Run version
-#     if args.version:
-#         print('{} {}'.format(config['program']['name'], config['program']['version']))
-#         sys.exit(0)
-#
-#     # Run testsuite
-#     if args.test:
-#         os.system("pytest -vv")
-#         sys.exit(0)
-#
-#     # Debug grammar
-#     if args.grammar:
-#         # todo: make it so that you give path in CLI call + cleanup GrammerDebugger
-#         g_debug = GrammarDebugger("tests/forms/ql/pass/arithmetic.ql")
-#         report, errors = g_debug.debug_grammar()
-#         sys.exit(0)
-#
-#     # Generate antlr parser
-#     if args.parser:
-#         run_antlr_parse_gen(args.parser)
-#         sys.exit(0)
-#
-#     # GUI
-#     app = QtWidgets.QApplication(sys.argv)
-#     screen = MainWindow()
-#     screen.show()
-#
 #     sys.exit(app.exec_())
-#
-#
-# if __name__ == '__main__':
-#     main()

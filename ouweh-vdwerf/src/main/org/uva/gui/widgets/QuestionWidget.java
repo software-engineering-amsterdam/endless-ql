@@ -2,8 +2,6 @@ package org.uva.gui.widgets;
 
 import org.uva.gui.QuestionChangeListener;
 import org.uva.ql.ast.Question;
-import org.uva.qls.ast.Style.Style;
-import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +15,8 @@ public abstract class QuestionWidget extends JPanel {
         this.question = question;
 
         this.setLayout(new GridLayout(1, 2));
-        questionLabel = new JLabel(question.getContent());
-        questionLabel.setVisible(true);
+        this.questionLabel = new JLabel(question.getContent());
+        this.questionLabel.setVisible(true);
         this.add(questionLabel, 0);
         this.setVisible(true);
     }
@@ -26,15 +24,16 @@ public abstract class QuestionWidget extends JPanel {
     public void setFont(String font) {
         int currentSize = questionLabel.getFont().getSize();
         Font newFont = new Font(font, Font.PLAIN, currentSize);
-        questionLabel.setFont(newFont);
+        this.questionLabel.setFont(newFont);
     }
 
     public void setFontSize(int fontSize) {
-        Font newFont = questionLabel.getFont().deriveFont((float)fontSize);
-        questionLabel.setFont(newFont);
+        Font newFont = questionLabel.getFont().deriveFont((float) fontSize);
+        this.questionLabel.setFont(newFont);
     }
 
     public void setWidth(int width) {
+        this.setWidth(width);
     }
 
     public void setColor(Color color) {

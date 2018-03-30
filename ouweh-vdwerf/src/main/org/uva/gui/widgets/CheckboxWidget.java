@@ -9,8 +9,6 @@ import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class CheckboxWidget extends QuestionWidget {
 
@@ -34,12 +32,25 @@ public class CheckboxWidget extends QuestionWidget {
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        checkBox.addItemListener(e -> questionChangeListener.onQuestionChanged(question, new BooleanValue(checkBox.isSelected())));
+        this.checkBox.addItemListener(e -> questionChangeListener.onQuestionChanged(question, new BooleanValue(this.checkBox.isSelected())));
     }
 
     @Override
     public void setColor(Color color) {
         super.setColor(color);
-        checkBox.setBackground(color);
+        this.checkBox.setBackground(color);
+    }
+
+    @Override
+    public void setFontSize(int fontSize) {
+        super.setFontSize(fontSize);
+        Font newFont = questionLabel.getFont().deriveFont((float) fontSize);
+        this.checkBox.setFont(newFont);
+    }
+
+    @Override
+    public void setFont(String font) {
+        super.setFont(font);
+        this.checkBox.setFont(this.questionLabel.getFont());
     }
 }

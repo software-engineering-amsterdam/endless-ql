@@ -4,18 +4,18 @@ grammar QLS;
 /** Parser rules */
 stylesheet : STYLESHEET IDENTIFIER CURLY_BRACE_L page* NEWLINE* CURLY_BRACE_R EOF; // form
 
-page : PAGE IDENTIFIER block* NEWLINE*; // content
+page : PAGE IDENTIFIER CURLY_BRACE_L section* CURLY_BRACE_R NEWLINE*; // content
 
-block : CURLY_BRACE_L NEWLINE* lineInBlock* CURLY_BRACE_R NEWLINE*;
+section : SECTION IDENTIFIER CURLY_BRACE_L element* CURLY_BRACE_R NEWLINE*;
 
-lineInBlock : section NEWLINE*
+//block : CURLY_BRACE_L NEWLINE* lineInBlock* CURLY_BRACE_R NEWLINE*;
+
+element : section NEWLINE*
     | defaultWidget NEWLINE*
     | question NEWLINE*
 ;
 
 question : QUESTION IDENTIFIER (widget)?;
-
-section : SECTION IDENTIFIER block*;
 
 defaultWidget : DEFAULT type (widget | widgetStyle);
 
@@ -28,6 +28,7 @@ widgetType  : checkboxWidget
             | sliderWidget
             | dropdownWidget
 ;
+
 checkboxWidget : CHECKBOX;
 textWidget : TEXT;
 radioWidget : RADIO BRACE_L yes=STR COMMA no=STR BRACE_R;
@@ -79,8 +80,6 @@ INTEGERTYPE: 'integer';
 MONEYTYPE: 'money' | 'currency';
 DATETYPE: 'date';
 DECIMALTYPE: 'decimal';
-
-
 
 //widget types
 SLIDER: 'slider';

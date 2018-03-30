@@ -27,4 +27,8 @@ public interface Expression {
     interface TypeCheckable {
         void checkType();
     }
+
+    interface JsonSerializable {
+        List<?> getJsonRepresentation();
+    }
 }

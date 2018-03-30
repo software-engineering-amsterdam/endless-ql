@@ -1,17 +1,5 @@
 package ui.view
 
-import data.question.SymbolType
-import javafx.scene.layout.HBox
-import tornadofx.add
-import ui.model.QuestionModel
+import tornadofx.View
 
-class QuestionField(question: QuestionModel) : HBox() {
-
-    init {
-        when (question.item.value.type) {
-            SymbolType.BOOLEAN -> add(QuestionCheckBox(question))
-            else -> add(QuestionTextField(question))
-        }
-        isDisable = question.readOnly
-    }
-}
+abstract class QuestionField : View()

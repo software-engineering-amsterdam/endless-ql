@@ -1,10 +1,10 @@
 import IfCondition from "../nodes/conditions/IfCondition";
 import FormNode from "../nodes/FormNode";
-import ComputedField from "../nodes/fields/ComputedField";
+import ComputedField from "../nodes/fields/ComputedFieldNode";
 import QuestionNode from "../nodes/fields/QuestionNode";
 import FormState from "../state/FormState";
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
-import Form from "../Form";
+import Form from "../StatefulForm";
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
 export default class VisibleFieldsVisitor implements FieldVisitor {
@@ -22,7 +22,8 @@ export default class VisibleFieldsVisitor implements FieldVisitor {
 
   visitIfCondition(ifCondition: IfCondition): any {
     if (ifCondition.fails(this._state)) {
-      return;
+      ifCondition.otherwise.forEach((statement) => statement.accept(this));
+      return this._visibleFields;
     }
 
     ifCondition.then.forEach((statement) => statement.accept(this));

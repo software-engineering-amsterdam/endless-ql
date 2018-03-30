@@ -1,143 +1,48 @@
 package nl.uva.se.sc.niro.model.qls
 
+import nl.uva.se.sc.niro.model.qls.style.Color
 import org.scalatest.WordSpec
 
 class QLStylesheetTest extends WordSpec {
 
-  "stylesheet collectPageNamesWithQuestion" should {
-    "find no page for question" in {
-      val stylesheet = QLStylesheet(
-        "noMatchingQuestion",
-        Seq(
-          Page(
-            "PageOne",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("nonExisting", None)
-                ))
-            ))
-        ))
-      val expected = Seq.empty
+  "Merging styling" should {
+    "map to default if default is added to default" in {
+      val defaultStyling = Styling()
 
-      val actual: Seq[String] = stylesheet.collectPageNamesWithQuestion("onlyTheLonely")
+      val result = defaultStyling ++ Styling()
 
-      assert(expected == actual)
+      val expected = Styling()
+      assert(expected == result)
     }
 
-    "find no pages for question" in {
-      val stylesheet = QLStylesheet(
-        "noMatchingQuestion",
-        Seq(
-          Page(
-            "PageOne",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("nonExisting", None)
-                ))
-            )),
-          Page(
-            "PageTwo",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("countMeOut", None)
-                ))
-            ))
-        )
-      )
-      val expected = Seq.empty
+    "map to current if default is added to current" in {
+      val defaultStyling = Styling()
+      val currentStyling = Styling(color = Some(Color("#010203")))
 
-      val actual: Seq[String] = stylesheet.collectPageNamesWithQuestion("onlyTheLonely")
+      val result = currentStyling ++ defaultStyling
 
-      assert(expected == actual)
+      val expected = Styling(color = Some(Color("#010203")))
+      assert(expected == result)
     }
 
-    "find single page for question" in {
-      val stylesheet = QLStylesheet(
-        "noMatchingQuestion",
-        Seq(
-          Page(
-            "PageOne",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("letsStayTogether", None)
-                ))
-            ))
-        ))
-      val expected = Seq("PageOne")
+    "map to new if new is added to default" in {
+      val defaultStyling = Styling()
+      val newStyling = Styling(color = Some(Color("#010203")))
 
-      val actual = stylesheet.collectPageNamesWithQuestion("letsStayTogether")
+      val result = defaultStyling ++ newStyling
 
-      assert(expected == actual)
+      val expected = Styling(color = Some(Color("#010203")))
+      assert(expected == result)
     }
 
-    "find pages for question among other pages" in {
-      val stylesheet = QLStylesheet(
-        "noMatchingQuestion",
-        Seq(
-          Page(
-            "PageOne",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("notMe", None)
-                ))
-            )),
-          Page(
-            "PageTwo",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("letsStayTogether", None)
-                ))
-            ))
-        )
-      )
-      val expected = Seq("PageTwo")
+    "map to new if new is added to other" in {
+      val otherStyling = Styling(color = Some(Color("#CAFEBABE")))
+      val newStyling = Styling(color = Some(Color("#010203")))
 
-      val actual = stylesheet.collectPageNamesWithQuestion("letsStayTogether")
+      val result = otherStyling ++ newStyling
 
-      assert(expected == actual)
-    }
-
-    "find multiple pages for question among other pages" in {
-      val stylesheet = QLStylesheet(
-        "noMatchingQuestion",
-        Seq(
-          Page(
-            "PageOne",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("letsStayTogether", None)
-                ))
-            )),
-          Page(
-            "PageTwo",
-            Seq(
-              Section(
-                "SectionOne",
-                Seq(
-                  Question("letsStayTogether", None)
-                ))
-            ))
-        )
-      )
-      val expected = Seq("PageOne", "PageTwo")
-
-      val actual = stylesheet.collectPageNamesWithQuestion("letsStayTogether")
-
-      assert(expected == actual)
+      val expected = Styling(color = Some(Color("#010203")))
+      assert(expected == result)
     }
   }
 
@@ -152,11 +57,14 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("questionOne", None)
-                ))
-            ))
-        ))
-      val expected = Seq(Question("questionOne", None))
+                  Question("questionOne", Styling())
+                ),
+                Map.empty)
+            ),
+            Map.empty)
+        ),
+        Map.empty)
+      val expected = Seq(Question("questionOne", Styling()))
 
       val actual = stylesheet.collectAllQuestions()
 
@@ -173,18 +81,22 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("questionOne", None)
-                )
-              ),
+                  Question("questionOne", Styling())
+                ),
+                Map.empty),
               Section(
                 "SectionTwo",
                 Seq(
-                  Question("questionTwo", None)
-                ))
-            ))
-        )
+                  Question("questionTwo", Styling())
+                ),
+                Map.empty)
+            ),
+            Map.empty
+          )
+        ),
+        Map.empty
       )
-      val expected = Seq(Question("questionOne", None), Question("questionTwo", None))
+      val expected = Seq(Question("questionOne", Styling()), Question("questionTwo", Styling()))
 
       val actual = stylesheet.collectAllQuestions()
 
@@ -201,16 +113,19 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionOne",
                 Seq(
-                  Question("questionOne", None),
-                  Question("questionTwo", None)
-                )),
+                  Question("questionOne", Styling()),
+                  Question("questionTwo", Styling())
+                ),
+                Map.empty),
               Section(
                 "SectionTwo",
                 Seq(
-                  Question("questionThree", None),
-                  Question("questionFour", None)
-                ))
-            )
+                  Question("questionThree", Styling()),
+                  Question("questionFour", Styling())
+                ),
+                Map.empty)
+            ),
+            Map.empty
           ),
           Page(
             "PageTwo",
@@ -218,19 +133,23 @@ class QLStylesheetTest extends WordSpec {
               Section(
                 "SectionThree",
                 Seq(
-                  Question("questionFive", None),
-                  Question("questionSix", None)
-                ))
-            ))
-        )
+                  Question("questionFive", Styling()),
+                  Question("questionSix", Styling())
+                ),
+                Map.empty)
+            ),
+            Map.empty)
+        ),
+        Map.empty
       )
       val expected = Seq(
-        Question("questionOne", None),
-        Question("questionTwo", None),
-        Question("questionThree", None),
-        Question("questionFour", None),
-        Question("questionFive", None),
-        Question("questionSix", None))
+        Question("questionOne", Styling()),
+        Question("questionTwo", Styling()),
+        Question("questionThree", Styling()),
+        Question("questionFour", Styling()),
+        Question("questionFive", Styling()),
+        Question("questionSix", Styling())
+      )
 
       val actual = stylesheet.collectAllQuestions()
 

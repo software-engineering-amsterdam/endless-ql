@@ -68,3 +68,5 @@ fragment
 DIGIT:	[0-9];
 fragment
 LETTER: [a-zA-Z];
+
+ErrorChar : . ;

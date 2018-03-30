@@ -19,10 +19,10 @@ namespace QLVisualizer.Elements.Managers
             base(identifyer, text, xmlName, controller, activationExpression)
         {
             Children = new List<ElementManager>();
-            Styles = new List<IQLSElement>();
+            Styles = new List<QLSStyle>();
         }
 
-        public List<IQLSElement> Styles { get; private set; }
+        public List<QLSStyle> Styles { get; private set; }
 
         /// <summary>
         /// Add child, set parent of ElementManager
@@ -138,22 +138,27 @@ namespace QLVisualizer.Elements.Managers
             return new Tuple<List<string>, Dictionary<string, ElementManager>>(targets, result);
         }
 
-        public void AddStyle(params IQLSElement[] styles)
+        public void AddStyle(params QLSStyle[] styles)
         {
             Styles.AddRange(styles);
         }
 
-        public override void SetStyle(IQLSElement style)
+        public override void SetStyle(QLSStyle style)
         {
-            Styles = new List<IQLSElement>() { style };
+            Styles = new List<QLSStyle>() { style };
         }
 
-        public void SetStyles(List<IQLSElement> styles)
+        public void SetStyles(List<QLSStyle> styles)
         {
             Styles = styles;
         }
 
-        public override IQLSElement GetStyle()
+        public List<QLSStyle> GetStyles()
+        {
+            return Styles;
+        }
+
+        public override QLSStyle GetStyle()
         {
             return Styles.Count > 0 ? Styles[0] : null;
         }

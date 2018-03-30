@@ -95,8 +95,8 @@ namespace QLVisualizer.Elements.Managers
         /// <returns>XML representation of the element</returns>
         public abstract string ToXML();
 
-        public abstract void SetStyle(IQLSElement style);
+        public abstract void SetStyle(QLSStyle style);
 
-        public abstract IQLSElement GetStyle();
+        public abstract QLSStyle GetStyle();
     }
 }

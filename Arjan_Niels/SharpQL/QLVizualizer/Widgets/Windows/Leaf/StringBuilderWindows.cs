@@ -1,4 +1,5 @@
-﻿using QLParser.AST.QLS;
+﻿using QLParser.AST.QL;
+using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
 using QLVisualizer.Elements.Managers.LeafTypes;
 using QLVisualizer.Widgets.Collection;
@@ -47,7 +48,12 @@ namespace QLVisualizer.Widgets.Windows.Leaf
             }
 
             // Return created input
-            return inputCreator.CreateInput(_styler, widgetOptions.ToArray(), _elementManagerLeaf as StringQuestionManager);
+            return inputCreator.CreateInput(_styler, widgetOptions.ToArray(), _elementManager as StringQuestionManager);
+        }
+
+        protected override QValueType GetQValueType()
+        {
+            return QValueType.TEXT;
         }
     }
 }

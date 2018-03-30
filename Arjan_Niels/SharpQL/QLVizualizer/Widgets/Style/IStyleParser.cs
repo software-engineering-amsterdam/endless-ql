@@ -5,6 +5,6 @@ namespace QLVisualizer.Widgets
 {
     public interface IStyleParser
     {
-        void ParseStyle(List<QLSValue> qlsValues, out string[] errors);
+        void ParseStyle(QLSStyle qlsValues, out string[] errors);
     }
 }

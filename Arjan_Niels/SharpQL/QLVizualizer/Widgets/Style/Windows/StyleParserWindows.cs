@@ -38,11 +38,11 @@ namespace QLVisualizer.Widgets.Windows
         public Color TextColor { get; private set; }
         public bool AutoSize { get; private set; }
 
-        public void ParseStyle(List<QLSValue> qlsValues, out string[] errors)
+        public void ParseStyle(QLSStyle qlsStyle, out string[] errors)
         {
             List<string> collectedErrors = new List<string>();
             ColorConverter colorConverter = new ColorConverter();
-            foreach(QLSValue qlsValue in qlsValues)
+            foreach(QLSValue qlsValue in qlsStyle.GetStylingValues())
             {
                 if (_supportedStyleProperties.ContainsKey(qlsValue.StyleProperty) && qlsValue.QValueType == _supportedStyleProperties[qlsValue.StyleProperty].Item2)
                 {

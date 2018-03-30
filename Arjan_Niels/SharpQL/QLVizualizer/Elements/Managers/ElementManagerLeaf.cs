@@ -13,7 +13,7 @@ namespace QLVisualizer.Elements.Managers
 
         public event AnswerValueUpdate OnAnswerValueUpdate;
 
-        private IQLSElement _style;
+        private QLSStyle _style;
 
 
         public ElementManagerLeaf(string identifyer, string text, string xmlName, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null) : 
@@ -34,12 +34,12 @@ namespace QLVisualizer.Elements.Managers
 
         public abstract string AnswerToString();
 
-        public override void SetStyle(IQLSElement style)
+        public override void SetStyle(QLSStyle style)
         {
             _style = style;
         }
 
-        public override IQLSElement GetStyle()
+        public override QLSStyle GetStyle()
         {
             return _style;
         }

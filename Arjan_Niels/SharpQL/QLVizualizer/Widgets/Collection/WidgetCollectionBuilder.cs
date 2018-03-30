@@ -1,4 +1,5 @@
-﻿using QLParser.AST.QLS;
+﻿using QLParser.AST.QL;
+using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers;
 using System;
 using System.Collections.Generic;
@@ -12,22 +13,34 @@ namespace QLVisualizer.Widgets.Collection
 
         protected ElementManagerCollection _elementManagerCollection { get; private set; }
 
+        private Dictionary<QValueType, QLSStyle> _styleValues;
+
         public WidgetCollectionBuilder(ElementManagerCollection elementManagerCollection) : base(elementManagerCollection)
         {
             _children = new List<WidgetBuilder<T>>();
             _elementManagerCollection = elementManagerCollection;
+            _styleValues = new Dictionary<QValueType, QLSStyle>();
+
+            AddStyles(elementManagerCollection.GetStyles().ToArray());
+        }
+
+        private void AddStyles(params QLSStyle[] styles)
+        {
+            foreach (QLSStyle style in styles)
+            {
+                if (!_styleValues.ContainsKey(style.QValueType))
+                    _styleValues.Add(style.QValueType, style);
+                else
+                    _styleValues[style.QValueType] = style.CombineWith(_styleValues[style.QValueType]);
+            }
         }
 
         public override T Create()
         {
-            if (_elementManagerCollection.GetStyle() != null)
-            {
-                List<QLSValue> qlsValues = new List<QLSValue>(_elementManagerCollection.GetStyle().GetStylingValues());
-                foreach (WidgetBuilder<T> widgetBuilder in _children)
-                    widgetBuilder.SetParentStyle(qlsValues);
-            }
+            foreach (WidgetBuilder<T> widgetBuilder in _children)
+                widgetBuilder.ApplyParentStyle(_styleValues.Values.ToArray());
 
-            return _styler.StyleElement(Create(_children.ToDictionary(child=> child as IWidgetBuilder, child => child.Create())));
+            return _styler.StyleElement(Create(_children.ToDictionary(child => child as IWidgetBuilder, child => child.Create())));
         }
 
         protected abstract T Create(Dictionary<IWidgetBuilder, T> children);
@@ -41,13 +54,18 @@ namespace QLVisualizer.Widgets.Collection
             _children.Add(child as WidgetBuilder<T>);
         }
 
-        public override void SetParentStyle(List<QLSValue> elements)
+        public override void ApplyParentStyle(params QLSStyle[] elements)
         {
-            base.SetParentStyle(elements);
+            AddStyles(elements);
+            foreach(WidgetBuilder<T> widgetBuilder in _children)
+                widgetBuilder.ApplyParentStyle(_styleValues.Values.ToArray());
+        }
+        /*{
+            base.ApplyParentStyle(elements);
 
             // Update children when collection style is changed
             foreach (IWidgetBuilder widgetBuilder in _children)
                 widgetBuilder.SetParentStyle(_qlsValues);
-        }
+        }*/
     }
 }

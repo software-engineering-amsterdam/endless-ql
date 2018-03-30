@@ -14,7 +14,7 @@ namespace QLVisualizer.Widgets
             _styleParser = new StyleParserWindows();
         }
 
-        public void ParseStyle(List<QLSValue> qlsValues, out string[] errors)
+        public void ParseStyle(QLSStyle qlsValues, out string[] errors)
         {
             _styleParser.ParseStyle(qlsValues, out errors);
         }

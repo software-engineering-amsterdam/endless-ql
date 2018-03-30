@@ -172,7 +172,7 @@ namespace QLVisualizer.Factories
         private static ElementManagerLeaf QLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
         {
             // Leaf retrieval
-            IQLSElement style = new QLSStyle(QValueType.UNKNOWN, new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
+            QLSStyle style = new QLSStyle(QValueType.UNKNOWN, new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
 
             if (node.NodeStyles.Count > 1)
                 throw new InvalidOperationException("MULTIPLE STYLES IN LEAF");

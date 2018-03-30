@@ -9,7 +9,7 @@ namespace QLVisualizer.Elements.Managers
 {
     public interface IStylable
     {
-        void SetStyle(IQLSElement style);
-        IQLSElement GetStyle();
+        void SetStyle(QLSStyle style);
+        QLSStyle GetStyle();
     }
 }

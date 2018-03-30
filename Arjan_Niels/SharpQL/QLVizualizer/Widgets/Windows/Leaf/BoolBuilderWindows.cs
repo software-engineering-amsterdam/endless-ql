@@ -1,12 +1,10 @@
-﻿using QLParser.AST.QLS;
+﻿using QLParser.AST.QL;
 using QLParser.AST.QLS.Enums;
 using QLVisualizer.Elements.Managers.LeafTypes;
-using QLVisualizer.Widgets.Collection;
 using QLVisualizer.Widgets.Leaf;
 using QLVisualizer.Widgets.Windows.Leaf.InputCreators;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace QLVisualizer.Widgets.Windows.Leaf
@@ -48,7 +46,12 @@ namespace QLVisualizer.Widgets.Windows.Leaf
             }
 
             // Return created input
-            return inputCreator.CreateInput(_styler, widgetOptions.ToArray(), _elementManagerLeaf as BoolQuestionManager);
+            return inputCreator.CreateInput(_styler, widgetOptions.ToArray(), _elementManager as BoolQuestionManager);
+        }
+
+        protected override QValueType GetQValueType()
+        {
+            return QValueType.BOOLEAN;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace QLVisualizer.Widgets
 {
     public interface IWidgetBuilder
     {       
-        void SetParentStyle(List<QLSValue> elements);
+        void ApplyParentStyle(params QLSStyle[] styles);
 
         ElementManager GetElementManager();
     }

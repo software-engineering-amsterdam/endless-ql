@@ -13,21 +13,21 @@ import ql.model.expression.unary.NotExpression;
 public class ExpressionBuilder extends QLBaseVisitor<Expression> {
 
     @Override
-    public Expression visitNotExpr(QLParser.NotExprContext ctx) {
-        Expression value = visit(ctx.expr);
+    public Expression visitNotExpression(QLParser.NotExpressionContext ctx) {
+        Expression value = visit(ctx.expression());
         NotExpression notExpression = new NotExpression(value);
         notExpression.setToken(ctx.getStart());
         return notExpression;
     }
 
     @Override
-    public Expression visitOpExpr(QLParser.OpExprContext ctx) {
+    public Expression visitArithmeticExpression(QLParser.ArithmeticExpressionContext ctx) {
         // Inspired by: https://stackoverflow.com/a/23092428
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
         BinaryExpression binaryExpression;
-        int op = ctx.op.getType();
+        int op = ctx.operator.getType();
         switch (op) {
             case QLLexer.PLUS:
                 binaryExpression = new SumExpression(left, right);
@@ -42,27 +42,27 @@ public class ExpressionBuilder extends QLBaseVisitor<Expression> {
                 binaryExpression = new DivisionExpression(left, right);
                 break;
             default:
-                throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.op.toString() + "'");
+                throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.operator.toString() + "'");
         }
         binaryExpression.setToken(ctx.getStart());
         return binaryExpression;
     }
 
     @Override
-    public Expression visitNegExpr(QLParser.NegExprContext ctx) {
-        Expression value = visit(ctx.expr);
+    public Expression visitNegationExpression(QLParser.NegationExpressionContext ctx) {
+        Expression value = visit(ctx.expression());
         NegationExpression negationExpression = new NegationExpression(value);
         negationExpression.setToken(ctx.getStart());
         return negationExpression;
     }
 
     @Override
-    public Expression visitCompExpr(QLParser.CompExprContext ctx) {
+    public Expression visitComparisonExpression(QLParser.ComparisonExpressionContext ctx) {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
         Expression expression;
-        int op = ctx.op.getType();
+        int op = ctx.operator.getType();
         switch (op) {
             case QLLexer.EQ:
                 expression = new EqualExpression(left, right);
@@ -71,19 +71,19 @@ public class ExpressionBuilder extends QLBaseVisitor<Expression> {
                 expression = new NotExpression(new EqualExpression(left, right));
                 break;
             default:
-                throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.op.toString() + "'");
+                throw new IllegalArgumentException("Cannot apply unknown operator '" + ctx.operator.toString() + "'");
         }
         expression.setToken(ctx.getStart());
         return expression;
     }
 
     @Override
-    public Expression visitAndOrExpr(QLParser.AndOrExprContext ctx) {
+    public Expression visitAndOrExpression(QLParser.AndOrExpressionContext ctx) {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
         Expression expresionBinary;
-        int op = ctx.op.getType();
+        int op = ctx.operator.getType();
         switch (op) {
             case QLLexer.AND:
                 expresionBinary = new AndExpression(left, right);
@@ -99,12 +99,12 @@ public class ExpressionBuilder extends QLBaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitBoolExpr(QLParser.BoolExprContext ctx) {
+    public Expression visitBooleanExpression(QLParser.BooleanExpressionContext ctx) {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
 
         BinaryExpression binaryExpression;
-        int op = ctx.op.getType();
+        int op = ctx.operator.getType();
         switch (op) {
             case QLLexer.GT:
                 binaryExpression = new GreaterThanExpression(left, right);
@@ -126,7 +126,7 @@ public class ExpressionBuilder extends QLBaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitParenExpr(QLParser.ParenExprContext ctx) {
+    public Expression visitParenthesesExpression(QLParser.ParenthesesExpressionContext ctx) {
         return super.visit(ctx.expression());
     }
 

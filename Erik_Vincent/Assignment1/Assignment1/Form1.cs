@@ -13,10 +13,12 @@ namespace Assignment1
         {
             InitializeComponent();
             var presenter = new MainPresenter(this);
-            openFileButton.Click += SelectQLFile;
+            openFile.Click += SelectQLFile;
+            exportAnswers.Click += ExportAnswers;
         }
 
         public event EventHandler SelectQLFile;
+        public event EventHandler ExportAnswers;
 
         public void SetFormControl(Control control)
         {

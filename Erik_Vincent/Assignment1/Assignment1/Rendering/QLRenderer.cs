@@ -16,9 +16,9 @@ namespace Assignment1.Rendering
             FlowDirection = FlowDirection.TopDown
         };
 
-        public QLRenderer(QuestionForm questionForm)
+        public QLRenderer(QLExecutor executor)
         {
-            _executor = new QLExecutor(questionForm);
+            _executor = executor;
         }
 
         public Control Render()

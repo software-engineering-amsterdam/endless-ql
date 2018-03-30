@@ -1,14 +1,15 @@
-package gui.components.widgets.spinner;
+package gui.components.widgets.spinbox;
 
 import gui.components.widgets.GUIWidget;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Node;
+import javafx.scene.control.Spinner;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public abstract class Spinner<T> extends javafx.scene.control.Spinner<T> implements GUIWidget {
+public abstract class SpinBox<T> extends Spinner<T> implements GUIWidget {
 
-    public Spinner() {
+    public SpinBox() {
         this.setEditable(true);
     }
 
@@ -20,11 +21,6 @@ public abstract class Spinner<T> extends javafx.scene.control.Spinner<T> impleme
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
         this.valueProperty().addListener(invalidationListener);
-//        this.getEditor().textProperty().addListener(invalidationListener);
-//        final Spinner spinner = this;
-//        this.getEditor().setOnAction(e->{
-//            invalidationListener.invalidated(spinner.valueProperty());
-//        });
     }
 
     @Override

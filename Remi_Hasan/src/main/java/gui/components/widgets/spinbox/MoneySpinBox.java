@@ -1,13 +1,13 @@
-package gui.components.widgets.spinner;
+package gui.components.widgets.spinbox;
 
 import gui.components.widgets.WidgetUtils;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.constant.MoneyConstant;
 
-public class MoneySpinner extends DecimalSpinner {
+public class MoneySpinBox extends DecimalSpinBox {
 
-    public MoneySpinner() {
+    public MoneySpinBox() {
         super();
         this.getEditor().setTextFormatter(WidgetUtils.createTextFormatter("-?\\d*(\\.\\d{0,2})?"));
     }

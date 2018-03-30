@@ -25,6 +25,7 @@ public class DropDown extends ComboBox<String> implements GUIWidget {
         this.getSelectionModel().select(0);
     }
 
+    // Use cell factory to style dropdown options
     private void setCellFactory() {
         this.setCellFactory(param -> new ComboBoxListCell<>() {{
             setTextFill(Color.valueOf(color));

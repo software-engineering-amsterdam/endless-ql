@@ -8,9 +8,9 @@ import gui.components.widgets.date.DateChooser;
 import gui.components.widgets.slider.DecimalSlider;
 import gui.components.widgets.slider.IntegerSlider;
 import gui.components.widgets.slider.MoneySlider;
-import gui.components.widgets.spinner.DecimalSpinner;
-import gui.components.widgets.spinner.IntegerSpinner;
-import gui.components.widgets.spinner.MoneySpinner;
+import gui.components.widgets.spinbox.DecimalSpinBox;
+import gui.components.widgets.spinbox.IntegerSpinBox;
+import gui.components.widgets.spinbox.MoneySpinBox;
 import gui.components.widgets.textbox.DecimalTextBox;
 import gui.components.widgets.textbox.IntegerTextBox;
 import gui.components.widgets.textbox.MoneyTextBox;
@@ -67,7 +67,7 @@ public class WidgetFactory {
         GUIWidget guiWidget = widget.accept(new QLSVisitor<GUIWidget>() {
             @Override
             public GUIWidget visit(SpinBoxWidget widget) {
-                return new IntegerSpinner();
+                return new IntegerSpinBox();
             }
 
             @Override
@@ -93,7 +93,7 @@ public class WidgetFactory {
         GUIWidget guiWidget = widget.accept(new QLSVisitor<GUIWidget>() {
             @Override
             public GUIWidget visit(SpinBoxWidget widget) {
-                return new DecimalSpinner();
+                return new DecimalSpinBox();
             }
 
             @Override
@@ -119,7 +119,7 @@ public class WidgetFactory {
         GUIWidget guiWidget = widget.accept(new QLSVisitor<GUIWidget>() {
             @Override
             public GUIWidget visit(SpinBoxWidget widget) {
-                return new MoneySpinner();
+                return new MoneySpinBox();
             }
 
             @Override

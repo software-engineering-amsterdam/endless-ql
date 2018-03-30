@@ -32,9 +32,6 @@ public abstract class QuestionPanelText extends QuestionPanel {
     }
 
     @Override
-    public abstract void setListener(EventListener listener);
-
-    @Override
     public void setValue(Value value) {
             this.textField.setText(value.getValue().toString());
     }

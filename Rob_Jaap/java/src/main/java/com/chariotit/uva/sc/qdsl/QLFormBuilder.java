@@ -25,17 +25,22 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 
 public class QLFormBuilder extends JPanel {
 
     static DefaultFormBuilder builder;
     static JPanel panel;
 
-    private static QLAstRoot astRoot;
+    private QLAstRoot astRoot;
 
-    private static SymbolTable formSymbolTable;
+    private SymbolTable formSymbolTable;
 
-    private static SymbolTable questionSymbolTable;
+    private SymbolTable questionSymbolTable;
+
+    private QLFrame frame;
+
+    private List<FormElement> formElements;
 
     public QLFormBuilder(QLAstRoot root) {
 
@@ -46,6 +51,7 @@ public class QLFormBuilder extends JPanel {
         this.questionSymbolTable = root.getQuestionSymbolTable();
 
         this.formSymbolTable = root.getFormSymbolTable();
+
 
         builder = new DefaultFormBuilder(new FormLayout(""));
 //        builder.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -58,37 +64,43 @@ public class QLFormBuilder extends JPanel {
         builder.appendColumn("3dlu");
         builder.appendColumn("fill:max(pref; 100px)");
 
-        List<Form> forms = root.getForms();
-
-        for (Form form: forms) {
-            System.out.println(form.getClass());
-            renderForm(form);
-        }
 
         panel = builder.getPanel();
 
         add(panel);
 
-        QLFrame f = new QLFrame("QL Form");
+        render();
 
-        f.add(this);
+        frame = new QLFrame("QL Form");
 
-        f.pack();
+        frame.add(this);
 
-        f.setVisible(true);
+        frame.pack();
+
+        frame.setVisible(true);
     }
 
-    private void renderForm(Form form){
+    private void render() {
+        updateForm();
+    }
+
+    private void renderForms(List<Form> forms) {
+        for (Form form : forms) {
+            renderForm(form);
+        }
+    }
+
+    private void renderForm(Form form) {
         renderElements(form.getFormElements());
     }
 
-    private void renderElements(List<FormElement> elements){
-        for(FormElement element: elements){
+    private void renderElements(List<FormElement> elements) {
+        for (FormElement element : elements) {
             renderElement(element);
         }
     }
 
-    private void renderElement(FormElement element){
+    private void renderElement(FormElement element) {
         if (element instanceof LineElement) {
             renderLineElement((LineElement) element);
             return;
@@ -105,54 +117,81 @@ public class QLFormBuilder extends JPanel {
 
     private void renderIfBlock(IfBlock block) {
 
-        if (((BooleanExpressionValue)block.getExpression().getExpressionValue()).getValue()){
+        if (((BooleanExpressionValue) block.getExpression().getExpressionValue()).getValue() &&
+                block.getIfElements() != null) {
             renderElements(block.getIfElements());
-        } else{
+        } else if (block.getElseElements() != null) {
             renderElements(block.getElseElements());
         }
 
-
-        System.out.println("Rendering if block..");
-        System.out.println(block.getExpression().getExpressionType());
-        System.out.println(block.getIfElements());
     }
 
-
-    // when a value is updated
-    private static void updateForm() {
+    private void evaluateAst() {
         EvaluateVisitor evaluateVisitor = new EvaluateVisitor(astRoot.getQuestionSymbolTable());
         astRoot.acceptVisitor(evaluateVisitor);
+    }
+
+    // when a value is updated
+    private void updateForm() {
+//        EvaluateVisitor evaluateVisitor = new EvaluateVisitor(astRoot.getQuestionSymbolTable());
+//        astRoot.acceptVisitor(evaluateVisitor);
         ////
+        evaluateAst();
+        // remove all components
+        panel.removeAll();
+
+        System.out.println("Re rendering forms");
+
+        renderForms(astRoot.getForms());
+
+        System.out.println("Done rendering forms");
+
+//        frame
+
+//        getConte
 
         panel.revalidate();
         panel.repaint();
     }
 
-    private static JComponent componentForElement(LineElement element){
+    private JComponent componentForElement(LineElement element) {
 
         // TODO refactor this!!
         ExpressionType type = element.getTypeExpression().getTypeNode().getType();
 
-        switch (type){
-            case BOOLEAN:   return checkBoxComponent(element);
-            case STRING:    return textComponent(element);
-            case MONEY:     return currencyComponent(element);
-            case INTEGER:   return numericComponent(element);
-            default:        return textComponent(element);
+        switch (type) {
+            case BOOLEAN:
+                return checkBoxComponent(element);
+            case STRING:
+                return textComponent(element);
+            case MONEY:
+                return currencyComponent(element);
+            case INTEGER:
+                return numericComponent(element);
+            default:
+                return textComponent(element);
         }
     }
 
-    private static JTextField textComponent(LineElement element) {
+    private JTextField textComponent(LineElement element) {
 
         JTextField textField = new JTextField();
+
+        SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
+
+        System.out.println(((StringExpressionValue) symbol.getExpressionValue()).getValue());
+
+        textField.setText("Test");
 
         textField.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 update();
             }
+
             public void removeUpdate(DocumentEvent e) {
                 update();
             }
+
             public void insertUpdate(DocumentEvent e) {
                 update();
             }
@@ -161,7 +200,7 @@ public class QLFormBuilder extends JPanel {
 
                 SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
 
-                ((StringExpressionValue)symbol.getExpressionValue()).setValue(textField.getText());
+                ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
 
                 System.out.println("Generic text field updated");
                 updateForm();
@@ -173,34 +212,42 @@ public class QLFormBuilder extends JPanel {
     }
 
 
-    private static JCheckBox checkBoxComponent(LineElement element) {
+    private JCheckBox checkBoxComponent(LineElement element) {
 
         // get the symbol table entry
         SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
 
         JCheckBox checkbox = new JCheckBox();
 
+        checkbox.setSelected(((BooleanExpressionValue) symbol.getExpressionValue()).getValue
+                ());
+
         checkbox.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
 
                 System.out.println(checkbox.isSelected());
 
+//                SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
                 SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
 
-//                symbol.setExpressionValue();
-                ((BooleanExpressionValue)symbol.getExpressionValue()).setValue(checkbox.isSelected());
+                System.out.println(((BooleanExpressionValue) symbol.getExpressionValue()).getValue());
 
-                System.out.println(symbol.getExpressionValue());
+//                symbol.setExpressionValue();
+                ((BooleanExpressionValue) symbol.getExpressionValue()).setValue(checkbox.isSelected());
+
+//                System.out.println(symbol.getExpressionValue());
                 updateForm();
             }
+
+
         });
 
         // return the text field that is configured by the formatter
         return checkbox;
     }
 
-    private static JFormattedTextField currencyComponent(LineElement element) {
+    private JFormattedTextField currencyComponent(LineElement element) {
 
         //initialize the settings
         NumberFormat options = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
@@ -222,9 +269,11 @@ public class QLFormBuilder extends JPanel {
             public void changedUpdate(DocumentEvent e) {
                 update();
             }
+
             public void removeUpdate(DocumentEvent e) {
                 update();
             }
+
             public void insertUpdate(DocumentEvent e) {
                 update();
             }
@@ -233,7 +282,7 @@ public class QLFormBuilder extends JPanel {
 
                 SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
 
-                ((StringExpressionValue)symbol.getExpressionValue()).setValue(textField.getText());
+                ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
 
                 System.out.println("Currency text field updated");
                 updateForm();
@@ -245,7 +294,7 @@ public class QLFormBuilder extends JPanel {
         return textField;
     }
 
-    private static JFormattedTextField numericComponent(LineElement element) {
+    private JFormattedTextField numericComponent(LineElement element) {
 
         // create a new formatter
         NumberFormatter formatter = new NumberFormatter(NumberFormat.getInstance());
@@ -266,9 +315,11 @@ public class QLFormBuilder extends JPanel {
             public void changedUpdate(DocumentEvent e) {
                 update();
             }
+
             public void removeUpdate(DocumentEvent e) {
                 update();
             }
+
             public void insertUpdate(DocumentEvent e) {
                 update();
             }
@@ -277,7 +328,7 @@ public class QLFormBuilder extends JPanel {
 
                 SymbolTableEntry symbol = questionSymbolTable.getEntry(element.getLabel().getLabel());
 
-                ((StringExpressionValue)symbol.getExpressionValue()).setValue(textField.getText());
+                ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
 
                 updateForm();
             }
@@ -287,12 +338,10 @@ public class QLFormBuilder extends JPanel {
         return textField;
     }
 
-    public static void addQuestion(LineElement element){
+    public void addQuestion(LineElement element) {
 
         JComponent questionComponent = componentForElement(element);
-
         builder.append(element.getQuestion().getQuestion(), questionComponent);
         builder.nextLine();
     }
-
 }

@@ -13,7 +13,7 @@ import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class CyclicDependencyTests {
 
-	CyclicDependencyChecker checker = new CyclicDependencyChecker(false);
+	CyclicDependencyChecker checker = new CyclicDependencyChecker(true);
 	IdentifierMapBuilder identifierMapBuilder = new IdentifierMapBuilder();
 
 	String test1 =
@@ -28,7 +28,7 @@ public class CyclicDependencyTests {
 		assertFalse(checker.check(identifierMapBuilder.buildMap(ast)));
 		assertTrue(checker.getErrors().size() == 0);
 	}
-	
+
 	String test2 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean q1\n"
@@ -43,7 +43,7 @@ public class CyclicDependencyTests {
 		assertTrue(checker.
 				getErrorAtIndex(0).equals("[CyclicDependencyChecker] A cyclic dependency was found between the following questions: q1"));
 	}
-	
+
 	String test3 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean q2\n"

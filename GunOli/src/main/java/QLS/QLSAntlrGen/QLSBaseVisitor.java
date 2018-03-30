@@ -1,5 +1,4 @@
-// Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QLS.g4 by ANTLR 4.7
-package QLS.QLSAntlrGen;
+package QLS.QLSAntlrGen;// Generated from /Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/antlr/QLS.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -80,28 +79,28 @@ public class QLSBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QL
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWidthWidget(QLSParser.WidthWidgetContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWidthStyle(QLSParser.WidthStyleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFontWidget(QLSParser.FontWidgetContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFontStyle(QLSParser.FontStyleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFontSizeWidget(QLSParser.FontSizeWidgetContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFontSizeStyle(QLSParser.FontSizeStyleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitColorWidget(QLSParser.ColorWidgetContext ctx) { return visitChildren(ctx); }
+	@Override public T visitColorStyle(QLSParser.ColorStyleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

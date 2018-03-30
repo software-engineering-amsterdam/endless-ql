@@ -2,7 +2,6 @@ package ql.evaluation.value;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class StringValue extends Value<String> {
 
@@ -16,7 +15,7 @@ public class StringValue extends Value<String> {
     }
 
     @Override
-    public Integer getIntValue() {
+    public Integer getIntegerValue() {
         throw new UnsupportedOperationException("Cannot cast string to integer");
     }
 

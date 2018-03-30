@@ -8,5 +8,7 @@ form Box1HouseOwning {
  	privateDebt: "Private debts for the sold house:" money
  	valueResidue: "Value residue:" money(sellingPrice - privateDebt)
  	valueResidue2: "Value residue:" boolean(!true)
+   } else {
+    elseQuestion: "Is it really true you didn't sell a house?" boolean
    }
  }

@@ -9,14 +9,14 @@ namespace Assignment1.Rendering.Widget
         private readonly System.Windows.Forms.CheckBox _checkBox;
         private readonly Action<IValue> _valueChangedHandler;
 
-        public CheckBox(string label, bool value, bool readOnly, Action<IValue> valueChangedHandler)
+        public CheckBox(string label, QLBoolean value, bool readOnly, Action<IValue> valueChangedHandler)
         {
             _valueChangedHandler = valueChangedHandler;
             _checkBox = new System.Windows.Forms.CheckBox
             {
                 AutoSize = true,
                 Text = label,
-                Checked = value,
+                Checked = value.Value,
                 Enabled = !readOnly
             };
             _checkBox.CheckedChanged += _checkBox_CheckedChanged;

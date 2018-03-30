@@ -2,22 +2,22 @@ package ql;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import ql.analysis.SymbolTable;
+import ql.antlr.QLLexer;
+import ql.antlr.QLParser;
 import ql.evaluation.ExpressionEvaluator;
+import ql.evaluation.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.expression.Expression;
-import ql.parser.QLLexer;
-import ql.parser.QLParser;
-import ql.visitor.VisitorExpression;
+import ql.builder.ExpressionBuilder;
 
 import java.io.InputStream;
 
 public class QLTestUtilities {
 
-    public static Form buildForm(InputStream stream) throws Exception {
-        QLFormBuilder qlFormBuilder = new QLFormBuilder();
-        return qlFormBuilder.buildForm(stream);
+    public static Form buildForm(InputStream inputStream) throws Exception {
+        QLForm qlForm = new QLForm(inputStream);
+        return qlForm.getForm();
     }
 
     public static Expression expressionFromString(String input) {
@@ -27,9 +27,9 @@ public class QLTestUtilities {
         QLParser parser = new QLParser(tokens);
 
         // Walk it and attach our listener
-        VisitorExpression visitorExpression = new VisitorExpression();
+        ExpressionBuilder expressionBuilder = new ExpressionBuilder();
 
-        return visitorExpression.visit(parser.expression());
+        return expressionBuilder.visit(parser.expression());
     }
 
     public static Value evaluateExpression(String input) {

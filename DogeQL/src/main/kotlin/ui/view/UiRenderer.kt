@@ -14,25 +14,25 @@ class UiRenderer : View() {
         val fieldFactory = ViewFactory()
 
 
-        with(root) {
-            styleSheet.pages.forEach { page ->
-                item(page.title) {
-                    scrollpane {
-                        form {
-                            page.sections.forEach { section ->
-                                fieldset(section.title) {
-                                    children.bind(questions) {
-                                        field(it.item.label) {
-                                            add(ViewFactory().createQuestionField(it))
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//        with(root) {
+//            styleSheet.pages.forEach { page ->
+//                item(page.title) {
+//                    scrollpane {
+//                        form {
+//                            page.sections.forEach { section ->
+//                                fieldset(section.title) {
+//                                    children.bind(questions) {
+//                                        field(it.item.label) {
+//                                            add(ViewFactory().createQuestionField(it))
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         root.items.first().expanded = true
         return root

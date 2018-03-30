@@ -16,7 +16,7 @@ class EvaluationVisitor(private val symbolTable: SymbolTable) : ExpressionVisito
     }
 
     override fun visit(reference: ReferenceExpression): BaseSymbolValue {
-        symbolTable.findSymbol(reference.name)?.let {
+        symbolTable.findSymbol(reference.name.text)?.let {
             it.evaluate(symbolTable)
             return it.value
         } ?: run {

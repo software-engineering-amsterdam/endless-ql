@@ -1,4 +1,5 @@
 package org.uva.jomi.ql.ast.analysis;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,16 +8,17 @@ import java.util.List;
 import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.error.WarningHandler;
 
-public class DuplicatedLabelChecker extends WarningHandler implements Statement.Visitor<Void> {
+public class DuplicatedLabelChecker implements Statement.Visitor<Void> {
 
 	private final HashMap<String, List<String>> labels;
-	
+	private final WarningHandler warnings;
+
 	public DuplicatedLabelChecker() {
 		this(false);
 	}
 
 	public DuplicatedLabelChecker(boolean printWarnings) {
-		super("DuplicatedLabelChecker", printWarnings);
+		this.warnings = new WarningHandler(this.getClass().getSimpleName(), printWarnings);
 		this.labels = new HashMap<>();
 	}
 
@@ -28,7 +30,15 @@ public class DuplicatedLabelChecker extends WarningHandler implements Statement.
 
 	// This method was added for testing purposes.
 	public String getErrorAtIndex(int index) {
-		return this.getReport(index);
+		return this.warnings.getReport(index);
+	}
+
+	public int getNumberOfWarnings() {
+		return this.warnings.getNumberOfWarnings();
+	}
+
+	public List<String> getWarnings() {
+		return this.warnings.getReports();
 	}
 
 	private void checkLabel(QuestionStatement stmt) {
@@ -41,7 +51,7 @@ public class DuplicatedLabelChecker extends WarningHandler implements Statement.
 					questionNames.add(stmt.getName());
 				} else {
 					// Store out a warning.
-					this.addWarning(stmt, questionNames);
+					this.warnings.addDuplicatedLabelWarning(stmt, questionNames);
 					questionNames.add(stmt.getName());
 				}
 		    } else {

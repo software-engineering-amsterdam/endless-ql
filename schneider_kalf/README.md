@@ -123,13 +123,13 @@ Result will be written into the `/build` folder
 - [x] Furthermore, you can define default widget types and styles for questions of a particular type (e.g. boolean questions). 
 - [x] Such default styles can be overridden on a per widget basis.
 - [x] The execution of a QL + QLS program should be the same as executing the QL program individually, except for where questions appear (page/section), what font-styles etc. are used, and what widget types are used.
-- [ ] As widget types you are supposed to support at least: slider (number min max, step is 1), spinbox (for numbers), text (for numbers and strings), yesno-radios, checkbox, yesno-dropdown (for booleans).
+- [x] As widget types you are supposed to support at least: slider (number min max, step is 1), spinbox (for numbers), text (for numbers and strings), yesno-radios, checkbox, yesno-dropdown (for booleans).
 
 ### The type checker detects:
-- [ ] no references to questions that are not in the QL program
+- [x] no references to questions that are not in the QL program
 - [ ] all questions of the QL program are placed by the QLS program.
 - [ ] (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
-- [ ] you cannot place a single question multiple times.
+- [x] you cannot place a single question multiple times.
 
 ### Requirements on the implementation:
 
@@ -145,3 +145,7 @@ Result will be written into the `/build` folder
 - [x] Add AST classes for the provided expression categories, and for you syntactic extensions. Make sure the parser creates objects of the appropriate type.
 - [ ] It is unacceptable that there are remnants of dead code, commented out sections, or debugging print statements etc. in the code that you will present for grading.
 - [x] Some way of shipping the answers, exporting the result (although I couldn't find it in the assignment)
+
+## Presentation
+Show no else, no instanceof and no switch
+Error messages with line numbers (rename weightFishOneA to weightFishOne1)

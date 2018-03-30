@@ -24,7 +24,7 @@ public class Question implements FormExpression {
 
     @Override
     public List<Component> getComponents() {
-        Panel panel = ComponentBuilder.getComponentPanel();
+        Panel panel = ComponentBuilder.buildComponentPanel();
 
         GridLayout layout = new GridLayout(1,2);
 
@@ -60,5 +60,15 @@ public class Question implements FormExpression {
     @Override
     public String getName() {
         return variable.getName();
+    }
+
+    @Override
+    public DataType getType() {
+        return dataType;
+    }
+
+    @Override
+    public Variable getVariable() {
+        return variable;
     }
 }

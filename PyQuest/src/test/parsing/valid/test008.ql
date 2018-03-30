@@ -1,3 +1,4 @@
+// Form with two questions with different identifiers
 form label {
   "Question?"
     var1: boolean

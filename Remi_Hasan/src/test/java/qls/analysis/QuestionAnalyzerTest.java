@@ -24,7 +24,7 @@ public class QuestionAnalyzerTest {
 
     @Test
     public void invalidMultiplePlacedFields() throws Exception {
-        String[] expectedStrings = {"Question(s) referenced more than once: ", "someDecimal", "someDate"};
+        String[] expectedStrings = {"Question(s) placed more than once: ", "someDecimal", "someDate"};
 
         expectedEx.expect(IllegalArgumentException.class);
         for (String expectedString : expectedStrings) {

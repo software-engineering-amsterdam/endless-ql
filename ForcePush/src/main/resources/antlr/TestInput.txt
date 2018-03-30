@@ -16,4 +16,19 @@ form taxOfficeExample {
       valueResidue: money =
        (sellingPrice - privateDebt)
     }
+
+    ifelse(!hasSoldHouse){
+        "What was the selling price?"
+          sellingPrice: money
+        "Private debts for the sold house:"
+          privateDebt: money
+        "Value residue:"
+          valueResidues: money =
+           (sellingPrice + privateDebt)
+    }
+
+    else{
+        "Are you ok?"
+        isOk: boolean
+    }
 }

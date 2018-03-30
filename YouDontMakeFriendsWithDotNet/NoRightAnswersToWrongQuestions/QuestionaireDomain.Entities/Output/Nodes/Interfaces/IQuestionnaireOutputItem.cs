@@ -6,7 +6,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
 {
     public interface IQuestionnaireOutputItem : IOutputItem
     {
-        Reference<IQuestionnaireRootNode> Variable { get; }
-        IList<Reference<IQuestionOutputItem>> Questions { get; set; }
+        DomainId<IQuestionnaireRootNode> Variable { get; }
+        IList<DomainId<IQuestionOutputItem>> Questions { get; set; }
     }
 }

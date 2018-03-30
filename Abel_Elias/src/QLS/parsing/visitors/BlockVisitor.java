@@ -1,9 +1,10 @@
 package QLS.parsing.visitors;
+import QL.classes.Question;
 import QLS.classes.Page;
 import QLS.classes.blocks.Block;
 import QLS.classes.blocks.Element;
-import QLS.classes.blocks.Question;
 import QLS.classes.blocks.Section;
+import QLS.classes.blocks.StyledQuestion;
 import QLS.classes.widgets.CheckBoxWidget;
 import QLS.classes.widgets.DropdownWidget;
 import QLS.classes.widgets.RadioWidget;
@@ -23,14 +24,16 @@ public class BlockVisitor extends QLSBaseVisitor {
 
     private WidgetVisitor widgetVisitor;
     private final LinkedHashMap<String, Section> sections;
-    private final LinkedHashMap<String, Question> questions;
+    private final LinkedHashMap<String, StyledQuestion> styledQuestions;
+    private LinkedHashMap<String, Question> questions;
     private final LinkedHashMap<String, Element> parents;
 
-    public BlockVisitor() {
+    public BlockVisitor(LinkedHashMap<String, Question> questions) {
         this.widgetVisitor = new WidgetVisitor();
         this.parents = new LinkedHashMap<>();
         this.sections = new LinkedHashMap<>();
-        this.questions = new LinkedHashMap<>();
+        this.styledQuestions = new LinkedHashMap<>();
+        this.questions = questions;
     }
 
     @Override
@@ -57,11 +60,11 @@ public class BlockVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Question visitQuestion(QLSParser.QuestionContext ctx) {
+    public StyledQuestion visitQuestion(QLSParser.QuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
         Widget widget = widgetVisitor.visitWidget(ctx.widget());
-        Question question = new Question(id, widget);
-        questions.put(id, question);
+        StyledQuestion question = new StyledQuestion(id, widget, questions.get(id));
+        styledQuestions.put(id, question);
         return question;
     }
 
@@ -69,8 +72,8 @@ public class BlockVisitor extends QLSBaseVisitor {
         return sections;
     }
 
-    public LinkedHashMap<String,Question> getQuestions() {
-        return questions;
+    public LinkedHashMap<String,StyledQuestion> getQuestions() {
+        return styledQuestions;
     }
 
     public LinkedHashMap<String,Element> getParents() {

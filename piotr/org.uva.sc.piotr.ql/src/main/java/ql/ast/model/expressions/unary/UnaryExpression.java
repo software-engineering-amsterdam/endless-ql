@@ -4,7 +4,7 @@ import ql.ast.model.expressions.Expression;
 
 abstract public class UnaryExpression extends Expression {
 
-    private Expression expression;
+    private final Expression expression;
 
     protected UnaryExpression(Expression expression, MetaInformation metaInformation) {
         super(metaInformation);

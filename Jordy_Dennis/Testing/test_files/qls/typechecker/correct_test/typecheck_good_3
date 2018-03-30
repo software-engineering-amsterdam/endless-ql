@@ -1,0 +1,39 @@
+form taxOfficeExample
+{
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+  "Did you buy a house in 2010?"
+    hasBoughtHouse: boolean
+  "Did you enter a loan?"
+    hasMaintLoan: boolean
+}
+---
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Buying"
+    {
+      question hasBoughtHouse
+        widget checkbox
+    }
+    section "Loaning"
+      question hasMaintLoan
+      widget checkbox
+  }
+  page Selling
+    section "Selling"
+    {
+      question hasSoldHouse
+        default boolean
+        {
+          width: 400
+          font: "Comic Sans MS"
+          fontsize: 20
+          color: #FF0C0C
+          widget checkbox
+        }
+    }
+}
+---
+Stylesheet taxOfficeExample: pages:OrderedDict([('Housing', Page Housing: sections: [Section Buying: questions: [Question hasBoughtHouse: widget: CheckBoxWidget] sections:[] defaults: [], Section Loaning: questions: [Question hasMaintLoan: widget: CheckBoxWidget] sections:[] defaults: []] defaults: []), ('Selling', Page Selling: sections: [Section Selling: questions: [Question hasSoldHouse: widget: CheckBoxWidget] sections:[] defaults: []] defaults: [])])

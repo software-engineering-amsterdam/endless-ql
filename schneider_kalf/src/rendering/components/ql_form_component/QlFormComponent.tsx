@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Form from "../../../form/Form";
+import Form from "../../../form/StatefulForm";
 import { FieldContainer } from "../field_container/FieldContainer";
 import Field from "../../../form/nodes/fields/FieldNode";
 

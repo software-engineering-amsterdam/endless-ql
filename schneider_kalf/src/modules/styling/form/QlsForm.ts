@@ -1,20 +1,32 @@
-import Form from "../../../form/Form";
+import StatefulForm from "../../../form/StatefulForm";
 import PagedFormState from "./PagedFormState";
-import FieldNode from "../../../form/nodes/fields/FieldNode";
 import StyleSheetNode from "./nodes/StyleSheetNode";
 import FieldVisitor from "../../../form/nodes/visitors/FieldVisitor";
 import PageNode from "./nodes/containers/PageNode";
-import { filterNodes } from "../../../form/form_helpers";
-import StyledFieldNode from "./StyledFieldNode";
 import FormNode from "../../../form/nodes/FormNode";
 import FormState from "../../../form/state/FormState";
+import MergedFieldStyle from "./MergedFieldStyle";
+import MergeFieldStylesVisitor from "./visitors/MergeFieldStylesVisitor";
+import { VariablesMap } from "../../../form/type_checking/VariableScopeVisitor";
+import QuestionStyleNode from "./nodes/children/QuestionStyleNode";
+import StyledField from "./StyledField";
+import FieldNode from "../../../form/nodes/fields/FieldNode";
+import { Maybe } from "../../../helpers/type_helper";
+import { UnkownFieldError } from "../../../form/form_errors";
+import { getQuestionStyleNodes } from "../helpers/style_helpers";
 
-export default class QlsForm implements Form {
-  private baseForm: Form;
-  private stylesheetNode: StyleSheetNode;
+/**
+ * QLS Form that combines a basic QL form with styling and layout information
+ * retrieved from the QLS source.
+ */
+export default class QlsForm implements StatefulForm {
+  private baseForm: StatefulForm;
+  private styleSheetNode: StyleSheetNode;
+  private mergedStyles: Maybe<MergedFieldStyle[]>;
+  private questionStyles: Maybe<QuestionStyleNode[]>;
 
-  constructor(baseForm: Form, stylesheetNode: StyleSheetNode) {
-    this.stylesheetNode = stylesheetNode;
+  constructor(baseForm: StatefulForm, styleSheetNode: StyleSheetNode) {
+    this.styleSheetNode = styleSheetNode;
     this.baseForm = baseForm;
   }
 
@@ -22,25 +34,26 @@ export default class QlsForm implements Form {
     return this.baseForm.getName();
   }
 
-  getFields(): StyledFieldNode[] {
-    return filterNodes(node => node instanceof StyledFieldNode, this.baseForm.getRootNode());
+  getFields(): FieldNode[] {
+    return this.baseForm.getFields();
   }
 
   getState(): PagedFormState {
     return this.baseForm.getState();
   }
 
-  setAnswer(identifier: string, value: any): Form {
+  setAnswer(identifier: string, value: any): StatefulForm {
     const newBaseForm = this.baseForm.setAnswer(identifier, value);
-    return new QlsForm(newBaseForm, this.stylesheetNode);
+    return new QlsForm(newBaseForm, this.styleSheetNode);
   }
 
-  setState(nextState: FormState): Form {
+  setState(nextState: FormState): StatefulForm {
     const newBaseForm = this.baseForm.setState(nextState);
-    return new QlsForm(newBaseForm, this.stylesheetNode);
+    return new QlsForm(newBaseForm, this.styleSheetNode);
   }
 
-  setActivePage(nextPage: PageNode): Form {
+  // noinspection JSUnusedGlobalSymbols
+  setActivePage(nextPage: PageNode): StatefulForm {
     const nextState = this.getState().setActivePageName(nextPage.name);
     return this.setState(nextState);
   }
@@ -57,26 +70,55 @@ export default class QlsForm implements Form {
     return this.baseForm.accept(visitor);
   }
 
-  getActivePage(): PageNode | undefined {
+  getActivePage(): Maybe<PageNode> {
     const activePageName = this.getState().getActivePageName();
 
-    const activePage: PageNode | undefined = this.getPages().find(
+    const activePage: Maybe<PageNode> = this.getPages().find(
         page => typeof activePageName !== 'undefined' && page.name === activePageName
     );
 
-    // TODO: Assert that style has at least one page
     if (!activePageName) {
-      return this.getPages()[0];
+      return this.styleSheetNode.getFirstPage();
     }
 
     return activePage;
   }
 
   getPages(): PageNode[] {
-    return this.stylesheetNode.getPages();
+    return this.styleSheetNode.getPages();
   }
 
-  getField(identifier: string): StyledFieldNode | undefined {
-    return this.getFields().find(field => field.identifier === identifier);
+  getField(identifier: string): Maybe<FieldNode> {
+    return this.baseForm.getField(identifier);
+  }
+
+  getStyledField(identifier: string): StyledField {
+    const field = this.getField(identifier);
+
+    if (!field) {
+      throw UnkownFieldError.make(identifier);
+    }
+
+    return StyledField.makeFromCollections(field, this.getMergedStyles(), this.getQuestionStyleNodes());
+  }
+
+  getVariablesMap(): VariablesMap {
+    return this.baseForm.getVariablesMap();
+  }
+
+  private getMergedStyles(): MergedFieldStyle[] {
+    if (!this.mergedStyles) {
+      this.mergedStyles = MergeFieldStylesVisitor.run(this.styleSheetNode, this.getVariablesMap());
+    }
+
+    return this.mergedStyles;
+  }
+
+  private getQuestionStyleNodes(): QuestionStyleNode[] {
+    if (!this.questionStyles) {
+      this.questionStyles = getQuestionStyleNodes(this.styleSheetNode, true);
+    }
+
+    return this.questionStyles;
   }
 }

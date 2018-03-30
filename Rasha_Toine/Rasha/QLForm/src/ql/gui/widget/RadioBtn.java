@@ -18,7 +18,7 @@ import ql.ast.statement.Question;
 import ql.visiting.value.Value;
 
 
-public class RadioBtn extends Widget implements ActionListener {
+public class RadioBtn extends QLWidget implements ActionListener {
 	
 	private JPanel panel;
 	private FieldOptions options;

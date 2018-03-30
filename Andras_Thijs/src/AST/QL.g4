@@ -47,9 +47,9 @@ expression : '(' expression ')'
 operator      : booloperator | equaloperator | comparison;
 booloperator  : AND | OR;
 equaloperator : EQUAL | NOTEQUAL;
-comparison   : LESS | GREATER | LESSEQ | GREATEREQ;
+comparison    : LESS | GREATER | LESSEQ | GREATEREQ;
 addsub        : ADDITION | SUBTRACTION;
 muldiv        : MULTIPLICATION | DIVISION;
-factor        : EXPONENT; //TODO
+factor        : EXPONENT;
 
 term          : BOOLEAN | VARIABLE | STRING | INTEGER | DECIMAL;

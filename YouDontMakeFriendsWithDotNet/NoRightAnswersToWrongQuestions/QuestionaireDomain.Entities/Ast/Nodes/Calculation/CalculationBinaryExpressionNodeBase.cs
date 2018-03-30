@@ -9,20 +9,20 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation
     internal abstract class CalculationBinaryExpressionNodeBase : 
         AstNodeBase
     {
-        public Reference<ICalculationNode> LeftCalculation { get; }
-        public Reference<ICalculationNode> RightCalculation { get; }
+        public DomainId<ICalculationNode> LeftCalculation { get; }
+        public DomainId<ICalculationNode> RightCalculation { get; }
 
         protected CalculationBinaryExpressionNodeBase(
             Guid id, 
             string definition,
-            Reference<ICalculationNode> leftCalculation,
-            Reference<ICalculationNode> rightCalculation) : base(id, definition)
+            DomainId<ICalculationNode> leftCalculation,
+            DomainId<ICalculationNode> rightCalculation) : base(id, definition)
         {
             LeftCalculation = leftCalculation;
             RightCalculation = rightCalculation;
             Children = new[] {leftCalculation, rightCalculation};
         }
 
-        public IEnumerable<Reference<ICalculationNode>> Children { get; }
+        public IEnumerable<DomainId<ICalculationNode>> Children { get; }
     }
 }

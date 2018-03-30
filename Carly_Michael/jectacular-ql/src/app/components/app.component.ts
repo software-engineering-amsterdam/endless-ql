@@ -40,7 +40,7 @@ export class AppComponent {
       this.qlForm = parseResult.form;
       this.qlsStylesheet = parseResult.styles;
       // make form
-      this.questions = ConvertToFormQuestionsVisitor.evaluate(this.qlForm);
+      this.questions = ConvertToFormQuestionsVisitor.visit(this.qlForm);
 
       this.form = this.questionControlService.toFormGroup(this.questions);
       this.errorMessage = undefined;

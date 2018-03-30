@@ -1,2 +1,3 @@
+// Empty form
 form label {
 }

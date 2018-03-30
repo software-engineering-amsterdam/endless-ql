@@ -1,16 +1,20 @@
 package QLS.ParseObjectQLS.Widgets;
 
+import QLS.Analysis.WidgetVisitorInterface;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Radio extends Widget {
-    private List<String> radioQuestions;
 
-    public Radio(List<String> radioQuestions ){
-        setRadioQuestions(radioQuestions);
+    private ArrayList<String> values;
+    public Radio(ArrayList<String> values, int line) {
+        super(WidgetType.Radio, line);
+        this.values = values;
     }
 
-
-    public void setRadioQuestions(List<String> radioQuestions) {
-        this.radioQuestions = radioQuestions;
+    @Override
+    public <T> T accept(WidgetVisitorInterface<T> visitor) {
+        return visitor.visit(this);
     }
 }

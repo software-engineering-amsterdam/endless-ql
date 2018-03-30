@@ -3,6 +3,9 @@
 - Jordy Bottlelier, 10747338
 - Dennis Kruidenberg, 10780998
 
+## Screen cast
+Screencast is available on: [youtube](https://www.youtube.com/watch?v=4YQpbzQh-oc&feature=youtu.be)
+
 ## Installation Guide
 Follow this guide in order to be able to use our QL and QLS interpreter. Make sure you have [python3.6.3](https://www.python.org/downloads/) installed, as well as [pip](https://pip.pypa.io/en/stable/installing/) and [virtualenv](https://virtualenv.pypa.io/en/stable/installation/)
 

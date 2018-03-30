@@ -1,6 +1,7 @@
 package qls.gui;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
@@ -29,6 +30,7 @@ public class SideMenuGUI extends JList<PageGUI> {
 			JLabel cellTitle =  (JLabel) super.getListCellRendererComponent(
 					pagesList, obj, index, isSelected, cellHasFocus);
 			cellTitle.setText(((PageGUI) obj).pageLabel());
+			cellTitle.setFont(new Font("TimesRoman", Font.BOLD +  Font.ITALIC, 20));
 			return cellTitle;
 		}
 	}

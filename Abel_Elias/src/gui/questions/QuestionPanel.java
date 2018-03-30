@@ -2,6 +2,7 @@ package gui.questions;
 
 import QL.classes.Question;
 import QL.classes.values.Value;
+import gui.QuestionChangeListener;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -30,9 +31,10 @@ public abstract class QuestionPanel extends JPanel {
 
     public abstract JComponent getComponent();
 
-    public abstract void setListener(EventListener listener);
-
     public abstract void setValue(Value value);
 
     public abstract void setWidgetFixed ();
+
+    public abstract void setQuestionChangeListener(QuestionChangeListener questionChangeListener);
+
 }

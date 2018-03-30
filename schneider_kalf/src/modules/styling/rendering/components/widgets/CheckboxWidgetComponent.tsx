@@ -1,10 +1,10 @@
 import * as React from 'react';
 import FieldNode from "../../../../../form/nodes/fields/FieldNode";
-import CheckboxAttribute from "../../../form/nodes/attributes/widget_attribtues/CheckboxWidgetAttribute";
+import CheckboxWidgetAttribute from "../../../form/nodes/attributes/widget_attribtues/CheckboxWidgetAttribute";
 import { BooleanField } from "../../../../../rendering/components/field/BooleanField";
 
 export interface CheckboxWidgetComponentProps {
-  widget: CheckboxAttribute;
+  widget: CheckboxWidgetAttribute;
   value: boolean;
   field: FieldNode;
   onChange: (value: any) => void;

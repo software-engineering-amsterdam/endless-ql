@@ -10,7 +10,7 @@ import {FormGroup} from '@angular/forms';
 import {EvaluateExpressionVisitor} from './evaluate-expression-visitor';
 
 export class ConvertToFormQuestionsVisitor implements StatementVisitor<QuestionBase<any>[]> {
-  static evaluate(statement: Statement): QuestionBase<any>[] {
+  static visit(statement: Statement): QuestionBase<any>[] {
     const visitor = new ConvertToFormQuestionsVisitor();
     return statement.accept(visitor);
   }
@@ -18,7 +18,7 @@ export class ConvertToFormQuestionsVisitor implements StatementVisitor<QuestionB
   visitExpressionQuestion(statement: ExpressionQuestion): QuestionBase<any>[] {
     const question = QuestionFactory.toFormQuestion(statement.name, statement.label, statement.type, () => true);
     question.toCalculatedQuestion((form: FormGroup) => {
-      return EvaluateExpressionVisitor.evaluate(form, statement.expression).getValue();
+      return EvaluateExpressionVisitor.visit(form, statement.expression).getValue();
     });
     return [question];
   }
@@ -42,7 +42,7 @@ export class ConvertToFormQuestionsVisitor implements StatementVisitor<QuestionB
       for (const question of questions) {
         const previousCondition = question.hiddenCondition;
         question.hiddenCondition = ((form: FormGroup) => {
-          const outcome = EvaluateExpressionVisitor.evaluate(form, ifStatement.condition).getValue();
+          const outcome = EvaluateExpressionVisitor.visit(form, ifStatement.condition).getValue();
           return previousCondition(form) && outcome;
         });
 
@@ -56,7 +56,7 @@ export class ConvertToFormQuestionsVisitor implements StatementVisitor<QuestionB
       for (const question of questions) {
         const previousCondition = question.hiddenCondition;
         question.hiddenCondition = ((form: FormGroup) => {
-          const outcome = EvaluateExpressionVisitor.evaluate(form, ifStatement.condition).getValue();
+          const outcome = EvaluateExpressionVisitor.visit(form, ifStatement.condition).getValue();
           return previousCondition(form) && !outcome;
         });
 

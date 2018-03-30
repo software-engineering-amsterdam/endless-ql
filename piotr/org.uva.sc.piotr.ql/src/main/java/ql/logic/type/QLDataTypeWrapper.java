@@ -39,7 +39,7 @@ public abstract class QLDataTypeWrapper<T> {
         return null;
     }
 
-    public QLDataTypeWrapper(T value) {
+    QLDataTypeWrapper(T value) {
         this.value = value;
     }
 

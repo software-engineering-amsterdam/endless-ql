@@ -1,19 +1,20 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import Form from "./form/Form";
-import { QlsParserPipeline, QlsParserResult } from "./modules/styling/parsing/QlsParserPipeline";
-import QlsForm from "./modules/styling/form/QlsForm";
+import Form from "./form/StatefulForm";
 import PagedFormState from "./modules/styling/form/PagedFormState";
-import QlForm from "./form/QlForm";
 import PageNode from "./modules/styling/form/nodes/containers/PageNode";
-import { QlParserResult } from "./parsing/QlParserPipeline";
 import { ModuleTabNavigation } from "./rendering/components/app_module_tabs/ModuleTabNavigation";
 import { ModuleTabsContent } from "./rendering/components/app_module_tabs/ModuleTabsContent";
-import { FormStateOutput } from "./rendering/components/app_state_output/FormStateOutput";
-import { AppErrorMessage } from "./rendering/components/app_error_message/AppErrorMessage";
+import { AppFormStateOutput } from "./rendering/components/app_form_state_output/FormStateOutput";
+import { AppErrorMessage } from "./rendering/components/app_messages/AppErrorMessage";
 import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
-import { runParserPipeline } from "./parsing/parsing_helpers";
 import constants from "./config/constants";
+import SourceInputs from "./form/source/SourceInputs";
+import { parseForm } from "./app_form_helpers";
+import QlForm from "./form/QlForm";
+import QlsForm from "./modules/styling/form/QlsForm";
+import { FormWarning } from "./form/form_warnings";
+import { AppWarningMessages } from "./rendering/components/app_messages/AppWarningMessages";
 
 export interface AppComponentProps {
 }
@@ -21,8 +22,9 @@ export interface AppComponentProps {
 export interface AppComponentState {
   qlInput: string;
   qlsInput: string;
-  form: Form | any | null;
+  form: QlsForm | QlForm | Form | any;
   parserError: Error | null;
+  parserWarnings: FormWarning[];
   qlsEnabled: boolean;
   activeTab: string;
 }
@@ -37,7 +39,8 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
       qlsEnabled: true,
       activeTab: constants.APP_MODULE_TABS.QL,
       form: null,
-      parserError: null
+      parserError: null,
+      parserWarnings: []
     };
 
     this.onChangeAnswer = this.onChangeAnswer.bind(this);
@@ -46,27 +49,18 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     this.onChangeQlSource = this.onChangeQlSource.bind(this);
     this.onChangeQlsSource = this.onChangeQlsSource.bind(this);
     this.toggleQls = this.toggleQls.bind(this);
+    this.onResetFormState = this.onResetFormState.bind(this);
   }
 
   componentDidMount() {
     this.updateForm(this.state.qlInput, this.state.qlsInput, this.state.qlsEnabled);
   }
 
-  onChangeQlSource(text: string) {
-    this.updateForm(text, this.state.qlsInput, this.state.qlsEnabled);
-  }
-
-  onChangeQlsSource(text: string) {
-    this.updateForm(this.state.qlInput, text, this.state.qlsEnabled);
-  }
-
-  toggleQls(qlsEnabled: boolean) {
-    this.updateForm(this.state.qlInput, this.state.qlsInput, qlsEnabled);
-  }
-
   updateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
+    const inputs = SourceInputs.makeFromStrings(qlSource, qlsSource, qlsEnabled);
+
     try {
-      this.tryToUpdateForm(qlSource, qlsSource, qlsEnabled);
+      this.tryToUpdateForm(inputs);
     } catch (error) {
       this.setState({
         parserError: error,
@@ -76,22 +70,16 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     }
   }
 
-  tryToUpdateForm(qlSource: string, qlsSource: string, qlsEnabled: boolean) {
-    const parseResult: QlParserResult | QlsParserResult | any = runParserPipeline(qlSource, qlsSource, qlsEnabled);
-
-    let form: Form = new QlForm(parseResult.node, this.getFormState());
-
-    // TODO: Maybe put both pipelines in different functions
-    if (typeof parseResult.styleNode !== 'undefined') {
-      form = new QlsForm(form, parseResult.styleNode);
-    }
+  tryToUpdateForm(inputs: SourceInputs) {
+    const result = parseForm(inputs, this.getFormState());
 
     this.setState({
-      form: form,
+      form: result.form,
       parserError: null,
-      qlInput: qlSource,
-      qlsInput: qlsSource,
-      qlsEnabled: qlsEnabled
+      parserWarnings: result.warnings,
+      qlInput: inputs.getQlSource().toString(),
+      qlsInput: inputs.getQlsSource().toString(),
+      qlsEnabled: inputs.qlsIsEnabled()
     });
   }
 
@@ -121,6 +109,25 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     });
   }
 
+  onChangeQlSource(text: string) {
+    this.updateForm(text, this.state.qlsInput, this.state.qlsEnabled);
+  }
+
+  onChangeQlsSource(text: string) {
+    this.updateForm(this.state.qlInput, text, this.state.qlsEnabled);
+  }
+
+  onResetFormState() {
+    const newState = this.getFormState().instantiate(new Map());
+    this.setState({
+      form: this.state.form.setState(newState)
+    });
+  }
+
+  toggleQls(qlsEnabled: boolean) {
+    this.updateForm(this.state.qlInput, this.state.qlsInput, qlsEnabled);
+  }
+
   render() {
     return (
         <div className="app container">
@@ -147,15 +154,19 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
               <AppErrorMessage
                   error={this.state.parserError}
               />
+              <AppWarningMessages
+                  warnings={this.state.parserWarnings}
+              />
               <AppFormContainer
                   form={this.state.form}
-                  qlsEnabled={this.state.qlsEnabled}
+                  qlsEnabled={this.state.qlsEnabled && this.state.qlsInput.trim().length > 0}
                   onChangeAnswer={this.onChangeAnswer}
                   onChangePage={this.onChangePage}
               />
               <hr/>
-              <FormStateOutput
+              <AppFormStateOutput
                   form={this.state.form}
+                  onReset={this.onResetFormState}
               />
             </div>
           </div>

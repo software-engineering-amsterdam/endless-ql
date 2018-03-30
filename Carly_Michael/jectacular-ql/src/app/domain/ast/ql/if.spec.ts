@@ -17,7 +17,7 @@ describe('if statement', () => {
     const question = new QlQuestion('questionInBody', '', new IntQuestionType(), emptyLoc);
     const ifStatement = new If(expression, [question], [], emptyLoc);
 
-    expect(() => CheckStatementTypeVisitor.evaluate([question], ifStatement)).toThrow();
+    expect(() => CheckStatementTypeVisitor.visit([question], ifStatement)).toThrow();
   });
 
   it('Should check if expression type is boolean', () => {
@@ -30,13 +30,13 @@ describe('if statement', () => {
     const ifNumberStatement = new If(numberExpression, [], [], emptyLoc);
     const ifStringStatement = new If(stringExpression, [], [], emptyLoc);
 
-    expect(() => CheckStatementTypeVisitor.evaluate([], ifBoolStatement)).not.toThrow();
+    expect(() => CheckStatementTypeVisitor.visit([], ifBoolStatement)).not.toThrow();
 
-    expect(() => CheckStatementTypeVisitor.evaluate([], ifDateStatement)).toThrow();
+    expect(() => CheckStatementTypeVisitor.visit([], ifDateStatement)).toThrow();
 
-    expect(() => CheckStatementTypeVisitor.evaluate([], ifNumberStatement)).toThrow();
+    expect(() => CheckStatementTypeVisitor.visit([], ifNumberStatement)).toThrow();
 
-    expect(() => CheckStatementTypeVisitor.evaluate([], ifStringStatement)).toThrow();
+    expect(() => CheckStatementTypeVisitor.visit([], ifStringStatement)).toThrow();
   });
 
   it('Should return correct statements', () => {
@@ -44,7 +44,7 @@ describe('if statement', () => {
     const elseQuestion = new QlQuestion('elseQuestion', '', new IntQuestionType(), emptyLoc);
     const ifStatement = new If(null, [question], [elseQuestion], emptyLoc);
 
-    const statements = CollectQuestionsVisitor.evaluate(ifStatement);
+    const statements = CollectQuestionsVisitor.visit(ifStatement);
     expect(statements.length).toBe(2);
     expect(statements[0].name).toBe('question');
     expect(statements[1].name).toBe('elseQuestion');
@@ -56,7 +56,7 @@ describe('if statement', () => {
     const subIfStatement = new If(expression, [], [], emptyLoc);
     const ifStatement = new If(subExpression, [subIfStatement], [], emptyLoc);
 
-    const variables = CollectStatementVariablesVisitor.evaluate(ifStatement);
+    const variables = CollectStatementVariablesVisitor.visit(ifStatement);
 
     expect(variables.length).toBe(2);
     expect(variables[0].identifier).toBe('expression');

@@ -3,8 +3,9 @@ import Statement from "../Statement";
 import NodeVisitor from "../visitors/NodeVisitor";
 import Expression from "../expressions/Expression";
 import AbstractTreeNode from "../AbstractTreeNode";
+import StatementCollection from "../../collection/StatementCollection";
 
-export default abstract class Condition extends AbstractTreeNode implements TreeNode {
+export default abstract class Condition extends AbstractTreeNode implements TreeNode, Statement {
   set otherwise(value: Statement[]) {
     this._otherwise = value;
   }
@@ -41,4 +42,6 @@ export default abstract class Condition extends AbstractTreeNode implements Tree
   }
 
   abstract accept(visitor: NodeVisitor): any;
+
+  abstract addToCollection(collection: StatementCollection);
 }

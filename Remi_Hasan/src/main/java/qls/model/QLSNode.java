@@ -1,21 +1,23 @@
 package qls.model;
 
 import org.antlr.v4.runtime.Token;
-import qls.IQLSVisitor;
+import qls.visitor.IQLSVisitor;
 
 public abstract class QLSNode {
-    // TODO: remove transient which is here for gson debugging
     private transient Token token;
-
-    protected QLSNode(Token start) {
-        this.token = start;
-    }
 
     public Token getToken() {
         return token;
     }
 
+    public void setToken(Token token) {
+        this.token = token;
+    }
+
     public String getLocation() {
+        if (this.token == null) {
+            return "";
+        }
         return "(" + token.getLine() + ":" + token.getCharPositionInLine() + ")";
     }
 

@@ -1,0 +1,4 @@
+﻿form HelloWorld {
+	"For how much did you buy a house in 2010?" x : money = y
+	"For how much did you buy a house in 2012?" y : money = x
+}

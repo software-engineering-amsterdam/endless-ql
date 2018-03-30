@@ -28,6 +28,7 @@ widgetType  : checkboxWidget
             | sliderWidget
             | dropdownWidget
 ;
+
 checkboxWidget : CHECKBOX;
 textWidget : TEXT;
 radioWidget : RADIO BRACE_L yes=STR COMMA no=STR BRACE_R;
@@ -79,8 +80,6 @@ INTEGERTYPE: 'integer';
 MONEYTYPE: 'money' | 'currency';
 DATETYPE: 'date';
 DECIMALTYPE: 'decimal';
-
-
 
 //widget types
 SLIDER: 'slider';

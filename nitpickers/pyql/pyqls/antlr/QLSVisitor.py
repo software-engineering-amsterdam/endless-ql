@@ -9,18 +9,23 @@ else:
 
 class QLSVisitor(ParseTreeVisitor):
 
-    # Visit a parse tree produced by QLSParser#stylesheet.
-    def visitStylesheet(self, ctx:QLSParser.StylesheetContext):
+    # Visit a parse tree produced by QLSParser#styleSheet.
+    def visitStyleSheet(self, ctx:QLSParser.StyleSheetContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#stylesheetBlock.
-    def visitStylesheetBlock(self, ctx:QLSParser.StylesheetBlockContext):
+    # Visit a parse tree produced by QLSParser#styleSheetBlock.
+    def visitStyleSheetBlock(self, ctx:QLSParser.StyleSheetBlockContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#page.
-    def visitPage(self, ctx:QLSParser.PageContext):
+    # Visit a parse tree produced by QLSParser#styleSheetPageStatement.
+    def visitStyleSheetPageStatement(self, ctx:QLSParser.StyleSheetPageStatementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#styleSheetDefaultStatement.
+    def visitStyleSheetDefaultStatement(self, ctx:QLSParser.StyleSheetDefaultStatementContext):
         return self.visitChildren(ctx)
 
 
@@ -36,6 +41,11 @@ class QLSVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by QLSParser#multiStatementSection.
     def visitMultiStatementSection(self, ctx:QLSParser.MultiStatementSectionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#defaultPageStatement.
+    def visitDefaultPageStatement(self, ctx:QLSParser.DefaultPageStatementContext):
         return self.visitChildren(ctx)
 
 
@@ -56,11 +66,6 @@ class QLSVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by QLSParser#sectionStatement.
     def visitSectionStatement(self, ctx:QLSParser.SectionStatementContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by QLSParser#defaultStatement.
-    def visitDefaultStatement(self, ctx:QLSParser.DefaultStatementContext):
         return self.visitChildren(ctx)
 
 
@@ -104,8 +109,8 @@ class QLSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#default.
-    def visitDefault(self, ctx:QLSParser.DefaultContext):
+    # Visit a parse tree produced by QLSParser#defaultStatement.
+    def visitDefaultStatement(self, ctx:QLSParser.DefaultStatementContext):
         return self.visitChildren(ctx)
 
 

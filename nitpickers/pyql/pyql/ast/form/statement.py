@@ -1,4 +1,4 @@
-from pyql.ast import ast
+from util import ast
 
 
 class Statement(ast.ASTNode):

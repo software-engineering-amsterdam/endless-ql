@@ -1,6 +1,6 @@
 from tkinter import ttk
 from decimal import Decimal, InvalidOperation
-from pyql.util.values import *
+from util.values import *
 
 
 class ValidatingEntry(ttk.Entry):

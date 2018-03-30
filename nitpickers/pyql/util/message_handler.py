@@ -1,4 +1,4 @@
-from pyql.util.message import *
+from util.message import *
 
 
 class MessageHandler(object):

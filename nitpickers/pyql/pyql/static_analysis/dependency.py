@@ -2,8 +2,8 @@ from multimethods import multimethod
 from pyql.ast.form.form import *
 from pyql.ast.form.block import *
 from pyql.ast.form.ql_statements import *
-from pyql.util import message
-from pyql.util.message_handler import MessageHandler
+from util import message
+from util.message_handler import MessageHandler
 from pyql.static_analysis.symbol_table import SymbolTable
 from pyql.ast.expression.expressions import *
 from collections import defaultdict

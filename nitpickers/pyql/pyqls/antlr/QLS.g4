@@ -4,49 +4,51 @@ grammar QLS;
  * Parser rules
  */
 
-stylesheet      : 'stylesheet' identifier '{' stylesheetBlock '}' ;
+styleSheet          : 'stylesheet' identifier '{' styleSheetBlock '}' ;
 
-stylesheetBlock : page+ ;
+styleSheetBlock     : styleSheetStatement+ ;
 
-page            : 'page' identifier '{' pageBlock '}' ;
+styleSheetStatement : 'page' identifier '{' pageBlock '}' #styleSheetPageStatement
+                    | defaultStatement                    #styleSheetDefaultStatement
+                    ;
 
-pageBlock       : section+ ;
+pageBlock           : pageStatement+ ;
 
-section         : 'section' STRING '{' sectionBlock '}'  #singleStatementSection
-                | 'section' STRING 'question' identifier  #multiStatementSection
-                ;
+pageStatement       : 'section' STRING 'question' identifier #singleStatementSection
+                    | 'section' STRING '{' sectionBlock '}'  #multiStatementSection
+                    | defaultStatement                       #defaultPageStatement
+                    ;
 
-sectionBlock    : statement+ ;
+sectionBlock        : statement+ ;
 
-statement       : 'question' identifier #questionStatement
-                | questionStyle         #questionStyleStatement
-                | section               #sectionStatement
-                | default               #defaultStatement
-                ;
+statement           : 'question' identifier #questionStatement
+                    | questionStyle         #questionStyleStatement
+                    | pageStatement         #sectionStatement
+                    ;
 
-questionStyle   : 'question' identifier widget ;
+questionStyle       : 'question' identifier widget ;
 
-widget          : 'widget' widgetType;
+widget              : 'widget' widgetType;
 
-widgetType      : 'radio(' STRING (',' STRING)* ')'    #radioWidget
-                | 'dropdown(' STRING (',' STRING)* ')' #dropdownWidget
-                | 'spinbox'                            #spinboxWidget
-                | 'checkbox'                           #checkboxWidget
-                | 'slider'                             #sliderWidget
-                | 'text'                               #textWidget
-                ;
+widgetType          : 'radio(' STRING (',' STRING)* ')'    #radioWidget
+                    | 'dropdown(' STRING (',' STRING)* ')' #dropdownWidget
+                    | 'spinbox'                            #spinboxWidget
+                    | 'checkbox'                           #checkboxWidget
+                    | 'slider'                             #sliderWidget
+                    | 'text'                               #textWidget
+                    ;
 
-default         : 'default' questionType widget ;
+defaultStatement    : 'default' questionType widget ;
 
-questionType    : 'boolean' #booleanType
-                | 'string'  #stringType
-                | 'integer' #integerType
-                | 'date'    #dateType
-                | 'decimal' #decimalType
-                | 'money'   #moneyType
-                ;
+questionType        : 'boolean' #booleanType
+                    | 'string'  #stringType
+                    | 'integer' #integerType
+                    | 'date'    #dateType
+                    | 'decimal' #decimalType
+                    | 'money'   #moneyType
+                    ;
 
-identifier      : IDENTIFIER ;
+identifier          : IDENTIFIER ;
 
 /*
  * Lexer rules

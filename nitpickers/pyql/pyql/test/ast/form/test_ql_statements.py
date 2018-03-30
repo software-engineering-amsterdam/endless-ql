@@ -1,5 +1,5 @@
 import unittest
-from pyql.ast import code_location
+from util import code_location
 from pyql.ast.form import ql_statements
 
 from pyql.ast.expression import expressions

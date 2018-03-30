@@ -8,30 +8,39 @@ else:
 # This class defines a complete listener for a parse tree produced by QLSParser.
 class QLSListener(ParseTreeListener):
 
-    # Enter a parse tree produced by QLSParser#stylesheet.
-    def enterStylesheet(self, ctx:QLSParser.StylesheetContext):
+    # Enter a parse tree produced by QLSParser#styleSheet.
+    def enterStyleSheet(self, ctx:QLSParser.StyleSheetContext):
         pass
 
-    # Exit a parse tree produced by QLSParser#stylesheet.
-    def exitStylesheet(self, ctx:QLSParser.StylesheetContext):
-        pass
-
-
-    # Enter a parse tree produced by QLSParser#stylesheetBlock.
-    def enterStylesheetBlock(self, ctx:QLSParser.StylesheetBlockContext):
-        pass
-
-    # Exit a parse tree produced by QLSParser#stylesheetBlock.
-    def exitStylesheetBlock(self, ctx:QLSParser.StylesheetBlockContext):
+    # Exit a parse tree produced by QLSParser#styleSheet.
+    def exitStyleSheet(self, ctx:QLSParser.StyleSheetContext):
         pass
 
 
-    # Enter a parse tree produced by QLSParser#page.
-    def enterPage(self, ctx:QLSParser.PageContext):
+    # Enter a parse tree produced by QLSParser#styleSheetBlock.
+    def enterStyleSheetBlock(self, ctx:QLSParser.StyleSheetBlockContext):
         pass
 
-    # Exit a parse tree produced by QLSParser#page.
-    def exitPage(self, ctx:QLSParser.PageContext):
+    # Exit a parse tree produced by QLSParser#styleSheetBlock.
+    def exitStyleSheetBlock(self, ctx:QLSParser.StyleSheetBlockContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#styleSheetPageStatement.
+    def enterStyleSheetPageStatement(self, ctx:QLSParser.StyleSheetPageStatementContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#styleSheetPageStatement.
+    def exitStyleSheetPageStatement(self, ctx:QLSParser.StyleSheetPageStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#styleSheetDefaultStatement.
+    def enterStyleSheetDefaultStatement(self, ctx:QLSParser.StyleSheetDefaultStatementContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#styleSheetDefaultStatement.
+    def exitStyleSheetDefaultStatement(self, ctx:QLSParser.StyleSheetDefaultStatementContext):
         pass
 
 
@@ -59,6 +68,15 @@ class QLSListener(ParseTreeListener):
 
     # Exit a parse tree produced by QLSParser#multiStatementSection.
     def exitMultiStatementSection(self, ctx:QLSParser.MultiStatementSectionContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#defaultPageStatement.
+    def enterDefaultPageStatement(self, ctx:QLSParser.DefaultPageStatementContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#defaultPageStatement.
+    def exitDefaultPageStatement(self, ctx:QLSParser.DefaultPageStatementContext):
         pass
 
 
@@ -95,15 +113,6 @@ class QLSListener(ParseTreeListener):
 
     # Exit a parse tree produced by QLSParser#sectionStatement.
     def exitSectionStatement(self, ctx:QLSParser.SectionStatementContext):
-        pass
-
-
-    # Enter a parse tree produced by QLSParser#defaultStatement.
-    def enterDefaultStatement(self, ctx:QLSParser.DefaultStatementContext):
-        pass
-
-    # Exit a parse tree produced by QLSParser#defaultStatement.
-    def exitDefaultStatement(self, ctx:QLSParser.DefaultStatementContext):
         pass
 
 
@@ -179,12 +188,12 @@ class QLSListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLSParser#default.
-    def enterDefault(self, ctx:QLSParser.DefaultContext):
+    # Enter a parse tree produced by QLSParser#defaultStatement.
+    def enterDefaultStatement(self, ctx:QLSParser.DefaultStatementContext):
         pass
 
-    # Exit a parse tree produced by QLSParser#default.
-    def exitDefault(self, ctx:QLSParser.DefaultContext):
+    # Exit a parse tree produced by QLSParser#defaultStatement.
+    def exitDefaultStatement(self, ctx:QLSParser.DefaultStatementContext):
         pass
 
 

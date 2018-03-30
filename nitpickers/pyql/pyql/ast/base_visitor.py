@@ -3,7 +3,6 @@ from multimethods import multimethod
 from pyql.ast.form.form import Form
 from pyql.ast.form.statement import Statement
 from pyql.ast.form.block import Block
-from pyql.ast.ast import ASTNode
 
 
 class StatementVisitor:

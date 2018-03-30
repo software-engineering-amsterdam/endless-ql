@@ -160,7 +160,7 @@ class QLSLexer(Lexer):
     modeNames = [ "DEFAULT_MODE" ]
 
     literalNames = [ "<INVALID>",
-            "'stylesheet'", "'{'", "'}'", "'page'", "'section'", "'question'", 
+            "'nodes'", "'{'", "'}'", "'page'", "'section'", "'question'",
             "'widget'", "'radio('", "','", "')'", "'dropdown('", "'spinbox'", 
             "'checkbox'", "'slider'", "'text'", "'default'", "'boolean'", 
             "'string'", "'integer'", "'date'", "'decimal'", "'money'" ]

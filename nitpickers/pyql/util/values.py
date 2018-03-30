@@ -1,4 +1,4 @@
-from pyql.util import types
+from util import types
 import decimal
 from multimethods import multimethod
 

@@ -1,15 +1,12 @@
 from pyql.antlr.QLVisitor import QLVisitor
 from pyql.antlr.QLParser import QLParser
 from pyql.ast.form.block import Block
-from pyql.ast.code_location import CodeLocation
+from util.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.form.ql_statements import *
 from pyql.ast.expression.expressions import *
-from pyql.util.types import *
-from pyql.util.values import MoneyValue
-from pyql.util.values import IntegerValue
-from pyql.util.values import StringValue
-from pyql.util.values import DecimalValue
+from util.values import *
+from util.types import *
 
 # TODO check if can get rid of 'if getChildCount() > 1'
 

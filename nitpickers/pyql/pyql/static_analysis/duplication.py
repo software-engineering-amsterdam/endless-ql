@@ -4,9 +4,9 @@ from pyql.ast.form.block import Block
 from pyql.ast.form.ql_statements import Question
 from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
-from pyql.ast.ast import ASTNode
-from pyql.util import message
-from pyql.util.message_handler import MessageHandler
+from util.ast import ASTNode
+from util import message
+from util.message_handler import MessageHandler
 from pyql.static_analysis.symbol_table import SymbolTable
 
 

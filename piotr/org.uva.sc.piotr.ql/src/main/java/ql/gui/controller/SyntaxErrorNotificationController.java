@@ -19,7 +19,7 @@ class SyntaxErrorNotificationController extends BaseErrorListener {
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
         super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e);
         this.foundSyntaxError = true;
-        ErrorMessageView.showErrorDialog(this.windowView, msg + ". Line " + line + ", column " + charPositionInLine + ".", "Parse error");
+        ErrorMessageView.showErrorDialog(this.windowView, "Parse error", msg + ". Line " + line + ", column " + charPositionInLine + ".");
     }
 
     public Boolean getFoundSyntaxError() {

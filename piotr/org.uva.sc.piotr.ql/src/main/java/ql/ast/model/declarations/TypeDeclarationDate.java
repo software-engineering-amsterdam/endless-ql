@@ -3,12 +3,12 @@ package ql.ast.model.declarations;
 import ql.ast.model.expressions.Expression;
 import ql.ast.visitors.ASTNodeVisitor;
 
-public class TypeDeclarationMoney extends TypeDeclaration {
-    public TypeDeclarationMoney(String identifier, MetaInformation metaInformation) {
+public class TypeDeclarationDate extends TypeDeclaration {
+    public TypeDeclarationDate(String identifier, MetaInformation metaInformation) {
         super(identifier, metaInformation);
     }
 
-    public TypeDeclarationMoney(String identifier) {
+    public TypeDeclarationDate(String identifier) {
         super(identifier);
     }
 
@@ -19,6 +19,6 @@ public class TypeDeclarationMoney extends TypeDeclaration {
 
     @Override
     public Expression.DataType toDataType() {
-        return Expression.DataType.MONEY;
+        return Expression.DataType.DATE;
     }
 }

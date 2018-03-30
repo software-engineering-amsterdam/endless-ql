@@ -1,4 +1,4 @@
-package gui.components.widgets.spinner;
+package gui.components.widgets.spinbox;
 
 import gui.components.widgets.WidgetUtils;
 import javafx.scene.control.SpinnerValueFactory;
@@ -6,9 +6,9 @@ import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.constant.DecimalConstant;
 
-public class DecimalSpinner extends Spinner<Double> {
+public class DecimalSpinBox extends SpinBox<Double> {
 
-    public DecimalSpinner() {
+    public DecimalSpinBox() {
         // JavaFX Spinner does not work with Double.MIN_VALUE but does work with Integer.MIN_VALUE
         // Default to 0.0 and step by 0.1
         SpinnerValueFactory<Double> valueFactory =

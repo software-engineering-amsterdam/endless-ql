@@ -22,7 +22,7 @@ widget              : WIDGET RADIO '(' trueLabel=STRING ',' falseLabel=STRING ')
                     | WIDGET CHECKBOX                                                           # checkBoxWidget
                     | WIDGET SPINBOX                                                            # spinBoxWidget
                     | WIDGET TEXTBOX                                                            # textBoxWidget
-                    | WIDGET SLIDER '(' min=(INTEGER | DECIMAL) ',' max=(INTEGER | DECIMAL) ')' # sliderWidget
+                    | WIDGET SLIDER '(' min=INTEGER ',' max=INTEGER ')' # sliderWidget
                     ;
 
 type                : BOOLEANTYPE
@@ -60,8 +60,6 @@ MONEYTYPE           : 'money';
 
 // Literals
 INTEGER             : [0-9]+;
-MONEY               : [0-9]+ '.' [0-9] [0-9];
-DECIMAL             : [0-9]+ '.' [0-9]+;
 DATE                : ([0-9] | [0-3] [0-9]) '-' ([0-9] | [0-3] [0-9]) '-' ([0-9] [0-9] [0-9] [0-9]);
 STRING              : '"' .*? '"';
 IDENTIFIER          : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;

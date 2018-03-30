@@ -150,7 +150,8 @@ public class ExpressionEvaluationTest {
         symbolTable.setExpression("someInteger", new UndefinedConstant(ReturnType.INTEGER));
 
         ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
-        assertEquals(true, interpreterVisitor.visit(expression).isUndefined());
+        Value result = interpreterVisitor.visit(expression);
+        assertEquals(true, result.isUndefined());
     }
 
 }

@@ -273,8 +273,10 @@ class QLParser:
 
     # Error
     def p_error(self, production):
-        self.errors.append('Syntax error at line {}, token={}.')
-        # self.errors.append('Syntax error at line {}, token={}.'.format(production.lineno, production.type))
+        if production is None:
+            self.errors.append('Syntax error.')
+        else:
+            self.errors.append('Syntax error at line {}, token={}.'.format(production.lineno, production.type))
 
     def p_form_label(self, production):
         """form : FORM LEFT_BRACE"""

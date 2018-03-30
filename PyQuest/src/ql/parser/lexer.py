@@ -85,11 +85,6 @@ class QLLexer:
         r'\n+'
         token.lexer.lineno += len(token.value)
 
-    def t_IDENTIFIER(self, token):
-        r'[a-z][a-zA-Z_0-9]*'
-        token.type = self.reserved_keywords.get(token.value, 'IDENTIFIER')  # Check for reserved words
-        return token
-
     # Literals
     @staticmethod
     def t_FALSE(token):
@@ -129,6 +124,12 @@ class QLLexer:
     def t_STRING_LITERAL(token):
         r'\"(.+?)\"'
         token.value = token.value[1:-1]
+        return token
+
+    # Other
+    def t_IDENTIFIER(self, token):
+        r'[a-z][a-zA-Z_0-9]*'
+        token.type = self.reserved_keywords.get(token.value, 'IDENTIFIER')  # Check for reserved words
         return token
 
     @staticmethod

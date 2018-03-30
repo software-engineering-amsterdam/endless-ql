@@ -15,6 +15,10 @@ enum class UnaryOperation(private val operation: (input: BaseSymbolValue) -> Bas
     }
 
     fun getResolveType(type: SymbolType): SymbolType {
+        if (type == SymbolType.UNDEFINED) {
+            return SymbolType.UNDEFINED
+        }
+
         val defaultValue = type.getDefaultInstance()
 
         return try {

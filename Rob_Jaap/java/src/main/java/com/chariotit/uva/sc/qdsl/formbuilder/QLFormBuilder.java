@@ -23,8 +23,12 @@ import java.util.Map;
 public class QLFormBuilder {
 
     private static Integer lineHeight = 40;
+    private static Integer lineMargin = 20;
     private static Integer labelWidth = 200;
     private static Integer inputWidth = 200;
+
+    private static Integer frameWidth = 600;
+    private static Integer frameHeight = 600;
 
     private QLAstRoot astRoot;
     private JFrame jFrame;
@@ -38,6 +42,7 @@ public class QLFormBuilder {
 
         this.jFrame = new JFrame();
         this.jFrame.setVisible(true);
+        this.jFrame.setSize(frameWidth, frameHeight);
 
 
         this.questions = FormQuestionMapBuilder.buildMap(astRoot, this);
@@ -59,18 +64,16 @@ public class QLFormBuilder {
     }
 
     private void renderQuestions() {
-        Integer currentLine = 0;
+        int currentLine = 0;
 
         for (Map.Entry<LineElement, FormQuestion> entry : questions.entrySet()) {
-            System.out.println(entry.getValue().getVisible());
             FormQuestion question = entry.getValue();
 
             if (question.getVisible()) {
 
-                // x y width height
-                question.getLabel().setBounds(0, currentLine * lineHeight,
+                question.getLabel().setBounds(0, currentLine * lineHeight + lineMargin,
                         labelWidth, lineHeight);
-                question.getComponent().setBounds(labelWidth, lineHeight * currentLine,
+                question.getComponent().setBounds(labelWidth, lineHeight * currentLine + lineMargin,
                         inputWidth, lineHeight);
 
                 jFrame.add(question.getLabel());
@@ -80,9 +83,15 @@ public class QLFormBuilder {
             }
         }
 
+        // TODO somehow the getComponent() x coordinate is reset to 0 after revalidate().
+        // Using invalidate() the first run goes without problems. Subsequent refreshes reset the
+        // x coordinate back to 0 again.
+
         jFrame.revalidate();
         jFrame.repaint();
-    }
+
+
+   }
 
     private void evaluateAst() {
         EvaluateVisitor evaluateVisitor = new EvaluateVisitor(symbolTable);
@@ -90,8 +99,6 @@ public class QLFormBuilder {
     }
 
     protected JComponent componentForElement(LineElement element) {
-
-        // TODO refactor this!!
         ExpressionType type = element.getTypeExpression().getTypeNode().getType();
 
         switch (type) {
@@ -158,12 +165,7 @@ public class QLFormBuilder {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                System.out.println(checkbox.isSelected());
-
                 SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
-
-                System.out.println(((BooleanExpressionValue) symbol.getExpressionValue()).getValue());
-
 
                 ((BooleanExpressionValue) symbol.getExpressionValue()).setValue(checkbox.isSelected());
 

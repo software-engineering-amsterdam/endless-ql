@@ -24,19 +24,18 @@ class QLHomeController extends QLBaseController with Logging {
   @FXML
   def openForm(event: ActionEvent): Unit = {
     errorMessages.setVisible(false)
+
     val selectedFile: File = selectQLFile(getActiveStage)
     if (selectedFile != null) try {
-      val formOrErrors: Either[Seq[Errors.Error], QLForm] = QLFormFacade.importQLSpecification(selectedFile)
-      formOrErrors match {
-        case Right(form)  => showQLForm(form)
+      QLFormFacade.importQLSpecification(selectedFile) match {
+        case Right(form)  => showForm(form)
         case Left(errors) => handleErrors(errors)
       }
     } catch {
       case e: IOException =>
-        // TODO Improve messages and handling
-        errorMessages.setText(s"Oops, please contact the developers:\n\n${e.getMessage}")
+        errorMessages.setText(s"Reading the QL file failed.\n\n${e.getMessage}")
         errorMessages.setVisible(true)
-        logger.error("Processing a QL file failed!", e)
+        logger.error("QL Reading Error", e)
     }
   }
 
@@ -47,7 +46,7 @@ class QLHomeController extends QLBaseController with Logging {
     fileChooser.showOpenDialog(stage)
   }
 
-  def showQLForm(form: QLForm): Unit = {
+  def showForm(form: QLForm): Unit = {
     val controller = new QLFormController(this, form, QLToGUIModelBridge.convertForm(form))
     if (form.warnings.nonEmpty) showWarning(form.warnings)
     switchToScene(QLScenes.formScene, controller)

@@ -20,9 +20,9 @@ public final class QLDataTypeWrapperTest {
         QLInteger val1 = new QLInteger(BigInteger.valueOf(10));
         QLString val2 = new QLString("2");
 
-        exception.expect(java.lang.ClassCastException.class);
+        exception.expect(RuntimeException.class);
 
-        val1.add(val2);
+        QLDataTypeWrapper sth = val1.add(val2);
     }
 
     @Test
@@ -37,7 +37,7 @@ public final class QLDataTypeWrapperTest {
     public void testIntegerAddition() {
         QLInteger val1 = new QLInteger(BigInteger.valueOf(10));
         QLInteger val2 = new QLInteger(BigInteger.valueOf(7));
-        QLNumeric result = val1.add(val2);
+        QLDataTypeWrapper result = val1.add(val2);
         BigInteger resultValue = (BigInteger) result.getValue();
         Assert.assertEquals(resultValue.compareTo(BigInteger.valueOf(17)), 0);
 
@@ -47,7 +47,7 @@ public final class QLDataTypeWrapperTest {
     public void testIntegerSubtraction() {
         QLInteger val1 = new QLInteger(BigInteger.valueOf(10));
         QLInteger val2 = new QLInteger(BigInteger.valueOf(17));
-        QLNumeric result = val1.subtract(val2);
+        QLDataTypeWrapper result = val1.subtract(val2);
         BigInteger resultValue = (BigInteger) result.getValue();
         Assert.assertEquals(resultValue.compareTo(BigInteger.valueOf(-7)), 0);
     }
@@ -56,7 +56,7 @@ public final class QLDataTypeWrapperTest {
     public void testIntegerMultiplication() {
         QLInteger val1 = new QLInteger(BigInteger.valueOf(3));
         QLInteger val2 = new QLInteger(BigInteger.valueOf(7));
-        QLNumeric result = val1.multiply(val2);
+        QLDataTypeWrapper result = val1.multiply(val2);
         BigInteger resultValue = (BigInteger) result.getValue();
         Assert.assertEquals(resultValue.compareTo(BigInteger.valueOf(21)), 0);
     }
@@ -96,7 +96,7 @@ public final class QLDataTypeWrapperTest {
         QLDecimal val1 = new QLDecimal(new BigDecimal("3.2"));
         QLDecimal val2 = new QLDecimal(new BigDecimal("2.1"));
 
-        QLDecimal result = val1.multiply(val2);
+        QLDecimal result = (QLDecimal) val1.multiply(val2);
 
         Assert.assertEquals(result.getValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(6.72).setScale(4, RoundingMode.HALF_UP)), 0);
 
@@ -139,7 +139,7 @@ public final class QLDataTypeWrapperTest {
         QLDecimal val1 = new QLDecimal(new BigDecimal("3.2"));
         QLInteger val2 = new QLInteger(BigInteger.valueOf(2));
 
-        QLDecimal result = val1.multiply(val2);
+        QLDecimal result = (QLDecimal) val1.multiply(val2);
         Assert.assertEquals(result.getValue().setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(6.4).setScale(4, RoundingMode.HALF_UP)), 0);
     }
 
@@ -148,8 +148,8 @@ public final class QLDataTypeWrapperTest {
         QLDecimal val1 = new QLDecimal(new BigDecimal("6.72"));
         QLInteger val2 = new QLInteger(BigInteger.valueOf(2));
 
-        QLNumeric result = val1.divide(val2);
-        BigDecimal resultValue = (BigDecimal) result.getValue();
+        QLDecimal result = val1.divide(val2);
+        BigDecimal resultValue = result.getValue();
 
         Assert.assertEquals(resultValue.setScale(4, RoundingMode.HALF_UP).compareTo(new BigDecimal(3.36).setScale(4, RoundingMode.HALF_UP)), 0);
     }
@@ -215,7 +215,7 @@ public final class QLDataTypeWrapperTest {
     public void testStringConcatenation() {
         QLString val1 = new QLString("One");
         QLString val2 = new QLString("Two");
-        QLString result = val1.add(val2);
+        QLDataTypeWrapper result = val1.add(val2);
         Assert.assertEquals("OneTwo", result.getValue());
     }
 

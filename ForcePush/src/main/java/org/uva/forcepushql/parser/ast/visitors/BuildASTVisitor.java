@@ -69,7 +69,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     @Override
     public Node visitConditionalElse(GrammarParser.ConditionalElseContext context)
     {
-        ConditionalElseNode node = new ConditionalElseNode();
+        ConditionalIfNode node = new ConditionalIfNode();
 
         node.setCondition(null);
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())

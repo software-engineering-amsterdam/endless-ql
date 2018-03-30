@@ -14,15 +14,14 @@ import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 
 import javax.swing.*;
-import java.util.HashMap;
 import java.util.LinkedList;
 
-import static org.uva.forcepushql.interpreter.gui.JPanelGUI.getString;
 
 //TODO: Refactor the hell out of this. Please. It hurts. Make it stop....
 public class ASTVisitorEvaluator implements ASTVisitor
 {
     EventChecker eventChecker = new EventChecker();
+    String elseCondition = "";
 
     @Override
     public LinkedList<JPanel> visit(FormNode node)
@@ -63,6 +62,24 @@ public class ASTVisitorEvaluator implements ASTVisitor
     public LinkedList<JPanelGUI> visit(ConditionalIfNode node)
     {
         JPanelGUI jPanelGUI = new JPanelGUI();
+
+        Node condition = node.getCondition();
+
+        if(condition != null) {
+            String expression = condition.accept(this);
+            eventChecker.addCondition(expression, jPanelGUI);
+            if (elseCondition.equals("")) {
+                elseCondition = "!" + expression;
+            }
+            else {
+                elseCondition = "!" + expression + " && " + elseCondition;
+            }
+        }
+        else {
+            eventChecker.addCondition(elseCondition,jPanelGUI);
+            elseCondition = "";
+        }
+
         LinkedList<JPanelGUI> result = new LinkedList<>();
         LinkedList<Question> questions = new LinkedList<Question>();
 
@@ -87,15 +104,11 @@ public class ASTVisitorEvaluator implements ASTVisitor
 
         if (node.getAfter() != null)
         {
-            if (node.getAfter() instanceof ConditionalIfNode)
-            {
-                LinkedList<JPanelGUI> jPanelGUIS = node.getAfter().accept(this);
 
-                result.addAll(jPanelGUIS);
-            } else
-            {
-                result.add(node.getAfter().accept(this));
-            }
+            LinkedList<JPanelGUI> jPanelGUIS = node.getAfter().accept(this);
+
+            result.addAll(jPanelGUIS);
+
         }
 
         jPanelGUI.createPanel(questions, 0);
@@ -103,29 +116,11 @@ public class ASTVisitorEvaluator implements ASTVisitor
         ifElsePanel.setVisible(false);
         result.addFirst(jPanelGUI);
 
-        eventChecker.addCondition(node.getCondition().accept(this),ifElsePanel);
 
 
         return result;
     }
 
-
-    @Override
-    public JPanelGUI visit(ConditionalElseNode node)
-    {
-        JPanelGUI jPanelGUI = new JPanelGUI();
-        LinkedList<Question> questions = new LinkedList<Question>();
-        for (Node n : node.getQuestions())
-        {
-            questions.add(n.accept(this));
-        }
-
-        jPanelGUI.createPanel(questions, 0);
-        jPanelGUI.getPanel().setVisible(false);
-
-
-        return jPanelGUI;
-    }
 
     @Override
     public String visit(AdditionNode node)

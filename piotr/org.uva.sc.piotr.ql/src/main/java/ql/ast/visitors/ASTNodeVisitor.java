@@ -65,5 +65,6 @@ public interface ASTNodeVisitor<T> {
     T visit(TypeDeclarationInteger typeDeclarationInteger);
 
     T visit(TypeDeclarationString typeDeclarationString);
-    
+
+    T visit(TypeDeclarationDate typeDeclarationDate);
 }

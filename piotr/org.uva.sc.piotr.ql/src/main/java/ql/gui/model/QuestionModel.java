@@ -69,8 +69,8 @@ public class QuestionModel {
     }
 
     public void changeValue(Object value) {
-        this.qlDataTypeWrapperValue.setValue(value); // TODO: ???
-        // someone has to be informed
+        this.qlDataTypeWrapperValue.setValue(value);
+        // inform the controller
         this.formController.processQuestionModelChange(this);
     }
 

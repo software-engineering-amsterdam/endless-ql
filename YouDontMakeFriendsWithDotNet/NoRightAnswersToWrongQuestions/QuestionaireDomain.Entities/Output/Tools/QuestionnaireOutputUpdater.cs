@@ -16,12 +16,12 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             m_domainItemLocator = domainItemLocator;
         }
 
-        public bool OutputExistsFor(Reference<IQuestionnaireRootNode> questionnaireRootNode)
+        public bool OutputExistsFor(DomainId<IQuestionnaireRootNode> questionnaireRootNode)
         {
             return GetRootOutput(questionnaireRootNode) != null;
         }
 
-        private IQuestionnaireOutputItem GetRootOutput(Reference<IQuestionnaireRootNode> questionnaireRootNode)
+        private IQuestionnaireOutputItem GetRootOutput(DomainId<IQuestionnaireRootNode> questionnaireRootNode)
         {
             var name = questionnaireRootNode
                 .ToDomainItem(m_domainItemLocator)

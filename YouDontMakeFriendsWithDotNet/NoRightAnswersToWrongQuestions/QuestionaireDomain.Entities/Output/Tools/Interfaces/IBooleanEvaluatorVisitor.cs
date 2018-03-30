@@ -5,6 +5,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
     public interface IBooleanEvaluatorVisitor
     {
-        bool Evaluate(Reference<IBooleanLogicNode> predicate);
+        bool Evaluate(DomainId<IBooleanLogicNode> predicate);
     }
 }

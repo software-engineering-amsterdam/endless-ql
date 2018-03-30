@@ -1,10 +1,19 @@
 package org.uva.ql.validation;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.logging.Logger;
 
 import static org.junit.Assert.assertTrue;
 
 public class ValidationResultTest {
+
+    @Before
+    public void setUp() throws Exception {
+        //Disable console logging for tests.
+        Logger.getGlobal().setUseParentHandlers(false);
+    }
 
     @Test
     public void merge() {

@@ -1,4 +1,5 @@
+// Question label without quotation marks
 form label {
-    Question?
+    question
     var : cows
 }

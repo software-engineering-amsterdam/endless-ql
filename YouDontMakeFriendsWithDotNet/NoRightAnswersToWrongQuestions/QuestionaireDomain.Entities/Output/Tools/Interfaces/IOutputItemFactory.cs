@@ -8,13 +8,13 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
     public interface IOutputItemFactory
     {
-        Reference<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
-            Reference<IQuestionnaireRootNode> variable,
+        DomainId<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
+            DomainId<IQuestionnaireRootNode> variable,
             string displayName,
-            IList<Reference<IQuestionOutputItem>> questions);
+            IList<DomainId<IQuestionOutputItem>> questions);
 
-        Reference<IQuestionOutputItem> CreateQuestionOutputItem(
-            Reference<IQuestionNode> variable,
+        DomainId<IQuestionOutputItem> CreateQuestionOutputItem(
+            DomainId<IQuestionNode> variable,
             string text,
             string value,
             Type type,

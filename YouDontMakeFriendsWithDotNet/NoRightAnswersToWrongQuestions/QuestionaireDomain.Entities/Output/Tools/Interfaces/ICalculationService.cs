@@ -8,6 +8,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
     public interface ICalculationService
     {
         void UpdateCalculations();
-        IEnumerable<IQuestionNode> GetVariables(Reference<ICalculationNode> node);
+        IEnumerable<IQuestionNode> GetVariables(DomainId<ICalculationNode> node);
     }
 }

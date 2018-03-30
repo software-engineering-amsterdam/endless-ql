@@ -15,24 +15,26 @@ def test_directory(directory, parser, lexer):
 
     print('Performing valid {} test:'.format(directory[:-1]))
 
-    for file in valid_files:
-        test = open(directory_valid_tests + file, 'r').read()
+    for valid_file in valid_files:
+        test = open(directory_valid_tests + valid_file, 'r').read()
         result = test_parser(test, parser, lexer)
-        print_result(file, result)
+        print_result(valid_file, result, test.split('\n')[0])
 
         if result:
             success_counter += 1
 
+    print()
     print('Performing invalid {} test:'.format(directory[:-1]))
 
-    for file in invalid_files:
-        test = open(directory_invalid_tests + file, 'r').read()
+    for invalid_file in invalid_files:
+        test = open(directory_invalid_tests + invalid_file, 'r').read()
         result = not test_parser(test, parser, lexer)
-        print_result(file, result)
+        print_result(invalid_file, result, test.split('\n')[0])
 
         if result:
             success_counter += 1
 
+    print()
     print('{} out of {} test successful.\n'.format(success_counter, len(valid_files) + len(invalid_files)))
 
 
@@ -45,19 +47,21 @@ def test_parser(test, parser, lexer):
     return True
 
 
-def print_result(file, result=True):
+def print_result(file, result=True, test=''):
     if result:
         tag = colored('[success]', 'green')
     else:
         tag = colored('[failure]', 'red')
 
-    print('{} {}'.format(tag, file))
+    if test.startswith('//'):
+        test = test[2:].strip()
+    else:
+        test = ''
+
+    print(tag, file, test)
 
 
 if __name__ == '__main__':
     parser = QLParser()
     lexer = QLLexer()
-    directories = ['parsing/']
-
-    for directory in directories:
-        test_directory(directory, parser, lexer)
+    test_directory('parsing', parser, lexer)

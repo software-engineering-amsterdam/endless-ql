@@ -8,7 +8,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
 {
     internal class QuestionnaireOutputItem : IQuestionnaireOutputItem
     {
-        public QuestionnaireOutputItem(Reference<IQuestionnaireRootNode> variable, Guid id, string displayName)
+        public QuestionnaireOutputItem(DomainId<IQuestionnaireRootNode> variable, Guid id, string displayName)
         {
             Variable = variable;
             Id = id;
@@ -17,7 +17,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
 
         public Guid Id { get; }
         public string DisplayName { get; }
-        public Reference<IQuestionnaireRootNode> Variable { get; }
-        public IList<Reference<IQuestionOutputItem>> Questions { get; set; }
+        public DomainId<IQuestionnaireRootNode> Variable { get; }
+        public IList<DomainId<IQuestionOutputItem>> Questions { get; set; }
     }
 }

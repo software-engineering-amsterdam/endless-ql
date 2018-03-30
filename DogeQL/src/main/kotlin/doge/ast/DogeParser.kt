@@ -2,52 +2,37 @@ package doge.ast
 
 import QuestionnaireLanguageGrammarLexer
 import QuestionnaireLanguageGrammarParser
-import doge.data.question.Question
+import doge.ast.node.QLNode
+import doge.data.symbol.SymbolTable
 import doge.typechecker.TypeChecker
-import doge.visitor.UiVisitor
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 
 
+data class DogeParseResult(val ast: QLNode, val symbolTable: SymbolTable)
+
 class DogeParser {
 
-    fun parse(): List<Question> {
+    fun parse(): DogeParseResult? {
         val fileName = "/sample/TestQuestionare.doge"
-        val fileStream = javaClass.getResource(fileName).openStream()
 
-        val stream = ANTLRInputStream(fileStream)
-        val lexer = QuestionnaireLanguageGrammarLexer(stream)
-        val tokens = CommonTokenStream(lexer)
-        val parser = QuestionnaireLanguageGrammarParser(tokens)
+        javaClass.getResource(fileName).openStream().use {
+            val stream = ANTLRInputStream(it)
+            val lexer = QuestionnaireLanguageGrammarLexer(stream)
+            val tokens = CommonTokenStream(lexer)
+            val parser = QuestionnaireLanguageGrammarParser(tokens)
+            val visitor = QuestionnaireLanguageVisitor()
+            val ast = visitor.visit(parser.form())
 
-        val visitor = QuestionnaireLanguageVisitor()
+            val symbolTable = SymbolTable()
+            val validQL = TypeChecker(fileName, symbolTable, ast).check()
 
-        val ast = visitor.visit(parser.form())
+            if (validQL) {
+                return DogeParseResult(ast, symbolTable)
+            }
+        }
 
-        fileStream.close()
-
-        TypeChecker(fileName, ast).check()
-
-        val questions = UiVisitor().visit(ast)
-
-//
-//        CircularDependencyVisitor().visit(ast)
-
-//        val listener = DogeListener()
-
-//        walker.walk(listener, parser.form())
-
-//        val tree = listener.getParsedDogeLanguage()
-
-//        val result = TypeChecker(listener.symbolTable).check(tree)
-
-//        if (result.hasErrors()) {
-//            result.printErrors()
-//
-//            throw Exception() // TODO: fix this flow
-//        }
-
-        return questions
+        return null
     }
 
 }

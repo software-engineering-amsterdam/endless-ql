@@ -22,13 +22,13 @@ class MainWindow(QtWidgets.QWidget):
         self.setGeometry(200, 200, 1000, 500)
 
         # Initiates inner frames
-        input_frame = InputFrame()
+        self.input_frame = InputFrame()
         self.output_frame = OutputFrame()
-        self.main_layout.addWidget(input_frame, alignment=QtCore.Qt.AlignLeft)
+        self.main_layout.addWidget(self.input_frame, alignment=QtCore.Qt.AlignLeft)
         self.main_layout.addWidget(self.output_frame, alignment=QtCore.Qt.AlignRight)
 
         # Connect btn with parsing
-        input_frame.parse_is_pressed.connect(self.parse)
+        self.input_frame.parse_is_pressed.connect(self.parse)
 
     def initiate_output_frame(self, question_ids=list(), questions=None, warning=None, errors=None):
         """ Reinitialize output frame """

@@ -1,0 +1,2 @@
+// Boolean type token
+boolean

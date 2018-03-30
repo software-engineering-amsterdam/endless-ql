@@ -282,28 +282,20 @@ namespace QLS.UnitTests.ParserTests
                 actual: createdStyle.Color);
         }
 
-        [Test]
-        public void GivenStyleWithDefaultStylesForAllTypes_StoresCorrectValues()
+        [TestCaseSource(
+            typeof(TestQlsData),
+            nameof(TestQlsData.DefaultPropertyCounts))]
+        public void GivenStyleWithDefaultStylesForAllTypes_StoresCorrectValues(
+            string validStyleSheetDefinition,
+            int defaultPropertyCount)
         {
-            var definintion = @"
-stylesheet ss1 
-{
-    page p1 
-    {
-    }
-    default integer { widget spinbox width: 200 font: ""ComicSans"" fontsize: 12.3 color: #00000000 }
-    default boolean { widget radio(""Rick"",""Morty"") }
-    default date { widget textbox width: 99 font: ""ComicSans"" } 
-    default string { color: #FA57B055 }
-    default decimal { widget slider(150,200,5) } 
-}";
-            CreateStyleSheet(definintion);
+            CreateStyleSheet(validStyleSheetDefinition);
 
             var createdStyles = m_domainItemLocator
                 .GetAll<IStyleNode>();
 
             Assert.AreEqual(
-                expected: 5,
+                expected: defaultPropertyCount,
                 actual: createdStyles.Count());
         }
 

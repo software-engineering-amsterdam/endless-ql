@@ -11,7 +11,7 @@ def visit_ql(tree):
     walker = QLVisitor()
     walker.visit(tree)
     warning_message = check_duplicate_question_strings(walker.question_ids, walker.questions)
-    return [walker.question_ids, walker.questions, [walker.error_message], warning_message]
+    return [walker.question_ids, walker.questions, walker.error_message, warning_message]
 
 
 def check_duplicate_question_strings(question_ids, questions):
@@ -71,7 +71,7 @@ class QLVisitor(ParseTreeVisitor):
         data_type = ctx.type().getText()
 
         if question_id in self.question_ids:
-            self.error_message = "Error: duplicate question IDs: {}".format(question_id)
+            self.error_message = ["Error: duplicate question IDs: {}".format(question_id)]
             return
 
         # todo: remove instanceof
@@ -82,7 +82,7 @@ class QLVisitor(ParseTreeVisitor):
             question_object = question_classes.MoneyQuestion(question_id, question_string)
 
         else:
-            self.error_message = "Error: unknown data_type: {}".format(data_type)
+            self.error_message = ["Error: unknown data_type: {}".format(data_type)]
             return
 
         self.question_ids.append(question_id)
@@ -91,10 +91,12 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
     def visitDeclaration(self, ctx: QLParser.DeclarationContext):
-        # todo: make viable for setting boolean question answers
         result = self.visitChildren(ctx)
-        declared_value = QtWidgets.QLabel(str(result.pop()))
-        self.questions[ctx.parentCtx.ID().getText()].text_input_box = declared_value
+        declared_value = str(result.pop())
+
+        question_id = ctx.parentCtx.ID().getText()
+        question = self.questions[question_id]
+        self.error_message = question.set_answer_label(declared_value)
         return result
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):
@@ -108,10 +110,10 @@ class QLVisitor(ParseTreeVisitor):
         conditional_id = ctx.expression().getText()
 
         if conditional_id not in self.question_ids:
-            self.error_message = "Error: if argument is undefined: {}".format(conditional_id)
+            self.error_message = ["Error: if argument is undefined: {}".format(conditional_id)]
             return
         elif self.questions[conditional_id].get_data_type() != 'boolean':
-            self.error_message = "Error: if argument is not boolean: {}".format(conditional_id)
+            self.error_message = ["Error: if argument is not boolean: {}".format(conditional_id)]
             return
 
         conditional_question = self.questions[conditional_id]

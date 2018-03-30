@@ -13,7 +13,7 @@ import org.uva.jomi.ql.tests.utilities.TestUtilities;
 
 public class CyclicDependencyTests {
 
-	CyclicDependencyChecker checker = new CyclicDependencyChecker(true);
+	CyclicDependencyChecker checker = new CyclicDependencyChecker(false);
 	IdentifierMapBuilder identifierMapBuilder = new IdentifierMapBuilder();
 
 	String test1 =
@@ -31,7 +31,7 @@ public class CyclicDependencyTests {
 
 	String test2 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean q1\n"
+			+ "\"question1\" q1: boolean = q1\n"
 			+ "}";
 
 	@Test
@@ -46,8 +46,8 @@ public class CyclicDependencyTests {
 
 	String test3 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean q2\n"
-			+ "\"question2\" q2: boolean q1\n"
+			+ "\"question1\" q1: boolean = q2\n"
+			+ "\"question2\" q2: boolean = q1\n"
 			+ "}";
 
 	@Test

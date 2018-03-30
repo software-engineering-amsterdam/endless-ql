@@ -33,20 +33,20 @@ import org.uva.jomi.ql.ast.statements.QuestionStatement;
 import org.uva.jomi.ql.ast.statements.Statement;
 
 public class IdentifierMapBuilder implements Statement.Visitor<Void>, Expression.Visitor<List<String>> {
-	
+
 	private HashMap<String, List<String>> map;
-	
+
 	public IdentifierMapBuilder() {
 		this.map = new HashMap<>();
 	}
-	
+
 	public HashMap<String, List<String>> buildMap(List<Statement> statements) {
 		// Clear the contents of the map.
 		this.map.clear();
 		statements.forEach( statement -> statement.accept(this));
 		return this.map;
 	}
-	
+
 	private List<String> visitBinaryExpression(BinaryExpression expr) {
 		List<String> left = expr.visitLeftExpression(this);
 		List<String> right = expr.visitRightExpression(this);
@@ -54,10 +54,10 @@ public class IdentifierMapBuilder implements Statement.Visitor<Void>, Expression
 		left.addAll(right);
 		return left;
 	}
-	
+
 	@Override
 	public Void visit(FormStatement stmt) {
-		stmt.visitBlockStmt(this);
+		stmt.visitBlockStatement(this);
 		return null;
 	}
 

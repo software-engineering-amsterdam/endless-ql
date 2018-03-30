@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLParser;
+using QLParser.Analysis;
 using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
@@ -67,6 +68,13 @@ namespace QL_Parser.Tests.QLS
             "       }" +
             "   }" +
             "}";
+
+        [TestCleanup]
+        public void TestCleanUp()
+        {
+            Analyser.Reset();
+            SymbolTable.Reset();
+        }
 
         [TestMethod]
         public void StylesheetNameTest()
@@ -139,7 +147,7 @@ namespace QL_Parser.Tests.QLS
         {
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithDefaults);
 
-            var styles = qls.Children[0].NodeStyles;
+            var styles = qls.Children[0].Children[0].NodeStyles;
             Assert.AreEqual("width", styles[0].StylingValues[0].StyleProperty);
             Assert.AreEqual(QValueType.INTEGER, styles[0].StylingValues[0].QValueType);
             Assert.AreEqual("100", styles[0].StylingValues[0].StyleValue);
@@ -154,7 +162,7 @@ namespace QL_Parser.Tests.QLS
         {
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithMultipleDefaults);
 
-            var styles = qls.Children[0].NodeStyles;
+            var styles = qls.Children[0].Children[0].NodeStyles;
             Assert.AreEqual(2, styles.Count);
         }
 

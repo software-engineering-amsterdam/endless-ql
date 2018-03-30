@@ -1,15 +1,15 @@
 ﻿using QLParser.AST.QL;
-using QLVisualizer.Controllers;
-using QLVisualizer.Expression.Types;
-using QLVisualizer.Elements.Managers;
-using QLVisualizer.Elements.Managers.LeafTypes;
-using System;
-using System.Linq;
-using QLVisualizer.Elements.Managers.CollectionTypes;
-using QLVisualizer.Expression.Enums;
 using QLParser.AST.QLS;
-using System.Collections.Generic;
 using QLParser.AST.QLS.Enums;
+using QLVisualizer.Controllers;
+using QLVisualizer.Elements.Managers;
+using QLVisualizer.Elements.Managers.CollectionTypes;
+using QLVisualizer.Elements.Managers.LeafTypes;
+using QLVisualizer.Expression.Enums;
+using QLVisualizer.Expression.Types;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace QLVisualizer.Factories
 {
@@ -150,7 +150,7 @@ namespace QLVisualizer.Factories
                         break;
                     case QLSNodeType.Question:
                         IEnumerable<ElementManagerLeaf> foundMatches = children.Where(o => o.Identifier == node.ID).Select(o => o as ElementManagerLeaf);
-                        if(foundMatches.Count() != 1)
+                        if (foundMatches.Count() != 1)
                             throw new InvalidOperationException(string.Format("Identifier: {0}, used in QLS, was found {1} times in QL!", node.ID, foundMatches.Count()));
 
                         ElementManagerLeaf child = foundMatches.First();
@@ -172,7 +172,7 @@ namespace QLVisualizer.Factories
         private static ElementManagerLeaf QLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
         {
             // Leaf retrieval
-            IQLSElement style = new QLSStyle(new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
+            IQLSElement style = new QLSStyle(QValueType.UNKNOWN, new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
 
             if (node.NodeStyles.Count > 1)
                 throw new InvalidOperationException("MULTIPLE STYLES IN LEAF");

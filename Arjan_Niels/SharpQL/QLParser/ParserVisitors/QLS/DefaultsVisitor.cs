@@ -2,6 +2,7 @@
 using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLSGrammar;
+using System;
 using static QLSGrammar.QLSGrammarParser;
 
 namespace QLParser.ParserVisitors.QLS
@@ -12,7 +13,8 @@ namespace QLParser.ParserVisitors.QLS
         {
             var specificationVisitor = new WidgetSpecificationVisitor();
             var specification = specificationVisitor.VisitWidgetspecification(context.widgetspecification());
-            var style = new QLSStyle(specification);
+            var qtype = (QValueType)Enum.Parse(typeof(QValueType), context.QTYPE().GetText().ToUpper());
+            var style = new QLSStyle(qtype, specification);
 
             foreach (var ctx in context.stylevalue())
                 style.AddStyleValue(GetStylevalue(ctx));

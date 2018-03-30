@@ -7,6 +7,7 @@ using Assignment1.Execution;
 using Assignment1.Export;
 using Assignment1.Parser;
 using Assignment1.Rendering;
+using Assignment1.Rendering.QLS;
 using Assignment1.TypeChecking;
 
 namespace Assignment1
@@ -72,7 +73,8 @@ namespace Assignment1
                     QLTypeChecker typechecker = new QLTypeChecker();
                     typechecker.TypeCheckQuestionForm(astForm);
                     _executor = new QLExecutor(astForm);
-                    var renderer = new QLRenderer(_executor);
+                    //var renderer = new QLRenderer(_executor);
+                    var renderer = new QLSRenderer(_executor, QLSParser.ParseString(File.ReadAllText(inputFile + ".qls")));
                     _view.SetFormControl(renderer.Render());
                 }
                 _view.SetWarnings(messages.Warnings);

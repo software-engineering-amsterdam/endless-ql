@@ -27,8 +27,11 @@ public final class QuestionsDependencyValidator extends Validator {
 
         @Override
         public boolean equals(Object obj) {
-            Relation relation = (Relation) obj;
-            return relation.from == this.from && relation.to == this.to;
+            if (obj != null && obj instanceof Relation) {
+                Relation relation = (Relation) obj;
+                return relation.from == this.from && relation.to == this.to;
+            }
+            return false;
         }
 
         @Override

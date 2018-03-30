@@ -22,7 +22,7 @@ public interface ASTNodeVisitor<T> {
 
     T visit(Question question);
 
-    T visit(IfStatement ifStatement);
+    T visit(IfStatement statement);
 
     T visit(Literal literal);
 

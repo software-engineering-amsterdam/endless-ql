@@ -1,11 +1,11 @@
 package ql.logic.type;
 
 abstract public class QLNumeric<T> extends QLSummable<T> {
-    public QLNumeric(T value) {
+    QLNumeric(T value) {
         super(value);
     }
 
-    abstract public QLDecimal castToDecimal();
+    protected abstract QLDecimal castToDecimal();
 
     abstract public QLNumeric negate();
 

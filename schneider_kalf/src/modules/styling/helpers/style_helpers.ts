@@ -1,7 +1,7 @@
-import StyleTreeNode from "./nodes/StyleTreeNode";
-import DefaultStyle from "./nodes/children/DefaultStyleNode";
-import StyleFilterVisitor from "./visitors/StyleFilterVisitor";
-import QuestionStyleNode from "./nodes/children/QuestionStyleNode";
+import StyleTreeNode from "../form/nodes/StyleTreeNode";
+import DefaultStyle from "../form/nodes/children/DefaultStyleNode";
+import StyleFilterVisitor from "../form/visitors/StyleFilterVisitor";
+import QuestionStyleNode from "../form/nodes/children/QuestionStyleNode";
 
 export const getDefaultStyleNodes = (container: StyleTreeNode): DefaultStyle[] => {
   const visitor = new StyleFilterVisitor({

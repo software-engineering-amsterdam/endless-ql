@@ -6,13 +6,15 @@ import PageNode from "./modules/styling/form/nodes/containers/PageNode";
 import { ModuleTabNavigation } from "./rendering/components/app_module_tabs/ModuleTabNavigation";
 import { ModuleTabsContent } from "./rendering/components/app_module_tabs/ModuleTabsContent";
 import { AppFormStateOutput } from "./rendering/components/app_form_state_output/FormStateOutput";
-import { AppErrorMessage } from "./rendering/components/app_error_message/AppErrorMessage";
+import { AppErrorMessage } from "./rendering/components/app_messages/AppErrorMessage";
 import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
 import constants from "./config/constants";
 import SourceInputs from "./form/source/SourceInputs";
-import { makeStatefulForm } from "./app_form_helpers";
+import { parseForm } from "./app_form_helpers";
 import QlForm from "./form/QlForm";
 import QlsForm from "./modules/styling/form/QlsForm";
+import { FormWarning } from "./form/form_warnings";
+import { AppWarningMessages } from "./rendering/components/app_messages/AppWarningMessages";
 
 export interface AppComponentProps {
 }
@@ -22,6 +24,7 @@ export interface AppComponentState {
   qlsInput: string;
   form: QlsForm | QlForm | Form | any;
   parserError: Error | null;
+  parserWarnings: FormWarning[];
   qlsEnabled: boolean;
   activeTab: string;
 }
@@ -36,7 +39,8 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
       qlsEnabled: true,
       activeTab: constants.APP_MODULE_TABS.QL,
       form: null,
-      parserError: null
+      parserError: null,
+      parserWarnings: []
     };
 
     this.onChangeAnswer = this.onChangeAnswer.bind(this);
@@ -67,11 +71,12 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   tryToUpdateForm(inputs: SourceInputs) {
-    const form = makeStatefulForm(inputs, this.getFormState());
+    const result = parseForm(inputs, this.getFormState());
 
     this.setState({
-      form: form,
+      form: result.form,
       parserError: null,
+      parserWarnings: result.warnings,
       qlInput: inputs.getQlSource().toString(),
       qlsInput: inputs.getQlsSource().toString(),
       qlsEnabled: inputs.qlsIsEnabled()
@@ -148,6 +153,9 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
             <div className="col-md-6">
               <AppErrorMessage
                   error={this.state.parserError}
+              />
+              <AppWarningMessages
+                  warnings={this.state.parserWarnings}
               />
               <AppFormContainer
                   form={this.state.form}

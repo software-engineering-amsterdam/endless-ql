@@ -74,7 +74,7 @@ public class TypeChecker {
 				questions.forEach(question -> {
 					events.insert(new EventMessage(
 							"Duplicated label: " + question.getName() +
-							" at line" + question.getLocation().getStartLine(),
+							" at line:" + question.getLocation().getStartLine(),
 							MessageTypeEnum.warning));
 				});
 			}

@@ -23,13 +23,13 @@ object References {
         .map(name =>
           TypeCheckError(
             "ReferenceCheck",
-            s"Question ${questionsOnForm.filter(_.id == name).map(_.id)} is defined in QL but not used in the QLS file."))
+            s"Question '${name}' is defined in QL but not used in the QLS file."))
         .toSeq ++
         unreferencedQuestionInStylesheet
           .map(name =>
             TypeCheckError(
               "ReferenceCheck",
-              s"Question ${questionsInStylesheet.filter(_.name == name).map(_.name)} is referenced in the QLS file but have not been defined in the QL file."
+              s"Question '${name}' is referenced in the QLS file but have not been defined in the QL file."
           ))
           .toSeq)
 

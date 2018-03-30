@@ -1,62 +1,70 @@
 import { getQlsParser } from "./parsing_helpers";
-import StyleSheet from "../form/nodes/StyleSheetNode";
+import StyleSheetNode from "../form/nodes/StyleSheetNode";
 import SetParentsVisitor from "../form/visitors/SetParentsVisitor";
-import QuestionStylesVisitor from "../form/visitors/MergeFieldStylesVisitor";
-import MergedFieldStyle from "../form/MergedFieldStyle";
 import { QlParserPipeline, QlParserResult } from "../../../parsing/QlParserPipeline";
-import SetStyledFieldVisitor from "../form/visitors/SetStyledFieldVisitor";
-import { VariableInformation } from "../../../form/VariableIntformation";
 import TypeCheckVisitor from "../form/visitors/TypeCheckVisitor";
+import { VariablesMap } from "../../../form/type_checking/VariableScopeVisitor";
+import SourceText from "../../../form/source/SourceText";
+import { findUnplacedFields } from "../helpers/unplaced_fields_helper";
+import { FormStyleWarning, UnplacedQuestionWarning } from "../form/style_warnings";
 
 export interface QlsParserResult extends QlParserResult {
-  styleNode: StyleSheet;
-  styles: MergedFieldStyle[];
+  styleSheetNode: StyleSheetNode;
 }
 
 export class QlsParserPipeline {
-  private readonly qlsInput: string;
-  private readonly qlInput: string;
+  private readonly qlsInput: SourceText;
+  private readonly qlInput: SourceText;
+  private warnings: FormStyleWarning[] = [];
 
-  constructor(qlInput: string, qlsInput: string) {
+  constructor(qlInput: SourceText, qlsInput: SourceText) {
     this.qlInput = qlInput;
     this.qlsInput = qlsInput;
-
-    this.processStylesheetNode = this.processStylesheetNode.bind(this);
   }
 
   run(): QlsParserResult {
-    const qlPipeline = new QlParserPipeline(this.qlInput);
-    const qlPipelineResult = qlPipeline.run()[0];
+    this.warnings = [];
+    const qlParserResult = this.parseQl(this.qlInput);
+    const styleSheetNode: StyleSheetNode = this.parseQls(this.qlsInput);
 
-    const styleNode: StyleSheet = getQlsParser().parse(this.qlsInput);
+    const variablesMap: VariablesMap = qlParserResult.variables;
 
-    const stylesheetResult = this.processStylesheetNode(styleNode, qlPipelineResult.variables);
-
-    const setStyledField = new SetStyledFieldVisitor(stylesheetResult.styles, stylesheetResult.styleNode);
-    qlPipelineResult.node.accept(setStyledField);
+    this.checkTypes(styleSheetNode, variablesMap);
+    this.setNodeParents(styleSheetNode);
+    this.addUnplacedFieldWarnings(styleSheetNode, variablesMap);
 
     return {
-      node: qlPipelineResult.node,
-      variables: qlPipelineResult.variables,
-      styleNode: stylesheetResult.styleNode,
-      styles: stylesheetResult.styles
+      node: qlParserResult.node,
+      variables: qlParserResult.variables,
+      styleSheetNode: styleSheetNode,
+      warnings: this.warnings.concat(qlParserResult.warnings)
     };
   }
 
-  private processStylesheetNode(node: StyleSheet, qlVariables: Map<string, VariableInformation>) {
-    const typeCheckQlsVisitor: TypeCheckVisitor = new TypeCheckVisitor(qlVariables);
-    node.accept(typeCheckQlsVisitor);
-
+  private setNodeParents(node: StyleSheetNode): void {
     const parentsVisitor: SetParentsVisitor = new SetParentsVisitor();
     node.accept(parentsVisitor);
+  }
 
-    const styleVisitor = new QuestionStylesVisitor(qlVariables);
-    node.accept(styleVisitor);
-    const result = styleVisitor.getStyles();
+  private checkTypes(node: StyleSheetNode, qlVariables: VariablesMap): void {
+    const typeCheckQlsVisitor: TypeCheckVisitor = new TypeCheckVisitor(qlVariables);
+    node.accept(typeCheckQlsVisitor);
+  }
 
-    return {
-      styleNode: node,
-      styles: result
-    };
+  private parseQl(qlInput: SourceText): QlParserResult {
+    const qlPipeline = new QlParserPipeline(qlInput);
+    return qlPipeline.runFirst();
+  }
+
+  private parseQls(qlsInput: SourceText): StyleSheetNode {
+    return getQlsParser().parse(qlsInput.toString());
+  }
+
+  private addUnplacedFieldWarnings(styleSheetNode: StyleSheetNode, variables: VariablesMap) {
+    const unplacedFields: VariablesMap = findUnplacedFields(styleSheetNode, variables);
+
+    unplacedFields.forEach((variable) => {
+      this.warnings.push(new UnplacedQuestionWarning(variable));
+    });
   }
 }

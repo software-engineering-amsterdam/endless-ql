@@ -11,8 +11,8 @@ public class Messages {
 
     private final Collection<Entry<MessageTypes, String>> messages = new ArrayList<>();
 
-    public void addMessageList(Messages messages) {
-        this.messages.addAll(messages.getMessages());
+    public void addMessages(Messages messages) {
+        this.messages.addAll(messages.messages);
     }
 
     public void addMessage(String message, MessageTypes messageType) {
@@ -28,7 +28,7 @@ public class Messages {
         return false;
     }
 
-    public Collection<Entry<MessageTypes, String>> getMessages() {
+    private Collection<Entry<MessageTypes, String>> getMessages() {
         return this.messages;
     }
 

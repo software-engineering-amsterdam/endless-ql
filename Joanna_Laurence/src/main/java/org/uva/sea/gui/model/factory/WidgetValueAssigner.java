@@ -2,12 +2,7 @@ package org.uva.sea.gui.model.factory;
 
 import org.uva.sea.gui.widget.BaseWidget;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
-import org.uva.sea.languages.ql.interpreter.staticAnalysis.helpers.Messages;
-import org.uva.sea.languages.ql.parser.elements.Form;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
-import org.uva.sea.languages.qls.interpreter.staticAnalysis.IQLSStaticAnalysis;
-import org.uva.sea.languages.qls.interpreter.staticAnalysis.TypeCheck;
-import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 
 public class WidgetValueAssigner extends BaseValueVisitor<Void> {
 

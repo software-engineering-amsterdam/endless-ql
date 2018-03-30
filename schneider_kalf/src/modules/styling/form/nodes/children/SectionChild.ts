@@ -1,11 +1,11 @@
 import StyleTreeNode from "../StyleTreeNode";
 import SectionNode from "../containers/SectionNode";
-import QuestionStyle from "./QuestionStyle";
+import QuestionStyleNode from "./QuestionStyleNode";
 
 export default interface SectionChild extends StyleTreeNode {
   isSection(): this is SectionNode;
 
-  isQuestionStyle(): this is QuestionStyle;
+  isQuestionStyle(): this is QuestionStyleNode;
 
   isRendered(): boolean;
 }

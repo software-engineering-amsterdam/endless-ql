@@ -1,7 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.symboltable;
 
-import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
-import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.AstNode;
 
 public class SymbolTableEntry {
@@ -20,6 +19,23 @@ public class SymbolTableEntry {
         this.label = label;
         this.node = node;
         this.expressionType = expressionType;
+
+        switch (expressionType) {
+            case BOOLEAN:
+                expressionValue = new BooleanExpressionValue(false);
+                break;
+            case INTEGER:
+                expressionValue = new IntegerExpressionValue(0);
+                break;
+            case MONEY:
+                expressionValue = new MoneyExpressionValue(new Float(0.0));
+                break;
+            case STRING:
+                expressionValue = new StringExpressionValue("");
+                break;
+            default:
+                throw new RuntimeException("Missing type");
+        }
     }
 
     public String getLabel() {

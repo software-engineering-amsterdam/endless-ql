@@ -10,6 +10,7 @@ import org.uva.jomi.ql.ast.statements.Statement;
 import org.uva.jomi.ql.parser.antlr.QLLexer;
 import org.uva.jomi.ql.parser.antlr.QLParser;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
+import org.uva.jomi.ql.parser.antlr.QLParserErrorListener;
 
 public class TestUtilities {
 
@@ -21,6 +22,9 @@ public class TestUtilities {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		// Create a lexer instance
 		QLParser parser = new QLParser(tokens);
+
+		parser.removeErrorListeners();
+		parser.addErrorListener(new QLParserErrorListener());
 
 		ParseContext cst = parser.parse();
 

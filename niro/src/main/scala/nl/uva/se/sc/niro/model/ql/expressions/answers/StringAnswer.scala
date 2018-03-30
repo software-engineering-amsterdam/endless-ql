@@ -1,13 +1,10 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.StringAnswerCanDoOrderings._
 
 final case class StringAnswer(value: String) extends Answer {
 
   type T = String
-
-  def typeOf: AnswerType = StringType
 
   override def lessThan(right: Answer): Answer = this < right
   override def lessThanEquals(right: Answer): Answer = this <= right

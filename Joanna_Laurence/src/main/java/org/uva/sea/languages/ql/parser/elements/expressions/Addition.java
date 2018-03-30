@@ -10,17 +10,13 @@ public class Addition extends BinaryOperator {
         super(token, leftHandSide, rightHandSide);
     }
 
-    /**
-     * The valueTypes is returned, so the type of LHS
-     *
-     * @return The type
-     */
-    public Type getType() {
-        return this.getLeftHandSide().getType();
-    }
-
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public Type getType() {
+        return this.getLeftHandSide().getType();
     }
 }

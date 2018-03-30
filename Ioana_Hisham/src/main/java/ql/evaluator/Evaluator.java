@@ -1,14 +1,14 @@
 package ql.evaluator;
 
 import ql.ast.Form;
+import ql.ast.expressions.GroupExpression;
 import ql.ast.expressions.binary.*;
 import ql.ast.expressions.Identifier;
+import ql.ast.expressions.literals.BooleanLiteral;
+import ql.ast.expressions.literals.IntegerLiteral;
 import ql.ast.expressions.literals.StringLiteral;
-import ql.ast.statements.Question;
-import ql.ast.statements.Statement;
-import ql.values.StringValue;
-import ql.values.Undefined;
-import ql.values.Value;
+import ql.ast.statements.*;
+import ql.values.*;
 import ql.visitors.ExpressionVisitor;
 import ql.visitors.FormVisitor;
 import ql.visitors.StatementVisitor;
@@ -30,6 +30,37 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
     //</editor-fold>
 
     //<editor-fold desc="StatementVisitor">
+    @Override
+    public Void visit(CalculableQuestion calculableQuestion) {
+        if (!valueTable.exists(calculableQuestion.getIdentifier())) {
+            valueTable.add(calculableQuestion.getIdentifier(),
+                    calculableQuestion.getCalculableValue().accept(this));
+        }
+        questions.add(calculableQuestion);
+        return null;
+    }
+
+    @Override
+    public Void visit(IfThen ifThen) {
+        ifThen.getCondition().accept(this);
+        for (Statement statement : ifThen.getThenStatements()) {
+            statement.accept(this);
+        }
+        return null;
+    }
+
+    @Override
+    public Void visit(IfThenElse ifThenElse) {
+        ifThenElse.getCondition().accept(this);
+        for (Statement statement : ifThenElse.getThenStatements()) {
+            statement.accept(this);
+        }
+        for (Statement statement : ifThenElse.getElseStatements()) {
+            statement.accept(this);
+        }
+        return null;
+    }
+
     @Override
     public Void visit(Question question) {
         if (!valueTable.exists(question.getIdentifier())) {
@@ -115,14 +146,27 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
         return leftOperand.subtract(rightOperand);
     }
 
-    // TODO implement this method
     public Value visit(Identifier identifier) {
-        return null;
+        return valueTable.find(identifier);
     }
 
-    // TODO implement this method
+    @Override
+    public Value visit(BooleanLiteral booleanLiteral) {
+        return new BooleanValue(booleanLiteral.getValue());
+    }
+
+    @Override
+    public Value visit(IntegerLiteral integerLiteral) {
+        return new IntegerValue(integerLiteral.getValue());
+    }
+
     public Value visit(StringLiteral stringLiteral) {
         return new StringValue(stringLiteral.getValue());
+    }
+
+    @Override
+    public Value visit(GroupExpression groupExpression) {
+        return groupExpression.getExpression().accept(this);
     }
     //</editor-fold>
 

@@ -1,15 +1,18 @@
 package qlviz.interpreter.style;
 
+import com.google.inject.Inject;
 import qlviz.QLSBaseVisitor;
+import qlviz.QLSVisitor;
 import qlviz.QLSParser;
 import qlviz.model.style.Parameter;
 import qlviz.model.style.PropertySetting;
 
 public class PropertySettingVisitor extends QLSBaseVisitor<PropertySetting> {
 
-    private final QLSBaseVisitor<Parameter> parameterVisitor;
+    private final QLSVisitor<Parameter> parameterVisitor;
 
-    public PropertySettingVisitor(QLSBaseVisitor<Parameter> parameterVisitor) {
+    @Inject
+    public PropertySettingVisitor(QLSVisitor<Parameter> parameterVisitor) {
         this.parameterVisitor = parameterVisitor;
     }
 

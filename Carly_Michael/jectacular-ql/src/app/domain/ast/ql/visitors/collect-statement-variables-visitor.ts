@@ -9,36 +9,37 @@ import {CollectExpressionVariablesVisitor} from './collect-expression-variables-
 
 export class CollectStatementVariablesVisitor implements StatementVisitor<void> {
   private variables: Variable[];
+
   private constructor() {
     this.variables = [];
   }
 
-  static evaluate(stmt: Statement): ReadonlyArray<Variable> {
+  static visit(statement: Statement): ReadonlyArray<Variable> {
     const visitor = new CollectStatementVariablesVisitor();
-    stmt.accept(visitor);
+    statement.accept(visitor);
     return visitor.variables;
   }
 
-  visitExpressionQuestion(stmt: ExpressionQuestion): void {
-    this.variables = this.variables.concat(CollectExpressionVariablesVisitor.evaluate(stmt.expression));
+  visitExpressionQuestion(statement: ExpressionQuestion): void {
+    this.variables = this.variables.concat(CollectExpressionVariablesVisitor.evaluate(statement.expression));
   }
 
-  visitForm(stmt: Form): void {
-    for (const statement of stmt.statements) {
+  visitForm(formStatement: Form): void {
+    for (const statement of formStatement.statements) {
       statement.accept(this);
     }
   }
 
-  visitIf(stmt: If): void {
-    for (const statement of stmt.statements) {
+  visitIf(ifStatement: If): void {
+    for (const statement of ifStatement.statements) {
       statement.accept(this);
     }
 
-    for (const statement of stmt.elseStatements) {
+    for (const statement of ifStatement.elseStatements) {
       statement.accept(this);
     }
 
-    this.variables = this.variables.concat(CollectExpressionVariablesVisitor.evaluate(stmt.condition));
+    this.variables = this.variables.concat(CollectExpressionVariablesVisitor.evaluate(ifStatement.condition));
   }
 
   visitQlQuestion(stmt: QlQuestion): void {

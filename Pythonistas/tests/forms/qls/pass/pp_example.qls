@@ -17,7 +17,7 @@ stylesheet taxOfficeExample
           widget spinbox
         question privateDebt
           widget spinbox
-        question valueResidue
+
         default money {
           width: 400
           font: "Arial"
@@ -27,5 +27,8 @@ stylesheet taxOfficeExample
         }
       }
     }
-    default boolean widget radio("Yes", "No")
+    default boolean {
+      widget radio("Yes", "No")
+      color: #199999
+    }
   }

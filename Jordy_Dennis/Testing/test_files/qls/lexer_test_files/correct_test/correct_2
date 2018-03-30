@@ -1,0 +1,11 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+  }
+  page Selling
+  {
+  }
+}
+---
+(stylesheet stylesheet taxOfficeExample { (page page Housing { }) (page page Selling { }) } <EOF>)

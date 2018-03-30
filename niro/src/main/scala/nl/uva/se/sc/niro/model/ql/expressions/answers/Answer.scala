@@ -1,9 +1,5 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import cats.implicits._
-import nl.uva.se.sc.niro.errors.Errors
-import nl.uva.se.sc.niro.model.ql.AnswerType
-import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
 
 abstract class Answer extends Expression {
@@ -13,10 +9,6 @@ abstract class Answer extends Expression {
   val value: T
 
   def isTrue: Boolean = false
-
-  def typeOf(symbolTable: SymbolTable): Either[Errors.TypeCheckError, AnswerType] = typeOf.asRight
-
-  def typeOf: AnswerType
 
   def plus(right: Answer): Answer = throw new UnsupportedOperationException(s"Operation not supported on $this")
   def subtract(right: Answer): Answer = throw new UnsupportedOperationException(s"Operation not supported on $this")
@@ -36,4 +28,5 @@ abstract class Answer extends Expression {
   def and(right: Answer): Answer = throw new UnsupportedOperationException(s"Operation not supported on $this")
   def or(right: Answer): Answer = throw new UnsupportedOperationException(s"Operation not supported on $this")
   def negate: Answer = throw new UnsupportedOperationException(s"Operation not supported on $this")
+
 }

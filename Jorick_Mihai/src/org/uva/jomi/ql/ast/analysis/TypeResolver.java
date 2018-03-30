@@ -14,7 +14,7 @@ public class TypeResolver implements Expression.Visitor<QLType>, Statement.Visit
 	public TypeResolver() {
 		this(false);
 	}
-	
+
 	public TypeResolver(boolean printErrors) {
 		this.errorHandler = new ErrorHandler(this.getClass().getSimpleName(), printErrors);
 	}
@@ -24,9 +24,9 @@ public class TypeResolver implements Expression.Visitor<QLType>, Statement.Visit
 		errorHandler.clearErrors();
 		statements.forEach( statement -> statement.accept(this));
 	}
-	
+
 	public List<String> getErrors() {
-		return errorHandler.getErrors();
+		return errorHandler.getReports();
 	}
 
 	public int getNumberOfErrors() {

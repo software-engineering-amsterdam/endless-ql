@@ -1,16 +1,22 @@
-from PyQt5 import QtWidgets
+"""
+This file contains classes that reflect questions as taken from a Questionnaire Language (QL) AST, and corresponding GUI
+elements. Instances of these classes are created in the visitor of this AST. If also a corresponding QLS AST is visited,
+these objects are assigned attributes as defined in the QLS text.
+"""
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 
 class Question:
-    def __init__(self, question_id, question, data_type, answer='undefined'):
+    def __init__(self, question_id, question_string, data_type, answer='undefined'):
         self.question_id = question_id
-        self.question = question
+        self.question_string = question_string
         self.data_type = data_type
         self.answer = answer
         self.default_answer = answer  # Used to reset
         self.hidden_answer = answer  # Saves if hidden
         self.visibility = True
         self.question_frame = None
+        self.attributes = {'color': None, 'font_size': None, 'font': None, 'widget': None}
 
     def get_data_type(self):
         return self.data_type
@@ -37,62 +43,68 @@ class Question:
             self.hidden_answer = self.answer
         self.answer = self.default_answer
 
-    # def set_answer(self, answer):
-    #     self.answer = answer
+    def create_label(self):
+        # Creates a label as specified by the question's attributes
+        question_label = QtWidgets.QLabel(self.question_string)
+        color = self.attributes['color']
+        font_size = self.attributes['font_size']
+        font = self.attributes['font']
+        question_label.setStyleSheet("color: {0}; font-size: {1}px; font-family: {2}".format(color, font_size, font))
+        return question_label
 
-    # def get_answer(self):
-    #     return self.answer
+    def set_attributes(self, attributes):
+        # Sets class attributes that have not been set before
+        if self.data_type in attributes.keys():
+            attributes = attributes[self.data_type]
+            for key in self.attributes.keys() & attributes.keys():
+                if not self.attributes[key]:
+                    self.attributes[key] = attributes[key]
 
 
 class BooleanQuestion(Question):
-    def __init__(self, question_id, question, data_type='boolean', answer='undefined'):
-        Question.__init__(self, question_id, question, data_type, answer)
-        self.button_group = QtWidgets.QButtonGroup()
-        self.true_button = None
-        self.false_button = None
-        self.button_group.setExclusive(True)
+    def __init__(self, question_id, question_string, data_type='boolean', answer='undefined'):
+        Question.__init__(self, question_id, question_string, data_type, answer)
+        self.buttons = []
         self.if_questions = []
-        self.question_layout = None
+        self.attributes['choices'] = None
 
-    def set_true_button(self, button):
-        # try:
-        #     self.button_group.removeButton(self.truebutton)
-        # except:
-        #     pass
-        self.true_button = button
-        self.button_group.addButton(self.true_button)
+    def set_radiobuttons(self, choices=('True', 'False')):
+        button_group = QtWidgets.QButtonGroup()
+        button_group.setExclusive(True)
 
-    def set_answer_true(self):
-        self.answer = True
-        self.true_button.toggle()
-        for question in self.if_questions:
-            question.if_true()
+        true_button = QtWidgets.QRadioButton(choices[0])
+        true_button.pressed.connect(self.set_answer_true)
+        true_button.pressed.connect(true_button.toggle)
+        self.buttons.append(true_button)
+        button_group.addButton(true_button)
 
-    def set_false_button(self, button):
-        # try:
-        #     self.button_group.removeButton(self.falsebutton)
-        # except:
-        #     pass
-        self.false_button = button
-        self.button_group.addButton(button)
+        false_button = QtWidgets.QRadioButton(choices[1])
+        false_button.pressed.connect(self.set_answer_false)
+        false_button.pressed.connect(false_button.toggle)
+        self.buttons.append(false_button)
+        button_group.addButton(false_button)
+
+    def set_checkbox(self):
+        check_box = QtWidgets.QCheckBox()
+        check_box.stateChanged.connect(self.state_changed)
+        self.buttons.append(check_box)
+
+    def state_changed(self, state):
+        print(state)
+        if state:
+            self.set_answer_true()
+        else:
+            self.set_answer_false()
 
     def set_answer_false(self):
         self.answer = False
-        self.false_button.toggle()
         for question in self.if_questions:
             question.if_false()
 
-    def create_frame(self):
-        """ Creates output frame """
-        self.question_frame = QtWidgets.QFrame()
-        self.question_layout = QtWidgets.QGridLayout()
-        self.question_frame.setLayout(self.question_layout)
-        self.question_frame.setVisible(self.visibility)
-
-        self.question_layout.addWidget(QtWidgets.QLabel(self.question), 0, 0)
-        self.question_layout.addWidget(self.true_button, 0, 1)
-        self.question_layout.addWidget(self.false_button, 0, 2)
-        return self.question_frame
+    def set_answer_true(self):
+        self.answer = True
+        for question in self.if_questions:
+            question.if_true()
 
     def add_if_question(self, question):
         self.if_questions.append(question)
@@ -130,16 +142,53 @@ class BooleanQuestion(Question):
         for question in self.if_questions:
             question.if_false()
 
+    def create_frame(self):
+        """ Creates output frame """
+        self.question_frame = QtWidgets.QFrame()
+        question_layout = QtWidgets.QGridLayout()
+        self.question_frame.setLayout(question_layout)
+        self.question_frame.setVisible(self.visibility)
+
+        question_layout.addWidget(self.create_label(), 0, 0)
+
+        if self.attributes['widget'] == 'radio':
+            if self.attributes['choices']:
+                self.set_radiobuttons(self.attributes['choices'])
+        elif self.attributes['widget'] == 'checkbox':
+            self.set_checkbox()
+        elif not self.attributes['widget']:
+            self.set_radiobuttons()
+        else:
+            return QtWidgets.QLabel("Error: undefined widget for boolean question type")
+
+        column = 1
+        for button in self.buttons:
+            question_layout.addWidget(button, 0, column)
+            column += 1
+
+        return self.question_frame
+
 
 class MoneyQuestion(Question):
-    def __init__(self, question_id, question, data_type='money', answer='undefined'):
-        Question.__init__(self, question_id, question, data_type, answer)
-        self.text_input_box = QtWidgets.QLineEdit()
-        self.text_input_box.textEdited.connect(self.update_answer)
-        self.question_layout = None
+    def __init__(self, question_id, question_string, data_type='money', answer='undefined'):
+        Question.__init__(self, question_id, question_string, data_type, answer)
+        self.text_input_box = None
+        self.attributes['width'] = None
 
-    def set_answer_box(self, text_box):
-        self.text_input_box = text_box
+    def set_line_edit(self):
+        self.text_input_box = QtWidgets.QLineEdit()
+        # Allows only numerical input
+        reg_ex = QtCore.QRegExp("[0-9]*")
+        input_validator = QtGui.QRegExpValidator(reg_ex, self.text_input_box)
+        self.text_input_box.setValidator(input_validator)
+
+        self.text_input_box.textEdited.connect(self.update_answer)
+
+    def set_spinbox(self):
+        self.text_input_box = QtWidgets.QDoubleSpinBox()
+        self.text_input_box.setMaximum(9 * 10**15)  # If set much higher, gives unexpected behaviour
+        self.text_input_box.setDecimals(0)
+        self.text_input_box.valueChanged.connect(self.update_answer)
 
     def update_answer(self):
         self.answer = self.text_input_box.text()
@@ -147,11 +196,23 @@ class MoneyQuestion(Question):
     def create_frame(self):
         """ Creates output frame """
         self.question_frame = QtWidgets.QFrame()
-        self.question_layout = QtWidgets.QGridLayout()
-        self.question_frame.setLayout(self.question_layout)
+        question_layout = QtWidgets.QGridLayout()
+        self.question_frame.setLayout(question_layout)
         self.question_frame.setVisible(self.visibility)
 
-        self.question_layout.addWidget(QtWidgets.QLabel(self.question), 0, 0)
-        self.question_layout.addWidget(self.text_input_box, 0, 1)
+        question_layout.addWidget(self.create_label(), 0, 0)
 
+        if self.attributes['widget'] == 'spinbox':
+            self.set_spinbox()
+        elif not self.attributes['widget']:
+            self.set_line_edit()
+        # elif self.attributes['widget'] == 'textbox':
+        #     self.set_line_edit()
+        else:
+            return QtWidgets.QLabel("Error: undefined widget for money question type")
+
+        if self.attributes['width']:
+            self.text_input_box.setFixedWidth(self.attributes['width'])
+
+        question_layout.addWidget(self.text_input_box, 0, 1)
         return self.question_frame

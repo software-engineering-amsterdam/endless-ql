@@ -4,11 +4,6 @@ public interface Value<T> {
 
     T getValue();
 
-    //TODO: should be removed from interface, code smell to include for all types
-    default boolean getBooleanValue() {
-        throw new UnsupportedOperationException(getValue().toString());
-    }
-
     default Value add(Value value) {
         throw new UnsupportedOperationException(getValue().toString());
     }
@@ -74,7 +69,7 @@ public interface Value<T> {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    default BooleanValue equal(Value value) {
+    default Value equal(Value value) {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
@@ -102,7 +97,7 @@ public interface Value<T> {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    default BooleanValue notEqual(Value value) {
+    default Value notEqual(Value value) {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
@@ -130,7 +125,7 @@ public interface Value<T> {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    default BooleanValue greaterThanEqual(Value value) {
+    default Value greaterThanEqual(Value value) {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
@@ -150,7 +145,7 @@ public interface Value<T> {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    default BooleanValue greaterThan(Value value) {
+    default Value greaterThan(Value value) {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
@@ -170,7 +165,7 @@ public interface Value<T> {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    default BooleanValue lessThanEqual(Value value) {
+    default Value lessThanEqual(Value value) {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
@@ -190,7 +185,7 @@ public interface Value<T> {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    default BooleanValue lessThan(Value value) {
+    default Value lessThan(Value value) {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
@@ -210,7 +205,7 @@ public interface Value<T> {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    default BooleanValue or(Value value) {
+    default Value or(Value value) {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
@@ -218,7 +213,7 @@ public interface Value<T> {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    default BooleanValue and(Value value) {
+    default Value and(Value value) {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
@@ -226,11 +221,11 @@ public interface Value<T> {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    default BooleanValue negation() {
+    default Value negation() {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    default NumericValue negative() {
+    default Value negative() {
         throw new UnsupportedOperationException(getValue().toString());
     }
 }

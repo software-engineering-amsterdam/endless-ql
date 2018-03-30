@@ -12,20 +12,17 @@ import java.util.Map;
 
 public abstract class BaseRenderable {
 
-    protected static final double TEXT_WIDTH = 100.0;
+    static final double TEXT_WIDTH = 100.0;
     private static final int LABEL_WIDTH = 350;
     private static final int LABEL_HEIGHT = 40;
 
-    private static final int MESSAGE_ROW = 600;
-    private static final int MESSAGE_COLUMN = 40;
-
     public abstract Node render(Map<String, VBox> containers);
 
-    protected Node drawComponent(String label, Node widget) {
-        return drawComponent(label, widget, "");
+    Node drawComponent(String label, Node widget) {
+        return this.drawComponent(label, widget, "");
     }
 
-    protected Node drawComponent(String label, Node widget, String extraLabel) {
+    private Node drawComponent(String label, Node widget, String extraLabel) {
         GridPane wrapper = new GridPane();
         wrapper.getColumnConstraints().add(new ColumnConstraints(BaseRenderable.LABEL_WIDTH));
         wrapper.getRowConstraints().add(new RowConstraints(BaseRenderable.LABEL_HEIGHT));
@@ -33,23 +30,10 @@ public abstract class BaseRenderable {
         return wrapper;
     }
 
-    private Label createLabel(String string) {
-        Label label = new Label(string.replace("\"", ""));
+    private Label createLabel(String labelName) {
+        Label label = new Label(labelName.replace("\"", ""));
         label.setWrapText(true);
         return label;
-    }
-
-    protected Node createTextRow(String message) {
-        GridPane wrapper = new GridPane();
-
-        wrapper.getColumnConstraints().add(new ColumnConstraints(BaseRenderable.MESSAGE_ROW));
-        wrapper.getRowConstraints().add(new RowConstraints(BaseRenderable.MESSAGE_COLUMN));
-
-        Label label = new Label(message);
-        label.setWrapText(true);
-        wrapper.add(label, 0, 0);
-
-        return wrapper;
     }
 
     public boolean updateValue(BooleanValue booleanValue) {

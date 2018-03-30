@@ -1,3 +1,4 @@
+// Form with questions of all supported types
 form label {
   "Question?"
     var1: boolean

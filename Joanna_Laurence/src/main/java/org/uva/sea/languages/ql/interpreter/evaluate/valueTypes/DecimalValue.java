@@ -34,7 +34,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value add(DecimalValue value) {
-        return new DecimalValue(this.decimalValue + value.getDecimalValue());
+        return new DecimalValue(this.decimalValue + value.decimalValue);
     }
 
     @Override
@@ -52,10 +52,10 @@ public class DecimalValue extends Value {
 
     @Override
     public Value divide(DecimalValue value) throws EvaluationException {
-        if (value.getDecimalValue() == 0)
+        if (value.decimalValue == 0)
             throw new EvaluationException("Divide by 0 displayError");
 
-        return new DecimalValue(this.decimalValue / value.getDecimalValue());
+        return new DecimalValue(this.decimalValue / value.decimalValue);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isEqual(DecimalValue value) {
-        return new BooleanValue(this.decimalValue == value.getDecimalValue());
+        return new BooleanValue(this.decimalValue == value.decimalValue);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isGreaterOrEqual(DecimalValue value) {
-        return new BooleanValue(this.decimalValue >= value.getDecimalValue());
+        return new BooleanValue(this.decimalValue >= value.decimalValue);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isGreaterThan(DecimalValue value) {
-        return new BooleanValue(this.decimalValue > value.getDecimalValue());
+        return new BooleanValue(this.decimalValue > value.decimalValue);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isLessOrEqual(DecimalValue value) {
-        return new BooleanValue(this.decimalValue <= value.getDecimalValue());
+        return new BooleanValue(this.decimalValue <= value.decimalValue);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isLessThan(DecimalValue value) {
-        return new BooleanValue(this.decimalValue < value.getDecimalValue());
+        return new BooleanValue(this.decimalValue < value.decimalValue);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value multiply(DecimalValue value) {
-        return new DecimalValue(this.decimalValue * value.getDecimalValue());
+        return new DecimalValue(this.decimalValue * value.decimalValue);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value isNotEqual(DecimalValue value) {
-        return new BooleanValue(this.decimalValue != value.getDecimalValue());
+        return new BooleanValue(this.decimalValue != value.decimalValue);
     }
 
     @Override
@@ -175,7 +175,7 @@ public class DecimalValue extends Value {
 
     @Override
     public Value subtract(DecimalValue value) {
-        return new DecimalValue(this.decimalValue - value.getDecimalValue());
+        return new DecimalValue(this.decimalValue - value.decimalValue);
     }
 
     @Override

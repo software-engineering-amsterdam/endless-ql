@@ -88,15 +88,21 @@ public class Value {
 
     @Override
     public boolean equals( Object obj ) {
-        if ( this == obj ) return true;
-        if ( obj == null ) return false;
-        if ( getClass() != obj.getClass() ) return false;
+        if ( this == obj )
+            return true;
+        if ( obj == null )
+            return false;
+        if ( getClass() != obj.getClass() )
+            return false;
         Value other = (Value) obj;
         if ( text == null ) {
-            if ( other.text != null ) return false;
+            if ( other.text != null )
+                return false;
         } else
-            if ( !text.equals( other.text ) ) return false;
-        if ( type != other.type ) return false;
+            if ( !text.equals( other.text ) )
+                return false;
+        if ( type != other.type )
+            return false;
         return true;
     }
 }

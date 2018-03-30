@@ -34,7 +34,7 @@ public class MoneyValue extends Value {
     }
 
     private void validateCurrency(MoneyValue value) throws EvaluationException {
-        if (!this.getCurrency().equals(value.getCurrency()))
+        if (!this.currency.equals(value.currency))
             throw new EvaluationException("Currencies mismatch");
     }
 
@@ -60,7 +60,7 @@ public class MoneyValue extends Value {
     public Value add(MoneyValue value) throws EvaluationException {
         this.validateCurrency(value);
 
-        return new MoneyValue(this.currency, this.amount.add(value.getAmount()));
+        return new MoneyValue(this.currency, this.amount.add(value.amount));
     }
 
     @Override
@@ -85,10 +85,10 @@ public class MoneyValue extends Value {
     public Value divide(MoneyValue value) throws EvaluationException {
         this.validateCurrency(value);
 
-        if (value.getAmount().doubleValue() == 0.0)
+        if (value.amount.doubleValue() == 0.0)
             throw new EvaluationException("Divide by 0 displayError");
 
-        return new DecimalValue(this.amount.divide(value.getAmount(), RoundingMode.UNNECESSARY).doubleValue());
+        return new DecimalValue(this.amount.divide(value.amount, RoundingMode.UNNECESSARY).doubleValue());
     }
 
     @Override
@@ -108,7 +108,7 @@ public class MoneyValue extends Value {
     public Value isEqual(MoneyValue value) throws EvaluationException {
         this.validateCurrency(value);
 
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) == 0);
+        return new BooleanValue(this.amount.compareTo(value.amount) == 0);
     }
 
 
@@ -121,7 +121,7 @@ public class MoneyValue extends Value {
     public Value isGreaterOrEqual(MoneyValue value) throws EvaluationException {
         this.validateCurrency(value);
 
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) >= 0);
+        return new BooleanValue(this.amount.compareTo(value.amount) >= 0);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class MoneyValue extends Value {
     public Value isGreaterThan(MoneyValue value) throws EvaluationException {
         this.validateCurrency(value);
 
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) > 0);
+        return new BooleanValue(this.amount.compareTo(value.amount) > 0);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class MoneyValue extends Value {
     public Value isLessOrEqual(MoneyValue value) throws EvaluationException {
         this.validateCurrency(value);
 
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) <= 0);
+        return new BooleanValue(this.amount.compareTo(value.amount) <= 0);
     }
 
     @Override
@@ -157,7 +157,7 @@ public class MoneyValue extends Value {
     public Value isLessThan(MoneyValue value) throws EvaluationException {
         this.validateCurrency(value);
 
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) < 0);
+        return new BooleanValue(this.amount.compareTo(value.amount) < 0);
     }
 
     @Override
@@ -174,7 +174,7 @@ public class MoneyValue extends Value {
     public Value multiply(MoneyValue value) throws EvaluationException {
         this.validateCurrency(value);
 
-        return new MoneyValue(this.currency, this.amount.multiply(value.getAmount()));
+        return new MoneyValue(this.currency, this.amount.multiply(value.amount));
     }
 
     @Override
@@ -191,7 +191,7 @@ public class MoneyValue extends Value {
     public Value isNotEqual(MoneyValue value) throws EvaluationException {
         this.validateCurrency(value);
 
-        return new BooleanValue(this.amount.compareTo(value.getAmount()) != 0);
+        return new BooleanValue(this.amount.compareTo(value.amount) != 0);
     }
 
     @Override
@@ -203,7 +203,7 @@ public class MoneyValue extends Value {
     public Value subtract(MoneyValue value) throws EvaluationException {
         this.validateCurrency(value);
 
-        return new MoneyValue(this.currency, this.amount.subtract(value.getAmount()));
+        return new MoneyValue(this.currency, this.amount.subtract(value.amount));
     }
 
     @Override

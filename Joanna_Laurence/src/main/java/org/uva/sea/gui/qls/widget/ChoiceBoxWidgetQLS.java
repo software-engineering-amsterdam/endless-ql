@@ -23,7 +23,7 @@ public class ChoiceBoxWidgetQLS extends WidgetQLS {
 
     @Override
     public Node convertToGuiNode() {
-        final ChoiceBox<Boolean> choiceBox = new ChoiceBox<>();
+        ChoiceBox<Boolean> choiceBox = new ChoiceBox<>();
         choiceBox.setValue((this.widgetValue != null) && this.widgetValue.getBooleanValue());
 
         ObservableList<Boolean> booleanList = FXCollections.observableArrayList(true, false);

@@ -1,8 +1,8 @@
 package QL.QLVisitor;
 
-import QL.ParseObjectsQL.Expressions.Expression;
-import QL.ParseObjectsQL.Expressions.ExpressionConstants.BooleanConstant;
-import QL.ParseObjectsQL.Question;
+import QL.AST.Expressions.Expression;
+import QL.AST.Expressions.ExpressionConstants.BooleanConstant;
+import QL.AST.Question;
 import QL.QLAntlrGen.QLBaseVisitor;
 import QL.QLAntlrGen.QLParser;
 
@@ -14,7 +14,7 @@ public class BlockVisitor extends QLBaseVisitor<ArrayList<Question>> {
 
     public BlockVisitor(ExpressionTable exprTable){
         setExpressionTable(exprTable);
-        setCondition(new BooleanConstant(true));
+        setCondition(new BooleanConstant(true, 0));
     }
 
     public BlockVisitor(ExpressionTable exprTable, Expression condition){

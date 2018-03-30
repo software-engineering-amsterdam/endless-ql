@@ -1,11 +1,9 @@
 import * as React from 'react';
-import DropdownAttribute from "../../../form/nodes/attributes/widget_attribtues/DropdownAttribute";
+import DropdownAttribute from "../../../form/nodes/attributes/widget_attribtues/DropdownWidgetAttribute";
 import FormGroup from "reactstrap/lib/FormGroup";
 import Label from "reactstrap/lib/Label";
 import Input from "reactstrap/lib/Input";
-import { render } from "react-dom";
 import FieldNode from "../../../../../form/nodes/fields/FieldNode";
-import RadioAttribute from "../../../form/nodes/attributes/widget_attribtues/RadioAttribute";
 
 export interface DropdownWidgetComponentProps {
   widget: DropdownAttribute;

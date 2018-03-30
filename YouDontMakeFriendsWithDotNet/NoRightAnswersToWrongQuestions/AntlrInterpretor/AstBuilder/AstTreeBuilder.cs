@@ -8,6 +8,7 @@ using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace AntlrInterpretor.AstBuilder
 {
+    //ToDo: Rename AstTree Builder, Tree is redundant
     internal class AstTreeBuilder : IAstTreeBuilder
     {
         private readonly IAstFactory m_astFactory;
@@ -21,12 +22,12 @@ namespace AntlrInterpretor.AstBuilder
             m_domainItemLocator = domainItemLocator;
         }
         
-        public Reference<IQuestionnaireRootNode> BuildForm(string definition)
+        public DomainId<IQuestionnaireRootNode> BuildForm(string definition)
         {
             return BuildAstTree<IQuestionnaireRootNode>(definition);
         }
         
-        private Reference<T> BuildAstTree<T>(string definition) where T : IAstNode
+        private DomainId<T> BuildAstTree<T>(string definition) where T : IAstNode
         {
             var stream = new AntlrInputStream(definition);
             var lexer = new QlLexer(stream);

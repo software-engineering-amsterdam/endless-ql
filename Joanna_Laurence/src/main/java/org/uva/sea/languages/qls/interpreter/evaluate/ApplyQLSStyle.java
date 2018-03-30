@@ -1,11 +1,11 @@
 package org.uva.sea.languages.qls.interpreter.evaluate;
 
 import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QLWidget;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.parser.NodeType;
 import org.uva.sea.languages.qls.interpreter.evaluate.EvaluateDefaultStyle.Fetcher;
+import org.uva.sea.languages.qls.interpreter.widget.QLSWidget;
+import org.uva.sea.languages.qls.interpreter.widget.Style;
 import org.uva.sea.languages.qls.parser.elements.Page;
 import org.uva.sea.languages.qls.parser.elements.Stylesheet;
 import org.uva.sea.languages.qls.parser.elements.specification.Question;
@@ -22,36 +22,24 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
     private final Stack<Section> currentSections = new Stack<>();
     private EvaluationResult qlInputResult = null;
     private EvaluationResult outputResult = null;
-    //Current state for visitor Visitor
+
+    //Current state for helper Visitor
     private Page currentPage = null;
 
 
-    /**
-     * Hide constructor
-     */
     private ApplyQLSStyle() {
 
     }
 
-    /**
-     * Generate a new EvaluationResult with style
-     *
-     * @param interpreterResult QL interpreterResult
-     * @param stylesheet        QLS AST
-     */
-    public EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) {
+    private EvaluationResult applyStyle(EvaluationResult interpreterResult, Stylesheet stylesheet) {
         this.qlInputResult = interpreterResult;
         this.outputResult = new EvaluationResult(new ArrayList<>(), interpreterResult.getMessages(), interpreterResult.getAst());
-        //The visitor will fill the outputResult
+        //The helper will fill the outputResult
         stylesheet.accept(this);
         return this.outputResult;
     }
 
-    /**
-     * @param questionName Name for the question that has to be looked-up
-     * @return The Question Data
-     */
-    private QuestionData getOriginalQuestionData(String questionName) {
+    private QuestionData getQLQuestionData(String questionName) {
         for (QuestionData questionData : this.qlInputResult.getQuestions()) {
             if (questionData.getQuestionName().equals(questionName)) {
                 return questionData;
@@ -77,8 +65,7 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
 
     @Override
     public Void visit(Question node) {
-
-        QuestionData questionData = this.getOriginalQuestionData(node.getName());
+        QuestionData questionData = this.getQLQuestionData(node.getName());
 
         if (questionData != null) {
             if (node.getWidget() != null) {
@@ -92,30 +79,19 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         return null;
     }
 
-    /**
-     * Get default style for a question
-     *
-     * @param question Question node
-     * @return Style for the widget
-     */
     private Style getQuestionStyle(Question question, NodeType nodeType) {
         Style style = new Style();
         style.setPage(this.currentPage.getName());
         style.setSection(this.getCurrentSection());
 
         if (question.getWidget() != null)
-            style.setWidget(new QLWidget(question.getWidget().getWidgetType(), question.getWidget().getStringParameters()));
+            style.setWidget(new QLSWidget(question.getWidget().getWidgetType(), question.getWidget().getParametersAsStrings()));
 
-        style.fillNullFields(this.defaultStyleEvaluator.getCascadingStyle(nodeType, this.currentSections, this.currentPage));
+        Style styleFromStylesheet = this.defaultStyleEvaluator.getCascadingStyle(nodeType, this.currentSections, this.currentPage);
+        style.fillNullFields(styleFromStylesheet);
         return style;
     }
 
-
-    /**
-     * Get list of the current point of sections
-     *
-     * @return List of section
-     */
     private List<String> getCurrentSection() {
         List<String> sections = new ArrayList<>();
         for (Section section : this.currentSections)
@@ -123,9 +99,6 @@ public class ApplyQLSStyle extends BaseStyleASTVisitor<Void> {
         return sections;
     }
 
-    /**
-     * Hide the visitor, make only doCheck visible
-     */
     public static class Linker {
         public EvaluationResult apply(EvaluationResult interpreterResult, Stylesheet stylesheet) {
             ApplyQLSStyle interpreter = new ApplyQLSStyle();

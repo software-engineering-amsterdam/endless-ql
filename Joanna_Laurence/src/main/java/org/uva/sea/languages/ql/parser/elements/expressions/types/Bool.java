@@ -18,6 +18,7 @@ public class Bool extends Expression {
         return this.value;
     }
 
+    @Override
     public Type getType() {
         return new Type(NodeType.BOOLEAN);
     }

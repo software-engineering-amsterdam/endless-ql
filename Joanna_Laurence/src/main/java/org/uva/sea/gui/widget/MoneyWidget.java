@@ -1,10 +1,11 @@
 package org.uva.sea.gui.widget;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Font;
+import javafx.scene.layout.HBox;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.languages.ql.interpreter.dataObject.questionData.Style;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.MoneyValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.StringValue;
 
@@ -29,7 +30,6 @@ public class MoneyWidget extends Widget {
     public Node convertToGuiNode() {
 
         TextField textField = new TextField();
-        this.setStyle(textField, this.questionData.getStyle());
         textField.setText(this.widgetValue.getStringValue());
         textField.setEditable(true);
         textField.setMinWidth(BaseRenderable.TEXT_WIDTH);
@@ -38,24 +38,19 @@ public class MoneyWidget extends Widget {
             textField.setEditable(false);
         }
 
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            this.sendUpdateValueEvent(this.questionData.getQuestionName(), new MoneyValue(this.currency, new BigDecimal(newValue)));
-        });
+        textField.textProperty().addListener((observable, oldValue, newValue) ->
+                this.sendUpdateValueEvent(this.questionData.getQuestionName(), new MoneyValue(this.currency, new BigDecimal(newValue))));
 
         textField.positionCaret(textField.getText().length());
-        return textField;
+
+        return wrapTextFieldWithCurrency(textField, this.currency);
     }
 
-    //TODO: set color from styleQLS
-    private void setStyle(TextField textField, Style style) {
-        if (style == null)
-            return;
-
-        if (style.getWidth() != null) {
-            textField.setMinWidth(style.getWidth());
-        }
-        if ((style.getFont() != null) && (style.getFontSize() != null)) {
-            textField.setFont(new Font(style.getFont(), style.getFontSize()));
-        }
+    private Node wrapTextFieldWithCurrency(TextField textField, String currency) {
+        HBox wrapper = new HBox();
+        wrapper.setAlignment(Pos.CENTER);
+        wrapper.getChildren().add(new Label(currency));
+        wrapper.getChildren().add(textField);
+        return wrapper;
     }
 }

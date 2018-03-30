@@ -7,14 +7,8 @@ import org.uva.sea.languages.qls.parser.visitor.BaseStyleASTVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionAnalysis {
-    /**
-     * Get all QLS question names
-     *
-     * @param stylesheet AST node
-     * @return The names
-     */
-    protected List<String> getQlSQuestionNames(Stylesheet stylesheet) {
+class QuestionAnalysis {
+    List<String> getQlSQuestionNames(Stylesheet stylesheet) {
         List<String> questionNames = new ArrayList<>();
         stylesheet.accept(new BaseStyleASTVisitor<Void>() {
             @Override

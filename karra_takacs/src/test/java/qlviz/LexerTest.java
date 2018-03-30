@@ -58,7 +58,7 @@ public class LexerTest {
 				QLLexer.T__0,
 				QLLexer.PAREN_OPEN,
 				QLLexer.IDENTIFIER,
-				QLLexer.BINARY_NUMERIC_OPERATOR,
+				QLLexer.ADDITIVE_OPERATION,
 				QLLexer.IDENTIFIER,
 				QLLexer.PAREN_CLOSE,
 				QLLexer.BRACKET_CLOSE));

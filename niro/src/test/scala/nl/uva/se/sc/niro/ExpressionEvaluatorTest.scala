@@ -2,10 +2,10 @@ package nl.uva.se.sc.niro
 
 import java.time.LocalDate
 
-import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql._
-import nl.uva.se.sc.niro.model.ql.expressions.answers._
+import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql.expressions._
+import nl.uva.se.sc.niro.model.ql.expressions.answers._
 import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.{ Matchers, WordSpec }
 
@@ -14,7 +14,6 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
   "The Expression evaluator" can {
     "do basic arithmetic operations" should {
       "on integers" in {
-        // TODO deal with div by zero error
         val table = Table(
           ("Expression", "Expected Answer"),
           (Addition(IntegerAnswer(5), IntegerAnswer(3)), IntegerAnswer(8)),
@@ -29,7 +28,6 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
       }
 
       "on decimals" in {
-        // TODO deal with div by zero error
         val table = Table(
           ("Expression", "Expected Answer"),
           (Addition(DecimalAnswer(5), DecimalAnswer(3)), DecimalAnswer(8)),
@@ -48,7 +46,7 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
           ("Expression", "Expected Answer"),
           (Addition(MoneyAnswer(5), MoneyAnswer(3)), MoneyAnswer(8)),
           (Subtract(MoneyAnswer(5), MoneyAnswer(3)), MoneyAnswer(2)),
-          (Divide(MoneyAnswer(10), MoneyAnswer(5)), DecimalAnswer(2))
+          (Divide(MoneyAnswer(10), MoneyAnswer(5)), MoneyAnswer(2))
         )
 
         forAll(table) { (expression, expectedAnswer) =>
@@ -56,12 +54,13 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
         }
       }
 
-      // TODO implement type widening for left hand side of the expression
       "on different types" in {
         val table = Table(
           ("Expression", "Expected Answer"),
           (Multiply(MoneyAnswer(5), IntegerAnswer(3)), MoneyAnswer(15)),
           (Multiply(MoneyAnswer(5), DecimalAnswer(3)), MoneyAnswer(15)),
+          (Multiply(IntegerAnswer(3), MoneyAnswer(5)), MoneyAnswer(15)),
+          (Multiply(DecimalAnswer(3), MoneyAnswer(5)), MoneyAnswer(15)),
           (Divide(MoneyAnswer(10), IntegerAnswer(5)), MoneyAnswer(2)),
           (Divide(MoneyAnswer(10), DecimalAnswer(5)), MoneyAnswer(2)),
           (Addition(IntegerAnswer(10), DecimalAnswer(5)), DecimalAnswer(15)),
@@ -76,6 +75,19 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         forAll(table) { (expression, expectedAnswer) =>
           expression.evaluate(Map.empty, Map.empty) should be(Some(expectedAnswer))
+        }
+      }
+
+      "gracefully handle divide by zero errors" in {
+        val table = Table(
+          ("Expression", "Expected Answer"),
+          (Divide(IntegerAnswer(5), IntegerAnswer(0)), None),
+          (Divide(DecimalAnswer(5), DecimalAnswer(0)), None),
+          (Divide(MoneyAnswer(5), MoneyAnswer(0)), None)
+        )
+
+        forAll(table) { (expression, expectedAnswer) =>
+          expression.evaluate(Map.empty, Map.empty) should be(expectedAnswer)
         }
       }
     }
@@ -259,10 +271,10 @@ class ExpressionEvaluatorTest extends WordSpec with Matchers with TableDrivenPro
 
         assertThrows[UnsupportedOperationException](expression.evaluate(Map.empty, Map.empty))
       }
-      "throw an error when evaluating mixed answertypes" in {
+      "throw an error when evaluating incompatible answertypes" in {
         val expression = Equal(BooleanAnswer(true), IntegerAnswer(5))
 
-        assertThrows[IllegalArgumentException](expression.evaluate(Map.empty, Map.empty))
+        assertThrows[MatchError](expression.evaluate(Map.empty, Map.empty))
       }
     }
   }

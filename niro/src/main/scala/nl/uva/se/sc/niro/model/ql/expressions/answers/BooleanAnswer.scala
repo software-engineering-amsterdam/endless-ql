@@ -1,14 +1,11 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.evaluation.Logicals.BooleanAnswerCanDoLogicals._
 import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.BooleanAnswerCanDoOrderings._
 
 final case class BooleanAnswer(value: Boolean) extends Answer {
 
   type T = Boolean
-
-  def typeOf: AnswerType = BooleanType
 
   override def isTrue: Boolean = value
 

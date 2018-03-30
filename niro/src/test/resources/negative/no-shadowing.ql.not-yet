@@ -1,0 +1,6 @@
+form NoShadowing {
+    "How many cats do you have?" numberOfCats: integer
+    if (true) {
+        "How many cats do you have?" numberOfCats: integer
+    }
+}

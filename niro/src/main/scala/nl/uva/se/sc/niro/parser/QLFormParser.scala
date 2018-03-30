@@ -2,7 +2,6 @@ package nl.uva.se.sc.niro.parser
 
 import _root_.ql.{ QLBaseVisitor, QLLexer, QLParser }
 import nl.uva.se.sc.niro.errors.Errors._
-import nl.uva.se.sc.niro.model.ql.Operators.{ Neg, Operator }
 import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
@@ -35,7 +34,7 @@ object QLFormParser extends Logging {
     }
 
     override def visitForm(ctx: QLParser.FormContext): QLForm = {
-      val formName = ctx.Identifier().getText
+      val formName = ctx.IDENTIFIER().getText
       val statements: Seq[Statement] =
         JavaConverters.asScalaBuffer(ctx.statement).toList.flatMap(StatementVisitor.visit)
 
@@ -56,7 +55,7 @@ object QLFormParser extends Logging {
     }
 
     override def visitQuestion(ctx: QLParser.QuestionContext): Seq[Statement] = {
-      val questionId = ctx.Identifier().getText
+      val questionId = ctx.IDENTIFIER().getText
       val questionLabel = ctx.label.getText
       val definedAnswerType = ctx.answerType().getText
       val answerType = AnswerType(definedAnswerType)
@@ -66,7 +65,7 @@ object QLFormParser extends Logging {
       Seq(Question(questionId, questionLabel, answerType, expression))
     }
 
-    def answerTypeConversion(expression: Expression, answerType: AnswerType) = {
+    private def answerTypeConversion(expression: Expression, answerType: AnswerType): Expression = {
       (expression, answerType) match {
         case (IntegerAnswer(value), MoneyType) => MoneyAnswer(BigDecimal(value))
         case (DecimalAnswer(value), MoneyType) => MoneyAnswer(value)
@@ -76,7 +75,7 @@ object QLFormParser extends Logging {
 
     override def visitConditional(ctx: QLParser.ConditionalContext): Seq[Statement] = {
       val predicate: Expression = ExpressionVisitor.visit(ctx.condition)
-      val negatedPredicate: Expression = UnaryOperation(Neg, predicate)
+      val negatedPredicate: Expression = Negate(predicate)
 
       val thenStatements: Seq[Statement] =
         JavaConverters.asScalaBuffer(ctx.thenBlock).toList.flatMap(StatementVisitor.visit)
@@ -101,43 +100,43 @@ object QLFormParser extends Logging {
       visit(ctx.expression())
     }
     override def visitUnaryExpression(ctx: QLParser.UnaryExpressionContext): Expression = {
-      UnaryOperation(Operator(ctx.operator.getText), visit(ctx.expression))
+      Expression(ctx.operator.getText, visit(ctx.expression))
     }
     override def visitMultiplicativeExpression(ctx: QLParser.MultiplicativeExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitAdditiveExpression(ctx: QLParser.AdditiveExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitRelationalExpression(ctx: QLParser.RelationalExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitEqualityExpression(ctx: QLParser.EqualityExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitLogicalAndExpression(ctx: QLParser.LogicalAndExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitLogicalOrExpression(ctx: QLParser.LogicalOrExpressionContext): Expression = {
-      BinaryOperation(Operator(ctx.operator.getText), visit(ctx.left), visit(ctx.right))
+      Expression(ctx.operator.getText, visit(ctx.left), visit(ctx.right))
     }
     override def visitIntegerConstant(ctx: QLParser.IntegerConstantContext): Expression = {
-      IntegerAnswer(ctx.IntegerValue().getText.toInt)
+      IntegerAnswer(ctx.INTEGER_VALUE().getText.toInt)
     }
     override def visitDecimalConstant(ctx: QLParser.DecimalConstantContext): Expression = {
-      DecimalAnswer(BigDecimal(ctx.DecimalValue().getText))
+      DecimalAnswer(BigDecimal(ctx.DECIMAL_VALUE().getText))
     }
     override def visitBooleanConstant(ctx: QLParser.BooleanConstantContext): Expression = {
       BooleanAnswer(ctx.getText.toBoolean)
     }
     override def visitDateConstant(ctx: QLParser.DateConstantContext): Expression = {
-      DateAnswer(ctx.DateValue().getText)
+      DateAnswer(ctx.DATE_VALUE().getText)
     }
     override def visitStringConstant(ctx: QLParser.StringConstantContext): Expression = {
-      StringAnswer(ctx.Text().getText)
+      StringAnswer(ctx.TEXT().getText)
     }
     override def visitVariableName(ctx: QLParser.VariableNameContext): Expression = {
-      Reference(ctx.Identifier().getText)
+      Reference(ctx.IDENTIFIER().getText)
     }
   }
 

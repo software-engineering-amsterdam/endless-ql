@@ -1,16 +1,16 @@
 package qlviz.model.question;
 
 import qlviz.QLParser;
-import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.model.expressions.Expression;
 
 public class BooleanQuestion extends Question {
 
-    protected final BooleanExpression valueExpression;
-    public BooleanExpression getValueExpression() {
+    protected final Expression valueExpression;
+    public Expression getValueExpression() {
         return this.valueExpression;
     }
 
-    public BooleanQuestion(String name, String text, QuestionType type, BooleanExpression valueExpression, QLParser.QuestionContext questionContext) {
+    public BooleanQuestion(String name, String text, QuestionType type, Expression valueExpression, QLParser.QuestionContext questionContext) {
         super(name, text, type, questionContext);
         this.valueExpression = valueExpression;
     }

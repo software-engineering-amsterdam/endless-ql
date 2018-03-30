@@ -5,7 +5,6 @@ import javafx.scene.control.Slider;
 import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.DecimalValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
-import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.UndefinedValue;
 import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
@@ -18,7 +17,7 @@ public class SliderWidgetQLS extends WidgetQLS {
 
     private Value widgetValue = new DecimalValue(0);
 
-    private Value incrementStep = new DecimalValue(DECIMAL_STEP_SIZE);
+    private Value incrementStep = new DecimalValue(SliderWidgetQLS.DECIMAL_STEP_SIZE);
 
     public SliderWidgetQLS(QuestionData questionData) {
         super(questionData);
@@ -27,20 +26,20 @@ public class SliderWidgetQLS extends WidgetQLS {
     @Override
     public boolean updateValue(DecimalValue decimalValue) {
         this.widgetValue = decimalValue;
-        this.incrementStep = new DecimalValue(DECIMAL_STEP_SIZE);
+        this.incrementStep = new DecimalValue(SliderWidgetQLS.DECIMAL_STEP_SIZE);
         return true;
     }
 
     @Override
     public boolean updateValue(IntValue intValue) {
         this.widgetValue = intValue;
-        this.incrementStep = new IntValue(INTEGER_STEP_SIZE);
+        this.incrementStep = new IntValue(SliderWidgetQLS.INTEGER_STEP_SIZE);
         return true;
     }
 
     @Override
     public Node convertToGuiNode() {
-        final Slider slider = new Slider();
+        Slider slider = new Slider();
         slider.setMin(0);
         slider.setValueChanging(true);
         slider.setMinorTickCount(1);

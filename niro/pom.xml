@@ -2,12 +2,25 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.uva.se.master.sc.niro</groupId>
-	<artifactId>ql-form-creator</artifactId>
+	<artifactId>ql-forms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>QL Form creator</name>
 	<description>QL assignment for Software Construction</description>
 
+    <profiles>
+        <profile>
+            <id>ql</id>
+            <properties>
+                <application.name>ql-forms</application.name>
+                <application.main.class>nl.uva.se.sc.niro.gui.application.QLForms</application.main.class>
+            </properties>
+        </profile>
+    </profiles>
+
 	<properties>
+        <application.name>qls-forms</application.name>
+        <application.main.class>nl.uva.se.sc.niro.gui.application.QLSForms</application.main.class>
+
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -215,7 +228,8 @@
 				<version>${javafx.maven.plugin.version}</version>
 				<configuration>
                     <vendor>Andela-Tromp</vendor>
-					<mainClass>nl.uva.se.sc.niro.gui.application.QLForms</mainClass>
+                    <jfxMainAppJarName>${application.name}.jar</jfxMainAppJarName>
+					<mainClass>${application.main.class}</mainClass>
 				</configuration>
 			</plugin>
 

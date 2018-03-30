@@ -28,4 +28,9 @@ public class CheckboxType extends WidgetType {
     public <T, Q, V, B> T accept(WidgetTypeVisitor<T, Q, V, B> visitor, Q question, V value, B readOnly) {
         return visitor.visit(this, question, value, readOnly);
     }
+
+    @Override
+    public String toString() {
+        return "CheckboxType";
+    }
 }

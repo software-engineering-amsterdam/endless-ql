@@ -1,5 +1,6 @@
 package qlviz.gui.renderer.javafx;
 
+import com.google.inject.Inject;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -22,13 +23,15 @@ public class StyledJavafxFormRenderer extends JavafxFormRenderer {
 
     private final Stylesheet stylesheet;
     private final QuestionLocator questionLocator;
-    private final Function<Pane, StyledSectionRenderer> sectionRendererFactory;
+    private final SectionRendererFactory sectionRendererFactory;
 
+    @Inject
     public StyledJavafxFormRenderer(
             Stage stage,
-            Function<Pane, QuestionRenderer> questionRendererFactory,
+            QuestionRendererFactory questionRendererFactory,
             Stylesheet stylesheet,
-            QuestionLocator questionLocator, Function<Pane, StyledSectionRenderer> sectionRenderedFactory) {
+            QuestionLocator questionLocator,
+            SectionRendererFactory sectionRenderedFactory) {
         super(stage, questionRendererFactory);
         this.stylesheet = stylesheet;
         this.questionLocator = questionLocator;
@@ -50,7 +53,7 @@ public class StyledJavafxFormRenderer extends JavafxFormRenderer {
                             this.questionLocator.getSection(questionViewModel).map(s -> s.equals(section)).orElse(false))
                         .collect(Collectors.toList());
 
-            StyledSectionRenderer sectionRenderer = this.sectionRendererFactory.apply(container);
+            StyledSectionRenderer sectionRenderer = this.sectionRendererFactory.create(container);
             sectionRenderer.render(questionsInSection, section);
 
             tabContent.getChildren().add(container);

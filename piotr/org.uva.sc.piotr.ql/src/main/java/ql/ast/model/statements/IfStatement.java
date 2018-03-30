@@ -8,8 +8,8 @@ import java.util.List;
 public class IfStatement extends Statement {
 
     private final Expression condition;
-    private List<Statement> statementList;
-    private List<Statement> elseStatementList;
+    private final List<Statement> statementList;
+    private final List<Statement> elseStatementList;
 
     public IfStatement(Expression condition, List<Statement> statementList, List<Statement> elseStatementList, MetaInformation metaInformation) {
         super(metaInformation);

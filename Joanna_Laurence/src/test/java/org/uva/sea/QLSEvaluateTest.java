@@ -37,17 +37,13 @@ public class QLSEvaluateTest extends TestCase {
         return testFiles;
     }
 
-    /**
-     * @param folderLocation Location of the ql files
-     * @param shouldCompile  Should the file be interpretable?
-     * @return Map of test files and if they should be interpretable
-     */
+
     private static Collection<Object[]> getTestFiles(String folderLocation, Boolean shouldCompile) {
         Collection<Object[]> testFiles = new ArrayList<>();
 
         Collection<String> locations = QLSEvaluateTest.testFileHelper.getTestFiles(folderLocation);
         for (String location : locations) {
-            if(!location.endsWith(".qls"))
+            if (!location.endsWith(".qls"))
                 continue;
 
             testFiles.add(new Object[]{location, shouldCompile});
@@ -56,16 +52,10 @@ public class QLSEvaluateTest extends TestCase {
         return testFiles;
     }
 
-    /**
-     * Compiles the file and checks result
-     *
-     * @param fileName The location of the ql file
-     * @return If the script is interpretable
-     */
     private boolean doesInterpreter(String fileName) {
         try {
-            QlSEvaluator qlsEvaluator = new QlSEvaluator(fileName.replace(".qls",".ql"), fileName);
-            EvaluationResult evaluationResult = qlsEvaluator.getQuestions();
+            QlSEvaluator qlsEvaluator = new QlSEvaluator(fileName.replace(".qls", ".ql"), fileName);
+            EvaluationResult evaluationResult = qlsEvaluator.evaluate();
             Messages evaluationMessages = evaluationResult.getMessages();
             return !evaluationMessages.hasMessagePresent(MessageTypes.ERROR);
         } catch (InterruptedException | IOException ignored) {

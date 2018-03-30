@@ -21,7 +21,7 @@ public class MainGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent window = FXMLLoader.load(this.getClass().getResource(GUI_FORM_FXML));
+            Parent window = FXMLLoader.load(this.getClass().getResource(MainGUI.GUI_FORM_FXML));
             Scene scene = new Scene(window, MainGUI.WIDTH, MainGUI.HEIGHT);
             primaryStage.setTitle("Form");
             primaryStage.setScene(scene);

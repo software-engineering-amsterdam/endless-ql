@@ -1,11 +1,12 @@
+# Lars Lokhoff, Timo Dobber
+# This class holds all functions related to the QLS typechecker.
+
 from QLSast import *
 import sys
 
 class QLSTypeChecker(object):
-	
+    
     def __init__(self):
-    	# self.ql_ast = ql_ast
-    	# self.qls_ast = qls_ast
         self.ql_variables = {}
         self.qls_variables = {}
 
@@ -34,9 +35,9 @@ class QLSTypeChecker(object):
 
     # Checks whether the types of the questions are compatible with the assigned widgets.
     def checkWidgetQuestionCompatibility(self, ql_variables, qls_variables):
-    	for key, value in ql_variables.iteritems():
+        for key, value in ql_variables.iteritems():
             if qls_variables[key] != None:
-                if value == "boolean" and (qls_variables[key].widget == 'radio("Yes", "No")' or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == 'dropdown("Yes", "No")'):
+                if value == "boolean" and (qls_variables[key].widget == "radio" or qls_variables[key].widget == "checkbox" or qls_variables[key].widget == "dropdown"):
                     pass
 
                 elif value == "int" and (qls_variables[key].widget == "slider" or qls_variables[key].widget == "spinbox" or qls_variables[key].widget == "text"):
@@ -48,7 +49,7 @@ class QLSTypeChecker(object):
 
     # Check if every question is only placed once in the qls ast.
     def checkQuestionUniqueness(self, variable_name):
-    	if variable_name in self.qls_variables:
+        if variable_name in self.qls_variables:
             exitProgram("Question {} is getting placed twice by QLS.".format(variable_name))
 
 

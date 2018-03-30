@@ -8,19 +8,12 @@ public abstract class ASTNode {
 
     private Token token = null;
 
-    public ASTNode() {
+    protected ASTNode() {
     }
 
-    public ASTNode(Token token) {
+    protected ASTNode(Token token) {
         this.token = token;
     }
-
-    /**
-     * Get the node type
-     *
-     * @return The type
-     */
-    public abstract Type getType();
 
     public int getLine() {
         return this.token.getLine();
@@ -31,4 +24,6 @@ public abstract class ASTNode {
     }
 
     public abstract <T> T accept(IASTVisitor<T> visitor);
+
+    public abstract Type getType();
 }

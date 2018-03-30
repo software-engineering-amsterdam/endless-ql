@@ -21,16 +21,14 @@ public class RadioButtonWidgetQLS extends WidgetQLS {
 
     @Override
     public Node convertToGuiNode() {
-        final RadioButton radioButton = new RadioButton();
+        RadioButton radioButton = new RadioButton();
 
         if (this.widgetValue != null) {
             radioButton.selectedProperty().setValue(this.widgetValue.getBooleanValue());
         }
 
         radioButton.selectedProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newValue));
-                });
+                (observable, oldValue, newValue) -> this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newValue)));
 
         this.setStyle(radioButton);
         return radioButton;

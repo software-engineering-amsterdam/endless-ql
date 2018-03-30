@@ -29,6 +29,7 @@ LINE_COMMENT=28
 COMMENT=29
 WS=30
 IDENTIFIER=31
+ErrorChar=32
 'form'=1
 '{'=2
 '}'=3

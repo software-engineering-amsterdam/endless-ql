@@ -1,14 +1,11 @@
 package nl.uva.se.sc.niro.model.ql.expressions.answers
 
-import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.evaluation.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.IntAnswerCanDoOrderings._
 
-final case class IntegerAnswer(value: Int) extends Answer {
+final case class IntegerAnswer(value: BigInt) extends Answer {
 
-  type T = Int
-
-  def typeOf: AnswerType = IntegerType
+  type T = BigInt
 
   override def plus(right: Answer): Answer = this + right
   override def subtract(right: Answer): Answer = this - right
@@ -21,8 +18,4 @@ final case class IntegerAnswer(value: Int) extends Answer {
   override def greaterThen(right: Answer): Answer = this > right
   override def notEquals(right: Answer): Answer = this !== right
   override def equals(right: Answer): Answer = this === right
-}
-
-object IntegerAnswer {
-  def apply(value: java.lang.Integer) = new IntegerAnswer(value.toInt)
 }

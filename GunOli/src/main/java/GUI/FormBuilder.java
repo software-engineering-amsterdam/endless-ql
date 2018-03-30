@@ -1,12 +1,16 @@
 package GUI;
 
-import QL.ParseObjectsQL.Expressions.EvaluationType;
-import QL.ParseObjectsQL.Expressions.Expression;
-import QL.ParseObjectsQL.Expressions.ExpressionConstants.*;
-import QL.ParseObjectsQL.Question;
+import QL.AST.Expressions.Constant;
+import QL.Analysis.EvaluationType;
+import QL.AST.Expressions.Expression;
+import QL.AST.Expressions.ExpressionConstants.*;
+import QL.AST.Question;
+import QL.Evaluation.EvaluationVisitor;
+import QL.Evaluation.Value;
+import QL.Evaluation.Values.BooleanValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import QL.ParseObjectsQL.Form;
+import QL.AST.Form;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -23,10 +27,12 @@ import java.util.regex.Pattern;
 public class FormBuilder {
     private Form form;
     private Stage stage;
+    private EvaluationVisitor evaluationVisitor;
 
     public FormBuilder(Form form, Stage stage){
         setForm(form);
         setStage(stage);
+        evaluationVisitor = new EvaluationVisitor(form);
     }
 
     public void setForm(Form form){
@@ -75,8 +81,10 @@ public class FormBuilder {
         for(Question question : form.getQuestions()){
             Label questionLabel = new Label(question.getText());
             Control questionField = createQuestionField(question);
-            questionLabel.setVisible(question.isEnabled());
-            questionField.setVisible(question.isEnabled());
+            BooleanValue enabled = (BooleanValue) question.getCondition().accept(evaluationVisitor);
+
+            questionLabel.setVisible(enabled.getValue());
+            questionField.setVisible(enabled.getValue());
             formGrid.add(questionLabel, 0, currentRow);
             formGrid.add(questionField, 1, currentRow);
             currentRow++;
@@ -125,10 +133,11 @@ public class FormBuilder {
 
     private Control createInputField(Question question, String format){
         TextField textField = new TextField();
-        textField.setEditable(question.isEnabled());
+        BooleanValue enabled = (BooleanValue) question.getCondition().accept(evaluationVisitor);
+        textField.setEditable(enabled.getValue());
         textField.setDisable(question.isPredefined());
 
-        String answerString = form.getExpressionTable().getExpression(question.getIdentifier()).evaluate().toString();
+        String answerString = evaluationVisitor.evaluateQuestion(question);
         textField.setText(answerString);
 
         if(!format.isEmpty()) {
@@ -139,7 +148,7 @@ public class FormBuilder {
             if(inFocus){
                 textField.textProperty().addListener((observableText, oldValue, newValue) -> {
                     if(!textField.isDisabled() && !textField.getText().isEmpty()){
-                        Expression newAnswer = createNewAnswer(question.getType(), newValue);
+                        Expression newAnswer = createNewAnswer(question.getType(), newValue, question.getLineNumber());
                         form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
                     }});
             } else {
@@ -152,12 +161,12 @@ public class FormBuilder {
 
     private Control createBoolField(Question question){
         CheckBox checkBox = new CheckBox();
-        checkBox.setSelected(Boolean.valueOf(form.getExpressionTable().getExpression(question.getIdentifier()).evaluate().toString()));
+        checkBox.setSelected(Boolean.valueOf(evaluationVisitor.evaluateQuestion(question)));
         checkBox.setDisable(question.isPredefined());
 
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if(!checkBox.isDisabled()){
-                    Expression newAnswer = new BooleanConstant(newValue);
+                    Expression newAnswer = new BooleanConstant(newValue, question.getLineNumber());
                     form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
                     renderForm();
                 }
@@ -167,28 +176,29 @@ public class FormBuilder {
 
     private Control createDateField(Question question){
         DatePicker datePicker = new DatePicker();
-        LocalDate currentAnswer = (LocalDate) form.getExpressionTable().getExpression(question.getIdentifier()).evaluate().getValue();
+        String answerString = evaluationVisitor.evaluateQuestion(question);
+        LocalDate currentAnswer = LocalDate.parse(answerString);
         datePicker.setValue(currentAnswer);
         datePicker.setDisable(question.isPredefined());
 
         datePicker.valueProperty().addListener((observable, oldValue, newValue)->{
-            Expression newAnswer = new DateConstant(newValue);
+            Expression newAnswer = new DateConstant(newValue, question.getLineNumber());
             form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
             renderForm();
         });
         return datePicker;
     }
 
-    private Constant createNewAnswer(EvaluationType type, String answer){
+    private Constant createNewAnswer(EvaluationType type, String answer, int line){
         switch (type){
             case Integer:
-                return new IntegerConstant(Integer.parseInt(answer));
+                return new IntegerConstant(Integer.parseInt(answer), line);
             case Decimal:
-                return new DecimalConstant(Double.parseDouble(answer));
+                return new DecimalConstant(Double.parseDouble(answer), line);
             case Money:
-                return new MoneyConstant(Double.parseDouble(answer));
+                return new MoneyConstant(Double.parseDouble(answer), line);
             default:
-                return new StringConstant(answer);
+                return new StringConstant(answer, line);
         }
     }
 

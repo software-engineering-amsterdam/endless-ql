@@ -27,11 +27,11 @@ public abstract class ErrorReporter<T> {
 		return reports.get(index);
 	}
 
-	public void clearAllReports() {
+	public void clear() {
 		reports.clear();
 	}
-	
-	public List<T> getErrors() {
+
+	public List<T> getReports() {
 		return this.reports;
 	}
 

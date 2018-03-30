@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public interface BaseEvaluator {
 
-    EvaluationResult getQuestions() throws IOException, InterruptedException;
+    EvaluationResult evaluate() throws IOException, InterruptedException;
 
     void setVariable(String name, Value value);
 }

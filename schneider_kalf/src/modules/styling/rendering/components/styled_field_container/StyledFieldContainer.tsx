@@ -1,30 +1,43 @@
 import * as React from 'react';
 import { findComponentForFieldType } from "../../../../../rendering/field_rendering";
 import { fieldComponentsMapping } from "../../../../../config/field_components_mapping";
-import StyledFieldNode from "../../../form/StyledFieldNode";
+import FieldWithStyle from "../../../form/StyledField";
+import WidgetAttribute from "../../../form/nodes/attributes/WidgetAttribute";
+import { Maybe } from "../../../../../helpers/type_helper";
 
 export interface StyledFieldContainerProps {
-  field: StyledFieldNode;
+  styledField: FieldWithStyle;
   onChange: (value: any) => void;
   value: any;
 }
 
 export const StyledFieldContainer: React.SFC<StyledFieldContainerProps> = (props) => {
-  const mergedStyle = props.field.getMergedStyle();
+  const mergedStyle = props.styledField.getMergedStyle();
   const cssStyles = mergedStyle.getFieldContainerCssStyle();
-  const widget = mergedStyle.getWidgetAttribute();
+  const widget: Maybe<WidgetAttribute> = mergedStyle.getWidgetAttribute();
 
-  const DefaultFieldComponent = findComponentForFieldType(props.field.type, fieldComponentsMapping);
+  const DefaultFieldComponent = findComponentForFieldType(props.styledField.getType(), fieldComponentsMapping);
   const WidgetComponent = (widget) ? widget.getRenderComponent() : null;
 
   const renderField = () => {
     if (!WidgetComponent) {
       return (
-          <DefaultFieldComponent onChange={props.onChange} value={props.value} field={props.field}/>
+          <DefaultFieldComponent
+              onChange={props.onChange}
+              value={props.value}
+              field={props.styledField.getFieldNode()}
+          />
       );
     }
 
-    return <WidgetComponent widget={widget} onChange={props.onChange} value={props.value} field={props.field}/>;
+    return (
+        <WidgetComponent
+            widget={widget}
+            onChange={props.onChange}
+            value={props.value}
+            field={props.styledField.getFieldNode()}
+        />
+    );
   };
 
   return (

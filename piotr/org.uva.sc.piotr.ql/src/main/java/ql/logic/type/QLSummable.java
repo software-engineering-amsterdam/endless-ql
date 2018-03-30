@@ -1,7 +1,7 @@
 package ql.logic.type;
 
 abstract public class QLSummable<T> extends QLDataTypeWrapper<T> {
-    public QLSummable(T value) {
+    QLSummable(T value) {
         super(value);
     }
 

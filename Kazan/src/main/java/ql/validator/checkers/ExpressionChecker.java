@@ -1,6 +1,5 @@
 package ql.validator.checkers;
 
-import issuetracker.IssueTracker;
 import ql.ast.Form;
 import ql.ast.expressions.Variable;
 import ql.ast.expressions.binary.*;
@@ -20,17 +19,13 @@ import java.util.List;
  * Checks AST for references to undefined questions, conditions of non-boolean type,
  * and invalid operand/operator type combinations
  */
-public class ExpressionChecker implements Checker, FormStatementVisitor<Void>, ExpressionVisitor<Type>, TypeVisitor<Type> {
+public class ExpressionChecker extends BaseChecker implements FormStatementVisitor<Void>, ExpressionVisitor<Type>, TypeVisitor<Type> {
 
-    private final IssueTracker issueTracker;
     private SymbolTable symbolTable;
-
-    public ExpressionChecker(IssueTracker issueTracker) {
-        this.issueTracker = issueTracker;
-    }
 
     @Override
     public boolean passesTests(Form form) {
+        issueTracker.reset();
         symbolTable = new SymbolTable(form);
         form.accept(this);
         return !issueTracker.hasErrors();
@@ -47,7 +42,7 @@ public class ExpressionChecker implements Checker, FormStatementVisitor<Void>, E
         Type rightType = binaryOperation.getRight().accept(this);
 
         if (!leftType.isCompatibleWith(rightType) && (!leftType.isOfType("error") || rightType.isOfType("error"))) {
-            issueTracker.addError(binaryOperation.getSourceLocation(), "Incompatible types within binary operation");
+            issueTracker.addError(binaryOperation, "Incompatible types within binary operation");
             return new ErrorType(binaryOperation.getSourceLocation());
         }
         return leftType.isOfType("decimal") ? leftType : rightType;
@@ -62,7 +57,7 @@ public class ExpressionChecker implements Checker, FormStatementVisitor<Void>, E
     private void visitCondition(IfStatement statement) {
         Type type = statement.getCondition().accept(this);
         if (!type.isOfType("boolean") && !type.isOfType("error")) {
-            issueTracker.addError(statement.getSourceLocation(), "Non-boolean conditional");
+            issueTracker.addError(statement, "Non-boolean conditional");
         }
     }
 
@@ -78,7 +73,7 @@ public class ExpressionChecker implements Checker, FormStatementVisitor<Void>, E
         if (actualType.isOfType(expectedType) || (expectedType.equals("numeric") && (actualType.isOfType("integer") || actualType.isOfType("decimal"))) || actualType.isOfType("error")) {
             return actualType;
         } else {
-            issueTracker.addError(actualType.getSourceLocation(), String.format("Type mismatch. Actual: %s Expected: %s", actualType.toString(), expectedType));
+            issueTracker.addError(actualType, String.format("Type mismatch. Actual: %s Expected: %s", actualType.getType(), expectedType));
             return new ErrorType(actualType.getSourceLocation());
         }
     }
@@ -113,7 +108,7 @@ public class ExpressionChecker implements Checker, FormStatementVisitor<Void>, E
     public Void visit(ComputedQuestion computedQuestion) {
         Type computedType = computedQuestion.getExpression().accept(this);
         if (!computedQuestion.getType().isCompatibleWith(computedType) && !computedType.isOfType("error")) {
-            issueTracker.addError(computedQuestion.getSourceLocation(), "Computed question type doesn't match expression type");
+            issueTracker.addError(computedQuestion, "Computed question type doesn't match expression type");
         }
         return null;
     }
@@ -263,7 +258,7 @@ public class ExpressionChecker implements Checker, FormStatementVisitor<Void>, E
     @Override
     public Type visit(Variable variable) {
         if (!symbolTable.isDeclared(variable.getName())) {
-            issueTracker.addError(variable.getSourceLocation(), "Reference to undefined question");
+            issueTracker.addError(variable, "Reference to undefined question");
             return new ErrorType(variable.getSourceLocation());
         }
         return symbolTable.lookup(variable.getName());

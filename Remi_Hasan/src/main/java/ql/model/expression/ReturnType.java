@@ -13,7 +13,7 @@ public enum ReturnType {
     }
 
     // Returns the strongest number type, such that we can determine the type of an arithmetic expression
-    // e.g. 3 + 5.0 becomes decimal, 5.0 + 3.25 becomes money
+    // e.g. 3 + 5.0 becomes decimal, 5 + 3.25 becomes money
     public ReturnType getStrongestNumber(ReturnType other) {
         if (numberPriorities.indexOf(this) > numberPriorities.indexOf(other)) {
             return this;

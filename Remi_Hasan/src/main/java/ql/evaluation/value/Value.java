@@ -11,11 +11,7 @@ public abstract class Value<T> {
     }
 
     public T getValue() {
-        if (this.isUndefined()) {
-            return null;
-        } else {
-            return value;
-        }
+        return this.value;
     }
 
     public abstract Boolean getBooleanValue();

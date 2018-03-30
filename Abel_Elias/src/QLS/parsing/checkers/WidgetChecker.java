@@ -1,7 +1,8 @@
-package QLS.parsing.checkers.errors;
+package QLS.parsing.checkers;
 
 import QL.classes.Question;
 import QL.classes.values.Value;
+import QLS.parsing.checkers.errors.WrongWidgetError;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
 

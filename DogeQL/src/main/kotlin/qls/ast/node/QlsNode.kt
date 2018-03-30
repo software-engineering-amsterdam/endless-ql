@@ -1,3 +1,7 @@
 package qls.ast.node
 
-interface QlsNode
+import qls.visitor.QlsVisitor
+
+interface QlsNode{
+    fun <T> accept(visitor: QlsVisitor<T>): T
+}

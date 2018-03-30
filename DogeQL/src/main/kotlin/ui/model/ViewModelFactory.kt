@@ -1,6 +1,6 @@
 package ui.model
 
-import doge.data.question.Question
+import ui.model.domain.Question
 import doge.data.question.SymbolType
 
 class ViewModelFactory {

@@ -6,11 +6,9 @@ stylesheet taxOfficeExample
     {
       question hasBoughtHouse
     }
-    section "Loaning"
-      question hasMaintLoan
   }
 
-  page Selling
+  page NonHousing
   {
     section "Selling"
     {

@@ -8,6 +8,7 @@ class MoneyField(question: MoneyViewModel) : QuestionTextField(question) {
         with(root){
             stripNonNumeric()
             bind(question.moneyProperty)
+            attachListener(textProperty())
         }
     }
 }

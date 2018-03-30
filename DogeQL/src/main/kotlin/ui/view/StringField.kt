@@ -9,6 +9,7 @@ class StringField(question : StringViewModel) : QuestionTextField(question){
         with(root){
             stripWhitespace()
             bind(question.stringProperty)
+            attachListener(textProperty())
         }
     }
 }

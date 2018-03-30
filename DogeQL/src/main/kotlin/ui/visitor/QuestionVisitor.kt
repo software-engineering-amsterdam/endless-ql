@@ -1,6 +1,5 @@
-package doge.visitor
+package ui.visitor
 
-import doge.ast.location.SourceLocation
 import doge.ast.node.Block
 import doge.ast.node.Form
 import doge.ast.node.IfStatement
@@ -9,32 +8,46 @@ import doge.ast.node.expression.BinaryExpression
 import doge.ast.node.expression.LiteralExpression
 import doge.ast.node.expression.ReferenceExpression
 import doge.ast.node.expression.UnaryExpression
-import doge.data.question.Question
+import doge.common.Name
+import ui.model.domain.Question
+import doge.data.symbol.SymbolTable
+import doge.visitor.EvaluationVisitor
+import doge.visitor.QuestionnaireASTBaseVisitor
 
-class UiVisitor : QuestionnaireASTBaseVisitor<List<Question>> {
+class QuestionVisitor(private val symbolTable: SymbolTable) : QuestionnaireASTBaseVisitor<List<Question>> {
 
     override fun visit(form: Form): List<Question> {
-        return visit(form.block)
+        return form.block.accept(this)
     }
 
     override fun visit(block: Block): List<Question> {
         return block.statements.flatMap { statement ->
-            visit(statement)
+            statement.accept(this)
         }.toList()
     }
 
     override fun visit(ifStatement: IfStatement): List<Question> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val result = ifStatement.expression.accept(EvaluationVisitor.default(symbolTable))
+
+        if (result.booleanValue.value) {
+            return ifStatement.block.accept(this)
+        }
+
+        return listOf()
     }
 
     override fun visit(questionStatement: QuestionStatement): List<Question> {
         val name = questionStatement.name
         val label = questionStatement.label
         val type = questionStatement.type
+        var value = symbolTable.findSymbol(name.text)
+        val readOnly = false
 
-        val location = SourceLocation(0, 0, 0, 0)
+        if (questionStatement.expression != null) {
+            value = questionStatement.expression.accept(EvaluationVisitor.default(symbolTable))
+        }
 
-        return listOf(Question(name.text, label.text, type.type.getDefaultInstance(), location, location, false))
+        return listOf(Question(name.text, label.text, value!!, false))
     }
 
     override fun visit(binaryExpression: BinaryExpression): List<Question> {

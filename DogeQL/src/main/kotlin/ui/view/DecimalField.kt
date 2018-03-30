@@ -8,6 +8,7 @@ class DecimalField(question: DecimalViewModel) : QuestionTextField(question) {
         with(root) {
             stripNonNumeric()
             bind(question.decimalProperty)
+            attachListener(textProperty())
         }
     }
 }

@@ -1,6 +1,6 @@
 package ui.model
 
-import doge.data.question.Question
+import ui.model.domain.Question
 import tornadofx.ItemViewModel
 import ui.controller.DogeController
 
@@ -14,20 +14,17 @@ abstract class QuestionViewModel(question: Question) : ItemViewModel<Question>(q
     fun update() {
         // Only update if there are changes
         // Added this check to remove unnecessary updates
-        if (dirtyProperties.size > 0 && dirtyProperties.first() != null) {
+        if (dirtyProperties.size > 0 && dirtyProperties.first().value != null) {
             synchronizeDataModel()
-//            dogeController.updateQuestion(item)
+            dogeController.evaluate(item)
             load()
         }
     }
 
     fun load() {
-        dogeController.load()
+        dogeController.reload()
     }
 
-    fun loadStyle() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     abstract fun setViewModelValue(question: Question)
 

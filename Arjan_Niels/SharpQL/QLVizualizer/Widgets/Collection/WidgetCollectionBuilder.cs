@@ -1,19 +1,20 @@
 ﻿using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace QLVisualizer.Widgets.Collection
 {
-    public abstract class WidgetCollectionBuilder<T, Y> : WidgetBuilder<T>, IWidgetCollectionBuilder<T> where Y : ElementManagerCollection
+    public abstract class WidgetCollectionBuilder<T> : WidgetBuilder<T>, IWidgetCollectionBuilder
     {
-        protected ICollection<IWidgetBuilder<T>> _children { get; private set; }
+        protected ICollection<WidgetBuilder<T>> _children { get; private set; }
 
         protected ElementManagerCollection _elementManagerCollection { get; private set; }
 
-        public WidgetCollectionBuilder(Y elementManagerCollection) : base(elementManagerCollection)
+        public WidgetCollectionBuilder(ElementManagerCollection elementManagerCollection) : base(elementManagerCollection)
         {
-            _children = new List<IWidgetBuilder<T>>();
+            _children = new List<WidgetBuilder<T>>();
             _elementManagerCollection = elementManagerCollection;
         }
 
@@ -26,14 +27,18 @@ namespace QLVisualizer.Widgets.Collection
                     widgetBuilder.SetParentStyle(qlsValues);
             }
 
-            return _styler.StyleElement(Create(_children.ToDictionary(child=> child, child => child.Create())));
+            return _styler.StyleElement(Create(_children.ToDictionary(child=> child as IWidgetBuilder, child => child.Create())));
         }
 
-        protected abstract T Create(Dictionary<IWidgetBuilder<T>, T> children);
+        protected abstract T Create(Dictionary<IWidgetBuilder, T> children);
 
-        public void AddChild(IWidgetBuilder<T> child)
+        public void AddChild(IWidgetBuilder child)
         {
-            _children.Add(child);
+            // TODO: refactor
+            if (child as WidgetBuilder<T> == null)
+                throw new InvalidOperationException("Invalid type added!");
+
+            _children.Add(child as WidgetBuilder<T>);
         }
 
         public override void SetParentStyle(List<QLSValue> elements)
@@ -41,7 +46,7 @@ namespace QLVisualizer.Widgets.Collection
             base.SetParentStyle(elements);
 
             // Update children when collection style is changed
-            foreach (IWidgetBuilder<T> widgetBuilder in _children)
+            foreach (IWidgetBuilder widgetBuilder in _children)
                 widgetBuilder.SetParentStyle(_qlsValues);
         }
     }

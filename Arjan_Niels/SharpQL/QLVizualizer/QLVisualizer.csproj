@@ -85,6 +85,7 @@
     <Compile Include="Elements\Managers\QuestionElementValue.cs" />
     <Compile Include="Widgets\Collection\IWidgetCollectionBuilder.cs" />
     <Compile Include="Widgets\Collection\WidgetCollectionBuilder.cs" />
+    <Compile Include="Widgets\ICreatable.cs" />
     <Compile Include="Widgets\Style\IStyler.cs" />
     <Compile Include="Widgets\Leaf\IInputCreator.cs" />
     <Compile Include="Widgets\Style\Windows\WindowsStyler.cs" />

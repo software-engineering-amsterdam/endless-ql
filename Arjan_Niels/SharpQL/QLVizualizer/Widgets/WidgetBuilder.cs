@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace QLVisualizer.Widgets
 {
-    public abstract class WidgetBuilder<T> : IWidgetBuilder<T>
+    public abstract class WidgetBuilder<T> : IWidgetBuilder, ICreatable<T>
     {
         protected IStyleParser _styleParser;
 

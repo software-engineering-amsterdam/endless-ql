@@ -1,12 +1,11 @@
-﻿using QLParser.AST.QLS;
-using QLVisualizer.Elements.Managers;
+﻿using QLVisualizer.Elements.Managers;
 using QLVisualizer.Widgets.Collection;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace QLVisualizer.Widgets.Windows.Collection
 {
-    public abstract class WidgetCollectionBuilderWindows<Y> : WidgetCollectionBuilder<Control, Y> where Y : ElementManagerCollection
+    public abstract class WidgetCollectionBuilderWindows<Y> : WidgetCollectionBuilder<Control> where Y : ElementManagerCollection
     {
         public WidgetCollectionBuilderWindows(Y elementManagerCollection) : base(elementManagerCollection)
         {
@@ -15,7 +14,7 @@ namespace QLVisualizer.Widgets.Windows.Collection
             _styler = styler;
         }
 
-        protected override Control Create(Dictionary<IWidgetBuilder<Control>, Control> children)
+        protected override Control Create(Dictionary<IWidgetBuilder, Control> children)
         {
             FlowLayoutPanel holder = new FlowLayoutPanel() { FlowDirection = FlowDirection.TopDown, Size = new System.Drawing.Size(300,300)};
 
@@ -23,7 +22,7 @@ namespace QLVisualizer.Widgets.Windows.Collection
             if (!string.IsNullOrEmpty(title))
                 holder.Controls.Add(CreateTitle(title));
 
-            foreach(KeyValuePair<IWidgetBuilder<Control>, Control> child in children)
+            foreach(KeyValuePair<IWidgetBuilder, Control> child in children)
                 holder.Controls.Add(child.Value);
 
             _elementManagerCollection.OnActiveChange += (string identifier, bool isActive) =>  holder.Visible = isActive;

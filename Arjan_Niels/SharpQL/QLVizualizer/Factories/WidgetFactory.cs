@@ -12,7 +12,7 @@ namespace QLVisualizer.Factories
 {
     public class WidgetFactoryWindows
     {
-        public static IWidgetBuilder<Control> GetBuilder(ElementManager elementManager, IWidgetCollectionBuilder<Control> parent)
+        public static WidgetBuilder<Control> GetBuilder(ElementManager elementManager, IWidgetCollectionBuilder parent)
         {
             switch (elementManager)
             {
@@ -25,9 +25,9 @@ namespace QLVisualizer.Factories
             throw new NotImplementedException();
         }
 
-        private static IWidgetCollectionBuilder<Control> GetCollectionBuilder(ElementManagerCollection elementManagerCollection)
+        private static WidgetBuilder<Control> GetCollectionBuilder(ElementManagerCollection elementManagerCollection)
         {
-            IWidgetCollectionBuilder<Control> builder = null;
+            WidgetCollectionBuilder<Control> builder = null;
             switch (elementManagerCollection)
             {
                 case FormManager formManager:
@@ -49,7 +49,7 @@ namespace QLVisualizer.Factories
             return builder;
         }
 
-        private static IWidgetBuilder<Control> GetLeafBuilder(ElementManagerLeaf elementManagerLeaf)
+        private static WidgetBuilder<Control> GetLeafBuilder(ElementManagerLeaf elementManagerLeaf)
         {
             switch (elementManagerLeaf)
             {

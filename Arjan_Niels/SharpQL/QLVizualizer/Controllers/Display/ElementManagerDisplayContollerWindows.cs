@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using QLVisualizer.Expression;
 using QLVisualizer.Factories;
 using QLVisualizer.Properties;
-using QLVisualizer.Elements.Managers;
 using QLVisualizer.Elements.Managers.CollectionTypes;
-using QLVisualizer.Widgets;
-using QLParser.AST.QLS;
 
 namespace QLVisualizer.Controllers.Display
 {

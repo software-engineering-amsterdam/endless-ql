@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace QLVisualizer.Widgets
 {
-    public interface IWidgetBuilder<T>
-    {
-        T Create();
-        
+    public interface IWidgetBuilder
+    {       
         void SetParentStyle(List<QLSValue> elements);
 
         ElementManager GetElementManager();

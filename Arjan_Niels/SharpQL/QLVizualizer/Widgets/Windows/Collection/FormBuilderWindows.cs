@@ -18,12 +18,12 @@ namespace QLVisualizer.Widgets.Windows.Collection
             return string.Format("Form: {0}", _elementManagerCollection.Text);
         }
 
-        protected override Control Create(Dictionary<IWidgetBuilder<Control>, Control> children)
+        protected override Control Create(Dictionary<IWidgetBuilder, Control> children)
         {
             Control result = base.Create(children);
             List<PageManager> pages = new List<PageManager>();
 
-            foreach(IWidgetBuilder<Control> child in children.Keys)
+            foreach(IWidgetBuilder child in children.Keys)
                 if (child.GetElementManager() as PageManager != null)
                     pages.Add(child.GetElementManager() as PageManager);
 

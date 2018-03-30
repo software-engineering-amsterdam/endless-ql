@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace QLVisualizer.Widgets.Collection
 {
-    public interface IWidgetCollectionBuilder<T> : IWidgetBuilder<T>
+    public interface IWidgetCollectionBuilder : IWidgetBuilder
     {
-        void AddChild(IWidgetBuilder<T> builder);
+        void AddChild(IWidgetBuilder builder);
     }
 }

@@ -10,13 +10,17 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-public class GUIForm extends VBox {
+public class GUIForm extends VBox implements IRenderable {
     public final String identifier;
     private final List<GUIQuestion> guiQuestions;
 
     public GUIForm(String identifier, List<GUIQuestion> guiQuestions) {
         this.identifier = identifier;
         this.guiQuestions = guiQuestions;
+    }
+
+    public List<GUIQuestion> getQuestions() {
+        return this.guiQuestions;
     }
 
     public Parent render(GUIController guiController) {

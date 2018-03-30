@@ -15,7 +15,7 @@ public class BooleanConstant extends Constant {
         this.value = value;
     }
 
-    public BooleanExpressionValue getValue() {
+    public BooleanExpressionValue getExpressionValue() {
         return value;
     }
 

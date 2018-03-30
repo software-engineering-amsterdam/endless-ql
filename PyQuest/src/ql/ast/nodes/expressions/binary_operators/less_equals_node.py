@@ -19,7 +19,7 @@ class LessEqualsOperatorNode(BinaryOperatorNode):
                               (QLMoney, QLMoney)]
 
     def get_result_type(self, type1, type2):
-        if (type1, type2) or (type2, type1) in self.__valid_types:
+        if (type1, type2) in self.__valid_types or (type2, type1) in self.__valid_types:
             return QLBoolean
         return QLUndefined
 

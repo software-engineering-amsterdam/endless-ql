@@ -10,6 +10,7 @@ import org.uva.jomi.ql.ast.statements.Statement;
 import org.uva.jomi.ql.parser.antlr.QLLexer;
 import org.uva.jomi.ql.parser.antlr.QLParser;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
+import org.uva.jomi.ql.parser.antlr.QLParserErrorListener;
 
 public class TestUtilities {
 
@@ -22,10 +23,17 @@ public class TestUtilities {
 		// Create a lexer instance
 		QLParser parser = new QLParser(tokens);
 
+		parser.removeErrorListeners();
+		parser.addErrorListener(new QLParserErrorListener());
+
 		ParseContext cst = parser.parse();
 
-		AstBuilder astBuilder = new AstBuilder(false);
-		return astBuilder.visit(cst);
+		if (parser.getNumberOfSyntaxErrors() == 0) {
+			AstBuilder astBuilder = new AstBuilder(false);
+			return astBuilder.visit(cst);
+		}
+
+		return null;
 	}
 
 }

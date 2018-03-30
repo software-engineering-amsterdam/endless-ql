@@ -9,6 +9,6 @@ namespace QuestionnaireDomain.Entities.Validators.Interfaces
     {
         IList<ValidationMetaData> Results { get; set; }
         bool Validate(
-            Reference<IQuestionnaireRootNode> questionnaireRootNode);
+            DomainId<IQuestionnaireRootNode> questionnaireRootNode);
     }
 }

@@ -45,7 +45,7 @@ public class TextBox extends TextField implements GUIWidget {
 
     @Override
     public void setFontSize(int fontSize) {
-        javafx.scene.text.Font currentFont = this.getFont();
+        Font currentFont = this.getFont();
         this.setFont(Font.font(currentFont.getFamily(), FontWeight.NORMAL, fontSize));
     }
 

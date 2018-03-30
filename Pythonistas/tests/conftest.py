@@ -11,7 +11,7 @@ def test_suite_cleanup():
     yield
 
     # teardown
-    rm_file('tests/QL_output.txt')
+    rm_file('tests/output_frame_test.txt')
     rm_dir('.pytest_cache')
 
 

@@ -9,13 +9,17 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-public class GUIFormWithStyling extends GUIForm {
+public class GUIFormWithStyling extends GUIForm implements IRenderable {
 
     private List<GUIPage> pages;
 
-    public GUIFormWithStyling(String identifier, List<GUIPage> pages) {
-        super(identifier, null);
+    public GUIFormWithStyling(String identifier, List<GUIQuestion> questions, List<GUIPage> pages) {
+        super(identifier, questions);
         this.pages = pages;
+    }
+
+    public List<GUIPage> getPages() {
+        return pages;
     }
 
     @Override

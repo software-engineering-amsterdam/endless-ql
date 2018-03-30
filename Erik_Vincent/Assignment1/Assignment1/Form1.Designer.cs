@@ -29,31 +29,34 @@
         private void InitializeComponent()
         {
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
-            this.openFileButton = new System.Windows.Forms.ToolStripButton();
+            this.openFile = new System.Windows.Forms.ToolStripButton();
             this._mainPanel = new System.Windows.Forms.FlowLayoutPanel();
             this._messagePanel = new System.Windows.Forms.FlowLayoutPanel();
             this._questionFormPanel = new System.Windows.Forms.Panel();
+            this.exportAnswers = new System.Windows.Forms.ToolStripButton();
             this.mainToolStrip.SuspendLayout();
             this._mainPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainToolStrip
             // 
+            this.mainToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.mainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openFileButton});
+            this.openFile,
+            this.exportAnswers});
             this.mainToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mainToolStrip.Name = "mainToolStrip";
             this.mainToolStrip.Size = new System.Drawing.Size(784, 25);
             this.mainToolStrip.TabIndex = 2;
             this.mainToolStrip.Text = "toolStrip1";
             // 
-            // openFileButton
+            // openFile
             // 
-            this.openFileButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.openFileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openFileButton.Name = "openFileButton";
-            this.openFileButton.Size = new System.Drawing.Size(59, 22);
-            this.openFileButton.Text = "Open file";
+            this.openFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.openFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openFile.Name = "openFile";
+            this.openFile.Size = new System.Drawing.Size(59, 22);
+            this.openFile.Text = "Open file";
             // 
             // _mainPanel
             // 
@@ -88,6 +91,14 @@
             this._questionFormPanel.Size = new System.Drawing.Size(0, 0);
             this._questionFormPanel.TabIndex = 1;
             // 
+            // exportAnswers
+            // 
+            this.exportAnswers.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.exportAnswers.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.exportAnswers.Name = "exportAnswers";
+            this.exportAnswers.Size = new System.Drawing.Size(89, 22);
+            this.exportAnswers.Text = "Export answers";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -111,10 +122,11 @@
 
         #endregion
         private System.Windows.Forms.ToolStrip mainToolStrip;
-        private System.Windows.Forms.ToolStripButton openFileButton;
+        private System.Windows.Forms.ToolStripButton openFile;
         private System.Windows.Forms.FlowLayoutPanel _mainPanel;
         private System.Windows.Forms.FlowLayoutPanel _messagePanel;
         private System.Windows.Forms.Panel _questionFormPanel;
+        private System.Windows.Forms.ToolStripButton exportAnswers;
     }
 }
 

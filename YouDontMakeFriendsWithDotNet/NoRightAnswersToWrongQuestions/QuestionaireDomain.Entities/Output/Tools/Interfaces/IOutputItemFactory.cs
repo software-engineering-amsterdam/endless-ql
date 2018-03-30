@@ -8,16 +8,14 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
     public interface IOutputItemFactory
     {
-        Reference<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
-            Reference<IQuestionnaireRootNode> variable,
+        DomainId<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
+            DomainId<IQuestionnaireRootNode> variable,
             string displayName,
-            IList<Reference<IQuestionOutputItem>> questions);
+            IList<DomainId<IQuestionOutputItem>> questions);
 
-        Reference<IQuestionOutputItem> CreateQuestionOutputItem(
-            Reference<IQuestionNode> variable,
-            string text,
+        DomainId<IQuestionOutputItem> CreateQuestionOutputItem(
+            DomainId<IQuestionNode> variable,
             string value,
-            Type type,
             bool isVisible,
             bool isReadonly);
    }

@@ -3,6 +3,7 @@ import java.io.File;
 
 import QL.Analysis.TypeChecker;
 import QL.AST.Form;
+import QL.Evaluation.EvaluationVisitor;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -68,7 +69,7 @@ public class QLUserInterface {
             if (file != null) {
                 Parser parser = new Parser();
                 Form form = parser.parseInputToForm(file.getPath());
-                parser.printQLForm(form);
+                //parser.printQLForm(form);
                 if (form == null) { Platform.exit(); }
                 else {
                     FormBuilder formBuilder = new FormBuilder(form, stage);

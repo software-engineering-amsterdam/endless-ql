@@ -35,4 +35,8 @@ public class RadioType extends WidgetType {
         return visitor.visit(this, question, value, readOnly);
     }
 
+    @Override
+    public String toString() {
+        return "RadioType";
+    }
 }

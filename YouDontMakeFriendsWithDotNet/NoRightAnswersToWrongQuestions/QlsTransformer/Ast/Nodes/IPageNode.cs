@@ -7,6 +7,6 @@ namespace QlsTransformer.Ast.Nodes
     public interface IPageNode : IAstNode
     {
         string Name { get; }
-        IEnumerable<Reference<ISectionNode>> Sections { get; }
+        IEnumerable<DomainId<ISectionNode>> Sections { get; }
     }
 }

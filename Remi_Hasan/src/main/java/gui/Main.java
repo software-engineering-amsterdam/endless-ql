@@ -30,7 +30,6 @@ public class Main extends Application {
     private QLForm qlForm;
     private StyleSheet qlsStyleSheet;
 
-    private File resourceFolder;
     private File qlFile;
     private File qlsFile;
 
@@ -41,26 +40,22 @@ public class Main extends Application {
 
         // Set locale to US such that DecimalFormat, such as in a spinner, always uses dots instead of commas
         Locale.setDefault(Locale.US);
-
-        // Open file selector in java folder for easier testing
-        ClassLoader classLoader = getClass().getClassLoader();
-        resourceFolder = new File(classLoader.getResource("java/").getFile());
     }
 
     @Override
     public void start(Stage primaryStage) {
-        VBox vBox = new VBox();
+        VBox mainWindowBox = new VBox();
 
         // File open/save menu
         MenuBar menuBar = createMenuBar(primaryStage);
 
-        vBox.getChildren().add(menuBar);
-        vBox.getChildren().add(this.formArea);
+        mainWindowBox.getChildren().add(menuBar);
+        mainWindowBox.getChildren().add(this.formArea);
 
         // Make the form area grow with the size of the window
-        VBox.setVgrow(formArea, Priority.ALWAYS);
+        VBox.setVgrow(this.formArea, Priority.ALWAYS);
 
-        Scene scene = new Scene(vBox);
+        Scene scene = new Scene(mainWindowBox);
         primaryStage.setTitle("Form Renderer");
         primaryStage.setScene(scene);
         primaryStage.setWidth(640);
@@ -68,40 +63,65 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void render(Stage primaryStage) {
-        try {
-            if (this.qlFile == null) {
-                return;
-            }
+    private void fileLoaded(Stage primaryStage) {
+        // New form, so clear currently rendered one
+        this.formArea.getChildren().clear();
 
-            this.qlForm = new QLForm(new FileInputStream(this.qlFile));
+        this.buildForm();
 
-            // Check for warning messages
-            Set<String> warnings = qlForm.getWarnings();
-            if (!warnings.isEmpty()) {
-                showWarningAlert(String.join("\n", warnings));
-            }
-
-            // If QLS file is selected, apply the stylesheet
-            if (this.qlsFile != null) {
-                QLSBuilder qlsBuilder = new QLSBuilder(this.qlForm.getForm());
-                this.qlsStyleSheet = qlsBuilder.parseStyleSheet(new FileInputStream(this.qlsFile));
-            }
-
-            this.buildForm();
-            primaryStage.show();
-        } catch (FileNotFoundException e) {
-            showErrorAlert(e, "Form file not found");
-        } catch (UnsupportedOperationException | IllegalArgumentException e) {
-            showErrorAlert(e, "Form invalid");
-        } catch (IOException e) {
-            showErrorAlert(e, "IO exception while lexing form file");
-        } catch (ParseCancellationException e) {
-            showErrorAlert(e, "Error while parsing form file");
+        if (this.qlForm == null) {
+            return;
         }
+
+        // Check for warning messages
+        Set<String> warnings = this.qlForm.getWarnings();
+        if (!warnings.isEmpty()) {
+            showWarningAlert(String.join("\n", warnings));
+        }
+
+        this.buildStyleSheet();
+
+        this.renderForm(primaryStage);
     }
 
     private void buildForm() {
+        if (this.qlFile == null) {
+            return;
+        }
+
+        try {
+            this.qlForm = new QLForm(new FileInputStream(this.qlFile));
+        } catch (FileNotFoundException e) {
+            handleQLError(e, "Form file not found");
+        } catch (UnsupportedOperationException | IllegalArgumentException e) {
+            handleQLError(e, "Form invalid");
+        } catch (IOException e) {
+            handleQLError(e, "IO exception while lexing QL file");
+        } catch (ParseCancellationException e) {
+            handleQLError(e, "Error while parsing QL file");
+        }
+    }
+
+    private void buildStyleSheet() {
+        if (this.qlForm == null || this.qlsFile == null) {
+            return;
+        }
+
+        try {
+            QLSBuilder qlsBuilder = new QLSBuilder(this.qlForm.getForm());
+            this.qlsStyleSheet = qlsBuilder.parseStyleSheet(new FileInputStream(this.qlsFile));
+        } catch (FileNotFoundException e) {
+            handleQLSError(e, "Form file not found");
+        } catch (IllegalArgumentException e) {
+            handleQLSError(e, "StyleSheet invalid");
+        } catch (IOException e) {
+            handleQLSError(e, "IO exception while lexing QLS file");
+        } catch (ParseCancellationException e) {
+            handleQLSError(e, "Error while parsing QLS file");
+        }
+    }
+
+    private void renderForm(Stage primaryStage) {
         GUIFormBuilder guiFormBuilder = new GUIFormBuilder();
 
         GUIForm guiForm;
@@ -113,8 +133,9 @@ public class Main extends Application {
 
         GUIController guiController = new GUIController(this.qlForm);
 
-        this.formArea.getChildren().clear();
+        // Show form in window and set window title
         this.formArea.getChildren().add(guiForm.render(guiController));
+        primaryStage.setTitle(this.qlForm.getIdentifier());
     }
 
     private MenuBar createMenuBar(Stage primaryStage) {
@@ -125,12 +146,12 @@ public class Main extends Application {
 
         loadQlFile.setOnAction(e -> {
             this.loadQLClicked(primaryStage);
-            this.render(primaryStage);
+            this.fileLoaded(primaryStage);
         });
 
         loadQlsFile.setOnAction(e -> {
             this.loadQLSClicked(primaryStage);
-            this.render(primaryStage);
+            this.fileLoaded(primaryStage);
         });
 
         exportResults.setOnAction(event -> {
@@ -142,23 +163,24 @@ public class Main extends Application {
     }
 
     private void loadQLClicked(Stage primaryStage) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(this.resourceFolder);
+        FileChooser fileChooser = this.getFileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("QL File (*.ql)", "*.ql"));
         this.qlFile = fileChooser.showOpenDialog(primaryStage);
     }
 
     private void loadQLSClicked(Stage primaryStage) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(this.resourceFolder);
+        FileChooser fileChooser = this.getFileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("QLS File (*.qls)", "*.qls"));
         this.qlsFile = fileChooser.showOpenDialog(primaryStage);
     }
 
     private void saveClicked(Stage primaryStage) {
-        FileChooser fileChooser = new FileChooser();
-        String homeDirectory = System.getProperty("user.home") + "/Desktop";
-        fileChooser.setInitialDirectory(new File(homeDirectory));
+        if (this.qlForm == null) {
+            this.showWarningAlert("Cannot export results as no form is loaded");
+            return;
+        }
+
+        FileChooser fileChooser = this.getFileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT Files (*.txt)", "*.txt"));
         File exportFile = fileChooser.showSaveDialog(primaryStage);
 
@@ -171,6 +193,28 @@ public class Main extends Application {
         } catch (IOException e) {
             this.showErrorAlert(e, "Unable to export results to selected file location");
         }
+    }
+
+    private FileChooser getFileChooser() {
+        // Open file chooser on user's Desktop folder
+        FileChooser fileChooser = new FileChooser();
+        String homeDirectory = System.getProperty("user.home") + "/Desktop";
+        fileChooser.setInitialDirectory(new File(homeDirectory));
+        return fileChooser;
+    }
+
+    private void handleQLError(Exception e, String message) {
+        // Error, so do not keep form in memory
+        this.qlForm = null;
+        this.qlFile = null;
+        this.showErrorAlert(e, message);
+    }
+
+    private void handleQLSError(Exception e, String message) {
+        // Error, so do not keep stylesheet in memory
+        this.qlsStyleSheet = null;
+        this.qlsFile = null;
+        this.showErrorAlert(e, message);
     }
 
     private void showErrorAlert(Exception e, String message) {

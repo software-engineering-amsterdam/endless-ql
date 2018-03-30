@@ -25,7 +25,7 @@ def check_duplicate_question_strings(question_ids, questions):
 
     duplicates = set([duplicate for duplicate in question_list if question_list.count(duplicate) > 1])
     if len(duplicates) > 0:
-        warning_string = "Warning: duplicate questions:{}".format(str(duplicates)[1:-1])
+        warning_string = "Warning: duplicate question strings:{}".format(str(duplicates)[1:-1])
     return warning_string
 
 
@@ -48,6 +48,8 @@ class QLVisitor(ParseTreeVisitor):
             c = node.getChild(i)
             # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
             child_result = c.accept(self)
+            if self.error_message:
+                return
             result.extend(child_result)
 
         return result
@@ -69,7 +71,7 @@ class QLVisitor(ParseTreeVisitor):
         data_type = ctx.type().getText()
 
         if question_id in self.question_ids:
-            self.error_message = "Error: duplicate question IDs: {}".format(question_id)
+            self.error_message = ["Error: duplicate question IDs: {}".format(question_id)]
             return
 
         # todo: remove instanceof
@@ -80,7 +82,7 @@ class QLVisitor(ParseTreeVisitor):
             question_object = question_classes.MoneyQuestion(question_id, question_string)
 
         else:
-            self.error_message = "Error: unknown data_type: {}".format(data_type)
+            self.error_message = ["Error: unknown data_type: {}".format(data_type)]
             return
 
         self.question_ids.append(question_id)
@@ -90,8 +92,11 @@ class QLVisitor(ParseTreeVisitor):
 
     def visitDeclaration(self, ctx: QLParser.DeclarationContext):
         result = self.visitChildren(ctx)
-        declared_value = QtWidgets.QLabel(str(result.pop()))
-        self.questions[ctx.parentCtx.ID().getText()].text_input_box = declared_value
+        declared_value = str(result.pop())
+
+        question_id = ctx.parentCtx.ID().getText()
+        question = self.questions[question_id]
+        self.error_message = question.set_answer_label(declared_value)
         return result
 
     def visitExpression(self, ctx: QLParser.ExpressionContext):
@@ -105,10 +110,10 @@ class QLVisitor(ParseTreeVisitor):
         conditional_id = ctx.expression().getText()
 
         if conditional_id not in self.question_ids:
-            self.error_message = "Error: if argument is undefined: {}".format(conditional_id)
+            self.error_message = ["Error: if argument is undefined: {}".format(conditional_id)]
             return
         elif self.questions[conditional_id].get_data_type() != 'boolean':
-            self.error_message = "Error: if argument is not boolean: {}".format(conditional_id)
+            self.error_message = ["Error: if argument is not boolean: {}".format(conditional_id)]
             return
 
         conditional_question = self.questions[conditional_id]

@@ -44,7 +44,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             }
         }
 
-        public IEnumerable<IQuestionNode> GetVariables(Reference<ICalculationNode> node)
+        public IEnumerable<IQuestionNode> GetVariables(DomainId<ICalculationNode> node)
         {
             return m_extractVariableVisitor.Extract(node);
         }

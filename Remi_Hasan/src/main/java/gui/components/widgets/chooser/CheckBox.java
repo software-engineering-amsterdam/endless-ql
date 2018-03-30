@@ -46,6 +46,7 @@ public class CheckBox extends javafx.scene.control.CheckBox implements GUIWidget
 
     @Override
     public void setWidth(int width) {
+        // Checkbox width is set by font size
         this.setStyle(this.getStyle() + "-fx-font-size: " + width + ";");
     }
 }

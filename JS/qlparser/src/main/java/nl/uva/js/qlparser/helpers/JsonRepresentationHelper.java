@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class JsonRepresentationHelper {
-    public static List<Object> visualInformation(List<FormExpression> expressions) {
+    public static List<Object> visualInformation(List<? extends FormExpression> expressions) {
         return expressions.stream()
                 .map(FormExpression::getJsonRepresentation)
                 .filter(Objects::nonNull)

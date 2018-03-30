@@ -7,6 +7,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
     public interface IExtractVariableVisitor
     {
-        IEnumerable<IQuestionNode> Extract(Reference<ICalculationNode> calculationNode);
+        IEnumerable<IQuestionNode> Extract(DomainId<ICalculationNode> calculationNode);
     }
 }

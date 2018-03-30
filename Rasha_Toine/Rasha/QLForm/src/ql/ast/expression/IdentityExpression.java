@@ -4,11 +4,8 @@ import ql.visiting.ExpressionVisitor;
 
 public class IdentityExpression extends Expression {
 	
-	private String name;
+	private final String name;
 
-	public IdentityExpression() {
-	}
-	
 	public IdentityExpression(String name) {
 		this.name = name;
 	}
@@ -20,9 +17,5 @@ public class IdentityExpression extends Expression {
 
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 }

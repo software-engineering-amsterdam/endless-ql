@@ -1,5 +1,6 @@
 package org.uva.ql.validation;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.uva.app.IOHandler;
 import org.uva.ql.ast.CalculatedQuestion;
@@ -16,11 +17,18 @@ import org.uva.ql.validation.collector.SymbolTable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ParameterCheckerTest {
+
+    @Before
+    public void setUp() throws Exception {
+        //Disable console logging for tests.
+        Logger.getGlobal().setUseParentHandlers(false);
+    }
 
     @Test
     public void runCheckTestInputCalculation() {

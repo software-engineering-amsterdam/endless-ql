@@ -5,7 +5,7 @@ import NodeLocation from "../location/NodeLocation";
 export default abstract class Expression implements TreeNode {
   abstract accept(visitor: ExpressionVisitor): any;
 
-  abstract setLocation(location: NodeLocation): void;
+  abstract setLocation(location: NodeLocation): TreeNode;
 
   abstract getLocation(): NodeLocation;
 }

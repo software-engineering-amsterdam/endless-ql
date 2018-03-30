@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assignment1.Model.QL.AST;
 using Assignment1.Model.QL.AST.Expression;
 using Assignment1.Model.QL.AST.Value;
@@ -8,12 +9,12 @@ namespace Assignment1.Execution
 {
     public class QLExecutor : IQLASTVisitor
     {
-        public IReadOnlyList<Question> VisibleQuestions => _visibleQuestions.AsReadOnly();
+        public IEnumerable<Question> VisibleQuestions => _visibleQuestions;
 
         private readonly QuestionForm _questionForm;
         private readonly Dictionary<string, IValue> _answers = new Dictionary<string, IValue>();
         private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
-        private readonly List<Question> _visibleQuestions = new List<Question>();
+        private readonly LinkedList<Question> _visibleQuestions = new LinkedList<Question>();
         private readonly HashSet<string> _readOnlyQuestions = new HashSet<string>();
 
         public QLExecutor(QuestionForm questionForm)
@@ -32,12 +33,17 @@ namespace Assignment1.Execution
 
         public bool IsReadOnly(string questionId) => _readOnlyQuestions.Contains(questionId);
 
-        public IValue GetAnswer(string questionId) => _answers[questionId];
+        public IValue GetAnswer(string questionId)
+        {
+            if (!_answers.ContainsKey(questionId))
+                _questions[questionId].Accept(this);
+            return _answers[questionId];
+        }
 
         private void AddQuestion(Question question, bool readOnly)
         {
-            _questions.Add(question.Id, question);
-            _visibleQuestions.Add(question);
+            _visibleQuestions.Remove(question);
+            _visibleQuestions.AddLast(question);
             if (readOnly) _readOnlyQuestions.Add(question.Id);
         }
 
@@ -50,6 +56,11 @@ namespace Assignment1.Execution
 
         private void VisitStatements(IEnumerable<Statement> statements)
         {
+            statements = statements.ToArray();
+            foreach (var question in statements.OfType<Question>())
+            {
+                _questions.Add(question.Id, question);
+            }
             foreach (var statement in statements)
             {
                 statement.Accept(this);

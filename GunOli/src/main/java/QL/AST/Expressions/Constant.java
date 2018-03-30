@@ -15,11 +15,11 @@ public abstract class Constant<T> extends Expression {
     public T getValue() {
         return this.value;
     }
-
+    /*
     @Override
     public Constant<T> evaluate() {
         return this;
-    }
+    }*/
 
     public abstract String toString();
 }

@@ -2,13 +2,13 @@ package gui.model;
 
 import gui.components.LabelWithWidget;
 import gui.components.widgets.GUIWidget;
-import gui.components.widgets.WidgetFactory;
 import gui.render.GUIController;
+import gui.render.WidgetFactory;
 import javafx.scene.control.Label;
 import ql.model.expression.Expression;
 import ql.model.expression.ReturnType;
 
-public class GUIQuestion implements IGUIQuestion {
+public class GUIQuestion implements IRenderable {
     private final String identifier;
     private final String label;
     private final ReturnType type;

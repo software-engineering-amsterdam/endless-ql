@@ -14,21 +14,23 @@ namespace Assignment1.Rendering.Widget
         private readonly DateTimePicker _dateTimePicker;
         private readonly Action<IValue> _valueChangedHandler;
 
+        private void AddLabel(string label) => _panel.Controls.Add(new Label
+        {
+            AutoSize = true,
+            Text = label
+        });
+
         public DatePicker(string label, QLDate value, bool readOnly, Action<IValue> valueChangedHandler)
         {
             _valueChangedHandler = valueChangedHandler;
-            _panel.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = label
-            });
+            AddLabel(label);
             _dateTimePicker = new DateTimePicker
             {
                 MinDate = DateTime.MinValue,
                 MaxDate = DateTime.MaxValue,
-                Value = value.Value,
                 Enabled = !readOnly
             };
+            _dateTimePicker.Value = value.Value >= _dateTimePicker.MinDate ? value.Value : _dateTimePicker.MinDate;
             if (!readOnly)
                 _dateTimePicker.ValueChanged += DateTimePicker_ValueChanged;
             _panel.Controls.Add(_dateTimePicker);

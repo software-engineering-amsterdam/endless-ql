@@ -4,51 +4,47 @@
  */
 
 {
-    // Mapping of operators to their TypeScript class
-    let operationMapping = {
-        "&&" : Nodes.And,
-        "||" : Nodes.Or,
-        "<=" : Nodes.SmallerThanOrEqual,
-        ">=" : Nodes.LargerThanOrEqual,
-        "!=" : Nodes.NotEqual,
-        "==" : Nodes.Equals,
-        "<"  : Nodes.SmallerThan,
-        ">"  : Nodes.LargerThan,
-        "+"  : Nodes.Addition,
-        "-"  : Nodes.Subtraction,
-        "*"  : Nodes.Multiplication,
-        "/"  : Nodes.Division
-    }
+  // Mapping of operators to their TypeScript class
+  let operationMapping = {
+    "&&" : Nodes.And,
+    "||" : Nodes.Or,
+    "<=" : Nodes.SmallerThanOrEqual,
+    ">=" : Nodes.LargerThanOrEqual,
+    "!=" : Nodes.NotEqual,
+    "==" : Nodes.Equals,
+    "<"  : Nodes.SmallerThan,
+    ">"  : Nodes.LargerThan,
+    "+"  : Nodes.Addition,
+    "-"  : Nodes.Subtraction,
+    "*"  : Nodes.Multiplication,
+    "/"  : Nodes.Division
+  }
 
-    // Mapping of types to their TypeScript class
-    let typeMapping = {
-        "boolean" : FieldType.Boolean,
-        "date" : FieldType.Date,
-        "money" : FieldType.Money,
-        "integer" : FieldType.Integer,
-        "decimal" : FieldType.Decimal,
-        "text" : FieldType.Text,
-    }
+  // Mapping of types to their TypeScript class
+  let typeMapping = {
+    "boolean" : FieldType.Boolean,
+    "date" : FieldType.Date,
+    "money" : FieldType.Money,
+    "integer" : FieldType.Integer,
+    "decimal" : FieldType.Decimal,
+    "text" : FieldType.Text,
+  }
 
-    function makeOperationNode(left, head) {
-        const Operation = operationMapping[head[1]];
-        return new Operation(left, head[3]);
-    }
+  function makeOperationNode(left, head) {
+    const Operation = operationMapping[head[1]];
+    return new Operation(left, head[3]);
+  }
 
-    // Create correct expression hierarchy
-    function buildExpression(head, tail) {
-        let expressionNode = tail.reduce(makeOperationNode, head);
-        return addLocation(expressionNode);
-    }
-
-  // Add location to every node
-  function addLocation(node){
-    node.setLocation(location());
-    return node;
+  function makeExpressionNode(head, tail) {
+    let expressionNode = tail.reduce(makeOperationNode, head);
+    return expressionNode.setLocation(location());
   }
 }
 
-Root = __ forms:Form+ __ { return forms }
+Root
+  = __ forms:Form+ __ {
+    return forms
+  }
 
 UnaryOps
   = "!"
@@ -85,80 +81,74 @@ Types
   / "decimal"
   / "text"
 
-BlockBody
-  = Field
-  / IfCondition
-
-FieldType
- = fieldType:Types {
-    return typeMapping[fieldType];
-}
-
-Field
- = label:StringLiteral __ identifier:Identifier _ ":" _ type:FieldType __ expression:("=" __ Expression)? __ {
-    if (expression)
-        return new Nodes.ComputedField(identifier, label.value, type, expression[2]);
-    let fieldNode = new Nodes.Question(identifier, label.value, type);
-    return addLocation(fieldNode);
+Form
+  = FormToken _ identifier:Identifier __ block:Block {
+   let formNode = new Nodes.FormNode(identifier, block);
+   return formNode.setLocation(location());
 }
 
 Block
- = "{" __ body:(BlockBody)+ __ "}" __ {
-     return body;
+  = "{" __ body:(Field / IfCondition)+ __ "}" __ {
+    return body;
 }
 
-Form
- = FormToken _ identifier:Identifier _ block:Block {
-     let formNode = new Nodes.FormNode(identifier, block);
-     return addLocation(formNode);
+Field
+  = label:StringLiteral __ identifier:Identifier _ ":" _ type:FieldType __ expression:("=" __ Expression)? __ {
+    if (expression) {
+      let computedFieldNode = new Nodes.ComputedField(identifier, label.value, type, expression[2]);
+      return computedFieldNode.setLocation(location());
+    }
+    let fieldNode = new Nodes.Question(identifier, label.value, type);
+    return fieldNode.setLocation(location());
+}
+
+FieldType
+  = fieldType:Types {
+    return typeMapping[fieldType];
 }
 
 IfCondition
- = IfToken _ predicate:ExpressionWithBrackets _ block:Block _ elseBlock:ElseStatement? __ {
-     let IfConditionNode = new Nodes.IfCondition(predicate, block, elseBlock);
-     return addLocation(IfConditionNode);
+  = IfToken _ predicate:ExpressionWithBrackets __ thenBlock:Block __ elseBlock:Else? __ {
+    let IfConditionNode = new Nodes.IfCondition(predicate, thenBlock, elseBlock);
+    return IfConditionNode.setLocation(location());
 }
 
-ElseStatement
- = ElseToken _ block:Block __ {
+Else
+  = ElseToken _ block:Block __ {
     return block;
 }
 
 Expression
- = expression:BooleanExpression {
+  = expression:BooleanExpression {
     return expression;
 }
 
 ExpressionWithBrackets
- = "("_ expr:Expression _ ")" {
-    return expr;
+  = "("_ expression:Expression _ ")" {
+    return expression;
 }
 
 BooleanExpression
   = head:ComparisonExpression _ tail:(_ BoolOps _ ComparisonExpression)+ _ {
-    let boolExpressionNode = buildExpression(head, tail);
-    return addLocation(boolExpressionNode);
+    return makeExpressionNode(head, tail).setLocation(location());
   }
   / ComparisonExpression
 
 ComparisonExpression
   = head:AdditiveExpression _ tail:(_ CompOps _ AdditiveExpression)+ _ {
-    let comparisonExpressionNode = buildExpression(head, tail);
-    return addLocation(comparisonExpressionNode);
+    return makeExpressionNode(head, tail).setLocation(location());
   }
   / AdditiveExpression
 
 AdditiveExpression
   = head:MultiplicativeExpression _ tail:(_ AddOps _ MultiplicativeExpression)+ _{
-    let additiveExpressionNode = buildExpression(head, tail);
-    return addLocation(additiveExpressionNode);
+    return makeExpressionNode(head, tail).setLocation(location());
   }
   / MultiplicativeExpression
 
 MultiplicativeExpression
   = head:ExpressionElement _ tail:(_ MultOps _ ExpressionElement)+ _{
-    let multiplicativeExpressionNode = buildExpression(head, tail);
-    return addLocation(multiplicativeExpressionNode);
+    return makeExpressionNode(head, tail).setLocation(location());
   }
   / ExpressionElement
 
@@ -168,15 +158,15 @@ ExpressionElement
   / UnaryExpression
 
 UnaryExpression
- = UnaryOps value:ExpressionElement _ {
+  = UnaryOps value:ExpressionElement _ {
     let unaryExpressionNode = new Nodes.Negation(value);
-    return addLocation(unaryExpressionNode);
+    return unaryExpressionNode.setLocation(location());
 }
 
 ExpressionVariableIdentifier
   = Identifier {
     let identifierNode = new Nodes.VariableIdentifier(text());
-    return addLocation(identifierNode);
+    return identifierNode.setLocation(location());
 }
 
 Identifier
@@ -185,34 +175,31 @@ Identifier
 }
 
 BooleanLiteral
- = BooleanToken {
-    let booleanLiteralNode = new Nodes.BooleanLiteral(text() == "true");
-    return addLocation(booleanLiteralNode);
+  = BooleanToken {
+    let booleanLiteralNode = new Nodes.BooleanLiteral(text() === "true");
+    return booleanLiteralNode.setLocation(location());
 }
 
 NumberLiteral
- = minus:[-]? digits:([0-9\.]+) {
-    let amount = digits.join("");
-    if (minus)
-        amount = minus.concat(amount);
-    let numberLiteralNode = Nodes.NumberLiteral.fromString(amount);
-    return addLocation(numberLiteralNode);
+  = [-]?[0-9\.]+ {
+    let numberLiteralNode = Nodes.NumberLiteral.fromString(text());
+    return numberLiteralNode.setLocation(location());
 }
 
 DateLiteral
- = [0-9][0-9] dateSeparator [0-9][0-9] dateSeparator [0-9][0-9][0-9][0-9]{
+  = [0-9][0-9] dateSeparator [0-9][0-9] dateSeparator [0-9][0-9][0-9][0-9]{
     let dateLiteralNode = Nodes.DateLiteral.fromString(text());
-    return addLocation(dateLiteralNode);
+    return dateLiteralNode.setLocation(location());
 }
 
 dateSeparator
- = [\.]
+  = [\.]
 
-// String Literal, Currently only support double quoted Strings
+// String Literal, only support double quoted Strings
 StringLiteral "String literal"
- = '"' chars:DoubleQuotedStringCharacters* '"'{
+  = '"' chars:DoubleQuotedStringCharacters* '"' {
     let stringLiteralNode = new Nodes.StringLiteral(chars.join(''));
-    return addLocation(stringLiteralNode);
+    return stringLiteralNode.setLocation(location());
 }
 
 DoubleQuotedStringCharacters
@@ -231,15 +218,15 @@ EscapeSequence
   / "v"  { return "\x0B"; }
 
 Value
- = ExpressionVariableIdentifier
- / DateLiteral
- / NumberLiteral
- / StringLiteral
- / BooleanLiteral
+  = ExpressionVariableIdentifier
+  / DateLiteral
+  / NumberLiteral
+  / StringLiteral
+  / BooleanLiteral
 
 BooleanToken
- = BooleanTrue !Alphabet
- / BooleanFalse !Alphabet
+  = BooleanTrue !Alphabet
+  / BooleanFalse !Alphabet
 
 BooleanTrue = "true"
 BooleanFalse = "false"
@@ -250,7 +237,6 @@ FormToken = "form" !Alphabet
 
 Keywords = BooleanToken
 
-
 Alphabet
   = [a-zA-Z]
 
@@ -260,8 +246,6 @@ Numbers
 AlphabetOrNumbers
   = Alphabet
   / Numbers
-
-SourceCharacter = .
 
 WhiteSpace "Whitespace"
   = "\t"
@@ -289,10 +273,10 @@ Comment "Comment"
   / SingleLineComment
 
 SingleLineComment
-  = "//" (!LineTerminator SourceCharacter)*
+  = "//" (!LineTerminator .)*
 
 MultiLineComment
-  = "/*" (!"*/" SourceCharacter)* "*/"
+  = "/*" (!"*/" .)* "*/"
 
 MultiLineCommentNoLineTerminator
-  = "/*" (!("*/" / LineTerminator) SourceCharacter)* "*/"
+  = "/*" (!("*/" / LineTerminator) .)* "*/"

@@ -1,11 +1,11 @@
 package ui.view
 
-import ui.model.QuestionModel
 import javafx.scene.control.TextField
 import javafx.scene.control.TextInputControl
 import tornadofx.mutateOnChange
+import ui.model.QuestionViewModel
 
-abstract class QuestionTextField(question: QuestionModel) : QuestionField() {
+abstract class QuestionTextField(question: QuestionViewModel) : QuestionField() {
 
     final override val root = TextField()
 

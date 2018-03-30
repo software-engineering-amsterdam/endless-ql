@@ -13,10 +13,12 @@ namespace Assignment1
         {
             InitializeComponent();
             var presenter = new MainPresenter(this);
-            openFileButton.Click += SelectQLFile;
+            openFile.Click += SelectQLFile;
+            exportAnswers.Click += ExportAnswers;
         }
 
         public event EventHandler SelectQLFile;
+        public event EventHandler ExportAnswers;
 
         public void SetFormControl(Control control)
         {
@@ -74,6 +76,12 @@ namespace Assignment1
                 ForeColor = Color.DarkOrange
             };
             SetMessages("Warning:", warnings, header, label);
+        }
+
+        public void ClearUI()
+        {
+            _questionFormPanel.Controls.Clear();
+            _messagePanel.Controls.Clear();
         }
     }
 }

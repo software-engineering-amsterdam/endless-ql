@@ -50,9 +50,9 @@ class CircularDependencyVisitor(
         val reference = referenceExpression.name
 
         visitedReferences.find { it.text == reference.text }?.let {
-            val first = visitedReferences.first
-            val chain = visitedReferences.drop(1)
-            val error = CircularDependencyError(first, chain)
+            val chain = visitedReferences.clone().apply { push(reference) }.reversed()
+            val first = chain.first()
+            val error = CircularDependencyError(first, chain.drop(1))
             context.errors += error
             return
         }

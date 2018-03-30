@@ -89,7 +89,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             if (args.length == 0) {
-                new Main().parseAndBuildQLS();
+                new Main().parseAndBuildQL(System.in);
             } else if (args.length == 1) {
                     FileInputStream fileInputStream = new FileInputStream(args[0]);
                     new Main().parseAndBuildQL(fileInputStream);

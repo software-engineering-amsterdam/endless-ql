@@ -9,5 +9,10 @@ public class SemanticDifferentialScales extends Question
         super(question, answerType, answerName);
     }
 
+    @Override
+    public void notifyAllObservers() {
+
+    }
+
 
 }

@@ -15,7 +15,7 @@ public class StringValue extends Value<String> {
     }
 
     @Override
-    public Integer getIntValue() {
+    public Integer getIntegerValue() {
         throw new UnsupportedOperationException("Cannot cast string to integer");
     }
 

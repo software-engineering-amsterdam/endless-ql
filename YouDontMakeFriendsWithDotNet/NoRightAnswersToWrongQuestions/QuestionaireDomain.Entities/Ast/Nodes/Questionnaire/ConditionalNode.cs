@@ -11,19 +11,19 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
         AstNodeBase, 
         IConditionalStatementNode
     {
-        public Reference<IBooleanLogicNode> Predicate { get; }
-        public IEnumerable<Reference<IStatementNode>> Consequent { get; }
-        public IEnumerable<Reference<IStatementNode>> Alternative { get; }
+        public DomainId<IBooleanLogicNode> Predicate { get; }
+        public IEnumerable<DomainId<IStatementNode>> Consequent { get; }
+        public IEnumerable<DomainId<IStatementNode>> Alternative { get; }
 
         public ConditionalNode(Guid id, 
             string definition,
-            Reference<IBooleanLogicNode> predicate,
-            IEnumerable<Reference<IStatementNode>> consequent,
-            IEnumerable<Reference<IStatementNode>> alternative) : base(id, definition)
+            DomainId<IBooleanLogicNode> predicate,
+            IEnumerable<DomainId<IStatementNode>> consequent,
+            IEnumerable<DomainId<IStatementNode>> alternative) : base(id, definition)
         {
             Predicate = predicate;
-            Consequent = consequent ?? new List<Reference<IStatementNode>>();
-            Alternative = alternative ?? new List<Reference<IStatementNode>>();
+            Consequent = consequent ?? new List<DomainId<IStatementNode>>();
+            Alternative = alternative ?? new List<DomainId<IStatementNode>>();
         }
     }
 }

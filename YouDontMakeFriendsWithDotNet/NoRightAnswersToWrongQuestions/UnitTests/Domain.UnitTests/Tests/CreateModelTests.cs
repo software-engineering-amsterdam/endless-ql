@@ -308,7 +308,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             m_variableUpdater.Update(questionItem, value);
         }
 
-        private Reference<IQuestionNode> GetQuestionByName(string variableName)
+        private DomainId<IQuestionNode> GetQuestionByName(string variableName)
         {
             var variableItem = m_domainItemLocator
                 .GetAll<IVariableNode>()
@@ -317,7 +317,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             var questionItem = m_domainItemLocator
                 .GetAll<IQuestionNode>()
                 .Where(x => x.QuestionName == variableItem.VariableName)
-                .Select(x => new Reference<IQuestionNode>(x.Id))
+                .Select(x => new DomainId<IQuestionNode>(x.Id))
                 .FirstOrDefault();
 
             return questionItem;
@@ -335,7 +335,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
 
             foreach (var questionnaireRootNode in questionnaireNodes)
             {
-                var questionnaireRef = new Reference<IQuestionnaireRootNode>(questionnaireRootNode.Id);
+                var questionnaireRef = new DomainId<IQuestionnaireRootNode>(questionnaireRootNode.Id);
                 m_outputCreator.CreateOrUpdate(questionnaireRef);
             }
         }

@@ -1,6 +1,7 @@
 package gui.components.widgets.spinbox;
 
 import gui.components.widgets.WidgetUtils;
+import ql.evaluation.value.UndefinedValue;
 import ql.evaluation.value.Value;
 import ql.model.expression.Expression;
 import ql.model.expression.constant.MoneyConstant;
@@ -19,6 +20,6 @@ public class MoneySpinBox extends DecimalSpinBox {
 
     @Override
     public void setValue(Value value) {
-        this.getValueFactory().setValue(value.getMoneyValue().doubleValue());
+        this.getValueFactory().setValue(value.isUndefined() ? 0 : value.getMoneyValue().doubleValue());
     }
 }

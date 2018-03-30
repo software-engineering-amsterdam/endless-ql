@@ -5,6 +5,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
     public interface IQuestionnaireOutputCreator
     {
-        void CreateOrUpdate(Reference<IQuestionnaireRootNode> questionnaireRootNode);
+        void CreateOrUpdate(DomainId<IQuestionnaireRootNode> questionnaireRootNode);
     }
 }

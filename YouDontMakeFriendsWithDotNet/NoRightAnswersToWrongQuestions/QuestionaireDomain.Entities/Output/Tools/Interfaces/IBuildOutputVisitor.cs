@@ -6,6 +6,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
     public interface IBuildOutputVisitor
     {
-        Reference<IQuestionnaireOutputItem> Build(Reference<IQuestionnaireRootNode> node);
+        DomainId<IQuestionnaireOutputItem> Build(DomainId<IQuestionnaireRootNode> node);
     }
 }

@@ -11,8 +11,8 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation
         public DivideNode(
             Guid id,
             string definition,
-            Reference<ICalculationNode> leftCalculation,
-            Reference<ICalculationNode> rightCalculation) 
+            DomainId<ICalculationNode> leftCalculation,
+            DomainId<ICalculationNode> rightCalculation) 
             : base(id, definition, leftCalculation,rightCalculation)
         {
         }

@@ -1,0 +1,8 @@
+﻿form HelloWorld {
+	if (x) {
+		"Y label" y : boolean
+	}
+	if (y) {
+		"X label" x : boolean
+	}
+}

@@ -4,18 +4,18 @@ using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Domain
 {
-    public class Reference<T> where T : IDomainItem
+    public class DomainId<T> where T : IDomainItem
     {
-        public Reference(Guid id)
+        public DomainId(Guid id)
         {
             Id = id;
         }
 
         public Guid Id { get; }
 
-        public static implicit operator Reference<IAstNode>(Reference<T> d)
+        public static implicit operator DomainId<IAstNode>(DomainId<T> d)
         {
-            return new Reference<IAstNode>(d.Id);
+            return new DomainId<IAstNode>(d.Id);
         }
 
         public T ToDomainItem(IDomainItemLocator domainItemLocator)

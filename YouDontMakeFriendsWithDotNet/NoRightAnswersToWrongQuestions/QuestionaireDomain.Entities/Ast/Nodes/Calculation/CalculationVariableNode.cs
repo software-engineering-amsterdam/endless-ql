@@ -15,6 +15,6 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation
         {
         }
 
-        public IEnumerable<Reference<ICalculationNode>> Children => new List<Reference<ICalculationNode>>();
+        public IEnumerable<DomainId<ICalculationNode>> Children => new List<DomainId<ICalculationNode>>();
     }
 }

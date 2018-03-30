@@ -31,7 +31,6 @@ public class TextboxGUI implements QuestionGUI
                         JTextField textField = (JTextField) e.getSource();
                         String textFieldValue = textField.getText();
                         question.givenAnswer(textFieldValue);
-                        notifyAllObservers();
                     }
                 }
             };
@@ -61,21 +60,6 @@ public class TextboxGUI implements QuestionGUI
         return textField;
     }
 
-
-    @Override
-    public void attachObserver(Observer observer)
-    {
-        observers.add(observer);
-    }
-
-    @Override
-    public void notifyAllObservers()
-    {
-        for (Observer obs : observers)
-        {
-            obs.updateTextbox(question);
-        }
-    }
 
     public void setEnable(boolean b)
     {

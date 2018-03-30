@@ -14,19 +14,22 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     {
         private readonly IIdMaker m_ids;
         private readonly IDomainItemRegistry m_registry;
+        private readonly IDomainItemLocator m_domainItemLocator;
 
         public OutputItemFactory(
             IIdMaker ids, 
-            IDomainItemRegistry registry)
+            IDomainItemRegistry registry,
+            IDomainItemLocator domainItemLocator)
         {
             m_ids = ids;
             m_registry = registry;
+            m_domainItemLocator = domainItemLocator;
         }
 
-        public Reference<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
-            Reference<IQuestionnaireRootNode> variable,
+        public DomainId<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
+            DomainId<IQuestionnaireRootNode> variable,
             string displayName,
-            IList<Reference<IQuestionOutputItem>> questions)
+            IList<DomainId<IQuestionOutputItem>> questions)
         {
             var questionnaireOutputItem= new QuestionnaireOutputItem(
                 variable,
@@ -37,19 +40,21 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 questionnaireOutputItem);
         }
 
-        public Reference<IQuestionOutputItem> CreateQuestionOutputItem(
-            Reference<IQuestionNode> variable,
-            string text, 
+        public DomainId<IQuestionOutputItem> CreateQuestionOutputItem(
+            DomainId<IQuestionNode> variable,
             string value,
-            Type type,
             bool isVisible, 
             bool isReadonly)
         {
+            var question = m_domainItemLocator
+                .Get<IQuestionNode>(variable.Id);
+            
             var questionOutputItem = new QuestionOutputItem(
                 m_ids.Next,
                 variable,
-                text,
-                type,
+                question.QuestionName,
+                question.QuestionText,
+                question.QuestionType,
                 value,
                 isVisible,
                 isReadonly);
@@ -58,10 +63,10 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 questionOutputItem);
         }
 
-        private Reference<T> DomainItemRegistration<T>(T node) where T : IDomainItem
+        private DomainId<T> DomainItemRegistration<T>(T node) where T : IDomainItem
         {
             m_registry.Add(node);
-            return new Reference<T>(node.Id);
+            return new DomainId<T>(node.Id);
         }
     }
 }

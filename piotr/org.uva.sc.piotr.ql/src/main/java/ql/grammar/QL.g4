@@ -1,4 +1,4 @@
-ql.qls.grammar QL;
+grammar QL;
 
 /*
  * Parser Rules

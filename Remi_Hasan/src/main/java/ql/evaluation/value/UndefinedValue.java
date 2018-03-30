@@ -15,7 +15,7 @@ public class UndefinedValue extends Value<Boolean> {
     }
 
     @Override
-    public Integer getIntValue() {
+    public Integer getIntegerValue() {
         return null;
     }
 

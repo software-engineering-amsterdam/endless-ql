@@ -9,19 +9,19 @@ namespace QlsParser.AstBuilder
     public static class AstExtensions
     {
 
-        public static IEnumerable<Reference<T>> To<T>(
-            this IEnumerable<Reference<IAstNode>> nodes,
+        public static IEnumerable<DomainId<T>> To<T>(
+            this IEnumerable<DomainId<IAstNode>> nodes,
             IDomainItemLocator domainItemLocator) where T : IAstNode
         {
             return nodes.Select(x => To<T>(x, domainItemLocator)).ToList();
         }
         
-        public static Reference<T> To<T>(
-            this Reference<IAstNode> node,
+        public static DomainId<T> To<T>(
+            this DomainId<IAstNode> node,
             IDomainItemLocator domainItemLocator) where T : IAstNode
         {
             var domainItem = domainItemLocator.Get<T>(node.Id);
-            return new Reference<T>(domainItem.Id);
+            return new DomainId<T>(domainItem.Id);
         }
     }
 }

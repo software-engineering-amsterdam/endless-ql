@@ -8,17 +8,17 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class QuestionPanel extends JPanel {
+public class QuestionView extends JPanel {
     private final Widget widget;
     private final QuestionModel questionModel;
 
-    public QuestionPanel(QuestionModel questionModel) {
+    public QuestionView(QuestionModel questionModel) {
         super(new GridBagLayout());
-        questionModel.setPanel(this);
+        questionModel.setQuestionView(this);
 
         this.questionModel = questionModel;
         this.widget = createDefaultWidget(questionModel);
-        JLabel labelComponent = new JLabel(questionModel.getLabel());
+        JLabel labelComponent = new JLabel(questionModel.getQuestionLabel());
 
         this.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -72,4 +72,5 @@ public class QuestionPanel extends JPanel {
         // string and any other
         return new TextFieldWidget(questionModel);
     }
+
 }

@@ -1,5 +1,6 @@
 package org.uva.ql.validation;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.BooleanType;
@@ -9,11 +10,18 @@ import org.uva.ql.validation.checker.QuestionChecker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class QuestionCheckerTest {
+
+    @Before
+    public void setUp() throws Exception {
+        //Disable console logging for tests.
+        Logger.getGlobal().setUseParentHandlers(false);
+    }
 
     @Test
     public void runCheck() {

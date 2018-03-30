@@ -1,0 +1,4 @@
+﻿form HelloWorld {
+	"Did you sell a house in 2010?" hasSoldHouse : boolean
+	"For how much did you sell a house in 2010?" hasSoldHouse : money
+}

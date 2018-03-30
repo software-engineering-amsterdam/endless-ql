@@ -1,13 +1,17 @@
-package nl.khonraad.ql.dynamics;
+package nl.khonraad.ql.ast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nl.khonraad.ql.QLBaseVisitor;
 import nl.khonraad.ql.QLParser;
-import nl.khonraad.ql.algebra.PartialFunction;
-import nl.khonraad.ql.algebra.Type;
+import nl.khonraad.ql.algebra.Identifier;
+import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.Value;
+import nl.khonraad.ql.algebra.value.Operator;
+import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.ast.data.Question;
+import nl.khonraad.ql.ast.data.Questionnaire;
 
 public final class Visitor extends QLBaseVisitor<Value> {
 
@@ -18,13 +22,9 @@ public final class Visitor extends QLBaseVisitor<Value> {
         this.questionnaire = questionnaire;
     }
 
-    private List<String>        declaredQuestionTypes         = new ArrayList<>();
-
-    private List<String>        forwardReferences             = new ArrayList<>();
+    private List<Identifier>    forwardReferences             = new ArrayList<>();
 
     private static final String REFERENCES_UNDEFINED_QUESTION = "Reference to undefined question: ";
-    private static final String DUPLICATE_DECLARED            = "Duplicate question declaration: ";
-    private static final String TYPE_ERROR                    = "Type error: ";
 
     private String removeQuotes( String text ) {
         return text.substring( 1, text.length() - 1 );
@@ -32,10 +32,6 @@ public final class Visitor extends QLBaseVisitor<Value> {
 
     @Override
     public Value visitForm( QLParser.FormContext ctx ) {
-
-        declaredQuestionTypes = new ArrayList<>();
-
-        questionnaire.forgetQuestionsRememberAnswers();
 
         Value value = visitChildren( ctx );
 
@@ -50,7 +46,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
     @Override
     public Value visitIdentifier( QLParser.IdentifierContext ctx ) {
 
-        String identifier = ctx.Identifier().getText();
+        Identifier identifier = new Identifier( ctx.Identifier().getText() );
 
         Question question = questionnaire.findAnswerable( identifier );
 
@@ -58,7 +54,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
 
             forwardReferences.remove( identifier );
 
-            return question.getValue();
+            return question.value();
 
         }
 
@@ -68,36 +64,41 @@ public final class Visitor extends QLBaseVisitor<Value> {
     @Override
     public Value visitPartAnswerableQuestion( QLParser.PartAnswerableQuestionContext ctx ) {
 
-        String identifier = ctx.Identifier().getText();
-        String label = removeQuotes( ctx.QuotedString().getText() );
+        Identifier identifier = new Identifier( ctx.Identifier().getText() );
+        Label label = new Label( removeQuotes( ctx.QuotedString().getText() ) );
 
-        Type type = Type.parseType( ctx.Type().getText() );
+        Type type = Type.type( ctx.type().getText() );
 
-        forwardReferences.remove( identifier );
+        Question question = questionnaire.findAnswerable( identifier );
 
-        if ( declaredQuestionTypes.contains( identifier ) ) {
-            throw new RuntimeException( DUPLICATE_DECLARED + identifier + " typed " + type );
+        if ( question != null ) {
+
+            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Duplicate declaration " + ctx.Identifier().getText() );
         }
-        declaredQuestionTypes.add( identifier );
 
         return questionnaire.storeAnswerableQuestion( identifier, label, type );
 
     }
 
+    private IllegalStateException reportError( int l, int c, String message ) {
+        return new IllegalStateException( "Line " + l + ":" + c + " "
+                + message );
+    }
+
     @Override
     public Value visitPartComputedQuestion( QLParser.PartComputedQuestionContext ctx ) {
 
-        String identifier = ctx.Identifier().getText();
-        String label = removeQuotes( ctx.QuotedString().getText() );
+        Identifier identifier = new Identifier( ctx.Identifier().getText() );
+        Label label = new Label( removeQuotes( ctx.QuotedString().getText() ) );
 
-        Type type = Type.parseType( ctx.Type().getText() );
+        Type type = Type.type( ctx.type().getText() );
 
         forwardReferences.remove( identifier );
 
         Value value = visit( ctx.expression() );
 
-        if ( !type.equals( value.getType() ) ) {
-            throw new RuntimeException( TYPE_ERROR + identifier + " expects " + type + " not " + value.getType() );
+        if ( !type.equals( value.type() ) ) {
+            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Type error " + ctx.Identifier().getText() );
         }
 
         return questionnaire.storeComputedQuestion( identifier, label, value );
@@ -110,9 +111,9 @@ public final class Visitor extends QLBaseVisitor<Value> {
         String operator = ctx.unaryOperator().getText();
 
         try {
-            return expression.apply( operator );
+            return expression.apply( Operator.parse( operator ) );
         } catch (Exception e) {
-            throw new RuntimeException( e.getMessage() );
+            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Exception " + ctx.expression().getText() );
         }
     }
 
@@ -131,10 +132,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
         String operator = ctx.multiplicationOperator().getText();
 
         try {
-
-            new PartialFunction( left, operator ).applyOperand( right );
-
-            return left.apply( operator, right );
+            return left.apply( Operator.parse( operator ), right );
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
@@ -150,7 +148,8 @@ public final class Visitor extends QLBaseVisitor<Value> {
         String operator = ctx.additionOperator().getText();
 
         try {
-            return left.apply( operator, right );
+
+            return left.apply( Operator.parse( operator ), right );
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
@@ -166,7 +165,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
         String operator = ctx.equalityOperator().getText();
 
         try {
-            return left.apply( operator, right );
+            return left.apply( Operator.parse( operator ), right );
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
@@ -182,7 +181,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
         String operator = ctx.logicalOperator().getText();
 
         try {
-            return left.apply( operator, right );
+            return left.apply( Operator.parse( operator ), right );
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
@@ -198,7 +197,8 @@ public final class Visitor extends QLBaseVisitor<Value> {
         String operator = ctx.orderingOperator().getText();
 
         try {
-            return left.apply( operator, right );
+
+            return left.apply( Operator.parse( operator ), right );
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
@@ -235,7 +235,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
 
         Value value = visit( ctx.expression() );
 
-        if ( value.equals( Value.TRUE ) ) {
+        if ( value.equals( new Value( true ) ) ) {
             visitChildren( ctx.block() );
         }
         return value;

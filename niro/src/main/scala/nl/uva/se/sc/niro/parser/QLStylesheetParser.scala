@@ -37,31 +37,33 @@ object QLStylesheetParser extends Logging {
 
   object PageVisitor extends QLSBaseVisitor[Page] {
     override def visitPage(ctx: QLSParser.PageContext): Page = {
-      val sections = JavaConverters.asScalaBuffer(ctx.section()).map(SectionVisitor.visit)
+      val sections = JavaConverters.asScalaBuffer(ctx.sections).map(SectionVisitor.visit)
       val defaultStyles = collectDefaultStyles(ctx.defaultStyle())
       Page(ctx.name.getText, sections, defaultStyles)
     }
   }
 
   object SectionVisitor extends QLSBaseVisitor[Section] {
-    override def visitSection(ctx: QLSParser.SectionContext): Section = {
-      val questions = JavaConverters.asScalaBuffer(ctx.questionBlock().questions).map(QuestionVisitor.visit)
-      val defaultStyles = collectDefaultStyles(ctx.questionBlock().defaultStyle())
-      Section(ctx.name.getText, questions, defaultStyles)
+    override def visitMultiStatementSection(ctx: QLSParser.MultiStatementSectionContext): Section = {
+      val statements = JavaConverters.asScalaBuffer(ctx.statements).map(StatementVisitor.visit)
+      val defaultStyles = collectDefaultStyles(ctx.defaultStyle())
+      Section(ctx.name.getText, statements, defaultStyles)
+    }
+
+    override def visitSingleStatementSection(ctx: QLSParser.SingleStatementSectionContext): Section = {
+      val statement = StatementVisitor.visit(ctx.statement())
+      Section(ctx.name.getText, Seq(statement), Map.empty)
     }
   }
 
-  object QuestionVisitor extends QLSBaseVisitor[Question] {
-    override def visitQuestion(ctx: QLSParser.QuestionContext): Question = {
-      if (ctx.styling() == null) Question(ctx.name.getText, Styling())
-      else Question(ctx.name.getText, StylingVisitor.visit(ctx.styling()))
+  object StatementVisitor extends QLSBaseVisitor[Statement] {
+    override def visitQuestionStatement(ctx: QLSParser.QuestionStatementContext): Statement = {
+      val styling = if (ctx.question().styling() != null) StylingVisitor.visit(ctx.question().styling()) else Styling()
+      Question(ctx.question().name.getText, styling)
     }
-  }
 
-  private def collectDefaultStyles(
-      defaultStyleContexts: util.List[QLSParser.DefaultStyleContext]): Map[AnswerType, Styling] = {
-    val emptyMap: Map[AnswerType, Styling] = Map.empty
-    JavaConverters.asScalaBuffer(defaultStyleContexts).map(DefaultStyleVisitor.visit).foldLeft(emptyMap)(_ ++ _)
+    override def visitSectionStatement(ctx: QLSParser.SectionStatementContext): Statement =
+      SectionVisitor.visit(ctx.section())
   }
 
   object DefaultStyleVisitor extends QLSBaseVisitor[Map[AnswerType, Styling]] {
@@ -108,4 +110,11 @@ object QLStylesheetParser extends Logging {
     override def visitComboBox(ctx: QLSParser.ComboBoxContext): Option[WidgetType] =
       Some(ComboBox(ctx.trueValue.getText, ctx.falseValue.getText))
   }
+
+  private def collectDefaultStyles(
+      defaultStyleContexts: util.List[QLSParser.DefaultStyleContext]): Map[AnswerType, Styling] = {
+    val emptyMap: Map[AnswerType, Styling] = Map.empty
+    JavaConverters.asScalaBuffer(defaultStyleContexts).map(DefaultStyleVisitor.visit).foldLeft(emptyMap)(_ ++ _)
+  }
+
 }

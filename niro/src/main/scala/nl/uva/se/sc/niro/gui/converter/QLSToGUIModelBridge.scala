@@ -12,6 +12,7 @@ import nl.uva.se.sc.niro.util.StringUtil
   * desired behaviour.
   */
 object QLSToGUIModelBridge {
+
   def convertStylesheet(stylesheet: QLStylesheet): GUIStylesheet = {
     val defaultStyles = stylesheet.defaultStyles.mapValues(GUIStyling(_))
     qls.GUIStylesheet(
@@ -27,9 +28,15 @@ object QLSToGUIModelBridge {
 
   def convertSection(section: Section): GUISection = {
     val defaultStyles = section.defaultStyles.mapValues(GUIStyling(_))
-    qls.GUISection(section.name, section.questions.map(convertQuestion), defaultStyles)
+    qls.GUISection(section.name, section.statements.map(convertStatement), defaultStyles)
   }
 
-  def convertQuestion(question: Question): GUIQuestionStyling =
-    GUIQuestionStyling(question.name, GUIStyling(question.styling))
+  def convertStatement(statement: Statement): GUIStatement = {
+    statement match {
+      case Question(name, styling) => GUIQuestionStyling(name, GUIStyling(styling))
+      case Section(name, statements, defaultStyles) =>
+        GUISection(name, statements.map(convertStatement), defaultStyles.mapValues(GUIStyling(_)))
+    }
+  }
+
 }

@@ -17,8 +17,8 @@ stylesheet taxOfficeExample
     {
       question hasSoldHouse
         widget radio("Yes", "No") 
-//      section "You sold a house"
-  //    {
+      section "You sold a house"
+      {
         question sellingPrice
           widget spinbox (-1.9, 2.3, 0.3)
         question privateDebt
@@ -32,7 +32,7 @@ stylesheet taxOfficeExample
           color: #999999
           widget spinbox (-200, 200, 4)
         }        
-    //  }
+      }
     }
     default boolean widget radio("Yes", "No")
   }  

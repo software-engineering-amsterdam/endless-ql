@@ -52,16 +52,19 @@ class QLSPageFactory(
 
     addSectionHeader(page, section)
 
-    section.questions.flatMap(styledQuestion => {
-      form
-        .collectQuestionOnName(styledQuestion.name)
-        .map(question => {
-          val styleToUse = defaultSectionStyles(question.answerType) ++ styledQuestion.style
-          val component = componentFactory.make(QLSGUIQuestion(question, styleToUse))
-          question.component = Some(component)
-          page.getChildren.add(component)
-          component
-        })
+    section.statements.flatMap({
+      case GUIQuestionStyling(name, style) => {
+        form
+          .collectQuestionOnName(name)
+          .map(question => {
+            val styleToUse = defaultSectionStyles(question.answerType) ++ style
+            val component = componentFactory.make(QLSGUIQuestion(question, styleToUse))
+            question.component = Some(component)
+            page.getChildren.add(component)
+            component
+          })
+      }
+      case section: GUISection => makeSection(page, section, defaultStyles)
     })
   }
 

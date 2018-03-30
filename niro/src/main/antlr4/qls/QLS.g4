@@ -36,27 +36,28 @@ DOUBLE_COLON  : ':' ;
 COMMA         : ',' ;
 PERIOD        : '.' ;
 
-DecimalValue : MIN? [0-9]+ PERIOD [0-9]+ ;
-IntegerValue : MIN? [1-9][0-9]* ;
-HEXDIGIT     : [0-9]|[A-F] ;
-HexValue     : '#' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
-Identifier   : [a-zA-Z0-9_]+ ;
+DECIMAL_VALUE : MIN? [0-9]+ PERIOD [0-9]+ ;
+INTEGER_VALUE : MIN? [1-9][0-9]* ;
+HEXDIGIT      : [0-9]|[A-F] ;
+HEX_VALUE     : '#' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
+IDENTIFIER    : [a-zA-Z0-9_]+ ;
 
-Text         : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); } ;
+TEXT          : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); } ;
 
-WHITESPACE   : [ \t\r\n]+ -> skip ;
-COMMENT      : '//' .*? '\n' -> skip ;
+WHITESPACE    : [ \t\r\n]+ -> skip ;
+COMMENT       : '//' .*? '\n' -> skip ;
 
-stylesheet    : STYLESHEET name=Identifier CURLY_LEFT page+ defaultStyle* CURLY_RIGHT EOF ;
+stylesheet    : STYLESHEET name=IDENTIFIER CURLY_LEFT page+ defaultStyle* CURLY_RIGHT EOF ;
 
-page          : PAGE name=Identifier CURLY_LEFT section+ defaultStyle* CURLY_RIGHT ;
+page          : PAGE name=IDENTIFIER CURLY_LEFT sections+=section+ defaultStyle* CURLY_RIGHT ;
 
-section       : SECTION name=Text questionBlock ;
+section       : SECTION name=TEXT CURLY_LEFT statements+=statement+ defaultStyle* CURLY_RIGHT # MultiStatementSection
+              | SECTION name=TEXT statement                                                   # SingleStatementSection ;
 
-questionBlock : CURLY_LEFT questions+=question+ defaultStyle* CURLY_RIGHT
-              | questions+=question ;
+statement     : section  # SectionStatement
+              | question # QuestionStatement ;
 
-question      : QUESTION name=Identifier styling? ;
+question      : QUESTION name=IDENTIFIER styling? ;
 
 defaultStyle  : DEFAULT questionType styling ;
 
@@ -65,17 +66,17 @@ questionType  : BOOLEAN | STRING | DATE | INTEGER | DECIMAL | MONEY ;
 styling       : style
               | CURLY_LEFT style+ CURLY_RIGHT ;
 
-style         : WIDGET widgetType                           # WidgetStyling
-              | WIDTH DOUBLE_COLON widthValue=IntegerValue  # WidthStyling
-              | COLOR DOUBLE_COLON colorValue=HexValue      # ColorStyling
-              | FONT DOUBLE_COLON fontType=Text             # FontTypeStyling
-              | FONTSIZE DOUBLE_COLON fontSize=IntegerValue # FontSizeStyling;
+style         : WIDGET widgetType                            # WidgetStyling
+              | WIDTH DOUBLE_COLON widthValue=INTEGER_VALUE  # WidthStyling
+              | COLOR DOUBLE_COLON colorValue=HEX_VALUE      # ColorStyling
+              | FONT DOUBLE_COLON fontType=TEXT              # FontTypeStyling
+              | FONTSIZE DOUBLE_COLON fontSize=INTEGER_VALUE # FontSizeStyling;
 
-widgetType    : CHECKBOX                                                                  # CheckBox
-              | SPINBOX BRACKET_LEFT minimum=(DecimalValue | IntegerValue)
-                               COMMA maximum=(DecimalValue | IntegerValue)
-                               COMMA stepSize=(DecimalValue | IntegerValue) BRACKET_RIGHT # SpinBox
-              | SLIDER BRACKET_LEFT minimum=(DecimalValue | IntegerValue)
-                              COMMA maximum=(DecimalValue | IntegerValue) BRACKET_RIGHT   # Slider
-              | COMBO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT     # ComboBox
-              | RADIO BRACKET_LEFT trueValue=Text COMMA falseValue=Text BRACKET_RIGHT     # RadioButtons;
+widgetType    : CHECKBOX                                                                    # CheckBox
+              | SPINBOX BRACKET_LEFT minimum=(DECIMAL_VALUE | INTEGER_VALUE)
+                               COMMA maximum=(DECIMAL_VALUE | INTEGER_VALUE)
+                               COMMA stepSize=(DECIMAL_VALUE | INTEGER_VALUE) BRACKET_RIGHT # SpinBox
+              | SLIDER BRACKET_LEFT minimum=(DECIMAL_VALUE | INTEGER_VALUE)
+                              COMMA maximum=(DECIMAL_VALUE | INTEGER_VALUE) BRACKET_RIGHT   # Slider
+              | COMBO BRACKET_LEFT trueValue=TEXT COMMA falseValue=TEXT BRACKET_RIGHT       # ComboBox
+              | RADIO BRACKET_LEFT trueValue=TEXT COMMA falseValue=TEXT BRACKET_RIGHT       # RadioButtons;

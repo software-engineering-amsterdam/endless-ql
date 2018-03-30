@@ -27,7 +27,8 @@ class Test:
         successes += self.test_invalid_files()
 
         print()
-        print('{} out of {} tests successful.\n'.format(successes, len(self.valid_files) + len(self.invalid_files)))
+        print('{} out of {} {} tests successful.\n'.format(successes, len(self.valid_files) + len(self.invalid_files),
+                                                           self.name))
 
     def test_file(self, file):
         pass
@@ -60,14 +61,9 @@ class Test:
 
     @staticmethod
     def print_result(file, result=True, test=''):
+        tag = colored('[failure]', 'red')
+
         if result:
             tag = colored('[success]', 'green')
-        else:
-            tag = colored('[failure]', 'red')
 
-        if test.startswith('//'):
-            test = test[2:].strip()
-        else:
-            test = ''
-
-        print(tag, file, test)
+        print(tag, file, test.strip('//').strip())

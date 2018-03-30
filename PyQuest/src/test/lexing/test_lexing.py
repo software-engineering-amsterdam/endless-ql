@@ -2,8 +2,8 @@ from src.test.test import Test
 
 
 class TestLexing(Test):
-    def __init__(self, name, directory, lexer):
-        super(TestLexing, self).__init__(name, directory)
+    def __init__(self, directory, lexer):
+        super(TestLexing, self).__init__('lexing', directory)
         self.lexer = lexer
 
     def test_file(self, file):

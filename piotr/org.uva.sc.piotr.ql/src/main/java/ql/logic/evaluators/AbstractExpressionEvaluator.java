@@ -13,8 +13,6 @@ import ql.ast.model.expressions.values.Literal;
 import ql.ast.visitors.AbstractASTTraverse;
 import ql.logic.type.QLBoolean;
 import ql.logic.type.QLDataTypeWrapper;
-import ql.logic.type.QLDataTypeWrapper;
-import ql.logic.type.QLDataTypeWrapper;
 
 public abstract class AbstractExpressionEvaluator extends AbstractASTTraverse<QLDataTypeWrapper> {
 

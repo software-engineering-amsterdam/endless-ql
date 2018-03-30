@@ -5,7 +5,6 @@ import ql.ast.model.expressions.Expression;
 import ql.ast.model.expressions.values.Literal;
 import ql.ast.visitors.AbstractASTTraverse;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 

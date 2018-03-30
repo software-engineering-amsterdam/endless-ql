@@ -13,8 +13,9 @@ public abstract class QLDataTypeWrapper<T> {
 
     public abstract Expression.DataType getType();
 
-    public void setValue(T value) {
-        this.value = value;
+    public void setValue(Object value) {
+        //noinspection unchecked
+        this.value = (T) value;
     }
 
     public T getValue() {
@@ -46,7 +47,7 @@ public abstract class QLDataTypeWrapper<T> {
                 if (stringValue.isEmpty()) {
                     return new QLDate(LocalDate.now());
                 } else {
-                    LocalDate date = LocalDate.now();
+                    LocalDate date;
                     try {
                         date = LocalDate.parse(stringValue);
                     } catch (DateTimeParseException e) {

@@ -1,6 +1,5 @@
 package ql.logic.collectors;
 
-import com.sun.istack.internal.NotNull;
 import ql.ast.model.ASTNode;
 import ql.ast.model.expressions.Expression;
 import ql.ast.model.statements.IfStatement;

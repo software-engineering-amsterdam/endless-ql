@@ -28,7 +28,7 @@ public class StylesheetContextTest {
 
     @Before
     public void setUp() throws Exception {
-        String input = new IOHandler().readFile("input/test/stylesheetTest.qls");
+        String input = new IOHandler().readFile("input/test/qls/stylesheetTest.qls");
         QLSBuilder QLSBuilder = new QLSBuilder();
         Stylesheet stylesheet = QLSBuilder.buildAST(input);
 

@@ -13,6 +13,7 @@ public class SectionVisitor extends QLSBaseVisitor {
     @Override
     public Section visitSection(QLSParser.SectionContext ctx){
 
+        int line = ctx.getStart().getLine();
         ArrayList<Section> sections = new ArrayList<Section>();
         ArrayList<Default> defaultSections = new ArrayList<Default>();
         ArrayList<QLSQuestion> questions = new ArrayList<QLSQuestion>();
@@ -34,7 +35,7 @@ public class SectionVisitor extends QLSBaseVisitor {
             QLSQuestion question = questionVisitor.visitQuestion(questionCtx);
             questions.add(question);
         }
-        return new Section(ctx.STRING().getText(), questions, sections, defaultSections);
+        return new Section(ctx.STRING().getText(), questions, sections, defaultSections, line);
 
     }
 }

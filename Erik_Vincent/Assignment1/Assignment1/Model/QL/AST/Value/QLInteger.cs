@@ -4,6 +4,8 @@ namespace Assignment1.Model.QL.AST.Value
 {
     public class QLInteger : IValue
     {
+        public static QLInteger Default => new QLInteger(0);
+
         public int Value { get; }
         private readonly bool _undefined = true;
 

@@ -4,6 +4,8 @@ namespace Assignment1.Model.QL.AST.Value
 {
     public class QLDecimal : IValue
     {
+        public static QLDecimal Default => new QLDecimal(0);
+
         public decimal Value { get; }
         private readonly bool _undefined = true;
 

@@ -11,9 +11,10 @@ import java.util.ArrayList;
 public class StylesheetVisitor extends QLSBaseVisitor<Stylesheet> {
 
 
-
     @Override
     public Stylesheet visitHead(QLSParser.HeadContext ctx){
+
+        int line = ctx.getStart().getLine();
         ArrayList<Page> pages = new ArrayList<>();
         PageVisitor pageVisitor = new PageVisitor();
         for(QLSParser.PageContext pageCtx : ctx.block().page()){
@@ -21,6 +22,6 @@ public class StylesheetVisitor extends QLSBaseVisitor<Stylesheet> {
             pages.add(page);
         }
 
-        return new Stylesheet(pages, ctx.IDENTIFIER().getText());
+        return new Stylesheet(pages, ctx.IDENTIFIER().getText(), line);
     }
 }

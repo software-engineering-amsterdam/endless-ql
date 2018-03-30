@@ -14,14 +14,16 @@ namespace Assignment1.Rendering.Widget
         private readonly System.Windows.Forms.TextBox _textBox;
         private readonly Action<IValue> _valueChangedHandler;
 
+        private void AddLabel(string label) => _panel.Controls.Add(new Label
+        {
+            AutoSize = true,
+            Text = label
+        });
+
         public TextBox(string label, QLString value, bool readOnly, Action<IValue> valueChangedHandler)
         {
             _valueChangedHandler = valueChangedHandler;
-            _panel.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = label
-            });
+            AddLabel(label);
             _textBox = new System.Windows.Forms.TextBox
             {
                 Text = value.Value,

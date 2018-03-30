@@ -5,6 +5,8 @@ namespace Assignment1.Model.QL.AST.Value
 {
     public class QLDate : IValue
     {
+        public static QLDate Default => new QLDate(DateTime.Today);
+
         public DateTime Value { get; }
         private readonly bool _undefined = true;
 

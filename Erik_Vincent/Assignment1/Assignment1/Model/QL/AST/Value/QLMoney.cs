@@ -4,6 +4,8 @@ namespace Assignment1.Model.QL.AST.Value
 {
     public class QLMoney : IValue
     {
+        public static QLMoney Default => new QLMoney(0);
+
         public decimal Value { get; }
         private readonly bool _undefined = true;
 

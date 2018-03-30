@@ -164,6 +164,7 @@
     <Compile Include="Rendering\Widget\IWidget.cs" />
     <Compile Include="Rendering\Widget\SpinBox.cs" />
     <Compile Include="Rendering\Widget\TextBox.cs" />
+    <Compile Include="Rendering\Widget\Undefined.cs" />
     <Compile Include="TypeChecking\MessageContainer.cs" />
     <Compile Include="TypeChecking\QLASTCyclicDependencyChecker.cs" />
     <Compile Include="Model\QL\AST\QLASTBaseVisitor.cs" />

@@ -4,7 +4,7 @@ import ui.model.*
 
 class ViewFactory() {
 
-    fun createQuestionField(question : QuestionModel) : QuestionField {
+    fun createQuestionField(question : QuestionViewModel) : QuestionField {
         return when(question){
             is StringViewModel -> StringField(question)
             is MoneyViewModel -> MoneyField(question)

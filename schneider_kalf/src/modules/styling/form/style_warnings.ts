@@ -17,7 +17,7 @@ export class UnplacedQuestionWarning extends FormStyleWarning {
     this.variable = variable;
 
     if (!message) {
-      message = `Field "${variable.identifier} was not placed in QLS."`;
+      message = `Field "${variable.identifier} was not placed in QLS.`;
     }
 
     this.message = message;

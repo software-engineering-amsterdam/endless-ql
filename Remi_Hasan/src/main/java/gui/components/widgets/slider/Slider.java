@@ -31,7 +31,7 @@ public abstract class Slider extends HBox implements GUIWidget {
 
     private void addValueLabel() {
         // Show label next to slider with the current value
-        Label valueLabel = new Label("0.0");
+        Label valueLabel = new Label(String.valueOf(this.slider.getMin()));
         valueLabel.setPadding(new Insets(0, 0, 0, 5));
         this.slider.valueProperty().addListener((obs, oldVal, newVal) -> valueLabel.setText(newVal.toString()));
         this.valueLabel = valueLabel;

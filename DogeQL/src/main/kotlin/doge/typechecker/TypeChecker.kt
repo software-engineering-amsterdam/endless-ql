@@ -60,8 +60,19 @@ class TypeChecker(private val fileName: String, private val symbolTable: SymbolT
         return TypeErrorContext().apply {
             TypeVisitor(
                     this,
-                    { reference -> symbolTable.findSymbol(reference) },
-                    { name, value -> symbolTable.registerSymbol(name, value) }
+                    { reference ->
+                        symbolTable.findSymbol(reference)?.let {
+                            it
+                        } ?: run {
+                            QuestionLookupVisitor(reference).visit(root)?.let {
+                                symbolTable.registerSymbol(it.name.text, it.type.type.getDefaultInstance())
+                                symbolTable.findSymbol(reference)
+                            }
+                        }
+                    },
+                    { name, value ->
+                        symbolTable.registerSymbol(name, value)
+                    }
             ).visit(root)
         }
     }

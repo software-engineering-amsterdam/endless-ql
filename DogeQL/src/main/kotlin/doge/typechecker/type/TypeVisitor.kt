@@ -25,7 +25,11 @@ class TypeVisitor(
     }
 
     override fun visit(block: Block): Type {
-        return block.statements.map { visit(it) }.first()
+        return block.statements.map { visit(it) }.firstOrNull()?.let {
+            it
+        } ?: run {
+            Type(SymbolType.UNDEFINED, block.location)
+        }
     }
 
     override fun visit(ifStatement: IfStatement): Type {
@@ -78,10 +82,10 @@ class TypeVisitor(
     }
 
     override fun visit(referenceExpression: ReferenceExpression): Type {
-        val referenceType = requestValue(referenceExpression.name.text)
-            ?: throw IllegalStateException("Reference ${referenceExpression.name.text} was not found")
+        val value = requestValue(referenceExpression.name.text)
+            ?: throw IllegalStateException("Unable to find reference ${referenceExpression.name}")
 
-        return Type(referenceType.type, referenceExpression.location)
+        return Type(value.type, referenceExpression.location)
     }
 
     override fun visit(literalExpression: LiteralExpression): Type {

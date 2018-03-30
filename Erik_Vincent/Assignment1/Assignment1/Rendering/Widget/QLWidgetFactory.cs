@@ -29,29 +29,31 @@ namespace Assignment1.Rendering.Widget
             _result = new CheckBox(_label, value, _readOnly, _valueChangedHandler);
         }
 
+        private IWidget NewUndefined(IValue defaultValue) => new Undefined(_label, _readOnly, () => _valueChangedHandler(defaultValue));
+
         public void Visit(QLInteger value)
         {
-            _result = new SpinBox(_label, value, _readOnly, _valueChangedHandler);
+            _result = value.IsUndefined() ? NewUndefined(QLInteger.Default) : new SpinBox(_label, value, _readOnly, _valueChangedHandler);
         }
 
         public void Visit(QLString value)
         {
-            _result = new TextBox(_label, value, _readOnly, _valueChangedHandler);
+            _result = value.IsUndefined() ? NewUndefined(QLString.Default) : new TextBox(_label, value, _readOnly, _valueChangedHandler);
         }
 
         public void Visit(QLDate value)
         {
-            _result = new DatePicker(_label, value, _readOnly, _valueChangedHandler);
+            _result = value.IsUndefined() ? NewUndefined(QLDate.Default) : new DatePicker(_label, value, _readOnly, _valueChangedHandler);
         }
 
         public void Visit(QLDecimal value)
         {
-            _result = new SpinBox(_label, value, _readOnly, _valueChangedHandler);
+            _result = value.IsUndefined() ? NewUndefined(QLDecimal.Default) : new SpinBox(_label, value, _readOnly, _valueChangedHandler);
         }
 
         public void Visit(QLMoney value)
         {
-            _result = new SpinBox(_label, value, _readOnly, _valueChangedHandler);
+            _result = value.IsUndefined() ? NewUndefined(QLMoney.Default) : new SpinBox(_label, value, _readOnly, _valueChangedHandler);
         }
     }
 }

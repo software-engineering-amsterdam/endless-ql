@@ -1,7 +1,6 @@
 package ql.logic.type;
 
 import ql.ast.model.expressions.Expression;
-import ql.exceptions.IncompatibleTypesException;
 
 public class QLString extends QLSummable<String> {
     public QLString(String value) {
@@ -23,7 +22,7 @@ public class QLString extends QLSummable<String> {
         if (rhs instanceof QLString) {
             return new QLBoolean(this.value.equals(rhs.value));
         }
-        throw new IncompatibleTypesException("Incompatible types comparision: STRING and " + rhs.getType());
+        throw new RuntimeException("Incompatible types comparision: STRING and " + rhs.getType());
     }
 
     @Override
@@ -31,6 +30,6 @@ public class QLString extends QLSummable<String> {
         if (rhs instanceof QLString) {
             return new QLBoolean(!this.value.equals(rhs.value));
         }
-        throw new IncompatibleTypesException("Incompatible types comparision: STRING and " + rhs.getType());
+        throw new RuntimeException("Incompatible types comparision: STRING and " + rhs.getType());
     }
 }

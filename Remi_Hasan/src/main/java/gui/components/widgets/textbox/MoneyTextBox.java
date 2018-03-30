@@ -16,7 +16,7 @@ public class MoneyTextBox extends TextBox implements GUIWidget {
 
     @Override
     public Expression getExpressionValue() {
-        if (this.getText().isEmpty()) {
+        if (this.getText().isEmpty() || this.getText().equals("-")) {
             return new UndefinedConstant(ReturnType.MONEY);
         }
 

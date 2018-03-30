@@ -175,7 +175,7 @@ namespace QLS.UnitTests.ParserTests
 
             Assert.IsNotNull(createdStyle, "could not find a style node");
         }
-        
+
         [TestCaseSource(
             typeof(TestQlsData),
             nameof(TestQlsData.WidgetType))]
@@ -234,7 +234,7 @@ namespace QLS.UnitTests.ParserTests
                 .GetAll<IStyleNode>()
                 .FirstOrDefault();
 
-            var widget = (ISlider)createdStyle.Widget;
+            var widget = (ISlider) createdStyle.Widget;
 
             Assert.AreEqual(
                 expected: start,
@@ -248,7 +248,7 @@ namespace QLS.UnitTests.ParserTests
                 expected: step,
                 actual: widget.Step);
         }
-        
+
         [TestCaseSource(
             typeof(TestQlsData),
             nameof(TestQlsData.PropertyValues))]
@@ -264,7 +264,7 @@ namespace QLS.UnitTests.ParserTests
             var createdStyle = m_domainItemLocator
                 .GetAll<IStyleNode>()
                 .FirstOrDefault();
-            
+
             Assert.AreEqual(
                 expected: width,
                 actual: createdStyle.Width);
@@ -281,6 +281,32 @@ namespace QLS.UnitTests.ParserTests
                 expected: color,
                 actual: createdStyle.Color);
         }
+
+        [Test]
+        public void GivenStyleWithDefaultStylesForAllTypes_StoresCorrectValues()
+        {
+            var definintion = @"
+stylesheet ss1 
+{
+    page p1 
+    {
+    }
+    default integer { widget spinbox width: 200 font: ""ComicSans"" fontsize: 12.3 color: #00000000 }
+    default boolean { widget radio(""Rick"",""Morty"") }
+    default date { widget textbox width: 99 font: ""ComicSans"" } 
+    default string { color: #FA57B055 }
+    default decimal { widget slider(150,200,5) } 
+}";
+            CreateStyleSheet(definintion);
+
+            var createdStyles = m_domainItemLocator
+                .GetAll<IStyleNode>();
+
+            Assert.AreEqual(
+                expected: 5,
+                actual: createdStyles.Count());
+        }
+
 
         private void CreateStyleSheet(string definition)
         {

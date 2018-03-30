@@ -137,9 +137,8 @@ class QLLexer:
         pass
 
     # Error handling
-    @staticmethod
-    def t_error(token):
-        print("Illegal character '%s'" % token.value[0])
+    def t_error(self, token):
+        self.errors.append("Illegal character '%s'" % token.value[0])
         token.lexer.skip(1)
 
     # Test the lexer output
@@ -149,4 +148,3 @@ class QLLexer:
             token = self.lexer.token()
             if not token:
                 break
-            print(token)

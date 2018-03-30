@@ -12,6 +12,11 @@ public class Rating extends Question
         answer = 0;
     }
 
+    @Override
+    public void notifyAllObservers() {
+
+    }
+
     public void givenAnswer(int answer)
     {
         this.answer = answer;

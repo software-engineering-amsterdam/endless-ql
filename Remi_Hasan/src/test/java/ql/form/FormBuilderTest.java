@@ -1,78 +1,72 @@
 package ql.form;
 
 import org.junit.Test;
-import ql.QLFormBuilder;
-import ql.evaluation.ExpressionEvaluator;
+import ql.visitor.QLVisitor;
+import ql.QLForm;
+import ql.QLTestUtilities;
 import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.expression.ReturnType;
+import ql.model.statement.Question;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
 
 public class FormBuilderTest {
 
+    private List<Question> getQuestions(Form form) {
+        List<Question> questions = new ArrayList<>();
+
+        form.accept(new QLVisitor<Void>() {
+            @Override
+            public Void visit(Question question) {
+                questions.add(question);
+                return super.visit(question);
+            }
+        });
+
+        return questions;
+    }
+
     @Test
     public void simpleForm() throws Exception {
-        QLFormBuilder formBuilder = new QLFormBuilder();
-        Form form = formBuilder.buildForm(FormBuilderTest.class
+        Form form = QLTestUtilities.buildForm(FormBuilderTest.class
                 .getResourceAsStream("/ql/ValidForms/SimpleForm.ql"));
 
-        assertEquals(form.identifier, "simpleForm");
-        assertEquals(form.questions.size(), 6);
-        assertEquals(form.questions.get(0).name, "someInteger");
-        assertEquals(form.questions.get(0).text, "Can you give me an integer value?");
-        assertEquals(form.questions.get(0).type, ReturnType.INTEGER);
+        List<Question> questions = this.getQuestions(form);
+
+        assertEquals(form.getIdentifier(), "simpleForm");
+        assertEquals(questions.size(), 6);
+        assertEquals(questions.get(0).getIdentifier(), "someInteger");
+        assertEquals(questions.get(0).getLabel(), "Can you give me an integer value?");
+        assertEquals(questions.get(0).getType(), ReturnType.INTEGER);
     }
 
     @Test
     public void conditionFalseForm() throws Exception {
-        QLFormBuilder formBuilder = new QLFormBuilder();
-        Form form = formBuilder.buildForm(FormBuilderTest.class
+        Form form = QLTestUtilities.buildForm(FormBuilderTest.class
                 .getResourceAsStream("/ql/ValidForms/ConditionFormFalse.ql"));
-
-        assertEquals(form.questions.size(), 3);
-
-        // Test whether correct questions are visible based on condition
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(formBuilder.getSymbolTable());
-        Value ifQuestion = expressionEvaluator.visit(form.questions.get(1).condition);
-        assertEquals(ifQuestion.getBooleanValue(), Boolean.FALSE);
-
-        Value elseQuestion = expressionEvaluator.visit(form.questions.get(2).condition);
-        assertEquals(elseQuestion.getBooleanValue(), Boolean.TRUE);
-    }
-
-    @Test
-    public void conditionTrueForm() throws Exception {
-        QLFormBuilder formBuilder = new QLFormBuilder();
-        Form form = formBuilder.buildForm(FormBuilderTest.class
-                .getResourceAsStream("/ql/ValidForms/ConditionFormTrue.ql"));
-
-        assertEquals(form.questions.size(), 3);
-
-        // Test whether correct questions are visible based on condition
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(formBuilder.getSymbolTable());
-        Value ifQuestion = expressionEvaluator.visit(form.questions.get(1).condition);
-        assertEquals(ifQuestion.getBooleanValue(), Boolean.TRUE);
-
-        Value elseQuestion = expressionEvaluator.visit(form.questions.get(2).condition);
-        assertEquals(elseQuestion.getBooleanValue(), Boolean.FALSE);
+        List<Question> questions = this.getQuestions(form);
+        assertEquals(questions.size(), 3);
     }
 
     @Test
     public void computedForm() throws Exception {
-        QLFormBuilder formBuilder = new QLFormBuilder();
-        Form form = formBuilder.buildForm(FormBuilderTest.class.
-                getResourceAsStream("/ql/ValidForms/ComputedForm.ql"));
+        QLForm qlForm = new QLForm(FormBuilderTest.class
+                .getResourceAsStream("/ql/ValidForms/ComputedForm.ql"));
+
+        Form form = qlForm.getForm();
+
+        List<Question> questions = this.getQuestions(form);
 
         // Test whether computed field is computed correctly based on another field value
-        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(formBuilder.getSymbolTable());
+        Value staticResult = qlForm.evaluateExpression(questions.get(0).getComputedAnswer());
+        assertEquals(staticResult.getIntegerValue(), Integer.valueOf(2));
 
-        Value staticResult = expressionEvaluator.visit(form.questions.get(0).computedAnswer);
-        assertEquals(staticResult.getIntValue(), Integer.valueOf(2));
-
-        Value calculationResult = expressionEvaluator.visit(form.questions.get(1).computedAnswer);
-        assertEquals(calculationResult.getIntValue(), Integer.valueOf(5));
+        Value calculationResult = qlForm.evaluateExpression(questions.get(1).getComputedAnswer());
+        assertEquals(calculationResult.getIntegerValue(), Integer.valueOf(5));
     }
 
 }

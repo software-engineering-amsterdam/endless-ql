@@ -2,11 +2,10 @@ package ql.ast.types;
 
 import org.junit.Before;
 import org.junit.Test;
-import ql.QLParser;
 import ql.ast.statements.Question;
 import ql.parser.FormBuilder;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TypeTest {
 
@@ -19,47 +18,32 @@ public class TypeTest {
 
     @Test
     public void canParseBooleanType() {
-        final String EXPECTED_RESULT = "boolean";
-        QLParser parser = formBuilder.createParser("\"test\" testQuestion: boolean");
-        Question question = (Question) formBuilder.getStatement(parser);
-
-        assertEquals(EXPECTED_RESULT, question.getType().toString());
+        Question question = (Question) formBuilder.createStatement("\"test\" testQuestion: boolean");
+        assertTrue(question.isOfType("boolean"));
     }
 
     @Test
     public void canParseDecimalType() {
-        final String EXPECTED_RESULT = "decimal";
-        QLParser parser = formBuilder.createParser("\"test\" testQuestion: decimal");
-        Question question = (Question) formBuilder.getStatement(parser);
-
-        assertEquals(EXPECTED_RESULT, question.getType().toString());
+        Question question = (Question) formBuilder.createStatement("\"test\" testQuestion: decimal");
+        assertTrue(question.isOfType("decimal"));
     }
 
     @Test
     public void canParseIntegerType() {
-        final String EXPECTED_RESULT = "integer";
-        QLParser parser = formBuilder.createParser("\"test\" testQuestion: integer");
-        Question question = (Question) formBuilder.getStatement(parser);
-
-        assertEquals(EXPECTED_RESULT, question.getType().toString());
+        Question question = (Question) formBuilder.createStatement("\"test\" testQuestion: integer");
+        assertTrue(question.isOfType("integer"));
     }
 
     @Test
     public void canParseMoneyType() {
-        final String EXPECTED_RESULT = "money";
-        QLParser parser = formBuilder.createParser("\"test\" testQuestion: money");
-        Question question = (Question) formBuilder.getStatement(parser);
-
-        assertEquals(EXPECTED_RESULT, question.getType().toString());
+        Question question = (Question) formBuilder.createStatement("\"test\" testQuestion: money");
+        assertTrue(question.isOfType("money"));
     }
 
     @Test
     public void canParseStringType() {
-        final String EXPECTED_RESULT = "string";
-        QLParser parser = formBuilder.createParser("\"test\" testQuestion: string");
-        Question question = (Question) formBuilder.getStatement(parser);
-
-        assertEquals(EXPECTED_RESULT, question.getType().toString());
+        Question question = (Question) formBuilder.createStatement("\"test\" testQuestion: string");
+        assertTrue(question.isOfType("string"));
     }
 
 }

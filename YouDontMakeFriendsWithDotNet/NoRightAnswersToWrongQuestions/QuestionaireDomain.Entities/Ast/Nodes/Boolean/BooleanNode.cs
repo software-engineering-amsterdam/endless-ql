@@ -29,7 +29,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean
             }
             else
             {
-                throw new QlParserException($"The value '{booleanString}' could not be resolved to True or False ",null);
+                throw new ParserException($"The value '{booleanString}' could not be resolved to True or False ",null);
             }
         }
     }

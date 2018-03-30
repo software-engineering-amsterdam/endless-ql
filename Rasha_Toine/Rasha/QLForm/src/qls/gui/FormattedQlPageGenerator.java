@@ -43,8 +43,8 @@ public class FormattedQlPageGenerator extends QlPageGenerator {
 	
 
 	@Override
-	public WidgetInterface createValueWidget(Question question, EvaluationContext ctx) {
-		WidgetInterface widget;
+	public Widget createValueWidget(Question question, EvaluationContext ctx) {
+		Widget widget;
 		WidgetConfiguration config;
 		// get the item from style sheet formatting question
 		QuestionItem item = styleSheet.getQuestionItem(question);
@@ -63,56 +63,56 @@ public class FormattedQlPageGenerator extends QlPageGenerator {
 		throw new IllegalStateException("Found question without item in stylesheet!");
 	}
 
-	private WidgetInterface createWidgetGUI(Item item, Question question, EvaluationContext ctx) {
+	private Widget createWidgetGUI(Item item, Question question, EvaluationContext ctx) {
 		Type type;
 		AstWidget widget = item.getWidget();
 		type = question.getType();
 
-		return widget.accept(new WidgetVisitor<WidgetInterface, Void>() {
+		return widget.accept(new WidgetVisitor<Widget, Void>() {
 
 			/* text input for all types */
 			@Override
-			 public WidgetInterface visit(AstTextField widget, Void ctx2) {
-				 return type.accept(new TypeVisitor<WidgetInterface, Void>() {
+			 public Widget visit(AstTextField widget, Void ctx2) {
+				 return type.accept(new TypeVisitor<Widget, Void>() {
 					 
 					 // type visitor found undefined type, no widget is created
 					@Override
-					public WidgetInterface visit(UndefinedType type, Void ctx2) {
+					public Widget visit(UndefinedType type, Void ctx2) {
 						throw new IllegalStateException("Error WidgetInterface: Value type is undefined!");
 					}
 
 					@Override
-					public WidgetInterface visit(BooleanType type, Void ctx2) {
+					public Widget visit(BooleanType type, Void ctx2) {
 						//default false, no radio button, text instead
 						return new TextField(question, BooleanValue.FALSE, ctx);
 					}
 					
 					@Override
-					public WidgetInterface visit(StringType type, Void ctx2) {
+					public Widget visit(StringType type, Void ctx2) {
 						//default empty string
 						return new TextField(question, new StringValue(""), ctx);
 					}
 					
 					@Override
-					public WidgetInterface visit(MoneyType type, Void ctx2) {
+					public Widget visit(MoneyType type, Void ctx2) {
 						//default 0.0
 						return new TextField(question, new MoneyValue(BigDecimal.valueOf(0.0)), ctx);
 					}
 
 					@Override
-					public WidgetInterface visit(IntegerType type, Void ctx2) {
+					public Widget visit(IntegerType type, Void ctx2) {
 						//default 0
 						return new TextField(question,new IntegerValue(0), ctx);
 					}
 
 					@Override
-					public WidgetInterface visit(DecimalType type, Void ctx2) {
+					public Widget visit(DecimalType type, Void ctx2) {
 						//default 0.0
 						return new TextField(question, new DecimalValue(0.0), ctx);
 					}
 
 					@Override
-					public WidgetInterface visit(DateType type, Void ctx2) {
+					public Widget visit(DateType type, Void ctx2) {
 						//default today
 						return new TextField(question, new DateValue(new Date()), ctx);
 					}
@@ -122,33 +122,39 @@ public class FormattedQlPageGenerator extends QlPageGenerator {
 			
 			/* radio */
 			 @Override
-			 public WidgetInterface visit(AstRadioBtn widget, Void ctx2) {
+			 public Widget visit(AstRadioBtn widget, Void ctx2) {
 				 return new RadioBtn(question, createOptionsForWidget(type, widget), ctx);
 			 }
 
 			 /* checkbox */
 			 @Override
-			 public Widget visit(AstCheckBox widget, Void ctx2) {
+			 public QLWidget visit(AstCheckBox widget, Void ctx2) {
 				 return new CheckBox(question, createOptionsForWidget(type, widget), ctx);
 			 }
 			 
 			 /* drop-down list */
 			 @Override
-			 public WidgetInterface visit(AstDropDown widget, Void ctx2) {
+			 public Widget visit(AstDropDown widget, Void ctx2) {
 				 return new DropDown(question, createOptionsForWidget(type, widget), ctx);
 			 }
 
 			 /* slider */
 			 @Override
-			 public WidgetInterface visit(AstSlider widget, Void ctx2) {
+			 public Widget visit(AstSlider widget, Void ctx2) {
 				 return new Slider(question, createOptionsForWidget(type, widget), ctx);
 			 }
 
 			 /* spin-box */
 			 @Override
-			 public WidgetInterface visit(AstSpinbox widget, Void ctx2) {
+			 public Widget visit(AstSpinbox widget, Void ctx2) {
 				 return new SpinBox(question, createOptionsForWidget(type, widget), ctx);
 			 }
+
+			/* no widget specified in stylesheet, use ql */
+			@Override
+			public Widget visit(AstWidgetDefault widget, Void ctx2) {
+                return FormattedQlPageGenerator.super.createValueWidget(question, ctx);
+			}
 		 },
 		 null);
 	}

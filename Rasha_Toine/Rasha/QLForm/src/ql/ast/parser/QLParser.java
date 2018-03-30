@@ -814,7 +814,7 @@ public class QLParser extends Parser {
 				((QuestionContext)_localctx).STRING = match(STRING);
 				setState(156);
 				((QuestionContext)_localctx).questionType = questionType();
-				((QuestionContext)_localctx).result =  addCodeReference(_localctx, new NormalQuestion(((QuestionContext)_localctx).identifier.result, (((QuestionContext)_localctx).STRING!=null?((QuestionContext)_localctx).STRING.getText():null), ((QuestionContext)_localctx).questionType.result, null));
+				((QuestionContext)_localctx).result =  addCodeReference(_localctx, new AnswerableQuestion(((QuestionContext)_localctx).identifier.result, (((QuestionContext)_localctx).STRING!=null?((QuestionContext)_localctx).STRING.getText():null), ((QuestionContext)_localctx).questionType.result, null));
 				}
 				break;
 			case 2:

@@ -28,6 +28,7 @@ public class QuestionVisitorTest {
         when(contextMock.questionText()).thenReturn(textContextMock);
         when(nameContext.getText()).thenReturn(testIdentifier);
         when(translatorMock.translate(null)).thenReturn(QuestionType.Integer);
+        when(textContextMock.getText()).thenReturn("\"\"");
 
         QuestionVisitor visitor = new QuestionVisitor(translatorMock, expressionVisitorMock, booleanParserMock);
 

@@ -27,7 +27,7 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            Reference<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> questionnaireRootNode)
         {
             var untypedOperators = GetUntypedOperators();
 

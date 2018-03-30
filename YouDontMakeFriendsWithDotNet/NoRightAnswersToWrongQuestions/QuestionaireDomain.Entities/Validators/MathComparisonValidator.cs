@@ -17,7 +17,7 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            Reference<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> questionnaireRootNode)
         {
             return Validate<ICalculationVariableNode, MathComparisonValidationMetaData>(
                 questionnaireRootNode,

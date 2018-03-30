@@ -22,7 +22,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             m_calculationService = calculationService;
         }
         
-        public void CreateOrUpdate(Reference<IQuestionnaireRootNode> questionnaireRootNode)
+        public void CreateOrUpdate(DomainId<IQuestionnaireRootNode> questionnaireRootNode)
         {
             var isValid = m_questionnaireValidator
                 .Validate(questionnaireRootNode);

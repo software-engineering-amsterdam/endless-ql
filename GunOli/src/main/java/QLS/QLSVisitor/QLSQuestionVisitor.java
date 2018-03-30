@@ -12,6 +12,7 @@ public class QLSQuestionVisitor extends QLSBaseVisitor<QLSQuestion> {
 
     @Override
     public QLSQuestion visitQuestion(QLSParser.QuestionContext ctx){
+        int line = ctx.getStart().getLine();
         ArrayList<Widget> widgets = new ArrayList<>();
         WidgetVisitor widgetvisitor = new WidgetVisitor();
 
@@ -21,6 +22,6 @@ public class QLSQuestionVisitor extends QLSBaseVisitor<QLSQuestion> {
             widgets.add(widget);
         }
 
-        return new QLSQuestion(ctx.IDENTIFIER().getText(), widgets);
+        return new QLSQuestion(ctx.IDENTIFIER().getText(), widgets, line);
     }
 }

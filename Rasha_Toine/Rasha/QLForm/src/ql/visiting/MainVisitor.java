@@ -190,7 +190,7 @@ public class MainVisitor<T, U> implements ExpressionVisitor<T, U>, StatementVisi
 	}
 	
 	@Override
-	public T visit(NormalQuestion node, U ctx){
+	public T visit(AnswerableQuestion node, U ctx){
 		node.getType().accept(this,ctx);
 		return null;
 	}

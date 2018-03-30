@@ -14,7 +14,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
             Guid id, 
             string definition,
             string questionnaireName, 
-            IEnumerable<Reference<IStatementNode>> statements) 
+            IEnumerable<DomainId<IStatementNode>> statements) 
             : base(id, definition)
         {
             QuestionnaireName = questionnaireName;
@@ -23,6 +23,6 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
 
         public string QuestionnaireName { get; }
 
-        public IEnumerable<Reference<IStatementNode>> Statements { get; }
+        public IEnumerable<DomainId<IStatementNode>> Statements { get; }
     }
 }

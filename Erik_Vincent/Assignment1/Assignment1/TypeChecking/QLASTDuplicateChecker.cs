@@ -8,18 +8,13 @@ namespace Assignment1.TypeChecking
     public class QLASTDuplicateChecker : QLASTBaseVisitor
     {
         private readonly Dictionary<string, List<Question>> _labelQuestions = new Dictionary<string, List<Question>>();
+        private readonly MessageContainer _messages = new MessageContainer();
 
-        public static void CheckDuplicates(QuestionForm questionForm)
+        public static (IEnumerable<string> errors, IEnumerable<string> warnings) CheckDuplicates(QuestionForm questionForm)
         {
             var checker = new QLASTDuplicateChecker();
-            try
-            {
-                checker.Visit(questionForm);
-            }
-            catch (DuplicateQuestionException e)
-            {
-                Console.WriteLine("Error found on line " + e.Question.LineNumber + ": " + e.Question.Id + " was already declared in this context.");
-            }
+            checker.Visit(questionForm);
+            return checker._messages.ToTuple();
         }
 
         private void CheckDuplicateLabels()
@@ -28,9 +23,8 @@ namespace Assignment1.TypeChecking
             foreach (var labelQuestion in duplicateLabelQuestions)
             {
                 var lineNumbers = labelQuestion.Value.Select(question => question.LineNumber.ToString());
-                Console.WriteLine("Warning label:\"" + labelQuestion.Key + "\" is defined on lines: " + string.Join(", ", lineNumbers) + ".");
+                _messages.AddWarning("Label:\"" + labelQuestion.Key + "\" is defined on lines: " + string.Join(", ", lineNumbers) + ".");
             }
-
         }
 
         public override void Visit(QuestionForm questionForm)
@@ -46,16 +40,24 @@ namespace Assignment1.TypeChecking
             _labelQuestions[question.Label].Add(question);
         }
 
+        private void CheckDuplicateQuestion(Question question)
+        {
+            if (QuestionsInScope[question.Id].Count() > 1)
+            {
+                _messages.AddError("Line " + question.LineNumber + ": " + question.Id + " was already declared in this context.");
+            }
+        }
+
         public override void Visit(NormalQuestion question)
         {
+            CheckDuplicateQuestion(question);
             AddLabelQuestion(question);
-            base.Visit(question);
         }
 
         public override void Visit(ComputedQuestion question)
         {
+            CheckDuplicateQuestion(question);
             AddLabelQuestion(question);
-            base.Visit(question);
         }
 
         private QLASTDuplicateChecker() { }

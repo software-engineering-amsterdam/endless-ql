@@ -1,12 +1,12 @@
 import { getQlsParser } from "./parsing_helpers";
 import StyleSheet from "../form/nodes/StyleSheetNode";
 import SetParentsVisitor from "../form/visitors/SetParentsVisitor";
-import QuestionStylesVisitor from "../form/visitors/MergeFieldStylesVisitor";
+import MergeFieldStylesVisitor from "../form/visitors/MergeFieldStylesVisitor";
 import MergedFieldStyle from "../form/MergedFieldStyle";
 import { QlParserPipeline, QlParserResult } from "../../../parsing/QlParserPipeline";
-import SetStyledFieldVisitor from "../form/visitors/SetStyledFieldVisitor";
-import { VariableInformation } from "../../../form/VariableIntformation";
 import TypeCheckVisitor from "../form/visitors/TypeCheckVisitor";
+import { VariablesMap } from "../../../form/type_checking/VariableScopeVisitor";
+import SourceText from "../../../form/source/SourceText";
 
 export interface QlsParserResult extends QlParserResult {
   styleNode: StyleSheet;
@@ -14,49 +14,52 @@ export interface QlsParserResult extends QlParserResult {
 }
 
 export class QlsParserPipeline {
-  private readonly qlsInput: string;
-  private readonly qlInput: string;
+  private readonly qlsInput: SourceText;
+  private readonly qlInput: SourceText;
 
-  constructor(qlInput: string, qlsInput: string) {
+  constructor(qlInput: SourceText, qlsInput: SourceText) {
     this.qlInput = qlInput;
     this.qlsInput = qlsInput;
-
-    this.processStylesheetNode = this.processStylesheetNode.bind(this);
   }
 
   run(): QlsParserResult {
-    const qlPipeline = new QlParserPipeline(this.qlInput);
-    const qlPipelineResult = qlPipeline.run()[0];
+    const qlParserResult = this.parseQl(this.qlInput);
+    const styleSheetNode: StyleSheet = this.parseQls(this.qlsInput);
 
-    const styleNode: StyleSheet = getQlsParser().parse(this.qlsInput);
+    const variablesMap: VariablesMap = qlParserResult.variables;
 
-    const stylesheetResult = this.processStylesheetNode(styleNode, qlPipelineResult.variables);
-
-    const setStyledField = new SetStyledFieldVisitor(stylesheetResult.styles, stylesheetResult.styleNode);
-    qlPipelineResult.node.accept(setStyledField);
+    this.checkTypes(styleSheetNode, variablesMap);
+    this.setNodeParents(styleSheetNode);
+    const styles: MergedFieldStyle[] = this.getQuestionStyles(styleSheetNode, variablesMap);
 
     return {
-      node: qlPipelineResult.node,
-      variables: qlPipelineResult.variables,
-      styleNode: stylesheetResult.styleNode,
-      styles: stylesheetResult.styles
+      node: qlParserResult.node,
+      variables: qlParserResult.variables,
+      styleNode: styleSheetNode,
+      styles: styles
     };
   }
 
-  private processStylesheetNode(node: StyleSheet, qlVariables: Map<string, VariableInformation>) {
-    const typeCheckQlsVisitor: TypeCheckVisitor = new TypeCheckVisitor(qlVariables);
-    node.accept(typeCheckQlsVisitor);
+  private getQuestionStyles(node: StyleSheet, qlVariables: VariablesMap) {
+    return MergeFieldStylesVisitor.run(node, qlVariables);
+  }
 
+  private setNodeParents(node: StyleSheet): void {
     const parentsVisitor: SetParentsVisitor = new SetParentsVisitor();
     node.accept(parentsVisitor);
+  }
 
-    const styleVisitor = new QuestionStylesVisitor(qlVariables);
-    node.accept(styleVisitor);
-    const result = styleVisitor.getStyles();
+  private checkTypes(node: StyleSheet, qlVariables: VariablesMap): void {
+    const typeCheckQlsVisitor: TypeCheckVisitor = new TypeCheckVisitor(qlVariables);
+    node.accept(typeCheckQlsVisitor);
+  }
 
-    return {
-      styleNode: node,
-      styles: result
-    };
+  private parseQl(qlInput: SourceText): QlParserResult {
+    const qlPipeline = new QlParserPipeline(qlInput);
+    return qlPipeline.runFirst();
+  }
+
+  private parseQls(qlsInput: SourceText): StyleSheet {
+    return getQlsParser().parse(qlsInput.toString());
   }
 }

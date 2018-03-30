@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Section} from '../../domain/ast/qls';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {FormGroup} from '@angular/forms';

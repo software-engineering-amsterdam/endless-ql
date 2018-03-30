@@ -33,10 +33,12 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
         return new ArrayList<>(pages.values());
     }
 
-    public Segment getPage(Question question) {
-        for (Segment parent : getAllParents(question.getId())) {
-            if (pages.containsKey(parent.getId())) {
-                return pages.get(parent.getId());
+    public Page getPage(Question question) {
+        if (question != null) {
+            for (Segment parent : getAllParents(question.getId())) {
+                if (pages.containsKey(parent.getId())) {
+                    return pages.get(parent.getId());
+                }
             }
         }
         return null;
@@ -87,7 +89,7 @@ public class StylesheetContext implements SegmentVisitor<Segment> {
     }
 
     public QuestionReference getQuestionReference(Question question) {
-        if (questions.containsKey(question.getId())) {
+        if (question != null && questions.containsKey(question.getId())) {
             return questions.get(question.getId());
         }
         return null;

@@ -1,50 +1,45 @@
-﻿using Assignment1.Model.QL.RenderTree.QLExpression;
+﻿using Assignment1.Model.QL.AST;
+using Assignment1.Model.QL.AST.Expression;
+using Assignment1.Model.QL.AST.Value;
+using Assignment1.Rendering;
 
 namespace Assignment1.Model.QL.RenderTree
 {
     public abstract class RenderableQuestion
     {
-        public int LineNumber { get; }
         public string Id { get; }
         public string Label { get; }
-        public AnswerType Type { get; }
-        //public Expression Value { get; }
-        public dynamic Value
-        {
-            get => Computed ? Computation.Evaluate() : _value;
-            set => _value = value;
-        }
+        public Type Type { get; }
+        public IExpression Computation;
+        public bool Computed;
+        public IExpression Condition;
 
-        private dynamic _value;
-        public Expression Computation;
-        public bool Computed => Computation != null;
-        public Expression Condition;
+        //protected RenderableQuestion(string id, string label)
+        //{
+        //    Id = id;
+        //    Label = label;
+        //}
 
-        protected RenderableQuestion(string id, string label)
-        {
-            Id = id;
-            Label = label;
-        }
+        //protected RenderableQuestion(string id, string label, Type type, bool computed) : this(id, label, type, new Undefined(), computed) { }
 
-        protected RenderableQuestion(string id, string label, int lineNumber, AnswerType type)
+        protected RenderableQuestion(string id, string label, Type type, IExpression computation, bool computed)
         {
             Id = id;
             Label = label;
-            LineNumber = lineNumber;
-            Type = type;
-        }
-
-        protected RenderableQuestion(string id, string label, int lineNumber, AnswerType type, Expression computation)
-        {
-            Id = id;
-            Label = label;
-            LineNumber = lineNumber;
             Type = type;
             Computation = computation;
+            Computed = computed;
         }
 
         public abstract void Accept(IQuestionVisitor visitor);
 
-        public void AddCondition(Expression condition) => Condition = Condition == null ? condition :  new ExpressionAnd(condition, Condition);
+        public void AddCondition(IExpression condition) => Condition = Condition == null ? condition :  new And(condition, Condition);
+
+        public bool IsVisible(ExpressionEvaluator evaluator)
+        {
+            if (Condition == null) return false;
+            QLBoolean evaluated = (QLBoolean)evaluator.EvaluateExpression(Condition);
+            return evaluated.Value;
+        }
     }
 }

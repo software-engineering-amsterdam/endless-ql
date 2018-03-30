@@ -1,9 +1,7 @@
 ﻿namespace Assignment1.Model.QL.RenderTree.Value
 {
-    public interface IAnswerValuable<out T>
+    public interface IAnswerValuable
     {
-        T Value { get; }
-        AnswerType Type { get; }
-        bool IsUndefined { get; }
+        
     }
 }

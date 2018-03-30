@@ -1,17 +1,17 @@
 package QLS.classes;
 
-import QLS.classes.blocks.Block;
+import QLS.classes.blocks.Section;
 
 import java.util.List;
 
 public class Page {
 
     private String id;
-    private List<Block> blocks;
+    private List<Section> sections;
 
-    public Page(String id, List<Block> blocks) {
+    public Page(String id, List<Section> sections) {
         this.id = id;
-        this.blocks = blocks;
+        this.sections = sections;
     }
 
     public String getId() {
@@ -22,12 +22,12 @@ public class Page {
         this.id = id;
     }
 
-    public List<Block> getBlocks() {
-        return blocks;
+    public List<Section> getSections() {
+        return sections;
     }
 
-    public void setBlocks(List<Block> blocks) {
-        this.blocks = blocks;
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
     }
 
 }

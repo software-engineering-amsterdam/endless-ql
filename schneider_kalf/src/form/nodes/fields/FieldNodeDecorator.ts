@@ -3,27 +3,28 @@ import { FieldType } from "../../FieldType";
 import NodeVisitor from "../visitors/NodeVisitor";
 import FormState from "../../state/FormState";
 import NodeLocation from "../location/NodeLocation";
+import StatementCollection from "../../collection/StatementCollection";
 
 /**
  * Decorator for Fields that makes the Field "decoratable" for future usage.
  */
 export default class FieldNodeDecorator implements FieldNode {
-  private _fieldToBeDecorated: FieldNode;
+  private fieldToBeDecorated: FieldNode;
 
   get identifier(): string {
-    return this._fieldToBeDecorated.identifier;
+    return this.fieldToBeDecorated.identifier;
   }
 
   get label(): string {
-    return this._fieldToBeDecorated.label;
+    return this.fieldToBeDecorated.label;
   }
 
   get type(): FieldType {
-    return this._fieldToBeDecorated.type;
+    return this.fieldToBeDecorated.type;
   }
 
   constructor(fieldToBeDecorated: FieldNode) {
-    this._fieldToBeDecorated = fieldToBeDecorated;
+    this.fieldToBeDecorated = fieldToBeDecorated;
   }
 
   accept(visitor: NodeVisitor) {
@@ -31,22 +32,27 @@ export default class FieldNodeDecorator implements FieldNode {
   }
 
   isReadOnly(): boolean {
-    return this._fieldToBeDecorated.isReadOnly();
+    return this.fieldToBeDecorated.isReadOnly();
   }
 
   computeAnswer(state: FormState) {
-    return this._fieldToBeDecorated.computeAnswer(state);
+    return this.fieldToBeDecorated.computeAnswer(state);
   }
 
-  setLocation(location: NodeLocation): void {
-    this._fieldToBeDecorated.setLocation(location);
+  setLocation(location: NodeLocation): FieldNodeDecorator {
+    this.fieldToBeDecorated.setLocation(location);
+    return this;
   }
 
   getLocation(): NodeLocation {
-    return this._fieldToBeDecorated.getLocation();
+    return this.fieldToBeDecorated.getLocation();
   }
 
   getBaseField(): FieldNode {
-    return this._fieldToBeDecorated;
+    return this.fieldToBeDecorated;
+  }
+
+  addToCollection(collection: StatementCollection): void {
+    this.fieldToBeDecorated.addToCollection(collection);
   }
 }

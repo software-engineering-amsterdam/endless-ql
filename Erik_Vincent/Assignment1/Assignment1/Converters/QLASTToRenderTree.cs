@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Assignment1.Model.QL;
 using Assignment1.Model.QL.AST;
+using Assignment1.Model.QL.AST.Expression;
+using Assignment1.Model.QL.AST.Value;
 using Assignment1.Model.QL.RenderTree;
 using Assignment1.Model.QL.RenderTree.QLExpression;
 using Question = Assignment1.Model.QL.AST.Question;
@@ -14,8 +16,9 @@ namespace Assignment1.Converters
     public class QLASTToRenderTree : IQLASTVisitor
     {
         private Model.QL.RenderTree.QuestionForm _result;
-        private readonly Stack<Expression> _conditions = new Stack<Expression>(new[] { new ExpressionValue(true) });
+        private readonly Stack<IExpression> _conditions = new Stack<IExpression>(new[] { new QLBoolean(true) });
         private readonly Dictionary<string, Model.QL.RenderTree.RenderableQuestion> _questions = new Dictionary<string, Model.QL.RenderTree.RenderableQuestion>();
+        private bool _isComputed = false;
 
         private QLASTToRenderTree() { }
 
@@ -38,13 +41,13 @@ namespace Assignment1.Converters
 
         public void Visit(IfStatement ifStatement)
         {
-            var condition = QLASTExpressionToRenderExpression.Convert(ifStatement.Condition, _questions);
-            _conditions.Push(new ExpressionAnd(_conditions.Peek(), condition));
+            var condition = ifStatement.Condition;
+            _conditions.Push(new And(_conditions.Peek(), condition));
             foreach (var statement in ifStatement.ThenStatements)
             {
                 statement.Accept(this);
             }
-            _conditions.Push(new ExpressionNot(_conditions.Pop()));
+            _conditions.Push(new Not(_conditions.Pop()));
             foreach (var statement in ifStatement.ElseStatements)
             {
                 statement.Accept(this);
@@ -54,40 +57,42 @@ namespace Assignment1.Converters
 
         public void Visit(NormalQuestion question)
         {
+            _isComputed = false;
             var result = QLASTQuestionToQuestion(question);
-            result.Value = QLASTExpressionToRenderExpression.Convert(question.Answer, _questions)?.Evaluate() ?? result.Value; //TODO: Cleanup when Convert method is implemented.
+            result.Computation = question.Answer;
             _questions.Add(question.Id, result);
         }
 
         public void Visit(ComputedQuestion question)
         {
+            _isComputed = true;
             var result = QLASTQuestionToQuestion(question);
-            result.Computation = QLASTExpressionToRenderExpression.Convert(question.Computation, _questions);
+            result.Computation = question.Computation;
             _questions.Add(question.Id, result);
         }
 
         private Model.QL.RenderTree.RenderableQuestion QLASTQuestionToQuestion(Question question)
         {
-            Model.QL.RenderTree.RenderableQuestion result;
+            Model.QL.RenderTree.RenderableQuestion result = null;
             switch (question.Type)
             {
                 case Type.Boolean:
-                    result = new RenderableQuestionBool(question.Id, question.Label);
+                    //result = new RenderableQuestionBool(question.Id, question.Label, _isComputed);
                     break;
                 case Type.Integer:
-                    result = new RenderableQuestionInt(question.Id, question.Label);
+                    //result = new RenderableQuestionInt(question.Id, question.Label, _isComputed);
                     break;
                 case Type.String:
-                    result = new RenderableQuestionString(question.Id, question.Label);
+                    //result = new RenderableQuestionString(question.Id, question.Label, _isComputed);
                     break;
                 case Type.Date:
-                    result = new RenderableQuestionDate(question.Id, question.Label);
+                    //result = new RenderableQuestionDate(question.Id, question.Label, _isComputed);
                     break;
                 case Type.Decimal:
-                    result = new RenderableQuestionDecimal(question.Id, question.Label);
+                    //result = new RenderableQuestionDecimal(question.Id, question.Label, _isComputed);
                     break;
                 case Type.Money:
-                    result = new RenderableQuestionMoney(question.Id, question.Label);
+                    //result = new RenderableQuestionMoney(question.Id, question.Label, _isComputed);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

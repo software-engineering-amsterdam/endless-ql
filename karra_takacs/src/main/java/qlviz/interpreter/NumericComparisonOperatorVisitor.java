@@ -1,8 +1,13 @@
 package qlviz.interpreter;
 
-import qlviz.model.booleanExpressions.NumericComparisonOperator;
+import com.google.inject.Inject;
+import qlviz.model.expressions.booleanExpressions.NumericComparisonOperator;
 
 public class NumericComparisonOperatorVisitor implements NumericComparisonOperatorTranslator {
+
+    @Inject
+    public NumericComparisonOperatorVisitor(){}
+
     @Override
     public NumericComparisonOperator translate(String operatorString) {
         if (operatorString.equals("==")) {

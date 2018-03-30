@@ -4,224 +4,219 @@
  */
 
 {
-  // Dictionary of operators to their tsc definition
-  let operations = {
-              //"!"  : Node.Negation,
-              "&&" : Nodes.And,
-              "||" : Nodes.Or,
-              "<=" : Nodes.SmallerThanOrEqual,
-              ">=" : Nodes.LargerThanOrEqual,
-              "!=" : Nodes.NotEqual,
-              "==" : Nodes.Equals,
-              "<"  : Nodes.SmallerThan,
-              ">"  : Nodes.LargerThan,
-              "+"  : Nodes.Addition,
-              "-"  : Nodes.Subtraction,
-              "*"  : Nodes.Multiplication,
-              "/"  : Nodes.Division
-            }
-
-  // Dictionary of types to their tsc definition
-  let types = {
-                  "boolean" : FieldType.Boolean,
-                  "date" : FieldType.Date,
-                  "money" : FieldType.Money,
-                  "integer" : FieldType.Integer,
-                  "decimal" : FieldType.Decimal,
-                  "text" : FieldType.Text,
-                }
-
-  // Building an expression
-  function buildExpression(head, tail) {
-    return tail.reduce(function(left, curr) {
-      const Operation = operations[curr[1]];
-      return new Operation(left, curr[3]);
+    // Mapping of operators to their TypeScript class
+    let operationMapping = {
+        "&&" : Nodes.And,
+        "||" : Nodes.Or,
+        "<=" : Nodes.SmallerThanOrEqual,
+        ">=" : Nodes.LargerThanOrEqual,
+        "!=" : Nodes.NotEqual,
+        "==" : Nodes.Equals,
+        "<"  : Nodes.SmallerThan,
+        ">"  : Nodes.LargerThan,
+        "+"  : Nodes.Addition,
+        "-"  : Nodes.Subtraction,
+        "*"  : Nodes.Multiplication,
+        "/"  : Nodes.Division
     }
-    , head);
-  }
+
+    // Mapping of types to their TypeScript class
+    let typeMapping = {
+        "boolean" : FieldType.Boolean,
+        "date" : FieldType.Date,
+        "money" : FieldType.Money,
+        "integer" : FieldType.Integer,
+        "decimal" : FieldType.Decimal,
+        "text" : FieldType.Text,
+    }
+
+    function makeOperationNode(left, head) {
+        const Operation = operationMapping[head[1]];
+        return new Operation(left, head[3]);
+    }
+
+    // Create correct expression hierarchy
+    function buildExpression(head, tail) {
+        let expressionNode = tail.reduce(makeOperationNode, head);
+        return addLocation(expressionNode);
+    }
 
   // Add location to every node
-  function processNode(node){
+  function addLocation(node){
     node.setLocation(location());
     return node;
   }
 }
 
-// Start node
-start = lb* forms:form+ _ lb* { return forms }
+Root = __ forms:Form+ __ { return forms }
 
-// Unary operation
-unaryOps = "!"
+UnaryOps
+  = "!"
 
-// Boolean operations
-boolOps = "&&" / "||"
+BoolOps
+  = "&&"
+  / "||"
 
-// Compartive operations
-compOps = "<=" / ">=" / "!=" / "==" / "<" / ">"
+CompOps
+  = "<="
+  / ">="
+  / "!="
+  / "=="
+  / "<"
+  / ">"
 
-// Addative operations
-addOps = "+" / "-"
+AddOps
+  = "+"
+  / "-"
 
-// Multiplicant operations
-multOps = "*" / "/"
+MultOps
+  = "*"
+  / "/"
 
-// All includede aritmic operations
-aritmicOps = multOps / addOps
+AritmicOps
+  = MultOps
+  / AddOps
 
-// Literal types  supported
-literalTypes = "boolean" / "money" / "date" / "integer" / "decimal" / "text"
+Types
+  = "boolean"
+  / "money"
+  / "date"
+  / "integer"
+  / "decimal"
+  / "text"
 
-// Returns the tsc object of the literal
-type
- = literalType:literalTypes {
-    return types[literalType];
+BlockBody
+  = Field
+  / IfCondition
+
+FieldType
+ = fieldType:Types {
+    return typeMapping[fieldType];
 }
 
-// Supported types
-fieldType
- = "money"
- / "date"
- / "integer"
- / "boolean"
-
-// Returns a tsc Field object
-field
- = _ label:stringLiteral lb* id:identifier _ ":" _ type:type lb* expr:("=" lb* expression)? lb*{
-    var name = id.identifier;
-    if (expr)
-        return new Nodes.ComputedField(name, label.value, type, expr[2]);
-    let fieldNode = new Nodes.Question(name, label.value, type);
-    return processNode(fieldNode);
+Field
+ = label:StringLiteral __ identifier:Identifier _ ":" _ type:FieldType __ expression:("=" __ Expression)? __ {
+    if (expression)
+        return new Nodes.ComputedField(identifier, label.value, type, expression[2]);
+    let fieldNode = new Nodes.Question(identifier, label.value, type);
+    return addLocation(fieldNode);
 }
 
-// Returns a list of fields and/or if statements
-block
- = "{" lb* body:(field / if)+ lb* "}" lb* {
+Block
+ = "{" __ body:(BlockBody)+ __ "}" __ {
      return body;
 }
 
-// Returns a tsc FormNode object
-form
- = formToken _ id:identifier _ block:block {
-     let formNode = new Nodes.FormNode(id.identifier, block);
-     return processNode(formNode);
+Form
+ = FormToken _ identifier:Identifier _ block:Block {
+     let formNode = new Nodes.FormNode(identifier, block);
+     return addLocation(formNode);
 }
 
-// Returns a tsc IfCondition object
-if
- = _ ifToken _ predicate:expression _ block:block _ elseBlock:else? lb* {
-     let ifNode = new Nodes.IfCondition(predicate, block, elseBlock);
-     return processNode(ifNode);
+IfCondition
+ = IfToken _ predicate:ExpressionWithBrackets _ block:Block _ elseBlock:ElseStatement? __ {
+     let IfConditionNode = new Nodes.IfCondition(predicate, block, elseBlock);
+     return addLocation(IfConditionNode);
 }
 
-else
- = _ elseToken _ block:block lb* {
-    return block
- }
+ElseStatement
+ = ElseToken _ block:Block __ {
+    return block;
+}
 
-// Initiates an expression
-expression
- = expr:boolExpr {
+Expression
+ = expression:BooleanExpression {
+    return expression;
+}
+
+ExpressionWithBrackets
+ = "("_ expr:Expression _ ")" {
     return expr;
 }
 
-// BooleanExpression
-boolExpr
-  = _ head:compExpr _ tail:(_(boolOps)_ compExpr)+ _{
-    let boolExprNode = buildExpression(head, tail);
-    return processNode(boolExprNode);
-
+BooleanExpression
+  = head:ComparisonExpression _ tail:(_ BoolOps _ ComparisonExpression)+ _ {
+    let boolExpressionNode = buildExpression(head, tail);
+    return addLocation(boolExpressionNode);
   }
-  / compExpr
+  / ComparisonExpression
 
-// ComparisonExpression
-compExpr
-  = _ head:additiveExpr _ tail:(_(compOps)_ additiveExpr)+ _{
-    let compExprNode = buildExpression(head, tail);
-    return processNode(compExprNode);
+ComparisonExpression
+  = head:AdditiveExpression _ tail:(_ CompOps _ AdditiveExpression)+ _ {
+    let comparisonExpressionNode = buildExpression(head, tail);
+    return addLocation(comparisonExpressionNode);
   }
-  / additiveExpr
+  / AdditiveExpression
 
-// AdditiveExpression
-additiveExpr
-  = _ head:multiplicativeExpr _ tail:(_(addOps)_ multiplicativeExpr)+ _{
-    let additiveExprNode = buildExpression(head, tail);
-    return processNode(additiveExprNode);
+AdditiveExpression
+  = head:MultiplicativeExpression _ tail:(_ AddOps _ MultiplicativeExpression)+ _{
+    let additiveExpressionNode = buildExpression(head, tail);
+    return addLocation(additiveExpressionNode);
   }
-  / multiplicativeExpr
+  / MultiplicativeExpression
 
-// MultiplicativeExpression
-multiplicativeExpr
-  = _ head:primary _ tail:(_(multOps)_ primary)+ _{
-    let multiplicativeExprNode = buildExpression(head, tail);
-    return processNode(multiplicativeExprNode);
+MultiplicativeExpression
+  = head:ExpressionElement _ tail:(_ MultOps _ ExpressionElement)+ _{
+    let multiplicativeExpressionNode = buildExpression(head, tail);
+    return addLocation(multiplicativeExpressionNode);
   }
-  / primary
+  / ExpressionElement
 
-primary
-  = value
-  / "("_ expr:boolExpr _ ")" { return expr; }
-  / unaryExpr
+ExpressionElement
+  = Value
+  / ExpressionWithBrackets
+  / UnaryExpression
 
-// UnaryExpression
-unaryExpr
- = _ op:unaryOps value:primary _ {
-    let unaryExprNode = new Nodes.Negation(value);
-    return processNode(unaryExprNode);
+UnaryExpression
+ = UnaryOps value:ExpressionElement _ {
+    let unaryExpressionNode = new Nodes.Negation(value);
+    return addLocation(unaryExpressionNode);
 }
 
-// Identifier
-identifier
- = !keywords alphabet {
+ExpressionVariableIdentifier
+  = Identifier {
     let identifierNode = new Nodes.VariableIdentifier(text());
-    return processNode(identifierNode);
+    return addLocation(identifierNode);
 }
 
-// Boolean Literal
-booleanLiteral
- = booleanToken {
+Identifier
+  = !Keywords Alphabet AlphabetOrNumbers+ {
+    return text();
+}
+
+BooleanLiteral
+ = BooleanToken {
     let booleanLiteralNode = new Nodes.BooleanLiteral(text() == "true");
-    return processNode(booleanLiteralNode);
+    return addLocation(booleanLiteralNode);
 }
 
-// Alphabet characters
-alphabet
- = [a-zA-Z]+
-
-// Integer
-numberLiteral
- = minus:[-]? digits:([0-9\.]+) {
-    let amount = digits.join("");
-    if (minus)
-        amount = minus.concat(amount);
-    let numberLiteralNode = Nodes.NumberLiteral.fromString(amount);
-    return processNode(numberLiteralNode);
+NumberLiteral
+ = [-]?[0-9\.]+ {
+    let numberLiteralNode = Nodes.NumberLiteral.fromString(text());
+    return addLocation(numberLiteralNode);
 }
 
-//Date
-dateLiteral
+DateLiteral
  = [0-9][0-9] dateSeparator [0-9][0-9] dateSeparator [0-9][0-9][0-9][0-9]{
     let dateLiteralNode = Nodes.DateLiteral.fromString(text());
-    return processNode(dateLiteralNode);
+    return addLocation(dateLiteralNode);
 }
 
 dateSeparator
  = [\.]
 
-// String Literal, Currently only support double quoted String
-stringLiteral
- = '"' chars:doubleQuotedString* '"'{
+// String Literal, only support double quoted Strings
+StringLiteral "String literal"
+ = '"' chars:DoubleQuotedStringCharacters* '"' {
     let stringLiteralNode = new Nodes.StringLiteral(chars.join(''));
-    return processNode(stringLiteralNode);
+    return addLocation(stringLiteralNode);
 }
 
-// Double quoted string pattern
-doubleQuotedString
+DoubleQuotedStringCharacters
   = !('"' / "\\") char:. { return char; }
-  / "\\" sequence:escapeSequence { return sequence; }
+  / "\\" sequence:EscapeSequence { return sequence; }
 
-// Escape sequences for inside string
-escapeSequence
+EscapeSequence
   = "'"
   / '"'
   / "\\"
@@ -232,28 +227,69 @@ escapeSequence
   / "t"  { return "\t";   }
   / "v"  { return "\x0B"; }
 
-// Value
-value
- = identifier
- / dateLiteral
- / numberLiteral
- / stringLiteral
- / booleanLiteral
+Value
+ = ExpressionVariableIdentifier
+ / DateLiteral
+ / NumberLiteral
+ / StringLiteral
+ / BooleanLiteral
 
-booleanToken
- = "true"  !alphabet
- / "false" !alphabet
+BooleanToken
+ = BooleanTrue !Alphabet
+ / BooleanFalse !Alphabet
 
-ifToken = "if" !alphabet
-elseToken = "else" !alphabet
-formToken = "form" !alphabet
+BooleanTrue = "true"
+BooleanFalse = "false"
 
-keywords = booleanToken
+IfToken = "if" !Alphabet
+ElseToken = "else" !Alphabet
+FormToken = "form" !Alphabet
 
-// Single line comments
-comment = "//" (![\n] .)*
+Keywords = BooleanToken
 
-// White spaces and new lines
-ws = [ \t]
-_ = (ws / comment)*
-lb = [ \t\r\n] / comment
+
+Alphabet
+  = [a-zA-Z]
+
+Numbers
+  = [0-9]
+
+AlphabetOrNumbers
+  = Alphabet
+  / Numbers
+
+SourceCharacter = .
+
+WhiteSpace "Whitespace"
+  = "\t"
+  / "\v"
+  / "\f"
+  / " "
+  / "\u00A0"
+  / "\uFEFF"
+
+_ = (WhiteSpace / MultiLineCommentNoLineTerminator)*
+__ = (WhiteSpace / LineTerminatorSequence / Comment)*
+
+LineTerminatorSequence "End of line"
+  = "\n"
+  / "\r\n"
+  / "\r"
+  / "\u2028"
+  / "\u2029"
+
+LineTerminator
+    = [\n\r\u2028\u2029]
+
+Comment "Comment"
+  = MultiLineComment
+  / SingleLineComment
+
+SingleLineComment
+  = "//" (!LineTerminator SourceCharacter)*
+
+MultiLineComment
+  = "/*" (!"*/" SourceCharacter)* "*/"
+
+MultiLineCommentNoLineTerminator
+  = "/*" (!("*/" / LineTerminator) SourceCharacter)* "*/"

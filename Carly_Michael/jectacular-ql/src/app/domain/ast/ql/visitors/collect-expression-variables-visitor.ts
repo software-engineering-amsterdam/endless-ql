@@ -15,9 +15,9 @@ export class CollectExpressionVariablesVisitor implements ExpressionVisitor<void
     this.variables = [];
   }
 
-  static evaluate(expr: Expression): ReadonlyArray<Variable> {
+  static evaluate(expression: Expression): ReadonlyArray<Variable> {
     const visitor = new CollectExpressionVariablesVisitor();
-    expr.accept(visitor);
+    expression.accept(visitor);
     return visitor.variables;
   }
 
@@ -37,76 +37,76 @@ export class CollectExpressionVariablesVisitor implements ExpressionVisitor<void
     // nothing to do
   }
 
-  visitMultiplyExpression(expr: MultiplyExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitMultiplyExpression(expression: MultiplyExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitDivideExpression(expr: DivideExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitDivideExpression(expression: DivideExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitAddExpression(expr: AddExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitAddExpression(expression: AddExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitSubtractExpression(expr: SubtractExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitSubtractExpression(expression: SubtractExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitGreaterThanExpression(expr: GreaterThanExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitGreaterThanExpression(expression: GreaterThanExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitGreaterThanEqualExpression(expr: GreaterThanEqualExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitGreaterThanEqualExpression(expression: GreaterThanEqualExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitLessThanExpression(expr: LessThanExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitLessThanExpression(expression: LessThanExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitLessThanEqualExpression(expr: LessThanEqualExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitLessThanEqualExpression(expression: LessThanEqualExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitEqualExpression(expr: EqualExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitEqualExpression(expression: EqualExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitUnequalExpression(expr: UnequalExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitUnequalExpression(expression: UnequalExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitAndExpression(expr: AndExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitAndExpression(expression: AndExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitOrExpression(expr: OrExpression): void {
-    expr.left.accept(this);
-    expr.right.accept(this);
+  visitOrExpression(expression: OrExpression): void {
+    expression.left.accept(this);
+    expression.right.accept(this);
   }
 
-  visitNegativeExpression(expr: NegativeExpression): void {
-    expr.right.accept(this);
+  visitNegativeExpression(expression: NegativeExpression): void {
+    expression.right.accept(this);
   }
 
-  visitNegateExpression(expr: NegateExpression): void {
-    expr.right.accept(this);
+  visitNegateExpression(expression: NegateExpression): void {
+    expression.right.accept(this);
   }
 
-  visitVariable(expr: Variable): void {
-    this.variables.push(expr);
+  visitVariable(expression: Variable): void {
+    this.variables.push(expression);
   }
 
 }

@@ -1,5 +1,4 @@
-// Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QLS.g4 by ANTLR 4.7
-package QLS.QLSAntlrGen;
+package QLS.QLSAntlrGen;// Generated from /Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/antlr/QLS.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -104,53 +103,53 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitSpinWidget(QLSParser.SpinWidgetContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code widthWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Enter a parse tree produced by the {@code widthStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 */
-	void enterWidthWidget(QLSParser.WidthWidgetContext ctx);
+	void enterWidthStyle(QLSParser.WidthStyleContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code widthWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Exit a parse tree produced by the {@code widthStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 */
-	void exitWidthWidget(QLSParser.WidthWidgetContext ctx);
+	void exitWidthStyle(QLSParser.WidthStyleContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code fontWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Enter a parse tree produced by the {@code fontStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 */
-	void enterFontWidget(QLSParser.FontWidgetContext ctx);
+	void enterFontStyle(QLSParser.FontStyleContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code fontWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Exit a parse tree produced by the {@code fontStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 */
-	void exitFontWidget(QLSParser.FontWidgetContext ctx);
+	void exitFontStyle(QLSParser.FontStyleContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code fontSizeWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Enter a parse tree produced by the {@code fontSizeStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 */
-	void enterFontSizeWidget(QLSParser.FontSizeWidgetContext ctx);
+	void enterFontSizeStyle(QLSParser.FontSizeStyleContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code fontSizeWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Exit a parse tree produced by the {@code fontSizeStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 */
-	void exitFontSizeWidget(QLSParser.FontSizeWidgetContext ctx);
+	void exitFontSizeStyle(QLSParser.FontSizeStyleContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code colorWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Enter a parse tree produced by the {@code colorStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 */
-	void enterColorWidget(QLSParser.ColorWidgetContext ctx);
+	void enterColorStyle(QLSParser.ColorStyleContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code colorWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Exit a parse tree produced by the {@code colorStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 */
-	void exitColorWidget(QLSParser.ColorWidgetContext ctx);
+	void exitColorStyle(QLSParser.ColorStyleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLSParser#type}.
 	 * @param ctx the parse tree

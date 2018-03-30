@@ -13,6 +13,7 @@ public class PageVisitor extends QLSBaseVisitor<Page> {
     @Override
     public Page visitPage(QLSParser.PageContext ctx){
 
+        int line = ctx.getStart().getLine();
         ArrayList<Section> sections = new ArrayList<Section>();
         ArrayList<Default> defaultSections = new ArrayList<Default>();
 
@@ -30,8 +31,8 @@ public class PageVisitor extends QLSBaseVisitor<Page> {
             defaultSections.add(defaultSection);
 
         }
-        return new Page(sections, defaultSections, ctx.IDENTIFIER().getText());
-
+        //return new Page(sections, defaultSections, ctx.IDENTIFIER().getText());
+        return new Page(sections, ctx.IDENTIFIER().getText(), line);
     }
 
 

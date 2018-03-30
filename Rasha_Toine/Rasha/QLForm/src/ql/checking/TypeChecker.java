@@ -61,7 +61,7 @@ public class TypeChecker {
                  }
 
                  @Override
-                 public Void visit(NormalQuestion question, Void ctx) {
+                 public Void visit(AnswerableQuestion question, Void ctx) {
                 	 addQuestionToMaps(question);
                 	 return null;
                  }
@@ -74,7 +74,7 @@ public class TypeChecker {
 				questions.forEach(question -> {
 					events.insert(new EventMessage(
 							"Duplicated label: " + question.getName() +
-							" at line" + question.getLocation().getStartLine(),
+							" at line:" + question.getLocation().getStartLine(),
 							MessageTypeEnum.warning));
 				});
 			}

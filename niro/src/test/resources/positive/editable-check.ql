@@ -5,6 +5,7 @@ form EditOrNotToEdit {
     "Decimal variable" decimalVariable: decimal
     "Money variable" moneyVariable: money
     "Date variable" dateVariable: date
+    "Boolean = not variable" booleanNotExpression: boolean = !booleanVariable
     if (booleanVariable) {
         "String constant" stringConstant: string = "NiRo"
         "Boolean constant" booleanConstant: boolean = false

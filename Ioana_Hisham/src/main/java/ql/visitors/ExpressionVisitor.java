@@ -1,7 +1,10 @@
 package ql.visitors;
 
+import ql.ast.expressions.GroupExpression;
 import ql.ast.expressions.binary.*;
-import ql.ast.expressions.literals.Identifier;
+import ql.ast.expressions.Identifier;
+import ql.ast.expressions.literals.BooleanLiteral;
+import ql.ast.expressions.literals.IntegerLiteral;
 import ql.ast.expressions.literals.StringLiteral;
 
 public interface ExpressionVisitor<T> {
@@ -18,5 +21,8 @@ public interface ExpressionVisitor<T> {
     T visit(NotEqual notEqual);
     T visit(Subtraction subtraction);
     T visit(Identifier identifier);
+    T visit(BooleanLiteral booleanLiteral);
+    T visit(IntegerLiteral integerLiteral);
     T visit(StringLiteral stringLiteral);
+    T visit(GroupExpression groupExpression);
 }

@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node;
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 import java.util.HashSet;
@@ -12,16 +13,15 @@ public class IfBlock extends BlockElement {
     private List<FormElement> ifElements;
     private List<FormElement> elseElements;
 
-    public IfBlock(Expression expression, List<FormElement> formElements, Integer lineNumber,
-                   Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public IfBlock(Expression expression, List<FormElement> formElements, SourceFilePosition filePosition) {
+        super(filePosition);
         this.expression = expression;
         this.ifElements = formElements;
     }
 
     public IfBlock(Expression expression, List<FormElement> ifElements, List<FormElement>
-            elseElements, Integer lineNumber, Integer columnNumber) {
-        super(lineNumber, columnNumber);
+            elseElements, SourceFilePosition filePosition) {
+        super(filePosition);
         this.expression = expression;
         this.ifElements = ifElements;
         this.elseElements = elseElements;
@@ -39,16 +39,8 @@ public class IfBlock extends BlockElement {
         return ifElements;
     }
 
-    public void setIfElements(List<FormElement> ifElements) {
-        this.ifElements = ifElements;
-    }
-
     public List<FormElement> getElseElements() {
         return elseElements;
-    }
-
-    public void setElseElements(List<FormElement> elseElements) {
-        this.elseElements = elseElements;
     }
 
     @Override

@@ -9,8 +9,8 @@ page: 'page' page_id '{' section* default_style* '}';
 
 section: 'section' section_id ('{' (question | section | default_style)* '}' | (question | section | default_style)*);
 
-question: 'question' (var | var widget);
-default_style: 'default' vartype ('{' default_options* widget '}' | widget);
+question: 'question' (variable | variable widget);
+default_style: 'default' variable_type ('{' default_options* widget '}' | widget);
 default_options: (width | font | fontsize | color);
 
 stylesheet_id: NAME;
@@ -19,8 +19,8 @@ section_id: STR;
 widget: 'widget' widget_type;
 widget_type: 'checkbox'
            | 'radio("Yes", "No")'
-           | 'spinbox'
-           | 'slider'
+           | 'spinbox(' NUMBER ',' NUMBER ')'
+           | 'slider(' NUMBER ',' NUMBER ')'
            | 'text'
            | 'dropdown("Yes", "No")'
            ;
@@ -30,8 +30,8 @@ font: 'font:' STR;
 fontsize: 'fontsize:' NUMBER;
 color: 'color:' HEX;
 
-var: NAME;
-vartype: 'money'
+variable: NAME;
+variable_type: 'int'
        | 'boolean';
 
 /*

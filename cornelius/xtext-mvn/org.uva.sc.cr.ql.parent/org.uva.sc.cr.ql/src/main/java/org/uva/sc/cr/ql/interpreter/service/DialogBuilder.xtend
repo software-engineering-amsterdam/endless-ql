@@ -15,7 +15,7 @@ import org.uva.sc.cr.ql.util.ExpressionUtil
 class DialogBuilder {
 
 	@Inject
-	private var ControlBuilder controlBuilder
+	var ControlBuilder controlBuilder
 
 	def buildDialog(Form form) {
 		val content = buildPanelForBlock(form.body, null)

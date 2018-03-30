@@ -15,7 +15,7 @@ import ql.visiting.value.Value;
 import ql.ast.statement.Question;
 
 
-public class TextField extends Widget {
+public class TextField extends QLWidget {
 
 	private JPanel panel;
 	private JTextField input;

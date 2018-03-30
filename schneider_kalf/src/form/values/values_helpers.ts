@@ -4,7 +4,7 @@ import IntValue from "./IntValue";
 import { DecimalValue } from "./DecimalValue";
 import MoneyValue from "./MoneyValue";
 
-export const isNumericValue = (value: any): value is NumberValue => {
+export const isNumberValue = (value: any): value is NumberValue => {
   return value && typeof value === 'object' && value.type === "NumberValue";
 };
 

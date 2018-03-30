@@ -1,8 +1,11 @@
 package QLS.ParseObjectQLS;
 
+import QLS.Analysis.WidgetVisitorInterface;
+import com.sun.tools.jdeps.Analyzer;
+
 import java.util.ArrayList;
 
-public class Section {
+public class Section extends QLSNode {
 
    private String sectionName;
    private ArrayList<QLSQuestion> questions;
@@ -10,7 +13,8 @@ public class Section {
    private ArrayList<Default> defaultSection;
 
    public Section(String sectionName, ArrayList<QLSQuestion> questions,
-                  ArrayList<Section> sections, ArrayList<Default> defaultSection){
+                  ArrayList<Section> sections, ArrayList<Default> defaultSection, int line){
+       super(line);
 
        setSectionName(sectionName);
        setQuestions(questions);
@@ -50,5 +54,10 @@ public class Section {
 
     public void setDefaultSection(ArrayList<Default> defaultSection) {
         this.defaultSection = defaultSection;
+    }
+
+    @Override
+    public <T> T accept(WidgetVisitorInterface<T> visitor) {
+        return visitor.visit(this);
     }
 }

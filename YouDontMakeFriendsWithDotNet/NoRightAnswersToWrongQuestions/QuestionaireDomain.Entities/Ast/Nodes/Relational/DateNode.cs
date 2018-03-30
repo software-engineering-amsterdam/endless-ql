@@ -20,7 +20,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
             var styles = DateTimeStyles.None;
             if (!DateTime.TryParse(dateText, culture, styles, out parsedDateTime))
             {
-                throw new QlParserException($"could not parse '{dateText}' into a date", null);
+                throw new ParserException($"could not parse '{dateText}' into a date", null);
             }
 
             Value = parsedDateTime;

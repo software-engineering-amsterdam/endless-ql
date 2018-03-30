@@ -2,6 +2,7 @@ package org.uva.jomi.ql.error;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
@@ -167,8 +168,18 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
+	public void addCyclicQuestionError(ArrayList<Set<String>> cycleSet) {
+		for (Set<String> set : cycleSet) {
+			String error = String.format("[CyclicDependencyChecker] A cyclic dependency was found between the following questions: %s",
+					String.join(", ", set));
+			this.addReport(error);
+			if (printErrors)
+				System.err.println(error);
+		 }
+	}
+
 	public void clearErrors() {
-		this.clearAllReports();
+		this.clear();
 	}
 
 	public String getErrorAtIndex(int index) {

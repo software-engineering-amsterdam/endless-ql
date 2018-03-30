@@ -20,7 +20,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         }
 
         public decimal Calculate(
-            Reference<ICalculationNode> calculationNode)
+            DomainId<ICalculationNode> calculationNode)
         {
             var node = m_domainItemLocator.Get<ICalculationNode>(calculationNode.Id);
             dynamic d = node;

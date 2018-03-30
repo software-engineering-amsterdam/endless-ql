@@ -13,7 +13,7 @@ public class FontSizeProperty extends StyleProperty {
 
     @Override
     public void apply(QuestionWidget widget) {
-        int fontSize = Integer.parseInt(value.getValue());
+        int fontSize = value.getValue();
         widget.setFontSize(fontSize);
     }
 }

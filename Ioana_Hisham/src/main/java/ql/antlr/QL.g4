@@ -12,18 +12,11 @@ package ql.antlr;
 
 form            : 'form' id '{' statement* '}' ;
 
-statement       : description id ':' type ('=' expression)?     #question
-                | 'if' '(' expression ')' '{' statement* '}'    #ifThen
+statement       : description id ':' type                                           #question
+                | description id ':' type '=' expression                            #calculableQuestion
+                | 'if' '(' expression ')' '{' statement* '}'                            #ifThen
+                | 'if' '(' expression ')' '{' statement* '}' 'else' '{' statement* '}'    #ifThenElse
                 ;
-
-//BEGIN STATEMENTS
-
-// ('=' expresion) part is optional and is treated only in case its enabling condition/s are satisfied
-//question        : StringLiteral Identifier ':' type ('=' expression)? ; //TODO keep in check if something else than '=' will be used
-
-//ifStatement     : 'if' '(' expression ')' '{' statement* '}';
-
-//END STATEMENTS
 
 description     : StringLiteral;
 
@@ -35,20 +28,26 @@ type            : 'boolean' #booleanType
                 | 'money'   #moneyType
                 ;
 
-expression      : BooleanLiteral                                        #booleanLiteral
-                | ID                                                    #identifier
-                | StringLiteral                                         #stringLiteral
-                | IntegerLiteral                                        #integerLiteral
-                | '+' expression                                        #unaryPlusExpr
-                | '-' expression                                        #unaryMinusExpr
-                | '!' expression                                        #notExpr
-                | expression op=('*' | '/' ) expression                 #multiplicationExpr
-                | expression op=('+' | '-') expression                  #additiveExpr
-                | expression op=('<' | '<=' | '>' | '>=') expression    #relationalExpr
-                | expression op=('==' | '!=') expression                #equalityExpr
-                | expression '&&' expression                            #andExpr
-                | expression '||' expression                            #orExpr
-                | '(' expression ')'                                    #groupedExpression
+expression      : BooleanLiteral                            #booleanLiteral
+                | ID                                        #identifier
+                | StringLiteral                             #stringLiteral
+                | IntegerLiteral                            #integerLiteral
+                | '(' expression ')'                        #groupExpression
+                | '+' expression                            #unaryPlusExpr
+                | '-' expression                            #unaryMinusExpr
+                | '!' expression                            #notExpr
+                | left=expression op='/'  right=expression  #division
+                | left=expression op='*'  right=expression  #multiplication
+                | left=expression op='-'  right=expression  #subtraction
+                | left=expression op='+'  right=expression  #addition
+                | left=expression op='<'  right=expression  #lessThan
+                | left=expression op='>'  right=expression  #greaterThan
+                | left=expression op='<=' right=expression  #lessThanOrEqual
+                | left=expression op='>=' right=expression  #greaterThanOrEqual
+                | left=expression op='==' right=expression  #equal
+                | left=expression op='!=' right=expression  #notEqual
+                | left=expression op='&&' right=expression  #logicalAnd
+                | left=expression op='||' right=expression  #logicalOr
                 ;
 
 // Tokens

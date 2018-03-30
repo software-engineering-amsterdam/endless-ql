@@ -2,13 +2,13 @@
 
 namespace Assignment1.Model.QL.RenderTree.Value
 {
-    class AnswerValueNumber : AnswerValue<decimal>, IAnswerComputable<decimal>, IAnswerComparable
+    class AnswerValueNumber : AnswerValue<decimal>, IAnswerComputable, IAnswerComparable
     {
         public AnswerValueNumber(decimal value, AnswerType type) : base(value, type) { }
 
-        public IAnswerValuable<decimal> Add<U>(IAnswerValuable<U> right)
+        public IAnswerValuable Add<U>(AnswerValue<U> right)
         {
-            if (right.IsUndefined) return (IAnswerValuable<decimal>)new AnswerValueUndefined();
+            if (right.IsUndefined) return new AnswerValueUndefined();
             if (!right.Type.IsNumeric())
             {
                 throw new NotSupportedException("Operator + cannot be applied to " + Type.ToString() + " and " + right.Type.ToString());
@@ -16,9 +16,9 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueNumber(Value + Decimal.Parse(right.Value.ToString()), Type);
         }
 
-        public IAnswerValuable<decimal> Divide<U>(IAnswerValuable<U> right)
+        public IAnswerValuable Divide<U>(AnswerValue<U> right)
         {
-            if (right.IsUndefined) return (IAnswerValuable<decimal>)new AnswerValueUndefined();
+            if (right.IsUndefined) return new AnswerValueUndefined();
             if (!right.Type.IsNumeric())
             {
                 throw new NotSupportedException("Operator / cannot be applied to " + Type.ToString() + " and " + right.Type.ToString());
@@ -26,7 +26,7 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueNumber(Value / Decimal.Parse(right.Value.ToString()), Type);
         }
 
-        public IAnswerValuable<bool> Equal<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> Equal<U>(AnswerValue<U> right)
         {
             if (right.IsUndefined) return new AnswerValueUndefined();
             if (!right.Type.IsNumeric())
@@ -36,7 +36,7 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(Value == Decimal.Parse(right.Value.ToString()));
         }
 
-        public IAnswerValuable<bool> GreaterThan<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> GreaterThan<U>(AnswerValue<U> right)
         {
             if (right.IsUndefined) return new AnswerValueUndefined();
             if (!right.Type.IsNumeric())
@@ -46,7 +46,7 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(Value > Decimal.Parse(right.Value.ToString()));
         }
 
-        public IAnswerValuable<bool> GreaterThanOrEqual<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> GreaterThanOrEqual<U>(AnswerValue<U> right)
         {
             if (right.IsUndefined) return new AnswerValueUndefined();
             if (!right.Type.IsNumeric())
@@ -56,7 +56,7 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(Value >= Decimal.Parse(right.Value.ToString()));
         }
 
-        public IAnswerValuable<bool> LessThan<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> LessThan<U>(AnswerValue<U> right)
         {
             if (right.IsUndefined) return new AnswerValueUndefined();
             if (!right.Type.IsNumeric())
@@ -66,7 +66,7 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(Value < Decimal.Parse(right.Value.ToString()));
         }
 
-        public IAnswerValuable<bool> LessThanOrEqual<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> LessThanOrEqual<U>(AnswerValue<U> right)
         {
             if (right.IsUndefined) return new AnswerValueUndefined();
             if (!right.Type.IsNumeric())
@@ -76,9 +76,9 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(Value <= Decimal.Parse(right.Value.ToString()));
         }
 
-        public IAnswerValuable<decimal> Multiply<U>(IAnswerValuable<U> right)
+        public IAnswerValuable Multiply<U>(AnswerValue<U> right)
         {
-            if (right.IsUndefined) return (IAnswerValuable<decimal>)new AnswerValueUndefined();
+            if (right.IsUndefined) return new AnswerValueUndefined();
             if (!right.Type.IsNumeric())
             {
                 throw new NotSupportedException("Operator * cannot be applied to " + Type.ToString() + " and " + right.Type.ToString());
@@ -86,7 +86,7 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueNumber(Value * Decimal.Parse(right.Value.ToString()), Type);
         }
 
-        public IAnswerValuable<bool> NotEqual<U>(IAnswerValuable<U> right)
+        public AnswerValue<bool> NotEqual<U>(AnswerValue<U> right)
         {
             if (right.IsUndefined) return new AnswerValueUndefined();
             if (!right.Type.IsNumeric())
@@ -96,9 +96,9 @@ namespace Assignment1.Model.QL.RenderTree.Value
             return new AnswerValueBool(Value != Decimal.Parse(right.Value.ToString()));
         }
 
-        public IAnswerValuable<decimal> Subtract<U>(IAnswerValuable<U> right)
+        public IAnswerValuable Subtract<U>(AnswerValue<U> right)
         {
-            if (right.IsUndefined) return (IAnswerValuable<decimal>)new AnswerValueUndefined();
+            if (right.IsUndefined) return new AnswerValueUndefined();
             if (!right.Type.IsNumeric())
             {
                 throw new NotSupportedException("Operator - cannot be applied to " + Type.ToString() + " and " + right.Type.ToString());

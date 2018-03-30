@@ -1,4 +1,6 @@
-﻿namespace Assignment1.Model.QL.AST
+﻿using System;
+
+namespace Assignment1.Model.QL.AST
 {
     public enum Type
     {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import RadioAttribute from "../../../form/nodes/attributes/widget_attribtues/RadioAttribute";
+import RadioAttribute from "../../../form/nodes/attributes/widget_attribtues/RadioWidgetAttribute";
 import FormGroup from "reactstrap/lib/FormGroup";
 import Label from "reactstrap/lib/Label";
 import Input from "reactstrap/lib/Input";

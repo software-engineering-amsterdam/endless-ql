@@ -1,5 +1,6 @@
 package ql.visitors;
 
+import ql.ast.expressions.GroupExpression;
 import ql.ast.expressions.binary.*;
 import ql.ast.expressions.Identifier;
 import ql.ast.expressions.literals.BooleanLiteral;
@@ -23,4 +24,5 @@ public interface ExpressionVisitor<T> {
     T visit(BooleanLiteral booleanLiteral);
     T visit(IntegerLiteral integerLiteral);
     T visit(StringLiteral stringLiteral);
+    T visit(GroupExpression groupExpression);
 }

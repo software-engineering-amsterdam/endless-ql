@@ -74,8 +74,11 @@ namespace Assignment1
                     QLTypeChecker typechecker = new QLTypeChecker();
                     typechecker.TypeCheckQuestionForm(astForm);
                     _executor = new QLExecutor(astForm);
-                    //var renderer = new QLRenderer(_executor);
-                    var renderer = new QLSRenderer(_executor, QLSParser.ParseString(File.ReadAllText(inputFile + ".qls")));
+
+                    string qlsFileLocation = inputFile + ".qls";
+                    IQuestionFormRenderer renderer = new QLRenderer(_executor);
+                    if (File.Exists(qlsFileLocation))
+                        renderer = new QLSRenderer(_executor, QLSParser.ParseString(File.ReadAllText(qlsFileLocation)));
                     _view.SetFormControl(renderer.Render());
                 }
                 _view.SetWarnings(messages.Warnings);

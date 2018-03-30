@@ -43,6 +43,10 @@ class Question:
             self.hidden_answer = self.answer
         self.answer = self.default_answer
 
+    def set_answer_label(self, label):
+        self.attributes['widget'] = QtWidgets.QLabel(label)
+        self.answer = label
+
     def create_label(self):
         # Creates a label as specified by the question's attributes
         question_label = QtWidgets.QLabel(self.question_string)
@@ -142,6 +146,14 @@ class BooleanQuestion(Question):
         for question in self.if_questions:
             question.if_false()
 
+    def set_answer_label(self, label):
+        if label == 'True' or label == 'False':
+            self.attributes['widget'] = QtWidgets.QLabel(label)
+            self.answer = label
+            return None
+        else:
+            return ["Error: bad value for boolean question type: {}".format(label)]
+
     def create_frame(self):
         """ Creates output frame """
         self.question_frame = QtWidgets.QFrame()
@@ -151,7 +163,11 @@ class BooleanQuestion(Question):
 
         question_layout.addWidget(self.create_label(), 0, 0)
 
-        if self.attributes['widget'] == 'radio':
+        if type(self.attributes['widget']) == QtWidgets.QLabel:
+            self.buttons = [self.attributes['widget']]
+            if self.answer != 'True' and self.answer != 'False':
+                return QtWidgets.QLabel("Error: bad value for boolean question type")
+        elif self.attributes['widget'] == 'radio':
             if self.attributes['choices']:
                 self.set_radiobuttons(self.attributes['choices'])
         elif self.attributes['widget'] == 'checkbox':
@@ -193,6 +209,14 @@ class MoneyQuestion(Question):
     def update_answer(self):
         self.answer = self.text_input_box.text()
 
+    def set_answer_label(self, label):
+        if label.isdigit():
+            self.attributes['widget'] = QtWidgets.QLabel(label)
+            self.answer = label
+            return None
+        else:
+            return ["Error: bad value for money question type: {}".format(label)]
+
     def create_frame(self):
         """ Creates output frame """
         self.question_frame = QtWidgets.QFrame()
@@ -202,12 +226,14 @@ class MoneyQuestion(Question):
 
         question_layout.addWidget(self.create_label(), 0, 0)
 
-        if self.attributes['widget'] == 'spinbox':
+        if type(self.attributes['widget']) == QtWidgets.QLabel:
+            self.text_input_box = self.attributes['widget']
+        elif self.attributes['widget'] == 'spinbox':
             self.set_spinbox()
         elif not self.attributes['widget']:
             self.set_line_edit()
-        # elif self.attributes['widget'] == 'textbox':
-        #     self.set_line_edit()
+        elif self.attributes['widget'] == 'textbox':
+            self.set_line_edit()
         else:
             return QtWidgets.QLabel("Error: undefined widget for money question type")
 

@@ -31,8 +31,6 @@ public class SliderWidget extends QuestionWidget implements ChangeListener {
         slider = new JSlider(start, end, currentValue);
         slider.setMinorTickSpacing(steps);
         slider.setSnapToTicks(true);
-        slider.setPaintTicks(true);
-        slider.setPaintLabels(true);
         slider.setEnabled(readOnly);
         slider.setLabelTable(slider.createStandardLabels(steps));
 

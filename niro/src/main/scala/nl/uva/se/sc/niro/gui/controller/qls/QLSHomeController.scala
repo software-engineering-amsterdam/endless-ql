@@ -12,7 +12,7 @@ import nl.uva.se.sc.niro.model.gui.ql.GUIForm
 import nl.uva.se.sc.niro.model.gui.qls.GUIStylesheet
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.qls.QLStylesheet
-import nl.uva.se.sc.niro.{ QLFormService, QLStylesheetService }
+import nl.uva.se.sc.niro.{ QLFormFacade, QLStylesheetFacade }
 
 class QLSHomeController extends QLHomeController {
   override def applicationName(): String = "QLS Forms"
@@ -23,11 +23,11 @@ class QLSHomeController extends QLHomeController {
     errorMessages.setVisible(false)
     val selectedFile: File = selectQLFile(getActiveStage)
     if (selectedFile != null) try {
-      val formOrErrors: Either[Seq[Errors.Error], QLForm] = QLFormService.importQLSpecification(selectedFile)
+      val formOrErrors: Either[Seq[Errors.Error], QLForm] = QLFormFacade.importQLSpecification(selectedFile)
       formOrErrors match {
         case Right(form) =>
           val stylesheetOrErrors: Either[Seq[Errors.Error], Option[QLStylesheet]] =
-            QLStylesheetService.importQLStylesheetSpecification(form, new File(selectedFile.toString + "s"))
+            QLStylesheetFacade.importQLStylesheetSpecification(form, new File(selectedFile.toString + "s"))
           stylesheetOrErrors match {
             case Right(possibleStylesheet) =>
               possibleStylesheet match {

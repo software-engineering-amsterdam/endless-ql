@@ -9,10 +9,10 @@ import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.{ Alert, ButtonType, Label, ScrollPane }
 import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
-import nl.uva.se.sc.niro.QLFormService
+import nl.uva.se.sc.niro.QLFormFacade
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.component.Component
-import nl.uva.se.sc.niro.gui.component.ql.QLComponentFactory
+import nl.uva.se.sc.niro.gui.component.ql.QLComponentFactoryBuilder
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidgetFactory
 import nl.uva.se.sc.niro.model.gui.ql.{ GUIForm, GUIQuestion }
@@ -31,6 +31,7 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
     with Logging {
 
   type ValueStore = mutable.Map[String, Answer]
+
   protected val valuesForQuestions: ValueStore = mutable.Map[String, Answer]()
   protected var questionComponents: Seq[Component[_]] = _ // The actual components that handle the user interaction
 
@@ -54,7 +55,7 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
     val file = fileChooser.showSaveDialog(getActiveStage)
 
     if (file != null) {
-      QLFormService.saveMemoryTableToCSV(valuesForQuestions.toMap, file)
+      QLFormFacade.saveMemoryTableToCSV(valuesForQuestions.toMap, file)
       showSavedMessage()
       cancel(event)
     }
@@ -78,7 +79,13 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
     val questionBox = new VBox()
     questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
 
-    questionComponents = guiForm.questions.map(QLComponentFactory(this, new QLWidgetFactory()).make)
+    val componentFactory = QLComponentFactoryBuilder
+      .buildWithBind()
+      .buildWithIsReadonly()
+      .buildWith(this)
+      .buildWith(new QLWidgetFactory()).build()
+
+    questionComponents = guiForm.questions.map(componentFactory.make)
 
     questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questionComponents))
     questionArea.setContent(questionBox)
@@ -117,7 +124,8 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
   }
 
   def showSavedMessage(): Unit = {
-    val alert = new Alert(AlertType.INFORMATION, "The file has successfuly been saved.", ButtonType.OK)
+    // TODO should it be CONFIRMATION ??
+    val alert = new Alert(AlertType.INFORMATION, "The data has successfuly been saved.", ButtonType.OK)
     alert.setTitle("Save results")
     alert.showAndWait()
   }

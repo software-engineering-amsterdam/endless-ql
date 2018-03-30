@@ -13,7 +13,8 @@ import org.antlr.v4.runtime.CharStreams
 
 import scala.io.Source
 
-object QLFormService {
+object QLFormFacade {
+
   def importQLSpecification(file: File): Either[Seq[Error], QLForm] = {
     importQLSpecification(Source.fromFile(file).mkString)
   }
@@ -48,4 +49,5 @@ object QLFormService {
   def answerToString(answer: Answer): String = {
     answer.value.toString
   }
+
 }

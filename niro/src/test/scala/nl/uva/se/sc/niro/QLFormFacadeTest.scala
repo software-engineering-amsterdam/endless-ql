@@ -7,7 +7,7 @@ import org.scalatest.WordSpec
 
 import scala.io.Source
 
-class QLFormServiceTest extends WordSpec {
+class QLFormFacadeTest extends WordSpec {
 
   "QLFormServiceTest" should {
 
@@ -20,7 +20,7 @@ class QLFormServiceTest extends WordSpec {
       val file = File.createTempFile("niro-export", ".csv")
       file.deleteOnExit()
 
-      QLFormService.saveMemoryTableToCSV(memoryTable, file)
+      QLFormFacade.saveMemoryTableToCSV(memoryTable, file)
 
       val actualFile = Source.fromFile(file).getLines().mkString
       val expectedFile = Source.fromResource("save-file/expected.csv").getLines().mkString

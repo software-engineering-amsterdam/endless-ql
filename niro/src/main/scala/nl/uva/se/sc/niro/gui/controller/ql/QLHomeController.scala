@@ -16,8 +16,8 @@ import nl.uva.se.sc.niro.model.ql.QLForm
 import org.apache.logging.log4j.scala.Logging
 
 class QLHomeController extends QLBaseController with Logging {
-  @FXML
-  var errorMessages: TextArea = _
+  // This variable gets it value injected by the FXML loader. Therefor they must be (and stay) defined as 'var'
+  @FXML protected var errorMessages: TextArea = _
 
   override def applicationName(): String = "QL Forms"
 

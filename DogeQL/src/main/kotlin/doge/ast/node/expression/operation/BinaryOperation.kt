@@ -62,6 +62,10 @@ enum class BinaryOperation(private val operation: (left: BaseSymbolValue, right:
     }
 
     fun getResolvedType(leftType: SymbolType, rightType: SymbolType): SymbolType {
+        if (leftType == SymbolType.UNDEFINED || rightType == SymbolType.UNDEFINED) {
+            return SymbolType.UNDEFINED
+        }
+
         val leftDefaultValue = leftType.getDefaultInstance()
         val rightDefaultValue = rightType.getDefaultInstance()
 

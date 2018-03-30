@@ -7,6 +7,7 @@ using Assignment1.Execution;
 using Assignment1.Export;
 using Assignment1.Parser;
 using Assignment1.Rendering;
+using Assignment1.Rendering.QLS;
 using Assignment1.TypeChecking;
 
 namespace Assignment1
@@ -32,6 +33,7 @@ namespace Assignment1
             };
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
+                _view.ClearUI();
                 ParseFile(fileDialog.FileName);
             }
         }
@@ -61,26 +63,34 @@ namespace Assignment1
                 var astForm = TextToQLAST.ParseString(File.ReadAllText(inputFile));
                 var messages = new MessageContainer();
                 messages.Add(QLASTDuplicateChecker.CheckDuplicates(astForm));
+                if (AnyErrors(messages)) return;
                 messages.Add(QLASTScopeChecker.CheckReferenceScopes(astForm));
-                if (messages.Errors.Any())
-                {
-                    _view.SetErrors(messages.Errors);
-                }
-                else
-                {
-                    messages.Add(QLASTCyclicDependencyChecker.CheckForCycles(astForm));
-                    QLTypeChecker typechecker = new QLTypeChecker();
-                    typechecker.TypeCheckQuestionForm(astForm);
-                    _executor = new QLExecutor(astForm);
-                    var renderer = new QLRenderer(_executor);
-                    _view.SetFormControl(renderer.Render());
-                }
+                if (AnyErrors(messages)) return;
+                messages.Add(QLASTCyclicDependencyChecker.CheckForCycles(astForm));
+                if (AnyErrors(messages)) return;
+                messages.Add(QLTypeChecker.CheckTypes(astForm));
+                if (AnyErrors(messages)) return;
+                _executor = new QLExecutor(astForm);
+
+                var qlsFileLocation = inputFile + ".qls";
+                IQuestionFormRenderer renderer = new QLRenderer(_executor);
+                if (File.Exists(qlsFileLocation))
+                    renderer = new QLSRenderer(_executor, QLSParser.ParseString(File.ReadAllText(qlsFileLocation)));
+                _view.SetFormControl(renderer.Render());
                 _view.SetWarnings(messages.Warnings);
             }
             catch (QLParseException exception)
             {
                 _view.SetErrors(exception.Exceptions);
             }
+        }
+
+        private bool AnyErrors(MessageContainer messages)
+        {
+            if (!messages.Errors.Any()) return false;
+            _view.SetErrors(messages.Errors);
+            return true;
+
         }
     }
 }

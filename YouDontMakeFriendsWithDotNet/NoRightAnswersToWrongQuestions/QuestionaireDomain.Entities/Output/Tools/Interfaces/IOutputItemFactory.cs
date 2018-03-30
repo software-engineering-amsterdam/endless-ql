@@ -15,9 +15,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 
         DomainId<IQuestionOutputItem> CreateQuestionOutputItem(
             DomainId<IQuestionNode> variable,
-            string text,
             string value,
-            Type type,
             bool isVisible,
             bool isReadonly);
    }

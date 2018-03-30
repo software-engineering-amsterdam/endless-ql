@@ -4,10 +4,12 @@ import { TypeCheckVisitor } from "../form/type_checking/TypeCheckVisitor";
 import { getQlParser } from "./parsing_helpers";
 import SourceText from "../form/source/SourceText";
 import { NeedAtLeastOneFormToParseError } from "../form/form_errors";
+import { FormWarning } from "../form/form_warnings";
 
 export interface QlParserResult {
   node: FormNode;
   variables: VariablesMap;
+  warnings: FormWarning[];
 }
 
 export class QlParserPipeline {
@@ -37,7 +39,8 @@ export class QlParserPipeline {
 
     return {
       node: node,
-      variables: scope.variables
+      variables: scope.variables,
+      warnings: []
     };
   }
 

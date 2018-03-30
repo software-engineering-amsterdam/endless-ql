@@ -3,7 +3,7 @@ package ui.model
 import doge.data.question.Question
 import javafx.beans.property.SimpleBooleanProperty
 
-class BooleanViewModel(question: Question) : QuestionModel(question) {
+class BooleanViewModel(question: Question) : QuestionViewModel(question) {
 
     var booleanValue = bind { SimpleBooleanProperty(item.value.booleanValue.value) }
 

@@ -20,7 +20,7 @@ import java.util.List;
 public class IfBlock implements FormExpression {
     @NonNull private String name;
     @NonNull private DataExpression condition;
-    private LinkedList<FormExpression> expressions;
+    private LinkedList<? extends FormExpression> expressions;
 
     @Override
     public List<Component> getComponents() {

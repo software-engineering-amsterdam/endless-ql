@@ -43,7 +43,7 @@ public class ElementBuilder implements Statement.Visitor<BaseElement> {
 	public BaseElement visit(FormStatement form) {
 		FormPanel panel = new FormPanel();
 
-		panel.addElement(form.visitBlockStmt(this));
+		panel.addElement(form.visitBlockStatement(this));
 
 		return panel;
 	}

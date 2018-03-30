@@ -43,11 +43,11 @@ class QLLexer:
 
         # Types
         'boolean':  'BOOLEAN',
-        'string':   'STRING',
-        'integer':  'INTEGER',
         'date':     'DATE',
         'decimal':  'DECIMAL',
+        'integer':  'INTEGER',
         'money':    'MONEY',
+        'string':   'STRING',
     }
 
     tokens += list(reserved_keywords.values())
@@ -84,11 +84,6 @@ class QLLexer:
     def t_newline(token):
         r'\n+'
         token.lexer.lineno += len(token.value)
-
-    def t_IDENTIFIER(self, token):
-        r'[a-z][a-zA-Z_0-9]*'
-        token.type = self.reserved_keywords.get(token.value, 'IDENTIFIER')  # Check for reserved words
-        return token
 
     # Literals
     @staticmethod
@@ -131,22 +126,27 @@ class QLLexer:
         token.value = token.value[1:-1]
         return token
 
+    # Other
+    def t_IDENTIFIER(self, token):
+        r'[a-z][a-zA-Z_0-9]*'
+        token.type = self.reserved_keywords.get(token.value, 'IDENTIFIER')  # Check for reserved words
+        return token
+
     @staticmethod
     def t_comment(token):
         r'//.*'
         pass
 
     # Error handling
-    @staticmethod
-    def t_error(token):
-        print("Illegal character '%s'" % token.value[0])
+    def t_error(self, token):
+        self.errors.append("Illegal character '%s'" % token.value[0])
         token.lexer.skip(1)
 
     # Test the lexer output
     def test(self, data):
+        self.errors = []
         self.lexer.input(data)
         while True:
             token = self.lexer.token()
             if not token:
                 break
-            print(token)

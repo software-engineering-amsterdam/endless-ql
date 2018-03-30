@@ -6,9 +6,9 @@ import ql.ast.visitors.ASTNodeVisitor;
 
 public class Question extends Statement {
 
-    private String label;
-    private String variableName;
-    private TypeDeclaration variableType;
+    private final String label;
+    private final String variableName;
+    private final TypeDeclaration variableType;
     private Expression assignedExpression;
 
     public Question(String label, String variableName, TypeDeclaration variableType, MetaInformation metaInformation) {

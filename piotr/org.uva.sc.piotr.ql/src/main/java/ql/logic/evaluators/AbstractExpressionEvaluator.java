@@ -95,8 +95,8 @@ public abstract class AbstractExpressionEvaluator extends AbstractASTTraverse<QL
 
     @Override
     public QLBoolean visit(NotEqual notEqual) {
-        QLNumeric lhs = (QLNumeric) notEqual.getLeftSide().accept(this);
-        QLNumeric rhs = (QLNumeric) notEqual.getRightSide().accept(this);
+        QLDataTypeWrapper lhs = notEqual.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = notEqual.getRightSide().accept(this);
         return lhs.notEquals(rhs);
     }
 

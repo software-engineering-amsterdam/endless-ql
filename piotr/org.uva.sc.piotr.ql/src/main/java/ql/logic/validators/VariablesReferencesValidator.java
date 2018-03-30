@@ -9,8 +9,8 @@ import java.util.Objects;
 
 public final class VariablesReferencesValidator extends Validator {
 
-    private List<Question> questions;
-    private List<VariableReference> variableReferences;
+    private final List<Question> questions;
+    private final List<VariableReference> variableReferences;
 
     public VariablesReferencesValidator(List<Question> questions, List<VariableReference> variableReferences) {
         this.questions = questions;

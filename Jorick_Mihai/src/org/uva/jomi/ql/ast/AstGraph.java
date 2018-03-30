@@ -35,7 +35,7 @@ public class AstGraph implements Statement.Visitor<String>, Expression.Visitor<S
 
 	public String getGraph(List<Statement> statements) {
 		String header = "digraph G {\n" + "  node [shape=\"box\"]\n";
-		
+
 		for (Statement statement : statements) {
 			String result = statement.accept(this);
 			header += result;
@@ -43,13 +43,13 @@ public class AstGraph implements Statement.Visitor<String>, Expression.Visitor<S
 
 		return header + "}";
 	}
-	
+
 	public String visitPrimaryExpr(PrimaryExpression expr) {
 		String primaryExprType = expr.getClass().getSimpleName();
 		String value = String.format("Type: %s\nValue: %s\n", primaryExprType, expr.getLexeme());
 		return String.format("  %s [label=\"%s\"]\n", expr.getNodeId(), value);
 	}
-	
+
 	public String visitBinaryExpr(BinaryExpression expr) {
 		String binaryExprType = expr.getClass().getSimpleName();
 		return expr.visitLeftExpression(this) +
@@ -58,7 +58,7 @@ public class AstGraph implements Statement.Visitor<String>, Expression.Visitor<S
 				String.format("  %s -> %s\n", expr.getNodeId(), expr.getLeftExpressionId()) +
 				String.format("  %s -> %s\n", expr.getNodeId(), expr.getRightExpressionId());
 	}
-	
+
 
 	@Override
 	public String visit(IdentifierExpression expr) {
@@ -71,7 +71,7 @@ public class AstGraph implements Statement.Visitor<String>, Expression.Visitor<S
 
 	@Override
 	public String visit(FormStatement stmt) {
-		return stmt.visitBlockStmt(this) +
+		return stmt.visitBlockStatement(this) +
 				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getBlockStmtId()) +
 				stmt.visitIndetifierExpr(this) +
 				String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIndetifierExpressionId()) +
@@ -81,13 +81,13 @@ public class AstGraph implements Statement.Visitor<String>, Expression.Visitor<S
 	@Override
 	public String visit(BlockStatement stmt) {
 		String header = String.format("  %s [label=\"BlockStmt\"]\n", stmt.getNodeId());
-		
+
 		for (Statement statement : stmt.getStatements()) {
 			header += String.format("  %s -> %s\n", stmt.getNodeId(), statement.getNodeId());
 			String result = statement.accept(this);
 			header += result;
 		}
-		
+
 		return header;
 	}
 
@@ -101,10 +101,10 @@ public class AstGraph implements Statement.Visitor<String>, Expression.Visitor<S
 		// Visit the identifier expression
 		header += stmt.visitIdentifierExpr(this);
 		header += String.format("  %s -> %s\n", stmt.getNodeId(), stmt.getIdentifierId());
-		
+
 		return header;
 	}
-	
+
 	@Override
 	public String visit(ComputedQuestionStatement stmt) {
 		String header = String.format("  %s [label=\"QuestionStmt\nName: %s\nType: %s\"]\n",

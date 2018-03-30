@@ -82,7 +82,7 @@ public class TypeResolver implements Expression.Visitor<QLType>, Statement.Visit
 
 	@Override
 	public Void visit(FormStatement form) {
-		form.visitBlockStmt(this);
+		form.visitBlockStatement(this);
 		return null;
 	}
 

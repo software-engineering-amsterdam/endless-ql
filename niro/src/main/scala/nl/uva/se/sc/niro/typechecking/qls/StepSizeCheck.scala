@@ -15,11 +15,11 @@ trait StepSizeCheck {
   }
 
   def rangeCheck(name: String, range: Double, stepSize: Double): Option[TypeCheckError] = {
-    if (stepSize >= range / 2)
+    if (stepSize > range)
       Some(
         TypeCheckError(
           name,
-          s"The stepsize [${stepSize}] is to large, it is not possible to have more then two steps."))
+          s"The step size '$stepSize' is to large, it is not possible to perform steps within range."))
     else None
   }
 

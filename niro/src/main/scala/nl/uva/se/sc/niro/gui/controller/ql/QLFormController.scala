@@ -124,7 +124,6 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
   }
 
   def showSavedMessage(): Unit = {
-    // TODO should it be CONFIRMATION ??
     val alert = new Alert(AlertType.INFORMATION, "The data has successfuly been saved.", ButtonType.OK)
     alert.setTitle("Save results")
     alert.showAndWait()

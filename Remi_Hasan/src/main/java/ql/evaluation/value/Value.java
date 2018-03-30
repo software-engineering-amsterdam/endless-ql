@@ -16,7 +16,7 @@ public abstract class Value<T> {
 
     public abstract Boolean getBooleanValue();
 
-    public abstract Integer getIntValue();
+    public abstract Integer getIntegerValue();
 
     public abstract Double getDecimalValue();
 

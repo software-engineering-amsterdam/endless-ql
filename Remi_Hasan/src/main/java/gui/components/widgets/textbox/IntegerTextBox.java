@@ -24,6 +24,6 @@ public class IntegerTextBox extends TextBox {
 
     @Override
     public void setValue(Value value) {
-        this.setText(value.isUndefined() ? "" : value.getIntValue().toString());
+        this.setText(value.isUndefined() ? "" : value.getIntegerValue().toString());
     }
 }

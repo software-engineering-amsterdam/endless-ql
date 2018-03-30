@@ -35,7 +35,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void evaluateSum(int left, int right) {
         Value result = QLTestUtilities.evaluateExpression(left + " + " + right);
-        assertEquals(Integer.valueOf(left + right), result.getIntValue());
+        assertEquals(Integer.valueOf(left + right), result.getIntegerValue());
     }
 
     @Property
@@ -55,7 +55,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void evaluateSub(int left, int right) {
         Value result = QLTestUtilities.evaluateExpression(left + " - " + right);
-        assertEquals(Integer.valueOf(left - right), result.getIntValue());
+        assertEquals(Integer.valueOf(left - right), result.getIntegerValue());
     }
 
     @Property
@@ -75,7 +75,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void evaluateMul(int left, int right) {
         Value result = QLTestUtilities.evaluateExpression(left + " * " + right);
-        assertEquals(Integer.valueOf(left * right), result.getIntValue());
+        assertEquals(Integer.valueOf(left * right), result.getIntegerValue());
     }
 
     @Property
@@ -96,7 +96,7 @@ public class ExpressionEvaluationTest {
     public void evaluateDiv(int left, int right) {
         assumeThat(right, not(equalTo(0)));
         Value result = QLTestUtilities.evaluateExpression(left + " / " + right);
-        assertEquals(Integer.valueOf(left / right), result.getIntValue());
+        assertEquals(Integer.valueOf(left / right), result.getIntegerValue());
     }
 
     @Property
@@ -116,7 +116,7 @@ public class ExpressionEvaluationTest {
     @Property
     public void evaluateNeg(int i) {
         Value result = QLTestUtilities.evaluateExpression("-" + i);
-        assertEquals(Integer.valueOf(-1 * i), result.getIntValue());
+        assertEquals(Integer.valueOf(-1 * i), result.getIntegerValue());
     }
 
     @Property
@@ -139,7 +139,7 @@ public class ExpressionEvaluationTest {
         symbolTable.setExpression("someInteger", new IntegerConstant(4));
 
         ExpressionEvaluator interpreterVisitor = new ExpressionEvaluator(symbolTable);
-        assertEquals(Integer.valueOf(9), interpreterVisitor.visit(expression).getIntValue());
+        assertEquals(Integer.valueOf(9), interpreterVisitor.visit(expression).getIntegerValue());
     }
 
     @Test

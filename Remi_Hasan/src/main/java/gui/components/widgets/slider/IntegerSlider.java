@@ -27,6 +27,6 @@ public class IntegerSlider extends Slider {
 
     @Override
     public void setValue(Value value) {
-        this.slider.setValue(value.getIntValue());
+        this.slider.setValue(value.getIntegerValue());
     }
 }

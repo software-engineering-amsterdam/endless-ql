@@ -19,8 +19,8 @@ class FormFragment : Fragment(){
                     fieldset {
                         children.bind(model.questions) {
                             field(it.label) {
-                                var viewModel = ViewModelFactory().createUiQuestionModel(it)
-                                add(ViewFactory().createQuestionField(viewModel))
+                                val viewModel = ViewModelFactory().createUiQuestionModel(it)
+                                add(QuestionFieldFactory().createQuestionField(viewModel))
                             }
                         }
                     }

@@ -1,0 +1,2 @@
+// Integer type token
+integer

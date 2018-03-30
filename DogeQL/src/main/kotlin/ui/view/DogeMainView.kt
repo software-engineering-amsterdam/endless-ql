@@ -3,11 +3,11 @@ package ui.view
 import tornadofx.View
 import tornadofx.button
 import tornadofx.vbox
-import ui.controller.DogeController
+import ui.model.QuestionViewModel
 
 class DogeMainView : View() {
 
-    private val model: DogeController by inject()
+    private val model: QuestionViewModel by inject()
 
     private val minHeight = 400.0
     private val minWidth = 400.0
@@ -23,9 +23,10 @@ class DogeMainView : View() {
                 model.load()
             }
         }
-        button("test") {
+
+        button("load style") {
             setOnAction {
-                model.test()
+                model.loadStyle()
             }
         }
     }

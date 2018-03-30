@@ -1,0 +1,2 @@
+// Decimal type token
+decimal

@@ -1,0 +1,2 @@
+// String type token
+string

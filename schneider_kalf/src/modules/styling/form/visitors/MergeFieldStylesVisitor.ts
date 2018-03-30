@@ -52,13 +52,13 @@ export default class MergeFieldStylesVisitor implements StyleNodeVisitor {
     return page.body.forEach(child => child.accept(this));
   }
 
-  visitStyleSheet(stylesheet: StyleSheetNode): any {
-    return stylesheet.children.forEach(child => child.accept(this));
+  visitStyleSheet(styleSheet: StyleSheetNode): any {
+    return styleSheet.children.forEach(child => child.accept(this));
   }
 
-  static run(stylesheet: StyleSheetNode, qlVariables: VariablesMap): MergedFieldStyle[] {
+  static run(styleSheet: StyleSheetNode, qlVariables: VariablesMap): MergedFieldStyle[] {
     const styleVisitor = new MergeFieldStylesVisitor(qlVariables);
-    stylesheet.accept(styleVisitor);
+    styleSheet.accept(styleVisitor);
     return styleVisitor.getMergedStyles();
   }
 

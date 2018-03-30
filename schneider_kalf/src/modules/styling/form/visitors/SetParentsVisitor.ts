@@ -5,7 +5,7 @@ import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheetNode";
+import StyleSheetNode from "../nodes/StyleSheetNode";
 import StyleTreeNode from "../nodes/StyleTreeNode";
 
 /**
@@ -43,9 +43,8 @@ export default class SetParentsVisitor implements StyleNodeVisitor {
     this.setParent(baseAttribute, []);
   }
 
-  visitStyleSheet(stylesheet: Stylesheet): any {
+  visitStyleSheet(stylesheet: StyleSheetNode): any {
     this.setParent(stylesheet, stylesheet.children);
-    // stylesheet.setParent(null);
   }
 
   private setParent(node: StyleTreeNode, children: StyleTreeNode[]) {

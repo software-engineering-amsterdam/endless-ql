@@ -33,6 +33,7 @@ namespace Assignment1
             };
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
+                _view.ClearUI();
                 ParseFile(fileDialog.FileName);
             }
         }
@@ -57,7 +58,6 @@ namespace Assignment1
 
         private void ParseFile(string inputFile)
         {
-            _view.ClearUI();
             try
             {
                 var astForm = TextToQLAST.ParseString(File.ReadAllText(inputFile));

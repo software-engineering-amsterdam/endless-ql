@@ -33,6 +33,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf.InputCreators
             foreach(string option in text)
             {
                 RadioButton radioButton = new RadioButton { Text = option };
+                radioButton.Checked = questionElementManager.AnswerToString() == option;
                 radioButton.CheckedChanged += (object sender, EventArgs eventArgs) => questionElementManager.SetAnswer(radioButton.Text);
                 holder.Controls.Add(styler.StyleElement(radioButton));
             }

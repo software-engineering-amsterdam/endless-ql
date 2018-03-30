@@ -136,6 +136,7 @@ namespace QLVisualizer.Factories
         private static ElementManagerCollection ReconstructElementCollection(ElementManagerCollection collection, ref List<ElementManagerLeaf> children, QLSNode qlsNode, ElementManagerController controller)
         {
             collection.Children.Clear();
+            //collection.SetStyles(new List<IQLSElement>(qlsNode.NodeStyles));
 
             foreach (QLSNode node in qlsNode.Children)
             {

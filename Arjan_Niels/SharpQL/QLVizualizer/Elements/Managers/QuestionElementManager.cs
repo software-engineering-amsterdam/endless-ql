@@ -104,7 +104,9 @@ namespace QLVisualizer.Elements.Managers
 
         public override string AnswerToString()
         {
-            return Answer.Value.ToString();
+            if(Answer.Value != null)
+                return Answer.Value.ToString();
+            return string.Empty;
         }
     }
 }

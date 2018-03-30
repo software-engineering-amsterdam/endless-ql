@@ -20,6 +20,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf.InputCreators
 
             // Create and style textbox
             Control textbox = CreateTextBox(questionElementManager);
+            textbox.Text = questionElementManager.AnswerToString();
             textbox = styler.StyleElement(textbox);
             holder.Controls.Add(textbox);
             

@@ -35,5 +35,14 @@ namespace QLVisualizer.Widgets.Collection
         {
             _children.Add(child);
         }
+
+        public override void SetParentStyle(List<QLSValue> elements)
+        {
+            base.SetParentStyle(elements);
+
+            // Update children when collection style is changed
+            foreach (IWidgetBuilder<T> widgetBuilder in _children)
+                widgetBuilder.SetParentStyle(_qlsValues);
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace QLVisualizer.Elements.Managers
             base(identifyer, text, xmlName, controller, activationExpression)
         {
             Children = new List<ElementManager>();
+            Styles = new List<IQLSElement>();
         }
 
         public List<IQLSElement> Styles { get; private set; }
@@ -55,7 +56,7 @@ namespace QLVisualizer.Elements.Managers
 
             // Only send to children if parent is active
             if (Active)
-                foreach (ElementManagerLeaf manager in Children)
+                foreach (ElementManager manager in Children)
                     manager.ActivationUpdate(elementManagerLeaf, isActive);
         }
 
@@ -92,7 +93,7 @@ namespace QLVisualizer.Elements.Managers
                         Tuple<List<string>, Dictionary<string, ElementManagerLeaf>> recResult = childCollection.FindRecursiveLeafsById(targets);
                         targets = recResult.Item1;
 
-                        result.Concat(recResult.Item2);
+                        result = result.Concat(recResult.Item2).ToDictionary(o => o.Key, o => o.Value);
                         break;
                     case ElementManagerLeaf childLeaf:
                         if (targets.Contains(childLeaf.Identifier))
@@ -147,9 +148,14 @@ namespace QLVisualizer.Elements.Managers
             Styles = new List<IQLSElement>() { style };
         }
 
+        public void SetStyles(List<IQLSElement> styles)
+        {
+            Styles = styles;
+        }
+
         public override IQLSElement GetStyle()
         {
-            return Styles[0];
+            return Styles.Count > 0 ? Styles[0] : null;
         }
     }
 }

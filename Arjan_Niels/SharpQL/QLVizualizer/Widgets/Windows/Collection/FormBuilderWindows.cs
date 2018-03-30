@@ -33,7 +33,6 @@ namespace QLVisualizer.Widgets.Windows.Collection
             result.Controls.Clear();
             result.Controls.Add(CreatePageBrowser(pages));
             result.Controls.AddRange(childControls);
-
             return result;
         }
 
@@ -50,5 +49,15 @@ namespace QLVisualizer.Widgets.Windows.Collection
             
             return _styler.StyleElement(pagesHolder);
         }
-    }
+
+        //private void ActivatePage(PageManager pageManager, List<PageMan)
+        //{
+
+// }
+/*        private void ActivatePage(int targetIndex, List<PageManager> pageManagers)
+ {
+     for (int i = 0; i < pageManagers.Count; i++)
+         pageManagers[i].SetActive(i == targetIndex);
+ }*/
+}
 }

@@ -6,18 +6,16 @@ import QLS.ParseObjectQLS.StyleAttribute.Font;
 import QLS.ParseObjectQLS.StyleAttribute.FontSize;
 import QLS.ParseObjectQLS.StyleAttribute.Width;
 import QLS.ParseObjectQLS.Widgets.*;
-import QLS.QLSVisitor.WidgetTable;
 
 import java.lang.reflect.Type;
 
 public class TypeChecker implements WidgetVisitorInterface<WidgetType>{
 
     Stylesheet stylesheet;
-    WidgetTable widgetTable;
 
-    public TypeChecker(Stylesheet stylesheet, WidgetTable widgetTable){
+    public TypeChecker(Stylesheet stylesheet){
         this.stylesheet = stylesheet;
-        this.widgetTable = widgetTable;
+
     }
 
 

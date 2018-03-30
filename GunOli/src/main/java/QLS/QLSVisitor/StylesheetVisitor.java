@@ -10,11 +10,6 @@ import java.util.ArrayList;
 
 public class StylesheetVisitor extends QLSBaseVisitor<Stylesheet> {
 
-    private WidgetTable widgetTable;
-
-    public StylesheetVisitor(WidgetTable widgetTable){
-        this.widgetTable = widgetTable;
-    }
 
     @Override
     public Stylesheet visitHead(QLSParser.HeadContext ctx){
@@ -27,6 +22,6 @@ public class StylesheetVisitor extends QLSBaseVisitor<Stylesheet> {
             pages.add(page);
         }
 
-        return new Stylesheet(pages, ctx.IDENTIFIER().getText(), widgetTable, line);
+        return new Stylesheet(pages, ctx.IDENTIFIER().getText(), line);
     }
 }

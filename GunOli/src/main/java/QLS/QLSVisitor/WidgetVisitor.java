@@ -38,23 +38,4 @@ public class WidgetVisitor extends QLSBaseVisitor {
         return new SpinBox(ctx.getStart().getLine());
     }
 
-    @Override
-    public Style visitWidthWidget(QLSParser.WidthWidgetContext ctx){
-        return new Width(Integer.parseInt(ctx.INTEGER().getText()), ctx.getStart().getLine());
-    }
-
-    @Override
-    public Style visitFontWidget(QLSParser.FontWidgetContext ctx){
-        return new Font(ctx.STRING().getText(), ctx.getStart().getLine());
-    }
-
-    @Override
-    public Style visitFontSizeWidget(QLSParser.FontSizeWidgetContext ctx){
-        return new FontSize(Integer.parseInt(ctx.INTEGER().getText()), ctx.getStart().getLine());
-    }
-
-    @Override
-    public Style visitColorWidget(QLSParser.ColorWidgetContext ctx){
-        return new Color(ctx.HEXVALUE().getText(), ctx.getStart().getLine());
-    }
 }

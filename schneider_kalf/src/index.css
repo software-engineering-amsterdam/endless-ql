@@ -3,10 +3,11 @@ h1.title img {
 }
 
 h1.title {
+    color: white;
     text-align: center;
     margin-bottom: 20px;
-    border-bottom: 3px solid #f7b731;
-    background: #fed330;
+    border-bottom: 3px solid #4b6584;
+    background: #778ca3;
     padding: 10px;
 }
 

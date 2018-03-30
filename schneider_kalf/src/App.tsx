@@ -131,7 +131,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   render() {
     return (
         <div className="app container">
-          <h1 className="title"><img src={require('./resources/bunny-logo.png')} alt="Logo"/> NEWSKQL</h1>
+          <h1 className="title"><img src={require('./resources/fish-white.png')} alt="Logo"/> NEWSKQL</h1>
           <div className="row ql-sample-output">
             <div className="col-md-6">
               <ModuleTabNavigation

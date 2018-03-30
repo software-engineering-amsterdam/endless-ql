@@ -30,6 +30,7 @@ public class SliderWidget extends QuestionWidget implements ChangeListener {
         }
 
         this.slider = new JSlider(start, end, currentValue);
+        this.slider.setMajorTickSpacing(steps);
         this.slider.setMinorTickSpacing(steps);
         this.slider.setSnapToTicks(true);
         this.slider.setEnabled(readOnly);
@@ -56,7 +57,7 @@ public class SliderWidget extends QuestionWidget implements ChangeListener {
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        this.label.setText(Integer.toString(slider.getValue()));
+        this.label.setText(Integer.toString(slider.getModel().getValue()));
         if (!slider.getValueIsAdjusting()) {
             questionChangeListener.onQuestionChanged(question, new IntegerValue(slider.getValue()));
         }
@@ -68,5 +69,17 @@ public class SliderWidget extends QuestionWidget implements ChangeListener {
         this.slider.setBackground(color);
         this.label.setOpaque(true);
         this.label.setBackground(color);
+    }
+
+    @Override
+    public void setFontSize(int fontSize) {
+        Font newFont = questionLabel.getFont().deriveFont((float) fontSize);
+        this.label.setFont(newFont);
+    }
+
+    @Override
+    public void setFont(String font) {
+        super.setFont(font);
+        this.label.setFont(this.questionLabel.getFont());
     }
 }

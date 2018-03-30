@@ -191,6 +191,9 @@ class Literal(Expression):
     def __repr__(self):
         return str(self._value)
 
+    def __add__(self, other):
+        pass
+
 
 if __name__ == "__main__":
     loc = code_location.CodeLocation(2, 3)

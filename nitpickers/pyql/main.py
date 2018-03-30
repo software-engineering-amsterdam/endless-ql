@@ -5,6 +5,7 @@ from pyql.ast.parse_tree_visitor import ParseTreeVisitor
 from pyql.static_analysis.static_checker import StaticChecker
 from pyql.static_analysis.symbol_table import SymbolTable
 from pyql.gui.gui_visitor import GUIVisitor
+from multimethods import multimethod
 
 
 def main(argv):

@@ -6,6 +6,7 @@ from pyql.util import message
 from pyql.util.message_handler import MessageHandler
 from pyql.static_analysis.symbol_table import SymbolTable
 from pyql.ast.expression.expressions import *
+from collections import defaultdict
 
 
 class VariableDependenciesChecker:
@@ -95,4 +96,86 @@ class ExpressionDependenciesChecker:
 
     @multimethod(Expression)
     def visit(self, _):
+        pass
+
+
+class CyclicDependenciesChecker:
+
+    def __init__(self):
+        self.graph = defaultdict(list)
+        self.visited = defaultdict(bool)
+        self.stack = []
+
+    def add_edge(self, a, b):
+        self.graph[a].append(b)
+
+    def print_graph(self):
+        print(self.graph)
+
+    def dfs(self, start):
+        self.stack = [start]
+        print("Starting traversal from", start)
+        while len(self.stack) > 0:
+            element = self.stack.pop()
+            if not self.visited[str(element)]:
+                print("visiting", element)
+                self.visited[str(element)] = True
+                for x in self.graph[element]:
+                    self.stack.append(x)
+            else:
+                MessageHandler().add(message.Error("Identifier {0} is involved in a cyclic dependency".format(element)))
+
+    def check_cycles(self):
+        for x in self.graph:
+            self.visited[x] = False
+        for x in [str(x) for x in self.graph.keys()]:
+            self.dfs(x)
+
+    def check(self, tree):
+        tree.accept(self)
+        self.print_graph()
+        self.check_cycles()
+
+    @multimethod(Form)
+    def visit(self, form):
+        form.block.accept(self)
+
+    @multimethod(Block)
+    def visit(self, block):
+        statements = block.statements
+        for q in statements:
+            q.accept(self)
+
+    @multimethod(IfElse)
+    def visit(self, if_else_statement):
+        if_else_statement.if_block.accept(self)
+        if_else_statement.else_block.accept(self)
+
+    @multimethod(If)
+    def visit(self, if_statement):
+        if_statement.block.accept(self)
+
+    @multimethod(ComputedQuestion)
+    def visit(self, question):
+        for x in question.expression.accept(self):
+            self.add_edge(question.identifier.identifier, x)
+
+    @multimethod(Identifier)
+    def visit(self, identifier):
+        return [identifier]
+
+    @multimethod(BinaryExpression)
+    def visit(self, expression):
+        return expression.left.accept(self) + expression.right.accept(self)
+
+    @multimethod(UnaryExpression)
+    def visit(self, unary_expression):
+        return unary_expression.expression.accept(self)
+
+    @multimethod(Expression)
+    def visit(self, _):
+        pass
+
+    @multimethod(ASTNode)
+    def visit(self, node):
         pass

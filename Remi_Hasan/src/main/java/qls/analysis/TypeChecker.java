@@ -21,7 +21,7 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
     @Override
     public void analyze(Form form, StyleSheet styleSheet) {
         // Get question types
-        this.formQuestionTypes = getFormQuestionTypes(form);
+        this.formQuestionTypes = this.getFormQuestionTypes(form);
 
         // Compare to QLS question widget types
         styleSheet.accept(this);
@@ -65,7 +65,7 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
     public Void visit(SliderWidget widget) {
         // Ensure slider range is valid
         if(widget.getMinValue() >= widget.getMaxValue()) {
-            throw new IllegalArgumentException("Slider min value should be less than slider max value "
+            throw new IllegalArgumentException("Slider min value should be smaller than slider max value "
                     + widget.getLocation());
         }
 

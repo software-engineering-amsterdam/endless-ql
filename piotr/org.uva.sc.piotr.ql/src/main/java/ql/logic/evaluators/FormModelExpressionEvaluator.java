@@ -5,8 +5,6 @@ import ql.gui.model.FormModel;
 import ql.gui.model.QuestionModel;
 import ql.logic.type.QLDataTypeWrapper;
 
-import java.util.List;
-
 public class FormModelExpressionEvaluator extends AbstractExpressionEvaluator {
 
     private final FormModel formModel;

@@ -20,4 +20,7 @@ public abstract class Validator {
         return this.error.getLevel();
     }
 
+    public Boolean criticalErrorOccured() {
+        return this.error.getLevel() == Error.Level.CRITICAL;
+    }
 }

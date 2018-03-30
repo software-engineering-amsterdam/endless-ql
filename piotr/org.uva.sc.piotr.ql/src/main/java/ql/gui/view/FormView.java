@@ -11,6 +11,7 @@ public class FormView {
     }
 
     public void addQuestionView(QuestionView questionView) {
+        questionView.refreshVisibility();
         this.questionViews.add(questionView);
     }
 

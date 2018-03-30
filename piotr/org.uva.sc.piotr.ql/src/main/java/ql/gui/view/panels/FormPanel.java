@@ -1,20 +1,13 @@
 package ql.gui.view.panels;
 
-import com.google.gson.Gson;
-import ql.gui.controller.FormController;
 import ql.gui.controller.SubmitFormController;
 import ql.gui.model.FormModel;
-import ql.gui.model.QuestionModel;
 import ql.gui.view.FormView;
 import ql.gui.view.QuestionView;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class FormPanel extends JPanel {
 

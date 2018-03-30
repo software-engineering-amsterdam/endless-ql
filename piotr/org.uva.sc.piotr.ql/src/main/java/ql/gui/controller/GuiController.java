@@ -1,7 +1,7 @@
 package ql.gui.controller;
 
-import ql.gui.view.panels.OpeningPanel;
 import ql.gui.view.WindowView;
+import ql.gui.view.panels.OpeningPanel;
 
 import javax.swing.*;
 
@@ -12,5 +12,4 @@ public class GuiController {
         windowView.setMainPanel(openingPanel);
         windowView.formatAndShow();
     }
-
 }

@@ -3,6 +3,8 @@ package ql.gui.controller;
 import ql.ast.model.expressions.values.VariableReference;
 import ql.gui.model.FormModel;
 import ql.gui.model.QuestionModel;
+import ql.gui.view.FormView;
+import ql.gui.view.QuestionView;
 import ql.logic.collectors.CollectReferencesVisitor;
 import ql.logic.evaluators.FormModelExpressionEvaluator;
 
@@ -12,12 +14,17 @@ import java.util.List;
 public class FormController {
 
     private final FormModel formModel;
+    private final FormView formView;
     private final FormModelExpressionEvaluator evaluator;
     private final CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
 
-    FormController(FormModel formModel, FormModelExpressionEvaluator evaluator) {
-        this.evaluator = evaluator;
+    FormController(FormModel formModel) {
+
         this.formModel = formModel;
+        this.formModel.registerController(this);
+        this.formView = new FormView();
+        this.evaluator = new FormModelExpressionEvaluator(formModel);
+
         // initial evaluation
         for (QuestionModel questionModel : formModel.getQuestionModels()) {
             if (questionModel.getAssignedExpression() != null) {
@@ -29,6 +36,11 @@ public class FormController {
                 questionModel.setVisibility(true);
             }
         }
+
+        for (QuestionModel questionModel : formModel.getQuestionModels()) {
+            this.formView.addQuestionView(new QuestionView(questionModel));
+        }
+
     }
 
     private List<QuestionModel> extractQuestionModelsWithAssignedExpressionDirectlyReferencingTo(QuestionModel questionModel) {
@@ -91,4 +103,7 @@ public class FormController {
     }
 
 
+    public FormView getFormView() {
+        return formView;
+    }
 }

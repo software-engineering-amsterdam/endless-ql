@@ -1,15 +1,17 @@
 package ql.gui.model;
 
+import ql.ast.model.Form;
 import ql.gui.controller.FormController;
+import ql.logic.collectors.CollectQuestionModelsVisitor;
 
 import java.util.List;
 
 public class FormModel {
     private final List<QuestionModel> questionModels;
 
-    public FormModel(List<QuestionModel> questionModels) {
-        this.questionModels = questionModels;
-        System.out.println("done");
+    public FormModel(Form form) {
+        CollectQuestionModelsVisitor collectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
+        this.questionModels = collectQuestionModelsVisitor.getQuestionModels(form);
     }
 
     public List<QuestionModel> getQuestionModels() {

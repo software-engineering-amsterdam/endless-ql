@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
-public class CollectQuestionModelsVisitor extends AbstractASTTraverse {
+public class CollectQuestionModelsVisitor extends AbstractASTTraverse<Void> {
 
     private List<QuestionModel> questionModels = new ArrayList<>();
     private Stack<Expression> conditionsStack = new Stack<>();
@@ -62,13 +62,14 @@ public class CollectQuestionModelsVisitor extends AbstractASTTraverse {
 
         ifStatement.getCondition().accept(this);
 
+        // if block
         this.conditionsStack.push(ifStatement.getCondition());
 
         for (Statement statement : ifStatement.getStatementList()) {
             statement.accept(this);
         }
 
-        // flip the condition on the stack to negation
+        // else block
         this.conditionsStack.push(new Negation(this.conditionsStack.pop()));
 
         for (Statement statement : ifStatement.getElseStatementList()) {

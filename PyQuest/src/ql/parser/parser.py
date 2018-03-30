@@ -61,6 +61,7 @@ class QLParser:
         return self.__precedence
 
     def parse(self, data, lexer):
+        self.__errors = []
         return self.parser.parse(data, lexer)
 
     # Grammar
@@ -272,7 +273,8 @@ class QLParser:
 
     # Error
     def p_error(self, production):
-        self.errors.append('Syntax error at line {}, token={}.'.format(production.lineno, production.type))
+        self.errors.append('Syntax error at line {}, token={}.')
+        # self.errors.append('Syntax error at line {}, token={}.'.format(production.lineno, production.type))
 
     def p_form_label(self, production):
         """form : FORM LEFT_BRACE"""

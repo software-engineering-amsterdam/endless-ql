@@ -5,8 +5,8 @@ import ql.ast.visitors.ASTNodeVisitor;
 
 public class Literal extends Expression {
 
-    private String value;
-    private Expression.DataType type;
+    private final String value;
+    private final Expression.DataType type;
 
     public Literal(String value, Expression.DataType type, MetaInformation metaInformation) {
         super(metaInformation);

@@ -11,10 +11,11 @@ import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
 import nl.uva.se.sc.niro.QLFormService
 import nl.uva.se.sc.niro.gui.application.QLScenes
-import nl.uva.se.sc.niro.gui.control.Component
-import nl.uva.se.sc.niro.gui.factory.ql.QLComponentFactory
+import nl.uva.se.sc.niro.gui.component.Component
+import nl.uva.se.sc.niro.gui.component.ql.QLComponentFactory
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
-import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
+import nl.uva.se.sc.niro.gui.widget.ql.QLWidgetFactory
+import nl.uva.se.sc.niro.model.gui.ql.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator
@@ -26,6 +27,7 @@ import scala.collection.{ JavaConverters, mutable }
 class QLFormController(homeController: QLHomeController, model: QLForm, guiForm: GUIForm)
     extends QLBaseController
     with ComponentChangedListener
+    with ViewUpdater
     with Logging {
 
   // TODO align naming!
@@ -76,7 +78,7 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
     val questionBox = new VBox()
     questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
 
-    questionComponents = guiForm.questions.map(QLComponentFactory(this).make)
+    questionComponents = guiForm.questions.map(QLComponentFactory(this, new QLWidgetFactory()).make)
 
     questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questionComponents))
     questionArea.setContent(questionBox)

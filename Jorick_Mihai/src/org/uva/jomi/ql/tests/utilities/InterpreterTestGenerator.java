@@ -3,10 +3,10 @@ package org.uva.jomi.ql.tests.utilities;
 import java.util.HashMap;
 
 public class InterpreterTestGenerator {
-	
+
 	private final String[] testSources;
 	private int testNumber = 1;
-	
+
 	HashMap<String, String> map = new HashMap<String, String>() {{
 		put("1", "Integer");
 		put("true", "Boolean");
@@ -24,23 +24,23 @@ public class InterpreterTestGenerator {
 		put("<", "compare");
 		put("<=", "compare");
 	}};
-	
+
 	public InterpreterTestGenerator(String[] testStrings) {
 		this.testSources = testStrings;
 	}
-	
+
 	public void generateTypeResolverTests() {
 		for (String testSource : testSources) {
-			
-			String firstType = testSource.split(" ")[5];
-			String operator = testSource.split(" ")[6];
-			String secondType = testSource.split(" ")[7];
-			
+
+			String firstType = testSource.split(" ")[6];
+			String operator = testSource.split(" ")[7];
+			String secondType = testSource.split(" ")[8];
+
 			System.out.format("	String generatedSource%d = \"%s\";\n\n", testNumber, testSource.replaceAll("\"", "\\\\\""));
-			
-			
+
+
 			System.out.format("	@Test\n	public void generatedTest%d() throws Exception {\n", testNumber);
-			System.out.format("		List<Stmt> ast = TestUtilities.buildAst(generatedSource%d);\n", testNumber);
+			System.out.format("		List<Statement> ast = TestUtilities.buildAst(generatedSource%d);\n", testNumber);
 			System.out.format("		try {\n");
 			System.out.format("			interpreter.interpret(ast);\n");
 			System.out.format("			fail(\"Test Failed\");\n");
@@ -53,60 +53,60 @@ public class InterpreterTestGenerator {
 			testNumber++;
 		}
 	}
-	
-	
+
+
 	public static void main(String[] args) {
-		String[] testSources = { "form Form1 {\"\" q0: integer 1 + true }",
-				"form Form1 {\"\" q0: integer true + true }",
-				"form Form1 {\"\" q0: integer true + \"string\" }",
-				"form Form1 {\"\" q0: integer 1 - true }",
-				"form Form1 {\"\" q0: integer 1 - \"string\" }",
-				"form Form1 {\"\" q0: integer true - true }",
-				"form Form1 {\"\" q0: integer true - \"string\" }",
-				"form Form1 {\"\" q0: integer \"string\" - \"string\" }",
-				"form Form1 {\"\" q0: integer 1 * true }",
-				"form Form1 {\"\" q0: integer 1 * \"string\" }",
-				"form Form1 {\"\" q0: integer true * true }",
-				"form Form1 {\"\" q0: integer true * \"string\" }",
-				"form Form1 {\"\" q0: integer \"string\" * \"string\" }",
-				"form Form1 {\"\" q0: integer 1 / true }",
-				"form Form1 {\"\" q0: integer 1 / \"string\" }",
-				"form Form1 {\"\" q0: integer true / true }",
-				"form Form1 {\"\" q0: integer true / \"string\" }",
-				"form Form1 {\"\" q0: integer \"string\" / \"string\" }",
-				"form Form1 {\"\" q0: integer 1 && 1 }",
-				"form Form1 {\"\" q0: integer 1 && true }",
-				"form Form1 {\"\" q0: integer 1 && \"string\" }",
-				"form Form1 {\"\" q0: integer true && \"string\" }",
-				"form Form1 {\"\" q0: integer \"string\" && \"string\" }",
-				"form Form1 {\"\" q0: integer 1 || 1 }",
-				"form Form1 {\"\" q0: integer 1 || true }",
-				"form Form1 {\"\" q0: integer 1 || \"string\" }",
-				"form Form1 {\"\" q0: integer true || \"string\" }",
-				"form Form1 {\"\" q0: integer \"string\" || \"string\" }",
-				"form Form1 {\"\" q0: integer 1 > true }",
-				"form Form1 {\"\" q0: integer true > true }",
-				"form Form1 {\"\" q0: integer true > \"string\" }",
-				"form Form1 {\"\" q0: integer 1 >= true }",
-				"form Form1 {\"\" q0: integer true >= true }",
-				"form Form1 {\"\" q0: integer true >= \"string\" }",
-				"form Form1 {\"\" q0: integer 1 < true }",
-				"form Form1 {\"\" q0: integer true < true }",
-				"form Form1 {\"\" q0: integer true < \"string\" }",
-				"form Form1 {\"\" q0: integer 1 <= true }",
-				"form Form1 {\"\" q0: integer true <= true }",
-				"form Form1 {\"\" q0: integer true <= \"string\" }",
-				"form Form1 {\"\" q0: integer 1 == true }",
-				"form Form1 {\"\" q0: integer 1 == \"string\" }",
-				"form Form1 {\"\" q0: integer true == \"string\" }",
-				"form Form1 {\"\" q0: integer 1 != true }",
-				"form Form1 {\"\" q0: integer 1 != \"string\" }",
-				"form Form1 {\"\" q0: integer true != \"string\" }", 
+		String[] testSources = { "form Form1 {\"\" q0: integer = 1 + true }",
+				"form Form1 {\"\" q0: integer = true + true }",
+				"form Form1 {\"\" q0: integer = true + \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 - true }",
+				"form Form1 {\"\" q0: integer = 1 - \"string\" }",
+				"form Form1 {\"\" q0: integer = true - true }",
+				"form Form1 {\"\" q0: integer = true - \"string\" }",
+				"form Form1 {\"\" q0: integer = \"string\" - \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 * true }",
+				"form Form1 {\"\" q0: integer = 1 * \"string\" }",
+				"form Form1 {\"\" q0: integer = true * true }",
+				"form Form1 {\"\" q0: integer = true * \"string\" }",
+				"form Form1 {\"\" q0: integer = \"string\" * \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 / true }",
+				"form Form1 {\"\" q0: integer = 1 / \"string\" }",
+				"form Form1 {\"\" q0: integer = true / true }",
+				"form Form1 {\"\" q0: integer = true / \"string\" }",
+				"form Form1 {\"\" q0: integer = \"string\" / \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 && 1 }",
+				"form Form1 {\"\" q0: integer = 1 && true }",
+				"form Form1 {\"\" q0: integer = 1 && \"string\" }",
+				"form Form1 {\"\" q0: integer = true && \"string\" }",
+				"form Form1 {\"\" q0: integer = \"string\" && \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 || 1 }",
+				"form Form1 {\"\" q0: integer = 1 || true }",
+				"form Form1 {\"\" q0: integer = 1 || \"string\" }",
+				"form Form1 {\"\" q0: integer = true || \"string\" }",
+				"form Form1 {\"\" q0: integer = \"string\" || \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 > true }",
+				"form Form1 {\"\" q0: integer = true > true }",
+				"form Form1 {\"\" q0: integer = true > \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 >= true }",
+				"form Form1 {\"\" q0: integer = true >= true }",
+				"form Form1 {\"\" q0: integer = true >= \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 < true }",
+				"form Form1 {\"\" q0: integer = true < true }",
+				"form Form1 {\"\" q0: integer = true < \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 <= true }",
+				"form Form1 {\"\" q0: integer = true <= true }",
+				"form Form1 {\"\" q0: integer = true <= \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 == true }",
+				"form Form1 {\"\" q0: integer = 1 == \"string\" }",
+				"form Form1 {\"\" q0: integer = true == \"string\" }",
+				"form Form1 {\"\" q0: integer = 1 != true }",
+				"form Form1 {\"\" q0: integer = 1 != \"string\" }",
+				"form Form1 {\"\" q0: integer = true != \"string\" }",
 				};
-		
+
 		InterpreterTestGenerator testGenerator = new InterpreterTestGenerator(testSources);
 		testGenerator.generateTypeResolverTests();
-		
+
 	}
 
 }

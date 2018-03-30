@@ -10,8 +10,8 @@ public abstract class Expression extends ASTNode {
         super(lineNumber);
     }
 
-    public abstract EvaluationType returnType();
-    public abstract Constant evaluate(); //should this also be done via visitor?
+    //public abstract EvaluationType returnType();
+    //public abstract Constant evaluate(); //should this also be done via visitor?
 
     public abstract <T> T accept(ExpressionVisitorInterface<T> visitor);
 
@@ -23,8 +23,9 @@ public abstract class Expression extends ASTNode {
         return false;
     }
 
+    /*
     @Override
     public String toString(){
        return this.evaluate().toString();
-    }
+    }*/
 }

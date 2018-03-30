@@ -22,7 +22,7 @@ namespace Assignment1.Model.QL.AST
             VisitStatements(questionForm.Statements);
         }
 
-        private void VisitStatements(IEnumerable<Statement> statements)
+        protected void VisitStatements(IEnumerable<Statement> statements)
         {
             statements = statements.ToArray();
             var questions = statements.OfType<Question>().ToArray();
@@ -55,8 +55,6 @@ namespace Assignment1.Model.QL.AST
         public virtual void Visit(QLBoolean value) { }
 
         public virtual void Visit(QLInteger value) { }
-
-        public virtual void Visit(Undefined undefined) { }
 
         public virtual void Visit(QLString value) { }
 

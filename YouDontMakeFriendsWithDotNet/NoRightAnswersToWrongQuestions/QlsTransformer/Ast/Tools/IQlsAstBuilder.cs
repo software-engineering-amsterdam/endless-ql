@@ -5,6 +5,6 @@ namespace QlsTransformer.Ast.Tools
 {
     public interface IQlsAstBuilder
     {
-        Reference<IStyleSheetRootNode> BuildStyleSheet(string definition);
+        DomainId<IStyleSheetRootNode> BuildStyleSheet(string definition);
     }
 }

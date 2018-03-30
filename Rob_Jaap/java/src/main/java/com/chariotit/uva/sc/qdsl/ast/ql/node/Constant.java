@@ -19,6 +19,6 @@ public abstract class Constant extends Expression {
 
     @Override
     public void evaluate(SymbolTable symbolTable) {
-        // Constants have their expression value always set. No need to evaluate further
+        // No need to evaluate further. Constants always have their values set
     }
 }

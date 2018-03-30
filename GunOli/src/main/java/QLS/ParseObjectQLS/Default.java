@@ -1,16 +1,18 @@
 package QLS.ParseObjectQLS;
 
+import QLS.Analysis.WidgetVisitorInterface;
 import QLS.ParseObjectQLS.Widgets.Widget;
 import QL.Analysis.EvaluationType;
 
 import java.util.ArrayList;
 
-public class Default {
+public class Default extends QLSNode {
 
     private EvaluationType type;
     private ArrayList<Widget> widgets;
 
-    public Default(EvaluationType type, ArrayList<Widget> widgets ){
+    public Default(EvaluationType type, ArrayList<Widget> widgets, int line ){
+        super(line);
         setType(type);
         setWidgets(widgets);
     }
@@ -29,5 +31,10 @@ public class Default {
 
     public void setWidgets(ArrayList<Widget> widgets) {
         this.widgets = widgets;
+    }
+
+    @Override
+    public <T> T accept(WidgetVisitorInterface<T> visitor) {
+        return visitor.visit(this);
     }
 }

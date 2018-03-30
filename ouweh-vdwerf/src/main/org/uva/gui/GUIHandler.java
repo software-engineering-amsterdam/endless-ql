@@ -25,7 +25,6 @@ public class GUIHandler {
     private ExpressionEvaluator expressionEvaluator;
 
     private Question lastChangedQuestion = null;
-    private JTabbedPane tabbedPane = null;
 
     public GUIHandler(FormEvaluator formEvaluator, StyleEvaluator styleEvaluator, ValidationResult validationResult) {
         this.formEvaluator = formEvaluator;
@@ -50,41 +49,23 @@ public class GUIHandler {
     }
 
     private void generateGUI() {
-        frame.getContentPane().removeAll();
-
-        styleEvaluator.generateSections();
+        this.frame.getContentPane().removeAll();
+        this.styleEvaluator.generateSections();
 
         WidgetFactory widgetFactory = new WidgetFactory(this.questionChangeListener, this.styleEvaluator);
         this.formEvaluator.evaluateAllExpressions(this.expressionEvaluator);
 
-        for (Question question : formEvaluator.getQuestionsAsList()) {
+        for (Question question : formEvaluator.getVisibleQuestions(this.expressionEvaluator)) {
+            Value currentValue = formEvaluator.getValueById(question.getId());
+            QuestionWidget widget = widgetFactory.makeWidget(question, currentValue, !formEvaluator.questionIsCalculated(question));
 
-            // Get current answer/value of this question
-            Value value = formEvaluator.getValueById(question.getId());
-
-            // make a widget
-            QuestionWidget widget = widgetFactory.makeWidget(question, value, !formEvaluator.questionIsCalculated(question));
-
-            // Register it at the style evaluator
-            this.styleEvaluator.setWidget(question, widget);
-
-            if (formEvaluator.questionIsVisible(question, this.expressionEvaluator)) {
-                this.styleEvaluator.setVisible(question);
-            }
+            this.styleEvaluator.setWidget(question,widget);
         }
-        frame.add(styleEvaluator.getLayout());
-
+        this.frame.add(styleEvaluator.getLayout(this.lastChangedQuestion));
         this.frame.add(getSaveButton());
-
-        setFocus(this.lastChangedQuestion);
-        frame.pack();
+        this.frame.pack();
     }
 
-    private void setFocus(Question question) {
-        if (question != null) {
-            this.styleEvaluator.setFocus(question);
-        }
-    }
 
     private void initializeFrame() {
         this.frame = new JFrame();
@@ -99,9 +80,7 @@ public class GUIHandler {
         savePanel.setLayout(new BorderLayout());
 
         JButton saveButton = new JButton("Submit");
-        saveButton.addActionListener(e -> {
-            saveAndQuit();
-        });
+        saveButton.addActionListener(e -> saveAndQuit());
 
         savePanel.add(saveButton, BorderLayout.SOUTH);
         return savePanel;

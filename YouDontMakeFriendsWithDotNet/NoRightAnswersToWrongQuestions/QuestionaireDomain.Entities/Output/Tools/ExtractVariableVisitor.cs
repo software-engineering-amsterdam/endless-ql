@@ -24,7 +24,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         }
 
         public IEnumerable<IQuestionNode> Extract(
-            Reference<ICalculationNode> calculationNode)
+            DomainId<ICalculationNode> calculationNode)
         {
             // ToDo: I am clearing the list here, but could this be better managed using scope for the creation of the object?
             m_variableList.Clear();

@@ -1,5 +1,6 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.node.constant;
 
+import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.BooleanExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.Constant;
@@ -14,7 +15,7 @@ public class BooleanConstant extends Constant {
         this.value = value;
     }
 
-    public BooleanExpressionValue getValue() {
+    public BooleanExpressionValue getExpressionValue() {
         return value;
     }
 

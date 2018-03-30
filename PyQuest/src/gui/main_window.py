@@ -109,21 +109,17 @@ class MainWindow(QMainWindow):
             ast = ql_parser.parse(textbox_value, ql_lexer.lexer)
 
             if not ql_parser.errors:
-                # invalid_references = ReferenceChecker(extract_identifier_scopes(ast), self.debug).has_errors
-                # invalid_dependencies = DependencyChecker(extract_identifier_dependencies(ast), self.debug).has_errors
-                # invalid_questions = QuestionChecker(extract_questions(ast), self.debug).has_errors
-                # invalid_types = TypeVisitor(extract_identifier_types(ast), self.debug).visit(ast)
+                invalid_references = ReferenceChecker(extract_identifier_scopes(ast)).errors
+                invalid_dependencies = DependencyChecker(extract_identifier_dependencies(ast)).errors
+                invalid_questions = QuestionChecker(extract_questions(ast)).errors
 
                 type_visitor = TypeVisitor(extract_identifier_types(ast))
                 type_visitor.visit(ast)
-                print(type_visitor.errors)
 
-                # if not any([invalid_references, invalid_dependencies, invalid_questions]):
-                dialog = FormWindow(extract_gui_model(ast))
-                dialog.exec_()
+                if not invalid_references + invalid_dependencies + invalid_questions + type_visitor.errors:
+                    dialog = FormWindow(extract_gui_model(ast))
+                    dialog.exec_()
             else:
                 error(ql_parser.errors)
-
-
         else:
-            self.debug.error([0], 'Empty Form')
+            print('Empty Form')

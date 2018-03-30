@@ -25,4 +25,8 @@ public class TextType extends WidgetType {
         return visitor.visit(this, question, value, readOnly);
     }
 
+    @Override
+    public String toString() {
+        return "TextType";
+    }
 }

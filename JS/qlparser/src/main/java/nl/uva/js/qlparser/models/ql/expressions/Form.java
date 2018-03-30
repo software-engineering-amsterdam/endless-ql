@@ -5,36 +5,34 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 import nl.uva.js.qlparser.helpers.JsonRepresentationHelper;
-import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@Builder
+@Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Form implements FormExpression {
 
     @JsonIgnore @NonNull private String name;
-    @JsonIgnore private LinkedList<FormExpression> formExpressions;
+    @JsonIgnore @NonNull private LinkedList<FormExpression> formExpressions;
+    @JsonIgnore @Getter(lazy = true) private final Map<String, FormExpression> expressionsByName
+            = formExpressions.stream().collect(Collectors.toMap(FormExpression::getName, x -> x));
 
     @Override
     @JsonIgnore
     public LinkedList<Component> getComponents() {
-        LinkedList<Component> components = new LinkedList<>();
-
-        NonNullRun.consumer(formExpressions, fe -> fe.stream()
+        return formExpressions.stream()
                 .map(FormExpression::getComponents)
-                .forEach(components::addAll));
-
-        return components;
+                .flatMap(Collection::stream)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
@@ -51,7 +49,7 @@ public class Form implements FormExpression {
                         .collect(Collectors.joining(" ")));
     }
 
-    @JsonProperty("questions")
+    @JsonProperty("expressionReferences")
     public List<Object> getJsonRepresentation() {
         return JsonRepresentationHelper.visualInformation(formExpressions);
     }

@@ -3,10 +3,11 @@ package nl.uva.js.qlparser.logic;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
+import nl.uva.js.qlparser.models.ql.expressions.form.IfBlock;
 import nl.uva.js.qlparser.models.ql.expressions.form.Question;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.Page;
-import nl.uva.js.qlparser.models.qls.elements.QuestionReference;
+import nl.uva.js.qlparser.models.qls.elements.ExpressionReference;
 import nl.uva.js.qlparser.models.qls.elements.Section;
 import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
@@ -23,14 +24,14 @@ public class QLSChecker {
     public ArrayList<String> checkForErrors(Form form, Stylesheet stylesheet) {
         errors = new ArrayList<>();
 
-        HashMap<String, FormExpression> questionsByName        = getFormExpressions(form.getFormExpressions());
-        HashMap<String, QuestionReference> questionRefsByName  = getQuestionReferences(stylesheet);
+        Map<String, FormExpression> expressionsByName = form.getExpressionsByName();
+        Map<String, ExpressionReference> expressionRefsByName = getExpressionReferencesByName(stylesheet);
 
-        checkDuplicateReferences(questionRefsByName.values());
+        this.checkDuplicateReferences(expressionRefsByName.values());
 
-        checkQuestionsExist(questionsByName.keySet(), questionRefsByName.keySet());
+        this.checkQuestionsExist(expressionsByName.keySet(), expressionRefsByName.keySet());
 
-        checkWidgetAssignments(questionsByName, questionRefsByName, stylesheet.getDefaultStyles());
+        this.checkWidgetAssignments(expressionsByName, expressionRefsByName, stylesheet.getDefaultStyles());
 
         return errors;
     }
@@ -49,17 +50,17 @@ public class QLSChecker {
         }
     }
 
-    private void checkDuplicateReferences(Collection<QuestionReference> questionReferences) {
+    private void checkDuplicateReferences(Collection<ExpressionReference> expressionReferences) {
         HashSet<String> uniques = new HashSet<>();
-        for(QuestionReference ref : questionReferences) {
+        for(ExpressionReference ref : expressionReferences) {
             if(!uniques.add(ref.getName())) {
                 errors.add(DUPLICATE_REFERENCE_TO_FORM_EXPRESSION + ref.getName());
             }
         }
     }
 
-    private HashMap<String, QuestionReference> getQuestionReferences(Stylesheet stylesheet) {
-        HashMap<String, QuestionReference> questionReferences = new HashMap<>();
+    private Map<String, ExpressionReference> getExpressionReferencesByName(Stylesheet stylesheet) {
+        Map<String, ExpressionReference> expressionReferencesByName = new HashMap<>();
 
         LinkedList<Page> pages = stylesheet.getPages();
         if (null != pages) {
@@ -67,35 +68,39 @@ public class QLSChecker {
             pages.stream().map(Page::getSections).forEach(sections::addAll);
 
             for (Section section : sections) {
-                LinkedList<QuestionReference> refs = section.getQuestions();
-                refs.forEach(ref -> questionReferences.put(ref.getName(), ref));
+                LinkedList<ExpressionReference> refs = section.getExpressionReferences();
+                refs.forEach(ref -> expressionReferencesByName.put(ref.getName(), ref));
             }
         }
-        return questionReferences;
+        return expressionReferencesByName;
     }
 
-    private HashMap<String, FormExpression> getFormExpressions(LinkedList<FormExpression> formExpressions) {
-        HashMap<String, FormExpression> expressions = new HashMap<>();
+    private Map<String, Question> getQuestions(LinkedList<? extends FormExpression> formExpressions) {
+        Map<String, Question> questions = new HashMap<>();
 
         for(FormExpression formExpression : formExpressions) {
-            expressions.put(formExpression.getName(), formExpression);
+            if (formExpression instanceof Question) {
+                questions.put(formExpression.getVariable().getName(), (Question) formExpression);
+            } else if (formExpression instanceof IfBlock) {
+                Map<String, Question> ifQuestions = getQuestions(((IfBlock) formExpression).getExpressions());
+                questions.putAll(ifQuestions);
+            }
         }
-
-        return expressions;
+        return questions;
     }
 
     private void checkWidgetAssignments(
-            HashMap<String, FormExpression> questions,
-            HashMap<String, QuestionReference> questionRefs,
+            Map<String, FormExpression> questions,
+            Map<String, ExpressionReference> questionRefs,
             LinkedList<DefaultStyle> defaultStyles
     ) {
-        for (QuestionReference ref : questionRefs.values()) {
+        for (ExpressionReference ref : questionRefs.values()) {
             FormExpression formExpression = questions.get(ref.getName());
             if (!(formExpression instanceof Question)) {
                 continue;
             }
 
-            DataType dataType = ((Question) formExpression).getDataType();
+            DataType dataType = ((Question) formExpression).getVariable().getDataType();
             WidgetType widgetType = ref.getWidgetType();
 
             if (null != widgetType && !WidgetType.mapDataTypeToWidget.get(dataType).contains(widgetType)) {

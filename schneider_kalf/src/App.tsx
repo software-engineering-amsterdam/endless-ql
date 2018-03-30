@@ -6,11 +6,15 @@ import PageNode from "./modules/styling/form/nodes/containers/PageNode";
 import { ModuleTabNavigation } from "./rendering/components/app_module_tabs/ModuleTabNavigation";
 import { ModuleTabsContent } from "./rendering/components/app_module_tabs/ModuleTabsContent";
 import { AppFormStateOutput } from "./rendering/components/app_form_state_output/FormStateOutput";
-import { AppErrorMessage } from "./rendering/components/app_error_message/AppErrorMessage";
+import { AppErrorMessage } from "./rendering/components/app_messages/AppErrorMessage";
 import { AppFormContainer } from './rendering/components/app_form_container/AppFormContainer';
 import constants from "./config/constants";
 import SourceInputs from "./form/source/SourceInputs";
-import { makeStatefulForm } from "./app_form_helpers";
+import { parseForm } from "./app_form_helpers";
+import QlForm from "./form/QlForm";
+import QlsForm from "./modules/styling/form/QlsForm";
+import { FormWarning } from "./form/form_warnings";
+import { AppWarningMessages } from "./rendering/components/app_messages/AppWarningMessages";
 
 export interface AppComponentProps {
 }
@@ -18,8 +22,9 @@ export interface AppComponentProps {
 export interface AppComponentState {
   qlInput: string;
   qlsInput: string;
-  form: Form | any | null;
+  form: QlsForm | QlForm | Form | any;
   parserError: Error | null;
+  parserWarnings: FormWarning[];
   qlsEnabled: boolean;
   activeTab: string;
 }
@@ -34,7 +39,8 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
       qlsEnabled: true,
       activeTab: constants.APP_MODULE_TABS.QL,
       form: null,
-      parserError: null
+      parserError: null,
+      parserWarnings: []
     };
 
     this.onChangeAnswer = this.onChangeAnswer.bind(this);
@@ -43,6 +49,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     this.onChangeQlSource = this.onChangeQlSource.bind(this);
     this.onChangeQlsSource = this.onChangeQlsSource.bind(this);
     this.toggleQls = this.toggleQls.bind(this);
+    this.onResetFormState = this.onResetFormState.bind(this);
   }
 
   componentDidMount() {
@@ -64,11 +71,12 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   }
 
   tryToUpdateForm(inputs: SourceInputs) {
-    const form = makeStatefulForm(inputs, this.getFormState());
+    const result = parseForm(inputs, this.getFormState());
 
     this.setState({
-      form: form,
+      form: result.form,
       parserError: null,
+      parserWarnings: result.warnings,
       qlInput: inputs.getQlSource().toString(),
       qlsInput: inputs.getQlsSource().toString(),
       qlsEnabled: inputs.qlsIsEnabled()
@@ -109,6 +117,13 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     this.updateForm(this.state.qlInput, text, this.state.qlsEnabled);
   }
 
+  onResetFormState() {
+    const newState = this.getFormState().instantiate(new Map());
+    this.setState({
+      form: this.state.form.setState(newState)
+    });
+  }
+
   toggleQls(qlsEnabled: boolean) {
     this.updateForm(this.state.qlInput, this.state.qlsInput, qlsEnabled);
   }
@@ -116,7 +131,7 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
   render() {
     return (
         <div className="app container">
-          <h1>NEWSKQL</h1>
+          <h1 className="title"><img src={require('./resources/fish-white.png')} alt="Logo"/> NEWSKQL</h1>
           <div className="row ql-sample-output">
             <div className="col-md-6">
               <ModuleTabNavigation
@@ -139,15 +154,19 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
               <AppErrorMessage
                   error={this.state.parserError}
               />
+              <AppWarningMessages
+                  warnings={this.state.parserWarnings}
+              />
               <AppFormContainer
                   form={this.state.form}
-                  qlsEnabled={this.state.qlsEnabled}
+                  qlsEnabled={this.state.qlsEnabled && this.state.qlsInput.trim().length > 0}
                   onChangeAnswer={this.onChangeAnswer}
                   onChangePage={this.onChangePage}
               />
               <hr/>
               <AppFormStateOutput
                   form={this.state.form}
+                  onReset={this.onResetFormState}
               />
             </div>
           </div>

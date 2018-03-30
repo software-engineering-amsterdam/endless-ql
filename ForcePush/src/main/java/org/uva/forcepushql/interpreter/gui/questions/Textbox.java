@@ -1,5 +1,7 @@
 package org.uva.forcepushql.interpreter.gui.questions;
 
+import org.uva.forcepushql.interpreter.gui.Observer;
+
 public class Textbox extends Question
 {
 
@@ -13,9 +15,18 @@ public class Textbox extends Question
         calculation = false;
     }
 
+    @Override
+    public void notifyAllObservers() {
+        for (Observer obs : getObservers())
+        {
+            obs.updateTextbox(this);
+        }
+    }
+
     public void givenAnswer(String answer)
     {
         this.answer = answer;
+        notifyAllObservers();
     }
 
     public String answerValue()

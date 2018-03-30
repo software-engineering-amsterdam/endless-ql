@@ -44,7 +44,7 @@ namespace QuestionnaireDomain.Entities.Validators
             m_validators.Add(cyclicDependencyValidator);
         }
         
-        public bool Validate(Reference<IQuestionnaireRootNode> questionnaireRootNode)
+        public bool Validate(DomainId<IQuestionnaireRootNode> questionnaireRootNode)
         {
             foreach (var validator in m_validators)
             {

@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class QuestionsDuplicationValidator extends Validator {
 
-    private List<Question> questions;
+    private final List<Question> questions;
 
     public QuestionsDuplicationValidator(List<Question> questions) {
         this.questions = questions;

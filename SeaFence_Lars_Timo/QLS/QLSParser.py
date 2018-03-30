@@ -105,13 +105,13 @@ class QLSParser ( Parser ):
     RULE_font = 12
     RULE_fontsize = 13
     RULE_color = 14
-    RULE_var = 15
-    RULE_vartype = 16
+    RULE_variable = 15
+    RULE_variable_type = 16
 
     ruleNames =  [ u"stylesheet", u"page", u"section", u"question", u"default_style", 
                    u"default_options", u"stylesheet_id", u"page_id", u"section_id", 
                    u"widget", u"widget_type", u"width", u"font", u"fontsize", 
-                   u"color", u"var", u"vartype" ]
+                   u"color", u"variable", u"variable_type" ]
 
     EOF = Token.EOF
     T__0=1
@@ -432,8 +432,8 @@ class QLSParser ( Parser ):
             super(QLSParser.QuestionContext, self).__init__(parent, invokingState)
             self.parser = parser
 
-        def var(self):
-            return self.getTypedRuleContext(QLSParser.VarContext,0)
+        def variable(self):
+            return self.getTypedRuleContext(QLSParser.VariableContext,0)
 
 
         def widget(self):
@@ -465,12 +465,12 @@ class QLSParser ( Parser ):
             la_ = self._interp.adaptivePredict(self._input,8,self._ctx)
             if la_ == 1:
                 self.state = 86
-                self.var()
+                self.variable()
                 pass
 
             elif la_ == 2:
                 self.state = 87
-                self.var()
+                self.variable()
                 self.state = 88
                 self.widget()
                 pass
@@ -490,8 +490,8 @@ class QLSParser ( Parser ):
             super(QLSParser.Default_styleContext, self).__init__(parent, invokingState)
             self.parser = parser
 
-        def vartype(self):
-            return self.getTypedRuleContext(QLSParser.VartypeContext,0)
+        def variable_type(self):
+            return self.getTypedRuleContext(QLSParser.Variable_typeContext,0)
 
 
         def widget(self):
@@ -527,7 +527,7 @@ class QLSParser ( Parser ):
             self.state = 92
             self.match(QLSParser.T__6)
             self.state = 93
-            self.vartype()
+            self.variable_type()
             self.state = 105
             self._errHandler.sync(self)
             token = self._input.LA(1)
@@ -1030,31 +1030,31 @@ class QLSParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class VarContext(ParserRuleContext):
+    class VariableContext(ParserRuleContext):
 
         def __init__(self, parser, parent=None, invokingState=-1):
-            super(QLSParser.VarContext, self).__init__(parent, invokingState)
+            super(QLSParser.VariableContext, self).__init__(parent, invokingState)
             self.parser = parser
 
         def NAME(self):
             return self.getToken(QLSParser.NAME, 0)
 
         def getRuleIndex(self):
-            return QLSParser.RULE_var
+            return QLSParser.RULE_variable
 
         def accept(self, visitor):
-            if hasattr(visitor, "visitVar"):
-                return visitor.visitVar(self)
+            if hasattr(visitor, "visitVariable"):
+                return visitor.visitVariable(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def var(self):
+    def variable(self):
 
-        localctx = QLSParser.VarContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 30, self.RULE_var)
+        localctx = QLSParser.VariableContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 30, self.RULE_variable)
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 150
@@ -1067,29 +1067,29 @@ class QLSParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class VartypeContext(ParserRuleContext):
+    class Variable_typeContext(ParserRuleContext):
 
         def __init__(self, parser, parent=None, invokingState=-1):
-            super(QLSParser.VartypeContext, self).__init__(parent, invokingState)
+            super(QLSParser.Variable_typeContext, self).__init__(parent, invokingState)
             self.parser = parser
 
 
         def getRuleIndex(self):
-            return QLSParser.RULE_vartype
+            return QLSParser.RULE_variable_type
 
         def accept(self, visitor):
-            if hasattr(visitor, "visitVartype"):
-                return visitor.visitVartype(self)
+            if hasattr(visitor, "visitVariable_type"):
+                return visitor.visitVariable_type(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def vartype(self):
+    def variable_type(self):
 
-        localctx = QLSParser.VartypeContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 32, self.RULE_vartype)
+        localctx = QLSParser.Variable_typeContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 32, self.RULE_variable_type)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)

@@ -1,7 +1,9 @@
 from os import listdir
+
+from termcolor import colored
+
 from ql.parser.lexer import QLLexer
 from ql.parser.parser import QLParser
-from termcolor import colored
 
 
 def test_directory(directory, parser, lexer):
@@ -35,18 +37,19 @@ def test_directory(directory, parser, lexer):
 
 
 def test_parser(test, parser, lexer):
-    try:
-        parser.parser.parse(test, lexer.lexer)
-        return True
-    except:
+    parser.parse(test, lexer.lexer)
+
+    if parser.errors:
         return False
+
+    return True
 
 
 def print_result(file, result=True):
     if result:
         tag = colored('[success]', 'green')
     else:
-        tag = colored('[fail]', 'red')
+        tag = colored('[failure]', 'red')
 
     print('{} {}'.format(tag, file))
 

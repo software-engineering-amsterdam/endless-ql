@@ -58,13 +58,7 @@ public class Main {
             QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
             stylesheetVisitor.visitStylesheet(stylesheetContext);
-
-            //Evaluate
-//            TestPrinter testprinter = new TestPrinter();
-//            testprinter.printQLSStyleSheet(stylesheet);
-
-            GUIBuilder GUIBuilder = new GUIBuilder(coreVisitor, stylesheetVisitor);
-//            GUIBuilder.initComponents();
+            new GUIBuilder(coreVisitor, stylesheetVisitor);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,7 +83,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             if (args.length == 0) {
-                new Main().parseAndBuildQL(System.in);
+                new Main().parseAndBuildQLS();
             } else if (args.length == 1) {
                     FileInputStream fileInputStream = new FileInputStream(args[0]);
                     new Main().parseAndBuildQL(fileInputStream);

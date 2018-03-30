@@ -28,7 +28,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FormBuilder {
+public class QLBuilder {
 
     private JPanel mainListPanel;
 
@@ -46,7 +46,7 @@ public class FormBuilder {
 
     }
 
-    public FormBuilder(FormVisitor coreVisitor) {
+    public QLBuilder(FormVisitor coreVisitor) {
         questionHashMap = coreVisitor.getQuestions();
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
         this.coreVisitor = coreVisitor;

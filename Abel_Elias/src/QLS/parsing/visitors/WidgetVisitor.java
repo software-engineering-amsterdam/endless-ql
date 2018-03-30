@@ -29,7 +29,7 @@ public class WidgetVisitor extends QLSBaseVisitor {
             return visitRadioWidget(ctx.radioWidget());
         } else if (ctx.spinboxWidget() != null) {
             return visitSpinboxWidget(ctx.spinboxWidget());
-        } else if ( ctx.sliderWidget() != null) {
+        } else if (ctx.sliderWidget() != null) {
             return visitSliderWidget(ctx.sliderWidget());
         } else if (ctx.dropdownWidget() != null) {
             return visitDropdownWidget(ctx.dropdownWidget());

@@ -16,7 +16,10 @@ object QLForms {
 class QLForms extends Application {
 
   @throws[IOException]
-  override def start(stage: Stage): Unit = showScene(stage, QLScenes.homeScene, new QLHomeController())
+  override def start(stage: Stage): Unit = {
+    showScene(stage, QLScenes.homeScene, new QLHomeController())
+    stage.setTitle("QL Forms")
+  }
 
   @throws[IOException]
   def showScene(stage: Stage, sceneFile: String, controller: AnyRef): Unit = {

@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.gui.listener
 
-import nl.uva.se.sc.niro.gui.control.Component
+import nl.uva.se.sc.niro.gui.component.Component
 
 /**
   * Classes that implement the @{@link ComponentChangedListener} trait are responsible for responding to a changed

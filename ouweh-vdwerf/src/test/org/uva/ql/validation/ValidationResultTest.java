@@ -14,7 +14,7 @@ public class ValidationResultTest {
         //Disable console logging for tests.
         Logger.getGlobal().setUseParentHandlers(false);
     }
-    
+
     @Test
     public void merge() {
         ValidationResult result1 = new ValidationResult();

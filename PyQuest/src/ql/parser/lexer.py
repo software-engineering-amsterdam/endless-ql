@@ -43,11 +43,11 @@ class QLLexer:
 
         # Types
         'boolean':  'BOOLEAN',
-        'string':   'STRING',
-        'integer':  'INTEGER',
         'date':     'DATE',
         'decimal':  'DECIMAL',
+        'integer':  'INTEGER',
         'money':    'MONEY',
+        'string':   'STRING',
     }
 
     tokens += list(reserved_keywords.values())
@@ -143,6 +143,7 @@ class QLLexer:
 
     # Test the lexer output
     def test(self, data):
+        self.errors = []
         self.lexer.input(data)
         while True:
             token = self.lexer.token()

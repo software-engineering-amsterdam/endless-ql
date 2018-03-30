@@ -15,7 +15,7 @@ class SymbolTable {
         val previousSymbol = findSymbol(name)
 
         return when {
-            previousSymbol == null -> SymbolRegistrationResult.Registered()
+            previousSymbol == null -> { assign(name, value); SymbolRegistrationResult.Registered() }
             previousSymbol.type == value.type -> SymbolRegistrationResult.AlreadyRegistered()
             else -> SymbolRegistrationResult.AlreadyRegisteredTypeMismatch(previousSymbol)
         }

@@ -77,5 +77,11 @@ namespace Assignment1
             };
             SetMessages("Warning:", warnings, header, label);
         }
+
+        public void ClearUI()
+        {
+            _questionFormPanel.Controls.Clear();
+            _messagePanel.Controls.Clear();
+        }
     }
 }

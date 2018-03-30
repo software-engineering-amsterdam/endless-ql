@@ -14,15 +14,14 @@ import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 
 import javax.swing.*;
-import java.util.HashMap;
 import java.util.LinkedList;
 
-import static org.uva.forcepushql.interpreter.gui.JPanelGUI.getString;
 
 //TODO: Refactor the hell out of this. Please. It hurts. Make it stop....
 public class ASTVisitorEvaluator implements ASTVisitor
 {
     EventChecker eventChecker = new EventChecker();
+    String elseCondition = "";
 
     @Override
     public LinkedList<JPanel> visit(FormNode node)
@@ -67,10 +66,18 @@ public class ASTVisitorEvaluator implements ASTVisitor
         Node condition = node.getCondition();
 
         if(condition != null) {
-            eventChecker.addCondition(condition.accept(this), jPanelGUI);
+            String expression = condition.accept(this);
+            eventChecker.addCondition(expression, jPanelGUI);
+            if (elseCondition.equals("")) {
+                elseCondition = "!" + expression;
+            }
+            else {
+                elseCondition = "!" + expression + " && " + elseCondition;
+            }
         }
         else {
-            eventChecker.addCondition("",jPanelGUI);
+            eventChecker.addCondition(elseCondition,jPanelGUI);
+            elseCondition = "";
         }
 
         LinkedList<JPanelGUI> result = new LinkedList<>();

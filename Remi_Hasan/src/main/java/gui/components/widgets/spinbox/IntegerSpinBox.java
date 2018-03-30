@@ -24,6 +24,6 @@ public class IntegerSpinBox extends SpinBox<Integer> {
 
     @Override
     public void setValue(Value value) {
-        this.getValueFactory().setValue(value.getIntegerValue());
+        this.getValueFactory().setValue(value.isUndefined() ? 0 : value.getIntegerValue());
     }
 }

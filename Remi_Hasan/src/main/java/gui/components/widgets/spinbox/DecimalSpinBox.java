@@ -25,6 +25,6 @@ public class DecimalSpinBox extends SpinBox<Double> {
 
     @Override
     public void setValue(Value value) {
-        this.getValueFactory().setValue(value.getDecimalValue());
+        this.getValueFactory().setValue(value.isUndefined() ? 0 : value.getDecimalValue());
     }
 }

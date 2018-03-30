@@ -13,11 +13,9 @@ public class RadioGUI implements QuestionGUI
     private Radio question;
     private JLabel label;
     private JRadioButton[] options;
-    private LinkedList<Observer> observers;
 
     public RadioGUI(Radio radio)
     {
-        observers = new LinkedList<Observer>();
         question = radio;
         label = new JLabel(question.writtenQuestion(), JLabel.CENTER);
         JRadioButton option1 = new JRadioButton("Yes");
@@ -35,12 +33,10 @@ public class RadioGUI implements QuestionGUI
                     if (radioButton.isSelected() && (radioButton.getText() == "Yes"))
                     {
                         radio.givenAnswer(true);
-                        notifyAllObservers();
 
                     } else if (radioButton.isSelected() && (radioButton.getText() == "No"))
                     {
                         radio.givenAnswer(false);
-                        notifyAllObservers();
 
                     }
 
@@ -82,16 +78,6 @@ public class RadioGUI implements QuestionGUI
         options[1].addActionListener(actionListener);
     }
 
-    public void attachObserver(Observer observer)
-    {
-        observers.add(observer);
-    }
 
-    public void notifyAllObservers()
-    {
-        for (Observer obs : observers)
-        {
-            obs.updateRadio(question);
-        }
-    }
+
 }

@@ -15,7 +15,7 @@ public class IntegerTextBox extends TextBox {
 
     @Override
     public Expression getExpressionValue() {
-        if (this.getText().isEmpty()) {
+        if (this.getText().isEmpty() || this.getText().equals("-")) {
             return new UndefinedConstant(ReturnType.INTEGER);
         }
 

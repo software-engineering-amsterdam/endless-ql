@@ -11,6 +11,18 @@ from ql.types.integer import QLInteger
 
 
 class QLLexer:
+    def __init__(self):
+        self.lexer = lex(module=self)
+        self.errors = []
+
+    # @property
+    # def lexer(self):
+    #     return self.__lexer
+
+    # @property
+    # def errors(self):
+    #     return self.__errors
+
     tokens = [
         'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'COLON',
         'ASSIGN',
@@ -91,8 +103,7 @@ class QLLexer:
         token.value = QLBoolean(True)
         return token
 
-    @staticmethod
-    def t_DATE_LITERAL(token):
+    def t_DATE_LITERAL(self, token):
         r'date\(\s*\d{1,2}\s*,\s*\d{1,2}\s*,\s*\d{1,4}\s*\)'
         numbers = findall(r'\d\d*', token.value)
 
@@ -120,6 +131,11 @@ class QLLexer:
         token.value = token.value[1:-1]
         return token
 
+    @staticmethod
+    def t_comment(token):
+        r'//.*'
+        pass
+
     # Error handling
     @staticmethod
     def t_error(token):
@@ -134,8 +150,3 @@ class QLLexer:
             if not token:
                 break
             print(token)
-
-    # Class constructor
-    def __init__(self):
-        self.lexer = lex(module=self)
-        self.error = []

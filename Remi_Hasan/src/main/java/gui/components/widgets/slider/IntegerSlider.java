@@ -27,6 +27,6 @@ public class IntegerSlider extends Slider {
 
     @Override
     public void setValue(Value value) {
-        this.slider.setValue(value.getIntegerValue());
+        this.slider.setValue(value.isUndefined() ? this.slider.getMin() : value.getIntegerValue());
     }
 }

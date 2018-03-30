@@ -12,7 +12,7 @@ public class CollectReferencesVisitor extends AbstractASTTraverse<Void> {
 
     private List<VariableReference> variableReferences = new ArrayList<>();
 
-    public List<VariableReference> getVariableReferences(@NotNull ASTNode node) {
+    public List<VariableReference> getVariableReferences(ASTNode node) {
         variableReferences = new ArrayList<>();
         node.accept(this);
         return this.variableReferences;

@@ -58,11 +58,11 @@ public class QuestionView extends JPanel {
 
         switch (originalDataTypeDeclaration.toDataType()) {
             case DECIMAL:
-                // if decimal is originally declared as "money", then use a widget with currency sign
-                if (originalDataTypeDeclaration.getIdentifier().equals("money")) {
-                    return new MoneyFieldWidget(questionModel);
-                }
                 return new DecimalFieldWidget(questionModel);
+            case MONEY:
+                return new MoneyFieldWidget(questionModel);
+            case DATE:
+                return new DatePickerWidget(questionModel);
             case INTEGER:
                 return new IntegerSpinnerWidget(questionModel);
             case BOOLEAN:

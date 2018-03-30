@@ -1,0 +1,21 @@
+form testForm5
+{
+  "What is your first name?"
+    firstName: string
+  if (firstName != "") {
+    "Welcome message:"
+    welcome: string = "Hello " + firstName
+  }
+
+  "When is your birthday this year?"
+    birthday: date
+
+  "How much cash do you have on you?"
+    cash: money
+
+  if (cash > $100.00) {
+    "Here you have some extra money"
+    someMoney: money = cash + $40.00
+  }
+
+}

@@ -16,6 +16,9 @@ import ql.logic.collectors.CollectQuestionsVisitor;
 import ql.logic.collectors.CollectReferencesVisitor;
 import ql.logic.validators.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class TypeCheckerTest {
 
     private final CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();

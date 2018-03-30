@@ -1,4 +1,4 @@
 package ql.gui.controller;
 
-public class ValidationErrorNotificationController {
+class ValidationErrorNotificationController {
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FormView {
-    private List<QuestionView> questionViews;
+    private final List<QuestionView> questionViews;
 
     public FormView() {
         this.questionViews = new ArrayList<>();

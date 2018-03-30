@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class WindowView {
 
-    private JFrame frame;
+    private final JFrame frame;
 
     public WindowView() {
         this.frame = new JFrame("QL Form GUI");

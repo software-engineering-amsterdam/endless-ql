@@ -22,7 +22,7 @@ import java.util.List;
 
 public class OpenFileController implements ActionListener {
 
-    private WindowView windowView;
+    private final WindowView windowView;
 
     public OpenFileController(WindowView windowView) {
         this.windowView = windowView;
@@ -72,7 +72,7 @@ public class OpenFileController implements ActionListener {
             // validating
             for (Validator validator : validators) {
                 if (!validator.validate()) {
-                    if (validator.criticalErrorOccured()) {
+                    if (validator.criticalErrorOccurred()) {
                         ErrorMessageView.showErrorDialog(windowView, "Validation error", validator.getMessage());
                         return;
                     } else {

@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.Recognizer;
 import ql.gui.view.ErrorMessageView;
 import ql.gui.view.WindowView;
 
-public class SyntaxErrorNotificationController extends BaseErrorListener {
+class SyntaxErrorNotificationController extends BaseErrorListener {
 
     private final WindowView windowView;
     private Boolean foundSyntaxError = false;

@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 
 public class SubmitFormController implements ActionListener {
 
-    private FormModel formModel;
+    private final FormModel formModel;
 
     public SubmitFormController(FormModel formModel) {
         this.formModel = formModel;

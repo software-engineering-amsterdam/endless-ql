@@ -13,6 +13,11 @@ public class BooleanValue extends Value {
     }
 
     @Override
+    public boolean toBoolean() {
+        return value;
+    }
+
+    @Override
     public BooleanValue equal(Value value) {
         BooleanValue booleanValue = ((BooleanValue) value);
         return new BooleanValue(this.value == booleanValue.getValue());

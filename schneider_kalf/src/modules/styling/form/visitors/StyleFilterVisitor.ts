@@ -5,7 +5,7 @@ import QuestionStyleNode from "../nodes/children/QuestionStyleNode";
 import Section from "../nodes/containers/SectionNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheetNode";
+import StyleSheetNode from "../nodes/StyleSheetNode";
 import StyleTreeNode from "../nodes/StyleTreeNode";
 
 const defaults: StyleFilterOptions = {
@@ -52,8 +52,8 @@ export default class StyleFilterVisitor implements StyleNodeVisitor {
     return this.visitChildren(page.body);
   }
 
-  visitStyleSheet(stylesheet: Stylesheet): any {
-    return this.visitChildren(stylesheet.children);
+  visitStyleSheet(styleSheet: StyleSheetNode): any {
+    return this.visitChildren(styleSheet.children);
   }
 
   private visitChildren(children: StyleTreeNode[]) {

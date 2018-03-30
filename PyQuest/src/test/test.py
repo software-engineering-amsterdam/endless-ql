@@ -16,8 +16,9 @@ class Test:
 
     def test(self):
         successes = 0
-        print('Performing {} tests.'.format(self.name))
-        print()
+        print('-------------------------------------------------------------------------------------------\n')
+        print('Performing {} tests.\n'.format(self.name))
+        print('-------------------------------------------------------------------------------------------\n')
         print('Performing valid tests:')
         successes += self.test_valid_files()
 
@@ -26,7 +27,7 @@ class Test:
         successes += self.test_invalid_files()
 
         print()
-        print('{} out of {} test successful.\n'.format(successes, len(self.valid_files) + len(self.invalid_files)))
+        print('{} out of {} tests successful.\n'.format(successes, len(self.valid_files) + len(self.invalid_files)))
 
     def test_file(self, file):
         pass

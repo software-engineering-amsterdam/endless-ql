@@ -9,7 +9,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
     {
         public QuestionOutputItem(
             Guid id,
-            Reference<IQuestionNode> variable,
+            DomainId<IQuestionNode> variable,
             string questionText,
             Type questionType,
             string value,
@@ -27,7 +27,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
         }
         
         public Guid Id { get; }
-        public Reference<IQuestionNode> Variable { get; }
+        public DomainId<IQuestionNode> Variable { get; }
         public string DisplayName { get; }
         public string QuestionText { get; }
         public bool Visible { get; set; }

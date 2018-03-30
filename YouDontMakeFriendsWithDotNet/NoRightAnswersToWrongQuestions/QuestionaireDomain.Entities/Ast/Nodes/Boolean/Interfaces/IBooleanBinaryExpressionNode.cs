@@ -4,7 +4,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces
 {
     public interface IBinaryExpressionNode : IExpressionNode
     {
-        Reference<IBooleanLogicNode> LeftExpression { get; }
-        Reference<IBooleanLogicNode> RightExpression { get; }
+        DomainId<IBooleanLogicNode> LeftExpression { get; }
+        DomainId<IBooleanLogicNode> RightExpression { get; }
     }
 }

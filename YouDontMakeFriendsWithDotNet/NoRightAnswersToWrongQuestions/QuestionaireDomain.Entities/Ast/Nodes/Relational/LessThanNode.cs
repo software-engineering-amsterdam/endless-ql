@@ -12,8 +12,8 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
         public LessThanNode(
             Guid id,
             string definition,
-            Reference<IAstNode> leftExpression,
-            Reference<IAstNode> rightExpression)
+            DomainId<IAstNode> leftExpression,
+            DomainId<IAstNode> rightExpression)
             : base(id, definition, leftExpression, rightExpression)
         {
         }

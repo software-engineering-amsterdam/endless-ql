@@ -13,7 +13,7 @@ namespace QlsTransformer.Ast.Tools
             m_astBuilder = astBuilder;
         }
 
-        public Reference<IStyleSheetRootNode> Create(string definition)
+        public DomainId<IStyleSheetRootNode> Create(string definition)
         {
             return m_astBuilder.BuildStyleSheet(definition);
         }

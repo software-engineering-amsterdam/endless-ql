@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.ZipFile">
       <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
       <Private>True</Private>
@@ -52,12 +53,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\Nodes\AstCheckBox.cs" />
+    <Compile Include="Ast\Nodes\AstDropDown.cs" />
+    <Compile Include="Ast\Nodes\AstRadioButton.cs" />
+    <Compile Include="Ast\Nodes\AstSlider.cs" />
+    <Compile Include="Ast\Nodes\AstSpinBox.cs" />
+    <Compile Include="Ast\Nodes\AstTextBox.cs" />
+    <Compile Include="Ast\Nodes\BinaryWidget.cs" />
+    <Compile Include="Ast\Nodes\IBinaryWidget.cs" />
+    <Compile Include="Ast\Nodes\ICheckBox.cs" />
+    <Compile Include="Ast\Nodes\IDropDown.cs" />
     <Compile Include="Ast\Nodes\IPageNode.cs" />
+    <Compile Include="Ast\Nodes\IRadioButton.cs" />
     <Compile Include="Ast\Nodes\ISectionNode.cs" />
+    <Compile Include="Ast\Nodes\ISlider.cs" />
+    <Compile Include="Ast\Nodes\ISpinBox.cs" />
+    <Compile Include="Ast\Nodes\IStyleNode.cs" />
     <Compile Include="Ast\Nodes\IStyleSheetRootNode.cs" />
+    <Compile Include="Ast\Nodes\ITextBox.cs" />
+    <Compile Include="Ast\Nodes\IWidget.cs" />
     <Compile Include="Ast\Nodes\PageNode.cs" />
     <Compile Include="Ast\Nodes\QlsQuestionNode.cs" />
     <Compile Include="Ast\Nodes\SectionNode.cs" />
+    <Compile Include="Ast\Nodes\StyleNode.cs" />
+    <Compile Include="Ast\Nodes\StyleSheetCompartmentBase.cs" />
     <Compile Include="Ast\Nodes\StyleSheetRootNode.cs" />
     <Compile Include="Ast\Tools\IQlsAstBuilder.cs" />
     <Compile Include="Ast\Tools\IQlsAstFactory.cs" />

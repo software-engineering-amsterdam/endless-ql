@@ -23,10 +23,10 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             m_registry = registry;
         }
 
-        public Reference<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
-            Reference<IQuestionnaireRootNode> variable,
+        public DomainId<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
+            DomainId<IQuestionnaireRootNode> variable,
             string displayName,
-            IList<Reference<IQuestionOutputItem>> questions)
+            IList<DomainId<IQuestionOutputItem>> questions)
         {
             var questionnaireOutputItem= new QuestionnaireOutputItem(
                 variable,
@@ -37,8 +37,8 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 questionnaireOutputItem);
         }
 
-        public Reference<IQuestionOutputItem> CreateQuestionOutputItem(
-            Reference<IQuestionNode> variable,
+        public DomainId<IQuestionOutputItem> CreateQuestionOutputItem(
+            DomainId<IQuestionNode> variable,
             string text, 
             string value,
             Type type,
@@ -58,10 +58,10 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 questionOutputItem);
         }
 
-        private Reference<T> DomainItemRegistration<T>(T node) where T : IDomainItem
+        private DomainId<T> DomainItemRegistration<T>(T node) where T : IDomainItem
         {
             m_registry.Add(node);
-            return new Reference<T>(node.Id);
+            return new DomainId<T>(node.Id);
         }
     }
 }

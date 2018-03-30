@@ -6,8 +6,6 @@ import org.antlr.v4.runtime.Recognizer;
 import ql.gui.view.ErrorMessageView;
 import ql.gui.view.WindowView;
 
-import javax.swing.*;
-
 public class SyntaxErrorNotificationController extends BaseErrorListener {
 
     private final WindowView windowView;

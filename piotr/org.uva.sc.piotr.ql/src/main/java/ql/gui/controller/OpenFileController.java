@@ -1,15 +1,9 @@
 package ql.gui.controller;
 
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import ql.ast.ASTBuilder;
 import ql.ast.model.Form;
 import ql.ast.model.expressions.Expression;
 import ql.ast.model.expressions.values.VariableReference;
 import ql.ast.model.statements.Question;
-import ql.grammar.QLLexer;
-import ql.grammar.QLParser;
 import ql.gui.model.FormModel;
 import ql.gui.view.ErrorMessageView;
 import ql.gui.view.WindowView;
@@ -23,13 +17,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 public class OpenFileController implements ActionListener {
 
-    WindowView windowView;
+    private WindowView windowView;
 
     public OpenFileController(WindowView windowView) {
         this.windowView = windowView;
@@ -44,34 +37,29 @@ public class OpenFileController implements ActionListener {
 
         if (result == JFileChooser.APPROVE_OPTION) {
 
+            // file path
             File selectedFile = fileChooser.getSelectedFile();
             String selectedFilePath = selectedFile.getAbsolutePath();
 
-            // Build form
+            // build form
             Form form = BuildFormController.buildForm(selectedFilePath, windowView);
 
             // if no form -> stop
             if (form == null)
                 return;
 
-            // Collecting data
-
-            // Collect all references from all expressions in the form (both: assignments and conditions)
+            // collectors
             CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
-            List<VariableReference> references = collectReferencesVisitor.getVariableReferences(form);
-
-            // Collect all questions
             CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
-            List<Question> questions = collectQuestionsVisitor.getQuestions(form);
-
-            // Collect all conditions
             CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
-            List<Expression> conditions = collectConditionsVisitor.getConditions(form);
 
-            // Collect questions with their references for cyclic dependency validator
+            // collecting data
+            List<VariableReference> references = collectReferencesVisitor.getVariableReferences(form);
+            List<Question> questions = collectQuestionsVisitor.getQuestions(form);
+            List<Expression> conditions = collectConditionsVisitor.getConditions(form);
             HashMap<Question, List<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap(form);
 
-            // Validators
+            // validators
             Validator[] validators = new Validator[]{
                     new VariablesReferencesValidator(questions, references),
                     new TypesValidator(conditions, questions),
@@ -81,7 +69,7 @@ public class OpenFileController implements ActionListener {
                     new QuestionLabelsValidator(questions)
             };
 
-
+            // validating
             for (Validator validator : validators) {
                 if (!validator.validate()) {
                     if (validator.criticalErrorOccured()) {
@@ -93,21 +81,19 @@ public class OpenFileController implements ActionListener {
                 }
             }
 
+            // all good
+
             // hide the initial frame
             this.windowView.hide();
 
-            // proceed with actual form modelling and rendering
-
+            // prepare form MVC
             FormModel formModel = new FormModel(form);
-
             FormController formController = new FormController(formModel);
-
             JPanel formPanel = new FormPanel(form.getName(), formModel, formController.getFormView());
 
+            // show
             this.windowView.setMainPanel(formPanel);
             this.windowView.formatAndShow();
-
-
         }
     }
 }

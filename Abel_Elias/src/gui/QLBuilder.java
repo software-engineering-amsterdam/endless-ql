@@ -1,11 +1,16 @@
 package gui;
 
 import QL.classes.Question;
+import QL.classes.values.BooleanValue;
+import QL.classes.values.DateValue;
+import QL.classes.values.StringValue;
 import QL.classes.values.Value;
 import QL.parsing.visitors.FormVisitor;
-import gui.listeners.QuestionListener;
 import gui.panels.QuestionPanel;
-
+import gui.listeners.QuestionValueListener;
+import gui.widgets.CheckBoxWidget;
+import gui.widgets.DateWidget;
+import gui.widgets.StringWidget;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
@@ -19,7 +24,7 @@ public class QLBuilder {
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor;
-    private QuestionListener questionListener;
+    private QuestionValueListener questionValueListener;
 
     public LinkedHashMap<String, QuestionPanel> getQuestionPanelHashMap() {
         return questionPanelHashMap;
@@ -50,16 +55,13 @@ public class QLBuilder {
 
             //Extract a single question
             Question question = entry.getValue();
-            //If the question is marked as visible, we build a panel
-            if(question.isVisible()) {
-                buildQuestionPanel(question);
-            }
+            buildQuestionPanel(question);
         }
     }
 
-    public JPanel createMainListPanel(QuestionListener questionListener) {
+    public JPanel createMainListPanel(QuestionValueListener questionValueListener) {
         this.mainListPanel = new JPanel(new GridBagLayout());
-        this.questionListener = questionListener;
+        this.questionValueListener = questionValueListener;
         initQuestionPanels();
         return mainListPanel;
     }
@@ -72,40 +74,31 @@ public class QLBuilder {
      * @param question  the question passed
      */
     private void buildQuestionPanel(Question question) {
-        QuestionPanel qPanel;
-        String key = question.getText();
         Value value = question.getValue();
+        QuestionPanel qPanel = null;
 
-        switch (question.getValue().getType()) {
+        switch (value.getType()) {
             case Value.STRING:
-                qPanel = new QuestionWidgetTextString(key, question);
+                qPanel = new QuestionPanel(question, new StringWidget((StringValue) value));
                 break;
             case Value.BOOLEAN:
-                qPanel = new QuestionWidgetCheckBox(key, question);
+                qPanel = new QuestionPanel(question, new CheckBoxWidget((BooleanValue) value));
                 break;
             case Value.DECIMAL:
-                qPanel = new QuestionWidgetTextInt(key, question);
+                // add panel for decimals
                 break;
             case Value.MONEY:
-                qPanel = new QuestionWidgetTextInt(key, question);
+                // add panel for decimals
                 break;
             case Value.DATE:
-                qPanel = new QuestionWidgetDate(key, question);
+                qPanel = new QuestionPanel(question, new DateWidget((DateValue) value));
                 break;
             case Value.INTEGER:
-                qPanel = new QuestionWidgetTextInt(key, question);
+                // add panel for integers
                 break;
             default:
-                qPanel = new QuestionWidgetTextInt(key, question);
+                // default case
                 break;
-        }
-
-        qPanel.setQuestionChangeListener(questionListener);
-
-        //if the question is marked as fixed, make it non-alterable
-        if(question.isFixed()) {
-            qPanel.setWidgetFixed();
-            qPanel.setValue(value);
         }
 
         questionPanelHashMap.put(question.getId(), qPanel);
@@ -142,12 +135,13 @@ public class QLBuilder {
         // Update the GUI
         updateGUI();
     }
+
     private void updateQuestion(String key, Value value) {
         // Set the value in the questionHashMap
         questionHashMap.get(key).setValue(value);
         if(value.isDefined()) {
             // Set the question on the questionPanelHashMap
-            questionPanelHashMap.get(key).setValue(value);
+            questionPanelHashMap.get(key).refresh();
 
         }
     }
@@ -161,27 +155,17 @@ public class QLBuilder {
         Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<String, Question> entry = entries.next();
-            // Get concerning question
             Question question = entry.getValue();
-            if(question.isVisible()) {
-                //If the panelhashmap has not yet created a panel for this question
-                if (questionPanelHashMap.get(entry.getKey()) == null) {
-                    //build a questionpanel
-                    buildQuestionPanel(question);
-                }
-                if(question.isFixed()) {
-                    questionPanelHashMap.get(entry.getKey()).setValue(question.getValue());
+            if (question.isVisible()) {
+                questionPanelHashMap.get(entry.getKey()).setVisible(true);
+                if (question.isFixed()) {
+                    questionPanelHashMap.get(entry.getKey()).refresh();
                 }
             } else {
-                // If the question already is placed in a currently visible panel
-                if (questionPanelHashMap.get(entry.getKey()) != null) {
-                    // remove questionpanel
-                    removeQuestionFromPanel(questionPanelHashMap.get(entry.getKey()));
-                    questionPanelHashMap.remove(entry.getKey());
-                }
+                if (questionPanelHashMap.get(entry.getKey()) != null)
+                questionPanelHashMap.get(entry.getKey()).setVisible(false);
             }
         }
-
         mainListPanel.revalidate();
         mainListPanel.repaint();
     }

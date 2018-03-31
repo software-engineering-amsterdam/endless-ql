@@ -40,9 +40,9 @@ class FormWindow(QDialog):
         layout = QFormLayout()
 
         for question in self.form_model.block:
-            show = question.evaluate_show_condition(self.form_model)
+            show = question.evaluate_visibility_condition(self.form_model)
             question.pyqt5_render(layout, self.form_model, show)
-            question.widget.on_change(self.form_model.update_show_condition_on_change)
+            question.widget.on_change(self.form_model.update_questions_on_change)
 
         self.form_group_box.setLayout(layout)
 

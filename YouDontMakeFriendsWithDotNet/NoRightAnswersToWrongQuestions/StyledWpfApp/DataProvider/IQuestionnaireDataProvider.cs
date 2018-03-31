@@ -7,6 +7,7 @@ namespace StyledWpfApp.DataProvider
     {
         StyledQuestionnaireWrapper GetSingleQuestionnaire();
         void LoadDefaultQuestionnaire();
+        void LoadStyleSheet();
         void Reload(StyledQuestionnaireModel questionnaireModel);
     }
 }

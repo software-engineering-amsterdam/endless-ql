@@ -1,12 +1,10 @@
 import ExpressionVisitor from "../visitors/ExpressionVisitor";
-import Expression from "../expressions/Expression";
-import AbstractTreeNode from "../AbstractTreeNode";
+import AbstractLiteral from "./AbstractLiteral";
 import * as moment from "moment";
-import { Moment } from "moment";
 import { ValueIsInvalidDateError } from "../../form_errors";
 import constants from "../../../config/constants";
 
-export default class DateLiteral extends AbstractTreeNode implements Expression {
+export default class DateLiteral extends AbstractLiteral {
   private value: Date;
 
   static fromString(value: string) {

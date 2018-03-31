@@ -1,5 +1,5 @@
 // Form with two questions with the same identifier
-form label {
+form testForm {
   "Question?"
     var: boolean
 

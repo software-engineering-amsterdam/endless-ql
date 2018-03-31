@@ -10,7 +10,7 @@ public class StringWidget implements Widget {
     private StringValue value;
     private boolean fixed;
 
-    StringWidget(StringValue value, boolean fixed){
+    public StringWidget(StringValue value){
         this.value = value;
         textField = new JTextField("", 20);
         refresh();

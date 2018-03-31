@@ -16,7 +16,7 @@ public class WidgetVisitor extends QLSBaseVisitor {
 
     @Override
     public Widget visitWidget(QLSParser.WidgetContext ctx) {
-        return new Widget(visitWidgetType(ctx.widgetType()));
+        return new Widget((WidgetType) visitWidgetType(ctx.widgetType()));
     }
 
     @Override

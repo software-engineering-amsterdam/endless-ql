@@ -286,10 +286,10 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     @Override
     public Node visitUnaryExpression(GrammarParser.UnaryExpressionContext context)
     {
-        NegateNode negateNode = new NegateNode();
-        negateNode.setInnerNode((ExpressionNode) context.expression().accept(this));
-        negateNode.getInnerNode();
-        return negateNode;
+        NotNode notNode = new NotNode();
+        notNode.setInnerNode((ExpressionNode) context.expression().accept(this));
+        notNode.getInnerNode();
+        return notNode;
     }
 
 

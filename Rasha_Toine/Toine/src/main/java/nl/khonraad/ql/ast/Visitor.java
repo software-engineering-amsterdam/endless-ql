@@ -3,6 +3,8 @@ package nl.khonraad.ql.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import nl.khonraad.ql.QLBaseVisitor;
 import nl.khonraad.ql.QLParser;
 import nl.khonraad.ql.algebra.Identifier;
@@ -15,18 +17,15 @@ import nl.khonraad.ql.ast.data.Questionnaire;
 
 public final class Visitor extends QLBaseVisitor<Value> {
 
-    private Questionnaire questionnaire;
-
-    public Visitor(Questionnaire questionnaire) {
-        super();
-        this.questionnaire = questionnaire;
-    }
+    @Inject
+    private Questionnaire       questionnaire;
 
     private List<Identifier>    forwardReferences             = new ArrayList<>();
 
     private static final String REFERENCES_UNDEFINED_QUESTION = "Reference to undefined question: ";
 
     private String removeQuotes( String text ) {
+
         return text.substring( 1, text.length() - 1 );
     }
 
@@ -38,9 +37,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
         if ( !forwardReferences.isEmpty() ) {
             throw new RuntimeException( REFERENCES_UNDEFINED_QUESTION + forwardReferences.get( 0 ) );
         }
-
         return value;
-
     }
 
     @Override
@@ -73,16 +70,16 @@ public final class Visitor extends QLBaseVisitor<Value> {
 
         if ( question != null ) {
 
-            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Duplicate declaration " + ctx.Identifier().getText() );
+            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Duplicate declaration "
+                    + ctx.Identifier().getText() );
         }
 
         return questionnaire.storeAnswerableQuestion( identifier, label, type );
-
     }
 
     private IllegalStateException reportError( int l, int c, String message ) {
-        return new IllegalStateException( "Line " + l + ":" + c + " "
-                + message );
+
+        return new IllegalStateException( "Line " + l + ":" + c + " " + message );
     }
 
     @Override
@@ -98,9 +95,9 @@ public final class Visitor extends QLBaseVisitor<Value> {
         Value value = visit( ctx.expression() );
 
         if ( !type.equals( value.type() ) ) {
-            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Type error " + ctx.Identifier().getText() );
+            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Type error "
+                    + ctx.Identifier().getText() );
         }
-
         return questionnaire.storeComputedQuestion( identifier, label, value );
     }
 
@@ -113,7 +110,8 @@ public final class Visitor extends QLBaseVisitor<Value> {
         try {
             return expression.apply( Operator.parse( operator ) );
         } catch (Exception e) {
-            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Exception " + ctx.expression().getText() );
+            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Exception "
+                    + ctx.expression().getText() );
         }
     }
 
@@ -136,7 +134,6 @@ public final class Visitor extends QLBaseVisitor<Value> {
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
-
     }
 
     @Override
@@ -151,6 +148,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
 
             return left.apply( Operator.parse( operator ), right );
         } catch (Exception e) {
+
             throw new RuntimeException( e.getMessage() );
         }
 
@@ -207,26 +205,31 @@ public final class Visitor extends QLBaseVisitor<Value> {
 
     @Override
     public Value visitExpressionMoneyConstant( QLParser.ExpressionMoneyConstantContext ctx ) {
+
         return new Value( Type.Money, ctx.MoneyConstant().getText() );
     }
 
     @Override
     public Value visitExpressionDateConstant( QLParser.ExpressionDateConstantContext ctx ) {
+
         return new Value( Type.Date, ctx.DateConstant().getText() );
     }
 
     @Override
     public Value visitExpressionIntegerConstant( QLParser.ExpressionIntegerConstantContext ctx ) {
+
         return new Value( Type.Integer, ctx.IntegerConstant().getText() );
     }
 
     @Override
     public Value visitExpressionBooleanConstant( QLParser.ExpressionBooleanConstantContext ctx ) {
+
         return new Value( Type.Boolean, ctx.BooleanConstant().getText() );
     }
 
     @Override
     public Value visitExpressionParenthesized( QLParser.ExpressionParenthesizedContext ctx ) {
+
         return visit( ctx.expression() );
     }
 
@@ -240,5 +243,4 @@ public final class Visitor extends QLBaseVisitor<Value> {
         }
         return value;
     }
-
 }

@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 
 public class QLSBuilder {
     private StylesheetVisitor stylesheetVisitor;
-    private LinkedHashMap<StyledQuestion, JPanel> styledQuestions = new LinkedHashMap<>();
+    private LinkedHashMap<String, StyledQuestion> styledQuestions = new LinkedHashMap<>();
     private LinkedHashMap<String, PagePanel> pages = new LinkedHashMap<>();
     private LinkedHashMap<String, JPanel> sections = new LinkedHashMap<>();
 
@@ -86,7 +86,7 @@ public class QLSBuilder {
     private void buildQuestion(StyledQuestion question) {
         JPanel questionPanel = new JPanel();
         questionPanel.setLayout(new GridLayout(0, 1));
-        styledQuestions.put(question, questionPanel);
+        styledQuestions.put(question.getName(), question);
     }
 
 
@@ -96,7 +96,7 @@ public class QLSBuilder {
             panel.removeAll();
         }
         //Add all questions to their parent section
-        for (StyledQuestion styledQuestion : styledQuestions.keySet()) {
+        for (StyledQuestion styledQuestion : styledQuestions.values()) {
             String parentId = styledQuestion.getParentId();
             if (parentId != null && sections.containsKey(parentId)) {
                 JPanel sectionPanel = sections.get(parentId);

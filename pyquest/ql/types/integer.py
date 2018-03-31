@@ -2,6 +2,7 @@ from gui.widgets.spinbox import SpinBox
 from ql.ast.nodes.expressions.literals.integer_node import IntegerNode
 from ql.types.boolean import QLBoolean
 from ql.types.decimal import QLDecimal
+from ql.types.money import QLMoney
 from ql.types.type import QLType
 
 
@@ -50,18 +51,21 @@ class QLInteger(QLType):
         return QLBoolean(self.value >= other.value)
 
     def __add__(self, other):
-        return QLInteger(self.value + other.value)
+        return type(other)(self.value + other.value)
 
     def __sub__(self, other):
-        return QLInteger(self.value - other.value)
+        return type(other)(self.value - other.value)
 
     def __mul__(self, other):
-        return QLInteger(self.value * other.value)
+        if isinstance(other, QLMoney):
+            return QLMoney(self.value * other.value, other.currency)
 
-    def __floordiv__(self, other):
-        return QLInteger(self.value // other.value)
+        return type(other)(self.value * other.value)
 
     def __truediv__(self, other):
+        if isinstance(other, QLMoney):
+            return QLMoney(other.value / self.value, other.currency)
+
         return QLDecimal(self.value / other.value)
 
     def get_json_value(self):

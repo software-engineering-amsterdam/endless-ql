@@ -20,11 +20,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class QuestionListener {
+public class QuestionValueListener {
 
     private final gui.GUIBuilder GUIBuilder;
 
-    public QuestionListener(GUIBuilder GUIBuilder) {
+    public QuestionValueListener(GUIBuilder GUIBuilder) {
         this.GUIBuilder = GUIBuilder;
     }
 

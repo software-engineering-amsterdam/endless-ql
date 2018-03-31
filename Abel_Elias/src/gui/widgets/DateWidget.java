@@ -13,7 +13,7 @@ public class DateWidget implements Widget {
     private DateValue value;
     private Calendar cal;
 
-    DateWidget(DateValue value){
+    public DateWidget(DateValue value){
         this.value = value;
         this.cal = Calendar.getInstance();
         picker = new JDatePicker();

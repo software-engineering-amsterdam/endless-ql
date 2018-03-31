@@ -33,7 +33,7 @@ public class TypesSpecification
         this.add(this.operators(NumberNode.class), NodeTypes.DECIMAL, NodeTypes.UNKNOWN, NodeTypes.DECIMAL);
         this.add(this.operators(NumberNode.class), NodeTypes.INT, NodeTypes.UNKNOWN, NodeTypes.INT);
 
-        this.add(this.operators(NegateNode.class), NodeTypes.BOOL, NodeTypes.UNKNOWN, NodeTypes.BOOL);
+        this.add(this.operators(NotNode.class), NodeTypes.BOOL, NodeTypes.UNKNOWN, NodeTypes.BOOL);
 
         this.add(this.operators(AndNode.class, OrNode.class), NodeTypes.BOOL, NodeTypes.BOOL, NodeTypes.BOOL);
 

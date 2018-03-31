@@ -19,6 +19,10 @@ public class FormBuilder {
     }
 
     public static Form parseFormFromString(String qlInput) {
+        if (qlInput.isEmpty()) {
+           return null;
+        }
+
         ErrorListener errorListener = new ErrorListener();
 
         QLLexer lexer = new QLLexer(CharStreams.fromString(qlInput));

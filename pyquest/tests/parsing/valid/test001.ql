@@ -1,5 +1,5 @@
 // Form with question type boolean
-form label {
+form testForm {
   "Question?"
     var: boolean
 }

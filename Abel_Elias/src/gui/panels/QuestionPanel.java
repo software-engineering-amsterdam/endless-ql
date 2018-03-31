@@ -1,15 +1,10 @@
 package gui.panels;
 
 import QL.classes.Question;
-import QL.classes.values.Value;
-import gui.listeners.QuestionListener;
 import gui.widgets.Widget;
-
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.text.DocumentFilter;
 import java.awt.*;
-import java.util.EventListener;
 
 public class QuestionPanel extends JPanel {
     private Question question;
@@ -35,6 +30,6 @@ public class QuestionPanel extends JPanel {
 
     public void refresh(){
         widget.refresh();
+        this.setVisible(question.isVisible());
     }
-
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using QlsParser.AstBuilder;
-using QlsTransformer.Ast.Tools;
+using QlsTransformer.Domain.Ast.Tools;
 using QuestionnaireInfrastructure.API;
 
 namespace QlsParser
@@ -14,7 +9,9 @@ namespace QlsParser
     {
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
-            appRegistration.AddSingleton(typeof(IQlsAstBuilder), typeof(QlsAstBuilder));
+            appRegistration.AddSingleton(
+                typeof(IQlsAstBuilder), 
+                typeof(QlsAstBuilder));
         }
     }
 }

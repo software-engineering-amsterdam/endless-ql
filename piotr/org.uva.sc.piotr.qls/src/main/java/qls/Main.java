@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import qls.ast.ASTBuilder;
 import qls.ast.model.Stylesheet;
+import qls.ast.visitors.TestASTTraverse;
 import qls.grammar.QLSLexer;
 import qls.grammar.QLSParser;
 
@@ -60,6 +61,10 @@ class Main {
         ASTBuilder astBuilder = new ASTBuilder();
 
         Stylesheet stylesheet = astBuilder.visitStylesheet(stylesheetContext);
+
+        TestASTTraverse testVisitor = new TestASTTraverse();
+
+        stylesheet.accept(testVisitor);
 
         System.out.println("done");
 

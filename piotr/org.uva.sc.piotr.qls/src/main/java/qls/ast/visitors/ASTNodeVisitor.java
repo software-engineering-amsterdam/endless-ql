@@ -1,7 +1,11 @@
 package qls.ast.visitors;
 
 import qls.ast.model.*;
-import qls.ast.model.properties.*;
+import qls.ast.model.properties.ColorProperty;
+import qls.ast.model.properties.FontProperty;
+import qls.ast.model.properties.FontSizeProperty;
+import qls.ast.model.properties.WidthProperty;
+import qls.ast.model.properties.widgets.*;
 
 public interface ASTNodeVisitor<T> {
     T visit(Stylesheet stylesheet);
@@ -10,13 +14,21 @@ public interface ASTNodeVisitor<T> {
 
     T visit(DefaultDefinition defaultDefinition);
 
-    T visit(BlockElement blockElement);
-
     T visit(Section section);
 
     T visit(QuestionDefinition questionDefinition);
 
-    T visit(Widget widget);
+    T visit(CheckboxWidget checkboxWidget);
+
+    T visit(DropdownWidget dropdownWidget);
+
+    T visit(RadioWidget radioWidget);
+
+    T visit(SliderWidget sliderWidget);
+
+    T visit(SpinboxWidget spinboxWidget);
+
+    T visit(TextWidget textWidget);
 
     T visit(ColorProperty colorProperty);
 

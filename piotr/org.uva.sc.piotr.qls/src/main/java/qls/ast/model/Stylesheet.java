@@ -6,22 +6,14 @@ import java.util.List;
 
 public class Stylesheet extends ASTNode {
     private final String name;
-    private final List<Page> pageDefinitions;
+    private final List<Page> pages;
     private final List<DefaultDefinition> defaultDefinitions;
 
-    public Stylesheet(MetaInformation metaInformation, String name, List<Page> pageDefinitions, List<DefaultDefinition> defaultDefinitions) {
+    public Stylesheet(MetaInformation metaInformation, String name, List<Page> pages, List<DefaultDefinition> defaultDefinitions) {
         super(metaInformation);
         this.name = name;
-        this.pageDefinitions = pageDefinitions;
+        this.pages = pages;
         this.defaultDefinitions = defaultDefinitions;
-    }
-
-    public void addPageDefiniton(Page pageDefinition) {
-        this.pageDefinitions.add(pageDefinition);
-    }
-
-    public void addDefaultDefinition(DefaultDefinition defaultDefinition) {
-        this.defaultDefinitions.add(defaultDefinition);
     }
 
     @Override
@@ -33,8 +25,8 @@ public class Stylesheet extends ASTNode {
         return name;
     }
 
-    public List<Page> getPageDefinitions() {
-        return pageDefinitions;
+    public List<Page> getPages() {
+        return pages;
     }
 
     public List<DefaultDefinition> getDefaultDefinitions() {

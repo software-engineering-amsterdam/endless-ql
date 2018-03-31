@@ -16,6 +16,14 @@ public class DefaultDefinition extends BlockElement {
         this.typeProperties = typeProperties;
     }
 
+    public String getDataType() {
+        return dataType;
+    }
+
+    public List<TypeProperty> getTypeProperties() {
+        return typeProperties;
+    }
+
     @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);

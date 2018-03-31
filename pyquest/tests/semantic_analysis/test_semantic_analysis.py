@@ -19,14 +19,21 @@ class TestSemanticAnalysis(Test):
         ast = self.parser.parse(file, self.lexer.lexer)
 
         reference_errors = ReferenceChecker(extract_identifier_scopes(ast)).errors
+        if reference_errors:
+            return False
+
         dependency_errors = DependencyChecker(extract_identifier_dependencies(ast)).errors
+        if dependency_errors:
+            return False
+
         question_errors = QuestionChecker(extract_questions(ast)).errors
+        if question_errors:
+            return False
 
         type_visitor = TypeVisitor(extract_identifier_types(ast))
         type_visitor.visit(ast)
         type_errors = type_visitor.errors
-
-        errors = reference_errors + dependency_errors + question_errors + type_errors
-        if errors:
+        if type_errors:
             return False
+
         return True

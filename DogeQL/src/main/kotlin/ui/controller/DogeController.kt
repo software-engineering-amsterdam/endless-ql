@@ -17,6 +17,7 @@ class DogeController : Controller() {
     private var symbolTable: SymbolTable? = null
     private var ast: QLNode? = null
 
+    var infoMessages = mutableListOf<String>().observable()
     var questions = mutableListOf<Question>().observable()
     var style: QlsNode? = null
 
@@ -26,9 +27,16 @@ class DogeController : Controller() {
         parseResult?.let {
             symbolTable = it.symbolTable
             ast = it.ast
+
+            addInfoMessages(it.info)
         }
 
         reloadQuestions()
+    }
+
+    private fun addInfoMessages(info: List<String>){
+        infoMessages.removeAll()
+        infoMessages.addAll(info)
     }
 
     fun loadStyle(file: File) {
@@ -36,10 +44,12 @@ class DogeController : Controller() {
     }
 
     fun reloadQuestions() {
-        symbolTable.let {
-            val visitor = QuestionVisitor(symbolTable!!)
-            val enabledQuestions = ast!!.accept(visitor)
-            updateQuestions(enabledQuestions)
+        if (infoMessages.isEmpty()){
+            symbolTable.let {
+                val visitor = QuestionVisitor(symbolTable!!)
+                val enabledQuestions = ast!!.accept(visitor)
+                updateQuestions(enabledQuestions)
+            }
         }
     }
 

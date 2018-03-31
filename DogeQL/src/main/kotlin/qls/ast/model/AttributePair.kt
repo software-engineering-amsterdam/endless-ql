@@ -1,9 +1,11 @@
 package qls.ast.model
 
+import qls.common.Name
 import qls.visitor.QlsVisitor
 
-data class DefaultAttributes(val type: String, val attributes: List<Attribute>) : Element {
+class AttributePair(val name : Name, val literal : String) : Attribute{
     override fun <T> accept(visitor: QlsVisitor<T>): T {
         return visitor.visit(this)
     }
+
 }

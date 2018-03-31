@@ -12,4 +12,5 @@ interface QlsVisitor<out T>{
     fun visit(defaultAttributes: DefaultAttributes): T
     fun visit(question: Question): T
     fun visit(element: Element): T
+    fun visit(attributes: Attribute): T
 }

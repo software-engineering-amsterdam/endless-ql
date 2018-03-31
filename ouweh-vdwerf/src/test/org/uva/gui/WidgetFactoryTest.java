@@ -78,7 +78,7 @@ public class WidgetFactoryTest {
         Question question = new Question("sellingPrice","",new MoneyType());
         QuestionWidget questionWidget = widgetFactory.makeWidget(question, new IntegerValue(10), false);
 
-        Assert.assertEquals(SpinboxWidget.class, questionWidget.getClass());
+        Assert.assertEquals(SpinBoxWidget.class, questionWidget.getClass());
     }
 
     @Test

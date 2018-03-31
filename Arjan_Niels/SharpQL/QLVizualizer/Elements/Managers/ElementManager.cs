@@ -80,6 +80,12 @@ namespace QLVisualizer.Elements.Managers
                 OnActiveChange.Invoke(Identifier, Active);
         }
 
+
+        protected void InvokeActiveChange(string identifier, bool active)
+        {
+            OnActiveChange?.Invoke(identifier, active);
+        }
+
         public void SetActive(bool value)
         {
             if(Active != value)

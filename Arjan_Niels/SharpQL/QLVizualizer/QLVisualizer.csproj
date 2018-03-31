@@ -94,6 +94,7 @@
     <Compile Include="Widgets\Leaf\IInputCreator.cs" />
     <Compile Include="Widgets\Windows\Leaf\HexBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Leaf\InputCreators\ColorPickerCreator.cs" />
+    <Compile Include="Widgets\Windows\Leaf\InputCreators\SpinnerCreator.cs" />
     <Compile Include="Widgets\Windows\Style\WindowsStyler.cs" />
     <Compile Include="Widgets\Windows\Collection\FormBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Collection\PageBuilder.cs" />

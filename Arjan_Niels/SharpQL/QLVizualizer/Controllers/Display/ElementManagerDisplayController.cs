@@ -19,45 +19,13 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         public Dictionary<string, T> ElementIndex { get; private set; }
 
-        /// <summary>
-        /// Element factory that creates all elements
-        /// </summary>
-        //protected ElementFactory<T, Y> _elementFactory;
-
-        /// <summary>
-        /// Style for each widget, key: widgetID, value: style
-        /// </summary>
-        //public Dictionary<string, Y> ElementStyleIndex { get; private set; }
-
-//        public Dictionary<string, Y> ActiveElementStyles { get; private set; }
-
-        //public WidgetCreator<T> WidgetCreator { get; private set; }
-
         protected T BaseDisplay;
-
-        /// <summary>
-        /// Default style in case no style is set
-        /// </summary>
-        //public Y DefaultStyle { get; private set; }
 
         public WidgetDisplayController(FormManager form, float initialPosition) : base(form)
         {
             InitialPosition = initialPosition;
             ElementIndex = new Dictionary<string, T>();
         }
-
-        /*/// <summary>
-        /// Set style for widgets
-        /// </summary>
-        /// <param name="styles">Styles by widgetID</param>
-        public void SetStyles(Dictionary<string, Y> styles)
-        {          
-            if (ElementStyleIndex == null)      // Case no defaultstyle is set
-                ElementStyleIndex = styles;
-            else                                // Case defaultstyle already set
-                foreach (KeyValuePair<string, Y> style in styles)
-                    ElementStyleIndex[style.Key] = style.Value;
-        }*/
 
         /// <summary>
         /// Shows form to user

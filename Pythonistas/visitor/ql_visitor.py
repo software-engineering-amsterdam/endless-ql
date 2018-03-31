@@ -86,6 +86,7 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
     def visitDeclaration(self, ctx: QLParser.DeclarationContext):
+        """ Sets declared answer and error catching with set_answer_label """
         result = self.visitChildren(ctx)
         declared_value = str(result.pop())
 
@@ -98,30 +99,28 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
     def visitIf_(self, ctx: QLParser.If_Context):
-        # Gets the question IDs of the if argument and the question contained in the if, then links them so that the
-        # contained question becomes invisible when the argument becomes False.
-
-        # Picks out the ID of the question that is the argument of the if
+        """
+        Gets the question IDs of the if argument and the question contained in the if, then links them so that the
+        contained question becomes invisible when the argument becomes False.
+        """
         conditional_id = ctx.expression().getText()
 
         if conditional_id not in self.question_ids:
             self.error_message = ["Error: if argument is undefined: {}".format(conditional_id)]
             return
-        elif self.questions[conditional_id].get_data_type() != 'boolean':
+        elif self.questions[conditional_id].data_type != 'boolean':
             self.error_message = ["Error: if argument is not boolean: {}".format(conditional_id)]
             return
 
         conditional_question = self.questions[conditional_id]
-
+        statements = ctx.block().stmt()
         result = self.visitChildren(ctx)
 
-        questions_in_if = ctx.block()
-
-        for statement in questions_in_if.stmt():
-            if_question_id = statement.question().ID().getText()
-
-            question_in_if = self.questions[if_question_id]  # todo: use return to get answer
-            conditional_question.add_if_question(question_in_if)
+        for statement in statements:
+            question_node = statement.question()
+            question_id = question_node.ID().getText()
+            question = self.questions[question_id]
+            conditional_question.add_if_question(question)
 
         return result
 

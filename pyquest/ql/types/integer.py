@@ -51,24 +51,16 @@ class QLInteger(QLType):
         return QLBoolean(self.value >= other.value)
 
     def __add__(self, other):
-        if isinstance(other, QLInteger):
-            return QLInteger(self.value + other.value)
-
-        return other + self
+        return type(other)(self.value + other.value)
 
     def __sub__(self, other):
-        if isinstance(other, QLInteger):
-            return QLInteger(self.value - other.value)
-
-        return other - self
+        return type(other)(self.value - other.value)
 
     def __mul__(self, other):
-        if isinstance(other, QLInteger):
-            return QLInteger(self.value * other.value)
-        elif isinstance(other, QLMoney):
+        if isinstance(other, QLMoney):
             return QLMoney(self.value * other.value, other.currency)
 
-        return other * self
+        return type(other)(self.value * other.value)
 
     def __truediv__(self, other):
         if isinstance(other, QLMoney):

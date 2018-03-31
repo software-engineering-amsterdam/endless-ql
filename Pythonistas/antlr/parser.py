@@ -36,7 +36,7 @@ class ParserInterface:
         """ Parses the tokens """
         self.parser = self.get_generated(f'{self.grammar_name}Parser', self.tokens)
         self.parser._listeners = [MyErrorListener()]
-        # rulenName[0] is the first token of grammar file to dynamically run parser
+        # ruleNames[0] is the first token of grammar file to dynamically run parser
         self.ast = getattr(self.parser, f'{self.parser.ruleNames[0]}')()
         self.errors = self.parser._listeners[0].get_errors()
 

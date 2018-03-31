@@ -17,6 +17,7 @@ class DogeController : Controller() {
     private var symbolTable: SymbolTable? = null
     private var ast: QLNode? = null
 
+    var infoMessages = mutableListOf<String>().observable()
     var questions = mutableListOf<Question>().observable()
     var style: QlsNode? = null
 
@@ -26,20 +27,29 @@ class DogeController : Controller() {
         parseResult?.let {
             symbolTable = it.symbolTable
             ast = it.ast
+
+            addInfoMessages(it.info)
         }
 
-        reload()
+        reloadQuestions()
+    }
+
+    private fun addInfoMessages(info: List<String>){
+        infoMessages.removeAll()
+        infoMessages.addAll(info)
     }
 
     fun loadStyle(file: File) {
         style = QlsParser().parse(file)
     }
 
-    fun reload() {
-        symbolTable.let {
-            val visitor = QuestionVisitor(symbolTable!!)
-            val enabledQuestions = ast!!.accept(visitor)
-            updateQuestions(enabledQuestions)
+    fun reloadQuestions() {
+        if (infoMessages.isEmpty()){
+            symbolTable.let {
+                val visitor = QuestionVisitor(symbolTable!!)
+                val enabledQuestions = ast!!.accept(visitor)
+                updateQuestions(enabledQuestions)
+            }
         }
     }
 
@@ -58,7 +68,7 @@ class DogeController : Controller() {
         return questions.first { it.name == name }
     }
 
-    // Replacing observable list will break observable
+    // Replacing observable list q  with new list will break observable binding
     // That is why we update internal values
     private fun updateQuestions(newDataQuestions: List<Question>) {
 

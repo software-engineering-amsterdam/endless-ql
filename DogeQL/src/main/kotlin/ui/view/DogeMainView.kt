@@ -1,19 +1,23 @@
 package ui.view
 
+import javafx.beans.binding.BooleanBinding
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.stage.FileChooser
 import tornadofx.*
 import ui.controller.DogeController
 import ui.view.fragment.FormFragment
+import ui.view.fragment.InfoFragment
 import ui.view.fragment.StylizedFormFragment
 
 class DogeMainView : View() {
 
-    private val model: DogeController by inject()
+    private val controller: DogeController by inject()
 
-    private val minHeight = 400.0
-    private val minWidth = 400.0
+    private val minHeight = 800.0
+    private val minWidth = 500.0
 
-    private val fragment = FormFragment()
+    private var fragment : Fragment = FormFragment()
+    private var infoFragment = InfoFragment()
 
     override val root = vbox {
         minHeight = this@DogeMainView.minHeight
@@ -24,17 +28,28 @@ class DogeMainView : View() {
                 item("Language").action { loadDogeQl() }
                 item("Style").action { loadStyle() }
             }
+            menu ("Info") {
+                item("Show messages").action { addInfoScreen() }
+            }
         }
 
         add(fragment)
     }
 
+    private fun addInfoScreen(){
+        with(fragment.root as Drawer){
+
+            item("Info Messages") {
+                add(infoFragment)
+            }
+        }
+    }
 
     private fun loadDogeQl(){
         val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire file", "*.doge")))
 
         if (files.isNotEmpty()){
-            model.loadQuestionnaire(files.first())
+            controller.loadQuestionnaire(files.first())
         }
     }
 
@@ -42,9 +57,14 @@ class DogeMainView : View() {
         val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire style file", "*.shiba")))
 
         if (files.isNotEmpty()){
-            model.loadStyle(files.first())
-            fragment.replaceWith(StylizedFormFragment())
+            controller.loadStyle(files.first())
+            updateFragment(StylizedFormFragment())
         }
+    }
+
+    private fun updateFragment(newFragment: Fragment){
+        fragment.replaceWith(newFragment)
+        fragment = newFragment
     }
 
 }

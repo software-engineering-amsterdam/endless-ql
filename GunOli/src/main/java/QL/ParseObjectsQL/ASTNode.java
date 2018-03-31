@@ -1,7 +1,5 @@
 package QL.ParseObjectsQL;
 
-import sun.tools.jstat.Token;
-
 public class ASTNode {
     private final int line;
 

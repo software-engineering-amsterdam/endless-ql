@@ -1,6 +1,6 @@
 ﻿namespace QuestionnaireDomain.Entities.Validators.Interfaces
 {
-    public interface IBooleanConditionValidator : IValidator
+    public interface IBooleanConditionValidator : IQuestionnairValidator
     {
     }
 }

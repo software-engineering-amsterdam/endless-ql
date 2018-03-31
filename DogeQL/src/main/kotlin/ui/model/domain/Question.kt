@@ -6,5 +6,6 @@ data class Question(
         val name: String,
         val label: String,
         val value: BaseSymbolValue,
-        val readOnly: Boolean
+        val readOnly: Boolean,
+        val visible : Boolean
 )
